@@ -1,4 +1,4 @@
-import { HttpClient } from "@effect/platform";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as effect from "effect/Effect";
 import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
@@ -89,53 +89,31 @@ const rules = T.EndpointResolver((p, _) => {
 //# Newtypes
 export type BlueprintArn = string;
 export type ClientToken = string;
+export type NonBlankString = string;
+export type BlueprintSchema = string | redacted.Redacted<string>;
+export type BlueprintName = string | redacted.Redacted<string>;
+export type BlueprintVersion = string;
+export type KmsKeyId = string;
+export type EncryptionContextKey = string;
+export type EncryptionContextValue = string;
+export type S3Uri = string;
+export type S3ObjectVersion = string;
 export type TaggableResourceArn = string;
 export type TagKey = string;
+export type TagValue = string;
 export type DataAutomationProfileArn = string;
 export type BlueprintOptimizationInvocationArn = string;
-export type BlueprintName = string | redacted.Redacted<string>;
-export type BlueprintSchema = string | redacted.Redacted<string>;
-export type BlueprintVersion = string;
 export type MaxResults = number;
 export type NextToken = string;
+export type DataAutomationProjectArn = string;
 export type DataAutomationProjectName = string | redacted.Redacted<string>;
 export type DataAutomationProjectDescription =
   | string
   | redacted.Redacted<string>;
-export type DataAutomationProjectArn = string;
-export type TagValue = string;
-export type KmsKeyId = string;
-export type NonBlankString = string;
-export type S3Uri = string;
-export type S3ObjectVersion = string;
-export type EncryptionContextKey = string;
-export type EncryptionContextValue = string;
 
 //# Schemas
 export type BlueprintStage = "DEVELOPMENT" | "LIVE" | (string & {});
 export const BlueprintStage = S.String;
-export type TagKeyList = string[];
-export const TagKeyList = S.Array(S.String);
-export type Type = "DOCUMENT" | "IMAGE" | "AUDIO" | "VIDEO" | (string & {});
-export const Type = S.String;
-export type ResourceOwner = "SERVICE" | "ACCOUNT" | (string & {});
-export const ResourceOwner = S.String;
-export type BlueprintStageFilter =
-  | "DEVELOPMENT"
-  | "LIVE"
-  | "ALL"
-  | (string & {});
-export const BlueprintStageFilter = S.String;
-export type DataAutomationProjectStage = "DEVELOPMENT" | "LIVE" | (string & {});
-export const DataAutomationProjectStage = S.String;
-export type DataAutomationProjectType = "ASYNC" | "SYNC" | (string & {});
-export const DataAutomationProjectType = S.String;
-export type DataAutomationProjectStageFilter =
-  | "DEVELOPMENT"
-  | "LIVE"
-  | "ALL"
-  | (string & {});
-export const DataAutomationProjectStageFilter = S.String;
 export interface CopyBlueprintStageRequest {
   blueprintArn: string;
   sourceStage: BlueprintStage;
@@ -158,15 +136,26 @@ export const CopyBlueprintStageRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "CopyBlueprintStageRequest",
 }) as any as S.Schema<CopyBlueprintStageRequest>;
 export interface CopyBlueprintStageResponse {}
 export const CopyBlueprintStageResponse = S.suspend(() =>
   S.Struct({}),
-).annotations({
+).annotate({
   identifier: "CopyBlueprintStageResponse",
 }) as any as S.Schema<CopyBlueprintStageResponse>;
+export interface ValidationExceptionField {
+  name: string;
+  message: string;
+}
+export const ValidationExceptionField = S.suspend(() =>
+  S.Struct({ name: S.String, message: S.String }),
+).annotate({
+  identifier: "ValidationExceptionField",
+}) as any as S.Schema<ValidationExceptionField>;
+export type ValidationExceptionFieldList = ValidationExceptionField[];
+export const ValidationExceptionFieldList = S.Array(ValidationExceptionField);
 export interface CreateBlueprintVersionRequest {
   blueprintArn: string;
   clientToken?: string;
@@ -185,9 +174,74 @@ export const CreateBlueprintVersionRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "CreateBlueprintVersionRequest",
 }) as any as S.Schema<CreateBlueprintVersionRequest>;
+export type Type = "DOCUMENT" | "IMAGE" | "AUDIO" | "VIDEO" | (string & {});
+export const Type = S.String;
+export type KmsEncryptionContext = { [key: string]: string | undefined };
+export const KmsEncryptionContext = S.Record(
+  S.String,
+  S.String.pipe(S.optional),
+);
+export interface S3Object {
+  s3Uri: string;
+  version?: string;
+}
+export const S3Object = S.suspend(() =>
+  S.Struct({ s3Uri: S.String, version: S.optional(S.String) }),
+).annotate({ identifier: "S3Object" }) as any as S.Schema<S3Object>;
+export interface BlueprintOptimizationSample {
+  assetS3Object: S3Object;
+  groundTruthS3Object: S3Object;
+}
+export const BlueprintOptimizationSample = S.suspend(() =>
+  S.Struct({ assetS3Object: S3Object, groundTruthS3Object: S3Object }),
+).annotate({
+  identifier: "BlueprintOptimizationSample",
+}) as any as S.Schema<BlueprintOptimizationSample>;
+export type BlueprintOptimizationSamples = BlueprintOptimizationSample[];
+export const BlueprintOptimizationSamples = S.Array(
+  BlueprintOptimizationSample,
+);
+export interface Blueprint {
+  blueprintArn: string;
+  schema: string | redacted.Redacted<string>;
+  type: Type;
+  creationTime: Date;
+  lastModifiedTime: Date;
+  blueprintName: string | redacted.Redacted<string>;
+  blueprintVersion?: string;
+  blueprintStage?: BlueprintStage;
+  kmsKeyId?: string;
+  kmsEncryptionContext?: { [key: string]: string | undefined };
+  optimizationSamples?: BlueprintOptimizationSample[];
+  optimizationTime?: Date;
+}
+export const Blueprint = S.suspend(() =>
+  S.Struct({
+    blueprintArn: S.String,
+    schema: SensitiveString,
+    type: Type,
+    creationTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    lastModifiedTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    blueprintName: SensitiveString,
+    blueprintVersion: S.optional(S.String),
+    blueprintStage: S.optional(BlueprintStage),
+    kmsKeyId: S.optional(S.String),
+    kmsEncryptionContext: S.optional(KmsEncryptionContext),
+    optimizationSamples: S.optional(BlueprintOptimizationSamples),
+    optimizationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+  }),
+).annotate({ identifier: "Blueprint" }) as any as S.Schema<Blueprint>;
+export interface CreateBlueprintVersionResponse {
+  blueprint: Blueprint;
+}
+export const CreateBlueprintVersionResponse = S.suspend(() =>
+  S.Struct({ blueprint: Blueprint }),
+).annotate({
+  identifier: "CreateBlueprintVersionResponse",
+}) as any as S.Schema<CreateBlueprintVersionResponse>;
 export interface ListTagsForResourceRequest {
   resourceARN: string;
 }
@@ -202,9 +256,50 @@ export const ListTagsForResourceRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "ListTagsForResourceRequest",
 }) as any as S.Schema<ListTagsForResourceRequest>;
+export interface Tag {
+  key: string;
+  value: string;
+}
+export const Tag = S.suspend(() =>
+  S.Struct({ key: S.String, value: S.String }),
+).annotate({ identifier: "Tag" }) as any as S.Schema<Tag>;
+export type TagList = Tag[];
+export const TagList = S.Array(Tag);
+export interface ListTagsForResourceResponse {
+  tags?: Tag[];
+}
+export const ListTagsForResourceResponse = S.suspend(() =>
+  S.Struct({ tags: S.optional(TagList) }),
+).annotate({
+  identifier: "ListTagsForResourceResponse",
+}) as any as S.Schema<ListTagsForResourceResponse>;
+export interface TagResourceRequest {
+  resourceARN: string;
+  tags: Tag[];
+}
+export const TagResourceRequest = S.suspend(() =>
+  S.Struct({ resourceARN: S.String, tags: TagList }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/tagResource" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "TagResourceRequest",
+}) as any as S.Schema<TagResourceRequest>;
+export interface TagResourceResponse {}
+export const TagResourceResponse = S.suspend(() => S.Struct({})).annotate({
+  identifier: "TagResourceResponse",
+}) as any as S.Schema<TagResourceResponse>;
+export type TagKeyList = string[];
+export const TagKeyList = S.Array(S.String);
 export interface UntagResourceRequest {
   resourceARN: string;
   tagKeys: string[];
@@ -220,13 +315,79 @@ export const UntagResourceRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "UntagResourceRequest",
 }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
+export interface BlueprintOptimizationObject {
+  blueprintArn: string;
+  stage?: BlueprintStage;
+}
+export const BlueprintOptimizationObject = S.suspend(() =>
+  S.Struct({ blueprintArn: S.String, stage: S.optional(BlueprintStage) }),
+).annotate({
+  identifier: "BlueprintOptimizationObject",
+}) as any as S.Schema<BlueprintOptimizationObject>;
+export interface BlueprintOptimizationOutputConfiguration {
+  s3Object: S3Object;
+}
+export const BlueprintOptimizationOutputConfiguration = S.suspend(() =>
+  S.Struct({ s3Object: S3Object }),
+).annotate({
+  identifier: "BlueprintOptimizationOutputConfiguration",
+}) as any as S.Schema<BlueprintOptimizationOutputConfiguration>;
+export interface EncryptionConfiguration {
+  kmsKeyId: string;
+  kmsEncryptionContext?: { [key: string]: string | undefined };
+}
+export const EncryptionConfiguration = S.suspend(() =>
+  S.Struct({
+    kmsKeyId: S.String,
+    kmsEncryptionContext: S.optional(KmsEncryptionContext),
+  }),
+).annotate({
+  identifier: "EncryptionConfiguration",
+}) as any as S.Schema<EncryptionConfiguration>;
+export interface InvokeBlueprintOptimizationAsyncRequest {
+  blueprint: BlueprintOptimizationObject;
+  samples: BlueprintOptimizationSample[];
+  outputConfiguration: BlueprintOptimizationOutputConfiguration;
+  dataAutomationProfileArn: string;
+  encryptionConfiguration?: EncryptionConfiguration;
+  tags?: Tag[];
+}
+export const InvokeBlueprintOptimizationAsyncRequest = S.suspend(() =>
+  S.Struct({
+    blueprint: BlueprintOptimizationObject,
+    samples: BlueprintOptimizationSamples,
+    outputConfiguration: BlueprintOptimizationOutputConfiguration,
+    dataAutomationProfileArn: S.String,
+    encryptionConfiguration: S.optional(EncryptionConfiguration),
+    tags: S.optional(TagList),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/invokeBlueprintOptimizationAsync" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "InvokeBlueprintOptimizationAsyncRequest",
+}) as any as S.Schema<InvokeBlueprintOptimizationAsyncRequest>;
+export interface InvokeBlueprintOptimizationAsyncResponse {
+  invocationArn: string;
+}
+export const InvokeBlueprintOptimizationAsyncResponse = S.suspend(() =>
+  S.Struct({ invocationArn: S.String }),
+).annotate({
+  identifier: "InvokeBlueprintOptimizationAsyncResponse",
+}) as any as S.Schema<InvokeBlueprintOptimizationAsyncResponse>;
 export interface GetBlueprintOptimizationStatusRequest {
   invocationArn: string;
 }
@@ -244,35 +405,33 @@ export const GetBlueprintOptimizationStatusRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "GetBlueprintOptimizationStatusRequest",
 }) as any as S.Schema<GetBlueprintOptimizationStatusRequest>;
-export type KmsEncryptionContext = { [key: string]: string | undefined };
-export const KmsEncryptionContext = S.Record({
-  key: S.String,
-  value: S.UndefinedOr(S.String),
-});
-export interface EncryptionConfiguration {
-  kmsKeyId: string;
-  kmsEncryptionContext?: { [key: string]: string | undefined };
+export type BlueprintOptimizationJobStatus =
+  | "Created"
+  | "InProgress"
+  | "Success"
+  | "ServiceError"
+  | "ClientError"
+  | (string & {});
+export const BlueprintOptimizationJobStatus = S.String;
+export interface GetBlueprintOptimizationStatusResponse {
+  status?: BlueprintOptimizationJobStatus;
+  errorType?: string;
+  errorMessage?: string;
+  outputConfiguration?: BlueprintOptimizationOutputConfiguration;
 }
-export const EncryptionConfiguration = S.suspend(() =>
+export const GetBlueprintOptimizationStatusResponse = S.suspend(() =>
   S.Struct({
-    kmsKeyId: S.String,
-    kmsEncryptionContext: S.optional(KmsEncryptionContext),
+    status: S.optional(BlueprintOptimizationJobStatus),
+    errorType: S.optional(S.String),
+    errorMessage: S.optional(S.String),
+    outputConfiguration: S.optional(BlueprintOptimizationOutputConfiguration),
   }),
-).annotations({
-  identifier: "EncryptionConfiguration",
-}) as any as S.Schema<EncryptionConfiguration>;
-export interface Tag {
-  key: string;
-  value: string;
-}
-export const Tag = S.suspend(() =>
-  S.Struct({ key: S.String, value: S.String }),
-).annotations({ identifier: "Tag" }) as any as S.Schema<Tag>;
-export type TagList = Tag[];
-export const TagList = S.Array(Tag);
+).annotate({
+  identifier: "GetBlueprintOptimizationStatusResponse",
+}) as any as S.Schema<GetBlueprintOptimizationStatusResponse>;
 export interface CreateBlueprintRequest {
   blueprintName: string | redacted.Redacted<string>;
   type: Type;
@@ -301,9 +460,17 @@ export const CreateBlueprintRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "CreateBlueprintRequest",
 }) as any as S.Schema<CreateBlueprintRequest>;
+export interface CreateBlueprintResponse {
+  blueprint: Blueprint;
+}
+export const CreateBlueprintResponse = S.suspend(() =>
+  S.Struct({ blueprint: Blueprint }),
+).annotate({
+  identifier: "CreateBlueprintResponse",
+}) as any as S.Schema<CreateBlueprintResponse>;
 export interface GetBlueprintRequest {
   blueprintArn: string;
   blueprintVersion?: string;
@@ -324,9 +491,17 @@ export const GetBlueprintRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "GetBlueprintRequest",
 }) as any as S.Schema<GetBlueprintRequest>;
+export interface GetBlueprintResponse {
+  blueprint: Blueprint;
+}
+export const GetBlueprintResponse = S.suspend(() =>
+  S.Struct({ blueprint: Blueprint }),
+).annotate({
+  identifier: "GetBlueprintResponse",
+}) as any as S.Schema<GetBlueprintResponse>;
 export interface UpdateBlueprintRequest {
   blueprintArn: string;
   schema: string | redacted.Redacted<string>;
@@ -349,9 +524,17 @@ export const UpdateBlueprintRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "UpdateBlueprintRequest",
 }) as any as S.Schema<UpdateBlueprintRequest>;
+export interface UpdateBlueprintResponse {
+  blueprint: Blueprint;
+}
+export const UpdateBlueprintResponse = S.suspend(() =>
+  S.Struct({ blueprint: Blueprint }),
+).annotate({
+  identifier: "UpdateBlueprintResponse",
+}) as any as S.Schema<UpdateBlueprintResponse>;
 export interface DeleteBlueprintRequest {
   blueprintArn: string;
   blueprintVersion?: string;
@@ -372,29 +555,54 @@ export const DeleteBlueprintRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "DeleteBlueprintRequest",
 }) as any as S.Schema<DeleteBlueprintRequest>;
 export interface DeleteBlueprintResponse {}
-export const DeleteBlueprintResponse = S.suspend(() =>
-  S.Struct({}),
-).annotations({
+export const DeleteBlueprintResponse = S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteBlueprintResponse",
 }) as any as S.Schema<DeleteBlueprintResponse>;
-export interface GetDataAutomationProjectRequest {
+export type ResourceOwner = "SERVICE" | "ACCOUNT" | (string & {});
+export const ResourceOwner = S.String;
+export type BlueprintStageFilter =
+  | "DEVELOPMENT"
+  | "LIVE"
+  | "ALL"
+  | (string & {});
+export const BlueprintStageFilter = S.String;
+export type DataAutomationProjectStage = "DEVELOPMENT" | "LIVE" | (string & {});
+export const DataAutomationProjectStage = S.String;
+export interface DataAutomationProjectFilter {
   projectArn: string;
   projectStage?: DataAutomationProjectStage;
 }
-export const GetDataAutomationProjectRequest = S.suspend(() =>
+export const DataAutomationProjectFilter = S.suspend(() =>
   S.Struct({
-    projectArn: S.String.pipe(T.HttpLabel("projectArn")),
+    projectArn: S.String,
     projectStage: S.optional(DataAutomationProjectStage),
+  }),
+).annotate({
+  identifier: "DataAutomationProjectFilter",
+}) as any as S.Schema<DataAutomationProjectFilter>;
+export interface ListBlueprintsRequest {
+  blueprintArn?: string;
+  resourceOwner?: ResourceOwner;
+  blueprintStageFilter?: BlueprintStageFilter;
+  maxResults?: number;
+  nextToken?: string;
+  projectFilter?: DataAutomationProjectFilter;
+}
+export const ListBlueprintsRequest = S.suspend(() =>
+  S.Struct({
+    blueprintArn: S.optional(S.String),
+    resourceOwner: S.optional(ResourceOwner),
+    blueprintStageFilter: S.optional(BlueprintStageFilter),
+    maxResults: S.optional(S.Number),
+    nextToken: S.optional(S.String),
+    projectFilter: S.optional(DataAutomationProjectFilter),
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/data-automation-projects/{projectArn}/",
-      }),
+      T.Http({ method: "POST", uri: "/blueprints/" }),
       svc,
       auth,
       proto,
@@ -402,9 +610,42 @@ export const GetDataAutomationProjectRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
-  identifier: "GetDataAutomationProjectRequest",
-}) as any as S.Schema<GetDataAutomationProjectRequest>;
+).annotate({
+  identifier: "ListBlueprintsRequest",
+}) as any as S.Schema<ListBlueprintsRequest>;
+export interface BlueprintSummary {
+  blueprintArn: string;
+  blueprintVersion?: string;
+  blueprintStage?: BlueprintStage;
+  blueprintName?: string | redacted.Redacted<string>;
+  creationTime: Date;
+  lastModifiedTime?: Date;
+}
+export const BlueprintSummary = S.suspend(() =>
+  S.Struct({
+    blueprintArn: S.String,
+    blueprintVersion: S.optional(S.String),
+    blueprintStage: S.optional(BlueprintStage),
+    blueprintName: S.optional(SensitiveString),
+    creationTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    lastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+  }),
+).annotate({
+  identifier: "BlueprintSummary",
+}) as any as S.Schema<BlueprintSummary>;
+export type Blueprints = BlueprintSummary[];
+export const Blueprints = S.Array(BlueprintSummary);
+export interface ListBlueprintsResponse {
+  blueprints: BlueprintSummary[];
+  nextToken?: string;
+}
+export const ListBlueprintsResponse = S.suspend(() =>
+  S.Struct({ blueprints: Blueprints, nextToken: S.optional(S.String) }),
+).annotate({
+  identifier: "ListBlueprintsResponse",
+}) as any as S.Schema<ListBlueprintsResponse>;
+export type DataAutomationProjectType = "ASYNC" | "SYNC" | (string & {});
+export const DataAutomationProjectType = S.String;
 export type DocumentExtractionGranularityType =
   | "DOCUMENT"
   | "PAGE"
@@ -423,7 +664,7 @@ export interface DocumentExtractionGranularity {
 }
 export const DocumentExtractionGranularity = S.suspend(() =>
   S.Struct({ types: S.optional(DocumentExtractionGranularityTypes) }),
-).annotations({
+).annotate({
   identifier: "DocumentExtractionGranularity",
 }) as any as S.Schema<DocumentExtractionGranularity>;
 export type State = "ENABLED" | "DISABLED" | (string & {});
@@ -433,7 +674,7 @@ export interface DocumentBoundingBox {
 }
 export const DocumentBoundingBox = S.suspend(() =>
   S.Struct({ state: State }),
-).annotations({
+).annotate({
   identifier: "DocumentBoundingBox",
 }) as any as S.Schema<DocumentBoundingBox>;
 export interface DocumentStandardExtraction {
@@ -445,7 +686,7 @@ export const DocumentStandardExtraction = S.suspend(() =>
     granularity: DocumentExtractionGranularity,
     boundingBox: DocumentBoundingBox,
   }),
-).annotations({
+).annotate({
   identifier: "DocumentStandardExtraction",
 }) as any as S.Schema<DocumentStandardExtraction>;
 export interface DocumentStandardGenerativeField {
@@ -453,7 +694,7 @@ export interface DocumentStandardGenerativeField {
 }
 export const DocumentStandardGenerativeField = S.suspend(() =>
   S.Struct({ state: State }),
-).annotations({
+).annotate({
   identifier: "DocumentStandardGenerativeField",
 }) as any as S.Schema<DocumentStandardGenerativeField>;
 export type DocumentOutputTextFormatType =
@@ -472,7 +713,7 @@ export interface DocumentOutputTextFormat {
 }
 export const DocumentOutputTextFormat = S.suspend(() =>
   S.Struct({ types: S.optional(DocumentOutputTextFormatTypes) }),
-).annotations({
+).annotate({
   identifier: "DocumentOutputTextFormat",
 }) as any as S.Schema<DocumentOutputTextFormat>;
 export interface DocumentOutputAdditionalFileFormat {
@@ -480,7 +721,7 @@ export interface DocumentOutputAdditionalFileFormat {
 }
 export const DocumentOutputAdditionalFileFormat = S.suspend(() =>
   S.Struct({ state: State }),
-).annotations({
+).annotate({
   identifier: "DocumentOutputAdditionalFileFormat",
 }) as any as S.Schema<DocumentOutputAdditionalFileFormat>;
 export interface DocumentOutputFormat {
@@ -492,7 +733,7 @@ export const DocumentOutputFormat = S.suspend(() =>
     textFormat: DocumentOutputTextFormat,
     additionalFileFormat: DocumentOutputAdditionalFileFormat,
   }),
-).annotations({
+).annotate({
   identifier: "DocumentOutputFormat",
 }) as any as S.Schema<DocumentOutputFormat>;
 export interface DocumentStandardOutputConfiguration {
@@ -506,7 +747,7 @@ export const DocumentStandardOutputConfiguration = S.suspend(() =>
     generativeField: S.optional(DocumentStandardGenerativeField),
     outputFormat: S.optional(DocumentOutputFormat),
   }),
-).annotations({
+).annotate({
   identifier: "DocumentStandardOutputConfiguration",
 }) as any as S.Schema<DocumentStandardOutputConfiguration>;
 export type ImageExtractionCategoryType =
@@ -525,7 +766,7 @@ export interface ImageExtractionCategory {
 }
 export const ImageExtractionCategory = S.suspend(() =>
   S.Struct({ state: State, types: S.optional(ImageExtractionCategoryTypes) }),
-).annotations({
+).annotate({
   identifier: "ImageExtractionCategory",
 }) as any as S.Schema<ImageExtractionCategory>;
 export interface ImageBoundingBox {
@@ -533,7 +774,7 @@ export interface ImageBoundingBox {
 }
 export const ImageBoundingBox = S.suspend(() =>
   S.Struct({ state: State }),
-).annotations({
+).annotate({
   identifier: "ImageBoundingBox",
 }) as any as S.Schema<ImageBoundingBox>;
 export interface ImageStandardExtraction {
@@ -545,7 +786,7 @@ export const ImageStandardExtraction = S.suspend(() =>
     category: ImageExtractionCategory,
     boundingBox: ImageBoundingBox,
   }),
-).annotations({
+).annotate({
   identifier: "ImageStandardExtraction",
 }) as any as S.Schema<ImageStandardExtraction>;
 export type ImageStandardGenerativeFieldType =
@@ -567,7 +808,7 @@ export const ImageStandardGenerativeField = S.suspend(() =>
     state: State,
     types: S.optional(ImageStandardGenerativeFieldTypes),
   }),
-).annotations({
+).annotate({
   identifier: "ImageStandardGenerativeField",
 }) as any as S.Schema<ImageStandardGenerativeField>;
 export interface ImageStandardOutputConfiguration {
@@ -579,7 +820,7 @@ export const ImageStandardOutputConfiguration = S.suspend(() =>
     extraction: S.optional(ImageStandardExtraction),
     generativeField: S.optional(ImageStandardGenerativeField),
   }),
-).annotations({
+).annotate({
   identifier: "ImageStandardOutputConfiguration",
 }) as any as S.Schema<ImageStandardOutputConfiguration>;
 export type VideoExtractionCategoryType =
@@ -599,7 +840,7 @@ export interface VideoExtractionCategory {
 }
 export const VideoExtractionCategory = S.suspend(() =>
   S.Struct({ state: State, types: S.optional(VideoExtractionCategoryTypes) }),
-).annotations({
+).annotate({
   identifier: "VideoExtractionCategory",
 }) as any as S.Schema<VideoExtractionCategory>;
 export interface VideoBoundingBox {
@@ -607,7 +848,7 @@ export interface VideoBoundingBox {
 }
 export const VideoBoundingBox = S.suspend(() =>
   S.Struct({ state: State }),
-).annotations({
+).annotate({
   identifier: "VideoBoundingBox",
 }) as any as S.Schema<VideoBoundingBox>;
 export interface VideoStandardExtraction {
@@ -619,7 +860,7 @@ export const VideoStandardExtraction = S.suspend(() =>
     category: VideoExtractionCategory,
     boundingBox: VideoBoundingBox,
   }),
-).annotations({
+).annotate({
   identifier: "VideoStandardExtraction",
 }) as any as S.Schema<VideoStandardExtraction>;
 export type VideoStandardGenerativeFieldType =
@@ -642,7 +883,7 @@ export const VideoStandardGenerativeField = S.suspend(() =>
     state: State,
     types: S.optional(VideoStandardGenerativeFieldTypes),
   }),
-).annotations({
+).annotate({
   identifier: "VideoStandardGenerativeField",
 }) as any as S.Schema<VideoStandardGenerativeField>;
 export interface VideoStandardOutputConfiguration {
@@ -654,7 +895,7 @@ export const VideoStandardOutputConfiguration = S.suspend(() =>
     extraction: S.optional(VideoStandardExtraction),
     generativeField: S.optional(VideoStandardGenerativeField),
   }),
-).annotations({
+).annotate({
   identifier: "VideoStandardOutputConfiguration",
 }) as any as S.Schema<VideoStandardOutputConfiguration>;
 export type AudioExtractionCategoryType =
@@ -672,7 +913,7 @@ export interface SpeakerLabelingConfiguration {
 }
 export const SpeakerLabelingConfiguration = S.suspend(() =>
   S.Struct({ state: State }),
-).annotations({
+).annotate({
   identifier: "SpeakerLabelingConfiguration",
 }) as any as S.Schema<SpeakerLabelingConfiguration>;
 export interface ChannelLabelingConfiguration {
@@ -680,7 +921,7 @@ export interface ChannelLabelingConfiguration {
 }
 export const ChannelLabelingConfiguration = S.suspend(() =>
   S.Struct({ state: State }),
-).annotations({
+).annotate({
   identifier: "ChannelLabelingConfiguration",
 }) as any as S.Schema<ChannelLabelingConfiguration>;
 export interface TranscriptConfiguration {
@@ -692,7 +933,7 @@ export const TranscriptConfiguration = S.suspend(() =>
     speakerLabeling: S.optional(SpeakerLabelingConfiguration),
     channelLabeling: S.optional(ChannelLabelingConfiguration),
   }),
-).annotations({
+).annotate({
   identifier: "TranscriptConfiguration",
 }) as any as S.Schema<TranscriptConfiguration>;
 export interface AudioExtractionCategoryTypeConfiguration {
@@ -700,7 +941,7 @@ export interface AudioExtractionCategoryTypeConfiguration {
 }
 export const AudioExtractionCategoryTypeConfiguration = S.suspend(() =>
   S.Struct({ transcript: S.optional(TranscriptConfiguration) }),
-).annotations({
+).annotate({
   identifier: "AudioExtractionCategoryTypeConfiguration",
 }) as any as S.Schema<AudioExtractionCategoryTypeConfiguration>;
 export interface AudioExtractionCategory {
@@ -714,7 +955,7 @@ export const AudioExtractionCategory = S.suspend(() =>
     types: S.optional(AudioExtractionCategoryTypes),
     typeConfiguration: S.optional(AudioExtractionCategoryTypeConfiguration),
   }),
-).annotations({
+).annotate({
   identifier: "AudioExtractionCategory",
 }) as any as S.Schema<AudioExtractionCategory>;
 export interface AudioStandardExtraction {
@@ -722,7 +963,7 @@ export interface AudioStandardExtraction {
 }
 export const AudioStandardExtraction = S.suspend(() =>
   S.Struct({ category: AudioExtractionCategory }),
-).annotations({
+).annotate({
   identifier: "AudioStandardExtraction",
 }) as any as S.Schema<AudioStandardExtraction>;
 export type AudioStandardGenerativeFieldType =
@@ -745,7 +986,7 @@ export const AudioStandardGenerativeField = S.suspend(() =>
     state: State,
     types: S.optional(AudioStandardGenerativeFieldTypes),
   }),
-).annotations({
+).annotate({
   identifier: "AudioStandardGenerativeField",
 }) as any as S.Schema<AudioStandardGenerativeField>;
 export interface AudioStandardOutputConfiguration {
@@ -757,7 +998,7 @@ export const AudioStandardOutputConfiguration = S.suspend(() =>
     extraction: S.optional(AudioStandardExtraction),
     generativeField: S.optional(AudioStandardGenerativeField),
   }),
-).annotations({
+).annotate({
   identifier: "AudioStandardOutputConfiguration",
 }) as any as S.Schema<AudioStandardOutputConfiguration>;
 export interface StandardOutputConfiguration {
@@ -773,7 +1014,7 @@ export const StandardOutputConfiguration = S.suspend(() =>
     video: S.optional(VideoStandardOutputConfiguration),
     audio: S.optional(AudioStandardOutputConfiguration),
   }),
-).annotations({
+).annotate({
   identifier: "StandardOutputConfiguration",
 }) as any as S.Schema<StandardOutputConfiguration>;
 export interface BlueprintItem {
@@ -787,9 +1028,7 @@ export const BlueprintItem = S.suspend(() =>
     blueprintVersion: S.optional(S.String),
     blueprintStage: S.optional(BlueprintStage),
   }),
-).annotations({
-  identifier: "BlueprintItem",
-}) as any as S.Schema<BlueprintItem>;
+).annotate({ identifier: "BlueprintItem" }) as any as S.Schema<BlueprintItem>;
 export type BlueprintItems = BlueprintItem[];
 export const BlueprintItems = S.Array(BlueprintItem);
 export interface CustomOutputConfiguration {
@@ -797,7 +1036,7 @@ export interface CustomOutputConfiguration {
 }
 export const CustomOutputConfiguration = S.suspend(() =>
   S.Struct({ blueprints: S.optional(BlueprintItems) }),
-).annotations({
+).annotate({
   identifier: "CustomOutputConfiguration",
 }) as any as S.Schema<CustomOutputConfiguration>;
 export interface SplitterConfiguration {
@@ -805,7 +1044,7 @@ export interface SplitterConfiguration {
 }
 export const SplitterConfiguration = S.suspend(() =>
   S.Struct({ state: S.optional(State) }),
-).annotations({
+).annotate({
   identifier: "SplitterConfiguration",
 }) as any as S.Schema<SplitterConfiguration>;
 export interface ModalityProcessingConfiguration {
@@ -813,7 +1052,7 @@ export interface ModalityProcessingConfiguration {
 }
 export const ModalityProcessingConfiguration = S.suspend(() =>
   S.Struct({ state: S.optional(State) }),
-).annotations({
+).annotate({
   identifier: "ModalityProcessingConfiguration",
 }) as any as S.Schema<ModalityProcessingConfiguration>;
 export type SensitiveDataDetectionMode =
@@ -878,7 +1117,7 @@ export const PIIEntitiesConfiguration = S.suspend(() =>
     piiEntityTypes: S.optional(PIIEntityTypes),
     redactionMaskMode: S.optional(PIIRedactionMaskMode),
   }),
-).annotations({
+).annotate({
   identifier: "PIIEntitiesConfiguration",
 }) as any as S.Schema<PIIEntitiesConfiguration>;
 export interface SensitiveDataConfiguration {
@@ -892,7 +1131,7 @@ export const SensitiveDataConfiguration = S.suspend(() =>
     detectionScope: S.optional(SensitiveDataDetectionScope),
     piiEntitiesConfiguration: S.optional(PIIEntitiesConfiguration),
   }),
-).annotations({
+).annotate({
   identifier: "SensitiveDataConfiguration",
 }) as any as S.Schema<SensitiveDataConfiguration>;
 export interface DocumentOverrideConfiguration {
@@ -906,7 +1145,7 @@ export const DocumentOverrideConfiguration = S.suspend(() =>
     modalityProcessing: S.optional(ModalityProcessingConfiguration),
     sensitiveDataConfiguration: S.optional(SensitiveDataConfiguration),
   }),
-).annotations({
+).annotate({
   identifier: "DocumentOverrideConfiguration",
 }) as any as S.Schema<DocumentOverrideConfiguration>;
 export interface ImageOverrideConfiguration {
@@ -918,7 +1157,7 @@ export const ImageOverrideConfiguration = S.suspend(() =>
     modalityProcessing: S.optional(ModalityProcessingConfiguration),
     sensitiveDataConfiguration: S.optional(SensitiveDataConfiguration),
   }),
-).annotations({
+).annotate({
   identifier: "ImageOverrideConfiguration",
 }) as any as S.Schema<ImageOverrideConfiguration>;
 export interface VideoOverrideConfiguration {
@@ -930,7 +1169,7 @@ export const VideoOverrideConfiguration = S.suspend(() =>
     modalityProcessing: S.optional(ModalityProcessingConfiguration),
     sensitiveDataConfiguration: S.optional(SensitiveDataConfiguration),
   }),
-).annotations({
+).annotate({
   identifier: "VideoOverrideConfiguration",
 }) as any as S.Schema<VideoOverrideConfiguration>;
 export type Language =
@@ -962,7 +1201,7 @@ export const AudioLanguageConfiguration = S.suspend(() =>
     generativeOutputLanguage: S.optional(AudioGenerativeOutputLanguage),
     identifyMultipleLanguages: S.optional(S.Boolean),
   }),
-).annotations({
+).annotate({
   identifier: "AudioLanguageConfiguration",
 }) as any as S.Schema<AudioLanguageConfiguration>;
 export interface AudioOverrideConfiguration {
@@ -976,7 +1215,7 @@ export const AudioOverrideConfiguration = S.suspend(() =>
     languageConfiguration: S.optional(AudioLanguageConfiguration),
     sensitiveDataConfiguration: S.optional(SensitiveDataConfiguration),
   }),
-).annotations({
+).annotate({
   identifier: "AudioOverrideConfiguration",
 }) as any as S.Schema<AudioOverrideConfiguration>;
 export type DesiredModality =
@@ -999,7 +1238,7 @@ export const ModalityRoutingConfiguration = S.suspend(() =>
     mp4: S.optional(DesiredModality),
     mov: S.optional(DesiredModality),
   }),
-).annotations({
+).annotate({
   identifier: "ModalityRoutingConfiguration",
 }) as any as S.Schema<ModalityRoutingConfiguration>;
 export interface OverrideConfiguration {
@@ -1017,482 +1256,9 @@ export const OverrideConfiguration = S.suspend(() =>
     audio: S.optional(AudioOverrideConfiguration),
     modalityRouting: S.optional(ModalityRoutingConfiguration),
   }),
-).annotations({
+).annotate({
   identifier: "OverrideConfiguration",
 }) as any as S.Schema<OverrideConfiguration>;
-export interface UpdateDataAutomationProjectRequest {
-  projectArn: string;
-  projectStage?: DataAutomationProjectStage;
-  projectDescription?: string | redacted.Redacted<string>;
-  standardOutputConfiguration: StandardOutputConfiguration;
-  customOutputConfiguration?: CustomOutputConfiguration;
-  overrideConfiguration?: OverrideConfiguration;
-  encryptionConfiguration?: EncryptionConfiguration;
-}
-export const UpdateDataAutomationProjectRequest = S.suspend(() =>
-  S.Struct({
-    projectArn: S.String.pipe(T.HttpLabel("projectArn")),
-    projectStage: S.optional(DataAutomationProjectStage),
-    projectDescription: S.optional(SensitiveString),
-    standardOutputConfiguration: StandardOutputConfiguration,
-    customOutputConfiguration: S.optional(CustomOutputConfiguration),
-    overrideConfiguration: S.optional(OverrideConfiguration),
-    encryptionConfiguration: S.optional(EncryptionConfiguration),
-  }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/data-automation-projects/{projectArn}/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "UpdateDataAutomationProjectRequest",
-}) as any as S.Schema<UpdateDataAutomationProjectRequest>;
-export interface DeleteDataAutomationProjectRequest {
-  projectArn: string;
-}
-export const DeleteDataAutomationProjectRequest = S.suspend(() =>
-  S.Struct({ projectArn: S.String.pipe(T.HttpLabel("projectArn")) }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/data-automation-projects/{projectArn}/",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DeleteDataAutomationProjectRequest",
-}) as any as S.Schema<DeleteDataAutomationProjectRequest>;
-export interface BlueprintOptimizationObject {
-  blueprintArn: string;
-  stage?: BlueprintStage;
-}
-export const BlueprintOptimizationObject = S.suspend(() =>
-  S.Struct({ blueprintArn: S.String, stage: S.optional(BlueprintStage) }),
-).annotations({
-  identifier: "BlueprintOptimizationObject",
-}) as any as S.Schema<BlueprintOptimizationObject>;
-export interface S3Object {
-  s3Uri: string;
-  version?: string;
-}
-export const S3Object = S.suspend(() =>
-  S.Struct({ s3Uri: S.String, version: S.optional(S.String) }),
-).annotations({ identifier: "S3Object" }) as any as S.Schema<S3Object>;
-export interface BlueprintOptimizationOutputConfiguration {
-  s3Object: S3Object;
-}
-export const BlueprintOptimizationOutputConfiguration = S.suspend(() =>
-  S.Struct({ s3Object: S3Object }),
-).annotations({
-  identifier: "BlueprintOptimizationOutputConfiguration",
-}) as any as S.Schema<BlueprintOptimizationOutputConfiguration>;
-export type BlueprintOptimizationJobStatus =
-  | "Created"
-  | "InProgress"
-  | "Success"
-  | "ServiceError"
-  | "ClientError"
-  | (string & {});
-export const BlueprintOptimizationJobStatus = S.String;
-export interface DataAutomationProjectFilter {
-  projectArn: string;
-  projectStage?: DataAutomationProjectStage;
-}
-export const DataAutomationProjectFilter = S.suspend(() =>
-  S.Struct({
-    projectArn: S.String,
-    projectStage: S.optional(DataAutomationProjectStage),
-  }),
-).annotations({
-  identifier: "DataAutomationProjectFilter",
-}) as any as S.Schema<DataAutomationProjectFilter>;
-export type DataAutomationProjectStatus =
-  | "COMPLETED"
-  | "IN_PROGRESS"
-  | "FAILED"
-  | (string & {});
-export const DataAutomationProjectStatus = S.String;
-export interface BlueprintFilter {
-  blueprintArn: string;
-  blueprintVersion?: string;
-  blueprintStage?: BlueprintStage;
-}
-export const BlueprintFilter = S.suspend(() =>
-  S.Struct({
-    blueprintArn: S.String,
-    blueprintVersion: S.optional(S.String),
-    blueprintStage: S.optional(BlueprintStage),
-  }),
-).annotations({
-  identifier: "BlueprintFilter",
-}) as any as S.Schema<BlueprintFilter>;
-export interface ListTagsForResourceResponse {
-  tags?: Tag[];
-}
-export const ListTagsForResourceResponse = S.suspend(() =>
-  S.Struct({ tags: S.optional(TagList) }),
-).annotations({
-  identifier: "ListTagsForResourceResponse",
-}) as any as S.Schema<ListTagsForResourceResponse>;
-export interface TagResourceRequest {
-  resourceARN: string;
-  tags: Tag[];
-}
-export const TagResourceRequest = S.suspend(() =>
-  S.Struct({ resourceARN: S.String, tags: TagList }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/tagResource" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
-export interface TagResourceResponse {}
-export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
-  identifier: "TagResourceResponse",
-}) as any as S.Schema<TagResourceResponse>;
-export interface GetBlueprintOptimizationStatusResponse {
-  status?: BlueprintOptimizationJobStatus;
-  errorType?: string;
-  errorMessage?: string;
-  outputConfiguration?: BlueprintOptimizationOutputConfiguration;
-}
-export const GetBlueprintOptimizationStatusResponse = S.suspend(() =>
-  S.Struct({
-    status: S.optional(BlueprintOptimizationJobStatus),
-    errorType: S.optional(S.String),
-    errorMessage: S.optional(S.String),
-    outputConfiguration: S.optional(BlueprintOptimizationOutputConfiguration),
-  }),
-).annotations({
-  identifier: "GetBlueprintOptimizationStatusResponse",
-}) as any as S.Schema<GetBlueprintOptimizationStatusResponse>;
-export interface BlueprintOptimizationSample {
-  assetS3Object: S3Object;
-  groundTruthS3Object: S3Object;
-}
-export const BlueprintOptimizationSample = S.suspend(() =>
-  S.Struct({ assetS3Object: S3Object, groundTruthS3Object: S3Object }),
-).annotations({
-  identifier: "BlueprintOptimizationSample",
-}) as any as S.Schema<BlueprintOptimizationSample>;
-export type BlueprintOptimizationSamples = BlueprintOptimizationSample[];
-export const BlueprintOptimizationSamples = S.Array(
-  BlueprintOptimizationSample,
-);
-export interface Blueprint {
-  blueprintArn: string;
-  schema: string | redacted.Redacted<string>;
-  type: Type;
-  creationTime: Date;
-  lastModifiedTime: Date;
-  blueprintName: string | redacted.Redacted<string>;
-  blueprintVersion?: string;
-  blueprintStage?: BlueprintStage;
-  kmsKeyId?: string;
-  kmsEncryptionContext?: { [key: string]: string | undefined };
-  optimizationSamples?: BlueprintOptimizationSample[];
-  optimizationTime?: Date;
-}
-export const Blueprint = S.suspend(() =>
-  S.Struct({
-    blueprintArn: S.String,
-    schema: SensitiveString,
-    type: Type,
-    creationTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    lastModifiedTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    blueprintName: SensitiveString,
-    blueprintVersion: S.optional(S.String),
-    blueprintStage: S.optional(BlueprintStage),
-    kmsKeyId: S.optional(S.String),
-    kmsEncryptionContext: S.optional(KmsEncryptionContext),
-    optimizationSamples: S.optional(BlueprintOptimizationSamples),
-    optimizationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  }),
-).annotations({ identifier: "Blueprint" }) as any as S.Schema<Blueprint>;
-export interface CreateBlueprintResponse {
-  blueprint: Blueprint;
-}
-export const CreateBlueprintResponse = S.suspend(() =>
-  S.Struct({ blueprint: Blueprint }),
-).annotations({
-  identifier: "CreateBlueprintResponse",
-}) as any as S.Schema<CreateBlueprintResponse>;
-export interface GetBlueprintResponse {
-  blueprint: Blueprint;
-}
-export const GetBlueprintResponse = S.suspend(() =>
-  S.Struct({ blueprint: Blueprint }),
-).annotations({
-  identifier: "GetBlueprintResponse",
-}) as any as S.Schema<GetBlueprintResponse>;
-export interface UpdateBlueprintResponse {
-  blueprint: Blueprint;
-}
-export const UpdateBlueprintResponse = S.suspend(() =>
-  S.Struct({ blueprint: Blueprint }),
-).annotations({
-  identifier: "UpdateBlueprintResponse",
-}) as any as S.Schema<UpdateBlueprintResponse>;
-export interface ListBlueprintsRequest {
-  blueprintArn?: string;
-  resourceOwner?: ResourceOwner;
-  blueprintStageFilter?: BlueprintStageFilter;
-  maxResults?: number;
-  nextToken?: string;
-  projectFilter?: DataAutomationProjectFilter;
-}
-export const ListBlueprintsRequest = S.suspend(() =>
-  S.Struct({
-    blueprintArn: S.optional(S.String),
-    resourceOwner: S.optional(ResourceOwner),
-    blueprintStageFilter: S.optional(BlueprintStageFilter),
-    maxResults: S.optional(S.Number),
-    nextToken: S.optional(S.String),
-    projectFilter: S.optional(DataAutomationProjectFilter),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/blueprints/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListBlueprintsRequest",
-}) as any as S.Schema<ListBlueprintsRequest>;
-export interface UpdateDataAutomationProjectResponse {
-  projectArn: string;
-  projectStage?: DataAutomationProjectStage;
-  status?: DataAutomationProjectStatus;
-}
-export const UpdateDataAutomationProjectResponse = S.suspend(() =>
-  S.Struct({
-    projectArn: S.String,
-    projectStage: S.optional(DataAutomationProjectStage),
-    status: S.optional(DataAutomationProjectStatus),
-  }),
-).annotations({
-  identifier: "UpdateDataAutomationProjectResponse",
-}) as any as S.Schema<UpdateDataAutomationProjectResponse>;
-export interface DeleteDataAutomationProjectResponse {
-  projectArn: string;
-  status?: DataAutomationProjectStatus;
-}
-export const DeleteDataAutomationProjectResponse = S.suspend(() =>
-  S.Struct({
-    projectArn: S.String,
-    status: S.optional(DataAutomationProjectStatus),
-  }),
-).annotations({
-  identifier: "DeleteDataAutomationProjectResponse",
-}) as any as S.Schema<DeleteDataAutomationProjectResponse>;
-export interface ListDataAutomationProjectsRequest {
-  maxResults?: number;
-  nextToken?: string;
-  projectStageFilter?: DataAutomationProjectStageFilter;
-  blueprintFilter?: BlueprintFilter;
-  resourceOwner?: ResourceOwner;
-}
-export const ListDataAutomationProjectsRequest = S.suspend(() =>
-  S.Struct({
-    maxResults: S.optional(S.Number),
-    nextToken: S.optional(S.String),
-    projectStageFilter: S.optional(DataAutomationProjectStageFilter),
-    blueprintFilter: S.optional(BlueprintFilter),
-    resourceOwner: S.optional(ResourceOwner),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/data-automation-projects/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListDataAutomationProjectsRequest",
-}) as any as S.Schema<ListDataAutomationProjectsRequest>;
-export interface DataAutomationProject {
-  projectArn: string;
-  creationTime: Date;
-  lastModifiedTime: Date;
-  projectName: string | redacted.Redacted<string>;
-  projectStage?: DataAutomationProjectStage;
-  projectType?: DataAutomationProjectType;
-  projectDescription?: string | redacted.Redacted<string>;
-  standardOutputConfiguration?: StandardOutputConfiguration;
-  customOutputConfiguration?: CustomOutputConfiguration;
-  overrideConfiguration?: OverrideConfiguration;
-  status: DataAutomationProjectStatus;
-  kmsKeyId?: string;
-  kmsEncryptionContext?: { [key: string]: string | undefined };
-}
-export const DataAutomationProject = S.suspend(() =>
-  S.Struct({
-    projectArn: S.String,
-    creationTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    lastModifiedTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    projectName: SensitiveString,
-    projectStage: S.optional(DataAutomationProjectStage),
-    projectType: S.optional(DataAutomationProjectType),
-    projectDescription: S.optional(SensitiveString),
-    standardOutputConfiguration: S.optional(StandardOutputConfiguration),
-    customOutputConfiguration: S.optional(CustomOutputConfiguration),
-    overrideConfiguration: S.optional(OverrideConfiguration),
-    status: DataAutomationProjectStatus,
-    kmsKeyId: S.optional(S.String),
-    kmsEncryptionContext: S.optional(KmsEncryptionContext),
-  }),
-).annotations({
-  identifier: "DataAutomationProject",
-}) as any as S.Schema<DataAutomationProject>;
-export interface CreateBlueprintVersionResponse {
-  blueprint: Blueprint;
-}
-export const CreateBlueprintVersionResponse = S.suspend(() =>
-  S.Struct({ blueprint: Blueprint }),
-).annotations({
-  identifier: "CreateBlueprintVersionResponse",
-}) as any as S.Schema<CreateBlueprintVersionResponse>;
-export interface InvokeBlueprintOptimizationAsyncRequest {
-  blueprint: BlueprintOptimizationObject;
-  samples: BlueprintOptimizationSample[];
-  outputConfiguration: BlueprintOptimizationOutputConfiguration;
-  dataAutomationProfileArn: string;
-  encryptionConfiguration?: EncryptionConfiguration;
-  tags?: Tag[];
-}
-export const InvokeBlueprintOptimizationAsyncRequest = S.suspend(() =>
-  S.Struct({
-    blueprint: BlueprintOptimizationObject,
-    samples: BlueprintOptimizationSamples,
-    outputConfiguration: BlueprintOptimizationOutputConfiguration,
-    dataAutomationProfileArn: S.String,
-    encryptionConfiguration: S.optional(EncryptionConfiguration),
-    tags: S.optional(TagList),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/invokeBlueprintOptimizationAsync" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "InvokeBlueprintOptimizationAsyncRequest",
-}) as any as S.Schema<InvokeBlueprintOptimizationAsyncRequest>;
-export interface GetDataAutomationProjectResponse {
-  project: DataAutomationProject;
-}
-export const GetDataAutomationProjectResponse = S.suspend(() =>
-  S.Struct({ project: DataAutomationProject }),
-).annotations({
-  identifier: "GetDataAutomationProjectResponse",
-}) as any as S.Schema<GetDataAutomationProjectResponse>;
-export interface BlueprintSummary {
-  blueprintArn: string;
-  blueprintVersion?: string;
-  blueprintStage?: BlueprintStage;
-  blueprintName?: string | redacted.Redacted<string>;
-  creationTime: Date;
-  lastModifiedTime?: Date;
-}
-export const BlueprintSummary = S.suspend(() =>
-  S.Struct({
-    blueprintArn: S.String,
-    blueprintVersion: S.optional(S.String),
-    blueprintStage: S.optional(BlueprintStage),
-    blueprintName: S.optional(SensitiveString),
-    creationTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    lastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  }),
-).annotations({
-  identifier: "BlueprintSummary",
-}) as any as S.Schema<BlueprintSummary>;
-export type Blueprints = BlueprintSummary[];
-export const Blueprints = S.Array(BlueprintSummary);
-export interface DataAutomationProjectSummary {
-  projectArn: string;
-  projectStage?: DataAutomationProjectStage;
-  projectType?: DataAutomationProjectType;
-  projectName?: string | redacted.Redacted<string>;
-  creationTime: Date;
-}
-export const DataAutomationProjectSummary = S.suspend(() =>
-  S.Struct({
-    projectArn: S.String,
-    projectStage: S.optional(DataAutomationProjectStage),
-    projectType: S.optional(DataAutomationProjectType),
-    projectName: S.optional(SensitiveString),
-    creationTime: S.Date.pipe(T.TimestampFormat("date-time")),
-  }),
-).annotations({
-  identifier: "DataAutomationProjectSummary",
-}) as any as S.Schema<DataAutomationProjectSummary>;
-export type DataAutomationProjectSummaries = DataAutomationProjectSummary[];
-export const DataAutomationProjectSummaries = S.Array(
-  DataAutomationProjectSummary,
-);
-export interface InvokeBlueprintOptimizationAsyncResponse {
-  invocationArn: string;
-}
-export const InvokeBlueprintOptimizationAsyncResponse = S.suspend(() =>
-  S.Struct({ invocationArn: S.String }),
-).annotations({
-  identifier: "InvokeBlueprintOptimizationAsyncResponse",
-}) as any as S.Schema<InvokeBlueprintOptimizationAsyncResponse>;
-export interface ListBlueprintsResponse {
-  blueprints: BlueprintSummary[];
-  nextToken?: string;
-}
-export const ListBlueprintsResponse = S.suspend(() =>
-  S.Struct({ blueprints: Blueprints, nextToken: S.optional(S.String) }),
-).annotations({
-  identifier: "ListBlueprintsResponse",
-}) as any as S.Schema<ListBlueprintsResponse>;
-export interface ListDataAutomationProjectsResponse {
-  projects: DataAutomationProjectSummary[];
-  nextToken?: string;
-}
-export const ListDataAutomationProjectsResponse = S.suspend(() =>
-  S.Struct({
-    projects: DataAutomationProjectSummaries,
-    nextToken: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "ListDataAutomationProjectsResponse",
-}) as any as S.Schema<ListDataAutomationProjectsResponse>;
-export interface ValidationExceptionField {
-  name: string;
-  message: string;
-}
-export const ValidationExceptionField = S.suspend(() =>
-  S.Struct({ name: S.String, message: S.String }),
-).annotations({
-  identifier: "ValidationExceptionField",
-}) as any as S.Schema<ValidationExceptionField>;
-export type ValidationExceptionFieldList = ValidationExceptionField[];
-export const ValidationExceptionFieldList = S.Array(ValidationExceptionField);
 export interface CreateDataAutomationProjectRequest {
   projectName: string | redacted.Redacted<string>;
   projectDescription?: string | redacted.Redacted<string>;
@@ -1527,9 +1293,15 @@ export const CreateDataAutomationProjectRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "CreateDataAutomationProjectRequest",
 }) as any as S.Schema<CreateDataAutomationProjectRequest>;
+export type DataAutomationProjectStatus =
+  | "COMPLETED"
+  | "IN_PROGRESS"
+  | "FAILED"
+  | (string & {});
+export const DataAutomationProjectStatus = S.String;
 export interface CreateDataAutomationProjectResponse {
   projectArn: string;
   projectStage?: DataAutomationProjectStage;
@@ -1541,42 +1313,266 @@ export const CreateDataAutomationProjectResponse = S.suspend(() =>
     projectStage: S.optional(DataAutomationProjectStage),
     status: S.optional(DataAutomationProjectStatus),
   }),
-).annotations({
+).annotate({
   identifier: "CreateDataAutomationProjectResponse",
 }) as any as S.Schema<CreateDataAutomationProjectResponse>;
+export interface GetDataAutomationProjectRequest {
+  projectArn: string;
+  projectStage?: DataAutomationProjectStage;
+}
+export const GetDataAutomationProjectRequest = S.suspend(() =>
+  S.Struct({
+    projectArn: S.String.pipe(T.HttpLabel("projectArn")),
+    projectStage: S.optional(DataAutomationProjectStage),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/data-automation-projects/{projectArn}/",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetDataAutomationProjectRequest",
+}) as any as S.Schema<GetDataAutomationProjectRequest>;
+export interface DataAutomationProject {
+  projectArn: string;
+  creationTime: Date;
+  lastModifiedTime: Date;
+  projectName: string | redacted.Redacted<string>;
+  projectStage?: DataAutomationProjectStage;
+  projectType?: DataAutomationProjectType;
+  projectDescription?: string | redacted.Redacted<string>;
+  standardOutputConfiguration?: StandardOutputConfiguration;
+  customOutputConfiguration?: CustomOutputConfiguration;
+  overrideConfiguration?: OverrideConfiguration;
+  status: DataAutomationProjectStatus;
+  kmsKeyId?: string;
+  kmsEncryptionContext?: { [key: string]: string | undefined };
+}
+export const DataAutomationProject = S.suspend(() =>
+  S.Struct({
+    projectArn: S.String,
+    creationTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    lastModifiedTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    projectName: SensitiveString,
+    projectStage: S.optional(DataAutomationProjectStage),
+    projectType: S.optional(DataAutomationProjectType),
+    projectDescription: S.optional(SensitiveString),
+    standardOutputConfiguration: S.optional(StandardOutputConfiguration),
+    customOutputConfiguration: S.optional(CustomOutputConfiguration),
+    overrideConfiguration: S.optional(OverrideConfiguration),
+    status: DataAutomationProjectStatus,
+    kmsKeyId: S.optional(S.String),
+    kmsEncryptionContext: S.optional(KmsEncryptionContext),
+  }),
+).annotate({
+  identifier: "DataAutomationProject",
+}) as any as S.Schema<DataAutomationProject>;
+export interface GetDataAutomationProjectResponse {
+  project: DataAutomationProject;
+}
+export const GetDataAutomationProjectResponse = S.suspend(() =>
+  S.Struct({ project: DataAutomationProject }),
+).annotate({
+  identifier: "GetDataAutomationProjectResponse",
+}) as any as S.Schema<GetDataAutomationProjectResponse>;
+export interface UpdateDataAutomationProjectRequest {
+  projectArn: string;
+  projectStage?: DataAutomationProjectStage;
+  projectDescription?: string | redacted.Redacted<string>;
+  standardOutputConfiguration: StandardOutputConfiguration;
+  customOutputConfiguration?: CustomOutputConfiguration;
+  overrideConfiguration?: OverrideConfiguration;
+  encryptionConfiguration?: EncryptionConfiguration;
+}
+export const UpdateDataAutomationProjectRequest = S.suspend(() =>
+  S.Struct({
+    projectArn: S.String.pipe(T.HttpLabel("projectArn")),
+    projectStage: S.optional(DataAutomationProjectStage),
+    projectDescription: S.optional(SensitiveString),
+    standardOutputConfiguration: StandardOutputConfiguration,
+    customOutputConfiguration: S.optional(CustomOutputConfiguration),
+    overrideConfiguration: S.optional(OverrideConfiguration),
+    encryptionConfiguration: S.optional(EncryptionConfiguration),
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/data-automation-projects/{projectArn}/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "UpdateDataAutomationProjectRequest",
+}) as any as S.Schema<UpdateDataAutomationProjectRequest>;
+export interface UpdateDataAutomationProjectResponse {
+  projectArn: string;
+  projectStage?: DataAutomationProjectStage;
+  status?: DataAutomationProjectStatus;
+}
+export const UpdateDataAutomationProjectResponse = S.suspend(() =>
+  S.Struct({
+    projectArn: S.String,
+    projectStage: S.optional(DataAutomationProjectStage),
+    status: S.optional(DataAutomationProjectStatus),
+  }),
+).annotate({
+  identifier: "UpdateDataAutomationProjectResponse",
+}) as any as S.Schema<UpdateDataAutomationProjectResponse>;
+export interface DeleteDataAutomationProjectRequest {
+  projectArn: string;
+}
+export const DeleteDataAutomationProjectRequest = S.suspend(() =>
+  S.Struct({ projectArn: S.String.pipe(T.HttpLabel("projectArn")) }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/data-automation-projects/{projectArn}/",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeleteDataAutomationProjectRequest",
+}) as any as S.Schema<DeleteDataAutomationProjectRequest>;
+export interface DeleteDataAutomationProjectResponse {
+  projectArn: string;
+  status?: DataAutomationProjectStatus;
+}
+export const DeleteDataAutomationProjectResponse = S.suspend(() =>
+  S.Struct({
+    projectArn: S.String,
+    status: S.optional(DataAutomationProjectStatus),
+  }),
+).annotate({
+  identifier: "DeleteDataAutomationProjectResponse",
+}) as any as S.Schema<DeleteDataAutomationProjectResponse>;
+export type DataAutomationProjectStageFilter =
+  | "DEVELOPMENT"
+  | "LIVE"
+  | "ALL"
+  | (string & {});
+export const DataAutomationProjectStageFilter = S.String;
+export interface BlueprintFilter {
+  blueprintArn: string;
+  blueprintVersion?: string;
+  blueprintStage?: BlueprintStage;
+}
+export const BlueprintFilter = S.suspend(() =>
+  S.Struct({
+    blueprintArn: S.String,
+    blueprintVersion: S.optional(S.String),
+    blueprintStage: S.optional(BlueprintStage),
+  }),
+).annotate({
+  identifier: "BlueprintFilter",
+}) as any as S.Schema<BlueprintFilter>;
+export interface ListDataAutomationProjectsRequest {
+  maxResults?: number;
+  nextToken?: string;
+  projectStageFilter?: DataAutomationProjectStageFilter;
+  blueprintFilter?: BlueprintFilter;
+  resourceOwner?: ResourceOwner;
+}
+export const ListDataAutomationProjectsRequest = S.suspend(() =>
+  S.Struct({
+    maxResults: S.optional(S.Number),
+    nextToken: S.optional(S.String),
+    projectStageFilter: S.optional(DataAutomationProjectStageFilter),
+    blueprintFilter: S.optional(BlueprintFilter),
+    resourceOwner: S.optional(ResourceOwner),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/data-automation-projects/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListDataAutomationProjectsRequest",
+}) as any as S.Schema<ListDataAutomationProjectsRequest>;
+export interface DataAutomationProjectSummary {
+  projectArn: string;
+  projectStage?: DataAutomationProjectStage;
+  projectType?: DataAutomationProjectType;
+  projectName?: string | redacted.Redacted<string>;
+  creationTime: Date;
+}
+export const DataAutomationProjectSummary = S.suspend(() =>
+  S.Struct({
+    projectArn: S.String,
+    projectStage: S.optional(DataAutomationProjectStage),
+    projectType: S.optional(DataAutomationProjectType),
+    projectName: S.optional(SensitiveString),
+    creationTime: S.Date.pipe(T.TimestampFormat("date-time")),
+  }),
+).annotate({
+  identifier: "DataAutomationProjectSummary",
+}) as any as S.Schema<DataAutomationProjectSummary>;
+export type DataAutomationProjectSummaries = DataAutomationProjectSummary[];
+export const DataAutomationProjectSummaries = S.Array(
+  DataAutomationProjectSummary,
+);
+export interface ListDataAutomationProjectsResponse {
+  projects: DataAutomationProjectSummary[];
+  nextToken?: string;
+}
+export const ListDataAutomationProjectsResponse = S.suspend(() =>
+  S.Struct({
+    projects: DataAutomationProjectSummaries,
+    nextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ListDataAutomationProjectsResponse",
+}) as any as S.Schema<ListDataAutomationProjectsResponse>;
 
 //# Errors
-export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
+export class AccessDeniedException extends S.TaggedErrorClass<AccessDeniedException>()(
   "AccessDeniedException",
   { message: S.optional(S.String) },
 ).pipe(C.withAuthError) {}
-export class InternalServerException extends S.TaggedError<InternalServerException>()(
+export class InternalServerException extends S.TaggedErrorClass<InternalServerException>()(
   "InternalServerException",
   { message: S.optional(S.String) },
 ).pipe(C.withServerError) {}
-export class ConflictException extends S.TaggedError<ConflictException>()(
-  "ConflictException",
-  { message: S.optional(S.String) },
-).pipe(C.withConflictError) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { message: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
-export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
-  "ServiceQuotaExceededException",
-  { message: S.optional(S.String) },
-).pipe(C.withQuotaError) {}
-export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
+export class ThrottlingException extends S.TaggedErrorClass<ThrottlingException>()(
   "ThrottlingException",
   { message: S.optional(S.String) },
 ).pipe(C.withThrottlingError) {}
-export class ValidationException extends S.TaggedError<ValidationException>()(
+export class ValidationException extends S.TaggedErrorClass<ValidationException>()(
   "ValidationException",
   {
     message: S.optional(S.String),
     fieldList: S.optional(ValidationExceptionFieldList),
   },
 ).pipe(C.withBadRequestError) {}
+export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuotaExceededException>()(
+  "ServiceQuotaExceededException",
+  { message: S.optional(S.String) },
+).pipe(C.withQuotaError) {}
+export class ConflictException extends S.TaggedErrorClass<ConflictException>()(
+  "ConflictException",
+  { message: S.optional(S.String) },
+).pipe(C.withConflictError) {}
 
 //# Operations
 /**
@@ -1596,6 +1592,162 @@ export const copyBlueprintStage: (
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CopyBlueprintStageRequest,
   output: CopyBlueprintStageResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Creates a new version of an existing Amazon Bedrock Data Automation Blueprint
+ */
+export const createBlueprintVersion: (
+  input: CreateBlueprintVersionRequest,
+) => effect.Effect<
+  CreateBlueprintVersionResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateBlueprintVersionRequest,
+  output: CreateBlueprintVersionResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * List tags for an Amazon Bedrock Data Automation resource
+ */
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => effect.Effect<
+  ListTagsForResourceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Tag an Amazon Bedrock Data Automation resource
+ */
+export const tagResource: (
+  input: TagResourceRequest,
+) => effect.Effect<
+  TagResourceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Untag an Amazon Bedrock Data Automation resource
+ */
+export const untagResource: (
+  input: UntagResourceRequest,
+) => effect.Effect<
+  UntagResourceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Invoke an async job to perform Blueprint Optimization
+ */
+export const invokeBlueprintOptimizationAsync: (
+  input: InvokeBlueprintOptimizationAsyncRequest,
+) => effect.Effect<
+  InvokeBlueprintOptimizationAsyncResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: InvokeBlueprintOptimizationAsyncRequest,
+  output: InvokeBlueprintOptimizationAsyncResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * API used to get blueprint optimization status.
+ */
+export const getBlueprintOptimizationStatus: (
+  input: GetBlueprintOptimizationStatusRequest,
+) => effect.Effect<
+  GetBlueprintOptimizationStatusResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetBlueprintOptimizationStatusRequest,
+  output: GetBlueprintOptimizationStatusResponse,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1627,6 +1779,83 @@ export const createBlueprint: (
     ConflictException,
     InternalServerException,
     ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Gets an existing Amazon Bedrock Data Automation Blueprint
+ */
+export const getBlueprint: (
+  input: GetBlueprintRequest,
+) => effect.Effect<
+  GetBlueprintResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetBlueprintRequest,
+  output: GetBlueprintResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Updates an existing Amazon Bedrock Data Automation Blueprint
+ */
+export const updateBlueprint: (
+  input: UpdateBlueprintRequest,
+) => effect.Effect<
+  UpdateBlueprintResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateBlueprintRequest,
+  output: UpdateBlueprintResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Deletes an existing Amazon Bedrock Data Automation Blueprint
+ */
+export const deleteBlueprint: (
+  input: DeleteBlueprintRequest,
+) => effect.Effect<
+  DeleteBlueprintResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteBlueprintRequest,
+  output: DeleteBlueprintResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
   ],
@@ -1689,6 +1918,112 @@ export const listBlueprints: {
   } as const,
 }));
 /**
+ * Creates an Amazon Bedrock Data Automation Project
+ */
+export const createDataAutomationProject: (
+  input: CreateDataAutomationProjectRequest,
+) => effect.Effect<
+  CreateDataAutomationProjectResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateDataAutomationProjectRequest,
+  output: CreateDataAutomationProjectResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Gets an existing Amazon Bedrock Data Automation Project
+ */
+export const getDataAutomationProject: (
+  input: GetDataAutomationProjectRequest,
+) => effect.Effect<
+  GetDataAutomationProjectResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetDataAutomationProjectRequest,
+  output: GetDataAutomationProjectResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Updates an existing Amazon Bedrock Data Automation Project
+ */
+export const updateDataAutomationProject: (
+  input: UpdateDataAutomationProjectRequest,
+) => effect.Effect<
+  UpdateDataAutomationProjectResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateDataAutomationProjectRequest,
+  output: UpdateDataAutomationProjectResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Deletes an existing Amazon Bedrock Data Automation Project
+ */
+export const deleteDataAutomationProject: (
+  input: DeleteDataAutomationProjectRequest,
+) => effect.Effect<
+  DeleteDataAutomationProjectResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteDataAutomationProjectRequest,
+  output: DeleteDataAutomationProjectResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
  * Lists all existing Amazon Bedrock Data Automation Projects
  */
 export const listDataAutomationProjects: {
@@ -1744,343 +2079,4 @@ export const listDataAutomationProjects: {
     items: "projects",
     pageSize: "maxResults",
   } as const,
-}));
-/**
- * Creates a new version of an existing Amazon Bedrock Data Automation Blueprint
- */
-export const createBlueprintVersion: (
-  input: CreateBlueprintVersionRequest,
-) => effect.Effect<
-  CreateBlueprintVersionResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateBlueprintVersionRequest,
-  output: CreateBlueprintVersionResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Gets an existing Amazon Bedrock Data Automation Project
- */
-export const getDataAutomationProject: (
-  input: GetDataAutomationProjectRequest,
-) => effect.Effect<
-  GetDataAutomationProjectResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetDataAutomationProjectRequest,
-  output: GetDataAutomationProjectResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * List tags for an Amazon Bedrock Data Automation resource
- */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
-  ListTagsForResourceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Tag an Amazon Bedrock Data Automation resource
- */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
-  TagResourceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * API used to get blueprint optimization status.
- */
-export const getBlueprintOptimizationStatus: (
-  input: GetBlueprintOptimizationStatusRequest,
-) => effect.Effect<
-  GetBlueprintOptimizationStatusResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetBlueprintOptimizationStatusRequest,
-  output: GetBlueprintOptimizationStatusResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Gets an existing Amazon Bedrock Data Automation Blueprint
- */
-export const getBlueprint: (
-  input: GetBlueprintRequest,
-) => effect.Effect<
-  GetBlueprintResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetBlueprintRequest,
-  output: GetBlueprintResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Deletes an existing Amazon Bedrock Data Automation Project
- */
-export const deleteDataAutomationProject: (
-  input: DeleteDataAutomationProjectRequest,
-) => effect.Effect<
-  DeleteDataAutomationProjectResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteDataAutomationProjectRequest,
-  output: DeleteDataAutomationProjectResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Untag an Amazon Bedrock Data Automation resource
- */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
-  UntagResourceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Deletes an existing Amazon Bedrock Data Automation Blueprint
- */
-export const deleteBlueprint: (
-  input: DeleteBlueprintRequest,
-) => effect.Effect<
-  DeleteBlueprintResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteBlueprintRequest,
-  output: DeleteBlueprintResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Updates an existing Amazon Bedrock Data Automation Blueprint
- */
-export const updateBlueprint: (
-  input: UpdateBlueprintRequest,
-) => effect.Effect<
-  UpdateBlueprintResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateBlueprintRequest,
-  output: UpdateBlueprintResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Updates an existing Amazon Bedrock Data Automation Project
- */
-export const updateDataAutomationProject: (
-  input: UpdateDataAutomationProjectRequest,
-) => effect.Effect<
-  UpdateDataAutomationProjectResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateDataAutomationProjectRequest,
-  output: UpdateDataAutomationProjectResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Invoke an async job to perform Blueprint Optimization
- */
-export const invokeBlueprintOptimizationAsync: (
-  input: InvokeBlueprintOptimizationAsyncRequest,
-) => effect.Effect<
-  InvokeBlueprintOptimizationAsyncResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: InvokeBlueprintOptimizationAsyncRequest,
-  output: InvokeBlueprintOptimizationAsyncResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Creates an Amazon Bedrock Data Automation Project
- */
-export const createDataAutomationProject: (
-  input: CreateDataAutomationProjectRequest,
-) => effect.Effect<
-  CreateDataAutomationProjectResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateDataAutomationProjectRequest,
-  output: CreateDataAutomationProjectResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
 }));

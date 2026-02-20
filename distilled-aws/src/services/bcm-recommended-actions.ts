@@ -1,4 +1,4 @@
-import { HttpClient } from "@effect/platform";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as effect from "effect/Effect";
 import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
@@ -66,9 +66,9 @@ const rules = T.EndpointResolver((p, _) => {
 });
 
 //# Newtypes
+export type FilterValue = string;
 export type MaxResults = number;
 export type NextToken = string;
-export type FilterValue = string;
 export type AccountId = string;
 export type NextStep = string;
 
@@ -86,7 +86,7 @@ export interface ActionFilter {
 }
 export const ActionFilter = S.suspend(() =>
   S.Struct({ key: FilterName, matchOption: MatchOption, values: FilterValues }),
-).annotations({ identifier: "ActionFilter" }) as any as S.Schema<ActionFilter>;
+).annotate({ identifier: "ActionFilter" }) as any as S.Schema<ActionFilter>;
 export type ActionFilterList = ActionFilter[];
 export const ActionFilterList = S.Array(ActionFilter);
 export interface RequestFilter {
@@ -94,9 +94,7 @@ export interface RequestFilter {
 }
 export const RequestFilter = S.suspend(() =>
   S.Struct({ actions: S.optional(ActionFilterList) }),
-).annotations({
-  identifier: "RequestFilter",
-}) as any as S.Schema<RequestFilter>;
+).annotate({ identifier: "RequestFilter" }) as any as S.Schema<RequestFilter>;
 export interface ListRecommendedActionsRequest {
   filter?: RequestFilter;
   maxResults?: number;
@@ -110,7 +108,7 @@ export const ListRecommendedActionsRequest = S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotations({
+).annotate({
   identifier: "ListRecommendedActionsRequest",
 }) as any as S.Schema<ListRecommendedActionsRequest>;
 export type ActionType =
@@ -151,13 +149,10 @@ export type Feature =
   | "TAX_SETTINGS"
   | (string & {});
 export const Feature = S.String;
+export type Context = { [key: string]: string | undefined };
+export const Context = S.Record(S.String, S.String.pipe(S.optional));
 export type NextSteps = string[];
 export const NextSteps = S.Array(S.String);
-export type Context = { [key: string]: string | undefined };
-export const Context = S.Record({
-  key: S.String,
-  value: S.UndefinedOr(S.String),
-});
 export interface RecommendedAction {
   id?: string;
   type?: ActionType;
@@ -179,7 +174,7 @@ export const RecommendedAction = S.suspend(() =>
     nextSteps: S.optional(NextSteps),
     lastUpdatedTimeStamp: S.optional(S.String),
   }),
-).annotations({
+).annotate({
   identifier: "RecommendedAction",
 }) as any as S.Schema<RecommendedAction>;
 export type RecommendedActions = RecommendedAction[];
@@ -193,7 +188,7 @@ export const ListRecommendedActionsResponse = S.suspend(() =>
     recommendedActions: RecommendedActions,
     nextToken: S.optional(S.String),
   }),
-).annotations({
+).annotate({
   identifier: "ListRecommendedActionsResponse",
 }) as any as S.Schema<ListRecommendedActionsResponse>;
 export type ValidationExceptionReason =
@@ -209,14 +204,14 @@ export interface ValidationExceptionField {
 }
 export const ValidationExceptionField = S.suspend(() =>
   S.Struct({ name: S.String, message: S.String }),
-).annotations({
+).annotate({
   identifier: "ValidationExceptionField",
 }) as any as S.Schema<ValidationExceptionField>;
 export type ValidationExceptionFieldList = ValidationExceptionField[];
 export const ValidationExceptionFieldList = S.Array(ValidationExceptionField);
 
 //# Errors
-export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
+export class AccessDeniedException extends S.TaggedErrorClass<AccessDeniedException>()(
   "AccessDeniedException",
   { message: S.String },
   T.AwsQueryError({
@@ -224,7 +219,7 @@ export class AccessDeniedException extends S.TaggedError<AccessDeniedException>(
     httpResponseCode: 403,
   }),
 ).pipe(C.withAuthError) {}
-export class InternalServerException extends S.TaggedError<InternalServerException>()(
+export class InternalServerException extends S.TaggedErrorClass<InternalServerException>()(
   "InternalServerException",
   { message: S.String },
   T.AwsQueryError({
@@ -232,7 +227,7 @@ export class InternalServerException extends S.TaggedError<InternalServerExcepti
     httpResponseCode: 500,
   }),
 ).pipe(C.withServerError) {}
-export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
+export class ThrottlingException extends S.TaggedErrorClass<ThrottlingException>()(
   "ThrottlingException",
   { message: S.String },
   T.AwsQueryError({
@@ -240,7 +235,7 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
     httpResponseCode: 429,
   }),
 ).pipe(C.withThrottlingError) {}
-export class ValidationException extends S.TaggedError<ValidationException>()(
+export class ValidationException extends S.TaggedErrorClass<ValidationException>()(
   "ValidationException",
   {
     message: S.String,

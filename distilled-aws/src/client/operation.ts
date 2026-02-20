@@ -10,8 +10,8 @@ export declare namespace Operation {
 type Instance<T> = T extends new (...args: any) => infer U ? U : T;
 
 export interface Operation<
-  Input extends S.Schema.AnyNoContext = S.Schema.AnyNoContext,
-  Output extends S.Schema.AnyNoContext = S.Schema.AnyNoContext,
+  Input extends S.Top = S.Any,
+  Output extends S.Top = S.Top,
   Error = any,
 > {
   input: Input;

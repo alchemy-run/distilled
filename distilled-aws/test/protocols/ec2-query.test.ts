@@ -2,11 +2,11 @@ import { it } from "@effect/vitest";
 import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
 import { describe, expect } from "vitest";
-import { UnknownAwsError, ValidationException } from "../../src/errors.ts";
-import { ec2QueryProtocol } from "../../src/protocols/ec2-query.ts";
 import { makeRequestBuilder } from "../../src/client/request-builder.ts";
 import { makeResponseParser } from "../../src/client/response-parser.ts";
 import type { Response } from "../../src/client/response.ts";
+import { UnknownAwsError, ValidationException } from "../../src/errors.ts";
+import { ec2QueryProtocol } from "../../src/protocols/ec2-query.ts";
 import {
   // Simple request/response operations
   AcceptVpcPeeringConnectionRequest,
@@ -36,7 +36,7 @@ const buildRequest = <A, I>(schema: S.Schema<A, I>, instance: A) => {
 const parseResponse = <A, I>(
   schema: S.Schema<A, I>,
   response: Response,
-  errors: S.Schema.AnyNoContext[] = [],
+  errors: S.Top[] = [],
 ) => {
   const operation = { input: schema, output: schema, errors };
   const parser = makeResponseParser<A>(operation, {

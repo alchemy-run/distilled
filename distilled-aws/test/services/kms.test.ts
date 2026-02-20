@@ -41,7 +41,7 @@ beforeAll(
               while: (err) => err._tag === "ThrottlingException",
               schedule: Schedule.exponential("1 second"),
             }),
-            Effect.catchAll(() => Effect.succeed(null)),
+            Effect.catch(() => Effect.succeed(null)),
           );
           if (
             keyInfo?.KeyMetadata?.KeyState === "Enabled" ||
@@ -359,7 +359,7 @@ test(
         },
       }).pipe(
         Effect.map(() => "success" as const),
-        Effect.catchAll(() => Effect.succeed("error" as const)),
+        Effect.catch(() => Effect.succeed("error" as const)),
       );
 
       expect(wrongContextResult).toEqual("error");

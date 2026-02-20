@@ -1,4 +1,4 @@
-import { HttpClient } from "@effect/platform";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as effect from "effect/Effect";
 import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
@@ -84,47 +84,41 @@ const rules = T.EndpointResolver((p, _) => {
 });
 
 //# Newtypes
+export type ValidationExceptionReason = string;
 export type DeviceArn = string;
-export type String64 = string;
-export type RoleArn = string;
-export type JobArn = string;
-export type HybridJobAdditionalAttributeName = string;
+export type DeviceType = string;
+export type DeviceStatus = string;
 export type JsonValue = string;
-export type JobToken = string;
-export type QuantumTaskArn = string;
-export type QuantumTaskAdditionalAttributeName = string;
-export type SpendingLimitArn = string;
+export type QueueName = string;
+export type QueuePriority = string;
 export type String256 = string;
-export type String2048 = string;
+export type String64 = string;
 export type S3Path = string;
+export type CompressionType = string;
+export type Uri = string;
+export type String2048 = string;
 export type String4096 = string;
+export type RoleArn = string;
 export type InstanceType = string;
 export type BraketResourceArn = string;
 export type AssociationType = string;
-export type SearchJobsFilterOperator = string;
-export type ExperimentalCapabilitiesEnablementType = string;
-export type SearchQuantumTasksFilterOperator = string;
-export type SearchSpendingLimitsFilterOperator = string;
-export type DeviceType = string;
-export type DeviceStatus = string;
+export type JobArn = string;
+export type HybridJobAdditionalAttributeName = string;
 export type JobPrimaryStatus = string;
 export type String1024 = string;
-export type CancellationStatus = string;
-export type QuantumTaskStatus = string;
-export type CompressionType = string;
-export type Uri = string;
-export type QueueName = string;
-export type QueuePriority = string;
 export type JobEventType = string;
-export type ValidationExceptionReason = string;
+export type CancellationStatus = string;
+export type SearchJobsFilterOperator = string;
+export type JobToken = string;
+export type ExperimentalCapabilitiesEnablementType = string;
+export type QuantumTaskArn = string;
+export type QuantumTaskAdditionalAttributeName = string;
+export type QuantumTaskStatus = string;
+export type SearchQuantumTasksFilterOperator = string;
+export type SpendingLimitArn = string;
+export type SearchSpendingLimitsFilterOperator = string;
 
 //# Schemas
-export type TagKeys = string[];
-export const TagKeys = S.Array(S.String);
-export type HybridJobAdditionalAttributeNamesList = string[];
-export const HybridJobAdditionalAttributeNamesList = S.Array(S.String);
-export type QuantumTaskAdditionalAttributeNamesList = string[];
-export const QuantumTaskAdditionalAttributeNamesList = S.Array(S.String);
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
@@ -139,335 +133,39 @@ export const ListTagsForResourceRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "ListTagsForResourceRequest",
 }) as any as S.Schema<ListTagsForResourceRequest>;
-export interface UntagResourceRequest {
-  resourceArn: string;
-  tagKeys: string[];
-}
-export const UntagResourceRequest = S.suspend(() =>
-  S.Struct({
-    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-    tagKeys: TagKeys.pipe(T.HttpQuery("tagKeys")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
-export interface UntagResourceResponse {}
-export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
-  identifier: "UntagResourceResponse",
-}) as any as S.Schema<UntagResourceResponse>;
-export interface GetDeviceRequest {
-  deviceArn: string;
-}
-export const GetDeviceRequest = S.suspend(() =>
-  S.Struct({ deviceArn: S.String.pipe(T.HttpLabel("deviceArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/device/{deviceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "GetDeviceRequest",
-}) as any as S.Schema<GetDeviceRequest>;
-export interface GetJobRequest {
-  jobArn: string;
-  additionalAttributeNames?: string[];
-}
-export const GetJobRequest = S.suspend(() =>
-  S.Struct({
-    jobArn: S.String.pipe(T.HttpLabel("jobArn")),
-    additionalAttributeNames: S.optional(
-      HybridJobAdditionalAttributeNamesList,
-    ).pipe(T.HttpQuery("additionalAttributeNames")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/job/{jobArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "GetJobRequest",
-}) as any as S.Schema<GetJobRequest>;
-export interface CancelJobRequest {
-  jobArn: string;
-}
-export const CancelJobRequest = S.suspend(() =>
-  S.Struct({ jobArn: S.String.pipe(T.HttpLabel("jobArn")) }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/job/{jobArn}/cancel" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "CancelJobRequest",
-}) as any as S.Schema<CancelJobRequest>;
-export interface GetQuantumTaskRequest {
-  quantumTaskArn: string;
-  additionalAttributeNames?: string[];
-}
-export const GetQuantumTaskRequest = S.suspend(() =>
-  S.Struct({
-    quantumTaskArn: S.String.pipe(T.HttpLabel("quantumTaskArn")),
-    additionalAttributeNames: S.optional(
-      QuantumTaskAdditionalAttributeNamesList,
-    ).pipe(T.HttpQuery("additionalAttributeNames")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/quantum-task/{quantumTaskArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "GetQuantumTaskRequest",
-}) as any as S.Schema<GetQuantumTaskRequest>;
-export interface CancelQuantumTaskRequest {
-  quantumTaskArn: string;
-  clientToken: string;
-}
-export const CancelQuantumTaskRequest = S.suspend(() =>
-  S.Struct({
-    quantumTaskArn: S.String.pipe(T.HttpLabel("quantumTaskArn")),
-    clientToken: S.String.pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/quantum-task/{quantumTaskArn}/cancel" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "CancelQuantumTaskRequest",
-}) as any as S.Schema<CancelQuantumTaskRequest>;
-export interface TimePeriod {
-  startAt: Date;
-  endAt: Date;
-}
-export const TimePeriod = S.suspend(() =>
-  S.Struct({
-    startAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    endAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  }),
-).annotations({ identifier: "TimePeriod" }) as any as S.Schema<TimePeriod>;
-export interface UpdateSpendingLimitRequest {
-  spendingLimitArn: string;
-  clientToken: string;
-  spendingLimit?: string;
-  timePeriod?: TimePeriod;
-}
-export const UpdateSpendingLimitRequest = S.suspend(() =>
-  S.Struct({
-    spendingLimitArn: S.String.pipe(T.HttpLabel("spendingLimitArn")),
-    clientToken: S.String.pipe(T.IdempotencyToken()),
-    spendingLimit: S.optional(S.String),
-    timePeriod: S.optional(TimePeriod),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PATCH",
-        uri: "/spending-limit/{spendingLimitArn}/update",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "UpdateSpendingLimitRequest",
-}) as any as S.Schema<UpdateSpendingLimitRequest>;
-export interface UpdateSpendingLimitResponse {}
-export const UpdateSpendingLimitResponse = S.suspend(() =>
-  S.Struct({}),
-).annotations({
-  identifier: "UpdateSpendingLimitResponse",
-}) as any as S.Schema<UpdateSpendingLimitResponse>;
-export interface DeleteSpendingLimitRequest {
-  spendingLimitArn: string;
-}
-export const DeleteSpendingLimitRequest = S.suspend(() =>
-  S.Struct({
-    spendingLimitArn: S.String.pipe(T.HttpLabel("spendingLimitArn")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/spending-limit/{spendingLimitArn}/delete",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DeleteSpendingLimitRequest",
-}) as any as S.Schema<DeleteSpendingLimitRequest>;
-export interface DeleteSpendingLimitResponse {}
-export const DeleteSpendingLimitResponse = S.suspend(() =>
-  S.Struct({}),
-).annotations({
-  identifier: "DeleteSpendingLimitResponse",
-}) as any as S.Schema<DeleteSpendingLimitResponse>;
-export type String256List = string[];
-export const String256List = S.Array(S.String);
 export type TagsMap = { [key: string]: string | undefined };
-export const TagsMap = S.Record({
-  key: S.String,
-  value: S.UndefinedOr(S.String),
-});
-export interface SearchDevicesFilter {
-  name: string;
-  values: string[];
-}
-export const SearchDevicesFilter = S.suspend(() =>
-  S.Struct({ name: S.String, values: String256List }),
-).annotations({
-  identifier: "SearchDevicesFilter",
-}) as any as S.Schema<SearchDevicesFilter>;
-export type SearchDevicesFilterList = SearchDevicesFilter[];
-export const SearchDevicesFilterList = S.Array(SearchDevicesFilter);
-export interface JobOutputDataConfig {
-  kmsKeyId?: string;
-  s3Path: string;
-}
-export const JobOutputDataConfig = S.suspend(() =>
-  S.Struct({ kmsKeyId: S.optional(S.String), s3Path: S.String }),
-).annotations({
-  identifier: "JobOutputDataConfig",
-}) as any as S.Schema<JobOutputDataConfig>;
-export interface JobCheckpointConfig {
-  localPath?: string;
-  s3Uri: string;
-}
-export const JobCheckpointConfig = S.suspend(() =>
-  S.Struct({ localPath: S.optional(S.String), s3Uri: S.String }),
-).annotations({
-  identifier: "JobCheckpointConfig",
-}) as any as S.Schema<JobCheckpointConfig>;
-export interface JobStoppingCondition {
-  maxRuntimeInSeconds?: number;
-}
-export const JobStoppingCondition = S.suspend(() =>
-  S.Struct({ maxRuntimeInSeconds: S.optional(S.Number) }),
-).annotations({
-  identifier: "JobStoppingCondition",
-}) as any as S.Schema<JobStoppingCondition>;
-export interface InstanceConfig {
-  instanceType: string;
-  volumeSizeInGb: number;
-  instanceCount?: number;
-}
-export const InstanceConfig = S.suspend(() =>
-  S.Struct({
-    instanceType: S.String,
-    volumeSizeInGb: S.Number,
-    instanceCount: S.optional(S.Number),
-  }),
-).annotations({
-  identifier: "InstanceConfig",
-}) as any as S.Schema<InstanceConfig>;
-export type HyperParameters = { [key: string]: string | undefined };
-export const HyperParameters = S.Record({
-  key: S.String,
-  value: S.UndefinedOr(S.String),
-});
-export interface DeviceConfig {
-  device: string;
-}
-export const DeviceConfig = S.suspend(() =>
-  S.Struct({ device: S.String }),
-).annotations({ identifier: "DeviceConfig" }) as any as S.Schema<DeviceConfig>;
-export interface Association {
-  arn: string;
-  type: string;
-}
-export const Association = S.suspend(() =>
-  S.Struct({ arn: S.String, type: S.String }),
-).annotations({ identifier: "Association" }) as any as S.Schema<Association>;
-export type Associations = Association[];
-export const Associations = S.Array(Association);
-export interface SearchJobsFilter {
-  name: string;
-  values: string[];
-  operator: string;
-}
-export const SearchJobsFilter = S.suspend(() =>
-  S.Struct({ name: S.String, values: String256List, operator: S.String }),
-).annotations({
-  identifier: "SearchJobsFilter",
-}) as any as S.Schema<SearchJobsFilter>;
-export type SearchJobsFilterList = SearchJobsFilter[];
-export const SearchJobsFilterList = S.Array(SearchJobsFilter);
-export type ExperimentalCapabilities = { enabled: string };
-export const ExperimentalCapabilities = S.Union(
-  S.Struct({ enabled: S.String }),
-);
-export interface SearchQuantumTasksFilter {
-  name: string;
-  values: string[];
-  operator: string;
-}
-export const SearchQuantumTasksFilter = S.suspend(() =>
-  S.Struct({ name: S.String, values: String256List, operator: S.String }),
-).annotations({
-  identifier: "SearchQuantumTasksFilter",
-}) as any as S.Schema<SearchQuantumTasksFilter>;
-export type SearchQuantumTasksFilterList = SearchQuantumTasksFilter[];
-export const SearchQuantumTasksFilterList = S.Array(SearchQuantumTasksFilter);
-export interface SearchSpendingLimitsFilter {
-  name: string;
-  values: string[];
-  operator: string;
-}
-export const SearchSpendingLimitsFilter = S.suspend(() =>
-  S.Struct({ name: S.String, values: String256List, operator: S.String }),
-).annotations({
-  identifier: "SearchSpendingLimitsFilter",
-}) as any as S.Schema<SearchSpendingLimitsFilter>;
-export type SearchSpendingLimitsFilterList = SearchSpendingLimitsFilter[];
-export const SearchSpendingLimitsFilterList = S.Array(
-  SearchSpendingLimitsFilter,
-);
+export const TagsMap = S.Record(S.String, S.String.pipe(S.optional));
 export interface ListTagsForResourceResponse {
   tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(TagsMap) }),
-).annotations({
+).annotate({
   identifier: "ListTagsForResourceResponse",
 }) as any as S.Schema<ListTagsForResourceResponse>;
+export type ProgramValidationFailuresList = string[];
+export const ProgramValidationFailuresList = S.Array(S.String);
+export interface ProgramSetValidationFailure {
+  programIndex: number;
+  inputsIndex?: number;
+  errors?: string[];
+}
+export const ProgramSetValidationFailure = S.suspend(() =>
+  S.Struct({
+    programIndex: S.Number,
+    inputsIndex: S.optional(S.Number),
+    errors: S.optional(ProgramValidationFailuresList),
+  }),
+).annotate({
+  identifier: "ProgramSetValidationFailure",
+}) as any as S.Schema<ProgramSetValidationFailure>;
+export type ProgramSetValidationFailuresList = ProgramSetValidationFailure[];
+export const ProgramSetValidationFailuresList = S.Array(
+  ProgramSetValidationFailure,
+);
 export interface TagResourceRequest {
   resourceArn: string;
   tags: { [key: string]: string | undefined };
@@ -486,13 +184,108 @@ export const TagResourceRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "TagResourceRequest",
 }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+export const TagResourceResponse = S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
+export type TagKeys = string[];
+export const TagKeys = S.Array(S.String);
+export interface UntagResourceRequest {
+  resourceArn: string;
+  tagKeys: string[];
+}
+export const UntagResourceRequest = S.suspend(() =>
+  S.Struct({
+    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
+    tagKeys: TagKeys.pipe(T.HttpQuery("tagKeys")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "UntagResourceRequest",
+}) as any as S.Schema<UntagResourceRequest>;
+export interface UntagResourceResponse {}
+export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotate({
+  identifier: "UntagResourceResponse",
+}) as any as S.Schema<UntagResourceResponse>;
+export interface GetDeviceRequest {
+  deviceArn: string;
+}
+export const GetDeviceRequest = S.suspend(() =>
+  S.Struct({ deviceArn: S.String.pipe(T.HttpLabel("deviceArn")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/device/{deviceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetDeviceRequest",
+}) as any as S.Schema<GetDeviceRequest>;
+export interface DeviceQueueInfo {
+  queue: string;
+  queueSize: string;
+  queuePriority?: string;
+}
+export const DeviceQueueInfo = S.suspend(() =>
+  S.Struct({
+    queue: S.String,
+    queueSize: S.String,
+    queuePriority: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "DeviceQueueInfo",
+}) as any as S.Schema<DeviceQueueInfo>;
+export type DeviceQueueInfoList = DeviceQueueInfo[];
+export const DeviceQueueInfoList = S.Array(DeviceQueueInfo);
+export interface GetDeviceResponse {
+  deviceArn: string;
+  deviceName: string;
+  providerName: string;
+  deviceType: string;
+  deviceStatus: string;
+  deviceCapabilities: string;
+  deviceQueueInfo?: DeviceQueueInfo[];
+}
+export const GetDeviceResponse = S.suspend(() =>
+  S.Struct({
+    deviceArn: S.String,
+    deviceName: S.String,
+    providerName: S.String,
+    deviceType: S.String,
+    deviceStatus: S.String,
+    deviceCapabilities: S.String,
+    deviceQueueInfo: S.optional(DeviceQueueInfoList),
+  }),
+).annotate({
+  identifier: "GetDeviceResponse",
+}) as any as S.Schema<GetDeviceResponse>;
+export type String256List = string[];
+export const String256List = S.Array(S.String);
+export interface SearchDevicesFilter {
+  name: string;
+  values: string[];
+}
+export const SearchDevicesFilter = S.suspend(() =>
+  S.Struct({ name: S.String, values: String256List }),
+).annotate({
+  identifier: "SearchDevicesFilter",
+}) as any as S.Schema<SearchDevicesFilter>;
+export type SearchDevicesFilterList = SearchDevicesFilter[];
+export const SearchDevicesFilterList = S.Array(SearchDevicesFilter);
 export interface SearchDevicesRequest {
   nextToken?: string;
   maxResults?: number;
@@ -513,162 +306,36 @@ export const SearchDevicesRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "SearchDevicesRequest",
 }) as any as S.Schema<SearchDevicesRequest>;
-export interface CancelJobResponse {
-  jobArn: string;
-  cancellationStatus: string;
-}
-export const CancelJobResponse = S.suspend(() =>
-  S.Struct({ jobArn: S.String, cancellationStatus: S.String }),
-).annotations({
-  identifier: "CancelJobResponse",
-}) as any as S.Schema<CancelJobResponse>;
-export interface SearchJobsRequest {
-  nextToken?: string;
-  maxResults?: number;
-  filters: SearchJobsFilter[];
-}
-export const SearchJobsRequest = S.suspend(() =>
-  S.Struct({
-    nextToken: S.optional(S.String),
-    maxResults: S.optional(S.Number),
-    filters: SearchJobsFilterList,
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/jobs" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "SearchJobsRequest",
-}) as any as S.Schema<SearchJobsRequest>;
-export interface CreateQuantumTaskRequest {
-  clientToken: string;
+export interface DeviceSummary {
   deviceArn: string;
-  deviceParameters?: string;
-  shots: number;
-  outputS3Bucket: string;
-  outputS3KeyPrefix: string;
-  action: string;
-  tags?: { [key: string]: string | undefined };
-  jobToken?: string;
-  associations?: Association[];
-  experimentalCapabilities?: ExperimentalCapabilities;
+  deviceName: string;
+  providerName: string;
+  deviceType: string;
+  deviceStatus: string;
 }
-export const CreateQuantumTaskRequest = S.suspend(() =>
+export const DeviceSummary = S.suspend(() =>
   S.Struct({
-    clientToken: S.String.pipe(T.IdempotencyToken()),
     deviceArn: S.String,
-    deviceParameters: S.optional(S.String),
-    shots: S.Number,
-    outputS3Bucket: S.String,
-    outputS3KeyPrefix: S.String,
-    action: S.String,
-    tags: S.optional(TagsMap),
-    jobToken: S.optional(S.String),
-    associations: S.optional(Associations),
-    experimentalCapabilities: S.optional(ExperimentalCapabilities),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/quantum-task" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "CreateQuantumTaskRequest",
-}) as any as S.Schema<CreateQuantumTaskRequest>;
-export interface CancelQuantumTaskResponse {
-  quantumTaskArn: string;
-  cancellationStatus: string;
-}
-export const CancelQuantumTaskResponse = S.suspend(() =>
-  S.Struct({ quantumTaskArn: S.String, cancellationStatus: S.String }),
-).annotations({
-  identifier: "CancelQuantumTaskResponse",
-}) as any as S.Schema<CancelQuantumTaskResponse>;
-export interface SearchQuantumTasksRequest {
+    deviceName: S.String,
+    providerName: S.String,
+    deviceType: S.String,
+    deviceStatus: S.String,
+  }),
+).annotate({ identifier: "DeviceSummary" }) as any as S.Schema<DeviceSummary>;
+export type DeviceSummaryList = DeviceSummary[];
+export const DeviceSummaryList = S.Array(DeviceSummary);
+export interface SearchDevicesResponse {
+  devices: DeviceSummary[];
   nextToken?: string;
-  maxResults?: number;
-  filters: SearchQuantumTasksFilter[];
 }
-export const SearchQuantumTasksRequest = S.suspend(() =>
-  S.Struct({
-    nextToken: S.optional(S.String),
-    maxResults: S.optional(S.Number),
-    filters: SearchQuantumTasksFilterList,
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/quantum-tasks" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "SearchQuantumTasksRequest",
-}) as any as S.Schema<SearchQuantumTasksRequest>;
-export interface CreateSpendingLimitRequest {
-  clientToken: string;
-  deviceArn: string;
-  spendingLimit: string;
-  timePeriod?: TimePeriod;
-  tags?: { [key: string]: string | undefined };
-}
-export const CreateSpendingLimitRequest = S.suspend(() =>
-  S.Struct({
-    clientToken: S.String.pipe(T.IdempotencyToken()),
-    deviceArn: S.String,
-    spendingLimit: S.String,
-    timePeriod: S.optional(TimePeriod),
-    tags: S.optional(TagsMap),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/spending-limit" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "CreateSpendingLimitRequest",
-}) as any as S.Schema<CreateSpendingLimitRequest>;
-export interface SearchSpendingLimitsRequest {
-  nextToken?: string;
-  maxResults?: number;
-  filters?: SearchSpendingLimitsFilter[];
-}
-export const SearchSpendingLimitsRequest = S.suspend(() =>
-  S.Struct({
-    nextToken: S.optional(S.String),
-    maxResults: S.optional(S.Number),
-    filters: S.optional(SearchSpendingLimitsFilterList),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/spending-limits" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "SearchSpendingLimitsRequest",
-}) as any as S.Schema<SearchSpendingLimitsRequest>;
+export const SearchDevicesResponse = S.suspend(() =>
+  S.Struct({ devices: DeviceSummaryList, nextToken: S.optional(S.String) }),
+).annotate({
+  identifier: "SearchDevicesResponse",
+}) as any as S.Schema<SearchDevicesResponse>;
 export interface ScriptModeConfig {
   entryPoint: string;
   s3Uri: string;
@@ -680,7 +347,7 @@ export const ScriptModeConfig = S.suspend(() =>
     s3Uri: S.String,
     compressionType: S.optional(S.String),
   }),
-).annotations({
+).annotate({
   identifier: "ScriptModeConfig",
 }) as any as S.Schema<ScriptModeConfig>;
 export interface ContainerImage {
@@ -688,25 +355,7 @@ export interface ContainerImage {
 }
 export const ContainerImage = S.suspend(() =>
   S.Struct({ uri: S.String }),
-).annotations({
-  identifier: "ContainerImage",
-}) as any as S.Schema<ContainerImage>;
-export interface DeviceQueueInfo {
-  queue: string;
-  queueSize: string;
-  queuePriority?: string;
-}
-export const DeviceQueueInfo = S.suspend(() =>
-  S.Struct({
-    queue: S.String,
-    queueSize: S.String,
-    queuePriority: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "DeviceQueueInfo",
-}) as any as S.Schema<DeviceQueueInfo>;
-export type DeviceQueueInfoList = DeviceQueueInfo[];
-export const DeviceQueueInfoList = S.Array(DeviceQueueInfo);
+).annotate({ identifier: "ContainerImage" }) as any as S.Schema<ContainerImage>;
 export interface AlgorithmSpecification {
   scriptModeConfig?: ScriptModeConfig;
   containerImage?: ContainerImage;
@@ -716,9 +365,166 @@ export const AlgorithmSpecification = S.suspend(() =>
     scriptModeConfig: S.optional(ScriptModeConfig),
     containerImage: S.optional(ContainerImage),
   }),
-).annotations({
+).annotate({
   identifier: "AlgorithmSpecification",
 }) as any as S.Schema<AlgorithmSpecification>;
+export interface S3DataSource {
+  s3Uri: string;
+}
+export const S3DataSource = S.suspend(() =>
+  S.Struct({ s3Uri: S.String }),
+).annotate({ identifier: "S3DataSource" }) as any as S.Schema<S3DataSource>;
+export interface DataSource {
+  s3DataSource: S3DataSource;
+}
+export const DataSource = S.suspend(() =>
+  S.Struct({ s3DataSource: S3DataSource }),
+).annotate({ identifier: "DataSource" }) as any as S.Schema<DataSource>;
+export interface InputFileConfig {
+  channelName: string;
+  contentType?: string;
+  dataSource: DataSource;
+}
+export const InputFileConfig = S.suspend(() =>
+  S.Struct({
+    channelName: S.String,
+    contentType: S.optional(S.String),
+    dataSource: DataSource,
+  }),
+).annotate({
+  identifier: "InputFileConfig",
+}) as any as S.Schema<InputFileConfig>;
+export type InputConfigList = InputFileConfig[];
+export const InputConfigList = S.Array(InputFileConfig);
+export interface JobOutputDataConfig {
+  kmsKeyId?: string;
+  s3Path: string;
+}
+export const JobOutputDataConfig = S.suspend(() =>
+  S.Struct({ kmsKeyId: S.optional(S.String), s3Path: S.String }),
+).annotate({
+  identifier: "JobOutputDataConfig",
+}) as any as S.Schema<JobOutputDataConfig>;
+export interface JobCheckpointConfig {
+  localPath?: string;
+  s3Uri: string;
+}
+export const JobCheckpointConfig = S.suspend(() =>
+  S.Struct({ localPath: S.optional(S.String), s3Uri: S.String }),
+).annotate({
+  identifier: "JobCheckpointConfig",
+}) as any as S.Schema<JobCheckpointConfig>;
+export interface JobStoppingCondition {
+  maxRuntimeInSeconds?: number;
+}
+export const JobStoppingCondition = S.suspend(() =>
+  S.Struct({ maxRuntimeInSeconds: S.optional(S.Number) }),
+).annotate({
+  identifier: "JobStoppingCondition",
+}) as any as S.Schema<JobStoppingCondition>;
+export interface InstanceConfig {
+  instanceType: string;
+  volumeSizeInGb: number;
+  instanceCount?: number;
+}
+export const InstanceConfig = S.suspend(() =>
+  S.Struct({
+    instanceType: S.String,
+    volumeSizeInGb: S.Number,
+    instanceCount: S.optional(S.Number),
+  }),
+).annotate({ identifier: "InstanceConfig" }) as any as S.Schema<InstanceConfig>;
+export type HyperParameters = { [key: string]: string | undefined };
+export const HyperParameters = S.Record(S.String, S.String.pipe(S.optional));
+export interface DeviceConfig {
+  device: string;
+}
+export const DeviceConfig = S.suspend(() =>
+  S.Struct({ device: S.String }),
+).annotate({ identifier: "DeviceConfig" }) as any as S.Schema<DeviceConfig>;
+export interface Association {
+  arn: string;
+  type: string;
+}
+export const Association = S.suspend(() =>
+  S.Struct({ arn: S.String, type: S.String }),
+).annotate({ identifier: "Association" }) as any as S.Schema<Association>;
+export type Associations = Association[];
+export const Associations = S.Array(Association);
+export interface CreateJobRequest {
+  clientToken: string;
+  algorithmSpecification: AlgorithmSpecification;
+  inputDataConfig?: InputFileConfig[];
+  outputDataConfig: JobOutputDataConfig;
+  checkpointConfig?: JobCheckpointConfig;
+  jobName: string;
+  roleArn: string;
+  stoppingCondition?: JobStoppingCondition;
+  instanceConfig: InstanceConfig;
+  hyperParameters?: { [key: string]: string | undefined };
+  deviceConfig: DeviceConfig;
+  tags?: { [key: string]: string | undefined };
+  associations?: Association[];
+}
+export const CreateJobRequest = S.suspend(() =>
+  S.Struct({
+    clientToken: S.String.pipe(T.IdempotencyToken()),
+    algorithmSpecification: AlgorithmSpecification,
+    inputDataConfig: S.optional(InputConfigList),
+    outputDataConfig: JobOutputDataConfig,
+    checkpointConfig: S.optional(JobCheckpointConfig),
+    jobName: S.String,
+    roleArn: S.String,
+    stoppingCondition: S.optional(JobStoppingCondition),
+    instanceConfig: InstanceConfig,
+    hyperParameters: S.optional(HyperParameters),
+    deviceConfig: DeviceConfig,
+    tags: S.optional(TagsMap),
+    associations: S.optional(Associations),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/job" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "CreateJobRequest",
+}) as any as S.Schema<CreateJobRequest>;
+export interface CreateJobResponse {
+  jobArn: string;
+}
+export const CreateJobResponse = S.suspend(() =>
+  S.Struct({ jobArn: S.String }),
+).annotate({
+  identifier: "CreateJobResponse",
+}) as any as S.Schema<CreateJobResponse>;
+export type HybridJobAdditionalAttributeNamesList = string[];
+export const HybridJobAdditionalAttributeNamesList = S.Array(S.String);
+export interface GetJobRequest {
+  jobArn: string;
+  additionalAttributeNames?: string[];
+}
+export const GetJobRequest = S.suspend(() =>
+  S.Struct({
+    jobArn: S.String.pipe(T.HttpLabel("jobArn")),
+    additionalAttributeNames: S.optional(
+      HybridJobAdditionalAttributeNamesList,
+    ).pipe(T.HttpQuery("additionalAttributeNames")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/job/{jobArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({ identifier: "GetJobRequest" }) as any as S.Schema<GetJobRequest>;
 export interface JobEventDetails {
   eventType?: string;
   timeOfEvent?: Date;
@@ -730,7 +536,7 @@ export const JobEventDetails = S.suspend(() =>
     timeOfEvent: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     message: S.optional(S.String),
   }),
-).annotations({
+).annotate({
   identifier: "JobEventDetails",
 }) as any as S.Schema<JobEventDetails>;
 export type JobEvents = JobEventDetails[];
@@ -746,89 +552,9 @@ export const HybridJobQueueInfo = S.suspend(() =>
     position: S.String,
     message: S.optional(S.String),
   }),
-).annotations({
+).annotate({
   identifier: "HybridJobQueueInfo",
 }) as any as S.Schema<HybridJobQueueInfo>;
-export interface QuantumTaskQueueInfo {
-  queue: string;
-  position: string;
-  queuePriority?: string;
-  message?: string;
-}
-export const QuantumTaskQueueInfo = S.suspend(() =>
-  S.Struct({
-    queue: S.String,
-    position: S.String,
-    queuePriority: S.optional(S.String),
-    message: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "QuantumTaskQueueInfo",
-}) as any as S.Schema<QuantumTaskQueueInfo>;
-export interface ActionMetadata {
-  actionType: string;
-  programCount?: number;
-  executableCount?: number;
-}
-export const ActionMetadata = S.suspend(() =>
-  S.Struct({
-    actionType: S.String,
-    programCount: S.optional(S.Number),
-    executableCount: S.optional(S.Number),
-  }),
-).annotations({
-  identifier: "ActionMetadata",
-}) as any as S.Schema<ActionMetadata>;
-export interface S3DataSource {
-  s3Uri: string;
-}
-export const S3DataSource = S.suspend(() =>
-  S.Struct({ s3Uri: S.String }),
-).annotations({ identifier: "S3DataSource" }) as any as S.Schema<S3DataSource>;
-export interface GetDeviceResponse {
-  deviceArn: string;
-  deviceName: string;
-  providerName: string;
-  deviceType: string;
-  deviceStatus: string;
-  deviceCapabilities: string;
-  deviceQueueInfo?: DeviceQueueInfo[];
-}
-export const GetDeviceResponse = S.suspend(() =>
-  S.Struct({
-    deviceArn: S.String,
-    deviceName: S.String,
-    providerName: S.String,
-    deviceType: S.String,
-    deviceStatus: S.String,
-    deviceCapabilities: S.String,
-    deviceQueueInfo: S.optional(DeviceQueueInfoList),
-  }),
-).annotations({
-  identifier: "GetDeviceResponse",
-}) as any as S.Schema<GetDeviceResponse>;
-export interface DataSource {
-  s3DataSource: S3DataSource;
-}
-export const DataSource = S.suspend(() =>
-  S.Struct({ s3DataSource: S3DataSource }),
-).annotations({ identifier: "DataSource" }) as any as S.Schema<DataSource>;
-export interface InputFileConfig {
-  channelName: string;
-  contentType?: string;
-  dataSource: DataSource;
-}
-export const InputFileConfig = S.suspend(() =>
-  S.Struct({
-    channelName: S.String,
-    contentType: S.optional(S.String),
-    dataSource: DataSource,
-  }),
-).annotations({
-  identifier: "InputFileConfig",
-}) as any as S.Schema<InputFileConfig>;
-export type InputConfigList = InputFileConfig[];
-export const InputConfigList = S.Array(InputFileConfig);
 export interface GetJobResponse {
   status: string;
   jobArn: string;
@@ -876,17 +602,205 @@ export const GetJobResponse = S.suspend(() =>
     queueInfo: S.optional(HybridJobQueueInfo),
     associations: S.optional(Associations),
   }),
-).annotations({
-  identifier: "GetJobResponse",
-}) as any as S.Schema<GetJobResponse>;
+).annotate({ identifier: "GetJobResponse" }) as any as S.Schema<GetJobResponse>;
+export interface CancelJobRequest {
+  jobArn: string;
+}
+export const CancelJobRequest = S.suspend(() =>
+  S.Struct({ jobArn: S.String.pipe(T.HttpLabel("jobArn")) }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/job/{jobArn}/cancel" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "CancelJobRequest",
+}) as any as S.Schema<CancelJobRequest>;
+export interface CancelJobResponse {
+  jobArn: string;
+  cancellationStatus: string;
+}
+export const CancelJobResponse = S.suspend(() =>
+  S.Struct({ jobArn: S.String, cancellationStatus: S.String }),
+).annotate({
+  identifier: "CancelJobResponse",
+}) as any as S.Schema<CancelJobResponse>;
+export interface SearchJobsFilter {
+  name: string;
+  values: string[];
+  operator: string;
+}
+export const SearchJobsFilter = S.suspend(() =>
+  S.Struct({ name: S.String, values: String256List, operator: S.String }),
+).annotate({
+  identifier: "SearchJobsFilter",
+}) as any as S.Schema<SearchJobsFilter>;
+export type SearchJobsFilterList = SearchJobsFilter[];
+export const SearchJobsFilterList = S.Array(SearchJobsFilter);
+export interface SearchJobsRequest {
+  nextToken?: string;
+  maxResults?: number;
+  filters: SearchJobsFilter[];
+}
+export const SearchJobsRequest = S.suspend(() =>
+  S.Struct({
+    nextToken: S.optional(S.String),
+    maxResults: S.optional(S.Number),
+    filters: SearchJobsFilterList,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/jobs" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "SearchJobsRequest",
+}) as any as S.Schema<SearchJobsRequest>;
+export interface JobSummary {
+  status: string;
+  jobArn: string;
+  jobName: string;
+  device: string;
+  createdAt: Date;
+  startedAt?: Date;
+  endedAt?: Date;
+  tags?: { [key: string]: string | undefined };
+}
+export const JobSummary = S.suspend(() =>
+  S.Struct({
+    status: S.String,
+    jobArn: S.String,
+    jobName: S.String,
+    device: S.String,
+    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    startedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    endedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    tags: S.optional(TagsMap),
+  }),
+).annotate({ identifier: "JobSummary" }) as any as S.Schema<JobSummary>;
+export type JobSummaryList = JobSummary[];
+export const JobSummaryList = S.Array(JobSummary);
+export interface SearchJobsResponse {
+  jobs: JobSummary[];
+  nextToken?: string;
+}
+export const SearchJobsResponse = S.suspend(() =>
+  S.Struct({ jobs: JobSummaryList, nextToken: S.optional(S.String) }),
+).annotate({
+  identifier: "SearchJobsResponse",
+}) as any as S.Schema<SearchJobsResponse>;
+export type ExperimentalCapabilities = { enabled: string };
+export const ExperimentalCapabilities = S.Union([
+  S.Struct({ enabled: S.String }),
+]);
+export interface CreateQuantumTaskRequest {
+  clientToken: string;
+  deviceArn: string;
+  deviceParameters?: string;
+  shots: number;
+  outputS3Bucket: string;
+  outputS3KeyPrefix: string;
+  action: string;
+  tags?: { [key: string]: string | undefined };
+  jobToken?: string;
+  associations?: Association[];
+  experimentalCapabilities?: ExperimentalCapabilities;
+}
+export const CreateQuantumTaskRequest = S.suspend(() =>
+  S.Struct({
+    clientToken: S.String.pipe(T.IdempotencyToken()),
+    deviceArn: S.String,
+    deviceParameters: S.optional(S.String),
+    shots: S.Number,
+    outputS3Bucket: S.String,
+    outputS3KeyPrefix: S.String,
+    action: S.String,
+    tags: S.optional(TagsMap),
+    jobToken: S.optional(S.String),
+    associations: S.optional(Associations),
+    experimentalCapabilities: S.optional(ExperimentalCapabilities),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/quantum-task" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "CreateQuantumTaskRequest",
+}) as any as S.Schema<CreateQuantumTaskRequest>;
 export interface CreateQuantumTaskResponse {
   quantumTaskArn: string;
 }
 export const CreateQuantumTaskResponse = S.suspend(() =>
   S.Struct({ quantumTaskArn: S.String }),
-).annotations({
+).annotate({
   identifier: "CreateQuantumTaskResponse",
 }) as any as S.Schema<CreateQuantumTaskResponse>;
+export type QuantumTaskAdditionalAttributeNamesList = string[];
+export const QuantumTaskAdditionalAttributeNamesList = S.Array(S.String);
+export interface GetQuantumTaskRequest {
+  quantumTaskArn: string;
+  additionalAttributeNames?: string[];
+}
+export const GetQuantumTaskRequest = S.suspend(() =>
+  S.Struct({
+    quantumTaskArn: S.String.pipe(T.HttpLabel("quantumTaskArn")),
+    additionalAttributeNames: S.optional(
+      QuantumTaskAdditionalAttributeNamesList,
+    ).pipe(T.HttpQuery("additionalAttributeNames")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/quantum-task/{quantumTaskArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetQuantumTaskRequest",
+}) as any as S.Schema<GetQuantumTaskRequest>;
+export interface QuantumTaskQueueInfo {
+  queue: string;
+  position: string;
+  queuePriority?: string;
+  message?: string;
+}
+export const QuantumTaskQueueInfo = S.suspend(() =>
+  S.Struct({
+    queue: S.String,
+    position: S.String,
+    queuePriority: S.optional(S.String),
+    message: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "QuantumTaskQueueInfo",
+}) as any as S.Schema<QuantumTaskQueueInfo>;
+export interface ActionMetadata {
+  actionType: string;
+  programCount?: number;
+  executableCount?: number;
+}
+export const ActionMetadata = S.suspend(() =>
+  S.Struct({
+    actionType: S.String,
+    programCount: S.optional(S.Number),
+    executableCount: S.optional(S.Number),
+  }),
+).annotate({ identifier: "ActionMetadata" }) as any as S.Schema<ActionMetadata>;
 export interface GetQuantumTaskResponse {
   quantumTaskArn: string;
   status: string;
@@ -926,61 +840,74 @@ export const GetQuantumTaskResponse = S.suspend(() =>
     actionMetadata: S.optional(ActionMetadata),
     experimentalCapabilities: S.optional(ExperimentalCapabilities),
   }),
-).annotations({
+).annotate({
   identifier: "GetQuantumTaskResponse",
 }) as any as S.Schema<GetQuantumTaskResponse>;
-export interface CreateSpendingLimitResponse {
-  spendingLimitArn: string;
+export interface CancelQuantumTaskRequest {
+  quantumTaskArn: string;
+  clientToken: string;
 }
-export const CreateSpendingLimitResponse = S.suspend(() =>
-  S.Struct({ spendingLimitArn: S.String }),
-).annotations({
-  identifier: "CreateSpendingLimitResponse",
-}) as any as S.Schema<CreateSpendingLimitResponse>;
-export interface DeviceSummary {
-  deviceArn: string;
-  deviceName: string;
-  providerName: string;
-  deviceType: string;
-  deviceStatus: string;
-}
-export const DeviceSummary = S.suspend(() =>
+export const CancelQuantumTaskRequest = S.suspend(() =>
   S.Struct({
-    deviceArn: S.String,
-    deviceName: S.String,
-    providerName: S.String,
-    deviceType: S.String,
-    deviceStatus: S.String,
-  }),
-).annotations({
-  identifier: "DeviceSummary",
-}) as any as S.Schema<DeviceSummary>;
-export type DeviceSummaryList = DeviceSummary[];
-export const DeviceSummaryList = S.Array(DeviceSummary);
-export interface JobSummary {
-  status: string;
-  jobArn: string;
-  jobName: string;
-  device: string;
-  createdAt: Date;
-  startedAt?: Date;
-  endedAt?: Date;
-  tags?: { [key: string]: string | undefined };
+    quantumTaskArn: S.String.pipe(T.HttpLabel("quantumTaskArn")),
+    clientToken: S.String.pipe(T.IdempotencyToken()),
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/quantum-task/{quantumTaskArn}/cancel" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "CancelQuantumTaskRequest",
+}) as any as S.Schema<CancelQuantumTaskRequest>;
+export interface CancelQuantumTaskResponse {
+  quantumTaskArn: string;
+  cancellationStatus: string;
 }
-export const JobSummary = S.suspend(() =>
+export const CancelQuantumTaskResponse = S.suspend(() =>
+  S.Struct({ quantumTaskArn: S.String, cancellationStatus: S.String }),
+).annotate({
+  identifier: "CancelQuantumTaskResponse",
+}) as any as S.Schema<CancelQuantumTaskResponse>;
+export interface SearchQuantumTasksFilter {
+  name: string;
+  values: string[];
+  operator: string;
+}
+export const SearchQuantumTasksFilter = S.suspend(() =>
+  S.Struct({ name: S.String, values: String256List, operator: S.String }),
+).annotate({
+  identifier: "SearchQuantumTasksFilter",
+}) as any as S.Schema<SearchQuantumTasksFilter>;
+export type SearchQuantumTasksFilterList = SearchQuantumTasksFilter[];
+export const SearchQuantumTasksFilterList = S.Array(SearchQuantumTasksFilter);
+export interface SearchQuantumTasksRequest {
+  nextToken?: string;
+  maxResults?: number;
+  filters: SearchQuantumTasksFilter[];
+}
+export const SearchQuantumTasksRequest = S.suspend(() =>
   S.Struct({
-    status: S.String,
-    jobArn: S.String,
-    jobName: S.String,
-    device: S.String,
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    startedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    endedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    tags: S.optional(TagsMap),
-  }),
-).annotations({ identifier: "JobSummary" }) as any as S.Schema<JobSummary>;
-export type JobSummaryList = JobSummary[];
-export const JobSummaryList = S.Array(JobSummary);
+    nextToken: S.optional(S.String),
+    maxResults: S.optional(S.Number),
+    filters: SearchQuantumTasksFilterList,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/quantum-tasks" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "SearchQuantumTasksRequest",
+}) as any as S.Schema<SearchQuantumTasksRequest>;
 export interface QuantumTaskSummary {
   quantumTaskArn: string;
   status: string;
@@ -1004,11 +931,167 @@ export const QuantumTaskSummary = S.suspend(() =>
     endedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     tags: S.optional(TagsMap),
   }),
-).annotations({
+).annotate({
   identifier: "QuantumTaskSummary",
 }) as any as S.Schema<QuantumTaskSummary>;
 export type QuantumTaskSummaryList = QuantumTaskSummary[];
 export const QuantumTaskSummaryList = S.Array(QuantumTaskSummary);
+export interface SearchQuantumTasksResponse {
+  quantumTasks: QuantumTaskSummary[];
+  nextToken?: string;
+}
+export const SearchQuantumTasksResponse = S.suspend(() =>
+  S.Struct({
+    quantumTasks: QuantumTaskSummaryList,
+    nextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "SearchQuantumTasksResponse",
+}) as any as S.Schema<SearchQuantumTasksResponse>;
+export interface TimePeriod {
+  startAt: Date;
+  endAt: Date;
+}
+export const TimePeriod = S.suspend(() =>
+  S.Struct({
+    startAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    endAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  }),
+).annotate({ identifier: "TimePeriod" }) as any as S.Schema<TimePeriod>;
+export interface CreateSpendingLimitRequest {
+  clientToken: string;
+  deviceArn: string;
+  spendingLimit: string;
+  timePeriod?: TimePeriod;
+  tags?: { [key: string]: string | undefined };
+}
+export const CreateSpendingLimitRequest = S.suspend(() =>
+  S.Struct({
+    clientToken: S.String.pipe(T.IdempotencyToken()),
+    deviceArn: S.String,
+    spendingLimit: S.String,
+    timePeriod: S.optional(TimePeriod),
+    tags: S.optional(TagsMap),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/spending-limit" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "CreateSpendingLimitRequest",
+}) as any as S.Schema<CreateSpendingLimitRequest>;
+export interface CreateSpendingLimitResponse {
+  spendingLimitArn: string;
+}
+export const CreateSpendingLimitResponse = S.suspend(() =>
+  S.Struct({ spendingLimitArn: S.String }),
+).annotate({
+  identifier: "CreateSpendingLimitResponse",
+}) as any as S.Schema<CreateSpendingLimitResponse>;
+export interface UpdateSpendingLimitRequest {
+  spendingLimitArn: string;
+  clientToken: string;
+  spendingLimit?: string;
+  timePeriod?: TimePeriod;
+}
+export const UpdateSpendingLimitRequest = S.suspend(() =>
+  S.Struct({
+    spendingLimitArn: S.String.pipe(T.HttpLabel("spendingLimitArn")),
+    clientToken: S.String.pipe(T.IdempotencyToken()),
+    spendingLimit: S.optional(S.String),
+    timePeriod: S.optional(TimePeriod),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PATCH",
+        uri: "/spending-limit/{spendingLimitArn}/update",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "UpdateSpendingLimitRequest",
+}) as any as S.Schema<UpdateSpendingLimitRequest>;
+export interface UpdateSpendingLimitResponse {}
+export const UpdateSpendingLimitResponse = S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "UpdateSpendingLimitResponse",
+}) as any as S.Schema<UpdateSpendingLimitResponse>;
+export interface DeleteSpendingLimitRequest {
+  spendingLimitArn: string;
+}
+export const DeleteSpendingLimitRequest = S.suspend(() =>
+  S.Struct({
+    spendingLimitArn: S.String.pipe(T.HttpLabel("spendingLimitArn")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/spending-limit/{spendingLimitArn}/delete",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeleteSpendingLimitRequest",
+}) as any as S.Schema<DeleteSpendingLimitRequest>;
+export interface DeleteSpendingLimitResponse {}
+export const DeleteSpendingLimitResponse = S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "DeleteSpendingLimitResponse",
+}) as any as S.Schema<DeleteSpendingLimitResponse>;
+export interface SearchSpendingLimitsFilter {
+  name: string;
+  values: string[];
+  operator: string;
+}
+export const SearchSpendingLimitsFilter = S.suspend(() =>
+  S.Struct({ name: S.String, values: String256List, operator: S.String }),
+).annotate({
+  identifier: "SearchSpendingLimitsFilter",
+}) as any as S.Schema<SearchSpendingLimitsFilter>;
+export type SearchSpendingLimitsFilterList = SearchSpendingLimitsFilter[];
+export const SearchSpendingLimitsFilterList = S.Array(
+  SearchSpendingLimitsFilter,
+);
+export interface SearchSpendingLimitsRequest {
+  nextToken?: string;
+  maxResults?: number;
+  filters?: SearchSpendingLimitsFilter[];
+}
+export const SearchSpendingLimitsRequest = S.suspend(() =>
+  S.Struct({
+    nextToken: S.optional(S.String),
+    maxResults: S.optional(S.Number),
+    filters: S.optional(SearchSpendingLimitsFilterList),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/spending-limits" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "SearchSpendingLimitsRequest",
+}) as any as S.Schema<SearchSpendingLimitsRequest>;
 export interface SpendingLimitSummary {
   spendingLimitArn: string;
   deviceArn: string;
@@ -1032,84 +1115,11 @@ export const SpendingLimitSummary = S.suspend(() =>
     updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
     tags: S.optional(TagsMap),
   }),
-).annotations({
+).annotate({
   identifier: "SpendingLimitSummary",
 }) as any as S.Schema<SpendingLimitSummary>;
 export type SpendingLimitSummaryList = SpendingLimitSummary[];
 export const SpendingLimitSummaryList = S.Array(SpendingLimitSummary);
-export interface SearchDevicesResponse {
-  devices: DeviceSummary[];
-  nextToken?: string;
-}
-export const SearchDevicesResponse = S.suspend(() =>
-  S.Struct({ devices: DeviceSummaryList, nextToken: S.optional(S.String) }),
-).annotations({
-  identifier: "SearchDevicesResponse",
-}) as any as S.Schema<SearchDevicesResponse>;
-export interface CreateJobRequest {
-  clientToken: string;
-  algorithmSpecification: AlgorithmSpecification;
-  inputDataConfig?: InputFileConfig[];
-  outputDataConfig: JobOutputDataConfig;
-  checkpointConfig?: JobCheckpointConfig;
-  jobName: string;
-  roleArn: string;
-  stoppingCondition?: JobStoppingCondition;
-  instanceConfig: InstanceConfig;
-  hyperParameters?: { [key: string]: string | undefined };
-  deviceConfig: DeviceConfig;
-  tags?: { [key: string]: string | undefined };
-  associations?: Association[];
-}
-export const CreateJobRequest = S.suspend(() =>
-  S.Struct({
-    clientToken: S.String.pipe(T.IdempotencyToken()),
-    algorithmSpecification: AlgorithmSpecification,
-    inputDataConfig: S.optional(InputConfigList),
-    outputDataConfig: JobOutputDataConfig,
-    checkpointConfig: S.optional(JobCheckpointConfig),
-    jobName: S.String,
-    roleArn: S.String,
-    stoppingCondition: S.optional(JobStoppingCondition),
-    instanceConfig: InstanceConfig,
-    hyperParameters: S.optional(HyperParameters),
-    deviceConfig: DeviceConfig,
-    tags: S.optional(TagsMap),
-    associations: S.optional(Associations),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/job" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "CreateJobRequest",
-}) as any as S.Schema<CreateJobRequest>;
-export interface SearchJobsResponse {
-  jobs: JobSummary[];
-  nextToken?: string;
-}
-export const SearchJobsResponse = S.suspend(() =>
-  S.Struct({ jobs: JobSummaryList, nextToken: S.optional(S.String) }),
-).annotations({
-  identifier: "SearchJobsResponse",
-}) as any as S.Schema<SearchJobsResponse>;
-export interface SearchQuantumTasksResponse {
-  quantumTasks: QuantumTaskSummary[];
-  nextToken?: string;
-}
-export const SearchQuantumTasksResponse = S.suspend(() =>
-  S.Struct({
-    quantumTasks: QuantumTaskSummaryList,
-    nextToken: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "SearchQuantumTasksResponse",
-}) as any as S.Schema<SearchQuantumTasksResponse>;
 export interface SearchSpendingLimitsResponse {
   spendingLimits: SpendingLimitSummary[];
   nextToken?: string;
@@ -1119,68 +1129,20 @@ export const SearchSpendingLimitsResponse = S.suspend(() =>
     spendingLimits: SpendingLimitSummaryList,
     nextToken: S.optional(S.String),
   }),
-).annotations({
+).annotate({
   identifier: "SearchSpendingLimitsResponse",
 }) as any as S.Schema<SearchSpendingLimitsResponse>;
-export type ProgramValidationFailuresList = string[];
-export const ProgramValidationFailuresList = S.Array(S.String);
-export interface ProgramSetValidationFailure {
-  programIndex: number;
-  inputsIndex?: number;
-  errors?: string[];
-}
-export const ProgramSetValidationFailure = S.suspend(() =>
-  S.Struct({
-    programIndex: S.Number,
-    inputsIndex: S.optional(S.Number),
-    errors: S.optional(ProgramValidationFailuresList),
-  }),
-).annotations({
-  identifier: "ProgramSetValidationFailure",
-}) as any as S.Schema<ProgramSetValidationFailure>;
-export type ProgramSetValidationFailuresList = ProgramSetValidationFailure[];
-export const ProgramSetValidationFailuresList = S.Array(
-  ProgramSetValidationFailure,
-);
-export interface CreateJobResponse {
-  jobArn: string;
-}
-export const CreateJobResponse = S.suspend(() =>
-  S.Struct({ jobArn: S.String }),
-).annotations({
-  identifier: "CreateJobResponse",
-}) as any as S.Schema<CreateJobResponse>;
 
 //# Errors
-export class InternalServiceException extends S.TaggedError<InternalServiceException>()(
+export class InternalServiceException extends S.TaggedErrorClass<InternalServiceException>()(
   "InternalServiceException",
   { message: S.optional(S.String) },
 ).pipe(C.withServerError) {}
-export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
-  "AccessDeniedException",
-  { message: S.optional(S.String) },
-).pipe(C.withAuthError) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { message: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
-export class ConflictException extends S.TaggedError<ConflictException>()(
-  "ConflictException",
-  { message: S.optional(S.String) },
-).pipe(C.withConflictError) {}
-export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
-  "ThrottlingException",
-  { message: S.optional(S.String) },
-).pipe(C.withThrottlingError) {}
-export class DeviceOfflineException extends S.TaggedError<DeviceOfflineException>()(
-  "DeviceOfflineException",
-  { message: S.optional(S.String) },
-) {}
-export class DeviceRetiredException extends S.TaggedError<DeviceRetiredException>()(
-  "DeviceRetiredException",
-  { message: S.optional(S.String) },
-).pipe(C.withBadRequestError) {}
-export class ValidationException extends S.TaggedError<ValidationException>()(
+export class ValidationException extends S.TaggedErrorClass<ValidationException>()(
   "ValidationException",
   {
     message: S.optional(S.String),
@@ -1188,33 +1150,32 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
     programSetValidationFailures: S.optional(ProgramSetValidationFailuresList),
   },
 ).pipe(C.withBadRequestError) {}
-export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
+export class AccessDeniedException extends S.TaggedErrorClass<AccessDeniedException>()(
+  "AccessDeniedException",
+  { message: S.optional(S.String) },
+).pipe(C.withAuthError) {}
+export class ThrottlingException extends S.TaggedErrorClass<ThrottlingException>()(
+  "ThrottlingException",
+  { message: S.optional(S.String) },
+).pipe(C.withThrottlingError) {}
+export class ConflictException extends S.TaggedErrorClass<ConflictException>()(
+  "ConflictException",
+  { message: S.optional(S.String) },
+).pipe(C.withConflictError) {}
+export class DeviceOfflineException extends S.TaggedErrorClass<DeviceOfflineException>()(
+  "DeviceOfflineException",
+  { message: S.optional(S.String) },
+) {}
+export class DeviceRetiredException extends S.TaggedErrorClass<DeviceRetiredException>()(
+  "DeviceRetiredException",
+  { message: S.optional(S.String) },
+).pipe(C.withBadRequestError) {}
+export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
   { message: S.optional(S.String) },
 ).pipe(C.withQuotaError) {}
 
 //# Operations
-/**
- * Remove tags from a resource.
- */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
-  UntagResourceResponse,
-  | InternalServiceException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
-  errors: [
-    InternalServiceException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
 /**
  * Shows the tags associated with this resource.
  */
@@ -1251,6 +1212,27 @@ export const tagResource: (
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
+  errors: [
+    InternalServiceException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Remove tags from a resource.
+ */
+export const untagResource: (
+  input: UntagResourceRequest,
+) => effect.Effect<
+  UntagResourceResponse,
+  | InternalServiceException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
   errors: [
     InternalServiceException,
     ResourceNotFoundException,
@@ -1338,6 +1320,89 @@ export const searchDevices: {
   } as const,
 }));
 /**
+ * Creates an Amazon Braket hybrid job.
+ */
+export const createJob: (
+  input: CreateJobRequest,
+) => effect.Effect<
+  CreateJobResponse,
+  | AccessDeniedException
+  | ConflictException
+  | DeviceOfflineException
+  | DeviceRetiredException
+  | InternalServiceException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateJobRequest,
+  output: CreateJobResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    DeviceOfflineException,
+    DeviceRetiredException,
+    InternalServiceException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Retrieves the specified Amazon Braket hybrid job.
+ */
+export const getJob: (
+  input: GetJobRequest,
+) => effect.Effect<
+  GetJobResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetJobRequest,
+  output: GetJobResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Cancels an Amazon Braket hybrid job.
+ */
+export const cancelJob: (
+  input: CancelJobRequest,
+) => effect.Effect<
+  CancelJobResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServiceException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CancelJobRequest,
+  output: CancelJobResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServiceException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
  * Searches for Amazon Braket hybrid jobs that match the specified filter values.
  */
 export const searchJobs: {
@@ -1389,6 +1454,87 @@ export const searchJobs: {
     items: "jobs",
     pageSize: "maxResults",
   } as const,
+}));
+/**
+ * Creates a quantum task.
+ */
+export const createQuantumTask: (
+  input: CreateQuantumTaskRequest,
+) => effect.Effect<
+  CreateQuantumTaskResponse,
+  | AccessDeniedException
+  | DeviceOfflineException
+  | DeviceRetiredException
+  | InternalServiceException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateQuantumTaskRequest,
+  output: CreateQuantumTaskResponse,
+  errors: [
+    AccessDeniedException,
+    DeviceOfflineException,
+    DeviceRetiredException,
+    InternalServiceException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Retrieves the specified quantum task.
+ */
+export const getQuantumTask: (
+  input: GetQuantumTaskRequest,
+) => effect.Effect<
+  GetQuantumTaskResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetQuantumTaskRequest,
+  output: GetQuantumTaskResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Cancels the specified task.
+ */
+export const cancelQuantumTask: (
+  input: CancelQuantumTaskRequest,
+) => effect.Effect<
+  CancelQuantumTaskResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServiceException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CancelQuantumTaskRequest,
+  output: CancelQuantumTaskResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServiceException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
 }));
 /**
  * Searches for tasks that match the specified filter values.
@@ -1469,6 +1615,56 @@ export const createSpendingLimit: (
   ],
 }));
 /**
+ * Updates an existing spending limit. You can modify the spending amount or time period. Changes take effect immediately.
+ */
+export const updateSpendingLimit: (
+  input: UpdateSpendingLimitRequest,
+) => effect.Effect<
+  UpdateSpendingLimitResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateSpendingLimitRequest,
+  output: UpdateSpendingLimitResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Deletes an existing spending limit. This operation permanently removes the spending limit and cannot be undone. After deletion, the associated device becomes unrestricted for spending.
+ */
+export const deleteSpendingLimit: (
+  input: DeleteSpendingLimitRequest,
+) => effect.Effect<
+  DeleteSpendingLimitResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteSpendingLimitRequest,
+  output: DeleteSpendingLimitResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
  * Searches and lists spending limits based on specified filters. This operation supports pagination and allows filtering by various criteria to find specific spending limits. We recommend using pagination to ensure that the operation returns quickly and successfully.
  */
 export const searchSpendingLimits: {
@@ -1520,218 +1716,4 @@ export const searchSpendingLimits: {
     items: "spendingLimits",
     pageSize: "maxResults",
   } as const,
-}));
-/**
- * Retrieves the specified Amazon Braket hybrid job.
- */
-export const getJob: (
-  input: GetJobRequest,
-) => effect.Effect<
-  GetJobResponse,
-  | AccessDeniedException
-  | InternalServiceException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetJobRequest,
-  output: GetJobResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServiceException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Retrieves the specified quantum task.
- */
-export const getQuantumTask: (
-  input: GetQuantumTaskRequest,
-) => effect.Effect<
-  GetQuantumTaskResponse,
-  | AccessDeniedException
-  | InternalServiceException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetQuantumTaskRequest,
-  output: GetQuantumTaskResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServiceException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Updates an existing spending limit. You can modify the spending amount or time period. Changes take effect immediately.
- */
-export const updateSpendingLimit: (
-  input: UpdateSpendingLimitRequest,
-) => effect.Effect<
-  UpdateSpendingLimitResponse,
-  | AccessDeniedException
-  | InternalServiceException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateSpendingLimitRequest,
-  output: UpdateSpendingLimitResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServiceException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Deletes an existing spending limit. This operation permanently removes the spending limit and cannot be undone. After deletion, the associated device becomes unrestricted for spending.
- */
-export const deleteSpendingLimit: (
-  input: DeleteSpendingLimitRequest,
-) => effect.Effect<
-  DeleteSpendingLimitResponse,
-  | AccessDeniedException
-  | InternalServiceException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteSpendingLimitRequest,
-  output: DeleteSpendingLimitResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServiceException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Cancels an Amazon Braket hybrid job.
- */
-export const cancelJob: (
-  input: CancelJobRequest,
-) => effect.Effect<
-  CancelJobResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServiceException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CancelJobRequest,
-  output: CancelJobResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServiceException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Cancels the specified task.
- */
-export const cancelQuantumTask: (
-  input: CancelQuantumTaskRequest,
-) => effect.Effect<
-  CancelQuantumTaskResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServiceException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CancelQuantumTaskRequest,
-  output: CancelQuantumTaskResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServiceException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Creates a quantum task.
- */
-export const createQuantumTask: (
-  input: CreateQuantumTaskRequest,
-) => effect.Effect<
-  CreateQuantumTaskResponse,
-  | AccessDeniedException
-  | DeviceOfflineException
-  | DeviceRetiredException
-  | InternalServiceException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateQuantumTaskRequest,
-  output: CreateQuantumTaskResponse,
-  errors: [
-    AccessDeniedException,
-    DeviceOfflineException,
-    DeviceRetiredException,
-    InternalServiceException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Creates an Amazon Braket hybrid job.
- */
-export const createJob: (
-  input: CreateJobRequest,
-) => effect.Effect<
-  CreateJobResponse,
-  | AccessDeniedException
-  | ConflictException
-  | DeviceOfflineException
-  | DeviceRetiredException
-  | InternalServiceException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateJobRequest,
-  output: CreateJobResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    DeviceOfflineException,
-    DeviceRetiredException,
-    InternalServiceException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
 }));

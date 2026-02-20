@@ -1,4 +1,4 @@
-import { HttpClient } from "@effect/platform";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as effect from "effect/Effect";
 import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
@@ -85,50 +85,44 @@ const rules = T.EndpointResolver((p, _) => {
 
 //# Newtypes
 export type Arn = string;
-export type AppMonitorId = string;
-export type Alias = string;
 export type TagKey = string;
+export type TagValue = string;
+export type AppMonitorId = string;
+export type JsonValue = string;
+export type Alias = string;
 export type AppMonitorName = string;
 export type AppMonitorDomain = string;
-export type MaxResultsInteger = number;
-export type MetricDestination = string;
-export type DestinationArn = string;
-export type MetricDefinitionId = string;
-export type AppMonitorPlatform = string;
-export type PolicyRevisionId = string;
-export type MaxQueryResults = number;
-export type Token = string;
-export type IamRoleArn = string;
-export type JsonValue = string;
-export type TagValue = string;
+export type ISOTimestampString = string;
+export type StateEnum = string;
 export type IdentityPoolId = string;
 export type Url = string;
 export type SessionSampleRate = number;
 export type Telemetry = string;
 export type CustomEventsStatus = string;
+export type DeobfuscationStatus = string;
+export type DeobfuscationS3Uri = string;
+export type AppMonitorPlatform = string;
+export type MaxResultsInteger = number;
+export type MetricDestination = string;
+export type DestinationArn = string;
 export type MetricName = string;
 export type ValueKey = string;
 export type UnitLabel = string;
+export type DimensionKey = string;
+export type DimensionName = string;
 export type EventPattern = string;
 export type Namespace = string;
+export type MetricDefinitionId = string;
+export type PolicyRevisionId = string;
 export type QueryTimestamp = number;
 export type QueryFilterKey = string;
 export type QueryFilterValue = string;
-export type DeobfuscationStatus = string;
-export type DeobfuscationS3Uri = string;
-export type DimensionKey = string;
-export type DimensionName = string;
-export type ISOTimestampString = string;
-export type StateEnum = string;
+export type MaxQueryResults = number;
+export type Token = string;
 export type EventData = string;
+export type IamRoleArn = string;
 
 //# Schemas
-export type TagKeyList = string[];
-export const TagKeyList = S.Array(S.String);
-export type AppMonitorDomainList = string[];
-export const AppMonitorDomainList = S.Array(S.String);
-export type MetricDefinitionIds = string[];
-export const MetricDefinitionIds = S.Array(S.String);
 export interface ListTagsForResourceRequest {
   ResourceArn: string;
 }
@@ -143,9 +137,119 @@ export const ListTagsForResourceRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "ListTagsForResourceRequest",
 }) as any as S.Schema<ListTagsForResourceRequest>;
+export type TagMap = { [key: string]: string | undefined };
+export const TagMap = S.Record(S.String, S.String.pipe(S.optional));
+export interface ListTagsForResourceResponse {
+  ResourceArn: string;
+  Tags: { [key: string]: string | undefined };
+}
+export const ListTagsForResourceResponse = S.suspend(() =>
+  S.Struct({ ResourceArn: S.String, Tags: TagMap }),
+).annotate({
+  identifier: "ListTagsForResourceResponse",
+}) as any as S.Schema<ListTagsForResourceResponse>;
+export interface AppMonitorDetails {
+  name?: string;
+  id?: string;
+  version?: string;
+}
+export const AppMonitorDetails = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    id: S.optional(S.String),
+    version: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "AppMonitorDetails",
+}) as any as S.Schema<AppMonitorDetails>;
+export interface UserDetails {
+  userId?: string;
+  sessionId?: string;
+}
+export const UserDetails = S.suspend(() =>
+  S.Struct({ userId: S.optional(S.String), sessionId: S.optional(S.String) }),
+).annotate({ identifier: "UserDetails" }) as any as S.Schema<UserDetails>;
+export interface RumEvent {
+  id: string;
+  timestamp: Date;
+  type: string;
+  metadata?: string;
+  details: string;
+}
+export const RumEvent = S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    timestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    type: S.String,
+    metadata: S.optional(S.String),
+    details: S.String,
+  }),
+).annotate({ identifier: "RumEvent" }) as any as S.Schema<RumEvent>;
+export type RumEventList = RumEvent[];
+export const RumEventList = S.Array(RumEvent);
+export interface PutRumEventsRequest {
+  Id: string;
+  BatchId: string;
+  AppMonitorDetails: AppMonitorDetails;
+  UserDetails: UserDetails;
+  RumEvents: RumEvent[];
+  Alias?: string;
+}
+export const PutRumEventsRequest = S.suspend(() =>
+  S.Struct({
+    Id: S.String.pipe(T.HttpLabel("Id")),
+    BatchId: S.String,
+    AppMonitorDetails: AppMonitorDetails,
+    UserDetails: UserDetails,
+    RumEvents: RumEventList,
+    Alias: S.optional(S.String),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/appmonitors/{Id}/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "PutRumEventsRequest",
+}) as any as S.Schema<PutRumEventsRequest>;
+export interface PutRumEventsResponse {}
+export const PutRumEventsResponse = S.suspend(() => S.Struct({})).annotate({
+  identifier: "PutRumEventsResponse",
+}) as any as S.Schema<PutRumEventsResponse>;
+export interface TagResourceRequest {
+  ResourceArn: string;
+  Tags: { [key: string]: string | undefined };
+}
+export const TagResourceRequest = S.suspend(() =>
+  S.Struct({
+    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
+    Tags: TagMap,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "TagResourceRequest",
+}) as any as S.Schema<TagResourceRequest>;
+export interface TagResourceResponse {}
+export const TagResourceResponse = S.suspend(() => S.Struct({})).annotate({
+  identifier: "TagResourceResponse",
+}) as any as S.Schema<TagResourceResponse>;
+export type TagKeyList = string[];
+export const TagKeyList = S.Array(S.String);
 export interface UntagResourceRequest {
   ResourceArn: string;
   TagKeys: string[];
@@ -164,11 +268,11 @@ export const UntagResourceRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "UntagResourceRequest",
 }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export interface GetAppMonitorRequest {
@@ -185,112 +289,11 @@ export const GetAppMonitorRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "GetAppMonitorRequest",
 }) as any as S.Schema<GetAppMonitorRequest>;
-export interface DeleteAppMonitorRequest {
-  Name: string;
-}
-export const DeleteAppMonitorRequest = S.suspend(() =>
-  S.Struct({ Name: S.String.pipe(T.HttpLabel("Name")) }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/appmonitor/{Name}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DeleteAppMonitorRequest",
-}) as any as S.Schema<DeleteAppMonitorRequest>;
-export interface DeleteAppMonitorResponse {}
-export const DeleteAppMonitorResponse = S.suspend(() =>
-  S.Struct({}),
-).annotations({
-  identifier: "DeleteAppMonitorResponse",
-}) as any as S.Schema<DeleteAppMonitorResponse>;
-export interface ListAppMonitorsRequest {
-  MaxResults?: number;
-  NextToken?: string;
-}
-export const ListAppMonitorsRequest = S.suspend(() =>
-  S.Struct({
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/appmonitors" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListAppMonitorsRequest",
-}) as any as S.Schema<ListAppMonitorsRequest>;
-export interface BatchDeleteRumMetricDefinitionsRequest {
-  AppMonitorName: string;
-  Destination: string;
-  DestinationArn?: string;
-  MetricDefinitionIds: string[];
-}
-export const BatchDeleteRumMetricDefinitionsRequest = S.suspend(() =>
-  S.Struct({
-    AppMonitorName: S.String.pipe(T.HttpLabel("AppMonitorName")),
-    Destination: S.String.pipe(T.HttpQuery("destination")),
-    DestinationArn: S.optional(S.String).pipe(T.HttpQuery("destinationArn")),
-    MetricDefinitionIds: MetricDefinitionIds.pipe(
-      T.HttpQuery("metricDefinitionIds"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/rummetrics/{AppMonitorName}/metrics" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "BatchDeleteRumMetricDefinitionsRequest",
-}) as any as S.Schema<BatchDeleteRumMetricDefinitionsRequest>;
-export interface BatchGetRumMetricDefinitionsRequest {
-  AppMonitorName: string;
-  Destination: string;
-  DestinationArn?: string;
-  MaxResults?: number;
-  NextToken?: string;
-}
-export const BatchGetRumMetricDefinitionsRequest = S.suspend(() =>
-  S.Struct({
-    AppMonitorName: S.String.pipe(T.HttpLabel("AppMonitorName")),
-    Destination: S.String.pipe(T.HttpQuery("destination")),
-    DestinationArn: S.optional(S.String).pipe(T.HttpQuery("destinationArn")),
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/rummetrics/{AppMonitorName}/metrics" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "BatchGetRumMetricDefinitionsRequest",
-}) as any as S.Schema<BatchGetRumMetricDefinitionsRequest>;
-export type TagMap = { [key: string]: string | undefined };
-export const TagMap = S.Record({
-  key: S.String,
-  value: S.UndefinedOr(S.String),
-});
+export type AppMonitorDomainList = string[];
+export const AppMonitorDomainList = S.Array(S.String);
 export type Pages = string[];
 export const Pages = S.Array(S.String);
 export type FavoritePages = string[];
@@ -320,22 +323,38 @@ export const AppMonitorConfiguration = S.suspend(() =>
     Telemetries: S.optional(Telemetries),
     EnableXRay: S.optional(S.Boolean),
   }),
-).annotations({
+).annotate({
   identifier: "AppMonitorConfiguration",
 }) as any as S.Schema<AppMonitorConfiguration>;
+export interface CwLog {
+  CwLogEnabled?: boolean;
+  CwLogGroup?: string;
+}
+export const CwLog = S.suspend(() =>
+  S.Struct({
+    CwLogEnabled: S.optional(S.Boolean),
+    CwLogGroup: S.optional(S.String),
+  }),
+).annotate({ identifier: "CwLog" }) as any as S.Schema<CwLog>;
+export interface DataStorage {
+  CwLog?: CwLog;
+}
+export const DataStorage = S.suspend(() =>
+  S.Struct({ CwLog: S.optional(CwLog) }),
+).annotate({ identifier: "DataStorage" }) as any as S.Schema<DataStorage>;
 export interface CustomEvents {
   Status?: string;
 }
 export const CustomEvents = S.suspend(() =>
   S.Struct({ Status: S.optional(S.String) }),
-).annotations({ identifier: "CustomEvents" }) as any as S.Schema<CustomEvents>;
+).annotate({ identifier: "CustomEvents" }) as any as S.Schema<CustomEvents>;
 export interface JavaScriptSourceMaps {
   Status: string;
   S3Uri?: string;
 }
 export const JavaScriptSourceMaps = S.suspend(() =>
   S.Struct({ Status: S.String, S3Uri: S.optional(S.String) }),
-).annotations({
+).annotate({
   identifier: "JavaScriptSourceMaps",
 }) as any as S.Schema<JavaScriptSourceMaps>;
 export interface DeobfuscationConfiguration {
@@ -343,9 +362,363 @@ export interface DeobfuscationConfiguration {
 }
 export const DeobfuscationConfiguration = S.suspend(() =>
   S.Struct({ JavaScriptSourceMaps: S.optional(JavaScriptSourceMaps) }),
-).annotations({
+).annotate({
   identifier: "DeobfuscationConfiguration",
 }) as any as S.Schema<DeobfuscationConfiguration>;
+export interface AppMonitor {
+  Name?: string;
+  Domain?: string;
+  DomainList?: string[];
+  Id?: string;
+  Created?: string;
+  LastModified?: string;
+  Tags?: { [key: string]: string | undefined };
+  State?: string;
+  AppMonitorConfiguration?: AppMonitorConfiguration;
+  DataStorage?: DataStorage;
+  CustomEvents?: CustomEvents;
+  DeobfuscationConfiguration?: DeobfuscationConfiguration;
+  Platform?: string;
+}
+export const AppMonitor = S.suspend(() =>
+  S.Struct({
+    Name: S.optional(S.String),
+    Domain: S.optional(S.String),
+    DomainList: S.optional(AppMonitorDomainList),
+    Id: S.optional(S.String),
+    Created: S.optional(S.String),
+    LastModified: S.optional(S.String),
+    Tags: S.optional(TagMap),
+    State: S.optional(S.String),
+    AppMonitorConfiguration: S.optional(AppMonitorConfiguration),
+    DataStorage: S.optional(DataStorage),
+    CustomEvents: S.optional(CustomEvents),
+    DeobfuscationConfiguration: S.optional(DeobfuscationConfiguration),
+    Platform: S.optional(S.String),
+  }),
+).annotate({ identifier: "AppMonitor" }) as any as S.Schema<AppMonitor>;
+export interface GetAppMonitorResponse {
+  AppMonitor?: AppMonitor;
+}
+export const GetAppMonitorResponse = S.suspend(() =>
+  S.Struct({ AppMonitor: S.optional(AppMonitor) }),
+).annotate({
+  identifier: "GetAppMonitorResponse",
+}) as any as S.Schema<GetAppMonitorResponse>;
+export interface UpdateAppMonitorRequest {
+  Name: string;
+  Domain?: string;
+  DomainList?: string[];
+  AppMonitorConfiguration?: AppMonitorConfiguration;
+  CwLogEnabled?: boolean;
+  CustomEvents?: CustomEvents;
+  DeobfuscationConfiguration?: DeobfuscationConfiguration;
+}
+export const UpdateAppMonitorRequest = S.suspend(() =>
+  S.Struct({
+    Name: S.String.pipe(T.HttpLabel("Name")),
+    Domain: S.optional(S.String),
+    DomainList: S.optional(AppMonitorDomainList),
+    AppMonitorConfiguration: S.optional(AppMonitorConfiguration),
+    CwLogEnabled: S.optional(S.Boolean),
+    CustomEvents: S.optional(CustomEvents),
+    DeobfuscationConfiguration: S.optional(DeobfuscationConfiguration),
+  }).pipe(
+    T.all(
+      T.Http({ method: "PATCH", uri: "/appmonitor/{Name}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "UpdateAppMonitorRequest",
+}) as any as S.Schema<UpdateAppMonitorRequest>;
+export interface UpdateAppMonitorResponse {}
+export const UpdateAppMonitorResponse = S.suspend(() => S.Struct({})).annotate({
+  identifier: "UpdateAppMonitorResponse",
+}) as any as S.Schema<UpdateAppMonitorResponse>;
+export interface DeleteAppMonitorRequest {
+  Name: string;
+}
+export const DeleteAppMonitorRequest = S.suspend(() =>
+  S.Struct({ Name: S.String.pipe(T.HttpLabel("Name")) }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/appmonitor/{Name}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeleteAppMonitorRequest",
+}) as any as S.Schema<DeleteAppMonitorRequest>;
+export interface DeleteAppMonitorResponse {}
+export const DeleteAppMonitorResponse = S.suspend(() => S.Struct({})).annotate({
+  identifier: "DeleteAppMonitorResponse",
+}) as any as S.Schema<DeleteAppMonitorResponse>;
+export interface ListAppMonitorsRequest {
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListAppMonitorsRequest = S.suspend(() =>
+  S.Struct({
+    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/appmonitors" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListAppMonitorsRequest",
+}) as any as S.Schema<ListAppMonitorsRequest>;
+export interface AppMonitorSummary {
+  Name?: string;
+  Id?: string;
+  Created?: string;
+  LastModified?: string;
+  State?: string;
+  Platform?: string;
+}
+export const AppMonitorSummary = S.suspend(() =>
+  S.Struct({
+    Name: S.optional(S.String),
+    Id: S.optional(S.String),
+    Created: S.optional(S.String),
+    LastModified: S.optional(S.String),
+    State: S.optional(S.String),
+    Platform: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "AppMonitorSummary",
+}) as any as S.Schema<AppMonitorSummary>;
+export type AppMonitorSummaryList = AppMonitorSummary[];
+export const AppMonitorSummaryList = S.Array(AppMonitorSummary);
+export interface ListAppMonitorsResponse {
+  NextToken?: string;
+  AppMonitorSummaries?: AppMonitorSummary[];
+}
+export const ListAppMonitorsResponse = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    AppMonitorSummaries: S.optional(AppMonitorSummaryList),
+  }),
+).annotate({
+  identifier: "ListAppMonitorsResponse",
+}) as any as S.Schema<ListAppMonitorsResponse>;
+export type DimensionKeysMap = { [key: string]: string | undefined };
+export const DimensionKeysMap = S.Record(S.String, S.String.pipe(S.optional));
+export interface MetricDefinitionRequest {
+  Name: string;
+  ValueKey?: string;
+  UnitLabel?: string;
+  DimensionKeys?: { [key: string]: string | undefined };
+  EventPattern?: string;
+  Namespace?: string;
+}
+export const MetricDefinitionRequest = S.suspend(() =>
+  S.Struct({
+    Name: S.String,
+    ValueKey: S.optional(S.String),
+    UnitLabel: S.optional(S.String),
+    DimensionKeys: S.optional(DimensionKeysMap),
+    EventPattern: S.optional(S.String),
+    Namespace: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "MetricDefinitionRequest",
+}) as any as S.Schema<MetricDefinitionRequest>;
+export type MetricDefinitionsRequest = MetricDefinitionRequest[];
+export const MetricDefinitionsRequest = S.Array(MetricDefinitionRequest);
+export interface BatchCreateRumMetricDefinitionsRequest {
+  AppMonitorName: string;
+  Destination: string;
+  DestinationArn?: string;
+  MetricDefinitions: MetricDefinitionRequest[];
+}
+export const BatchCreateRumMetricDefinitionsRequest = S.suspend(() =>
+  S.Struct({
+    AppMonitorName: S.String.pipe(T.HttpLabel("AppMonitorName")),
+    Destination: S.String,
+    DestinationArn: S.optional(S.String),
+    MetricDefinitions: MetricDefinitionsRequest,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/rummetrics/{AppMonitorName}/metrics" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "BatchCreateRumMetricDefinitionsRequest",
+}) as any as S.Schema<BatchCreateRumMetricDefinitionsRequest>;
+export interface BatchCreateRumMetricDefinitionsError {
+  MetricDefinition: MetricDefinitionRequest;
+  ErrorCode: string;
+  ErrorMessage: string;
+}
+export const BatchCreateRumMetricDefinitionsError = S.suspend(() =>
+  S.Struct({
+    MetricDefinition: MetricDefinitionRequest,
+    ErrorCode: S.String,
+    ErrorMessage: S.String,
+  }),
+).annotate({
+  identifier: "BatchCreateRumMetricDefinitionsError",
+}) as any as S.Schema<BatchCreateRumMetricDefinitionsError>;
+export type BatchCreateRumMetricDefinitionsErrors =
+  BatchCreateRumMetricDefinitionsError[];
+export const BatchCreateRumMetricDefinitionsErrors = S.Array(
+  BatchCreateRumMetricDefinitionsError,
+);
+export interface MetricDefinition {
+  MetricDefinitionId: string;
+  Name: string;
+  ValueKey?: string;
+  UnitLabel?: string;
+  DimensionKeys?: { [key: string]: string | undefined };
+  EventPattern?: string;
+  Namespace?: string;
+}
+export const MetricDefinition = S.suspend(() =>
+  S.Struct({
+    MetricDefinitionId: S.String,
+    Name: S.String,
+    ValueKey: S.optional(S.String),
+    UnitLabel: S.optional(S.String),
+    DimensionKeys: S.optional(DimensionKeysMap),
+    EventPattern: S.optional(S.String),
+    Namespace: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "MetricDefinition",
+}) as any as S.Schema<MetricDefinition>;
+export type MetricDefinitions = MetricDefinition[];
+export const MetricDefinitions = S.Array(MetricDefinition);
+export interface BatchCreateRumMetricDefinitionsResponse {
+  Errors: BatchCreateRumMetricDefinitionsError[];
+  MetricDefinitions?: MetricDefinition[];
+}
+export const BatchCreateRumMetricDefinitionsResponse = S.suspend(() =>
+  S.Struct({
+    Errors: BatchCreateRumMetricDefinitionsErrors,
+    MetricDefinitions: S.optional(MetricDefinitions),
+  }),
+).annotate({
+  identifier: "BatchCreateRumMetricDefinitionsResponse",
+}) as any as S.Schema<BatchCreateRumMetricDefinitionsResponse>;
+export type MetricDefinitionIds = string[];
+export const MetricDefinitionIds = S.Array(S.String);
+export interface BatchDeleteRumMetricDefinitionsRequest {
+  AppMonitorName: string;
+  Destination: string;
+  DestinationArn?: string;
+  MetricDefinitionIds: string[];
+}
+export const BatchDeleteRumMetricDefinitionsRequest = S.suspend(() =>
+  S.Struct({
+    AppMonitorName: S.String.pipe(T.HttpLabel("AppMonitorName")),
+    Destination: S.String.pipe(T.HttpQuery("destination")),
+    DestinationArn: S.optional(S.String).pipe(T.HttpQuery("destinationArn")),
+    MetricDefinitionIds: MetricDefinitionIds.pipe(
+      T.HttpQuery("metricDefinitionIds"),
+    ),
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/rummetrics/{AppMonitorName}/metrics" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "BatchDeleteRumMetricDefinitionsRequest",
+}) as any as S.Schema<BatchDeleteRumMetricDefinitionsRequest>;
+export interface BatchDeleteRumMetricDefinitionsError {
+  MetricDefinitionId: string;
+  ErrorCode: string;
+  ErrorMessage: string;
+}
+export const BatchDeleteRumMetricDefinitionsError = S.suspend(() =>
+  S.Struct({
+    MetricDefinitionId: S.String,
+    ErrorCode: S.String,
+    ErrorMessage: S.String,
+  }),
+).annotate({
+  identifier: "BatchDeleteRumMetricDefinitionsError",
+}) as any as S.Schema<BatchDeleteRumMetricDefinitionsError>;
+export type BatchDeleteRumMetricDefinitionsErrors =
+  BatchDeleteRumMetricDefinitionsError[];
+export const BatchDeleteRumMetricDefinitionsErrors = S.Array(
+  BatchDeleteRumMetricDefinitionsError,
+);
+export interface BatchDeleteRumMetricDefinitionsResponse {
+  Errors: BatchDeleteRumMetricDefinitionsError[];
+  MetricDefinitionIds?: string[];
+}
+export const BatchDeleteRumMetricDefinitionsResponse = S.suspend(() =>
+  S.Struct({
+    Errors: BatchDeleteRumMetricDefinitionsErrors,
+    MetricDefinitionIds: S.optional(MetricDefinitionIds),
+  }),
+).annotate({
+  identifier: "BatchDeleteRumMetricDefinitionsResponse",
+}) as any as S.Schema<BatchDeleteRumMetricDefinitionsResponse>;
+export interface BatchGetRumMetricDefinitionsRequest {
+  AppMonitorName: string;
+  Destination: string;
+  DestinationArn?: string;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const BatchGetRumMetricDefinitionsRequest = S.suspend(() =>
+  S.Struct({
+    AppMonitorName: S.String.pipe(T.HttpLabel("AppMonitorName")),
+    Destination: S.String.pipe(T.HttpQuery("destination")),
+    DestinationArn: S.optional(S.String).pipe(T.HttpQuery("destinationArn")),
+    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/rummetrics/{AppMonitorName}/metrics" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "BatchGetRumMetricDefinitionsRequest",
+}) as any as S.Schema<BatchGetRumMetricDefinitionsRequest>;
+export interface BatchGetRumMetricDefinitionsResponse {
+  MetricDefinitions?: MetricDefinition[];
+  NextToken?: string;
+}
+export const BatchGetRumMetricDefinitionsResponse = S.suspend(() =>
+  S.Struct({
+    MetricDefinitions: S.optional(MetricDefinitions),
+    NextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "BatchGetRumMetricDefinitionsResponse",
+}) as any as S.Schema<BatchGetRumMetricDefinitionsResponse>;
 export interface CreateAppMonitorRequest {
   Name: string;
   Domain?: string;
@@ -378,9 +751,17 @@ export const CreateAppMonitorRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "CreateAppMonitorRequest",
 }) as any as S.Schema<CreateAppMonitorRequest>;
+export interface CreateAppMonitorResponse {
+  Id?: string;
+}
+export const CreateAppMonitorResponse = S.suspend(() =>
+  S.Struct({ Id: S.optional(S.String) }),
+).annotate({
+  identifier: "CreateAppMonitorResponse",
+}) as any as S.Schema<CreateAppMonitorResponse>;
 export interface DeleteResourcePolicyRequest {
   Name: string;
   PolicyRevisionId?: string;
@@ -401,9 +782,17 @@ export const DeleteResourcePolicyRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "DeleteResourcePolicyRequest",
 }) as any as S.Schema<DeleteResourcePolicyRequest>;
+export interface DeleteResourcePolicyResponse {
+  PolicyRevisionId?: string;
+}
+export const DeleteResourcePolicyResponse = S.suspend(() =>
+  S.Struct({ PolicyRevisionId: S.optional(S.String) }),
+).annotate({
+  identifier: "DeleteResourcePolicyResponse",
+}) as any as S.Schema<DeleteResourcePolicyResponse>;
 export interface DeleteRumMetricsDestinationRequest {
   AppMonitorName: string;
   Destination: string;
@@ -427,15 +816,77 @@ export const DeleteRumMetricsDestinationRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "DeleteRumMetricsDestinationRequest",
 }) as any as S.Schema<DeleteRumMetricsDestinationRequest>;
 export interface DeleteRumMetricsDestinationResponse {}
 export const DeleteRumMetricsDestinationResponse = S.suspend(() =>
   S.Struct({}),
-).annotations({
+).annotate({
   identifier: "DeleteRumMetricsDestinationResponse",
 }) as any as S.Schema<DeleteRumMetricsDestinationResponse>;
+export interface TimeRange {
+  After: number;
+  Before?: number;
+}
+export const TimeRange = S.suspend(() =>
+  S.Struct({ After: S.Number, Before: S.optional(S.Number) }),
+).annotate({ identifier: "TimeRange" }) as any as S.Schema<TimeRange>;
+export type QueryFilterValueList = string[];
+export const QueryFilterValueList = S.Array(S.String);
+export interface QueryFilter {
+  Name?: string;
+  Values?: string[];
+}
+export const QueryFilter = S.suspend(() =>
+  S.Struct({
+    Name: S.optional(S.String),
+    Values: S.optional(QueryFilterValueList),
+  }),
+).annotate({ identifier: "QueryFilter" }) as any as S.Schema<QueryFilter>;
+export type QueryFilters = QueryFilter[];
+export const QueryFilters = S.Array(QueryFilter);
+export interface GetAppMonitorDataRequest {
+  Name: string;
+  TimeRange: TimeRange;
+  Filters?: QueryFilter[];
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const GetAppMonitorDataRequest = S.suspend(() =>
+  S.Struct({
+    Name: S.String.pipe(T.HttpLabel("Name")),
+    TimeRange: TimeRange,
+    Filters: S.optional(QueryFilters),
+    MaxResults: S.optional(S.Number),
+    NextToken: S.optional(S.String),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/appmonitor/{Name}/data" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetAppMonitorDataRequest",
+}) as any as S.Schema<GetAppMonitorDataRequest>;
+export type EventDataList = string[];
+export const EventDataList = S.Array(S.String);
+export interface GetAppMonitorDataResponse {
+  Events?: string[];
+  NextToken?: string;
+}
+export const GetAppMonitorDataResponse = S.suspend(() =>
+  S.Struct({
+    Events: S.optional(EventDataList),
+    NextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GetAppMonitorDataResponse",
+}) as any as S.Schema<GetAppMonitorDataResponse>;
 export interface GetResourcePolicyRequest {
   Name: string;
 }
@@ -450,9 +901,21 @@ export const GetResourcePolicyRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "GetResourcePolicyRequest",
 }) as any as S.Schema<GetResourcePolicyRequest>;
+export interface GetResourcePolicyResponse {
+  PolicyDocument?: string;
+  PolicyRevisionId?: string;
+}
+export const GetResourcePolicyResponse = S.suspend(() =>
+  S.Struct({
+    PolicyDocument: S.optional(S.String),
+    PolicyRevisionId: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GetResourcePolicyResponse",
+}) as any as S.Schema<GetResourcePolicyResponse>;
 export interface ListRumMetricsDestinationsRequest {
   AppMonitorName: string;
   MaxResults?: number;
@@ -476,9 +939,37 @@ export const ListRumMetricsDestinationsRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "ListRumMetricsDestinationsRequest",
 }) as any as S.Schema<ListRumMetricsDestinationsRequest>;
+export interface MetricDestinationSummary {
+  Destination?: string;
+  DestinationArn?: string;
+  IamRoleArn?: string;
+}
+export const MetricDestinationSummary = S.suspend(() =>
+  S.Struct({
+    Destination: S.optional(S.String),
+    DestinationArn: S.optional(S.String),
+    IamRoleArn: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "MetricDestinationSummary",
+}) as any as S.Schema<MetricDestinationSummary>;
+export type MetricDestinationSummaryList = MetricDestinationSummary[];
+export const MetricDestinationSummaryList = S.Array(MetricDestinationSummary);
+export interface ListRumMetricsDestinationsResponse {
+  Destinations?: MetricDestinationSummary[];
+  NextToken?: string;
+}
+export const ListRumMetricsDestinationsResponse = S.suspend(() =>
+  S.Struct({
+    Destinations: S.optional(MetricDestinationSummaryList),
+    NextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ListRumMetricsDestinationsResponse",
+}) as any as S.Schema<ListRumMetricsDestinationsResponse>;
 export interface PutResourcePolicyRequest {
   Name: string;
   PolicyDocument: string;
@@ -499,9 +990,21 @@ export const PutResourcePolicyRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "PutResourcePolicyRequest",
 }) as any as S.Schema<PutResourcePolicyRequest>;
+export interface PutResourcePolicyResponse {
+  PolicyDocument?: string;
+  PolicyRevisionId?: string;
+}
+export const PutResourcePolicyResponse = S.suspend(() =>
+  S.Struct({
+    PolicyDocument: S.optional(S.String),
+    PolicyRevisionId: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "PutResourcePolicyResponse",
+}) as any as S.Schema<PutResourcePolicyResponse>;
 export interface PutRumMetricsDestinationRequest {
   AppMonitorName: string;
   Destination: string;
@@ -527,40 +1030,15 @@ export const PutRumMetricsDestinationRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "PutRumMetricsDestinationRequest",
 }) as any as S.Schema<PutRumMetricsDestinationRequest>;
 export interface PutRumMetricsDestinationResponse {}
 export const PutRumMetricsDestinationResponse = S.suspend(() =>
   S.Struct({}),
-).annotations({
+).annotate({
   identifier: "PutRumMetricsDestinationResponse",
 }) as any as S.Schema<PutRumMetricsDestinationResponse>;
-export type DimensionKeysMap = { [key: string]: string | undefined };
-export const DimensionKeysMap = S.Record({
-  key: S.String,
-  value: S.UndefinedOr(S.String),
-});
-export interface MetricDefinitionRequest {
-  Name: string;
-  ValueKey?: string;
-  UnitLabel?: string;
-  DimensionKeys?: { [key: string]: string | undefined };
-  EventPattern?: string;
-  Namespace?: string;
-}
-export const MetricDefinitionRequest = S.suspend(() =>
-  S.Struct({
-    Name: S.String,
-    ValueKey: S.optional(S.String),
-    UnitLabel: S.optional(S.String),
-    DimensionKeys: S.optional(DimensionKeysMap),
-    EventPattern: S.optional(S.String),
-    Namespace: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "MetricDefinitionRequest",
-}) as any as S.Schema<MetricDefinitionRequest>;
 export interface UpdateRumMetricDefinitionRequest {
   AppMonitorName: string;
   Destination: string;
@@ -585,506 +1063,18 @@ export const UpdateRumMetricDefinitionRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "UpdateRumMetricDefinitionRequest",
 }) as any as S.Schema<UpdateRumMetricDefinitionRequest>;
 export interface UpdateRumMetricDefinitionResponse {}
 export const UpdateRumMetricDefinitionResponse = S.suspend(() =>
   S.Struct({}),
-).annotations({
+).annotate({
   identifier: "UpdateRumMetricDefinitionResponse",
 }) as any as S.Schema<UpdateRumMetricDefinitionResponse>;
-export type QueryFilterValueList = string[];
-export const QueryFilterValueList = S.Array(S.String);
-export interface AppMonitorDetails {
-  name?: string;
-  id?: string;
-  version?: string;
-}
-export const AppMonitorDetails = S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    id: S.optional(S.String),
-    version: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "AppMonitorDetails",
-}) as any as S.Schema<AppMonitorDetails>;
-export interface UserDetails {
-  userId?: string;
-  sessionId?: string;
-}
-export const UserDetails = S.suspend(() =>
-  S.Struct({ userId: S.optional(S.String), sessionId: S.optional(S.String) }),
-).annotations({ identifier: "UserDetails" }) as any as S.Schema<UserDetails>;
-export interface RumEvent {
-  id: string;
-  timestamp: Date;
-  type: string;
-  metadata?: string;
-  details: string;
-}
-export const RumEvent = S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    timestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    type: S.String,
-    metadata: S.optional(S.String),
-    details: S.String,
-  }),
-).annotations({ identifier: "RumEvent" }) as any as S.Schema<RumEvent>;
-export type RumEventList = RumEvent[];
-export const RumEventList = S.Array(RumEvent);
-export interface TimeRange {
-  After: number;
-  Before?: number;
-}
-export const TimeRange = S.suspend(() =>
-  S.Struct({ After: S.Number, Before: S.optional(S.Number) }),
-).annotations({ identifier: "TimeRange" }) as any as S.Schema<TimeRange>;
-export interface QueryFilter {
-  Name?: string;
-  Values?: string[];
-}
-export const QueryFilter = S.suspend(() =>
-  S.Struct({
-    Name: S.optional(S.String),
-    Values: S.optional(QueryFilterValueList),
-  }),
-).annotations({ identifier: "QueryFilter" }) as any as S.Schema<QueryFilter>;
-export type QueryFilters = QueryFilter[];
-export const QueryFilters = S.Array(QueryFilter);
-export interface ListTagsForResourceResponse {
-  ResourceArn: string;
-  Tags: { [key: string]: string | undefined };
-}
-export const ListTagsForResourceResponse = S.suspend(() =>
-  S.Struct({ ResourceArn: S.String, Tags: TagMap }),
-).annotations({
-  identifier: "ListTagsForResourceResponse",
-}) as any as S.Schema<ListTagsForResourceResponse>;
-export interface PutRumEventsRequest {
-  Id: string;
-  BatchId: string;
-  AppMonitorDetails: AppMonitorDetails;
-  UserDetails: UserDetails;
-  RumEvents: RumEvent[];
-  Alias?: string;
-}
-export const PutRumEventsRequest = S.suspend(() =>
-  S.Struct({
-    Id: S.String.pipe(T.HttpLabel("Id")),
-    BatchId: S.String,
-    AppMonitorDetails: AppMonitorDetails,
-    UserDetails: UserDetails,
-    RumEvents: RumEventList,
-    Alias: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/appmonitors/{Id}/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "PutRumEventsRequest",
-}) as any as S.Schema<PutRumEventsRequest>;
-export interface PutRumEventsResponse {}
-export const PutRumEventsResponse = S.suspend(() => S.Struct({})).annotations({
-  identifier: "PutRumEventsResponse",
-}) as any as S.Schema<PutRumEventsResponse>;
-export interface TagResourceRequest {
-  ResourceArn: string;
-  Tags: { [key: string]: string | undefined };
-}
-export const TagResourceRequest = S.suspend(() =>
-  S.Struct({
-    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
-    Tags: TagMap,
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
-export interface TagResourceResponse {}
-export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
-  identifier: "TagResourceResponse",
-}) as any as S.Schema<TagResourceResponse>;
-export interface CreateAppMonitorResponse {
-  Id?: string;
-}
-export const CreateAppMonitorResponse = S.suspend(() =>
-  S.Struct({ Id: S.optional(S.String) }),
-).annotations({
-  identifier: "CreateAppMonitorResponse",
-}) as any as S.Schema<CreateAppMonitorResponse>;
-export interface DeleteResourcePolicyResponse {
-  PolicyRevisionId?: string;
-}
-export const DeleteResourcePolicyResponse = S.suspend(() =>
-  S.Struct({ PolicyRevisionId: S.optional(S.String) }),
-).annotations({
-  identifier: "DeleteResourcePolicyResponse",
-}) as any as S.Schema<DeleteResourcePolicyResponse>;
-export interface GetAppMonitorDataRequest {
-  Name: string;
-  TimeRange: TimeRange;
-  Filters?: QueryFilter[];
-  MaxResults?: number;
-  NextToken?: string;
-}
-export const GetAppMonitorDataRequest = S.suspend(() =>
-  S.Struct({
-    Name: S.String.pipe(T.HttpLabel("Name")),
-    TimeRange: TimeRange,
-    Filters: S.optional(QueryFilters),
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/appmonitor/{Name}/data" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "GetAppMonitorDataRequest",
-}) as any as S.Schema<GetAppMonitorDataRequest>;
-export interface GetResourcePolicyResponse {
-  PolicyDocument?: string;
-  PolicyRevisionId?: string;
-}
-export const GetResourcePolicyResponse = S.suspend(() =>
-  S.Struct({
-    PolicyDocument: S.optional(S.String),
-    PolicyRevisionId: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "GetResourcePolicyResponse",
-}) as any as S.Schema<GetResourcePolicyResponse>;
-export interface PutResourcePolicyResponse {
-  PolicyDocument?: string;
-  PolicyRevisionId?: string;
-}
-export const PutResourcePolicyResponse = S.suspend(() =>
-  S.Struct({
-    PolicyDocument: S.optional(S.String),
-    PolicyRevisionId: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "PutResourcePolicyResponse",
-}) as any as S.Schema<PutResourcePolicyResponse>;
-export interface AppMonitorSummary {
-  Name?: string;
-  Id?: string;
-  Created?: string;
-  LastModified?: string;
-  State?: string;
-  Platform?: string;
-}
-export const AppMonitorSummary = S.suspend(() =>
-  S.Struct({
-    Name: S.optional(S.String),
-    Id: S.optional(S.String),
-    Created: S.optional(S.String),
-    LastModified: S.optional(S.String),
-    State: S.optional(S.String),
-    Platform: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "AppMonitorSummary",
-}) as any as S.Schema<AppMonitorSummary>;
-export type AppMonitorSummaryList = AppMonitorSummary[];
-export const AppMonitorSummaryList = S.Array(AppMonitorSummary);
-export type MetricDefinitionsRequest = MetricDefinitionRequest[];
-export const MetricDefinitionsRequest = S.Array(MetricDefinitionRequest);
-export interface BatchDeleteRumMetricDefinitionsError {
-  MetricDefinitionId: string;
-  ErrorCode: string;
-  ErrorMessage: string;
-}
-export const BatchDeleteRumMetricDefinitionsError = S.suspend(() =>
-  S.Struct({
-    MetricDefinitionId: S.String,
-    ErrorCode: S.String,
-    ErrorMessage: S.String,
-  }),
-).annotations({
-  identifier: "BatchDeleteRumMetricDefinitionsError",
-}) as any as S.Schema<BatchDeleteRumMetricDefinitionsError>;
-export type BatchDeleteRumMetricDefinitionsErrors =
-  BatchDeleteRumMetricDefinitionsError[];
-export const BatchDeleteRumMetricDefinitionsErrors = S.Array(
-  BatchDeleteRumMetricDefinitionsError,
-);
-export interface MetricDefinition {
-  MetricDefinitionId: string;
-  Name: string;
-  ValueKey?: string;
-  UnitLabel?: string;
-  DimensionKeys?: { [key: string]: string | undefined };
-  EventPattern?: string;
-  Namespace?: string;
-}
-export const MetricDefinition = S.suspend(() =>
-  S.Struct({
-    MetricDefinitionId: S.String,
-    Name: S.String,
-    ValueKey: S.optional(S.String),
-    UnitLabel: S.optional(S.String),
-    DimensionKeys: S.optional(DimensionKeysMap),
-    EventPattern: S.optional(S.String),
-    Namespace: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "MetricDefinition",
-}) as any as S.Schema<MetricDefinition>;
-export type MetricDefinitions = MetricDefinition[];
-export const MetricDefinitions = S.Array(MetricDefinition);
-export type EventDataList = string[];
-export const EventDataList = S.Array(S.String);
-export interface MetricDestinationSummary {
-  Destination?: string;
-  DestinationArn?: string;
-  IamRoleArn?: string;
-}
-export const MetricDestinationSummary = S.suspend(() =>
-  S.Struct({
-    Destination: S.optional(S.String),
-    DestinationArn: S.optional(S.String),
-    IamRoleArn: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "MetricDestinationSummary",
-}) as any as S.Schema<MetricDestinationSummary>;
-export type MetricDestinationSummaryList = MetricDestinationSummary[];
-export const MetricDestinationSummaryList = S.Array(MetricDestinationSummary);
-export interface UpdateAppMonitorRequest {
-  Name: string;
-  Domain?: string;
-  DomainList?: string[];
-  AppMonitorConfiguration?: AppMonitorConfiguration;
-  CwLogEnabled?: boolean;
-  CustomEvents?: CustomEvents;
-  DeobfuscationConfiguration?: DeobfuscationConfiguration;
-}
-export const UpdateAppMonitorRequest = S.suspend(() =>
-  S.Struct({
-    Name: S.String.pipe(T.HttpLabel("Name")),
-    Domain: S.optional(S.String),
-    DomainList: S.optional(AppMonitorDomainList),
-    AppMonitorConfiguration: S.optional(AppMonitorConfiguration),
-    CwLogEnabled: S.optional(S.Boolean),
-    CustomEvents: S.optional(CustomEvents),
-    DeobfuscationConfiguration: S.optional(DeobfuscationConfiguration),
-  }).pipe(
-    T.all(
-      T.Http({ method: "PATCH", uri: "/appmonitor/{Name}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "UpdateAppMonitorRequest",
-}) as any as S.Schema<UpdateAppMonitorRequest>;
-export interface UpdateAppMonitorResponse {}
-export const UpdateAppMonitorResponse = S.suspend(() =>
-  S.Struct({}),
-).annotations({
-  identifier: "UpdateAppMonitorResponse",
-}) as any as S.Schema<UpdateAppMonitorResponse>;
-export interface ListAppMonitorsResponse {
-  NextToken?: string;
-  AppMonitorSummaries?: AppMonitorSummary[];
-}
-export const ListAppMonitorsResponse = S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    AppMonitorSummaries: S.optional(AppMonitorSummaryList),
-  }),
-).annotations({
-  identifier: "ListAppMonitorsResponse",
-}) as any as S.Schema<ListAppMonitorsResponse>;
-export interface BatchCreateRumMetricDefinitionsRequest {
-  AppMonitorName: string;
-  Destination: string;
-  DestinationArn?: string;
-  MetricDefinitions: MetricDefinitionRequest[];
-}
-export const BatchCreateRumMetricDefinitionsRequest = S.suspend(() =>
-  S.Struct({
-    AppMonitorName: S.String.pipe(T.HttpLabel("AppMonitorName")),
-    Destination: S.String,
-    DestinationArn: S.optional(S.String),
-    MetricDefinitions: MetricDefinitionsRequest,
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/rummetrics/{AppMonitorName}/metrics" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "BatchCreateRumMetricDefinitionsRequest",
-}) as any as S.Schema<BatchCreateRumMetricDefinitionsRequest>;
-export interface BatchDeleteRumMetricDefinitionsResponse {
-  Errors: BatchDeleteRumMetricDefinitionsError[];
-  MetricDefinitionIds?: string[];
-}
-export const BatchDeleteRumMetricDefinitionsResponse = S.suspend(() =>
-  S.Struct({
-    Errors: BatchDeleteRumMetricDefinitionsErrors,
-    MetricDefinitionIds: S.optional(MetricDefinitionIds),
-  }),
-).annotations({
-  identifier: "BatchDeleteRumMetricDefinitionsResponse",
-}) as any as S.Schema<BatchDeleteRumMetricDefinitionsResponse>;
-export interface BatchGetRumMetricDefinitionsResponse {
-  MetricDefinitions?: MetricDefinition[];
-  NextToken?: string;
-}
-export const BatchGetRumMetricDefinitionsResponse = S.suspend(() =>
-  S.Struct({
-    MetricDefinitions: S.optional(MetricDefinitions),
-    NextToken: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "BatchGetRumMetricDefinitionsResponse",
-}) as any as S.Schema<BatchGetRumMetricDefinitionsResponse>;
-export interface GetAppMonitorDataResponse {
-  Events?: string[];
-  NextToken?: string;
-}
-export const GetAppMonitorDataResponse = S.suspend(() =>
-  S.Struct({
-    Events: S.optional(EventDataList),
-    NextToken: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "GetAppMonitorDataResponse",
-}) as any as S.Schema<GetAppMonitorDataResponse>;
-export interface ListRumMetricsDestinationsResponse {
-  Destinations?: MetricDestinationSummary[];
-  NextToken?: string;
-}
-export const ListRumMetricsDestinationsResponse = S.suspend(() =>
-  S.Struct({
-    Destinations: S.optional(MetricDestinationSummaryList),
-    NextToken: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "ListRumMetricsDestinationsResponse",
-}) as any as S.Schema<ListRumMetricsDestinationsResponse>;
-export interface CwLog {
-  CwLogEnabled?: boolean;
-  CwLogGroup?: string;
-}
-export const CwLog = S.suspend(() =>
-  S.Struct({
-    CwLogEnabled: S.optional(S.Boolean),
-    CwLogGroup: S.optional(S.String),
-  }),
-).annotations({ identifier: "CwLog" }) as any as S.Schema<CwLog>;
-export interface DataStorage {
-  CwLog?: CwLog;
-}
-export const DataStorage = S.suspend(() =>
-  S.Struct({ CwLog: S.optional(CwLog) }),
-).annotations({ identifier: "DataStorage" }) as any as S.Schema<DataStorage>;
-export interface AppMonitor {
-  Name?: string;
-  Domain?: string;
-  DomainList?: string[];
-  Id?: string;
-  Created?: string;
-  LastModified?: string;
-  Tags?: { [key: string]: string | undefined };
-  State?: string;
-  AppMonitorConfiguration?: AppMonitorConfiguration;
-  DataStorage?: DataStorage;
-  CustomEvents?: CustomEvents;
-  DeobfuscationConfiguration?: DeobfuscationConfiguration;
-  Platform?: string;
-}
-export const AppMonitor = S.suspend(() =>
-  S.Struct({
-    Name: S.optional(S.String),
-    Domain: S.optional(S.String),
-    DomainList: S.optional(AppMonitorDomainList),
-    Id: S.optional(S.String),
-    Created: S.optional(S.String),
-    LastModified: S.optional(S.String),
-    Tags: S.optional(TagMap),
-    State: S.optional(S.String),
-    AppMonitorConfiguration: S.optional(AppMonitorConfiguration),
-    DataStorage: S.optional(DataStorage),
-    CustomEvents: S.optional(CustomEvents),
-    DeobfuscationConfiguration: S.optional(DeobfuscationConfiguration),
-    Platform: S.optional(S.String),
-  }),
-).annotations({ identifier: "AppMonitor" }) as any as S.Schema<AppMonitor>;
-export interface BatchCreateRumMetricDefinitionsError {
-  MetricDefinition: MetricDefinitionRequest;
-  ErrorCode: string;
-  ErrorMessage: string;
-}
-export const BatchCreateRumMetricDefinitionsError = S.suspend(() =>
-  S.Struct({
-    MetricDefinition: MetricDefinitionRequest,
-    ErrorCode: S.String,
-    ErrorMessage: S.String,
-  }),
-).annotations({
-  identifier: "BatchCreateRumMetricDefinitionsError",
-}) as any as S.Schema<BatchCreateRumMetricDefinitionsError>;
-export type BatchCreateRumMetricDefinitionsErrors =
-  BatchCreateRumMetricDefinitionsError[];
-export const BatchCreateRumMetricDefinitionsErrors = S.Array(
-  BatchCreateRumMetricDefinitionsError,
-);
-export interface GetAppMonitorResponse {
-  AppMonitor?: AppMonitor;
-}
-export const GetAppMonitorResponse = S.suspend(() =>
-  S.Struct({ AppMonitor: S.optional(AppMonitor) }),
-).annotations({
-  identifier: "GetAppMonitorResponse",
-}) as any as S.Schema<GetAppMonitorResponse>;
-export interface BatchCreateRumMetricDefinitionsResponse {
-  Errors: BatchCreateRumMetricDefinitionsError[];
-  MetricDefinitions?: MetricDefinition[];
-}
-export const BatchCreateRumMetricDefinitionsResponse = S.suspend(() =>
-  S.Struct({
-    Errors: BatchCreateRumMetricDefinitionsErrors,
-    MetricDefinitions: S.optional(MetricDefinitions),
-  }),
-).annotations({
-  identifier: "BatchCreateRumMetricDefinitionsResponse",
-}) as any as S.Schema<BatchCreateRumMetricDefinitionsResponse>;
 
 //# Errors
-export class InternalServerException extends S.TaggedError<InternalServerException>()(
+export class InternalServerException extends S.TaggedErrorClass<InternalServerException>()(
   "InternalServerException",
   {
     message: S.String,
@@ -1092,11 +1082,7 @@ export class InternalServerException extends S.TaggedError<InternalServerExcepti
   },
   T.Retryable(),
 ).pipe(C.withServerError, C.withRetryableError) {}
-export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
-  "AccessDeniedException",
-  { message: S.String },
-).pipe(C.withAuthError) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   {
     message: S.String,
@@ -1104,19 +1090,15 @@ export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundExc
     resourceType: S.optional(S.String),
   },
 ).pipe(C.withBadRequestError) {}
-export class ConflictException extends S.TaggedError<ConflictException>()(
-  "ConflictException",
-  {
-    message: S.String,
-    resourceName: S.String,
-    resourceType: S.optional(S.String),
-  },
-).pipe(C.withConflictError) {}
-export class ValidationException extends S.TaggedError<ValidationException>()(
+export class ValidationException extends S.TaggedErrorClass<ValidationException>()(
   "ValidationException",
   { message: S.String },
 ).pipe(C.withBadRequestError) {}
-export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
+export class AccessDeniedException extends S.TaggedErrorClass<AccessDeniedException>()(
+  "AccessDeniedException",
+  { message: S.String },
+).pipe(C.withAuthError) {}
+export class ThrottlingException extends S.TaggedErrorClass<ThrottlingException>()(
   "ThrottlingException",
   {
     message: S.String,
@@ -1126,28 +1108,115 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   },
   T.Retryable({ throttling: true }),
 ).pipe(C.withThrottlingError, C.withRetryableError) {}
-export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
+export class ConflictException extends S.TaggedErrorClass<ConflictException>()(
+  "ConflictException",
+  {
+    message: S.String,
+    resourceName: S.String,
+    resourceType: S.optional(S.String),
+  },
+).pipe(C.withConflictError) {}
+export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
   { message: S.String },
 ).pipe(C.withQuotaError) {}
-export class InvalidPolicyRevisionIdException extends S.TaggedError<InvalidPolicyRevisionIdException>()(
+export class InvalidPolicyRevisionIdException extends S.TaggedErrorClass<InvalidPolicyRevisionIdException>()(
   "InvalidPolicyRevisionIdException",
   { message: S.String },
 ).pipe(C.withBadRequestError) {}
-export class PolicyNotFoundException extends S.TaggedError<PolicyNotFoundException>()(
+export class PolicyNotFoundException extends S.TaggedErrorClass<PolicyNotFoundException>()(
   "PolicyNotFoundException",
   { message: S.String },
 ).pipe(C.withBadRequestError) {}
-export class MalformedPolicyDocumentException extends S.TaggedError<MalformedPolicyDocumentException>()(
+export class MalformedPolicyDocumentException extends S.TaggedErrorClass<MalformedPolicyDocumentException>()(
   "MalformedPolicyDocumentException",
   { message: S.String },
 ).pipe(C.withBadRequestError) {}
-export class PolicySizeLimitExceededException extends S.TaggedError<PolicySizeLimitExceededException>()(
+export class PolicySizeLimitExceededException extends S.TaggedErrorClass<PolicySizeLimitExceededException>()(
   "PolicySizeLimitExceededException",
   { message: S.String },
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
+/**
+ * Displays the tags associated with a CloudWatch RUM resource.
+ */
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => effect.Effect<
+  ListTagsForResourceResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Sends telemetry events about your application performance and user behavior to CloudWatch RUM. The code snippet that RUM generates for you to add to your application includes `PutRumEvents` operations to send this data to RUM.
+ *
+ * Each `PutRumEvents` operation can send a batch of events from one user session.
+ */
+export const putRumEvents: (
+  input: PutRumEventsRequest,
+) => effect.Effect<
+  PutRumEventsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutRumEventsRequest,
+  output: PutRumEventsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Assigns one or more tags (key-value pairs) to the specified CloudWatch RUM resource. Currently, the only resources that can be tagged app monitors.
+ *
+ * Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values.
+ *
+ * Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as strings of characters.
+ *
+ * You can use the `TagResource` action with a resource that already has tags. If you specify a new tag key for the resource, this tag is appended to the list of tags associated with the alarm. If you specify a tag key that is already associated with the resource, the new tag value that you specify replaces the previous value for that tag.
+ *
+ * You can associate as many as 50 tags with a resource.
+ *
+ * For more information, see Tagging Amazon Web Services resources.
+ */
+export const tagResource: (
+  input: TagResourceRequest,
+) => effect.Effect<
+  TagResourceResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
 /**
  * Removes one or more tags from the specified resource.
  */
@@ -1170,6 +1239,64 @@ export const untagResource: (
   ],
 }));
 /**
+ * Retrieves the complete configuration information for one app monitor.
+ */
+export const getAppMonitor: (
+  input: GetAppMonitorRequest,
+) => effect.Effect<
+  GetAppMonitorResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetAppMonitorRequest,
+  output: GetAppMonitorResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Updates the configuration of an existing app monitor. When you use this operation, only the parts of the app monitor configuration that you specify in this operation are changed. For any parameters that you omit, the existing values are kept.
+ *
+ * You can't use this operation to change the tags of an existing app monitor. To change the tags of an existing app monitor, use TagResource.
+ *
+ * To create a new app monitor, use CreateAppMonitor.
+ *
+ * After you update an app monitor, sign in to the CloudWatch RUM console to get the updated JavaScript code snippet to add to your web application. For more information, see How do I find a code snippet that I've already generated?
+ */
+export const updateAppMonitor: (
+  input: UpdateAppMonitorRequest,
+) => effect.Effect<
+  UpdateAppMonitorResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateAppMonitorRequest,
+  output: UpdateAppMonitorResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
  * Deletes an existing app monitor. This immediately stops the collection of data.
  */
 export const deleteAppMonitor: (
@@ -1187,6 +1314,139 @@ export const deleteAppMonitor: (
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAppMonitorRequest,
   output: DeleteAppMonitorResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Returns a list of the Amazon CloudWatch RUM app monitors in the account.
+ */
+export const listAppMonitors: {
+  (
+    input: ListAppMonitorsRequest,
+  ): effect.Effect<
+    ListAppMonitorsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAppMonitorsRequest,
+  ) => stream.Stream<
+    ListAppMonitorsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAppMonitorsRequest,
+  ) => stream.Stream<
+    AppMonitorSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAppMonitorsRequest,
+  output: ListAppMonitorsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "AppMonitorSummaries",
+    pageSize: "MaxResults",
+  } as const,
+}));
+/**
+ * Specifies the extended metrics and custom metrics that you want a CloudWatch RUM app monitor to send to a destination. Valid destinations include CloudWatch and Evidently.
+ *
+ * By default, RUM app monitors send some metrics to CloudWatch. These default metrics are listed in CloudWatch metrics that you can collect with CloudWatch RUM.
+ *
+ * In addition to these default metrics, you can choose to send extended metrics, custom metrics, or both.
+ *
+ * - Extended metrics let you send metrics with additional dimensions that aren't included in the default metrics. You can also send extended metrics to both Evidently and CloudWatch. The valid dimension names for the additional dimensions for extended metrics are `BrowserName`, `CountryCode`, `DeviceType`, `FileType`, `OSName`, and `PageId`. For more information, see Extended metrics that you can send to CloudWatch and CloudWatch Evidently.
+ *
+ * - Custom metrics are metrics that you define. You can send custom metrics to CloudWatch. CloudWatch Evidently, or both. With custom metrics, you can use any metric name and namespace. To derive the metrics, you can use any custom events, built-in events, custom attributes, or default attributes.
+ *
+ * You can't send custom metrics to the `AWS/RUM` namespace. You must send custom metrics to a custom namespace that you define. The namespace that you use can't start with `AWS/`. CloudWatch RUM prepends `RUM/CustomMetrics/` to the custom namespace that you define, so the final namespace for your metrics in CloudWatch is `RUM/CustomMetrics/*your-custom-namespace* `.
+ *
+ * The maximum number of metric definitions that you can specify in one `BatchCreateRumMetricDefinitions` operation is 200.
+ *
+ * The maximum number of metric definitions that one destination can contain is 2000.
+ *
+ * Extended metrics sent to CloudWatch and RUM custom metrics are charged as CloudWatch custom metrics. Each combination of additional dimension name and dimension value counts as a custom metric. For more information, see Amazon CloudWatch Pricing.
+ *
+ * You must have already created a destination for the metrics before you send them. For more information, see PutRumMetricsDestination.
+ *
+ * If some metric definitions specified in a `BatchCreateRumMetricDefinitions` operations are not valid, those metric definitions fail and return errors, but all valid metric definitions in the same operation still succeed.
+ */
+export const batchCreateRumMetricDefinitions: (
+  input: BatchCreateRumMetricDefinitionsRequest,
+) => effect.Effect<
+  BatchCreateRumMetricDefinitionsResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchCreateRumMetricDefinitionsRequest,
+  output: BatchCreateRumMetricDefinitionsResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Removes the specified metrics from being sent to an extended metrics destination.
+ *
+ * If some metric definition IDs specified in a `BatchDeleteRumMetricDefinitions` operations are not valid, those metric definitions fail and return errors, but all valid metric definition IDs in the same operation are still deleted.
+ *
+ * The maximum number of metric definitions that you can specify in one `BatchDeleteRumMetricDefinitions` operation is 200.
+ */
+export const batchDeleteRumMetricDefinitions: (
+  input: BatchDeleteRumMetricDefinitionsRequest,
+) => effect.Effect<
+  BatchDeleteRumMetricDefinitionsResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchDeleteRumMetricDefinitionsRequest,
+  output: BatchDeleteRumMetricDefinitionsResponse,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1250,113 +1510,6 @@ export const batchGetRumMetricDefinitions: {
   } as const,
 }));
 /**
- * Returns a list of destinations that you have created to receive RUM extended metrics, for the specified app monitor.
- *
- * For more information about extended metrics, see AddRumMetrics.
- */
-export const listRumMetricsDestinations: {
-  (
-    input: ListRumMetricsDestinationsRequest,
-  ): effect.Effect<
-    ListRumMetricsDestinationsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  pages: (
-    input: ListRumMetricsDestinationsRequest,
-  ) => stream.Stream<
-    ListRumMetricsDestinationsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  items: (
-    input: ListRumMetricsDestinationsRequest,
-  ) => stream.Stream<
-    MetricDestinationSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
-  input: ListRumMetricsDestinationsRequest,
-  output: ListRumMetricsDestinationsResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-  pagination: {
-    inputToken: "NextToken",
-    outputToken: "NextToken",
-    items: "Destinations",
-    pageSize: "MaxResults",
-  } as const,
-}));
-/**
- * Displays the tags associated with a CloudWatch RUM resource.
- */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
-  ListTagsForResourceResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Assigns one or more tags (key-value pairs) to the specified CloudWatch RUM resource. Currently, the only resources that can be tagged app monitors.
- *
- * Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values.
- *
- * Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as strings of characters.
- *
- * You can use the `TagResource` action with a resource that already has tags. If you specify a new tag key for the resource, this tag is appended to the list of tags associated with the alarm. If you specify a tag key that is already associated with the resource, the new tag value that you specify replaces the previous value for that tag.
- *
- * You can associate as many as 50 tags with a resource.
- *
- * For more information, see Tagging Amazon Web Services resources.
- */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
-  TagResourceResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
  * Creates a Amazon CloudWatch RUM app monitor, which collects telemetry data from your application and sends that data to RUM. The data includes performance and reliability information such as page load time, client-side errors, and user behavior.
  *
  * You use this operation only to create a new app monitor. To update an existing app monitor, use UpdateAppMonitor instead.
@@ -1390,15 +1543,16 @@ export const createAppMonitor: (
   ],
 }));
 /**
- * Use this operation to retrieve information about a resource-based policy that is attached to an app monitor.
+ * Removes the association of a resource-based policy from an app monitor.
  */
-export const getResourcePolicy: (
-  input: GetResourcePolicyRequest,
+export const deleteResourcePolicy: (
+  input: DeleteResourcePolicyRequest,
 ) => effect.Effect<
-  GetResourcePolicyResponse,
+  DeleteResourcePolicyResponse,
   | AccessDeniedException
   | ConflictException
   | InternalServerException
+  | InvalidPolicyRevisionIdException
   | PolicyNotFoundException
   | ResourceNotFoundException
   | ThrottlingException
@@ -1406,12 +1560,13 @@ export const getResourcePolicy: (
   | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetResourcePolicyRequest,
-  output: GetResourcePolicyResponse,
+  input: DeleteResourcePolicyRequest,
+  output: DeleteResourcePolicyResponse,
   errors: [
     AccessDeniedException,
     ConflictException,
     InternalServerException,
+    InvalidPolicyRevisionIdException,
     PolicyNotFoundException,
     ResourceNotFoundException,
     ThrottlingException,
@@ -1419,69 +1574,12 @@ export const getResourcePolicy: (
   ],
 }));
 /**
- * Returns a list of the Amazon CloudWatch RUM app monitors in the account.
+ * Deletes a destination for CloudWatch RUM extended metrics, so that the specified app monitor stops sending extended metrics to that destination.
  */
-export const listAppMonitors: {
-  (
-    input: ListAppMonitorsRequest,
-  ): effect.Effect<
-    ListAppMonitorsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  pages: (
-    input: ListAppMonitorsRequest,
-  ) => stream.Stream<
-    ListAppMonitorsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  items: (
-    input: ListAppMonitorsRequest,
-  ) => stream.Stream<
-    AppMonitorSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
-  input: ListAppMonitorsRequest,
-  output: ListAppMonitorsResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ThrottlingException,
-    ValidationException,
-  ],
-  pagination: {
-    inputToken: "NextToken",
-    outputToken: "NextToken",
-    items: "AppMonitorSummaries",
-    pageSize: "MaxResults",
-  } as const,
-}));
-/**
- * Removes the specified metrics from being sent to an extended metrics destination.
- *
- * If some metric definition IDs specified in a `BatchDeleteRumMetricDefinitions` operations are not valid, those metric definitions fail and return errors, but all valid metric definition IDs in the same operation are still deleted.
- *
- * The maximum number of metric definitions that you can specify in one `BatchDeleteRumMetricDefinitions` operation is 200.
- */
-export const batchDeleteRumMetricDefinitions: (
-  input: BatchDeleteRumMetricDefinitionsRequest,
+export const deleteRumMetricsDestination: (
+  input: DeleteRumMetricsDestinationRequest,
 ) => effect.Effect<
-  BatchDeleteRumMetricDefinitionsResponse,
+  DeleteRumMetricsDestinationResponse,
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -1491,8 +1589,8 @@ export const batchDeleteRumMetricDefinitions: (
   | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: BatchDeleteRumMetricDefinitionsRequest,
-  output: BatchDeleteRumMetricDefinitionsResponse,
+  input: DeleteRumMetricsDestinationRequest,
+  output: DeleteRumMetricsDestinationResponse,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1560,54 +1658,117 @@ export const getAppMonitorData: {
   } as const,
 }));
 /**
- * Sends telemetry events about your application performance and user behavior to CloudWatch RUM. The code snippet that RUM generates for you to add to your application includes `PutRumEvents` operations to send this data to RUM.
- *
- * Each `PutRumEvents` operation can send a batch of events from one user session.
+ * Use this operation to retrieve information about a resource-based policy that is attached to an app monitor.
  */
-export const putRumEvents: (
-  input: PutRumEventsRequest,
+export const getResourcePolicy: (
+  input: GetResourcePolicyRequest,
 ) => effect.Effect<
-  PutRumEventsResponse,
+  GetResourcePolicyResponse,
   | AccessDeniedException
+  | ConflictException
   | InternalServerException
+  | PolicyNotFoundException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
   | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PutRumEventsRequest,
-  output: PutRumEventsResponse,
+  input: GetResourcePolicyRequest,
+  output: GetResourcePolicyResponse,
   errors: [
     AccessDeniedException,
+    ConflictException,
     InternalServerException,
+    PolicyNotFoundException,
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
   ],
 }));
 /**
- * Deletes a destination for CloudWatch RUM extended metrics, so that the specified app monitor stops sending extended metrics to that destination.
+ * Returns a list of destinations that you have created to receive RUM extended metrics, for the specified app monitor.
+ *
+ * For more information about extended metrics, see AddRumMetrics.
  */
-export const deleteRumMetricsDestination: (
-  input: DeleteRumMetricsDestinationRequest,
+export const listRumMetricsDestinations: {
+  (
+    input: ListRumMetricsDestinationsRequest,
+  ): effect.Effect<
+    ListRumMetricsDestinationsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListRumMetricsDestinationsRequest,
+  ) => stream.Stream<
+    ListRumMetricsDestinationsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListRumMetricsDestinationsRequest,
+  ) => stream.Stream<
+    MetricDestinationSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListRumMetricsDestinationsRequest,
+  output: ListRumMetricsDestinationsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Destinations",
+    pageSize: "MaxResults",
+  } as const,
+}));
+/**
+ * Use this operation to assign a resource-based policy to a CloudWatch RUM app monitor to control access to it. Each app monitor can have one resource-based policy. The maximum size of the policy is 4 KB. To learn more about using resource policies with RUM, see Using resource-based policies with CloudWatch RUM.
+ */
+export const putResourcePolicy: (
+  input: PutResourcePolicyRequest,
 ) => effect.Effect<
-  DeleteRumMetricsDestinationResponse,
+  PutResourcePolicyResponse,
   | AccessDeniedException
   | ConflictException
   | InternalServerException
+  | InvalidPolicyRevisionIdException
+  | MalformedPolicyDocumentException
+  | PolicySizeLimitExceededException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
   | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteRumMetricsDestinationRequest,
-  output: DeleteRumMetricsDestinationResponse,
+  input: PutResourcePolicyRequest,
+  output: PutResourcePolicyResponse,
   errors: [
     AccessDeniedException,
     ConflictException,
     InternalServerException,
+    InvalidPolicyRevisionIdException,
+    MalformedPolicyDocumentException,
+    PolicySizeLimitExceededException,
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
@@ -1643,39 +1804,6 @@ export const putRumMetricsDestination: (
   ],
 }));
 /**
- * Updates the configuration of an existing app monitor. When you use this operation, only the parts of the app monitor configuration that you specify in this operation are changed. For any parameters that you omit, the existing values are kept.
- *
- * You can't use this operation to change the tags of an existing app monitor. To change the tags of an existing app monitor, use TagResource.
- *
- * To create a new app monitor, use CreateAppMonitor.
- *
- * After you update an app monitor, sign in to the CloudWatch RUM console to get the updated JavaScript code snippet to add to your web application. For more information, see How do I find a code snippet that I've already generated?
- */
-export const updateAppMonitor: (
-  input: UpdateAppMonitorRequest,
-) => effect.Effect<
-  UpdateAppMonitorResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateAppMonitorRequest,
-  output: UpdateAppMonitorResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
  * Modifies one existing metric definition for CloudWatch RUM extended metrics. For more information about extended metrics, see BatchCreateRumMetricsDefinitions.
  */
 export const updateRumMetricDefinition: (
@@ -1700,144 +1828,6 @@ export const updateRumMetricDefinition: (
     InternalServerException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Removes the association of a resource-based policy from an app monitor.
- */
-export const deleteResourcePolicy: (
-  input: DeleteResourcePolicyRequest,
-) => effect.Effect<
-  DeleteResourcePolicyResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | InvalidPolicyRevisionIdException
-  | PolicyNotFoundException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteResourcePolicyRequest,
-  output: DeleteResourcePolicyResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    InvalidPolicyRevisionIdException,
-    PolicyNotFoundException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Retrieves the complete configuration information for one app monitor.
- */
-export const getAppMonitor: (
-  input: GetAppMonitorRequest,
-) => effect.Effect<
-  GetAppMonitorResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetAppMonitorRequest,
-  output: GetAppMonitorResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Specifies the extended metrics and custom metrics that you want a CloudWatch RUM app monitor to send to a destination. Valid destinations include CloudWatch and Evidently.
- *
- * By default, RUM app monitors send some metrics to CloudWatch. These default metrics are listed in CloudWatch metrics that you can collect with CloudWatch RUM.
- *
- * In addition to these default metrics, you can choose to send extended metrics, custom metrics, or both.
- *
- * - Extended metrics let you send metrics with additional dimensions that aren't included in the default metrics. You can also send extended metrics to both Evidently and CloudWatch. The valid dimension names for the additional dimensions for extended metrics are `BrowserName`, `CountryCode`, `DeviceType`, `FileType`, `OSName`, and `PageId`. For more information, see Extended metrics that you can send to CloudWatch and CloudWatch Evidently.
- *
- * - Custom metrics are metrics that you define. You can send custom metrics to CloudWatch. CloudWatch Evidently, or both. With custom metrics, you can use any metric name and namespace. To derive the metrics, you can use any custom events, built-in events, custom attributes, or default attributes.
- *
- * You can't send custom metrics to the `AWS/RUM` namespace. You must send custom metrics to a custom namespace that you define. The namespace that you use can't start with `AWS/`. CloudWatch RUM prepends `RUM/CustomMetrics/` to the custom namespace that you define, so the final namespace for your metrics in CloudWatch is `RUM/CustomMetrics/*your-custom-namespace* `.
- *
- * The maximum number of metric definitions that you can specify in one `BatchCreateRumMetricDefinitions` operation is 200.
- *
- * The maximum number of metric definitions that one destination can contain is 2000.
- *
- * Extended metrics sent to CloudWatch and RUM custom metrics are charged as CloudWatch custom metrics. Each combination of additional dimension name and dimension value counts as a custom metric. For more information, see Amazon CloudWatch Pricing.
- *
- * You must have already created a destination for the metrics before you send them. For more information, see PutRumMetricsDestination.
- *
- * If some metric definitions specified in a `BatchCreateRumMetricDefinitions` operations are not valid, those metric definitions fail and return errors, but all valid metric definitions in the same operation still succeed.
- */
-export const batchCreateRumMetricDefinitions: (
-  input: BatchCreateRumMetricDefinitionsRequest,
-) => effect.Effect<
-  BatchCreateRumMetricDefinitionsResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: BatchCreateRumMetricDefinitionsRequest,
-  output: BatchCreateRumMetricDefinitionsResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Use this operation to assign a resource-based policy to a CloudWatch RUM app monitor to control access to it. Each app monitor can have one resource-based policy. The maximum size of the policy is 4 KB. To learn more about using resource policies with RUM, see Using resource-based policies with CloudWatch RUM.
- */
-export const putResourcePolicy: (
-  input: PutResourcePolicyRequest,
-) => effect.Effect<
-  PutResourcePolicyResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | InvalidPolicyRevisionIdException
-  | MalformedPolicyDocumentException
-  | PolicySizeLimitExceededException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PutResourcePolicyRequest,
-  output: PutResourcePolicyResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    InvalidPolicyRevisionIdException,
-    MalformedPolicyDocumentException,
-    PolicySizeLimitExceededException,
-    ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
   ],

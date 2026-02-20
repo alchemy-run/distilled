@@ -182,7 +182,7 @@ test(
       SnapshotId: "snap-00000000000000000",
     }).pipe(
       Effect.map(() => "success" as const),
-      Effect.catchAll((err) => {
+      Effect.catch((err) => {
         const tag = (err as { _tag?: string })._tag;
         return Effect.succeed({ tag: "error" as const, errorTag: tag });
       }),

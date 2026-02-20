@@ -47,8 +47,8 @@ export const Sensitive = <A, I, R>(
       // Encode: accept both raw and Redacted → extract raw value
       encode: (v) => (Redacted.isRedacted(v) ? Redacted.value(v) : v),
     },
-  ).annotations({
-    identifier: `Sensitive<${schema.ast.annotations?.identifier ?? "unknown"}>`,
+  ).annotate({
+    identifier: `Sensitive<${schema.ast.annotate?.identifier ?? "unknown"}>`,
   });
 
 /**
@@ -56,7 +56,7 @@ export const Sensitive = <A, I, R>(
  * Wire format is plain string, TypeScript type is string | Redacted<string>.
  * At runtime, decoded values are always Redacted<string>.
  */
-export const SensitiveString = Sensitive(S.String).annotations({
+export const SensitiveString = Sensitive(S.String).annotate({
   identifier: "SensitiveString",
 });
 
@@ -65,6 +65,6 @@ export const SensitiveString = Sensitive(S.String).annotations({
  * Wire format is plain string | null, TypeScript type is string | null | Redacted<string>.
  * At runtime, decoded non-null values are always Redacted<string>.
  */
-export const SensitiveNullableString = S.NullOr(SensitiveString).annotations({
+export const SensitiveNullableString = S.NullOr(SensitiveString).annotate({
   identifier: "SensitiveNullableString",
 });

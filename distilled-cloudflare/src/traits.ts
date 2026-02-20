@@ -28,7 +28,7 @@ export interface Annotation {
 
 function makeAnnotation<T>(sym: symbol, value: T): Annotation {
   const fn = <A extends Annotatable>(schema: A): A =>
-    schema.annotations({ [sym]: value }) as A;
+    schema.annotate({ [sym]: value }) as A;
 
   Object.defineProperty(fn, annotationMetaSymbol, {
     value: [{ symbol: sym, value }],
@@ -47,7 +47,7 @@ function makeAnnotation<T>(sym: symbol, value: T): Annotation {
 /**
  * Combine multiple annotations into one.
  */
-export function all(...annotations: Annotation[]): Annotation {
+export function all(...annotate: Annotation[]): Annotation {
   const entries: Array<{ symbol: symbol; value: unknown }> = [];
   const raw: Record<symbol, unknown> = {};
 
@@ -58,8 +58,7 @@ export function all(...annotations: Annotation[]): Annotation {
     }
   }
 
-  const fn = <A extends Annotatable>(schema: A): A =>
-    schema.annotations(raw) as A;
+  const fn = <A extends Annotatable>(schema: A): A => schema.annotate(raw) as A;
 
   Object.defineProperty(fn, annotationMetaSymbol, {
     value: entries,
@@ -138,9 +137,9 @@ export const JsonName = (name: string) => {
       schema !== null &&
       typeof schema === "object" &&
       "annotations" in schema &&
-      typeof (schema as any).annotations === "function"
+      typeof (schema as any).annotate === "function"
     ) {
-      return (schema as any).annotations({ [jsonNameSymbol]: name }) as A;
+      return (schema as any).annotate({ [jsonNameSymbol]: name }) as A;
     }
 
     return schema;
@@ -244,14 +243,14 @@ export const getAnnotation = <T>(
   ast: AST.AST,
   symbol: symbol,
 ): T | undefined => {
-  return ast.annotations?.[symbol] as T | undefined;
+  return ast.annotate?.[symbol] as T | undefined;
 };
 
 export const getPropAnnotation = <T>(
   prop: AST.PropertySignature,
   symbol: symbol,
 ): T | undefined => {
-  const propAnnot = prop.annotations?.[symbol] as T | undefined;
+  const propAnnot = prop.annotate?.[symbol] as T | undefined;
   if (propAnnot !== undefined) return propAnnot;
   return getAnnotationUnwrap(prop.type, symbol);
 };
@@ -260,12 +259,12 @@ export const hasPropAnnotation = (
   prop: AST.PropertySignature,
   symbol: symbol,
 ): boolean => {
-  if (prop.annotations?.[symbol] !== undefined) return true;
+  if (prop.annotate?.[symbol] !== undefined) return true;
   return hasAnnotation(prop.type, symbol);
 };
 
 export const hasAnnotation = (ast: AST.AST, symbol: symbol): boolean => {
-  if (ast.annotations?.[symbol] !== undefined) return true;
+  if (ast.annotate?.[symbol] !== undefined) return true;
 
   if (ast._tag === "Suspend") {
     return hasAnnotation(ast.f(), symbol);
@@ -281,8 +280,8 @@ export const hasAnnotation = (ast: AST.AST, symbol: symbol): boolean => {
   }
 
   if (ast._tag === "Transformation") {
-    if (ast.annotations?.[symbol] !== undefined) return true;
-    if (ast.to?.annotations?.[symbol] !== undefined) return true;
+    if (ast.annotate?.[symbol] !== undefined) return true;
+    if (ast.to?.annotate?.[symbol] !== undefined) return true;
     return hasAnnotation(ast.from, symbol);
   }
 
@@ -293,7 +292,7 @@ export const getAnnotationUnwrap = <T>(
   ast: AST.AST,
   symbol: symbol,
 ): T | undefined => {
-  const direct = ast.annotations?.[symbol] as T | undefined;
+  const direct = ast.annotate?.[symbol] as T | undefined;
   if (direct !== undefined) return direct;
 
   if (ast._tag === "Suspend") {
@@ -301,9 +300,9 @@ export const getAnnotationUnwrap = <T>(
   }
 
   if (ast._tag === "Transformation") {
-    const toValue = ast.to?.annotations?.[symbol] as T | undefined;
+    const toValue = ast.to?.annotate?.[symbol] as T | undefined;
     if (toValue !== undefined) return toValue;
-    const fromValue = ast.from?.annotations?.[symbol] as T | undefined;
+    const fromValue = ast.from?.annotate?.[symbol] as T | undefined;
     if (fromValue !== undefined) return fromValue;
   }
 
@@ -368,7 +367,7 @@ export const streamingSymbol = Symbol.for("distilled-cloudflare/streaming");
 export const Streaming = () => makeAnnotation(streamingSymbol, true);
 
 export const isStreamingType = (ast: AST.AST): boolean => {
-  if (ast.annotations?.[streamingSymbol]) return true;
+  if (ast.annotate?.[streamingSymbol]) return true;
   if (ast._tag === "Union") {
     return ast.types.some((t) => isStreamingType(t));
   }
@@ -427,7 +426,7 @@ export interface ErrorMatcherAnnotation {
  *
  * @example
  * ```typescript
- * export class NoSuchBucket extends Schema.TaggedError<NoSuchBucket>()(
+ * export class NoSuchBucket extends Schema.TaggedErrorClass<NoSuchBucket>()(
  *   "NoSuchBucket",
  *   { code: Schema.Number, message: Schema.String }
  * ).pipe(T.HttpErrorMatchers([

@@ -1,4 +1,4 @@
-import { HttpClient } from "@effect/platform";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as effect from "effect/Effect";
 import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
@@ -105,16 +105,16 @@ export type InferenceId = string;
 export type EnableExplanationsHeader = string;
 export type InferenceComponentHeader = string;
 export type SessionIdOrNewSessionConstantHeader = string;
+export type NewSessionResponseHeader = string;
+export type SessionIdHeader = string;
+export type Message = string;
+export type StatusCode = number;
+export type LogStreamArn = string;
 export type InputLocationHeader = string;
 export type RequestTTLSecondsHeader = number;
 export type InvocationTimeoutSecondsHeader = number;
-export type SessionIdHeader = string;
-export type NewSessionResponseHeader = string;
-export type Message = string;
 export type PartBlob = Uint8Array | redacted.Redacted<Uint8Array>;
 export type ErrorCode = string;
-export type StatusCode = number;
-export type LogStreamArn = string;
 
 //# Schemas
 export interface InvokeEndpointInput {
@@ -171,9 +171,37 @@ export const InvokeEndpointInput = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "InvokeEndpointInput",
 }) as any as S.Schema<InvokeEndpointInput>;
+export interface InvokeEndpointOutput {
+  Body: T.StreamingOutputBody;
+  ContentType?: string;
+  InvokedProductionVariant?: string;
+  CustomAttributes?: string | redacted.Redacted<string>;
+  NewSessionId?: string;
+  ClosedSessionId?: string;
+}
+export const InvokeEndpointOutput = S.suspend(() =>
+  S.Struct({
+    Body: S.optional(T.StreamingOutput).pipe(T.HttpPayload()),
+    ContentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
+    InvokedProductionVariant: S.optional(S.String).pipe(
+      T.HttpHeader("x-Amzn-Invoked-Production-Variant"),
+    ),
+    CustomAttributes: S.optional(SensitiveString).pipe(
+      T.HttpHeader("X-Amzn-SageMaker-Custom-Attributes"),
+    ),
+    NewSessionId: S.optional(S.String).pipe(
+      T.HttpHeader("X-Amzn-SageMaker-New-Session-Id"),
+    ),
+    ClosedSessionId: S.optional(S.String).pipe(
+      T.HttpHeader("X-Amzn-SageMaker-Closed-Session-Id"),
+    ),
+  }),
+).annotate({
+  identifier: "InvokeEndpointOutput",
+}) as any as S.Schema<InvokeEndpointOutput>;
 export interface InvokeEndpointAsyncInput {
   EndpointName: string;
   ContentType?: string;
@@ -219,9 +247,27 @@ export const InvokeEndpointAsyncInput = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "InvokeEndpointAsyncInput",
 }) as any as S.Schema<InvokeEndpointAsyncInput>;
+export interface InvokeEndpointAsyncOutput {
+  InferenceId?: string;
+  OutputLocation?: string;
+  FailureLocation?: string;
+}
+export const InvokeEndpointAsyncOutput = S.suspend(() =>
+  S.Struct({
+    InferenceId: S.optional(S.String),
+    OutputLocation: S.optional(S.String).pipe(
+      T.HttpHeader("X-Amzn-SageMaker-OutputLocation"),
+    ),
+    FailureLocation: S.optional(S.String).pipe(
+      T.HttpHeader("X-Amzn-SageMaker-FailureLocation"),
+    ),
+  }),
+).annotate({
+  identifier: "InvokeEndpointAsyncOutput",
+}) as any as S.Schema<InvokeEndpointAsyncOutput>;
 export interface InvokeEndpointWithResponseStreamInput {
   EndpointName: string;
   Body?: T.StreamingInputBody;
@@ -271,61 +317,15 @@ export const InvokeEndpointWithResponseStreamInput = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "InvokeEndpointWithResponseStreamInput",
 }) as any as S.Schema<InvokeEndpointWithResponseStreamInput>;
-export interface InvokeEndpointOutput {
-  Body: T.StreamingOutputBody;
-  ContentType?: string;
-  InvokedProductionVariant?: string;
-  CustomAttributes?: string | redacted.Redacted<string>;
-  NewSessionId?: string;
-  ClosedSessionId?: string;
-}
-export const InvokeEndpointOutput = S.suspend(() =>
-  S.Struct({
-    Body: S.optional(T.StreamingOutput).pipe(T.HttpPayload()),
-    ContentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
-    InvokedProductionVariant: S.optional(S.String).pipe(
-      T.HttpHeader("x-Amzn-Invoked-Production-Variant"),
-    ),
-    CustomAttributes: S.optional(SensitiveString).pipe(
-      T.HttpHeader("X-Amzn-SageMaker-Custom-Attributes"),
-    ),
-    NewSessionId: S.optional(S.String).pipe(
-      T.HttpHeader("X-Amzn-SageMaker-New-Session-Id"),
-    ),
-    ClosedSessionId: S.optional(S.String).pipe(
-      T.HttpHeader("X-Amzn-SageMaker-Closed-Session-Id"),
-    ),
-  }),
-).annotations({
-  identifier: "InvokeEndpointOutput",
-}) as any as S.Schema<InvokeEndpointOutput>;
-export interface InvokeEndpointAsyncOutput {
-  InferenceId?: string;
-  OutputLocation?: string;
-  FailureLocation?: string;
-}
-export const InvokeEndpointAsyncOutput = S.suspend(() =>
-  S.Struct({
-    InferenceId: S.optional(S.String),
-    OutputLocation: S.optional(S.String).pipe(
-      T.HttpHeader("X-Amzn-SageMaker-OutputLocation"),
-    ),
-    FailureLocation: S.optional(S.String).pipe(
-      T.HttpHeader("X-Amzn-SageMaker-FailureLocation"),
-    ),
-  }),
-).annotations({
-  identifier: "InvokeEndpointAsyncOutput",
-}) as any as S.Schema<InvokeEndpointAsyncOutput>;
 export interface PayloadPart {
   Bytes?: Uint8Array | redacted.Redacted<Uint8Array>;
 }
 export const PayloadPart = S.suspend(() =>
   S.Struct({ Bytes: S.optional(SensitiveBlob).pipe(T.EventPayload()) }),
-).annotations({ identifier: "PayloadPart" }) as any as S.Schema<PayloadPart>;
+).annotate({ identifier: "PayloadPart" }) as any as S.Schema<PayloadPart>;
 export type ResponseStream =
   | {
       PayloadPart: PayloadPart;
@@ -343,19 +343,19 @@ export type ResponseStream =
       InternalStreamFailure: InternalStreamFailure;
     };
 export const ResponseStream = T.EventStream(
-  S.Union(
+  S.Union([
     S.Struct({ PayloadPart: PayloadPart }),
     S.Struct({
-      ModelStreamError: S.suspend(() => ModelStreamError).annotations({
+      ModelStreamError: S.suspend(() => ModelStreamError).annotate({
         identifier: "ModelStreamError",
       }),
     }),
     S.Struct({
-      InternalStreamFailure: S.suspend(() => InternalStreamFailure).annotations(
-        { identifier: "InternalStreamFailure" },
-      ),
+      InternalStreamFailure: S.suspend(() => InternalStreamFailure).annotate({
+        identifier: "InternalStreamFailure",
+      }),
     }),
-  ),
+  ]),
 ) as any as S.Schema<stream.Stream<ResponseStream, Error, never>>;
 export interface InvokeEndpointWithResponseStreamOutput {
   Body: stream.Stream<ResponseStream, Error, never>;
@@ -376,76 +376,48 @@ export const InvokeEndpointWithResponseStreamOutput = S.suspend(() =>
       T.HttpHeader("X-Amzn-SageMaker-Custom-Attributes"),
     ),
   }),
-).annotations({
+).annotate({
   identifier: "InvokeEndpointWithResponseStreamOutput",
 }) as any as S.Schema<InvokeEndpointWithResponseStreamOutput>;
 
 //# Errors
-export class InternalDependencyException extends S.TaggedError<InternalDependencyException>()(
+export class InternalDependencyException extends S.TaggedErrorClass<InternalDependencyException>()(
   "InternalDependencyException",
   { Message: S.optional(S.String) },
 ).pipe(C.withServerError) {}
-export class InternalFailure extends S.TaggedError<InternalFailure>()(
+export class InternalFailure extends S.TaggedErrorClass<InternalFailure>()(
   "InternalFailure",
   { Message: S.optional(S.String) },
 ).pipe(C.withServerError) {}
-export class ServiceUnavailable extends S.TaggedError<ServiceUnavailable>()(
-  "ServiceUnavailable",
-  { Message: S.optional(S.String) },
-).pipe(C.withServerError) {}
-export class InternalStreamFailure extends S.TaggedError<InternalStreamFailure>()(
-  "InternalStreamFailure",
-  { Message: S.optional(S.String) },
-) {}
-export class ModelError extends S.TaggedError<ModelError>()("ModelError", {
+export class ModelError extends S.TaggedErrorClass<ModelError>()("ModelError", {
   Message: S.optional(S.String),
   OriginalStatusCode: S.optional(S.Number),
   OriginalMessage: S.optional(S.String),
   LogStreamArn: S.optional(S.String),
 }) {}
-export class ModelStreamError extends S.TaggedError<ModelStreamError>()(
-  "ModelStreamError",
-  { Message: S.optional(S.String), ErrorCode: S.optional(S.String) },
-) {}
-export class ValidationError extends S.TaggedError<ValidationError>()(
-  "ValidationError",
-  { Message: S.optional(S.String) },
-).pipe(C.withBadRequestError) {}
-export class ModelNotReadyException extends S.TaggedError<ModelNotReadyException>()(
+export class ModelNotReadyException extends S.TaggedErrorClass<ModelNotReadyException>()(
   "ModelNotReadyException",
   { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "ModelNotReadyException", httpResponseCode: 429 }),
 ).pipe(C.withThrottlingError) {}
+export class ServiceUnavailable extends S.TaggedErrorClass<ServiceUnavailable>()(
+  "ServiceUnavailable",
+  { Message: S.optional(S.String) },
+).pipe(C.withServerError) {}
+export class ValidationError extends S.TaggedErrorClass<ValidationError>()(
+  "ValidationError",
+  { Message: S.optional(S.String) },
+).pipe(C.withBadRequestError) {}
+export class InternalStreamFailure extends S.TaggedErrorClass<InternalStreamFailure>()(
+  "InternalStreamFailure",
+  { Message: S.optional(S.String) },
+) {}
+export class ModelStreamError extends S.TaggedErrorClass<ModelStreamError>()(
+  "ModelStreamError",
+  { Message: S.optional(S.String), ErrorCode: S.optional(S.String) },
+) {}
 
 //# Operations
-/**
- * After you deploy a model into production using Amazon SageMaker AI hosting services,
- * your client applications use this API to get inferences from the model hosted at the
- * specified endpoint in an asynchronous manner.
- *
- * Inference requests sent to this API are enqueued for asynchronous processing. The
- * processing of the inference request may or may not complete before you receive a
- * response from this API. The response from this API will not contain the result of the
- * inference request but contain information about where you can locate it.
- *
- * Amazon SageMaker AI strips all POST headers except those supported by the API. Amazon SageMaker AI might add
- * additional headers. You should not rely on the behavior of headers outside those
- * enumerated in the request syntax.
- *
- * Calls to `InvokeEndpointAsync` are authenticated by using Amazon Web Services Signature Version 4. For information, see Authenticating
- * Requests (Amazon Web Services Signature Version 4) in the *Amazon S3 API Reference*.
- */
-export const invokeEndpointAsync: (
-  input: InvokeEndpointAsyncInput,
-) => effect.Effect<
-  InvokeEndpointAsyncOutput,
-  InternalFailure | ServiceUnavailable | ValidationError | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: InvokeEndpointAsyncInput,
-  output: InvokeEndpointAsyncOutput,
-  errors: [InternalFailure, ServiceUnavailable, ValidationError],
-}));
 /**
  * After you deploy a model into production using Amazon SageMaker AI hosting services,
  * your client applications use this API to get inferences from the model hosted at the
@@ -493,6 +465,34 @@ export const invokeEndpoint: (
     ServiceUnavailable,
     ValidationError,
   ],
+}));
+/**
+ * After you deploy a model into production using Amazon SageMaker AI hosting services,
+ * your client applications use this API to get inferences from the model hosted at the
+ * specified endpoint in an asynchronous manner.
+ *
+ * Inference requests sent to this API are enqueued for asynchronous processing. The
+ * processing of the inference request may or may not complete before you receive a
+ * response from this API. The response from this API will not contain the result of the
+ * inference request but contain information about where you can locate it.
+ *
+ * Amazon SageMaker AI strips all POST headers except those supported by the API. Amazon SageMaker AI might add
+ * additional headers. You should not rely on the behavior of headers outside those
+ * enumerated in the request syntax.
+ *
+ * Calls to `InvokeEndpointAsync` are authenticated by using Amazon Web Services Signature Version 4. For information, see Authenticating
+ * Requests (Amazon Web Services Signature Version 4) in the *Amazon S3 API Reference*.
+ */
+export const invokeEndpointAsync: (
+  input: InvokeEndpointAsyncInput,
+) => effect.Effect<
+  InvokeEndpointAsyncOutput,
+  InternalFailure | ServiceUnavailable | ValidationError | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: InvokeEndpointAsyncInput,
+  output: InvokeEndpointAsyncOutput,
+  errors: [InternalFailure, ServiceUnavailable, ValidationError],
 }));
 /**
  * Invokes a model at the specified endpoint to return the inference response as a

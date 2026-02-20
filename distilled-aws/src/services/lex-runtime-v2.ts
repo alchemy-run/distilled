@@ -1,4 +1,4 @@
-import { HttpClient } from "@effect/platform";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as effect from "effect/Effect";
 import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
@@ -93,25 +93,23 @@ export type LocaleId = string;
 export type SessionId = string;
 export type NonEmptyString = string;
 export type Text = string | redacted.Redacted<string>;
-export type SensitiveNonEmptyString = string | redacted.Redacted<string>;
 export type AttachmentTitle = string;
 export type AttachmentUrl = string;
+export type ButtonText = string;
+export type ButtonValue = string;
 export type ActiveContextName = string;
+export type ActiveContextTimeToLiveInSeconds = number;
+export type ActiveContextTurnsToLive = number;
+export type ParameterName = string;
+export type Name = string;
+export type RuntimeHintPhrase = string;
+export type SensitiveNonEmptyString = string | redacted.Redacted<string>;
 export type EventId = string;
 export type EpochMillis = number;
 export type AudioChunk = Uint8Array;
 export type DTMFRegex = string | redacted.Redacted<string>;
-export type Name = string;
-export type ButtonText = string;
-export type ButtonValue = string;
-export type ActiveContextTimeToLiveInSeconds = number;
-export type ActiveContextTurnsToLive = number;
-export type ParameterName = string;
-export type RuntimeHintPhrase = string;
 
 //# Schemas
-export type ConversationMode = "AUDIO" | "TEXT" | (string & {});
-export const ConversationMode = S.String;
 export interface DeleteSessionRequest {
   botId: string;
   botAliasId: string;
@@ -137,9 +135,25 @@ export const DeleteSessionRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "DeleteSessionRequest",
 }) as any as S.Schema<DeleteSessionRequest>;
+export interface DeleteSessionResponse {
+  botId?: string;
+  botAliasId?: string;
+  localeId?: string;
+  sessionId?: string;
+}
+export const DeleteSessionResponse = S.suspend(() =>
+  S.Struct({
+    botId: S.optional(S.String),
+    botAliasId: S.optional(S.String),
+    localeId: S.optional(S.String),
+    sessionId: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "DeleteSessionResponse",
+}) as any as S.Schema<DeleteSessionResponse>;
 export interface GetSessionRequest {
   botId: string;
   botAliasId: string;
@@ -165,63 +179,141 @@ export const GetSessionRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "GetSessionRequest",
 }) as any as S.Schema<GetSessionRequest>;
-export type DialogActionType =
-  | "Close"
-  | "ConfirmIntent"
-  | "Delegate"
-  | "ElicitIntent"
-  | "ElicitSlot"
-  | "None"
+export type MessageContentType =
+  | "CustomPayload"
+  | "ImageResponseCard"
+  | "PlainText"
+  | "SSML"
   | (string & {});
-export const DialogActionType = S.String;
-export type StyleType =
-  | "Default"
-  | "SpellByLetter"
-  | "SpellByWord"
-  | (string & {});
-export const StyleType = S.String;
-export interface ElicitSubSlot {
-  name: string;
-  subSlotToElicit?: ElicitSubSlot;
+export const MessageContentType = S.String;
+export interface Button {
+  text: string;
+  value: string;
 }
-export const ElicitSubSlot = S.suspend(() =>
+export const Button = S.suspend(() =>
+  S.Struct({ text: S.String, value: S.String }),
+).annotate({ identifier: "Button" }) as any as S.Schema<Button>;
+export type ButtonsList = Button[];
+export const ButtonsList = S.Array(Button);
+export interface ImageResponseCard {
+  title: string;
+  subtitle?: string;
+  imageUrl?: string;
+  buttons?: Button[];
+}
+export const ImageResponseCard = S.suspend(() =>
   S.Struct({
-    name: S.String,
-    subSlotToElicit: S.optional(
-      S.suspend((): S.Schema<ElicitSubSlot, any> => ElicitSubSlot).annotations({
-        identifier: "ElicitSubSlot",
-      }),
+    title: S.String,
+    subtitle: S.optional(S.String),
+    imageUrl: S.optional(S.String),
+    buttons: S.optional(ButtonsList),
+  }),
+).annotate({
+  identifier: "ImageResponseCard",
+}) as any as S.Schema<ImageResponseCard>;
+export interface Message {
+  content?: string | redacted.Redacted<string>;
+  contentType: MessageContentType;
+  imageResponseCard?: ImageResponseCard;
+}
+export const Message = S.suspend(() =>
+  S.Struct({
+    content: S.optional(SensitiveString),
+    contentType: MessageContentType,
+    imageResponseCard: S.optional(ImageResponseCard),
+  }),
+).annotate({ identifier: "Message" }) as any as S.Schema<Message>;
+export type Messages = Message[];
+export const Messages = S.Array(Message);
+export interface ConfidenceScore {
+  score?: number;
+}
+export const ConfidenceScore = S.suspend(() =>
+  S.Struct({ score: S.optional(S.Number) }),
+).annotate({
+  identifier: "ConfidenceScore",
+}) as any as S.Schema<ConfidenceScore>;
+export type SentimentType =
+  | "MIXED"
+  | "NEGATIVE"
+  | "NEUTRAL"
+  | "POSITIVE"
+  | (string & {});
+export const SentimentType = S.String;
+export interface SentimentScore {
+  positive?: number;
+  negative?: number;
+  neutral?: number;
+  mixed?: number;
+}
+export const SentimentScore = S.suspend(() =>
+  S.Struct({
+    positive: S.optional(S.Number),
+    negative: S.optional(S.Number),
+    neutral: S.optional(S.Number),
+    mixed: S.optional(S.Number),
+  }),
+).annotate({ identifier: "SentimentScore" }) as any as S.Schema<SentimentScore>;
+export interface SentimentResponse {
+  sentiment?: SentimentType;
+  sentimentScore?: SentimentScore;
+}
+export const SentimentResponse = S.suspend(() =>
+  S.Struct({
+    sentiment: S.optional(SentimentType),
+    sentimentScore: S.optional(SentimentScore),
+  }),
+).annotate({
+  identifier: "SentimentResponse",
+}) as any as S.Schema<SentimentResponse>;
+export type StringList = string[];
+export const StringList = S.Array(S.String);
+export interface Value {
+  originalValue?: string;
+  interpretedValue: string;
+  resolvedValues?: string[];
+}
+export const Value = S.suspend(() =>
+  S.Struct({
+    originalValue: S.optional(S.String),
+    interpretedValue: S.String,
+    resolvedValues: S.optional(StringList),
+  }),
+).annotate({ identifier: "Value" }) as any as S.Schema<Value>;
+export type Shape = "Scalar" | "List" | "Composite" | (string & {});
+export const Shape = S.String;
+export type Values = Slot[];
+export const Values = S.Array(
+  S.suspend((): S.Schema<Slot, any> => Slot).annotate({ identifier: "Slot" }),
+) as any as S.Schema<Values>;
+export interface Slot {
+  value?: Value;
+  shape?: Shape;
+  values?: Slot[];
+  subSlots?: { [key: string]: Slot | undefined };
+}
+export const Slot = S.suspend(() =>
+  S.Struct({
+    value: S.optional(Value),
+    shape: S.optional(Shape),
+    values: S.optional(
+      S.suspend(() => Values).annotate({ identifier: "Values" }),
+    ),
+    subSlots: S.optional(
+      S.suspend(() => Slots).annotate({ identifier: "Slots" }),
     ),
   }),
-).annotations({
-  identifier: "ElicitSubSlot",
-}) as any as S.Schema<ElicitSubSlot>;
-export interface DialogAction {
-  type: DialogActionType;
-  slotToElicit?: string;
-  slotElicitationStyle?: StyleType;
-  subSlotToElicit?: ElicitSubSlot;
-}
-export const DialogAction = S.suspend(() =>
-  S.Struct({
-    type: DialogActionType,
-    slotToElicit: S.optional(S.String),
-    slotElicitationStyle: S.optional(StyleType),
-    subSlotToElicit: S.optional(ElicitSubSlot),
-  }),
-).annotations({ identifier: "DialogAction" }) as any as S.Schema<DialogAction>;
+).annotate({ identifier: "Slot" }) as any as S.Schema<Slot>;
 export type Slots = { [key: string]: Slot | undefined };
-export const Slots = S.Record({
-  key: S.String,
-  value: S.UndefinedOr(
-    S.suspend((): S.Schema<Slot, any> => Slot).annotations({
-      identifier: "Slot",
-    }),
-  ),
-}) as any as S.Schema<Slots>;
+export const Slots = S.Record(
+  S.String,
+  S.suspend((): S.Schema<Slot, any> => Slot)
+    .annotate({ identifier: "Slot" })
+    .pipe(S.optional),
+) as any as S.Schema<Slots>;
 export type IntentState =
   | "Failed"
   | "Fulfilled"
@@ -246,23 +338,84 @@ export const Intent = S.suspend(() =>
     state: S.optional(IntentState),
     confirmationState: S.optional(ConfirmationState),
   }),
-).annotations({ identifier: "Intent" }) as any as S.Schema<Intent>;
+).annotate({ identifier: "Intent" }) as any as S.Schema<Intent>;
+export type InterpretationSource = "Bedrock" | "Lex" | (string & {});
+export const InterpretationSource = S.String;
+export interface Interpretation {
+  nluConfidence?: ConfidenceScore;
+  sentimentResponse?: SentimentResponse;
+  intent?: Intent;
+  interpretationSource?: InterpretationSource;
+}
+export const Interpretation = S.suspend(() =>
+  S.Struct({
+    nluConfidence: S.optional(ConfidenceScore),
+    sentimentResponse: S.optional(SentimentResponse),
+    intent: S.optional(Intent),
+    interpretationSource: S.optional(InterpretationSource),
+  }),
+).annotate({ identifier: "Interpretation" }) as any as S.Schema<Interpretation>;
+export type Interpretations = Interpretation[];
+export const Interpretations = S.Array(Interpretation);
+export type DialogActionType =
+  | "Close"
+  | "ConfirmIntent"
+  | "Delegate"
+  | "ElicitIntent"
+  | "ElicitSlot"
+  | "None"
+  | (string & {});
+export const DialogActionType = S.String;
+export type StyleType =
+  | "Default"
+  | "SpellByLetter"
+  | "SpellByWord"
+  | (string & {});
+export const StyleType = S.String;
+export interface ElicitSubSlot {
+  name: string;
+  subSlotToElicit?: ElicitSubSlot;
+}
+export const ElicitSubSlot = S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    subSlotToElicit: S.optional(
+      S.suspend((): S.Schema<ElicitSubSlot, any> => ElicitSubSlot).annotate({
+        identifier: "ElicitSubSlot",
+      }),
+    ),
+  }),
+).annotate({ identifier: "ElicitSubSlot" }) as any as S.Schema<ElicitSubSlot>;
+export interface DialogAction {
+  type: DialogActionType;
+  slotToElicit?: string;
+  slotElicitationStyle?: StyleType;
+  subSlotToElicit?: ElicitSubSlot;
+}
+export const DialogAction = S.suspend(() =>
+  S.Struct({
+    type: DialogActionType,
+    slotToElicit: S.optional(S.String),
+    slotElicitationStyle: S.optional(StyleType),
+    subSlotToElicit: S.optional(ElicitSubSlot),
+  }),
+).annotate({ identifier: "DialogAction" }) as any as S.Schema<DialogAction>;
 export interface ActiveContextTimeToLive {
   timeToLiveInSeconds: number;
   turnsToLive: number;
 }
 export const ActiveContextTimeToLive = S.suspend(() =>
   S.Struct({ timeToLiveInSeconds: S.Number, turnsToLive: S.Number }),
-).annotations({
+).annotate({
   identifier: "ActiveContextTimeToLive",
 }) as any as S.Schema<ActiveContextTimeToLive>;
 export type ActiveContextParametersMap = {
   [key: string]: string | redacted.Redacted<string> | undefined;
 };
-export const ActiveContextParametersMap = S.Record({
-  key: S.String,
-  value: S.UndefinedOr(SensitiveString),
-});
+export const ActiveContextParametersMap = S.Record(
+  S.String,
+  SensitiveString.pipe(S.optional),
+);
 export interface ActiveContext {
   name: string;
   timeToLive: ActiveContextTimeToLive;
@@ -276,38 +429,55 @@ export const ActiveContext = S.suspend(() =>
     timeToLive: ActiveContextTimeToLive,
     contextAttributes: ActiveContextParametersMap,
   }),
-).annotations({
-  identifier: "ActiveContext",
-}) as any as S.Schema<ActiveContext>;
+).annotate({ identifier: "ActiveContext" }) as any as S.Schema<ActiveContext>;
 export type ActiveContextsList = ActiveContext[];
 export const ActiveContextsList = S.Array(ActiveContext);
 export type StringMap = { [key: string]: string | undefined };
-export const StringMap = S.Record({
-  key: S.String,
-  value: S.UndefinedOr(S.String),
-});
+export const StringMap = S.Record(S.String, S.String.pipe(S.optional));
+export interface RuntimeHintValue {
+  phrase: string;
+}
+export const RuntimeHintValue = S.suspend(() =>
+  S.Struct({ phrase: S.String }),
+).annotate({
+  identifier: "RuntimeHintValue",
+}) as any as S.Schema<RuntimeHintValue>;
+export type RuntimeHintValuesList = RuntimeHintValue[];
+export const RuntimeHintValuesList = S.Array(RuntimeHintValue);
+export interface RuntimeHintDetails {
+  runtimeHintValues?: RuntimeHintValue[];
+  subSlotHints?: { [key: string]: RuntimeHintDetails | undefined };
+}
+export const RuntimeHintDetails = S.suspend(() =>
+  S.Struct({
+    runtimeHintValues: S.optional(RuntimeHintValuesList),
+    subSlotHints: S.optional(
+      S.suspend(() => SlotHintsSlotMap).annotate({
+        identifier: "SlotHintsSlotMap",
+      }),
+    ),
+  }),
+).annotate({
+  identifier: "RuntimeHintDetails",
+}) as any as S.Schema<RuntimeHintDetails>;
 export type SlotHintsSlotMap = {
   [key: string]: RuntimeHintDetails | undefined;
 };
-export const SlotHintsSlotMap = S.Record({
-  key: S.String,
-  value: S.UndefinedOr(
-    S.suspend(
-      (): S.Schema<RuntimeHintDetails, any> => RuntimeHintDetails,
-    ).annotations({ identifier: "RuntimeHintDetails" }),
-  ),
-}) as any as S.Schema<SlotHintsSlotMap>;
+export const SlotHintsSlotMap = S.Record(
+  S.String,
+  S.suspend((): S.Schema<RuntimeHintDetails, any> => RuntimeHintDetails)
+    .annotate({ identifier: "RuntimeHintDetails" })
+    .pipe(S.optional),
+) as any as S.Schema<SlotHintsSlotMap>;
 export type SlotHintsIntentMap = {
   [key: string]: { [key: string]: RuntimeHintDetails | undefined } | undefined;
 };
-export const SlotHintsIntentMap = S.Record({
-  key: S.String,
-  value: S.UndefinedOr(
-    S.suspend(() => SlotHintsSlotMap).annotations({
-      identifier: "SlotHintsSlotMap",
-    }),
-  ),
-});
+export const SlotHintsIntentMap = S.Record(
+  S.String,
+  S.suspend(() => SlotHintsSlotMap)
+    .annotate({ identifier: "SlotHintsSlotMap" })
+    .pipe(S.optional),
+);
 export interface RuntimeHints {
   slotHints?: {
     [key: string]:
@@ -317,7 +487,7 @@ export interface RuntimeHints {
 }
 export const RuntimeHints = S.suspend(() =>
   S.Struct({ slotHints: S.optional(SlotHintsIntentMap) }),
-).annotations({ identifier: "RuntimeHints" }) as any as S.Schema<RuntimeHints>;
+).annotate({ identifier: "RuntimeHints" }) as any as S.Schema<RuntimeHints>;
 export interface SessionState {
   dialogAction?: DialogAction;
   intent?: Intent;
@@ -335,7 +505,85 @@ export const SessionState = S.suspend(() =>
     originatingRequestId: S.optional(S.String),
     runtimeHints: S.optional(RuntimeHints),
   }),
-).annotations({ identifier: "SessionState" }) as any as S.Schema<SessionState>;
+).annotate({ identifier: "SessionState" }) as any as S.Schema<SessionState>;
+export interface GetSessionResponse {
+  sessionId?: string;
+  messages?: Message[];
+  interpretations?: Interpretation[];
+  sessionState?: SessionState;
+}
+export const GetSessionResponse = S.suspend(() =>
+  S.Struct({
+    sessionId: S.optional(S.String),
+    messages: S.optional(Messages),
+    interpretations: S.optional(Interpretations),
+    sessionState: S.optional(SessionState),
+  }),
+).annotate({
+  identifier: "GetSessionResponse",
+}) as any as S.Schema<GetSessionResponse>;
+export interface PutSessionRequest {
+  botId: string;
+  botAliasId: string;
+  localeId: string;
+  sessionId: string;
+  messages?: Message[];
+  sessionState: SessionState;
+  requestAttributes?: { [key: string]: string | undefined };
+  responseContentType?: string;
+}
+export const PutSessionRequest = S.suspend(() =>
+  S.Struct({
+    botId: S.String.pipe(T.HttpLabel("botId")),
+    botAliasId: S.String.pipe(T.HttpLabel("botAliasId")),
+    localeId: S.String.pipe(T.HttpLabel("localeId")),
+    sessionId: S.String.pipe(T.HttpLabel("sessionId")),
+    messages: S.optional(Messages),
+    sessionState: SessionState,
+    requestAttributes: S.optional(StringMap),
+    responseContentType: S.optional(S.String).pipe(
+      T.HttpHeader("ResponseContentType"),
+    ),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/bots/{botId}/botAliases/{botAliasId}/botLocales/{localeId}/sessions/{sessionId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "PutSessionRequest",
+}) as any as S.Schema<PutSessionRequest>;
+export interface PutSessionResponse {
+  contentType?: string;
+  messages?: string;
+  sessionState?: string;
+  requestAttributes?: string;
+  sessionId?: string;
+  audioStream?: T.StreamingOutputBody;
+}
+export const PutSessionResponse = S.suspend(() =>
+  S.Struct({
+    contentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
+    messages: S.optional(S.String).pipe(T.HttpHeader("x-amz-lex-messages")),
+    sessionState: S.optional(S.String).pipe(
+      T.HttpHeader("x-amz-lex-session-state"),
+    ),
+    requestAttributes: S.optional(S.String).pipe(
+      T.HttpHeader("x-amz-lex-request-attributes"),
+    ),
+    sessionId: S.optional(S.String).pipe(T.HttpHeader("x-amz-lex-session-id")),
+    audioStream: S.optional(T.StreamingOutput).pipe(T.HttpPayload()),
+  }),
+).annotate({
+  identifier: "PutSessionResponse",
+}) as any as S.Schema<PutSessionResponse>;
 export interface RecognizeTextRequest {
   botId: string;
   botAliasId: string;
@@ -367,9 +615,38 @@ export const RecognizeTextRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "RecognizeTextRequest",
 }) as any as S.Schema<RecognizeTextRequest>;
+export interface RecognizedBotMember {
+  botId: string;
+  botName?: string;
+}
+export const RecognizedBotMember = S.suspend(() =>
+  S.Struct({ botId: S.String, botName: S.optional(S.String) }),
+).annotate({
+  identifier: "RecognizedBotMember",
+}) as any as S.Schema<RecognizedBotMember>;
+export interface RecognizeTextResponse {
+  messages?: Message[];
+  sessionState?: SessionState;
+  interpretations?: Interpretation[];
+  requestAttributes?: { [key: string]: string | undefined };
+  sessionId?: string;
+  recognizedBotMember?: RecognizedBotMember;
+}
+export const RecognizeTextResponse = S.suspend(() =>
+  S.Struct({
+    messages: S.optional(Messages),
+    sessionState: S.optional(SessionState),
+    interpretations: S.optional(Interpretations),
+    requestAttributes: S.optional(StringMap),
+    sessionId: S.optional(S.String),
+    recognizedBotMember: S.optional(RecognizedBotMember),
+  }),
+).annotate({
+  identifier: "RecognizeTextResponse",
+}) as any as S.Schema<RecognizeTextResponse>;
 export interface RecognizeUtteranceRequest {
   botId: string;
   botAliasId: string;
@@ -411,32 +688,9 @@ export const RecognizeUtteranceRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "RecognizeUtteranceRequest",
 }) as any as S.Schema<RecognizeUtteranceRequest>;
-export type MessageContentType =
-  | "CustomPayload"
-  | "ImageResponseCard"
-  | "PlainText"
-  | "SSML"
-  | (string & {});
-export const MessageContentType = S.String;
-export interface DeleteSessionResponse {
-  botId?: string;
-  botAliasId?: string;
-  localeId?: string;
-  sessionId?: string;
-}
-export const DeleteSessionResponse = S.suspend(() =>
-  S.Struct({
-    botId: S.optional(S.String),
-    botAliasId: S.optional(S.String),
-    localeId: S.optional(S.String),
-    sessionId: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "DeleteSessionResponse",
-}) as any as S.Schema<DeleteSessionResponse>;
 export interface RecognizeUtteranceResponse {
   inputMode?: string;
   contentType?: string;
@@ -472,50 +726,11 @@ export const RecognizeUtteranceResponse = S.suspend(() =>
       T.HttpHeader("x-amz-lex-recognized-bot-member"),
     ),
   }),
-).annotations({
+).annotate({
   identifier: "RecognizeUtteranceResponse",
 }) as any as S.Schema<RecognizeUtteranceResponse>;
-export type InterpretationSource = "Bedrock" | "Lex" | (string & {});
-export const InterpretationSource = S.String;
-export interface Button {
-  text: string;
-  value: string;
-}
-export const Button = S.suspend(() =>
-  S.Struct({ text: S.String, value: S.String }),
-).annotations({ identifier: "Button" }) as any as S.Schema<Button>;
-export type ButtonsList = Button[];
-export const ButtonsList = S.Array(Button);
-export interface ImageResponseCard {
-  title: string;
-  subtitle?: string;
-  imageUrl?: string;
-  buttons?: Button[];
-}
-export const ImageResponseCard = S.suspend(() =>
-  S.Struct({
-    title: S.String,
-    subtitle: S.optional(S.String),
-    imageUrl: S.optional(S.String),
-    buttons: S.optional(ButtonsList),
-  }),
-).annotations({
-  identifier: "ImageResponseCard",
-}) as any as S.Schema<ImageResponseCard>;
-export interface Message {
-  content?: string | redacted.Redacted<string>;
-  contentType: MessageContentType;
-  imageResponseCard?: ImageResponseCard;
-}
-export const Message = S.suspend(() =>
-  S.Struct({
-    content: S.optional(SensitiveString),
-    contentType: MessageContentType,
-    imageResponseCard: S.optional(ImageResponseCard),
-  }),
-).annotations({ identifier: "Message" }) as any as S.Schema<Message>;
-export type Messages = Message[];
-export const Messages = S.Array(Message);
+export type ConversationMode = "AUDIO" | "TEXT" | (string & {});
+export const ConversationMode = S.String;
 export interface ConfigurationEvent {
   requestAttributes?: { [key: string]: string | undefined };
   responseContentType: string;
@@ -535,7 +750,7 @@ export const ConfigurationEvent = S.suspend(() =>
     eventId: S.optional(S.String),
     clientTimestampMillis: S.optional(S.Number),
   }),
-).annotations({
+).annotate({
   identifier: "ConfigurationEvent",
 }) as any as S.Schema<ConfigurationEvent>;
 export interface AudioInputEvent {
@@ -551,7 +766,7 @@ export const AudioInputEvent = S.suspend(() =>
     eventId: S.optional(S.String),
     clientTimestampMillis: S.optional(S.Number),
   }),
-).annotations({
+).annotate({
   identifier: "AudioInputEvent",
 }) as any as S.Schema<AudioInputEvent>;
 export interface DTMFInputEvent {
@@ -565,9 +780,7 @@ export const DTMFInputEvent = S.suspend(() =>
     eventId: S.optional(S.String),
     clientTimestampMillis: S.optional(S.Number),
   }),
-).annotations({
-  identifier: "DTMFInputEvent",
-}) as any as S.Schema<DTMFInputEvent>;
+).annotate({ identifier: "DTMFInputEvent" }) as any as S.Schema<DTMFInputEvent>;
 export interface TextInputEvent {
   text: string | redacted.Redacted<string>;
   eventId?: string;
@@ -579,9 +792,7 @@ export const TextInputEvent = S.suspend(() =>
     eventId: S.optional(S.String),
     clientTimestampMillis: S.optional(S.Number),
   }),
-).annotations({
-  identifier: "TextInputEvent",
-}) as any as S.Schema<TextInputEvent>;
+).annotate({ identifier: "TextInputEvent" }) as any as S.Schema<TextInputEvent>;
 export interface PlaybackCompletionEvent {
   eventId?: string;
   clientTimestampMillis?: number;
@@ -591,7 +802,7 @@ export const PlaybackCompletionEvent = S.suspend(() =>
     eventId: S.optional(S.String),
     clientTimestampMillis: S.optional(S.Number),
   }),
-).annotations({
+).annotate({
   identifier: "PlaybackCompletionEvent",
 }) as any as S.Schema<PlaybackCompletionEvent>;
 export interface DisconnectionEvent {
@@ -603,18 +814,9 @@ export const DisconnectionEvent = S.suspend(() =>
     eventId: S.optional(S.String),
     clientTimestampMillis: S.optional(S.Number),
   }),
-).annotations({
+).annotate({
   identifier: "DisconnectionEvent",
 }) as any as S.Schema<DisconnectionEvent>;
-export interface RecognizedBotMember {
-  botId: string;
-  botName?: string;
-}
-export const RecognizedBotMember = S.suspend(() =>
-  S.Struct({ botId: S.String, botName: S.optional(S.String) }),
-).annotations({
-  identifier: "RecognizedBotMember",
-}) as any as S.Schema<RecognizedBotMember>;
 export type StartConversationRequestEventStream =
   | {
       ConfigurationEvent: ConfigurationEvent;
@@ -665,106 +867,17 @@ export type StartConversationRequestEventStream =
       DisconnectionEvent: DisconnectionEvent;
     };
 export const StartConversationRequestEventStream = T.InputEventStream(
-  S.Union(
+  S.Union([
     S.Struct({ ConfigurationEvent: ConfigurationEvent }),
     S.Struct({ AudioInputEvent: AudioInputEvent }),
     S.Struct({ DTMFInputEvent: DTMFInputEvent }),
     S.Struct({ TextInputEvent: TextInputEvent }),
     S.Struct({ PlaybackCompletionEvent: PlaybackCompletionEvent }),
     S.Struct({ DisconnectionEvent: DisconnectionEvent }),
-  ),
+  ]),
 ) as any as S.Schema<
   stream.Stream<StartConversationRequestEventStream, Error, never>
 >;
-export type SentimentType =
-  | "MIXED"
-  | "NEGATIVE"
-  | "NEUTRAL"
-  | "POSITIVE"
-  | (string & {});
-export const SentimentType = S.String;
-export type Shape = "Scalar" | "List" | "Composite" | (string & {});
-export const Shape = S.String;
-export type Values = Slot[];
-export const Values = S.Array(
-  S.suspend((): S.Schema<Slot, any> => Slot).annotations({
-    identifier: "Slot",
-  }),
-) as any as S.Schema<Values>;
-export interface ConfidenceScore {
-  score?: number;
-}
-export const ConfidenceScore = S.suspend(() =>
-  S.Struct({ score: S.optional(S.Number) }),
-).annotations({
-  identifier: "ConfidenceScore",
-}) as any as S.Schema<ConfidenceScore>;
-export interface SentimentScore {
-  positive?: number;
-  negative?: number;
-  neutral?: number;
-  mixed?: number;
-}
-export const SentimentScore = S.suspend(() =>
-  S.Struct({
-    positive: S.optional(S.Number),
-    negative: S.optional(S.Number),
-    neutral: S.optional(S.Number),
-    mixed: S.optional(S.Number),
-  }),
-).annotations({
-  identifier: "SentimentScore",
-}) as any as S.Schema<SentimentScore>;
-export interface SentimentResponse {
-  sentiment?: SentimentType;
-  sentimentScore?: SentimentScore;
-}
-export const SentimentResponse = S.suspend(() =>
-  S.Struct({
-    sentiment: S.optional(SentimentType),
-    sentimentScore: S.optional(SentimentScore),
-  }),
-).annotations({
-  identifier: "SentimentResponse",
-}) as any as S.Schema<SentimentResponse>;
-export interface Interpretation {
-  nluConfidence?: ConfidenceScore;
-  sentimentResponse?: SentimentResponse;
-  intent?: Intent;
-  interpretationSource?: InterpretationSource;
-}
-export const Interpretation = S.suspend(() =>
-  S.Struct({
-    nluConfidence: S.optional(ConfidenceScore),
-    sentimentResponse: S.optional(SentimentResponse),
-    intent: S.optional(Intent),
-    interpretationSource: S.optional(InterpretationSource),
-  }),
-).annotations({
-  identifier: "Interpretation",
-}) as any as S.Schema<Interpretation>;
-export type Interpretations = Interpretation[];
-export const Interpretations = S.Array(Interpretation);
-export interface RecognizeTextResponse {
-  messages?: Message[];
-  sessionState?: SessionState;
-  interpretations?: Interpretation[];
-  requestAttributes?: { [key: string]: string | undefined };
-  sessionId?: string;
-  recognizedBotMember?: RecognizedBotMember;
-}
-export const RecognizeTextResponse = S.suspend(() =>
-  S.Struct({
-    messages: S.optional(Messages),
-    sessionState: S.optional(SessionState),
-    interpretations: S.optional(Interpretations),
-    requestAttributes: S.optional(StringMap),
-    sessionId: S.optional(S.String),
-    recognizedBotMember: S.optional(RecognizedBotMember),
-  }),
-).annotations({
-  identifier: "RecognizeTextResponse",
-}) as any as S.Schema<RecognizeTextResponse>;
 export interface StartConversationRequest {
   botId: string;
   botAliasId: string;
@@ -802,91 +915,15 @@ export const StartConversationRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "StartConversationRequest",
 }) as any as S.Schema<StartConversationRequest>;
-export type StringList = string[];
-export const StringList = S.Array(S.String);
-export interface Value {
-  originalValue?: string;
-  interpretedValue: string;
-  resolvedValues?: string[];
-}
-export const Value = S.suspend(() =>
-  S.Struct({
-    originalValue: S.optional(S.String),
-    interpretedValue: S.String,
-    resolvedValues: S.optional(StringList),
-  }),
-).annotations({ identifier: "Value" }) as any as S.Schema<Value>;
-export interface Slot {
-  value?: Value;
-  shape?: Shape;
-  values?: Slot[];
-  subSlots?: { [key: string]: Slot | undefined };
-}
-export const Slot = S.suspend(() =>
-  S.Struct({
-    value: S.optional(Value),
-    shape: S.optional(Shape),
-    values: S.optional(
-      S.suspend(() => Values).annotations({ identifier: "Values" }),
-    ),
-    subSlots: S.optional(
-      S.suspend(() => Slots).annotations({ identifier: "Slots" }),
-    ),
-  }),
-).annotations({ identifier: "Slot" }) as any as S.Schema<Slot>;
-export interface RuntimeHintValue {
-  phrase: string;
-}
-export const RuntimeHintValue = S.suspend(() =>
-  S.Struct({ phrase: S.String }),
-).annotations({
-  identifier: "RuntimeHintValue",
-}) as any as S.Schema<RuntimeHintValue>;
-export type RuntimeHintValuesList = RuntimeHintValue[];
-export const RuntimeHintValuesList = S.Array(RuntimeHintValue);
 export type PlaybackInterruptionReason =
   | "DTMF_START_DETECTED"
   | "TEXT_DETECTED"
   | "VOICE_START_DETECTED"
   | (string & {});
 export const PlaybackInterruptionReason = S.String;
-export type InputMode = "Text" | "Speech" | "DTMF" | (string & {});
-export const InputMode = S.String;
-export interface GetSessionResponse {
-  sessionId?: string;
-  messages?: Message[];
-  interpretations?: Interpretation[];
-  sessionState?: SessionState;
-}
-export const GetSessionResponse = S.suspend(() =>
-  S.Struct({
-    sessionId: S.optional(S.String),
-    messages: S.optional(Messages),
-    interpretations: S.optional(Interpretations),
-    sessionState: S.optional(SessionState),
-  }),
-).annotations({
-  identifier: "GetSessionResponse",
-}) as any as S.Schema<GetSessionResponse>;
-export interface RuntimeHintDetails {
-  runtimeHintValues?: RuntimeHintValue[];
-  subSlotHints?: { [key: string]: RuntimeHintDetails | undefined };
-}
-export const RuntimeHintDetails = S.suspend(() =>
-  S.Struct({
-    runtimeHintValues: S.optional(RuntimeHintValuesList),
-    subSlotHints: S.optional(
-      S.suspend(() => SlotHintsSlotMap).annotations({
-        identifier: "SlotHintsSlotMap",
-      }),
-    ),
-  }),
-).annotations({
-  identifier: "RuntimeHintDetails",
-}) as any as S.Schema<RuntimeHintDetails>;
 export interface PlaybackInterruptionEvent {
   eventReason?: PlaybackInterruptionReason;
   causedByEventId?: string;
@@ -898,7 +935,7 @@ export const PlaybackInterruptionEvent = S.suspend(() =>
     causedByEventId: S.optional(S.String),
     eventId: S.optional(S.String),
   }),
-).annotations({
+).annotate({
   identifier: "PlaybackInterruptionEvent",
 }) as any as S.Schema<PlaybackInterruptionEvent>;
 export interface TranscriptEvent {
@@ -907,9 +944,11 @@ export interface TranscriptEvent {
 }
 export const TranscriptEvent = S.suspend(() =>
   S.Struct({ transcript: S.optional(S.String), eventId: S.optional(S.String) }),
-).annotations({
+).annotate({
   identifier: "TranscriptEvent",
 }) as any as S.Schema<TranscriptEvent>;
+export type InputMode = "Text" | "Speech" | "DTMF" | (string & {});
+export const InputMode = S.String;
 export interface IntentResultEvent {
   inputMode?: InputMode;
   interpretations?: Interpretation[];
@@ -929,7 +968,7 @@ export const IntentResultEvent = S.suspend(() =>
     eventId: S.optional(S.String),
     recognizedBotMember: S.optional(RecognizedBotMember),
   }),
-).annotations({
+).annotate({
   identifier: "IntentResultEvent",
 }) as any as S.Schema<IntentResultEvent>;
 export interface TextResponseEvent {
@@ -938,7 +977,7 @@ export interface TextResponseEvent {
 }
 export const TextResponseEvent = S.suspend(() =>
   S.Struct({ messages: S.optional(Messages), eventId: S.optional(S.String) }),
-).annotations({
+).annotate({
   identifier: "TextResponseEvent",
 }) as any as S.Schema<TextResponseEvent>;
 export interface AudioResponseEvent {
@@ -952,7 +991,7 @@ export const AudioResponseEvent = S.suspend(() =>
     contentType: S.optional(S.String),
     eventId: S.optional(S.String),
   }),
-).annotations({
+).annotate({
   identifier: "AudioResponseEvent",
 }) as any as S.Schema<AudioResponseEvent>;
 export interface HeartbeatEvent {
@@ -960,9 +999,7 @@ export interface HeartbeatEvent {
 }
 export const HeartbeatEvent = S.suspend(() =>
   S.Struct({ eventId: S.optional(S.String) }),
-).annotations({
-  identifier: "HeartbeatEvent",
-}) as any as S.Schema<HeartbeatEvent>;
+).annotate({ identifier: "HeartbeatEvent" }) as any as S.Schema<HeartbeatEvent>;
 export type StartConversationResponseEventStream =
   | {
       PlaybackInterruptionEvent: PlaybackInterruptionEvent;
@@ -1189,7 +1226,7 @@ export type StartConversationResponseEventStream =
       BadGatewayException: BadGatewayException;
     };
 export const StartConversationResponseEventStream = T.EventStream(
-  S.Union(
+  S.Union([
     S.Struct({ PlaybackInterruptionEvent: PlaybackInterruptionEvent }),
     S.Struct({ TranscriptEvent: TranscriptEvent }),
     S.Struct({ IntentResultEvent: IntentResultEvent }),
@@ -1197,46 +1234,46 @@ export const StartConversationResponseEventStream = T.EventStream(
     S.Struct({ AudioResponseEvent: AudioResponseEvent }),
     S.Struct({ HeartbeatEvent: HeartbeatEvent }),
     S.Struct({
-      AccessDeniedException: S.suspend(() => AccessDeniedException).annotations(
-        { identifier: "AccessDeniedException" },
-      ),
+      AccessDeniedException: S.suspend(() => AccessDeniedException).annotate({
+        identifier: "AccessDeniedException",
+      }),
     }),
     S.Struct({
       ResourceNotFoundException: S.suspend(
         () => ResourceNotFoundException,
-      ).annotations({ identifier: "ResourceNotFoundException" }),
+      ).annotate({ identifier: "ResourceNotFoundException" }),
     }),
     S.Struct({
-      ValidationException: S.suspend(() => ValidationException).annotations({
+      ValidationException: S.suspend(() => ValidationException).annotate({
         identifier: "ValidationException",
       }),
     }),
     S.Struct({
-      ThrottlingException: S.suspend(() => ThrottlingException).annotations({
+      ThrottlingException: S.suspend(() => ThrottlingException).annotate({
         identifier: "ThrottlingException",
       }),
     }),
     S.Struct({
       InternalServerException: S.suspend(
         () => InternalServerException,
-      ).annotations({ identifier: "InternalServerException" }),
+      ).annotate({ identifier: "InternalServerException" }),
     }),
     S.Struct({
-      ConflictException: S.suspend(() => ConflictException).annotations({
+      ConflictException: S.suspend(() => ConflictException).annotate({
         identifier: "ConflictException",
       }),
     }),
     S.Struct({
       DependencyFailedException: S.suspend(
         () => DependencyFailedException,
-      ).annotations({ identifier: "DependencyFailedException" }),
+      ).annotate({ identifier: "DependencyFailedException" }),
     }),
     S.Struct({
-      BadGatewayException: S.suspend(() => BadGatewayException).annotations({
+      BadGatewayException: S.suspend(() => BadGatewayException).annotate({
         identifier: "BadGatewayException",
       }),
     }),
-  ),
+  ]),
 ) as any as S.Schema<
   stream.Stream<StartConversationResponseEventStream, Error, never>
 >;
@@ -1253,105 +1290,43 @@ export const StartConversationResponse = S.suspend(() =>
       T.HttpPayload(),
     ),
   }),
-).annotations({
+).annotate({
   identifier: "StartConversationResponse",
 }) as any as S.Schema<StartConversationResponse>;
-export interface PutSessionRequest {
-  botId: string;
-  botAliasId: string;
-  localeId: string;
-  sessionId: string;
-  messages?: Message[];
-  sessionState: SessionState;
-  requestAttributes?: { [key: string]: string | undefined };
-  responseContentType?: string;
-}
-export const PutSessionRequest = S.suspend(() =>
-  S.Struct({
-    botId: S.String.pipe(T.HttpLabel("botId")),
-    botAliasId: S.String.pipe(T.HttpLabel("botAliasId")),
-    localeId: S.String.pipe(T.HttpLabel("localeId")),
-    sessionId: S.String.pipe(T.HttpLabel("sessionId")),
-    messages: S.optional(Messages),
-    sessionState: SessionState,
-    requestAttributes: S.optional(StringMap),
-    responseContentType: S.optional(S.String).pipe(
-      T.HttpHeader("ResponseContentType"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/bots/{botId}/botAliases/{botAliasId}/botLocales/{localeId}/sessions/{sessionId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "PutSessionRequest",
-}) as any as S.Schema<PutSessionRequest>;
-export interface PutSessionResponse {
-  contentType?: string;
-  messages?: string;
-  sessionState?: string;
-  requestAttributes?: string;
-  sessionId?: string;
-  audioStream?: T.StreamingOutputBody;
-}
-export const PutSessionResponse = S.suspend(() =>
-  S.Struct({
-    contentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
-    messages: S.optional(S.String).pipe(T.HttpHeader("x-amz-lex-messages")),
-    sessionState: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-lex-session-state"),
-    ),
-    requestAttributes: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-lex-request-attributes"),
-    ),
-    sessionId: S.optional(S.String).pipe(T.HttpHeader("x-amz-lex-session-id")),
-    audioStream: S.optional(T.StreamingOutput).pipe(T.HttpPayload()),
-  }),
-).annotations({
-  identifier: "PutSessionResponse",
-}) as any as S.Schema<PutSessionResponse>;
 
 //# Errors
-export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
+export class AccessDeniedException extends S.TaggedErrorClass<AccessDeniedException>()(
   "AccessDeniedException",
   { message: S.String },
 ).pipe(C.withAuthError) {}
-export class ConflictException extends S.TaggedError<ConflictException>()(
+export class ConflictException extends S.TaggedErrorClass<ConflictException>()(
   "ConflictException",
   { message: S.String },
 ).pipe(C.withConflictError) {}
-export class BadGatewayException extends S.TaggedError<BadGatewayException>()(
-  "BadGatewayException",
-  { message: S.String },
-).pipe(C.withServerError) {}
-export class InternalServerException extends S.TaggedError<InternalServerException>()(
+export class InternalServerException extends S.TaggedErrorClass<InternalServerException>()(
   "InternalServerException",
   { message: S.String },
 ).pipe(C.withServerError) {}
-export class DependencyFailedException extends S.TaggedError<DependencyFailedException>()(
-  "DependencyFailedException",
-  { message: S.String },
-) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { message: S.String },
 ).pipe(C.withBadRequestError) {}
-export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
+export class ThrottlingException extends S.TaggedErrorClass<ThrottlingException>()(
   "ThrottlingException",
   { message: S.String },
 ).pipe(C.withThrottlingError) {}
-export class ValidationException extends S.TaggedError<ValidationException>()(
+export class ValidationException extends S.TaggedErrorClass<ValidationException>()(
   "ValidationException",
   { message: S.String },
 ).pipe(C.withBadRequestError) {}
+export class BadGatewayException extends S.TaggedErrorClass<BadGatewayException>()(
+  "BadGatewayException",
+  { message: S.String },
+).pipe(C.withServerError) {}
+export class DependencyFailedException extends S.TaggedErrorClass<DependencyFailedException>()(
+  "DependencyFailedException",
+  { message: S.String },
+) {}
 
 //# Operations
 /**
@@ -1426,6 +1401,39 @@ export const getSession: (
   output: GetSessionResponse,
   errors: [
     AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Creates a new session or modifies an existing session with an Amazon Lex V2
+ * bot. Use this operation to enable your application to set the state of
+ * the bot.
+ */
+export const putSession: (
+  input: PutSessionRequest,
+) => effect.Effect<
+  PutSessionResponse,
+  | AccessDeniedException
+  | BadGatewayException
+  | ConflictException
+  | DependencyFailedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutSessionRequest,
+  output: PutSessionResponse,
+  errors: [
+    AccessDeniedException,
+    BadGatewayException,
+    ConflictException,
+    DependencyFailedException,
     InternalServerException,
     ResourceNotFoundException,
     ThrottlingException,
@@ -1630,39 +1638,6 @@ export const startConversation: (
   errors: [
     AccessDeniedException,
     InternalServerException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Creates a new session or modifies an existing session with an Amazon Lex V2
- * bot. Use this operation to enable your application to set the state of
- * the bot.
- */
-export const putSession: (
-  input: PutSessionRequest,
-) => effect.Effect<
-  PutSessionResponse,
-  | AccessDeniedException
-  | BadGatewayException
-  | ConflictException
-  | DependencyFailedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PutSessionRequest,
-  output: PutSessionResponse,
-  errors: [
-    AccessDeniedException,
-    BadGatewayException,
-    ConflictException,
-    DependencyFailedException,
-    InternalServerException,
-    ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
   ],

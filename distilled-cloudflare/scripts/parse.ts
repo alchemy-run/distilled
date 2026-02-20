@@ -102,7 +102,7 @@ const getGitHash = (repoPath: string) =>
     Command.workingDirectory(repoPath),
     Command.string,
     Effect.map((s) => s.trim()),
-    Effect.catchAll(() => Effect.succeed("")),
+    Effect.catch(() => Effect.succeed("")),
   );
 
 /**
@@ -126,7 +126,7 @@ const loadCache = (hash: string) =>
     }
 
     return deserializeServices(data.services);
-  }).pipe(Effect.catchAll(() => Effect.succeed(undefined)));
+  }).pipe(Effect.catch(() => Effect.succeed(undefined)));
 
 /**
  * Save parsed model to cache
@@ -149,9 +149,7 @@ const saveCache = (hash: string, services: ServiceInfo[]) =>
     };
 
     yield* fs.writeFileString(cachePath, JSON.stringify(data));
-  }).pipe(
-    Effect.catchAll((e) => Effect.logWarning(`Failed to save cache: ${e}`)),
-  );
+  }).pipe(Effect.catch((e) => Effect.logWarning(`Failed to save cache: ${e}`)));
 
 /**
  * Create a type registry from a source file

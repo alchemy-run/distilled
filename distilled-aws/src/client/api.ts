@@ -1,4 +1,3 @@
-import { HttpBody, HttpClient, HttpClientRequest } from "@effect/platform";
 import { AwsV4Signer } from "aws4fetch";
 import * as Effect from "effect/Effect";
 import { pipe } from "effect/Function";
@@ -6,8 +5,10 @@ import * as Option from "effect/Option";
 import * as Redacted from "effect/Redacted";
 import * as Ref from "effect/Ref";
 import * as Stream from "effect/Stream";
+import * as HttpBody from "effect/unstable/http/HttpBody";
+import * as HttpClient from "effect/unstable/http/HttpClient";
+import * as HttpClientRequest from "effect/unstable/http/HttpClientRequest";
 
-import { recordMissingError } from "../debug/error-recorder.ts";
 import { makeDefault, Retry } from "../retry.ts";
 import { makeEndpointResolver } from "../rules-engine/endpoint-resolver.ts";
 import { getAwsApiService, getAwsAuthSigv4, getPath } from "../traits.ts";
@@ -23,7 +24,7 @@ import { Credentials, Endpoint, Region } from "../index.ts";
 
 export interface MakeOptions extends ResponseParserOptions {}
 
-export const make = <Op extends Operation>(
+export const make = <Op extends Operation<any, any, any>>(
   initOperation: () => Op,
   options?: MakeOptions,
 ): any => {
@@ -204,10 +205,10 @@ export const make = <Op extends Operation>(
     let httpBody: HttpBody.HttpBody;
     if (isStreamingBody) {
       // Convert ReadableStream to Effect Stream for HttpClient
-      const effectStream = Stream.fromReadableStream(
-        () => resolvedRequest.body as ReadableStream<Uint8Array>,
-        (error) => new Error(String(error)),
-      );
+      const effectStream = Stream.fromReadableStream({
+        evaluate: () => resolvedRequest.body as ReadableStream<Uint8Array>,
+        onError: (error) => new Error(String(error)),
+      });
       httpBody = HttpBody.stream(effectStream, contentType);
     } else if (resolvedRequest.body === undefined) {
       httpBody = HttpBody.empty;
@@ -267,14 +268,7 @@ export const make = <Op extends Operation>(
       statusText: "OK",
       headers: responseHeaders,
       body: responseBody,
-    }).pipe(
-      // Auto-record unknown errors when DISTILLED_AWS_DEBUG=1
-      Effect.tapError((error: { _tag?: string; errorTag?: string }) =>
-        error._tag === "UnknownAwsError" && serviceSdkId && operationName
-          ? recordMissingError(serviceSdkId, operationName, error.errorTag!)
-          : Effect.void,
-      ),
-    );
+    });
 
     yield* Effect.logDebug("Parsed Response", parsed);
 
@@ -291,8 +285,9 @@ export const make = <Op extends Operation>(
         Option.getOrElse(() => makeDefault(lastError)),
       );
 
+      const eff = fn(payload);
       return yield* pipe(
-        fn(payload),
+        eff,
         Effect.tapError((error) => Ref.set(lastError, error)),
         policy.while
           ? (eff) =>
@@ -307,7 +302,7 @@ export const make = <Op extends Operation>(
   );
 };
 
-export const makePaginated = <Op extends Operation>(
+export const makePaginated = <Op extends Operation<any, any, any>>(
   initOperation: () => Op,
 ): any => {
   const op = initOperation();
@@ -322,7 +317,7 @@ export const makePaginated = <Op extends Operation>(
     const unfoldFn = (state: State) =>
       Effect.gen(function* () {
         if (state.done) {
-          return Option.none();
+          return undefined;
         }
 
         // Build the request with the continuation token
@@ -342,13 +337,10 @@ export const makePaginated = <Op extends Operation>(
           token: nextToken,
           done: nextToken === undefined || nextToken === null,
         };
-        return Option.some([response, nextState] as const);
+        return [response, nextState] as const;
       });
 
-    return Stream.unfoldEffect(
-      { token: undefined, done: false } as State,
-      unfoldFn,
-    );
+    return Stream.unfold({ token: undefined, done: false } as State, unfoldFn);
   };
 
   // Stream individual items from the paginated field

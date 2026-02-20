@@ -21,20 +21,20 @@ export const Sensitive = <A, I, R>(
       decode: (a) => Redacted.make(a),
       encode: (v) => (Redacted.isRedacted(v) ? Redacted.value(v) : v),
     },
-  ).annotations({
-    identifier: `Sensitive<${schema.ast.annotations?.identifier ?? "unknown"}>`,
+  ).annotate({
+    identifier: `Sensitive<${schema.ast.annotate?.identifier ?? "unknown"}>`,
   });
 
 /**
  * Sensitive string - a string marked as sensitive.
  */
-export const SensitiveString = Sensitive(S.String).annotations({
+export const SensitiveString = Sensitive(S.String).annotate({
   identifier: "SensitiveString",
 });
 
 /**
  * Sensitive nullable string - a nullable string marked as sensitive.
  */
-export const SensitiveNullableString = S.NullOr(SensitiveString).annotations({
+export const SensitiveNullableString = S.NullOr(SensitiveString).annotate({
   identifier: "SensitiveNullableString",
 });

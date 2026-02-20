@@ -1,10 +1,10 @@
-import * as Context from "effect/Context";
 import * as Duration from "effect/Duration";
 import * as Effect from "effect/Effect";
 import { pipe } from "effect/Function";
 import * as Layer from "effect/Layer";
 import type * as Ref from "effect/Ref";
 import * as Schedule from "effect/Schedule";
+import * as ServiceMap from "effect/ServiceMap";
 import { isThrottlingError, isTransientError } from "./category";
 
 /**
@@ -35,7 +35,7 @@ export type Policy = Options | Factory;
 /**
  * Context tag for configuring retry behavior of PlanetScale API calls.
  */
-export class Retry extends Context.Tag("Retry")<Retry, Policy>() {}
+export class Retry extends ServiceMap.Service<Retry, Policy>()("Retry") {}
 
 /**
  * Provides a custom retry policy to all PlanetScale API calls in the effect.

@@ -4,52 +4,52 @@ import * as S from "effect/Schema";
 import * as Category from "../src/category.ts";
 
 // Test error classes with different categories
-class TestBadRequestError extends S.TaggedError<TestBadRequestError>()(
+class TestBadRequestError extends S.TaggedErrorClass<TestBadRequestError>()(
   "TestBadRequestError",
   { message: S.String },
 ).pipe(Category.withBadRequestError) {}
 
-class TestAuthError extends S.TaggedError<TestAuthError>()(
+class TestAuthError extends S.TaggedErrorClass<TestAuthError>()(
   "TestAuthError",
   {},
 ).pipe(Category.withAuthError) {}
 
-class TestServerError extends S.TaggedError<TestServerError>()(
+class TestServerError extends S.TaggedErrorClass<TestServerError>()(
   "TestServerError",
   {},
 ).pipe(Category.withServerError, Category.withRetryableError) {}
 
-class TestThrottlingError extends S.TaggedError<TestThrottlingError>()(
+class TestThrottlingError extends S.TaggedErrorClass<TestThrottlingError>()(
   "TestThrottlingError",
   { retryAfterSeconds: S.optional(S.Number) },
 ).pipe(Category.withThrottlingError) {}
 
-class TestConflictError extends S.TaggedError<TestConflictError>()(
+class TestConflictError extends S.TaggedErrorClass<TestConflictError>()(
   "TestConflictError",
   {},
 ).pipe(Category.withConflictError) {}
 
-class TestQuotaError extends S.TaggedError<TestQuotaError>()(
+class TestQuotaError extends S.TaggedErrorClass<TestQuotaError>()(
   "TestQuotaError",
   {},
 ).pipe(Category.withQuotaError) {}
 
-class TestTimeoutError extends S.TaggedError<TestTimeoutError>()(
+class TestTimeoutError extends S.TaggedErrorClass<TestTimeoutError>()(
   "TestTimeoutError",
   {},
 ).pipe(Category.withTimeoutError) {}
 
-class TestNetworkError extends S.TaggedError<TestNetworkError>()(
+class TestNetworkError extends S.TaggedErrorClass<TestNetworkError>()(
   "TestNetworkError",
   {},
 ).pipe(Category.withNetworkError) {}
 
-class TestAbortedError extends S.TaggedError<TestAbortedError>()(
+class TestAbortedError extends S.TaggedErrorClass<TestAbortedError>()(
   "TestAbortedError",
   {},
 ).pipe(Category.withAbortedError) {}
 
-class UncategorizedError extends S.TaggedError<UncategorizedError>()(
+class UncategorizedError extends S.TaggedErrorClass<UncategorizedError>()(
   "UncategorizedError",
   {},
 ) {}
@@ -163,7 +163,7 @@ describe("Category", () => {
       Effect.gen(function* () {
         const result = yield* Effect.fail(new TestAuthError()).pipe(
           Category.catchBadRequestError(() => Effect.succeed("caught")),
-          Effect.catchAll(() => Effect.succeed("not caught")),
+          Effect.catch(() => Effect.succeed("not caught")),
         );
         expect(result).toBe("not caught");
       }),
@@ -311,7 +311,7 @@ describe("Category", () => {
             Category.ServerError,
             () => Effect.succeed("caught"),
           ),
-          Effect.catchAll(() => Effect.succeed("not caught")),
+          Effect.catch(() => Effect.succeed("not caught")),
         );
         expect(result).toBe("not caught");
       }),
@@ -392,7 +392,7 @@ describe("Category", () => {
           }
           return "success";
         }).pipe(
-          Effect.catchAllDefect((e) =>
+          Effect.catchDefect((e) =>
             e instanceof TestServerError ? Effect.fail(e) : Effect.die(e),
           ),
           Effect.retry({

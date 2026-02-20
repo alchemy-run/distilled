@@ -1,9 +1,9 @@
+import { FetchHttpClient } from "@effect/platform";
 import "dotenv/config";
 import { Effect, Layer } from "effect";
-import { FetchHttpClient } from "@effect/platform";
 import { Credentials, CredentialsFromEnv } from "../src/credentials";
-import { listDatabases } from "../src/operations/listDatabases";
 import { deleteDatabase } from "../src/operations/deleteDatabase";
+import { listDatabases } from "../src/operations/listDatabases";
 
 const MainLayer = Layer.merge(CredentialsFromEnv, FetchHttpClient.layer);
 
@@ -36,7 +36,7 @@ const program = Effect.gen(function* () {
   for (const db of allDatabases) {
     console.log(`Deleting database: ${db.name}`);
     yield* deleteDatabase({ organization, database: db.name }).pipe(
-      Effect.catchAll((e) =>
+      Effect.catch((e) =>
         Effect.sync(() => console.error(`  Failed to delete ${db.name}:`, e)),
       ),
     );

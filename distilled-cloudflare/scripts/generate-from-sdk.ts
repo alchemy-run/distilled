@@ -24,8 +24,6 @@ import {
   type ServiceInfo,
   type TypeInfo,
   resolveTypeInfoDeep,
-  // Naming functions (still needed for some transformations)
-  buildResourceName,
   singularize,
   toCamelCase,
   toPascalCase,
@@ -69,14 +67,14 @@ const loadOperationPatch = (
 
     const exists = yield* fs
       .exists(patchFile)
-      .pipe(Effect.catchAll(() => Effect.succeed(false)));
+      .pipe(Effect.catch(() => Effect.succeed(false)));
     if (!exists) {
       return undefined;
     }
 
     const content = yield* fs
       .readFileString(patchFile)
-      .pipe(Effect.catchAll(() => Effect.succeed(undefined)));
+      .pipe(Effect.catch(() => Effect.succeed(undefined)));
     if (!content) {
       return undefined;
     }
@@ -847,7 +845,7 @@ function generateServiceFile(
     lines.push(`// ${"=".repeat(77)}`);
     lines.push("");
     for (const { tag, matchers } of mergedErrors) {
-      lines.push(`export class ${tag} extends Schema.TaggedError<${tag}>()(
+      lines.push(`export class ${tag} extends Schema.TaggedErrorClass<${tag}>()(
   "${tag}",
   { code: Schema.Number, message: Schema.String }
 ).pipe(T.HttpErrorMatchers(${JSON.stringify(matchers)})) {}`);

@@ -41,7 +41,7 @@ interface StreamingPayloadInfo {
  * @param schema - The request schema with streaming annotations
  * @returns A function that applies streaming body handling to requests
  */
-export const makeStreamingBodyMiddleware = (schema: S.Schema.AnyNoContext) => {
+export const makeStreamingBodyMiddleware = (schema: S.Top) => {
   // Pre-compute streaming payload info (done once)
   const info = getStreamingPayloadInfo(schema.ast);
 
@@ -146,7 +146,7 @@ const checkIsEventStream = (ast: AST.AST): boolean => {
   // Handle S.optional() wrapping - check union members
   if (ast._tag === "Union") {
     for (const member of (ast as AST.Union).types) {
-      if (member._tag === "UndefinedKeyword") continue;
+      if (member._tag === "Undefined") continue;
       if (isInputEventStream(member)) return true;
     }
   }

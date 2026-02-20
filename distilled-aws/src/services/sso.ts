@@ -1,4 +1,4 @@
-import { HttpClient } from "@effect/platform";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as effect from "effect/Effect";
 import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
@@ -93,13 +93,13 @@ const rules = T.EndpointResolver((p, _) => {
 export type RoleNameType = string;
 export type AccountIdType = string;
 export type AccessTokenType = string | redacted.Redacted<string>;
-export type NextTokenType = string;
-export type MaxResultType = number;
-export type ErrorDescription = string;
 export type AccessKeyType = string;
 export type SecretAccessKeyType = string | redacted.Redacted<string>;
 export type SessionTokenType = string | redacted.Redacted<string>;
 export type ExpirationTimestampType = number;
+export type ErrorDescription = string;
+export type NextTokenType = string;
+export type MaxResultType = number;
 export type AccountNameType = string;
 export type EmailAddressType = string;
 
@@ -124,9 +124,33 @@ export const GetRoleCredentialsRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "GetRoleCredentialsRequest",
 }) as any as S.Schema<GetRoleCredentialsRequest>;
+export interface RoleCredentials {
+  accessKeyId?: string;
+  secretAccessKey?: string | redacted.Redacted<string>;
+  sessionToken?: string | redacted.Redacted<string>;
+  expiration?: number;
+}
+export const RoleCredentials = S.suspend(() =>
+  S.Struct({
+    accessKeyId: S.optional(S.String),
+    secretAccessKey: S.optional(SensitiveString),
+    sessionToken: S.optional(SensitiveString),
+    expiration: S.optional(S.Number),
+  }),
+).annotate({
+  identifier: "RoleCredentials",
+}) as any as S.Schema<RoleCredentials>;
+export interface GetRoleCredentialsResponse {
+  roleCredentials?: RoleCredentials;
+}
+export const GetRoleCredentialsResponse = S.suspend(() =>
+  S.Struct({ roleCredentials: S.optional(RoleCredentials) }),
+).annotate({
+  identifier: "GetRoleCredentialsResponse",
+}) as any as S.Schema<GetRoleCredentialsResponse>;
 export interface ListAccountRolesRequest {
   nextToken?: string;
   maxResults?: number;
@@ -149,9 +173,30 @@ export const ListAccountRolesRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "ListAccountRolesRequest",
 }) as any as S.Schema<ListAccountRolesRequest>;
+export interface RoleInfo {
+  roleName?: string;
+  accountId?: string;
+}
+export const RoleInfo = S.suspend(() =>
+  S.Struct({ roleName: S.optional(S.String), accountId: S.optional(S.String) }),
+).annotate({ identifier: "RoleInfo" }) as any as S.Schema<RoleInfo>;
+export type RoleListType = RoleInfo[];
+export const RoleListType = S.Array(RoleInfo);
+export interface ListAccountRolesResponse {
+  nextToken?: string;
+  roleList?: RoleInfo[];
+}
+export const ListAccountRolesResponse = S.suspend(() =>
+  S.Struct({
+    nextToken: S.optional(S.String),
+    roleList: S.optional(RoleListType),
+  }),
+).annotate({
+  identifier: "ListAccountRolesResponse",
+}) as any as S.Schema<ListAccountRolesResponse>;
 export interface ListAccountsRequest {
   nextToken?: string;
   maxResults?: number;
@@ -172,9 +217,35 @@ export const ListAccountsRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "ListAccountsRequest",
 }) as any as S.Schema<ListAccountsRequest>;
+export interface AccountInfo {
+  accountId?: string;
+  accountName?: string;
+  emailAddress?: string;
+}
+export const AccountInfo = S.suspend(() =>
+  S.Struct({
+    accountId: S.optional(S.String),
+    accountName: S.optional(S.String),
+    emailAddress: S.optional(S.String),
+  }),
+).annotate({ identifier: "AccountInfo" }) as any as S.Schema<AccountInfo>;
+export type AccountListType = AccountInfo[];
+export const AccountListType = S.Array(AccountInfo);
+export interface ListAccountsResponse {
+  nextToken?: string;
+  accountList?: AccountInfo[];
+}
+export const ListAccountsResponse = S.suspend(() =>
+  S.Struct({
+    nextToken: S.optional(S.String),
+    accountList: S.optional(AccountListType),
+  }),
+).annotate({
+  identifier: "ListAccountsResponse",
+}) as any as S.Schema<ListAccountsResponse>;
 export interface LogoutRequest {
   accessToken: string | redacted.Redacted<string>;
 }
@@ -191,134 +262,51 @@ export const LogoutRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
-  identifier: "LogoutRequest",
-}) as any as S.Schema<LogoutRequest>;
+).annotate({ identifier: "LogoutRequest" }) as any as S.Schema<LogoutRequest>;
 export interface LogoutResponse {}
-export const LogoutResponse = S.suspend(() => S.Struct({})).annotations({
+export const LogoutResponse = S.suspend(() => S.Struct({})).annotate({
   identifier: "LogoutResponse",
 }) as any as S.Schema<LogoutResponse>;
-export interface RoleCredentials {
-  accessKeyId?: string;
-  secretAccessKey?: string | redacted.Redacted<string>;
-  sessionToken?: string | redacted.Redacted<string>;
-  expiration?: number;
-}
-export const RoleCredentials = S.suspend(() =>
-  S.Struct({
-    accessKeyId: S.optional(S.String),
-    secretAccessKey: S.optional(SensitiveString),
-    sessionToken: S.optional(SensitiveString),
-    expiration: S.optional(S.Number),
-  }),
-).annotations({
-  identifier: "RoleCredentials",
-}) as any as S.Schema<RoleCredentials>;
-export interface RoleInfo {
-  roleName?: string;
-  accountId?: string;
-}
-export const RoleInfo = S.suspend(() =>
-  S.Struct({ roleName: S.optional(S.String), accountId: S.optional(S.String) }),
-).annotations({ identifier: "RoleInfo" }) as any as S.Schema<RoleInfo>;
-export type RoleListType = RoleInfo[];
-export const RoleListType = S.Array(RoleInfo);
-export interface AccountInfo {
-  accountId?: string;
-  accountName?: string;
-  emailAddress?: string;
-}
-export const AccountInfo = S.suspend(() =>
-  S.Struct({
-    accountId: S.optional(S.String),
-    accountName: S.optional(S.String),
-    emailAddress: S.optional(S.String),
-  }),
-).annotations({ identifier: "AccountInfo" }) as any as S.Schema<AccountInfo>;
-export type AccountListType = AccountInfo[];
-export const AccountListType = S.Array(AccountInfo);
-export interface GetRoleCredentialsResponse {
-  roleCredentials?: RoleCredentials;
-}
-export const GetRoleCredentialsResponse = S.suspend(() =>
-  S.Struct({ roleCredentials: S.optional(RoleCredentials) }),
-).annotations({
-  identifier: "GetRoleCredentialsResponse",
-}) as any as S.Schema<GetRoleCredentialsResponse>;
-export interface ListAccountRolesResponse {
-  nextToken?: string;
-  roleList?: RoleInfo[];
-}
-export const ListAccountRolesResponse = S.suspend(() =>
-  S.Struct({
-    nextToken: S.optional(S.String),
-    roleList: S.optional(RoleListType),
-  }),
-).annotations({
-  identifier: "ListAccountRolesResponse",
-}) as any as S.Schema<ListAccountRolesResponse>;
-export interface ListAccountsResponse {
-  nextToken?: string;
-  accountList?: AccountInfo[];
-}
-export const ListAccountsResponse = S.suspend(() =>
-  S.Struct({
-    nextToken: S.optional(S.String),
-    accountList: S.optional(AccountListType),
-  }),
-).annotations({
-  identifier: "ListAccountsResponse",
-}) as any as S.Schema<ListAccountsResponse>;
 
 //# Errors
-export class InvalidRequestException extends S.TaggedError<InvalidRequestException>()(
+export class InvalidRequestException extends S.TaggedErrorClass<InvalidRequestException>()(
   "InvalidRequestException",
   { message: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
-export class TooManyRequestsException extends S.TaggedError<TooManyRequestsException>()(
-  "TooManyRequestsException",
-  { message: S.optional(S.String) },
-).pipe(C.withThrottlingError) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { message: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
-export class UnauthorizedException extends S.TaggedError<UnauthorizedException>()(
+export class TooManyRequestsException extends S.TaggedErrorClass<TooManyRequestsException>()(
+  "TooManyRequestsException",
+  { message: S.optional(S.String) },
+).pipe(C.withThrottlingError) {}
+export class UnauthorizedException extends S.TaggedErrorClass<UnauthorizedException>()(
   "UnauthorizedException",
   { message: S.optional(S.String) },
 ).pipe(C.withAuthError) {}
 
 //# Operations
 /**
- * Removes the locally stored SSO tokens from the client-side cache and sends an API call to
- * the IAM Identity Center service to invalidate the corresponding server-side IAM Identity Center sign in
- * session.
- *
- * If a user uses IAM Identity Center to access the AWS CLI, the user’s IAM Identity Center sign in session is
- * used to obtain an IAM session, as specified in the corresponding IAM Identity Center permission set.
- * More specifically, IAM Identity Center assumes an IAM role in the target account on behalf of the user,
- * and the corresponding temporary AWS credentials are returned to the client.
- *
- * After user logout, any existing IAM role sessions that were created by using IAM Identity Center
- * permission sets continue based on the duration configured in the permission set.
- * For more information, see User
- * authentications in the IAM Identity Center User
- * Guide.
+ * Returns the STS short-term credentials for a given role name that is assigned to the
+ * user.
  */
-export const logout: (
-  input: LogoutRequest,
+export const getRoleCredentials: (
+  input: GetRoleCredentialsRequest,
 ) => effect.Effect<
-  LogoutResponse,
+  GetRoleCredentialsResponse,
   | InvalidRequestException
+  | ResourceNotFoundException
   | TooManyRequestsException
   | UnauthorizedException
   | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: LogoutRequest,
-  output: LogoutResponse,
+  input: GetRoleCredentialsRequest,
+  output: GetRoleCredentialsResponse,
   errors: [
     InvalidRequestException,
+    ResourceNotFoundException,
     TooManyRequestsException,
     UnauthorizedException,
   ],
@@ -432,25 +420,35 @@ export const listAccounts: {
   } as const,
 }));
 /**
- * Returns the STS short-term credentials for a given role name that is assigned to the
- * user.
+ * Removes the locally stored SSO tokens from the client-side cache and sends an API call to
+ * the IAM Identity Center service to invalidate the corresponding server-side IAM Identity Center sign in
+ * session.
+ *
+ * If a user uses IAM Identity Center to access the AWS CLI, the user’s IAM Identity Center sign in session is
+ * used to obtain an IAM session, as specified in the corresponding IAM Identity Center permission set.
+ * More specifically, IAM Identity Center assumes an IAM role in the target account on behalf of the user,
+ * and the corresponding temporary AWS credentials are returned to the client.
+ *
+ * After user logout, any existing IAM role sessions that were created by using IAM Identity Center
+ * permission sets continue based on the duration configured in the permission set.
+ * For more information, see User
+ * authentications in the IAM Identity Center User
+ * Guide.
  */
-export const getRoleCredentials: (
-  input: GetRoleCredentialsRequest,
+export const logout: (
+  input: LogoutRequest,
 ) => effect.Effect<
-  GetRoleCredentialsResponse,
+  LogoutResponse,
   | InvalidRequestException
-  | ResourceNotFoundException
   | TooManyRequestsException
   | UnauthorizedException
   | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetRoleCredentialsRequest,
-  output: GetRoleCredentialsResponse,
+  input: LogoutRequest,
+  output: LogoutResponse,
   errors: [
     InvalidRequestException,
-    ResourceNotFoundException,
     TooManyRequestsException,
     UnauthorizedException,
   ],

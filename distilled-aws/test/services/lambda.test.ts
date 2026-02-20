@@ -560,7 +560,7 @@ test(
         FunctionName: func.FunctionName,
       }).pipe(
         Effect.map(() => true),
-        Effect.catchAll(() => Effect.succeed(false)),
+        Effect.catch(() => Effect.succeed(false)),
       );
       expect(exists).toEqual(false);
     }),
@@ -622,7 +622,7 @@ test(
                 UUID: mapping.UUID,
               }).pipe(
                 Effect.map(() => true),
-                Effect.catchAll(() => Effect.succeed(false)),
+                Effect.catch(() => Effect.succeed(false)),
               );
               if (stillExists) {
                 return yield* Effect.fail("still exists" as const);

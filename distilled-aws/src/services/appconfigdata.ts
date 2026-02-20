@@ -1,4 +1,4 @@
-import { HttpClient } from "@effect/platform";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as effect from "effect/Effect";
 import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
@@ -91,11 +91,11 @@ const rules = T.EndpointResolver((p, _) => {
 
 //# Newtypes
 export type Token = string;
-export type Identifier = string;
-export type OptionalPollSeconds = number;
 export type BadRequestReason = string;
 export type InvalidParameterProblem = string;
 export type ResourceType = string;
+export type Identifier = string;
+export type OptionalPollSeconds = number;
 
 //# Schemas
 export interface GetLatestConfigurationRequest {
@@ -114,9 +114,54 @@ export const GetLatestConfigurationRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "GetLatestConfigurationRequest",
 }) as any as S.Schema<GetLatestConfigurationRequest>;
+export interface GetLatestConfigurationResponse {
+  NextPollConfigurationToken?: string;
+  NextPollIntervalInSeconds?: number;
+  ContentType?: string;
+  Configuration?: T.StreamingOutputBody;
+  VersionLabel?: string;
+}
+export const GetLatestConfigurationResponse = S.suspend(() =>
+  S.Struct({
+    NextPollConfigurationToken: S.optional(S.String).pipe(
+      T.HttpHeader("Next-Poll-Configuration-Token"),
+    ),
+    NextPollIntervalInSeconds: S.optional(S.Number).pipe(
+      T.HttpHeader("Next-Poll-Interval-In-Seconds"),
+    ),
+    ContentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
+    Configuration: S.optional(T.StreamingOutput).pipe(T.HttpPayload()),
+    VersionLabel: S.optional(S.String).pipe(T.HttpHeader("Version-Label")),
+  }),
+).annotate({
+  identifier: "GetLatestConfigurationResponse",
+}) as any as S.Schema<GetLatestConfigurationResponse>;
+export interface InvalidParameterDetail {
+  Problem?: string;
+}
+export const InvalidParameterDetail = S.suspend(() =>
+  S.Struct({ Problem: S.optional(S.String) }),
+).annotate({
+  identifier: "InvalidParameterDetail",
+}) as any as S.Schema<InvalidParameterDetail>;
+export type InvalidParameterMap = {
+  [key: string]: InvalidParameterDetail | undefined;
+};
+export const InvalidParameterMap = S.Record(
+  S.String,
+  InvalidParameterDetail.pipe(S.optional),
+);
+export type BadRequestDetails = {
+  InvalidParameters: { [key: string]: InvalidParameterDetail | undefined };
+};
+export const BadRequestDetails = S.Union([
+  S.Struct({ InvalidParameters: InvalidParameterMap }),
+]);
+export type StringMap = { [key: string]: string | undefined };
+export const StringMap = S.Record(S.String, S.String.pipe(S.optional));
 export interface StartConfigurationSessionRequest {
   ApplicationIdentifier: string;
   EnvironmentIdentifier: string;
@@ -139,68 +184,20 @@ export const StartConfigurationSessionRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "StartConfigurationSessionRequest",
 }) as any as S.Schema<StartConfigurationSessionRequest>;
-export interface GetLatestConfigurationResponse {
-  NextPollConfigurationToken?: string;
-  NextPollIntervalInSeconds?: number;
-  ContentType?: string;
-  Configuration?: T.StreamingOutputBody;
-  VersionLabel?: string;
-}
-export const GetLatestConfigurationResponse = S.suspend(() =>
-  S.Struct({
-    NextPollConfigurationToken: S.optional(S.String).pipe(
-      T.HttpHeader("Next-Poll-Configuration-Token"),
-    ),
-    NextPollIntervalInSeconds: S.optional(S.Number).pipe(
-      T.HttpHeader("Next-Poll-Interval-In-Seconds"),
-    ),
-    ContentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
-    Configuration: S.optional(T.StreamingOutput).pipe(T.HttpPayload()),
-    VersionLabel: S.optional(S.String).pipe(T.HttpHeader("Version-Label")),
-  }),
-).annotations({
-  identifier: "GetLatestConfigurationResponse",
-}) as any as S.Schema<GetLatestConfigurationResponse>;
 export interface StartConfigurationSessionResponse {
   InitialConfigurationToken?: string;
 }
 export const StartConfigurationSessionResponse = S.suspend(() =>
   S.Struct({ InitialConfigurationToken: S.optional(S.String) }),
-).annotations({
+).annotate({
   identifier: "StartConfigurationSessionResponse",
 }) as any as S.Schema<StartConfigurationSessionResponse>;
-export interface InvalidParameterDetail {
-  Problem?: string;
-}
-export const InvalidParameterDetail = S.suspend(() =>
-  S.Struct({ Problem: S.optional(S.String) }),
-).annotations({
-  identifier: "InvalidParameterDetail",
-}) as any as S.Schema<InvalidParameterDetail>;
-export type InvalidParameterMap = {
-  [key: string]: InvalidParameterDetail | undefined;
-};
-export const InvalidParameterMap = S.Record({
-  key: S.String,
-  value: S.UndefinedOr(InvalidParameterDetail),
-});
-export type BadRequestDetails = {
-  InvalidParameters: { [key: string]: InvalidParameterDetail | undefined };
-};
-export const BadRequestDetails = S.Union(
-  S.Struct({ InvalidParameters: InvalidParameterMap }),
-);
-export type StringMap = { [key: string]: string | undefined };
-export const StringMap = S.Record({
-  key: S.String,
-  value: S.UndefinedOr(S.String),
-});
 
 //# Errors
-export class BadRequestException extends S.TaggedError<BadRequestException>()(
+export class BadRequestException extends S.TaggedErrorClass<BadRequestException>()(
   "BadRequestException",
   {
     Message: S.optional(S.String),
@@ -208,11 +205,11 @@ export class BadRequestException extends S.TaggedError<BadRequestException>()(
     Details: S.optional(BadRequestDetails),
   },
 ).pipe(C.withBadRequestError) {}
-export class InternalServerException extends S.TaggedError<InternalServerException>()(
+export class InternalServerException extends S.TaggedErrorClass<InternalServerException>()(
   "InternalServerException",
   { Message: S.optional(S.String) },
 ).pipe(C.withServerError) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   {
     Message: S.optional(S.String),
@@ -220,7 +217,7 @@ export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundExc
     ReferencedBy: S.optional(StringMap),
   },
 ).pipe(C.withBadRequestError) {}
-export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
+export class ThrottlingException extends S.TaggedErrorClass<ThrottlingException>()(
   "ThrottlingException",
   { Message: S.optional(S.String) },
 ).pipe(C.withThrottlingError) {}

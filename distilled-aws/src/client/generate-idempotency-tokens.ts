@@ -14,9 +14,7 @@ import { hasIdempotencyToken } from "../traits.ts";
  * Find property names that have the @idempotencyToken annotation.
  * This is done once at request builder creation time.
  */
-export const findIdempotencyTokenProps = (
-  schema: S.Schema.AnyNoContext,
-): string[] => {
+export const findIdempotencyTokenProps = (schema: S.Top): string[] => {
   const ast = schema.ast;
 
   // Only process struct schemas (structures)

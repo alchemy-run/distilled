@@ -1,4 +1,4 @@
-import { HttpClient } from "@effect/platform";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as effect from "effect/Effect";
 import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
@@ -114,11 +114,6 @@ export type QueryParser =
   | "dismax"
   | (string & {});
 export const QueryParser = S.String;
-export type ContentType =
-  | "application/json"
-  | "application/xml"
-  | (string & {});
-export const ContentType = S.String;
 export interface SearchRequest {
   cursor?: string;
   expr?: string;
@@ -165,9 +160,107 @@ export const SearchRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
-  identifier: "SearchRequest",
-}) as any as S.Schema<SearchRequest>;
+).annotate({ identifier: "SearchRequest" }) as any as S.Schema<SearchRequest>;
+export interface SearchStatus {
+  timems?: number;
+  rid?: string;
+}
+export const SearchStatus = S.suspend(() =>
+  S.Struct({ timems: S.optional(S.Number), rid: S.optional(S.String) }),
+).annotate({ identifier: "SearchStatus" }) as any as S.Schema<SearchStatus>;
+export type FieldValue = string[];
+export const FieldValue = S.Array(S.String);
+export type Fields = { [key: string]: string[] | undefined };
+export const Fields = S.Record(S.String, FieldValue.pipe(S.optional));
+export type Exprs = { [key: string]: string | undefined };
+export const Exprs = S.Record(S.String, S.String.pipe(S.optional));
+export type Highlights = { [key: string]: string | undefined };
+export const Highlights = S.Record(S.String, S.String.pipe(S.optional));
+export interface Hit {
+  id?: string;
+  fields?: { [key: string]: string[] | undefined };
+  exprs?: { [key: string]: string | undefined };
+  highlights?: { [key: string]: string | undefined };
+}
+export const Hit = S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    fields: S.optional(Fields),
+    exprs: S.optional(Exprs),
+    highlights: S.optional(Highlights),
+  }),
+).annotate({ identifier: "Hit" }) as any as S.Schema<Hit>;
+export type HitList = Hit[];
+export const HitList = S.Array(Hit);
+export interface Hits {
+  found?: number;
+  start?: number;
+  cursor?: string;
+  hit?: Hit[];
+}
+export const Hits = S.suspend(() =>
+  S.Struct({
+    found: S.optional(S.Number),
+    start: S.optional(S.Number),
+    cursor: S.optional(S.String),
+    hit: S.optional(HitList),
+  }),
+).annotate({ identifier: "Hits" }) as any as S.Schema<Hits>;
+export interface Bucket {
+  value?: string;
+  count?: number;
+}
+export const Bucket = S.suspend(() =>
+  S.Struct({ value: S.optional(S.String), count: S.optional(S.Number) }),
+).annotate({ identifier: "Bucket" }) as any as S.Schema<Bucket>;
+export type BucketList = Bucket[];
+export const BucketList = S.Array(Bucket);
+export interface BucketInfo {
+  buckets?: Bucket[];
+}
+export const BucketInfo = S.suspend(() =>
+  S.Struct({ buckets: S.optional(BucketList) }),
+).annotate({ identifier: "BucketInfo" }) as any as S.Schema<BucketInfo>;
+export type Facets = { [key: string]: BucketInfo | undefined };
+export const Facets = S.Record(S.String, BucketInfo.pipe(S.optional));
+export interface FieldStats {
+  min?: string;
+  max?: string;
+  count?: number;
+  missing?: number;
+  sum?: number;
+  sumOfSquares?: number;
+  mean?: string;
+  stddev?: number;
+}
+export const FieldStats = S.suspend(() =>
+  S.Struct({
+    min: S.optional(S.String),
+    max: S.optional(S.String),
+    count: S.optional(S.Number),
+    missing: S.optional(S.Number),
+    sum: S.optional(S.Number),
+    sumOfSquares: S.optional(S.Number),
+    mean: S.optional(S.String),
+    stddev: S.optional(S.Number),
+  }),
+).annotate({ identifier: "FieldStats" }) as any as S.Schema<FieldStats>;
+export type Stats = { [key: string]: FieldStats | undefined };
+export const Stats = S.Record(S.String, FieldStats.pipe(S.optional));
+export interface SearchResponse {
+  status?: SearchStatus;
+  hits?: Hits;
+  facets?: { [key: string]: BucketInfo | undefined };
+  stats?: { [key: string]: FieldStats | undefined };
+}
+export const SearchResponse = S.suspend(() =>
+  S.Struct({
+    status: S.optional(SearchStatus),
+    hits: S.optional(Hits),
+    facets: S.optional(Facets),
+    stats: S.optional(Stats),
+  }).pipe(ns),
+).annotate({ identifier: "SearchResponse" }) as any as S.Schema<SearchResponse>;
 export interface SuggestRequest {
   query: string;
   suggester: string;
@@ -192,9 +285,59 @@ export const SuggestRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
-  identifier: "SuggestRequest",
-}) as any as S.Schema<SuggestRequest>;
+).annotate({ identifier: "SuggestRequest" }) as any as S.Schema<SuggestRequest>;
+export interface SuggestStatus {
+  timems?: number;
+  rid?: string;
+}
+export const SuggestStatus = S.suspend(() =>
+  S.Struct({ timems: S.optional(S.Number), rid: S.optional(S.String) }),
+).annotate({ identifier: "SuggestStatus" }) as any as S.Schema<SuggestStatus>;
+export interface SuggestionMatch {
+  suggestion?: string;
+  score?: number;
+  id?: string;
+}
+export const SuggestionMatch = S.suspend(() =>
+  S.Struct({
+    suggestion: S.optional(S.String),
+    score: S.optional(S.Number),
+    id: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "SuggestionMatch",
+}) as any as S.Schema<SuggestionMatch>;
+export type Suggestions = SuggestionMatch[];
+export const Suggestions = S.Array(SuggestionMatch);
+export interface SuggestModel {
+  query?: string;
+  found?: number;
+  suggestions?: SuggestionMatch[];
+}
+export const SuggestModel = S.suspend(() =>
+  S.Struct({
+    query: S.optional(S.String),
+    found: S.optional(S.Number),
+    suggestions: S.optional(Suggestions),
+  }),
+).annotate({ identifier: "SuggestModel" }) as any as S.Schema<SuggestModel>;
+export interface SuggestResponse {
+  status?: SuggestStatus;
+  suggest?: SuggestModel;
+}
+export const SuggestResponse = S.suspend(() =>
+  S.Struct({
+    status: S.optional(SuggestStatus),
+    suggest: S.optional(SuggestModel),
+  }).pipe(ns),
+).annotate({
+  identifier: "SuggestResponse",
+}) as any as S.Schema<SuggestResponse>;
+export type ContentType =
+  | "application/json"
+  | "application/xml"
+  | (string & {});
+export const ContentType = S.String;
 export interface UploadDocumentsRequest {
   documents: T.StreamingInputBody;
   contentType: ContentType;
@@ -214,31 +357,15 @@ export const UploadDocumentsRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "UploadDocumentsRequest",
 }) as any as S.Schema<UploadDocumentsRequest>;
-export interface SearchStatus {
-  timems?: number;
-  rid?: string;
-}
-export const SearchStatus = S.suspend(() =>
-  S.Struct({ timems: S.optional(S.Number), rid: S.optional(S.String) }),
-).annotations({ identifier: "SearchStatus" }) as any as S.Schema<SearchStatus>;
-export interface SuggestStatus {
-  timems?: number;
-  rid?: string;
-}
-export const SuggestStatus = S.suspend(() =>
-  S.Struct({ timems: S.optional(S.Number), rid: S.optional(S.String) }),
-).annotations({
-  identifier: "SuggestStatus",
-}) as any as S.Schema<SuggestStatus>;
 export interface DocumentServiceWarning {
   message?: string;
 }
 export const DocumentServiceWarning = S.suspend(() =>
   S.Struct({ message: S.optional(S.String) }),
-).annotations({
+).annotate({
   identifier: "DocumentServiceWarning",
 }) as any as S.Schema<DocumentServiceWarning>;
 export type DocumentServiceWarnings = DocumentServiceWarning[];
@@ -256,208 +383,21 @@ export const UploadDocumentsResponse = S.suspend(() =>
     deletes: S.optional(S.Number),
     warnings: S.optional(DocumentServiceWarnings),
   }).pipe(ns),
-).annotations({
+).annotate({
   identifier: "UploadDocumentsResponse",
 }) as any as S.Schema<UploadDocumentsResponse>;
-export interface FieldStats {
-  min?: string;
-  max?: string;
-  count?: number;
-  missing?: number;
-  sum?: number;
-  sumOfSquares?: number;
-  mean?: string;
-  stddev?: number;
-}
-export const FieldStats = S.suspend(() =>
-  S.Struct({
-    min: S.optional(S.String),
-    max: S.optional(S.String),
-    count: S.optional(S.Number),
-    missing: S.optional(S.Number),
-    sum: S.optional(S.Number),
-    sumOfSquares: S.optional(S.Number),
-    mean: S.optional(S.String),
-    stddev: S.optional(S.Number),
-  }),
-).annotations({ identifier: "FieldStats" }) as any as S.Schema<FieldStats>;
-export interface SuggestionMatch {
-  suggestion?: string;
-  score?: number;
-  id?: string;
-}
-export const SuggestionMatch = S.suspend(() =>
-  S.Struct({
-    suggestion: S.optional(S.String),
-    score: S.optional(S.Number),
-    id: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "SuggestionMatch",
-}) as any as S.Schema<SuggestionMatch>;
-export type Suggestions = SuggestionMatch[];
-export const Suggestions = S.Array(SuggestionMatch);
-export type FieldValue = string[];
-export const FieldValue = S.Array(S.String);
-export type Stats = { [key: string]: FieldStats | undefined };
-export const Stats = S.Record({
-  key: S.String,
-  value: S.UndefinedOr(FieldStats),
-});
-export interface SuggestModel {
-  query?: string;
-  found?: number;
-  suggestions?: SuggestionMatch[];
-}
-export const SuggestModel = S.suspend(() =>
-  S.Struct({
-    query: S.optional(S.String),
-    found: S.optional(S.Number),
-    suggestions: S.optional(Suggestions),
-  }),
-).annotations({ identifier: "SuggestModel" }) as any as S.Schema<SuggestModel>;
-export type Fields = { [key: string]: string[] | undefined };
-export const Fields = S.Record({
-  key: S.String,
-  value: S.UndefinedOr(FieldValue),
-});
-export type Exprs = { [key: string]: string | undefined };
-export const Exprs = S.Record({
-  key: S.String,
-  value: S.UndefinedOr(S.String),
-});
-export type Highlights = { [key: string]: string | undefined };
-export const Highlights = S.Record({
-  key: S.String,
-  value: S.UndefinedOr(S.String),
-});
-export interface Bucket {
-  value?: string;
-  count?: number;
-}
-export const Bucket = S.suspend(() =>
-  S.Struct({ value: S.optional(S.String), count: S.optional(S.Number) }),
-).annotations({ identifier: "Bucket" }) as any as S.Schema<Bucket>;
-export type BucketList = Bucket[];
-export const BucketList = S.Array(Bucket);
-export interface SuggestResponse {
-  status?: SuggestStatus;
-  suggest?: SuggestModel;
-}
-export const SuggestResponse = S.suspend(() =>
-  S.Struct({
-    status: S.optional(SuggestStatus),
-    suggest: S.optional(SuggestModel),
-  }).pipe(ns),
-).annotations({
-  identifier: "SuggestResponse",
-}) as any as S.Schema<SuggestResponse>;
-export interface Hit {
-  id?: string;
-  fields?: { [key: string]: string[] | undefined };
-  exprs?: { [key: string]: string | undefined };
-  highlights?: { [key: string]: string | undefined };
-}
-export const Hit = S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    fields: S.optional(Fields),
-    exprs: S.optional(Exprs),
-    highlights: S.optional(Highlights),
-  }),
-).annotations({ identifier: "Hit" }) as any as S.Schema<Hit>;
-export type HitList = Hit[];
-export const HitList = S.Array(Hit);
-export interface BucketInfo {
-  buckets?: Bucket[];
-}
-export const BucketInfo = S.suspend(() =>
-  S.Struct({ buckets: S.optional(BucketList) }),
-).annotations({ identifier: "BucketInfo" }) as any as S.Schema<BucketInfo>;
-export interface Hits {
-  found?: number;
-  start?: number;
-  cursor?: string;
-  hit?: Hit[];
-}
-export const Hits = S.suspend(() =>
-  S.Struct({
-    found: S.optional(S.Number),
-    start: S.optional(S.Number),
-    cursor: S.optional(S.String),
-    hit: S.optional(HitList),
-  }),
-).annotations({ identifier: "Hits" }) as any as S.Schema<Hits>;
-export type Facets = { [key: string]: BucketInfo | undefined };
-export const Facets = S.Record({
-  key: S.String,
-  value: S.UndefinedOr(BucketInfo),
-});
-export interface SearchResponse {
-  status?: SearchStatus;
-  hits?: Hits;
-  facets?: { [key: string]: BucketInfo | undefined };
-  stats?: { [key: string]: FieldStats | undefined };
-}
-export const SearchResponse = S.suspend(() =>
-  S.Struct({
-    status: S.optional(SearchStatus),
-    hits: S.optional(Hits),
-    facets: S.optional(Facets),
-    stats: S.optional(Stats),
-  }).pipe(ns),
-).annotations({
-  identifier: "SearchResponse",
-}) as any as S.Schema<SearchResponse>;
 
 //# Errors
-export class DocumentServiceException extends S.TaggedError<DocumentServiceException>()(
-  "DocumentServiceException",
-  { status: S.optional(S.String), message: S.optional(S.String) },
-) {}
-export class SearchException extends S.TaggedError<SearchException>()(
+export class SearchException extends S.TaggedErrorClass<SearchException>()(
   "SearchException",
   { message: S.optional(S.String) },
 ) {}
+export class DocumentServiceException extends S.TaggedErrorClass<DocumentServiceException>()(
+  "DocumentServiceException",
+  { status: S.optional(S.String), message: S.optional(S.String) },
+) {}
 
 //# Operations
-/**
- * Posts a batch of documents to a search domain for indexing. A document batch is a collection of add and delete operations that represent the documents you want to add, update, or delete from your domain. Batches can be described in either JSON or XML. Each item that you want Amazon CloudSearch to return as a search result (such as a product) is represented as a document. Every document has a unique ID and one or more fields that contain the data that you want to search and return in results. Individual documents cannot contain more than 1 MB of data. The entire batch cannot exceed 5 MB. To get the best possible upload performance, group add and delete operations in batches that are close the 5 MB limit. Submitting a large volume of single-document batches can overload a domain's document service.
- *
- * The endpoint for submitting `UploadDocuments` requests is domain-specific. To get the document endpoint for your domain, use the Amazon CloudSearch configuration service `DescribeDomains` action. A domain's endpoints are also displayed on the domain dashboard in the Amazon CloudSearch console.
- *
- * For more information about formatting your data for Amazon CloudSearch, see Preparing Your Data in the *Amazon CloudSearch Developer Guide*.
- * For more information about uploading data for indexing, see Uploading Data in the *Amazon CloudSearch Developer Guide*.
- */
-export const uploadDocuments: (
-  input: UploadDocumentsRequest,
-) => effect.Effect<
-  UploadDocumentsResponse,
-  DocumentServiceException | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UploadDocumentsRequest,
-  output: UploadDocumentsResponse,
-  errors: [DocumentServiceException],
-}));
-/**
- * Retrieves autocomplete suggestions for a partial query string. You can use suggestions enable you to display likely matches before users finish typing. In Amazon CloudSearch, suggestions are based on the contents of a particular text field. When you request suggestions, Amazon CloudSearch finds all of the documents whose values in the suggester field start with the specified query string. The beginning of the field must match the query string to be considered a match.
- *
- * For more information about configuring suggesters and retrieving suggestions, see Getting Suggestions in the *Amazon CloudSearch Developer Guide*.
- *
- * The endpoint for submitting `Suggest` requests is domain-specific. You submit suggest requests to a domain's search endpoint. To get the search endpoint for your domain, use the Amazon CloudSearch configuration service `DescribeDomains` action. A domain's endpoints are also displayed on the domain dashboard in the Amazon CloudSearch console.
- */
-export const suggest: (
-  input: SuggestRequest,
-) => effect.Effect<
-  SuggestResponse,
-  SearchException | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: SuggestRequest,
-  output: SuggestResponse,
-  errors: [SearchException],
-}));
 /**
  * Retrieves a list of documents that match the specified search criteria. How you specify the search criteria depends on which query parser you use. Amazon CloudSearch supports four query parsers:
  *
@@ -483,4 +423,41 @@ export const search: (
   input: SearchRequest,
   output: SearchResponse,
   errors: [SearchException],
+}));
+/**
+ * Retrieves autocomplete suggestions for a partial query string. You can use suggestions enable you to display likely matches before users finish typing. In Amazon CloudSearch, suggestions are based on the contents of a particular text field. When you request suggestions, Amazon CloudSearch finds all of the documents whose values in the suggester field start with the specified query string. The beginning of the field must match the query string to be considered a match.
+ *
+ * For more information about configuring suggesters and retrieving suggestions, see Getting Suggestions in the *Amazon CloudSearch Developer Guide*.
+ *
+ * The endpoint for submitting `Suggest` requests is domain-specific. You submit suggest requests to a domain's search endpoint. To get the search endpoint for your domain, use the Amazon CloudSearch configuration service `DescribeDomains` action. A domain's endpoints are also displayed on the domain dashboard in the Amazon CloudSearch console.
+ */
+export const suggest: (
+  input: SuggestRequest,
+) => effect.Effect<
+  SuggestResponse,
+  SearchException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SuggestRequest,
+  output: SuggestResponse,
+  errors: [SearchException],
+}));
+/**
+ * Posts a batch of documents to a search domain for indexing. A document batch is a collection of add and delete operations that represent the documents you want to add, update, or delete from your domain. Batches can be described in either JSON or XML. Each item that you want Amazon CloudSearch to return as a search result (such as a product) is represented as a document. Every document has a unique ID and one or more fields that contain the data that you want to search and return in results. Individual documents cannot contain more than 1 MB of data. The entire batch cannot exceed 5 MB. To get the best possible upload performance, group add and delete operations in batches that are close the 5 MB limit. Submitting a large volume of single-document batches can overload a domain's document service.
+ *
+ * The endpoint for submitting `UploadDocuments` requests is domain-specific. To get the document endpoint for your domain, use the Amazon CloudSearch configuration service `DescribeDomains` action. A domain's endpoints are also displayed on the domain dashboard in the Amazon CloudSearch console.
+ *
+ * For more information about formatting your data for Amazon CloudSearch, see Preparing Your Data in the *Amazon CloudSearch Developer Guide*.
+ * For more information about uploading data for indexing, see Uploading Data in the *Amazon CloudSearch Developer Guide*.
+ */
+export const uploadDocuments: (
+  input: UploadDocumentsRequest,
+) => effect.Effect<
+  UploadDocumentsResponse,
+  DocumentServiceException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UploadDocumentsRequest,
+  output: UploadDocumentsResponse,
+  errors: [DocumentServiceException],
 }));

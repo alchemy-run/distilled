@@ -1,4 +1,4 @@
-import { HttpClient } from "@effect/platform";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as effect from "effect/Effect";
 import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
@@ -123,30 +123,25 @@ const rules = T.EndpointResolver((p, _) => {
 export type ClientId = string;
 export type CleanSession = boolean;
 export type PreventWillMessage = boolean;
+export type ErrorMessage = string;
 export type ThingName = string;
 export type ShadowName = string;
 export type Topic = string;
+export type Payload = Uint8Array;
+export type Qos = number;
+export type UserPropertiesBlob = Uint8Array;
 export type NextToken = string;
 export type PageSize = number;
 export type MaxResults = number;
-export type Qos = number;
+export type PayloadSize = number;
 export type Retain = boolean;
 export type SynthesizedJsonUserProperties = string;
 export type ContentType = string;
 export type ResponseTopic = string;
 export type CorrelationData = string;
 export type MessageExpiry = number;
-export type ErrorMessage = string;
-export type Payload = Uint8Array;
-export type UserPropertiesBlob = Uint8Array;
-export type PayloadSize = number;
 
 //# Schemas
-export type PayloadFormatIndicator =
-  | "UNSPECIFIED_BYTES"
-  | "UTF8_DATA"
-  | (string & {});
-export const PayloadFormatIndicator = S.String;
 export interface DeleteConnectionRequest {
   clientId: string;
   cleanSession?: boolean;
@@ -169,13 +164,11 @@ export const DeleteConnectionRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "DeleteConnectionRequest",
 }) as any as S.Schema<DeleteConnectionRequest>;
 export interface DeleteConnectionResponse {}
-export const DeleteConnectionResponse = S.suspend(() =>
-  S.Struct({}),
-).annotations({
+export const DeleteConnectionResponse = S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteConnectionResponse",
 }) as any as S.Schema<DeleteConnectionResponse>;
 export interface DeleteThingShadowRequest {
@@ -196,9 +189,17 @@ export const DeleteThingShadowRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "DeleteThingShadowRequest",
 }) as any as S.Schema<DeleteThingShadowRequest>;
+export interface DeleteThingShadowResponse {
+  payload: T.StreamingOutputBody;
+}
+export const DeleteThingShadowResponse = S.suspend(() =>
+  S.Struct({ payload: T.StreamingOutput.pipe(T.HttpPayload()) }),
+).annotate({
+  identifier: "DeleteThingShadowResponse",
+}) as any as S.Schema<DeleteThingShadowResponse>;
 export interface GetRetainedMessageRequest {
   topic: string;
 }
@@ -213,9 +214,27 @@ export const GetRetainedMessageRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "GetRetainedMessageRequest",
 }) as any as S.Schema<GetRetainedMessageRequest>;
+export interface GetRetainedMessageResponse {
+  topic?: string;
+  payload?: Uint8Array;
+  qos?: number;
+  lastModifiedTime?: number;
+  userProperties?: Uint8Array;
+}
+export const GetRetainedMessageResponse = S.suspend(() =>
+  S.Struct({
+    topic: S.optional(S.String),
+    payload: S.optional(T.Blob),
+    qos: S.optional(S.Number),
+    lastModifiedTime: S.optional(S.Number),
+    userProperties: S.optional(T.Blob),
+  }),
+).annotate({
+  identifier: "GetRetainedMessageResponse",
+}) as any as S.Schema<GetRetainedMessageResponse>;
 export interface GetThingShadowRequest {
   thingName: string;
   shadowName?: string;
@@ -234,9 +253,17 @@ export const GetThingShadowRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "GetThingShadowRequest",
 }) as any as S.Schema<GetThingShadowRequest>;
+export interface GetThingShadowResponse {
+  payload?: T.StreamingOutputBody;
+}
+export const GetThingShadowResponse = S.suspend(() =>
+  S.Struct({ payload: S.optional(T.StreamingOutput).pipe(T.HttpPayload()) }),
+).annotate({
+  identifier: "GetThingShadowResponse",
+}) as any as S.Schema<GetThingShadowResponse>;
 export interface ListNamedShadowsForThingRequest {
   thingName: string;
   nextToken?: string;
@@ -260,9 +287,25 @@ export const ListNamedShadowsForThingRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "ListNamedShadowsForThingRequest",
 }) as any as S.Schema<ListNamedShadowsForThingRequest>;
+export type NamedShadowList = string[];
+export const NamedShadowList = S.Array(S.String);
+export interface ListNamedShadowsForThingResponse {
+  results?: string[];
+  nextToken?: string;
+  timestamp?: number;
+}
+export const ListNamedShadowsForThingResponse = S.suspend(() =>
+  S.Struct({
+    results: S.optional(NamedShadowList),
+    nextToken: S.optional(S.String),
+    timestamp: S.optional(S.Number),
+  }),
+).annotate({
+  identifier: "ListNamedShadowsForThingResponse",
+}) as any as S.Schema<ListNamedShadowsForThingResponse>;
 export interface ListRetainedMessagesRequest {
   nextToken?: string;
   maxResults?: number;
@@ -281,9 +324,44 @@ export const ListRetainedMessagesRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "ListRetainedMessagesRequest",
 }) as any as S.Schema<ListRetainedMessagesRequest>;
+export interface RetainedMessageSummary {
+  topic?: string;
+  payloadSize?: number;
+  qos?: number;
+  lastModifiedTime?: number;
+}
+export const RetainedMessageSummary = S.suspend(() =>
+  S.Struct({
+    topic: S.optional(S.String),
+    payloadSize: S.optional(S.Number),
+    qos: S.optional(S.Number),
+    lastModifiedTime: S.optional(S.Number),
+  }),
+).annotate({
+  identifier: "RetainedMessageSummary",
+}) as any as S.Schema<RetainedMessageSummary>;
+export type RetainedMessageList = RetainedMessageSummary[];
+export const RetainedMessageList = S.Array(RetainedMessageSummary);
+export interface ListRetainedMessagesResponse {
+  retainedTopics?: RetainedMessageSummary[];
+  nextToken?: string;
+}
+export const ListRetainedMessagesResponse = S.suspend(() =>
+  S.Struct({
+    retainedTopics: S.optional(RetainedMessageList),
+    nextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ListRetainedMessagesResponse",
+}) as any as S.Schema<ListRetainedMessagesResponse>;
+export type PayloadFormatIndicator =
+  | "UNSPECIFIED_BYTES"
+  | "UTF8_DATA"
+  | (string & {});
+export const PayloadFormatIndicator = S.String;
 export interface PublishRequest {
   topic: string;
   qos?: number;
@@ -324,11 +402,9 @@ export const PublishRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
-  identifier: "PublishRequest",
-}) as any as S.Schema<PublishRequest>;
+).annotate({ identifier: "PublishRequest" }) as any as S.Schema<PublishRequest>;
 export interface PublishResponse {}
-export const PublishResponse = S.suspend(() => S.Struct({})).annotations({
+export const PublishResponse = S.suspend(() => S.Struct({})).annotate({
   identifier: "PublishResponse",
 }) as any as S.Schema<PublishResponse>;
 export interface UpdateThingShadowRequest {
@@ -351,141 +427,61 @@ export const UpdateThingShadowRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "UpdateThingShadowRequest",
 }) as any as S.Schema<UpdateThingShadowRequest>;
-export type NamedShadowList = string[];
-export const NamedShadowList = S.Array(S.String);
-export interface DeleteThingShadowResponse {
-  payload: T.StreamingOutputBody;
-}
-export const DeleteThingShadowResponse = S.suspend(() =>
-  S.Struct({ payload: T.StreamingOutput.pipe(T.HttpPayload()) }),
-).annotations({
-  identifier: "DeleteThingShadowResponse",
-}) as any as S.Schema<DeleteThingShadowResponse>;
-export interface GetRetainedMessageResponse {
-  topic?: string;
-  payload?: Uint8Array;
-  qos?: number;
-  lastModifiedTime?: number;
-  userProperties?: Uint8Array;
-}
-export const GetRetainedMessageResponse = S.suspend(() =>
-  S.Struct({
-    topic: S.optional(S.String),
-    payload: S.optional(T.Blob),
-    qos: S.optional(S.Number),
-    lastModifiedTime: S.optional(S.Number),
-    userProperties: S.optional(T.Blob),
-  }),
-).annotations({
-  identifier: "GetRetainedMessageResponse",
-}) as any as S.Schema<GetRetainedMessageResponse>;
-export interface GetThingShadowResponse {
-  payload?: T.StreamingOutputBody;
-}
-export const GetThingShadowResponse = S.suspend(() =>
-  S.Struct({ payload: S.optional(T.StreamingOutput).pipe(T.HttpPayload()) }),
-).annotations({
-  identifier: "GetThingShadowResponse",
-}) as any as S.Schema<GetThingShadowResponse>;
-export interface ListNamedShadowsForThingResponse {
-  results?: string[];
-  nextToken?: string;
-  timestamp?: number;
-}
-export const ListNamedShadowsForThingResponse = S.suspend(() =>
-  S.Struct({
-    results: S.optional(NamedShadowList),
-    nextToken: S.optional(S.String),
-    timestamp: S.optional(S.Number),
-  }),
-).annotations({
-  identifier: "ListNamedShadowsForThingResponse",
-}) as any as S.Schema<ListNamedShadowsForThingResponse>;
 export interface UpdateThingShadowResponse {
   payload?: T.StreamingOutputBody;
 }
 export const UpdateThingShadowResponse = S.suspend(() =>
   S.Struct({ payload: S.optional(T.StreamingOutput).pipe(T.HttpPayload()) }),
-).annotations({
+).annotate({
   identifier: "UpdateThingShadowResponse",
 }) as any as S.Schema<UpdateThingShadowResponse>;
-export interface RetainedMessageSummary {
-  topic?: string;
-  payloadSize?: number;
-  qos?: number;
-  lastModifiedTime?: number;
-}
-export const RetainedMessageSummary = S.suspend(() =>
-  S.Struct({
-    topic: S.optional(S.String),
-    payloadSize: S.optional(S.Number),
-    qos: S.optional(S.Number),
-    lastModifiedTime: S.optional(S.Number),
-  }),
-).annotations({
-  identifier: "RetainedMessageSummary",
-}) as any as S.Schema<RetainedMessageSummary>;
-export type RetainedMessageList = RetainedMessageSummary[];
-export const RetainedMessageList = S.Array(RetainedMessageSummary);
-export interface ListRetainedMessagesResponse {
-  retainedTopics?: RetainedMessageSummary[];
-  nextToken?: string;
-}
-export const ListRetainedMessagesResponse = S.suspend(() =>
-  S.Struct({
-    retainedTopics: S.optional(RetainedMessageList),
-    nextToken: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "ListRetainedMessagesResponse",
-}) as any as S.Schema<ListRetainedMessagesResponse>;
 
 //# Errors
-export class ForbiddenException extends S.TaggedError<ForbiddenException>()(
+export class ForbiddenException extends S.TaggedErrorClass<ForbiddenException>()(
   "ForbiddenException",
   { message: S.optional(S.String) },
 ).pipe(C.withAuthError) {}
-export class InternalFailureException extends S.TaggedError<InternalFailureException>()(
+export class InternalFailureException extends S.TaggedErrorClass<InternalFailureException>()(
   "InternalFailureException",
   { message: S.optional(S.String) },
 ).pipe(C.withServerError) {}
-export class InvalidRequestException extends S.TaggedError<InvalidRequestException>()(
+export class InvalidRequestException extends S.TaggedErrorClass<InvalidRequestException>()(
   "InvalidRequestException",
   { message: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
-export class ConflictException extends S.TaggedError<ConflictException>()(
-  "ConflictException",
-  { message: S.optional(S.String) },
-).pipe(C.withConflictError) {}
-export class MethodNotAllowedException extends S.TaggedError<MethodNotAllowedException>()(
-  "MethodNotAllowedException",
-  { message: S.optional(S.String) },
-).pipe(C.withBadRequestError) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { message: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
-export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
+export class ThrottlingException extends S.TaggedErrorClass<ThrottlingException>()(
   "ThrottlingException",
   { message: S.optional(S.String) },
 ).pipe(C.withThrottlingError) {}
-export class RequestEntityTooLargeException extends S.TaggedError<RequestEntityTooLargeException>()(
-  "RequestEntityTooLargeException",
+export class MethodNotAllowedException extends S.TaggedErrorClass<MethodNotAllowedException>()(
+  "MethodNotAllowedException",
   { message: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
-export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailableException>()(
+export class ServiceUnavailableException extends S.TaggedErrorClass<ServiceUnavailableException>()(
   "ServiceUnavailableException",
   { message: S.optional(S.String) },
 ).pipe(C.withServerError) {}
-export class UnauthorizedException extends S.TaggedError<UnauthorizedException>()(
+export class UnauthorizedException extends S.TaggedErrorClass<UnauthorizedException>()(
   "UnauthorizedException",
   { message: S.optional(S.String) },
 ).pipe(C.withAuthError) {}
-export class UnsupportedDocumentEncodingException extends S.TaggedError<UnsupportedDocumentEncodingException>()(
+export class UnsupportedDocumentEncodingException extends S.TaggedErrorClass<UnsupportedDocumentEncodingException>()(
   "UnsupportedDocumentEncodingException",
+  { message: S.optional(S.String) },
+).pipe(C.withBadRequestError) {}
+export class ConflictException extends S.TaggedErrorClass<ConflictException>()(
+  "ConflictException",
+  { message: S.optional(S.String) },
+).pipe(C.withConflictError) {}
+export class RequestEntityTooLargeException extends S.TaggedErrorClass<RequestEntityTooLargeException>()(
+  "RequestEntityTooLargeException",
   { message: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
 
@@ -516,37 +512,38 @@ export const deleteConnection: (
   ],
 }));
 /**
- * Publishes an MQTT message.
+ * Deletes the shadow for the specified thing.
  *
- * Requires permission to access the Publish action.
+ * Requires permission to access the DeleteThingShadow action.
  *
- * For more information about MQTT messages, see
- * MQTT Protocol in the
- * IoT Developer Guide.
- *
- * For more information about messaging costs, see Amazon Web Services IoT Core
- * pricing - Messaging.
+ * For more information, see DeleteThingShadow in the IoT Developer Guide.
  */
-export const publish: (
-  input: PublishRequest,
+export const deleteThingShadow: (
+  input: DeleteThingShadowRequest,
 ) => effect.Effect<
-  PublishResponse,
+  DeleteThingShadowResponse,
   | InternalFailureException
   | InvalidRequestException
   | MethodNotAllowedException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
   | ThrottlingException
   | UnauthorizedException
+  | UnsupportedDocumentEncodingException
   | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PublishRequest,
-  output: PublishResponse,
+  input: DeleteThingShadowRequest,
+  output: DeleteThingShadowResponse,
   errors: [
     InternalFailureException,
     InvalidRequestException,
     MethodNotAllowedException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
     ThrottlingException,
     UnauthorizedException,
+    UnsupportedDocumentEncodingException,
   ],
 }));
 /**
@@ -585,6 +582,42 @@ export const getRetainedMessage: (
     ServiceUnavailableException,
     ThrottlingException,
     UnauthorizedException,
+  ],
+}));
+/**
+ * Gets the shadow for the specified thing.
+ *
+ * Requires permission to access the GetThingShadow action.
+ *
+ * For more information, see GetThingShadow in the
+ * IoT Developer Guide.
+ */
+export const getThingShadow: (
+  input: GetThingShadowRequest,
+) => effect.Effect<
+  GetThingShadowResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | MethodNotAllowedException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | UnsupportedDocumentEncodingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetThingShadowRequest,
+  output: GetThingShadowResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    MethodNotAllowedException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedException,
+    UnsupportedDocumentEncodingException,
   ],
 }));
 /**
@@ -693,74 +726,37 @@ export const listRetainedMessages: {
   } as const,
 }));
 /**
- * Deletes the shadow for the specified thing.
+ * Publishes an MQTT message.
  *
- * Requires permission to access the DeleteThingShadow action.
+ * Requires permission to access the Publish action.
  *
- * For more information, see DeleteThingShadow in the IoT Developer Guide.
- */
-export const deleteThingShadow: (
-  input: DeleteThingShadowRequest,
-) => effect.Effect<
-  DeleteThingShadowResponse,
-  | InternalFailureException
-  | InvalidRequestException
-  | MethodNotAllowedException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | UnauthorizedException
-  | UnsupportedDocumentEncodingException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteThingShadowRequest,
-  output: DeleteThingShadowResponse,
-  errors: [
-    InternalFailureException,
-    InvalidRequestException,
-    MethodNotAllowedException,
-    ResourceNotFoundException,
-    ServiceUnavailableException,
-    ThrottlingException,
-    UnauthorizedException,
-    UnsupportedDocumentEncodingException,
-  ],
-}));
-/**
- * Gets the shadow for the specified thing.
- *
- * Requires permission to access the GetThingShadow action.
- *
- * For more information, see GetThingShadow in the
+ * For more information about MQTT messages, see
+ * MQTT Protocol in the
  * IoT Developer Guide.
+ *
+ * For more information about messaging costs, see Amazon Web Services IoT Core
+ * pricing - Messaging.
  */
-export const getThingShadow: (
-  input: GetThingShadowRequest,
+export const publish: (
+  input: PublishRequest,
 ) => effect.Effect<
-  GetThingShadowResponse,
+  PublishResponse,
   | InternalFailureException
   | InvalidRequestException
   | MethodNotAllowedException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
   | ThrottlingException
   | UnauthorizedException
-  | UnsupportedDocumentEncodingException
   | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetThingShadowRequest,
-  output: GetThingShadowResponse,
+  input: PublishRequest,
+  output: PublishResponse,
   errors: [
     InternalFailureException,
     InvalidRequestException,
     MethodNotAllowedException,
-    ResourceNotFoundException,
-    ServiceUnavailableException,
     ThrottlingException,
     UnauthorizedException,
-    UnsupportedDocumentEncodingException,
   ],
 }));
 /**

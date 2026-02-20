@@ -58,7 +58,7 @@ function createAwsJsonProtocol(version: "1.0" | "1.1"): Protocol {
     const outputAst = outputSchema.ast;
 
     // Pre-compute encoder (done once at init)
-    const encodeInput = Schema.encode(inputSchema);
+    const encodeInput = Schema.encodeEffect(inputSchema);
 
     // Extract operation target from the input schema's identifier
     const identifier = getIdentifier(inputAst) ?? "";
@@ -85,7 +85,9 @@ function createAwsJsonProtocol(version: "1.0" | "1.1"): Protocol {
     return {
       serializeRequest: Effect.fn(function* (input: unknown) {
         // Encode the input via schema - handles all transformations
-        const encoded = yield* encodeInput(input);
+        const encoded = yield* encodeInput(input).pipe(
+          Effect.mapError((err) => new ParseError({ message: err.message })),
+        );
 
         const request: Request = {
           method: "POST",

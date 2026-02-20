@@ -1,4 +1,4 @@
-import { HttpClient } from "@effect/platform";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as effect from "effect/Effect";
 import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
@@ -184,9 +184,14 @@ const rules = T.EndpointResolver((p, _) => {
 
 //# Newtypes
 export type AttachmentSetId = string;
+export type FileName = string;
+export type Data = Uint8Array;
+export type ExpiryTime = string;
+export type ErrorMessage = string;
 export type CaseId = string;
 export type CommunicationBody = string;
 export type CcEmailAddress = string;
+export type Result = boolean;
 export type Subject = string;
 export type ServiceCode2 = string;
 export type SeverityCode = string;
@@ -201,42 +206,74 @@ export type IncludeResolvedCases = boolean;
 export type NextToken = string;
 export type MaxResults = number;
 export type IncludeCommunications = boolean;
-export type ValidatedIssueTypeString = string;
-export type ValidatedServiceCode = string;
-export type ValidatedCategoryCode = string;
-export type FileName = string;
-export type Data = Uint8Array;
-export type Result = boolean;
-export type ValidatedLanguageAvailability = string;
-export type CaseStatus = string;
 export type Status = string;
 export type ServiceCode = string;
 export type SubmittedBy = string;
 export type TimeCreated = string;
 export type ValidatedCommunicationBody = string;
+export type ValidatedLanguageAvailability = string;
 export type Type = string;
-export type ServiceName = string;
-export type SeverityLevelCode = string;
-export type SeverityLevelName = string;
-export type Code = string;
-export type Display = string;
-export type ExpiryTime = string;
-export type ErrorMessage = string;
 export type StartTime = string;
 export type EndTime = string;
 export type ValidatedDateTime = string;
-export type CategoryName = string;
 export type AvailabilityErrorMessage = string;
+export type ServiceName = string;
+export type CategoryName = string;
+export type SeverityLevelCode = string;
+export type SeverityLevelName = string;
+export type ValidatedIssueTypeString = string;
+export type ValidatedServiceCode = string;
+export type ValidatedCategoryCode = string;
+export type Code = string;
+export type Display = string;
+export type CaseStatus = string;
 
 //# Schemas
+export interface Attachment {
+  fileName?: string;
+  data?: Uint8Array;
+}
+export const Attachment = S.suspend(() =>
+  S.Struct({ fileName: S.optional(S.String), data: S.optional(T.Blob) }),
+).annotate({ identifier: "Attachment" }) as any as S.Schema<Attachment>;
+export type Attachments = Attachment[];
+export const Attachments = S.Array(Attachment);
+export interface AddAttachmentsToSetRequest {
+  attachmentSetId?: string;
+  attachments: Attachment[];
+}
+export const AddAttachmentsToSetRequest = S.suspend(() =>
+  S.Struct({
+    attachmentSetId: S.optional(S.String),
+    attachments: Attachments,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "AddAttachmentsToSetRequest",
+}) as any as S.Schema<AddAttachmentsToSetRequest>;
+export interface AddAttachmentsToSetResponse {
+  attachmentSetId?: string;
+  expiryTime?: string;
+}
+export const AddAttachmentsToSetResponse = S.suspend(() =>
+  S.Struct({
+    attachmentSetId: S.optional(S.String),
+    expiryTime: S.optional(S.String),
+  }).pipe(ns),
+).annotate({
+  identifier: "AddAttachmentsToSetResponse",
+}) as any as S.Schema<AddAttachmentsToSetResponse>;
 export type CcEmailAddressList = string[];
 export const CcEmailAddressList = S.Array(S.String);
-export type CaseIdList = string[];
-export const CaseIdList = S.Array(S.String);
-export type ServiceCodeList = string[];
-export const ServiceCodeList = S.Array(S.String);
-export type StringList = string[];
-export const StringList = S.Array(S.String).pipe(T.Sparse());
 export interface AddCommunicationToCaseRequest {
   caseId?: string;
   communicationBody: string;
@@ -260,9 +297,17 @@ export const AddCommunicationToCaseRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "AddCommunicationToCaseRequest",
 }) as any as S.Schema<AddCommunicationToCaseRequest>;
+export interface AddCommunicationToCaseResponse {
+  result?: boolean;
+}
+export const AddCommunicationToCaseResponse = S.suspend(() =>
+  S.Struct({ result: S.optional(S.Boolean) }).pipe(ns),
+).annotate({
+  identifier: "AddCommunicationToCaseResponse",
+}) as any as S.Schema<AddCommunicationToCaseResponse>;
 export interface CreateCaseRequest {
   subject: string;
   serviceCode?: string;
@@ -296,9 +341,17 @@ export const CreateCaseRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "CreateCaseRequest",
 }) as any as S.Schema<CreateCaseRequest>;
+export interface CreateCaseResponse {
+  caseId?: string;
+}
+export const CreateCaseResponse = S.suspend(() =>
+  S.Struct({ caseId: S.optional(S.String) }).pipe(ns),
+).annotate({
+  identifier: "CreateCaseResponse",
+}) as any as S.Schema<CreateCaseResponse>;
 export interface DescribeAttachmentRequest {
   attachmentId: string;
 }
@@ -314,9 +367,19 @@ export const DescribeAttachmentRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "DescribeAttachmentRequest",
 }) as any as S.Schema<DescribeAttachmentRequest>;
+export interface DescribeAttachmentResponse {
+  attachment?: Attachment;
+}
+export const DescribeAttachmentResponse = S.suspend(() =>
+  S.Struct({ attachment: S.optional(Attachment) }).pipe(ns),
+).annotate({
+  identifier: "DescribeAttachmentResponse",
+}) as any as S.Schema<DescribeAttachmentResponse>;
+export type CaseIdList = string[];
+export const CaseIdList = S.Array(S.String);
 export interface DescribeCasesRequest {
   caseIdList?: string[];
   displayId?: string;
@@ -350,489 +413,9 @@ export const DescribeCasesRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "DescribeCasesRequest",
 }) as any as S.Schema<DescribeCasesRequest>;
-export interface DescribeCommunicationsRequest {
-  caseId: string;
-  beforeTime?: string;
-  afterTime?: string;
-  nextToken?: string;
-  maxResults?: number;
-}
-export const DescribeCommunicationsRequest = S.suspend(() =>
-  S.Struct({
-    caseId: S.String,
-    beforeTime: S.optional(S.String),
-    afterTime: S.optional(S.String),
-    nextToken: S.optional(S.String),
-    maxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DescribeCommunicationsRequest",
-}) as any as S.Schema<DescribeCommunicationsRequest>;
-export interface DescribeCreateCaseOptionsRequest {
-  issueType: string;
-  serviceCode: string;
-  language: string;
-  categoryCode: string;
-}
-export const DescribeCreateCaseOptionsRequest = S.suspend(() =>
-  S.Struct({
-    issueType: S.String,
-    serviceCode: S.String,
-    language: S.String,
-    categoryCode: S.String,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DescribeCreateCaseOptionsRequest",
-}) as any as S.Schema<DescribeCreateCaseOptionsRequest>;
-export interface DescribeServicesRequest {
-  serviceCodeList?: string[];
-  language?: string;
-}
-export const DescribeServicesRequest = S.suspend(() =>
-  S.Struct({
-    serviceCodeList: S.optional(ServiceCodeList),
-    language: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DescribeServicesRequest",
-}) as any as S.Schema<DescribeServicesRequest>;
-export interface DescribeSeverityLevelsRequest {
-  language?: string;
-}
-export const DescribeSeverityLevelsRequest = S.suspend(() =>
-  S.Struct({ language: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DescribeSeverityLevelsRequest",
-}) as any as S.Schema<DescribeSeverityLevelsRequest>;
-export interface DescribeSupportedLanguagesRequest {
-  issueType: string;
-  serviceCode: string;
-  categoryCode: string;
-}
-export const DescribeSupportedLanguagesRequest = S.suspend(() =>
-  S.Struct({
-    issueType: S.String,
-    serviceCode: S.String,
-    categoryCode: S.String,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DescribeSupportedLanguagesRequest",
-}) as any as S.Schema<DescribeSupportedLanguagesRequest>;
-export interface DescribeTrustedAdvisorCheckRefreshStatusesRequest {
-  checkIds: string[];
-}
-export const DescribeTrustedAdvisorCheckRefreshStatusesRequest = S.suspend(() =>
-  S.Struct({ checkIds: StringList }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DescribeTrustedAdvisorCheckRefreshStatusesRequest",
-}) as any as S.Schema<DescribeTrustedAdvisorCheckRefreshStatusesRequest>;
-export interface DescribeTrustedAdvisorCheckResultRequest {
-  checkId: string;
-  language?: string;
-}
-export const DescribeTrustedAdvisorCheckResultRequest = S.suspend(() =>
-  S.Struct({ checkId: S.String, language: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DescribeTrustedAdvisorCheckResultRequest",
-}) as any as S.Schema<DescribeTrustedAdvisorCheckResultRequest>;
-export interface DescribeTrustedAdvisorChecksRequest {
-  language: string;
-}
-export const DescribeTrustedAdvisorChecksRequest = S.suspend(() =>
-  S.Struct({ language: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DescribeTrustedAdvisorChecksRequest",
-}) as any as S.Schema<DescribeTrustedAdvisorChecksRequest>;
-export interface DescribeTrustedAdvisorCheckSummariesRequest {
-  checkIds: string[];
-}
-export const DescribeTrustedAdvisorCheckSummariesRequest = S.suspend(() =>
-  S.Struct({ checkIds: StringList }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DescribeTrustedAdvisorCheckSummariesRequest",
-}) as any as S.Schema<DescribeTrustedAdvisorCheckSummariesRequest>;
-export interface RefreshTrustedAdvisorCheckRequest {
-  checkId: string;
-}
-export const RefreshTrustedAdvisorCheckRequest = S.suspend(() =>
-  S.Struct({ checkId: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "RefreshTrustedAdvisorCheckRequest",
-}) as any as S.Schema<RefreshTrustedAdvisorCheckRequest>;
-export interface ResolveCaseRequest {
-  caseId?: string;
-}
-export const ResolveCaseRequest = S.suspend(() =>
-  S.Struct({ caseId: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ResolveCaseRequest",
-}) as any as S.Schema<ResolveCaseRequest>;
-export interface Attachment {
-  fileName?: string;
-  data?: Uint8Array;
-}
-export const Attachment = S.suspend(() =>
-  S.Struct({ fileName: S.optional(S.String), data: S.optional(T.Blob) }),
-).annotations({ identifier: "Attachment" }) as any as S.Schema<Attachment>;
-export type Attachments = Attachment[];
-export const Attachments = S.Array(Attachment);
-export interface AddAttachmentsToSetRequest {
-  attachmentSetId?: string;
-  attachments: Attachment[];
-}
-export const AddAttachmentsToSetRequest = S.suspend(() =>
-  S.Struct({
-    attachmentSetId: S.optional(S.String),
-    attachments: Attachments,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "AddAttachmentsToSetRequest",
-}) as any as S.Schema<AddAttachmentsToSetRequest>;
-export interface AddCommunicationToCaseResponse {
-  result?: boolean;
-}
-export const AddCommunicationToCaseResponse = S.suspend(() =>
-  S.Struct({ result: S.optional(S.Boolean) }).pipe(ns),
-).annotations({
-  identifier: "AddCommunicationToCaseResponse",
-}) as any as S.Schema<AddCommunicationToCaseResponse>;
-export interface CreateCaseResponse {
-  caseId?: string;
-}
-export const CreateCaseResponse = S.suspend(() =>
-  S.Struct({ caseId: S.optional(S.String) }).pipe(ns),
-).annotations({
-  identifier: "CreateCaseResponse",
-}) as any as S.Schema<CreateCaseResponse>;
-export interface DescribeAttachmentResponse {
-  attachment?: Attachment;
-}
-export const DescribeAttachmentResponse = S.suspend(() =>
-  S.Struct({ attachment: S.optional(Attachment) }).pipe(ns),
-).annotations({
-  identifier: "DescribeAttachmentResponse",
-}) as any as S.Schema<DescribeAttachmentResponse>;
-export interface TrustedAdvisorCheckRefreshStatus {
-  checkId: string;
-  status: string;
-  millisUntilNextRefreshable: number;
-}
-export const TrustedAdvisorCheckRefreshStatus = S.suspend(() =>
-  S.Struct({
-    checkId: S.String,
-    status: S.String,
-    millisUntilNextRefreshable: S.Number,
-  }),
-).annotations({
-  identifier: "TrustedAdvisorCheckRefreshStatus",
-}) as any as S.Schema<TrustedAdvisorCheckRefreshStatus>;
-export interface RefreshTrustedAdvisorCheckResponse {
-  status: TrustedAdvisorCheckRefreshStatus;
-}
-export const RefreshTrustedAdvisorCheckResponse = S.suspend(() =>
-  S.Struct({ status: TrustedAdvisorCheckRefreshStatus }).pipe(ns),
-).annotations({
-  identifier: "RefreshTrustedAdvisorCheckResponse",
-}) as any as S.Schema<RefreshTrustedAdvisorCheckResponse>;
-export interface ResolveCaseResponse {
-  initialCaseStatus?: string;
-  finalCaseStatus?: string;
-}
-export const ResolveCaseResponse = S.suspend(() =>
-  S.Struct({
-    initialCaseStatus: S.optional(S.String),
-    finalCaseStatus: S.optional(S.String),
-  }).pipe(ns),
-).annotations({
-  identifier: "ResolveCaseResponse",
-}) as any as S.Schema<ResolveCaseResponse>;
-export interface SeverityLevel {
-  code?: string;
-  name?: string;
-}
-export const SeverityLevel = S.suspend(() =>
-  S.Struct({ code: S.optional(S.String), name: S.optional(S.String) }),
-).annotations({
-  identifier: "SeverityLevel",
-}) as any as S.Schema<SeverityLevel>;
-export type SeverityLevelsList = SeverityLevel[];
-export const SeverityLevelsList = S.Array(SeverityLevel);
-export interface SupportedLanguage {
-  code?: string;
-  language?: string;
-  display?: string;
-}
-export const SupportedLanguage = S.suspend(() =>
-  S.Struct({
-    code: S.optional(S.String),
-    language: S.optional(S.String),
-    display: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "SupportedLanguage",
-}) as any as S.Schema<SupportedLanguage>;
-export type SupportedLanguagesList = SupportedLanguage[];
-export const SupportedLanguagesList = S.Array(SupportedLanguage);
-export type TrustedAdvisorCheckRefreshStatusList =
-  TrustedAdvisorCheckRefreshStatus[];
-export const TrustedAdvisorCheckRefreshStatusList = S.Array(
-  TrustedAdvisorCheckRefreshStatus,
-);
-export interface TrustedAdvisorCheckDescription {
-  id: string;
-  name: string;
-  description: string;
-  category: string;
-  metadata: string[];
-}
-export const TrustedAdvisorCheckDescription = S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    name: S.String,
-    description: S.String,
-    category: S.String,
-    metadata: StringList,
-  }),
-).annotations({
-  identifier: "TrustedAdvisorCheckDescription",
-}) as any as S.Schema<TrustedAdvisorCheckDescription>;
-export type TrustedAdvisorCheckList = TrustedAdvisorCheckDescription[];
-export const TrustedAdvisorCheckList = S.Array(TrustedAdvisorCheckDescription);
-export interface TrustedAdvisorResourcesSummary {
-  resourcesProcessed: number;
-  resourcesFlagged: number;
-  resourcesIgnored: number;
-  resourcesSuppressed: number;
-}
-export const TrustedAdvisorResourcesSummary = S.suspend(() =>
-  S.Struct({
-    resourcesProcessed: S.Number,
-    resourcesFlagged: S.Number,
-    resourcesIgnored: S.Number,
-    resourcesSuppressed: S.Number,
-  }),
-).annotations({
-  identifier: "TrustedAdvisorResourcesSummary",
-}) as any as S.Schema<TrustedAdvisorResourcesSummary>;
-export interface TrustedAdvisorCostOptimizingSummary {
-  estimatedMonthlySavings: number;
-  estimatedPercentMonthlySavings: number;
-}
-export const TrustedAdvisorCostOptimizingSummary = S.suspend(() =>
-  S.Struct({
-    estimatedMonthlySavings: S.Number,
-    estimatedPercentMonthlySavings: S.Number,
-  }),
-).annotations({
-  identifier: "TrustedAdvisorCostOptimizingSummary",
-}) as any as S.Schema<TrustedAdvisorCostOptimizingSummary>;
-export interface TrustedAdvisorCategorySpecificSummary {
-  costOptimizing?: TrustedAdvisorCostOptimizingSummary;
-}
-export const TrustedAdvisorCategorySpecificSummary = S.suspend(() =>
-  S.Struct({ costOptimizing: S.optional(TrustedAdvisorCostOptimizingSummary) }),
-).annotations({
-  identifier: "TrustedAdvisorCategorySpecificSummary",
-}) as any as S.Schema<TrustedAdvisorCategorySpecificSummary>;
-export interface TrustedAdvisorCheckSummary {
-  checkId: string;
-  timestamp: string;
-  status: string;
-  hasFlaggedResources?: boolean;
-  resourcesSummary: TrustedAdvisorResourcesSummary;
-  categorySpecificSummary: TrustedAdvisorCategorySpecificSummary;
-}
-export const TrustedAdvisorCheckSummary = S.suspend(() =>
-  S.Struct({
-    checkId: S.String,
-    timestamp: S.String,
-    status: S.String,
-    hasFlaggedResources: S.optional(S.Boolean),
-    resourcesSummary: TrustedAdvisorResourcesSummary,
-    categorySpecificSummary: TrustedAdvisorCategorySpecificSummary,
-  }),
-).annotations({
-  identifier: "TrustedAdvisorCheckSummary",
-}) as any as S.Schema<TrustedAdvisorCheckSummary>;
-export type TrustedAdvisorCheckSummaryList = TrustedAdvisorCheckSummary[];
-export const TrustedAdvisorCheckSummaryList = S.Array(
-  TrustedAdvisorCheckSummary,
-);
-export interface AddAttachmentsToSetResponse {
-  attachmentSetId?: string;
-  expiryTime?: string;
-}
-export const AddAttachmentsToSetResponse = S.suspend(() =>
-  S.Struct({
-    attachmentSetId: S.optional(S.String),
-    expiryTime: S.optional(S.String),
-  }).pipe(ns),
-).annotations({
-  identifier: "AddAttachmentsToSetResponse",
-}) as any as S.Schema<AddAttachmentsToSetResponse>;
-export interface DescribeSeverityLevelsResponse {
-  severityLevels?: SeverityLevel[];
-}
-export const DescribeSeverityLevelsResponse = S.suspend(() =>
-  S.Struct({ severityLevels: S.optional(SeverityLevelsList) }).pipe(ns),
-).annotations({
-  identifier: "DescribeSeverityLevelsResponse",
-}) as any as S.Schema<DescribeSeverityLevelsResponse>;
-export interface DescribeSupportedLanguagesResponse {
-  supportedLanguages?: SupportedLanguage[];
-}
-export const DescribeSupportedLanguagesResponse = S.suspend(() =>
-  S.Struct({ supportedLanguages: S.optional(SupportedLanguagesList) }).pipe(ns),
-).annotations({
-  identifier: "DescribeSupportedLanguagesResponse",
-}) as any as S.Schema<DescribeSupportedLanguagesResponse>;
-export interface DescribeTrustedAdvisorCheckRefreshStatusesResponse {
-  statuses: TrustedAdvisorCheckRefreshStatus[];
-}
-export const DescribeTrustedAdvisorCheckRefreshStatusesResponse = S.suspend(
-  () => S.Struct({ statuses: TrustedAdvisorCheckRefreshStatusList }).pipe(ns),
-).annotations({
-  identifier: "DescribeTrustedAdvisorCheckRefreshStatusesResponse",
-}) as any as S.Schema<DescribeTrustedAdvisorCheckRefreshStatusesResponse>;
-export interface DescribeTrustedAdvisorChecksResponse {
-  checks: TrustedAdvisorCheckDescription[];
-}
-export const DescribeTrustedAdvisorChecksResponse = S.suspend(() =>
-  S.Struct({ checks: TrustedAdvisorCheckList }).pipe(ns),
-).annotations({
-  identifier: "DescribeTrustedAdvisorChecksResponse",
-}) as any as S.Schema<DescribeTrustedAdvisorChecksResponse>;
-export interface DescribeTrustedAdvisorCheckSummariesResponse {
-  summaries: TrustedAdvisorCheckSummary[];
-}
-export const DescribeTrustedAdvisorCheckSummariesResponse = S.suspend(() =>
-  S.Struct({ summaries: TrustedAdvisorCheckSummaryList }).pipe(ns),
-).annotations({
-  identifier: "DescribeTrustedAdvisorCheckSummariesResponse",
-}) as any as S.Schema<DescribeTrustedAdvisorCheckSummariesResponse>;
 export interface AttachmentDetails {
   attachmentId?: string;
   fileName?: string;
@@ -842,7 +425,7 @@ export const AttachmentDetails = S.suspend(() =>
     attachmentId: S.optional(S.String),
     fileName: S.optional(S.String),
   }),
-).annotations({
+).annotate({
   identifier: "AttachmentDetails",
 }) as any as S.Schema<AttachmentDetails>;
 export type AttachmentSet = AttachmentDetails[];
@@ -862,9 +445,7 @@ export const Communication = S.suspend(() =>
     timeCreated: S.optional(S.String),
     attachmentSet: S.optional(AttachmentSet),
   }),
-).annotations({
-  identifier: "Communication",
-}) as any as S.Schema<Communication>;
+).annotate({ identifier: "Communication" }) as any as S.Schema<Communication>;
 export type CommunicationList = Communication[];
 export const CommunicationList = S.Array(Communication);
 export interface RecentCaseCommunications {
@@ -876,63 +457,9 @@ export const RecentCaseCommunications = S.suspend(() =>
     communications: S.optional(CommunicationList),
     nextToken: S.optional(S.String),
   }),
-).annotations({
+).annotate({
   identifier: "RecentCaseCommunications",
 }) as any as S.Schema<RecentCaseCommunications>;
-export interface SupportedHour {
-  startTime?: string;
-  endTime?: string;
-}
-export const SupportedHour = S.suspend(() =>
-  S.Struct({ startTime: S.optional(S.String), endTime: S.optional(S.String) }),
-).annotations({
-  identifier: "SupportedHour",
-}) as any as S.Schema<SupportedHour>;
-export type SupportedHoursList = SupportedHour[];
-export const SupportedHoursList = S.Array(SupportedHour);
-export interface DateInterval {
-  startDateTime?: string;
-  endDateTime?: string;
-}
-export const DateInterval = S.suspend(() =>
-  S.Struct({
-    startDateTime: S.optional(S.String),
-    endDateTime: S.optional(S.String),
-  }),
-).annotations({ identifier: "DateInterval" }) as any as S.Schema<DateInterval>;
-export type DatesWithoutSupportList = DateInterval[];
-export const DatesWithoutSupportList = S.Array(DateInterval);
-export interface Category {
-  code?: string;
-  name?: string;
-}
-export const Category = S.suspend(() =>
-  S.Struct({ code: S.optional(S.String), name: S.optional(S.String) }),
-).annotations({ identifier: "Category" }) as any as S.Schema<Category>;
-export type CategoryList = Category[];
-export const CategoryList = S.Array(Category);
-export interface TrustedAdvisorResourceDetail {
-  status: string;
-  region?: string;
-  resourceId: string;
-  isSuppressed?: boolean;
-  metadata: string[];
-}
-export const TrustedAdvisorResourceDetail = S.suspend(() =>
-  S.Struct({
-    status: S.String,
-    region: S.optional(S.String),
-    resourceId: S.String,
-    isSuppressed: S.optional(S.Boolean),
-    metadata: StringList,
-  }),
-).annotations({
-  identifier: "TrustedAdvisorResourceDetail",
-}) as any as S.Schema<TrustedAdvisorResourceDetail>;
-export type TrustedAdvisorResourceDetailList = TrustedAdvisorResourceDetail[];
-export const TrustedAdvisorResourceDetailList = S.Array(
-  TrustedAdvisorResourceDetail,
-);
 export interface CaseDetails {
   caseId?: string;
   displayId?: string;
@@ -962,9 +489,108 @@ export const CaseDetails = S.suspend(() =>
     ccEmailAddresses: S.optional(CcEmailAddressList),
     language: S.optional(S.String),
   }),
-).annotations({ identifier: "CaseDetails" }) as any as S.Schema<CaseDetails>;
+).annotate({ identifier: "CaseDetails" }) as any as S.Schema<CaseDetails>;
 export type CaseList = CaseDetails[];
 export const CaseList = S.Array(CaseDetails);
+export interface DescribeCasesResponse {
+  cases?: CaseDetails[];
+  nextToken?: string;
+}
+export const DescribeCasesResponse = S.suspend(() =>
+  S.Struct({
+    cases: S.optional(CaseList),
+    nextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotate({
+  identifier: "DescribeCasesResponse",
+}) as any as S.Schema<DescribeCasesResponse>;
+export interface DescribeCommunicationsRequest {
+  caseId: string;
+  beforeTime?: string;
+  afterTime?: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const DescribeCommunicationsRequest = S.suspend(() =>
+  S.Struct({
+    caseId: S.String,
+    beforeTime: S.optional(S.String),
+    afterTime: S.optional(S.String),
+    nextToken: S.optional(S.String),
+    maxResults: S.optional(S.Number),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DescribeCommunicationsRequest",
+}) as any as S.Schema<DescribeCommunicationsRequest>;
+export interface DescribeCommunicationsResponse {
+  communications?: Communication[];
+  nextToken?: string;
+}
+export const DescribeCommunicationsResponse = S.suspend(() =>
+  S.Struct({
+    communications: S.optional(CommunicationList),
+    nextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotate({
+  identifier: "DescribeCommunicationsResponse",
+}) as any as S.Schema<DescribeCommunicationsResponse>;
+export interface DescribeCreateCaseOptionsRequest {
+  issueType: string;
+  serviceCode: string;
+  language: string;
+  categoryCode: string;
+}
+export const DescribeCreateCaseOptionsRequest = S.suspend(() =>
+  S.Struct({
+    issueType: S.String,
+    serviceCode: S.String,
+    language: S.String,
+    categoryCode: S.String,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DescribeCreateCaseOptionsRequest",
+}) as any as S.Schema<DescribeCreateCaseOptionsRequest>;
+export interface SupportedHour {
+  startTime?: string;
+  endTime?: string;
+}
+export const SupportedHour = S.suspend(() =>
+  S.Struct({ startTime: S.optional(S.String), endTime: S.optional(S.String) }),
+).annotate({ identifier: "SupportedHour" }) as any as S.Schema<SupportedHour>;
+export type SupportedHoursList = SupportedHour[];
+export const SupportedHoursList = S.Array(SupportedHour);
+export interface DateInterval {
+  startDateTime?: string;
+  endDateTime?: string;
+}
+export const DateInterval = S.suspend(() =>
+  S.Struct({
+    startDateTime: S.optional(S.String),
+    endDateTime: S.optional(S.String),
+  }),
+).annotate({ identifier: "DateInterval" }) as any as S.Schema<DateInterval>;
+export type DatesWithoutSupportList = DateInterval[];
+export const DatesWithoutSupportList = S.Array(DateInterval);
 export interface CommunicationTypeOptions {
   type?: string;
   supportedHours?: SupportedHour[];
@@ -976,11 +602,56 @@ export const CommunicationTypeOptions = S.suspend(() =>
     supportedHours: S.optional(SupportedHoursList),
     datesWithoutSupport: S.optional(DatesWithoutSupportList),
   }),
-).annotations({
+).annotate({
   identifier: "CommunicationTypeOptions",
 }) as any as S.Schema<CommunicationTypeOptions>;
 export type CommunicationTypeOptionsList = CommunicationTypeOptions[];
 export const CommunicationTypeOptionsList = S.Array(CommunicationTypeOptions);
+export interface DescribeCreateCaseOptionsResponse {
+  languageAvailability?: string;
+  communicationTypes?: CommunicationTypeOptions[];
+}
+export const DescribeCreateCaseOptionsResponse = S.suspend(() =>
+  S.Struct({
+    languageAvailability: S.optional(S.String),
+    communicationTypes: S.optional(CommunicationTypeOptionsList),
+  }).pipe(ns),
+).annotate({
+  identifier: "DescribeCreateCaseOptionsResponse",
+}) as any as S.Schema<DescribeCreateCaseOptionsResponse>;
+export type ServiceCodeList = string[];
+export const ServiceCodeList = S.Array(S.String);
+export interface DescribeServicesRequest {
+  serviceCodeList?: string[];
+  language?: string;
+}
+export const DescribeServicesRequest = S.suspend(() =>
+  S.Struct({
+    serviceCodeList: S.optional(ServiceCodeList),
+    language: S.optional(S.String),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DescribeServicesRequest",
+}) as any as S.Schema<DescribeServicesRequest>;
+export interface Category {
+  code?: string;
+  name?: string;
+}
+export const Category = S.suspend(() =>
+  S.Struct({ code: S.optional(S.String), name: S.optional(S.String) }),
+).annotate({ identifier: "Category" }) as any as S.Schema<Category>;
+export type CategoryList = Category[];
+export const CategoryList = S.Array(Category);
 export interface Service {
   code?: string;
   name?: string;
@@ -992,53 +663,224 @@ export const Service = S.suspend(() =>
     name: S.optional(S.String),
     categories: S.optional(CategoryList),
   }),
-).annotations({ identifier: "Service" }) as any as S.Schema<Service>;
+).annotate({ identifier: "Service" }) as any as S.Schema<Service>;
 export type ServiceList = Service[];
 export const ServiceList = S.Array(Service);
-export interface DescribeCasesResponse {
-  cases?: CaseDetails[];
-  nextToken?: string;
-}
-export const DescribeCasesResponse = S.suspend(() =>
-  S.Struct({
-    cases: S.optional(CaseList),
-    nextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotations({
-  identifier: "DescribeCasesResponse",
-}) as any as S.Schema<DescribeCasesResponse>;
-export interface DescribeCommunicationsResponse {
-  communications?: Communication[];
-  nextToken?: string;
-}
-export const DescribeCommunicationsResponse = S.suspend(() =>
-  S.Struct({
-    communications: S.optional(CommunicationList),
-    nextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotations({
-  identifier: "DescribeCommunicationsResponse",
-}) as any as S.Schema<DescribeCommunicationsResponse>;
-export interface DescribeCreateCaseOptionsResponse {
-  languageAvailability?: string;
-  communicationTypes?: CommunicationTypeOptions[];
-}
-export const DescribeCreateCaseOptionsResponse = S.suspend(() =>
-  S.Struct({
-    languageAvailability: S.optional(S.String),
-    communicationTypes: S.optional(CommunicationTypeOptionsList),
-  }).pipe(ns),
-).annotations({
-  identifier: "DescribeCreateCaseOptionsResponse",
-}) as any as S.Schema<DescribeCreateCaseOptionsResponse>;
 export interface DescribeServicesResponse {
   services?: Service[];
 }
 export const DescribeServicesResponse = S.suspend(() =>
   S.Struct({ services: S.optional(ServiceList) }).pipe(ns),
-).annotations({
+).annotate({
   identifier: "DescribeServicesResponse",
 }) as any as S.Schema<DescribeServicesResponse>;
+export interface DescribeSeverityLevelsRequest {
+  language?: string;
+}
+export const DescribeSeverityLevelsRequest = S.suspend(() =>
+  S.Struct({ language: S.optional(S.String) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DescribeSeverityLevelsRequest",
+}) as any as S.Schema<DescribeSeverityLevelsRequest>;
+export interface SeverityLevel {
+  code?: string;
+  name?: string;
+}
+export const SeverityLevel = S.suspend(() =>
+  S.Struct({ code: S.optional(S.String), name: S.optional(S.String) }),
+).annotate({ identifier: "SeverityLevel" }) as any as S.Schema<SeverityLevel>;
+export type SeverityLevelsList = SeverityLevel[];
+export const SeverityLevelsList = S.Array(SeverityLevel);
+export interface DescribeSeverityLevelsResponse {
+  severityLevels?: SeverityLevel[];
+}
+export const DescribeSeverityLevelsResponse = S.suspend(() =>
+  S.Struct({ severityLevels: S.optional(SeverityLevelsList) }).pipe(ns),
+).annotate({
+  identifier: "DescribeSeverityLevelsResponse",
+}) as any as S.Schema<DescribeSeverityLevelsResponse>;
+export interface DescribeSupportedLanguagesRequest {
+  issueType: string;
+  serviceCode: string;
+  categoryCode: string;
+}
+export const DescribeSupportedLanguagesRequest = S.suspend(() =>
+  S.Struct({
+    issueType: S.String,
+    serviceCode: S.String,
+    categoryCode: S.String,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DescribeSupportedLanguagesRequest",
+}) as any as S.Schema<DescribeSupportedLanguagesRequest>;
+export interface SupportedLanguage {
+  code?: string;
+  language?: string;
+  display?: string;
+}
+export const SupportedLanguage = S.suspend(() =>
+  S.Struct({
+    code: S.optional(S.String),
+    language: S.optional(S.String),
+    display: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "SupportedLanguage",
+}) as any as S.Schema<SupportedLanguage>;
+export type SupportedLanguagesList = SupportedLanguage[];
+export const SupportedLanguagesList = S.Array(SupportedLanguage);
+export interface DescribeSupportedLanguagesResponse {
+  supportedLanguages?: SupportedLanguage[];
+}
+export const DescribeSupportedLanguagesResponse = S.suspend(() =>
+  S.Struct({ supportedLanguages: S.optional(SupportedLanguagesList) }).pipe(ns),
+).annotate({
+  identifier: "DescribeSupportedLanguagesResponse",
+}) as any as S.Schema<DescribeSupportedLanguagesResponse>;
+export type StringList = string[];
+export const StringList = S.Array(S.String).pipe(T.Sparse());
+export interface DescribeTrustedAdvisorCheckRefreshStatusesRequest {
+  checkIds: string[];
+}
+export const DescribeTrustedAdvisorCheckRefreshStatusesRequest = S.suspend(() =>
+  S.Struct({ checkIds: StringList }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DescribeTrustedAdvisorCheckRefreshStatusesRequest",
+}) as any as S.Schema<DescribeTrustedAdvisorCheckRefreshStatusesRequest>;
+export interface TrustedAdvisorCheckRefreshStatus {
+  checkId: string;
+  status: string;
+  millisUntilNextRefreshable: number;
+}
+export const TrustedAdvisorCheckRefreshStatus = S.suspend(() =>
+  S.Struct({
+    checkId: S.String,
+    status: S.String,
+    millisUntilNextRefreshable: S.Number,
+  }),
+).annotate({
+  identifier: "TrustedAdvisorCheckRefreshStatus",
+}) as any as S.Schema<TrustedAdvisorCheckRefreshStatus>;
+export type TrustedAdvisorCheckRefreshStatusList =
+  TrustedAdvisorCheckRefreshStatus[];
+export const TrustedAdvisorCheckRefreshStatusList = S.Array(
+  TrustedAdvisorCheckRefreshStatus,
+);
+export interface DescribeTrustedAdvisorCheckRefreshStatusesResponse {
+  statuses: TrustedAdvisorCheckRefreshStatus[];
+}
+export const DescribeTrustedAdvisorCheckRefreshStatusesResponse = S.suspend(
+  () => S.Struct({ statuses: TrustedAdvisorCheckRefreshStatusList }).pipe(ns),
+).annotate({
+  identifier: "DescribeTrustedAdvisorCheckRefreshStatusesResponse",
+}) as any as S.Schema<DescribeTrustedAdvisorCheckRefreshStatusesResponse>;
+export interface DescribeTrustedAdvisorCheckResultRequest {
+  checkId: string;
+  language?: string;
+}
+export const DescribeTrustedAdvisorCheckResultRequest = S.suspend(() =>
+  S.Struct({ checkId: S.String, language: S.optional(S.String) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DescribeTrustedAdvisorCheckResultRequest",
+}) as any as S.Schema<DescribeTrustedAdvisorCheckResultRequest>;
+export interface TrustedAdvisorResourcesSummary {
+  resourcesProcessed: number;
+  resourcesFlagged: number;
+  resourcesIgnored: number;
+  resourcesSuppressed: number;
+}
+export const TrustedAdvisorResourcesSummary = S.suspend(() =>
+  S.Struct({
+    resourcesProcessed: S.Number,
+    resourcesFlagged: S.Number,
+    resourcesIgnored: S.Number,
+    resourcesSuppressed: S.Number,
+  }),
+).annotate({
+  identifier: "TrustedAdvisorResourcesSummary",
+}) as any as S.Schema<TrustedAdvisorResourcesSummary>;
+export interface TrustedAdvisorCostOptimizingSummary {
+  estimatedMonthlySavings: number;
+  estimatedPercentMonthlySavings: number;
+}
+export const TrustedAdvisorCostOptimizingSummary = S.suspend(() =>
+  S.Struct({
+    estimatedMonthlySavings: S.Number,
+    estimatedPercentMonthlySavings: S.Number,
+  }),
+).annotate({
+  identifier: "TrustedAdvisorCostOptimizingSummary",
+}) as any as S.Schema<TrustedAdvisorCostOptimizingSummary>;
+export interface TrustedAdvisorCategorySpecificSummary {
+  costOptimizing?: TrustedAdvisorCostOptimizingSummary;
+}
+export const TrustedAdvisorCategorySpecificSummary = S.suspend(() =>
+  S.Struct({ costOptimizing: S.optional(TrustedAdvisorCostOptimizingSummary) }),
+).annotate({
+  identifier: "TrustedAdvisorCategorySpecificSummary",
+}) as any as S.Schema<TrustedAdvisorCategorySpecificSummary>;
+export interface TrustedAdvisorResourceDetail {
+  status: string;
+  region?: string;
+  resourceId: string;
+  isSuppressed?: boolean;
+  metadata: string[];
+}
+export const TrustedAdvisorResourceDetail = S.suspend(() =>
+  S.Struct({
+    status: S.String,
+    region: S.optional(S.String),
+    resourceId: S.String,
+    isSuppressed: S.optional(S.Boolean),
+    metadata: StringList,
+  }),
+).annotate({
+  identifier: "TrustedAdvisorResourceDetail",
+}) as any as S.Schema<TrustedAdvisorResourceDetail>;
+export type TrustedAdvisorResourceDetailList = TrustedAdvisorResourceDetail[];
+export const TrustedAdvisorResourceDetailList = S.Array(
+  TrustedAdvisorResourceDetail,
+);
 export interface TrustedAdvisorCheckResult {
   checkId: string;
   timestamp: string;
@@ -1056,7 +898,7 @@ export const TrustedAdvisorCheckResult = S.suspend(() =>
     categorySpecificSummary: TrustedAdvisorCategorySpecificSummary,
     flaggedResources: TrustedAdvisorResourceDetailList,
   }),
-).annotations({
+).annotate({
   identifier: "TrustedAdvisorCheckResult",
 }) as any as S.Schema<TrustedAdvisorCheckResult>;
 export interface DescribeTrustedAdvisorCheckResultResponse {
@@ -1064,93 +906,212 @@ export interface DescribeTrustedAdvisorCheckResultResponse {
 }
 export const DescribeTrustedAdvisorCheckResultResponse = S.suspend(() =>
   S.Struct({ result: S.optional(TrustedAdvisorCheckResult) }).pipe(ns),
-).annotations({
+).annotate({
   identifier: "DescribeTrustedAdvisorCheckResultResponse",
 }) as any as S.Schema<DescribeTrustedAdvisorCheckResultResponse>;
+export interface DescribeTrustedAdvisorChecksRequest {
+  language: string;
+}
+export const DescribeTrustedAdvisorChecksRequest = S.suspend(() =>
+  S.Struct({ language: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DescribeTrustedAdvisorChecksRequest",
+}) as any as S.Schema<DescribeTrustedAdvisorChecksRequest>;
+export interface TrustedAdvisorCheckDescription {
+  id: string;
+  name: string;
+  description: string;
+  category: string;
+  metadata: string[];
+}
+export const TrustedAdvisorCheckDescription = S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    name: S.String,
+    description: S.String,
+    category: S.String,
+    metadata: StringList,
+  }),
+).annotate({
+  identifier: "TrustedAdvisorCheckDescription",
+}) as any as S.Schema<TrustedAdvisorCheckDescription>;
+export type TrustedAdvisorCheckList = TrustedAdvisorCheckDescription[];
+export const TrustedAdvisorCheckList = S.Array(TrustedAdvisorCheckDescription);
+export interface DescribeTrustedAdvisorChecksResponse {
+  checks: TrustedAdvisorCheckDescription[];
+}
+export const DescribeTrustedAdvisorChecksResponse = S.suspend(() =>
+  S.Struct({ checks: TrustedAdvisorCheckList }).pipe(ns),
+).annotate({
+  identifier: "DescribeTrustedAdvisorChecksResponse",
+}) as any as S.Schema<DescribeTrustedAdvisorChecksResponse>;
+export interface DescribeTrustedAdvisorCheckSummariesRequest {
+  checkIds: string[];
+}
+export const DescribeTrustedAdvisorCheckSummariesRequest = S.suspend(() =>
+  S.Struct({ checkIds: StringList }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DescribeTrustedAdvisorCheckSummariesRequest",
+}) as any as S.Schema<DescribeTrustedAdvisorCheckSummariesRequest>;
+export interface TrustedAdvisorCheckSummary {
+  checkId: string;
+  timestamp: string;
+  status: string;
+  hasFlaggedResources?: boolean;
+  resourcesSummary: TrustedAdvisorResourcesSummary;
+  categorySpecificSummary: TrustedAdvisorCategorySpecificSummary;
+}
+export const TrustedAdvisorCheckSummary = S.suspend(() =>
+  S.Struct({
+    checkId: S.String,
+    timestamp: S.String,
+    status: S.String,
+    hasFlaggedResources: S.optional(S.Boolean),
+    resourcesSummary: TrustedAdvisorResourcesSummary,
+    categorySpecificSummary: TrustedAdvisorCategorySpecificSummary,
+  }),
+).annotate({
+  identifier: "TrustedAdvisorCheckSummary",
+}) as any as S.Schema<TrustedAdvisorCheckSummary>;
+export type TrustedAdvisorCheckSummaryList = TrustedAdvisorCheckSummary[];
+export const TrustedAdvisorCheckSummaryList = S.Array(
+  TrustedAdvisorCheckSummary,
+);
+export interface DescribeTrustedAdvisorCheckSummariesResponse {
+  summaries: TrustedAdvisorCheckSummary[];
+}
+export const DescribeTrustedAdvisorCheckSummariesResponse = S.suspend(() =>
+  S.Struct({ summaries: TrustedAdvisorCheckSummaryList }).pipe(ns),
+).annotate({
+  identifier: "DescribeTrustedAdvisorCheckSummariesResponse",
+}) as any as S.Schema<DescribeTrustedAdvisorCheckSummariesResponse>;
+export interface RefreshTrustedAdvisorCheckRequest {
+  checkId: string;
+}
+export const RefreshTrustedAdvisorCheckRequest = S.suspend(() =>
+  S.Struct({ checkId: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "RefreshTrustedAdvisorCheckRequest",
+}) as any as S.Schema<RefreshTrustedAdvisorCheckRequest>;
+export interface RefreshTrustedAdvisorCheckResponse {
+  status: TrustedAdvisorCheckRefreshStatus;
+}
+export const RefreshTrustedAdvisorCheckResponse = S.suspend(() =>
+  S.Struct({ status: TrustedAdvisorCheckRefreshStatus }).pipe(ns),
+).annotate({
+  identifier: "RefreshTrustedAdvisorCheckResponse",
+}) as any as S.Schema<RefreshTrustedAdvisorCheckResponse>;
+export interface ResolveCaseRequest {
+  caseId?: string;
+}
+export const ResolveCaseRequest = S.suspend(() =>
+  S.Struct({ caseId: S.optional(S.String) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ResolveCaseRequest",
+}) as any as S.Schema<ResolveCaseRequest>;
+export interface ResolveCaseResponse {
+  initialCaseStatus?: string;
+  finalCaseStatus?: string;
+}
+export const ResolveCaseResponse = S.suspend(() =>
+  S.Struct({
+    initialCaseStatus: S.optional(S.String),
+    finalCaseStatus: S.optional(S.String),
+  }).pipe(ns),
+).annotate({
+  identifier: "ResolveCaseResponse",
+}) as any as S.Schema<ResolveCaseResponse>;
 
 //# Errors
-export class AttachmentSetExpired extends S.TaggedError<AttachmentSetExpired>()(
-  "AttachmentSetExpired",
-  { message: S.optional(S.String) },
-) {}
-export class AttachmentIdNotFound extends S.TaggedError<AttachmentIdNotFound>()(
-  "AttachmentIdNotFound",
-  { message: S.optional(S.String) },
-) {}
-export class InternalServerError extends S.TaggedError<InternalServerError>()(
-  "InternalServerError",
-  { message: S.optional(S.String) },
-) {}
-export class CaseIdNotFound extends S.TaggedError<CaseIdNotFound>()(
-  "CaseIdNotFound",
-  { message: S.optional(S.String) },
-) {}
-export class AttachmentLimitExceeded extends S.TaggedError<AttachmentLimitExceeded>()(
+export class AttachmentLimitExceeded extends S.TaggedErrorClass<AttachmentLimitExceeded>()(
   "AttachmentLimitExceeded",
   { message: S.optional(S.String) },
 ).pipe(C.withThrottlingError) {}
-export class AttachmentSetIdNotFound extends S.TaggedError<AttachmentSetIdNotFound>()(
+export class AttachmentSetExpired extends S.TaggedErrorClass<AttachmentSetExpired>()(
+  "AttachmentSetExpired",
+  { message: S.optional(S.String) },
+) {}
+export class AttachmentSetIdNotFound extends S.TaggedErrorClass<AttachmentSetIdNotFound>()(
   "AttachmentSetIdNotFound",
   { message: S.optional(S.String) },
 ) {}
-export class DescribeAttachmentLimitExceeded extends S.TaggedError<DescribeAttachmentLimitExceeded>()(
+export class AttachmentSetSizeLimitExceeded extends S.TaggedErrorClass<AttachmentSetSizeLimitExceeded>()(
+  "AttachmentSetSizeLimitExceeded",
+  { message: S.optional(S.String) },
+).pipe(C.withThrottlingError) {}
+export class InternalServerError extends S.TaggedErrorClass<InternalServerError>()(
+  "InternalServerError",
+  { message: S.optional(S.String) },
+) {}
+export class CaseIdNotFound extends S.TaggedErrorClass<CaseIdNotFound>()(
+  "CaseIdNotFound",
+  { message: S.optional(S.String) },
+) {}
+export class CaseCreationLimitExceeded extends S.TaggedErrorClass<CaseCreationLimitExceeded>()(
+  "CaseCreationLimitExceeded",
+  { message: S.optional(S.String) },
+).pipe(C.withThrottlingError) {}
+export class AttachmentIdNotFound extends S.TaggedErrorClass<AttachmentIdNotFound>()(
+  "AttachmentIdNotFound",
+  { message: S.optional(S.String) },
+) {}
+export class DescribeAttachmentLimitExceeded extends S.TaggedErrorClass<DescribeAttachmentLimitExceeded>()(
   "DescribeAttachmentLimitExceeded",
   { message: S.optional(S.String) },
 ).pipe(C.withThrottlingError) {}
-export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
+export class ThrottlingException extends S.TaggedErrorClass<ThrottlingException>()(
   "ThrottlingException",
   { message: S.optional(S.String) },
   T.AwsQueryError({ code: "Throttling", httpResponseCode: 400 }),
 ).pipe(C.withBadRequestError) {}
-export class CaseCreationLimitExceeded extends S.TaggedError<CaseCreationLimitExceeded>()(
-  "CaseCreationLimitExceeded",
-  { message: S.optional(S.String) },
-).pipe(C.withThrottlingError) {}
-export class AttachmentSetSizeLimitExceeded extends S.TaggedError<AttachmentSetSizeLimitExceeded>()(
-  "AttachmentSetSizeLimitExceeded",
-  { message: S.optional(S.String) },
-).pipe(C.withThrottlingError) {}
 
 //# Operations
 /**
- * Refreshes the Trusted Advisor check that you specify using the check ID. You can get the
- * check IDs by calling the DescribeTrustedAdvisorChecks
- * operation.
+ * Adds one or more attachments to an attachment set.
  *
- * Some checks are refreshed automatically. If you call the
- * `RefreshTrustedAdvisorCheck` operation to refresh them, you might see
- * the `InvalidParameterValue` error.
- *
- * The response contains a TrustedAdvisorCheckRefreshStatus
- * object.
- *
- * - You must have a Business, Enterprise On-Ramp, or Enterprise Support plan to use the Amazon Web Services Support
- * API.
- *
- * - If you call the Amazon Web Services Support API from an account that doesn't have a
- * Business, Enterprise On-Ramp, or Enterprise Support plan, the
- * `SubscriptionRequiredException` error message appears. For
- * information about changing your support plan, see Amazon Web Services Support.
- *
- * To call the Trusted Advisor operations in
- * the Amazon Web Services Support API, you must use the US East (N. Virginia) endpoint. Currently, the US West (Oregon) and Europe (Ireland)
- * endpoints don't support the Trusted Advisor operations. For more information, see About the Amazon Web Services Support
- * API in the *Amazon Web Services Support User Guide*.
- */
-export const refreshTrustedAdvisorCheck: (
-  input: RefreshTrustedAdvisorCheckRequest,
-) => effect.Effect<
-  RefreshTrustedAdvisorCheckResponse,
-  InternalServerError | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: RefreshTrustedAdvisorCheckRequest,
-  output: RefreshTrustedAdvisorCheckResponse,
-  errors: [InternalServerError],
-}));
-/**
- * Resolves a support case. This operation takes a `caseId` and returns the
- * initial and final state of the case.
+ * An attachment set is a temporary container for attachments that you add to a case or
+ * case communication. The set is available for 1 hour after it's created. The
+ * `expiryTime` returned in the response is when the set expires.
  *
  * - You must have a Business, Enterprise On-Ramp, or Enterprise Support plan to use the Amazon Web Services Support
  * API.
@@ -1160,40 +1121,27 @@ export const refreshTrustedAdvisorCheck: (
  * `SubscriptionRequiredException` error message appears. For
  * information about changing your support plan, see Amazon Web Services Support.
  */
-export const resolveCase: (
-  input: ResolveCaseRequest,
+export const addAttachmentsToSet: (
+  input: AddAttachmentsToSetRequest,
 ) => effect.Effect<
-  ResolveCaseResponse,
-  CaseIdNotFound | InternalServerError | CommonErrors,
+  AddAttachmentsToSetResponse,
+  | AttachmentLimitExceeded
+  | AttachmentSetExpired
+  | AttachmentSetIdNotFound
+  | AttachmentSetSizeLimitExceeded
+  | InternalServerError
+  | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ResolveCaseRequest,
-  output: ResolveCaseResponse,
-  errors: [CaseIdNotFound, InternalServerError],
-}));
-/**
- * Returns the list of severity levels that you can assign to a support case. The
- * severity level for a case is also a field in the CaseDetails data type
- * that you include for a CreateCase request.
- *
- * - You must have a Business, Enterprise On-Ramp, or Enterprise Support plan to use the Amazon Web Services Support
- * API.
- *
- * - If you call the Amazon Web Services Support API from an account that doesn't have a
- * Business, Enterprise On-Ramp, or Enterprise Support plan, the
- * `SubscriptionRequiredException` error message appears. For
- * information about changing your support plan, see Amazon Web Services Support.
- */
-export const describeSeverityLevels: (
-  input: DescribeSeverityLevelsRequest,
-) => effect.Effect<
-  DescribeSeverityLevelsResponse,
-  InternalServerError | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeSeverityLevelsRequest,
-  output: DescribeSeverityLevelsResponse,
-  errors: [InternalServerError],
+  input: AddAttachmentsToSetRequest,
+  output: AddAttachmentsToSetResponse,
+  errors: [
+    AttachmentLimitExceeded,
+    AttachmentSetExpired,
+    AttachmentSetIdNotFound,
+    AttachmentSetSizeLimitExceeded,
+    InternalServerError,
+  ],
 }));
 /**
  * Adds additional customer communication to an Amazon Web Services Support case. Use the `caseId`
@@ -1227,6 +1175,54 @@ export const addCommunicationToCase: (
     AttachmentSetExpired,
     AttachmentSetIdNotFound,
     CaseIdNotFound,
+    InternalServerError,
+  ],
+}));
+/**
+ * Creates a case in the Amazon Web Services Support Center. This operation is similar to how you create a case
+ * in the Amazon Web Services Support Center Create
+ * Case page.
+ *
+ * The Amazon Web Services Support API doesn't support requesting service limit increases. You can submit a
+ * service limit increase in the following ways:
+ *
+ * - Submit a request from the Amazon Web Services Support Center Create Case page.
+ *
+ * - Use the Service Quotas RequestServiceQuotaIncrease operation.
+ *
+ * A successful `CreateCase` request returns an Amazon Web Services Support case number. You can use
+ * the DescribeCases operation and specify the case number to get
+ * existing Amazon Web Services Support cases. After you create a case, use the AddCommunicationToCase operation to add additional communication or
+ * attachments to an existing case.
+ *
+ * The `caseId` is separate from the `displayId` that appears in
+ * the Amazon Web Services Support Center. Use the DescribeCases operation to get the `displayId`.
+ *
+ * - You must have a Business, Enterprise On-Ramp, or Enterprise Support plan to use the Amazon Web Services Support
+ * API.
+ *
+ * - If you call the Amazon Web Services Support API from an account that doesn't have a
+ * Business, Enterprise On-Ramp, or Enterprise Support plan, the
+ * `SubscriptionRequiredException` error message appears. For
+ * information about changing your support plan, see Amazon Web Services Support.
+ */
+export const createCase: (
+  input: CreateCaseRequest,
+) => effect.Effect<
+  CreateCaseResponse,
+  | AttachmentSetExpired
+  | AttachmentSetIdNotFound
+  | CaseCreationLimitExceeded
+  | InternalServerError
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateCaseRequest,
+  output: CreateCaseResponse,
+  errors: [
+    AttachmentSetExpired,
+    AttachmentSetIdNotFound,
+    CaseCreationLimitExceeded,
     InternalServerError,
   ],
 }));
@@ -1377,6 +1373,31 @@ export const describeCommunications: {
   } as const,
 }));
 /**
+ * Returns a list of CreateCaseOption types along with the
+ * corresponding supported hours and language availability. You can specify the `language`
+ * `categoryCode`,
+ * `issueType` and `serviceCode` used to retrieve the CreateCaseOptions.
+ *
+ * - You must have a Business, Enterprise On-Ramp, or Enterprise Support plan to use the Amazon Web Services Support
+ * API.
+ *
+ * - If you call the Amazon Web Services Support API from an account that doesn't have a
+ * Business, Enterprise On-Ramp, or Enterprise Support plan, the
+ * `SubscriptionRequiredException` error message appears. For
+ * information about changing your support plan, see Amazon Web Services Support.
+ */
+export const describeCreateCaseOptions: (
+  input: DescribeCreateCaseOptionsRequest,
+) => effect.Effect<
+  DescribeCreateCaseOptionsResponse,
+  InternalServerError | ThrottlingException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeCreateCaseOptionsRequest,
+  output: DescribeCreateCaseOptionsResponse,
+  errors: [InternalServerError, ThrottlingException],
+}));
+/**
  * Returns the current list of Amazon Web Services services and a list of service categories for each
  * service. You then use service names and categories in your CreateCase
  * requests. Each Amazon Web Services service has its own set of categories.
@@ -1405,6 +1426,30 @@ export const describeServices: (
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeServicesRequest,
   output: DescribeServicesResponse,
+  errors: [InternalServerError],
+}));
+/**
+ * Returns the list of severity levels that you can assign to a support case. The
+ * severity level for a case is also a field in the CaseDetails data type
+ * that you include for a CreateCase request.
+ *
+ * - You must have a Business, Enterprise On-Ramp, or Enterprise Support plan to use the Amazon Web Services Support
+ * API.
+ *
+ * - If you call the Amazon Web Services Support API from an account that doesn't have a
+ * Business, Enterprise On-Ramp, or Enterprise Support plan, the
+ * `SubscriptionRequiredException` error message appears. For
+ * information about changing your support plan, see Amazon Web Services Support.
+ */
+export const describeSeverityLevels: (
+  input: DescribeSeverityLevelsRequest,
+) => effect.Effect<
+  DescribeSeverityLevelsResponse,
+  InternalServerError | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeSeverityLevelsRequest,
+  output: DescribeSeverityLevelsResponse,
   errors: [InternalServerError],
 }));
 /**
@@ -1462,6 +1507,56 @@ export const describeTrustedAdvisorCheckRefreshStatuses: (
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeTrustedAdvisorCheckRefreshStatusesRequest,
   output: DescribeTrustedAdvisorCheckRefreshStatusesResponse,
+  errors: [InternalServerError, ThrottlingException],
+}));
+/**
+ * Returns the results of the Trusted Advisor check that has the specified check ID. You
+ * can get the check IDs by calling the DescribeTrustedAdvisorChecks
+ * operation.
+ *
+ * The response contains a TrustedAdvisorCheckResult object, which
+ * contains these three objects:
+ *
+ * - TrustedAdvisorCategorySpecificSummary
+ *
+ * - TrustedAdvisorResourceDetail
+ *
+ * - TrustedAdvisorResourcesSummary
+ *
+ * In addition, the response contains these fields:
+ *
+ * - **status** - The alert status of the check
+ * can be `ok` (green), `warning` (yellow),
+ * `error` (red), or `not_available`.
+ *
+ * - **timestamp** - The time of the last refresh
+ * of the check.
+ *
+ * - **checkId** - The unique identifier for the
+ * check.
+ *
+ * - You must have a Business, Enterprise On-Ramp, or Enterprise Support plan to use the Amazon Web Services Support
+ * API.
+ *
+ * - If you call the Amazon Web Services Support API from an account that doesn't have a
+ * Business, Enterprise On-Ramp, or Enterprise Support plan, the
+ * `SubscriptionRequiredException` error message appears. For
+ * information about changing your support plan, see Amazon Web Services Support.
+ *
+ * To call the Trusted Advisor operations in
+ * the Amazon Web Services Support API, you must use the US East (N. Virginia) endpoint. Currently, the US West (Oregon) and Europe (Ireland)
+ * endpoints don't support the Trusted Advisor operations. For more information, see About the Amazon Web Services Support
+ * API in the *Amazon Web Services Support User Guide*.
+ */
+export const describeTrustedAdvisorCheckResult: (
+  input: DescribeTrustedAdvisorCheckResultRequest,
+) => effect.Effect<
+  DescribeTrustedAdvisorCheckResultResponse,
+  InternalServerError | ThrottlingException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeTrustedAdvisorCheckResultRequest,
+  output: DescribeTrustedAdvisorCheckResultResponse,
   errors: [InternalServerError, ThrottlingException],
 }));
 /**
@@ -1530,55 +1625,16 @@ export const describeTrustedAdvisorCheckSummaries: (
   errors: [InternalServerError, ThrottlingException],
 }));
 /**
- * Returns a list of CreateCaseOption types along with the
- * corresponding supported hours and language availability. You can specify the `language`
- * `categoryCode`,
- * `issueType` and `serviceCode` used to retrieve the CreateCaseOptions.
- *
- * - You must have a Business, Enterprise On-Ramp, or Enterprise Support plan to use the Amazon Web Services Support
- * API.
- *
- * - If you call the Amazon Web Services Support API from an account that doesn't have a
- * Business, Enterprise On-Ramp, or Enterprise Support plan, the
- * `SubscriptionRequiredException` error message appears. For
- * information about changing your support plan, see Amazon Web Services Support.
- */
-export const describeCreateCaseOptions: (
-  input: DescribeCreateCaseOptionsRequest,
-) => effect.Effect<
-  DescribeCreateCaseOptionsResponse,
-  InternalServerError | ThrottlingException | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeCreateCaseOptionsRequest,
-  output: DescribeCreateCaseOptionsResponse,
-  errors: [InternalServerError, ThrottlingException],
-}));
-/**
- * Returns the results of the Trusted Advisor check that has the specified check ID. You
- * can get the check IDs by calling the DescribeTrustedAdvisorChecks
+ * Refreshes the Trusted Advisor check that you specify using the check ID. You can get the
+ * check IDs by calling the DescribeTrustedAdvisorChecks
  * operation.
  *
- * The response contains a TrustedAdvisorCheckResult object, which
- * contains these three objects:
+ * Some checks are refreshed automatically. If you call the
+ * `RefreshTrustedAdvisorCheck` operation to refresh them, you might see
+ * the `InvalidParameterValue` error.
  *
- * - TrustedAdvisorCategorySpecificSummary
- *
- * - TrustedAdvisorResourceDetail
- *
- * - TrustedAdvisorResourcesSummary
- *
- * In addition, the response contains these fields:
- *
- * - **status** - The alert status of the check
- * can be `ok` (green), `warning` (yellow),
- * `error` (red), or `not_available`.
- *
- * - **timestamp** - The time of the last refresh
- * of the check.
- *
- * - **checkId** - The unique identifier for the
- * check.
+ * The response contains a TrustedAdvisorCheckRefreshStatus
+ * object.
  *
  * - You must have a Business, Enterprise On-Ramp, or Enterprise Support plan to use the Amazon Web Services Support
  * API.
@@ -1593,36 +1649,20 @@ export const describeCreateCaseOptions: (
  * endpoints don't support the Trusted Advisor operations. For more information, see About the Amazon Web Services Support
  * API in the *Amazon Web Services Support User Guide*.
  */
-export const describeTrustedAdvisorCheckResult: (
-  input: DescribeTrustedAdvisorCheckResultRequest,
+export const refreshTrustedAdvisorCheck: (
+  input: RefreshTrustedAdvisorCheckRequest,
 ) => effect.Effect<
-  DescribeTrustedAdvisorCheckResultResponse,
-  InternalServerError | ThrottlingException | CommonErrors,
+  RefreshTrustedAdvisorCheckResponse,
+  InternalServerError | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeTrustedAdvisorCheckResultRequest,
-  output: DescribeTrustedAdvisorCheckResultResponse,
-  errors: [InternalServerError, ThrottlingException],
+  input: RefreshTrustedAdvisorCheckRequest,
+  output: RefreshTrustedAdvisorCheckResponse,
+  errors: [InternalServerError],
 }));
 /**
- * Creates a case in the Amazon Web Services Support Center. This operation is similar to how you create a case
- * in the Amazon Web Services Support Center Create
- * Case page.
- *
- * The Amazon Web Services Support API doesn't support requesting service limit increases. You can submit a
- * service limit increase in the following ways:
- *
- * - Submit a request from the Amazon Web Services Support Center Create Case page.
- *
- * - Use the Service Quotas RequestServiceQuotaIncrease operation.
- *
- * A successful `CreateCase` request returns an Amazon Web Services Support case number. You can use
- * the DescribeCases operation and specify the case number to get
- * existing Amazon Web Services Support cases. After you create a case, use the AddCommunicationToCase operation to add additional communication or
- * attachments to an existing case.
- *
- * The `caseId` is separate from the `displayId` that appears in
- * the Amazon Web Services Support Center. Use the DescribeCases operation to get the `displayId`.
+ * Resolves a support case. This operation takes a `caseId` and returns the
+ * initial and final state of the case.
  *
  * - You must have a Business, Enterprise On-Ramp, or Enterprise Support plan to use the Amazon Web Services Support
  * API.
@@ -1632,60 +1672,14 @@ export const describeTrustedAdvisorCheckResult: (
  * `SubscriptionRequiredException` error message appears. For
  * information about changing your support plan, see Amazon Web Services Support.
  */
-export const createCase: (
-  input: CreateCaseRequest,
+export const resolveCase: (
+  input: ResolveCaseRequest,
 ) => effect.Effect<
-  CreateCaseResponse,
-  | AttachmentSetExpired
-  | AttachmentSetIdNotFound
-  | CaseCreationLimitExceeded
-  | InternalServerError
-  | CommonErrors,
+  ResolveCaseResponse,
+  CaseIdNotFound | InternalServerError | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateCaseRequest,
-  output: CreateCaseResponse,
-  errors: [
-    AttachmentSetExpired,
-    AttachmentSetIdNotFound,
-    CaseCreationLimitExceeded,
-    InternalServerError,
-  ],
-}));
-/**
- * Adds one or more attachments to an attachment set.
- *
- * An attachment set is a temporary container for attachments that you add to a case or
- * case communication. The set is available for 1 hour after it's created. The
- * `expiryTime` returned in the response is when the set expires.
- *
- * - You must have a Business, Enterprise On-Ramp, or Enterprise Support plan to use the Amazon Web Services Support
- * API.
- *
- * - If you call the Amazon Web Services Support API from an account that doesn't have a
- * Business, Enterprise On-Ramp, or Enterprise Support plan, the
- * `SubscriptionRequiredException` error message appears. For
- * information about changing your support plan, see Amazon Web Services Support.
- */
-export const addAttachmentsToSet: (
-  input: AddAttachmentsToSetRequest,
-) => effect.Effect<
-  AddAttachmentsToSetResponse,
-  | AttachmentLimitExceeded
-  | AttachmentSetExpired
-  | AttachmentSetIdNotFound
-  | AttachmentSetSizeLimitExceeded
-  | InternalServerError
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: AddAttachmentsToSetRequest,
-  output: AddAttachmentsToSetResponse,
-  errors: [
-    AttachmentLimitExceeded,
-    AttachmentSetExpired,
-    AttachmentSetIdNotFound,
-    AttachmentSetSizeLimitExceeded,
-    InternalServerError,
-  ],
+  input: ResolveCaseRequest,
+  output: ResolveCaseResponse,
+  errors: [CaseIdNotFound, InternalServerError],
 }));

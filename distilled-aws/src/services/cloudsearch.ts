@@ -1,4 +1,4 @@
-import { HttpClient } from "@effect/platform";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as effect from "effect/Effect";
 import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
@@ -89,52 +89,30 @@ const rules = T.EndpointResolver((p, _) => {
 
 //# Newtypes
 export type DomainName = string;
-export type StandardName = string;
-export type DynamicFieldName = string;
-export type PolicyDocument = string;
-export type ExpressionValue = string;
-export type APIVersion = string;
-export type UIntValue = number;
 export type FieldName = string;
-export type FieldValue = string;
-export type Word = string;
-export type FieldNameCommaList = string;
+export type ErrorCode = string;
+export type ErrorMessage = string;
 export type DomainId = string;
 export type ARN = string;
+export type ServiceUrl = string;
 export type SearchInstanceType = string;
 export type PartitionCount = number;
 export type InstanceCount = number;
-export type MultiAZ = boolean;
-export type ErrorCode = string;
-export type ErrorMessage = string;
-export type ServiceUrl = string;
 export type MaximumReplicationCount = number;
 export type MaximumPartitionCount = number;
+export type StandardName = string;
 export type UpdateTimestamp = Date;
+export type UIntValue = number;
+export type ExpressionValue = string;
+export type DynamicFieldName = string;
+export type FieldValue = string;
+export type Word = string;
+export type FieldNameCommaList = string;
+export type MultiAZ = boolean;
+export type PolicyDocument = string;
+export type APIVersion = string;
 
 //# Schemas
-export interface ListDomainNamesRequest {}
-export const ListDomainNamesRequest = S.suspend(() =>
-  S.Struct({}).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListDomainNamesRequest",
-}) as any as S.Schema<ListDomainNamesRequest>;
-export type StandardNameList = string[];
-export const StandardNameList = S.Array(S.String);
-export type DomainNameList = string[];
-export const DomainNameList = S.Array(S.String);
-export type DynamicFieldNameList = string[];
-export const DynamicFieldNameList = S.Array(S.String);
 export interface BuildSuggestersRequest {
   DomainName: string;
 }
@@ -150,9 +128,19 @@ export const BuildSuggestersRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "BuildSuggestersRequest",
 }) as any as S.Schema<BuildSuggestersRequest>;
+export type FieldNameList = string[];
+export const FieldNameList = S.Array(S.String);
+export interface BuildSuggestersResponse {
+  FieldNames?: string[];
+}
+export const BuildSuggestersResponse = S.suspend(() =>
+  S.Struct({ FieldNames: S.optional(FieldNameList) }).pipe(ns),
+).annotate({
+  identifier: "BuildSuggestersResponse",
+}) as any as S.Schema<BuildSuggestersResponse>;
 export interface CreateDomainRequest {
   DomainName: string;
 }
@@ -168,348 +156,67 @@ export const CreateDomainRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "CreateDomainRequest",
 }) as any as S.Schema<CreateDomainRequest>;
-export interface DeleteAnalysisSchemeRequest {
-  DomainName: string;
-  AnalysisSchemeName: string;
+export interface ServiceEndpoint {
+  Endpoint?: string;
 }
-export const DeleteAnalysisSchemeRequest = S.suspend(() =>
-  S.Struct({ DomainName: S.String, AnalysisSchemeName: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DeleteAnalysisSchemeRequest",
-}) as any as S.Schema<DeleteAnalysisSchemeRequest>;
-export interface DeleteDomainRequest {
-  DomainName: string;
+export const ServiceEndpoint = S.suspend(() =>
+  S.Struct({ Endpoint: S.optional(S.String) }),
+).annotate({
+  identifier: "ServiceEndpoint",
+}) as any as S.Schema<ServiceEndpoint>;
+export interface Limits {
+  MaximumReplicationCount: number;
+  MaximumPartitionCount: number;
 }
-export const DeleteDomainRequest = S.suspend(() =>
-  S.Struct({ DomainName: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DeleteDomainRequest",
-}) as any as S.Schema<DeleteDomainRequest>;
-export interface DeleteExpressionRequest {
-  DomainName: string;
-  ExpressionName: string;
-}
-export const DeleteExpressionRequest = S.suspend(() =>
-  S.Struct({ DomainName: S.String, ExpressionName: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DeleteExpressionRequest",
-}) as any as S.Schema<DeleteExpressionRequest>;
-export interface DeleteIndexFieldRequest {
-  DomainName: string;
-  IndexFieldName: string;
-}
-export const DeleteIndexFieldRequest = S.suspend(() =>
-  S.Struct({ DomainName: S.String, IndexFieldName: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DeleteIndexFieldRequest",
-}) as any as S.Schema<DeleteIndexFieldRequest>;
-export interface DeleteSuggesterRequest {
-  DomainName: string;
-  SuggesterName: string;
-}
-export const DeleteSuggesterRequest = S.suspend(() =>
-  S.Struct({ DomainName: S.String, SuggesterName: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DeleteSuggesterRequest",
-}) as any as S.Schema<DeleteSuggesterRequest>;
-export interface DescribeAnalysisSchemesRequest {
-  DomainName: string;
-  AnalysisSchemeNames?: string[];
-  Deployed?: boolean;
-}
-export const DescribeAnalysisSchemesRequest = S.suspend(() =>
+export const Limits = S.suspend(() =>
   S.Struct({
-    DomainName: S.String,
-    AnalysisSchemeNames: S.optional(StandardNameList),
-    Deployed: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DescribeAnalysisSchemesRequest",
-}) as any as S.Schema<DescribeAnalysisSchemesRequest>;
-export interface DescribeAvailabilityOptionsRequest {
+    MaximumReplicationCount: S.Number,
+    MaximumPartitionCount: S.Number,
+  }),
+).annotate({ identifier: "Limits" }) as any as S.Schema<Limits>;
+export interface DomainStatus {
+  DomainId: string;
   DomainName: string;
-  Deployed?: boolean;
+  ARN?: string;
+  Created?: boolean;
+  Deleted?: boolean;
+  DocService?: ServiceEndpoint;
+  SearchService?: ServiceEndpoint;
+  RequiresIndexDocuments: boolean;
+  Processing?: boolean;
+  SearchInstanceType?: string;
+  SearchPartitionCount?: number;
+  SearchInstanceCount?: number;
+  Limits?: Limits;
 }
-export const DescribeAvailabilityOptionsRequest = S.suspend(() =>
-  S.Struct({ DomainName: S.String, Deployed: S.optional(S.Boolean) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DescribeAvailabilityOptionsRequest",
-}) as any as S.Schema<DescribeAvailabilityOptionsRequest>;
-export interface DescribeDomainEndpointOptionsRequest {
-  DomainName: string;
-  Deployed?: boolean;
-}
-export const DescribeDomainEndpointOptionsRequest = S.suspend(() =>
-  S.Struct({ DomainName: S.String, Deployed: S.optional(S.Boolean) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DescribeDomainEndpointOptionsRequest",
-}) as any as S.Schema<DescribeDomainEndpointOptionsRequest>;
-export interface DescribeDomainsRequest {
-  DomainNames?: string[];
-}
-export const DescribeDomainsRequest = S.suspend(() =>
-  S.Struct({ DomainNames: S.optional(DomainNameList) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DescribeDomainsRequest",
-}) as any as S.Schema<DescribeDomainsRequest>;
-export interface DescribeExpressionsRequest {
-  DomainName: string;
-  ExpressionNames?: string[];
-  Deployed?: boolean;
-}
-export const DescribeExpressionsRequest = S.suspend(() =>
+export const DomainStatus = S.suspend(() =>
   S.Struct({
+    DomainId: S.String,
     DomainName: S.String,
-    ExpressionNames: S.optional(StandardNameList),
-    Deployed: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DescribeExpressionsRequest",
-}) as any as S.Schema<DescribeExpressionsRequest>;
-export interface DescribeIndexFieldsRequest {
-  DomainName: string;
-  FieldNames?: string[];
-  Deployed?: boolean;
+    ARN: S.optional(S.String),
+    Created: S.optional(S.Boolean),
+    Deleted: S.optional(S.Boolean),
+    DocService: S.optional(ServiceEndpoint),
+    SearchService: S.optional(ServiceEndpoint),
+    RequiresIndexDocuments: S.Boolean,
+    Processing: S.optional(S.Boolean),
+    SearchInstanceType: S.optional(S.String),
+    SearchPartitionCount: S.optional(S.Number),
+    SearchInstanceCount: S.optional(S.Number),
+    Limits: S.optional(Limits),
+  }),
+).annotate({ identifier: "DomainStatus" }) as any as S.Schema<DomainStatus>;
+export interface CreateDomainResponse {
+  DomainStatus?: DomainStatus;
 }
-export const DescribeIndexFieldsRequest = S.suspend(() =>
-  S.Struct({
-    DomainName: S.String,
-    FieldNames: S.optional(DynamicFieldNameList),
-    Deployed: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DescribeIndexFieldsRequest",
-}) as any as S.Schema<DescribeIndexFieldsRequest>;
-export interface DescribeScalingParametersRequest {
-  DomainName: string;
-}
-export const DescribeScalingParametersRequest = S.suspend(() =>
-  S.Struct({ DomainName: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DescribeScalingParametersRequest",
-}) as any as S.Schema<DescribeScalingParametersRequest>;
-export interface DescribeServiceAccessPoliciesRequest {
-  DomainName: string;
-  Deployed?: boolean;
-}
-export const DescribeServiceAccessPoliciesRequest = S.suspend(() =>
-  S.Struct({ DomainName: S.String, Deployed: S.optional(S.Boolean) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DescribeServiceAccessPoliciesRequest",
-}) as any as S.Schema<DescribeServiceAccessPoliciesRequest>;
-export interface DescribeSuggestersRequest {
-  DomainName: string;
-  SuggesterNames?: string[];
-  Deployed?: boolean;
-}
-export const DescribeSuggestersRequest = S.suspend(() =>
-  S.Struct({
-    DomainName: S.String,
-    SuggesterNames: S.optional(StandardNameList),
-    Deployed: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DescribeSuggestersRequest",
-}) as any as S.Schema<DescribeSuggestersRequest>;
-export interface IndexDocumentsRequest {
-  DomainName: string;
-}
-export const IndexDocumentsRequest = S.suspend(() =>
-  S.Struct({ DomainName: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "IndexDocumentsRequest",
-}) as any as S.Schema<IndexDocumentsRequest>;
-export interface UpdateAvailabilityOptionsRequest {
-  DomainName: string;
-  MultiAZ: boolean;
-}
-export const UpdateAvailabilityOptionsRequest = S.suspend(() =>
-  S.Struct({ DomainName: S.String, MultiAZ: S.Boolean }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "UpdateAvailabilityOptionsRequest",
-}) as any as S.Schema<UpdateAvailabilityOptionsRequest>;
-export interface UpdateServiceAccessPoliciesRequest {
-  DomainName: string;
-  AccessPolicies: string;
-}
-export const UpdateServiceAccessPoliciesRequest = S.suspend(() =>
-  S.Struct({ DomainName: S.String, AccessPolicies: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "UpdateServiceAccessPoliciesRequest",
-}) as any as S.Schema<UpdateServiceAccessPoliciesRequest>;
+export const CreateDomainResponse = S.suspend(() =>
+  S.Struct({ DomainStatus: S.optional(DomainStatus) }).pipe(ns),
+).annotate({
+  identifier: "CreateDomainResponse",
+}) as any as S.Schema<CreateDomainResponse>;
 export type AnalysisSchemeLanguage =
   | "ar"
   | "bg"
@@ -548,54 +255,6 @@ export type AnalysisSchemeLanguage =
   | "zh-Hant"
   | (string & {});
 export const AnalysisSchemeLanguage = S.String;
-export type IndexFieldType =
-  | "int"
-  | "double"
-  | "literal"
-  | "text"
-  | "date"
-  | "latlon"
-  | "int-array"
-  | "double-array"
-  | "literal-array"
-  | "text-array"
-  | "date-array"
-  | (string & {});
-export const IndexFieldType = S.String;
-export type TLSSecurityPolicy =
-  | "Policy-Min-TLS-1-0-2019-07"
-  | "Policy-Min-TLS-1-2-2019-07"
-  | (string & {});
-export const TLSSecurityPolicy = S.String;
-export type PartitionInstanceType =
-  | "search.m1.small"
-  | "search.m1.large"
-  | "search.m2.xlarge"
-  | "search.m2.2xlarge"
-  | "search.m3.medium"
-  | "search.m3.large"
-  | "search.m3.xlarge"
-  | "search.m3.2xlarge"
-  | "search.small"
-  | "search.medium"
-  | "search.large"
-  | "search.xlarge"
-  | "search.2xlarge"
-  | "search.previousgeneration.small"
-  | "search.previousgeneration.large"
-  | "search.previousgeneration.xlarge"
-  | "search.previousgeneration.2xlarge"
-  | (string & {});
-export const PartitionInstanceType = S.String;
-export type FieldNameList = string[];
-export const FieldNameList = S.Array(S.String);
-export interface Expression {
-  ExpressionName: string;
-  ExpressionValue: string;
-}
-export const Expression = S.suspend(() =>
-  S.Struct({ ExpressionName: S.String, ExpressionValue: S.String }),
-).annotations({ identifier: "Expression" }) as any as S.Schema<Expression>;
 export type AlgorithmicStemming =
   | "none"
   | "minimal"
@@ -618,7 +277,7 @@ export const AnalysisOptions = S.suspend(() =>
     JapaneseTokenizationDictionary: S.optional(S.String),
     AlgorithmicStemming: S.optional(AlgorithmicStemming),
   }),
-).annotations({
+).annotate({
   identifier: "AnalysisOptions",
 }) as any as S.Schema<AnalysisOptions>;
 export interface AnalysisScheme {
@@ -632,9 +291,26 @@ export const AnalysisScheme = S.suspend(() =>
     AnalysisSchemeLanguage: AnalysisSchemeLanguage,
     AnalysisOptions: S.optional(AnalysisOptions),
   }),
-).annotations({
-  identifier: "AnalysisScheme",
-}) as any as S.Schema<AnalysisScheme>;
+).annotate({ identifier: "AnalysisScheme" }) as any as S.Schema<AnalysisScheme>;
+export interface DefineAnalysisSchemeRequest {
+  DomainName: string;
+  AnalysisScheme: AnalysisScheme;
+}
+export const DefineAnalysisSchemeRequest = S.suspend(() =>
+  S.Struct({ DomainName: S.String, AnalysisScheme: AnalysisScheme }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DefineAnalysisSchemeRequest",
+}) as any as S.Schema<DefineAnalysisSchemeRequest>;
 export type OptionState =
   | "RequiresIndexDocuments"
   | "Processing"
@@ -657,81 +333,81 @@ export const OptionStatus = S.suspend(() =>
     State: OptionState,
     PendingDeletion: S.optional(S.Boolean),
   }),
-).annotations({ identifier: "OptionStatus" }) as any as S.Schema<OptionStatus>;
+).annotate({ identifier: "OptionStatus" }) as any as S.Schema<OptionStatus>;
 export interface AnalysisSchemeStatus {
   Options: AnalysisScheme;
   Status: OptionStatus;
 }
 export const AnalysisSchemeStatus = S.suspend(() =>
   S.Struct({ Options: AnalysisScheme, Status: OptionStatus }),
-).annotations({
+).annotate({
   identifier: "AnalysisSchemeStatus",
 }) as any as S.Schema<AnalysisSchemeStatus>;
-export type AnalysisSchemeStatusList = AnalysisSchemeStatus[];
-export const AnalysisSchemeStatusList = S.Array(AnalysisSchemeStatus);
-export interface ServiceEndpoint {
-  Endpoint?: string;
+export interface DefineAnalysisSchemeResponse {
+  AnalysisScheme: AnalysisSchemeStatus;
 }
-export const ServiceEndpoint = S.suspend(() =>
-  S.Struct({ Endpoint: S.optional(S.String) }),
-).annotations({
-  identifier: "ServiceEndpoint",
-}) as any as S.Schema<ServiceEndpoint>;
-export interface Limits {
-  MaximumReplicationCount: number;
-  MaximumPartitionCount: number;
+export const DefineAnalysisSchemeResponse = S.suspend(() =>
+  S.Struct({ AnalysisScheme: AnalysisSchemeStatus }).pipe(ns),
+).annotate({
+  identifier: "DefineAnalysisSchemeResponse",
+}) as any as S.Schema<DefineAnalysisSchemeResponse>;
+export interface Expression {
+  ExpressionName: string;
+  ExpressionValue: string;
 }
-export const Limits = S.suspend(() =>
-  S.Struct({
-    MaximumReplicationCount: S.Number,
-    MaximumPartitionCount: S.Number,
-  }),
-).annotations({ identifier: "Limits" }) as any as S.Schema<Limits>;
-export interface DomainStatus {
-  DomainId: string;
+export const Expression = S.suspend(() =>
+  S.Struct({ ExpressionName: S.String, ExpressionValue: S.String }),
+).annotate({ identifier: "Expression" }) as any as S.Schema<Expression>;
+export interface DefineExpressionRequest {
   DomainName: string;
-  ARN?: string;
-  Created?: boolean;
-  Deleted?: boolean;
-  DocService?: ServiceEndpoint;
-  SearchService?: ServiceEndpoint;
-  RequiresIndexDocuments: boolean;
-  Processing?: boolean;
-  SearchInstanceType?: string;
-  SearchPartitionCount?: number;
-  SearchInstanceCount?: number;
-  Limits?: Limits;
+  Expression: Expression;
 }
-export const DomainStatus = S.suspend(() =>
-  S.Struct({
-    DomainId: S.String,
-    DomainName: S.String,
-    ARN: S.optional(S.String),
-    Created: S.optional(S.Boolean),
-    Deleted: S.optional(S.Boolean),
-    DocService: S.optional(ServiceEndpoint),
-    SearchService: S.optional(ServiceEndpoint),
-    RequiresIndexDocuments: S.Boolean,
-    Processing: S.optional(S.Boolean),
-    SearchInstanceType: S.optional(S.String),
-    SearchPartitionCount: S.optional(S.Number),
-    SearchInstanceCount: S.optional(S.Number),
-    Limits: S.optional(Limits),
-  }),
-).annotations({ identifier: "DomainStatus" }) as any as S.Schema<DomainStatus>;
-export type DomainStatusList = DomainStatus[];
-export const DomainStatusList = S.Array(DomainStatus);
+export const DefineExpressionRequest = S.suspend(() =>
+  S.Struct({ DomainName: S.String, Expression: Expression }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DefineExpressionRequest",
+}) as any as S.Schema<DefineExpressionRequest>;
 export interface ExpressionStatus {
   Options: Expression;
   Status: OptionStatus;
 }
 export const ExpressionStatus = S.suspend(() =>
   S.Struct({ Options: Expression, Status: OptionStatus }),
-).annotations({
+).annotate({
   identifier: "ExpressionStatus",
 }) as any as S.Schema<ExpressionStatus>;
-export type ExpressionStatusList = ExpressionStatus[];
-export const ExpressionStatusList = S.Array(ExpressionStatus);
+export interface DefineExpressionResponse {
+  Expression: ExpressionStatus;
+}
+export const DefineExpressionResponse = S.suspend(() =>
+  S.Struct({ Expression: ExpressionStatus }).pipe(ns),
+).annotate({
+  identifier: "DefineExpressionResponse",
+}) as any as S.Schema<DefineExpressionResponse>;
+export type IndexFieldType =
+  | "int"
+  | "double"
+  | "literal"
+  | "text"
+  | "date"
+  | "latlon"
+  | "int-array"
+  | "double-array"
+  | "literal-array"
+  | "text-array"
+  | "date-array"
+  | (string & {});
+export const IndexFieldType = S.String;
 export interface IntOptions {
   DefaultValue?: number;
   SourceField?: string;
@@ -749,7 +425,7 @@ export const IntOptions = S.suspend(() =>
     ReturnEnabled: S.optional(S.Boolean),
     SortEnabled: S.optional(S.Boolean),
   }),
-).annotations({ identifier: "IntOptions" }) as any as S.Schema<IntOptions>;
+).annotate({ identifier: "IntOptions" }) as any as S.Schema<IntOptions>;
 export interface DoubleOptions {
   DefaultValue?: number;
   SourceField?: string;
@@ -767,9 +443,7 @@ export const DoubleOptions = S.suspend(() =>
     ReturnEnabled: S.optional(S.Boolean),
     SortEnabled: S.optional(S.Boolean),
   }),
-).annotations({
-  identifier: "DoubleOptions",
-}) as any as S.Schema<DoubleOptions>;
+).annotate({ identifier: "DoubleOptions" }) as any as S.Schema<DoubleOptions>;
 export interface LiteralOptions {
   DefaultValue?: string;
   SourceField?: string;
@@ -787,9 +461,7 @@ export const LiteralOptions = S.suspend(() =>
     ReturnEnabled: S.optional(S.Boolean),
     SortEnabled: S.optional(S.Boolean),
   }),
-).annotations({
-  identifier: "LiteralOptions",
-}) as any as S.Schema<LiteralOptions>;
+).annotate({ identifier: "LiteralOptions" }) as any as S.Schema<LiteralOptions>;
 export interface TextOptions {
   DefaultValue?: string;
   SourceField?: string;
@@ -807,7 +479,7 @@ export const TextOptions = S.suspend(() =>
     HighlightEnabled: S.optional(S.Boolean),
     AnalysisScheme: S.optional(S.String),
   }),
-).annotations({ identifier: "TextOptions" }) as any as S.Schema<TextOptions>;
+).annotate({ identifier: "TextOptions" }) as any as S.Schema<TextOptions>;
 export interface DateOptions {
   DefaultValue?: string;
   SourceField?: string;
@@ -825,7 +497,7 @@ export const DateOptions = S.suspend(() =>
     ReturnEnabled: S.optional(S.Boolean),
     SortEnabled: S.optional(S.Boolean),
   }),
-).annotations({ identifier: "DateOptions" }) as any as S.Schema<DateOptions>;
+).annotate({ identifier: "DateOptions" }) as any as S.Schema<DateOptions>;
 export interface LatLonOptions {
   DefaultValue?: string;
   SourceField?: string;
@@ -843,9 +515,7 @@ export const LatLonOptions = S.suspend(() =>
     ReturnEnabled: S.optional(S.Boolean),
     SortEnabled: S.optional(S.Boolean),
   }),
-).annotations({
-  identifier: "LatLonOptions",
-}) as any as S.Schema<LatLonOptions>;
+).annotate({ identifier: "LatLonOptions" }) as any as S.Schema<LatLonOptions>;
 export interface IntArrayOptions {
   DefaultValue?: number;
   SourceFields?: string;
@@ -861,7 +531,7 @@ export const IntArrayOptions = S.suspend(() =>
     SearchEnabled: S.optional(S.Boolean),
     ReturnEnabled: S.optional(S.Boolean),
   }),
-).annotations({
+).annotate({
   identifier: "IntArrayOptions",
 }) as any as S.Schema<IntArrayOptions>;
 export interface DoubleArrayOptions {
@@ -879,7 +549,7 @@ export const DoubleArrayOptions = S.suspend(() =>
     SearchEnabled: S.optional(S.Boolean),
     ReturnEnabled: S.optional(S.Boolean),
   }),
-).annotations({
+).annotate({
   identifier: "DoubleArrayOptions",
 }) as any as S.Schema<DoubleArrayOptions>;
 export interface LiteralArrayOptions {
@@ -897,7 +567,7 @@ export const LiteralArrayOptions = S.suspend(() =>
     SearchEnabled: S.optional(S.Boolean),
     ReturnEnabled: S.optional(S.Boolean),
   }),
-).annotations({
+).annotate({
   identifier: "LiteralArrayOptions",
 }) as any as S.Schema<LiteralArrayOptions>;
 export interface TextArrayOptions {
@@ -915,7 +585,7 @@ export const TextArrayOptions = S.suspend(() =>
     HighlightEnabled: S.optional(S.Boolean),
     AnalysisScheme: S.optional(S.String),
   }),
-).annotations({
+).annotate({
   identifier: "TextArrayOptions",
 }) as any as S.Schema<TextArrayOptions>;
 export interface DateArrayOptions {
@@ -933,7 +603,7 @@ export const DateArrayOptions = S.suspend(() =>
     SearchEnabled: S.optional(S.Boolean),
     ReturnEnabled: S.optional(S.Boolean),
   }),
-).annotations({
+).annotate({
   identifier: "DateArrayOptions",
 }) as any as S.Schema<DateArrayOptions>;
 export interface IndexField {
@@ -967,18 +637,43 @@ export const IndexField = S.suspend(() =>
     TextArrayOptions: S.optional(TextArrayOptions),
     DateArrayOptions: S.optional(DateArrayOptions),
   }),
-).annotations({ identifier: "IndexField" }) as any as S.Schema<IndexField>;
+).annotate({ identifier: "IndexField" }) as any as S.Schema<IndexField>;
+export interface DefineIndexFieldRequest {
+  DomainName: string;
+  IndexField: IndexField;
+}
+export const DefineIndexFieldRequest = S.suspend(() =>
+  S.Struct({ DomainName: S.String, IndexField: IndexField }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DefineIndexFieldRequest",
+}) as any as S.Schema<DefineIndexFieldRequest>;
 export interface IndexFieldStatus {
   Options: IndexField;
   Status: OptionStatus;
 }
 export const IndexFieldStatus = S.suspend(() =>
   S.Struct({ Options: IndexField, Status: OptionStatus }),
-).annotations({
+).annotate({
   identifier: "IndexFieldStatus",
 }) as any as S.Schema<IndexFieldStatus>;
-export type IndexFieldStatusList = IndexFieldStatus[];
-export const IndexFieldStatusList = S.Array(IndexFieldStatus);
+export interface DefineIndexFieldResponse {
+  IndexField: IndexFieldStatus;
+}
+export const DefineIndexFieldResponse = S.suspend(() =>
+  S.Struct({ IndexField: IndexFieldStatus }).pipe(ns),
+).annotate({
+  identifier: "DefineIndexFieldResponse",
+}) as any as S.Schema<DefineIndexFieldResponse>;
 export type SuggesterFuzzyMatching = "none" | "low" | "high" | (string & {});
 export const SuggesterFuzzyMatching = S.String;
 export interface DocumentSuggesterOptions {
@@ -992,7 +687,7 @@ export const DocumentSuggesterOptions = S.suspend(() =>
     FuzzyMatching: S.optional(SuggesterFuzzyMatching),
     SortExpression: S.optional(S.String),
   }),
-).annotations({
+).annotate({
   identifier: "DocumentSuggesterOptions",
 }) as any as S.Schema<DocumentSuggesterOptions>;
 export interface Suggester {
@@ -1004,23 +699,275 @@ export const Suggester = S.suspend(() =>
     SuggesterName: S.String,
     DocumentSuggesterOptions: DocumentSuggesterOptions,
   }),
-).annotations({ identifier: "Suggester" }) as any as S.Schema<Suggester>;
+).annotate({ identifier: "Suggester" }) as any as S.Schema<Suggester>;
+export interface DefineSuggesterRequest {
+  DomainName: string;
+  Suggester: Suggester;
+}
+export const DefineSuggesterRequest = S.suspend(() =>
+  S.Struct({ DomainName: S.String, Suggester: Suggester }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DefineSuggesterRequest",
+}) as any as S.Schema<DefineSuggesterRequest>;
 export interface SuggesterStatus {
   Options: Suggester;
   Status: OptionStatus;
 }
 export const SuggesterStatus = S.suspend(() =>
   S.Struct({ Options: Suggester, Status: OptionStatus }),
-).annotations({
+).annotate({
   identifier: "SuggesterStatus",
 }) as any as S.Schema<SuggesterStatus>;
-export type SuggesterStatusList = SuggesterStatus[];
-export const SuggesterStatusList = S.Array(SuggesterStatus);
-export type DomainNameMap = { [key: string]: string | undefined };
-export const DomainNameMap = S.Record({
-  key: S.String,
-  value: S.UndefinedOr(S.String),
-});
+export interface DefineSuggesterResponse {
+  Suggester: SuggesterStatus;
+}
+export const DefineSuggesterResponse = S.suspend(() =>
+  S.Struct({ Suggester: SuggesterStatus }).pipe(ns),
+).annotate({
+  identifier: "DefineSuggesterResponse",
+}) as any as S.Schema<DefineSuggesterResponse>;
+export interface DeleteAnalysisSchemeRequest {
+  DomainName: string;
+  AnalysisSchemeName: string;
+}
+export const DeleteAnalysisSchemeRequest = S.suspend(() =>
+  S.Struct({ DomainName: S.String, AnalysisSchemeName: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeleteAnalysisSchemeRequest",
+}) as any as S.Schema<DeleteAnalysisSchemeRequest>;
+export interface DeleteAnalysisSchemeResponse {
+  AnalysisScheme: AnalysisSchemeStatus;
+}
+export const DeleteAnalysisSchemeResponse = S.suspend(() =>
+  S.Struct({ AnalysisScheme: AnalysisSchemeStatus }).pipe(ns),
+).annotate({
+  identifier: "DeleteAnalysisSchemeResponse",
+}) as any as S.Schema<DeleteAnalysisSchemeResponse>;
+export interface DeleteDomainRequest {
+  DomainName: string;
+}
+export const DeleteDomainRequest = S.suspend(() =>
+  S.Struct({ DomainName: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeleteDomainRequest",
+}) as any as S.Schema<DeleteDomainRequest>;
+export interface DeleteDomainResponse {
+  DomainStatus?: DomainStatus;
+}
+export const DeleteDomainResponse = S.suspend(() =>
+  S.Struct({ DomainStatus: S.optional(DomainStatus) }).pipe(ns),
+).annotate({
+  identifier: "DeleteDomainResponse",
+}) as any as S.Schema<DeleteDomainResponse>;
+export interface DeleteExpressionRequest {
+  DomainName: string;
+  ExpressionName: string;
+}
+export const DeleteExpressionRequest = S.suspend(() =>
+  S.Struct({ DomainName: S.String, ExpressionName: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeleteExpressionRequest",
+}) as any as S.Schema<DeleteExpressionRequest>;
+export interface DeleteExpressionResponse {
+  Expression: ExpressionStatus;
+}
+export const DeleteExpressionResponse = S.suspend(() =>
+  S.Struct({ Expression: ExpressionStatus }).pipe(ns),
+).annotate({
+  identifier: "DeleteExpressionResponse",
+}) as any as S.Schema<DeleteExpressionResponse>;
+export interface DeleteIndexFieldRequest {
+  DomainName: string;
+  IndexFieldName: string;
+}
+export const DeleteIndexFieldRequest = S.suspend(() =>
+  S.Struct({ DomainName: S.String, IndexFieldName: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeleteIndexFieldRequest",
+}) as any as S.Schema<DeleteIndexFieldRequest>;
+export interface DeleteIndexFieldResponse {
+  IndexField: IndexFieldStatus;
+}
+export const DeleteIndexFieldResponse = S.suspend(() =>
+  S.Struct({ IndexField: IndexFieldStatus }).pipe(ns),
+).annotate({
+  identifier: "DeleteIndexFieldResponse",
+}) as any as S.Schema<DeleteIndexFieldResponse>;
+export interface DeleteSuggesterRequest {
+  DomainName: string;
+  SuggesterName: string;
+}
+export const DeleteSuggesterRequest = S.suspend(() =>
+  S.Struct({ DomainName: S.String, SuggesterName: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeleteSuggesterRequest",
+}) as any as S.Schema<DeleteSuggesterRequest>;
+export interface DeleteSuggesterResponse {
+  Suggester: SuggesterStatus;
+}
+export const DeleteSuggesterResponse = S.suspend(() =>
+  S.Struct({ Suggester: SuggesterStatus }).pipe(ns),
+).annotate({
+  identifier: "DeleteSuggesterResponse",
+}) as any as S.Schema<DeleteSuggesterResponse>;
+export type StandardNameList = string[];
+export const StandardNameList = S.Array(S.String);
+export interface DescribeAnalysisSchemesRequest {
+  DomainName: string;
+  AnalysisSchemeNames?: string[];
+  Deployed?: boolean;
+}
+export const DescribeAnalysisSchemesRequest = S.suspend(() =>
+  S.Struct({
+    DomainName: S.String,
+    AnalysisSchemeNames: S.optional(StandardNameList),
+    Deployed: S.optional(S.Boolean),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DescribeAnalysisSchemesRequest",
+}) as any as S.Schema<DescribeAnalysisSchemesRequest>;
+export type AnalysisSchemeStatusList = AnalysisSchemeStatus[];
+export const AnalysisSchemeStatusList = S.Array(AnalysisSchemeStatus);
+export interface DescribeAnalysisSchemesResponse {
+  AnalysisSchemes: AnalysisSchemeStatus[];
+}
+export const DescribeAnalysisSchemesResponse = S.suspend(() =>
+  S.Struct({ AnalysisSchemes: AnalysisSchemeStatusList }).pipe(ns),
+).annotate({
+  identifier: "DescribeAnalysisSchemesResponse",
+}) as any as S.Schema<DescribeAnalysisSchemesResponse>;
+export interface DescribeAvailabilityOptionsRequest {
+  DomainName: string;
+  Deployed?: boolean;
+}
+export const DescribeAvailabilityOptionsRequest = S.suspend(() =>
+  S.Struct({ DomainName: S.String, Deployed: S.optional(S.Boolean) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DescribeAvailabilityOptionsRequest",
+}) as any as S.Schema<DescribeAvailabilityOptionsRequest>;
+export interface AvailabilityOptionsStatus {
+  Options: boolean;
+  Status: OptionStatus;
+}
+export const AvailabilityOptionsStatus = S.suspend(() =>
+  S.Struct({ Options: S.Boolean, Status: OptionStatus }),
+).annotate({
+  identifier: "AvailabilityOptionsStatus",
+}) as any as S.Schema<AvailabilityOptionsStatus>;
+export interface DescribeAvailabilityOptionsResponse {
+  AvailabilityOptions?: AvailabilityOptionsStatus;
+}
+export const DescribeAvailabilityOptionsResponse = S.suspend(() =>
+  S.Struct({ AvailabilityOptions: S.optional(AvailabilityOptionsStatus) }).pipe(
+    ns,
+  ),
+).annotate({
+  identifier: "DescribeAvailabilityOptionsResponse",
+}) as any as S.Schema<DescribeAvailabilityOptionsResponse>;
+export interface DescribeDomainEndpointOptionsRequest {
+  DomainName: string;
+  Deployed?: boolean;
+}
+export const DescribeDomainEndpointOptionsRequest = S.suspend(() =>
+  S.Struct({ DomainName: S.String, Deployed: S.optional(S.Boolean) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DescribeDomainEndpointOptionsRequest",
+}) as any as S.Schema<DescribeDomainEndpointOptionsRequest>;
+export type TLSSecurityPolicy =
+  | "Policy-Min-TLS-1-0-2019-07"
+  | "Policy-Min-TLS-1-2-2019-07"
+  | (string & {});
+export const TLSSecurityPolicy = S.String;
 export interface DomainEndpointOptions {
   EnforceHTTPS?: boolean;
   TLSSecurityPolicy?: TLSSecurityPolicy;
@@ -1030,9 +977,166 @@ export const DomainEndpointOptions = S.suspend(() =>
     EnforceHTTPS: S.optional(S.Boolean),
     TLSSecurityPolicy: S.optional(TLSSecurityPolicy),
   }),
-).annotations({
+).annotate({
   identifier: "DomainEndpointOptions",
 }) as any as S.Schema<DomainEndpointOptions>;
+export interface DomainEndpointOptionsStatus {
+  Options: DomainEndpointOptions;
+  Status: OptionStatus;
+}
+export const DomainEndpointOptionsStatus = S.suspend(() =>
+  S.Struct({ Options: DomainEndpointOptions, Status: OptionStatus }),
+).annotate({
+  identifier: "DomainEndpointOptionsStatus",
+}) as any as S.Schema<DomainEndpointOptionsStatus>;
+export interface DescribeDomainEndpointOptionsResponse {
+  DomainEndpointOptions?: DomainEndpointOptionsStatus;
+}
+export const DescribeDomainEndpointOptionsResponse = S.suspend(() =>
+  S.Struct({
+    DomainEndpointOptions: S.optional(DomainEndpointOptionsStatus),
+  }).pipe(ns),
+).annotate({
+  identifier: "DescribeDomainEndpointOptionsResponse",
+}) as any as S.Schema<DescribeDomainEndpointOptionsResponse>;
+export type DomainNameList = string[];
+export const DomainNameList = S.Array(S.String);
+export interface DescribeDomainsRequest {
+  DomainNames?: string[];
+}
+export const DescribeDomainsRequest = S.suspend(() =>
+  S.Struct({ DomainNames: S.optional(DomainNameList) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DescribeDomainsRequest",
+}) as any as S.Schema<DescribeDomainsRequest>;
+export type DomainStatusList = DomainStatus[];
+export const DomainStatusList = S.Array(DomainStatus);
+export interface DescribeDomainsResponse {
+  DomainStatusList: DomainStatus[];
+}
+export const DescribeDomainsResponse = S.suspend(() =>
+  S.Struct({ DomainStatusList: DomainStatusList }).pipe(ns),
+).annotate({
+  identifier: "DescribeDomainsResponse",
+}) as any as S.Schema<DescribeDomainsResponse>;
+export interface DescribeExpressionsRequest {
+  DomainName: string;
+  ExpressionNames?: string[];
+  Deployed?: boolean;
+}
+export const DescribeExpressionsRequest = S.suspend(() =>
+  S.Struct({
+    DomainName: S.String,
+    ExpressionNames: S.optional(StandardNameList),
+    Deployed: S.optional(S.Boolean),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DescribeExpressionsRequest",
+}) as any as S.Schema<DescribeExpressionsRequest>;
+export type ExpressionStatusList = ExpressionStatus[];
+export const ExpressionStatusList = S.Array(ExpressionStatus);
+export interface DescribeExpressionsResponse {
+  Expressions: ExpressionStatus[];
+}
+export const DescribeExpressionsResponse = S.suspend(() =>
+  S.Struct({ Expressions: ExpressionStatusList }).pipe(ns),
+).annotate({
+  identifier: "DescribeExpressionsResponse",
+}) as any as S.Schema<DescribeExpressionsResponse>;
+export type DynamicFieldNameList = string[];
+export const DynamicFieldNameList = S.Array(S.String);
+export interface DescribeIndexFieldsRequest {
+  DomainName: string;
+  FieldNames?: string[];
+  Deployed?: boolean;
+}
+export const DescribeIndexFieldsRequest = S.suspend(() =>
+  S.Struct({
+    DomainName: S.String,
+    FieldNames: S.optional(DynamicFieldNameList),
+    Deployed: S.optional(S.Boolean),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DescribeIndexFieldsRequest",
+}) as any as S.Schema<DescribeIndexFieldsRequest>;
+export type IndexFieldStatusList = IndexFieldStatus[];
+export const IndexFieldStatusList = S.Array(IndexFieldStatus);
+export interface DescribeIndexFieldsResponse {
+  IndexFields: IndexFieldStatus[];
+}
+export const DescribeIndexFieldsResponse = S.suspend(() =>
+  S.Struct({ IndexFields: IndexFieldStatusList }).pipe(ns),
+).annotate({
+  identifier: "DescribeIndexFieldsResponse",
+}) as any as S.Schema<DescribeIndexFieldsResponse>;
+export interface DescribeScalingParametersRequest {
+  DomainName: string;
+}
+export const DescribeScalingParametersRequest = S.suspend(() =>
+  S.Struct({ DomainName: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DescribeScalingParametersRequest",
+}) as any as S.Schema<DescribeScalingParametersRequest>;
+export type PartitionInstanceType =
+  | "search.m1.small"
+  | "search.m1.large"
+  | "search.m2.xlarge"
+  | "search.m2.2xlarge"
+  | "search.m3.medium"
+  | "search.m3.large"
+  | "search.m3.xlarge"
+  | "search.m3.2xlarge"
+  | "search.small"
+  | "search.medium"
+  | "search.large"
+  | "search.xlarge"
+  | "search.2xlarge"
+  | "search.previousgeneration.small"
+  | "search.previousgeneration.large"
+  | "search.previousgeneration.xlarge"
+  | "search.previousgeneration.2xlarge"
+  | (string & {});
+export const PartitionInstanceType = S.String;
 export interface ScalingParameters {
   DesiredInstanceType?: PartitionInstanceType;
   DesiredReplicationCount?: number;
@@ -1044,23 +1148,32 @@ export const ScalingParameters = S.suspend(() =>
     DesiredReplicationCount: S.optional(S.Number),
     DesiredPartitionCount: S.optional(S.Number),
   }),
-).annotations({
+).annotate({
   identifier: "ScalingParameters",
 }) as any as S.Schema<ScalingParameters>;
-export interface BuildSuggestersResponse {
-  FieldNames?: string[];
+export interface ScalingParametersStatus {
+  Options: ScalingParameters;
+  Status: OptionStatus;
 }
-export const BuildSuggestersResponse = S.suspend(() =>
-  S.Struct({ FieldNames: S.optional(FieldNameList) }).pipe(ns),
-).annotations({
-  identifier: "BuildSuggestersResponse",
-}) as any as S.Schema<BuildSuggestersResponse>;
-export interface DefineExpressionRequest {
+export const ScalingParametersStatus = S.suspend(() =>
+  S.Struct({ Options: ScalingParameters, Status: OptionStatus }),
+).annotate({
+  identifier: "ScalingParametersStatus",
+}) as any as S.Schema<ScalingParametersStatus>;
+export interface DescribeScalingParametersResponse {
+  ScalingParameters: ScalingParametersStatus;
+}
+export const DescribeScalingParametersResponse = S.suspend(() =>
+  S.Struct({ ScalingParameters: ScalingParametersStatus }).pipe(ns),
+).annotate({
+  identifier: "DescribeScalingParametersResponse",
+}) as any as S.Schema<DescribeScalingParametersResponse>;
+export interface DescribeServiceAccessPoliciesRequest {
   DomainName: string;
-  Expression: Expression;
+  Deployed?: boolean;
 }
-export const DefineExpressionRequest = S.suspend(() =>
-  S.Struct({ DomainName: S.String, Expression: Expression }).pipe(
+export const DescribeServiceAccessPoliciesRequest = S.suspend(() =>
+  S.Struct({ DomainName: S.String, Deployed: S.optional(S.Boolean) }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -1071,82 +1184,131 @@ export const DefineExpressionRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
-  identifier: "DefineExpressionRequest",
-}) as any as S.Schema<DefineExpressionRequest>;
-export interface DeleteDomainResponse {
-  DomainStatus?: DomainStatus;
+).annotate({
+  identifier: "DescribeServiceAccessPoliciesRequest",
+}) as any as S.Schema<DescribeServiceAccessPoliciesRequest>;
+export interface AccessPoliciesStatus {
+  Options: string;
+  Status: OptionStatus;
 }
-export const DeleteDomainResponse = S.suspend(() =>
-  S.Struct({ DomainStatus: S.optional(DomainStatus) }).pipe(ns),
-).annotations({
-  identifier: "DeleteDomainResponse",
-}) as any as S.Schema<DeleteDomainResponse>;
-export interface DescribeAnalysisSchemesResponse {
-  AnalysisSchemes: AnalysisSchemeStatus[];
+export const AccessPoliciesStatus = S.suspend(() =>
+  S.Struct({ Options: S.String, Status: OptionStatus }),
+).annotate({
+  identifier: "AccessPoliciesStatus",
+}) as any as S.Schema<AccessPoliciesStatus>;
+export interface DescribeServiceAccessPoliciesResponse {
+  AccessPolicies: AccessPoliciesStatus;
 }
-export const DescribeAnalysisSchemesResponse = S.suspend(() =>
-  S.Struct({ AnalysisSchemes: AnalysisSchemeStatusList }).pipe(ns),
-).annotations({
-  identifier: "DescribeAnalysisSchemesResponse",
-}) as any as S.Schema<DescribeAnalysisSchemesResponse>;
-export interface DescribeDomainsResponse {
-  DomainStatusList: DomainStatus[];
+export const DescribeServiceAccessPoliciesResponse = S.suspend(() =>
+  S.Struct({ AccessPolicies: AccessPoliciesStatus }).pipe(ns),
+).annotate({
+  identifier: "DescribeServiceAccessPoliciesResponse",
+}) as any as S.Schema<DescribeServiceAccessPoliciesResponse>;
+export interface DescribeSuggestersRequest {
+  DomainName: string;
+  SuggesterNames?: string[];
+  Deployed?: boolean;
 }
-export const DescribeDomainsResponse = S.suspend(() =>
-  S.Struct({ DomainStatusList: DomainStatusList }).pipe(ns),
-).annotations({
-  identifier: "DescribeDomainsResponse",
-}) as any as S.Schema<DescribeDomainsResponse>;
-export interface DescribeExpressionsResponse {
-  Expressions: ExpressionStatus[];
-}
-export const DescribeExpressionsResponse = S.suspend(() =>
-  S.Struct({ Expressions: ExpressionStatusList }).pipe(ns),
-).annotations({
-  identifier: "DescribeExpressionsResponse",
-}) as any as S.Schema<DescribeExpressionsResponse>;
-export interface DescribeIndexFieldsResponse {
-  IndexFields: IndexFieldStatus[];
-}
-export const DescribeIndexFieldsResponse = S.suspend(() =>
-  S.Struct({ IndexFields: IndexFieldStatusList }).pipe(ns),
-).annotations({
-  identifier: "DescribeIndexFieldsResponse",
-}) as any as S.Schema<DescribeIndexFieldsResponse>;
+export const DescribeSuggestersRequest = S.suspend(() =>
+  S.Struct({
+    DomainName: S.String,
+    SuggesterNames: S.optional(StandardNameList),
+    Deployed: S.optional(S.Boolean),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DescribeSuggestersRequest",
+}) as any as S.Schema<DescribeSuggestersRequest>;
+export type SuggesterStatusList = SuggesterStatus[];
+export const SuggesterStatusList = S.Array(SuggesterStatus);
 export interface DescribeSuggestersResponse {
   Suggesters: SuggesterStatus[];
 }
 export const DescribeSuggestersResponse = S.suspend(() =>
   S.Struct({ Suggesters: SuggesterStatusList }).pipe(ns),
-).annotations({
+).annotate({
   identifier: "DescribeSuggestersResponse",
 }) as any as S.Schema<DescribeSuggestersResponse>;
+export interface IndexDocumentsRequest {
+  DomainName: string;
+}
+export const IndexDocumentsRequest = S.suspend(() =>
+  S.Struct({ DomainName: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "IndexDocumentsRequest",
+}) as any as S.Schema<IndexDocumentsRequest>;
 export interface IndexDocumentsResponse {
   FieldNames?: string[];
 }
 export const IndexDocumentsResponse = S.suspend(() =>
   S.Struct({ FieldNames: S.optional(FieldNameList) }).pipe(ns),
-).annotations({
+).annotate({
   identifier: "IndexDocumentsResponse",
 }) as any as S.Schema<IndexDocumentsResponse>;
+export interface ListDomainNamesRequest {}
+export const ListDomainNamesRequest = S.suspend(() =>
+  S.Struct({}).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListDomainNamesRequest",
+}) as any as S.Schema<ListDomainNamesRequest>;
+export type DomainNameMap = { [key: string]: string | undefined };
+export const DomainNameMap = S.Record(S.String, S.String.pipe(S.optional));
 export interface ListDomainNamesResponse {
   DomainNames?: { [key: string]: string | undefined };
 }
 export const ListDomainNamesResponse = S.suspend(() =>
   S.Struct({ DomainNames: S.optional(DomainNameMap) }).pipe(ns),
-).annotations({
+).annotate({
   identifier: "ListDomainNamesResponse",
 }) as any as S.Schema<ListDomainNamesResponse>;
-export interface AvailabilityOptionsStatus {
-  Options: boolean;
-  Status: OptionStatus;
+export interface UpdateAvailabilityOptionsRequest {
+  DomainName: string;
+  MultiAZ: boolean;
 }
-export const AvailabilityOptionsStatus = S.suspend(() =>
-  S.Struct({ Options: S.Boolean, Status: OptionStatus }),
-).annotations({
-  identifier: "AvailabilityOptionsStatus",
-}) as any as S.Schema<AvailabilityOptionsStatus>;
+export const UpdateAvailabilityOptionsRequest = S.suspend(() =>
+  S.Struct({ DomainName: S.String, MultiAZ: S.Boolean }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "UpdateAvailabilityOptionsRequest",
+}) as any as S.Schema<UpdateAvailabilityOptionsRequest>;
 export interface UpdateAvailabilityOptionsResponse {
   AvailabilityOptions?: AvailabilityOptionsStatus;
 }
@@ -1154,7 +1316,7 @@ export const UpdateAvailabilityOptionsResponse = S.suspend(() =>
   S.Struct({ AvailabilityOptions: S.optional(AvailabilityOptionsStatus) }).pipe(
     ns,
   ),
-).annotations({
+).annotate({
   identifier: "UpdateAvailabilityOptionsResponse",
 }) as any as S.Schema<UpdateAvailabilityOptionsResponse>;
 export interface UpdateDomainEndpointOptionsRequest {
@@ -1176,9 +1338,19 @@ export const UpdateDomainEndpointOptionsRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "UpdateDomainEndpointOptionsRequest",
 }) as any as S.Schema<UpdateDomainEndpointOptionsRequest>;
+export interface UpdateDomainEndpointOptionsResponse {
+  DomainEndpointOptions?: DomainEndpointOptionsStatus;
+}
+export const UpdateDomainEndpointOptionsResponse = S.suspend(() =>
+  S.Struct({
+    DomainEndpointOptions: S.optional(DomainEndpointOptionsStatus),
+  }).pipe(ns),
+).annotate({
+  identifier: "UpdateDomainEndpointOptionsResponse",
+}) as any as S.Schema<UpdateDomainEndpointOptionsResponse>;
 export interface UpdateScalingParametersRequest {
   DomainName: string;
   ScalingParameters: ScalingParameters;
@@ -1195,453 +1367,86 @@ export const UpdateScalingParametersRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "UpdateScalingParametersRequest",
 }) as any as S.Schema<UpdateScalingParametersRequest>;
-export interface AccessPoliciesStatus {
-  Options: string;
-  Status: OptionStatus;
-}
-export const AccessPoliciesStatus = S.suspend(() =>
-  S.Struct({ Options: S.String, Status: OptionStatus }),
-).annotations({
-  identifier: "AccessPoliciesStatus",
-}) as any as S.Schema<AccessPoliciesStatus>;
-export interface UpdateServiceAccessPoliciesResponse {
-  AccessPolicies: AccessPoliciesStatus;
-}
-export const UpdateServiceAccessPoliciesResponse = S.suspend(() =>
-  S.Struct({ AccessPolicies: AccessPoliciesStatus }).pipe(ns),
-).annotations({
-  identifier: "UpdateServiceAccessPoliciesResponse",
-}) as any as S.Schema<UpdateServiceAccessPoliciesResponse>;
-export interface DomainEndpointOptionsStatus {
-  Options: DomainEndpointOptions;
-  Status: OptionStatus;
-}
-export const DomainEndpointOptionsStatus = S.suspend(() =>
-  S.Struct({ Options: DomainEndpointOptions, Status: OptionStatus }),
-).annotations({
-  identifier: "DomainEndpointOptionsStatus",
-}) as any as S.Schema<DomainEndpointOptionsStatus>;
-export interface ScalingParametersStatus {
-  Options: ScalingParameters;
-  Status: OptionStatus;
-}
-export const ScalingParametersStatus = S.suspend(() =>
-  S.Struct({ Options: ScalingParameters, Status: OptionStatus }),
-).annotations({
-  identifier: "ScalingParametersStatus",
-}) as any as S.Schema<ScalingParametersStatus>;
-export interface DefineAnalysisSchemeRequest {
-  DomainName: string;
-  AnalysisScheme: AnalysisScheme;
-}
-export const DefineAnalysisSchemeRequest = S.suspend(() =>
-  S.Struct({ DomainName: S.String, AnalysisScheme: AnalysisScheme }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DefineAnalysisSchemeRequest",
-}) as any as S.Schema<DefineAnalysisSchemeRequest>;
-export interface DefineExpressionResponse {
-  Expression: ExpressionStatus;
-}
-export const DefineExpressionResponse = S.suspend(() =>
-  S.Struct({ Expression: ExpressionStatus }).pipe(ns),
-).annotations({
-  identifier: "DefineExpressionResponse",
-}) as any as S.Schema<DefineExpressionResponse>;
-export interface DefineIndexFieldRequest {
-  DomainName: string;
-  IndexField: IndexField;
-}
-export const DefineIndexFieldRequest = S.suspend(() =>
-  S.Struct({ DomainName: S.String, IndexField: IndexField }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DefineIndexFieldRequest",
-}) as any as S.Schema<DefineIndexFieldRequest>;
-export interface DefineSuggesterRequest {
-  DomainName: string;
-  Suggester: Suggester;
-}
-export const DefineSuggesterRequest = S.suspend(() =>
-  S.Struct({ DomainName: S.String, Suggester: Suggester }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DefineSuggesterRequest",
-}) as any as S.Schema<DefineSuggesterRequest>;
-export interface DeleteExpressionResponse {
-  Expression: ExpressionStatus;
-}
-export const DeleteExpressionResponse = S.suspend(() =>
-  S.Struct({ Expression: ExpressionStatus }).pipe(ns),
-).annotations({
-  identifier: "DeleteExpressionResponse",
-}) as any as S.Schema<DeleteExpressionResponse>;
-export interface DeleteIndexFieldResponse {
-  IndexField: IndexFieldStatus;
-}
-export const DeleteIndexFieldResponse = S.suspend(() =>
-  S.Struct({ IndexField: IndexFieldStatus }).pipe(ns),
-).annotations({
-  identifier: "DeleteIndexFieldResponse",
-}) as any as S.Schema<DeleteIndexFieldResponse>;
-export interface DeleteSuggesterResponse {
-  Suggester: SuggesterStatus;
-}
-export const DeleteSuggesterResponse = S.suspend(() =>
-  S.Struct({ Suggester: SuggesterStatus }).pipe(ns),
-).annotations({
-  identifier: "DeleteSuggesterResponse",
-}) as any as S.Schema<DeleteSuggesterResponse>;
-export interface DescribeAvailabilityOptionsResponse {
-  AvailabilityOptions?: AvailabilityOptionsStatus;
-}
-export const DescribeAvailabilityOptionsResponse = S.suspend(() =>
-  S.Struct({ AvailabilityOptions: S.optional(AvailabilityOptionsStatus) }).pipe(
-    ns,
-  ),
-).annotations({
-  identifier: "DescribeAvailabilityOptionsResponse",
-}) as any as S.Schema<DescribeAvailabilityOptionsResponse>;
-export interface DescribeDomainEndpointOptionsResponse {
-  DomainEndpointOptions?: DomainEndpointOptionsStatus;
-}
-export const DescribeDomainEndpointOptionsResponse = S.suspend(() =>
-  S.Struct({
-    DomainEndpointOptions: S.optional(DomainEndpointOptionsStatus),
-  }).pipe(ns),
-).annotations({
-  identifier: "DescribeDomainEndpointOptionsResponse",
-}) as any as S.Schema<DescribeDomainEndpointOptionsResponse>;
-export interface DescribeScalingParametersResponse {
-  ScalingParameters: ScalingParametersStatus;
-}
-export const DescribeScalingParametersResponse = S.suspend(() =>
-  S.Struct({ ScalingParameters: ScalingParametersStatus }).pipe(ns),
-).annotations({
-  identifier: "DescribeScalingParametersResponse",
-}) as any as S.Schema<DescribeScalingParametersResponse>;
-export interface DescribeServiceAccessPoliciesResponse {
-  AccessPolicies: AccessPoliciesStatus;
-}
-export const DescribeServiceAccessPoliciesResponse = S.suspend(() =>
-  S.Struct({ AccessPolicies: AccessPoliciesStatus }).pipe(ns),
-).annotations({
-  identifier: "DescribeServiceAccessPoliciesResponse",
-}) as any as S.Schema<DescribeServiceAccessPoliciesResponse>;
-export interface UpdateDomainEndpointOptionsResponse {
-  DomainEndpointOptions?: DomainEndpointOptionsStatus;
-}
-export const UpdateDomainEndpointOptionsResponse = S.suspend(() =>
-  S.Struct({
-    DomainEndpointOptions: S.optional(DomainEndpointOptionsStatus),
-  }).pipe(ns),
-).annotations({
-  identifier: "UpdateDomainEndpointOptionsResponse",
-}) as any as S.Schema<UpdateDomainEndpointOptionsResponse>;
 export interface UpdateScalingParametersResponse {
   ScalingParameters: ScalingParametersStatus;
 }
 export const UpdateScalingParametersResponse = S.suspend(() =>
   S.Struct({ ScalingParameters: ScalingParametersStatus }).pipe(ns),
-).annotations({
+).annotate({
   identifier: "UpdateScalingParametersResponse",
 }) as any as S.Schema<UpdateScalingParametersResponse>;
-export interface CreateDomainResponse {
-  DomainStatus?: DomainStatus;
+export interface UpdateServiceAccessPoliciesRequest {
+  DomainName: string;
+  AccessPolicies: string;
 }
-export const CreateDomainResponse = S.suspend(() =>
-  S.Struct({ DomainStatus: S.optional(DomainStatus) }).pipe(ns),
-).annotations({
-  identifier: "CreateDomainResponse",
-}) as any as S.Schema<CreateDomainResponse>;
-export interface DefineAnalysisSchemeResponse {
-  AnalysisScheme: AnalysisSchemeStatus;
+export const UpdateServiceAccessPoliciesRequest = S.suspend(() =>
+  S.Struct({ DomainName: S.String, AccessPolicies: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "UpdateServiceAccessPoliciesRequest",
+}) as any as S.Schema<UpdateServiceAccessPoliciesRequest>;
+export interface UpdateServiceAccessPoliciesResponse {
+  AccessPolicies: AccessPoliciesStatus;
 }
-export const DefineAnalysisSchemeResponse = S.suspend(() =>
-  S.Struct({ AnalysisScheme: AnalysisSchemeStatus }).pipe(ns),
-).annotations({
-  identifier: "DefineAnalysisSchemeResponse",
-}) as any as S.Schema<DefineAnalysisSchemeResponse>;
-export interface DefineIndexFieldResponse {
-  IndexField: IndexFieldStatus;
-}
-export const DefineIndexFieldResponse = S.suspend(() =>
-  S.Struct({ IndexField: IndexFieldStatus }).pipe(ns),
-).annotations({
-  identifier: "DefineIndexFieldResponse",
-}) as any as S.Schema<DefineIndexFieldResponse>;
-export interface DefineSuggesterResponse {
-  Suggester: SuggesterStatus;
-}
-export const DefineSuggesterResponse = S.suspend(() =>
-  S.Struct({ Suggester: SuggesterStatus }).pipe(ns),
-).annotations({
-  identifier: "DefineSuggesterResponse",
-}) as any as S.Schema<DefineSuggesterResponse>;
-export interface DeleteAnalysisSchemeResponse {
-  AnalysisScheme: AnalysisSchemeStatus;
-}
-export const DeleteAnalysisSchemeResponse = S.suspend(() =>
-  S.Struct({ AnalysisScheme: AnalysisSchemeStatus }).pipe(ns),
-).annotations({
-  identifier: "DeleteAnalysisSchemeResponse",
-}) as any as S.Schema<DeleteAnalysisSchemeResponse>;
+export const UpdateServiceAccessPoliciesResponse = S.suspend(() =>
+  S.Struct({ AccessPolicies: AccessPoliciesStatus }).pipe(ns),
+).annotate({
+  identifier: "UpdateServiceAccessPoliciesResponse",
+}) as any as S.Schema<UpdateServiceAccessPoliciesResponse>;
 
 //# Errors
-export class BaseException extends S.TaggedError<BaseException>()(
+export class BaseException extends S.TaggedErrorClass<BaseException>()(
   "BaseException",
   { Code: S.optional(S.String), Message: S.optional(S.String) },
 ) {}
-export class InternalException extends S.TaggedError<InternalException>()(
+export class InternalException extends S.TaggedErrorClass<InternalException>()(
   "InternalException",
   { Code: S.optional(S.String), Message: S.optional(S.String) },
   T.AwsQueryError({ code: "InternalException", httpResponseCode: 500 }),
 ).pipe(C.withServerError) {}
-export class DisabledOperationException extends S.TaggedError<DisabledOperationException>()(
-  "DisabledOperationException",
-  { Code: S.optional(S.String), Message: S.optional(S.String) },
-  T.AwsQueryError({ code: "DisabledAction", httpResponseCode: 409 }),
-).pipe(C.withConflictError) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { Code: S.optional(S.String), Message: S.optional(S.String) },
   T.AwsQueryError({ code: "ResourceNotFound", httpResponseCode: 409 }),
 ).pipe(C.withConflictError) {}
-export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
+export class ValidationException extends S.TaggedErrorClass<ValidationException>()(
+  "ValidationException",
+  { Code: S.optional(S.String), Message: S.optional(S.String) },
+).pipe(C.withBadRequestError) {}
+export class LimitExceededException extends S.TaggedErrorClass<LimitExceededException>()(
   "LimitExceededException",
   { Code: S.optional(S.String), Message: S.optional(S.String) },
   T.AwsQueryError({ code: "LimitExceeded", httpResponseCode: 409 }),
 ).pipe(C.withConflictError) {}
-export class InvalidTypeException extends S.TaggedError<InvalidTypeException>()(
-  "InvalidTypeException",
-  { Code: S.optional(S.String), Message: S.optional(S.String) },
-  T.AwsQueryError({ code: "InvalidType", httpResponseCode: 409 }),
-).pipe(C.withConflictError) {}
-export class ValidationException extends S.TaggedError<ValidationException>()(
-  "ValidationException",
-  { Code: S.optional(S.String), Message: S.optional(S.String) },
-).pipe(C.withBadRequestError) {}
-export class ResourceAlreadyExistsException extends S.TaggedError<ResourceAlreadyExistsException>()(
+export class ResourceAlreadyExistsException extends S.TaggedErrorClass<ResourceAlreadyExistsException>()(
   "ResourceAlreadyExistsException",
   { Code: S.optional(S.String), Message: S.optional(S.String) },
   T.AwsQueryError({ code: "ResourceAlreadyExists", httpResponseCode: 409 }),
 ).pipe(C.withConflictError, C.withAlreadyExistsError) {}
+export class InvalidTypeException extends S.TaggedErrorClass<InvalidTypeException>()(
+  "InvalidTypeException",
+  { Code: S.optional(S.String), Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "InvalidType", httpResponseCode: 409 }),
+).pipe(C.withConflictError) {}
+export class DisabledOperationException extends S.TaggedErrorClass<DisabledOperationException>()(
+  "DisabledOperationException",
+  { Code: S.optional(S.String), Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "DisabledAction", httpResponseCode: 409 }),
+).pipe(C.withConflictError) {}
 
 //# Operations
-/**
- * Lists all search domains owned by an account.
- */
-export const listDomainNames: (
-  input: ListDomainNamesRequest,
-) => effect.Effect<
-  ListDomainNamesResponse,
-  BaseException | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListDomainNamesRequest,
-  output: ListDomainNamesResponse,
-  errors: [BaseException],
-}));
-/**
- * Permanently deletes a search domain and all of its data. Once a domain has been deleted, it cannot be recovered. For more information,
- * see Deleting a Search Domain in the *Amazon CloudSearch Developer Guide*.
- */
-export const deleteDomain: (
-  input: DeleteDomainRequest,
-) => effect.Effect<
-  DeleteDomainResponse,
-  BaseException | InternalException | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteDomainRequest,
-  output: DeleteDomainResponse,
-  errors: [BaseException, InternalException],
-}));
-/**
- * Gets information about the search domains owned by this account. Can be limited to specific domains. Shows
- * all domains by default. To get the number of searchable documents in a domain, use the console or submit a `matchall` request to your domain's search endpoint: `q=matchall&q.parser=structured&size=0`. For more information,
- * see Getting Information about a Search Domain in the *Amazon CloudSearch Developer Guide*.
- */
-export const describeDomains: (
-  input: DescribeDomainsRequest,
-) => effect.Effect<
-  DescribeDomainsResponse,
-  BaseException | InternalException | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeDomainsRequest,
-  output: DescribeDomainsResponse,
-  errors: [BaseException, InternalException],
-}));
-/**
- * Gets the scaling parameters configured for a domain. A domain's scaling parameters specify the desired search instance type and replication count. For more information, see Configuring Scaling Options in the *Amazon CloudSearch Developer Guide*.
- */
-export const describeScalingParameters: (
-  input: DescribeScalingParametersRequest,
-) => effect.Effect<
-  DescribeScalingParametersResponse,
-  BaseException | InternalException | ResourceNotFoundException | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeScalingParametersRequest,
-  output: DescribeScalingParametersResponse,
-  errors: [BaseException, InternalException, ResourceNotFoundException],
-}));
-/**
- * Gets information about the access policies that control access to the domain's document and search endpoints. By default, shows the configuration with any pending changes. Set the `Deployed` option to `true` to show the active configuration and exclude pending changes. For more information,
- * see Configuring Access for a Search Domain in the *Amazon CloudSearch Developer Guide*.
- */
-export const describeServiceAccessPolicies: (
-  input: DescribeServiceAccessPoliciesRequest,
-) => effect.Effect<
-  DescribeServiceAccessPoliciesResponse,
-  BaseException | InternalException | ResourceNotFoundException | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeServiceAccessPoliciesRequest,
-  output: DescribeServiceAccessPoliciesResponse,
-  errors: [BaseException, InternalException, ResourceNotFoundException],
-}));
-/**
- * Gets the analysis schemes configured for a domain. An analysis scheme defines language-specific text processing options for a `text` field. Can be limited to specific analysis schemes by name. By default, shows all analysis schemes and includes any pending changes to the configuration. Set the `Deployed` option to `true` to show the active configuration and exclude pending changes. For more information, see Configuring Analysis Schemes in the *Amazon CloudSearch Developer Guide*.
- */
-export const describeAnalysisSchemes: (
-  input: DescribeAnalysisSchemesRequest,
-) => effect.Effect<
-  DescribeAnalysisSchemesResponse,
-  BaseException | InternalException | ResourceNotFoundException | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeAnalysisSchemesRequest,
-  output: DescribeAnalysisSchemesResponse,
-  errors: [BaseException, InternalException, ResourceNotFoundException],
-}));
-/**
- * Gets the expressions configured for the search domain. Can be limited to specific expressions by name. By default, shows all expressions and includes any pending changes to the configuration. Set the `Deployed` option to `true` to show the active configuration and exclude pending changes. For more information, see Configuring Expressions in the *Amazon CloudSearch Developer Guide*.
- */
-export const describeExpressions: (
-  input: DescribeExpressionsRequest,
-) => effect.Effect<
-  DescribeExpressionsResponse,
-  BaseException | InternalException | ResourceNotFoundException | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeExpressionsRequest,
-  output: DescribeExpressionsResponse,
-  errors: [BaseException, InternalException, ResourceNotFoundException],
-}));
-/**
- * Gets information about the index fields configured for the search domain.
- * Can be limited to specific fields by name. By default, shows all fields and includes any pending changes to the configuration. Set the `Deployed` option to `true` to show the active configuration and exclude pending changes. For more information,
- * see Getting Domain Information in the *Amazon CloudSearch Developer Guide*.
- */
-export const describeIndexFields: (
-  input: DescribeIndexFieldsRequest,
-) => effect.Effect<
-  DescribeIndexFieldsResponse,
-  BaseException | InternalException | ResourceNotFoundException | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeIndexFieldsRequest,
-  output: DescribeIndexFieldsResponse,
-  errors: [BaseException, InternalException, ResourceNotFoundException],
-}));
-/**
- * Gets the suggesters configured for a domain. A suggester enables you to display possible matches before users finish typing their queries. Can be limited to specific suggesters by name. By default, shows all suggesters and includes any pending changes to the configuration. Set the `Deployed` option to `true` to show the active configuration and exclude pending changes. For more information, see Getting Search Suggestions in the *Amazon CloudSearch Developer Guide*.
- */
-export const describeSuggesters: (
-  input: DescribeSuggestersRequest,
-) => effect.Effect<
-  DescribeSuggestersResponse,
-  BaseException | InternalException | ResourceNotFoundException | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeSuggestersRequest,
-  output: DescribeSuggestersResponse,
-  errors: [BaseException, InternalException, ResourceNotFoundException],
-}));
-/**
- * Returns the domain's endpoint options, specifically whether all requests to the domain must arrive over HTTPS. For more information, see Configuring Domain Endpoint Options in the *Amazon CloudSearch Developer Guide*.
- */
-export const describeDomainEndpointOptions: (
-  input: DescribeDomainEndpointOptionsRequest,
-) => effect.Effect<
-  DescribeDomainEndpointOptionsResponse,
-  | BaseException
-  | DisabledOperationException
-  | InternalException
-  | LimitExceededException
-  | ResourceNotFoundException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeDomainEndpointOptionsRequest,
-  output: DescribeDomainEndpointOptionsResponse,
-  errors: [
-    BaseException,
-    DisabledOperationException,
-    InternalException,
-    LimitExceededException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Gets the availability options configured for a domain. By default, shows the configuration with any pending changes. Set the `Deployed` option to `true` to show the active configuration and exclude pending changes. For more information, see Configuring Availability Options in the *Amazon CloudSearch Developer Guide*.
- */
-export const describeAvailabilityOptions: (
-  input: DescribeAvailabilityOptionsRequest,
-) => effect.Effect<
-  DescribeAvailabilityOptionsResponse,
-  | BaseException
-  | DisabledOperationException
-  | InternalException
-  | InvalidTypeException
-  | LimitExceededException
-  | ResourceNotFoundException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeAvailabilityOptionsRequest,
-  output: DescribeAvailabilityOptionsResponse,
-  errors: [
-    BaseException,
-    DisabledOperationException,
-    InternalException,
-    InvalidTypeException,
-    LimitExceededException,
-    ResourceNotFoundException,
-  ],
-}));
 /**
  * Indexes the search suggestions. For more information, see Configuring Suggesters in the *Amazon CloudSearch Developer Guide*.
  */
@@ -1719,24 +1524,28 @@ export const defineAnalysisScheme: (
   ],
 }));
 /**
- * Tells the search domain to start indexing its documents using the latest indexing options. This operation must be invoked to activate options whose OptionStatus is `RequiresIndexDocuments`.
+ * Configures an `Expression` for the search domain. Used to create new expressions and modify existing ones. If the expression exists, the new configuration replaces the old one. For more information, see Configuring Expressions in the *Amazon CloudSearch Developer Guide*.
  */
-export const indexDocuments: (
-  input: IndexDocumentsRequest,
+export const defineExpression: (
+  input: DefineExpressionRequest,
 ) => effect.Effect<
-  IndexDocumentsResponse,
+  DefineExpressionResponse,
   | BaseException
   | InternalException
+  | InvalidTypeException
+  | LimitExceededException
   | ResourceNotFoundException
   | ValidationException
   | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: IndexDocumentsRequest,
-  output: IndexDocumentsResponse,
+  input: DefineExpressionRequest,
+  output: DefineExpressionResponse,
   errors: [
     BaseException,
     InternalException,
+    InvalidTypeException,
+    LimitExceededException,
     ResourceNotFoundException,
     ValidationException,
   ],
@@ -1821,31 +1630,19 @@ export const deleteAnalysisScheme: (
   ],
 }));
 /**
- * Configures an `Expression` for the search domain. Used to create new expressions and modify existing ones. If the expression exists, the new configuration replaces the old one. For more information, see Configuring Expressions in the *Amazon CloudSearch Developer Guide*.
+ * Permanently deletes a search domain and all of its data. Once a domain has been deleted, it cannot be recovered. For more information,
+ * see Deleting a Search Domain in the *Amazon CloudSearch Developer Guide*.
  */
-export const defineExpression: (
-  input: DefineExpressionRequest,
+export const deleteDomain: (
+  input: DeleteDomainRequest,
 ) => effect.Effect<
-  DefineExpressionResponse,
-  | BaseException
-  | InternalException
-  | InvalidTypeException
-  | LimitExceededException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
+  DeleteDomainResponse,
+  BaseException | InternalException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DefineExpressionRequest,
-  output: DefineExpressionResponse,
-  errors: [
-    BaseException,
-    InternalException,
-    InvalidTypeException,
-    LimitExceededException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  input: DeleteDomainRequest,
+  output: DeleteDomainResponse,
+  errors: [BaseException, InternalException],
 }));
 /**
  * Removes an `Expression` from the search domain. For more information, see Configuring Expressions in the *Amazon CloudSearch Developer Guide*.
@@ -1923,6 +1720,256 @@ export const deleteSuggester: (
   ],
 }));
 /**
+ * Gets the analysis schemes configured for a domain. An analysis scheme defines language-specific text processing options for a `text` field. Can be limited to specific analysis schemes by name. By default, shows all analysis schemes and includes any pending changes to the configuration. Set the `Deployed` option to `true` to show the active configuration and exclude pending changes. For more information, see Configuring Analysis Schemes in the *Amazon CloudSearch Developer Guide*.
+ */
+export const describeAnalysisSchemes: (
+  input: DescribeAnalysisSchemesRequest,
+) => effect.Effect<
+  DescribeAnalysisSchemesResponse,
+  BaseException | InternalException | ResourceNotFoundException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeAnalysisSchemesRequest,
+  output: DescribeAnalysisSchemesResponse,
+  errors: [BaseException, InternalException, ResourceNotFoundException],
+}));
+/**
+ * Gets the availability options configured for a domain. By default, shows the configuration with any pending changes. Set the `Deployed` option to `true` to show the active configuration and exclude pending changes. For more information, see Configuring Availability Options in the *Amazon CloudSearch Developer Guide*.
+ */
+export const describeAvailabilityOptions: (
+  input: DescribeAvailabilityOptionsRequest,
+) => effect.Effect<
+  DescribeAvailabilityOptionsResponse,
+  | BaseException
+  | DisabledOperationException
+  | InternalException
+  | InvalidTypeException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeAvailabilityOptionsRequest,
+  output: DescribeAvailabilityOptionsResponse,
+  errors: [
+    BaseException,
+    DisabledOperationException,
+    InternalException,
+    InvalidTypeException,
+    LimitExceededException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Returns the domain's endpoint options, specifically whether all requests to the domain must arrive over HTTPS. For more information, see Configuring Domain Endpoint Options in the *Amazon CloudSearch Developer Guide*.
+ */
+export const describeDomainEndpointOptions: (
+  input: DescribeDomainEndpointOptionsRequest,
+) => effect.Effect<
+  DescribeDomainEndpointOptionsResponse,
+  | BaseException
+  | DisabledOperationException
+  | InternalException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeDomainEndpointOptionsRequest,
+  output: DescribeDomainEndpointOptionsResponse,
+  errors: [
+    BaseException,
+    DisabledOperationException,
+    InternalException,
+    LimitExceededException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Gets information about the search domains owned by this account. Can be limited to specific domains. Shows
+ * all domains by default. To get the number of searchable documents in a domain, use the console or submit a `matchall` request to your domain's search endpoint: `q=matchall&q.parser=structured&size=0`. For more information,
+ * see Getting Information about a Search Domain in the *Amazon CloudSearch Developer Guide*.
+ */
+export const describeDomains: (
+  input: DescribeDomainsRequest,
+) => effect.Effect<
+  DescribeDomainsResponse,
+  BaseException | InternalException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeDomainsRequest,
+  output: DescribeDomainsResponse,
+  errors: [BaseException, InternalException],
+}));
+/**
+ * Gets the expressions configured for the search domain. Can be limited to specific expressions by name. By default, shows all expressions and includes any pending changes to the configuration. Set the `Deployed` option to `true` to show the active configuration and exclude pending changes. For more information, see Configuring Expressions in the *Amazon CloudSearch Developer Guide*.
+ */
+export const describeExpressions: (
+  input: DescribeExpressionsRequest,
+) => effect.Effect<
+  DescribeExpressionsResponse,
+  BaseException | InternalException | ResourceNotFoundException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeExpressionsRequest,
+  output: DescribeExpressionsResponse,
+  errors: [BaseException, InternalException, ResourceNotFoundException],
+}));
+/**
+ * Gets information about the index fields configured for the search domain.
+ * Can be limited to specific fields by name. By default, shows all fields and includes any pending changes to the configuration. Set the `Deployed` option to `true` to show the active configuration and exclude pending changes. For more information,
+ * see Getting Domain Information in the *Amazon CloudSearch Developer Guide*.
+ */
+export const describeIndexFields: (
+  input: DescribeIndexFieldsRequest,
+) => effect.Effect<
+  DescribeIndexFieldsResponse,
+  BaseException | InternalException | ResourceNotFoundException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeIndexFieldsRequest,
+  output: DescribeIndexFieldsResponse,
+  errors: [BaseException, InternalException, ResourceNotFoundException],
+}));
+/**
+ * Gets the scaling parameters configured for a domain. A domain's scaling parameters specify the desired search instance type and replication count. For more information, see Configuring Scaling Options in the *Amazon CloudSearch Developer Guide*.
+ */
+export const describeScalingParameters: (
+  input: DescribeScalingParametersRequest,
+) => effect.Effect<
+  DescribeScalingParametersResponse,
+  BaseException | InternalException | ResourceNotFoundException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeScalingParametersRequest,
+  output: DescribeScalingParametersResponse,
+  errors: [BaseException, InternalException, ResourceNotFoundException],
+}));
+/**
+ * Gets information about the access policies that control access to the domain's document and search endpoints. By default, shows the configuration with any pending changes. Set the `Deployed` option to `true` to show the active configuration and exclude pending changes. For more information,
+ * see Configuring Access for a Search Domain in the *Amazon CloudSearch Developer Guide*.
+ */
+export const describeServiceAccessPolicies: (
+  input: DescribeServiceAccessPoliciesRequest,
+) => effect.Effect<
+  DescribeServiceAccessPoliciesResponse,
+  BaseException | InternalException | ResourceNotFoundException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeServiceAccessPoliciesRequest,
+  output: DescribeServiceAccessPoliciesResponse,
+  errors: [BaseException, InternalException, ResourceNotFoundException],
+}));
+/**
+ * Gets the suggesters configured for a domain. A suggester enables you to display possible matches before users finish typing their queries. Can be limited to specific suggesters by name. By default, shows all suggesters and includes any pending changes to the configuration. Set the `Deployed` option to `true` to show the active configuration and exclude pending changes. For more information, see Getting Search Suggestions in the *Amazon CloudSearch Developer Guide*.
+ */
+export const describeSuggesters: (
+  input: DescribeSuggestersRequest,
+) => effect.Effect<
+  DescribeSuggestersResponse,
+  BaseException | InternalException | ResourceNotFoundException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeSuggestersRequest,
+  output: DescribeSuggestersResponse,
+  errors: [BaseException, InternalException, ResourceNotFoundException],
+}));
+/**
+ * Tells the search domain to start indexing its documents using the latest indexing options. This operation must be invoked to activate options whose OptionStatus is `RequiresIndexDocuments`.
+ */
+export const indexDocuments: (
+  input: IndexDocumentsRequest,
+) => effect.Effect<
+  IndexDocumentsResponse,
+  | BaseException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: IndexDocumentsRequest,
+  output: IndexDocumentsResponse,
+  errors: [
+    BaseException,
+    InternalException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Lists all search domains owned by an account.
+ */
+export const listDomainNames: (
+  input: ListDomainNamesRequest,
+) => effect.Effect<
+  ListDomainNamesResponse,
+  BaseException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListDomainNamesRequest,
+  output: ListDomainNamesResponse,
+  errors: [BaseException],
+}));
+/**
+ * Configures the availability options for a domain. Enabling the Multi-AZ option expands an Amazon CloudSearch domain to an additional Availability Zone in the same Region to increase fault tolerance in the event of a service disruption. Changes to the Multi-AZ option can take about half an hour to become active. For more information, see Configuring Availability Options in the *Amazon CloudSearch Developer Guide*.
+ */
+export const updateAvailabilityOptions: (
+  input: UpdateAvailabilityOptionsRequest,
+) => effect.Effect<
+  UpdateAvailabilityOptionsResponse,
+  | BaseException
+  | DisabledOperationException
+  | InternalException
+  | InvalidTypeException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateAvailabilityOptionsRequest,
+  output: UpdateAvailabilityOptionsResponse,
+  errors: [
+    BaseException,
+    DisabledOperationException,
+    InternalException,
+    InvalidTypeException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Updates the domain's endpoint options, specifically whether all requests to the domain must arrive over HTTPS. For more information, see Configuring Domain Endpoint Options in the *Amazon CloudSearch Developer Guide*.
+ */
+export const updateDomainEndpointOptions: (
+  input: UpdateDomainEndpointOptionsRequest,
+) => effect.Effect<
+  UpdateDomainEndpointOptionsResponse,
+  | BaseException
+  | DisabledOperationException
+  | InternalException
+  | InvalidTypeException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateDomainEndpointOptionsRequest,
+  output: UpdateDomainEndpointOptionsResponse,
+  errors: [
+    BaseException,
+    DisabledOperationException,
+    InternalException,
+    InvalidTypeException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
  * Configures scaling parameters for a domain. A domain's scaling parameters specify the desired search instance type and replication count. Amazon CloudSearch will still automatically scale your domain based on the volume of data and traffic, but not below the desired instance type and replication count. If the Multi-AZ option is enabled, these values control the resources used per Availability Zone. For more information, see Configuring Scaling Options in the *Amazon CloudSearch Developer Guide*.
  */
 export const updateScalingParameters: (
@@ -1971,64 +2018,6 @@ export const updateServiceAccessPolicies: (
   output: UpdateServiceAccessPoliciesResponse,
   errors: [
     BaseException,
-    InternalException,
-    InvalidTypeException,
-    LimitExceededException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Updates the domain's endpoint options, specifically whether all requests to the domain must arrive over HTTPS. For more information, see Configuring Domain Endpoint Options in the *Amazon CloudSearch Developer Guide*.
- */
-export const updateDomainEndpointOptions: (
-  input: UpdateDomainEndpointOptionsRequest,
-) => effect.Effect<
-  UpdateDomainEndpointOptionsResponse,
-  | BaseException
-  | DisabledOperationException
-  | InternalException
-  | InvalidTypeException
-  | LimitExceededException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateDomainEndpointOptionsRequest,
-  output: UpdateDomainEndpointOptionsResponse,
-  errors: [
-    BaseException,
-    DisabledOperationException,
-    InternalException,
-    InvalidTypeException,
-    LimitExceededException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Configures the availability options for a domain. Enabling the Multi-AZ option expands an Amazon CloudSearch domain to an additional Availability Zone in the same Region to increase fault tolerance in the event of a service disruption. Changes to the Multi-AZ option can take about half an hour to become active. For more information, see Configuring Availability Options in the *Amazon CloudSearch Developer Guide*.
- */
-export const updateAvailabilityOptions: (
-  input: UpdateAvailabilityOptionsRequest,
-) => effect.Effect<
-  UpdateAvailabilityOptionsResponse,
-  | BaseException
-  | DisabledOperationException
-  | InternalException
-  | InvalidTypeException
-  | LimitExceededException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateAvailabilityOptionsRequest,
-  output: UpdateAvailabilityOptionsResponse,
-  errors: [
-    BaseException,
-    DisabledOperationException,
     InternalException,
     InvalidTypeException,
     LimitExceededException,

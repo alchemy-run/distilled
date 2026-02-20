@@ -1,4 +1,4 @@
-import { HttpClient } from "@effect/platform";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as effect from "effect/Effect";
 import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
@@ -90,16 +90,14 @@ const rules = T.EndpointResolver((p, _) => {
 export type ConnectorArn = string;
 export type ClientToken = string;
 export type ChallengeArn = string;
+export type SensitiveString = string | redacted.Redacted<string>;
 export type MaxResults = number;
 export type NextToken = string;
 export type CertificateAuthorityArn = string;
-export type SensitiveString = string | redacted.Redacted<string>;
 export type AzureApplicationId = string;
 export type AzureDomain = string;
 
 //# Schemas
-export type TagKeyList = string[];
-export const TagKeyList = S.Array(S.String);
 export interface ListTagsForResourceRequest {
   ResourceArn: string;
 }
@@ -114,9 +112,56 @@ export const ListTagsForResourceRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "ListTagsForResourceRequest",
 }) as any as S.Schema<ListTagsForResourceRequest>;
+export type Tags = { [key: string]: string | undefined };
+export const Tags = S.Record(S.String, S.String.pipe(S.optional));
+export interface ListTagsForResourceResponse {
+  Tags?: { [key: string]: string | undefined };
+}
+export const ListTagsForResourceResponse = S.suspend(() =>
+  S.Struct({ Tags: S.optional(Tags) }),
+).annotate({
+  identifier: "ListTagsForResourceResponse",
+}) as any as S.Schema<ListTagsForResourceResponse>;
+export type ValidationExceptionReason =
+  | "CA_CERT_VALIDITY_TOO_SHORT"
+  | "INVALID_CA_USAGE_MODE"
+  | "INVALID_CONNECTOR_TYPE"
+  | "INVALID_STATE"
+  | "NO_CLIENT_TOKEN"
+  | "UNKNOWN_OPERATION"
+  | "OTHER"
+  | (string & {});
+export const ValidationExceptionReason = S.String;
+export interface TagResourceRequest {
+  ResourceArn: string;
+  Tags: { [key: string]: string | undefined };
+}
+export const TagResourceRequest = S.suspend(() =>
+  S.Struct({
+    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
+    Tags: Tags,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "TagResourceRequest",
+}) as any as S.Schema<TagResourceRequest>;
+export interface TagResourceResponse {}
+export const TagResourceResponse = S.suspend(() => S.Struct({})).annotate({
+  identifier: "TagResourceResponse",
+}) as any as S.Schema<TagResourceResponse>;
+export type TagKeyList = string[];
+export const TagKeyList = S.Array(S.String);
 export interface UntagResourceRequest {
   ResourceArn: string;
   TagKeys: string[];
@@ -135,15 +180,13 @@ export const UntagResourceRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "UntagResourceRequest",
 }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
-export type Tags = { [key: string]: string | undefined };
-export const Tags = S.Record({ key: S.String, value: S.UndefinedOr(S.String) });
 export interface CreateChallengeRequest {
   ConnectorArn: string;
   ClientToken?: string;
@@ -164,9 +207,33 @@ export const CreateChallengeRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "CreateChallengeRequest",
 }) as any as S.Schema<CreateChallengeRequest>;
+export interface Challenge {
+  Arn?: string;
+  ConnectorArn?: string;
+  CreatedAt?: Date;
+  UpdatedAt?: Date;
+  Password?: string | redacted.Redacted<string>;
+}
+export const Challenge = S.suspend(() =>
+  S.Struct({
+    Arn: S.optional(S.String),
+    ConnectorArn: S.optional(S.String),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    Password: S.optional(SensitiveString),
+  }),
+).annotate({ identifier: "Challenge" }) as any as S.Schema<Challenge>;
+export interface CreateChallengeResponse {
+  Challenge?: Challenge;
+}
+export const CreateChallengeResponse = S.suspend(() =>
+  S.Struct({ Challenge: S.optional(Challenge) }),
+).annotate({
+  identifier: "CreateChallengeResponse",
+}) as any as S.Schema<CreateChallengeResponse>;
 export interface GetChallengeMetadataRequest {
   ChallengeArn: string;
 }
@@ -181,9 +248,33 @@ export const GetChallengeMetadataRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "GetChallengeMetadataRequest",
 }) as any as S.Schema<GetChallengeMetadataRequest>;
+export interface ChallengeMetadata {
+  Arn?: string;
+  ConnectorArn?: string;
+  CreatedAt?: Date;
+  UpdatedAt?: Date;
+}
+export const ChallengeMetadata = S.suspend(() =>
+  S.Struct({
+    Arn: S.optional(S.String),
+    ConnectorArn: S.optional(S.String),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotate({
+  identifier: "ChallengeMetadata",
+}) as any as S.Schema<ChallengeMetadata>;
+export interface GetChallengeMetadataResponse {
+  ChallengeMetadata?: ChallengeMetadata;
+}
+export const GetChallengeMetadataResponse = S.suspend(() =>
+  S.Struct({ ChallengeMetadata: S.optional(ChallengeMetadata) }),
+).annotate({
+  identifier: "GetChallengeMetadataResponse",
+}) as any as S.Schema<GetChallengeMetadataResponse>;
 export interface DeleteChallengeRequest {
   ChallengeArn: string;
 }
@@ -198,13 +289,11 @@ export const DeleteChallengeRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "DeleteChallengeRequest",
 }) as any as S.Schema<DeleteChallengeRequest>;
 export interface DeleteChallengeResponse {}
-export const DeleteChallengeResponse = S.suspend(() =>
-  S.Struct({}),
-).annotations({
+export const DeleteChallengeResponse = S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteChallengeResponse",
 }) as any as S.Schema<DeleteChallengeResponse>;
 export interface ListChallengeMetadataRequest {
@@ -227,9 +316,39 @@ export const ListChallengeMetadataRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "ListChallengeMetadataRequest",
 }) as any as S.Schema<ListChallengeMetadataRequest>;
+export interface ChallengeMetadataSummary {
+  Arn?: string;
+  ConnectorArn?: string;
+  CreatedAt?: Date;
+  UpdatedAt?: Date;
+}
+export const ChallengeMetadataSummary = S.suspend(() =>
+  S.Struct({
+    Arn: S.optional(S.String),
+    ConnectorArn: S.optional(S.String),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotate({
+  identifier: "ChallengeMetadataSummary",
+}) as any as S.Schema<ChallengeMetadataSummary>;
+export type ChallengeMetadataList = ChallengeMetadataSummary[];
+export const ChallengeMetadataList = S.Array(ChallengeMetadataSummary);
+export interface ListChallengeMetadataResponse {
+  Challenges?: ChallengeMetadataSummary[];
+  NextToken?: string;
+}
+export const ListChallengeMetadataResponse = S.suspend(() =>
+  S.Struct({
+    Challenges: S.optional(ChallengeMetadataList),
+    NextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ListChallengeMetadataResponse",
+}) as any as S.Schema<ListChallengeMetadataResponse>;
 export interface GetChallengePasswordRequest {
   ChallengeArn: string;
 }
@@ -244,109 +363,15 @@ export const GetChallengePasswordRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "GetChallengePasswordRequest",
 }) as any as S.Schema<GetChallengePasswordRequest>;
-export interface GetConnectorRequest {
-  ConnectorArn: string;
-}
-export const GetConnectorRequest = S.suspend(() =>
-  S.Struct({ ConnectorArn: S.String.pipe(T.HttpLabel("ConnectorArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/connectors/{ConnectorArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "GetConnectorRequest",
-}) as any as S.Schema<GetConnectorRequest>;
-export interface DeleteConnectorRequest {
-  ConnectorArn: string;
-}
-export const DeleteConnectorRequest = S.suspend(() =>
-  S.Struct({ ConnectorArn: S.String.pipe(T.HttpLabel("ConnectorArn")) }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/connectors/{ConnectorArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DeleteConnectorRequest",
-}) as any as S.Schema<DeleteConnectorRequest>;
-export interface DeleteConnectorResponse {}
-export const DeleteConnectorResponse = S.suspend(() =>
-  S.Struct({}),
-).annotations({
-  identifier: "DeleteConnectorResponse",
-}) as any as S.Schema<DeleteConnectorResponse>;
-export interface ListConnectorsRequest {
-  MaxResults?: number;
-  NextToken?: string;
-}
-export const ListConnectorsRequest = S.suspend(() =>
-  S.Struct({
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/connectors" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListConnectorsRequest",
-}) as any as S.Schema<ListConnectorsRequest>;
-export interface ListTagsForResourceResponse {
-  Tags?: { [key: string]: string | undefined };
-}
-export const ListTagsForResourceResponse = S.suspend(() =>
-  S.Struct({ Tags: S.optional(Tags) }),
-).annotations({
-  identifier: "ListTagsForResourceResponse",
-}) as any as S.Schema<ListTagsForResourceResponse>;
-export interface TagResourceRequest {
-  ResourceArn: string;
-  Tags: { [key: string]: string | undefined };
-}
-export const TagResourceRequest = S.suspend(() =>
-  S.Struct({
-    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
-    Tags: Tags,
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
-export interface TagResourceResponse {}
-export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
-  identifier: "TagResourceResponse",
-}) as any as S.Schema<TagResourceResponse>;
 export interface GetChallengePasswordResponse {
   Password?: string | redacted.Redacted<string>;
 }
 export const GetChallengePasswordResponse = S.suspend(() =>
   S.Struct({ Password: S.optional(SensitiveString) }),
-).annotations({
+).annotate({
   identifier: "GetChallengePasswordResponse",
 }) as any as S.Schema<GetChallengePasswordResponse>;
 export interface IntuneConfiguration {
@@ -355,151 +380,13 @@ export interface IntuneConfiguration {
 }
 export const IntuneConfiguration = S.suspend(() =>
   S.Struct({ AzureApplicationId: S.String, Domain: S.String }),
-).annotations({
+).annotate({
   identifier: "IntuneConfiguration",
 }) as any as S.Schema<IntuneConfiguration>;
-export type ConnectorType = "GENERAL_PURPOSE" | "INTUNE" | (string & {});
-export const ConnectorType = S.String;
-export type ConnectorStatus =
-  | "CREATING"
-  | "ACTIVE"
-  | "DELETING"
-  | "FAILED"
-  | (string & {});
-export const ConnectorStatus = S.String;
-export type ConnectorStatusReason =
-  | "INTERNAL_FAILURE"
-  | "PRIVATECA_ACCESS_DENIED"
-  | "PRIVATECA_INVALID_STATE"
-  | "PRIVATECA_RESOURCE_NOT_FOUND"
-  | (string & {});
-export const ConnectorStatusReason = S.String;
-export interface Challenge {
-  Arn?: string;
-  ConnectorArn?: string;
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
-  Password?: string | redacted.Redacted<string>;
-}
-export const Challenge = S.suspend(() =>
-  S.Struct({
-    Arn: S.optional(S.String),
-    ConnectorArn: S.optional(S.String),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    Password: S.optional(SensitiveString),
-  }),
-).annotations({ identifier: "Challenge" }) as any as S.Schema<Challenge>;
-export interface ChallengeMetadata {
-  Arn?: string;
-  ConnectorArn?: string;
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
-}
-export const ChallengeMetadata = S.suspend(() =>
-  S.Struct({
-    Arn: S.optional(S.String),
-    ConnectorArn: S.optional(S.String),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }),
-).annotations({
-  identifier: "ChallengeMetadata",
-}) as any as S.Schema<ChallengeMetadata>;
-export interface ChallengeMetadataSummary {
-  Arn?: string;
-  ConnectorArn?: string;
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
-}
-export const ChallengeMetadataSummary = S.suspend(() =>
-  S.Struct({
-    Arn: S.optional(S.String),
-    ConnectorArn: S.optional(S.String),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }),
-).annotations({
-  identifier: "ChallengeMetadataSummary",
-}) as any as S.Schema<ChallengeMetadataSummary>;
-export type ChallengeMetadataList = ChallengeMetadataSummary[];
-export const ChallengeMetadataList = S.Array(ChallengeMetadataSummary);
 export type MobileDeviceManagement = { Intune: IntuneConfiguration };
-export const MobileDeviceManagement = S.Union(
+export const MobileDeviceManagement = S.Union([
   S.Struct({ Intune: IntuneConfiguration }),
-);
-export interface OpenIdConfiguration {
-  Issuer?: string;
-  Subject?: string;
-  Audience?: string;
-}
-export const OpenIdConfiguration = S.suspend(() =>
-  S.Struct({
-    Issuer: S.optional(S.String),
-    Subject: S.optional(S.String),
-    Audience: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "OpenIdConfiguration",
-}) as any as S.Schema<OpenIdConfiguration>;
-export interface ConnectorSummary {
-  Arn?: string;
-  CertificateAuthorityArn?: string;
-  Type?: ConnectorType;
-  MobileDeviceManagement?: MobileDeviceManagement;
-  OpenIdConfiguration?: OpenIdConfiguration;
-  Status?: ConnectorStatus;
-  StatusReason?: ConnectorStatusReason;
-  Endpoint?: string;
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
-}
-export const ConnectorSummary = S.suspend(() =>
-  S.Struct({
-    Arn: S.optional(S.String),
-    CertificateAuthorityArn: S.optional(S.String),
-    Type: S.optional(ConnectorType),
-    MobileDeviceManagement: S.optional(MobileDeviceManagement),
-    OpenIdConfiguration: S.optional(OpenIdConfiguration),
-    Status: S.optional(ConnectorStatus),
-    StatusReason: S.optional(ConnectorStatusReason),
-    Endpoint: S.optional(S.String),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }),
-).annotations({
-  identifier: "ConnectorSummary",
-}) as any as S.Schema<ConnectorSummary>;
-export type ConnectorList = ConnectorSummary[];
-export const ConnectorList = S.Array(ConnectorSummary);
-export interface CreateChallengeResponse {
-  Challenge?: Challenge;
-}
-export const CreateChallengeResponse = S.suspend(() =>
-  S.Struct({ Challenge: S.optional(Challenge) }),
-).annotations({
-  identifier: "CreateChallengeResponse",
-}) as any as S.Schema<CreateChallengeResponse>;
-export interface GetChallengeMetadataResponse {
-  ChallengeMetadata?: ChallengeMetadata;
-}
-export const GetChallengeMetadataResponse = S.suspend(() =>
-  S.Struct({ ChallengeMetadata: S.optional(ChallengeMetadata) }),
-).annotations({
-  identifier: "GetChallengeMetadataResponse",
-}) as any as S.Schema<GetChallengeMetadataResponse>;
-export interface ListChallengeMetadataResponse {
-  Challenges?: ChallengeMetadataSummary[];
-  NextToken?: string;
-}
-export const ListChallengeMetadataResponse = S.suspend(() =>
-  S.Struct({
-    Challenges: S.optional(ChallengeMetadataList),
-    NextToken: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "ListChallengeMetadataResponse",
-}) as any as S.Schema<ListChallengeMetadataResponse>;
+]);
 export interface CreateConnectorRequest {
   CertificateAuthorityArn: string;
   MobileDeviceManagement?: MobileDeviceManagement;
@@ -522,21 +409,64 @@ export const CreateConnectorRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "CreateConnectorRequest",
 }) as any as S.Schema<CreateConnectorRequest>;
-export interface ListConnectorsResponse {
-  Connectors?: ConnectorSummary[];
-  NextToken?: string;
+export interface CreateConnectorResponse {
+  ConnectorArn?: string;
 }
-export const ListConnectorsResponse = S.suspend(() =>
+export const CreateConnectorResponse = S.suspend(() =>
+  S.Struct({ ConnectorArn: S.optional(S.String) }),
+).annotate({
+  identifier: "CreateConnectorResponse",
+}) as any as S.Schema<CreateConnectorResponse>;
+export interface GetConnectorRequest {
+  ConnectorArn: string;
+}
+export const GetConnectorRequest = S.suspend(() =>
+  S.Struct({ ConnectorArn: S.String.pipe(T.HttpLabel("ConnectorArn")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/connectors/{ConnectorArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetConnectorRequest",
+}) as any as S.Schema<GetConnectorRequest>;
+export type ConnectorType = "GENERAL_PURPOSE" | "INTUNE" | (string & {});
+export const ConnectorType = S.String;
+export interface OpenIdConfiguration {
+  Issuer?: string;
+  Subject?: string;
+  Audience?: string;
+}
+export const OpenIdConfiguration = S.suspend(() =>
   S.Struct({
-    Connectors: S.optional(ConnectorList),
-    NextToken: S.optional(S.String),
+    Issuer: S.optional(S.String),
+    Subject: S.optional(S.String),
+    Audience: S.optional(S.String),
   }),
-).annotations({
-  identifier: "ListConnectorsResponse",
-}) as any as S.Schema<ListConnectorsResponse>;
+).annotate({
+  identifier: "OpenIdConfiguration",
+}) as any as S.Schema<OpenIdConfiguration>;
+export type ConnectorStatus =
+  | "CREATING"
+  | "ACTIVE"
+  | "DELETING"
+  | "FAILED"
+  | (string & {});
+export const ConnectorStatus = S.String;
+export type ConnectorStatusReason =
+  | "INTERNAL_FAILURE"
+  | "PRIVATECA_ACCESS_DENIED"
+  | "PRIVATECA_INVALID_STATE"
+  | "PRIVATECA_RESOURCE_NOT_FOUND"
+  | (string & {});
+export const ConnectorStatusReason = S.String;
 export interface Connector {
   Arn?: string;
   CertificateAuthorityArn?: string;
@@ -562,62 +492,132 @@ export const Connector = S.suspend(() =>
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
-).annotations({ identifier: "Connector" }) as any as S.Schema<Connector>;
-export interface CreateConnectorResponse {
-  ConnectorArn?: string;
-}
-export const CreateConnectorResponse = S.suspend(() =>
-  S.Struct({ ConnectorArn: S.optional(S.String) }),
-).annotations({
-  identifier: "CreateConnectorResponse",
-}) as any as S.Schema<CreateConnectorResponse>;
+).annotate({ identifier: "Connector" }) as any as S.Schema<Connector>;
 export interface GetConnectorResponse {
   Connector?: Connector;
 }
 export const GetConnectorResponse = S.suspend(() =>
   S.Struct({ Connector: S.optional(Connector) }),
-).annotations({
+).annotate({
   identifier: "GetConnectorResponse",
 }) as any as S.Schema<GetConnectorResponse>;
-export type ValidationExceptionReason =
-  | "CA_CERT_VALIDITY_TOO_SHORT"
-  | "INVALID_CA_USAGE_MODE"
-  | "INVALID_CONNECTOR_TYPE"
-  | "INVALID_STATE"
-  | "NO_CLIENT_TOKEN"
-  | "UNKNOWN_OPERATION"
-  | "OTHER"
-  | (string & {});
-export const ValidationExceptionReason = S.String;
+export interface DeleteConnectorRequest {
+  ConnectorArn: string;
+}
+export const DeleteConnectorRequest = S.suspend(() =>
+  S.Struct({ ConnectorArn: S.String.pipe(T.HttpLabel("ConnectorArn")) }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/connectors/{ConnectorArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeleteConnectorRequest",
+}) as any as S.Schema<DeleteConnectorRequest>;
+export interface DeleteConnectorResponse {}
+export const DeleteConnectorResponse = S.suspend(() => S.Struct({})).annotate({
+  identifier: "DeleteConnectorResponse",
+}) as any as S.Schema<DeleteConnectorResponse>;
+export interface ListConnectorsRequest {
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListConnectorsRequest = S.suspend(() =>
+  S.Struct({
+    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
+    NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/connectors" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListConnectorsRequest",
+}) as any as S.Schema<ListConnectorsRequest>;
+export interface ConnectorSummary {
+  Arn?: string;
+  CertificateAuthorityArn?: string;
+  Type?: ConnectorType;
+  MobileDeviceManagement?: MobileDeviceManagement;
+  OpenIdConfiguration?: OpenIdConfiguration;
+  Status?: ConnectorStatus;
+  StatusReason?: ConnectorStatusReason;
+  Endpoint?: string;
+  CreatedAt?: Date;
+  UpdatedAt?: Date;
+}
+export const ConnectorSummary = S.suspend(() =>
+  S.Struct({
+    Arn: S.optional(S.String),
+    CertificateAuthorityArn: S.optional(S.String),
+    Type: S.optional(ConnectorType),
+    MobileDeviceManagement: S.optional(MobileDeviceManagement),
+    OpenIdConfiguration: S.optional(OpenIdConfiguration),
+    Status: S.optional(ConnectorStatus),
+    StatusReason: S.optional(ConnectorStatusReason),
+    Endpoint: S.optional(S.String),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotate({
+  identifier: "ConnectorSummary",
+}) as any as S.Schema<ConnectorSummary>;
+export type ConnectorList = ConnectorSummary[];
+export const ConnectorList = S.Array(ConnectorSummary);
+export interface ListConnectorsResponse {
+  Connectors?: ConnectorSummary[];
+  NextToken?: string;
+}
+export const ListConnectorsResponse = S.suspend(() =>
+  S.Struct({
+    Connectors: S.optional(ConnectorList),
+    NextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ListConnectorsResponse",
+}) as any as S.Schema<ListConnectorsResponse>;
 
 //# Errors
-export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
+export class AccessDeniedException extends S.TaggedErrorClass<AccessDeniedException>()(
   "AccessDeniedException",
   { Message: S.String },
 ).pipe(C.withAuthError) {}
-export class InternalServerException extends S.TaggedError<InternalServerException>()(
+export class InternalServerException extends S.TaggedErrorClass<InternalServerException>()(
   "InternalServerException",
   { Message: S.String },
   T.Retryable(),
 ).pipe(C.withServerError, C.withRetryableError) {}
-export class ConflictException extends S.TaggedError<ConflictException>()(
-  "ConflictException",
-  { Message: S.String, ResourceId: S.String, ResourceType: S.String },
-).pipe(C.withConflictError) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { Message: S.String, ResourceId: S.String, ResourceType: S.String },
 ).pipe(C.withBadRequestError) {}
-export class BadRequestException extends S.TaggedError<BadRequestException>()(
-  "BadRequestException",
-  { Message: S.String },
-).pipe(C.withBadRequestError) {}
-export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
+export class ThrottlingException extends S.TaggedErrorClass<ThrottlingException>()(
   "ThrottlingException",
   { Message: S.String },
   T.Retryable({ throttling: true }),
 ).pipe(C.withThrottlingError, C.withRetryableError) {}
-export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
+export class ValidationException extends S.TaggedErrorClass<ValidationException>()(
+  "ValidationException",
+  { Message: S.String, Reason: S.optional(ValidationExceptionReason) },
+).pipe(C.withBadRequestError) {}
+export class BadRequestException extends S.TaggedErrorClass<BadRequestException>()(
+  "BadRequestException",
+  { Message: S.String },
+).pipe(C.withBadRequestError) {}
+export class ConflictException extends S.TaggedErrorClass<ConflictException>()(
+  "ConflictException",
+  { Message: S.String, ResourceId: S.String, ResourceType: S.String },
+).pipe(C.withConflictError) {}
+export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
   {
     Message: S.String,
@@ -626,73 +626,98 @@ export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExc
     QuotaCode: S.String,
   },
 ).pipe(C.withQuotaError) {}
-export class ValidationException extends S.TaggedError<ValidationException>()(
-  "ValidationException",
-  { Message: S.String, Reason: S.optional(ValidationExceptionReason) },
-).pipe(C.withBadRequestError) {}
 
 //# Operations
 /**
- * Lists the connectors belonging to your Amazon Web Services account.
+ * Retrieves the tags associated with the specified resource. Tags are key-value pairs that
+ * you can use to categorize and manage your resources, for purposes like billing. For
+ * example, you might set the tag key to "customer" and the value to the customer name or ID.
+ * You can specify one or more tags to add to each Amazon Web Services resource, up to 50 tags for a
+ * resource.
  */
-export const listConnectors: {
-  (
-    input: ListConnectorsRequest,
-  ): effect.Effect<
-    ListConnectorsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  pages: (
-    input: ListConnectorsRequest,
-  ) => stream.Stream<
-    ListConnectorsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  items: (
-    input: ListConnectorsRequest,
-  ) => stream.Stream<
-    ConnectorSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
-  input: ListConnectorsRequest,
-  output: ListConnectorsResponse,
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => effect.Effect<
+  ListTagsForResourceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
   errors: [
     AccessDeniedException,
     InternalServerException,
+    ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
   ],
-  pagination: {
-    inputToken: "NextToken",
-    outputToken: "NextToken",
-    items: "Connectors",
-    pageSize: "MaxResults",
-  } as const,
 }));
 /**
- * Creates a SCEP connector. A SCEP connector links Amazon Web Services Private Certificate Authority to your SCEP-compatible devices and mobile device management (MDM) systems. Before you create a connector, you must complete a set of prerequisites, including creation of a private certificate authority (CA) to use with this connector. For more information, see Connector for SCEP prerequisites.
+ * Adds one or more tags to your resource.
  */
-export const createConnector: (
-  input: CreateConnectorRequest,
+export const tagResource: (
+  input: TagResourceRequest,
 ) => effect.Effect<
-  CreateConnectorResponse,
+  TagResourceResponse,
   | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Removes one or more tags from your resource.
+ */
+export const untagResource: (
+  input: UntagResourceRequest,
+) => effect.Effect<
+  UntagResourceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * For general-purpose connectors. Creates a *challenge password* for the specified connector. The SCEP protocol uses a challenge password to authenticate a request before issuing a certificate from a certificate authority (CA). Your SCEP clients include the challenge password as part of their certificate request to Connector for SCEP. To retrieve the connector Amazon Resource Names (ARNs) for the connectors in your account, call ListConnectors.
+ *
+ * To create additional challenge passwords for the connector, call `CreateChallenge` again. We recommend frequently rotating your challenge passwords.
+ */
+export const createChallenge: (
+  input: CreateChallengeRequest,
+) => effect.Effect<
+  CreateChallengeResponse,
+  | AccessDeniedException
+  | BadRequestException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
@@ -702,10 +727,11 @@ export const createConnector: (
   | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateConnectorRequest,
-  output: CreateConnectorResponse,
+  input: CreateChallengeRequest,
+  output: CreateChallengeResponse,
   errors: [
     AccessDeniedException,
+    BadRequestException,
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
@@ -733,6 +759,33 @@ export const getChallengeMetadata: (
   output: GetChallengeMetadataResponse,
   errors: [
     AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Deletes the specified Challenge.
+ */
+export const deleteChallenge: (
+  input: DeleteChallengeRequest,
+) => effect.Effect<
+  DeleteChallengeResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteChallengeRequest,
+  output: DeleteChallengeResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
     InternalServerException,
     ResourceNotFoundException,
     ThrottlingException,
@@ -797,33 +850,6 @@ export const listChallengeMetadata: {
   } as const,
 }));
 /**
- * Deletes the specified Challenge.
- */
-export const deleteChallenge: (
-  input: DeleteChallengeRequest,
-) => effect.Effect<
-  DeleteChallengeResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteChallengeRequest,
-  output: DeleteChallengeResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
  * Retrieves the challenge password for the specified Challenge.
  */
 export const getChallengePassword: (
@@ -849,41 +875,41 @@ export const getChallengePassword: (
   ],
 }));
 /**
- * Retrieves the tags associated with the specified resource. Tags are key-value pairs that
- * you can use to categorize and manage your resources, for purposes like billing. For
- * example, you might set the tag key to "customer" and the value to the customer name or ID.
- * You can specify one or more tags to add to each Amazon Web Services resource, up to 50 tags for a
- * resource.
+ * Creates a SCEP connector. A SCEP connector links Amazon Web Services Private Certificate Authority to your SCEP-compatible devices and mobile device management (MDM) systems. Before you create a connector, you must complete a set of prerequisites, including creation of a private certificate authority (CA) to use with this connector. For more information, see Connector for SCEP prerequisites.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
+export const createConnector: (
+  input: CreateConnectorRequest,
 ) => effect.Effect<
-  ListTagsForResourceResponse,
+  CreateConnectorResponse,
   | AccessDeniedException
+  | ConflictException
   | InternalServerException
   | ResourceNotFoundException
+  | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
   | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
+  input: CreateConnectorRequest,
+  output: CreateConnectorResponse,
   errors: [
     AccessDeniedException,
+    ConflictException,
     InternalServerException,
     ResourceNotFoundException,
+    ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
   ],
 }));
 /**
- * Adds one or more tags to your resource.
+ * Retrieves details about the specified Connector. Calling this action returns important details about the connector, such as the public SCEP URL where your clients can request certificates.
  */
-export const tagResource: (
-  input: TagResourceRequest,
+export const getConnector: (
+  input: GetConnectorRequest,
 ) => effect.Effect<
-  TagResourceResponse,
+  GetConnectorResponse,
   | AccessDeniedException
   | InternalServerException
   | ResourceNotFoundException
@@ -892,8 +918,8 @@ export const tagResource: (
   | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
+  input: GetConnectorRequest,
+  output: GetConnectorResponse,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -930,85 +956,55 @@ export const deleteConnector: (
   ],
 }));
 /**
- * Removes one or more tags from your resource.
+ * Lists the connectors belonging to your Amazon Web Services account.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
-  UntagResourceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
+export const listConnectors: {
+  (
+    input: ListConnectorsRequest,
+  ): effect.Effect<
+    ListConnectorsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListConnectorsRequest,
+  ) => stream.Stream<
+    ListConnectorsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListConnectorsRequest,
+  ) => stream.Stream<
+    ConnectorSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListConnectorsRequest,
+  output: ListConnectorsResponse,
   errors: [
     AccessDeniedException,
     InternalServerException,
-    ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
   ],
-}));
-/**
- * Retrieves details about the specified Connector. Calling this action returns important details about the connector, such as the public SCEP URL where your clients can request certificates.
- */
-export const getConnector: (
-  input: GetConnectorRequest,
-) => effect.Effect<
-  GetConnectorResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetConnectorRequest,
-  output: GetConnectorResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * For general-purpose connectors. Creates a *challenge password* for the specified connector. The SCEP protocol uses a challenge password to authenticate a request before issuing a certificate from a certificate authority (CA). Your SCEP clients include the challenge password as part of their certificate request to Connector for SCEP. To retrieve the connector Amazon Resource Names (ARNs) for the connectors in your account, call ListConnectors.
- *
- * To create additional challenge passwords for the connector, call `CreateChallenge` again. We recommend frequently rotating your challenge passwords.
- */
-export const createChallenge: (
-  input: CreateChallengeRequest,
-) => effect.Effect<
-  CreateChallengeResponse,
-  | AccessDeniedException
-  | BadRequestException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateChallengeRequest,
-  output: CreateChallengeResponse,
-  errors: [
-    AccessDeniedException,
-    BadRequestException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Connectors",
+    pageSize: "MaxResults",
+  } as const,
 }));

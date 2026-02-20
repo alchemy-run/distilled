@@ -1,4 +1,4 @@
-import { HttpClient } from "@effect/platform";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as effect from "effect/Effect";
 import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
@@ -122,9 +122,9 @@ const rules = T.EndpointResolver((p, _) => {
 
 //# Newtypes
 export type ProductCode = string;
+export type FilterValue = string;
 export type NonEmptyString = string;
 export type PageSizeInteger = number;
-export type FilterValue = string;
 export type ErrorMessage = string;
 
 //# Schemas
@@ -139,11 +139,9 @@ export const FilterValueList = S.Array(S.String);
 export type GetEntitlementFilters = {
   [key in GetEntitlementFilterName]?: string[];
 };
-export const GetEntitlementFilters = S.partial(
-  S.Record({
-    key: GetEntitlementFilterName,
-    value: S.UndefinedOr(FilterValueList),
-  }),
+export const GetEntitlementFilters = S.Record(
+  GetEntitlementFilterName,
+  FilterValueList.pipe(S.optional),
 );
 export interface GetEntitlementsRequest {
   ProductCode: string;
@@ -160,7 +158,7 @@ export const GetEntitlementsRequest = S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotations({
+).annotate({
   identifier: "GetEntitlementsRequest",
 }) as any as S.Schema<GetEntitlementsRequest>;
 export interface EntitlementValue {
@@ -176,7 +174,7 @@ export const EntitlementValue = S.suspend(() =>
     BooleanValue: S.optional(S.Boolean),
     StringValue: S.optional(S.String),
   }),
-).annotations({
+).annotate({
   identifier: "EntitlementValue",
 }) as any as S.Schema<EntitlementValue>;
 export interface Entitlement {
@@ -196,7 +194,7 @@ export const Entitlement = S.suspend(() =>
     Value: S.optional(EntitlementValue),
     ExpirationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
-).annotations({ identifier: "Entitlement" }) as any as S.Schema<Entitlement>;
+).annotate({ identifier: "Entitlement" }) as any as S.Schema<Entitlement>;
 export type EntitlementList = Entitlement[];
 export const EntitlementList = S.Array(Entitlement);
 export interface GetEntitlementsResult {
@@ -208,20 +206,20 @@ export const GetEntitlementsResult = S.suspend(() =>
     Entitlements: S.optional(EntitlementList),
     NextToken: S.optional(S.String),
   }),
-).annotations({
+).annotate({
   identifier: "GetEntitlementsResult",
 }) as any as S.Schema<GetEntitlementsResult>;
 
 //# Errors
-export class InternalServiceErrorException extends S.TaggedError<InternalServiceErrorException>()(
+export class InternalServiceErrorException extends S.TaggedErrorClass<InternalServiceErrorException>()(
   "InternalServiceErrorException",
   { message: S.optional(S.String) },
 ) {}
-export class InvalidParameterException extends S.TaggedError<InvalidParameterException>()(
+export class InvalidParameterException extends S.TaggedErrorClass<InvalidParameterException>()(
   "InvalidParameterException",
   { message: S.optional(S.String) },
 ) {}
-export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
+export class ThrottlingException extends S.TaggedErrorClass<ThrottlingException>()(
   "ThrottlingException",
   { message: S.optional(S.String) },
 ) {}

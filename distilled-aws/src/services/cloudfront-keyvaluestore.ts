@@ -1,4 +1,4 @@
-import { HttpClient } from "@effect/platform";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as effect from "effect/Effect";
 import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
@@ -171,9 +171,23 @@ export const DeleteKeyRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "DeleteKeyRequest",
 }) as any as S.Schema<DeleteKeyRequest>;
+export interface DeleteKeyResponse {
+  ItemCount: number;
+  TotalSizeInBytes: number;
+  ETag: string;
+}
+export const DeleteKeyResponse = S.suspend(() =>
+  S.Struct({
+    ItemCount: S.Number,
+    TotalSizeInBytes: S.Number,
+    ETag: S.String.pipe(T.HttpHeader("ETag")),
+  }),
+).annotate({
+  identifier: "DeleteKeyResponse",
+}) as any as S.Schema<DeleteKeyResponse>;
 export interface DescribeKeyValueStoreRequest {
   KvsARN: string;
 }
@@ -190,9 +204,33 @@ export const DescribeKeyValueStoreRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "DescribeKeyValueStoreRequest",
 }) as any as S.Schema<DescribeKeyValueStoreRequest>;
+export interface DescribeKeyValueStoreResponse {
+  ItemCount: number;
+  TotalSizeInBytes: number;
+  KvsARN: string;
+  Created: Date;
+  ETag: string;
+  LastModified?: Date;
+  Status?: string;
+  FailureReason?: string;
+}
+export const DescribeKeyValueStoreResponse = S.suspend(() =>
+  S.Struct({
+    ItemCount: S.Number,
+    TotalSizeInBytes: S.Number,
+    KvsARN: S.String,
+    Created: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ETag: S.String.pipe(T.HttpHeader("ETag")),
+    LastModified: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    Status: S.optional(S.String),
+    FailureReason: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "DescribeKeyValueStoreResponse",
+}) as any as S.Schema<DescribeKeyValueStoreResponse>;
 export interface GetKeyRequest {
   KvsARN: string;
   Key: string;
@@ -211,9 +249,21 @@ export const GetKeyRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
-  identifier: "GetKeyRequest",
-}) as any as S.Schema<GetKeyRequest>;
+).annotate({ identifier: "GetKeyRequest" }) as any as S.Schema<GetKeyRequest>;
+export interface GetKeyResponse {
+  Key: string;
+  Value: string | redacted.Redacted<string>;
+  ItemCount: number;
+  TotalSizeInBytes: number;
+}
+export const GetKeyResponse = S.suspend(() =>
+  S.Struct({
+    Key: S.String,
+    Value: SensitiveString,
+    ItemCount: S.Number,
+    TotalSizeInBytes: S.Number,
+  }),
+).annotate({ identifier: "GetKeyResponse" }) as any as S.Schema<GetKeyResponse>;
 export interface ListKeysRequest {
   KvsARN: string;
   NextToken?: string;
@@ -234,9 +284,32 @@ export const ListKeysRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "ListKeysRequest",
 }) as any as S.Schema<ListKeysRequest>;
+export interface ListKeysResponseListItem {
+  Key: string;
+  Value: string | redacted.Redacted<string>;
+}
+export const ListKeysResponseListItem = S.suspend(() =>
+  S.Struct({ Key: S.String, Value: SensitiveString }),
+).annotate({
+  identifier: "ListKeysResponseListItem",
+}) as any as S.Schema<ListKeysResponseListItem>;
+export type ListKeysResponseList = ListKeysResponseListItem[];
+export const ListKeysResponseList = S.Array(ListKeysResponseListItem);
+export interface ListKeysResponse {
+  NextToken?: string;
+  Items?: ListKeysResponseListItem[];
+}
+export const ListKeysResponse = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    Items: S.optional(ListKeysResponseList),
+  }),
+).annotate({
+  identifier: "ListKeysResponse",
+}) as any as S.Schema<ListKeysResponse>;
 export interface PutKeyRequest {
   Key: string;
   Value: string | redacted.Redacted<string>;
@@ -259,84 +332,7 @@ export const PutKeyRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
-  identifier: "PutKeyRequest",
-}) as any as S.Schema<PutKeyRequest>;
-export interface PutKeyRequestListItem {
-  Key: string;
-  Value: string | redacted.Redacted<string>;
-}
-export const PutKeyRequestListItem = S.suspend(() =>
-  S.Struct({ Key: S.String, Value: SensitiveString }),
-).annotations({
-  identifier: "PutKeyRequestListItem",
-}) as any as S.Schema<PutKeyRequestListItem>;
-export type PutKeyRequestsList = PutKeyRequestListItem[];
-export const PutKeyRequestsList = S.Array(PutKeyRequestListItem);
-export interface DeleteKeyRequestListItem {
-  Key: string;
-}
-export const DeleteKeyRequestListItem = S.suspend(() =>
-  S.Struct({ Key: S.String }),
-).annotations({
-  identifier: "DeleteKeyRequestListItem",
-}) as any as S.Schema<DeleteKeyRequestListItem>;
-export type DeleteKeyRequestsList = DeleteKeyRequestListItem[];
-export const DeleteKeyRequestsList = S.Array(DeleteKeyRequestListItem);
-export interface DeleteKeyResponse {
-  ItemCount: number;
-  TotalSizeInBytes: number;
-  ETag: string;
-}
-export const DeleteKeyResponse = S.suspend(() =>
-  S.Struct({
-    ItemCount: S.Number,
-    TotalSizeInBytes: S.Number,
-    ETag: S.String.pipe(T.HttpHeader("ETag")),
-  }),
-).annotations({
-  identifier: "DeleteKeyResponse",
-}) as any as S.Schema<DeleteKeyResponse>;
-export interface DescribeKeyValueStoreResponse {
-  ItemCount: number;
-  TotalSizeInBytes: number;
-  KvsARN: string;
-  Created: Date;
-  ETag: string;
-  LastModified?: Date;
-  Status?: string;
-  FailureReason?: string;
-}
-export const DescribeKeyValueStoreResponse = S.suspend(() =>
-  S.Struct({
-    ItemCount: S.Number,
-    TotalSizeInBytes: S.Number,
-    KvsARN: S.String,
-    Created: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ETag: S.String.pipe(T.HttpHeader("ETag")),
-    LastModified: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    Status: S.optional(S.String),
-    FailureReason: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "DescribeKeyValueStoreResponse",
-}) as any as S.Schema<DescribeKeyValueStoreResponse>;
-export interface GetKeyResponse {
-  Key: string;
-  Value: string | redacted.Redacted<string>;
-  ItemCount: number;
-  TotalSizeInBytes: number;
-}
-export const GetKeyResponse = S.suspend(() =>
-  S.Struct({
-    Key: S.String,
-    Value: SensitiveString,
-    ItemCount: S.Number,
-    TotalSizeInBytes: S.Number,
-  }),
-).annotations({
-  identifier: "GetKeyResponse",
-}) as any as S.Schema<GetKeyResponse>;
+).annotate({ identifier: "PutKeyRequest" }) as any as S.Schema<PutKeyRequest>;
 export interface PutKeyResponse {
   ItemCount: number;
   TotalSizeInBytes: number;
@@ -348,9 +344,28 @@ export const PutKeyResponse = S.suspend(() =>
     TotalSizeInBytes: S.Number,
     ETag: S.String.pipe(T.HttpHeader("ETag")),
   }),
-).annotations({
-  identifier: "PutKeyResponse",
-}) as any as S.Schema<PutKeyResponse>;
+).annotate({ identifier: "PutKeyResponse" }) as any as S.Schema<PutKeyResponse>;
+export interface PutKeyRequestListItem {
+  Key: string;
+  Value: string | redacted.Redacted<string>;
+}
+export const PutKeyRequestListItem = S.suspend(() =>
+  S.Struct({ Key: S.String, Value: SensitiveString }),
+).annotate({
+  identifier: "PutKeyRequestListItem",
+}) as any as S.Schema<PutKeyRequestListItem>;
+export type PutKeyRequestsList = PutKeyRequestListItem[];
+export const PutKeyRequestsList = S.Array(PutKeyRequestListItem);
+export interface DeleteKeyRequestListItem {
+  Key: string;
+}
+export const DeleteKeyRequestListItem = S.suspend(() =>
+  S.Struct({ Key: S.String }),
+).annotate({
+  identifier: "DeleteKeyRequestListItem",
+}) as any as S.Schema<DeleteKeyRequestListItem>;
+export type DeleteKeyRequestsList = DeleteKeyRequestListItem[];
+export const DeleteKeyRequestsList = S.Array(DeleteKeyRequestListItem);
 export interface UpdateKeysRequest {
   KvsARN: string;
   IfMatch: string;
@@ -373,32 +388,9 @@ export const UpdateKeysRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "UpdateKeysRequest",
 }) as any as S.Schema<UpdateKeysRequest>;
-export interface ListKeysResponseListItem {
-  Key: string;
-  Value: string | redacted.Redacted<string>;
-}
-export const ListKeysResponseListItem = S.suspend(() =>
-  S.Struct({ Key: S.String, Value: SensitiveString }),
-).annotations({
-  identifier: "ListKeysResponseListItem",
-}) as any as S.Schema<ListKeysResponseListItem>;
-export type ListKeysResponseList = ListKeysResponseListItem[];
-export const ListKeysResponseList = S.Array(ListKeysResponseListItem);
-export interface ListKeysResponse {
-  NextToken?: string;
-  Items?: ListKeysResponseListItem[];
-}
-export const ListKeysResponse = S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    Items: S.optional(ListKeysResponseList),
-  }),
-).annotations({
-  identifier: "ListKeysResponse",
-}) as any as S.Schema<ListKeysResponse>;
 export interface UpdateKeysResponse {
   ItemCount: number;
   TotalSizeInBytes: number;
@@ -410,37 +402,64 @@ export const UpdateKeysResponse = S.suspend(() =>
     TotalSizeInBytes: S.Number,
     ETag: S.String.pipe(T.HttpHeader("ETag")),
   }),
-).annotations({
+).annotate({
   identifier: "UpdateKeysResponse",
 }) as any as S.Schema<UpdateKeysResponse>;
 
 //# Errors
-export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
+export class AccessDeniedException extends S.TaggedErrorClass<AccessDeniedException>()(
   "AccessDeniedException",
   { Message: S.optional(S.String) },
 ).pipe(C.withAuthError) {}
-export class ConflictException extends S.TaggedError<ConflictException>()(
+export class ConflictException extends S.TaggedErrorClass<ConflictException>()(
   "ConflictException",
   { Message: S.optional(S.String) },
 ).pipe(C.withConflictError) {}
-export class InternalServerException extends S.TaggedError<InternalServerException>()(
+export class InternalServerException extends S.TaggedErrorClass<InternalServerException>()(
   "InternalServerException",
   { Message: S.optional(S.String) },
 ).pipe(C.withServerError) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { Message: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
-export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
+export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
   { Message: S.optional(S.String) },
 ).pipe(C.withQuotaError) {}
-export class ValidationException extends S.TaggedError<ValidationException>()(
+export class ValidationException extends S.TaggedErrorClass<ValidationException>()(
   "ValidationException",
   { Message: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
+/**
+ * Deletes the key value pair specified by the key.
+ */
+export const deleteKey: (
+  input: DeleteKeyRequest,
+) => effect.Effect<
+  DeleteKeyResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteKeyRequest,
+  output: DeleteKeyResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ValidationException,
+  ],
+}));
 /**
  * Returns metadata information about Key Value Store.
  */
@@ -545,33 +564,6 @@ export const listKeys: {
   } as const,
 }));
 /**
- * Puts or Deletes multiple key value pairs in a single, all-or-nothing operation.
- */
-export const updateKeys: (
-  input: UpdateKeysRequest,
-) => effect.Effect<
-  UpdateKeysResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateKeysRequest,
-  output: UpdateKeysResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ValidationException,
-  ],
-}));
-/**
  * Creates a new key value pair or replaces the value of an existing key.
  */
 export const putKey: (
@@ -599,12 +591,12 @@ export const putKey: (
   ],
 }));
 /**
- * Deletes the key value pair specified by the key.
+ * Puts or Deletes multiple key value pairs in a single, all-or-nothing operation.
  */
-export const deleteKey: (
-  input: DeleteKeyRequest,
+export const updateKeys: (
+  input: UpdateKeysRequest,
 ) => effect.Effect<
-  DeleteKeyResponse,
+  UpdateKeysResponse,
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -614,8 +606,8 @@ export const deleteKey: (
   | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteKeyRequest,
-  output: DeleteKeyResponse,
+  input: UpdateKeysRequest,
+  output: UpdateKeysResponse,
   errors: [
     AccessDeniedException,
     ConflictException,

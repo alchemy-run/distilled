@@ -85,18 +85,9 @@
     "fast-xml-parser": "catalog:"
   },
   "devDependencies": {
-    "@effect/ai": "catalog:",
-    "@effect/ai-anthropic": "catalog:",
-    "@effect/ai-openai": "catalog:",
-    "@effect/cli": "catalog:",
-    "@effect/cluster": "catalog:",
-    "@effect/experimental": "catalog:",
     "@effect/platform-bun": "catalog:",
     "@effect/platform-node": "catalog:",
-    "@effect/rpc": "catalog:",
-    "@effect/sql": "catalog:",
     "@effect/vitest": "catalog:",
-    "@effect/workflow": "catalog:",
     "@rsbuild/core": "catalog:",
     "@types/archiver": "^7.0.0",
     "@types/bun": "catalog:",
@@ -107,7 +98,6 @@
     "vitest": "catalog:"
   },
   "peerDependencies": {
-    "@effect/platform": "latest",
-    "effect": "latest"
+    "effect": "catalog:"
   }
 }

@@ -1,4 +1,7 @@
-import { Context, Effect, Layer } from "effect";
+// import { Context, Effect, Layer } from "effect";
+import * as Effect from "effect/Effect";
+import * as Layer from "effect/Layer";
+import * as ServiceMap from "effect/ServiceMap";
 import { ConfigError } from "./errors";
 
 export const DEFAULT_API_BASE_URL = "https://api.planetscale.com/v1";
@@ -9,10 +12,9 @@ export interface Config {
   readonly apiBaseUrl: string;
 }
 
-export class Credentials extends Context.Tag("Credentials")<
-  Credentials,
-  Config
->() {}
+export class Credentials extends ServiceMap.Service<Credentials, Config>()(
+  "Credentials",
+) {}
 
 export const CredentialsFromEnv = Layer.effect(
   Credentials,

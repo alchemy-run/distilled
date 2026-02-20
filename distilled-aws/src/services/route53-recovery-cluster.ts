@@ -1,4 +1,4 @@
-import { HttpClient } from "@effect/platform";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as effect from "effect/Effect";
 import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
@@ -88,18 +88,14 @@ const rules = T.EndpointResolver((p, _) => {
 
 //# Newtypes
 export type Arn = string;
+export type RoutingControlName = string;
+export type RetryAfterSeconds = number;
 export type PageToken = string;
 export type MaxResults = number;
-export type RoutingControlName = string;
 export type ControlPanelName = string;
 export type Owner = string;
-export type RetryAfterSeconds = number;
 
 //# Schemas
-export type RoutingControlState = "On" | "Off" | (string & {});
-export const RoutingControlState = S.String;
-export type Arns = string[];
-export const Arns = S.Array(S.String);
 export interface GetRoutingControlStateRequest {
   RoutingControlArn: string;
 }
@@ -107,9 +103,43 @@ export const GetRoutingControlStateRequest = S.suspend(() =>
   S.Struct({ RoutingControlArn: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotations({
+).annotate({
   identifier: "GetRoutingControlStateRequest",
 }) as any as S.Schema<GetRoutingControlStateRequest>;
+export type RoutingControlState = "On" | "Off" | (string & {});
+export const RoutingControlState = S.String;
+export interface GetRoutingControlStateResponse {
+  RoutingControlArn: string;
+  RoutingControlState: RoutingControlState;
+  RoutingControlName?: string;
+}
+export const GetRoutingControlStateResponse = S.suspend(() =>
+  S.Struct({
+    RoutingControlArn: S.String,
+    RoutingControlState: RoutingControlState,
+    RoutingControlName: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GetRoutingControlStateResponse",
+}) as any as S.Schema<GetRoutingControlStateResponse>;
+export type ValidationExceptionReason =
+  | "unknownOperation"
+  | "cannotParse"
+  | "fieldValidationFailed"
+  | "other"
+  | (string & {});
+export const ValidationExceptionReason = S.String;
+export interface ValidationExceptionField {
+  name: string;
+  message: string;
+}
+export const ValidationExceptionField = S.suspend(() =>
+  S.Struct({ name: S.String, message: S.String }),
+).annotate({
+  identifier: "ValidationExceptionField",
+}) as any as S.Schema<ValidationExceptionField>;
+export type ValidationExceptionFieldList = ValidationExceptionField[];
+export const ValidationExceptionFieldList = S.Array(ValidationExceptionField);
 export interface ListRoutingControlsRequest {
   ControlPanelArn?: string;
   NextToken?: string;
@@ -123,81 +153,9 @@ export const ListRoutingControlsRequest = S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotations({
+).annotate({
   identifier: "ListRoutingControlsRequest",
 }) as any as S.Schema<ListRoutingControlsRequest>;
-export interface UpdateRoutingControlStateRequest {
-  RoutingControlArn: string;
-  RoutingControlState: RoutingControlState;
-  SafetyRulesToOverride?: string[];
-}
-export const UpdateRoutingControlStateRequest = S.suspend(() =>
-  S.Struct({
-    RoutingControlArn: S.String,
-    RoutingControlState: RoutingControlState,
-    SafetyRulesToOverride: S.optional(Arns),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotations({
-  identifier: "UpdateRoutingControlStateRequest",
-}) as any as S.Schema<UpdateRoutingControlStateRequest>;
-export interface UpdateRoutingControlStateResponse {}
-export const UpdateRoutingControlStateResponse = S.suspend(() =>
-  S.Struct({}),
-).annotations({
-  identifier: "UpdateRoutingControlStateResponse",
-}) as any as S.Schema<UpdateRoutingControlStateResponse>;
-export interface UpdateRoutingControlStateEntry {
-  RoutingControlArn: string;
-  RoutingControlState: RoutingControlState;
-}
-export const UpdateRoutingControlStateEntry = S.suspend(() =>
-  S.Struct({
-    RoutingControlArn: S.String,
-    RoutingControlState: RoutingControlState,
-  }),
-).annotations({
-  identifier: "UpdateRoutingControlStateEntry",
-}) as any as S.Schema<UpdateRoutingControlStateEntry>;
-export type UpdateRoutingControlStateEntries = UpdateRoutingControlStateEntry[];
-export const UpdateRoutingControlStateEntries = S.Array(
-  UpdateRoutingControlStateEntry,
-);
-export interface GetRoutingControlStateResponse {
-  RoutingControlArn: string;
-  RoutingControlState: RoutingControlState;
-  RoutingControlName?: string;
-}
-export const GetRoutingControlStateResponse = S.suspend(() =>
-  S.Struct({
-    RoutingControlArn: S.String,
-    RoutingControlState: RoutingControlState,
-    RoutingControlName: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "GetRoutingControlStateResponse",
-}) as any as S.Schema<GetRoutingControlStateResponse>;
-export interface UpdateRoutingControlStatesRequest {
-  UpdateRoutingControlStateEntries: UpdateRoutingControlStateEntry[];
-  SafetyRulesToOverride?: string[];
-}
-export const UpdateRoutingControlStatesRequest = S.suspend(() =>
-  S.Struct({
-    UpdateRoutingControlStateEntries: UpdateRoutingControlStateEntries,
-    SafetyRulesToOverride: S.optional(Arns),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotations({
-  identifier: "UpdateRoutingControlStatesRequest",
-}) as any as S.Schema<UpdateRoutingControlStatesRequest>;
-export interface UpdateRoutingControlStatesResponse {}
-export const UpdateRoutingControlStatesResponse = S.suspend(() =>
-  S.Struct({}),
-).annotations({
-  identifier: "UpdateRoutingControlStatesResponse",
-}) as any as S.Schema<UpdateRoutingControlStatesResponse>;
 export interface RoutingControl {
   ControlPanelArn?: string;
   ControlPanelName?: string;
@@ -215,9 +173,7 @@ export const RoutingControl = S.suspend(() =>
     RoutingControlState: S.optional(RoutingControlState),
     Owner: S.optional(S.String),
   }),
-).annotations({
-  identifier: "RoutingControl",
-}) as any as S.Schema<RoutingControl>;
+).annotate({ identifier: "RoutingControl" }) as any as S.Schema<RoutingControl>;
 export type RoutingControls = RoutingControl[];
 export const RoutingControls = S.Array(RoutingControl);
 export interface ListRoutingControlsResponse {
@@ -229,60 +185,110 @@ export const ListRoutingControlsResponse = S.suspend(() =>
     RoutingControls: RoutingControls,
     NextToken: S.optional(S.String),
   }),
-).annotations({
+).annotate({
   identifier: "ListRoutingControlsResponse",
 }) as any as S.Schema<ListRoutingControlsResponse>;
-export type ValidationExceptionReason =
-  | "unknownOperation"
-  | "cannotParse"
-  | "fieldValidationFailed"
-  | "other"
-  | (string & {});
-export const ValidationExceptionReason = S.String;
-export interface ValidationExceptionField {
-  name: string;
-  message: string;
+export type Arns = string[];
+export const Arns = S.Array(S.String);
+export interface UpdateRoutingControlStateRequest {
+  RoutingControlArn: string;
+  RoutingControlState: RoutingControlState;
+  SafetyRulesToOverride?: string[];
 }
-export const ValidationExceptionField = S.suspend(() =>
-  S.Struct({ name: S.String, message: S.String }),
-).annotations({
-  identifier: "ValidationExceptionField",
-}) as any as S.Schema<ValidationExceptionField>;
-export type ValidationExceptionFieldList = ValidationExceptionField[];
-export const ValidationExceptionFieldList = S.Array(ValidationExceptionField);
+export const UpdateRoutingControlStateRequest = S.suspend(() =>
+  S.Struct({
+    RoutingControlArn: S.String,
+    RoutingControlState: RoutingControlState,
+    SafetyRulesToOverride: S.optional(Arns),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "UpdateRoutingControlStateRequest",
+}) as any as S.Schema<UpdateRoutingControlStateRequest>;
+export interface UpdateRoutingControlStateResponse {}
+export const UpdateRoutingControlStateResponse = S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "UpdateRoutingControlStateResponse",
+}) as any as S.Schema<UpdateRoutingControlStateResponse>;
+export interface UpdateRoutingControlStateEntry {
+  RoutingControlArn: string;
+  RoutingControlState: RoutingControlState;
+}
+export const UpdateRoutingControlStateEntry = S.suspend(() =>
+  S.Struct({
+    RoutingControlArn: S.String,
+    RoutingControlState: RoutingControlState,
+  }),
+).annotate({
+  identifier: "UpdateRoutingControlStateEntry",
+}) as any as S.Schema<UpdateRoutingControlStateEntry>;
+export type UpdateRoutingControlStateEntries = UpdateRoutingControlStateEntry[];
+export const UpdateRoutingControlStateEntries = S.Array(
+  UpdateRoutingControlStateEntry,
+);
+export interface UpdateRoutingControlStatesRequest {
+  UpdateRoutingControlStateEntries: UpdateRoutingControlStateEntry[];
+  SafetyRulesToOverride?: string[];
+}
+export const UpdateRoutingControlStatesRequest = S.suspend(() =>
+  S.Struct({
+    UpdateRoutingControlStateEntries: UpdateRoutingControlStateEntries,
+    SafetyRulesToOverride: S.optional(Arns),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "UpdateRoutingControlStatesRequest",
+}) as any as S.Schema<UpdateRoutingControlStatesRequest>;
+export interface UpdateRoutingControlStatesResponse {}
+export const UpdateRoutingControlStatesResponse = S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "UpdateRoutingControlStatesResponse",
+}) as any as S.Schema<UpdateRoutingControlStatesResponse>;
 
 //# Errors
-export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
+export class AccessDeniedException extends S.TaggedErrorClass<AccessDeniedException>()(
   "AccessDeniedException",
   { message: S.String },
 ).pipe(C.withAuthError) {}
-export class ConflictException extends S.TaggedError<ConflictException>()(
-  "ConflictException",
-  { message: S.String, resourceId: S.String, resourceType: S.String },
-).pipe(C.withConflictError) {}
-export class EndpointTemporarilyUnavailableException extends S.TaggedError<EndpointTemporarilyUnavailableException>()(
+export class EndpointTemporarilyUnavailableException extends S.TaggedErrorClass<EndpointTemporarilyUnavailableException>()(
   "EndpointTemporarilyUnavailableException",
   { message: S.String },
 ).pipe(C.withServerError) {}
-export class InternalServerException extends S.TaggedError<InternalServerException>()(
+export class InternalServerException extends S.TaggedErrorClass<InternalServerException>()(
   "InternalServerException",
   {
     message: S.String,
     retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
   },
 ).pipe(C.withServerError) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { message: S.String, resourceId: S.String, resourceType: S.String },
 ).pipe(C.withBadRequestError) {}
-export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
+export class ThrottlingException extends S.TaggedErrorClass<ThrottlingException>()(
   "ThrottlingException",
   {
     message: S.String,
     retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
   },
 ).pipe(C.withThrottlingError) {}
-export class ServiceLimitExceededException extends S.TaggedError<ServiceLimitExceededException>()(
+export class ValidationException extends S.TaggedErrorClass<ValidationException>()(
+  "ValidationException",
+  {
+    message: S.String,
+    reason: S.optional(ValidationExceptionReason),
+    fields: S.optional(ValidationExceptionFieldList),
+  },
+).pipe(C.withBadRequestError) {}
+export class ConflictException extends S.TaggedErrorClass<ConflictException>()(
+  "ConflictException",
+  { message: S.String, resourceId: S.String, resourceType: S.String },
+).pipe(C.withConflictError) {}
+export class ServiceLimitExceededException extends S.TaggedErrorClass<ServiceLimitExceededException>()(
   "ServiceLimitExceededException",
   {
     message: S.String,
@@ -292,14 +298,6 @@ export class ServiceLimitExceededException extends S.TaggedError<ServiceLimitExc
     serviceCode: S.String,
   },
 ).pipe(C.withQuotaError) {}
-export class ValidationException extends S.TaggedError<ValidationException>()(
-  "ValidationException",
-  {
-    message: S.String,
-    reason: S.optional(ValidationExceptionReason),
-    fields: S.optional(ValidationExceptionFieldList),
-  },
-).pipe(C.withBadRequestError) {}
 
 //# Operations
 /**
@@ -349,64 +347,6 @@ export const getRoutingControlState: (
     EndpointTemporarilyUnavailableException,
     InternalServerException,
     ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Set multiple routing control states. You can set the value for each state to be ON or OFF.
- * When the state is ON, traffic flows to a cell. When it's OFF, traffic does not
- * flow.
- *
- * With Route 53 ARC, you can add safety rules for routing controls, which are safeguards for routing
- * control state updates that help prevent unexpected outcomes, like fail open traffic routing. However,
- * there are scenarios when you might want to bypass the routing control safeguards that are enforced with
- * safety rules that you've configured. For example, you might want to fail over quickly for disaster recovery,
- * and one or more safety rules might be unexpectedly preventing you from updating a routing control state to
- * reroute traffic. In a "break glass" scenario like this, you can override one or more safety rules to change
- * a routing control state and fail over your application.
- *
- * The `SafetyRulesToOverride` property enables you override one or more safety rules and
- * update routing control states. For more information, see
- *
- * Override safety rules to reroute traffic in the Amazon Route 53 Application Recovery Controller Developer Guide.
- *
- * You must specify Regional endpoints when you work with API cluster operations
- * to get or update routing control states in Route 53 ARC.
- *
- * To see a code example for getting a routing control state, including accessing Regional cluster endpoints
- * in sequence, see API examples
- * in the Amazon Route 53 Application Recovery Controller Developer Guide.
- *
- * -
- * Viewing and updating routing control states
- *
- * - Working with routing controls overall
- */
-export const updateRoutingControlStates: (
-  input: UpdateRoutingControlStatesRequest,
-) => effect.Effect<
-  UpdateRoutingControlStatesResponse,
-  | AccessDeniedException
-  | ConflictException
-  | EndpointTemporarilyUnavailableException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceLimitExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateRoutingControlStatesRequest,
-  output: UpdateRoutingControlStatesResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    EndpointTemporarilyUnavailableException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ServiceLimitExceededException,
     ThrottlingException,
     ValidationException,
   ],
@@ -549,6 +489,64 @@ export const updateRoutingControlState: (
     EndpointTemporarilyUnavailableException,
     InternalServerException,
     ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Set multiple routing control states. You can set the value for each state to be ON or OFF.
+ * When the state is ON, traffic flows to a cell. When it's OFF, traffic does not
+ * flow.
+ *
+ * With Route 53 ARC, you can add safety rules for routing controls, which are safeguards for routing
+ * control state updates that help prevent unexpected outcomes, like fail open traffic routing. However,
+ * there are scenarios when you might want to bypass the routing control safeguards that are enforced with
+ * safety rules that you've configured. For example, you might want to fail over quickly for disaster recovery,
+ * and one or more safety rules might be unexpectedly preventing you from updating a routing control state to
+ * reroute traffic. In a "break glass" scenario like this, you can override one or more safety rules to change
+ * a routing control state and fail over your application.
+ *
+ * The `SafetyRulesToOverride` property enables you override one or more safety rules and
+ * update routing control states. For more information, see
+ *
+ * Override safety rules to reroute traffic in the Amazon Route 53 Application Recovery Controller Developer Guide.
+ *
+ * You must specify Regional endpoints when you work with API cluster operations
+ * to get or update routing control states in Route 53 ARC.
+ *
+ * To see a code example for getting a routing control state, including accessing Regional cluster endpoints
+ * in sequence, see API examples
+ * in the Amazon Route 53 Application Recovery Controller Developer Guide.
+ *
+ * -
+ * Viewing and updating routing control states
+ *
+ * - Working with routing controls overall
+ */
+export const updateRoutingControlStates: (
+  input: UpdateRoutingControlStatesRequest,
+) => effect.Effect<
+  UpdateRoutingControlStatesResponse,
+  | AccessDeniedException
+  | ConflictException
+  | EndpointTemporarilyUnavailableException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceLimitExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateRoutingControlStatesRequest,
+  output: UpdateRoutingControlStatesResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    EndpointTemporarilyUnavailableException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceLimitExceededException,
     ThrottlingException,
     ValidationException,
   ],

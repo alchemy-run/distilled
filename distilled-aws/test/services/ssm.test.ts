@@ -213,7 +213,7 @@ test(
       WindowId: windowId,
     }).pipe(
       Effect.map(() => true),
-      Effect.catchAll(() => Effect.succeed(false)),
+      Effect.catch(() => Effect.succeed(false)),
     );
 
     expect(stillExists).toBe(false);

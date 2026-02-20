@@ -1,20 +1,20 @@
-import { Command, FileSystem, Path } from "@effect/platform";
-import { BunContext, BunRuntime } from "@effect/platform-bun";
+import { BunRuntime, BunServices } from "@effect/platform-bun";
 import dedent from "dedent";
 import {
   Console,
-  Context,
   Data,
   Deferred,
   Effect,
-  Logger,
-  LogLevel,
   Match,
   MutableHashMap,
   Option,
   Ref,
   Schema as S,
+  ServiceMap,
 } from "effect";
+import * as FileSystem from "effect/FileSystem";
+import * as Path from "effect/Path";
+import * as ChildProcess from "effect/unstable/process/ChildProcess";
 import { loadServiceSpecPatch, ServiceSpec } from "../src/patch/spec-schema.ts";
 import type { RuleSetObject } from "../src/rules-engine/expression.ts";
 import { generateRuleSetCode } from "./compile-rules.ts";
@@ -27,7 +27,7 @@ import {
 //todo(pear): swap out for effect platform path
 import path from "pathe";
 
-class SdkFile extends Context.Tag("SdkFile")<
+class SdkFile extends ServiceMap.Service<
   SdkFile,
   {
     map: MutableHashMap.MutableHashMap<
@@ -97,12 +97,11 @@ class SdkFile extends Context.Tag("SdkFile")<
     // (members with @clientOptional + @required that should appear required in output types)
     softRequiredMembers: Map<string, { memberName: string; tsType: string }[]>;
   }
->() {}
+>()("SdkFile") {}
 
-class ModelService extends Context.Tag("ModelService")<
-  ModelService,
-  SmithyModel
->() {}
+class ModelService extends ServiceMap.Service<ModelService, SmithyModel>()(
+  "ModelService",
+) {}
 
 function getSdkFlag(): Option.Option<string> {
   const idx = process.argv.indexOf("--sdk");
@@ -291,7 +290,7 @@ function applyTraitsToSchema(
     let result = `${schema}.pipe(${pipes.join(", ")})`;
     // Re-apply identifier after .pipe() for suspended schemas (needed for JSONSchema)
     if (identifier) {
-      result = `${result}.annotations({ identifier: "${identifier}" })`;
+      result = `${result}.annotate({ identifier: "${identifier}" })`;
     }
     return result;
   }
@@ -1260,9 +1259,8 @@ const convertShapeToSchema: (
     return tsName;
   });
 
-  const result = yield* Effect.if(target.startsWith("smithy.api"), {
-    onTrue: () =>
-      Match.value(target).pipe(
+  const result = yield* target.startsWith("smithy.api")
+    ? Match.value(target).pipe(
         Match.when(
           (s) => s === "smithy.api#String",
           () => Effect.succeed("S.String"),
@@ -1310,7 +1308,7 @@ const convertShapeToSchema: (
         Match.when(
           (s) => s === "smithy.api#Document",
           // TODO(sam): should we add our own JsonValue schema to handle documents? What are Documents?
-          () => Effect.succeed("S.Any"),
+          () => Effect.succeed("S.Top"),
         ),
         Match.orElse(() =>
           Effect.fail(
@@ -1319,9 +1317,8 @@ const convertShapeToSchema: (
             }),
           ),
         ),
-      ),
-    onFalse: () =>
-      Effect.gen(function* () {
+      )
+    : Effect.gen(function* () {
         const [targetShapeId, targetShape] = yield* findShape(target);
         return yield* Match.value(targetShape).pipe(
           Match.when(
@@ -1480,7 +1477,7 @@ const convertShapeToSchema: (
                     new Map(m).set(name, "unknown"),
                   );
                 }
-                return "S.Any";
+                return "S.Top";
               }),
           ),
           Match.when(
@@ -1540,7 +1537,7 @@ const convertShapeToSchema: (
               const literals = enumValues.join(", ");
               const literalUnion = enumValues.join(" | ");
               const typeAlias = `export type ${schemaName} = ${literalUnion};`;
-              const schemaDef = `export const ${schemaName} = S.Literal(${literals});`;
+              const schemaDef = `export const ${schemaName} = S.Literals([${literals}]);`;
               return addAlias(Effect.succeed(`${typeAlias}\n${schemaDef}`), []);
             },
           ),
@@ -1565,14 +1562,14 @@ const convertShapeToSchema: (
                       // Add identifier annotation for JSONSchema generation
                       let innerType = type;
                       if (isMemberErrorShape) {
-                        innerType = `S.suspend(() => ${type}).annotations({ identifier: "${type}" })`;
+                        innerType = `S.suspend(() => ${type}).annotate({ identifier: "${type}" })`;
                       }
                       // Wrap cyclic references in S.suspend with identifier for JSONSchema
                       else if (sdkFile.cyclicSchemas.has(memberName)) {
                         innerType = sdkFile.cyclicClasses.has(memberName)
                           ? // TODO(sam): I had to add the any here because encoded type was creting circular errors. hopefully OK since we don't really need it
-                            `S.suspend((): S.Schema<${type}, any> => ${type}).annotations({ identifier: "${type}" })`
-                          : `S.suspend(() => ${type}).annotations({ identifier: "${type}" })`;
+                            `S.suspend((): S.Schema<${type}, any> => ${type}).annotate({ identifier: "${type}" })`
+                          : `S.suspend(() => ${type}).annotate({ identifier: "${type}" })`;
                       }
 
                       // Apply serialization traits (xmlName, timestampFormat, etc.) using unified function
@@ -1743,7 +1740,7 @@ const convertShapeToSchema: (
                     // Wrap error shape references in S.suspend (they're defined after schemas)
                     // Add identifier annotation for JSONSchema generation
                     if (isMemberErrorShape) {
-                      schema = `S.suspend(() => ${schema}).annotations({ identifier: "${schema}" })`;
+                      schema = `S.suspend(() => ${schema}).annotate({ identifier: "${schema}" })`;
                     }
                     // Wrap cyclic references in S.suspend with identifier for JSONSchema (only if current schema is also cyclic)
                     else if (
@@ -1752,9 +1749,9 @@ const convertShapeToSchema: (
                     ) {
                       if (sdkFile.cyclicClasses.has(memberTargetName)) {
                         // TODO(sam): I had to add the any here because encoded type was creting circular errors. hopefully OK since we don't really need it
-                        schema = `S.suspend((): S.Schema<${schema}, any> => ${schema}).annotations({ identifier: "${schema}" })`;
+                        schema = `S.suspend((): S.Schema<${schema}, any> => ${schema}).annotate({ identifier: "${schema}" })`;
                       } else {
-                        schema = `S.suspend(() => ${schema}).annotations({ identifier: "${schema}" })`;
+                        schema = `S.suspend(() => ${schema}).annotate({ identifier: "${schema}" })`;
                       }
                     }
 
@@ -1941,7 +1938,7 @@ const convertShapeToSchema: (
                       innerPipe = `.pipe(T.all(${classAnnotations.join(", ")}))`;
                     }
                     // identifier annotation must be on the suspend, not inside it, for JSONSchema.make() to work
-                    const outerAnnotation = `.annotations({ identifier: "${currentSchemaName}" })`;
+                    const outerAnnotation = `.annotate({ identifier: "${currentSchemaName}" })`;
 
                     // Generate interface + suspend(struct) pattern
                     // Trait annotations inside suspend, identifier outside
@@ -1981,7 +1978,7 @@ const convertShapeToSchema: (
                         // Wrap error shape references in S.suspend (they're defined after schemas)
                         // Add identifier annotation for JSONSchema generation
                         if (isMemberErrorShape) {
-                          wrappedSchema = `S.suspend(() => ${schema}).annotations({ identifier: "${schema}" })`;
+                          wrappedSchema = `S.suspend(() => ${schema}).annotate({ identifier: "${schema}" })`;
                         }
                         // Wrap cyclic references in S.suspend with identifier for JSONSchema
                         else if (
@@ -1990,9 +1987,9 @@ const convertShapeToSchema: (
                         ) {
                           if (sdkFile.cyclicClasses.has(memberTargetName)) {
                             // TODO(sam): I had to add the any here because encoded type was creting circular errors. hopefully OK since we don't really need it
-                            wrappedSchema = `S.suspend((): S.Schema<${schema}, any> => ${schema}).annotations({ identifier: "${schema}" })`;
+                            wrappedSchema = `S.suspend((): S.Schema<${schema}, any> => ${schema}).annotate({ identifier: "${schema}" })`;
                           } else {
-                            wrappedSchema = `S.suspend(() => ${schema}).annotations({ identifier: "${schema}" })`;
+                            wrappedSchema = `S.suspend(() => ${schema}).annotate({ identifier: "${schema}" })`;
                           }
                         }
 
@@ -2051,9 +2048,9 @@ const convertShapeToSchema: (
                         const isInputEventStream =
                           sdkFile.inputEventStreamShapeIds.has(target);
                         if (isInputEventStream) {
-                          return `${typeAlias}\nexport const ${schemaName} = T.InputEventStream(S.Union(${wrappedMembers.join(", ")})) as any as S.Schema<stream.Stream<${schemaName}, Error, never>>;`;
+                          return `${typeAlias}\nexport const ${schemaName} = T.InputEventStream(S.Union([${wrappedMembers.join(", ")}])) as any as S.Schema<stream.Stream<${schemaName}, Error, never>>;`;
                         }
-                        return `${typeAlias}\nexport const ${schemaName} = T.EventStream(S.Union(${wrappedMembers.join(", ")})) as any as S.Schema<stream.Stream<${schemaName}, Error, never>>;`;
+                        return `${typeAlias}\nexport const ${schemaName} = T.EventStream(S.Union([${wrappedMembers.join(", ")}])) as any as S.Schema<stream.Stream<${schemaName}, Error, never>>;`;
                       }
 
                       // Generate explicit type alias for unions (needed for pagination item types)
@@ -2075,10 +2072,10 @@ const convertShapeToSchema: (
                       const typeAlias = `export type ${schemaName} = ${memberTsTypes.join(" | ")};`;
 
                       if (isCurrentCyclic) {
-                        return `${typeAlias}\nexport const ${schemaName} = S.Union(${wrappedMembers.join(", ")}) as any as S.Schema<${schemaName}>;`;
+                        return `${typeAlias}\nexport const ${schemaName} = S.Union([${wrappedMembers.join(", ")}]) as any as S.Schema<${schemaName}>;`;
                       }
 
-                      return `${typeAlias}\nexport const ${schemaName} = S.Union(${wrappedMembers.join(", ")});`;
+                      return `${typeAlias}\nexport const ${schemaName} = S.Union([${wrappedMembers.join(", ")}]);`;
                     }),
                   ),
                 ),
@@ -2140,21 +2137,21 @@ const convertShapeToSchema: (
                       let wrappedValue = valueSchema;
 
                       if (isKeyErrorShape) {
-                        wrappedKey = `S.suspend(() => ${keySchema}).annotations({ identifier: "${keySchema}" })`;
+                        wrappedKey = `S.suspend(() => ${keySchema}).annotate({ identifier: "${keySchema}" })`;
                       } else if (sdkFile.cyclicSchemas.has(keyTargetName)) {
                         wrappedKey = sdkFile.cyclicClasses.has(keyTargetName)
-                          ? `S.suspend((): S.Schema<${keySchema}, any> => ${keySchema}).annotations({ identifier: "${keySchema}" })`
-                          : `S.suspend(() => ${keySchema}).annotations({ identifier: "${keySchema}" })`;
+                          ? `S.suspend((): S.Schema<${keySchema}, any> => ${keySchema}).annotate({ identifier: "${keySchema}" })`
+                          : `S.suspend(() => ${keySchema}).annotate({ identifier: "${keySchema}" })`;
                       }
 
                       if (isValueErrorShape) {
-                        wrappedValue = `S.suspend(() => ${valueSchema}).annotations({ identifier: "${valueSchema}" })`;
+                        wrappedValue = `S.suspend(() => ${valueSchema}).annotate({ identifier: "${valueSchema}" })`;
                       } else if (sdkFile.cyclicSchemas.has(valueTargetName)) {
                         wrappedValue = sdkFile.cyclicClasses.has(
                           valueTargetName,
                         )
-                          ? `S.suspend((): S.Schema<${valueSchema}, any> => ${valueSchema}).annotations({ identifier: "${valueSchema}" })`
-                          : `S.suspend(() => ${valueSchema}).annotations({ identifier: "${valueSchema}" })`;
+                          ? `S.suspend((): S.Schema<${valueSchema}, any> => ${valueSchema}).annotate({ identifier: "${valueSchema}" })`
+                          : `S.suspend(() => ${valueSchema}).annotate({ identifier: "${valueSchema}" })`;
                       }
 
                       // Apply serialization traits (xmlName, etc.) using unified function
@@ -2184,10 +2181,9 @@ const convertShapeToSchema: (
 
                       // Wrap in S.partial if key is an enum (AWS returns partial maps)
                       // Wrap value with S.UndefinedOr to allow undefined values (which are dropped during serialization)
-                      let recordExpr = `S.Record({key: ${wrappedKey}, value: S.UndefinedOr(${wrappedValue})})${sparsePipe}`;
+                      let recordExpr = `S.Record(${wrappedKey}, ${wrappedValue}.pipe(S.optional))${sparsePipe}`;
                       let typeAlias: string;
                       if (isKeyEnum) {
-                        recordExpr = `S.partial(${recordExpr})`;
                         // Use mapped type with optional values for enum keys
                         typeAlias = `export type ${schemaName} = { [key in ${keyTargetName}]?: ${valueTsType} };`;
                       } else {
@@ -2215,8 +2211,7 @@ const convertShapeToSchema: (
           // Match.orElse(() => Effect.succeed("$$TEMP_SCHEMA")),
           // Match.exhaustive,
         );
-      }),
-  });
+      });
 
   yield* Deferred.succeed(deferredValue, result);
   yield* Effect.logDebug(`Converted shape: \`${target}\` to ${result}`);
@@ -2433,7 +2428,7 @@ const addError = Effect.fn(function* (error: {
       ...errors,
       {
         name: error.name,
-        definition: `export class ${error.name} extends S.TaggedError<${error.name}>()("${tag}", ${fields}${annotationsArg})${categoryPipe} {}`,
+        definition: `export class ${error.name} extends S.TaggedErrorClass<${error.name}>()("${tag}", ${fields}${annotationsArg})${categoryPipe} {}`,
       },
     ]);
   }
@@ -2449,7 +2444,7 @@ const generateClient = Effect.fn(function* (
 
   const model = yield* fs
     .readFileString(modelPath)
-    .pipe(Effect.flatMap(S.decodeUnknown(S.parseJson(SmithyModel))));
+    .pipe(Effect.flatMap(S.decodeUnknownEffect(S.fromJsonString(SmithyModel))));
 
   const client = Effect.gen(function* () {
     const [serviceShapeName, serviceShape] = yield* findServiceShape;
@@ -2564,7 +2559,7 @@ const generateClient = Effect.fn(function* (
               innerPipe = `.pipe(T.all(${classAnnotations.join(", ")}))`;
             }
             // identifier annotation must be on the suspend, not inside it, for JSONSchema.make() to work
-            const outerAnnotation = `.annotations({ identifier: "${className}" })`;
+            const outerAnnotation = `.annotate({ identifier: "${className}" })`;
 
             const interfaceDef = `export interface ${className} {}`;
             const schemaDef = `export const ${className} = S.suspend(() => S.Struct({})${innerPipe})${outerAnnotation} as any as S.Schema<${className}>;`;
@@ -2598,7 +2593,7 @@ const generateClient = Effect.fn(function* (
               innerPipe = `.pipe(T.all(${classAnnotations.join(", ")}))`;
             }
             // identifier annotation must be on the suspend, not inside it, for JSONSchema.make() to work
-            const outerAnnotation = `.annotations({ identifier: "${className}" })`;
+            const outerAnnotation = `.annotate({ identifier: "${className}" })`;
 
             const interfaceDef = `export interface ${className} {}`;
             const schemaDef = `export const ${className} = S.suspend(() => S.Struct({})${innerPipe})${outerAnnotation} as any as S.Schema<${className}>;`;
@@ -2800,7 +2795,7 @@ const generateClient = Effect.fn(function* (
                       // Enums are generated as literal unions with type aliases
                       itemType = memberName;
                     } else if (memberShape.type === "document") {
-                      // Document types are converted to S.Any -> unknown
+                      // Document types are converted to S.Top -> unknown
                       itemType = "unknown";
                     } else if (memberShape.type === "map") {
                       // Maps are inlined - get the value type
@@ -2916,7 +2911,7 @@ const generateClient = Effect.fn(function* (
     // (traits.ts has circular deps with protocols, but sensitive.ts doesn't)
     // Use lowercase import aliases to avoid conflicts with schema names
     const imports = dedent`
-      import { HttpClient } from "@effect/platform";
+      import * as HttpClient from "effect/unstable/http/HttpClient";
       import * as effect from "effect/Effect";
       import * as redacted from "effect/Redacted";
       import * as S from "effect/Schema";
@@ -3170,7 +3165,7 @@ BunRuntime.runMain(
           yield* generateClient(modelPath, RESULT_ROOT_PATH);
         }).pipe(
           Effect.andThen(() => Console.log(`✅ ${service}`)),
-          Effect.catchAll(
+          Effect.catch(
             (error) =>
               Console.error(
                 `❌ ${service}\n\tUnable to generate client: ${error}`,
@@ -3204,10 +3199,13 @@ BunRuntime.runMain(
       indexExports + "\n",
     );
 
-    yield* Command.make("bun", "format").pipe(Command.string);
+    yield* ChildProcess.make("bun format", {
+      shell: true,
+    }).pipe(ChildProcess.string);
   }).pipe(
-    Logger.withMinimumLogLevel(LogLevel.Error),
-    Effect.provide(BunContext.layer),
+    // TODO(sam): how to migrate this to Effect v4
+    // Logger.withMinimumLogLevel(LogLevel.isGreaterThan("Error")),
+    Effect.provide(BunServices.layer),
   ),
 );
 

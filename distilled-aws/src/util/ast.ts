@@ -26,24 +26,24 @@ export function unwrapUnion(ast: AST.AST): AST.AST {
  * Get the identifier (class name) from an AST node
  */
 export function getIdentifier(ast: AST.AST): string | undefined {
-  // Check annotations on current node FIRST (handles S.suspend with .annotations())
-  const directId = ast.annotations?.[Identifier];
+  // Check annotations on current node FIRST (handles S.suspend with .annotate())
+  const directId = ast.annotate?.[Identifier];
   if (typeof directId === "string") return directId;
 
   // Handle S.suspend - check the inner AST
   if (ast._tag === "Suspend") {
-    return getIdentifier(ast.f());
+    return getIdentifier(ast.thunk());
   }
 
   const unwrapped = unwrapUnion(ast);
   if (unwrapped !== ast) return getIdentifier(unwrapped);
 
   if (unwrapped._tag === "Transformation" && unwrapped.to) {
-    const id = unwrapped.to.annotations?.[Identifier];
+    const id = unwrapped.to.annotate?.[Identifier];
     if (typeof id === "string") return id;
   }
   if (unwrapped._tag === "Declaration") {
-    const id = unwrapped.annotations?.[Identifier];
+    const id = unwrapped.annotate?.[Identifier];
     if (typeof id === "string") return id;
   }
   return undefined;
@@ -60,19 +60,17 @@ export function getPropertySignatures(
 
   // Handle S.suspend - call the thunk to get the actual AST
   if (unwrapped._tag === "Suspend") {
-    return getPropertySignatures(unwrapped.f());
+    return getPropertySignatures(unwrapped.thunk());
   }
 
   if (unwrapped._tag === "Transformation" && unwrapped.to) {
-    const surrogate = unwrapped.to.annotations?.[Surrogate] as
-      | AST.AST
-      | undefined;
+    const surrogate = unwrapped.to.annotate?.[Surrogate] as AST.AST | undefined;
     if (surrogate && surrogate._tag === "TypeLiteral") {
       return surrogate.propertySignatures;
     }
   }
   if (unwrapped._tag === "Declaration") {
-    const surrogate = unwrapped.annotations?.[Surrogate] as AST.AST | undefined;
+    const surrogate = unwrapped.annotate?.[Surrogate] as AST.AST | undefined;
     if (surrogate && surrogate._tag === "TypeLiteral") {
       return surrogate.propertySignatures;
     }
@@ -99,7 +97,7 @@ function findEncodedTypeLiteral(ast: AST.AST): AST.TypeLiteral | undefined {
   }
   // Handle S.suspend - call the thunk to get the actual AST
   if (ast._tag === "Suspend") {
-    return findEncodedTypeLiteral(ast.f());
+    return findEncodedTypeLiteral(ast.thunk());
   }
   return undefined;
 }
@@ -191,7 +189,7 @@ export function isDateAST(ast: AST.AST): boolean {
     unwrapped._tag === "Transformation" &&
     unwrapped.to?._tag === "Declaration"
   ) {
-    const id = unwrapped.to.annotations?.[Identifier];
+    const id = unwrapped.to.annotate?.[Identifier];
     if (id === "Date" || id === "DateFromSelf") return true;
   }
   return false;
@@ -202,7 +200,7 @@ export function isDateAST(ast: AST.AST): boolean {
  */
 export function getXmlNamespace(ast: AST.AST): string | undefined {
   // Check annotations on the current node first (handles S.suspend with .pipe())
-  const directNs = ast.annotations?.[xmlNamespaceSymbol] as string | undefined;
+  const directNs = ast.annotate?.[xmlNamespaceSymbol] as string | undefined;
   if (directNs) return directNs;
 
   // Handle S.suspend - check the inner AST but preserve outer annotations
@@ -214,12 +212,12 @@ export function getXmlNamespace(ast: AST.AST): string | undefined {
   if (unwrapped !== ast) return getXmlNamespace(unwrapped);
 
   if (unwrapped._tag === "Transformation" && unwrapped.to) {
-    const ns = unwrapped.to.annotations?.[xmlNamespaceSymbol] as
+    const ns = unwrapped.to.annotate?.[xmlNamespaceSymbol] as
       | string
       | undefined;
     if (ns) return ns;
   }
-  return unwrapped.annotations?.[xmlNamespaceSymbol] as string | undefined;
+  return unwrapped.annotate?.[xmlNamespaceSymbol] as string | undefined;
 }
 
 /**
@@ -227,7 +225,7 @@ export function getXmlNamespace(ast: AST.AST): string | undefined {
  */
 export function getXmlNameFromAST(ast: AST.AST): string | undefined {
   // Check annotations on the current node first (handles S.suspend with .pipe())
-  const directName = ast.annotations?.[xmlNameSymbol] as string | undefined;
+  const directName = ast.annotate?.[xmlNameSymbol] as string | undefined;
   if (directName) return directName;
 
   // Handle S.suspend - check the inner AST but preserve outer annotations
@@ -239,12 +237,10 @@ export function getXmlNameFromAST(ast: AST.AST): string | undefined {
   if (unwrapped !== ast) return getXmlNameFromAST(unwrapped);
 
   if (unwrapped._tag === "Transformation" && unwrapped.to) {
-    const name = unwrapped.to.annotations?.[xmlNameSymbol] as
-      | string
-      | undefined;
+    const name = unwrapped.to.annotate?.[xmlNameSymbol] as string | undefined;
     if (name) return name;
   }
-  return unwrapped.annotations?.[xmlNameSymbol] as string | undefined;
+  return unwrapped.annotate?.[xmlNameSymbol] as string | undefined;
 }
 
 /**

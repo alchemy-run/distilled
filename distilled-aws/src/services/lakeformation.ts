@@ -1,4 +1,4 @@
-import { HttpClient } from "@effect/platform";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as effect from "effect/Effect";
 import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
@@ -88,194 +88,82 @@ const rules = T.EndpointResolver((p, _) => {
 
 //# Newtypes
 export type CatalogIdString = string;
+export type NameString = string;
+export type ResourceArnString = string;
+export type LFTagValue = string;
+export type LFTagKey = string;
+export type DescriptionString = string;
+export type MessageString = string;
 export type SAMLAssertionString = string;
 export type IAMRoleArn = string;
 export type IAMSAMLProviderArn = string;
 export type CredentialTimeoutDurationSecondInteger = number;
+export type AccessKeyIdString = string;
+export type SecretAccessKeyString = string;
+export type SessionTokenString = string;
+export type ExpirationTimestamp = Date;
+export type Identifier = string;
+export type DataLakePrincipalString = string;
+export type ExpressionString = string;
 export type TransactionIdString = string;
+export type PredicateString = string;
+export type VersionString = string;
 export type IdentityCenterInstanceArn = string;
-export type LFTagKey = string;
-export type LFTagValue = string;
-export type NameString = string;
-export type DescriptionString = string;
-export type ResourceArnString = string;
+export type ScopeTarget = string;
+export type ApplicationArn = string;
+export type URI = string;
+export type ETagString = string;
+export type RAMResourceShareArn = string;
+export type LastModifiedTimestamp = Date;
 export type IdentityString = string;
+export type KeyString = string;
+export type ParametersMapValue = string;
 export type Token = string;
 export type PageSize = number;
 export type GetQueryStateRequestQueryIdString = string;
+export type ErrorMessageString = string;
 export type GetQueryStatisticsRequestQueryIdString = string;
+export type NumberOfMilliseconds = number;
+export type NumberOfBytes = number;
+export type NumberOfItems = number;
 export type BooleanNullable = boolean;
-export type PredicateString = string;
 export type TokenString = string;
+export type PartitionValueString = string;
+export type ObjectSize = number;
+export type ValueString = string;
+export type AuditContextString = string;
 export type PathString = string;
+export type HashString = string;
+export type NullableString = string;
+export type ContextKey = string;
+export type ContextValue = string;
 export type GetWorkUnitResultsRequestQueryIdString = string;
 export type GetWorkUnitResultsRequestWorkUnitIdLong = number;
 export type SyntheticGetWorkUnitResultsRequestWorkUnitTokenString =
   | string
   | redacted.Redacted<string>;
 export type GetWorkUnitsRequestQueryIdString = string;
+export type QueryIdString = string;
+export type WorkUnitIdLong = number;
+export type WorkUnitTokenString = string;
 export type TrueFalseString = string;
+export type StringValue = string;
+export type StorageOptimizerConfigKey = string;
+export type StorageOptimizerConfigValue = string;
 export type SearchPageSize = number;
+export type QueryPlanningContextDatabaseNameString = string;
 export type SyntheticStartQueryPlanningRequestQueryString =
   | string
   | redacted.Redacted<string>;
-export type Identifier = string;
-export type VersionString = string;
-export type ScopeTarget = string;
-export type DataLakePrincipalString = string;
-export type ExpressionString = string;
-export type URI = string;
-export type ETagString = string;
-export type ValueString = string;
-export type AuditContextString = string;
-export type HashString = string;
-export type NullableString = string;
-export type StringValue = string;
-export type QueryPlanningContextDatabaseNameString = string;
-export type AccessKeyIdString = string;
-export type SecretAccessKeyString = string;
-export type SessionTokenString = string;
-export type ExpirationTimestamp = Date;
-export type MessageString = string;
-export type ApplicationArn = string;
-export type RAMResourceShareArn = string;
-export type ErrorMessageString = string;
-export type QueryIdString = string;
-export type ContextKey = string;
-export type ContextValue = string;
-export type KeyString = string;
-export type ParametersMapValue = string;
-export type ObjectSize = number;
-export type PartitionValueString = string;
-export type StorageOptimizerConfigKey = string;
-export type StorageOptimizerConfigValue = string;
-export type LastModifiedTimestamp = Date;
-export type NumberOfMilliseconds = number;
-export type NumberOfBytes = number;
-export type NumberOfItems = number;
-export type WorkUnitIdLong = number;
-export type WorkUnitTokenString = string;
 export type Result = string;
 
 //# Schemas
-export interface GetDataLakePrincipalRequest {}
-export const GetDataLakePrincipalRequest = S.suspend(() =>
-  S.Struct({}).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/GetDataLakePrincipal" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "GetDataLakePrincipalRequest",
-}) as any as S.Schema<GetDataLakePrincipalRequest>;
-export type TagValueList = string[];
-export const TagValueList = S.Array(S.String);
-export type Permission =
-  | "ALL"
-  | "SELECT"
-  | "ALTER"
-  | "DROP"
-  | "DELETE"
-  | "INSERT"
-  | "DESCRIBE"
-  | "CREATE_DATABASE"
-  | "CREATE_TABLE"
-  | "DATA_LOCATION_ACCESS"
-  | "CREATE_LF_TAG"
-  | "ASSOCIATE"
-  | "GRANT_WITH_LF_TAG_EXPRESSION"
-  | "CREATE_LF_TAG_EXPRESSION"
-  | "CREATE_CATALOG"
-  | "SUPER_USER"
-  | (string & {});
-export const Permission = S.String;
-export type PermissionList = Permission[];
-export const PermissionList = S.Array(Permission);
-export type PermissionType =
-  | "COLUMN_PERMISSION"
-  | "CELL_FILTER_PERMISSION"
-  | "NESTED_PERMISSION"
-  | "NESTED_CELL_PERMISSION"
-  | (string & {});
-export const PermissionType = S.String;
-export type PermissionTypeList = PermissionType[];
-export const PermissionTypeList = S.Array(PermissionType);
-export type ResourceShareType = "FOREIGN" | "ALL" | (string & {});
-export const ResourceShareType = S.String;
-export type DataLakeResourceType =
-  | "CATALOG"
-  | "DATABASE"
-  | "TABLE"
-  | "DATA_LOCATION"
-  | "LF_TAG"
-  | "LF_TAG_POLICY"
-  | "LF_TAG_POLICY_DATABASE"
-  | "LF_TAG_POLICY_TABLE"
-  | "LF_NAMED_TAG_EXPRESSION"
-  | (string & {});
-export const DataLakeResourceType = S.String;
-export type OptimizerType =
-  | "COMPACTION"
-  | "GARBAGE_COLLECTION"
-  | "ALL"
-  | (string & {});
-export const OptimizerType = S.String;
-export type TransactionStatusFilter =
-  | "ALL"
-  | "COMPLETED"
-  | "ACTIVE"
-  | "COMMITTED"
-  | "ABORTED"
-  | (string & {});
-export const TransactionStatusFilter = S.String;
-export type TransactionType = "READ_AND_WRITE" | "READ_ONLY" | (string & {});
-export const TransactionType = S.String;
-export type ApplicationStatus = "ENABLED" | "DISABLED" | (string & {});
-export const ApplicationStatus = S.String;
-export interface AssumeDecoratedRoleWithSAMLRequest {
-  SAMLAssertion: string;
-  RoleArn: string;
-  PrincipalArn: string;
-  DurationSeconds?: number;
-}
-export const AssumeDecoratedRoleWithSAMLRequest = S.suspend(() =>
-  S.Struct({
-    SAMLAssertion: S.String,
-    RoleArn: S.String,
-    PrincipalArn: S.String,
-    DurationSeconds: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/AssumeDecoratedRoleWithSAML" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "AssumeDecoratedRoleWithSAMLRequest",
-}) as any as S.Schema<AssumeDecoratedRoleWithSAMLRequest>;
-export interface DataLakePrincipal {
-  DataLakePrincipalIdentifier?: string;
-}
-export const DataLakePrincipal = S.suspend(() =>
-  S.Struct({ DataLakePrincipalIdentifier: S.optional(S.String) }),
-).annotations({
-  identifier: "DataLakePrincipal",
-}) as any as S.Schema<DataLakePrincipal>;
 export interface CatalogResource {
   Id?: string;
 }
 export const CatalogResource = S.suspend(() =>
   S.Struct({ Id: S.optional(S.String) }),
-).annotations({
+).annotate({
   identifier: "CatalogResource",
 }) as any as S.Schema<CatalogResource>;
 export interface DatabaseResource {
@@ -284,11 +172,11 @@ export interface DatabaseResource {
 }
 export const DatabaseResource = S.suspend(() =>
   S.Struct({ CatalogId: S.optional(S.String), Name: S.String }),
-).annotations({
+).annotate({
   identifier: "DatabaseResource",
 }) as any as S.Schema<DatabaseResource>;
 export interface TableWildcard {}
-export const TableWildcard = S.suspend(() => S.Struct({})).annotations({
+export const TableWildcard = S.suspend(() => S.Struct({})).annotate({
   identifier: "TableWildcard",
 }) as any as S.Schema<TableWildcard>;
 export interface TableResource {
@@ -304,9 +192,7 @@ export const TableResource = S.suspend(() =>
     Name: S.optional(S.String),
     TableWildcard: S.optional(TableWildcard),
   }),
-).annotations({
-  identifier: "TableResource",
-}) as any as S.Schema<TableResource>;
+).annotate({ identifier: "TableResource" }) as any as S.Schema<TableResource>;
 export type ColumnNames = string[];
 export const ColumnNames = S.Array(S.String);
 export interface ColumnWildcard {
@@ -314,9 +200,7 @@ export interface ColumnWildcard {
 }
 export const ColumnWildcard = S.suspend(() =>
   S.Struct({ ExcludedColumnNames: S.optional(ColumnNames) }),
-).annotations({
-  identifier: "ColumnWildcard",
-}) as any as S.Schema<ColumnWildcard>;
+).annotate({ identifier: "ColumnWildcard" }) as any as S.Schema<ColumnWildcard>;
 export interface TableWithColumnsResource {
   CatalogId?: string;
   DatabaseName: string;
@@ -332,7 +216,7 @@ export const TableWithColumnsResource = S.suspend(() =>
     ColumnNames: S.optional(ColumnNames),
     ColumnWildcard: S.optional(ColumnWildcard),
   }),
-).annotations({
+).annotate({
   identifier: "TableWithColumnsResource",
 }) as any as S.Schema<TableWithColumnsResource>;
 export interface DataLocationResource {
@@ -341,7 +225,7 @@ export interface DataLocationResource {
 }
 export const DataLocationResource = S.suspend(() =>
   S.Struct({ CatalogId: S.optional(S.String), ResourceArn: S.String }),
-).annotations({
+).annotate({
   identifier: "DataLocationResource",
 }) as any as S.Schema<DataLocationResource>;
 export interface DataCellsFilterResource {
@@ -357,9 +241,11 @@ export const DataCellsFilterResource = S.suspend(() =>
     TableName: S.optional(S.String),
     Name: S.optional(S.String),
   }),
-).annotations({
+).annotate({
   identifier: "DataCellsFilterResource",
 }) as any as S.Schema<DataCellsFilterResource>;
+export type TagValueList = string[];
+export const TagValueList = S.Array(S.String);
 export interface LFTagKeyResource {
   CatalogId?: string;
   TagKey: string;
@@ -371,7 +257,7 @@ export const LFTagKeyResource = S.suspend(() =>
     TagKey: S.String,
     TagValues: TagValueList,
   }),
-).annotations({
+).annotate({
   identifier: "LFTagKeyResource",
 }) as any as S.Schema<LFTagKeyResource>;
 export type ResourceType = "DATABASE" | "TABLE" | (string & {});
@@ -382,7 +268,7 @@ export interface LFTag {
 }
 export const LFTag = S.suspend(() =>
   S.Struct({ TagKey: S.String, TagValues: TagValueList }),
-).annotations({ identifier: "LFTag" }) as any as S.Schema<LFTag>;
+).annotate({ identifier: "LFTag" }) as any as S.Schema<LFTag>;
 export type Expression = LFTag[];
 export const Expression = S.Array(LFTag);
 export interface LFTagPolicyResource {
@@ -398,7 +284,7 @@ export const LFTagPolicyResource = S.suspend(() =>
     Expression: S.optional(Expression),
     ExpressionName: S.optional(S.String),
   }),
-).annotations({
+).annotate({
   identifier: "LFTagPolicyResource",
 }) as any as S.Schema<LFTagPolicyResource>;
 export interface LFTagExpressionResource {
@@ -407,7 +293,7 @@ export interface LFTagExpressionResource {
 }
 export const LFTagExpressionResource = S.suspend(() =>
   S.Struct({ CatalogId: S.optional(S.String), Name: S.String }),
-).annotations({
+).annotate({
   identifier: "LFTagExpressionResource",
 }) as any as S.Schema<LFTagExpressionResource>;
 export interface Resource {
@@ -433,13 +319,147 @@ export const Resource = S.suspend(() =>
     LFTagPolicy: S.optional(LFTagPolicyResource),
     LFTagExpression: S.optional(LFTagExpressionResource),
   }),
-).annotations({ identifier: "Resource" }) as any as S.Schema<Resource>;
+).annotate({ identifier: "Resource" }) as any as S.Schema<Resource>;
+export interface LFTagPair {
+  CatalogId?: string;
+  TagKey: string;
+  TagValues: string[];
+}
+export const LFTagPair = S.suspend(() =>
+  S.Struct({
+    CatalogId: S.optional(S.String),
+    TagKey: S.String,
+    TagValues: TagValueList,
+  }),
+).annotate({ identifier: "LFTagPair" }) as any as S.Schema<LFTagPair>;
+export type LFTagsList = LFTagPair[];
+export const LFTagsList = S.Array(LFTagPair);
+export interface AddLFTagsToResourceRequest {
+  CatalogId?: string;
+  Resource: Resource;
+  LFTags: LFTagPair[];
+}
+export const AddLFTagsToResourceRequest = S.suspend(() =>
+  S.Struct({
+    CatalogId: S.optional(S.String),
+    Resource: Resource,
+    LFTags: LFTagsList,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/AddLFTagsToResource" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "AddLFTagsToResourceRequest",
+}) as any as S.Schema<AddLFTagsToResourceRequest>;
+export interface ErrorDetail {
+  ErrorCode?: string;
+  ErrorMessage?: string;
+}
+export const ErrorDetail = S.suspend(() =>
+  S.Struct({
+    ErrorCode: S.optional(S.String),
+    ErrorMessage: S.optional(S.String),
+  }),
+).annotate({ identifier: "ErrorDetail" }) as any as S.Schema<ErrorDetail>;
+export interface LFTagError {
+  LFTag?: LFTagPair;
+  Error?: ErrorDetail;
+}
+export const LFTagError = S.suspend(() =>
+  S.Struct({ LFTag: S.optional(LFTagPair), Error: S.optional(ErrorDetail) }),
+).annotate({ identifier: "LFTagError" }) as any as S.Schema<LFTagError>;
+export type LFTagErrors = LFTagError[];
+export const LFTagErrors = S.Array(LFTagError);
+export interface AddLFTagsToResourceResponse {
+  Failures?: LFTagError[];
+}
+export const AddLFTagsToResourceResponse = S.suspend(() =>
+  S.Struct({ Failures: S.optional(LFTagErrors) }),
+).annotate({
+  identifier: "AddLFTagsToResourceResponse",
+}) as any as S.Schema<AddLFTagsToResourceResponse>;
+export interface AssumeDecoratedRoleWithSAMLRequest {
+  SAMLAssertion: string;
+  RoleArn: string;
+  PrincipalArn: string;
+  DurationSeconds?: number;
+}
+export const AssumeDecoratedRoleWithSAMLRequest = S.suspend(() =>
+  S.Struct({
+    SAMLAssertion: S.String,
+    RoleArn: S.String,
+    PrincipalArn: S.String,
+    DurationSeconds: S.optional(S.Number),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/AssumeDecoratedRoleWithSAML" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "AssumeDecoratedRoleWithSAMLRequest",
+}) as any as S.Schema<AssumeDecoratedRoleWithSAMLRequest>;
+export interface AssumeDecoratedRoleWithSAMLResponse {
+  AccessKeyId?: string;
+  SecretAccessKey?: string;
+  SessionToken?: string;
+  Expiration?: Date;
+}
+export const AssumeDecoratedRoleWithSAMLResponse = S.suspend(() =>
+  S.Struct({
+    AccessKeyId: S.optional(S.String),
+    SecretAccessKey: S.optional(S.String),
+    SessionToken: S.optional(S.String),
+    Expiration: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotate({
+  identifier: "AssumeDecoratedRoleWithSAMLResponse",
+}) as any as S.Schema<AssumeDecoratedRoleWithSAMLResponse>;
+export interface DataLakePrincipal {
+  DataLakePrincipalIdentifier?: string;
+}
+export const DataLakePrincipal = S.suspend(() =>
+  S.Struct({ DataLakePrincipalIdentifier: S.optional(S.String) }),
+).annotate({
+  identifier: "DataLakePrincipal",
+}) as any as S.Schema<DataLakePrincipal>;
+export type Permission =
+  | "ALL"
+  | "SELECT"
+  | "ALTER"
+  | "DROP"
+  | "DELETE"
+  | "INSERT"
+  | "DESCRIBE"
+  | "CREATE_DATABASE"
+  | "CREATE_TABLE"
+  | "DATA_LOCATION_ACCESS"
+  | "CREATE_LF_TAG"
+  | "ASSOCIATE"
+  | "GRANT_WITH_LF_TAG_EXPRESSION"
+  | "CREATE_LF_TAG_EXPRESSION"
+  | "CREATE_CATALOG"
+  | "SUPER_USER"
+  | (string & {});
+export const Permission = S.String;
+export type PermissionList = Permission[];
+export const PermissionList = S.Array(Permission);
 export interface Condition {
   Expression?: string;
 }
 export const Condition = S.suspend(() =>
   S.Struct({ Expression: S.optional(S.String) }),
-).annotations({ identifier: "Condition" }) as any as S.Schema<Condition>;
+).annotate({ identifier: "Condition" }) as any as S.Schema<Condition>;
 export interface BatchPermissionsRequestEntry {
   Id: string;
   Principal?: DataLakePrincipal;
@@ -457,13 +477,58 @@ export const BatchPermissionsRequestEntry = S.suspend(() =>
     Condition: S.optional(Condition),
     PermissionsWithGrantOption: S.optional(PermissionList),
   }),
-).annotations({
+).annotate({
   identifier: "BatchPermissionsRequestEntry",
 }) as any as S.Schema<BatchPermissionsRequestEntry>;
 export type BatchPermissionsRequestEntryList = BatchPermissionsRequestEntry[];
 export const BatchPermissionsRequestEntryList = S.Array(
   BatchPermissionsRequestEntry,
 );
+export interface BatchGrantPermissionsRequest {
+  CatalogId?: string;
+  Entries: BatchPermissionsRequestEntry[];
+}
+export const BatchGrantPermissionsRequest = S.suspend(() =>
+  S.Struct({
+    CatalogId: S.optional(S.String),
+    Entries: BatchPermissionsRequestEntryList,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/BatchGrantPermissions" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "BatchGrantPermissionsRequest",
+}) as any as S.Schema<BatchGrantPermissionsRequest>;
+export interface BatchPermissionsFailureEntry {
+  RequestEntry?: BatchPermissionsRequestEntry;
+  Error?: ErrorDetail;
+}
+export const BatchPermissionsFailureEntry = S.suspend(() =>
+  S.Struct({
+    RequestEntry: S.optional(BatchPermissionsRequestEntry),
+    Error: S.optional(ErrorDetail),
+  }),
+).annotate({
+  identifier: "BatchPermissionsFailureEntry",
+}) as any as S.Schema<BatchPermissionsFailureEntry>;
+export type BatchPermissionsFailureList = BatchPermissionsFailureEntry[];
+export const BatchPermissionsFailureList = S.Array(
+  BatchPermissionsFailureEntry,
+);
+export interface BatchGrantPermissionsResponse {
+  Failures?: BatchPermissionsFailureEntry[];
+}
+export const BatchGrantPermissionsResponse = S.suspend(() =>
+  S.Struct({ Failures: S.optional(BatchPermissionsFailureList) }),
+).annotate({
+  identifier: "BatchGrantPermissionsResponse",
+}) as any as S.Schema<BatchGrantPermissionsResponse>;
 export interface BatchRevokePermissionsRequest {
   CatalogId?: string;
   Entries: BatchPermissionsRequestEntry[];
@@ -482,9 +547,17 @@ export const BatchRevokePermissionsRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "BatchRevokePermissionsRequest",
 }) as any as S.Schema<BatchRevokePermissionsRequest>;
+export interface BatchRevokePermissionsResponse {
+  Failures?: BatchPermissionsFailureEntry[];
+}
+export const BatchRevokePermissionsResponse = S.suspend(() =>
+  S.Struct({ Failures: S.optional(BatchPermissionsFailureList) }),
+).annotate({
+  identifier: "BatchRevokePermissionsResponse",
+}) as any as S.Schema<BatchRevokePermissionsResponse>;
 export interface CancelTransactionRequest {
   TransactionId: string;
 }
@@ -499,15 +572,13 @@ export const CancelTransactionRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "CancelTransactionRequest",
 }) as any as S.Schema<CancelTransactionRequest>;
 export interface CancelTransactionResponse {}
-export const CancelTransactionResponse = S.suspend(() =>
-  S.Struct({}),
-).annotations({
-  identifier: "CancelTransactionResponse",
-}) as any as S.Schema<CancelTransactionResponse>;
+export const CancelTransactionResponse = S.suspend(() => S.Struct({})).annotate(
+  { identifier: "CancelTransactionResponse" },
+) as any as S.Schema<CancelTransactionResponse>;
 export interface CommitTransactionRequest {
   TransactionId: string;
 }
@@ -522,9 +593,190 @@ export const CommitTransactionRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "CommitTransactionRequest",
 }) as any as S.Schema<CommitTransactionRequest>;
+export type TransactionStatus =
+  | "ACTIVE"
+  | "COMMITTED"
+  | "ABORTED"
+  | "COMMIT_IN_PROGRESS"
+  | (string & {});
+export const TransactionStatus = S.String;
+export interface CommitTransactionResponse {
+  TransactionStatus?: TransactionStatus;
+}
+export const CommitTransactionResponse = S.suspend(() =>
+  S.Struct({ TransactionStatus: S.optional(TransactionStatus) }),
+).annotate({
+  identifier: "CommitTransactionResponse",
+}) as any as S.Schema<CommitTransactionResponse>;
+export interface AllRowsWildcard {}
+export const AllRowsWildcard = S.suspend(() => S.Struct({})).annotate({
+  identifier: "AllRowsWildcard",
+}) as any as S.Schema<AllRowsWildcard>;
+export interface RowFilter {
+  FilterExpression?: string;
+  AllRowsWildcard?: AllRowsWildcard;
+}
+export const RowFilter = S.suspend(() =>
+  S.Struct({
+    FilterExpression: S.optional(S.String),
+    AllRowsWildcard: S.optional(AllRowsWildcard),
+  }),
+).annotate({ identifier: "RowFilter" }) as any as S.Schema<RowFilter>;
+export interface DataCellsFilter {
+  TableCatalogId: string;
+  DatabaseName: string;
+  TableName: string;
+  Name: string;
+  RowFilter?: RowFilter;
+  ColumnNames?: string[];
+  ColumnWildcard?: ColumnWildcard;
+  VersionId?: string;
+}
+export const DataCellsFilter = S.suspend(() =>
+  S.Struct({
+    TableCatalogId: S.String,
+    DatabaseName: S.String,
+    TableName: S.String,
+    Name: S.String,
+    RowFilter: S.optional(RowFilter),
+    ColumnNames: S.optional(ColumnNames),
+    ColumnWildcard: S.optional(ColumnWildcard),
+    VersionId: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "DataCellsFilter",
+}) as any as S.Schema<DataCellsFilter>;
+export interface CreateDataCellsFilterRequest {
+  TableData: DataCellsFilter;
+}
+export const CreateDataCellsFilterRequest = S.suspend(() =>
+  S.Struct({ TableData: DataCellsFilter }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/CreateDataCellsFilter" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "CreateDataCellsFilterRequest",
+}) as any as S.Schema<CreateDataCellsFilterRequest>;
+export interface CreateDataCellsFilterResponse {}
+export const CreateDataCellsFilterResponse = S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "CreateDataCellsFilterResponse",
+}) as any as S.Schema<CreateDataCellsFilterResponse>;
+export type EnableStatus = "ENABLED" | "DISABLED" | (string & {});
+export const EnableStatus = S.String;
+export type ScopeTargets = string[];
+export const ScopeTargets = S.Array(S.String);
+export interface ExternalFilteringConfiguration {
+  Status: EnableStatus;
+  AuthorizedTargets: string[];
+}
+export const ExternalFilteringConfiguration = S.suspend(() =>
+  S.Struct({ Status: EnableStatus, AuthorizedTargets: ScopeTargets }),
+).annotate({
+  identifier: "ExternalFilteringConfiguration",
+}) as any as S.Schema<ExternalFilteringConfiguration>;
+export type DataLakePrincipalList = DataLakePrincipal[];
+export const DataLakePrincipalList = S.Array(DataLakePrincipal);
+export type ServiceAuthorization = "ENABLED" | "DISABLED" | (string & {});
+export const ServiceAuthorization = S.String;
+export interface RedshiftConnect {
+  Authorization: ServiceAuthorization;
+}
+export const RedshiftConnect = S.suspend(() =>
+  S.Struct({ Authorization: ServiceAuthorization }),
+).annotate({
+  identifier: "RedshiftConnect",
+}) as any as S.Schema<RedshiftConnect>;
+export type RedshiftScopeUnion = { RedshiftConnect: RedshiftConnect };
+export const RedshiftScopeUnion = S.Union([
+  S.Struct({ RedshiftConnect: RedshiftConnect }),
+]);
+export type RedshiftServiceIntegrations = RedshiftScopeUnion[];
+export const RedshiftServiceIntegrations = S.Array(RedshiftScopeUnion);
+export type ServiceIntegrationUnion = { Redshift: RedshiftScopeUnion[] };
+export const ServiceIntegrationUnion = S.Union([
+  S.Struct({ Redshift: RedshiftServiceIntegrations }),
+]);
+export type ServiceIntegrationList = ServiceIntegrationUnion[];
+export const ServiceIntegrationList = S.Array(ServiceIntegrationUnion);
+export interface CreateLakeFormationIdentityCenterConfigurationRequest {
+  CatalogId?: string;
+  InstanceArn?: string;
+  ExternalFiltering?: ExternalFilteringConfiguration;
+  ShareRecipients?: DataLakePrincipal[];
+  ServiceIntegrations?: ServiceIntegrationUnion[];
+}
+export const CreateLakeFormationIdentityCenterConfigurationRequest = S.suspend(
+  () =>
+    S.Struct({
+      CatalogId: S.optional(S.String),
+      InstanceArn: S.optional(S.String),
+      ExternalFiltering: S.optional(ExternalFilteringConfiguration),
+      ShareRecipients: S.optional(DataLakePrincipalList),
+      ServiceIntegrations: S.optional(ServiceIntegrationList),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "POST",
+          uri: "/CreateLakeFormationIdentityCenterConfiguration",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
+    ),
+).annotate({
+  identifier: "CreateLakeFormationIdentityCenterConfigurationRequest",
+}) as any as S.Schema<CreateLakeFormationIdentityCenterConfigurationRequest>;
+export interface CreateLakeFormationIdentityCenterConfigurationResponse {
+  ApplicationArn?: string;
+}
+export const CreateLakeFormationIdentityCenterConfigurationResponse = S.suspend(
+  () => S.Struct({ ApplicationArn: S.optional(S.String) }),
+).annotate({
+  identifier: "CreateLakeFormationIdentityCenterConfigurationResponse",
+}) as any as S.Schema<CreateLakeFormationIdentityCenterConfigurationResponse>;
+export interface CreateLakeFormationOptInRequest {
+  Principal: DataLakePrincipal;
+  Resource: Resource;
+  Condition?: Condition;
+}
+export const CreateLakeFormationOptInRequest = S.suspend(() =>
+  S.Struct({
+    Principal: DataLakePrincipal,
+    Resource: Resource,
+    Condition: S.optional(Condition),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/CreateLakeFormationOptIn" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "CreateLakeFormationOptInRequest",
+}) as any as S.Schema<CreateLakeFormationOptInRequest>;
+export interface CreateLakeFormationOptInResponse {}
+export const CreateLakeFormationOptInResponse = S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "CreateLakeFormationOptInResponse",
+}) as any as S.Schema<CreateLakeFormationOptInResponse>;
 export interface CreateLFTagRequest {
   CatalogId?: string;
   TagKey: string;
@@ -545,13 +797,44 @@ export const CreateLFTagRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "CreateLFTagRequest",
 }) as any as S.Schema<CreateLFTagRequest>;
 export interface CreateLFTagResponse {}
-export const CreateLFTagResponse = S.suspend(() => S.Struct({})).annotations({
+export const CreateLFTagResponse = S.suspend(() => S.Struct({})).annotate({
   identifier: "CreateLFTagResponse",
 }) as any as S.Schema<CreateLFTagResponse>;
+export interface CreateLFTagExpressionRequest {
+  Name: string;
+  Description?: string;
+  CatalogId?: string;
+  Expression: LFTag[];
+}
+export const CreateLFTagExpressionRequest = S.suspend(() =>
+  S.Struct({
+    Name: S.String,
+    Description: S.optional(S.String),
+    CatalogId: S.optional(S.String),
+    Expression: Expression,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/CreateLFTagExpression" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "CreateLFTagExpressionRequest",
+}) as any as S.Schema<CreateLFTagExpressionRequest>;
+export interface CreateLFTagExpressionResponse {}
+export const CreateLFTagExpressionResponse = S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "CreateLFTagExpressionResponse",
+}) as any as S.Schema<CreateLFTagExpressionResponse>;
 export interface DeleteDataCellsFilterRequest {
   TableCatalogId?: string;
   DatabaseName?: string;
@@ -574,13 +857,13 @@ export const DeleteDataCellsFilterRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "DeleteDataCellsFilterRequest",
 }) as any as S.Schema<DeleteDataCellsFilterRequest>;
 export interface DeleteDataCellsFilterResponse {}
 export const DeleteDataCellsFilterResponse = S.suspend(() =>
   S.Struct({}),
-).annotations({
+).annotate({
   identifier: "DeleteDataCellsFilterResponse",
 }) as any as S.Schema<DeleteDataCellsFilterResponse>;
 export interface DeleteLakeFormationIdentityCenterConfigurationRequest {
@@ -601,13 +884,13 @@ export const DeleteLakeFormationIdentityCenterConfigurationRequest = S.suspend(
         rules,
       ),
     ),
-).annotations({
+).annotate({
   identifier: "DeleteLakeFormationIdentityCenterConfigurationRequest",
 }) as any as S.Schema<DeleteLakeFormationIdentityCenterConfigurationRequest>;
 export interface DeleteLakeFormationIdentityCenterConfigurationResponse {}
 export const DeleteLakeFormationIdentityCenterConfigurationResponse = S.suspend(
   () => S.Struct({}),
-).annotations({
+).annotate({
   identifier: "DeleteLakeFormationIdentityCenterConfigurationResponse",
 }) as any as S.Schema<DeleteLakeFormationIdentityCenterConfigurationResponse>;
 export interface DeleteLakeFormationOptInRequest {
@@ -630,13 +913,13 @@ export const DeleteLakeFormationOptInRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "DeleteLakeFormationOptInRequest",
 }) as any as S.Schema<DeleteLakeFormationOptInRequest>;
 export interface DeleteLakeFormationOptInResponse {}
 export const DeleteLakeFormationOptInResponse = S.suspend(() =>
   S.Struct({}),
-).annotations({
+).annotate({
   identifier: "DeleteLakeFormationOptInResponse",
 }) as any as S.Schema<DeleteLakeFormationOptInResponse>;
 export interface DeleteLFTagRequest {
@@ -654,11 +937,11 @@ export const DeleteLFTagRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "DeleteLFTagRequest",
 }) as any as S.Schema<DeleteLFTagRequest>;
 export interface DeleteLFTagResponse {}
-export const DeleteLFTagResponse = S.suspend(() => S.Struct({})).annotations({
+export const DeleteLFTagResponse = S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteLFTagResponse",
 }) as any as S.Schema<DeleteLFTagResponse>;
 export interface DeleteLFTagExpressionRequest {
@@ -676,15 +959,57 @@ export const DeleteLFTagExpressionRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "DeleteLFTagExpressionRequest",
 }) as any as S.Schema<DeleteLFTagExpressionRequest>;
 export interface DeleteLFTagExpressionResponse {}
 export const DeleteLFTagExpressionResponse = S.suspend(() =>
   S.Struct({}),
-).annotations({
+).annotate({
   identifier: "DeleteLFTagExpressionResponse",
 }) as any as S.Schema<DeleteLFTagExpressionResponse>;
+export interface VirtualObject {
+  Uri: string;
+  ETag?: string;
+}
+export const VirtualObject = S.suspend(() =>
+  S.Struct({ Uri: S.String, ETag: S.optional(S.String) }),
+).annotate({ identifier: "VirtualObject" }) as any as S.Schema<VirtualObject>;
+export type VirtualObjectList = VirtualObject[];
+export const VirtualObjectList = S.Array(VirtualObject);
+export interface DeleteObjectsOnCancelRequest {
+  CatalogId?: string;
+  DatabaseName: string;
+  TableName: string;
+  TransactionId: string;
+  Objects: VirtualObject[];
+}
+export const DeleteObjectsOnCancelRequest = S.suspend(() =>
+  S.Struct({
+    CatalogId: S.optional(S.String),
+    DatabaseName: S.String,
+    TableName: S.String,
+    TransactionId: S.String,
+    Objects: VirtualObjectList,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/DeleteObjectsOnCancel" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeleteObjectsOnCancelRequest",
+}) as any as S.Schema<DeleteObjectsOnCancelRequest>;
+export interface DeleteObjectsOnCancelResponse {}
+export const DeleteObjectsOnCancelResponse = S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "DeleteObjectsOnCancelResponse",
+}) as any as S.Schema<DeleteObjectsOnCancelResponse>;
 export interface DeregisterResourceRequest {
   ResourceArn: string;
 }
@@ -699,13 +1024,13 @@ export const DeregisterResourceRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "DeregisterResourceRequest",
 }) as any as S.Schema<DeregisterResourceRequest>;
 export interface DeregisterResourceResponse {}
 export const DeregisterResourceResponse = S.suspend(() =>
   S.Struct({}),
-).annotations({
+).annotate({
   identifier: "DeregisterResourceResponse",
 }) as any as S.Schema<DeregisterResourceResponse>;
 export interface DescribeLakeFormationIdentityCenterConfigurationRequest {
@@ -726,9 +1051,32 @@ export const DescribeLakeFormationIdentityCenterConfigurationRequest =
         rules,
       ),
     ),
-  ).annotations({
+  ).annotate({
     identifier: "DescribeLakeFormationIdentityCenterConfigurationRequest",
   }) as any as S.Schema<DescribeLakeFormationIdentityCenterConfigurationRequest>;
+export interface DescribeLakeFormationIdentityCenterConfigurationResponse {
+  CatalogId?: string;
+  InstanceArn?: string;
+  ApplicationArn?: string;
+  ExternalFiltering?: ExternalFilteringConfiguration;
+  ShareRecipients?: DataLakePrincipal[];
+  ServiceIntegrations?: ServiceIntegrationUnion[];
+  ResourceShare?: string;
+}
+export const DescribeLakeFormationIdentityCenterConfigurationResponse =
+  S.suspend(() =>
+    S.Struct({
+      CatalogId: S.optional(S.String),
+      InstanceArn: S.optional(S.String),
+      ApplicationArn: S.optional(S.String),
+      ExternalFiltering: S.optional(ExternalFilteringConfiguration),
+      ShareRecipients: S.optional(DataLakePrincipalList),
+      ServiceIntegrations: S.optional(ServiceIntegrationList),
+      ResourceShare: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "DescribeLakeFormationIdentityCenterConfigurationResponse",
+  }) as any as S.Schema<DescribeLakeFormationIdentityCenterConfigurationResponse>;
 export interface DescribeResourceRequest {
   ResourceArn: string;
 }
@@ -743,9 +1091,35 @@ export const DescribeResourceRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "DescribeResourceRequest",
 }) as any as S.Schema<DescribeResourceRequest>;
+export interface ResourceInfo {
+  ResourceArn?: string;
+  RoleArn?: string;
+  LastModified?: Date;
+  WithFederation?: boolean;
+  HybridAccessEnabled?: boolean;
+  WithPrivilegedAccess?: boolean;
+}
+export const ResourceInfo = S.suspend(() =>
+  S.Struct({
+    ResourceArn: S.optional(S.String),
+    RoleArn: S.optional(S.String),
+    LastModified: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    WithFederation: S.optional(S.Boolean),
+    HybridAccessEnabled: S.optional(S.Boolean),
+    WithPrivilegedAccess: S.optional(S.Boolean),
+  }),
+).annotate({ identifier: "ResourceInfo" }) as any as S.Schema<ResourceInfo>;
+export interface DescribeResourceResponse {
+  ResourceInfo?: ResourceInfo;
+}
+export const DescribeResourceResponse = S.suspend(() =>
+  S.Struct({ ResourceInfo: S.optional(ResourceInfo) }),
+).annotate({
+  identifier: "DescribeResourceResponse",
+}) as any as S.Schema<DescribeResourceResponse>;
 export interface DescribeTransactionRequest {
   TransactionId: string;
 }
@@ -760,9 +1134,37 @@ export const DescribeTransactionRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "DescribeTransactionRequest",
 }) as any as S.Schema<DescribeTransactionRequest>;
+export interface TransactionDescription {
+  TransactionId?: string;
+  TransactionStatus?: TransactionStatus;
+  TransactionStartTime?: Date;
+  TransactionEndTime?: Date;
+}
+export const TransactionDescription = S.suspend(() =>
+  S.Struct({
+    TransactionId: S.optional(S.String),
+    TransactionStatus: S.optional(TransactionStatus),
+    TransactionStartTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    TransactionEndTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }),
+).annotate({
+  identifier: "TransactionDescription",
+}) as any as S.Schema<TransactionDescription>;
+export interface DescribeTransactionResponse {
+  TransactionDescription?: TransactionDescription;
+}
+export const DescribeTransactionResponse = S.suspend(() =>
+  S.Struct({ TransactionDescription: S.optional(TransactionDescription) }),
+).annotate({
+  identifier: "DescribeTransactionResponse",
+}) as any as S.Schema<DescribeTransactionResponse>;
 export interface ExtendTransactionRequest {
   TransactionId?: string;
 }
@@ -777,15 +1179,13 @@ export const ExtendTransactionRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "ExtendTransactionRequest",
 }) as any as S.Schema<ExtendTransactionRequest>;
 export interface ExtendTransactionResponse {}
-export const ExtendTransactionResponse = S.suspend(() =>
-  S.Struct({}),
-).annotations({
-  identifier: "ExtendTransactionResponse",
-}) as any as S.Schema<ExtendTransactionResponse>;
+export const ExtendTransactionResponse = S.suspend(() => S.Struct({})).annotate(
+  { identifier: "ExtendTransactionResponse" },
+) as any as S.Schema<ExtendTransactionResponse>;
 export interface GetDataCellsFilterRequest {
   TableCatalogId: string;
   DatabaseName: string;
@@ -808,15 +1208,38 @@ export const GetDataCellsFilterRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "GetDataCellsFilterRequest",
 }) as any as S.Schema<GetDataCellsFilterRequest>;
+export interface GetDataCellsFilterResponse {
+  DataCellsFilter?: DataCellsFilter;
+}
+export const GetDataCellsFilterResponse = S.suspend(() =>
+  S.Struct({ DataCellsFilter: S.optional(DataCellsFilter) }),
+).annotate({
+  identifier: "GetDataCellsFilterResponse",
+}) as any as S.Schema<GetDataCellsFilterResponse>;
+export interface GetDataLakePrincipalRequest {}
+export const GetDataLakePrincipalRequest = S.suspend(() =>
+  S.Struct({}).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/GetDataLakePrincipal" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetDataLakePrincipalRequest",
+}) as any as S.Schema<GetDataLakePrincipalRequest>;
 export interface GetDataLakePrincipalResponse {
   Identity?: string;
 }
 export const GetDataLakePrincipalResponse = S.suspend(() =>
   S.Struct({ Identity: S.optional(S.String) }),
-).annotations({
+).annotate({
   identifier: "GetDataLakePrincipalResponse",
 }) as any as S.Schema<GetDataLakePrincipalResponse>;
 export interface GetDataLakeSettingsRequest {
@@ -833,9 +1256,65 @@ export const GetDataLakeSettingsRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "GetDataLakeSettingsRequest",
 }) as any as S.Schema<GetDataLakeSettingsRequest>;
+export interface PrincipalPermissions {
+  Principal?: DataLakePrincipal;
+  Permissions?: Permission[];
+}
+export const PrincipalPermissions = S.suspend(() =>
+  S.Struct({
+    Principal: S.optional(DataLakePrincipal),
+    Permissions: S.optional(PermissionList),
+  }),
+).annotate({
+  identifier: "PrincipalPermissions",
+}) as any as S.Schema<PrincipalPermissions>;
+export type PrincipalPermissionsList = PrincipalPermissions[];
+export const PrincipalPermissionsList = S.Array(PrincipalPermissions);
+export type ParametersMap = { [key: string]: string | undefined };
+export const ParametersMap = S.Record(S.String, S.String.pipe(S.optional));
+export type TrustedResourceOwners = string[];
+export const TrustedResourceOwners = S.Array(S.String);
+export type AuthorizedSessionTagValueList = string[];
+export const AuthorizedSessionTagValueList = S.Array(S.String);
+export interface DataLakeSettings {
+  DataLakeAdmins?: DataLakePrincipal[];
+  ReadOnlyAdmins?: DataLakePrincipal[];
+  CreateDatabaseDefaultPermissions?: PrincipalPermissions[];
+  CreateTableDefaultPermissions?: PrincipalPermissions[];
+  Parameters?: { [key: string]: string | undefined };
+  TrustedResourceOwners?: string[];
+  AllowExternalDataFiltering?: boolean;
+  AllowFullTableExternalDataAccess?: boolean;
+  ExternalDataFilteringAllowList?: DataLakePrincipal[];
+  AuthorizedSessionTagValueList?: string[];
+}
+export const DataLakeSettings = S.suspend(() =>
+  S.Struct({
+    DataLakeAdmins: S.optional(DataLakePrincipalList),
+    ReadOnlyAdmins: S.optional(DataLakePrincipalList),
+    CreateDatabaseDefaultPermissions: S.optional(PrincipalPermissionsList),
+    CreateTableDefaultPermissions: S.optional(PrincipalPermissionsList),
+    Parameters: S.optional(ParametersMap),
+    TrustedResourceOwners: S.optional(TrustedResourceOwners),
+    AllowExternalDataFiltering: S.optional(S.Boolean),
+    AllowFullTableExternalDataAccess: S.optional(S.Boolean),
+    ExternalDataFilteringAllowList: S.optional(DataLakePrincipalList),
+    AuthorizedSessionTagValueList: S.optional(AuthorizedSessionTagValueList),
+  }),
+).annotate({
+  identifier: "DataLakeSettings",
+}) as any as S.Schema<DataLakeSettings>;
+export interface GetDataLakeSettingsResponse {
+  DataLakeSettings?: DataLakeSettings;
+}
+export const GetDataLakeSettingsResponse = S.suspend(() =>
+  S.Struct({ DataLakeSettings: S.optional(DataLakeSettings) }),
+).annotate({
+  identifier: "GetDataLakeSettingsResponse",
+}) as any as S.Schema<GetDataLakeSettingsResponse>;
 export interface GetEffectivePermissionsForPathRequest {
   CatalogId?: string;
   ResourceArn: string;
@@ -858,9 +1337,57 @@ export const GetEffectivePermissionsForPathRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "GetEffectivePermissionsForPathRequest",
 }) as any as S.Schema<GetEffectivePermissionsForPathRequest>;
+export type ResourceShareList = string[];
+export const ResourceShareList = S.Array(S.String);
+export interface DetailsMap {
+  ResourceShare?: string[];
+}
+export const DetailsMap = S.suspend(() =>
+  S.Struct({ ResourceShare: S.optional(ResourceShareList) }),
+).annotate({ identifier: "DetailsMap" }) as any as S.Schema<DetailsMap>;
+export interface PrincipalResourcePermissions {
+  Principal?: DataLakePrincipal;
+  Resource?: Resource;
+  Condition?: Condition;
+  Permissions?: Permission[];
+  PermissionsWithGrantOption?: Permission[];
+  AdditionalDetails?: DetailsMap;
+  LastUpdated?: Date;
+  LastUpdatedBy?: string;
+}
+export const PrincipalResourcePermissions = S.suspend(() =>
+  S.Struct({
+    Principal: S.optional(DataLakePrincipal),
+    Resource: S.optional(Resource),
+    Condition: S.optional(Condition),
+    Permissions: S.optional(PermissionList),
+    PermissionsWithGrantOption: S.optional(PermissionList),
+    AdditionalDetails: S.optional(DetailsMap),
+    LastUpdated: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    LastUpdatedBy: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "PrincipalResourcePermissions",
+}) as any as S.Schema<PrincipalResourcePermissions>;
+export type PrincipalResourcePermissionsList = PrincipalResourcePermissions[];
+export const PrincipalResourcePermissionsList = S.Array(
+  PrincipalResourcePermissions,
+);
+export interface GetEffectivePermissionsForPathResponse {
+  Permissions?: PrincipalResourcePermissions[];
+  NextToken?: string;
+}
+export const GetEffectivePermissionsForPathResponse = S.suspend(() =>
+  S.Struct({
+    Permissions: S.optional(PrincipalResourcePermissionsList),
+    NextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GetEffectivePermissionsForPathResponse",
+}) as any as S.Schema<GetEffectivePermissionsForPathResponse>;
 export interface GetLFTagRequest {
   CatalogId?: string;
   TagKey: string;
@@ -876,9 +1403,23 @@ export const GetLFTagRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "GetLFTagRequest",
 }) as any as S.Schema<GetLFTagRequest>;
+export interface GetLFTagResponse {
+  CatalogId?: string;
+  TagKey?: string;
+  TagValues?: string[];
+}
+export const GetLFTagResponse = S.suspend(() =>
+  S.Struct({
+    CatalogId: S.optional(S.String),
+    TagKey: S.optional(S.String),
+    TagValues: S.optional(TagValueList),
+  }),
+).annotate({
+  identifier: "GetLFTagResponse",
+}) as any as S.Schema<GetLFTagResponse>;
 export interface GetLFTagExpressionRequest {
   Name: string;
   CatalogId?: string;
@@ -894,9 +1435,25 @@ export const GetLFTagExpressionRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "GetLFTagExpressionRequest",
 }) as any as S.Schema<GetLFTagExpressionRequest>;
+export interface GetLFTagExpressionResponse {
+  Name?: string;
+  Description?: string;
+  CatalogId?: string;
+  Expression?: LFTag[];
+}
+export const GetLFTagExpressionResponse = S.suspend(() =>
+  S.Struct({
+    Name: S.optional(S.String),
+    Description: S.optional(S.String),
+    CatalogId: S.optional(S.String),
+    Expression: S.optional(Expression),
+  }),
+).annotate({
+  identifier: "GetLFTagExpressionResponse",
+}) as any as S.Schema<GetLFTagExpressionResponse>;
 export interface GetQueryStateRequest {
   QueryId: string;
 }
@@ -911,9 +1468,26 @@ export const GetQueryStateRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "GetQueryStateRequest",
 }) as any as S.Schema<GetQueryStateRequest>;
+export type QueryStateString =
+  | "PENDING"
+  | "WORKUNITS_AVAILABLE"
+  | "ERROR"
+  | "FINISHED"
+  | "EXPIRED"
+  | (string & {});
+export const QueryStateString = S.String;
+export interface GetQueryStateResponse {
+  Error?: string;
+  State: QueryStateString;
+}
+export const GetQueryStateResponse = S.suspend(() =>
+  S.Struct({ Error: S.optional(S.String), State: QueryStateString }),
+).annotate({
+  identifier: "GetQueryStateResponse",
+}) as any as S.Schema<GetQueryStateResponse>;
 export interface GetQueryStatisticsRequest {
   QueryId: string;
 }
@@ -928,9 +1502,55 @@ export const GetQueryStatisticsRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "GetQueryStatisticsRequest",
 }) as any as S.Schema<GetQueryStatisticsRequest>;
+export interface ExecutionStatistics {
+  AverageExecutionTimeMillis?: number;
+  DataScannedBytes?: number;
+  WorkUnitsExecutedCount?: number;
+}
+export const ExecutionStatistics = S.suspend(() =>
+  S.Struct({
+    AverageExecutionTimeMillis: S.optional(S.Number),
+    DataScannedBytes: S.optional(S.Number),
+    WorkUnitsExecutedCount: S.optional(S.Number),
+  }),
+).annotate({
+  identifier: "ExecutionStatistics",
+}) as any as S.Schema<ExecutionStatistics>;
+export interface PlanningStatistics {
+  EstimatedDataToScanBytes?: number;
+  PlanningTimeMillis?: number;
+  QueueTimeMillis?: number;
+  WorkUnitsGeneratedCount?: number;
+}
+export const PlanningStatistics = S.suspend(() =>
+  S.Struct({
+    EstimatedDataToScanBytes: S.optional(S.Number),
+    PlanningTimeMillis: S.optional(S.Number),
+    QueueTimeMillis: S.optional(S.Number),
+    WorkUnitsGeneratedCount: S.optional(S.Number),
+  }),
+).annotate({
+  identifier: "PlanningStatistics",
+}) as any as S.Schema<PlanningStatistics>;
+export interface GetQueryStatisticsResponse {
+  ExecutionStatistics?: ExecutionStatistics;
+  PlanningStatistics?: PlanningStatistics;
+  QuerySubmissionTime?: Date;
+}
+export const GetQueryStatisticsResponse = S.suspend(() =>
+  S.Struct({
+    ExecutionStatistics: S.optional(ExecutionStatistics),
+    PlanningStatistics: S.optional(PlanningStatistics),
+    QuerySubmissionTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("date-time")),
+    ),
+  }),
+).annotate({
+  identifier: "GetQueryStatisticsResponse",
+}) as any as S.Schema<GetQueryStatisticsResponse>;
 export interface GetResourceLFTagsRequest {
   CatalogId?: string;
   Resource: Resource;
@@ -951,9 +1571,32 @@ export const GetResourceLFTagsRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "GetResourceLFTagsRequest",
 }) as any as S.Schema<GetResourceLFTagsRequest>;
+export interface ColumnLFTag {
+  Name?: string;
+  LFTags?: LFTagPair[];
+}
+export const ColumnLFTag = S.suspend(() =>
+  S.Struct({ Name: S.optional(S.String), LFTags: S.optional(LFTagsList) }),
+).annotate({ identifier: "ColumnLFTag" }) as any as S.Schema<ColumnLFTag>;
+export type ColumnLFTagsList = ColumnLFTag[];
+export const ColumnLFTagsList = S.Array(ColumnLFTag);
+export interface GetResourceLFTagsResponse {
+  LFTagOnDatabase?: LFTagPair[];
+  LFTagsOnTable?: LFTagPair[];
+  LFTagsOnColumns?: ColumnLFTag[];
+}
+export const GetResourceLFTagsResponse = S.suspend(() =>
+  S.Struct({
+    LFTagOnDatabase: S.optional(LFTagsList),
+    LFTagsOnTable: S.optional(LFTagsList),
+    LFTagsOnColumns: S.optional(ColumnLFTagsList),
+  }),
+).annotate({
+  identifier: "GetResourceLFTagsResponse",
+}) as any as S.Schema<GetResourceLFTagsResponse>;
 export interface GetTableObjectsRequest {
   CatalogId?: string;
   DatabaseName: string;
@@ -984,706 +1627,59 @@ export const GetTableObjectsRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "GetTableObjectsRequest",
 }) as any as S.Schema<GetTableObjectsRequest>;
-export interface GetWorkUnitResultsRequest {
-  QueryId: string;
-  WorkUnitId: number;
-  WorkUnitToken: string | redacted.Redacted<string>;
+export type PartitionValuesList = string[];
+export const PartitionValuesList = S.Array(S.String);
+export interface TableObject {
+  Uri?: string;
+  ETag?: string;
+  Size?: number;
 }
-export const GetWorkUnitResultsRequest = S.suspend(() =>
+export const TableObject = S.suspend(() =>
   S.Struct({
-    QueryId: S.String,
-    WorkUnitId: S.Number,
-    WorkUnitToken: SensitiveString,
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/GetWorkUnitResults" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "GetWorkUnitResultsRequest",
-}) as any as S.Schema<GetWorkUnitResultsRequest>;
-export interface GetWorkUnitsRequest {
-  NextToken?: string;
-  PageSize?: number;
-  QueryId: string;
-}
-export const GetWorkUnitsRequest = S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    PageSize: S.optional(S.Number),
-    QueryId: S.String,
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/GetWorkUnits" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "GetWorkUnitsRequest",
-}) as any as S.Schema<GetWorkUnitsRequest>;
-export interface GrantPermissionsRequest {
-  CatalogId?: string;
-  Principal: DataLakePrincipal;
-  Resource: Resource;
-  Permissions: Permission[];
-  Condition?: Condition;
-  PermissionsWithGrantOption?: Permission[];
-}
-export const GrantPermissionsRequest = S.suspend(() =>
-  S.Struct({
-    CatalogId: S.optional(S.String),
-    Principal: DataLakePrincipal,
-    Resource: Resource,
-    Permissions: PermissionList,
-    Condition: S.optional(Condition),
-    PermissionsWithGrantOption: S.optional(PermissionList),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/GrantPermissions" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "GrantPermissionsRequest",
-}) as any as S.Schema<GrantPermissionsRequest>;
-export interface GrantPermissionsResponse {}
-export const GrantPermissionsResponse = S.suspend(() =>
-  S.Struct({}),
-).annotations({
-  identifier: "GrantPermissionsResponse",
-}) as any as S.Schema<GrantPermissionsResponse>;
-export interface ListLakeFormationOptInsRequest {
-  Principal?: DataLakePrincipal;
-  Resource?: Resource;
-  MaxResults?: number;
-  NextToken?: string;
-}
-export const ListLakeFormationOptInsRequest = S.suspend(() =>
-  S.Struct({
-    Principal: S.optional(DataLakePrincipal),
-    Resource: S.optional(Resource),
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/ListLakeFormationOptIns" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListLakeFormationOptInsRequest",
-}) as any as S.Schema<ListLakeFormationOptInsRequest>;
-export interface ListLFTagExpressionsRequest {
-  CatalogId?: string;
-  MaxResults?: number;
-  NextToken?: string;
-}
-export const ListLFTagExpressionsRequest = S.suspend(() =>
-  S.Struct({
-    CatalogId: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/ListLFTagExpressions" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListLFTagExpressionsRequest",
-}) as any as S.Schema<ListLFTagExpressionsRequest>;
-export interface ListLFTagsRequest {
-  CatalogId?: string;
-  ResourceShareType?: ResourceShareType;
-  MaxResults?: number;
-  NextToken?: string;
-}
-export const ListLFTagsRequest = S.suspend(() =>
-  S.Struct({
-    CatalogId: S.optional(S.String),
-    ResourceShareType: S.optional(ResourceShareType),
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/ListLFTags" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListLFTagsRequest",
-}) as any as S.Schema<ListLFTagsRequest>;
-export interface ListPermissionsRequest {
-  CatalogId?: string;
-  Principal?: DataLakePrincipal;
-  ResourceType?: DataLakeResourceType;
-  Resource?: Resource;
-  NextToken?: string;
-  MaxResults?: number;
-  IncludeRelated?: string;
-}
-export const ListPermissionsRequest = S.suspend(() =>
-  S.Struct({
-    CatalogId: S.optional(S.String),
-    Principal: S.optional(DataLakePrincipal),
-    ResourceType: S.optional(DataLakeResourceType),
-    Resource: S.optional(Resource),
-    NextToken: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-    IncludeRelated: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/ListPermissions" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListPermissionsRequest",
-}) as any as S.Schema<ListPermissionsRequest>;
-export interface ListTableStorageOptimizersRequest {
-  CatalogId?: string;
-  DatabaseName: string;
-  TableName: string;
-  StorageOptimizerType?: OptimizerType;
-  MaxResults?: number;
-  NextToken?: string;
-}
-export const ListTableStorageOptimizersRequest = S.suspend(() =>
-  S.Struct({
-    CatalogId: S.optional(S.String),
-    DatabaseName: S.String,
-    TableName: S.String,
-    StorageOptimizerType: S.optional(OptimizerType),
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/ListTableStorageOptimizers" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListTableStorageOptimizersRequest",
-}) as any as S.Schema<ListTableStorageOptimizersRequest>;
-export interface ListTransactionsRequest {
-  CatalogId?: string;
-  StatusFilter?: TransactionStatusFilter;
-  MaxResults?: number;
-  NextToken?: string;
-}
-export const ListTransactionsRequest = S.suspend(() =>
-  S.Struct({
-    CatalogId: S.optional(S.String),
-    StatusFilter: S.optional(TransactionStatusFilter),
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/ListTransactions" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListTransactionsRequest",
-}) as any as S.Schema<ListTransactionsRequest>;
-export interface RegisterResourceRequest {
-  ResourceArn: string;
-  UseServiceLinkedRole?: boolean;
-  RoleArn?: string;
-  WithFederation?: boolean;
-  HybridAccessEnabled?: boolean;
-  WithPrivilegedAccess?: boolean;
-}
-export const RegisterResourceRequest = S.suspend(() =>
-  S.Struct({
-    ResourceArn: S.String,
-    UseServiceLinkedRole: S.optional(S.Boolean),
-    RoleArn: S.optional(S.String),
-    WithFederation: S.optional(S.Boolean),
-    HybridAccessEnabled: S.optional(S.Boolean),
-    WithPrivilegedAccess: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/RegisterResource" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "RegisterResourceRequest",
-}) as any as S.Schema<RegisterResourceRequest>;
-export interface RegisterResourceResponse {}
-export const RegisterResourceResponse = S.suspend(() =>
-  S.Struct({}),
-).annotations({
-  identifier: "RegisterResourceResponse",
-}) as any as S.Schema<RegisterResourceResponse>;
-export interface LFTagPair {
-  CatalogId?: string;
-  TagKey: string;
-  TagValues: string[];
-}
-export const LFTagPair = S.suspend(() =>
-  S.Struct({
-    CatalogId: S.optional(S.String),
-    TagKey: S.String,
-    TagValues: TagValueList,
+    Uri: S.optional(S.String),
+    ETag: S.optional(S.String),
+    Size: S.optional(S.Number),
   }),
-).annotations({ identifier: "LFTagPair" }) as any as S.Schema<LFTagPair>;
-export type LFTagsList = LFTagPair[];
-export const LFTagsList = S.Array(LFTagPair);
-export interface RemoveLFTagsFromResourceRequest {
-  CatalogId?: string;
-  Resource: Resource;
-  LFTags: LFTagPair[];
+).annotate({ identifier: "TableObject" }) as any as S.Schema<TableObject>;
+export type TableObjectList = TableObject[];
+export const TableObjectList = S.Array(TableObject);
+export interface PartitionObjects {
+  PartitionValues?: string[];
+  Objects?: TableObject[];
 }
-export const RemoveLFTagsFromResourceRequest = S.suspend(() =>
+export const PartitionObjects = S.suspend(() =>
   S.Struct({
-    CatalogId: S.optional(S.String),
-    Resource: Resource,
-    LFTags: LFTagsList,
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/RemoveLFTagsFromResource" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "RemoveLFTagsFromResourceRequest",
-}) as any as S.Schema<RemoveLFTagsFromResourceRequest>;
-export interface RevokePermissionsRequest {
-  CatalogId?: string;
-  Principal: DataLakePrincipal;
-  Resource: Resource;
-  Permissions: Permission[];
-  Condition?: Condition;
-  PermissionsWithGrantOption?: Permission[];
-}
-export const RevokePermissionsRequest = S.suspend(() =>
-  S.Struct({
-    CatalogId: S.optional(S.String),
-    Principal: DataLakePrincipal,
-    Resource: Resource,
-    Permissions: PermissionList,
-    Condition: S.optional(Condition),
-    PermissionsWithGrantOption: S.optional(PermissionList),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/RevokePermissions" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "RevokePermissionsRequest",
-}) as any as S.Schema<RevokePermissionsRequest>;
-export interface RevokePermissionsResponse {}
-export const RevokePermissionsResponse = S.suspend(() =>
-  S.Struct({}),
-).annotations({
-  identifier: "RevokePermissionsResponse",
-}) as any as S.Schema<RevokePermissionsResponse>;
-export interface SearchDatabasesByLFTagsRequest {
-  NextToken?: string;
-  MaxResults?: number;
-  CatalogId?: string;
-  Expression: LFTag[];
-}
-export const SearchDatabasesByLFTagsRequest = S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-    CatalogId: S.optional(S.String),
-    Expression: Expression,
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/SearchDatabasesByLFTags" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "SearchDatabasesByLFTagsRequest",
-}) as any as S.Schema<SearchDatabasesByLFTagsRequest>;
-export interface SearchTablesByLFTagsRequest {
-  NextToken?: string;
-  MaxResults?: number;
-  CatalogId?: string;
-  Expression: LFTag[];
-}
-export const SearchTablesByLFTagsRequest = S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-    CatalogId: S.optional(S.String),
-    Expression: Expression,
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/SearchTablesByLFTags" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "SearchTablesByLFTagsRequest",
-}) as any as S.Schema<SearchTablesByLFTagsRequest>;
-export interface StartTransactionRequest {
-  TransactionType?: TransactionType;
-}
-export const StartTransactionRequest = S.suspend(() =>
-  S.Struct({ TransactionType: S.optional(TransactionType) }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/StartTransaction" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "StartTransactionRequest",
-}) as any as S.Schema<StartTransactionRequest>;
-export interface AllRowsWildcard {}
-export const AllRowsWildcard = S.suspend(() => S.Struct({})).annotations({
-  identifier: "AllRowsWildcard",
-}) as any as S.Schema<AllRowsWildcard>;
-export interface RowFilter {
-  FilterExpression?: string;
-  AllRowsWildcard?: AllRowsWildcard;
-}
-export const RowFilter = S.suspend(() =>
-  S.Struct({
-    FilterExpression: S.optional(S.String),
-    AllRowsWildcard: S.optional(AllRowsWildcard),
+    PartitionValues: S.optional(PartitionValuesList),
+    Objects: S.optional(TableObjectList),
   }),
-).annotations({ identifier: "RowFilter" }) as any as S.Schema<RowFilter>;
-export interface DataCellsFilter {
-  TableCatalogId: string;
-  DatabaseName: string;
-  TableName: string;
-  Name: string;
-  RowFilter?: RowFilter;
-  ColumnNames?: string[];
-  ColumnWildcard?: ColumnWildcard;
-  VersionId?: string;
+).annotate({
+  identifier: "PartitionObjects",
+}) as any as S.Schema<PartitionObjects>;
+export type PartitionedTableObjectsList = PartitionObjects[];
+export const PartitionedTableObjectsList = S.Array(PartitionObjects);
+export interface GetTableObjectsResponse {
+  Objects?: PartitionObjects[];
+  NextToken?: string;
 }
-export const DataCellsFilter = S.suspend(() =>
+export const GetTableObjectsResponse = S.suspend(() =>
   S.Struct({
-    TableCatalogId: S.String,
-    DatabaseName: S.String,
-    TableName: S.String,
-    Name: S.String,
-    RowFilter: S.optional(RowFilter),
-    ColumnNames: S.optional(ColumnNames),
-    ColumnWildcard: S.optional(ColumnWildcard),
-    VersionId: S.optional(S.String),
+    Objects: S.optional(PartitionedTableObjectsList),
+    NextToken: S.optional(S.String),
   }),
-).annotations({
-  identifier: "DataCellsFilter",
-}) as any as S.Schema<DataCellsFilter>;
-export interface UpdateDataCellsFilterRequest {
-  TableData: DataCellsFilter;
-}
-export const UpdateDataCellsFilterRequest = S.suspend(() =>
-  S.Struct({ TableData: DataCellsFilter }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/UpdateDataCellsFilter" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "UpdateDataCellsFilterRequest",
-}) as any as S.Schema<UpdateDataCellsFilterRequest>;
-export interface UpdateDataCellsFilterResponse {}
-export const UpdateDataCellsFilterResponse = S.suspend(() =>
-  S.Struct({}),
-).annotations({
-  identifier: "UpdateDataCellsFilterResponse",
-}) as any as S.Schema<UpdateDataCellsFilterResponse>;
-export type DataLakePrincipalList = DataLakePrincipal[];
-export const DataLakePrincipalList = S.Array(DataLakePrincipal);
-export type ServiceAuthorization = "ENABLED" | "DISABLED" | (string & {});
-export const ServiceAuthorization = S.String;
-export interface RedshiftConnect {
-  Authorization: ServiceAuthorization;
-}
-export const RedshiftConnect = S.suspend(() =>
-  S.Struct({ Authorization: ServiceAuthorization }),
-).annotations({
-  identifier: "RedshiftConnect",
-}) as any as S.Schema<RedshiftConnect>;
-export type RedshiftScopeUnion = { RedshiftConnect: RedshiftConnect };
-export const RedshiftScopeUnion = S.Union(
-  S.Struct({ RedshiftConnect: RedshiftConnect }),
-);
-export type RedshiftServiceIntegrations = RedshiftScopeUnion[];
-export const RedshiftServiceIntegrations = S.Array(RedshiftScopeUnion);
-export type ServiceIntegrationUnion = { Redshift: RedshiftScopeUnion[] };
-export const ServiceIntegrationUnion = S.Union(
-  S.Struct({ Redshift: RedshiftServiceIntegrations }),
-);
-export type ServiceIntegrationList = ServiceIntegrationUnion[];
-export const ServiceIntegrationList = S.Array(ServiceIntegrationUnion);
-export type EnableStatus = "ENABLED" | "DISABLED" | (string & {});
-export const EnableStatus = S.String;
-export type ScopeTargets = string[];
-export const ScopeTargets = S.Array(S.String);
-export interface ExternalFilteringConfiguration {
-  Status: EnableStatus;
-  AuthorizedTargets: string[];
-}
-export const ExternalFilteringConfiguration = S.suspend(() =>
-  S.Struct({ Status: EnableStatus, AuthorizedTargets: ScopeTargets }),
-).annotations({
-  identifier: "ExternalFilteringConfiguration",
-}) as any as S.Schema<ExternalFilteringConfiguration>;
-export interface UpdateLakeFormationIdentityCenterConfigurationRequest {
-  CatalogId?: string;
-  ShareRecipients?: DataLakePrincipal[];
-  ServiceIntegrations?: ServiceIntegrationUnion[];
-  ApplicationStatus?: ApplicationStatus;
-  ExternalFiltering?: ExternalFilteringConfiguration;
-}
-export const UpdateLakeFormationIdentityCenterConfigurationRequest = S.suspend(
-  () =>
-    S.Struct({
-      CatalogId: S.optional(S.String),
-      ShareRecipients: S.optional(DataLakePrincipalList),
-      ServiceIntegrations: S.optional(ServiceIntegrationList),
-      ApplicationStatus: S.optional(ApplicationStatus),
-      ExternalFiltering: S.optional(ExternalFilteringConfiguration),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "POST",
-          uri: "/UpdateLakeFormationIdentityCenterConfiguration",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotations({
-  identifier: "UpdateLakeFormationIdentityCenterConfigurationRequest",
-}) as any as S.Schema<UpdateLakeFormationIdentityCenterConfigurationRequest>;
-export interface UpdateLakeFormationIdentityCenterConfigurationResponse {}
-export const UpdateLakeFormationIdentityCenterConfigurationResponse = S.suspend(
-  () => S.Struct({}),
-).annotations({
-  identifier: "UpdateLakeFormationIdentityCenterConfigurationResponse",
-}) as any as S.Schema<UpdateLakeFormationIdentityCenterConfigurationResponse>;
-export interface UpdateLFTagRequest {
-  CatalogId?: string;
-  TagKey: string;
-  TagValuesToDelete?: string[];
-  TagValuesToAdd?: string[];
-}
-export const UpdateLFTagRequest = S.suspend(() =>
-  S.Struct({
-    CatalogId: S.optional(S.String),
-    TagKey: S.String,
-    TagValuesToDelete: S.optional(TagValueList),
-    TagValuesToAdd: S.optional(TagValueList),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/UpdateLFTag" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "UpdateLFTagRequest",
-}) as any as S.Schema<UpdateLFTagRequest>;
-export interface UpdateLFTagResponse {}
-export const UpdateLFTagResponse = S.suspend(() => S.Struct({})).annotations({
-  identifier: "UpdateLFTagResponse",
-}) as any as S.Schema<UpdateLFTagResponse>;
-export interface UpdateLFTagExpressionRequest {
-  Name: string;
-  Description?: string;
-  CatalogId?: string;
-  Expression: LFTag[];
-}
-export const UpdateLFTagExpressionRequest = S.suspend(() =>
-  S.Struct({
-    Name: S.String,
-    Description: S.optional(S.String),
-    CatalogId: S.optional(S.String),
-    Expression: Expression,
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/UpdateLFTagExpression" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "UpdateLFTagExpressionRequest",
-}) as any as S.Schema<UpdateLFTagExpressionRequest>;
-export interface UpdateLFTagExpressionResponse {}
-export const UpdateLFTagExpressionResponse = S.suspend(() =>
-  S.Struct({}),
-).annotations({
-  identifier: "UpdateLFTagExpressionResponse",
-}) as any as S.Schema<UpdateLFTagExpressionResponse>;
-export interface UpdateResourceRequest {
-  RoleArn: string;
-  ResourceArn: string;
-  WithFederation?: boolean;
-  HybridAccessEnabled?: boolean;
-}
-export const UpdateResourceRequest = S.suspend(() =>
-  S.Struct({
-    RoleArn: S.String,
-    ResourceArn: S.String,
-    WithFederation: S.optional(S.Boolean),
-    HybridAccessEnabled: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/UpdateResource" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "UpdateResourceRequest",
-}) as any as S.Schema<UpdateResourceRequest>;
-export interface UpdateResourceResponse {}
-export const UpdateResourceResponse = S.suspend(() => S.Struct({})).annotations(
-  { identifier: "UpdateResourceResponse" },
-) as any as S.Schema<UpdateResourceResponse>;
+).annotate({
+  identifier: "GetTableObjectsResponse",
+}) as any as S.Schema<GetTableObjectsResponse>;
 export type ValueStringList = string[];
 export const ValueStringList = S.Array(S.String);
-export type FieldNameString =
-  | "RESOURCE_ARN"
-  | "ROLE_ARN"
-  | "LAST_MODIFIED"
-  | (string & {});
-export const FieldNameString = S.String;
-export type ComparisonOperator =
-  | "EQ"
-  | "NE"
-  | "LE"
-  | "LT"
-  | "GE"
-  | "GT"
-  | "CONTAINS"
-  | "NOT_CONTAINS"
-  | "BEGINS_WITH"
-  | "IN"
-  | "BETWEEN"
-  | (string & {});
-export const ComparisonOperator = S.String;
-export type StringValueList = string[];
-export const StringValueList = S.Array(S.String);
-export type TrustedResourceOwners = string[];
-export const TrustedResourceOwners = S.Array(S.String);
-export type AuthorizedSessionTagValueList = string[];
-export const AuthorizedSessionTagValueList = S.Array(S.String);
-export type TransactionStatus =
-  | "ACTIVE"
-  | "COMMITTED"
-  | "ABORTED"
-  | "COMMIT_IN_PROGRESS"
-  | (string & {});
-export const TransactionStatus = S.String;
-export interface VirtualObject {
-  Uri: string;
-  ETag?: string;
-}
-export const VirtualObject = S.suspend(() =>
-  S.Struct({ Uri: S.String, ETag: S.optional(S.String) }),
-).annotations({
-  identifier: "VirtualObject",
-}) as any as S.Schema<VirtualObject>;
-export type VirtualObjectList = VirtualObject[];
-export const VirtualObjectList = S.Array(VirtualObject);
-export type QueryStateString =
-  | "PENDING"
-  | "WORKUNITS_AVAILABLE"
-  | "ERROR"
-  | "FINISHED"
-  | "EXPIRED"
-  | (string & {});
-export const QueryStateString = S.String;
 export interface PartitionValueList {
   Values: string[];
 }
 export const PartitionValueList = S.suspend(() =>
   S.Struct({ Values: ValueStringList }),
-).annotations({
+).annotate({
   identifier: "PartitionValueList",
 }) as any as S.Schema<PartitionValueList>;
 export interface AuditContext {
@@ -1691,310 +1687,16 @@ export interface AuditContext {
 }
 export const AuditContext = S.suspend(() =>
   S.Struct({ AdditionalAuditContext: S.optional(S.String) }),
-).annotations({ identifier: "AuditContext" }) as any as S.Schema<AuditContext>;
-export interface FilterCondition {
-  Field?: FieldNameString;
-  ComparisonOperator?: ComparisonOperator;
-  StringValueList?: string[];
-}
-export const FilterCondition = S.suspend(() =>
-  S.Struct({
-    Field: S.optional(FieldNameString),
-    ComparisonOperator: S.optional(ComparisonOperator),
-    StringValueList: S.optional(StringValueList),
-  }),
-).annotations({
-  identifier: "FilterCondition",
-}) as any as S.Schema<FilterCondition>;
-export type FilterConditionList = FilterCondition[];
-export const FilterConditionList = S.Array(FilterCondition);
-export interface TransactionDescription {
-  TransactionId?: string;
-  TransactionStatus?: TransactionStatus;
-  TransactionStartTime?: Date;
-  TransactionEndTime?: Date;
-}
-export const TransactionDescription = S.suspend(() =>
-  S.Struct({
-    TransactionId: S.optional(S.String),
-    TransactionStatus: S.optional(TransactionStatus),
-    TransactionStartTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    TransactionEndTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-  }),
-).annotations({
-  identifier: "TransactionDescription",
-}) as any as S.Schema<TransactionDescription>;
-export type TransactionDescriptionList = TransactionDescription[];
-export const TransactionDescriptionList = S.Array(TransactionDescription);
-export type PartitionValuesList = string[];
-export const PartitionValuesList = S.Array(S.String);
-export interface AssumeDecoratedRoleWithSAMLResponse {
-  AccessKeyId?: string;
-  SecretAccessKey?: string;
-  SessionToken?: string;
-  Expiration?: Date;
-}
-export const AssumeDecoratedRoleWithSAMLResponse = S.suspend(() =>
-  S.Struct({
-    AccessKeyId: S.optional(S.String),
-    SecretAccessKey: S.optional(S.String),
-    SessionToken: S.optional(S.String),
-    Expiration: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }),
-).annotations({
-  identifier: "AssumeDecoratedRoleWithSAMLResponse",
-}) as any as S.Schema<AssumeDecoratedRoleWithSAMLResponse>;
-export interface BatchGrantPermissionsRequest {
-  CatalogId?: string;
-  Entries: BatchPermissionsRequestEntry[];
-}
-export const BatchGrantPermissionsRequest = S.suspend(() =>
-  S.Struct({
-    CatalogId: S.optional(S.String),
-    Entries: BatchPermissionsRequestEntryList,
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/BatchGrantPermissions" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "BatchGrantPermissionsRequest",
-}) as any as S.Schema<BatchGrantPermissionsRequest>;
-export interface CommitTransactionResponse {
-  TransactionStatus?: TransactionStatus;
-}
-export const CommitTransactionResponse = S.suspend(() =>
-  S.Struct({ TransactionStatus: S.optional(TransactionStatus) }),
-).annotations({
-  identifier: "CommitTransactionResponse",
-}) as any as S.Schema<CommitTransactionResponse>;
-export interface CreateLakeFormationOptInRequest {
-  Principal: DataLakePrincipal;
-  Resource: Resource;
-  Condition?: Condition;
-}
-export const CreateLakeFormationOptInRequest = S.suspend(() =>
-  S.Struct({
-    Principal: DataLakePrincipal,
-    Resource: Resource,
-    Condition: S.optional(Condition),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/CreateLakeFormationOptIn" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "CreateLakeFormationOptInRequest",
-}) as any as S.Schema<CreateLakeFormationOptInRequest>;
-export interface CreateLakeFormationOptInResponse {}
-export const CreateLakeFormationOptInResponse = S.suspend(() =>
-  S.Struct({}),
-).annotations({
-  identifier: "CreateLakeFormationOptInResponse",
-}) as any as S.Schema<CreateLakeFormationOptInResponse>;
-export interface CreateLFTagExpressionRequest {
-  Name: string;
-  Description?: string;
-  CatalogId?: string;
-  Expression: LFTag[];
-}
-export const CreateLFTagExpressionRequest = S.suspend(() =>
-  S.Struct({
-    Name: S.String,
-    Description: S.optional(S.String),
-    CatalogId: S.optional(S.String),
-    Expression: Expression,
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/CreateLFTagExpression" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "CreateLFTagExpressionRequest",
-}) as any as S.Schema<CreateLFTagExpressionRequest>;
-export interface CreateLFTagExpressionResponse {}
-export const CreateLFTagExpressionResponse = S.suspend(() =>
-  S.Struct({}),
-).annotations({
-  identifier: "CreateLFTagExpressionResponse",
-}) as any as S.Schema<CreateLFTagExpressionResponse>;
-export interface DeleteObjectsOnCancelRequest {
-  CatalogId?: string;
-  DatabaseName: string;
-  TableName: string;
-  TransactionId: string;
-  Objects: VirtualObject[];
-}
-export const DeleteObjectsOnCancelRequest = S.suspend(() =>
-  S.Struct({
-    CatalogId: S.optional(S.String),
-    DatabaseName: S.String,
-    TableName: S.String,
-    TransactionId: S.String,
-    Objects: VirtualObjectList,
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/DeleteObjectsOnCancel" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DeleteObjectsOnCancelRequest",
-}) as any as S.Schema<DeleteObjectsOnCancelRequest>;
-export interface DeleteObjectsOnCancelResponse {}
-export const DeleteObjectsOnCancelResponse = S.suspend(() =>
-  S.Struct({}),
-).annotations({
-  identifier: "DeleteObjectsOnCancelResponse",
-}) as any as S.Schema<DeleteObjectsOnCancelResponse>;
-export interface DescribeLakeFormationIdentityCenterConfigurationResponse {
-  CatalogId?: string;
-  InstanceArn?: string;
-  ApplicationArn?: string;
-  ExternalFiltering?: ExternalFilteringConfiguration;
-  ShareRecipients?: DataLakePrincipal[];
-  ServiceIntegrations?: ServiceIntegrationUnion[];
-  ResourceShare?: string;
-}
-export const DescribeLakeFormationIdentityCenterConfigurationResponse =
-  S.suspend(() =>
-    S.Struct({
-      CatalogId: S.optional(S.String),
-      InstanceArn: S.optional(S.String),
-      ApplicationArn: S.optional(S.String),
-      ExternalFiltering: S.optional(ExternalFilteringConfiguration),
-      ShareRecipients: S.optional(DataLakePrincipalList),
-      ServiceIntegrations: S.optional(ServiceIntegrationList),
-      ResourceShare: S.optional(S.String),
-    }),
-  ).annotations({
-    identifier: "DescribeLakeFormationIdentityCenterConfigurationResponse",
-  }) as any as S.Schema<DescribeLakeFormationIdentityCenterConfigurationResponse>;
-export interface GetDataCellsFilterResponse {
-  DataCellsFilter?: DataCellsFilter;
-}
-export const GetDataCellsFilterResponse = S.suspend(() =>
-  S.Struct({ DataCellsFilter: S.optional(DataCellsFilter) }),
-).annotations({
-  identifier: "GetDataCellsFilterResponse",
-}) as any as S.Schema<GetDataCellsFilterResponse>;
-export interface PrincipalPermissions {
-  Principal?: DataLakePrincipal;
-  Permissions?: Permission[];
-}
-export const PrincipalPermissions = S.suspend(() =>
-  S.Struct({
-    Principal: S.optional(DataLakePrincipal),
-    Permissions: S.optional(PermissionList),
-  }),
-).annotations({
-  identifier: "PrincipalPermissions",
-}) as any as S.Schema<PrincipalPermissions>;
-export type PrincipalPermissionsList = PrincipalPermissions[];
-export const PrincipalPermissionsList = S.Array(PrincipalPermissions);
-export type ParametersMap = { [key: string]: string | undefined };
-export const ParametersMap = S.Record({
-  key: S.String,
-  value: S.UndefinedOr(S.String),
-});
-export interface DataLakeSettings {
-  DataLakeAdmins?: DataLakePrincipal[];
-  ReadOnlyAdmins?: DataLakePrincipal[];
-  CreateDatabaseDefaultPermissions?: PrincipalPermissions[];
-  CreateTableDefaultPermissions?: PrincipalPermissions[];
-  Parameters?: { [key: string]: string | undefined };
-  TrustedResourceOwners?: string[];
-  AllowExternalDataFiltering?: boolean;
-  AllowFullTableExternalDataAccess?: boolean;
-  ExternalDataFilteringAllowList?: DataLakePrincipal[];
-  AuthorizedSessionTagValueList?: string[];
-}
-export const DataLakeSettings = S.suspend(() =>
-  S.Struct({
-    DataLakeAdmins: S.optional(DataLakePrincipalList),
-    ReadOnlyAdmins: S.optional(DataLakePrincipalList),
-    CreateDatabaseDefaultPermissions: S.optional(PrincipalPermissionsList),
-    CreateTableDefaultPermissions: S.optional(PrincipalPermissionsList),
-    Parameters: S.optional(ParametersMap),
-    TrustedResourceOwners: S.optional(TrustedResourceOwners),
-    AllowExternalDataFiltering: S.optional(S.Boolean),
-    AllowFullTableExternalDataAccess: S.optional(S.Boolean),
-    ExternalDataFilteringAllowList: S.optional(DataLakePrincipalList),
-    AuthorizedSessionTagValueList: S.optional(AuthorizedSessionTagValueList),
-  }),
-).annotations({
-  identifier: "DataLakeSettings",
-}) as any as S.Schema<DataLakeSettings>;
-export interface GetDataLakeSettingsResponse {
-  DataLakeSettings?: DataLakeSettings;
-}
-export const GetDataLakeSettingsResponse = S.suspend(() =>
-  S.Struct({ DataLakeSettings: S.optional(DataLakeSettings) }),
-).annotations({
-  identifier: "GetDataLakeSettingsResponse",
-}) as any as S.Schema<GetDataLakeSettingsResponse>;
-export interface GetLFTagResponse {
-  CatalogId?: string;
-  TagKey?: string;
-  TagValues?: string[];
-}
-export const GetLFTagResponse = S.suspend(() =>
-  S.Struct({
-    CatalogId: S.optional(S.String),
-    TagKey: S.optional(S.String),
-    TagValues: S.optional(TagValueList),
-  }),
-).annotations({
-  identifier: "GetLFTagResponse",
-}) as any as S.Schema<GetLFTagResponse>;
-export interface GetLFTagExpressionResponse {
-  Name?: string;
-  Description?: string;
-  CatalogId?: string;
-  Expression?: LFTag[];
-}
-export const GetLFTagExpressionResponse = S.suspend(() =>
-  S.Struct({
-    Name: S.optional(S.String),
-    Description: S.optional(S.String),
-    CatalogId: S.optional(S.String),
-    Expression: S.optional(Expression),
-  }),
-).annotations({
-  identifier: "GetLFTagExpressionResponse",
-}) as any as S.Schema<GetLFTagExpressionResponse>;
-export interface GetQueryStateResponse {
-  Error?: string;
-  State: QueryStateString;
-}
-export const GetQueryStateResponse = S.suspend(() =>
-  S.Struct({ Error: S.optional(S.String), State: QueryStateString }),
-).annotations({
-  identifier: "GetQueryStateResponse",
-}) as any as S.Schema<GetQueryStateResponse>;
+).annotate({ identifier: "AuditContext" }) as any as S.Schema<AuditContext>;
+export type PermissionType =
+  | "COLUMN_PERMISSION"
+  | "CELL_FILTER_PERMISSION"
+  | "NESTED_PERMISSION"
+  | "NESTED_CELL_PERMISSION"
+  | (string & {});
+export const PermissionType = S.String;
+export type PermissionTypeList = PermissionType[];
+export const PermissionTypeList = S.Array(PermissionType);
 export interface GetTemporaryGluePartitionCredentialsRequest {
   TableArn: string;
   Partition: PartitionValueList;
@@ -2021,244 +1723,30 @@ export const GetTemporaryGluePartitionCredentialsRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "GetTemporaryGluePartitionCredentialsRequest",
 }) as any as S.Schema<GetTemporaryGluePartitionCredentialsRequest>;
-export interface GetWorkUnitResultsResponse {
-  ResultStream?: T.StreamingOutputBody;
+export interface GetTemporaryGluePartitionCredentialsResponse {
+  AccessKeyId?: string;
+  SecretAccessKey?: string;
+  SessionToken?: string;
+  Expiration?: Date;
 }
-export const GetWorkUnitResultsResponse = S.suspend(() =>
+export const GetTemporaryGluePartitionCredentialsResponse = S.suspend(() =>
   S.Struct({
-    ResultStream: S.optional(T.StreamingOutput).pipe(T.HttpPayload()),
+    AccessKeyId: S.optional(S.String),
+    SecretAccessKey: S.optional(S.String),
+    SessionToken: S.optional(S.String),
+    Expiration: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
-).annotations({
-  identifier: "GetWorkUnitResultsResponse",
-}) as any as S.Schema<GetWorkUnitResultsResponse>;
-export interface ListDataCellsFilterRequest {
-  Table?: TableResource;
-  NextToken?: string;
-  MaxResults?: number;
-}
-export const ListDataCellsFilterRequest = S.suspend(() =>
-  S.Struct({
-    Table: S.optional(TableResource),
-    NextToken: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/ListDataCellsFilter" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListDataCellsFilterRequest",
-}) as any as S.Schema<ListDataCellsFilterRequest>;
-export interface ListLFTagsResponse {
-  LFTags?: LFTagPair[];
-  NextToken?: string;
-}
-export const ListLFTagsResponse = S.suspend(() =>
-  S.Struct({ LFTags: S.optional(LFTagsList), NextToken: S.optional(S.String) }),
-).annotations({
-  identifier: "ListLFTagsResponse",
-}) as any as S.Schema<ListLFTagsResponse>;
-export type ResourceShareList = string[];
-export const ResourceShareList = S.Array(S.String);
-export interface DetailsMap {
-  ResourceShare?: string[];
-}
-export const DetailsMap = S.suspend(() =>
-  S.Struct({ ResourceShare: S.optional(ResourceShareList) }),
-).annotations({ identifier: "DetailsMap" }) as any as S.Schema<DetailsMap>;
-export interface PrincipalResourcePermissions {
-  Principal?: DataLakePrincipal;
-  Resource?: Resource;
-  Condition?: Condition;
-  Permissions?: Permission[];
-  PermissionsWithGrantOption?: Permission[];
-  AdditionalDetails?: DetailsMap;
-  LastUpdated?: Date;
-  LastUpdatedBy?: string;
-}
-export const PrincipalResourcePermissions = S.suspend(() =>
-  S.Struct({
-    Principal: S.optional(DataLakePrincipal),
-    Resource: S.optional(Resource),
-    Condition: S.optional(Condition),
-    Permissions: S.optional(PermissionList),
-    PermissionsWithGrantOption: S.optional(PermissionList),
-    AdditionalDetails: S.optional(DetailsMap),
-    LastUpdated: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    LastUpdatedBy: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "PrincipalResourcePermissions",
-}) as any as S.Schema<PrincipalResourcePermissions>;
-export type PrincipalResourcePermissionsList = PrincipalResourcePermissions[];
-export const PrincipalResourcePermissionsList = S.Array(
-  PrincipalResourcePermissions,
-);
-export interface ListPermissionsResponse {
-  PrincipalResourcePermissions?: PrincipalResourcePermissions[];
-  NextToken?: string;
-}
-export const ListPermissionsResponse = S.suspend(() =>
-  S.Struct({
-    PrincipalResourcePermissions: S.optional(PrincipalResourcePermissionsList),
-    NextToken: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "ListPermissionsResponse",
-}) as any as S.Schema<ListPermissionsResponse>;
-export interface ListResourcesRequest {
-  FilterConditionList?: FilterCondition[];
-  MaxResults?: number;
-  NextToken?: string;
-}
-export const ListResourcesRequest = S.suspend(() =>
-  S.Struct({
-    FilterConditionList: S.optional(FilterConditionList),
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/ListResources" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListResourcesRequest",
-}) as any as S.Schema<ListResourcesRequest>;
-export interface ListTransactionsResponse {
-  Transactions?: TransactionDescription[];
-  NextToken?: string;
-}
-export const ListTransactionsResponse = S.suspend(() =>
-  S.Struct({
-    Transactions: S.optional(TransactionDescriptionList),
-    NextToken: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "ListTransactionsResponse",
-}) as any as S.Schema<ListTransactionsResponse>;
-export interface StartTransactionResponse {
-  TransactionId?: string;
-}
-export const StartTransactionResponse = S.suspend(() =>
-  S.Struct({ TransactionId: S.optional(S.String) }),
-).annotations({
-  identifier: "StartTransactionResponse",
-}) as any as S.Schema<StartTransactionResponse>;
+).annotate({
+  identifier: "GetTemporaryGluePartitionCredentialsResponse",
+}) as any as S.Schema<GetTemporaryGluePartitionCredentialsResponse>;
 export type AdditionalContextMap = { [key: string]: string | undefined };
-export const AdditionalContextMap = S.Record({
-  key: S.String,
-  value: S.UndefinedOr(S.String),
-});
-export type QueryParameterMap = { [key: string]: string | undefined };
-export const QueryParameterMap = S.Record({
-  key: S.String,
-  value: S.UndefinedOr(S.String),
-});
-export interface AddObjectInput {
-  Uri: string;
-  ETag: string;
-  Size: number;
-  PartitionValues?: string[];
-}
-export const AddObjectInput = S.suspend(() =>
-  S.Struct({
-    Uri: S.String,
-    ETag: S.String,
-    Size: S.Number,
-    PartitionValues: S.optional(PartitionValuesList),
-  }),
-).annotations({
-  identifier: "AddObjectInput",
-}) as any as S.Schema<AddObjectInput>;
-export interface DeleteObjectInput {
-  Uri: string;
-  ETag?: string;
-  PartitionValues?: string[];
-}
-export const DeleteObjectInput = S.suspend(() =>
-  S.Struct({
-    Uri: S.String,
-    ETag: S.optional(S.String),
-    PartitionValues: S.optional(PartitionValuesList),
-  }),
-).annotations({
-  identifier: "DeleteObjectInput",
-}) as any as S.Schema<DeleteObjectInput>;
-export type StorageOptimizerConfig = { [key: string]: string | undefined };
-export const StorageOptimizerConfig = S.Record({
-  key: S.String,
-  value: S.UndefinedOr(S.String),
-});
-export interface ResourceInfo {
-  ResourceArn?: string;
-  RoleArn?: string;
-  LastModified?: Date;
-  WithFederation?: boolean;
-  HybridAccessEnabled?: boolean;
-  WithPrivilegedAccess?: boolean;
-}
-export const ResourceInfo = S.suspend(() =>
-  S.Struct({
-    ResourceArn: S.optional(S.String),
-    RoleArn: S.optional(S.String),
-    LastModified: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    WithFederation: S.optional(S.Boolean),
-    HybridAccessEnabled: S.optional(S.Boolean),
-    WithPrivilegedAccess: S.optional(S.Boolean),
-  }),
-).annotations({ identifier: "ResourceInfo" }) as any as S.Schema<ResourceInfo>;
-export interface ExecutionStatistics {
-  AverageExecutionTimeMillis?: number;
-  DataScannedBytes?: number;
-  WorkUnitsExecutedCount?: number;
-}
-export const ExecutionStatistics = S.suspend(() =>
-  S.Struct({
-    AverageExecutionTimeMillis: S.optional(S.Number),
-    DataScannedBytes: S.optional(S.Number),
-    WorkUnitsExecutedCount: S.optional(S.Number),
-  }),
-).annotations({
-  identifier: "ExecutionStatistics",
-}) as any as S.Schema<ExecutionStatistics>;
-export interface PlanningStatistics {
-  EstimatedDataToScanBytes?: number;
-  PlanningTimeMillis?: number;
-  QueueTimeMillis?: number;
-  WorkUnitsGeneratedCount?: number;
-}
-export const PlanningStatistics = S.suspend(() =>
-  S.Struct({
-    EstimatedDataToScanBytes: S.optional(S.Number),
-    PlanningTimeMillis: S.optional(S.Number),
-    QueueTimeMillis: S.optional(S.Number),
-    WorkUnitsGeneratedCount: S.optional(S.Number),
-  }),
-).annotations({
-  identifier: "PlanningStatistics",
-}) as any as S.Schema<PlanningStatistics>;
-export interface ColumnLFTag {
-  Name?: string;
-  LFTags?: LFTagPair[];
-}
-export const ColumnLFTag = S.suspend(() =>
-  S.Struct({ Name: S.optional(S.String), LFTags: S.optional(LFTagsList) }),
-).annotations({ identifier: "ColumnLFTag" }) as any as S.Schema<ColumnLFTag>;
-export type ColumnLFTagsList = ColumnLFTag[];
-export const ColumnLFTagsList = S.Array(ColumnLFTag);
+export const AdditionalContextMap = S.Record(
+  S.String,
+  S.String.pipe(S.optional),
+);
 export interface QuerySessionContext {
   QueryId?: string;
   QueryStartTime?: Date;
@@ -2274,309 +1762,9 @@ export const QuerySessionContext = S.suspend(() =>
     QueryAuthorizationId: S.optional(S.String),
     AdditionalContext: S.optional(AdditionalContextMap),
   }),
-).annotations({
+).annotate({
   identifier: "QuerySessionContext",
 }) as any as S.Schema<QuerySessionContext>;
-export interface WorkUnitRange {
-  WorkUnitIdMax: number;
-  WorkUnitIdMin: number;
-  WorkUnitToken: string;
-}
-export const WorkUnitRange = S.suspend(() =>
-  S.Struct({
-    WorkUnitIdMax: S.Number,
-    WorkUnitIdMin: S.Number,
-    WorkUnitToken: S.String,
-  }),
-).annotations({
-  identifier: "WorkUnitRange",
-}) as any as S.Schema<WorkUnitRange>;
-export type WorkUnitRangeList = WorkUnitRange[];
-export const WorkUnitRangeList = S.Array(WorkUnitRange);
-export type DataCellsFilterList = DataCellsFilter[];
-export const DataCellsFilterList = S.Array(DataCellsFilter);
-export interface LakeFormationOptInsInfo {
-  Resource?: Resource;
-  Principal?: DataLakePrincipal;
-  Condition?: Condition;
-  LastModified?: Date;
-  LastUpdatedBy?: string;
-}
-export const LakeFormationOptInsInfo = S.suspend(() =>
-  S.Struct({
-    Resource: S.optional(Resource),
-    Principal: S.optional(DataLakePrincipal),
-    Condition: S.optional(Condition),
-    LastModified: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    LastUpdatedBy: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "LakeFormationOptInsInfo",
-}) as any as S.Schema<LakeFormationOptInsInfo>;
-export type LakeFormationOptInsInfoList = LakeFormationOptInsInfo[];
-export const LakeFormationOptInsInfoList = S.Array(LakeFormationOptInsInfo);
-export interface LFTagExpression {
-  Name?: string;
-  Description?: string;
-  CatalogId?: string;
-  Expression?: LFTag[];
-}
-export const LFTagExpression = S.suspend(() =>
-  S.Struct({
-    Name: S.optional(S.String),
-    Description: S.optional(S.String),
-    CatalogId: S.optional(S.String),
-    Expression: S.optional(Expression),
-  }),
-).annotations({
-  identifier: "LFTagExpression",
-}) as any as S.Schema<LFTagExpression>;
-export type LFTagExpressionsList = LFTagExpression[];
-export const LFTagExpressionsList = S.Array(LFTagExpression);
-export type ResourceInfoList = ResourceInfo[];
-export const ResourceInfoList = S.Array(ResourceInfo);
-export interface StorageOptimizer {
-  StorageOptimizerType?: OptimizerType;
-  Config?: { [key: string]: string | undefined };
-  ErrorMessage?: string;
-  Warnings?: string;
-  LastRunDetails?: string;
-}
-export const StorageOptimizer = S.suspend(() =>
-  S.Struct({
-    StorageOptimizerType: S.optional(OptimizerType),
-    Config: S.optional(StorageOptimizerConfig),
-    ErrorMessage: S.optional(S.String),
-    Warnings: S.optional(S.String),
-    LastRunDetails: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "StorageOptimizer",
-}) as any as S.Schema<StorageOptimizer>;
-export type StorageOptimizerList = StorageOptimizer[];
-export const StorageOptimizerList = S.Array(StorageOptimizer);
-export interface ErrorDetail {
-  ErrorCode?: string;
-  ErrorMessage?: string;
-}
-export const ErrorDetail = S.suspend(() =>
-  S.Struct({
-    ErrorCode: S.optional(S.String),
-    ErrorMessage: S.optional(S.String),
-  }),
-).annotations({ identifier: "ErrorDetail" }) as any as S.Schema<ErrorDetail>;
-export interface LFTagError {
-  LFTag?: LFTagPair;
-  Error?: ErrorDetail;
-}
-export const LFTagError = S.suspend(() =>
-  S.Struct({ LFTag: S.optional(LFTagPair), Error: S.optional(ErrorDetail) }),
-).annotations({ identifier: "LFTagError" }) as any as S.Schema<LFTagError>;
-export type LFTagErrors = LFTagError[];
-export const LFTagErrors = S.Array(LFTagError);
-export interface TaggedDatabase {
-  Database?: DatabaseResource;
-  LFTags?: LFTagPair[];
-}
-export const TaggedDatabase = S.suspend(() =>
-  S.Struct({
-    Database: S.optional(DatabaseResource),
-    LFTags: S.optional(LFTagsList),
-  }),
-).annotations({
-  identifier: "TaggedDatabase",
-}) as any as S.Schema<TaggedDatabase>;
-export type DatabaseLFTagsList = TaggedDatabase[];
-export const DatabaseLFTagsList = S.Array(TaggedDatabase);
-export interface TaggedTable {
-  Table?: TableResource;
-  LFTagOnDatabase?: LFTagPair[];
-  LFTagsOnTable?: LFTagPair[];
-  LFTagsOnColumns?: ColumnLFTag[];
-}
-export const TaggedTable = S.suspend(() =>
-  S.Struct({
-    Table: S.optional(TableResource),
-    LFTagOnDatabase: S.optional(LFTagsList),
-    LFTagsOnTable: S.optional(LFTagsList),
-    LFTagsOnColumns: S.optional(ColumnLFTagsList),
-  }),
-).annotations({ identifier: "TaggedTable" }) as any as S.Schema<TaggedTable>;
-export type TableLFTagsList = TaggedTable[];
-export const TableLFTagsList = S.Array(TaggedTable);
-export interface QueryPlanningContext {
-  CatalogId?: string;
-  DatabaseName: string;
-  QueryAsOfTime?: Date;
-  QueryParameters?: { [key: string]: string | undefined };
-  TransactionId?: string;
-}
-export const QueryPlanningContext = S.suspend(() =>
-  S.Struct({
-    CatalogId: S.optional(S.String),
-    DatabaseName: S.String,
-    QueryAsOfTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    QueryParameters: S.optional(QueryParameterMap),
-    TransactionId: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "QueryPlanningContext",
-}) as any as S.Schema<QueryPlanningContext>;
-export interface WriteOperation {
-  AddObject?: AddObjectInput;
-  DeleteObject?: DeleteObjectInput;
-}
-export const WriteOperation = S.suspend(() =>
-  S.Struct({
-    AddObject: S.optional(AddObjectInput),
-    DeleteObject: S.optional(DeleteObjectInput),
-  }),
-).annotations({
-  identifier: "WriteOperation",
-}) as any as S.Schema<WriteOperation>;
-export type WriteOperationList = WriteOperation[];
-export const WriteOperationList = S.Array(WriteOperation);
-export type StorageOptimizerConfigMap = {
-  [key in OptimizerType]?: { [key: string]: string | undefined };
-};
-export const StorageOptimizerConfigMap = S.partial(
-  S.Record({
-    key: OptimizerType,
-    value: S.UndefinedOr(StorageOptimizerConfig),
-  }),
-);
-export interface AddLFTagsToResourceRequest {
-  CatalogId?: string;
-  Resource: Resource;
-  LFTags: LFTagPair[];
-}
-export const AddLFTagsToResourceRequest = S.suspend(() =>
-  S.Struct({
-    CatalogId: S.optional(S.String),
-    Resource: Resource,
-    LFTags: LFTagsList,
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/AddLFTagsToResource" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "AddLFTagsToResourceRequest",
-}) as any as S.Schema<AddLFTagsToResourceRequest>;
-export interface BatchPermissionsFailureEntry {
-  RequestEntry?: BatchPermissionsRequestEntry;
-  Error?: ErrorDetail;
-}
-export const BatchPermissionsFailureEntry = S.suspend(() =>
-  S.Struct({
-    RequestEntry: S.optional(BatchPermissionsRequestEntry),
-    Error: S.optional(ErrorDetail),
-  }),
-).annotations({
-  identifier: "BatchPermissionsFailureEntry",
-}) as any as S.Schema<BatchPermissionsFailureEntry>;
-export type BatchPermissionsFailureList = BatchPermissionsFailureEntry[];
-export const BatchPermissionsFailureList = S.Array(
-  BatchPermissionsFailureEntry,
-);
-export interface BatchGrantPermissionsResponse {
-  Failures?: BatchPermissionsFailureEntry[];
-}
-export const BatchGrantPermissionsResponse = S.suspend(() =>
-  S.Struct({ Failures: S.optional(BatchPermissionsFailureList) }),
-).annotations({
-  identifier: "BatchGrantPermissionsResponse",
-}) as any as S.Schema<BatchGrantPermissionsResponse>;
-export interface CreateDataCellsFilterRequest {
-  TableData: DataCellsFilter;
-}
-export const CreateDataCellsFilterRequest = S.suspend(() =>
-  S.Struct({ TableData: DataCellsFilter }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/CreateDataCellsFilter" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "CreateDataCellsFilterRequest",
-}) as any as S.Schema<CreateDataCellsFilterRequest>;
-export interface CreateDataCellsFilterResponse {}
-export const CreateDataCellsFilterResponse = S.suspend(() =>
-  S.Struct({}),
-).annotations({
-  identifier: "CreateDataCellsFilterResponse",
-}) as any as S.Schema<CreateDataCellsFilterResponse>;
-export interface DescribeResourceResponse {
-  ResourceInfo?: ResourceInfo;
-}
-export const DescribeResourceResponse = S.suspend(() =>
-  S.Struct({ ResourceInfo: S.optional(ResourceInfo) }),
-).annotations({
-  identifier: "DescribeResourceResponse",
-}) as any as S.Schema<DescribeResourceResponse>;
-export interface DescribeTransactionResponse {
-  TransactionDescription?: TransactionDescription;
-}
-export const DescribeTransactionResponse = S.suspend(() =>
-  S.Struct({ TransactionDescription: S.optional(TransactionDescription) }),
-).annotations({
-  identifier: "DescribeTransactionResponse",
-}) as any as S.Schema<DescribeTransactionResponse>;
-export interface GetQueryStatisticsResponse {
-  ExecutionStatistics?: ExecutionStatistics;
-  PlanningStatistics?: PlanningStatistics;
-  QuerySubmissionTime?: Date;
-}
-export const GetQueryStatisticsResponse = S.suspend(() =>
-  S.Struct({
-    ExecutionStatistics: S.optional(ExecutionStatistics),
-    PlanningStatistics: S.optional(PlanningStatistics),
-    QuerySubmissionTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
-    ),
-  }),
-).annotations({
-  identifier: "GetQueryStatisticsResponse",
-}) as any as S.Schema<GetQueryStatisticsResponse>;
-export interface GetResourceLFTagsResponse {
-  LFTagOnDatabase?: LFTagPair[];
-  LFTagsOnTable?: LFTagPair[];
-  LFTagsOnColumns?: ColumnLFTag[];
-}
-export const GetResourceLFTagsResponse = S.suspend(() =>
-  S.Struct({
-    LFTagOnDatabase: S.optional(LFTagsList),
-    LFTagsOnTable: S.optional(LFTagsList),
-    LFTagsOnColumns: S.optional(ColumnLFTagsList),
-  }),
-).annotations({
-  identifier: "GetResourceLFTagsResponse",
-}) as any as S.Schema<GetResourceLFTagsResponse>;
-export interface GetTemporaryGluePartitionCredentialsResponse {
-  AccessKeyId?: string;
-  SecretAccessKey?: string;
-  SessionToken?: string;
-  Expiration?: Date;
-}
-export const GetTemporaryGluePartitionCredentialsResponse = S.suspend(() =>
-  S.Struct({
-    AccessKeyId: S.optional(S.String),
-    SecretAccessKey: S.optional(S.String),
-    SessionToken: S.optional(S.String),
-    Expiration: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }),
-).annotations({
-  identifier: "GetTemporaryGluePartitionCredentialsResponse",
-}) as any as S.Schema<GetTemporaryGluePartitionCredentialsResponse>;
 export interface GetTemporaryGlueTableCredentialsRequest {
   TableArn: string;
   Permissions?: Permission[];
@@ -2605,9 +1793,99 @@ export const GetTemporaryGlueTableCredentialsRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "GetTemporaryGlueTableCredentialsRequest",
 }) as any as S.Schema<GetTemporaryGlueTableCredentialsRequest>;
+export type PathStringList = string[];
+export const PathStringList = S.Array(S.String);
+export interface GetTemporaryGlueTableCredentialsResponse {
+  AccessKeyId?: string;
+  SecretAccessKey?: string;
+  SessionToken?: string;
+  Expiration?: Date;
+  VendedS3Path?: string[];
+}
+export const GetTemporaryGlueTableCredentialsResponse = S.suspend(() =>
+  S.Struct({
+    AccessKeyId: S.optional(S.String),
+    SecretAccessKey: S.optional(S.String),
+    SessionToken: S.optional(S.String),
+    Expiration: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    VendedS3Path: S.optional(PathStringList),
+  }),
+).annotate({
+  identifier: "GetTemporaryGlueTableCredentialsResponse",
+}) as any as S.Schema<GetTemporaryGlueTableCredentialsResponse>;
+export interface GetWorkUnitResultsRequest {
+  QueryId: string;
+  WorkUnitId: number;
+  WorkUnitToken: string | redacted.Redacted<string>;
+}
+export const GetWorkUnitResultsRequest = S.suspend(() =>
+  S.Struct({
+    QueryId: S.String,
+    WorkUnitId: S.Number,
+    WorkUnitToken: SensitiveString,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/GetWorkUnitResults" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetWorkUnitResultsRequest",
+}) as any as S.Schema<GetWorkUnitResultsRequest>;
+export interface GetWorkUnitResultsResponse {
+  ResultStream?: T.StreamingOutputBody;
+}
+export const GetWorkUnitResultsResponse = S.suspend(() =>
+  S.Struct({
+    ResultStream: S.optional(T.StreamingOutput).pipe(T.HttpPayload()),
+  }),
+).annotate({
+  identifier: "GetWorkUnitResultsResponse",
+}) as any as S.Schema<GetWorkUnitResultsResponse>;
+export interface GetWorkUnitsRequest {
+  NextToken?: string;
+  PageSize?: number;
+  QueryId: string;
+}
+export const GetWorkUnitsRequest = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    PageSize: S.optional(S.Number),
+    QueryId: S.String,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/GetWorkUnits" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetWorkUnitsRequest",
+}) as any as S.Schema<GetWorkUnitsRequest>;
+export interface WorkUnitRange {
+  WorkUnitIdMax: number;
+  WorkUnitIdMin: number;
+  WorkUnitToken: string;
+}
+export const WorkUnitRange = S.suspend(() =>
+  S.Struct({
+    WorkUnitIdMax: S.Number,
+    WorkUnitIdMin: S.Number,
+    WorkUnitToken: S.String,
+  }),
+).annotate({ identifier: "WorkUnitRange" }) as any as S.Schema<WorkUnitRange>;
+export type WorkUnitRangeList = WorkUnitRange[];
+export const WorkUnitRangeList = S.Array(WorkUnitRange);
 export interface GetWorkUnitsResponse {
   NextToken?: string;
   QueryId: string;
@@ -2619,9 +1897,67 @@ export const GetWorkUnitsResponse = S.suspend(() =>
     QueryId: S.String,
     WorkUnitRanges: WorkUnitRangeList,
   }),
-).annotations({
+).annotate({
   identifier: "GetWorkUnitsResponse",
 }) as any as S.Schema<GetWorkUnitsResponse>;
+export interface GrantPermissionsRequest {
+  CatalogId?: string;
+  Principal: DataLakePrincipal;
+  Resource: Resource;
+  Permissions: Permission[];
+  Condition?: Condition;
+  PermissionsWithGrantOption?: Permission[];
+}
+export const GrantPermissionsRequest = S.suspend(() =>
+  S.Struct({
+    CatalogId: S.optional(S.String),
+    Principal: DataLakePrincipal,
+    Resource: Resource,
+    Permissions: PermissionList,
+    Condition: S.optional(Condition),
+    PermissionsWithGrantOption: S.optional(PermissionList),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/GrantPermissions" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GrantPermissionsRequest",
+}) as any as S.Schema<GrantPermissionsRequest>;
+export interface GrantPermissionsResponse {}
+export const GrantPermissionsResponse = S.suspend(() => S.Struct({})).annotate({
+  identifier: "GrantPermissionsResponse",
+}) as any as S.Schema<GrantPermissionsResponse>;
+export interface ListDataCellsFilterRequest {
+  Table?: TableResource;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListDataCellsFilterRequest = S.suspend(() =>
+  S.Struct({
+    Table: S.optional(TableResource),
+    NextToken: S.optional(S.String),
+    MaxResults: S.optional(S.Number),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ListDataCellsFilter" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListDataCellsFilterRequest",
+}) as any as S.Schema<ListDataCellsFilterRequest>;
+export type DataCellsFilterList = DataCellsFilter[];
+export const DataCellsFilterList = S.Array(DataCellsFilter);
 export interface ListDataCellsFilterResponse {
   DataCellsFilters?: DataCellsFilter[];
   NextToken?: string;
@@ -2631,9 +1967,54 @@ export const ListDataCellsFilterResponse = S.suspend(() =>
     DataCellsFilters: S.optional(DataCellsFilterList),
     NextToken: S.optional(S.String),
   }),
-).annotations({
+).annotate({
   identifier: "ListDataCellsFilterResponse",
 }) as any as S.Schema<ListDataCellsFilterResponse>;
+export interface ListLakeFormationOptInsRequest {
+  Principal?: DataLakePrincipal;
+  Resource?: Resource;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListLakeFormationOptInsRequest = S.suspend(() =>
+  S.Struct({
+    Principal: S.optional(DataLakePrincipal),
+    Resource: S.optional(Resource),
+    MaxResults: S.optional(S.Number),
+    NextToken: S.optional(S.String),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ListLakeFormationOptIns" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListLakeFormationOptInsRequest",
+}) as any as S.Schema<ListLakeFormationOptInsRequest>;
+export interface LakeFormationOptInsInfo {
+  Resource?: Resource;
+  Principal?: DataLakePrincipal;
+  Condition?: Condition;
+  LastModified?: Date;
+  LastUpdatedBy?: string;
+}
+export const LakeFormationOptInsInfo = S.suspend(() =>
+  S.Struct({
+    Resource: S.optional(Resource),
+    Principal: S.optional(DataLakePrincipal),
+    Condition: S.optional(Condition),
+    LastModified: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    LastUpdatedBy: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "LakeFormationOptInsInfo",
+}) as any as S.Schema<LakeFormationOptInsInfo>;
+export type LakeFormationOptInsInfoList = LakeFormationOptInsInfo[];
+export const LakeFormationOptInsInfoList = S.Array(LakeFormationOptInsInfo);
 export interface ListLakeFormationOptInsResponse {
   LakeFormationOptInsInfoList?: LakeFormationOptInsInfo[];
   NextToken?: string;
@@ -2643,9 +2024,50 @@ export const ListLakeFormationOptInsResponse = S.suspend(() =>
     LakeFormationOptInsInfoList: S.optional(LakeFormationOptInsInfoList),
     NextToken: S.optional(S.String),
   }),
-).annotations({
+).annotate({
   identifier: "ListLakeFormationOptInsResponse",
 }) as any as S.Schema<ListLakeFormationOptInsResponse>;
+export interface ListLFTagExpressionsRequest {
+  CatalogId?: string;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListLFTagExpressionsRequest = S.suspend(() =>
+  S.Struct({
+    CatalogId: S.optional(S.String),
+    MaxResults: S.optional(S.Number),
+    NextToken: S.optional(S.String),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ListLFTagExpressions" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListLFTagExpressionsRequest",
+}) as any as S.Schema<ListLFTagExpressionsRequest>;
+export interface LFTagExpression {
+  Name?: string;
+  Description?: string;
+  CatalogId?: string;
+  Expression?: LFTag[];
+}
+export const LFTagExpression = S.suspend(() =>
+  S.Struct({
+    Name: S.optional(S.String),
+    Description: S.optional(S.String),
+    CatalogId: S.optional(S.String),
+    Expression: S.optional(Expression),
+  }),
+).annotate({
+  identifier: "LFTagExpression",
+}) as any as S.Schema<LFTagExpression>;
+export type LFTagExpressionsList = LFTagExpression[];
+export const LFTagExpressionsList = S.Array(LFTagExpression);
 export interface ListLFTagExpressionsResponse {
   LFTagExpressions?: LFTagExpression[];
   NextToken?: string;
@@ -2655,9 +2077,163 @@ export const ListLFTagExpressionsResponse = S.suspend(() =>
     LFTagExpressions: S.optional(LFTagExpressionsList),
     NextToken: S.optional(S.String),
   }),
-).annotations({
+).annotate({
   identifier: "ListLFTagExpressionsResponse",
 }) as any as S.Schema<ListLFTagExpressionsResponse>;
+export type ResourceShareType = "FOREIGN" | "ALL" | (string & {});
+export const ResourceShareType = S.String;
+export interface ListLFTagsRequest {
+  CatalogId?: string;
+  ResourceShareType?: ResourceShareType;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListLFTagsRequest = S.suspend(() =>
+  S.Struct({
+    CatalogId: S.optional(S.String),
+    ResourceShareType: S.optional(ResourceShareType),
+    MaxResults: S.optional(S.Number),
+    NextToken: S.optional(S.String),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ListLFTags" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListLFTagsRequest",
+}) as any as S.Schema<ListLFTagsRequest>;
+export interface ListLFTagsResponse {
+  LFTags?: LFTagPair[];
+  NextToken?: string;
+}
+export const ListLFTagsResponse = S.suspend(() =>
+  S.Struct({ LFTags: S.optional(LFTagsList), NextToken: S.optional(S.String) }),
+).annotate({
+  identifier: "ListLFTagsResponse",
+}) as any as S.Schema<ListLFTagsResponse>;
+export type DataLakeResourceType =
+  | "CATALOG"
+  | "DATABASE"
+  | "TABLE"
+  | "DATA_LOCATION"
+  | "LF_TAG"
+  | "LF_TAG_POLICY"
+  | "LF_TAG_POLICY_DATABASE"
+  | "LF_TAG_POLICY_TABLE"
+  | "LF_NAMED_TAG_EXPRESSION"
+  | (string & {});
+export const DataLakeResourceType = S.String;
+export interface ListPermissionsRequest {
+  CatalogId?: string;
+  Principal?: DataLakePrincipal;
+  ResourceType?: DataLakeResourceType;
+  Resource?: Resource;
+  NextToken?: string;
+  MaxResults?: number;
+  IncludeRelated?: string;
+}
+export const ListPermissionsRequest = S.suspend(() =>
+  S.Struct({
+    CatalogId: S.optional(S.String),
+    Principal: S.optional(DataLakePrincipal),
+    ResourceType: S.optional(DataLakeResourceType),
+    Resource: S.optional(Resource),
+    NextToken: S.optional(S.String),
+    MaxResults: S.optional(S.Number),
+    IncludeRelated: S.optional(S.String),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ListPermissions" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListPermissionsRequest",
+}) as any as S.Schema<ListPermissionsRequest>;
+export interface ListPermissionsResponse {
+  PrincipalResourcePermissions?: PrincipalResourcePermissions[];
+  NextToken?: string;
+}
+export const ListPermissionsResponse = S.suspend(() =>
+  S.Struct({
+    PrincipalResourcePermissions: S.optional(PrincipalResourcePermissionsList),
+    NextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ListPermissionsResponse",
+}) as any as S.Schema<ListPermissionsResponse>;
+export type FieldNameString =
+  | "RESOURCE_ARN"
+  | "ROLE_ARN"
+  | "LAST_MODIFIED"
+  | (string & {});
+export const FieldNameString = S.String;
+export type ComparisonOperator =
+  | "EQ"
+  | "NE"
+  | "LE"
+  | "LT"
+  | "GE"
+  | "GT"
+  | "CONTAINS"
+  | "NOT_CONTAINS"
+  | "BEGINS_WITH"
+  | "IN"
+  | "BETWEEN"
+  | (string & {});
+export const ComparisonOperator = S.String;
+export type StringValueList = string[];
+export const StringValueList = S.Array(S.String);
+export interface FilterCondition {
+  Field?: FieldNameString;
+  ComparisonOperator?: ComparisonOperator;
+  StringValueList?: string[];
+}
+export const FilterCondition = S.suspend(() =>
+  S.Struct({
+    Field: S.optional(FieldNameString),
+    ComparisonOperator: S.optional(ComparisonOperator),
+    StringValueList: S.optional(StringValueList),
+  }),
+).annotate({
+  identifier: "FilterCondition",
+}) as any as S.Schema<FilterCondition>;
+export type FilterConditionList = FilterCondition[];
+export const FilterConditionList = S.Array(FilterCondition);
+export interface ListResourcesRequest {
+  FilterConditionList?: FilterCondition[];
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListResourcesRequest = S.suspend(() =>
+  S.Struct({
+    FilterConditionList: S.optional(FilterConditionList),
+    MaxResults: S.optional(S.Number),
+    NextToken: S.optional(S.String),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ListResources" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListResourcesRequest",
+}) as any as S.Schema<ListResourcesRequest>;
+export type ResourceInfoList = ResourceInfo[];
+export const ResourceInfoList = S.Array(ResourceInfo);
 export interface ListResourcesResponse {
   ResourceInfoList?: ResourceInfo[];
   NextToken?: string;
@@ -2667,9 +2243,69 @@ export const ListResourcesResponse = S.suspend(() =>
     ResourceInfoList: S.optional(ResourceInfoList),
     NextToken: S.optional(S.String),
   }),
-).annotations({
+).annotate({
   identifier: "ListResourcesResponse",
 }) as any as S.Schema<ListResourcesResponse>;
+export type OptimizerType =
+  | "COMPACTION"
+  | "GARBAGE_COLLECTION"
+  | "ALL"
+  | (string & {});
+export const OptimizerType = S.String;
+export interface ListTableStorageOptimizersRequest {
+  CatalogId?: string;
+  DatabaseName: string;
+  TableName: string;
+  StorageOptimizerType?: OptimizerType;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListTableStorageOptimizersRequest = S.suspend(() =>
+  S.Struct({
+    CatalogId: S.optional(S.String),
+    DatabaseName: S.String,
+    TableName: S.String,
+    StorageOptimizerType: S.optional(OptimizerType),
+    MaxResults: S.optional(S.Number),
+    NextToken: S.optional(S.String),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ListTableStorageOptimizers" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListTableStorageOptimizersRequest",
+}) as any as S.Schema<ListTableStorageOptimizersRequest>;
+export type StorageOptimizerConfig = { [key: string]: string | undefined };
+export const StorageOptimizerConfig = S.Record(
+  S.String,
+  S.String.pipe(S.optional),
+);
+export interface StorageOptimizer {
+  StorageOptimizerType?: OptimizerType;
+  Config?: { [key: string]: string | undefined };
+  ErrorMessage?: string;
+  Warnings?: string;
+  LastRunDetails?: string;
+}
+export const StorageOptimizer = S.suspend(() =>
+  S.Struct({
+    StorageOptimizerType: S.optional(OptimizerType),
+    Config: S.optional(StorageOptimizerConfig),
+    ErrorMessage: S.optional(S.String),
+    Warnings: S.optional(S.String),
+    LastRunDetails: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "StorageOptimizer",
+}) as any as S.Schema<StorageOptimizer>;
+export type StorageOptimizerList = StorageOptimizer[];
+export const StorageOptimizerList = S.Array(StorageOptimizer);
 export interface ListTableStorageOptimizersResponse {
   StorageOptimizerList?: StorageOptimizer[];
   NextToken?: string;
@@ -2679,9 +2315,56 @@ export const ListTableStorageOptimizersResponse = S.suspend(() =>
     StorageOptimizerList: S.optional(StorageOptimizerList),
     NextToken: S.optional(S.String),
   }),
-).annotations({
+).annotate({
   identifier: "ListTableStorageOptimizersResponse",
 }) as any as S.Schema<ListTableStorageOptimizersResponse>;
+export type TransactionStatusFilter =
+  | "ALL"
+  | "COMPLETED"
+  | "ACTIVE"
+  | "COMMITTED"
+  | "ABORTED"
+  | (string & {});
+export const TransactionStatusFilter = S.String;
+export interface ListTransactionsRequest {
+  CatalogId?: string;
+  StatusFilter?: TransactionStatusFilter;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListTransactionsRequest = S.suspend(() =>
+  S.Struct({
+    CatalogId: S.optional(S.String),
+    StatusFilter: S.optional(TransactionStatusFilter),
+    MaxResults: S.optional(S.Number),
+    NextToken: S.optional(S.String),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ListTransactions" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListTransactionsRequest",
+}) as any as S.Schema<ListTransactionsRequest>;
+export type TransactionDescriptionList = TransactionDescription[];
+export const TransactionDescriptionList = S.Array(TransactionDescription);
+export interface ListTransactionsResponse {
+  Transactions?: TransactionDescription[];
+  NextToken?: string;
+}
+export const ListTransactionsResponse = S.suspend(() =>
+  S.Struct({
+    Transactions: S.optional(TransactionDescriptionList),
+    NextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ListTransactionsResponse",
+}) as any as S.Schema<ListTransactionsResponse>;
 export interface PutDataLakeSettingsRequest {
   CatalogId?: string;
   DataLakeSettings: DataLakeSettings;
@@ -2700,23 +2383,149 @@ export const PutDataLakeSettingsRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "PutDataLakeSettingsRequest",
 }) as any as S.Schema<PutDataLakeSettingsRequest>;
 export interface PutDataLakeSettingsResponse {}
 export const PutDataLakeSettingsResponse = S.suspend(() =>
   S.Struct({}),
-).annotations({
+).annotate({
   identifier: "PutDataLakeSettingsResponse",
 }) as any as S.Schema<PutDataLakeSettingsResponse>;
+export interface RegisterResourceRequest {
+  ResourceArn: string;
+  UseServiceLinkedRole?: boolean;
+  RoleArn?: string;
+  WithFederation?: boolean;
+  HybridAccessEnabled?: boolean;
+  WithPrivilegedAccess?: boolean;
+}
+export const RegisterResourceRequest = S.suspend(() =>
+  S.Struct({
+    ResourceArn: S.String,
+    UseServiceLinkedRole: S.optional(S.Boolean),
+    RoleArn: S.optional(S.String),
+    WithFederation: S.optional(S.Boolean),
+    HybridAccessEnabled: S.optional(S.Boolean),
+    WithPrivilegedAccess: S.optional(S.Boolean),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/RegisterResource" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "RegisterResourceRequest",
+}) as any as S.Schema<RegisterResourceRequest>;
+export interface RegisterResourceResponse {}
+export const RegisterResourceResponse = S.suspend(() => S.Struct({})).annotate({
+  identifier: "RegisterResourceResponse",
+}) as any as S.Schema<RegisterResourceResponse>;
+export interface RemoveLFTagsFromResourceRequest {
+  CatalogId?: string;
+  Resource: Resource;
+  LFTags: LFTagPair[];
+}
+export const RemoveLFTagsFromResourceRequest = S.suspend(() =>
+  S.Struct({
+    CatalogId: S.optional(S.String),
+    Resource: Resource,
+    LFTags: LFTagsList,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/RemoveLFTagsFromResource" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "RemoveLFTagsFromResourceRequest",
+}) as any as S.Schema<RemoveLFTagsFromResourceRequest>;
 export interface RemoveLFTagsFromResourceResponse {
   Failures?: LFTagError[];
 }
 export const RemoveLFTagsFromResourceResponse = S.suspend(() =>
   S.Struct({ Failures: S.optional(LFTagErrors) }),
-).annotations({
+).annotate({
   identifier: "RemoveLFTagsFromResourceResponse",
 }) as any as S.Schema<RemoveLFTagsFromResourceResponse>;
+export interface RevokePermissionsRequest {
+  CatalogId?: string;
+  Principal: DataLakePrincipal;
+  Resource: Resource;
+  Permissions: Permission[];
+  Condition?: Condition;
+  PermissionsWithGrantOption?: Permission[];
+}
+export const RevokePermissionsRequest = S.suspend(() =>
+  S.Struct({
+    CatalogId: S.optional(S.String),
+    Principal: DataLakePrincipal,
+    Resource: Resource,
+    Permissions: PermissionList,
+    Condition: S.optional(Condition),
+    PermissionsWithGrantOption: S.optional(PermissionList),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/RevokePermissions" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "RevokePermissionsRequest",
+}) as any as S.Schema<RevokePermissionsRequest>;
+export interface RevokePermissionsResponse {}
+export const RevokePermissionsResponse = S.suspend(() => S.Struct({})).annotate(
+  { identifier: "RevokePermissionsResponse" },
+) as any as S.Schema<RevokePermissionsResponse>;
+export interface SearchDatabasesByLFTagsRequest {
+  NextToken?: string;
+  MaxResults?: number;
+  CatalogId?: string;
+  Expression: LFTag[];
+}
+export const SearchDatabasesByLFTagsRequest = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    MaxResults: S.optional(S.Number),
+    CatalogId: S.optional(S.String),
+    Expression: Expression,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/SearchDatabasesByLFTags" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "SearchDatabasesByLFTagsRequest",
+}) as any as S.Schema<SearchDatabasesByLFTagsRequest>;
+export interface TaggedDatabase {
+  Database?: DatabaseResource;
+  LFTags?: LFTagPair[];
+}
+export const TaggedDatabase = S.suspend(() =>
+  S.Struct({
+    Database: S.optional(DatabaseResource),
+    LFTags: S.optional(LFTagsList),
+  }),
+).annotate({ identifier: "TaggedDatabase" }) as any as S.Schema<TaggedDatabase>;
+export type DatabaseLFTagsList = TaggedDatabase[];
+export const DatabaseLFTagsList = S.Array(TaggedDatabase);
 export interface SearchDatabasesByLFTagsResponse {
   NextToken?: string;
   DatabaseList?: TaggedDatabase[];
@@ -2726,9 +2535,50 @@ export const SearchDatabasesByLFTagsResponse = S.suspend(() =>
     NextToken: S.optional(S.String),
     DatabaseList: S.optional(DatabaseLFTagsList),
   }),
-).annotations({
+).annotate({
   identifier: "SearchDatabasesByLFTagsResponse",
 }) as any as S.Schema<SearchDatabasesByLFTagsResponse>;
+export interface SearchTablesByLFTagsRequest {
+  NextToken?: string;
+  MaxResults?: number;
+  CatalogId?: string;
+  Expression: LFTag[];
+}
+export const SearchTablesByLFTagsRequest = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    MaxResults: S.optional(S.Number),
+    CatalogId: S.optional(S.String),
+    Expression: Expression,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/SearchTablesByLFTags" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "SearchTablesByLFTagsRequest",
+}) as any as S.Schema<SearchTablesByLFTagsRequest>;
+export interface TaggedTable {
+  Table?: TableResource;
+  LFTagOnDatabase?: LFTagPair[];
+  LFTagsOnTable?: LFTagPair[];
+  LFTagsOnColumns?: ColumnLFTag[];
+}
+export const TaggedTable = S.suspend(() =>
+  S.Struct({
+    Table: S.optional(TableResource),
+    LFTagOnDatabase: S.optional(LFTagsList),
+    LFTagsOnTable: S.optional(LFTagsList),
+    LFTagsOnColumns: S.optional(ColumnLFTagsList),
+  }),
+).annotate({ identifier: "TaggedTable" }) as any as S.Schema<TaggedTable>;
+export type TableLFTagsList = TaggedTable[];
+export const TableLFTagsList = S.Array(TaggedTable);
 export interface SearchTablesByLFTagsResponse {
   NextToken?: string;
   TableList?: TaggedTable[];
@@ -2738,9 +2588,29 @@ export const SearchTablesByLFTagsResponse = S.suspend(() =>
     NextToken: S.optional(S.String),
     TableList: S.optional(TableLFTagsList),
   }),
-).annotations({
+).annotate({
   identifier: "SearchTablesByLFTagsResponse",
 }) as any as S.Schema<SearchTablesByLFTagsResponse>;
+export type QueryParameterMap = { [key: string]: string | undefined };
+export const QueryParameterMap = S.Record(S.String, S.String.pipe(S.optional));
+export interface QueryPlanningContext {
+  CatalogId?: string;
+  DatabaseName: string;
+  QueryAsOfTime?: Date;
+  QueryParameters?: { [key: string]: string | undefined };
+  TransactionId?: string;
+}
+export const QueryPlanningContext = S.suspend(() =>
+  S.Struct({
+    CatalogId: S.optional(S.String),
+    DatabaseName: S.String,
+    QueryAsOfTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    QueryParameters: S.optional(QueryParameterMap),
+    TransactionId: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "QueryPlanningContext",
+}) as any as S.Schema<QueryPlanningContext>;
 export interface StartQueryPlanningRequest {
   QueryPlanningContext: QueryPlanningContext;
   QueryString: string | redacted.Redacted<string>;
@@ -2759,9 +2629,235 @@ export const StartQueryPlanningRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "StartQueryPlanningRequest",
 }) as any as S.Schema<StartQueryPlanningRequest>;
+export interface StartQueryPlanningResponse {
+  QueryId: string;
+}
+export const StartQueryPlanningResponse = S.suspend(() =>
+  S.Struct({ QueryId: S.String }),
+).annotate({
+  identifier: "StartQueryPlanningResponse",
+}) as any as S.Schema<StartQueryPlanningResponse>;
+export type TransactionType = "READ_AND_WRITE" | "READ_ONLY" | (string & {});
+export const TransactionType = S.String;
+export interface StartTransactionRequest {
+  TransactionType?: TransactionType;
+}
+export const StartTransactionRequest = S.suspend(() =>
+  S.Struct({ TransactionType: S.optional(TransactionType) }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/StartTransaction" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "StartTransactionRequest",
+}) as any as S.Schema<StartTransactionRequest>;
+export interface StartTransactionResponse {
+  TransactionId?: string;
+}
+export const StartTransactionResponse = S.suspend(() =>
+  S.Struct({ TransactionId: S.optional(S.String) }),
+).annotate({
+  identifier: "StartTransactionResponse",
+}) as any as S.Schema<StartTransactionResponse>;
+export interface UpdateDataCellsFilterRequest {
+  TableData: DataCellsFilter;
+}
+export const UpdateDataCellsFilterRequest = S.suspend(() =>
+  S.Struct({ TableData: DataCellsFilter }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/UpdateDataCellsFilter" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "UpdateDataCellsFilterRequest",
+}) as any as S.Schema<UpdateDataCellsFilterRequest>;
+export interface UpdateDataCellsFilterResponse {}
+export const UpdateDataCellsFilterResponse = S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "UpdateDataCellsFilterResponse",
+}) as any as S.Schema<UpdateDataCellsFilterResponse>;
+export type ApplicationStatus = "ENABLED" | "DISABLED" | (string & {});
+export const ApplicationStatus = S.String;
+export interface UpdateLakeFormationIdentityCenterConfigurationRequest {
+  CatalogId?: string;
+  ShareRecipients?: DataLakePrincipal[];
+  ServiceIntegrations?: ServiceIntegrationUnion[];
+  ApplicationStatus?: ApplicationStatus;
+  ExternalFiltering?: ExternalFilteringConfiguration;
+}
+export const UpdateLakeFormationIdentityCenterConfigurationRequest = S.suspend(
+  () =>
+    S.Struct({
+      CatalogId: S.optional(S.String),
+      ShareRecipients: S.optional(DataLakePrincipalList),
+      ServiceIntegrations: S.optional(ServiceIntegrationList),
+      ApplicationStatus: S.optional(ApplicationStatus),
+      ExternalFiltering: S.optional(ExternalFilteringConfiguration),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "POST",
+          uri: "/UpdateLakeFormationIdentityCenterConfiguration",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
+    ),
+).annotate({
+  identifier: "UpdateLakeFormationIdentityCenterConfigurationRequest",
+}) as any as S.Schema<UpdateLakeFormationIdentityCenterConfigurationRequest>;
+export interface UpdateLakeFormationIdentityCenterConfigurationResponse {}
+export const UpdateLakeFormationIdentityCenterConfigurationResponse = S.suspend(
+  () => S.Struct({}),
+).annotate({
+  identifier: "UpdateLakeFormationIdentityCenterConfigurationResponse",
+}) as any as S.Schema<UpdateLakeFormationIdentityCenterConfigurationResponse>;
+export interface UpdateLFTagRequest {
+  CatalogId?: string;
+  TagKey: string;
+  TagValuesToDelete?: string[];
+  TagValuesToAdd?: string[];
+}
+export const UpdateLFTagRequest = S.suspend(() =>
+  S.Struct({
+    CatalogId: S.optional(S.String),
+    TagKey: S.String,
+    TagValuesToDelete: S.optional(TagValueList),
+    TagValuesToAdd: S.optional(TagValueList),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/UpdateLFTag" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "UpdateLFTagRequest",
+}) as any as S.Schema<UpdateLFTagRequest>;
+export interface UpdateLFTagResponse {}
+export const UpdateLFTagResponse = S.suspend(() => S.Struct({})).annotate({
+  identifier: "UpdateLFTagResponse",
+}) as any as S.Schema<UpdateLFTagResponse>;
+export interface UpdateLFTagExpressionRequest {
+  Name: string;
+  Description?: string;
+  CatalogId?: string;
+  Expression: LFTag[];
+}
+export const UpdateLFTagExpressionRequest = S.suspend(() =>
+  S.Struct({
+    Name: S.String,
+    Description: S.optional(S.String),
+    CatalogId: S.optional(S.String),
+    Expression: Expression,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/UpdateLFTagExpression" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "UpdateLFTagExpressionRequest",
+}) as any as S.Schema<UpdateLFTagExpressionRequest>;
+export interface UpdateLFTagExpressionResponse {}
+export const UpdateLFTagExpressionResponse = S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "UpdateLFTagExpressionResponse",
+}) as any as S.Schema<UpdateLFTagExpressionResponse>;
+export interface UpdateResourceRequest {
+  RoleArn: string;
+  ResourceArn: string;
+  WithFederation?: boolean;
+  HybridAccessEnabled?: boolean;
+}
+export const UpdateResourceRequest = S.suspend(() =>
+  S.Struct({
+    RoleArn: S.String,
+    ResourceArn: S.String,
+    WithFederation: S.optional(S.Boolean),
+    HybridAccessEnabled: S.optional(S.Boolean),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/UpdateResource" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "UpdateResourceRequest",
+}) as any as S.Schema<UpdateResourceRequest>;
+export interface UpdateResourceResponse {}
+export const UpdateResourceResponse = S.suspend(() => S.Struct({})).annotate({
+  identifier: "UpdateResourceResponse",
+}) as any as S.Schema<UpdateResourceResponse>;
+export interface AddObjectInput {
+  Uri: string;
+  ETag: string;
+  Size: number;
+  PartitionValues?: string[];
+}
+export const AddObjectInput = S.suspend(() =>
+  S.Struct({
+    Uri: S.String,
+    ETag: S.String,
+    Size: S.Number,
+    PartitionValues: S.optional(PartitionValuesList),
+  }),
+).annotate({ identifier: "AddObjectInput" }) as any as S.Schema<AddObjectInput>;
+export interface DeleteObjectInput {
+  Uri: string;
+  ETag?: string;
+  PartitionValues?: string[];
+}
+export const DeleteObjectInput = S.suspend(() =>
+  S.Struct({
+    Uri: S.String,
+    ETag: S.optional(S.String),
+    PartitionValues: S.optional(PartitionValuesList),
+  }),
+).annotate({
+  identifier: "DeleteObjectInput",
+}) as any as S.Schema<DeleteObjectInput>;
+export interface WriteOperation {
+  AddObject?: AddObjectInput;
+  DeleteObject?: DeleteObjectInput;
+}
+export const WriteOperation = S.suspend(() =>
+  S.Struct({
+    AddObject: S.optional(AddObjectInput),
+    DeleteObject: S.optional(DeleteObjectInput),
+  }),
+).annotate({ identifier: "WriteOperation" }) as any as S.Schema<WriteOperation>;
+export type WriteOperationList = WriteOperation[];
+export const WriteOperationList = S.Array(WriteOperation);
 export interface UpdateTableObjectsRequest {
   CatalogId?: string;
   DatabaseName: string;
@@ -2786,15 +2882,22 @@ export const UpdateTableObjectsRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "UpdateTableObjectsRequest",
 }) as any as S.Schema<UpdateTableObjectsRequest>;
 export interface UpdateTableObjectsResponse {}
 export const UpdateTableObjectsResponse = S.suspend(() =>
   S.Struct({}),
-).annotations({
+).annotate({
   identifier: "UpdateTableObjectsResponse",
 }) as any as S.Schema<UpdateTableObjectsResponse>;
+export type StorageOptimizerConfigMap = {
+  [key in OptimizerType]?: { [key: string]: string | undefined };
+};
+export const StorageOptimizerConfigMap = S.Record(
+  OptimizerType,
+  StorageOptimizerConfig.pipe(S.optional),
+);
 export interface UpdateTableStorageOptimizerRequest {
   CatalogId?: string;
   DatabaseName: string;
@@ -2819,913 +2922,391 @@ export const UpdateTableStorageOptimizerRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "UpdateTableStorageOptimizerRequest",
 }) as any as S.Schema<UpdateTableStorageOptimizerRequest>;
-export interface TableObject {
-  Uri?: string;
-  ETag?: string;
-  Size?: number;
-}
-export const TableObject = S.suspend(() =>
-  S.Struct({
-    Uri: S.optional(S.String),
-    ETag: S.optional(S.String),
-    Size: S.optional(S.Number),
-  }),
-).annotations({ identifier: "TableObject" }) as any as S.Schema<TableObject>;
-export type TableObjectList = TableObject[];
-export const TableObjectList = S.Array(TableObject);
-export interface PartitionObjects {
-  PartitionValues?: string[];
-  Objects?: TableObject[];
-}
-export const PartitionObjects = S.suspend(() =>
-  S.Struct({
-    PartitionValues: S.optional(PartitionValuesList),
-    Objects: S.optional(TableObjectList),
-  }),
-).annotations({
-  identifier: "PartitionObjects",
-}) as any as S.Schema<PartitionObjects>;
-export type PartitionedTableObjectsList = PartitionObjects[];
-export const PartitionedTableObjectsList = S.Array(PartitionObjects);
-export type PathStringList = string[];
-export const PathStringList = S.Array(S.String);
-export interface AddLFTagsToResourceResponse {
-  Failures?: LFTagError[];
-}
-export const AddLFTagsToResourceResponse = S.suspend(() =>
-  S.Struct({ Failures: S.optional(LFTagErrors) }),
-).annotations({
-  identifier: "AddLFTagsToResourceResponse",
-}) as any as S.Schema<AddLFTagsToResourceResponse>;
-export interface BatchRevokePermissionsResponse {
-  Failures?: BatchPermissionsFailureEntry[];
-}
-export const BatchRevokePermissionsResponse = S.suspend(() =>
-  S.Struct({ Failures: S.optional(BatchPermissionsFailureList) }),
-).annotations({
-  identifier: "BatchRevokePermissionsResponse",
-}) as any as S.Schema<BatchRevokePermissionsResponse>;
-export interface CreateLakeFormationIdentityCenterConfigurationRequest {
-  CatalogId?: string;
-  InstanceArn?: string;
-  ExternalFiltering?: ExternalFilteringConfiguration;
-  ShareRecipients?: DataLakePrincipal[];
-  ServiceIntegrations?: ServiceIntegrationUnion[];
-}
-export const CreateLakeFormationIdentityCenterConfigurationRequest = S.suspend(
-  () =>
-    S.Struct({
-      CatalogId: S.optional(S.String),
-      InstanceArn: S.optional(S.String),
-      ExternalFiltering: S.optional(ExternalFilteringConfiguration),
-      ShareRecipients: S.optional(DataLakePrincipalList),
-      ServiceIntegrations: S.optional(ServiceIntegrationList),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "POST",
-          uri: "/CreateLakeFormationIdentityCenterConfiguration",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotations({
-  identifier: "CreateLakeFormationIdentityCenterConfigurationRequest",
-}) as any as S.Schema<CreateLakeFormationIdentityCenterConfigurationRequest>;
-export interface GetEffectivePermissionsForPathResponse {
-  Permissions?: PrincipalResourcePermissions[];
-  NextToken?: string;
-}
-export const GetEffectivePermissionsForPathResponse = S.suspend(() =>
-  S.Struct({
-    Permissions: S.optional(PrincipalResourcePermissionsList),
-    NextToken: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "GetEffectivePermissionsForPathResponse",
-}) as any as S.Schema<GetEffectivePermissionsForPathResponse>;
-export interface GetTableObjectsResponse {
-  Objects?: PartitionObjects[];
-  NextToken?: string;
-}
-export const GetTableObjectsResponse = S.suspend(() =>
-  S.Struct({
-    Objects: S.optional(PartitionedTableObjectsList),
-    NextToken: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "GetTableObjectsResponse",
-}) as any as S.Schema<GetTableObjectsResponse>;
-export interface GetTemporaryGlueTableCredentialsResponse {
-  AccessKeyId?: string;
-  SecretAccessKey?: string;
-  SessionToken?: string;
-  Expiration?: Date;
-  VendedS3Path?: string[];
-}
-export const GetTemporaryGlueTableCredentialsResponse = S.suspend(() =>
-  S.Struct({
-    AccessKeyId: S.optional(S.String),
-    SecretAccessKey: S.optional(S.String),
-    SessionToken: S.optional(S.String),
-    Expiration: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    VendedS3Path: S.optional(PathStringList),
-  }),
-).annotations({
-  identifier: "GetTemporaryGlueTableCredentialsResponse",
-}) as any as S.Schema<GetTemporaryGlueTableCredentialsResponse>;
-export interface StartQueryPlanningResponse {
-  QueryId: string;
-}
-export const StartQueryPlanningResponse = S.suspend(() =>
-  S.Struct({ QueryId: S.String }),
-).annotations({
-  identifier: "StartQueryPlanningResponse",
-}) as any as S.Schema<StartQueryPlanningResponse>;
 export interface UpdateTableStorageOptimizerResponse {
   Result?: string;
 }
 export const UpdateTableStorageOptimizerResponse = S.suspend(() =>
   S.Struct({ Result: S.optional(S.String) }),
-).annotations({
+).annotate({
   identifier: "UpdateTableStorageOptimizerResponse",
 }) as any as S.Schema<UpdateTableStorageOptimizerResponse>;
-export interface CreateLakeFormationIdentityCenterConfigurationResponse {
-  ApplicationArn?: string;
-}
-export const CreateLakeFormationIdentityCenterConfigurationResponse = S.suspend(
-  () => S.Struct({ ApplicationArn: S.optional(S.String) }),
-).annotations({
-  identifier: "CreateLakeFormationIdentityCenterConfigurationResponse",
-}) as any as S.Schema<CreateLakeFormationIdentityCenterConfigurationResponse>;
 
 //# Errors
-export class ConcurrentModificationException extends S.TaggedError<ConcurrentModificationException>()(
-  "ConcurrentModificationException",
-  { Message: S.optional(S.String) },
-) {}
-export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
+export class AccessDeniedException extends S.TaggedErrorClass<AccessDeniedException>()(
   "AccessDeniedException",
   { Message: S.optional(S.String) },
 ).pipe(C.withAuthError) {}
-export class EntityNotFoundException extends S.TaggedError<EntityNotFoundException>()(
+export class ConcurrentModificationException extends S.TaggedErrorClass<ConcurrentModificationException>()(
+  "ConcurrentModificationException",
+  { Message: S.optional(S.String) },
+) {}
+export class EntityNotFoundException extends S.TaggedErrorClass<EntityNotFoundException>()(
   "EntityNotFoundException",
   { Message: S.optional(S.String) },
 ) {}
-export class InternalServiceException extends S.TaggedError<InternalServiceException>()(
+export class InternalServiceException extends S.TaggedErrorClass<InternalServiceException>()(
   "InternalServiceException",
   { Message: S.optional(S.String) },
 ).pipe(C.withServerError) {}
-export class ExpiredException extends S.TaggedError<ExpiredException>()(
-  "ExpiredException",
-  { Message: S.optional(S.String) },
-).pipe(C.withBadRequestError) {}
-export class InvalidInputException extends S.TaggedError<InvalidInputException>()(
+export class InvalidInputException extends S.TaggedErrorClass<InvalidInputException>()(
   "InvalidInputException",
   { Message: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
-export class AlreadyExistsException extends S.TaggedError<AlreadyExistsException>()(
-  "AlreadyExistsException",
-  { Message: S.optional(S.String) },
-).pipe(C.withAlreadyExistsError) {}
-export class GlueEncryptionException extends S.TaggedError<GlueEncryptionException>()(
-  "GlueEncryptionException",
-  { Message: S.optional(S.String) },
-) {}
-export class OperationTimeoutException extends S.TaggedError<OperationTimeoutException>()(
+export class OperationTimeoutException extends S.TaggedErrorClass<OperationTimeoutException>()(
   "OperationTimeoutException",
   { Message: S.optional(S.String) },
 ) {}
-export class StatisticsNotReadyYetException extends S.TaggedError<StatisticsNotReadyYetException>()(
+export class TransactionCommitInProgressException extends S.TaggedErrorClass<TransactionCommitInProgressException>()(
+  "TransactionCommitInProgressException",
+  { Message: S.optional(S.String) },
+).pipe(C.withBadRequestError) {}
+export class TransactionCommittedException extends S.TaggedErrorClass<TransactionCommittedException>()(
+  "TransactionCommittedException",
+  { Message: S.optional(S.String) },
+).pipe(C.withBadRequestError) {}
+export class TransactionCanceledException extends S.TaggedErrorClass<TransactionCanceledException>()(
+  "TransactionCanceledException",
+  { Message: S.optional(S.String) },
+).pipe(C.withBadRequestError) {}
+export class AlreadyExistsException extends S.TaggedErrorClass<AlreadyExistsException>()(
+  "AlreadyExistsException",
+  { Message: S.optional(S.String) },
+).pipe(C.withAlreadyExistsError) {}
+export class ResourceNumberLimitExceededException extends S.TaggedErrorClass<ResourceNumberLimitExceededException>()(
+  "ResourceNumberLimitExceededException",
+  { Message: S.optional(S.String) },
+) {}
+export class ResourceNotReadyException extends S.TaggedErrorClass<ResourceNotReadyException>()(
+  "ResourceNotReadyException",
+  { Message: S.optional(S.String) },
+).pipe(C.withBadRequestError) {}
+export class ExpiredException extends S.TaggedErrorClass<ExpiredException>()(
+  "ExpiredException",
+  { Message: S.optional(S.String) },
+).pipe(C.withBadRequestError) {}
+export class StatisticsNotReadyYetException extends S.TaggedErrorClass<StatisticsNotReadyYetException>()(
   "StatisticsNotReadyYetException",
   { Message: S.optional(S.String) },
 ) {}
-export class ThrottledException extends S.TaggedError<ThrottledException>()(
+export class ThrottledException extends S.TaggedErrorClass<ThrottledException>()(
   "ThrottledException",
   { Message: S.optional(S.String) },
   T.Retryable({ throttling: true }),
 ).pipe(C.withThrottlingError, C.withRetryableError) {}
-export class WorkUnitsNotReadyYetException extends S.TaggedError<WorkUnitsNotReadyYetException>()(
-  "WorkUnitsNotReadyYetException",
+export class GlueEncryptionException extends S.TaggedErrorClass<GlueEncryptionException>()(
+  "GlueEncryptionException",
   { Message: S.optional(S.String) },
 ) {}
-export class ResourceNumberLimitExceededException extends S.TaggedError<ResourceNumberLimitExceededException>()(
-  "ResourceNumberLimitExceededException",
-  { Message: S.optional(S.String) },
-) {}
-export class TransactionCanceledException extends S.TaggedError<TransactionCanceledException>()(
-  "TransactionCanceledException",
-  { Message: S.optional(S.String) },
-).pipe(C.withBadRequestError) {}
-export class TransactionCommitInProgressException extends S.TaggedError<TransactionCommitInProgressException>()(
-  "TransactionCommitInProgressException",
-  { Message: S.optional(S.String) },
-).pipe(C.withBadRequestError) {}
-export class ResourceNotReadyException extends S.TaggedError<ResourceNotReadyException>()(
-  "ResourceNotReadyException",
-  { Message: S.optional(S.String) },
-).pipe(C.withBadRequestError) {}
-export class PermissionTypeMismatchException extends S.TaggedError<PermissionTypeMismatchException>()(
+export class PermissionTypeMismatchException extends S.TaggedErrorClass<PermissionTypeMismatchException>()(
   "PermissionTypeMismatchException",
   { Message: S.optional(S.String) },
 ) {}
-export class TransactionCommittedException extends S.TaggedError<TransactionCommittedException>()(
-  "TransactionCommittedException",
+export class WorkUnitsNotReadyYetException extends S.TaggedErrorClass<WorkUnitsNotReadyYetException>()(
+  "WorkUnitsNotReadyYetException",
   { Message: S.optional(S.String) },
-).pipe(C.withBadRequestError) {}
+) {}
 
 //# Operations
 /**
- * Grants permissions to the principal to access metadata in the Data Catalog and data organized in underlying data storage such as Amazon S3.
- *
- * For information about permissions, see Security and Access Control to Metadata and Data.
+ * Attaches one or more LF-tags to an existing resource.
  */
-export const grantPermissions: (
-  input: GrantPermissionsRequest,
+export const addLFTagsToResource: (
+  input: AddLFTagsToResourceRequest,
 ) => effect.Effect<
-  GrantPermissionsResponse,
-  | ConcurrentModificationException
-  | EntityNotFoundException
-  | InvalidInputException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GrantPermissionsRequest,
-  output: GrantPermissionsResponse,
-  errors: [
-    ConcurrentModificationException,
-    EntityNotFoundException,
-    InvalidInputException,
-  ],
-}));
-/**
- * Retrieves the list of the data lake administrators of a Lake Formation-managed data lake.
- */
-export const getDataLakeSettings: (
-  input: GetDataLakeSettingsRequest,
-) => effect.Effect<
-  GetDataLakeSettingsResponse,
-  | EntityNotFoundException
-  | InternalServiceException
-  | InvalidInputException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetDataLakeSettingsRequest,
-  output: GetDataLakeSettingsResponse,
-  errors: [
-    EntityNotFoundException,
-    InternalServiceException,
-    InvalidInputException,
-  ],
-}));
-/**
- * Returns the state of a query previously submitted. Clients are expected to poll `GetQueryState` to monitor the current state of the planning before retrieving the work units. A query state is only visible to the principal that made the initial call to `StartQueryPlanning`.
- */
-export const getQueryState: (
-  input: GetQueryStateRequest,
-) => effect.Effect<
-  GetQueryStateResponse,
-  | AccessDeniedException
-  | InternalServiceException
-  | InvalidInputException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetQueryStateRequest,
-  output: GetQueryStateResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServiceException,
-    InvalidInputException,
-  ],
-}));
-/**
- * Revokes permissions to the principal to access metadata in the Data Catalog and data organized in underlying data storage such as Amazon S3.
- */
-export const revokePermissions: (
-  input: RevokePermissionsRequest,
-) => effect.Effect<
-  RevokePermissionsResponse,
-  | ConcurrentModificationException
-  | EntityNotFoundException
-  | InvalidInputException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: RevokePermissionsRequest,
-  output: RevokePermissionsResponse,
-  errors: [
-    ConcurrentModificationException,
-    EntityNotFoundException,
-    InvalidInputException,
-  ],
-}));
-/**
- * Returns the configuration of all storage optimizers associated with a specified table.
- */
-export const listTableStorageOptimizers: {
-  (
-    input: ListTableStorageOptimizersRequest,
-  ): effect.Effect<
-    ListTableStorageOptimizersResponse,
-    | AccessDeniedException
-    | EntityNotFoundException
-    | InternalServiceException
-    | InvalidInputException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  pages: (
-    input: ListTableStorageOptimizersRequest,
-  ) => stream.Stream<
-    ListTableStorageOptimizersResponse,
-    | AccessDeniedException
-    | EntityNotFoundException
-    | InternalServiceException
-    | InvalidInputException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  items: (
-    input: ListTableStorageOptimizersRequest,
-  ) => stream.Stream<
-    unknown,
-    | AccessDeniedException
-    | EntityNotFoundException
-    | InternalServiceException
-    | InvalidInputException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
-  input: ListTableStorageOptimizersRequest,
-  output: ListTableStorageOptimizersResponse,
-  errors: [
-    AccessDeniedException,
-    EntityNotFoundException,
-    InternalServiceException,
-    InvalidInputException,
-  ],
-  pagination: {
-    inputToken: "NextToken",
-    outputToken: "NextToken",
-    pageSize: "MaxResults",
-  } as const,
-}));
-/**
- * Sets the list of data lake administrators who have admin privileges on all resources managed by Lake Formation. For more information on admin privileges, see Granting Lake Formation Permissions.
- *
- * This API replaces the current list of data lake admins with the new list being passed. To add an admin, fetch the current list and add the new admin to that list and pass that list in this API.
- */
-export const putDataLakeSettings: (
-  input: PutDataLakeSettingsRequest,
-) => effect.Effect<
-  PutDataLakeSettingsResponse,
-  InternalServiceException | InvalidInputException | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PutDataLakeSettingsRequest,
-  output: PutDataLakeSettingsResponse,
-  errors: [InternalServiceException, InvalidInputException],
-}));
-/**
- * Updates the configuration of the storage optimizers for a table.
- */
-export const updateTableStorageOptimizer: (
-  input: UpdateTableStorageOptimizerRequest,
-) => effect.Effect<
-  UpdateTableStorageOptimizerResponse,
-  | AccessDeniedException
-  | EntityNotFoundException
-  | InternalServiceException
-  | InvalidInputException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateTableStorageOptimizerRequest,
-  output: UpdateTableStorageOptimizerResponse,
-  errors: [
-    AccessDeniedException,
-    EntityNotFoundException,
-    InternalServiceException,
-    InvalidInputException,
-  ],
-}));
-/**
- * Removes an LF-tag from the resource. Only database, table, or tableWithColumns resource are allowed. To tag columns, use the column inclusion list in `tableWithColumns` to specify column input.
- */
-export const removeLFTagsFromResource: (
-  input: RemoveLFTagsFromResourceRequest,
-) => effect.Effect<
-  RemoveLFTagsFromResourceResponse,
+  AddLFTagsToResourceResponse,
   | AccessDeniedException
   | ConcurrentModificationException
   | EntityNotFoundException
-  | GlueEncryptionException
   | InternalServiceException
   | InvalidInputException
   | OperationTimeoutException
   | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: RemoveLFTagsFromResourceRequest,
-  output: RemoveLFTagsFromResourceResponse,
+  input: AddLFTagsToResourceRequest,
+  output: AddLFTagsToResourceResponse,
   errors: [
     AccessDeniedException,
     ConcurrentModificationException,
     EntityNotFoundException,
-    GlueEncryptionException,
     InternalServiceException,
     InvalidInputException,
     OperationTimeoutException,
   ],
 }));
 /**
- * This operation allows a search on `DATABASE` resources by `TagCondition`. This operation is used by admins who want to grant user permissions on certain `TagConditions`. Before making a grant, the admin can use `SearchDatabasesByTags` to find all resources where the given `TagConditions` are valid to verify whether the returned resources can be shared.
- */
-export const searchDatabasesByLFTags: {
-  (
-    input: SearchDatabasesByLFTagsRequest,
-  ): effect.Effect<
-    SearchDatabasesByLFTagsResponse,
-    | AccessDeniedException
-    | EntityNotFoundException
-    | GlueEncryptionException
-    | InternalServiceException
-    | InvalidInputException
-    | OperationTimeoutException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  pages: (
-    input: SearchDatabasesByLFTagsRequest,
-  ) => stream.Stream<
-    SearchDatabasesByLFTagsResponse,
-    | AccessDeniedException
-    | EntityNotFoundException
-    | GlueEncryptionException
-    | InternalServiceException
-    | InvalidInputException
-    | OperationTimeoutException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  items: (
-    input: SearchDatabasesByLFTagsRequest,
-  ) => stream.Stream<
-    TaggedDatabase,
-    | AccessDeniedException
-    | EntityNotFoundException
-    | GlueEncryptionException
-    | InternalServiceException
-    | InvalidInputException
-    | OperationTimeoutException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
-  input: SearchDatabasesByLFTagsRequest,
-  output: SearchDatabasesByLFTagsResponse,
-  errors: [
-    AccessDeniedException,
-    EntityNotFoundException,
-    GlueEncryptionException,
-    InternalServiceException,
-    InvalidInputException,
-    OperationTimeoutException,
-  ],
-  pagination: {
-    inputToken: "NextToken",
-    outputToken: "NextToken",
-    items: "DatabaseList",
-    pageSize: "MaxResults",
-  } as const,
-}));
-/**
- * This operation allows a search on `TABLE` resources by `LFTag`s. This will be used by admins who want to grant user permissions on certain LF-tags. Before making a grant, the admin can use `SearchTablesByLFTags` to find all resources where the given `LFTag`s are valid to verify whether the returned resources can be shared.
- */
-export const searchTablesByLFTags: {
-  (
-    input: SearchTablesByLFTagsRequest,
-  ): effect.Effect<
-    SearchTablesByLFTagsResponse,
-    | AccessDeniedException
-    | EntityNotFoundException
-    | GlueEncryptionException
-    | InternalServiceException
-    | InvalidInputException
-    | OperationTimeoutException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  pages: (
-    input: SearchTablesByLFTagsRequest,
-  ) => stream.Stream<
-    SearchTablesByLFTagsResponse,
-    | AccessDeniedException
-    | EntityNotFoundException
-    | GlueEncryptionException
-    | InternalServiceException
-    | InvalidInputException
-    | OperationTimeoutException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  items: (
-    input: SearchTablesByLFTagsRequest,
-  ) => stream.Stream<
-    TaggedTable,
-    | AccessDeniedException
-    | EntityNotFoundException
-    | GlueEncryptionException
-    | InternalServiceException
-    | InvalidInputException
-    | OperationTimeoutException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
-  input: SearchTablesByLFTagsRequest,
-  output: SearchTablesByLFTagsResponse,
-  errors: [
-    AccessDeniedException,
-    EntityNotFoundException,
-    GlueEncryptionException,
-    InternalServiceException,
-    InvalidInputException,
-    OperationTimeoutException,
-  ],
-  pagination: {
-    inputToken: "NextToken",
-    outputToken: "NextToken",
-    items: "TableList",
-    pageSize: "MaxResults",
-  } as const,
-}));
-/**
- * Returns the work units resulting from the query. Work units can be executed in any order and in parallel.
- */
-export const getWorkUnitResults: (
-  input: GetWorkUnitResultsRequest,
-) => effect.Effect<
-  GetWorkUnitResultsResponse,
-  | AccessDeniedException
-  | ExpiredException
-  | InternalServiceException
-  | InvalidInputException
-  | ThrottledException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetWorkUnitResultsRequest,
-  output: GetWorkUnitResultsResponse,
-  errors: [
-    AccessDeniedException,
-    ExpiredException,
-    InternalServiceException,
-    InvalidInputException,
-    ThrottledException,
-  ],
-}));
-/**
- * Retrieves the work units generated by the `StartQueryPlanning` operation.
- */
-export const getWorkUnits: {
-  (
-    input: GetWorkUnitsRequest,
-  ): effect.Effect<
-    GetWorkUnitsResponse,
-    | AccessDeniedException
-    | ExpiredException
-    | InternalServiceException
-    | InvalidInputException
-    | WorkUnitsNotReadyYetException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  pages: (
-    input: GetWorkUnitsRequest,
-  ) => stream.Stream<
-    GetWorkUnitsResponse,
-    | AccessDeniedException
-    | ExpiredException
-    | InternalServiceException
-    | InvalidInputException
-    | WorkUnitsNotReadyYetException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  items: (
-    input: GetWorkUnitsRequest,
-  ) => stream.Stream<
-    WorkUnitRange,
-    | AccessDeniedException
-    | ExpiredException
-    | InternalServiceException
-    | InvalidInputException
-    | WorkUnitsNotReadyYetException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
-  input: GetWorkUnitsRequest,
-  output: GetWorkUnitsResponse,
-  errors: [
-    AccessDeniedException,
-    ExpiredException,
-    InternalServiceException,
-    InvalidInputException,
-    WorkUnitsNotReadyYetException,
-  ],
-  pagination: {
-    inputToken: "NextToken",
-    outputToken: "NextToken",
-    items: "WorkUnitRanges",
-    pageSize: "PageSize",
-  } as const,
-}));
-/**
- * Retrieves the instance ARN and application ARN for the connection.
- */
-export const describeLakeFormationIdentityCenterConfiguration: (
-  input: DescribeLakeFormationIdentityCenterConfigurationRequest,
-) => effect.Effect<
-  DescribeLakeFormationIdentityCenterConfigurationResponse,
-  | AccessDeniedException
-  | EntityNotFoundException
-  | InternalServiceException
-  | InvalidInputException
-  | OperationTimeoutException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeLakeFormationIdentityCenterConfigurationRequest,
-  output: DescribeLakeFormationIdentityCenterConfigurationResponse,
-  errors: [
-    AccessDeniedException,
-    EntityNotFoundException,
-    InternalServiceException,
-    InvalidInputException,
-    OperationTimeoutException,
-  ],
-}));
-/**
- * Returns a data cells filter.
- */
-export const getDataCellsFilter: (
-  input: GetDataCellsFilterRequest,
-) => effect.Effect<
-  GetDataCellsFilterResponse,
-  | AccessDeniedException
-  | EntityNotFoundException
-  | InternalServiceException
-  | InvalidInputException
-  | OperationTimeoutException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetDataCellsFilterRequest,
-  output: GetDataCellsFilterResponse,
-  errors: [
-    AccessDeniedException,
-    EntityNotFoundException,
-    InternalServiceException,
-    InvalidInputException,
-    OperationTimeoutException,
-  ],
-}));
-/**
- * Returns an LF-tag definition.
- */
-export const getLFTag: (
-  input: GetLFTagRequest,
-) => effect.Effect<
-  GetLFTagResponse,
-  | AccessDeniedException
-  | EntityNotFoundException
-  | InternalServiceException
-  | InvalidInputException
-  | OperationTimeoutException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetLFTagRequest,
-  output: GetLFTagResponse,
-  errors: [
-    AccessDeniedException,
-    EntityNotFoundException,
-    InternalServiceException,
-    InvalidInputException,
-    OperationTimeoutException,
-  ],
-}));
-/**
- * Returns the details about the LF-Tag expression. The caller must be a data lake admin or must have `DESCRIBE` permission on the LF-Tag expression resource.
- */
-export const getLFTagExpression: (
-  input: GetLFTagExpressionRequest,
-) => effect.Effect<
-  GetLFTagExpressionResponse,
-  | AccessDeniedException
-  | EntityNotFoundException
-  | InternalServiceException
-  | InvalidInputException
-  | OperationTimeoutException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetLFTagExpressionRequest,
-  output: GetLFTagExpressionResponse,
-  errors: [
-    AccessDeniedException,
-    EntityNotFoundException,
-    InternalServiceException,
-    InvalidInputException,
-    OperationTimeoutException,
-  ],
-}));
-/**
- * Lists LF-tags that the requester has permission to view.
- */
-export const listLFTags: {
-  (
-    input: ListLFTagsRequest,
-  ): effect.Effect<
-    ListLFTagsResponse,
-    | AccessDeniedException
-    | EntityNotFoundException
-    | InternalServiceException
-    | InvalidInputException
-    | OperationTimeoutException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  pages: (
-    input: ListLFTagsRequest,
-  ) => stream.Stream<
-    ListLFTagsResponse,
-    | AccessDeniedException
-    | EntityNotFoundException
-    | InternalServiceException
-    | InvalidInputException
-    | OperationTimeoutException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  items: (
-    input: ListLFTagsRequest,
-  ) => stream.Stream<
-    LFTagPair,
-    | AccessDeniedException
-    | EntityNotFoundException
-    | InternalServiceException
-    | InvalidInputException
-    | OperationTimeoutException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
-  input: ListLFTagsRequest,
-  output: ListLFTagsResponse,
-  errors: [
-    AccessDeniedException,
-    EntityNotFoundException,
-    InternalServiceException,
-    InvalidInputException,
-    OperationTimeoutException,
-  ],
-  pagination: {
-    inputToken: "NextToken",
-    outputToken: "NextToken",
-    items: "LFTags",
-    pageSize: "MaxResults",
-  } as const,
-}));
-/**
- * Returns a list of the principal permissions on the resource, filtered by the permissions of the caller. For example, if you are granted an ALTER permission, you are able to see only the principal permissions for ALTER.
+ * Allows a caller to assume an IAM role decorated as the SAML user specified in the SAML assertion included in the request. This decoration allows Lake Formation to enforce access policies against the SAML users and groups. This API operation requires SAML federation setup in the caller’s account as it can only be called with valid SAML assertions.
+ * Lake Formation does not scope down the permission of the assumed role. All permissions attached to the role via the SAML federation setup will be included in the role session.
  *
- * This operation returns only those permissions that have been explicitly granted. If both
- * `Principal` and `Resource` parameters are provided, the response
- * returns effective permissions rather than the explicitly granted permissions.
+ * This decorated role is expected to access data in Amazon S3 by getting temporary access from Lake Formation which is authorized via the virtual API `GetDataAccess`.
+ * Therefore, all SAML roles that can be assumed via `AssumeDecoratedRoleWithSAML` must at a minimum include `lakeformation:GetDataAccess` in their role policies.
+ * A typical IAM policy attached to such a role would include the following actions:
  *
- * For information about permissions, see Security and Access Control to Metadata and Data.
- */
-export const listPermissions: {
-  (
-    input: ListPermissionsRequest,
-  ): effect.Effect<
-    ListPermissionsResponse,
-    | InternalServiceException
-    | InvalidInputException
-    | OperationTimeoutException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  pages: (
-    input: ListPermissionsRequest,
-  ) => stream.Stream<
-    ListPermissionsResponse,
-    | InternalServiceException
-    | InvalidInputException
-    | OperationTimeoutException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  items: (
-    input: ListPermissionsRequest,
-  ) => stream.Stream<
-    unknown,
-    | InternalServiceException
-    | InvalidInputException
-    | OperationTimeoutException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
-  input: ListPermissionsRequest,
-  output: ListPermissionsResponse,
-  errors: [
-    InternalServiceException,
-    InvalidInputException,
-    OperationTimeoutException,
-  ],
-  pagination: {
-    inputToken: "NextToken",
-    outputToken: "NextToken",
-    pageSize: "MaxResults",
-  } as const,
-}));
-/**
- * Returns metadata about transactions and their status. To prevent the response from growing indefinitely, only uncommitted transactions and those available for time-travel queries are returned.
+ * - glue:*Database*
  *
- * This operation can help you identify uncommitted transactions or to get information about transactions.
+ * - glue:*Table*
+ *
+ * - glue:*Partition*
+ *
+ * - glue:*UserDefinedFunction*
+ *
+ * - lakeformation:GetDataAccess
  */
-export const listTransactions: {
-  (
-    input: ListTransactionsRequest,
-  ): effect.Effect<
-    ListTransactionsResponse,
-    | InternalServiceException
-    | InvalidInputException
-    | OperationTimeoutException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  pages: (
-    input: ListTransactionsRequest,
-  ) => stream.Stream<
-    ListTransactionsResponse,
-    | InternalServiceException
-    | InvalidInputException
-    | OperationTimeoutException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  items: (
-    input: ListTransactionsRequest,
-  ) => stream.Stream<
-    unknown,
-    | InternalServiceException
-    | InvalidInputException
-    | OperationTimeoutException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
-  input: ListTransactionsRequest,
-  output: ListTransactionsResponse,
-  errors: [
-    InternalServiceException,
-    InvalidInputException,
-    OperationTimeoutException,
-  ],
-  pagination: {
-    inputToken: "NextToken",
-    outputToken: "NextToken",
-    pageSize: "MaxResults",
-  } as const,
-}));
-/**
- * Starts a new transaction and returns its transaction ID. Transaction IDs are opaque objects that you can use to identify a transaction.
- */
-export const startTransaction: (
-  input: StartTransactionRequest,
+export const assumeDecoratedRoleWithSAML: (
+  input: AssumeDecoratedRoleWithSAMLRequest,
 ) => effect.Effect<
-  StartTransactionResponse,
-  InternalServiceException | OperationTimeoutException | CommonErrors,
+  AssumeDecoratedRoleWithSAMLResponse,
+  | AccessDeniedException
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StartTransactionRequest,
-  output: StartTransactionResponse,
-  errors: [InternalServiceException, OperationTimeoutException],
+  input: AssumeDecoratedRoleWithSAMLRequest,
+  output: AssumeDecoratedRoleWithSAMLResponse,
+  errors: [
+    AccessDeniedException,
+    EntityNotFoundException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+  ],
+}));
+/**
+ * Batch operation to grant permissions to the principal.
+ */
+export const batchGrantPermissions: (
+  input: BatchGrantPermissionsRequest,
+) => effect.Effect<
+  BatchGrantPermissionsResponse,
+  InvalidInputException | OperationTimeoutException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchGrantPermissionsRequest,
+  output: BatchGrantPermissionsResponse,
+  errors: [InvalidInputException, OperationTimeoutException],
+}));
+/**
+ * Batch operation to revoke permissions from the principal.
+ */
+export const batchRevokePermissions: (
+  input: BatchRevokePermissionsRequest,
+) => effect.Effect<
+  BatchRevokePermissionsResponse,
+  InvalidInputException | OperationTimeoutException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchRevokePermissionsRequest,
+  output: BatchRevokePermissionsResponse,
+  errors: [InvalidInputException, OperationTimeoutException],
+}));
+/**
+ * Attempts to cancel the specified transaction. Returns an exception if the transaction was previously committed.
+ */
+export const cancelTransaction: (
+  input: CancelTransactionRequest,
+) => effect.Effect<
+  CancelTransactionResponse,
+  | ConcurrentModificationException
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | TransactionCommitInProgressException
+  | TransactionCommittedException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CancelTransactionRequest,
+  output: CancelTransactionResponse,
+  errors: [
+    ConcurrentModificationException,
+    EntityNotFoundException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+    TransactionCommitInProgressException,
+    TransactionCommittedException,
+  ],
+}));
+/**
+ * Attempts to commit the specified transaction. Returns an exception if the transaction was previously aborted. This API action is idempotent if called multiple times for the same transaction.
+ */
+export const commitTransaction: (
+  input: CommitTransactionRequest,
+) => effect.Effect<
+  CommitTransactionResponse,
+  | ConcurrentModificationException
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | TransactionCanceledException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CommitTransactionRequest,
+  output: CommitTransactionResponse,
+  errors: [
+    ConcurrentModificationException,
+    EntityNotFoundException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+    TransactionCanceledException,
+  ],
+}));
+/**
+ * Creates a data cell filter to allow one to grant access to certain columns on certain rows.
+ */
+export const createDataCellsFilter: (
+  input: CreateDataCellsFilterRequest,
+) => effect.Effect<
+  CreateDataCellsFilterResponse,
+  | AccessDeniedException
+  | AlreadyExistsException
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | ResourceNumberLimitExceededException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateDataCellsFilterRequest,
+  output: CreateDataCellsFilterResponse,
+  errors: [
+    AccessDeniedException,
+    AlreadyExistsException,
+    EntityNotFoundException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+    ResourceNumberLimitExceededException,
+  ],
+}));
+/**
+ * Creates an IAM Identity Center connection with Lake Formation to allow IAM Identity Center users and groups to access Data Catalog resources.
+ */
+export const createLakeFormationIdentityCenterConfiguration: (
+  input: CreateLakeFormationIdentityCenterConfigurationRequest,
+) => effect.Effect<
+  CreateLakeFormationIdentityCenterConfigurationResponse,
+  | AccessDeniedException
+  | AlreadyExistsException
+  | ConcurrentModificationException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateLakeFormationIdentityCenterConfigurationRequest,
+  output: CreateLakeFormationIdentityCenterConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    AlreadyExistsException,
+    ConcurrentModificationException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+  ],
+}));
+/**
+ * Enforce Lake Formation permissions for the given databases, tables, and principals.
+ */
+export const createLakeFormationOptIn: (
+  input: CreateLakeFormationOptInRequest,
+) => effect.Effect<
+  CreateLakeFormationOptInResponse,
+  | AccessDeniedException
+  | ConcurrentModificationException
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | ResourceNumberLimitExceededException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateLakeFormationOptInRequest,
+  output: CreateLakeFormationOptInResponse,
+  errors: [
+    AccessDeniedException,
+    ConcurrentModificationException,
+    EntityNotFoundException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+    ResourceNumberLimitExceededException,
+  ],
+}));
+/**
+ * Creates an LF-tag with the specified name and values.
+ */
+export const createLFTag: (
+  input: CreateLFTagRequest,
+) => effect.Effect<
+  CreateLFTagResponse,
+  | AccessDeniedException
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | ResourceNumberLimitExceededException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateLFTagRequest,
+  output: CreateLFTagResponse,
+  errors: [
+    AccessDeniedException,
+    EntityNotFoundException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+    ResourceNumberLimitExceededException,
+  ],
+}));
+/**
+ * Creates a new LF-Tag expression with the provided name, description, catalog ID, and
+ * expression body. This call fails if a LF-Tag expression with the same name already exists in
+ * the caller’s account or if the underlying LF-Tags don't exist. To call this API operation,
+ * caller needs the following Lake Formation permissions:
+ *
+ * `CREATE_LF_TAG_EXPRESSION` on the root catalog resource.
+ *
+ * `GRANT_WITH_LF_TAG_EXPRESSION` on all underlying LF-Tag key:value pairs
+ * included in the expression.
+ */
+export const createLFTagExpression: (
+  input: CreateLFTagExpressionRequest,
+) => effect.Effect<
+  CreateLFTagExpressionResponse,
+  | AccessDeniedException
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | ResourceNumberLimitExceededException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateLFTagExpressionRequest,
+  output: CreateLFTagExpressionResponse,
+  errors: [
+    AccessDeniedException,
+    EntityNotFoundException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+    ResourceNumberLimitExceededException,
+  ],
 }));
 /**
  * Deletes a data cell filter.
@@ -3864,183 +3445,40 @@ export const deleteLFTagExpression: (
   ],
 }));
 /**
- * Returns the identity of the invoking principal.
+ * For a specific governed table, provides a list of Amazon S3 objects that will be written during the current transaction and that can be automatically deleted
+ * if the transaction is canceled. Without this call, no Amazon S3 objects are automatically deleted when a transaction cancels.
+ *
+ * The Glue ETL library function `write_dynamic_frame.from_catalog()` includes an option to automatically
+ * call `DeleteObjectsOnCancel` before writes. For more information, see
+ * Rolling Back Amazon S3 Writes.
  */
-export const getDataLakePrincipal: (
-  input: GetDataLakePrincipalRequest,
+export const deleteObjectsOnCancel: (
+  input: DeleteObjectsOnCancelRequest,
 ) => effect.Effect<
-  GetDataLakePrincipalResponse,
-  | AccessDeniedException
-  | InternalServiceException
-  | OperationTimeoutException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetDataLakePrincipalRequest,
-  output: GetDataLakePrincipalResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServiceException,
-    OperationTimeoutException,
-  ],
-}));
-/**
- * Updates a data cell filter.
- */
-export const updateDataCellsFilter: (
-  input: UpdateDataCellsFilterRequest,
-) => effect.Effect<
-  UpdateDataCellsFilterResponse,
-  | AccessDeniedException
+  DeleteObjectsOnCancelResponse,
   | ConcurrentModificationException
   | EntityNotFoundException
   | InternalServiceException
   | InvalidInputException
   | OperationTimeoutException
+  | ResourceNotReadyException
+  | TransactionCanceledException
+  | TransactionCommittedException
   | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateDataCellsFilterRequest,
-  output: UpdateDataCellsFilterResponse,
+  input: DeleteObjectsOnCancelRequest,
+  output: DeleteObjectsOnCancelResponse,
   errors: [
-    AccessDeniedException,
     ConcurrentModificationException,
     EntityNotFoundException,
     InternalServiceException,
     InvalidInputException,
     OperationTimeoutException,
+    ResourceNotReadyException,
+    TransactionCanceledException,
+    TransactionCommittedException,
   ],
-}));
-/**
- * Updates the IAM Identity Center connection parameters.
- */
-export const updateLakeFormationIdentityCenterConfiguration: (
-  input: UpdateLakeFormationIdentityCenterConfigurationRequest,
-) => effect.Effect<
-  UpdateLakeFormationIdentityCenterConfigurationResponse,
-  | AccessDeniedException
-  | ConcurrentModificationException
-  | EntityNotFoundException
-  | InternalServiceException
-  | InvalidInputException
-  | OperationTimeoutException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateLakeFormationIdentityCenterConfigurationRequest,
-  output: UpdateLakeFormationIdentityCenterConfigurationResponse,
-  errors: [
-    AccessDeniedException,
-    ConcurrentModificationException,
-    EntityNotFoundException,
-    InternalServiceException,
-    InvalidInputException,
-    OperationTimeoutException,
-  ],
-}));
-/**
- * Updates the list of possible values for the specified LF-tag key. If the LF-tag does not exist, the operation throws an EntityNotFoundException. The values in the delete key values will be deleted from list of possible values. If any value in the delete key values is attached to a resource, then API errors out with a 400 Exception - "Update not allowed". Untag the attribute before deleting the LF-tag key's value.
- */
-export const updateLFTag: (
-  input: UpdateLFTagRequest,
-) => effect.Effect<
-  UpdateLFTagResponse,
-  | AccessDeniedException
-  | ConcurrentModificationException
-  | EntityNotFoundException
-  | InternalServiceException
-  | InvalidInputException
-  | OperationTimeoutException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateLFTagRequest,
-  output: UpdateLFTagResponse,
-  errors: [
-    AccessDeniedException,
-    ConcurrentModificationException,
-    EntityNotFoundException,
-    InternalServiceException,
-    InvalidInputException,
-    OperationTimeoutException,
-  ],
-}));
-/**
- * Allows a caller to assume an IAM role decorated as the SAML user specified in the SAML assertion included in the request. This decoration allows Lake Formation to enforce access policies against the SAML users and groups. This API operation requires SAML federation setup in the caller’s account as it can only be called with valid SAML assertions.
- * Lake Formation does not scope down the permission of the assumed role. All permissions attached to the role via the SAML federation setup will be included in the role session.
- *
- * This decorated role is expected to access data in Amazon S3 by getting temporary access from Lake Formation which is authorized via the virtual API `GetDataAccess`.
- * Therefore, all SAML roles that can be assumed via `AssumeDecoratedRoleWithSAML` must at a minimum include `lakeformation:GetDataAccess` in their role policies.
- * A typical IAM policy attached to such a role would include the following actions:
- *
- * - glue:*Database*
- *
- * - glue:*Table*
- *
- * - glue:*Partition*
- *
- * - glue:*UserDefinedFunction*
- *
- * - lakeformation:GetDataAccess
- */
-export const assumeDecoratedRoleWithSAML: (
-  input: AssumeDecoratedRoleWithSAMLRequest,
-) => effect.Effect<
-  AssumeDecoratedRoleWithSAMLResponse,
-  | AccessDeniedException
-  | EntityNotFoundException
-  | InternalServiceException
-  | InvalidInputException
-  | OperationTimeoutException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: AssumeDecoratedRoleWithSAMLRequest,
-  output: AssumeDecoratedRoleWithSAMLResponse,
-  errors: [
-    AccessDeniedException,
-    EntityNotFoundException,
-    InternalServiceException,
-    InvalidInputException,
-    OperationTimeoutException,
-  ],
-}));
-/**
- * Updates the data access role used for vending access to the given (registered) resource in Lake Formation.
- */
-export const updateResource: (
-  input: UpdateResourceRequest,
-) => effect.Effect<
-  UpdateResourceResponse,
-  | EntityNotFoundException
-  | InternalServiceException
-  | InvalidInputException
-  | OperationTimeoutException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateResourceRequest,
-  output: UpdateResourceResponse,
-  errors: [
-    EntityNotFoundException,
-    InternalServiceException,
-    InvalidInputException,
-    OperationTimeoutException,
-  ],
-}));
-/**
- * Batch operation to grant permissions to the principal.
- */
-export const batchGrantPermissions: (
-  input: BatchGrantPermissionsRequest,
-) => effect.Effect<
-  BatchGrantPermissionsResponse,
-  InvalidInputException | OperationTimeoutException | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: BatchGrantPermissionsRequest,
-  output: BatchGrantPermissionsResponse,
-  errors: [InvalidInputException, OperationTimeoutException],
 }));
 /**
  * Deregisters the resource as managed by the Data Catalog.
@@ -4061,6 +3499,31 @@ export const deregisterResource: (
   input: DeregisterResourceRequest,
   output: DeregisterResourceResponse,
   errors: [
+    EntityNotFoundException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+  ],
+}));
+/**
+ * Retrieves the instance ARN and application ARN for the connection.
+ */
+export const describeLakeFormationIdentityCenterConfiguration: (
+  input: DescribeLakeFormationIdentityCenterConfigurationRequest,
+) => effect.Effect<
+  DescribeLakeFormationIdentityCenterConfigurationResponse,
+  | AccessDeniedException
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeLakeFormationIdentityCenterConfigurationRequest,
+  output: DescribeLakeFormationIdentityCenterConfigurationResponse,
+  errors: [
+    AccessDeniedException,
     EntityNotFoundException,
     InternalServiceException,
     InvalidInputException,
@@ -4111,6 +3574,507 @@ export const describeTransaction: (
     InternalServiceException,
     InvalidInputException,
     OperationTimeoutException,
+  ],
+}));
+/**
+ * Indicates to the service that the specified transaction is still active and should not be treated as idle and aborted.
+ *
+ * Write transactions that remain idle for a long period are automatically aborted unless explicitly extended.
+ */
+export const extendTransaction: (
+  input: ExtendTransactionRequest,
+) => effect.Effect<
+  ExtendTransactionResponse,
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | TransactionCanceledException
+  | TransactionCommitInProgressException
+  | TransactionCommittedException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ExtendTransactionRequest,
+  output: ExtendTransactionResponse,
+  errors: [
+    EntityNotFoundException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+    TransactionCanceledException,
+    TransactionCommitInProgressException,
+    TransactionCommittedException,
+  ],
+}));
+/**
+ * Returns a data cells filter.
+ */
+export const getDataCellsFilter: (
+  input: GetDataCellsFilterRequest,
+) => effect.Effect<
+  GetDataCellsFilterResponse,
+  | AccessDeniedException
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetDataCellsFilterRequest,
+  output: GetDataCellsFilterResponse,
+  errors: [
+    AccessDeniedException,
+    EntityNotFoundException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+  ],
+}));
+/**
+ * Returns the identity of the invoking principal.
+ */
+export const getDataLakePrincipal: (
+  input: GetDataLakePrincipalRequest,
+) => effect.Effect<
+  GetDataLakePrincipalResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | OperationTimeoutException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetDataLakePrincipalRequest,
+  output: GetDataLakePrincipalResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    OperationTimeoutException,
+  ],
+}));
+/**
+ * Retrieves the list of the data lake administrators of a Lake Formation-managed data lake.
+ */
+export const getDataLakeSettings: (
+  input: GetDataLakeSettingsRequest,
+) => effect.Effect<
+  GetDataLakeSettingsResponse,
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetDataLakeSettingsRequest,
+  output: GetDataLakeSettingsResponse,
+  errors: [
+    EntityNotFoundException,
+    InternalServiceException,
+    InvalidInputException,
+  ],
+}));
+/**
+ * Returns the Lake Formation permissions for a specified table or database resource located
+ * at a path in Amazon S3. `GetEffectivePermissionsForPath` will not return databases and tables if the catalog is encrypted.
+ */
+export const getEffectivePermissionsForPath: {
+  (
+    input: GetEffectivePermissionsForPathRequest,
+  ): effect.Effect<
+    GetEffectivePermissionsForPathResponse,
+    | EntityNotFoundException
+    | InternalServiceException
+    | InvalidInputException
+    | OperationTimeoutException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetEffectivePermissionsForPathRequest,
+  ) => stream.Stream<
+    GetEffectivePermissionsForPathResponse,
+    | EntityNotFoundException
+    | InternalServiceException
+    | InvalidInputException
+    | OperationTimeoutException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetEffectivePermissionsForPathRequest,
+  ) => stream.Stream<
+    unknown,
+    | EntityNotFoundException
+    | InternalServiceException
+    | InvalidInputException
+    | OperationTimeoutException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetEffectivePermissionsForPathRequest,
+  output: GetEffectivePermissionsForPathResponse,
+  errors: [
+    EntityNotFoundException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
+/**
+ * Returns an LF-tag definition.
+ */
+export const getLFTag: (
+  input: GetLFTagRequest,
+) => effect.Effect<
+  GetLFTagResponse,
+  | AccessDeniedException
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetLFTagRequest,
+  output: GetLFTagResponse,
+  errors: [
+    AccessDeniedException,
+    EntityNotFoundException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+  ],
+}));
+/**
+ * Returns the details about the LF-Tag expression. The caller must be a data lake admin or must have `DESCRIBE` permission on the LF-Tag expression resource.
+ */
+export const getLFTagExpression: (
+  input: GetLFTagExpressionRequest,
+) => effect.Effect<
+  GetLFTagExpressionResponse,
+  | AccessDeniedException
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetLFTagExpressionRequest,
+  output: GetLFTagExpressionResponse,
+  errors: [
+    AccessDeniedException,
+    EntityNotFoundException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+  ],
+}));
+/**
+ * Returns the state of a query previously submitted. Clients are expected to poll `GetQueryState` to monitor the current state of the planning before retrieving the work units. A query state is only visible to the principal that made the initial call to `StartQueryPlanning`.
+ */
+export const getQueryState: (
+  input: GetQueryStateRequest,
+) => effect.Effect<
+  GetQueryStateResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidInputException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetQueryStateRequest,
+  output: GetQueryStateResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidInputException,
+  ],
+}));
+/**
+ * Retrieves statistics on the planning and execution of a query.
+ */
+export const getQueryStatistics: (
+  input: GetQueryStatisticsRequest,
+) => effect.Effect<
+  GetQueryStatisticsResponse,
+  | AccessDeniedException
+  | ExpiredException
+  | InternalServiceException
+  | InvalidInputException
+  | StatisticsNotReadyYetException
+  | ThrottledException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetQueryStatisticsRequest,
+  output: GetQueryStatisticsResponse,
+  errors: [
+    AccessDeniedException,
+    ExpiredException,
+    InternalServiceException,
+    InvalidInputException,
+    StatisticsNotReadyYetException,
+    ThrottledException,
+  ],
+}));
+/**
+ * Returns the LF-tags applied to a resource.
+ */
+export const getResourceLFTags: (
+  input: GetResourceLFTagsRequest,
+) => effect.Effect<
+  GetResourceLFTagsResponse,
+  | AccessDeniedException
+  | EntityNotFoundException
+  | GlueEncryptionException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetResourceLFTagsRequest,
+  output: GetResourceLFTagsResponse,
+  errors: [
+    AccessDeniedException,
+    EntityNotFoundException,
+    GlueEncryptionException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+  ],
+}));
+/**
+ * Returns the set of Amazon S3 objects that make up the specified governed table. A transaction ID or timestamp can be specified for time-travel queries.
+ */
+export const getTableObjects: {
+  (
+    input: GetTableObjectsRequest,
+  ): effect.Effect<
+    GetTableObjectsResponse,
+    | EntityNotFoundException
+    | InternalServiceException
+    | InvalidInputException
+    | OperationTimeoutException
+    | ResourceNotReadyException
+    | TransactionCanceledException
+    | TransactionCommittedException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetTableObjectsRequest,
+  ) => stream.Stream<
+    GetTableObjectsResponse,
+    | EntityNotFoundException
+    | InternalServiceException
+    | InvalidInputException
+    | OperationTimeoutException
+    | ResourceNotReadyException
+    | TransactionCanceledException
+    | TransactionCommittedException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetTableObjectsRequest,
+  ) => stream.Stream<
+    unknown,
+    | EntityNotFoundException
+    | InternalServiceException
+    | InvalidInputException
+    | OperationTimeoutException
+    | ResourceNotReadyException
+    | TransactionCanceledException
+    | TransactionCommittedException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetTableObjectsRequest,
+  output: GetTableObjectsResponse,
+  errors: [
+    EntityNotFoundException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+    ResourceNotReadyException,
+    TransactionCanceledException,
+    TransactionCommittedException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
+/**
+ * This API is identical to `GetTemporaryTableCredentials` except that this is used when the target Data Catalog resource is of type Partition. Lake Formation restricts the permission of the vended credentials with the same scope down policy which restricts access to a single Amazon S3 prefix.
+ */
+export const getTemporaryGluePartitionCredentials: (
+  input: GetTemporaryGluePartitionCredentialsRequest,
+) => effect.Effect<
+  GetTemporaryGluePartitionCredentialsResponse,
+  | AccessDeniedException
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | PermissionTypeMismatchException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetTemporaryGluePartitionCredentialsRequest,
+  output: GetTemporaryGluePartitionCredentialsResponse,
+  errors: [
+    AccessDeniedException,
+    EntityNotFoundException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+    PermissionTypeMismatchException,
+  ],
+}));
+/**
+ * Allows a caller in a secure environment to assume a role with permission to access Amazon S3. In order to vend such credentials, Lake Formation assumes the role associated with a registered location, for example an Amazon S3 bucket, with a scope down policy which restricts the access to a single prefix.
+ *
+ * To call this API, the role that the service assumes must have `lakeformation:GetDataAccess` permission on the resource.
+ */
+export const getTemporaryGlueTableCredentials: (
+  input: GetTemporaryGlueTableCredentialsRequest,
+) => effect.Effect<
+  GetTemporaryGlueTableCredentialsResponse,
+  | AccessDeniedException
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | PermissionTypeMismatchException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetTemporaryGlueTableCredentialsRequest,
+  output: GetTemporaryGlueTableCredentialsResponse,
+  errors: [
+    AccessDeniedException,
+    EntityNotFoundException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+    PermissionTypeMismatchException,
+  ],
+}));
+/**
+ * Returns the work units resulting from the query. Work units can be executed in any order and in parallel.
+ */
+export const getWorkUnitResults: (
+  input: GetWorkUnitResultsRequest,
+) => effect.Effect<
+  GetWorkUnitResultsResponse,
+  | AccessDeniedException
+  | ExpiredException
+  | InternalServiceException
+  | InvalidInputException
+  | ThrottledException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetWorkUnitResultsRequest,
+  output: GetWorkUnitResultsResponse,
+  errors: [
+    AccessDeniedException,
+    ExpiredException,
+    InternalServiceException,
+    InvalidInputException,
+    ThrottledException,
+  ],
+}));
+/**
+ * Retrieves the work units generated by the `StartQueryPlanning` operation.
+ */
+export const getWorkUnits: {
+  (
+    input: GetWorkUnitsRequest,
+  ): effect.Effect<
+    GetWorkUnitsResponse,
+    | AccessDeniedException
+    | ExpiredException
+    | InternalServiceException
+    | InvalidInputException
+    | WorkUnitsNotReadyYetException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetWorkUnitsRequest,
+  ) => stream.Stream<
+    GetWorkUnitsResponse,
+    | AccessDeniedException
+    | ExpiredException
+    | InternalServiceException
+    | InvalidInputException
+    | WorkUnitsNotReadyYetException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetWorkUnitsRequest,
+  ) => stream.Stream<
+    WorkUnitRange,
+    | AccessDeniedException
+    | ExpiredException
+    | InternalServiceException
+    | InvalidInputException
+    | WorkUnitsNotReadyYetException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetWorkUnitsRequest,
+  output: GetWorkUnitsResponse,
+  errors: [
+    AccessDeniedException,
+    ExpiredException,
+    InternalServiceException,
+    InvalidInputException,
+    WorkUnitsNotReadyYetException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "WorkUnitRanges",
+    pageSize: "PageSize",
+  } as const,
+}));
+/**
+ * Grants permissions to the principal to access metadata in the Data Catalog and data organized in underlying data storage such as Amazon S3.
+ *
+ * For information about permissions, see Security and Access Control to Metadata and Data.
+ */
+export const grantPermissions: (
+  input: GrantPermissionsRequest,
+) => effect.Effect<
+  GrantPermissionsResponse,
+  | ConcurrentModificationException
+  | EntityNotFoundException
+  | InvalidInputException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GrantPermissionsRequest,
+  output: GrantPermissionsResponse,
+  errors: [
+    ConcurrentModificationException,
+    EntityNotFoundException,
+    InvalidInputException,
   ],
 }));
 /**
@@ -4276,6 +4240,117 @@ export const listLFTagExpressions: {
   } as const,
 }));
 /**
+ * Lists LF-tags that the requester has permission to view.
+ */
+export const listLFTags: {
+  (
+    input: ListLFTagsRequest,
+  ): effect.Effect<
+    ListLFTagsResponse,
+    | AccessDeniedException
+    | EntityNotFoundException
+    | InternalServiceException
+    | InvalidInputException
+    | OperationTimeoutException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListLFTagsRequest,
+  ) => stream.Stream<
+    ListLFTagsResponse,
+    | AccessDeniedException
+    | EntityNotFoundException
+    | InternalServiceException
+    | InvalidInputException
+    | OperationTimeoutException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListLFTagsRequest,
+  ) => stream.Stream<
+    LFTagPair,
+    | AccessDeniedException
+    | EntityNotFoundException
+    | InternalServiceException
+    | InvalidInputException
+    | OperationTimeoutException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListLFTagsRequest,
+  output: ListLFTagsResponse,
+  errors: [
+    AccessDeniedException,
+    EntityNotFoundException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "LFTags",
+    pageSize: "MaxResults",
+  } as const,
+}));
+/**
+ * Returns a list of the principal permissions on the resource, filtered by the permissions of the caller. For example, if you are granted an ALTER permission, you are able to see only the principal permissions for ALTER.
+ *
+ * This operation returns only those permissions that have been explicitly granted. If both
+ * `Principal` and `Resource` parameters are provided, the response
+ * returns effective permissions rather than the explicitly granted permissions.
+ *
+ * For information about permissions, see Security and Access Control to Metadata and Data.
+ */
+export const listPermissions: {
+  (
+    input: ListPermissionsRequest,
+  ): effect.Effect<
+    ListPermissionsResponse,
+    | InternalServiceException
+    | InvalidInputException
+    | OperationTimeoutException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListPermissionsRequest,
+  ) => stream.Stream<
+    ListPermissionsResponse,
+    | InternalServiceException
+    | InvalidInputException
+    | OperationTimeoutException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListPermissionsRequest,
+  ) => stream.Stream<
+    unknown,
+    | InternalServiceException
+    | InvalidInputException
+    | OperationTimeoutException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListPermissionsRequest,
+  output: ListPermissionsResponse,
+  errors: [
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
+/**
  * Lists the resources registered to be managed by the Data Catalog.
  */
 export const listResources: {
@@ -4324,56 +4399,67 @@ export const listResources: {
   } as const,
 }));
 /**
- * Attaches one or more LF-tags to an existing resource.
+ * Returns the configuration of all storage optimizers associated with a specified table.
  */
-export const addLFTagsToResource: (
-  input: AddLFTagsToResourceRequest,
-) => effect.Effect<
-  AddLFTagsToResourceResponse,
-  | AccessDeniedException
-  | ConcurrentModificationException
-  | EntityNotFoundException
-  | InternalServiceException
-  | InvalidInputException
-  | OperationTimeoutException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: AddLFTagsToResourceRequest,
-  output: AddLFTagsToResourceResponse,
+export const listTableStorageOptimizers: {
+  (
+    input: ListTableStorageOptimizersRequest,
+  ): effect.Effect<
+    ListTableStorageOptimizersResponse,
+    | AccessDeniedException
+    | EntityNotFoundException
+    | InternalServiceException
+    | InvalidInputException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListTableStorageOptimizersRequest,
+  ) => stream.Stream<
+    ListTableStorageOptimizersResponse,
+    | AccessDeniedException
+    | EntityNotFoundException
+    | InternalServiceException
+    | InvalidInputException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListTableStorageOptimizersRequest,
+  ) => stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | EntityNotFoundException
+    | InternalServiceException
+    | InvalidInputException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListTableStorageOptimizersRequest,
+  output: ListTableStorageOptimizersResponse,
   errors: [
     AccessDeniedException,
-    ConcurrentModificationException,
     EntityNotFoundException,
     InternalServiceException,
     InvalidInputException,
-    OperationTimeoutException,
   ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
 }));
 /**
- * Batch operation to revoke permissions from the principal.
+ * Returns metadata about transactions and their status. To prevent the response from growing indefinitely, only uncommitted transactions and those available for time-travel queries are returned.
+ *
+ * This operation can help you identify uncommitted transactions or to get information about transactions.
  */
-export const batchRevokePermissions: (
-  input: BatchRevokePermissionsRequest,
-) => effect.Effect<
-  BatchRevokePermissionsResponse,
-  InvalidInputException | OperationTimeoutException | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: BatchRevokePermissionsRequest,
-  output: BatchRevokePermissionsResponse,
-  errors: [InvalidInputException, OperationTimeoutException],
-}));
-/**
- * Returns the Lake Formation permissions for a specified table or database resource located
- * at a path in Amazon S3. `GetEffectivePermissionsForPath` will not return databases and tables if the catalog is encrypted.
- */
-export const getEffectivePermissionsForPath: {
+export const listTransactions: {
   (
-    input: GetEffectivePermissionsForPathRequest,
+    input: ListTransactionsRequest,
   ): effect.Effect<
-    GetEffectivePermissionsForPathResponse,
-    | EntityNotFoundException
+    ListTransactionsResponse,
     | InternalServiceException
     | InvalidInputException
     | OperationTimeoutException
@@ -4381,10 +4467,9 @@ export const getEffectivePermissionsForPath: {
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
-    input: GetEffectivePermissionsForPathRequest,
+    input: ListTransactionsRequest,
   ) => stream.Stream<
-    GetEffectivePermissionsForPathResponse,
-    | EntityNotFoundException
+    ListTransactionsResponse,
     | InternalServiceException
     | InvalidInputException
     | OperationTimeoutException
@@ -4392,10 +4477,9 @@ export const getEffectivePermissionsForPath: {
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
-    input: GetEffectivePermissionsForPathRequest,
+    input: ListTransactionsRequest,
   ) => stream.Stream<
     unknown,
-    | EntityNotFoundException
     | InternalServiceException
     | InvalidInputException
     | OperationTimeoutException
@@ -4403,10 +4487,9 @@ export const getEffectivePermissionsForPath: {
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
-  input: GetEffectivePermissionsForPathRequest,
-  output: GetEffectivePermissionsForPathResponse,
+  input: ListTransactionsRequest,
+  output: ListTransactionsResponse,
   errors: [
-    EntityNotFoundException,
     InternalServiceException,
     InvalidInputException,
     OperationTimeoutException,
@@ -4418,110 +4501,20 @@ export const getEffectivePermissionsForPath: {
   } as const,
 }));
 /**
- * Returns the LF-tags applied to a resource.
- */
-export const getResourceLFTags: (
-  input: GetResourceLFTagsRequest,
-) => effect.Effect<
-  GetResourceLFTagsResponse,
-  | AccessDeniedException
-  | EntityNotFoundException
-  | GlueEncryptionException
-  | InternalServiceException
-  | InvalidInputException
-  | OperationTimeoutException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetResourceLFTagsRequest,
-  output: GetResourceLFTagsResponse,
-  errors: [
-    AccessDeniedException,
-    EntityNotFoundException,
-    GlueEncryptionException,
-    InternalServiceException,
-    InvalidInputException,
-    OperationTimeoutException,
-  ],
-}));
-/**
- * Submits a request to process a query statement.
+ * Sets the list of data lake administrators who have admin privileges on all resources managed by Lake Formation. For more information on admin privileges, see Granting Lake Formation Permissions.
  *
- * This operation generates work units that can be retrieved with the `GetWorkUnits` operation as soon as the query state is WORKUNITS_AVAILABLE or FINISHED.
+ * This API replaces the current list of data lake admins with the new list being passed. To add an admin, fetch the current list and add the new admin to that list and pass that list in this API.
  */
-export const startQueryPlanning: (
-  input: StartQueryPlanningRequest,
+export const putDataLakeSettings: (
+  input: PutDataLakeSettingsRequest,
 ) => effect.Effect<
-  StartQueryPlanningResponse,
-  | AccessDeniedException
-  | InternalServiceException
-  | InvalidInputException
-  | ThrottledException
-  | CommonErrors,
+  PutDataLakeSettingsResponse,
+  InternalServiceException | InvalidInputException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StartQueryPlanningRequest,
-  output: StartQueryPlanningResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServiceException,
-    InvalidInputException,
-    ThrottledException,
-  ],
-}));
-/**
- * Retrieves statistics on the planning and execution of a query.
- */
-export const getQueryStatistics: (
-  input: GetQueryStatisticsRequest,
-) => effect.Effect<
-  GetQueryStatisticsResponse,
-  | AccessDeniedException
-  | ExpiredException
-  | InternalServiceException
-  | InvalidInputException
-  | StatisticsNotReadyYetException
-  | ThrottledException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetQueryStatisticsRequest,
-  output: GetQueryStatisticsResponse,
-  errors: [
-    AccessDeniedException,
-    ExpiredException,
-    InternalServiceException,
-    InvalidInputException,
-    StatisticsNotReadyYetException,
-    ThrottledException,
-  ],
-}));
-/**
- * Creates an IAM Identity Center connection with Lake Formation to allow IAM Identity Center users and groups to access Data Catalog resources.
- */
-export const createLakeFormationIdentityCenterConfiguration: (
-  input: CreateLakeFormationIdentityCenterConfigurationRequest,
-) => effect.Effect<
-  CreateLakeFormationIdentityCenterConfigurationResponse,
-  | AccessDeniedException
-  | AlreadyExistsException
-  | ConcurrentModificationException
-  | InternalServiceException
-  | InvalidInputException
-  | OperationTimeoutException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateLakeFormationIdentityCenterConfigurationRequest,
-  output: CreateLakeFormationIdentityCenterConfigurationResponse,
-  errors: [
-    AccessDeniedException,
-    AlreadyExistsException,
-    ConcurrentModificationException,
-    InternalServiceException,
-    InvalidInputException,
-    OperationTimeoutException,
-  ],
+  input: PutDataLakeSettingsRequest,
+  output: PutDataLakeSettingsResponse,
+  errors: [InternalServiceException, InvalidInputException],
 }));
 /**
  * Registers the resource as managed by the Data Catalog.
@@ -4564,30 +4557,295 @@ export const registerResource: (
   ],
 }));
 /**
- * This API is identical to `GetTemporaryTableCredentials` except that this is used when the target Data Catalog resource is of type Partition. Lake Formation restricts the permission of the vended credentials with the same scope down policy which restricts access to a single Amazon S3 prefix.
+ * Removes an LF-tag from the resource. Only database, table, or tableWithColumns resource are allowed. To tag columns, use the column inclusion list in `tableWithColumns` to specify column input.
  */
-export const getTemporaryGluePartitionCredentials: (
-  input: GetTemporaryGluePartitionCredentialsRequest,
+export const removeLFTagsFromResource: (
+  input: RemoveLFTagsFromResourceRequest,
 ) => effect.Effect<
-  GetTemporaryGluePartitionCredentialsResponse,
+  RemoveLFTagsFromResourceResponse,
   | AccessDeniedException
+  | ConcurrentModificationException
+  | EntityNotFoundException
+  | GlueEncryptionException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RemoveLFTagsFromResourceRequest,
+  output: RemoveLFTagsFromResourceResponse,
+  errors: [
+    AccessDeniedException,
+    ConcurrentModificationException,
+    EntityNotFoundException,
+    GlueEncryptionException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+  ],
+}));
+/**
+ * Revokes permissions to the principal to access metadata in the Data Catalog and data organized in underlying data storage such as Amazon S3.
+ */
+export const revokePermissions: (
+  input: RevokePermissionsRequest,
+) => effect.Effect<
+  RevokePermissionsResponse,
+  | ConcurrentModificationException
+  | EntityNotFoundException
+  | InvalidInputException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RevokePermissionsRequest,
+  output: RevokePermissionsResponse,
+  errors: [
+    ConcurrentModificationException,
+    EntityNotFoundException,
+    InvalidInputException,
+  ],
+}));
+/**
+ * This operation allows a search on `DATABASE` resources by `TagCondition`. This operation is used by admins who want to grant user permissions on certain `TagConditions`. Before making a grant, the admin can use `SearchDatabasesByTags` to find all resources where the given `TagConditions` are valid to verify whether the returned resources can be shared.
+ */
+export const searchDatabasesByLFTags: {
+  (
+    input: SearchDatabasesByLFTagsRequest,
+  ): effect.Effect<
+    SearchDatabasesByLFTagsResponse,
+    | AccessDeniedException
+    | EntityNotFoundException
+    | GlueEncryptionException
+    | InternalServiceException
+    | InvalidInputException
+    | OperationTimeoutException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: SearchDatabasesByLFTagsRequest,
+  ) => stream.Stream<
+    SearchDatabasesByLFTagsResponse,
+    | AccessDeniedException
+    | EntityNotFoundException
+    | GlueEncryptionException
+    | InternalServiceException
+    | InvalidInputException
+    | OperationTimeoutException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: SearchDatabasesByLFTagsRequest,
+  ) => stream.Stream<
+    TaggedDatabase,
+    | AccessDeniedException
+    | EntityNotFoundException
+    | GlueEncryptionException
+    | InternalServiceException
+    | InvalidInputException
+    | OperationTimeoutException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: SearchDatabasesByLFTagsRequest,
+  output: SearchDatabasesByLFTagsResponse,
+  errors: [
+    AccessDeniedException,
+    EntityNotFoundException,
+    GlueEncryptionException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "DatabaseList",
+    pageSize: "MaxResults",
+  } as const,
+}));
+/**
+ * This operation allows a search on `TABLE` resources by `LFTag`s. This will be used by admins who want to grant user permissions on certain LF-tags. Before making a grant, the admin can use `SearchTablesByLFTags` to find all resources where the given `LFTag`s are valid to verify whether the returned resources can be shared.
+ */
+export const searchTablesByLFTags: {
+  (
+    input: SearchTablesByLFTagsRequest,
+  ): effect.Effect<
+    SearchTablesByLFTagsResponse,
+    | AccessDeniedException
+    | EntityNotFoundException
+    | GlueEncryptionException
+    | InternalServiceException
+    | InvalidInputException
+    | OperationTimeoutException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: SearchTablesByLFTagsRequest,
+  ) => stream.Stream<
+    SearchTablesByLFTagsResponse,
+    | AccessDeniedException
+    | EntityNotFoundException
+    | GlueEncryptionException
+    | InternalServiceException
+    | InvalidInputException
+    | OperationTimeoutException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: SearchTablesByLFTagsRequest,
+  ) => stream.Stream<
+    TaggedTable,
+    | AccessDeniedException
+    | EntityNotFoundException
+    | GlueEncryptionException
+    | InternalServiceException
+    | InvalidInputException
+    | OperationTimeoutException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: SearchTablesByLFTagsRequest,
+  output: SearchTablesByLFTagsResponse,
+  errors: [
+    AccessDeniedException,
+    EntityNotFoundException,
+    GlueEncryptionException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "TableList",
+    pageSize: "MaxResults",
+  } as const,
+}));
+/**
+ * Submits a request to process a query statement.
+ *
+ * This operation generates work units that can be retrieved with the `GetWorkUnits` operation as soon as the query state is WORKUNITS_AVAILABLE or FINISHED.
+ */
+export const startQueryPlanning: (
+  input: StartQueryPlanningRequest,
+) => effect.Effect<
+  StartQueryPlanningResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidInputException
+  | ThrottledException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartQueryPlanningRequest,
+  output: StartQueryPlanningResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidInputException,
+    ThrottledException,
+  ],
+}));
+/**
+ * Starts a new transaction and returns its transaction ID. Transaction IDs are opaque objects that you can use to identify a transaction.
+ */
+export const startTransaction: (
+  input: StartTransactionRequest,
+) => effect.Effect<
+  StartTransactionResponse,
+  InternalServiceException | OperationTimeoutException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartTransactionRequest,
+  output: StartTransactionResponse,
+  errors: [InternalServiceException, OperationTimeoutException],
+}));
+/**
+ * Updates a data cell filter.
+ */
+export const updateDataCellsFilter: (
+  input: UpdateDataCellsFilterRequest,
+) => effect.Effect<
+  UpdateDataCellsFilterResponse,
+  | AccessDeniedException
+  | ConcurrentModificationException
   | EntityNotFoundException
   | InternalServiceException
   | InvalidInputException
   | OperationTimeoutException
-  | PermissionTypeMismatchException
   | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetTemporaryGluePartitionCredentialsRequest,
-  output: GetTemporaryGluePartitionCredentialsResponse,
+  input: UpdateDataCellsFilterRequest,
+  output: UpdateDataCellsFilterResponse,
   errors: [
     AccessDeniedException,
+    ConcurrentModificationException,
     EntityNotFoundException,
     InternalServiceException,
     InvalidInputException,
     OperationTimeoutException,
-    PermissionTypeMismatchException,
+  ],
+}));
+/**
+ * Updates the IAM Identity Center connection parameters.
+ */
+export const updateLakeFormationIdentityCenterConfiguration: (
+  input: UpdateLakeFormationIdentityCenterConfigurationRequest,
+) => effect.Effect<
+  UpdateLakeFormationIdentityCenterConfigurationResponse,
+  | AccessDeniedException
+  | ConcurrentModificationException
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateLakeFormationIdentityCenterConfigurationRequest,
+  output: UpdateLakeFormationIdentityCenterConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    ConcurrentModificationException,
+    EntityNotFoundException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+  ],
+}));
+/**
+ * Updates the list of possible values for the specified LF-tag key. If the LF-tag does not exist, the operation throws an EntityNotFoundException. The values in the delete key values will be deleted from list of possible values. If any value in the delete key values is attached to a resource, then API errors out with a 400 Exception - "Update not allowed". Untag the attribute before deleting the LF-tag key's value.
+ */
+export const updateLFTag: (
+  input: UpdateLFTagRequest,
+) => effect.Effect<
+  UpdateLFTagResponse,
+  | AccessDeniedException
+  | ConcurrentModificationException
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateLFTagRequest,
+  output: UpdateLFTagResponse,
+  errors: [
+    AccessDeniedException,
+    ConcurrentModificationException,
+    EntityNotFoundException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
   ],
 }));
 /**
@@ -4619,275 +4877,26 @@ export const updateLFTagExpression: (
   ],
 }));
 /**
- * Enforce Lake Formation permissions for the given databases, tables, and principals.
+ * Updates the data access role used for vending access to the given (registered) resource in Lake Formation.
  */
-export const createLakeFormationOptIn: (
-  input: CreateLakeFormationOptInRequest,
+export const updateResource: (
+  input: UpdateResourceRequest,
 ) => effect.Effect<
-  CreateLakeFormationOptInResponse,
-  | AccessDeniedException
-  | ConcurrentModificationException
+  UpdateResourceResponse,
   | EntityNotFoundException
   | InternalServiceException
   | InvalidInputException
   | OperationTimeoutException
-  | ResourceNumberLimitExceededException
   | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateLakeFormationOptInRequest,
-  output: CreateLakeFormationOptInResponse,
-  errors: [
-    AccessDeniedException,
-    ConcurrentModificationException,
-    EntityNotFoundException,
-    InternalServiceException,
-    InvalidInputException,
-    OperationTimeoutException,
-    ResourceNumberLimitExceededException,
-  ],
-}));
-/**
- * Creates an LF-tag with the specified name and values.
- */
-export const createLFTag: (
-  input: CreateLFTagRequest,
-) => effect.Effect<
-  CreateLFTagResponse,
-  | AccessDeniedException
-  | EntityNotFoundException
-  | InternalServiceException
-  | InvalidInputException
-  | OperationTimeoutException
-  | ResourceNumberLimitExceededException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateLFTagRequest,
-  output: CreateLFTagResponse,
-  errors: [
-    AccessDeniedException,
-    EntityNotFoundException,
-    InternalServiceException,
-    InvalidInputException,
-    OperationTimeoutException,
-    ResourceNumberLimitExceededException,
-  ],
-}));
-/**
- * Creates a new LF-Tag expression with the provided name, description, catalog ID, and
- * expression body. This call fails if a LF-Tag expression with the same name already exists in
- * the caller’s account or if the underlying LF-Tags don't exist. To call this API operation,
- * caller needs the following Lake Formation permissions:
- *
- * `CREATE_LF_TAG_EXPRESSION` on the root catalog resource.
- *
- * `GRANT_WITH_LF_TAG_EXPRESSION` on all underlying LF-Tag key:value pairs
- * included in the expression.
- */
-export const createLFTagExpression: (
-  input: CreateLFTagExpressionRequest,
-) => effect.Effect<
-  CreateLFTagExpressionResponse,
-  | AccessDeniedException
-  | EntityNotFoundException
-  | InternalServiceException
-  | InvalidInputException
-  | OperationTimeoutException
-  | ResourceNumberLimitExceededException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateLFTagExpressionRequest,
-  output: CreateLFTagExpressionResponse,
-  errors: [
-    AccessDeniedException,
-    EntityNotFoundException,
-    InternalServiceException,
-    InvalidInputException,
-    OperationTimeoutException,
-    ResourceNumberLimitExceededException,
-  ],
-}));
-/**
- * Creates a data cell filter to allow one to grant access to certain columns on certain rows.
- */
-export const createDataCellsFilter: (
-  input: CreateDataCellsFilterRequest,
-) => effect.Effect<
-  CreateDataCellsFilterResponse,
-  | AccessDeniedException
-  | AlreadyExistsException
-  | EntityNotFoundException
-  | InternalServiceException
-  | InvalidInputException
-  | OperationTimeoutException
-  | ResourceNumberLimitExceededException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateDataCellsFilterRequest,
-  output: CreateDataCellsFilterResponse,
-  errors: [
-    AccessDeniedException,
-    AlreadyExistsException,
-    EntityNotFoundException,
-    InternalServiceException,
-    InvalidInputException,
-    OperationTimeoutException,
-    ResourceNumberLimitExceededException,
-  ],
-}));
-/**
- * Attempts to commit the specified transaction. Returns an exception if the transaction was previously aborted. This API action is idempotent if called multiple times for the same transaction.
- */
-export const commitTransaction: (
-  input: CommitTransactionRequest,
-) => effect.Effect<
-  CommitTransactionResponse,
-  | ConcurrentModificationException
-  | EntityNotFoundException
-  | InternalServiceException
-  | InvalidInputException
-  | OperationTimeoutException
-  | TransactionCanceledException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CommitTransactionRequest,
-  output: CommitTransactionResponse,
-  errors: [
-    ConcurrentModificationException,
-    EntityNotFoundException,
-    InternalServiceException,
-    InvalidInputException,
-    OperationTimeoutException,
-    TransactionCanceledException,
-  ],
-}));
-/**
- * Allows a caller in a secure environment to assume a role with permission to access Amazon S3. In order to vend such credentials, Lake Formation assumes the role associated with a registered location, for example an Amazon S3 bucket, with a scope down policy which restricts the access to a single prefix.
- *
- * To call this API, the role that the service assumes must have `lakeformation:GetDataAccess` permission on the resource.
- */
-export const getTemporaryGlueTableCredentials: (
-  input: GetTemporaryGlueTableCredentialsRequest,
-) => effect.Effect<
-  GetTemporaryGlueTableCredentialsResponse,
-  | AccessDeniedException
-  | EntityNotFoundException
-  | InternalServiceException
-  | InvalidInputException
-  | OperationTimeoutException
-  | PermissionTypeMismatchException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetTemporaryGlueTableCredentialsRequest,
-  output: GetTemporaryGlueTableCredentialsResponse,
-  errors: [
-    AccessDeniedException,
-    EntityNotFoundException,
-    InternalServiceException,
-    InvalidInputException,
-    OperationTimeoutException,
-    PermissionTypeMismatchException,
-  ],
-}));
-/**
- * Attempts to cancel the specified transaction. Returns an exception if the transaction was previously committed.
- */
-export const cancelTransaction: (
-  input: CancelTransactionRequest,
-) => effect.Effect<
-  CancelTransactionResponse,
-  | ConcurrentModificationException
-  | EntityNotFoundException
-  | InternalServiceException
-  | InvalidInputException
-  | OperationTimeoutException
-  | TransactionCommitInProgressException
-  | TransactionCommittedException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CancelTransactionRequest,
-  output: CancelTransactionResponse,
-  errors: [
-    ConcurrentModificationException,
-    EntityNotFoundException,
-    InternalServiceException,
-    InvalidInputException,
-    OperationTimeoutException,
-    TransactionCommitInProgressException,
-    TransactionCommittedException,
-  ],
-}));
-/**
- * For a specific governed table, provides a list of Amazon S3 objects that will be written during the current transaction and that can be automatically deleted
- * if the transaction is canceled. Without this call, no Amazon S3 objects are automatically deleted when a transaction cancels.
- *
- * The Glue ETL library function `write_dynamic_frame.from_catalog()` includes an option to automatically
- * call `DeleteObjectsOnCancel` before writes. For more information, see
- * Rolling Back Amazon S3 Writes.
- */
-export const deleteObjectsOnCancel: (
-  input: DeleteObjectsOnCancelRequest,
-) => effect.Effect<
-  DeleteObjectsOnCancelResponse,
-  | ConcurrentModificationException
-  | EntityNotFoundException
-  | InternalServiceException
-  | InvalidInputException
-  | OperationTimeoutException
-  | ResourceNotReadyException
-  | TransactionCanceledException
-  | TransactionCommittedException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteObjectsOnCancelRequest,
-  output: DeleteObjectsOnCancelResponse,
-  errors: [
-    ConcurrentModificationException,
-    EntityNotFoundException,
-    InternalServiceException,
-    InvalidInputException,
-    OperationTimeoutException,
-    ResourceNotReadyException,
-    TransactionCanceledException,
-    TransactionCommittedException,
-  ],
-}));
-/**
- * Indicates to the service that the specified transaction is still active and should not be treated as idle and aborted.
- *
- * Write transactions that remain idle for a long period are automatically aborted unless explicitly extended.
- */
-export const extendTransaction: (
-  input: ExtendTransactionRequest,
-) => effect.Effect<
-  ExtendTransactionResponse,
-  | EntityNotFoundException
-  | InternalServiceException
-  | InvalidInputException
-  | OperationTimeoutException
-  | TransactionCanceledException
-  | TransactionCommitInProgressException
-  | TransactionCommittedException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ExtendTransactionRequest,
-  output: ExtendTransactionResponse,
+  input: UpdateResourceRequest,
+  output: UpdateResourceResponse,
   errors: [
     EntityNotFoundException,
     InternalServiceException,
     InvalidInputException,
     OperationTimeoutException,
-    TransactionCanceledException,
-    TransactionCommitInProgressException,
-    TransactionCommittedException,
   ],
 }));
 /**
@@ -4924,66 +4933,25 @@ export const updateTableObjects: (
   ],
 }));
 /**
- * Returns the set of Amazon S3 objects that make up the specified governed table. A transaction ID or timestamp can be specified for time-travel queries.
+ * Updates the configuration of the storage optimizers for a table.
  */
-export const getTableObjects: {
-  (
-    input: GetTableObjectsRequest,
-  ): effect.Effect<
-    GetTableObjectsResponse,
-    | EntityNotFoundException
-    | InternalServiceException
-    | InvalidInputException
-    | OperationTimeoutException
-    | ResourceNotReadyException
-    | TransactionCanceledException
-    | TransactionCommittedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  pages: (
-    input: GetTableObjectsRequest,
-  ) => stream.Stream<
-    GetTableObjectsResponse,
-    | EntityNotFoundException
-    | InternalServiceException
-    | InvalidInputException
-    | OperationTimeoutException
-    | ResourceNotReadyException
-    | TransactionCanceledException
-    | TransactionCommittedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  items: (
-    input: GetTableObjectsRequest,
-  ) => stream.Stream<
-    unknown,
-    | EntityNotFoundException
-    | InternalServiceException
-    | InvalidInputException
-    | OperationTimeoutException
-    | ResourceNotReadyException
-    | TransactionCanceledException
-    | TransactionCommittedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
-  input: GetTableObjectsRequest,
-  output: GetTableObjectsResponse,
+export const updateTableStorageOptimizer: (
+  input: UpdateTableStorageOptimizerRequest,
+) => effect.Effect<
+  UpdateTableStorageOptimizerResponse,
+  | AccessDeniedException
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateTableStorageOptimizerRequest,
+  output: UpdateTableStorageOptimizerResponse,
   errors: [
+    AccessDeniedException,
     EntityNotFoundException,
     InternalServiceException,
     InvalidInputException,
-    OperationTimeoutException,
-    ResourceNotReadyException,
-    TransactionCanceledException,
-    TransactionCommittedException,
   ],
-  pagination: {
-    inputToken: "NextToken",
-    outputToken: "NextToken",
-    pageSize: "MaxResults",
-  } as const,
 }));

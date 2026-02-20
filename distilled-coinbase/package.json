@@ -76,17 +76,15 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "@effect/platform": "^0.94.1",
-    "@effect/platform-bun": "^0.87.0",
+    "@effect/platform-bun": "catalog:",
     "@effect/vitest": "^0.27.0",
     "@types/bun": "catalog:",
     "dotenv": "^17.2.3",
-    "effect": "^3.19.14",
+    "effect": "catalog:",
     "jose": "^6.0.11",
     "vitest": "^4.0.16"
   },
   "peerDependencies": {
-    "@effect/platform": "catalog:",
     "effect": "catalog:",
     "jose": ">=6.0.0"
   }

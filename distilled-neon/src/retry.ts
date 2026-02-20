@@ -1,10 +1,10 @@
-import * as Context from "effect/Context";
 import * as Duration from "effect/Duration";
 import * as Effect from "effect/Effect";
 import { pipe } from "effect/Function";
 import * as Layer from "effect/Layer";
 import type * as Ref from "effect/Ref";
 import * as Schedule from "effect/Schedule";
+import * as ServiceMap from "effect/ServiceMap";
 import { isThrottlingError, isTransientError } from "./category";
 
 /**
@@ -35,7 +35,7 @@ export type Policy = Options | Factory;
 /**
  * Context tag for configuring retry behavior of Neon API calls.
  */
-export class Retry extends Context.Tag("Retry")<Retry, Policy>() {}
+export class Retry extends ServiceMap.Service<Retry, Policy>()("Retry") {}
 
 /**
  * Provides a custom retry policy to all Neon API calls in the effect.
@@ -75,11 +75,16 @@ export class Retry extends Context.Tag("Retry")<Retry, Policy>() {}
 export const policy: {
   (
     options: Options,
-  ): <A, E, R>(effect: Effect.Effect<A, E, R>) => Effect.Effect<A, E, Exclude<R, Retry>>;
+  ): <A, E, R>(
+    effect: Effect.Effect<A, E, R>,
+  ) => Effect.Effect<A, E, Exclude<R, Retry>>;
   (
     factory: Factory,
-  ): <A, E, R>(effect: Effect.Effect<A, E, R>) => Effect.Effect<A, E, Exclude<R, Retry>>;
-} = (optionsOrFactory: Options | Factory) => Effect.provide(Layer.succeed(Retry, optionsOrFactory));
+  ): <A, E, R>(
+    effect: Effect.Effect<A, E, R>,
+  ) => Effect.Effect<A, E, Exclude<R, Retry>>;
+} = (optionsOrFactory: Options | Factory) =>
+  Effect.provide(Layer.succeed(Retry, optionsOrFactory));
 
 /**
  * Disables all automatic retries.

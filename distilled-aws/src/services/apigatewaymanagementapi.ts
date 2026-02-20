@@ -1,4 +1,4 @@
-import { HttpClient } from "@effect/platform";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as effect from "effect/Effect";
 import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
@@ -104,13 +104,11 @@ export const DeleteConnectionRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "DeleteConnectionRequest",
 }) as any as S.Schema<DeleteConnectionRequest>;
 export interface DeleteConnectionResponse {}
-export const DeleteConnectionResponse = S.suspend(() =>
-  S.Struct({}),
-).annotations({
+export const DeleteConnectionResponse = S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteConnectionResponse",
 }) as any as S.Schema<DeleteConnectionResponse>;
 export interface GetConnectionRequest {
@@ -127,9 +125,39 @@ export const GetConnectionRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "GetConnectionRequest",
 }) as any as S.Schema<GetConnectionRequest>;
+export interface Identity {
+  SourceIp?: string;
+  UserAgent?: string;
+}
+export const Identity = S.suspend(() =>
+  S.Struct({
+    SourceIp: S.optional(S.String).pipe(T.JsonName("sourceIp")),
+    UserAgent: S.optional(S.String).pipe(T.JsonName("userAgent")),
+  }),
+).annotate({ identifier: "Identity" }) as any as S.Schema<Identity>;
+export interface GetConnectionResponse {
+  ConnectedAt?: Date;
+  Identity?: Identity & { SourceIp: string; UserAgent: string };
+  LastActiveAt?: Date;
+}
+export const GetConnectionResponse = S.suspend(() =>
+  S.Struct({
+    ConnectedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
+      T.JsonName("connectedAt"),
+    ),
+    Identity: S.optional(Identity)
+      .pipe(T.JsonName("identity"))
+      .annotate({ identifier: "Identity" }),
+    LastActiveAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
+      T.JsonName("lastActiveAt"),
+    ),
+  }),
+).annotate({
+  identifier: "GetConnectionResponse",
+}) as any as S.Schema<GetConnectionResponse>;
 export interface PostToConnectionRequest {
   Data?: T.StreamingInputBody;
   ConnectionId: string;
@@ -148,60 +176,28 @@ export const PostToConnectionRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "PostToConnectionRequest",
 }) as any as S.Schema<PostToConnectionRequest>;
 export interface PostToConnectionResponse {}
-export const PostToConnectionResponse = S.suspend(() =>
-  S.Struct({}),
-).annotations({
+export const PostToConnectionResponse = S.suspend(() => S.Struct({})).annotate({
   identifier: "PostToConnectionResponse",
 }) as any as S.Schema<PostToConnectionResponse>;
-export interface Identity {
-  SourceIp?: string;
-  UserAgent?: string;
-}
-export const Identity = S.suspend(() =>
-  S.Struct({
-    SourceIp: S.optional(S.String).pipe(T.JsonName("sourceIp")),
-    UserAgent: S.optional(S.String).pipe(T.JsonName("userAgent")),
-  }),
-).annotations({ identifier: "Identity" }) as any as S.Schema<Identity>;
-export interface GetConnectionResponse {
-  ConnectedAt?: Date;
-  Identity?: Identity & { SourceIp: string; UserAgent: string };
-  LastActiveAt?: Date;
-}
-export const GetConnectionResponse = S.suspend(() =>
-  S.Struct({
-    ConnectedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.JsonName("connectedAt"),
-    ),
-    Identity: S.optional(Identity)
-      .pipe(T.JsonName("identity"))
-      .annotations({ identifier: "Identity" }),
-    LastActiveAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.JsonName("lastActiveAt"),
-    ),
-  }),
-).annotations({
-  identifier: "GetConnectionResponse",
-}) as any as S.Schema<GetConnectionResponse>;
 
 //# Errors
-export class ForbiddenException extends S.TaggedError<ForbiddenException>()(
+export class ForbiddenException extends S.TaggedErrorClass<ForbiddenException>()(
   "ForbiddenException",
   {},
 ).pipe(C.withAuthError) {}
-export class GoneException extends S.TaggedError<GoneException>()(
+export class GoneException extends S.TaggedErrorClass<GoneException>()(
   "GoneException",
   {},
 ).pipe(C.withBadRequestError) {}
-export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
+export class LimitExceededException extends S.TaggedErrorClass<LimitExceededException>()(
   "LimitExceededException",
   {},
 ).pipe(C.withThrottlingError) {}
-export class PayloadTooLargeException extends S.TaggedError<PayloadTooLargeException>()(
+export class PayloadTooLargeException extends S.TaggedErrorClass<PayloadTooLargeException>()(
   "PayloadTooLargeException",
   { Message: S.optional(S.String).pipe(T.JsonName("message")) },
 ).pipe(C.withBadRequestError) {}
@@ -219,6 +215,20 @@ export const deleteConnection: (
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteConnectionRequest,
   output: DeleteConnectionResponse,
+  errors: [ForbiddenException, GoneException, LimitExceededException],
+}));
+/**
+ * Get information about the connection with the provided id.
+ */
+export const getConnection: (
+  input: GetConnectionRequest,
+) => effect.Effect<
+  GetConnectionResponse,
+  ForbiddenException | GoneException | LimitExceededException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetConnectionRequest,
+  output: GetConnectionResponse,
   errors: [ForbiddenException, GoneException, LimitExceededException],
 }));
 /**
@@ -243,18 +253,4 @@ export const postToConnection: (
     LimitExceededException,
     PayloadTooLargeException,
   ],
-}));
-/**
- * Get information about the connection with the provided id.
- */
-export const getConnection: (
-  input: GetConnectionRequest,
-) => effect.Effect<
-  GetConnectionResponse,
-  ForbiddenException | GoneException | LimitExceededException | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetConnectionRequest,
-  output: GetConnectionResponse,
-  errors: [ForbiddenException, GoneException, LimitExceededException],
 }));

@@ -1,4 +1,4 @@
-import { HttpClient } from "@effect/platform";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as effect from "effect/Effect";
 import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
@@ -87,19 +87,17 @@ const rules = T.EndpointResolver((p, _) => {
 });
 
 //# Newtypes
-export type Catalog = string;
 export type ResourceId = string;
-export type ClientToken = string;
+export type Catalog = string;
 export type DeploymentParameterName = string;
 export type SecretString = string | redacted.Redacted<string>;
 export type TagKey = string;
 export type TagValue = string;
+export type ClientToken = string;
 export type ResourceArn = string;
 export type DeploymentParameterResourceIdentifier = string;
 
 //# Schemas
-export type StringList = string[];
-export const StringList = S.Array(S.String);
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
@@ -114,56 +112,17 @@ export const ListTagsForResourceRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "ListTagsForResourceRequest",
 }) as any as S.Schema<ListTagsForResourceRequest>;
-export interface UntagResourceRequest {
-  resourceArn: string;
-  tagKeys: string[];
-}
-export const UntagResourceRequest = S.suspend(() =>
-  S.Struct({
-    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-    tagKeys: StringList.pipe(T.HttpQuery("tagKeys")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
-export interface UntagResourceResponse {}
-export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
-  identifier: "UntagResourceResponse",
-}) as any as S.Schema<UntagResourceResponse>;
 export type Tags = { [key: string]: string | undefined };
-export const Tags = S.Record({ key: S.String, value: S.UndefinedOr(S.String) });
-export interface DeploymentParameterInput {
-  name: string;
-  secretString: string | redacted.Redacted<string>;
-}
-export const DeploymentParameterInput = S.suspend(() =>
-  S.Struct({ name: S.String, secretString: SensitiveString }),
-).annotations({
-  identifier: "DeploymentParameterInput",
-}) as any as S.Schema<DeploymentParameterInput>;
-export type TagsMap = { [key: string]: string | undefined };
-export const TagsMap = S.Record({
-  key: S.String,
-  value: S.UndefinedOr(S.String),
-});
+export const Tags = S.Record(S.String, S.String.pipe(S.optional));
 export interface ListTagsForResourceResponse {
   tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(Tags) }),
-).annotations({
+).annotate({
   identifier: "ListTagsForResourceResponse",
 }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface TagResourceRequest {
@@ -184,13 +143,51 @@ export const TagResourceRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "TagResourceRequest",
 }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+export const TagResourceResponse = S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
+export type StringList = string[];
+export const StringList = S.Array(S.String);
+export interface UntagResourceRequest {
+  resourceArn: string;
+  tagKeys: string[];
+}
+export const UntagResourceRequest = S.suspend(() =>
+  S.Struct({
+    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
+    tagKeys: StringList.pipe(T.HttpQuery("tagKeys")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "UntagResourceRequest",
+}) as any as S.Schema<UntagResourceRequest>;
+export interface UntagResourceResponse {}
+export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotate({
+  identifier: "UntagResourceResponse",
+}) as any as S.Schema<UntagResourceResponse>;
+export interface DeploymentParameterInput {
+  name: string;
+  secretString: string | redacted.Redacted<string>;
+}
+export const DeploymentParameterInput = S.suspend(() =>
+  S.Struct({ name: S.String, secretString: SensitiveString }),
+).annotate({
+  identifier: "DeploymentParameterInput",
+}) as any as S.Schema<DeploymentParameterInput>;
+export type TagsMap = { [key: string]: string | undefined };
+export const TagsMap = S.Record(S.String, S.String.pipe(S.optional));
 export interface PutDeploymentParameterRequest {
   catalog: string;
   productId: string;
@@ -222,7 +219,7 @@ export const PutDeploymentParameterRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "PutDeploymentParameterRequest",
 }) as any as S.Schema<PutDeploymentParameterRequest>;
 export interface PutDeploymentParameterResponse {
@@ -238,41 +235,41 @@ export const PutDeploymentParameterResponse = S.suspend(() =>
     deploymentParameterId: S.String,
     tags: S.optional(TagsMap),
   }),
-).annotations({
+).annotate({
   identifier: "PutDeploymentParameterResponse",
 }) as any as S.Schema<PutDeploymentParameterResponse>;
 
 //# Errors
-export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
+export class AccessDeniedException extends S.TaggedErrorClass<AccessDeniedException>()(
   "AccessDeniedException",
   { message: S.String },
 ).pipe(C.withAuthError) {}
-export class ConflictException extends S.TaggedError<ConflictException>()(
-  "ConflictException",
-  { message: S.String, resourceId: S.String },
-).pipe(C.withConflictError) {}
-export class InternalServerException extends S.TaggedError<InternalServerException>()(
+export class InternalServerException extends S.TaggedErrorClass<InternalServerException>()(
   "InternalServerException",
   { message: S.String },
   T.Retryable(),
 ).pipe(C.withServerError, C.withRetryableError) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { message: S.String },
 ).pipe(C.withBadRequestError) {}
-export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
+export class ThrottlingException extends S.TaggedErrorClass<ThrottlingException>()(
   "ThrottlingException",
   { message: S.String },
   T.Retryable({ throttling: true }),
 ).pipe(C.withThrottlingError, C.withRetryableError) {}
-export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
-  "ServiceQuotaExceededException",
-  { message: S.String },
-).pipe(C.withQuotaError) {}
-export class ValidationException extends S.TaggedError<ValidationException>()(
+export class ValidationException extends S.TaggedErrorClass<ValidationException>()(
   "ValidationException",
   { message: S.String, fieldName: S.String },
 ).pipe(C.withBadRequestError) {}
+export class ConflictException extends S.TaggedErrorClass<ConflictException>()(
+  "ConflictException",
+  { message: S.String, resourceId: S.String },
+).pipe(C.withConflictError) {}
+export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuotaExceededException>()(
+  "ServiceQuotaExceededException",
+  { message: S.String },
+).pipe(C.withQuotaError) {}
 
 //# Operations
 /**
@@ -296,35 +293,6 @@ export const listTagsForResource: (
     AccessDeniedException,
     InternalServerException,
     ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Creates or updates a deployment parameter and is targeted by `catalog` and `agreementId`.
- */
-export const putDeploymentParameter: (
-  input: PutDeploymentParameterRequest,
-) => effect.Effect<
-  PutDeploymentParameterResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PutDeploymentParameterRequest,
-  output: PutDeploymentParameterResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
   ],
@@ -379,6 +347,35 @@ export const untagResource: (
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Creates or updates a deployment parameter and is targeted by `catalog` and `agreementId`.
+ */
+export const putDeploymentParameter: (
+  input: PutDeploymentParameterRequest,
+) => effect.Effect<
+  PutDeploymentParameterResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutDeploymentParameterRequest,
+  output: PutDeploymentParameterResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
   ],

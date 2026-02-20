@@ -199,13 +199,13 @@ import { Schema } from "effect";
 import * as Category from "./category";
 
 // Standard retryable error
-export class TransientError extends Schema.TaggedError<TransientError>()(
+export class TransientError extends Schema.TaggedErrorClass<TransientError>()(
   "TransientError",
   { message: Schema.String },
 ).pipe(Category.withServerError, Category.withRetryable()) {}
 
 // Throttling error (uses longer backoff)
-export class RateLimitError extends Schema.TaggedError<RateLimitError>()(
+export class RateLimitError extends Schema.TaggedErrorClass<RateLimitError>()(
   "RateLimitError",
   { message: Schema.String },
 ).pipe(Category.withThrottlingError, Category.withRetryable({ throttling: true })) {}
@@ -226,7 +226,7 @@ import { Schema } from "effect";
 import * as Category from "./category";
 
 // Custom error with multiple categories
-export class ValidationError extends Schema.TaggedError<ValidationError>()("ValidationError", {
+export class ValidationError extends Schema.TaggedErrorClass<ValidationError>()("ValidationError", {
   field: Schema.String,
   message: Schema.String,
 }).pipe(Category.withBadRequestError) {}
@@ -332,7 +332,7 @@ const ListDatabasesInput = Schema.Struct({
   organization: Schema.String,
   page: Schema.optional(Schema.Number),
   per_page: Schema.optional(Schema.Number),
-}).annotations({
+}).annotate({
   [ApiMethod]: "GET",
   [ApiPath]: (input) => `/organizations/${input.organization}/databases`,
   [ApiPathParams]: ["organization"] as const,

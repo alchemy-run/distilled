@@ -1,4 +1,4 @@
-import { HttpClient } from "@effect/platform";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as effect from "effect/Effect";
 import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
@@ -96,20 +96,58 @@ const rules = T.EndpointResolver((p, _) => {
 
 //# Newtypes
 export type __integerMinNegative50Max50 = number;
-export type __integerMin1Max20 = number;
 export type __integerMinNegative1000Max1000 = number;
-export type __integerMin1Max150 = number;
-export type __stringMax100 = string;
 export type __stringMin14PatternS3BmpBMPPngPNGHttpsBmpBMPPngPNG = string;
 export type __stringMin14PatternS3CubeCUBEHttpsCubeCUBE = string;
 export type __integerMin0Max2147483647 = number;
+export type __stringPatternSNManifestConfirmConditionNotificationNS = string;
 export type __integerMin0Max30000 = number;
+export type __stringPatternSNSignalProcessingNotificationNS = string;
+export type __integerMin1Max150 = number;
+export type __stringMin1 = string;
+export type __stringMin3Max3PatternAZaZ3 = string;
+export type __stringPatternS3Https = string;
+export type __integerMinNegative2147483648Max2147483647 = number;
+export type __integerMin1Max2147483647 = number;
+export type __integerMin0Max8 = number;
+export type __integerMin1Max64 = number;
+export type __integerMinNegative60Max6 = number;
+export type __doubleMinNegative60Max6 = number;
+export type __integerMin1Max4 = number;
+export type __integerMin1Max1 = number;
+export type __integerMin1Max1001 = number;
+export type __integerMin1Max60000 = number;
+export type __stringMin14PatternS3SccSCCTtmlTTMLDfxpDFXPStlSTLSrtSRTXmlXMLSmiSMIVttVTTWebvttWEBVTTHttpsSccSCCTtmlTTMLDfxpDFXPStlSTLSrtSRTXmlXMLSmiSMIVttVTTWebvttWEBVTT =
+  string;
+export type __stringMin3Max3Pattern1809aFAF09aEAE = string;
+export type __integerMin2Max2147483647 = number;
+export type __stringMin24Max512PatternAZaZ0902 = string;
+export type __stringMin16Max24PatternAZaZ0922AZaZ0916 = string;
+export type __stringMin9Max19PatternAZ26EastWestCentralNorthSouthEastWest1912 =
+  string;
 export type __stringMin14PatternS3XmlXMLHttpsXmlXML = string;
 export type __stringMax2048PatternS3Https = string;
 export type __integerMin0Max5 = number;
-export type __integerMin1Max2147483647 = number;
+export type __stringMin14PatternS3BmpBMPPngPNGTgaTGAHttpsBmpBMPPngPNGTgaTGA =
+  string;
+export type __integerMin0Max99 = number;
+export type __integerMin0Max100 = number;
+export type __stringPattern01D20305D205D = string;
+export type __integerMin100Max1000 = number;
+export type __stringPattern010920405090509092090909 = string;
 export type __stringPatternS3ASSETMAPXml = string;
+export type __stringPatternArnAwsAZ09EventsAZ090912ConnectionAZAZ09AF0936 =
+  string;
+export type __stringPattern019090190908019090190908 = string;
 export type __stringMin11Max11Pattern01D20305D205D = string;
+export type __integerMin1Max32 = number;
+export type __integerMin1Max86400000 = number;
+export type __integerMin32Max8192 = number;
+export type __integerMin32000Max48000 = number;
+export type __stringPattern010920405090509092 = string;
+export type __integerMinNegative1Max2147483647 = number;
+export type __integerMin0Max50000 = number;
+export type __integerMin0Max65535 = number;
 export type __stringMin1Max20 = string;
 export type __stringMin1Max50PatternAZAZ09 = string;
 export type __stringMin1Max2048PatternArnAZSecretsmanagerWD12SecretAZAZ09 =
@@ -118,75 +156,42 @@ export type __doubleMin0 = number;
 export type __stringPatternHttpsKantarmedia = string;
 export type __stringPatternS3 = string;
 export type __stringMin1Max50 = string;
+export type __integerMin1Max17895697 = number;
+export type __integerMin1Max2147483640 = number;
 export type __stringMin14PatternS3Mov09PngHttpsMov09Png = string;
 export type __integerMin0Max0 = number;
 export type __stringPattern0xAFaF0908190908 = string;
 export type __integerMin0Max65534 = number;
 export type __stringPatternHttps = string;
-export type __stringMax2048 = string;
-export type __stringPattern010920405090509092 = string;
-export type __stringPattern0940191020191209301 = string;
-export type __integerMin0Max255 = number;
-export type __stringPatternAZaZ23AZaZ09 = string;
-export type __stringPatternWS = string;
-export type __stringPatternAZaZ23AZaZ = string;
-export type __integerMin0Max15 = number;
-export type __integerMin32Max8192 = number;
-export type __integerMin0Max100 = number;
-export type __timestampUnix = Date;
-export type __stringPatternSNManifestConfirmConditionNotificationNS = string;
-export type __stringPatternSNSignalProcessingNotificationNS = string;
-export type __integerMin2Max2147483647 = number;
-export type __stringMin24Max512PatternAZaZ0902 = string;
-export type __stringMin16Max24PatternAZaZ0922AZaZ0916 = string;
-export type __stringMin9Max19PatternAZ26EastWestCentralNorthSouthEastWest1912 =
-  string;
-export type __integerMin100Max1000 = number;
-export type __stringPattern010920405090509092090909 = string;
-export type __stringPatternArnAwsAZ09EventsAZ090912ConnectionAZAZ09AF0936 =
-  string;
-export type __stringPattern019090190908019090190908 = string;
-export type __integerMin1Max32 = number;
-export type __integerMin1Max86400000 = number;
-export type __integerMin1Max1001 = number;
-export type __integerMin1Max60000 = number;
-export type __stringMin14PatternS3BmpBMPPngPNGTgaTGAHttpsBmpBMPPngPNGTgaTGA =
-  string;
-export type __integerMin32000Max48000 = number;
-export type __integerMinNegative2147483648Max2147483647 = number;
-export type __integerMin1Max17895697 = number;
-export type __integerMin1Max2147483640 = number;
-export type __stringMax256 = string;
-export type __stringMin1Max256 = string;
-export type __stringMin0 = string;
-export type __stringPatternAZaZ0902 = string;
-export type __integerMinNegative70Max0 = number;
-export type __doubleMinNegative59Max0 = number;
-export type __doubleMinNegative8Max0 = number;
-export type __integerMin1Max64 = number;
-export type __stringMin1PatternArnAwsUsGovCnKmsAZ26EastWestCentralNorthSouthEastWest1912D12KeyAFAF098AFAF094AFAF094AFAF094AFAF0912MrkAFAF0932 =
-  string;
-export type __stringMax1000 = string;
-export type __integerMin32Max8182 = number;
-export type __integerMinNegative10000Max10000 = number;
-export type __integerMin0Max500 = number;
-export type __integerMin0Max10000 = number;
-export type __integerMin0Max1000 = number;
-export type __integerMin0Max65535 = number;
-export type __integerMin0Max3600 = number;
-export type __integerMin0Max1 = number;
-export type __stringMin1 = string;
-export type __stringMin3Max3PatternAZaZ3 = string;
-export type __stringPatternS3Https = string;
-export type __integerMin0Max8 = number;
-export type __integerMin0Max99 = number;
-export type __stringPattern01D20305D205D = string;
-export type __integerMinNegative1Max2147483647 = number;
-export type __integerMin0Max50000 = number;
 export type __integerMin100000Max100000000 = number;
 export type __doubleMin1Max10 = number;
 export type __integerMin3Max15 = number;
+export type __stringMax2048 = string;
+export type __stringMin1Max256 = string;
+export type __stringPatternAZaZ0902 = string;
+export type __stringPatternArnAwsUsGovCnKmsAZ26EastWestCentralNorthSouthEastWest1912D12KeyAFAF098AFAF094AFAF094AFAF094AFAF0912MrkAFAF0932 =
+  string;
+export type __stringMin32Max32Pattern09aFAF32 = string;
+export type __stringPatternArnAwsUsGovAcm = string;
+export type __stringMin36Max36Pattern09aFAF809aFAF409aFAF409aFAF409aFAF12 =
+  string;
+export type __stringPatternW = string;
+export type __stringPatternHttpsD = string;
+export type __stringPatternIdentityAZaZ26AZaZ09163 = string;
+export type __stringPatternDD = string;
+export type __stringPatternAZaZ0932 = string;
+export type __integerMin2Max4096 = number;
 export type __doubleMin0Max2147483647 = number;
+export type __integerMin8Max4096 = number;
+export type __integerMin1Max2048 = number;
+export type __integerMin1Max512 = number;
+export type __stringPattern09aFAF809aFAF409aFAF409aFAF409aFAF12 = string;
+export type __integerMin1Max4096 = number;
+export type __integerMin0Max3600 = number;
+export type __integerMinNegative70Max0 = number;
+export type __doubleMinNegative59Max0 = number;
+export type __doubleMinNegative8Max0 = number;
+export type __integerMin0Max255 = number;
 export type __integerMin6000Max1024000 = number;
 export type __integerMin2000Max30000 = number;
 export type __integerMin8000Max96000 = number;
@@ -211,18 +216,33 @@ export type __integerMin0Max9 = number;
 export type __integerMin32000Max192000 = number;
 export type __integerMin16000Max48000 = number;
 export type __integerMinNegative1Max10 = number;
+export type __stringPatternAZaZ23AZaZ09 = string;
+export type __stringPatternWS = string;
+export type __stringPatternAZaZ23AZaZ = string;
 export type __stringPatternS3TtfHttpsTtf = string;
 export type __integerMin96Max600 = number;
 export type __integerMin0Max96 = number;
 export type __stringMin6Max8Pattern09aFAF609aFAF2 = string;
 export type __integerMin0Max10 = number;
-export type __integerMin1Max4 = number;
 export type __integerMin1Max6 = number;
-export type __stringMin3Max3Pattern1809aFAF09aEAE = string;
+export type __stringMin1PatternArnAwsUsGovCnKmsAZ26EastWestCentralNorthSouthEastWest1912D12KeyAFAF098AFAF094AFAF094AFAF094AFAF0912MrkAFAF0932 =
+  string;
+export type __stringMax1000 = string;
+export type __integerMin32Max8182 = number;
+export type __integerMinNegative10000Max10000 = number;
 export type __integerMin25Max10000 = number;
 export type __integerMin25Max2000 = number;
 export type __integerMin1000Max30000 = number;
+export type __integerMin0Max500 = number;
+export type __integerMin0Max10000 = number;
+export type __integerMin0Max1000 = number;
+export type __integerMin0Max1 = number;
+export type __stringMax256 = string;
+export type __stringMin0 = string;
 export type __integerMin1000Max1152000000 = number;
+export type __integerMin0Max15 = number;
+export type __integerMin1Max10 = number;
+export type __doubleMin0Max1 = number;
 export type __integerMin24Max60000 = number;
 export type __integerMin1Max10000000 = number;
 export type __integerMin1Max100 = number;
@@ -238,25 +258,13 @@ export type __integerMin1000Max288000000 = number;
 export type __integerMin0Max47185920 = number;
 export type __integerMin1000Max300000000 = number;
 export type __integerMin1000Max480000000 = number;
-export type __integerMinNegative180Max180 = number;
-export type __integerMin0Max4000 = number;
-export type __integerMin10Max48 = number;
-export type __stringPattern = string;
-export type __stringMin32Max32Pattern09aFAF32 = string;
-export type __integerMin2Max4096 = number;
-export type __integerMin8Max4096 = number;
-export type __integerMin1Max2048 = number;
-export type __integerMin1Max512 = number;
-export type __integerMin1Max4096 = number;
-export type __integerMinNegative60Max6 = number;
-export type __doubleMinNegative60Max6 = number;
-export type __integerMin1Max10 = number;
-export type __doubleMin0Max1 = number;
 export type __integerMin8Max12 = number;
 export type __integerMin4Max12 = number;
 export type __integerMin90Max105 = number;
 export type __integerMin920Max1023 = number;
 export type __integerMinNegative5Max10 = number;
+export type __integerMinNegative180Max180 = number;
+export type __integerMin0Max4000 = number;
 export type __integerMin0Max3 = number;
 export type __integerMinNegative2Max3 = number;
 export type __integerMin0Max16 = number;
@@ -264,111 +272,14 @@ export type __integerMin0Max4 = number;
 export type __integerMinNegative1Max3 = number;
 export type __stringMin1Max100000 = string;
 export type __integerMin0Max4194303 = number;
-export type __integerMin1Max1 = number;
-export type __stringMin14PatternS3SccSCCTtmlTTMLDfxpDFXPStlSTLSrtSRTXmlXMLSmiSMIVttVTTWebvttWEBVTTHttpsSccSCCTtmlTTMLDfxpDFXPStlSTLSrtSRTXmlXMLSmiSMIVttVTTWebvttWEBVTT =
-  string;
-export type __stringPatternArnAwsUsGovAcm = string;
-export type __stringMin36Max36Pattern09aFAF809aFAF409aFAF409aFAF409aFAF12 =
-  string;
-export type __stringPatternW = string;
-export type __stringPatternHttpsD = string;
-export type __stringPatternIdentityAZaZ26AZaZ09163 = string;
-export type __stringPatternDD = string;
-export type __stringPatternAZaZ0932 = string;
-export type __stringPattern09aFAF809aFAF409aFAF409aFAF409aFAF12 = string;
-export type __stringPatternArnAwsUsGovCnKmsAZ26EastWestCentralNorthSouthEastWest1912D12KeyAFAF098AFAF094AFAF094AFAF094AFAF0912MrkAFAF0932 =
-  string;
+export type __integerMin10Max48 = number;
+export type __stringPattern = string;
+export type __stringPattern0940191020191209301 = string;
+export type __timestampUnix = Date;
+export type __integerMin1Max20 = number;
+export type __stringMax100 = string;
 
 //# Schemas
-export interface DeletePolicyRequest {}
-export const DeletePolicyRequest = S.suspend(() =>
-  S.Struct({}).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/2017-08-29/policy" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DeletePolicyRequest",
-}) as any as S.Schema<DeletePolicyRequest>;
-export interface DeletePolicyResponse {}
-export const DeletePolicyResponse = S.suspend(() => S.Struct({})).annotations({
-  identifier: "DeletePolicyResponse",
-}) as any as S.Schema<DeletePolicyResponse>;
-export interface GetPolicyRequest {}
-export const GetPolicyRequest = S.suspend(() =>
-  S.Struct({}).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/2017-08-29/policy" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "GetPolicyRequest",
-}) as any as S.Schema<GetPolicyRequest>;
-export type BillingTagsSource =
-  | "QUEUE"
-  | "PRESET"
-  | "JOB_TEMPLATE"
-  | "JOB"
-  | (string & {});
-export const BillingTagsSource = S.String;
-export type SimulateReservedQueue = "DISABLED" | "ENABLED" | (string & {});
-export const SimulateReservedQueue = S.String;
-export type StatusUpdateInterval =
-  | "SECONDS_10"
-  | "SECONDS_12"
-  | "SECONDS_15"
-  | "SECONDS_20"
-  | "SECONDS_30"
-  | "SECONDS_60"
-  | "SECONDS_120"
-  | "SECONDS_180"
-  | "SECONDS_240"
-  | "SECONDS_300"
-  | "SECONDS_360"
-  | "SECONDS_420"
-  | "SECONDS_480"
-  | "SECONDS_540"
-  | "SECONDS_600"
-  | (string & {});
-export const StatusUpdateInterval = S.String;
-export type PricingPlan = "ON_DEMAND" | "RESERVED" | (string & {});
-export const PricingPlan = S.String;
-export type QueueStatus = "ACTIVE" | "PAUSED" | (string & {});
-export const QueueStatus = S.String;
-export type DescribeEndpointsMode = "DEFAULT" | "GET_ONLY" | (string & {});
-export const DescribeEndpointsMode = S.String;
-export type Order = "ASCENDING" | "DESCENDING" | (string & {});
-export const Order = S.String;
-export type JobStatus =
-  | "SUBMITTED"
-  | "PROGRESSING"
-  | "COMPLETE"
-  | "CANCELED"
-  | "ERROR"
-  | (string & {});
-export const JobStatus = S.String;
-export type JobTemplateListBy =
-  | "NAME"
-  | "CREATION_DATE"
-  | "SYSTEM"
-  | (string & {});
-export const JobTemplateListBy = S.String;
-export type PresetListBy = "NAME" | "CREATION_DATE" | "SYSTEM" | (string & {});
-export const PresetListBy = S.String;
-export type QueueListBy = "NAME" | "CREATION_DATE" | (string & {});
-export const QueueListBy = S.String;
-export type __listOf__string = string[];
-export const __listOf__string = S.Array(S.String);
 export interface AssociateCertificateRequest {
   Arn?: string;
 }
@@ -383,13 +294,13 @@ export const AssociateCertificateRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "AssociateCertificateRequest",
 }) as any as S.Schema<AssociateCertificateRequest>;
 export interface AssociateCertificateResponse {}
 export const AssociateCertificateResponse = S.suspend(() =>
   S.Struct({}),
-).annotations({
+).annotate({
   identifier: "AssociateCertificateResponse",
 }) as any as S.Schema<AssociateCertificateResponse>;
 export interface CancelJobRequest {
@@ -406,499 +317,13 @@ export const CancelJobRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "CancelJobRequest",
 }) as any as S.Schema<CancelJobRequest>;
 export interface CancelJobResponse {}
-export const CancelJobResponse = S.suspend(() => S.Struct({})).annotations({
+export const CancelJobResponse = S.suspend(() => S.Struct({})).annotate({
   identifier: "CancelJobResponse",
 }) as any as S.Schema<CancelJobResponse>;
-export interface CreateResourceShareRequest {
-  JobId?: string;
-  SupportCaseId?: string;
-}
-export const CreateResourceShareRequest = S.suspend(() =>
-  S.Struct({
-    JobId: S.optional(S.String).pipe(T.JsonName("jobId")),
-    SupportCaseId: S.optional(S.String).pipe(T.JsonName("supportCaseId")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/2017-08-29/resourceShares" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "CreateResourceShareRequest",
-}) as any as S.Schema<CreateResourceShareRequest>;
-export interface CreateResourceShareResponse {}
-export const CreateResourceShareResponse = S.suspend(() =>
-  S.Struct({}),
-).annotations({
-  identifier: "CreateResourceShareResponse",
-}) as any as S.Schema<CreateResourceShareResponse>;
-export interface DeleteJobTemplateRequest {
-  Name: string;
-}
-export const DeleteJobTemplateRequest = S.suspend(() =>
-  S.Struct({ Name: S.String.pipe(T.HttpLabel("Name")) }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/2017-08-29/jobTemplates/{Name}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DeleteJobTemplateRequest",
-}) as any as S.Schema<DeleteJobTemplateRequest>;
-export interface DeleteJobTemplateResponse {}
-export const DeleteJobTemplateResponse = S.suspend(() =>
-  S.Struct({}),
-).annotations({
-  identifier: "DeleteJobTemplateResponse",
-}) as any as S.Schema<DeleteJobTemplateResponse>;
-export interface DeletePresetRequest {
-  Name: string;
-}
-export const DeletePresetRequest = S.suspend(() =>
-  S.Struct({ Name: S.String.pipe(T.HttpLabel("Name")) }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/2017-08-29/presets/{Name}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DeletePresetRequest",
-}) as any as S.Schema<DeletePresetRequest>;
-export interface DeletePresetResponse {}
-export const DeletePresetResponse = S.suspend(() => S.Struct({})).annotations({
-  identifier: "DeletePresetResponse",
-}) as any as S.Schema<DeletePresetResponse>;
-export interface DeleteQueueRequest {
-  Name: string;
-}
-export const DeleteQueueRequest = S.suspend(() =>
-  S.Struct({ Name: S.String.pipe(T.HttpLabel("Name")) }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/2017-08-29/queues/{Name}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DeleteQueueRequest",
-}) as any as S.Schema<DeleteQueueRequest>;
-export interface DeleteQueueResponse {}
-export const DeleteQueueResponse = S.suspend(() => S.Struct({})).annotations({
-  identifier: "DeleteQueueResponse",
-}) as any as S.Schema<DeleteQueueResponse>;
-export interface DescribeEndpointsRequest {
-  MaxResults?: number;
-  Mode?: DescribeEndpointsMode;
-  NextToken?: string;
-}
-export const DescribeEndpointsRequest = S.suspend(() =>
-  S.Struct({
-    MaxResults: S.optional(S.Number).pipe(T.JsonName("maxResults")),
-    Mode: S.optional(DescribeEndpointsMode).pipe(T.JsonName("mode")),
-    NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/2017-08-29/endpoints" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DescribeEndpointsRequest",
-}) as any as S.Schema<DescribeEndpointsRequest>;
-export interface DisassociateCertificateRequest {
-  Arn: string;
-}
-export const DisassociateCertificateRequest = S.suspend(() =>
-  S.Struct({ Arn: S.String.pipe(T.HttpLabel("Arn")) }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/2017-08-29/certificates/{Arn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DisassociateCertificateRequest",
-}) as any as S.Schema<DisassociateCertificateRequest>;
-export interface DisassociateCertificateResponse {}
-export const DisassociateCertificateResponse = S.suspend(() =>
-  S.Struct({}),
-).annotations({
-  identifier: "DisassociateCertificateResponse",
-}) as any as S.Schema<DisassociateCertificateResponse>;
-export interface GetJobRequest {
-  Id: string;
-}
-export const GetJobRequest = S.suspend(() =>
-  S.Struct({ Id: S.String.pipe(T.HttpLabel("Id")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/2017-08-29/jobs/{Id}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "GetJobRequest",
-}) as any as S.Schema<GetJobRequest>;
-export interface GetJobsQueryResultsRequest {
-  Id: string;
-}
-export const GetJobsQueryResultsRequest = S.suspend(() =>
-  S.Struct({ Id: S.String.pipe(T.HttpLabel("Id")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/2017-08-29/jobsQueries/{Id}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "GetJobsQueryResultsRequest",
-}) as any as S.Schema<GetJobsQueryResultsRequest>;
-export interface GetJobTemplateRequest {
-  Name: string;
-}
-export const GetJobTemplateRequest = S.suspend(() =>
-  S.Struct({ Name: S.String.pipe(T.HttpLabel("Name")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/2017-08-29/jobTemplates/{Name}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "GetJobTemplateRequest",
-}) as any as S.Schema<GetJobTemplateRequest>;
-export interface GetPresetRequest {
-  Name: string;
-}
-export const GetPresetRequest = S.suspend(() =>
-  S.Struct({ Name: S.String.pipe(T.HttpLabel("Name")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/2017-08-29/presets/{Name}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "GetPresetRequest",
-}) as any as S.Schema<GetPresetRequest>;
-export interface GetQueueRequest {
-  Name: string;
-}
-export const GetQueueRequest = S.suspend(() =>
-  S.Struct({ Name: S.String.pipe(T.HttpLabel("Name")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/2017-08-29/queues/{Name}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "GetQueueRequest",
-}) as any as S.Schema<GetQueueRequest>;
-export interface ListJobsRequest {
-  MaxResults?: number;
-  NextToken?: string;
-  Order?: Order;
-  Queue?: string;
-  Status?: JobStatus;
-}
-export const ListJobsRequest = S.suspend(() =>
-  S.Struct({
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    Order: S.optional(Order).pipe(T.HttpQuery("order")),
-    Queue: S.optional(S.String).pipe(T.HttpQuery("queue")),
-    Status: S.optional(JobStatus).pipe(T.HttpQuery("status")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/2017-08-29/jobs" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListJobsRequest",
-}) as any as S.Schema<ListJobsRequest>;
-export interface ListJobTemplatesRequest {
-  Category?: string;
-  ListBy?: JobTemplateListBy;
-  MaxResults?: number;
-  NextToken?: string;
-  Order?: Order;
-}
-export const ListJobTemplatesRequest = S.suspend(() =>
-  S.Struct({
-    Category: S.optional(S.String).pipe(T.HttpQuery("category")),
-    ListBy: S.optional(JobTemplateListBy).pipe(T.HttpQuery("listBy")),
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    Order: S.optional(Order).pipe(T.HttpQuery("order")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/2017-08-29/jobTemplates" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListJobTemplatesRequest",
-}) as any as S.Schema<ListJobTemplatesRequest>;
-export interface ListPresetsRequest {
-  Category?: string;
-  ListBy?: PresetListBy;
-  MaxResults?: number;
-  NextToken?: string;
-  Order?: Order;
-}
-export const ListPresetsRequest = S.suspend(() =>
-  S.Struct({
-    Category: S.optional(S.String).pipe(T.HttpQuery("category")),
-    ListBy: S.optional(PresetListBy).pipe(T.HttpQuery("listBy")),
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    Order: S.optional(Order).pipe(T.HttpQuery("order")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/2017-08-29/presets" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListPresetsRequest",
-}) as any as S.Schema<ListPresetsRequest>;
-export interface ListQueuesRequest {
-  ListBy?: QueueListBy;
-  MaxResults?: number;
-  NextToken?: string;
-  Order?: Order;
-}
-export const ListQueuesRequest = S.suspend(() =>
-  S.Struct({
-    ListBy: S.optional(QueueListBy).pipe(T.HttpQuery("listBy")),
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    Order: S.optional(Order).pipe(T.HttpQuery("order")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/2017-08-29/queues" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListQueuesRequest",
-}) as any as S.Schema<ListQueuesRequest>;
-export interface ListTagsForResourceRequest {
-  Arn: string;
-}
-export const ListTagsForResourceRequest = S.suspend(() =>
-  S.Struct({ Arn: S.String.pipe(T.HttpLabel("Arn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/2017-08-29/tags/{Arn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListTagsForResourceRequest",
-}) as any as S.Schema<ListTagsForResourceRequest>;
-export interface ListVersionsRequest {
-  MaxResults?: number;
-  NextToken?: string;
-}
-export const ListVersionsRequest = S.suspend(() =>
-  S.Struct({
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/2017-08-29/versions" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListVersionsRequest",
-}) as any as S.Schema<ListVersionsRequest>;
-export type InputPolicy = "ALLOWED" | "DISALLOWED" | (string & {});
-export const InputPolicy = S.String;
-export interface Policy {
-  HttpInputs?: InputPolicy;
-  HttpsInputs?: InputPolicy;
-  S3Inputs?: InputPolicy;
-}
-export const Policy = S.suspend(() =>
-  S.Struct({
-    HttpInputs: S.optional(InputPolicy).pipe(T.JsonName("httpInputs")),
-    HttpsInputs: S.optional(InputPolicy).pipe(T.JsonName("httpsInputs")),
-    S3Inputs: S.optional(InputPolicy).pipe(T.JsonName("s3Inputs")),
-  }),
-).annotations({ identifier: "Policy" }) as any as S.Schema<Policy>;
-export interface PutPolicyRequest {
-  Policy?: Policy;
-}
-export const PutPolicyRequest = S.suspend(() =>
-  S.Struct({
-    Policy: S.optional(Policy)
-      .pipe(T.JsonName("policy"))
-      .annotations({ identifier: "Policy" }),
-  }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/2017-08-29/policy" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "PutPolicyRequest",
-}) as any as S.Schema<PutPolicyRequest>;
-export interface SearchJobsRequest {
-  InputFile?: string;
-  MaxResults?: number;
-  NextToken?: string;
-  Order?: Order;
-  Queue?: string;
-  Status?: JobStatus;
-}
-export const SearchJobsRequest = S.suspend(() =>
-  S.Struct({
-    InputFile: S.optional(S.String).pipe(T.HttpQuery("inputFile")),
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    Order: S.optional(Order).pipe(T.HttpQuery("order")),
-    Queue: S.optional(S.String).pipe(T.HttpQuery("queue")),
-    Status: S.optional(JobStatus).pipe(T.HttpQuery("status")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/2017-08-29/search" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "SearchJobsRequest",
-}) as any as S.Schema<SearchJobsRequest>;
-export type __mapOf__string = { [key: string]: string | undefined };
-export const __mapOf__string = S.Record({
-  key: S.String,
-  value: S.UndefinedOr(S.String),
-});
-export interface TagResourceRequest {
-  Arn?: string;
-  Tags?: { [key: string]: string | undefined };
-}
-export const TagResourceRequest = S.suspend(() =>
-  S.Struct({
-    Arn: S.optional(S.String).pipe(T.JsonName("arn")),
-    Tags: S.optional(__mapOf__string).pipe(T.JsonName("tags")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/2017-08-29/tags" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
-export interface TagResourceResponse {}
-export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
-  identifier: "TagResourceResponse",
-}) as any as S.Schema<TagResourceResponse>;
-export interface UntagResourceRequest {
-  Arn: string;
-  TagKeys?: string[];
-}
-export const UntagResourceRequest = S.suspend(() =>
-  S.Struct({
-    Arn: S.String.pipe(T.HttpLabel("Arn")),
-    TagKeys: S.optional(__listOf__string).pipe(T.JsonName("tagKeys")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/2017-08-29/tags/{Arn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
-export interface UntagResourceResponse {}
-export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
-  identifier: "UntagResourceResponse",
-}) as any as S.Schema<UntagResourceResponse>;
 export type AccelerationMode =
   | "DISABLED"
   | "ENABLED"
@@ -910,9 +335,16 @@ export interface AccelerationSettings {
 }
 export const AccelerationSettings = S.suspend(() =>
   S.Struct({ Mode: S.optional(AccelerationMode).pipe(T.JsonName("mode")) }),
-).annotations({
+).annotate({
   identifier: "AccelerationSettings",
 }) as any as S.Schema<AccelerationSettings>;
+export type BillingTagsSource =
+  | "QUEUE"
+  | "PRESET"
+  | "JOB_TEMPLATE"
+  | "JOB"
+  | (string & {});
+export const BillingTagsSource = S.String;
 export interface HopDestination {
   Priority?: number;
   Queue?: string;
@@ -924,9 +356,7 @@ export const HopDestination = S.suspend(() =>
     Queue: S.optional(S.String).pipe(T.JsonName("queue")),
     WaitMinutes: S.optional(S.Number).pipe(T.JsonName("waitMinutes")),
   }),
-).annotations({
-  identifier: "HopDestination",
-}) as any as S.Schema<HopDestination>;
+).annotate({ identifier: "HopDestination" }) as any as S.Schema<HopDestination>;
 export type __listOfHopDestination = HopDestination[];
 export const __listOfHopDestination = S.Array(HopDestination);
 export interface AvailBlanking {
@@ -938,9 +368,7 @@ export const AvailBlanking = S.suspend(() =>
       T.JsonName("availBlankingImage"),
     ),
   }),
-).annotations({
-  identifier: "AvailBlanking",
-}) as any as S.Schema<AvailBlanking>;
+).annotate({ identifier: "AvailBlanking" }) as any as S.Schema<AvailBlanking>;
 export type ColorSpace =
   | "FOLLOW"
   | "REC_601"
@@ -973,7 +401,7 @@ export const ColorConversion3DLUTSetting = S.suspend(() =>
       T.JsonName("outputMasteringLuminance"),
     ),
   }),
-).annotations({
+).annotate({
   identifier: "ColorConversion3DLUTSetting",
 }) as any as S.Schema<ColorConversion3DLUTSetting>;
 export type __listOfColorConversion3DLUTSetting = ColorConversion3DLUTSetting[];
@@ -985,7 +413,7 @@ export interface EsamManifestConfirmConditionNotification {
 }
 export const EsamManifestConfirmConditionNotification = S.suspend(() =>
   S.Struct({ MccXml: S.optional(S.String).pipe(T.JsonName("mccXml")) }),
-).annotations({
+).annotate({
   identifier: "EsamManifestConfirmConditionNotification",
 }) as any as S.Schema<EsamManifestConfirmConditionNotification>;
 export interface EsamSignalProcessingNotification {
@@ -993,7 +421,7 @@ export interface EsamSignalProcessingNotification {
 }
 export const EsamSignalProcessingNotification = S.suspend(() =>
   S.Struct({ SccXml: S.optional(S.String).pipe(T.JsonName("sccXml")) }),
-).annotations({
+).annotate({
   identifier: "EsamSignalProcessingNotification",
 }) as any as S.Schema<EsamSignalProcessingNotification>;
 export interface EsamSettings {
@@ -1007,15 +435,15 @@ export const EsamSettings = S.suspend(() =>
       EsamManifestConfirmConditionNotification,
     )
       .pipe(T.JsonName("manifestConfirmConditionNotification"))
-      .annotations({ identifier: "EsamManifestConfirmConditionNotification" }),
+      .annotate({ identifier: "EsamManifestConfirmConditionNotification" }),
     ResponseSignalPreroll: S.optional(S.Number).pipe(
       T.JsonName("responseSignalPreroll"),
     ),
     SignalProcessingNotification: S.optional(EsamSignalProcessingNotification)
       .pipe(T.JsonName("signalProcessingNotification"))
-      .annotations({ identifier: "EsamSignalProcessingNotification" }),
+      .annotate({ identifier: "EsamSignalProcessingNotification" }),
   }),
-).annotations({ identifier: "EsamSettings" }) as any as S.Schema<EsamSettings>;
+).annotate({ identifier: "EsamSettings" }) as any as S.Schema<EsamSettings>;
 export type CopyProtectionAction = "PASSTHROUGH" | "STRIP" | (string & {});
 export const CopyProtectionAction = S.String;
 export type VchipAction = "PASSTHROUGH" | "STRIP" | (string & {});
@@ -1031,7 +459,7 @@ export const ExtendedDataServices = S.suspend(() =>
     ),
     VchipAction: S.optional(VchipAction).pipe(T.JsonName("vchipAction")),
   }),
-).annotations({
+).annotate({
   identifier: "ExtendedDataServices",
 }) as any as S.Schema<ExtendedDataServices>;
 export type AdvancedInputFilter = "ENABLED" | "DISABLED" | (string & {});
@@ -1056,7 +484,7 @@ export const AdvancedInputFilterSettings = S.suspend(() =>
       T.JsonName("sharpening"),
     ),
   }),
-).annotations({
+).annotate({
   identifier: "AdvancedInputFilterSettings",
 }) as any as S.Schema<AdvancedInputFilterSettings>;
 export type __listOf__stringMin1 = string[];
@@ -1070,16 +498,16 @@ export const AudioSelectorGroup = S.suspend(() =>
       T.JsonName("audioSelectorNames"),
     ),
   }),
-).annotations({
+).annotate({
   identifier: "AudioSelectorGroup",
 }) as any as S.Schema<AudioSelectorGroup>;
 export type __mapOfAudioSelectorGroup = {
   [key: string]: AudioSelectorGroup | undefined;
 };
-export const __mapOfAudioSelectorGroup = S.Record({
-  key: S.String,
-  value: S.UndefinedOr(AudioSelectorGroup),
-});
+export const __mapOfAudioSelectorGroup = S.Record(
+  S.String,
+  AudioSelectorGroup.pipe(S.optional),
+);
 export type AudioDurationCorrection =
   | "DISABLED"
   | "AUTO"
@@ -1298,7 +726,7 @@ export const HlsRenditionGroupSettings = S.suspend(() =>
     ),
     RenditionName: S.optional(S.String).pipe(T.JsonName("renditionName")),
   }),
-).annotations({
+).annotate({
   identifier: "HlsRenditionGroupSettings",
 }) as any as S.Schema<HlsRenditionGroupSettings>;
 export type __listOf__integerMin1Max2147483647 = number[];
@@ -1320,7 +748,7 @@ export const OutputChannelMapping = S.suspend(() =>
       T.JsonName("inputChannelsFineTune"),
     ),
   }),
-).annotations({
+).annotate({
   identifier: "OutputChannelMapping",
 }) as any as S.Schema<OutputChannelMapping>;
 export type __listOfOutputChannelMapping = OutputChannelMapping[];
@@ -1334,9 +762,7 @@ export const ChannelMapping = S.suspend(() =>
       T.JsonName("outputChannels"),
     ),
   }),
-).annotations({
-  identifier: "ChannelMapping",
-}) as any as S.Schema<ChannelMapping>;
+).annotate({ identifier: "ChannelMapping" }) as any as S.Schema<ChannelMapping>;
 export interface RemixSettings {
   AudioDescriptionAudioChannel?: number;
   AudioDescriptionDataChannel?: number;
@@ -1354,13 +780,11 @@ export const RemixSettings = S.suspend(() =>
     ),
     ChannelMapping: S.optional(ChannelMapping)
       .pipe(T.JsonName("channelMapping"))
-      .annotations({ identifier: "ChannelMapping" }),
+      .annotate({ identifier: "ChannelMapping" }),
     ChannelsIn: S.optional(S.Number).pipe(T.JsonName("channelsIn")),
     ChannelsOut: S.optional(S.Number).pipe(T.JsonName("channelsOut")),
   }),
-).annotations({
-  identifier: "RemixSettings",
-}) as any as S.Schema<RemixSettings>;
+).annotate({ identifier: "RemixSettings" }) as any as S.Schema<RemixSettings>;
 export type AudioSelectorType =
   | "PID"
   | "TRACK"
@@ -1401,7 +825,7 @@ export const AudioSelector = S.suspend(() =>
     ),
     HlsRenditionGroupSettings: S.optional(HlsRenditionGroupSettings)
       .pipe(T.JsonName("hlsRenditionGroupSettings"))
-      .annotations({ identifier: "HlsRenditionGroupSettings" }),
+      .annotate({ identifier: "HlsRenditionGroupSettings" }),
     LanguageCode: S.optional(LanguageCode).pipe(T.JsonName("languageCode")),
     Offset: S.optional(S.Number).pipe(T.JsonName("offset")),
     Pids: S.optional(__listOf__integerMin1Max2147483647).pipe(
@@ -1410,7 +834,7 @@ export const AudioSelector = S.suspend(() =>
     ProgramSelection: S.optional(S.Number).pipe(T.JsonName("programSelection")),
     RemixSettings: S.optional(RemixSettings)
       .pipe(T.JsonName("remixSettings"))
-      .annotations({ identifier: "RemixSettings" }),
+      .annotate({ identifier: "RemixSettings" }),
     SelectorType: S.optional(AudioSelectorType).pipe(
       T.JsonName("selectorType"),
     ),
@@ -1421,14 +845,12 @@ export const AudioSelector = S.suspend(() =>
       T.JsonName("tracks"),
     ),
   }),
-).annotations({
-  identifier: "AudioSelector",
-}) as any as S.Schema<AudioSelector>;
+).annotate({ identifier: "AudioSelector" }) as any as S.Schema<AudioSelector>;
 export type __mapOfAudioSelector = { [key: string]: AudioSelector | undefined };
-export const __mapOfAudioSelector = S.Record({
-  key: S.String,
-  value: S.UndefinedOr(AudioSelector),
-});
+export const __mapOfAudioSelector = S.Record(
+  S.String,
+  AudioSelector.pipe(S.optional),
+);
 export type AncillaryConvert608To708 = "UPCONVERT" | "DISABLED" | (string & {});
 export const AncillaryConvert608To708 = S.String;
 export type AncillaryTerminateCaptions =
@@ -1453,7 +875,7 @@ export const AncillarySourceSettings = S.suspend(() =>
       T.JsonName("terminateCaptions"),
     ),
   }),
-).annotations({
+).annotate({
   identifier: "AncillarySourceSettings",
 }) as any as S.Schema<AncillarySourceSettings>;
 export interface DvbSubSourceSettings {
@@ -1461,7 +883,7 @@ export interface DvbSubSourceSettings {
 }
 export const DvbSubSourceSettings = S.suspend(() =>
   S.Struct({ Pid: S.optional(S.Number).pipe(T.JsonName("pid")) }),
-).annotations({
+).annotate({
   identifier: "DvbSubSourceSettings",
 }) as any as S.Schema<DvbSubSourceSettings>;
 export type EmbeddedConvert608To708 = "UPCONVERT" | "DISABLED" | (string & {});
@@ -1492,7 +914,7 @@ export const EmbeddedSourceSettings = S.suspend(() =>
       T.JsonName("terminateCaptions"),
     ),
   }),
-).annotations({
+).annotate({
   identifier: "EmbeddedSourceSettings",
 }) as any as S.Schema<EmbeddedSourceSettings>;
 export type CaptionSourceByteRateLimit = "ENABLED" | "DISABLED" | (string & {});
@@ -1520,7 +942,7 @@ export const CaptionSourceFramerate = S.suspend(() =>
       T.JsonName("framerateNumerator"),
     ),
   }),
-).annotations({
+).annotate({
   identifier: "CaptionSourceFramerate",
 }) as any as S.Schema<CaptionSourceFramerate>;
 export type FileSourceTimeDeltaUnits =
@@ -1556,7 +978,7 @@ export const FileSourceSettings = S.suspend(() =>
     ),
     Framerate: S.optional(CaptionSourceFramerate)
       .pipe(T.JsonName("framerate"))
-      .annotations({ identifier: "CaptionSourceFramerate" }),
+      .annotate({ identifier: "CaptionSourceFramerate" }),
     SourceFile: S.optional(S.String).pipe(T.JsonName("sourceFile")),
     TimeDelta: S.optional(S.Number).pipe(T.JsonName("timeDelta")),
     TimeDeltaUnits: S.optional(FileSourceTimeDeltaUnits).pipe(
@@ -1566,7 +988,7 @@ export const FileSourceSettings = S.suspend(() =>
       CaptionSourceUpconvertSTLToTeletext,
     ).pipe(T.JsonName("upconvertSTLToTeletext")),
   }),
-).annotations({
+).annotate({
   identifier: "FileSourceSettings",
 }) as any as S.Schema<FileSourceSettings>;
 export type CaptionSourceType =
@@ -1592,7 +1014,7 @@ export interface TeletextSourceSettings {
 }
 export const TeletextSourceSettings = S.suspend(() =>
   S.Struct({ PageNumber: S.optional(S.String).pipe(T.JsonName("pageNumber")) }),
-).annotations({
+).annotate({
   identifier: "TeletextSourceSettings",
 }) as any as S.Schema<TeletextSourceSettings>;
 export interface TrackSourceSettings {
@@ -1604,7 +1026,7 @@ export const TrackSourceSettings = S.suspend(() =>
     StreamNumber: S.optional(S.Number).pipe(T.JsonName("streamNumber")),
     TrackNumber: S.optional(S.Number).pipe(T.JsonName("trackNumber")),
   }),
-).annotations({
+).annotate({
   identifier: "TrackSourceSettings",
 }) as any as S.Schema<TrackSourceSettings>;
 export interface WebvttHlsSourceSettings {
@@ -1620,7 +1042,7 @@ export const WebvttHlsSourceSettings = S.suspend(() =>
     ),
     RenditionName: S.optional(S.String).pipe(T.JsonName("renditionName")),
   }),
-).annotations({
+).annotate({
   identifier: "WebvttHlsSourceSettings",
 }) as any as S.Schema<WebvttHlsSourceSettings>;
 export interface CaptionSourceSettings {
@@ -1637,28 +1059,28 @@ export const CaptionSourceSettings = S.suspend(() =>
   S.Struct({
     AncillarySourceSettings: S.optional(AncillarySourceSettings)
       .pipe(T.JsonName("ancillarySourceSettings"))
-      .annotations({ identifier: "AncillarySourceSettings" }),
+      .annotate({ identifier: "AncillarySourceSettings" }),
     DvbSubSourceSettings: S.optional(DvbSubSourceSettings)
       .pipe(T.JsonName("dvbSubSourceSettings"))
-      .annotations({ identifier: "DvbSubSourceSettings" }),
+      .annotate({ identifier: "DvbSubSourceSettings" }),
     EmbeddedSourceSettings: S.optional(EmbeddedSourceSettings)
       .pipe(T.JsonName("embeddedSourceSettings"))
-      .annotations({ identifier: "EmbeddedSourceSettings" }),
+      .annotate({ identifier: "EmbeddedSourceSettings" }),
     FileSourceSettings: S.optional(FileSourceSettings)
       .pipe(T.JsonName("fileSourceSettings"))
-      .annotations({ identifier: "FileSourceSettings" }),
+      .annotate({ identifier: "FileSourceSettings" }),
     SourceType: S.optional(CaptionSourceType).pipe(T.JsonName("sourceType")),
     TeletextSourceSettings: S.optional(TeletextSourceSettings)
       .pipe(T.JsonName("teletextSourceSettings"))
-      .annotations({ identifier: "TeletextSourceSettings" }),
+      .annotate({ identifier: "TeletextSourceSettings" }),
     TrackSourceSettings: S.optional(TrackSourceSettings)
       .pipe(T.JsonName("trackSourceSettings"))
-      .annotations({ identifier: "TrackSourceSettings" }),
+      .annotate({ identifier: "TrackSourceSettings" }),
     WebvttHlsSourceSettings: S.optional(WebvttHlsSourceSettings)
       .pipe(T.JsonName("webvttHlsSourceSettings"))
-      .annotations({ identifier: "WebvttHlsSourceSettings" }),
+      .annotate({ identifier: "WebvttHlsSourceSettings" }),
   }),
-).annotations({
+).annotate({
   identifier: "CaptionSourceSettings",
 }) as any as S.Schema<CaptionSourceSettings>;
 export interface CaptionSelector {
@@ -1674,18 +1096,18 @@ export const CaptionSelector = S.suspend(() =>
     LanguageCode: S.optional(LanguageCode).pipe(T.JsonName("languageCode")),
     SourceSettings: S.optional(CaptionSourceSettings)
       .pipe(T.JsonName("sourceSettings"))
-      .annotations({ identifier: "CaptionSourceSettings" }),
+      .annotate({ identifier: "CaptionSourceSettings" }),
   }),
-).annotations({
+).annotate({
   identifier: "CaptionSelector",
 }) as any as S.Schema<CaptionSelector>;
 export type __mapOfCaptionSelector = {
   [key: string]: CaptionSelector | undefined;
 };
-export const __mapOfCaptionSelector = S.Record({
-  key: S.String,
-  value: S.UndefinedOr(CaptionSelector),
-});
+export const __mapOfCaptionSelector = S.Record(
+  S.String,
+  CaptionSelector.pipe(S.optional),
+);
 export interface Rectangle {
   Height?: number;
   Width?: number;
@@ -1699,9 +1121,33 @@ export const Rectangle = S.suspend(() =>
     X: S.optional(S.Number).pipe(T.JsonName("x")),
     Y: S.optional(S.Number).pipe(T.JsonName("y")),
   }),
-).annotations({ identifier: "Rectangle" }) as any as S.Schema<Rectangle>;
+).annotate({ identifier: "Rectangle" }) as any as S.Schema<Rectangle>;
 export type InputDeblockFilter = "ENABLED" | "DISABLED" | (string & {});
 export const InputDeblockFilter = S.String;
+export type DecryptionMode = "AES_CTR" | "AES_CBC" | "AES_GCM" | (string & {});
+export const DecryptionMode = S.String;
+export interface InputDecryptionSettings {
+  DecryptionMode?: DecryptionMode;
+  EncryptedDecryptionKey?: string;
+  InitializationVector?: string;
+  KmsKeyRegion?: string;
+}
+export const InputDecryptionSettings = S.suspend(() =>
+  S.Struct({
+    DecryptionMode: S.optional(DecryptionMode).pipe(
+      T.JsonName("decryptionMode"),
+    ),
+    EncryptedDecryptionKey: S.optional(S.String).pipe(
+      T.JsonName("encryptedDecryptionKey"),
+    ),
+    InitializationVector: S.optional(S.String).pipe(
+      T.JsonName("initializationVector"),
+    ),
+    KmsKeyRegion: S.optional(S.String).pipe(T.JsonName("kmsKeyRegion")),
+  }),
+).annotate({
+  identifier: "InputDecryptionSettings",
+}) as any as S.Schema<InputDecryptionSettings>;
 export type InputDenoiseFilter = "ENABLED" | "DISABLED" | (string & {});
 export const InputDenoiseFilter = S.String;
 export type DynamicAudioSelectorType =
@@ -1730,16 +1176,16 @@ export const DynamicAudioSelector = S.suspend(() =>
       T.JsonName("selectorType"),
     ),
   }),
-).annotations({
+).annotate({
   identifier: "DynamicAudioSelector",
 }) as any as S.Schema<DynamicAudioSelector>;
 export type __mapOfDynamicAudioSelector = {
   [key: string]: DynamicAudioSelector | undefined;
 };
-export const __mapOfDynamicAudioSelector = S.Record({
-  key: S.String,
-  value: S.UndefinedOr(DynamicAudioSelector),
-});
+export const __mapOfDynamicAudioSelector = S.Record(
+  S.String,
+  DynamicAudioSelector.pipe(S.optional),
+);
 export type InputFilterEnable = "AUTO" | "DISABLE" | "FORCE" | (string & {});
 export const InputFilterEnable = S.String;
 export interface InsertableImage {
@@ -1771,7 +1217,7 @@ export const InsertableImage = S.suspend(() =>
     StartTime: S.optional(S.String).pipe(T.JsonName("startTime")),
     Width: S.optional(S.Number).pipe(T.JsonName("width")),
   }),
-).annotations({
+).annotate({
   identifier: "InsertableImage",
 }) as any as S.Schema<InsertableImage>;
 export type __listOfInsertableImage = InsertableImage[];
@@ -1789,9 +1235,7 @@ export const ImageInserter = S.suspend(() =>
       T.JsonName("sdrReferenceWhiteLevel"),
     ),
   }),
-).annotations({
-  identifier: "ImageInserter",
-}) as any as S.Schema<ImageInserter>;
+).annotate({ identifier: "ImageInserter" }) as any as S.Schema<ImageInserter>;
 export interface InputClipping {
   EndTimecode?: string;
   StartTimecode?: string;
@@ -1801,21 +1245,73 @@ export const InputClipping = S.suspend(() =>
     EndTimecode: S.optional(S.String).pipe(T.JsonName("endTimecode")),
     StartTimecode: S.optional(S.String).pipe(T.JsonName("startTimecode")),
   }),
-).annotations({
-  identifier: "InputClipping",
-}) as any as S.Schema<InputClipping>;
+).annotate({ identifier: "InputClipping" }) as any as S.Schema<InputClipping>;
 export type __listOfInputClipping = InputClipping[];
 export const __listOfInputClipping = S.Array(InputClipping);
 export type InputScanType = "AUTO" | "PSF" | (string & {});
 export const InputScanType = S.String;
 export type InputPsiControl = "IGNORE_PSI" | "USE_PSI" | (string & {});
 export const InputPsiControl = S.String;
+export type __listOf__stringPatternS3ASSETMAPXml = string[];
+export const __listOf__stringPatternS3ASSETMAPXml = S.Array(S.String);
+export type TamsGapHandling =
+  | "SKIP_GAPS"
+  | "FILL_WITH_BLACK"
+  | "HOLD_LAST_FRAME"
+  | (string & {});
+export const TamsGapHandling = S.String;
+export interface InputTamsSettings {
+  AuthConnectionArn?: string;
+  GapHandling?: TamsGapHandling;
+  SourceId?: string;
+  Timerange?: string;
+}
+export const InputTamsSettings = S.suspend(() =>
+  S.Struct({
+    AuthConnectionArn: S.optional(S.String).pipe(
+      T.JsonName("authConnectionArn"),
+    ),
+    GapHandling: S.optional(TamsGapHandling).pipe(T.JsonName("gapHandling")),
+    SourceId: S.optional(S.String).pipe(T.JsonName("sourceId")),
+    Timerange: S.optional(S.String).pipe(T.JsonName("timerange")),
+  }),
+).annotate({
+  identifier: "InputTamsSettings",
+}) as any as S.Schema<InputTamsSettings>;
 export type InputTimecodeSource =
   | "EMBEDDED"
   | "ZEROBASED"
   | "SPECIFIEDSTART"
   | (string & {});
 export const InputTimecodeSource = S.String;
+export interface InputVideoGenerator {
+  Channels?: number;
+  Duration?: number;
+  FramerateDenominator?: number;
+  FramerateNumerator?: number;
+  Height?: number;
+  ImageInput?: string;
+  SampleRate?: number;
+  Width?: number;
+}
+export const InputVideoGenerator = S.suspend(() =>
+  S.Struct({
+    Channels: S.optional(S.Number).pipe(T.JsonName("channels")),
+    Duration: S.optional(S.Number).pipe(T.JsonName("duration")),
+    FramerateDenominator: S.optional(S.Number).pipe(
+      T.JsonName("framerateDenominator"),
+    ),
+    FramerateNumerator: S.optional(S.Number).pipe(
+      T.JsonName("framerateNumerator"),
+    ),
+    Height: S.optional(S.Number).pipe(T.JsonName("height")),
+    ImageInput: S.optional(S.String).pipe(T.JsonName("imageInput")),
+    SampleRate: S.optional(S.Number).pipe(T.JsonName("sampleRate")),
+    Width: S.optional(S.Number).pipe(T.JsonName("width")),
+  }),
+).annotate({
+  identifier: "InputVideoGenerator",
+}) as any as S.Schema<InputVideoGenerator>;
 export type VideoOverlayUnit = "PIXELS" | "PERCENTAGE" | (string & {});
 export const VideoOverlayUnit = S.String;
 export interface VideoOverlayCrop {
@@ -1833,7 +1329,7 @@ export const VideoOverlayCrop = S.suspend(() =>
     X: S.optional(S.Number).pipe(T.JsonName("x")),
     Y: S.optional(S.Number).pipe(T.JsonName("y")),
   }),
-).annotations({
+).annotate({
   identifier: "VideoOverlayCrop",
 }) as any as S.Schema<VideoOverlayCrop>;
 export interface VideoOverlayPosition {
@@ -1853,7 +1349,7 @@ export const VideoOverlayPosition = S.suspend(() =>
     XPosition: S.optional(S.Number).pipe(T.JsonName("xPosition")),
     YPosition: S.optional(S.Number).pipe(T.JsonName("yPosition")),
   }),
-).annotations({
+).annotate({
   identifier: "VideoOverlayPosition",
 }) as any as S.Schema<VideoOverlayPosition>;
 export interface VideoOverlayInputClipping {
@@ -1865,7 +1361,7 @@ export const VideoOverlayInputClipping = S.suspend(() =>
     EndTimecode: S.optional(S.String).pipe(T.JsonName("endTimecode")),
     StartTimecode: S.optional(S.String).pipe(T.JsonName("startTimecode")),
   }),
-).annotations({
+).annotate({
   identifier: "VideoOverlayInputClipping",
 }) as any as S.Schema<VideoOverlayInputClipping>;
 export type __listOfVideoOverlayInputClipping = VideoOverlayInputClipping[];
@@ -1893,7 +1389,7 @@ export const VideoOverlayInput = S.suspend(() =>
     ),
     TimecodeStart: S.optional(S.String).pipe(T.JsonName("timecodeStart")),
   }),
-).annotations({
+).annotate({
   identifier: "VideoOverlayInput",
 }) as any as S.Schema<VideoOverlayInput>;
 export type VideoOverlayPlayBackMode = "ONCE" | "REPEAT" | (string & {});
@@ -1907,11 +1403,11 @@ export const VideoOverlayTransition = S.suspend(() =>
   S.Struct({
     EndPosition: S.optional(VideoOverlayPosition)
       .pipe(T.JsonName("endPosition"))
-      .annotations({ identifier: "VideoOverlayPosition" }),
+      .annotate({ identifier: "VideoOverlayPosition" }),
     EndTimecode: S.optional(S.String).pipe(T.JsonName("endTimecode")),
     StartTimecode: S.optional(S.String).pipe(T.JsonName("startTimecode")),
   }),
-).annotations({
+).annotate({
   identifier: "VideoOverlayTransition",
 }) as any as S.Schema<VideoOverlayTransition>;
 export type __listOfVideoOverlayTransition = VideoOverlayTransition[];
@@ -1929,21 +1425,21 @@ export const VideoOverlay = S.suspend(() =>
   S.Struct({
     Crop: S.optional(VideoOverlayCrop)
       .pipe(T.JsonName("crop"))
-      .annotations({ identifier: "VideoOverlayCrop" }),
+      .annotate({ identifier: "VideoOverlayCrop" }),
     EndTimecode: S.optional(S.String).pipe(T.JsonName("endTimecode")),
     InitialPosition: S.optional(VideoOverlayPosition)
       .pipe(T.JsonName("initialPosition"))
-      .annotations({ identifier: "VideoOverlayPosition" }),
+      .annotate({ identifier: "VideoOverlayPosition" }),
     Input: S.optional(VideoOverlayInput)
       .pipe(T.JsonName("input"))
-      .annotations({ identifier: "VideoOverlayInput" }),
+      .annotate({ identifier: "VideoOverlayInput" }),
     Playback: S.optional(VideoOverlayPlayBackMode).pipe(T.JsonName("playback")),
     StartTimecode: S.optional(S.String).pipe(T.JsonName("startTimecode")),
     Transitions: S.optional(__listOfVideoOverlayTransition).pipe(
       T.JsonName("transitions"),
     ),
   }),
-).annotations({ identifier: "VideoOverlay" }) as any as S.Schema<VideoOverlay>;
+).annotate({ identifier: "VideoOverlay" }) as any as S.Schema<VideoOverlay>;
 export type __listOfVideoOverlay = VideoOverlay[];
 export const __listOfVideoOverlay = S.Array(VideoOverlay);
 export type AlphaBehavior = "DISCARD" | "REMAP_TO_LUMA" | (string & {});
@@ -1985,9 +1481,7 @@ export const Hdr10Metadata = S.suspend(() =>
     WhitePointX: S.optional(S.Number).pipe(T.JsonName("whitePointX")),
     WhitePointY: S.optional(S.Number).pipe(T.JsonName("whitePointY")),
   }),
-).annotations({
-  identifier: "Hdr10Metadata",
-}) as any as S.Schema<Hdr10Metadata>;
+).annotate({ identifier: "Hdr10Metadata" }) as any as S.Schema<Hdr10Metadata>;
 export type PadVideo = "DISABLED" | "BLACK" | (string & {});
 export const PadVideo = S.String;
 export type InputRotate =
@@ -2033,7 +1527,7 @@ export const VideoSelector = S.suspend(() =>
     ),
     Hdr10Metadata: S.optional(Hdr10Metadata)
       .pipe(T.JsonName("hdr10Metadata"))
-      .annotations({ identifier: "Hdr10Metadata" }),
+      .annotate({ identifier: "Hdr10Metadata" }),
     MaxLuminance: S.optional(S.Number).pipe(T.JsonName("maxLuminance")),
     PadVideo: S.optional(PadVideo).pipe(T.JsonName("padVideo")),
     Pid: S.optional(S.Number).pipe(T.JsonName("pid")),
@@ -2047,10 +1541,8 @@ export const VideoSelector = S.suspend(() =>
       T.JsonName("streams"),
     ),
   }),
-).annotations({
-  identifier: "VideoSelector",
-}) as any as S.Schema<VideoSelector>;
-export interface InputTemplate {
+).annotate({ identifier: "VideoSelector" }) as any as S.Schema<VideoSelector>;
+export interface Input {
   AdvancedInputFilter?: AdvancedInputFilter;
   AdvancedInputFilterSettings?: AdvancedInputFilterSettings;
   AudioSelectorGroups?: { [key: string]: AudioSelectorGroup | undefined };
@@ -2058,9 +1550,11 @@ export interface InputTemplate {
   CaptionSelectors?: { [key: string]: CaptionSelector | undefined };
   Crop?: Rectangle;
   DeblockFilter?: InputDeblockFilter;
+  DecryptionSettings?: InputDecryptionSettings;
   DenoiseFilter?: InputDenoiseFilter;
   DolbyVisionMetadataXml?: string;
   DynamicAudioSelectors?: { [key: string]: DynamicAudioSelector | undefined };
+  FileInput?: string;
   FilterEnable?: InputFilterEnable;
   FilterStrength?: number;
   ImageInserter?: ImageInserter;
@@ -2069,19 +1563,22 @@ export interface InputTemplate {
   Position?: Rectangle;
   ProgramNumber?: number;
   PsiControl?: InputPsiControl;
+  SupplementalImps?: string[];
+  TamsSettings?: InputTamsSettings;
   TimecodeSource?: InputTimecodeSource;
   TimecodeStart?: string;
+  VideoGenerator?: InputVideoGenerator;
   VideoOverlays?: VideoOverlay[];
   VideoSelector?: VideoSelector;
 }
-export const InputTemplate = S.suspend(() =>
+export const Input = S.suspend(() =>
   S.Struct({
     AdvancedInputFilter: S.optional(AdvancedInputFilter).pipe(
       T.JsonName("advancedInputFilter"),
     ),
     AdvancedInputFilterSettings: S.optional(AdvancedInputFilterSettings)
       .pipe(T.JsonName("advancedInputFilterSettings"))
-      .annotations({ identifier: "AdvancedInputFilterSettings" }),
+      .annotate({ identifier: "AdvancedInputFilterSettings" }),
     AudioSelectorGroups: S.optional(__mapOfAudioSelectorGroup).pipe(
       T.JsonName("audioSelectorGroups"),
     ),
@@ -2093,10 +1590,13 @@ export const InputTemplate = S.suspend(() =>
     ),
     Crop: S.optional(Rectangle)
       .pipe(T.JsonName("crop"))
-      .annotations({ identifier: "Rectangle" }),
+      .annotate({ identifier: "Rectangle" }),
     DeblockFilter: S.optional(InputDeblockFilter).pipe(
       T.JsonName("deblockFilter"),
     ),
+    DecryptionSettings: S.optional(InputDecryptionSettings)
+      .pipe(T.JsonName("decryptionSettings"))
+      .annotate({ identifier: "InputDecryptionSettings" }),
     DenoiseFilter: S.optional(InputDenoiseFilter).pipe(
       T.JsonName("denoiseFilter"),
     ),
@@ -2106,38 +1606,46 @@ export const InputTemplate = S.suspend(() =>
     DynamicAudioSelectors: S.optional(__mapOfDynamicAudioSelector).pipe(
       T.JsonName("dynamicAudioSelectors"),
     ),
+    FileInput: S.optional(S.String).pipe(T.JsonName("fileInput")),
     FilterEnable: S.optional(InputFilterEnable).pipe(
       T.JsonName("filterEnable"),
     ),
     FilterStrength: S.optional(S.Number).pipe(T.JsonName("filterStrength")),
     ImageInserter: S.optional(ImageInserter)
       .pipe(T.JsonName("imageInserter"))
-      .annotations({ identifier: "ImageInserter" }),
+      .annotate({ identifier: "ImageInserter" }),
     InputClippings: S.optional(__listOfInputClipping).pipe(
       T.JsonName("inputClippings"),
     ),
     InputScanType: S.optional(InputScanType).pipe(T.JsonName("inputScanType")),
     Position: S.optional(Rectangle)
       .pipe(T.JsonName("position"))
-      .annotations({ identifier: "Rectangle" }),
+      .annotate({ identifier: "Rectangle" }),
     ProgramNumber: S.optional(S.Number).pipe(T.JsonName("programNumber")),
     PsiControl: S.optional(InputPsiControl).pipe(T.JsonName("psiControl")),
+    SupplementalImps: S.optional(__listOf__stringPatternS3ASSETMAPXml).pipe(
+      T.JsonName("supplementalImps"),
+    ),
+    TamsSettings: S.optional(InputTamsSettings)
+      .pipe(T.JsonName("tamsSettings"))
+      .annotate({ identifier: "InputTamsSettings" }),
     TimecodeSource: S.optional(InputTimecodeSource).pipe(
       T.JsonName("timecodeSource"),
     ),
     TimecodeStart: S.optional(S.String).pipe(T.JsonName("timecodeStart")),
+    VideoGenerator: S.optional(InputVideoGenerator)
+      .pipe(T.JsonName("videoGenerator"))
+      .annotate({ identifier: "InputVideoGenerator" }),
     VideoOverlays: S.optional(__listOfVideoOverlay).pipe(
       T.JsonName("videoOverlays"),
     ),
     VideoSelector: S.optional(VideoSelector)
       .pipe(T.JsonName("videoSelector"))
-      .annotations({ identifier: "VideoSelector" }),
+      .annotate({ identifier: "VideoSelector" }),
   }),
-).annotations({
-  identifier: "InputTemplate",
-}) as any as S.Schema<InputTemplate>;
-export type __listOfInputTemplate = InputTemplate[];
-export const __listOfInputTemplate = S.Array(InputTemplate);
+).annotate({ identifier: "Input" }) as any as S.Schema<Input>;
+export type __listOfInput = Input[];
+export const __listOfInput = S.Array(Input);
 export interface KantarWatermarkSettings {
   ChannelName?: string;
   ContentReference?: string;
@@ -2171,7 +1679,7 @@ export const KantarWatermarkSettings = S.suspend(() =>
     Metadata7: S.optional(S.String).pipe(T.JsonName("metadata7")),
     Metadata8: S.optional(S.String).pipe(T.JsonName("metadata8")),
   }),
-).annotations({
+).annotate({
   identifier: "KantarWatermarkSettings",
 }) as any as S.Schema<KantarWatermarkSettings>;
 export interface MotionImageInsertionFramerate {
@@ -2187,7 +1695,7 @@ export const MotionImageInsertionFramerate = S.suspend(() =>
       T.JsonName("framerateNumerator"),
     ),
   }),
-).annotations({
+).annotate({
   identifier: "MotionImageInsertionFramerate",
 }) as any as S.Schema<MotionImageInsertionFramerate>;
 export type MotionImageInsertionMode = "MOV" | "PNG" | (string & {});
@@ -2201,7 +1709,7 @@ export const MotionImageInsertionOffset = S.suspend(() =>
     ImageX: S.optional(S.Number).pipe(T.JsonName("imageX")),
     ImageY: S.optional(S.Number).pipe(T.JsonName("imageY")),
   }),
-).annotations({
+).annotate({
   identifier: "MotionImageInsertionOffset",
 }) as any as S.Schema<MotionImageInsertionOffset>;
 export type MotionImagePlayback = "ONCE" | "REPEAT" | (string & {});
@@ -2218,18 +1726,18 @@ export const MotionImageInserter = S.suspend(() =>
   S.Struct({
     Framerate: S.optional(MotionImageInsertionFramerate)
       .pipe(T.JsonName("framerate"))
-      .annotations({ identifier: "MotionImageInsertionFramerate" }),
+      .annotate({ identifier: "MotionImageInsertionFramerate" }),
     Input: S.optional(S.String).pipe(T.JsonName("input")),
     InsertionMode: S.optional(MotionImageInsertionMode).pipe(
       T.JsonName("insertionMode"),
     ),
     Offset: S.optional(MotionImageInsertionOffset)
       .pipe(T.JsonName("offset"))
-      .annotations({ identifier: "MotionImageInsertionOffset" }),
+      .annotate({ identifier: "MotionImageInsertionOffset" }),
     Playback: S.optional(MotionImagePlayback).pipe(T.JsonName("playback")),
     StartTime: S.optional(S.String).pipe(T.JsonName("startTime")),
   }),
-).annotations({
+).annotate({
   identifier: "MotionImageInserter",
 }) as any as S.Schema<MotionImageInserter>;
 export interface NielsenConfiguration {
@@ -2241,7 +1749,7 @@ export const NielsenConfiguration = S.suspend(() =>
     BreakoutCode: S.optional(S.Number).pipe(T.JsonName("breakoutCode")),
     DistributorId: S.optional(S.String).pipe(T.JsonName("distributorId")),
   }),
-).annotations({
+).annotate({
   identifier: "NielsenConfiguration",
 }) as any as S.Schema<NielsenConfiguration>;
 export type NielsenActiveWatermarkProcessType =
@@ -2295,7 +1803,7 @@ export const NielsenNonLinearWatermarkSettings = S.suspend(() =>
       T.JsonName("uniqueTicPerAudioTrack"),
     ),
   }),
-).annotations({
+).annotate({
   identifier: "NielsenNonLinearWatermarkSettings",
 }) as any as S.Schema<NielsenNonLinearWatermarkSettings>;
 export type RequiredFlag = "ENABLED" | "DISABLED" | (string & {});
@@ -2311,7 +1819,7 @@ export const AllowedRenditionSize = S.suspend(() =>
     Required: S.optional(RequiredFlag).pipe(T.JsonName("required")),
     Width: S.optional(S.Number).pipe(T.JsonName("width")),
   }),
-).annotations({
+).annotate({
   identifier: "AllowedRenditionSize",
 }) as any as S.Schema<AllowedRenditionSize>;
 export type __listOfAllowedRenditionSize = AllowedRenditionSize[];
@@ -2325,7 +1833,7 @@ export const ForceIncludeRenditionSize = S.suspend(() =>
     Height: S.optional(S.Number).pipe(T.JsonName("height")),
     Width: S.optional(S.Number).pipe(T.JsonName("width")),
   }),
-).annotations({
+).annotate({
   identifier: "ForceIncludeRenditionSize",
 }) as any as S.Schema<ForceIncludeRenditionSize>;
 export type __listOfForceIncludeRenditionSize = ForceIncludeRenditionSize[];
@@ -2341,7 +1849,7 @@ export const MinBottomRenditionSize = S.suspend(() =>
     Height: S.optional(S.Number).pipe(T.JsonName("height")),
     Width: S.optional(S.Number).pipe(T.JsonName("width")),
   }),
-).annotations({
+).annotate({
   identifier: "MinBottomRenditionSize",
 }) as any as S.Schema<MinBottomRenditionSize>;
 export interface MinTopRenditionSize {
@@ -2353,7 +1861,7 @@ export const MinTopRenditionSize = S.suspend(() =>
     Height: S.optional(S.Number).pipe(T.JsonName("height")),
     Width: S.optional(S.Number).pipe(T.JsonName("width")),
   }),
-).annotations({
+).annotate({
   identifier: "MinTopRenditionSize",
 }) as any as S.Schema<MinTopRenditionSize>;
 export type RuleType =
@@ -2380,13 +1888,13 @@ export const AutomatedAbrRule = S.suspend(() =>
     ),
     MinBottomRenditionSize: S.optional(MinBottomRenditionSize)
       .pipe(T.JsonName("minBottomRenditionSize"))
-      .annotations({ identifier: "MinBottomRenditionSize" }),
+      .annotate({ identifier: "MinBottomRenditionSize" }),
     MinTopRenditionSize: S.optional(MinTopRenditionSize)
       .pipe(T.JsonName("minTopRenditionSize"))
-      .annotations({ identifier: "MinTopRenditionSize" }),
+      .annotate({ identifier: "MinTopRenditionSize" }),
     Type: S.optional(RuleType).pipe(T.JsonName("type")),
   }),
-).annotations({
+).annotate({
   identifier: "AutomatedAbrRule",
 }) as any as S.Schema<AutomatedAbrRule>;
 export type __listOfAutomatedAbrRule = AutomatedAbrRule[];
@@ -2406,7 +1914,7 @@ export const AutomatedAbrSettings = S.suspend(() =>
     MinAbrBitrate: S.optional(S.Number).pipe(T.JsonName("minAbrBitrate")),
     Rules: S.optional(__listOfAutomatedAbrRule).pipe(T.JsonName("rules")),
   }),
-).annotations({
+).annotate({
   identifier: "AutomatedAbrSettings",
 }) as any as S.Schema<AutomatedAbrSettings>;
 export interface AutomatedEncodingSettings {
@@ -2416,9 +1924,9 @@ export const AutomatedEncodingSettings = S.suspend(() =>
   S.Struct({
     AbrSettings: S.optional(AutomatedAbrSettings)
       .pipe(T.JsonName("abrSettings"))
-      .annotations({ identifier: "AutomatedAbrSettings" }),
+      .annotate({ identifier: "AutomatedAbrSettings" }),
   }),
-).annotations({
+).annotate({
   identifier: "AutomatedEncodingSettings",
 }) as any as S.Schema<AutomatedEncodingSettings>;
 export interface CmafAdditionalManifest {
@@ -2434,7 +1942,7 @@ export const CmafAdditionalManifest = S.suspend(() =>
       T.JsonName("selectedOutputs"),
     ),
   }),
-).annotations({
+).annotate({
   identifier: "CmafAdditionalManifest",
 }) as any as S.Schema<CmafAdditionalManifest>;
 export type __listOfCmafAdditionalManifest = CmafAdditionalManifest[];
@@ -2464,7 +1972,7 @@ export const S3DestinationAccessControl = S.suspend(() =>
   S.Struct({
     CannedAcl: S.optional(S3ObjectCannedAcl).pipe(T.JsonName("cannedAcl")),
   }),
-).annotations({
+).annotate({
   identifier: "S3DestinationAccessControl",
 }) as any as S.Schema<S3DestinationAccessControl>;
 export type S3ServerSideEncryptionType =
@@ -2487,7 +1995,7 @@ export const S3EncryptionSettings = S.suspend(() =>
     ),
     KmsKeyArn: S.optional(S.String).pipe(T.JsonName("kmsKeyArn")),
   }),
-).annotations({
+).annotate({
   identifier: "S3EncryptionSettings",
 }) as any as S.Schema<S3EncryptionSettings>;
 export type S3StorageClass =
@@ -2509,13 +2017,13 @@ export const S3DestinationSettings = S.suspend(() =>
   S.Struct({
     AccessControl: S.optional(S3DestinationAccessControl)
       .pipe(T.JsonName("accessControl"))
-      .annotations({ identifier: "S3DestinationAccessControl" }),
+      .annotate({ identifier: "S3DestinationAccessControl" }),
     Encryption: S.optional(S3EncryptionSettings)
       .pipe(T.JsonName("encryption"))
-      .annotations({ identifier: "S3EncryptionSettings" }),
+      .annotate({ identifier: "S3EncryptionSettings" }),
     StorageClass: S.optional(S3StorageClass).pipe(T.JsonName("storageClass")),
   }),
-).annotations({
+).annotate({
   identifier: "S3DestinationSettings",
 }) as any as S.Schema<S3DestinationSettings>;
 export interface DestinationSettings {
@@ -2525,9 +2033,9 @@ export const DestinationSettings = S.suspend(() =>
   S.Struct({
     S3Settings: S.optional(S3DestinationSettings)
       .pipe(T.JsonName("s3Settings"))
-      .annotations({ identifier: "S3DestinationSettings" }),
+      .annotate({ identifier: "S3DestinationSettings" }),
   }),
-).annotations({
+).annotate({
   identifier: "DestinationSettings",
 }) as any as S.Schema<DestinationSettings>;
 export type CmafEncryptionType = "SAMPLE_AES" | "AES_CTR" | (string & {});
@@ -2575,7 +2083,7 @@ export const EncryptionContractConfiguration = S.suspend(() =>
       T.JsonName("spekeVideoPreset"),
     ),
   }),
-).annotations({
+).annotate({
   identifier: "EncryptionContractConfiguration",
 }) as any as S.Schema<EncryptionContractConfiguration>;
 export interface SpekeKeyProviderCmaf {
@@ -2594,14 +2102,14 @@ export const SpekeKeyProviderCmaf = S.suspend(() =>
     ).pipe(T.JsonName("dashSignaledSystemIds")),
     EncryptionContractConfiguration: S.optional(EncryptionContractConfiguration)
       .pipe(T.JsonName("encryptionContractConfiguration"))
-      .annotations({ identifier: "EncryptionContractConfiguration" }),
+      .annotate({ identifier: "EncryptionContractConfiguration" }),
     HlsSignaledSystemIds: S.optional(
       __listOf__stringMin36Max36Pattern09aFAF809aFAF409aFAF409aFAF409aFAF12,
     ).pipe(T.JsonName("hlsSignaledSystemIds")),
     ResourceId: S.optional(S.String).pipe(T.JsonName("resourceId")),
     Url: S.optional(S.String).pipe(T.JsonName("url")),
   }),
-).annotations({
+).annotate({
   identifier: "SpekeKeyProviderCmaf",
 }) as any as S.Schema<SpekeKeyProviderCmaf>;
 export interface StaticKeyProvider {
@@ -2619,7 +2127,7 @@ export const StaticKeyProvider = S.suspend(() =>
     StaticKeyValue: S.optional(S.String).pipe(T.JsonName("staticKeyValue")),
     Url: S.optional(S.String).pipe(T.JsonName("url")),
   }),
-).annotations({
+).annotate({
   identifier: "StaticKeyProvider",
 }) as any as S.Schema<StaticKeyProvider>;
 export type CmafKeyProviderType = "SPEKE" | "STATIC_KEY" | (string & {});
@@ -2645,13 +2153,13 @@ export const CmafEncryptionSettings = S.suspend(() =>
     ).pipe(T.JsonName("initializationVectorInManifest")),
     SpekeKeyProvider: S.optional(SpekeKeyProviderCmaf)
       .pipe(T.JsonName("spekeKeyProvider"))
-      .annotations({ identifier: "SpekeKeyProviderCmaf" }),
+      .annotate({ identifier: "SpekeKeyProviderCmaf" }),
     StaticKeyProvider: S.optional(StaticKeyProvider)
       .pipe(T.JsonName("staticKeyProvider"))
-      .annotations({ identifier: "StaticKeyProvider" }),
+      .annotate({ identifier: "StaticKeyProvider" }),
     Type: S.optional(CmafKeyProviderType).pipe(T.JsonName("type")),
   }),
-).annotations({
+).annotate({
   identifier: "CmafEncryptionSettings",
 }) as any as S.Schema<CmafEncryptionSettings>;
 export type CmafImageBasedTrickPlay =
@@ -2687,7 +2195,7 @@ export const CmafImageBasedTrickPlaySettings = S.suspend(() =>
     TileHeight: S.optional(S.Number).pipe(T.JsonName("tileHeight")),
     TileWidth: S.optional(S.Number).pipe(T.JsonName("tileWidth")),
   }),
-).annotations({
+).annotate({
   identifier: "CmafImageBasedTrickPlaySettings",
 }) as any as S.Schema<CmafImageBasedTrickPlaySettings>;
 export type CmafManifestCompression = "GZIP" | "NONE" | (string & {});
@@ -2787,17 +2295,17 @@ export const CmafGroupSettings = S.suspend(() =>
     Destination: S.optional(S.String).pipe(T.JsonName("destination")),
     DestinationSettings: S.optional(DestinationSettings)
       .pipe(T.JsonName("destinationSettings"))
-      .annotations({ identifier: "DestinationSettings" }),
+      .annotate({ identifier: "DestinationSettings" }),
     Encryption: S.optional(CmafEncryptionSettings)
       .pipe(T.JsonName("encryption"))
-      .annotations({ identifier: "CmafEncryptionSettings" }),
+      .annotate({ identifier: "CmafEncryptionSettings" }),
     FragmentLength: S.optional(S.Number).pipe(T.JsonName("fragmentLength")),
     ImageBasedTrickPlay: S.optional(CmafImageBasedTrickPlay).pipe(
       T.JsonName("imageBasedTrickPlay"),
     ),
     ImageBasedTrickPlaySettings: S.optional(CmafImageBasedTrickPlaySettings)
       .pipe(T.JsonName("imageBasedTrickPlaySettings"))
-      .annotations({ identifier: "CmafImageBasedTrickPlaySettings" }),
+      .annotate({ identifier: "CmafImageBasedTrickPlaySettings" }),
     ManifestCompression: S.optional(CmafManifestCompression).pipe(
       T.JsonName("manifestCompression"),
     ),
@@ -2841,7 +2349,7 @@ export const CmafGroupSettings = S.suspend(() =>
       CmafWriteSegmentTimelineInRepresentation,
     ).pipe(T.JsonName("writeSegmentTimelineInRepresentation")),
   }),
-).annotations({
+).annotate({
   identifier: "CmafGroupSettings",
 }) as any as S.Schema<CmafGroupSettings>;
 export interface DashAdditionalManifest {
@@ -2857,7 +2365,7 @@ export const DashAdditionalManifest = S.suspend(() =>
       T.JsonName("selectedOutputs"),
     ),
   }),
-).annotations({
+).annotate({
   identifier: "DashAdditionalManifest",
 }) as any as S.Schema<DashAdditionalManifest>;
 export type __listOfDashAdditionalManifest = DashAdditionalManifest[];
@@ -2888,14 +2396,14 @@ export const SpekeKeyProvider = S.suspend(() =>
     CertificateArn: S.optional(S.String).pipe(T.JsonName("certificateArn")),
     EncryptionContractConfiguration: S.optional(EncryptionContractConfiguration)
       .pipe(T.JsonName("encryptionContractConfiguration"))
-      .annotations({ identifier: "EncryptionContractConfiguration" }),
+      .annotate({ identifier: "EncryptionContractConfiguration" }),
     ResourceId: S.optional(S.String).pipe(T.JsonName("resourceId")),
     SystemIds: S.optional(
       __listOf__stringPattern09aFAF809aFAF409aFAF409aFAF409aFAF12,
     ).pipe(T.JsonName("systemIds")),
     Url: S.optional(S.String).pipe(T.JsonName("url")),
   }),
-).annotations({
+).annotate({
   identifier: "SpekeKeyProvider",
 }) as any as S.Schema<SpekeKeyProvider>;
 export interface DashIsoEncryptionSettings {
@@ -2909,9 +2417,9 @@ export const DashIsoEncryptionSettings = S.suspend(() =>
     ).pipe(T.JsonName("playbackDeviceCompatibility")),
     SpekeKeyProvider: S.optional(SpekeKeyProvider)
       .pipe(T.JsonName("spekeKeyProvider"))
-      .annotations({ identifier: "SpekeKeyProvider" }),
+      .annotate({ identifier: "SpekeKeyProvider" }),
   }),
-).annotations({
+).annotate({
   identifier: "DashIsoEncryptionSettings",
 }) as any as S.Schema<DashIsoEncryptionSettings>;
 export type DashIsoHbbtvCompliance = "HBBTV_1_5" | "NONE" | (string & {});
@@ -2949,7 +2457,7 @@ export const DashIsoImageBasedTrickPlaySettings = S.suspend(() =>
     TileHeight: S.optional(S.Number).pipe(T.JsonName("tileHeight")),
     TileWidth: S.optional(S.Number).pipe(T.JsonName("tileWidth")),
   }),
-).annotations({
+).annotate({
   identifier: "DashIsoImageBasedTrickPlaySettings",
 }) as any as S.Schema<DashIsoImageBasedTrickPlaySettings>;
 export type DashIsoMpdManifestBandwidthType = "AVERAGE" | "MAX" | (string & {});
@@ -3027,10 +2535,10 @@ export const DashIsoGroupSettings = S.suspend(() =>
     Destination: S.optional(S.String).pipe(T.JsonName("destination")),
     DestinationSettings: S.optional(DestinationSettings)
       .pipe(T.JsonName("destinationSettings"))
-      .annotations({ identifier: "DestinationSettings" }),
+      .annotate({ identifier: "DestinationSettings" }),
     Encryption: S.optional(DashIsoEncryptionSettings)
       .pipe(T.JsonName("encryption"))
-      .annotations({ identifier: "DashIsoEncryptionSettings" }),
+      .annotate({ identifier: "DashIsoEncryptionSettings" }),
     FragmentLength: S.optional(S.Number).pipe(T.JsonName("fragmentLength")),
     HbbtvCompliance: S.optional(DashIsoHbbtvCompliance).pipe(
       T.JsonName("hbbtvCompliance"),
@@ -3040,7 +2548,7 @@ export const DashIsoGroupSettings = S.suspend(() =>
     ),
     ImageBasedTrickPlaySettings: S.optional(DashIsoImageBasedTrickPlaySettings)
       .pipe(T.JsonName("imageBasedTrickPlaySettings"))
-      .annotations({ identifier: "DashIsoImageBasedTrickPlaySettings" }),
+      .annotate({ identifier: "DashIsoImageBasedTrickPlaySettings" }),
     MinBufferTime: S.optional(S.Number).pipe(T.JsonName("minBufferTime")),
     MinFinalSegmentLength: S.optional(S.Number).pipe(
       T.JsonName("minFinalSegmentLength"),
@@ -3066,7 +2574,7 @@ export const DashIsoGroupSettings = S.suspend(() =>
       DashIsoWriteSegmentTimelineInRepresentation,
     ).pipe(T.JsonName("writeSegmentTimelineInRepresentation")),
   }),
-).annotations({
+).annotate({
   identifier: "DashIsoGroupSettings",
 }) as any as S.Schema<DashIsoGroupSettings>;
 export interface FileGroupSettings {
@@ -3078,9 +2586,9 @@ export const FileGroupSettings = S.suspend(() =>
     Destination: S.optional(S.String).pipe(T.JsonName("destination")),
     DestinationSettings: S.optional(DestinationSettings)
       .pipe(T.JsonName("destinationSettings"))
-      .annotations({ identifier: "DestinationSettings" }),
+      .annotate({ identifier: "DestinationSettings" }),
   }),
-).annotations({
+).annotate({
   identifier: "FileGroupSettings",
 }) as any as S.Schema<FileGroupSettings>;
 export type HlsAdMarkers = "ELEMENTAL" | "ELEMENTAL_SCTE35" | (string & {});
@@ -3100,7 +2608,7 @@ export const HlsAdditionalManifest = S.suspend(() =>
       T.JsonName("selectedOutputs"),
     ),
   }),
-).annotations({
+).annotate({
   identifier: "HlsAdditionalManifest",
 }) as any as S.Schema<HlsAdditionalManifest>;
 export type __listOfHlsAdditionalManifest = HlsAdditionalManifest[];
@@ -3124,7 +2632,7 @@ export const HlsCaptionLanguageMapping = S.suspend(() =>
       T.JsonName("languageDescription"),
     ),
   }),
-).annotations({
+).annotate({
   identifier: "HlsCaptionLanguageMapping",
 }) as any as S.Schema<HlsCaptionLanguageMapping>;
 export type __listOfHlsCaptionLanguageMapping = HlsCaptionLanguageMapping[];
@@ -3187,13 +2695,13 @@ export const HlsEncryptionSettings = S.suspend(() =>
     ),
     SpekeKeyProvider: S.optional(SpekeKeyProvider)
       .pipe(T.JsonName("spekeKeyProvider"))
-      .annotations({ identifier: "SpekeKeyProvider" }),
+      .annotate({ identifier: "SpekeKeyProvider" }),
     StaticKeyProvider: S.optional(StaticKeyProvider)
       .pipe(T.JsonName("staticKeyProvider"))
-      .annotations({ identifier: "StaticKeyProvider" }),
+      .annotate({ identifier: "StaticKeyProvider" }),
     Type: S.optional(HlsKeyProviderType).pipe(T.JsonName("type")),
   }),
-).annotations({
+).annotate({
   identifier: "HlsEncryptionSettings",
 }) as any as S.Schema<HlsEncryptionSettings>;
 export type HlsImageBasedTrickPlay =
@@ -3229,7 +2737,7 @@ export const HlsImageBasedTrickPlaySettings = S.suspend(() =>
     TileHeight: S.optional(S.Number).pipe(T.JsonName("tileHeight")),
     TileWidth: S.optional(S.Number).pipe(T.JsonName("tileWidth")),
   }),
-).annotations({
+).annotate({
   identifier: "HlsImageBasedTrickPlaySettings",
 }) as any as S.Schema<HlsImageBasedTrickPlaySettings>;
 export type HlsManifestCompression = "GZIP" | "NONE" | (string & {});
@@ -3331,19 +2839,19 @@ export const HlsGroupSettings = S.suspend(() =>
     Destination: S.optional(S.String).pipe(T.JsonName("destination")),
     DestinationSettings: S.optional(DestinationSettings)
       .pipe(T.JsonName("destinationSettings"))
-      .annotations({ identifier: "DestinationSettings" }),
+      .annotate({ identifier: "DestinationSettings" }),
     DirectoryStructure: S.optional(HlsDirectoryStructure).pipe(
       T.JsonName("directoryStructure"),
     ),
     Encryption: S.optional(HlsEncryptionSettings)
       .pipe(T.JsonName("encryption"))
-      .annotations({ identifier: "HlsEncryptionSettings" }),
+      .annotate({ identifier: "HlsEncryptionSettings" }),
     ImageBasedTrickPlay: S.optional(HlsImageBasedTrickPlay).pipe(
       T.JsonName("imageBasedTrickPlay"),
     ),
     ImageBasedTrickPlaySettings: S.optional(HlsImageBasedTrickPlaySettings)
       .pipe(T.JsonName("imageBasedTrickPlaySettings"))
-      .annotations({ identifier: "HlsImageBasedTrickPlaySettings" }),
+      .annotate({ identifier: "HlsImageBasedTrickPlaySettings" }),
     ManifestCompression: S.optional(HlsManifestCompression).pipe(
       T.JsonName("manifestCompression"),
     ),
@@ -3392,7 +2900,7 @@ export const HlsGroupSettings = S.suspend(() =>
       T.JsonName("timestampDeltaMilliseconds"),
     ),
   }),
-).annotations({
+).annotate({
   identifier: "HlsGroupSettings",
 }) as any as S.Schema<HlsGroupSettings>;
 export interface MsSmoothAdditionalManifest {
@@ -3408,7 +2916,7 @@ export const MsSmoothAdditionalManifest = S.suspend(() =>
       T.JsonName("selectedOutputs"),
     ),
   }),
-).annotations({
+).annotate({
   identifier: "MsSmoothAdditionalManifest",
 }) as any as S.Schema<MsSmoothAdditionalManifest>;
 export type __listOfMsSmoothAdditionalManifest = MsSmoothAdditionalManifest[];
@@ -3427,9 +2935,9 @@ export const MsSmoothEncryptionSettings = S.suspend(() =>
   S.Struct({
     SpekeKeyProvider: S.optional(SpekeKeyProvider)
       .pipe(T.JsonName("spekeKeyProvider"))
-      .annotations({ identifier: "SpekeKeyProvider" }),
+      .annotate({ identifier: "SpekeKeyProvider" }),
   }),
-).annotations({
+).annotate({
   identifier: "MsSmoothEncryptionSettings",
 }) as any as S.Schema<MsSmoothEncryptionSettings>;
 export type MsSmoothFragmentLengthControl =
@@ -3460,10 +2968,10 @@ export const MsSmoothGroupSettings = S.suspend(() =>
     Destination: S.optional(S.String).pipe(T.JsonName("destination")),
     DestinationSettings: S.optional(DestinationSettings)
       .pipe(T.JsonName("destinationSettings"))
-      .annotations({ identifier: "DestinationSettings" }),
+      .annotate({ identifier: "DestinationSettings" }),
     Encryption: S.optional(MsSmoothEncryptionSettings)
       .pipe(T.JsonName("encryption"))
-      .annotations({ identifier: "MsSmoothEncryptionSettings" }),
+      .annotate({ identifier: "MsSmoothEncryptionSettings" }),
     FragmentLength: S.optional(S.Number).pipe(T.JsonName("fragmentLength")),
     FragmentLengthControl: S.optional(MsSmoothFragmentLengthControl).pipe(
       T.JsonName("fragmentLengthControl"),
@@ -3472,7 +2980,7 @@ export const MsSmoothGroupSettings = S.suspend(() =>
       T.JsonName("manifestEncoding"),
     ),
   }),
-).annotations({
+).annotate({
   identifier: "MsSmoothGroupSettings",
 }) as any as S.Schema<MsSmoothGroupSettings>;
 export type FrameMetricType =
@@ -3508,25 +3016,25 @@ export const OutputGroupSettings = S.suspend(() =>
   S.Struct({
     CmafGroupSettings: S.optional(CmafGroupSettings)
       .pipe(T.JsonName("cmafGroupSettings"))
-      .annotations({ identifier: "CmafGroupSettings" }),
+      .annotate({ identifier: "CmafGroupSettings" }),
     DashIsoGroupSettings: S.optional(DashIsoGroupSettings)
       .pipe(T.JsonName("dashIsoGroupSettings"))
-      .annotations({ identifier: "DashIsoGroupSettings" }),
+      .annotate({ identifier: "DashIsoGroupSettings" }),
     FileGroupSettings: S.optional(FileGroupSettings)
       .pipe(T.JsonName("fileGroupSettings"))
-      .annotations({ identifier: "FileGroupSettings" }),
+      .annotate({ identifier: "FileGroupSettings" }),
     HlsGroupSettings: S.optional(HlsGroupSettings)
       .pipe(T.JsonName("hlsGroupSettings"))
-      .annotations({ identifier: "HlsGroupSettings" }),
+      .annotate({ identifier: "HlsGroupSettings" }),
     MsSmoothGroupSettings: S.optional(MsSmoothGroupSettings)
       .pipe(T.JsonName("msSmoothGroupSettings"))
-      .annotations({ identifier: "MsSmoothGroupSettings" }),
+      .annotate({ identifier: "MsSmoothGroupSettings" }),
     PerFrameMetrics: S.optional(__listOfFrameMetricType).pipe(
       T.JsonName("perFrameMetrics"),
     ),
     Type: S.optional(OutputGroupType).pipe(T.JsonName("type")),
   }),
-).annotations({
+).annotate({
   identifier: "OutputGroupSettings",
 }) as any as S.Schema<OutputGroupSettings>;
 export type AudioChannelTag =
@@ -3573,7 +3081,7 @@ export const AudioChannelTaggingSettings = S.suspend(() =>
       T.JsonName("channelTags"),
     ),
   }),
-).annotations({
+).annotate({
   identifier: "AudioChannelTaggingSettings",
 }) as any as S.Schema<AudioChannelTaggingSettings>;
 export type AudioNormalizationAlgorithm =
@@ -3629,7 +3137,7 @@ export const AudioNormalizationSettings = S.suspend(() =>
       T.JsonName("truePeakLimiterThreshold"),
     ),
   }),
-).annotations({
+).annotate({
   identifier: "AudioNormalizationSettings",
 }) as any as S.Schema<AudioNormalizationSettings>;
 export type SlowPalPitchCorrection = "DISABLED" | "ENABLED" | (string & {});
@@ -3643,7 +3151,7 @@ export const AudioPitchCorrectionSettings = S.suspend(() =>
       T.JsonName("slowPalPitchCorrection"),
     ),
   }),
-).annotations({
+).annotate({
   identifier: "AudioPitchCorrectionSettings",
 }) as any as S.Schema<AudioPitchCorrectionSettings>;
 export type AudioTypeControl =
@@ -3720,7 +3228,7 @@ export const AacSettings = S.suspend(() =>
     ),
     VbrQuality: S.optional(AacVbrQuality).pipe(T.JsonName("vbrQuality")),
   }),
-).annotations({ identifier: "AacSettings" }) as any as S.Schema<AacSettings>;
+).annotate({ identifier: "AacSettings" }) as any as S.Schema<AacSettings>;
 export type Ac3BitstreamMode =
   | "COMPLETE_MAIN"
   | "COMMENTARY"
@@ -3804,7 +3312,7 @@ export const Ac3Settings = S.suspend(() =>
     ),
     SampleRate: S.optional(S.Number).pipe(T.JsonName("sampleRate")),
   }),
-).annotations({ identifier: "Ac3Settings" }) as any as S.Schema<Ac3Settings>;
+).annotate({ identifier: "Ac3Settings" }) as any as S.Schema<Ac3Settings>;
 export interface AiffSettings {
   BitDepth?: number;
   Channels?: number;
@@ -3816,7 +3324,7 @@ export const AiffSettings = S.suspend(() =>
     Channels: S.optional(S.Number).pipe(T.JsonName("channels")),
     SampleRate: S.optional(S.Number).pipe(T.JsonName("sampleRate")),
   }),
-).annotations({ identifier: "AiffSettings" }) as any as S.Schema<AiffSettings>;
+).annotate({ identifier: "AiffSettings" }) as any as S.Schema<AiffSettings>;
 export type AudioCodec =
   | "AAC"
   | "MP2"
@@ -3960,7 +3468,7 @@ export const Eac3AtmosSettings = S.suspend(() =>
       T.JsonName("surroundExMode"),
     ),
   }),
-).annotations({
+).annotate({
   identifier: "Eac3AtmosSettings",
 }) as any as S.Schema<Eac3AtmosSettings>;
 export type Eac3AttenuationControl = "ATTENUATE_3_DB" | "NONE" | (string & {});
@@ -4105,7 +3613,7 @@ export const Eac3Settings = S.suspend(() =>
     ),
     SurroundMode: S.optional(Eac3SurroundMode).pipe(T.JsonName("surroundMode")),
   }),
-).annotations({ identifier: "Eac3Settings" }) as any as S.Schema<Eac3Settings>;
+).annotate({ identifier: "Eac3Settings" }) as any as S.Schema<Eac3Settings>;
 export interface FlacSettings {
   BitDepth?: number;
   Channels?: number;
@@ -4117,7 +3625,7 @@ export const FlacSettings = S.suspend(() =>
     Channels: S.optional(S.Number).pipe(T.JsonName("channels")),
     SampleRate: S.optional(S.Number).pipe(T.JsonName("sampleRate")),
   }),
-).annotations({ identifier: "FlacSettings" }) as any as S.Schema<FlacSettings>;
+).annotate({ identifier: "FlacSettings" }) as any as S.Schema<FlacSettings>;
 export type Mp2AudioDescriptionMix =
   | "BROADCASTER_MIXED_AD"
   | "NONE"
@@ -4138,7 +3646,7 @@ export const Mp2Settings = S.suspend(() =>
     Channels: S.optional(S.Number).pipe(T.JsonName("channels")),
     SampleRate: S.optional(S.Number).pipe(T.JsonName("sampleRate")),
   }),
-).annotations({ identifier: "Mp2Settings" }) as any as S.Schema<Mp2Settings>;
+).annotate({ identifier: "Mp2Settings" }) as any as S.Schema<Mp2Settings>;
 export type Mp3RateControlMode = "CBR" | "VBR" | (string & {});
 export const Mp3RateControlMode = S.String;
 export interface Mp3Settings {
@@ -4158,7 +3666,7 @@ export const Mp3Settings = S.suspend(() =>
     SampleRate: S.optional(S.Number).pipe(T.JsonName("sampleRate")),
     VbrQuality: S.optional(S.Number).pipe(T.JsonName("vbrQuality")),
   }),
-).annotations({ identifier: "Mp3Settings" }) as any as S.Schema<Mp3Settings>;
+).annotate({ identifier: "Mp3Settings" }) as any as S.Schema<Mp3Settings>;
 export interface OpusSettings {
   Bitrate?: number;
   Channels?: number;
@@ -4170,7 +3678,7 @@ export const OpusSettings = S.suspend(() =>
     Channels: S.optional(S.Number).pipe(T.JsonName("channels")),
     SampleRate: S.optional(S.Number).pipe(T.JsonName("sampleRate")),
   }),
-).annotations({ identifier: "OpusSettings" }) as any as S.Schema<OpusSettings>;
+).annotate({ identifier: "OpusSettings" }) as any as S.Schema<OpusSettings>;
 export interface VorbisSettings {
   Channels?: number;
   SampleRate?: number;
@@ -4182,9 +3690,7 @@ export const VorbisSettings = S.suspend(() =>
     SampleRate: S.optional(S.Number).pipe(T.JsonName("sampleRate")),
     VbrQuality: S.optional(S.Number).pipe(T.JsonName("vbrQuality")),
   }),
-).annotations({
-  identifier: "VorbisSettings",
-}) as any as S.Schema<VorbisSettings>;
+).annotate({ identifier: "VorbisSettings" }) as any as S.Schema<VorbisSettings>;
 export type WavFormat = "RIFF" | "RF64" | "EXTENSIBLE" | (string & {});
 export const WavFormat = S.String;
 export interface WavSettings {
@@ -4200,7 +3706,7 @@ export const WavSettings = S.suspend(() =>
     Format: S.optional(WavFormat).pipe(T.JsonName("format")),
     SampleRate: S.optional(S.Number).pipe(T.JsonName("sampleRate")),
   }),
-).annotations({ identifier: "WavSettings" }) as any as S.Schema<WavSettings>;
+).annotate({ identifier: "WavSettings" }) as any as S.Schema<WavSettings>;
 export interface AudioCodecSettings {
   AacSettings?: AacSettings;
   Ac3Settings?: Ac3Settings;
@@ -4219,40 +3725,40 @@ export const AudioCodecSettings = S.suspend(() =>
   S.Struct({
     AacSettings: S.optional(AacSettings)
       .pipe(T.JsonName("aacSettings"))
-      .annotations({ identifier: "AacSettings" }),
+      .annotate({ identifier: "AacSettings" }),
     Ac3Settings: S.optional(Ac3Settings)
       .pipe(T.JsonName("ac3Settings"))
-      .annotations({ identifier: "Ac3Settings" }),
+      .annotate({ identifier: "Ac3Settings" }),
     AiffSettings: S.optional(AiffSettings)
       .pipe(T.JsonName("aiffSettings"))
-      .annotations({ identifier: "AiffSettings" }),
+      .annotate({ identifier: "AiffSettings" }),
     Codec: S.optional(AudioCodec).pipe(T.JsonName("codec")),
     Eac3AtmosSettings: S.optional(Eac3AtmosSettings)
       .pipe(T.JsonName("eac3AtmosSettings"))
-      .annotations({ identifier: "Eac3AtmosSettings" }),
+      .annotate({ identifier: "Eac3AtmosSettings" }),
     Eac3Settings: S.optional(Eac3Settings)
       .pipe(T.JsonName("eac3Settings"))
-      .annotations({ identifier: "Eac3Settings" }),
+      .annotate({ identifier: "Eac3Settings" }),
     FlacSettings: S.optional(FlacSettings)
       .pipe(T.JsonName("flacSettings"))
-      .annotations({ identifier: "FlacSettings" }),
+      .annotate({ identifier: "FlacSettings" }),
     Mp2Settings: S.optional(Mp2Settings)
       .pipe(T.JsonName("mp2Settings"))
-      .annotations({ identifier: "Mp2Settings" }),
+      .annotate({ identifier: "Mp2Settings" }),
     Mp3Settings: S.optional(Mp3Settings)
       .pipe(T.JsonName("mp3Settings"))
-      .annotations({ identifier: "Mp3Settings" }),
+      .annotate({ identifier: "Mp3Settings" }),
     OpusSettings: S.optional(OpusSettings)
       .pipe(T.JsonName("opusSettings"))
-      .annotations({ identifier: "OpusSettings" }),
+      .annotate({ identifier: "OpusSettings" }),
     VorbisSettings: S.optional(VorbisSettings)
       .pipe(T.JsonName("vorbisSettings"))
-      .annotations({ identifier: "VorbisSettings" }),
+      .annotate({ identifier: "VorbisSettings" }),
     WavSettings: S.optional(WavSettings)
       .pipe(T.JsonName("wavSettings"))
-      .annotations({ identifier: "WavSettings" }),
+      .annotate({ identifier: "WavSettings" }),
   }),
-).annotations({
+).annotate({
   identifier: "AudioCodecSettings",
 }) as any as S.Schema<AudioCodecSettings>;
 export type AudioLanguageCodeControl =
@@ -4278,13 +3784,13 @@ export const AudioDescription = S.suspend(() =>
   S.Struct({
     AudioChannelTaggingSettings: S.optional(AudioChannelTaggingSettings)
       .pipe(T.JsonName("audioChannelTaggingSettings"))
-      .annotations({ identifier: "AudioChannelTaggingSettings" }),
+      .annotate({ identifier: "AudioChannelTaggingSettings" }),
     AudioNormalizationSettings: S.optional(AudioNormalizationSettings)
       .pipe(T.JsonName("audioNormalizationSettings"))
-      .annotations({ identifier: "AudioNormalizationSettings" }),
+      .annotate({ identifier: "AudioNormalizationSettings" }),
     AudioPitchCorrectionSettings: S.optional(AudioPitchCorrectionSettings)
       .pipe(T.JsonName("audioPitchCorrectionSettings"))
-      .annotations({ identifier: "AudioPitchCorrectionSettings" }),
+      .annotate({ identifier: "AudioPitchCorrectionSettings" }),
     AudioSourceName: S.optional(S.String).pipe(T.JsonName("audioSourceName")),
     AudioType: S.optional(S.Number).pipe(T.JsonName("audioType")),
     AudioTypeControl: S.optional(AudioTypeControl).pipe(
@@ -4292,7 +3798,7 @@ export const AudioDescription = S.suspend(() =>
     ),
     CodecSettings: S.optional(AudioCodecSettings)
       .pipe(T.JsonName("codecSettings"))
-      .annotations({ identifier: "AudioCodecSettings" }),
+      .annotate({ identifier: "AudioCodecSettings" }),
     CustomLanguageCode: S.optional(S.String).pipe(
       T.JsonName("customLanguageCode"),
     ),
@@ -4302,10 +3808,10 @@ export const AudioDescription = S.suspend(() =>
     ),
     RemixSettings: S.optional(RemixSettings)
       .pipe(T.JsonName("remixSettings"))
-      .annotations({ identifier: "RemixSettings" }),
+      .annotate({ identifier: "RemixSettings" }),
     StreamName: S.optional(S.String).pipe(T.JsonName("streamName")),
   }),
-).annotations({
+).annotate({
   identifier: "AudioDescription",
 }) as any as S.Schema<AudioDescription>;
 export type __listOfAudioDescription = AudioDescription[];
@@ -4463,7 +3969,7 @@ export const BurninDestinationSettings = S.suspend(() =>
     XPosition: S.optional(S.Number).pipe(T.JsonName("xPosition")),
     YPosition: S.optional(S.Number).pipe(T.JsonName("yPosition")),
   }),
-).annotations({
+).annotate({
   identifier: "BurninDestinationSettings",
 }) as any as S.Schema<BurninDestinationSettings>;
 export type CaptionDestinationType =
@@ -4638,7 +4144,7 @@ export const DvbSubDestinationSettings = S.suspend(() =>
     XPosition: S.optional(S.Number).pipe(T.JsonName("xPosition")),
     YPosition: S.optional(S.Number).pipe(T.JsonName("yPosition")),
   }),
-).annotations({
+).annotate({
   identifier: "DvbSubDestinationSettings",
 }) as any as S.Schema<DvbSubDestinationSettings>;
 export interface EmbeddedDestinationSettings {
@@ -4654,7 +4160,7 @@ export const EmbeddedDestinationSettings = S.suspend(() =>
       T.JsonName("destination708ServiceNumber"),
     ),
   }),
-).annotations({
+).annotate({
   identifier: "EmbeddedDestinationSettings",
 }) as any as S.Schema<EmbeddedDestinationSettings>;
 export type ImscAccessibilitySubs = "DISABLED" | "ENABLED" | (string & {});
@@ -4674,7 +4180,7 @@ export const ImscDestinationSettings = S.suspend(() =>
       T.JsonName("stylePassthrough"),
     ),
   }),
-).annotations({
+).annotate({
   identifier: "ImscDestinationSettings",
 }) as any as S.Schema<ImscDestinationSettings>;
 export type SccDestinationFramerate =
@@ -4694,7 +4200,7 @@ export const SccDestinationSettings = S.suspend(() =>
       T.JsonName("framerate"),
     ),
   }),
-).annotations({
+).annotate({
   identifier: "SccDestinationSettings",
 }) as any as S.Schema<SccDestinationSettings>;
 export type SrtStylePassthrough = "ENABLED" | "DISABLED" | (string & {});
@@ -4708,7 +4214,7 @@ export const SrtDestinationSettings = S.suspend(() =>
       T.JsonName("stylePassthrough"),
     ),
   }),
-).annotations({
+).annotate({
   identifier: "SrtDestinationSettings",
 }) as any as S.Schema<SrtDestinationSettings>;
 export type TeletextPageType =
@@ -4732,7 +4238,7 @@ export const TeletextDestinationSettings = S.suspend(() =>
       T.JsonName("pageTypes"),
     ),
   }),
-).annotations({
+).annotate({
   identifier: "TeletextDestinationSettings",
 }) as any as S.Schema<TeletextDestinationSettings>;
 export type TtmlStylePassthrough = "ENABLED" | "DISABLED" | (string & {});
@@ -4746,7 +4252,7 @@ export const TtmlDestinationSettings = S.suspend(() =>
       T.JsonName("stylePassthrough"),
     ),
   }),
-).annotations({
+).annotate({
   identifier: "TtmlDestinationSettings",
 }) as any as S.Schema<TtmlDestinationSettings>;
 export type WebvttAccessibilitySubs = "DISABLED" | "ENABLED" | (string & {});
@@ -4771,7 +4277,7 @@ export const WebvttDestinationSettings = S.suspend(() =>
       T.JsonName("stylePassthrough"),
     ),
   }),
-).annotations({
+).annotate({
   identifier: "WebvttDestinationSettings",
 }) as any as S.Schema<WebvttDestinationSettings>;
 export interface CaptionDestinationSettings {
@@ -4790,36 +4296,36 @@ export const CaptionDestinationSettings = S.suspend(() =>
   S.Struct({
     BurninDestinationSettings: S.optional(BurninDestinationSettings)
       .pipe(T.JsonName("burninDestinationSettings"))
-      .annotations({ identifier: "BurninDestinationSettings" }),
+      .annotate({ identifier: "BurninDestinationSettings" }),
     DestinationType: S.optional(CaptionDestinationType).pipe(
       T.JsonName("destinationType"),
     ),
     DvbSubDestinationSettings: S.optional(DvbSubDestinationSettings)
       .pipe(T.JsonName("dvbSubDestinationSettings"))
-      .annotations({ identifier: "DvbSubDestinationSettings" }),
+      .annotate({ identifier: "DvbSubDestinationSettings" }),
     EmbeddedDestinationSettings: S.optional(EmbeddedDestinationSettings)
       .pipe(T.JsonName("embeddedDestinationSettings"))
-      .annotations({ identifier: "EmbeddedDestinationSettings" }),
+      .annotate({ identifier: "EmbeddedDestinationSettings" }),
     ImscDestinationSettings: S.optional(ImscDestinationSettings)
       .pipe(T.JsonName("imscDestinationSettings"))
-      .annotations({ identifier: "ImscDestinationSettings" }),
+      .annotate({ identifier: "ImscDestinationSettings" }),
     SccDestinationSettings: S.optional(SccDestinationSettings)
       .pipe(T.JsonName("sccDestinationSettings"))
-      .annotations({ identifier: "SccDestinationSettings" }),
+      .annotate({ identifier: "SccDestinationSettings" }),
     SrtDestinationSettings: S.optional(SrtDestinationSettings)
       .pipe(T.JsonName("srtDestinationSettings"))
-      .annotations({ identifier: "SrtDestinationSettings" }),
+      .annotate({ identifier: "SrtDestinationSettings" }),
     TeletextDestinationSettings: S.optional(TeletextDestinationSettings)
       .pipe(T.JsonName("teletextDestinationSettings"))
-      .annotations({ identifier: "TeletextDestinationSettings" }),
+      .annotate({ identifier: "TeletextDestinationSettings" }),
     TtmlDestinationSettings: S.optional(TtmlDestinationSettings)
       .pipe(T.JsonName("ttmlDestinationSettings"))
-      .annotations({ identifier: "TtmlDestinationSettings" }),
+      .annotate({ identifier: "TtmlDestinationSettings" }),
     WebvttDestinationSettings: S.optional(WebvttDestinationSettings)
       .pipe(T.JsonName("webvttDestinationSettings"))
-      .annotations({ identifier: "WebvttDestinationSettings" }),
+      .annotate({ identifier: "WebvttDestinationSettings" }),
   }),
-).annotations({
+).annotate({
   identifier: "CaptionDestinationSettings",
 }) as any as S.Schema<CaptionDestinationSettings>;
 export interface CaptionDescription {
@@ -4839,13 +4345,13 @@ export const CaptionDescription = S.suspend(() =>
     ),
     DestinationSettings: S.optional(CaptionDestinationSettings)
       .pipe(T.JsonName("destinationSettings"))
-      .annotations({ identifier: "CaptionDestinationSettings" }),
+      .annotate({ identifier: "CaptionDestinationSettings" }),
     LanguageCode: S.optional(LanguageCode).pipe(T.JsonName("languageCode")),
     LanguageDescription: S.optional(S.String).pipe(
       T.JsonName("languageDescription"),
     ),
   }),
-).annotations({
+).annotate({
   identifier: "CaptionDescription",
 }) as any as S.Schema<CaptionDescription>;
 export type __listOfCaptionDescription = CaptionDescription[];
@@ -4950,7 +4456,7 @@ export const CmfcSettings = S.suspend(() =>
       T.JsonName("timedMetadataValue"),
     ),
   }),
-).annotations({ identifier: "CmfcSettings" }) as any as S.Schema<CmfcSettings>;
+).annotate({ identifier: "CmfcSettings" }) as any as S.Schema<CmfcSettings>;
 export type ContainerType =
   | "F4V"
   | "GIF"
@@ -4982,7 +4488,7 @@ export const F4vSettings = S.suspend(() =>
       T.JsonName("moovPlacement"),
     ),
   }),
-).annotations({ identifier: "F4vSettings" }) as any as S.Schema<F4vSettings>;
+).annotate({ identifier: "F4vSettings" }) as any as S.Schema<F4vSettings>;
 export type M2tsAudioBufferModel = "DVB" | "ATSC" | (string & {});
 export const M2tsAudioBufferModel = S.String;
 export type M2tsAudioDuration =
@@ -5007,9 +4513,7 @@ export const DvbNitSettings = S.suspend(() =>
     NetworkName: S.optional(S.String).pipe(T.JsonName("networkName")),
     NitInterval: S.optional(S.Number).pipe(T.JsonName("nitInterval")),
   }),
-).annotations({
-  identifier: "DvbNitSettings",
-}) as any as S.Schema<DvbNitSettings>;
+).annotate({ identifier: "DvbNitSettings" }) as any as S.Schema<DvbNitSettings>;
 export type OutputSdt =
   | "SDT_FOLLOW"
   | "SDT_FOLLOW_IF_PRESENT"
@@ -5032,9 +4536,7 @@ export const DvbSdtSettings = S.suspend(() =>
       T.JsonName("serviceProviderName"),
     ),
   }),
-).annotations({
-  identifier: "DvbSdtSettings",
-}) as any as S.Schema<DvbSdtSettings>;
+).annotate({ identifier: "DvbSdtSettings" }) as any as S.Schema<DvbSdtSettings>;
 export interface DvbTdtSettings {
   TdtInterval?: number;
 }
@@ -5042,9 +4544,7 @@ export const DvbTdtSettings = S.suspend(() =>
   S.Struct({
     TdtInterval: S.optional(S.Number).pipe(T.JsonName("tdtInterval")),
   }),
-).annotations({
-  identifier: "DvbTdtSettings",
-}) as any as S.Schema<DvbTdtSettings>;
+).annotate({ identifier: "DvbTdtSettings" }) as any as S.Schema<DvbTdtSettings>;
 export type M2tsEbpAudioInterval =
   | "VIDEO_AND_FIXED_INTERVALS"
   | "VIDEO_INTERVAL"
@@ -5081,9 +4581,7 @@ export const M2tsScte35Esam = S.suspend(() =>
   S.Struct({
     Scte35EsamPid: S.optional(S.Number).pipe(T.JsonName("scte35EsamPid")),
   }),
-).annotations({
-  identifier: "M2tsScte35Esam",
-}) as any as S.Schema<M2tsScte35Esam>;
+).annotate({ identifier: "M2tsScte35Esam" }) as any as S.Schema<M2tsScte35Esam>;
 export type M2tsScte35Source = "PASSTHROUGH" | "NONE" | (string & {});
 export const M2tsScte35Source = S.String;
 export type M2tsSegmentationMarkers =
@@ -5169,16 +4667,16 @@ export const M2tsSettings = S.suspend(() =>
     ),
     DvbNitSettings: S.optional(DvbNitSettings)
       .pipe(T.JsonName("dvbNitSettings"))
-      .annotations({ identifier: "DvbNitSettings" }),
+      .annotate({ identifier: "DvbNitSettings" }),
     DvbSdtSettings: S.optional(DvbSdtSettings)
       .pipe(T.JsonName("dvbSdtSettings"))
-      .annotations({ identifier: "DvbSdtSettings" }),
+      .annotate({ identifier: "DvbSdtSettings" }),
     DvbSubPids: S.optional(__listOf__integerMin32Max8182).pipe(
       T.JsonName("dvbSubPids"),
     ),
     DvbTdtSettings: S.optional(DvbTdtSettings)
       .pipe(T.JsonName("dvbTdtSettings"))
-      .annotations({ identifier: "DvbTdtSettings" }),
+      .annotate({ identifier: "DvbTdtSettings" }),
     DvbTeletextPid: S.optional(S.Number).pipe(T.JsonName("dvbTeletextPid")),
     EbpAudioInterval: S.optional(M2tsEbpAudioInterval).pipe(
       T.JsonName("ebpAudioInterval"),
@@ -5213,7 +4711,7 @@ export const M2tsSettings = S.suspend(() =>
     RateMode: S.optional(M2tsRateMode).pipe(T.JsonName("rateMode")),
     Scte35Esam: S.optional(M2tsScte35Esam)
       .pipe(T.JsonName("scte35Esam"))
-      .annotations({ identifier: "M2tsScte35Esam" }),
+      .annotate({ identifier: "M2tsScte35Esam" }),
     Scte35Pid: S.optional(S.Number).pipe(T.JsonName("scte35Pid")),
     Scte35Source: S.optional(M2tsScte35Source).pipe(T.JsonName("scte35Source")),
     SegmentationMarkers: S.optional(M2tsSegmentationMarkers).pipe(
@@ -5229,7 +4727,7 @@ export const M2tsSettings = S.suspend(() =>
     ),
     VideoPid: S.optional(S.Number).pipe(T.JsonName("videoPid")),
   }),
-).annotations({ identifier: "M2tsSettings" }) as any as S.Schema<M2tsSettings>;
+).annotate({ identifier: "M2tsSettings" }) as any as S.Schema<M2tsSettings>;
 export type M3u8AudioDuration =
   | "DEFAULT_CODEC_DURATION"
   | "MATCH_VIDEO_DURATION"
@@ -5311,7 +4809,7 @@ export const M3u8Settings = S.suspend(() =>
     ),
     VideoPid: S.optional(S.Number).pipe(T.JsonName("videoPid")),
   }),
-).annotations({ identifier: "M3u8Settings" }) as any as S.Schema<M3u8Settings>;
+).annotate({ identifier: "M3u8Settings" }) as any as S.Schema<M3u8Settings>;
 export type MovClapAtom = "INCLUDE" | "EXCLUDE" | (string & {});
 export const MovClapAtom = S.String;
 export type MovCslgAtom = "INCLUDE" | "EXCLUDE" | (string & {});
@@ -5341,7 +4839,7 @@ export const MovSettings = S.suspend(() =>
     ),
     Reference: S.optional(MovReference).pipe(T.JsonName("reference")),
   }),
-).annotations({ identifier: "MovSettings" }) as any as S.Schema<MovSettings>;
+).annotate({ identifier: "MovSettings" }) as any as S.Schema<MovSettings>;
 export type Mp4C2paManifest = "INCLUDE" | "EXCLUDE" | (string & {});
 export const Mp4C2paManifest = S.String;
 export type Mp4CslgAtom = "INCLUDE" | "EXCLUDE" | (string & {});
@@ -5382,7 +4880,7 @@ export const Mp4Settings = S.suspend(() =>
     Mp4MajorBrand: S.optional(S.String).pipe(T.JsonName("mp4MajorBrand")),
     SigningKmsKey: S.optional(S.String).pipe(T.JsonName("signingKmsKey")),
   }),
-).annotations({ identifier: "Mp4Settings" }) as any as S.Schema<Mp4Settings>;
+).annotate({ identifier: "Mp4Settings" }) as any as S.Schema<Mp4Settings>;
 export type MpdAccessibilityCaptionHints =
   | "INCLUDE"
   | "EXCLUDE"
@@ -5466,7 +4964,7 @@ export const MpdSettings = S.suspend(() =>
       T.JsonName("timedMetadataValue"),
     ),
   }),
-).annotations({ identifier: "MpdSettings" }) as any as S.Schema<MpdSettings>;
+).annotate({ identifier: "MpdSettings" }) as any as S.Schema<MpdSettings>;
 export type MxfAfdSignaling = "NO_COPY" | "COPY_FROM_VIDEO" | (string & {});
 export const MxfAfdSignaling = S.String;
 export type MxfProfile =
@@ -5493,7 +4991,7 @@ export const MxfXavcProfileSettings = S.suspend(() =>
     ),
     MaxAncDataSize: S.optional(S.Number).pipe(T.JsonName("maxAncDataSize")),
   }),
-).annotations({
+).annotate({
   identifier: "MxfXavcProfileSettings",
 }) as any as S.Schema<MxfXavcProfileSettings>;
 export interface MxfSettings {
@@ -5507,9 +5005,9 @@ export const MxfSettings = S.suspend(() =>
     Profile: S.optional(MxfProfile).pipe(T.JsonName("profile")),
     XavcProfileSettings: S.optional(MxfXavcProfileSettings)
       .pipe(T.JsonName("xavcProfileSettings"))
-      .annotations({ identifier: "MxfXavcProfileSettings" }),
+      .annotate({ identifier: "MxfXavcProfileSettings" }),
   }),
-).annotations({ identifier: "MxfSettings" }) as any as S.Schema<MxfSettings>;
+).annotate({ identifier: "MxfSettings" }) as any as S.Schema<MxfSettings>;
 export interface ContainerSettings {
   CmfcSettings?: CmfcSettings;
   Container?: ContainerType;
@@ -5525,31 +5023,31 @@ export const ContainerSettings = S.suspend(() =>
   S.Struct({
     CmfcSettings: S.optional(CmfcSettings)
       .pipe(T.JsonName("cmfcSettings"))
-      .annotations({ identifier: "CmfcSettings" }),
+      .annotate({ identifier: "CmfcSettings" }),
     Container: S.optional(ContainerType).pipe(T.JsonName("container")),
     F4vSettings: S.optional(F4vSettings)
       .pipe(T.JsonName("f4vSettings"))
-      .annotations({ identifier: "F4vSettings" }),
+      .annotate({ identifier: "F4vSettings" }),
     M2tsSettings: S.optional(M2tsSettings)
       .pipe(T.JsonName("m2tsSettings"))
-      .annotations({ identifier: "M2tsSettings" }),
+      .annotate({ identifier: "M2tsSettings" }),
     M3u8Settings: S.optional(M3u8Settings)
       .pipe(T.JsonName("m3u8Settings"))
-      .annotations({ identifier: "M3u8Settings" }),
+      .annotate({ identifier: "M3u8Settings" }),
     MovSettings: S.optional(MovSettings)
       .pipe(T.JsonName("movSettings"))
-      .annotations({ identifier: "MovSettings" }),
+      .annotate({ identifier: "MovSettings" }),
     Mp4Settings: S.optional(Mp4Settings)
       .pipe(T.JsonName("mp4Settings"))
-      .annotations({ identifier: "Mp4Settings" }),
+      .annotate({ identifier: "Mp4Settings" }),
     MpdSettings: S.optional(MpdSettings)
       .pipe(T.JsonName("mpdSettings"))
-      .annotations({ identifier: "MpdSettings" }),
+      .annotate({ identifier: "MpdSettings" }),
     MxfSettings: S.optional(MxfSettings)
       .pipe(T.JsonName("mxfSettings"))
-      .annotations({ identifier: "MxfSettings" }),
+      .annotate({ identifier: "MxfSettings" }),
   }),
-).annotations({
+).annotate({
   identifier: "ContainerSettings",
 }) as any as S.Schema<ContainerSettings>;
 export type HlsAudioOnlyContainer = "AUTOMATIC" | "M2TS" | (string & {});
@@ -5601,7 +5099,7 @@ export const HlsSettings = S.suspend(() =>
     ),
     SegmentModifier: S.optional(S.String).pipe(T.JsonName("segmentModifier")),
   }),
-).annotations({ identifier: "HlsSettings" }) as any as S.Schema<HlsSettings>;
+).annotate({ identifier: "HlsSettings" }) as any as S.Schema<HlsSettings>;
 export interface OutputSettings {
   HlsSettings?: HlsSettings;
 }
@@ -5609,11 +5107,9 @@ export const OutputSettings = S.suspend(() =>
   S.Struct({
     HlsSettings: S.optional(HlsSettings)
       .pipe(T.JsonName("hlsSettings"))
-      .annotations({ identifier: "HlsSettings" }),
+      .annotate({ identifier: "HlsSettings" }),
   }),
-).annotations({
-  identifier: "OutputSettings",
-}) as any as S.Schema<OutputSettings>;
+).annotate({ identifier: "OutputSettings" }) as any as S.Schema<OutputSettings>;
 export type AfdSignaling = "NONE" | "AUTO" | "FIXED" | (string & {});
 export const AfdSignaling = S.String;
 export type AntiAlias = "DISABLED" | "ENABLED" | (string & {});
@@ -5660,7 +5156,7 @@ export const Av1QvbrSettings = S.suspend(() =>
       T.JsonName("qvbrQualityLevelFineTune"),
     ),
   }),
-).annotations({
+).annotate({
   identifier: "Av1QvbrSettings",
 }) as any as S.Schema<Av1QvbrSettings>;
 export type Av1RateControlMode = "QVBR" | (string & {});
@@ -5718,7 +5214,7 @@ export const Av1Settings = S.suspend(() =>
     ),
     QvbrSettings: S.optional(Av1QvbrSettings)
       .pipe(T.JsonName("qvbrSettings"))
-      .annotations({ identifier: "Av1QvbrSettings" }),
+      .annotate({ identifier: "Av1QvbrSettings" }),
     RateControlMode: S.optional(Av1RateControlMode).pipe(
       T.JsonName("rateControlMode"),
     ),
@@ -5727,7 +5223,7 @@ export const Av1Settings = S.suspend(() =>
       Av1SpatialAdaptiveQuantization,
     ).pipe(T.JsonName("spatialAdaptiveQuantization")),
   }),
-).annotations({ identifier: "Av1Settings" }) as any as S.Schema<Av1Settings>;
+).annotate({ identifier: "Av1Settings" }) as any as S.Schema<Av1Settings>;
 export type AvcIntraClass =
   | "CLASS_50"
   | "CLASS_100"
@@ -5749,7 +5245,7 @@ export const AvcIntraUhdSettings = S.suspend(() =>
       T.JsonName("qualityTuningLevel"),
     ),
   }),
-).annotations({
+).annotate({
   identifier: "AvcIntraUhdSettings",
 }) as any as S.Schema<AvcIntraUhdSettings>;
 export type AvcIntraFramerateControl =
@@ -5799,7 +5295,7 @@ export const AvcIntraSettings = S.suspend(() =>
     AvcIntraClass: S.optional(AvcIntraClass).pipe(T.JsonName("avcIntraClass")),
     AvcIntraUhdSettings: S.optional(AvcIntraUhdSettings)
       .pipe(T.JsonName("avcIntraUhdSettings"))
-      .annotations({ identifier: "AvcIntraUhdSettings" }),
+      .annotate({ identifier: "AvcIntraUhdSettings" }),
     FramerateControl: S.optional(AvcIntraFramerateControl).pipe(
       T.JsonName("framerateControl"),
     ),
@@ -5824,7 +5320,7 @@ export const AvcIntraSettings = S.suspend(() =>
     SlowPal: S.optional(AvcIntraSlowPal).pipe(T.JsonName("slowPal")),
     Telecine: S.optional(AvcIntraTelecine).pipe(T.JsonName("telecine")),
   }),
-).annotations({
+).annotate({
   identifier: "AvcIntraSettings",
 }) as any as S.Schema<AvcIntraSettings>;
 export type VideoCodec =
@@ -5861,7 +5357,7 @@ export const FrameCaptureSettings = S.suspend(() =>
     MaxCaptures: S.optional(S.Number).pipe(T.JsonName("maxCaptures")),
     Quality: S.optional(S.Number).pipe(T.JsonName("quality")),
   }),
-).annotations({
+).annotate({
   identifier: "FrameCaptureSettings",
 }) as any as S.Schema<FrameCaptureSettings>;
 export type GifFramerateControl =
@@ -5895,7 +5391,7 @@ export const GifSettings = S.suspend(() =>
       T.JsonName("framerateNumerator"),
     ),
   }),
-).annotations({ identifier: "GifSettings" }) as any as S.Schema<GifSettings>;
+).annotate({ identifier: "GifSettings" }) as any as S.Schema<GifSettings>;
 export type H264AdaptiveQuantization =
   | "OFF"
   | "AUTO"
@@ -5934,7 +5430,7 @@ export const BandwidthReductionFilter = S.suspend(() =>
       T.JsonName("strength"),
     ),
   }),
-).annotations({
+).annotate({
   identifier: "BandwidthReductionFilter",
 }) as any as S.Schema<BandwidthReductionFilter>;
 export type H264CodecLevel =
@@ -6033,7 +5529,7 @@ export const H264QvbrSettings = S.suspend(() =>
       T.JsonName("qvbrQualityLevelFineTune"),
     ),
   }),
-).annotations({
+).annotate({
   identifier: "H264QvbrSettings",
 }) as any as S.Schema<H264QvbrSettings>;
 export type H264RateControlMode = "VBR" | "CBR" | "QVBR" | (string & {});
@@ -6134,7 +5630,7 @@ export const H264Settings = S.suspend(() =>
     ),
     BandwidthReductionFilter: S.optional(BandwidthReductionFilter)
       .pipe(T.JsonName("bandwidthReductionFilter"))
-      .annotations({ identifier: "BandwidthReductionFilter" }),
+      .annotate({ identifier: "BandwidthReductionFilter" }),
     Bitrate: S.optional(S.Number).pipe(T.JsonName("bitrate")),
     CodecLevel: S.optional(H264CodecLevel).pipe(T.JsonName("codecLevel")),
     CodecProfile: S.optional(H264CodecProfile).pipe(T.JsonName("codecProfile")),
@@ -6200,7 +5696,7 @@ export const H264Settings = S.suspend(() =>
     ),
     QvbrSettings: S.optional(H264QvbrSettings)
       .pipe(T.JsonName("qvbrSettings"))
-      .annotations({ identifier: "H264QvbrSettings" }),
+      .annotate({ identifier: "H264QvbrSettings" }),
     RateControlMode: S.optional(H264RateControlMode).pipe(
       T.JsonName("rateControlMode"),
     ),
@@ -6232,7 +5728,7 @@ export const H264Settings = S.suspend(() =>
       T.JsonName("writeMp4PackagingType"),
     ),
   }),
-).annotations({ identifier: "H264Settings" }) as any as S.Schema<H264Settings>;
+).annotate({ identifier: "H264Settings" }) as any as S.Schema<H264Settings>;
 export type H265AdaptiveQuantization =
   | "OFF"
   | "LOW"
@@ -6344,7 +5840,7 @@ export const H265QvbrSettings = S.suspend(() =>
       T.JsonName("qvbrQualityLevelFineTune"),
     ),
   }),
-).annotations({
+).annotate({
   identifier: "H265QvbrSettings",
 }) as any as S.Schema<H265QvbrSettings>;
 export type H265RateControlMode = "VBR" | "CBR" | "QVBR" | (string & {});
@@ -6458,7 +5954,7 @@ export const H265Settings = S.suspend(() =>
     ).pipe(T.JsonName("alternateTransferFunctionSei")),
     BandwidthReductionFilter: S.optional(BandwidthReductionFilter)
       .pipe(T.JsonName("bandwidthReductionFilter"))
-      .annotations({ identifier: "BandwidthReductionFilter" }),
+      .annotate({ identifier: "BandwidthReductionFilter" }),
     Bitrate: S.optional(S.Number).pipe(T.JsonName("bitrate")),
     CodecLevel: S.optional(H265CodecLevel).pipe(T.JsonName("codecLevel")),
     CodecProfile: S.optional(H265CodecProfile).pipe(T.JsonName("codecProfile")),
@@ -6525,7 +6021,7 @@ export const H265Settings = S.suspend(() =>
     ),
     QvbrSettings: S.optional(H265QvbrSettings)
       .pipe(T.JsonName("qvbrSettings"))
-      .annotations({ identifier: "H265QvbrSettings" }),
+      .annotate({ identifier: "H265QvbrSettings" }),
     RateControlMode: S.optional(H265RateControlMode).pipe(
       T.JsonName("rateControlMode"),
     ),
@@ -6562,7 +6058,7 @@ export const H265Settings = S.suspend(() =>
       T.JsonName("writeMp4PackagingType"),
     ),
   }),
-).annotations({ identifier: "H265Settings" }) as any as S.Schema<H265Settings>;
+).annotate({ identifier: "H265Settings" }) as any as S.Schema<H265Settings>;
 export type Mpeg2AdaptiveQuantization =
   | "OFF"
   | "LOW"
@@ -6760,9 +6256,7 @@ export const Mpeg2Settings = S.suspend(() =>
       Mpeg2TemporalAdaptiveQuantization,
     ).pipe(T.JsonName("temporalAdaptiveQuantization")),
   }),
-).annotations({
-  identifier: "Mpeg2Settings",
-}) as any as S.Schema<Mpeg2Settings>;
+).annotate({ identifier: "Mpeg2Settings" }) as any as S.Schema<Mpeg2Settings>;
 export type FrameControl =
   | "NEAREST_IDRFRAME"
   | "NEAREST_IFRAME"
@@ -6781,7 +6275,7 @@ export const PassthroughSettings = S.suspend(() =>
       T.JsonName("videoSelectorMode"),
     ),
   }),
-).annotations({
+).annotate({
   identifier: "PassthroughSettings",
 }) as any as S.Schema<PassthroughSettings>;
 export type ProresChromaSampling =
@@ -6883,9 +6377,7 @@ export const ProresSettings = S.suspend(() =>
     SlowPal: S.optional(ProresSlowPal).pipe(T.JsonName("slowPal")),
     Telecine: S.optional(ProresTelecine).pipe(T.JsonName("telecine")),
   }),
-).annotations({
-  identifier: "ProresSettings",
-}) as any as S.Schema<ProresSettings>;
+).annotate({ identifier: "ProresSettings" }) as any as S.Schema<ProresSettings>;
 export type UncompressedFourcc = "I420" | "I422" | "I444" | (string & {});
 export const UncompressedFourcc = S.String;
 export type UncompressedFramerateControl =
@@ -6949,7 +6441,7 @@ export const UncompressedSettings = S.suspend(() =>
     SlowPal: S.optional(UncompressedSlowPal).pipe(T.JsonName("slowPal")),
     Telecine: S.optional(UncompressedTelecine).pipe(T.JsonName("telecine")),
   }),
-).annotations({
+).annotate({
   identifier: "UncompressedSettings",
 }) as any as S.Schema<UncompressedSettings>;
 export type Vc3FramerateControl =
@@ -7016,7 +6508,7 @@ export const Vc3Settings = S.suspend(() =>
     Telecine: S.optional(Vc3Telecine).pipe(T.JsonName("telecine")),
     Vc3Class: S.optional(Vc3Class).pipe(T.JsonName("vc3Class")),
   }),
-).annotations({ identifier: "Vc3Settings" }) as any as S.Schema<Vc3Settings>;
+).annotate({ identifier: "Vc3Settings" }) as any as S.Schema<Vc3Settings>;
 export type Vp8FramerateControl =
   | "INITIALIZE_FROM_SOURCE"
   | "SPECIFIED"
@@ -7084,7 +6576,7 @@ export const Vp8Settings = S.suspend(() =>
       T.JsonName("rateControlMode"),
     ),
   }),
-).annotations({ identifier: "Vp8Settings" }) as any as S.Schema<Vp8Settings>;
+).annotate({ identifier: "Vp8Settings" }) as any as S.Schema<Vp8Settings>;
 export type Vp9FramerateControl =
   | "INITIALIZE_FROM_SOURCE"
   | "SPECIFIED"
@@ -7152,7 +6644,7 @@ export const Vp9Settings = S.suspend(() =>
       T.JsonName("rateControlMode"),
     ),
   }),
-).annotations({ identifier: "Vp9Settings" }) as any as S.Schema<Vp9Settings>;
+).annotate({ identifier: "Vp9Settings" }) as any as S.Schema<Vp9Settings>;
 export type XavcAdaptiveQuantization =
   | "OFF"
   | "AUTO"
@@ -7212,7 +6704,7 @@ export const Xavc4kIntraCbgProfileSettings = S.suspend(() =>
       T.JsonName("xavcClass"),
     ),
   }),
-).annotations({
+).annotate({
   identifier: "Xavc4kIntraCbgProfileSettings",
 }) as any as S.Schema<Xavc4kIntraCbgProfileSettings>;
 export type Xavc4kIntraVbrProfileClass =
@@ -7230,7 +6722,7 @@ export const Xavc4kIntraVbrProfileSettings = S.suspend(() =>
       T.JsonName("xavcClass"),
     ),
   }),
-).annotations({
+).annotate({
   identifier: "Xavc4kIntraVbrProfileSettings",
 }) as any as S.Schema<Xavc4kIntraVbrProfileSettings>;
 export type Xavc4kProfileBitrateClass =
@@ -7285,7 +6777,7 @@ export const Xavc4kProfileSettings = S.suspend(() =>
     ),
     Slices: S.optional(S.Number).pipe(T.JsonName("slices")),
   }),
-).annotations({
+).annotate({
   identifier: "Xavc4kProfileSettings",
 }) as any as S.Schema<Xavc4kProfileSettings>;
 export type XavcHdIntraCbgProfileClass =
@@ -7303,7 +6795,7 @@ export const XavcHdIntraCbgProfileSettings = S.suspend(() =>
       T.JsonName("xavcClass"),
     ),
   }),
-).annotations({
+).annotate({
   identifier: "XavcHdIntraCbgProfileSettings",
 }) as any as S.Schema<XavcHdIntraCbgProfileSettings>;
 export type XavcHdProfileBitrateClass =
@@ -7361,7 +6853,7 @@ export const XavcHdProfileSettings = S.suspend(() =>
     Slices: S.optional(S.Number).pipe(T.JsonName("slices")),
     Telecine: S.optional(XavcHdProfileTelecine).pipe(T.JsonName("telecine")),
   }),
-).annotations({
+).annotate({
   identifier: "XavcHdProfileSettings",
 }) as any as S.Schema<XavcHdProfileSettings>;
 export interface XavcSettings {
@@ -7417,21 +6909,21 @@ export const XavcSettings = S.suspend(() =>
     ).pipe(T.JsonName("temporalAdaptiveQuantization")),
     Xavc4kIntraCbgProfileSettings: S.optional(Xavc4kIntraCbgProfileSettings)
       .pipe(T.JsonName("xavc4kIntraCbgProfileSettings"))
-      .annotations({ identifier: "Xavc4kIntraCbgProfileSettings" }),
+      .annotate({ identifier: "Xavc4kIntraCbgProfileSettings" }),
     Xavc4kIntraVbrProfileSettings: S.optional(Xavc4kIntraVbrProfileSettings)
       .pipe(T.JsonName("xavc4kIntraVbrProfileSettings"))
-      .annotations({ identifier: "Xavc4kIntraVbrProfileSettings" }),
+      .annotate({ identifier: "Xavc4kIntraVbrProfileSettings" }),
     Xavc4kProfileSettings: S.optional(Xavc4kProfileSettings)
       .pipe(T.JsonName("xavc4kProfileSettings"))
-      .annotations({ identifier: "Xavc4kProfileSettings" }),
+      .annotate({ identifier: "Xavc4kProfileSettings" }),
     XavcHdIntraCbgProfileSettings: S.optional(XavcHdIntraCbgProfileSettings)
       .pipe(T.JsonName("xavcHdIntraCbgProfileSettings"))
-      .annotations({ identifier: "XavcHdIntraCbgProfileSettings" }),
+      .annotate({ identifier: "XavcHdIntraCbgProfileSettings" }),
     XavcHdProfileSettings: S.optional(XavcHdProfileSettings)
       .pipe(T.JsonName("xavcHdProfileSettings"))
-      .annotations({ identifier: "XavcHdProfileSettings" }),
+      .annotate({ identifier: "XavcHdProfileSettings" }),
   }),
-).annotations({ identifier: "XavcSettings" }) as any as S.Schema<XavcSettings>;
+).annotate({ identifier: "XavcSettings" }) as any as S.Schema<XavcSettings>;
 export interface VideoCodecSettings {
   Av1Settings?: Av1Settings;
   AvcIntraSettings?: AvcIntraSettings;
@@ -7453,49 +6945,49 @@ export const VideoCodecSettings = S.suspend(() =>
   S.Struct({
     Av1Settings: S.optional(Av1Settings)
       .pipe(T.JsonName("av1Settings"))
-      .annotations({ identifier: "Av1Settings" }),
+      .annotate({ identifier: "Av1Settings" }),
     AvcIntraSettings: S.optional(AvcIntraSettings)
       .pipe(T.JsonName("avcIntraSettings"))
-      .annotations({ identifier: "AvcIntraSettings" }),
+      .annotate({ identifier: "AvcIntraSettings" }),
     Codec: S.optional(VideoCodec).pipe(T.JsonName("codec")),
     FrameCaptureSettings: S.optional(FrameCaptureSettings)
       .pipe(T.JsonName("frameCaptureSettings"))
-      .annotations({ identifier: "FrameCaptureSettings" }),
+      .annotate({ identifier: "FrameCaptureSettings" }),
     GifSettings: S.optional(GifSettings)
       .pipe(T.JsonName("gifSettings"))
-      .annotations({ identifier: "GifSettings" }),
+      .annotate({ identifier: "GifSettings" }),
     H264Settings: S.optional(H264Settings)
       .pipe(T.JsonName("h264Settings"))
-      .annotations({ identifier: "H264Settings" }),
+      .annotate({ identifier: "H264Settings" }),
     H265Settings: S.optional(H265Settings)
       .pipe(T.JsonName("h265Settings"))
-      .annotations({ identifier: "H265Settings" }),
+      .annotate({ identifier: "H265Settings" }),
     Mpeg2Settings: S.optional(Mpeg2Settings)
       .pipe(T.JsonName("mpeg2Settings"))
-      .annotations({ identifier: "Mpeg2Settings" }),
+      .annotate({ identifier: "Mpeg2Settings" }),
     PassthroughSettings: S.optional(PassthroughSettings)
       .pipe(T.JsonName("passthroughSettings"))
-      .annotations({ identifier: "PassthroughSettings" }),
+      .annotate({ identifier: "PassthroughSettings" }),
     ProresSettings: S.optional(ProresSettings)
       .pipe(T.JsonName("proresSettings"))
-      .annotations({ identifier: "ProresSettings" }),
+      .annotate({ identifier: "ProresSettings" }),
     UncompressedSettings: S.optional(UncompressedSettings)
       .pipe(T.JsonName("uncompressedSettings"))
-      .annotations({ identifier: "UncompressedSettings" }),
+      .annotate({ identifier: "UncompressedSettings" }),
     Vc3Settings: S.optional(Vc3Settings)
       .pipe(T.JsonName("vc3Settings"))
-      .annotations({ identifier: "Vc3Settings" }),
+      .annotate({ identifier: "Vc3Settings" }),
     Vp8Settings: S.optional(Vp8Settings)
       .pipe(T.JsonName("vp8Settings"))
-      .annotations({ identifier: "Vp8Settings" }),
+      .annotate({ identifier: "Vp8Settings" }),
     Vp9Settings: S.optional(Vp9Settings)
       .pipe(T.JsonName("vp9Settings"))
-      .annotations({ identifier: "Vp9Settings" }),
+      .annotate({ identifier: "Vp9Settings" }),
     XavcSettings: S.optional(XavcSettings)
       .pipe(T.JsonName("xavcSettings"))
-      .annotations({ identifier: "XavcSettings" }),
+      .annotate({ identifier: "XavcSettings" }),
   }),
-).annotations({
+).annotate({
   identifier: "VideoCodecSettings",
 }) as any as S.Schema<VideoCodecSettings>;
 export type ColorMetadata = "IGNORE" | "INSERT" | (string & {});
@@ -7536,7 +7028,7 @@ export const ClipLimits = S.suspend(() =>
     ),
     MinimumYUV: S.optional(S.Number).pipe(T.JsonName("minimumYUV")),
   }),
-).annotations({ identifier: "ClipLimits" }) as any as S.Schema<ClipLimits>;
+).annotate({ identifier: "ClipLimits" }) as any as S.Schema<ClipLimits>;
 export type ColorSpaceConversion =
   | "NONE"
   | "FORCE_601"
@@ -7574,14 +7066,14 @@ export const ColorCorrector = S.suspend(() =>
     Brightness: S.optional(S.Number).pipe(T.JsonName("brightness")),
     ClipLimits: S.optional(ClipLimits)
       .pipe(T.JsonName("clipLimits"))
-      .annotations({ identifier: "ClipLimits" }),
+      .annotate({ identifier: "ClipLimits" }),
     ColorSpaceConversion: S.optional(ColorSpaceConversion).pipe(
       T.JsonName("colorSpaceConversion"),
     ),
     Contrast: S.optional(S.Number).pipe(T.JsonName("contrast")),
     Hdr10Metadata: S.optional(Hdr10Metadata)
       .pipe(T.JsonName("hdr10Metadata"))
-      .annotations({ identifier: "Hdr10Metadata" }),
+      .annotate({ identifier: "Hdr10Metadata" }),
     HdrToSdrToneMapper: S.optional(HDRToSDRToneMapper).pipe(
       T.JsonName("hdrToSdrToneMapper"),
     ),
@@ -7595,9 +7087,7 @@ export const ColorCorrector = S.suspend(() =>
       T.JsonName("sdrReferenceWhiteLevel"),
     ),
   }),
-).annotations({
-  identifier: "ColorCorrector",
-}) as any as S.Schema<ColorCorrector>;
+).annotate({ identifier: "ColorCorrector" }) as any as S.Schema<ColorCorrector>;
 export type DeinterlaceAlgorithm =
   | "INTERPOLATE"
   | "INTERPOLATE_TICKER"
@@ -7625,7 +7115,7 @@ export const Deinterlacer = S.suspend(() =>
     Control: S.optional(DeinterlacerControl).pipe(T.JsonName("control")),
     Mode: S.optional(DeinterlacerMode).pipe(T.JsonName("mode")),
   }),
-).annotations({ identifier: "Deinterlacer" }) as any as S.Schema<Deinterlacer>;
+).annotate({ identifier: "Deinterlacer" }) as any as S.Schema<Deinterlacer>;
 export interface DolbyVisionLevel6Metadata {
   MaxCll?: number;
   MaxFall?: number;
@@ -7635,7 +7125,7 @@ export const DolbyVisionLevel6Metadata = S.suspend(() =>
     MaxCll: S.optional(S.Number).pipe(T.JsonName("maxCll")),
     MaxFall: S.optional(S.Number).pipe(T.JsonName("maxFall")),
   }),
-).annotations({
+).annotate({
   identifier: "DolbyVisionLevel6Metadata",
 }) as any as S.Schema<DolbyVisionLevel6Metadata>;
 export type DolbyVisionLevel6Mode =
@@ -7658,12 +7148,12 @@ export const DolbyVision = S.suspend(() =>
   S.Struct({
     L6Metadata: S.optional(DolbyVisionLevel6Metadata)
       .pipe(T.JsonName("l6Metadata"))
-      .annotations({ identifier: "DolbyVisionLevel6Metadata" }),
+      .annotate({ identifier: "DolbyVisionLevel6Metadata" }),
     L6Mode: S.optional(DolbyVisionLevel6Mode).pipe(T.JsonName("l6Mode")),
     Mapping: S.optional(DolbyVisionMapping).pipe(T.JsonName("mapping")),
     Profile: S.optional(DolbyVisionProfile).pipe(T.JsonName("profile")),
   }),
-).annotations({ identifier: "DolbyVision" }) as any as S.Schema<DolbyVision>;
+).annotate({ identifier: "DolbyVision" }) as any as S.Schema<DolbyVision>;
 export interface Hdr10Plus {
   MasteringMonitorNits?: number;
   TargetMonitorNits?: number;
@@ -7677,7 +7167,7 @@ export const Hdr10Plus = S.suspend(() =>
       T.JsonName("targetMonitorNits"),
     ),
   }),
-).annotations({ identifier: "Hdr10Plus" }) as any as S.Schema<Hdr10Plus>;
+).annotate({ identifier: "Hdr10Plus" }) as any as S.Schema<Hdr10Plus>;
 export type NoiseReducerFilter =
   | "BILATERAL"
   | "MEAN"
@@ -7694,7 +7184,7 @@ export interface NoiseReducerFilterSettings {
 }
 export const NoiseReducerFilterSettings = S.suspend(() =>
   S.Struct({ Strength: S.optional(S.Number).pipe(T.JsonName("strength")) }),
-).annotations({
+).annotate({
   identifier: "NoiseReducerFilterSettings",
 }) as any as S.Schema<NoiseReducerFilterSettings>;
 export interface NoiseReducerSpatialFilterSettings {
@@ -7710,7 +7200,7 @@ export const NoiseReducerSpatialFilterSettings = S.suspend(() =>
     Speed: S.optional(S.Number).pipe(T.JsonName("speed")),
     Strength: S.optional(S.Number).pipe(T.JsonName("strength")),
   }),
-).annotations({
+).annotate({
   identifier: "NoiseReducerSpatialFilterSettings",
 }) as any as S.Schema<NoiseReducerSpatialFilterSettings>;
 export type NoiseFilterPostTemporalSharpening =
@@ -7744,7 +7234,7 @@ export const NoiseReducerTemporalFilterSettings = S.suspend(() =>
     Speed: S.optional(S.Number).pipe(T.JsonName("speed")),
     Strength: S.optional(S.Number).pipe(T.JsonName("strength")),
   }),
-).annotations({
+).annotate({
   identifier: "NoiseReducerTemporalFilterSettings",
 }) as any as S.Schema<NoiseReducerTemporalFilterSettings>;
 export interface NoiseReducer {
@@ -7758,15 +7248,15 @@ export const NoiseReducer = S.suspend(() =>
     Filter: S.optional(NoiseReducerFilter).pipe(T.JsonName("filter")),
     FilterSettings: S.optional(NoiseReducerFilterSettings)
       .pipe(T.JsonName("filterSettings"))
-      .annotations({ identifier: "NoiseReducerFilterSettings" }),
+      .annotate({ identifier: "NoiseReducerFilterSettings" }),
     SpatialFilterSettings: S.optional(NoiseReducerSpatialFilterSettings)
       .pipe(T.JsonName("spatialFilterSettings"))
-      .annotations({ identifier: "NoiseReducerSpatialFilterSettings" }),
+      .annotate({ identifier: "NoiseReducerSpatialFilterSettings" }),
     TemporalFilterSettings: S.optional(NoiseReducerTemporalFilterSettings)
       .pipe(T.JsonName("temporalFilterSettings"))
-      .annotations({ identifier: "NoiseReducerTemporalFilterSettings" }),
+      .annotate({ identifier: "NoiseReducerTemporalFilterSettings" }),
   }),
-).annotations({ identifier: "NoiseReducer" }) as any as S.Schema<NoiseReducer>;
+).annotate({ identifier: "NoiseReducer" }) as any as S.Schema<NoiseReducer>;
 export type WatermarkingStrength =
   | "LIGHTEST"
   | "LIGHTER"
@@ -7788,7 +7278,7 @@ export const NexGuardFileMarkerSettings = S.suspend(() =>
     Preset: S.optional(S.String).pipe(T.JsonName("preset")),
     Strength: S.optional(WatermarkingStrength).pipe(T.JsonName("strength")),
   }),
-).annotations({
+).annotate({
   identifier: "NexGuardFileMarkerSettings",
 }) as any as S.Schema<NexGuardFileMarkerSettings>;
 export interface PartnerWatermarking {
@@ -7798,9 +7288,9 @@ export const PartnerWatermarking = S.suspend(() =>
   S.Struct({
     NexguardFileMarkerSettings: S.optional(NexGuardFileMarkerSettings)
       .pipe(T.JsonName("nexguardFileMarkerSettings"))
-      .annotations({ identifier: "NexGuardFileMarkerSettings" }),
+      .annotate({ identifier: "NexGuardFileMarkerSettings" }),
   }),
-).annotations({
+).annotate({
   identifier: "PartnerWatermarking",
 }) as any as S.Schema<PartnerWatermarking>;
 export type TimecodeBurninPosition =
@@ -7826,9 +7316,7 @@ export const TimecodeBurnin = S.suspend(() =>
     Position: S.optional(TimecodeBurninPosition).pipe(T.JsonName("position")),
     Prefix: S.optional(S.String).pipe(T.JsonName("prefix")),
   }),
-).annotations({
-  identifier: "TimecodeBurnin",
-}) as any as S.Schema<TimecodeBurnin>;
+).annotate({ identifier: "TimecodeBurnin" }) as any as S.Schema<TimecodeBurnin>;
 export interface VideoPreprocessor {
   ColorCorrector?: ColorCorrector;
   Deinterlacer?: Deinterlacer;
@@ -7843,30 +7331,30 @@ export const VideoPreprocessor = S.suspend(() =>
   S.Struct({
     ColorCorrector: S.optional(ColorCorrector)
       .pipe(T.JsonName("colorCorrector"))
-      .annotations({ identifier: "ColorCorrector" }),
+      .annotate({ identifier: "ColorCorrector" }),
     Deinterlacer: S.optional(Deinterlacer)
       .pipe(T.JsonName("deinterlacer"))
-      .annotations({ identifier: "Deinterlacer" }),
+      .annotate({ identifier: "Deinterlacer" }),
     DolbyVision: S.optional(DolbyVision)
       .pipe(T.JsonName("dolbyVision"))
-      .annotations({ identifier: "DolbyVision" }),
+      .annotate({ identifier: "DolbyVision" }),
     Hdr10Plus: S.optional(Hdr10Plus)
       .pipe(T.JsonName("hdr10Plus"))
-      .annotations({ identifier: "Hdr10Plus" }),
+      .annotate({ identifier: "Hdr10Plus" }),
     ImageInserter: S.optional(ImageInserter)
       .pipe(T.JsonName("imageInserter"))
-      .annotations({ identifier: "ImageInserter" }),
+      .annotate({ identifier: "ImageInserter" }),
     NoiseReducer: S.optional(NoiseReducer)
       .pipe(T.JsonName("noiseReducer"))
-      .annotations({ identifier: "NoiseReducer" }),
+      .annotate({ identifier: "NoiseReducer" }),
     PartnerWatermarking: S.optional(PartnerWatermarking)
       .pipe(T.JsonName("partnerWatermarking"))
-      .annotations({ identifier: "PartnerWatermarking" }),
+      .annotate({ identifier: "PartnerWatermarking" }),
     TimecodeBurnin: S.optional(TimecodeBurnin)
       .pipe(T.JsonName("timecodeBurnin"))
-      .annotations({ identifier: "TimecodeBurnin" }),
+      .annotate({ identifier: "TimecodeBurnin" }),
   }),
-).annotations({
+).annotate({
   identifier: "VideoPreprocessor",
 }) as any as S.Schema<VideoPreprocessor>;
 export interface VideoDescription {
@@ -7897,11 +7385,11 @@ export const VideoDescription = S.suspend(() =>
     ),
     CodecSettings: S.optional(VideoCodecSettings)
       .pipe(T.JsonName("codecSettings"))
-      .annotations({ identifier: "VideoCodecSettings" }),
+      .annotate({ identifier: "VideoCodecSettings" }),
     ColorMetadata: S.optional(ColorMetadata).pipe(T.JsonName("colorMetadata")),
     Crop: S.optional(Rectangle)
       .pipe(T.JsonName("crop"))
-      .annotations({ identifier: "Rectangle" }),
+      .annotate({ identifier: "Rectangle" }),
     DropFrameTimecode: S.optional(DropFrameTimecode).pipe(
       T.JsonName("dropFrameTimecode"),
     ),
@@ -7909,7 +7397,7 @@ export const VideoDescription = S.suspend(() =>
     Height: S.optional(S.Number).pipe(T.JsonName("height")),
     Position: S.optional(Rectangle)
       .pipe(T.JsonName("position"))
-      .annotations({ identifier: "Rectangle" }),
+      .annotate({ identifier: "Rectangle" }),
     RespondToAfd: S.optional(RespondToAfd).pipe(T.JsonName("respondToAfd")),
     ScalingBehavior: S.optional(ScalingBehavior).pipe(
       T.JsonName("scalingBehavior"),
@@ -7921,10 +7409,10 @@ export const VideoDescription = S.suspend(() =>
     TimecodeTrack: S.optional(TimecodeTrack).pipe(T.JsonName("timecodeTrack")),
     VideoPreprocessors: S.optional(VideoPreprocessor)
       .pipe(T.JsonName("videoPreprocessors"))
-      .annotations({ identifier: "VideoPreprocessor" }),
+      .annotate({ identifier: "VideoPreprocessor" }),
     Width: S.optional(S.Number).pipe(T.JsonName("width")),
   }),
-).annotations({
+).annotate({
   identifier: "VideoDescription",
 }) as any as S.Schema<VideoDescription>;
 export interface Output {
@@ -7947,18 +7435,18 @@ export const Output = S.suspend(() =>
     ),
     ContainerSettings: S.optional(ContainerSettings)
       .pipe(T.JsonName("containerSettings"))
-      .annotations({ identifier: "ContainerSettings" }),
+      .annotate({ identifier: "ContainerSettings" }),
     Extension: S.optional(S.String).pipe(T.JsonName("extension")),
     NameModifier: S.optional(S.String).pipe(T.JsonName("nameModifier")),
     OutputSettings: S.optional(OutputSettings)
       .pipe(T.JsonName("outputSettings"))
-      .annotations({ identifier: "OutputSettings" }),
+      .annotate({ identifier: "OutputSettings" }),
     Preset: S.optional(S.String).pipe(T.JsonName("preset")),
     VideoDescription: S.optional(VideoDescription)
       .pipe(T.JsonName("videoDescription"))
-      .annotations({ identifier: "VideoDescription" }),
+      .annotate({ identifier: "VideoDescription" }),
   }),
-).annotations({ identifier: "Output" }) as any as S.Schema<Output>;
+).annotate({ identifier: "Output" }) as any as S.Schema<Output>;
 export type __listOfOutput = Output[];
 export const __listOfOutput = S.Array(Output);
 export interface OutputGroup {
@@ -7972,15 +7460,15 @@ export const OutputGroup = S.suspend(() =>
   S.Struct({
     AutomatedEncodingSettings: S.optional(AutomatedEncodingSettings)
       .pipe(T.JsonName("automatedEncodingSettings"))
-      .annotations({ identifier: "AutomatedEncodingSettings" }),
+      .annotate({ identifier: "AutomatedEncodingSettings" }),
     CustomName: S.optional(S.String).pipe(T.JsonName("customName")),
     Name: S.optional(S.String).pipe(T.JsonName("name")),
     OutputGroupSettings: S.optional(OutputGroupSettings)
       .pipe(T.JsonName("outputGroupSettings"))
-      .annotations({ identifier: "OutputGroupSettings" }),
+      .annotate({ identifier: "OutputGroupSettings" }),
     Outputs: S.optional(__listOfOutput).pipe(T.JsonName("outputs")),
   }),
-).annotations({ identifier: "OutputGroup" }) as any as S.Schema<OutputGroup>;
+).annotate({ identifier: "OutputGroup" }) as any as S.Schema<OutputGroup>;
 export type __listOfOutputGroup = OutputGroup[];
 export const __listOfOutputGroup = S.Array(OutputGroup);
 export type TimecodeSource =
@@ -8002,9 +7490,7 @@ export const TimecodeConfig = S.suspend(() =>
     Start: S.optional(S.String).pipe(T.JsonName("start")),
     TimestampOffset: S.optional(S.String).pipe(T.JsonName("timestampOffset")),
   }),
-).annotations({
-  identifier: "TimecodeConfig",
-}) as any as S.Schema<TimecodeConfig>;
+).annotate({ identifier: "TimecodeConfig" }) as any as S.Schema<TimecodeConfig>;
 export interface Id3Insertion {
   Id3?: string;
   Timecode?: string;
@@ -8014,7 +7500,7 @@ export const Id3Insertion = S.suspend(() =>
     Id3: S.optional(S.String).pipe(T.JsonName("id3")),
     Timecode: S.optional(S.String).pipe(T.JsonName("timecode")),
   }),
-).annotations({ identifier: "Id3Insertion" }) as any as S.Schema<Id3Insertion>;
+).annotate({ identifier: "Id3Insertion" }) as any as S.Schema<Id3Insertion>;
 export type __listOfId3Insertion = Id3Insertion[];
 export const __listOfId3Insertion = S.Array(Id3Insertion);
 export interface TimedMetadataInsertion {
@@ -8026,503 +7512,9 @@ export const TimedMetadataInsertion = S.suspend(() =>
       T.JsonName("id3Insertions"),
     ),
   }),
-).annotations({
+).annotate({
   identifier: "TimedMetadataInsertion",
 }) as any as S.Schema<TimedMetadataInsertion>;
-export interface JobTemplateSettings {
-  AdAvailOffset?: number;
-  AvailBlanking?: AvailBlanking;
-  ColorConversion3DLUTSettings?: ColorConversion3DLUTSetting[];
-  Esam?: EsamSettings;
-  ExtendedDataServices?: ExtendedDataServices;
-  FollowSource?: number;
-  Inputs?: InputTemplate[];
-  KantarWatermark?: KantarWatermarkSettings;
-  MotionImageInserter?: MotionImageInserter;
-  NielsenConfiguration?: NielsenConfiguration;
-  NielsenNonLinearWatermark?: NielsenNonLinearWatermarkSettings;
-  OutputGroups?: OutputGroup[];
-  TimecodeConfig?: TimecodeConfig;
-  TimedMetadataInsertion?: TimedMetadataInsertion;
-}
-export const JobTemplateSettings = S.suspend(() =>
-  S.Struct({
-    AdAvailOffset: S.optional(S.Number).pipe(T.JsonName("adAvailOffset")),
-    AvailBlanking: S.optional(AvailBlanking)
-      .pipe(T.JsonName("availBlanking"))
-      .annotations({ identifier: "AvailBlanking" }),
-    ColorConversion3DLUTSettings: S.optional(
-      __listOfColorConversion3DLUTSetting,
-    ).pipe(T.JsonName("colorConversion3DLUTSettings")),
-    Esam: S.optional(EsamSettings)
-      .pipe(T.JsonName("esam"))
-      .annotations({ identifier: "EsamSettings" }),
-    ExtendedDataServices: S.optional(ExtendedDataServices)
-      .pipe(T.JsonName("extendedDataServices"))
-      .annotations({ identifier: "ExtendedDataServices" }),
-    FollowSource: S.optional(S.Number).pipe(T.JsonName("followSource")),
-    Inputs: S.optional(__listOfInputTemplate).pipe(T.JsonName("inputs")),
-    KantarWatermark: S.optional(KantarWatermarkSettings)
-      .pipe(T.JsonName("kantarWatermark"))
-      .annotations({ identifier: "KantarWatermarkSettings" }),
-    MotionImageInserter: S.optional(MotionImageInserter)
-      .pipe(T.JsonName("motionImageInserter"))
-      .annotations({ identifier: "MotionImageInserter" }),
-    NielsenConfiguration: S.optional(NielsenConfiguration)
-      .pipe(T.JsonName("nielsenConfiguration"))
-      .annotations({ identifier: "NielsenConfiguration" }),
-    NielsenNonLinearWatermark: S.optional(NielsenNonLinearWatermarkSettings)
-      .pipe(T.JsonName("nielsenNonLinearWatermark"))
-      .annotations({ identifier: "NielsenNonLinearWatermarkSettings" }),
-    OutputGroups: S.optional(__listOfOutputGroup).pipe(
-      T.JsonName("outputGroups"),
-    ),
-    TimecodeConfig: S.optional(TimecodeConfig)
-      .pipe(T.JsonName("timecodeConfig"))
-      .annotations({ identifier: "TimecodeConfig" }),
-    TimedMetadataInsertion: S.optional(TimedMetadataInsertion)
-      .pipe(T.JsonName("timedMetadataInsertion"))
-      .annotations({ identifier: "TimedMetadataInsertion" }),
-  }),
-).annotations({
-  identifier: "JobTemplateSettings",
-}) as any as S.Schema<JobTemplateSettings>;
-export interface UpdateJobTemplateRequest {
-  AccelerationSettings?: AccelerationSettings;
-  Category?: string;
-  Description?: string;
-  HopDestinations?: HopDestination[];
-  Name: string;
-  Priority?: number;
-  Queue?: string;
-  Settings?: JobTemplateSettings;
-  StatusUpdateInterval?: StatusUpdateInterval;
-}
-export const UpdateJobTemplateRequest = S.suspend(() =>
-  S.Struct({
-    AccelerationSettings: S.optional(AccelerationSettings)
-      .pipe(T.JsonName("accelerationSettings"))
-      .annotations({ identifier: "AccelerationSettings" }),
-    Category: S.optional(S.String).pipe(T.JsonName("category")),
-    Description: S.optional(S.String).pipe(T.JsonName("description")),
-    HopDestinations: S.optional(__listOfHopDestination).pipe(
-      T.JsonName("hopDestinations"),
-    ),
-    Name: S.String.pipe(T.HttpLabel("Name")),
-    Priority: S.optional(S.Number).pipe(T.JsonName("priority")),
-    Queue: S.optional(S.String).pipe(T.JsonName("queue")),
-    Settings: S.optional(JobTemplateSettings)
-      .pipe(T.JsonName("settings"))
-      .annotations({ identifier: "JobTemplateSettings" }),
-    StatusUpdateInterval: S.optional(StatusUpdateInterval).pipe(
-      T.JsonName("statusUpdateInterval"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/2017-08-29/jobTemplates/{Name}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "UpdateJobTemplateRequest",
-}) as any as S.Schema<UpdateJobTemplateRequest>;
-export interface CaptionDescriptionPreset {
-  CustomLanguageCode?: string;
-  DestinationSettings?: CaptionDestinationSettings;
-  LanguageCode?: LanguageCode;
-  LanguageDescription?: string;
-}
-export const CaptionDescriptionPreset = S.suspend(() =>
-  S.Struct({
-    CustomLanguageCode: S.optional(S.String).pipe(
-      T.JsonName("customLanguageCode"),
-    ),
-    DestinationSettings: S.optional(CaptionDestinationSettings)
-      .pipe(T.JsonName("destinationSettings"))
-      .annotations({ identifier: "CaptionDestinationSettings" }),
-    LanguageCode: S.optional(LanguageCode).pipe(T.JsonName("languageCode")),
-    LanguageDescription: S.optional(S.String).pipe(
-      T.JsonName("languageDescription"),
-    ),
-  }),
-).annotations({
-  identifier: "CaptionDescriptionPreset",
-}) as any as S.Schema<CaptionDescriptionPreset>;
-export type __listOfCaptionDescriptionPreset = CaptionDescriptionPreset[];
-export const __listOfCaptionDescriptionPreset = S.Array(
-  CaptionDescriptionPreset,
-);
-export interface PresetSettings {
-  AudioDescriptions?: AudioDescription[];
-  CaptionDescriptions?: CaptionDescriptionPreset[];
-  ContainerSettings?: ContainerSettings;
-  VideoDescription?: VideoDescription;
-}
-export const PresetSettings = S.suspend(() =>
-  S.Struct({
-    AudioDescriptions: S.optional(__listOfAudioDescription).pipe(
-      T.JsonName("audioDescriptions"),
-    ),
-    CaptionDescriptions: S.optional(__listOfCaptionDescriptionPreset).pipe(
-      T.JsonName("captionDescriptions"),
-    ),
-    ContainerSettings: S.optional(ContainerSettings)
-      .pipe(T.JsonName("containerSettings"))
-      .annotations({ identifier: "ContainerSettings" }),
-    VideoDescription: S.optional(VideoDescription)
-      .pipe(T.JsonName("videoDescription"))
-      .annotations({ identifier: "VideoDescription" }),
-  }),
-).annotations({
-  identifier: "PresetSettings",
-}) as any as S.Schema<PresetSettings>;
-export interface UpdatePresetRequest {
-  Category?: string;
-  Description?: string;
-  Name: string;
-  Settings?: PresetSettings;
-}
-export const UpdatePresetRequest = S.suspend(() =>
-  S.Struct({
-    Category: S.optional(S.String).pipe(T.JsonName("category")),
-    Description: S.optional(S.String).pipe(T.JsonName("description")),
-    Name: S.String.pipe(T.HttpLabel("Name")),
-    Settings: S.optional(PresetSettings)
-      .pipe(T.JsonName("settings"))
-      .annotations({ identifier: "PresetSettings" }),
-  }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/2017-08-29/presets/{Name}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "UpdatePresetRequest",
-}) as any as S.Schema<UpdatePresetRequest>;
-export type Commitment = "ONE_YEAR" | (string & {});
-export const Commitment = S.String;
-export type RenewalType = "AUTO_RENEW" | "EXPIRE" | (string & {});
-export const RenewalType = S.String;
-export interface ReservationPlanSettings {
-  Commitment?: Commitment;
-  RenewalType?: RenewalType;
-  ReservedSlots?: number;
-}
-export const ReservationPlanSettings = S.suspend(() =>
-  S.Struct({
-    Commitment: S.optional(Commitment).pipe(T.JsonName("commitment")),
-    RenewalType: S.optional(RenewalType).pipe(T.JsonName("renewalType")),
-    ReservedSlots: S.optional(S.Number).pipe(T.JsonName("reservedSlots")),
-  }),
-).annotations({
-  identifier: "ReservationPlanSettings",
-}) as any as S.Schema<ReservationPlanSettings>;
-export interface UpdateQueueRequest {
-  ConcurrentJobs?: number;
-  Description?: string;
-  Name: string;
-  ReservationPlanSettings?: ReservationPlanSettings;
-  Status?: QueueStatus;
-}
-export const UpdateQueueRequest = S.suspend(() =>
-  S.Struct({
-    ConcurrentJobs: S.optional(S.Number).pipe(T.JsonName("concurrentJobs")),
-    Description: S.optional(S.String).pipe(T.JsonName("description")),
-    Name: S.String.pipe(T.HttpLabel("Name")),
-    ReservationPlanSettings: S.optional(ReservationPlanSettings)
-      .pipe(T.JsonName("reservationPlanSettings"))
-      .annotations({ identifier: "ReservationPlanSettings" }),
-    Status: S.optional(QueueStatus).pipe(T.JsonName("status")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/2017-08-29/queues/{Name}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "UpdateQueueRequest",
-}) as any as S.Schema<UpdateQueueRequest>;
-export type JobsQueryFilterKey =
-  | "queue"
-  | "status"
-  | "fileInput"
-  | "jobEngineVersionRequested"
-  | "jobEngineVersionUsed"
-  | "audioCodec"
-  | "videoCodec"
-  | (string & {});
-export const JobsQueryFilterKey = S.String;
-export type __listOf__stringMax100 = string[];
-export const __listOf__stringMax100 = S.Array(S.String);
-export type AccelerationStatus =
-  | "NOT_APPLICABLE"
-  | "IN_PROGRESS"
-  | "ACCELERATED"
-  | "NOT_ACCELERATED"
-  | (string & {});
-export const AccelerationStatus = S.String;
-export type JobPhase = "PROBING" | "TRANSCODING" | "UPLOADING" | (string & {});
-export const JobPhase = S.String;
-export interface JobMessages {
-  Info?: string[];
-  Warning?: string[];
-}
-export const JobMessages = S.suspend(() =>
-  S.Struct({
-    Info: S.optional(__listOf__string).pipe(T.JsonName("info")),
-    Warning: S.optional(__listOf__string).pipe(T.JsonName("warning")),
-  }),
-).annotations({ identifier: "JobMessages" }) as any as S.Schema<JobMessages>;
-export interface VideoDetail {
-  HeightInPx?: number;
-  WidthInPx?: number;
-}
-export const VideoDetail = S.suspend(() =>
-  S.Struct({
-    HeightInPx: S.optional(S.Number).pipe(T.JsonName("heightInPx")),
-    WidthInPx: S.optional(S.Number).pipe(T.JsonName("widthInPx")),
-  }),
-).annotations({ identifier: "VideoDetail" }) as any as S.Schema<VideoDetail>;
-export interface OutputDetail {
-  DurationInMs?: number;
-  VideoDetails?: VideoDetail;
-}
-export const OutputDetail = S.suspend(() =>
-  S.Struct({
-    DurationInMs: S.optional(S.Number).pipe(T.JsonName("durationInMs")),
-    VideoDetails: S.optional(VideoDetail)
-      .pipe(T.JsonName("videoDetails"))
-      .annotations({ identifier: "VideoDetail" }),
-  }),
-).annotations({ identifier: "OutputDetail" }) as any as S.Schema<OutputDetail>;
-export type __listOfOutputDetail = OutputDetail[];
-export const __listOfOutputDetail = S.Array(OutputDetail);
-export interface OutputGroupDetail {
-  OutputDetails?: OutputDetail[];
-}
-export const OutputGroupDetail = S.suspend(() =>
-  S.Struct({
-    OutputDetails: S.optional(__listOfOutputDetail).pipe(
-      T.JsonName("outputDetails"),
-    ),
-  }),
-).annotations({
-  identifier: "OutputGroupDetail",
-}) as any as S.Schema<OutputGroupDetail>;
-export type __listOfOutputGroupDetail = OutputGroupDetail[];
-export const __listOfOutputGroupDetail = S.Array(OutputGroupDetail);
-export interface QueueTransition {
-  DestinationQueue?: string;
-  SourceQueue?: string;
-  Timestamp?: Date;
-}
-export const QueueTransition = S.suspend(() =>
-  S.Struct({
-    DestinationQueue: S.optional(S.String).pipe(T.JsonName("destinationQueue")),
-    SourceQueue: S.optional(S.String).pipe(T.JsonName("sourceQueue")),
-    Timestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
-      T.JsonName("timestamp"),
-    ),
-  }),
-).annotations({
-  identifier: "QueueTransition",
-}) as any as S.Schema<QueueTransition>;
-export type __listOfQueueTransition = QueueTransition[];
-export const __listOfQueueTransition = S.Array(QueueTransition);
-export type DecryptionMode = "AES_CTR" | "AES_CBC" | "AES_GCM" | (string & {});
-export const DecryptionMode = S.String;
-export interface InputDecryptionSettings {
-  DecryptionMode?: DecryptionMode;
-  EncryptedDecryptionKey?: string;
-  InitializationVector?: string;
-  KmsKeyRegion?: string;
-}
-export const InputDecryptionSettings = S.suspend(() =>
-  S.Struct({
-    DecryptionMode: S.optional(DecryptionMode).pipe(
-      T.JsonName("decryptionMode"),
-    ),
-    EncryptedDecryptionKey: S.optional(S.String).pipe(
-      T.JsonName("encryptedDecryptionKey"),
-    ),
-    InitializationVector: S.optional(S.String).pipe(
-      T.JsonName("initializationVector"),
-    ),
-    KmsKeyRegion: S.optional(S.String).pipe(T.JsonName("kmsKeyRegion")),
-  }),
-).annotations({
-  identifier: "InputDecryptionSettings",
-}) as any as S.Schema<InputDecryptionSettings>;
-export type __listOf__stringPatternS3ASSETMAPXml = string[];
-export const __listOf__stringPatternS3ASSETMAPXml = S.Array(S.String);
-export type TamsGapHandling =
-  | "SKIP_GAPS"
-  | "FILL_WITH_BLACK"
-  | "HOLD_LAST_FRAME"
-  | (string & {});
-export const TamsGapHandling = S.String;
-export interface InputTamsSettings {
-  AuthConnectionArn?: string;
-  GapHandling?: TamsGapHandling;
-  SourceId?: string;
-  Timerange?: string;
-}
-export const InputTamsSettings = S.suspend(() =>
-  S.Struct({
-    AuthConnectionArn: S.optional(S.String).pipe(
-      T.JsonName("authConnectionArn"),
-    ),
-    GapHandling: S.optional(TamsGapHandling).pipe(T.JsonName("gapHandling")),
-    SourceId: S.optional(S.String).pipe(T.JsonName("sourceId")),
-    Timerange: S.optional(S.String).pipe(T.JsonName("timerange")),
-  }),
-).annotations({
-  identifier: "InputTamsSettings",
-}) as any as S.Schema<InputTamsSettings>;
-export interface InputVideoGenerator {
-  Channels?: number;
-  Duration?: number;
-  FramerateDenominator?: number;
-  FramerateNumerator?: number;
-  Height?: number;
-  ImageInput?: string;
-  SampleRate?: number;
-  Width?: number;
-}
-export const InputVideoGenerator = S.suspend(() =>
-  S.Struct({
-    Channels: S.optional(S.Number).pipe(T.JsonName("channels")),
-    Duration: S.optional(S.Number).pipe(T.JsonName("duration")),
-    FramerateDenominator: S.optional(S.Number).pipe(
-      T.JsonName("framerateDenominator"),
-    ),
-    FramerateNumerator: S.optional(S.Number).pipe(
-      T.JsonName("framerateNumerator"),
-    ),
-    Height: S.optional(S.Number).pipe(T.JsonName("height")),
-    ImageInput: S.optional(S.String).pipe(T.JsonName("imageInput")),
-    SampleRate: S.optional(S.Number).pipe(T.JsonName("sampleRate")),
-    Width: S.optional(S.Number).pipe(T.JsonName("width")),
-  }),
-).annotations({
-  identifier: "InputVideoGenerator",
-}) as any as S.Schema<InputVideoGenerator>;
-export interface Input {
-  AdvancedInputFilter?: AdvancedInputFilter;
-  AdvancedInputFilterSettings?: AdvancedInputFilterSettings;
-  AudioSelectorGroups?: { [key: string]: AudioSelectorGroup | undefined };
-  AudioSelectors?: { [key: string]: AudioSelector | undefined };
-  CaptionSelectors?: { [key: string]: CaptionSelector | undefined };
-  Crop?: Rectangle;
-  DeblockFilter?: InputDeblockFilter;
-  DecryptionSettings?: InputDecryptionSettings;
-  DenoiseFilter?: InputDenoiseFilter;
-  DolbyVisionMetadataXml?: string;
-  DynamicAudioSelectors?: { [key: string]: DynamicAudioSelector | undefined };
-  FileInput?: string;
-  FilterEnable?: InputFilterEnable;
-  FilterStrength?: number;
-  ImageInserter?: ImageInserter;
-  InputClippings?: InputClipping[];
-  InputScanType?: InputScanType;
-  Position?: Rectangle;
-  ProgramNumber?: number;
-  PsiControl?: InputPsiControl;
-  SupplementalImps?: string[];
-  TamsSettings?: InputTamsSettings;
-  TimecodeSource?: InputTimecodeSource;
-  TimecodeStart?: string;
-  VideoGenerator?: InputVideoGenerator;
-  VideoOverlays?: VideoOverlay[];
-  VideoSelector?: VideoSelector;
-}
-export const Input = S.suspend(() =>
-  S.Struct({
-    AdvancedInputFilter: S.optional(AdvancedInputFilter).pipe(
-      T.JsonName("advancedInputFilter"),
-    ),
-    AdvancedInputFilterSettings: S.optional(AdvancedInputFilterSettings)
-      .pipe(T.JsonName("advancedInputFilterSettings"))
-      .annotations({ identifier: "AdvancedInputFilterSettings" }),
-    AudioSelectorGroups: S.optional(__mapOfAudioSelectorGroup).pipe(
-      T.JsonName("audioSelectorGroups"),
-    ),
-    AudioSelectors: S.optional(__mapOfAudioSelector).pipe(
-      T.JsonName("audioSelectors"),
-    ),
-    CaptionSelectors: S.optional(__mapOfCaptionSelector).pipe(
-      T.JsonName("captionSelectors"),
-    ),
-    Crop: S.optional(Rectangle)
-      .pipe(T.JsonName("crop"))
-      .annotations({ identifier: "Rectangle" }),
-    DeblockFilter: S.optional(InputDeblockFilter).pipe(
-      T.JsonName("deblockFilter"),
-    ),
-    DecryptionSettings: S.optional(InputDecryptionSettings)
-      .pipe(T.JsonName("decryptionSettings"))
-      .annotations({ identifier: "InputDecryptionSettings" }),
-    DenoiseFilter: S.optional(InputDenoiseFilter).pipe(
-      T.JsonName("denoiseFilter"),
-    ),
-    DolbyVisionMetadataXml: S.optional(S.String).pipe(
-      T.JsonName("dolbyVisionMetadataXml"),
-    ),
-    DynamicAudioSelectors: S.optional(__mapOfDynamicAudioSelector).pipe(
-      T.JsonName("dynamicAudioSelectors"),
-    ),
-    FileInput: S.optional(S.String).pipe(T.JsonName("fileInput")),
-    FilterEnable: S.optional(InputFilterEnable).pipe(
-      T.JsonName("filterEnable"),
-    ),
-    FilterStrength: S.optional(S.Number).pipe(T.JsonName("filterStrength")),
-    ImageInserter: S.optional(ImageInserter)
-      .pipe(T.JsonName("imageInserter"))
-      .annotations({ identifier: "ImageInserter" }),
-    InputClippings: S.optional(__listOfInputClipping).pipe(
-      T.JsonName("inputClippings"),
-    ),
-    InputScanType: S.optional(InputScanType).pipe(T.JsonName("inputScanType")),
-    Position: S.optional(Rectangle)
-      .pipe(T.JsonName("position"))
-      .annotations({ identifier: "Rectangle" }),
-    ProgramNumber: S.optional(S.Number).pipe(T.JsonName("programNumber")),
-    PsiControl: S.optional(InputPsiControl).pipe(T.JsonName("psiControl")),
-    SupplementalImps: S.optional(__listOf__stringPatternS3ASSETMAPXml).pipe(
-      T.JsonName("supplementalImps"),
-    ),
-    TamsSettings: S.optional(InputTamsSettings)
-      .pipe(T.JsonName("tamsSettings"))
-      .annotations({ identifier: "InputTamsSettings" }),
-    TimecodeSource: S.optional(InputTimecodeSource).pipe(
-      T.JsonName("timecodeSource"),
-    ),
-    TimecodeStart: S.optional(S.String).pipe(T.JsonName("timecodeStart")),
-    VideoGenerator: S.optional(InputVideoGenerator)
-      .pipe(T.JsonName("videoGenerator"))
-      .annotations({ identifier: "InputVideoGenerator" }),
-    VideoOverlays: S.optional(__listOfVideoOverlay).pipe(
-      T.JsonName("videoOverlays"),
-    ),
-    VideoSelector: S.optional(VideoSelector)
-      .pipe(T.JsonName("videoSelector"))
-      .annotations({ identifier: "VideoSelector" }),
-  }),
-).annotations({ identifier: "Input" }) as any as S.Schema<Input>;
-export type __listOfInput = Input[];
-export const __listOfInput = S.Array(Input);
 export interface JobSettings {
   AdAvailOffset?: number;
   AvailBlanking?: AvailBlanking;
@@ -8544,43 +7536,210 @@ export const JobSettings = S.suspend(() =>
     AdAvailOffset: S.optional(S.Number).pipe(T.JsonName("adAvailOffset")),
     AvailBlanking: S.optional(AvailBlanking)
       .pipe(T.JsonName("availBlanking"))
-      .annotations({ identifier: "AvailBlanking" }),
+      .annotate({ identifier: "AvailBlanking" }),
     ColorConversion3DLUTSettings: S.optional(
       __listOfColorConversion3DLUTSetting,
     ).pipe(T.JsonName("colorConversion3DLUTSettings")),
     Esam: S.optional(EsamSettings)
       .pipe(T.JsonName("esam"))
-      .annotations({ identifier: "EsamSettings" }),
+      .annotate({ identifier: "EsamSettings" }),
     ExtendedDataServices: S.optional(ExtendedDataServices)
       .pipe(T.JsonName("extendedDataServices"))
-      .annotations({ identifier: "ExtendedDataServices" }),
+      .annotate({ identifier: "ExtendedDataServices" }),
     FollowSource: S.optional(S.Number).pipe(T.JsonName("followSource")),
     Inputs: S.optional(__listOfInput).pipe(T.JsonName("inputs")),
     KantarWatermark: S.optional(KantarWatermarkSettings)
       .pipe(T.JsonName("kantarWatermark"))
-      .annotations({ identifier: "KantarWatermarkSettings" }),
+      .annotate({ identifier: "KantarWatermarkSettings" }),
     MotionImageInserter: S.optional(MotionImageInserter)
       .pipe(T.JsonName("motionImageInserter"))
-      .annotations({ identifier: "MotionImageInserter" }),
+      .annotate({ identifier: "MotionImageInserter" }),
     NielsenConfiguration: S.optional(NielsenConfiguration)
       .pipe(T.JsonName("nielsenConfiguration"))
-      .annotations({ identifier: "NielsenConfiguration" }),
+      .annotate({ identifier: "NielsenConfiguration" }),
     NielsenNonLinearWatermark: S.optional(NielsenNonLinearWatermarkSettings)
       .pipe(T.JsonName("nielsenNonLinearWatermark"))
-      .annotations({ identifier: "NielsenNonLinearWatermarkSettings" }),
+      .annotate({ identifier: "NielsenNonLinearWatermarkSettings" }),
     OutputGroups: S.optional(__listOfOutputGroup).pipe(
       T.JsonName("outputGroups"),
     ),
     TimecodeConfig: S.optional(TimecodeConfig)
       .pipe(T.JsonName("timecodeConfig"))
-      .annotations({ identifier: "TimecodeConfig" }),
+      .annotate({ identifier: "TimecodeConfig" }),
     TimedMetadataInsertion: S.optional(TimedMetadataInsertion)
       .pipe(T.JsonName("timedMetadataInsertion"))
-      .annotations({ identifier: "TimedMetadataInsertion" }),
+      .annotate({ identifier: "TimedMetadataInsertion" }),
   }),
-).annotations({ identifier: "JobSettings" }) as any as S.Schema<JobSettings>;
+).annotate({ identifier: "JobSettings" }) as any as S.Schema<JobSettings>;
+export type SimulateReservedQueue = "DISABLED" | "ENABLED" | (string & {});
+export const SimulateReservedQueue = S.String;
+export type StatusUpdateInterval =
+  | "SECONDS_10"
+  | "SECONDS_12"
+  | "SECONDS_15"
+  | "SECONDS_20"
+  | "SECONDS_30"
+  | "SECONDS_60"
+  | "SECONDS_120"
+  | "SECONDS_180"
+  | "SECONDS_240"
+  | "SECONDS_300"
+  | "SECONDS_360"
+  | "SECONDS_420"
+  | "SECONDS_480"
+  | "SECONDS_540"
+  | "SECONDS_600"
+  | (string & {});
+export const StatusUpdateInterval = S.String;
+export type __mapOf__string = { [key: string]: string | undefined };
+export const __mapOf__string = S.Record(S.String, S.String.pipe(S.optional));
+export interface CreateJobRequest {
+  AccelerationSettings?: AccelerationSettings;
+  BillingTagsSource?: BillingTagsSource;
+  ClientRequestToken?: string;
+  HopDestinations?: HopDestination[];
+  JobEngineVersion?: string;
+  JobTemplate?: string;
+  Priority?: number;
+  Queue?: string;
+  Role?: string;
+  Settings?: JobSettings;
+  SimulateReservedQueue?: SimulateReservedQueue;
+  StatusUpdateInterval?: StatusUpdateInterval;
+  Tags?: { [key: string]: string | undefined };
+  UserMetadata?: { [key: string]: string | undefined };
+}
+export const CreateJobRequest = S.suspend(() =>
+  S.Struct({
+    AccelerationSettings: S.optional(AccelerationSettings)
+      .pipe(T.JsonName("accelerationSettings"))
+      .annotate({ identifier: "AccelerationSettings" }),
+    BillingTagsSource: S.optional(BillingTagsSource).pipe(
+      T.JsonName("billingTagsSource"),
+    ),
+    ClientRequestToken: S.optional(S.String).pipe(
+      T.JsonName("clientRequestToken"),
+      T.IdempotencyToken(),
+    ),
+    HopDestinations: S.optional(__listOfHopDestination).pipe(
+      T.JsonName("hopDestinations"),
+    ),
+    JobEngineVersion: S.optional(S.String).pipe(T.JsonName("jobEngineVersion")),
+    JobTemplate: S.optional(S.String).pipe(T.JsonName("jobTemplate")),
+    Priority: S.optional(S.Number).pipe(T.JsonName("priority")),
+    Queue: S.optional(S.String).pipe(T.JsonName("queue")),
+    Role: S.optional(S.String).pipe(T.JsonName("role")),
+    Settings: S.optional(JobSettings)
+      .pipe(T.JsonName("settings"))
+      .annotate({ identifier: "JobSettings" }),
+    SimulateReservedQueue: S.optional(SimulateReservedQueue).pipe(
+      T.JsonName("simulateReservedQueue"),
+    ),
+    StatusUpdateInterval: S.optional(StatusUpdateInterval).pipe(
+      T.JsonName("statusUpdateInterval"),
+    ),
+    Tags: S.optional(__mapOf__string).pipe(T.JsonName("tags")),
+    UserMetadata: S.optional(__mapOf__string).pipe(T.JsonName("userMetadata")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/2017-08-29/jobs" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "CreateJobRequest",
+}) as any as S.Schema<CreateJobRequest>;
+export type AccelerationStatus =
+  | "NOT_APPLICABLE"
+  | "IN_PROGRESS"
+  | "ACCELERATED"
+  | "NOT_ACCELERATED"
+  | (string & {});
+export const AccelerationStatus = S.String;
+export type JobPhase = "PROBING" | "TRANSCODING" | "UPLOADING" | (string & {});
+export const JobPhase = S.String;
+export type __listOf__string = string[];
+export const __listOf__string = S.Array(S.String);
+export interface JobMessages {
+  Info?: string[];
+  Warning?: string[];
+}
+export const JobMessages = S.suspend(() =>
+  S.Struct({
+    Info: S.optional(__listOf__string).pipe(T.JsonName("info")),
+    Warning: S.optional(__listOf__string).pipe(T.JsonName("warning")),
+  }),
+).annotate({ identifier: "JobMessages" }) as any as S.Schema<JobMessages>;
+export interface VideoDetail {
+  HeightInPx?: number;
+  WidthInPx?: number;
+}
+export const VideoDetail = S.suspend(() =>
+  S.Struct({
+    HeightInPx: S.optional(S.Number).pipe(T.JsonName("heightInPx")),
+    WidthInPx: S.optional(S.Number).pipe(T.JsonName("widthInPx")),
+  }),
+).annotate({ identifier: "VideoDetail" }) as any as S.Schema<VideoDetail>;
+export interface OutputDetail {
+  DurationInMs?: number;
+  VideoDetails?: VideoDetail;
+}
+export const OutputDetail = S.suspend(() =>
+  S.Struct({
+    DurationInMs: S.optional(S.Number).pipe(T.JsonName("durationInMs")),
+    VideoDetails: S.optional(VideoDetail)
+      .pipe(T.JsonName("videoDetails"))
+      .annotate({ identifier: "VideoDetail" }),
+  }),
+).annotate({ identifier: "OutputDetail" }) as any as S.Schema<OutputDetail>;
+export type __listOfOutputDetail = OutputDetail[];
+export const __listOfOutputDetail = S.Array(OutputDetail);
+export interface OutputGroupDetail {
+  OutputDetails?: OutputDetail[];
+}
+export const OutputGroupDetail = S.suspend(() =>
+  S.Struct({
+    OutputDetails: S.optional(__listOfOutputDetail).pipe(
+      T.JsonName("outputDetails"),
+    ),
+  }),
+).annotate({
+  identifier: "OutputGroupDetail",
+}) as any as S.Schema<OutputGroupDetail>;
+export type __listOfOutputGroupDetail = OutputGroupDetail[];
+export const __listOfOutputGroupDetail = S.Array(OutputGroupDetail);
+export interface QueueTransition {
+  DestinationQueue?: string;
+  SourceQueue?: string;
+  Timestamp?: Date;
+}
+export const QueueTransition = S.suspend(() =>
+  S.Struct({
+    DestinationQueue: S.optional(S.String).pipe(T.JsonName("destinationQueue")),
+    SourceQueue: S.optional(S.String).pipe(T.JsonName("sourceQueue")),
+    Timestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
+      T.JsonName("timestamp"),
+    ),
+  }),
+).annotate({
+  identifier: "QueueTransition",
+}) as any as S.Schema<QueueTransition>;
+export type __listOfQueueTransition = QueueTransition[];
+export const __listOfQueueTransition = S.Array(QueueTransition);
 export type ShareStatus = "NOT_SHARED" | "INITIATED" | "SHARED" | (string & {});
 export const ShareStatus = S.String;
+export type JobStatus =
+  | "SUBMITTED"
+  | "PROGRESSING"
+  | "COMPLETE"
+  | "CANCELED"
+  | "ERROR"
+  | (string & {});
+export const JobStatus = S.String;
 export interface Timing {
   FinishTime?: Date;
   StartTime?: Date;
@@ -8598,7 +7757,7 @@ export const Timing = S.suspend(() =>
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ).pipe(T.JsonName("submitTime")),
   }),
-).annotations({ identifier: "Timing" }) as any as S.Schema<Timing>;
+).annotate({ identifier: "Timing" }) as any as S.Schema<Timing>;
 export interface WarningGroup {
   Code?: number;
   Count?: number;
@@ -8608,7 +7767,7 @@ export const WarningGroup = S.suspend(() =>
     Code: S.optional(S.Number).pipe(T.JsonName("code")),
     Count: S.optional(S.Number).pipe(T.JsonName("count")),
   }),
-).annotations({ identifier: "WarningGroup" }) as any as S.Schema<WarningGroup>;
+).annotate({ identifier: "WarningGroup" }) as any as S.Schema<WarningGroup>;
 export type __listOfWarningGroup = WarningGroup[];
 export const __listOfWarningGroup = S.Array(WarningGroup);
 export interface Job {
@@ -8648,7 +7807,7 @@ export const Job = S.suspend(() =>
   S.Struct({
     AccelerationSettings: S.optional(AccelerationSettings)
       .pipe(T.JsonName("accelerationSettings"))
-      .annotations({ identifier: "AccelerationSettings" }),
+      .annotate({ identifier: "AccelerationSettings" }),
     AccelerationStatus: S.optional(AccelerationStatus).pipe(
       T.JsonName("accelerationStatus"),
     ),
@@ -8682,7 +7841,7 @@ export const Job = S.suspend(() =>
     LastShareDetails: S.optional(S.String).pipe(T.JsonName("lastShareDetails")),
     Messages: S.optional(JobMessages)
       .pipe(T.JsonName("messages"))
-      .annotations({ identifier: "JobMessages" }),
+      .annotate({ identifier: "JobMessages" }),
     OutputGroupDetails: S.optional(__listOfOutputGroupDetail).pipe(
       T.JsonName("outputGroupDetails"),
     ),
@@ -8695,7 +7854,7 @@ export const Job = S.suspend(() =>
     Role: S.optional(S.String).pipe(T.JsonName("role")),
     Settings: S.optional(JobSettings)
       .pipe(T.JsonName("settings"))
-      .annotations({ identifier: "JobSettings" }),
+      .annotate({ identifier: "JobSettings" }),
     ShareStatus: S.optional(ShareStatus).pipe(T.JsonName("shareStatus")),
     SimulateReservedQueue: S.optional(SimulateReservedQueue).pipe(
       T.JsonName("simulateReservedQueue"),
@@ -8706,20 +7865,217 @@ export const Job = S.suspend(() =>
     ),
     Timing: S.optional(Timing)
       .pipe(T.JsonName("timing"))
-      .annotations({ identifier: "Timing" }),
+      .annotate({ identifier: "Timing" }),
     UserMetadata: S.optional(__mapOf__string).pipe(T.JsonName("userMetadata")),
     Warnings: S.optional(__listOfWarningGroup).pipe(T.JsonName("warnings")),
   }),
-).annotations({ identifier: "Job" }) as any as S.Schema<Job>;
-export type __listOfJob = Job[];
-export const __listOfJob = S.Array(Job);
-export type JobsQueryStatus =
-  | "SUBMITTED"
-  | "PROGRESSING"
-  | "COMPLETE"
-  | "ERROR"
-  | (string & {});
-export const JobsQueryStatus = S.String;
+).annotate({ identifier: "Job" }) as any as S.Schema<Job>;
+export interface CreateJobResponse {
+  Job?: Job & {
+    Role: string;
+    Settings: JobSettings;
+    AccelerationSettings: AccelerationSettings & { Mode: AccelerationMode };
+    Warnings: (WarningGroup & { Code: number; Count: number })[];
+  };
+}
+export const CreateJobResponse = S.suspend(() =>
+  S.Struct({
+    Job: S.optional(Job)
+      .pipe(T.JsonName("job"))
+      .annotate({ identifier: "Job" }),
+  }),
+).annotate({
+  identifier: "CreateJobResponse",
+}) as any as S.Schema<CreateJobResponse>;
+export interface InputTemplate {
+  AdvancedInputFilter?: AdvancedInputFilter;
+  AdvancedInputFilterSettings?: AdvancedInputFilterSettings;
+  AudioSelectorGroups?: { [key: string]: AudioSelectorGroup | undefined };
+  AudioSelectors?: { [key: string]: AudioSelector | undefined };
+  CaptionSelectors?: { [key: string]: CaptionSelector | undefined };
+  Crop?: Rectangle;
+  DeblockFilter?: InputDeblockFilter;
+  DenoiseFilter?: InputDenoiseFilter;
+  DolbyVisionMetadataXml?: string;
+  DynamicAudioSelectors?: { [key: string]: DynamicAudioSelector | undefined };
+  FilterEnable?: InputFilterEnable;
+  FilterStrength?: number;
+  ImageInserter?: ImageInserter;
+  InputClippings?: InputClipping[];
+  InputScanType?: InputScanType;
+  Position?: Rectangle;
+  ProgramNumber?: number;
+  PsiControl?: InputPsiControl;
+  TimecodeSource?: InputTimecodeSource;
+  TimecodeStart?: string;
+  VideoOverlays?: VideoOverlay[];
+  VideoSelector?: VideoSelector;
+}
+export const InputTemplate = S.suspend(() =>
+  S.Struct({
+    AdvancedInputFilter: S.optional(AdvancedInputFilter).pipe(
+      T.JsonName("advancedInputFilter"),
+    ),
+    AdvancedInputFilterSettings: S.optional(AdvancedInputFilterSettings)
+      .pipe(T.JsonName("advancedInputFilterSettings"))
+      .annotate({ identifier: "AdvancedInputFilterSettings" }),
+    AudioSelectorGroups: S.optional(__mapOfAudioSelectorGroup).pipe(
+      T.JsonName("audioSelectorGroups"),
+    ),
+    AudioSelectors: S.optional(__mapOfAudioSelector).pipe(
+      T.JsonName("audioSelectors"),
+    ),
+    CaptionSelectors: S.optional(__mapOfCaptionSelector).pipe(
+      T.JsonName("captionSelectors"),
+    ),
+    Crop: S.optional(Rectangle)
+      .pipe(T.JsonName("crop"))
+      .annotate({ identifier: "Rectangle" }),
+    DeblockFilter: S.optional(InputDeblockFilter).pipe(
+      T.JsonName("deblockFilter"),
+    ),
+    DenoiseFilter: S.optional(InputDenoiseFilter).pipe(
+      T.JsonName("denoiseFilter"),
+    ),
+    DolbyVisionMetadataXml: S.optional(S.String).pipe(
+      T.JsonName("dolbyVisionMetadataXml"),
+    ),
+    DynamicAudioSelectors: S.optional(__mapOfDynamicAudioSelector).pipe(
+      T.JsonName("dynamicAudioSelectors"),
+    ),
+    FilterEnable: S.optional(InputFilterEnable).pipe(
+      T.JsonName("filterEnable"),
+    ),
+    FilterStrength: S.optional(S.Number).pipe(T.JsonName("filterStrength")),
+    ImageInserter: S.optional(ImageInserter)
+      .pipe(T.JsonName("imageInserter"))
+      .annotate({ identifier: "ImageInserter" }),
+    InputClippings: S.optional(__listOfInputClipping).pipe(
+      T.JsonName("inputClippings"),
+    ),
+    InputScanType: S.optional(InputScanType).pipe(T.JsonName("inputScanType")),
+    Position: S.optional(Rectangle)
+      .pipe(T.JsonName("position"))
+      .annotate({ identifier: "Rectangle" }),
+    ProgramNumber: S.optional(S.Number).pipe(T.JsonName("programNumber")),
+    PsiControl: S.optional(InputPsiControl).pipe(T.JsonName("psiControl")),
+    TimecodeSource: S.optional(InputTimecodeSource).pipe(
+      T.JsonName("timecodeSource"),
+    ),
+    TimecodeStart: S.optional(S.String).pipe(T.JsonName("timecodeStart")),
+    VideoOverlays: S.optional(__listOfVideoOverlay).pipe(
+      T.JsonName("videoOverlays"),
+    ),
+    VideoSelector: S.optional(VideoSelector)
+      .pipe(T.JsonName("videoSelector"))
+      .annotate({ identifier: "VideoSelector" }),
+  }),
+).annotate({ identifier: "InputTemplate" }) as any as S.Schema<InputTemplate>;
+export type __listOfInputTemplate = InputTemplate[];
+export const __listOfInputTemplate = S.Array(InputTemplate);
+export interface JobTemplateSettings {
+  AdAvailOffset?: number;
+  AvailBlanking?: AvailBlanking;
+  ColorConversion3DLUTSettings?: ColorConversion3DLUTSetting[];
+  Esam?: EsamSettings;
+  ExtendedDataServices?: ExtendedDataServices;
+  FollowSource?: number;
+  Inputs?: InputTemplate[];
+  KantarWatermark?: KantarWatermarkSettings;
+  MotionImageInserter?: MotionImageInserter;
+  NielsenConfiguration?: NielsenConfiguration;
+  NielsenNonLinearWatermark?: NielsenNonLinearWatermarkSettings;
+  OutputGroups?: OutputGroup[];
+  TimecodeConfig?: TimecodeConfig;
+  TimedMetadataInsertion?: TimedMetadataInsertion;
+}
+export const JobTemplateSettings = S.suspend(() =>
+  S.Struct({
+    AdAvailOffset: S.optional(S.Number).pipe(T.JsonName("adAvailOffset")),
+    AvailBlanking: S.optional(AvailBlanking)
+      .pipe(T.JsonName("availBlanking"))
+      .annotate({ identifier: "AvailBlanking" }),
+    ColorConversion3DLUTSettings: S.optional(
+      __listOfColorConversion3DLUTSetting,
+    ).pipe(T.JsonName("colorConversion3DLUTSettings")),
+    Esam: S.optional(EsamSettings)
+      .pipe(T.JsonName("esam"))
+      .annotate({ identifier: "EsamSettings" }),
+    ExtendedDataServices: S.optional(ExtendedDataServices)
+      .pipe(T.JsonName("extendedDataServices"))
+      .annotate({ identifier: "ExtendedDataServices" }),
+    FollowSource: S.optional(S.Number).pipe(T.JsonName("followSource")),
+    Inputs: S.optional(__listOfInputTemplate).pipe(T.JsonName("inputs")),
+    KantarWatermark: S.optional(KantarWatermarkSettings)
+      .pipe(T.JsonName("kantarWatermark"))
+      .annotate({ identifier: "KantarWatermarkSettings" }),
+    MotionImageInserter: S.optional(MotionImageInserter)
+      .pipe(T.JsonName("motionImageInserter"))
+      .annotate({ identifier: "MotionImageInserter" }),
+    NielsenConfiguration: S.optional(NielsenConfiguration)
+      .pipe(T.JsonName("nielsenConfiguration"))
+      .annotate({ identifier: "NielsenConfiguration" }),
+    NielsenNonLinearWatermark: S.optional(NielsenNonLinearWatermarkSettings)
+      .pipe(T.JsonName("nielsenNonLinearWatermark"))
+      .annotate({ identifier: "NielsenNonLinearWatermarkSettings" }),
+    OutputGroups: S.optional(__listOfOutputGroup).pipe(
+      T.JsonName("outputGroups"),
+    ),
+    TimecodeConfig: S.optional(TimecodeConfig)
+      .pipe(T.JsonName("timecodeConfig"))
+      .annotate({ identifier: "TimecodeConfig" }),
+    TimedMetadataInsertion: S.optional(TimedMetadataInsertion)
+      .pipe(T.JsonName("timedMetadataInsertion"))
+      .annotate({ identifier: "TimedMetadataInsertion" }),
+  }),
+).annotate({
+  identifier: "JobTemplateSettings",
+}) as any as S.Schema<JobTemplateSettings>;
+export interface CreateJobTemplateRequest {
+  AccelerationSettings?: AccelerationSettings;
+  Category?: string;
+  Description?: string;
+  HopDestinations?: HopDestination[];
+  Name?: string;
+  Priority?: number;
+  Queue?: string;
+  Settings?: JobTemplateSettings;
+  StatusUpdateInterval?: StatusUpdateInterval;
+  Tags?: { [key: string]: string | undefined };
+}
+export const CreateJobTemplateRequest = S.suspend(() =>
+  S.Struct({
+    AccelerationSettings: S.optional(AccelerationSettings)
+      .pipe(T.JsonName("accelerationSettings"))
+      .annotate({ identifier: "AccelerationSettings" }),
+    Category: S.optional(S.String).pipe(T.JsonName("category")),
+    Description: S.optional(S.String).pipe(T.JsonName("description")),
+    HopDestinations: S.optional(__listOfHopDestination).pipe(
+      T.JsonName("hopDestinations"),
+    ),
+    Name: S.optional(S.String).pipe(T.JsonName("name")),
+    Priority: S.optional(S.Number).pipe(T.JsonName("priority")),
+    Queue: S.optional(S.String).pipe(T.JsonName("queue")),
+    Settings: S.optional(JobTemplateSettings)
+      .pipe(T.JsonName("settings"))
+      .annotate({ identifier: "JobTemplateSettings" }),
+    StatusUpdateInterval: S.optional(StatusUpdateInterval).pipe(
+      T.JsonName("statusUpdateInterval"),
+    ),
+    Tags: S.optional(__mapOf__string).pipe(T.JsonName("tags")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/2017-08-29/jobTemplates" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "CreateJobTemplateRequest",
+}) as any as S.Schema<CreateJobTemplateRequest>;
 export type Type = "SYSTEM" | "CUSTOM" | (string & {});
 export const Type = S.String;
 export interface JobTemplate {
@@ -8741,7 +8097,7 @@ export const JobTemplate = S.suspend(() =>
   S.Struct({
     AccelerationSettings: S.optional(AccelerationSettings)
       .pipe(T.JsonName("accelerationSettings"))
-      .annotations({ identifier: "AccelerationSettings" }),
+      .annotate({ identifier: "AccelerationSettings" }),
     Arn: S.optional(S.String).pipe(T.JsonName("arn")),
     Category: S.optional(S.String).pipe(T.JsonName("category")),
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
@@ -8759,15 +8115,106 @@ export const JobTemplate = S.suspend(() =>
     Queue: S.optional(S.String).pipe(T.JsonName("queue")),
     Settings: S.optional(JobTemplateSettings)
       .pipe(T.JsonName("settings"))
-      .annotations({ identifier: "JobTemplateSettings" }),
+      .annotate({ identifier: "JobTemplateSettings" }),
     StatusUpdateInterval: S.optional(StatusUpdateInterval).pipe(
       T.JsonName("statusUpdateInterval"),
     ),
     Type: S.optional(Type).pipe(T.JsonName("type")),
   }),
-).annotations({ identifier: "JobTemplate" }) as any as S.Schema<JobTemplate>;
-export type __listOfJobTemplate = JobTemplate[];
-export const __listOfJobTemplate = S.Array(JobTemplate);
+).annotate({ identifier: "JobTemplate" }) as any as S.Schema<JobTemplate>;
+export interface CreateJobTemplateResponse {
+  JobTemplate?: JobTemplate & {
+    Name: string;
+    Settings: JobTemplateSettings;
+    AccelerationSettings: AccelerationSettings & { Mode: AccelerationMode };
+  };
+}
+export const CreateJobTemplateResponse = S.suspend(() =>
+  S.Struct({
+    JobTemplate: S.optional(JobTemplate)
+      .pipe(T.JsonName("jobTemplate"))
+      .annotate({ identifier: "JobTemplate" }),
+  }),
+).annotate({
+  identifier: "CreateJobTemplateResponse",
+}) as any as S.Schema<CreateJobTemplateResponse>;
+export interface CaptionDescriptionPreset {
+  CustomLanguageCode?: string;
+  DestinationSettings?: CaptionDestinationSettings;
+  LanguageCode?: LanguageCode;
+  LanguageDescription?: string;
+}
+export const CaptionDescriptionPreset = S.suspend(() =>
+  S.Struct({
+    CustomLanguageCode: S.optional(S.String).pipe(
+      T.JsonName("customLanguageCode"),
+    ),
+    DestinationSettings: S.optional(CaptionDestinationSettings)
+      .pipe(T.JsonName("destinationSettings"))
+      .annotate({ identifier: "CaptionDestinationSettings" }),
+    LanguageCode: S.optional(LanguageCode).pipe(T.JsonName("languageCode")),
+    LanguageDescription: S.optional(S.String).pipe(
+      T.JsonName("languageDescription"),
+    ),
+  }),
+).annotate({
+  identifier: "CaptionDescriptionPreset",
+}) as any as S.Schema<CaptionDescriptionPreset>;
+export type __listOfCaptionDescriptionPreset = CaptionDescriptionPreset[];
+export const __listOfCaptionDescriptionPreset = S.Array(
+  CaptionDescriptionPreset,
+);
+export interface PresetSettings {
+  AudioDescriptions?: AudioDescription[];
+  CaptionDescriptions?: CaptionDescriptionPreset[];
+  ContainerSettings?: ContainerSettings;
+  VideoDescription?: VideoDescription;
+}
+export const PresetSettings = S.suspend(() =>
+  S.Struct({
+    AudioDescriptions: S.optional(__listOfAudioDescription).pipe(
+      T.JsonName("audioDescriptions"),
+    ),
+    CaptionDescriptions: S.optional(__listOfCaptionDescriptionPreset).pipe(
+      T.JsonName("captionDescriptions"),
+    ),
+    ContainerSettings: S.optional(ContainerSettings)
+      .pipe(T.JsonName("containerSettings"))
+      .annotate({ identifier: "ContainerSettings" }),
+    VideoDescription: S.optional(VideoDescription)
+      .pipe(T.JsonName("videoDescription"))
+      .annotate({ identifier: "VideoDescription" }),
+  }),
+).annotate({ identifier: "PresetSettings" }) as any as S.Schema<PresetSettings>;
+export interface CreatePresetRequest {
+  Category?: string;
+  Description?: string;
+  Name?: string;
+  Settings?: PresetSettings;
+  Tags?: { [key: string]: string | undefined };
+}
+export const CreatePresetRequest = S.suspend(() =>
+  S.Struct({
+    Category: S.optional(S.String).pipe(T.JsonName("category")),
+    Description: S.optional(S.String).pipe(T.JsonName("description")),
+    Name: S.optional(S.String).pipe(T.JsonName("name")),
+    Settings: S.optional(PresetSettings)
+      .pipe(T.JsonName("settings"))
+      .annotate({ identifier: "PresetSettings" }),
+    Tags: S.optional(__mapOf__string).pipe(T.JsonName("tags")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/2017-08-29/presets" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "CreatePresetRequest",
+}) as any as S.Schema<CreatePresetRequest>;
 export interface Preset {
   Arn?: string;
   Category?: string;
@@ -8792,12 +8239,77 @@ export const Preset = S.suspend(() =>
     Name: S.optional(S.String).pipe(T.JsonName("name")),
     Settings: S.optional(PresetSettings)
       .pipe(T.JsonName("settings"))
-      .annotations({ identifier: "PresetSettings" }),
+      .annotate({ identifier: "PresetSettings" }),
     Type: S.optional(Type).pipe(T.JsonName("type")),
   }),
-).annotations({ identifier: "Preset" }) as any as S.Schema<Preset>;
-export type __listOfPreset = Preset[];
-export const __listOfPreset = S.Array(Preset);
+).annotate({ identifier: "Preset" }) as any as S.Schema<Preset>;
+export interface CreatePresetResponse {
+  Preset?: Preset & { Name: string; Settings: PresetSettings };
+}
+export const CreatePresetResponse = S.suspend(() =>
+  S.Struct({
+    Preset: S.optional(Preset)
+      .pipe(T.JsonName("preset"))
+      .annotate({ identifier: "Preset" }),
+  }),
+).annotate({
+  identifier: "CreatePresetResponse",
+}) as any as S.Schema<CreatePresetResponse>;
+export type PricingPlan = "ON_DEMAND" | "RESERVED" | (string & {});
+export const PricingPlan = S.String;
+export type Commitment = "ONE_YEAR" | (string & {});
+export const Commitment = S.String;
+export type RenewalType = "AUTO_RENEW" | "EXPIRE" | (string & {});
+export const RenewalType = S.String;
+export interface ReservationPlanSettings {
+  Commitment?: Commitment;
+  RenewalType?: RenewalType;
+  ReservedSlots?: number;
+}
+export const ReservationPlanSettings = S.suspend(() =>
+  S.Struct({
+    Commitment: S.optional(Commitment).pipe(T.JsonName("commitment")),
+    RenewalType: S.optional(RenewalType).pipe(T.JsonName("renewalType")),
+    ReservedSlots: S.optional(S.Number).pipe(T.JsonName("reservedSlots")),
+  }),
+).annotate({
+  identifier: "ReservationPlanSettings",
+}) as any as S.Schema<ReservationPlanSettings>;
+export type QueueStatus = "ACTIVE" | "PAUSED" | (string & {});
+export const QueueStatus = S.String;
+export interface CreateQueueRequest {
+  ConcurrentJobs?: number;
+  Description?: string;
+  Name?: string;
+  PricingPlan?: PricingPlan;
+  ReservationPlanSettings?: ReservationPlanSettings;
+  Status?: QueueStatus;
+  Tags?: { [key: string]: string | undefined };
+}
+export const CreateQueueRequest = S.suspend(() =>
+  S.Struct({
+    ConcurrentJobs: S.optional(S.Number).pipe(T.JsonName("concurrentJobs")),
+    Description: S.optional(S.String).pipe(T.JsonName("description")),
+    Name: S.optional(S.String).pipe(T.JsonName("name")),
+    PricingPlan: S.optional(PricingPlan).pipe(T.JsonName("pricingPlan")),
+    ReservationPlanSettings: S.optional(ReservationPlanSettings)
+      .pipe(T.JsonName("reservationPlanSettings"))
+      .annotate({ identifier: "ReservationPlanSettings" }),
+    Status: S.optional(QueueStatus).pipe(T.JsonName("status")),
+    Tags: S.optional(__mapOf__string).pipe(T.JsonName("tags")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/2017-08-29/queues" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "CreateQueueRequest",
+}) as any as S.Schema<CreateQueueRequest>;
 export type ReservationPlanStatus = "ACTIVE" | "EXPIRED" | (string & {});
 export const ReservationPlanStatus = S.String;
 export interface ReservationPlan {
@@ -8821,7 +8333,7 @@ export const ReservationPlan = S.suspend(() =>
     ReservedSlots: S.optional(S.Number).pipe(T.JsonName("reservedSlots")),
     Status: S.optional(ReservationPlanStatus).pipe(T.JsonName("status")),
   }),
-).annotations({
+).annotate({
   identifier: "ReservationPlan",
 }) as any as S.Schema<ReservationPlan>;
 export interface ServiceOverride {
@@ -8837,7 +8349,7 @@ export const ServiceOverride = S.suspend(() =>
     OverrideValue: S.optional(S.String).pipe(T.JsonName("overrideValue")),
     Value: S.optional(S.String).pipe(T.JsonName("value")),
   }),
-).annotations({
+).annotate({
   identifier: "ServiceOverride",
 }) as any as S.Schema<ServiceOverride>;
 export type __listOfServiceOverride = ServiceOverride[];
@@ -8875,7 +8387,7 @@ export const Queue = S.suspend(() =>
     ),
     ReservationPlan: S.optional(ReservationPlan)
       .pipe(T.JsonName("reservationPlan"))
-      .annotations({ identifier: "ReservationPlan" }),
+      .annotate({ identifier: "ReservationPlan" }),
     ServiceOverrides: S.optional(__listOfServiceOverride).pipe(
       T.JsonName("serviceOverrides"),
     ),
@@ -8885,56 +8397,30 @@ export const Queue = S.suspend(() =>
     ),
     Type: S.optional(Type).pipe(T.JsonName("type")),
   }),
-).annotations({ identifier: "Queue" }) as any as S.Schema<Queue>;
-export type __listOfQueue = Queue[];
-export const __listOfQueue = S.Array(Queue);
-export interface ProbeInputFile {
-  FileUrl?: string;
+).annotate({ identifier: "Queue" }) as any as S.Schema<Queue>;
+export interface CreateQueueResponse {
+  Queue?: Queue & { Name: string };
 }
-export const ProbeInputFile = S.suspend(() =>
-  S.Struct({ FileUrl: S.optional(S.String).pipe(T.JsonName("fileUrl")) }),
-).annotations({
-  identifier: "ProbeInputFile",
-}) as any as S.Schema<ProbeInputFile>;
-export type __listOfProbeInputFile = ProbeInputFile[];
-export const __listOfProbeInputFile = S.Array(ProbeInputFile);
-export interface JobsQueryFilter {
-  Key?: JobsQueryFilterKey;
-  Values?: string[];
-}
-export const JobsQueryFilter = S.suspend(() =>
+export const CreateQueueResponse = S.suspend(() =>
   S.Struct({
-    Key: S.optional(JobsQueryFilterKey).pipe(T.JsonName("key")),
-    Values: S.optional(__listOf__stringMax100).pipe(T.JsonName("values")),
+    Queue: S.optional(Queue)
+      .pipe(T.JsonName("queue"))
+      .annotate({ identifier: "Queue" }),
   }),
-).annotations({
-  identifier: "JobsQueryFilter",
-}) as any as S.Schema<JobsQueryFilter>;
-export type __listOfJobsQueryFilter = JobsQueryFilter[];
-export const __listOfJobsQueryFilter = S.Array(JobsQueryFilter);
-export interface CreateQueueRequest {
-  ConcurrentJobs?: number;
-  Description?: string;
-  Name?: string;
-  PricingPlan?: PricingPlan;
-  ReservationPlanSettings?: ReservationPlanSettings;
-  Status?: QueueStatus;
-  Tags?: { [key: string]: string | undefined };
+).annotate({
+  identifier: "CreateQueueResponse",
+}) as any as S.Schema<CreateQueueResponse>;
+export interface CreateResourceShareRequest {
+  JobId?: string;
+  SupportCaseId?: string;
 }
-export const CreateQueueRequest = S.suspend(() =>
+export const CreateResourceShareRequest = S.suspend(() =>
   S.Struct({
-    ConcurrentJobs: S.optional(S.Number).pipe(T.JsonName("concurrentJobs")),
-    Description: S.optional(S.String).pipe(T.JsonName("description")),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    PricingPlan: S.optional(PricingPlan).pipe(T.JsonName("pricingPlan")),
-    ReservationPlanSettings: S.optional(ReservationPlanSettings)
-      .pipe(T.JsonName("reservationPlanSettings"))
-      .annotations({ identifier: "ReservationPlanSettings" }),
-    Status: S.optional(QueueStatus).pipe(T.JsonName("status")),
-    Tags: S.optional(__mapOf__string).pipe(T.JsonName("tags")),
+    JobId: S.optional(S.String).pipe(T.JsonName("jobId")),
+    SupportCaseId: S.optional(S.String).pipe(T.JsonName("supportCaseId")),
   }).pipe(
     T.all(
-      T.Http({ method: "POST", uri: "/2017-08-29/queues" }),
+      T.Http({ method: "POST", uri: "/2017-08-29/resourceShares" }),
       svc,
       auth,
       proto,
@@ -8942,9 +8428,221 @@ export const CreateQueueRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
-  identifier: "CreateQueueRequest",
-}) as any as S.Schema<CreateQueueRequest>;
+).annotate({
+  identifier: "CreateResourceShareRequest",
+}) as any as S.Schema<CreateResourceShareRequest>;
+export interface CreateResourceShareResponse {}
+export const CreateResourceShareResponse = S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "CreateResourceShareResponse",
+}) as any as S.Schema<CreateResourceShareResponse>;
+export interface DeleteJobTemplateRequest {
+  Name: string;
+}
+export const DeleteJobTemplateRequest = S.suspend(() =>
+  S.Struct({ Name: S.String.pipe(T.HttpLabel("Name")) }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/2017-08-29/jobTemplates/{Name}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeleteJobTemplateRequest",
+}) as any as S.Schema<DeleteJobTemplateRequest>;
+export interface DeleteJobTemplateResponse {}
+export const DeleteJobTemplateResponse = S.suspend(() => S.Struct({})).annotate(
+  { identifier: "DeleteJobTemplateResponse" },
+) as any as S.Schema<DeleteJobTemplateResponse>;
+export interface DeletePolicyRequest {}
+export const DeletePolicyRequest = S.suspend(() =>
+  S.Struct({}).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/2017-08-29/policy" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeletePolicyRequest",
+}) as any as S.Schema<DeletePolicyRequest>;
+export interface DeletePolicyResponse {}
+export const DeletePolicyResponse = S.suspend(() => S.Struct({})).annotate({
+  identifier: "DeletePolicyResponse",
+}) as any as S.Schema<DeletePolicyResponse>;
+export interface DeletePresetRequest {
+  Name: string;
+}
+export const DeletePresetRequest = S.suspend(() =>
+  S.Struct({ Name: S.String.pipe(T.HttpLabel("Name")) }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/2017-08-29/presets/{Name}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeletePresetRequest",
+}) as any as S.Schema<DeletePresetRequest>;
+export interface DeletePresetResponse {}
+export const DeletePresetResponse = S.suspend(() => S.Struct({})).annotate({
+  identifier: "DeletePresetResponse",
+}) as any as S.Schema<DeletePresetResponse>;
+export interface DeleteQueueRequest {
+  Name: string;
+}
+export const DeleteQueueRequest = S.suspend(() =>
+  S.Struct({ Name: S.String.pipe(T.HttpLabel("Name")) }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/2017-08-29/queues/{Name}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeleteQueueRequest",
+}) as any as S.Schema<DeleteQueueRequest>;
+export interface DeleteQueueResponse {}
+export const DeleteQueueResponse = S.suspend(() => S.Struct({})).annotate({
+  identifier: "DeleteQueueResponse",
+}) as any as S.Schema<DeleteQueueResponse>;
+export type DescribeEndpointsMode = "DEFAULT" | "GET_ONLY" | (string & {});
+export const DescribeEndpointsMode = S.String;
+export interface DescribeEndpointsRequest {
+  MaxResults?: number;
+  Mode?: DescribeEndpointsMode;
+  NextToken?: string;
+}
+export const DescribeEndpointsRequest = S.suspend(() =>
+  S.Struct({
+    MaxResults: S.optional(S.Number).pipe(T.JsonName("maxResults")),
+    Mode: S.optional(DescribeEndpointsMode).pipe(T.JsonName("mode")),
+    NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/2017-08-29/endpoints" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DescribeEndpointsRequest",
+}) as any as S.Schema<DescribeEndpointsRequest>;
+export interface Endpoint {
+  Url?: string;
+}
+export const Endpoint = S.suspend(() =>
+  S.Struct({ Url: S.optional(S.String).pipe(T.JsonName("url")) }),
+).annotate({ identifier: "Endpoint" }) as any as S.Schema<Endpoint>;
+export type __listOfEndpoint = Endpoint[];
+export const __listOfEndpoint = S.Array(Endpoint);
+export interface DescribeEndpointsResponse {
+  Endpoints?: Endpoint[];
+  NextToken?: string;
+}
+export const DescribeEndpointsResponse = S.suspend(() =>
+  S.Struct({
+    Endpoints: S.optional(__listOfEndpoint).pipe(T.JsonName("endpoints")),
+    NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
+  }),
+).annotate({
+  identifier: "DescribeEndpointsResponse",
+}) as any as S.Schema<DescribeEndpointsResponse>;
+export interface DisassociateCertificateRequest {
+  Arn: string;
+}
+export const DisassociateCertificateRequest = S.suspend(() =>
+  S.Struct({ Arn: S.String.pipe(T.HttpLabel("Arn")) }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/2017-08-29/certificates/{Arn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DisassociateCertificateRequest",
+}) as any as S.Schema<DisassociateCertificateRequest>;
+export interface DisassociateCertificateResponse {}
+export const DisassociateCertificateResponse = S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "DisassociateCertificateResponse",
+}) as any as S.Schema<DisassociateCertificateResponse>;
+export interface GetJobRequest {
+  Id: string;
+}
+export const GetJobRequest = S.suspend(() =>
+  S.Struct({ Id: S.String.pipe(T.HttpLabel("Id")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/2017-08-29/jobs/{Id}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({ identifier: "GetJobRequest" }) as any as S.Schema<GetJobRequest>;
+export interface GetJobResponse {
+  Job?: Job & {
+    Role: string;
+    Settings: JobSettings;
+    AccelerationSettings: AccelerationSettings & { Mode: AccelerationMode };
+    Warnings: (WarningGroup & { Code: number; Count: number })[];
+  };
+}
+export const GetJobResponse = S.suspend(() =>
+  S.Struct({
+    Job: S.optional(Job)
+      .pipe(T.JsonName("job"))
+      .annotate({ identifier: "Job" }),
+  }),
+).annotate({ identifier: "GetJobResponse" }) as any as S.Schema<GetJobResponse>;
+export interface GetJobsQueryResultsRequest {
+  Id: string;
+}
+export const GetJobsQueryResultsRequest = S.suspend(() =>
+  S.Struct({ Id: S.String.pipe(T.HttpLabel("Id")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/2017-08-29/jobsQueries/{Id}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetJobsQueryResultsRequest",
+}) as any as S.Schema<GetJobsQueryResultsRequest>;
+export type __listOfJob = Job[];
+export const __listOfJob = S.Array(Job);
+export type JobsQueryStatus =
+  | "SUBMITTED"
+  | "PROGRESSING"
+  | "COMPLETE"
+  | "ERROR"
+  | (string & {});
+export const JobsQueryStatus = S.String;
 export interface GetJobsQueryResultsResponse {
   Jobs?: (Job & {
     Role: string;
@@ -8961,9 +8659,71 @@ export const GetJobsQueryResultsResponse = S.suspend(() =>
     NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
     Status: S.optional(JobsQueryStatus).pipe(T.JsonName("status")),
   }),
-).annotations({
+).annotate({
   identifier: "GetJobsQueryResultsResponse",
 }) as any as S.Schema<GetJobsQueryResultsResponse>;
+export interface GetJobTemplateRequest {
+  Name: string;
+}
+export const GetJobTemplateRequest = S.suspend(() =>
+  S.Struct({ Name: S.String.pipe(T.HttpLabel("Name")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/2017-08-29/jobTemplates/{Name}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetJobTemplateRequest",
+}) as any as S.Schema<GetJobTemplateRequest>;
+export interface GetJobTemplateResponse {
+  JobTemplate?: JobTemplate & {
+    Name: string;
+    Settings: JobTemplateSettings;
+    AccelerationSettings: AccelerationSettings & { Mode: AccelerationMode };
+  };
+}
+export const GetJobTemplateResponse = S.suspend(() =>
+  S.Struct({
+    JobTemplate: S.optional(JobTemplate)
+      .pipe(T.JsonName("jobTemplate"))
+      .annotate({ identifier: "JobTemplate" }),
+  }),
+).annotate({
+  identifier: "GetJobTemplateResponse",
+}) as any as S.Schema<GetJobTemplateResponse>;
+export interface GetPolicyRequest {}
+export const GetPolicyRequest = S.suspend(() =>
+  S.Struct({}).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/2017-08-29/policy" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetPolicyRequest",
+}) as any as S.Schema<GetPolicyRequest>;
+export type InputPolicy = "ALLOWED" | "DISALLOWED" | (string & {});
+export const InputPolicy = S.String;
+export interface Policy {
+  HttpInputs?: InputPolicy;
+  HttpsInputs?: InputPolicy;
+  S3Inputs?: InputPolicy;
+}
+export const Policy = S.suspend(() =>
+  S.Struct({
+    HttpInputs: S.optional(InputPolicy).pipe(T.JsonName("httpInputs")),
+    HttpsInputs: S.optional(InputPolicy).pipe(T.JsonName("httpsInputs")),
+    S3Inputs: S.optional(InputPolicy).pipe(T.JsonName("s3Inputs")),
+  }),
+).annotate({ identifier: "Policy" }) as any as S.Schema<Policy>;
 export interface GetPolicyResponse {
   Policy?: Policy;
 }
@@ -8971,11 +8731,98 @@ export const GetPolicyResponse = S.suspend(() =>
   S.Struct({
     Policy: S.optional(Policy)
       .pipe(T.JsonName("policy"))
-      .annotations({ identifier: "Policy" }),
+      .annotate({ identifier: "Policy" }),
   }),
-).annotations({
+).annotate({
   identifier: "GetPolicyResponse",
 }) as any as S.Schema<GetPolicyResponse>;
+export interface GetPresetRequest {
+  Name: string;
+}
+export const GetPresetRequest = S.suspend(() =>
+  S.Struct({ Name: S.String.pipe(T.HttpLabel("Name")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/2017-08-29/presets/{Name}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetPresetRequest",
+}) as any as S.Schema<GetPresetRequest>;
+export interface GetPresetResponse {
+  Preset?: Preset & { Name: string; Settings: PresetSettings };
+}
+export const GetPresetResponse = S.suspend(() =>
+  S.Struct({
+    Preset: S.optional(Preset)
+      .pipe(T.JsonName("preset"))
+      .annotate({ identifier: "Preset" }),
+  }),
+).annotate({
+  identifier: "GetPresetResponse",
+}) as any as S.Schema<GetPresetResponse>;
+export interface GetQueueRequest {
+  Name: string;
+}
+export const GetQueueRequest = S.suspend(() =>
+  S.Struct({ Name: S.String.pipe(T.HttpLabel("Name")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/2017-08-29/queues/{Name}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetQueueRequest",
+}) as any as S.Schema<GetQueueRequest>;
+export interface GetQueueResponse {
+  Queue?: Queue & { Name: string };
+}
+export const GetQueueResponse = S.suspend(() =>
+  S.Struct({
+    Queue: S.optional(Queue)
+      .pipe(T.JsonName("queue"))
+      .annotate({ identifier: "Queue" }),
+  }),
+).annotate({
+  identifier: "GetQueueResponse",
+}) as any as S.Schema<GetQueueResponse>;
+export type Order = "ASCENDING" | "DESCENDING" | (string & {});
+export const Order = S.String;
+export interface ListJobsRequest {
+  MaxResults?: number;
+  NextToken?: string;
+  Order?: Order;
+  Queue?: string;
+  Status?: JobStatus;
+}
+export const ListJobsRequest = S.suspend(() =>
+  S.Struct({
+    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+    Order: S.optional(Order).pipe(T.HttpQuery("order")),
+    Queue: S.optional(S.String).pipe(T.HttpQuery("queue")),
+    Status: S.optional(JobStatus).pipe(T.HttpQuery("status")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/2017-08-29/jobs" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListJobsRequest",
+}) as any as S.Schema<ListJobsRequest>;
 export interface ListJobsResponse {
   Jobs?: (Job & {
     Role: string;
@@ -8990,9 +8837,44 @@ export const ListJobsResponse = S.suspend(() =>
     Jobs: S.optional(__listOfJob).pipe(T.JsonName("jobs")),
     NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
   }),
-).annotations({
+).annotate({
   identifier: "ListJobsResponse",
 }) as any as S.Schema<ListJobsResponse>;
+export type JobTemplateListBy =
+  | "NAME"
+  | "CREATION_DATE"
+  | "SYSTEM"
+  | (string & {});
+export const JobTemplateListBy = S.String;
+export interface ListJobTemplatesRequest {
+  Category?: string;
+  ListBy?: JobTemplateListBy;
+  MaxResults?: number;
+  NextToken?: string;
+  Order?: Order;
+}
+export const ListJobTemplatesRequest = S.suspend(() =>
+  S.Struct({
+    Category: S.optional(S.String).pipe(T.HttpQuery("category")),
+    ListBy: S.optional(JobTemplateListBy).pipe(T.HttpQuery("listBy")),
+    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+    Order: S.optional(Order).pipe(T.HttpQuery("order")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/2017-08-29/jobTemplates" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListJobTemplatesRequest",
+}) as any as S.Schema<ListJobTemplatesRequest>;
+export type __listOfJobTemplate = JobTemplate[];
+export const __listOfJobTemplate = S.Array(JobTemplate);
 export interface ListJobTemplatesResponse {
   JobTemplates?: (JobTemplate & {
     Name: string;
@@ -9008,9 +8890,40 @@ export const ListJobTemplatesResponse = S.suspend(() =>
     ),
     NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
   }),
-).annotations({
+).annotate({
   identifier: "ListJobTemplatesResponse",
 }) as any as S.Schema<ListJobTemplatesResponse>;
+export type PresetListBy = "NAME" | "CREATION_DATE" | "SYSTEM" | (string & {});
+export const PresetListBy = S.String;
+export interface ListPresetsRequest {
+  Category?: string;
+  ListBy?: PresetListBy;
+  MaxResults?: number;
+  NextToken?: string;
+  Order?: Order;
+}
+export const ListPresetsRequest = S.suspend(() =>
+  S.Struct({
+    Category: S.optional(S.String).pipe(T.HttpQuery("category")),
+    ListBy: S.optional(PresetListBy).pipe(T.HttpQuery("listBy")),
+    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+    Order: S.optional(Order).pipe(T.HttpQuery("order")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/2017-08-29/presets" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListPresetsRequest",
+}) as any as S.Schema<ListPresetsRequest>;
+export type __listOfPreset = Preset[];
+export const __listOfPreset = S.Array(Preset);
 export interface ListPresetsResponse {
   NextToken?: string;
   Presets?: (Preset & { Name: string; Settings: PresetSettings })[];
@@ -9020,9 +8933,38 @@ export const ListPresetsResponse = S.suspend(() =>
     NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
     Presets: S.optional(__listOfPreset).pipe(T.JsonName("presets")),
   }),
-).annotations({
+).annotate({
   identifier: "ListPresetsResponse",
 }) as any as S.Schema<ListPresetsResponse>;
+export type QueueListBy = "NAME" | "CREATION_DATE" | (string & {});
+export const QueueListBy = S.String;
+export interface ListQueuesRequest {
+  ListBy?: QueueListBy;
+  MaxResults?: number;
+  NextToken?: string;
+  Order?: Order;
+}
+export const ListQueuesRequest = S.suspend(() =>
+  S.Struct({
+    ListBy: S.optional(QueueListBy).pipe(T.HttpQuery("listBy")),
+    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+    Order: S.optional(Order).pipe(T.HttpQuery("order")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/2017-08-29/queues" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListQueuesRequest",
+}) as any as S.Schema<ListQueuesRequest>;
+export type __listOfQueue = Queue[];
+export const __listOfQueue = S.Array(Queue);
 export interface ListQueuesResponse {
   NextToken?: string;
   Queues?: (Queue & { Name: string })[];
@@ -9040,9 +8982,105 @@ export const ListQueuesResponse = S.suspend(() =>
       T.JsonName("unallocatedConcurrentJobs"),
     ),
   }),
-).annotations({
+).annotate({
   identifier: "ListQueuesResponse",
 }) as any as S.Schema<ListQueuesResponse>;
+export interface ListTagsForResourceRequest {
+  Arn: string;
+}
+export const ListTagsForResourceRequest = S.suspend(() =>
+  S.Struct({ Arn: S.String.pipe(T.HttpLabel("Arn")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/2017-08-29/tags/{Arn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListTagsForResourceRequest",
+}) as any as S.Schema<ListTagsForResourceRequest>;
+export interface ResourceTags {
+  Arn?: string;
+  Tags?: { [key: string]: string | undefined };
+}
+export const ResourceTags = S.suspend(() =>
+  S.Struct({
+    Arn: S.optional(S.String).pipe(T.JsonName("arn")),
+    Tags: S.optional(__mapOf__string).pipe(T.JsonName("tags")),
+  }),
+).annotate({ identifier: "ResourceTags" }) as any as S.Schema<ResourceTags>;
+export interface ListTagsForResourceResponse {
+  ResourceTags?: ResourceTags;
+}
+export const ListTagsForResourceResponse = S.suspend(() =>
+  S.Struct({
+    ResourceTags: S.optional(ResourceTags)
+      .pipe(T.JsonName("resourceTags"))
+      .annotate({ identifier: "ResourceTags" }),
+  }),
+).annotate({
+  identifier: "ListTagsForResourceResponse",
+}) as any as S.Schema<ListTagsForResourceResponse>;
+export interface ListVersionsRequest {
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListVersionsRequest = S.suspend(() =>
+  S.Struct({
+    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/2017-08-29/versions" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListVersionsRequest",
+}) as any as S.Schema<ListVersionsRequest>;
+export interface JobEngineVersion {
+  ExpirationDate?: Date;
+  Version?: string;
+}
+export const JobEngineVersion = S.suspend(() =>
+  S.Struct({
+    ExpirationDate: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ).pipe(T.JsonName("expirationDate")),
+    Version: S.optional(S.String).pipe(T.JsonName("version")),
+  }),
+).annotate({
+  identifier: "JobEngineVersion",
+}) as any as S.Schema<JobEngineVersion>;
+export type __listOfJobEngineVersion = JobEngineVersion[];
+export const __listOfJobEngineVersion = S.Array(JobEngineVersion);
+export interface ListVersionsResponse {
+  NextToken?: string;
+  Versions?: JobEngineVersion[];
+}
+export const ListVersionsResponse = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
+    Versions: S.optional(__listOfJobEngineVersion).pipe(T.JsonName("versions")),
+  }),
+).annotate({
+  identifier: "ListVersionsResponse",
+}) as any as S.Schema<ListVersionsResponse>;
+export interface ProbeInputFile {
+  FileUrl?: string;
+}
+export const ProbeInputFile = S.suspend(() =>
+  S.Struct({ FileUrl: S.optional(S.String).pipe(T.JsonName("fileUrl")) }),
+).annotate({ identifier: "ProbeInputFile" }) as any as S.Schema<ProbeInputFile>;
+export type __listOfProbeInputFile = ProbeInputFile[];
+export const __listOfProbeInputFile = S.Array(ProbeInputFile);
 export interface ProbeRequest {
   InputFiles?: ProbeInputFile[];
 }
@@ -9061,266 +9099,7 @@ export const ProbeRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({ identifier: "ProbeRequest" }) as any as S.Schema<ProbeRequest>;
-export interface PutPolicyResponse {
-  Policy?: Policy;
-}
-export const PutPolicyResponse = S.suspend(() =>
-  S.Struct({
-    Policy: S.optional(Policy)
-      .pipe(T.JsonName("policy"))
-      .annotations({ identifier: "Policy" }),
-  }),
-).annotations({
-  identifier: "PutPolicyResponse",
-}) as any as S.Schema<PutPolicyResponse>;
-export interface SearchJobsResponse {
-  Jobs?: (Job & {
-    Role: string;
-    Settings: JobSettings;
-    AccelerationSettings: AccelerationSettings & { Mode: AccelerationMode };
-    Warnings: (WarningGroup & { Code: number; Count: number })[];
-  })[];
-  NextToken?: string;
-}
-export const SearchJobsResponse = S.suspend(() =>
-  S.Struct({
-    Jobs: S.optional(__listOfJob).pipe(T.JsonName("jobs")),
-    NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
-  }),
-).annotations({
-  identifier: "SearchJobsResponse",
-}) as any as S.Schema<SearchJobsResponse>;
-export interface StartJobsQueryRequest {
-  FilterList?: JobsQueryFilter[];
-  MaxResults?: number;
-  NextToken?: string;
-  Order?: Order;
-}
-export const StartJobsQueryRequest = S.suspend(() =>
-  S.Struct({
-    FilterList: S.optional(__listOfJobsQueryFilter).pipe(
-      T.JsonName("filterList"),
-    ),
-    MaxResults: S.optional(S.Number).pipe(T.JsonName("maxResults")),
-    NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
-    Order: S.optional(Order).pipe(T.JsonName("order")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/2017-08-29/jobsQueries" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "StartJobsQueryRequest",
-}) as any as S.Schema<StartJobsQueryRequest>;
-export interface UpdateJobTemplateResponse {
-  JobTemplate?: JobTemplate & {
-    Name: string;
-    Settings: JobTemplateSettings;
-    AccelerationSettings: AccelerationSettings & { Mode: AccelerationMode };
-  };
-}
-export const UpdateJobTemplateResponse = S.suspend(() =>
-  S.Struct({
-    JobTemplate: S.optional(JobTemplate)
-      .pipe(T.JsonName("jobTemplate"))
-      .annotations({ identifier: "JobTemplate" }),
-  }),
-).annotations({
-  identifier: "UpdateJobTemplateResponse",
-}) as any as S.Schema<UpdateJobTemplateResponse>;
-export interface UpdatePresetResponse {
-  Preset?: Preset & { Name: string; Settings: PresetSettings };
-}
-export const UpdatePresetResponse = S.suspend(() =>
-  S.Struct({
-    Preset: S.optional(Preset)
-      .pipe(T.JsonName("preset"))
-      .annotations({ identifier: "Preset" }),
-  }),
-).annotations({
-  identifier: "UpdatePresetResponse",
-}) as any as S.Schema<UpdatePresetResponse>;
-export interface UpdateQueueResponse {
-  Queue?: Queue & { Name: string };
-}
-export const UpdateQueueResponse = S.suspend(() =>
-  S.Struct({
-    Queue: S.optional(Queue)
-      .pipe(T.JsonName("queue"))
-      .annotations({ identifier: "Queue" }),
-  }),
-).annotations({
-  identifier: "UpdateQueueResponse",
-}) as any as S.Schema<UpdateQueueResponse>;
-export interface Endpoint {
-  Url?: string;
-}
-export const Endpoint = S.suspend(() =>
-  S.Struct({ Url: S.optional(S.String).pipe(T.JsonName("url")) }),
-).annotations({ identifier: "Endpoint" }) as any as S.Schema<Endpoint>;
-export type __listOfEndpoint = Endpoint[];
-export const __listOfEndpoint = S.Array(Endpoint);
-export interface ResourceTags {
-  Arn?: string;
-  Tags?: { [key: string]: string | undefined };
-}
-export const ResourceTags = S.suspend(() =>
-  S.Struct({
-    Arn: S.optional(S.String).pipe(T.JsonName("arn")),
-    Tags: S.optional(__mapOf__string).pipe(T.JsonName("tags")),
-  }),
-).annotations({ identifier: "ResourceTags" }) as any as S.Schema<ResourceTags>;
-export interface JobEngineVersion {
-  ExpirationDate?: Date;
-  Version?: string;
-}
-export const JobEngineVersion = S.suspend(() =>
-  S.Struct({
-    ExpirationDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ).pipe(T.JsonName("expirationDate")),
-    Version: S.optional(S.String).pipe(T.JsonName("version")),
-  }),
-).annotations({
-  identifier: "JobEngineVersion",
-}) as any as S.Schema<JobEngineVersion>;
-export type __listOfJobEngineVersion = JobEngineVersion[];
-export const __listOfJobEngineVersion = S.Array(JobEngineVersion);
-export interface CreateJobTemplateRequest {
-  AccelerationSettings?: AccelerationSettings;
-  Category?: string;
-  Description?: string;
-  HopDestinations?: HopDestination[];
-  Name?: string;
-  Priority?: number;
-  Queue?: string;
-  Settings?: JobTemplateSettings;
-  StatusUpdateInterval?: StatusUpdateInterval;
-  Tags?: { [key: string]: string | undefined };
-}
-export const CreateJobTemplateRequest = S.suspend(() =>
-  S.Struct({
-    AccelerationSettings: S.optional(AccelerationSettings)
-      .pipe(T.JsonName("accelerationSettings"))
-      .annotations({ identifier: "AccelerationSettings" }),
-    Category: S.optional(S.String).pipe(T.JsonName("category")),
-    Description: S.optional(S.String).pipe(T.JsonName("description")),
-    HopDestinations: S.optional(__listOfHopDestination).pipe(
-      T.JsonName("hopDestinations"),
-    ),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    Priority: S.optional(S.Number).pipe(T.JsonName("priority")),
-    Queue: S.optional(S.String).pipe(T.JsonName("queue")),
-    Settings: S.optional(JobTemplateSettings)
-      .pipe(T.JsonName("settings"))
-      .annotations({ identifier: "JobTemplateSettings" }),
-    StatusUpdateInterval: S.optional(StatusUpdateInterval).pipe(
-      T.JsonName("statusUpdateInterval"),
-    ),
-    Tags: S.optional(__mapOf__string).pipe(T.JsonName("tags")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/2017-08-29/jobTemplates" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "CreateJobTemplateRequest",
-}) as any as S.Schema<CreateJobTemplateRequest>;
-export interface CreateQueueResponse {
-  Queue?: Queue & { Name: string };
-}
-export const CreateQueueResponse = S.suspend(() =>
-  S.Struct({
-    Queue: S.optional(Queue)
-      .pipe(T.JsonName("queue"))
-      .annotations({ identifier: "Queue" }),
-  }),
-).annotations({
-  identifier: "CreateQueueResponse",
-}) as any as S.Schema<CreateQueueResponse>;
-export interface DescribeEndpointsResponse {
-  Endpoints?: Endpoint[];
-  NextToken?: string;
-}
-export const DescribeEndpointsResponse = S.suspend(() =>
-  S.Struct({
-    Endpoints: S.optional(__listOfEndpoint).pipe(T.JsonName("endpoints")),
-    NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
-  }),
-).annotations({
-  identifier: "DescribeEndpointsResponse",
-}) as any as S.Schema<DescribeEndpointsResponse>;
-export interface GetJobTemplateResponse {
-  JobTemplate?: JobTemplate & {
-    Name: string;
-    Settings: JobTemplateSettings;
-    AccelerationSettings: AccelerationSettings & { Mode: AccelerationMode };
-  };
-}
-export const GetJobTemplateResponse = S.suspend(() =>
-  S.Struct({
-    JobTemplate: S.optional(JobTemplate)
-      .pipe(T.JsonName("jobTemplate"))
-      .annotations({ identifier: "JobTemplate" }),
-  }),
-).annotations({
-  identifier: "GetJobTemplateResponse",
-}) as any as S.Schema<GetJobTemplateResponse>;
-export interface GetPresetResponse {
-  Preset?: Preset & { Name: string; Settings: PresetSettings };
-}
-export const GetPresetResponse = S.suspend(() =>
-  S.Struct({
-    Preset: S.optional(Preset)
-      .pipe(T.JsonName("preset"))
-      .annotations({ identifier: "Preset" }),
-  }),
-).annotations({
-  identifier: "GetPresetResponse",
-}) as any as S.Schema<GetPresetResponse>;
-export interface ListTagsForResourceResponse {
-  ResourceTags?: ResourceTags;
-}
-export const ListTagsForResourceResponse = S.suspend(() =>
-  S.Struct({
-    ResourceTags: S.optional(ResourceTags)
-      .pipe(T.JsonName("resourceTags"))
-      .annotations({ identifier: "ResourceTags" }),
-  }),
-).annotations({
-  identifier: "ListTagsForResourceResponse",
-}) as any as S.Schema<ListTagsForResourceResponse>;
-export interface ListVersionsResponse {
-  NextToken?: string;
-  Versions?: JobEngineVersion[];
-}
-export const ListVersionsResponse = S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
-    Versions: S.optional(__listOfJobEngineVersion).pipe(T.JsonName("versions")),
-  }),
-).annotations({
-  identifier: "ListVersionsResponse",
-}) as any as S.Schema<ListVersionsResponse>;
-export interface StartJobsQueryResponse {
-  Id?: string;
-}
-export const StartJobsQueryResponse = S.suspend(() =>
-  S.Struct({ Id: S.optional(S.String).pipe(T.JsonName("id")) }),
-).annotations({
-  identifier: "StartJobsQueryResponse",
-}) as any as S.Schema<StartJobsQueryResponse>;
+).annotate({ identifier: "ProbeRequest" }) as any as S.Schema<ProbeRequest>;
 export type Format =
   | "mp4"
   | "quicktime"
@@ -9329,72 +9108,38 @@ export type Format =
   | "mxf"
   | (string & {});
 export const Format = S.String;
-export type __listOf__integer = number[];
-export const __listOf__integer = S.Array(S.Number);
-export interface CreateJobTemplateResponse {
-  JobTemplate?: JobTemplate & {
-    Name: string;
-    Settings: JobTemplateSettings;
-    AccelerationSettings: AccelerationSettings & { Mode: AccelerationMode };
-  };
+export interface FrameRate {
+  Denominator?: number;
+  Numerator?: number;
 }
-export const CreateJobTemplateResponse = S.suspend(() =>
+export const FrameRate = S.suspend(() =>
   S.Struct({
-    JobTemplate: S.optional(JobTemplate)
-      .pipe(T.JsonName("jobTemplate"))
-      .annotations({ identifier: "JobTemplate" }),
+    Denominator: S.optional(S.Number).pipe(T.JsonName("denominator")),
+    Numerator: S.optional(S.Number).pipe(T.JsonName("numerator")),
   }),
-).annotations({
-  identifier: "CreateJobTemplateResponse",
-}) as any as S.Schema<CreateJobTemplateResponse>;
-export interface GetQueueResponse {
-  Queue?: Queue & { Name: string };
+).annotate({ identifier: "FrameRate" }) as any as S.Schema<FrameRate>;
+export interface AudioProperties {
+  BitDepth?: number;
+  BitRate?: number;
+  Channels?: number;
+  FrameRate?: FrameRate;
+  LanguageCode?: string;
+  SampleRate?: number;
 }
-export const GetQueueResponse = S.suspend(() =>
+export const AudioProperties = S.suspend(() =>
   S.Struct({
-    Queue: S.optional(Queue)
-      .pipe(T.JsonName("queue"))
-      .annotations({ identifier: "Queue" }),
+    BitDepth: S.optional(S.Number).pipe(T.JsonName("bitDepth")),
+    BitRate: S.optional(S.Number).pipe(T.JsonName("bitRate")),
+    Channels: S.optional(S.Number).pipe(T.JsonName("channels")),
+    FrameRate: S.optional(FrameRate)
+      .pipe(T.JsonName("frameRate"))
+      .annotate({ identifier: "FrameRate" }),
+    LanguageCode: S.optional(S.String).pipe(T.JsonName("languageCode")),
+    SampleRate: S.optional(S.Number).pipe(T.JsonName("sampleRate")),
   }),
-).annotations({
-  identifier: "GetQueueResponse",
-}) as any as S.Schema<GetQueueResponse>;
-export interface Metadata {
-  ETag?: string;
-  FileSize?: number;
-  LastModified?: Date;
-  MimeType?: string;
-}
-export const Metadata = S.suspend(() =>
-  S.Struct({
-    ETag: S.optional(S.String).pipe(T.JsonName("eTag")),
-    FileSize: S.optional(S.Number).pipe(T.JsonName("fileSize")),
-    LastModified: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ).pipe(T.JsonName("lastModified")),
-    MimeType: S.optional(S.String).pipe(T.JsonName("mimeType")),
-  }),
-).annotations({ identifier: "Metadata" }) as any as S.Schema<Metadata>;
-export interface TrackMapping {
-  AudioTrackIndexes?: number[];
-  DataTrackIndexes?: number[];
-  VideoTrackIndexes?: number[];
-}
-export const TrackMapping = S.suspend(() =>
-  S.Struct({
-    AudioTrackIndexes: S.optional(__listOf__integer).pipe(
-      T.JsonName("audioTrackIndexes"),
-    ),
-    DataTrackIndexes: S.optional(__listOf__integer).pipe(
-      T.JsonName("dataTrackIndexes"),
-    ),
-    VideoTrackIndexes: S.optional(__listOf__integer).pipe(
-      T.JsonName("videoTrackIndexes"),
-    ),
-  }),
-).annotations({ identifier: "TrackMapping" }) as any as S.Schema<TrackMapping>;
-export type __listOfTrackMapping = TrackMapping[];
-export const __listOfTrackMapping = S.Array(TrackMapping);
+).annotate({
+  identifier: "AudioProperties",
+}) as any as S.Schema<AudioProperties>;
 export type Codec =
   | "UNKNOWN"
   | "AAC"
@@ -9424,6 +9169,14 @@ export type Codec =
   | "WEBVTT"
   | (string & {});
 export const Codec = S.String;
+export interface DataProperties {
+  LanguageCode?: string;
+}
+export const DataProperties = S.suspend(() =>
+  S.Struct({
+    LanguageCode: S.optional(S.String).pipe(T.JsonName("languageCode")),
+  }),
+).annotate({ identifier: "DataProperties" }) as any as S.Schema<DataProperties>;
 export type TrackType = "video" | "audio" | "data" | (string & {});
 export const TrackType = S.String;
 export type ColorPrimaries =
@@ -9488,72 +9241,6 @@ export type TransferCharacteristics =
   | "LAST"
   | (string & {});
 export const TransferCharacteristics = S.String;
-export interface DataProperties {
-  LanguageCode?: string;
-}
-export const DataProperties = S.suspend(() =>
-  S.Struct({
-    LanguageCode: S.optional(S.String).pipe(T.JsonName("languageCode")),
-  }),
-).annotations({
-  identifier: "DataProperties",
-}) as any as S.Schema<DataProperties>;
-export interface CreatePresetRequest {
-  Category?: string;
-  Description?: string;
-  Name?: string;
-  Settings?: PresetSettings;
-  Tags?: { [key: string]: string | undefined };
-}
-export const CreatePresetRequest = S.suspend(() =>
-  S.Struct({
-    Category: S.optional(S.String).pipe(T.JsonName("category")),
-    Description: S.optional(S.String).pipe(T.JsonName("description")),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    Settings: S.optional(PresetSettings)
-      .pipe(T.JsonName("settings"))
-      .annotations({ identifier: "PresetSettings" }),
-    Tags: S.optional(__mapOf__string).pipe(T.JsonName("tags")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/2017-08-29/presets" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "CreatePresetRequest",
-}) as any as S.Schema<CreatePresetRequest>;
-export interface GetJobResponse {
-  Job?: Job & {
-    Role: string;
-    Settings: JobSettings;
-    AccelerationSettings: AccelerationSettings & { Mode: AccelerationMode };
-    Warnings: (WarningGroup & { Code: number; Count: number })[];
-  };
-}
-export const GetJobResponse = S.suspend(() =>
-  S.Struct({
-    Job: S.optional(Job)
-      .pipe(T.JsonName("job"))
-      .annotations({ identifier: "Job" }),
-  }),
-).annotations({
-  identifier: "GetJobResponse",
-}) as any as S.Schema<GetJobResponse>;
-export interface FrameRate {
-  Denominator?: number;
-  Numerator?: number;
-}
-export const FrameRate = S.suspend(() =>
-  S.Struct({
-    Denominator: S.optional(S.Number).pipe(T.JsonName("denominator")),
-    Numerator: S.optional(S.Number).pipe(T.JsonName("numerator")),
-  }),
-).annotations({ identifier: "FrameRate" }) as any as S.Schema<FrameRate>;
 export interface CodecMetadata {
   BitDepth?: number;
   ChromaSubsampling?: string;
@@ -9575,7 +9262,7 @@ export const CodecMetadata = S.suspend(() =>
     ),
     CodedFrameRate: S.optional(FrameRate)
       .pipe(T.JsonName("codedFrameRate"))
-      .annotations({ identifier: "FrameRate" }),
+      .annotate({ identifier: "FrameRate" }),
     ColorPrimaries: S.optional(ColorPrimaries).pipe(
       T.JsonName("colorPrimaries"),
     ),
@@ -9591,31 +9278,7 @@ export const CodecMetadata = S.suspend(() =>
     ),
     Width: S.optional(S.Number).pipe(T.JsonName("width")),
   }),
-).annotations({
-  identifier: "CodecMetadata",
-}) as any as S.Schema<CodecMetadata>;
-export interface AudioProperties {
-  BitDepth?: number;
-  BitRate?: number;
-  Channels?: number;
-  FrameRate?: FrameRate;
-  LanguageCode?: string;
-  SampleRate?: number;
-}
-export const AudioProperties = S.suspend(() =>
-  S.Struct({
-    BitDepth: S.optional(S.Number).pipe(T.JsonName("bitDepth")),
-    BitRate: S.optional(S.Number).pipe(T.JsonName("bitRate")),
-    Channels: S.optional(S.Number).pipe(T.JsonName("channels")),
-    FrameRate: S.optional(FrameRate)
-      .pipe(T.JsonName("frameRate"))
-      .annotations({ identifier: "FrameRate" }),
-    LanguageCode: S.optional(S.String).pipe(T.JsonName("languageCode")),
-    SampleRate: S.optional(S.Number).pipe(T.JsonName("sampleRate")),
-  }),
-).annotations({
-  identifier: "AudioProperties",
-}) as any as S.Schema<AudioProperties>;
+).annotate({ identifier: "CodecMetadata" }) as any as S.Schema<CodecMetadata>;
 export interface VideoProperties {
   BitDepth?: number;
   BitRate?: number;
@@ -9633,13 +9296,13 @@ export const VideoProperties = S.suspend(() =>
     BitRate: S.optional(S.Number).pipe(T.JsonName("bitRate")),
     CodecMetadata: S.optional(CodecMetadata)
       .pipe(T.JsonName("codecMetadata"))
-      .annotations({ identifier: "CodecMetadata" }),
+      .annotate({ identifier: "CodecMetadata" }),
     ColorPrimaries: S.optional(ColorPrimaries).pipe(
       T.JsonName("colorPrimaries"),
     ),
     FrameRate: S.optional(FrameRate)
       .pipe(T.JsonName("frameRate"))
-      .annotations({ identifier: "FrameRate" }),
+      .annotate({ identifier: "FrameRate" }),
     Height: S.optional(S.Number).pipe(T.JsonName("height")),
     MatrixCoefficients: S.optional(MatrixCoefficients).pipe(
       T.JsonName("matrixCoefficients"),
@@ -9649,7 +9312,7 @@ export const VideoProperties = S.suspend(() =>
     ),
     Width: S.optional(S.Number).pipe(T.JsonName("width")),
   }),
-).annotations({
+).annotate({
   identifier: "VideoProperties",
 }) as any as S.Schema<VideoProperties>;
 export interface Track {
@@ -9665,33 +9328,21 @@ export const Track = S.suspend(() =>
   S.Struct({
     AudioProperties: S.optional(AudioProperties)
       .pipe(T.JsonName("audioProperties"))
-      .annotations({ identifier: "AudioProperties" }),
+      .annotate({ identifier: "AudioProperties" }),
     Codec: S.optional(Codec).pipe(T.JsonName("codec")),
     DataProperties: S.optional(DataProperties)
       .pipe(T.JsonName("dataProperties"))
-      .annotations({ identifier: "DataProperties" }),
+      .annotate({ identifier: "DataProperties" }),
     Duration: S.optional(S.Number).pipe(T.JsonName("duration")),
     Index: S.optional(S.Number).pipe(T.JsonName("index")),
     TrackType: S.optional(TrackType).pipe(T.JsonName("trackType")),
     VideoProperties: S.optional(VideoProperties)
       .pipe(T.JsonName("videoProperties"))
-      .annotations({ identifier: "VideoProperties" }),
+      .annotate({ identifier: "VideoProperties" }),
   }),
-).annotations({ identifier: "Track" }) as any as S.Schema<Track>;
+).annotate({ identifier: "Track" }) as any as S.Schema<Track>;
 export type __listOfTrack = Track[];
 export const __listOfTrack = S.Array(Track);
-export interface CreatePresetResponse {
-  Preset?: Preset & { Name: string; Settings: PresetSettings };
-}
-export const CreatePresetResponse = S.suspend(() =>
-  S.Struct({
-    Preset: S.optional(Preset)
-      .pipe(T.JsonName("preset"))
-      .annotations({ identifier: "Preset" }),
-  }),
-).annotations({
-  identifier: "CreatePresetResponse",
-}) as any as S.Schema<CreatePresetResponse>;
 export interface Container {
   Duration?: number;
   Format?: Format;
@@ -9703,7 +9354,45 @@ export const Container = S.suspend(() =>
     Format: S.optional(Format).pipe(T.JsonName("format")),
     Tracks: S.optional(__listOfTrack).pipe(T.JsonName("tracks")),
   }),
-).annotations({ identifier: "Container" }) as any as S.Schema<Container>;
+).annotate({ identifier: "Container" }) as any as S.Schema<Container>;
+export interface Metadata {
+  ETag?: string;
+  FileSize?: number;
+  LastModified?: Date;
+  MimeType?: string;
+}
+export const Metadata = S.suspend(() =>
+  S.Struct({
+    ETag: S.optional(S.String).pipe(T.JsonName("eTag")),
+    FileSize: S.optional(S.Number).pipe(T.JsonName("fileSize")),
+    LastModified: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ).pipe(T.JsonName("lastModified")),
+    MimeType: S.optional(S.String).pipe(T.JsonName("mimeType")),
+  }),
+).annotate({ identifier: "Metadata" }) as any as S.Schema<Metadata>;
+export type __listOf__integer = number[];
+export const __listOf__integer = S.Array(S.Number);
+export interface TrackMapping {
+  AudioTrackIndexes?: number[];
+  DataTrackIndexes?: number[];
+  VideoTrackIndexes?: number[];
+}
+export const TrackMapping = S.suspend(() =>
+  S.Struct({
+    AudioTrackIndexes: S.optional(__listOf__integer).pipe(
+      T.JsonName("audioTrackIndexes"),
+    ),
+    DataTrackIndexes: S.optional(__listOf__integer).pipe(
+      T.JsonName("dataTrackIndexes"),
+    ),
+    VideoTrackIndexes: S.optional(__listOf__integer).pipe(
+      T.JsonName("videoTrackIndexes"),
+    ),
+  }),
+).annotate({ identifier: "TrackMapping" }) as any as S.Schema<TrackMapping>;
+export type __listOfTrackMapping = TrackMapping[];
+export const __listOfTrackMapping = S.Array(TrackMapping);
 export interface ProbeResult {
   Container?: Container;
   Metadata?: Metadata;
@@ -9713,77 +9402,17 @@ export const ProbeResult = S.suspend(() =>
   S.Struct({
     Container: S.optional(Container)
       .pipe(T.JsonName("container"))
-      .annotations({ identifier: "Container" }),
+      .annotate({ identifier: "Container" }),
     Metadata: S.optional(Metadata)
       .pipe(T.JsonName("metadata"))
-      .annotations({ identifier: "Metadata" }),
+      .annotate({ identifier: "Metadata" }),
     TrackMappings: S.optional(__listOfTrackMapping).pipe(
       T.JsonName("trackMappings"),
     ),
   }),
-).annotations({ identifier: "ProbeResult" }) as any as S.Schema<ProbeResult>;
+).annotate({ identifier: "ProbeResult" }) as any as S.Schema<ProbeResult>;
 export type __listOfProbeResult = ProbeResult[];
 export const __listOfProbeResult = S.Array(ProbeResult);
-export interface CreateJobRequest {
-  AccelerationSettings?: AccelerationSettings;
-  BillingTagsSource?: BillingTagsSource;
-  ClientRequestToken?: string;
-  HopDestinations?: HopDestination[];
-  JobEngineVersion?: string;
-  JobTemplate?: string;
-  Priority?: number;
-  Queue?: string;
-  Role?: string;
-  Settings?: JobSettings;
-  SimulateReservedQueue?: SimulateReservedQueue;
-  StatusUpdateInterval?: StatusUpdateInterval;
-  Tags?: { [key: string]: string | undefined };
-  UserMetadata?: { [key: string]: string | undefined };
-}
-export const CreateJobRequest = S.suspend(() =>
-  S.Struct({
-    AccelerationSettings: S.optional(AccelerationSettings)
-      .pipe(T.JsonName("accelerationSettings"))
-      .annotations({ identifier: "AccelerationSettings" }),
-    BillingTagsSource: S.optional(BillingTagsSource).pipe(
-      T.JsonName("billingTagsSource"),
-    ),
-    ClientRequestToken: S.optional(S.String).pipe(
-      T.JsonName("clientRequestToken"),
-      T.IdempotencyToken(),
-    ),
-    HopDestinations: S.optional(__listOfHopDestination).pipe(
-      T.JsonName("hopDestinations"),
-    ),
-    JobEngineVersion: S.optional(S.String).pipe(T.JsonName("jobEngineVersion")),
-    JobTemplate: S.optional(S.String).pipe(T.JsonName("jobTemplate")),
-    Priority: S.optional(S.Number).pipe(T.JsonName("priority")),
-    Queue: S.optional(S.String).pipe(T.JsonName("queue")),
-    Role: S.optional(S.String).pipe(T.JsonName("role")),
-    Settings: S.optional(JobSettings)
-      .pipe(T.JsonName("settings"))
-      .annotations({ identifier: "JobSettings" }),
-    SimulateReservedQueue: S.optional(SimulateReservedQueue).pipe(
-      T.JsonName("simulateReservedQueue"),
-    ),
-    StatusUpdateInterval: S.optional(StatusUpdateInterval).pipe(
-      T.JsonName("statusUpdateInterval"),
-    ),
-    Tags: S.optional(__mapOf__string).pipe(T.JsonName("tags")),
-    UserMetadata: S.optional(__mapOf__string).pipe(T.JsonName("userMetadata")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/2017-08-29/jobs" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "CreateJobRequest",
-}) as any as S.Schema<CreateJobRequest>;
 export interface ProbeResponse {
   ProbeResults?: ProbeResult[];
 }
@@ -9793,58 +9422,600 @@ export const ProbeResponse = S.suspend(() =>
       T.JsonName("probeResults"),
     ),
   }),
-).annotations({
-  identifier: "ProbeResponse",
-}) as any as S.Schema<ProbeResponse>;
-export interface CreateJobResponse {
-  Job?: Job & {
+).annotate({ identifier: "ProbeResponse" }) as any as S.Schema<ProbeResponse>;
+export interface PutPolicyRequest {
+  Policy?: Policy;
+}
+export const PutPolicyRequest = S.suspend(() =>
+  S.Struct({
+    Policy: S.optional(Policy)
+      .pipe(T.JsonName("policy"))
+      .annotate({ identifier: "Policy" }),
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/2017-08-29/policy" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "PutPolicyRequest",
+}) as any as S.Schema<PutPolicyRequest>;
+export interface PutPolicyResponse {
+  Policy?: Policy;
+}
+export const PutPolicyResponse = S.suspend(() =>
+  S.Struct({
+    Policy: S.optional(Policy)
+      .pipe(T.JsonName("policy"))
+      .annotate({ identifier: "Policy" }),
+  }),
+).annotate({
+  identifier: "PutPolicyResponse",
+}) as any as S.Schema<PutPolicyResponse>;
+export interface SearchJobsRequest {
+  InputFile?: string;
+  MaxResults?: number;
+  NextToken?: string;
+  Order?: Order;
+  Queue?: string;
+  Status?: JobStatus;
+}
+export const SearchJobsRequest = S.suspend(() =>
+  S.Struct({
+    InputFile: S.optional(S.String).pipe(T.HttpQuery("inputFile")),
+    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+    Order: S.optional(Order).pipe(T.HttpQuery("order")),
+    Queue: S.optional(S.String).pipe(T.HttpQuery("queue")),
+    Status: S.optional(JobStatus).pipe(T.HttpQuery("status")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/2017-08-29/search" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "SearchJobsRequest",
+}) as any as S.Schema<SearchJobsRequest>;
+export interface SearchJobsResponse {
+  Jobs?: (Job & {
     Role: string;
     Settings: JobSettings;
     AccelerationSettings: AccelerationSettings & { Mode: AccelerationMode };
     Warnings: (WarningGroup & { Code: number; Count: number })[];
+  })[];
+  NextToken?: string;
+}
+export const SearchJobsResponse = S.suspend(() =>
+  S.Struct({
+    Jobs: S.optional(__listOfJob).pipe(T.JsonName("jobs")),
+    NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
+  }),
+).annotate({
+  identifier: "SearchJobsResponse",
+}) as any as S.Schema<SearchJobsResponse>;
+export type JobsQueryFilterKey =
+  | "queue"
+  | "status"
+  | "fileInput"
+  | "jobEngineVersionRequested"
+  | "jobEngineVersionUsed"
+  | "audioCodec"
+  | "videoCodec"
+  | (string & {});
+export const JobsQueryFilterKey = S.String;
+export type __listOf__stringMax100 = string[];
+export const __listOf__stringMax100 = S.Array(S.String);
+export interface JobsQueryFilter {
+  Key?: JobsQueryFilterKey;
+  Values?: string[];
+}
+export const JobsQueryFilter = S.suspend(() =>
+  S.Struct({
+    Key: S.optional(JobsQueryFilterKey).pipe(T.JsonName("key")),
+    Values: S.optional(__listOf__stringMax100).pipe(T.JsonName("values")),
+  }),
+).annotate({
+  identifier: "JobsQueryFilter",
+}) as any as S.Schema<JobsQueryFilter>;
+export type __listOfJobsQueryFilter = JobsQueryFilter[];
+export const __listOfJobsQueryFilter = S.Array(JobsQueryFilter);
+export interface StartJobsQueryRequest {
+  FilterList?: JobsQueryFilter[];
+  MaxResults?: number;
+  NextToken?: string;
+  Order?: Order;
+}
+export const StartJobsQueryRequest = S.suspend(() =>
+  S.Struct({
+    FilterList: S.optional(__listOfJobsQueryFilter).pipe(
+      T.JsonName("filterList"),
+    ),
+    MaxResults: S.optional(S.Number).pipe(T.JsonName("maxResults")),
+    NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
+    Order: S.optional(Order).pipe(T.JsonName("order")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/2017-08-29/jobsQueries" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "StartJobsQueryRequest",
+}) as any as S.Schema<StartJobsQueryRequest>;
+export interface StartJobsQueryResponse {
+  Id?: string;
+}
+export const StartJobsQueryResponse = S.suspend(() =>
+  S.Struct({ Id: S.optional(S.String).pipe(T.JsonName("id")) }),
+).annotate({
+  identifier: "StartJobsQueryResponse",
+}) as any as S.Schema<StartJobsQueryResponse>;
+export interface TagResourceRequest {
+  Arn?: string;
+  Tags?: { [key: string]: string | undefined };
+}
+export const TagResourceRequest = S.suspend(() =>
+  S.Struct({
+    Arn: S.optional(S.String).pipe(T.JsonName("arn")),
+    Tags: S.optional(__mapOf__string).pipe(T.JsonName("tags")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/2017-08-29/tags" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "TagResourceRequest",
+}) as any as S.Schema<TagResourceRequest>;
+export interface TagResourceResponse {}
+export const TagResourceResponse = S.suspend(() => S.Struct({})).annotate({
+  identifier: "TagResourceResponse",
+}) as any as S.Schema<TagResourceResponse>;
+export interface UntagResourceRequest {
+  Arn: string;
+  TagKeys?: string[];
+}
+export const UntagResourceRequest = S.suspend(() =>
+  S.Struct({
+    Arn: S.String.pipe(T.HttpLabel("Arn")),
+    TagKeys: S.optional(__listOf__string).pipe(T.JsonName("tagKeys")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/2017-08-29/tags/{Arn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "UntagResourceRequest",
+}) as any as S.Schema<UntagResourceRequest>;
+export interface UntagResourceResponse {}
+export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotate({
+  identifier: "UntagResourceResponse",
+}) as any as S.Schema<UntagResourceResponse>;
+export interface UpdateJobTemplateRequest {
+  AccelerationSettings?: AccelerationSettings;
+  Category?: string;
+  Description?: string;
+  HopDestinations?: HopDestination[];
+  Name: string;
+  Priority?: number;
+  Queue?: string;
+  Settings?: JobTemplateSettings;
+  StatusUpdateInterval?: StatusUpdateInterval;
+}
+export const UpdateJobTemplateRequest = S.suspend(() =>
+  S.Struct({
+    AccelerationSettings: S.optional(AccelerationSettings)
+      .pipe(T.JsonName("accelerationSettings"))
+      .annotate({ identifier: "AccelerationSettings" }),
+    Category: S.optional(S.String).pipe(T.JsonName("category")),
+    Description: S.optional(S.String).pipe(T.JsonName("description")),
+    HopDestinations: S.optional(__listOfHopDestination).pipe(
+      T.JsonName("hopDestinations"),
+    ),
+    Name: S.String.pipe(T.HttpLabel("Name")),
+    Priority: S.optional(S.Number).pipe(T.JsonName("priority")),
+    Queue: S.optional(S.String).pipe(T.JsonName("queue")),
+    Settings: S.optional(JobTemplateSettings)
+      .pipe(T.JsonName("settings"))
+      .annotate({ identifier: "JobTemplateSettings" }),
+    StatusUpdateInterval: S.optional(StatusUpdateInterval).pipe(
+      T.JsonName("statusUpdateInterval"),
+    ),
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/2017-08-29/jobTemplates/{Name}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "UpdateJobTemplateRequest",
+}) as any as S.Schema<UpdateJobTemplateRequest>;
+export interface UpdateJobTemplateResponse {
+  JobTemplate?: JobTemplate & {
+    Name: string;
+    Settings: JobTemplateSettings;
+    AccelerationSettings: AccelerationSettings & { Mode: AccelerationMode };
   };
 }
-export const CreateJobResponse = S.suspend(() =>
+export const UpdateJobTemplateResponse = S.suspend(() =>
   S.Struct({
-    Job: S.optional(Job)
-      .pipe(T.JsonName("job"))
-      .annotations({ identifier: "Job" }),
+    JobTemplate: S.optional(JobTemplate)
+      .pipe(T.JsonName("jobTemplate"))
+      .annotate({ identifier: "JobTemplate" }),
   }),
-).annotations({
-  identifier: "CreateJobResponse",
-}) as any as S.Schema<CreateJobResponse>;
+).annotate({
+  identifier: "UpdateJobTemplateResponse",
+}) as any as S.Schema<UpdateJobTemplateResponse>;
+export interface UpdatePresetRequest {
+  Category?: string;
+  Description?: string;
+  Name: string;
+  Settings?: PresetSettings;
+}
+export const UpdatePresetRequest = S.suspend(() =>
+  S.Struct({
+    Category: S.optional(S.String).pipe(T.JsonName("category")),
+    Description: S.optional(S.String).pipe(T.JsonName("description")),
+    Name: S.String.pipe(T.HttpLabel("Name")),
+    Settings: S.optional(PresetSettings)
+      .pipe(T.JsonName("settings"))
+      .annotate({ identifier: "PresetSettings" }),
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/2017-08-29/presets/{Name}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "UpdatePresetRequest",
+}) as any as S.Schema<UpdatePresetRequest>;
+export interface UpdatePresetResponse {
+  Preset?: Preset & { Name: string; Settings: PresetSettings };
+}
+export const UpdatePresetResponse = S.suspend(() =>
+  S.Struct({
+    Preset: S.optional(Preset)
+      .pipe(T.JsonName("preset"))
+      .annotate({ identifier: "Preset" }),
+  }),
+).annotate({
+  identifier: "UpdatePresetResponse",
+}) as any as S.Schema<UpdatePresetResponse>;
+export interface UpdateQueueRequest {
+  ConcurrentJobs?: number;
+  Description?: string;
+  Name: string;
+  ReservationPlanSettings?: ReservationPlanSettings;
+  Status?: QueueStatus;
+}
+export const UpdateQueueRequest = S.suspend(() =>
+  S.Struct({
+    ConcurrentJobs: S.optional(S.Number).pipe(T.JsonName("concurrentJobs")),
+    Description: S.optional(S.String).pipe(T.JsonName("description")),
+    Name: S.String.pipe(T.HttpLabel("Name")),
+    ReservationPlanSettings: S.optional(ReservationPlanSettings)
+      .pipe(T.JsonName("reservationPlanSettings"))
+      .annotate({ identifier: "ReservationPlanSettings" }),
+    Status: S.optional(QueueStatus).pipe(T.JsonName("status")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/2017-08-29/queues/{Name}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "UpdateQueueRequest",
+}) as any as S.Schema<UpdateQueueRequest>;
+export interface UpdateQueueResponse {
+  Queue?: Queue & { Name: string };
+}
+export const UpdateQueueResponse = S.suspend(() =>
+  S.Struct({
+    Queue: S.optional(Queue)
+      .pipe(T.JsonName("queue"))
+      .annotate({ identifier: "Queue" }),
+  }),
+).annotate({
+  identifier: "UpdateQueueResponse",
+}) as any as S.Schema<UpdateQueueResponse>;
 
 //# Errors
-export class BadRequestException extends S.TaggedError<BadRequestException>()(
+export class BadRequestException extends S.TaggedErrorClass<BadRequestException>()(
   "BadRequestException",
   { Message: S.optional(S.String).pipe(T.JsonName("message")) },
 ).pipe(C.withBadRequestError) {}
-export class ConflictException extends S.TaggedError<ConflictException>()(
+export class ConflictException extends S.TaggedErrorClass<ConflictException>()(
   "ConflictException",
   { Message: S.optional(S.String).pipe(T.JsonName("message")) },
 ).pipe(C.withConflictError) {}
-export class ForbiddenException extends S.TaggedError<ForbiddenException>()(
+export class ForbiddenException extends S.TaggedErrorClass<ForbiddenException>()(
   "ForbiddenException",
   { Message: S.optional(S.String).pipe(T.JsonName("message")) },
 ).pipe(C.withAuthError) {}
-export class InternalServerErrorException extends S.TaggedError<InternalServerErrorException>()(
+export class InternalServerErrorException extends S.TaggedErrorClass<InternalServerErrorException>()(
   "InternalServerErrorException",
   { Message: S.optional(S.String).pipe(T.JsonName("message")) },
 ).pipe(C.withServerError) {}
-export class NotFoundException extends S.TaggedError<NotFoundException>()(
+export class NotFoundException extends S.TaggedErrorClass<NotFoundException>()(
   "NotFoundException",
   { Message: S.optional(S.String).pipe(T.JsonName("message")) },
 ).pipe(C.withBadRequestError) {}
-export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
+export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
   { Message: S.optional(S.String).pipe(T.JsonName("message")) },
 ).pipe(C.withQuotaError) {}
-export class TooManyRequestsException extends S.TaggedError<TooManyRequestsException>()(
+export class TooManyRequestsException extends S.TaggedErrorClass<TooManyRequestsException>()(
   "TooManyRequestsException",
   { Message: S.optional(S.String).pipe(T.JsonName("message")) },
 ).pipe(C.withThrottlingError) {}
 
 //# Operations
+/**
+ * Associates an AWS Certificate Manager (ACM) Amazon Resource Name (ARN) with AWS Elemental MediaConvert.
+ */
+export const associateCertificate: (
+  input: AssociateCertificateRequest,
+) => effect.Effect<
+  AssociateCertificateResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceQuotaExceededException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateCertificateRequest,
+  output: AssociateCertificateResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceQuotaExceededException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Permanently cancel a job. Once you have canceled a job, you can't start it again.
+ */
+export const cancelJob: (
+  input: CancelJobRequest,
+) => effect.Effect<
+  CancelJobResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceQuotaExceededException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CancelJobRequest,
+  output: CancelJobResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceQuotaExceededException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Create a new transcoding job. For information about jobs and job settings, see the User Guide at http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
+ */
+export const createJob: (
+  input: CreateJobRequest,
+) => effect.Effect<
+  CreateJobResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceQuotaExceededException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateJobRequest,
+  output: CreateJobResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceQuotaExceededException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Create a new job template. For information about job templates see the User Guide at http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
+ */
+export const createJobTemplate: (
+  input: CreateJobTemplateRequest,
+) => effect.Effect<
+  CreateJobTemplateResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceQuotaExceededException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateJobTemplateRequest,
+  output: CreateJobTemplateResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceQuotaExceededException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Create a new preset. For information about job templates see the User Guide at http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
+ */
+export const createPreset: (
+  input: CreatePresetRequest,
+) => effect.Effect<
+  CreatePresetResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceQuotaExceededException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreatePresetRequest,
+  output: CreatePresetResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceQuotaExceededException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Create a new transcoding queue. For information about queues, see Working With Queues in the User Guide at https://docs.aws.amazon.com/mediaconvert/latest/ug/working-with-queues.html
+ */
+export const createQueue: (
+  input: CreateQueueRequest,
+) => effect.Effect<
+  CreateQueueResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceQuotaExceededException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateQueueRequest,
+  output: CreateQueueResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceQuotaExceededException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Create a new resource share request for MediaConvert resources with AWS Support.
+ */
+export const createResourceShare: (
+  input: CreateResourceShareRequest,
+) => effect.Effect<
+  CreateResourceShareResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceQuotaExceededException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateResourceShareRequest,
+  output: CreateResourceShareResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceQuotaExceededException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Permanently delete a job template you have created.
+ */
+export const deleteJobTemplate: (
+  input: DeleteJobTemplateRequest,
+) => effect.Effect<
+  DeleteJobTemplateResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceQuotaExceededException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteJobTemplateRequest,
+  output: DeleteJobTemplateResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceQuotaExceededException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Permanently delete a policy that you created.
  */
@@ -9875,12 +10046,12 @@ export const deletePolicy: (
   ],
 }));
 /**
- * Retrieve the JSON for a specific transcoding job.
+ * Permanently delete a preset you have created.
  */
-export const getJob: (
-  input: GetJobRequest,
+export const deletePreset: (
+  input: DeletePresetRequest,
 ) => effect.Effect<
-  GetJobResponse,
+  DeletePresetResponse,
   | BadRequestException
   | ConflictException
   | ForbiddenException
@@ -9891,8 +10062,8 @@ export const getJob: (
   | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetJobRequest,
-  output: GetJobResponse,
+  input: DeletePresetRequest,
+  output: DeletePresetResponse,
   errors: [
     BadRequestException,
     ConflictException,
@@ -9904,12 +10075,12 @@ export const getJob: (
   ],
 }));
 /**
- * Retrieve the JSON for a specific queue.
+ * Permanently delete a queue you have created.
  */
-export const getQueue: (
-  input: GetQueueRequest,
+export const deleteQueue: (
+  input: DeleteQueueRequest,
 ) => effect.Effect<
-  GetQueueResponse,
+  DeleteQueueResponse,
   | BadRequestException
   | ConflictException
   | ForbiddenException
@@ -9920,8 +10091,8 @@ export const getQueue: (
   | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetQueueRequest,
-  output: GetQueueResponse,
+  input: DeleteQueueRequest,
+  output: DeleteQueueResponse,
   errors: [
     BadRequestException,
     ConflictException,
@@ -9998,12 +10169,12 @@ export const describeEndpoints: {
   } as const,
 }));
 /**
- * Retrieve the JSON for a specific job template.
+ * Removes an association between the Amazon Resource Name (ARN) of an AWS Certificate Manager (ACM) certificate and an AWS Elemental MediaConvert resource.
  */
-export const getJobTemplate: (
-  input: GetJobTemplateRequest,
+export const disassociateCertificate: (
+  input: DisassociateCertificateRequest,
 ) => effect.Effect<
-  GetJobTemplateResponse,
+  DisassociateCertificateResponse,
   | BadRequestException
   | ConflictException
   | ForbiddenException
@@ -10014,8 +10185,8 @@ export const getJobTemplate: (
   | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetJobTemplateRequest,
-  output: GetJobTemplateResponse,
+  input: DisassociateCertificateRequest,
+  output: DisassociateCertificateResponse,
   errors: [
     BadRequestException,
     ConflictException,
@@ -10027,12 +10198,12 @@ export const getJobTemplate: (
   ],
 }));
 /**
- * Retrieve the JSON for a specific preset.
+ * Retrieve the JSON for a specific transcoding job.
  */
-export const getPreset: (
-  input: GetPresetRequest,
+export const getJob: (
+  input: GetJobRequest,
 ) => effect.Effect<
-  GetPresetResponse,
+  GetJobResponse,
   | BadRequestException
   | ConflictException
   | ForbiddenException
@@ -10043,131 +10214,8 @@ export const getPreset: (
   | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetPresetRequest,
-  output: GetPresetResponse,
-  errors: [
-    BadRequestException,
-    ConflictException,
-    ForbiddenException,
-    InternalServerErrorException,
-    NotFoundException,
-    ServiceQuotaExceededException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Retrieve the tags for a MediaConvert resource.
- */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
-  ListTagsForResourceResponse,
-  | BadRequestException
-  | ConflictException
-  | ForbiddenException
-  | InternalServerErrorException
-  | NotFoundException
-  | ServiceQuotaExceededException
-  | TooManyRequestsException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
-  errors: [
-    BadRequestException,
-    ConflictException,
-    ForbiddenException,
-    InternalServerErrorException,
-    NotFoundException,
-    ServiceQuotaExceededException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Retrieve a JSON array of all available Job engine versions and the date they expire.
- */
-export const listVersions: {
-  (
-    input: ListVersionsRequest,
-  ): effect.Effect<
-    ListVersionsResponse,
-    | BadRequestException
-    | ConflictException
-    | ForbiddenException
-    | InternalServerErrorException
-    | NotFoundException
-    | ServiceQuotaExceededException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  pages: (
-    input: ListVersionsRequest,
-  ) => stream.Stream<
-    ListVersionsResponse,
-    | BadRequestException
-    | ConflictException
-    | ForbiddenException
-    | InternalServerErrorException
-    | NotFoundException
-    | ServiceQuotaExceededException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  items: (
-    input: ListVersionsRequest,
-  ) => stream.Stream<
-    JobEngineVersion,
-    | BadRequestException
-    | ConflictException
-    | ForbiddenException
-    | InternalServerErrorException
-    | NotFoundException
-    | ServiceQuotaExceededException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
-  input: ListVersionsRequest,
-  output: ListVersionsResponse,
-  errors: [
-    BadRequestException,
-    ConflictException,
-    ForbiddenException,
-    InternalServerErrorException,
-    NotFoundException,
-    ServiceQuotaExceededException,
-    TooManyRequestsException,
-  ],
-  pagination: {
-    inputToken: "NextToken",
-    outputToken: "NextToken",
-    items: "Versions",
-    pageSize: "MaxResults",
-  } as const,
-}));
-/**
- * Start an asynchronous jobs query using the provided filters. To receive the list of jobs that match your query, call the GetJobsQueryResults API using the query ID returned by this API.
- */
-export const startJobsQuery: (
-  input: StartJobsQueryRequest,
-) => effect.Effect<
-  StartJobsQueryResponse,
-  | BadRequestException
-  | ConflictException
-  | ForbiddenException
-  | InternalServerErrorException
-  | NotFoundException
-  | ServiceQuotaExceededException
-  | TooManyRequestsException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StartJobsQueryRequest,
-  output: StartJobsQueryResponse,
+  input: GetJobRequest,
+  output: GetJobResponse,
   errors: [
     BadRequestException,
     ConflictException,
@@ -10208,6 +10256,35 @@ export const getJobsQueryResults: (
   ],
 }));
 /**
+ * Retrieve the JSON for a specific job template.
+ */
+export const getJobTemplate: (
+  input: GetJobTemplateRequest,
+) => effect.Effect<
+  GetJobTemplateResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceQuotaExceededException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetJobTemplateRequest,
+  output: GetJobTemplateResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceQuotaExceededException,
+    TooManyRequestsException,
+  ],
+}));
+/**
  * Retrieve the JSON for your policy.
  */
 export const getPolicy: (
@@ -10226,6 +10303,64 @@ export const getPolicy: (
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPolicyRequest,
   output: GetPolicyResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceQuotaExceededException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Retrieve the JSON for a specific preset.
+ */
+export const getPreset: (
+  input: GetPresetRequest,
+) => effect.Effect<
+  GetPresetResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceQuotaExceededException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetPresetRequest,
+  output: GetPresetResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceQuotaExceededException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Retrieve the JSON for a specific queue.
+ */
+export const getQueue: (
+  input: GetQueueRequest,
+) => effect.Effect<
+  GetQueueResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceQuotaExceededException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetQueueRequest,
+  output: GetQueueResponse,
   errors: [
     BadRequestException,
     ConflictException,
@@ -10497,6 +10632,129 @@ export const listQueues: {
   } as const,
 }));
 /**
+ * Retrieve the tags for a MediaConvert resource.
+ */
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => effect.Effect<
+  ListTagsForResourceResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceQuotaExceededException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceQuotaExceededException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Retrieve a JSON array of all available Job engine versions and the date they expire.
+ */
+export const listVersions: {
+  (
+    input: ListVersionsRequest,
+  ): effect.Effect<
+    ListVersionsResponse,
+    | BadRequestException
+    | ConflictException
+    | ForbiddenException
+    | InternalServerErrorException
+    | NotFoundException
+    | ServiceQuotaExceededException
+    | TooManyRequestsException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListVersionsRequest,
+  ) => stream.Stream<
+    ListVersionsResponse,
+    | BadRequestException
+    | ConflictException
+    | ForbiddenException
+    | InternalServerErrorException
+    | NotFoundException
+    | ServiceQuotaExceededException
+    | TooManyRequestsException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListVersionsRequest,
+  ) => stream.Stream<
+    JobEngineVersion,
+    | BadRequestException
+    | ConflictException
+    | ForbiddenException
+    | InternalServerErrorException
+    | NotFoundException
+    | ServiceQuotaExceededException
+    | TooManyRequestsException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListVersionsRequest,
+  output: ListVersionsResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceQuotaExceededException,
+    TooManyRequestsException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Versions",
+    pageSize: "MaxResults",
+  } as const,
+}));
+/**
+ * Use Probe to obtain detailed information about your input media files. Probe returns a JSON that includes container, codec, frame rate, resolution, track count, audio layout, captions, and more. You can use this information to learn more about your media files, or to help make decisions while automating your transcoding workflow.
+ */
+export const probe: (
+  input: ProbeRequest,
+) => effect.Effect<
+  ProbeResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceQuotaExceededException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ProbeRequest,
+  output: ProbeResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceQuotaExceededException,
+    TooManyRequestsException,
+  ],
+}));
+/**
  * Create or change your policy. For more information about policies, see the user guide at http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
  */
 export const putPolicy: (
@@ -10591,6 +10849,93 @@ export const searchJobs: {
   } as const,
 }));
 /**
+ * Start an asynchronous jobs query using the provided filters. To receive the list of jobs that match your query, call the GetJobsQueryResults API using the query ID returned by this API.
+ */
+export const startJobsQuery: (
+  input: StartJobsQueryRequest,
+) => effect.Effect<
+  StartJobsQueryResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceQuotaExceededException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartJobsQueryRequest,
+  output: StartJobsQueryResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceQuotaExceededException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Add tags to a MediaConvert queue, preset, or job template. For information about tagging, see the User Guide at https://docs.aws.amazon.com/mediaconvert/latest/ug/tagging-resources.html
+ */
+export const tagResource: (
+  input: TagResourceRequest,
+) => effect.Effect<
+  TagResourceResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceQuotaExceededException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceQuotaExceededException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Remove tags from a MediaConvert queue, preset, or job template. For information about tagging, see the User Guide at https://docs.aws.amazon.com/mediaconvert/latest/ug/tagging-resources.html
+ */
+export const untagResource: (
+  input: UntagResourceRequest,
+) => effect.Effect<
+  UntagResourceResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceQuotaExceededException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceQuotaExceededException,
+    TooManyRequestsException,
+  ],
+}));
+/**
  * Modify one of your existing job templates.
  */
 export const updateJobTemplate: (
@@ -10667,412 +11012,6 @@ export const updateQueue: (
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateQueueRequest,
   output: UpdateQueueResponse,
-  errors: [
-    BadRequestException,
-    ConflictException,
-    ForbiddenException,
-    InternalServerErrorException,
-    NotFoundException,
-    ServiceQuotaExceededException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Permanently delete a preset you have created.
- */
-export const deletePreset: (
-  input: DeletePresetRequest,
-) => effect.Effect<
-  DeletePresetResponse,
-  | BadRequestException
-  | ConflictException
-  | ForbiddenException
-  | InternalServerErrorException
-  | NotFoundException
-  | ServiceQuotaExceededException
-  | TooManyRequestsException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeletePresetRequest,
-  output: DeletePresetResponse,
-  errors: [
-    BadRequestException,
-    ConflictException,
-    ForbiddenException,
-    InternalServerErrorException,
-    NotFoundException,
-    ServiceQuotaExceededException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Permanently delete a queue you have created.
- */
-export const deleteQueue: (
-  input: DeleteQueueRequest,
-) => effect.Effect<
-  DeleteQueueResponse,
-  | BadRequestException
-  | ConflictException
-  | ForbiddenException
-  | InternalServerErrorException
-  | NotFoundException
-  | ServiceQuotaExceededException
-  | TooManyRequestsException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteQueueRequest,
-  output: DeleteQueueResponse,
-  errors: [
-    BadRequestException,
-    ConflictException,
-    ForbiddenException,
-    InternalServerErrorException,
-    NotFoundException,
-    ServiceQuotaExceededException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Removes an association between the Amazon Resource Name (ARN) of an AWS Certificate Manager (ACM) certificate and an AWS Elemental MediaConvert resource.
- */
-export const disassociateCertificate: (
-  input: DisassociateCertificateRequest,
-) => effect.Effect<
-  DisassociateCertificateResponse,
-  | BadRequestException
-  | ConflictException
-  | ForbiddenException
-  | InternalServerErrorException
-  | NotFoundException
-  | ServiceQuotaExceededException
-  | TooManyRequestsException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DisassociateCertificateRequest,
-  output: DisassociateCertificateResponse,
-  errors: [
-    BadRequestException,
-    ConflictException,
-    ForbiddenException,
-    InternalServerErrorException,
-    NotFoundException,
-    ServiceQuotaExceededException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Add tags to a MediaConvert queue, preset, or job template. For information about tagging, see the User Guide at https://docs.aws.amazon.com/mediaconvert/latest/ug/tagging-resources.html
- */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
-  TagResourceResponse,
-  | BadRequestException
-  | ConflictException
-  | ForbiddenException
-  | InternalServerErrorException
-  | NotFoundException
-  | ServiceQuotaExceededException
-  | TooManyRequestsException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
-  errors: [
-    BadRequestException,
-    ConflictException,
-    ForbiddenException,
-    InternalServerErrorException,
-    NotFoundException,
-    ServiceQuotaExceededException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Remove tags from a MediaConvert queue, preset, or job template. For information about tagging, see the User Guide at https://docs.aws.amazon.com/mediaconvert/latest/ug/tagging-resources.html
- */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
-  UntagResourceResponse,
-  | BadRequestException
-  | ConflictException
-  | ForbiddenException
-  | InternalServerErrorException
-  | NotFoundException
-  | ServiceQuotaExceededException
-  | TooManyRequestsException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
-  errors: [
-    BadRequestException,
-    ConflictException,
-    ForbiddenException,
-    InternalServerErrorException,
-    NotFoundException,
-    ServiceQuotaExceededException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Associates an AWS Certificate Manager (ACM) Amazon Resource Name (ARN) with AWS Elemental MediaConvert.
- */
-export const associateCertificate: (
-  input: AssociateCertificateRequest,
-) => effect.Effect<
-  AssociateCertificateResponse,
-  | BadRequestException
-  | ConflictException
-  | ForbiddenException
-  | InternalServerErrorException
-  | NotFoundException
-  | ServiceQuotaExceededException
-  | TooManyRequestsException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: AssociateCertificateRequest,
-  output: AssociateCertificateResponse,
-  errors: [
-    BadRequestException,
-    ConflictException,
-    ForbiddenException,
-    InternalServerErrorException,
-    NotFoundException,
-    ServiceQuotaExceededException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Permanently cancel a job. Once you have canceled a job, you can't start it again.
- */
-export const cancelJob: (
-  input: CancelJobRequest,
-) => effect.Effect<
-  CancelJobResponse,
-  | BadRequestException
-  | ConflictException
-  | ForbiddenException
-  | InternalServerErrorException
-  | NotFoundException
-  | ServiceQuotaExceededException
-  | TooManyRequestsException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CancelJobRequest,
-  output: CancelJobResponse,
-  errors: [
-    BadRequestException,
-    ConflictException,
-    ForbiddenException,
-    InternalServerErrorException,
-    NotFoundException,
-    ServiceQuotaExceededException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Create a new resource share request for MediaConvert resources with AWS Support.
- */
-export const createResourceShare: (
-  input: CreateResourceShareRequest,
-) => effect.Effect<
-  CreateResourceShareResponse,
-  | BadRequestException
-  | ConflictException
-  | ForbiddenException
-  | InternalServerErrorException
-  | NotFoundException
-  | ServiceQuotaExceededException
-  | TooManyRequestsException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateResourceShareRequest,
-  output: CreateResourceShareResponse,
-  errors: [
-    BadRequestException,
-    ConflictException,
-    ForbiddenException,
-    InternalServerErrorException,
-    NotFoundException,
-    ServiceQuotaExceededException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Permanently delete a job template you have created.
- */
-export const deleteJobTemplate: (
-  input: DeleteJobTemplateRequest,
-) => effect.Effect<
-  DeleteJobTemplateResponse,
-  | BadRequestException
-  | ConflictException
-  | ForbiddenException
-  | InternalServerErrorException
-  | NotFoundException
-  | ServiceQuotaExceededException
-  | TooManyRequestsException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteJobTemplateRequest,
-  output: DeleteJobTemplateResponse,
-  errors: [
-    BadRequestException,
-    ConflictException,
-    ForbiddenException,
-    InternalServerErrorException,
-    NotFoundException,
-    ServiceQuotaExceededException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Create a new transcoding queue. For information about queues, see Working With Queues in the User Guide at https://docs.aws.amazon.com/mediaconvert/latest/ug/working-with-queues.html
- */
-export const createQueue: (
-  input: CreateQueueRequest,
-) => effect.Effect<
-  CreateQueueResponse,
-  | BadRequestException
-  | ConflictException
-  | ForbiddenException
-  | InternalServerErrorException
-  | NotFoundException
-  | ServiceQuotaExceededException
-  | TooManyRequestsException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateQueueRequest,
-  output: CreateQueueResponse,
-  errors: [
-    BadRequestException,
-    ConflictException,
-    ForbiddenException,
-    InternalServerErrorException,
-    NotFoundException,
-    ServiceQuotaExceededException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Create a new job template. For information about job templates see the User Guide at http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
- */
-export const createJobTemplate: (
-  input: CreateJobTemplateRequest,
-) => effect.Effect<
-  CreateJobTemplateResponse,
-  | BadRequestException
-  | ConflictException
-  | ForbiddenException
-  | InternalServerErrorException
-  | NotFoundException
-  | ServiceQuotaExceededException
-  | TooManyRequestsException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateJobTemplateRequest,
-  output: CreateJobTemplateResponse,
-  errors: [
-    BadRequestException,
-    ConflictException,
-    ForbiddenException,
-    InternalServerErrorException,
-    NotFoundException,
-    ServiceQuotaExceededException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Create a new preset. For information about job templates see the User Guide at http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
- */
-export const createPreset: (
-  input: CreatePresetRequest,
-) => effect.Effect<
-  CreatePresetResponse,
-  | BadRequestException
-  | ConflictException
-  | ForbiddenException
-  | InternalServerErrorException
-  | NotFoundException
-  | ServiceQuotaExceededException
-  | TooManyRequestsException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreatePresetRequest,
-  output: CreatePresetResponse,
-  errors: [
-    BadRequestException,
-    ConflictException,
-    ForbiddenException,
-    InternalServerErrorException,
-    NotFoundException,
-    ServiceQuotaExceededException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Use Probe to obtain detailed information about your input media files. Probe returns a JSON that includes container, codec, frame rate, resolution, track count, audio layout, captions, and more. You can use this information to learn more about your media files, or to help make decisions while automating your transcoding workflow.
- */
-export const probe: (
-  input: ProbeRequest,
-) => effect.Effect<
-  ProbeResponse,
-  | BadRequestException
-  | ConflictException
-  | ForbiddenException
-  | InternalServerErrorException
-  | NotFoundException
-  | ServiceQuotaExceededException
-  | TooManyRequestsException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ProbeRequest,
-  output: ProbeResponse,
-  errors: [
-    BadRequestException,
-    ConflictException,
-    ForbiddenException,
-    InternalServerErrorException,
-    NotFoundException,
-    ServiceQuotaExceededException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Create a new transcoding job. For information about jobs and job settings, see the User Guide at http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
- */
-export const createJob: (
-  input: CreateJobRequest,
-) => effect.Effect<
-  CreateJobResponse,
-  | BadRequestException
-  | ConflictException
-  | ForbiddenException
-  | InternalServerErrorException
-  | NotFoundException
-  | ServiceQuotaExceededException
-  | TooManyRequestsException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateJobRequest,
-  output: CreateJobResponse,
   errors: [
     BadRequestException,
     ConflictException,

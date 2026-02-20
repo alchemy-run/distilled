@@ -2,97 +2,97 @@ import * as S from "effect/Schema";
 import * as Category from "./category.ts";
 
 //==== Common AWS Errors ====
-export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
+export class AccessDeniedException extends S.TaggedErrorClass<AccessDeniedException>()(
   "AccessDeniedException",
   {},
 ).pipe(Category.withAuthError) {}
 
-export class ExpiredTokenException extends S.TaggedError<ExpiredTokenException>()(
+export class ExpiredTokenException extends S.TaggedErrorClass<ExpiredTokenException>()(
   "ExpiredTokenException",
   {},
 ).pipe(Category.withAuthError) {}
 
-export class IncompleteSignature extends S.TaggedError<IncompleteSignature>()(
+export class IncompleteSignature extends S.TaggedErrorClass<IncompleteSignature>()(
   "IncompleteSignature",
   {},
 ).pipe(Category.withAuthError) {}
 
-export class InternalFailure extends S.TaggedError<InternalFailure>()(
+export class InternalFailure extends S.TaggedErrorClass<InternalFailure>()(
   "InternalFailure",
   {},
 ).pipe(Category.withServerError) {}
 
-export class MalformedHttpRequestException extends S.TaggedError<MalformedHttpRequestException>()(
+export class MalformedHttpRequestException extends S.TaggedErrorClass<MalformedHttpRequestException>()(
   "MalformedHttpRequestException",
   {},
 ).pipe(Category.withBadRequestError) {}
 
-export class NotAuthorized extends S.TaggedError<NotAuthorized>()(
+export class NotAuthorized extends S.TaggedErrorClass<NotAuthorized>()(
   "NotAuthorized",
   {},
 ).pipe(Category.withAuthError) {}
 
-export class OptInRequired extends S.TaggedError<OptInRequired>()(
+export class OptInRequired extends S.TaggedErrorClass<OptInRequired>()(
   "OptInRequired",
   {},
 ).pipe(Category.withAuthError) {}
 
-export class RequestAbortedException extends S.TaggedError<RequestAbortedException>()(
+export class RequestAbortedException extends S.TaggedErrorClass<RequestAbortedException>()(
   "RequestAbortedException",
   {},
 ).pipe(Category.withAbortedError) {}
 
-export class RequestEntityTooLargeException extends S.TaggedError<RequestEntityTooLargeException>()(
+export class RequestEntityTooLargeException extends S.TaggedErrorClass<RequestEntityTooLargeException>()(
   "RequestEntityTooLargeException",
   {},
 ).pipe(Category.withBadRequestError) {}
 
-export class RequestExpired extends S.TaggedError<RequestExpired>()(
+export class RequestExpired extends S.TaggedErrorClass<RequestExpired>()(
   "RequestExpired",
   {},
 ).pipe(Category.withBadRequestError, Category.withTimeoutError) {}
 
-export class RequestTimeoutException extends S.TaggedError<RequestTimeoutException>()(
+export class RequestTimeoutException extends S.TaggedErrorClass<RequestTimeoutException>()(
   "RequestTimeoutException",
   {},
 ).pipe(Category.withTimeoutError) {}
 
-export class ServiceUnavailable extends S.TaggedError<ServiceUnavailable>()(
+export class ServiceUnavailable extends S.TaggedErrorClass<ServiceUnavailable>()(
   "ServiceUnavailable",
   {},
 ).pipe(Category.withServerError) {}
 
-export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
+export class ThrottlingException extends S.TaggedErrorClass<ThrottlingException>()(
   "ThrottlingException",
   {},
 ).pipe(Category.withThrottlingError) {}
 
-export class UnrecognizedClientException extends S.TaggedError<UnrecognizedClientException>()(
+export class UnrecognizedClientException extends S.TaggedErrorClass<UnrecognizedClientException>()(
   "UnrecognizedClientException",
   {},
 ).pipe(Category.withAuthError) {}
 
-export class UnknownOperationException extends S.TaggedError<UnknownOperationException>()(
+export class UnknownOperationException extends S.TaggedErrorClass<UnknownOperationException>()(
   "UnknownOperationException",
   {},
 ).pipe(Category.withBadRequestError) {}
 
-export class ValidationError extends S.TaggedError<ValidationError>()(
+export class ValidationError extends S.TaggedErrorClass<ValidationError>()(
   "ValidationError",
   {},
 ).pipe(Category.withBadRequestError) {}
 
-export class ValidationException extends S.TaggedError<ValidationException>()(
+export class ValidationException extends S.TaggedErrorClass<ValidationException>()(
   "ValidationException",
   {},
 ).pipe(Category.withBadRequestError) {}
 
-export class OperationAborted extends S.TaggedError<OperationAborted>()(
+export class OperationAborted extends S.TaggedErrorClass<OperationAborted>()(
   "OperationAborted",
   {},
 ).pipe(Category.withAbortedError) {}
 
-export class UnknownAwsError extends S.TaggedError<UnknownAwsError>()(
+export class UnknownAwsError extends S.TaggedErrorClass<UnknownAwsError>()(
   "UnknownAwsError",
   {
     errorTag: S.String,
@@ -132,7 +132,7 @@ export const isTransientNetworkError = (err: unknown): boolean => {
  * Error thrown when a fetch request fails due to a transient network issue.
  * Marked as retryable so the default retry policy will automatically retry these.
  */
-export class TransientFetchError extends S.TaggedError<TransientFetchError>()(
+export class TransientFetchError extends S.TaggedErrorClass<TransientFetchError>()(
   "TransientFetchError",
   {
     message: S.String,
@@ -140,24 +140,26 @@ export class TransientFetchError extends S.TaggedError<TransientFetchError>()(
   },
 ).pipe(Category.withNetworkError) {}
 
-export class InternalError extends S.TaggedError<InternalError>()(
+export class InternalError extends S.TaggedErrorClass<InternalError>()(
   "InternalError",
   {},
 ).pipe(Category.withServerError) {}
 
 /** Error when endpoint resolution fails due to a rule error */
-export class EndpointError extends S.TaggedError<EndpointError>()(
+export class EndpointError extends S.TaggedErrorClass<EndpointError>()(
   "EndpointError",
   { message: S.String },
 ).pipe(Category.withServerError) {}
 
 /** Error when no rule matches in the ruleset */
-export class NoMatchingRuleError extends S.TaggedError<NoMatchingRuleError>()(
+export class NoMatchingRuleError extends S.TaggedErrorClass<NoMatchingRuleError>()(
   "NoMatchingRuleError",
   {},
 ) {}
 
-export class ParseError extends S.TaggedError<ParseError>()("ParseError", {}) {}
+export class ParseError extends S.TaggedErrorClass<ParseError>()("ParseError", {
+  message: S.String,
+}) {}
 
 export const COMMON_ERRORS = [
   AccessDeniedException,

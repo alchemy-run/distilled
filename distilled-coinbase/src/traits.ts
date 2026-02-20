@@ -23,7 +23,7 @@
 const annotationMetaSymbol = Symbol.for("coinbase/annotation-meta");
 
 /**
- * Any type that has an .annotations() method returning itself.
+ * Any type that has an .annotate() method returning itself.
  * This includes Schema.Schema and Schema.PropertySignature.
  */
 type Annotatable = {
@@ -46,7 +46,7 @@ export interface Annotation {
  */
 function makeAnnotation<T>(sym: symbol, value: T): Annotation {
   const fn = <A extends Annotatable>(schema: A): A =>
-    schema.annotations({ [sym]: value }) as A;
+    schema.annotate({ [sym]: value }) as A;
 
   (fn as any)[annotationMetaSymbol] = [{ symbol: sym, value }];
   (fn as any)[sym] = value;
@@ -57,7 +57,7 @@ function makeAnnotation<T>(sym: symbol, value: T): Annotation {
 /**
  * Combine multiple annotations into one.
  */
-export function all(...annotations: Annotation[]): Annotation {
+export function all(...annotate: Annotation[]): Annotation {
   const entries: Array<{ symbol: symbol; value: unknown }> = [];
   const raw: Record<symbol, unknown> = {};
 
@@ -68,8 +68,7 @@ export function all(...annotations: Annotation[]): Annotation {
     }
   }
 
-  const fn = <A extends Annotatable>(schema: A): A =>
-    schema.annotations(raw) as A;
+  const fn = <A extends Annotatable>(schema: A): A => schema.annotate(raw) as A;
 
   (fn as any)[annotationMetaSymbol] = entries;
 
@@ -182,13 +181,13 @@ export const getAnnotation = <T>(
   ast: AST.AST,
   symbol: symbol,
 ): T | undefined => {
-  const direct = ast.annotations?.[symbol] as T | undefined;
+  const direct = ast.annotate?.[symbol] as T | undefined;
   if (direct !== undefined) return direct;
 
   if (ast._tag === "Transformation") {
-    const toValue = ast.to?.annotations?.[symbol] as T | undefined;
+    const toValue = ast.to?.annotate?.[symbol] as T | undefined;
     if (toValue !== undefined) return toValue;
-    const fromValue = ast.from?.annotations?.[symbol] as T | undefined;
+    const fromValue = ast.from?.annotate?.[symbol] as T | undefined;
     if (fromValue !== undefined) return fromValue;
   }
 
@@ -205,7 +204,7 @@ export const getHttpTrait = (ast: AST.AST): HttpTrait | undefined =>
  * Check if a PropertySignature has the pathParam annotation.
  */
 export const isPathParam = (prop: AST.PropertySignature): boolean => {
-  if (prop.annotations?.[pathParamSymbol]) return true;
+  if (prop.annotate?.[pathParamSymbol]) return true;
   return getAnnotation<boolean>(prop.type, pathParamSymbol) === true;
 };
 
@@ -215,7 +214,7 @@ export const isPathParam = (prop: AST.PropertySignature): boolean => {
 export const getQueryParam = (
   prop: AST.PropertySignature,
 ): string | boolean | undefined => {
-  const propAnnot = prop.annotations?.[queryParamSymbol] as
+  const propAnnot = prop.annotate?.[queryParamSymbol] as
     | string
     | boolean
     | undefined;
@@ -229,9 +228,7 @@ export const getQueryParam = (
 export const getHeaderParam = (
   prop: AST.PropertySignature,
 ): string | undefined => {
-  const propAnnot = prop.annotations?.[headerParamSymbol] as
-    | string
-    | undefined;
+  const propAnnot = prop.annotate?.[headerParamSymbol] as string | undefined;
   if (propAnnot !== undefined) return propAnnot;
   return getAnnotation<string>(prop.type, headerParamSymbol);
 };

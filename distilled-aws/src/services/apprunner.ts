@@ -1,4 +1,4 @@
-import { HttpClient } from "@effect/platform";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as effect from "effect/Effect";
 import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
@@ -90,35 +90,13 @@ const rules = T.EndpointResolver((p, _) => {
 //# Newtypes
 export type AppRunnerResourceArn = string;
 export type DomainName = string;
+export type ErrorMessage = string;
 export type AutoScalingConfigurationName = string;
 export type ASConfigMaxConcurrency = number;
 export type ASConfigMinSize = number;
 export type ASConfigMaxSize = number;
-export type ConnectionName = string;
-export type ObservabilityConfigurationName = string;
-export type ServiceName = string;
-export type VpcConnectorName = string;
-export type VpcIngressConnectionName = string;
-export type DescribeCustomDomainsMaxResults = number;
-export type MaxResults = number;
-export type NextToken = string;
-export type ListOperationsMaxResults = number;
-export type ServiceMaxResults = number;
 export type TagKey = string;
 export type TagValue = string;
-export type Cpu = string;
-export type Memory = string;
-export type RoleArn = string;
-export type KmsKeyArn = string;
-export type HealthCheckPath = string;
-export type HealthCheckInterval = number;
-export type HealthCheckTimeout = number;
-export type HealthCheckHealthyThreshold = number;
-export type HealthCheckUnhealthyThreshold = number;
-export type UUID = string;
-export type ErrorMessage = string;
-export type SourceDirectory = string;
-export type ImageIdentifier = string;
 export type AutoScalingConfigurationRevision = number;
 export type Latest = boolean;
 export type MaxConcurrency = number;
@@ -126,24 +104,40 @@ export type MinSize = number;
 export type MaxSize = number;
 export type HasAssociatedService = boolean;
 export type IsDefault = boolean;
-export type ServiceId = string;
-export type CustomerAccountId = string;
-export type StartCommand = string | redacted.Redacted<string>;
+export type ConnectionName = string;
+export type ObservabilityConfigurationName = string;
+export type ServiceName = string;
 export type BuildCommand = string | redacted.Redacted<string>;
+export type StartCommand = string | redacted.Redacted<string>;
 export type RuntimeEnvironmentVariablesKey = string | redacted.Redacted<string>;
 export type RuntimeEnvironmentVariablesValue =
   | string
   | redacted.Redacted<string>;
 export type RuntimeEnvironmentSecretsName = string | redacted.Redacted<string>;
 export type RuntimeEnvironmentSecretsValue = string | redacted.Redacted<string>;
+export type SourceDirectory = string;
+export type ImageIdentifier = string;
+export type RoleArn = string;
+export type Cpu = string;
+export type Memory = string;
+export type KmsKeyArn = string;
+export type HealthCheckPath = string;
+export type HealthCheckInterval = number;
+export type HealthCheckTimeout = number;
+export type HealthCheckHealthyThreshold = number;
+export type HealthCheckUnhealthyThreshold = number;
+export type ServiceId = string;
+export type UUID = string;
+export type VpcConnectorName = string;
+export type VpcIngressConnectionName = string;
+export type CustomerAccountId = string;
+export type DescribeCustomDomainsMaxResults = number;
+export type MaxResults = number;
+export type NextToken = string;
+export type ListOperationsMaxResults = number;
+export type ServiceMaxResults = number;
 
 //# Schemas
-export type ProviderType = "GITHUB" | "BITBUCKET" | (string & {});
-export const ProviderType = S.String;
-export type StringList = string[];
-export const StringList = S.Array(S.String);
-export type TagKeyList = string[];
-export const TagKeyList = S.Array(S.String);
 export interface AssociateCustomDomainRequest {
   ServiceArn: string;
   DomainName: string;
@@ -165,950 +159,9 @@ export const AssociateCustomDomainRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "AssociateCustomDomainRequest",
 }) as any as S.Schema<AssociateCustomDomainRequest>;
-export interface Tag {
-  Key?: string;
-  Value?: string;
-}
-export const Tag = S.suspend(() =>
-  S.Struct({ Key: S.optional(S.String), Value: S.optional(S.String) }),
-).annotations({ identifier: "Tag" }) as any as S.Schema<Tag>;
-export type TagList = Tag[];
-export const TagList = S.Array(Tag);
-export interface CreateConnectionRequest {
-  ConnectionName: string;
-  ProviderType: ProviderType;
-  Tags?: Tag[];
-}
-export const CreateConnectionRequest = S.suspend(() =>
-  S.Struct({
-    ConnectionName: S.String,
-    ProviderType: ProviderType,
-    Tags: S.optional(TagList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "CreateConnectionRequest",
-}) as any as S.Schema<CreateConnectionRequest>;
-export interface CreateVpcConnectorRequest {
-  VpcConnectorName: string;
-  Subnets: string[];
-  SecurityGroups?: string[];
-  Tags?: Tag[];
-}
-export const CreateVpcConnectorRequest = S.suspend(() =>
-  S.Struct({
-    VpcConnectorName: S.String,
-    Subnets: StringList,
-    SecurityGroups: S.optional(StringList),
-    Tags: S.optional(TagList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "CreateVpcConnectorRequest",
-}) as any as S.Schema<CreateVpcConnectorRequest>;
-export interface DeleteAutoScalingConfigurationRequest {
-  AutoScalingConfigurationArn: string;
-  DeleteAllRevisions?: boolean;
-}
-export const DeleteAutoScalingConfigurationRequest = S.suspend(() =>
-  S.Struct({
-    AutoScalingConfigurationArn: S.String,
-    DeleteAllRevisions: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DeleteAutoScalingConfigurationRequest",
-}) as any as S.Schema<DeleteAutoScalingConfigurationRequest>;
-export interface DeleteConnectionRequest {
-  ConnectionArn: string;
-}
-export const DeleteConnectionRequest = S.suspend(() =>
-  S.Struct({ ConnectionArn: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DeleteConnectionRequest",
-}) as any as S.Schema<DeleteConnectionRequest>;
-export interface DeleteObservabilityConfigurationRequest {
-  ObservabilityConfigurationArn: string;
-}
-export const DeleteObservabilityConfigurationRequest = S.suspend(() =>
-  S.Struct({ ObservabilityConfigurationArn: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DeleteObservabilityConfigurationRequest",
-}) as any as S.Schema<DeleteObservabilityConfigurationRequest>;
-export interface DeleteServiceRequest {
-  ServiceArn: string;
-}
-export const DeleteServiceRequest = S.suspend(() =>
-  S.Struct({ ServiceArn: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DeleteServiceRequest",
-}) as any as S.Schema<DeleteServiceRequest>;
-export interface DeleteVpcConnectorRequest {
-  VpcConnectorArn: string;
-}
-export const DeleteVpcConnectorRequest = S.suspend(() =>
-  S.Struct({ VpcConnectorArn: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DeleteVpcConnectorRequest",
-}) as any as S.Schema<DeleteVpcConnectorRequest>;
-export interface DeleteVpcIngressConnectionRequest {
-  VpcIngressConnectionArn: string;
-}
-export const DeleteVpcIngressConnectionRequest = S.suspend(() =>
-  S.Struct({ VpcIngressConnectionArn: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DeleteVpcIngressConnectionRequest",
-}) as any as S.Schema<DeleteVpcIngressConnectionRequest>;
-export interface DescribeAutoScalingConfigurationRequest {
-  AutoScalingConfigurationArn: string;
-}
-export const DescribeAutoScalingConfigurationRequest = S.suspend(() =>
-  S.Struct({ AutoScalingConfigurationArn: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DescribeAutoScalingConfigurationRequest",
-}) as any as S.Schema<DescribeAutoScalingConfigurationRequest>;
-export interface DescribeCustomDomainsRequest {
-  ServiceArn: string;
-  NextToken?: string;
-  MaxResults?: number;
-}
-export const DescribeCustomDomainsRequest = S.suspend(() =>
-  S.Struct({
-    ServiceArn: S.String,
-    NextToken: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DescribeCustomDomainsRequest",
-}) as any as S.Schema<DescribeCustomDomainsRequest>;
-export interface DescribeObservabilityConfigurationRequest {
-  ObservabilityConfigurationArn: string;
-}
-export const DescribeObservabilityConfigurationRequest = S.suspend(() =>
-  S.Struct({ ObservabilityConfigurationArn: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DescribeObservabilityConfigurationRequest",
-}) as any as S.Schema<DescribeObservabilityConfigurationRequest>;
-export interface DescribeServiceRequest {
-  ServiceArn: string;
-}
-export const DescribeServiceRequest = S.suspend(() =>
-  S.Struct({ ServiceArn: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DescribeServiceRequest",
-}) as any as S.Schema<DescribeServiceRequest>;
-export interface DescribeVpcConnectorRequest {
-  VpcConnectorArn: string;
-}
-export const DescribeVpcConnectorRequest = S.suspend(() =>
-  S.Struct({ VpcConnectorArn: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DescribeVpcConnectorRequest",
-}) as any as S.Schema<DescribeVpcConnectorRequest>;
-export interface DescribeVpcIngressConnectionRequest {
-  VpcIngressConnectionArn: string;
-}
-export const DescribeVpcIngressConnectionRequest = S.suspend(() =>
-  S.Struct({ VpcIngressConnectionArn: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DescribeVpcIngressConnectionRequest",
-}) as any as S.Schema<DescribeVpcIngressConnectionRequest>;
-export interface DisassociateCustomDomainRequest {
-  ServiceArn: string;
-  DomainName: string;
-}
-export const DisassociateCustomDomainRequest = S.suspend(() =>
-  S.Struct({ ServiceArn: S.String, DomainName: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DisassociateCustomDomainRequest",
-}) as any as S.Schema<DisassociateCustomDomainRequest>;
-export interface ListAutoScalingConfigurationsRequest {
-  AutoScalingConfigurationName?: string;
-  LatestOnly?: boolean;
-  MaxResults?: number;
-  NextToken?: string;
-}
-export const ListAutoScalingConfigurationsRequest = S.suspend(() =>
-  S.Struct({
-    AutoScalingConfigurationName: S.optional(S.String),
-    LatestOnly: S.optional(S.Boolean),
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListAutoScalingConfigurationsRequest",
-}) as any as S.Schema<ListAutoScalingConfigurationsRequest>;
-export interface ListConnectionsRequest {
-  ConnectionName?: string;
-  MaxResults?: number;
-  NextToken?: string;
-}
-export const ListConnectionsRequest = S.suspend(() =>
-  S.Struct({
-    ConnectionName: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListConnectionsRequest",
-}) as any as S.Schema<ListConnectionsRequest>;
-export interface ListObservabilityConfigurationsRequest {
-  ObservabilityConfigurationName?: string;
-  LatestOnly?: boolean;
-  MaxResults?: number;
-  NextToken?: string;
-}
-export const ListObservabilityConfigurationsRequest = S.suspend(() =>
-  S.Struct({
-    ObservabilityConfigurationName: S.optional(S.String),
-    LatestOnly: S.optional(S.Boolean),
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListObservabilityConfigurationsRequest",
-}) as any as S.Schema<ListObservabilityConfigurationsRequest>;
-export interface ListOperationsRequest {
-  ServiceArn: string;
-  NextToken?: string;
-  MaxResults?: number;
-}
-export const ListOperationsRequest = S.suspend(() =>
-  S.Struct({
-    ServiceArn: S.String,
-    NextToken: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
-export interface ListServicesRequest {
-  NextToken?: string;
-  MaxResults?: number;
-}
-export const ListServicesRequest = S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListServicesRequest",
-}) as any as S.Schema<ListServicesRequest>;
-export interface ListServicesForAutoScalingConfigurationRequest {
-  AutoScalingConfigurationArn: string;
-  MaxResults?: number;
-  NextToken?: string;
-}
-export const ListServicesForAutoScalingConfigurationRequest = S.suspend(() =>
-  S.Struct({
-    AutoScalingConfigurationArn: S.String,
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListServicesForAutoScalingConfigurationRequest",
-}) as any as S.Schema<ListServicesForAutoScalingConfigurationRequest>;
-export interface ListTagsForResourceRequest {
-  ResourceArn: string;
-}
-export const ListTagsForResourceRequest = S.suspend(() =>
-  S.Struct({ ResourceArn: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListTagsForResourceRequest",
-}) as any as S.Schema<ListTagsForResourceRequest>;
-export interface ListVpcConnectorsRequest {
-  MaxResults?: number;
-  NextToken?: string;
-}
-export const ListVpcConnectorsRequest = S.suspend(() =>
-  S.Struct({
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListVpcConnectorsRequest",
-}) as any as S.Schema<ListVpcConnectorsRequest>;
-export interface PauseServiceRequest {
-  ServiceArn: string;
-}
-export const PauseServiceRequest = S.suspend(() =>
-  S.Struct({ ServiceArn: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "PauseServiceRequest",
-}) as any as S.Schema<PauseServiceRequest>;
-export interface ResumeServiceRequest {
-  ServiceArn: string;
-}
-export const ResumeServiceRequest = S.suspend(() =>
-  S.Struct({ ServiceArn: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ResumeServiceRequest",
-}) as any as S.Schema<ResumeServiceRequest>;
-export interface StartDeploymentRequest {
-  ServiceArn: string;
-}
-export const StartDeploymentRequest = S.suspend(() =>
-  S.Struct({ ServiceArn: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "StartDeploymentRequest",
-}) as any as S.Schema<StartDeploymentRequest>;
-export interface TagResourceRequest {
-  ResourceArn: string;
-  Tags: Tag[];
-}
-export const TagResourceRequest = S.suspend(() =>
-  S.Struct({ ResourceArn: S.String, Tags: TagList }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
-export interface TagResourceResponse {}
-export const TagResourceResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotations({
-  identifier: "TagResourceResponse",
-}) as any as S.Schema<TagResourceResponse>;
-export interface UntagResourceRequest {
-  ResourceArn: string;
-  TagKeys: string[];
-}
-export const UntagResourceRequest = S.suspend(() =>
-  S.Struct({ ResourceArn: S.String, TagKeys: TagKeyList }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
-export interface UntagResourceResponse {}
-export const UntagResourceResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotations({
-  identifier: "UntagResourceResponse",
-}) as any as S.Schema<UntagResourceResponse>;
-export interface UpdateDefaultAutoScalingConfigurationRequest {
-  AutoScalingConfigurationArn: string;
-}
-export const UpdateDefaultAutoScalingConfigurationRequest = S.suspend(() =>
-  S.Struct({ AutoScalingConfigurationArn: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "UpdateDefaultAutoScalingConfigurationRequest",
-}) as any as S.Schema<UpdateDefaultAutoScalingConfigurationRequest>;
-export type SourceCodeVersionType = "BRANCH" | (string & {});
-export const SourceCodeVersionType = S.String;
-export interface SourceCodeVersion {
-  Type: SourceCodeVersionType;
-  Value: string;
-}
-export const SourceCodeVersion = S.suspend(() =>
-  S.Struct({ Type: SourceCodeVersionType, Value: S.String }),
-).annotations({
-  identifier: "SourceCodeVersion",
-}) as any as S.Schema<SourceCodeVersion>;
-export type ConfigurationSource = "REPOSITORY" | "API" | (string & {});
-export const ConfigurationSource = S.String;
-export type Runtime =
-  | "PYTHON_3"
-  | "NODEJS_12"
-  | "NODEJS_14"
-  | "CORRETTO_8"
-  | "CORRETTO_11"
-  | "NODEJS_16"
-  | "GO_1"
-  | "DOTNET_6"
-  | "PHP_81"
-  | "RUBY_31"
-  | "PYTHON_311"
-  | "NODEJS_18"
-  | "NODEJS_22"
-  | (string & {});
-export const Runtime = S.String;
-export type RuntimeEnvironmentVariables = {
-  [key: string]: string | redacted.Redacted<string> | undefined;
-};
-export const RuntimeEnvironmentVariables = S.Record({
-  key: S.String,
-  value: S.UndefinedOr(SensitiveString),
-});
-export type RuntimeEnvironmentSecrets = {
-  [key: string]: string | redacted.Redacted<string> | undefined;
-};
-export const RuntimeEnvironmentSecrets = S.Record({
-  key: S.String,
-  value: S.UndefinedOr(SensitiveString),
-});
-export interface CodeConfigurationValues {
-  Runtime: Runtime;
-  BuildCommand?: string | redacted.Redacted<string>;
-  StartCommand?: string | redacted.Redacted<string>;
-  Port?: string;
-  RuntimeEnvironmentVariables?: {
-    [key: string]: string | redacted.Redacted<string> | undefined;
-  };
-  RuntimeEnvironmentSecrets?: {
-    [key: string]: string | redacted.Redacted<string> | undefined;
-  };
-}
-export const CodeConfigurationValues = S.suspend(() =>
-  S.Struct({
-    Runtime: Runtime,
-    BuildCommand: S.optional(SensitiveString),
-    StartCommand: S.optional(SensitiveString),
-    Port: S.optional(S.String),
-    RuntimeEnvironmentVariables: S.optional(RuntimeEnvironmentVariables),
-    RuntimeEnvironmentSecrets: S.optional(RuntimeEnvironmentSecrets),
-  }),
-).annotations({
-  identifier: "CodeConfigurationValues",
-}) as any as S.Schema<CodeConfigurationValues>;
-export interface CodeConfiguration {
-  ConfigurationSource: ConfigurationSource;
-  CodeConfigurationValues?: CodeConfigurationValues;
-}
-export const CodeConfiguration = S.suspend(() =>
-  S.Struct({
-    ConfigurationSource: ConfigurationSource,
-    CodeConfigurationValues: S.optional(CodeConfigurationValues),
-  }),
-).annotations({
-  identifier: "CodeConfiguration",
-}) as any as S.Schema<CodeConfiguration>;
-export interface CodeRepository {
-  RepositoryUrl: string;
-  SourceCodeVersion: SourceCodeVersion;
-  CodeConfiguration?: CodeConfiguration;
-  SourceDirectory?: string;
-}
-export const CodeRepository = S.suspend(() =>
-  S.Struct({
-    RepositoryUrl: S.String,
-    SourceCodeVersion: SourceCodeVersion,
-    CodeConfiguration: S.optional(CodeConfiguration),
-    SourceDirectory: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "CodeRepository",
-}) as any as S.Schema<CodeRepository>;
-export interface ImageConfiguration {
-  RuntimeEnvironmentVariables?: {
-    [key: string]: string | redacted.Redacted<string> | undefined;
-  };
-  StartCommand?: string | redacted.Redacted<string>;
-  Port?: string;
-  RuntimeEnvironmentSecrets?: {
-    [key: string]: string | redacted.Redacted<string> | undefined;
-  };
-}
-export const ImageConfiguration = S.suspend(() =>
-  S.Struct({
-    RuntimeEnvironmentVariables: S.optional(RuntimeEnvironmentVariables),
-    StartCommand: S.optional(SensitiveString),
-    Port: S.optional(S.String),
-    RuntimeEnvironmentSecrets: S.optional(RuntimeEnvironmentSecrets),
-  }),
-).annotations({
-  identifier: "ImageConfiguration",
-}) as any as S.Schema<ImageConfiguration>;
-export type ImageRepositoryType = "ECR" | "ECR_PUBLIC" | (string & {});
-export const ImageRepositoryType = S.String;
-export interface ImageRepository {
-  ImageIdentifier: string;
-  ImageConfiguration?: ImageConfiguration;
-  ImageRepositoryType: ImageRepositoryType;
-}
-export const ImageRepository = S.suspend(() =>
-  S.Struct({
-    ImageIdentifier: S.String,
-    ImageConfiguration: S.optional(ImageConfiguration),
-    ImageRepositoryType: ImageRepositoryType,
-  }),
-).annotations({
-  identifier: "ImageRepository",
-}) as any as S.Schema<ImageRepository>;
-export interface AuthenticationConfiguration {
-  ConnectionArn?: string;
-  AccessRoleArn?: string;
-}
-export const AuthenticationConfiguration = S.suspend(() =>
-  S.Struct({
-    ConnectionArn: S.optional(S.String),
-    AccessRoleArn: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "AuthenticationConfiguration",
-}) as any as S.Schema<AuthenticationConfiguration>;
-export interface SourceConfiguration {
-  CodeRepository?: CodeRepository;
-  ImageRepository?: ImageRepository;
-  AutoDeploymentsEnabled?: boolean;
-  AuthenticationConfiguration?: AuthenticationConfiguration;
-}
-export const SourceConfiguration = S.suspend(() =>
-  S.Struct({
-    CodeRepository: S.optional(CodeRepository),
-    ImageRepository: S.optional(ImageRepository),
-    AutoDeploymentsEnabled: S.optional(S.Boolean),
-    AuthenticationConfiguration: S.optional(AuthenticationConfiguration),
-  }),
-).annotations({
-  identifier: "SourceConfiguration",
-}) as any as S.Schema<SourceConfiguration>;
-export interface InstanceConfiguration {
-  Cpu?: string;
-  Memory?: string;
-  InstanceRoleArn?: string;
-}
-export const InstanceConfiguration = S.suspend(() =>
-  S.Struct({
-    Cpu: S.optional(S.String),
-    Memory: S.optional(S.String),
-    InstanceRoleArn: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "InstanceConfiguration",
-}) as any as S.Schema<InstanceConfiguration>;
-export type HealthCheckProtocol = "TCP" | "HTTP" | (string & {});
-export const HealthCheckProtocol = S.String;
-export interface HealthCheckConfiguration {
-  Protocol?: HealthCheckProtocol;
-  Path?: string;
-  Interval?: number;
-  Timeout?: number;
-  HealthyThreshold?: number;
-  UnhealthyThreshold?: number;
-}
-export const HealthCheckConfiguration = S.suspend(() =>
-  S.Struct({
-    Protocol: S.optional(HealthCheckProtocol),
-    Path: S.optional(S.String),
-    Interval: S.optional(S.Number),
-    Timeout: S.optional(S.Number),
-    HealthyThreshold: S.optional(S.Number),
-    UnhealthyThreshold: S.optional(S.Number),
-  }),
-).annotations({
-  identifier: "HealthCheckConfiguration",
-}) as any as S.Schema<HealthCheckConfiguration>;
-export type EgressType = "DEFAULT" | "VPC" | (string & {});
-export const EgressType = S.String;
-export interface EgressConfiguration {
-  EgressType?: EgressType;
-  VpcConnectorArn?: string;
-}
-export const EgressConfiguration = S.suspend(() =>
-  S.Struct({
-    EgressType: S.optional(EgressType),
-    VpcConnectorArn: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "EgressConfiguration",
-}) as any as S.Schema<EgressConfiguration>;
-export interface IngressConfiguration {
-  IsPubliclyAccessible?: boolean;
-}
-export const IngressConfiguration = S.suspend(() =>
-  S.Struct({ IsPubliclyAccessible: S.optional(S.Boolean) }),
-).annotations({
-  identifier: "IngressConfiguration",
-}) as any as S.Schema<IngressConfiguration>;
-export type IpAddressType = "IPV4" | "DUAL_STACK" | (string & {});
-export const IpAddressType = S.String;
-export interface NetworkConfiguration {
-  EgressConfiguration?: EgressConfiguration;
-  IngressConfiguration?: IngressConfiguration;
-  IpAddressType?: IpAddressType;
-}
-export const NetworkConfiguration = S.suspend(() =>
-  S.Struct({
-    EgressConfiguration: S.optional(EgressConfiguration),
-    IngressConfiguration: S.optional(IngressConfiguration),
-    IpAddressType: S.optional(IpAddressType),
-  }),
-).annotations({
-  identifier: "NetworkConfiguration",
-}) as any as S.Schema<NetworkConfiguration>;
-export interface ServiceObservabilityConfiguration {
-  ObservabilityEnabled: boolean;
-  ObservabilityConfigurationArn?: string;
-}
-export const ServiceObservabilityConfiguration = S.suspend(() =>
-  S.Struct({
-    ObservabilityEnabled: S.Boolean,
-    ObservabilityConfigurationArn: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "ServiceObservabilityConfiguration",
-}) as any as S.Schema<ServiceObservabilityConfiguration>;
-export interface UpdateServiceRequest {
-  ServiceArn: string;
-  SourceConfiguration?: SourceConfiguration;
-  InstanceConfiguration?: InstanceConfiguration;
-  AutoScalingConfigurationArn?: string;
-  HealthCheckConfiguration?: HealthCheckConfiguration;
-  NetworkConfiguration?: NetworkConfiguration;
-  ObservabilityConfiguration?: ServiceObservabilityConfiguration;
-}
-export const UpdateServiceRequest = S.suspend(() =>
-  S.Struct({
-    ServiceArn: S.String,
-    SourceConfiguration: S.optional(SourceConfiguration),
-    InstanceConfiguration: S.optional(InstanceConfiguration),
-    AutoScalingConfigurationArn: S.optional(S.String),
-    HealthCheckConfiguration: S.optional(HealthCheckConfiguration),
-    NetworkConfiguration: S.optional(NetworkConfiguration),
-    ObservabilityConfiguration: S.optional(ServiceObservabilityConfiguration),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "UpdateServiceRequest",
-}) as any as S.Schema<UpdateServiceRequest>;
-export interface IngressVpcConfiguration {
-  VpcId?: string;
-  VpcEndpointId?: string;
-}
-export const IngressVpcConfiguration = S.suspend(() =>
-  S.Struct({
-    VpcId: S.optional(S.String),
-    VpcEndpointId: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "IngressVpcConfiguration",
-}) as any as S.Schema<IngressVpcConfiguration>;
-export interface UpdateVpcIngressConnectionRequest {
-  VpcIngressConnectionArn: string;
-  IngressVpcConfiguration: IngressVpcConfiguration;
-}
-export const UpdateVpcIngressConnectionRequest = S.suspend(() =>
-  S.Struct({
-    VpcIngressConnectionArn: S.String,
-    IngressVpcConfiguration: IngressVpcConfiguration,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "UpdateVpcIngressConnectionRequest",
-}) as any as S.Schema<UpdateVpcIngressConnectionRequest>;
-export type TracingVendor = "AWSXRAY" | (string & {});
-export const TracingVendor = S.String;
-export interface TraceConfiguration {
-  Vendor: TracingVendor;
-}
-export const TraceConfiguration = S.suspend(() =>
-  S.Struct({ Vendor: TracingVendor }),
-).annotations({
-  identifier: "TraceConfiguration",
-}) as any as S.Schema<TraceConfiguration>;
-export interface EncryptionConfiguration {
-  KmsKey: string;
-}
-export const EncryptionConfiguration = S.suspend(() =>
-  S.Struct({ KmsKey: S.String }),
-).annotations({
-  identifier: "EncryptionConfiguration",
-}) as any as S.Schema<EncryptionConfiguration>;
 export type CertificateValidationRecordStatus =
   | "PENDING_VALIDATION"
   | "SUCCESS"
@@ -1128,7 +181,7 @@ export const CertificateValidationRecord = S.suspend(() =>
     Value: S.optional(S.String),
     Status: S.optional(CertificateValidationRecordStatus),
   }),
-).annotations({
+).annotate({
   identifier: "CertificateValidationRecord",
 }) as any as S.Schema<CertificateValidationRecord>;
 export type CertificateValidationRecordList = CertificateValidationRecord[];
@@ -1158,49 +211,46 @@ export const CustomDomain = S.suspend(() =>
     CertificateValidationRecords: S.optional(CertificateValidationRecordList),
     Status: CustomDomainAssociationStatus,
   }),
-).annotations({ identifier: "CustomDomain" }) as any as S.Schema<CustomDomain>;
-export type CustomDomainList = CustomDomain[];
-export const CustomDomainList = S.Array(CustomDomain);
-export type ServiceArnList = string[];
-export const ServiceArnList = S.Array(S.String);
-export type VpcConnectorStatus = "ACTIVE" | "INACTIVE" | (string & {});
-export const VpcConnectorStatus = S.String;
-export interface VpcConnector {
-  VpcConnectorName?: string;
-  VpcConnectorArn?: string;
-  VpcConnectorRevision?: number;
-  Subnets?: string[];
-  SecurityGroups?: string[];
-  Status?: VpcConnectorStatus;
-  CreatedAt?: Date;
-  DeletedAt?: Date;
+).annotate({ identifier: "CustomDomain" }) as any as S.Schema<CustomDomain>;
+export interface VpcDNSTarget {
+  VpcIngressConnectionArn?: string;
+  VpcId?: string;
+  DomainName?: string;
 }
-export const VpcConnector = S.suspend(() =>
+export const VpcDNSTarget = S.suspend(() =>
   S.Struct({
-    VpcConnectorName: S.optional(S.String),
-    VpcConnectorArn: S.optional(S.String),
-    VpcConnectorRevision: S.optional(S.Number),
-    Subnets: S.optional(StringList),
-    SecurityGroups: S.optional(StringList),
-    Status: S.optional(VpcConnectorStatus),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    DeletedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    VpcIngressConnectionArn: S.optional(S.String),
+    VpcId: S.optional(S.String),
+    DomainName: S.optional(S.String),
   }),
-).annotations({ identifier: "VpcConnector" }) as any as S.Schema<VpcConnector>;
-export type VpcConnectors = VpcConnector[];
-export const VpcConnectors = S.Array(VpcConnector);
-export interface ListVpcIngressConnectionsFilter {
-  ServiceArn?: string;
-  VpcEndpointId?: string;
+).annotate({ identifier: "VpcDNSTarget" }) as any as S.Schema<VpcDNSTarget>;
+export type VpcDNSTargetList = VpcDNSTarget[];
+export const VpcDNSTargetList = S.Array(VpcDNSTarget);
+export interface AssociateCustomDomainResponse {
+  DNSTarget: string;
+  ServiceArn: string;
+  CustomDomain: CustomDomain;
+  VpcDNSTargets: VpcDNSTarget[];
 }
-export const ListVpcIngressConnectionsFilter = S.suspend(() =>
+export const AssociateCustomDomainResponse = S.suspend(() =>
   S.Struct({
-    ServiceArn: S.optional(S.String),
-    VpcEndpointId: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "ListVpcIngressConnectionsFilter",
-}) as any as S.Schema<ListVpcIngressConnectionsFilter>;
+    DNSTarget: S.String,
+    ServiceArn: S.String,
+    CustomDomain: CustomDomain,
+    VpcDNSTargets: VpcDNSTargetList,
+  }).pipe(ns),
+).annotate({
+  identifier: "AssociateCustomDomainResponse",
+}) as any as S.Schema<AssociateCustomDomainResponse>;
+export interface Tag {
+  Key?: string;
+  Value?: string;
+}
+export const Tag = S.suspend(() =>
+  S.Struct({ Key: S.optional(S.String), Value: S.optional(S.String) }),
+).annotate({ identifier: "Tag" }) as any as S.Schema<Tag>;
+export type TagList = Tag[];
+export const TagList = S.Array(Tag);
 export interface CreateAutoScalingConfigurationRequest {
   AutoScalingConfigurationName: string;
   MaxConcurrency?: number;
@@ -1226,98 +276,9 @@ export const CreateAutoScalingConfigurationRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "CreateAutoScalingConfigurationRequest",
 }) as any as S.Schema<CreateAutoScalingConfigurationRequest>;
-export interface CreateObservabilityConfigurationRequest {
-  ObservabilityConfigurationName: string;
-  TraceConfiguration?: TraceConfiguration;
-  Tags?: Tag[];
-}
-export const CreateObservabilityConfigurationRequest = S.suspend(() =>
-  S.Struct({
-    ObservabilityConfigurationName: S.String,
-    TraceConfiguration: S.optional(TraceConfiguration),
-    Tags: S.optional(TagList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "CreateObservabilityConfigurationRequest",
-}) as any as S.Schema<CreateObservabilityConfigurationRequest>;
-export interface CreateVpcIngressConnectionRequest {
-  ServiceArn: string;
-  VpcIngressConnectionName: string;
-  IngressVpcConfiguration: IngressVpcConfiguration;
-  Tags?: Tag[];
-}
-export const CreateVpcIngressConnectionRequest = S.suspend(() =>
-  S.Struct({
-    ServiceArn: S.String,
-    VpcIngressConnectionName: S.String,
-    IngressVpcConfiguration: IngressVpcConfiguration,
-    Tags: S.optional(TagList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "CreateVpcIngressConnectionRequest",
-}) as any as S.Schema<CreateVpcIngressConnectionRequest>;
-export type ConnectionStatus =
-  | "PENDING_HANDSHAKE"
-  | "AVAILABLE"
-  | "ERROR"
-  | "DELETED"
-  | (string & {});
-export const ConnectionStatus = S.String;
-export interface Connection {
-  ConnectionName?: string;
-  ConnectionArn?: string;
-  ProviderType?: ProviderType;
-  Status?: ConnectionStatus;
-  CreatedAt?: Date;
-}
-export const Connection = S.suspend(() =>
-  S.Struct({
-    ConnectionName: S.optional(S.String),
-    ConnectionArn: S.optional(S.String),
-    ProviderType: S.optional(ProviderType),
-    Status: S.optional(ConnectionStatus),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }),
-).annotations({ identifier: "Connection" }) as any as S.Schema<Connection>;
-export interface DeleteConnectionResponse {
-  Connection?: Connection;
-}
-export const DeleteConnectionResponse = S.suspend(() =>
-  S.Struct({ Connection: S.optional(Connection) }).pipe(ns),
-).annotations({
-  identifier: "DeleteConnectionResponse",
-}) as any as S.Schema<DeleteConnectionResponse>;
-export interface DeleteVpcConnectorResponse {
-  VpcConnector: VpcConnector;
-}
-export const DeleteVpcConnectorResponse = S.suspend(() =>
-  S.Struct({ VpcConnector: VpcConnector }).pipe(ns),
-).annotations({
-  identifier: "DeleteVpcConnectorResponse",
-}) as any as S.Schema<DeleteVpcConnectorResponse>;
 export type AutoScalingConfigurationStatus =
   | "ACTIVE"
   | "INACTIVE"
@@ -1352,49 +313,108 @@ export const AutoScalingConfiguration = S.suspend(() =>
     HasAssociatedService: S.optional(S.Boolean),
     IsDefault: S.optional(S.Boolean),
   }),
-).annotations({
+).annotate({
   identifier: "AutoScalingConfiguration",
 }) as any as S.Schema<AutoScalingConfiguration>;
-export interface DescribeAutoScalingConfigurationResponse {
+export interface CreateAutoScalingConfigurationResponse {
   AutoScalingConfiguration: AutoScalingConfiguration;
 }
-export const DescribeAutoScalingConfigurationResponse = S.suspend(() =>
+export const CreateAutoScalingConfigurationResponse = S.suspend(() =>
   S.Struct({ AutoScalingConfiguration: AutoScalingConfiguration }).pipe(ns),
-).annotations({
-  identifier: "DescribeAutoScalingConfigurationResponse",
-}) as any as S.Schema<DescribeAutoScalingConfigurationResponse>;
-export interface VpcDNSTarget {
-  VpcIngressConnectionArn?: string;
-  VpcId?: string;
-  DomainName?: string;
+).annotate({
+  identifier: "CreateAutoScalingConfigurationResponse",
+}) as any as S.Schema<CreateAutoScalingConfigurationResponse>;
+export type ProviderType = "GITHUB" | "BITBUCKET" | (string & {});
+export const ProviderType = S.String;
+export interface CreateConnectionRequest {
+  ConnectionName: string;
+  ProviderType: ProviderType;
+  Tags?: Tag[];
 }
-export const VpcDNSTarget = S.suspend(() =>
+export const CreateConnectionRequest = S.suspend(() =>
   S.Struct({
-    VpcIngressConnectionArn: S.optional(S.String),
-    VpcId: S.optional(S.String),
-    DomainName: S.optional(S.String),
+    ConnectionName: S.String,
+    ProviderType: ProviderType,
+    Tags: S.optional(TagList),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "CreateConnectionRequest",
+}) as any as S.Schema<CreateConnectionRequest>;
+export type ConnectionStatus =
+  | "PENDING_HANDSHAKE"
+  | "AVAILABLE"
+  | "ERROR"
+  | "DELETED"
+  | (string & {});
+export const ConnectionStatus = S.String;
+export interface Connection {
+  ConnectionName?: string;
+  ConnectionArn?: string;
+  ProviderType?: ProviderType;
+  Status?: ConnectionStatus;
+  CreatedAt?: Date;
+}
+export const Connection = S.suspend(() =>
+  S.Struct({
+    ConnectionName: S.optional(S.String),
+    ConnectionArn: S.optional(S.String),
+    ProviderType: S.optional(ProviderType),
+    Status: S.optional(ConnectionStatus),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
-).annotations({ identifier: "VpcDNSTarget" }) as any as S.Schema<VpcDNSTarget>;
-export type VpcDNSTargetList = VpcDNSTarget[];
-export const VpcDNSTargetList = S.Array(VpcDNSTarget);
-export interface DescribeCustomDomainsResponse {
-  DNSTarget: string;
-  ServiceArn: string;
-  CustomDomains: CustomDomain[];
-  VpcDNSTargets: VpcDNSTarget[];
-  NextToken?: string;
+).annotate({ identifier: "Connection" }) as any as S.Schema<Connection>;
+export interface CreateConnectionResponse {
+  Connection: Connection;
 }
-export const DescribeCustomDomainsResponse = S.suspend(() =>
+export const CreateConnectionResponse = S.suspend(() =>
+  S.Struct({ Connection: Connection }).pipe(ns),
+).annotate({
+  identifier: "CreateConnectionResponse",
+}) as any as S.Schema<CreateConnectionResponse>;
+export type TracingVendor = "AWSXRAY" | (string & {});
+export const TracingVendor = S.String;
+export interface TraceConfiguration {
+  Vendor: TracingVendor;
+}
+export const TraceConfiguration = S.suspend(() =>
+  S.Struct({ Vendor: TracingVendor }),
+).annotate({
+  identifier: "TraceConfiguration",
+}) as any as S.Schema<TraceConfiguration>;
+export interface CreateObservabilityConfigurationRequest {
+  ObservabilityConfigurationName: string;
+  TraceConfiguration?: TraceConfiguration;
+  Tags?: Tag[];
+}
+export const CreateObservabilityConfigurationRequest = S.suspend(() =>
   S.Struct({
-    DNSTarget: S.String,
-    ServiceArn: S.String,
-    CustomDomains: CustomDomainList,
-    VpcDNSTargets: VpcDNSTargetList,
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotations({
-  identifier: "DescribeCustomDomainsResponse",
-}) as any as S.Schema<DescribeCustomDomainsResponse>;
+    ObservabilityConfigurationName: S.String,
+    TraceConfiguration: S.optional(TraceConfiguration),
+    Tags: S.optional(TagList),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "CreateObservabilityConfigurationRequest",
+}) as any as S.Schema<CreateObservabilityConfigurationRequest>;
 export type ObservabilityConfigurationStatus =
   | "ACTIVE"
   | "INACTIVE"
@@ -1421,17 +441,304 @@ export const ObservabilityConfiguration = S.suspend(() =>
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     DeletedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
-).annotations({
+).annotate({
   identifier: "ObservabilityConfiguration",
 }) as any as S.Schema<ObservabilityConfiguration>;
-export interface DescribeObservabilityConfigurationResponse {
+export interface CreateObservabilityConfigurationResponse {
   ObservabilityConfiguration: ObservabilityConfiguration;
 }
-export const DescribeObservabilityConfigurationResponse = S.suspend(() =>
+export const CreateObservabilityConfigurationResponse = S.suspend(() =>
   S.Struct({ ObservabilityConfiguration: ObservabilityConfiguration }).pipe(ns),
-).annotations({
-  identifier: "DescribeObservabilityConfigurationResponse",
-}) as any as S.Schema<DescribeObservabilityConfigurationResponse>;
+).annotate({
+  identifier: "CreateObservabilityConfigurationResponse",
+}) as any as S.Schema<CreateObservabilityConfigurationResponse>;
+export type SourceCodeVersionType = "BRANCH" | (string & {});
+export const SourceCodeVersionType = S.String;
+export interface SourceCodeVersion {
+  Type: SourceCodeVersionType;
+  Value: string;
+}
+export const SourceCodeVersion = S.suspend(() =>
+  S.Struct({ Type: SourceCodeVersionType, Value: S.String }),
+).annotate({
+  identifier: "SourceCodeVersion",
+}) as any as S.Schema<SourceCodeVersion>;
+export type ConfigurationSource = "REPOSITORY" | "API" | (string & {});
+export const ConfigurationSource = S.String;
+export type Runtime =
+  | "PYTHON_3"
+  | "NODEJS_12"
+  | "NODEJS_14"
+  | "CORRETTO_8"
+  | "CORRETTO_11"
+  | "NODEJS_16"
+  | "GO_1"
+  | "DOTNET_6"
+  | "PHP_81"
+  | "RUBY_31"
+  | "PYTHON_311"
+  | "NODEJS_18"
+  | "NODEJS_22"
+  | (string & {});
+export const Runtime = S.String;
+export type RuntimeEnvironmentVariables = {
+  [key: string]: string | redacted.Redacted<string> | undefined;
+};
+export const RuntimeEnvironmentVariables = S.Record(
+  S.String,
+  SensitiveString.pipe(S.optional),
+);
+export type RuntimeEnvironmentSecrets = {
+  [key: string]: string | redacted.Redacted<string> | undefined;
+};
+export const RuntimeEnvironmentSecrets = S.Record(
+  S.String,
+  SensitiveString.pipe(S.optional),
+);
+export interface CodeConfigurationValues {
+  Runtime: Runtime;
+  BuildCommand?: string | redacted.Redacted<string>;
+  StartCommand?: string | redacted.Redacted<string>;
+  Port?: string;
+  RuntimeEnvironmentVariables?: {
+    [key: string]: string | redacted.Redacted<string> | undefined;
+  };
+  RuntimeEnvironmentSecrets?: {
+    [key: string]: string | redacted.Redacted<string> | undefined;
+  };
+}
+export const CodeConfigurationValues = S.suspend(() =>
+  S.Struct({
+    Runtime: Runtime,
+    BuildCommand: S.optional(SensitiveString),
+    StartCommand: S.optional(SensitiveString),
+    Port: S.optional(S.String),
+    RuntimeEnvironmentVariables: S.optional(RuntimeEnvironmentVariables),
+    RuntimeEnvironmentSecrets: S.optional(RuntimeEnvironmentSecrets),
+  }),
+).annotate({
+  identifier: "CodeConfigurationValues",
+}) as any as S.Schema<CodeConfigurationValues>;
+export interface CodeConfiguration {
+  ConfigurationSource: ConfigurationSource;
+  CodeConfigurationValues?: CodeConfigurationValues;
+}
+export const CodeConfiguration = S.suspend(() =>
+  S.Struct({
+    ConfigurationSource: ConfigurationSource,
+    CodeConfigurationValues: S.optional(CodeConfigurationValues),
+  }),
+).annotate({
+  identifier: "CodeConfiguration",
+}) as any as S.Schema<CodeConfiguration>;
+export interface CodeRepository {
+  RepositoryUrl: string;
+  SourceCodeVersion: SourceCodeVersion;
+  CodeConfiguration?: CodeConfiguration;
+  SourceDirectory?: string;
+}
+export const CodeRepository = S.suspend(() =>
+  S.Struct({
+    RepositoryUrl: S.String,
+    SourceCodeVersion: SourceCodeVersion,
+    CodeConfiguration: S.optional(CodeConfiguration),
+    SourceDirectory: S.optional(S.String),
+  }),
+).annotate({ identifier: "CodeRepository" }) as any as S.Schema<CodeRepository>;
+export interface ImageConfiguration {
+  RuntimeEnvironmentVariables?: {
+    [key: string]: string | redacted.Redacted<string> | undefined;
+  };
+  StartCommand?: string | redacted.Redacted<string>;
+  Port?: string;
+  RuntimeEnvironmentSecrets?: {
+    [key: string]: string | redacted.Redacted<string> | undefined;
+  };
+}
+export const ImageConfiguration = S.suspend(() =>
+  S.Struct({
+    RuntimeEnvironmentVariables: S.optional(RuntimeEnvironmentVariables),
+    StartCommand: S.optional(SensitiveString),
+    Port: S.optional(S.String),
+    RuntimeEnvironmentSecrets: S.optional(RuntimeEnvironmentSecrets),
+  }),
+).annotate({
+  identifier: "ImageConfiguration",
+}) as any as S.Schema<ImageConfiguration>;
+export type ImageRepositoryType = "ECR" | "ECR_PUBLIC" | (string & {});
+export const ImageRepositoryType = S.String;
+export interface ImageRepository {
+  ImageIdentifier: string;
+  ImageConfiguration?: ImageConfiguration;
+  ImageRepositoryType: ImageRepositoryType;
+}
+export const ImageRepository = S.suspend(() =>
+  S.Struct({
+    ImageIdentifier: S.String,
+    ImageConfiguration: S.optional(ImageConfiguration),
+    ImageRepositoryType: ImageRepositoryType,
+  }),
+).annotate({
+  identifier: "ImageRepository",
+}) as any as S.Schema<ImageRepository>;
+export interface AuthenticationConfiguration {
+  ConnectionArn?: string;
+  AccessRoleArn?: string;
+}
+export const AuthenticationConfiguration = S.suspend(() =>
+  S.Struct({
+    ConnectionArn: S.optional(S.String),
+    AccessRoleArn: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "AuthenticationConfiguration",
+}) as any as S.Schema<AuthenticationConfiguration>;
+export interface SourceConfiguration {
+  CodeRepository?: CodeRepository;
+  ImageRepository?: ImageRepository;
+  AutoDeploymentsEnabled?: boolean;
+  AuthenticationConfiguration?: AuthenticationConfiguration;
+}
+export const SourceConfiguration = S.suspend(() =>
+  S.Struct({
+    CodeRepository: S.optional(CodeRepository),
+    ImageRepository: S.optional(ImageRepository),
+    AutoDeploymentsEnabled: S.optional(S.Boolean),
+    AuthenticationConfiguration: S.optional(AuthenticationConfiguration),
+  }),
+).annotate({
+  identifier: "SourceConfiguration",
+}) as any as S.Schema<SourceConfiguration>;
+export interface InstanceConfiguration {
+  Cpu?: string;
+  Memory?: string;
+  InstanceRoleArn?: string;
+}
+export const InstanceConfiguration = S.suspend(() =>
+  S.Struct({
+    Cpu: S.optional(S.String),
+    Memory: S.optional(S.String),
+    InstanceRoleArn: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "InstanceConfiguration",
+}) as any as S.Schema<InstanceConfiguration>;
+export interface EncryptionConfiguration {
+  KmsKey: string;
+}
+export const EncryptionConfiguration = S.suspend(() =>
+  S.Struct({ KmsKey: S.String }),
+).annotate({
+  identifier: "EncryptionConfiguration",
+}) as any as S.Schema<EncryptionConfiguration>;
+export type HealthCheckProtocol = "TCP" | "HTTP" | (string & {});
+export const HealthCheckProtocol = S.String;
+export interface HealthCheckConfiguration {
+  Protocol?: HealthCheckProtocol;
+  Path?: string;
+  Interval?: number;
+  Timeout?: number;
+  HealthyThreshold?: number;
+  UnhealthyThreshold?: number;
+}
+export const HealthCheckConfiguration = S.suspend(() =>
+  S.Struct({
+    Protocol: S.optional(HealthCheckProtocol),
+    Path: S.optional(S.String),
+    Interval: S.optional(S.Number),
+    Timeout: S.optional(S.Number),
+    HealthyThreshold: S.optional(S.Number),
+    UnhealthyThreshold: S.optional(S.Number),
+  }),
+).annotate({
+  identifier: "HealthCheckConfiguration",
+}) as any as S.Schema<HealthCheckConfiguration>;
+export type EgressType = "DEFAULT" | "VPC" | (string & {});
+export const EgressType = S.String;
+export interface EgressConfiguration {
+  EgressType?: EgressType;
+  VpcConnectorArn?: string;
+}
+export const EgressConfiguration = S.suspend(() =>
+  S.Struct({
+    EgressType: S.optional(EgressType),
+    VpcConnectorArn: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "EgressConfiguration",
+}) as any as S.Schema<EgressConfiguration>;
+export interface IngressConfiguration {
+  IsPubliclyAccessible?: boolean;
+}
+export const IngressConfiguration = S.suspend(() =>
+  S.Struct({ IsPubliclyAccessible: S.optional(S.Boolean) }),
+).annotate({
+  identifier: "IngressConfiguration",
+}) as any as S.Schema<IngressConfiguration>;
+export type IpAddressType = "IPV4" | "DUAL_STACK" | (string & {});
+export const IpAddressType = S.String;
+export interface NetworkConfiguration {
+  EgressConfiguration?: EgressConfiguration;
+  IngressConfiguration?: IngressConfiguration;
+  IpAddressType?: IpAddressType;
+}
+export const NetworkConfiguration = S.suspend(() =>
+  S.Struct({
+    EgressConfiguration: S.optional(EgressConfiguration),
+    IngressConfiguration: S.optional(IngressConfiguration),
+    IpAddressType: S.optional(IpAddressType),
+  }),
+).annotate({
+  identifier: "NetworkConfiguration",
+}) as any as S.Schema<NetworkConfiguration>;
+export interface ServiceObservabilityConfiguration {
+  ObservabilityEnabled: boolean;
+  ObservabilityConfigurationArn?: string;
+}
+export const ServiceObservabilityConfiguration = S.suspend(() =>
+  S.Struct({
+    ObservabilityEnabled: S.Boolean,
+    ObservabilityConfigurationArn: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ServiceObservabilityConfiguration",
+}) as any as S.Schema<ServiceObservabilityConfiguration>;
+export interface CreateServiceRequest {
+  ServiceName: string;
+  SourceConfiguration: SourceConfiguration;
+  InstanceConfiguration?: InstanceConfiguration;
+  Tags?: Tag[];
+  EncryptionConfiguration?: EncryptionConfiguration;
+  HealthCheckConfiguration?: HealthCheckConfiguration;
+  AutoScalingConfigurationArn?: string;
+  NetworkConfiguration?: NetworkConfiguration;
+  ObservabilityConfiguration?: ServiceObservabilityConfiguration;
+}
+export const CreateServiceRequest = S.suspend(() =>
+  S.Struct({
+    ServiceName: S.String,
+    SourceConfiguration: SourceConfiguration,
+    InstanceConfiguration: S.optional(InstanceConfiguration),
+    Tags: S.optional(TagList),
+    EncryptionConfiguration: S.optional(EncryptionConfiguration),
+    HealthCheckConfiguration: S.optional(HealthCheckConfiguration),
+    AutoScalingConfigurationArn: S.optional(S.String),
+    NetworkConfiguration: S.optional(NetworkConfiguration),
+    ObservabilityConfiguration: S.optional(ServiceObservabilityConfiguration),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "CreateServiceRequest",
+}) as any as S.Schema<CreateServiceRequest>;
 export type ServiceStatus =
   | "CREATE_FAILED"
   | "RUNNING"
@@ -1460,7 +767,7 @@ export const AutoScalingConfigurationSummary = S.suspend(() =>
     HasAssociatedService: S.optional(S.Boolean),
     IsDefault: S.optional(S.Boolean),
   }),
-).annotations({
+).annotate({
   identifier: "AutoScalingConfigurationSummary",
 }) as any as S.Schema<AutoScalingConfigurationSummary>;
 export interface Service {
@@ -1498,23 +805,114 @@ export const Service = S.suspend(() =>
     NetworkConfiguration: NetworkConfiguration,
     ObservabilityConfiguration: S.optional(ServiceObservabilityConfiguration),
   }),
-).annotations({ identifier: "Service" }) as any as S.Schema<Service>;
-export interface DescribeServiceResponse {
+).annotate({ identifier: "Service" }) as any as S.Schema<Service>;
+export interface CreateServiceResponse {
   Service: Service;
+  OperationId: string;
 }
-export const DescribeServiceResponse = S.suspend(() =>
-  S.Struct({ Service: Service }).pipe(ns),
-).annotations({
-  identifier: "DescribeServiceResponse",
-}) as any as S.Schema<DescribeServiceResponse>;
-export interface DescribeVpcConnectorResponse {
+export const CreateServiceResponse = S.suspend(() =>
+  S.Struct({ Service: Service, OperationId: S.String }).pipe(ns),
+).annotate({
+  identifier: "CreateServiceResponse",
+}) as any as S.Schema<CreateServiceResponse>;
+export type StringList = string[];
+export const StringList = S.Array(S.String);
+export interface CreateVpcConnectorRequest {
+  VpcConnectorName: string;
+  Subnets: string[];
+  SecurityGroups?: string[];
+  Tags?: Tag[];
+}
+export const CreateVpcConnectorRequest = S.suspend(() =>
+  S.Struct({
+    VpcConnectorName: S.String,
+    Subnets: StringList,
+    SecurityGroups: S.optional(StringList),
+    Tags: S.optional(TagList),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "CreateVpcConnectorRequest",
+}) as any as S.Schema<CreateVpcConnectorRequest>;
+export type VpcConnectorStatus = "ACTIVE" | "INACTIVE" | (string & {});
+export const VpcConnectorStatus = S.String;
+export interface VpcConnector {
+  VpcConnectorName?: string;
+  VpcConnectorArn?: string;
+  VpcConnectorRevision?: number;
+  Subnets?: string[];
+  SecurityGroups?: string[];
+  Status?: VpcConnectorStatus;
+  CreatedAt?: Date;
+  DeletedAt?: Date;
+}
+export const VpcConnector = S.suspend(() =>
+  S.Struct({
+    VpcConnectorName: S.optional(S.String),
+    VpcConnectorArn: S.optional(S.String),
+    VpcConnectorRevision: S.optional(S.Number),
+    Subnets: S.optional(StringList),
+    SecurityGroups: S.optional(StringList),
+    Status: S.optional(VpcConnectorStatus),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    DeletedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotate({ identifier: "VpcConnector" }) as any as S.Schema<VpcConnector>;
+export interface CreateVpcConnectorResponse {
   VpcConnector: VpcConnector;
 }
-export const DescribeVpcConnectorResponse = S.suspend(() =>
+export const CreateVpcConnectorResponse = S.suspend(() =>
   S.Struct({ VpcConnector: VpcConnector }).pipe(ns),
-).annotations({
-  identifier: "DescribeVpcConnectorResponse",
-}) as any as S.Schema<DescribeVpcConnectorResponse>;
+).annotate({
+  identifier: "CreateVpcConnectorResponse",
+}) as any as S.Schema<CreateVpcConnectorResponse>;
+export interface IngressVpcConfiguration {
+  VpcId?: string;
+  VpcEndpointId?: string;
+}
+export const IngressVpcConfiguration = S.suspend(() =>
+  S.Struct({
+    VpcId: S.optional(S.String),
+    VpcEndpointId: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "IngressVpcConfiguration",
+}) as any as S.Schema<IngressVpcConfiguration>;
+export interface CreateVpcIngressConnectionRequest {
+  ServiceArn: string;
+  VpcIngressConnectionName: string;
+  IngressVpcConfiguration: IngressVpcConfiguration;
+  Tags?: Tag[];
+}
+export const CreateVpcIngressConnectionRequest = S.suspend(() =>
+  S.Struct({
+    ServiceArn: S.String,
+    VpcIngressConnectionName: S.String,
+    IngressVpcConfiguration: IngressVpcConfiguration,
+    Tags: S.optional(TagList),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "CreateVpcIngressConnectionRequest",
+}) as any as S.Schema<CreateVpcIngressConnectionRequest>;
 export type VpcIngressConnectionStatus =
   | "AVAILABLE"
   | "PENDING_CREATION"
@@ -1549,17 +947,371 @@ export const VpcIngressConnection = S.suspend(() =>
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     DeletedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
-).annotations({
+).annotate({
   identifier: "VpcIngressConnection",
 }) as any as S.Schema<VpcIngressConnection>;
+export interface CreateVpcIngressConnectionResponse {
+  VpcIngressConnection: VpcIngressConnection;
+}
+export const CreateVpcIngressConnectionResponse = S.suspend(() =>
+  S.Struct({ VpcIngressConnection: VpcIngressConnection }).pipe(ns),
+).annotate({
+  identifier: "CreateVpcIngressConnectionResponse",
+}) as any as S.Schema<CreateVpcIngressConnectionResponse>;
+export interface DeleteAutoScalingConfigurationRequest {
+  AutoScalingConfigurationArn: string;
+  DeleteAllRevisions?: boolean;
+}
+export const DeleteAutoScalingConfigurationRequest = S.suspend(() =>
+  S.Struct({
+    AutoScalingConfigurationArn: S.String,
+    DeleteAllRevisions: S.optional(S.Boolean),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeleteAutoScalingConfigurationRequest",
+}) as any as S.Schema<DeleteAutoScalingConfigurationRequest>;
+export interface DeleteAutoScalingConfigurationResponse {
+  AutoScalingConfiguration: AutoScalingConfiguration;
+}
+export const DeleteAutoScalingConfigurationResponse = S.suspend(() =>
+  S.Struct({ AutoScalingConfiguration: AutoScalingConfiguration }).pipe(ns),
+).annotate({
+  identifier: "DeleteAutoScalingConfigurationResponse",
+}) as any as S.Schema<DeleteAutoScalingConfigurationResponse>;
+export interface DeleteConnectionRequest {
+  ConnectionArn: string;
+}
+export const DeleteConnectionRequest = S.suspend(() =>
+  S.Struct({ ConnectionArn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeleteConnectionRequest",
+}) as any as S.Schema<DeleteConnectionRequest>;
+export interface DeleteConnectionResponse {
+  Connection?: Connection;
+}
+export const DeleteConnectionResponse = S.suspend(() =>
+  S.Struct({ Connection: S.optional(Connection) }).pipe(ns),
+).annotate({
+  identifier: "DeleteConnectionResponse",
+}) as any as S.Schema<DeleteConnectionResponse>;
+export interface DeleteObservabilityConfigurationRequest {
+  ObservabilityConfigurationArn: string;
+}
+export const DeleteObservabilityConfigurationRequest = S.suspend(() =>
+  S.Struct({ ObservabilityConfigurationArn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeleteObservabilityConfigurationRequest",
+}) as any as S.Schema<DeleteObservabilityConfigurationRequest>;
+export interface DeleteObservabilityConfigurationResponse {
+  ObservabilityConfiguration: ObservabilityConfiguration;
+}
+export const DeleteObservabilityConfigurationResponse = S.suspend(() =>
+  S.Struct({ ObservabilityConfiguration: ObservabilityConfiguration }).pipe(ns),
+).annotate({
+  identifier: "DeleteObservabilityConfigurationResponse",
+}) as any as S.Schema<DeleteObservabilityConfigurationResponse>;
+export interface DeleteServiceRequest {
+  ServiceArn: string;
+}
+export const DeleteServiceRequest = S.suspend(() =>
+  S.Struct({ ServiceArn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeleteServiceRequest",
+}) as any as S.Schema<DeleteServiceRequest>;
+export interface DeleteServiceResponse {
+  Service: Service;
+  OperationId: string;
+}
+export const DeleteServiceResponse = S.suspend(() =>
+  S.Struct({ Service: Service, OperationId: S.String }).pipe(ns),
+).annotate({
+  identifier: "DeleteServiceResponse",
+}) as any as S.Schema<DeleteServiceResponse>;
+export interface DeleteVpcConnectorRequest {
+  VpcConnectorArn: string;
+}
+export const DeleteVpcConnectorRequest = S.suspend(() =>
+  S.Struct({ VpcConnectorArn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeleteVpcConnectorRequest",
+}) as any as S.Schema<DeleteVpcConnectorRequest>;
+export interface DeleteVpcConnectorResponse {
+  VpcConnector: VpcConnector;
+}
+export const DeleteVpcConnectorResponse = S.suspend(() =>
+  S.Struct({ VpcConnector: VpcConnector }).pipe(ns),
+).annotate({
+  identifier: "DeleteVpcConnectorResponse",
+}) as any as S.Schema<DeleteVpcConnectorResponse>;
+export interface DeleteVpcIngressConnectionRequest {
+  VpcIngressConnectionArn: string;
+}
+export const DeleteVpcIngressConnectionRequest = S.suspend(() =>
+  S.Struct({ VpcIngressConnectionArn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeleteVpcIngressConnectionRequest",
+}) as any as S.Schema<DeleteVpcIngressConnectionRequest>;
+export interface DeleteVpcIngressConnectionResponse {
+  VpcIngressConnection: VpcIngressConnection;
+}
+export const DeleteVpcIngressConnectionResponse = S.suspend(() =>
+  S.Struct({ VpcIngressConnection: VpcIngressConnection }).pipe(ns),
+).annotate({
+  identifier: "DeleteVpcIngressConnectionResponse",
+}) as any as S.Schema<DeleteVpcIngressConnectionResponse>;
+export interface DescribeAutoScalingConfigurationRequest {
+  AutoScalingConfigurationArn: string;
+}
+export const DescribeAutoScalingConfigurationRequest = S.suspend(() =>
+  S.Struct({ AutoScalingConfigurationArn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DescribeAutoScalingConfigurationRequest",
+}) as any as S.Schema<DescribeAutoScalingConfigurationRequest>;
+export interface DescribeAutoScalingConfigurationResponse {
+  AutoScalingConfiguration: AutoScalingConfiguration;
+}
+export const DescribeAutoScalingConfigurationResponse = S.suspend(() =>
+  S.Struct({ AutoScalingConfiguration: AutoScalingConfiguration }).pipe(ns),
+).annotate({
+  identifier: "DescribeAutoScalingConfigurationResponse",
+}) as any as S.Schema<DescribeAutoScalingConfigurationResponse>;
+export interface DescribeCustomDomainsRequest {
+  ServiceArn: string;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const DescribeCustomDomainsRequest = S.suspend(() =>
+  S.Struct({
+    ServiceArn: S.String,
+    NextToken: S.optional(S.String),
+    MaxResults: S.optional(S.Number),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DescribeCustomDomainsRequest",
+}) as any as S.Schema<DescribeCustomDomainsRequest>;
+export type CustomDomainList = CustomDomain[];
+export const CustomDomainList = S.Array(CustomDomain);
+export interface DescribeCustomDomainsResponse {
+  DNSTarget: string;
+  ServiceArn: string;
+  CustomDomains: CustomDomain[];
+  VpcDNSTargets: VpcDNSTarget[];
+  NextToken?: string;
+}
+export const DescribeCustomDomainsResponse = S.suspend(() =>
+  S.Struct({
+    DNSTarget: S.String,
+    ServiceArn: S.String,
+    CustomDomains: CustomDomainList,
+    VpcDNSTargets: VpcDNSTargetList,
+    NextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotate({
+  identifier: "DescribeCustomDomainsResponse",
+}) as any as S.Schema<DescribeCustomDomainsResponse>;
+export interface DescribeObservabilityConfigurationRequest {
+  ObservabilityConfigurationArn: string;
+}
+export const DescribeObservabilityConfigurationRequest = S.suspend(() =>
+  S.Struct({ ObservabilityConfigurationArn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DescribeObservabilityConfigurationRequest",
+}) as any as S.Schema<DescribeObservabilityConfigurationRequest>;
+export interface DescribeObservabilityConfigurationResponse {
+  ObservabilityConfiguration: ObservabilityConfiguration;
+}
+export const DescribeObservabilityConfigurationResponse = S.suspend(() =>
+  S.Struct({ ObservabilityConfiguration: ObservabilityConfiguration }).pipe(ns),
+).annotate({
+  identifier: "DescribeObservabilityConfigurationResponse",
+}) as any as S.Schema<DescribeObservabilityConfigurationResponse>;
+export interface DescribeServiceRequest {
+  ServiceArn: string;
+}
+export const DescribeServiceRequest = S.suspend(() =>
+  S.Struct({ ServiceArn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DescribeServiceRequest",
+}) as any as S.Schema<DescribeServiceRequest>;
+export interface DescribeServiceResponse {
+  Service: Service;
+}
+export const DescribeServiceResponse = S.suspend(() =>
+  S.Struct({ Service: Service }).pipe(ns),
+).annotate({
+  identifier: "DescribeServiceResponse",
+}) as any as S.Schema<DescribeServiceResponse>;
+export interface DescribeVpcConnectorRequest {
+  VpcConnectorArn: string;
+}
+export const DescribeVpcConnectorRequest = S.suspend(() =>
+  S.Struct({ VpcConnectorArn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DescribeVpcConnectorRequest",
+}) as any as S.Schema<DescribeVpcConnectorRequest>;
+export interface DescribeVpcConnectorResponse {
+  VpcConnector: VpcConnector;
+}
+export const DescribeVpcConnectorResponse = S.suspend(() =>
+  S.Struct({ VpcConnector: VpcConnector }).pipe(ns),
+).annotate({
+  identifier: "DescribeVpcConnectorResponse",
+}) as any as S.Schema<DescribeVpcConnectorResponse>;
+export interface DescribeVpcIngressConnectionRequest {
+  VpcIngressConnectionArn: string;
+}
+export const DescribeVpcIngressConnectionRequest = S.suspend(() =>
+  S.Struct({ VpcIngressConnectionArn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DescribeVpcIngressConnectionRequest",
+}) as any as S.Schema<DescribeVpcIngressConnectionRequest>;
 export interface DescribeVpcIngressConnectionResponse {
   VpcIngressConnection: VpcIngressConnection;
 }
 export const DescribeVpcIngressConnectionResponse = S.suspend(() =>
   S.Struct({ VpcIngressConnection: VpcIngressConnection }).pipe(ns),
-).annotations({
+).annotate({
   identifier: "DescribeVpcIngressConnectionResponse",
 }) as any as S.Schema<DescribeVpcIngressConnectionResponse>;
+export interface DisassociateCustomDomainRequest {
+  ServiceArn: string;
+  DomainName: string;
+}
+export const DisassociateCustomDomainRequest = S.suspend(() =>
+  S.Struct({ ServiceArn: S.String, DomainName: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DisassociateCustomDomainRequest",
+}) as any as S.Schema<DisassociateCustomDomainRequest>;
 export interface DisassociateCustomDomainResponse {
   DNSTarget: string;
   ServiceArn: string;
@@ -1573,9 +1325,327 @@ export const DisassociateCustomDomainResponse = S.suspend(() =>
     CustomDomain: CustomDomain,
     VpcDNSTargets: VpcDNSTargetList,
   }).pipe(ns),
-).annotations({
+).annotate({
   identifier: "DisassociateCustomDomainResponse",
 }) as any as S.Schema<DisassociateCustomDomainResponse>;
+export interface ListAutoScalingConfigurationsRequest {
+  AutoScalingConfigurationName?: string;
+  LatestOnly?: boolean;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListAutoScalingConfigurationsRequest = S.suspend(() =>
+  S.Struct({
+    AutoScalingConfigurationName: S.optional(S.String),
+    LatestOnly: S.optional(S.Boolean),
+    MaxResults: S.optional(S.Number),
+    NextToken: S.optional(S.String),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListAutoScalingConfigurationsRequest",
+}) as any as S.Schema<ListAutoScalingConfigurationsRequest>;
+export type AutoScalingConfigurationSummaryList =
+  AutoScalingConfigurationSummary[];
+export const AutoScalingConfigurationSummaryList = S.Array(
+  AutoScalingConfigurationSummary,
+);
+export interface ListAutoScalingConfigurationsResponse {
+  AutoScalingConfigurationSummaryList: AutoScalingConfigurationSummary[];
+  NextToken?: string;
+}
+export const ListAutoScalingConfigurationsResponse = S.suspend(() =>
+  S.Struct({
+    AutoScalingConfigurationSummaryList: AutoScalingConfigurationSummaryList,
+    NextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotate({
+  identifier: "ListAutoScalingConfigurationsResponse",
+}) as any as S.Schema<ListAutoScalingConfigurationsResponse>;
+export interface ListConnectionsRequest {
+  ConnectionName?: string;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListConnectionsRequest = S.suspend(() =>
+  S.Struct({
+    ConnectionName: S.optional(S.String),
+    MaxResults: S.optional(S.Number),
+    NextToken: S.optional(S.String),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListConnectionsRequest",
+}) as any as S.Schema<ListConnectionsRequest>;
+export interface ConnectionSummary {
+  ConnectionName?: string;
+  ConnectionArn?: string;
+  ProviderType?: ProviderType;
+  Status?: ConnectionStatus;
+  CreatedAt?: Date;
+}
+export const ConnectionSummary = S.suspend(() =>
+  S.Struct({
+    ConnectionName: S.optional(S.String),
+    ConnectionArn: S.optional(S.String),
+    ProviderType: S.optional(ProviderType),
+    Status: S.optional(ConnectionStatus),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotate({
+  identifier: "ConnectionSummary",
+}) as any as S.Schema<ConnectionSummary>;
+export type ConnectionSummaryList = ConnectionSummary[];
+export const ConnectionSummaryList = S.Array(ConnectionSummary);
+export interface ListConnectionsResponse {
+  ConnectionSummaryList: ConnectionSummary[];
+  NextToken?: string;
+}
+export const ListConnectionsResponse = S.suspend(() =>
+  S.Struct({
+    ConnectionSummaryList: ConnectionSummaryList,
+    NextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotate({
+  identifier: "ListConnectionsResponse",
+}) as any as S.Schema<ListConnectionsResponse>;
+export interface ListObservabilityConfigurationsRequest {
+  ObservabilityConfigurationName?: string;
+  LatestOnly?: boolean;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListObservabilityConfigurationsRequest = S.suspend(() =>
+  S.Struct({
+    ObservabilityConfigurationName: S.optional(S.String),
+    LatestOnly: S.optional(S.Boolean),
+    MaxResults: S.optional(S.Number),
+    NextToken: S.optional(S.String),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListObservabilityConfigurationsRequest",
+}) as any as S.Schema<ListObservabilityConfigurationsRequest>;
+export interface ObservabilityConfigurationSummary {
+  ObservabilityConfigurationArn?: string;
+  ObservabilityConfigurationName?: string;
+  ObservabilityConfigurationRevision?: number;
+}
+export const ObservabilityConfigurationSummary = S.suspend(() =>
+  S.Struct({
+    ObservabilityConfigurationArn: S.optional(S.String),
+    ObservabilityConfigurationName: S.optional(S.String),
+    ObservabilityConfigurationRevision: S.optional(S.Number),
+  }),
+).annotate({
+  identifier: "ObservabilityConfigurationSummary",
+}) as any as S.Schema<ObservabilityConfigurationSummary>;
+export type ObservabilityConfigurationSummaryList =
+  ObservabilityConfigurationSummary[];
+export const ObservabilityConfigurationSummaryList = S.Array(
+  ObservabilityConfigurationSummary,
+);
+export interface ListObservabilityConfigurationsResponse {
+  ObservabilityConfigurationSummaryList: ObservabilityConfigurationSummary[];
+  NextToken?: string;
+}
+export const ListObservabilityConfigurationsResponse = S.suspend(() =>
+  S.Struct({
+    ObservabilityConfigurationSummaryList:
+      ObservabilityConfigurationSummaryList,
+    NextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotate({
+  identifier: "ListObservabilityConfigurationsResponse",
+}) as any as S.Schema<ListObservabilityConfigurationsResponse>;
+export interface ListOperationsRequest {
+  ServiceArn: string;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListOperationsRequest = S.suspend(() =>
+  S.Struct({
+    ServiceArn: S.String,
+    NextToken: S.optional(S.String),
+    MaxResults: S.optional(S.Number),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListOperationsRequest",
+}) as any as S.Schema<ListOperationsRequest>;
+export type OperationType =
+  | "START_DEPLOYMENT"
+  | "CREATE_SERVICE"
+  | "PAUSE_SERVICE"
+  | "RESUME_SERVICE"
+  | "DELETE_SERVICE"
+  | "UPDATE_SERVICE"
+  | (string & {});
+export const OperationType = S.String;
+export type OperationStatus =
+  | "PENDING"
+  | "IN_PROGRESS"
+  | "FAILED"
+  | "SUCCEEDED"
+  | "ROLLBACK_IN_PROGRESS"
+  | "ROLLBACK_FAILED"
+  | "ROLLBACK_SUCCEEDED"
+  | (string & {});
+export const OperationStatus = S.String;
+export interface OperationSummary {
+  Id?: string;
+  Type?: OperationType;
+  Status?: OperationStatus;
+  TargetArn?: string;
+  StartedAt?: Date;
+  EndedAt?: Date;
+  UpdatedAt?: Date;
+}
+export const OperationSummary = S.suspend(() =>
+  S.Struct({
+    Id: S.optional(S.String),
+    Type: S.optional(OperationType),
+    Status: S.optional(OperationStatus),
+    TargetArn: S.optional(S.String),
+    StartedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    EndedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotate({
+  identifier: "OperationSummary",
+}) as any as S.Schema<OperationSummary>;
+export type OperationSummaryList = OperationSummary[];
+export const OperationSummaryList = S.Array(OperationSummary);
+export interface ListOperationsResponse {
+  OperationSummaryList?: OperationSummary[];
+  NextToken?: string;
+}
+export const ListOperationsResponse = S.suspend(() =>
+  S.Struct({
+    OperationSummaryList: S.optional(OperationSummaryList),
+    NextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotate({
+  identifier: "ListOperationsResponse",
+}) as any as S.Schema<ListOperationsResponse>;
+export interface ListServicesRequest {
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListServicesRequest = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    MaxResults: S.optional(S.Number),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListServicesRequest",
+}) as any as S.Schema<ListServicesRequest>;
+export interface ServiceSummary {
+  ServiceName?: string;
+  ServiceId?: string;
+  ServiceArn?: string;
+  ServiceUrl?: string;
+  CreatedAt?: Date;
+  UpdatedAt?: Date;
+  Status?: ServiceStatus;
+}
+export const ServiceSummary = S.suspend(() =>
+  S.Struct({
+    ServiceName: S.optional(S.String),
+    ServiceId: S.optional(S.String),
+    ServiceArn: S.optional(S.String),
+    ServiceUrl: S.optional(S.String),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    Status: S.optional(ServiceStatus),
+  }),
+).annotate({ identifier: "ServiceSummary" }) as any as S.Schema<ServiceSummary>;
+export type ServiceSummaryList = ServiceSummary[];
+export const ServiceSummaryList = S.Array(ServiceSummary);
+export interface ListServicesResponse {
+  ServiceSummaryList: ServiceSummary[];
+  NextToken?: string;
+}
+export const ListServicesResponse = S.suspend(() =>
+  S.Struct({
+    ServiceSummaryList: ServiceSummaryList,
+    NextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotate({
+  identifier: "ListServicesResponse",
+}) as any as S.Schema<ListServicesResponse>;
+export interface ListServicesForAutoScalingConfigurationRequest {
+  AutoScalingConfigurationArn: string;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListServicesForAutoScalingConfigurationRequest = S.suspend(() =>
+  S.Struct({
+    AutoScalingConfigurationArn: S.String,
+    MaxResults: S.optional(S.Number),
+    NextToken: S.optional(S.String),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListServicesForAutoScalingConfigurationRequest",
+}) as any as S.Schema<ListServicesForAutoScalingConfigurationRequest>;
+export type ServiceArnList = string[];
+export const ServiceArnList = S.Array(S.String);
 export interface ListServicesForAutoScalingConfigurationResponse {
   ServiceArnList: string[];
   NextToken?: string;
@@ -1585,17 +1655,59 @@ export const ListServicesForAutoScalingConfigurationResponse = S.suspend(() =>
     ServiceArnList: ServiceArnList,
     NextToken: S.optional(S.String),
   }).pipe(ns),
-).annotations({
+).annotate({
   identifier: "ListServicesForAutoScalingConfigurationResponse",
 }) as any as S.Schema<ListServicesForAutoScalingConfigurationResponse>;
+export interface ListTagsForResourceRequest {
+  ResourceArn: string;
+}
+export const ListTagsForResourceRequest = S.suspend(() =>
+  S.Struct({ ResourceArn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListTagsForResourceRequest",
+}) as any as S.Schema<ListTagsForResourceRequest>;
 export interface ListTagsForResourceResponse {
   Tags?: Tag[];
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ Tags: S.optional(TagList) }).pipe(ns),
-).annotations({
+).annotate({
   identifier: "ListTagsForResourceResponse",
 }) as any as S.Schema<ListTagsForResourceResponse>;
+export interface ListVpcConnectorsRequest {
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListVpcConnectorsRequest = S.suspend(() =>
+  S.Struct({
+    MaxResults: S.optional(S.Number),
+    NextToken: S.optional(S.String),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListVpcConnectorsRequest",
+}) as any as S.Schema<ListVpcConnectorsRequest>;
+export type VpcConnectors = VpcConnector[];
+export const VpcConnectors = S.Array(VpcConnector);
 export interface ListVpcConnectorsResponse {
   VpcConnectors: VpcConnector[];
   NextToken?: string;
@@ -1605,9 +1717,21 @@ export const ListVpcConnectorsResponse = S.suspend(() =>
     VpcConnectors: VpcConnectors,
     NextToken: S.optional(S.String),
   }).pipe(ns),
-).annotations({
+).annotate({
   identifier: "ListVpcConnectorsResponse",
 }) as any as S.Schema<ListVpcConnectorsResponse>;
+export interface ListVpcIngressConnectionsFilter {
+  ServiceArn?: string;
+  VpcEndpointId?: string;
+}
+export const ListVpcIngressConnectionsFilter = S.suspend(() =>
+  S.Struct({
+    ServiceArn: S.optional(S.String),
+    VpcEndpointId: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ListVpcIngressConnectionsFilter",
+}) as any as S.Schema<ListVpcIngressConnectionsFilter>;
 export interface ListVpcIngressConnectionsRequest {
   Filter?: ListVpcIngressConnectionsFilter;
   MaxResults?: number;
@@ -1629,305 +1753,9 @@ export const ListVpcIngressConnectionsRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "ListVpcIngressConnectionsRequest",
 }) as any as S.Schema<ListVpcIngressConnectionsRequest>;
-export interface PauseServiceResponse {
-  Service: Service;
-  OperationId?: string;
-}
-export const PauseServiceResponse = S.suspend(() =>
-  S.Struct({ Service: Service, OperationId: S.optional(S.String) }).pipe(ns),
-).annotations({
-  identifier: "PauseServiceResponse",
-}) as any as S.Schema<PauseServiceResponse>;
-export interface ResumeServiceResponse {
-  Service: Service;
-  OperationId?: string;
-}
-export const ResumeServiceResponse = S.suspend(() =>
-  S.Struct({ Service: Service, OperationId: S.optional(S.String) }).pipe(ns),
-).annotations({
-  identifier: "ResumeServiceResponse",
-}) as any as S.Schema<ResumeServiceResponse>;
-export interface StartDeploymentResponse {
-  OperationId: string;
-}
-export const StartDeploymentResponse = S.suspend(() =>
-  S.Struct({ OperationId: S.String }).pipe(ns),
-).annotations({
-  identifier: "StartDeploymentResponse",
-}) as any as S.Schema<StartDeploymentResponse>;
-export interface UpdateDefaultAutoScalingConfigurationResponse {
-  AutoScalingConfiguration: AutoScalingConfiguration;
-}
-export const UpdateDefaultAutoScalingConfigurationResponse = S.suspend(() =>
-  S.Struct({ AutoScalingConfiguration: AutoScalingConfiguration }).pipe(ns),
-).annotations({
-  identifier: "UpdateDefaultAutoScalingConfigurationResponse",
-}) as any as S.Schema<UpdateDefaultAutoScalingConfigurationResponse>;
-export interface UpdateServiceResponse {
-  Service: Service;
-  OperationId: string;
-}
-export const UpdateServiceResponse = S.suspend(() =>
-  S.Struct({ Service: Service, OperationId: S.String }).pipe(ns),
-).annotations({
-  identifier: "UpdateServiceResponse",
-}) as any as S.Schema<UpdateServiceResponse>;
-export interface UpdateVpcIngressConnectionResponse {
-  VpcIngressConnection: VpcIngressConnection;
-}
-export const UpdateVpcIngressConnectionResponse = S.suspend(() =>
-  S.Struct({ VpcIngressConnection: VpcIngressConnection }).pipe(ns),
-).annotations({
-  identifier: "UpdateVpcIngressConnectionResponse",
-}) as any as S.Schema<UpdateVpcIngressConnectionResponse>;
-export type OperationType =
-  | "START_DEPLOYMENT"
-  | "CREATE_SERVICE"
-  | "PAUSE_SERVICE"
-  | "RESUME_SERVICE"
-  | "DELETE_SERVICE"
-  | "UPDATE_SERVICE"
-  | (string & {});
-export const OperationType = S.String;
-export type OperationStatus =
-  | "PENDING"
-  | "IN_PROGRESS"
-  | "FAILED"
-  | "SUCCEEDED"
-  | "ROLLBACK_IN_PROGRESS"
-  | "ROLLBACK_FAILED"
-  | "ROLLBACK_SUCCEEDED"
-  | (string & {});
-export const OperationStatus = S.String;
-export type AutoScalingConfigurationSummaryList =
-  AutoScalingConfigurationSummary[];
-export const AutoScalingConfigurationSummaryList = S.Array(
-  AutoScalingConfigurationSummary,
-);
-export interface ConnectionSummary {
-  ConnectionName?: string;
-  ConnectionArn?: string;
-  ProviderType?: ProviderType;
-  Status?: ConnectionStatus;
-  CreatedAt?: Date;
-}
-export const ConnectionSummary = S.suspend(() =>
-  S.Struct({
-    ConnectionName: S.optional(S.String),
-    ConnectionArn: S.optional(S.String),
-    ProviderType: S.optional(ProviderType),
-    Status: S.optional(ConnectionStatus),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }),
-).annotations({
-  identifier: "ConnectionSummary",
-}) as any as S.Schema<ConnectionSummary>;
-export type ConnectionSummaryList = ConnectionSummary[];
-export const ConnectionSummaryList = S.Array(ConnectionSummary);
-export interface ObservabilityConfigurationSummary {
-  ObservabilityConfigurationArn?: string;
-  ObservabilityConfigurationName?: string;
-  ObservabilityConfigurationRevision?: number;
-}
-export const ObservabilityConfigurationSummary = S.suspend(() =>
-  S.Struct({
-    ObservabilityConfigurationArn: S.optional(S.String),
-    ObservabilityConfigurationName: S.optional(S.String),
-    ObservabilityConfigurationRevision: S.optional(S.Number),
-  }),
-).annotations({
-  identifier: "ObservabilityConfigurationSummary",
-}) as any as S.Schema<ObservabilityConfigurationSummary>;
-export type ObservabilityConfigurationSummaryList =
-  ObservabilityConfigurationSummary[];
-export const ObservabilityConfigurationSummaryList = S.Array(
-  ObservabilityConfigurationSummary,
-);
-export interface OperationSummary {
-  Id?: string;
-  Type?: OperationType;
-  Status?: OperationStatus;
-  TargetArn?: string;
-  StartedAt?: Date;
-  EndedAt?: Date;
-  UpdatedAt?: Date;
-}
-export const OperationSummary = S.suspend(() =>
-  S.Struct({
-    Id: S.optional(S.String),
-    Type: S.optional(OperationType),
-    Status: S.optional(OperationStatus),
-    TargetArn: S.optional(S.String),
-    StartedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    EndedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }),
-).annotations({
-  identifier: "OperationSummary",
-}) as any as S.Schema<OperationSummary>;
-export type OperationSummaryList = OperationSummary[];
-export const OperationSummaryList = S.Array(OperationSummary);
-export interface ServiceSummary {
-  ServiceName?: string;
-  ServiceId?: string;
-  ServiceArn?: string;
-  ServiceUrl?: string;
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
-  Status?: ServiceStatus;
-}
-export const ServiceSummary = S.suspend(() =>
-  S.Struct({
-    ServiceName: S.optional(S.String),
-    ServiceId: S.optional(S.String),
-    ServiceArn: S.optional(S.String),
-    ServiceUrl: S.optional(S.String),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    Status: S.optional(ServiceStatus),
-  }),
-).annotations({
-  identifier: "ServiceSummary",
-}) as any as S.Schema<ServiceSummary>;
-export type ServiceSummaryList = ServiceSummary[];
-export const ServiceSummaryList = S.Array(ServiceSummary);
-export interface CreateAutoScalingConfigurationResponse {
-  AutoScalingConfiguration: AutoScalingConfiguration;
-}
-export const CreateAutoScalingConfigurationResponse = S.suspend(() =>
-  S.Struct({ AutoScalingConfiguration: AutoScalingConfiguration }).pipe(ns),
-).annotations({
-  identifier: "CreateAutoScalingConfigurationResponse",
-}) as any as S.Schema<CreateAutoScalingConfigurationResponse>;
-export interface CreateConnectionResponse {
-  Connection: Connection;
-}
-export const CreateConnectionResponse = S.suspend(() =>
-  S.Struct({ Connection: Connection }).pipe(ns),
-).annotations({
-  identifier: "CreateConnectionResponse",
-}) as any as S.Schema<CreateConnectionResponse>;
-export interface CreateObservabilityConfigurationResponse {
-  ObservabilityConfiguration: ObservabilityConfiguration;
-}
-export const CreateObservabilityConfigurationResponse = S.suspend(() =>
-  S.Struct({ ObservabilityConfiguration: ObservabilityConfiguration }).pipe(ns),
-).annotations({
-  identifier: "CreateObservabilityConfigurationResponse",
-}) as any as S.Schema<CreateObservabilityConfigurationResponse>;
-export interface CreateVpcConnectorResponse {
-  VpcConnector: VpcConnector;
-}
-export const CreateVpcConnectorResponse = S.suspend(() =>
-  S.Struct({ VpcConnector: VpcConnector }).pipe(ns),
-).annotations({
-  identifier: "CreateVpcConnectorResponse",
-}) as any as S.Schema<CreateVpcConnectorResponse>;
-export interface CreateVpcIngressConnectionResponse {
-  VpcIngressConnection: VpcIngressConnection;
-}
-export const CreateVpcIngressConnectionResponse = S.suspend(() =>
-  S.Struct({ VpcIngressConnection: VpcIngressConnection }).pipe(ns),
-).annotations({
-  identifier: "CreateVpcIngressConnectionResponse",
-}) as any as S.Schema<CreateVpcIngressConnectionResponse>;
-export interface DeleteAutoScalingConfigurationResponse {
-  AutoScalingConfiguration: AutoScalingConfiguration;
-}
-export const DeleteAutoScalingConfigurationResponse = S.suspend(() =>
-  S.Struct({ AutoScalingConfiguration: AutoScalingConfiguration }).pipe(ns),
-).annotations({
-  identifier: "DeleteAutoScalingConfigurationResponse",
-}) as any as S.Schema<DeleteAutoScalingConfigurationResponse>;
-export interface DeleteObservabilityConfigurationResponse {
-  ObservabilityConfiguration: ObservabilityConfiguration;
-}
-export const DeleteObservabilityConfigurationResponse = S.suspend(() =>
-  S.Struct({ ObservabilityConfiguration: ObservabilityConfiguration }).pipe(ns),
-).annotations({
-  identifier: "DeleteObservabilityConfigurationResponse",
-}) as any as S.Schema<DeleteObservabilityConfigurationResponse>;
-export interface DeleteServiceResponse {
-  Service: Service;
-  OperationId: string;
-}
-export const DeleteServiceResponse = S.suspend(() =>
-  S.Struct({ Service: Service, OperationId: S.String }).pipe(ns),
-).annotations({
-  identifier: "DeleteServiceResponse",
-}) as any as S.Schema<DeleteServiceResponse>;
-export interface DeleteVpcIngressConnectionResponse {
-  VpcIngressConnection: VpcIngressConnection;
-}
-export const DeleteVpcIngressConnectionResponse = S.suspend(() =>
-  S.Struct({ VpcIngressConnection: VpcIngressConnection }).pipe(ns),
-).annotations({
-  identifier: "DeleteVpcIngressConnectionResponse",
-}) as any as S.Schema<DeleteVpcIngressConnectionResponse>;
-export interface ListAutoScalingConfigurationsResponse {
-  AutoScalingConfigurationSummaryList: AutoScalingConfigurationSummary[];
-  NextToken?: string;
-}
-export const ListAutoScalingConfigurationsResponse = S.suspend(() =>
-  S.Struct({
-    AutoScalingConfigurationSummaryList: AutoScalingConfigurationSummaryList,
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotations({
-  identifier: "ListAutoScalingConfigurationsResponse",
-}) as any as S.Schema<ListAutoScalingConfigurationsResponse>;
-export interface ListConnectionsResponse {
-  ConnectionSummaryList: ConnectionSummary[];
-  NextToken?: string;
-}
-export const ListConnectionsResponse = S.suspend(() =>
-  S.Struct({
-    ConnectionSummaryList: ConnectionSummaryList,
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotations({
-  identifier: "ListConnectionsResponse",
-}) as any as S.Schema<ListConnectionsResponse>;
-export interface ListObservabilityConfigurationsResponse {
-  ObservabilityConfigurationSummaryList: ObservabilityConfigurationSummary[];
-  NextToken?: string;
-}
-export const ListObservabilityConfigurationsResponse = S.suspend(() =>
-  S.Struct({
-    ObservabilityConfigurationSummaryList:
-      ObservabilityConfigurationSummaryList,
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotations({
-  identifier: "ListObservabilityConfigurationsResponse",
-}) as any as S.Schema<ListObservabilityConfigurationsResponse>;
-export interface ListOperationsResponse {
-  OperationSummaryList?: OperationSummary[];
-  NextToken?: string;
-}
-export const ListOperationsResponse = S.suspend(() =>
-  S.Struct({
-    OperationSummaryList: S.optional(OperationSummaryList),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotations({
-  identifier: "ListOperationsResponse",
-}) as any as S.Schema<ListOperationsResponse>;
-export interface ListServicesResponse {
-  ServiceSummaryList: ServiceSummary[];
-  NextToken?: string;
-}
-export const ListServicesResponse = S.suspend(() =>
-  S.Struct({
-    ServiceSummaryList: ServiceSummaryList,
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotations({
-  identifier: "ListServicesResponse",
-}) as any as S.Schema<ListServicesResponse>;
 export interface VpcIngressConnectionSummary {
   VpcIngressConnectionArn?: string;
   ServiceArn?: string;
@@ -1937,29 +1765,13 @@ export const VpcIngressConnectionSummary = S.suspend(() =>
     VpcIngressConnectionArn: S.optional(S.String),
     ServiceArn: S.optional(S.String),
   }),
-).annotations({
+).annotate({
   identifier: "VpcIngressConnectionSummary",
 }) as any as S.Schema<VpcIngressConnectionSummary>;
 export type VpcIngressConnectionSummaryList = VpcIngressConnectionSummary[];
 export const VpcIngressConnectionSummaryList = S.Array(
   VpcIngressConnectionSummary,
 );
-export interface AssociateCustomDomainResponse {
-  DNSTarget: string;
-  ServiceArn: string;
-  CustomDomain: CustomDomain;
-  VpcDNSTargets: VpcDNSTarget[];
-}
-export const AssociateCustomDomainResponse = S.suspend(() =>
-  S.Struct({
-    DNSTarget: S.String,
-    ServiceArn: S.String,
-    CustomDomain: CustomDomain,
-    VpcDNSTargets: VpcDNSTargetList,
-  }).pipe(ns),
-).annotations({
-  identifier: "AssociateCustomDomainResponse",
-}) as any as S.Schema<AssociateCustomDomainResponse>;
 export interface ListVpcIngressConnectionsResponse {
   VpcIngressConnectionSummaryList: VpcIngressConnectionSummary[];
   NextToken?: string;
@@ -1969,29 +1781,183 @@ export const ListVpcIngressConnectionsResponse = S.suspend(() =>
     VpcIngressConnectionSummaryList: VpcIngressConnectionSummaryList,
     NextToken: S.optional(S.String),
   }).pipe(ns),
-).annotations({
+).annotate({
   identifier: "ListVpcIngressConnectionsResponse",
 }) as any as S.Schema<ListVpcIngressConnectionsResponse>;
-export interface CreateServiceRequest {
-  ServiceName: string;
-  SourceConfiguration: SourceConfiguration;
+export interface PauseServiceRequest {
+  ServiceArn: string;
+}
+export const PauseServiceRequest = S.suspend(() =>
+  S.Struct({ ServiceArn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "PauseServiceRequest",
+}) as any as S.Schema<PauseServiceRequest>;
+export interface PauseServiceResponse {
+  Service: Service;
+  OperationId?: string;
+}
+export const PauseServiceResponse = S.suspend(() =>
+  S.Struct({ Service: Service, OperationId: S.optional(S.String) }).pipe(ns),
+).annotate({
+  identifier: "PauseServiceResponse",
+}) as any as S.Schema<PauseServiceResponse>;
+export interface ResumeServiceRequest {
+  ServiceArn: string;
+}
+export const ResumeServiceRequest = S.suspend(() =>
+  S.Struct({ ServiceArn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ResumeServiceRequest",
+}) as any as S.Schema<ResumeServiceRequest>;
+export interface ResumeServiceResponse {
+  Service: Service;
+  OperationId?: string;
+}
+export const ResumeServiceResponse = S.suspend(() =>
+  S.Struct({ Service: Service, OperationId: S.optional(S.String) }).pipe(ns),
+).annotate({
+  identifier: "ResumeServiceResponse",
+}) as any as S.Schema<ResumeServiceResponse>;
+export interface StartDeploymentRequest {
+  ServiceArn: string;
+}
+export const StartDeploymentRequest = S.suspend(() =>
+  S.Struct({ ServiceArn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "StartDeploymentRequest",
+}) as any as S.Schema<StartDeploymentRequest>;
+export interface StartDeploymentResponse {
+  OperationId: string;
+}
+export const StartDeploymentResponse = S.suspend(() =>
+  S.Struct({ OperationId: S.String }).pipe(ns),
+).annotate({
+  identifier: "StartDeploymentResponse",
+}) as any as S.Schema<StartDeploymentResponse>;
+export interface TagResourceRequest {
+  ResourceArn: string;
+  Tags: Tag[];
+}
+export const TagResourceRequest = S.suspend(() =>
+  S.Struct({ ResourceArn: S.String, Tags: TagList }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "TagResourceRequest",
+}) as any as S.Schema<TagResourceRequest>;
+export interface TagResourceResponse {}
+export const TagResourceResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "TagResourceResponse",
+}) as any as S.Schema<TagResourceResponse>;
+export type TagKeyList = string[];
+export const TagKeyList = S.Array(S.String);
+export interface UntagResourceRequest {
+  ResourceArn: string;
+  TagKeys: string[];
+}
+export const UntagResourceRequest = S.suspend(() =>
+  S.Struct({ ResourceArn: S.String, TagKeys: TagKeyList }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "UntagResourceRequest",
+}) as any as S.Schema<UntagResourceRequest>;
+export interface UntagResourceResponse {}
+export const UntagResourceResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "UntagResourceResponse",
+}) as any as S.Schema<UntagResourceResponse>;
+export interface UpdateDefaultAutoScalingConfigurationRequest {
+  AutoScalingConfigurationArn: string;
+}
+export const UpdateDefaultAutoScalingConfigurationRequest = S.suspend(() =>
+  S.Struct({ AutoScalingConfigurationArn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "UpdateDefaultAutoScalingConfigurationRequest",
+}) as any as S.Schema<UpdateDefaultAutoScalingConfigurationRequest>;
+export interface UpdateDefaultAutoScalingConfigurationResponse {
+  AutoScalingConfiguration: AutoScalingConfiguration;
+}
+export const UpdateDefaultAutoScalingConfigurationResponse = S.suspend(() =>
+  S.Struct({ AutoScalingConfiguration: AutoScalingConfiguration }).pipe(ns),
+).annotate({
+  identifier: "UpdateDefaultAutoScalingConfigurationResponse",
+}) as any as S.Schema<UpdateDefaultAutoScalingConfigurationResponse>;
+export interface UpdateServiceRequest {
+  ServiceArn: string;
+  SourceConfiguration?: SourceConfiguration;
   InstanceConfiguration?: InstanceConfiguration;
-  Tags?: Tag[];
-  EncryptionConfiguration?: EncryptionConfiguration;
-  HealthCheckConfiguration?: HealthCheckConfiguration;
   AutoScalingConfigurationArn?: string;
+  HealthCheckConfiguration?: HealthCheckConfiguration;
   NetworkConfiguration?: NetworkConfiguration;
   ObservabilityConfiguration?: ServiceObservabilityConfiguration;
 }
-export const CreateServiceRequest = S.suspend(() =>
+export const UpdateServiceRequest = S.suspend(() =>
   S.Struct({
-    ServiceName: S.String,
-    SourceConfiguration: SourceConfiguration,
+    ServiceArn: S.String,
+    SourceConfiguration: S.optional(SourceConfiguration),
     InstanceConfiguration: S.optional(InstanceConfiguration),
-    Tags: S.optional(TagList),
-    EncryptionConfiguration: S.optional(EncryptionConfiguration),
-    HealthCheckConfiguration: S.optional(HealthCheckConfiguration),
     AutoScalingConfigurationArn: S.optional(S.String),
+    HealthCheckConfiguration: S.optional(HealthCheckConfiguration),
     NetworkConfiguration: S.optional(NetworkConfiguration),
     ObservabilityConfiguration: S.optional(ServiceObservabilityConfiguration),
   }).pipe(
@@ -2005,287 +1971,101 @@ export const CreateServiceRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
-  identifier: "CreateServiceRequest",
-}) as any as S.Schema<CreateServiceRequest>;
-export interface CreateServiceResponse {
+).annotate({
+  identifier: "UpdateServiceRequest",
+}) as any as S.Schema<UpdateServiceRequest>;
+export interface UpdateServiceResponse {
   Service: Service;
   OperationId: string;
 }
-export const CreateServiceResponse = S.suspend(() =>
+export const UpdateServiceResponse = S.suspend(() =>
   S.Struct({ Service: Service, OperationId: S.String }).pipe(ns),
-).annotations({
-  identifier: "CreateServiceResponse",
-}) as any as S.Schema<CreateServiceResponse>;
+).annotate({
+  identifier: "UpdateServiceResponse",
+}) as any as S.Schema<UpdateServiceResponse>;
+export interface UpdateVpcIngressConnectionRequest {
+  VpcIngressConnectionArn: string;
+  IngressVpcConfiguration: IngressVpcConfiguration;
+}
+export const UpdateVpcIngressConnectionRequest = S.suspend(() =>
+  S.Struct({
+    VpcIngressConnectionArn: S.String,
+    IngressVpcConfiguration: IngressVpcConfiguration,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "UpdateVpcIngressConnectionRequest",
+}) as any as S.Schema<UpdateVpcIngressConnectionRequest>;
+export interface UpdateVpcIngressConnectionResponse {
+  VpcIngressConnection: VpcIngressConnection;
+}
+export const UpdateVpcIngressConnectionResponse = S.suspend(() =>
+  S.Struct({ VpcIngressConnection: VpcIngressConnection }).pipe(ns),
+).annotate({
+  identifier: "UpdateVpcIngressConnectionResponse",
+}) as any as S.Schema<UpdateVpcIngressConnectionResponse>;
 
 //# Errors
-export class InternalServiceErrorException extends S.TaggedError<InternalServiceErrorException>()(
+export class InternalServiceErrorException extends S.TaggedErrorClass<InternalServiceErrorException>()(
   "InternalServiceErrorException",
   { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "InternalServiceError", httpResponseCode: 500 }),
 ).pipe(C.withServerError) {}
-export class InvalidRequestException extends S.TaggedError<InvalidRequestException>()(
+export class InvalidRequestException extends S.TaggedErrorClass<InvalidRequestException>()(
   "InvalidRequestException",
   { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "InvalidRequest", httpResponseCode: 400 }),
 ).pipe(C.withBadRequestError) {}
-export class InvalidStateException extends S.TaggedError<InvalidStateException>()(
+export class InvalidStateException extends S.TaggedErrorClass<InvalidStateException>()(
   "InvalidStateException",
   { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "InvalidState", httpResponseCode: 400 }),
 ).pipe(C.withBadRequestError) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
-  "ResourceNotFoundException",
-  { Message: S.optional(S.String) },
-  T.AwsQueryError({ code: "ResourceNotfound", httpResponseCode: 400 }),
-).pipe(C.withBadRequestError) {}
-export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
+export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
   { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "ServiceQuotaExceeded", httpResponseCode: 402 }),
 ).pipe(C.withQuotaError) {}
+export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFoundException>()(
+  "ResourceNotFoundException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "ResourceNotfound", httpResponseCode: 400 }),
+).pipe(C.withBadRequestError) {}
 
 //# Operations
 /**
- * Returns a list of App Runner VPC connectors in your Amazon Web Services account.
- */
-export const listVpcConnectors: {
-  (
-    input: ListVpcConnectorsRequest,
-  ): effect.Effect<
-    ListVpcConnectorsResponse,
-    InternalServiceErrorException | InvalidRequestException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  pages: (
-    input: ListVpcConnectorsRequest,
-  ) => stream.Stream<
-    ListVpcConnectorsResponse,
-    InternalServiceErrorException | InvalidRequestException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  items: (
-    input: ListVpcConnectorsRequest,
-  ) => stream.Stream<
-    unknown,
-    InternalServiceErrorException | InvalidRequestException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
-  input: ListVpcConnectorsRequest,
-  output: ListVpcConnectorsResponse,
-  errors: [InternalServiceErrorException, InvalidRequestException],
-  pagination: {
-    inputToken: "NextToken",
-    outputToken: "NextToken",
-    pageSize: "MaxResults",
-  } as const,
-}));
-/**
- * Returns a list of active App Runner automatic scaling configurations in your Amazon Web Services account. You can query the revisions for a specific
- * configuration name or the revisions for all active configurations in your account. You can optionally query only the latest revision of each requested
- * name.
+ * Associate your own domain name with the App Runner subdomain URL of your App Runner service.
  *
- * To retrieve a full description of a particular configuration revision, call and provide one of
- * the ARNs returned by `ListAutoScalingConfigurations`.
+ * After you call `AssociateCustomDomain` and receive a successful response, use the information in the CustomDomain record
+ * that's returned to add CNAME records to your Domain Name System (DNS). For each mapped domain name, add a mapping to the target App Runner subdomain and one or
+ * more certificate validation records. App Runner then performs DNS validation to verify that you own or control the domain name that you associated. App Runner tracks
+ * domain validity in a certificate stored in AWS Certificate Manager (ACM).
  */
-export const listAutoScalingConfigurations: {
-  (
-    input: ListAutoScalingConfigurationsRequest,
-  ): effect.Effect<
-    ListAutoScalingConfigurationsResponse,
-    InternalServiceErrorException | InvalidRequestException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  pages: (
-    input: ListAutoScalingConfigurationsRequest,
-  ) => stream.Stream<
-    ListAutoScalingConfigurationsResponse,
-    InternalServiceErrorException | InvalidRequestException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  items: (
-    input: ListAutoScalingConfigurationsRequest,
-  ) => stream.Stream<
-    unknown,
-    InternalServiceErrorException | InvalidRequestException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
-  input: ListAutoScalingConfigurationsRequest,
-  output: ListAutoScalingConfigurationsResponse,
-  errors: [InternalServiceErrorException, InvalidRequestException],
-  pagination: {
-    inputToken: "NextToken",
-    outputToken: "NextToken",
-    pageSize: "MaxResults",
-  } as const,
-}));
-/**
- * Returns a list of App Runner connections that are associated with your Amazon Web Services account.
- */
-export const listConnections: {
-  (
-    input: ListConnectionsRequest,
-  ): effect.Effect<
-    ListConnectionsResponse,
-    InternalServiceErrorException | InvalidRequestException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  pages: (
-    input: ListConnectionsRequest,
-  ) => stream.Stream<
-    ListConnectionsResponse,
-    InternalServiceErrorException | InvalidRequestException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  items: (
-    input: ListConnectionsRequest,
-  ) => stream.Stream<
-    unknown,
-    InternalServiceErrorException | InvalidRequestException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
-  input: ListConnectionsRequest,
-  output: ListConnectionsResponse,
-  errors: [InternalServiceErrorException, InvalidRequestException],
-  pagination: {
-    inputToken: "NextToken",
-    outputToken: "NextToken",
-    pageSize: "MaxResults",
-  } as const,
-}));
-/**
- * Returns a list of active App Runner observability configurations in your Amazon Web Services account. You can query the revisions for a specific
- * configuration name or the revisions for all active configurations in your account. You can optionally query only the latest revision of each requested
- * name.
- *
- * To retrieve a full description of a particular configuration revision, call and provide one
- * of the ARNs returned by `ListObservabilityConfigurations`.
- */
-export const listObservabilityConfigurations: {
-  (
-    input: ListObservabilityConfigurationsRequest,
-  ): effect.Effect<
-    ListObservabilityConfigurationsResponse,
-    InternalServiceErrorException | InvalidRequestException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  pages: (
-    input: ListObservabilityConfigurationsRequest,
-  ) => stream.Stream<
-    ListObservabilityConfigurationsResponse,
-    InternalServiceErrorException | InvalidRequestException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  items: (
-    input: ListObservabilityConfigurationsRequest,
-  ) => stream.Stream<
-    unknown,
-    InternalServiceErrorException | InvalidRequestException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
-  input: ListObservabilityConfigurationsRequest,
-  output: ListObservabilityConfigurationsResponse,
-  errors: [InternalServiceErrorException, InvalidRequestException],
-  pagination: {
-    inputToken: "NextToken",
-    outputToken: "NextToken",
-    pageSize: "MaxResults",
-  } as const,
-}));
-/**
- * Returns a list of running App Runner services in your Amazon Web Services account.
- */
-export const listServices: {
-  (
-    input: ListServicesRequest,
-  ): effect.Effect<
-    ListServicesResponse,
-    InternalServiceErrorException | InvalidRequestException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  pages: (
-    input: ListServicesRequest,
-  ) => stream.Stream<
-    ListServicesResponse,
-    InternalServiceErrorException | InvalidRequestException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  items: (
-    input: ListServicesRequest,
-  ) => stream.Stream<
-    unknown,
-    InternalServiceErrorException | InvalidRequestException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
-  input: ListServicesRequest,
-  output: ListServicesResponse,
-  errors: [InternalServiceErrorException, InvalidRequestException],
-  pagination: {
-    inputToken: "NextToken",
-    outputToken: "NextToken",
-    pageSize: "MaxResults",
-  } as const,
-}));
-/**
- * Return a list of App Runner VPC Ingress Connections in your Amazon Web Services account.
- */
-export const listVpcIngressConnections: {
-  (
-    input: ListVpcIngressConnectionsRequest,
-  ): effect.Effect<
-    ListVpcIngressConnectionsResponse,
-    InternalServiceErrorException | InvalidRequestException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  pages: (
-    input: ListVpcIngressConnectionsRequest,
-  ) => stream.Stream<
-    ListVpcIngressConnectionsResponse,
-    InternalServiceErrorException | InvalidRequestException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  items: (
-    input: ListVpcIngressConnectionsRequest,
-  ) => stream.Stream<
-    unknown,
-    InternalServiceErrorException | InvalidRequestException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
-  input: ListVpcIngressConnectionsRequest,
-  output: ListVpcIngressConnectionsResponse,
-  errors: [InternalServiceErrorException, InvalidRequestException],
-  pagination: {
-    inputToken: "NextToken",
-    outputToken: "NextToken",
-    pageSize: "MaxResults",
-  } as const,
-}));
-/**
- * Update an auto scaling configuration to be the default. The existing default auto scaling configuration will be set to non-default
- * automatically.
- */
-export const updateDefaultAutoScalingConfiguration: (
-  input: UpdateDefaultAutoScalingConfigurationRequest,
+export const associateCustomDomain: (
+  input: AssociateCustomDomainRequest,
 ) => effect.Effect<
-  UpdateDefaultAutoScalingConfigurationResponse,
+  AssociateCustomDomainResponse,
   | InternalServiceErrorException
   | InvalidRequestException
-  | ResourceNotFoundException
+  | InvalidStateException
   | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateDefaultAutoScalingConfigurationRequest,
-  output: UpdateDefaultAutoScalingConfigurationResponse,
+  input: AssociateCustomDomainRequest,
+  output: AssociateCustomDomainResponse,
   errors: [
     InternalServiceErrorException,
     InvalidRequestException,
-    ResourceNotFoundException,
+    InvalidStateException,
   ],
 }));
 /**
@@ -2321,188 +2101,105 @@ export const createAutoScalingConfiguration: (
   ],
 }));
 /**
- * Update an App Runner service. You can update the source configuration and instance configuration of the service. You can also update the ARN of the auto
- * scaling configuration resource that's associated with the service. However, you can't change the name or the encryption configuration of the service.
- * These can be set only when you create the service.
+ * Create an App Runner connection resource. App Runner requires a connection resource when you create App Runner services that access private repositories from
+ * certain third-party providers. You can share a connection across multiple services.
  *
- * To update the tags applied to your service, use the separate actions TagResource and UntagResource.
- *
- * This is an asynchronous operation. On a successful call, you can use the returned `OperationId` and the ListOperations
- * call to track the operation's progress.
+ * A connection resource is needed to access GitHub and Bitbucket repositories. Both require
+ * a user interface approval process through the App Runner console before you can use the
+ * connection.
  */
-export const updateService: (
-  input: UpdateServiceRequest,
+export const createConnection: (
+  input: CreateConnectionRequest,
 ) => effect.Effect<
-  UpdateServiceResponse,
+  CreateConnectionResponse,
   | InternalServiceErrorException
   | InvalidRequestException
-  | InvalidStateException
-  | ResourceNotFoundException
+  | ServiceQuotaExceededException
   | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateServiceRequest,
-  output: UpdateServiceResponse,
+  input: CreateConnectionRequest,
+  output: CreateConnectionResponse,
   errors: [
     InternalServiceErrorException,
     InvalidRequestException,
-    InvalidStateException,
-    ResourceNotFoundException,
+    ServiceQuotaExceededException,
   ],
 }));
 /**
- * Update an existing App Runner VPC Ingress Connection resource. The VPC Ingress Connection must be in one of the following states to be updated:
+ * Create an App Runner observability configuration resource. App Runner requires this resource when you create or update App Runner services and you want to enable
+ * non-default observability features. You can share an observability configuration across multiple services.
  *
- * - AVAILABLE
+ * Create multiple revisions of a configuration by calling this action multiple times using the same `ObservabilityConfigurationName`. The
+ * call returns incremental `ObservabilityConfigurationRevision` values. When you create a service and configure an observability configuration
+ * resource, the service uses the latest active revision of the observability configuration by default. You can optionally configure the service to use a
+ * specific revision.
  *
- * - FAILED_CREATION
- *
- * - FAILED_UPDATE
+ * The observability configuration resource is designed to configure multiple features (currently one feature, tracing). This action takes optional
+ * parameters that describe the configuration of these features (currently one parameter, `TraceConfiguration`). If you don't specify a feature
+ * parameter, App Runner doesn't enable the feature.
  */
-export const updateVpcIngressConnection: (
-  input: UpdateVpcIngressConnectionRequest,
+export const createObservabilityConfiguration: (
+  input: CreateObservabilityConfigurationRequest,
 ) => effect.Effect<
-  UpdateVpcIngressConnectionResponse,
+  CreateObservabilityConfigurationResponse,
   | InternalServiceErrorException
   | InvalidRequestException
-  | InvalidStateException
-  | ResourceNotFoundException
+  | ServiceQuotaExceededException
   | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateVpcIngressConnectionRequest,
-  output: UpdateVpcIngressConnectionResponse,
+  input: CreateObservabilityConfigurationRequest,
+  output: CreateObservabilityConfigurationResponse,
   errors: [
     InternalServiceErrorException,
     InvalidRequestException,
-    InvalidStateException,
-    ResourceNotFoundException,
+    ServiceQuotaExceededException,
   ],
 }));
 /**
- * Remove tags from an App Runner resource.
- */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
-  UntagResourceResponse,
-  | InternalServiceErrorException
-  | InvalidRequestException
-  | InvalidStateException
-  | ResourceNotFoundException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
-  errors: [
-    InternalServiceErrorException,
-    InvalidRequestException,
-    InvalidStateException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Disassociate a custom domain name from an App Runner service.
+ * Create an App Runner service. After the service is created, the action also automatically starts a deployment.
  *
- * Certificates tracking domain validity are associated with a custom domain and are stored in AWS
- * Certificate Manager (ACM). These certificates aren't deleted as part of this action. App Runner delays certificate deletion for
- * 30 days after a domain is disassociated from your service.
+ * This is an asynchronous operation. On a successful call, you can use the returned `OperationId` and the ListOperations call to track the operation's progress.
  */
-export const disassociateCustomDomain: (
-  input: DisassociateCustomDomainRequest,
+export const createService: (
+  input: CreateServiceRequest,
 ) => effect.Effect<
-  DisassociateCustomDomainResponse,
+  CreateServiceResponse,
   | InternalServiceErrorException
   | InvalidRequestException
-  | InvalidStateException
-  | ResourceNotFoundException
+  | ServiceQuotaExceededException
   | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DisassociateCustomDomainRequest,
-  output: DisassociateCustomDomainResponse,
+  input: CreateServiceRequest,
+  output: CreateServiceResponse,
   errors: [
     InternalServiceErrorException,
     InvalidRequestException,
-    InvalidStateException,
-    ResourceNotFoundException,
+    ServiceQuotaExceededException,
   ],
 }));
 /**
- * List tags that are associated with for an App Runner resource. The response contains a list of tag key-value pairs.
+ * Create an App Runner VPC connector resource. App Runner requires this resource when you want to associate your App Runner service to a custom Amazon Virtual Private Cloud
+ * (Amazon VPC).
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
+export const createVpcConnector: (
+  input: CreateVpcConnectorRequest,
 ) => effect.Effect<
-  ListTagsForResourceResponse,
+  CreateVpcConnectorResponse,
   | InternalServiceErrorException
   | InvalidRequestException
-  | InvalidStateException
-  | ResourceNotFoundException
+  | ServiceQuotaExceededException
   | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
+  input: CreateVpcConnectorRequest,
+  output: CreateVpcConnectorResponse,
   errors: [
     InternalServiceErrorException,
     InvalidRequestException,
-    InvalidStateException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Pause an active App Runner service. App Runner reduces compute capacity for the service to zero and loses state (for example, ephemeral storage is
- * removed).
- *
- * This is an asynchronous operation. On a successful call, you can use the returned `OperationId` and the ListOperations
- * call to track the operation's progress.
- */
-export const pauseService: (
-  input: PauseServiceRequest,
-) => effect.Effect<
-  PauseServiceResponse,
-  | InternalServiceErrorException
-  | InvalidRequestException
-  | InvalidStateException
-  | ResourceNotFoundException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PauseServiceRequest,
-  output: PauseServiceResponse,
-  errors: [
-    InternalServiceErrorException,
-    InvalidRequestException,
-    InvalidStateException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Resume an active App Runner service. App Runner provisions compute capacity for the service.
- *
- * This is an asynchronous operation. On a successful call, you can use the returned `OperationId` and the ListOperations
- * call to track the operation's progress.
- */
-export const resumeService: (
-  input: ResumeServiceRequest,
-) => effect.Effect<
-  ResumeServiceResponse,
-  | InternalServiceErrorException
-  | InvalidRequestException
-  | InvalidStateException
-  | ResourceNotFoundException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ResumeServiceRequest,
-  output: ResumeServiceResponse,
-  errors: [
-    InternalServiceErrorException,
-    InvalidRequestException,
-    InvalidStateException,
-    ResourceNotFoundException,
+    ServiceQuotaExceededException,
   ],
 }));
 /**
@@ -2526,6 +2223,73 @@ export const createVpcIngressConnection: (
     InvalidRequestException,
     InvalidStateException,
     ServiceQuotaExceededException,
+  ],
+}));
+/**
+ * Delete an App Runner automatic scaling configuration resource. You can delete a top level auto scaling configuration, a specific revision of one, or all
+ * revisions associated with the top level configuration. You can't delete the default auto scaling configuration or a configuration that's used by one or
+ * more App Runner services.
+ */
+export const deleteAutoScalingConfiguration: (
+  input: DeleteAutoScalingConfigurationRequest,
+) => effect.Effect<
+  DeleteAutoScalingConfigurationResponse,
+  | InternalServiceErrorException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteAutoScalingConfigurationRequest,
+  output: DeleteAutoScalingConfigurationResponse,
+  errors: [
+    InternalServiceErrorException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Delete an App Runner connection. You must first ensure that there are no running App Runner services that use this connection. If there are any, the
+ * `DeleteConnection` action fails.
+ */
+export const deleteConnection: (
+  input: DeleteConnectionRequest,
+) => effect.Effect<
+  DeleteConnectionResponse,
+  | InternalServiceErrorException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteConnectionRequest,
+  output: DeleteConnectionResponse,
+  errors: [
+    InternalServiceErrorException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Delete an App Runner observability configuration resource. You can delete a specific revision or the latest active revision. You can't delete a
+ * configuration that's used by one or more App Runner services.
+ */
+export const deleteObservabilityConfiguration: (
+  input: DeleteObservabilityConfigurationRequest,
+) => effect.Effect<
+  DeleteObservabilityConfigurationResponse,
+  | InternalServiceErrorException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteObservabilityConfigurationRequest,
+  output: DeleteObservabilityConfigurationResponse,
+  errors: [
+    InternalServiceErrorException,
+    InvalidRequestException,
+    ResourceNotFoundException,
   ],
 }));
 /**
@@ -2557,6 +2321,28 @@ export const deleteService: (
   ],
 }));
 /**
+ * Delete an App Runner VPC connector resource. You can't delete a
+ * connector that's used by one or more App Runner services.
+ */
+export const deleteVpcConnector: (
+  input: DeleteVpcConnectorRequest,
+) => effect.Effect<
+  DeleteVpcConnectorResponse,
+  | InternalServiceErrorException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteVpcConnectorRequest,
+  output: DeleteVpcConnectorResponse,
+  errors: [
+    InternalServiceErrorException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
  * Delete an App Runner VPC Ingress Connection resource that's associated with an App Runner service. The VPC Ingress Connection must be in one of the following states to be deleted:
  *
  * - `AVAILABLE`
@@ -2584,76 +2370,6 @@ export const deleteVpcIngressConnection: (
     InternalServiceErrorException,
     InvalidRequestException,
     InvalidStateException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Associate your own domain name with the App Runner subdomain URL of your App Runner service.
- *
- * After you call `AssociateCustomDomain` and receive a successful response, use the information in the CustomDomain record
- * that's returned to add CNAME records to your Domain Name System (DNS). For each mapped domain name, add a mapping to the target App Runner subdomain and one or
- * more certificate validation records. App Runner then performs DNS validation to verify that you own or control the domain name that you associated. App Runner tracks
- * domain validity in a certificate stored in AWS Certificate Manager (ACM).
- */
-export const associateCustomDomain: (
-  input: AssociateCustomDomainRequest,
-) => effect.Effect<
-  AssociateCustomDomainResponse,
-  | InternalServiceErrorException
-  | InvalidRequestException
-  | InvalidStateException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: AssociateCustomDomainRequest,
-  output: AssociateCustomDomainResponse,
-  errors: [
-    InternalServiceErrorException,
-    InvalidRequestException,
-    InvalidStateException,
-  ],
-}));
-/**
- * Delete an App Runner connection. You must first ensure that there are no running App Runner services that use this connection. If there are any, the
- * `DeleteConnection` action fails.
- */
-export const deleteConnection: (
-  input: DeleteConnectionRequest,
-) => effect.Effect<
-  DeleteConnectionResponse,
-  | InternalServiceErrorException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteConnectionRequest,
-  output: DeleteConnectionResponse,
-  errors: [
-    InternalServiceErrorException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Delete an App Runner VPC connector resource. You can't delete a
- * connector that's used by one or more App Runner services.
- */
-export const deleteVpcConnector: (
-  input: DeleteVpcConnectorRequest,
-) => effect.Effect<
-  DeleteVpcConnectorResponse,
-  | InternalServiceErrorException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteVpcConnectorRequest,
-  output: DeleteVpcConnectorResponse,
-  errors: [
-    InternalServiceErrorException,
-    InvalidRequestException,
     ResourceNotFoundException,
   ],
 }));
@@ -2811,47 +2527,66 @@ export const describeVpcIngressConnection: (
   ],
 }));
 /**
- * Returns a list of the associated App Runner services using an auto scaling configuration.
+ * Disassociate a custom domain name from an App Runner service.
+ *
+ * Certificates tracking domain validity are associated with a custom domain and are stored in AWS
+ * Certificate Manager (ACM). These certificates aren't deleted as part of this action. App Runner delays certificate deletion for
+ * 30 days after a domain is disassociated from your service.
  */
-export const listServicesForAutoScalingConfiguration: {
-  (
-    input: ListServicesForAutoScalingConfigurationRequest,
-  ): effect.Effect<
-    ListServicesForAutoScalingConfigurationResponse,
-    | InternalServiceErrorException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  pages: (
-    input: ListServicesForAutoScalingConfigurationRequest,
-  ) => stream.Stream<
-    ListServicesForAutoScalingConfigurationResponse,
-    | InternalServiceErrorException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  items: (
-    input: ListServicesForAutoScalingConfigurationRequest,
-  ) => stream.Stream<
-    unknown,
-    | InternalServiceErrorException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
-  input: ListServicesForAutoScalingConfigurationRequest,
-  output: ListServicesForAutoScalingConfigurationResponse,
+export const disassociateCustomDomain: (
+  input: DisassociateCustomDomainRequest,
+) => effect.Effect<
+  DisassociateCustomDomainResponse,
+  | InternalServiceErrorException
+  | InvalidRequestException
+  | InvalidStateException
+  | ResourceNotFoundException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateCustomDomainRequest,
+  output: DisassociateCustomDomainResponse,
   errors: [
     InternalServiceErrorException,
     InvalidRequestException,
+    InvalidStateException,
     ResourceNotFoundException,
   ],
+}));
+/**
+ * Returns a list of active App Runner automatic scaling configurations in your Amazon Web Services account. You can query the revisions for a specific
+ * configuration name or the revisions for all active configurations in your account. You can optionally query only the latest revision of each requested
+ * name.
+ *
+ * To retrieve a full description of a particular configuration revision, call and provide one of
+ * the ARNs returned by `ListAutoScalingConfigurations`.
+ */
+export const listAutoScalingConfigurations: {
+  (
+    input: ListAutoScalingConfigurationsRequest,
+  ): effect.Effect<
+    ListAutoScalingConfigurationsResponse,
+    InternalServiceErrorException | InvalidRequestException | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAutoScalingConfigurationsRequest,
+  ) => stream.Stream<
+    ListAutoScalingConfigurationsResponse,
+    InternalServiceErrorException | InvalidRequestException | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAutoScalingConfigurationsRequest,
+  ) => stream.Stream<
+    unknown,
+    InternalServiceErrorException | InvalidRequestException | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAutoScalingConfigurationsRequest,
+  output: ListAutoScalingConfigurationsResponse,
+  errors: [InternalServiceErrorException, InvalidRequestException],
   pagination: {
     inputToken: "NextToken",
     outputToken: "NextToken",
@@ -2859,77 +2594,79 @@ export const listServicesForAutoScalingConfiguration: {
   } as const,
 }));
 /**
- * Initiate a manual deployment of the latest commit in a source code repository or the latest image in a source image repository to an App Runner
- * service.
- *
- * For a source code repository, App Runner retrieves the commit and builds a Docker image. For a source image repository, App Runner retrieves the latest Docker
- * image. In both cases, App Runner then deploys the new image to your service and starts a new container instance.
- *
- * This is an asynchronous operation. On a successful call, you can use the returned `OperationId` and the ListOperations
- * call to track the operation's progress.
+ * Returns a list of App Runner connections that are associated with your Amazon Web Services account.
  */
-export const startDeployment: (
-  input: StartDeploymentRequest,
-) => effect.Effect<
-  StartDeploymentResponse,
-  | InternalServiceErrorException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StartDeploymentRequest,
-  output: StartDeploymentResponse,
-  errors: [
-    InternalServiceErrorException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-  ],
+export const listConnections: {
+  (
+    input: ListConnectionsRequest,
+  ): effect.Effect<
+    ListConnectionsResponse,
+    InternalServiceErrorException | InvalidRequestException | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListConnectionsRequest,
+  ) => stream.Stream<
+    ListConnectionsResponse,
+    InternalServiceErrorException | InvalidRequestException | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListConnectionsRequest,
+  ) => stream.Stream<
+    unknown,
+    InternalServiceErrorException | InvalidRequestException | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListConnectionsRequest,
+  output: ListConnectionsResponse,
+  errors: [InternalServiceErrorException, InvalidRequestException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
 }));
 /**
- * Delete an App Runner automatic scaling configuration resource. You can delete a top level auto scaling configuration, a specific revision of one, or all
- * revisions associated with the top level configuration. You can't delete the default auto scaling configuration or a configuration that's used by one or
- * more App Runner services.
+ * Returns a list of active App Runner observability configurations in your Amazon Web Services account. You can query the revisions for a specific
+ * configuration name or the revisions for all active configurations in your account. You can optionally query only the latest revision of each requested
+ * name.
+ *
+ * To retrieve a full description of a particular configuration revision, call and provide one
+ * of the ARNs returned by `ListObservabilityConfigurations`.
  */
-export const deleteAutoScalingConfiguration: (
-  input: DeleteAutoScalingConfigurationRequest,
-) => effect.Effect<
-  DeleteAutoScalingConfigurationResponse,
-  | InternalServiceErrorException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteAutoScalingConfigurationRequest,
-  output: DeleteAutoScalingConfigurationResponse,
-  errors: [
-    InternalServiceErrorException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Delete an App Runner observability configuration resource. You can delete a specific revision or the latest active revision. You can't delete a
- * configuration that's used by one or more App Runner services.
- */
-export const deleteObservabilityConfiguration: (
-  input: DeleteObservabilityConfigurationRequest,
-) => effect.Effect<
-  DeleteObservabilityConfigurationResponse,
-  | InternalServiceErrorException
-  | InvalidRequestException
-  | ResourceNotFoundException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteObservabilityConfigurationRequest,
-  output: DeleteObservabilityConfigurationResponse,
-  errors: [
-    InternalServiceErrorException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-  ],
+export const listObservabilityConfigurations: {
+  (
+    input: ListObservabilityConfigurationsRequest,
+  ): effect.Effect<
+    ListObservabilityConfigurationsResponse,
+    InternalServiceErrorException | InvalidRequestException | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListObservabilityConfigurationsRequest,
+  ) => stream.Stream<
+    ListObservabilityConfigurationsResponse,
+    InternalServiceErrorException | InvalidRequestException | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListObservabilityConfigurationsRequest,
+  ) => stream.Stream<
+    unknown,
+    InternalServiceErrorException | InvalidRequestException | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListObservabilityConfigurationsRequest,
+  output: ListObservabilityConfigurationsResponse,
+  errors: [InternalServiceErrorException, InvalidRequestException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
 }));
 /**
  * Return a list of operations that occurred on an App Runner service.
@@ -2983,6 +2720,263 @@ export const listOperations: {
   } as const,
 }));
 /**
+ * Returns a list of running App Runner services in your Amazon Web Services account.
+ */
+export const listServices: {
+  (
+    input: ListServicesRequest,
+  ): effect.Effect<
+    ListServicesResponse,
+    InternalServiceErrorException | InvalidRequestException | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListServicesRequest,
+  ) => stream.Stream<
+    ListServicesResponse,
+    InternalServiceErrorException | InvalidRequestException | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListServicesRequest,
+  ) => stream.Stream<
+    unknown,
+    InternalServiceErrorException | InvalidRequestException | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListServicesRequest,
+  output: ListServicesResponse,
+  errors: [InternalServiceErrorException, InvalidRequestException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
+/**
+ * Returns a list of the associated App Runner services using an auto scaling configuration.
+ */
+export const listServicesForAutoScalingConfiguration: {
+  (
+    input: ListServicesForAutoScalingConfigurationRequest,
+  ): effect.Effect<
+    ListServicesForAutoScalingConfigurationResponse,
+    | InternalServiceErrorException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListServicesForAutoScalingConfigurationRequest,
+  ) => stream.Stream<
+    ListServicesForAutoScalingConfigurationResponse,
+    | InternalServiceErrorException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListServicesForAutoScalingConfigurationRequest,
+  ) => stream.Stream<
+    unknown,
+    | InternalServiceErrorException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListServicesForAutoScalingConfigurationRequest,
+  output: ListServicesForAutoScalingConfigurationResponse,
+  errors: [
+    InternalServiceErrorException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
+/**
+ * List tags that are associated with for an App Runner resource. The response contains a list of tag key-value pairs.
+ */
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => effect.Effect<
+  ListTagsForResourceResponse,
+  | InternalServiceErrorException
+  | InvalidRequestException
+  | InvalidStateException
+  | ResourceNotFoundException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
+  errors: [
+    InternalServiceErrorException,
+    InvalidRequestException,
+    InvalidStateException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Returns a list of App Runner VPC connectors in your Amazon Web Services account.
+ */
+export const listVpcConnectors: {
+  (
+    input: ListVpcConnectorsRequest,
+  ): effect.Effect<
+    ListVpcConnectorsResponse,
+    InternalServiceErrorException | InvalidRequestException | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListVpcConnectorsRequest,
+  ) => stream.Stream<
+    ListVpcConnectorsResponse,
+    InternalServiceErrorException | InvalidRequestException | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListVpcConnectorsRequest,
+  ) => stream.Stream<
+    unknown,
+    InternalServiceErrorException | InvalidRequestException | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListVpcConnectorsRequest,
+  output: ListVpcConnectorsResponse,
+  errors: [InternalServiceErrorException, InvalidRequestException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
+/**
+ * Return a list of App Runner VPC Ingress Connections in your Amazon Web Services account.
+ */
+export const listVpcIngressConnections: {
+  (
+    input: ListVpcIngressConnectionsRequest,
+  ): effect.Effect<
+    ListVpcIngressConnectionsResponse,
+    InternalServiceErrorException | InvalidRequestException | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListVpcIngressConnectionsRequest,
+  ) => stream.Stream<
+    ListVpcIngressConnectionsResponse,
+    InternalServiceErrorException | InvalidRequestException | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListVpcIngressConnectionsRequest,
+  ) => stream.Stream<
+    unknown,
+    InternalServiceErrorException | InvalidRequestException | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListVpcIngressConnectionsRequest,
+  output: ListVpcIngressConnectionsResponse,
+  errors: [InternalServiceErrorException, InvalidRequestException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
+/**
+ * Pause an active App Runner service. App Runner reduces compute capacity for the service to zero and loses state (for example, ephemeral storage is
+ * removed).
+ *
+ * This is an asynchronous operation. On a successful call, you can use the returned `OperationId` and the ListOperations
+ * call to track the operation's progress.
+ */
+export const pauseService: (
+  input: PauseServiceRequest,
+) => effect.Effect<
+  PauseServiceResponse,
+  | InternalServiceErrorException
+  | InvalidRequestException
+  | InvalidStateException
+  | ResourceNotFoundException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PauseServiceRequest,
+  output: PauseServiceResponse,
+  errors: [
+    InternalServiceErrorException,
+    InvalidRequestException,
+    InvalidStateException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Resume an active App Runner service. App Runner provisions compute capacity for the service.
+ *
+ * This is an asynchronous operation. On a successful call, you can use the returned `OperationId` and the ListOperations
+ * call to track the operation's progress.
+ */
+export const resumeService: (
+  input: ResumeServiceRequest,
+) => effect.Effect<
+  ResumeServiceResponse,
+  | InternalServiceErrorException
+  | InvalidRequestException
+  | InvalidStateException
+  | ResourceNotFoundException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ResumeServiceRequest,
+  output: ResumeServiceResponse,
+  errors: [
+    InternalServiceErrorException,
+    InvalidRequestException,
+    InvalidStateException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Initiate a manual deployment of the latest commit in a source code repository or the latest image in a source image repository to an App Runner
+ * service.
+ *
+ * For a source code repository, App Runner retrieves the commit and builds a Docker image. For a source image repository, App Runner retrieves the latest Docker
+ * image. In both cases, App Runner then deploys the new image to your service and starts a new container instance.
+ *
+ * This is an asynchronous operation. On a successful call, you can use the returned `OperationId` and the ListOperations
+ * call to track the operation's progress.
+ */
+export const startDeployment: (
+  input: StartDeploymentRequest,
+) => effect.Effect<
+  StartDeploymentResponse,
+  | InternalServiceErrorException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartDeploymentRequest,
+  output: StartDeploymentResponse,
+  errors: [
+    InternalServiceErrorException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
  * Add tags to, or update the tag values of, an App Runner resource. A tag is a key-value pair.
  */
 export const tagResource: (
@@ -3006,104 +3000,106 @@ export const tagResource: (
   ],
 }));
 /**
- * Create an App Runner connection resource. App Runner requires a connection resource when you create App Runner services that access private repositories from
- * certain third-party providers. You can share a connection across multiple services.
- *
- * A connection resource is needed to access GitHub and Bitbucket repositories. Both require
- * a user interface approval process through the App Runner console before you can use the
- * connection.
+ * Remove tags from an App Runner resource.
  */
-export const createConnection: (
-  input: CreateConnectionRequest,
+export const untagResource: (
+  input: UntagResourceRequest,
 ) => effect.Effect<
-  CreateConnectionResponse,
+  UntagResourceResponse,
   | InternalServiceErrorException
   | InvalidRequestException
-  | ServiceQuotaExceededException
+  | InvalidStateException
+  | ResourceNotFoundException
   | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateConnectionRequest,
-  output: CreateConnectionResponse,
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
   errors: [
     InternalServiceErrorException,
     InvalidRequestException,
-    ServiceQuotaExceededException,
+    InvalidStateException,
+    ResourceNotFoundException,
   ],
 }));
 /**
- * Create an App Runner observability configuration resource. App Runner requires this resource when you create or update App Runner services and you want to enable
- * non-default observability features. You can share an observability configuration across multiple services.
- *
- * Create multiple revisions of a configuration by calling this action multiple times using the same `ObservabilityConfigurationName`. The
- * call returns incremental `ObservabilityConfigurationRevision` values. When you create a service and configure an observability configuration
- * resource, the service uses the latest active revision of the observability configuration by default. You can optionally configure the service to use a
- * specific revision.
- *
- * The observability configuration resource is designed to configure multiple features (currently one feature, tracing). This action takes optional
- * parameters that describe the configuration of these features (currently one parameter, `TraceConfiguration`). If you don't specify a feature
- * parameter, App Runner doesn't enable the feature.
+ * Update an auto scaling configuration to be the default. The existing default auto scaling configuration will be set to non-default
+ * automatically.
  */
-export const createObservabilityConfiguration: (
-  input: CreateObservabilityConfigurationRequest,
+export const updateDefaultAutoScalingConfiguration: (
+  input: UpdateDefaultAutoScalingConfigurationRequest,
 ) => effect.Effect<
-  CreateObservabilityConfigurationResponse,
+  UpdateDefaultAutoScalingConfigurationResponse,
   | InternalServiceErrorException
   | InvalidRequestException
-  | ServiceQuotaExceededException
+  | ResourceNotFoundException
   | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateObservabilityConfigurationRequest,
-  output: CreateObservabilityConfigurationResponse,
+  input: UpdateDefaultAutoScalingConfigurationRequest,
+  output: UpdateDefaultAutoScalingConfigurationResponse,
   errors: [
     InternalServiceErrorException,
     InvalidRequestException,
-    ServiceQuotaExceededException,
+    ResourceNotFoundException,
   ],
 }));
 /**
- * Create an App Runner VPC connector resource. App Runner requires this resource when you want to associate your App Runner service to a custom Amazon Virtual Private Cloud
- * (Amazon VPC).
+ * Update an App Runner service. You can update the source configuration and instance configuration of the service. You can also update the ARN of the auto
+ * scaling configuration resource that's associated with the service. However, you can't change the name or the encryption configuration of the service.
+ * These can be set only when you create the service.
+ *
+ * To update the tags applied to your service, use the separate actions TagResource and UntagResource.
+ *
+ * This is an asynchronous operation. On a successful call, you can use the returned `OperationId` and the ListOperations
+ * call to track the operation's progress.
  */
-export const createVpcConnector: (
-  input: CreateVpcConnectorRequest,
+export const updateService: (
+  input: UpdateServiceRequest,
 ) => effect.Effect<
-  CreateVpcConnectorResponse,
+  UpdateServiceResponse,
   | InternalServiceErrorException
   | InvalidRequestException
-  | ServiceQuotaExceededException
+  | InvalidStateException
+  | ResourceNotFoundException
   | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateVpcConnectorRequest,
-  output: CreateVpcConnectorResponse,
+  input: UpdateServiceRequest,
+  output: UpdateServiceResponse,
   errors: [
     InternalServiceErrorException,
     InvalidRequestException,
-    ServiceQuotaExceededException,
+    InvalidStateException,
+    ResourceNotFoundException,
   ],
 }));
 /**
- * Create an App Runner service. After the service is created, the action also automatically starts a deployment.
+ * Update an existing App Runner VPC Ingress Connection resource. The VPC Ingress Connection must be in one of the following states to be updated:
  *
- * This is an asynchronous operation. On a successful call, you can use the returned `OperationId` and the ListOperations call to track the operation's progress.
+ * - AVAILABLE
+ *
+ * - FAILED_CREATION
+ *
+ * - FAILED_UPDATE
  */
-export const createService: (
-  input: CreateServiceRequest,
+export const updateVpcIngressConnection: (
+  input: UpdateVpcIngressConnectionRequest,
 ) => effect.Effect<
-  CreateServiceResponse,
+  UpdateVpcIngressConnectionResponse,
   | InternalServiceErrorException
   | InvalidRequestException
-  | ServiceQuotaExceededException
+  | InvalidStateException
+  | ResourceNotFoundException
   | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateServiceRequest,
-  output: CreateServiceResponse,
+  input: UpdateVpcIngressConnectionRequest,
+  output: UpdateVpcIngressConnectionResponse,
   errors: [
     InternalServiceErrorException,
     InvalidRequestException,
-    ServiceQuotaExceededException,
+    InvalidStateException,
+    ResourceNotFoundException,
   ],
 }));

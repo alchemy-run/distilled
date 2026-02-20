@@ -32,7 +32,7 @@ export interface CloudflareResponse<T> {
  * Result of finding a matching error schema.
  */
 interface MatchedError {
-  schema: Schema.Schema.AnyNoContext;
+  schema: Schema.Top;
   tag: string;
 }
 
@@ -85,7 +85,7 @@ function matcherSpecificity(matcher: T.ErrorMatcherAnnotation): number {
  * More specific matches (with status and/or message) take priority.
  */
 function findMatchingError(
-  errorSchemas: Map<string, Schema.Schema.AnyNoContext>,
+  errorSchemas: Map<string, Schema.Top>,
   code: number,
   status: number,
   message: string,
@@ -239,7 +239,7 @@ export const parseResponse = <O>(
     body: ReadableStream<Uint8Array>;
   },
   outputSchema: Schema.Schema<O, unknown>,
-  errorSchemas: Map<string, Schema.Schema.AnyNoContext>,
+  errorSchemas: Map<string, Schema.Top>,
 ): Effect.Effect<O, UnknownCloudflareError | CloudflareHttpError> =>
   Effect.gen(function* () {
     // Read body as bytes
@@ -291,7 +291,7 @@ export const parseResponse = <O>(
       if (response.status >= 200 && response.status < 300) {
         // For successful non-JSON responses, try to decode the raw body as the output.
         // This handles cases like KV getNamespaceValue which returns raw bytes/text.
-        const result = yield* Schema.decodeUnknown(outputSchema, {
+        const result = yield* Schema.decodeUnknownEffect(outputSchema, {
           onExcessProperty: "ignore",
           propertyOrder: "none",
         })(bodyText).pipe(
@@ -328,7 +328,7 @@ export const parseResponse = <O>(
       // Raw JSON response (not wrapped in Cloudflare envelope).
       // For 2xx responses, decode the raw JSON directly as the output.
       if (response.status >= 200 && response.status < 300) {
-        const result = yield* Schema.decodeUnknown(outputSchema, {
+        const result = yield* Schema.decodeUnknownEffect(outputSchema, {
           onExcessProperty: "ignore",
           propertyOrder: "none",
         })(json).pipe(
@@ -389,7 +389,7 @@ export const parseResponse = <O>(
           code: errorCode,
           message: errorMessage,
         };
-        const decodeResult = yield* Schema.decodeUnknown(matched.schema)(
+        const decodeResult = yield* Schema.decodeUnknownEffect(matched.schema)(
           errorData,
         ).pipe(
           Effect.mapError(
@@ -416,7 +416,7 @@ export const parseResponse = <O>(
     // The output schema represents the unwrapped result type (not the Cloudflare envelope)
     // Use onExcessProperty: "ignore" to allow unknown fields from the API
     // Use propertyOrder: "none" to handle snake_case → camelCase mappings via fromKey
-    const result = yield* Schema.decodeUnknown(outputSchema, {
+    const result = yield* Schema.decodeUnknownEffect(outputSchema, {
       onExcessProperty: "ignore",
       propertyOrder: "none",
     })(envelope.result ?? {}).pipe(

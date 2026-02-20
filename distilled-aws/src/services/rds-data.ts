@@ -1,4 +1,4 @@
-import { HttpClient } from "@effect/platform";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as effect from "effect/Effect";
 import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
@@ -90,149 +90,23 @@ const rules = T.EndpointResolver((p, _) => {
 export type Arn = string;
 export type SqlStatement = string;
 export type DbName = string;
-export type Id = string;
-export type RecordsFormatType = string;
 export type ParameterName = string;
-export type TypeHint = string;
-export type DecimalReturnType = string;
-export type LongReturnType = string;
-export type TransactionStatus = string;
 export type BoxedBoolean = boolean;
 export type BoxedLong = number;
 export type BoxedDouble = number;
-export type RecordsUpdated = number;
+export type TypeHint = string;
+export type Id = string;
 export type ErrorMessage = string;
-export type FormattedSqlRecords = string;
+export type TransactionStatus = string;
 export type BoxedInteger = number;
 export type BoxedFloat = number;
+export type RecordsUpdated = number;
+export type DecimalReturnType = string;
+export type LongReturnType = string;
+export type RecordsFormatType = string;
+export type FormattedSqlRecords = string;
 
 //# Schemas
-export interface BeginTransactionRequest {
-  resourceArn: string;
-  secretArn: string;
-  database?: string;
-  schema?: string;
-}
-export const BeginTransactionRequest = S.suspend(() =>
-  S.Struct({
-    resourceArn: S.String,
-    secretArn: S.String,
-    database: S.optional(S.String),
-    schema: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/BeginTransaction" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "BeginTransactionRequest",
-}) as any as S.Schema<BeginTransactionRequest>;
-export interface CommitTransactionRequest {
-  resourceArn: string;
-  secretArn: string;
-  transactionId: string;
-}
-export const CommitTransactionRequest = S.suspend(() =>
-  S.Struct({
-    resourceArn: S.String,
-    secretArn: S.String,
-    transactionId: S.String,
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/CommitTransaction" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "CommitTransactionRequest",
-}) as any as S.Schema<CommitTransactionRequest>;
-export interface ExecuteSqlRequest {
-  dbClusterOrInstanceArn: string;
-  awsSecretStoreArn: string;
-  sqlStatements: string;
-  database?: string;
-  schema?: string;
-}
-export const ExecuteSqlRequest = S.suspend(() =>
-  S.Struct({
-    dbClusterOrInstanceArn: S.String,
-    awsSecretStoreArn: S.String,
-    sqlStatements: S.String,
-    database: S.optional(S.String),
-    schema: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/ExecuteSql" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ExecuteSqlRequest",
-}) as any as S.Schema<ExecuteSqlRequest>;
-export interface RollbackTransactionRequest {
-  resourceArn: string;
-  secretArn: string;
-  transactionId: string;
-}
-export const RollbackTransactionRequest = S.suspend(() =>
-  S.Struct({
-    resourceArn: S.String,
-    secretArn: S.String,
-    transactionId: S.String,
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/RollbackTransaction" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "RollbackTransactionRequest",
-}) as any as S.Schema<RollbackTransactionRequest>;
-export interface ResultSetOptions {
-  decimalReturnType?: string;
-  longReturnType?: string;
-}
-export const ResultSetOptions = S.suspend(() =>
-  S.Struct({
-    decimalReturnType: S.optional(S.String),
-    longReturnType: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "ResultSetOptions",
-}) as any as S.Schema<ResultSetOptions>;
-export interface BeginTransactionResponse {
-  transactionId?: string;
-}
-export const BeginTransactionResponse = S.suspend(() =>
-  S.Struct({ transactionId: S.optional(S.String) }),
-).annotations({
-  identifier: "BeginTransactionResponse",
-}) as any as S.Schema<BeginTransactionResponse>;
-export interface CommitTransactionResponse {
-  transactionStatus?: string;
-}
-export const CommitTransactionResponse = S.suspend(() =>
-  S.Struct({ transactionStatus: S.optional(S.String) }),
-).annotations({
-  identifier: "CommitTransactionResponse",
-}) as any as S.Schema<CommitTransactionResponse>;
 export type BooleanArray = boolean[];
 export const BooleanArray = S.Array(S.Boolean);
 export type LongArray = number[];
@@ -241,6 +115,10 @@ export type DoubleArray = number[];
 export const DoubleArray = S.Array(S.Number);
 export type StringArray = string[];
 export const StringArray = S.Array(S.String);
+export type ArrayOfArray = ArrayValue[];
+export const ArrayOfArray = S.Array(
+  S.suspend(() => ArrayValue).annotate({ identifier: "ArrayValue" }),
+) as any as S.Schema<ArrayOfArray>;
 export type ArrayValue =
   | {
       booleanValues: boolean[];
@@ -277,17 +155,17 @@ export type ArrayValue =
       stringValues?: never;
       arrayValues: ArrayValue[];
     };
-export const ArrayValue = S.Union(
+export const ArrayValue = S.Union([
   S.Struct({ booleanValues: BooleanArray }),
   S.Struct({ longValues: LongArray }),
   S.Struct({ doubleValues: DoubleArray }),
   S.Struct({ stringValues: StringArray }),
   S.Struct({
-    arrayValues: S.suspend(() => ArrayOfArray).annotations({
+    arrayValues: S.suspend(() => ArrayOfArray).annotate({
       identifier: "ArrayOfArray",
     }),
   }),
-) as any as S.Schema<ArrayValue>;
+]) as any as S.Schema<ArrayValue>;
 export type Field =
   | {
       isNull: boolean;
@@ -352,7 +230,7 @@ export type Field =
       blobValue?: never;
       arrayValue: ArrayValue;
     };
-export const Field = S.Union(
+export const Field = S.Union([
   S.Struct({ isNull: S.Boolean }),
   S.Struct({ booleanValue: S.Boolean }),
   S.Struct({ longValue: S.Number }),
@@ -360,7 +238,7 @@ export const Field = S.Union(
   S.Struct({ stringValue: S.String }),
   S.Struct({ blobValue: T.Blob }),
   S.Struct({ arrayValue: ArrayValue }),
-);
+]);
 export interface SqlParameter {
   name?: string;
   value?: Field;
@@ -372,38 +250,32 @@ export const SqlParameter = S.suspend(() =>
     value: S.optional(Field),
     typeHint: S.optional(S.String),
   }),
-).annotations({ identifier: "SqlParameter" }) as any as S.Schema<SqlParameter>;
+).annotate({ identifier: "SqlParameter" }) as any as S.Schema<SqlParameter>;
 export type SqlParametersList = SqlParameter[];
 export const SqlParametersList = S.Array(SqlParameter);
-export interface ExecuteStatementRequest {
+export type SqlParameterSets = SqlParameter[][];
+export const SqlParameterSets = S.Array(SqlParametersList);
+export interface BatchExecuteStatementRequest {
   resourceArn: string;
   secretArn: string;
   sql: string;
   database?: string;
   schema?: string;
-  parameters?: SqlParameter[];
+  parameterSets?: SqlParameter[][];
   transactionId?: string;
-  includeResultMetadata?: boolean;
-  continueAfterTimeout?: boolean;
-  resultSetOptions?: ResultSetOptions;
-  formatRecordsAs?: string;
 }
-export const ExecuteStatementRequest = S.suspend(() =>
+export const BatchExecuteStatementRequest = S.suspend(() =>
   S.Struct({
     resourceArn: S.String,
     secretArn: S.String,
     sql: S.String,
     database: S.optional(S.String),
     schema: S.optional(S.String),
-    parameters: S.optional(SqlParametersList),
+    parameterSets: S.optional(SqlParameterSets),
     transactionId: S.optional(S.String),
-    includeResultMetadata: S.optional(S.Boolean),
-    continueAfterTimeout: S.optional(S.Boolean),
-    resultSetOptions: S.optional(ResultSetOptions),
-    formatRecordsAs: S.optional(S.String),
   }).pipe(
     T.all(
-      T.Http({ method: "POST", uri: "/Execute" }),
+      T.Http({ method: "POST", uri: "/BatchExecute" }),
       svc,
       auth,
       proto,
@@ -411,27 +283,118 @@ export const ExecuteStatementRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
-  identifier: "ExecuteStatementRequest",
-}) as any as S.Schema<ExecuteStatementRequest>;
-export interface RollbackTransactionResponse {
-  transactionStatus?: string;
-}
-export const RollbackTransactionResponse = S.suspend(() =>
-  S.Struct({ transactionStatus: S.optional(S.String) }),
-).annotations({
-  identifier: "RollbackTransactionResponse",
-}) as any as S.Schema<RollbackTransactionResponse>;
-export type ArrayOfArray = ArrayValue[];
-export const ArrayOfArray = S.Array(
-  S.suspend(() => ArrayValue).annotations({ identifier: "ArrayValue" }),
-) as any as S.Schema<ArrayOfArray>;
+).annotate({
+  identifier: "BatchExecuteStatementRequest",
+}) as any as S.Schema<BatchExecuteStatementRequest>;
 export type FieldList = Field[];
 export const FieldList = S.Array(Field);
-export type SqlRecords = Field[][];
-export const SqlRecords = S.Array(FieldList);
-export type SqlParameterSets = SqlParameter[][];
-export const SqlParameterSets = S.Array(SqlParametersList);
+export interface UpdateResult {
+  generatedFields?: Field[];
+}
+export const UpdateResult = S.suspend(() =>
+  S.Struct({ generatedFields: S.optional(FieldList) }),
+).annotate({ identifier: "UpdateResult" }) as any as S.Schema<UpdateResult>;
+export type UpdateResults = UpdateResult[];
+export const UpdateResults = S.Array(UpdateResult);
+export interface BatchExecuteStatementResponse {
+  updateResults?: UpdateResult[];
+}
+export const BatchExecuteStatementResponse = S.suspend(() =>
+  S.Struct({ updateResults: S.optional(UpdateResults) }),
+).annotate({
+  identifier: "BatchExecuteStatementResponse",
+}) as any as S.Schema<BatchExecuteStatementResponse>;
+export interface BeginTransactionRequest {
+  resourceArn: string;
+  secretArn: string;
+  database?: string;
+  schema?: string;
+}
+export const BeginTransactionRequest = S.suspend(() =>
+  S.Struct({
+    resourceArn: S.String,
+    secretArn: S.String,
+    database: S.optional(S.String),
+    schema: S.optional(S.String),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/BeginTransaction" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "BeginTransactionRequest",
+}) as any as S.Schema<BeginTransactionRequest>;
+export interface BeginTransactionResponse {
+  transactionId?: string;
+}
+export const BeginTransactionResponse = S.suspend(() =>
+  S.Struct({ transactionId: S.optional(S.String) }),
+).annotate({
+  identifier: "BeginTransactionResponse",
+}) as any as S.Schema<BeginTransactionResponse>;
+export interface CommitTransactionRequest {
+  resourceArn: string;
+  secretArn: string;
+  transactionId: string;
+}
+export const CommitTransactionRequest = S.suspend(() =>
+  S.Struct({
+    resourceArn: S.String,
+    secretArn: S.String,
+    transactionId: S.String,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/CommitTransaction" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "CommitTransactionRequest",
+}) as any as S.Schema<CommitTransactionRequest>;
+export interface CommitTransactionResponse {
+  transactionStatus?: string;
+}
+export const CommitTransactionResponse = S.suspend(() =>
+  S.Struct({ transactionStatus: S.optional(S.String) }),
+).annotate({
+  identifier: "CommitTransactionResponse",
+}) as any as S.Schema<CommitTransactionResponse>;
+export interface ExecuteSqlRequest {
+  dbClusterOrInstanceArn: string;
+  awsSecretStoreArn: string;
+  sqlStatements: string;
+  database?: string;
+  schema?: string;
+}
+export const ExecuteSqlRequest = S.suspend(() =>
+  S.Struct({
+    dbClusterOrInstanceArn: S.String,
+    awsSecretStoreArn: S.String,
+    sqlStatements: S.String,
+    database: S.optional(S.String),
+    schema: S.optional(S.String),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ExecuteSql" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ExecuteSqlRequest",
+}) as any as S.Schema<ExecuteSqlRequest>;
 export interface ColumnMetadata {
   name?: string;
   type?: number;
@@ -465,9 +428,7 @@ export const ColumnMetadata = S.suspend(() =>
     scale: S.optional(S.Number),
     arrayBaseColumnType: S.optional(S.Number),
   }),
-).annotations({
-  identifier: "ColumnMetadata",
-}) as any as S.Schema<ColumnMetadata>;
+).annotate({ identifier: "ColumnMetadata" }) as any as S.Schema<ColumnMetadata>;
 export type Metadata = ColumnMetadata[];
 export const Metadata = S.Array(ColumnMetadata);
 export interface ResultSetMetadata {
@@ -479,74 +440,25 @@ export const ResultSetMetadata = S.suspend(() =>
     columnCount: S.optional(S.Number),
     columnMetadata: S.optional(Metadata),
   }),
-).annotations({
+).annotate({
   identifier: "ResultSetMetadata",
 }) as any as S.Schema<ResultSetMetadata>;
-export interface BatchExecuteStatementRequest {
-  resourceArn: string;
-  secretArn: string;
-  sql: string;
-  database?: string;
-  schema?: string;
-  parameterSets?: SqlParameter[][];
-  transactionId?: string;
-}
-export const BatchExecuteStatementRequest = S.suspend(() =>
-  S.Struct({
-    resourceArn: S.String,
-    secretArn: S.String,
-    sql: S.String,
-    database: S.optional(S.String),
-    schema: S.optional(S.String),
-    parameterSets: S.optional(SqlParameterSets),
-    transactionId: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/BatchExecute" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "BatchExecuteStatementRequest",
-}) as any as S.Schema<BatchExecuteStatementRequest>;
 export type ArrayValueList = Value[];
 export const ArrayValueList = S.Array(
-  S.suspend(() => Value).annotations({ identifier: "Value" }),
+  S.suspend(() => Value).annotate({ identifier: "Value" }),
 ) as any as S.Schema<ArrayValueList>;
-export interface ExecuteStatementResponse {
-  records?: Field[][];
-  columnMetadata?: ColumnMetadata[];
-  numberOfRecordsUpdated?: number;
-  generatedFields?: Field[];
-  formattedRecords?: string;
-}
-export const ExecuteStatementResponse = S.suspend(() =>
-  S.Struct({
-    records: S.optional(SqlRecords),
-    columnMetadata: S.optional(Metadata),
-    numberOfRecordsUpdated: S.optional(S.Number),
-    generatedFields: S.optional(FieldList),
-    formattedRecords: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "ExecuteStatementResponse",
-}) as any as S.Schema<ExecuteStatementResponse>;
 export interface StructValue {
   attributes?: Value[];
 }
 export const StructValue = S.suspend(() =>
   S.Struct({
     attributes: S.optional(
-      S.suspend(() => ArrayValueList).annotations({
+      S.suspend(() => ArrayValueList).annotate({
         identifier: "ArrayValueList",
       }),
     ),
   }),
-).annotations({ identifier: "StructValue" }) as any as S.Schema<StructValue>;
+).annotate({ identifier: "StructValue" }) as any as S.Schema<StructValue>;
 export type Value =
   | {
       isNull: boolean;
@@ -668,7 +580,7 @@ export type Value =
       arrayValues?: never;
       structValue: StructValue;
     };
-export const Value = S.Union(
+export const Value = S.Union([
   S.Struct({ isNull: S.Boolean }),
   S.Struct({ bitValue: S.Boolean }),
   S.Struct({ bigIntValue: S.Number }),
@@ -678,44 +590,28 @@ export const Value = S.Union(
   S.Struct({ stringValue: S.String }),
   S.Struct({ blobValue: T.Blob }),
   S.Struct({
-    arrayValues: S.suspend(() => ArrayValueList).annotations({
+    arrayValues: S.suspend(() => ArrayValueList).annotate({
       identifier: "ArrayValueList",
     }),
   }),
   S.Struct({
     structValue: S.suspend(
       (): S.Schema<StructValue, any> => StructValue,
-    ).annotations({ identifier: "StructValue" }),
+    ).annotate({ identifier: "StructValue" }),
   }),
-) as any as S.Schema<Value>;
+]) as any as S.Schema<Value>;
 export type Row = Value[];
 export const Row = S.Array(
-  S.suspend(() => Value).annotations({ identifier: "Value" }),
+  S.suspend(() => Value).annotate({ identifier: "Value" }),
 );
-export interface UpdateResult {
-  generatedFields?: Field[];
-}
-export const UpdateResult = S.suspend(() =>
-  S.Struct({ generatedFields: S.optional(FieldList) }),
-).annotations({ identifier: "UpdateResult" }) as any as S.Schema<UpdateResult>;
-export type UpdateResults = UpdateResult[];
-export const UpdateResults = S.Array(UpdateResult);
 export interface Record {
   values?: Value[];
 }
 export const Record = S.suspend(() =>
   S.Struct({ values: S.optional(Row) }),
-).annotations({ identifier: "Record" }) as any as S.Schema<Record>;
+).annotate({ identifier: "Record" }) as any as S.Schema<Record>;
 export type Records = Record[];
 export const Records = S.Array(Record);
-export interface BatchExecuteStatementResponse {
-  updateResults?: UpdateResult[];
-}
-export const BatchExecuteStatementResponse = S.suspend(() =>
-  S.Struct({ updateResults: S.optional(UpdateResults) }),
-).annotations({
-  identifier: "BatchExecuteStatementResponse",
-}) as any as S.Schema<BatchExecuteStatementResponse>;
 export interface ResultFrame {
   resultSetMetadata?: ResultSetMetadata;
   records?: Record[];
@@ -725,7 +621,7 @@ export const ResultFrame = S.suspend(() =>
     resultSetMetadata: S.optional(ResultSetMetadata),
     records: S.optional(Records),
   }),
-).annotations({ identifier: "ResultFrame" }) as any as S.Schema<ResultFrame>;
+).annotate({ identifier: "ResultFrame" }) as any as S.Schema<ResultFrame>;
 export interface SqlStatementResult {
   resultFrame?: ResultFrame;
   numberOfRecordsUpdated?: number;
@@ -735,7 +631,7 @@ export const SqlStatementResult = S.suspend(() =>
     resultFrame: S.optional(ResultFrame),
     numberOfRecordsUpdated: S.optional(S.Number),
   }),
-).annotations({
+).annotate({
   identifier: "SqlStatementResult",
 }) as any as S.Schema<SqlStatementResult>;
 export type SqlStatementResults = SqlStatementResult[];
@@ -745,155 +641,183 @@ export interface ExecuteSqlResponse {
 }
 export const ExecuteSqlResponse = S.suspend(() =>
   S.Struct({ sqlStatementResults: S.optional(SqlStatementResults) }),
-).annotations({
+).annotate({
   identifier: "ExecuteSqlResponse",
 }) as any as S.Schema<ExecuteSqlResponse>;
+export interface ResultSetOptions {
+  decimalReturnType?: string;
+  longReturnType?: string;
+}
+export const ResultSetOptions = S.suspend(() =>
+  S.Struct({
+    decimalReturnType: S.optional(S.String),
+    longReturnType: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ResultSetOptions",
+}) as any as S.Schema<ResultSetOptions>;
+export interface ExecuteStatementRequest {
+  resourceArn: string;
+  secretArn: string;
+  sql: string;
+  database?: string;
+  schema?: string;
+  parameters?: SqlParameter[];
+  transactionId?: string;
+  includeResultMetadata?: boolean;
+  continueAfterTimeout?: boolean;
+  resultSetOptions?: ResultSetOptions;
+  formatRecordsAs?: string;
+}
+export const ExecuteStatementRequest = S.suspend(() =>
+  S.Struct({
+    resourceArn: S.String,
+    secretArn: S.String,
+    sql: S.String,
+    database: S.optional(S.String),
+    schema: S.optional(S.String),
+    parameters: S.optional(SqlParametersList),
+    transactionId: S.optional(S.String),
+    includeResultMetadata: S.optional(S.Boolean),
+    continueAfterTimeout: S.optional(S.Boolean),
+    resultSetOptions: S.optional(ResultSetOptions),
+    formatRecordsAs: S.optional(S.String),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/Execute" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ExecuteStatementRequest",
+}) as any as S.Schema<ExecuteStatementRequest>;
+export type SqlRecords = Field[][];
+export const SqlRecords = S.Array(FieldList);
+export interface ExecuteStatementResponse {
+  records?: Field[][];
+  columnMetadata?: ColumnMetadata[];
+  numberOfRecordsUpdated?: number;
+  generatedFields?: Field[];
+  formattedRecords?: string;
+}
+export const ExecuteStatementResponse = S.suspend(() =>
+  S.Struct({
+    records: S.optional(SqlRecords),
+    columnMetadata: S.optional(Metadata),
+    numberOfRecordsUpdated: S.optional(S.Number),
+    generatedFields: S.optional(FieldList),
+    formattedRecords: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ExecuteStatementResponse",
+}) as any as S.Schema<ExecuteStatementResponse>;
+export interface RollbackTransactionRequest {
+  resourceArn: string;
+  secretArn: string;
+  transactionId: string;
+}
+export const RollbackTransactionRequest = S.suspend(() =>
+  S.Struct({
+    resourceArn: S.String,
+    secretArn: S.String,
+    transactionId: S.String,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/RollbackTransaction" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "RollbackTransactionRequest",
+}) as any as S.Schema<RollbackTransactionRequest>;
+export interface RollbackTransactionResponse {
+  transactionStatus?: string;
+}
+export const RollbackTransactionResponse = S.suspend(() =>
+  S.Struct({ transactionStatus: S.optional(S.String) }),
+).annotate({
+  identifier: "RollbackTransactionResponse",
+}) as any as S.Schema<RollbackTransactionResponse>;
 
 //# Errors
-export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
+export class AccessDeniedException extends S.TaggedErrorClass<AccessDeniedException>()(
   "AccessDeniedException",
   { message: S.optional(S.String) },
 ).pipe(C.withAuthError) {}
-export class BadRequestException extends S.TaggedError<BadRequestException>()(
+export class BadRequestException extends S.TaggedErrorClass<BadRequestException>()(
   "BadRequestException",
   { message: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
-export class DatabaseErrorException extends S.TaggedError<DatabaseErrorException>()(
+export class DatabaseErrorException extends S.TaggedErrorClass<DatabaseErrorException>()(
   "DatabaseErrorException",
   { message: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
-export class DatabaseNotFoundException extends S.TaggedError<DatabaseNotFoundException>()(
+export class DatabaseNotFoundException extends S.TaggedErrorClass<DatabaseNotFoundException>()(
   "DatabaseNotFoundException",
   { message: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
-export class DatabaseUnavailableException extends S.TaggedError<DatabaseUnavailableException>()(
-  "DatabaseUnavailableException",
-  {},
-).pipe(C.withTimeoutError) {}
-export class DatabaseResumingException extends S.TaggedError<DatabaseResumingException>()(
+export class DatabaseResumingException extends S.TaggedErrorClass<DatabaseResumingException>()(
   "DatabaseResumingException",
   { message: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
-export class ForbiddenException extends S.TaggedError<ForbiddenException>()(
+export class DatabaseUnavailableException extends S.TaggedErrorClass<DatabaseUnavailableException>()(
+  "DatabaseUnavailableException",
+  {},
+).pipe(C.withTimeoutError) {}
+export class ForbiddenException extends S.TaggedErrorClass<ForbiddenException>()(
   "ForbiddenException",
   { message: S.optional(S.String) },
 ).pipe(C.withAuthError) {}
-export class InternalServerErrorException extends S.TaggedError<InternalServerErrorException>()(
-  "InternalServerErrorException",
-  {},
-).pipe(C.withServerError) {}
-export class ServiceUnavailableError extends S.TaggedError<ServiceUnavailableError>()(
-  "ServiceUnavailableError",
-  {},
-).pipe(C.withServerError) {}
-export class HttpEndpointNotEnabledException extends S.TaggedError<HttpEndpointNotEnabledException>()(
+export class HttpEndpointNotEnabledException extends S.TaggedErrorClass<HttpEndpointNotEnabledException>()(
   "HttpEndpointNotEnabledException",
   { message: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
-export class InvalidResourceStateException extends S.TaggedError<InvalidResourceStateException>()(
+export class InternalServerErrorException extends S.TaggedErrorClass<InternalServerErrorException>()(
+  "InternalServerErrorException",
+  {},
+).pipe(C.withServerError) {}
+export class InvalidResourceStateException extends S.TaggedErrorClass<InvalidResourceStateException>()(
   "InvalidResourceStateException",
   { message: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
-export class InvalidSecretException extends S.TaggedError<InvalidSecretException>()(
+export class InvalidSecretException extends S.TaggedErrorClass<InvalidSecretException>()(
   "InvalidSecretException",
   { message: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
-export class NotFoundException extends S.TaggedError<NotFoundException>()(
-  "NotFoundException",
-  { message: S.optional(S.String) },
-).pipe(C.withBadRequestError) {}
-export class SecretsErrorException extends S.TaggedError<SecretsErrorException>()(
+export class SecretsErrorException extends S.TaggedErrorClass<SecretsErrorException>()(
   "SecretsErrorException",
   { message: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
-export class StatementTimeoutException extends S.TaggedError<StatementTimeoutException>()(
+export class ServiceUnavailableError extends S.TaggedErrorClass<ServiceUnavailableError>()(
+  "ServiceUnavailableError",
+  {},
+).pipe(C.withServerError) {}
+export class StatementTimeoutException extends S.TaggedErrorClass<StatementTimeoutException>()(
   "StatementTimeoutException",
   { message: S.optional(S.String), dbConnectionId: S.optional(S.Number) },
 ).pipe(C.withBadRequestError) {}
-export class TransactionNotFoundException extends S.TaggedError<TransactionNotFoundException>()(
+export class TransactionNotFoundException extends S.TaggedErrorClass<TransactionNotFoundException>()(
   "TransactionNotFoundException",
   { message: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
-export class UnsupportedResultException extends S.TaggedError<UnsupportedResultException>()(
+export class NotFoundException extends S.TaggedErrorClass<NotFoundException>()(
+  "NotFoundException",
+  { message: S.optional(S.String) },
+).pipe(C.withBadRequestError) {}
+export class UnsupportedResultException extends S.TaggedErrorClass<UnsupportedResultException>()(
   "UnsupportedResultException",
   { message: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
-/**
- * Runs one or more SQL statements.
- *
- * This operation isn't supported for Aurora Serverless v2 and provisioned DB clusters.
- * For Aurora Serverless v1 DB clusters, the operation is deprecated.
- * Use the `BatchExecuteStatement` or `ExecuteStatement` operation.
- */
-export const executeSql: (
-  input: ExecuteSqlRequest,
-) => effect.Effect<
-  ExecuteSqlResponse,
-  | AccessDeniedException
-  | BadRequestException
-  | ForbiddenException
-  | InternalServerErrorException
-  | ServiceUnavailableError
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ExecuteSqlRequest,
-  output: ExecuteSqlResponse,
-  errors: [
-    AccessDeniedException,
-    BadRequestException,
-    ForbiddenException,
-    InternalServerErrorException,
-    ServiceUnavailableError,
-  ],
-}));
-/**
- * Performs a rollback of a transaction. Rolling back a transaction cancels its changes.
- */
-export const rollbackTransaction: (
-  input: RollbackTransactionRequest,
-) => effect.Effect<
-  RollbackTransactionResponse,
-  | AccessDeniedException
-  | BadRequestException
-  | DatabaseErrorException
-  | DatabaseNotFoundException
-  | DatabaseUnavailableException
-  | ForbiddenException
-  | HttpEndpointNotEnabledException
-  | InternalServerErrorException
-  | InvalidResourceStateException
-  | InvalidSecretException
-  | NotFoundException
-  | SecretsErrorException
-  | ServiceUnavailableError
-  | StatementTimeoutException
-  | TransactionNotFoundException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: RollbackTransactionRequest,
-  output: RollbackTransactionResponse,
-  errors: [
-    AccessDeniedException,
-    BadRequestException,
-    DatabaseErrorException,
-    DatabaseNotFoundException,
-    DatabaseUnavailableException,
-    ForbiddenException,
-    HttpEndpointNotEnabledException,
-    InternalServerErrorException,
-    InvalidResourceStateException,
-    InvalidSecretException,
-    NotFoundException,
-    SecretsErrorException,
-    ServiceUnavailableError,
-    StatementTimeoutException,
-    TransactionNotFoundException,
-  ],
-}));
 /**
  * Runs a batch SQL statement over an array of data.
  *
@@ -1055,6 +979,35 @@ export const commitTransaction: (
   ],
 }));
 /**
+ * Runs one or more SQL statements.
+ *
+ * This operation isn't supported for Aurora Serverless v2 and provisioned DB clusters.
+ * For Aurora Serverless v1 DB clusters, the operation is deprecated.
+ * Use the `BatchExecuteStatement` or `ExecuteStatement` operation.
+ */
+export const executeSql: (
+  input: ExecuteSqlRequest,
+) => effect.Effect<
+  ExecuteSqlResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | ServiceUnavailableError
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ExecuteSqlRequest,
+  output: ExecuteSqlResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    ServiceUnavailableError,
+  ],
+}));
+/**
  * Runs a SQL statement against a database.
  *
  * If a call isn't part of a transaction because it doesn't include the
@@ -1105,5 +1058,50 @@ export const executeStatement: (
     StatementTimeoutException,
     TransactionNotFoundException,
     UnsupportedResultException,
+  ],
+}));
+/**
+ * Performs a rollback of a transaction. Rolling back a transaction cancels its changes.
+ */
+export const rollbackTransaction: (
+  input: RollbackTransactionRequest,
+) => effect.Effect<
+  RollbackTransactionResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | DatabaseErrorException
+  | DatabaseNotFoundException
+  | DatabaseUnavailableException
+  | ForbiddenException
+  | HttpEndpointNotEnabledException
+  | InternalServerErrorException
+  | InvalidResourceStateException
+  | InvalidSecretException
+  | NotFoundException
+  | SecretsErrorException
+  | ServiceUnavailableError
+  | StatementTimeoutException
+  | TransactionNotFoundException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RollbackTransactionRequest,
+  output: RollbackTransactionResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    DatabaseErrorException,
+    DatabaseNotFoundException,
+    DatabaseUnavailableException,
+    ForbiddenException,
+    HttpEndpointNotEnabledException,
+    InternalServerErrorException,
+    InvalidResourceStateException,
+    InvalidSecretException,
+    NotFoundException,
+    SecretsErrorException,
+    ServiceUnavailableError,
+    StatementTimeoutException,
+    TransactionNotFoundException,
   ],
 }));

@@ -2,11 +2,11 @@ import { it } from "@effect/vitest";
 import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
 import { describe, expect } from "vitest";
-import { UnknownAwsError, ValidationException } from "../../src/errors.ts";
-import { awsQueryProtocol } from "../../src/protocols/aws-query.ts";
 import { makeRequestBuilder } from "../../src/client/request-builder.ts";
 import { makeResponseParser } from "../../src/client/response-parser.ts";
 import type { Response } from "../../src/client/response.ts";
+import { UnknownAwsError, ValidationException } from "../../src/errors.ts";
+import { awsQueryProtocol } from "../../src/protocols/aws-query.ts";
 
 // Import real generated schemas for testing
 import {
@@ -48,7 +48,7 @@ const buildRequest = <A, I>(schema: S.Schema<A, I>, instance: A) => {
 const parseResponse = <A, I>(
   schema: S.Schema<A, I>,
   response: Response,
-  errors: S.Schema.AnyNoContext[] = [],
+  errors: S.Top[] = [],
 ) => {
   const operation = { input: schema, output: schema, errors };
   const parser = makeResponseParser<A>(operation, {

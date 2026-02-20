@@ -1,4 +1,4 @@
-import { HttpClient } from "@effect/platform";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as effect from "effect/Effect";
 import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
@@ -105,13 +105,13 @@ export const JoinStorageSessionInput = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "JoinStorageSessionInput",
 }) as any as S.Schema<JoinStorageSessionInput>;
 export interface JoinStorageSessionResponse {}
 export const JoinStorageSessionResponse = S.suspend(() =>
   S.Struct({}),
-).annotations({
+).annotate({
   identifier: "JoinStorageSessionResponse",
 }) as any as S.Schema<JoinStorageSessionResponse>;
 export interface JoinStorageSessionAsViewerInput {
@@ -129,30 +129,30 @@ export const JoinStorageSessionAsViewerInput = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "JoinStorageSessionAsViewerInput",
 }) as any as S.Schema<JoinStorageSessionAsViewerInput>;
 export interface JoinStorageSessionAsViewerResponse {}
 export const JoinStorageSessionAsViewerResponse = S.suspend(() =>
   S.Struct({}),
-).annotations({
+).annotate({
   identifier: "JoinStorageSessionAsViewerResponse",
 }) as any as S.Schema<JoinStorageSessionAsViewerResponse>;
 
 //# Errors
-export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
+export class AccessDeniedException extends S.TaggedErrorClass<AccessDeniedException>()(
   "AccessDeniedException",
   { message: S.optional(S.String) },
 ).pipe(C.withAuthError) {}
-export class ClientLimitExceededException extends S.TaggedError<ClientLimitExceededException>()(
+export class ClientLimitExceededException extends S.TaggedErrorClass<ClientLimitExceededException>()(
   "ClientLimitExceededException",
   { message: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
-export class InvalidArgumentException extends S.TaggedError<InvalidArgumentException>()(
+export class InvalidArgumentException extends S.TaggedErrorClass<InvalidArgumentException>()(
   "InvalidArgumentException",
   { message: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { message: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}

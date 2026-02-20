@@ -1,4 +1,4 @@
-import { HttpClient } from "@effect/platform";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as effect from "effect/Effect";
 import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
@@ -91,463 +91,30 @@ const rules = T.EndpointResolver((p, _) => {
 export type PipelineName = string;
 export type PipelineUnits = number;
 export type PipelineConfigurationBody = string;
-export type PipelineRoleArn = string;
-export type PipelineArn = string;
-export type PipelineEndpointId = string;
-export type BlueprintFormat = string;
-export type MaxResults = number;
-export type NextToken = string;
-export type ResourcePolicy = string;
+export type LogGroup = string;
 export type SubnetId = string;
 export type SecurityGroupId = string;
+export type CidrBlock = string;
 export type KmsKeyArn = string;
 export type TagKey = string;
 export type TagValue = string;
+export type PipelineRoleArn = string;
 export type ErrorMessage = string;
-export type LogGroup = string;
-export type CidrBlock = string;
+export type PipelineArn = string;
+export type PipelineEndpointId = string;
+export type BlueprintFormat = string;
+export type ResourcePolicy = string;
+export type MaxResults = number;
+export type NextToken = string;
 export type AwsAccountId = string;
 
 //# Schemas
-export interface ListPipelineBlueprintsRequest {}
-export const ListPipelineBlueprintsRequest = S.suspend(() =>
-  S.Struct({}).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "POST",
-        uri: "/2022-01-01/osis/listPipelineBlueprints",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListPipelineBlueprintsRequest",
-}) as any as S.Schema<ListPipelineBlueprintsRequest>;
-export type PipelineEndpointIdsList = string[];
-export const PipelineEndpointIdsList = S.Array(S.String);
-export type StringList = string[];
-export const StringList = S.Array(S.String);
-export interface DeletePipelineRequest {
-  PipelineName: string;
-}
-export const DeletePipelineRequest = S.suspend(() =>
-  S.Struct({ PipelineName: S.String.pipe(T.HttpLabel("PipelineName")) }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "DELETE",
-        uri: "/2022-01-01/osis/deletePipeline/{PipelineName}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DeletePipelineRequest",
-}) as any as S.Schema<DeletePipelineRequest>;
-export interface DeletePipelineResponse {}
-export const DeletePipelineResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotations({
-  identifier: "DeletePipelineResponse",
-}) as any as S.Schema<DeletePipelineResponse>;
-export interface DeletePipelineEndpointRequest {
-  EndpointId: string;
-}
-export const DeletePipelineEndpointRequest = S.suspend(() =>
-  S.Struct({ EndpointId: S.String.pipe(T.HttpLabel("EndpointId")) }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "DELETE",
-        uri: "/2022-01-01/osis/deletePipelineEndpoint/{EndpointId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DeletePipelineEndpointRequest",
-}) as any as S.Schema<DeletePipelineEndpointRequest>;
-export interface DeletePipelineEndpointResponse {}
-export const DeletePipelineEndpointResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotations({
-  identifier: "DeletePipelineEndpointResponse",
-}) as any as S.Schema<DeletePipelineEndpointResponse>;
-export interface DeleteResourcePolicyRequest {
-  ResourceArn: string;
-}
-export const DeleteResourcePolicyRequest = S.suspend(() =>
-  S.Struct({ ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "DELETE",
-        uri: "/2022-01-01/osis/resourcePolicy/{ResourceArn}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DeleteResourcePolicyRequest",
-}) as any as S.Schema<DeleteResourcePolicyRequest>;
-export interface DeleteResourcePolicyResponse {}
-export const DeleteResourcePolicyResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotations({
-  identifier: "DeleteResourcePolicyResponse",
-}) as any as S.Schema<DeleteResourcePolicyResponse>;
-export interface GetPipelineRequest {
-  PipelineName: string;
-}
-export const GetPipelineRequest = S.suspend(() =>
-  S.Struct({ PipelineName: S.String.pipe(T.HttpLabel("PipelineName")) }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "GET",
-        uri: "/2022-01-01/osis/getPipeline/{PipelineName}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "GetPipelineRequest",
-}) as any as S.Schema<GetPipelineRequest>;
-export interface GetPipelineBlueprintRequest {
-  BlueprintName: string;
-  Format?: string;
-}
-export const GetPipelineBlueprintRequest = S.suspend(() =>
-  S.Struct({
-    BlueprintName: S.String.pipe(T.HttpLabel("BlueprintName")),
-    Format: S.optional(S.String).pipe(T.HttpQuery("format")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "GET",
-        uri: "/2022-01-01/osis/getPipelineBlueprint/{BlueprintName}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "GetPipelineBlueprintRequest",
-}) as any as S.Schema<GetPipelineBlueprintRequest>;
-export interface GetPipelineChangeProgressRequest {
-  PipelineName: string;
-}
-export const GetPipelineChangeProgressRequest = S.suspend(() =>
-  S.Struct({ PipelineName: S.String.pipe(T.HttpLabel("PipelineName")) }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "GET",
-        uri: "/2022-01-01/osis/getPipelineChangeProgress/{PipelineName}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "GetPipelineChangeProgressRequest",
-}) as any as S.Schema<GetPipelineChangeProgressRequest>;
-export interface GetResourcePolicyRequest {
-  ResourceArn: string;
-}
-export const GetResourcePolicyRequest = S.suspend(() =>
-  S.Struct({ ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "GET",
-        uri: "/2022-01-01/osis/resourcePolicy/{ResourceArn}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "GetResourcePolicyRequest",
-}) as any as S.Schema<GetResourcePolicyRequest>;
-export interface ListPipelineEndpointConnectionsRequest {
-  MaxResults?: number;
-  NextToken?: string;
-}
-export const ListPipelineEndpointConnectionsRequest = S.suspend(() =>
-  S.Struct({
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "GET",
-        uri: "/2022-01-01/osis/listPipelineEndpointConnections",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListPipelineEndpointConnectionsRequest",
-}) as any as S.Schema<ListPipelineEndpointConnectionsRequest>;
-export interface ListPipelineEndpointsRequest {
-  MaxResults?: number;
-  NextToken?: string;
-}
-export const ListPipelineEndpointsRequest = S.suspend(() =>
-  S.Struct({
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/2022-01-01/osis/listPipelineEndpoints" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListPipelineEndpointsRequest",
-}) as any as S.Schema<ListPipelineEndpointsRequest>;
-export interface ListPipelinesRequest {
-  MaxResults?: number;
-  NextToken?: string;
-}
-export const ListPipelinesRequest = S.suspend(() =>
-  S.Struct({
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/2022-01-01/osis/listPipelines" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListPipelinesRequest",
-}) as any as S.Schema<ListPipelinesRequest>;
-export interface ListTagsForResourceRequest {
-  Arn: string;
-}
-export const ListTagsForResourceRequest = S.suspend(() =>
-  S.Struct({ Arn: S.String.pipe(T.HttpQuery("arn")) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/2022-01-01/osis/listTagsForResource" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListTagsForResourceRequest",
-}) as any as S.Schema<ListTagsForResourceRequest>;
-export interface PutResourcePolicyRequest {
-  ResourceArn: string;
-  Policy: string;
-}
-export const PutResourcePolicyRequest = S.suspend(() =>
-  S.Struct({
-    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
-    Policy: S.String,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "PUT",
-        uri: "/2022-01-01/osis/resourcePolicy/{ResourceArn}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "PutResourcePolicyRequest",
-}) as any as S.Schema<PutResourcePolicyRequest>;
-export interface RevokePipelineEndpointConnectionsRequest {
-  PipelineArn: string;
-  EndpointIds: string[];
-}
-export const RevokePipelineEndpointConnectionsRequest = S.suspend(() =>
-  S.Struct({
-    PipelineArn: S.String,
-    EndpointIds: PipelineEndpointIdsList,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "POST",
-        uri: "/2022-01-01/osis/revokePipelineEndpointConnections",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "RevokePipelineEndpointConnectionsRequest",
-}) as any as S.Schema<RevokePipelineEndpointConnectionsRequest>;
-export interface StartPipelineRequest {
-  PipelineName: string;
-}
-export const StartPipelineRequest = S.suspend(() =>
-  S.Struct({ PipelineName: S.String.pipe(T.HttpLabel("PipelineName")) }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "PUT",
-        uri: "/2022-01-01/osis/startPipeline/{PipelineName}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "StartPipelineRequest",
-}) as any as S.Schema<StartPipelineRequest>;
-export interface StopPipelineRequest {
-  PipelineName: string;
-}
-export const StopPipelineRequest = S.suspend(() =>
-  S.Struct({ PipelineName: S.String.pipe(T.HttpLabel("PipelineName")) }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "PUT",
-        uri: "/2022-01-01/osis/stopPipeline/{PipelineName}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "StopPipelineRequest",
-}) as any as S.Schema<StopPipelineRequest>;
-export interface Tag {
-  Key: string;
-  Value: string;
-}
-export const Tag = S.suspend(() =>
-  S.Struct({ Key: S.String, Value: S.String }),
-).annotations({ identifier: "Tag" }) as any as S.Schema<Tag>;
-export type TagList = Tag[];
-export const TagList = S.Array(Tag);
-export interface TagResourceRequest {
-  Arn: string;
-  Tags: Tag[];
-}
-export const TagResourceRequest = S.suspend(() =>
-  S.Struct({ Arn: S.String.pipe(T.HttpQuery("arn")), Tags: TagList }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/2022-01-01/osis/tagResource" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
-export interface TagResourceResponse {}
-export const TagResourceResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotations({
-  identifier: "TagResourceResponse",
-}) as any as S.Schema<TagResourceResponse>;
-export interface UntagResourceRequest {
-  Arn: string;
-  TagKeys: string[];
-}
-export const UntagResourceRequest = S.suspend(() =>
-  S.Struct({
-    Arn: S.String.pipe(T.HttpQuery("arn")),
-    TagKeys: StringList,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/2022-01-01/osis/untagResource" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
-export interface UntagResourceResponse {}
-export const UntagResourceResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotations({
-  identifier: "UntagResourceResponse",
-}) as any as S.Schema<UntagResourceResponse>;
 export interface CloudWatchLogDestination {
   LogGroup: string;
 }
 export const CloudWatchLogDestination = S.suspend(() =>
   S.Struct({ LogGroup: S.String }),
-).annotations({
+).annotate({
   identifier: "CloudWatchLogDestination",
 }) as any as S.Schema<CloudWatchLogDestination>;
 export interface LogPublishingOptions {
@@ -559,52 +126,89 @@ export const LogPublishingOptions = S.suspend(() =>
     IsLoggingEnabled: S.optional(S.Boolean),
     CloudWatchLogDestination: S.optional(CloudWatchLogDestination),
   }),
-).annotations({
+).annotate({
   identifier: "LogPublishingOptions",
 }) as any as S.Schema<LogPublishingOptions>;
+export type SubnetIds = string[];
+export const SubnetIds = S.Array(S.String);
+export type SecurityGroupIds = string[];
+export const SecurityGroupIds = S.Array(S.String);
+export interface VpcAttachmentOptions {
+  AttachToVpc: boolean;
+  CidrBlock?: string;
+}
+export const VpcAttachmentOptions = S.suspend(() =>
+  S.Struct({ AttachToVpc: S.Boolean, CidrBlock: S.optional(S.String) }),
+).annotate({
+  identifier: "VpcAttachmentOptions",
+}) as any as S.Schema<VpcAttachmentOptions>;
+export type VpcEndpointManagement = "CUSTOMER" | "SERVICE" | (string & {});
+export const VpcEndpointManagement = S.String;
+export interface VpcOptions {
+  SubnetIds: string[];
+  SecurityGroupIds?: string[];
+  VpcAttachmentOptions?: VpcAttachmentOptions;
+  VpcEndpointManagement?: VpcEndpointManagement;
+}
+export const VpcOptions = S.suspend(() =>
+  S.Struct({
+    SubnetIds: SubnetIds,
+    SecurityGroupIds: S.optional(SecurityGroupIds),
+    VpcAttachmentOptions: S.optional(VpcAttachmentOptions),
+    VpcEndpointManagement: S.optional(VpcEndpointManagement),
+  }),
+).annotate({ identifier: "VpcOptions" }) as any as S.Schema<VpcOptions>;
 export interface BufferOptions {
   PersistentBufferEnabled: boolean;
 }
 export const BufferOptions = S.suspend(() =>
   S.Struct({ PersistentBufferEnabled: S.Boolean }),
-).annotations({
-  identifier: "BufferOptions",
-}) as any as S.Schema<BufferOptions>;
+).annotate({ identifier: "BufferOptions" }) as any as S.Schema<BufferOptions>;
 export interface EncryptionAtRestOptions {
   KmsKeyArn: string;
 }
 export const EncryptionAtRestOptions = S.suspend(() =>
   S.Struct({ KmsKeyArn: S.String }),
-).annotations({
+).annotate({
   identifier: "EncryptionAtRestOptions",
 }) as any as S.Schema<EncryptionAtRestOptions>;
-export interface UpdatePipelineRequest {
+export interface Tag {
+  Key: string;
+  Value: string;
+}
+export const Tag = S.suspend(() =>
+  S.Struct({ Key: S.String, Value: S.String }),
+).annotate({ identifier: "Tag" }) as any as S.Schema<Tag>;
+export type TagList = Tag[];
+export const TagList = S.Array(Tag);
+export interface CreatePipelineRequest {
   PipelineName: string;
-  MinUnits?: number;
-  MaxUnits?: number;
-  PipelineConfigurationBody?: string;
+  MinUnits: number;
+  MaxUnits: number;
+  PipelineConfigurationBody: string;
   LogPublishingOptions?: LogPublishingOptions;
+  VpcOptions?: VpcOptions;
   BufferOptions?: BufferOptions;
   EncryptionAtRestOptions?: EncryptionAtRestOptions;
+  Tags?: Tag[];
   PipelineRoleArn?: string;
 }
-export const UpdatePipelineRequest = S.suspend(() =>
+export const CreatePipelineRequest = S.suspend(() =>
   S.Struct({
-    PipelineName: S.String.pipe(T.HttpLabel("PipelineName")),
-    MinUnits: S.optional(S.Number),
-    MaxUnits: S.optional(S.Number),
-    PipelineConfigurationBody: S.optional(S.String),
+    PipelineName: S.String,
+    MinUnits: S.Number,
+    MaxUnits: S.Number,
+    PipelineConfigurationBody: S.String,
     LogPublishingOptions: S.optional(LogPublishingOptions),
+    VpcOptions: S.optional(VpcOptions),
     BufferOptions: S.optional(BufferOptions),
     EncryptionAtRestOptions: S.optional(EncryptionAtRestOptions),
+    Tags: S.optional(TagList),
     PipelineRoleArn: S.optional(S.String),
   }).pipe(
     T.all(
       ns,
-      T.Http({
-        method: "PUT",
-        uri: "/2022-01-01/osis/updatePipeline/{PipelineName}",
-      }),
+      T.Http({ method: "POST", uri: "/2022-01-01/osis/createPipeline" }),
       svc,
       auth,
       proto,
@@ -612,138 +216,9 @@ export const UpdatePipelineRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
-  identifier: "UpdatePipelineRequest",
-}) as any as S.Schema<UpdatePipelineRequest>;
-export interface ValidatePipelineRequest {
-  PipelineConfigurationBody: string;
-}
-export const ValidatePipelineRequest = S.suspend(() =>
-  S.Struct({ PipelineConfigurationBody: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/2022-01-01/osis/validatePipeline" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ValidatePipelineRequest",
-}) as any as S.Schema<ValidatePipelineRequest>;
-export type SubnetIds = string[];
-export const SubnetIds = S.Array(S.String);
-export type SecurityGroupIds = string[];
-export const SecurityGroupIds = S.Array(S.String);
-export type VpcEndpointManagement = "CUSTOMER" | "SERVICE" | (string & {});
-export const VpcEndpointManagement = S.String;
-export interface PipelineEndpointVpcOptions {
-  SubnetIds?: string[];
-  SecurityGroupIds?: string[];
-}
-export const PipelineEndpointVpcOptions = S.suspend(() =>
-  S.Struct({
-    SubnetIds: S.optional(SubnetIds),
-    SecurityGroupIds: S.optional(SecurityGroupIds),
-  }),
-).annotations({
-  identifier: "PipelineEndpointVpcOptions",
-}) as any as S.Schema<PipelineEndpointVpcOptions>;
-export interface PipelineBlueprintSummary {
-  BlueprintName?: string;
-  DisplayName?: string;
-  DisplayDescription?: string;
-  Service?: string;
-  UseCase?: string;
-}
-export const PipelineBlueprintSummary = S.suspend(() =>
-  S.Struct({
-    BlueprintName: S.optional(S.String),
-    DisplayName: S.optional(S.String),
-    DisplayDescription: S.optional(S.String),
-    Service: S.optional(S.String),
-    UseCase: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "PipelineBlueprintSummary",
-}) as any as S.Schema<PipelineBlueprintSummary>;
-export type PipelineBlueprintsSummaryList = PipelineBlueprintSummary[];
-export const PipelineBlueprintsSummaryList = S.Array(PipelineBlueprintSummary);
-export interface CreatePipelineEndpointRequest {
-  PipelineArn: string;
-  VpcOptions: PipelineEndpointVpcOptions;
-}
-export const CreatePipelineEndpointRequest = S.suspend(() =>
-  S.Struct({
-    PipelineArn: S.String,
-    VpcOptions: PipelineEndpointVpcOptions,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "POST",
-        uri: "/2022-01-01/osis/createPipelineEndpoint",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "CreatePipelineEndpointRequest",
-}) as any as S.Schema<CreatePipelineEndpointRequest>;
-export interface GetResourcePolicyResponse {
-  ResourceArn?: string;
-  Policy?: string;
-}
-export const GetResourcePolicyResponse = S.suspend(() =>
-  S.Struct({
-    ResourceArn: S.optional(S.String),
-    Policy: S.optional(S.String),
-  }).pipe(ns),
-).annotations({
-  identifier: "GetResourcePolicyResponse",
-}) as any as S.Schema<GetResourcePolicyResponse>;
-export interface ListPipelineBlueprintsResponse {
-  Blueprints?: PipelineBlueprintSummary[];
-}
-export const ListPipelineBlueprintsResponse = S.suspend(() =>
-  S.Struct({ Blueprints: S.optional(PipelineBlueprintsSummaryList) }).pipe(ns),
-).annotations({
-  identifier: "ListPipelineBlueprintsResponse",
-}) as any as S.Schema<ListPipelineBlueprintsResponse>;
-export interface ListTagsForResourceResponse {
-  Tags?: Tag[];
-}
-export const ListTagsForResourceResponse = S.suspend(() =>
-  S.Struct({ Tags: S.optional(TagList) }).pipe(ns),
-).annotations({
-  identifier: "ListTagsForResourceResponse",
-}) as any as S.Schema<ListTagsForResourceResponse>;
-export interface PutResourcePolicyResponse {
-  ResourceArn?: string;
-  Policy?: string;
-}
-export const PutResourcePolicyResponse = S.suspend(() =>
-  S.Struct({
-    ResourceArn: S.optional(S.String),
-    Policy: S.optional(S.String),
-  }).pipe(ns),
-).annotations({
-  identifier: "PutResourcePolicyResponse",
-}) as any as S.Schema<PutResourcePolicyResponse>;
-export interface RevokePipelineEndpointConnectionsResponse {
-  PipelineArn?: string;
-}
-export const RevokePipelineEndpointConnectionsResponse = S.suspend(() =>
-  S.Struct({ PipelineArn: S.optional(S.String) }).pipe(ns),
-).annotations({
-  identifier: "RevokePipelineEndpointConnectionsResponse",
-}) as any as S.Schema<RevokePipelineEndpointConnectionsResponse>;
+).annotate({
+  identifier: "CreatePipelineRequest",
+}) as any as S.Schema<CreatePipelineRequest>;
 export type PipelineStatus =
   | "CREATING"
   | "ACTIVE"
@@ -762,34 +237,11 @@ export interface PipelineStatusReason {
 }
 export const PipelineStatusReason = S.suspend(() =>
   S.Struct({ Description: S.optional(S.String) }),
-).annotations({
+).annotate({
   identifier: "PipelineStatusReason",
 }) as any as S.Schema<PipelineStatusReason>;
 export type IngestEndpointUrlsList = string[];
 export const IngestEndpointUrlsList = S.Array(S.String);
-export interface VpcAttachmentOptions {
-  AttachToVpc: boolean;
-  CidrBlock?: string;
-}
-export const VpcAttachmentOptions = S.suspend(() =>
-  S.Struct({ AttachToVpc: S.Boolean, CidrBlock: S.optional(S.String) }),
-).annotations({
-  identifier: "VpcAttachmentOptions",
-}) as any as S.Schema<VpcAttachmentOptions>;
-export interface VpcOptions {
-  SubnetIds: string[];
-  SecurityGroupIds?: string[];
-  VpcAttachmentOptions?: VpcAttachmentOptions;
-  VpcEndpointManagement?: VpcEndpointManagement;
-}
-export const VpcOptions = S.suspend(() =>
-  S.Struct({
-    SubnetIds: SubnetIds,
-    SecurityGroupIds: S.optional(SecurityGroupIds),
-    VpcAttachmentOptions: S.optional(VpcAttachmentOptions),
-    VpcEndpointManagement: S.optional(VpcEndpointManagement),
-  }),
-).annotations({ identifier: "VpcOptions" }) as any as S.Schema<VpcOptions>;
 export interface VpcEndpoint {
   VpcEndpointId?: string;
   VpcId?: string;
@@ -801,7 +253,7 @@ export const VpcEndpoint = S.suspend(() =>
     VpcId: S.optional(S.String),
     VpcOptions: S.optional(VpcOptions),
   }),
-).annotations({ identifier: "VpcEndpoint" }) as any as S.Schema<VpcEndpoint>;
+).annotate({ identifier: "VpcEndpoint" }) as any as S.Schema<VpcEndpoint>;
 export type VpcEndpointsList = VpcEndpoint[];
 export const VpcEndpointsList = S.Array(VpcEndpoint);
 export type VpcEndpointServiceName = "OPENSEARCH_SERVERLESS" | (string & {});
@@ -815,7 +267,7 @@ export const ServiceVpcEndpoint = S.suspend(() =>
     ServiceName: S.optional(VpcEndpointServiceName),
     VpcEndpointId: S.optional(S.String),
   }),
-).annotations({
+).annotate({
   identifier: "ServiceVpcEndpoint",
 }) as any as S.Schema<ServiceVpcEndpoint>;
 export type ServiceVpcEndpointsList = ServiceVpcEndpoint[];
@@ -829,7 +281,7 @@ export const PipelineDestination = S.suspend(() =>
     ServiceName: S.optional(S.String),
     Endpoint: S.optional(S.String),
   }),
-).annotations({
+).annotate({
   identifier: "PipelineDestination",
 }) as any as S.Schema<PipelineDestination>;
 export type PipelineDestinationList = PipelineDestination[];
@@ -877,38 +329,52 @@ export const Pipeline = S.suspend(() =>
     Tags: S.optional(TagList),
     PipelineRoleArn: S.optional(S.String),
   }),
-).annotations({ identifier: "Pipeline" }) as any as S.Schema<Pipeline>;
-export interface StartPipelineResponse {
+).annotate({ identifier: "Pipeline" }) as any as S.Schema<Pipeline>;
+export interface CreatePipelineResponse {
   Pipeline?: Pipeline;
 }
-export const StartPipelineResponse = S.suspend(() =>
+export const CreatePipelineResponse = S.suspend(() =>
   S.Struct({ Pipeline: S.optional(Pipeline) }).pipe(ns),
-).annotations({
-  identifier: "StartPipelineResponse",
-}) as any as S.Schema<StartPipelineResponse>;
-export interface StopPipelineResponse {
-  Pipeline?: Pipeline;
+).annotate({
+  identifier: "CreatePipelineResponse",
+}) as any as S.Schema<CreatePipelineResponse>;
+export interface PipelineEndpointVpcOptions {
+  SubnetIds?: string[];
+  SecurityGroupIds?: string[];
 }
-export const StopPipelineResponse = S.suspend(() =>
-  S.Struct({ Pipeline: S.optional(Pipeline) }).pipe(ns),
-).annotations({
-  identifier: "StopPipelineResponse",
-}) as any as S.Schema<StopPipelineResponse>;
-export interface UpdatePipelineResponse {
-  Pipeline?: Pipeline;
+export const PipelineEndpointVpcOptions = S.suspend(() =>
+  S.Struct({
+    SubnetIds: S.optional(SubnetIds),
+    SecurityGroupIds: S.optional(SecurityGroupIds),
+  }),
+).annotate({
+  identifier: "PipelineEndpointVpcOptions",
+}) as any as S.Schema<PipelineEndpointVpcOptions>;
+export interface CreatePipelineEndpointRequest {
+  PipelineArn: string;
+  VpcOptions: PipelineEndpointVpcOptions;
 }
-export const UpdatePipelineResponse = S.suspend(() =>
-  S.Struct({ Pipeline: S.optional(Pipeline) }).pipe(ns),
-).annotations({
-  identifier: "UpdatePipelineResponse",
-}) as any as S.Schema<UpdatePipelineResponse>;
-export type ChangeProgressStatuses =
-  | "PENDING"
-  | "IN_PROGRESS"
-  | "COMPLETED"
-  | "FAILED"
-  | (string & {});
-export const ChangeProgressStatuses = S.String;
+export const CreatePipelineEndpointRequest = S.suspend(() =>
+  S.Struct({
+    PipelineArn: S.String,
+    VpcOptions: PipelineEndpointVpcOptions,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({
+        method: "POST",
+        uri: "/2022-01-01/osis/createPipelineEndpoint",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "CreatePipelineEndpointRequest",
+}) as any as S.Schema<CreatePipelineEndpointRequest>;
 export type PipelineEndpointStatus =
   | "CREATING"
   | "ACTIVE"
@@ -918,6 +384,157 @@ export type PipelineEndpointStatus =
   | "REVOKED"
   | (string & {});
 export const PipelineEndpointStatus = S.String;
+export interface CreatePipelineEndpointResponse {
+  PipelineArn?: string;
+  EndpointId?: string;
+  Status?: PipelineEndpointStatus;
+  VpcId?: string;
+}
+export const CreatePipelineEndpointResponse = S.suspend(() =>
+  S.Struct({
+    PipelineArn: S.optional(S.String),
+    EndpointId: S.optional(S.String),
+    Status: S.optional(PipelineEndpointStatus),
+    VpcId: S.optional(S.String),
+  }).pipe(ns),
+).annotate({
+  identifier: "CreatePipelineEndpointResponse",
+}) as any as S.Schema<CreatePipelineEndpointResponse>;
+export interface DeletePipelineRequest {
+  PipelineName: string;
+}
+export const DeletePipelineRequest = S.suspend(() =>
+  S.Struct({ PipelineName: S.String.pipe(T.HttpLabel("PipelineName")) }).pipe(
+    T.all(
+      ns,
+      T.Http({
+        method: "DELETE",
+        uri: "/2022-01-01/osis/deletePipeline/{PipelineName}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeletePipelineRequest",
+}) as any as S.Schema<DeletePipelineRequest>;
+export interface DeletePipelineResponse {}
+export const DeletePipelineResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "DeletePipelineResponse",
+}) as any as S.Schema<DeletePipelineResponse>;
+export interface DeletePipelineEndpointRequest {
+  EndpointId: string;
+}
+export const DeletePipelineEndpointRequest = S.suspend(() =>
+  S.Struct({ EndpointId: S.String.pipe(T.HttpLabel("EndpointId")) }).pipe(
+    T.all(
+      ns,
+      T.Http({
+        method: "DELETE",
+        uri: "/2022-01-01/osis/deletePipelineEndpoint/{EndpointId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeletePipelineEndpointRequest",
+}) as any as S.Schema<DeletePipelineEndpointRequest>;
+export interface DeletePipelineEndpointResponse {}
+export const DeletePipelineEndpointResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "DeletePipelineEndpointResponse",
+}) as any as S.Schema<DeletePipelineEndpointResponse>;
+export interface DeleteResourcePolicyRequest {
+  ResourceArn: string;
+}
+export const DeleteResourcePolicyRequest = S.suspend(() =>
+  S.Struct({ ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) }).pipe(
+    T.all(
+      ns,
+      T.Http({
+        method: "DELETE",
+        uri: "/2022-01-01/osis/resourcePolicy/{ResourceArn}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeleteResourcePolicyRequest",
+}) as any as S.Schema<DeleteResourcePolicyRequest>;
+export interface DeleteResourcePolicyResponse {}
+export const DeleteResourcePolicyResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "DeleteResourcePolicyResponse",
+}) as any as S.Schema<DeleteResourcePolicyResponse>;
+export interface GetPipelineRequest {
+  PipelineName: string;
+}
+export const GetPipelineRequest = S.suspend(() =>
+  S.Struct({ PipelineName: S.String.pipe(T.HttpLabel("PipelineName")) }).pipe(
+    T.all(
+      ns,
+      T.Http({
+        method: "GET",
+        uri: "/2022-01-01/osis/getPipeline/{PipelineName}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetPipelineRequest",
+}) as any as S.Schema<GetPipelineRequest>;
+export interface GetPipelineResponse {
+  Pipeline?: Pipeline;
+}
+export const GetPipelineResponse = S.suspend(() =>
+  S.Struct({ Pipeline: S.optional(Pipeline) }).pipe(ns),
+).annotate({
+  identifier: "GetPipelineResponse",
+}) as any as S.Schema<GetPipelineResponse>;
+export interface GetPipelineBlueprintRequest {
+  BlueprintName: string;
+  Format?: string;
+}
+export const GetPipelineBlueprintRequest = S.suspend(() =>
+  S.Struct({
+    BlueprintName: S.String.pipe(T.HttpLabel("BlueprintName")),
+    Format: S.optional(S.String).pipe(T.HttpQuery("format")),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({
+        method: "GET",
+        uri: "/2022-01-01/osis/getPipelineBlueprint/{BlueprintName}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetPipelineBlueprintRequest",
+}) as any as S.Schema<GetPipelineBlueprintRequest>;
 export interface PipelineBlueprint {
   BlueprintName?: string;
   PipelineConfigurationBody?: string;
@@ -935,9 +552,207 @@ export const PipelineBlueprint = S.suspend(() =>
     Service: S.optional(S.String),
     UseCase: S.optional(S.String),
   }),
-).annotations({
+).annotate({
   identifier: "PipelineBlueprint",
 }) as any as S.Schema<PipelineBlueprint>;
+export interface GetPipelineBlueprintResponse {
+  Blueprint?: PipelineBlueprint;
+  Format?: string;
+}
+export const GetPipelineBlueprintResponse = S.suspend(() =>
+  S.Struct({
+    Blueprint: S.optional(PipelineBlueprint),
+    Format: S.optional(S.String),
+  }).pipe(ns),
+).annotate({
+  identifier: "GetPipelineBlueprintResponse",
+}) as any as S.Schema<GetPipelineBlueprintResponse>;
+export interface GetPipelineChangeProgressRequest {
+  PipelineName: string;
+}
+export const GetPipelineChangeProgressRequest = S.suspend(() =>
+  S.Struct({ PipelineName: S.String.pipe(T.HttpLabel("PipelineName")) }).pipe(
+    T.all(
+      ns,
+      T.Http({
+        method: "GET",
+        uri: "/2022-01-01/osis/getPipelineChangeProgress/{PipelineName}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetPipelineChangeProgressRequest",
+}) as any as S.Schema<GetPipelineChangeProgressRequest>;
+export type ChangeProgressStatuses =
+  | "PENDING"
+  | "IN_PROGRESS"
+  | "COMPLETED"
+  | "FAILED"
+  | (string & {});
+export const ChangeProgressStatuses = S.String;
+export type ChangeProgressStageStatuses =
+  | "PENDING"
+  | "IN_PROGRESS"
+  | "COMPLETED"
+  | "FAILED"
+  | (string & {});
+export const ChangeProgressStageStatuses = S.String;
+export interface ChangeProgressStage {
+  Name?: string;
+  Status?: ChangeProgressStageStatuses;
+  Description?: string;
+  LastUpdatedAt?: Date;
+}
+export const ChangeProgressStage = S.suspend(() =>
+  S.Struct({
+    Name: S.optional(S.String),
+    Status: S.optional(ChangeProgressStageStatuses),
+    Description: S.optional(S.String),
+    LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotate({
+  identifier: "ChangeProgressStage",
+}) as any as S.Schema<ChangeProgressStage>;
+export type ChangeProgressStageList = ChangeProgressStage[];
+export const ChangeProgressStageList = S.Array(ChangeProgressStage);
+export interface ChangeProgressStatus {
+  StartTime?: Date;
+  Status?: ChangeProgressStatuses;
+  TotalNumberOfStages?: number;
+  ChangeProgressStages?: ChangeProgressStage[];
+}
+export const ChangeProgressStatus = S.suspend(() =>
+  S.Struct({
+    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    Status: S.optional(ChangeProgressStatuses),
+    TotalNumberOfStages: S.optional(S.Number),
+    ChangeProgressStages: S.optional(ChangeProgressStageList),
+  }),
+).annotate({
+  identifier: "ChangeProgressStatus",
+}) as any as S.Schema<ChangeProgressStatus>;
+export type ChangeProgressStatusList = ChangeProgressStatus[];
+export const ChangeProgressStatusList = S.Array(ChangeProgressStatus);
+export interface GetPipelineChangeProgressResponse {
+  ChangeProgressStatuses?: ChangeProgressStatus[];
+}
+export const GetPipelineChangeProgressResponse = S.suspend(() =>
+  S.Struct({
+    ChangeProgressStatuses: S.optional(ChangeProgressStatusList),
+  }).pipe(ns),
+).annotate({
+  identifier: "GetPipelineChangeProgressResponse",
+}) as any as S.Schema<GetPipelineChangeProgressResponse>;
+export interface GetResourcePolicyRequest {
+  ResourceArn: string;
+}
+export const GetResourcePolicyRequest = S.suspend(() =>
+  S.Struct({ ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) }).pipe(
+    T.all(
+      ns,
+      T.Http({
+        method: "GET",
+        uri: "/2022-01-01/osis/resourcePolicy/{ResourceArn}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetResourcePolicyRequest",
+}) as any as S.Schema<GetResourcePolicyRequest>;
+export interface GetResourcePolicyResponse {
+  ResourceArn?: string;
+  Policy?: string;
+}
+export const GetResourcePolicyResponse = S.suspend(() =>
+  S.Struct({
+    ResourceArn: S.optional(S.String),
+    Policy: S.optional(S.String),
+  }).pipe(ns),
+).annotate({
+  identifier: "GetResourcePolicyResponse",
+}) as any as S.Schema<GetResourcePolicyResponse>;
+export interface ListPipelineBlueprintsRequest {}
+export const ListPipelineBlueprintsRequest = S.suspend(() =>
+  S.Struct({}).pipe(
+    T.all(
+      ns,
+      T.Http({
+        method: "POST",
+        uri: "/2022-01-01/osis/listPipelineBlueprints",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListPipelineBlueprintsRequest",
+}) as any as S.Schema<ListPipelineBlueprintsRequest>;
+export interface PipelineBlueprintSummary {
+  BlueprintName?: string;
+  DisplayName?: string;
+  DisplayDescription?: string;
+  Service?: string;
+  UseCase?: string;
+}
+export const PipelineBlueprintSummary = S.suspend(() =>
+  S.Struct({
+    BlueprintName: S.optional(S.String),
+    DisplayName: S.optional(S.String),
+    DisplayDescription: S.optional(S.String),
+    Service: S.optional(S.String),
+    UseCase: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "PipelineBlueprintSummary",
+}) as any as S.Schema<PipelineBlueprintSummary>;
+export type PipelineBlueprintsSummaryList = PipelineBlueprintSummary[];
+export const PipelineBlueprintsSummaryList = S.Array(PipelineBlueprintSummary);
+export interface ListPipelineBlueprintsResponse {
+  Blueprints?: PipelineBlueprintSummary[];
+}
+export const ListPipelineBlueprintsResponse = S.suspend(() =>
+  S.Struct({ Blueprints: S.optional(PipelineBlueprintsSummaryList) }).pipe(ns),
+).annotate({
+  identifier: "ListPipelineBlueprintsResponse",
+}) as any as S.Schema<ListPipelineBlueprintsResponse>;
+export interface ListPipelineEndpointConnectionsRequest {
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListPipelineEndpointConnectionsRequest = S.suspend(() =>
+  S.Struct({
+    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({
+        method: "GET",
+        uri: "/2022-01-01/osis/listPipelineEndpointConnections",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListPipelineEndpointConnectionsRequest",
+}) as any as S.Schema<ListPipelineEndpointConnectionsRequest>;
 export interface PipelineEndpointConnection {
   PipelineArn?: string;
   EndpointId?: string;
@@ -951,7 +766,7 @@ export const PipelineEndpointConnection = S.suspend(() =>
     Status: S.optional(PipelineEndpointStatus),
     VpcEndpointOwner: S.optional(S.String),
   }),
-).annotations({
+).annotate({
   identifier: "PipelineEndpointConnection",
 }) as any as S.Schema<PipelineEndpointConnection>;
 export type PipelineEndpointConnectionsSummaryList =
@@ -959,6 +774,42 @@ export type PipelineEndpointConnectionsSummaryList =
 export const PipelineEndpointConnectionsSummaryList = S.Array(
   PipelineEndpointConnection,
 );
+export interface ListPipelineEndpointConnectionsResponse {
+  NextToken?: string;
+  PipelineEndpointConnections?: PipelineEndpointConnection[];
+}
+export const ListPipelineEndpointConnectionsResponse = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    PipelineEndpointConnections: S.optional(
+      PipelineEndpointConnectionsSummaryList,
+    ),
+  }).pipe(ns),
+).annotate({
+  identifier: "ListPipelineEndpointConnectionsResponse",
+}) as any as S.Schema<ListPipelineEndpointConnectionsResponse>;
+export interface ListPipelineEndpointsRequest {
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListPipelineEndpointsRequest = S.suspend(() =>
+  S.Struct({
+    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "GET", uri: "/2022-01-01/osis/listPipelineEndpoints" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListPipelineEndpointsRequest",
+}) as any as S.Schema<ListPipelineEndpointsRequest>;
 export interface PipelineEndpoint {
   PipelineArn?: string;
   EndpointId?: string;
@@ -976,11 +827,45 @@ export const PipelineEndpoint = S.suspend(() =>
     VpcOptions: S.optional(PipelineEndpointVpcOptions),
     IngestEndpointUrl: S.optional(S.String),
   }),
-).annotations({
+).annotate({
   identifier: "PipelineEndpoint",
 }) as any as S.Schema<PipelineEndpoint>;
 export type PipelineEndpointsSummaryList = PipelineEndpoint[];
 export const PipelineEndpointsSummaryList = S.Array(PipelineEndpoint);
+export interface ListPipelineEndpointsResponse {
+  NextToken?: string;
+  PipelineEndpoints?: PipelineEndpoint[];
+}
+export const ListPipelineEndpointsResponse = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    PipelineEndpoints: S.optional(PipelineEndpointsSummaryList),
+  }).pipe(ns),
+).annotate({
+  identifier: "ListPipelineEndpointsResponse",
+}) as any as S.Schema<ListPipelineEndpointsResponse>;
+export interface ListPipelinesRequest {
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListPipelinesRequest = S.suspend(() =>
+  S.Struct({
+    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "GET", uri: "/2022-01-01/osis/listPipelines" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListPipelinesRequest",
+}) as any as S.Schema<ListPipelinesRequest>;
 export interface PipelineSummary {
   Status?: PipelineStatus;
   StatusReason?: PipelineStatusReason;
@@ -1006,120 +891,11 @@ export const PipelineSummary = S.suspend(() =>
     Destinations: S.optional(PipelineDestinationList),
     Tags: S.optional(TagList),
   }),
-).annotations({
+).annotate({
   identifier: "PipelineSummary",
 }) as any as S.Schema<PipelineSummary>;
 export type PipelineSummaryList = PipelineSummary[];
 export const PipelineSummaryList = S.Array(PipelineSummary);
-export interface ValidationMessage {
-  Message?: string;
-}
-export const ValidationMessage = S.suspend(() =>
-  S.Struct({ Message: S.optional(S.String) }),
-).annotations({
-  identifier: "ValidationMessage",
-}) as any as S.Schema<ValidationMessage>;
-export type ValidationMessageList = ValidationMessage[];
-export const ValidationMessageList = S.Array(ValidationMessage);
-export type ChangeProgressStageStatuses =
-  | "PENDING"
-  | "IN_PROGRESS"
-  | "COMPLETED"
-  | "FAILED"
-  | (string & {});
-export const ChangeProgressStageStatuses = S.String;
-export interface CreatePipelineRequest {
-  PipelineName: string;
-  MinUnits: number;
-  MaxUnits: number;
-  PipelineConfigurationBody: string;
-  LogPublishingOptions?: LogPublishingOptions;
-  VpcOptions?: VpcOptions;
-  BufferOptions?: BufferOptions;
-  EncryptionAtRestOptions?: EncryptionAtRestOptions;
-  Tags?: Tag[];
-  PipelineRoleArn?: string;
-}
-export const CreatePipelineRequest = S.suspend(() =>
-  S.Struct({
-    PipelineName: S.String,
-    MinUnits: S.Number,
-    MaxUnits: S.Number,
-    PipelineConfigurationBody: S.String,
-    LogPublishingOptions: S.optional(LogPublishingOptions),
-    VpcOptions: S.optional(VpcOptions),
-    BufferOptions: S.optional(BufferOptions),
-    EncryptionAtRestOptions: S.optional(EncryptionAtRestOptions),
-    Tags: S.optional(TagList),
-    PipelineRoleArn: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/2022-01-01/osis/createPipeline" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "CreatePipelineRequest",
-}) as any as S.Schema<CreatePipelineRequest>;
-export interface CreatePipelineEndpointResponse {
-  PipelineArn?: string;
-  EndpointId?: string;
-  Status?: PipelineEndpointStatus;
-  VpcId?: string;
-}
-export const CreatePipelineEndpointResponse = S.suspend(() =>
-  S.Struct({
-    PipelineArn: S.optional(S.String),
-    EndpointId: S.optional(S.String),
-    Status: S.optional(PipelineEndpointStatus),
-    VpcId: S.optional(S.String),
-  }).pipe(ns),
-).annotations({
-  identifier: "CreatePipelineEndpointResponse",
-}) as any as S.Schema<CreatePipelineEndpointResponse>;
-export interface GetPipelineBlueprintResponse {
-  Blueprint?: PipelineBlueprint;
-  Format?: string;
-}
-export const GetPipelineBlueprintResponse = S.suspend(() =>
-  S.Struct({
-    Blueprint: S.optional(PipelineBlueprint),
-    Format: S.optional(S.String),
-  }).pipe(ns),
-).annotations({
-  identifier: "GetPipelineBlueprintResponse",
-}) as any as S.Schema<GetPipelineBlueprintResponse>;
-export interface ListPipelineEndpointConnectionsResponse {
-  NextToken?: string;
-  PipelineEndpointConnections?: PipelineEndpointConnection[];
-}
-export const ListPipelineEndpointConnectionsResponse = S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    PipelineEndpointConnections: S.optional(
-      PipelineEndpointConnectionsSummaryList,
-    ),
-  }).pipe(ns),
-).annotations({
-  identifier: "ListPipelineEndpointConnectionsResponse",
-}) as any as S.Schema<ListPipelineEndpointConnectionsResponse>;
-export interface ListPipelineEndpointsResponse {
-  NextToken?: string;
-  PipelineEndpoints?: PipelineEndpoint[];
-}
-export const ListPipelineEndpointsResponse = S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    PipelineEndpoints: S.optional(PipelineEndpointsSummaryList),
-  }).pipe(ns),
-).annotations({
-  identifier: "ListPipelineEndpointsResponse",
-}) as any as S.Schema<ListPipelineEndpointsResponse>;
 export interface ListPipelinesResponse {
   NextToken?: string;
   Pipelines?: PipelineSummary[];
@@ -1129,9 +905,293 @@ export const ListPipelinesResponse = S.suspend(() =>
     NextToken: S.optional(S.String),
     Pipelines: S.optional(PipelineSummaryList),
   }).pipe(ns),
-).annotations({
+).annotate({
   identifier: "ListPipelinesResponse",
 }) as any as S.Schema<ListPipelinesResponse>;
+export interface ListTagsForResourceRequest {
+  Arn: string;
+}
+export const ListTagsForResourceRequest = S.suspend(() =>
+  S.Struct({ Arn: S.String.pipe(T.HttpQuery("arn")) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "GET", uri: "/2022-01-01/osis/listTagsForResource" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListTagsForResourceRequest",
+}) as any as S.Schema<ListTagsForResourceRequest>;
+export interface ListTagsForResourceResponse {
+  Tags?: Tag[];
+}
+export const ListTagsForResourceResponse = S.suspend(() =>
+  S.Struct({ Tags: S.optional(TagList) }).pipe(ns),
+).annotate({
+  identifier: "ListTagsForResourceResponse",
+}) as any as S.Schema<ListTagsForResourceResponse>;
+export interface PutResourcePolicyRequest {
+  ResourceArn: string;
+  Policy: string;
+}
+export const PutResourcePolicyRequest = S.suspend(() =>
+  S.Struct({
+    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
+    Policy: S.String,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({
+        method: "PUT",
+        uri: "/2022-01-01/osis/resourcePolicy/{ResourceArn}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "PutResourcePolicyRequest",
+}) as any as S.Schema<PutResourcePolicyRequest>;
+export interface PutResourcePolicyResponse {
+  ResourceArn?: string;
+  Policy?: string;
+}
+export const PutResourcePolicyResponse = S.suspend(() =>
+  S.Struct({
+    ResourceArn: S.optional(S.String),
+    Policy: S.optional(S.String),
+  }).pipe(ns),
+).annotate({
+  identifier: "PutResourcePolicyResponse",
+}) as any as S.Schema<PutResourcePolicyResponse>;
+export type PipelineEndpointIdsList = string[];
+export const PipelineEndpointIdsList = S.Array(S.String);
+export interface RevokePipelineEndpointConnectionsRequest {
+  PipelineArn: string;
+  EndpointIds: string[];
+}
+export const RevokePipelineEndpointConnectionsRequest = S.suspend(() =>
+  S.Struct({
+    PipelineArn: S.String,
+    EndpointIds: PipelineEndpointIdsList,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({
+        method: "POST",
+        uri: "/2022-01-01/osis/revokePipelineEndpointConnections",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "RevokePipelineEndpointConnectionsRequest",
+}) as any as S.Schema<RevokePipelineEndpointConnectionsRequest>;
+export interface RevokePipelineEndpointConnectionsResponse {
+  PipelineArn?: string;
+}
+export const RevokePipelineEndpointConnectionsResponse = S.suspend(() =>
+  S.Struct({ PipelineArn: S.optional(S.String) }).pipe(ns),
+).annotate({
+  identifier: "RevokePipelineEndpointConnectionsResponse",
+}) as any as S.Schema<RevokePipelineEndpointConnectionsResponse>;
+export interface StartPipelineRequest {
+  PipelineName: string;
+}
+export const StartPipelineRequest = S.suspend(() =>
+  S.Struct({ PipelineName: S.String.pipe(T.HttpLabel("PipelineName")) }).pipe(
+    T.all(
+      ns,
+      T.Http({
+        method: "PUT",
+        uri: "/2022-01-01/osis/startPipeline/{PipelineName}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "StartPipelineRequest",
+}) as any as S.Schema<StartPipelineRequest>;
+export interface StartPipelineResponse {
+  Pipeline?: Pipeline;
+}
+export const StartPipelineResponse = S.suspend(() =>
+  S.Struct({ Pipeline: S.optional(Pipeline) }).pipe(ns),
+).annotate({
+  identifier: "StartPipelineResponse",
+}) as any as S.Schema<StartPipelineResponse>;
+export interface StopPipelineRequest {
+  PipelineName: string;
+}
+export const StopPipelineRequest = S.suspend(() =>
+  S.Struct({ PipelineName: S.String.pipe(T.HttpLabel("PipelineName")) }).pipe(
+    T.all(
+      ns,
+      T.Http({
+        method: "PUT",
+        uri: "/2022-01-01/osis/stopPipeline/{PipelineName}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "StopPipelineRequest",
+}) as any as S.Schema<StopPipelineRequest>;
+export interface StopPipelineResponse {
+  Pipeline?: Pipeline;
+}
+export const StopPipelineResponse = S.suspend(() =>
+  S.Struct({ Pipeline: S.optional(Pipeline) }).pipe(ns),
+).annotate({
+  identifier: "StopPipelineResponse",
+}) as any as S.Schema<StopPipelineResponse>;
+export interface TagResourceRequest {
+  Arn: string;
+  Tags: Tag[];
+}
+export const TagResourceRequest = S.suspend(() =>
+  S.Struct({ Arn: S.String.pipe(T.HttpQuery("arn")), Tags: TagList }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/2022-01-01/osis/tagResource" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "TagResourceRequest",
+}) as any as S.Schema<TagResourceRequest>;
+export interface TagResourceResponse {}
+export const TagResourceResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "TagResourceResponse",
+}) as any as S.Schema<TagResourceResponse>;
+export type StringList = string[];
+export const StringList = S.Array(S.String);
+export interface UntagResourceRequest {
+  Arn: string;
+  TagKeys: string[];
+}
+export const UntagResourceRequest = S.suspend(() =>
+  S.Struct({
+    Arn: S.String.pipe(T.HttpQuery("arn")),
+    TagKeys: StringList,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/2022-01-01/osis/untagResource" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "UntagResourceRequest",
+}) as any as S.Schema<UntagResourceRequest>;
+export interface UntagResourceResponse {}
+export const UntagResourceResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "UntagResourceResponse",
+}) as any as S.Schema<UntagResourceResponse>;
+export interface UpdatePipelineRequest {
+  PipelineName: string;
+  MinUnits?: number;
+  MaxUnits?: number;
+  PipelineConfigurationBody?: string;
+  LogPublishingOptions?: LogPublishingOptions;
+  BufferOptions?: BufferOptions;
+  EncryptionAtRestOptions?: EncryptionAtRestOptions;
+  PipelineRoleArn?: string;
+}
+export const UpdatePipelineRequest = S.suspend(() =>
+  S.Struct({
+    PipelineName: S.String.pipe(T.HttpLabel("PipelineName")),
+    MinUnits: S.optional(S.Number),
+    MaxUnits: S.optional(S.Number),
+    PipelineConfigurationBody: S.optional(S.String),
+    LogPublishingOptions: S.optional(LogPublishingOptions),
+    BufferOptions: S.optional(BufferOptions),
+    EncryptionAtRestOptions: S.optional(EncryptionAtRestOptions),
+    PipelineRoleArn: S.optional(S.String),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({
+        method: "PUT",
+        uri: "/2022-01-01/osis/updatePipeline/{PipelineName}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "UpdatePipelineRequest",
+}) as any as S.Schema<UpdatePipelineRequest>;
+export interface UpdatePipelineResponse {
+  Pipeline?: Pipeline;
+}
+export const UpdatePipelineResponse = S.suspend(() =>
+  S.Struct({ Pipeline: S.optional(Pipeline) }).pipe(ns),
+).annotate({
+  identifier: "UpdatePipelineResponse",
+}) as any as S.Schema<UpdatePipelineResponse>;
+export interface ValidatePipelineRequest {
+  PipelineConfigurationBody: string;
+}
+export const ValidatePipelineRequest = S.suspend(() =>
+  S.Struct({ PipelineConfigurationBody: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/2022-01-01/osis/validatePipeline" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ValidatePipelineRequest",
+}) as any as S.Schema<ValidatePipelineRequest>;
+export interface ValidationMessage {
+  Message?: string;
+}
+export const ValidationMessage = S.suspend(() =>
+  S.Struct({ Message: S.optional(S.String) }),
+).annotate({
+  identifier: "ValidationMessage",
+}) as any as S.Schema<ValidationMessage>;
+export type ValidationMessageList = ValidationMessage[];
+export const ValidationMessageList = S.Array(ValidationMessage);
 export interface ValidatePipelineResponse {
   isValid?: boolean;
   Errors?: ValidationMessage[];
@@ -1141,143 +1201,115 @@ export const ValidatePipelineResponse = S.suspend(() =>
     isValid: S.optional(S.Boolean),
     Errors: S.optional(ValidationMessageList),
   }).pipe(ns),
-).annotations({
+).annotate({
   identifier: "ValidatePipelineResponse",
 }) as any as S.Schema<ValidatePipelineResponse>;
-export interface ChangeProgressStage {
-  Name?: string;
-  Status?: ChangeProgressStageStatuses;
-  Description?: string;
-  LastUpdatedAt?: Date;
-}
-export const ChangeProgressStage = S.suspend(() =>
-  S.Struct({
-    Name: S.optional(S.String),
-    Status: S.optional(ChangeProgressStageStatuses),
-    Description: S.optional(S.String),
-    LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }),
-).annotations({
-  identifier: "ChangeProgressStage",
-}) as any as S.Schema<ChangeProgressStage>;
-export type ChangeProgressStageList = ChangeProgressStage[];
-export const ChangeProgressStageList = S.Array(ChangeProgressStage);
-export interface ChangeProgressStatus {
-  StartTime?: Date;
-  Status?: ChangeProgressStatuses;
-  TotalNumberOfStages?: number;
-  ChangeProgressStages?: ChangeProgressStage[];
-}
-export const ChangeProgressStatus = S.suspend(() =>
-  S.Struct({
-    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    Status: S.optional(ChangeProgressStatuses),
-    TotalNumberOfStages: S.optional(S.Number),
-    ChangeProgressStages: S.optional(ChangeProgressStageList),
-  }),
-).annotations({
-  identifier: "ChangeProgressStatus",
-}) as any as S.Schema<ChangeProgressStatus>;
-export type ChangeProgressStatusList = ChangeProgressStatus[];
-export const ChangeProgressStatusList = S.Array(ChangeProgressStatus);
-export interface CreatePipelineResponse {
-  Pipeline?: Pipeline;
-}
-export const CreatePipelineResponse = S.suspend(() =>
-  S.Struct({ Pipeline: S.optional(Pipeline) }).pipe(ns),
-).annotations({
-  identifier: "CreatePipelineResponse",
-}) as any as S.Schema<CreatePipelineResponse>;
-export interface GetPipelineResponse {
-  Pipeline?: Pipeline;
-}
-export const GetPipelineResponse = S.suspend(() =>
-  S.Struct({ Pipeline: S.optional(Pipeline) }).pipe(ns),
-).annotations({
-  identifier: "GetPipelineResponse",
-}) as any as S.Schema<GetPipelineResponse>;
-export interface GetPipelineChangeProgressResponse {
-  ChangeProgressStatuses?: ChangeProgressStatus[];
-}
-export const GetPipelineChangeProgressResponse = S.suspend(() =>
-  S.Struct({
-    ChangeProgressStatuses: S.optional(ChangeProgressStatusList),
-  }).pipe(ns),
-).annotations({
-  identifier: "GetPipelineChangeProgressResponse",
-}) as any as S.Schema<GetPipelineChangeProgressResponse>;
 
 //# Errors
-export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
+export class AccessDeniedException extends S.TaggedErrorClass<AccessDeniedException>()(
   "AccessDeniedException",
   { message: S.optional(S.String) },
 ).pipe(C.withAuthError) {}
-export class ConflictException extends S.TaggedError<ConflictException>()(
-  "ConflictException",
-  { message: S.optional(S.String) },
-).pipe(C.withConflictError) {}
-export class DisabledOperationException extends S.TaggedError<DisabledOperationException>()(
+export class DisabledOperationException extends S.TaggedErrorClass<DisabledOperationException>()(
   "DisabledOperationException",
   { message: S.optional(S.String) },
 ).pipe(C.withConflictError) {}
-export class InternalException extends S.TaggedError<InternalException>()(
+export class InternalException extends S.TaggedErrorClass<InternalException>()(
   "InternalException",
   { message: S.optional(S.String) },
 ).pipe(C.withServerError) {}
-export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
+export class LimitExceededException extends S.TaggedErrorClass<LimitExceededException>()(
   "LimitExceededException",
   { message: S.optional(S.String) },
 ).pipe(C.withConflictError) {}
-export class InvalidPaginationTokenException extends S.TaggedError<InvalidPaginationTokenException>()(
-  "InvalidPaginationTokenException",
-  { message: S.optional(S.String) },
-).pipe(C.withBadRequestError) {}
-export class ValidationException extends S.TaggedError<ValidationException>()(
-  "ValidationException",
-  { message: S.optional(S.String) },
-).pipe(C.withBadRequestError) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
-  "ResourceNotFoundException",
-  { message: S.optional(S.String) },
-).pipe(C.withBadRequestError) {}
-export class ResourceAlreadyExistsException extends S.TaggedError<ResourceAlreadyExistsException>()(
+export class ResourceAlreadyExistsException extends S.TaggedErrorClass<ResourceAlreadyExistsException>()(
   "ResourceAlreadyExistsException",
   { message: S.optional(S.String) },
 ).pipe(C.withConflictError, C.withAlreadyExistsError) {}
+export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFoundException>()(
+  "ResourceNotFoundException",
+  { message: S.optional(S.String) },
+).pipe(C.withBadRequestError) {}
+export class ValidationException extends S.TaggedErrorClass<ValidationException>()(
+  "ValidationException",
+  { message: S.optional(S.String) },
+).pipe(C.withBadRequestError) {}
+export class ConflictException extends S.TaggedErrorClass<ConflictException>()(
+  "ConflictException",
+  { message: S.optional(S.String) },
+).pipe(C.withConflictError) {}
+export class InvalidPaginationTokenException extends S.TaggedErrorClass<InvalidPaginationTokenException>()(
+  "InvalidPaginationTokenException",
+  { message: S.optional(S.String) },
+).pipe(C.withBadRequestError) {}
 
 //# Operations
 /**
- * Checks whether an OpenSearch Ingestion pipeline configuration is valid prior to creation. For
- * more information, see Creating Amazon OpenSearch
+ * Creates an OpenSearch Ingestion pipeline. For more information, see Creating Amazon OpenSearch
  * Ingestion pipelines.
  */
-export const validatePipeline: (
-  input: ValidatePipelineRequest,
+export const createPipeline: (
+  input: CreatePipelineRequest,
 ) => effect.Effect<
-  ValidatePipelineResponse,
+  CreatePipelineResponse,
   | AccessDeniedException
   | DisabledOperationException
   | InternalException
+  | LimitExceededException
+  | ResourceAlreadyExistsException
+  | ResourceNotFoundException
   | ValidationException
   | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ValidatePipelineRequest,
-  output: ValidatePipelineResponse,
+  input: CreatePipelineRequest,
+  output: CreatePipelineResponse,
   errors: [
     AccessDeniedException,
     DisabledOperationException,
     InternalException,
+    LimitExceededException,
+    ResourceAlreadyExistsException,
+    ResourceNotFoundException,
     ValidationException,
   ],
 }));
 /**
- * Starts an OpenSearch Ingestion pipeline. For more information, see Starting an OpenSearch Ingestion pipeline.
+ * Creates a VPC endpoint for an OpenSearch Ingestion pipeline. Pipeline endpoints allow you to
+ * ingest data from your VPC into pipelines that you have access to.
  */
-export const startPipeline: (
-  input: StartPipelineRequest,
+export const createPipelineEndpoint: (
+  input: CreatePipelineEndpointRequest,
 ) => effect.Effect<
-  StartPipelineResponse,
+  CreatePipelineEndpointResponse,
+  | AccessDeniedException
+  | DisabledOperationException
+  | InternalException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreatePipelineEndpointRequest,
+  output: CreatePipelineEndpointResponse,
+  errors: [
+    AccessDeniedException,
+    DisabledOperationException,
+    InternalException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Deletes an OpenSearch Ingestion pipeline. For more information, see Deleting Amazon OpenSearch
+ * Ingestion pipelines.
+ */
+export const deletePipeline: (
+  input: DeletePipelineRequest,
+) => effect.Effect<
+  DeletePipelineResponse,
   | AccessDeniedException
   | ConflictException
   | DisabledOperationException
@@ -1287,14 +1319,200 @@ export const startPipeline: (
   | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StartPipelineRequest,
-  output: StartPipelineResponse,
+  input: DeletePipelineRequest,
+  output: DeletePipelineResponse,
   errors: [
     AccessDeniedException,
     ConflictException,
     DisabledOperationException,
     InternalException,
     ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Deletes a VPC endpoint for an OpenSearch Ingestion pipeline.
+ */
+export const deletePipelineEndpoint: (
+  input: DeletePipelineEndpointRequest,
+) => effect.Effect<
+  DeletePipelineEndpointResponse,
+  | AccessDeniedException
+  | DisabledOperationException
+  | InternalException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeletePipelineEndpointRequest,
+  output: DeletePipelineEndpointResponse,
+  errors: [
+    AccessDeniedException,
+    DisabledOperationException,
+    InternalException,
+    ValidationException,
+  ],
+}));
+/**
+ * Deletes a resource-based policy from an OpenSearch Ingestion resource.
+ */
+export const deleteResourcePolicy: (
+  input: DeleteResourcePolicyRequest,
+) => effect.Effect<
+  DeleteResourcePolicyResponse,
+  | AccessDeniedException
+  | DisabledOperationException
+  | InternalException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteResourcePolicyRequest,
+  output: DeleteResourcePolicyResponse,
+  errors: [
+    AccessDeniedException,
+    DisabledOperationException,
+    InternalException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Retrieves information about an OpenSearch Ingestion pipeline.
+ */
+export const getPipeline: (
+  input: GetPipelineRequest,
+) => effect.Effect<
+  GetPipelineResponse,
+  | AccessDeniedException
+  | DisabledOperationException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetPipelineRequest,
+  output: GetPipelineResponse,
+  errors: [
+    AccessDeniedException,
+    DisabledOperationException,
+    InternalException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Retrieves information about a specific blueprint for OpenSearch Ingestion. Blueprints are
+ * templates for the configuration needed for a `CreatePipeline` request. For more
+ * information, see Using
+ * blueprints to create a pipeline.
+ */
+export const getPipelineBlueprint: (
+  input: GetPipelineBlueprintRequest,
+) => effect.Effect<
+  GetPipelineBlueprintResponse,
+  | AccessDeniedException
+  | DisabledOperationException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetPipelineBlueprintRequest,
+  output: GetPipelineBlueprintResponse,
+  errors: [
+    AccessDeniedException,
+    DisabledOperationException,
+    InternalException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Returns progress information for the current change happening on an OpenSearch Ingestion
+ * pipeline. Currently, this operation only returns information when a pipeline is being
+ * created.
+ *
+ * For more information, see Tracking the status of pipeline creation.
+ */
+export const getPipelineChangeProgress: (
+  input: GetPipelineChangeProgressRequest,
+) => effect.Effect<
+  GetPipelineChangeProgressResponse,
+  | AccessDeniedException
+  | DisabledOperationException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetPipelineChangeProgressRequest,
+  output: GetPipelineChangeProgressResponse,
+  errors: [
+    AccessDeniedException,
+    DisabledOperationException,
+    InternalException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Retrieves the resource-based policy attached to an OpenSearch Ingestion resource.
+ */
+export const getResourcePolicy: (
+  input: GetResourcePolicyRequest,
+) => effect.Effect<
+  GetResourcePolicyResponse,
+  | AccessDeniedException
+  | DisabledOperationException
+  | InternalException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetResourcePolicyRequest,
+  output: GetResourcePolicyResponse,
+  errors: [
+    AccessDeniedException,
+    DisabledOperationException,
+    InternalException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Retrieves a list of all available blueprints for Data Prepper. For more information, see
+ * Using
+ * blueprints to create a pipeline.
+ */
+export const listPipelineBlueprints: (
+  input: ListPipelineBlueprintsRequest,
+) => effect.Effect<
+  ListPipelineBlueprintsResponse,
+  | AccessDeniedException
+  | DisabledOperationException
+  | InternalException
+  | InvalidPaginationTokenException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListPipelineBlueprintsRequest,
+  output: ListPipelineBlueprintsResponse,
+  errors: [
+    AccessDeniedException,
+    DisabledOperationException,
+    InternalException,
+    InvalidPaginationTokenException,
     ValidationException,
   ],
 }));
@@ -1413,192 +1631,6 @@ export const listPipelineEndpoints: {
   } as const,
 }));
 /**
- * Attaches a resource-based policy to an OpenSearch Ingestion resource. Resource-based
- * policies grant permissions to principals to perform actions on the resource.
- */
-export const putResourcePolicy: (
-  input: PutResourcePolicyRequest,
-) => effect.Effect<
-  PutResourcePolicyResponse,
-  | AccessDeniedException
-  | DisabledOperationException
-  | InternalException
-  | LimitExceededException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PutResourcePolicyRequest,
-  output: PutResourcePolicyResponse,
-  errors: [
-    AccessDeniedException,
-    DisabledOperationException,
-    InternalException,
-    LimitExceededException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Revokes pipeline endpoints from specified endpoint IDs.
- */
-export const revokePipelineEndpointConnections: (
-  input: RevokePipelineEndpointConnectionsRequest,
-) => effect.Effect<
-  RevokePipelineEndpointConnectionsResponse,
-  | AccessDeniedException
-  | DisabledOperationException
-  | InternalException
-  | LimitExceededException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: RevokePipelineEndpointConnectionsRequest,
-  output: RevokePipelineEndpointConnectionsResponse,
-  errors: [
-    AccessDeniedException,
-    DisabledOperationException,
-    InternalException,
-    LimitExceededException,
-    ValidationException,
-  ],
-}));
-/**
- * Deletes a resource-based policy from an OpenSearch Ingestion resource.
- */
-export const deleteResourcePolicy: (
-  input: DeleteResourcePolicyRequest,
-) => effect.Effect<
-  DeleteResourcePolicyResponse,
-  | AccessDeniedException
-  | DisabledOperationException
-  | InternalException
-  | LimitExceededException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteResourcePolicyRequest,
-  output: DeleteResourcePolicyResponse,
-  errors: [
-    AccessDeniedException,
-    DisabledOperationException,
-    InternalException,
-    LimitExceededException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Tags an OpenSearch Ingestion pipeline. For more information, see Tagging Amazon OpenSearch
- * Ingestion pipelines.
- */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
-  TagResourceResponse,
-  | AccessDeniedException
-  | DisabledOperationException
-  | InternalException
-  | LimitExceededException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
-  errors: [
-    AccessDeniedException,
-    DisabledOperationException,
-    InternalException,
-    LimitExceededException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Creates a VPC endpoint for an OpenSearch Ingestion pipeline. Pipeline endpoints allow you to
- * ingest data from your VPC into pipelines that you have access to.
- */
-export const createPipelineEndpoint: (
-  input: CreatePipelineEndpointRequest,
-) => effect.Effect<
-  CreatePipelineEndpointResponse,
-  | AccessDeniedException
-  | DisabledOperationException
-  | InternalException
-  | LimitExceededException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreatePipelineEndpointRequest,
-  output: CreatePipelineEndpointResponse,
-  errors: [
-    AccessDeniedException,
-    DisabledOperationException,
-    InternalException,
-    LimitExceededException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Retrieves a list of all available blueprints for Data Prepper. For more information, see
- * Using
- * blueprints to create a pipeline.
- */
-export const listPipelineBlueprints: (
-  input: ListPipelineBlueprintsRequest,
-) => effect.Effect<
-  ListPipelineBlueprintsResponse,
-  | AccessDeniedException
-  | DisabledOperationException
-  | InternalException
-  | InvalidPaginationTokenException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListPipelineBlueprintsRequest,
-  output: ListPipelineBlueprintsResponse,
-  errors: [
-    AccessDeniedException,
-    DisabledOperationException,
-    InternalException,
-    InvalidPaginationTokenException,
-    ValidationException,
-  ],
-}));
-/**
- * Deletes a VPC endpoint for an OpenSearch Ingestion pipeline.
- */
-export const deletePipelineEndpoint: (
-  input: DeletePipelineEndpointRequest,
-) => effect.Effect<
-  DeletePipelineEndpointResponse,
-  | AccessDeniedException
-  | DisabledOperationException
-  | InternalException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeletePipelineEndpointRequest,
-  output: DeletePipelineEndpointResponse,
-  errors: [
-    AccessDeniedException,
-    DisabledOperationException,
-    InternalException,
-    ValidationException,
-  ],
-}));
-/**
  * Lists all OpenSearch Ingestion pipelines in the current Amazon Web Services account and Region.
  * For more information, see Viewing Amazon OpenSearch
  * Ingestion pipelines.
@@ -1657,6 +1689,112 @@ export const listPipelines: {
   } as const,
 }));
 /**
+ * Lists all resource tags associated with an OpenSearch Ingestion pipeline. For more information,
+ * see Tagging Amazon OpenSearch Ingestion pipelines.
+ */
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => effect.Effect<
+  ListTagsForResourceResponse,
+  | AccessDeniedException
+  | DisabledOperationException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
+  errors: [
+    AccessDeniedException,
+    DisabledOperationException,
+    InternalException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Attaches a resource-based policy to an OpenSearch Ingestion resource. Resource-based
+ * policies grant permissions to principals to perform actions on the resource.
+ */
+export const putResourcePolicy: (
+  input: PutResourcePolicyRequest,
+) => effect.Effect<
+  PutResourcePolicyResponse,
+  | AccessDeniedException
+  | DisabledOperationException
+  | InternalException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutResourcePolicyRequest,
+  output: PutResourcePolicyResponse,
+  errors: [
+    AccessDeniedException,
+    DisabledOperationException,
+    InternalException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Revokes pipeline endpoints from specified endpoint IDs.
+ */
+export const revokePipelineEndpointConnections: (
+  input: RevokePipelineEndpointConnectionsRequest,
+) => effect.Effect<
+  RevokePipelineEndpointConnectionsResponse,
+  | AccessDeniedException
+  | DisabledOperationException
+  | InternalException
+  | LimitExceededException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RevokePipelineEndpointConnectionsRequest,
+  output: RevokePipelineEndpointConnectionsResponse,
+  errors: [
+    AccessDeniedException,
+    DisabledOperationException,
+    InternalException,
+    LimitExceededException,
+    ValidationException,
+  ],
+}));
+/**
+ * Starts an OpenSearch Ingestion pipeline. For more information, see Starting an OpenSearch Ingestion pipeline.
+ */
+export const startPipeline: (
+  input: StartPipelineRequest,
+) => effect.Effect<
+  StartPipelineResponse,
+  | AccessDeniedException
+  | ConflictException
+  | DisabledOperationException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartPipelineRequest,
+  output: StartPipelineResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    DisabledOperationException,
+    InternalException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
  * Stops an OpenSearch Ingestion pipeline. For more information, see Stopping
  * an OpenSearch Ingestion pipeline.
  */
@@ -1678,6 +1816,60 @@ export const stopPipeline: (
   errors: [
     AccessDeniedException,
     ConflictException,
+    DisabledOperationException,
+    InternalException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Tags an OpenSearch Ingestion pipeline. For more information, see Tagging Amazon OpenSearch
+ * Ingestion pipelines.
+ */
+export const tagResource: (
+  input: TagResourceRequest,
+) => effect.Effect<
+  TagResourceResponse,
+  | AccessDeniedException
+  | DisabledOperationException
+  | InternalException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResponse,
+  errors: [
+    AccessDeniedException,
+    DisabledOperationException,
+    InternalException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Removes one or more tags from an OpenSearch Ingestion pipeline. For more information, see Tagging
+ * Amazon OpenSearch Ingestion pipelines.
+ */
+export const untagResource: (
+  input: UntagResourceRequest,
+) => effect.Effect<
+  UntagResourceResponse,
+  | AccessDeniedException
+  | DisabledOperationException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
+  errors: [
+    AccessDeniedException,
     DisabledOperationException,
     InternalException,
     ResourceNotFoundException,
@@ -1713,221 +1905,27 @@ export const updatePipeline: (
   ],
 }));
 /**
- * Lists all resource tags associated with an OpenSearch Ingestion pipeline. For more information,
- * see Tagging Amazon OpenSearch Ingestion pipelines.
- */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
-  ListTagsForResourceResponse,
-  | AccessDeniedException
-  | DisabledOperationException
-  | InternalException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
-  errors: [
-    AccessDeniedException,
-    DisabledOperationException,
-    InternalException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Removes one or more tags from an OpenSearch Ingestion pipeline. For more information, see Tagging
- * Amazon OpenSearch Ingestion pipelines.
- */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
-  UntagResourceResponse,
-  | AccessDeniedException
-  | DisabledOperationException
-  | InternalException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
-  errors: [
-    AccessDeniedException,
-    DisabledOperationException,
-    InternalException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Deletes an OpenSearch Ingestion pipeline. For more information, see Deleting Amazon OpenSearch
+ * Checks whether an OpenSearch Ingestion pipeline configuration is valid prior to creation. For
+ * more information, see Creating Amazon OpenSearch
  * Ingestion pipelines.
  */
-export const deletePipeline: (
-  input: DeletePipelineRequest,
+export const validatePipeline: (
+  input: ValidatePipelineRequest,
 ) => effect.Effect<
-  DeletePipelineResponse,
+  ValidatePipelineResponse,
   | AccessDeniedException
-  | ConflictException
   | DisabledOperationException
   | InternalException
-  | ResourceNotFoundException
   | ValidationException
   | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeletePipelineRequest,
-  output: DeletePipelineResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    DisabledOperationException,
-    InternalException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Retrieves information about a specific blueprint for OpenSearch Ingestion. Blueprints are
- * templates for the configuration needed for a `CreatePipeline` request. For more
- * information, see Using
- * blueprints to create a pipeline.
- */
-export const getPipelineBlueprint: (
-  input: GetPipelineBlueprintRequest,
-) => effect.Effect<
-  GetPipelineBlueprintResponse,
-  | AccessDeniedException
-  | DisabledOperationException
-  | InternalException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetPipelineBlueprintRequest,
-  output: GetPipelineBlueprintResponse,
+  input: ValidatePipelineRequest,
+  output: ValidatePipelineResponse,
   errors: [
     AccessDeniedException,
     DisabledOperationException,
     InternalException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Retrieves information about an OpenSearch Ingestion pipeline.
- */
-export const getPipeline: (
-  input: GetPipelineRequest,
-) => effect.Effect<
-  GetPipelineResponse,
-  | AccessDeniedException
-  | DisabledOperationException
-  | InternalException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetPipelineRequest,
-  output: GetPipelineResponse,
-  errors: [
-    AccessDeniedException,
-    DisabledOperationException,
-    InternalException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Returns progress information for the current change happening on an OpenSearch Ingestion
- * pipeline. Currently, this operation only returns information when a pipeline is being
- * created.
- *
- * For more information, see Tracking the status of pipeline creation.
- */
-export const getPipelineChangeProgress: (
-  input: GetPipelineChangeProgressRequest,
-) => effect.Effect<
-  GetPipelineChangeProgressResponse,
-  | AccessDeniedException
-  | DisabledOperationException
-  | InternalException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetPipelineChangeProgressRequest,
-  output: GetPipelineChangeProgressResponse,
-  errors: [
-    AccessDeniedException,
-    DisabledOperationException,
-    InternalException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Retrieves the resource-based policy attached to an OpenSearch Ingestion resource.
- */
-export const getResourcePolicy: (
-  input: GetResourcePolicyRequest,
-) => effect.Effect<
-  GetResourcePolicyResponse,
-  | AccessDeniedException
-  | DisabledOperationException
-  | InternalException
-  | LimitExceededException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetResourcePolicyRequest,
-  output: GetResourcePolicyResponse,
-  errors: [
-    AccessDeniedException,
-    DisabledOperationException,
-    InternalException,
-    LimitExceededException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Creates an OpenSearch Ingestion pipeline. For more information, see Creating Amazon OpenSearch
- * Ingestion pipelines.
- */
-export const createPipeline: (
-  input: CreatePipelineRequest,
-) => effect.Effect<
-  CreatePipelineResponse,
-  | AccessDeniedException
-  | DisabledOperationException
-  | InternalException
-  | LimitExceededException
-  | ResourceAlreadyExistsException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreatePipelineRequest,
-  output: CreatePipelineResponse,
-  errors: [
-    AccessDeniedException,
-    DisabledOperationException,
-    InternalException,
-    LimitExceededException,
-    ResourceAlreadyExistsException,
-    ResourceNotFoundException,
     ValidationException,
   ],
 }));

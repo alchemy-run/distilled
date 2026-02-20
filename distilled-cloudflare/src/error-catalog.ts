@@ -5,9 +5,9 @@
  * Used by the response parser to match errors to typed TaggedError classes.
  */
 
-import * as Effect from "effect/Effect";
 import * as FileSystem from "@effect/platform/FileSystem";
 import * as Path from "@effect/platform/Path";
+import * as Effect from "effect/Effect";
 
 export interface ErrorCatalogEntry {
   name: string;
@@ -92,7 +92,7 @@ export const loadErrorCatalog = Effect.gen(function* () {
 
   return data;
 }).pipe(
-  Effect.catchAll(() =>
+  Effect.catch(() =>
     Effect.succeed<ErrorCatalogData>({
       codes: {},
       patterns: [],

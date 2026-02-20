@@ -1,4 +1,4 @@
-import { HttpClient } from "@effect/platform";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as effect from "effect/Effect";
 import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
@@ -53,27 +53,25 @@ const rules = T.EndpointResolver((p, _) => {
 //# Newtypes
 export type Arn = string;
 export type TagKey = string;
+export type TagValue = string;
 export type DeletionProtectionEnabled = boolean;
 export type KmsEncryptionKey = string;
 export type ClientToken = string;
+export type Region = string;
+export type ClusterArn = string;
 export type PolicyDocument = string;
 export type BypassPolicyLockoutSafetyCheck = boolean;
 export type ClusterId = string;
+export type ClusterCreationTime = Date;
+export type KmsKeyArn = string;
+export type Endpoint = string;
 export type MaxResults = number;
 export type NextToken = string;
 export type PolicyVersion = string;
-export type TagValue = string;
-export type Region = string;
-export type ClusterArn = string;
-export type ClusterCreationTime = Date;
-export type Endpoint = string;
 export type ServiceName = string;
 export type ClusterVpcEndpoint = string;
-export type KmsKeyArn = string;
 
 //# Schemas
-export type TagKeyList = string[];
-export const TagKeyList = S.Array(S.String);
 export interface ListTagsForResourceInput {
   resourceArn: string;
 }
@@ -88,253 +86,17 @@ export const ListTagsForResourceInput = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "ListTagsForResourceInput",
 }) as any as S.Schema<ListTagsForResourceInput>;
-export interface UntagResourceInput {
-  resourceArn: string;
-  tagKeys: string[];
-}
-export const UntagResourceInput = S.suspend(() =>
-  S.Struct({
-    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-    tagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "UntagResourceInput",
-}) as any as S.Schema<UntagResourceInput>;
-export interface UntagResourceResponse {}
-export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
-  identifier: "UntagResourceResponse",
-}) as any as S.Schema<UntagResourceResponse>;
-export interface GetClusterInput {
-  identifier: string;
-}
-export const GetClusterInput = S.suspend(() =>
-  S.Struct({ identifier: S.String.pipe(T.HttpLabel("identifier")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/cluster/{identifier}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "GetClusterInput",
-}) as any as S.Schema<GetClusterInput>;
-export type ClusterArnList = string[];
-export const ClusterArnList = S.Array(S.String);
-export interface MultiRegionProperties {
-  witnessRegion?: string;
-  clusters?: string[];
-}
-export const MultiRegionProperties = S.suspend(() =>
-  S.Struct({
-    witnessRegion: S.optional(S.String),
-    clusters: S.optional(ClusterArnList),
-  }),
-).annotations({
-  identifier: "MultiRegionProperties",
-}) as any as S.Schema<MultiRegionProperties>;
-export interface UpdateClusterInput {
-  identifier: string;
-  deletionProtectionEnabled?: boolean;
-  kmsEncryptionKey?: string;
-  clientToken?: string;
-  multiRegionProperties?: MultiRegionProperties;
-}
-export const UpdateClusterInput = S.suspend(() =>
-  S.Struct({
-    identifier: S.String.pipe(T.HttpLabel("identifier")),
-    deletionProtectionEnabled: S.optional(S.Boolean),
-    kmsEncryptionKey: S.optional(S.String),
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    multiRegionProperties: S.optional(MultiRegionProperties),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/cluster/{identifier}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "UpdateClusterInput",
-}) as any as S.Schema<UpdateClusterInput>;
-export interface DeleteClusterInput {
-  identifier: string;
-  clientToken?: string;
-}
-export const DeleteClusterInput = S.suspend(() =>
-  S.Struct({
-    identifier: S.String.pipe(T.HttpLabel("identifier")),
-    clientToken: S.optional(S.String).pipe(
-      T.HttpQuery("client-token"),
-      T.IdempotencyToken(),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/cluster/{identifier}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DeleteClusterInput",
-}) as any as S.Schema<DeleteClusterInput>;
-export interface ListClustersInput {
-  maxResults?: number;
-  nextToken?: string;
-}
-export const ListClustersInput = S.suspend(() =>
-  S.Struct({
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("max-results")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("next-token")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/cluster" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListClustersInput",
-}) as any as S.Schema<ListClustersInput>;
-export interface DeleteClusterPolicyInput {
-  identifier: string;
-  expectedPolicyVersion?: string;
-  clientToken?: string;
-}
-export const DeleteClusterPolicyInput = S.suspend(() =>
-  S.Struct({
-    identifier: S.String.pipe(T.HttpLabel("identifier")),
-    expectedPolicyVersion: S.optional(S.String).pipe(
-      T.HttpQuery("expected-policy-version"),
-    ),
-    clientToken: S.optional(S.String).pipe(
-      T.HttpQuery("client-token"),
-      T.IdempotencyToken(),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/cluster/{identifier}/policy" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DeleteClusterPolicyInput",
-}) as any as S.Schema<DeleteClusterPolicyInput>;
-export interface GetClusterPolicyInput {
-  identifier: string;
-}
-export const GetClusterPolicyInput = S.suspend(() =>
-  S.Struct({ identifier: S.String.pipe(T.HttpLabel("identifier")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/cluster/{identifier}/policy" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "GetClusterPolicyInput",
-}) as any as S.Schema<GetClusterPolicyInput>;
-export interface GetVpcEndpointServiceNameInput {
-  identifier: string;
-}
-export const GetVpcEndpointServiceNameInput = S.suspend(() =>
-  S.Struct({ identifier: S.String.pipe(T.HttpLabel("identifier")) }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/clusters/{identifier}/vpc-endpoint-service-name",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "GetVpcEndpointServiceNameInput",
-}) as any as S.Schema<GetVpcEndpointServiceNameInput>;
-export interface PutClusterPolicyInput {
-  identifier: string;
-  policy: string;
-  bypassPolicyLockoutSafetyCheck?: boolean;
-  expectedPolicyVersion?: string;
-  clientToken?: string;
-}
-export const PutClusterPolicyInput = S.suspend(() =>
-  S.Struct({
-    identifier: S.String.pipe(T.HttpLabel("identifier")),
-    policy: S.String,
-    bypassPolicyLockoutSafetyCheck: S.optional(S.Boolean),
-    expectedPolicyVersion: S.optional(S.String),
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/cluster/{identifier}/policy" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "PutClusterPolicyInput",
-}) as any as S.Schema<PutClusterPolicyInput>;
 export type TagMap = { [key: string]: string | undefined };
-export const TagMap = S.Record({
-  key: S.String,
-  value: S.UndefinedOr(S.String),
-});
-export type ClusterStatus =
-  | "CREATING"
-  | "ACTIVE"
-  | "IDLE"
-  | "INACTIVE"
-  | "UPDATING"
-  | "DELETING"
-  | "DELETED"
-  | "FAILED"
-  | "PENDING_SETUP"
-  | "PENDING_DELETE"
-  | (string & {});
-export const ClusterStatus = S.String;
+export const TagMap = S.Record(S.String, S.String.pipe(S.optional));
 export interface ListTagsForResourceOutput {
   tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceOutput = S.suspend(() =>
   S.Struct({ tags: S.optional(TagMap) }),
-).annotations({
+).annotate({
   identifier: "ListTagsForResourceOutput",
 }) as any as S.Schema<ListTagsForResourceOutput>;
 export interface TagResourceInput {
@@ -355,13 +117,54 @@ export const TagResourceInput = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "TagResourceInput",
 }) as any as S.Schema<TagResourceInput>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+export const TagResourceResponse = S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
+export type TagKeyList = string[];
+export const TagKeyList = S.Array(S.String);
+export interface UntagResourceInput {
+  resourceArn: string;
+  tagKeys: string[];
+}
+export const UntagResourceInput = S.suspend(() =>
+  S.Struct({
+    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
+    tagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "UntagResourceInput",
+}) as any as S.Schema<UntagResourceInput>;
+export interface UntagResourceResponse {}
+export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotate({
+  identifier: "UntagResourceResponse",
+}) as any as S.Schema<UntagResourceResponse>;
+export type ClusterArnList = string[];
+export const ClusterArnList = S.Array(S.String);
+export interface MultiRegionProperties {
+  witnessRegion?: string;
+  clusters?: string[];
+}
+export const MultiRegionProperties = S.suspend(() =>
+  S.Struct({
+    witnessRegion: S.optional(S.String),
+    clusters: S.optional(ClusterArnList),
+  }),
+).annotate({
+  identifier: "MultiRegionProperties",
+}) as any as S.Schema<MultiRegionProperties>;
 export interface CreateClusterInput {
   deletionProtectionEnabled?: boolean;
   kmsEncryptionKey?: string;
@@ -390,75 +193,22 @@ export const CreateClusterInput = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "CreateClusterInput",
 }) as any as S.Schema<CreateClusterInput>;
-export interface UpdateClusterOutput {
-  identifier: string;
-  arn: string;
-  status: ClusterStatus;
-  creationTime: Date;
-}
-export const UpdateClusterOutput = S.suspend(() =>
-  S.Struct({
-    identifier: S.String,
-    arn: S.String,
-    status: ClusterStatus,
-    creationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  }),
-).annotations({
-  identifier: "UpdateClusterOutput",
-}) as any as S.Schema<UpdateClusterOutput>;
-export interface DeleteClusterOutput {
-  identifier: string;
-  arn: string;
-  status: ClusterStatus;
-  creationTime: Date;
-}
-export const DeleteClusterOutput = S.suspend(() =>
-  S.Struct({
-    identifier: S.String,
-    arn: S.String,
-    status: ClusterStatus,
-    creationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  }),
-).annotations({
-  identifier: "DeleteClusterOutput",
-}) as any as S.Schema<DeleteClusterOutput>;
-export interface DeleteClusterPolicyOutput {
-  policyVersion: string;
-}
-export const DeleteClusterPolicyOutput = S.suspend(() =>
-  S.Struct({ policyVersion: S.String }),
-).annotations({
-  identifier: "DeleteClusterPolicyOutput",
-}) as any as S.Schema<DeleteClusterPolicyOutput>;
-export interface GetClusterPolicyOutput {
-  policy: string;
-  policyVersion: string;
-}
-export const GetClusterPolicyOutput = S.suspend(() =>
-  S.Struct({ policy: S.String, policyVersion: S.String }),
-).annotations({
-  identifier: "GetClusterPolicyOutput",
-}) as any as S.Schema<GetClusterPolicyOutput>;
-export interface GetVpcEndpointServiceNameOutput {
-  serviceName: string;
-  clusterVpcEndpoint?: string;
-}
-export const GetVpcEndpointServiceNameOutput = S.suspend(() =>
-  S.Struct({ serviceName: S.String, clusterVpcEndpoint: S.optional(S.String) }),
-).annotations({
-  identifier: "GetVpcEndpointServiceNameOutput",
-}) as any as S.Schema<GetVpcEndpointServiceNameOutput>;
-export interface PutClusterPolicyOutput {
-  policyVersion: string;
-}
-export const PutClusterPolicyOutput = S.suspend(() =>
-  S.Struct({ policyVersion: S.String }),
-).annotations({
-  identifier: "PutClusterPolicyOutput",
-}) as any as S.Schema<PutClusterPolicyOutput>;
+export type ClusterStatus =
+  | "CREATING"
+  | "ACTIVE"
+  | "IDLE"
+  | "INACTIVE"
+  | "UPDATING"
+  | "DELETING"
+  | "DELETED"
+  | "FAILED"
+  | "PENDING_SETUP"
+  | "PENDING_DELETE"
+  | (string & {});
+export const ClusterStatus = S.String;
 export type EncryptionType =
   | "AWS_OWNED_KMS_KEY"
   | "CUSTOMER_MANAGED_KMS_KEY"
@@ -482,28 +232,9 @@ export const EncryptionDetails = S.suspend(() =>
     kmsKeyArn: S.optional(S.String),
     encryptionStatus: EncryptionStatus,
   }),
-).annotations({
+).annotate({
   identifier: "EncryptionDetails",
 }) as any as S.Schema<EncryptionDetails>;
-export interface ClusterSummary {
-  identifier: string;
-  arn: string;
-}
-export const ClusterSummary = S.suspend(() =>
-  S.Struct({ identifier: S.String, arn: S.String }),
-).annotations({
-  identifier: "ClusterSummary",
-}) as any as S.Schema<ClusterSummary>;
-export type ClusterList = ClusterSummary[];
-export const ClusterList = S.Array(ClusterSummary);
-export type ValidationExceptionReason =
-  | "unknownOperation"
-  | "cannotParse"
-  | "fieldValidationFailed"
-  | "deletionProtectionEnabled"
-  | "other"
-  | (string & {});
-export const ValidationExceptionReason = S.String;
 export interface CreateClusterOutput {
   identifier: string;
   arn: string;
@@ -525,9 +256,45 @@ export const CreateClusterOutput = S.suspend(() =>
     deletionProtectionEnabled: S.Boolean,
     endpoint: S.optional(S.String),
   }),
-).annotations({
+).annotate({
   identifier: "CreateClusterOutput",
 }) as any as S.Schema<CreateClusterOutput>;
+export type ValidationExceptionReason =
+  | "unknownOperation"
+  | "cannotParse"
+  | "fieldValidationFailed"
+  | "deletionProtectionEnabled"
+  | "other"
+  | (string & {});
+export const ValidationExceptionReason = S.String;
+export interface ValidationExceptionField {
+  name: string;
+  message: string;
+}
+export const ValidationExceptionField = S.suspend(() =>
+  S.Struct({ name: S.String, message: S.String }),
+).annotate({
+  identifier: "ValidationExceptionField",
+}) as any as S.Schema<ValidationExceptionField>;
+export type ValidationExceptionFieldList = ValidationExceptionField[];
+export const ValidationExceptionFieldList = S.Array(ValidationExceptionField);
+export interface GetClusterInput {
+  identifier: string;
+}
+export const GetClusterInput = S.suspend(() =>
+  S.Struct({ identifier: S.String.pipe(T.HttpLabel("identifier")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/cluster/{identifier}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetClusterInput",
+}) as any as S.Schema<GetClusterInput>;
 export interface GetClusterOutput {
   identifier: string;
   arn: string;
@@ -551,52 +318,264 @@ export const GetClusterOutput = S.suspend(() =>
     encryptionDetails: S.optional(EncryptionDetails),
     endpoint: S.optional(S.String),
   }),
-).annotations({
+).annotate({
   identifier: "GetClusterOutput",
 }) as any as S.Schema<GetClusterOutput>;
+export interface UpdateClusterInput {
+  identifier: string;
+  deletionProtectionEnabled?: boolean;
+  kmsEncryptionKey?: string;
+  clientToken?: string;
+  multiRegionProperties?: MultiRegionProperties;
+}
+export const UpdateClusterInput = S.suspend(() =>
+  S.Struct({
+    identifier: S.String.pipe(T.HttpLabel("identifier")),
+    deletionProtectionEnabled: S.optional(S.Boolean),
+    kmsEncryptionKey: S.optional(S.String),
+    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+    multiRegionProperties: S.optional(MultiRegionProperties),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/cluster/{identifier}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "UpdateClusterInput",
+}) as any as S.Schema<UpdateClusterInput>;
+export interface UpdateClusterOutput {
+  identifier: string;
+  arn: string;
+  status: ClusterStatus;
+  creationTime: Date;
+}
+export const UpdateClusterOutput = S.suspend(() =>
+  S.Struct({
+    identifier: S.String,
+    arn: S.String,
+    status: ClusterStatus,
+    creationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  }),
+).annotate({
+  identifier: "UpdateClusterOutput",
+}) as any as S.Schema<UpdateClusterOutput>;
+export interface DeleteClusterInput {
+  identifier: string;
+  clientToken?: string;
+}
+export const DeleteClusterInput = S.suspend(() =>
+  S.Struct({
+    identifier: S.String.pipe(T.HttpLabel("identifier")),
+    clientToken: S.optional(S.String).pipe(
+      T.HttpQuery("client-token"),
+      T.IdempotencyToken(),
+    ),
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/cluster/{identifier}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeleteClusterInput",
+}) as any as S.Schema<DeleteClusterInput>;
+export interface DeleteClusterOutput {
+  identifier: string;
+  arn: string;
+  status: ClusterStatus;
+  creationTime: Date;
+}
+export const DeleteClusterOutput = S.suspend(() =>
+  S.Struct({
+    identifier: S.String,
+    arn: S.String,
+    status: ClusterStatus,
+    creationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  }),
+).annotate({
+  identifier: "DeleteClusterOutput",
+}) as any as S.Schema<DeleteClusterOutput>;
+export interface ListClustersInput {
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListClustersInput = S.suspend(() =>
+  S.Struct({
+    maxResults: S.optional(S.Number).pipe(T.HttpQuery("max-results")),
+    nextToken: S.optional(S.String).pipe(T.HttpQuery("next-token")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/cluster" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListClustersInput",
+}) as any as S.Schema<ListClustersInput>;
+export interface ClusterSummary {
+  identifier: string;
+  arn: string;
+}
+export const ClusterSummary = S.suspend(() =>
+  S.Struct({ identifier: S.String, arn: S.String }),
+).annotate({ identifier: "ClusterSummary" }) as any as S.Schema<ClusterSummary>;
+export type ClusterList = ClusterSummary[];
+export const ClusterList = S.Array(ClusterSummary);
 export interface ListClustersOutput {
   nextToken?: string;
   clusters: ClusterSummary[];
 }
 export const ListClustersOutput = S.suspend(() =>
   S.Struct({ nextToken: S.optional(S.String), clusters: ClusterList }),
-).annotations({
+).annotate({
   identifier: "ListClustersOutput",
 }) as any as S.Schema<ListClustersOutput>;
-export interface ValidationExceptionField {
-  name: string;
-  message: string;
+export interface DeleteClusterPolicyInput {
+  identifier: string;
+  expectedPolicyVersion?: string;
+  clientToken?: string;
 }
-export const ValidationExceptionField = S.suspend(() =>
-  S.Struct({ name: S.String, message: S.String }),
-).annotations({
-  identifier: "ValidationExceptionField",
-}) as any as S.Schema<ValidationExceptionField>;
-export type ValidationExceptionFieldList = ValidationExceptionField[];
-export const ValidationExceptionFieldList = S.Array(ValidationExceptionField);
+export const DeleteClusterPolicyInput = S.suspend(() =>
+  S.Struct({
+    identifier: S.String.pipe(T.HttpLabel("identifier")),
+    expectedPolicyVersion: S.optional(S.String).pipe(
+      T.HttpQuery("expected-policy-version"),
+    ),
+    clientToken: S.optional(S.String).pipe(
+      T.HttpQuery("client-token"),
+      T.IdempotencyToken(),
+    ),
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/cluster/{identifier}/policy" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeleteClusterPolicyInput",
+}) as any as S.Schema<DeleteClusterPolicyInput>;
+export interface DeleteClusterPolicyOutput {
+  policyVersion: string;
+}
+export const DeleteClusterPolicyOutput = S.suspend(() =>
+  S.Struct({ policyVersion: S.String }),
+).annotate({
+  identifier: "DeleteClusterPolicyOutput",
+}) as any as S.Schema<DeleteClusterPolicyOutput>;
+export interface GetClusterPolicyInput {
+  identifier: string;
+}
+export const GetClusterPolicyInput = S.suspend(() =>
+  S.Struct({ identifier: S.String.pipe(T.HttpLabel("identifier")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/cluster/{identifier}/policy" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetClusterPolicyInput",
+}) as any as S.Schema<GetClusterPolicyInput>;
+export interface GetClusterPolicyOutput {
+  policy: string;
+  policyVersion: string;
+}
+export const GetClusterPolicyOutput = S.suspend(() =>
+  S.Struct({ policy: S.String, policyVersion: S.String }),
+).annotate({
+  identifier: "GetClusterPolicyOutput",
+}) as any as S.Schema<GetClusterPolicyOutput>;
+export interface GetVpcEndpointServiceNameInput {
+  identifier: string;
+}
+export const GetVpcEndpointServiceNameInput = S.suspend(() =>
+  S.Struct({ identifier: S.String.pipe(T.HttpLabel("identifier")) }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/clusters/{identifier}/vpc-endpoint-service-name",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetVpcEndpointServiceNameInput",
+}) as any as S.Schema<GetVpcEndpointServiceNameInput>;
+export interface GetVpcEndpointServiceNameOutput {
+  serviceName: string;
+  clusterVpcEndpoint?: string;
+}
+export const GetVpcEndpointServiceNameOutput = S.suspend(() =>
+  S.Struct({ serviceName: S.String, clusterVpcEndpoint: S.optional(S.String) }),
+).annotate({
+  identifier: "GetVpcEndpointServiceNameOutput",
+}) as any as S.Schema<GetVpcEndpointServiceNameOutput>;
+export interface PutClusterPolicyInput {
+  identifier: string;
+  policy: string;
+  bypassPolicyLockoutSafetyCheck?: boolean;
+  expectedPolicyVersion?: string;
+  clientToken?: string;
+}
+export const PutClusterPolicyInput = S.suspend(() =>
+  S.Struct({
+    identifier: S.String.pipe(T.HttpLabel("identifier")),
+    policy: S.String,
+    bypassPolicyLockoutSafetyCheck: S.optional(S.Boolean),
+    expectedPolicyVersion: S.optional(S.String),
+    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/cluster/{identifier}/policy" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "PutClusterPolicyInput",
+}) as any as S.Schema<PutClusterPolicyInput>;
+export interface PutClusterPolicyOutput {
+  policyVersion: string;
+}
+export const PutClusterPolicyOutput = S.suspend(() =>
+  S.Struct({ policyVersion: S.String }),
+).annotate({
+  identifier: "PutClusterPolicyOutput",
+}) as any as S.Schema<PutClusterPolicyOutput>;
 
 //# Errors
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { message: S.String, resourceId: S.String, resourceType: S.String },
 ).pipe(C.withBadRequestError) {}
-export class ConflictException extends S.TaggedError<ConflictException>()(
-  "ConflictException",
-  {
-    message: S.String,
-    resourceId: S.optional(S.String),
-    resourceType: S.optional(S.String),
-  },
-).pipe(C.withConflictError) {}
-export class InternalServerException extends S.TaggedError<InternalServerException>()(
-  "InternalServerException",
-  {
-    message: S.String,
-    retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
-  },
-  T.Retryable(),
-).pipe(C.withServerError, C.withRetryableError) {}
-export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
+export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
   {
     message: S.String,
@@ -606,7 +585,15 @@ export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExc
     quotaCode: S.String,
   },
 ).pipe(C.withQuotaError) {}
-export class ValidationException extends S.TaggedError<ValidationException>()(
+export class ConflictException extends S.TaggedErrorClass<ConflictException>()(
+  "ConflictException",
+  {
+    message: S.String,
+    resourceId: S.optional(S.String),
+    resourceType: S.optional(S.String),
+  },
+).pipe(C.withConflictError) {}
+export class ValidationException extends S.TaggedErrorClass<ValidationException>()(
   "ValidationException",
   {
     message: S.String,
@@ -614,7 +601,15 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
     fieldList: S.optional(ValidationExceptionFieldList),
   },
 ).pipe(C.withBadRequestError) {}
-export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
+export class InternalServerException extends S.TaggedErrorClass<InternalServerException>()(
+  "InternalServerException",
+  {
+    message: S.String,
+    retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
+  },
+  T.Retryable(),
+).pipe(C.withServerError, C.withRetryableError) {}
+export class ThrottlingException extends S.TaggedErrorClass<ThrottlingException>()(
   "ThrottlingException",
   {
     message: S.String,
@@ -626,20 +621,6 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
 ).pipe(C.withThrottlingError, C.withRetryableError) {}
 
 //# Operations
-/**
- * Removes a tag from a resource.
- */
-export const untagResource: (
-  input: UntagResourceInput,
-) => effect.Effect<
-  UntagResourceResponse,
-  ResourceNotFoundException | CommonErrors,
-  Credentials | Rgn | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceInput,
-  output: UntagResourceResponse,
-  errors: [ResourceNotFoundException],
-}));
 /**
  * Lists all of the tags for a resource.
  */
@@ -653,56 +634,6 @@ export const listTagsForResource: (
   input: ListTagsForResourceInput,
   output: ListTagsForResourceOutput,
   errors: [ResourceNotFoundException],
-}));
-/**
- * Retrieves information about a cluster.
- */
-export const getCluster: (
-  input: GetClusterInput,
-) => effect.Effect<
-  GetClusterOutput,
-  ResourceNotFoundException | CommonErrors,
-  Credentials | Rgn | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetClusterInput,
-  output: GetClusterOutput,
-  errors: [ResourceNotFoundException],
-}));
-/**
- * Retrieves information about a list of clusters.
- */
-export const listClusters: {
-  (
-    input: ListClustersInput,
-  ): effect.Effect<
-    ListClustersOutput,
-    ResourceNotFoundException | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
-  pages: (
-    input: ListClustersInput,
-  ) => stream.Stream<
-    ListClustersOutput,
-    ResourceNotFoundException | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
-  items: (
-    input: ListClustersInput,
-  ) => stream.Stream<
-    ClusterSummary,
-    ResourceNotFoundException | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
-} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
-  input: ListClustersInput,
-  output: ListClustersOutput,
-  errors: [ResourceNotFoundException],
-  pagination: {
-    inputToken: "nextToken",
-    outputToken: "nextToken",
-    items: "clusters",
-    pageSize: "maxResults",
-  } as const,
 }));
 /**
  * Tags a resource with a map of key and value pairs.
@@ -719,55 +650,95 @@ export const tagResource: (
   errors: [ResourceNotFoundException, ServiceQuotaExceededException],
 }));
 /**
- * Deletes a cluster in Amazon Aurora DSQL.
+ * Removes a tag from a resource.
  */
-export const deleteCluster: (
-  input: DeleteClusterInput,
+export const untagResource: (
+  input: UntagResourceInput,
 ) => effect.Effect<
-  DeleteClusterOutput,
-  ConflictException | ResourceNotFoundException | CommonErrors,
+  UntagResourceResponse,
+  ResourceNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteClusterInput,
-  output: DeleteClusterOutput,
-  errors: [ConflictException, ResourceNotFoundException],
+  input: UntagResourceInput,
+  output: UntagResourceResponse,
+  errors: [ResourceNotFoundException],
 }));
 /**
- * Retrieves the resource-based policy document attached to a cluster. This policy defines the access permissions and conditions for the cluster.
+ * The CreateCluster API allows you to create both single-Region clusters and multi-Region clusters. With the addition of the *multiRegionProperties* parameter, you can create a cluster with witness Region support and establish peer relationships with clusters in other Regions during creation.
+ *
+ * Creating multi-Region clusters requires additional IAM permissions beyond those needed for single-Region clusters, as detailed in the **Required permissions** section below.
+ *
+ * **Required permissions**
+ *
+ * ### dsql:CreateCluster
+ *
+ * Required to create a cluster.
+ *
+ * Resources: `arn:aws:dsql:region:account-id:cluster/*`
+ *
+ * ### dsql:TagResource
+ *
+ * Permission to add tags to a resource.
+ *
+ * Resources: `arn:aws:dsql:region:account-id:cluster/*`
+ *
+ * ### dsql:PutMultiRegionProperties
+ *
+ * Permission to configure multi-Region properties for a cluster.
+ *
+ * Resources: `arn:aws:dsql:region:account-id:cluster/*`
+ *
+ * ### dsql:AddPeerCluster
+ *
+ * When specifying `multiRegionProperties.clusters`, permission to add peer clusters.
+ *
+ * Resources:
+ *
+ * - Local cluster: `arn:aws:dsql:region:account-id:cluster/*`
+ *
+ * - Each peer cluster: exact ARN of each specified peer cluster
+ *
+ * ### dsql:PutWitnessRegion
+ *
+ * When specifying `multiRegionProperties.witnessRegion`, permission to set a witness Region. This permission is checked both in the cluster Region and in the witness Region.
+ *
+ * Resources: `arn:aws:dsql:region:account-id:cluster/*`
+ *
+ * Condition Keys: `dsql:WitnessRegion` (matching the specified witness region)
+ *
+ * - The witness Region specified in `multiRegionProperties.witnessRegion` cannot be the same as the cluster's Region.
  */
-export const getClusterPolicy: (
-  input: GetClusterPolicyInput,
+export const createCluster: (
+  input: CreateClusterInput,
 ) => effect.Effect<
-  GetClusterPolicyOutput,
-  ResourceNotFoundException | ValidationException | CommonErrors,
-  Credentials | Rgn | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetClusterPolicyInput,
-  output: GetClusterPolicyOutput,
-  errors: [ResourceNotFoundException, ValidationException],
-}));
-/**
- * Retrieves the VPC endpoint service name.
- */
-export const getVpcEndpointServiceName: (
-  input: GetVpcEndpointServiceNameInput,
-) => effect.Effect<
-  GetVpcEndpointServiceNameOutput,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
+  CreateClusterOutput,
+  | ConflictException
+  | ServiceQuotaExceededException
   | ValidationException
   | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetVpcEndpointServiceNameInput,
-  output: GetVpcEndpointServiceNameOutput,
+  input: CreateClusterInput,
+  output: CreateClusterOutput,
   errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
+    ConflictException,
+    ServiceQuotaExceededException,
     ValidationException,
   ],
+}));
+/**
+ * Retrieves information about a cluster.
+ */
+export const getCluster: (
+  input: GetClusterInput,
+) => effect.Effect<
+  GetClusterOutput,
+  ResourceNotFoundException | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetClusterInput,
+  output: GetClusterOutput,
+  errors: [ResourceNotFoundException],
 }));
 /**
  * The *UpdateCluster* API allows you to modify both single-Region and multi-Region cluster configurations. With the *multiRegionProperties* parameter, you can add or modify witness Region support and manage peer relationships with clusters in other Regions.
@@ -841,6 +812,56 @@ export const updateCluster: (
   errors: [ConflictException, ResourceNotFoundException, ValidationException],
 }));
 /**
+ * Deletes a cluster in Amazon Aurora DSQL.
+ */
+export const deleteCluster: (
+  input: DeleteClusterInput,
+) => effect.Effect<
+  DeleteClusterOutput,
+  ConflictException | ResourceNotFoundException | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteClusterInput,
+  output: DeleteClusterOutput,
+  errors: [ConflictException, ResourceNotFoundException],
+}));
+/**
+ * Retrieves information about a list of clusters.
+ */
+export const listClusters: {
+  (
+    input: ListClustersInput,
+  ): effect.Effect<
+    ListClustersOutput,
+    ResourceNotFoundException | CommonErrors,
+    Credentials | Rgn | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListClustersInput,
+  ) => stream.Stream<
+    ListClustersOutput,
+    ResourceNotFoundException | CommonErrors,
+    Credentials | Rgn | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListClustersInput,
+  ) => stream.Stream<
+    ClusterSummary,
+    ResourceNotFoundException | CommonErrors,
+    Credentials | Rgn | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListClustersInput,
+  output: ListClustersOutput,
+  errors: [ResourceNotFoundException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "clusters",
+    pageSize: "maxResults",
+  } as const,
+}));
+/**
  * Deletes the resource-based policy attached to a cluster. This removes all access permissions defined by the policy, reverting to default access controls.
  */
 export const deleteClusterPolicy: (
@@ -858,6 +879,43 @@ export const deleteClusterPolicy: (
   errors: [ConflictException, ResourceNotFoundException, ValidationException],
 }));
 /**
+ * Retrieves the resource-based policy document attached to a cluster. This policy defines the access permissions and conditions for the cluster.
+ */
+export const getClusterPolicy: (
+  input: GetClusterPolicyInput,
+) => effect.Effect<
+  GetClusterPolicyOutput,
+  ResourceNotFoundException | ValidationException | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetClusterPolicyInput,
+  output: GetClusterPolicyOutput,
+  errors: [ResourceNotFoundException, ValidationException],
+}));
+/**
+ * Retrieves the VPC endpoint service name.
+ */
+export const getVpcEndpointServiceName: (
+  input: GetVpcEndpointServiceNameInput,
+) => effect.Effect<
+  GetVpcEndpointServiceNameOutput,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetVpcEndpointServiceNameInput,
+  output: GetVpcEndpointServiceNameOutput,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
  * Attaches a resource-based policy to a cluster. This policy defines access permissions and conditions for the cluster, allowing you to control which principals can perform actions on the cluster.
  */
 export const putClusterPolicy: (
@@ -873,67 +931,4 @@ export const putClusterPolicy: (
   input: PutClusterPolicyInput,
   output: PutClusterPolicyOutput,
   errors: [ConflictException, ResourceNotFoundException, ValidationException],
-}));
-/**
- * The CreateCluster API allows you to create both single-Region clusters and multi-Region clusters. With the addition of the *multiRegionProperties* parameter, you can create a cluster with witness Region support and establish peer relationships with clusters in other Regions during creation.
- *
- * Creating multi-Region clusters requires additional IAM permissions beyond those needed for single-Region clusters, as detailed in the **Required permissions** section below.
- *
- * **Required permissions**
- *
- * ### dsql:CreateCluster
- *
- * Required to create a cluster.
- *
- * Resources: `arn:aws:dsql:region:account-id:cluster/*`
- *
- * ### dsql:TagResource
- *
- * Permission to add tags to a resource.
- *
- * Resources: `arn:aws:dsql:region:account-id:cluster/*`
- *
- * ### dsql:PutMultiRegionProperties
- *
- * Permission to configure multi-Region properties for a cluster.
- *
- * Resources: `arn:aws:dsql:region:account-id:cluster/*`
- *
- * ### dsql:AddPeerCluster
- *
- * When specifying `multiRegionProperties.clusters`, permission to add peer clusters.
- *
- * Resources:
- *
- * - Local cluster: `arn:aws:dsql:region:account-id:cluster/*`
- *
- * - Each peer cluster: exact ARN of each specified peer cluster
- *
- * ### dsql:PutWitnessRegion
- *
- * When specifying `multiRegionProperties.witnessRegion`, permission to set a witness Region. This permission is checked both in the cluster Region and in the witness Region.
- *
- * Resources: `arn:aws:dsql:region:account-id:cluster/*`
- *
- * Condition Keys: `dsql:WitnessRegion` (matching the specified witness region)
- *
- * - The witness Region specified in `multiRegionProperties.witnessRegion` cannot be the same as the cluster's Region.
- */
-export const createCluster: (
-  input: CreateClusterInput,
-) => effect.Effect<
-  CreateClusterOutput,
-  | ConflictException
-  | ServiceQuotaExceededException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Rgn | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateClusterInput,
-  output: CreateClusterOutput,
-  errors: [
-    ConflictException,
-    ServiceQuotaExceededException,
-    ValidationException,
-  ],
 }));

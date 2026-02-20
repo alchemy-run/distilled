@@ -1,4 +1,4 @@
-import { HttpClient } from "@effect/platform";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as effect from "effect/Effect";
 import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
@@ -99,31 +99,27 @@ export type RefreshToken = string | redacted.Redacted<string>;
 export type Scope = string;
 export type URI = string;
 export type CodeVerifier = string | redacted.Redacted<string>;
-export type Assertion = string | redacted.Redacted<string>;
-export type SubjectToken = string | redacted.Redacted<string>;
-export type TokenTypeURI = string;
-export type ClientName = string;
-export type ClientType = string;
-export type ArnType = string;
 export type AccessToken = string | redacted.Redacted<string>;
 export type TokenType = string;
 export type ExpirationInSeconds = number;
 export type IdToken = string | redacted.Redacted<string>;
+export type ErrorDescription = string;
+export type Assertion = string | redacted.Redacted<string>;
+export type SubjectToken = string | redacted.Redacted<string>;
+export type TokenTypeURI = string;
+export type IdentityContext = string;
+export type Location = string;
+export type Region = string;
+export type ClientName = string;
+export type ClientType = string;
+export type ArnType = string;
 export type LongTimeStampType = number;
 export type UserCode = string;
 export type IntervalInSeconds = number;
-export type IdentityContext = string;
-export type ErrorDescription = string;
-export type Location = string;
-export type Region = string;
 
 //# Schemas
 export type Scopes = string[];
 export const Scopes = S.Array(S.String);
-export type RedirectUris = string[];
-export const RedirectUris = S.Array(S.String);
-export type GrantTypes = string[];
-export const GrantTypes = S.Array(S.String);
 export interface CreateTokenRequest {
   clientId: string;
   clientSecret: string | redacted.Redacted<string>;
@@ -156,9 +152,38 @@ export const CreateTokenRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "CreateTokenRequest",
 }) as any as S.Schema<CreateTokenRequest>;
+export interface CreateTokenResponse {
+  accessToken?: string | redacted.Redacted<string>;
+  tokenType?: string;
+  expiresIn?: number;
+  refreshToken?: string | redacted.Redacted<string>;
+  idToken?: string | redacted.Redacted<string>;
+}
+export const CreateTokenResponse = S.suspend(() =>
+  S.Struct({
+    accessToken: S.optional(SensitiveString),
+    tokenType: S.optional(S.String),
+    expiresIn: S.optional(S.Number),
+    refreshToken: S.optional(SensitiveString),
+    idToken: S.optional(SensitiveString),
+  }),
+).annotate({
+  identifier: "CreateTokenResponse",
+}) as any as S.Schema<CreateTokenResponse>;
+export type AccessDeniedExceptionReason =
+  | "KMS_AccessDeniedException"
+  | (string & {});
+export const AccessDeniedExceptionReason = S.String;
+export type InvalidRequestExceptionReason =
+  | "KMS_NotFoundException"
+  | "KMS_InvalidKeyUsageException"
+  | "KMS_InvalidStateException"
+  | "KMS_DisabledException"
+  | (string & {});
+export const InvalidRequestExceptionReason = S.String;
 export interface CreateTokenWithIAMRequest {
   clientId: string;
   grantType: string;
@@ -195,9 +220,45 @@ export const CreateTokenWithIAMRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "CreateTokenWithIAMRequest",
 }) as any as S.Schema<CreateTokenWithIAMRequest>;
+export interface AwsAdditionalDetails {
+  identityContext?: string;
+}
+export const AwsAdditionalDetails = S.suspend(() =>
+  S.Struct({ identityContext: S.optional(S.String) }),
+).annotate({
+  identifier: "AwsAdditionalDetails",
+}) as any as S.Schema<AwsAdditionalDetails>;
+export interface CreateTokenWithIAMResponse {
+  accessToken?: string | redacted.Redacted<string>;
+  tokenType?: string;
+  expiresIn?: number;
+  refreshToken?: string | redacted.Redacted<string>;
+  idToken?: string | redacted.Redacted<string>;
+  issuedTokenType?: string;
+  scope?: string[];
+  awsAdditionalDetails?: AwsAdditionalDetails;
+}
+export const CreateTokenWithIAMResponse = S.suspend(() =>
+  S.Struct({
+    accessToken: S.optional(SensitiveString),
+    tokenType: S.optional(S.String),
+    expiresIn: S.optional(S.Number),
+    refreshToken: S.optional(SensitiveString),
+    idToken: S.optional(SensitiveString),
+    issuedTokenType: S.optional(S.String),
+    scope: S.optional(Scopes),
+    awsAdditionalDetails: S.optional(AwsAdditionalDetails),
+  }),
+).annotate({
+  identifier: "CreateTokenWithIAMResponse",
+}) as any as S.Schema<CreateTokenWithIAMResponse>;
+export type RedirectUris = string[];
+export const RedirectUris = S.Array(S.String);
+export type GrantTypes = string[];
+export const GrantTypes = S.Array(S.String);
 export interface RegisterClientRequest {
   clientName: string;
   clientType: string;
@@ -226,9 +287,29 @@ export const RegisterClientRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "RegisterClientRequest",
 }) as any as S.Schema<RegisterClientRequest>;
+export interface RegisterClientResponse {
+  clientId?: string;
+  clientSecret?: string | redacted.Redacted<string>;
+  clientIdIssuedAt?: number;
+  clientSecretExpiresAt?: number;
+  authorizationEndpoint?: string;
+  tokenEndpoint?: string;
+}
+export const RegisterClientResponse = S.suspend(() =>
+  S.Struct({
+    clientId: S.optional(S.String),
+    clientSecret: S.optional(SensitiveString),
+    clientIdIssuedAt: S.optional(S.Number),
+    clientSecretExpiresAt: S.optional(S.Number),
+    authorizationEndpoint: S.optional(S.String),
+    tokenEndpoint: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "RegisterClientResponse",
+}) as any as S.Schema<RegisterClientResponse>;
 export interface StartDeviceAuthorizationRequest {
   clientId: string;
   clientSecret: string | redacted.Redacted<string>;
@@ -249,47 +330,9 @@ export const StartDeviceAuthorizationRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "StartDeviceAuthorizationRequest",
 }) as any as S.Schema<StartDeviceAuthorizationRequest>;
-export interface CreateTokenResponse {
-  accessToken?: string | redacted.Redacted<string>;
-  tokenType?: string;
-  expiresIn?: number;
-  refreshToken?: string | redacted.Redacted<string>;
-  idToken?: string | redacted.Redacted<string>;
-}
-export const CreateTokenResponse = S.suspend(() =>
-  S.Struct({
-    accessToken: S.optional(SensitiveString),
-    tokenType: S.optional(S.String),
-    expiresIn: S.optional(S.Number),
-    refreshToken: S.optional(SensitiveString),
-    idToken: S.optional(SensitiveString),
-  }),
-).annotations({
-  identifier: "CreateTokenResponse",
-}) as any as S.Schema<CreateTokenResponse>;
-export interface RegisterClientResponse {
-  clientId?: string;
-  clientSecret?: string | redacted.Redacted<string>;
-  clientIdIssuedAt?: number;
-  clientSecretExpiresAt?: number;
-  authorizationEndpoint?: string;
-  tokenEndpoint?: string;
-}
-export const RegisterClientResponse = S.suspend(() =>
-  S.Struct({
-    clientId: S.optional(S.String),
-    clientSecret: S.optional(SensitiveString),
-    clientIdIssuedAt: S.optional(S.Number),
-    clientSecretExpiresAt: S.optional(S.Number),
-    authorizationEndpoint: S.optional(S.String),
-    tokenEndpoint: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "RegisterClientResponse",
-}) as any as S.Schema<RegisterClientResponse>;
 export interface StartDeviceAuthorizationResponse {
   deviceCode?: string;
   userCode?: string;
@@ -307,55 +350,12 @@ export const StartDeviceAuthorizationResponse = S.suspend(() =>
     expiresIn: S.optional(S.Number),
     interval: S.optional(S.Number),
   }),
-).annotations({
+).annotate({
   identifier: "StartDeviceAuthorizationResponse",
 }) as any as S.Schema<StartDeviceAuthorizationResponse>;
-export type AccessDeniedExceptionReason =
-  | "KMS_AccessDeniedException"
-  | (string & {});
-export const AccessDeniedExceptionReason = S.String;
-export interface AwsAdditionalDetails {
-  identityContext?: string;
-}
-export const AwsAdditionalDetails = S.suspend(() =>
-  S.Struct({ identityContext: S.optional(S.String) }),
-).annotations({
-  identifier: "AwsAdditionalDetails",
-}) as any as S.Schema<AwsAdditionalDetails>;
-export interface CreateTokenWithIAMResponse {
-  accessToken?: string | redacted.Redacted<string>;
-  tokenType?: string;
-  expiresIn?: number;
-  refreshToken?: string | redacted.Redacted<string>;
-  idToken?: string | redacted.Redacted<string>;
-  issuedTokenType?: string;
-  scope?: string[];
-  awsAdditionalDetails?: AwsAdditionalDetails;
-}
-export const CreateTokenWithIAMResponse = S.suspend(() =>
-  S.Struct({
-    accessToken: S.optional(SensitiveString),
-    tokenType: S.optional(S.String),
-    expiresIn: S.optional(S.Number),
-    refreshToken: S.optional(SensitiveString),
-    idToken: S.optional(SensitiveString),
-    issuedTokenType: S.optional(S.String),
-    scope: S.optional(Scopes),
-    awsAdditionalDetails: S.optional(AwsAdditionalDetails),
-  }),
-).annotations({
-  identifier: "CreateTokenWithIAMResponse",
-}) as any as S.Schema<CreateTokenWithIAMResponse>;
-export type InvalidRequestExceptionReason =
-  | "KMS_NotFoundException"
-  | "KMS_InvalidKeyUsageException"
-  | "KMS_InvalidStateException"
-  | "KMS_DisabledException"
-  | (string & {});
-export const InvalidRequestExceptionReason = S.String;
 
 //# Errors
-export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
+export class AccessDeniedException extends S.TaggedErrorClass<AccessDeniedException>()(
   "AccessDeniedException",
   {
     error: S.optional(S.String),
@@ -363,31 +363,27 @@ export class AccessDeniedException extends S.TaggedError<AccessDeniedException>(
     error_description: S.optional(S.String),
   },
 ).pipe(C.withBadRequestError, C.withAuthError) {}
-export class InternalServerException extends S.TaggedError<InternalServerException>()(
-  "InternalServerException",
-  { error: S.optional(S.String), error_description: S.optional(S.String) },
-).pipe(C.withServerError) {}
-export class AuthorizationPendingException extends S.TaggedError<AuthorizationPendingException>()(
+export class AuthorizationPendingException extends S.TaggedErrorClass<AuthorizationPendingException>()(
   "AuthorizationPendingException",
   { error: S.optional(S.String), error_description: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
-export class InvalidClientMetadataException extends S.TaggedError<InvalidClientMetadataException>()(
-  "InvalidClientMetadataException",
-  { error: S.optional(S.String), error_description: S.optional(S.String) },
-).pipe(C.withBadRequestError) {}
-export class InvalidClientException extends S.TaggedError<InvalidClientException>()(
-  "InvalidClientException",
-  { error: S.optional(S.String), error_description: S.optional(S.String) },
-).pipe(C.withAuthError) {}
-export class ExpiredTokenException extends S.TaggedError<ExpiredTokenException>()(
+export class ExpiredTokenException extends S.TaggedErrorClass<ExpiredTokenException>()(
   "ExpiredTokenException",
   { error: S.optional(S.String), error_description: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
-export class InvalidRedirectUriException extends S.TaggedError<InvalidRedirectUriException>()(
-  "InvalidRedirectUriException",
+export class InternalServerException extends S.TaggedErrorClass<InternalServerException>()(
+  "InternalServerException",
+  { error: S.optional(S.String), error_description: S.optional(S.String) },
+).pipe(C.withServerError) {}
+export class InvalidClientException extends S.TaggedErrorClass<InvalidClientException>()(
+  "InvalidClientException",
+  { error: S.optional(S.String), error_description: S.optional(S.String) },
+).pipe(C.withAuthError) {}
+export class InvalidGrantException extends S.TaggedErrorClass<InvalidGrantException>()(
+  "InvalidGrantException",
   { error: S.optional(S.String), error_description: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
-export class InvalidRequestException extends S.TaggedError<InvalidRequestException>()(
+export class InvalidRequestException extends S.TaggedErrorClass<InvalidRequestException>()(
   "InvalidRequestException",
   {
     error: S.optional(S.String),
@@ -395,19 +391,23 @@ export class InvalidRequestException extends S.TaggedError<InvalidRequestExcepti
     error_description: S.optional(S.String),
   },
 ).pipe(C.withBadRequestError) {}
-export class InvalidGrantException extends S.TaggedError<InvalidGrantException>()(
-  "InvalidGrantException",
-  { error: S.optional(S.String), error_description: S.optional(S.String) },
-).pipe(C.withBadRequestError) {}
-export class SlowDownException extends S.TaggedError<SlowDownException>()(
-  "SlowDownException",
-  { error: S.optional(S.String), error_description: S.optional(S.String) },
-).pipe(C.withBadRequestError) {}
-export class InvalidScopeException extends S.TaggedError<InvalidScopeException>()(
+export class InvalidScopeException extends S.TaggedErrorClass<InvalidScopeException>()(
   "InvalidScopeException",
   { error: S.optional(S.String), error_description: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
-export class InvalidRequestRegionException extends S.TaggedError<InvalidRequestRegionException>()(
+export class SlowDownException extends S.TaggedErrorClass<SlowDownException>()(
+  "SlowDownException",
+  { error: S.optional(S.String), error_description: S.optional(S.String) },
+).pipe(C.withBadRequestError) {}
+export class UnauthorizedClientException extends S.TaggedErrorClass<UnauthorizedClientException>()(
+  "UnauthorizedClientException",
+  { error: S.optional(S.String), error_description: S.optional(S.String) },
+).pipe(C.withBadRequestError, C.withAuthError) {}
+export class UnsupportedGrantTypeException extends S.TaggedErrorClass<UnsupportedGrantTypeException>()(
+  "UnsupportedGrantTypeException",
+  { error: S.optional(S.String), error_description: S.optional(S.String) },
+).pipe(C.withBadRequestError) {}
+export class InvalidRequestRegionException extends S.TaggedErrorClass<InvalidRequestRegionException>()(
   "InvalidRequestRegionException",
   {
     error: S.optional(S.String),
@@ -416,73 +416,16 @@ export class InvalidRequestRegionException extends S.TaggedError<InvalidRequestR
     region: S.optional(S.String),
   },
 ).pipe(C.withBadRequestError) {}
-export class UnauthorizedClientException extends S.TaggedError<UnauthorizedClientException>()(
-  "UnauthorizedClientException",
+export class InvalidClientMetadataException extends S.TaggedErrorClass<InvalidClientMetadataException>()(
+  "InvalidClientMetadataException",
   { error: S.optional(S.String), error_description: S.optional(S.String) },
-).pipe(C.withBadRequestError, C.withAuthError) {}
-export class UnsupportedGrantTypeException extends S.TaggedError<UnsupportedGrantTypeException>()(
-  "UnsupportedGrantTypeException",
+).pipe(C.withBadRequestError) {}
+export class InvalidRedirectUriException extends S.TaggedErrorClass<InvalidRedirectUriException>()(
+  "InvalidRedirectUriException",
   { error: S.optional(S.String), error_description: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
-/**
- * Initiates device authorization by requesting a pair of verification codes from the
- * authorization service.
- */
-export const startDeviceAuthorization: (
-  input: StartDeviceAuthorizationRequest,
-) => effect.Effect<
-  StartDeviceAuthorizationResponse,
-  | InternalServerException
-  | InvalidClientException
-  | InvalidRequestException
-  | SlowDownException
-  | UnauthorizedClientException
-  | CommonErrors,
-  Credentials | Rgn | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StartDeviceAuthorizationRequest,
-  output: StartDeviceAuthorizationResponse,
-  errors: [
-    InternalServerException,
-    InvalidClientException,
-    InvalidRequestException,
-    SlowDownException,
-    UnauthorizedClientException,
-  ],
-}));
-/**
- * Registers a public client with IAM Identity Center. This allows clients to perform authorization using
- * the authorization code grant with Proof Key for Code Exchange (PKCE) or the device
- * code grant.
- */
-export const registerClient: (
-  input: RegisterClientRequest,
-) => effect.Effect<
-  RegisterClientResponse,
-  | InternalServerException
-  | InvalidClientMetadataException
-  | InvalidRedirectUriException
-  | InvalidRequestException
-  | InvalidScopeException
-  | SlowDownException
-  | UnsupportedGrantTypeException
-  | CommonErrors,
-  Credentials | Rgn | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: RegisterClientRequest,
-  output: RegisterClientResponse,
-  errors: [
-    InternalServerException,
-    InvalidClientMetadataException,
-    InvalidRedirectUriException,
-    InvalidRequestException,
-    InvalidScopeException,
-    SlowDownException,
-    UnsupportedGrantTypeException,
-  ],
-}));
 /**
  * Creates and returns access and refresh tokens for clients that are authenticated using
  * client secrets. The access token can be used to fetch short-lived credentials for the assigned
@@ -565,5 +508,62 @@ export const createTokenWithIAM: (
     SlowDownException,
     UnauthorizedClientException,
     UnsupportedGrantTypeException,
+  ],
+}));
+/**
+ * Registers a public client with IAM Identity Center. This allows clients to perform authorization using
+ * the authorization code grant with Proof Key for Code Exchange (PKCE) or the device
+ * code grant.
+ */
+export const registerClient: (
+  input: RegisterClientRequest,
+) => effect.Effect<
+  RegisterClientResponse,
+  | InternalServerException
+  | InvalidClientMetadataException
+  | InvalidRedirectUriException
+  | InvalidRequestException
+  | InvalidScopeException
+  | SlowDownException
+  | UnsupportedGrantTypeException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RegisterClientRequest,
+  output: RegisterClientResponse,
+  errors: [
+    InternalServerException,
+    InvalidClientMetadataException,
+    InvalidRedirectUriException,
+    InvalidRequestException,
+    InvalidScopeException,
+    SlowDownException,
+    UnsupportedGrantTypeException,
+  ],
+}));
+/**
+ * Initiates device authorization by requesting a pair of verification codes from the
+ * authorization service.
+ */
+export const startDeviceAuthorization: (
+  input: StartDeviceAuthorizationRequest,
+) => effect.Effect<
+  StartDeviceAuthorizationResponse,
+  | InternalServerException
+  | InvalidClientException
+  | InvalidRequestException
+  | SlowDownException
+  | UnauthorizedClientException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartDeviceAuthorizationRequest,
+  output: StartDeviceAuthorizationResponse,
+  errors: [
+    InternalServerException,
+    InvalidClientException,
+    InvalidRequestException,
+    SlowDownException,
+    UnauthorizedClientException,
   ],
 }));

@@ -1,4 +1,4 @@
-import { HttpClient } from "@effect/platform";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as effect from "effect/Effect";
 import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
@@ -355,12 +355,12 @@ export const RequestPayloadPart = S.suspend(() =>
     CompletionState: S.optional(S.String).pipe(T.EventHeader()),
     P: S.optional(S.String).pipe(T.EventHeader()),
   }),
-).annotations({
+).annotate({
   identifier: "RequestPayloadPart",
 }) as any as S.Schema<RequestPayloadPart>;
 export type RequestStreamEvent = { PayloadPart: RequestPayloadPart };
 export const RequestStreamEvent = T.InputEventStream(
-  S.Union(S.Struct({ PayloadPart: RequestPayloadPart })),
+  S.Union([S.Struct({ PayloadPart: RequestPayloadPart })]),
 ) as any as S.Schema<stream.Stream<RequestStreamEvent, Error, never>>;
 export interface InvokeEndpointWithBidirectionalStreamInput {
   EndpointName: string;
@@ -395,7 +395,7 @@ export const InvokeEndpointWithBidirectionalStreamInput = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "InvokeEndpointWithBidirectionalStreamInput",
 }) as any as S.Schema<InvokeEndpointWithBidirectionalStreamInput>;
 export interface ResponsePayloadPart {
@@ -411,7 +411,7 @@ export const ResponsePayloadPart = S.suspend(() =>
     CompletionState: S.optional(S.String).pipe(T.EventHeader()),
     P: S.optional(S.String).pipe(T.EventHeader()),
   }),
-).annotations({
+).annotate({
   identifier: "ResponsePayloadPart",
 }) as any as S.Schema<ResponsePayloadPart>;
 export type ResponseStreamEvent =
@@ -431,19 +431,19 @@ export type ResponseStreamEvent =
       InternalStreamFailure: InternalStreamFailure;
     };
 export const ResponseStreamEvent = T.EventStream(
-  S.Union(
+  S.Union([
     S.Struct({ PayloadPart: ResponsePayloadPart }),
     S.Struct({
-      ModelStreamError: S.suspend(() => ModelStreamError).annotations({
+      ModelStreamError: S.suspend(() => ModelStreamError).annotate({
         identifier: "ModelStreamError",
       }),
     }),
     S.Struct({
-      InternalStreamFailure: S.suspend(() => InternalStreamFailure).annotations(
-        { identifier: "InternalStreamFailure" },
-      ),
+      InternalStreamFailure: S.suspend(() => InternalStreamFailure).annotate({
+        identifier: "InternalStreamFailure",
+      }),
     }),
-  ),
+  ]),
 ) as any as S.Schema<stream.Stream<ResponseStreamEvent, Error, never>>;
 export interface InvokeEndpointWithBidirectionalStreamOutput {
   Body: stream.Stream<ResponseStreamEvent, Error, never>;
@@ -456,35 +456,35 @@ export const InvokeEndpointWithBidirectionalStreamOutput = S.suspend(() =>
       T.HttpHeader("X-Amzn-Invoked-Production-Variant"),
     ),
   }),
-).annotations({
+).annotate({
   identifier: "InvokeEndpointWithBidirectionalStreamOutput",
 }) as any as S.Schema<InvokeEndpointWithBidirectionalStreamOutput>;
 
 //# Errors
-export class InputValidationError extends S.TaggedError<InputValidationError>()(
+export class InputValidationError extends S.TaggedErrorClass<InputValidationError>()(
   "InputValidationError",
   { Message: S.optional(S.String), ErrorCode: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
-export class InternalServerError extends S.TaggedError<InternalServerError>()(
+export class InternalServerError extends S.TaggedErrorClass<InternalServerError>()(
   "InternalServerError",
   { Message: S.optional(S.String), ErrorCode: S.optional(S.String) },
 ).pipe(C.withServerError) {}
-export class InternalStreamFailure extends S.TaggedError<InternalStreamFailure>()(
+export class InternalStreamFailure extends S.TaggedErrorClass<InternalStreamFailure>()(
   "InternalStreamFailure",
   { Message: S.optional(S.String) },
 ) {}
-export class ModelError extends S.TaggedError<ModelError>()("ModelError", {
+export class ModelError extends S.TaggedErrorClass<ModelError>()("ModelError", {
   Message: S.optional(S.String),
   OriginalStatusCode: S.optional(S.Number),
   OriginalMessage: S.optional(S.String),
   LogStreamArn: S.optional(S.String),
   ErrorCode: S.optional(S.String),
 }) {}
-export class ModelStreamError extends S.TaggedError<ModelStreamError>()(
+export class ModelStreamError extends S.TaggedErrorClass<ModelStreamError>()(
   "ModelStreamError",
   { Message: S.optional(S.String), ErrorCode: S.optional(S.String) },
 ) {}
-export class ServiceUnavailableError extends S.TaggedError<ServiceUnavailableError>()(
+export class ServiceUnavailableError extends S.TaggedErrorClass<ServiceUnavailableError>()(
   "ServiceUnavailableError",
   { Message: S.optional(S.String), ErrorCode: S.optional(S.String) },
 ).pipe(C.withServerError) {}

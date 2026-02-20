@@ -23,7 +23,7 @@
 const annotationMetaSymbol = Symbol.for("neon/annotation-meta");
 
 /**
- * Any type that has an .annotations() method returning itself.
+ * Any type that has an .annotate() method returning itself.
  * This includes Schema.Schema and Schema.PropertySignature.
  */
 type Annotatable = {
@@ -48,7 +48,8 @@ export interface Annotation {
  * Create an annotation builder for a given symbol and value
  */
 function makeAnnotation<T>(sym: symbol, value: T): Annotation {
-  const fn = <A extends Annotatable>(schema: A): A => schema.annotations({ [sym]: value }) as A;
+  const fn = <A extends Annotatable>(schema: A): A =>
+    schema.annotate({ [sym]: value }) as A;
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   (fn as any)[annotationMetaSymbol] = [{ symbol: sym, value }];
@@ -69,7 +70,7 @@ function makeAnnotation<T>(sym: symbol, value: T): Annotation {
  * });
  * ```
  */
-export function all(...annotations: Annotation[]): Annotation {
+export function all(...annotate: Annotation[]): Annotation {
   const entries: Array<{ symbol: symbol; value: unknown }> = [];
   const raw: Record<symbol, unknown> = {};
 
@@ -80,7 +81,7 @@ export function all(...annotations: Annotation[]): Annotation {
     }
   }
 
-  const fn = <A extends Annotatable>(schema: A): A => schema.annotations(raw) as A;
+  const fn = <A extends Annotatable>(schema: A): A => schema.annotate(raw) as A;
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   (fn as any)[annotationMetaSymbol] = entries;
@@ -166,7 +167,8 @@ export const queryParamSymbol = Symbol.for("neon/query-param");
  * });
  * ```
  */
-export const QueryParam = (name?: string) => makeAnnotation(queryParamSymbol, name ?? true);
+export const QueryParam = (name?: string) =>
+  makeAnnotation(queryParamSymbol, name ?? true);
 
 // =============================================================================
 // API Error Code Trait
@@ -181,13 +183,14 @@ export const apiErrorCodeSymbol = Symbol.for("neon/ApiErrorCode");
  *
  * @example
  * ```ts
- * class NotFoundError extends Schema.TaggedError<NotFoundError>()(
+ * class NotFoundError extends Schema.TaggedErrorClass<NotFoundError>()(
  *   "NotFoundError",
  *   { message: Schema.String },
  * ).pipe(T.ApiErrorCode("not_found")) {}
  * ```
  */
-export const ApiErrorCode = (code: string) => makeAnnotation(apiErrorCodeSymbol, code);
+export const ApiErrorCode = (code: string) =>
+  makeAnnotation(apiErrorCodeSymbol, code);
 
 // =============================================================================
 // Annotation Retrieval Helpers
@@ -198,16 +201,19 @@ import * as AST from "effect/SchemaAST";
 /**
  * Get annotation value from an AST node, unwrapping Transformation if needed.
  */
-export const getAnnotation = <T>(ast: AST.AST, symbol: symbol): T | undefined => {
+export const getAnnotation = <T>(
+  ast: AST.AST,
+  symbol: symbol,
+): T | undefined => {
   // Direct annotation
-  const direct = ast.annotations?.[symbol] as T | undefined;
+  const direct = ast.annotate?.[symbol] as T | undefined;
   if (direct !== undefined) return direct;
 
   // Handle Transformation (e.g., from TaggedError)
   if (ast._tag === "Transformation") {
-    const toValue = ast.to?.annotations?.[symbol] as T | undefined;
+    const toValue = ast.to?.annotate?.[symbol] as T | undefined;
     if (toValue !== undefined) return toValue;
-    const fromValue = ast.from?.annotations?.[symbol] as T | undefined;
+    const fromValue = ast.from?.annotate?.[symbol] as T | undefined;
     if (fromValue !== undefined) return fromValue;
   }
 
@@ -225,7 +231,7 @@ export const getHttpTrait = (ast: AST.AST): HttpTrait | undefined =>
  */
 export const isPathParam = (prop: AST.PropertySignature): boolean => {
   // Check on the property itself
-  if (prop.annotations?.[pathParamSymbol]) return true;
+  if (prop.annotate?.[pathParamSymbol]) return true;
   // Check on the property type
   return getAnnotation<boolean>(prop.type, pathParamSymbol) === true;
 };
@@ -233,9 +239,14 @@ export const isPathParam = (prop: AST.PropertySignature): boolean => {
 /**
  * Get query param name from a PropertySignature (returns true if unnamed, string if named).
  */
-export const getQueryParam = (prop: AST.PropertySignature): string | boolean | undefined => {
+export const getQueryParam = (
+  prop: AST.PropertySignature,
+): string | boolean | undefined => {
   // Check on the property itself
-  const propAnnot = prop.annotations?.[queryParamSymbol] as string | boolean | undefined;
+  const propAnnot = prop.annotate?.[queryParamSymbol] as
+    | string
+    | boolean
+    | undefined;
   if (propAnnot !== undefined) return propAnnot;
   // Check on the property type
   return getAnnotation<string | boolean>(prop.type, queryParamSymbol);
@@ -270,7 +281,10 @@ export const getPathParams = (ast: AST.AST): string[] => {
 /**
  * Build the request path by substituting path parameters into the template.
  */
-export const buildPath = (template: string, input: Record<string, unknown>): string => {
+export const buildPath = (
+  template: string,
+  input: Record<string, unknown>,
+): string => {
   return template.replace(/\{(\w+)\}/g, (_, name) => {
     const value = input[name];
     if (value === undefined || value === null) {

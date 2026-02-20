@@ -41,9 +41,7 @@ export function makeStreamParser(outputAst: AST.AST): StreamParser | null {
       const ast = prop.type;
       const eventSchema =
         ast._tag === "Declaration"
-          ? (ast.annotations?.eventSchema as
-              | Schema.Schema.AnyNoContext
-              | undefined)
+          ? (ast.annotate?.eventSchema as Schema.Top | undefined)
           : undefined;
 
       // Return a parser function that handles this event stream property
@@ -103,11 +101,11 @@ function parseTypedEventStream<A>(
 
         // Decode using the event schema (union of event types)
         // The _tag should match the eventType for TaggedClass matching
-        const decoded = yield* Schema.decodeUnknown(eventSchema)({
+        const decoded = yield* Schema.decodeUnknownEffect(eventSchema)({
           _tag: wireEvent.eventType,
           ...payloadData,
         }).pipe(
-          Effect.catchAll(() =>
+          Effect.catch(() =>
             // If decoding fails, return the raw payload data
             Effect.succeed(payloadData as A),
           ),

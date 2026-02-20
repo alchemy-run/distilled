@@ -1,4 +1,4 @@
-import { HttpClient } from "@effect/platform";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as effect from "effect/Effect";
 import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
@@ -91,21 +91,21 @@ export type OutpostId = string;
 export type SubnetId = string;
 export type SecurityGroupId = string;
 export type CustomerOwnedIpv4Pool = string;
+export type EndpointArn = string;
+export type ErrorMessage = string;
 export type EndpointId = string;
 export type NextToken = string;
 export type MaxResults = number;
-export type EndpointArn = string;
-export type ErrorMessage = string;
 export type CidrBlock = string;
 export type CreationTime = Date;
+export type NetworkInterfaceId = string;
 export type VpcId = string;
+export type ErrorCode = string;
+export type Message = string;
 export type OutpostArn = string;
 export type S3OutpostArn = string;
 export type AwsAccountId = string;
 export type CapacityInBytes = number;
-export type NetworkInterfaceId = string;
-export type ErrorCode = string;
-export type Message = string;
 
 //# Schemas
 export type EndpointAccessType = "Private" | "CustomerOwnedIp" | (string & {});
@@ -134,9 +134,17 @@ export const CreateEndpointRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "CreateEndpointRequest",
 }) as any as S.Schema<CreateEndpointRequest>;
+export interface CreateEndpointResult {
+  EndpointArn?: string;
+}
+export const CreateEndpointResult = S.suspend(() =>
+  S.Struct({ EndpointArn: S.optional(S.String) }),
+).annotate({
+  identifier: "CreateEndpointResult",
+}) as any as S.Schema<CreateEndpointResult>;
 export interface DeleteEndpointRequest {
   EndpointId: string;
   OutpostId: string;
@@ -155,13 +163,13 @@ export const DeleteEndpointRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "DeleteEndpointRequest",
 }) as any as S.Schema<DeleteEndpointRequest>;
 export interface DeleteEndpointResponse {}
-export const DeleteEndpointResponse = S.suspend(() => S.Struct({})).annotations(
-  { identifier: "DeleteEndpointResponse" },
-) as any as S.Schema<DeleteEndpointResponse>;
+export const DeleteEndpointResponse = S.suspend(() => S.Struct({})).annotate({
+  identifier: "DeleteEndpointResponse",
+}) as any as S.Schema<DeleteEndpointResponse>;
 export interface ListEndpointsRequest {
   NextToken?: string;
   MaxResults?: number;
@@ -180,61 +188,9 @@ export const ListEndpointsRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "ListEndpointsRequest",
 }) as any as S.Schema<ListEndpointsRequest>;
-export interface ListOutpostsWithS3Request {
-  NextToken?: string;
-  MaxResults?: number;
-}
-export const ListOutpostsWithS3Request = S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/S3Outposts/ListOutpostsWithS3" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListOutpostsWithS3Request",
-}) as any as S.Schema<ListOutpostsWithS3Request>;
-export interface ListSharedEndpointsRequest {
-  NextToken?: string;
-  MaxResults?: number;
-  OutpostId: string;
-}
-export const ListSharedEndpointsRequest = S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    OutpostId: S.String.pipe(T.HttpQuery("outpostId")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/S3Outposts/ListSharedEndpoints" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListSharedEndpointsRequest",
-}) as any as S.Schema<ListSharedEndpointsRequest>;
-export interface CreateEndpointResult {
-  EndpointArn?: string;
-}
-export const CreateEndpointResult = S.suspend(() =>
-  S.Struct({ EndpointArn: S.optional(S.String) }),
-).annotations({
-  identifier: "CreateEndpointResult",
-}) as any as S.Schema<CreateEndpointResult>;
 export type EndpointStatus =
   | "Pending"
   | "Available"
@@ -248,7 +204,7 @@ export interface NetworkInterface {
 }
 export const NetworkInterface = S.suspend(() =>
   S.Struct({ NetworkInterfaceId: S.optional(S.String) }),
-).annotations({
+).annotate({
   identifier: "NetworkInterface",
 }) as any as S.Schema<NetworkInterface>;
 export type NetworkInterfaces = NetworkInterface[];
@@ -259,7 +215,7 @@ export interface FailedReason {
 }
 export const FailedReason = S.suspend(() =>
   S.Struct({ ErrorCode: S.optional(S.String), Message: S.optional(S.String) }),
-).annotations({ identifier: "FailedReason" }) as any as S.Schema<FailedReason>;
+).annotate({ identifier: "FailedReason" }) as any as S.Schema<FailedReason>;
 export interface Endpoint {
   EndpointArn?: string;
   OutpostsId?: string;
@@ -289,21 +245,42 @@ export const Endpoint = S.suspend(() =>
     CustomerOwnedIpv4Pool: S.optional(S.String),
     FailedReason: S.optional(FailedReason),
   }),
-).annotations({ identifier: "Endpoint" }) as any as S.Schema<Endpoint>;
+).annotate({ identifier: "Endpoint" }) as any as S.Schema<Endpoint>;
 export type Endpoints = Endpoint[];
 export const Endpoints = S.Array(Endpoint);
-export interface ListSharedEndpointsResult {
+export interface ListEndpointsResult {
   Endpoints?: Endpoint[];
   NextToken?: string;
 }
-export const ListSharedEndpointsResult = S.suspend(() =>
+export const ListEndpointsResult = S.suspend(() =>
   S.Struct({
     Endpoints: S.optional(Endpoints),
     NextToken: S.optional(S.String),
   }),
-).annotations({
-  identifier: "ListSharedEndpointsResult",
-}) as any as S.Schema<ListSharedEndpointsResult>;
+).annotate({
+  identifier: "ListEndpointsResult",
+}) as any as S.Schema<ListEndpointsResult>;
+export interface ListOutpostsWithS3Request {
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListOutpostsWithS3Request = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/S3Outposts/ListOutpostsWithS3" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListOutpostsWithS3Request",
+}) as any as S.Schema<ListOutpostsWithS3Request>;
 export interface Outpost {
   OutpostArn?: string;
   S3OutpostArn?: string;
@@ -319,7 +296,7 @@ export const Outpost = S.suspend(() =>
     OwnerId: S.optional(S.String),
     CapacityInBytes: S.optional(S.Number),
   }),
-).annotations({ identifier: "Outpost" }) as any as S.Schema<Outpost>;
+).annotate({ identifier: "Outpost" }) as any as S.Schema<Outpost>;
 export type Outposts = Outpost[];
 export const Outposts = S.Array(Outpost);
 export interface ListOutpostsWithS3Result {
@@ -328,171 +305,76 @@ export interface ListOutpostsWithS3Result {
 }
 export const ListOutpostsWithS3Result = S.suspend(() =>
   S.Struct({ Outposts: S.optional(Outposts), NextToken: S.optional(S.String) }),
-).annotations({
+).annotate({
   identifier: "ListOutpostsWithS3Result",
 }) as any as S.Schema<ListOutpostsWithS3Result>;
-export interface ListEndpointsResult {
+export interface ListSharedEndpointsRequest {
+  NextToken?: string;
+  MaxResults?: number;
+  OutpostId: string;
+}
+export const ListSharedEndpointsRequest = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+    OutpostId: S.String.pipe(T.HttpQuery("outpostId")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/S3Outposts/ListSharedEndpoints" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListSharedEndpointsRequest",
+}) as any as S.Schema<ListSharedEndpointsRequest>;
+export interface ListSharedEndpointsResult {
   Endpoints?: Endpoint[];
   NextToken?: string;
 }
-export const ListEndpointsResult = S.suspend(() =>
+export const ListSharedEndpointsResult = S.suspend(() =>
   S.Struct({
     Endpoints: S.optional(Endpoints),
     NextToken: S.optional(S.String),
   }),
-).annotations({
-  identifier: "ListEndpointsResult",
-}) as any as S.Schema<ListEndpointsResult>;
+).annotate({
+  identifier: "ListSharedEndpointsResult",
+}) as any as S.Schema<ListSharedEndpointsResult>;
 
 //# Errors
-export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
+export class AccessDeniedException extends S.TaggedErrorClass<AccessDeniedException>()(
   "AccessDeniedException",
   { Message: S.optional(S.String) },
 ).pipe(C.withAuthError) {}
-export class InternalServerException extends S.TaggedError<InternalServerException>()(
-  "InternalServerException",
-  { Message: S.optional(S.String) },
-).pipe(C.withServerError) {}
-export class ConflictException extends S.TaggedError<ConflictException>()(
+export class ConflictException extends S.TaggedErrorClass<ConflictException>()(
   "ConflictException",
   { Message: S.optional(S.String) },
 ).pipe(C.withConflictError) {}
-export class OutpostOfflineException extends S.TaggedError<OutpostOfflineException>()(
+export class InternalServerException extends S.TaggedErrorClass<InternalServerException>()(
+  "InternalServerException",
+  { Message: S.optional(S.String) },
+).pipe(C.withServerError) {}
+export class OutpostOfflineException extends S.TaggedErrorClass<OutpostOfflineException>()(
   "OutpostOfflineException",
   { Message: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
-export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
-  "ThrottlingException",
-  { Message: S.optional(S.String) },
-).pipe(C.withThrottlingError) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { Message: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
-export class ValidationException extends S.TaggedError<ValidationException>()(
+export class ThrottlingException extends S.TaggedErrorClass<ThrottlingException>()(
+  "ThrottlingException",
+  { Message: S.optional(S.String) },
+).pipe(C.withThrottlingError) {}
+export class ValidationException extends S.TaggedErrorClass<ValidationException>()(
   "ValidationException",
   { Message: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
-/**
- * Lists the Outposts with S3 on Outposts capacity for your Amazon Web Services account.
- * Includes S3 on Outposts that you have access to as the Outposts owner, or as a shared user
- * from Resource Access Manager (RAM).
- */
-export const listOutpostsWithS3: {
-  (
-    input: ListOutpostsWithS3Request,
-  ): effect.Effect<
-    ListOutpostsWithS3Result,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  pages: (
-    input: ListOutpostsWithS3Request,
-  ) => stream.Stream<
-    ListOutpostsWithS3Result,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  items: (
-    input: ListOutpostsWithS3Request,
-  ) => stream.Stream<
-    Outpost,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
-  input: ListOutpostsWithS3Request,
-  output: ListOutpostsWithS3Result,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ThrottlingException,
-    ValidationException,
-  ],
-  pagination: {
-    inputToken: "NextToken",
-    outputToken: "NextToken",
-    items: "Outposts",
-    pageSize: "MaxResults",
-  } as const,
-}));
-/**
- * Lists all endpoints associated with an Outpost that has been shared by Amazon Web Services Resource Access Manager (RAM).
- *
- * Related actions include:
- *
- * - CreateEndpoint
- *
- * - DeleteEndpoint
- */
-export const listSharedEndpoints: {
-  (
-    input: ListSharedEndpointsRequest,
-  ): effect.Effect<
-    ListSharedEndpointsResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  pages: (
-    input: ListSharedEndpointsRequest,
-  ) => stream.Stream<
-    ListSharedEndpointsResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  items: (
-    input: ListSharedEndpointsRequest,
-  ) => stream.Stream<
-    Endpoint,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
-  input: ListSharedEndpointsRequest,
-  output: ListSharedEndpointsResult,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-  pagination: {
-    inputToken: "NextToken",
-    outputToken: "NextToken",
-    items: "Endpoints",
-    pageSize: "MaxResults",
-  } as const,
-}));
 /**
  * Creates an endpoint and associates it with the specified Outpost.
  *
@@ -614,6 +496,124 @@ export const listEndpoints: {
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListEndpointsRequest,
   output: ListEndpointsResult,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Endpoints",
+    pageSize: "MaxResults",
+  } as const,
+}));
+/**
+ * Lists the Outposts with S3 on Outposts capacity for your Amazon Web Services account.
+ * Includes S3 on Outposts that you have access to as the Outposts owner, or as a shared user
+ * from Resource Access Manager (RAM).
+ */
+export const listOutpostsWithS3: {
+  (
+    input: ListOutpostsWithS3Request,
+  ): effect.Effect<
+    ListOutpostsWithS3Result,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListOutpostsWithS3Request,
+  ) => stream.Stream<
+    ListOutpostsWithS3Result,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListOutpostsWithS3Request,
+  ) => stream.Stream<
+    Outpost,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListOutpostsWithS3Request,
+  output: ListOutpostsWithS3Result,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Outposts",
+    pageSize: "MaxResults",
+  } as const,
+}));
+/**
+ * Lists all endpoints associated with an Outpost that has been shared by Amazon Web Services Resource Access Manager (RAM).
+ *
+ * Related actions include:
+ *
+ * - CreateEndpoint
+ *
+ * - DeleteEndpoint
+ */
+export const listSharedEndpoints: {
+  (
+    input: ListSharedEndpointsRequest,
+  ): effect.Effect<
+    ListSharedEndpointsResult,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListSharedEndpointsRequest,
+  ) => stream.Stream<
+    ListSharedEndpointsResult,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListSharedEndpointsRequest,
+  ) => stream.Stream<
+    Endpoint,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListSharedEndpointsRequest,
+  output: ListSharedEndpointsResult,
   errors: [
     AccessDeniedException,
     InternalServerException,

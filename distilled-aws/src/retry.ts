@@ -1,10 +1,10 @@
-import * as Context from "effect/Context";
 import * as Duration from "effect/Duration";
 import * as Effect from "effect/Effect";
 import { pipe } from "effect/Function";
 import * as Layer from "effect/Layer";
-import type * as Ref from "effect/Ref";
+import * as Ref from "effect/Ref";
 import * as Schedule from "effect/Schedule";
+import * as ServiceMap from "effect/ServiceMap";
 import {
   isRetryable,
   isThrottlingError,
@@ -39,7 +39,9 @@ export type Policy = Options | Factory;
 /**
  * Context tag for configuring retry behavior of AWS API calls.
  */
-export class Retry extends Context.Tag("Retry")<Retry, Policy>() {}
+export class Retry extends ServiceMap.Service<Retry, Policy>()(
+  "distilled-aws/Retry",
+) {}
 
 /**
  * Provides a custom retry policy to all AWS API calls in the effect.
@@ -122,9 +124,9 @@ export const makeDefault: Factory = (lastError) => ({
     isTransientError(error) || isThrottlingError(error) || isRetryable(error),
   schedule: pipe(
     Schedule.exponential(100, 2),
-    Schedule.modifyDelayEffect(
+    Schedule.modifyDelay(
       Effect.fnUntraced(function* (duration) {
-        const error = yield* lastError;
+        const error = yield* Ref.get(lastError);
         if (isRetryable(error)) {
           const retryAfter = Number(
             error.retryAfterSeconds ?? error.RetryAfterSeconds ?? 0,
@@ -142,10 +144,22 @@ export const makeDefault: Factory = (lastError) => ({
         return Duration.toMillis(duration);
       }),
     ),
-    Schedule.intersect(Schedule.recurs(5)),
-    Schedule.jittered,
+    Schedule.both(Schedule.recurs(5)),
+    jittered,
   ),
 });
+
+export const jittered = Schedule.addDelay((output) =>
+  // Add random jitter between 0-50ms
+  Effect.succeed(Duration.millis(Math.random() * 50)),
+);
+
+export const capped = (max: Duration.Duration) =>
+  Schedule.modifyDelay((duration: Duration.Duration) =>
+    Effect.succeed(
+      Duration.isGreaterThan(duration, max) ? Duration.millis(5000) : duration,
+    ),
+  );
 
 /**
  * Retry options that retries all throttling errors indefinitely.
@@ -154,10 +168,8 @@ export const throttlingOptions: Options = {
   while: isThrottlingError,
   schedule: pipe(
     Schedule.exponential(1000, 2),
-    Schedule.modifyDelay((duration) =>
-      Duration.toMillis(duration) > 5000 ? Duration.millis(5000) : duration,
-    ),
-    Schedule.jittered,
+    capped(Duration.seconds(5)),
+    jittered,
   ),
 };
 
@@ -187,10 +199,8 @@ export const transientOptions: Options = {
   while: isTransientError,
   schedule: pipe(
     Schedule.exponential(1000, 2),
-    Schedule.modifyDelay((duration) =>
-      Duration.toMillis(duration) > 5000 ? Duration.millis(5000) : duration,
-    ),
-    Schedule.jittered,
+    capped(Duration.seconds(5)),
+    jittered,
   ),
 };
 

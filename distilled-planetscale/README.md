@@ -496,7 +496,7 @@ export const ListDatabasesInput = Schema.Struct({
   q: Schema.optional(Schema.String),
   page: Schema.optional(Schema.Number),
   per_page: Schema.optional(Schema.Number),
-}).annotations({
+}).annotate({
   [ApiMethod]: "GET",
   [ApiPath]: (input) => `/organizations/${input.organization}/databases`,
   [ApiPathParams]: ["organization"] as const,
@@ -506,7 +506,7 @@ export const ListDatabasesInput = Schema.Struct({
 Error schemas use the `ApiErrorCode` annotation:
 
 ```typescript
-export class ListDatabasesNotfound extends Schema.TaggedError<ListDatabasesNotfound>()(
+export class ListDatabasesNotfound extends Schema.TaggedErrorClass<ListDatabasesNotfound>()(
   "ListDatabasesNotfound",
   {
     organization: Schema.String,

@@ -1,4 +1,4 @@
-import { HttpClient } from "@effect/platform";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as effect from "effect/Effect";
 import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
@@ -117,9 +117,7 @@ export const StartSelector = S.suspend(() =>
     StartTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     ContinuationToken: S.optional(S.String),
   }),
-).annotations({
-  identifier: "StartSelector",
-}) as any as S.Schema<StartSelector>;
+).annotate({ identifier: "StartSelector" }) as any as S.Schema<StartSelector>;
 export interface GetMediaInput {
   StreamName?: string;
   StreamARN?: string;
@@ -140,9 +138,7 @@ export const GetMediaInput = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
-  identifier: "GetMediaInput",
-}) as any as S.Schema<GetMediaInput>;
+).annotate({ identifier: "GetMediaInput" }) as any as S.Schema<GetMediaInput>;
 export interface GetMediaOutput {
   ContentType?: string;
   Payload?: T.StreamingOutputBody;
@@ -152,32 +148,30 @@ export const GetMediaOutput = S.suspend(() =>
     ContentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
     Payload: S.optional(T.StreamingOutput).pipe(T.HttpPayload()),
   }),
-).annotations({
-  identifier: "GetMediaOutput",
-}) as any as S.Schema<GetMediaOutput>;
+).annotate({ identifier: "GetMediaOutput" }) as any as S.Schema<GetMediaOutput>;
 
 //# Errors
-export class ClientLimitExceededException extends S.TaggedError<ClientLimitExceededException>()(
+export class ClientLimitExceededException extends S.TaggedErrorClass<ClientLimitExceededException>()(
   "ClientLimitExceededException",
   { Message: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
-export class ConnectionLimitExceededException extends S.TaggedError<ConnectionLimitExceededException>()(
+export class ConnectionLimitExceededException extends S.TaggedErrorClass<ConnectionLimitExceededException>()(
   "ConnectionLimitExceededException",
   { Message: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
-export class InvalidArgumentException extends S.TaggedError<InvalidArgumentException>()(
+export class InvalidArgumentException extends S.TaggedErrorClass<InvalidArgumentException>()(
   "InvalidArgumentException",
   { Message: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
-export class InvalidEndpointException extends S.TaggedError<InvalidEndpointException>()(
+export class InvalidEndpointException extends S.TaggedErrorClass<InvalidEndpointException>()(
   "InvalidEndpointException",
   { Message: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
-export class NotAuthorizedException extends S.TaggedError<NotAuthorizedException>()(
+export class NotAuthorizedException extends S.TaggedErrorClass<NotAuthorizedException>()(
   "NotAuthorizedException",
   { Message: S.optional(S.String) },
 ).pipe(C.withAuthError) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { Message: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}

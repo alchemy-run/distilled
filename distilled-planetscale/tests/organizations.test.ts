@@ -264,7 +264,7 @@ describe("organizations", () => {
           }).pipe(
             Effect.map((data) => ({ skipped: false as const, data })),
             // The API may return an error for service tokens even with valid member ID
-            Effect.catchAll((error) =>
+            Effect.catch((error) =>
               Effect.succeed({ skipped: false as const, error }),
             ),
           );

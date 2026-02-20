@@ -1,4 +1,4 @@
-import { HttpClient } from "@effect/platform";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as effect from "effect/Effect";
 import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
@@ -68,23 +68,21 @@ const rules = T.EndpointResolver((p, _) => {
 //# Newtypes
 export type EmailContactArn = string;
 export type TagKey = string;
-export type EmailContactName = string | redacted.Redacted<string>;
-export type EmailContactAddress = string;
-export type Token = string | redacted.Redacted<string>;
 export type TagValue = string;
 export type ErrorMessage = string;
-export type SensitiveEmailContactAddress = string | redacted.Redacted<string>;
-export type EmailContactStatus = string;
-export type CreationTime = Date;
-export type UpdateTime = Date;
 export type ResourceId = string;
 export type ResourceType = string;
 export type ServiceCode = string;
 export type QuotaCode = string;
+export type EmailContactName = string | redacted.Redacted<string>;
+export type EmailContactAddress = string;
+export type SensitiveEmailContactAddress = string | redacted.Redacted<string>;
+export type EmailContactStatus = string;
+export type CreationTime = Date;
+export type UpdateTime = Date;
+export type Token = string | redacted.Redacted<string>;
 
 //# Schemas
-export type TagKeys = string[];
-export const TagKeys = S.Array(S.String);
 export interface ListTagsForResourceRequest {
   arn: string;
 }
@@ -99,9 +97,59 @@ export const ListTagsForResourceRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "ListTagsForResourceRequest",
 }) as any as S.Schema<ListTagsForResourceRequest>;
+export type TagMap = { [key: string]: string | undefined };
+export const TagMap = S.Record(S.String, S.String.pipe(S.optional));
+export interface ListTagsForResourceResponse {
+  tags?: { [key: string]: string | undefined };
+}
+export const ListTagsForResourceResponse = S.suspend(() =>
+  S.Struct({ tags: S.optional(TagMap) }),
+).annotate({
+  identifier: "ListTagsForResourceResponse",
+}) as any as S.Schema<ListTagsForResourceResponse>;
+export type ValidationExceptionReason =
+  | "fieldValidationFailed"
+  | "other"
+  | (string & {});
+export const ValidationExceptionReason = S.String;
+export interface ValidationExceptionField {
+  name: string;
+  message: string;
+}
+export const ValidationExceptionField = S.suspend(() =>
+  S.Struct({ name: S.String, message: S.String }),
+).annotate({
+  identifier: "ValidationExceptionField",
+}) as any as S.Schema<ValidationExceptionField>;
+export type ValidationExceptionFieldList = ValidationExceptionField[];
+export const ValidationExceptionFieldList = S.Array(ValidationExceptionField);
+export interface TagResourceRequest {
+  arn: string;
+  tags: { [key: string]: string | undefined };
+}
+export const TagResourceRequest = S.suspend(() =>
+  S.Struct({ arn: S.String.pipe(T.HttpLabel("arn")), tags: TagMap }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/tags/{arn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "TagResourceRequest",
+}) as any as S.Schema<TagResourceRequest>;
+export interface TagResourceResponse {}
+export const TagResourceResponse = S.suspend(() => S.Struct({})).annotate({
+  identifier: "TagResourceResponse",
+}) as any as S.Schema<TagResourceResponse>;
+export type TagKeys = string[];
+export const TagKeys = S.Array(S.String);
 export interface UntagResourceRequest {
   arn: string;
   tagKeys: string[];
@@ -120,18 +168,13 @@ export const UntagResourceRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "UntagResourceRequest",
 }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
-export type TagMap = { [key: string]: string | undefined };
-export const TagMap = S.Record({
-  key: S.String,
-  value: S.UndefinedOr(S.String),
-});
 export interface CreateEmailContactRequest {
   name: string | redacted.Redacted<string>;
   emailAddress: string;
@@ -152,9 +195,17 @@ export const CreateEmailContactRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "CreateEmailContactRequest",
 }) as any as S.Schema<CreateEmailContactRequest>;
+export interface CreateEmailContactResponse {
+  arn: string;
+}
+export const CreateEmailContactResponse = S.suspend(() =>
+  S.Struct({ arn: S.String }),
+).annotate({
+  identifier: "CreateEmailContactResponse",
+}) as any as S.Schema<CreateEmailContactResponse>;
 export interface GetEmailContactRequest {
   arn: string;
 }
@@ -169,9 +220,35 @@ export const GetEmailContactRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "GetEmailContactRequest",
 }) as any as S.Schema<GetEmailContactRequest>;
+export interface EmailContact {
+  arn: string;
+  name: string | redacted.Redacted<string>;
+  address: string | redacted.Redacted<string>;
+  status: string;
+  creationTime: Date;
+  updateTime: Date;
+}
+export const EmailContact = S.suspend(() =>
+  S.Struct({
+    arn: S.String,
+    name: SensitiveString,
+    address: SensitiveString,
+    status: S.String,
+    creationTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    updateTime: S.Date.pipe(T.TimestampFormat("date-time")),
+  }),
+).annotate({ identifier: "EmailContact" }) as any as S.Schema<EmailContact>;
+export interface GetEmailContactResponse {
+  emailContact: EmailContact;
+}
+export const GetEmailContactResponse = S.suspend(() =>
+  S.Struct({ emailContact: EmailContact }),
+).annotate({
+  identifier: "GetEmailContactResponse",
+}) as any as S.Schema<GetEmailContactResponse>;
 export interface DeleteEmailContactRequest {
   arn: string;
 }
@@ -186,13 +263,13 @@ export const DeleteEmailContactRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "DeleteEmailContactRequest",
 }) as any as S.Schema<DeleteEmailContactRequest>;
 export interface DeleteEmailContactResponse {}
 export const DeleteEmailContactResponse = S.suspend(() =>
   S.Struct({}),
-).annotations({
+).annotate({
   identifier: "DeleteEmailContactResponse",
 }) as any as S.Schema<DeleteEmailContactResponse>;
 export interface ListEmailContactsRequest {
@@ -213,9 +290,20 @@ export const ListEmailContactsRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "ListEmailContactsRequest",
 }) as any as S.Schema<ListEmailContactsRequest>;
+export type EmailContacts = EmailContact[];
+export const EmailContacts = S.Array(EmailContact);
+export interface ListEmailContactsResponse {
+  nextToken?: string;
+  emailContacts: EmailContact[];
+}
+export const ListEmailContactsResponse = S.suspend(() =>
+  S.Struct({ nextToken: S.optional(S.String), emailContacts: EmailContacts }),
+).annotate({
+  identifier: "ListEmailContactsResponse",
+}) as any as S.Schema<ListEmailContactsResponse>;
 export interface ActivateEmailContactRequest {
   arn: string;
   code: string | redacted.Redacted<string>;
@@ -234,13 +322,13 @@ export const ActivateEmailContactRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "ActivateEmailContactRequest",
 }) as any as S.Schema<ActivateEmailContactRequest>;
 export interface ActivateEmailContactResponse {}
 export const ActivateEmailContactResponse = S.suspend(() =>
   S.Struct({}),
-).annotations({
+).annotate({
   identifier: "ActivateEmailContactResponse",
 }) as any as S.Schema<ActivateEmailContactResponse>;
 export interface SendActivationCodeRequest {
@@ -260,136 +348,31 @@ export const SendActivationCodeRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "SendActivationCodeRequest",
 }) as any as S.Schema<SendActivationCodeRequest>;
 export interface SendActivationCodeResponse {}
 export const SendActivationCodeResponse = S.suspend(() =>
   S.Struct({}),
-).annotations({
+).annotate({
   identifier: "SendActivationCodeResponse",
 }) as any as S.Schema<SendActivationCodeResponse>;
-export interface EmailContact {
-  arn: string;
-  name: string | redacted.Redacted<string>;
-  address: string | redacted.Redacted<string>;
-  status: string;
-  creationTime: Date;
-  updateTime: Date;
-}
-export const EmailContact = S.suspend(() =>
-  S.Struct({
-    arn: S.String,
-    name: SensitiveString,
-    address: SensitiveString,
-    status: S.String,
-    creationTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    updateTime: S.Date.pipe(T.TimestampFormat("date-time")),
-  }),
-).annotations({ identifier: "EmailContact" }) as any as S.Schema<EmailContact>;
-export type EmailContacts = EmailContact[];
-export const EmailContacts = S.Array(EmailContact);
-export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string | undefined };
-}
-export const ListTagsForResourceResponse = S.suspend(() =>
-  S.Struct({ tags: S.optional(TagMap) }),
-).annotations({
-  identifier: "ListTagsForResourceResponse",
-}) as any as S.Schema<ListTagsForResourceResponse>;
-export interface TagResourceRequest {
-  arn: string;
-  tags: { [key: string]: string | undefined };
-}
-export const TagResourceRequest = S.suspend(() =>
-  S.Struct({ arn: S.String.pipe(T.HttpLabel("arn")), tags: TagMap }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/tags/{arn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
-export interface TagResourceResponse {}
-export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
-  identifier: "TagResourceResponse",
-}) as any as S.Schema<TagResourceResponse>;
-export interface CreateEmailContactResponse {
-  arn: string;
-}
-export const CreateEmailContactResponse = S.suspend(() =>
-  S.Struct({ arn: S.String }),
-).annotations({
-  identifier: "CreateEmailContactResponse",
-}) as any as S.Schema<CreateEmailContactResponse>;
-export interface ListEmailContactsResponse {
-  nextToken?: string;
-  emailContacts: EmailContact[];
-}
-export const ListEmailContactsResponse = S.suspend(() =>
-  S.Struct({ nextToken: S.optional(S.String), emailContacts: EmailContacts }),
-).annotations({
-  identifier: "ListEmailContactsResponse",
-}) as any as S.Schema<ListEmailContactsResponse>;
-export interface GetEmailContactResponse {
-  emailContact: EmailContact;
-}
-export const GetEmailContactResponse = S.suspend(() =>
-  S.Struct({ emailContact: EmailContact }),
-).annotations({
-  identifier: "GetEmailContactResponse",
-}) as any as S.Schema<GetEmailContactResponse>;
-export type ValidationExceptionReason =
-  | "fieldValidationFailed"
-  | "other"
-  | (string & {});
-export const ValidationExceptionReason = S.String;
-export interface ValidationExceptionField {
-  name: string;
-  message: string;
-}
-export const ValidationExceptionField = S.suspend(() =>
-  S.Struct({ name: S.String, message: S.String }),
-).annotations({
-  identifier: "ValidationExceptionField",
-}) as any as S.Schema<ValidationExceptionField>;
-export type ValidationExceptionFieldList = ValidationExceptionField[];
-export const ValidationExceptionFieldList = S.Array(ValidationExceptionField);
 
 //# Errors
-export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
+export class AccessDeniedException extends S.TaggedErrorClass<AccessDeniedException>()(
   "AccessDeniedException",
   { message: S.String },
 ).pipe(C.withAuthError) {}
-export class InternalServerException extends S.TaggedError<InternalServerException>()(
+export class InternalServerException extends S.TaggedErrorClass<InternalServerException>()(
   "InternalServerException",
   { message: S.String },
   T.Retryable(),
 ).pipe(C.withServerError, C.withRetryableError) {}
-export class ConflictException extends S.TaggedError<ConflictException>()(
-  "ConflictException",
-  { message: S.String, resourceId: S.String, resourceType: S.String },
-).pipe(C.withConflictError) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { message: S.String, resourceId: S.String, resourceType: S.String },
 ).pipe(C.withBadRequestError) {}
-export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
-  "ServiceQuotaExceededException",
-  {
-    message: S.String,
-    resourceId: S.String,
-    resourceType: S.String,
-    serviceCode: S.String,
-    quotaCode: S.String,
-  },
-).pipe(C.withQuotaError) {}
-export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
+export class ThrottlingException extends S.TaggedErrorClass<ThrottlingException>()(
   "ThrottlingException",
   {
     message: S.String,
@@ -399,7 +382,7 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   },
   T.Retryable({ throttling: true }),
 ).pipe(C.withThrottlingError, C.withRetryableError) {}
-export class ValidationException extends S.TaggedError<ValidationException>()(
+export class ValidationException extends S.TaggedErrorClass<ValidationException>()(
   "ValidationException",
   {
     message: S.String,
@@ -407,86 +390,22 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
     fieldList: S.optional(ValidationExceptionFieldList),
   },
 ).pipe(C.withBadRequestError) {}
+export class ConflictException extends S.TaggedErrorClass<ConflictException>()(
+  "ConflictException",
+  { message: S.String, resourceId: S.String, resourceType: S.String },
+).pipe(C.withConflictError) {}
+export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuotaExceededException>()(
+  "ServiceQuotaExceededException",
+  {
+    message: S.String,
+    resourceId: S.String,
+    resourceType: S.String,
+    serviceCode: S.String,
+    quotaCode: S.String,
+  },
+).pipe(C.withQuotaError) {}
 
 //# Operations
-/**
- * Lists all email contacts created under the Account.
- */
-export const listEmailContacts: {
-  (
-    input: ListEmailContactsRequest,
-  ): effect.Effect<
-    ListEmailContactsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  pages: (
-    input: ListEmailContactsRequest,
-  ) => stream.Stream<
-    ListEmailContactsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  items: (
-    input: ListEmailContactsRequest,
-  ) => stream.Stream<
-    EmailContact,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
-  input: ListEmailContactsRequest,
-  output: ListEmailContactsResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ThrottlingException,
-    ValidationException,
-  ],
-  pagination: {
-    inputToken: "nextToken",
-    outputToken: "nextToken",
-    items: "emailContacts",
-    pageSize: "maxResults",
-  } as const,
-}));
-/**
- * Returns an email contact.
- */
-export const getEmailContact: (
-  input: GetEmailContactRequest,
-) => effect.Effect<
-  GetEmailContactResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetEmailContactRequest,
-  output: GetEmailContactResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
 /**
  * Lists all of the tags associated with the Amazon Resource Name (ARN) that you specify. The resource can be a user, server, or role.
  */
@@ -531,91 +450,6 @@ export const tagResource: (
   output: TagResourceResponse,
   errors: [
     AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Deletes an email contact.
- *
- * Deleting an email contact removes it from all associated notification configurations.
- */
-export const deleteEmailContact: (
-  input: DeleteEmailContactRequest,
-) => effect.Effect<
-  DeleteEmailContactResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteEmailContactRequest,
-  output: DeleteEmailContactResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Activates an email contact using an activation code. This code is in the activation email sent to the email address associated with this email contact.
- */
-export const activateEmailContact: (
-  input: ActivateEmailContactRequest,
-) => effect.Effect<
-  ActivateEmailContactResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ActivateEmailContactRequest,
-  output: ActivateEmailContactResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Sends an activation email to the email address associated with the specified email contact.
- *
- * It might take a few minutes for the activation email to arrive. If it doesn't arrive, check in your spam folder or try sending another activation email.
- */
-export const sendActivationCode: (
-  input: SendActivationCodeRequest,
-) => effect.Effect<
-  SendActivationCodeResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: SendActivationCodeRequest,
-  output: SendActivationCodeResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
     InternalServerException,
     ResourceNotFoundException,
     ThrottlingException,
@@ -670,6 +504,169 @@ export const createEmailContact: (
     ConflictException,
     InternalServerException,
     ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Returns an email contact.
+ */
+export const getEmailContact: (
+  input: GetEmailContactRequest,
+) => effect.Effect<
+  GetEmailContactResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetEmailContactRequest,
+  output: GetEmailContactResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Deletes an email contact.
+ *
+ * Deleting an email contact removes it from all associated notification configurations.
+ */
+export const deleteEmailContact: (
+  input: DeleteEmailContactRequest,
+) => effect.Effect<
+  DeleteEmailContactResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteEmailContactRequest,
+  output: DeleteEmailContactResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Lists all email contacts created under the Account.
+ */
+export const listEmailContacts: {
+  (
+    input: ListEmailContactsRequest,
+  ): effect.Effect<
+    ListEmailContactsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListEmailContactsRequest,
+  ) => stream.Stream<
+    ListEmailContactsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListEmailContactsRequest,
+  ) => stream.Stream<
+    EmailContact,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListEmailContactsRequest,
+  output: ListEmailContactsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "emailContacts",
+    pageSize: "maxResults",
+  } as const,
+}));
+/**
+ * Activates an email contact using an activation code. This code is in the activation email sent to the email address associated with this email contact.
+ */
+export const activateEmailContact: (
+  input: ActivateEmailContactRequest,
+) => effect.Effect<
+  ActivateEmailContactResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ActivateEmailContactRequest,
+  output: ActivateEmailContactResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Sends an activation email to the email address associated with the specified email contact.
+ *
+ * It might take a few minutes for the activation email to arrive. If it doesn't arrive, check in your spam folder or try sending another activation email.
+ */
+export const sendActivationCode: (
+  input: SendActivationCodeRequest,
+) => effect.Effect<
+  SendActivationCodeResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SendActivationCodeRequest,
+  output: SendActivationCodeResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
   ],

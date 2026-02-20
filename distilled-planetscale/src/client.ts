@@ -51,7 +51,7 @@ export const ApiPathParams = Symbol.for("planetscale/ApiPathParams");
 export type HttpMethod = Traits.HttpMethod;
 
 // Generic API Error - uncategorized fallback for unknown API error codes
-export class PlanetScaleApiError extends Schema.TaggedError<PlanetScaleApiError>()(
+export class PlanetScaleApiError extends Schema.TaggedErrorClass<PlanetScaleApiError>()(
   "PlanetScaleApiError",
   {
     code: Schema.optional(Schema.String),
@@ -61,7 +61,7 @@ export class PlanetScaleApiError extends Schema.TaggedError<PlanetScaleApiError>
 ).pipe(Category.withServerError) {}
 
 // Schema parse error wrapper
-export class PlanetScaleParseError extends Schema.TaggedError<PlanetScaleParseError>()(
+export class PlanetScaleParseError extends Schema.TaggedErrorClass<PlanetScaleParseError>()(
   "PlanetScaleParseError",
   {
     body: Schema.Unknown,
@@ -183,7 +183,7 @@ const getAnnotationLegacy = <T>(
   schema: Schema.Schema.Any,
   key: symbol,
 ): T | undefined => {
-  return schema.ast.annotations[key] as T | undefined;
+  return schema.ast.annotate[key] as T | undefined;
 };
 
 // API namespace
@@ -309,7 +309,7 @@ export const API = {
         }
 
         const responseBody = yield* response.json;
-        return yield* Schema.decodeUnknown(config.outputSchema)(
+        return yield* Schema.decodeUnknownEffect(config.outputSchema)(
           responseBody,
         ).pipe(
           Effect.catchTag("ParseError", (cause) =>
@@ -441,13 +441,13 @@ export const API = {
 
 // Re-export error types for convenience
 export {
-  Unauthorized,
-  Forbidden,
-  NotFound,
-  Conflict,
-  UnprocessableEntity,
   BadRequest,
-  TooManyRequests,
+  Conflict,
+  Forbidden,
   InternalServerError,
+  NotFound,
   ServiceUnavailable,
+  TooManyRequests,
+  Unauthorized,
+  UnprocessableEntity,
 } from "./errors";

@@ -1,4 +1,4 @@
-import { HttpClient } from "@effect/platform";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as effect from "effect/Effect";
 import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
@@ -90,64 +90,30 @@ const rules = T.EndpointResolver((p, _) => {
 export type Arn = string;
 export type UserID = string;
 export type NumResults = number;
-export type ItemID = string;
 export type FilterAttributeName = string;
 export type FilterAttributeValue = string | redacted.Redacted<string>;
+export type ActionID = string;
+export type Score = number;
+export type RecommendationID = string;
+export type ErrorMessage = string;
+export type ItemID = string;
 export type AttributeName = string;
 export type AttributeValue = string | redacted.Redacted<string>;
 export type DatasetType = string;
 export type ColumnName = string;
 export type Name = string;
-export type PercentPromotedItems = number;
-export type RecommendationID = string;
-export type ActionID = string;
-export type Score = number;
-export type Reason = string;
-export type ErrorMessage = string;
 export type ColumnValue = string;
+export type Reason = string;
+export type PercentPromotedItems = number;
 
 //# Schemas
-export type InputList = string[];
-export const InputList = S.Array(S.String);
-export type ColumnNamesList = string[];
-export const ColumnNamesList = S.Array(S.String);
 export type FilterValues = {
   [key: string]: string | redacted.Redacted<string> | undefined;
 };
-export const FilterValues = S.Record({
-  key: S.String,
-  value: S.UndefinedOr(SensitiveString),
-});
-export type Context = {
-  [key: string]: string | redacted.Redacted<string> | undefined;
-};
-export const Context = S.Record({
-  key: S.String,
-  value: S.UndefinedOr(SensitiveString),
-});
-export type MetadataColumns = { [key: string]: string[] | undefined };
-export const MetadataColumns = S.Record({
-  key: S.String,
-  value: S.UndefinedOr(ColumnNamesList),
-});
-export interface Promotion {
-  name?: string;
-  percentPromotedItems?: number;
-  filterArn?: string;
-  filterValues?: {
-    [key: string]: string | redacted.Redacted<string> | undefined;
-  };
-}
-export const Promotion = S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    percentPromotedItems: S.optional(S.Number),
-    filterArn: S.optional(S.String),
-    filterValues: S.optional(FilterValues),
-  }),
-).annotations({ identifier: "Promotion" }) as any as S.Schema<Promotion>;
-export type PromotionList = Promotion[];
-export const PromotionList = S.Array(Promotion);
+export const FilterValues = S.Record(
+  S.String,
+  SensitiveString.pipe(S.optional),
+);
 export interface GetActionRecommendationsRequest {
   campaignArn?: string;
   userId?: string;
@@ -174,9 +140,45 @@ export const GetActionRecommendationsRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "GetActionRecommendationsRequest",
 }) as any as S.Schema<GetActionRecommendationsRequest>;
+export interface PredictedAction {
+  actionId?: string;
+  score?: number;
+}
+export const PredictedAction = S.suspend(() =>
+  S.Struct({ actionId: S.optional(S.String), score: S.optional(S.Number) }),
+).annotate({
+  identifier: "PredictedAction",
+}) as any as S.Schema<PredictedAction>;
+export type ActionList = PredictedAction[];
+export const ActionList = S.Array(PredictedAction);
+export interface GetActionRecommendationsResponse {
+  actionList?: PredictedAction[];
+  recommendationId?: string;
+}
+export const GetActionRecommendationsResponse = S.suspend(() =>
+  S.Struct({
+    actionList: S.optional(ActionList),
+    recommendationId: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GetActionRecommendationsResponse",
+}) as any as S.Schema<GetActionRecommendationsResponse>;
+export type InputList = string[];
+export const InputList = S.Array(S.String);
+export type Context = {
+  [key: string]: string | redacted.Redacted<string> | undefined;
+};
+export const Context = S.Record(S.String, SensitiveString.pipe(S.optional));
+export type ColumnNamesList = string[];
+export const ColumnNamesList = S.Array(S.String);
+export type MetadataColumns = { [key: string]: string[] | undefined };
+export const MetadataColumns = S.Record(
+  S.String,
+  ColumnNamesList.pipe(S.optional),
+);
 export interface GetPersonalizedRankingRequest {
   campaignArn: string;
   inputList: string[];
@@ -207,9 +209,61 @@ export const GetPersonalizedRankingRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "GetPersonalizedRankingRequest",
 }) as any as S.Schema<GetPersonalizedRankingRequest>;
+export type Metadata = { [key: string]: string | undefined };
+export const Metadata = S.Record(S.String, S.String.pipe(S.optional));
+export type ReasonList = string[];
+export const ReasonList = S.Array(S.String);
+export interface PredictedItem {
+  itemId?: string;
+  score?: number;
+  promotionName?: string;
+  metadata?: { [key: string]: string | undefined };
+  reason?: string[];
+}
+export const PredictedItem = S.suspend(() =>
+  S.Struct({
+    itemId: S.optional(S.String),
+    score: S.optional(S.Number),
+    promotionName: S.optional(S.String),
+    metadata: S.optional(Metadata),
+    reason: S.optional(ReasonList),
+  }),
+).annotate({ identifier: "PredictedItem" }) as any as S.Schema<PredictedItem>;
+export type ItemList = PredictedItem[];
+export const ItemList = S.Array(PredictedItem);
+export interface GetPersonalizedRankingResponse {
+  personalizedRanking?: PredictedItem[];
+  recommendationId?: string;
+}
+export const GetPersonalizedRankingResponse = S.suspend(() =>
+  S.Struct({
+    personalizedRanking: S.optional(ItemList),
+    recommendationId: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GetPersonalizedRankingResponse",
+}) as any as S.Schema<GetPersonalizedRankingResponse>;
+export interface Promotion {
+  name?: string;
+  percentPromotedItems?: number;
+  filterArn?: string;
+  filterValues?: {
+    [key: string]: string | redacted.Redacted<string> | undefined;
+  };
+}
+export const Promotion = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    percentPromotedItems: S.optional(S.Number),
+    filterArn: S.optional(S.String),
+    filterValues: S.optional(FilterValues),
+  }),
+).annotate({ identifier: "Promotion" }) as any as S.Schema<Promotion>;
+export type PromotionList = Promotion[];
+export const PromotionList = S.Array(Promotion);
 export interface GetRecommendationsRequest {
   campaignArn?: string;
   itemId?: string;
@@ -246,36 +300,9 @@ export const GetRecommendationsRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "GetRecommendationsRequest",
 }) as any as S.Schema<GetRecommendationsRequest>;
-export type Metadata = { [key: string]: string | undefined };
-export const Metadata = S.Record({
-  key: S.String,
-  value: S.UndefinedOr(S.String),
-});
-export type ReasonList = string[];
-export const ReasonList = S.Array(S.String);
-export interface PredictedItem {
-  itemId?: string;
-  score?: number;
-  promotionName?: string;
-  metadata?: { [key: string]: string | undefined };
-  reason?: string[];
-}
-export const PredictedItem = S.suspend(() =>
-  S.Struct({
-    itemId: S.optional(S.String),
-    score: S.optional(S.Number),
-    promotionName: S.optional(S.String),
-    metadata: S.optional(Metadata),
-    reason: S.optional(ReasonList),
-  }),
-).annotations({
-  identifier: "PredictedItem",
-}) as any as S.Schema<PredictedItem>;
-export type ItemList = PredictedItem[];
-export const ItemList = S.Array(PredictedItem);
 export interface GetRecommendationsResponse {
   itemList?: PredictedItem[];
   recommendationId?: string;
@@ -285,81 +312,21 @@ export const GetRecommendationsResponse = S.suspend(() =>
     itemList: S.optional(ItemList),
     recommendationId: S.optional(S.String),
   }),
-).annotations({
+).annotate({
   identifier: "GetRecommendationsResponse",
 }) as any as S.Schema<GetRecommendationsResponse>;
-export interface PredictedAction {
-  actionId?: string;
-  score?: number;
-}
-export const PredictedAction = S.suspend(() =>
-  S.Struct({ actionId: S.optional(S.String), score: S.optional(S.Number) }),
-).annotations({
-  identifier: "PredictedAction",
-}) as any as S.Schema<PredictedAction>;
-export type ActionList = PredictedAction[];
-export const ActionList = S.Array(PredictedAction);
-export interface GetActionRecommendationsResponse {
-  actionList?: PredictedAction[];
-  recommendationId?: string;
-}
-export const GetActionRecommendationsResponse = S.suspend(() =>
-  S.Struct({
-    actionList: S.optional(ActionList),
-    recommendationId: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "GetActionRecommendationsResponse",
-}) as any as S.Schema<GetActionRecommendationsResponse>;
-export interface GetPersonalizedRankingResponse {
-  personalizedRanking?: PredictedItem[];
-  recommendationId?: string;
-}
-export const GetPersonalizedRankingResponse = S.suspend(() =>
-  S.Struct({
-    personalizedRanking: S.optional(ItemList),
-    recommendationId: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "GetPersonalizedRankingResponse",
-}) as any as S.Schema<GetPersonalizedRankingResponse>;
 
 //# Errors
-export class InvalidInputException extends S.TaggedError<InvalidInputException>()(
+export class InvalidInputException extends S.TaggedErrorClass<InvalidInputException>()(
   "InvalidInputException",
   { message: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { message: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
-/**
- * Returns a list of recommended items. For campaigns, the campaign's Amazon Resource Name (ARN) is required and the required user and item input depends on the recipe type used to
- * create the solution backing the campaign as follows:
- *
- * - USER_PERSONALIZATION - `userId` required, `itemId` not used
- *
- * - RELATED_ITEMS - `itemId` required, `userId` not used
- *
- * Campaigns that are backed by a solution created using a recipe of type
- * PERSONALIZED_RANKING use the API.
- *
- * For recommenders, the recommender's ARN is required and the required item and user input depends on the use case (domain-based recipe) backing the recommender.
- * For information on use case requirements see Choosing recommender use cases.
- */
-export const getRecommendations: (
-  input: GetRecommendationsRequest,
-) => effect.Effect<
-  GetRecommendationsResponse,
-  InvalidInputException | ResourceNotFoundException | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetRecommendationsRequest,
-  output: GetRecommendationsResponse,
-  errors: [InvalidInputException, ResourceNotFoundException],
-}));
 /**
  * Returns a list of recommended actions in sorted in descending order by prediction score.
  * Use the `GetActionRecommendations` API if you have a custom
@@ -395,5 +362,30 @@ export const getPersonalizedRanking: (
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPersonalizedRankingRequest,
   output: GetPersonalizedRankingResponse,
+  errors: [InvalidInputException, ResourceNotFoundException],
+}));
+/**
+ * Returns a list of recommended items. For campaigns, the campaign's Amazon Resource Name (ARN) is required and the required user and item input depends on the recipe type used to
+ * create the solution backing the campaign as follows:
+ *
+ * - USER_PERSONALIZATION - `userId` required, `itemId` not used
+ *
+ * - RELATED_ITEMS - `itemId` required, `userId` not used
+ *
+ * Campaigns that are backed by a solution created using a recipe of type
+ * PERSONALIZED_RANKING use the API.
+ *
+ * For recommenders, the recommender's ARN is required and the required item and user input depends on the use case (domain-based recipe) backing the recommender.
+ * For information on use case requirements see Choosing recommender use cases.
+ */
+export const getRecommendations: (
+  input: GetRecommendationsRequest,
+) => effect.Effect<
+  GetRecommendationsResponse,
+  InvalidInputException | ResourceNotFoundException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetRecommendationsRequest,
+  output: GetRecommendationsResponse,
   errors: [InvalidInputException, ResourceNotFoundException],
 }));

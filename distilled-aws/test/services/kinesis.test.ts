@@ -324,7 +324,7 @@ test(
         const events = yield* Stream.take(eventStream, 5).pipe(
           Stream.runCollect,
           Effect.timeout("30 seconds"),
-          Effect.catchAll((err) => {
+          Effect.catch((err) => {
             return Effect.logWarning(
               `Event stream timeout or error: ${err}`,
             ).pipe(Effect.as([]));

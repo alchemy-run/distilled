@@ -5,10 +5,10 @@
  * can be returned by each operation in the service.
  */
 
-import * as Schema from "effect/Schema";
-import * as Effect from "effect/Effect";
 import * as FileSystem from "@effect/platform/FileSystem";
 import * as Path from "@effect/platform/Path";
+import * as Effect from "effect/Effect";
+import * as Schema from "effect/Schema";
 
 /**
  * Error alias - maps an error code to an alternative name.
@@ -56,14 +56,12 @@ export const loadServiceSpec = (serviceName: string) =>
 
     const specPath = path.join("spec", `${serviceName}.json`);
     const content = yield* fs.readFileString(specPath);
-    const data = yield* Schema.decodeUnknown(Schema.parseJson(ServiceSpec))(
-      content,
-    );
+    const data = yield* Schema.decodeUnknownEffect(
+      Schema.parseJson(ServiceSpec),
+    )(content);
 
     return data;
-  }).pipe(
-    Effect.catchAll(() => Effect.succeed<ServiceSpec>({ operations: {} })),
-  );
+  }).pipe(Effect.catch(() => Effect.succeed<ServiceSpec>({ operations: {} })));
 
 /**
  * Save spec patches for a service to spec/{service}.json

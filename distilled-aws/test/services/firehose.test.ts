@@ -198,7 +198,7 @@ const cleanupBucket = (bucket: string) =>
   Effect.gen(function* () {
     const exists = yield* headBucket({ Bucket: bucket }).pipe(
       Effect.map(() => true),
-      Effect.catchAll(() => Effect.succeed(false)),
+      Effect.catch(() => Effect.succeed(false)),
     );
 
     if (!exists) return;

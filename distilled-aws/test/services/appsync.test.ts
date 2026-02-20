@@ -436,7 +436,7 @@ const withDataSource = <A, E, R>(
               fieldName,
             }).pipe(
               Effect.map(() => true),
-              Effect.catchAll(() => Effect.succeed(false)),
+              Effect.catch(() => Effect.succeed(false)),
             );
 
             expect(resolverExists).toEqual(false);

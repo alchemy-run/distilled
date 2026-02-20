@@ -5,18 +5,13 @@
  * DO NOT EDIT - regenerate with: bun scripts/generate-from-sdk.ts --service r2
  */
 
+import type { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
-import type { HttpClient } from "@effect/platform";
-import * as API from "../client/api.ts";
-import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
-import {
-  type CommonErrors,
-  UnknownCloudflareError,
-  CloudflareNetworkError,
-  CloudflareHttpError,
-} from "../errors.ts";
+import * as API from "../client/api.ts";
+import { type CommonErrors } from "../errors.ts";
+import * as T from "../traits.ts";
 
 // =============================================================================
 // AllSuperSlurperJob
@@ -727,12 +722,12 @@ export const listBucketDomainCustoms: (
   errors: [],
 }));
 
-export class NoSuchBucket extends Schema.TaggedError<NoSuchBucket>()(
+export class NoSuchBucket extends Schema.TaggedErrorClass<NoSuchBucket>()(
   "NoSuchBucket",
   { code: Schema.Number, message: Schema.String },
 ).pipe(T.HttpErrorMatchers([{ code: 10006 }])) {}
 
-export class InvalidBucketName extends Schema.TaggedError<InvalidBucketName>()(
+export class InvalidBucketName extends Schema.TaggedErrorClass<InvalidBucketName>()(
   "InvalidBucketName",
   { code: Schema.Number, message: Schema.String },
 ).pipe(T.HttpErrorMatchers([{ code: 10005 }])) {}
