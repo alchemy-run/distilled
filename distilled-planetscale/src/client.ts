@@ -1,11 +1,8 @@
-import {
-  HttpBody,
-  HttpClient,
-  HttpClientError,
-  HttpClientRequest,
-} from "@effect/platform";
+import * as HttpBody from "effect/unstable/http/HttpBody";
+import * as HttpClient from "effect/unstable/http/HttpClient";
+import * as HttpClientError from "effect/unstable/http/HttpClientError";
+import * as HttpClientRequest from "effect/unstable/http/HttpClientRequest";
 import * as Effect from "effect/Effect";
-import * as Option from "effect/Option";
 import * as Schema from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as Category from "./category";
@@ -147,8 +144,8 @@ export type ClientErrors =
  * Operation configuration with optional operation-specific errors.
  */
 interface OperationConfig<
-  I extends Schema.Schema.Any,
-  O extends Schema.Schema.Any,
+  I extends Schema.Top,
+  O extends Schema.Top,
   E extends readonly ApiErrorClass[] = readonly ApiErrorClass[],
 > {
   inputSchema: I;
@@ -170,8 +167,8 @@ interface OperationConfig<
  * Paginated operation configuration.
  */
 interface PaginatedOperationConfig<
-  I extends Schema.Schema.Any,
-  O extends Schema.Schema.Any,
+  I extends Schema.Top,
+  O extends Schema.Top,
   E extends readonly ApiErrorClass[] = readonly ApiErrorClass[],
 > extends OperationConfig<I, O, E> {
   /** Pagination trait describing the input/output token fields */
@@ -180,17 +177,20 @@ interface PaginatedOperationConfig<
 
 // Helper to get annotation from schema AST (legacy)
 const getAnnotationLegacy = <T>(
-  schema: Schema.Schema.Any,
+  schema: Schema.Top,
   key: symbol,
 ): T | undefined => {
-  return schema.ast.annotate[key] as T | undefined;
+  const annotations = schema.ast.annotations as
+    | Record<symbol, unknown>
+    | undefined;
+  return annotations?.[key] as T | undefined;
 };
 
 // API namespace
 export const API = {
   make: <
-    I extends Schema.Schema.Any,
-    O extends Schema.Schema.Any,
+    I extends Schema.Top,
+    O extends Schema.Top,
     const E extends readonly ApiErrorClass[] = readonly [],
   >(
     configFn: () => OperationConfig<I, O, E>,
@@ -312,7 +312,7 @@ export const API = {
         return yield* Schema.decodeUnknownEffect(config.outputSchema)(
           responseBody,
         ).pipe(
-          Effect.catchTag("ParseError", (cause) =>
+          Effect.catchTag("SchemaError", (cause) =>
             Effect.fail(
               new PlanetScaleParseError({ body: responseBody, cause }),
             ),
@@ -343,8 +343,8 @@ export const API = {
    * ```
    */
   makePaginated: <
-    I extends Schema.Schema.Any,
-    O extends Schema.Schema.Any,
+    I extends Schema.Top,
+    O extends Schema.Top,
     const E extends readonly ApiErrorClass[] = readonly [],
   >(
     configFn: () => PaginatedOperationConfig<I, O, E>,
@@ -374,7 +374,7 @@ export const API = {
       const unfoldFn = (state: State) =>
         Effect.gen(function* () {
           if (state.done) {
-            return Option.none();
+            return undefined;
           }
 
           // Build the request with the page number
@@ -398,10 +398,10 @@ export const API = {
             done: nextPage === null || nextPage === undefined,
           };
 
-          return Option.some([response, nextState] as const);
+          return [response, nextState] as const;
         });
 
-      return Stream.unfoldEffect({ page: 1, done: false } as State, unfoldFn);
+      return Stream.unfold({ page: 1, done: false } as State, unfoldFn);
     };
 
     // Stream individual items from the paginated field

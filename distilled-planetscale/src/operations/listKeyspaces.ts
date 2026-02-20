@@ -45,7 +45,7 @@ export const ListKeyspacesOutput = Schema.Struct({
       imported: Schema.Boolean,
       vector_pool_allocation: Schema.Number,
       replication_durability_constraints: Schema.Struct({
-        strategy: Schema.Literal("available", "lag", "always"),
+        strategy: Schema.Literals(["available", "lag", "always"]),
       }),
       vreplication_flags: Schema.Struct({
         optimize_inserts: Schema.Boolean,

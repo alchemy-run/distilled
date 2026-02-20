@@ -12,7 +12,7 @@ export const CreateRoleInput = Schema.Struct({
   ttl: Schema.optional(Schema.Number),
   inherited_roles: Schema.optional(
     Schema.Array(
-      Schema.Literal(
+      Schema.Literals([
         "pscale_managed",
         "pg_checkpoint",
         "pg_create_subscription",
@@ -26,7 +26,7 @@ export const CreateRoleInput = Schema.Struct({
         "pg_use_reserved_connections",
         "pg_write_all_data",
         "postgres",
-      ),
+      ]),
     ),
   ),
 }).pipe(
@@ -58,7 +58,7 @@ export const CreateRoleOutput = Schema.Struct({
   default: Schema.Boolean,
   ttl: Schema.Number,
   inherited_roles: Schema.Array(
-    Schema.Literal(
+    Schema.Literals([
       "pscale_managed",
       "pg_checkpoint",
       "pg_create_subscription",
@@ -72,7 +72,7 @@ export const CreateRoleOutput = Schema.Struct({
       "pg_use_reserved_connections",
       "pg_write_all_data",
       "postgres",
-    ),
+    ]),
   ),
   branch: Schema.Struct({
     id: Schema.String,

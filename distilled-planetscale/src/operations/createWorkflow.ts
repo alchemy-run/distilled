@@ -13,7 +13,7 @@ export const CreateWorkflowInput = Schema.Struct({
   global_keyspace: Schema.optional(Schema.String),
   defer_secondary_keys: Schema.optional(Schema.Boolean),
   on_ddl: Schema.optional(
-    Schema.Literal("IGNORE", "STOP", "EXEC", "EXEC_IGNORE"),
+    Schema.Literals(["IGNORE", "STOP", "EXEC", "EXEC_IGNORE"]),
   ),
   tables: Schema.Array(Schema.String),
 }).pipe(
@@ -29,7 +29,7 @@ export const CreateWorkflowOutput = Schema.Struct({
   id: Schema.String,
   name: Schema.String,
   number: Schema.Number,
-  state: Schema.Literal(
+  state: Schema.Literals([
     "pending",
     "copying",
     "running",
@@ -49,7 +49,7 @@ export const CreateWorkflowOutput = Schema.Struct({
     "cancelling",
     "cancelled",
     "error",
-  ),
+  ]),
   created_at: Schema.String,
   updated_at: Schema.String,
   started_at: Schema.String,
@@ -64,10 +64,10 @@ export const CreateWorkflowOutput = Schema.Struct({
   switch_replicas_at: Schema.String,
   switch_primaries_at: Schema.String,
   verify_data_at: Schema.String,
-  workflow_type: Schema.Literal("move_tables"),
+  workflow_type: Schema.Literals(["move_tables"]),
   workflow_subtype: Schema.String,
   defer_secondary_keys: Schema.Boolean,
-  on_ddl: Schema.Literal("IGNORE", "STOP", "EXEC", "EXEC_IGNORE"),
+  on_ddl: Schema.Literals(["IGNORE", "STOP", "EXEC", "EXEC_IGNORE"]),
   workflow_errors: Schema.String,
   may_retry: Schema.Boolean,
   may_restart: Schema.Boolean,

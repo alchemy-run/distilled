@@ -8,7 +8,7 @@ export const ReviewDeployRequestInput = Schema.Struct({
   organization: Schema.String.pipe(T.PathParam()),
   database: Schema.String.pipe(T.PathParam()),
   number: Schema.Number.pipe(T.PathParam()),
-  state: Schema.optional(Schema.Literal("commented", "approved")),
+  state: Schema.optional(Schema.Literals(["commented", "approved"])),
   body: Schema.optional(Schema.String),
 }).pipe(
   T.Http({
@@ -23,7 +23,7 @@ export const ReviewDeployRequestOutput = Schema.Struct({
   id: Schema.String,
   body: Schema.String,
   html_body: Schema.String,
-  state: Schema.Literal("commented", "approved"),
+  state: Schema.Literals(["commented", "approved"]),
   created_at: Schema.String,
   updated_at: Schema.String,
   actor: Schema.Struct({

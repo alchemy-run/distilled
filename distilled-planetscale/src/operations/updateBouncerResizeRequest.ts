@@ -24,7 +24,7 @@ export type UpdateBouncerResizeRequestInput =
 // Output Schema
 export const UpdateBouncerResizeRequestOutput = Schema.Struct({
   id: Schema.String,
-  state: Schema.Literal("pending", "resizing", "canceled", "completed"),
+  state: Schema.Literals(["pending", "resizing", "canceled", "completed"]),
   replicas_per_cell: Schema.Number,
   parameters: Schema.Unknown,
   previous_replicas_per_cell: Schema.Number,

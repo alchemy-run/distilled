@@ -123,12 +123,6 @@ class UnableToTransformShapeToSchema extends Data.TaggedError(
   message: string;
 }> {}
 
-class ProtocolNotImplemented extends Data.TaggedError(
-  "ProtocolNotImplemented",
-)<{
-  message: string;
-}> {}
-
 // =============================================================================
 // Unified Trait Collection
 // =============================================================================
@@ -483,7 +477,6 @@ const shapeToTsType = (
 ): Effect.Effect<string, ShapeNotFound, SdkFile | ModelService> =>
   Effect.gen(function* () {
     const sdkFile = yield* SdkFile;
-    const newtypesMap = yield* Ref.get(sdkFile.newtypes);
 
     // Handle Smithy primitives
     switch (target) {
@@ -804,19 +797,6 @@ function findCyclicSchemasFromDeps(
     }
   }
 
-  // Primitive targets that should be inlined (no named schema generated)
-  const primitiveTargets = new Set([
-    "smithy.api#String",
-    "smithy.api#Boolean",
-    "smithy.api#PrimitiveBoolean",
-    "smithy.api#Integer",
-    "smithy.api#PrimitiveInteger",
-    "smithy.api#Long",
-    "smithy.api#PrimitiveLong",
-    "smithy.api#Float",
-    "smithy.api#Double",
-  ]);
-
   // Determine which cyclic schemas will become classes (structs only)
   const cyclicClasses = new Set<string>();
   // Collect ALL struct names (interfaces can be used directly as types)
@@ -894,7 +874,7 @@ function collectErrorShapeIds(
 ): Map<string, ErrorShapeTraits> {
   const errorShapeIds = new Map<string, ErrorShapeTraits>();
 
-  for (const [shapeId, shape] of Object.entries(model.shapes)) {
+  for (const [, shape] of Object.entries(model.shapes)) {
     if (shape.type === "operation" && shape.errors) {
       for (const error of shape.errors) {
         const errorShape = model.shapes[error.target];
@@ -1619,19 +1599,6 @@ const convertShapeToSchema: (
               const opOutputTraits =
                 sdkFile.operationOutputTraits.get(currentSchemaName);
               const isOperationOutput = opOutputTraits !== undefined;
-
-              // Member info type for generating both interface and schema
-              interface MemberInfo {
-                name: string;
-                schemaExpr: string;
-                tsType: string;
-                isOptional: boolean;
-                // True if this member has @clientOptional + @required
-                // In output contexts, these should appear required in the interface
-                isSoftRequired: boolean;
-                // Wire name from smithy.api#jsonName (if different from member name)
-                jsonName?: string;
-              }
 
               const membersEffect = Effect.all(
                 Object.entries(s.members).map(([memberName, member]) =>
@@ -2470,9 +2437,7 @@ const generateClient = Effect.fn(function* (
     .pipe(Effect.flatMap(S.decodeUnknownEffect(S.fromJsonString(SmithyModel))));
 
   const client = Effect.gen(function* () {
-    const [serviceShapeName, serviceShape] = yield* findServiceShape;
-
-    const serviceName = serviceShapeName.split("#")[1];
+    const [_serviceShapeName, serviceShape] = yield* findServiceShape;
 
     const protocol = Object.keys(serviceShape.traits).find((key) =>
       key.startsWith("aws.protocols#"),
@@ -2538,7 +2503,6 @@ const generateClient = Effect.fn(function* (
         );
 
         //todo(pear): we shouldn't default sigv4 to serviceName here, we should do that in client.ts so we don't take up as much space
-        const operationName = `${serviceName}.${operationShapeName.split("#")[1]}`;
         const operationComment = htmlToJsdoc(
           operationShape["traits"]["smithy.api#documentation"] ?? "",
         );
@@ -3036,7 +3000,6 @@ const generateClient = Effect.fn(function* (
   const hasCredentialsConflict = allSchemaNames.has("Credentials");
   const hasRegionConflict = allSchemaNames.has("Region");
   const hasCommonErrorsConflict = allSchemaNames.has("CommonErrors");
-  const hasStreamConflict = allSchemaNames.has("Stream");
 
   const credsRef = hasCredentialsConflict ? "Creds" : "Credentials";
   const rgnRef = hasRegionConflict ? "Rgn" : "Region";

@@ -11,7 +11,7 @@ export const CreatePasswordInput = Schema.Struct({
   branch: Schema.String.pipe(T.PathParam()),
   name: Schema.optional(Schema.String),
   role: Schema.optional(
-    Schema.Literal("reader", "writer", "admin", "readwriter"),
+    Schema.Literals(["reader", "writer", "admin", "readwriter"]),
   ),
   replica: Schema.optional(Schema.Boolean),
   ttl: Schema.optional(Schema.Number),
@@ -29,7 +29,7 @@ export type CreatePasswordInput = typeof CreatePasswordInput.Type;
 export const CreatePasswordOutput = Schema.Struct({
   id: Schema.String,
   name: Schema.String,
-  role: Schema.Literal("reader", "writer", "admin", "readwriter"),
+  role: Schema.Literals(["reader", "writer", "admin", "readwriter"]),
   cidrs: Schema.NullOr(Schema.Array(Schema.String)),
   created_at: Schema.String,
   deleted_at: Schema.NullOr(Schema.String),

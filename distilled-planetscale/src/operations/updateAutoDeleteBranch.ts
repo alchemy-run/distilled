@@ -45,8 +45,8 @@ export const UpdateAutoDeleteBranchOutput = Schema.Struct({
   into_branch_sharded: Schema.Boolean,
   into_branch_shard_count: Schema.Number,
   approved: Schema.Boolean,
-  state: Schema.Literal("open", "closed"),
-  deployment_state: Schema.Literal(
+  state: Schema.Literals(["open", "closed"]),
+  deployment_state: Schema.Literals([
     "pending",
     "ready",
     "no_changes",
@@ -67,7 +67,7 @@ export const UpdateAutoDeleteBranchOutput = Schema.Struct({
     "complete_revert_error",
     "cancelled",
     "error",
-  ),
+  ]),
   deployment: Schema.Struct({
     id: Schema.String,
     auto_cutover: Schema.Boolean,
@@ -80,7 +80,7 @@ export const UpdateAutoDeleteBranchOutput = Schema.Struct({
     queued_at: Schema.String,
     ready_to_cutover_at: Schema.String,
     started_at: Schema.String,
-    state: Schema.Literal(
+    state: Schema.Literals([
       "pending",
       "ready",
       "no_changes",
@@ -101,7 +101,7 @@ export const UpdateAutoDeleteBranchOutput = Schema.Struct({
       "complete_revert_error",
       "cancelled",
       "error",
-    ),
+    ]),
     submitted_at: Schema.String,
     updated_at: Schema.String,
     into_branch: Schema.String,
@@ -111,14 +111,14 @@ export const UpdateAutoDeleteBranchOutput = Schema.Struct({
     deploy_operations: Schema.Array(
       Schema.Struct({
         id: Schema.String,
-        state: Schema.Literal(
+        state: Schema.Literals([
           "pending",
           "queued",
           "in_progress",
           "complete",
           "cancelled",
           "error",
-        ),
+        ]),
         keyspace_name: Schema.String,
         table_name: Schema.String,
         operation_name: Schema.String,
@@ -148,13 +148,13 @@ export const UpdateAutoDeleteBranchOutput = Schema.Struct({
         keyspace_name: Schema.String,
         operation_name: Schema.String,
         progress_percentage: Schema.Number,
-        state: Schema.Literal(
+        state: Schema.Literals([
           "pending",
           "in_progress",
           "complete",
           "cancelled",
           "error",
-        ),
+        ]),
         syntax_highlighted_ddl: Schema.String,
         table_name: Schema.String,
         table_recently_used_at: Schema.String,
@@ -169,14 +169,14 @@ export const UpdateAutoDeleteBranchOutput = Schema.Struct({
           Schema.Struct({
             id: Schema.String,
             shard: Schema.String,
-            state: Schema.Literal(
+            state: Schema.Literals([
               "pending",
               "queued",
               "in_progress",
               "complete",
               "cancelled",
               "error",
-            ),
+            ]),
             progress_percentage: Schema.Number,
             eta_seconds: Schema.Number,
           }),

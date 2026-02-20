@@ -31,7 +31,7 @@ export const CreateBouncerOutput = Schema.Struct({
     ram: Schema.Number,
     sort_order: Schema.Number,
   }),
-  target: Schema.Literal("primary", "replica", "replica_az_affinity"),
+  target: Schema.Literals(["primary", "replica", "replica_az_affinity"]),
   replicas_per_cell: Schema.Number,
   created_at: Schema.String,
   updated_at: Schema.String,
@@ -51,12 +51,12 @@ export const CreateBouncerOutput = Schema.Struct({
   parameters: Schema.Array(
     Schema.Struct({
       id: Schema.String,
-      namespace: Schema.Literal("pgbouncer"),
+      namespace: Schema.Literals(["pgbouncer"]),
       name: Schema.String,
       display_name: Schema.String,
       category: Schema.String,
       description: Schema.String,
-      parameter_type: Schema.Literal(
+      parameter_type: Schema.Literals([
         "array",
         "boolean",
         "bytes",
@@ -67,7 +67,7 @@ export const CreateBouncerOutput = Schema.Struct({
         "select",
         "string",
         "time",
-      ),
+      ]),
       default_value: Schema.String,
       value: Schema.String,
       required: Schema.Boolean,

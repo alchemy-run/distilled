@@ -28,14 +28,14 @@ export const ListDeployOperationsOutput = Schema.Struct({
   data: Schema.Array(
     Schema.Struct({
       id: Schema.String,
-      state: Schema.Literal(
+      state: Schema.Literals([
         "pending",
         "queued",
         "in_progress",
         "complete",
         "cancelled",
         "error",
-      ),
+      ]),
       keyspace_name: Schema.String,
       table_name: Schema.String,
       operation_name: Schema.String,
