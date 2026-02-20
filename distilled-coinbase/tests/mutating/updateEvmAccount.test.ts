@@ -28,7 +28,9 @@ describe("updateEvmAccount", () => {
     );
     if ("data" in result) {
       expect(result.data.address).toBeDefined();
-      expect(result.data.name).toBe(`${TEST_PREFIX} distilled coinbase updated`);
+      expect(result.data.name).toBe(
+        `${TEST_PREFIX} distilled coinbase updated`,
+      );
     } else {
       expect(result.error).toBeInstanceOf(InvalidRequest);
     }

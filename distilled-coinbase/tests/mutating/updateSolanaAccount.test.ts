@@ -26,7 +26,9 @@ describe("updateSolanaAccount", () => {
     );
     if ("data" in result) {
       expect(result.data.address).toBeDefined();
-      expect(result.data.name).toBe(`${TEST_PREFIX} distilled coinbase sol updated`);
+      expect(result.data.name).toBe(
+        `${TEST_PREFIX} distilled coinbase sol updated`,
+      );
     } else {
       expect(result.error).toBeInstanceOf(InvalidRequest);
     }
