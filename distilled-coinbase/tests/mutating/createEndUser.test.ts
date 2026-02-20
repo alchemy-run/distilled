@@ -1,7 +1,7 @@
 import { Effect } from "effect";
 import { describe, expect, it } from "vitest";
 import { createEndUser } from "../../src/operations/createEndUser";
-import { runEffect } from "../setup";
+import { TEST_PREFIX, runEffect } from "../setup";
 
 describe("createEndUser", () => {
   it("can create an end user with email auth", async () => {
@@ -10,7 +10,7 @@ describe("createEndUser", () => {
         authenticationMethods: [
           {
             type: "email" as const,
-            email: `distilled-test-${Date.now()}@example.com`,
+            email: `${TEST_PREFIX}-distilled-test-${Date.now()}@example.com`,
           },
         ],
       }).pipe(

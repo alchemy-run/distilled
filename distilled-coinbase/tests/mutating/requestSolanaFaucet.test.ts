@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 import { listSolanaAccounts } from "../../src/operations/listSolanaAccounts";
 import { createSolanaAccount } from "../../src/operations/createSolanaAccount";
 import { requestSolanaFaucet } from "../../src/operations/requestSolanaFaucet";
-import { runEffect } from "../setup";
+import { TEST_PREFIX, runEffect } from "../setup";
 
 describe("requestSolanaFaucet", () => {
   it("can request testnet SOL (or handles rate limit)", async () => {
@@ -12,7 +12,7 @@ describe("requestSolanaFaucet", () => {
         const accounts = yield* listSolanaAccounts({});
         if (accounts.accounts.length === 0) {
           const created = yield* createSolanaAccount({
-            name: "distilled coinbase sol faucet test",
+            name: `${TEST_PREFIX} distilled coinbase sol faucet test`,
           });
           return yield* requestSolanaFaucet({
             address: created.address,

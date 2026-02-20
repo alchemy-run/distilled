@@ -24,7 +24,7 @@ import {
   tagResource,
   untagResource,
 } from "../../src/services/apigatewayv2.ts";
-import { test } from "../test.ts";
+import { TEST_PREFIX, test } from "../test.ts";
 
 // ============================================================================
 // Cleanup Helpers
@@ -56,11 +56,12 @@ const deleteExistingApiByName = (name: string) =>
 
 // Helper to ensure cleanup happens even on failure
 const withApi = <A, E, R>(
-  apiName: string,
+  _apiName: string,
   protocolType: "HTTP" | "WEBSOCKET",
   testFn: (apiId: string) => Effect.Effect<A, E, R>,
 ) =>
   Effect.gen(function* () {
+    const apiName = `${TEST_PREFIX}-${_apiName}`;
     // Clean up any existing API with the same name from failed test runs
     yield* deleteExistingApiByName(apiName);
 
@@ -91,7 +92,7 @@ describe.sequential("API Gateway v2", () => {
         // Get API
         const api = yield* getApi({ ApiId: apiId });
         expect(api.ApiId).toBeDefined();
-        expect(api.Name).toEqual("distilled-apigwv2-http");
+        expect(api.Name).toEqual(`${TEST_PREFIX}-distilled-apigwv2-http`);
         expect(api.ProtocolType).toEqual("HTTP");
 
         // List APIs
@@ -109,7 +110,7 @@ describe.sequential("API Gateway v2", () => {
         // Get API
         const api = yield* getApi({ ApiId: apiId });
         expect(api.ApiId).toBeDefined();
-        expect(api.Name).toEqual("distilled-apigwv2-ws");
+        expect(api.Name).toEqual(`${TEST_PREFIX}-distilled-apigwv2-ws`);
         expect(api.ProtocolType).toEqual("WEBSOCKET");
       }),
     ),

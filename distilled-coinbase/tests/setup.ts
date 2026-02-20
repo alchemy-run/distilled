@@ -9,6 +9,8 @@ config();
 // Main layer providing credentials and HTTP client for all tests
 export const MainLayer = Layer.merge(CredentialsFromEnv, FetchHttpClient.layer);
 
+export const TEST_PREFIX = process.env.USER ?? process.env.USERNAME ?? "local";
+
 /**
  * Run an Effect with the MainLayer provided.
  */

@@ -27,7 +27,7 @@ import {
   listObjectVersions,
 } from "../../src/services/s3.ts";
 import { getCallerIdentity } from "../../src/services/sts.ts";
-import { test } from "../test.ts";
+import { TEST_PREFIX, test } from "../test.ts";
 
 // ============================================================================
 // Error Classes for State Management
@@ -285,9 +285,9 @@ const withDeliveryStream = <A, E, R>(
   testFn: (ctx: DeliveryStreamContext) => Effect.Effect<A, E, R>,
 ) =>
   Effect.gen(function* () {
-    const streamName = `distilled-firehose-${testName}`;
-    const bucketName = `distilled-firehose-${testName}`;
-    const roleName = `distilled-firehose-${testName}-role`;
+    const streamName = `${TEST_PREFIX}-distilled-firehose-${testName}`;
+    const bucketName = `${TEST_PREFIX}-distilled-firehose-${testName}`;
+    const roleName = `${TEST_PREFIX}-distilled-firehose-${testName}-role`;
 
     // Verify we have valid credentials before proceeding
     yield* getCallerIdentity({});

@@ -57,6 +57,8 @@ jobs:
         working-directory: distilled-aws
       - run: bun run test
         working-directory: distilled-aws
+        env:
+          USER: ci-${{ github.event.pull_request.number }}
 
   ci-cloudflare:
     needs: detect-changes
@@ -93,6 +95,7 @@ jobs:
         env:
           COINBASE_API_KEY_ID: ${{ secrets.COINBASE_API_KEY_ID }}
           COINBASE_API_KEY_SECRET: ${{ secrets.COINBASE_API_KEY_SECRET }}
+          USER: ci-${{ github.event.pull_request.number }}
 
   ci-neon:
     needs: detect-changes

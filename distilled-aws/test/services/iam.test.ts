@@ -73,7 +73,7 @@ import {
   updateRole,
   updateUser,
 } from "../../src/services/iam.ts";
-import { test } from "../test.ts";
+import { TEST_PREFIX, test } from "../test.ts";
 
 // Helper trust policy document for roles
 const trustPolicy = JSON.stringify({
@@ -294,10 +294,11 @@ const cleanupInstanceProfile = (profileName: string) =>
 
 // Helper to ensure cleanup happens even on failure - cleans up before AND after
 const withUser = <A, E, R>(
-  userName: string,
+  _userName: string,
   testFn: (userName: string) => Effect.Effect<A, E, R>,
 ) =>
   Effect.gen(function* () {
+    const userName = `${TEST_PREFIX}-${_userName}`;
     // Clean up any leftover from previous runs
     yield* cleanupUser(userName);
     yield* createUser({ UserName: userName });
@@ -305,10 +306,11 @@ const withUser = <A, E, R>(
   });
 
 const withGroup = <A, E, R>(
-  groupName: string,
+  _groupName: string,
   testFn: (groupName: string) => Effect.Effect<A, E, R>,
 ) =>
   Effect.gen(function* () {
+    const groupName = `${TEST_PREFIX}-${_groupName}`;
     // Clean up any leftover from previous runs
     yield* cleanupGroup(groupName);
     yield* createGroup({ GroupName: groupName });
@@ -318,10 +320,11 @@ const withGroup = <A, E, R>(
   });
 
 const withRole = <A, E, R>(
-  roleName: string,
+  _roleName: string,
   testFn: (roleName: string) => Effect.Effect<A, E, R>,
 ) =>
   Effect.gen(function* () {
+    const roleName = `${TEST_PREFIX}-${_roleName}`;
     // Clean up any leftover from previous runs
     yield* cleanupRole(roleName);
     yield* createRole({
@@ -332,10 +335,11 @@ const withRole = <A, E, R>(
   });
 
 const withPolicy = <A, E, R>(
-  policyName: string,
+  _policyName: string,
   testFn: (policyArn: string) => Effect.Effect<A, E, R>,
 ) =>
   Effect.gen(function* () {
+    const policyName = `${TEST_PREFIX}-${_policyName}`;
     // Clean up any leftover from previous runs - need to find the policy ARN first
     const existingPolicies = yield* listPolicies({ Scope: "Local" }).pipe(
       Effect.orElseSucceed(() => ({ Policies: [] })),
@@ -358,10 +362,11 @@ const withPolicy = <A, E, R>(
   });
 
 const withInstanceProfile = <A, E, R>(
-  profileName: string,
+  _profileName: string,
   testFn: (profileName: string) => Effect.Effect<A, E, R>,
 ) =>
   Effect.gen(function* () {
+    const profileName = `${TEST_PREFIX}-${_profileName}`;
     // Clean up any leftover from previous runs
     yield* cleanupInstanceProfile(profileName);
     yield* createInstanceProfile({ InstanceProfileName: profileName });
@@ -438,8 +443,8 @@ test(
 test(
   "update group name and path",
   Effect.gen(function* () {
-    const groupName = "distilled-iam-group-update";
-    const newGroupName = "distilled-iam-group-updated";
+    const groupName = `${TEST_PREFIX}-distilled-iam-group-update`;
+    const newGroupName = `${TEST_PREFIX}-distilled-iam-group-updated`;
 
     // Clean up both possible names from previous runs
     yield* cleanupGroup(groupName);

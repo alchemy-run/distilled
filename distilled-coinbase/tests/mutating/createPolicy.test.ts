@@ -2,7 +2,7 @@ import { Effect } from "effect";
 import { describe, expect, it } from "vitest";
 import { createPolicy } from "../../src/operations/createPolicy";
 import { deletePolicy } from "../../src/operations/deletePolicy";
-import { runEffect } from "../setup";
+import { TEST_PREFIX, runEffect } from "../setup";
 
 describe("createPolicy", () => {
   it("can create and delete an account-scoped policy", async () => {
@@ -10,7 +10,7 @@ describe("createPolicy", () => {
     const result = await runEffect(
       createPolicy({
         scope: "account",
-        description: "distilled coinbase policy test",
+        description: `${TEST_PREFIX} distilled coinbase policy test`,
         rules: [
           {
             action: "reject",

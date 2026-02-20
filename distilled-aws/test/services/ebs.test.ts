@@ -9,7 +9,7 @@ import {
   startSnapshot,
 } from "../../src/services/ebs.ts";
 import { deleteSnapshot } from "../../src/services/ec2.ts";
-import { test } from "../test.ts";
+import { TEST_PREFIX, test } from "../test.ts";
 
 // ============================================================================
 // Constants
@@ -65,10 +65,11 @@ const waitForSnapshotReady = (snapshotId: string) =>
  * Cleans up snapshot after test completes (success or failure).
  */
 const withSnapshot = <A, E, R>(
-  description: string,
+  _description: string,
   testFn: (snapshotId: string) => Effect.Effect<A, E, R>,
 ) =>
   Effect.gen(function* () {
+    const description = `${TEST_PREFIX}-${_description}`;
     // Start a new snapshot (1 GiB minimum size)
     const startResult = yield* startSnapshot({
       VolumeSize: 1,

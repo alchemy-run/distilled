@@ -12,9 +12,9 @@ import {
   scan,
   updateItem,
 } from "../../src/services/dynamodb.ts";
-import { afterAll, beforeAll, test } from "../test.ts";
+import { TEST_PREFIX, afterAll, beforeAll, test } from "../test.ts";
 
-const TEST_TABLE_NAME = "distilled-aws-test-table";
+const TEST_TABLE_NAME = `${TEST_PREFIX}-distilled-aws-test-table`;
 
 const retrySchedule = Schedule.both(
   Schedule.recurs(30),

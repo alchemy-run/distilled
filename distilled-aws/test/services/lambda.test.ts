@@ -32,14 +32,14 @@ import {
   getQueueAttributes,
   sendMessage,
 } from "../../src/services/sqs.ts";
-import { beforeAll, test } from "../test.ts";
+import { TEST_PREFIX, beforeAll, test } from "../test.ts";
 
 const retrySchedule = Schedule.both(
   Schedule.recurs(10),
   Schedule.spaced("1 second"),
 );
 
-const TEST_ROLE_NAME = "distilled-aws-test-lambda-role";
+const TEST_ROLE_NAME = `${TEST_PREFIX}-distilled-aws-test-lambda-role`;
 
 // Trust policy that allows Lambda to assume the role
 const LAMBDA_TRUST_POLICY = JSON.stringify({
@@ -113,7 +113,7 @@ const waitForFunctionActive = (functionName: string) =>
  * Helper to create a Lambda function, run a test, and ensure cleanup.
  */
 const withFunction = <A, E, R>(
-  config: {
+  _config: {
     FunctionName: string;
     Runtime?: Runtime;
     Handler?: string;
@@ -127,6 +127,7 @@ const withFunction = <A, E, R>(
   }) => Effect.Effect<A, E, R>,
 ) =>
   Effect.gen(function* () {
+    const config = { ..._config, FunctionName: `${TEST_PREFIX}-${_config.FunctionName}` };
     const zipFile = yield* Effect.promise(() => getZipFile());
 
     // Delete existing function if it exists (idempotent setup)
@@ -164,7 +165,7 @@ const withFunction = <A, E, R>(
     });
   }).pipe(
     Effect.ensuring(
-      deleteFunction({ FunctionName: config.FunctionName }).pipe(Effect.ignore),
+      deleteFunction({ FunctionName: `${TEST_PREFIX}-${_config.FunctionName}` }).pipe(Effect.ignore),
     ),
   );
 
@@ -172,13 +173,14 @@ const withFunction = <A, E, R>(
  * Helper to create an SQS queue and ensure cleanup.
  */
 const withQueue = <A, E, R>(
-  queueName: string,
+  _queueName: string,
   use: (queue: {
     QueueUrl: string;
     QueueArn: string;
   }) => Effect.Effect<A, E, R>,
 ) =>
   Effect.gen(function* () {
+    const queueName = `${TEST_PREFIX}-${_queueName}`;
     // Delete existing queue if it exists
     yield* deleteQueue({
       QueueUrl: `https://sqs.us-east-1.amazonaws.com/${process.env.AWS_ACCOUNT_ID ?? "000000000000"}/${queueName}`,
@@ -207,7 +209,7 @@ const withQueue = <A, E, R>(
   }).pipe(
     Effect.ensuring(
       deleteQueue({
-        QueueUrl: `https://sqs.us-east-1.amazonaws.com/${process.env.AWS_ACCOUNT_ID ?? "000000000000"}/${queueName}`,
+        QueueUrl: `https://sqs.us-east-1.amazonaws.com/${process.env.AWS_ACCOUNT_ID ?? "000000000000"}/${`${TEST_PREFIX}-${_queueName}`}`,
       }).pipe(Effect.ignore),
     ),
   );
@@ -544,7 +546,7 @@ test(
   "create and delete a function",
   withFunction({ FunctionName: "lambda-test-createdelete" }, (func) =>
     Effect.gen(function* () {
-      expect(func.FunctionName).toEqual("lambda-test-createdelete");
+      expect(func.FunctionName).toEqual(`${TEST_PREFIX}-lambda-test-createdelete`);
 
       // Verify it exists
       const getResult = yield* getFunction({
