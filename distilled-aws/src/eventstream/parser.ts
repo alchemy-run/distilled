@@ -6,7 +6,6 @@
  */
 
 import * as Effect from "effect/Effect";
-import * as Option from "effect/Option";
 import * as Ref from "effect/Ref";
 import * as Stream from "effect/Stream";
 import {
@@ -42,29 +41,18 @@ export const parseEventStream = (
 ): Stream.Stream<StreamEvent, EventStreamParseError> => {
   // Convert ReadableStream to Effect Stream of chunks
   const chunkStream: Stream.Stream<Uint8Array, EventStreamDecodeError> =
-    Stream.unfoldEffect(
-      input.getReader(),
-      (
-        reader,
-      ): Effect.Effect<
-        Option.Option<
-          readonly [Uint8Array, ReadableStreamDefaultReader<Uint8Array>]
-        >,
-        EventStreamDecodeError
-      > =>
-        Effect.tryPromise({
-          try: () => reader.read(),
-          catch: (e) =>
-            new EventStreamDecodeError({
-              message: `Failed to read from stream: ${e}`,
-            }),
-        }).pipe(
-          Effect.map((result) =>
-            result.done
-              ? Option.none()
-              : Option.some([result.value, reader] as const),
-          ),
+    Stream.unfold(input.getReader(), (reader) =>
+      Effect.tryPromise({
+        try: () => reader.read(),
+        catch: (e) =>
+          new EventStreamDecodeError({
+            message: `Failed to read from stream: ${e}`,
+          }),
+      }).pipe(
+        Effect.map((result) =>
+          result.done ? undefined : ([result.value, reader] as const),
         ),
+      ),
     );
 
   // Process chunks with buffering to extract complete messages
@@ -152,6 +140,15 @@ export type ParsedEvent = Record<string, unknown>;
 export type PayloadParser = (payload: Uint8Array) => unknown;
 
 /**
+ * Raw text payload parser - returns payload as { payload: string }
+ * Useful when caller wants to handle parsing themselves
+ */
+export const rawPayloadParser: PayloadParser = (payload: Uint8Array) => {
+  const text = new TextDecoder().decode(payload);
+  return text ? { payload: text } : {};
+};
+
+/**
  * Default JSON payload parser
  */
 export const jsonPayloadParser: PayloadParser = (payload: Uint8Array) => {
@@ -163,15 +160,6 @@ export const jsonPayloadParser: PayloadParser = (payload: Uint8Array) => {
     // If payload isn't valid JSON, return as raw text
     return { payload: text };
   }
-};
-
-/**
- * Raw text payload parser - returns payload as { payload: string }
- * Useful when caller wants to handle parsing themselves
- */
-export const rawPayloadParser: PayloadParser = (payload: Uint8Array) => {
-  const text = new TextDecoder().decode(payload);
-  return text ? { payload: text } : {};
 };
 
 /**

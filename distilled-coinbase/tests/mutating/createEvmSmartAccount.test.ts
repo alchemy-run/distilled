@@ -8,7 +8,9 @@ describe("createEvmSmartAccount", () => {
   it("can create a smart account from an existing EVM account", async () => {
     const result = await runEffect(
       Effect.gen(function* () {
-        const owner = yield* createEvmAccount({ name: "distilled coinbase smart owner" });
+        const owner = yield* createEvmAccount({
+          name: "distilled coinbase smart owner",
+        });
         return yield* createEvmSmartAccount({ owners: [owner.address] });
       }).pipe(
         Effect.matchEffect({

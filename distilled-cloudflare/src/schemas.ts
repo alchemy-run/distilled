@@ -43,7 +43,7 @@ export const BlobSchema = Schema.declare(
  *
  * Accepts any file-like object that can be uploaded via multipart form.
  */
-export const UploadableSchema = Schema.Union(FileSchema, BlobSchema);
+export const UploadableSchema = Schema.Union([FileSchema, BlobSchema]);
 
 /**
  * TypeScript type for uploadable content.

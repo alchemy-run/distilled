@@ -26,7 +26,7 @@ export const ListGeneratedQueryPatternsReportsOutput = Schema.Struct({
   data: Schema.Array(
     Schema.Struct({
       id: Schema.String,
-      state: Schema.Literal("pending", "completed", "failed"),
+      state: Schema.Literals(["pending", "completed", "failed"]),
       created_at: Schema.String,
       finished_at: Schema.String,
       url: Schema.String,

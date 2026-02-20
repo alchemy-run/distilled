@@ -13,16 +13,16 @@ A fully typed AWS SDK for [Effect](https://effect.website), generated from [Smit
 ## Installation
 
 ```bash
-npm install distilled-aws effect @effect/platform
+npm install distilled-aws effect
 # or
-bun add distilled-aws effect @effect/platform
+bun add distilled-aws effect
 ```
 
 ## Quick Start
 
 ```typescript
 import { Effect } from "effect";
-import { FetchHttpClient } from "@effect/platform";
+import * as FetchHttpClient from "effect/unstable/http/FetchHttpClient";
 import * as s3 from "distilled-aws/s3";
 import { Credentials, Region } from "distilled-aws";
 
@@ -119,10 +119,10 @@ Effect.provide(Credentials.mock)
 
 ### HTTP Client
 
-Requires an HTTP client from `@effect/platform`:
+Requires an HTTP client:
 
 ```typescript
-import { FetchHttpClient } from "@effect/platform";
+import * as FetchHttpClient from "effect/unstable/http/FetchHttpClient";
 // or for Node.js
 import { NodeHttpClient } from "@effect/platform-node";
 
@@ -147,7 +147,7 @@ Effect.provideService(Endpoint, "http://localhost:4566")
 
 ```typescript
 import { Console, Effect, Stream } from "effect";
-import { FetchHttpClient } from "@effect/platform";
+import * as FetchHttpClient from "effect/unstable/http/FetchHttpClient";
 import * as s3 from "distilled-aws/s3";
 import { Credentials, Region } from "distilled-aws";
 
@@ -193,7 +193,7 @@ DynamoDB uses `AttributeValue` tagged unions for item data:
 
 ```typescript
 import { Console, Effect } from "effect";
-import { FetchHttpClient } from "@effect/platform";
+import * as FetchHttpClient from "effect/unstable/http/FetchHttpClient";
 import * as dynamodb from "distilled-aws/dynamodb";
 import { Credentials, Region } from "distilled-aws";
 
@@ -246,7 +246,7 @@ program.pipe(
 
 ```typescript
 import { Console, Effect, Stream } from "effect";
-import { FetchHttpClient } from "@effect/platform";
+import * as FetchHttpClient from "effect/unstable/http/FetchHttpClient";
 import * as lambda from "distilled-aws/lambda";
 import { Credentials, Region } from "distilled-aws";
 
@@ -312,7 +312,7 @@ program.pipe(
 
 ```typescript
 import { Effect } from "effect";
-import { FetchHttpClient } from "@effect/platform";
+import * as FetchHttpClient from "effect/unstable/http/FetchHttpClient";
 import * as s3 from "distilled-aws/s3";
 import { Credentials, Endpoint, Region } from "distilled-aws";
 
@@ -791,9 +791,9 @@ export class GetObjectOutput extends S.Class<GetObjectOutput>(
 Errors are `S.TaggedError` classes for typed error handling:
 
 ```typescript
-export class NoSuchKey extends S.TaggedError<NoSuchKey>()("NoSuchKey", {}) {}
+export class NoSuchKey extends S.TaggedErrorClass<NoSuchKey>()("NoSuchKey", {}) {}
 
-export class InvalidObjectState extends S.TaggedError<InvalidObjectState>()(
+export class InvalidObjectState extends S.TaggedErrorClass<InvalidObjectState>()(
   "InvalidObjectState",
   {
     StorageClass: S.optional(S.String),

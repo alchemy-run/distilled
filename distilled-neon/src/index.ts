@@ -4,7 +4,7 @@
  * @example
  * ```ts
  * import { Effect } from "effect";
- * import { FetchHttpClient } from "@effect/platform";
+ * import * as FetchHttpClient from "effect/unstable/http/FetchHttpClient";
  * import {
  *   getProject,
  *   Credentials,
@@ -26,9 +26,9 @@
  */
 
 // Core modules
-export * from "./errors";
-export * from "./credentials";
 export * from "./client";
+export * from "./credentials";
+export * from "./errors";
 export * from "./pagination";
 export * from "./sensitive";
 
@@ -36,7 +36,6 @@ export * from "./sensitive";
 export * as Category from "./category";
 export * as Retry from "./retry";
 export * as Traits from "./traits";
-export * as T from "./traits";
 
 // All operations
 export * from "./operations";

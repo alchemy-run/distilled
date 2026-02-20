@@ -7,7 +7,7 @@
 
 import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
-import type { HttpClient } from "@effect/platform";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
@@ -113,7 +113,7 @@ export interface GetAnalyticEventBytimeRequest {
 
 export const GetAnalyticEventBytimeRequest = Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  timeDelta: Schema.Literal(
+  timeDelta: Schema.Literals([
     "year",
     "quarter",
     "month",
@@ -122,14 +122,14 @@ export const GetAnalyticEventBytimeRequest = Schema.Struct({
     "hour",
     "dekaminute",
     "minute",
-  ).pipe(T.HttpQuery("time_delta")),
+  ]).pipe(T.HttpQuery("time_delta")),
   dimensions: Schema.optional(
-    Schema.Array(Schema.Literal("event", "appID", "coloName", "ipVersion")),
+    Schema.Array(Schema.Literals(["event", "appID", "coloName", "ipVersion"])),
   ).pipe(T.HttpQuery("dimensions")),
   filters: Schema.optional(Schema.String).pipe(T.HttpQuery("filters")),
   metrics: Schema.optional(
     Schema.Array(
-      Schema.Literal(
+      Schema.Literals([
         "count",
         "bytesIngress",
         "bytesEgress",
@@ -137,7 +137,7 @@ export const GetAnalyticEventBytimeRequest = Schema.Struct({
         "durationMedian",
         "duration90th",
         "duration99th",
-      ),
+      ]),
     ),
   ).pipe(T.HttpQuery("metrics")),
   since: Schema.optional(Schema.String).pipe(T.HttpQuery("since")),
@@ -189,25 +189,27 @@ export const GetAnalyticEventBytimeResponse = Schema.Struct({
     Schema.Struct({
       dimensions: Schema.optional(Schema.Array(Schema.String)),
       metrics: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Array(Schema.Number),
           Schema.Array(Schema.Array(Schema.Number)),
-        ),
+        ]),
       ),
     }),
   ),
-  dataLag: Schema.Number.pipe(T.JsonName("data_lag")),
+  dataLag: Schema.Number,
   max: Schema.Struct({}),
   min: Schema.Struct({}),
   query: Schema.Struct({
     dimensions: Schema.optional(
-      Schema.Array(Schema.Literal("event", "appID", "coloName", "ipVersion")),
+      Schema.Array(
+        Schema.Literals(["event", "appID", "coloName", "ipVersion"]),
+      ),
     ),
     filters: Schema.optional(Schema.String),
     limit: Schema.optional(Schema.Number),
     metrics: Schema.optional(
       Schema.Array(
-        Schema.Literal(
+        Schema.Literals([
           "count",
           "bytesIngress",
           "bytesEgress",
@@ -215,7 +217,7 @@ export const GetAnalyticEventBytimeResponse = Schema.Struct({
           "durationMedian",
           "duration90th",
           "duration99th",
-        ),
+        ]),
       ),
     ),
     since: Schema.optional(Schema.String),
@@ -224,10 +226,10 @@ export const GetAnalyticEventBytimeResponse = Schema.Struct({
   }),
   rows: Schema.Number,
   totals: Schema.Struct({}),
-  timeIntervals: Schema.optional(
-    Schema.Array(Schema.Array(Schema.String)),
-  ).pipe(T.JsonName("time_intervals")),
-}) as unknown as Schema.Schema<GetAnalyticEventBytimeResponse>;
+  timeIntervals: Schema.optional(Schema.Array(Schema.Array(Schema.String))),
+}).pipe(
+  Schema.encodeKeys({ dataLag: "data_lag", timeIntervals: "time_intervals" }),
+) as unknown as Schema.Schema<GetAnalyticEventBytimeResponse>;
 
 export const getAnalyticEventBytime: (
   input: GetAnalyticEventBytimeRequest,
@@ -273,12 +275,12 @@ export interface GetAnalyticEventSummaryRequest {
 export const GetAnalyticEventSummaryRequest = Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
   dimensions: Schema.optional(
-    Schema.Array(Schema.Literal("event", "appID", "coloName", "ipVersion")),
+    Schema.Array(Schema.Literals(["event", "appID", "coloName", "ipVersion"])),
   ).pipe(T.HttpQuery("dimensions")),
   filters: Schema.optional(Schema.String).pipe(T.HttpQuery("filters")),
   metrics: Schema.optional(
     Schema.Array(
-      Schema.Literal(
+      Schema.Literals([
         "count",
         "bytesIngress",
         "bytesEgress",
@@ -286,7 +288,7 @@ export const GetAnalyticEventSummaryRequest = Schema.Struct({
         "durationMedian",
         "duration90th",
         "duration99th",
-      ),
+      ]),
     ),
   ).pipe(T.HttpQuery("metrics")),
   since: Schema.optional(Schema.String).pipe(T.HttpQuery("since")),
@@ -338,25 +340,27 @@ export const GetAnalyticEventSummaryResponse = Schema.Struct({
     Schema.Struct({
       dimensions: Schema.optional(Schema.Array(Schema.String)),
       metrics: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Array(Schema.Number),
           Schema.Array(Schema.Array(Schema.Number)),
-        ),
+        ]),
       ),
     }),
   ),
-  dataLag: Schema.Number.pipe(T.JsonName("data_lag")),
+  dataLag: Schema.Number,
   max: Schema.Struct({}),
   min: Schema.Struct({}),
   query: Schema.Struct({
     dimensions: Schema.optional(
-      Schema.Array(Schema.Literal("event", "appID", "coloName", "ipVersion")),
+      Schema.Array(
+        Schema.Literals(["event", "appID", "coloName", "ipVersion"]),
+      ),
     ),
     filters: Schema.optional(Schema.String),
     limit: Schema.optional(Schema.Number),
     metrics: Schema.optional(
       Schema.Array(
-        Schema.Literal(
+        Schema.Literals([
           "count",
           "bytesIngress",
           "bytesEgress",
@@ -364,7 +368,7 @@ export const GetAnalyticEventSummaryResponse = Schema.Struct({
           "durationMedian",
           "duration90th",
           "duration99th",
-        ),
+        ]),
       ),
     ),
     since: Schema.optional(Schema.String),
@@ -373,10 +377,10 @@ export const GetAnalyticEventSummaryResponse = Schema.Struct({
   }),
   rows: Schema.Number,
   totals: Schema.Struct({}),
-  timeIntervals: Schema.optional(
-    Schema.Array(Schema.Array(Schema.String)),
-  ).pipe(T.JsonName("time_intervals")),
-}) as unknown as Schema.Schema<GetAnalyticEventSummaryResponse>;
+  timeIntervals: Schema.optional(Schema.Array(Schema.Array(Schema.String))),
+}).pipe(
+  Schema.encodeKeys({ dataLag: "data_lag", timeIntervals: "time_intervals" }),
+) as unknown as Schema.Schema<GetAnalyticEventSummaryResponse>;
 
 export const getAnalyticEventSummary: (
   input: GetAnalyticEventSummaryRequest,
@@ -433,44 +437,55 @@ export type GetAppResponse =
       originDirect?: string[];
     };
 
-export const GetAppResponse = Schema.Union(
+export const GetAppResponse = Schema.Union([
   Schema.Struct({
     id: Schema.String,
-    createdOn: Schema.String.pipe(T.JsonName("created_on")),
+    createdOn: Schema.String,
     dns: Schema.Unknown,
-    modifiedOn: Schema.String.pipe(T.JsonName("modified_on")),
+    modifiedOn: Schema.String,
     protocol: Schema.String,
-    trafficType: Schema.Literal("direct", "http", "https").pipe(
-      T.JsonName("traffic_type"),
-    ),
-    argoSmartRouting: Schema.optional(Schema.Boolean).pipe(
-      T.JsonName("argo_smart_routing"),
-    ),
-    edgeIps: Schema.optional(Schema.Unknown).pipe(T.JsonName("edge_ips")),
-    ipFirewall: Schema.optional(Schema.Boolean).pipe(T.JsonName("ip_firewall")),
-    originDirect: Schema.optional(Schema.Array(Schema.String)).pipe(
-      T.JsonName("origin_direct"),
-    ),
-    originDns: Schema.optional(Schema.Unknown).pipe(T.JsonName("origin_dns")),
-    originPort: Schema.optional(
-      Schema.Union(Schema.String, Schema.Number),
-    ).pipe(T.JsonName("origin_port")),
+    trafficType: Schema.Literals(["direct", "http", "https"]),
+    argoSmartRouting: Schema.optional(Schema.Boolean),
+    edgeIps: Schema.optional(Schema.Unknown),
+    ipFirewall: Schema.optional(Schema.Boolean),
+    originDirect: Schema.optional(Schema.Array(Schema.String)),
+    originDns: Schema.optional(Schema.Unknown),
+    originPort: Schema.optional(Schema.Union([Schema.String, Schema.Number])),
     proxyProtocol: Schema.optional(
-      Schema.Literal("off", "v1", "v2", "simple"),
-    ).pipe(T.JsonName("proxy_protocol")),
-    tls: Schema.optional(Schema.Literal("off", "flexible", "full", "strict")),
-  }),
+      Schema.Literals(["off", "v1", "v2", "simple"]),
+    ),
+    tls: Schema.optional(
+      Schema.Literals(["off", "flexible", "full", "strict"]),
+    ),
+  }).pipe(
+    Schema.encodeKeys({
+      createdOn: "created_on",
+      modifiedOn: "modified_on",
+      trafficType: "traffic_type",
+      argoSmartRouting: "argo_smart_routing",
+      edgeIps: "edge_ips",
+      ipFirewall: "ip_firewall",
+      originDirect: "origin_direct",
+      originDns: "origin_dns",
+      originPort: "origin_port",
+      proxyProtocol: "proxy_protocol",
+    }),
+  ),
   Schema.Struct({
     id: Schema.String,
-    createdOn: Schema.String.pipe(T.JsonName("created_on")),
+    createdOn: Schema.String,
     dns: Schema.Unknown,
-    modifiedOn: Schema.String.pipe(T.JsonName("modified_on")),
+    modifiedOn: Schema.String,
     protocol: Schema.String,
-    originDirect: Schema.optional(Schema.Array(Schema.String)).pipe(
-      T.JsonName("origin_direct"),
-    ),
-  }),
-) as unknown as Schema.Schema<GetAppResponse>;
+    originDirect: Schema.optional(Schema.Array(Schema.String)),
+  }).pipe(
+    Schema.encodeKeys({
+      createdOn: "created_on",
+      modifiedOn: "modified_on",
+      originDirect: "origin_direct",
+    }),
+  ),
+]) as unknown as Schema.Schema<GetAppResponse>;
 
 export const getApp: (
   input: GetAppRequest,
@@ -516,44 +531,55 @@ export type CreateAppResponse =
       originDirect?: string[];
     };
 
-export const CreateAppResponse = Schema.Union(
+export const CreateAppResponse = Schema.Union([
   Schema.Struct({
     id: Schema.String,
-    createdOn: Schema.String.pipe(T.JsonName("created_on")),
+    createdOn: Schema.String,
     dns: Schema.Unknown,
-    modifiedOn: Schema.String.pipe(T.JsonName("modified_on")),
+    modifiedOn: Schema.String,
     protocol: Schema.String,
-    trafficType: Schema.Literal("direct", "http", "https").pipe(
-      T.JsonName("traffic_type"),
-    ),
-    argoSmartRouting: Schema.optional(Schema.Boolean).pipe(
-      T.JsonName("argo_smart_routing"),
-    ),
-    edgeIps: Schema.optional(Schema.Unknown).pipe(T.JsonName("edge_ips")),
-    ipFirewall: Schema.optional(Schema.Boolean).pipe(T.JsonName("ip_firewall")),
-    originDirect: Schema.optional(Schema.Array(Schema.String)).pipe(
-      T.JsonName("origin_direct"),
-    ),
-    originDns: Schema.optional(Schema.Unknown).pipe(T.JsonName("origin_dns")),
-    originPort: Schema.optional(
-      Schema.Union(Schema.String, Schema.Number),
-    ).pipe(T.JsonName("origin_port")),
+    trafficType: Schema.Literals(["direct", "http", "https"]),
+    argoSmartRouting: Schema.optional(Schema.Boolean),
+    edgeIps: Schema.optional(Schema.Unknown),
+    ipFirewall: Schema.optional(Schema.Boolean),
+    originDirect: Schema.optional(Schema.Array(Schema.String)),
+    originDns: Schema.optional(Schema.Unknown),
+    originPort: Schema.optional(Schema.Union([Schema.String, Schema.Number])),
     proxyProtocol: Schema.optional(
-      Schema.Literal("off", "v1", "v2", "simple"),
-    ).pipe(T.JsonName("proxy_protocol")),
-    tls: Schema.optional(Schema.Literal("off", "flexible", "full", "strict")),
-  }),
+      Schema.Literals(["off", "v1", "v2", "simple"]),
+    ),
+    tls: Schema.optional(
+      Schema.Literals(["off", "flexible", "full", "strict"]),
+    ),
+  }).pipe(
+    Schema.encodeKeys({
+      createdOn: "created_on",
+      modifiedOn: "modified_on",
+      trafficType: "traffic_type",
+      argoSmartRouting: "argo_smart_routing",
+      edgeIps: "edge_ips",
+      ipFirewall: "ip_firewall",
+      originDirect: "origin_direct",
+      originDns: "origin_dns",
+      originPort: "origin_port",
+      proxyProtocol: "proxy_protocol",
+    }),
+  ),
   Schema.Struct({
     id: Schema.String,
-    createdOn: Schema.String.pipe(T.JsonName("created_on")),
+    createdOn: Schema.String,
     dns: Schema.Unknown,
-    modifiedOn: Schema.String.pipe(T.JsonName("modified_on")),
+    modifiedOn: Schema.String,
     protocol: Schema.String,
-    originDirect: Schema.optional(Schema.Array(Schema.String)).pipe(
-      T.JsonName("origin_direct"),
-    ),
-  }),
-) as unknown as Schema.Schema<CreateAppResponse>;
+    originDirect: Schema.optional(Schema.Array(Schema.String)),
+  }).pipe(
+    Schema.encodeKeys({
+      createdOn: "created_on",
+      modifiedOn: "modified_on",
+      originDirect: "origin_direct",
+    }),
+  ),
+]) as unknown as Schema.Schema<CreateAppResponse>;
 
 export const createApp: (
   input: CreateAppRequest,
@@ -603,44 +629,55 @@ export type UpdateAppResponse =
       originDirect?: string[];
     };
 
-export const UpdateAppResponse = Schema.Union(
+export const UpdateAppResponse = Schema.Union([
   Schema.Struct({
     id: Schema.String,
-    createdOn: Schema.String.pipe(T.JsonName("created_on")),
+    createdOn: Schema.String,
     dns: Schema.Unknown,
-    modifiedOn: Schema.String.pipe(T.JsonName("modified_on")),
+    modifiedOn: Schema.String,
     protocol: Schema.String,
-    trafficType: Schema.Literal("direct", "http", "https").pipe(
-      T.JsonName("traffic_type"),
-    ),
-    argoSmartRouting: Schema.optional(Schema.Boolean).pipe(
-      T.JsonName("argo_smart_routing"),
-    ),
-    edgeIps: Schema.optional(Schema.Unknown).pipe(T.JsonName("edge_ips")),
-    ipFirewall: Schema.optional(Schema.Boolean).pipe(T.JsonName("ip_firewall")),
-    originDirect: Schema.optional(Schema.Array(Schema.String)).pipe(
-      T.JsonName("origin_direct"),
-    ),
-    originDns: Schema.optional(Schema.Unknown).pipe(T.JsonName("origin_dns")),
-    originPort: Schema.optional(
-      Schema.Union(Schema.String, Schema.Number),
-    ).pipe(T.JsonName("origin_port")),
+    trafficType: Schema.Literals(["direct", "http", "https"]),
+    argoSmartRouting: Schema.optional(Schema.Boolean),
+    edgeIps: Schema.optional(Schema.Unknown),
+    ipFirewall: Schema.optional(Schema.Boolean),
+    originDirect: Schema.optional(Schema.Array(Schema.String)),
+    originDns: Schema.optional(Schema.Unknown),
+    originPort: Schema.optional(Schema.Union([Schema.String, Schema.Number])),
     proxyProtocol: Schema.optional(
-      Schema.Literal("off", "v1", "v2", "simple"),
-    ).pipe(T.JsonName("proxy_protocol")),
-    tls: Schema.optional(Schema.Literal("off", "flexible", "full", "strict")),
-  }),
+      Schema.Literals(["off", "v1", "v2", "simple"]),
+    ),
+    tls: Schema.optional(
+      Schema.Literals(["off", "flexible", "full", "strict"]),
+    ),
+  }).pipe(
+    Schema.encodeKeys({
+      createdOn: "created_on",
+      modifiedOn: "modified_on",
+      trafficType: "traffic_type",
+      argoSmartRouting: "argo_smart_routing",
+      edgeIps: "edge_ips",
+      ipFirewall: "ip_firewall",
+      originDirect: "origin_direct",
+      originDns: "origin_dns",
+      originPort: "origin_port",
+      proxyProtocol: "proxy_protocol",
+    }),
+  ),
   Schema.Struct({
     id: Schema.String,
-    createdOn: Schema.String.pipe(T.JsonName("created_on")),
+    createdOn: Schema.String,
     dns: Schema.Unknown,
-    modifiedOn: Schema.String.pipe(T.JsonName("modified_on")),
+    modifiedOn: Schema.String,
     protocol: Schema.String,
-    originDirect: Schema.optional(Schema.Array(Schema.String)).pipe(
-      T.JsonName("origin_direct"),
-    ),
-  }),
-) as unknown as Schema.Schema<UpdateAppResponse>;
+    originDirect: Schema.optional(Schema.Array(Schema.String)),
+  }).pipe(
+    Schema.encodeKeys({
+      createdOn: "created_on",
+      modifiedOn: "modified_on",
+      originDirect: "origin_direct",
+    }),
+  ),
+]) as unknown as Schema.Schema<UpdateAppResponse>;
 
 export const updateApp: (
   input: UpdateAppRequest,

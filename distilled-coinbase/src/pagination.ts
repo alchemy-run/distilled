@@ -1,4 +1,4 @@
-import { Effect, Option, Schema, Stream } from "effect";
+import { Effect, Schema, Stream } from "effect";
 
 /**
  * Pagination trait for Coinbase CDP APIs.
@@ -74,7 +74,7 @@ export const paginatePages = <
   const unfoldFn = (state: State) =>
     Effect.gen(function* () {
       if (state.done) {
-        return Option.none();
+        return undefined;
       }
 
       const requestPayload = {
@@ -95,10 +95,10 @@ export const paginatePages = <
         done: !nextPageToken || nextPageToken === "",
       };
 
-      return Option.some([response, nextState] as const);
+      return [response, nextState] as const;
     });
 
-  return Stream.unfoldEffect(
+  return Stream.unfold(
     { pageToken: undefined, done: false } as State,
     unfoldFn,
   );

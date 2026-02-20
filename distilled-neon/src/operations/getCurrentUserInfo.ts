@@ -3,55 +3,114 @@ import { API } from "../client";
 import * as T from "../traits";
 
 // Input Schema
-export const GetCurrentUserInfoInput = Schema.Struct({
-
-}).pipe(T.Http({ method: "GET", path: "/users/me" }));
+export const GetCurrentUserInfoInput = Schema.Struct({}).pipe(
+  T.Http({ method: "GET", path: "/users/me" }),
+);
 export type GetCurrentUserInfoInput = typeof GetCurrentUserInfoInput.Type;
 
 // Output Schema
 export const GetCurrentUserInfoOutput = Schema.Struct({
   active_seconds_limit: Schema.Number,
-  billing_account: Schema.optional(Schema.Struct({
-    state: Schema.Literal("UNKNOWN", "active", "suspended", "deactivated", "deleted"),
-    payment_source: Schema.Struct({
-      type: Schema.String,
-      card: Schema.optional(Schema.Struct({
-        last4: Schema.String,
-        brand: Schema.optional(Schema.Literal("amex", "diners", "discover", "jcb", "mastercard", "unionpay", "unknown", "visa")),
-        exp_month: Schema.optional(Schema.Number),
-        exp_year: Schema.optional(Schema.Number),
-      })),
-    }),
-    subscription_type: Schema.Literal("UNKNOWN", "direct_sales", "direct_sales_v3", "aws_marketplace", "free_v2", "free_v3", "launch", "launch_v3", "scale", "scale_v3", "business", "vercel_pg_legacy"),
-    payment_method: Schema.Literal("UNKNOWN", "none", "stripe", "direct_payment", "aws_mp", "azure_mp", "vercel_mp", "staff", "trial", "sponsorship"),
-    quota_reset_at_last: Schema.String,
-    name: Schema.String,
-    email: Schema.String,
-    address_city: Schema.String,
-    address_country: Schema.String,
-    address_country_name: Schema.optional(Schema.String),
-    address_line1: Schema.String,
-    address_line2: Schema.String,
-    address_postal_code: Schema.String,
-    address_state: Schema.String,
-    orb_portal_url: Schema.optional(Schema.String),
-    tax_id: Schema.optional(Schema.String),
-    tax_id_type: Schema.optional(Schema.String),
-    plan_details: Schema.optional(Schema.Struct({
+  billing_account: Schema.optional(
+    Schema.Struct({
+      state: Schema.Literals([
+        "UNKNOWN",
+        "active",
+        "suspended",
+        "deactivated",
+        "deleted",
+      ]),
+      payment_source: Schema.Struct({
+        type: Schema.String,
+        card: Schema.optional(
+          Schema.Struct({
+            last4: Schema.String,
+            brand: Schema.optional(
+              Schema.Literals([
+                "amex",
+                "diners",
+                "discover",
+                "jcb",
+                "mastercard",
+                "unionpay",
+                "unknown",
+                "visa",
+              ]),
+            ),
+            exp_month: Schema.optional(Schema.Number),
+            exp_year: Schema.optional(Schema.Number),
+          }),
+        ),
+      }),
+      subscription_type: Schema.Literals([
+        "UNKNOWN",
+        "direct_sales",
+        "direct_sales_v3",
+        "aws_marketplace",
+        "free_v2",
+        "free_v3",
+        "launch",
+        "launch_v3",
+        "scale",
+        "scale_v3",
+        "business",
+        "vercel_pg_legacy",
+      ]),
+      payment_method: Schema.Literals([
+        "UNKNOWN",
+        "none",
+        "stripe",
+        "direct_payment",
+        "aws_mp",
+        "azure_mp",
+        "vercel_mp",
+        "staff",
+        "trial",
+        "sponsorship",
+      ]),
+      quota_reset_at_last: Schema.String,
       name: Schema.String,
-      version: Schema.optional(Schema.Struct({
-        major: Schema.Number,
-        minor: Schema.Number,
-      })),
-    })),
-  })),
-  auth_accounts: Schema.Array(Schema.Struct({
-    email: Schema.String,
-    image: Schema.String,
-    login: Schema.String,
-    name: Schema.String,
-    provider: Schema.Literal("github", "google", "hasura", "microsoft", "microsoftv2", "vercelmp", "keycloak"),
-  })),
+      email: Schema.String,
+      address_city: Schema.String,
+      address_country: Schema.String,
+      address_country_name: Schema.optional(Schema.String),
+      address_line1: Schema.String,
+      address_line2: Schema.String,
+      address_postal_code: Schema.String,
+      address_state: Schema.String,
+      orb_portal_url: Schema.optional(Schema.String),
+      tax_id: Schema.optional(Schema.String),
+      tax_id_type: Schema.optional(Schema.String),
+      plan_details: Schema.optional(
+        Schema.Struct({
+          name: Schema.String,
+          version: Schema.optional(
+            Schema.Struct({
+              major: Schema.Number,
+              minor: Schema.Number,
+            }),
+          ),
+        }),
+      ),
+    }),
+  ),
+  auth_accounts: Schema.Array(
+    Schema.Struct({
+      email: Schema.String,
+      image: Schema.String,
+      login: Schema.String,
+      name: Schema.String,
+      provider: Schema.Literals([
+        "github",
+        "google",
+        "hasura",
+        "microsoft",
+        "microsoftv2",
+        "vercelmp",
+        "keycloak",
+      ]),
+    }),
+  ),
   email: Schema.String,
   id: Schema.String,
   image: Schema.String,

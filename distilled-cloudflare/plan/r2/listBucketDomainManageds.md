@@ -53,7 +53,7 @@ const withBucket = <A, E, R>(
 **Implementation:**
 
 - Bucket name: `distilled-cf-r2-listbucketdomainmanageds`
-- Cleanup first: Delete the bucket (ignore errors with `Effect.catchAll(() => Effect.void)`)
+- Cleanup first: Delete the bucket (ignore errors with `Effect.catch(() => Effect.void)`)
 - Create bucket with `createBucket`
 - Run test function with `Effect.ensuring()` for guaranteed cleanup
 - Finally: Delete the bucket (ignore errors)
@@ -114,7 +114,7 @@ const withBucket = <A, E, R>(
   const accountId = getAccountId();
 
   const cleanup = R2.deleteBucket({ accountId, bucketName }).pipe(
-    Effect.catchAll(() => Effect.void)
+    Effect.catch(() => Effect.void)
   );
 
   return Effect.gen(function* () {

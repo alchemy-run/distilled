@@ -1,18 +1,20 @@
-import { FetchHttpClient, FileSystem, HttpClient } from "@effect/platform";
-import { NodeContext } from "@effect/platform-node";
-import * as Path from "@effect/platform/Path";
-import * as PlatformConfigProvider from "@effect/platform/PlatformConfigProvider";
+import { NodeServices } from "@effect/platform-node";
 import {
   afterAll as _afterAll,
   beforeAll as _beforeAll,
   it,
   type TestContext,
 } from "@effect/vitest";
-import { ConfigProvider, LogLevel } from "effect";
+import * as ConfigProvider from "effect/ConfigProvider";
 import * as Effect from "effect/Effect";
+import * as FileSystem from "effect/FileSystem";
 import * as Layer from "effect/Layer";
 import * as Logger from "effect/Logger";
+import * as Path from "effect/Path";
+import { MinimumLogLevel } from "effect/References";
 import * as Scope from "effect/Scope";
+import * as FetchHttpClient from "effect/unstable/http/FetchHttpClient";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as Credentials from "../src/credentials.ts";
 import { Endpoint } from "../src/endpoint.ts";
 import { Region } from "../src/region.ts";
@@ -27,9 +29,9 @@ type Provided =
   | Credentials.Credentials;
 
 const platform = Layer.mergeAll(
-  NodeContext.layer,
+  NodeServices.layer,
   FetchHttpClient.layer,
-  Logger.pretty,
+  Logger.layer([Logger.consolePretty()]),
 );
 
 type TestCase =
@@ -51,24 +53,34 @@ export function test(
   const [options = {}, testCase] =
     args.length === 1 ? [undefined, args[0]] : args;
 
-  return it.scopedLive(
+  return it.live(
     name,
     (ctx) => {
       const effect = typeof testCase === "function" ? testCase(ctx) : testCase;
       return provideTestEnv(
         Effect.gen(function* () {
           const fs = yield* FileSystem.FileSystem;
-          if (yield* fs.exists(".env")) {
+          if (
+            yield* fs
+              .exists(".env")
+              .pipe(Effect.catch(() => Effect.succeed(false)))
+          ) {
             const configProvider = ConfigProvider.orElse(
-              yield* PlatformConfigProvider.fromDotEnv(".env"),
-              ConfigProvider.fromEnv,
+              yield* ConfigProvider.fromDotEnv({ path: ".env" }),
+              ConfigProvider.fromEnv(),
             );
             return yield* effect.pipe(
-              Effect.withConfigProvider(configProvider),
+              Effect.provideService(
+                ConfigProvider.ConfigProvider,
+                configProvider,
+              ),
             );
           } else {
             return yield* effect.pipe(
-              Effect.withConfigProvider(ConfigProvider.fromEnv()),
+              Effect.provideService(
+                ConfigProvider.ConfigProvider,
+                ConfigProvider.fromEnv(),
+              ),
             );
           }
         }),
@@ -110,10 +122,11 @@ function provideTestEnv<A, E, R extends Provided>(
   let eff = effect.pipe(
     Effect.provide(platform),
     Effect.provideService(Region, "us-east-1"),
-    Logger.withMinimumLogLevel(
-      process.env.DEBUG ? LogLevel.Debug : LogLevel.Info,
+    Effect.provideService(
+      MinimumLogLevel,
+      process.env.DEBUG ? "Debug" : "Info",
     ),
-    Effect.provide(NodeContext.layer),
+    Effect.provide(NodeServices.layer),
     Retry.transient,
   );
 

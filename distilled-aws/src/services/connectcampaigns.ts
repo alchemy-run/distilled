@@ -1,4 +1,4 @@
-import { HttpClient } from "@effect/platform";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as effect from "effect/Effect";
 import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
@@ -89,365 +89,36 @@ const rules = T.EndpointResolver((p, _) => {
 //# Newtypes
 export type CampaignName = string;
 export type InstanceId = string;
-export type CampaignId = string;
-export type MaxResults = number;
-export type NextToken = string;
-export type Arn = string;
-export type TagKey = string;
+export type BandwidthAllocation = number;
+export type DialingCapacity = number;
 export type ContactFlowId = string;
 export type SourcePhoneNumber = string;
 export type QueueId = string;
+export type TagKey = string;
 export type TagValue = string;
-export type ClientToken = string;
-export type DestinationPhoneNumber = string | redacted.Redacted<string>;
+export type CampaignId = string;
+export type CampaignArn = string;
+export type XAmazonErrorType = string;
+export type CampaignState = string;
+export type GetCampaignStateBatchFailureCode = string;
+export type ServiceLinkedRoleArn = string;
 export type Enabled = boolean;
 export type EncryptionType = string;
 export type EncryptionKey = string;
-export type XAmazonErrorType = string;
-export type CampaignState = string;
-export type BandwidthAllocation = number;
-export type DialingCapacity = number;
-export type InstanceIdFilterOperator = string;
-export type AttributeName = string;
-export type AttributeValue = string;
-export type CampaignArn = string;
-export type GetCampaignStateBatchFailureCode = string;
-export type ServiceLinkedRoleArn = string;
 export type InstanceOnboardingJobStatusCode = string;
 export type InstanceOnboardingJobFailureCode = string;
+export type MaxResults = number;
+export type NextToken = string;
+export type InstanceIdFilterOperator = string;
+export type Arn = string;
+export type ClientToken = string;
+export type DestinationPhoneNumber = string | redacted.Redacted<string>;
+export type AttributeName = string;
+export type AttributeValue = string;
 export type DialRequestId = string;
 export type FailureCode = string;
 
 //# Schemas
-export type CampaignIdList = string[];
-export const CampaignIdList = S.Array(S.String);
-export type TagKeyList = string[];
-export const TagKeyList = S.Array(S.String);
-export interface DeleteCampaignRequest {
-  id: string;
-}
-export const DeleteCampaignRequest = S.suspend(() =>
-  S.Struct({ id: S.String.pipe(T.HttpLabel("id")) }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/campaigns/{id}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DeleteCampaignRequest",
-}) as any as S.Schema<DeleteCampaignRequest>;
-export interface DeleteCampaignResponse {}
-export const DeleteCampaignResponse = S.suspend(() => S.Struct({})).annotations(
-  { identifier: "DeleteCampaignResponse" },
-) as any as S.Schema<DeleteCampaignResponse>;
-export interface DeleteConnectInstanceConfigRequest {
-  connectInstanceId: string;
-}
-export const DeleteConnectInstanceConfigRequest = S.suspend(() =>
-  S.Struct({
-    connectInstanceId: S.String.pipe(T.HttpLabel("connectInstanceId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/connect-instance/{connectInstanceId}/config",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DeleteConnectInstanceConfigRequest",
-}) as any as S.Schema<DeleteConnectInstanceConfigRequest>;
-export interface DeleteConnectInstanceConfigResponse {}
-export const DeleteConnectInstanceConfigResponse = S.suspend(() =>
-  S.Struct({}),
-).annotations({
-  identifier: "DeleteConnectInstanceConfigResponse",
-}) as any as S.Schema<DeleteConnectInstanceConfigResponse>;
-export interface DeleteInstanceOnboardingJobRequest {
-  connectInstanceId: string;
-}
-export const DeleteInstanceOnboardingJobRequest = S.suspend(() =>
-  S.Struct({
-    connectInstanceId: S.String.pipe(T.HttpLabel("connectInstanceId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/connect-instance/{connectInstanceId}/onboarding",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DeleteInstanceOnboardingJobRequest",
-}) as any as S.Schema<DeleteInstanceOnboardingJobRequest>;
-export interface DeleteInstanceOnboardingJobResponse {}
-export const DeleteInstanceOnboardingJobResponse = S.suspend(() =>
-  S.Struct({}),
-).annotations({
-  identifier: "DeleteInstanceOnboardingJobResponse",
-}) as any as S.Schema<DeleteInstanceOnboardingJobResponse>;
-export interface DescribeCampaignRequest {
-  id: string;
-}
-export const DescribeCampaignRequest = S.suspend(() =>
-  S.Struct({ id: S.String.pipe(T.HttpLabel("id")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/campaigns/{id}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DescribeCampaignRequest",
-}) as any as S.Schema<DescribeCampaignRequest>;
-export interface GetCampaignStateRequest {
-  id: string;
-}
-export const GetCampaignStateRequest = S.suspend(() =>
-  S.Struct({ id: S.String.pipe(T.HttpLabel("id")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/campaigns/{id}/state" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "GetCampaignStateRequest",
-}) as any as S.Schema<GetCampaignStateRequest>;
-export interface GetCampaignStateBatchRequest {
-  campaignIds: string[];
-}
-export const GetCampaignStateBatchRequest = S.suspend(() =>
-  S.Struct({ campaignIds: CampaignIdList }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/campaigns-state" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "GetCampaignStateBatchRequest",
-}) as any as S.Schema<GetCampaignStateBatchRequest>;
-export interface GetConnectInstanceConfigRequest {
-  connectInstanceId: string;
-}
-export const GetConnectInstanceConfigRequest = S.suspend(() =>
-  S.Struct({
-    connectInstanceId: S.String.pipe(T.HttpLabel("connectInstanceId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/connect-instance/{connectInstanceId}/config",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "GetConnectInstanceConfigRequest",
-}) as any as S.Schema<GetConnectInstanceConfigRequest>;
-export interface GetInstanceOnboardingJobStatusRequest {
-  connectInstanceId: string;
-}
-export const GetInstanceOnboardingJobStatusRequest = S.suspend(() =>
-  S.Struct({
-    connectInstanceId: S.String.pipe(T.HttpLabel("connectInstanceId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/connect-instance/{connectInstanceId}/onboarding",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "GetInstanceOnboardingJobStatusRequest",
-}) as any as S.Schema<GetInstanceOnboardingJobStatusRequest>;
-export interface ListTagsForResourceRequest {
-  arn: string;
-}
-export const ListTagsForResourceRequest = S.suspend(() =>
-  S.Struct({ arn: S.String.pipe(T.HttpLabel("arn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/tags/{arn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListTagsForResourceRequest",
-}) as any as S.Schema<ListTagsForResourceRequest>;
-export interface PauseCampaignRequest {
-  id: string;
-}
-export const PauseCampaignRequest = S.suspend(() =>
-  S.Struct({ id: S.String.pipe(T.HttpLabel("id")) }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/campaigns/{id}/pause" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "PauseCampaignRequest",
-}) as any as S.Schema<PauseCampaignRequest>;
-export interface PauseCampaignResponse {}
-export const PauseCampaignResponse = S.suspend(() => S.Struct({})).annotations({
-  identifier: "PauseCampaignResponse",
-}) as any as S.Schema<PauseCampaignResponse>;
-export interface ResumeCampaignRequest {
-  id: string;
-}
-export const ResumeCampaignRequest = S.suspend(() =>
-  S.Struct({ id: S.String.pipe(T.HttpLabel("id")) }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/campaigns/{id}/resume" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ResumeCampaignRequest",
-}) as any as S.Schema<ResumeCampaignRequest>;
-export interface ResumeCampaignResponse {}
-export const ResumeCampaignResponse = S.suspend(() => S.Struct({})).annotations(
-  { identifier: "ResumeCampaignResponse" },
-) as any as S.Schema<ResumeCampaignResponse>;
-export interface StartCampaignRequest {
-  id: string;
-}
-export const StartCampaignRequest = S.suspend(() =>
-  S.Struct({ id: S.String.pipe(T.HttpLabel("id")) }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/campaigns/{id}/start" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "StartCampaignRequest",
-}) as any as S.Schema<StartCampaignRequest>;
-export interface StartCampaignResponse {}
-export const StartCampaignResponse = S.suspend(() => S.Struct({})).annotations({
-  identifier: "StartCampaignResponse",
-}) as any as S.Schema<StartCampaignResponse>;
-export interface StopCampaignRequest {
-  id: string;
-}
-export const StopCampaignRequest = S.suspend(() =>
-  S.Struct({ id: S.String.pipe(T.HttpLabel("id")) }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/campaigns/{id}/stop" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "StopCampaignRequest",
-}) as any as S.Schema<StopCampaignRequest>;
-export interface StopCampaignResponse {}
-export const StopCampaignResponse = S.suspend(() => S.Struct({})).annotations({
-  identifier: "StopCampaignResponse",
-}) as any as S.Schema<StopCampaignResponse>;
-export type TagMap = { [key: string]: string | undefined };
-export const TagMap = S.Record({
-  key: S.String,
-  value: S.UndefinedOr(S.String),
-});
-export interface TagResourceRequest {
-  arn: string;
-  tags: { [key: string]: string | undefined };
-}
-export const TagResourceRequest = S.suspend(() =>
-  S.Struct({ arn: S.String.pipe(T.HttpLabel("arn")), tags: TagMap }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/tags/{arn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
-export interface TagResourceResponse {}
-export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
-  identifier: "TagResourceResponse",
-}) as any as S.Schema<TagResourceResponse>;
-export interface UntagResourceRequest {
-  arn: string;
-  tagKeys: string[];
-}
-export const UntagResourceRequest = S.suspend(() =>
-  S.Struct({
-    arn: S.String.pipe(T.HttpLabel("arn")),
-    tagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/tags/{arn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
-export interface UntagResourceResponse {}
-export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
-  identifier: "UntagResourceResponse",
-}) as any as S.Schema<UntagResourceResponse>;
 export interface ProgressiveDialerConfig {
   bandwidthAllocation: number;
   dialingCapacity?: number;
@@ -457,7 +128,7 @@ export const ProgressiveDialerConfig = S.suspend(() =>
     bandwidthAllocation: S.Number,
     dialingCapacity: S.optional(S.Number),
   }),
-).annotations({
+).annotate({
   identifier: "ProgressiveDialerConfig",
 }) as any as S.Schema<ProgressiveDialerConfig>;
 export interface PredictiveDialerConfig {
@@ -469,7 +140,7 @@ export const PredictiveDialerConfig = S.suspend(() =>
     bandwidthAllocation: S.Number,
     dialingCapacity: S.optional(S.Number),
   }),
-).annotations({
+).annotate({
   identifier: "PredictiveDialerConfig",
 }) as any as S.Schema<PredictiveDialerConfig>;
 export interface AgentlessDialerConfig {
@@ -477,7 +148,7 @@ export interface AgentlessDialerConfig {
 }
 export const AgentlessDialerConfig = S.suspend(() =>
   S.Struct({ dialingCapacity: S.optional(S.Number) }),
-).annotations({
+).annotate({
   identifier: "AgentlessDialerConfig",
 }) as any as S.Schema<AgentlessDialerConfig>;
 export type DialerConfig =
@@ -496,62 +167,11 @@ export type DialerConfig =
       predictiveDialerConfig?: never;
       agentlessDialerConfig: AgentlessDialerConfig;
     };
-export const DialerConfig = S.Union(
+export const DialerConfig = S.Union([
   S.Struct({ progressiveDialerConfig: ProgressiveDialerConfig }),
   S.Struct({ predictiveDialerConfig: PredictiveDialerConfig }),
   S.Struct({ agentlessDialerConfig: AgentlessDialerConfig }),
-);
-export interface UpdateCampaignDialerConfigRequest {
-  id: string;
-  dialerConfig: DialerConfig;
-}
-export const UpdateCampaignDialerConfigRequest = S.suspend(() =>
-  S.Struct({
-    id: S.String.pipe(T.HttpLabel("id")),
-    dialerConfig: DialerConfig,
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/campaigns/{id}/dialer-config" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "UpdateCampaignDialerConfigRequest",
-}) as any as S.Schema<UpdateCampaignDialerConfigRequest>;
-export interface UpdateCampaignDialerConfigResponse {}
-export const UpdateCampaignDialerConfigResponse = S.suspend(() =>
-  S.Struct({}),
-).annotations({
-  identifier: "UpdateCampaignDialerConfigResponse",
-}) as any as S.Schema<UpdateCampaignDialerConfigResponse>;
-export interface UpdateCampaignNameRequest {
-  id: string;
-  name: string;
-}
-export const UpdateCampaignNameRequest = S.suspend(() =>
-  S.Struct({ id: S.String.pipe(T.HttpLabel("id")), name: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/campaigns/{id}/name" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "UpdateCampaignNameRequest",
-}) as any as S.Schema<UpdateCampaignNameRequest>;
-export interface UpdateCampaignNameResponse {}
-export const UpdateCampaignNameResponse = S.suspend(() =>
-  S.Struct({}),
-).annotations({
-  identifier: "UpdateCampaignNameResponse",
-}) as any as S.Schema<UpdateCampaignNameResponse>;
+]);
 export interface AnswerMachineDetectionConfig {
   enableAnswerMachineDetection: boolean;
   awaitAnswerMachinePrompt?: boolean;
@@ -561,7 +181,7 @@ export const AnswerMachineDetectionConfig = S.suspend(() =>
     enableAnswerMachineDetection: S.Boolean,
     awaitAnswerMachinePrompt: S.optional(S.Boolean),
   }),
-).annotations({
+).annotate({
   identifier: "AnswerMachineDetectionConfig",
 }) as any as S.Schema<AnswerMachineDetectionConfig>;
 export interface OutboundCallConfig {
@@ -577,210 +197,11 @@ export const OutboundCallConfig = S.suspend(() =>
     connectQueueId: S.optional(S.String),
     answerMachineDetectionConfig: S.optional(AnswerMachineDetectionConfig),
   }),
-).annotations({
+).annotate({
   identifier: "OutboundCallConfig",
 }) as any as S.Schema<OutboundCallConfig>;
-export interface EncryptionConfig {
-  enabled: boolean;
-  encryptionType?: string;
-  keyArn?: string;
-}
-export const EncryptionConfig = S.suspend(() =>
-  S.Struct({
-    enabled: S.Boolean,
-    encryptionType: S.optional(S.String),
-    keyArn: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "EncryptionConfig",
-}) as any as S.Schema<EncryptionConfig>;
-export interface GetCampaignStateResponse {
-  state?: string;
-}
-export const GetCampaignStateResponse = S.suspend(() =>
-  S.Struct({ state: S.optional(S.String) }),
-).annotations({
-  identifier: "GetCampaignStateResponse",
-}) as any as S.Schema<GetCampaignStateResponse>;
-export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string | undefined };
-}
-export const ListTagsForResourceResponse = S.suspend(() =>
-  S.Struct({ tags: S.optional(TagMap) }),
-).annotations({
-  identifier: "ListTagsForResourceResponse",
-}) as any as S.Schema<ListTagsForResourceResponse>;
-export interface StartInstanceOnboardingJobRequest {
-  connectInstanceId: string;
-  encryptionConfig: EncryptionConfig;
-}
-export const StartInstanceOnboardingJobRequest = S.suspend(() =>
-  S.Struct({
-    connectInstanceId: S.String.pipe(T.HttpLabel("connectInstanceId")),
-    encryptionConfig: EncryptionConfig,
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/connect-instance/{connectInstanceId}/onboarding",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "StartInstanceOnboardingJobRequest",
-}) as any as S.Schema<StartInstanceOnboardingJobRequest>;
-export interface UpdateCampaignOutboundCallConfigRequest {
-  id: string;
-  connectContactFlowId?: string;
-  connectSourcePhoneNumber?: string;
-  answerMachineDetectionConfig?: AnswerMachineDetectionConfig;
-}
-export const UpdateCampaignOutboundCallConfigRequest = S.suspend(() =>
-  S.Struct({
-    id: S.String.pipe(T.HttpLabel("id")),
-    connectContactFlowId: S.optional(S.String),
-    connectSourcePhoneNumber: S.optional(S.String),
-    answerMachineDetectionConfig: S.optional(AnswerMachineDetectionConfig),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/campaigns/{id}/outbound-call-config" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "UpdateCampaignOutboundCallConfigRequest",
-}) as any as S.Schema<UpdateCampaignOutboundCallConfigRequest>;
-export interface UpdateCampaignOutboundCallConfigResponse {}
-export const UpdateCampaignOutboundCallConfigResponse = S.suspend(() =>
-  S.Struct({}),
-).annotations({
-  identifier: "UpdateCampaignOutboundCallConfigResponse",
-}) as any as S.Schema<UpdateCampaignOutboundCallConfigResponse>;
-export interface InstanceIdFilter {
-  value: string;
-  operator: string;
-}
-export const InstanceIdFilter = S.suspend(() =>
-  S.Struct({ value: S.String, operator: S.String }),
-).annotations({
-  identifier: "InstanceIdFilter",
-}) as any as S.Schema<InstanceIdFilter>;
-export type Attributes = { [key: string]: string | undefined };
-export const Attributes = S.Record({
-  key: S.String,
-  value: S.UndefinedOr(S.String),
-});
-export interface Campaign {
-  id: string;
-  arn: string;
-  name: string;
-  connectInstanceId: string;
-  dialerConfig: DialerConfig;
-  outboundCallConfig: OutboundCallConfig;
-  tags?: { [key: string]: string | undefined };
-}
-export const Campaign = S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    arn: S.String,
-    name: S.String,
-    connectInstanceId: S.String,
-    dialerConfig: DialerConfig,
-    outboundCallConfig: OutboundCallConfig,
-    tags: S.optional(TagMap),
-  }),
-).annotations({ identifier: "Campaign" }) as any as S.Schema<Campaign>;
-export interface SuccessfulCampaignStateResponse {
-  campaignId?: string;
-  state?: string;
-}
-export const SuccessfulCampaignStateResponse = S.suspend(() =>
-  S.Struct({ campaignId: S.optional(S.String), state: S.optional(S.String) }),
-).annotations({
-  identifier: "SuccessfulCampaignStateResponse",
-}) as any as S.Schema<SuccessfulCampaignStateResponse>;
-export type SuccessfulCampaignStateResponseList =
-  SuccessfulCampaignStateResponse[];
-export const SuccessfulCampaignStateResponseList = S.Array(
-  SuccessfulCampaignStateResponse,
-);
-export interface FailedCampaignStateResponse {
-  campaignId?: string;
-  failureCode?: string;
-}
-export const FailedCampaignStateResponse = S.suspend(() =>
-  S.Struct({
-    campaignId: S.optional(S.String),
-    failureCode: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "FailedCampaignStateResponse",
-}) as any as S.Schema<FailedCampaignStateResponse>;
-export type FailedCampaignStateResponseList = FailedCampaignStateResponse[];
-export const FailedCampaignStateResponseList = S.Array(
-  FailedCampaignStateResponse,
-);
-export interface InstanceConfig {
-  connectInstanceId: string;
-  serviceLinkedRoleArn: string;
-  encryptionConfig: EncryptionConfig;
-}
-export const InstanceConfig = S.suspend(() =>
-  S.Struct({
-    connectInstanceId: S.String,
-    serviceLinkedRoleArn: S.String,
-    encryptionConfig: EncryptionConfig,
-  }),
-).annotations({
-  identifier: "InstanceConfig",
-}) as any as S.Schema<InstanceConfig>;
-export interface InstanceOnboardingJobStatus {
-  connectInstanceId: string;
-  status: string;
-  failureCode?: string;
-}
-export const InstanceOnboardingJobStatus = S.suspend(() =>
-  S.Struct({
-    connectInstanceId: S.String,
-    status: S.String,
-    failureCode: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "InstanceOnboardingJobStatus",
-}) as any as S.Schema<InstanceOnboardingJobStatus>;
-export interface CampaignFilters {
-  instanceIdFilter?: InstanceIdFilter;
-}
-export const CampaignFilters = S.suspend(() =>
-  S.Struct({ instanceIdFilter: S.optional(InstanceIdFilter) }),
-).annotations({
-  identifier: "CampaignFilters",
-}) as any as S.Schema<CampaignFilters>;
-export interface DialRequest {
-  clientToken: string;
-  phoneNumber: string | redacted.Redacted<string>;
-  expirationTime: Date;
-  attributes: { [key: string]: string | undefined };
-}
-export const DialRequest = S.suspend(() =>
-  S.Struct({
-    clientToken: S.String,
-    phoneNumber: SensitiveString,
-    expirationTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    attributes: Attributes,
-  }),
-).annotations({ identifier: "DialRequest" }) as any as S.Schema<DialRequest>;
-export type DialRequestList = DialRequest[];
-export const DialRequestList = S.Array(DialRequest);
+export type TagMap = { [key: string]: string | undefined };
+export const TagMap = S.Record(S.String, S.String.pipe(S.optional));
 export interface CreateCampaignRequest {
   name: string;
   connectInstanceId: string;
@@ -805,17 +226,219 @@ export const CreateCampaignRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "CreateCampaignRequest",
 }) as any as S.Schema<CreateCampaignRequest>;
+export interface CreateCampaignResponse {
+  id?: string;
+  arn?: string;
+  tags?: { [key: string]: string | undefined };
+}
+export const CreateCampaignResponse = S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    arn: S.optional(S.String),
+    tags: S.optional(TagMap),
+  }),
+).annotate({
+  identifier: "CreateCampaignResponse",
+}) as any as S.Schema<CreateCampaignResponse>;
+export interface DeleteCampaignRequest {
+  id: string;
+}
+export const DeleteCampaignRequest = S.suspend(() =>
+  S.Struct({ id: S.String.pipe(T.HttpLabel("id")) }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/campaigns/{id}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeleteCampaignRequest",
+}) as any as S.Schema<DeleteCampaignRequest>;
+export interface DeleteCampaignResponse {}
+export const DeleteCampaignResponse = S.suspend(() => S.Struct({})).annotate({
+  identifier: "DeleteCampaignResponse",
+}) as any as S.Schema<DeleteCampaignResponse>;
+export interface DeleteConnectInstanceConfigRequest {
+  connectInstanceId: string;
+}
+export const DeleteConnectInstanceConfigRequest = S.suspend(() =>
+  S.Struct({
+    connectInstanceId: S.String.pipe(T.HttpLabel("connectInstanceId")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/connect-instance/{connectInstanceId}/config",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeleteConnectInstanceConfigRequest",
+}) as any as S.Schema<DeleteConnectInstanceConfigRequest>;
+export interface DeleteConnectInstanceConfigResponse {}
+export const DeleteConnectInstanceConfigResponse = S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "DeleteConnectInstanceConfigResponse",
+}) as any as S.Schema<DeleteConnectInstanceConfigResponse>;
+export interface DeleteInstanceOnboardingJobRequest {
+  connectInstanceId: string;
+}
+export const DeleteInstanceOnboardingJobRequest = S.suspend(() =>
+  S.Struct({
+    connectInstanceId: S.String.pipe(T.HttpLabel("connectInstanceId")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/connect-instance/{connectInstanceId}/onboarding",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeleteInstanceOnboardingJobRequest",
+}) as any as S.Schema<DeleteInstanceOnboardingJobRequest>;
+export interface DeleteInstanceOnboardingJobResponse {}
+export const DeleteInstanceOnboardingJobResponse = S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "DeleteInstanceOnboardingJobResponse",
+}) as any as S.Schema<DeleteInstanceOnboardingJobResponse>;
+export interface DescribeCampaignRequest {
+  id: string;
+}
+export const DescribeCampaignRequest = S.suspend(() =>
+  S.Struct({ id: S.String.pipe(T.HttpLabel("id")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/campaigns/{id}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DescribeCampaignRequest",
+}) as any as S.Schema<DescribeCampaignRequest>;
+export interface Campaign {
+  id: string;
+  arn: string;
+  name: string;
+  connectInstanceId: string;
+  dialerConfig: DialerConfig;
+  outboundCallConfig: OutboundCallConfig;
+  tags?: { [key: string]: string | undefined };
+}
+export const Campaign = S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    arn: S.String,
+    name: S.String,
+    connectInstanceId: S.String,
+    dialerConfig: DialerConfig,
+    outboundCallConfig: OutboundCallConfig,
+    tags: S.optional(TagMap),
+  }),
+).annotate({ identifier: "Campaign" }) as any as S.Schema<Campaign>;
 export interface DescribeCampaignResponse {
   campaign?: Campaign;
 }
 export const DescribeCampaignResponse = S.suspend(() =>
   S.Struct({ campaign: S.optional(Campaign) }),
-).annotations({
+).annotate({
   identifier: "DescribeCampaignResponse",
 }) as any as S.Schema<DescribeCampaignResponse>;
+export interface GetCampaignStateRequest {
+  id: string;
+}
+export const GetCampaignStateRequest = S.suspend(() =>
+  S.Struct({ id: S.String.pipe(T.HttpLabel("id")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/campaigns/{id}/state" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetCampaignStateRequest",
+}) as any as S.Schema<GetCampaignStateRequest>;
+export interface GetCampaignStateResponse {
+  state?: string;
+}
+export const GetCampaignStateResponse = S.suspend(() =>
+  S.Struct({ state: S.optional(S.String) }),
+).annotate({
+  identifier: "GetCampaignStateResponse",
+}) as any as S.Schema<GetCampaignStateResponse>;
+export type CampaignIdList = string[];
+export const CampaignIdList = S.Array(S.String);
+export interface GetCampaignStateBatchRequest {
+  campaignIds: string[];
+}
+export const GetCampaignStateBatchRequest = S.suspend(() =>
+  S.Struct({ campaignIds: CampaignIdList }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/campaigns-state" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetCampaignStateBatchRequest",
+}) as any as S.Schema<GetCampaignStateBatchRequest>;
+export interface SuccessfulCampaignStateResponse {
+  campaignId?: string;
+  state?: string;
+}
+export const SuccessfulCampaignStateResponse = S.suspend(() =>
+  S.Struct({ campaignId: S.optional(S.String), state: S.optional(S.String) }),
+).annotate({
+  identifier: "SuccessfulCampaignStateResponse",
+}) as any as S.Schema<SuccessfulCampaignStateResponse>;
+export type SuccessfulCampaignStateResponseList =
+  SuccessfulCampaignStateResponse[];
+export const SuccessfulCampaignStateResponseList = S.Array(
+  SuccessfulCampaignStateResponse,
+);
+export interface FailedCampaignStateResponse {
+  campaignId?: string;
+  failureCode?: string;
+}
+export const FailedCampaignStateResponse = S.suspend(() =>
+  S.Struct({
+    campaignId: S.optional(S.String),
+    failureCode: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "FailedCampaignStateResponse",
+}) as any as S.Schema<FailedCampaignStateResponse>;
+export type FailedCampaignStateResponseList = FailedCampaignStateResponse[];
+export const FailedCampaignStateResponseList = S.Array(
+  FailedCampaignStateResponse,
+);
 export interface GetCampaignStateBatchResponse {
   successfulRequests?: SuccessfulCampaignStateResponse[];
   failedRequests?: FailedCampaignStateResponse[];
@@ -825,17 +448,101 @@ export const GetCampaignStateBatchResponse = S.suspend(() =>
     successfulRequests: S.optional(SuccessfulCampaignStateResponseList),
     failedRequests: S.optional(FailedCampaignStateResponseList),
   }),
-).annotations({
+).annotate({
   identifier: "GetCampaignStateBatchResponse",
 }) as any as S.Schema<GetCampaignStateBatchResponse>;
+export interface GetConnectInstanceConfigRequest {
+  connectInstanceId: string;
+}
+export const GetConnectInstanceConfigRequest = S.suspend(() =>
+  S.Struct({
+    connectInstanceId: S.String.pipe(T.HttpLabel("connectInstanceId")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/connect-instance/{connectInstanceId}/config",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetConnectInstanceConfigRequest",
+}) as any as S.Schema<GetConnectInstanceConfigRequest>;
+export interface EncryptionConfig {
+  enabled: boolean;
+  encryptionType?: string;
+  keyArn?: string;
+}
+export const EncryptionConfig = S.suspend(() =>
+  S.Struct({
+    enabled: S.Boolean,
+    encryptionType: S.optional(S.String),
+    keyArn: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "EncryptionConfig",
+}) as any as S.Schema<EncryptionConfig>;
+export interface InstanceConfig {
+  connectInstanceId: string;
+  serviceLinkedRoleArn: string;
+  encryptionConfig: EncryptionConfig;
+}
+export const InstanceConfig = S.suspend(() =>
+  S.Struct({
+    connectInstanceId: S.String,
+    serviceLinkedRoleArn: S.String,
+    encryptionConfig: EncryptionConfig,
+  }),
+).annotate({ identifier: "InstanceConfig" }) as any as S.Schema<InstanceConfig>;
 export interface GetConnectInstanceConfigResponse {
   connectInstanceConfig?: InstanceConfig;
 }
 export const GetConnectInstanceConfigResponse = S.suspend(() =>
   S.Struct({ connectInstanceConfig: S.optional(InstanceConfig) }),
-).annotations({
+).annotate({
   identifier: "GetConnectInstanceConfigResponse",
 }) as any as S.Schema<GetConnectInstanceConfigResponse>;
+export interface GetInstanceOnboardingJobStatusRequest {
+  connectInstanceId: string;
+}
+export const GetInstanceOnboardingJobStatusRequest = S.suspend(() =>
+  S.Struct({
+    connectInstanceId: S.String.pipe(T.HttpLabel("connectInstanceId")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/connect-instance/{connectInstanceId}/onboarding",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetInstanceOnboardingJobStatusRequest",
+}) as any as S.Schema<GetInstanceOnboardingJobStatusRequest>;
+export interface InstanceOnboardingJobStatus {
+  connectInstanceId: string;
+  status: string;
+  failureCode?: string;
+}
+export const InstanceOnboardingJobStatus = S.suspend(() =>
+  S.Struct({
+    connectInstanceId: S.String,
+    status: S.String,
+    failureCode: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "InstanceOnboardingJobStatus",
+}) as any as S.Schema<InstanceOnboardingJobStatus>;
 export interface GetInstanceOnboardingJobStatusResponse {
   connectInstanceOnboardingJobStatus?: InstanceOnboardingJobStatus;
 }
@@ -843,9 +550,26 @@ export const GetInstanceOnboardingJobStatusResponse = S.suspend(() =>
   S.Struct({
     connectInstanceOnboardingJobStatus: S.optional(InstanceOnboardingJobStatus),
   }),
-).annotations({
+).annotate({
   identifier: "GetInstanceOnboardingJobStatusResponse",
 }) as any as S.Schema<GetInstanceOnboardingJobStatusResponse>;
+export interface InstanceIdFilter {
+  value: string;
+  operator: string;
+}
+export const InstanceIdFilter = S.suspend(() =>
+  S.Struct({ value: S.String, operator: S.String }),
+).annotate({
+  identifier: "InstanceIdFilter",
+}) as any as S.Schema<InstanceIdFilter>;
+export interface CampaignFilters {
+  instanceIdFilter?: InstanceIdFilter;
+}
+export const CampaignFilters = S.suspend(() =>
+  S.Struct({ instanceIdFilter: S.optional(InstanceIdFilter) }),
+).annotate({
+  identifier: "CampaignFilters",
+}) as any as S.Schema<CampaignFilters>;
 export interface ListCampaignsRequest {
   maxResults?: number;
   nextToken?: string;
@@ -866,9 +590,103 @@ export const ListCampaignsRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "ListCampaignsRequest",
 }) as any as S.Schema<ListCampaignsRequest>;
+export interface CampaignSummary {
+  id: string;
+  arn: string;
+  name: string;
+  connectInstanceId: string;
+}
+export const CampaignSummary = S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    arn: S.String,
+    name: S.String,
+    connectInstanceId: S.String,
+  }),
+).annotate({
+  identifier: "CampaignSummary",
+}) as any as S.Schema<CampaignSummary>;
+export type CampaignSummaryList = CampaignSummary[];
+export const CampaignSummaryList = S.Array(CampaignSummary);
+export interface ListCampaignsResponse {
+  nextToken?: string;
+  campaignSummaryList?: CampaignSummary[];
+}
+export const ListCampaignsResponse = S.suspend(() =>
+  S.Struct({
+    nextToken: S.optional(S.String),
+    campaignSummaryList: S.optional(CampaignSummaryList),
+  }),
+).annotate({
+  identifier: "ListCampaignsResponse",
+}) as any as S.Schema<ListCampaignsResponse>;
+export interface ListTagsForResourceRequest {
+  arn: string;
+}
+export const ListTagsForResourceRequest = S.suspend(() =>
+  S.Struct({ arn: S.String.pipe(T.HttpLabel("arn")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/tags/{arn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListTagsForResourceRequest",
+}) as any as S.Schema<ListTagsForResourceRequest>;
+export interface ListTagsForResourceResponse {
+  tags?: { [key: string]: string | undefined };
+}
+export const ListTagsForResourceResponse = S.suspend(() =>
+  S.Struct({ tags: S.optional(TagMap) }),
+).annotate({
+  identifier: "ListTagsForResourceResponse",
+}) as any as S.Schema<ListTagsForResourceResponse>;
+export interface PauseCampaignRequest {
+  id: string;
+}
+export const PauseCampaignRequest = S.suspend(() =>
+  S.Struct({ id: S.String.pipe(T.HttpLabel("id")) }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/campaigns/{id}/pause" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "PauseCampaignRequest",
+}) as any as S.Schema<PauseCampaignRequest>;
+export interface PauseCampaignResponse {}
+export const PauseCampaignResponse = S.suspend(() => S.Struct({})).annotate({
+  identifier: "PauseCampaignResponse",
+}) as any as S.Schema<PauseCampaignResponse>;
+export type Attributes = { [key: string]: string | undefined };
+export const Attributes = S.Record(S.String, S.String.pipe(S.optional));
+export interface DialRequest {
+  clientToken: string;
+  phoneNumber: string | redacted.Redacted<string>;
+  expirationTime: Date;
+  attributes: { [key: string]: string | undefined };
+}
+export const DialRequest = S.suspend(() =>
+  S.Struct({
+    clientToken: S.String,
+    phoneNumber: SensitiveString,
+    expirationTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    attributes: Attributes,
+  }),
+).annotate({ identifier: "DialRequest" }) as any as S.Schema<DialRequest>;
+export type DialRequestList = DialRequest[];
+export const DialRequestList = S.Array(DialRequest);
 export interface PutDialRequestBatchRequest {
   id: string;
   dialRequests: DialRequest[];
@@ -887,58 +705,16 @@ export const PutDialRequestBatchRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "PutDialRequestBatchRequest",
 }) as any as S.Schema<PutDialRequestBatchRequest>;
-export interface StartInstanceOnboardingJobResponse {
-  connectInstanceOnboardingJobStatus?: InstanceOnboardingJobStatus;
-}
-export const StartInstanceOnboardingJobResponse = S.suspend(() =>
-  S.Struct({
-    connectInstanceOnboardingJobStatus: S.optional(InstanceOnboardingJobStatus),
-  }),
-).annotations({
-  identifier: "StartInstanceOnboardingJobResponse",
-}) as any as S.Schema<StartInstanceOnboardingJobResponse>;
-export interface CreateCampaignResponse {
-  id?: string;
-  arn?: string;
-  tags?: { [key: string]: string | undefined };
-}
-export const CreateCampaignResponse = S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    arn: S.optional(S.String),
-    tags: S.optional(TagMap),
-  }),
-).annotations({
-  identifier: "CreateCampaignResponse",
-}) as any as S.Schema<CreateCampaignResponse>;
-export interface CampaignSummary {
-  id: string;
-  arn: string;
-  name: string;
-  connectInstanceId: string;
-}
-export const CampaignSummary = S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    arn: S.String,
-    name: S.String,
-    connectInstanceId: S.String,
-  }),
-).annotations({
-  identifier: "CampaignSummary",
-}) as any as S.Schema<CampaignSummary>;
-export type CampaignSummaryList = CampaignSummary[];
-export const CampaignSummaryList = S.Array(CampaignSummary);
 export interface SuccessfulRequest {
   clientToken?: string;
   id?: string;
 }
 export const SuccessfulRequest = S.suspend(() =>
   S.Struct({ clientToken: S.optional(S.String), id: S.optional(S.String) }),
-).annotations({
+).annotate({
   identifier: "SuccessfulRequest",
 }) as any as S.Schema<SuccessfulRequest>;
 export type SuccessfulRequestList = SuccessfulRequest[];
@@ -954,23 +730,9 @@ export const FailedRequest = S.suspend(() =>
     id: S.optional(S.String),
     failureCode: S.optional(S.String),
   }),
-).annotations({
-  identifier: "FailedRequest",
-}) as any as S.Schema<FailedRequest>;
+).annotate({ identifier: "FailedRequest" }) as any as S.Schema<FailedRequest>;
 export type FailedRequestList = FailedRequest[];
 export const FailedRequestList = S.Array(FailedRequest);
-export interface ListCampaignsResponse {
-  nextToken?: string;
-  campaignSummaryList?: CampaignSummary[];
-}
-export const ListCampaignsResponse = S.suspend(() =>
-  S.Struct({
-    nextToken: S.optional(S.String),
-    campaignSummaryList: S.optional(CampaignSummaryList),
-  }),
-).annotations({
-  identifier: "ListCampaignsResponse",
-}) as any as S.Schema<ListCampaignsResponse>;
 export interface PutDialRequestBatchResponse {
   successfulRequests?: SuccessfulRequest[];
   failedRequests?: FailedRequest[];
@@ -980,19 +742,254 @@ export const PutDialRequestBatchResponse = S.suspend(() =>
     successfulRequests: S.optional(SuccessfulRequestList),
     failedRequests: S.optional(FailedRequestList),
   }),
-).annotations({
+).annotate({
   identifier: "PutDialRequestBatchResponse",
 }) as any as S.Schema<PutDialRequestBatchResponse>;
+export interface ResumeCampaignRequest {
+  id: string;
+}
+export const ResumeCampaignRequest = S.suspend(() =>
+  S.Struct({ id: S.String.pipe(T.HttpLabel("id")) }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/campaigns/{id}/resume" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ResumeCampaignRequest",
+}) as any as S.Schema<ResumeCampaignRequest>;
+export interface ResumeCampaignResponse {}
+export const ResumeCampaignResponse = S.suspend(() => S.Struct({})).annotate({
+  identifier: "ResumeCampaignResponse",
+}) as any as S.Schema<ResumeCampaignResponse>;
+export interface StartCampaignRequest {
+  id: string;
+}
+export const StartCampaignRequest = S.suspend(() =>
+  S.Struct({ id: S.String.pipe(T.HttpLabel("id")) }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/campaigns/{id}/start" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "StartCampaignRequest",
+}) as any as S.Schema<StartCampaignRequest>;
+export interface StartCampaignResponse {}
+export const StartCampaignResponse = S.suspend(() => S.Struct({})).annotate({
+  identifier: "StartCampaignResponse",
+}) as any as S.Schema<StartCampaignResponse>;
+export interface StartInstanceOnboardingJobRequest {
+  connectInstanceId: string;
+  encryptionConfig: EncryptionConfig;
+}
+export const StartInstanceOnboardingJobRequest = S.suspend(() =>
+  S.Struct({
+    connectInstanceId: S.String.pipe(T.HttpLabel("connectInstanceId")),
+    encryptionConfig: EncryptionConfig,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/connect-instance/{connectInstanceId}/onboarding",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "StartInstanceOnboardingJobRequest",
+}) as any as S.Schema<StartInstanceOnboardingJobRequest>;
+export interface StartInstanceOnboardingJobResponse {
+  connectInstanceOnboardingJobStatus?: InstanceOnboardingJobStatus;
+}
+export const StartInstanceOnboardingJobResponse = S.suspend(() =>
+  S.Struct({
+    connectInstanceOnboardingJobStatus: S.optional(InstanceOnboardingJobStatus),
+  }),
+).annotate({
+  identifier: "StartInstanceOnboardingJobResponse",
+}) as any as S.Schema<StartInstanceOnboardingJobResponse>;
+export interface StopCampaignRequest {
+  id: string;
+}
+export const StopCampaignRequest = S.suspend(() =>
+  S.Struct({ id: S.String.pipe(T.HttpLabel("id")) }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/campaigns/{id}/stop" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "StopCampaignRequest",
+}) as any as S.Schema<StopCampaignRequest>;
+export interface StopCampaignResponse {}
+export const StopCampaignResponse = S.suspend(() => S.Struct({})).annotate({
+  identifier: "StopCampaignResponse",
+}) as any as S.Schema<StopCampaignResponse>;
+export interface TagResourceRequest {
+  arn: string;
+  tags: { [key: string]: string | undefined };
+}
+export const TagResourceRequest = S.suspend(() =>
+  S.Struct({ arn: S.String.pipe(T.HttpLabel("arn")), tags: TagMap }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/tags/{arn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "TagResourceRequest",
+}) as any as S.Schema<TagResourceRequest>;
+export interface TagResourceResponse {}
+export const TagResourceResponse = S.suspend(() => S.Struct({})).annotate({
+  identifier: "TagResourceResponse",
+}) as any as S.Schema<TagResourceResponse>;
+export type TagKeyList = string[];
+export const TagKeyList = S.Array(S.String);
+export interface UntagResourceRequest {
+  arn: string;
+  tagKeys: string[];
+}
+export const UntagResourceRequest = S.suspend(() =>
+  S.Struct({
+    arn: S.String.pipe(T.HttpLabel("arn")),
+    tagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/tags/{arn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "UntagResourceRequest",
+}) as any as S.Schema<UntagResourceRequest>;
+export interface UntagResourceResponse {}
+export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotate({
+  identifier: "UntagResourceResponse",
+}) as any as S.Schema<UntagResourceResponse>;
+export interface UpdateCampaignDialerConfigRequest {
+  id: string;
+  dialerConfig: DialerConfig;
+}
+export const UpdateCampaignDialerConfigRequest = S.suspend(() =>
+  S.Struct({
+    id: S.String.pipe(T.HttpLabel("id")),
+    dialerConfig: DialerConfig,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/campaigns/{id}/dialer-config" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "UpdateCampaignDialerConfigRequest",
+}) as any as S.Schema<UpdateCampaignDialerConfigRequest>;
+export interface UpdateCampaignDialerConfigResponse {}
+export const UpdateCampaignDialerConfigResponse = S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "UpdateCampaignDialerConfigResponse",
+}) as any as S.Schema<UpdateCampaignDialerConfigResponse>;
+export interface UpdateCampaignNameRequest {
+  id: string;
+  name: string;
+}
+export const UpdateCampaignNameRequest = S.suspend(() =>
+  S.Struct({ id: S.String.pipe(T.HttpLabel("id")), name: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/campaigns/{id}/name" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "UpdateCampaignNameRequest",
+}) as any as S.Schema<UpdateCampaignNameRequest>;
+export interface UpdateCampaignNameResponse {}
+export const UpdateCampaignNameResponse = S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "UpdateCampaignNameResponse",
+}) as any as S.Schema<UpdateCampaignNameResponse>;
+export interface UpdateCampaignOutboundCallConfigRequest {
+  id: string;
+  connectContactFlowId?: string;
+  connectSourcePhoneNumber?: string;
+  answerMachineDetectionConfig?: AnswerMachineDetectionConfig;
+}
+export const UpdateCampaignOutboundCallConfigRequest = S.suspend(() =>
+  S.Struct({
+    id: S.String.pipe(T.HttpLabel("id")),
+    connectContactFlowId: S.optional(S.String),
+    connectSourcePhoneNumber: S.optional(S.String),
+    answerMachineDetectionConfig: S.optional(AnswerMachineDetectionConfig),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/campaigns/{id}/outbound-call-config" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "UpdateCampaignOutboundCallConfigRequest",
+}) as any as S.Schema<UpdateCampaignOutboundCallConfigRequest>;
+export interface UpdateCampaignOutboundCallConfigResponse {}
+export const UpdateCampaignOutboundCallConfigResponse = S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "UpdateCampaignOutboundCallConfigResponse",
+}) as any as S.Schema<UpdateCampaignOutboundCallConfigResponse>;
 
 //# Errors
-export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
+export class AccessDeniedException extends S.TaggedErrorClass<AccessDeniedException>()(
   "AccessDeniedException",
   {
     message: S.String,
     xAmzErrorType: S.optional(S.String).pipe(T.HttpHeader("x-amzn-ErrorType")),
   },
 ).pipe(C.withAuthError) {}
-export class InternalServerException extends S.TaggedError<InternalServerException>()(
+export class ConflictException extends S.TaggedErrorClass<ConflictException>()(
+  "ConflictException",
+  {
+    message: S.String,
+    xAmzErrorType: S.optional(S.String).pipe(T.HttpHeader("x-amzn-ErrorType")),
+  },
+).pipe(C.withConflictError) {}
+export class InternalServerException extends S.TaggedErrorClass<InternalServerException>()(
   "InternalServerException",
   {
     message: S.String,
@@ -1000,21 +997,21 @@ export class InternalServerException extends S.TaggedError<InternalServerExcepti
   },
   T.Retryable(),
 ).pipe(C.withServerError, C.withRetryableError) {}
-export class ConflictException extends S.TaggedError<ConflictException>()(
-  "ConflictException",
-  {
-    message: S.String,
-    xAmzErrorType: S.optional(S.String).pipe(T.HttpHeader("x-amzn-ErrorType")),
-  },
-).pipe(C.withConflictError) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   {
     message: S.String,
     xAmzErrorType: S.optional(S.String).pipe(T.HttpHeader("x-amzn-ErrorType")),
   },
 ).pipe(C.withBadRequestError) {}
-export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
+export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuotaExceededException>()(
+  "ServiceQuotaExceededException",
+  {
+    message: S.String,
+    xAmzErrorType: S.optional(S.String).pipe(T.HttpHeader("x-amzn-ErrorType")),
+  },
+).pipe(C.withQuotaError) {}
+export class ThrottlingException extends S.TaggedErrorClass<ThrottlingException>()(
   "ThrottlingException",
   {
     message: S.String,
@@ -1022,14 +1019,21 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   },
   T.Retryable(),
 ).pipe(C.withThrottlingError, C.withRetryableError) {}
-export class InvalidStateException extends S.TaggedError<InvalidStateException>()(
+export class ValidationException extends S.TaggedErrorClass<ValidationException>()(
+  "ValidationException",
+  {
+    message: S.String,
+    xAmzErrorType: S.optional(S.String).pipe(T.HttpHeader("x-amzn-ErrorType")),
+  },
+).pipe(C.withBadRequestError) {}
+export class InvalidStateException extends S.TaggedErrorClass<InvalidStateException>()(
   "InvalidStateException",
   {
     message: S.String,
     xAmzErrorType: S.optional(S.String).pipe(T.HttpHeader("x-amzn-ErrorType")),
   },
 ).pipe(C.withConflictError) {}
-export class InvalidCampaignStateException extends S.TaggedError<InvalidCampaignStateException>()(
+export class InvalidCampaignStateException extends S.TaggedErrorClass<InvalidCampaignStateException>()(
   "InvalidCampaignStateException",
   {
     state: S.String,
@@ -1037,22 +1041,37 @@ export class InvalidCampaignStateException extends S.TaggedError<InvalidCampaign
     xAmzErrorType: S.optional(S.String).pipe(T.HttpHeader("x-amzn-ErrorType")),
   },
 ).pipe(C.withConflictError) {}
-export class ValidationException extends S.TaggedError<ValidationException>()(
-  "ValidationException",
-  {
-    message: S.String,
-    xAmzErrorType: S.optional(S.String).pipe(T.HttpHeader("x-amzn-ErrorType")),
-  },
-).pipe(C.withBadRequestError) {}
-export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
-  "ServiceQuotaExceededException",
-  {
-    message: S.String,
-    xAmzErrorType: S.optional(S.String).pipe(T.HttpHeader("x-amzn-ErrorType")),
-  },
-).pipe(C.withQuotaError) {}
 
 //# Operations
+/**
+ * Creates a campaign for the specified Amazon Connect account. This API is idempotent.
+ */
+export const createCampaign: (
+  input: CreateCampaignRequest,
+) => effect.Effect<
+  CreateCampaignResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateCampaignRequest,
+  output: CreateCampaignResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes a campaign from the specified Amazon Connect account.
  */
@@ -1069,6 +1088,175 @@ export const deleteCampaign: (
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteCampaignRequest,
   output: DeleteCampaignResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Deletes a connect instance config from the specified AWS account.
+ */
+export const deleteConnectInstanceConfig: (
+  input: DeleteConnectInstanceConfigRequest,
+) => effect.Effect<
+  DeleteConnectInstanceConfigResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | InvalidStateException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteConnectInstanceConfigRequest,
+  output: DeleteConnectInstanceConfigResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    InvalidStateException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Delete the Connect Campaigns onboarding job for the specified Amazon Connect instance.
+ */
+export const deleteInstanceOnboardingJob: (
+  input: DeleteInstanceOnboardingJobRequest,
+) => effect.Effect<
+  DeleteInstanceOnboardingJobResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | InvalidStateException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteInstanceOnboardingJobRequest,
+  output: DeleteInstanceOnboardingJobResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    InvalidStateException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Describes the specific campaign.
+ */
+export const describeCampaign: (
+  input: DescribeCampaignRequest,
+) => effect.Effect<
+  DescribeCampaignResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeCampaignRequest,
+  output: DescribeCampaignResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Get state of a campaign for the specified Amazon Connect account.
+ */
+export const getCampaignState: (
+  input: GetCampaignStateRequest,
+) => effect.Effect<
+  GetCampaignStateResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetCampaignStateRequest,
+  output: GetCampaignStateResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Get state of campaigns for the specified Amazon Connect account.
+ */
+export const getCampaignStateBatch: (
+  input: GetCampaignStateBatchRequest,
+) => effect.Effect<
+  GetCampaignStateBatchResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetCampaignStateBatchRequest,
+  output: GetCampaignStateBatchResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Get the specific Connect instance config.
+ */
+export const getConnectInstanceConfig: (
+  input: GetConnectInstanceConfigRequest,
+) => effect.Effect<
+  GetConnectInstanceConfigResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetConnectInstanceConfigRequest,
+  output: GetConnectInstanceConfigResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Get the specific instance onboarding job status.
+ */
+export const getInstanceOnboardingJobStatus: (
+  input: GetInstanceOnboardingJobStatusRequest,
+) => effect.Effect<
+  GetInstanceOnboardingJobStatusResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetInstanceOnboardingJobStatusRequest,
+  output: GetInstanceOnboardingJobStatusResponse,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1122,6 +1310,60 @@ export const listCampaigns: {
   } as const,
 }));
 /**
+ * List tags for a resource.
+ */
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => effect.Effect<
+  ListTagsForResourceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Pauses a campaign for the specified Amazon Connect account.
+ */
+export const pauseCampaign: (
+  input: PauseCampaignRequest,
+) => effect.Effect<
+  PauseCampaignResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | InvalidCampaignStateException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PauseCampaignRequest,
+  output: PauseCampaignResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    InvalidCampaignStateException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
  * Creates dials requests for the specified campaign Amazon Connect account. This API is idempotent.
  */
 export const putDialRequestBatch: (
@@ -1151,160 +1393,70 @@ export const putDialRequestBatch: (
   ],
 }));
 /**
- * Creates a campaign for the specified Amazon Connect account. This API is idempotent.
+ * Stops a campaign for the specified Amazon Connect account.
  */
-export const createCampaign: (
-  input: CreateCampaignRequest,
+export const resumeCampaign: (
+  input: ResumeCampaignRequest,
 ) => effect.Effect<
-  CreateCampaignResponse,
+  ResumeCampaignResponse,
   | AccessDeniedException
   | ConflictException
   | InternalServerException
+  | InvalidCampaignStateException
   | ResourceNotFoundException
-  | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
   | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateCampaignRequest,
-  output: CreateCampaignResponse,
+  input: ResumeCampaignRequest,
+  output: ResumeCampaignResponse,
   errors: [
     AccessDeniedException,
     ConflictException,
     InternalServerException,
+    InvalidCampaignStateException,
     ResourceNotFoundException,
-    ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
   ],
 }));
 /**
- * Get state of campaigns for the specified Amazon Connect account.
+ * Starts a campaign for the specified Amazon Connect account.
  */
-export const getCampaignStateBatch: (
-  input: GetCampaignStateBatchRequest,
+export const startCampaign: (
+  input: StartCampaignRequest,
 ) => effect.Effect<
-  GetCampaignStateBatchResponse,
+  StartCampaignResponse,
   | AccessDeniedException
+  | ConflictException
   | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetCampaignStateBatchRequest,
-  output: GetCampaignStateBatchResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Deletes a connect instance config from the specified AWS account.
- */
-export const deleteConnectInstanceConfig: (
-  input: DeleteConnectInstanceConfigRequest,
-) => effect.Effect<
-  DeleteConnectInstanceConfigResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | InvalidStateException
+  | InvalidCampaignStateException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
   | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteConnectInstanceConfigRequest,
-  output: DeleteConnectInstanceConfigResponse,
+  input: StartCampaignRequest,
+  output: StartCampaignResponse,
   errors: [
     AccessDeniedException,
+    ConflictException,
     InternalServerException,
-    InvalidStateException,
+    InvalidCampaignStateException,
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
   ],
 }));
 /**
- * Describes the specific campaign.
+ * Onboard the specific Amazon Connect instance to Connect Campaigns.
  */
-export const describeCampaign: (
-  input: DescribeCampaignRequest,
+export const startInstanceOnboardingJob: (
+  input: StartInstanceOnboardingJobRequest,
 ) => effect.Effect<
-  DescribeCampaignResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeCampaignRequest,
-  output: DescribeCampaignResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Get the specific Connect instance config.
- */
-export const getConnectInstanceConfig: (
-  input: GetConnectInstanceConfigRequest,
-) => effect.Effect<
-  GetConnectInstanceConfigResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetConnectInstanceConfigRequest,
-  output: GetConnectInstanceConfigResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Get the specific instance onboarding job status.
- */
-export const getInstanceOnboardingJobStatus: (
-  input: GetInstanceOnboardingJobStatusRequest,
-) => effect.Effect<
-  GetInstanceOnboardingJobStatusResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetInstanceOnboardingJobStatusRequest,
-  output: GetInstanceOnboardingJobStatusResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Updates the outbound call config of a campaign. This API is idempotent.
- */
-export const updateCampaignOutboundCallConfig: (
-  input: UpdateCampaignOutboundCallConfigRequest,
-) => effect.Effect<
-  UpdateCampaignOutboundCallConfigResponse,
+  StartInstanceOnboardingJobResponse,
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -1314,8 +1466,8 @@ export const updateCampaignOutboundCallConfig: (
   | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateCampaignOutboundCallConfigRequest,
-  output: UpdateCampaignOutboundCallConfigResponse,
+  input: StartInstanceOnboardingJobRequest,
+  output: StartInstanceOnboardingJobResponse,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1326,50 +1478,29 @@ export const updateCampaignOutboundCallConfig: (
   ],
 }));
 /**
- * Get state of a campaign for the specified Amazon Connect account.
+ * Stops a campaign for the specified Amazon Connect account.
  */
-export const getCampaignState: (
-  input: GetCampaignStateRequest,
+export const stopCampaign: (
+  input: StopCampaignRequest,
 ) => effect.Effect<
-  GetCampaignStateResponse,
+  StopCampaignResponse,
   | AccessDeniedException
+  | ConflictException
   | InternalServerException
+  | InvalidCampaignStateException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
   | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetCampaignStateRequest,
-  output: GetCampaignStateResponse,
+  input: StopCampaignRequest,
+  output: StopCampaignResponse,
   errors: [
     AccessDeniedException,
+    ConflictException,
     InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * List tags for a resource.
- */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
-  ListTagsForResourceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
+    InvalidCampaignStateException,
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
@@ -1476,12 +1607,12 @@ export const updateCampaignName: (
   ],
 }));
 /**
- * Onboard the specific Amazon Connect instance to Connect Campaigns.
+ * Updates the outbound call config of a campaign. This API is idempotent.
  */
-export const startInstanceOnboardingJob: (
-  input: StartInstanceOnboardingJobRequest,
+export const updateCampaignOutboundCallConfig: (
+  input: UpdateCampaignOutboundCallConfigRequest,
 ) => effect.Effect<
-  StartInstanceOnboardingJobResponse,
+  UpdateCampaignOutboundCallConfigResponse,
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -1491,153 +1622,12 @@ export const startInstanceOnboardingJob: (
   | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StartInstanceOnboardingJobRequest,
-  output: StartInstanceOnboardingJobResponse,
+  input: UpdateCampaignOutboundCallConfigRequest,
+  output: UpdateCampaignOutboundCallConfigResponse,
   errors: [
     AccessDeniedException,
     ConflictException,
     InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Pauses a campaign for the specified Amazon Connect account.
- */
-export const pauseCampaign: (
-  input: PauseCampaignRequest,
-) => effect.Effect<
-  PauseCampaignResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | InvalidCampaignStateException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PauseCampaignRequest,
-  output: PauseCampaignResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    InvalidCampaignStateException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Delete the Connect Campaigns onboarding job for the specified Amazon Connect instance.
- */
-export const deleteInstanceOnboardingJob: (
-  input: DeleteInstanceOnboardingJobRequest,
-) => effect.Effect<
-  DeleteInstanceOnboardingJobResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | InvalidStateException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteInstanceOnboardingJobRequest,
-  output: DeleteInstanceOnboardingJobResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    InvalidStateException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Stops a campaign for the specified Amazon Connect account.
- */
-export const resumeCampaign: (
-  input: ResumeCampaignRequest,
-) => effect.Effect<
-  ResumeCampaignResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | InvalidCampaignStateException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ResumeCampaignRequest,
-  output: ResumeCampaignResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    InvalidCampaignStateException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Starts a campaign for the specified Amazon Connect account.
- */
-export const startCampaign: (
-  input: StartCampaignRequest,
-) => effect.Effect<
-  StartCampaignResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | InvalidCampaignStateException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StartCampaignRequest,
-  output: StartCampaignResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    InvalidCampaignStateException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Stops a campaign for the specified Amazon Connect account.
- */
-export const stopCampaign: (
-  input: StopCampaignRequest,
-) => effect.Effect<
-  StopCampaignResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | InvalidCampaignStateException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StopCampaignRequest,
-  output: StopCampaignResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    InvalidCampaignStateException,
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,

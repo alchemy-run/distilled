@@ -6,7 +6,9 @@ import * as T from "../traits";
 export const DeleteProjectJWKSInput = Schema.Struct({
   project_id: Schema.String.pipe(T.PathParam()),
   jwks_id: Schema.String.pipe(T.PathParam()),
-}).pipe(T.Http({ method: "DELETE", path: "/projects/{project_id}/jwks/{jwks_id}" }));
+}).pipe(
+  T.Http({ method: "DELETE", path: "/projects/{project_id}/jwks/{jwks_id}" }),
+);
 export type DeleteProjectJWKSInput = typeof DeleteProjectJWKSInput.Type;
 
 // Output Schema

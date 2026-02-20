@@ -142,7 +142,7 @@ const cleanupBucket = (bucket: string) =>
     // Check if bucket exists
     const exists = yield* headBucket({ Bucket: bucket }).pipe(
       Effect.map(() => true),
-      Effect.catchAll(() => Effect.succeed(false)),
+      Effect.catch(() => Effect.succeed(false)),
     );
 
     if (!exists) return;
@@ -156,10 +156,11 @@ const cleanupBucket = (bucket: string) =>
 
 // Helper to ensure cleanup happens even on failure - cleans up before AND after
 const withBucket = <A, E, R>(
-  bucket: string,
+  _bucket: string,
   testFn: (bucket: string) => Effect.Effect<A, E, R>,
 ) =>
   Effect.gen(function* () {
+    const bucket = `${_bucket}-${process.env.USER ?? "testing"}`;
     // Clean up any leftover from previous runs
     yield* cleanupBucket(bucket);
 
@@ -236,7 +237,7 @@ test(
       // Verify deletion - should throw NoSuchTagSet error
       const result = yield* getBucketTagging({ Bucket: bucket }).pipe(
         Effect.map(() => "success" as const),
-        Effect.catchAll(() => Effect.succeed("error" as const)),
+        Effect.catch(() => Effect.succeed("error" as const)),
       );
       expect(result).toEqual("error");
     }),
@@ -290,7 +291,7 @@ test(
       // Verify deletion
       const result = yield* getBucketPolicy({ Bucket: bucket }).pipe(
         Effect.map(() => "success" as const),
-        Effect.catchAll(() => Effect.succeed("error" as const)),
+        Effect.catch(() => Effect.succeed("error" as const)),
       );
       expect(result).toEqual("error");
     }),
@@ -343,7 +344,7 @@ test(
       // Verify deletion
       const result = yield* getBucketCors({ Bucket: bucket }).pipe(
         Effect.map(() => "success" as const),
-        Effect.catchAll(() => Effect.succeed("error" as const)),
+        Effect.catch(() => Effect.succeed("error" as const)),
       );
       expect(result).toEqual("error");
     }),
@@ -450,7 +451,7 @@ test(
       // Verify deletion
       const result = yield* getBucketWebsite({ Bucket: bucket }).pipe(
         Effect.map(() => "success" as const),
-        Effect.catchAll(() => Effect.succeed("error" as const)),
+        Effect.catch(() => Effect.succeed("error" as const)),
       );
       expect(result).toEqual("error");
     }),
@@ -573,7 +574,7 @@ test(
         Bucket: bucket,
       }).pipe(
         Effect.map(() => "success" as const),
-        Effect.catchAll(() => Effect.succeed("error" as const)),
+        Effect.catch(() => Effect.succeed("error" as const)),
       );
       expect(result).toEqual("error");
     }),
@@ -608,7 +609,7 @@ test(
           Effect.retry({
             while: (err) => err === "not ready yet",
             schedule: Schedule.spaced("500 millis").pipe(
-              Schedule.intersect(Schedule.recurs(10)),
+              Schedule.both(Schedule.recurs(10)),
             ),
           }),
         );
@@ -774,7 +775,7 @@ test(
       // Verify deletion
       const result = yield* getPublicAccessBlock({ Bucket: bucket }).pipe(
         Effect.map(() => "success" as const),
-        Effect.catchAll(() => Effect.succeed("error" as const)),
+        Effect.catch(() => Effect.succeed("error" as const)),
       );
       expect(result).toEqual("error");
     }),
@@ -836,7 +837,7 @@ test(
         Bucket: bucket,
       }).pipe(
         Effect.map(() => "success" as const),
-        Effect.catchAll(() => Effect.succeed("error" as const)),
+        Effect.catch(() => Effect.succeed("error" as const)),
       );
       expect(result).toEqual("error");
     }),
@@ -1783,7 +1784,7 @@ test(
     }).pipe(
       Effect.map(() => "found" as const),
       Effect.catchTag("NotFound", () => Effect.succeed("not-found" as const)),
-      Effect.catchAll((e) => {
+      Effect.catch((e) => {
         console.error("Caught unexpected error:", e);
         return Effect.succeed("error: " + (e as any)?._tag);
       }),

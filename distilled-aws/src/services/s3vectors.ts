@@ -1,4 +1,4 @@
-import { HttpClient } from "@effect/platform";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as effect from "effect/Effect";
 import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
@@ -56,41 +56,31 @@ const rules = T.EndpointResolver((p, _) => {
 //# Newtypes
 export type ResourceARN = string;
 export type TagKey = string;
+export type TagValue = string;
+export type ExceptionMessage = string;
 export type VectorBucketName = string;
+export type KmsKeyArn = string;
 export type VectorBucketArn = string;
+export type VectorBucketPolicy = string;
 export type ListVectorBucketsMaxResults = number;
 export type ListVectorBucketsNextToken = string;
 export type ListVectorBucketsPrefix = string;
-export type VectorBucketPolicy = string;
 export type IndexName = string;
 export type Dimension = number;
+export type MetadataKey = string;
 export type IndexArn = string;
 export type ListIndexesMaxResults = number;
 export type ListIndexesNextToken = string;
 export type ListIndexesPrefix = string;
 export type VectorKey = string;
+export type VectorMetadata = unknown;
 export type ListVectorsMaxResults = number;
 export type ListVectorsNextToken = string;
 export type ListVectorsSegmentCount = number;
 export type ListVectorsSegmentIndex = number;
 export type TopK = number;
-export type TagValue = string;
-export type KmsKeyArn = string;
-export type MetadataKey = string;
-export type VectorMetadata = unknown;
-export type ExceptionMessage = string;
 
 //# Schemas
-export type TagKeyList = string[];
-export const TagKeyList = S.Array(S.String);
-export type DataType = "float32" | (string & {});
-export const DataType = S.String;
-export type DistanceMetric = "euclidean" | "cosine" | (string & {});
-export const DistanceMetric = S.String;
-export type DeleteVectorsInputList = string[];
-export const DeleteVectorsInputList = S.Array(S.String);
-export type GetVectorsInputList = string[];
-export const GetVectorsInputList = S.Array(S.String);
 export interface ListTagsForResourceInput {
   resourceArn: string;
 }
@@ -105,400 +95,17 @@ export const ListTagsForResourceInput = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "ListTagsForResourceInput",
 }) as any as S.Schema<ListTagsForResourceInput>;
-export interface UntagResourceInput {
-  resourceArn: string;
-  tagKeys: string[];
-}
-export const UntagResourceInput = S.suspend(() =>
-  S.Struct({
-    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-    tagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "UntagResourceInput",
-}) as any as S.Schema<UntagResourceInput>;
-export interface UntagResourceOutput {}
-export const UntagResourceOutput = S.suspend(() => S.Struct({})).annotations({
-  identifier: "UntagResourceOutput",
-}) as any as S.Schema<UntagResourceOutput>;
-export interface DeleteVectorBucketInput {
-  vectorBucketName?: string;
-  vectorBucketArn?: string;
-}
-export const DeleteVectorBucketInput = S.suspend(() =>
-  S.Struct({
-    vectorBucketName: S.optional(S.String),
-    vectorBucketArn: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/DeleteVectorBucket" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DeleteVectorBucketInput",
-}) as any as S.Schema<DeleteVectorBucketInput>;
-export interface DeleteVectorBucketOutput {}
-export const DeleteVectorBucketOutput = S.suspend(() =>
-  S.Struct({}),
-).annotations({
-  identifier: "DeleteVectorBucketOutput",
-}) as any as S.Schema<DeleteVectorBucketOutput>;
-export interface DeleteVectorBucketPolicyInput {
-  vectorBucketName?: string;
-  vectorBucketArn?: string;
-}
-export const DeleteVectorBucketPolicyInput = S.suspend(() =>
-  S.Struct({
-    vectorBucketName: S.optional(S.String),
-    vectorBucketArn: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/DeleteVectorBucketPolicy" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DeleteVectorBucketPolicyInput",
-}) as any as S.Schema<DeleteVectorBucketPolicyInput>;
-export interface DeleteVectorBucketPolicyOutput {}
-export const DeleteVectorBucketPolicyOutput = S.suspend(() =>
-  S.Struct({}),
-).annotations({
-  identifier: "DeleteVectorBucketPolicyOutput",
-}) as any as S.Schema<DeleteVectorBucketPolicyOutput>;
-export interface GetVectorBucketInput {
-  vectorBucketName?: string;
-  vectorBucketArn?: string;
-}
-export const GetVectorBucketInput = S.suspend(() =>
-  S.Struct({
-    vectorBucketName: S.optional(S.String),
-    vectorBucketArn: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/GetVectorBucket" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "GetVectorBucketInput",
-}) as any as S.Schema<GetVectorBucketInput>;
-export interface GetVectorBucketPolicyInput {
-  vectorBucketName?: string;
-  vectorBucketArn?: string;
-}
-export const GetVectorBucketPolicyInput = S.suspend(() =>
-  S.Struct({
-    vectorBucketName: S.optional(S.String),
-    vectorBucketArn: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/GetVectorBucketPolicy" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "GetVectorBucketPolicyInput",
-}) as any as S.Schema<GetVectorBucketPolicyInput>;
-export interface ListVectorBucketsInput {
-  maxResults?: number;
-  nextToken?: string;
-  prefix?: string;
-}
-export const ListVectorBucketsInput = S.suspend(() =>
-  S.Struct({
-    maxResults: S.optional(S.Number),
-    nextToken: S.optional(S.String),
-    prefix: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/ListVectorBuckets" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListVectorBucketsInput",
-}) as any as S.Schema<ListVectorBucketsInput>;
-export interface PutVectorBucketPolicyInput {
-  vectorBucketName?: string;
-  vectorBucketArn?: string;
-  policy: string;
-}
-export const PutVectorBucketPolicyInput = S.suspend(() =>
-  S.Struct({
-    vectorBucketName: S.optional(S.String),
-    vectorBucketArn: S.optional(S.String),
-    policy: S.String,
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/PutVectorBucketPolicy" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "PutVectorBucketPolicyInput",
-}) as any as S.Schema<PutVectorBucketPolicyInput>;
-export interface PutVectorBucketPolicyOutput {}
-export const PutVectorBucketPolicyOutput = S.suspend(() =>
-  S.Struct({}),
-).annotations({
-  identifier: "PutVectorBucketPolicyOutput",
-}) as any as S.Schema<PutVectorBucketPolicyOutput>;
-export interface DeleteIndexInput {
-  vectorBucketName?: string;
-  indexName?: string;
-  indexArn?: string;
-}
-export const DeleteIndexInput = S.suspend(() =>
-  S.Struct({
-    vectorBucketName: S.optional(S.String),
-    indexName: S.optional(S.String),
-    indexArn: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/DeleteIndex" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DeleteIndexInput",
-}) as any as S.Schema<DeleteIndexInput>;
-export interface DeleteIndexOutput {}
-export const DeleteIndexOutput = S.suspend(() => S.Struct({})).annotations({
-  identifier: "DeleteIndexOutput",
-}) as any as S.Schema<DeleteIndexOutput>;
-export interface GetIndexInput {
-  vectorBucketName?: string;
-  indexName?: string;
-  indexArn?: string;
-}
-export const GetIndexInput = S.suspend(() =>
-  S.Struct({
-    vectorBucketName: S.optional(S.String),
-    indexName: S.optional(S.String),
-    indexArn: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/GetIndex" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "GetIndexInput",
-}) as any as S.Schema<GetIndexInput>;
-export interface ListIndexesInput {
-  vectorBucketName?: string;
-  vectorBucketArn?: string;
-  maxResults?: number;
-  nextToken?: string;
-  prefix?: string;
-}
-export const ListIndexesInput = S.suspend(() =>
-  S.Struct({
-    vectorBucketName: S.optional(S.String),
-    vectorBucketArn: S.optional(S.String),
-    maxResults: S.optional(S.Number),
-    nextToken: S.optional(S.String),
-    prefix: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/ListIndexes" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListIndexesInput",
-}) as any as S.Schema<ListIndexesInput>;
-export interface DeleteVectorsInput {
-  vectorBucketName?: string;
-  indexName?: string;
-  indexArn?: string;
-  keys: string[];
-}
-export const DeleteVectorsInput = S.suspend(() =>
-  S.Struct({
-    vectorBucketName: S.optional(S.String),
-    indexName: S.optional(S.String),
-    indexArn: S.optional(S.String),
-    keys: DeleteVectorsInputList,
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/DeleteVectors" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DeleteVectorsInput",
-}) as any as S.Schema<DeleteVectorsInput>;
-export interface DeleteVectorsOutput {}
-export const DeleteVectorsOutput = S.suspend(() => S.Struct({})).annotations({
-  identifier: "DeleteVectorsOutput",
-}) as any as S.Schema<DeleteVectorsOutput>;
-export interface GetVectorsInput {
-  vectorBucketName?: string;
-  indexName?: string;
-  indexArn?: string;
-  keys: string[];
-  returnData?: boolean;
-  returnMetadata?: boolean;
-}
-export const GetVectorsInput = S.suspend(() =>
-  S.Struct({
-    vectorBucketName: S.optional(S.String),
-    indexName: S.optional(S.String),
-    indexArn: S.optional(S.String),
-    keys: GetVectorsInputList,
-    returnData: S.optional(S.Boolean),
-    returnMetadata: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/GetVectors" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "GetVectorsInput",
-}) as any as S.Schema<GetVectorsInput>;
-export interface ListVectorsInput {
-  vectorBucketName?: string;
-  indexName?: string;
-  indexArn?: string;
-  maxResults?: number;
-  nextToken?: string;
-  segmentCount?: number;
-  segmentIndex?: number;
-  returnData?: boolean;
-  returnMetadata?: boolean;
-}
-export const ListVectorsInput = S.suspend(() =>
-  S.Struct({
-    vectorBucketName: S.optional(S.String),
-    indexName: S.optional(S.String),
-    indexArn: S.optional(S.String),
-    maxResults: S.optional(S.Number),
-    nextToken: S.optional(S.String),
-    segmentCount: S.optional(S.Number),
-    segmentIndex: S.optional(S.Number),
-    returnData: S.optional(S.Boolean),
-    returnMetadata: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/ListVectors" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListVectorsInput",
-}) as any as S.Schema<ListVectorsInput>;
-export type SseType = "AES256" | "aws:kms" | (string & {});
-export const SseType = S.String;
-export type NonFilterableMetadataKeys = string[];
-export const NonFilterableMetadataKeys = S.Array(S.String);
-export type Float32VectorData = number[];
-export const Float32VectorData = S.Array(S.Number);
 export type TagsMap = { [key: string]: string | undefined };
-export const TagsMap = S.Record({
-  key: S.String,
-  value: S.UndefinedOr(S.String),
-});
-export interface EncryptionConfiguration {
-  sseType?: SseType;
-  kmsKeyArn?: string;
-}
-export const EncryptionConfiguration = S.suspend(() =>
-  S.Struct({ sseType: S.optional(SseType), kmsKeyArn: S.optional(S.String) }),
-).annotations({
-  identifier: "EncryptionConfiguration",
-}) as any as S.Schema<EncryptionConfiguration>;
-export interface MetadataConfiguration {
-  nonFilterableMetadataKeys: string[];
-}
-export const MetadataConfiguration = S.suspend(() =>
-  S.Struct({ nonFilterableMetadataKeys: NonFilterableMetadataKeys }),
-).annotations({
-  identifier: "MetadataConfiguration",
-}) as any as S.Schema<MetadataConfiguration>;
-export type VectorData = { float32: number[] };
-export const VectorData = S.Union(S.Struct({ float32: Float32VectorData }));
-export interface PutInputVector {
-  key: string;
-  data: VectorData;
-  metadata?: any;
-}
-export const PutInputVector = S.suspend(() =>
-  S.Struct({ key: S.String, data: VectorData, metadata: S.optional(S.Any) }),
-).annotations({
-  identifier: "PutInputVector",
-}) as any as S.Schema<PutInputVector>;
-export type PutVectorsInputList = PutInputVector[];
-export const PutVectorsInputList = S.Array(PutInputVector);
+export const TagsMap = S.Record(S.String, S.String.pipe(S.optional));
 export interface ListTagsForResourceOutput {
   tags: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceOutput = S.suspend(() =>
   S.Struct({ tags: TagsMap }),
-).annotations({
+).annotate({
   identifier: "ListTagsForResourceOutput",
 }) as any as S.Schema<ListTagsForResourceOutput>;
 export interface TagResourceInput {
@@ -519,13 +126,51 @@ export const TagResourceInput = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "TagResourceInput",
 }) as any as S.Schema<TagResourceInput>;
 export interface TagResourceOutput {}
-export const TagResourceOutput = S.suspend(() => S.Struct({})).annotations({
+export const TagResourceOutput = S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceOutput",
 }) as any as S.Schema<TagResourceOutput>;
+export type TagKeyList = string[];
+export const TagKeyList = S.Array(S.String);
+export interface UntagResourceInput {
+  resourceArn: string;
+  tagKeys: string[];
+}
+export const UntagResourceInput = S.suspend(() =>
+  S.Struct({
+    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
+    tagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "UntagResourceInput",
+}) as any as S.Schema<UntagResourceInput>;
+export interface UntagResourceOutput {}
+export const UntagResourceOutput = S.suspend(() => S.Struct({})).annotate({
+  identifier: "UntagResourceOutput",
+}) as any as S.Schema<UntagResourceOutput>;
+export type SseType = "AES256" | "aws:kms" | (string & {});
+export const SseType = S.String;
+export interface EncryptionConfiguration {
+  sseType?: SseType;
+  kmsKeyArn?: string;
+}
+export const EncryptionConfiguration = S.suspend(() =>
+  S.Struct({ sseType: S.optional(SseType), kmsKeyArn: S.optional(S.String) }),
+).annotate({
+  identifier: "EncryptionConfiguration",
+}) as any as S.Schema<EncryptionConfiguration>;
 export interface CreateVectorBucketInput {
   vectorBucketName: string;
   encryptionConfiguration?: EncryptionConfiguration;
@@ -546,17 +191,235 @@ export const CreateVectorBucketInput = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "CreateVectorBucketInput",
 }) as any as S.Schema<CreateVectorBucketInput>;
+export interface CreateVectorBucketOutput {
+  vectorBucketArn: string;
+}
+export const CreateVectorBucketOutput = S.suspend(() =>
+  S.Struct({ vectorBucketArn: S.optional(S.String) }),
+).annotate({
+  identifier: "CreateVectorBucketOutput",
+}) as any as S.Schema<CreateVectorBucketOutput>;
+export interface DeleteVectorBucketInput {
+  vectorBucketName?: string;
+  vectorBucketArn?: string;
+}
+export const DeleteVectorBucketInput = S.suspend(() =>
+  S.Struct({
+    vectorBucketName: S.optional(S.String),
+    vectorBucketArn: S.optional(S.String),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/DeleteVectorBucket" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeleteVectorBucketInput",
+}) as any as S.Schema<DeleteVectorBucketInput>;
+export interface DeleteVectorBucketOutput {}
+export const DeleteVectorBucketOutput = S.suspend(() => S.Struct({})).annotate({
+  identifier: "DeleteVectorBucketOutput",
+}) as any as S.Schema<DeleteVectorBucketOutput>;
+export interface DeleteVectorBucketPolicyInput {
+  vectorBucketName?: string;
+  vectorBucketArn?: string;
+}
+export const DeleteVectorBucketPolicyInput = S.suspend(() =>
+  S.Struct({
+    vectorBucketName: S.optional(S.String),
+    vectorBucketArn: S.optional(S.String),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/DeleteVectorBucketPolicy" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeleteVectorBucketPolicyInput",
+}) as any as S.Schema<DeleteVectorBucketPolicyInput>;
+export interface DeleteVectorBucketPolicyOutput {}
+export const DeleteVectorBucketPolicyOutput = S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "DeleteVectorBucketPolicyOutput",
+}) as any as S.Schema<DeleteVectorBucketPolicyOutput>;
+export interface GetVectorBucketInput {
+  vectorBucketName?: string;
+  vectorBucketArn?: string;
+}
+export const GetVectorBucketInput = S.suspend(() =>
+  S.Struct({
+    vectorBucketName: S.optional(S.String),
+    vectorBucketArn: S.optional(S.String),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/GetVectorBucket" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetVectorBucketInput",
+}) as any as S.Schema<GetVectorBucketInput>;
+export interface VectorBucket {
+  vectorBucketName: string;
+  vectorBucketArn: string;
+  creationTime: Date;
+  encryptionConfiguration?: EncryptionConfiguration;
+}
+export const VectorBucket = S.suspend(() =>
+  S.Struct({
+    vectorBucketName: S.String,
+    vectorBucketArn: S.String,
+    creationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    encryptionConfiguration: S.optional(EncryptionConfiguration),
+  }),
+).annotate({ identifier: "VectorBucket" }) as any as S.Schema<VectorBucket>;
+export interface GetVectorBucketOutput {
+  vectorBucket: VectorBucket;
+}
+export const GetVectorBucketOutput = S.suspend(() =>
+  S.Struct({ vectorBucket: VectorBucket }),
+).annotate({
+  identifier: "GetVectorBucketOutput",
+}) as any as S.Schema<GetVectorBucketOutput>;
+export interface GetVectorBucketPolicyInput {
+  vectorBucketName?: string;
+  vectorBucketArn?: string;
+}
+export const GetVectorBucketPolicyInput = S.suspend(() =>
+  S.Struct({
+    vectorBucketName: S.optional(S.String),
+    vectorBucketArn: S.optional(S.String),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/GetVectorBucketPolicy" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetVectorBucketPolicyInput",
+}) as any as S.Schema<GetVectorBucketPolicyInput>;
 export interface GetVectorBucketPolicyOutput {
   policy?: string;
 }
 export const GetVectorBucketPolicyOutput = S.suspend(() =>
   S.Struct({ policy: S.optional(S.String) }),
-).annotations({
+).annotate({
   identifier: "GetVectorBucketPolicyOutput",
 }) as any as S.Schema<GetVectorBucketPolicyOutput>;
+export interface ListVectorBucketsInput {
+  maxResults?: number;
+  nextToken?: string;
+  prefix?: string;
+}
+export const ListVectorBucketsInput = S.suspend(() =>
+  S.Struct({
+    maxResults: S.optional(S.Number),
+    nextToken: S.optional(S.String),
+    prefix: S.optional(S.String),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ListVectorBuckets" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListVectorBucketsInput",
+}) as any as S.Schema<ListVectorBucketsInput>;
+export interface VectorBucketSummary {
+  vectorBucketName: string;
+  vectorBucketArn: string;
+  creationTime: Date;
+}
+export const VectorBucketSummary = S.suspend(() =>
+  S.Struct({
+    vectorBucketName: S.String,
+    vectorBucketArn: S.String,
+    creationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  }),
+).annotate({
+  identifier: "VectorBucketSummary",
+}) as any as S.Schema<VectorBucketSummary>;
+export type ListVectorBucketsOutputList = VectorBucketSummary[];
+export const ListVectorBucketsOutputList = S.Array(VectorBucketSummary);
+export interface ListVectorBucketsOutput {
+  nextToken?: string;
+  vectorBuckets: VectorBucketSummary[];
+}
+export const ListVectorBucketsOutput = S.suspend(() =>
+  S.Struct({
+    nextToken: S.optional(S.String),
+    vectorBuckets: ListVectorBucketsOutputList,
+  }),
+).annotate({
+  identifier: "ListVectorBucketsOutput",
+}) as any as S.Schema<ListVectorBucketsOutput>;
+export interface PutVectorBucketPolicyInput {
+  vectorBucketName?: string;
+  vectorBucketArn?: string;
+  policy: string;
+}
+export const PutVectorBucketPolicyInput = S.suspend(() =>
+  S.Struct({
+    vectorBucketName: S.optional(S.String),
+    vectorBucketArn: S.optional(S.String),
+    policy: S.String,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/PutVectorBucketPolicy" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "PutVectorBucketPolicyInput",
+}) as any as S.Schema<PutVectorBucketPolicyInput>;
+export interface PutVectorBucketPolicyOutput {}
+export const PutVectorBucketPolicyOutput = S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "PutVectorBucketPolicyOutput",
+}) as any as S.Schema<PutVectorBucketPolicyOutput>;
+export type DataType = "float32" | (string & {});
+export const DataType = S.String;
+export type DistanceMetric = "euclidean" | "cosine" | (string & {});
+export const DistanceMetric = S.String;
+export type NonFilterableMetadataKeys = string[];
+export const NonFilterableMetadataKeys = S.Array(S.String);
+export interface MetadataConfiguration {
+  nonFilterableMetadataKeys: string[];
+}
+export const MetadataConfiguration = S.suspend(() =>
+  S.Struct({ nonFilterableMetadataKeys: NonFilterableMetadataKeys }),
+).annotate({
+  identifier: "MetadataConfiguration",
+}) as any as S.Schema<MetadataConfiguration>;
 export interface CreateIndexInput {
   vectorBucketName?: string;
   vectorBucketArn?: string;
@@ -589,9 +452,307 @@ export const CreateIndexInput = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "CreateIndexInput",
 }) as any as S.Schema<CreateIndexInput>;
+export interface CreateIndexOutput {
+  indexArn: string;
+}
+export const CreateIndexOutput = S.suspend(() =>
+  S.Struct({ indexArn: S.optional(S.String) }),
+).annotate({
+  identifier: "CreateIndexOutput",
+}) as any as S.Schema<CreateIndexOutput>;
+export interface DeleteIndexInput {
+  vectorBucketName?: string;
+  indexName?: string;
+  indexArn?: string;
+}
+export const DeleteIndexInput = S.suspend(() =>
+  S.Struct({
+    vectorBucketName: S.optional(S.String),
+    indexName: S.optional(S.String),
+    indexArn: S.optional(S.String),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/DeleteIndex" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeleteIndexInput",
+}) as any as S.Schema<DeleteIndexInput>;
+export interface DeleteIndexOutput {}
+export const DeleteIndexOutput = S.suspend(() => S.Struct({})).annotate({
+  identifier: "DeleteIndexOutput",
+}) as any as S.Schema<DeleteIndexOutput>;
+export interface GetIndexInput {
+  vectorBucketName?: string;
+  indexName?: string;
+  indexArn?: string;
+}
+export const GetIndexInput = S.suspend(() =>
+  S.Struct({
+    vectorBucketName: S.optional(S.String),
+    indexName: S.optional(S.String),
+    indexArn: S.optional(S.String),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/GetIndex" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({ identifier: "GetIndexInput" }) as any as S.Schema<GetIndexInput>;
+export interface Index {
+  vectorBucketName: string;
+  indexName: string;
+  indexArn: string;
+  creationTime: Date;
+  dataType: DataType;
+  dimension: number;
+  distanceMetric: DistanceMetric;
+  metadataConfiguration?: MetadataConfiguration;
+  encryptionConfiguration?: EncryptionConfiguration;
+}
+export const Index = S.suspend(() =>
+  S.Struct({
+    vectorBucketName: S.String,
+    indexName: S.String,
+    indexArn: S.String,
+    creationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    dataType: DataType,
+    dimension: S.Number,
+    distanceMetric: DistanceMetric,
+    metadataConfiguration: S.optional(MetadataConfiguration),
+    encryptionConfiguration: S.optional(EncryptionConfiguration),
+  }),
+).annotate({ identifier: "Index" }) as any as S.Schema<Index>;
+export interface GetIndexOutput {
+  index: Index;
+}
+export const GetIndexOutput = S.suspend(() =>
+  S.Struct({ index: Index }),
+).annotate({ identifier: "GetIndexOutput" }) as any as S.Schema<GetIndexOutput>;
+export interface ListIndexesInput {
+  vectorBucketName?: string;
+  vectorBucketArn?: string;
+  maxResults?: number;
+  nextToken?: string;
+  prefix?: string;
+}
+export const ListIndexesInput = S.suspend(() =>
+  S.Struct({
+    vectorBucketName: S.optional(S.String),
+    vectorBucketArn: S.optional(S.String),
+    maxResults: S.optional(S.Number),
+    nextToken: S.optional(S.String),
+    prefix: S.optional(S.String),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ListIndexes" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListIndexesInput",
+}) as any as S.Schema<ListIndexesInput>;
+export interface IndexSummary {
+  vectorBucketName: string;
+  indexName: string;
+  indexArn: string;
+  creationTime: Date;
+}
+export const IndexSummary = S.suspend(() =>
+  S.Struct({
+    vectorBucketName: S.String,
+    indexName: S.String,
+    indexArn: S.String,
+    creationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  }),
+).annotate({ identifier: "IndexSummary" }) as any as S.Schema<IndexSummary>;
+export type ListIndexesOutputList = IndexSummary[];
+export const ListIndexesOutputList = S.Array(IndexSummary);
+export interface ListIndexesOutput {
+  nextToken?: string;
+  indexes: IndexSummary[];
+}
+export const ListIndexesOutput = S.suspend(() =>
+  S.Struct({ nextToken: S.optional(S.String), indexes: ListIndexesOutputList }),
+).annotate({
+  identifier: "ListIndexesOutput",
+}) as any as S.Schema<ListIndexesOutput>;
+export type DeleteVectorsInputList = string[];
+export const DeleteVectorsInputList = S.Array(S.String);
+export interface DeleteVectorsInput {
+  vectorBucketName?: string;
+  indexName?: string;
+  indexArn?: string;
+  keys: string[];
+}
+export const DeleteVectorsInput = S.suspend(() =>
+  S.Struct({
+    vectorBucketName: S.optional(S.String),
+    indexName: S.optional(S.String),
+    indexArn: S.optional(S.String),
+    keys: DeleteVectorsInputList,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/DeleteVectors" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeleteVectorsInput",
+}) as any as S.Schema<DeleteVectorsInput>;
+export interface DeleteVectorsOutput {}
+export const DeleteVectorsOutput = S.suspend(() => S.Struct({})).annotate({
+  identifier: "DeleteVectorsOutput",
+}) as any as S.Schema<DeleteVectorsOutput>;
+export type GetVectorsInputList = string[];
+export const GetVectorsInputList = S.Array(S.String);
+export interface GetVectorsInput {
+  vectorBucketName?: string;
+  indexName?: string;
+  indexArn?: string;
+  keys: string[];
+  returnData?: boolean;
+  returnMetadata?: boolean;
+}
+export const GetVectorsInput = S.suspend(() =>
+  S.Struct({
+    vectorBucketName: S.optional(S.String),
+    indexName: S.optional(S.String),
+    indexArn: S.optional(S.String),
+    keys: GetVectorsInputList,
+    returnData: S.optional(S.Boolean),
+    returnMetadata: S.optional(S.Boolean),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/GetVectors" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetVectorsInput",
+}) as any as S.Schema<GetVectorsInput>;
+export type Float32VectorData = number[];
+export const Float32VectorData = S.Array(S.Number);
+export type VectorData = { float32: number[] };
+export const VectorData = S.Union([S.Struct({ float32: Float32VectorData })]);
+export interface GetOutputVector {
+  key: string;
+  data?: VectorData;
+  metadata?: any;
+}
+export const GetOutputVector = S.suspend(() =>
+  S.Struct({
+    key: S.String,
+    data: S.optional(VectorData),
+    metadata: S.optional(S.Any),
+  }),
+).annotate({
+  identifier: "GetOutputVector",
+}) as any as S.Schema<GetOutputVector>;
+export type GetVectorsOutputList = GetOutputVector[];
+export const GetVectorsOutputList = S.Array(GetOutputVector);
+export interface GetVectorsOutput {
+  vectors: GetOutputVector[];
+}
+export const GetVectorsOutput = S.suspend(() =>
+  S.Struct({ vectors: GetVectorsOutputList }),
+).annotate({
+  identifier: "GetVectorsOutput",
+}) as any as S.Schema<GetVectorsOutput>;
+export interface ListVectorsInput {
+  vectorBucketName?: string;
+  indexName?: string;
+  indexArn?: string;
+  maxResults?: number;
+  nextToken?: string;
+  segmentCount?: number;
+  segmentIndex?: number;
+  returnData?: boolean;
+  returnMetadata?: boolean;
+}
+export const ListVectorsInput = S.suspend(() =>
+  S.Struct({
+    vectorBucketName: S.optional(S.String),
+    indexName: S.optional(S.String),
+    indexArn: S.optional(S.String),
+    maxResults: S.optional(S.Number),
+    nextToken: S.optional(S.String),
+    segmentCount: S.optional(S.Number),
+    segmentIndex: S.optional(S.Number),
+    returnData: S.optional(S.Boolean),
+    returnMetadata: S.optional(S.Boolean),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ListVectors" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListVectorsInput",
+}) as any as S.Schema<ListVectorsInput>;
+export interface ListOutputVector {
+  key: string;
+  data?: VectorData;
+  metadata?: any;
+}
+export const ListOutputVector = S.suspend(() =>
+  S.Struct({
+    key: S.String,
+    data: S.optional(VectorData),
+    metadata: S.optional(S.Any),
+  }),
+).annotate({
+  identifier: "ListOutputVector",
+}) as any as S.Schema<ListOutputVector>;
+export type ListVectorsOutputList = ListOutputVector[];
+export const ListVectorsOutputList = S.Array(ListOutputVector);
+export interface ListVectorsOutput {
+  nextToken?: string;
+  vectors: ListOutputVector[];
+}
+export const ListVectorsOutput = S.suspend(() =>
+  S.Struct({ nextToken: S.optional(S.String), vectors: ListVectorsOutputList }),
+).annotate({
+  identifier: "ListVectorsOutput",
+}) as any as S.Schema<ListVectorsOutput>;
+export interface PutInputVector {
+  key: string;
+  data: VectorData;
+  metadata?: any;
+}
+export const PutInputVector = S.suspend(() =>
+  S.Struct({ key: S.String, data: VectorData, metadata: S.optional(S.Any) }),
+).annotate({ identifier: "PutInputVector" }) as any as S.Schema<PutInputVector>;
+export type PutVectorsInputList = PutInputVector[];
+export const PutVectorsInputList = S.Array(PutInputVector);
 export interface PutVectorsInput {
   vectorBucketName?: string;
   indexName?: string;
@@ -614,11 +775,11 @@ export const PutVectorsInput = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "PutVectorsInput",
 }) as any as S.Schema<PutVectorsInput>;
 export interface PutVectorsOutput {}
-export const PutVectorsOutput = S.suspend(() => S.Struct({})).annotations({
+export const PutVectorsOutput = S.suspend(() => S.Struct({})).annotate({
   identifier: "PutVectorsOutput",
 }) as any as S.Schema<PutVectorsOutput>;
 export interface QueryVectorsInput {
@@ -651,181 +812,9 @@ export const QueryVectorsInput = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "QueryVectorsInput",
 }) as any as S.Schema<QueryVectorsInput>;
-export interface VectorBucket {
-  vectorBucketName: string;
-  vectorBucketArn: string;
-  creationTime: Date;
-  encryptionConfiguration?: EncryptionConfiguration;
-}
-export const VectorBucket = S.suspend(() =>
-  S.Struct({
-    vectorBucketName: S.String,
-    vectorBucketArn: S.String,
-    creationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    encryptionConfiguration: S.optional(EncryptionConfiguration),
-  }),
-).annotations({ identifier: "VectorBucket" }) as any as S.Schema<VectorBucket>;
-export interface VectorBucketSummary {
-  vectorBucketName: string;
-  vectorBucketArn: string;
-  creationTime: Date;
-}
-export const VectorBucketSummary = S.suspend(() =>
-  S.Struct({
-    vectorBucketName: S.String,
-    vectorBucketArn: S.String,
-    creationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  }),
-).annotations({
-  identifier: "VectorBucketSummary",
-}) as any as S.Schema<VectorBucketSummary>;
-export type ListVectorBucketsOutputList = VectorBucketSummary[];
-export const ListVectorBucketsOutputList = S.Array(VectorBucketSummary);
-export interface Index {
-  vectorBucketName: string;
-  indexName: string;
-  indexArn: string;
-  creationTime: Date;
-  dataType: DataType;
-  dimension: number;
-  distanceMetric: DistanceMetric;
-  metadataConfiguration?: MetadataConfiguration;
-  encryptionConfiguration?: EncryptionConfiguration;
-}
-export const Index = S.suspend(() =>
-  S.Struct({
-    vectorBucketName: S.String,
-    indexName: S.String,
-    indexArn: S.String,
-    creationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    dataType: DataType,
-    dimension: S.Number,
-    distanceMetric: DistanceMetric,
-    metadataConfiguration: S.optional(MetadataConfiguration),
-    encryptionConfiguration: S.optional(EncryptionConfiguration),
-  }),
-).annotations({ identifier: "Index" }) as any as S.Schema<Index>;
-export interface IndexSummary {
-  vectorBucketName: string;
-  indexName: string;
-  indexArn: string;
-  creationTime: Date;
-}
-export const IndexSummary = S.suspend(() =>
-  S.Struct({
-    vectorBucketName: S.String,
-    indexName: S.String,
-    indexArn: S.String,
-    creationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  }),
-).annotations({ identifier: "IndexSummary" }) as any as S.Schema<IndexSummary>;
-export type ListIndexesOutputList = IndexSummary[];
-export const ListIndexesOutputList = S.Array(IndexSummary);
-export interface GetOutputVector {
-  key: string;
-  data?: VectorData;
-  metadata?: any;
-}
-export const GetOutputVector = S.suspend(() =>
-  S.Struct({
-    key: S.String,
-    data: S.optional(VectorData),
-    metadata: S.optional(S.Any),
-  }),
-).annotations({
-  identifier: "GetOutputVector",
-}) as any as S.Schema<GetOutputVector>;
-export type GetVectorsOutputList = GetOutputVector[];
-export const GetVectorsOutputList = S.Array(GetOutputVector);
-export interface ListOutputVector {
-  key: string;
-  data?: VectorData;
-  metadata?: any;
-}
-export const ListOutputVector = S.suspend(() =>
-  S.Struct({
-    key: S.String,
-    data: S.optional(VectorData),
-    metadata: S.optional(S.Any),
-  }),
-).annotations({
-  identifier: "ListOutputVector",
-}) as any as S.Schema<ListOutputVector>;
-export type ListVectorsOutputList = ListOutputVector[];
-export const ListVectorsOutputList = S.Array(ListOutputVector);
-export interface CreateVectorBucketOutput {
-  vectorBucketArn: string;
-}
-export const CreateVectorBucketOutput = S.suspend(() =>
-  S.Struct({ vectorBucketArn: S.optional(S.String) }),
-).annotations({
-  identifier: "CreateVectorBucketOutput",
-}) as any as S.Schema<CreateVectorBucketOutput>;
-export interface GetVectorBucketOutput {
-  vectorBucket: VectorBucket;
-}
-export const GetVectorBucketOutput = S.suspend(() =>
-  S.Struct({ vectorBucket: VectorBucket }),
-).annotations({
-  identifier: "GetVectorBucketOutput",
-}) as any as S.Schema<GetVectorBucketOutput>;
-export interface ListVectorBucketsOutput {
-  nextToken?: string;
-  vectorBuckets: VectorBucketSummary[];
-}
-export const ListVectorBucketsOutput = S.suspend(() =>
-  S.Struct({
-    nextToken: S.optional(S.String),
-    vectorBuckets: ListVectorBucketsOutputList,
-  }),
-).annotations({
-  identifier: "ListVectorBucketsOutput",
-}) as any as S.Schema<ListVectorBucketsOutput>;
-export interface CreateIndexOutput {
-  indexArn: string;
-}
-export const CreateIndexOutput = S.suspend(() =>
-  S.Struct({ indexArn: S.optional(S.String) }),
-).annotations({
-  identifier: "CreateIndexOutput",
-}) as any as S.Schema<CreateIndexOutput>;
-export interface GetIndexOutput {
-  index: Index;
-}
-export const GetIndexOutput = S.suspend(() =>
-  S.Struct({ index: Index }),
-).annotations({
-  identifier: "GetIndexOutput",
-}) as any as S.Schema<GetIndexOutput>;
-export interface ListIndexesOutput {
-  nextToken?: string;
-  indexes: IndexSummary[];
-}
-export const ListIndexesOutput = S.suspend(() =>
-  S.Struct({ nextToken: S.optional(S.String), indexes: ListIndexesOutputList }),
-).annotations({
-  identifier: "ListIndexesOutput",
-}) as any as S.Schema<ListIndexesOutput>;
-export interface GetVectorsOutput {
-  vectors: GetOutputVector[];
-}
-export const GetVectorsOutput = S.suspend(() =>
-  S.Struct({ vectors: GetVectorsOutputList }),
-).annotations({
-  identifier: "GetVectorsOutput",
-}) as any as S.Schema<GetVectorsOutput>;
-export interface ListVectorsOutput {
-  nextToken?: string;
-  vectors: ListOutputVector[];
-}
-export const ListVectorsOutput = S.suspend(() =>
-  S.Struct({ nextToken: S.optional(S.String), vectors: ListVectorsOutputList }),
-).annotations({
-  identifier: "ListVectorsOutput",
-}) as any as S.Schema<ListVectorsOutput>;
 export interface QueryOutputVector {
   distance?: number;
   key: string;
@@ -837,7 +826,7 @@ export const QueryOutputVector = S.suspend(() =>
     key: S.String,
     metadata: S.optional(S.Any),
   }),
-).annotations({
+).annotate({
   identifier: "QueryOutputVector",
 }) as any as S.Schema<QueryOutputVector>;
 export type QueryVectorsOutputList = QueryOutputVector[];
@@ -851,50 +840,164 @@ export const QueryVectorsOutput = S.suspend(() =>
     vectors: QueryVectorsOutputList,
     distanceMetric: S.optional(DistanceMetric),
   }),
-).annotations({
+).annotate({
   identifier: "QueryVectorsOutput",
 }) as any as S.Schema<QueryVectorsOutput>;
 
 //# Errors
-export class ConflictException extends S.TaggedError<ConflictException>()(
-  "ConflictException",
-  { message: S.String },
-).pipe(C.withConflictError) {}
-export class NotFoundException extends S.TaggedError<NotFoundException>()(
+export class NotFoundException extends S.TaggedErrorClass<NotFoundException>()(
   "NotFoundException",
   { message: S.String },
 ).pipe(C.withBadRequestError) {}
-export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
-  "AccessDeniedException",
-  { message: S.String },
-).pipe(C.withAuthError) {}
-export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailableException>()(
+export class ServiceUnavailableException extends S.TaggedErrorClass<ServiceUnavailableException>()(
   "ServiceUnavailableException",
   { message: S.String },
   T.Retryable(),
 ).pipe(C.withServerError, C.withRetryableError) {}
-export class KmsDisabledException extends S.TaggedError<KmsDisabledException>()(
-  "KmsDisabledException",
+export class ConflictException extends S.TaggedErrorClass<ConflictException>()(
+  "ConflictException",
   { message: S.String },
-).pipe(C.withBadRequestError) {}
-export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
+).pipe(C.withConflictError) {}
+export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
   { message: S.String },
 ).pipe(C.withQuotaError) {}
-export class KmsInvalidKeyUsageException extends S.TaggedError<KmsInvalidKeyUsageException>()(
+export class AccessDeniedException extends S.TaggedErrorClass<AccessDeniedException>()(
+  "AccessDeniedException",
+  { message: S.String },
+).pipe(C.withAuthError) {}
+export class KmsDisabledException extends S.TaggedErrorClass<KmsDisabledException>()(
+  "KmsDisabledException",
+  { message: S.String },
+).pipe(C.withBadRequestError) {}
+export class KmsInvalidKeyUsageException extends S.TaggedErrorClass<KmsInvalidKeyUsageException>()(
   "KmsInvalidKeyUsageException",
   { message: S.String },
 ).pipe(C.withBadRequestError) {}
-export class KmsInvalidStateException extends S.TaggedError<KmsInvalidStateException>()(
+export class KmsInvalidStateException extends S.TaggedErrorClass<KmsInvalidStateException>()(
   "KmsInvalidStateException",
   { message: S.String },
 ).pipe(C.withBadRequestError) {}
-export class KmsNotFoundException extends S.TaggedError<KmsNotFoundException>()(
+export class KmsNotFoundException extends S.TaggedErrorClass<KmsNotFoundException>()(
   "KmsNotFoundException",
   { message: S.String },
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
+/**
+ * Lists all of the tags applied to a specified Amazon S3 Vectors resource. Each tag is a label consisting of a key and value pair. Tags can help you organize, track costs for, and control access to resources.
+ *
+ * For a list of S3 resources that support tagging, see Managing tags for Amazon S3 resources.
+ *
+ * ### Permissions
+ *
+ * For vector buckets and vector indexes, you must have the `s3vectors:ListTagsForResource` permission to use this operation.
+ */
+export const listTagsForResource: (
+  input: ListTagsForResourceInput,
+) => effect.Effect<
+  ListTagsForResourceOutput,
+  NotFoundException | ServiceUnavailableException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceInput,
+  output: ListTagsForResourceOutput,
+  errors: [NotFoundException, ServiceUnavailableException],
+}));
+/**
+ * Applies one or more user-defined tags to an Amazon S3 Vectors resource or updates existing tags. Each tag is a label consisting of a key and value pair. Tags can help you organize, track costs for, and control access to your resources. You can add up to 50 tags for each resource.
+ *
+ * For a list of S3 resources that support tagging, see Managing tags for Amazon S3 resources.
+ *
+ * ### Permissions
+ *
+ * For vector buckets and vector indexes, you must have the `s3vectors:TagResource` permission to use this operation.
+ */
+export const tagResource: (
+  input: TagResourceInput,
+) => effect.Effect<
+  TagResourceOutput,
+  | ConflictException
+  | NotFoundException
+  | ServiceUnavailableException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceInput,
+  output: TagResourceOutput,
+  errors: [ConflictException, NotFoundException, ServiceUnavailableException],
+}));
+/**
+ * Removes the specified user-defined tags from an Amazon S3 Vectors resource. You can pass one or more tag keys.
+ *
+ * For a list of S3 resources that support tagging, see Managing tags for Amazon S3 resources.
+ *
+ * ### Permissions
+ *
+ * For vector buckets and vector indexes, you must have the `s3vectors:UntagResource` permission to use this operation.
+ */
+export const untagResource: (
+  input: UntagResourceInput,
+) => effect.Effect<
+  UntagResourceOutput,
+  | ConflictException
+  | NotFoundException
+  | ServiceUnavailableException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceInput,
+  output: UntagResourceOutput,
+  errors: [ConflictException, NotFoundException, ServiceUnavailableException],
+}));
+/**
+ * Creates a vector bucket in the Amazon Web Services Region that you want your bucket to be in.
+ *
+ * ### Permissions
+ *
+ * You must have the `s3vectors:CreateVectorBucket` permission to use this operation.
+ *
+ * You must have the `s3vectors:TagResource` permission in addition to `s3vectors:CreateVectorBucket` permission to create a vector bucket with tags.
+ */
+export const createVectorBucket: (
+  input: CreateVectorBucketInput,
+) => effect.Effect<
+  CreateVectorBucketOutput,
+  | ConflictException
+  | ServiceQuotaExceededException
+  | ServiceUnavailableException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateVectorBucketInput,
+  output: CreateVectorBucketOutput,
+  errors: [
+    ConflictException,
+    ServiceQuotaExceededException,
+    ServiceUnavailableException,
+  ],
+}));
+/**
+ * Deletes a vector bucket. All vector indexes in the vector bucket must be deleted before the vector bucket can be deleted. To perform this operation, you must use either the vector bucket name or the vector bucket Amazon Resource Name (ARN).
+ *
+ * ### Permissions
+ *
+ * You must have the `s3vectors:DeleteVectorBucket` permission to use this operation.
+ */
+export const deleteVectorBucket: (
+  input: DeleteVectorBucketInput,
+) => effect.Effect<
+  DeleteVectorBucketOutput,
+  | ConflictException
+  | NotFoundException
+  | ServiceUnavailableException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteVectorBucketInput,
+  output: DeleteVectorBucketOutput,
+  errors: [ConflictException, NotFoundException, ServiceUnavailableException],
+}));
 /**
  * Deletes a vector bucket policy. To specify the bucket, you must use either the vector bucket name or the vector bucket Amazon Resource Name (ARN).
  *
@@ -929,6 +1032,24 @@ export const getVectorBucket: (
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetVectorBucketInput,
   output: GetVectorBucketOutput,
+  errors: [NotFoundException, ServiceUnavailableException],
+}));
+/**
+ * Gets details about a vector bucket policy. To specify the bucket, you must use either the vector bucket name or the vector bucket Amazon Resource Name (ARN).
+ *
+ * ### Permissions
+ *
+ * You must have the `s3vectors:GetVectorBucketPolicy` permission to use this operation.
+ */
+export const getVectorBucketPolicy: (
+  input: GetVectorBucketPolicyInput,
+) => effect.Effect<
+  GetVectorBucketPolicyOutput,
+  NotFoundException | ServiceUnavailableException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetVectorBucketPolicyInput,
+  output: GetVectorBucketPolicyOutput,
   errors: [NotFoundException, ServiceUnavailableException],
 }));
 /**
@@ -970,6 +1091,71 @@ export const listVectorBuckets: {
     items: "vectorBuckets",
     pageSize: "maxResults",
   } as const,
+}));
+/**
+ * Creates a bucket policy for a vector bucket. To specify the bucket, you must use either the vector bucket name or the vector bucket Amazon Resource Name (ARN).
+ *
+ * ### Permissions
+ *
+ * You must have the `s3vectors:PutVectorBucketPolicy` permission to use this operation.
+ */
+export const putVectorBucketPolicy: (
+  input: PutVectorBucketPolicyInput,
+) => effect.Effect<
+  PutVectorBucketPolicyOutput,
+  NotFoundException | ServiceUnavailableException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutVectorBucketPolicyInput,
+  output: PutVectorBucketPolicyOutput,
+  errors: [NotFoundException, ServiceUnavailableException],
+}));
+/**
+ * Creates a vector index within a vector bucket. To specify the vector bucket, you must use either the vector bucket name or the vector bucket Amazon Resource Name (ARN).
+ *
+ * ### Permissions
+ *
+ * You must have the `s3vectors:CreateIndex` permission to use this operation.
+ *
+ * You must have the `s3vectors:TagResource` permission in addition to `s3vectors:CreateIndex` permission to create a vector index with tags.
+ */
+export const createIndex: (
+  input: CreateIndexInput,
+) => effect.Effect<
+  CreateIndexOutput,
+  | ConflictException
+  | NotFoundException
+  | ServiceQuotaExceededException
+  | ServiceUnavailableException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateIndexInput,
+  output: CreateIndexOutput,
+  errors: [
+    ConflictException,
+    NotFoundException,
+    ServiceQuotaExceededException,
+    ServiceUnavailableException,
+  ],
+}));
+/**
+ * Deletes a vector index. To specify the vector index, you can either use both the vector bucket name and vector index name, or use the vector index Amazon Resource Name (ARN).
+ *
+ * ### Permissions
+ *
+ * You must have the `s3vectors:DeleteIndex` permission to use this operation.
+ */
+export const deleteIndex: (
+  input: DeleteIndexInput,
+) => effect.Effect<
+  DeleteIndexOutput,
+  NotFoundException | ServiceUnavailableException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteIndexInput,
+  output: DeleteIndexOutput,
+  errors: [NotFoundException, ServiceUnavailableException],
 }));
 /**
  * Returns vector index attributes. To specify the vector index, you can either use both the vector bucket name and the vector index name, or use the vector index Amazon Resource Name (ARN).
@@ -1028,6 +1214,70 @@ export const listIndexes: {
     items: "indexes",
     pageSize: "maxResults",
   } as const,
+}));
+/**
+ * Deletes one or more vectors in a vector index. To specify the vector index, you can either use both the vector bucket name and vector index name, or use the vector index Amazon Resource Name (ARN).
+ *
+ * ### Permissions
+ *
+ * You must have the `s3vectors:DeleteVectors` permission to use this operation.
+ */
+export const deleteVectors: (
+  input: DeleteVectorsInput,
+) => effect.Effect<
+  DeleteVectorsOutput,
+  | AccessDeniedException
+  | KmsDisabledException
+  | KmsInvalidKeyUsageException
+  | KmsInvalidStateException
+  | KmsNotFoundException
+  | NotFoundException
+  | ServiceUnavailableException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteVectorsInput,
+  output: DeleteVectorsOutput,
+  errors: [
+    AccessDeniedException,
+    KmsDisabledException,
+    KmsInvalidKeyUsageException,
+    KmsInvalidStateException,
+    KmsNotFoundException,
+    NotFoundException,
+    ServiceUnavailableException,
+  ],
+}));
+/**
+ * Returns vector attributes. To specify the vector index, you can either use both the vector bucket name and the vector index name, or use the vector index Amazon Resource Name (ARN).
+ *
+ * ### Permissions
+ *
+ * You must have the `s3vectors:GetVectors` permission to use this operation.
+ */
+export const getVectors: (
+  input: GetVectorsInput,
+) => effect.Effect<
+  GetVectorsOutput,
+  | KmsDisabledException
+  | KmsInvalidKeyUsageException
+  | KmsInvalidStateException
+  | KmsNotFoundException
+  | NotFoundException
+  | ServiceUnavailableException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetVectorsInput,
+  output: GetVectorsOutput,
+  errors: [
+    KmsDisabledException,
+    KmsInvalidKeyUsageException,
+    KmsInvalidStateException,
+    KmsNotFoundException,
+    NotFoundException,
+    ServiceUnavailableException,
+  ],
 }));
 /**
  * List vectors in the specified vector index. To specify the vector index, you can either use both the vector bucket name and the vector index name, or use the vector index Amazon Resource Name (ARN).
@@ -1089,225 +1339,33 @@ export const listVectors: {
   } as const,
 }));
 /**
- * Gets details about a vector bucket policy. To specify the bucket, you must use either the vector bucket name or the vector bucket Amazon Resource Name (ARN).
+ * Adds one or more vectors to a vector index. To specify the vector index, you can either use both the vector bucket name and the vector index name, or use the vector index Amazon Resource Name (ARN).
+ *
+ * For more information about limits, see Limitations and restrictions in the *Amazon S3 User Guide*.
+ *
+ * When inserting vector data into your vector index, you must provide the vector data as `float32` (32-bit floating point) values. If you pass higher-precision values to an Amazon Web Services SDK, S3 Vectors converts the values to 32-bit floating point before storing them, and `GetVectors`, `ListVectors`, and `QueryVectors` operations return the float32 values. Different Amazon Web Services SDKs may have different default numeric types, so ensure your vectors are properly formatted as `float32` values regardless of which SDK you're using. For example, in Python, use `numpy.float32` or explicitly cast your values.
  *
  * ### Permissions
  *
- * You must have the `s3vectors:GetVectorBucketPolicy` permission to use this operation.
+ * You must have the `s3vectors:PutVectors` permission to use this operation.
  */
-export const getVectorBucketPolicy: (
-  input: GetVectorBucketPolicyInput,
+export const putVectors: (
+  input: PutVectorsInput,
 ) => effect.Effect<
-  GetVectorBucketPolicyOutput,
-  NotFoundException | ServiceUnavailableException | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetVectorBucketPolicyInput,
-  output: GetVectorBucketPolicyOutput,
-  errors: [NotFoundException, ServiceUnavailableException],
-}));
-/**
- * Deletes a vector bucket. All vector indexes in the vector bucket must be deleted before the vector bucket can be deleted. To perform this operation, you must use either the vector bucket name or the vector bucket Amazon Resource Name (ARN).
- *
- * ### Permissions
- *
- * You must have the `s3vectors:DeleteVectorBucket` permission to use this operation.
- */
-export const deleteVectorBucket: (
-  input: DeleteVectorBucketInput,
-) => effect.Effect<
-  DeleteVectorBucketOutput,
-  | ConflictException
-  | NotFoundException
-  | ServiceUnavailableException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteVectorBucketInput,
-  output: DeleteVectorBucketOutput,
-  errors: [ConflictException, NotFoundException, ServiceUnavailableException],
-}));
-/**
- * Applies one or more user-defined tags to an Amazon S3 Vectors resource or updates existing tags. Each tag is a label consisting of a key and value pair. Tags can help you organize, track costs for, and control access to your resources. You can add up to 50 tags for each resource.
- *
- * For a list of S3 resources that support tagging, see Managing tags for Amazon S3 resources.
- *
- * ### Permissions
- *
- * For vector buckets and vector indexes, you must have the `s3vectors:TagResource` permission to use this operation.
- */
-export const tagResource: (
-  input: TagResourceInput,
-) => effect.Effect<
-  TagResourceOutput,
-  | ConflictException
-  | NotFoundException
-  | ServiceUnavailableException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceInput,
-  output: TagResourceOutput,
-  errors: [ConflictException, NotFoundException, ServiceUnavailableException],
-}));
-/**
- * Creates a bucket policy for a vector bucket. To specify the bucket, you must use either the vector bucket name or the vector bucket Amazon Resource Name (ARN).
- *
- * ### Permissions
- *
- * You must have the `s3vectors:PutVectorBucketPolicy` permission to use this operation.
- */
-export const putVectorBucketPolicy: (
-  input: PutVectorBucketPolicyInput,
-) => effect.Effect<
-  PutVectorBucketPolicyOutput,
-  NotFoundException | ServiceUnavailableException | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PutVectorBucketPolicyInput,
-  output: PutVectorBucketPolicyOutput,
-  errors: [NotFoundException, ServiceUnavailableException],
-}));
-/**
- * Deletes a vector index. To specify the vector index, you can either use both the vector bucket name and vector index name, or use the vector index Amazon Resource Name (ARN).
- *
- * ### Permissions
- *
- * You must have the `s3vectors:DeleteIndex` permission to use this operation.
- */
-export const deleteIndex: (
-  input: DeleteIndexInput,
-) => effect.Effect<
-  DeleteIndexOutput,
-  NotFoundException | ServiceUnavailableException | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteIndexInput,
-  output: DeleteIndexOutput,
-  errors: [NotFoundException, ServiceUnavailableException],
-}));
-/**
- * Lists all of the tags applied to a specified Amazon S3 Vectors resource. Each tag is a label consisting of a key and value pair. Tags can help you organize, track costs for, and control access to resources.
- *
- * For a list of S3 resources that support tagging, see Managing tags for Amazon S3 resources.
- *
- * ### Permissions
- *
- * For vector buckets and vector indexes, you must have the `s3vectors:ListTagsForResource` permission to use this operation.
- */
-export const listTagsForResource: (
-  input: ListTagsForResourceInput,
-) => effect.Effect<
-  ListTagsForResourceOutput,
-  NotFoundException | ServiceUnavailableException | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceInput,
-  output: ListTagsForResourceOutput,
-  errors: [NotFoundException, ServiceUnavailableException],
-}));
-/**
- * Removes the specified user-defined tags from an Amazon S3 Vectors resource. You can pass one or more tag keys.
- *
- * For a list of S3 resources that support tagging, see Managing tags for Amazon S3 resources.
- *
- * ### Permissions
- *
- * For vector buckets and vector indexes, you must have the `s3vectors:UntagResource` permission to use this operation.
- */
-export const untagResource: (
-  input: UntagResourceInput,
-) => effect.Effect<
-  UntagResourceOutput,
-  | ConflictException
-  | NotFoundException
-  | ServiceUnavailableException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceInput,
-  output: UntagResourceOutput,
-  errors: [ConflictException, NotFoundException, ServiceUnavailableException],
-}));
-/**
- * Creates a vector bucket in the Amazon Web Services Region that you want your bucket to be in.
- *
- * ### Permissions
- *
- * You must have the `s3vectors:CreateVectorBucket` permission to use this operation.
- *
- * You must have the `s3vectors:TagResource` permission in addition to `s3vectors:CreateVectorBucket` permission to create a vector bucket with tags.
- */
-export const createVectorBucket: (
-  input: CreateVectorBucketInput,
-) => effect.Effect<
-  CreateVectorBucketOutput,
-  | ConflictException
-  | ServiceQuotaExceededException
-  | ServiceUnavailableException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateVectorBucketInput,
-  output: CreateVectorBucketOutput,
-  errors: [
-    ConflictException,
-    ServiceQuotaExceededException,
-    ServiceUnavailableException,
-  ],
-}));
-/**
- * Creates a vector index within a vector bucket. To specify the vector bucket, you must use either the vector bucket name or the vector bucket Amazon Resource Name (ARN).
- *
- * ### Permissions
- *
- * You must have the `s3vectors:CreateIndex` permission to use this operation.
- *
- * You must have the `s3vectors:TagResource` permission in addition to `s3vectors:CreateIndex` permission to create a vector index with tags.
- */
-export const createIndex: (
-  input: CreateIndexInput,
-) => effect.Effect<
-  CreateIndexOutput,
-  | ConflictException
-  | NotFoundException
-  | ServiceQuotaExceededException
-  | ServiceUnavailableException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateIndexInput,
-  output: CreateIndexOutput,
-  errors: [
-    ConflictException,
-    NotFoundException,
-    ServiceQuotaExceededException,
-    ServiceUnavailableException,
-  ],
-}));
-/**
- * Deletes one or more vectors in a vector index. To specify the vector index, you can either use both the vector bucket name and vector index name, or use the vector index Amazon Resource Name (ARN).
- *
- * ### Permissions
- *
- * You must have the `s3vectors:DeleteVectors` permission to use this operation.
- */
-export const deleteVectors: (
-  input: DeleteVectorsInput,
-) => effect.Effect<
-  DeleteVectorsOutput,
+  PutVectorsOutput,
   | AccessDeniedException
   | KmsDisabledException
   | KmsInvalidKeyUsageException
   | KmsInvalidStateException
   | KmsNotFoundException
   | NotFoundException
+  | ServiceQuotaExceededException
   | ServiceUnavailableException
   | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteVectorsInput,
-  output: DeleteVectorsOutput,
+  input: PutVectorsInput,
+  output: PutVectorsOutput,
   errors: [
     AccessDeniedException,
     KmsDisabledException,
@@ -1315,6 +1373,7 @@ export const deleteVectors: (
     KmsInvalidStateException,
     KmsNotFoundException,
     NotFoundException,
+    ServiceQuotaExceededException,
     ServiceUnavailableException,
   ],
 }));
@@ -1352,76 +1411,6 @@ export const queryVectors: (
     KmsInvalidStateException,
     KmsNotFoundException,
     NotFoundException,
-    ServiceUnavailableException,
-  ],
-}));
-/**
- * Returns vector attributes. To specify the vector index, you can either use both the vector bucket name and the vector index name, or use the vector index Amazon Resource Name (ARN).
- *
- * ### Permissions
- *
- * You must have the `s3vectors:GetVectors` permission to use this operation.
- */
-export const getVectors: (
-  input: GetVectorsInput,
-) => effect.Effect<
-  GetVectorsOutput,
-  | KmsDisabledException
-  | KmsInvalidKeyUsageException
-  | KmsInvalidStateException
-  | KmsNotFoundException
-  | NotFoundException
-  | ServiceUnavailableException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetVectorsInput,
-  output: GetVectorsOutput,
-  errors: [
-    KmsDisabledException,
-    KmsInvalidKeyUsageException,
-    KmsInvalidStateException,
-    KmsNotFoundException,
-    NotFoundException,
-    ServiceUnavailableException,
-  ],
-}));
-/**
- * Adds one or more vectors to a vector index. To specify the vector index, you can either use both the vector bucket name and the vector index name, or use the vector index Amazon Resource Name (ARN).
- *
- * For more information about limits, see Limitations and restrictions in the *Amazon S3 User Guide*.
- *
- * When inserting vector data into your vector index, you must provide the vector data as `float32` (32-bit floating point) values. If you pass higher-precision values to an Amazon Web Services SDK, S3 Vectors converts the values to 32-bit floating point before storing them, and `GetVectors`, `ListVectors`, and `QueryVectors` operations return the float32 values. Different Amazon Web Services SDKs may have different default numeric types, so ensure your vectors are properly formatted as `float32` values regardless of which SDK you're using. For example, in Python, use `numpy.float32` or explicitly cast your values.
- *
- * ### Permissions
- *
- * You must have the `s3vectors:PutVectors` permission to use this operation.
- */
-export const putVectors: (
-  input: PutVectorsInput,
-) => effect.Effect<
-  PutVectorsOutput,
-  | AccessDeniedException
-  | KmsDisabledException
-  | KmsInvalidKeyUsageException
-  | KmsInvalidStateException
-  | KmsNotFoundException
-  | NotFoundException
-  | ServiceQuotaExceededException
-  | ServiceUnavailableException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PutVectorsInput,
-  output: PutVectorsOutput,
-  errors: [
-    AccessDeniedException,
-    KmsDisabledException,
-    KmsInvalidKeyUsageException,
-    KmsInvalidStateException,
-    KmsNotFoundException,
-    NotFoundException,
-    ServiceQuotaExceededException,
     ServiceUnavailableException,
   ],
 }));

@@ -94,7 +94,7 @@ export interface RetryableInfo {
  *
  * @example
  * ```ts
- * export class RateLimited extends Schema.TaggedError<RateLimited>()(
+ * export class RateLimited extends Schema.TaggedErrorClass<RateLimited>()(
  *   "RateLimited",
  *   { code: Schema.Number, message: Schema.String },
  * ).pipe(withCategory(ThrottlingError, RetryableError)) {}

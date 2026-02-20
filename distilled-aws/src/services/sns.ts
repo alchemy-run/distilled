@@ -1,4 +1,4 @@
-import { HttpClient } from "@effect/platform";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as effect from "effect/Effect";
 import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
@@ -101,69 +101,33 @@ export type Action = string;
 export type PhoneNumber = string | redacted.Redacted<string>;
 export type Token = string;
 export type AuthenticateOnUnsubscribe = string;
+export type SubscriptionARN = string;
 export type PhoneNumberString = string | redacted.Redacted<string>;
 export type TopicName = string;
+export type AttributeName = string;
 export type AttributeValue = string;
-export type SubscriptionARN = string;
+export type TagKey = string;
+export type TagValue = string;
 export type NextToken = string;
 export type MaxItemsListOriginationNumbers = number;
+export type Iso2CountryCode = string;
 export type MaxItems = number;
+export type Account = string;
+export type Protocol = string;
+export type Endpoint2 = string;
 export type AmazonResourceName = string;
 export type Message = string;
 export type Subject = string;
 export type MessageStructure = string;
-export type AttributeName = string;
-export type Protocol = string;
-export type Endpoint2 = string;
-export type TagKey = string;
-export type OTPCode = string;
-export type TagValue = string;
 export type Binary = Uint8Array;
-export type Iso2CountryCode = string;
-export type Account = string;
 export type MessageId = string;
+export type OTPCode = string;
 
 //# Schemas
-export interface GetSMSSandboxAccountStatusInput {}
-export const GetSMSSandboxAccountStatusInput = S.suspend(() =>
-  S.Struct({}).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "GetSMSSandboxAccountStatusInput",
-}) as any as S.Schema<GetSMSSandboxAccountStatusInput>;
 export type DelegatesList = string[];
 export const DelegatesList = S.Array(S.String);
 export type ActionsList = string[];
 export const ActionsList = S.Array(S.String);
-export type LanguageCodeString =
-  | "en-US"
-  | "en-GB"
-  | "es-419"
-  | "es-ES"
-  | "de-DE"
-  | "fr-CA"
-  | "fr-FR"
-  | "it-IT"
-  | "ja-JP"
-  | "pt-BR"
-  | "kr-KR"
-  | "zh-CN"
-  | "zh-TW"
-  | (string & {});
-export const LanguageCodeString = S.String;
-export type ListString = string[];
-export const ListString = S.Array(S.String);
-export type TagKeyList = string[];
-export const TagKeyList = S.Array(S.String);
 export interface AddPermissionInput {
   TopicArn: string;
   Label: string;
@@ -187,13 +151,13 @@ export const AddPermissionInput = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "AddPermissionInput",
 }) as any as S.Schema<AddPermissionInput>;
 export interface AddPermissionResponse {}
 export const AddPermissionResponse = S.suspend(() =>
   S.Struct({}).pipe(ns),
-).annotations({
+).annotate({
   identifier: "AddPermissionResponse",
 }) as any as S.Schema<AddPermissionResponse>;
 export interface CheckIfPhoneNumberIsOptedOutInput {
@@ -211,9 +175,17 @@ export const CheckIfPhoneNumberIsOptedOutInput = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "CheckIfPhoneNumberIsOptedOutInput",
 }) as any as S.Schema<CheckIfPhoneNumberIsOptedOutInput>;
+export interface CheckIfPhoneNumberIsOptedOutResponse {
+  isOptedOut?: boolean;
+}
+export const CheckIfPhoneNumberIsOptedOutResponse = S.suspend(() =>
+  S.Struct({ isOptedOut: S.optional(S.Boolean) }).pipe(ns),
+).annotate({
+  identifier: "CheckIfPhoneNumberIsOptedOutResponse",
+}) as any as S.Schema<CheckIfPhoneNumberIsOptedOutResponse>;
 export interface ConfirmSubscriptionInput {
   TopicArn: string;
   Token: string;
@@ -235,14 +207,51 @@ export const ConfirmSubscriptionInput = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "ConfirmSubscriptionInput",
 }) as any as S.Schema<ConfirmSubscriptionInput>;
+export interface ConfirmSubscriptionResponse {
+  SubscriptionArn?: string;
+}
+export const ConfirmSubscriptionResponse = S.suspend(() =>
+  S.Struct({ SubscriptionArn: S.optional(S.String) }).pipe(ns),
+).annotate({
+  identifier: "ConfirmSubscriptionResponse",
+}) as any as S.Schema<ConfirmSubscriptionResponse>;
 export type MapStringToString = { [key: string]: string | undefined };
-export const MapStringToString = S.Record({
-  key: S.String,
-  value: S.UndefinedOr(S.String),
-});
+export const MapStringToString = S.Record(S.String, S.String.pipe(S.optional));
+export interface CreatePlatformApplicationInput {
+  Name: string;
+  Platform: string;
+  Attributes: { [key: string]: string | undefined };
+}
+export const CreatePlatformApplicationInput = S.suspend(() =>
+  S.Struct({
+    Name: S.String,
+    Platform: S.String,
+    Attributes: MapStringToString,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "CreatePlatformApplicationInput",
+}) as any as S.Schema<CreatePlatformApplicationInput>;
+export interface CreatePlatformApplicationResponse {
+  PlatformApplicationArn?: string;
+}
+export const CreatePlatformApplicationResponse = S.suspend(() =>
+  S.Struct({ PlatformApplicationArn: S.optional(S.String) }).pipe(ns),
+).annotate({
+  identifier: "CreatePlatformApplicationResponse",
+}) as any as S.Schema<CreatePlatformApplicationResponse>;
 export interface CreatePlatformEndpointInput {
   PlatformApplicationArn: string;
   Token: string;
@@ -266,9 +275,33 @@ export const CreatePlatformEndpointInput = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "CreatePlatformEndpointInput",
 }) as any as S.Schema<CreatePlatformEndpointInput>;
+export interface CreateEndpointResponse {
+  EndpointArn?: string;
+}
+export const CreateEndpointResponse = S.suspend(() =>
+  S.Struct({ EndpointArn: S.optional(S.String) }).pipe(ns),
+).annotate({
+  identifier: "CreateEndpointResponse",
+}) as any as S.Schema<CreateEndpointResponse>;
+export type LanguageCodeString =
+  | "en-US"
+  | "en-GB"
+  | "es-419"
+  | "es-ES"
+  | "de-DE"
+  | "fr-CA"
+  | "fr-FR"
+  | "it-IT"
+  | "ja-JP"
+  | "pt-BR"
+  | "kr-KR"
+  | "zh-CN"
+  | "zh-TW"
+  | (string & {});
+export const LanguageCodeString = S.String;
 export interface CreateSMSSandboxPhoneNumberInput {
   PhoneNumber: string | redacted.Redacted<string>;
   LanguageCode?: LanguageCodeString;
@@ -288,830 +321,26 @@ export const CreateSMSSandboxPhoneNumberInput = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "CreateSMSSandboxPhoneNumberInput",
 }) as any as S.Schema<CreateSMSSandboxPhoneNumberInput>;
 export interface CreateSMSSandboxPhoneNumberResult {}
 export const CreateSMSSandboxPhoneNumberResult = S.suspend(() =>
   S.Struct({}).pipe(ns),
-).annotations({
+).annotate({
   identifier: "CreateSMSSandboxPhoneNumberResult",
 }) as any as S.Schema<CreateSMSSandboxPhoneNumberResult>;
-export interface DeleteEndpointInput {
-  EndpointArn: string;
-}
-export const DeleteEndpointInput = S.suspend(() =>
-  S.Struct({ EndpointArn: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DeleteEndpointInput",
-}) as any as S.Schema<DeleteEndpointInput>;
-export interface DeleteEndpointResponse {}
-export const DeleteEndpointResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotations({
-  identifier: "DeleteEndpointResponse",
-}) as any as S.Schema<DeleteEndpointResponse>;
-export interface DeletePlatformApplicationInput {
-  PlatformApplicationArn: string;
-}
-export const DeletePlatformApplicationInput = S.suspend(() =>
-  S.Struct({ PlatformApplicationArn: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DeletePlatformApplicationInput",
-}) as any as S.Schema<DeletePlatformApplicationInput>;
-export interface DeletePlatformApplicationResponse {}
-export const DeletePlatformApplicationResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotations({
-  identifier: "DeletePlatformApplicationResponse",
-}) as any as S.Schema<DeletePlatformApplicationResponse>;
-export interface DeleteSMSSandboxPhoneNumberInput {
-  PhoneNumber: string | redacted.Redacted<string>;
-}
-export const DeleteSMSSandboxPhoneNumberInput = S.suspend(() =>
-  S.Struct({ PhoneNumber: SensitiveString }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DeleteSMSSandboxPhoneNumberInput",
-}) as any as S.Schema<DeleteSMSSandboxPhoneNumberInput>;
-export interface DeleteSMSSandboxPhoneNumberResult {}
-export const DeleteSMSSandboxPhoneNumberResult = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotations({
-  identifier: "DeleteSMSSandboxPhoneNumberResult",
-}) as any as S.Schema<DeleteSMSSandboxPhoneNumberResult>;
-export interface DeleteTopicInput {
-  TopicArn: string;
-}
-export const DeleteTopicInput = S.suspend(() =>
-  S.Struct({ TopicArn: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DeleteTopicInput",
-}) as any as S.Schema<DeleteTopicInput>;
-export interface DeleteTopicResponse {}
-export const DeleteTopicResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotations({
-  identifier: "DeleteTopicResponse",
-}) as any as S.Schema<DeleteTopicResponse>;
-export interface GetDataProtectionPolicyInput {
-  ResourceArn: string;
-}
-export const GetDataProtectionPolicyInput = S.suspend(() =>
-  S.Struct({ ResourceArn: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "GetDataProtectionPolicyInput",
-}) as any as S.Schema<GetDataProtectionPolicyInput>;
-export interface GetEndpointAttributesInput {
-  EndpointArn: string;
-}
-export const GetEndpointAttributesInput = S.suspend(() =>
-  S.Struct({ EndpointArn: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "GetEndpointAttributesInput",
-}) as any as S.Schema<GetEndpointAttributesInput>;
-export interface GetPlatformApplicationAttributesInput {
-  PlatformApplicationArn: string;
-}
-export const GetPlatformApplicationAttributesInput = S.suspend(() =>
-  S.Struct({ PlatformApplicationArn: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "GetPlatformApplicationAttributesInput",
-}) as any as S.Schema<GetPlatformApplicationAttributesInput>;
-export interface GetSMSAttributesInput {
-  attributes?: string[];
-}
-export const GetSMSAttributesInput = S.suspend(() =>
-  S.Struct({ attributes: S.optional(ListString) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "GetSMSAttributesInput",
-}) as any as S.Schema<GetSMSAttributesInput>;
-export interface GetSMSSandboxAccountStatusResult {
-  IsInSandbox: boolean;
-}
-export const GetSMSSandboxAccountStatusResult = S.suspend(() =>
-  S.Struct({ IsInSandbox: S.Boolean }).pipe(ns),
-).annotations({
-  identifier: "GetSMSSandboxAccountStatusResult",
-}) as any as S.Schema<GetSMSSandboxAccountStatusResult>;
-export interface GetSubscriptionAttributesInput {
-  SubscriptionArn: string;
-}
-export const GetSubscriptionAttributesInput = S.suspend(() =>
-  S.Struct({ SubscriptionArn: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "GetSubscriptionAttributesInput",
-}) as any as S.Schema<GetSubscriptionAttributesInput>;
-export interface GetTopicAttributesInput {
-  TopicArn: string;
-}
-export const GetTopicAttributesInput = S.suspend(() =>
-  S.Struct({ TopicArn: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "GetTopicAttributesInput",
-}) as any as S.Schema<GetTopicAttributesInput>;
-export interface ListEndpointsByPlatformApplicationInput {
-  PlatformApplicationArn: string;
-  NextToken?: string;
-}
-export const ListEndpointsByPlatformApplicationInput = S.suspend(() =>
-  S.Struct({
-    PlatformApplicationArn: S.String,
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListEndpointsByPlatformApplicationInput",
-}) as any as S.Schema<ListEndpointsByPlatformApplicationInput>;
-export interface ListOriginationNumbersRequest {
-  NextToken?: string;
-  MaxResults?: number;
-}
-export const ListOriginationNumbersRequest = S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListOriginationNumbersRequest",
-}) as any as S.Schema<ListOriginationNumbersRequest>;
-export interface ListPhoneNumbersOptedOutInput {
-  nextToken?: string;
-}
-export const ListPhoneNumbersOptedOutInput = S.suspend(() =>
-  S.Struct({ nextToken: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListPhoneNumbersOptedOutInput",
-}) as any as S.Schema<ListPhoneNumbersOptedOutInput>;
-export interface ListPlatformApplicationsInput {
-  NextToken?: string;
-}
-export const ListPlatformApplicationsInput = S.suspend(() =>
-  S.Struct({ NextToken: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListPlatformApplicationsInput",
-}) as any as S.Schema<ListPlatformApplicationsInput>;
-export interface ListSMSSandboxPhoneNumbersInput {
-  NextToken?: string;
-  MaxResults?: number;
-}
-export const ListSMSSandboxPhoneNumbersInput = S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListSMSSandboxPhoneNumbersInput",
-}) as any as S.Schema<ListSMSSandboxPhoneNumbersInput>;
-export interface ListSubscriptionsInput {
-  NextToken?: string;
-}
-export const ListSubscriptionsInput = S.suspend(() =>
-  S.Struct({ NextToken: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListSubscriptionsInput",
-}) as any as S.Schema<ListSubscriptionsInput>;
-export interface ListSubscriptionsByTopicInput {
-  TopicArn: string;
-  NextToken?: string;
-}
-export const ListSubscriptionsByTopicInput = S.suspend(() =>
-  S.Struct({ TopicArn: S.String, NextToken: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListSubscriptionsByTopicInput",
-}) as any as S.Schema<ListSubscriptionsByTopicInput>;
-export interface ListTagsForResourceRequest {
-  ResourceArn: string;
-}
-export const ListTagsForResourceRequest = S.suspend(() =>
-  S.Struct({ ResourceArn: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListTagsForResourceRequest",
-}) as any as S.Schema<ListTagsForResourceRequest>;
-export interface ListTopicsInput {
-  NextToken?: string;
-}
-export const ListTopicsInput = S.suspend(() =>
-  S.Struct({ NextToken: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListTopicsInput",
-}) as any as S.Schema<ListTopicsInput>;
-export interface OptInPhoneNumberInput {
-  phoneNumber: string | redacted.Redacted<string>;
-}
-export const OptInPhoneNumberInput = S.suspend(() =>
-  S.Struct({ phoneNumber: SensitiveString }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "OptInPhoneNumberInput",
-}) as any as S.Schema<OptInPhoneNumberInput>;
-export interface OptInPhoneNumberResponse {}
-export const OptInPhoneNumberResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotations({
-  identifier: "OptInPhoneNumberResponse",
-}) as any as S.Schema<OptInPhoneNumberResponse>;
-export interface PutDataProtectionPolicyInput {
-  ResourceArn: string;
-  DataProtectionPolicy: string;
-}
-export const PutDataProtectionPolicyInput = S.suspend(() =>
-  S.Struct({ ResourceArn: S.String, DataProtectionPolicy: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "PutDataProtectionPolicyInput",
-}) as any as S.Schema<PutDataProtectionPolicyInput>;
-export interface PutDataProtectionPolicyResponse {}
-export const PutDataProtectionPolicyResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotations({
-  identifier: "PutDataProtectionPolicyResponse",
-}) as any as S.Schema<PutDataProtectionPolicyResponse>;
-export interface RemovePermissionInput {
-  TopicArn: string;
-  Label: string;
-}
-export const RemovePermissionInput = S.suspend(() =>
-  S.Struct({ TopicArn: S.String, Label: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "RemovePermissionInput",
-}) as any as S.Schema<RemovePermissionInput>;
-export interface RemovePermissionResponse {}
-export const RemovePermissionResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotations({
-  identifier: "RemovePermissionResponse",
-}) as any as S.Schema<RemovePermissionResponse>;
-export interface SetEndpointAttributesInput {
-  EndpointArn: string;
-  Attributes: { [key: string]: string | undefined };
-}
-export const SetEndpointAttributesInput = S.suspend(() =>
-  S.Struct({ EndpointArn: S.String, Attributes: MapStringToString }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "SetEndpointAttributesInput",
-}) as any as S.Schema<SetEndpointAttributesInput>;
-export interface SetEndpointAttributesResponse {}
-export const SetEndpointAttributesResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotations({
-  identifier: "SetEndpointAttributesResponse",
-}) as any as S.Schema<SetEndpointAttributesResponse>;
-export interface SetPlatformApplicationAttributesInput {
-  PlatformApplicationArn: string;
-  Attributes: { [key: string]: string | undefined };
-}
-export const SetPlatformApplicationAttributesInput = S.suspend(() =>
-  S.Struct({
-    PlatformApplicationArn: S.String,
-    Attributes: MapStringToString,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "SetPlatformApplicationAttributesInput",
-}) as any as S.Schema<SetPlatformApplicationAttributesInput>;
-export interface SetPlatformApplicationAttributesResponse {}
-export const SetPlatformApplicationAttributesResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotations({
-  identifier: "SetPlatformApplicationAttributesResponse",
-}) as any as S.Schema<SetPlatformApplicationAttributesResponse>;
-export interface SetSMSAttributesInput {
-  attributes: { [key: string]: string | undefined };
-}
-export const SetSMSAttributesInput = S.suspend(() =>
-  S.Struct({ attributes: MapStringToString }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "SetSMSAttributesInput",
-}) as any as S.Schema<SetSMSAttributesInput>;
-export interface SetSMSAttributesResponse {}
-export const SetSMSAttributesResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotations({
-  identifier: "SetSMSAttributesResponse",
-}) as any as S.Schema<SetSMSAttributesResponse>;
-export interface SetSubscriptionAttributesInput {
-  SubscriptionArn: string;
-  AttributeName: string;
-  AttributeValue?: string;
-}
-export const SetSubscriptionAttributesInput = S.suspend(() =>
-  S.Struct({
-    SubscriptionArn: S.String,
-    AttributeName: S.String,
-    AttributeValue: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "SetSubscriptionAttributesInput",
-}) as any as S.Schema<SetSubscriptionAttributesInput>;
-export interface SetSubscriptionAttributesResponse {}
-export const SetSubscriptionAttributesResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotations({
-  identifier: "SetSubscriptionAttributesResponse",
-}) as any as S.Schema<SetSubscriptionAttributesResponse>;
-export interface SetTopicAttributesInput {
-  TopicArn: string;
-  AttributeName: string;
-  AttributeValue?: string;
-}
-export const SetTopicAttributesInput = S.suspend(() =>
-  S.Struct({
-    TopicArn: S.String,
-    AttributeName: S.String,
-    AttributeValue: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "SetTopicAttributesInput",
-}) as any as S.Schema<SetTopicAttributesInput>;
-export interface SetTopicAttributesResponse {}
-export const SetTopicAttributesResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotations({
-  identifier: "SetTopicAttributesResponse",
-}) as any as S.Schema<SetTopicAttributesResponse>;
+export type TopicAttributesMap = { [key: string]: string | undefined };
+export const TopicAttributesMap = S.Record(S.String, S.String.pipe(S.optional));
 export interface Tag {
   Key: string;
   Value: string;
 }
 export const Tag = S.suspend(() =>
   S.Struct({ Key: S.String, Value: S.String }),
-).annotations({ identifier: "Tag" }) as any as S.Schema<Tag>;
+).annotate({ identifier: "Tag" }) as any as S.Schema<Tag>;
 export type TagList = Tag[];
 export const TagList = S.Array(Tag);
-export interface TagResourceRequest {
-  ResourceArn: string;
-  Tags: Tag[];
-}
-export const TagResourceRequest = S.suspend(() =>
-  S.Struct({ ResourceArn: S.String, Tags: TagList }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
-export interface TagResourceResponse {}
-export const TagResourceResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotations({
-  identifier: "TagResourceResponse",
-}) as any as S.Schema<TagResourceResponse>;
-export interface UnsubscribeInput {
-  SubscriptionArn: string;
-}
-export const UnsubscribeInput = S.suspend(() =>
-  S.Struct({ SubscriptionArn: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "UnsubscribeInput",
-}) as any as S.Schema<UnsubscribeInput>;
-export interface UnsubscribeResponse {}
-export const UnsubscribeResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotations({
-  identifier: "UnsubscribeResponse",
-}) as any as S.Schema<UnsubscribeResponse>;
-export interface UntagResourceRequest {
-  ResourceArn: string;
-  TagKeys: string[];
-}
-export const UntagResourceRequest = S.suspend(() =>
-  S.Struct({ ResourceArn: S.String, TagKeys: TagKeyList }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
-export interface UntagResourceResponse {}
-export const UntagResourceResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotations({
-  identifier: "UntagResourceResponse",
-}) as any as S.Schema<UntagResourceResponse>;
-export interface VerifySMSSandboxPhoneNumberInput {
-  PhoneNumber: string | redacted.Redacted<string>;
-  OneTimePassword: string;
-}
-export const VerifySMSSandboxPhoneNumberInput = S.suspend(() =>
-  S.Struct({ PhoneNumber: SensitiveString, OneTimePassword: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "VerifySMSSandboxPhoneNumberInput",
-}) as any as S.Schema<VerifySMSSandboxPhoneNumberInput>;
-export interface VerifySMSSandboxPhoneNumberResult {}
-export const VerifySMSSandboxPhoneNumberResult = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotations({
-  identifier: "VerifySMSSandboxPhoneNumberResult",
-}) as any as S.Schema<VerifySMSSandboxPhoneNumberResult>;
-export type TopicAttributesMap = { [key: string]: string | undefined };
-export const TopicAttributesMap = S.Record({
-  key: S.String,
-  value: S.UndefinedOr(S.String),
-});
-export type PhoneNumberList = string | redacted.Redacted<string>[];
-export const PhoneNumberList = S.Array(SensitiveString);
-export interface MessageAttributeValue {
-  DataType: string;
-  StringValue?: string;
-  BinaryValue?: Uint8Array;
-}
-export const MessageAttributeValue = S.suspend(() =>
-  S.Struct({
-    DataType: S.String,
-    StringValue: S.optional(S.String),
-    BinaryValue: S.optional(T.Blob),
-  }),
-).annotations({
-  identifier: "MessageAttributeValue",
-}) as any as S.Schema<MessageAttributeValue>;
-export type MessageAttributeMap = {
-  [key: string]: MessageAttributeValue | undefined;
-};
-export const MessageAttributeMap = S.Record({
-  key: S.String.pipe(T.XmlName("Name")),
-  value: S.UndefinedOr(
-    MessageAttributeValue.pipe(T.XmlName("Value")).annotations({
-      identifier: "MessageAttributeValue",
-    }),
-  ),
-});
-export interface PublishBatchRequestEntry {
-  Id: string;
-  Message: string;
-  Subject?: string;
-  MessageStructure?: string;
-  MessageAttributes?: { [key: string]: MessageAttributeValue | undefined };
-  MessageDeduplicationId?: string;
-  MessageGroupId?: string;
-}
-export const PublishBatchRequestEntry = S.suspend(() =>
-  S.Struct({
-    Id: S.String,
-    Message: S.String,
-    Subject: S.optional(S.String),
-    MessageStructure: S.optional(S.String),
-    MessageAttributes: S.optional(MessageAttributeMap),
-    MessageDeduplicationId: S.optional(S.String),
-    MessageGroupId: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "PublishBatchRequestEntry",
-}) as any as S.Schema<PublishBatchRequestEntry>;
-export type PublishBatchRequestEntryList = PublishBatchRequestEntry[];
-export const PublishBatchRequestEntryList = S.Array(PublishBatchRequestEntry);
-export type SubscriptionAttributesMap = { [key: string]: string | undefined };
-export const SubscriptionAttributesMap = S.Record({
-  key: S.String,
-  value: S.UndefinedOr(S.String),
-});
-export interface CheckIfPhoneNumberIsOptedOutResponse {
-  isOptedOut?: boolean;
-}
-export const CheckIfPhoneNumberIsOptedOutResponse = S.suspend(() =>
-  S.Struct({ isOptedOut: S.optional(S.Boolean) }).pipe(ns),
-).annotations({
-  identifier: "CheckIfPhoneNumberIsOptedOutResponse",
-}) as any as S.Schema<CheckIfPhoneNumberIsOptedOutResponse>;
-export interface ConfirmSubscriptionResponse {
-  SubscriptionArn?: string;
-}
-export const ConfirmSubscriptionResponse = S.suspend(() =>
-  S.Struct({ SubscriptionArn: S.optional(S.String) }).pipe(ns),
-).annotations({
-  identifier: "ConfirmSubscriptionResponse",
-}) as any as S.Schema<ConfirmSubscriptionResponse>;
-export interface CreatePlatformApplicationInput {
-  Name: string;
-  Platform: string;
-  Attributes: { [key: string]: string | undefined };
-}
-export const CreatePlatformApplicationInput = S.suspend(() =>
-  S.Struct({
-    Name: S.String,
-    Platform: S.String,
-    Attributes: MapStringToString,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "CreatePlatformApplicationInput",
-}) as any as S.Schema<CreatePlatformApplicationInput>;
-export interface CreateEndpointResponse {
-  EndpointArn?: string;
-}
-export const CreateEndpointResponse = S.suspend(() =>
-  S.Struct({ EndpointArn: S.optional(S.String) }).pipe(ns),
-).annotations({
-  identifier: "CreateEndpointResponse",
-}) as any as S.Schema<CreateEndpointResponse>;
 export interface CreateTopicInput {
   Name: string;
   Attributes?: { [key: string]: string | undefined };
@@ -1135,57 +364,434 @@ export const CreateTopicInput = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "CreateTopicInput",
 }) as any as S.Schema<CreateTopicInput>;
+export interface CreateTopicResponse {
+  TopicArn?: string;
+}
+export const CreateTopicResponse = S.suspend(() =>
+  S.Struct({ TopicArn: S.optional(S.String) }).pipe(ns),
+).annotate({
+  identifier: "CreateTopicResponse",
+}) as any as S.Schema<CreateTopicResponse>;
+export interface DeleteEndpointInput {
+  EndpointArn: string;
+}
+export const DeleteEndpointInput = S.suspend(() =>
+  S.Struct({ EndpointArn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeleteEndpointInput",
+}) as any as S.Schema<DeleteEndpointInput>;
+export interface DeleteEndpointResponse {}
+export const DeleteEndpointResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "DeleteEndpointResponse",
+}) as any as S.Schema<DeleteEndpointResponse>;
+export interface DeletePlatformApplicationInput {
+  PlatformApplicationArn: string;
+}
+export const DeletePlatformApplicationInput = S.suspend(() =>
+  S.Struct({ PlatformApplicationArn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeletePlatformApplicationInput",
+}) as any as S.Schema<DeletePlatformApplicationInput>;
+export interface DeletePlatformApplicationResponse {}
+export const DeletePlatformApplicationResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "DeletePlatformApplicationResponse",
+}) as any as S.Schema<DeletePlatformApplicationResponse>;
+export interface DeleteSMSSandboxPhoneNumberInput {
+  PhoneNumber: string | redacted.Redacted<string>;
+}
+export const DeleteSMSSandboxPhoneNumberInput = S.suspend(() =>
+  S.Struct({ PhoneNumber: SensitiveString }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeleteSMSSandboxPhoneNumberInput",
+}) as any as S.Schema<DeleteSMSSandboxPhoneNumberInput>;
+export interface DeleteSMSSandboxPhoneNumberResult {}
+export const DeleteSMSSandboxPhoneNumberResult = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "DeleteSMSSandboxPhoneNumberResult",
+}) as any as S.Schema<DeleteSMSSandboxPhoneNumberResult>;
+export interface DeleteTopicInput {
+  TopicArn: string;
+}
+export const DeleteTopicInput = S.suspend(() =>
+  S.Struct({ TopicArn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeleteTopicInput",
+}) as any as S.Schema<DeleteTopicInput>;
+export interface DeleteTopicResponse {}
+export const DeleteTopicResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "DeleteTopicResponse",
+}) as any as S.Schema<DeleteTopicResponse>;
+export interface GetDataProtectionPolicyInput {
+  ResourceArn: string;
+}
+export const GetDataProtectionPolicyInput = S.suspend(() =>
+  S.Struct({ ResourceArn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetDataProtectionPolicyInput",
+}) as any as S.Schema<GetDataProtectionPolicyInput>;
 export interface GetDataProtectionPolicyResponse {
   DataProtectionPolicy?: string;
 }
 export const GetDataProtectionPolicyResponse = S.suspend(() =>
   S.Struct({ DataProtectionPolicy: S.optional(S.String) }).pipe(ns),
-).annotations({
+).annotate({
   identifier: "GetDataProtectionPolicyResponse",
 }) as any as S.Schema<GetDataProtectionPolicyResponse>;
+export interface GetEndpointAttributesInput {
+  EndpointArn: string;
+}
+export const GetEndpointAttributesInput = S.suspend(() =>
+  S.Struct({ EndpointArn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetEndpointAttributesInput",
+}) as any as S.Schema<GetEndpointAttributesInput>;
 export interface GetEndpointAttributesResponse {
   Attributes?: { [key: string]: string | undefined };
 }
 export const GetEndpointAttributesResponse = S.suspend(() =>
   S.Struct({ Attributes: S.optional(MapStringToString) }).pipe(ns),
-).annotations({
+).annotate({
   identifier: "GetEndpointAttributesResponse",
 }) as any as S.Schema<GetEndpointAttributesResponse>;
+export interface GetPlatformApplicationAttributesInput {
+  PlatformApplicationArn: string;
+}
+export const GetPlatformApplicationAttributesInput = S.suspend(() =>
+  S.Struct({ PlatformApplicationArn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetPlatformApplicationAttributesInput",
+}) as any as S.Schema<GetPlatformApplicationAttributesInput>;
 export interface GetPlatformApplicationAttributesResponse {
   Attributes?: { [key: string]: string | undefined };
 }
 export const GetPlatformApplicationAttributesResponse = S.suspend(() =>
   S.Struct({ Attributes: S.optional(MapStringToString) }).pipe(ns),
-).annotations({
+).annotate({
   identifier: "GetPlatformApplicationAttributesResponse",
 }) as any as S.Schema<GetPlatformApplicationAttributesResponse>;
+export type ListString = string[];
+export const ListString = S.Array(S.String);
+export interface GetSMSAttributesInput {
+  attributes?: string[];
+}
+export const GetSMSAttributesInput = S.suspend(() =>
+  S.Struct({ attributes: S.optional(ListString) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetSMSAttributesInput",
+}) as any as S.Schema<GetSMSAttributesInput>;
 export interface GetSMSAttributesResponse {
   attributes?: { [key: string]: string | undefined };
 }
 export const GetSMSAttributesResponse = S.suspend(() =>
   S.Struct({ attributes: S.optional(MapStringToString) }).pipe(ns),
-).annotations({
+).annotate({
   identifier: "GetSMSAttributesResponse",
 }) as any as S.Schema<GetSMSAttributesResponse>;
+export interface GetSMSSandboxAccountStatusInput {}
+export const GetSMSSandboxAccountStatusInput = S.suspend(() =>
+  S.Struct({}).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetSMSSandboxAccountStatusInput",
+}) as any as S.Schema<GetSMSSandboxAccountStatusInput>;
+export interface GetSMSSandboxAccountStatusResult {
+  IsInSandbox: boolean;
+}
+export const GetSMSSandboxAccountStatusResult = S.suspend(() =>
+  S.Struct({ IsInSandbox: S.Boolean }).pipe(ns),
+).annotate({
+  identifier: "GetSMSSandboxAccountStatusResult",
+}) as any as S.Schema<GetSMSSandboxAccountStatusResult>;
+export interface GetSubscriptionAttributesInput {
+  SubscriptionArn: string;
+}
+export const GetSubscriptionAttributesInput = S.suspend(() =>
+  S.Struct({ SubscriptionArn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetSubscriptionAttributesInput",
+}) as any as S.Schema<GetSubscriptionAttributesInput>;
+export type SubscriptionAttributesMap = { [key: string]: string | undefined };
+export const SubscriptionAttributesMap = S.Record(
+  S.String,
+  S.String.pipe(S.optional),
+);
 export interface GetSubscriptionAttributesResponse {
   Attributes?: { [key: string]: string | undefined };
 }
 export const GetSubscriptionAttributesResponse = S.suspend(() =>
   S.Struct({ Attributes: S.optional(SubscriptionAttributesMap) }).pipe(ns),
-).annotations({
+).annotate({
   identifier: "GetSubscriptionAttributesResponse",
 }) as any as S.Schema<GetSubscriptionAttributesResponse>;
+export interface GetTopicAttributesInput {
+  TopicArn: string;
+}
+export const GetTopicAttributesInput = S.suspend(() =>
+  S.Struct({ TopicArn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetTopicAttributesInput",
+}) as any as S.Schema<GetTopicAttributesInput>;
 export interface GetTopicAttributesResponse {
   Attributes?: { [key: string]: string | undefined };
 }
 export const GetTopicAttributesResponse = S.suspend(() =>
   S.Struct({ Attributes: S.optional(TopicAttributesMap) }).pipe(ns),
-).annotations({
+).annotate({
   identifier: "GetTopicAttributesResponse",
 }) as any as S.Schema<GetTopicAttributesResponse>;
+export interface ListEndpointsByPlatformApplicationInput {
+  PlatformApplicationArn: string;
+  NextToken?: string;
+}
+export const ListEndpointsByPlatformApplicationInput = S.suspend(() =>
+  S.Struct({
+    PlatformApplicationArn: S.String,
+    NextToken: S.optional(S.String),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListEndpointsByPlatformApplicationInput",
+}) as any as S.Schema<ListEndpointsByPlatformApplicationInput>;
+export interface Endpoint {
+  EndpointArn?: string;
+  Attributes?: { [key: string]: string | undefined };
+}
+export const Endpoint = S.suspend(() =>
+  S.Struct({
+    EndpointArn: S.optional(S.String),
+    Attributes: S.optional(MapStringToString),
+  }),
+).annotate({ identifier: "Endpoint" }) as any as S.Schema<Endpoint>;
+export type ListOfEndpoints = Endpoint[];
+export const ListOfEndpoints = S.Array(Endpoint);
+export interface ListEndpointsByPlatformApplicationResponse {
+  Endpoints?: Endpoint[];
+  NextToken?: string;
+}
+export const ListEndpointsByPlatformApplicationResponse = S.suspend(() =>
+  S.Struct({
+    Endpoints: S.optional(ListOfEndpoints),
+    NextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotate({
+  identifier: "ListEndpointsByPlatformApplicationResponse",
+}) as any as S.Schema<ListEndpointsByPlatformApplicationResponse>;
+export interface ListOriginationNumbersRequest {
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListOriginationNumbersRequest = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    MaxResults: S.optional(S.Number),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListOriginationNumbersRequest",
+}) as any as S.Schema<ListOriginationNumbersRequest>;
+export type RouteType =
+  | "Transactional"
+  | "Promotional"
+  | "Premium"
+  | (string & {});
+export const RouteType = S.String;
+export type NumberCapability = "SMS" | "MMS" | "VOICE" | (string & {});
+export const NumberCapability = S.String;
+export type NumberCapabilityList = NumberCapability[];
+export const NumberCapabilityList = S.Array(NumberCapability);
+export interface PhoneNumberInformation {
+  CreatedAt?: Date;
+  PhoneNumber?: string | redacted.Redacted<string>;
+  Status?: string;
+  Iso2CountryCode?: string;
+  RouteType?: RouteType;
+  NumberCapabilities?: NumberCapability[];
+}
+export const PhoneNumberInformation = S.suspend(() =>
+  S.Struct({
+    CreatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    PhoneNumber: S.optional(SensitiveString),
+    Status: S.optional(S.String),
+    Iso2CountryCode: S.optional(S.String),
+    RouteType: S.optional(RouteType),
+    NumberCapabilities: S.optional(NumberCapabilityList),
+  }),
+).annotate({
+  identifier: "PhoneNumberInformation",
+}) as any as S.Schema<PhoneNumberInformation>;
+export type PhoneNumberInformationList = PhoneNumberInformation[];
+export const PhoneNumberInformationList = S.Array(PhoneNumberInformation);
+export interface ListOriginationNumbersResult {
+  NextToken?: string;
+  PhoneNumbers?: PhoneNumberInformation[];
+}
+export const ListOriginationNumbersResult = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    PhoneNumbers: S.optional(PhoneNumberInformationList),
+  }).pipe(ns),
+).annotate({
+  identifier: "ListOriginationNumbersResult",
+}) as any as S.Schema<ListOriginationNumbersResult>;
+export interface ListPhoneNumbersOptedOutInput {
+  nextToken?: string;
+}
+export const ListPhoneNumbersOptedOutInput = S.suspend(() =>
+  S.Struct({ nextToken: S.optional(S.String) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListPhoneNumbersOptedOutInput",
+}) as any as S.Schema<ListPhoneNumbersOptedOutInput>;
+export type PhoneNumberList = string | redacted.Redacted<string>[];
+export const PhoneNumberList = S.Array(SensitiveString);
 export interface ListPhoneNumbersOptedOutResponse {
   phoneNumbers?: string | redacted.Redacted<string>[];
   nextToken?: string;
@@ -1195,9 +801,124 @@ export const ListPhoneNumbersOptedOutResponse = S.suspend(() =>
     phoneNumbers: S.optional(PhoneNumberList),
     nextToken: S.optional(S.String),
   }).pipe(ns),
-).annotations({
+).annotate({
   identifier: "ListPhoneNumbersOptedOutResponse",
 }) as any as S.Schema<ListPhoneNumbersOptedOutResponse>;
+export interface ListPlatformApplicationsInput {
+  NextToken?: string;
+}
+export const ListPlatformApplicationsInput = S.suspend(() =>
+  S.Struct({ NextToken: S.optional(S.String) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListPlatformApplicationsInput",
+}) as any as S.Schema<ListPlatformApplicationsInput>;
+export interface PlatformApplication {
+  PlatformApplicationArn?: string;
+  Attributes?: { [key: string]: string | undefined };
+}
+export const PlatformApplication = S.suspend(() =>
+  S.Struct({
+    PlatformApplicationArn: S.optional(S.String),
+    Attributes: S.optional(MapStringToString),
+  }),
+).annotate({
+  identifier: "PlatformApplication",
+}) as any as S.Schema<PlatformApplication>;
+export type ListOfPlatformApplications = PlatformApplication[];
+export const ListOfPlatformApplications = S.Array(PlatformApplication);
+export interface ListPlatformApplicationsResponse {
+  PlatformApplications?: PlatformApplication[];
+  NextToken?: string;
+}
+export const ListPlatformApplicationsResponse = S.suspend(() =>
+  S.Struct({
+    PlatformApplications: S.optional(ListOfPlatformApplications),
+    NextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotate({
+  identifier: "ListPlatformApplicationsResponse",
+}) as any as S.Schema<ListPlatformApplicationsResponse>;
+export interface ListSMSSandboxPhoneNumbersInput {
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListSMSSandboxPhoneNumbersInput = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    MaxResults: S.optional(S.Number),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListSMSSandboxPhoneNumbersInput",
+}) as any as S.Schema<ListSMSSandboxPhoneNumbersInput>;
+export type SMSSandboxPhoneNumberVerificationStatus =
+  | "Pending"
+  | "Verified"
+  | (string & {});
+export const SMSSandboxPhoneNumberVerificationStatus = S.String;
+export interface SMSSandboxPhoneNumber {
+  PhoneNumber?: string | redacted.Redacted<string>;
+  Status?: SMSSandboxPhoneNumberVerificationStatus;
+}
+export const SMSSandboxPhoneNumber = S.suspend(() =>
+  S.Struct({
+    PhoneNumber: S.optional(SensitiveString),
+    Status: S.optional(SMSSandboxPhoneNumberVerificationStatus),
+  }),
+).annotate({
+  identifier: "SMSSandboxPhoneNumber",
+}) as any as S.Schema<SMSSandboxPhoneNumber>;
+export type SMSSandboxPhoneNumberList = SMSSandboxPhoneNumber[];
+export const SMSSandboxPhoneNumberList = S.Array(SMSSandboxPhoneNumber);
+export interface ListSMSSandboxPhoneNumbersResult {
+  PhoneNumbers: SMSSandboxPhoneNumber[];
+  NextToken?: string;
+}
+export const ListSMSSandboxPhoneNumbersResult = S.suspend(() =>
+  S.Struct({
+    PhoneNumbers: SMSSandboxPhoneNumberList,
+    NextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotate({
+  identifier: "ListSMSSandboxPhoneNumbersResult",
+}) as any as S.Schema<ListSMSSandboxPhoneNumbersResult>;
+export interface ListSubscriptionsInput {
+  NextToken?: string;
+}
+export const ListSubscriptionsInput = S.suspend(() =>
+  S.Struct({ NextToken: S.optional(S.String) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListSubscriptionsInput",
+}) as any as S.Schema<ListSubscriptionsInput>;
 export interface Subscription {
   SubscriptionArn?: string;
   Owner?: string;
@@ -1213,228 +934,9 @@ export const Subscription = S.suspend(() =>
     Endpoint: S.optional(S.String),
     TopicArn: S.optional(S.String),
   }),
-).annotations({ identifier: "Subscription" }) as any as S.Schema<Subscription>;
+).annotate({ identifier: "Subscription" }) as any as S.Schema<Subscription>;
 export type SubscriptionsList = Subscription[];
 export const SubscriptionsList = S.Array(Subscription);
-export interface ListSubscriptionsByTopicResponse {
-  Subscriptions?: Subscription[];
-  NextToken?: string;
-}
-export const ListSubscriptionsByTopicResponse = S.suspend(() =>
-  S.Struct({
-    Subscriptions: S.optional(SubscriptionsList),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotations({
-  identifier: "ListSubscriptionsByTopicResponse",
-}) as any as S.Schema<ListSubscriptionsByTopicResponse>;
-export interface ListTagsForResourceResponse {
-  Tags?: Tag[];
-}
-export const ListTagsForResourceResponse = S.suspend(() =>
-  S.Struct({ Tags: S.optional(TagList) }).pipe(ns),
-).annotations({
-  identifier: "ListTagsForResourceResponse",
-}) as any as S.Schema<ListTagsForResourceResponse>;
-export interface PublishBatchInput {
-  TopicArn: string;
-  PublishBatchRequestEntries: PublishBatchRequestEntry[];
-}
-export const PublishBatchInput = S.suspend(() =>
-  S.Struct({
-    TopicArn: S.String,
-    PublishBatchRequestEntries: PublishBatchRequestEntryList,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "PublishBatchInput",
-}) as any as S.Schema<PublishBatchInput>;
-export interface SubscribeInput {
-  TopicArn: string;
-  Protocol: string;
-  Endpoint?: string;
-  Attributes?: { [key: string]: string | undefined };
-  ReturnSubscriptionArn?: boolean;
-}
-export const SubscribeInput = S.suspend(() =>
-  S.Struct({
-    TopicArn: S.String,
-    Protocol: S.String,
-    Endpoint: S.optional(S.String),
-    Attributes: S.optional(SubscriptionAttributesMap),
-    ReturnSubscriptionArn: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "SubscribeInput",
-}) as any as S.Schema<SubscribeInput>;
-export type RouteType =
-  | "Transactional"
-  | "Promotional"
-  | "Premium"
-  | (string & {});
-export const RouteType = S.String;
-export type NumberCapability = "SMS" | "MMS" | "VOICE" | (string & {});
-export const NumberCapability = S.String;
-export type NumberCapabilityList = NumberCapability[];
-export const NumberCapabilityList = S.Array(NumberCapability);
-export type SMSSandboxPhoneNumberVerificationStatus =
-  | "Pending"
-  | "Verified"
-  | (string & {});
-export const SMSSandboxPhoneNumberVerificationStatus = S.String;
-export interface Endpoint {
-  EndpointArn?: string;
-  Attributes?: { [key: string]: string | undefined };
-}
-export const Endpoint = S.suspend(() =>
-  S.Struct({
-    EndpointArn: S.optional(S.String),
-    Attributes: S.optional(MapStringToString),
-  }),
-).annotations({ identifier: "Endpoint" }) as any as S.Schema<Endpoint>;
-export type ListOfEndpoints = Endpoint[];
-export const ListOfEndpoints = S.Array(Endpoint);
-export interface PhoneNumberInformation {
-  CreatedAt?: Date;
-  PhoneNumber?: string | redacted.Redacted<string>;
-  Status?: string;
-  Iso2CountryCode?: string;
-  RouteType?: RouteType;
-  NumberCapabilities?: NumberCapability[];
-}
-export const PhoneNumberInformation = S.suspend(() =>
-  S.Struct({
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    PhoneNumber: S.optional(SensitiveString),
-    Status: S.optional(S.String),
-    Iso2CountryCode: S.optional(S.String),
-    RouteType: S.optional(RouteType),
-    NumberCapabilities: S.optional(NumberCapabilityList),
-  }),
-).annotations({
-  identifier: "PhoneNumberInformation",
-}) as any as S.Schema<PhoneNumberInformation>;
-export type PhoneNumberInformationList = PhoneNumberInformation[];
-export const PhoneNumberInformationList = S.Array(PhoneNumberInformation);
-export interface PlatformApplication {
-  PlatformApplicationArn?: string;
-  Attributes?: { [key: string]: string | undefined };
-}
-export const PlatformApplication = S.suspend(() =>
-  S.Struct({
-    PlatformApplicationArn: S.optional(S.String),
-    Attributes: S.optional(MapStringToString),
-  }),
-).annotations({
-  identifier: "PlatformApplication",
-}) as any as S.Schema<PlatformApplication>;
-export type ListOfPlatformApplications = PlatformApplication[];
-export const ListOfPlatformApplications = S.Array(PlatformApplication);
-export interface SMSSandboxPhoneNumber {
-  PhoneNumber?: string | redacted.Redacted<string>;
-  Status?: SMSSandboxPhoneNumberVerificationStatus;
-}
-export const SMSSandboxPhoneNumber = S.suspend(() =>
-  S.Struct({
-    PhoneNumber: S.optional(SensitiveString),
-    Status: S.optional(SMSSandboxPhoneNumberVerificationStatus),
-  }),
-).annotations({
-  identifier: "SMSSandboxPhoneNumber",
-}) as any as S.Schema<SMSSandboxPhoneNumber>;
-export type SMSSandboxPhoneNumberList = SMSSandboxPhoneNumber[];
-export const SMSSandboxPhoneNumberList = S.Array(SMSSandboxPhoneNumber);
-export interface Topic {
-  TopicArn?: string;
-}
-export const Topic = S.suspend(() =>
-  S.Struct({ TopicArn: S.optional(S.String) }),
-).annotations({ identifier: "Topic" }) as any as S.Schema<Topic>;
-export type TopicsList = Topic[];
-export const TopicsList = S.Array(Topic);
-export interface CreatePlatformApplicationResponse {
-  PlatformApplicationArn?: string;
-}
-export const CreatePlatformApplicationResponse = S.suspend(() =>
-  S.Struct({ PlatformApplicationArn: S.optional(S.String) }).pipe(ns),
-).annotations({
-  identifier: "CreatePlatformApplicationResponse",
-}) as any as S.Schema<CreatePlatformApplicationResponse>;
-export interface CreateTopicResponse {
-  TopicArn?: string;
-}
-export const CreateTopicResponse = S.suspend(() =>
-  S.Struct({ TopicArn: S.optional(S.String) }).pipe(ns),
-).annotations({
-  identifier: "CreateTopicResponse",
-}) as any as S.Schema<CreateTopicResponse>;
-export interface ListEndpointsByPlatformApplicationResponse {
-  Endpoints?: Endpoint[];
-  NextToken?: string;
-}
-export const ListEndpointsByPlatformApplicationResponse = S.suspend(() =>
-  S.Struct({
-    Endpoints: S.optional(ListOfEndpoints),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotations({
-  identifier: "ListEndpointsByPlatformApplicationResponse",
-}) as any as S.Schema<ListEndpointsByPlatformApplicationResponse>;
-export interface ListOriginationNumbersResult {
-  NextToken?: string;
-  PhoneNumbers?: PhoneNumberInformation[];
-}
-export const ListOriginationNumbersResult = S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    PhoneNumbers: S.optional(PhoneNumberInformationList),
-  }).pipe(ns),
-).annotations({
-  identifier: "ListOriginationNumbersResult",
-}) as any as S.Schema<ListOriginationNumbersResult>;
-export interface ListPlatformApplicationsResponse {
-  PlatformApplications?: PlatformApplication[];
-  NextToken?: string;
-}
-export const ListPlatformApplicationsResponse = S.suspend(() =>
-  S.Struct({
-    PlatformApplications: S.optional(ListOfPlatformApplications),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotations({
-  identifier: "ListPlatformApplicationsResponse",
-}) as any as S.Schema<ListPlatformApplicationsResponse>;
-export interface ListSMSSandboxPhoneNumbersResult {
-  PhoneNumbers: SMSSandboxPhoneNumber[];
-  NextToken?: string;
-}
-export const ListSMSSandboxPhoneNumbersResult = S.suspend(() =>
-  S.Struct({
-    PhoneNumbers: SMSSandboxPhoneNumberList,
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotations({
-  identifier: "ListSMSSandboxPhoneNumbersResult",
-}) as any as S.Schema<ListSMSSandboxPhoneNumbersResult>;
 export interface ListSubscriptionsResponse {
   Subscriptions?: Subscription[];
   NextToken?: string;
@@ -1444,9 +946,92 @@ export const ListSubscriptionsResponse = S.suspend(() =>
     Subscriptions: S.optional(SubscriptionsList),
     NextToken: S.optional(S.String),
   }).pipe(ns),
-).annotations({
+).annotate({
   identifier: "ListSubscriptionsResponse",
 }) as any as S.Schema<ListSubscriptionsResponse>;
+export interface ListSubscriptionsByTopicInput {
+  TopicArn: string;
+  NextToken?: string;
+}
+export const ListSubscriptionsByTopicInput = S.suspend(() =>
+  S.Struct({ TopicArn: S.String, NextToken: S.optional(S.String) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListSubscriptionsByTopicInput",
+}) as any as S.Schema<ListSubscriptionsByTopicInput>;
+export interface ListSubscriptionsByTopicResponse {
+  Subscriptions?: Subscription[];
+  NextToken?: string;
+}
+export const ListSubscriptionsByTopicResponse = S.suspend(() =>
+  S.Struct({
+    Subscriptions: S.optional(SubscriptionsList),
+    NextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotate({
+  identifier: "ListSubscriptionsByTopicResponse",
+}) as any as S.Schema<ListSubscriptionsByTopicResponse>;
+export interface ListTagsForResourceRequest {
+  ResourceArn: string;
+}
+export const ListTagsForResourceRequest = S.suspend(() =>
+  S.Struct({ ResourceArn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListTagsForResourceRequest",
+}) as any as S.Schema<ListTagsForResourceRequest>;
+export interface ListTagsForResourceResponse {
+  Tags?: Tag[];
+}
+export const ListTagsForResourceResponse = S.suspend(() =>
+  S.Struct({ Tags: S.optional(TagList) }).pipe(ns),
+).annotate({
+  identifier: "ListTagsForResourceResponse",
+}) as any as S.Schema<ListTagsForResourceResponse>;
+export interface ListTopicsInput {
+  NextToken?: string;
+}
+export const ListTopicsInput = S.suspend(() =>
+  S.Struct({ NextToken: S.optional(S.String) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListTopicsInput",
+}) as any as S.Schema<ListTopicsInput>;
+export interface Topic {
+  TopicArn?: string;
+}
+export const Topic = S.suspend(() =>
+  S.Struct({ TopicArn: S.optional(S.String) }),
+).annotate({ identifier: "Topic" }) as any as S.Schema<Topic>;
+export type TopicsList = Topic[];
+export const TopicsList = S.Array(Topic);
 export interface ListTopicsResponse {
   Topics?: Topic[];
   NextToken?: string;
@@ -1456,9 +1041,56 @@ export const ListTopicsResponse = S.suspend(() =>
     Topics: S.optional(TopicsList),
     NextToken: S.optional(S.String),
   }).pipe(ns),
-).annotations({
+).annotate({
   identifier: "ListTopicsResponse",
 }) as any as S.Schema<ListTopicsResponse>;
+export interface OptInPhoneNumberInput {
+  phoneNumber: string | redacted.Redacted<string>;
+}
+export const OptInPhoneNumberInput = S.suspend(() =>
+  S.Struct({ phoneNumber: SensitiveString }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "OptInPhoneNumberInput",
+}) as any as S.Schema<OptInPhoneNumberInput>;
+export interface OptInPhoneNumberResponse {}
+export const OptInPhoneNumberResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "OptInPhoneNumberResponse",
+}) as any as S.Schema<OptInPhoneNumberResponse>;
+export interface MessageAttributeValue {
+  DataType: string;
+  StringValue?: string;
+  BinaryValue?: Uint8Array;
+}
+export const MessageAttributeValue = S.suspend(() =>
+  S.Struct({
+    DataType: S.String,
+    StringValue: S.optional(S.String),
+    BinaryValue: S.optional(T.Blob),
+  }),
+).annotate({
+  identifier: "MessageAttributeValue",
+}) as any as S.Schema<MessageAttributeValue>;
+export type MessageAttributeMap = {
+  [key: string]: MessageAttributeValue | undefined;
+};
+export const MessageAttributeMap = S.Record(
+  S.String.pipe(T.XmlName("Name")),
+  MessageAttributeValue.pipe(T.XmlName("Value"))
+    .annotate({ identifier: "MessageAttributeValue" })
+    .pipe(S.optional),
+);
 export interface PublishInput {
   TopicArn?: string;
   TargetArn?: string;
@@ -1492,15 +1124,65 @@ export const PublishInput = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({ identifier: "PublishInput" }) as any as S.Schema<PublishInput>;
-export interface SubscribeResponse {
-  SubscriptionArn?: string;
+).annotate({ identifier: "PublishInput" }) as any as S.Schema<PublishInput>;
+export interface PublishResponse {
+  MessageId?: string;
+  SequenceNumber?: string;
 }
-export const SubscribeResponse = S.suspend(() =>
-  S.Struct({ SubscriptionArn: S.optional(S.String) }).pipe(ns),
-).annotations({
-  identifier: "SubscribeResponse",
-}) as any as S.Schema<SubscribeResponse>;
+export const PublishResponse = S.suspend(() =>
+  S.Struct({
+    MessageId: S.optional(S.String),
+    SequenceNumber: S.optional(S.String),
+  }).pipe(ns),
+).annotate({
+  identifier: "PublishResponse",
+}) as any as S.Schema<PublishResponse>;
+export interface PublishBatchRequestEntry {
+  Id: string;
+  Message: string;
+  Subject?: string;
+  MessageStructure?: string;
+  MessageAttributes?: { [key: string]: MessageAttributeValue | undefined };
+  MessageDeduplicationId?: string;
+  MessageGroupId?: string;
+}
+export const PublishBatchRequestEntry = S.suspend(() =>
+  S.Struct({
+    Id: S.String,
+    Message: S.String,
+    Subject: S.optional(S.String),
+    MessageStructure: S.optional(S.String),
+    MessageAttributes: S.optional(MessageAttributeMap),
+    MessageDeduplicationId: S.optional(S.String),
+    MessageGroupId: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "PublishBatchRequestEntry",
+}) as any as S.Schema<PublishBatchRequestEntry>;
+export type PublishBatchRequestEntryList = PublishBatchRequestEntry[];
+export const PublishBatchRequestEntryList = S.Array(PublishBatchRequestEntry);
+export interface PublishBatchInput {
+  TopicArn: string;
+  PublishBatchRequestEntries: PublishBatchRequestEntry[];
+}
+export const PublishBatchInput = S.suspend(() =>
+  S.Struct({
+    TopicArn: S.String,
+    PublishBatchRequestEntries: PublishBatchRequestEntryList,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "PublishBatchInput",
+}) as any as S.Schema<PublishBatchInput>;
 export interface PublishBatchResultEntry {
   Id?: string;
   MessageId?: string;
@@ -1512,7 +1194,7 @@ export const PublishBatchResultEntry = S.suspend(() =>
     MessageId: S.optional(S.String),
     SequenceNumber: S.optional(S.String),
   }),
-).annotations({
+).annotate({
   identifier: "PublishBatchResultEntry",
 }) as any as S.Schema<PublishBatchResultEntry>;
 export type PublishBatchResultEntryList = PublishBatchResultEntry[];
@@ -1530,23 +1212,11 @@ export const BatchResultErrorEntry = S.suspend(() =>
     Message: S.optional(S.String),
     SenderFault: S.Boolean,
   }),
-).annotations({
+).annotate({
   identifier: "BatchResultErrorEntry",
 }) as any as S.Schema<BatchResultErrorEntry>;
 export type BatchResultErrorEntryList = BatchResultErrorEntry[];
 export const BatchResultErrorEntryList = S.Array(BatchResultErrorEntry);
-export interface PublishResponse {
-  MessageId?: string;
-  SequenceNumber?: string;
-}
-export const PublishResponse = S.suspend(() =>
-  S.Struct({
-    MessageId: S.optional(S.String),
-    SequenceNumber: S.optional(S.String),
-  }).pipe(ns),
-).annotations({
-  identifier: "PublishResponse",
-}) as any as S.Schema<PublishResponse>;
 export interface PublishBatchResponse {
   Successful?: PublishBatchResultEntry[];
   Failed?: BatchResultErrorEntry[];
@@ -1556,179 +1226,477 @@ export const PublishBatchResponse = S.suspend(() =>
     Successful: S.optional(PublishBatchResultEntryList),
     Failed: S.optional(BatchResultErrorEntryList),
   }).pipe(ns),
-).annotations({
+).annotate({
   identifier: "PublishBatchResponse",
 }) as any as S.Schema<PublishBatchResponse>;
+export interface PutDataProtectionPolicyInput {
+  ResourceArn: string;
+  DataProtectionPolicy: string;
+}
+export const PutDataProtectionPolicyInput = S.suspend(() =>
+  S.Struct({ ResourceArn: S.String, DataProtectionPolicy: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "PutDataProtectionPolicyInput",
+}) as any as S.Schema<PutDataProtectionPolicyInput>;
+export interface PutDataProtectionPolicyResponse {}
+export const PutDataProtectionPolicyResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "PutDataProtectionPolicyResponse",
+}) as any as S.Schema<PutDataProtectionPolicyResponse>;
+export interface RemovePermissionInput {
+  TopicArn: string;
+  Label: string;
+}
+export const RemovePermissionInput = S.suspend(() =>
+  S.Struct({ TopicArn: S.String, Label: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "RemovePermissionInput",
+}) as any as S.Schema<RemovePermissionInput>;
+export interface RemovePermissionResponse {}
+export const RemovePermissionResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "RemovePermissionResponse",
+}) as any as S.Schema<RemovePermissionResponse>;
+export interface SetEndpointAttributesInput {
+  EndpointArn: string;
+  Attributes: { [key: string]: string | undefined };
+}
+export const SetEndpointAttributesInput = S.suspend(() =>
+  S.Struct({ EndpointArn: S.String, Attributes: MapStringToString }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "SetEndpointAttributesInput",
+}) as any as S.Schema<SetEndpointAttributesInput>;
+export interface SetEndpointAttributesResponse {}
+export const SetEndpointAttributesResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "SetEndpointAttributesResponse",
+}) as any as S.Schema<SetEndpointAttributesResponse>;
+export interface SetPlatformApplicationAttributesInput {
+  PlatformApplicationArn: string;
+  Attributes: { [key: string]: string | undefined };
+}
+export const SetPlatformApplicationAttributesInput = S.suspend(() =>
+  S.Struct({
+    PlatformApplicationArn: S.String,
+    Attributes: MapStringToString,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "SetPlatformApplicationAttributesInput",
+}) as any as S.Schema<SetPlatformApplicationAttributesInput>;
+export interface SetPlatformApplicationAttributesResponse {}
+export const SetPlatformApplicationAttributesResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "SetPlatformApplicationAttributesResponse",
+}) as any as S.Schema<SetPlatformApplicationAttributesResponse>;
+export interface SetSMSAttributesInput {
+  attributes: { [key: string]: string | undefined };
+}
+export const SetSMSAttributesInput = S.suspend(() =>
+  S.Struct({ attributes: MapStringToString }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "SetSMSAttributesInput",
+}) as any as S.Schema<SetSMSAttributesInput>;
+export interface SetSMSAttributesResponse {}
+export const SetSMSAttributesResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "SetSMSAttributesResponse",
+}) as any as S.Schema<SetSMSAttributesResponse>;
+export interface SetSubscriptionAttributesInput {
+  SubscriptionArn: string;
+  AttributeName: string;
+  AttributeValue?: string;
+}
+export const SetSubscriptionAttributesInput = S.suspend(() =>
+  S.Struct({
+    SubscriptionArn: S.String,
+    AttributeName: S.String,
+    AttributeValue: S.optional(S.String),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "SetSubscriptionAttributesInput",
+}) as any as S.Schema<SetSubscriptionAttributesInput>;
+export interface SetSubscriptionAttributesResponse {}
+export const SetSubscriptionAttributesResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "SetSubscriptionAttributesResponse",
+}) as any as S.Schema<SetSubscriptionAttributesResponse>;
+export interface SetTopicAttributesInput {
+  TopicArn: string;
+  AttributeName: string;
+  AttributeValue?: string;
+}
+export const SetTopicAttributesInput = S.suspend(() =>
+  S.Struct({
+    TopicArn: S.String,
+    AttributeName: S.String,
+    AttributeValue: S.optional(S.String),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "SetTopicAttributesInput",
+}) as any as S.Schema<SetTopicAttributesInput>;
+export interface SetTopicAttributesResponse {}
+export const SetTopicAttributesResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "SetTopicAttributesResponse",
+}) as any as S.Schema<SetTopicAttributesResponse>;
+export interface SubscribeInput {
+  TopicArn: string;
+  Protocol: string;
+  Endpoint?: string;
+  Attributes?: { [key: string]: string | undefined };
+  ReturnSubscriptionArn?: boolean;
+}
+export const SubscribeInput = S.suspend(() =>
+  S.Struct({
+    TopicArn: S.String,
+    Protocol: S.String,
+    Endpoint: S.optional(S.String),
+    Attributes: S.optional(SubscriptionAttributesMap),
+    ReturnSubscriptionArn: S.optional(S.Boolean),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({ identifier: "SubscribeInput" }) as any as S.Schema<SubscribeInput>;
+export interface SubscribeResponse {
+  SubscriptionArn?: string;
+}
+export const SubscribeResponse = S.suspend(() =>
+  S.Struct({ SubscriptionArn: S.optional(S.String) }).pipe(ns),
+).annotate({
+  identifier: "SubscribeResponse",
+}) as any as S.Schema<SubscribeResponse>;
+export interface TagResourceRequest {
+  ResourceArn: string;
+  Tags: Tag[];
+}
+export const TagResourceRequest = S.suspend(() =>
+  S.Struct({ ResourceArn: S.String, Tags: TagList }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "TagResourceRequest",
+}) as any as S.Schema<TagResourceRequest>;
+export interface TagResourceResponse {}
+export const TagResourceResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "TagResourceResponse",
+}) as any as S.Schema<TagResourceResponse>;
+export interface UnsubscribeInput {
+  SubscriptionArn: string;
+}
+export const UnsubscribeInput = S.suspend(() =>
+  S.Struct({ SubscriptionArn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "UnsubscribeInput",
+}) as any as S.Schema<UnsubscribeInput>;
+export interface UnsubscribeResponse {}
+export const UnsubscribeResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "UnsubscribeResponse",
+}) as any as S.Schema<UnsubscribeResponse>;
+export type TagKeyList = string[];
+export const TagKeyList = S.Array(S.String);
+export interface UntagResourceRequest {
+  ResourceArn: string;
+  TagKeys: string[];
+}
+export const UntagResourceRequest = S.suspend(() =>
+  S.Struct({ ResourceArn: S.String, TagKeys: TagKeyList }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "UntagResourceRequest",
+}) as any as S.Schema<UntagResourceRequest>;
+export interface UntagResourceResponse {}
+export const UntagResourceResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "UntagResourceResponse",
+}) as any as S.Schema<UntagResourceResponse>;
+export interface VerifySMSSandboxPhoneNumberInput {
+  PhoneNumber: string | redacted.Redacted<string>;
+  OneTimePassword: string;
+}
+export const VerifySMSSandboxPhoneNumberInput = S.suspend(() =>
+  S.Struct({ PhoneNumber: SensitiveString, OneTimePassword: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "VerifySMSSandboxPhoneNumberInput",
+}) as any as S.Schema<VerifySMSSandboxPhoneNumberInput>;
+export interface VerifySMSSandboxPhoneNumberResult {}
+export const VerifySMSSandboxPhoneNumberResult = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "VerifySMSSandboxPhoneNumberResult",
+}) as any as S.Schema<VerifySMSSandboxPhoneNumberResult>;
 
 //# Errors
-export class AuthorizationErrorException extends S.TaggedError<AuthorizationErrorException>()(
+export class AuthorizationErrorException extends S.TaggedErrorClass<AuthorizationErrorException>()(
   "AuthorizationErrorException",
   { message: S.optional(S.String) },
   T.AwsQueryError({ code: "AuthorizationError", httpResponseCode: 403 }),
 ).pipe(C.withAuthError) {}
-export class InternalErrorException extends S.TaggedError<InternalErrorException>()(
+export class InternalErrorException extends S.TaggedErrorClass<InternalErrorException>()(
   "InternalErrorException",
   { message: S.optional(S.String) },
   T.AwsQueryError({ code: "InternalError", httpResponseCode: 500 }),
 ).pipe(C.withServerError) {}
-export class FilterPolicyLimitExceededException extends S.TaggedError<FilterPolicyLimitExceededException>()(
-  "FilterPolicyLimitExceededException",
-  { message: S.optional(S.String) },
-  T.AwsQueryError({ code: "FilterPolicyLimitExceeded", httpResponseCode: 403 }),
-).pipe(C.withAuthError) {}
-export class ConcurrentAccessException extends S.TaggedError<ConcurrentAccessException>()(
-  "ConcurrentAccessException",
-  { message: S.optional(S.String) },
-  T.AwsQueryError({ code: "ConcurrentAccess", httpResponseCode: 400 }),
-).pipe(C.withBadRequestError) {}
-export class InvalidParameterException extends S.TaggedError<InvalidParameterException>()(
+export class InvalidParameterException extends S.TaggedErrorClass<InvalidParameterException>()(
   "InvalidParameterException",
   { message: S.optional(S.String) },
   T.AwsQueryError({ code: "InvalidParameter", httpResponseCode: 400 }),
 ).pipe(C.withBadRequestError) {}
-export class ThrottledException extends S.TaggedError<ThrottledException>()(
-  "ThrottledException",
-  { message: S.optional(S.String) },
-  T.AwsQueryError({ code: "Throttled", httpResponseCode: 429 }),
-).pipe(C.withThrottlingError) {}
-export class RequestLimitExceeded extends S.TaggedError<RequestLimitExceeded>()(
-  "RequestLimitExceeded",
-  {},
-).pipe(C.withThrottlingError) {}
-export class InvalidClientTokenId extends S.TaggedError<InvalidClientTokenId>()(
-  "InvalidClientTokenId",
-  {},
-).pipe(C.withAuthError) {}
-export class NotFoundException extends S.TaggedError<NotFoundException>()(
+export class NotFoundException extends S.TaggedErrorClass<NotFoundException>()(
   "NotFoundException",
   { message: S.optional(S.String) },
   T.AwsQueryError({ code: "NotFound", httpResponseCode: 404 }),
 ).pipe(C.withBadRequestError) {}
-export class EndpointDisabledException extends S.TaggedError<EndpointDisabledException>()(
-  "EndpointDisabledException",
-  { message: S.optional(S.String) },
-  T.AwsQueryError({ code: "EndpointDisabled", httpResponseCode: 400 }),
-).pipe(C.withBadRequestError) {}
-export class BatchEntryIdsNotDistinctException extends S.TaggedError<BatchEntryIdsNotDistinctException>()(
-  "BatchEntryIdsNotDistinctException",
-  { message: S.optional(S.String) },
-  T.AwsQueryError({ code: "BatchEntryIdsNotDistinct", httpResponseCode: 400 }),
-).pipe(C.withBadRequestError) {}
-export class ValidationException extends S.TaggedError<ValidationException>()(
-  "ValidationException",
-  { Message: S.String },
-  T.AwsQueryError({ code: "ValidationException", httpResponseCode: 400 }),
-).pipe(C.withBadRequestError) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
-  "ResourceNotFoundException",
-  { message: S.optional(S.String) },
-  T.AwsQueryError({ code: "ResourceNotFound", httpResponseCode: 404 }),
-).pipe(C.withBadRequestError) {}
-export class InvalidSecurityException extends S.TaggedError<InvalidSecurityException>()(
-  "InvalidSecurityException",
-  { message: S.optional(S.String) },
-  T.AwsQueryError({ code: "InvalidSecurity", httpResponseCode: 403 }),
+export class RequestLimitExceeded extends S.TaggedErrorClass<RequestLimitExceeded>()(
+  "RequestLimitExceeded",
+  {},
+).pipe(C.withThrottlingError) {}
+export class InvalidClientTokenId extends S.TaggedErrorClass<InvalidClientTokenId>()(
+  "InvalidClientTokenId",
+  {},
 ).pipe(C.withAuthError) {}
-export class OptedOutException extends S.TaggedError<OptedOutException>()(
-  "OptedOutException",
+export class ThrottledException extends S.TaggedErrorClass<ThrottledException>()(
+  "ThrottledException",
   { message: S.optional(S.String) },
-  T.AwsQueryError({ code: "OptedOut", httpResponseCode: 400 }),
-).pipe(C.withBadRequestError) {}
-export class InvalidStateException extends S.TaggedError<InvalidStateException>()(
-  "InvalidStateException",
+  T.AwsQueryError({ code: "Throttled", httpResponseCode: 429 }),
+).pipe(C.withThrottlingError) {}
+export class FilterPolicyLimitExceededException extends S.TaggedErrorClass<FilterPolicyLimitExceededException>()(
+  "FilterPolicyLimitExceededException",
   { message: S.optional(S.String) },
-  T.AwsQueryError({ code: "InvalidState", httpResponseCode: 400 }),
-).pipe(C.withBadRequestError) {}
-export class InvalidParameterValueException extends S.TaggedError<InvalidParameterValueException>()(
-  "InvalidParameterValueException",
-  { message: S.optional(S.String) },
-  T.AwsQueryError({ code: "ParameterValueInvalid", httpResponseCode: 400 }),
-).pipe(C.withBadRequestError) {}
-export class BatchRequestTooLongException extends S.TaggedError<BatchRequestTooLongException>()(
-  "BatchRequestTooLongException",
-  { message: S.optional(S.String) },
-  T.AwsQueryError({ code: "BatchRequestTooLong", httpResponseCode: 400 }),
-).pipe(C.withBadRequestError) {}
-export class ReplayLimitExceededException extends S.TaggedError<ReplayLimitExceededException>()(
+  T.AwsQueryError({ code: "FilterPolicyLimitExceeded", httpResponseCode: 403 }),
+).pipe(C.withAuthError) {}
+export class ReplayLimitExceededException extends S.TaggedErrorClass<ReplayLimitExceededException>()(
   "ReplayLimitExceededException",
   { message: S.optional(S.String) },
   T.AwsQueryError({ code: "ReplayLimitExceeded", httpResponseCode: 403 }),
 ).pipe(C.withAuthError) {}
-export class UserErrorException extends S.TaggedError<UserErrorException>()(
-  "UserErrorException",
-  { message: S.optional(S.String) },
-  T.AwsQueryError({ code: "UserError", httpResponseCode: 400 }),
-).pipe(C.withBadRequestError) {}
-export class StaleTagException extends S.TaggedError<StaleTagException>()(
-  "StaleTagException",
-  { message: S.optional(S.String) },
-  T.AwsQueryError({ code: "StaleTag", httpResponseCode: 400 }),
-).pipe(C.withBadRequestError) {}
-export class TagPolicyException extends S.TaggedError<TagPolicyException>()(
-  "TagPolicyException",
-  { message: S.optional(S.String) },
-  T.AwsQueryError({ code: "TagPolicy", httpResponseCode: 400 }),
-).pipe(C.withBadRequestError) {}
-export class VerificationException extends S.TaggedError<VerificationException>()(
-  "VerificationException",
-  { Message: S.String, Status: S.String },
-) {}
-export class KMSAccessDeniedException extends S.TaggedError<KMSAccessDeniedException>()(
-  "KMSAccessDeniedException",
-  { message: S.optional(S.String) },
-  T.AwsQueryError({ code: "KMSAccessDenied", httpResponseCode: 400 }),
-).pipe(C.withBadRequestError, C.withAuthError) {}
-export class EmptyBatchRequestException extends S.TaggedError<EmptyBatchRequestException>()(
-  "EmptyBatchRequestException",
-  { message: S.optional(S.String) },
-  T.AwsQueryError({ code: "EmptyBatchRequest", httpResponseCode: 400 }),
-).pipe(C.withBadRequestError) {}
-export class SubscriptionLimitExceededException extends S.TaggedError<SubscriptionLimitExceededException>()(
+export class SubscriptionLimitExceededException extends S.TaggedErrorClass<SubscriptionLimitExceededException>()(
   "SubscriptionLimitExceededException",
   { message: S.optional(S.String) },
   T.AwsQueryError({ code: "SubscriptionLimitExceeded", httpResponseCode: 403 }),
 ).pipe(C.withAuthError) {}
-export class TagLimitExceededException extends S.TaggedError<TagLimitExceededException>()(
+export class OptedOutException extends S.TaggedErrorClass<OptedOutException>()(
+  "OptedOutException",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "OptedOut", httpResponseCode: 400 }),
+).pipe(C.withBadRequestError) {}
+export class UserErrorException extends S.TaggedErrorClass<UserErrorException>()(
+  "UserErrorException",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "UserError", httpResponseCode: 400 }),
+).pipe(C.withBadRequestError) {}
+export class ConcurrentAccessException extends S.TaggedErrorClass<ConcurrentAccessException>()(
+  "ConcurrentAccessException",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "ConcurrentAccess", httpResponseCode: 400 }),
+).pipe(C.withBadRequestError) {}
+export class InvalidSecurityException extends S.TaggedErrorClass<InvalidSecurityException>()(
+  "InvalidSecurityException",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "InvalidSecurity", httpResponseCode: 403 }),
+).pipe(C.withAuthError) {}
+export class StaleTagException extends S.TaggedErrorClass<StaleTagException>()(
+  "StaleTagException",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "StaleTag", httpResponseCode: 400 }),
+).pipe(C.withBadRequestError) {}
+export class TagLimitExceededException extends S.TaggedErrorClass<TagLimitExceededException>()(
   "TagLimitExceededException",
   { message: S.optional(S.String) },
   T.AwsQueryError({ code: "TagLimitExceeded", httpResponseCode: 400 }),
 ).pipe(C.withBadRequestError) {}
-export class KMSDisabledException extends S.TaggedError<KMSDisabledException>()(
-  "KMSDisabledException",
+export class TagPolicyException extends S.TaggedErrorClass<TagPolicyException>()(
+  "TagPolicyException",
   { message: S.optional(S.String) },
-  T.AwsQueryError({ code: "KMSDisabled", httpResponseCode: 400 }),
+  T.AwsQueryError({ code: "TagPolicy", httpResponseCode: 400 }),
 ).pipe(C.withBadRequestError) {}
-export class InvalidBatchEntryIdException extends S.TaggedError<InvalidBatchEntryIdException>()(
-  "InvalidBatchEntryIdException",
-  { message: S.optional(S.String) },
-  T.AwsQueryError({ code: "InvalidBatchEntryId", httpResponseCode: 400 }),
-).pipe(C.withBadRequestError) {}
-export class TopicLimitExceededException extends S.TaggedError<TopicLimitExceededException>()(
+export class TopicLimitExceededException extends S.TaggedErrorClass<TopicLimitExceededException>()(
   "TopicLimitExceededException",
   { message: S.optional(S.String) },
   T.AwsQueryError({ code: "TopicLimitExceeded", httpResponseCode: 403 }),
 ).pipe(C.withAuthError) {}
-export class KMSInvalidStateException extends S.TaggedError<KMSInvalidStateException>()(
+export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFoundException>()(
+  "ResourceNotFoundException",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "ResourceNotFound", httpResponseCode: 404 }),
+).pipe(C.withBadRequestError) {}
+export class InvalidStateException extends S.TaggedErrorClass<InvalidStateException>()(
+  "InvalidStateException",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "InvalidState", httpResponseCode: 400 }),
+).pipe(C.withBadRequestError) {}
+export class ValidationException extends S.TaggedErrorClass<ValidationException>()(
+  "ValidationException",
+  { Message: S.String },
+  T.AwsQueryError({ code: "ValidationException", httpResponseCode: 400 }),
+).pipe(C.withBadRequestError) {}
+export class EndpointDisabledException extends S.TaggedErrorClass<EndpointDisabledException>()(
+  "EndpointDisabledException",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "EndpointDisabled", httpResponseCode: 400 }),
+).pipe(C.withBadRequestError) {}
+export class InvalidParameterValueException extends S.TaggedErrorClass<InvalidParameterValueException>()(
+  "InvalidParameterValueException",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "ParameterValueInvalid", httpResponseCode: 400 }),
+).pipe(C.withBadRequestError) {}
+export class KMSAccessDeniedException extends S.TaggedErrorClass<KMSAccessDeniedException>()(
+  "KMSAccessDeniedException",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "KMSAccessDenied", httpResponseCode: 400 }),
+).pipe(C.withBadRequestError, C.withAuthError) {}
+export class KMSDisabledException extends S.TaggedErrorClass<KMSDisabledException>()(
+  "KMSDisabledException",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "KMSDisabled", httpResponseCode: 400 }),
+).pipe(C.withBadRequestError) {}
+export class KMSInvalidStateException extends S.TaggedErrorClass<KMSInvalidStateException>()(
   "KMSInvalidStateException",
   { message: S.optional(S.String) },
   T.AwsQueryError({ code: "KMSInvalidState", httpResponseCode: 400 }),
 ).pipe(C.withBadRequestError) {}
-export class KMSNotFoundException extends S.TaggedError<KMSNotFoundException>()(
+export class KMSNotFoundException extends S.TaggedErrorClass<KMSNotFoundException>()(
   "KMSNotFoundException",
   { message: S.optional(S.String) },
   T.AwsQueryError({ code: "KMSNotFound", httpResponseCode: 400 }),
 ).pipe(C.withBadRequestError) {}
-export class KMSOptInRequired extends S.TaggedError<KMSOptInRequired>()(
+export class KMSOptInRequired extends S.TaggedErrorClass<KMSOptInRequired>()(
   "KMSOptInRequired",
   { message: S.optional(S.String) },
   T.AwsQueryError({ code: "KMSOptInRequired", httpResponseCode: 403 }),
 ).pipe(C.withAuthError) {}
-export class KMSThrottlingException extends S.TaggedError<KMSThrottlingException>()(
+export class KMSThrottlingException extends S.TaggedErrorClass<KMSThrottlingException>()(
   "KMSThrottlingException",
   { message: S.optional(S.String) },
   T.AwsQueryError({ code: "KMSThrottling", httpResponseCode: 400 }),
 ).pipe(C.withBadRequestError) {}
-export class PlatformApplicationDisabledException extends S.TaggedError<PlatformApplicationDisabledException>()(
+export class PlatformApplicationDisabledException extends S.TaggedErrorClass<PlatformApplicationDisabledException>()(
   "PlatformApplicationDisabledException",
   { message: S.optional(S.String) },
   T.AwsQueryError({
@@ -1736,7 +1704,27 @@ export class PlatformApplicationDisabledException extends S.TaggedError<Platform
     httpResponseCode: 400,
   }),
 ).pipe(C.withBadRequestError) {}
-export class TooManyEntriesInBatchRequestException extends S.TaggedError<TooManyEntriesInBatchRequestException>()(
+export class BatchEntryIdsNotDistinctException extends S.TaggedErrorClass<BatchEntryIdsNotDistinctException>()(
+  "BatchEntryIdsNotDistinctException",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "BatchEntryIdsNotDistinct", httpResponseCode: 400 }),
+).pipe(C.withBadRequestError) {}
+export class BatchRequestTooLongException extends S.TaggedErrorClass<BatchRequestTooLongException>()(
+  "BatchRequestTooLongException",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "BatchRequestTooLong", httpResponseCode: 400 }),
+).pipe(C.withBadRequestError) {}
+export class EmptyBatchRequestException extends S.TaggedErrorClass<EmptyBatchRequestException>()(
+  "EmptyBatchRequestException",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "EmptyBatchRequest", httpResponseCode: 400 }),
+).pipe(C.withBadRequestError) {}
+export class InvalidBatchEntryIdException extends S.TaggedErrorClass<InvalidBatchEntryIdException>()(
+  "InvalidBatchEntryIdException",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "InvalidBatchEntryId", httpResponseCode: 400 }),
+).pipe(C.withBadRequestError) {}
+export class TooManyEntriesInBatchRequestException extends S.TaggedErrorClass<TooManyEntriesInBatchRequestException>()(
   "TooManyEntriesInBatchRequestException",
   { message: S.optional(S.String) },
   T.AwsQueryError({
@@ -1744,37 +1732,103 @@ export class TooManyEntriesInBatchRequestException extends S.TaggedError<TooMany
     httpResponseCode: 400,
   }),
 ).pipe(C.withBadRequestError) {}
+export class VerificationException extends S.TaggedErrorClass<VerificationException>()(
+  "VerificationException",
+  { Message: S.String, Status: S.String },
+) {}
 
 //# Operations
 /**
- * Retrieves the SMS sandbox status for the calling Amazon Web Services account in the target
- * Amazon Web Services Region.
+ * Adds a statement to a topic's access control policy, granting access for the specified
+ * Amazon Web Services accounts to the specified actions.
  *
- * When you start using Amazon SNS to send SMS messages, your Amazon Web Services account is in the
- * *SMS sandbox*. The SMS sandbox provides a safe environment for
- * you to try Amazon SNS features without risking your reputation as an SMS sender. While your
- * Amazon Web Services account is in the SMS sandbox, you can use all of the features of Amazon SNS. However, you can send
- * SMS messages only to verified destination phone numbers. For more information, including how to
- * move out of the sandbox to send messages without restrictions,
- * see SMS sandbox in
- * the *Amazon SNS Developer Guide*.
+ * To remove the ability to change topic permissions, you must deny permissions to
+ * the `AddPermission`, `RemovePermission`, and
+ * `SetTopicAttributes` actions in your IAM policy.
  */
-export const getSMSSandboxAccountStatus: (
-  input: GetSMSSandboxAccountStatusInput,
+export const addPermission: (
+  input: AddPermissionInput,
 ) => effect.Effect<
-  GetSMSSandboxAccountStatusResult,
+  AddPermissionResponse,
   | AuthorizationErrorException
   | InternalErrorException
+  | InvalidParameterException
+  | NotFoundException
+  | RequestLimitExceeded
+  | InvalidClientTokenId
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AddPermissionInput,
+  output: AddPermissionResponse,
+  errors: [
+    AuthorizationErrorException,
+    InternalErrorException,
+    InvalidParameterException,
+    NotFoundException,
+    RequestLimitExceeded,
+    InvalidClientTokenId,
+  ],
+}));
+/**
+ * Accepts a phone number and indicates whether the phone holder has opted out of
+ * receiving SMS messages from your Amazon Web Services account. You cannot send SMS messages to a number
+ * that is opted out.
+ *
+ * To resume sending messages, you can opt in the number by using the
+ * `OptInPhoneNumber` action.
+ */
+export const checkIfPhoneNumberIsOptedOut: (
+  input: CheckIfPhoneNumberIsOptedOutInput,
+) => effect.Effect<
+  CheckIfPhoneNumberIsOptedOutResponse,
+  | AuthorizationErrorException
+  | InternalErrorException
+  | InvalidParameterException
   | ThrottledException
   | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetSMSSandboxAccountStatusInput,
-  output: GetSMSSandboxAccountStatusResult,
+  input: CheckIfPhoneNumberIsOptedOutInput,
+  output: CheckIfPhoneNumberIsOptedOutResponse,
   errors: [
     AuthorizationErrorException,
     InternalErrorException,
+    InvalidParameterException,
     ThrottledException,
+  ],
+}));
+/**
+ * Verifies an endpoint owner's intent to receive messages by validating the token sent
+ * to the endpoint by an earlier `Subscribe` action. If the token is valid, the
+ * action creates a new subscription and returns its Amazon Resource Name (ARN). This call
+ * requires an AWS signature only when the `AuthenticateOnUnsubscribe` flag is
+ * set to "true".
+ */
+export const confirmSubscription: (
+  input: ConfirmSubscriptionInput,
+) => effect.Effect<
+  ConfirmSubscriptionResponse,
+  | AuthorizationErrorException
+  | FilterPolicyLimitExceededException
+  | InternalErrorException
+  | InvalidParameterException
+  | NotFoundException
+  | ReplayLimitExceededException
+  | SubscriptionLimitExceededException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ConfirmSubscriptionInput,
+  output: ConfirmSubscriptionResponse,
+  errors: [
+    AuthorizationErrorException,
+    FilterPolicyLimitExceededException,
+    InternalErrorException,
+    InvalidParameterException,
+    NotFoundException,
+    ReplayLimitExceededException,
+    SubscriptionLimitExceededException,
   ],
 }));
 /**
@@ -1836,281 +1890,119 @@ export const createPlatformApplication: (
   ],
 }));
 /**
- * Lists the platform application objects for the supported push notification services,
- * such as APNS and GCM (Firebase Cloud Messaging). The results for
- * `ListPlatformApplications` are paginated and return a limited list of
- * applications, up to 100. If additional records are available after the first page
- * results, then a NextToken string will be returned. To receive the next page, you call
- * `ListPlatformApplications` using the NextToken string received from the
- * previous call. When there are no more records to return, `NextToken` will be
- * null. For more information, see Using Amazon SNS Mobile Push
+ * Creates an endpoint for a device and mobile app on one of the supported push
+ * notification services, such as GCM (Firebase Cloud Messaging) and APNS.
+ * `CreatePlatformEndpoint` requires the `PlatformApplicationArn`
+ * that is returned from `CreatePlatformApplication`. You can use the returned
+ * `EndpointArn` to send a message to a mobile app or by the
+ * `Subscribe` action for subscription to a topic. The
+ * `CreatePlatformEndpoint` action is idempotent, so if the requester
+ * already owns an endpoint with the same device token and attributes, that endpoint's ARN
+ * is returned without creating a new endpoint. For more information, see Using Amazon SNS Mobile Push
  * Notifications.
  *
- * This action is throttled at 15 transactions per second (TPS).
+ * When using `CreatePlatformEndpoint` with Baidu, two attributes must be
+ * provided: ChannelId and UserId. The token field must also contain the ChannelId. For
+ * more information, see Creating an Amazon SNS Endpoint for
+ * Baidu.
  */
-export const listPlatformApplications: {
-  (
-    input: ListPlatformApplicationsInput,
-  ): effect.Effect<
-    ListPlatformApplicationsResponse,
-    | AuthorizationErrorException
-    | InternalErrorException
-    | InvalidParameterException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  pages: (
-    input: ListPlatformApplicationsInput,
-  ) => stream.Stream<
-    ListPlatformApplicationsResponse,
-    | AuthorizationErrorException
-    | InternalErrorException
-    | InvalidParameterException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  items: (
-    input: ListPlatformApplicationsInput,
-  ) => stream.Stream<
-    PlatformApplication,
-    | AuthorizationErrorException
-    | InternalErrorException
-    | InvalidParameterException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
-  input: ListPlatformApplicationsInput,
-  output: ListPlatformApplicationsResponse,
-  errors: [
-    AuthorizationErrorException,
-    InternalErrorException,
-    InvalidParameterException,
-  ],
-  pagination: {
-    inputToken: "NextToken",
-    outputToken: "NextToken",
-    items: "PlatformApplications",
-  } as const,
-}));
-/**
- * Returns a list of the requester's subscriptions. Each call returns a limited list of
- * subscriptions, up to 100. If there are more subscriptions, a `NextToken` is
- * also returned. Use the `NextToken` parameter in a new
- * `ListSubscriptions` call to get further results.
- *
- * This action is throttled at 30 transactions per second (TPS).
- */
-export const listSubscriptions: {
-  (
-    input: ListSubscriptionsInput,
-  ): effect.Effect<
-    ListSubscriptionsResponse,
-    | AuthorizationErrorException
-    | InternalErrorException
-    | InvalidParameterException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  pages: (
-    input: ListSubscriptionsInput,
-  ) => stream.Stream<
-    ListSubscriptionsResponse,
-    | AuthorizationErrorException
-    | InternalErrorException
-    | InvalidParameterException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  items: (
-    input: ListSubscriptionsInput,
-  ) => stream.Stream<
-    Subscription,
-    | AuthorizationErrorException
-    | InternalErrorException
-    | InvalidParameterException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
-  input: ListSubscriptionsInput,
-  output: ListSubscriptionsResponse,
-  errors: [
-    AuthorizationErrorException,
-    InternalErrorException,
-    InvalidParameterException,
-  ],
-  pagination: {
-    inputToken: "NextToken",
-    outputToken: "NextToken",
-    items: "Subscriptions",
-  } as const,
-}));
-/**
- * Returns a list of the requester's topics. Each call returns a limited list of topics,
- * up to 100. If there are more topics, a `NextToken` is also returned. Use the
- * `NextToken` parameter in a new `ListTopics` call to get
- * further results.
- *
- * This action is throttled at 30 transactions per second (TPS).
- */
-export const listTopics: {
-  (
-    input: ListTopicsInput,
-  ): effect.Effect<
-    ListTopicsResponse,
-    | AuthorizationErrorException
-    | InternalErrorException
-    | InvalidParameterException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  pages: (
-    input: ListTopicsInput,
-  ) => stream.Stream<
-    ListTopicsResponse,
-    | AuthorizationErrorException
-    | InternalErrorException
-    | InvalidParameterException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  items: (
-    input: ListTopicsInput,
-  ) => stream.Stream<
-    Topic,
-    | AuthorizationErrorException
-    | InternalErrorException
-    | InvalidParameterException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
-  input: ListTopicsInput,
-  output: ListTopicsResponse,
-  errors: [
-    AuthorizationErrorException,
-    InternalErrorException,
-    InvalidParameterException,
-  ],
-  pagination: {
-    inputToken: "NextToken",
-    outputToken: "NextToken",
-    items: "Topics",
-  } as const,
-}));
-/**
- * Accepts a phone number and indicates whether the phone holder has opted out of
- * receiving SMS messages from your Amazon Web Services account. You cannot send SMS messages to a number
- * that is opted out.
- *
- * To resume sending messages, you can opt in the number by using the
- * `OptInPhoneNumber` action.
- */
-export const checkIfPhoneNumberIsOptedOut: (
-  input: CheckIfPhoneNumberIsOptedOutInput,
+export const createPlatformEndpoint: (
+  input: CreatePlatformEndpointInput,
 ) => effect.Effect<
-  CheckIfPhoneNumberIsOptedOutResponse,
+  CreateEndpointResponse,
   | AuthorizationErrorException
   | InternalErrorException
   | InvalidParameterException
-  | ThrottledException
+  | NotFoundException
+  | RequestLimitExceeded
+  | InvalidClientTokenId
   | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CheckIfPhoneNumberIsOptedOutInput,
-  output: CheckIfPhoneNumberIsOptedOutResponse,
+  input: CreatePlatformEndpointInput,
+  output: CreateEndpointResponse,
   errors: [
     AuthorizationErrorException,
     InternalErrorException,
     InvalidParameterException,
-    ThrottledException,
+    NotFoundException,
+    RequestLimitExceeded,
+    InvalidClientTokenId,
   ],
 }));
 /**
- * Returns the settings for sending SMS messages from your Amazon Web Services account.
+ * Adds a destination phone number to an Amazon Web Services account in the SMS sandbox and sends a
+ * one-time password (OTP) to that phone number.
  *
- * These settings are set with the `SetSMSAttributes` action.
+ * When you start using Amazon SNS to send SMS messages, your Amazon Web Services account is in the
+ * *SMS sandbox*. The SMS sandbox provides a safe environment for
+ * you to try Amazon SNS features without risking your reputation as an SMS sender. While your
+ * Amazon Web Services account is in the SMS sandbox, you can use all of the features of Amazon SNS. However, you can send
+ * SMS messages only to verified destination phone numbers. For more information, including how to
+ * move out of the sandbox to send messages without restrictions,
+ * see SMS sandbox in
+ * the *Amazon SNS Developer Guide*.
  */
-export const getSMSAttributes: (
-  input: GetSMSAttributesInput,
+export const createSMSSandboxPhoneNumber: (
+  input: CreateSMSSandboxPhoneNumberInput,
 ) => effect.Effect<
-  GetSMSAttributesResponse,
+  CreateSMSSandboxPhoneNumberResult,
   | AuthorizationErrorException
   | InternalErrorException
   | InvalidParameterException
+  | OptedOutException
   | ThrottledException
+  | UserErrorException
   | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetSMSAttributesInput,
-  output: GetSMSAttributesResponse,
+  input: CreateSMSSandboxPhoneNumberInput,
+  output: CreateSMSSandboxPhoneNumberResult,
   errors: [
     AuthorizationErrorException,
     InternalErrorException,
     InvalidParameterException,
+    OptedOutException,
     ThrottledException,
+    UserErrorException,
   ],
 }));
 /**
- * Returns a list of phone numbers that are opted out, meaning you cannot send SMS
- * messages to them.
- *
- * The results for `ListPhoneNumbersOptedOut` are paginated, and each page
- * returns up to 100 phone numbers. If additional phone numbers are available after the
- * first page of results, then a `NextToken` string will be returned. To receive
- * the next page, you call `ListPhoneNumbersOptedOut` again using the
- * `NextToken` string received from the previous call. When there are no
- * more records to return, `NextToken` will be null.
+ * Creates a topic to which notifications can be published. Users can create at most
+ * 100,000 standard topics (at most 1,000 FIFO topics). For more information, see Creating an Amazon SNS
+ * topic in the *Amazon SNS Developer Guide*. This action is
+ * idempotent, so if the requester already owns a topic with the specified name, that
+ * topic's ARN is returned without creating a new topic.
  */
-export const listPhoneNumbersOptedOut: {
-  (
-    input: ListPhoneNumbersOptedOutInput,
-  ): effect.Effect<
-    ListPhoneNumbersOptedOutResponse,
-    | AuthorizationErrorException
-    | InternalErrorException
-    | InvalidParameterException
-    | ThrottledException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  pages: (
-    input: ListPhoneNumbersOptedOutInput,
-  ) => stream.Stream<
-    ListPhoneNumbersOptedOutResponse,
-    | AuthorizationErrorException
-    | InternalErrorException
-    | InvalidParameterException
-    | ThrottledException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  items: (
-    input: ListPhoneNumbersOptedOutInput,
-  ) => stream.Stream<
-    PhoneNumber,
-    | AuthorizationErrorException
-    | InternalErrorException
-    | InvalidParameterException
-    | ThrottledException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
-  input: ListPhoneNumbersOptedOutInput,
-  output: ListPhoneNumbersOptedOutResponse,
+export const createTopic: (
+  input: CreateTopicInput,
+) => effect.Effect<
+  CreateTopicResponse,
+  | AuthorizationErrorException
+  | ConcurrentAccessException
+  | InternalErrorException
+  | InvalidParameterException
+  | InvalidSecurityException
+  | StaleTagException
+  | TagLimitExceededException
+  | TagPolicyException
+  | TopicLimitExceededException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateTopicInput,
+  output: CreateTopicResponse,
   errors: [
     AuthorizationErrorException,
+    ConcurrentAccessException,
     InternalErrorException,
     InvalidParameterException,
-    ThrottledException,
+    InvalidSecurityException,
+    StaleTagException,
+    TagLimitExceededException,
+    TagPolicyException,
+    TopicLimitExceededException,
   ],
-  pagination: {
-    inputToken: "nextToken",
-    outputToken: "nextToken",
-    items: "phoneNumbers",
-  } as const,
 }));
 /**
  * Deletes the endpoint for a device and mobile app from Amazon SNS. This action is
@@ -2168,858 +2060,6 @@ export const deletePlatformApplication: (
     InvalidParameterException,
     RequestLimitExceeded,
     InvalidClientTokenId,
-  ],
-}));
-/**
- * Use this request to opt in a phone number that is opted out, which enables you to
- * resume sending SMS messages to the number.
- *
- * You can opt in a phone number only once every 30 days.
- */
-export const optInPhoneNumber: (
-  input: OptInPhoneNumberInput,
-) => effect.Effect<
-  OptInPhoneNumberResponse,
-  | AuthorizationErrorException
-  | InternalErrorException
-  | InvalidParameterException
-  | ThrottledException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: OptInPhoneNumberInput,
-  output: OptInPhoneNumberResponse,
-  errors: [
-    AuthorizationErrorException,
-    InternalErrorException,
-    InvalidParameterException,
-    ThrottledException,
-  ],
-}));
-/**
- * Use this request to set the default settings for sending SMS messages and receiving
- * daily SMS usage reports.
- *
- * You can override some of these settings for a single message when you use the
- * `Publish` action with the `MessageAttributes.entry.N`
- * parameter. For more information, see Publishing to a mobile phone
- * in the *Amazon SNS Developer Guide*.
- *
- * To use this operation, you must grant the Amazon SNS service principal
- * (`sns.amazonaws.com`) permission to perform the
- * `s3:ListBucket` action.
- */
-export const setSMSAttributes: (
-  input: SetSMSAttributesInput,
-) => effect.Effect<
-  SetSMSAttributesResponse,
-  | AuthorizationErrorException
-  | InternalErrorException
-  | InvalidParameterException
-  | ThrottledException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: SetSMSAttributesInput,
-  output: SetSMSAttributesResponse,
-  errors: [
-    AuthorizationErrorException,
-    InternalErrorException,
-    InvalidParameterException,
-    ThrottledException,
-  ],
-}));
-/**
- * Adds a statement to a topic's access control policy, granting access for the specified
- * Amazon Web Services accounts to the specified actions.
- *
- * To remove the ability to change topic permissions, you must deny permissions to
- * the `AddPermission`, `RemovePermission`, and
- * `SetTopicAttributes` actions in your IAM policy.
- */
-export const addPermission: (
-  input: AddPermissionInput,
-) => effect.Effect<
-  AddPermissionResponse,
-  | AuthorizationErrorException
-  | InternalErrorException
-  | InvalidParameterException
-  | NotFoundException
-  | RequestLimitExceeded
-  | InvalidClientTokenId
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: AddPermissionInput,
-  output: AddPermissionResponse,
-  errors: [
-    AuthorizationErrorException,
-    InternalErrorException,
-    InvalidParameterException,
-    NotFoundException,
-    RequestLimitExceeded,
-    InvalidClientTokenId,
-  ],
-}));
-/**
- * Lists the calling Amazon Web Services account's dedicated origination numbers and their metadata.
- * For more information about origination numbers, see Origination numbers in the Amazon SNS Developer
- * Guide.
- */
-export const listOriginationNumbers: {
-  (
-    input: ListOriginationNumbersRequest,
-  ): effect.Effect<
-    ListOriginationNumbersResult,
-    | AuthorizationErrorException
-    | InternalErrorException
-    | InvalidParameterException
-    | ThrottledException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  pages: (
-    input: ListOriginationNumbersRequest,
-  ) => stream.Stream<
-    ListOriginationNumbersResult,
-    | AuthorizationErrorException
-    | InternalErrorException
-    | InvalidParameterException
-    | ThrottledException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  items: (
-    input: ListOriginationNumbersRequest,
-  ) => stream.Stream<
-    PhoneNumberInformation,
-    | AuthorizationErrorException
-    | InternalErrorException
-    | InvalidParameterException
-    | ThrottledException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
-  input: ListOriginationNumbersRequest,
-  output: ListOriginationNumbersResult,
-  errors: [
-    AuthorizationErrorException,
-    InternalErrorException,
-    InvalidParameterException,
-    ThrottledException,
-    ValidationException,
-  ],
-  pagination: {
-    inputToken: "NextToken",
-    outputToken: "NextToken",
-    items: "PhoneNumbers",
-    pageSize: "MaxResults",
-  } as const,
-}));
-/**
- * Lists the calling Amazon Web Services account's current verified and pending destination phone
- * numbers in the SMS sandbox.
- *
- * When you start using Amazon SNS to send SMS messages, your Amazon Web Services account is in the
- * *SMS sandbox*. The SMS sandbox provides a safe environment for
- * you to try Amazon SNS features without risking your reputation as an SMS sender. While your
- * Amazon Web Services account is in the SMS sandbox, you can use all of the features of Amazon SNS. However, you can send
- * SMS messages only to verified destination phone numbers. For more information, including how to
- * move out of the sandbox to send messages without restrictions,
- * see SMS sandbox in
- * the *Amazon SNS Developer Guide*.
- */
-export const listSMSSandboxPhoneNumbers: {
-  (
-    input: ListSMSSandboxPhoneNumbersInput,
-  ): effect.Effect<
-    ListSMSSandboxPhoneNumbersResult,
-    | AuthorizationErrorException
-    | InternalErrorException
-    | InvalidParameterException
-    | ResourceNotFoundException
-    | ThrottledException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  pages: (
-    input: ListSMSSandboxPhoneNumbersInput,
-  ) => stream.Stream<
-    ListSMSSandboxPhoneNumbersResult,
-    | AuthorizationErrorException
-    | InternalErrorException
-    | InvalidParameterException
-    | ResourceNotFoundException
-    | ThrottledException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  items: (
-    input: ListSMSSandboxPhoneNumbersInput,
-  ) => stream.Stream<
-    SMSSandboxPhoneNumber,
-    | AuthorizationErrorException
-    | InternalErrorException
-    | InvalidParameterException
-    | ResourceNotFoundException
-    | ThrottledException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
-  input: ListSMSSandboxPhoneNumbersInput,
-  output: ListSMSSandboxPhoneNumbersResult,
-  errors: [
-    AuthorizationErrorException,
-    InternalErrorException,
-    InvalidParameterException,
-    ResourceNotFoundException,
-    ThrottledException,
-  ],
-  pagination: {
-    inputToken: "NextToken",
-    outputToken: "NextToken",
-    items: "PhoneNumbers",
-    pageSize: "MaxResults",
-  } as const,
-}));
-/**
- * Lists the endpoints and endpoint attributes for devices in a supported push
- * notification service, such as GCM (Firebase Cloud Messaging) and APNS. The results for
- * `ListEndpointsByPlatformApplication` are paginated and return a limited
- * list of endpoints, up to 100. If additional records are available after the first page
- * results, then a NextToken string will be returned. To receive the next page, you call
- * `ListEndpointsByPlatformApplication` again using the NextToken string
- * received from the previous call. When there are no more records to return, NextToken
- * will be null. For more information, see Using Amazon SNS Mobile Push
- * Notifications.
- *
- * This action is throttled at 30 transactions per second (TPS).
- */
-export const listEndpointsByPlatformApplication: {
-  (
-    input: ListEndpointsByPlatformApplicationInput,
-  ): effect.Effect<
-    ListEndpointsByPlatformApplicationResponse,
-    | AuthorizationErrorException
-    | InternalErrorException
-    | InvalidParameterException
-    | NotFoundException
-    | RequestLimitExceeded
-    | InvalidClientTokenId
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  pages: (
-    input: ListEndpointsByPlatformApplicationInput,
-  ) => stream.Stream<
-    ListEndpointsByPlatformApplicationResponse,
-    | AuthorizationErrorException
-    | InternalErrorException
-    | InvalidParameterException
-    | NotFoundException
-    | RequestLimitExceeded
-    | InvalidClientTokenId
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  items: (
-    input: ListEndpointsByPlatformApplicationInput,
-  ) => stream.Stream<
-    Endpoint,
-    | AuthorizationErrorException
-    | InternalErrorException
-    | InvalidParameterException
-    | NotFoundException
-    | RequestLimitExceeded
-    | InvalidClientTokenId
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
-  input: ListEndpointsByPlatformApplicationInput,
-  output: ListEndpointsByPlatformApplicationResponse,
-  errors: [
-    AuthorizationErrorException,
-    InternalErrorException,
-    InvalidParameterException,
-    NotFoundException,
-    RequestLimitExceeded,
-    InvalidClientTokenId,
-  ],
-  pagination: {
-    inputToken: "NextToken",
-    outputToken: "NextToken",
-    items: "Endpoints",
-  } as const,
-}));
-/**
- * Creates an endpoint for a device and mobile app on one of the supported push
- * notification services, such as GCM (Firebase Cloud Messaging) and APNS.
- * `CreatePlatformEndpoint` requires the `PlatformApplicationArn`
- * that is returned from `CreatePlatformApplication`. You can use the returned
- * `EndpointArn` to send a message to a mobile app or by the
- * `Subscribe` action for subscription to a topic. The
- * `CreatePlatformEndpoint` action is idempotent, so if the requester
- * already owns an endpoint with the same device token and attributes, that endpoint's ARN
- * is returned without creating a new endpoint. For more information, see Using Amazon SNS Mobile Push
- * Notifications.
- *
- * When using `CreatePlatformEndpoint` with Baidu, two attributes must be
- * provided: ChannelId and UserId. The token field must also contain the ChannelId. For
- * more information, see Creating an Amazon SNS Endpoint for
- * Baidu.
- */
-export const createPlatformEndpoint: (
-  input: CreatePlatformEndpointInput,
-) => effect.Effect<
-  CreateEndpointResponse,
-  | AuthorizationErrorException
-  | InternalErrorException
-  | InvalidParameterException
-  | NotFoundException
-  | RequestLimitExceeded
-  | InvalidClientTokenId
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreatePlatformEndpointInput,
-  output: CreateEndpointResponse,
-  errors: [
-    AuthorizationErrorException,
-    InternalErrorException,
-    InvalidParameterException,
-    NotFoundException,
-    RequestLimitExceeded,
-    InvalidClientTokenId,
-  ],
-}));
-/**
- * Retrieves the endpoint attributes for a device on one of the supported push
- * notification services, such as GCM (Firebase Cloud Messaging) and APNS. For more
- * information, see Using Amazon SNS Mobile Push Notifications.
- */
-export const getEndpointAttributes: (
-  input: GetEndpointAttributesInput,
-) => effect.Effect<
-  GetEndpointAttributesResponse,
-  | AuthorizationErrorException
-  | InternalErrorException
-  | InvalidParameterException
-  | NotFoundException
-  | RequestLimitExceeded
-  | InvalidClientTokenId
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetEndpointAttributesInput,
-  output: GetEndpointAttributesResponse,
-  errors: [
-    AuthorizationErrorException,
-    InternalErrorException,
-    InvalidParameterException,
-    NotFoundException,
-    RequestLimitExceeded,
-    InvalidClientTokenId,
-  ],
-}));
-/**
- * Retrieves the attributes of the platform application object for the supported push
- * notification services, such as APNS and GCM (Firebase Cloud Messaging). For more
- * information, see Using Amazon SNS Mobile Push Notifications.
- */
-export const getPlatformApplicationAttributes: (
-  input: GetPlatformApplicationAttributesInput,
-) => effect.Effect<
-  GetPlatformApplicationAttributesResponse,
-  | AuthorizationErrorException
-  | InternalErrorException
-  | InvalidParameterException
-  | NotFoundException
-  | RequestLimitExceeded
-  | InvalidClientTokenId
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetPlatformApplicationAttributesInput,
-  output: GetPlatformApplicationAttributesResponse,
-  errors: [
-    AuthorizationErrorException,
-    InternalErrorException,
-    InvalidParameterException,
-    NotFoundException,
-    RequestLimitExceeded,
-    InvalidClientTokenId,
-  ],
-}));
-/**
- * Returns all of the properties of a subscription.
- */
-export const getSubscriptionAttributes: (
-  input: GetSubscriptionAttributesInput,
-) => effect.Effect<
-  GetSubscriptionAttributesResponse,
-  | AuthorizationErrorException
-  | InternalErrorException
-  | InvalidParameterException
-  | NotFoundException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetSubscriptionAttributesInput,
-  output: GetSubscriptionAttributesResponse,
-  errors: [
-    AuthorizationErrorException,
-    InternalErrorException,
-    InvalidParameterException,
-    NotFoundException,
-  ],
-}));
-/**
- * Returns a list of the subscriptions to a specific topic. Each call returns a limited
- * list of subscriptions, up to 100. If there are more subscriptions, a
- * `NextToken` is also returned. Use the `NextToken` parameter in
- * a new `ListSubscriptionsByTopic` call to get further results.
- *
- * This action is throttled at 30 transactions per second (TPS).
- */
-export const listSubscriptionsByTopic: {
-  (
-    input: ListSubscriptionsByTopicInput,
-  ): effect.Effect<
-    ListSubscriptionsByTopicResponse,
-    | AuthorizationErrorException
-    | InternalErrorException
-    | InvalidParameterException
-    | NotFoundException
-    | RequestLimitExceeded
-    | InvalidClientTokenId
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  pages: (
-    input: ListSubscriptionsByTopicInput,
-  ) => stream.Stream<
-    ListSubscriptionsByTopicResponse,
-    | AuthorizationErrorException
-    | InternalErrorException
-    | InvalidParameterException
-    | NotFoundException
-    | RequestLimitExceeded
-    | InvalidClientTokenId
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  items: (
-    input: ListSubscriptionsByTopicInput,
-  ) => stream.Stream<
-    Subscription,
-    | AuthorizationErrorException
-    | InternalErrorException
-    | InvalidParameterException
-    | NotFoundException
-    | RequestLimitExceeded
-    | InvalidClientTokenId
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
-  input: ListSubscriptionsByTopicInput,
-  output: ListSubscriptionsByTopicResponse,
-  errors: [
-    AuthorizationErrorException,
-    InternalErrorException,
-    InvalidParameterException,
-    NotFoundException,
-    RequestLimitExceeded,
-    InvalidClientTokenId,
-  ],
-  pagination: {
-    inputToken: "NextToken",
-    outputToken: "NextToken",
-    items: "Subscriptions",
-  } as const,
-}));
-/**
- * Removes a statement from a topic's access control policy.
- *
- * To remove the ability to change topic permissions, you must deny permissions to
- * the `AddPermission`, `RemovePermission`, and
- * `SetTopicAttributes` actions in your IAM policy.
- */
-export const removePermission: (
-  input: RemovePermissionInput,
-) => effect.Effect<
-  RemovePermissionResponse,
-  | AuthorizationErrorException
-  | InternalErrorException
-  | InvalidParameterException
-  | NotFoundException
-  | RequestLimitExceeded
-  | InvalidClientTokenId
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: RemovePermissionInput,
-  output: RemovePermissionResponse,
-  errors: [
-    AuthorizationErrorException,
-    InternalErrorException,
-    InvalidParameterException,
-    NotFoundException,
-    RequestLimitExceeded,
-    InvalidClientTokenId,
-  ],
-}));
-/**
- * Sets the attributes for an endpoint for a device on one of the supported push
- * notification services, such as GCM (Firebase Cloud Messaging) and APNS. For more
- * information, see Using Amazon SNS Mobile Push Notifications.
- */
-export const setEndpointAttributes: (
-  input: SetEndpointAttributesInput,
-) => effect.Effect<
-  SetEndpointAttributesResponse,
-  | AuthorizationErrorException
-  | InternalErrorException
-  | InvalidParameterException
-  | NotFoundException
-  | RequestLimitExceeded
-  | InvalidClientTokenId
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: SetEndpointAttributesInput,
-  output: SetEndpointAttributesResponse,
-  errors: [
-    AuthorizationErrorException,
-    InternalErrorException,
-    InvalidParameterException,
-    NotFoundException,
-    RequestLimitExceeded,
-    InvalidClientTokenId,
-  ],
-}));
-/**
- * Sets the attributes of the platform application object for the supported push
- * notification services, such as APNS and GCM (Firebase Cloud Messaging). For more
- * information, see Using Amazon SNS Mobile Push Notifications. For information on configuring
- * attributes for message delivery status, see Using Amazon SNS Application Attributes for
- * Message Delivery Status.
- */
-export const setPlatformApplicationAttributes: (
-  input: SetPlatformApplicationAttributesInput,
-) => effect.Effect<
-  SetPlatformApplicationAttributesResponse,
-  | AuthorizationErrorException
-  | InternalErrorException
-  | InvalidParameterException
-  | NotFoundException
-  | RequestLimitExceeded
-  | InvalidClientTokenId
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: SetPlatformApplicationAttributesInput,
-  output: SetPlatformApplicationAttributesResponse,
-  errors: [
-    AuthorizationErrorException,
-    InternalErrorException,
-    InvalidParameterException,
-    NotFoundException,
-    RequestLimitExceeded,
-    InvalidClientTokenId,
-  ],
-}));
-/**
- * Retrieves the specified inline `DataProtectionPolicy` document that is
- * stored in the specified Amazon SNS topic.
- */
-export const getDataProtectionPolicy: (
-  input: GetDataProtectionPolicyInput,
-) => effect.Effect<
-  GetDataProtectionPolicyResponse,
-  | AuthorizationErrorException
-  | InternalErrorException
-  | InvalidParameterException
-  | InvalidSecurityException
-  | NotFoundException
-  | RequestLimitExceeded
-  | InvalidClientTokenId
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetDataProtectionPolicyInput,
-  output: GetDataProtectionPolicyResponse,
-  errors: [
-    AuthorizationErrorException,
-    InternalErrorException,
-    InvalidParameterException,
-    InvalidSecurityException,
-    NotFoundException,
-    RequestLimitExceeded,
-    InvalidClientTokenId,
-  ],
-}));
-/**
- * Returns all of the properties of a topic. Topic properties returned might differ based
- * on the authorization of the user.
- */
-export const getTopicAttributes: (
-  input: GetTopicAttributesInput,
-) => effect.Effect<
-  GetTopicAttributesResponse,
-  | AuthorizationErrorException
-  | InternalErrorException
-  | InvalidParameterException
-  | InvalidSecurityException
-  | NotFoundException
-  | RequestLimitExceeded
-  | InvalidClientTokenId
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetTopicAttributesInput,
-  output: GetTopicAttributesResponse,
-  errors: [
-    AuthorizationErrorException,
-    InternalErrorException,
-    InvalidParameterException,
-    InvalidSecurityException,
-    NotFoundException,
-    RequestLimitExceeded,
-    InvalidClientTokenId,
-  ],
-}));
-/**
- * Adds or updates an inline policy document that is stored in the specified Amazon SNS
- * topic.
- */
-export const putDataProtectionPolicy: (
-  input: PutDataProtectionPolicyInput,
-) => effect.Effect<
-  PutDataProtectionPolicyResponse,
-  | AuthorizationErrorException
-  | InternalErrorException
-  | InvalidParameterException
-  | InvalidSecurityException
-  | NotFoundException
-  | RequestLimitExceeded
-  | InvalidClientTokenId
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PutDataProtectionPolicyInput,
-  output: PutDataProtectionPolicyResponse,
-  errors: [
-    AuthorizationErrorException,
-    InternalErrorException,
-    InvalidParameterException,
-    InvalidSecurityException,
-    NotFoundException,
-    RequestLimitExceeded,
-    InvalidClientTokenId,
-  ],
-}));
-/**
- * Allows a topic owner to set an attribute of the topic to a new value.
- *
- * To remove the ability to change topic permissions, you must deny permissions to
- * the `AddPermission`, `RemovePermission`, and
- * `SetTopicAttributes` actions in your IAM policy.
- */
-export const setTopicAttributes: (
-  input: SetTopicAttributesInput,
-) => effect.Effect<
-  SetTopicAttributesResponse,
-  | AuthorizationErrorException
-  | InternalErrorException
-  | InvalidParameterException
-  | InvalidSecurityException
-  | NotFoundException
-  | RequestLimitExceeded
-  | InvalidClientTokenId
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: SetTopicAttributesInput,
-  output: SetTopicAttributesResponse,
-  errors: [
-    AuthorizationErrorException,
-    InternalErrorException,
-    InvalidParameterException,
-    InvalidSecurityException,
-    NotFoundException,
-    RequestLimitExceeded,
-    InvalidClientTokenId,
-  ],
-}));
-/**
- * Deletes a subscription. If the subscription requires authentication for deletion, only
- * the owner of the subscription or the topic's owner can unsubscribe, and an Amazon Web Services
- * signature is required. If the `Unsubscribe` call does not require
- * authentication and the requester is not the subscription owner, a final cancellation
- * message is delivered to the endpoint, so that the endpoint owner can easily resubscribe
- * to the topic if the `Unsubscribe` request was unintended.
- *
- * This action is throttled at 100 transactions per second (TPS).
- */
-export const unsubscribe: (
-  input: UnsubscribeInput,
-) => effect.Effect<
-  UnsubscribeResponse,
-  | AuthorizationErrorException
-  | InternalErrorException
-  | InvalidParameterException
-  | InvalidSecurityException
-  | NotFoundException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UnsubscribeInput,
-  output: UnsubscribeResponse,
-  errors: [
-    AuthorizationErrorException,
-    InternalErrorException,
-    InvalidParameterException,
-    InvalidSecurityException,
-    NotFoundException,
-  ],
-}));
-/**
- * Adds a destination phone number to an Amazon Web Services account in the SMS sandbox and sends a
- * one-time password (OTP) to that phone number.
- *
- * When you start using Amazon SNS to send SMS messages, your Amazon Web Services account is in the
- * *SMS sandbox*. The SMS sandbox provides a safe environment for
- * you to try Amazon SNS features without risking your reputation as an SMS sender. While your
- * Amazon Web Services account is in the SMS sandbox, you can use all of the features of Amazon SNS. However, you can send
- * SMS messages only to verified destination phone numbers. For more information, including how to
- * move out of the sandbox to send messages without restrictions,
- * see SMS sandbox in
- * the *Amazon SNS Developer Guide*.
- */
-export const createSMSSandboxPhoneNumber: (
-  input: CreateSMSSandboxPhoneNumberInput,
-) => effect.Effect<
-  CreateSMSSandboxPhoneNumberResult,
-  | AuthorizationErrorException
-  | InternalErrorException
-  | InvalidParameterException
-  | OptedOutException
-  | ThrottledException
-  | UserErrorException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateSMSSandboxPhoneNumberInput,
-  output: CreateSMSSandboxPhoneNumberResult,
-  errors: [
-    AuthorizationErrorException,
-    InternalErrorException,
-    InvalidParameterException,
-    OptedOutException,
-    ThrottledException,
-    UserErrorException,
-  ],
-}));
-/**
- * List all tags added to the specified Amazon SNS topic. For an overview, see Amazon SNS Tags in the
- * *Amazon Simple Notification Service Developer Guide*.
- */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
-  ListTagsForResourceResponse,
-  | AuthorizationErrorException
-  | ConcurrentAccessException
-  | InvalidParameterException
-  | ResourceNotFoundException
-  | TagPolicyException
-  | RequestLimitExceeded
-  | InvalidClientTokenId
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
-  errors: [
-    AuthorizationErrorException,
-    ConcurrentAccessException,
-    InvalidParameterException,
-    ResourceNotFoundException,
-    TagPolicyException,
-    RequestLimitExceeded,
-    InvalidClientTokenId,
-  ],
-}));
-/**
- * Verifies a destination phone number with a one-time password (OTP) for the calling
- * Amazon Web Services account.
- *
- * When you start using Amazon SNS to send SMS messages, your Amazon Web Services account is in the
- * *SMS sandbox*. The SMS sandbox provides a safe environment for
- * you to try Amazon SNS features without risking your reputation as an SMS sender. While your
- * Amazon Web Services account is in the SMS sandbox, you can use all of the features of Amazon SNS. However, you can send
- * SMS messages only to verified destination phone numbers. For more information, including how to
- * move out of the sandbox to send messages without restrictions,
- * see SMS sandbox in
- * the *Amazon SNS Developer Guide*.
- */
-export const verifySMSSandboxPhoneNumber: (
-  input: VerifySMSSandboxPhoneNumberInput,
-) => effect.Effect<
-  VerifySMSSandboxPhoneNumberResult,
-  | AuthorizationErrorException
-  | InternalErrorException
-  | InvalidParameterException
-  | ResourceNotFoundException
-  | ThrottledException
-  | VerificationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: VerifySMSSandboxPhoneNumberInput,
-  output: VerifySMSSandboxPhoneNumberResult,
-  errors: [
-    AuthorizationErrorException,
-    InternalErrorException,
-    InvalidParameterException,
-    ResourceNotFoundException,
-    ThrottledException,
-    VerificationException,
-  ],
-}));
-/**
- * Allows a subscription owner to set an attribute of the subscription to a new
- * value.
- */
-export const setSubscriptionAttributes: (
-  input: SetSubscriptionAttributesInput,
-) => effect.Effect<
-  SetSubscriptionAttributesResponse,
-  | AuthorizationErrorException
-  | FilterPolicyLimitExceededException
-  | InternalErrorException
-  | InvalidParameterException
-  | NotFoundException
-  | ReplayLimitExceededException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: SetSubscriptionAttributesInput,
-  output: SetSubscriptionAttributesResponse,
-  errors: [
-    AuthorizationErrorException,
-    FilterPolicyLimitExceededException,
-    InternalErrorException,
-    InvalidParameterException,
-    NotFoundException,
-    ReplayLimitExceededException,
   ],
 }));
 /**
@@ -3098,198 +2138,741 @@ export const deleteTopic: (
   ],
 }));
 /**
- * Subscribes an endpoint to an Amazon SNS topic. If the endpoint type is HTTP/S or email, or
- * if the endpoint and the topic are not in the same Amazon Web Services account, the endpoint owner must
- * run the `ConfirmSubscription` action to confirm the subscription.
- *
- * You call the `ConfirmSubscription` action with the token from the
- * subscription response. Confirmation tokens are valid for two days.
- *
- * This action is throttled at 100 transactions per second (TPS).
+ * Retrieves the specified inline `DataProtectionPolicy` document that is
+ * stored in the specified Amazon SNS topic.
  */
-export const subscribe: (
-  input: SubscribeInput,
+export const getDataProtectionPolicy: (
+  input: GetDataProtectionPolicyInput,
 ) => effect.Effect<
-  SubscribeResponse,
+  GetDataProtectionPolicyResponse,
   | AuthorizationErrorException
-  | FilterPolicyLimitExceededException
   | InternalErrorException
   | InvalidParameterException
   | InvalidSecurityException
   | NotFoundException
-  | ReplayLimitExceededException
-  | SubscriptionLimitExceededException
   | RequestLimitExceeded
   | InvalidClientTokenId
   | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: SubscribeInput,
-  output: SubscribeResponse,
+  input: GetDataProtectionPolicyInput,
+  output: GetDataProtectionPolicyResponse,
   errors: [
     AuthorizationErrorException,
-    FilterPolicyLimitExceededException,
     InternalErrorException,
     InvalidParameterException,
     InvalidSecurityException,
     NotFoundException,
-    ReplayLimitExceededException,
-    SubscriptionLimitExceededException,
     RequestLimitExceeded,
     InvalidClientTokenId,
   ],
 }));
 /**
- * Verifies an endpoint owner's intent to receive messages by validating the token sent
- * to the endpoint by an earlier `Subscribe` action. If the token is valid, the
- * action creates a new subscription and returns its Amazon Resource Name (ARN). This call
- * requires an AWS signature only when the `AuthenticateOnUnsubscribe` flag is
- * set to "true".
+ * Retrieves the endpoint attributes for a device on one of the supported push
+ * notification services, such as GCM (Firebase Cloud Messaging) and APNS. For more
+ * information, see Using Amazon SNS Mobile Push Notifications.
  */
-export const confirmSubscription: (
-  input: ConfirmSubscriptionInput,
+export const getEndpointAttributes: (
+  input: GetEndpointAttributesInput,
 ) => effect.Effect<
-  ConfirmSubscriptionResponse,
+  GetEndpointAttributesResponse,
   | AuthorizationErrorException
-  | FilterPolicyLimitExceededException
   | InternalErrorException
   | InvalidParameterException
   | NotFoundException
-  | ReplayLimitExceededException
-  | SubscriptionLimitExceededException
+  | RequestLimitExceeded
+  | InvalidClientTokenId
   | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ConfirmSubscriptionInput,
-  output: ConfirmSubscriptionResponse,
+  input: GetEndpointAttributesInput,
+  output: GetEndpointAttributesResponse,
   errors: [
     AuthorizationErrorException,
-    FilterPolicyLimitExceededException,
     InternalErrorException,
     InvalidParameterException,
     NotFoundException,
-    ReplayLimitExceededException,
-    SubscriptionLimitExceededException,
+    RequestLimitExceeded,
+    InvalidClientTokenId,
   ],
 }));
 /**
- * Add tags to the specified Amazon SNS topic. For an overview, see Amazon SNS Tags in the
- * *Amazon SNS Developer Guide*.
- *
- * When you use topic tags, keep the following guidelines in mind:
- *
- * - Adding more than 50 tags to a topic isn't recommended.
- *
- * - Tags don't have any semantic meaning. Amazon SNS interprets tags as character
- * strings.
- *
- * - Tags are case-sensitive.
- *
- * - A new tag with a key identical to that of an existing tag overwrites the
- * existing tag.
- *
- * - Tagging actions are limited to 10 TPS per Amazon Web Services account, per Amazon Web Services Region. If
- * your application requires a higher throughput, file a technical support request.
+ * Retrieves the attributes of the platform application object for the supported push
+ * notification services, such as APNS and GCM (Firebase Cloud Messaging). For more
+ * information, see Using Amazon SNS Mobile Push Notifications.
  */
-export const tagResource: (
-  input: TagResourceRequest,
+export const getPlatformApplicationAttributes: (
+  input: GetPlatformApplicationAttributesInput,
 ) => effect.Effect<
-  TagResourceResponse,
+  GetPlatformApplicationAttributesResponse,
+  | AuthorizationErrorException
+  | InternalErrorException
+  | InvalidParameterException
+  | NotFoundException
+  | RequestLimitExceeded
+  | InvalidClientTokenId
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetPlatformApplicationAttributesInput,
+  output: GetPlatformApplicationAttributesResponse,
+  errors: [
+    AuthorizationErrorException,
+    InternalErrorException,
+    InvalidParameterException,
+    NotFoundException,
+    RequestLimitExceeded,
+    InvalidClientTokenId,
+  ],
+}));
+/**
+ * Returns the settings for sending SMS messages from your Amazon Web Services account.
+ *
+ * These settings are set with the `SetSMSAttributes` action.
+ */
+export const getSMSAttributes: (
+  input: GetSMSAttributesInput,
+) => effect.Effect<
+  GetSMSAttributesResponse,
+  | AuthorizationErrorException
+  | InternalErrorException
+  | InvalidParameterException
+  | ThrottledException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetSMSAttributesInput,
+  output: GetSMSAttributesResponse,
+  errors: [
+    AuthorizationErrorException,
+    InternalErrorException,
+    InvalidParameterException,
+    ThrottledException,
+  ],
+}));
+/**
+ * Retrieves the SMS sandbox status for the calling Amazon Web Services account in the target
+ * Amazon Web Services Region.
+ *
+ * When you start using Amazon SNS to send SMS messages, your Amazon Web Services account is in the
+ * *SMS sandbox*. The SMS sandbox provides a safe environment for
+ * you to try Amazon SNS features without risking your reputation as an SMS sender. While your
+ * Amazon Web Services account is in the SMS sandbox, you can use all of the features of Amazon SNS. However, you can send
+ * SMS messages only to verified destination phone numbers. For more information, including how to
+ * move out of the sandbox to send messages without restrictions,
+ * see SMS sandbox in
+ * the *Amazon SNS Developer Guide*.
+ */
+export const getSMSSandboxAccountStatus: (
+  input: GetSMSSandboxAccountStatusInput,
+) => effect.Effect<
+  GetSMSSandboxAccountStatusResult,
+  | AuthorizationErrorException
+  | InternalErrorException
+  | ThrottledException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetSMSSandboxAccountStatusInput,
+  output: GetSMSSandboxAccountStatusResult,
+  errors: [
+    AuthorizationErrorException,
+    InternalErrorException,
+    ThrottledException,
+  ],
+}));
+/**
+ * Returns all of the properties of a subscription.
+ */
+export const getSubscriptionAttributes: (
+  input: GetSubscriptionAttributesInput,
+) => effect.Effect<
+  GetSubscriptionAttributesResponse,
+  | AuthorizationErrorException
+  | InternalErrorException
+  | InvalidParameterException
+  | NotFoundException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetSubscriptionAttributesInput,
+  output: GetSubscriptionAttributesResponse,
+  errors: [
+    AuthorizationErrorException,
+    InternalErrorException,
+    InvalidParameterException,
+    NotFoundException,
+  ],
+}));
+/**
+ * Returns all of the properties of a topic. Topic properties returned might differ based
+ * on the authorization of the user.
+ */
+export const getTopicAttributes: (
+  input: GetTopicAttributesInput,
+) => effect.Effect<
+  GetTopicAttributesResponse,
+  | AuthorizationErrorException
+  | InternalErrorException
+  | InvalidParameterException
+  | InvalidSecurityException
+  | NotFoundException
+  | RequestLimitExceeded
+  | InvalidClientTokenId
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetTopicAttributesInput,
+  output: GetTopicAttributesResponse,
+  errors: [
+    AuthorizationErrorException,
+    InternalErrorException,
+    InvalidParameterException,
+    InvalidSecurityException,
+    NotFoundException,
+    RequestLimitExceeded,
+    InvalidClientTokenId,
+  ],
+}));
+/**
+ * Lists the endpoints and endpoint attributes for devices in a supported push
+ * notification service, such as GCM (Firebase Cloud Messaging) and APNS. The results for
+ * `ListEndpointsByPlatformApplication` are paginated and return a limited
+ * list of endpoints, up to 100. If additional records are available after the first page
+ * results, then a NextToken string will be returned. To receive the next page, you call
+ * `ListEndpointsByPlatformApplication` again using the NextToken string
+ * received from the previous call. When there are no more records to return, NextToken
+ * will be null. For more information, see Using Amazon SNS Mobile Push
+ * Notifications.
+ *
+ * This action is throttled at 30 transactions per second (TPS).
+ */
+export const listEndpointsByPlatformApplication: {
+  (
+    input: ListEndpointsByPlatformApplicationInput,
+  ): effect.Effect<
+    ListEndpointsByPlatformApplicationResponse,
+    | AuthorizationErrorException
+    | InternalErrorException
+    | InvalidParameterException
+    | NotFoundException
+    | RequestLimitExceeded
+    | InvalidClientTokenId
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListEndpointsByPlatformApplicationInput,
+  ) => stream.Stream<
+    ListEndpointsByPlatformApplicationResponse,
+    | AuthorizationErrorException
+    | InternalErrorException
+    | InvalidParameterException
+    | NotFoundException
+    | RequestLimitExceeded
+    | InvalidClientTokenId
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListEndpointsByPlatformApplicationInput,
+  ) => stream.Stream<
+    Endpoint,
+    | AuthorizationErrorException
+    | InternalErrorException
+    | InvalidParameterException
+    | NotFoundException
+    | RequestLimitExceeded
+    | InvalidClientTokenId
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListEndpointsByPlatformApplicationInput,
+  output: ListEndpointsByPlatformApplicationResponse,
+  errors: [
+    AuthorizationErrorException,
+    InternalErrorException,
+    InvalidParameterException,
+    NotFoundException,
+    RequestLimitExceeded,
+    InvalidClientTokenId,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Endpoints",
+  } as const,
+}));
+/**
+ * Lists the calling Amazon Web Services account's dedicated origination numbers and their metadata.
+ * For more information about origination numbers, see Origination numbers in the Amazon SNS Developer
+ * Guide.
+ */
+export const listOriginationNumbers: {
+  (
+    input: ListOriginationNumbersRequest,
+  ): effect.Effect<
+    ListOriginationNumbersResult,
+    | AuthorizationErrorException
+    | InternalErrorException
+    | InvalidParameterException
+    | ThrottledException
+    | ValidationException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListOriginationNumbersRequest,
+  ) => stream.Stream<
+    ListOriginationNumbersResult,
+    | AuthorizationErrorException
+    | InternalErrorException
+    | InvalidParameterException
+    | ThrottledException
+    | ValidationException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListOriginationNumbersRequest,
+  ) => stream.Stream<
+    PhoneNumberInformation,
+    | AuthorizationErrorException
+    | InternalErrorException
+    | InvalidParameterException
+    | ThrottledException
+    | ValidationException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListOriginationNumbersRequest,
+  output: ListOriginationNumbersResult,
+  errors: [
+    AuthorizationErrorException,
+    InternalErrorException,
+    InvalidParameterException,
+    ThrottledException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "PhoneNumbers",
+    pageSize: "MaxResults",
+  } as const,
+}));
+/**
+ * Returns a list of phone numbers that are opted out, meaning you cannot send SMS
+ * messages to them.
+ *
+ * The results for `ListPhoneNumbersOptedOut` are paginated, and each page
+ * returns up to 100 phone numbers. If additional phone numbers are available after the
+ * first page of results, then a `NextToken` string will be returned. To receive
+ * the next page, you call `ListPhoneNumbersOptedOut` again using the
+ * `NextToken` string received from the previous call. When there are no
+ * more records to return, `NextToken` will be null.
+ */
+export const listPhoneNumbersOptedOut: {
+  (
+    input: ListPhoneNumbersOptedOutInput,
+  ): effect.Effect<
+    ListPhoneNumbersOptedOutResponse,
+    | AuthorizationErrorException
+    | InternalErrorException
+    | InvalidParameterException
+    | ThrottledException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListPhoneNumbersOptedOutInput,
+  ) => stream.Stream<
+    ListPhoneNumbersOptedOutResponse,
+    | AuthorizationErrorException
+    | InternalErrorException
+    | InvalidParameterException
+    | ThrottledException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListPhoneNumbersOptedOutInput,
+  ) => stream.Stream<
+    PhoneNumber,
+    | AuthorizationErrorException
+    | InternalErrorException
+    | InvalidParameterException
+    | ThrottledException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListPhoneNumbersOptedOutInput,
+  output: ListPhoneNumbersOptedOutResponse,
+  errors: [
+    AuthorizationErrorException,
+    InternalErrorException,
+    InvalidParameterException,
+    ThrottledException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "phoneNumbers",
+  } as const,
+}));
+/**
+ * Lists the platform application objects for the supported push notification services,
+ * such as APNS and GCM (Firebase Cloud Messaging). The results for
+ * `ListPlatformApplications` are paginated and return a limited list of
+ * applications, up to 100. If additional records are available after the first page
+ * results, then a NextToken string will be returned. To receive the next page, you call
+ * `ListPlatformApplications` using the NextToken string received from the
+ * previous call. When there are no more records to return, `NextToken` will be
+ * null. For more information, see Using Amazon SNS Mobile Push
+ * Notifications.
+ *
+ * This action is throttled at 15 transactions per second (TPS).
+ */
+export const listPlatformApplications: {
+  (
+    input: ListPlatformApplicationsInput,
+  ): effect.Effect<
+    ListPlatformApplicationsResponse,
+    | AuthorizationErrorException
+    | InternalErrorException
+    | InvalidParameterException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListPlatformApplicationsInput,
+  ) => stream.Stream<
+    ListPlatformApplicationsResponse,
+    | AuthorizationErrorException
+    | InternalErrorException
+    | InvalidParameterException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListPlatformApplicationsInput,
+  ) => stream.Stream<
+    PlatformApplication,
+    | AuthorizationErrorException
+    | InternalErrorException
+    | InvalidParameterException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListPlatformApplicationsInput,
+  output: ListPlatformApplicationsResponse,
+  errors: [
+    AuthorizationErrorException,
+    InternalErrorException,
+    InvalidParameterException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "PlatformApplications",
+  } as const,
+}));
+/**
+ * Lists the calling Amazon Web Services account's current verified and pending destination phone
+ * numbers in the SMS sandbox.
+ *
+ * When you start using Amazon SNS to send SMS messages, your Amazon Web Services account is in the
+ * *SMS sandbox*. The SMS sandbox provides a safe environment for
+ * you to try Amazon SNS features without risking your reputation as an SMS sender. While your
+ * Amazon Web Services account is in the SMS sandbox, you can use all of the features of Amazon SNS. However, you can send
+ * SMS messages only to verified destination phone numbers. For more information, including how to
+ * move out of the sandbox to send messages without restrictions,
+ * see SMS sandbox in
+ * the *Amazon SNS Developer Guide*.
+ */
+export const listSMSSandboxPhoneNumbers: {
+  (
+    input: ListSMSSandboxPhoneNumbersInput,
+  ): effect.Effect<
+    ListSMSSandboxPhoneNumbersResult,
+    | AuthorizationErrorException
+    | InternalErrorException
+    | InvalidParameterException
+    | ResourceNotFoundException
+    | ThrottledException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListSMSSandboxPhoneNumbersInput,
+  ) => stream.Stream<
+    ListSMSSandboxPhoneNumbersResult,
+    | AuthorizationErrorException
+    | InternalErrorException
+    | InvalidParameterException
+    | ResourceNotFoundException
+    | ThrottledException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListSMSSandboxPhoneNumbersInput,
+  ) => stream.Stream<
+    SMSSandboxPhoneNumber,
+    | AuthorizationErrorException
+    | InternalErrorException
+    | InvalidParameterException
+    | ResourceNotFoundException
+    | ThrottledException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListSMSSandboxPhoneNumbersInput,
+  output: ListSMSSandboxPhoneNumbersResult,
+  errors: [
+    AuthorizationErrorException,
+    InternalErrorException,
+    InvalidParameterException,
+    ResourceNotFoundException,
+    ThrottledException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "PhoneNumbers",
+    pageSize: "MaxResults",
+  } as const,
+}));
+/**
+ * Returns a list of the requester's subscriptions. Each call returns a limited list of
+ * subscriptions, up to 100. If there are more subscriptions, a `NextToken` is
+ * also returned. Use the `NextToken` parameter in a new
+ * `ListSubscriptions` call to get further results.
+ *
+ * This action is throttled at 30 transactions per second (TPS).
+ */
+export const listSubscriptions: {
+  (
+    input: ListSubscriptionsInput,
+  ): effect.Effect<
+    ListSubscriptionsResponse,
+    | AuthorizationErrorException
+    | InternalErrorException
+    | InvalidParameterException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListSubscriptionsInput,
+  ) => stream.Stream<
+    ListSubscriptionsResponse,
+    | AuthorizationErrorException
+    | InternalErrorException
+    | InvalidParameterException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListSubscriptionsInput,
+  ) => stream.Stream<
+    Subscription,
+    | AuthorizationErrorException
+    | InternalErrorException
+    | InvalidParameterException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListSubscriptionsInput,
+  output: ListSubscriptionsResponse,
+  errors: [
+    AuthorizationErrorException,
+    InternalErrorException,
+    InvalidParameterException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Subscriptions",
+  } as const,
+}));
+/**
+ * Returns a list of the subscriptions to a specific topic. Each call returns a limited
+ * list of subscriptions, up to 100. If there are more subscriptions, a
+ * `NextToken` is also returned. Use the `NextToken` parameter in
+ * a new `ListSubscriptionsByTopic` call to get further results.
+ *
+ * This action is throttled at 30 transactions per second (TPS).
+ */
+export const listSubscriptionsByTopic: {
+  (
+    input: ListSubscriptionsByTopicInput,
+  ): effect.Effect<
+    ListSubscriptionsByTopicResponse,
+    | AuthorizationErrorException
+    | InternalErrorException
+    | InvalidParameterException
+    | NotFoundException
+    | RequestLimitExceeded
+    | InvalidClientTokenId
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListSubscriptionsByTopicInput,
+  ) => stream.Stream<
+    ListSubscriptionsByTopicResponse,
+    | AuthorizationErrorException
+    | InternalErrorException
+    | InvalidParameterException
+    | NotFoundException
+    | RequestLimitExceeded
+    | InvalidClientTokenId
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListSubscriptionsByTopicInput,
+  ) => stream.Stream<
+    Subscription,
+    | AuthorizationErrorException
+    | InternalErrorException
+    | InvalidParameterException
+    | NotFoundException
+    | RequestLimitExceeded
+    | InvalidClientTokenId
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListSubscriptionsByTopicInput,
+  output: ListSubscriptionsByTopicResponse,
+  errors: [
+    AuthorizationErrorException,
+    InternalErrorException,
+    InvalidParameterException,
+    NotFoundException,
+    RequestLimitExceeded,
+    InvalidClientTokenId,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Subscriptions",
+  } as const,
+}));
+/**
+ * List all tags added to the specified Amazon SNS topic. For an overview, see Amazon SNS Tags in the
+ * *Amazon Simple Notification Service Developer Guide*.
+ */
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => effect.Effect<
+  ListTagsForResourceResponse,
   | AuthorizationErrorException
   | ConcurrentAccessException
   | InvalidParameterException
   | ResourceNotFoundException
-  | StaleTagException
-  | TagLimitExceededException
   | TagPolicyException
   | RequestLimitExceeded
   | InvalidClientTokenId
   | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
   errors: [
     AuthorizationErrorException,
     ConcurrentAccessException,
     InvalidParameterException,
     ResourceNotFoundException,
-    StaleTagException,
-    TagLimitExceededException,
     TagPolicyException,
     RequestLimitExceeded,
     InvalidClientTokenId,
   ],
 }));
 /**
- * Remove tags from the specified Amazon SNS topic. For an overview, see Amazon SNS Tags in the
- * *Amazon SNS Developer Guide*.
+ * Returns a list of the requester's topics. Each call returns a limited list of topics,
+ * up to 100. If there are more topics, a `NextToken` is also returned. Use the
+ * `NextToken` parameter in a new `ListTopics` call to get
+ * further results.
+ *
+ * This action is throttled at 30 transactions per second (TPS).
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
-  UntagResourceResponse,
-  | AuthorizationErrorException
-  | ConcurrentAccessException
-  | InvalidParameterException
-  | ResourceNotFoundException
-  | StaleTagException
-  | TagLimitExceededException
-  | TagPolicyException
-  | RequestLimitExceeded
-  | InvalidClientTokenId
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
+export const listTopics: {
+  (
+    input: ListTopicsInput,
+  ): effect.Effect<
+    ListTopicsResponse,
+    | AuthorizationErrorException
+    | InternalErrorException
+    | InvalidParameterException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListTopicsInput,
+  ) => stream.Stream<
+    ListTopicsResponse,
+    | AuthorizationErrorException
+    | InternalErrorException
+    | InvalidParameterException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListTopicsInput,
+  ) => stream.Stream<
+    Topic,
+    | AuthorizationErrorException
+    | InternalErrorException
+    | InvalidParameterException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListTopicsInput,
+  output: ListTopicsResponse,
   errors: [
     AuthorizationErrorException,
-    ConcurrentAccessException,
-    InvalidParameterException,
-    ResourceNotFoundException,
-    StaleTagException,
-    TagLimitExceededException,
-    TagPolicyException,
-    RequestLimitExceeded,
-    InvalidClientTokenId,
-  ],
-}));
-/**
- * Creates a topic to which notifications can be published. Users can create at most
- * 100,000 standard topics (at most 1,000 FIFO topics). For more information, see Creating an Amazon SNS
- * topic in the *Amazon SNS Developer Guide*. This action is
- * idempotent, so if the requester already owns a topic with the specified name, that
- * topic's ARN is returned without creating a new topic.
- */
-export const createTopic: (
-  input: CreateTopicInput,
-) => effect.Effect<
-  CreateTopicResponse,
-  | AuthorizationErrorException
-  | ConcurrentAccessException
-  | InternalErrorException
-  | InvalidParameterException
-  | InvalidSecurityException
-  | StaleTagException
-  | TagLimitExceededException
-  | TagPolicyException
-  | TopicLimitExceededException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateTopicInput,
-  output: CreateTopicResponse,
-  errors: [
-    AuthorizationErrorException,
-    ConcurrentAccessException,
     InternalErrorException,
     InvalidParameterException,
-    InvalidSecurityException,
-    StaleTagException,
-    TagLimitExceededException,
-    TagPolicyException,
-    TopicLimitExceededException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Topics",
+  } as const,
+}));
+/**
+ * Use this request to opt in a phone number that is opted out, which enables you to
+ * resume sending SMS messages to the number.
+ *
+ * You can opt in a phone number only once every 30 days.
+ */
+export const optInPhoneNumber: (
+  input: OptInPhoneNumberInput,
+) => effect.Effect<
+  OptInPhoneNumberResponse,
+  | AuthorizationErrorException
+  | InternalErrorException
+  | InvalidParameterException
+  | ThrottledException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: OptInPhoneNumberInput,
+  output: OptInPhoneNumberResponse,
+  errors: [
+    AuthorizationErrorException,
+    InternalErrorException,
+    InvalidParameterException,
+    ThrottledException,
   ],
 }));
 /**
@@ -3451,5 +3034,414 @@ export const publishBatch: (
     PlatformApplicationDisabledException,
     TooManyEntriesInBatchRequestException,
     ValidationException,
+  ],
+}));
+/**
+ * Adds or updates an inline policy document that is stored in the specified Amazon SNS
+ * topic.
+ */
+export const putDataProtectionPolicy: (
+  input: PutDataProtectionPolicyInput,
+) => effect.Effect<
+  PutDataProtectionPolicyResponse,
+  | AuthorizationErrorException
+  | InternalErrorException
+  | InvalidParameterException
+  | InvalidSecurityException
+  | NotFoundException
+  | RequestLimitExceeded
+  | InvalidClientTokenId
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutDataProtectionPolicyInput,
+  output: PutDataProtectionPolicyResponse,
+  errors: [
+    AuthorizationErrorException,
+    InternalErrorException,
+    InvalidParameterException,
+    InvalidSecurityException,
+    NotFoundException,
+    RequestLimitExceeded,
+    InvalidClientTokenId,
+  ],
+}));
+/**
+ * Removes a statement from a topic's access control policy.
+ *
+ * To remove the ability to change topic permissions, you must deny permissions to
+ * the `AddPermission`, `RemovePermission`, and
+ * `SetTopicAttributes` actions in your IAM policy.
+ */
+export const removePermission: (
+  input: RemovePermissionInput,
+) => effect.Effect<
+  RemovePermissionResponse,
+  | AuthorizationErrorException
+  | InternalErrorException
+  | InvalidParameterException
+  | NotFoundException
+  | RequestLimitExceeded
+  | InvalidClientTokenId
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RemovePermissionInput,
+  output: RemovePermissionResponse,
+  errors: [
+    AuthorizationErrorException,
+    InternalErrorException,
+    InvalidParameterException,
+    NotFoundException,
+    RequestLimitExceeded,
+    InvalidClientTokenId,
+  ],
+}));
+/**
+ * Sets the attributes for an endpoint for a device on one of the supported push
+ * notification services, such as GCM (Firebase Cloud Messaging) and APNS. For more
+ * information, see Using Amazon SNS Mobile Push Notifications.
+ */
+export const setEndpointAttributes: (
+  input: SetEndpointAttributesInput,
+) => effect.Effect<
+  SetEndpointAttributesResponse,
+  | AuthorizationErrorException
+  | InternalErrorException
+  | InvalidParameterException
+  | NotFoundException
+  | RequestLimitExceeded
+  | InvalidClientTokenId
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SetEndpointAttributesInput,
+  output: SetEndpointAttributesResponse,
+  errors: [
+    AuthorizationErrorException,
+    InternalErrorException,
+    InvalidParameterException,
+    NotFoundException,
+    RequestLimitExceeded,
+    InvalidClientTokenId,
+  ],
+}));
+/**
+ * Sets the attributes of the platform application object for the supported push
+ * notification services, such as APNS and GCM (Firebase Cloud Messaging). For more
+ * information, see Using Amazon SNS Mobile Push Notifications. For information on configuring
+ * attributes for message delivery status, see Using Amazon SNS Application Attributes for
+ * Message Delivery Status.
+ */
+export const setPlatformApplicationAttributes: (
+  input: SetPlatformApplicationAttributesInput,
+) => effect.Effect<
+  SetPlatformApplicationAttributesResponse,
+  | AuthorizationErrorException
+  | InternalErrorException
+  | InvalidParameterException
+  | NotFoundException
+  | RequestLimitExceeded
+  | InvalidClientTokenId
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SetPlatformApplicationAttributesInput,
+  output: SetPlatformApplicationAttributesResponse,
+  errors: [
+    AuthorizationErrorException,
+    InternalErrorException,
+    InvalidParameterException,
+    NotFoundException,
+    RequestLimitExceeded,
+    InvalidClientTokenId,
+  ],
+}));
+/**
+ * Use this request to set the default settings for sending SMS messages and receiving
+ * daily SMS usage reports.
+ *
+ * You can override some of these settings for a single message when you use the
+ * `Publish` action with the `MessageAttributes.entry.N`
+ * parameter. For more information, see Publishing to a mobile phone
+ * in the *Amazon SNS Developer Guide*.
+ *
+ * To use this operation, you must grant the Amazon SNS service principal
+ * (`sns.amazonaws.com`) permission to perform the
+ * `s3:ListBucket` action.
+ */
+export const setSMSAttributes: (
+  input: SetSMSAttributesInput,
+) => effect.Effect<
+  SetSMSAttributesResponse,
+  | AuthorizationErrorException
+  | InternalErrorException
+  | InvalidParameterException
+  | ThrottledException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SetSMSAttributesInput,
+  output: SetSMSAttributesResponse,
+  errors: [
+    AuthorizationErrorException,
+    InternalErrorException,
+    InvalidParameterException,
+    ThrottledException,
+  ],
+}));
+/**
+ * Allows a subscription owner to set an attribute of the subscription to a new
+ * value.
+ */
+export const setSubscriptionAttributes: (
+  input: SetSubscriptionAttributesInput,
+) => effect.Effect<
+  SetSubscriptionAttributesResponse,
+  | AuthorizationErrorException
+  | FilterPolicyLimitExceededException
+  | InternalErrorException
+  | InvalidParameterException
+  | NotFoundException
+  | ReplayLimitExceededException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SetSubscriptionAttributesInput,
+  output: SetSubscriptionAttributesResponse,
+  errors: [
+    AuthorizationErrorException,
+    FilterPolicyLimitExceededException,
+    InternalErrorException,
+    InvalidParameterException,
+    NotFoundException,
+    ReplayLimitExceededException,
+  ],
+}));
+/**
+ * Allows a topic owner to set an attribute of the topic to a new value.
+ *
+ * To remove the ability to change topic permissions, you must deny permissions to
+ * the `AddPermission`, `RemovePermission`, and
+ * `SetTopicAttributes` actions in your IAM policy.
+ */
+export const setTopicAttributes: (
+  input: SetTopicAttributesInput,
+) => effect.Effect<
+  SetTopicAttributesResponse,
+  | AuthorizationErrorException
+  | InternalErrorException
+  | InvalidParameterException
+  | InvalidSecurityException
+  | NotFoundException
+  | RequestLimitExceeded
+  | InvalidClientTokenId
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SetTopicAttributesInput,
+  output: SetTopicAttributesResponse,
+  errors: [
+    AuthorizationErrorException,
+    InternalErrorException,
+    InvalidParameterException,
+    InvalidSecurityException,
+    NotFoundException,
+    RequestLimitExceeded,
+    InvalidClientTokenId,
+  ],
+}));
+/**
+ * Subscribes an endpoint to an Amazon SNS topic. If the endpoint type is HTTP/S or email, or
+ * if the endpoint and the topic are not in the same Amazon Web Services account, the endpoint owner must
+ * run the `ConfirmSubscription` action to confirm the subscription.
+ *
+ * You call the `ConfirmSubscription` action with the token from the
+ * subscription response. Confirmation tokens are valid for two days.
+ *
+ * This action is throttled at 100 transactions per second (TPS).
+ */
+export const subscribe: (
+  input: SubscribeInput,
+) => effect.Effect<
+  SubscribeResponse,
+  | AuthorizationErrorException
+  | FilterPolicyLimitExceededException
+  | InternalErrorException
+  | InvalidParameterException
+  | InvalidSecurityException
+  | NotFoundException
+  | ReplayLimitExceededException
+  | SubscriptionLimitExceededException
+  | RequestLimitExceeded
+  | InvalidClientTokenId
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SubscribeInput,
+  output: SubscribeResponse,
+  errors: [
+    AuthorizationErrorException,
+    FilterPolicyLimitExceededException,
+    InternalErrorException,
+    InvalidParameterException,
+    InvalidSecurityException,
+    NotFoundException,
+    ReplayLimitExceededException,
+    SubscriptionLimitExceededException,
+    RequestLimitExceeded,
+    InvalidClientTokenId,
+  ],
+}));
+/**
+ * Add tags to the specified Amazon SNS topic. For an overview, see Amazon SNS Tags in the
+ * *Amazon SNS Developer Guide*.
+ *
+ * When you use topic tags, keep the following guidelines in mind:
+ *
+ * - Adding more than 50 tags to a topic isn't recommended.
+ *
+ * - Tags don't have any semantic meaning. Amazon SNS interprets tags as character
+ * strings.
+ *
+ * - Tags are case-sensitive.
+ *
+ * - A new tag with a key identical to that of an existing tag overwrites the
+ * existing tag.
+ *
+ * - Tagging actions are limited to 10 TPS per Amazon Web Services account, per Amazon Web Services Region. If
+ * your application requires a higher throughput, file a technical support request.
+ */
+export const tagResource: (
+  input: TagResourceRequest,
+) => effect.Effect<
+  TagResourceResponse,
+  | AuthorizationErrorException
+  | ConcurrentAccessException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | StaleTagException
+  | TagLimitExceededException
+  | TagPolicyException
+  | RequestLimitExceeded
+  | InvalidClientTokenId
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResponse,
+  errors: [
+    AuthorizationErrorException,
+    ConcurrentAccessException,
+    InvalidParameterException,
+    ResourceNotFoundException,
+    StaleTagException,
+    TagLimitExceededException,
+    TagPolicyException,
+    RequestLimitExceeded,
+    InvalidClientTokenId,
+  ],
+}));
+/**
+ * Deletes a subscription. If the subscription requires authentication for deletion, only
+ * the owner of the subscription or the topic's owner can unsubscribe, and an Amazon Web Services
+ * signature is required. If the `Unsubscribe` call does not require
+ * authentication and the requester is not the subscription owner, a final cancellation
+ * message is delivered to the endpoint, so that the endpoint owner can easily resubscribe
+ * to the topic if the `Unsubscribe` request was unintended.
+ *
+ * This action is throttled at 100 transactions per second (TPS).
+ */
+export const unsubscribe: (
+  input: UnsubscribeInput,
+) => effect.Effect<
+  UnsubscribeResponse,
+  | AuthorizationErrorException
+  | InternalErrorException
+  | InvalidParameterException
+  | InvalidSecurityException
+  | NotFoundException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UnsubscribeInput,
+  output: UnsubscribeResponse,
+  errors: [
+    AuthorizationErrorException,
+    InternalErrorException,
+    InvalidParameterException,
+    InvalidSecurityException,
+    NotFoundException,
+  ],
+}));
+/**
+ * Remove tags from the specified Amazon SNS topic. For an overview, see Amazon SNS Tags in the
+ * *Amazon SNS Developer Guide*.
+ */
+export const untagResource: (
+  input: UntagResourceRequest,
+) => effect.Effect<
+  UntagResourceResponse,
+  | AuthorizationErrorException
+  | ConcurrentAccessException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | StaleTagException
+  | TagLimitExceededException
+  | TagPolicyException
+  | RequestLimitExceeded
+  | InvalidClientTokenId
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
+  errors: [
+    AuthorizationErrorException,
+    ConcurrentAccessException,
+    InvalidParameterException,
+    ResourceNotFoundException,
+    StaleTagException,
+    TagLimitExceededException,
+    TagPolicyException,
+    RequestLimitExceeded,
+    InvalidClientTokenId,
+  ],
+}));
+/**
+ * Verifies a destination phone number with a one-time password (OTP) for the calling
+ * Amazon Web Services account.
+ *
+ * When you start using Amazon SNS to send SMS messages, your Amazon Web Services account is in the
+ * *SMS sandbox*. The SMS sandbox provides a safe environment for
+ * you to try Amazon SNS features without risking your reputation as an SMS sender. While your
+ * Amazon Web Services account is in the SMS sandbox, you can use all of the features of Amazon SNS. However, you can send
+ * SMS messages only to verified destination phone numbers. For more information, including how to
+ * move out of the sandbox to send messages without restrictions,
+ * see SMS sandbox in
+ * the *Amazon SNS Developer Guide*.
+ */
+export const verifySMSSandboxPhoneNumber: (
+  input: VerifySMSSandboxPhoneNumberInput,
+) => effect.Effect<
+  VerifySMSSandboxPhoneNumberResult,
+  | AuthorizationErrorException
+  | InternalErrorException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ThrottledException
+  | VerificationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: VerifySMSSandboxPhoneNumberInput,
+  output: VerifySMSSandboxPhoneNumberResult,
+  errors: [
+    AuthorizationErrorException,
+    InternalErrorException,
+    InvalidParameterException,
+    ResourceNotFoundException,
+    ThrottledException,
+    VerificationException,
   ],
 }));

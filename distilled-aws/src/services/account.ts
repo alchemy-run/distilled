@@ -1,4 +1,4 @@
-import { HttpClient } from "@effect/platform";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as effect from "effect/Effect";
 import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
@@ -102,15 +102,15 @@ const rules = T.EndpointResolver((p, _) => {
 //# Newtypes
 export type AccountName = string | redacted.Redacted<string>;
 export type AccountId = string;
+export type SensitiveString = string | redacted.Redacted<string>;
+export type ValidationExceptionReason = string;
+export type AccountCreatedDate = Date;
 export type Name = string | redacted.Redacted<string>;
 export type Title = string | redacted.Redacted<string>;
 export type EmailAddress = string | redacted.Redacted<string>;
 export type PhoneNumber = string | redacted.Redacted<string>;
 export type AlternateContactType = string;
-export type PrimaryEmailAddress = string | redacted.Redacted<string>;
-export type Otp = string | redacted.Redacted<string>;
-export type RegionName = string;
-export type RegionOptStatus = string;
+export type AwsAccountState = string;
 export type FullName = string | redacted.Redacted<string>;
 export type AddressLine = string | redacted.Redacted<string>;
 export type City = string | redacted.Redacted<string>;
@@ -121,15 +121,13 @@ export type CountryCode = string | redacted.Redacted<string>;
 export type ContactInformationPhoneNumber = string | redacted.Redacted<string>;
 export type CompanyName = string | redacted.Redacted<string>;
 export type WebsiteUrl = string | redacted.Redacted<string>;
-export type AccountCreatedDate = Date;
-export type AwsAccountState = string;
+export type PrimaryEmailAddress = string | redacted.Redacted<string>;
+export type Otp = string | redacted.Redacted<string>;
 export type PrimaryEmailUpdateStatus = string;
-export type SensitiveString = string | redacted.Redacted<string>;
-export type ValidationExceptionReason = string;
+export type RegionName = string;
+export type RegionOptStatus = string;
 
 //# Schemas
-export type RegionOptStatusList = string[];
-export const RegionOptStatusList = S.Array(S.String);
 export interface PutAccountNameRequest {
   AccountName: string | redacted.Redacted<string>;
   AccountId?: string;
@@ -148,13 +146,24 @@ export const PutAccountNameRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "PutAccountNameRequest",
 }) as any as S.Schema<PutAccountNameRequest>;
 export interface PutAccountNameResponse {}
-export const PutAccountNameResponse = S.suspend(() => S.Struct({})).annotations(
-  { identifier: "PutAccountNameResponse" },
-) as any as S.Schema<PutAccountNameResponse>;
+export const PutAccountNameResponse = S.suspend(() => S.Struct({})).annotate({
+  identifier: "PutAccountNameResponse",
+}) as any as S.Schema<PutAccountNameResponse>;
+export interface ValidationExceptionField {
+  name: string;
+  message: string | redacted.Redacted<string>;
+}
+export const ValidationExceptionField = S.suspend(() =>
+  S.Struct({ name: S.String, message: SensitiveString }),
+).annotate({
+  identifier: "ValidationExceptionField",
+}) as any as S.Schema<ValidationExceptionField>;
+export type ValidationExceptionFieldList = ValidationExceptionField[];
+export const ValidationExceptionFieldList = S.Array(ValidationExceptionField);
 export interface GetAccountInformationRequest {
   AccountId?: string;
 }
@@ -169,9 +178,25 @@ export const GetAccountInformationRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "GetAccountInformationRequest",
 }) as any as S.Schema<GetAccountInformationRequest>;
+export interface GetAccountInformationResponse {
+  AccountId?: string;
+  AccountName?: string | redacted.Redacted<string>;
+  AccountCreatedDate?: Date;
+}
+export const GetAccountInformationResponse = S.suspend(() =>
+  S.Struct({
+    AccountId: S.optional(S.String),
+    AccountName: S.optional(SensitiveString),
+    AccountCreatedDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+  }),
+).annotate({
+  identifier: "GetAccountInformationResponse",
+}) as any as S.Schema<GetAccountInformationResponse>;
 export interface PutAlternateContactRequest {
   Name: string | redacted.Redacted<string>;
   Title: string | redacted.Redacted<string>;
@@ -198,13 +223,13 @@ export const PutAlternateContactRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "PutAlternateContactRequest",
 }) as any as S.Schema<PutAlternateContactRequest>;
 export interface PutAlternateContactResponse {}
 export const PutAlternateContactResponse = S.suspend(() =>
   S.Struct({}),
-).annotations({
+).annotate({
   identifier: "PutAlternateContactResponse",
 }) as any as S.Schema<PutAlternateContactResponse>;
 export interface GetAlternateContactRequest {
@@ -225,9 +250,35 @@ export const GetAlternateContactRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "GetAlternateContactRequest",
 }) as any as S.Schema<GetAlternateContactRequest>;
+export interface AlternateContact {
+  Name?: string | redacted.Redacted<string>;
+  Title?: string | redacted.Redacted<string>;
+  EmailAddress?: string | redacted.Redacted<string>;
+  PhoneNumber?: string | redacted.Redacted<string>;
+  AlternateContactType?: string;
+}
+export const AlternateContact = S.suspend(() =>
+  S.Struct({
+    Name: S.optional(SensitiveString),
+    Title: S.optional(SensitiveString),
+    EmailAddress: S.optional(SensitiveString),
+    PhoneNumber: S.optional(SensitiveString),
+    AlternateContactType: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "AlternateContact",
+}) as any as S.Schema<AlternateContact>;
+export interface GetAlternateContactResponse {
+  AlternateContact?: AlternateContact;
+}
+export const GetAlternateContactResponse = S.suspend(() =>
+  S.Struct({ AlternateContact: S.optional(AlternateContact) }),
+).annotate({
+  identifier: "GetAlternateContactResponse",
+}) as any as S.Schema<GetAlternateContactResponse>;
 export interface DeleteAlternateContactRequest {
   AlternateContactType: string;
   AccountId?: string;
@@ -246,13 +297,13 @@ export const DeleteAlternateContactRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "DeleteAlternateContactRequest",
 }) as any as S.Schema<DeleteAlternateContactRequest>;
 export interface DeleteAlternateContactResponse {}
 export const DeleteAlternateContactResponse = S.suspend(() =>
   S.Struct({}),
-).annotations({
+).annotate({
   identifier: "DeleteAlternateContactResponse",
 }) as any as S.Schema<DeleteAlternateContactResponse>;
 export interface GetGovCloudAccountInformationRequest {
@@ -269,171 +320,18 @@ export const GetGovCloudAccountInformationRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "GetGovCloudAccountInformationRequest",
 }) as any as S.Schema<GetGovCloudAccountInformationRequest>;
-export interface GetContactInformationRequest {
-  AccountId?: string;
+export interface GetGovCloudAccountInformationResponse {
+  GovCloudAccountId: string;
+  AccountState: string;
 }
-export const GetContactInformationRequest = S.suspend(() =>
-  S.Struct({ AccountId: S.optional(S.String) }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/getContactInformation" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "GetContactInformationRequest",
-}) as any as S.Schema<GetContactInformationRequest>;
-export interface AcceptPrimaryEmailUpdateRequest {
-  AccountId: string;
-  PrimaryEmail: string | redacted.Redacted<string>;
-  Otp: string | redacted.Redacted<string>;
-}
-export const AcceptPrimaryEmailUpdateRequest = S.suspend(() =>
-  S.Struct({
-    AccountId: S.String,
-    PrimaryEmail: SensitiveString,
-    Otp: SensitiveString,
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/acceptPrimaryEmailUpdate" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "AcceptPrimaryEmailUpdateRequest",
-}) as any as S.Schema<AcceptPrimaryEmailUpdateRequest>;
-export interface GetPrimaryEmailRequest {
-  AccountId: string;
-}
-export const GetPrimaryEmailRequest = S.suspend(() =>
-  S.Struct({ AccountId: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/getPrimaryEmail" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "GetPrimaryEmailRequest",
-}) as any as S.Schema<GetPrimaryEmailRequest>;
-export interface StartPrimaryEmailUpdateRequest {
-  AccountId: string;
-  PrimaryEmail: string | redacted.Redacted<string>;
-}
-export const StartPrimaryEmailUpdateRequest = S.suspend(() =>
-  S.Struct({ AccountId: S.String, PrimaryEmail: SensitiveString }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/startPrimaryEmailUpdate" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "StartPrimaryEmailUpdateRequest",
-}) as any as S.Schema<StartPrimaryEmailUpdateRequest>;
-export interface DisableRegionRequest {
-  AccountId?: string;
-  RegionName: string;
-}
-export const DisableRegionRequest = S.suspend(() =>
-  S.Struct({ AccountId: S.optional(S.String), RegionName: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/disableRegion" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DisableRegionRequest",
-}) as any as S.Schema<DisableRegionRequest>;
-export interface DisableRegionResponse {}
-export const DisableRegionResponse = S.suspend(() => S.Struct({})).annotations({
-  identifier: "DisableRegionResponse",
-}) as any as S.Schema<DisableRegionResponse>;
-export interface EnableRegionRequest {
-  AccountId?: string;
-  RegionName: string;
-}
-export const EnableRegionRequest = S.suspend(() =>
-  S.Struct({ AccountId: S.optional(S.String), RegionName: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/enableRegion" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "EnableRegionRequest",
-}) as any as S.Schema<EnableRegionRequest>;
-export interface EnableRegionResponse {}
-export const EnableRegionResponse = S.suspend(() => S.Struct({})).annotations({
-  identifier: "EnableRegionResponse",
-}) as any as S.Schema<EnableRegionResponse>;
-export interface GetRegionOptStatusRequest {
-  AccountId?: string;
-  RegionName: string;
-}
-export const GetRegionOptStatusRequest = S.suspend(() =>
-  S.Struct({ AccountId: S.optional(S.String), RegionName: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/getRegionOptStatus" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "GetRegionOptStatusRequest",
-}) as any as S.Schema<GetRegionOptStatusRequest>;
-export interface ListRegionsRequest {
-  AccountId?: string;
-  MaxResults?: number;
-  NextToken?: string;
-  RegionOptStatusContains?: string[];
-}
-export const ListRegionsRequest = S.suspend(() =>
-  S.Struct({
-    AccountId: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-    RegionOptStatusContains: S.optional(RegionOptStatusList),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/listRegions" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListRegionsRequest",
-}) as any as S.Schema<ListRegionsRequest>;
+export const GetGovCloudAccountInformationResponse = S.suspend(() =>
+  S.Struct({ GovCloudAccountId: S.String, AccountState: S.String }),
+).annotate({
+  identifier: "GetGovCloudAccountInformationResponse",
+}) as any as S.Schema<GetGovCloudAccountInformationResponse>;
 export interface ContactInformation {
   FullName: string | redacted.Redacted<string>;
   AddressLine1: string | redacted.Redacted<string>;
@@ -463,32 +361,9 @@ export const ContactInformation = S.suspend(() =>
     CompanyName: S.optional(SensitiveString),
     WebsiteUrl: S.optional(SensitiveString),
   }),
-).annotations({
+).annotate({
   identifier: "ContactInformation",
 }) as any as S.Schema<ContactInformation>;
-export interface GetAccountInformationResponse {
-  AccountId?: string;
-  AccountName?: string | redacted.Redacted<string>;
-  AccountCreatedDate?: Date;
-}
-export const GetAccountInformationResponse = S.suspend(() =>
-  S.Struct({
-    AccountId: S.optional(S.String),
-    AccountName: S.optional(SensitiveString),
-    AccountCreatedDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  }),
-).annotations({
-  identifier: "GetAccountInformationResponse",
-}) as any as S.Schema<GetAccountInformationResponse>;
-export interface GetGovCloudAccountInformationResponse {
-  GovCloudAccountId: string;
-  AccountState: string;
-}
-export const GetGovCloudAccountInformationResponse = S.suspend(() =>
-  S.Struct({ GovCloudAccountId: S.String, AccountState: S.String }),
-).annotations({
-  identifier: "GetGovCloudAccountInformationResponse",
-}) as any as S.Schema<GetGovCloudAccountInformationResponse>;
 export interface PutContactInformationRequest {
   ContactInformation: ContactInformation;
   AccountId?: string;
@@ -507,47 +382,184 @@ export const PutContactInformationRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "PutContactInformationRequest",
 }) as any as S.Schema<PutContactInformationRequest>;
 export interface PutContactInformationResponse {}
 export const PutContactInformationResponse = S.suspend(() =>
   S.Struct({}),
-).annotations({
+).annotate({
   identifier: "PutContactInformationResponse",
 }) as any as S.Schema<PutContactInformationResponse>;
+export interface GetContactInformationRequest {
+  AccountId?: string;
+}
+export const GetContactInformationRequest = S.suspend(() =>
+  S.Struct({ AccountId: S.optional(S.String) }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/getContactInformation" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetContactInformationRequest",
+}) as any as S.Schema<GetContactInformationRequest>;
 export interface GetContactInformationResponse {
   ContactInformation?: ContactInformation;
 }
 export const GetContactInformationResponse = S.suspend(() =>
   S.Struct({ ContactInformation: S.optional(ContactInformation) }),
-).annotations({
+).annotate({
   identifier: "GetContactInformationResponse",
 }) as any as S.Schema<GetContactInformationResponse>;
+export interface AcceptPrimaryEmailUpdateRequest {
+  AccountId: string;
+  PrimaryEmail: string | redacted.Redacted<string>;
+  Otp: string | redacted.Redacted<string>;
+}
+export const AcceptPrimaryEmailUpdateRequest = S.suspend(() =>
+  S.Struct({
+    AccountId: S.String,
+    PrimaryEmail: SensitiveString,
+    Otp: SensitiveString,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/acceptPrimaryEmailUpdate" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "AcceptPrimaryEmailUpdateRequest",
+}) as any as S.Schema<AcceptPrimaryEmailUpdateRequest>;
 export interface AcceptPrimaryEmailUpdateResponse {
   Status?: string;
 }
 export const AcceptPrimaryEmailUpdateResponse = S.suspend(() =>
   S.Struct({ Status: S.optional(S.String) }),
-).annotations({
+).annotate({
   identifier: "AcceptPrimaryEmailUpdateResponse",
 }) as any as S.Schema<AcceptPrimaryEmailUpdateResponse>;
+export interface GetPrimaryEmailRequest {
+  AccountId: string;
+}
+export const GetPrimaryEmailRequest = S.suspend(() =>
+  S.Struct({ AccountId: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/getPrimaryEmail" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetPrimaryEmailRequest",
+}) as any as S.Schema<GetPrimaryEmailRequest>;
 export interface GetPrimaryEmailResponse {
   PrimaryEmail?: string | redacted.Redacted<string>;
 }
 export const GetPrimaryEmailResponse = S.suspend(() =>
   S.Struct({ PrimaryEmail: S.optional(SensitiveString) }),
-).annotations({
+).annotate({
   identifier: "GetPrimaryEmailResponse",
 }) as any as S.Schema<GetPrimaryEmailResponse>;
+export interface StartPrimaryEmailUpdateRequest {
+  AccountId: string;
+  PrimaryEmail: string | redacted.Redacted<string>;
+}
+export const StartPrimaryEmailUpdateRequest = S.suspend(() =>
+  S.Struct({ AccountId: S.String, PrimaryEmail: SensitiveString }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/startPrimaryEmailUpdate" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "StartPrimaryEmailUpdateRequest",
+}) as any as S.Schema<StartPrimaryEmailUpdateRequest>;
 export interface StartPrimaryEmailUpdateResponse {
   Status?: string;
 }
 export const StartPrimaryEmailUpdateResponse = S.suspend(() =>
   S.Struct({ Status: S.optional(S.String) }),
-).annotations({
+).annotate({
   identifier: "StartPrimaryEmailUpdateResponse",
 }) as any as S.Schema<StartPrimaryEmailUpdateResponse>;
+export interface DisableRegionRequest {
+  AccountId?: string;
+  RegionName: string;
+}
+export const DisableRegionRequest = S.suspend(() =>
+  S.Struct({ AccountId: S.optional(S.String), RegionName: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/disableRegion" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DisableRegionRequest",
+}) as any as S.Schema<DisableRegionRequest>;
+export interface DisableRegionResponse {}
+export const DisableRegionResponse = S.suspend(() => S.Struct({})).annotate({
+  identifier: "DisableRegionResponse",
+}) as any as S.Schema<DisableRegionResponse>;
+export interface EnableRegionRequest {
+  AccountId?: string;
+  RegionName: string;
+}
+export const EnableRegionRequest = S.suspend(() =>
+  S.Struct({ AccountId: S.optional(S.String), RegionName: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/enableRegion" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "EnableRegionRequest",
+}) as any as S.Schema<EnableRegionRequest>;
+export interface EnableRegionResponse {}
+export const EnableRegionResponse = S.suspend(() => S.Struct({})).annotate({
+  identifier: "EnableRegionResponse",
+}) as any as S.Schema<EnableRegionResponse>;
+export interface GetRegionOptStatusRequest {
+  AccountId?: string;
+  RegionName: string;
+}
+export const GetRegionOptStatusRequest = S.suspend(() =>
+  S.Struct({ AccountId: S.optional(S.String), RegionName: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/getRegionOptStatus" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetRegionOptStatusRequest",
+}) as any as S.Schema<GetRegionOptStatusRequest>;
 export interface GetRegionOptStatusResponse {
   RegionName?: string;
   RegionOptStatus?: string;
@@ -557,27 +569,36 @@ export const GetRegionOptStatusResponse = S.suspend(() =>
     RegionName: S.optional(S.String),
     RegionOptStatus: S.optional(S.String),
   }),
-).annotations({
+).annotate({
   identifier: "GetRegionOptStatusResponse",
 }) as any as S.Schema<GetRegionOptStatusResponse>;
-export interface AlternateContact {
-  Name?: string | redacted.Redacted<string>;
-  Title?: string | redacted.Redacted<string>;
-  EmailAddress?: string | redacted.Redacted<string>;
-  PhoneNumber?: string | redacted.Redacted<string>;
-  AlternateContactType?: string;
+export type RegionOptStatusList = string[];
+export const RegionOptStatusList = S.Array(S.String);
+export interface ListRegionsRequest {
+  AccountId?: string;
+  MaxResults?: number;
+  NextToken?: string;
+  RegionOptStatusContains?: string[];
 }
-export const AlternateContact = S.suspend(() =>
+export const ListRegionsRequest = S.suspend(() =>
   S.Struct({
-    Name: S.optional(SensitiveString),
-    Title: S.optional(SensitiveString),
-    EmailAddress: S.optional(SensitiveString),
-    PhoneNumber: S.optional(SensitiveString),
-    AlternateContactType: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "AlternateContact",
-}) as any as S.Schema<AlternateContact>;
+    AccountId: S.optional(S.String),
+    MaxResults: S.optional(S.Number),
+    NextToken: S.optional(S.String),
+    RegionOptStatusContains: S.optional(RegionOptStatusList),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/listRegions" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListRegionsRequest",
+}) as any as S.Schema<ListRegionsRequest>;
 export interface Region {
   RegionName?: string;
   RegionOptStatus?: string;
@@ -587,17 +608,9 @@ export const Region = S.suspend(() =>
     RegionName: S.optional(S.String),
     RegionOptStatus: S.optional(S.String),
   }),
-).annotations({ identifier: "Region" }) as any as S.Schema<Region>;
+).annotate({ identifier: "Region" }) as any as S.Schema<Region>;
 export type RegionOptList = Region[];
 export const RegionOptList = S.Array(Region);
-export interface GetAlternateContactResponse {
-  AlternateContact?: AlternateContact;
-}
-export const GetAlternateContactResponse = S.suspend(() =>
-  S.Struct({ AlternateContact: S.optional(AlternateContact) }),
-).annotations({
-  identifier: "GetAlternateContactResponse",
-}) as any as S.Schema<GetAlternateContactResponse>;
 export interface ListRegionsResponse {
   NextToken?: string;
   Regions?: Region[];
@@ -607,30 +620,19 @@ export const ListRegionsResponse = S.suspend(() =>
     NextToken: S.optional(S.String),
     Regions: S.optional(RegionOptList),
   }),
-).annotations({
+).annotate({
   identifier: "ListRegionsResponse",
 }) as any as S.Schema<ListRegionsResponse>;
-export interface ValidationExceptionField {
-  name: string;
-  message: string | redacted.Redacted<string>;
-}
-export const ValidationExceptionField = S.suspend(() =>
-  S.Struct({ name: S.String, message: SensitiveString }),
-).annotations({
-  identifier: "ValidationExceptionField",
-}) as any as S.Schema<ValidationExceptionField>;
-export type ValidationExceptionFieldList = ValidationExceptionField[];
-export const ValidationExceptionFieldList = S.Array(ValidationExceptionField);
 
 //# Errors
-export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
+export class AccessDeniedException extends S.TaggedErrorClass<AccessDeniedException>()(
   "AccessDeniedException",
   {
     message: S.String,
     errorType: S.optional(S.String).pipe(T.HttpHeader("x-amzn-ErrorType")),
   },
 ).pipe(C.withAuthError) {}
-export class InternalServerException extends S.TaggedError<InternalServerException>()(
+export class InternalServerException extends S.TaggedErrorClass<InternalServerException>()(
   "InternalServerException",
   {
     message: S.String,
@@ -638,14 +640,7 @@ export class InternalServerException extends S.TaggedError<InternalServerExcepti
   },
   T.Retryable(),
 ).pipe(C.withServerError, C.withRetryableError) {}
-export class ConflictException extends S.TaggedError<ConflictException>()(
-  "ConflictException",
-  {
-    message: S.String,
-    errorType: S.optional(S.String).pipe(T.HttpHeader("x-amzn-ErrorType")),
-  },
-).pipe(C.withConflictError) {}
-export class TooManyRequestsException extends S.TaggedError<TooManyRequestsException>()(
+export class TooManyRequestsException extends S.TaggedErrorClass<TooManyRequestsException>()(
   "TooManyRequestsException",
   {
     message: S.String,
@@ -653,21 +648,7 @@ export class TooManyRequestsException extends S.TaggedError<TooManyRequestsExcep
   },
   T.Retryable({ throttling: true }),
 ).pipe(C.withThrottlingError, C.withRetryableError) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
-  "ResourceNotFoundException",
-  {
-    message: S.String,
-    errorType: S.optional(S.String).pipe(T.HttpHeader("x-amzn-ErrorType")),
-  },
-).pipe(C.withBadRequestError) {}
-export class ResourceUnavailableException extends S.TaggedError<ResourceUnavailableException>()(
-  "ResourceUnavailableException",
-  {
-    message: S.String,
-    errorType: S.optional(S.String).pipe(T.HttpHeader("x-amzn-ErrorType")),
-  },
-) {}
-export class ValidationException extends S.TaggedError<ValidationException>()(
+export class ValidationException extends S.TaggedErrorClass<ValidationException>()(
   "ValidationException",
   {
     message: SensitiveString,
@@ -675,6 +656,27 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
     fieldList: S.optional(ValidationExceptionFieldList),
   },
 ).pipe(C.withBadRequestError) {}
+export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFoundException>()(
+  "ResourceNotFoundException",
+  {
+    message: S.String,
+    errorType: S.optional(S.String).pipe(T.HttpHeader("x-amzn-ErrorType")),
+  },
+).pipe(C.withBadRequestError) {}
+export class ResourceUnavailableException extends S.TaggedErrorClass<ResourceUnavailableException>()(
+  "ResourceUnavailableException",
+  {
+    message: S.String,
+    errorType: S.optional(S.String).pipe(T.HttpHeader("x-amzn-ErrorType")),
+  },
+) {}
+export class ConflictException extends S.TaggedErrorClass<ConflictException>()(
+  "ConflictException",
+  {
+    message: S.String,
+    errorType: S.optional(S.String).pipe(T.HttpHeader("x-amzn-ErrorType")),
+  },
+).pipe(C.withConflictError) {}
 
 //# Operations
 /**
@@ -693,6 +695,56 @@ export const putAccountName: (
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutAccountNameRequest,
   output: PutAccountNameResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    TooManyRequestsException,
+    ValidationException,
+  ],
+}));
+/**
+ * Retrieves information about the specified account including its account name, account ID, and account creation date and time. To use this API, an IAM user or role must have the `account:GetAccountInformation` IAM permission.
+ */
+export const getAccountInformation: (
+  input: GetAccountInformationRequest,
+) => effect.Effect<
+  GetAccountInformationResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | TooManyRequestsException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetAccountInformationRequest,
+  output: GetAccountInformationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    TooManyRequestsException,
+    ValidationException,
+  ],
+}));
+/**
+ * Modifies the specified alternate contact attached to an Amazon Web Services account.
+ *
+ * For complete details about how to use the alternate contact operations, see Update the alternate contacts for your Amazon Web Services account.
+ *
+ * Before you can update the alternate contact information for an Amazon Web Services account that is managed by Organizations, you must first enable integration between Amazon Web Services Account Management and Organizations. For more information, see Enable trusted access for Amazon Web Services Account Management.
+ */
+export const putAlternateContact: (
+  input: PutAlternateContactRequest,
+) => effect.Effect<
+  PutAlternateContactResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | TooManyRequestsException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutAlternateContactRequest,
+  output: PutAlternateContactResponse,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -730,77 +782,57 @@ export const getAlternateContact: (
   ],
 }));
 /**
- * Lists all the Regions for a given account and their respective opt-in statuses. Optionally, this list can be filtered by the `region-opt-status-contains` parameter.
+ * Deletes the specified alternate contact from an Amazon Web Services account.
+ *
+ * For complete details about how to use the alternate contact operations, see Update the alternate contacts for your Amazon Web Services account.
+ *
+ * Before you can update the alternate contact information for an Amazon Web Services account that is managed by Organizations, you must first enable integration between Amazon Web Services Account Management and Organizations. For more information, see Enable trusted access for Amazon Web Services Account Management.
  */
-export const listRegions: {
-  (
-    input: ListRegionsRequest,
-  ): effect.Effect<
-    ListRegionsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | TooManyRequestsException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
-  pages: (
-    input: ListRegionsRequest,
-  ) => stream.Stream<
-    ListRegionsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | TooManyRequestsException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
-  items: (
-    input: ListRegionsRequest,
-  ) => stream.Stream<
-    Region,
-    | AccessDeniedException
-    | InternalServerException
-    | TooManyRequestsException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
-} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
-  input: ListRegionsRequest,
-  output: ListRegionsResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    TooManyRequestsException,
-    ValidationException,
-  ],
-  pagination: {
-    inputToken: "NextToken",
-    outputToken: "NextToken",
-    items: "Regions",
-    pageSize: "MaxResults",
-  } as const,
-}));
-/**
- * Retrieves information about the specified account including its account name, account ID, and account creation date and time. To use this API, an IAM user or role must have the `account:GetAccountInformation` IAM permission.
- */
-export const getAccountInformation: (
-  input: GetAccountInformationRequest,
+export const deleteAlternateContact: (
+  input: DeleteAlternateContactRequest,
 ) => effect.Effect<
-  GetAccountInformationResponse,
+  DeleteAlternateContactResponse,
   | AccessDeniedException
   | InternalServerException
+  | ResourceNotFoundException
   | TooManyRequestsException
   | ValidationException
   | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetAccountInformationRequest,
-  output: GetAccountInformationResponse,
+  input: DeleteAlternateContactRequest,
+  output: DeleteAlternateContactResponse,
   errors: [
     AccessDeniedException,
     InternalServerException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+    ValidationException,
+  ],
+}));
+/**
+ * Retrieves information about the GovCloud account linked to the specified standard account (if it exists) including the GovCloud account ID and state. To use this API, an IAM user or role must have the `account:GetGovCloudAccountInformation` IAM permission.
+ */
+export const getGovCloudAccountInformation: (
+  input: GetGovCloudAccountInformationRequest,
+) => effect.Effect<
+  GetGovCloudAccountInformationResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ResourceUnavailableException
+  | TooManyRequestsException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetGovCloudAccountInformationRequest,
+  output: GetGovCloudAccountInformationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ResourceUnavailableException,
     TooManyRequestsException,
     ValidationException,
   ],
@@ -831,51 +863,107 @@ export const putContactInformation: (
   ],
 }));
 /**
- * Retrieves the opt-in status of a particular Region.
+ * Retrieves the primary contact information of an Amazon Web Services account.
+ *
+ * For complete details about how to use the primary contact operations, see Update the primary contact for your Amazon Web Services account.
  */
-export const getRegionOptStatus: (
-  input: GetRegionOptStatusRequest,
+export const getContactInformation: (
+  input: GetContactInformationRequest,
 ) => effect.Effect<
-  GetRegionOptStatusResponse,
+  GetContactInformationResponse,
   | AccessDeniedException
   | InternalServerException
+  | ResourceNotFoundException
   | TooManyRequestsException
   | ValidationException
   | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetRegionOptStatusRequest,
-  output: GetRegionOptStatusResponse,
+  input: GetContactInformationRequest,
+  output: GetContactInformationResponse,
   errors: [
     AccessDeniedException,
     InternalServerException,
+    ResourceNotFoundException,
     TooManyRequestsException,
     ValidationException,
   ],
 }));
 /**
- * Modifies the specified alternate contact attached to an Amazon Web Services account.
- *
- * For complete details about how to use the alternate contact operations, see Update the alternate contacts for your Amazon Web Services account.
- *
- * Before you can update the alternate contact information for an Amazon Web Services account that is managed by Organizations, you must first enable integration between Amazon Web Services Account Management and Organizations. For more information, see Enable trusted access for Amazon Web Services Account Management.
+ * Accepts the request that originated from StartPrimaryEmailUpdate to update the primary email address (also known as the root user email address) for the specified account.
  */
-export const putAlternateContact: (
-  input: PutAlternateContactRequest,
+export const acceptPrimaryEmailUpdate: (
+  input: AcceptPrimaryEmailUpdateRequest,
 ) => effect.Effect<
-  PutAlternateContactResponse,
+  AcceptPrimaryEmailUpdateResponse,
   | AccessDeniedException
+  | ConflictException
   | InternalServerException
+  | ResourceNotFoundException
   | TooManyRequestsException
   | ValidationException
   | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PutAlternateContactRequest,
-  output: PutAlternateContactResponse,
+  input: AcceptPrimaryEmailUpdateRequest,
+  output: AcceptPrimaryEmailUpdateResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+    ValidationException,
+  ],
+}));
+/**
+ * Retrieves the primary email address for the specified account.
+ */
+export const getPrimaryEmail: (
+  input: GetPrimaryEmailRequest,
+) => effect.Effect<
+  GetPrimaryEmailResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetPrimaryEmailRequest,
+  output: GetPrimaryEmailResponse,
   errors: [
     AccessDeniedException,
     InternalServerException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+    ValidationException,
+  ],
+}));
+/**
+ * Starts the process to update the primary email address for the specified account.
+ */
+export const startPrimaryEmailUpdate: (
+  input: StartPrimaryEmailUpdateRequest,
+) => effect.Effect<
+  StartPrimaryEmailUpdateResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartPrimaryEmailUpdateRequest,
+  output: StartPrimaryEmailUpdateResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
     TooManyRequestsException,
     ValidationException,
   ],
@@ -933,164 +1021,78 @@ export const enableRegion: (
   ],
 }));
 /**
- * Accepts the request that originated from StartPrimaryEmailUpdate to update the primary email address (also known as the root user email address) for the specified account.
+ * Retrieves the opt-in status of a particular Region.
  */
-export const acceptPrimaryEmailUpdate: (
-  input: AcceptPrimaryEmailUpdateRequest,
+export const getRegionOptStatus: (
+  input: GetRegionOptStatusRequest,
 ) => effect.Effect<
-  AcceptPrimaryEmailUpdateResponse,
+  GetRegionOptStatusResponse,
   | AccessDeniedException
-  | ConflictException
   | InternalServerException
-  | ResourceNotFoundException
   | TooManyRequestsException
   | ValidationException
   | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: AcceptPrimaryEmailUpdateRequest,
-  output: AcceptPrimaryEmailUpdateResponse,
+  input: GetRegionOptStatusRequest,
+  output: GetRegionOptStatusResponse,
   errors: [
     AccessDeniedException,
-    ConflictException,
     InternalServerException,
-    ResourceNotFoundException,
     TooManyRequestsException,
     ValidationException,
   ],
 }));
 /**
- * Retrieves the primary contact information of an Amazon Web Services account.
- *
- * For complete details about how to use the primary contact operations, see Update the primary contact for your Amazon Web Services account.
+ * Lists all the Regions for a given account and their respective opt-in statuses. Optionally, this list can be filtered by the `region-opt-status-contains` parameter.
  */
-export const getContactInformation: (
-  input: GetContactInformationRequest,
-) => effect.Effect<
-  GetContactInformationResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Rgn | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetContactInformationRequest,
-  output: GetContactInformationResponse,
+export const listRegions: {
+  (
+    input: ListRegionsRequest,
+  ): effect.Effect<
+    ListRegionsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | TooManyRequestsException
+    | ValidationException
+    | CommonErrors,
+    Credentials | Rgn | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListRegionsRequest,
+  ) => stream.Stream<
+    ListRegionsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | TooManyRequestsException
+    | ValidationException
+    | CommonErrors,
+    Credentials | Rgn | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListRegionsRequest,
+  ) => stream.Stream<
+    Region,
+    | AccessDeniedException
+    | InternalServerException
+    | TooManyRequestsException
+    | ValidationException
+    | CommonErrors,
+    Credentials | Rgn | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListRegionsRequest,
+  output: ListRegionsResponse,
   errors: [
     AccessDeniedException,
     InternalServerException,
-    ResourceNotFoundException,
     TooManyRequestsException,
     ValidationException,
   ],
-}));
-/**
- * Retrieves the primary email address for the specified account.
- */
-export const getPrimaryEmail: (
-  input: GetPrimaryEmailRequest,
-) => effect.Effect<
-  GetPrimaryEmailResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Rgn | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetPrimaryEmailRequest,
-  output: GetPrimaryEmailResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    TooManyRequestsException,
-    ValidationException,
-  ],
-}));
-/**
- * Deletes the specified alternate contact from an Amazon Web Services account.
- *
- * For complete details about how to use the alternate contact operations, see Update the alternate contacts for your Amazon Web Services account.
- *
- * Before you can update the alternate contact information for an Amazon Web Services account that is managed by Organizations, you must first enable integration between Amazon Web Services Account Management and Organizations. For more information, see Enable trusted access for Amazon Web Services Account Management.
- */
-export const deleteAlternateContact: (
-  input: DeleteAlternateContactRequest,
-) => effect.Effect<
-  DeleteAlternateContactResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Rgn | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteAlternateContactRequest,
-  output: DeleteAlternateContactResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    TooManyRequestsException,
-    ValidationException,
-  ],
-}));
-/**
- * Starts the process to update the primary email address for the specified account.
- */
-export const startPrimaryEmailUpdate: (
-  input: StartPrimaryEmailUpdateRequest,
-) => effect.Effect<
-  StartPrimaryEmailUpdateResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Rgn | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StartPrimaryEmailUpdateRequest,
-  output: StartPrimaryEmailUpdateResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    TooManyRequestsException,
-    ValidationException,
-  ],
-}));
-/**
- * Retrieves information about the GovCloud account linked to the specified standard account (if it exists) including the GovCloud account ID and state. To use this API, an IAM user or role must have the `account:GetGovCloudAccountInformation` IAM permission.
- */
-export const getGovCloudAccountInformation: (
-  input: GetGovCloudAccountInformationRequest,
-) => effect.Effect<
-  GetGovCloudAccountInformationResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ResourceUnavailableException
-  | TooManyRequestsException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Rgn | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetGovCloudAccountInformationRequest,
-  output: GetGovCloudAccountInformationResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ResourceUnavailableException,
-    TooManyRequestsException,
-    ValidationException,
-  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Regions",
+    pageSize: "MaxResults",
+  } as const,
 }));

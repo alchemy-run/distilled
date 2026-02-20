@@ -1,4 +1,4 @@
-import { HttpClient } from "@effect/platform";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as effect from "effect/Effect";
 import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
@@ -123,115 +123,136 @@ const rules = T.EndpointResolver((p, _) => {
 });
 
 //# Newtypes
+export type RetryAfterSeconds = number;
 export type IoTThingName = string;
 export type NonEmptyString = string;
 export type RecipeBlob = Uint8Array;
-export type ClientTokenString = string;
-export type TargetARN = string;
-export type DeploymentNameString = string;
-export type ThingGroupARN = string;
-export type ComponentVersionARN = string;
-export type CoreDeviceThingName = string;
-export type DefaultMaxResults = number;
-export type NextTokenString = string;
-export type ComponentARN = string;
-export type CoreDeviceRuntimeString = string;
-export type GenericV2ARN = string;
-export type TagKey = string;
 export type ComponentNameString = string;
 export type ComponentVersionString = string;
-export type TagValue = string;
-export type PortNumberInt = number;
-export type PublisherString = string;
-export type DescriptionString = string;
-export type RetryAfterSeconds = number;
-export type GGCVersion = string;
-export type CoreDevicePlatformString = string;
-export type CoreDeviceArchitectureString = string;
-export type NullableString = string;
-export type IoTJobARN = string;
-export type IsLatestForTarget = boolean;
+export type TopicString = string;
 export type OptionalInteger = number;
 export type OptionalBoolean = boolean;
 export type LambdaExecArg = string;
+export type FileSystemPath = string;
+export type TagKey = string;
+export type TagValue = string;
+export type ClientTokenString = string;
+export type ComponentVersionARN = string;
+export type TargetARN = string;
+export type DeploymentNameString = string;
+export type ComponentConfigurationString = string;
+export type ComponentConfigurationPath = string;
+export type Memory = number;
+export type CPU = number;
+export type IoTJobRolloutBaseRatePerMinute = number;
+export type IoTJobRolloutIncrementFactor = number;
+export type IoTJobNumberOfThings = number;
 export type IoTJobMaxExecutionsPerMin = number;
+export type IoTJobAbortThresholdPercentage = number;
+export type IoTJobMinimumNumberOfExecutedThings = number;
 export type IoTJobInProgressTimeoutInMinutes = number;
+export type ThingGroupARN = string;
+export type IoTJobARN = string;
+export type CoreDeviceThingName = string;
+export type PublisherString = string;
+export type DescriptionString = string;
+export type PortNumberInt = number;
+export type GGCVersion = string;
+export type CoreDevicePlatformString = string;
+export type CoreDeviceArchitectureString = string;
+export type CoreDeviceRuntimeString = string;
+export type NullableString = string;
+export type IsLatestForTarget = boolean;
+export type DefaultMaxResults = number;
+export type NextTokenString = string;
+export type ComponentARN = string;
 export type DeploymentID = string;
 export type DeploymentName = string;
 export type IoTJobId = string;
 export type Description = string;
 export type Reason = string;
+export type EffectiveDeploymentErrorCode = string;
+export type EffectiveDeploymentErrorType = string;
 export type LifecycleStateDetails = string;
 export type IsRoot = boolean;
 export type InstalledComponentLifecycleStatusCode = string;
-export type TopicString = string;
-export type ComponentConfigurationString = string;
-export type ComponentConfigurationPath = string;
-export type IoTJobRolloutBaseRatePerMinute = number;
-export type IoTJobRolloutIncrementFactor = number;
-export type IoTJobAbortThresholdPercentage = number;
-export type IoTJobMinimumNumberOfExecutedThings = number;
-export type EffectiveDeploymentErrorCode = string;
-export type EffectiveDeploymentErrorType = string;
-export type Memory = number;
-export type CPU = number;
-export type IoTJobNumberOfThings = number;
-export type FileSystemPath = string;
+export type GenericV2ARN = string;
 
 //# Schemas
-export interface DisassociateServiceRoleFromAccountRequest {}
-export const DisassociateServiceRoleFromAccountRequest = S.suspend(() =>
-  S.Struct({}).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/greengrass/servicerole" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DisassociateServiceRoleFromAccountRequest",
-}) as any as S.Schema<DisassociateServiceRoleFromAccountRequest>;
-export interface GetServiceRoleForAccountRequest {}
-export const GetServiceRoleForAccountRequest = S.suspend(() =>
-  S.Struct({}).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/greengrass/servicerole" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "GetServiceRoleForAccountRequest",
-}) as any as S.Schema<GetServiceRoleForAccountRequest>;
-export type RecipeOutputFormat = "JSON" | "YAML" | (string & {});
-export const RecipeOutputFormat = S.String;
-export type S3EndpointType = "REGIONAL" | "GLOBAL" | (string & {});
-export const S3EndpointType = S.String;
-export type IotEndpointType = "fips" | "standard" | (string & {});
-export const IotEndpointType = S.String;
-export type ComponentVisibilityScope = "PRIVATE" | "PUBLIC" | (string & {});
-export const ComponentVisibilityScope = S.String;
-export type CoreDeviceStatus = "HEALTHY" | "UNHEALTHY" | (string & {});
-export const CoreDeviceStatus = S.String;
-export type DeploymentHistoryFilter = "ALL" | "LATEST_ONLY" | (string & {});
-export const DeploymentHistoryFilter = S.String;
-export type InstalledComponentTopologyFilter = "ALL" | "ROOT" | (string & {});
-export const InstalledComponentTopologyFilter = S.String;
-export type TagKeyList = string[];
-export const TagKeyList = S.Array(S.String);
 export interface AssociateServiceRoleToAccountRequest {
   roleArn: string;
 }
 export const AssociateServiceRoleToAccountRequest = S.suspend(() =>
-  S.Struct({ roleArn: S.String.pipe(T.JsonName("RoleArn")) }).pipe(
+  S.Struct({ roleArn: S.String })
+    .pipe(S.encodeKeys({ roleArn: "RoleArn" }))
+    .pipe(
+      T.all(
+        T.Http({ method: "PUT", uri: "/greengrass/servicerole" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
+    ),
+).annotate({
+  identifier: "AssociateServiceRoleToAccountRequest",
+}) as any as S.Schema<AssociateServiceRoleToAccountRequest>;
+export interface AssociateServiceRoleToAccountResponse {
+  associatedAt?: string;
+}
+export const AssociateServiceRoleToAccountResponse = S.suspend(() =>
+  S.Struct({ associatedAt: S.optional(S.String) }).pipe(
+    S.encodeKeys({ associatedAt: "AssociatedAt" }),
+  ),
+).annotate({
+  identifier: "AssociateServiceRoleToAccountResponse",
+}) as any as S.Schema<AssociateServiceRoleToAccountResponse>;
+export type ValidationExceptionReason =
+  | "UNKNOWN_OPERATION"
+  | "CANNOT_PARSE"
+  | "FIELD_VALIDATION_FAILED"
+  | "OTHER"
+  | (string & {});
+export const ValidationExceptionReason = S.String;
+export interface ValidationExceptionField {
+  name: string;
+  message: string;
+}
+export const ValidationExceptionField = S.suspend(() =>
+  S.Struct({ name: S.String, message: S.String }),
+).annotate({
+  identifier: "ValidationExceptionField",
+}) as any as S.Schema<ValidationExceptionField>;
+export type ValidationExceptionFieldList = ValidationExceptionField[];
+export const ValidationExceptionFieldList = S.Array(ValidationExceptionField);
+export interface AssociateClientDeviceWithCoreDeviceEntry {
+  thingName: string;
+}
+export const AssociateClientDeviceWithCoreDeviceEntry = S.suspend(() =>
+  S.Struct({ thingName: S.String }),
+).annotate({
+  identifier: "AssociateClientDeviceWithCoreDeviceEntry",
+}) as any as S.Schema<AssociateClientDeviceWithCoreDeviceEntry>;
+export type AssociateClientDeviceWithCoreDeviceEntryList =
+  AssociateClientDeviceWithCoreDeviceEntry[];
+export const AssociateClientDeviceWithCoreDeviceEntryList = S.Array(
+  AssociateClientDeviceWithCoreDeviceEntry,
+);
+export interface BatchAssociateClientDeviceWithCoreDeviceRequest {
+  entries?: AssociateClientDeviceWithCoreDeviceEntry[];
+  coreDeviceThingName: string;
+}
+export const BatchAssociateClientDeviceWithCoreDeviceRequest = S.suspend(() =>
+  S.Struct({
+    entries: S.optional(AssociateClientDeviceWithCoreDeviceEntryList),
+    coreDeviceThingName: S.String.pipe(T.HttpLabel("coreDeviceThingName")),
+  }).pipe(
     T.all(
-      T.Http({ method: "PUT", uri: "/greengrass/servicerole" }),
+      T.Http({
+        method: "POST",
+        uri: "/greengrass/v2/coreDevices/{coreDeviceThingName}/associateClientDevices",
+      }),
       svc,
       auth,
       proto,
@@ -239,9 +260,106 @@ export const AssociateServiceRoleToAccountRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
-  identifier: "AssociateServiceRoleToAccountRequest",
-}) as any as S.Schema<AssociateServiceRoleToAccountRequest>;
+).annotate({
+  identifier: "BatchAssociateClientDeviceWithCoreDeviceRequest",
+}) as any as S.Schema<BatchAssociateClientDeviceWithCoreDeviceRequest>;
+export interface AssociateClientDeviceWithCoreDeviceErrorEntry {
+  thingName?: string;
+  code?: string;
+  message?: string;
+}
+export const AssociateClientDeviceWithCoreDeviceErrorEntry = S.suspend(() =>
+  S.Struct({
+    thingName: S.optional(S.String),
+    code: S.optional(S.String),
+    message: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "AssociateClientDeviceWithCoreDeviceErrorEntry",
+}) as any as S.Schema<AssociateClientDeviceWithCoreDeviceErrorEntry>;
+export type AssociateClientDeviceWithCoreDeviceErrorList =
+  AssociateClientDeviceWithCoreDeviceErrorEntry[];
+export const AssociateClientDeviceWithCoreDeviceErrorList = S.Array(
+  AssociateClientDeviceWithCoreDeviceErrorEntry,
+);
+export interface BatchAssociateClientDeviceWithCoreDeviceResponse {
+  errorEntries?: AssociateClientDeviceWithCoreDeviceErrorEntry[];
+}
+export const BatchAssociateClientDeviceWithCoreDeviceResponse = S.suspend(() =>
+  S.Struct({
+    errorEntries: S.optional(AssociateClientDeviceWithCoreDeviceErrorList),
+  }),
+).annotate({
+  identifier: "BatchAssociateClientDeviceWithCoreDeviceResponse",
+}) as any as S.Schema<BatchAssociateClientDeviceWithCoreDeviceResponse>;
+export interface DisassociateClientDeviceFromCoreDeviceEntry {
+  thingName: string;
+}
+export const DisassociateClientDeviceFromCoreDeviceEntry = S.suspend(() =>
+  S.Struct({ thingName: S.String }),
+).annotate({
+  identifier: "DisassociateClientDeviceFromCoreDeviceEntry",
+}) as any as S.Schema<DisassociateClientDeviceFromCoreDeviceEntry>;
+export type DisassociateClientDeviceFromCoreDeviceEntryList =
+  DisassociateClientDeviceFromCoreDeviceEntry[];
+export const DisassociateClientDeviceFromCoreDeviceEntryList = S.Array(
+  DisassociateClientDeviceFromCoreDeviceEntry,
+);
+export interface BatchDisassociateClientDeviceFromCoreDeviceRequest {
+  entries?: DisassociateClientDeviceFromCoreDeviceEntry[];
+  coreDeviceThingName: string;
+}
+export const BatchDisassociateClientDeviceFromCoreDeviceRequest = S.suspend(
+  () =>
+    S.Struct({
+      entries: S.optional(DisassociateClientDeviceFromCoreDeviceEntryList),
+      coreDeviceThingName: S.String.pipe(T.HttpLabel("coreDeviceThingName")),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "POST",
+          uri: "/greengrass/v2/coreDevices/{coreDeviceThingName}/disassociateClientDevices",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
+    ),
+).annotate({
+  identifier: "BatchDisassociateClientDeviceFromCoreDeviceRequest",
+}) as any as S.Schema<BatchDisassociateClientDeviceFromCoreDeviceRequest>;
+export interface DisassociateClientDeviceFromCoreDeviceErrorEntry {
+  thingName?: string;
+  code?: string;
+  message?: string;
+}
+export const DisassociateClientDeviceFromCoreDeviceErrorEntry = S.suspend(() =>
+  S.Struct({
+    thingName: S.optional(S.String),
+    code: S.optional(S.String),
+    message: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "DisassociateClientDeviceFromCoreDeviceErrorEntry",
+}) as any as S.Schema<DisassociateClientDeviceFromCoreDeviceErrorEntry>;
+export type DisassociateClientDeviceFromCoreDeviceErrorList =
+  DisassociateClientDeviceFromCoreDeviceErrorEntry[];
+export const DisassociateClientDeviceFromCoreDeviceErrorList = S.Array(
+  DisassociateClientDeviceFromCoreDeviceErrorEntry,
+);
+export interface BatchDisassociateClientDeviceFromCoreDeviceResponse {
+  errorEntries?: DisassociateClientDeviceFromCoreDeviceErrorEntry[];
+}
+export const BatchDisassociateClientDeviceFromCoreDeviceResponse = S.suspend(
+  () =>
+    S.Struct({
+      errorEntries: S.optional(DisassociateClientDeviceFromCoreDeviceErrorList),
+    }),
+).annotate({
+  identifier: "BatchDisassociateClientDeviceFromCoreDeviceResponse",
+}) as any as S.Schema<BatchDisassociateClientDeviceFromCoreDeviceResponse>;
 export interface CancelDeploymentRequest {
   deploymentId: string;
 }
@@ -259,9 +377,525 @@ export const CancelDeploymentRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "CancelDeploymentRequest",
 }) as any as S.Schema<CancelDeploymentRequest>;
+export interface CancelDeploymentResponse {
+  message?: string;
+}
+export const CancelDeploymentResponse = S.suspend(() =>
+  S.Struct({ message: S.optional(S.String) }),
+).annotate({
+  identifier: "CancelDeploymentResponse",
+}) as any as S.Schema<CancelDeploymentResponse>;
+export type PlatformAttributesMap = { [key: string]: string | undefined };
+export const PlatformAttributesMap = S.Record(
+  S.String,
+  S.String.pipe(S.optional),
+);
+export interface ComponentPlatform {
+  name?: string;
+  attributes?: { [key: string]: string | undefined };
+}
+export const ComponentPlatform = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    attributes: S.optional(PlatformAttributesMap),
+  }),
+).annotate({
+  identifier: "ComponentPlatform",
+}) as any as S.Schema<ComponentPlatform>;
+export type ComponentPlatformList = ComponentPlatform[];
+export const ComponentPlatformList = S.Array(ComponentPlatform);
+export type ComponentDependencyType = "HARD" | "SOFT" | (string & {});
+export const ComponentDependencyType = S.String;
+export interface ComponentDependencyRequirement {
+  versionRequirement?: string;
+  dependencyType?: ComponentDependencyType;
+}
+export const ComponentDependencyRequirement = S.suspend(() =>
+  S.Struct({
+    versionRequirement: S.optional(S.String),
+    dependencyType: S.optional(ComponentDependencyType),
+  }),
+).annotate({
+  identifier: "ComponentDependencyRequirement",
+}) as any as S.Schema<ComponentDependencyRequirement>;
+export type ComponentDependencyMap = {
+  [key: string]: ComponentDependencyRequirement | undefined;
+};
+export const ComponentDependencyMap = S.Record(
+  S.String,
+  ComponentDependencyRequirement.pipe(S.optional),
+);
+export type LambdaEventSourceType = "PUB_SUB" | "IOT_CORE" | (string & {});
+export const LambdaEventSourceType = S.String;
+export interface LambdaEventSource {
+  topic: string;
+  type: LambdaEventSourceType;
+}
+export const LambdaEventSource = S.suspend(() =>
+  S.Struct({ topic: S.String, type: LambdaEventSourceType }),
+).annotate({
+  identifier: "LambdaEventSource",
+}) as any as S.Schema<LambdaEventSource>;
+export type LambdaEventSourceList = LambdaEventSource[];
+export const LambdaEventSourceList = S.Array(LambdaEventSource);
+export type LambdaInputPayloadEncodingType = "json" | "binary" | (string & {});
+export const LambdaInputPayloadEncodingType = S.String;
+export type LambdaExecArgsList = string[];
+export const LambdaExecArgsList = S.Array(S.String);
+export type LambdaEnvironmentVariables = { [key: string]: string | undefined };
+export const LambdaEnvironmentVariables = S.Record(
+  S.String,
+  S.String.pipe(S.optional),
+);
+export type LambdaIsolationMode =
+  | "GreengrassContainer"
+  | "NoContainer"
+  | (string & {});
+export const LambdaIsolationMode = S.String;
+export type LambdaFilesystemPermission = "ro" | "rw" | (string & {});
+export const LambdaFilesystemPermission = S.String;
+export interface LambdaVolumeMount {
+  sourcePath: string;
+  destinationPath: string;
+  permission?: LambdaFilesystemPermission;
+  addGroupOwner?: boolean;
+}
+export const LambdaVolumeMount = S.suspend(() =>
+  S.Struct({
+    sourcePath: S.String,
+    destinationPath: S.String,
+    permission: S.optional(LambdaFilesystemPermission),
+    addGroupOwner: S.optional(S.Boolean),
+  }),
+).annotate({
+  identifier: "LambdaVolumeMount",
+}) as any as S.Schema<LambdaVolumeMount>;
+export type LambdaVolumeList = LambdaVolumeMount[];
+export const LambdaVolumeList = S.Array(LambdaVolumeMount);
+export interface LambdaDeviceMount {
+  path: string;
+  permission?: LambdaFilesystemPermission;
+  addGroupOwner?: boolean;
+}
+export const LambdaDeviceMount = S.suspend(() =>
+  S.Struct({
+    path: S.String,
+    permission: S.optional(LambdaFilesystemPermission),
+    addGroupOwner: S.optional(S.Boolean),
+  }),
+).annotate({
+  identifier: "LambdaDeviceMount",
+}) as any as S.Schema<LambdaDeviceMount>;
+export type LambdaDeviceList = LambdaDeviceMount[];
+export const LambdaDeviceList = S.Array(LambdaDeviceMount);
+export interface LambdaContainerParams {
+  memorySizeInKB?: number;
+  mountROSysfs?: boolean;
+  volumes?: LambdaVolumeMount[];
+  devices?: LambdaDeviceMount[];
+}
+export const LambdaContainerParams = S.suspend(() =>
+  S.Struct({
+    memorySizeInKB: S.optional(S.Number),
+    mountROSysfs: S.optional(S.Boolean),
+    volumes: S.optional(LambdaVolumeList),
+    devices: S.optional(LambdaDeviceList),
+  }),
+).annotate({
+  identifier: "LambdaContainerParams",
+}) as any as S.Schema<LambdaContainerParams>;
+export interface LambdaLinuxProcessParams {
+  isolationMode?: LambdaIsolationMode;
+  containerParams?: LambdaContainerParams;
+}
+export const LambdaLinuxProcessParams = S.suspend(() =>
+  S.Struct({
+    isolationMode: S.optional(LambdaIsolationMode),
+    containerParams: S.optional(LambdaContainerParams),
+  }),
+).annotate({
+  identifier: "LambdaLinuxProcessParams",
+}) as any as S.Schema<LambdaLinuxProcessParams>;
+export interface LambdaExecutionParameters {
+  eventSources?: LambdaEventSource[];
+  maxQueueSize?: number;
+  maxInstancesCount?: number;
+  maxIdleTimeInSeconds?: number;
+  timeoutInSeconds?: number;
+  statusTimeoutInSeconds?: number;
+  pinned?: boolean;
+  inputPayloadEncodingType?: LambdaInputPayloadEncodingType;
+  execArgs?: string[];
+  environmentVariables?: { [key: string]: string | undefined };
+  linuxProcessParams?: LambdaLinuxProcessParams;
+}
+export const LambdaExecutionParameters = S.suspend(() =>
+  S.Struct({
+    eventSources: S.optional(LambdaEventSourceList),
+    maxQueueSize: S.optional(S.Number),
+    maxInstancesCount: S.optional(S.Number),
+    maxIdleTimeInSeconds: S.optional(S.Number),
+    timeoutInSeconds: S.optional(S.Number),
+    statusTimeoutInSeconds: S.optional(S.Number),
+    pinned: S.optional(S.Boolean),
+    inputPayloadEncodingType: S.optional(LambdaInputPayloadEncodingType),
+    execArgs: S.optional(LambdaExecArgsList),
+    environmentVariables: S.optional(LambdaEnvironmentVariables),
+    linuxProcessParams: S.optional(LambdaLinuxProcessParams),
+  }),
+).annotate({
+  identifier: "LambdaExecutionParameters",
+}) as any as S.Schema<LambdaExecutionParameters>;
+export interface LambdaFunctionRecipeSource {
+  lambdaArn: string;
+  componentName?: string;
+  componentVersion?: string;
+  componentPlatforms?: ComponentPlatform[];
+  componentDependencies?: {
+    [key: string]: ComponentDependencyRequirement | undefined;
+  };
+  componentLambdaParameters?: LambdaExecutionParameters;
+}
+export const LambdaFunctionRecipeSource = S.suspend(() =>
+  S.Struct({
+    lambdaArn: S.String,
+    componentName: S.optional(S.String),
+    componentVersion: S.optional(S.String),
+    componentPlatforms: S.optional(ComponentPlatformList),
+    componentDependencies: S.optional(ComponentDependencyMap),
+    componentLambdaParameters: S.optional(LambdaExecutionParameters),
+  }),
+).annotate({
+  identifier: "LambdaFunctionRecipeSource",
+}) as any as S.Schema<LambdaFunctionRecipeSource>;
+export type TagMap = { [key: string]: string | undefined };
+export const TagMap = S.Record(S.String, S.String.pipe(S.optional));
+export interface CreateComponentVersionRequest {
+  inlineRecipe?: Uint8Array;
+  lambdaFunction?: LambdaFunctionRecipeSource;
+  tags?: { [key: string]: string | undefined };
+  clientToken?: string;
+}
+export const CreateComponentVersionRequest = S.suspend(() =>
+  S.Struct({
+    inlineRecipe: S.optional(T.Blob),
+    lambdaFunction: S.optional(LambdaFunctionRecipeSource),
+    tags: S.optional(TagMap),
+    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/greengrass/v2/createComponentVersion" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "CreateComponentVersionRequest",
+}) as any as S.Schema<CreateComponentVersionRequest>;
+export type CloudComponentState =
+  | "REQUESTED"
+  | "INITIATED"
+  | "DEPLOYABLE"
+  | "FAILED"
+  | "DEPRECATED"
+  | (string & {});
+export const CloudComponentState = S.String;
+export type StringMap = { [key: string]: string | undefined };
+export const StringMap = S.Record(S.String, S.String.pipe(S.optional));
+export type VendorGuidance =
+  | "ACTIVE"
+  | "DISCONTINUED"
+  | "DELETED"
+  | (string & {});
+export const VendorGuidance = S.String;
+export interface CloudComponentStatus {
+  componentState?: CloudComponentState;
+  message?: string;
+  errors?: { [key: string]: string | undefined };
+  vendorGuidance?: VendorGuidance;
+  vendorGuidanceMessage?: string;
+}
+export const CloudComponentStatus = S.suspend(() =>
+  S.Struct({
+    componentState: S.optional(CloudComponentState),
+    message: S.optional(S.String),
+    errors: S.optional(StringMap),
+    vendorGuidance: S.optional(VendorGuidance),
+    vendorGuidanceMessage: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "CloudComponentStatus",
+}) as any as S.Schema<CloudComponentStatus>;
+export interface CreateComponentVersionResponse {
+  arn?: string;
+  componentName: string;
+  componentVersion: string;
+  creationTimestamp: Date;
+  status: CloudComponentStatus;
+}
+export const CreateComponentVersionResponse = S.suspend(() =>
+  S.Struct({
+    arn: S.optional(S.String),
+    componentName: S.String,
+    componentVersion: S.String,
+    creationTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    status: CloudComponentStatus,
+  }),
+).annotate({
+  identifier: "CreateComponentVersionResponse",
+}) as any as S.Schema<CreateComponentVersionResponse>;
+export type ComponentConfigurationPathList = string[];
+export const ComponentConfigurationPathList = S.Array(S.String);
+export interface ComponentConfigurationUpdate {
+  merge?: string;
+  reset?: string[];
+}
+export const ComponentConfigurationUpdate = S.suspend(() =>
+  S.Struct({
+    merge: S.optional(S.String),
+    reset: S.optional(ComponentConfigurationPathList),
+  }),
+).annotate({
+  identifier: "ComponentConfigurationUpdate",
+}) as any as S.Schema<ComponentConfigurationUpdate>;
+export interface SystemResourceLimits {
+  memory?: number;
+  cpus?: number;
+}
+export const SystemResourceLimits = S.suspend(() =>
+  S.Struct({ memory: S.optional(S.Number), cpus: S.optional(S.Number) }),
+).annotate({
+  identifier: "SystemResourceLimits",
+}) as any as S.Schema<SystemResourceLimits>;
+export interface ComponentRunWith {
+  posixUser?: string;
+  systemResourceLimits?: SystemResourceLimits;
+  windowsUser?: string;
+}
+export const ComponentRunWith = S.suspend(() =>
+  S.Struct({
+    posixUser: S.optional(S.String),
+    systemResourceLimits: S.optional(SystemResourceLimits),
+    windowsUser: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ComponentRunWith",
+}) as any as S.Schema<ComponentRunWith>;
+export interface ComponentDeploymentSpecification {
+  componentVersion: string;
+  configurationUpdate?: ComponentConfigurationUpdate;
+  runWith?: ComponentRunWith;
+}
+export const ComponentDeploymentSpecification = S.suspend(() =>
+  S.Struct({
+    componentVersion: S.String,
+    configurationUpdate: S.optional(ComponentConfigurationUpdate),
+    runWith: S.optional(ComponentRunWith),
+  }),
+).annotate({
+  identifier: "ComponentDeploymentSpecification",
+}) as any as S.Schema<ComponentDeploymentSpecification>;
+export type ComponentDeploymentSpecifications = {
+  [key: string]: ComponentDeploymentSpecification | undefined;
+};
+export const ComponentDeploymentSpecifications = S.Record(
+  S.String,
+  ComponentDeploymentSpecification.pipe(S.optional),
+);
+export interface IoTJobRateIncreaseCriteria {
+  numberOfNotifiedThings?: number;
+  numberOfSucceededThings?: number;
+}
+export const IoTJobRateIncreaseCriteria = S.suspend(() =>
+  S.Struct({
+    numberOfNotifiedThings: S.optional(S.Number),
+    numberOfSucceededThings: S.optional(S.Number),
+  }),
+).annotate({
+  identifier: "IoTJobRateIncreaseCriteria",
+}) as any as S.Schema<IoTJobRateIncreaseCriteria>;
+export interface IoTJobExponentialRolloutRate {
+  baseRatePerMinute: number;
+  incrementFactor: number;
+  rateIncreaseCriteria: IoTJobRateIncreaseCriteria;
+}
+export const IoTJobExponentialRolloutRate = S.suspend(() =>
+  S.Struct({
+    baseRatePerMinute: S.Number,
+    incrementFactor: S.Number,
+    rateIncreaseCriteria: IoTJobRateIncreaseCriteria,
+  }),
+).annotate({
+  identifier: "IoTJobExponentialRolloutRate",
+}) as any as S.Schema<IoTJobExponentialRolloutRate>;
+export interface IoTJobExecutionsRolloutConfig {
+  exponentialRate?: IoTJobExponentialRolloutRate;
+  maximumPerMinute?: number;
+}
+export const IoTJobExecutionsRolloutConfig = S.suspend(() =>
+  S.Struct({
+    exponentialRate: S.optional(IoTJobExponentialRolloutRate),
+    maximumPerMinute: S.optional(S.Number),
+  }),
+).annotate({
+  identifier: "IoTJobExecutionsRolloutConfig",
+}) as any as S.Schema<IoTJobExecutionsRolloutConfig>;
+export type IoTJobExecutionFailureType =
+  | "FAILED"
+  | "REJECTED"
+  | "TIMED_OUT"
+  | "ALL"
+  | (string & {});
+export const IoTJobExecutionFailureType = S.String;
+export type IoTJobAbortAction = "CANCEL" | (string & {});
+export const IoTJobAbortAction = S.String;
+export interface IoTJobAbortCriteria {
+  failureType: IoTJobExecutionFailureType;
+  action: IoTJobAbortAction;
+  thresholdPercentage: number;
+  minNumberOfExecutedThings: number;
+}
+export const IoTJobAbortCriteria = S.suspend(() =>
+  S.Struct({
+    failureType: IoTJobExecutionFailureType,
+    action: IoTJobAbortAction,
+    thresholdPercentage: S.Number,
+    minNumberOfExecutedThings: S.Number,
+  }),
+).annotate({
+  identifier: "IoTJobAbortCriteria",
+}) as any as S.Schema<IoTJobAbortCriteria>;
+export type IoTJobAbortCriteriaList = IoTJobAbortCriteria[];
+export const IoTJobAbortCriteriaList = S.Array(IoTJobAbortCriteria);
+export interface IoTJobAbortConfig {
+  criteriaList: IoTJobAbortCriteria[];
+}
+export const IoTJobAbortConfig = S.suspend(() =>
+  S.Struct({ criteriaList: IoTJobAbortCriteriaList }),
+).annotate({
+  identifier: "IoTJobAbortConfig",
+}) as any as S.Schema<IoTJobAbortConfig>;
+export interface IoTJobTimeoutConfig {
+  inProgressTimeoutInMinutes?: number;
+}
+export const IoTJobTimeoutConfig = S.suspend(() =>
+  S.Struct({ inProgressTimeoutInMinutes: S.optional(S.Number) }),
+).annotate({
+  identifier: "IoTJobTimeoutConfig",
+}) as any as S.Schema<IoTJobTimeoutConfig>;
+export interface DeploymentIoTJobConfiguration {
+  jobExecutionsRolloutConfig?: IoTJobExecutionsRolloutConfig;
+  abortConfig?: IoTJobAbortConfig;
+  timeoutConfig?: IoTJobTimeoutConfig;
+}
+export const DeploymentIoTJobConfiguration = S.suspend(() =>
+  S.Struct({
+    jobExecutionsRolloutConfig: S.optional(IoTJobExecutionsRolloutConfig),
+    abortConfig: S.optional(IoTJobAbortConfig),
+    timeoutConfig: S.optional(IoTJobTimeoutConfig),
+  }),
+).annotate({
+  identifier: "DeploymentIoTJobConfiguration",
+}) as any as S.Schema<DeploymentIoTJobConfiguration>;
+export type DeploymentFailureHandlingPolicy =
+  | "ROLLBACK"
+  | "DO_NOTHING"
+  | (string & {});
+export const DeploymentFailureHandlingPolicy = S.String;
+export type DeploymentComponentUpdatePolicyAction =
+  | "NOTIFY_COMPONENTS"
+  | "SKIP_NOTIFY_COMPONENTS"
+  | (string & {});
+export const DeploymentComponentUpdatePolicyAction = S.String;
+export interface DeploymentComponentUpdatePolicy {
+  timeoutInSeconds?: number;
+  action?: DeploymentComponentUpdatePolicyAction;
+}
+export const DeploymentComponentUpdatePolicy = S.suspend(() =>
+  S.Struct({
+    timeoutInSeconds: S.optional(S.Number),
+    action: S.optional(DeploymentComponentUpdatePolicyAction),
+  }),
+).annotate({
+  identifier: "DeploymentComponentUpdatePolicy",
+}) as any as S.Schema<DeploymentComponentUpdatePolicy>;
+export interface DeploymentConfigurationValidationPolicy {
+  timeoutInSeconds?: number;
+}
+export const DeploymentConfigurationValidationPolicy = S.suspend(() =>
+  S.Struct({ timeoutInSeconds: S.optional(S.Number) }),
+).annotate({
+  identifier: "DeploymentConfigurationValidationPolicy",
+}) as any as S.Schema<DeploymentConfigurationValidationPolicy>;
+export interface DeploymentPolicies {
+  failureHandlingPolicy?: DeploymentFailureHandlingPolicy;
+  componentUpdatePolicy?: DeploymentComponentUpdatePolicy;
+  configurationValidationPolicy?: DeploymentConfigurationValidationPolicy;
+}
+export const DeploymentPolicies = S.suspend(() =>
+  S.Struct({
+    failureHandlingPolicy: S.optional(DeploymentFailureHandlingPolicy),
+    componentUpdatePolicy: S.optional(DeploymentComponentUpdatePolicy),
+    configurationValidationPolicy: S.optional(
+      DeploymentConfigurationValidationPolicy,
+    ),
+  }),
+).annotate({
+  identifier: "DeploymentPolicies",
+}) as any as S.Schema<DeploymentPolicies>;
+export interface CreateDeploymentRequest {
+  targetArn: string;
+  deploymentName?: string;
+  components?: { [key: string]: ComponentDeploymentSpecification | undefined };
+  iotJobConfiguration?: DeploymentIoTJobConfiguration;
+  deploymentPolicies?: DeploymentPolicies;
+  parentTargetArn?: string;
+  tags?: { [key: string]: string | undefined };
+  clientToken?: string;
+}
+export const CreateDeploymentRequest = S.suspend(() =>
+  S.Struct({
+    targetArn: S.String,
+    deploymentName: S.optional(S.String),
+    components: S.optional(ComponentDeploymentSpecifications),
+    iotJobConfiguration: S.optional(DeploymentIoTJobConfiguration),
+    deploymentPolicies: S.optional(DeploymentPolicies),
+    parentTargetArn: S.optional(S.String),
+    tags: S.optional(TagMap),
+    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/greengrass/v2/deployments" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "CreateDeploymentRequest",
+}) as any as S.Schema<CreateDeploymentRequest>;
+export interface CreateDeploymentResponse {
+  deploymentId?: string;
+  iotJobId?: string;
+  iotJobArn?: string;
+}
+export const CreateDeploymentResponse = S.suspend(() =>
+  S.Struct({
+    deploymentId: S.optional(S.String),
+    iotJobId: S.optional(S.String),
+    iotJobArn: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "CreateDeploymentResponse",
+}) as any as S.Schema<CreateDeploymentResponse>;
 export interface DeleteComponentRequest {
   arn: string;
 }
@@ -276,13 +910,11 @@ export const DeleteComponentRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "DeleteComponentRequest",
 }) as any as S.Schema<DeleteComponentRequest>;
 export interface DeleteComponentResponse {}
-export const DeleteComponentResponse = S.suspend(() =>
-  S.Struct({}),
-).annotations({
+export const DeleteComponentResponse = S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteComponentResponse",
 }) as any as S.Schema<DeleteComponentResponse>;
 export interface DeleteCoreDeviceRequest {
@@ -304,13 +936,11 @@ export const DeleteCoreDeviceRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "DeleteCoreDeviceRequest",
 }) as any as S.Schema<DeleteCoreDeviceRequest>;
 export interface DeleteCoreDeviceResponse {}
-export const DeleteCoreDeviceResponse = S.suspend(() =>
-  S.Struct({}),
-).annotations({
+export const DeleteCoreDeviceResponse = S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteCoreDeviceResponse",
 }) as any as S.Schema<DeleteCoreDeviceResponse>;
 export interface DeleteDeploymentRequest {
@@ -330,13 +960,11 @@ export const DeleteDeploymentRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "DeleteDeploymentRequest",
 }) as any as S.Schema<DeleteDeploymentRequest>;
 export interface DeleteDeploymentResponse {}
-export const DeleteDeploymentResponse = S.suspend(() =>
-  S.Struct({}),
-).annotations({
+export const DeleteDeploymentResponse = S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteDeploymentResponse",
 }) as any as S.Schema<DeleteDeploymentResponse>;
 export interface DescribeComponentRequest {
@@ -356,19 +984,64 @@ export const DescribeComponentRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "DescribeComponentRequest",
 }) as any as S.Schema<DescribeComponentRequest>;
+export interface DescribeComponentResponse {
+  arn?: string;
+  componentName?: string;
+  componentVersion?: string;
+  creationTimestamp?: Date;
+  publisher?: string;
+  description?: string;
+  status?: CloudComponentStatus;
+  platforms?: ComponentPlatform[];
+  tags?: { [key: string]: string | undefined };
+}
+export const DescribeComponentResponse = S.suspend(() =>
+  S.Struct({
+    arn: S.optional(S.String),
+    componentName: S.optional(S.String),
+    componentVersion: S.optional(S.String),
+    creationTimestamp: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    publisher: S.optional(S.String),
+    description: S.optional(S.String),
+    status: S.optional(CloudComponentStatus),
+    platforms: S.optional(ComponentPlatformList),
+    tags: S.optional(TagMap),
+  }),
+).annotate({
+  identifier: "DescribeComponentResponse",
+}) as any as S.Schema<DescribeComponentResponse>;
+export interface DisassociateServiceRoleFromAccountRequest {}
+export const DisassociateServiceRoleFromAccountRequest = S.suspend(() =>
+  S.Struct({}).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/greengrass/servicerole" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DisassociateServiceRoleFromAccountRequest",
+}) as any as S.Schema<DisassociateServiceRoleFromAccountRequest>;
 export interface DisassociateServiceRoleFromAccountResponse {
   disassociatedAt?: string;
 }
 export const DisassociateServiceRoleFromAccountResponse = S.suspend(() =>
-  S.Struct({
-    disassociatedAt: S.optional(S.String).pipe(T.JsonName("DisassociatedAt")),
-  }),
-).annotations({
+  S.Struct({ disassociatedAt: S.optional(S.String) }).pipe(
+    S.encodeKeys({ disassociatedAt: "DisassociatedAt" }),
+  ),
+).annotate({
   identifier: "DisassociateServiceRoleFromAccountResponse",
 }) as any as S.Schema<DisassociateServiceRoleFromAccountResponse>;
+export type RecipeOutputFormat = "JSON" | "YAML" | (string & {});
+export const RecipeOutputFormat = S.String;
 export interface GetComponentRequest {
   recipeOutputFormat?: RecipeOutputFormat;
   arn: string;
@@ -389,9 +1062,27 @@ export const GetComponentRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "GetComponentRequest",
 }) as any as S.Schema<GetComponentRequest>;
+export interface GetComponentResponse {
+  recipeOutputFormat: RecipeOutputFormat;
+  recipe: Uint8Array;
+  tags?: { [key: string]: string | undefined };
+}
+export const GetComponentResponse = S.suspend(() =>
+  S.Struct({
+    recipeOutputFormat: RecipeOutputFormat,
+    recipe: T.Blob,
+    tags: S.optional(TagMap),
+  }),
+).annotate({
+  identifier: "GetComponentResponse",
+}) as any as S.Schema<GetComponentResponse>;
+export type S3EndpointType = "REGIONAL" | "GLOBAL" | (string & {});
+export const S3EndpointType = S.String;
+export type IotEndpointType = "fips" | "standard" | (string & {});
+export const IotEndpointType = S.String;
 export interface GetComponentVersionArtifactRequest {
   arn: string;
   artifactName: string;
@@ -421,9 +1112,17 @@ export const GetComponentVersionArtifactRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "GetComponentVersionArtifactRequest",
 }) as any as S.Schema<GetComponentVersionArtifactRequest>;
+export interface GetComponentVersionArtifactResponse {
+  preSignedUrl: string;
+}
+export const GetComponentVersionArtifactResponse = S.suspend(() =>
+  S.Struct({ preSignedUrl: S.String }),
+).annotate({
+  identifier: "GetComponentVersionArtifactResponse",
+}) as any as S.Schema<GetComponentVersionArtifactResponse>;
 export interface GetConnectivityInfoRequest {
   thingName: string;
 }
@@ -441,9 +1140,48 @@ export const GetConnectivityInfoRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "GetConnectivityInfoRequest",
 }) as any as S.Schema<GetConnectivityInfoRequest>;
+export interface ConnectivityInfo {
+  id?: string;
+  hostAddress?: string;
+  portNumber?: number;
+  metadata?: string;
+}
+export const ConnectivityInfo = S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    hostAddress: S.optional(S.String),
+    portNumber: S.optional(S.Number),
+    metadata: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      id: "Id",
+      hostAddress: "HostAddress",
+      portNumber: "PortNumber",
+      metadata: "Metadata",
+    }),
+  ),
+).annotate({
+  identifier: "ConnectivityInfo",
+}) as any as S.Schema<ConnectivityInfo>;
+export type ConnectivityInfoList = ConnectivityInfo[];
+export const ConnectivityInfoList = S.Array(ConnectivityInfo);
+export interface GetConnectivityInfoResponse {
+  connectivityInfo?: ConnectivityInfo[];
+  message?: string;
+}
+export const GetConnectivityInfoResponse = S.suspend(() =>
+  S.Struct({
+    connectivityInfo: S.optional(ConnectivityInfoList),
+    message: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({ connectivityInfo: "ConnectivityInfo", message: "Message" }),
+  ),
+).annotate({
+  identifier: "GetConnectivityInfoResponse",
+}) as any as S.Schema<GetConnectivityInfoResponse>;
 export interface GetCoreDeviceRequest {
   coreDeviceThingName: string;
 }
@@ -463,488 +1201,11 @@ export const GetCoreDeviceRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "GetCoreDeviceRequest",
 }) as any as S.Schema<GetCoreDeviceRequest>;
-export interface GetDeploymentRequest {
-  deploymentId: string;
-}
-export const GetDeploymentRequest = S.suspend(() =>
-  S.Struct({ deploymentId: S.String.pipe(T.HttpLabel("deploymentId")) }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/greengrass/v2/deployments/{deploymentId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "GetDeploymentRequest",
-}) as any as S.Schema<GetDeploymentRequest>;
-export interface GetServiceRoleForAccountResponse {
-  associatedAt?: string;
-  roleArn?: string;
-}
-export const GetServiceRoleForAccountResponse = S.suspend(() =>
-  S.Struct({
-    associatedAt: S.optional(S.String).pipe(T.JsonName("AssociatedAt")),
-    roleArn: S.optional(S.String).pipe(T.JsonName("RoleArn")),
-  }),
-).annotations({
-  identifier: "GetServiceRoleForAccountResponse",
-}) as any as S.Schema<GetServiceRoleForAccountResponse>;
-export interface ListClientDevicesAssociatedWithCoreDeviceRequest {
-  coreDeviceThingName: string;
-  maxResults?: number;
-  nextToken?: string;
-}
-export const ListClientDevicesAssociatedWithCoreDeviceRequest = S.suspend(() =>
-  S.Struct({
-    coreDeviceThingName: S.String.pipe(T.HttpLabel("coreDeviceThingName")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/greengrass/v2/coreDevices/{coreDeviceThingName}/associatedClientDevices",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListClientDevicesAssociatedWithCoreDeviceRequest",
-}) as any as S.Schema<ListClientDevicesAssociatedWithCoreDeviceRequest>;
-export interface ListComponentsRequest {
-  scope?: ComponentVisibilityScope;
-  maxResults?: number;
-  nextToken?: string;
-}
-export const ListComponentsRequest = S.suspend(() =>
-  S.Struct({
-    scope: S.optional(ComponentVisibilityScope).pipe(T.HttpQuery("scope")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/greengrass/v2/components" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListComponentsRequest",
-}) as any as S.Schema<ListComponentsRequest>;
-export interface ListComponentVersionsRequest {
-  arn: string;
-  maxResults?: number;
-  nextToken?: string;
-}
-export const ListComponentVersionsRequest = S.suspend(() =>
-  S.Struct({
-    arn: S.String.pipe(T.HttpLabel("arn")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/greengrass/v2/components/{arn}/versions",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListComponentVersionsRequest",
-}) as any as S.Schema<ListComponentVersionsRequest>;
-export interface ListCoreDevicesRequest {
-  thingGroupArn?: string;
-  status?: CoreDeviceStatus;
-  maxResults?: number;
-  nextToken?: string;
-  runtime?: string;
-}
-export const ListCoreDevicesRequest = S.suspend(() =>
-  S.Struct({
-    thingGroupArn: S.optional(S.String).pipe(T.HttpQuery("thingGroupArn")),
-    status: S.optional(CoreDeviceStatus).pipe(T.HttpQuery("status")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    runtime: S.optional(S.String).pipe(T.HttpQuery("runtime")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/greengrass/v2/coreDevices" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListCoreDevicesRequest",
-}) as any as S.Schema<ListCoreDevicesRequest>;
-export interface ListDeploymentsRequest {
-  targetArn?: string;
-  historyFilter?: DeploymentHistoryFilter;
-  parentTargetArn?: string;
-  maxResults?: number;
-  nextToken?: string;
-}
-export const ListDeploymentsRequest = S.suspend(() =>
-  S.Struct({
-    targetArn: S.optional(S.String).pipe(T.HttpQuery("targetArn")),
-    historyFilter: S.optional(DeploymentHistoryFilter).pipe(
-      T.HttpQuery("historyFilter"),
-    ),
-    parentTargetArn: S.optional(S.String).pipe(T.HttpQuery("parentTargetArn")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/greengrass/v2/deployments" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListDeploymentsRequest",
-}) as any as S.Schema<ListDeploymentsRequest>;
-export interface ListEffectiveDeploymentsRequest {
-  coreDeviceThingName: string;
-  maxResults?: number;
-  nextToken?: string;
-}
-export const ListEffectiveDeploymentsRequest = S.suspend(() =>
-  S.Struct({
-    coreDeviceThingName: S.String.pipe(T.HttpLabel("coreDeviceThingName")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/greengrass/v2/coreDevices/{coreDeviceThingName}/effectiveDeployments",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListEffectiveDeploymentsRequest",
-}) as any as S.Schema<ListEffectiveDeploymentsRequest>;
-export interface ListInstalledComponentsRequest {
-  coreDeviceThingName: string;
-  maxResults?: number;
-  nextToken?: string;
-  topologyFilter?: InstalledComponentTopologyFilter;
-}
-export const ListInstalledComponentsRequest = S.suspend(() =>
-  S.Struct({
-    coreDeviceThingName: S.String.pipe(T.HttpLabel("coreDeviceThingName")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    topologyFilter: S.optional(InstalledComponentTopologyFilter).pipe(
-      T.HttpQuery("topologyFilter"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/greengrass/v2/coreDevices/{coreDeviceThingName}/installedComponents",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListInstalledComponentsRequest",
-}) as any as S.Schema<ListInstalledComponentsRequest>;
-export interface ListTagsForResourceRequest {
-  resourceArn: string;
-}
-export const ListTagsForResourceRequest = S.suspend(() =>
-  S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListTagsForResourceRequest",
-}) as any as S.Schema<ListTagsForResourceRequest>;
-export type TagMap = { [key: string]: string | undefined };
-export const TagMap = S.Record({
-  key: S.String,
-  value: S.UndefinedOr(S.String),
-});
-export interface TagResourceRequest {
-  resourceArn: string;
-  tags: { [key: string]: string | undefined };
-}
-export const TagResourceRequest = S.suspend(() =>
-  S.Struct({
-    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-    tags: TagMap,
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
-export interface TagResourceResponse {}
-export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
-  identifier: "TagResourceResponse",
-}) as any as S.Schema<TagResourceResponse>;
-export interface UntagResourceRequest {
-  resourceArn: string;
-  tagKeys: string[];
-}
-export const UntagResourceRequest = S.suspend(() =>
-  S.Struct({
-    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-    tagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
-export interface UntagResourceResponse {}
-export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
-  identifier: "UntagResourceResponse",
-}) as any as S.Schema<UntagResourceResponse>;
-export type PlatformAttributesMap = { [key: string]: string | undefined };
-export const PlatformAttributesMap = S.Record({
-  key: S.String,
-  value: S.UndefinedOr(S.String),
-});
-export interface ComponentPlatform {
-  name?: string;
-  attributes?: { [key: string]: string | undefined };
-}
-export const ComponentPlatform = S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    attributes: S.optional(PlatformAttributesMap),
-  }),
-).annotations({
-  identifier: "ComponentPlatform",
-}) as any as S.Schema<ComponentPlatform>;
-export type ComponentPlatformList = ComponentPlatform[];
-export const ComponentPlatformList = S.Array(ComponentPlatform);
-export type DeploymentFailureHandlingPolicy =
-  | "ROLLBACK"
-  | "DO_NOTHING"
-  | (string & {});
-export const DeploymentFailureHandlingPolicy = S.String;
-export interface AssociateClientDeviceWithCoreDeviceEntry {
-  thingName: string;
-}
-export const AssociateClientDeviceWithCoreDeviceEntry = S.suspend(() =>
-  S.Struct({ thingName: S.String }),
-).annotations({
-  identifier: "AssociateClientDeviceWithCoreDeviceEntry",
-}) as any as S.Schema<AssociateClientDeviceWithCoreDeviceEntry>;
-export type AssociateClientDeviceWithCoreDeviceEntryList =
-  AssociateClientDeviceWithCoreDeviceEntry[];
-export const AssociateClientDeviceWithCoreDeviceEntryList = S.Array(
-  AssociateClientDeviceWithCoreDeviceEntry,
-);
-export interface DisassociateClientDeviceFromCoreDeviceEntry {
-  thingName: string;
-}
-export const DisassociateClientDeviceFromCoreDeviceEntry = S.suspend(() =>
-  S.Struct({ thingName: S.String }),
-).annotations({
-  identifier: "DisassociateClientDeviceFromCoreDeviceEntry",
-}) as any as S.Schema<DisassociateClientDeviceFromCoreDeviceEntry>;
-export type DisassociateClientDeviceFromCoreDeviceEntryList =
-  DisassociateClientDeviceFromCoreDeviceEntry[];
-export const DisassociateClientDeviceFromCoreDeviceEntryList = S.Array(
-  DisassociateClientDeviceFromCoreDeviceEntry,
-);
-export type DeploymentStatus =
-  | "ACTIVE"
-  | "COMPLETED"
-  | "CANCELED"
-  | "FAILED"
-  | "INACTIVE"
-  | (string & {});
-export const DeploymentStatus = S.String;
-export interface ConnectivityInfo {
-  id?: string;
-  hostAddress?: string;
-  portNumber?: number;
-  metadata?: string;
-}
-export const ConnectivityInfo = S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String).pipe(T.JsonName("Id")),
-    hostAddress: S.optional(S.String).pipe(T.JsonName("HostAddress")),
-    portNumber: S.optional(S.Number).pipe(T.JsonName("PortNumber")),
-    metadata: S.optional(S.String).pipe(T.JsonName("Metadata")),
-  }),
-).annotations({
-  identifier: "ConnectivityInfo",
-}) as any as S.Schema<ConnectivityInfo>;
-export type ConnectivityInfoList = ConnectivityInfo[];
-export const ConnectivityInfoList = S.Array(ConnectivityInfo);
-export type LambdaInputPayloadEncodingType = "json" | "binary" | (string & {});
-export const LambdaInputPayloadEncodingType = S.String;
-export type LambdaExecArgsList = string[];
-export const LambdaExecArgsList = S.Array(S.String);
-export type DeploymentComponentUpdatePolicyAction =
-  | "NOTIFY_COMPONENTS"
-  | "SKIP_NOTIFY_COMPONENTS"
-  | (string & {});
-export const DeploymentComponentUpdatePolicyAction = S.String;
-export interface AssociateServiceRoleToAccountResponse {
-  associatedAt?: string;
-}
-export const AssociateServiceRoleToAccountResponse = S.suspend(() =>
-  S.Struct({
-    associatedAt: S.optional(S.String).pipe(T.JsonName("AssociatedAt")),
-  }),
-).annotations({
-  identifier: "AssociateServiceRoleToAccountResponse",
-}) as any as S.Schema<AssociateServiceRoleToAccountResponse>;
-export interface BatchAssociateClientDeviceWithCoreDeviceRequest {
-  entries?: AssociateClientDeviceWithCoreDeviceEntry[];
-  coreDeviceThingName: string;
-}
-export const BatchAssociateClientDeviceWithCoreDeviceRequest = S.suspend(() =>
-  S.Struct({
-    entries: S.optional(AssociateClientDeviceWithCoreDeviceEntryList),
-    coreDeviceThingName: S.String.pipe(T.HttpLabel("coreDeviceThingName")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/greengrass/v2/coreDevices/{coreDeviceThingName}/associateClientDevices",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "BatchAssociateClientDeviceWithCoreDeviceRequest",
-}) as any as S.Schema<BatchAssociateClientDeviceWithCoreDeviceRequest>;
-export interface BatchDisassociateClientDeviceFromCoreDeviceRequest {
-  entries?: DisassociateClientDeviceFromCoreDeviceEntry[];
-  coreDeviceThingName: string;
-}
-export const BatchDisassociateClientDeviceFromCoreDeviceRequest = S.suspend(
-  () =>
-    S.Struct({
-      entries: S.optional(DisassociateClientDeviceFromCoreDeviceEntryList),
-      coreDeviceThingName: S.String.pipe(T.HttpLabel("coreDeviceThingName")),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "POST",
-          uri: "/greengrass/v2/coreDevices/{coreDeviceThingName}/disassociateClientDevices",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotations({
-  identifier: "BatchDisassociateClientDeviceFromCoreDeviceRequest",
-}) as any as S.Schema<BatchDisassociateClientDeviceFromCoreDeviceRequest>;
-export interface CancelDeploymentResponse {
-  message?: string;
-}
-export const CancelDeploymentResponse = S.suspend(() =>
-  S.Struct({ message: S.optional(S.String) }),
-).annotations({
-  identifier: "CancelDeploymentResponse",
-}) as any as S.Schema<CancelDeploymentResponse>;
-export interface GetComponentResponse {
-  recipeOutputFormat: RecipeOutputFormat;
-  recipe: Uint8Array;
-  tags?: { [key: string]: string | undefined };
-}
-export const GetComponentResponse = S.suspend(() =>
-  S.Struct({
-    recipeOutputFormat: RecipeOutputFormat,
-    recipe: T.Blob,
-    tags: S.optional(TagMap),
-  }),
-).annotations({
-  identifier: "GetComponentResponse",
-}) as any as S.Schema<GetComponentResponse>;
-export interface GetComponentVersionArtifactResponse {
-  preSignedUrl: string;
-}
-export const GetComponentVersionArtifactResponse = S.suspend(() =>
-  S.Struct({ preSignedUrl: S.String }),
-).annotations({
-  identifier: "GetComponentVersionArtifactResponse",
-}) as any as S.Schema<GetComponentVersionArtifactResponse>;
-export interface GetConnectivityInfoResponse {
-  connectivityInfo?: ConnectivityInfo[];
-  message?: string;
-}
-export const GetConnectivityInfoResponse = S.suspend(() =>
-  S.Struct({
-    connectivityInfo: S.optional(ConnectivityInfoList).pipe(
-      T.JsonName("ConnectivityInfo"),
-    ),
-    message: S.optional(S.String).pipe(T.JsonName("Message")),
-  }),
-).annotations({
-  identifier: "GetConnectivityInfoResponse",
-}) as any as S.Schema<GetConnectivityInfoResponse>;
+export type CoreDeviceStatus = "HEALTHY" | "UNHEALTHY" | (string & {});
+export const CoreDeviceStatus = S.String;
 export interface GetCoreDeviceResponse {
   coreDeviceThingName?: string;
   coreVersion?: string;
@@ -968,198 +1229,37 @@ export const GetCoreDeviceResponse = S.suspend(() =>
     ),
     tags: S.optional(TagMap),
   }),
-).annotations({
+).annotate({
   identifier: "GetCoreDeviceResponse",
 }) as any as S.Schema<GetCoreDeviceResponse>;
-export type ComponentConfigurationPathList = string[];
-export const ComponentConfigurationPathList = S.Array(S.String);
-export interface ComponentConfigurationUpdate {
-  merge?: string;
-  reset?: string[];
+export interface GetDeploymentRequest {
+  deploymentId: string;
 }
-export const ComponentConfigurationUpdate = S.suspend(() =>
-  S.Struct({
-    merge: S.optional(S.String),
-    reset: S.optional(ComponentConfigurationPathList),
-  }),
-).annotations({
-  identifier: "ComponentConfigurationUpdate",
-}) as any as S.Schema<ComponentConfigurationUpdate>;
-export interface SystemResourceLimits {
-  memory?: number;
-  cpus?: number;
-}
-export const SystemResourceLimits = S.suspend(() =>
-  S.Struct({ memory: S.optional(S.Number), cpus: S.optional(S.Number) }),
-).annotations({
-  identifier: "SystemResourceLimits",
-}) as any as S.Schema<SystemResourceLimits>;
-export interface ComponentRunWith {
-  posixUser?: string;
-  systemResourceLimits?: SystemResourceLimits;
-  windowsUser?: string;
-}
-export const ComponentRunWith = S.suspend(() =>
-  S.Struct({
-    posixUser: S.optional(S.String),
-    systemResourceLimits: S.optional(SystemResourceLimits),
-    windowsUser: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "ComponentRunWith",
-}) as any as S.Schema<ComponentRunWith>;
-export interface ComponentDeploymentSpecification {
-  componentVersion: string;
-  configurationUpdate?: ComponentConfigurationUpdate;
-  runWith?: ComponentRunWith;
-}
-export const ComponentDeploymentSpecification = S.suspend(() =>
-  S.Struct({
-    componentVersion: S.String,
-    configurationUpdate: S.optional(ComponentConfigurationUpdate),
-    runWith: S.optional(ComponentRunWith),
-  }),
-).annotations({
-  identifier: "ComponentDeploymentSpecification",
-}) as any as S.Schema<ComponentDeploymentSpecification>;
-export type ComponentDeploymentSpecifications = {
-  [key: string]: ComponentDeploymentSpecification | undefined;
-};
-export const ComponentDeploymentSpecifications = S.Record({
-  key: S.String,
-  value: S.UndefinedOr(ComponentDeploymentSpecification),
-});
-export interface DeploymentComponentUpdatePolicy {
-  timeoutInSeconds?: number;
-  action?: DeploymentComponentUpdatePolicyAction;
-}
-export const DeploymentComponentUpdatePolicy = S.suspend(() =>
-  S.Struct({
-    timeoutInSeconds: S.optional(S.Number),
-    action: S.optional(DeploymentComponentUpdatePolicyAction),
-  }),
-).annotations({
-  identifier: "DeploymentComponentUpdatePolicy",
-}) as any as S.Schema<DeploymentComponentUpdatePolicy>;
-export interface DeploymentConfigurationValidationPolicy {
-  timeoutInSeconds?: number;
-}
-export const DeploymentConfigurationValidationPolicy = S.suspend(() =>
-  S.Struct({ timeoutInSeconds: S.optional(S.Number) }),
-).annotations({
-  identifier: "DeploymentConfigurationValidationPolicy",
-}) as any as S.Schema<DeploymentConfigurationValidationPolicy>;
-export interface DeploymentPolicies {
-  failureHandlingPolicy?: DeploymentFailureHandlingPolicy;
-  componentUpdatePolicy?: DeploymentComponentUpdatePolicy;
-  configurationValidationPolicy?: DeploymentConfigurationValidationPolicy;
-}
-export const DeploymentPolicies = S.suspend(() =>
-  S.Struct({
-    failureHandlingPolicy: S.optional(DeploymentFailureHandlingPolicy),
-    componentUpdatePolicy: S.optional(DeploymentComponentUpdatePolicy),
-    configurationValidationPolicy: S.optional(
-      DeploymentConfigurationValidationPolicy,
+export const GetDeploymentRequest = S.suspend(() =>
+  S.Struct({ deploymentId: S.String.pipe(T.HttpLabel("deploymentId")) }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/greengrass/v2/deployments/{deploymentId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
-  }),
-).annotations({
-  identifier: "DeploymentPolicies",
-}) as any as S.Schema<DeploymentPolicies>;
-export interface IoTJobRateIncreaseCriteria {
-  numberOfNotifiedThings?: number;
-  numberOfSucceededThings?: number;
-}
-export const IoTJobRateIncreaseCriteria = S.suspend(() =>
-  S.Struct({
-    numberOfNotifiedThings: S.optional(S.Number),
-    numberOfSucceededThings: S.optional(S.Number),
-  }),
-).annotations({
-  identifier: "IoTJobRateIncreaseCriteria",
-}) as any as S.Schema<IoTJobRateIncreaseCriteria>;
-export interface IoTJobExponentialRolloutRate {
-  baseRatePerMinute: number;
-  incrementFactor: number;
-  rateIncreaseCriteria: IoTJobRateIncreaseCriteria;
-}
-export const IoTJobExponentialRolloutRate = S.suspend(() =>
-  S.Struct({
-    baseRatePerMinute: S.Number,
-    incrementFactor: S.Number,
-    rateIncreaseCriteria: IoTJobRateIncreaseCriteria,
-  }),
-).annotations({
-  identifier: "IoTJobExponentialRolloutRate",
-}) as any as S.Schema<IoTJobExponentialRolloutRate>;
-export interface IoTJobExecutionsRolloutConfig {
-  exponentialRate?: IoTJobExponentialRolloutRate;
-  maximumPerMinute?: number;
-}
-export const IoTJobExecutionsRolloutConfig = S.suspend(() =>
-  S.Struct({
-    exponentialRate: S.optional(IoTJobExponentialRolloutRate),
-    maximumPerMinute: S.optional(S.Number),
-  }),
-).annotations({
-  identifier: "IoTJobExecutionsRolloutConfig",
-}) as any as S.Schema<IoTJobExecutionsRolloutConfig>;
-export type IoTJobExecutionFailureType =
+  ),
+).annotate({
+  identifier: "GetDeploymentRequest",
+}) as any as S.Schema<GetDeploymentRequest>;
+export type DeploymentStatus =
+  | "ACTIVE"
+  | "COMPLETED"
+  | "CANCELED"
   | "FAILED"
-  | "REJECTED"
-  | "TIMED_OUT"
-  | "ALL"
+  | "INACTIVE"
   | (string & {});
-export const IoTJobExecutionFailureType = S.String;
-export type IoTJobAbortAction = "CANCEL" | (string & {});
-export const IoTJobAbortAction = S.String;
-export interface IoTJobAbortCriteria {
-  failureType: IoTJobExecutionFailureType;
-  action: IoTJobAbortAction;
-  thresholdPercentage: number;
-  minNumberOfExecutedThings: number;
-}
-export const IoTJobAbortCriteria = S.suspend(() =>
-  S.Struct({
-    failureType: IoTJobExecutionFailureType,
-    action: IoTJobAbortAction,
-    thresholdPercentage: S.Number,
-    minNumberOfExecutedThings: S.Number,
-  }),
-).annotations({
-  identifier: "IoTJobAbortCriteria",
-}) as any as S.Schema<IoTJobAbortCriteria>;
-export type IoTJobAbortCriteriaList = IoTJobAbortCriteria[];
-export const IoTJobAbortCriteriaList = S.Array(IoTJobAbortCriteria);
-export interface IoTJobAbortConfig {
-  criteriaList: IoTJobAbortCriteria[];
-}
-export const IoTJobAbortConfig = S.suspend(() =>
-  S.Struct({ criteriaList: IoTJobAbortCriteriaList }),
-).annotations({
-  identifier: "IoTJobAbortConfig",
-}) as any as S.Schema<IoTJobAbortConfig>;
-export interface IoTJobTimeoutConfig {
-  inProgressTimeoutInMinutes?: number;
-}
-export const IoTJobTimeoutConfig = S.suspend(() =>
-  S.Struct({ inProgressTimeoutInMinutes: S.optional(S.Number) }),
-).annotations({
-  identifier: "IoTJobTimeoutConfig",
-}) as any as S.Schema<IoTJobTimeoutConfig>;
-export interface DeploymentIoTJobConfiguration {
-  jobExecutionsRolloutConfig?: IoTJobExecutionsRolloutConfig;
-  abortConfig?: IoTJobAbortConfig;
-  timeoutConfig?: IoTJobTimeoutConfig;
-}
-export const DeploymentIoTJobConfiguration = S.suspend(() =>
-  S.Struct({
-    jobExecutionsRolloutConfig: S.optional(IoTJobExecutionsRolloutConfig),
-    abortConfig: S.optional(IoTJobAbortConfig),
-    timeoutConfig: S.optional(IoTJobTimeoutConfig),
-  }),
-).annotations({
-  identifier: "DeploymentIoTJobConfiguration",
-}) as any as S.Schema<DeploymentIoTJobConfiguration>;
+export const DeploymentStatus = S.String;
 export interface GetDeploymentResponse {
   targetArn?: string;
   revisionId?: string;
@@ -1195,30 +1295,51 @@ export const GetDeploymentResponse = S.suspend(() =>
     parentTargetArn: S.optional(S.String),
     tags: S.optional(TagMap),
   }),
-).annotations({
+).annotate({
   identifier: "GetDeploymentResponse",
 }) as any as S.Schema<GetDeploymentResponse>;
-export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string | undefined };
+export interface GetServiceRoleForAccountRequest {}
+export const GetServiceRoleForAccountRequest = S.suspend(() =>
+  S.Struct({}).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/greengrass/servicerole" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetServiceRoleForAccountRequest",
+}) as any as S.Schema<GetServiceRoleForAccountRequest>;
+export interface GetServiceRoleForAccountResponse {
+  associatedAt?: string;
+  roleArn?: string;
 }
-export const ListTagsForResourceResponse = S.suspend(() =>
-  S.Struct({ tags: S.optional(TagMap) }),
-).annotations({
-  identifier: "ListTagsForResourceResponse",
-}) as any as S.Schema<ListTagsForResourceResponse>;
-export interface UpdateConnectivityInfoRequest {
-  thingName: string;
-  connectivityInfo: ConnectivityInfo[];
-}
-export const UpdateConnectivityInfoRequest = S.suspend(() =>
+export const GetServiceRoleForAccountResponse = S.suspend(() =>
   S.Struct({
-    thingName: S.String.pipe(T.HttpLabel("thingName"), T.JsonName("ThingName")),
-    connectivityInfo: ConnectivityInfoList.pipe(T.JsonName("ConnectivityInfo")),
+    associatedAt: S.optional(S.String),
+    roleArn: S.optional(S.String),
+  }).pipe(S.encodeKeys({ associatedAt: "AssociatedAt", roleArn: "RoleArn" })),
+).annotate({
+  identifier: "GetServiceRoleForAccountResponse",
+}) as any as S.Schema<GetServiceRoleForAccountResponse>;
+export interface ListClientDevicesAssociatedWithCoreDeviceRequest {
+  coreDeviceThingName: string;
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListClientDevicesAssociatedWithCoreDeviceRequest = S.suspend(() =>
+  S.Struct({
+    coreDeviceThingName: S.String.pipe(T.HttpLabel("coreDeviceThingName")),
+    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   }).pipe(
     T.all(
       T.Http({
-        method: "PUT",
-        uri: "/greengrass/things/{thingName}/connectivityInfo",
+        method: "GET",
+        uri: "/greengrass/v2/coreDevices/{coreDeviceThingName}/associatedClientDevices",
       }),
       svc,
       auth,
@@ -1227,70 +1348,9 @@ export const UpdateConnectivityInfoRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
-  identifier: "UpdateConnectivityInfoRequest",
-}) as any as S.Schema<UpdateConnectivityInfoRequest>;
-export type CloudComponentState =
-  | "REQUESTED"
-  | "INITIATED"
-  | "DEPLOYABLE"
-  | "FAILED"
-  | "DEPRECATED"
-  | (string & {});
-export const CloudComponentState = S.String;
-export type VendorGuidance =
-  | "ACTIVE"
-  | "DISCONTINUED"
-  | "DELETED"
-  | (string & {});
-export const VendorGuidance = S.String;
-export type EffectiveDeploymentExecutionStatus =
-  | "IN_PROGRESS"
-  | "QUEUED"
-  | "FAILED"
-  | "COMPLETED"
-  | "TIMED_OUT"
-  | "CANCELED"
-  | "REJECTED"
-  | "SUCCEEDED"
-  | (string & {});
-export const EffectiveDeploymentExecutionStatus = S.String;
-export type InstalledComponentLifecycleState =
-  | "NEW"
-  | "INSTALLED"
-  | "STARTING"
-  | "RUNNING"
-  | "STOPPING"
-  | "ERRORED"
-  | "BROKEN"
-  | "FINISHED"
-  | (string & {});
-export const InstalledComponentLifecycleState = S.String;
-export type InstalledComponentLifecycleStatusCodeList = string[];
-export const InstalledComponentLifecycleStatusCodeList = S.Array(S.String);
-export type ComponentVersionRequirementMap = {
-  [key: string]: string | undefined;
-};
-export const ComponentVersionRequirementMap = S.Record({
-  key: S.String,
-  value: S.UndefinedOr(S.String),
-});
-export type ComponentDependencyType = "HARD" | "SOFT" | (string & {});
-export const ComponentDependencyType = S.String;
-export type LambdaEventSourceType = "PUB_SUB" | "IOT_CORE" | (string & {});
-export const LambdaEventSourceType = S.String;
-export type LambdaIsolationMode =
-  | "GreengrassContainer"
-  | "NoContainer"
-  | (string & {});
-export const LambdaIsolationMode = S.String;
-export type ValidationExceptionReason =
-  | "UNKNOWN_OPERATION"
-  | "CANNOT_PARSE"
-  | "FIELD_VALIDATION_FAILED"
-  | "OTHER"
-  | (string & {});
-export const ValidationExceptionReason = S.String;
+).annotate({
+  identifier: "ListClientDevicesAssociatedWithCoreDeviceRequest",
+}) as any as S.Schema<ListClientDevicesAssociatedWithCoreDeviceRequest>;
 export interface AssociatedClientDevice {
   thingName?: string;
   associationTimestamp?: Date;
@@ -1302,11 +1362,122 @@ export const AssociatedClientDevice = S.suspend(() =>
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
   }),
-).annotations({
+).annotate({
   identifier: "AssociatedClientDevice",
 }) as any as S.Schema<AssociatedClientDevice>;
 export type AssociatedClientDeviceList = AssociatedClientDevice[];
 export const AssociatedClientDeviceList = S.Array(AssociatedClientDevice);
+export interface ListClientDevicesAssociatedWithCoreDeviceResponse {
+  associatedClientDevices?: AssociatedClientDevice[];
+  nextToken?: string;
+}
+export const ListClientDevicesAssociatedWithCoreDeviceResponse = S.suspend(() =>
+  S.Struct({
+    associatedClientDevices: S.optional(AssociatedClientDeviceList),
+    nextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ListClientDevicesAssociatedWithCoreDeviceResponse",
+}) as any as S.Schema<ListClientDevicesAssociatedWithCoreDeviceResponse>;
+export type ComponentVisibilityScope = "PRIVATE" | "PUBLIC" | (string & {});
+export const ComponentVisibilityScope = S.String;
+export interface ListComponentsRequest {
+  scope?: ComponentVisibilityScope;
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListComponentsRequest = S.suspend(() =>
+  S.Struct({
+    scope: S.optional(ComponentVisibilityScope).pipe(T.HttpQuery("scope")),
+    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/greengrass/v2/components" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListComponentsRequest",
+}) as any as S.Schema<ListComponentsRequest>;
+export interface ComponentLatestVersion {
+  arn?: string;
+  componentVersion?: string;
+  creationTimestamp?: Date;
+  description?: string;
+  publisher?: string;
+  platforms?: ComponentPlatform[];
+}
+export const ComponentLatestVersion = S.suspend(() =>
+  S.Struct({
+    arn: S.optional(S.String),
+    componentVersion: S.optional(S.String),
+    creationTimestamp: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    description: S.optional(S.String),
+    publisher: S.optional(S.String),
+    platforms: S.optional(ComponentPlatformList),
+  }),
+).annotate({
+  identifier: "ComponentLatestVersion",
+}) as any as S.Schema<ComponentLatestVersion>;
+export interface Component {
+  arn?: string;
+  componentName?: string;
+  latestVersion?: ComponentLatestVersion;
+}
+export const Component = S.suspend(() =>
+  S.Struct({
+    arn: S.optional(S.String),
+    componentName: S.optional(S.String),
+    latestVersion: S.optional(ComponentLatestVersion),
+  }),
+).annotate({ identifier: "Component" }) as any as S.Schema<Component>;
+export type ComponentList = Component[];
+export const ComponentList = S.Array(Component);
+export interface ListComponentsResponse {
+  components?: Component[];
+  nextToken?: string;
+}
+export const ListComponentsResponse = S.suspend(() =>
+  S.Struct({
+    components: S.optional(ComponentList),
+    nextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ListComponentsResponse",
+}) as any as S.Schema<ListComponentsResponse>;
+export interface ListComponentVersionsRequest {
+  arn: string;
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListComponentVersionsRequest = S.suspend(() =>
+  S.Struct({
+    arn: S.String.pipe(T.HttpLabel("arn")),
+    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/greengrass/v2/components/{arn}/versions",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListComponentVersionsRequest",
+}) as any as S.Schema<ListComponentVersionsRequest>;
 export interface ComponentVersionListItem {
   componentName?: string;
   componentVersion?: string;
@@ -1318,11 +1489,50 @@ export const ComponentVersionListItem = S.suspend(() =>
     componentVersion: S.optional(S.String),
     arn: S.optional(S.String),
   }),
-).annotations({
+).annotate({
   identifier: "ComponentVersionListItem",
 }) as any as S.Schema<ComponentVersionListItem>;
 export type ComponentVersionList = ComponentVersionListItem[];
 export const ComponentVersionList = S.Array(ComponentVersionListItem);
+export interface ListComponentVersionsResponse {
+  componentVersions?: ComponentVersionListItem[];
+  nextToken?: string;
+}
+export const ListComponentVersionsResponse = S.suspend(() =>
+  S.Struct({
+    componentVersions: S.optional(ComponentVersionList),
+    nextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ListComponentVersionsResponse",
+}) as any as S.Schema<ListComponentVersionsResponse>;
+export interface ListCoreDevicesRequest {
+  thingGroupArn?: string;
+  status?: CoreDeviceStatus;
+  maxResults?: number;
+  nextToken?: string;
+  runtime?: string;
+}
+export const ListCoreDevicesRequest = S.suspend(() =>
+  S.Struct({
+    thingGroupArn: S.optional(S.String).pipe(T.HttpQuery("thingGroupArn")),
+    status: S.optional(CoreDeviceStatus).pipe(T.HttpQuery("status")),
+    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+    runtime: S.optional(S.String).pipe(T.HttpQuery("runtime")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/greengrass/v2/coreDevices" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListCoreDevicesRequest",
+}) as any as S.Schema<ListCoreDevicesRequest>;
 export interface CoreDevice {
   coreDeviceThingName?: string;
   status?: CoreDeviceStatus;
@@ -1342,9 +1552,52 @@ export const CoreDevice = S.suspend(() =>
     architecture: S.optional(S.String),
     runtime: S.optional(S.String),
   }),
-).annotations({ identifier: "CoreDevice" }) as any as S.Schema<CoreDevice>;
+).annotate({ identifier: "CoreDevice" }) as any as S.Schema<CoreDevice>;
 export type CoreDevicesList = CoreDevice[];
 export const CoreDevicesList = S.Array(CoreDevice);
+export interface ListCoreDevicesResponse {
+  coreDevices?: CoreDevice[];
+  nextToken?: string;
+}
+export const ListCoreDevicesResponse = S.suspend(() =>
+  S.Struct({
+    coreDevices: S.optional(CoreDevicesList),
+    nextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ListCoreDevicesResponse",
+}) as any as S.Schema<ListCoreDevicesResponse>;
+export type DeploymentHistoryFilter = "ALL" | "LATEST_ONLY" | (string & {});
+export const DeploymentHistoryFilter = S.String;
+export interface ListDeploymentsRequest {
+  targetArn?: string;
+  historyFilter?: DeploymentHistoryFilter;
+  parentTargetArn?: string;
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListDeploymentsRequest = S.suspend(() =>
+  S.Struct({
+    targetArn: S.optional(S.String).pipe(T.HttpQuery("targetArn")),
+    historyFilter: S.optional(DeploymentHistoryFilter).pipe(
+      T.HttpQuery("historyFilter"),
+    ),
+    parentTargetArn: S.optional(S.String).pipe(T.HttpQuery("parentTargetArn")),
+    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/greengrass/v2/deployments" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListDeploymentsRequest",
+}) as any as S.Schema<ListDeploymentsRequest>;
 export interface Deployment {
   targetArn?: string;
   revisionId?: string;
@@ -1368,125 +1621,9 @@ export const Deployment = S.suspend(() =>
     isLatestForTarget: S.optional(S.Boolean),
     parentTargetArn: S.optional(S.String),
   }),
-).annotations({ identifier: "Deployment" }) as any as S.Schema<Deployment>;
+).annotate({ identifier: "Deployment" }) as any as S.Schema<Deployment>;
 export type DeploymentList = Deployment[];
 export const DeploymentList = S.Array(Deployment);
-export interface InstalledComponent {
-  componentName?: string;
-  componentVersion?: string;
-  lifecycleState?: InstalledComponentLifecycleState;
-  lifecycleStateDetails?: string;
-  isRoot?: boolean;
-  lastStatusChangeTimestamp?: Date;
-  lastReportedTimestamp?: Date;
-  lastInstallationSource?: string;
-  lifecycleStatusCodes?: string[];
-}
-export const InstalledComponent = S.suspend(() =>
-  S.Struct({
-    componentName: S.optional(S.String),
-    componentVersion: S.optional(S.String),
-    lifecycleState: S.optional(InstalledComponentLifecycleState),
-    lifecycleStateDetails: S.optional(S.String),
-    isRoot: S.optional(S.Boolean),
-    lastStatusChangeTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    lastReportedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    lastInstallationSource: S.optional(S.String),
-    lifecycleStatusCodes: S.optional(InstalledComponentLifecycleStatusCodeList),
-  }),
-).annotations({
-  identifier: "InstalledComponent",
-}) as any as S.Schema<InstalledComponent>;
-export type InstalledComponentList = InstalledComponent[];
-export const InstalledComponentList = S.Array(InstalledComponent);
-export interface ComponentCandidate {
-  componentName?: string;
-  componentVersion?: string;
-  versionRequirements?: { [key: string]: string | undefined };
-}
-export const ComponentCandidate = S.suspend(() =>
-  S.Struct({
-    componentName: S.optional(S.String),
-    componentVersion: S.optional(S.String),
-    versionRequirements: S.optional(ComponentVersionRequirementMap),
-  }),
-).annotations({
-  identifier: "ComponentCandidate",
-}) as any as S.Schema<ComponentCandidate>;
-export type ComponentCandidateList = ComponentCandidate[];
-export const ComponentCandidateList = S.Array(ComponentCandidate);
-export interface ComponentDependencyRequirement {
-  versionRequirement?: string;
-  dependencyType?: ComponentDependencyType;
-}
-export const ComponentDependencyRequirement = S.suspend(() =>
-  S.Struct({
-    versionRequirement: S.optional(S.String),
-    dependencyType: S.optional(ComponentDependencyType),
-  }),
-).annotations({
-  identifier: "ComponentDependencyRequirement",
-}) as any as S.Schema<ComponentDependencyRequirement>;
-export interface LambdaEventSource {
-  topic: string;
-  type: LambdaEventSourceType;
-}
-export const LambdaEventSource = S.suspend(() =>
-  S.Struct({ topic: S.String, type: LambdaEventSourceType }),
-).annotations({
-  identifier: "LambdaEventSource",
-}) as any as S.Schema<LambdaEventSource>;
-export type LambdaEventSourceList = LambdaEventSource[];
-export const LambdaEventSourceList = S.Array(LambdaEventSource);
-export type LambdaEnvironmentVariables = { [key: string]: string | undefined };
-export const LambdaEnvironmentVariables = S.Record({
-  key: S.String,
-  value: S.UndefinedOr(S.String),
-});
-export type EffectiveDeploymentErrorStack = string[];
-export const EffectiveDeploymentErrorStack = S.Array(S.String);
-export type EffectiveDeploymentErrorTypeList = string[];
-export const EffectiveDeploymentErrorTypeList = S.Array(S.String);
-export interface ListClientDevicesAssociatedWithCoreDeviceResponse {
-  associatedClientDevices?: AssociatedClientDevice[];
-  nextToken?: string;
-}
-export const ListClientDevicesAssociatedWithCoreDeviceResponse = S.suspend(() =>
-  S.Struct({
-    associatedClientDevices: S.optional(AssociatedClientDeviceList),
-    nextToken: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "ListClientDevicesAssociatedWithCoreDeviceResponse",
-}) as any as S.Schema<ListClientDevicesAssociatedWithCoreDeviceResponse>;
-export interface ListComponentVersionsResponse {
-  componentVersions?: ComponentVersionListItem[];
-  nextToken?: string;
-}
-export const ListComponentVersionsResponse = S.suspend(() =>
-  S.Struct({
-    componentVersions: S.optional(ComponentVersionList),
-    nextToken: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "ListComponentVersionsResponse",
-}) as any as S.Schema<ListComponentVersionsResponse>;
-export interface ListCoreDevicesResponse {
-  coreDevices?: CoreDevice[];
-  nextToken?: string;
-}
-export const ListCoreDevicesResponse = S.suspend(() =>
-  S.Struct({
-    coreDevices: S.optional(CoreDevicesList),
-    nextToken: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "ListCoreDevicesResponse",
-}) as any as S.Schema<ListCoreDevicesResponse>;
 export interface ListDeploymentsResponse {
   deployments?: Deployment[];
   nextToken?: string;
@@ -1496,34 +1633,24 @@ export const ListDeploymentsResponse = S.suspend(() =>
     deployments: S.optional(DeploymentList),
     nextToken: S.optional(S.String),
   }),
-).annotations({
+).annotate({
   identifier: "ListDeploymentsResponse",
 }) as any as S.Schema<ListDeploymentsResponse>;
-export interface ListInstalledComponentsResponse {
-  installedComponents?: InstalledComponent[];
+export interface ListEffectiveDeploymentsRequest {
+  coreDeviceThingName: string;
+  maxResults?: number;
   nextToken?: string;
 }
-export const ListInstalledComponentsResponse = S.suspend(() =>
+export const ListEffectiveDeploymentsRequest = S.suspend(() =>
   S.Struct({
-    installedComponents: S.optional(InstalledComponentList),
-    nextToken: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "ListInstalledComponentsResponse",
-}) as any as S.Schema<ListInstalledComponentsResponse>;
-export interface ResolveComponentCandidatesRequest {
-  platform?: ComponentPlatform;
-  componentCandidates?: ComponentCandidate[];
-}
-export const ResolveComponentCandidatesRequest = S.suspend(() =>
-  S.Struct({
-    platform: S.optional(ComponentPlatform),
-    componentCandidates: S.optional(ComponentCandidateList),
+    coreDeviceThingName: S.String.pipe(T.HttpLabel("coreDeviceThingName")),
+    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   }).pipe(
     T.all(
       T.Http({
-        method: "POST",
-        uri: "/greengrass/v2/resolveComponentCandidates",
+        method: "GET",
+        uri: "/greengrass/v2/coreDevices/{coreDeviceThingName}/effectiveDeployments",
       }),
       svc,
       auth,
@@ -1532,55 +1659,24 @@ export const ResolveComponentCandidatesRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
-  identifier: "ResolveComponentCandidatesRequest",
-}) as any as S.Schema<ResolveComponentCandidatesRequest>;
-export interface UpdateConnectivityInfoResponse {
-  version?: string;
-  message?: string;
-}
-export const UpdateConnectivityInfoResponse = S.suspend(() =>
-  S.Struct({
-    version: S.optional(S.String).pipe(T.JsonName("Version")),
-    message: S.optional(S.String).pipe(T.JsonName("Message")),
-  }),
-).annotations({
-  identifier: "UpdateConnectivityInfoResponse",
-}) as any as S.Schema<UpdateConnectivityInfoResponse>;
-export type ComponentDependencyMap = {
-  [key: string]: ComponentDependencyRequirement | undefined;
-};
-export const ComponentDependencyMap = S.Record({
-  key: S.String,
-  value: S.UndefinedOr(ComponentDependencyRequirement),
-});
-export type StringMap = { [key: string]: string | undefined };
-export const StringMap = S.Record({
-  key: S.String,
-  value: S.UndefinedOr(S.String),
-});
-export interface ComponentLatestVersion {
-  arn?: string;
-  componentVersion?: string;
-  creationTimestamp?: Date;
-  description?: string;
-  publisher?: string;
-  platforms?: ComponentPlatform[];
-}
-export const ComponentLatestVersion = S.suspend(() =>
-  S.Struct({
-    arn: S.optional(S.String),
-    componentVersion: S.optional(S.String),
-    creationTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    description: S.optional(S.String),
-    publisher: S.optional(S.String),
-    platforms: S.optional(ComponentPlatformList),
-  }),
-).annotations({
-  identifier: "ComponentLatestVersion",
-}) as any as S.Schema<ComponentLatestVersion>;
+).annotate({
+  identifier: "ListEffectiveDeploymentsRequest",
+}) as any as S.Schema<ListEffectiveDeploymentsRequest>;
+export type EffectiveDeploymentExecutionStatus =
+  | "IN_PROGRESS"
+  | "QUEUED"
+  | "FAILED"
+  | "COMPLETED"
+  | "TIMED_OUT"
+  | "CANCELED"
+  | "REJECTED"
+  | "SUCCEEDED"
+  | (string & {});
+export const EffectiveDeploymentExecutionStatus = S.String;
+export type EffectiveDeploymentErrorStack = string[];
+export const EffectiveDeploymentErrorStack = S.Array(S.String);
+export type EffectiveDeploymentErrorTypeList = string[];
+export const EffectiveDeploymentErrorTypeList = S.Array(S.String);
 export interface EffectiveDeploymentStatusDetails {
   errorStack?: string[];
   errorTypes?: string[];
@@ -1590,92 +1686,9 @@ export const EffectiveDeploymentStatusDetails = S.suspend(() =>
     errorStack: S.optional(EffectiveDeploymentErrorStack),
     errorTypes: S.optional(EffectiveDeploymentErrorTypeList),
   }),
-).annotations({
+).annotate({
   identifier: "EffectiveDeploymentStatusDetails",
 }) as any as S.Schema<EffectiveDeploymentStatusDetails>;
-export interface AssociateClientDeviceWithCoreDeviceErrorEntry {
-  thingName?: string;
-  code?: string;
-  message?: string;
-}
-export const AssociateClientDeviceWithCoreDeviceErrorEntry = S.suspend(() =>
-  S.Struct({
-    thingName: S.optional(S.String),
-    code: S.optional(S.String),
-    message: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "AssociateClientDeviceWithCoreDeviceErrorEntry",
-}) as any as S.Schema<AssociateClientDeviceWithCoreDeviceErrorEntry>;
-export type AssociateClientDeviceWithCoreDeviceErrorList =
-  AssociateClientDeviceWithCoreDeviceErrorEntry[];
-export const AssociateClientDeviceWithCoreDeviceErrorList = S.Array(
-  AssociateClientDeviceWithCoreDeviceErrorEntry,
-);
-export interface DisassociateClientDeviceFromCoreDeviceErrorEntry {
-  thingName?: string;
-  code?: string;
-  message?: string;
-}
-export const DisassociateClientDeviceFromCoreDeviceErrorEntry = S.suspend(() =>
-  S.Struct({
-    thingName: S.optional(S.String),
-    code: S.optional(S.String),
-    message: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "DisassociateClientDeviceFromCoreDeviceErrorEntry",
-}) as any as S.Schema<DisassociateClientDeviceFromCoreDeviceErrorEntry>;
-export type DisassociateClientDeviceFromCoreDeviceErrorList =
-  DisassociateClientDeviceFromCoreDeviceErrorEntry[];
-export const DisassociateClientDeviceFromCoreDeviceErrorList = S.Array(
-  DisassociateClientDeviceFromCoreDeviceErrorEntry,
-);
-export type LambdaFilesystemPermission = "ro" | "rw" | (string & {});
-export const LambdaFilesystemPermission = S.String;
-export interface CloudComponentStatus {
-  componentState?: CloudComponentState;
-  message?: string;
-  errors?: { [key: string]: string | undefined };
-  vendorGuidance?: VendorGuidance;
-  vendorGuidanceMessage?: string;
-}
-export const CloudComponentStatus = S.suspend(() =>
-  S.Struct({
-    componentState: S.optional(CloudComponentState),
-    message: S.optional(S.String),
-    errors: S.optional(StringMap),
-    vendorGuidance: S.optional(VendorGuidance),
-    vendorGuidanceMessage: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "CloudComponentStatus",
-}) as any as S.Schema<CloudComponentStatus>;
-export interface ValidationExceptionField {
-  name: string;
-  message: string;
-}
-export const ValidationExceptionField = S.suspend(() =>
-  S.Struct({ name: S.String, message: S.String }),
-).annotations({
-  identifier: "ValidationExceptionField",
-}) as any as S.Schema<ValidationExceptionField>;
-export type ValidationExceptionFieldList = ValidationExceptionField[];
-export const ValidationExceptionFieldList = S.Array(ValidationExceptionField);
-export interface Component {
-  arn?: string;
-  componentName?: string;
-  latestVersion?: ComponentLatestVersion;
-}
-export const Component = S.suspend(() =>
-  S.Struct({
-    arn: S.optional(S.String),
-    componentName: S.optional(S.String),
-    latestVersion: S.optional(ComponentLatestVersion),
-  }),
-).annotations({ identifier: "Component" }) as any as S.Schema<Component>;
-export type ComponentList = Component[];
-export const ComponentList = S.Array(Component);
 export interface EffectiveDeployment {
   deploymentId: string;
   deploymentName: string;
@@ -1703,106 +1716,11 @@ export const EffectiveDeployment = S.suspend(() =>
     modifiedTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     statusDetails: S.optional(EffectiveDeploymentStatusDetails),
   }),
-).annotations({
+).annotate({
   identifier: "EffectiveDeployment",
 }) as any as S.Schema<EffectiveDeployment>;
 export type EffectiveDeploymentsList = EffectiveDeployment[];
 export const EffectiveDeploymentsList = S.Array(EffectiveDeployment);
-export interface BatchAssociateClientDeviceWithCoreDeviceResponse {
-  errorEntries?: AssociateClientDeviceWithCoreDeviceErrorEntry[];
-}
-export const BatchAssociateClientDeviceWithCoreDeviceResponse = S.suspend(() =>
-  S.Struct({
-    errorEntries: S.optional(AssociateClientDeviceWithCoreDeviceErrorList),
-  }),
-).annotations({
-  identifier: "BatchAssociateClientDeviceWithCoreDeviceResponse",
-}) as any as S.Schema<BatchAssociateClientDeviceWithCoreDeviceResponse>;
-export interface BatchDisassociateClientDeviceFromCoreDeviceResponse {
-  errorEntries?: DisassociateClientDeviceFromCoreDeviceErrorEntry[];
-}
-export const BatchDisassociateClientDeviceFromCoreDeviceResponse = S.suspend(
-  () =>
-    S.Struct({
-      errorEntries: S.optional(DisassociateClientDeviceFromCoreDeviceErrorList),
-    }),
-).annotations({
-  identifier: "BatchDisassociateClientDeviceFromCoreDeviceResponse",
-}) as any as S.Schema<BatchDisassociateClientDeviceFromCoreDeviceResponse>;
-export interface LambdaVolumeMount {
-  sourcePath: string;
-  destinationPath: string;
-  permission?: LambdaFilesystemPermission;
-  addGroupOwner?: boolean;
-}
-export const LambdaVolumeMount = S.suspend(() =>
-  S.Struct({
-    sourcePath: S.String,
-    destinationPath: S.String,
-    permission: S.optional(LambdaFilesystemPermission),
-    addGroupOwner: S.optional(S.Boolean),
-  }),
-).annotations({
-  identifier: "LambdaVolumeMount",
-}) as any as S.Schema<LambdaVolumeMount>;
-export type LambdaVolumeList = LambdaVolumeMount[];
-export const LambdaVolumeList = S.Array(LambdaVolumeMount);
-export interface LambdaDeviceMount {
-  path: string;
-  permission?: LambdaFilesystemPermission;
-  addGroupOwner?: boolean;
-}
-export const LambdaDeviceMount = S.suspend(() =>
-  S.Struct({
-    path: S.String,
-    permission: S.optional(LambdaFilesystemPermission),
-    addGroupOwner: S.optional(S.Boolean),
-  }),
-).annotations({
-  identifier: "LambdaDeviceMount",
-}) as any as S.Schema<LambdaDeviceMount>;
-export type LambdaDeviceList = LambdaDeviceMount[];
-export const LambdaDeviceList = S.Array(LambdaDeviceMount);
-export interface DescribeComponentResponse {
-  arn?: string;
-  componentName?: string;
-  componentVersion?: string;
-  creationTimestamp?: Date;
-  publisher?: string;
-  description?: string;
-  status?: CloudComponentStatus;
-  platforms?: ComponentPlatform[];
-  tags?: { [key: string]: string | undefined };
-}
-export const DescribeComponentResponse = S.suspend(() =>
-  S.Struct({
-    arn: S.optional(S.String),
-    componentName: S.optional(S.String),
-    componentVersion: S.optional(S.String),
-    creationTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    publisher: S.optional(S.String),
-    description: S.optional(S.String),
-    status: S.optional(CloudComponentStatus),
-    platforms: S.optional(ComponentPlatformList),
-    tags: S.optional(TagMap),
-  }),
-).annotations({
-  identifier: "DescribeComponentResponse",
-}) as any as S.Schema<DescribeComponentResponse>;
-export interface ListComponentsResponse {
-  components?: Component[];
-  nextToken?: string;
-}
-export const ListComponentsResponse = S.suspend(() =>
-  S.Struct({
-    components: S.optional(ComponentList),
-    nextToken: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "ListComponentsResponse",
-}) as any as S.Schema<ListComponentsResponse>;
 export interface ListEffectiveDeploymentsResponse {
   effectiveDeployments?: EffectiveDeployment[];
   nextToken?: string;
@@ -1812,25 +1730,170 @@ export const ListEffectiveDeploymentsResponse = S.suspend(() =>
     effectiveDeployments: S.optional(EffectiveDeploymentsList),
     nextToken: S.optional(S.String),
   }),
-).annotations({
+).annotate({
   identifier: "ListEffectiveDeploymentsResponse",
 }) as any as S.Schema<ListEffectiveDeploymentsResponse>;
-export interface LambdaContainerParams {
-  memorySizeInKB?: number;
-  mountROSysfs?: boolean;
-  volumes?: LambdaVolumeMount[];
-  devices?: LambdaDeviceMount[];
+export type InstalledComponentTopologyFilter = "ALL" | "ROOT" | (string & {});
+export const InstalledComponentTopologyFilter = S.String;
+export interface ListInstalledComponentsRequest {
+  coreDeviceThingName: string;
+  maxResults?: number;
+  nextToken?: string;
+  topologyFilter?: InstalledComponentTopologyFilter;
 }
-export const LambdaContainerParams = S.suspend(() =>
+export const ListInstalledComponentsRequest = S.suspend(() =>
   S.Struct({
-    memorySizeInKB: S.optional(S.Number),
-    mountROSysfs: S.optional(S.Boolean),
-    volumes: S.optional(LambdaVolumeList),
-    devices: S.optional(LambdaDeviceList),
+    coreDeviceThingName: S.String.pipe(T.HttpLabel("coreDeviceThingName")),
+    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+    topologyFilter: S.optional(InstalledComponentTopologyFilter).pipe(
+      T.HttpQuery("topologyFilter"),
+    ),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/greengrass/v2/coreDevices/{coreDeviceThingName}/installedComponents",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListInstalledComponentsRequest",
+}) as any as S.Schema<ListInstalledComponentsRequest>;
+export type InstalledComponentLifecycleState =
+  | "NEW"
+  | "INSTALLED"
+  | "STARTING"
+  | "RUNNING"
+  | "STOPPING"
+  | "ERRORED"
+  | "BROKEN"
+  | "FINISHED"
+  | (string & {});
+export const InstalledComponentLifecycleState = S.String;
+export type InstalledComponentLifecycleStatusCodeList = string[];
+export const InstalledComponentLifecycleStatusCodeList = S.Array(S.String);
+export interface InstalledComponent {
+  componentName?: string;
+  componentVersion?: string;
+  lifecycleState?: InstalledComponentLifecycleState;
+  lifecycleStateDetails?: string;
+  isRoot?: boolean;
+  lastStatusChangeTimestamp?: Date;
+  lastReportedTimestamp?: Date;
+  lastInstallationSource?: string;
+  lifecycleStatusCodes?: string[];
+}
+export const InstalledComponent = S.suspend(() =>
+  S.Struct({
+    componentName: S.optional(S.String),
+    componentVersion: S.optional(S.String),
+    lifecycleState: S.optional(InstalledComponentLifecycleState),
+    lifecycleStateDetails: S.optional(S.String),
+    isRoot: S.optional(S.Boolean),
+    lastStatusChangeTimestamp: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    lastReportedTimestamp: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    lastInstallationSource: S.optional(S.String),
+    lifecycleStatusCodes: S.optional(InstalledComponentLifecycleStatusCodeList),
   }),
-).annotations({
-  identifier: "LambdaContainerParams",
-}) as any as S.Schema<LambdaContainerParams>;
+).annotate({
+  identifier: "InstalledComponent",
+}) as any as S.Schema<InstalledComponent>;
+export type InstalledComponentList = InstalledComponent[];
+export const InstalledComponentList = S.Array(InstalledComponent);
+export interface ListInstalledComponentsResponse {
+  installedComponents?: InstalledComponent[];
+  nextToken?: string;
+}
+export const ListInstalledComponentsResponse = S.suspend(() =>
+  S.Struct({
+    installedComponents: S.optional(InstalledComponentList),
+    nextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ListInstalledComponentsResponse",
+}) as any as S.Schema<ListInstalledComponentsResponse>;
+export interface ListTagsForResourceRequest {
+  resourceArn: string;
+}
+export const ListTagsForResourceRequest = S.suspend(() =>
+  S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListTagsForResourceRequest",
+}) as any as S.Schema<ListTagsForResourceRequest>;
+export interface ListTagsForResourceResponse {
+  tags?: { [key: string]: string | undefined };
+}
+export const ListTagsForResourceResponse = S.suspend(() =>
+  S.Struct({ tags: S.optional(TagMap) }),
+).annotate({
+  identifier: "ListTagsForResourceResponse",
+}) as any as S.Schema<ListTagsForResourceResponse>;
+export type ComponentVersionRequirementMap = {
+  [key: string]: string | undefined;
+};
+export const ComponentVersionRequirementMap = S.Record(
+  S.String,
+  S.String.pipe(S.optional),
+);
+export interface ComponentCandidate {
+  componentName?: string;
+  componentVersion?: string;
+  versionRequirements?: { [key: string]: string | undefined };
+}
+export const ComponentCandidate = S.suspend(() =>
+  S.Struct({
+    componentName: S.optional(S.String),
+    componentVersion: S.optional(S.String),
+    versionRequirements: S.optional(ComponentVersionRequirementMap),
+  }),
+).annotate({
+  identifier: "ComponentCandidate",
+}) as any as S.Schema<ComponentCandidate>;
+export type ComponentCandidateList = ComponentCandidate[];
+export const ComponentCandidateList = S.Array(ComponentCandidate);
+export interface ResolveComponentCandidatesRequest {
+  platform?: ComponentPlatform;
+  componentCandidates?: ComponentCandidate[];
+}
+export const ResolveComponentCandidatesRequest = S.suspend(() =>
+  S.Struct({
+    platform: S.optional(ComponentPlatform),
+    componentCandidates: S.optional(ComponentCandidateList),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/greengrass/v2/resolveComponentCandidates",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ResolveComponentCandidatesRequest",
+}) as any as S.Schema<ResolveComponentCandidatesRequest>;
 export interface ResolvedComponentVersion {
   arn?: string;
   componentName?: string;
@@ -1848,56 +1911,11 @@ export const ResolvedComponentVersion = S.suspend(() =>
     vendorGuidance: S.optional(VendorGuidance),
     message: S.optional(S.String),
   }),
-).annotations({
+).annotate({
   identifier: "ResolvedComponentVersion",
 }) as any as S.Schema<ResolvedComponentVersion>;
 export type ResolvedComponentVersionsList = ResolvedComponentVersion[];
 export const ResolvedComponentVersionsList = S.Array(ResolvedComponentVersion);
-export interface LambdaLinuxProcessParams {
-  isolationMode?: LambdaIsolationMode;
-  containerParams?: LambdaContainerParams;
-}
-export const LambdaLinuxProcessParams = S.suspend(() =>
-  S.Struct({
-    isolationMode: S.optional(LambdaIsolationMode),
-    containerParams: S.optional(LambdaContainerParams),
-  }),
-).annotations({
-  identifier: "LambdaLinuxProcessParams",
-}) as any as S.Schema<LambdaLinuxProcessParams>;
-export interface CreateDeploymentRequest {
-  targetArn: string;
-  deploymentName?: string;
-  components?: { [key: string]: ComponentDeploymentSpecification | undefined };
-  iotJobConfiguration?: DeploymentIoTJobConfiguration;
-  deploymentPolicies?: DeploymentPolicies;
-  parentTargetArn?: string;
-  tags?: { [key: string]: string | undefined };
-  clientToken?: string;
-}
-export const CreateDeploymentRequest = S.suspend(() =>
-  S.Struct({
-    targetArn: S.String,
-    deploymentName: S.optional(S.String),
-    components: S.optional(ComponentDeploymentSpecifications),
-    iotJobConfiguration: S.optional(DeploymentIoTJobConfiguration),
-    deploymentPolicies: S.optional(DeploymentPolicies),
-    parentTargetArn: S.optional(S.String),
-    tags: S.optional(TagMap),
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/greengrass/v2/deployments" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "CreateDeploymentRequest",
-}) as any as S.Schema<CreateDeploymentRequest>;
 export interface ResolveComponentCandidatesResponse {
   resolvedComponentVersions?: ResolvedComponentVersion[];
 }
@@ -1905,76 +1923,20 @@ export const ResolveComponentCandidatesResponse = S.suspend(() =>
   S.Struct({
     resolvedComponentVersions: S.optional(ResolvedComponentVersionsList),
   }),
-).annotations({
+).annotate({
   identifier: "ResolveComponentCandidatesResponse",
 }) as any as S.Schema<ResolveComponentCandidatesResponse>;
-export interface LambdaExecutionParameters {
-  eventSources?: LambdaEventSource[];
-  maxQueueSize?: number;
-  maxInstancesCount?: number;
-  maxIdleTimeInSeconds?: number;
-  timeoutInSeconds?: number;
-  statusTimeoutInSeconds?: number;
-  pinned?: boolean;
-  inputPayloadEncodingType?: LambdaInputPayloadEncodingType;
-  execArgs?: string[];
-  environmentVariables?: { [key: string]: string | undefined };
-  linuxProcessParams?: LambdaLinuxProcessParams;
+export interface TagResourceRequest {
+  resourceArn: string;
+  tags: { [key: string]: string | undefined };
 }
-export const LambdaExecutionParameters = S.suspend(() =>
+export const TagResourceRequest = S.suspend(() =>
   S.Struct({
-    eventSources: S.optional(LambdaEventSourceList),
-    maxQueueSize: S.optional(S.Number),
-    maxInstancesCount: S.optional(S.Number),
-    maxIdleTimeInSeconds: S.optional(S.Number),
-    timeoutInSeconds: S.optional(S.Number),
-    statusTimeoutInSeconds: S.optional(S.Number),
-    pinned: S.optional(S.Boolean),
-    inputPayloadEncodingType: S.optional(LambdaInputPayloadEncodingType),
-    execArgs: S.optional(LambdaExecArgsList),
-    environmentVariables: S.optional(LambdaEnvironmentVariables),
-    linuxProcessParams: S.optional(LambdaLinuxProcessParams),
-  }),
-).annotations({
-  identifier: "LambdaExecutionParameters",
-}) as any as S.Schema<LambdaExecutionParameters>;
-export interface LambdaFunctionRecipeSource {
-  lambdaArn: string;
-  componentName?: string;
-  componentVersion?: string;
-  componentPlatforms?: ComponentPlatform[];
-  componentDependencies?: {
-    [key: string]: ComponentDependencyRequirement | undefined;
-  };
-  componentLambdaParameters?: LambdaExecutionParameters;
-}
-export const LambdaFunctionRecipeSource = S.suspend(() =>
-  S.Struct({
-    lambdaArn: S.String,
-    componentName: S.optional(S.String),
-    componentVersion: S.optional(S.String),
-    componentPlatforms: S.optional(ComponentPlatformList),
-    componentDependencies: S.optional(ComponentDependencyMap),
-    componentLambdaParameters: S.optional(LambdaExecutionParameters),
-  }),
-).annotations({
-  identifier: "LambdaFunctionRecipeSource",
-}) as any as S.Schema<LambdaFunctionRecipeSource>;
-export interface CreateComponentVersionRequest {
-  inlineRecipe?: Uint8Array;
-  lambdaFunction?: LambdaFunctionRecipeSource;
-  tags?: { [key: string]: string | undefined };
-  clientToken?: string;
-}
-export const CreateComponentVersionRequest = S.suspend(() =>
-  S.Struct({
-    inlineRecipe: S.optional(T.Blob),
-    lambdaFunction: S.optional(LambdaFunctionRecipeSource),
-    tags: S.optional(TagMap),
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
+    tags: TagMap,
   }).pipe(
     T.all(
-      T.Http({ method: "POST", uri: "/greengrass/v2/createComponentVersion" }),
+      T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
       svc,
       auth,
       proto,
@@ -1982,63 +1944,109 @@ export const CreateComponentVersionRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
-  identifier: "CreateComponentVersionRequest",
-}) as any as S.Schema<CreateComponentVersionRequest>;
-export interface CreateDeploymentResponse {
-  deploymentId?: string;
-  iotJobId?: string;
-  iotJobArn?: string;
+).annotate({
+  identifier: "TagResourceRequest",
+}) as any as S.Schema<TagResourceRequest>;
+export interface TagResourceResponse {}
+export const TagResourceResponse = S.suspend(() => S.Struct({})).annotate({
+  identifier: "TagResourceResponse",
+}) as any as S.Schema<TagResourceResponse>;
+export type TagKeyList = string[];
+export const TagKeyList = S.Array(S.String);
+export interface UntagResourceRequest {
+  resourceArn: string;
+  tagKeys: string[];
 }
-export const CreateDeploymentResponse = S.suspend(() =>
+export const UntagResourceRequest = S.suspend(() =>
   S.Struct({
-    deploymentId: S.optional(S.String),
-    iotJobId: S.optional(S.String),
-    iotJobArn: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "CreateDeploymentResponse",
-}) as any as S.Schema<CreateDeploymentResponse>;
-export interface CreateComponentVersionResponse {
-  arn?: string;
-  componentName: string;
-  componentVersion: string;
-  creationTimestamp: Date;
-  status: CloudComponentStatus;
+    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
+    tagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "UntagResourceRequest",
+}) as any as S.Schema<UntagResourceRequest>;
+export interface UntagResourceResponse {}
+export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotate({
+  identifier: "UntagResourceResponse",
+}) as any as S.Schema<UntagResourceResponse>;
+export interface UpdateConnectivityInfoRequest {
+  thingName: string;
+  connectivityInfo: ConnectivityInfo[];
 }
-export const CreateComponentVersionResponse = S.suspend(() =>
+export const UpdateConnectivityInfoRequest = S.suspend(() =>
   S.Struct({
-    arn: S.optional(S.String),
-    componentName: S.String,
-    componentVersion: S.String,
-    creationTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    status: CloudComponentStatus,
-  }),
-).annotations({
-  identifier: "CreateComponentVersionResponse",
-}) as any as S.Schema<CreateComponentVersionResponse>;
+    thingName: S.String.pipe(T.HttpLabel("thingName")),
+    connectivityInfo: ConnectivityInfoList,
+  })
+    .pipe(
+      S.encodeKeys({
+        thingName: "ThingName",
+        connectivityInfo: "ConnectivityInfo",
+      }),
+    )
+    .pipe(
+      T.all(
+        T.Http({
+          method: "PUT",
+          uri: "/greengrass/things/{thingName}/connectivityInfo",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
+    ),
+).annotate({
+  identifier: "UpdateConnectivityInfoRequest",
+}) as any as S.Schema<UpdateConnectivityInfoRequest>;
+export interface UpdateConnectivityInfoResponse {
+  version?: string;
+  message?: string;
+}
+export const UpdateConnectivityInfoResponse = S.suspend(() =>
+  S.Struct({
+    version: S.optional(S.String),
+    message: S.optional(S.String),
+  }).pipe(S.encodeKeys({ version: "Version", message: "Message" })),
+).annotate({
+  identifier: "UpdateConnectivityInfoResponse",
+}) as any as S.Schema<UpdateConnectivityInfoResponse>;
 
 //# Errors
-export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
-  "AccessDeniedException",
-  { message: S.String },
-).pipe(C.withAuthError) {}
-export class InternalServerException extends S.TaggedError<InternalServerException>()(
+export class InternalServerException extends S.TaggedErrorClass<InternalServerException>()(
   "InternalServerException",
   {
     message: S.String,
     retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
   },
 ).pipe(C.withServerError) {}
-export class ConflictException extends S.TaggedError<ConflictException>()(
-  "ConflictException",
-  { message: S.String, resourceId: S.String, resourceType: S.String },
-).pipe(C.withConflictError) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+export class ValidationException extends S.TaggedErrorClass<ValidationException>()(
+  "ValidationException",
+  {
+    message: S.String,
+    reason: S.optional(ValidationExceptionReason),
+    fields: S.optional(ValidationExceptionFieldList),
+  },
+).pipe(C.withBadRequestError) {}
+export class AccessDeniedException extends S.TaggedErrorClass<AccessDeniedException>()(
+  "AccessDeniedException",
+  { message: S.String },
+).pipe(C.withAuthError) {}
+export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { message: S.String, resourceId: S.String, resourceType: S.String },
 ).pipe(C.withBadRequestError) {}
-export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
+export class ThrottlingException extends S.TaggedErrorClass<ThrottlingException>()(
   "ThrottlingException",
   {
     message: S.String,
@@ -2047,19 +2055,15 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
     retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
   },
 ).pipe(C.withThrottlingError) {}
-export class ValidationException extends S.TaggedError<ValidationException>()(
-  "ValidationException",
-  {
-    message: S.String,
-    reason: S.optional(ValidationExceptionReason),
-    fields: S.optional(ValidationExceptionFieldList),
-  },
-).pipe(C.withBadRequestError) {}
-export class RequestAlreadyInProgressException extends S.TaggedError<RequestAlreadyInProgressException>()(
+export class ConflictException extends S.TaggedErrorClass<ConflictException>()(
+  "ConflictException",
+  { message: S.String, resourceId: S.String, resourceType: S.String },
+).pipe(C.withConflictError) {}
+export class RequestAlreadyInProgressException extends S.TaggedErrorClass<RequestAlreadyInProgressException>()(
   "RequestAlreadyInProgressException",
   { message: S.String },
 ).pipe(C.withBadRequestError) {}
-export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
+export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
   {
     message: S.String,
@@ -2071,6 +2075,334 @@ export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExc
 ).pipe(C.withQuotaError) {}
 
 //# Operations
+/**
+ * Associates a Greengrass service role with IoT Greengrass for your Amazon Web Services account in this Amazon Web Services Region. IoT Greengrass
+ * uses this role to verify the identity of client devices and manage core device connectivity
+ * information. The role must include the AWSGreengrassResourceAccessRolePolicy managed policy or a custom policy that
+ * defines equivalent permissions for the IoT Greengrass features that you use. For more information, see
+ * Greengrass service role in the *IoT Greengrass Version 2 Developer Guide*.
+ */
+export const associateServiceRoleToAccount: (
+  input: AssociateServiceRoleToAccountRequest,
+) => effect.Effect<
+  AssociateServiceRoleToAccountResponse,
+  InternalServerException | ValidationException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateServiceRoleToAccountRequest,
+  output: AssociateServiceRoleToAccountResponse,
+  errors: [InternalServerException, ValidationException],
+}));
+/**
+ * Associates a list of client devices with a core device. Use this API operation to specify
+ * which client devices can discover a core device through cloud discovery. With cloud discovery,
+ * client devices connect to IoT Greengrass to retrieve associated core devices' connectivity information
+ * and certificates. For more information, see Configure cloud
+ * discovery in the *IoT Greengrass V2 Developer Guide*.
+ *
+ * Client devices are local IoT devices that connect to and communicate with an IoT Greengrass core
+ * device over MQTT. You can connect client devices to a core device to sync MQTT messages and
+ * data to Amazon Web Services IoT Core and interact with client devices in Greengrass components. For more information,
+ * see Interact with
+ * local IoT devices in the *IoT Greengrass V2 Developer Guide*.
+ */
+export const batchAssociateClientDeviceWithCoreDevice: (
+  input: BatchAssociateClientDeviceWithCoreDeviceRequest,
+) => effect.Effect<
+  BatchAssociateClientDeviceWithCoreDeviceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchAssociateClientDeviceWithCoreDeviceRequest,
+  output: BatchAssociateClientDeviceWithCoreDeviceResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Disassociates a list of client devices from a core device. After you disassociate a client
+ * device from a core device, the client device won't be able to use cloud discovery to retrieve
+ * the core device's connectivity information and certificates.
+ */
+export const batchDisassociateClientDeviceFromCoreDevice: (
+  input: BatchDisassociateClientDeviceFromCoreDeviceRequest,
+) => effect.Effect<
+  BatchDisassociateClientDeviceFromCoreDeviceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchDisassociateClientDeviceFromCoreDeviceRequest,
+  output: BatchDisassociateClientDeviceFromCoreDeviceResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Cancels a deployment. This operation cancels the deployment for devices that haven't yet
+ * received it. If a device already received the deployment, this operation doesn't change
+ * anything for that device.
+ */
+export const cancelDeployment: (
+  input: CancelDeploymentRequest,
+) => effect.Effect<
+  CancelDeploymentResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CancelDeploymentRequest,
+  output: CancelDeploymentResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Creates a component. Components are software that run on Greengrass core devices. After you
+ * develop and test a component on your core device, you can use this operation to upload your
+ * component to IoT Greengrass. Then, you can deploy the component to other core devices.
+ *
+ * You can use this operation to do the following:
+ *
+ * - **Create components from recipes**
+ *
+ * Create a component from a recipe, which is a file that defines the component's
+ * metadata, parameters, dependencies, lifecycle, artifacts, and platform capability. For
+ * more information, see IoT Greengrass component recipe
+ * reference in the *IoT Greengrass V2 Developer Guide*.
+ *
+ * To create a component from a recipe, specify `inlineRecipe` when you call
+ * this operation.
+ *
+ * - **Create components from Lambda functions**
+ *
+ * Create a component from an Lambda function that runs on IoT Greengrass. This creates a recipe
+ * and artifacts from the Lambda function's deployment package. You can use this operation to
+ * migrate Lambda functions from IoT Greengrass V1 to IoT Greengrass V2.
+ *
+ * This function accepts Lambda functions in all supported versions of Python, Node.js,
+ * and Java runtimes. IoT Greengrass doesn't apply any additional restrictions on deprecated Lambda
+ * runtime versions.
+ *
+ * To create a component from a Lambda function, specify `lambdaFunction` when
+ * you call this operation.
+ *
+ * IoT Greengrass currently supports Lambda functions on only Linux core devices.
+ */
+export const createComponentVersion: (
+  input: CreateComponentVersionRequest,
+) => effect.Effect<
+  CreateComponentVersionResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | RequestAlreadyInProgressException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateComponentVersionRequest,
+  output: CreateComponentVersionResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    RequestAlreadyInProgressException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Creates a continuous deployment for a target, which is a Greengrass core device or group of core
+ * devices. When you add a new core device to a group of core devices that has a deployment, IoT Greengrass
+ * deploys that group's deployment to the new device.
+ *
+ * You can define one deployment for each target. When you create a new deployment for a
+ * target that has an existing deployment, you replace the previous deployment. IoT Greengrass applies the
+ * new deployment to the target devices.
+ *
+ * Every deployment has a revision number that indicates how many deployment revisions you
+ * define for a target. Use this operation to create a new revision of an existing
+ * deployment.
+ *
+ * For more information, see the Create deployments in the
+ * *IoT Greengrass V2 Developer Guide*.
+ */
+export const createDeployment: (
+  input: CreateDeploymentRequest,
+) => effect.Effect<
+  CreateDeploymentResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | RequestAlreadyInProgressException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateDeploymentRequest,
+  output: CreateDeploymentResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    RequestAlreadyInProgressException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Deletes a version of a component from IoT Greengrass.
+ *
+ * This operation deletes the component's recipe and artifacts. As a result, deployments
+ * that refer to this component version will fail. If you have deployments that use this
+ * component version, you can remove the component from the deployment or update the deployment
+ * to use a valid version.
+ */
+export const deleteComponent: (
+  input: DeleteComponentRequest,
+) => effect.Effect<
+  DeleteComponentResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteComponentRequest,
+  output: DeleteComponentResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Deletes a Greengrass core device, which is an IoT thing. This operation removes the core
+ * device from the list of core devices. This operation doesn't delete the IoT thing. For more
+ * information about how to delete the IoT thing, see DeleteThing in the
+ * *IoT API Reference*.
+ */
+export const deleteCoreDevice: (
+  input: DeleteCoreDeviceRequest,
+) => effect.Effect<
+  DeleteCoreDeviceResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteCoreDeviceRequest,
+  output: DeleteCoreDeviceResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Deletes a deployment. To delete an active deployment, you must first cancel it. For more
+ * information, see CancelDeployment.
+ *
+ * Deleting a deployment doesn't affect core devices that run that deployment, because core
+ * devices store the deployment's configuration on the device. Additionally, core devices can
+ * roll back to a previous deployment that has been deleted.
+ */
+export const deleteDeployment: (
+  input: DeleteDeploymentRequest,
+) => effect.Effect<
+  DeleteDeploymentResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteDeploymentRequest,
+  output: DeleteDeploymentResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Retrieves metadata for a version of a component.
+ */
+export const describeComponent: (
+  input: DescribeComponentRequest,
+) => effect.Effect<
+  DescribeComponentResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeComponentRequest,
+  output: DescribeComponentResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Disassociates the Greengrass service role from IoT Greengrass for your Amazon Web Services account in this Amazon Web Services Region.
  * Without a service role, IoT Greengrass can't verify the identity of client devices or manage core device
@@ -2089,21 +2421,56 @@ export const disassociateServiceRoleFromAccount: (
   errors: [InternalServerException],
 }));
 /**
- * Gets the service role associated with IoT Greengrass for your Amazon Web Services account in this Amazon Web Services Region.
- * IoT Greengrass uses this role to verify the identity of client devices and manage core device
- * connectivity information. For more information, see Greengrass service role in
- * the *IoT Greengrass Version 2 Developer Guide*.
+ * Gets the recipe for a version of a component.
  */
-export const getServiceRoleForAccount: (
-  input: GetServiceRoleForAccountRequest,
+export const getComponent: (
+  input: GetComponentRequest,
 ) => effect.Effect<
-  GetServiceRoleForAccountResponse,
-  InternalServerException | CommonErrors,
+  GetComponentResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetServiceRoleForAccountRequest,
-  output: GetServiceRoleForAccountResponse,
-  errors: [InternalServerException],
+  input: GetComponentRequest,
+  output: GetComponentResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Gets the pre-signed URL to download a public or a Lambda component artifact. Core devices
+ * call this operation to identify the URL that they can use to download an artifact to
+ * install.
+ */
+export const getComponentVersionArtifact: (
+  input: GetComponentVersionArtifactRequest,
+) => effect.Effect<
+  GetComponentVersionArtifactResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetComponentVersionArtifactRequest,
+  output: GetComponentVersionArtifactResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
 }));
 /**
  * Retrieves connectivity information for a Greengrass core device.
@@ -2127,49 +2494,41 @@ export const getConnectivityInfo: (
   errors: [InternalServerException, ValidationException],
 }));
 /**
- * Retrieves a paginated list of component summaries. This list includes components that you
- * have permission to view.
+ * Retrieves metadata for a Greengrass core device.
+ *
+ * IoT Greengrass relies on individual devices to send status updates to the Amazon Web Services Cloud. If the
+ * IoT Greengrass Core software isn't running on the device, or if device isn't connected to the Amazon Web Services Cloud,
+ * then the reported status of that device might not reflect its current status. The status
+ * timestamp indicates when the device status was last updated.
+ *
+ * Core devices send status updates at the following times:
+ *
+ * - When the IoT Greengrass Core software starts
+ *
+ * - When the core device receives a deployment from the Amazon Web Services Cloud
+ *
+ * - When the status of any component on the core device becomes
+ * `BROKEN`
+ *
+ * - At a regular interval that you can configure, which defaults to 24 hours
+ *
+ * - For IoT Greengrass Core v2.7.0, the core device sends status updates upon local deployment and
+ * cloud deployment
  */
-export const listComponents: {
-  (
-    input: ListComponentsRequest,
-  ): effect.Effect<
-    ListComponentsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  pages: (
-    input: ListComponentsRequest,
-  ) => stream.Stream<
-    ListComponentsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  items: (
-    input: ListComponentsRequest,
-  ) => stream.Stream<
-    Component,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
-  input: ListComponentsRequest,
-  output: ListComponentsResponse,
+export const getCoreDevice: (
+  input: GetCoreDeviceRequest,
+) => effect.Effect<
+  GetCoreDeviceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetCoreDeviceRequest,
+  output: GetCoreDeviceResponse,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -2177,56 +2536,24 @@ export const listComponents: {
     ThrottlingException,
     ValidationException,
   ],
-  pagination: {
-    inputToken: "nextToken",
-    outputToken: "nextToken",
-    items: "components",
-    pageSize: "maxResults",
-  } as const,
 }));
 /**
- * Retrieves a paginated list of deployment jobs that IoT Greengrass sends to Greengrass core devices.
+ * Gets a deployment. Deployments define the components that run on Greengrass core devices.
  */
-export const listEffectiveDeployments: {
-  (
-    input: ListEffectiveDeploymentsRequest,
-  ): effect.Effect<
-    ListEffectiveDeploymentsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  pages: (
-    input: ListEffectiveDeploymentsRequest,
-  ) => stream.Stream<
-    ListEffectiveDeploymentsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  items: (
-    input: ListEffectiveDeploymentsRequest,
-  ) => stream.Stream<
-    EffectiveDeployment,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
-  input: ListEffectiveDeploymentsRequest,
-  output: ListEffectiveDeploymentsResponse,
+export const getDeployment: (
+  input: GetDeploymentRequest,
+) => effect.Effect<
+  GetDeploymentResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetDeploymentRequest,
+  output: GetDeploymentResponse,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -2234,12 +2561,23 @@ export const listEffectiveDeployments: {
     ThrottlingException,
     ValidationException,
   ],
-  pagination: {
-    inputToken: "nextToken",
-    outputToken: "nextToken",
-    items: "effectiveDeployments",
-    pageSize: "maxResults",
-  } as const,
+}));
+/**
+ * Gets the service role associated with IoT Greengrass for your Amazon Web Services account in this Amazon Web Services Region.
+ * IoT Greengrass uses this role to verify the identity of client devices and manage core device
+ * connectivity information. For more information, see Greengrass service role in
+ * the *IoT Greengrass Version 2 Developer Guide*.
+ */
+export const getServiceRoleForAccount: (
+  input: GetServiceRoleForAccountRequest,
+) => effect.Effect<
+  GetServiceRoleForAccountResponse,
+  InternalServerException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetServiceRoleForAccountRequest,
+  output: GetServiceRoleForAccountResponse,
+  errors: [InternalServerException],
 }));
 /**
  * Retrieves a paginated list of client devices that are associated with a core
@@ -2296,6 +2634,64 @@ export const listClientDevicesAssociatedWithCoreDevice: {
     inputToken: "nextToken",
     outputToken: "nextToken",
     items: "associatedClientDevices",
+    pageSize: "maxResults",
+  } as const,
+}));
+/**
+ * Retrieves a paginated list of component summaries. This list includes components that you
+ * have permission to view.
+ */
+export const listComponents: {
+  (
+    input: ListComponentsRequest,
+  ): effect.Effect<
+    ListComponentsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListComponentsRequest,
+  ) => stream.Stream<
+    ListComponentsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListComponentsRequest,
+  ) => stream.Stream<
+    Component,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListComponentsRequest,
+  output: ListComponentsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "components",
     pageSize: "maxResults",
   } as const,
 }));
@@ -2488,6 +2884,63 @@ export const listDeployments: {
   } as const,
 }));
 /**
+ * Retrieves a paginated list of deployment jobs that IoT Greengrass sends to Greengrass core devices.
+ */
+export const listEffectiveDeployments: {
+  (
+    input: ListEffectiveDeploymentsRequest,
+  ): effect.Effect<
+    ListEffectiveDeploymentsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListEffectiveDeploymentsRequest,
+  ) => stream.Stream<
+    ListEffectiveDeploymentsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListEffectiveDeploymentsRequest,
+  ) => stream.Stream<
+    EffectiveDeployment,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListEffectiveDeploymentsRequest,
+  output: ListEffectiveDeploymentsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "effectiveDeployments",
+    pageSize: "maxResults",
+  } as const,
+}));
+/**
  * Retrieves a paginated list of the components that a Greengrass core device runs. By default,
  * this list doesn't include components that are deployed as dependencies of other components. To
  * include dependencies in the response, set the `topologyFilter` parameter to
@@ -2567,351 +3020,6 @@ export const listInstalledComponents: {
   } as const,
 }));
 /**
- * Deletes a Greengrass core device, which is an IoT thing. This operation removes the core
- * device from the list of core devices. This operation doesn't delete the IoT thing. For more
- * information about how to delete the IoT thing, see DeleteThing in the
- * *IoT API Reference*.
- */
-export const deleteCoreDevice: (
-  input: DeleteCoreDeviceRequest,
-) => effect.Effect<
-  DeleteCoreDeviceResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteCoreDeviceRequest,
-  output: DeleteCoreDeviceResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Deletes a deployment. To delete an active deployment, you must first cancel it. For more
- * information, see CancelDeployment.
- *
- * Deleting a deployment doesn't affect core devices that run that deployment, because core
- * devices store the deployment's configuration on the device. Additionally, core devices can
- * roll back to a previous deployment that has been deleted.
- */
-export const deleteDeployment: (
-  input: DeleteDeploymentRequest,
-) => effect.Effect<
-  DeleteDeploymentResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteDeploymentRequest,
-  output: DeleteDeploymentResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Cancels a deployment. This operation cancels the deployment for devices that haven't yet
- * received it. If a device already received the deployment, this operation doesn't change
- * anything for that device.
- */
-export const cancelDeployment: (
-  input: CancelDeploymentRequest,
-) => effect.Effect<
-  CancelDeploymentResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CancelDeploymentRequest,
-  output: CancelDeploymentResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Gets the pre-signed URL to download a public or a Lambda component artifact. Core devices
- * call this operation to identify the URL that they can use to download an artifact to
- * install.
- */
-export const getComponentVersionArtifact: (
-  input: GetComponentVersionArtifactRequest,
-) => effect.Effect<
-  GetComponentVersionArtifactResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetComponentVersionArtifactRequest,
-  output: GetComponentVersionArtifactResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Retrieves metadata for a Greengrass core device.
- *
- * IoT Greengrass relies on individual devices to send status updates to the Amazon Web Services Cloud. If the
- * IoT Greengrass Core software isn't running on the device, or if device isn't connected to the Amazon Web Services Cloud,
- * then the reported status of that device might not reflect its current status. The status
- * timestamp indicates when the device status was last updated.
- *
- * Core devices send status updates at the following times:
- *
- * - When the IoT Greengrass Core software starts
- *
- * - When the core device receives a deployment from the Amazon Web Services Cloud
- *
- * - When the status of any component on the core device becomes
- * `BROKEN`
- *
- * - At a regular interval that you can configure, which defaults to 24 hours
- *
- * - For IoT Greengrass Core v2.7.0, the core device sends status updates upon local deployment and
- * cloud deployment
- */
-export const getCoreDevice: (
-  input: GetCoreDeviceRequest,
-) => effect.Effect<
-  GetCoreDeviceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetCoreDeviceRequest,
-  output: GetCoreDeviceResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Gets a deployment. Deployments define the components that run on Greengrass core devices.
- */
-export const getDeployment: (
-  input: GetDeploymentRequest,
-) => effect.Effect<
-  GetDeploymentResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetDeploymentRequest,
-  output: GetDeploymentResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Deletes a version of a component from IoT Greengrass.
- *
- * This operation deletes the component's recipe and artifacts. As a result, deployments
- * that refer to this component version will fail. If you have deployments that use this
- * component version, you can remove the component from the deployment or update the deployment
- * to use a valid version.
- */
-export const deleteComponent: (
-  input: DeleteComponentRequest,
-) => effect.Effect<
-  DeleteComponentResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteComponentRequest,
-  output: DeleteComponentResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Associates a list of client devices with a core device. Use this API operation to specify
- * which client devices can discover a core device through cloud discovery. With cloud discovery,
- * client devices connect to IoT Greengrass to retrieve associated core devices' connectivity information
- * and certificates. For more information, see Configure cloud
- * discovery in the *IoT Greengrass V2 Developer Guide*.
- *
- * Client devices are local IoT devices that connect to and communicate with an IoT Greengrass core
- * device over MQTT. You can connect client devices to a core device to sync MQTT messages and
- * data to Amazon Web Services IoT Core and interact with client devices in Greengrass components. For more information,
- * see Interact with
- * local IoT devices in the *IoT Greengrass V2 Developer Guide*.
- */
-export const batchAssociateClientDeviceWithCoreDevice: (
-  input: BatchAssociateClientDeviceWithCoreDeviceRequest,
-) => effect.Effect<
-  BatchAssociateClientDeviceWithCoreDeviceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: BatchAssociateClientDeviceWithCoreDeviceRequest,
-  output: BatchAssociateClientDeviceWithCoreDeviceResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Disassociates a list of client devices from a core device. After you disassociate a client
- * device from a core device, the client device won't be able to use cloud discovery to retrieve
- * the core device's connectivity information and certificates.
- */
-export const batchDisassociateClientDeviceFromCoreDevice: (
-  input: BatchDisassociateClientDeviceFromCoreDeviceRequest,
-) => effect.Effect<
-  BatchDisassociateClientDeviceFromCoreDeviceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: BatchDisassociateClientDeviceFromCoreDeviceRequest,
-  output: BatchDisassociateClientDeviceFromCoreDeviceResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Retrieves metadata for a version of a component.
- */
-export const describeComponent: (
-  input: DescribeComponentRequest,
-) => effect.Effect<
-  DescribeComponentResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeComponentRequest,
-  output: DescribeComponentResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Associates a Greengrass service role with IoT Greengrass for your Amazon Web Services account in this Amazon Web Services Region. IoT Greengrass
- * uses this role to verify the identity of client devices and manage core device connectivity
- * information. The role must include the AWSGreengrassResourceAccessRolePolicy managed policy or a custom policy that
- * defines equivalent permissions for the IoT Greengrass features that you use. For more information, see
- * Greengrass service role in the *IoT Greengrass Version 2 Developer Guide*.
- */
-export const associateServiceRoleToAccount: (
-  input: AssociateServiceRoleToAccountRequest,
-) => effect.Effect<
-  AssociateServiceRoleToAccountResponse,
-  InternalServerException | ValidationException | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: AssociateServiceRoleToAccountRequest,
-  output: AssociateServiceRoleToAccountResponse,
-  errors: [InternalServerException, ValidationException],
-}));
-/**
- * Updates connectivity information for a Greengrass core device.
- *
- * Connectivity information includes endpoints and ports where client devices
- * can connect to an MQTT broker on the core device. When a client device
- * calls the IoT Greengrass discovery API,
- * IoT Greengrass returns connectivity information for all of the core devices where the client device can
- * connect. For more information, see Connect client devices to
- * core devices in the *IoT Greengrass Version 2 Developer Guide*.
- */
-export const updateConnectivityInfo: (
-  input: UpdateConnectivityInfoRequest,
-) => effect.Effect<
-  UpdateConnectivityInfoResponse,
-  InternalServerException | ValidationException | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateConnectivityInfoRequest,
-  output: UpdateConnectivityInfoResponse,
-  errors: [InternalServerException, ValidationException],
-}));
-/**
  * Retrieves the list of tags for an IoT Greengrass resource.
  */
 export const listTagsForResource: (
@@ -2929,6 +3037,48 @@ export const listTagsForResource: (
   errors: [
     InternalServerException,
     ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Retrieves a list of components that meet the component, version, and platform requirements
+ * of a deployment. Greengrass core devices call this operation when they receive a deployment to
+ * identify the components to install.
+ *
+ * This operation identifies components that meet all dependency requirements for a
+ * deployment. If the requirements conflict, then this operation returns an error and the
+ * deployment fails. For example, this occurs if component `A` requires version
+ * `>2.0.0` and component `B` requires version `<2.0.0`
+ * of a component dependency.
+ *
+ * When you specify the component candidates to resolve, IoT Greengrass compares each component's
+ * digest from the core device with the component's digest in the Amazon Web Services Cloud. If the digests
+ * don't match, then IoT Greengrass specifies to use the version from the Amazon Web Services Cloud.
+ *
+ * To use this operation, you must use the data plane API endpoint and authenticate with an
+ * IoT device certificate. For more information, see IoT Greengrass endpoints and quotas.
+ */
+export const resolveComponentCandidates: (
+  input: ResolveComponentCandidatesRequest,
+) => effect.Effect<
+  ResolveComponentCandidatesResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ResolveComponentCandidatesRequest,
+  output: ResolveComponentCandidatesResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
     ValidationException,
   ],
 }));
@@ -2976,169 +3126,23 @@ export const untagResource: (
   ],
 }));
 /**
- * Gets the recipe for a version of a component.
+ * Updates connectivity information for a Greengrass core device.
+ *
+ * Connectivity information includes endpoints and ports where client devices
+ * can connect to an MQTT broker on the core device. When a client device
+ * calls the IoT Greengrass discovery API,
+ * IoT Greengrass returns connectivity information for all of the core devices where the client device can
+ * connect. For more information, see Connect client devices to
+ * core devices in the *IoT Greengrass Version 2 Developer Guide*.
  */
-export const getComponent: (
-  input: GetComponentRequest,
+export const updateConnectivityInfo: (
+  input: UpdateConnectivityInfoRequest,
 ) => effect.Effect<
-  GetComponentResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UpdateConnectivityInfoResponse,
+  InternalServerException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetComponentRequest,
-  output: GetComponentResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Retrieves a list of components that meet the component, version, and platform requirements
- * of a deployment. Greengrass core devices call this operation when they receive a deployment to
- * identify the components to install.
- *
- * This operation identifies components that meet all dependency requirements for a
- * deployment. If the requirements conflict, then this operation returns an error and the
- * deployment fails. For example, this occurs if component `A` requires version
- * `>2.0.0` and component `B` requires version `<2.0.0`
- * of a component dependency.
- *
- * When you specify the component candidates to resolve, IoT Greengrass compares each component's
- * digest from the core device with the component's digest in the Amazon Web Services Cloud. If the digests
- * don't match, then IoT Greengrass specifies to use the version from the Amazon Web Services Cloud.
- *
- * To use this operation, you must use the data plane API endpoint and authenticate with an
- * IoT device certificate. For more information, see IoT Greengrass endpoints and quotas.
- */
-export const resolveComponentCandidates: (
-  input: ResolveComponentCandidatesRequest,
-) => effect.Effect<
-  ResolveComponentCandidatesResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ResolveComponentCandidatesRequest,
-  output: ResolveComponentCandidatesResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Creates a continuous deployment for a target, which is a Greengrass core device or group of core
- * devices. When you add a new core device to a group of core devices that has a deployment, IoT Greengrass
- * deploys that group's deployment to the new device.
- *
- * You can define one deployment for each target. When you create a new deployment for a
- * target that has an existing deployment, you replace the previous deployment. IoT Greengrass applies the
- * new deployment to the target devices.
- *
- * Every deployment has a revision number that indicates how many deployment revisions you
- * define for a target. Use this operation to create a new revision of an existing
- * deployment.
- *
- * For more information, see the Create deployments in the
- * *IoT Greengrass V2 Developer Guide*.
- */
-export const createDeployment: (
-  input: CreateDeploymentRequest,
-) => effect.Effect<
-  CreateDeploymentResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | RequestAlreadyInProgressException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateDeploymentRequest,
-  output: CreateDeploymentResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    RequestAlreadyInProgressException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Creates a component. Components are software that run on Greengrass core devices. After you
- * develop and test a component on your core device, you can use this operation to upload your
- * component to IoT Greengrass. Then, you can deploy the component to other core devices.
- *
- * You can use this operation to do the following:
- *
- * - **Create components from recipes**
- *
- * Create a component from a recipe, which is a file that defines the component's
- * metadata, parameters, dependencies, lifecycle, artifacts, and platform capability. For
- * more information, see IoT Greengrass component recipe
- * reference in the *IoT Greengrass V2 Developer Guide*.
- *
- * To create a component from a recipe, specify `inlineRecipe` when you call
- * this operation.
- *
- * - **Create components from Lambda functions**
- *
- * Create a component from an Lambda function that runs on IoT Greengrass. This creates a recipe
- * and artifacts from the Lambda function's deployment package. You can use this operation to
- * migrate Lambda functions from IoT Greengrass V1 to IoT Greengrass V2.
- *
- * This function accepts Lambda functions in all supported versions of Python, Node.js,
- * and Java runtimes. IoT Greengrass doesn't apply any additional restrictions on deprecated Lambda
- * runtime versions.
- *
- * To create a component from a Lambda function, specify `lambdaFunction` when
- * you call this operation.
- *
- * IoT Greengrass currently supports Lambda functions on only Linux core devices.
- */
-export const createComponentVersion: (
-  input: CreateComponentVersionRequest,
-) => effect.Effect<
-  CreateComponentVersionResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | RequestAlreadyInProgressException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateComponentVersionRequest,
-  output: CreateComponentVersionResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    RequestAlreadyInProgressException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
+  input: UpdateConnectivityInfoRequest,
+  output: UpdateConnectivityInfoResponse,
+  errors: [InternalServerException, ValidationException],
 }));

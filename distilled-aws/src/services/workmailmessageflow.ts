@@ -1,4 +1,4 @@
-import { HttpClient } from "@effect/platform";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as effect from "effect/Effect";
 import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
@@ -88,10 +88,10 @@ const rules = T.EndpointResolver((p, _) => {
 
 //# Newtypes
 export type MessageIdType = string;
+export type ErrorMessage = string;
 export type S3BucketIdType = string;
 export type S3KeyIdType = string;
 export type S3VersionType = string;
-export type ErrorMessage = string;
 
 //# Schemas
 export interface GetRawMessageContentRequest {
@@ -108,7 +108,7 @@ export const GetRawMessageContentRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "GetRawMessageContentRequest",
 }) as any as S.Schema<GetRawMessageContentRequest>;
 export interface GetRawMessageContentResponse {
@@ -116,7 +116,7 @@ export interface GetRawMessageContentResponse {
 }
 export const GetRawMessageContentResponse = S.suspend(() =>
   S.Struct({ messageContent: T.StreamingOutput.pipe(T.HttpPayload()) }),
-).annotations({
+).annotate({
   identifier: "GetRawMessageContentResponse",
 }) as any as S.Schema<GetRawMessageContentResponse>;
 export interface S3Reference {
@@ -130,13 +130,13 @@ export const S3Reference = S.suspend(() =>
     key: S.String,
     objectVersion: S.optional(S.String),
   }),
-).annotations({ identifier: "S3Reference" }) as any as S.Schema<S3Reference>;
+).annotate({ identifier: "S3Reference" }) as any as S.Schema<S3Reference>;
 export interface RawMessageContent {
   s3Reference: S3Reference;
 }
 export const RawMessageContent = S.suspend(() =>
   S.Struct({ s3Reference: S3Reference }),
-).annotations({
+).annotate({
   identifier: "RawMessageContent",
 }) as any as S.Schema<RawMessageContent>;
 export interface PutRawMessageContentRequest {
@@ -157,30 +157,30 @@ export const PutRawMessageContentRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "PutRawMessageContentRequest",
 }) as any as S.Schema<PutRawMessageContentRequest>;
 export interface PutRawMessageContentResponse {}
 export const PutRawMessageContentResponse = S.suspend(() =>
   S.Struct({}),
-).annotations({
+).annotate({
   identifier: "PutRawMessageContentResponse",
 }) as any as S.Schema<PutRawMessageContentResponse>;
 
 //# Errors
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { message: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
-export class InvalidContentLocation extends S.TaggedError<InvalidContentLocation>()(
+export class InvalidContentLocation extends S.TaggedErrorClass<InvalidContentLocation>()(
   "InvalidContentLocation",
   { message: S.optional(S.String) },
 ) {}
-export class MessageFrozen extends S.TaggedError<MessageFrozen>()(
+export class MessageFrozen extends S.TaggedErrorClass<MessageFrozen>()(
   "MessageFrozen",
   { message: S.optional(S.String) },
 ) {}
-export class MessageRejected extends S.TaggedError<MessageRejected>()(
+export class MessageRejected extends S.TaggedErrorClass<MessageRejected>()(
   "MessageRejected",
   { message: S.optional(S.String) },
 ) {}

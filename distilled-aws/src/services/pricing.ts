@@ -1,4 +1,4 @@
-import { HttpClient } from "@effect/platform";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as effect from "effect/Effect";
 import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
@@ -92,17 +92,17 @@ const rules = T.EndpointResolver((p, _) => {
 //# Newtypes
 export type FormatVersion = string;
 export type BoxedInteger = number;
+export type ErrorMessage = string;
 export type PriceListArn = string;
 export type FileFormat = string;
+export type Field = string;
+export type Value = string;
+export type SynthesizedJsonPriceListJsonItem = string;
 export type ServiceCode = string;
 export type EffectiveDate = Date;
 export type RegionCode = string;
 export type CurrencyCode = string;
 export type MaxResults = number;
-export type Field = string;
-export type Value = string;
-export type ErrorMessage = string;
-export type SynthesizedJsonPriceListJsonItem = string;
 
 //# Schemas
 export interface DescribeServicesRequest {
@@ -120,9 +120,37 @@ export const DescribeServicesRequest = S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotations({
+).annotate({
   identifier: "DescribeServicesRequest",
 }) as any as S.Schema<DescribeServicesRequest>;
+export type AttributeNameList = string[];
+export const AttributeNameList = S.Array(S.String);
+export interface Service {
+  ServiceCode: string;
+  AttributeNames?: string[];
+}
+export const Service = S.suspend(() =>
+  S.Struct({
+    ServiceCode: S.String,
+    AttributeNames: S.optional(AttributeNameList),
+  }),
+).annotate({ identifier: "Service" }) as any as S.Schema<Service>;
+export type ServiceList = Service[];
+export const ServiceList = S.Array(Service);
+export interface DescribeServicesResponse {
+  Services?: Service[];
+  FormatVersion?: string;
+  NextToken?: string;
+}
+export const DescribeServicesResponse = S.suspend(() =>
+  S.Struct({
+    Services: S.optional(ServiceList),
+    FormatVersion: S.optional(S.String),
+    NextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "DescribeServicesResponse",
+}) as any as S.Schema<DescribeServicesResponse>;
 export interface GetAttributeValuesRequest {
   ServiceCode: string;
   AttributeName: string;
@@ -138,9 +166,29 @@ export const GetAttributeValuesRequest = S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotations({
+).annotate({
   identifier: "GetAttributeValuesRequest",
 }) as any as S.Schema<GetAttributeValuesRequest>;
+export interface AttributeValue {
+  Value?: string;
+}
+export const AttributeValue = S.suspend(() =>
+  S.Struct({ Value: S.optional(S.String) }),
+).annotate({ identifier: "AttributeValue" }) as any as S.Schema<AttributeValue>;
+export type AttributeValueList = AttributeValue[];
+export const AttributeValueList = S.Array(AttributeValue);
+export interface GetAttributeValuesResponse {
+  AttributeValues?: AttributeValue[];
+  NextToken?: string;
+}
+export const GetAttributeValuesResponse = S.suspend(() =>
+  S.Struct({
+    AttributeValues: S.optional(AttributeValueList),
+    NextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GetAttributeValuesResponse",
+}) as any as S.Schema<GetAttributeValuesResponse>;
 export interface GetPriceListFileUrlRequest {
   PriceListArn: string;
   FileFormat: string;
@@ -149,9 +197,71 @@ export const GetPriceListFileUrlRequest = S.suspend(() =>
   S.Struct({ PriceListArn: S.String, FileFormat: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotations({
+).annotate({
   identifier: "GetPriceListFileUrlRequest",
 }) as any as S.Schema<GetPriceListFileUrlRequest>;
+export interface GetPriceListFileUrlResponse {
+  Url?: string;
+}
+export const GetPriceListFileUrlResponse = S.suspend(() =>
+  S.Struct({ Url: S.optional(S.String) }),
+).annotate({
+  identifier: "GetPriceListFileUrlResponse",
+}) as any as S.Schema<GetPriceListFileUrlResponse>;
+export type FilterType =
+  | "TERM_MATCH"
+  | "EQUALS"
+  | "CONTAINS"
+  | "ANY_OF"
+  | "NONE_OF"
+  | (string & {});
+export const FilterType = S.String;
+export interface Filter {
+  Type: FilterType;
+  Field: string;
+  Value: string;
+}
+export const Filter = S.suspend(() =>
+  S.Struct({ Type: FilterType, Field: S.String, Value: S.String }),
+).annotate({ identifier: "Filter" }) as any as S.Schema<Filter>;
+export type Filters = Filter[];
+export const Filters = S.Array(Filter);
+export interface GetProductsRequest {
+  ServiceCode: string;
+  Filters?: Filter[];
+  FormatVersion?: string;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const GetProductsRequest = S.suspend(() =>
+  S.Struct({
+    ServiceCode: S.String,
+    Filters: S.optional(Filters),
+    FormatVersion: S.optional(S.String),
+    NextToken: S.optional(S.String),
+    MaxResults: S.optional(S.Number),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "GetProductsRequest",
+}) as any as S.Schema<GetProductsRequest>;
+export type PriceListJsonItems = string[];
+export const PriceListJsonItems = S.Array(S.String);
+export interface GetProductsResponse {
+  FormatVersion?: string;
+  PriceList?: string[];
+  NextToken?: string;
+}
+export const GetProductsResponse = S.suspend(() =>
+  S.Struct({
+    FormatVersion: S.optional(S.String),
+    PriceList: S.optional(PriceListJsonItems),
+    NextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GetProductsResponse",
+}) as any as S.Schema<GetProductsResponse>;
 export interface ListPriceListsRequest {
   ServiceCode: string;
   EffectiveDate: Date;
@@ -171,83 +281,11 @@ export const ListPriceListsRequest = S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotations({
+).annotate({
   identifier: "ListPriceListsRequest",
 }) as any as S.Schema<ListPriceListsRequest>;
-export type FilterType =
-  | "TERM_MATCH"
-  | "EQUALS"
-  | "CONTAINS"
-  | "ANY_OF"
-  | "NONE_OF"
-  | (string & {});
-export const FilterType = S.String;
-export interface Filter {
-  Type: FilterType;
-  Field: string;
-  Value: string;
-}
-export const Filter = S.suspend(() =>
-  S.Struct({ Type: FilterType, Field: S.String, Value: S.String }),
-).annotations({ identifier: "Filter" }) as any as S.Schema<Filter>;
-export type Filters = Filter[];
-export const Filters = S.Array(Filter);
-export interface GetPriceListFileUrlResponse {
-  Url?: string;
-}
-export const GetPriceListFileUrlResponse = S.suspend(() =>
-  S.Struct({ Url: S.optional(S.String) }),
-).annotations({
-  identifier: "GetPriceListFileUrlResponse",
-}) as any as S.Schema<GetPriceListFileUrlResponse>;
-export interface GetProductsRequest {
-  ServiceCode: string;
-  Filters?: Filter[];
-  FormatVersion?: string;
-  NextToken?: string;
-  MaxResults?: number;
-}
-export const GetProductsRequest = S.suspend(() =>
-  S.Struct({
-    ServiceCode: S.String,
-    Filters: S.optional(Filters),
-    FormatVersion: S.optional(S.String),
-    NextToken: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotations({
-  identifier: "GetProductsRequest",
-}) as any as S.Schema<GetProductsRequest>;
-export type AttributeNameList = string[];
-export const AttributeNameList = S.Array(S.String);
 export type FileFormats = string[];
 export const FileFormats = S.Array(S.String);
-export interface Service {
-  ServiceCode: string;
-  AttributeNames?: string[];
-}
-export const Service = S.suspend(() =>
-  S.Struct({
-    ServiceCode: S.String,
-    AttributeNames: S.optional(AttributeNameList),
-  }),
-).annotations({ identifier: "Service" }) as any as S.Schema<Service>;
-export type ServiceList = Service[];
-export const ServiceList = S.Array(Service);
-export interface AttributeValue {
-  Value?: string;
-}
-export const AttributeValue = S.suspend(() =>
-  S.Struct({ Value: S.optional(S.String) }),
-).annotations({
-  identifier: "AttributeValue",
-}) as any as S.Schema<AttributeValue>;
-export type AttributeValueList = AttributeValue[];
-export const AttributeValueList = S.Array(AttributeValue);
-export type PriceListJsonItems = string[];
-export const PriceListJsonItems = S.Array(S.String);
 export interface PriceList {
   PriceListArn?: string;
   RegionCode?: string;
@@ -261,49 +299,9 @@ export const PriceList = S.suspend(() =>
     CurrencyCode: S.optional(S.String),
     FileFormats: S.optional(FileFormats),
   }),
-).annotations({ identifier: "PriceList" }) as any as S.Schema<PriceList>;
+).annotate({ identifier: "PriceList" }) as any as S.Schema<PriceList>;
 export type PriceLists = PriceList[];
 export const PriceLists = S.Array(PriceList);
-export interface DescribeServicesResponse {
-  Services?: Service[];
-  FormatVersion?: string;
-  NextToken?: string;
-}
-export const DescribeServicesResponse = S.suspend(() =>
-  S.Struct({
-    Services: S.optional(ServiceList),
-    FormatVersion: S.optional(S.String),
-    NextToken: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "DescribeServicesResponse",
-}) as any as S.Schema<DescribeServicesResponse>;
-export interface GetAttributeValuesResponse {
-  AttributeValues?: AttributeValue[];
-  NextToken?: string;
-}
-export const GetAttributeValuesResponse = S.suspend(() =>
-  S.Struct({
-    AttributeValues: S.optional(AttributeValueList),
-    NextToken: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "GetAttributeValuesResponse",
-}) as any as S.Schema<GetAttributeValuesResponse>;
-export interface GetProductsResponse {
-  FormatVersion?: string;
-  PriceList?: string[];
-  NextToken?: string;
-}
-export const GetProductsResponse = S.suspend(() =>
-  S.Struct({
-    FormatVersion: S.optional(S.String),
-    PriceList: S.optional(PriceListJsonItems),
-    NextToken: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "GetProductsResponse",
-}) as any as S.Schema<GetProductsResponse>;
 export interface ListPriceListsResponse {
   PriceLists?: PriceList[];
   NextToken?: string;
@@ -313,47 +311,114 @@ export const ListPriceListsResponse = S.suspend(() =>
     PriceLists: S.optional(PriceLists),
     NextToken: S.optional(S.String),
   }),
-).annotations({
+).annotate({
   identifier: "ListPriceListsResponse",
 }) as any as S.Schema<ListPriceListsResponse>;
 
 //# Errors
-export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
-  "AccessDeniedException",
-  { Message: S.optional(S.String) },
-).pipe(C.withAuthError) {}
-export class ExpiredNextTokenException extends S.TaggedError<ExpiredNextTokenException>()(
+export class ExpiredNextTokenException extends S.TaggedErrorClass<ExpiredNextTokenException>()(
   "ExpiredNextTokenException",
   { Message: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
-export class InternalErrorException extends S.TaggedError<InternalErrorException>()(
+export class InternalErrorException extends S.TaggedErrorClass<InternalErrorException>()(
   "InternalErrorException",
   { Message: S.optional(S.String) },
   T.Retryable(),
 ).pipe(C.withServerError, C.withRetryableError) {}
-export class InvalidParameterException extends S.TaggedError<InvalidParameterException>()(
-  "InvalidParameterException",
-  { Message: S.optional(S.String) },
-).pipe(C.withBadRequestError) {}
-export class InvalidNextTokenException extends S.TaggedError<InvalidNextTokenException>()(
+export class InvalidNextTokenException extends S.TaggedErrorClass<InvalidNextTokenException>()(
   "InvalidNextTokenException",
   { Message: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
-export class NotFoundException extends S.TaggedError<NotFoundException>()(
+export class InvalidParameterException extends S.TaggedErrorClass<InvalidParameterException>()(
+  "InvalidParameterException",
+  { Message: S.optional(S.String) },
+).pipe(C.withBadRequestError) {}
+export class NotFoundException extends S.TaggedErrorClass<NotFoundException>()(
   "NotFoundException",
   { Message: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
-  "ResourceNotFoundException",
-  { Message: S.optional(S.String) },
-).pipe(C.withBadRequestError) {}
-export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
+export class ThrottlingException extends S.TaggedErrorClass<ThrottlingException>()(
   "ThrottlingException",
   { Message: S.optional(S.String) },
   T.Retryable({ throttling: true }),
 ).pipe(C.withThrottlingError, C.withRetryableError) {}
+export class AccessDeniedException extends S.TaggedErrorClass<AccessDeniedException>()(
+  "AccessDeniedException",
+  { Message: S.optional(S.String) },
+).pipe(C.withAuthError) {}
+export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFoundException>()(
+  "ResourceNotFoundException",
+  { Message: S.optional(S.String) },
+).pipe(C.withBadRequestError) {}
 
 //# Operations
+/**
+ * Returns the metadata for one service or a list of the metadata for all services. Use
+ * this without a service code to get the service codes for all services.
+ * Use it with a service code, such as `AmazonEC2`, to get information specific to
+ * that service, such as the attribute
+ * names available for that service. For example, some of the attribute names available for EC2 are
+ * `volumeType`, `maxIopsVolume`, `operation`,
+ * `locationType`, and `instanceCapacity10xlarge`.
+ */
+export const describeServices: {
+  (
+    input: DescribeServicesRequest,
+  ): effect.Effect<
+    DescribeServicesResponse,
+    | ExpiredNextTokenException
+    | InternalErrorException
+    | InvalidNextTokenException
+    | InvalidParameterException
+    | NotFoundException
+    | ThrottlingException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeServicesRequest,
+  ) => stream.Stream<
+    DescribeServicesResponse,
+    | ExpiredNextTokenException
+    | InternalErrorException
+    | InvalidNextTokenException
+    | InvalidParameterException
+    | NotFoundException
+    | ThrottlingException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeServicesRequest,
+  ) => stream.Stream<
+    Service,
+    | ExpiredNextTokenException
+    | InternalErrorException
+    | InvalidNextTokenException
+    | InvalidParameterException
+    | NotFoundException
+    | ThrottlingException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeServicesRequest,
+  output: DescribeServicesResponse,
+  errors: [
+    ExpiredNextTokenException,
+    InternalErrorException,
+    InvalidNextTokenException,
+    InvalidParameterException,
+    NotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Services",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns a list of attribute values. Attributes are similar to the details
  * in a Price List API offer file. For a list of available attributes, see
@@ -415,6 +480,98 @@ export const getAttributeValues: {
     inputToken: "NextToken",
     outputToken: "NextToken",
     items: "AttributeValues",
+    pageSize: "MaxResults",
+  } as const,
+}));
+/**
+ * **This feature is in preview release and is subject to change. Your use of Amazon Web Services Price List API is subject to the Beta Service Participation terms of the Amazon Web Services Service Terms (Section 1.10).**
+ *
+ * This returns the URL that you can retrieve your Price List file from. This URL is based
+ * on the `PriceListArn` and `FileFormat` that you retrieve from the
+ * ListPriceLists response.
+ */
+export const getPriceListFileUrl: (
+  input: GetPriceListFileUrlRequest,
+) => effect.Effect<
+  GetPriceListFileUrlResponse,
+  | AccessDeniedException
+  | InternalErrorException
+  | InvalidParameterException
+  | NotFoundException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetPriceListFileUrlRequest,
+  output: GetPriceListFileUrlResponse,
+  errors: [
+    AccessDeniedException,
+    InternalErrorException,
+    InvalidParameterException,
+    NotFoundException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Returns a list of all products that match the filter criteria.
+ */
+export const getProducts: {
+  (
+    input: GetProductsRequest,
+  ): effect.Effect<
+    GetProductsResponse,
+    | ExpiredNextTokenException
+    | InternalErrorException
+    | InvalidNextTokenException
+    | InvalidParameterException
+    | NotFoundException
+    | ThrottlingException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetProductsRequest,
+  ) => stream.Stream<
+    GetProductsResponse,
+    | ExpiredNextTokenException
+    | InternalErrorException
+    | InvalidNextTokenException
+    | InvalidParameterException
+    | NotFoundException
+    | ThrottlingException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetProductsRequest,
+  ) => stream.Stream<
+    SynthesizedJsonPriceListJsonItem,
+    | ExpiredNextTokenException
+    | InternalErrorException
+    | InvalidNextTokenException
+    | InvalidParameterException
+    | NotFoundException
+    | ThrottlingException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetProductsRequest,
+  output: GetProductsResponse,
+  errors: [
+    ExpiredNextTokenException,
+    InternalErrorException,
+    InvalidNextTokenException,
+    InvalidParameterException,
+    NotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "PriceList",
     pageSize: "MaxResults",
   } as const,
 }));
@@ -494,163 +651,4 @@ export const listPriceLists: {
     items: "PriceLists",
     pageSize: "MaxResults",
   } as const,
-}));
-/**
- * Returns a list of all products that match the filter criteria.
- */
-export const getProducts: {
-  (
-    input: GetProductsRequest,
-  ): effect.Effect<
-    GetProductsResponse,
-    | ExpiredNextTokenException
-    | InternalErrorException
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | NotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  pages: (
-    input: GetProductsRequest,
-  ) => stream.Stream<
-    GetProductsResponse,
-    | ExpiredNextTokenException
-    | InternalErrorException
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | NotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  items: (
-    input: GetProductsRequest,
-  ) => stream.Stream<
-    SynthesizedJsonPriceListJsonItem,
-    | ExpiredNextTokenException
-    | InternalErrorException
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | NotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
-  input: GetProductsRequest,
-  output: GetProductsResponse,
-  errors: [
-    ExpiredNextTokenException,
-    InternalErrorException,
-    InvalidNextTokenException,
-    InvalidParameterException,
-    NotFoundException,
-    ThrottlingException,
-  ],
-  pagination: {
-    inputToken: "NextToken",
-    outputToken: "NextToken",
-    items: "PriceList",
-    pageSize: "MaxResults",
-  } as const,
-}));
-/**
- * Returns the metadata for one service or a list of the metadata for all services. Use
- * this without a service code to get the service codes for all services.
- * Use it with a service code, such as `AmazonEC2`, to get information specific to
- * that service, such as the attribute
- * names available for that service. For example, some of the attribute names available for EC2 are
- * `volumeType`, `maxIopsVolume`, `operation`,
- * `locationType`, and `instanceCapacity10xlarge`.
- */
-export const describeServices: {
-  (
-    input: DescribeServicesRequest,
-  ): effect.Effect<
-    DescribeServicesResponse,
-    | ExpiredNextTokenException
-    | InternalErrorException
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | NotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  pages: (
-    input: DescribeServicesRequest,
-  ) => stream.Stream<
-    DescribeServicesResponse,
-    | ExpiredNextTokenException
-    | InternalErrorException
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | NotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  items: (
-    input: DescribeServicesRequest,
-  ) => stream.Stream<
-    Service,
-    | ExpiredNextTokenException
-    | InternalErrorException
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | NotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
-  input: DescribeServicesRequest,
-  output: DescribeServicesResponse,
-  errors: [
-    ExpiredNextTokenException,
-    InternalErrorException,
-    InvalidNextTokenException,
-    InvalidParameterException,
-    NotFoundException,
-    ThrottlingException,
-  ],
-  pagination: {
-    inputToken: "NextToken",
-    outputToken: "NextToken",
-    items: "Services",
-    pageSize: "MaxResults",
-  } as const,
-}));
-/**
- * **This feature is in preview release and is subject to change. Your use of Amazon Web Services Price List API is subject to the Beta Service Participation terms of the Amazon Web Services Service Terms (Section 1.10).**
- *
- * This returns the URL that you can retrieve your Price List file from. This URL is based
- * on the `PriceListArn` and `FileFormat` that you retrieve from the
- * ListPriceLists response.
- */
-export const getPriceListFileUrl: (
-  input: GetPriceListFileUrlRequest,
-) => effect.Effect<
-  GetPriceListFileUrlResponse,
-  | AccessDeniedException
-  | InternalErrorException
-  | InvalidParameterException
-  | NotFoundException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetPriceListFileUrlRequest,
-  output: GetPriceListFileUrlResponse,
-  errors: [
-    AccessDeniedException,
-    InternalErrorException,
-    InvalidParameterException,
-    NotFoundException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
 }));

@@ -6,8 +6,11 @@ import { InvalidRequest, NotFound } from "../errors";
 // Input Schema
 export const GetEvmSmartAccountByNameInput = Schema.Struct({
   name: Schema.String.pipe(T.PathParam()),
-}).pipe(T.Http({ method: "GET", path: "/v2/evm/smart-accounts/by-name/{name}" }));
-export type GetEvmSmartAccountByNameInput = typeof GetEvmSmartAccountByNameInput.Type;
+}).pipe(
+  T.Http({ method: "GET", path: "/v2/evm/smart-accounts/by-name/{name}" }),
+);
+export type GetEvmSmartAccountByNameInput =
+  typeof GetEvmSmartAccountByNameInput.Type;
 
 // Output Schema
 export const GetEvmSmartAccountByNameOutput = Schema.Struct({
@@ -18,7 +21,8 @@ export const GetEvmSmartAccountByNameOutput = Schema.Struct({
   createdAt: Schema.optional(Schema.String),
   updatedAt: Schema.optional(Schema.String),
 });
-export type GetEvmSmartAccountByNameOutput = typeof GetEvmSmartAccountByNameOutput.Type;
+export type GetEvmSmartAccountByNameOutput =
+  typeof GetEvmSmartAccountByNameOutput.Type;
 
 // The operation
 /**
@@ -28,8 +32,10 @@ export type GetEvmSmartAccountByNameOutput = typeof GetEvmSmartAccountByNameOutp
  *
  * @param name - The name of the Smart Account.
  */
-export const getEvmSmartAccountByName = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  inputSchema: GetEvmSmartAccountByNameInput,
-  outputSchema: GetEvmSmartAccountByNameOutput,
-  errors: [InvalidRequest, NotFound],
-}));
+export const getEvmSmartAccountByName = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    inputSchema: GetEvmSmartAccountByNameInput,
+    outputSchema: GetEvmSmartAccountByNameOutput,
+    errors: [InvalidRequest, NotFound],
+  }),
+);

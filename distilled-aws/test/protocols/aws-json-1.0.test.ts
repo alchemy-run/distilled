@@ -2,11 +2,11 @@ import { it } from "@effect/vitest";
 import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
 import { describe, expect } from "vitest";
-import { UnknownAwsError, ValidationException } from "../../src/errors.ts";
-import { awsJson1_0Protocol } from "../../src/protocols/aws-json.ts";
 import { makeRequestBuilder } from "../../src/client/request-builder.ts";
 import { makeResponseParser } from "../../src/client/response-parser.ts";
 import type { Response } from "../../src/client/response.ts";
+import { UnknownAwsError, ValidationException } from "../../src/errors.ts";
+import { awsJson1_0Protocol } from "../../src/protocols/aws-json.ts";
 
 // Import real generated schemas from DynamoDB (uses awsJson1_0 protocol)
 import {
@@ -26,6 +26,7 @@ import {
 } from "../../src/services/dynamodb.ts";
 
 // Import SFN schemas for timestamp testing
+import type { Operation } from "../../src/client/operation.ts";
 import {
   CreateActivityInput,
   CreateActivityOutput,
@@ -33,22 +34,22 @@ import {
 } from "../../src/services/sfn.ts";
 
 // Helper to build a request from an instance
-const buildRequest = <A, I>(schema: S.Schema<A, I>, instance: A) => {
+const buildRequest = <A>(schema: S.Schema<A>, instance: A) => {
   const operation = { input: schema, output: schema, errors: [] };
-  const builder = makeRequestBuilder(operation, {
+  const builder = makeRequestBuilder(operation as Operation<any, any, any>, {
     protocol: awsJson1_0Protocol,
   });
   return builder({ ...instance });
 };
 
 // Helper to parse a response
-const parseResponse = <A, I>(
-  schema: S.Schema<A, I>,
+const parseResponse = <A>(
+  schema: S.Schema<A>,
   response: Response,
-  errors: S.Schema.AnyNoContext[] = [],
+  errors: S.Top[] = [],
 ) => {
   const operation = { input: schema, output: schema, errors };
-  const parser = makeResponseParser<A>(operation, {
+  const parser = makeResponseParser<A>(operation as Operation<any, any, any>, {
     protocol: awsJson1_0Protocol,
   });
   return parser(response);
@@ -792,7 +793,6 @@ describe("awsJson1_0 protocol", () => {
         ]).pipe(Effect.flip);
 
         expect(result).toBeInstanceOf(ResourceNotFoundException);
-        expect(result._tag).toBe("ResourceNotFoundException");
       }),
     );
 
@@ -854,7 +854,6 @@ describe("awsJson1_0 protocol", () => {
         ]).pipe(Effect.flip);
 
         expect(result).toBeInstanceOf(ResourceNotFoundException);
-        expect(result._tag).toBe("ResourceNotFoundException");
       }),
     );
 
@@ -920,7 +919,6 @@ describe("awsJson1_0 protocol", () => {
         ).pipe(Effect.flip);
 
         expect(result).toBeInstanceOf(ValidationException);
-        expect(result._tag).toBe("ValidationException");
       }),
     );
 

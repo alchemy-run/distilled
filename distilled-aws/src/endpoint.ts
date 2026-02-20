@@ -1,6 +1,5 @@
-import * as Context from "effect/Context";
+import * as ServiceMap from "effect/ServiceMap";
 
-export class Endpoint extends Context.Tag("distilled-aws/Endpoint")<
-  Endpoint,
-  string
->() {}
+export class Endpoint extends ServiceMap.Service<Endpoint, string>()(
+  "distilled-aws/Endpoint",
+) {}

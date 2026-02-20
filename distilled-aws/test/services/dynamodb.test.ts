@@ -16,7 +16,7 @@ import { afterAll, beforeAll, test } from "../test.ts";
 
 const TEST_TABLE_NAME = "distilled-aws-test-table";
 
-const retrySchedule = Schedule.intersect(
+const retrySchedule = Schedule.both(
   Schedule.recurs(30),
   Schedule.spaced("1 second"),
 );
@@ -39,7 +39,7 @@ const waitForTableActive = (tableName: string) =>
 const waitForTableDeleted = (tableName: string) =>
   describeTable({ TableName: tableName }).pipe(
     Effect.flatMap(() => Effect.fail(new Error("Table still exists"))),
-    Effect.catchAll((error) =>
+    Effect.catch((error) =>
       error instanceof Error && error.message === "Table still exists"
         ? Effect.fail(error)
         : Effect.void,
@@ -189,7 +189,7 @@ test(
       ConditionExpression: "attribute_not_exists(pk)",
     }).pipe(
       Effect.map(() => "success" as const),
-      Effect.catchAll(() => Effect.succeed("error" as const)),
+      Effect.catch(() => Effect.succeed("error" as const)),
     );
 
     expect(conditionalPutResult).toEqual("error");

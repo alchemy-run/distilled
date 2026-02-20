@@ -46,7 +46,7 @@ const cleanupQueueByName = (queueName: string) =>
 const retryQueueNotExist = {
   while: (err: { _tag: string }) => err._tag === "QueueDoesNotExist",
   schedule: Schedule.spaced("1 second").pipe(
-    Schedule.intersect(Schedule.recurs(10)),
+    Schedule.both(Schedule.recurs(10)),
   ),
 };
 
@@ -64,7 +64,7 @@ const withQueue = <A, E, R>(
       Effect.retry({
         while: (err) => err._tag === "QueueDeletedRecently",
         schedule: Schedule.spaced("5 seconds").pipe(
-          Schedule.intersect(Schedule.recurs(12)), // Max 60 seconds
+          Schedule.both(Schedule.recurs(12)), // Max 60 seconds
         ),
       }),
     );
@@ -99,7 +99,7 @@ const withFifoQueue = <A, E, R>(
       Effect.retry({
         while: (err) => err._tag === "QueueDeletedRecently",
         schedule: Schedule.spaced("5 seconds").pipe(
-          Schedule.intersect(Schedule.recurs(12)), // Max 60 seconds
+          Schedule.both(Schedule.recurs(12)), // Max 60 seconds
         ),
       }),
     );
@@ -182,7 +182,7 @@ test(
         Effect.retry({
           while: (err) => err === "not ready yet",
           schedule: Schedule.spaced("1 second").pipe(
-            Schedule.intersect(Schedule.recurs(10)),
+            Schedule.both(Schedule.recurs(10)),
           ),
         }),
       );

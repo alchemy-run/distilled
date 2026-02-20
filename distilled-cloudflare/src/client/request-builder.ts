@@ -23,7 +23,7 @@ export interface ProtocolRequest {
  * Build an HTTP request from an input schema and payload.
  */
 export const buildRequest = <I>(
-  inputSchema: Schema.Schema<I, unknown>,
+  inputSchema: Schema.Schema<I>,
   payload: I,
 ): ProtocolRequest => {
   const ast = inputSchema.ast;
@@ -123,18 +123,18 @@ export const buildRequest = <I>(
  * Extract property signatures from an AST, handling transformations and suspends.
  */
 function getStructProperties(ast: AST.AST): AST.PropertySignature[] {
-  // Unwrap transformations (S.Class creates these)
-  if (ast._tag === "Transformation") {
-    return getStructProperties(ast.from);
+  // v4: Follow encoding chain instead of Transformation
+  if (ast.encoding && ast.encoding.length > 0) {
+    return getStructProperties(ast.encoding[0].to);
   }
 
   // Unwrap suspends
   if (ast._tag === "Suspend") {
-    return getStructProperties(ast.f());
+    return getStructProperties(ast.thunk());
   }
 
-  // Get properties from TypeLiteral
-  if (ast._tag === "TypeLiteral") {
+  // Get properties from Objects (v4 renamed from TypeLiteral)
+  if (ast._tag === "Objects") {
     return [...ast.propertySignatures];
   }
 

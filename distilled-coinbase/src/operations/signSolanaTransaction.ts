@@ -1,20 +1,34 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
-import { AlreadyExists, Forbidden, IdempotencyError, MalformedTransaction, NotFound, PaymentMethodRequired } from "../errors";
+import {
+  AlreadyExists,
+  Forbidden,
+  IdempotencyError,
+  MalformedTransaction,
+  NotFound,
+  PaymentMethodRequired,
+} from "../errors";
 
 // Input Schema
 export const SignSolanaTransactionInput = Schema.Struct({
   address: Schema.String.pipe(T.PathParam()),
   transaction: Schema.String,
-}).pipe(T.Http({ method: "POST", path: "/v2/solana/accounts/{address}/sign/transaction" }), T.WalletAuth());
+}).pipe(
+  T.Http({
+    method: "POST",
+    path: "/v2/solana/accounts/{address}/sign/transaction",
+  }),
+  T.WalletAuth(),
+);
 export type SignSolanaTransactionInput = typeof SignSolanaTransactionInput.Type;
 
 // Output Schema
 export const SignSolanaTransactionOutput = Schema.Struct({
   signedTransaction: Schema.String,
 });
-export type SignSolanaTransactionOutput = typeof SignSolanaTransactionOutput.Type;
+export type SignSolanaTransactionOutput =
+  typeof SignSolanaTransactionOutput.Type;
 
 // The operation
 /**
@@ -30,9 +44,18 @@ export type SignSolanaTransactionOutput = typeof SignSolanaTransactionOutput.Typ
  *
  * @param address - The base58 encoded address of the Solana account.
  */
-export const signSolanaTransaction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  inputSchema: SignSolanaTransactionInput,
-  outputSchema: SignSolanaTransactionOutput,
-  errors: [AlreadyExists, Forbidden, IdempotencyError, MalformedTransaction, NotFound, PaymentMethodRequired],
-  walletAuth: true,
-}));
+export const signSolanaTransaction = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    inputSchema: SignSolanaTransactionInput,
+    outputSchema: SignSolanaTransactionOutput,
+    errors: [
+      AlreadyExists,
+      Forbidden,
+      IdempotencyError,
+      MalformedTransaction,
+      NotFound,
+      PaymentMethodRequired,
+    ],
+    walletAuth: true,
+  }),
+);

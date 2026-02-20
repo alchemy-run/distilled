@@ -1,4 +1,4 @@
-import { HttpClient } from "@effect/platform";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as effect from "effect/Effect";
 import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
@@ -88,39 +88,16 @@ const rules = T.EndpointResolver((p, _) => {
 
 //# Newtypes
 export type Arn = string;
-export type NextToken = string;
-export type LongArn = string;
 export type AttributeName = string;
 export type AttributeValue = string;
+export type NextToken = string;
 export type Statistic = string;
 export type ErrorMessage = string;
+export type LongArn = string;
 
 //# Schemas
 export type Filters = { [key: string]: string | undefined };
-export const Filters = S.Record({
-  key: S.String,
-  value: S.UndefinedOr(S.String),
-});
-export interface QueryWhatIfForecastRequest {
-  WhatIfForecastArn: string;
-  StartDate?: string;
-  EndDate?: string;
-  Filters: { [key: string]: string | undefined };
-  NextToken?: string;
-}
-export const QueryWhatIfForecastRequest = S.suspend(() =>
-  S.Struct({
-    WhatIfForecastArn: S.String,
-    StartDate: S.optional(S.String),
-    EndDate: S.optional(S.String),
-    Filters: Filters,
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotations({
-  identifier: "QueryWhatIfForecastRequest",
-}) as any as S.Schema<QueryWhatIfForecastRequest>;
+export const Filters = S.Record(S.String, S.String.pipe(S.optional));
 export interface QueryForecastRequest {
   ForecastArn: string;
   StartDate?: string;
@@ -138,7 +115,7 @@ export const QueryForecastRequest = S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotations({
+).annotate({
   identifier: "QueryForecastRequest",
 }) as any as S.Schema<QueryForecastRequest>;
 export interface DataPoint {
@@ -147,55 +124,72 @@ export interface DataPoint {
 }
 export const DataPoint = S.suspend(() =>
   S.Struct({ Timestamp: S.optional(S.String), Value: S.optional(S.Number) }),
-).annotations({ identifier: "DataPoint" }) as any as S.Schema<DataPoint>;
+).annotate({ identifier: "DataPoint" }) as any as S.Schema<DataPoint>;
 export type TimeSeries = DataPoint[];
 export const TimeSeries = S.Array(DataPoint);
 export type Predictions = { [key: string]: DataPoint[] | undefined };
-export const Predictions = S.Record({
-  key: S.String,
-  value: S.UndefinedOr(TimeSeries),
-});
+export const Predictions = S.Record(S.String, TimeSeries.pipe(S.optional));
 export interface Forecast {
   Predictions?: { [key: string]: DataPoint[] | undefined };
 }
 export const Forecast = S.suspend(() =>
   S.Struct({ Predictions: S.optional(Predictions) }),
-).annotations({ identifier: "Forecast" }) as any as S.Schema<Forecast>;
+).annotate({ identifier: "Forecast" }) as any as S.Schema<Forecast>;
 export interface QueryForecastResponse {
   Forecast?: Forecast;
 }
 export const QueryForecastResponse = S.suspend(() =>
   S.Struct({ Forecast: S.optional(Forecast) }),
-).annotations({
+).annotate({
   identifier: "QueryForecastResponse",
 }) as any as S.Schema<QueryForecastResponse>;
+export interface QueryWhatIfForecastRequest {
+  WhatIfForecastArn: string;
+  StartDate?: string;
+  EndDate?: string;
+  Filters: { [key: string]: string | undefined };
+  NextToken?: string;
+}
+export const QueryWhatIfForecastRequest = S.suspend(() =>
+  S.Struct({
+    WhatIfForecastArn: S.String,
+    StartDate: S.optional(S.String),
+    EndDate: S.optional(S.String),
+    Filters: Filters,
+    NextToken: S.optional(S.String),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "QueryWhatIfForecastRequest",
+}) as any as S.Schema<QueryWhatIfForecastRequest>;
 export interface QueryWhatIfForecastResponse {
   Forecast?: Forecast;
 }
 export const QueryWhatIfForecastResponse = S.suspend(() =>
   S.Struct({ Forecast: S.optional(Forecast) }),
-).annotations({
+).annotate({
   identifier: "QueryWhatIfForecastResponse",
 }) as any as S.Schema<QueryWhatIfForecastResponse>;
 
 //# Errors
-export class InvalidInputException extends S.TaggedError<InvalidInputException>()(
+export class InvalidInputException extends S.TaggedErrorClass<InvalidInputException>()(
   "InvalidInputException",
   { Message: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
-export class InvalidNextTokenException extends S.TaggedError<InvalidNextTokenException>()(
+export class InvalidNextTokenException extends S.TaggedErrorClass<InvalidNextTokenException>()(
   "InvalidNextTokenException",
   { Message: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
-export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
+export class LimitExceededException extends S.TaggedErrorClass<LimitExceededException>()(
   "LimitExceededException",
   { Message: S.optional(S.String) },
 ).pipe(C.withConflictError) {}
-export class ResourceInUseException extends S.TaggedError<ResourceInUseException>()(
+export class ResourceInUseException extends S.TaggedErrorClass<ResourceInUseException>()(
   "ResourceInUseException",
   { Message: S.optional(S.String) },
 ).pipe(C.withConflictError) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { Message: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}

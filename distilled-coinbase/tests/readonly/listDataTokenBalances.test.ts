@@ -13,7 +13,10 @@ describe("listDataTokenBalances", () => {
         const accounts = yield* listEvmAccounts({});
         if (accounts.accounts.length === 0) return null;
         const address = accounts.accounts[0]!.address;
-        return yield* listDataTokenBalances({ address, network: "base-sepolia" });
+        return yield* listDataTokenBalances({
+          address,
+          network: "base-sepolia",
+        });
       }),
     );
     if (result !== null) {
@@ -23,7 +26,10 @@ describe("listDataTokenBalances", () => {
 
   it("handles non-existent address", async () => {
     const result = await runEffect(
-      listDataTokenBalances({ address: NON_EXISTENT_ADDRESS, network: "base-sepolia" }).pipe(
+      listDataTokenBalances({
+        address: NON_EXISTENT_ADDRESS,
+        network: "base-sepolia",
+      }).pipe(
         Effect.matchEffect({
           onFailure: (e) => Effect.succeed({ error: e }),
           onSuccess: (data) => Effect.succeed({ data }),

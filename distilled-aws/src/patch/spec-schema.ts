@@ -1,5 +1,6 @@
-import { FileSystem, Path } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as FileSystem from "effect/FileSystem";
+import * as Path from "effect/Path";
 import * as S from "effect/Schema";
 import * as C from "../category.ts";
 
@@ -12,7 +13,7 @@ import * as C from "../category.ts";
  * Schema for error category strings.
  * Uses the existing Category constants from src/category.ts.
  */
-export const CategorySchema = S.Literal(
+export const CategorySchema = S.Literals([
   C.ThrottlingError,
   C.RetryableError,
   C.ServerError,
@@ -23,7 +24,7 @@ export const CategorySchema = S.Literal(
   C.QuotaError,
   C.NetworkError,
   C.AbortedError,
-);
+]);
 export type CategorySchema = typeof CategorySchema.Type;
 
 /**
@@ -96,7 +97,7 @@ export const StructureOverride = S.Struct({
   /**
    * Map of member names to their overrides
    */
-  members: S.Record({ key: S.String, value: MemberOverride }),
+  members: S.Record(S.String, MemberOverride),
 });
 export type StructureOverride = typeof StructureOverride.Type;
 
@@ -123,10 +124,7 @@ export type ErrorMemberPatch = typeof ErrorMemberPatch.Type;
 /**
  * Error override - specifies members to add to an error schema
  */
-export const ErrorOverride = S.Record({
-  key: S.String,
-  value: ErrorMemberPatch,
-});
+export const ErrorOverride = S.Record(S.String, ErrorMemberPatch);
 export type ErrorOverride = typeof ErrorOverride.Type;
 
 /**
@@ -136,34 +134,32 @@ export const ServiceSpec = S.Struct({
   /**
    * Map of operation names to their patches
    */
-  operations: S.Record({ key: S.String, value: OperationPatch }),
+  operations: S.Record(S.String, OperationPatch),
   /**
    * Map of structure names to their member overrides.
    * Use this to fix discrepancies between AWS Smithy models and actual API behavior.
    * For example, when AWS returns undefined for a field marked as required.
    */
-  structures: S.optional(S.Record({ key: S.String, value: StructureOverride })),
+  structures: S.optional(S.Record(S.String, StructureOverride)),
   /**
    * Map of enum names to their value overrides.
    * Use this to fix enums where AWS returns values not in the Smithy model,
    * or with different casing than documented.
    */
-  enums: S.optional(S.Record({ key: S.String, value: EnumOverride })),
+  enums: S.optional(S.Record(S.String, EnumOverride)),
   /**
    * Map of error names to their member patches.
    * Use this for errors not fully documented in Smithy models (e.g., PermanentRedirect).
    * Members can include traits like httpHeader to extract values from response headers.
    */
-  errors: S.optional(S.Record({ key: S.String, value: ErrorOverride })),
+  errors: S.optional(S.Record(S.String, ErrorOverride)),
   /**
    * Map of error names to their categories.
    * Use this to add categories (like ThrottlingError) to errors that don't have
    * the @retryable trait in the Smithy model but should be treated as retryable.
    * Categories are applied globally to the error class, not per-operation.
    */
-  errorCategories: S.optional(
-    S.Record({ key: S.String, value: S.Array(CategorySchema) }),
-  ),
+  errorCategories: S.optional(S.Record(S.String, S.Array(CategorySchema))),
 });
 export type ServiceSpec = typeof ServiceSpec.Type;
 
@@ -178,7 +174,7 @@ export const loadServiceSpecPatch = Effect.fn(function* (serviceSdkId: string) {
     `${serviceSdkId.toLowerCase().replaceAll(" ", "-")}.json`,
   );
   return yield* fs.readFileString(specPath).pipe(
-    Effect.flatMap(S.decodeUnknown(S.parseJson(ServiceSpec))),
-    Effect.catchAll(() => Effect.succeed({ operations: {} } as ServiceSpec)),
+    Effect.flatMap(S.decodeUnknownEffect(S.fromJsonString(ServiceSpec))),
+    Effect.catch(() => Effect.succeed({ operations: {} } as ServiceSpec)),
   );
 });

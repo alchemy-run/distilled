@@ -4,7 +4,8 @@ import { revokeSpendPermission } from "../../src/operations/revokeSpendPermissio
 import { runEffect } from "../setup";
 
 const NON_EXISTENT_ADDRESS = "0x0000000000000000000000000000000000000000";
-const NON_EXISTENT_HASH = "0x0000000000000000000000000000000000000000000000000000000000000000";
+const NON_EXISTENT_HASH =
+  "0x0000000000000000000000000000000000000000000000000000000000000000";
 
 describe("revokeSpendPermission", () => {
   it("returns error for non-existent spend permission", async () => {

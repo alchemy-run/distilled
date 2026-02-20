@@ -1,4 +1,4 @@
-import { HttpClient } from "@effect/platform";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as effect from "effect/Effect";
 import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
@@ -88,13 +88,14 @@ const rules = T.EndpointResolver((p, _) => {
 
 //# Newtypes
 export type StringType = string;
-export type Arn = string;
-export type UserId = string | redacted.Redacted<string>;
 export type ActionId = string | redacted.Redacted<string>;
+export type UserId = string | redacted.Redacted<string>;
 export type RecommendationId = string;
 export type SynthesizedJsonActionInteractionProperties =
   | string
   | redacted.Redacted<string>;
+export type ErrorMessage = string;
+export type Arn = string;
 export type SynthesizedJsonActionProperties =
   | string
   | redacted.Redacted<string>;
@@ -103,16 +104,13 @@ export type ItemId = string | redacted.Redacted<string>;
 export type SynthesizedJsonEventPropertiesJSON =
   | string
   | redacted.Redacted<string>;
+export type EventAttributionSource = string;
 export type SynthesizedJsonItemProperties = string | redacted.Redacted<string>;
 export type SynthesizedJsonUserProperties = string | redacted.Redacted<string>;
-export type EventAttributionSource = string;
-export type ErrorMessage = string;
 
 //# Schemas
 export type ActionImpression = string | redacted.Redacted<string>[];
 export const ActionImpression = S.Array(SensitiveString);
-export type Impression = string | redacted.Redacted<string>[];
-export const Impression = S.Array(SensitiveString);
 export interface ActionInteraction {
   actionId: string | redacted.Redacted<string>;
   userId?: string | redacted.Redacted<string>;
@@ -136,38 +134,11 @@ export const ActionInteraction = S.suspend(() =>
     impression: S.optional(ActionImpression),
     properties: S.optional(SensitiveString),
   }),
-).annotations({
+).annotate({
   identifier: "ActionInteraction",
 }) as any as S.Schema<ActionInteraction>;
 export type ActionInteractionsList = ActionInteraction[];
 export const ActionInteractionsList = S.Array(ActionInteraction);
-export interface Action {
-  actionId: string;
-  properties?: string | redacted.Redacted<string>;
-}
-export const Action = S.suspend(() =>
-  S.Struct({ actionId: S.String, properties: S.optional(SensitiveString) }),
-).annotations({ identifier: "Action" }) as any as S.Schema<Action>;
-export type ActionList = Action[];
-export const ActionList = S.Array(Action);
-export interface Item {
-  itemId: string;
-  properties?: string | redacted.Redacted<string>;
-}
-export const Item = S.suspend(() =>
-  S.Struct({ itemId: S.String, properties: S.optional(SensitiveString) }),
-).annotations({ identifier: "Item" }) as any as S.Schema<Item>;
-export type ItemList = Item[];
-export const ItemList = S.Array(Item);
-export interface User {
-  userId: string;
-  properties?: string | redacted.Redacted<string>;
-}
-export const User = S.suspend(() =>
-  S.Struct({ userId: S.String, properties: S.optional(SensitiveString) }),
-).annotations({ identifier: "User" }) as any as S.Schema<User>;
-export type UserList = User[];
-export const UserList = S.Array(User);
 export interface PutActionInteractionsRequest {
   trackingId: string;
   actionInteractions: ActionInteraction[];
@@ -186,15 +157,24 @@ export const PutActionInteractionsRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "PutActionInteractionsRequest",
 }) as any as S.Schema<PutActionInteractionsRequest>;
 export interface PutActionInteractionsResponse {}
 export const PutActionInteractionsResponse = S.suspend(() =>
   S.Struct({}),
-).annotations({
+).annotate({
   identifier: "PutActionInteractionsResponse",
 }) as any as S.Schema<PutActionInteractionsResponse>;
+export interface Action {
+  actionId: string;
+  properties?: string | redacted.Redacted<string>;
+}
+export const Action = S.suspend(() =>
+  S.Struct({ actionId: S.String, properties: S.optional(SensitiveString) }),
+).annotate({ identifier: "Action" }) as any as S.Schema<Action>;
+export type ActionList = Action[];
+export const ActionList = S.Array(Action);
 export interface PutActionsRequest {
   datasetArn: string;
   actions: Action[];
@@ -210,63 +190,21 @@ export const PutActionsRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "PutActionsRequest",
 }) as any as S.Schema<PutActionsRequest>;
 export interface PutActionsResponse {}
-export const PutActionsResponse = S.suspend(() => S.Struct({})).annotations({
+export const PutActionsResponse = S.suspend(() => S.Struct({})).annotate({
   identifier: "PutActionsResponse",
 }) as any as S.Schema<PutActionsResponse>;
-export interface PutItemsRequest {
-  datasetArn: string;
-  items: Item[];
-}
-export const PutItemsRequest = S.suspend(() =>
-  S.Struct({ datasetArn: S.String, items: ItemList }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/items" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "PutItemsRequest",
-}) as any as S.Schema<PutItemsRequest>;
-export interface PutItemsResponse {}
-export const PutItemsResponse = S.suspend(() => S.Struct({})).annotations({
-  identifier: "PutItemsResponse",
-}) as any as S.Schema<PutItemsResponse>;
-export interface PutUsersRequest {
-  datasetArn: string;
-  users: User[];
-}
-export const PutUsersRequest = S.suspend(() =>
-  S.Struct({ datasetArn: S.String, users: UserList }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/users" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "PutUsersRequest",
-}) as any as S.Schema<PutUsersRequest>;
-export interface PutUsersResponse {}
-export const PutUsersResponse = S.suspend(() => S.Struct({})).annotations({
-  identifier: "PutUsersResponse",
-}) as any as S.Schema<PutUsersResponse>;
+export type Impression = string | redacted.Redacted<string>[];
+export const Impression = S.Array(SensitiveString);
 export interface MetricAttribution {
   eventAttributionSource: string;
 }
 export const MetricAttribution = S.suspend(() =>
   S.Struct({ eventAttributionSource: S.String }),
-).annotations({
+).annotate({
   identifier: "MetricAttribution",
 }) as any as S.Schema<MetricAttribution>;
 export interface Event {
@@ -292,7 +230,7 @@ export const Event = S.suspend(() =>
     impression: S.optional(Impression),
     metricAttribution: S.optional(MetricAttribution),
   }),
-).annotations({ identifier: "Event" }) as any as S.Schema<Event>;
+).annotate({ identifier: "Event" }) as any as S.Schema<Event>;
 export type EventList = Event[];
 export const EventList = S.Array(Event);
 export interface PutEventsRequest {
@@ -317,44 +255,91 @@ export const PutEventsRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "PutEventsRequest",
 }) as any as S.Schema<PutEventsRequest>;
 export interface PutEventsResponse {}
-export const PutEventsResponse = S.suspend(() => S.Struct({})).annotations({
+export const PutEventsResponse = S.suspend(() => S.Struct({})).annotate({
   identifier: "PutEventsResponse",
 }) as any as S.Schema<PutEventsResponse>;
+export interface Item {
+  itemId: string;
+  properties?: string | redacted.Redacted<string>;
+}
+export const Item = S.suspend(() =>
+  S.Struct({ itemId: S.String, properties: S.optional(SensitiveString) }),
+).annotate({ identifier: "Item" }) as any as S.Schema<Item>;
+export type ItemList = Item[];
+export const ItemList = S.Array(Item);
+export interface PutItemsRequest {
+  datasetArn: string;
+  items: Item[];
+}
+export const PutItemsRequest = S.suspend(() =>
+  S.Struct({ datasetArn: S.String, items: ItemList }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/items" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "PutItemsRequest",
+}) as any as S.Schema<PutItemsRequest>;
+export interface PutItemsResponse {}
+export const PutItemsResponse = S.suspend(() => S.Struct({})).annotate({
+  identifier: "PutItemsResponse",
+}) as any as S.Schema<PutItemsResponse>;
+export interface User {
+  userId: string;
+  properties?: string | redacted.Redacted<string>;
+}
+export const User = S.suspend(() =>
+  S.Struct({ userId: S.String, properties: S.optional(SensitiveString) }),
+).annotate({ identifier: "User" }) as any as S.Schema<User>;
+export type UserList = User[];
+export const UserList = S.Array(User);
+export interface PutUsersRequest {
+  datasetArn: string;
+  users: User[];
+}
+export const PutUsersRequest = S.suspend(() =>
+  S.Struct({ datasetArn: S.String, users: UserList }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/users" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "PutUsersRequest",
+}) as any as S.Schema<PutUsersRequest>;
+export interface PutUsersResponse {}
+export const PutUsersResponse = S.suspend(() => S.Struct({})).annotate({
+  identifier: "PutUsersResponse",
+}) as any as S.Schema<PutUsersResponse>;
 
 //# Errors
-export class InvalidInputException extends S.TaggedError<InvalidInputException>()(
+export class InvalidInputException extends S.TaggedErrorClass<InvalidInputException>()(
   "InvalidInputException",
   { message: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
-export class ResourceInUseException extends S.TaggedError<ResourceInUseException>()(
+export class ResourceInUseException extends S.TaggedErrorClass<ResourceInUseException>()(
   "ResourceInUseException",
   { message: S.optional(S.String) },
 ).pipe(C.withConflictError) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { message: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
-/**
- * Records item interaction event data. For more information see
- * Recording item interaction events.
- */
-export const putEvents: (
-  input: PutEventsRequest,
-) => effect.Effect<
-  PutEventsResponse,
-  InvalidInputException | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PutEventsRequest,
-  output: PutEventsResponse,
-  errors: [InvalidInputException],
-}));
 /**
  * Records action interaction event data. An *action interaction* event is an interaction between a user and an *action*.
  * For example, a user taking an action, such a enrolling in a membership program or downloading your app.
@@ -401,6 +386,21 @@ export const putActions: (
     ResourceInUseException,
     ResourceNotFoundException,
   ],
+}));
+/**
+ * Records item interaction event data. For more information see
+ * Recording item interaction events.
+ */
+export const putEvents: (
+  input: PutEventsRequest,
+) => effect.Effect<
+  PutEventsResponse,
+  InvalidInputException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutEventsRequest,
+  output: PutEventsResponse,
+  errors: [InvalidInputException],
 }));
 /**
  * Adds one or more items to an Items dataset. For more information see

@@ -6,7 +6,7 @@ import { FaucetLimitExceeded, Forbidden, InvalidRequest } from "../errors";
 // Input Schema
 export const RequestSolanaFaucetInput = Schema.Struct({
   address: Schema.String,
-  token: Schema.Literal("sol", "usdc"),
+  token: Schema.Literals(["sol", "usdc"]),
 }).pipe(T.Http({ method: "POST", path: "/v2/solana/faucet" }));
 export type RequestSolanaFaucetInput = typeof RequestSolanaFaucetInput.Type;
 

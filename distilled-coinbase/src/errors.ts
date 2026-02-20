@@ -17,7 +17,7 @@ import * as Category from "./category";
 /**
  * Base error for general Coinbase errors.
  */
-export class CoinbaseError extends Schema.TaggedError<CoinbaseError>()(
+export class CoinbaseError extends Schema.TaggedErrorClass<CoinbaseError>()(
   "CoinbaseError",
   {
     message: Schema.String,
@@ -28,7 +28,7 @@ export class CoinbaseError extends Schema.TaggedError<CoinbaseError>()(
 /**
  * Configuration error - missing or invalid configuration.
  */
-export class ConfigError extends Schema.TaggedError<ConfigError>()(
+export class ConfigError extends Schema.TaggedErrorClass<ConfigError>()(
   "ConfigError",
   {
     message: Schema.String,
@@ -42,7 +42,7 @@ export class ConfigError extends Schema.TaggedError<ConfigError>()(
 /**
  * Unauthorized - Authentication failure (401).
  */
-export class Unauthorized extends Schema.TaggedError<Unauthorized>()(
+export class Unauthorized extends Schema.TaggedErrorClass<Unauthorized>()(
   "Unauthorized",
   {
     message: Schema.String,
@@ -52,21 +52,24 @@ export class Unauthorized extends Schema.TaggedError<Unauthorized>()(
 /**
  * Forbidden - Access denied (403).
  */
-export class Forbidden extends Schema.TaggedError<Forbidden>()("Forbidden", {
-  message: Schema.String,
-}).pipe(Category.withAuthError) {}
+export class Forbidden extends Schema.TaggedErrorClass<Forbidden>()(
+  "Forbidden",
+  {
+    message: Schema.String,
+  },
+).pipe(Category.withAuthError) {}
 
 /**
  * NotFound - Resource not found (404).
  */
-export class NotFound extends Schema.TaggedError<NotFound>()("NotFound", {
+export class NotFound extends Schema.TaggedErrorClass<NotFound>()("NotFound", {
   message: Schema.String,
 }).pipe(Category.withNotFoundError) {}
 
 /**
  * AlreadyExists - Resource conflict (409).
  */
-export class AlreadyExists extends Schema.TaggedError<AlreadyExists>()(
+export class AlreadyExists extends Schema.TaggedErrorClass<AlreadyExists>()(
   "AlreadyExists",
   {
     message: Schema.String,
@@ -76,7 +79,7 @@ export class AlreadyExists extends Schema.TaggedError<AlreadyExists>()(
 /**
  * InvalidRequest - Bad request (400).
  */
-export class InvalidRequest extends Schema.TaggedError<InvalidRequest>()(
+export class InvalidRequest extends Schema.TaggedErrorClass<InvalidRequest>()(
   "InvalidRequest",
   {
     message: Schema.String,
@@ -86,7 +89,7 @@ export class InvalidRequest extends Schema.TaggedError<InvalidRequest>()(
 /**
  * InvalidSignature - Invalid cryptographic signature.
  */
-export class InvalidSignature extends Schema.TaggedError<InvalidSignature>()(
+export class InvalidSignature extends Schema.TaggedErrorClass<InvalidSignature>()(
   "InvalidSignature",
   {
     message: Schema.String,
@@ -96,7 +99,7 @@ export class InvalidSignature extends Schema.TaggedError<InvalidSignature>()(
 /**
  * MalformedTransaction - Transaction is malformed.
  */
-export class MalformedTransaction extends Schema.TaggedError<MalformedTransaction>()(
+export class MalformedTransaction extends Schema.TaggedErrorClass<MalformedTransaction>()(
   "MalformedTransaction",
   {
     message: Schema.String,
@@ -106,7 +109,7 @@ export class MalformedTransaction extends Schema.TaggedError<MalformedTransactio
 /**
  * InvalidSqlQuery - SQL query is invalid.
  */
-export class InvalidSqlQuery extends Schema.TaggedError<InvalidSqlQuery>()(
+export class InvalidSqlQuery extends Schema.TaggedErrorClass<InvalidSqlQuery>()(
   "InvalidSqlQuery",
   {
     message: Schema.String,
@@ -116,7 +119,7 @@ export class InvalidSqlQuery extends Schema.TaggedError<InvalidSqlQuery>()(
 /**
  * IdempotencyError - Idempotency key conflict (422).
  */
-export class IdempotencyError extends Schema.TaggedError<IdempotencyError>()(
+export class IdempotencyError extends Schema.TaggedErrorClass<IdempotencyError>()(
   "IdempotencyError",
   {
     message: Schema.String,
@@ -126,7 +129,7 @@ export class IdempotencyError extends Schema.TaggedError<IdempotencyError>()(
 /**
  * PaymentMethodRequired - Payment method needed (402).
  */
-export class PaymentMethodRequired extends Schema.TaggedError<PaymentMethodRequired>()(
+export class PaymentMethodRequired extends Schema.TaggedErrorClass<PaymentMethodRequired>()(
   "PaymentMethodRequired",
   {
     message: Schema.String,
@@ -137,7 +140,7 @@ export class PaymentMethodRequired extends Schema.TaggedError<PaymentMethodRequi
  * RateLimitExceeded - Rate limited (429).
  * Marked as retryable with throttling backoff.
  */
-export class RateLimitExceeded extends Schema.TaggedError<RateLimitExceeded>()(
+export class RateLimitExceeded extends Schema.TaggedErrorClass<RateLimitExceeded>()(
   "RateLimitExceeded",
   {
     message: Schema.String,
@@ -150,7 +153,7 @@ export class RateLimitExceeded extends Schema.TaggedError<RateLimitExceeded>()(
 /**
  * FaucetLimitExceeded - Faucet rate limit exceeded.
  */
-export class FaucetLimitExceeded extends Schema.TaggedError<FaucetLimitExceeded>()(
+export class FaucetLimitExceeded extends Schema.TaggedErrorClass<FaucetLimitExceeded>()(
   "FaucetLimitExceeded",
   {
     message: Schema.String,
@@ -160,7 +163,7 @@ export class FaucetLimitExceeded extends Schema.TaggedError<FaucetLimitExceeded>
 /**
  * AccountLimitExceeded - Account limit exceeded.
  */
-export class AccountLimitExceeded extends Schema.TaggedError<AccountLimitExceeded>()(
+export class AccountLimitExceeded extends Schema.TaggedErrorClass<AccountLimitExceeded>()(
   "AccountLimitExceeded",
   {
     message: Schema.String,
@@ -171,7 +174,7 @@ export class AccountLimitExceeded extends Schema.TaggedError<AccountLimitExceede
  * InternalServerError - Server error (500).
  * Marked as retryable.
  */
-export class InternalServerError extends Schema.TaggedError<InternalServerError>()(
+export class InternalServerError extends Schema.TaggedErrorClass<InternalServerError>()(
   "InternalServerError",
   {
     message: Schema.String,
@@ -182,7 +185,7 @@ export class InternalServerError extends Schema.TaggedError<InternalServerError>
  * BadGateway - Bad gateway (502).
  * Marked as retryable.
  */
-export class BadGateway extends Schema.TaggedError<BadGateway>()(
+export class BadGateway extends Schema.TaggedErrorClass<BadGateway>()(
   "BadGateway",
   {
     message: Schema.String,
@@ -193,7 +196,7 @@ export class BadGateway extends Schema.TaggedError<BadGateway>()(
  * ServiceUnavailable - Service unavailable (503).
  * Marked as retryable.
  */
-export class ServiceUnavailable extends Schema.TaggedError<ServiceUnavailable>()(
+export class ServiceUnavailable extends Schema.TaggedErrorClass<ServiceUnavailable>()(
   "ServiceUnavailable",
   {
     message: Schema.String,
@@ -204,17 +207,14 @@ export class ServiceUnavailable extends Schema.TaggedError<ServiceUnavailable>()
  * TimedOut - Request timed out.
  * Marked as retryable.
  */
-export class TimedOut extends Schema.TaggedError<TimedOut>()(
-  "TimedOut",
-  {
-    message: Schema.String,
-  },
-).pipe(Category.withTimeoutError, Category.withRetryable()) {}
+export class TimedOut extends Schema.TaggedErrorClass<TimedOut>()("TimedOut", {
+  message: Schema.String,
+}).pipe(Category.withTimeoutError, Category.withRetryable()) {}
 
 /**
  * RequestCanceled - Request was canceled.
  */
-export class RequestCanceled extends Schema.TaggedError<RequestCanceled>()(
+export class RequestCanceled extends Schema.TaggedErrorClass<RequestCanceled>()(
   "RequestCanceled",
   {
     message: Schema.String,
@@ -224,7 +224,7 @@ export class RequestCanceled extends Schema.TaggedError<RequestCanceled>()(
 /**
  * PolicyViolation - Policy engine violation.
  */
-export class PolicyViolation extends Schema.TaggedError<PolicyViolation>()(
+export class PolicyViolation extends Schema.TaggedErrorClass<PolicyViolation>()(
   "PolicyViolation",
   {
     message: Schema.String,
@@ -234,7 +234,7 @@ export class PolicyViolation extends Schema.TaggedError<PolicyViolation>()(
 /**
  * PolicyInUse - Policy is currently in use and cannot be modified/deleted.
  */
-export class PolicyInUse extends Schema.TaggedError<PolicyInUse>()(
+export class PolicyInUse extends Schema.TaggedErrorClass<PolicyInUse>()(
   "PolicyInUse",
   {
     message: Schema.String,
@@ -244,7 +244,7 @@ export class PolicyInUse extends Schema.TaggedError<PolicyInUse>()(
 /**
  * NetworkNotTradable - The network is not available for trading.
  */
-export class NetworkNotTradable extends Schema.TaggedError<NetworkNotTradable>()(
+export class NetworkNotTradable extends Schema.TaggedErrorClass<NetworkNotTradable>()(
   "NetworkNotTradable",
   {
     message: Schema.String,
@@ -254,7 +254,7 @@ export class NetworkNotTradable extends Schema.TaggedError<NetworkNotTradable>()
 /**
  * GuestPermissionDenied - Guest user permission denied.
  */
-export class GuestPermissionDenied extends Schema.TaggedError<GuestPermissionDenied>()(
+export class GuestPermissionDenied extends Schema.TaggedErrorClass<GuestPermissionDenied>()(
   "GuestPermissionDenied",
   {
     message: Schema.String,
@@ -264,7 +264,7 @@ export class GuestPermissionDenied extends Schema.TaggedError<GuestPermissionDen
 /**
  * GuestRegionForbidden - Guest user region is forbidden.
  */
-export class GuestRegionForbidden extends Schema.TaggedError<GuestRegionForbidden>()(
+export class GuestRegionForbidden extends Schema.TaggedErrorClass<GuestRegionForbidden>()(
   "GuestRegionForbidden",
   {
     message: Schema.String,
@@ -274,7 +274,7 @@ export class GuestRegionForbidden extends Schema.TaggedError<GuestRegionForbidde
 /**
  * GuestTransactionLimit - Guest transaction limit exceeded.
  */
-export class GuestTransactionLimit extends Schema.TaggedError<GuestTransactionLimit>()(
+export class GuestTransactionLimit extends Schema.TaggedErrorClass<GuestTransactionLimit>()(
   "GuestTransactionLimit",
   {
     message: Schema.String,
@@ -284,7 +284,7 @@ export class GuestTransactionLimit extends Schema.TaggedError<GuestTransactionLi
 /**
  * GuestTransactionCount - Guest transaction count exceeded.
  */
-export class GuestTransactionCount extends Schema.TaggedError<GuestTransactionCount>()(
+export class GuestTransactionCount extends Schema.TaggedErrorClass<GuestTransactionCount>()(
   "GuestTransactionCount",
   {
     message: Schema.String,
@@ -294,7 +294,7 @@ export class GuestTransactionCount extends Schema.TaggedError<GuestTransactionCo
 /**
  * PhoneNumberVerificationExpired - Phone verification has expired.
  */
-export class PhoneNumberVerificationExpired extends Schema.TaggedError<PhoneNumberVerificationExpired>()(
+export class PhoneNumberVerificationExpired extends Schema.TaggedErrorClass<PhoneNumberVerificationExpired>()(
   "PhoneNumberVerificationExpired",
   {
     message: Schema.String,
@@ -304,7 +304,7 @@ export class PhoneNumberVerificationExpired extends Schema.TaggedError<PhoneNumb
 /**
  * DocumentVerificationFailed - Document verification failed.
  */
-export class DocumentVerificationFailed extends Schema.TaggedError<DocumentVerificationFailed>()(
+export class DocumentVerificationFailed extends Schema.TaggedErrorClass<DocumentVerificationFailed>()(
   "DocumentVerificationFailed",
   {
     message: Schema.String,
@@ -314,7 +314,7 @@ export class DocumentVerificationFailed extends Schema.TaggedError<DocumentVerif
 /**
  * RecipientAllowlistViolation - Recipient is not on the allowlist.
  */
-export class RecipientAllowlistViolation extends Schema.TaggedError<RecipientAllowlistViolation>()(
+export class RecipientAllowlistViolation extends Schema.TaggedErrorClass<RecipientAllowlistViolation>()(
   "RecipientAllowlistViolation",
   {
     message: Schema.String,
@@ -324,7 +324,7 @@ export class RecipientAllowlistViolation extends Schema.TaggedError<RecipientAll
 /**
  * RecipientAllowlistPending - Recipient allowlist entry is pending.
  */
-export class RecipientAllowlistPending extends Schema.TaggedError<RecipientAllowlistPending>()(
+export class RecipientAllowlistPending extends Schema.TaggedErrorClass<RecipientAllowlistPending>()(
   "RecipientAllowlistPending",
   {
     message: Schema.String,
@@ -334,7 +334,7 @@ export class RecipientAllowlistPending extends Schema.TaggedError<RecipientAllow
 /**
  * TravelRulesRecipientViolation - Travel rules recipient violation.
  */
-export class TravelRulesRecipientViolation extends Schema.TaggedError<TravelRulesRecipientViolation>()(
+export class TravelRulesRecipientViolation extends Schema.TaggedErrorClass<TravelRulesRecipientViolation>()(
   "TravelRulesRecipientViolation",
   {
     message: Schema.String,
@@ -344,7 +344,7 @@ export class TravelRulesRecipientViolation extends Schema.TaggedError<TravelRule
 /**
  * TransferAmountOutOfBounds - Transfer amount is out of allowed bounds.
  */
-export class TransferAmountOutOfBounds extends Schema.TaggedError<TransferAmountOutOfBounds>()(
+export class TransferAmountOutOfBounds extends Schema.TaggedErrorClass<TransferAmountOutOfBounds>()(
   "TransferAmountOutOfBounds",
   {
     message: Schema.String,
@@ -354,7 +354,7 @@ export class TransferAmountOutOfBounds extends Schema.TaggedError<TransferAmount
 /**
  * TransferRecipientAddressInvalid - Transfer recipient address is invalid.
  */
-export class TransferRecipientAddressInvalid extends Schema.TaggedError<TransferRecipientAddressInvalid>()(
+export class TransferRecipientAddressInvalid extends Schema.TaggedErrorClass<TransferRecipientAddressInvalid>()(
   "TransferRecipientAddressInvalid",
   {
     message: Schema.String,
@@ -364,7 +364,7 @@ export class TransferRecipientAddressInvalid extends Schema.TaggedError<Transfer
 /**
  * TransferQuoteExpired - Transfer quote has expired.
  */
-export class TransferQuoteExpired extends Schema.TaggedError<TransferQuoteExpired>()(
+export class TransferQuoteExpired extends Schema.TaggedErrorClass<TransferQuoteExpired>()(
   "TransferQuoteExpired",
   {
     message: Schema.String,
@@ -374,7 +374,7 @@ export class TransferQuoteExpired extends Schema.TaggedError<TransferQuoteExpire
 /**
  * MfaAlreadyEnrolled - MFA is already enrolled.
  */
-export class MfaAlreadyEnrolled extends Schema.TaggedError<MfaAlreadyEnrolled>()(
+export class MfaAlreadyEnrolled extends Schema.TaggedErrorClass<MfaAlreadyEnrolled>()(
   "MfaAlreadyEnrolled",
   {
     message: Schema.String,
@@ -384,7 +384,7 @@ export class MfaAlreadyEnrolled extends Schema.TaggedError<MfaAlreadyEnrolled>()
 /**
  * MfaInvalidCode - MFA code is invalid.
  */
-export class MfaInvalidCode extends Schema.TaggedError<MfaInvalidCode>()(
+export class MfaInvalidCode extends Schema.TaggedErrorClass<MfaInvalidCode>()(
   "MfaInvalidCode",
   {
     message: Schema.String,
@@ -394,7 +394,7 @@ export class MfaInvalidCode extends Schema.TaggedError<MfaInvalidCode>()(
 /**
  * MfaFlowExpired - MFA flow has expired.
  */
-export class MfaFlowExpired extends Schema.TaggedError<MfaFlowExpired>()(
+export class MfaFlowExpired extends Schema.TaggedErrorClass<MfaFlowExpired>()(
   "MfaFlowExpired",
   {
     message: Schema.String,
@@ -404,7 +404,7 @@ export class MfaFlowExpired extends Schema.TaggedError<MfaFlowExpired>()(
 /**
  * MfaRequired - MFA is required for this operation.
  */
-export class MfaRequired extends Schema.TaggedError<MfaRequired>()(
+export class MfaRequired extends Schema.TaggedErrorClass<MfaRequired>()(
   "MfaRequired",
   {
     message: Schema.String,
@@ -414,7 +414,7 @@ export class MfaRequired extends Schema.TaggedError<MfaRequired>()(
 /**
  * MfaNotEnrolled - MFA is not enrolled.
  */
-export class MfaNotEnrolled extends Schema.TaggedError<MfaNotEnrolled>()(
+export class MfaNotEnrolled extends Schema.TaggedErrorClass<MfaNotEnrolled>()(
   "MfaNotEnrolled",
   {
     message: Schema.String,

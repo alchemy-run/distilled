@@ -6,20 +6,24 @@ import * as T from "../traits";
 export const GetOrganizationInvitationsInput = Schema.Struct({
   org_id: Schema.String.pipe(T.PathParam()),
 }).pipe(T.Http({ method: "GET", path: "/organizations/{org_id}/invitations" }));
-export type GetOrganizationInvitationsInput = typeof GetOrganizationInvitationsInput.Type;
+export type GetOrganizationInvitationsInput =
+  typeof GetOrganizationInvitationsInput.Type;
 
 // Output Schema
 export const GetOrganizationInvitationsOutput = Schema.Struct({
-  invitations: Schema.Array(Schema.Struct({
-    id: Schema.String,
-    email: Schema.String,
-    org_id: Schema.String,
-    invited_by: Schema.String,
-    invited_at: Schema.String,
-    role: Schema.Literal("admin", "member"),
-  })),
+  invitations: Schema.Array(
+    Schema.Struct({
+      id: Schema.String,
+      email: Schema.String,
+      org_id: Schema.String,
+      invited_by: Schema.String,
+      invited_at: Schema.String,
+      role: Schema.Literals(["admin", "member"]),
+    }),
+  ),
 });
-export type GetOrganizationInvitationsOutput = typeof GetOrganizationInvitationsOutput.Type;
+export type GetOrganizationInvitationsOutput =
+  typeof GetOrganizationInvitationsOutput.Type;
 
 // The operation
 /**
@@ -29,7 +33,9 @@ export type GetOrganizationInvitationsOutput = typeof GetOrganizationInvitations
  *
  * @param org_id - The Neon organization ID
  */
-export const getOrganizationInvitations = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  inputSchema: GetOrganizationInvitationsInput,
-  outputSchema: GetOrganizationInvitationsOutput,
-}));
+export const getOrganizationInvitations = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    inputSchema: GetOrganizationInvitationsInput,
+    outputSchema: GetOrganizationInvitationsOutput,
+  }),
+);

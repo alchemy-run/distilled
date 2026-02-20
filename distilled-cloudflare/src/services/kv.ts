@@ -7,7 +7,7 @@
 
 import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
-import type { HttpClient } from "@effect/platform";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
@@ -50,10 +50,10 @@ export interface GetNamespaceResponse {
 export const GetNamespaceResponse = Schema.Struct({
   id: Schema.String,
   title: Schema.String,
-  supportsUrlEncoding: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("supports_url_encoding"),
-  ),
-}) as unknown as Schema.Schema<GetNamespaceResponse>;
+  supportsUrlEncoding: Schema.optional(Schema.Boolean),
+}).pipe(
+  Schema.encodeKeys({ supportsUrlEncoding: "supports_url_encoding" }),
+) as unknown as Schema.Schema<GetNamespaceResponse>;
 
 export const getNamespace: (
   input: GetNamespaceRequest,
@@ -96,10 +96,10 @@ export interface CreateNamespaceResponse {
 export const CreateNamespaceResponse = Schema.Struct({
   id: Schema.String,
   title: Schema.String,
-  supportsUrlEncoding: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("supports_url_encoding"),
-  ),
-}) as unknown as Schema.Schema<CreateNamespaceResponse>;
+  supportsUrlEncoding: Schema.optional(Schema.Boolean),
+}).pipe(
+  Schema.encodeKeys({ supportsUrlEncoding: "supports_url_encoding" }),
+) as unknown as Schema.Schema<CreateNamespaceResponse>;
 
 export const createNamespace: (
   input: CreateNamespaceRequest,
@@ -144,10 +144,10 @@ export interface UpdateNamespaceResponse {
 export const UpdateNamespaceResponse = Schema.Struct({
   id: Schema.String,
   title: Schema.String,
-  supportsUrlEncoding: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("supports_url_encoding"),
-  ),
-}) as unknown as Schema.Schema<UpdateNamespaceResponse>;
+  supportsUrlEncoding: Schema.optional(Schema.Boolean),
+}).pipe(
+  Schema.encodeKeys({ supportsUrlEncoding: "supports_url_encoding" }),
+) as unknown as Schema.Schema<UpdateNamespaceResponse>;
 
 export const updateNamespace: (
   input: UpdateNamespaceRequest,
@@ -210,7 +210,7 @@ export const BulkGetNamespacesRequest = Schema.Struct({
   namespaceId: Schema.String.pipe(T.HttpPath("namespaceId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   keys: Schema.Array(Schema.String),
-  type: Schema.optional(Schema.Literal("text", "json")),
+  type: Schema.optional(Schema.Literals(["text", "json"])),
   withMetadata: Schema.optional(Schema.Boolean),
 }).pipe(
   T.Http({
@@ -292,7 +292,7 @@ export const BulkGetNamespaceKeysRequest = Schema.Struct({
   namespaceId: Schema.String.pipe(T.HttpPath("namespaceId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   keys: Schema.Array(Schema.String),
-  type: Schema.optional(Schema.Literal("text", "json")),
+  type: Schema.optional(Schema.Literals(["text", "json"])),
   withMetadata: Schema.optional(Schema.Boolean),
 }).pipe(
   T.Http({
@@ -544,11 +544,9 @@ export const BulkPutNamespacesRequest = Schema.Struct({
       value: Schema.String,
       base64: Schema.optional(Schema.Boolean),
       expiration: Schema.optional(Schema.Number),
-      expirationTtl: Schema.optional(Schema.Number).pipe(
-        T.JsonName("expiration_ttl"),
-      ),
+      expirationTtl: Schema.optional(Schema.Number),
       metadata: Schema.optional(Schema.Unknown),
-    }),
+    }).pipe(Schema.encodeKeys({ expirationTtl: "expiration_ttl" })),
   ),
 }).pipe(
   T.Http({
@@ -602,11 +600,9 @@ export const BulkPutNamespaceKeysRequest = Schema.Struct({
       value: Schema.String,
       base64: Schema.optional(Schema.Boolean),
       expiration: Schema.optional(Schema.Number),
-      expirationTtl: Schema.optional(Schema.Number).pipe(
-        T.JsonName("expiration_ttl"),
-      ),
+      expirationTtl: Schema.optional(Schema.Number),
       metadata: Schema.optional(Schema.Unknown),
-    }),
+    }).pipe(Schema.encodeKeys({ expirationTtl: "expiration_ttl" })),
   ),
 }).pipe(
   T.Http({

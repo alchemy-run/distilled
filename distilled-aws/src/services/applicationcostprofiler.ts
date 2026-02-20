@@ -1,4 +1,4 @@
-import { HttpClient } from "@effect/platform";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as effect from "effect/Effect";
 import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
@@ -88,19 +88,15 @@ const rules = T.EndpointResolver((p, _) => {
 
 //# Newtypes
 export type ReportId = string;
-export type Token = string;
+export type ErrorMessage = string;
 export type ReportDescription = string;
 export type S3Bucket = string;
-export type S3Key = string;
 export type S3Prefix = string;
-export type ErrorMessage = string;
+export type S3Key = string;
 export type ImportId = string;
+export type Token = string;
 
 //# Schemas
-export type ReportFrequency = "MONTHLY" | "DAILY" | "ALL" | (string & {});
-export const ReportFrequency = S.String;
-export type Format = "CSV" | "PARQUET" | (string & {});
-export const Format = S.String;
 export interface DeleteReportDefinitionRequest {
   reportId: string;
 }
@@ -115,9 +111,17 @@ export const DeleteReportDefinitionRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "DeleteReportDefinitionRequest",
 }) as any as S.Schema<DeleteReportDefinitionRequest>;
+export interface DeleteReportDefinitionResult {
+  reportId?: string;
+}
+export const DeleteReportDefinitionResult = S.suspend(() =>
+  S.Struct({ reportId: S.optional(S.String) }),
+).annotate({
+  identifier: "DeleteReportDefinitionResult",
+}) as any as S.Schema<DeleteReportDefinitionResult>;
 export interface GetReportDefinitionRequest {
   reportId: string;
 }
@@ -132,93 +136,20 @@ export const GetReportDefinitionRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "GetReportDefinitionRequest",
 }) as any as S.Schema<GetReportDefinitionRequest>;
-export interface ListReportDefinitionsRequest {
-  nextToken?: string;
-  maxResults?: number;
-}
-export const ListReportDefinitionsRequest = S.suspend(() =>
-  S.Struct({
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/reportDefinition" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListReportDefinitionsRequest",
-}) as any as S.Schema<ListReportDefinitionsRequest>;
+export type ReportFrequency = "MONTHLY" | "DAILY" | "ALL" | (string & {});
+export const ReportFrequency = S.String;
+export type Format = "CSV" | "PARQUET" | (string & {});
+export const Format = S.String;
 export interface S3Location {
   bucket: string;
   prefix: string;
 }
 export const S3Location = S.suspend(() =>
   S.Struct({ bucket: S.String, prefix: S.String }),
-).annotations({ identifier: "S3Location" }) as any as S.Schema<S3Location>;
-export interface UpdateReportDefinitionRequest {
-  reportId: string;
-  reportDescription: string;
-  reportFrequency: ReportFrequency;
-  format: Format;
-  destinationS3Location: S3Location;
-}
-export const UpdateReportDefinitionRequest = S.suspend(() =>
-  S.Struct({
-    reportId: S.String.pipe(T.HttpLabel("reportId")),
-    reportDescription: S.String,
-    reportFrequency: ReportFrequency,
-    format: Format,
-    destinationS3Location: S3Location,
-  }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/reportDefinition/{reportId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "UpdateReportDefinitionRequest",
-}) as any as S.Schema<UpdateReportDefinitionRequest>;
-export type S3BucketRegion =
-  | "ap-east-1"
-  | "me-south-1"
-  | "eu-south-1"
-  | "af-south-1"
-  | (string & {});
-export const S3BucketRegion = S.String;
-export interface SourceS3Location {
-  bucket: string;
-  key: string;
-  region?: S3BucketRegion;
-}
-export const SourceS3Location = S.suspend(() =>
-  S.Struct({
-    bucket: S.String,
-    key: S.String,
-    region: S.optional(S3BucketRegion),
-  }),
-).annotations({
-  identifier: "SourceS3Location",
-}) as any as S.Schema<SourceS3Location>;
-export interface DeleteReportDefinitionResult {
-  reportId?: string;
-}
-export const DeleteReportDefinitionResult = S.suspend(() =>
-  S.Struct({ reportId: S.optional(S.String) }),
-).annotations({
-  identifier: "DeleteReportDefinitionResult",
-}) as any as S.Schema<DeleteReportDefinitionResult>;
+).annotate({ identifier: "S3Location" }) as any as S.Schema<S3Location>;
 export interface GetReportDefinitionResult {
   reportId: string;
   reportDescription: string;
@@ -238,9 +169,30 @@ export const GetReportDefinitionResult = S.suspend(() =>
     createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     lastUpdated: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
   }),
-).annotations({
+).annotate({
   identifier: "GetReportDefinitionResult",
 }) as any as S.Schema<GetReportDefinitionResult>;
+export type S3BucketRegion =
+  | "ap-east-1"
+  | "me-south-1"
+  | "eu-south-1"
+  | "af-south-1"
+  | (string & {});
+export const S3BucketRegion = S.String;
+export interface SourceS3Location {
+  bucket: string;
+  key: string;
+  region?: S3BucketRegion;
+}
+export const SourceS3Location = S.suspend(() =>
+  S.Struct({
+    bucket: S.String,
+    key: S.String,
+    region: S.optional(S3BucketRegion),
+  }),
+).annotate({
+  identifier: "SourceS3Location",
+}) as any as S.Schema<SourceS3Location>;
 export interface ImportApplicationUsageRequest {
   sourceS3Location: SourceS3Location;
 }
@@ -255,9 +207,74 @@ export const ImportApplicationUsageRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "ImportApplicationUsageRequest",
 }) as any as S.Schema<ImportApplicationUsageRequest>;
+export interface ImportApplicationUsageResult {
+  importId: string;
+}
+export const ImportApplicationUsageResult = S.suspend(() =>
+  S.Struct({ importId: S.String }),
+).annotate({
+  identifier: "ImportApplicationUsageResult",
+}) as any as S.Schema<ImportApplicationUsageResult>;
+export interface ListReportDefinitionsRequest {
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListReportDefinitionsRequest = S.suspend(() =>
+  S.Struct({
+    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/reportDefinition" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListReportDefinitionsRequest",
+}) as any as S.Schema<ListReportDefinitionsRequest>;
+export interface ReportDefinition {
+  reportId?: string;
+  reportDescription?: string;
+  reportFrequency?: ReportFrequency;
+  format?: Format;
+  destinationS3Location?: S3Location;
+  createdAt?: Date;
+  lastUpdatedAt?: Date;
+}
+export const ReportDefinition = S.suspend(() =>
+  S.Struct({
+    reportId: S.optional(S.String),
+    reportDescription: S.optional(S.String),
+    reportFrequency: S.optional(ReportFrequency),
+    format: S.optional(Format),
+    destinationS3Location: S.optional(S3Location),
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    lastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotate({
+  identifier: "ReportDefinition",
+}) as any as S.Schema<ReportDefinition>;
+export type ReportDefinitionList = ReportDefinition[];
+export const ReportDefinitionList = S.Array(ReportDefinition);
+export interface ListReportDefinitionsResult {
+  reportDefinitions?: ReportDefinition[];
+  nextToken?: string;
+}
+export const ListReportDefinitionsResult = S.suspend(() =>
+  S.Struct({
+    reportDefinitions: S.optional(ReportDefinitionList),
+    nextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ListReportDefinitionsResult",
+}) as any as S.Schema<ListReportDefinitionsResult>;
 export interface PutReportDefinitionRequest {
   reportId: string;
   reportDescription: string;
@@ -282,91 +299,74 @@ export const PutReportDefinitionRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "PutReportDefinitionRequest",
 }) as any as S.Schema<PutReportDefinitionRequest>;
-export interface UpdateReportDefinitionResult {
-  reportId?: string;
-}
-export const UpdateReportDefinitionResult = S.suspend(() =>
-  S.Struct({ reportId: S.optional(S.String) }),
-).annotations({
-  identifier: "UpdateReportDefinitionResult",
-}) as any as S.Schema<UpdateReportDefinitionResult>;
-export interface ReportDefinition {
-  reportId?: string;
-  reportDescription?: string;
-  reportFrequency?: ReportFrequency;
-  format?: Format;
-  destinationS3Location?: S3Location;
-  createdAt?: Date;
-  lastUpdatedAt?: Date;
-}
-export const ReportDefinition = S.suspend(() =>
-  S.Struct({
-    reportId: S.optional(S.String),
-    reportDescription: S.optional(S.String),
-    reportFrequency: S.optional(ReportFrequency),
-    format: S.optional(Format),
-    destinationS3Location: S.optional(S3Location),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    lastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }),
-).annotations({
-  identifier: "ReportDefinition",
-}) as any as S.Schema<ReportDefinition>;
-export type ReportDefinitionList = ReportDefinition[];
-export const ReportDefinitionList = S.Array(ReportDefinition);
-export interface ImportApplicationUsageResult {
-  importId: string;
-}
-export const ImportApplicationUsageResult = S.suspend(() =>
-  S.Struct({ importId: S.String }),
-).annotations({
-  identifier: "ImportApplicationUsageResult",
-}) as any as S.Schema<ImportApplicationUsageResult>;
-export interface ListReportDefinitionsResult {
-  reportDefinitions?: ReportDefinition[];
-  nextToken?: string;
-}
-export const ListReportDefinitionsResult = S.suspend(() =>
-  S.Struct({
-    reportDefinitions: S.optional(ReportDefinitionList),
-    nextToken: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "ListReportDefinitionsResult",
-}) as any as S.Schema<ListReportDefinitionsResult>;
 export interface PutReportDefinitionResult {
   reportId?: string;
 }
 export const PutReportDefinitionResult = S.suspend(() =>
   S.Struct({ reportId: S.optional(S.String) }),
-).annotations({
+).annotate({
   identifier: "PutReportDefinitionResult",
 }) as any as S.Schema<PutReportDefinitionResult>;
+export interface UpdateReportDefinitionRequest {
+  reportId: string;
+  reportDescription: string;
+  reportFrequency: ReportFrequency;
+  format: Format;
+  destinationS3Location: S3Location;
+}
+export const UpdateReportDefinitionRequest = S.suspend(() =>
+  S.Struct({
+    reportId: S.String.pipe(T.HttpLabel("reportId")),
+    reportDescription: S.String,
+    reportFrequency: ReportFrequency,
+    format: Format,
+    destinationS3Location: S3Location,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/reportDefinition/{reportId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "UpdateReportDefinitionRequest",
+}) as any as S.Schema<UpdateReportDefinitionRequest>;
+export interface UpdateReportDefinitionResult {
+  reportId?: string;
+}
+export const UpdateReportDefinitionResult = S.suspend(() =>
+  S.Struct({ reportId: S.optional(S.String) }),
+).annotate({
+  identifier: "UpdateReportDefinitionResult",
+}) as any as S.Schema<UpdateReportDefinitionResult>;
 
 //# Errors
-export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
+export class AccessDeniedException extends S.TaggedErrorClass<AccessDeniedException>()(
   "AccessDeniedException",
   { message: S.optional(S.String) },
 ).pipe(C.withAuthError) {}
-export class InternalServerException extends S.TaggedError<InternalServerException>()(
+export class InternalServerException extends S.TaggedErrorClass<InternalServerException>()(
   "InternalServerException",
   { message: S.optional(S.String) },
 ).pipe(C.withServerError) {}
-export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
+export class ThrottlingException extends S.TaggedErrorClass<ThrottlingException>()(
   "ThrottlingException",
   { message: S.optional(S.String) },
 ).pipe(C.withThrottlingError) {}
-export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
-  "ServiceQuotaExceededException",
-  { message: S.optional(S.String) },
-).pipe(C.withQuotaError) {}
-export class ValidationException extends S.TaggedError<ValidationException>()(
+export class ValidationException extends S.TaggedErrorClass<ValidationException>()(
   "ValidationException",
   { message: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
+export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuotaExceededException>()(
+  "ServiceQuotaExceededException",
+  { message: S.optional(S.String) },
+).pipe(C.withQuotaError) {}
 
 //# Operations
 /**
@@ -394,26 +394,24 @@ export const deleteReportDefinition: (
   ],
 }));
 /**
- * Creates the report definition for a report in Application Cost Profiler.
+ * Retrieves the definition of a report already configured in AWS Application Cost Profiler.
  */
-export const putReportDefinition: (
-  input: PutReportDefinitionRequest,
+export const getReportDefinition: (
+  input: GetReportDefinitionRequest,
 ) => effect.Effect<
-  PutReportDefinitionResult,
+  GetReportDefinitionResult,
   | AccessDeniedException
   | InternalServerException
-  | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
   | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PutReportDefinitionRequest,
-  output: PutReportDefinitionResult,
+  input: GetReportDefinitionRequest,
+  output: GetReportDefinitionResult,
   errors: [
     AccessDeniedException,
     InternalServerException,
-    ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
   ],
@@ -501,24 +499,26 @@ export const listReportDefinitions: {
   } as const,
 }));
 /**
- * Retrieves the definition of a report already configured in AWS Application Cost Profiler.
+ * Creates the report definition for a report in Application Cost Profiler.
  */
-export const getReportDefinition: (
-  input: GetReportDefinitionRequest,
+export const putReportDefinition: (
+  input: PutReportDefinitionRequest,
 ) => effect.Effect<
-  GetReportDefinitionResult,
+  PutReportDefinitionResult,
   | AccessDeniedException
   | InternalServerException
+  | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
   | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetReportDefinitionRequest,
-  output: GetReportDefinitionResult,
+  input: PutReportDefinitionRequest,
+  output: PutReportDefinitionResult,
   errors: [
     AccessDeniedException,
     InternalServerException,
+    ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
   ],

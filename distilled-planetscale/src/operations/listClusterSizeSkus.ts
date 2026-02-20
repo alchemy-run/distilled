@@ -6,7 +6,7 @@ import { Forbidden, NotFound } from "../errors";
 // Input Schema
 export const ListClusterSizeSkusInput = Schema.Struct({
   organization: Schema.String.pipe(T.PathParam()),
-  engine: Schema.optional(Schema.Literal("mysql", "postgresql")),
+  engine: Schema.optional(Schema.Literals(["mysql", "postgresql"])),
   rates: Schema.optional(Schema.Boolean),
   region: Schema.optional(Schema.String),
 }).pipe(

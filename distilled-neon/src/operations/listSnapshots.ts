@@ -10,16 +10,18 @@ export type ListSnapshotsInput = typeof ListSnapshotsInput.Type;
 
 // Output Schema
 export const ListSnapshotsOutput = Schema.Struct({
-  snapshots: Schema.Array(Schema.Struct({
-    id: Schema.String,
-    name: Schema.String,
-    lsn: Schema.optional(Schema.String),
-    timestamp: Schema.optional(Schema.String),
-    source_branch_id: Schema.optional(Schema.String),
-    created_at: Schema.String,
-    expires_at: Schema.optional(Schema.String),
-    manual: Schema.optional(Schema.Boolean),
-  })),
+  snapshots: Schema.Array(
+    Schema.Struct({
+      id: Schema.String,
+      name: Schema.String,
+      lsn: Schema.optional(Schema.String),
+      timestamp: Schema.optional(Schema.String),
+      source_branch_id: Schema.optional(Schema.String),
+      created_at: Schema.String,
+      expires_at: Schema.optional(Schema.String),
+      manual: Schema.optional(Schema.Boolean),
+    }),
+  ),
 });
 export type ListSnapshotsOutput = typeof ListSnapshotsOutput.Type;
 

@@ -1,19 +1,26 @@
 import { Effect, Schedule } from "effect";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
-import { Forbidden, NotFound, BadRequest } from "../src/errors";
 import { NeonApiError } from "../src/client";
-import { listSnapshots } from "../src/operations/listSnapshots";
+import { BadRequest, Forbidden, NotFound } from "../src/errors";
 import { createSnapshot } from "../src/operations/createSnapshot";
-import { updateSnapshot } from "../src/operations/updateSnapshot";
 import { deleteSnapshot } from "../src/operations/deleteSnapshot";
 import { listProjectOperations } from "../src/operations/listProjectOperations";
-import { getTestProject, runEffect, setupTestProject, teardownTestProject, TestLayer } from "./setup";
+import { listSnapshots } from "../src/operations/listSnapshots";
+import { updateSnapshot } from "../src/operations/updateSnapshot";
+import {
+  getTestProject,
+  runEffect,
+  setupTestProject,
+  teardownTestProject,
+  TestLayer,
+} from "./setup";
 
 const TEST_SUFFIX = "snapshots";
 
 // Non-existent identifiers for unhappy path tests
 const NON_EXISTENT_PROJECT = "this-project-definitely-does-not-exist-12345";
-const NON_EXISTENT_SNAPSHOT = "ss-this-snapshot-definitely-does-not-exist-12345";
+const NON_EXISTENT_SNAPSHOT =
+  "ss-this-snapshot-definitely-does-not-exist-12345";
 const NON_EXISTENT_BRANCH = "br-this-branch-definitely-does-not-exist-12345";
 
 /**
@@ -29,10 +36,10 @@ const isNotFoundOrForbidden = (error: unknown): boolean =>
 const isFeatureNotAvailable = (error: unknown): boolean =>
   error instanceof BadRequest ||
   error instanceof Forbidden ||
-  (error instanceof NeonApiError && 
-    (error.message.includes("not available") || 
-     error.message.includes("not enabled") ||
-     error.message.includes("plan")));
+  (error instanceof NeonApiError &&
+    (error.message.includes("not available") ||
+      error.message.includes("not enabled") ||
+      error.message.includes("plan")));
 
 /**
  * Wait for all pending operations on a project to complete
@@ -52,8 +59,15 @@ const waitForOperations = (projectId: string) =>
         }),
       ),
       {
-        schedule: Schedule.intersect(Schedule.recurs(60), Schedule.spaced("5 seconds")),
-        while: (e) => typeof e === "object" && e !== null && "_tag" in e && e._tag === "OperationsPending",
+        schedule: Schedule.both(
+          Schedule.recurs(60),
+          Schedule.spaced("5 seconds"),
+        ),
+        while: (e) =>
+          typeof e === "object" &&
+          e !== null &&
+          "_tag" in e &&
+          e._tag === "OperationsPending",
       },
     );
   }).pipe(Effect.provide(TestLayer));
@@ -91,7 +105,10 @@ describe("snapshots", () => {
 
       if ("error" in result) {
         // Feature may not be available
-        expect(isFeatureNotAvailable(result.error) || isNotFoundOrForbidden(result.error)).toBe(true);
+        expect(
+          isFeatureNotAvailable(result.error) ||
+            isNotFoundOrForbidden(result.error),
+        ).toBe(true);
       } else {
         expect(result.data.snapshots).toBeDefined();
         expect(Array.isArray(result.data.snapshots)).toBe(true);
@@ -171,7 +188,10 @@ describe("snapshots", () => {
 
         if ("error" in createResult) {
           // Feature may not be available
-          expect(isFeatureNotAvailable(createResult.error) || isNotFoundOrForbidden(createResult.error)).toBe(true);
+          expect(
+            isFeatureNotAvailable(createResult.error) ||
+              isNotFoundOrForbidden(createResult.error),
+          ).toBe(true);
           return;
         }
 
@@ -191,7 +211,9 @@ describe("snapshots", () => {
           }),
         );
 
-        const foundSnapshot = listResult.snapshots.find((s) => s.id === createdSnapshotId);
+        const foundSnapshot = listResult.snapshots.find(
+          (s) => s.id === createdSnapshotId,
+        );
         expect(foundSnapshot).toBeDefined();
         expect(foundSnapshot!.name).toBeDefined();
       } finally {
@@ -212,7 +234,9 @@ describe("snapshots", () => {
       const proj = getProj();
       const snapshotName = `expiring-snapshot-${Date.now()}`;
       // Set expiration to 1 week from now
-      const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString();
+      const expiresAt = new Date(
+        Date.now() + 7 * 24 * 60 * 60 * 1000,
+      ).toISOString();
       let createdSnapshotId: string | null = null;
 
       try {
@@ -274,7 +298,9 @@ describe("snapshots", () => {
       );
 
       expect(error).not.toBeNull();
-      expect(isNotFoundOrForbidden(error) || isFeatureNotAvailable(error)).toBe(true);
+      expect(isNotFoundOrForbidden(error) || isFeatureNotAvailable(error)).toBe(
+        true,
+      );
     });
 
     it("returns NotFound when creating snapshot for non-existent branch", async () => {
@@ -293,7 +319,9 @@ describe("snapshots", () => {
       );
 
       expect(error).not.toBeNull();
-      expect(isNotFoundOrForbidden(error) || isFeatureNotAvailable(error)).toBe(true);
+      expect(isNotFoundOrForbidden(error) || isFeatureNotAvailable(error)).toBe(
+        true,
+      );
     });
   });
 
@@ -389,7 +417,9 @@ describe("snapshots", () => {
       );
 
       expect(error).not.toBeNull();
-      expect(isNotFoundOrForbidden(error) || isFeatureNotAvailable(error)).toBe(true);
+      expect(isNotFoundOrForbidden(error) || isFeatureNotAvailable(error)).toBe(
+        true,
+      );
     });
   });
 });

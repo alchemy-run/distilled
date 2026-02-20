@@ -74,7 +74,7 @@ export const restXmlProtocol: Protocol = (
   const outputAst = outputSchema.ast;
 
   // Pre-compute encoder (done once at init)
-  const encodeInput = S.encode(inputSchema);
+  const encodeInput = S.encodeEffect(inputSchema);
   const outputXmlName =
     getXmlNameFromAST(outputAst) ?? getIdentifier(outputAst);
 
@@ -150,8 +150,7 @@ export const restXmlProtocol: Protocol = (
         type: prop.type,
         isStreaming: isStreamingType(prop.type),
         isEventStream: isOutputEventStream(prop.type),
-        isRawString:
-          unwrapped._tag === "Union" || unwrapped._tag === "StringKeyword",
+        isRawString: unwrapped._tag === "Union" || unwrapped._tag === "String",
         // Use property name as fallback when type annotations aren't preserved
         // (e.g., when using Schema.pipe to add HttpPayload annotation)
         xmlName:
@@ -163,7 +162,9 @@ export const restXmlProtocol: Protocol = (
   return {
     serializeRequest: Effect.fn(function* (input: unknown) {
       // Encode the input via schema - handles all transformations
-      const encoded = yield* encodeInput(input);
+      const encoded = yield* encodeInput(input).pipe(
+        Effect.mapError((err) => new ParseError({ message: err.message })),
+      );
 
       const request: Request = {
         method: "POST",

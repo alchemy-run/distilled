@@ -11,7 +11,12 @@ import { updateProject } from "../src/operations/updateProject";
 import { listProjectOperations } from "../src/operations/listProjectOperations";
 import { listProjectPermissions } from "../src/operations/listProjectPermissions";
 import { getConnectionURI } from "../src/operations/getConnectionURI";
-import { getTestProject, runEffect, setupTestProject, teardownTestProject } from "./setup";
+import {
+  getTestProject,
+  runEffect,
+  setupTestProject,
+  teardownTestProject,
+} from "./setup";
 
 const TEST_SUFFIX = "projects";
 

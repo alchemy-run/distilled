@@ -12,14 +12,21 @@ export const GetProjectBranchSchemaComparisonInput = Schema.Struct({
   timestamp: Schema.optional(Schema.String),
   base_lsn: Schema.optional(Schema.String),
   base_timestamp: Schema.optional(Schema.String),
-}).pipe(T.Http({ method: "GET", path: "/projects/{project_id}/branches/{branch_id}/compare_schema" }));
-export type GetProjectBranchSchemaComparisonInput = typeof GetProjectBranchSchemaComparisonInput.Type;
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/projects/{project_id}/branches/{branch_id}/compare_schema",
+  }),
+);
+export type GetProjectBranchSchemaComparisonInput =
+  typeof GetProjectBranchSchemaComparisonInput.Type;
 
 // Output Schema
 export const GetProjectBranchSchemaComparisonOutput = Schema.Struct({
   diff: Schema.optional(Schema.String),
 });
-export type GetProjectBranchSchemaComparisonOutput = typeof GetProjectBranchSchemaComparisonOutput.Type;
+export type GetProjectBranchSchemaComparisonOutput =
+  typeof GetProjectBranchSchemaComparisonOutput.Type;
 
 // The operation
 /**
@@ -40,7 +47,8 @@ export type GetProjectBranchSchemaComparisonOutput = typeof GetProjectBranchSche
  * @param base_timestamp - The point in time for the base branch schema
 
  */
-export const getProjectBranchSchemaComparison = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  inputSchema: GetProjectBranchSchemaComparisonInput,
-  outputSchema: GetProjectBranchSchemaComparisonOutput,
-}));
+export const getProjectBranchSchemaComparison =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    inputSchema: GetProjectBranchSchemaComparisonInput,
+    outputSchema: GetProjectBranchSchemaComparisonOutput,
+  }));

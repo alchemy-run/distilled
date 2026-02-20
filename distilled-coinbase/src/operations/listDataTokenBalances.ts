@@ -6,29 +6,39 @@ import { InvalidRequest, NotFound } from "../errors";
 // Input Schema
 export const ListDataTokenBalancesInput = Schema.Struct({
   address: Schema.String.pipe(T.PathParam()),
-  network: Schema.Literal("base", "base-sepolia", "ethereum").pipe(T.PathParam()),
+  network: Schema.Literals(["base", "base-sepolia", "ethereum"]).pipe(
+    T.PathParam(),
+  ),
   pageSize: Schema.optional(Schema.Number),
   pageToken: Schema.optional(Schema.String),
-}).pipe(T.Http({ method: "GET", path: "/v2/data/evm/token-balances/{network}/{address}" }));
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/v2/data/evm/token-balances/{network}/{address}",
+  }),
+);
 export type ListDataTokenBalancesInput = typeof ListDataTokenBalancesInput.Type;
 
 // Output Schema
 export const ListDataTokenBalancesOutput = Schema.Struct({
-  balances: Schema.Array(Schema.Struct({
-    amount: Schema.Struct({
-      amount: Schema.String,
-      decimals: Schema.Number,
+  balances: Schema.Array(
+    Schema.Struct({
+      amount: Schema.Struct({
+        amount: Schema.String,
+        decimals: Schema.Number,
+      }),
+      token: Schema.Struct({
+        network: Schema.Literals(["base", "base-sepolia", "ethereum"]),
+        symbol: Schema.optional(Schema.String),
+        name: Schema.optional(Schema.String),
+        contractAddress: Schema.String,
+      }),
     }),
-    token: Schema.Struct({
-      network: Schema.Literal("base", "base-sepolia", "ethereum"),
-      symbol: Schema.optional(Schema.String),
-      name: Schema.optional(Schema.String),
-      contractAddress: Schema.String,
-    }),
-  })),
+  ),
   nextPageToken: Schema.optional(Schema.String),
 });
-export type ListDataTokenBalancesOutput = typeof ListDataTokenBalancesOutput.Type;
+export type ListDataTokenBalancesOutput =
+  typeof ListDataTokenBalancesOutput.Type;
 
 // The operation
 /**
@@ -42,8 +52,10 @@ export type ListDataTokenBalancesOutput = typeof ListDataTokenBalancesOutput.Typ
  * @param pageSize - The number of resources to return per page.
  * @param pageToken - The token for the next page of resources, if any.
  */
-export const listDataTokenBalances = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  inputSchema: ListDataTokenBalancesInput,
-  outputSchema: ListDataTokenBalancesOutput,
-  errors: [InvalidRequest, NotFound],
-}));
+export const listDataTokenBalances = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    inputSchema: ListDataTokenBalancesInput,
+    outputSchema: ListDataTokenBalancesOutput,
+    errors: [InvalidRequest, NotFound],
+  }),
+);

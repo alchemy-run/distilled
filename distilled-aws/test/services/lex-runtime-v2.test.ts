@@ -129,7 +129,7 @@ if (!isLocalStack && BOT_ID) {
           }),
         ).pipe(
           Effect.timeout("30 seconds"),
-          Effect.catchAll((err) =>
+          Effect.catch((err) =>
             Effect.logWarning(`Event stream error: ${err}`),
           ),
         );
@@ -210,7 +210,7 @@ if (!isLocalStack && BOT_ID) {
           }),
         ).pipe(
           Effect.timeout("60 seconds"),
-          Effect.catchAll((err) =>
+          Effect.catch((err) =>
             Effect.logWarning(`Event stream error: ${err}`),
           ),
         );

@@ -1,6 +1,6 @@
-import { FetchHttpClient } from "@effect/platform";
 import { config } from "dotenv";
 import { Effect, Layer, Schedule } from "effect";
+import * as FetchHttpClient from "effect/unstable/http/FetchHttpClient";
 import { Credentials, CredentialsFromEnv } from "../src/credentials";
 import { createDatabase } from "../src/operations/createDatabase";
 import { deleteDatabase } from "../src/operations/deleteDatabase";
@@ -117,7 +117,7 @@ export const setupTestDatabase = (suffix?: string) =>
         ),
       ),
       {
-        schedule: Schedule.intersect(
+        schedule: Schedule.both(
           Schedule.recurs(60),
           Schedule.spaced("5 seconds"),
         ),

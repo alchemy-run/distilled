@@ -2,11 +2,11 @@ import { it } from "@effect/vitest";
 import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
 import { describe, expect } from "vitest";
-import { UnknownAwsError, ValidationException } from "../../src/errors.ts";
-import { awsJson1_1Protocol } from "../../src/protocols/aws-json.ts";
 import { makeRequestBuilder } from "../../src/client/request-builder.ts";
 import { makeResponseParser } from "../../src/client/response-parser.ts";
 import type { Response } from "../../src/client/response.ts";
+import { UnknownAwsError, ValidationException } from "../../src/errors.ts";
+import { awsJson1_1Protocol } from "../../src/protocols/aws-json.ts";
 
 // Import real generated schemas from KMS (uses awsJson1_1 protocol)
 import {
@@ -26,11 +26,16 @@ import {
 
 // Import Redshift Serverless schemas for JsonName testing (awsJson1_1 protocol)
 // This service has jsonName traits: token -> "Token", expirationTime -> "ExpirationTime"
+import type { Operation } from "../../src/client/operation.ts";
 import { GetIdentityCenterAuthTokenResponse } from "../../src/services/redshift-serverless.ts";
 
 // Helper to build a request from an instance
-const buildRequest = <A, I>(schema: S.Schema<A, I>, instance: A) => {
-  const operation = { input: schema, output: schema, errors: [] };
+const buildRequest = <A>(schema: S.Schema<A>, instance: A) => {
+  const operation: Operation<any, any, any> = {
+    input: schema,
+    output: schema,
+    errors: [],
+  };
   const builder = makeRequestBuilder(operation, {
     protocol: awsJson1_1Protocol,
   });
@@ -38,10 +43,10 @@ const buildRequest = <A, I>(schema: S.Schema<A, I>, instance: A) => {
 };
 
 // Helper to parse a response
-const parseResponse = <A, I>(
-  schema: S.Schema<A, I>,
+const parseResponse = <A>(
+  schema: S.Schema<A>,
   response: Response,
-  errors: S.Schema.AnyNoContext[] = [],
+  errors: S.Top[] = [],
 ) => {
   const operation = { input: schema, output: schema, errors };
   const parser = makeResponseParser<A>(operation, {
@@ -426,7 +431,6 @@ describe("awsJson1_1 protocol", () => {
         ]).pipe(Effect.flip);
 
         expect(result).toBeInstanceOf(NotFoundException);
-        expect(result._tag).toBe("NotFoundException");
       }),
     );
 

@@ -6,7 +6,12 @@ import * as T from "../traits";
 export const RevokeOrgApiKeyInput = Schema.Struct({
   org_id: Schema.String.pipe(T.PathParam()),
   key_id: Schema.Number.pipe(T.PathParam()),
-}).pipe(T.Http({ method: "DELETE", path: "/organizations/{org_id}/api_keys/{key_id}" }));
+}).pipe(
+  T.Http({
+    method: "DELETE",
+    path: "/organizations/{org_id}/api_keys/{key_id}",
+  }),
+);
 export type RevokeOrgApiKeyInput = typeof RevokeOrgApiKeyInput.Type;
 
 // Output Schema

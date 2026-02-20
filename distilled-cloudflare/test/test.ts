@@ -1,15 +1,16 @@
-import { FetchHttpClient, HttpClient } from "@effect/platform";
-import { NodeContext } from "@effect/platform-node";
+import { NodeServices } from "@effect/platform-node";
 import {
   afterAll as _afterAll,
   beforeAll as _beforeAll,
   it,
 } from "@effect/vitest";
-import { LogLevel } from "effect";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Logger from "effect/Logger";
+import { MinimumLogLevel } from "effect/References";
 import * as Scope from "effect/Scope";
+import * as FetchHttpClient from "effect/unstable/http/FetchHttpClient";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as Auth from "~/auth.ts";
 import * as Retry from "~/retry.ts";
 
@@ -20,9 +21,9 @@ type Provided =
   | Retry.Retry;
 
 const platform = Layer.mergeAll(
-  NodeContext.layer,
+  NodeServices.layer,
   FetchHttpClient.layer,
-  Logger.pretty,
+  Logger.layer([Logger.consolePretty()]),
 );
 
 const TestLayer = Layer.mergeAll(platform, Auth.fromEnv());
@@ -93,8 +94,9 @@ function provideTestEnv<A, E, R extends Provided>(
   effect: Effect.Effect<A, E, R>,
 ) {
   return effect.pipe(
-    Logger.withMinimumLogLevel(
-      process.env.DEBUG ? LogLevel.Debug : LogLevel.Info,
+    Effect.provideService(
+      MinimumLogLevel,
+      process.env.DEBUG ? "Debug" : "Info",
     ),
     Effect.provide(TestLayer),
     // Retry all transient errors (throttling, server errors, network errors) indefinitely

@@ -21,14 +21,14 @@ export type GetBackupInput = typeof GetBackupInput.Type;
 export const GetBackupOutput = Schema.Struct({
   id: Schema.String,
   name: Schema.String,
-  state: Schema.Literal(
+  state: Schema.Literals([
     "pending",
     "running",
     "success",
     "failed",
     "canceled",
     "ignored",
-  ),
+  ]),
   size: Schema.Number,
   estimated_storage_cost: Schema.Number,
   created_at: Schema.String,
@@ -58,7 +58,7 @@ export const GetBackupOutput = Schema.Struct({
     Schema.Struct({
       id: Schema.String,
       name: Schema.String,
-      target: Schema.Literal("production", "development"),
+      target: Schema.Literals(["production", "development"]),
       retention_value: Schema.Number,
       retention_unit: Schema.String,
       frequency_value: Schema.Number,

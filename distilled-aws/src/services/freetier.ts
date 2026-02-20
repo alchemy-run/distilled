@@ -1,4 +1,4 @@
-import { HttpClient } from "@effect/platform";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as effect from "effect/Effect";
 import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
@@ -122,19 +122,11 @@ const rules = T.EndpointResolver((p, _) => {
 //# Newtypes
 export type ActivityId = string;
 export type AccountId = string;
+export type Value = string;
 export type MaxResults = number;
 export type NextPageToken = string;
-export type Value = string;
 
 //# Schemas
-export interface GetAccountPlanStateRequest {}
-export const GetAccountPlanStateRequest = S.suspend(() =>
-  S.Struct({}).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotations({
-  identifier: "GetAccountPlanStateRequest",
-}) as any as S.Schema<GetAccountPlanStateRequest>;
 export type LanguageCode =
   | "en-US"
   | "en-GB"
@@ -151,23 +143,6 @@ export type LanguageCode =
   | "tr-TR"
   | (string & {});
 export const LanguageCode = S.String;
-export type AccountPlanType = "FREE" | "PAID" | (string & {});
-export const AccountPlanType = S.String;
-export type AccountPlanStatus =
-  | "NOT_STARTED"
-  | "ACTIVE"
-  | "EXPIRED"
-  | (string & {});
-export const AccountPlanStatus = S.String;
-export type ActivityStatus =
-  | "NOT_STARTED"
-  | "IN_PROGRESS"
-  | "COMPLETED"
-  | "EXPIRING"
-  | (string & {});
-export const ActivityStatus = S.String;
-export type FilterActivityStatuses = ActivityStatus[];
-export const FilterActivityStatuses = S.Array(ActivityStatus);
 export interface GetAccountActivityRequest {
   activityId: string;
   languageCode?: LanguageCode;
@@ -179,54 +154,103 @@ export const GetAccountActivityRequest = S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotations({
+).annotate({
   identifier: "GetAccountActivityRequest",
 }) as any as S.Schema<GetAccountActivityRequest>;
-export interface ListAccountActivitiesRequest {
-  filterActivityStatuses?: ActivityStatus[];
-  nextToken?: string;
-  maxResults?: number;
-  languageCode?: LanguageCode;
-}
-export const ListAccountActivitiesRequest = S.suspend(() =>
-  S.Struct({
-    filterActivityStatuses: S.optional(FilterActivityStatuses),
-    nextToken: S.optional(S.String),
-    maxResults: S.optional(S.Number),
-    languageCode: S.optional(LanguageCode),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotations({
-  identifier: "ListAccountActivitiesRequest",
-}) as any as S.Schema<ListAccountActivitiesRequest>;
-export interface UpgradeAccountPlanRequest {
-  accountPlanType: AccountPlanType;
-}
-export const UpgradeAccountPlanRequest = S.suspend(() =>
-  S.Struct({ accountPlanType: AccountPlanType }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotations({
-  identifier: "UpgradeAccountPlanRequest",
-}) as any as S.Schema<UpgradeAccountPlanRequest>;
+export type ActivityStatus =
+  | "NOT_STARTED"
+  | "IN_PROGRESS"
+  | "COMPLETED"
+  | "EXPIRING"
+  | (string & {});
+export const ActivityStatus = S.String;
 export type CurrencyCode = "USD" | (string & {});
 export const CurrencyCode = S.String;
-export type Expressions = Expression[];
-export const Expressions = S.Array(
-  S.suspend((): S.Schema<Expression, any> => Expression).annotations({
-    identifier: "Expression",
-  }),
-) as any as S.Schema<Expressions>;
 export interface MonetaryAmount {
   amount: number;
   unit: CurrencyCode;
 }
 export const MonetaryAmount = S.suspend(() =>
   S.Struct({ amount: S.Number, unit: CurrencyCode }),
-).annotations({
-  identifier: "MonetaryAmount",
-}) as any as S.Schema<MonetaryAmount>;
+).annotate({ identifier: "MonetaryAmount" }) as any as S.Schema<MonetaryAmount>;
+export type ActivityReward = { credit: MonetaryAmount };
+export const ActivityReward = S.Union([S.Struct({ credit: MonetaryAmount })]);
+export interface GetAccountActivityResponse {
+  activityId: string;
+  title: string;
+  description: string;
+  status: ActivityStatus;
+  instructionsUrl: string;
+  reward: ActivityReward;
+  estimatedTimeToCompleteInMinutes?: number;
+  expiresAt?: Date;
+  startedAt?: Date;
+  completedAt?: Date;
+}
+export const GetAccountActivityResponse = S.suspend(() =>
+  S.Struct({
+    activityId: S.String,
+    title: S.String,
+    description: S.String,
+    status: ActivityStatus,
+    instructionsUrl: S.String,
+    reward: ActivityReward,
+    estimatedTimeToCompleteInMinutes: S.optional(S.Number),
+    expiresAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    startedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    completedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+  }),
+).annotate({
+  identifier: "GetAccountActivityResponse",
+}) as any as S.Schema<GetAccountActivityResponse>;
+export interface GetAccountPlanStateRequest {}
+export const GetAccountPlanStateRequest = S.suspend(() =>
+  S.Struct({}).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "GetAccountPlanStateRequest",
+}) as any as S.Schema<GetAccountPlanStateRequest>;
+export type AccountPlanType = "FREE" | "PAID" | (string & {});
+export const AccountPlanType = S.String;
+export type AccountPlanStatus =
+  | "NOT_STARTED"
+  | "ACTIVE"
+  | "EXPIRED"
+  | (string & {});
+export const AccountPlanStatus = S.String;
+export interface GetAccountPlanStateResponse {
+  accountId: string;
+  accountPlanType: AccountPlanType;
+  accountPlanStatus: AccountPlanStatus;
+  accountPlanRemainingCredits?: MonetaryAmount;
+  accountPlanExpirationDate?: Date;
+}
+export const GetAccountPlanStateResponse = S.suspend(() =>
+  S.Struct({
+    accountId: S.String,
+    accountPlanType: AccountPlanType,
+    accountPlanStatus: AccountPlanStatus,
+    accountPlanRemainingCredits: S.optional(MonetaryAmount),
+    accountPlanExpirationDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+  }),
+).annotate({
+  identifier: "GetAccountPlanStateResponse",
+}) as any as S.Schema<GetAccountPlanStateResponse>;
+export type Expressions = Expression[];
+export const Expressions = S.Array(
+  S.suspend((): S.Schema<Expression> => Expression).annotate({
+    identifier: "Expression",
+  }),
+) as any as S.Schema<Expressions>;
 export type Dimension =
   | "SERVICE"
   | "OPERATION"
@@ -249,40 +273,6 @@ export type MatchOption =
 export const MatchOption = S.String;
 export type MatchOptions = MatchOption[];
 export const MatchOptions = S.Array(MatchOption);
-export interface GetAccountPlanStateResponse {
-  accountId: string;
-  accountPlanType: AccountPlanType;
-  accountPlanStatus: AccountPlanStatus;
-  accountPlanRemainingCredits?: MonetaryAmount;
-  accountPlanExpirationDate?: Date;
-}
-export const GetAccountPlanStateResponse = S.suspend(() =>
-  S.Struct({
-    accountId: S.String,
-    accountPlanType: AccountPlanType,
-    accountPlanStatus: AccountPlanStatus,
-    accountPlanRemainingCredits: S.optional(MonetaryAmount),
-    accountPlanExpirationDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
-    ),
-  }),
-).annotations({
-  identifier: "GetAccountPlanStateResponse",
-}) as any as S.Schema<GetAccountPlanStateResponse>;
-export interface UpgradeAccountPlanResponse {
-  accountId: string;
-  accountPlanType: AccountPlanType;
-  accountPlanStatus: AccountPlanStatus;
-}
-export const UpgradeAccountPlanResponse = S.suspend(() =>
-  S.Struct({
-    accountId: S.String,
-    accountPlanType: AccountPlanType,
-    accountPlanStatus: AccountPlanStatus,
-  }),
-).annotations({
-  identifier: "UpgradeAccountPlanResponse",
-}) as any as S.Schema<UpgradeAccountPlanResponse>;
 export interface DimensionValues {
   Key: Dimension;
   Values: string[];
@@ -290,11 +280,9 @@ export interface DimensionValues {
 }
 export const DimensionValues = S.suspend(() =>
   S.Struct({ Key: Dimension, Values: Values, MatchOptions: MatchOptions }),
-).annotations({
+).annotate({
   identifier: "DimensionValues",
 }) as any as S.Schema<DimensionValues>;
-export type ActivityReward = { credit: MonetaryAmount };
-export const ActivityReward = S.Union(S.Struct({ credit: MonetaryAmount }));
 export interface Expression {
   Or?: Expression[];
   And?: Expression[];
@@ -304,65 +292,19 @@ export interface Expression {
 export const Expression = S.suspend(() =>
   S.Struct({
     Or: S.optional(
-      S.suspend(() => Expressions).annotations({ identifier: "Expressions" }),
+      S.suspend(() => Expressions).annotate({ identifier: "Expressions" }),
     ),
     And: S.optional(
-      S.suspend(() => Expressions).annotations({ identifier: "Expressions" }),
+      S.suspend(() => Expressions).annotate({ identifier: "Expressions" }),
     ),
     Not: S.optional(
-      S.suspend((): S.Schema<Expression, any> => Expression).annotations({
+      S.suspend((): S.Schema<Expression> => Expression).annotate({
         identifier: "Expression",
       }),
     ),
     Dimensions: S.optional(DimensionValues),
   }),
-).annotations({ identifier: "Expression" }) as any as S.Schema<Expression>;
-export interface ActivitySummary {
-  activityId: string;
-  title: string;
-  reward: ActivityReward;
-  status: ActivityStatus;
-}
-export const ActivitySummary = S.suspend(() =>
-  S.Struct({
-    activityId: S.String,
-    title: S.String,
-    reward: ActivityReward,
-    status: ActivityStatus,
-  }),
-).annotations({
-  identifier: "ActivitySummary",
-}) as any as S.Schema<ActivitySummary>;
-export type Activities = ActivitySummary[];
-export const Activities = S.Array(ActivitySummary);
-export interface GetAccountActivityResponse {
-  activityId: string;
-  title: string;
-  description: string;
-  status: ActivityStatus;
-  instructionsUrl: string;
-  reward: ActivityReward;
-  estimatedTimeToCompleteInMinutes?: number;
-  expiresAt?: Date;
-  startedAt?: Date;
-  completedAt?: Date;
-}
-export const GetAccountActivityResponse = S.suspend(() =>
-  S.Struct({
-    activityId: S.String,
-    title: S.String,
-    description: S.String,
-    status: ActivityStatus,
-    instructionsUrl: S.String,
-    reward: ActivityReward,
-    estimatedTimeToCompleteInMinutes: S.optional(S.Number),
-    expiresAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    startedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    completedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  }),
-).annotations({
-  identifier: "GetAccountActivityResponse",
-}) as any as S.Schema<GetAccountActivityResponse>;
+).annotate({ identifier: "Expression" }) as any as S.Schema<Expression>;
 export interface GetFreeTierUsageRequest {
   filter?: Expression;
   maxResults?: number;
@@ -376,18 +318,9 @@ export const GetFreeTierUsageRequest = S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotations({
+).annotate({
   identifier: "GetFreeTierUsageRequest",
 }) as any as S.Schema<GetFreeTierUsageRequest>;
-export interface ListAccountActivitiesResponse {
-  activities: ActivitySummary[];
-  nextToken?: string;
-}
-export const ListAccountActivitiesResponse = S.suspend(() =>
-  S.Struct({ activities: Activities, nextToken: S.optional(S.String) }),
-).annotations({
-  identifier: "ListAccountActivitiesResponse",
-}) as any as S.Schema<ListAccountActivitiesResponse>;
 export interface FreeTierUsage {
   service?: string;
   operation?: string;
@@ -413,9 +346,7 @@ export const FreeTierUsage = S.suspend(() =>
     description: S.optional(S.String),
     freeTierType: S.optional(S.String),
   }),
-).annotations({
-  identifier: "FreeTierUsage",
-}) as any as S.Schema<FreeTierUsage>;
+).annotate({ identifier: "FreeTierUsage" }) as any as S.Schema<FreeTierUsage>;
 export type FreeTierUsages = FreeTierUsage[];
 export const FreeTierUsages = S.Array(FreeTierUsage);
 export interface GetFreeTierUsageResponse {
@@ -424,77 +355,126 @@ export interface GetFreeTierUsageResponse {
 }
 export const GetFreeTierUsageResponse = S.suspend(() =>
   S.Struct({ freeTierUsages: FreeTierUsages, nextToken: S.optional(S.String) }),
-).annotations({
+).annotate({
   identifier: "GetFreeTierUsageResponse",
 }) as any as S.Schema<GetFreeTierUsageResponse>;
+export type FilterActivityStatuses = ActivityStatus[];
+export const FilterActivityStatuses = S.Array(ActivityStatus);
+export interface ListAccountActivitiesRequest {
+  filterActivityStatuses?: ActivityStatus[];
+  nextToken?: string;
+  maxResults?: number;
+  languageCode?: LanguageCode;
+}
+export const ListAccountActivitiesRequest = S.suspend(() =>
+  S.Struct({
+    filterActivityStatuses: S.optional(FilterActivityStatuses),
+    nextToken: S.optional(S.String),
+    maxResults: S.optional(S.Number),
+    languageCode: S.optional(LanguageCode),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "ListAccountActivitiesRequest",
+}) as any as S.Schema<ListAccountActivitiesRequest>;
+export interface ActivitySummary {
+  activityId: string;
+  title: string;
+  reward: ActivityReward;
+  status: ActivityStatus;
+}
+export const ActivitySummary = S.suspend(() =>
+  S.Struct({
+    activityId: S.String,
+    title: S.String,
+    reward: ActivityReward,
+    status: ActivityStatus,
+  }),
+).annotate({
+  identifier: "ActivitySummary",
+}) as any as S.Schema<ActivitySummary>;
+export type Activities = ActivitySummary[];
+export const Activities = S.Array(ActivitySummary);
+export interface ListAccountActivitiesResponse {
+  activities: ActivitySummary[];
+  nextToken?: string;
+}
+export const ListAccountActivitiesResponse = S.suspend(() =>
+  S.Struct({ activities: Activities, nextToken: S.optional(S.String) }),
+).annotate({
+  identifier: "ListAccountActivitiesResponse",
+}) as any as S.Schema<ListAccountActivitiesResponse>;
+export interface UpgradeAccountPlanRequest {
+  accountPlanType: AccountPlanType;
+}
+export const UpgradeAccountPlanRequest = S.suspend(() =>
+  S.Struct({ accountPlanType: AccountPlanType }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "UpgradeAccountPlanRequest",
+}) as any as S.Schema<UpgradeAccountPlanRequest>;
+export interface UpgradeAccountPlanResponse {
+  accountId: string;
+  accountPlanType: AccountPlanType;
+  accountPlanStatus: AccountPlanStatus;
+}
+export const UpgradeAccountPlanResponse = S.suspend(() =>
+  S.Struct({
+    accountId: S.String,
+    accountPlanType: AccountPlanType,
+    accountPlanStatus: AccountPlanStatus,
+  }),
+).annotate({
+  identifier: "UpgradeAccountPlanResponse",
+}) as any as S.Schema<UpgradeAccountPlanResponse>;
 
 //# Errors
-export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
-  "AccessDeniedException",
-  { message: S.String },
-).pipe(C.withAuthError) {}
-export class InternalServerException extends S.TaggedError<InternalServerException>()(
+export class InternalServerException extends S.TaggedErrorClass<InternalServerException>()(
   "InternalServerException",
   { message: S.String },
 ).pipe(C.withServerError) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { message: S.String },
 ).pipe(C.withBadRequestError) {}
-export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
+export class ThrottlingException extends S.TaggedErrorClass<ThrottlingException>()(
   "ThrottlingException",
   { message: S.String },
 ).pipe(C.withThrottlingError) {}
-export class ValidationException extends S.TaggedError<ValidationException>()(
+export class ValidationException extends S.TaggedErrorClass<ValidationException>()(
   "ValidationException",
   { message: S.String },
 ).pipe(C.withBadRequestError) {}
+export class AccessDeniedException extends S.TaggedErrorClass<AccessDeniedException>()(
+  "AccessDeniedException",
+  { message: S.String },
+).pipe(C.withAuthError) {}
 
 //# Operations
 /**
- * Returns a list of activities that are available. This operation supports pagination and filtering by status.
+ * Returns a specific activity record that is available to the customer.
  */
-export const listAccountActivities: {
-  (
-    input: ListAccountActivitiesRequest,
-  ): effect.Effect<
-    ListAccountActivitiesResponse,
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  pages: (
-    input: ListAccountActivitiesRequest,
-  ) => stream.Stream<
-    ListAccountActivitiesResponse,
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  items: (
-    input: ListAccountActivitiesRequest,
-  ) => stream.Stream<
-    ActivitySummary,
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
-  input: ListAccountActivitiesRequest,
-  output: ListAccountActivitiesResponse,
-  errors: [InternalServerException, ThrottlingException, ValidationException],
-  pagination: {
-    inputToken: "nextToken",
-    outputToken: "nextToken",
-    items: "activities",
-    pageSize: "maxResults",
-  } as const,
+export const getAccountActivity: (
+  input: GetAccountActivityRequest,
+) => effect.Effect<
+  GetAccountActivityResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetAccountActivityRequest,
+  output: GetAccountActivityResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
 }));
 /**
  * This returns all of the information related to the state of the account plan related to Free Tier.
@@ -515,54 +495,6 @@ export const getAccountPlanState: (
   output: GetAccountPlanStateResponse,
   errors: [
     AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * The account plan type for the Amazon Web Services account.
- */
-export const upgradeAccountPlan: (
-  input: UpgradeAccountPlanRequest,
-) => effect.Effect<
-  UpgradeAccountPlanResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpgradeAccountPlanRequest,
-  output: UpgradeAccountPlanResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Returns a specific activity record that is available to the customer.
- */
-export const getAccountActivity: (
-  input: GetAccountActivityRequest,
-) => effect.Effect<
-  GetAccountActivityResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetAccountActivityRequest,
-  output: GetAccountActivityResponse,
-  errors: [
     InternalServerException,
     ResourceNotFoundException,
     ThrottlingException,
@@ -613,4 +545,74 @@ export const getFreeTierUsage: {
     items: "freeTierUsages",
     pageSize: "maxResults",
   } as const,
+}));
+/**
+ * Returns a list of activities that are available. This operation supports pagination and filtering by status.
+ */
+export const listAccountActivities: {
+  (
+    input: ListAccountActivitiesRequest,
+  ): effect.Effect<
+    ListAccountActivitiesResponse,
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAccountActivitiesRequest,
+  ) => stream.Stream<
+    ListAccountActivitiesResponse,
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAccountActivitiesRequest,
+  ) => stream.Stream<
+    ActivitySummary,
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAccountActivitiesRequest,
+  output: ListAccountActivitiesResponse,
+  errors: [InternalServerException, ThrottlingException, ValidationException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "activities",
+    pageSize: "maxResults",
+  } as const,
+}));
+/**
+ * The account plan type for the Amazon Web Services account.
+ */
+export const upgradeAccountPlan: (
+  input: UpgradeAccountPlanRequest,
+) => effect.Effect<
+  UpgradeAccountPlanResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpgradeAccountPlanRequest,
+  output: UpgradeAccountPlanResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
 }));

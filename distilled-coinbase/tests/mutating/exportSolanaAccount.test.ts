@@ -8,7 +8,10 @@ const NON_EXISTENT_SOLANA_ADDRESS = "11111111111111111111111111111112";
 describe("exportSolanaAccount", () => {
   it("returns error for non-existent address", async () => {
     await runEffect(
-      exportSolanaAccount({ address: NON_EXISTENT_SOLANA_ADDRESS, exportEncryptionKey: "test-key" }).pipe(
+      exportSolanaAccount({
+        address: NON_EXISTENT_SOLANA_ADDRESS,
+        exportEncryptionKey: "test-key",
+      }).pipe(
         Effect.flip,
         Effect.map((e) => expect(e._tag).toBe("InvalidRequest")),
       ),

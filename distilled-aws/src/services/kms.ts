@@ -1,4 +1,4 @@
-import { HttpClient } from "@effect/platform";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as effect from "effect/Effect";
 import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
@@ -86,6 +86,7 @@ const rules = T.EndpointResolver((p, _) => {
 
 //# Newtypes
 export type KeyIdType = string;
+export type ErrorMessageType = string;
 export type CustomKeyStoreIdType = string;
 export type AliasNameType = string;
 export type CustomKeyStoreNameType = string;
@@ -96,53 +97,189 @@ export type XksProxyUriEndpointType = string;
 export type XksProxyUriPathType = string;
 export type XksProxyVpcEndpointServiceNameType = string;
 export type AccountIdType = string;
-export type PrincipalIdType = string;
-export type GrantTokenType = string;
-export type GrantNameType = string;
-export type NullableBooleanType = boolean;
-export type PolicyType = string;
-export type DescriptionType = string;
-export type XksKeyIdType = string;
-export type CiphertextType = Uint8Array;
-export type BackingKeyIdType = string;
-export type PublicKeyType = Uint8Array;
-export type LimitType = number;
-export type MarkerType = string;
-export type RotationPeriodInDaysType = number;
-export type PlaintextType = Uint8Array | redacted.Redacted<Uint8Array>;
-export type NumberOfBytesType = number;
-export type PolicyNameType = string;
-export type KeyMaterialDescriptionType = string;
-export type GrantIdType = string;
-export type RegionType = string;
-export type PendingWindowInDaysType = number;
-export type TagKeyType = string;
 export type XksProxyAuthenticationAccessKeyIdType =
   | string
   | redacted.Redacted<string>;
 export type XksProxyAuthenticationRawSecretAccessKeyType =
   | string
   | redacted.Redacted<string>;
-export type TagValueType = string;
+export type PrincipalIdType = string;
 export type EncryptionContextKey = string;
 export type EncryptionContextValue = string;
-export type AttestationDocumentType = Uint8Array;
-export type ErrorMessageType = string;
-export type BackingKeyIdResponseType = string;
+export type GrantTokenType = string;
+export type GrantNameType = string;
+export type NullableBooleanType = boolean;
+export type GrantIdType = string;
+export type PolicyType = string;
+export type DescriptionType = string;
+export type TagKeyType = string;
+export type TagValueType = string;
+export type XksKeyIdType = string;
 export type AWSAccountIdType = string;
 export type ArnType = string;
+export type RegionType = string;
+export type PendingWindowInDaysType = number;
+export type BackingKeyIdType = string;
+export type CiphertextType = Uint8Array;
+export type AttestationDocumentType = Uint8Array;
+export type PlaintextType = Uint8Array | redacted.Redacted<Uint8Array>;
+export type BackingKeyIdResponseType = string;
+export type PublicKeyType = Uint8Array;
+export type LimitType = number;
+export type MarkerType = string;
+export type RotationPeriodInDaysType = number;
+export type NumberOfBytesType = number;
+export type PolicyNameType = string;
+export type KeyMaterialDescriptionType = string;
 
 //# Schemas
+export interface CancelKeyDeletionRequest {
+  KeyId: string;
+}
+export const CancelKeyDeletionRequest = S.suspend(() =>
+  S.Struct({ KeyId: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "CancelKeyDeletionRequest",
+}) as any as S.Schema<CancelKeyDeletionRequest>;
+export interface CancelKeyDeletionResponse {
+  KeyId?: string;
+}
+export const CancelKeyDeletionResponse = S.suspend(() =>
+  S.Struct({ KeyId: S.optional(S.String) }).pipe(ns),
+).annotate({
+  identifier: "CancelKeyDeletionResponse",
+}) as any as S.Schema<CancelKeyDeletionResponse>;
+export interface ConnectCustomKeyStoreRequest {
+  CustomKeyStoreId: string;
+}
+export const ConnectCustomKeyStoreRequest = S.suspend(() =>
+  S.Struct({ CustomKeyStoreId: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ConnectCustomKeyStoreRequest",
+}) as any as S.Schema<ConnectCustomKeyStoreRequest>;
+export interface ConnectCustomKeyStoreResponse {}
+export const ConnectCustomKeyStoreResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "ConnectCustomKeyStoreResponse",
+}) as any as S.Schema<ConnectCustomKeyStoreResponse>;
+export interface CreateAliasRequest {
+  AliasName: string;
+  TargetKeyId: string;
+}
+export const CreateAliasRequest = S.suspend(() =>
+  S.Struct({ AliasName: S.String, TargetKeyId: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "CreateAliasRequest",
+}) as any as S.Schema<CreateAliasRequest>;
+export interface CreateAliasResponse {}
+export const CreateAliasResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "CreateAliasResponse",
+}) as any as S.Schema<CreateAliasResponse>;
 export type CustomKeyStoreType =
   | "AWS_CLOUDHSM"
   | "EXTERNAL_KEY_STORE"
   | (string & {});
 export const CustomKeyStoreType = S.String;
+export interface XksProxyAuthenticationCredentialType {
+  AccessKeyId: string | redacted.Redacted<string>;
+  RawSecretAccessKey: string | redacted.Redacted<string>;
+}
+export const XksProxyAuthenticationCredentialType = S.suspend(() =>
+  S.Struct({
+    AccessKeyId: SensitiveString,
+    RawSecretAccessKey: SensitiveString,
+  }),
+).annotate({
+  identifier: "XksProxyAuthenticationCredentialType",
+}) as any as S.Schema<XksProxyAuthenticationCredentialType>;
 export type XksProxyConnectivityType =
   | "PUBLIC_ENDPOINT"
   | "VPC_ENDPOINT_SERVICE"
   | (string & {});
 export const XksProxyConnectivityType = S.String;
+export interface CreateCustomKeyStoreRequest {
+  CustomKeyStoreName: string;
+  CloudHsmClusterId?: string;
+  TrustAnchorCertificate?: string;
+  KeyStorePassword?: string | redacted.Redacted<string>;
+  CustomKeyStoreType?: CustomKeyStoreType;
+  XksProxyUriEndpoint?: string;
+  XksProxyUriPath?: string;
+  XksProxyVpcEndpointServiceName?: string;
+  XksProxyVpcEndpointServiceOwner?: string;
+  XksProxyAuthenticationCredential?: XksProxyAuthenticationCredentialType;
+  XksProxyConnectivity?: XksProxyConnectivityType;
+}
+export const CreateCustomKeyStoreRequest = S.suspend(() =>
+  S.Struct({
+    CustomKeyStoreName: S.String,
+    CloudHsmClusterId: S.optional(S.String),
+    TrustAnchorCertificate: S.optional(S.String),
+    KeyStorePassword: S.optional(SensitiveString),
+    CustomKeyStoreType: S.optional(CustomKeyStoreType),
+    XksProxyUriEndpoint: S.optional(S.String),
+    XksProxyUriPath: S.optional(S.String),
+    XksProxyVpcEndpointServiceName: S.optional(S.String),
+    XksProxyVpcEndpointServiceOwner: S.optional(S.String),
+    XksProxyAuthenticationCredential: S.optional(
+      XksProxyAuthenticationCredentialType,
+    ),
+    XksProxyConnectivity: S.optional(XksProxyConnectivityType),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "CreateCustomKeyStoreRequest",
+}) as any as S.Schema<CreateCustomKeyStoreRequest>;
+export interface CreateCustomKeyStoreResponse {
+  CustomKeyStoreId?: string;
+}
+export const CreateCustomKeyStoreResponse = S.suspend(() =>
+  S.Struct({ CustomKeyStoreId: S.optional(S.String) }).pipe(ns),
+).annotate({
+  identifier: "CreateCustomKeyStoreResponse",
+}) as any as S.Schema<CreateCustomKeyStoreResponse>;
 export type GrantOperation =
   | "Decrypt"
   | "Encrypt"
@@ -165,8 +302,71 @@ export type GrantOperation =
 export const GrantOperation = S.String;
 export type GrantOperationList = GrantOperation[];
 export const GrantOperationList = S.Array(GrantOperation);
+export type EncryptionContextType = { [key: string]: string | undefined };
+export const EncryptionContextType = S.Record(
+  S.String,
+  S.String.pipe(S.optional),
+);
+export interface GrantConstraints {
+  EncryptionContextSubset?: { [key: string]: string | undefined };
+  EncryptionContextEquals?: { [key: string]: string | undefined };
+}
+export const GrantConstraints = S.suspend(() =>
+  S.Struct({
+    EncryptionContextSubset: S.optional(EncryptionContextType),
+    EncryptionContextEquals: S.optional(EncryptionContextType),
+  }),
+).annotate({
+  identifier: "GrantConstraints",
+}) as any as S.Schema<GrantConstraints>;
 export type GrantTokenList = string[];
 export const GrantTokenList = S.Array(S.String);
+export interface CreateGrantRequest {
+  KeyId: string;
+  GranteePrincipal: string;
+  RetiringPrincipal?: string;
+  Operations: GrantOperation[];
+  Constraints?: GrantConstraints;
+  GrantTokens?: string[];
+  Name?: string;
+  DryRun?: boolean;
+}
+export const CreateGrantRequest = S.suspend(() =>
+  S.Struct({
+    KeyId: S.String,
+    GranteePrincipal: S.String,
+    RetiringPrincipal: S.optional(S.String),
+    Operations: GrantOperationList,
+    Constraints: S.optional(GrantConstraints),
+    GrantTokens: S.optional(GrantTokenList),
+    Name: S.optional(S.String),
+    DryRun: S.optional(S.Boolean),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "CreateGrantRequest",
+}) as any as S.Schema<CreateGrantRequest>;
+export interface CreateGrantResponse {
+  GrantToken?: string;
+  GrantId?: string;
+}
+export const CreateGrantResponse = S.suspend(() =>
+  S.Struct({
+    GrantToken: S.optional(S.String),
+    GrantId: S.optional(S.String),
+  }).pipe(ns),
+).annotate({
+  identifier: "CreateGrantResponse",
+}) as any as S.Schema<CreateGrantResponse>;
 export type KeyUsageType =
   | "SIGN_VERIFY"
   | "ENCRYPT_DECRYPT"
@@ -217,1518 +417,15 @@ export type OriginType =
   | "EXTERNAL_KEY_STORE"
   | (string & {});
 export const OriginType = S.String;
-export type EncryptionAlgorithmSpec =
-  | "SYMMETRIC_DEFAULT"
-  | "RSAES_OAEP_SHA_1"
-  | "RSAES_OAEP_SHA_256"
-  | "SM2PKE"
-  | (string & {});
-export const EncryptionAlgorithmSpec = S.String;
-export type KeyAgreementAlgorithmSpec = "ECDH" | (string & {});
-export const KeyAgreementAlgorithmSpec = S.String;
-export type DataKeySpec = "AES_256" | "AES_128" | (string & {});
-export const DataKeySpec = S.String;
-export type DataKeyPairSpec =
-  | "RSA_2048"
-  | "RSA_3072"
-  | "RSA_4096"
-  | "ECC_NIST_P256"
-  | "ECC_NIST_P384"
-  | "ECC_NIST_P521"
-  | "ECC_SECG_P256K1"
-  | "SM2"
-  | "ECC_NIST_EDWARDS25519"
-  | (string & {});
-export const DataKeyPairSpec = S.String;
-export type MacAlgorithmSpec =
-  | "HMAC_SHA_224"
-  | "HMAC_SHA_256"
-  | "HMAC_SHA_384"
-  | "HMAC_SHA_512"
-  | (string & {});
-export const MacAlgorithmSpec = S.String;
-export type AlgorithmSpec =
-  | "RSAES_PKCS1_V1_5"
-  | "RSAES_OAEP_SHA_1"
-  | "RSAES_OAEP_SHA_256"
-  | "RSA_AES_KEY_WRAP_SHA_1"
-  | "RSA_AES_KEY_WRAP_SHA_256"
-  | "SM2PKE"
-  | (string & {});
-export const AlgorithmSpec = S.String;
-export type WrappingKeySpec =
-  | "RSA_2048"
-  | "RSA_3072"
-  | "RSA_4096"
-  | "SM2"
-  | (string & {});
-export const WrappingKeySpec = S.String;
-export type ExpirationModelType =
-  | "KEY_MATERIAL_EXPIRES"
-  | "KEY_MATERIAL_DOES_NOT_EXPIRE"
-  | (string & {});
-export const ExpirationModelType = S.String;
-export type ImportType =
-  | "NEW_KEY_MATERIAL"
-  | "EXISTING_KEY_MATERIAL"
-  | (string & {});
-export const ImportType = S.String;
-export type IncludeKeyMaterial =
-  | "ALL_KEY_MATERIAL"
-  | "ROTATIONS_ONLY"
-  | (string & {});
-export const IncludeKeyMaterial = S.String;
-export type MessageType = "RAW" | "DIGEST" | "EXTERNAL_MU" | (string & {});
-export const MessageType = S.String;
-export type SigningAlgorithmSpec =
-  | "RSASSA_PSS_SHA_256"
-  | "RSASSA_PSS_SHA_384"
-  | "RSASSA_PSS_SHA_512"
-  | "RSASSA_PKCS1_V1_5_SHA_256"
-  | "RSASSA_PKCS1_V1_5_SHA_384"
-  | "RSASSA_PKCS1_V1_5_SHA_512"
-  | "ECDSA_SHA_256"
-  | "ECDSA_SHA_384"
-  | "ECDSA_SHA_512"
-  | "SM2DSA"
-  | "ML_DSA_SHAKE_256"
-  | "ED25519_SHA_512"
-  | "ED25519_PH_SHA_512"
-  | (string & {});
-export const SigningAlgorithmSpec = S.String;
-export type TagKeyList = string[];
-export const TagKeyList = S.Array(S.String);
-export interface CancelKeyDeletionRequest {
-  KeyId: string;
-}
-export const CancelKeyDeletionRequest = S.suspend(() =>
-  S.Struct({ KeyId: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "CancelKeyDeletionRequest",
-}) as any as S.Schema<CancelKeyDeletionRequest>;
-export interface ConnectCustomKeyStoreRequest {
-  CustomKeyStoreId: string;
-}
-export const ConnectCustomKeyStoreRequest = S.suspend(() =>
-  S.Struct({ CustomKeyStoreId: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ConnectCustomKeyStoreRequest",
-}) as any as S.Schema<ConnectCustomKeyStoreRequest>;
-export interface ConnectCustomKeyStoreResponse {}
-export const ConnectCustomKeyStoreResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotations({
-  identifier: "ConnectCustomKeyStoreResponse",
-}) as any as S.Schema<ConnectCustomKeyStoreResponse>;
-export interface CreateAliasRequest {
-  AliasName: string;
-  TargetKeyId: string;
-}
-export const CreateAliasRequest = S.suspend(() =>
-  S.Struct({ AliasName: S.String, TargetKeyId: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "CreateAliasRequest",
-}) as any as S.Schema<CreateAliasRequest>;
-export interface CreateAliasResponse {}
-export const CreateAliasResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotations({
-  identifier: "CreateAliasResponse",
-}) as any as S.Schema<CreateAliasResponse>;
-export interface DeleteAliasRequest {
-  AliasName: string;
-}
-export const DeleteAliasRequest = S.suspend(() =>
-  S.Struct({ AliasName: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DeleteAliasRequest",
-}) as any as S.Schema<DeleteAliasRequest>;
-export interface DeleteAliasResponse {}
-export const DeleteAliasResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotations({
-  identifier: "DeleteAliasResponse",
-}) as any as S.Schema<DeleteAliasResponse>;
-export interface DeleteCustomKeyStoreRequest {
-  CustomKeyStoreId: string;
-}
-export const DeleteCustomKeyStoreRequest = S.suspend(() =>
-  S.Struct({ CustomKeyStoreId: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DeleteCustomKeyStoreRequest",
-}) as any as S.Schema<DeleteCustomKeyStoreRequest>;
-export interface DeleteCustomKeyStoreResponse {}
-export const DeleteCustomKeyStoreResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotations({
-  identifier: "DeleteCustomKeyStoreResponse",
-}) as any as S.Schema<DeleteCustomKeyStoreResponse>;
-export interface DeleteImportedKeyMaterialRequest {
-  KeyId: string;
-  KeyMaterialId?: string;
-}
-export const DeleteImportedKeyMaterialRequest = S.suspend(() =>
-  S.Struct({ KeyId: S.String, KeyMaterialId: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DeleteImportedKeyMaterialRequest",
-}) as any as S.Schema<DeleteImportedKeyMaterialRequest>;
-export type KeyEncryptionMechanism = "RSAES_OAEP_SHA_256" | (string & {});
-export const KeyEncryptionMechanism = S.String;
-export interface RecipientInfo {
-  KeyEncryptionAlgorithm?: KeyEncryptionMechanism;
-  AttestationDocument?: Uint8Array;
-}
-export const RecipientInfo = S.suspend(() =>
-  S.Struct({
-    KeyEncryptionAlgorithm: S.optional(KeyEncryptionMechanism),
-    AttestationDocument: S.optional(T.Blob),
-  }),
-).annotations({
-  identifier: "RecipientInfo",
-}) as any as S.Schema<RecipientInfo>;
-export interface DeriveSharedSecretRequest {
-  KeyId: string;
-  KeyAgreementAlgorithm: KeyAgreementAlgorithmSpec;
-  PublicKey: Uint8Array;
-  GrantTokens?: string[];
-  DryRun?: boolean;
-  Recipient?: RecipientInfo;
-}
-export const DeriveSharedSecretRequest = S.suspend(() =>
-  S.Struct({
-    KeyId: S.String,
-    KeyAgreementAlgorithm: KeyAgreementAlgorithmSpec,
-    PublicKey: T.Blob,
-    GrantTokens: S.optional(GrantTokenList),
-    DryRun: S.optional(S.Boolean),
-    Recipient: S.optional(RecipientInfo),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DeriveSharedSecretRequest",
-}) as any as S.Schema<DeriveSharedSecretRequest>;
-export interface DescribeCustomKeyStoresRequest {
-  CustomKeyStoreId?: string;
-  CustomKeyStoreName?: string;
-  Limit?: number;
-  Marker?: string;
-}
-export const DescribeCustomKeyStoresRequest = S.suspend(() =>
-  S.Struct({
-    CustomKeyStoreId: S.optional(S.String),
-    CustomKeyStoreName: S.optional(S.String),
-    Limit: S.optional(S.Number),
-    Marker: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DescribeCustomKeyStoresRequest",
-}) as any as S.Schema<DescribeCustomKeyStoresRequest>;
-export interface DescribeKeyRequest {
-  KeyId: string;
-  GrantTokens?: string[];
-}
-export const DescribeKeyRequest = S.suspend(() =>
-  S.Struct({ KeyId: S.String, GrantTokens: S.optional(GrantTokenList) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DescribeKeyRequest",
-}) as any as S.Schema<DescribeKeyRequest>;
-export interface DisableKeyRequest {
-  KeyId: string;
-}
-export const DisableKeyRequest = S.suspend(() =>
-  S.Struct({ KeyId: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DisableKeyRequest",
-}) as any as S.Schema<DisableKeyRequest>;
-export interface DisableKeyResponse {}
-export const DisableKeyResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotations({
-  identifier: "DisableKeyResponse",
-}) as any as S.Schema<DisableKeyResponse>;
-export interface DisableKeyRotationRequest {
-  KeyId: string;
-}
-export const DisableKeyRotationRequest = S.suspend(() =>
-  S.Struct({ KeyId: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DisableKeyRotationRequest",
-}) as any as S.Schema<DisableKeyRotationRequest>;
-export interface DisableKeyRotationResponse {}
-export const DisableKeyRotationResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotations({
-  identifier: "DisableKeyRotationResponse",
-}) as any as S.Schema<DisableKeyRotationResponse>;
-export interface DisconnectCustomKeyStoreRequest {
-  CustomKeyStoreId: string;
-}
-export const DisconnectCustomKeyStoreRequest = S.suspend(() =>
-  S.Struct({ CustomKeyStoreId: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DisconnectCustomKeyStoreRequest",
-}) as any as S.Schema<DisconnectCustomKeyStoreRequest>;
-export interface DisconnectCustomKeyStoreResponse {}
-export const DisconnectCustomKeyStoreResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotations({
-  identifier: "DisconnectCustomKeyStoreResponse",
-}) as any as S.Schema<DisconnectCustomKeyStoreResponse>;
-export interface EnableKeyRequest {
-  KeyId: string;
-}
-export const EnableKeyRequest = S.suspend(() =>
-  S.Struct({ KeyId: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "EnableKeyRequest",
-}) as any as S.Schema<EnableKeyRequest>;
-export interface EnableKeyResponse {}
-export const EnableKeyResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotations({
-  identifier: "EnableKeyResponse",
-}) as any as S.Schema<EnableKeyResponse>;
-export interface EnableKeyRotationRequest {
-  KeyId: string;
-  RotationPeriodInDays?: number;
-}
-export const EnableKeyRotationRequest = S.suspend(() =>
-  S.Struct({
-    KeyId: S.String,
-    RotationPeriodInDays: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "EnableKeyRotationRequest",
-}) as any as S.Schema<EnableKeyRotationRequest>;
-export interface EnableKeyRotationResponse {}
-export const EnableKeyRotationResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotations({
-  identifier: "EnableKeyRotationResponse",
-}) as any as S.Schema<EnableKeyRotationResponse>;
-export type EncryptionContextType = { [key: string]: string | undefined };
-export const EncryptionContextType = S.Record({
-  key: S.String,
-  value: S.UndefinedOr(S.String),
-});
-export interface EncryptRequest {
-  KeyId: string;
-  Plaintext: Uint8Array | redacted.Redacted<Uint8Array>;
-  EncryptionContext?: { [key: string]: string | undefined };
-  GrantTokens?: string[];
-  EncryptionAlgorithm?: EncryptionAlgorithmSpec;
-  DryRun?: boolean;
-}
-export const EncryptRequest = S.suspend(() =>
-  S.Struct({
-    KeyId: S.String,
-    Plaintext: SensitiveBlob,
-    EncryptionContext: S.optional(EncryptionContextType),
-    GrantTokens: S.optional(GrantTokenList),
-    EncryptionAlgorithm: S.optional(EncryptionAlgorithmSpec),
-    DryRun: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "EncryptRequest",
-}) as any as S.Schema<EncryptRequest>;
-export interface GenerateDataKeyRequest {
-  KeyId: string;
-  EncryptionContext?: { [key: string]: string | undefined };
-  NumberOfBytes?: number;
-  KeySpec?: DataKeySpec;
-  GrantTokens?: string[];
-  Recipient?: RecipientInfo;
-  DryRun?: boolean;
-}
-export const GenerateDataKeyRequest = S.suspend(() =>
-  S.Struct({
-    KeyId: S.String,
-    EncryptionContext: S.optional(EncryptionContextType),
-    NumberOfBytes: S.optional(S.Number),
-    KeySpec: S.optional(DataKeySpec),
-    GrantTokens: S.optional(GrantTokenList),
-    Recipient: S.optional(RecipientInfo),
-    DryRun: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "GenerateDataKeyRequest",
-}) as any as S.Schema<GenerateDataKeyRequest>;
-export interface GenerateDataKeyPairRequest {
-  EncryptionContext?: { [key: string]: string | undefined };
-  KeyId: string;
-  KeyPairSpec: DataKeyPairSpec;
-  GrantTokens?: string[];
-  Recipient?: RecipientInfo;
-  DryRun?: boolean;
-}
-export const GenerateDataKeyPairRequest = S.suspend(() =>
-  S.Struct({
-    EncryptionContext: S.optional(EncryptionContextType),
-    KeyId: S.String,
-    KeyPairSpec: DataKeyPairSpec,
-    GrantTokens: S.optional(GrantTokenList),
-    Recipient: S.optional(RecipientInfo),
-    DryRun: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "GenerateDataKeyPairRequest",
-}) as any as S.Schema<GenerateDataKeyPairRequest>;
-export interface GenerateDataKeyPairWithoutPlaintextRequest {
-  EncryptionContext?: { [key: string]: string | undefined };
-  KeyId: string;
-  KeyPairSpec: DataKeyPairSpec;
-  GrantTokens?: string[];
-  DryRun?: boolean;
-}
-export const GenerateDataKeyPairWithoutPlaintextRequest = S.suspend(() =>
-  S.Struct({
-    EncryptionContext: S.optional(EncryptionContextType),
-    KeyId: S.String,
-    KeyPairSpec: DataKeyPairSpec,
-    GrantTokens: S.optional(GrantTokenList),
-    DryRun: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "GenerateDataKeyPairWithoutPlaintextRequest",
-}) as any as S.Schema<GenerateDataKeyPairWithoutPlaintextRequest>;
-export interface GenerateDataKeyWithoutPlaintextRequest {
-  KeyId: string;
-  EncryptionContext?: { [key: string]: string | undefined };
-  KeySpec?: DataKeySpec;
-  NumberOfBytes?: number;
-  GrantTokens?: string[];
-  DryRun?: boolean;
-}
-export const GenerateDataKeyWithoutPlaintextRequest = S.suspend(() =>
-  S.Struct({
-    KeyId: S.String,
-    EncryptionContext: S.optional(EncryptionContextType),
-    KeySpec: S.optional(DataKeySpec),
-    NumberOfBytes: S.optional(S.Number),
-    GrantTokens: S.optional(GrantTokenList),
-    DryRun: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "GenerateDataKeyWithoutPlaintextRequest",
-}) as any as S.Schema<GenerateDataKeyWithoutPlaintextRequest>;
-export interface GenerateMacRequest {
-  Message: Uint8Array | redacted.Redacted<Uint8Array>;
-  KeyId: string;
-  MacAlgorithm: MacAlgorithmSpec;
-  GrantTokens?: string[];
-  DryRun?: boolean;
-}
-export const GenerateMacRequest = S.suspend(() =>
-  S.Struct({
-    Message: SensitiveBlob,
-    KeyId: S.String,
-    MacAlgorithm: MacAlgorithmSpec,
-    GrantTokens: S.optional(GrantTokenList),
-    DryRun: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "GenerateMacRequest",
-}) as any as S.Schema<GenerateMacRequest>;
-export interface GenerateRandomRequest {
-  NumberOfBytes?: number;
-  CustomKeyStoreId?: string;
-  Recipient?: RecipientInfo;
-}
-export const GenerateRandomRequest = S.suspend(() =>
-  S.Struct({
-    NumberOfBytes: S.optional(S.Number),
-    CustomKeyStoreId: S.optional(S.String),
-    Recipient: S.optional(RecipientInfo),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "GenerateRandomRequest",
-}) as any as S.Schema<GenerateRandomRequest>;
-export interface GetKeyPolicyRequest {
-  KeyId: string;
-  PolicyName?: string;
-}
-export const GetKeyPolicyRequest = S.suspend(() =>
-  S.Struct({ KeyId: S.String, PolicyName: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "GetKeyPolicyRequest",
-}) as any as S.Schema<GetKeyPolicyRequest>;
-export interface GetKeyRotationStatusRequest {
-  KeyId: string;
-}
-export const GetKeyRotationStatusRequest = S.suspend(() =>
-  S.Struct({ KeyId: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "GetKeyRotationStatusRequest",
-}) as any as S.Schema<GetKeyRotationStatusRequest>;
-export interface GetParametersForImportRequest {
-  KeyId: string;
-  WrappingAlgorithm: AlgorithmSpec;
-  WrappingKeySpec: WrappingKeySpec;
-}
-export const GetParametersForImportRequest = S.suspend(() =>
-  S.Struct({
-    KeyId: S.String,
-    WrappingAlgorithm: AlgorithmSpec,
-    WrappingKeySpec: WrappingKeySpec,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "GetParametersForImportRequest",
-}) as any as S.Schema<GetParametersForImportRequest>;
-export interface GetPublicKeyRequest {
-  KeyId: string;
-  GrantTokens?: string[];
-}
-export const GetPublicKeyRequest = S.suspend(() =>
-  S.Struct({ KeyId: S.String, GrantTokens: S.optional(GrantTokenList) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "GetPublicKeyRequest",
-}) as any as S.Schema<GetPublicKeyRequest>;
-export interface ImportKeyMaterialRequest {
-  KeyId: string;
-  ImportToken: Uint8Array;
-  EncryptedKeyMaterial: Uint8Array;
-  ValidTo?: Date;
-  ExpirationModel?: ExpirationModelType;
-  ImportType?: ImportType;
-  KeyMaterialDescription?: string;
-  KeyMaterialId?: string;
-}
-export const ImportKeyMaterialRequest = S.suspend(() =>
-  S.Struct({
-    KeyId: S.String,
-    ImportToken: T.Blob,
-    EncryptedKeyMaterial: T.Blob,
-    ValidTo: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    ExpirationModel: S.optional(ExpirationModelType),
-    ImportType: S.optional(ImportType),
-    KeyMaterialDescription: S.optional(S.String),
-    KeyMaterialId: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ImportKeyMaterialRequest",
-}) as any as S.Schema<ImportKeyMaterialRequest>;
-export interface ListAliasesRequest {
-  KeyId?: string;
-  Limit?: number;
-  Marker?: string;
-}
-export const ListAliasesRequest = S.suspend(() =>
-  S.Struct({
-    KeyId: S.optional(S.String),
-    Limit: S.optional(S.Number),
-    Marker: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListAliasesRequest",
-}) as any as S.Schema<ListAliasesRequest>;
-export interface ListGrantsRequest {
-  Limit?: number;
-  Marker?: string;
-  KeyId: string;
-  GrantId?: string;
-  GranteePrincipal?: string;
-}
-export const ListGrantsRequest = S.suspend(() =>
-  S.Struct({
-    Limit: S.optional(S.Number),
-    Marker: S.optional(S.String),
-    KeyId: S.String,
-    GrantId: S.optional(S.String),
-    GranteePrincipal: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListGrantsRequest",
-}) as any as S.Schema<ListGrantsRequest>;
-export interface ListKeyPoliciesRequest {
-  KeyId: string;
-  Limit?: number;
-  Marker?: string;
-}
-export const ListKeyPoliciesRequest = S.suspend(() =>
-  S.Struct({
-    KeyId: S.String,
-    Limit: S.optional(S.Number),
-    Marker: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListKeyPoliciesRequest",
-}) as any as S.Schema<ListKeyPoliciesRequest>;
-export interface ListKeyRotationsRequest {
-  KeyId: string;
-  IncludeKeyMaterial?: IncludeKeyMaterial;
-  Limit?: number;
-  Marker?: string;
-}
-export const ListKeyRotationsRequest = S.suspend(() =>
-  S.Struct({
-    KeyId: S.String,
-    IncludeKeyMaterial: S.optional(IncludeKeyMaterial),
-    Limit: S.optional(S.Number),
-    Marker: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListKeyRotationsRequest",
-}) as any as S.Schema<ListKeyRotationsRequest>;
-export interface ListKeysRequest {
-  Limit?: number;
-  Marker?: string;
-}
-export const ListKeysRequest = S.suspend(() =>
-  S.Struct({ Limit: S.optional(S.Number), Marker: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListKeysRequest",
-}) as any as S.Schema<ListKeysRequest>;
-export interface ListResourceTagsRequest {
-  KeyId: string;
-  Limit?: number;
-  Marker?: string;
-}
-export const ListResourceTagsRequest = S.suspend(() =>
-  S.Struct({
-    KeyId: S.String,
-    Limit: S.optional(S.Number),
-    Marker: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListResourceTagsRequest",
-}) as any as S.Schema<ListResourceTagsRequest>;
-export interface ListRetirableGrantsRequest {
-  Limit?: number;
-  Marker?: string;
-  RetiringPrincipal: string;
-}
-export const ListRetirableGrantsRequest = S.suspend(() =>
-  S.Struct({
-    Limit: S.optional(S.Number),
-    Marker: S.optional(S.String),
-    RetiringPrincipal: S.String,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListRetirableGrantsRequest",
-}) as any as S.Schema<ListRetirableGrantsRequest>;
-export interface PutKeyPolicyRequest {
-  KeyId: string;
-  PolicyName?: string;
-  Policy: string;
-  BypassPolicyLockoutSafetyCheck?: boolean;
-}
-export const PutKeyPolicyRequest = S.suspend(() =>
-  S.Struct({
-    KeyId: S.String,
-    PolicyName: S.optional(S.String),
-    Policy: S.String,
-    BypassPolicyLockoutSafetyCheck: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "PutKeyPolicyRequest",
-}) as any as S.Schema<PutKeyPolicyRequest>;
-export interface PutKeyPolicyResponse {}
-export const PutKeyPolicyResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotations({
-  identifier: "PutKeyPolicyResponse",
-}) as any as S.Schema<PutKeyPolicyResponse>;
-export interface ReEncryptRequest {
-  CiphertextBlob: Uint8Array;
-  SourceEncryptionContext?: { [key: string]: string | undefined };
-  SourceKeyId?: string;
-  DestinationKeyId: string;
-  DestinationEncryptionContext?: { [key: string]: string | undefined };
-  SourceEncryptionAlgorithm?: EncryptionAlgorithmSpec;
-  DestinationEncryptionAlgorithm?: EncryptionAlgorithmSpec;
-  GrantTokens?: string[];
-  DryRun?: boolean;
-}
-export const ReEncryptRequest = S.suspend(() =>
-  S.Struct({
-    CiphertextBlob: T.Blob,
-    SourceEncryptionContext: S.optional(EncryptionContextType),
-    SourceKeyId: S.optional(S.String),
-    DestinationKeyId: S.String,
-    DestinationEncryptionContext: S.optional(EncryptionContextType),
-    SourceEncryptionAlgorithm: S.optional(EncryptionAlgorithmSpec),
-    DestinationEncryptionAlgorithm: S.optional(EncryptionAlgorithmSpec),
-    GrantTokens: S.optional(GrantTokenList),
-    DryRun: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ReEncryptRequest",
-}) as any as S.Schema<ReEncryptRequest>;
 export interface Tag {
   TagKey: string;
   TagValue: string;
 }
 export const Tag = S.suspend(() =>
   S.Struct({ TagKey: S.String, TagValue: S.String }),
-).annotations({ identifier: "Tag" }) as any as S.Schema<Tag>;
+).annotate({ identifier: "Tag" }) as any as S.Schema<Tag>;
 export type TagList = Tag[];
 export const TagList = S.Array(Tag);
-export interface ReplicateKeyRequest {
-  KeyId: string;
-  ReplicaRegion: string;
-  Policy?: string;
-  BypassPolicyLockoutSafetyCheck?: boolean;
-  Description?: string;
-  Tags?: Tag[];
-}
-export const ReplicateKeyRequest = S.suspend(() =>
-  S.Struct({
-    KeyId: S.String,
-    ReplicaRegion: S.String,
-    Policy: S.optional(S.String),
-    BypassPolicyLockoutSafetyCheck: S.optional(S.Boolean),
-    Description: S.optional(S.String),
-    Tags: S.optional(TagList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ReplicateKeyRequest",
-}) as any as S.Schema<ReplicateKeyRequest>;
-export interface RetireGrantRequest {
-  GrantToken?: string;
-  KeyId?: string;
-  GrantId?: string;
-  DryRun?: boolean;
-}
-export const RetireGrantRequest = S.suspend(() =>
-  S.Struct({
-    GrantToken: S.optional(S.String),
-    KeyId: S.optional(S.String),
-    GrantId: S.optional(S.String),
-    DryRun: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "RetireGrantRequest",
-}) as any as S.Schema<RetireGrantRequest>;
-export interface RetireGrantResponse {}
-export const RetireGrantResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotations({
-  identifier: "RetireGrantResponse",
-}) as any as S.Schema<RetireGrantResponse>;
-export interface RevokeGrantRequest {
-  KeyId: string;
-  GrantId: string;
-  DryRun?: boolean;
-}
-export const RevokeGrantRequest = S.suspend(() =>
-  S.Struct({
-    KeyId: S.String,
-    GrantId: S.String,
-    DryRun: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "RevokeGrantRequest",
-}) as any as S.Schema<RevokeGrantRequest>;
-export interface RevokeGrantResponse {}
-export const RevokeGrantResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotations({
-  identifier: "RevokeGrantResponse",
-}) as any as S.Schema<RevokeGrantResponse>;
-export interface RotateKeyOnDemandRequest {
-  KeyId: string;
-}
-export const RotateKeyOnDemandRequest = S.suspend(() =>
-  S.Struct({ KeyId: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "RotateKeyOnDemandRequest",
-}) as any as S.Schema<RotateKeyOnDemandRequest>;
-export interface ScheduleKeyDeletionRequest {
-  KeyId: string;
-  PendingWindowInDays?: number;
-}
-export const ScheduleKeyDeletionRequest = S.suspend(() =>
-  S.Struct({ KeyId: S.String, PendingWindowInDays: S.optional(S.Number) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ScheduleKeyDeletionRequest",
-}) as any as S.Schema<ScheduleKeyDeletionRequest>;
-export interface SignRequest {
-  KeyId: string;
-  Message: Uint8Array | redacted.Redacted<Uint8Array>;
-  MessageType?: MessageType;
-  GrantTokens?: string[];
-  SigningAlgorithm: SigningAlgorithmSpec;
-  DryRun?: boolean;
-}
-export const SignRequest = S.suspend(() =>
-  S.Struct({
-    KeyId: S.String,
-    Message: SensitiveBlob,
-    MessageType: S.optional(MessageType),
-    GrantTokens: S.optional(GrantTokenList),
-    SigningAlgorithm: SigningAlgorithmSpec,
-    DryRun: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({ identifier: "SignRequest" }) as any as S.Schema<SignRequest>;
-export interface TagResourceRequest {
-  KeyId: string;
-  Tags: Tag[];
-}
-export const TagResourceRequest = S.suspend(() =>
-  S.Struct({ KeyId: S.String, Tags: TagList }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
-export interface TagResourceResponse {}
-export const TagResourceResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotations({
-  identifier: "TagResourceResponse",
-}) as any as S.Schema<TagResourceResponse>;
-export interface UntagResourceRequest {
-  KeyId: string;
-  TagKeys: string[];
-}
-export const UntagResourceRequest = S.suspend(() =>
-  S.Struct({ KeyId: S.String, TagKeys: TagKeyList }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
-export interface UntagResourceResponse {}
-export const UntagResourceResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotations({
-  identifier: "UntagResourceResponse",
-}) as any as S.Schema<UntagResourceResponse>;
-export interface UpdateAliasRequest {
-  AliasName: string;
-  TargetKeyId: string;
-}
-export const UpdateAliasRequest = S.suspend(() =>
-  S.Struct({ AliasName: S.String, TargetKeyId: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "UpdateAliasRequest",
-}) as any as S.Schema<UpdateAliasRequest>;
-export interface UpdateAliasResponse {}
-export const UpdateAliasResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotations({
-  identifier: "UpdateAliasResponse",
-}) as any as S.Schema<UpdateAliasResponse>;
-export interface XksProxyAuthenticationCredentialType {
-  AccessKeyId: string | redacted.Redacted<string>;
-  RawSecretAccessKey: string | redacted.Redacted<string>;
-}
-export const XksProxyAuthenticationCredentialType = S.suspend(() =>
-  S.Struct({
-    AccessKeyId: SensitiveString,
-    RawSecretAccessKey: SensitiveString,
-  }),
-).annotations({
-  identifier: "XksProxyAuthenticationCredentialType",
-}) as any as S.Schema<XksProxyAuthenticationCredentialType>;
-export interface UpdateCustomKeyStoreRequest {
-  CustomKeyStoreId: string;
-  NewCustomKeyStoreName?: string;
-  KeyStorePassword?: string | redacted.Redacted<string>;
-  CloudHsmClusterId?: string;
-  XksProxyUriEndpoint?: string;
-  XksProxyUriPath?: string;
-  XksProxyVpcEndpointServiceName?: string;
-  XksProxyVpcEndpointServiceOwner?: string;
-  XksProxyAuthenticationCredential?: XksProxyAuthenticationCredentialType;
-  XksProxyConnectivity?: XksProxyConnectivityType;
-}
-export const UpdateCustomKeyStoreRequest = S.suspend(() =>
-  S.Struct({
-    CustomKeyStoreId: S.String,
-    NewCustomKeyStoreName: S.optional(S.String),
-    KeyStorePassword: S.optional(SensitiveString),
-    CloudHsmClusterId: S.optional(S.String),
-    XksProxyUriEndpoint: S.optional(S.String),
-    XksProxyUriPath: S.optional(S.String),
-    XksProxyVpcEndpointServiceName: S.optional(S.String),
-    XksProxyVpcEndpointServiceOwner: S.optional(S.String),
-    XksProxyAuthenticationCredential: S.optional(
-      XksProxyAuthenticationCredentialType,
-    ),
-    XksProxyConnectivity: S.optional(XksProxyConnectivityType),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "UpdateCustomKeyStoreRequest",
-}) as any as S.Schema<UpdateCustomKeyStoreRequest>;
-export interface UpdateCustomKeyStoreResponse {}
-export const UpdateCustomKeyStoreResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotations({
-  identifier: "UpdateCustomKeyStoreResponse",
-}) as any as S.Schema<UpdateCustomKeyStoreResponse>;
-export interface UpdateKeyDescriptionRequest {
-  KeyId: string;
-  Description: string;
-}
-export const UpdateKeyDescriptionRequest = S.suspend(() =>
-  S.Struct({ KeyId: S.String, Description: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "UpdateKeyDescriptionRequest",
-}) as any as S.Schema<UpdateKeyDescriptionRequest>;
-export interface UpdateKeyDescriptionResponse {}
-export const UpdateKeyDescriptionResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotations({
-  identifier: "UpdateKeyDescriptionResponse",
-}) as any as S.Schema<UpdateKeyDescriptionResponse>;
-export interface UpdatePrimaryRegionRequest {
-  KeyId: string;
-  PrimaryRegion: string;
-}
-export const UpdatePrimaryRegionRequest = S.suspend(() =>
-  S.Struct({ KeyId: S.String, PrimaryRegion: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "UpdatePrimaryRegionRequest",
-}) as any as S.Schema<UpdatePrimaryRegionRequest>;
-export interface UpdatePrimaryRegionResponse {}
-export const UpdatePrimaryRegionResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotations({
-  identifier: "UpdatePrimaryRegionResponse",
-}) as any as S.Schema<UpdatePrimaryRegionResponse>;
-export interface VerifyRequest {
-  KeyId: string;
-  Message: Uint8Array | redacted.Redacted<Uint8Array>;
-  MessageType?: MessageType;
-  Signature: Uint8Array;
-  SigningAlgorithm: SigningAlgorithmSpec;
-  GrantTokens?: string[];
-  DryRun?: boolean;
-}
-export const VerifyRequest = S.suspend(() =>
-  S.Struct({
-    KeyId: S.String,
-    Message: SensitiveBlob,
-    MessageType: S.optional(MessageType),
-    Signature: T.Blob,
-    SigningAlgorithm: SigningAlgorithmSpec,
-    GrantTokens: S.optional(GrantTokenList),
-    DryRun: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "VerifyRequest",
-}) as any as S.Schema<VerifyRequest>;
-export interface VerifyMacRequest {
-  Message: Uint8Array | redacted.Redacted<Uint8Array>;
-  KeyId: string;
-  MacAlgorithm: MacAlgorithmSpec;
-  Mac: Uint8Array;
-  GrantTokens?: string[];
-  DryRun?: boolean;
-}
-export const VerifyMacRequest = S.suspend(() =>
-  S.Struct({
-    Message: SensitiveBlob,
-    KeyId: S.String,
-    MacAlgorithm: MacAlgorithmSpec,
-    Mac: T.Blob,
-    GrantTokens: S.optional(GrantTokenList),
-    DryRun: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "VerifyMacRequest",
-}) as any as S.Schema<VerifyMacRequest>;
-export interface GrantConstraints {
-  EncryptionContextSubset?: { [key: string]: string | undefined };
-  EncryptionContextEquals?: { [key: string]: string | undefined };
-}
-export const GrantConstraints = S.suspend(() =>
-  S.Struct({
-    EncryptionContextSubset: S.optional(EncryptionContextType),
-    EncryptionContextEquals: S.optional(EncryptionContextType),
-  }),
-).annotations({
-  identifier: "GrantConstraints",
-}) as any as S.Schema<GrantConstraints>;
-export type EncryptionAlgorithmSpecList = EncryptionAlgorithmSpec[];
-export const EncryptionAlgorithmSpecList = S.Array(EncryptionAlgorithmSpec);
-export type SigningAlgorithmSpecList = SigningAlgorithmSpec[];
-export const SigningAlgorithmSpecList = S.Array(SigningAlgorithmSpec);
-export type KeyAgreementAlgorithmSpecList = KeyAgreementAlgorithmSpec[];
-export const KeyAgreementAlgorithmSpecList = S.Array(KeyAgreementAlgorithmSpec);
-export type PolicyNameList = string[];
-export const PolicyNameList = S.Array(S.String);
-export type KeyState =
-  | "Creating"
-  | "Enabled"
-  | "Disabled"
-  | "PendingDeletion"
-  | "PendingImport"
-  | "PendingReplicaDeletion"
-  | "Unavailable"
-  | "Updating"
-  | (string & {});
-export const KeyState = S.String;
-export interface CancelKeyDeletionResponse {
-  KeyId?: string;
-}
-export const CancelKeyDeletionResponse = S.suspend(() =>
-  S.Struct({ KeyId: S.optional(S.String) }).pipe(ns),
-).annotations({
-  identifier: "CancelKeyDeletionResponse",
-}) as any as S.Schema<CancelKeyDeletionResponse>;
-export interface CreateCustomKeyStoreRequest {
-  CustomKeyStoreName: string;
-  CloudHsmClusterId?: string;
-  TrustAnchorCertificate?: string;
-  KeyStorePassword?: string | redacted.Redacted<string>;
-  CustomKeyStoreType?: CustomKeyStoreType;
-  XksProxyUriEndpoint?: string;
-  XksProxyUriPath?: string;
-  XksProxyVpcEndpointServiceName?: string;
-  XksProxyVpcEndpointServiceOwner?: string;
-  XksProxyAuthenticationCredential?: XksProxyAuthenticationCredentialType;
-  XksProxyConnectivity?: XksProxyConnectivityType;
-}
-export const CreateCustomKeyStoreRequest = S.suspend(() =>
-  S.Struct({
-    CustomKeyStoreName: S.String,
-    CloudHsmClusterId: S.optional(S.String),
-    TrustAnchorCertificate: S.optional(S.String),
-    KeyStorePassword: S.optional(SensitiveString),
-    CustomKeyStoreType: S.optional(CustomKeyStoreType),
-    XksProxyUriEndpoint: S.optional(S.String),
-    XksProxyUriPath: S.optional(S.String),
-    XksProxyVpcEndpointServiceName: S.optional(S.String),
-    XksProxyVpcEndpointServiceOwner: S.optional(S.String),
-    XksProxyAuthenticationCredential: S.optional(
-      XksProxyAuthenticationCredentialType,
-    ),
-    XksProxyConnectivity: S.optional(XksProxyConnectivityType),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "CreateCustomKeyStoreRequest",
-}) as any as S.Schema<CreateCustomKeyStoreRequest>;
-export interface CreateGrantRequest {
-  KeyId: string;
-  GranteePrincipal: string;
-  RetiringPrincipal?: string;
-  Operations: GrantOperation[];
-  Constraints?: GrantConstraints;
-  GrantTokens?: string[];
-  Name?: string;
-  DryRun?: boolean;
-}
-export const CreateGrantRequest = S.suspend(() =>
-  S.Struct({
-    KeyId: S.String,
-    GranteePrincipal: S.String,
-    RetiringPrincipal: S.optional(S.String),
-    Operations: GrantOperationList,
-    Constraints: S.optional(GrantConstraints),
-    GrantTokens: S.optional(GrantTokenList),
-    Name: S.optional(S.String),
-    DryRun: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "CreateGrantRequest",
-}) as any as S.Schema<CreateGrantRequest>;
 export interface CreateKeyRequest {
   Policy?: string;
   Description?: string;
@@ -1766,323 +463,58 @@ export const CreateKeyRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "CreateKeyRequest",
 }) as any as S.Schema<CreateKeyRequest>;
-export interface DecryptRequest {
-  CiphertextBlob: Uint8Array;
-  EncryptionContext?: { [key: string]: string | undefined };
-  GrantTokens?: string[];
-  KeyId?: string;
-  EncryptionAlgorithm?: EncryptionAlgorithmSpec;
-  Recipient?: RecipientInfo;
-  DryRun?: boolean;
-}
-export const DecryptRequest = S.suspend(() =>
-  S.Struct({
-    CiphertextBlob: T.Blob,
-    EncryptionContext: S.optional(EncryptionContextType),
-    GrantTokens: S.optional(GrantTokenList),
-    KeyId: S.optional(S.String),
-    EncryptionAlgorithm: S.optional(EncryptionAlgorithmSpec),
-    Recipient: S.optional(RecipientInfo),
-    DryRun: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DecryptRequest",
-}) as any as S.Schema<DecryptRequest>;
-export interface DeleteImportedKeyMaterialResponse {
-  KeyId?: string;
-  KeyMaterialId?: string;
-}
-export const DeleteImportedKeyMaterialResponse = S.suspend(() =>
-  S.Struct({
-    KeyId: S.optional(S.String),
-    KeyMaterialId: S.optional(S.String),
-  }).pipe(ns),
-).annotations({
-  identifier: "DeleteImportedKeyMaterialResponse",
-}) as any as S.Schema<DeleteImportedKeyMaterialResponse>;
-export interface DeriveSharedSecretResponse {
-  KeyId?: string;
-  SharedSecret?: Uint8Array | redacted.Redacted<Uint8Array>;
-  CiphertextForRecipient?: Uint8Array;
-  KeyAgreementAlgorithm?: KeyAgreementAlgorithmSpec;
-  KeyOrigin?: OriginType;
-}
-export const DeriveSharedSecretResponse = S.suspend(() =>
-  S.Struct({
-    KeyId: S.optional(S.String),
-    SharedSecret: S.optional(SensitiveBlob),
-    CiphertextForRecipient: S.optional(T.Blob),
-    KeyAgreementAlgorithm: S.optional(KeyAgreementAlgorithmSpec),
-    KeyOrigin: S.optional(OriginType),
-  }).pipe(ns),
-).annotations({
-  identifier: "DeriveSharedSecretResponse",
-}) as any as S.Schema<DeriveSharedSecretResponse>;
-export interface EncryptResponse {
-  CiphertextBlob?: Uint8Array;
-  KeyId?: string;
-  EncryptionAlgorithm?: EncryptionAlgorithmSpec;
-}
-export const EncryptResponse = S.suspend(() =>
-  S.Struct({
-    CiphertextBlob: S.optional(T.Blob),
-    KeyId: S.optional(S.String),
-    EncryptionAlgorithm: S.optional(EncryptionAlgorithmSpec),
-  }).pipe(ns),
-).annotations({
-  identifier: "EncryptResponse",
-}) as any as S.Schema<EncryptResponse>;
-export interface GenerateDataKeyResponse {
-  CiphertextBlob?: Uint8Array;
-  Plaintext?: Uint8Array | redacted.Redacted<Uint8Array>;
-  KeyId?: string;
-  CiphertextForRecipient?: Uint8Array;
-  KeyMaterialId?: string;
-}
-export const GenerateDataKeyResponse = S.suspend(() =>
-  S.Struct({
-    CiphertextBlob: S.optional(T.Blob),
-    Plaintext: S.optional(SensitiveBlob),
-    KeyId: S.optional(S.String),
-    CiphertextForRecipient: S.optional(T.Blob),
-    KeyMaterialId: S.optional(S.String),
-  }).pipe(ns),
-).annotations({
-  identifier: "GenerateDataKeyResponse",
-}) as any as S.Schema<GenerateDataKeyResponse>;
-export interface GenerateDataKeyPairResponse {
-  PrivateKeyCiphertextBlob?: Uint8Array;
-  PrivateKeyPlaintext?: Uint8Array | redacted.Redacted<Uint8Array>;
-  PublicKey?: Uint8Array;
-  KeyId?: string;
-  KeyPairSpec?: DataKeyPairSpec;
-  CiphertextForRecipient?: Uint8Array;
-  KeyMaterialId?: string;
-}
-export const GenerateDataKeyPairResponse = S.suspend(() =>
-  S.Struct({
-    PrivateKeyCiphertextBlob: S.optional(T.Blob),
-    PrivateKeyPlaintext: S.optional(SensitiveBlob),
-    PublicKey: S.optional(T.Blob),
-    KeyId: S.optional(S.String),
-    KeyPairSpec: S.optional(DataKeyPairSpec),
-    CiphertextForRecipient: S.optional(T.Blob),
-    KeyMaterialId: S.optional(S.String),
-  }).pipe(ns),
-).annotations({
-  identifier: "GenerateDataKeyPairResponse",
-}) as any as S.Schema<GenerateDataKeyPairResponse>;
-export interface GenerateDataKeyPairWithoutPlaintextResponse {
-  PrivateKeyCiphertextBlob?: Uint8Array;
-  PublicKey?: Uint8Array;
-  KeyId?: string;
-  KeyPairSpec?: DataKeyPairSpec;
-  KeyMaterialId?: string;
-}
-export const GenerateDataKeyPairWithoutPlaintextResponse = S.suspend(() =>
-  S.Struct({
-    PrivateKeyCiphertextBlob: S.optional(T.Blob),
-    PublicKey: S.optional(T.Blob),
-    KeyId: S.optional(S.String),
-    KeyPairSpec: S.optional(DataKeyPairSpec),
-    KeyMaterialId: S.optional(S.String),
-  }).pipe(ns),
-).annotations({
-  identifier: "GenerateDataKeyPairWithoutPlaintextResponse",
-}) as any as S.Schema<GenerateDataKeyPairWithoutPlaintextResponse>;
-export interface GenerateDataKeyWithoutPlaintextResponse {
-  CiphertextBlob?: Uint8Array;
-  KeyId?: string;
-  KeyMaterialId?: string;
-}
-export const GenerateDataKeyWithoutPlaintextResponse = S.suspend(() =>
-  S.Struct({
-    CiphertextBlob: S.optional(T.Blob),
-    KeyId: S.optional(S.String),
-    KeyMaterialId: S.optional(S.String),
-  }).pipe(ns),
-).annotations({
-  identifier: "GenerateDataKeyWithoutPlaintextResponse",
-}) as any as S.Schema<GenerateDataKeyWithoutPlaintextResponse>;
-export interface GenerateMacResponse {
-  Mac?: Uint8Array;
-  MacAlgorithm?: MacAlgorithmSpec;
-  KeyId?: string;
-}
-export const GenerateMacResponse = S.suspend(() =>
-  S.Struct({
-    Mac: S.optional(T.Blob),
-    MacAlgorithm: S.optional(MacAlgorithmSpec),
-    KeyId: S.optional(S.String),
-  }).pipe(ns),
-).annotations({
-  identifier: "GenerateMacResponse",
-}) as any as S.Schema<GenerateMacResponse>;
-export interface GenerateRandomResponse {
-  Plaintext?: Uint8Array | redacted.Redacted<Uint8Array>;
-  CiphertextForRecipient?: Uint8Array;
-}
-export const GenerateRandomResponse = S.suspend(() =>
-  S.Struct({
-    Plaintext: S.optional(SensitiveBlob),
-    CiphertextForRecipient: S.optional(T.Blob),
-  }).pipe(ns),
-).annotations({
-  identifier: "GenerateRandomResponse",
-}) as any as S.Schema<GenerateRandomResponse>;
-export interface GetKeyPolicyResponse {
-  Policy?: string;
-  PolicyName?: string;
-}
-export const GetKeyPolicyResponse = S.suspend(() =>
-  S.Struct({
-    Policy: S.optional(S.String),
-    PolicyName: S.optional(S.String),
-  }).pipe(ns),
-).annotations({
-  identifier: "GetKeyPolicyResponse",
-}) as any as S.Schema<GetKeyPolicyResponse>;
-export interface GetKeyRotationStatusResponse {
-  KeyRotationEnabled?: boolean;
-  KeyId?: string;
-  RotationPeriodInDays?: number;
-  NextRotationDate?: Date;
-  OnDemandRotationStartDate?: Date;
-}
-export const GetKeyRotationStatusResponse = S.suspend(() =>
-  S.Struct({
-    KeyRotationEnabled: S.optional(S.Boolean),
-    KeyId: S.optional(S.String),
-    RotationPeriodInDays: S.optional(S.Number),
-    NextRotationDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    OnDemandRotationStartDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-  }).pipe(ns),
-).annotations({
-  identifier: "GetKeyRotationStatusResponse",
-}) as any as S.Schema<GetKeyRotationStatusResponse>;
-export interface GetParametersForImportResponse {
-  KeyId?: string;
-  ImportToken?: Uint8Array;
-  PublicKey?: Uint8Array | redacted.Redacted<Uint8Array>;
-  ParametersValidTo?: Date;
-}
-export const GetParametersForImportResponse = S.suspend(() =>
-  S.Struct({
-    KeyId: S.optional(S.String),
-    ImportToken: S.optional(T.Blob),
-    PublicKey: S.optional(SensitiveBlob),
-    ParametersValidTo: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-  }).pipe(ns),
-).annotations({
-  identifier: "GetParametersForImportResponse",
-}) as any as S.Schema<GetParametersForImportResponse>;
-export interface GetPublicKeyResponse {
-  KeyId?: string;
-  PublicKey?: Uint8Array;
-  CustomerMasterKeySpec?: CustomerMasterKeySpec;
-  KeySpec?: KeySpec;
-  KeyUsage?: KeyUsageType;
-  EncryptionAlgorithms?: EncryptionAlgorithmSpec[];
-  SigningAlgorithms?: SigningAlgorithmSpec[];
-  KeyAgreementAlgorithms?: KeyAgreementAlgorithmSpec[];
-}
-export const GetPublicKeyResponse = S.suspend(() =>
-  S.Struct({
-    KeyId: S.optional(S.String),
-    PublicKey: S.optional(T.Blob),
-    CustomerMasterKeySpec: S.optional(CustomerMasterKeySpec),
-    KeySpec: S.optional(KeySpec),
-    KeyUsage: S.optional(KeyUsageType),
-    EncryptionAlgorithms: S.optional(EncryptionAlgorithmSpecList),
-    SigningAlgorithms: S.optional(SigningAlgorithmSpecList),
-    KeyAgreementAlgorithms: S.optional(KeyAgreementAlgorithmSpecList),
-  }).pipe(ns),
-).annotations({
-  identifier: "GetPublicKeyResponse",
-}) as any as S.Schema<GetPublicKeyResponse>;
-export interface ImportKeyMaterialResponse {
-  KeyId?: string;
-  KeyMaterialId?: string;
-}
-export const ImportKeyMaterialResponse = S.suspend(() =>
-  S.Struct({
-    KeyId: S.optional(S.String),
-    KeyMaterialId: S.optional(S.String),
-  }).pipe(ns),
-).annotations({
-  identifier: "ImportKeyMaterialResponse",
-}) as any as S.Schema<ImportKeyMaterialResponse>;
-export interface ListKeyPoliciesResponse {
-  PolicyNames?: string[];
-  NextMarker?: string;
-  Truncated?: boolean;
-}
-export const ListKeyPoliciesResponse = S.suspend(() =>
-  S.Struct({
-    PolicyNames: S.optional(PolicyNameList),
-    NextMarker: S.optional(S.String),
-    Truncated: S.optional(S.Boolean),
-  }).pipe(ns),
-).annotations({
-  identifier: "ListKeyPoliciesResponse",
-}) as any as S.Schema<ListKeyPoliciesResponse>;
-export interface ListResourceTagsResponse {
-  Tags?: Tag[];
-  NextMarker?: string;
-  Truncated?: boolean;
-}
-export const ListResourceTagsResponse = S.suspend(() =>
-  S.Struct({
-    Tags: S.optional(TagList),
-    NextMarker: S.optional(S.String),
-    Truncated: S.optional(S.Boolean),
-  }).pipe(ns),
-).annotations({
-  identifier: "ListResourceTagsResponse",
-}) as any as S.Schema<ListResourceTagsResponse>;
-export interface ReEncryptResponse {
-  CiphertextBlob?: Uint8Array;
-  SourceKeyId?: string;
-  KeyId?: string;
-  SourceEncryptionAlgorithm?: EncryptionAlgorithmSpec;
-  DestinationEncryptionAlgorithm?: EncryptionAlgorithmSpec;
-  SourceKeyMaterialId?: string;
-  DestinationKeyMaterialId?: string;
-}
-export const ReEncryptResponse = S.suspend(() =>
-  S.Struct({
-    CiphertextBlob: S.optional(T.Blob),
-    SourceKeyId: S.optional(S.String),
-    KeyId: S.optional(S.String),
-    SourceEncryptionAlgorithm: S.optional(EncryptionAlgorithmSpec),
-    DestinationEncryptionAlgorithm: S.optional(EncryptionAlgorithmSpec),
-    SourceKeyMaterialId: S.optional(S.String),
-    DestinationKeyMaterialId: S.optional(S.String),
-  }).pipe(ns),
-).annotations({
-  identifier: "ReEncryptResponse",
-}) as any as S.Schema<ReEncryptResponse>;
+export type KeyState =
+  | "Creating"
+  | "Enabled"
+  | "Disabled"
+  | "PendingDeletion"
+  | "PendingImport"
+  | "PendingReplicaDeletion"
+  | "Unavailable"
+  | "Updating"
+  | (string & {});
+export const KeyState = S.String;
+export type ExpirationModelType =
+  | "KEY_MATERIAL_EXPIRES"
+  | "KEY_MATERIAL_DOES_NOT_EXPIRE"
+  | (string & {});
+export const ExpirationModelType = S.String;
 export type KeyManagerType = "AWS" | "CUSTOMER" | (string & {});
 export const KeyManagerType = S.String;
+export type EncryptionAlgorithmSpec =
+  | "SYMMETRIC_DEFAULT"
+  | "RSAES_OAEP_SHA_1"
+  | "RSAES_OAEP_SHA_256"
+  | "SM2PKE"
+  | (string & {});
+export const EncryptionAlgorithmSpec = S.String;
+export type EncryptionAlgorithmSpecList = EncryptionAlgorithmSpec[];
+export const EncryptionAlgorithmSpecList = S.Array(EncryptionAlgorithmSpec);
+export type SigningAlgorithmSpec =
+  | "RSASSA_PSS_SHA_256"
+  | "RSASSA_PSS_SHA_384"
+  | "RSASSA_PSS_SHA_512"
+  | "RSASSA_PKCS1_V1_5_SHA_256"
+  | "RSASSA_PKCS1_V1_5_SHA_384"
+  | "RSASSA_PKCS1_V1_5_SHA_512"
+  | "ECDSA_SHA_256"
+  | "ECDSA_SHA_384"
+  | "ECDSA_SHA_512"
+  | "SM2DSA"
+  | "ML_DSA_SHAKE_256"
+  | "ED25519_SHA_512"
+  | "ED25519_PH_SHA_512"
+  | (string & {});
+export const SigningAlgorithmSpec = S.String;
+export type SigningAlgorithmSpecList = SigningAlgorithmSpec[];
+export const SigningAlgorithmSpecList = S.Array(SigningAlgorithmSpec);
+export type KeyAgreementAlgorithmSpec = "ECDH" | (string & {});
+export const KeyAgreementAlgorithmSpec = S.String;
+export type KeyAgreementAlgorithmSpecList = KeyAgreementAlgorithmSpec[];
+export const KeyAgreementAlgorithmSpecList = S.Array(KeyAgreementAlgorithmSpec);
 export type MultiRegionKeyType = "PRIMARY" | "REPLICA" | (string & {});
 export const MultiRegionKeyType = S.String;
 export interface MultiRegionKey {
@@ -2091,9 +523,7 @@ export interface MultiRegionKey {
 }
 export const MultiRegionKey = S.suspend(() =>
   S.Struct({ Arn: S.optional(S.String), Region: S.optional(S.String) }),
-).annotations({
-  identifier: "MultiRegionKey",
-}) as any as S.Schema<MultiRegionKey>;
+).annotate({ identifier: "MultiRegionKey" }) as any as S.Schema<MultiRegionKey>;
 export type MultiRegionKeyList = MultiRegionKey[];
 export const MultiRegionKeyList = S.Array(MultiRegionKey);
 export interface MultiRegionConfiguration {
@@ -2107,9 +537,16 @@ export const MultiRegionConfiguration = S.suspend(() =>
     PrimaryKey: S.optional(MultiRegionKey),
     ReplicaKeys: S.optional(MultiRegionKeyList),
   }),
-).annotations({
+).annotate({
   identifier: "MultiRegionConfiguration",
 }) as any as S.Schema<MultiRegionConfiguration>;
+export type MacAlgorithmSpec =
+  | "HMAC_SHA_224"
+  | "HMAC_SHA_256"
+  | "HMAC_SHA_384"
+  | "HMAC_SHA_512"
+  | (string & {});
+export const MacAlgorithmSpec = S.String;
 export type MacAlgorithmSpecList = MacAlgorithmSpec[];
 export const MacAlgorithmSpecList = S.Array(MacAlgorithmSpec);
 export interface XksKeyConfigurationType {
@@ -2117,7 +554,7 @@ export interface XksKeyConfigurationType {
 }
 export const XksKeyConfigurationType = S.suspend(() =>
   S.Struct({ Id: S.optional(S.String) }),
-).annotations({
+).annotate({
   identifier: "XksKeyConfigurationType",
 }) as any as S.Schema<XksKeyConfigurationType>;
 export interface KeyMetadata {
@@ -2177,85 +614,228 @@ export const KeyMetadata = S.suspend(() =>
     XksKeyConfiguration: S.optional(XksKeyConfigurationType),
     CurrentKeyMaterialId: S.optional(S.String),
   }),
-).annotations({ identifier: "KeyMetadata" }) as any as S.Schema<KeyMetadata>;
-export interface ReplicateKeyResponse {
-  ReplicaKeyMetadata?: KeyMetadata;
-  ReplicaPolicy?: string;
-  ReplicaTags?: Tag[];
+).annotate({ identifier: "KeyMetadata" }) as any as S.Schema<KeyMetadata>;
+export interface CreateKeyResponse {
+  KeyMetadata?: KeyMetadata;
 }
-export const ReplicateKeyResponse = S.suspend(() =>
+export const CreateKeyResponse = S.suspend(() =>
+  S.Struct({ KeyMetadata: S.optional(KeyMetadata) }).pipe(ns),
+).annotate({
+  identifier: "CreateKeyResponse",
+}) as any as S.Schema<CreateKeyResponse>;
+export type KeyEncryptionMechanism = "RSAES_OAEP_SHA_256" | (string & {});
+export const KeyEncryptionMechanism = S.String;
+export interface RecipientInfo {
+  KeyEncryptionAlgorithm?: KeyEncryptionMechanism;
+  AttestationDocument?: Uint8Array;
+}
+export const RecipientInfo = S.suspend(() =>
   S.Struct({
-    ReplicaKeyMetadata: S.optional(KeyMetadata),
-    ReplicaPolicy: S.optional(S.String),
-    ReplicaTags: S.optional(TagList),
-  }).pipe(ns),
-).annotations({
-  identifier: "ReplicateKeyResponse",
-}) as any as S.Schema<ReplicateKeyResponse>;
-export interface RotateKeyOnDemandResponse {
+    KeyEncryptionAlgorithm: S.optional(KeyEncryptionMechanism),
+    AttestationDocument: S.optional(T.Blob),
+  }),
+).annotate({ identifier: "RecipientInfo" }) as any as S.Schema<RecipientInfo>;
+export interface DecryptRequest {
+  CiphertextBlob: Uint8Array;
+  EncryptionContext?: { [key: string]: string | undefined };
+  GrantTokens?: string[];
   KeyId?: string;
+  EncryptionAlgorithm?: EncryptionAlgorithmSpec;
+  Recipient?: RecipientInfo;
+  DryRun?: boolean;
 }
-export const RotateKeyOnDemandResponse = S.suspend(() =>
-  S.Struct({ KeyId: S.optional(S.String) }).pipe(ns),
-).annotations({
-  identifier: "RotateKeyOnDemandResponse",
-}) as any as S.Schema<RotateKeyOnDemandResponse>;
-export interface ScheduleKeyDeletionResponse {
+export const DecryptRequest = S.suspend(() =>
+  S.Struct({
+    CiphertextBlob: T.Blob,
+    EncryptionContext: S.optional(EncryptionContextType),
+    GrantTokens: S.optional(GrantTokenList),
+    KeyId: S.optional(S.String),
+    EncryptionAlgorithm: S.optional(EncryptionAlgorithmSpec),
+    Recipient: S.optional(RecipientInfo),
+    DryRun: S.optional(S.Boolean),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({ identifier: "DecryptRequest" }) as any as S.Schema<DecryptRequest>;
+export interface DecryptResponse {
   KeyId?: string;
-  DeletionDate?: Date;
-  KeyState?: KeyState;
-  PendingWindowInDays?: number;
+  Plaintext?: Uint8Array | redacted.Redacted<Uint8Array>;
+  EncryptionAlgorithm?: EncryptionAlgorithmSpec;
+  CiphertextForRecipient?: Uint8Array;
+  KeyMaterialId?: string;
 }
-export const ScheduleKeyDeletionResponse = S.suspend(() =>
+export const DecryptResponse = S.suspend(() =>
   S.Struct({
     KeyId: S.optional(S.String),
-    DeletionDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    KeyState: S.optional(KeyState),
-    PendingWindowInDays: S.optional(S.Number),
+    Plaintext: S.optional(SensitiveBlob),
+    EncryptionAlgorithm: S.optional(EncryptionAlgorithmSpec),
+    CiphertextForRecipient: S.optional(T.Blob),
+    KeyMaterialId: S.optional(S.String),
   }).pipe(ns),
-).annotations({
-  identifier: "ScheduleKeyDeletionResponse",
-}) as any as S.Schema<ScheduleKeyDeletionResponse>;
-export interface SignResponse {
-  KeyId?: string;
-  Signature?: Uint8Array;
-  SigningAlgorithm?: SigningAlgorithmSpec;
+).annotate({
+  identifier: "DecryptResponse",
+}) as any as S.Schema<DecryptResponse>;
+export interface DeleteAliasRequest {
+  AliasName: string;
 }
-export const SignResponse = S.suspend(() =>
+export const DeleteAliasRequest = S.suspend(() =>
+  S.Struct({ AliasName: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeleteAliasRequest",
+}) as any as S.Schema<DeleteAliasRequest>;
+export interface DeleteAliasResponse {}
+export const DeleteAliasResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "DeleteAliasResponse",
+}) as any as S.Schema<DeleteAliasResponse>;
+export interface DeleteCustomKeyStoreRequest {
+  CustomKeyStoreId: string;
+}
+export const DeleteCustomKeyStoreRequest = S.suspend(() =>
+  S.Struct({ CustomKeyStoreId: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeleteCustomKeyStoreRequest",
+}) as any as S.Schema<DeleteCustomKeyStoreRequest>;
+export interface DeleteCustomKeyStoreResponse {}
+export const DeleteCustomKeyStoreResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "DeleteCustomKeyStoreResponse",
+}) as any as S.Schema<DeleteCustomKeyStoreResponse>;
+export interface DeleteImportedKeyMaterialRequest {
+  KeyId: string;
+  KeyMaterialId?: string;
+}
+export const DeleteImportedKeyMaterialRequest = S.suspend(() =>
+  S.Struct({ KeyId: S.String, KeyMaterialId: S.optional(S.String) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeleteImportedKeyMaterialRequest",
+}) as any as S.Schema<DeleteImportedKeyMaterialRequest>;
+export interface DeleteImportedKeyMaterialResponse {
+  KeyId?: string;
+  KeyMaterialId?: string;
+}
+export const DeleteImportedKeyMaterialResponse = S.suspend(() =>
   S.Struct({
     KeyId: S.optional(S.String),
-    Signature: S.optional(T.Blob),
-    SigningAlgorithm: S.optional(SigningAlgorithmSpec),
+    KeyMaterialId: S.optional(S.String),
   }).pipe(ns),
-).annotations({ identifier: "SignResponse" }) as any as S.Schema<SignResponse>;
-export interface VerifyResponse {
-  KeyId?: string;
-  SignatureValid?: boolean;
-  SigningAlgorithm?: SigningAlgorithmSpec;
+).annotate({
+  identifier: "DeleteImportedKeyMaterialResponse",
+}) as any as S.Schema<DeleteImportedKeyMaterialResponse>;
+export interface DeriveSharedSecretRequest {
+  KeyId: string;
+  KeyAgreementAlgorithm: KeyAgreementAlgorithmSpec;
+  PublicKey: Uint8Array;
+  GrantTokens?: string[];
+  DryRun?: boolean;
+  Recipient?: RecipientInfo;
 }
-export const VerifyResponse = S.suspend(() =>
+export const DeriveSharedSecretRequest = S.suspend(() =>
+  S.Struct({
+    KeyId: S.String,
+    KeyAgreementAlgorithm: KeyAgreementAlgorithmSpec,
+    PublicKey: T.Blob,
+    GrantTokens: S.optional(GrantTokenList),
+    DryRun: S.optional(S.Boolean),
+    Recipient: S.optional(RecipientInfo),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeriveSharedSecretRequest",
+}) as any as S.Schema<DeriveSharedSecretRequest>;
+export interface DeriveSharedSecretResponse {
+  KeyId?: string;
+  SharedSecret?: Uint8Array | redacted.Redacted<Uint8Array>;
+  CiphertextForRecipient?: Uint8Array;
+  KeyAgreementAlgorithm?: KeyAgreementAlgorithmSpec;
+  KeyOrigin?: OriginType;
+}
+export const DeriveSharedSecretResponse = S.suspend(() =>
   S.Struct({
     KeyId: S.optional(S.String),
-    SignatureValid: S.optional(S.Boolean),
-    SigningAlgorithm: S.optional(SigningAlgorithmSpec),
+    SharedSecret: S.optional(SensitiveBlob),
+    CiphertextForRecipient: S.optional(T.Blob),
+    KeyAgreementAlgorithm: S.optional(KeyAgreementAlgorithmSpec),
+    KeyOrigin: S.optional(OriginType),
   }).pipe(ns),
-).annotations({
-  identifier: "VerifyResponse",
-}) as any as S.Schema<VerifyResponse>;
-export interface VerifyMacResponse {
-  KeyId?: string;
-  MacValid?: boolean;
-  MacAlgorithm?: MacAlgorithmSpec;
+).annotate({
+  identifier: "DeriveSharedSecretResponse",
+}) as any as S.Schema<DeriveSharedSecretResponse>;
+export interface DescribeCustomKeyStoresRequest {
+  CustomKeyStoreId?: string;
+  CustomKeyStoreName?: string;
+  Limit?: number;
+  Marker?: string;
 }
-export const VerifyMacResponse = S.suspend(() =>
+export const DescribeCustomKeyStoresRequest = S.suspend(() =>
   S.Struct({
-    KeyId: S.optional(S.String),
-    MacValid: S.optional(S.Boolean),
-    MacAlgorithm: S.optional(MacAlgorithmSpec),
-  }).pipe(ns),
-).annotations({
-  identifier: "VerifyMacResponse",
-}) as any as S.Schema<VerifyMacResponse>;
+    CustomKeyStoreId: S.optional(S.String),
+    CustomKeyStoreName: S.optional(S.String),
+    Limit: S.optional(S.Number),
+    Marker: S.optional(S.String),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DescribeCustomKeyStoresRequest",
+}) as any as S.Schema<DescribeCustomKeyStoresRequest>;
 export type ConnectionStateType =
   | "CONNECTED"
   | "CONNECTING"
@@ -2285,206 +865,6 @@ export type ConnectionErrorCodeType =
   | "XKS_PROXY_INVALID_TLS_CONFIGURATION"
   | (string & {});
 export const ConnectionErrorCodeType = S.String;
-export type ImportState = "IMPORTED" | "PENDING_IMPORT" | (string & {});
-export const ImportState = S.String;
-export type KeyMaterialState =
-  | "NON_CURRENT"
-  | "CURRENT"
-  | "PENDING_ROTATION"
-  | "PENDING_MULTI_REGION_IMPORT_AND_ROTATION"
-  | (string & {});
-export const KeyMaterialState = S.String;
-export type RotationType = "AUTOMATIC" | "ON_DEMAND" | (string & {});
-export const RotationType = S.String;
-export interface AliasListEntry {
-  AliasName?: string;
-  AliasArn?: string;
-  TargetKeyId?: string;
-  CreationDate?: Date;
-  LastUpdatedDate?: Date;
-}
-export const AliasListEntry = S.suspend(() =>
-  S.Struct({
-    AliasName: S.optional(S.String),
-    AliasArn: S.optional(S.String),
-    TargetKeyId: S.optional(S.String),
-    CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    LastUpdatedDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-  }),
-).annotations({
-  identifier: "AliasListEntry",
-}) as any as S.Schema<AliasListEntry>;
-export type AliasList = AliasListEntry[];
-export const AliasList = S.Array(AliasListEntry);
-export interface GrantListEntry {
-  KeyId?: string;
-  GrantId?: string;
-  Name?: string;
-  CreationDate?: Date;
-  GranteePrincipal?: string;
-  RetiringPrincipal?: string;
-  IssuingAccount?: string;
-  Operations?: GrantOperation[];
-  Constraints?: GrantConstraints;
-}
-export const GrantListEntry = S.suspend(() =>
-  S.Struct({
-    KeyId: S.optional(S.String),
-    GrantId: S.optional(S.String),
-    Name: S.optional(S.String),
-    CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    GranteePrincipal: S.optional(S.String),
-    RetiringPrincipal: S.optional(S.String),
-    IssuingAccount: S.optional(S.String),
-    Operations: S.optional(GrantOperationList),
-    Constraints: S.optional(GrantConstraints),
-  }),
-).annotations({
-  identifier: "GrantListEntry",
-}) as any as S.Schema<GrantListEntry>;
-export type GrantList = GrantListEntry[];
-export const GrantList = S.Array(GrantListEntry);
-export interface RotationsListEntry {
-  KeyId?: string;
-  KeyMaterialId?: string;
-  KeyMaterialDescription?: string;
-  ImportState?: ImportState;
-  KeyMaterialState?: KeyMaterialState;
-  ExpirationModel?: ExpirationModelType;
-  ValidTo?: Date;
-  RotationDate?: Date;
-  RotationType?: RotationType;
-}
-export const RotationsListEntry = S.suspend(() =>
-  S.Struct({
-    KeyId: S.optional(S.String),
-    KeyMaterialId: S.optional(S.String),
-    KeyMaterialDescription: S.optional(S.String),
-    ImportState: S.optional(ImportState),
-    KeyMaterialState: S.optional(KeyMaterialState),
-    ExpirationModel: S.optional(ExpirationModelType),
-    ValidTo: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    RotationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    RotationType: S.optional(RotationType),
-  }),
-).annotations({
-  identifier: "RotationsListEntry",
-}) as any as S.Schema<RotationsListEntry>;
-export type RotationsList = RotationsListEntry[];
-export const RotationsList = S.Array(RotationsListEntry);
-export interface KeyListEntry {
-  KeyId?: string;
-  KeyArn?: string;
-}
-export const KeyListEntry = S.suspend(() =>
-  S.Struct({ KeyId: S.optional(S.String), KeyArn: S.optional(S.String) }),
-).annotations({ identifier: "KeyListEntry" }) as any as S.Schema<KeyListEntry>;
-export type KeyList = KeyListEntry[];
-export const KeyList = S.Array(KeyListEntry);
-export interface CreateCustomKeyStoreResponse {
-  CustomKeyStoreId?: string;
-}
-export const CreateCustomKeyStoreResponse = S.suspend(() =>
-  S.Struct({ CustomKeyStoreId: S.optional(S.String) }).pipe(ns),
-).annotations({
-  identifier: "CreateCustomKeyStoreResponse",
-}) as any as S.Schema<CreateCustomKeyStoreResponse>;
-export interface CreateGrantResponse {
-  GrantToken?: string;
-  GrantId?: string;
-}
-export const CreateGrantResponse = S.suspend(() =>
-  S.Struct({
-    GrantToken: S.optional(S.String),
-    GrantId: S.optional(S.String),
-  }).pipe(ns),
-).annotations({
-  identifier: "CreateGrantResponse",
-}) as any as S.Schema<CreateGrantResponse>;
-export interface CreateKeyResponse {
-  KeyMetadata?: KeyMetadata;
-}
-export const CreateKeyResponse = S.suspend(() =>
-  S.Struct({ KeyMetadata: S.optional(KeyMetadata) }).pipe(ns),
-).annotations({
-  identifier: "CreateKeyResponse",
-}) as any as S.Schema<CreateKeyResponse>;
-export interface DecryptResponse {
-  KeyId?: string;
-  Plaintext?: Uint8Array | redacted.Redacted<Uint8Array>;
-  EncryptionAlgorithm?: EncryptionAlgorithmSpec;
-  CiphertextForRecipient?: Uint8Array;
-  KeyMaterialId?: string;
-}
-export const DecryptResponse = S.suspend(() =>
-  S.Struct({
-    KeyId: S.optional(S.String),
-    Plaintext: S.optional(SensitiveBlob),
-    EncryptionAlgorithm: S.optional(EncryptionAlgorithmSpec),
-    CiphertextForRecipient: S.optional(T.Blob),
-    KeyMaterialId: S.optional(S.String),
-  }).pipe(ns),
-).annotations({
-  identifier: "DecryptResponse",
-}) as any as S.Schema<DecryptResponse>;
-export interface ListAliasesResponse {
-  Aliases?: AliasListEntry[];
-  NextMarker?: string;
-  Truncated?: boolean;
-}
-export const ListAliasesResponse = S.suspend(() =>
-  S.Struct({
-    Aliases: S.optional(AliasList),
-    NextMarker: S.optional(S.String),
-    Truncated: S.optional(S.Boolean),
-  }).pipe(ns),
-).annotations({
-  identifier: "ListAliasesResponse",
-}) as any as S.Schema<ListAliasesResponse>;
-export interface ListGrantsResponse {
-  Grants?: GrantListEntry[];
-  NextMarker?: string;
-  Truncated?: boolean;
-}
-export const ListGrantsResponse = S.suspend(() =>
-  S.Struct({
-    Grants: S.optional(GrantList),
-    NextMarker: S.optional(S.String),
-    Truncated: S.optional(S.Boolean),
-  }).pipe(ns),
-).annotations({
-  identifier: "ListGrantsResponse",
-}) as any as S.Schema<ListGrantsResponse>;
-export interface ListKeyRotationsResponse {
-  Rotations?: RotationsListEntry[];
-  NextMarker?: string;
-  Truncated?: boolean;
-}
-export const ListKeyRotationsResponse = S.suspend(() =>
-  S.Struct({
-    Rotations: S.optional(RotationsList),
-    NextMarker: S.optional(S.String),
-    Truncated: S.optional(S.Boolean),
-  }).pipe(ns),
-).annotations({
-  identifier: "ListKeyRotationsResponse",
-}) as any as S.Schema<ListKeyRotationsResponse>;
-export interface ListKeysResponse {
-  Keys?: KeyListEntry[];
-  NextMarker?: string;
-  Truncated?: boolean;
-}
-export const ListKeysResponse = S.suspend(() =>
-  S.Struct({
-    Keys: S.optional(KeyList),
-    NextMarker: S.optional(S.String),
-    Truncated: S.optional(S.Boolean),
-  }).pipe(ns),
-).annotations({
-  identifier: "ListKeysResponse",
-}) as any as S.Schema<ListKeysResponse>;
 export interface XksProxyConfigurationType {
   Connectivity?: XksProxyConnectivityType;
   AccessKeyId?: string | redacted.Redacted<string>;
@@ -2502,7 +882,7 @@ export const XksProxyConfigurationType = S.suspend(() =>
     VpcEndpointServiceName: S.optional(S.String),
     VpcEndpointServiceOwner: S.optional(S.String),
   }),
-).annotations({
+).annotate({
   identifier: "XksProxyConfigurationType",
 }) as any as S.Schema<XksProxyConfigurationType>;
 export interface CustomKeyStoresListEntry {
@@ -2528,7 +908,7 @@ export const CustomKeyStoresListEntry = S.suspend(() =>
     CustomKeyStoreType: S.optional(CustomKeyStoreType),
     XksProxyConfiguration: S.optional(XksProxyConfigurationType),
   }),
-).annotations({
+).annotate({
   identifier: "CustomKeyStoresListEntry",
 }) as any as S.Schema<CustomKeyStoresListEntry>;
 export type CustomKeyStoresList = CustomKeyStoresListEntry[];
@@ -2544,20 +924,1649 @@ export const DescribeCustomKeyStoresResponse = S.suspend(() =>
     NextMarker: S.optional(S.String),
     Truncated: S.optional(S.Boolean),
   }).pipe(ns),
-).annotations({
+).annotate({
   identifier: "DescribeCustomKeyStoresResponse",
 }) as any as S.Schema<DescribeCustomKeyStoresResponse>;
+export interface DescribeKeyRequest {
+  KeyId: string;
+  GrantTokens?: string[];
+}
+export const DescribeKeyRequest = S.suspend(() =>
+  S.Struct({ KeyId: S.String, GrantTokens: S.optional(GrantTokenList) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DescribeKeyRequest",
+}) as any as S.Schema<DescribeKeyRequest>;
 export interface DescribeKeyResponse {
   KeyMetadata?: KeyMetadata;
 }
 export const DescribeKeyResponse = S.suspend(() =>
   S.Struct({ KeyMetadata: S.optional(KeyMetadata) }).pipe(ns),
-).annotations({
+).annotate({
   identifier: "DescribeKeyResponse",
 }) as any as S.Schema<DescribeKeyResponse>;
+export interface DisableKeyRequest {
+  KeyId: string;
+}
+export const DisableKeyRequest = S.suspend(() =>
+  S.Struct({ KeyId: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DisableKeyRequest",
+}) as any as S.Schema<DisableKeyRequest>;
+export interface DisableKeyResponse {}
+export const DisableKeyResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "DisableKeyResponse",
+}) as any as S.Schema<DisableKeyResponse>;
+export interface DisableKeyRotationRequest {
+  KeyId: string;
+}
+export const DisableKeyRotationRequest = S.suspend(() =>
+  S.Struct({ KeyId: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DisableKeyRotationRequest",
+}) as any as S.Schema<DisableKeyRotationRequest>;
+export interface DisableKeyRotationResponse {}
+export const DisableKeyRotationResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "DisableKeyRotationResponse",
+}) as any as S.Schema<DisableKeyRotationResponse>;
+export interface DisconnectCustomKeyStoreRequest {
+  CustomKeyStoreId: string;
+}
+export const DisconnectCustomKeyStoreRequest = S.suspend(() =>
+  S.Struct({ CustomKeyStoreId: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DisconnectCustomKeyStoreRequest",
+}) as any as S.Schema<DisconnectCustomKeyStoreRequest>;
+export interface DisconnectCustomKeyStoreResponse {}
+export const DisconnectCustomKeyStoreResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "DisconnectCustomKeyStoreResponse",
+}) as any as S.Schema<DisconnectCustomKeyStoreResponse>;
+export interface EnableKeyRequest {
+  KeyId: string;
+}
+export const EnableKeyRequest = S.suspend(() =>
+  S.Struct({ KeyId: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "EnableKeyRequest",
+}) as any as S.Schema<EnableKeyRequest>;
+export interface EnableKeyResponse {}
+export const EnableKeyResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "EnableKeyResponse",
+}) as any as S.Schema<EnableKeyResponse>;
+export interface EnableKeyRotationRequest {
+  KeyId: string;
+  RotationPeriodInDays?: number;
+}
+export const EnableKeyRotationRequest = S.suspend(() =>
+  S.Struct({
+    KeyId: S.String,
+    RotationPeriodInDays: S.optional(S.Number),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "EnableKeyRotationRequest",
+}) as any as S.Schema<EnableKeyRotationRequest>;
+export interface EnableKeyRotationResponse {}
+export const EnableKeyRotationResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "EnableKeyRotationResponse",
+}) as any as S.Schema<EnableKeyRotationResponse>;
+export interface EncryptRequest {
+  KeyId: string;
+  Plaintext: Uint8Array | redacted.Redacted<Uint8Array>;
+  EncryptionContext?: { [key: string]: string | undefined };
+  GrantTokens?: string[];
+  EncryptionAlgorithm?: EncryptionAlgorithmSpec;
+  DryRun?: boolean;
+}
+export const EncryptRequest = S.suspend(() =>
+  S.Struct({
+    KeyId: S.String,
+    Plaintext: SensitiveBlob,
+    EncryptionContext: S.optional(EncryptionContextType),
+    GrantTokens: S.optional(GrantTokenList),
+    EncryptionAlgorithm: S.optional(EncryptionAlgorithmSpec),
+    DryRun: S.optional(S.Boolean),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({ identifier: "EncryptRequest" }) as any as S.Schema<EncryptRequest>;
+export interface EncryptResponse {
+  CiphertextBlob?: Uint8Array;
+  KeyId?: string;
+  EncryptionAlgorithm?: EncryptionAlgorithmSpec;
+}
+export const EncryptResponse = S.suspend(() =>
+  S.Struct({
+    CiphertextBlob: S.optional(T.Blob),
+    KeyId: S.optional(S.String),
+    EncryptionAlgorithm: S.optional(EncryptionAlgorithmSpec),
+  }).pipe(ns),
+).annotate({
+  identifier: "EncryptResponse",
+}) as any as S.Schema<EncryptResponse>;
+export type DataKeySpec = "AES_256" | "AES_128" | (string & {});
+export const DataKeySpec = S.String;
+export interface GenerateDataKeyRequest {
+  KeyId: string;
+  EncryptionContext?: { [key: string]: string | undefined };
+  NumberOfBytes?: number;
+  KeySpec?: DataKeySpec;
+  GrantTokens?: string[];
+  Recipient?: RecipientInfo;
+  DryRun?: boolean;
+}
+export const GenerateDataKeyRequest = S.suspend(() =>
+  S.Struct({
+    KeyId: S.String,
+    EncryptionContext: S.optional(EncryptionContextType),
+    NumberOfBytes: S.optional(S.Number),
+    KeySpec: S.optional(DataKeySpec),
+    GrantTokens: S.optional(GrantTokenList),
+    Recipient: S.optional(RecipientInfo),
+    DryRun: S.optional(S.Boolean),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GenerateDataKeyRequest",
+}) as any as S.Schema<GenerateDataKeyRequest>;
+export interface GenerateDataKeyResponse {
+  CiphertextBlob?: Uint8Array;
+  Plaintext?: Uint8Array | redacted.Redacted<Uint8Array>;
+  KeyId?: string;
+  CiphertextForRecipient?: Uint8Array;
+  KeyMaterialId?: string;
+}
+export const GenerateDataKeyResponse = S.suspend(() =>
+  S.Struct({
+    CiphertextBlob: S.optional(T.Blob),
+    Plaintext: S.optional(SensitiveBlob),
+    KeyId: S.optional(S.String),
+    CiphertextForRecipient: S.optional(T.Blob),
+    KeyMaterialId: S.optional(S.String),
+  }).pipe(ns),
+).annotate({
+  identifier: "GenerateDataKeyResponse",
+}) as any as S.Schema<GenerateDataKeyResponse>;
+export type DataKeyPairSpec =
+  | "RSA_2048"
+  | "RSA_3072"
+  | "RSA_4096"
+  | "ECC_NIST_P256"
+  | "ECC_NIST_P384"
+  | "ECC_NIST_P521"
+  | "ECC_SECG_P256K1"
+  | "SM2"
+  | "ECC_NIST_EDWARDS25519"
+  | (string & {});
+export const DataKeyPairSpec = S.String;
+export interface GenerateDataKeyPairRequest {
+  EncryptionContext?: { [key: string]: string | undefined };
+  KeyId: string;
+  KeyPairSpec: DataKeyPairSpec;
+  GrantTokens?: string[];
+  Recipient?: RecipientInfo;
+  DryRun?: boolean;
+}
+export const GenerateDataKeyPairRequest = S.suspend(() =>
+  S.Struct({
+    EncryptionContext: S.optional(EncryptionContextType),
+    KeyId: S.String,
+    KeyPairSpec: DataKeyPairSpec,
+    GrantTokens: S.optional(GrantTokenList),
+    Recipient: S.optional(RecipientInfo),
+    DryRun: S.optional(S.Boolean),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GenerateDataKeyPairRequest",
+}) as any as S.Schema<GenerateDataKeyPairRequest>;
+export interface GenerateDataKeyPairResponse {
+  PrivateKeyCiphertextBlob?: Uint8Array;
+  PrivateKeyPlaintext?: Uint8Array | redacted.Redacted<Uint8Array>;
+  PublicKey?: Uint8Array;
+  KeyId?: string;
+  KeyPairSpec?: DataKeyPairSpec;
+  CiphertextForRecipient?: Uint8Array;
+  KeyMaterialId?: string;
+}
+export const GenerateDataKeyPairResponse = S.suspend(() =>
+  S.Struct({
+    PrivateKeyCiphertextBlob: S.optional(T.Blob),
+    PrivateKeyPlaintext: S.optional(SensitiveBlob),
+    PublicKey: S.optional(T.Blob),
+    KeyId: S.optional(S.String),
+    KeyPairSpec: S.optional(DataKeyPairSpec),
+    CiphertextForRecipient: S.optional(T.Blob),
+    KeyMaterialId: S.optional(S.String),
+  }).pipe(ns),
+).annotate({
+  identifier: "GenerateDataKeyPairResponse",
+}) as any as S.Schema<GenerateDataKeyPairResponse>;
+export interface GenerateDataKeyPairWithoutPlaintextRequest {
+  EncryptionContext?: { [key: string]: string | undefined };
+  KeyId: string;
+  KeyPairSpec: DataKeyPairSpec;
+  GrantTokens?: string[];
+  DryRun?: boolean;
+}
+export const GenerateDataKeyPairWithoutPlaintextRequest = S.suspend(() =>
+  S.Struct({
+    EncryptionContext: S.optional(EncryptionContextType),
+    KeyId: S.String,
+    KeyPairSpec: DataKeyPairSpec,
+    GrantTokens: S.optional(GrantTokenList),
+    DryRun: S.optional(S.Boolean),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GenerateDataKeyPairWithoutPlaintextRequest",
+}) as any as S.Schema<GenerateDataKeyPairWithoutPlaintextRequest>;
+export interface GenerateDataKeyPairWithoutPlaintextResponse {
+  PrivateKeyCiphertextBlob?: Uint8Array;
+  PublicKey?: Uint8Array;
+  KeyId?: string;
+  KeyPairSpec?: DataKeyPairSpec;
+  KeyMaterialId?: string;
+}
+export const GenerateDataKeyPairWithoutPlaintextResponse = S.suspend(() =>
+  S.Struct({
+    PrivateKeyCiphertextBlob: S.optional(T.Blob),
+    PublicKey: S.optional(T.Blob),
+    KeyId: S.optional(S.String),
+    KeyPairSpec: S.optional(DataKeyPairSpec),
+    KeyMaterialId: S.optional(S.String),
+  }).pipe(ns),
+).annotate({
+  identifier: "GenerateDataKeyPairWithoutPlaintextResponse",
+}) as any as S.Schema<GenerateDataKeyPairWithoutPlaintextResponse>;
+export interface GenerateDataKeyWithoutPlaintextRequest {
+  KeyId: string;
+  EncryptionContext?: { [key: string]: string | undefined };
+  KeySpec?: DataKeySpec;
+  NumberOfBytes?: number;
+  GrantTokens?: string[];
+  DryRun?: boolean;
+}
+export const GenerateDataKeyWithoutPlaintextRequest = S.suspend(() =>
+  S.Struct({
+    KeyId: S.String,
+    EncryptionContext: S.optional(EncryptionContextType),
+    KeySpec: S.optional(DataKeySpec),
+    NumberOfBytes: S.optional(S.Number),
+    GrantTokens: S.optional(GrantTokenList),
+    DryRun: S.optional(S.Boolean),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GenerateDataKeyWithoutPlaintextRequest",
+}) as any as S.Schema<GenerateDataKeyWithoutPlaintextRequest>;
+export interface GenerateDataKeyWithoutPlaintextResponse {
+  CiphertextBlob?: Uint8Array;
+  KeyId?: string;
+  KeyMaterialId?: string;
+}
+export const GenerateDataKeyWithoutPlaintextResponse = S.suspend(() =>
+  S.Struct({
+    CiphertextBlob: S.optional(T.Blob),
+    KeyId: S.optional(S.String),
+    KeyMaterialId: S.optional(S.String),
+  }).pipe(ns),
+).annotate({
+  identifier: "GenerateDataKeyWithoutPlaintextResponse",
+}) as any as S.Schema<GenerateDataKeyWithoutPlaintextResponse>;
+export interface GenerateMacRequest {
+  Message: Uint8Array | redacted.Redacted<Uint8Array>;
+  KeyId: string;
+  MacAlgorithm: MacAlgorithmSpec;
+  GrantTokens?: string[];
+  DryRun?: boolean;
+}
+export const GenerateMacRequest = S.suspend(() =>
+  S.Struct({
+    Message: SensitiveBlob,
+    KeyId: S.String,
+    MacAlgorithm: MacAlgorithmSpec,
+    GrantTokens: S.optional(GrantTokenList),
+    DryRun: S.optional(S.Boolean),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GenerateMacRequest",
+}) as any as S.Schema<GenerateMacRequest>;
+export interface GenerateMacResponse {
+  Mac?: Uint8Array;
+  MacAlgorithm?: MacAlgorithmSpec;
+  KeyId?: string;
+}
+export const GenerateMacResponse = S.suspend(() =>
+  S.Struct({
+    Mac: S.optional(T.Blob),
+    MacAlgorithm: S.optional(MacAlgorithmSpec),
+    KeyId: S.optional(S.String),
+  }).pipe(ns),
+).annotate({
+  identifier: "GenerateMacResponse",
+}) as any as S.Schema<GenerateMacResponse>;
+export interface GenerateRandomRequest {
+  NumberOfBytes?: number;
+  CustomKeyStoreId?: string;
+  Recipient?: RecipientInfo;
+}
+export const GenerateRandomRequest = S.suspend(() =>
+  S.Struct({
+    NumberOfBytes: S.optional(S.Number),
+    CustomKeyStoreId: S.optional(S.String),
+    Recipient: S.optional(RecipientInfo),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GenerateRandomRequest",
+}) as any as S.Schema<GenerateRandomRequest>;
+export interface GenerateRandomResponse {
+  Plaintext?: Uint8Array | redacted.Redacted<Uint8Array>;
+  CiphertextForRecipient?: Uint8Array;
+}
+export const GenerateRandomResponse = S.suspend(() =>
+  S.Struct({
+    Plaintext: S.optional(SensitiveBlob),
+    CiphertextForRecipient: S.optional(T.Blob),
+  }).pipe(ns),
+).annotate({
+  identifier: "GenerateRandomResponse",
+}) as any as S.Schema<GenerateRandomResponse>;
+export interface GetKeyPolicyRequest {
+  KeyId: string;
+  PolicyName?: string;
+}
+export const GetKeyPolicyRequest = S.suspend(() =>
+  S.Struct({ KeyId: S.String, PolicyName: S.optional(S.String) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetKeyPolicyRequest",
+}) as any as S.Schema<GetKeyPolicyRequest>;
+export interface GetKeyPolicyResponse {
+  Policy?: string;
+  PolicyName?: string;
+}
+export const GetKeyPolicyResponse = S.suspend(() =>
+  S.Struct({
+    Policy: S.optional(S.String),
+    PolicyName: S.optional(S.String),
+  }).pipe(ns),
+).annotate({
+  identifier: "GetKeyPolicyResponse",
+}) as any as S.Schema<GetKeyPolicyResponse>;
+export interface GetKeyRotationStatusRequest {
+  KeyId: string;
+}
+export const GetKeyRotationStatusRequest = S.suspend(() =>
+  S.Struct({ KeyId: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetKeyRotationStatusRequest",
+}) as any as S.Schema<GetKeyRotationStatusRequest>;
+export interface GetKeyRotationStatusResponse {
+  KeyRotationEnabled?: boolean;
+  KeyId?: string;
+  RotationPeriodInDays?: number;
+  NextRotationDate?: Date;
+  OnDemandRotationStartDate?: Date;
+}
+export const GetKeyRotationStatusResponse = S.suspend(() =>
+  S.Struct({
+    KeyRotationEnabled: S.optional(S.Boolean),
+    KeyId: S.optional(S.String),
+    RotationPeriodInDays: S.optional(S.Number),
+    NextRotationDate: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    OnDemandRotationStartDate: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }).pipe(ns),
+).annotate({
+  identifier: "GetKeyRotationStatusResponse",
+}) as any as S.Schema<GetKeyRotationStatusResponse>;
+export type AlgorithmSpec =
+  | "RSAES_PKCS1_V1_5"
+  | "RSAES_OAEP_SHA_1"
+  | "RSAES_OAEP_SHA_256"
+  | "RSA_AES_KEY_WRAP_SHA_1"
+  | "RSA_AES_KEY_WRAP_SHA_256"
+  | "SM2PKE"
+  | (string & {});
+export const AlgorithmSpec = S.String;
+export type WrappingKeySpec =
+  | "RSA_2048"
+  | "RSA_3072"
+  | "RSA_4096"
+  | "SM2"
+  | (string & {});
+export const WrappingKeySpec = S.String;
+export interface GetParametersForImportRequest {
+  KeyId: string;
+  WrappingAlgorithm: AlgorithmSpec;
+  WrappingKeySpec: WrappingKeySpec;
+}
+export const GetParametersForImportRequest = S.suspend(() =>
+  S.Struct({
+    KeyId: S.String,
+    WrappingAlgorithm: AlgorithmSpec,
+    WrappingKeySpec: WrappingKeySpec,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetParametersForImportRequest",
+}) as any as S.Schema<GetParametersForImportRequest>;
+export interface GetParametersForImportResponse {
+  KeyId?: string;
+  ImportToken?: Uint8Array;
+  PublicKey?: Uint8Array | redacted.Redacted<Uint8Array>;
+  ParametersValidTo?: Date;
+}
+export const GetParametersForImportResponse = S.suspend(() =>
+  S.Struct({
+    KeyId: S.optional(S.String),
+    ImportToken: S.optional(T.Blob),
+    PublicKey: S.optional(SensitiveBlob),
+    ParametersValidTo: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }).pipe(ns),
+).annotate({
+  identifier: "GetParametersForImportResponse",
+}) as any as S.Schema<GetParametersForImportResponse>;
+export interface GetPublicKeyRequest {
+  KeyId: string;
+  GrantTokens?: string[];
+}
+export const GetPublicKeyRequest = S.suspend(() =>
+  S.Struct({ KeyId: S.String, GrantTokens: S.optional(GrantTokenList) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetPublicKeyRequest",
+}) as any as S.Schema<GetPublicKeyRequest>;
+export interface GetPublicKeyResponse {
+  KeyId?: string;
+  PublicKey?: Uint8Array;
+  CustomerMasterKeySpec?: CustomerMasterKeySpec;
+  KeySpec?: KeySpec;
+  KeyUsage?: KeyUsageType;
+  EncryptionAlgorithms?: EncryptionAlgorithmSpec[];
+  SigningAlgorithms?: SigningAlgorithmSpec[];
+  KeyAgreementAlgorithms?: KeyAgreementAlgorithmSpec[];
+}
+export const GetPublicKeyResponse = S.suspend(() =>
+  S.Struct({
+    KeyId: S.optional(S.String),
+    PublicKey: S.optional(T.Blob),
+    CustomerMasterKeySpec: S.optional(CustomerMasterKeySpec),
+    KeySpec: S.optional(KeySpec),
+    KeyUsage: S.optional(KeyUsageType),
+    EncryptionAlgorithms: S.optional(EncryptionAlgorithmSpecList),
+    SigningAlgorithms: S.optional(SigningAlgorithmSpecList),
+    KeyAgreementAlgorithms: S.optional(KeyAgreementAlgorithmSpecList),
+  }).pipe(ns),
+).annotate({
+  identifier: "GetPublicKeyResponse",
+}) as any as S.Schema<GetPublicKeyResponse>;
+export type ImportType =
+  | "NEW_KEY_MATERIAL"
+  | "EXISTING_KEY_MATERIAL"
+  | (string & {});
+export const ImportType = S.String;
+export interface ImportKeyMaterialRequest {
+  KeyId: string;
+  ImportToken: Uint8Array;
+  EncryptedKeyMaterial: Uint8Array;
+  ValidTo?: Date;
+  ExpirationModel?: ExpirationModelType;
+  ImportType?: ImportType;
+  KeyMaterialDescription?: string;
+  KeyMaterialId?: string;
+}
+export const ImportKeyMaterialRequest = S.suspend(() =>
+  S.Struct({
+    KeyId: S.String,
+    ImportToken: T.Blob,
+    EncryptedKeyMaterial: T.Blob,
+    ValidTo: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    ExpirationModel: S.optional(ExpirationModelType),
+    ImportType: S.optional(ImportType),
+    KeyMaterialDescription: S.optional(S.String),
+    KeyMaterialId: S.optional(S.String),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ImportKeyMaterialRequest",
+}) as any as S.Schema<ImportKeyMaterialRequest>;
+export interface ImportKeyMaterialResponse {
+  KeyId?: string;
+  KeyMaterialId?: string;
+}
+export const ImportKeyMaterialResponse = S.suspend(() =>
+  S.Struct({
+    KeyId: S.optional(S.String),
+    KeyMaterialId: S.optional(S.String),
+  }).pipe(ns),
+).annotate({
+  identifier: "ImportKeyMaterialResponse",
+}) as any as S.Schema<ImportKeyMaterialResponse>;
+export interface ListAliasesRequest {
+  KeyId?: string;
+  Limit?: number;
+  Marker?: string;
+}
+export const ListAliasesRequest = S.suspend(() =>
+  S.Struct({
+    KeyId: S.optional(S.String),
+    Limit: S.optional(S.Number),
+    Marker: S.optional(S.String),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListAliasesRequest",
+}) as any as S.Schema<ListAliasesRequest>;
+export interface AliasListEntry {
+  AliasName?: string;
+  AliasArn?: string;
+  TargetKeyId?: string;
+  CreationDate?: Date;
+  LastUpdatedDate?: Date;
+}
+export const AliasListEntry = S.suspend(() =>
+  S.Struct({
+    AliasName: S.optional(S.String),
+    AliasArn: S.optional(S.String),
+    TargetKeyId: S.optional(S.String),
+    CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    LastUpdatedDate: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }),
+).annotate({ identifier: "AliasListEntry" }) as any as S.Schema<AliasListEntry>;
+export type AliasList = AliasListEntry[];
+export const AliasList = S.Array(AliasListEntry);
+export interface ListAliasesResponse {
+  Aliases?: AliasListEntry[];
+  NextMarker?: string;
+  Truncated?: boolean;
+}
+export const ListAliasesResponse = S.suspend(() =>
+  S.Struct({
+    Aliases: S.optional(AliasList),
+    NextMarker: S.optional(S.String),
+    Truncated: S.optional(S.Boolean),
+  }).pipe(ns),
+).annotate({
+  identifier: "ListAliasesResponse",
+}) as any as S.Schema<ListAliasesResponse>;
+export interface ListGrantsRequest {
+  Limit?: number;
+  Marker?: string;
+  KeyId: string;
+  GrantId?: string;
+  GranteePrincipal?: string;
+}
+export const ListGrantsRequest = S.suspend(() =>
+  S.Struct({
+    Limit: S.optional(S.Number),
+    Marker: S.optional(S.String),
+    KeyId: S.String,
+    GrantId: S.optional(S.String),
+    GranteePrincipal: S.optional(S.String),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListGrantsRequest",
+}) as any as S.Schema<ListGrantsRequest>;
+export interface GrantListEntry {
+  KeyId?: string;
+  GrantId?: string;
+  Name?: string;
+  CreationDate?: Date;
+  GranteePrincipal?: string;
+  RetiringPrincipal?: string;
+  IssuingAccount?: string;
+  Operations?: GrantOperation[];
+  Constraints?: GrantConstraints;
+}
+export const GrantListEntry = S.suspend(() =>
+  S.Struct({
+    KeyId: S.optional(S.String),
+    GrantId: S.optional(S.String),
+    Name: S.optional(S.String),
+    CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    GranteePrincipal: S.optional(S.String),
+    RetiringPrincipal: S.optional(S.String),
+    IssuingAccount: S.optional(S.String),
+    Operations: S.optional(GrantOperationList),
+    Constraints: S.optional(GrantConstraints),
+  }),
+).annotate({ identifier: "GrantListEntry" }) as any as S.Schema<GrantListEntry>;
+export type GrantList = GrantListEntry[];
+export const GrantList = S.Array(GrantListEntry);
+export interface ListGrantsResponse {
+  Grants?: GrantListEntry[];
+  NextMarker?: string;
+  Truncated?: boolean;
+}
+export const ListGrantsResponse = S.suspend(() =>
+  S.Struct({
+    Grants: S.optional(GrantList),
+    NextMarker: S.optional(S.String),
+    Truncated: S.optional(S.Boolean),
+  }).pipe(ns),
+).annotate({
+  identifier: "ListGrantsResponse",
+}) as any as S.Schema<ListGrantsResponse>;
+export interface ListKeyPoliciesRequest {
+  KeyId: string;
+  Limit?: number;
+  Marker?: string;
+}
+export const ListKeyPoliciesRequest = S.suspend(() =>
+  S.Struct({
+    KeyId: S.String,
+    Limit: S.optional(S.Number),
+    Marker: S.optional(S.String),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListKeyPoliciesRequest",
+}) as any as S.Schema<ListKeyPoliciesRequest>;
+export type PolicyNameList = string[];
+export const PolicyNameList = S.Array(S.String);
+export interface ListKeyPoliciesResponse {
+  PolicyNames?: string[];
+  NextMarker?: string;
+  Truncated?: boolean;
+}
+export const ListKeyPoliciesResponse = S.suspend(() =>
+  S.Struct({
+    PolicyNames: S.optional(PolicyNameList),
+    NextMarker: S.optional(S.String),
+    Truncated: S.optional(S.Boolean),
+  }).pipe(ns),
+).annotate({
+  identifier: "ListKeyPoliciesResponse",
+}) as any as S.Schema<ListKeyPoliciesResponse>;
+export type IncludeKeyMaterial =
+  | "ALL_KEY_MATERIAL"
+  | "ROTATIONS_ONLY"
+  | (string & {});
+export const IncludeKeyMaterial = S.String;
+export interface ListKeyRotationsRequest {
+  KeyId: string;
+  IncludeKeyMaterial?: IncludeKeyMaterial;
+  Limit?: number;
+  Marker?: string;
+}
+export const ListKeyRotationsRequest = S.suspend(() =>
+  S.Struct({
+    KeyId: S.String,
+    IncludeKeyMaterial: S.optional(IncludeKeyMaterial),
+    Limit: S.optional(S.Number),
+    Marker: S.optional(S.String),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListKeyRotationsRequest",
+}) as any as S.Schema<ListKeyRotationsRequest>;
+export type ImportState = "IMPORTED" | "PENDING_IMPORT" | (string & {});
+export const ImportState = S.String;
+export type KeyMaterialState =
+  | "NON_CURRENT"
+  | "CURRENT"
+  | "PENDING_ROTATION"
+  | "PENDING_MULTI_REGION_IMPORT_AND_ROTATION"
+  | (string & {});
+export const KeyMaterialState = S.String;
+export type RotationType = "AUTOMATIC" | "ON_DEMAND" | (string & {});
+export const RotationType = S.String;
+export interface RotationsListEntry {
+  KeyId?: string;
+  KeyMaterialId?: string;
+  KeyMaterialDescription?: string;
+  ImportState?: ImportState;
+  KeyMaterialState?: KeyMaterialState;
+  ExpirationModel?: ExpirationModelType;
+  ValidTo?: Date;
+  RotationDate?: Date;
+  RotationType?: RotationType;
+}
+export const RotationsListEntry = S.suspend(() =>
+  S.Struct({
+    KeyId: S.optional(S.String),
+    KeyMaterialId: S.optional(S.String),
+    KeyMaterialDescription: S.optional(S.String),
+    ImportState: S.optional(ImportState),
+    KeyMaterialState: S.optional(KeyMaterialState),
+    ExpirationModel: S.optional(ExpirationModelType),
+    ValidTo: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    RotationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    RotationType: S.optional(RotationType),
+  }),
+).annotate({
+  identifier: "RotationsListEntry",
+}) as any as S.Schema<RotationsListEntry>;
+export type RotationsList = RotationsListEntry[];
+export const RotationsList = S.Array(RotationsListEntry);
+export interface ListKeyRotationsResponse {
+  Rotations?: RotationsListEntry[];
+  NextMarker?: string;
+  Truncated?: boolean;
+}
+export const ListKeyRotationsResponse = S.suspend(() =>
+  S.Struct({
+    Rotations: S.optional(RotationsList),
+    NextMarker: S.optional(S.String),
+    Truncated: S.optional(S.Boolean),
+  }).pipe(ns),
+).annotate({
+  identifier: "ListKeyRotationsResponse",
+}) as any as S.Schema<ListKeyRotationsResponse>;
+export interface ListKeysRequest {
+  Limit?: number;
+  Marker?: string;
+}
+export const ListKeysRequest = S.suspend(() =>
+  S.Struct({ Limit: S.optional(S.Number), Marker: S.optional(S.String) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListKeysRequest",
+}) as any as S.Schema<ListKeysRequest>;
+export interface KeyListEntry {
+  KeyId?: string;
+  KeyArn?: string;
+}
+export const KeyListEntry = S.suspend(() =>
+  S.Struct({ KeyId: S.optional(S.String), KeyArn: S.optional(S.String) }),
+).annotate({ identifier: "KeyListEntry" }) as any as S.Schema<KeyListEntry>;
+export type KeyList = KeyListEntry[];
+export const KeyList = S.Array(KeyListEntry);
+export interface ListKeysResponse {
+  Keys?: KeyListEntry[];
+  NextMarker?: string;
+  Truncated?: boolean;
+}
+export const ListKeysResponse = S.suspend(() =>
+  S.Struct({
+    Keys: S.optional(KeyList),
+    NextMarker: S.optional(S.String),
+    Truncated: S.optional(S.Boolean),
+  }).pipe(ns),
+).annotate({
+  identifier: "ListKeysResponse",
+}) as any as S.Schema<ListKeysResponse>;
+export interface ListResourceTagsRequest {
+  KeyId: string;
+  Limit?: number;
+  Marker?: string;
+}
+export const ListResourceTagsRequest = S.suspend(() =>
+  S.Struct({
+    KeyId: S.String,
+    Limit: S.optional(S.Number),
+    Marker: S.optional(S.String),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListResourceTagsRequest",
+}) as any as S.Schema<ListResourceTagsRequest>;
+export interface ListResourceTagsResponse {
+  Tags?: Tag[];
+  NextMarker?: string;
+  Truncated?: boolean;
+}
+export const ListResourceTagsResponse = S.suspend(() =>
+  S.Struct({
+    Tags: S.optional(TagList),
+    NextMarker: S.optional(S.String),
+    Truncated: S.optional(S.Boolean),
+  }).pipe(ns),
+).annotate({
+  identifier: "ListResourceTagsResponse",
+}) as any as S.Schema<ListResourceTagsResponse>;
+export interface ListRetirableGrantsRequest {
+  Limit?: number;
+  Marker?: string;
+  RetiringPrincipal: string;
+}
+export const ListRetirableGrantsRequest = S.suspend(() =>
+  S.Struct({
+    Limit: S.optional(S.Number),
+    Marker: S.optional(S.String),
+    RetiringPrincipal: S.String,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListRetirableGrantsRequest",
+}) as any as S.Schema<ListRetirableGrantsRequest>;
+export interface PutKeyPolicyRequest {
+  KeyId: string;
+  PolicyName?: string;
+  Policy: string;
+  BypassPolicyLockoutSafetyCheck?: boolean;
+}
+export const PutKeyPolicyRequest = S.suspend(() =>
+  S.Struct({
+    KeyId: S.String,
+    PolicyName: S.optional(S.String),
+    Policy: S.String,
+    BypassPolicyLockoutSafetyCheck: S.optional(S.Boolean),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "PutKeyPolicyRequest",
+}) as any as S.Schema<PutKeyPolicyRequest>;
+export interface PutKeyPolicyResponse {}
+export const PutKeyPolicyResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "PutKeyPolicyResponse",
+}) as any as S.Schema<PutKeyPolicyResponse>;
+export interface ReEncryptRequest {
+  CiphertextBlob: Uint8Array;
+  SourceEncryptionContext?: { [key: string]: string | undefined };
+  SourceKeyId?: string;
+  DestinationKeyId: string;
+  DestinationEncryptionContext?: { [key: string]: string | undefined };
+  SourceEncryptionAlgorithm?: EncryptionAlgorithmSpec;
+  DestinationEncryptionAlgorithm?: EncryptionAlgorithmSpec;
+  GrantTokens?: string[];
+  DryRun?: boolean;
+}
+export const ReEncryptRequest = S.suspend(() =>
+  S.Struct({
+    CiphertextBlob: T.Blob,
+    SourceEncryptionContext: S.optional(EncryptionContextType),
+    SourceKeyId: S.optional(S.String),
+    DestinationKeyId: S.String,
+    DestinationEncryptionContext: S.optional(EncryptionContextType),
+    SourceEncryptionAlgorithm: S.optional(EncryptionAlgorithmSpec),
+    DestinationEncryptionAlgorithm: S.optional(EncryptionAlgorithmSpec),
+    GrantTokens: S.optional(GrantTokenList),
+    DryRun: S.optional(S.Boolean),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ReEncryptRequest",
+}) as any as S.Schema<ReEncryptRequest>;
+export interface ReEncryptResponse {
+  CiphertextBlob?: Uint8Array;
+  SourceKeyId?: string;
+  KeyId?: string;
+  SourceEncryptionAlgorithm?: EncryptionAlgorithmSpec;
+  DestinationEncryptionAlgorithm?: EncryptionAlgorithmSpec;
+  SourceKeyMaterialId?: string;
+  DestinationKeyMaterialId?: string;
+}
+export const ReEncryptResponse = S.suspend(() =>
+  S.Struct({
+    CiphertextBlob: S.optional(T.Blob),
+    SourceKeyId: S.optional(S.String),
+    KeyId: S.optional(S.String),
+    SourceEncryptionAlgorithm: S.optional(EncryptionAlgorithmSpec),
+    DestinationEncryptionAlgorithm: S.optional(EncryptionAlgorithmSpec),
+    SourceKeyMaterialId: S.optional(S.String),
+    DestinationKeyMaterialId: S.optional(S.String),
+  }).pipe(ns),
+).annotate({
+  identifier: "ReEncryptResponse",
+}) as any as S.Schema<ReEncryptResponse>;
+export interface ReplicateKeyRequest {
+  KeyId: string;
+  ReplicaRegion: string;
+  Policy?: string;
+  BypassPolicyLockoutSafetyCheck?: boolean;
+  Description?: string;
+  Tags?: Tag[];
+}
+export const ReplicateKeyRequest = S.suspend(() =>
+  S.Struct({
+    KeyId: S.String,
+    ReplicaRegion: S.String,
+    Policy: S.optional(S.String),
+    BypassPolicyLockoutSafetyCheck: S.optional(S.Boolean),
+    Description: S.optional(S.String),
+    Tags: S.optional(TagList),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ReplicateKeyRequest",
+}) as any as S.Schema<ReplicateKeyRequest>;
+export interface ReplicateKeyResponse {
+  ReplicaKeyMetadata?: KeyMetadata;
+  ReplicaPolicy?: string;
+  ReplicaTags?: Tag[];
+}
+export const ReplicateKeyResponse = S.suspend(() =>
+  S.Struct({
+    ReplicaKeyMetadata: S.optional(KeyMetadata),
+    ReplicaPolicy: S.optional(S.String),
+    ReplicaTags: S.optional(TagList),
+  }).pipe(ns),
+).annotate({
+  identifier: "ReplicateKeyResponse",
+}) as any as S.Schema<ReplicateKeyResponse>;
+export interface RetireGrantRequest {
+  GrantToken?: string;
+  KeyId?: string;
+  GrantId?: string;
+  DryRun?: boolean;
+}
+export const RetireGrantRequest = S.suspend(() =>
+  S.Struct({
+    GrantToken: S.optional(S.String),
+    KeyId: S.optional(S.String),
+    GrantId: S.optional(S.String),
+    DryRun: S.optional(S.Boolean),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "RetireGrantRequest",
+}) as any as S.Schema<RetireGrantRequest>;
+export interface RetireGrantResponse {}
+export const RetireGrantResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "RetireGrantResponse",
+}) as any as S.Schema<RetireGrantResponse>;
+export interface RevokeGrantRequest {
+  KeyId: string;
+  GrantId: string;
+  DryRun?: boolean;
+}
+export const RevokeGrantRequest = S.suspend(() =>
+  S.Struct({
+    KeyId: S.String,
+    GrantId: S.String,
+    DryRun: S.optional(S.Boolean),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "RevokeGrantRequest",
+}) as any as S.Schema<RevokeGrantRequest>;
+export interface RevokeGrantResponse {}
+export const RevokeGrantResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "RevokeGrantResponse",
+}) as any as S.Schema<RevokeGrantResponse>;
+export interface RotateKeyOnDemandRequest {
+  KeyId: string;
+}
+export const RotateKeyOnDemandRequest = S.suspend(() =>
+  S.Struct({ KeyId: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "RotateKeyOnDemandRequest",
+}) as any as S.Schema<RotateKeyOnDemandRequest>;
+export interface RotateKeyOnDemandResponse {
+  KeyId?: string;
+}
+export const RotateKeyOnDemandResponse = S.suspend(() =>
+  S.Struct({ KeyId: S.optional(S.String) }).pipe(ns),
+).annotate({
+  identifier: "RotateKeyOnDemandResponse",
+}) as any as S.Schema<RotateKeyOnDemandResponse>;
+export interface ScheduleKeyDeletionRequest {
+  KeyId: string;
+  PendingWindowInDays?: number;
+}
+export const ScheduleKeyDeletionRequest = S.suspend(() =>
+  S.Struct({ KeyId: S.String, PendingWindowInDays: S.optional(S.Number) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ScheduleKeyDeletionRequest",
+}) as any as S.Schema<ScheduleKeyDeletionRequest>;
+export interface ScheduleKeyDeletionResponse {
+  KeyId?: string;
+  DeletionDate?: Date;
+  KeyState?: KeyState;
+  PendingWindowInDays?: number;
+}
+export const ScheduleKeyDeletionResponse = S.suspend(() =>
+  S.Struct({
+    KeyId: S.optional(S.String),
+    DeletionDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    KeyState: S.optional(KeyState),
+    PendingWindowInDays: S.optional(S.Number),
+  }).pipe(ns),
+).annotate({
+  identifier: "ScheduleKeyDeletionResponse",
+}) as any as S.Schema<ScheduleKeyDeletionResponse>;
+export type MessageType = "RAW" | "DIGEST" | "EXTERNAL_MU" | (string & {});
+export const MessageType = S.String;
+export interface SignRequest {
+  KeyId: string;
+  Message: Uint8Array | redacted.Redacted<Uint8Array>;
+  MessageType?: MessageType;
+  GrantTokens?: string[];
+  SigningAlgorithm: SigningAlgorithmSpec;
+  DryRun?: boolean;
+}
+export const SignRequest = S.suspend(() =>
+  S.Struct({
+    KeyId: S.String,
+    Message: SensitiveBlob,
+    MessageType: S.optional(MessageType),
+    GrantTokens: S.optional(GrantTokenList),
+    SigningAlgorithm: SigningAlgorithmSpec,
+    DryRun: S.optional(S.Boolean),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({ identifier: "SignRequest" }) as any as S.Schema<SignRequest>;
+export interface SignResponse {
+  KeyId?: string;
+  Signature?: Uint8Array;
+  SigningAlgorithm?: SigningAlgorithmSpec;
+}
+export const SignResponse = S.suspend(() =>
+  S.Struct({
+    KeyId: S.optional(S.String),
+    Signature: S.optional(T.Blob),
+    SigningAlgorithm: S.optional(SigningAlgorithmSpec),
+  }).pipe(ns),
+).annotate({ identifier: "SignResponse" }) as any as S.Schema<SignResponse>;
+export interface TagResourceRequest {
+  KeyId: string;
+  Tags: Tag[];
+}
+export const TagResourceRequest = S.suspend(() =>
+  S.Struct({ KeyId: S.String, Tags: TagList }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "TagResourceRequest",
+}) as any as S.Schema<TagResourceRequest>;
+export interface TagResourceResponse {}
+export const TagResourceResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "TagResourceResponse",
+}) as any as S.Schema<TagResourceResponse>;
+export type TagKeyList = string[];
+export const TagKeyList = S.Array(S.String);
+export interface UntagResourceRequest {
+  KeyId: string;
+  TagKeys: string[];
+}
+export const UntagResourceRequest = S.suspend(() =>
+  S.Struct({ KeyId: S.String, TagKeys: TagKeyList }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "UntagResourceRequest",
+}) as any as S.Schema<UntagResourceRequest>;
+export interface UntagResourceResponse {}
+export const UntagResourceResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "UntagResourceResponse",
+}) as any as S.Schema<UntagResourceResponse>;
+export interface UpdateAliasRequest {
+  AliasName: string;
+  TargetKeyId: string;
+}
+export const UpdateAliasRequest = S.suspend(() =>
+  S.Struct({ AliasName: S.String, TargetKeyId: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "UpdateAliasRequest",
+}) as any as S.Schema<UpdateAliasRequest>;
+export interface UpdateAliasResponse {}
+export const UpdateAliasResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "UpdateAliasResponse",
+}) as any as S.Schema<UpdateAliasResponse>;
+export interface UpdateCustomKeyStoreRequest {
+  CustomKeyStoreId: string;
+  NewCustomKeyStoreName?: string;
+  KeyStorePassword?: string | redacted.Redacted<string>;
+  CloudHsmClusterId?: string;
+  XksProxyUriEndpoint?: string;
+  XksProxyUriPath?: string;
+  XksProxyVpcEndpointServiceName?: string;
+  XksProxyVpcEndpointServiceOwner?: string;
+  XksProxyAuthenticationCredential?: XksProxyAuthenticationCredentialType;
+  XksProxyConnectivity?: XksProxyConnectivityType;
+}
+export const UpdateCustomKeyStoreRequest = S.suspend(() =>
+  S.Struct({
+    CustomKeyStoreId: S.String,
+    NewCustomKeyStoreName: S.optional(S.String),
+    KeyStorePassword: S.optional(SensitiveString),
+    CloudHsmClusterId: S.optional(S.String),
+    XksProxyUriEndpoint: S.optional(S.String),
+    XksProxyUriPath: S.optional(S.String),
+    XksProxyVpcEndpointServiceName: S.optional(S.String),
+    XksProxyVpcEndpointServiceOwner: S.optional(S.String),
+    XksProxyAuthenticationCredential: S.optional(
+      XksProxyAuthenticationCredentialType,
+    ),
+    XksProxyConnectivity: S.optional(XksProxyConnectivityType),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "UpdateCustomKeyStoreRequest",
+}) as any as S.Schema<UpdateCustomKeyStoreRequest>;
+export interface UpdateCustomKeyStoreResponse {}
+export const UpdateCustomKeyStoreResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "UpdateCustomKeyStoreResponse",
+}) as any as S.Schema<UpdateCustomKeyStoreResponse>;
+export interface UpdateKeyDescriptionRequest {
+  KeyId: string;
+  Description: string;
+}
+export const UpdateKeyDescriptionRequest = S.suspend(() =>
+  S.Struct({ KeyId: S.String, Description: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "UpdateKeyDescriptionRequest",
+}) as any as S.Schema<UpdateKeyDescriptionRequest>;
+export interface UpdateKeyDescriptionResponse {}
+export const UpdateKeyDescriptionResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "UpdateKeyDescriptionResponse",
+}) as any as S.Schema<UpdateKeyDescriptionResponse>;
+export interface UpdatePrimaryRegionRequest {
+  KeyId: string;
+  PrimaryRegion: string;
+}
+export const UpdatePrimaryRegionRequest = S.suspend(() =>
+  S.Struct({ KeyId: S.String, PrimaryRegion: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "UpdatePrimaryRegionRequest",
+}) as any as S.Schema<UpdatePrimaryRegionRequest>;
+export interface UpdatePrimaryRegionResponse {}
+export const UpdatePrimaryRegionResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "UpdatePrimaryRegionResponse",
+}) as any as S.Schema<UpdatePrimaryRegionResponse>;
+export interface VerifyRequest {
+  KeyId: string;
+  Message: Uint8Array | redacted.Redacted<Uint8Array>;
+  MessageType?: MessageType;
+  Signature: Uint8Array;
+  SigningAlgorithm: SigningAlgorithmSpec;
+  GrantTokens?: string[];
+  DryRun?: boolean;
+}
+export const VerifyRequest = S.suspend(() =>
+  S.Struct({
+    KeyId: S.String,
+    Message: SensitiveBlob,
+    MessageType: S.optional(MessageType),
+    Signature: T.Blob,
+    SigningAlgorithm: SigningAlgorithmSpec,
+    GrantTokens: S.optional(GrantTokenList),
+    DryRun: S.optional(S.Boolean),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({ identifier: "VerifyRequest" }) as any as S.Schema<VerifyRequest>;
+export interface VerifyResponse {
+  KeyId?: string;
+  SignatureValid?: boolean;
+  SigningAlgorithm?: SigningAlgorithmSpec;
+}
+export const VerifyResponse = S.suspend(() =>
+  S.Struct({
+    KeyId: S.optional(S.String),
+    SignatureValid: S.optional(S.Boolean),
+    SigningAlgorithm: S.optional(SigningAlgorithmSpec),
+  }).pipe(ns),
+).annotate({ identifier: "VerifyResponse" }) as any as S.Schema<VerifyResponse>;
+export interface VerifyMacRequest {
+  Message: Uint8Array | redacted.Redacted<Uint8Array>;
+  KeyId: string;
+  MacAlgorithm: MacAlgorithmSpec;
+  Mac: Uint8Array;
+  GrantTokens?: string[];
+  DryRun?: boolean;
+}
+export const VerifyMacRequest = S.suspend(() =>
+  S.Struct({
+    Message: SensitiveBlob,
+    KeyId: S.String,
+    MacAlgorithm: MacAlgorithmSpec,
+    Mac: T.Blob,
+    GrantTokens: S.optional(GrantTokenList),
+    DryRun: S.optional(S.Boolean),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "VerifyMacRequest",
+}) as any as S.Schema<VerifyMacRequest>;
+export interface VerifyMacResponse {
+  KeyId?: string;
+  MacValid?: boolean;
+  MacAlgorithm?: MacAlgorithmSpec;
+}
+export const VerifyMacResponse = S.suspend(() =>
+  S.Struct({
+    KeyId: S.optional(S.String),
+    MacValid: S.optional(S.Boolean),
+    MacAlgorithm: S.optional(MacAlgorithmSpec),
+  }).pipe(ns),
+).annotate({
+  identifier: "VerifyMacResponse",
+}) as any as S.Schema<VerifyMacResponse>;
 
 //# Errors
-export class CloudHsmClusterInvalidConfigurationException extends S.TaggedError<CloudHsmClusterInvalidConfigurationException>()(
+export class DependencyTimeoutException extends S.TaggedErrorClass<DependencyTimeoutException>()(
+  "DependencyTimeoutException",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "DependencyTimeout", httpResponseCode: 503 }),
+).pipe(C.withServerError) {}
+export class InvalidArnException extends S.TaggedErrorClass<InvalidArnException>()(
+  "InvalidArnException",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "InvalidArn", httpResponseCode: 400 }),
+).pipe(C.withBadRequestError) {}
+export class KMSInternalException extends S.TaggedErrorClass<KMSInternalException>()(
+  "KMSInternalException",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "KMSInternal", httpResponseCode: 500 }),
+).pipe(C.withServerError) {}
+export class KMSInvalidStateException extends S.TaggedErrorClass<KMSInvalidStateException>()(
+  "KMSInvalidStateException",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "KMSInvalidStateException", httpResponseCode: 409 }),
+).pipe(C.withConflictError) {}
+export class NotFoundException extends S.TaggedErrorClass<NotFoundException>()(
+  "NotFoundException",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "NotFound", httpResponseCode: 404 }),
+).pipe(C.withBadRequestError) {}
+export class CloudHsmClusterInvalidConfigurationException extends S.TaggedErrorClass<CloudHsmClusterInvalidConfigurationException>()(
   "CloudHsmClusterInvalidConfigurationException",
   { message: S.optional(S.String) },
   T.AwsQueryError({
@@ -2565,43 +2574,7 @@ export class CloudHsmClusterInvalidConfigurationException extends S.TaggedError<
     httpResponseCode: 400,
   }),
 ).pipe(C.withBadRequestError) {}
-export class AlreadyExistsException extends S.TaggedError<AlreadyExistsException>()(
-  "AlreadyExistsException",
-  { message: S.optional(S.String) },
-  T.AwsQueryError({ code: "AlreadyExists", httpResponseCode: 409 }),
-).pipe(C.withConflictError, C.withAlreadyExistsError) {}
-export class DependencyTimeoutException extends S.TaggedError<DependencyTimeoutException>()(
-  "DependencyTimeoutException",
-  { message: S.optional(S.String) },
-  T.AwsQueryError({ code: "DependencyTimeout", httpResponseCode: 503 }),
-).pipe(C.withServerError) {}
-export class CustomKeyStoreHasCMKsException extends S.TaggedError<CustomKeyStoreHasCMKsException>()(
-  "CustomKeyStoreHasCMKsException",
-  { message: S.optional(S.String) },
-  T.AwsQueryError({
-    code: "CustomKeyStoreHasCMKsException",
-    httpResponseCode: 400,
-  }),
-).pipe(C.withBadRequestError) {}
-export class CustomKeyStoreInvalidStateException extends S.TaggedError<CustomKeyStoreInvalidStateException>()(
-  "CustomKeyStoreInvalidStateException",
-  { message: S.optional(S.String) },
-  T.AwsQueryError({
-    code: "CustomKeyStoreInvalidStateException",
-    httpResponseCode: 400,
-  }),
-).pipe(C.withBadRequestError) {}
-export class InvalidArnException extends S.TaggedError<InvalidArnException>()(
-  "InvalidArnException",
-  { message: S.optional(S.String) },
-  T.AwsQueryError({ code: "InvalidArn", httpResponseCode: 400 }),
-).pipe(C.withBadRequestError) {}
-export class DisabledException extends S.TaggedError<DisabledException>()(
-  "DisabledException",
-  { message: S.optional(S.String) },
-  T.AwsQueryError({ code: "Disabled", httpResponseCode: 409 }),
-).pipe(C.withConflictError) {}
-export class CloudHsmClusterNotActiveException extends S.TaggedError<CloudHsmClusterNotActiveException>()(
+export class CloudHsmClusterNotActiveException extends S.TaggedErrorClass<CloudHsmClusterNotActiveException>()(
   "CloudHsmClusterNotActiveException",
   { message: S.optional(S.String) },
   T.AwsQueryError({
@@ -2609,12 +2582,15 @@ export class CloudHsmClusterNotActiveException extends S.TaggedError<CloudHsmClu
     httpResponseCode: 400,
   }),
 ).pipe(C.withBadRequestError) {}
-export class KMSInternalException extends S.TaggedError<KMSInternalException>()(
-  "KMSInternalException",
+export class CustomKeyStoreInvalidStateException extends S.TaggedErrorClass<CustomKeyStoreInvalidStateException>()(
+  "CustomKeyStoreInvalidStateException",
   { message: S.optional(S.String) },
-  T.AwsQueryError({ code: "KMSInternal", httpResponseCode: 500 }),
-).pipe(C.withServerError) {}
-export class CustomKeyStoreNotFoundException extends S.TaggedError<CustomKeyStoreNotFoundException>()(
+  T.AwsQueryError({
+    code: "CustomKeyStoreInvalidStateException",
+    httpResponseCode: 400,
+  }),
+).pipe(C.withBadRequestError) {}
+export class CustomKeyStoreNotFoundException extends S.TaggedErrorClass<CustomKeyStoreNotFoundException>()(
   "CustomKeyStoreNotFoundException",
   { message: S.optional(S.String) },
   T.AwsQueryError({
@@ -2622,40 +2598,22 @@ export class CustomKeyStoreNotFoundException extends S.TaggedError<CustomKeyStor
     httpResponseCode: 400,
   }),
 ).pipe(C.withBadRequestError) {}
-export class ExpiredImportTokenException extends S.TaggedError<ExpiredImportTokenException>()(
-  "ExpiredImportTokenException",
+export class AlreadyExistsException extends S.TaggedErrorClass<AlreadyExistsException>()(
+  "AlreadyExistsException",
   { message: S.optional(S.String) },
-  T.AwsQueryError({
-    code: "ExpiredImportTokenException",
-    httpResponseCode: 400,
-  }),
-).pipe(C.withBadRequestError) {}
-export class ConflictException extends S.TaggedError<ConflictException>()(
-  "ConflictException",
-  { message: S.optional(S.String) },
-  T.AwsQueryError({ code: "ConflictException", httpResponseCode: 409 }),
-).pipe(C.withConflictError) {}
-export class DryRunOperationException extends S.TaggedError<DryRunOperationException>()(
-  "DryRunOperationException",
-  { message: S.optional(S.String) },
-  T.AwsQueryError({ code: "DryRunOperation", httpResponseCode: 412 }),
-) {}
-export class InvalidMarkerException extends S.TaggedError<InvalidMarkerException>()(
-  "InvalidMarkerException",
-  { message: S.optional(S.String) },
-  T.AwsQueryError({ code: "InvalidMarker", httpResponseCode: 400 }),
-).pipe(C.withBadRequestError) {}
-export class InvalidAliasNameException extends S.TaggedError<InvalidAliasNameException>()(
+  T.AwsQueryError({ code: "AlreadyExists", httpResponseCode: 409 }),
+).pipe(C.withConflictError, C.withAlreadyExistsError) {}
+export class InvalidAliasNameException extends S.TaggedErrorClass<InvalidAliasNameException>()(
   "InvalidAliasNameException",
   { message: S.optional(S.String) },
   T.AwsQueryError({ code: "InvalidAliasName", httpResponseCode: 400 }),
 ).pipe(C.withBadRequestError) {}
-export class InvalidGrantTokenException extends S.TaggedError<InvalidGrantTokenException>()(
-  "InvalidGrantTokenException",
+export class LimitExceededException extends S.TaggedErrorClass<LimitExceededException>()(
+  "LimitExceededException",
   { message: S.optional(S.String) },
-  T.AwsQueryError({ code: "InvalidGrantToken", httpResponseCode: 400 }),
+  T.AwsQueryError({ code: "LimitExceeded", httpResponseCode: 400 }),
 ).pipe(C.withBadRequestError) {}
-export class CloudHsmClusterInUseException extends S.TaggedError<CloudHsmClusterInUseException>()(
+export class CloudHsmClusterInUseException extends S.TaggedErrorClass<CloudHsmClusterInUseException>()(
   "CloudHsmClusterInUseException",
   { message: S.optional(S.String) },
   T.AwsQueryError({
@@ -2663,25 +2621,7 @@ export class CloudHsmClusterInUseException extends S.TaggedError<CloudHsmCluster
     httpResponseCode: 400,
   }),
 ).pipe(C.withBadRequestError) {}
-export class KMSInvalidStateException extends S.TaggedError<KMSInvalidStateException>()(
-  "KMSInvalidStateException",
-  { message: S.optional(S.String) },
-  T.AwsQueryError({ code: "KMSInvalidStateException", httpResponseCode: 409 }),
-).pipe(C.withConflictError) {}
-export class IncorrectKeyMaterialException extends S.TaggedError<IncorrectKeyMaterialException>()(
-  "IncorrectKeyMaterialException",
-  { message: S.optional(S.String) },
-  T.AwsQueryError({
-    code: "IncorrectKeyMaterialException",
-    httpResponseCode: 400,
-  }),
-).pipe(C.withBadRequestError) {}
-export class InvalidGrantIdException extends S.TaggedError<InvalidGrantIdException>()(
-  "InvalidGrantIdException",
-  { message: S.optional(S.String) },
-  T.AwsQueryError({ code: "InvalidGrantId", httpResponseCode: 400 }),
-).pipe(C.withBadRequestError) {}
-export class CloudHsmClusterNotFoundException extends S.TaggedError<CloudHsmClusterNotFoundException>()(
+export class CloudHsmClusterNotFoundException extends S.TaggedErrorClass<CloudHsmClusterNotFoundException>()(
   "CloudHsmClusterNotFoundException",
   { message: S.optional(S.String) },
   T.AwsQueryError({
@@ -2689,60 +2629,7 @@ export class CloudHsmClusterNotFoundException extends S.TaggedError<CloudHsmClus
     httpResponseCode: 400,
   }),
 ).pipe(C.withBadRequestError) {}
-export class NotFoundException extends S.TaggedError<NotFoundException>()(
-  "NotFoundException",
-  { message: S.optional(S.String) },
-  T.AwsQueryError({ code: "NotFound", httpResponseCode: 404 }),
-).pipe(C.withBadRequestError) {}
-export class UnsupportedOperationException extends S.TaggedError<UnsupportedOperationException>()(
-  "UnsupportedOperationException",
-  { message: S.optional(S.String) },
-  T.AwsQueryError({ code: "UnsupportedOperation", httpResponseCode: 400 }),
-).pipe(C.withBadRequestError) {}
-export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
-  "LimitExceededException",
-  { message: S.optional(S.String) },
-  T.AwsQueryError({ code: "LimitExceeded", httpResponseCode: 400 }),
-).pipe(C.withBadRequestError) {}
-export class InvalidKeyUsageException extends S.TaggedError<InvalidKeyUsageException>()(
-  "InvalidKeyUsageException",
-  { message: S.optional(S.String) },
-  T.AwsQueryError({ code: "InvalidKeyUsage", httpResponseCode: 400 }),
-).pipe(C.withBadRequestError) {}
-export class IncorrectKeyException extends S.TaggedError<IncorrectKeyException>()(
-  "IncorrectKeyException",
-  { message: S.optional(S.String) },
-  T.AwsQueryError({ code: "IncorrectKeyException", httpResponseCode: 400 }),
-).pipe(C.withBadRequestError) {}
-export class InvalidCiphertextException extends S.TaggedError<InvalidCiphertextException>()(
-  "InvalidCiphertextException",
-  { message: S.optional(S.String) },
-  T.AwsQueryError({ code: "InvalidCiphertext", httpResponseCode: 400 }),
-).pipe(C.withBadRequestError) {}
-export class CloudHsmClusterNotRelatedException extends S.TaggedError<CloudHsmClusterNotRelatedException>()(
-  "CloudHsmClusterNotRelatedException",
-  { message: S.optional(S.String) },
-  T.AwsQueryError({
-    code: "CloudHsmClusterNotRelatedException",
-    httpResponseCode: 400,
-  }),
-).pipe(C.withBadRequestError) {}
-export class TagException extends S.TaggedError<TagException>()(
-  "TagException",
-  { message: S.optional(S.String) },
-  T.AwsQueryError({ code: "TagException", httpResponseCode: 400 }),
-).pipe(C.withBadRequestError) {}
-export class MalformedPolicyDocumentException extends S.TaggedError<MalformedPolicyDocumentException>()(
-  "MalformedPolicyDocumentException",
-  { message: S.optional(S.String) },
-  T.AwsQueryError({ code: "MalformedPolicyDocument", httpResponseCode: 400 }),
-).pipe(C.withBadRequestError) {}
-export class KeyUnavailableException extends S.TaggedError<KeyUnavailableException>()(
-  "KeyUnavailableException",
-  { message: S.optional(S.String) },
-  T.AwsQueryError({ code: "KeyUnavailable", httpResponseCode: 500 }),
-).pipe(C.withServerError) {}
-export class CustomKeyStoreNameInUseException extends S.TaggedError<CustomKeyStoreNameInUseException>()(
+export class CustomKeyStoreNameInUseException extends S.TaggedErrorClass<CustomKeyStoreNameInUseException>()(
   "CustomKeyStoreNameInUseException",
   { message: S.optional(S.String) },
   T.AwsQueryError({
@@ -2750,20 +2637,7 @@ export class CustomKeyStoreNameInUseException extends S.TaggedError<CustomKeySto
     httpResponseCode: 400,
   }),
 ).pipe(C.withBadRequestError) {}
-export class InvalidImportTokenException extends S.TaggedError<InvalidImportTokenException>()(
-  "InvalidImportTokenException",
-  { message: S.optional(S.String) },
-  T.AwsQueryError({
-    code: "InvalidImportTokenException",
-    httpResponseCode: 400,
-  }),
-).pipe(C.withBadRequestError) {}
-export class XksKeyAlreadyInUseException extends S.TaggedError<XksKeyAlreadyInUseException>()(
-  "XksKeyAlreadyInUseException",
-  { message: S.optional(S.String) },
-  T.AwsQueryError({ code: "XksKeyAlreadyInUse", httpResponseCode: 400 }),
-).pipe(C.withBadRequestError) {}
-export class IncorrectTrustAnchorException extends S.TaggedError<IncorrectTrustAnchorException>()(
+export class IncorrectTrustAnchorException extends S.TaggedErrorClass<IncorrectTrustAnchorException>()(
   "IncorrectTrustAnchorException",
   { message: S.optional(S.String) },
   T.AwsQueryError({
@@ -2771,17 +2645,7 @@ export class IncorrectTrustAnchorException extends S.TaggedError<IncorrectTrustA
     httpResponseCode: 400,
   }),
 ).pipe(C.withBadRequestError) {}
-export class KMSInvalidMacException extends S.TaggedError<KMSInvalidMacException>()(
-  "KMSInvalidMacException",
-  { message: S.optional(S.String) },
-  T.AwsQueryError({ code: "KMSInvalidMac", httpResponseCode: 400 }),
-).pipe(C.withBadRequestError) {}
-export class KMSInvalidSignatureException extends S.TaggedError<KMSInvalidSignatureException>()(
-  "KMSInvalidSignatureException",
-  { message: S.optional(S.String) },
-  T.AwsQueryError({ code: "KMSInvalidSignature", httpResponseCode: 400 }),
-).pipe(C.withBadRequestError) {}
-export class XksProxyIncorrectAuthenticationCredentialException extends S.TaggedError<XksProxyIncorrectAuthenticationCredentialException>()(
+export class XksProxyIncorrectAuthenticationCredentialException extends S.TaggedErrorClass<XksProxyIncorrectAuthenticationCredentialException>()(
   "XksProxyIncorrectAuthenticationCredentialException",
   { message: S.optional(S.String) },
   T.AwsQueryError({
@@ -2789,15 +2653,7 @@ export class XksProxyIncorrectAuthenticationCredentialException extends S.Tagged
     httpResponseCode: 400,
   }),
 ).pipe(C.withBadRequestError) {}
-export class XksKeyInvalidConfigurationException extends S.TaggedError<XksKeyInvalidConfigurationException>()(
-  "XksKeyInvalidConfigurationException",
-  { message: S.optional(S.String) },
-  T.AwsQueryError({
-    code: "XksKeyInvalidConfiguration",
-    httpResponseCode: 400,
-  }),
-).pipe(C.withBadRequestError) {}
-export class XksProxyInvalidConfigurationException extends S.TaggedError<XksProxyInvalidConfigurationException>()(
+export class XksProxyInvalidConfigurationException extends S.TaggedErrorClass<XksProxyInvalidConfigurationException>()(
   "XksProxyInvalidConfigurationException",
   { message: S.optional(S.String) },
   T.AwsQueryError({
@@ -2805,12 +2661,7 @@ export class XksProxyInvalidConfigurationException extends S.TaggedError<XksProx
     httpResponseCode: 400,
   }),
 ).pipe(C.withBadRequestError) {}
-export class XksKeyNotFoundException extends S.TaggedError<XksKeyNotFoundException>()(
-  "XksKeyNotFoundException",
-  { message: S.optional(S.String) },
-  T.AwsQueryError({ code: "XksKeyNotFoundException", httpResponseCode: 400 }),
-).pipe(C.withBadRequestError) {}
-export class XksProxyInvalidResponseException extends S.TaggedError<XksProxyInvalidResponseException>()(
+export class XksProxyInvalidResponseException extends S.TaggedErrorClass<XksProxyInvalidResponseException>()(
   "XksProxyInvalidResponseException",
   { message: S.optional(S.String) },
   T.AwsQueryError({
@@ -2818,7 +2669,7 @@ export class XksProxyInvalidResponseException extends S.TaggedError<XksProxyInva
     httpResponseCode: 400,
   }),
 ).pipe(C.withBadRequestError) {}
-export class XksProxyUriEndpointInUseException extends S.TaggedError<XksProxyUriEndpointInUseException>()(
+export class XksProxyUriEndpointInUseException extends S.TaggedErrorClass<XksProxyUriEndpointInUseException>()(
   "XksProxyUriEndpointInUseException",
   { message: S.optional(S.String) },
   T.AwsQueryError({
@@ -2826,12 +2677,12 @@ export class XksProxyUriEndpointInUseException extends S.TaggedError<XksProxyUri
     httpResponseCode: 400,
   }),
 ).pipe(C.withBadRequestError) {}
-export class XksProxyUriInUseException extends S.TaggedError<XksProxyUriInUseException>()(
+export class XksProxyUriInUseException extends S.TaggedErrorClass<XksProxyUriInUseException>()(
   "XksProxyUriInUseException",
   { message: S.optional(S.String) },
   T.AwsQueryError({ code: "XksProxyUriInUseException", httpResponseCode: 400 }),
 ).pipe(C.withBadRequestError) {}
-export class XksProxyUriUnreachableException extends S.TaggedError<XksProxyUriUnreachableException>()(
+export class XksProxyUriUnreachableException extends S.TaggedErrorClass<XksProxyUriUnreachableException>()(
   "XksProxyUriUnreachableException",
   { message: S.optional(S.String) },
   T.AwsQueryError({
@@ -2839,7 +2690,7 @@ export class XksProxyUriUnreachableException extends S.TaggedError<XksProxyUriUn
     httpResponseCode: 400,
   }),
 ).pipe(C.withBadRequestError) {}
-export class XksProxyVpcEndpointServiceInUseException extends S.TaggedError<XksProxyVpcEndpointServiceInUseException>()(
+export class XksProxyVpcEndpointServiceInUseException extends S.TaggedErrorClass<XksProxyVpcEndpointServiceInUseException>()(
   "XksProxyVpcEndpointServiceInUseException",
   { message: S.optional(S.String) },
   T.AwsQueryError({
@@ -2847,7 +2698,7 @@ export class XksProxyVpcEndpointServiceInUseException extends S.TaggedError<XksP
     httpResponseCode: 400,
   }),
 ).pipe(C.withBadRequestError) {}
-export class XksProxyVpcEndpointServiceInvalidConfigurationException extends S.TaggedError<XksProxyVpcEndpointServiceInvalidConfigurationException>()(
+export class XksProxyVpcEndpointServiceInvalidConfigurationException extends S.TaggedErrorClass<XksProxyVpcEndpointServiceInvalidConfigurationException>()(
   "XksProxyVpcEndpointServiceInvalidConfigurationException",
   { message: S.optional(S.String) },
   T.AwsQueryError({
@@ -2855,7 +2706,7 @@ export class XksProxyVpcEndpointServiceInvalidConfigurationException extends S.T
     httpResponseCode: 400,
   }),
 ).pipe(C.withBadRequestError) {}
-export class XksProxyVpcEndpointServiceNotFoundException extends S.TaggedError<XksProxyVpcEndpointServiceNotFoundException>()(
+export class XksProxyVpcEndpointServiceNotFoundException extends S.TaggedErrorClass<XksProxyVpcEndpointServiceNotFoundException>()(
   "XksProxyVpcEndpointServiceNotFoundException",
   { message: S.optional(S.String) },
   T.AwsQueryError({
@@ -2863,137 +2714,180 @@ export class XksProxyVpcEndpointServiceNotFoundException extends S.TaggedError<X
     httpResponseCode: 400,
   }),
 ).pipe(C.withBadRequestError) {}
+export class DisabledException extends S.TaggedErrorClass<DisabledException>()(
+  "DisabledException",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "Disabled", httpResponseCode: 409 }),
+).pipe(C.withConflictError) {}
+export class DryRunOperationException extends S.TaggedErrorClass<DryRunOperationException>()(
+  "DryRunOperationException",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "DryRunOperation", httpResponseCode: 412 }),
+) {}
+export class InvalidGrantTokenException extends S.TaggedErrorClass<InvalidGrantTokenException>()(
+  "InvalidGrantTokenException",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "InvalidGrantToken", httpResponseCode: 400 }),
+).pipe(C.withBadRequestError) {}
+export class MalformedPolicyDocumentException extends S.TaggedErrorClass<MalformedPolicyDocumentException>()(
+  "MalformedPolicyDocumentException",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "MalformedPolicyDocument", httpResponseCode: 400 }),
+).pipe(C.withBadRequestError) {}
+export class TagException extends S.TaggedErrorClass<TagException>()(
+  "TagException",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "TagException", httpResponseCode: 400 }),
+).pipe(C.withBadRequestError) {}
+export class UnsupportedOperationException extends S.TaggedErrorClass<UnsupportedOperationException>()(
+  "UnsupportedOperationException",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "UnsupportedOperation", httpResponseCode: 400 }),
+).pipe(C.withBadRequestError) {}
+export class XksKeyAlreadyInUseException extends S.TaggedErrorClass<XksKeyAlreadyInUseException>()(
+  "XksKeyAlreadyInUseException",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "XksKeyAlreadyInUse", httpResponseCode: 400 }),
+).pipe(C.withBadRequestError) {}
+export class XksKeyInvalidConfigurationException extends S.TaggedErrorClass<XksKeyInvalidConfigurationException>()(
+  "XksKeyInvalidConfigurationException",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "XksKeyInvalidConfiguration",
+    httpResponseCode: 400,
+  }),
+).pipe(C.withBadRequestError) {}
+export class XksKeyNotFoundException extends S.TaggedErrorClass<XksKeyNotFoundException>()(
+  "XksKeyNotFoundException",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "XksKeyNotFoundException", httpResponseCode: 400 }),
+).pipe(C.withBadRequestError) {}
+export class IncorrectKeyException extends S.TaggedErrorClass<IncorrectKeyException>()(
+  "IncorrectKeyException",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "IncorrectKeyException", httpResponseCode: 400 }),
+).pipe(C.withBadRequestError) {}
+export class InvalidCiphertextException extends S.TaggedErrorClass<InvalidCiphertextException>()(
+  "InvalidCiphertextException",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "InvalidCiphertext", httpResponseCode: 400 }),
+).pipe(C.withBadRequestError) {}
+export class InvalidKeyUsageException extends S.TaggedErrorClass<InvalidKeyUsageException>()(
+  "InvalidKeyUsageException",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "InvalidKeyUsage", httpResponseCode: 400 }),
+).pipe(C.withBadRequestError) {}
+export class KeyUnavailableException extends S.TaggedErrorClass<KeyUnavailableException>()(
+  "KeyUnavailableException",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "KeyUnavailable", httpResponseCode: 500 }),
+).pipe(C.withServerError) {}
+export class CustomKeyStoreHasCMKsException extends S.TaggedErrorClass<CustomKeyStoreHasCMKsException>()(
+  "CustomKeyStoreHasCMKsException",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "CustomKeyStoreHasCMKsException",
+    httpResponseCode: 400,
+  }),
+).pipe(C.withBadRequestError) {}
+export class InvalidMarkerException extends S.TaggedErrorClass<InvalidMarkerException>()(
+  "InvalidMarkerException",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "InvalidMarker", httpResponseCode: 400 }),
+).pipe(C.withBadRequestError) {}
+export class ExpiredImportTokenException extends S.TaggedErrorClass<ExpiredImportTokenException>()(
+  "ExpiredImportTokenException",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "ExpiredImportTokenException",
+    httpResponseCode: 400,
+  }),
+).pipe(C.withBadRequestError) {}
+export class IncorrectKeyMaterialException extends S.TaggedErrorClass<IncorrectKeyMaterialException>()(
+  "IncorrectKeyMaterialException",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "IncorrectKeyMaterialException",
+    httpResponseCode: 400,
+  }),
+).pipe(C.withBadRequestError) {}
+export class InvalidImportTokenException extends S.TaggedErrorClass<InvalidImportTokenException>()(
+  "InvalidImportTokenException",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "InvalidImportTokenException",
+    httpResponseCode: 400,
+  }),
+).pipe(C.withBadRequestError) {}
+export class InvalidGrantIdException extends S.TaggedErrorClass<InvalidGrantIdException>()(
+  "InvalidGrantIdException",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "InvalidGrantId", httpResponseCode: 400 }),
+).pipe(C.withBadRequestError) {}
+export class ConflictException extends S.TaggedErrorClass<ConflictException>()(
+  "ConflictException",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "ConflictException", httpResponseCode: 409 }),
+).pipe(C.withConflictError) {}
+export class CloudHsmClusterNotRelatedException extends S.TaggedErrorClass<CloudHsmClusterNotRelatedException>()(
+  "CloudHsmClusterNotRelatedException",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({
+    code: "CloudHsmClusterNotRelatedException",
+    httpResponseCode: 400,
+  }),
+).pipe(C.withBadRequestError) {}
+export class KMSInvalidSignatureException extends S.TaggedErrorClass<KMSInvalidSignatureException>()(
+  "KMSInvalidSignatureException",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "KMSInvalidSignature", httpResponseCode: 400 }),
+).pipe(C.withBadRequestError) {}
+export class KMSInvalidMacException extends S.TaggedErrorClass<KMSInvalidMacException>()(
+  "KMSInvalidMacException",
+  { message: S.optional(S.String) },
+  T.AwsQueryError({ code: "KMSInvalidMac", httpResponseCode: 400 }),
+).pipe(C.withBadRequestError) {}
 
 //# Operations
 /**
- * Disconnects the custom key store from its backing key store. This operation disconnects an
- * CloudHSM key store from its associated CloudHSM cluster or disconnects an external key store from
- * the external key store proxy that communicates with your external key manager.
+ * Cancels the deletion of a KMS key. When this operation succeeds, the key state of the KMS
+ * key is `Disabled`. To enable the KMS key, use EnableKey.
  *
- * This operation is part of the custom key stores feature in KMS, which
- * combines the convenience and extensive integration of KMS with the isolation and control of a
- * key store that you own and manage.
+ * For more information about scheduling and canceling deletion of a KMS key, see Deleting KMS keys in the
+ * *Key Management Service Developer Guide*.
  *
- * While a custom key store is disconnected, you can manage the custom key store and its KMS
- * keys, but you cannot create or use its KMS keys. You can reconnect the custom key store at any
- * time.
+ * The KMS key that you use for this operation must be in a compatible key state. For
+ * details, see Key states of KMS keys in the *Key Management Service Developer Guide*.
  *
- * While a custom key store is disconnected, all attempts to create KMS keys in the custom key store or to use existing KMS keys in cryptographic operations will
- * fail. This action can prevent users from storing and accessing sensitive data.
+ * **Cross-account use**: No. You cannot perform this operation on a KMS key in a different Amazon Web Services account.
  *
- * When you disconnect a custom key store, its `ConnectionState` changes to
- * `Disconnected`. To find the connection state of a custom key store, use the DescribeCustomKeyStores operation. To reconnect a custom key store, use the
- * ConnectCustomKeyStore operation.
+ * **Required permissions**: kms:CancelKeyDeletion (key policy)
  *
- * If the operation succeeds, it returns a JSON object with no
- * properties.
- *
- * **Cross-account use**: No. You cannot perform this operation on a custom key store in a different Amazon Web Services account.
- *
- * **Required permissions**: kms:DisconnectCustomKeyStore (IAM policy)
- *
- * **Related operations:**
- *
- * - ConnectCustomKeyStore
- *
- * - CreateCustomKeyStore
- *
- * - DeleteCustomKeyStore
- *
- * - DescribeCustomKeyStores
- *
- * - UpdateCustomKeyStore
+ * **Related operations**: ScheduleKeyDeletion
  *
  * **Eventual consistency**: The KMS API follows an eventual consistency model.
  * For more information, see KMS eventual consistency.
  */
-export const disconnectCustomKeyStore: (
-  input: DisconnectCustomKeyStoreRequest,
+export const cancelKeyDeletion: (
+  input: CancelKeyDeletionRequest,
 ) => effect.Effect<
-  DisconnectCustomKeyStoreResponse,
-  | CustomKeyStoreInvalidStateException
-  | CustomKeyStoreNotFoundException
+  CancelKeyDeletionResponse,
+  | DependencyTimeoutException
+  | InvalidArnException
   | KMSInternalException
+  | KMSInvalidStateException
+  | NotFoundException
   | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DisconnectCustomKeyStoreRequest,
-  output: DisconnectCustomKeyStoreResponse,
+  input: CancelKeyDeletionRequest,
+  output: CancelKeyDeletionResponse,
   errors: [
-    CustomKeyStoreInvalidStateException,
-    CustomKeyStoreNotFoundException,
+    DependencyTimeoutException,
+    InvalidArnException,
     KMSInternalException,
-  ],
-}));
-/**
- * Deletes a custom key store. This operation does not affect any backing elements of the
- * custom key store. It does not delete the CloudHSM cluster that is associated with an CloudHSM key
- * store, or affect any users or keys in the cluster. For an external key store, it does not
- * affect the external key store proxy, external key manager, or any external keys.
- *
- * This operation is part of the custom key stores feature in KMS, which
- * combines the convenience and extensive integration of KMS with the isolation and control of a
- * key store that you own and manage.
- *
- * The custom key store that you delete cannot contain any KMS keys. Before deleting the key store,
- * verify that you will never need to use any of the KMS keys in the key store for any
- * cryptographic operations. Then, use ScheduleKeyDeletion to delete the KMS keys from the
- * key store. After the required waiting period expires and all KMS keys are deleted from the
- * custom key store, use DisconnectCustomKeyStore to disconnect the key store
- * from KMS. Then, you can delete the custom key store.
- *
- * For keys in an CloudHSM key store, the `ScheduleKeyDeletion` operation makes a
- * best effort to delete the key material from the associated cluster. However, you might need to
- * manually delete the orphaned key
- * material from the cluster and its backups. KMS never creates, manages, or deletes
- * cryptographic keys in the external key manager associated with an external key store. You must
- * manage them using your external key manager tools.
- *
- * Instead of deleting the custom key store, consider using the DisconnectCustomKeyStore operation to disconnect the custom key store from its
- * backing key store. While the key store is disconnected, you cannot create or use the KMS keys
- * in the key store. But, you do not need to delete KMS keys and you can reconnect a disconnected
- * custom key store at any time.
- *
- * If the operation succeeds, it returns a JSON object with no
- * properties.
- *
- * **Cross-account use**: No. You cannot perform this operation on a custom key store in a different Amazon Web Services account.
- *
- * **Required permissions**: kms:DeleteCustomKeyStore (IAM policy)
- *
- * **Related operations:**
- *
- * - ConnectCustomKeyStore
- *
- * - CreateCustomKeyStore
- *
- * - DescribeCustomKeyStores
- *
- * - DisconnectCustomKeyStore
- *
- * - UpdateCustomKeyStore
- *
- * **Eventual consistency**: The KMS API follows an eventual consistency model.
- * For more information, see KMS eventual consistency.
- */
-export const deleteCustomKeyStore: (
-  input: DeleteCustomKeyStoreRequest,
-) => effect.Effect<
-  DeleteCustomKeyStoreResponse,
-  | CustomKeyStoreHasCMKsException
-  | CustomKeyStoreInvalidStateException
-  | CustomKeyStoreNotFoundException
-  | KMSInternalException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteCustomKeyStoreRequest,
-  output: DeleteCustomKeyStoreResponse,
-  errors: [
-    CustomKeyStoreHasCMKsException,
-    CustomKeyStoreInvalidStateException,
-    CustomKeyStoreNotFoundException,
-    KMSInternalException,
+    KMSInvalidStateException,
+    NotFoundException,
   ],
 }));
 /**
@@ -3103,1707 +2997,6 @@ export const connectCustomKeyStore: (
   ],
 }));
 /**
- * Gets a list of all KMS keys in the caller's Amazon Web Services account and Region.
- *
- * **Cross-account use**: No. You cannot perform this operation on a KMS key in a different Amazon Web Services account.
- *
- * **Required permissions**: kms:ListKeys (IAM policy)
- *
- * **Related operations:**
- *
- * - CreateKey
- *
- * - DescribeKey
- *
- * - ListAliases
- *
- * - ListResourceTags
- *
- * **Eventual consistency**: The KMS API follows an eventual consistency model.
- * For more information, see KMS eventual consistency.
- */
-export const listKeys: {
-  (
-    input: ListKeysRequest,
-  ): effect.Effect<
-    ListKeysResponse,
-    | DependencyTimeoutException
-    | InvalidMarkerException
-    | KMSInternalException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  pages: (
-    input: ListKeysRequest,
-  ) => stream.Stream<
-    ListKeysResponse,
-    | DependencyTimeoutException
-    | InvalidMarkerException
-    | KMSInternalException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  items: (
-    input: ListKeysRequest,
-  ) => stream.Stream<
-    KeyListEntry,
-    | DependencyTimeoutException
-    | InvalidMarkerException
-    | KMSInternalException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
-  input: ListKeysRequest,
-  output: ListKeysResponse,
-  errors: [
-    DependencyTimeoutException,
-    InvalidMarkerException,
-    KMSInternalException,
-  ],
-  pagination: {
-    inputToken: "Marker",
-    outputToken: "NextMarker",
-    items: "Keys",
-    pageSize: "Limit",
-  } as const,
-}));
-/**
- * Gets information about custom key stores in the account and Region.
- *
- * This operation is part of the custom key stores feature in KMS, which
- * combines the convenience and extensive integration of KMS with the isolation and control of a
- * key store that you own and manage.
- *
- * By default, this operation returns information about all custom key stores in the account
- * and Region. To get only information about a particular custom key store, use either the
- * `CustomKeyStoreName` or `CustomKeyStoreId` parameter (but not
- * both).
- *
- * To determine whether the custom key store is connected to its CloudHSM cluster or external
- * key store proxy, use the `ConnectionState` element in the response. If an attempt
- * to connect the custom key store failed, the `ConnectionState` value is
- * `FAILED` and the `ConnectionErrorCode` element in the response
- * indicates the cause of the failure. For help interpreting the
- * `ConnectionErrorCode`, see CustomKeyStoresListEntry.
- *
- * Custom key stores have a `DISCONNECTED` connection state if the key store has
- * never been connected or you used the DisconnectCustomKeyStore operation to
- * disconnect it. Otherwise, the connection state is CONNECTED. If your custom key store
- * connection state is `CONNECTED` but you are having trouble using it, verify that
- * the backing store is active and available. For an CloudHSM key store, verify that the associated
- * CloudHSM cluster is active and contains the minimum number of HSMs required for the operation, if
- * any. For an external key store, verify that the external key store proxy and its associated
- * external key manager are reachable and enabled.
- *
- * For help repairing your CloudHSM key store, see the Troubleshooting CloudHSM key stores. For help
- * repairing your external key store, see the Troubleshooting external key stores.
- * Both topics are in the *Key Management Service Developer Guide*.
- *
- * **Cross-account use**: No. You cannot perform this operation on a custom key store in a different Amazon Web Services account.
- *
- * **Required permissions**: kms:DescribeCustomKeyStores (IAM policy)
- *
- * **Related operations:**
- *
- * - ConnectCustomKeyStore
- *
- * - CreateCustomKeyStore
- *
- * - DeleteCustomKeyStore
- *
- * - DisconnectCustomKeyStore
- *
- * - UpdateCustomKeyStore
- *
- * **Eventual consistency**: The KMS API follows an eventual consistency model.
- * For more information, see KMS eventual consistency.
- */
-export const describeCustomKeyStores: {
-  (
-    input: DescribeCustomKeyStoresRequest,
-  ): effect.Effect<
-    DescribeCustomKeyStoresResponse,
-    | CustomKeyStoreNotFoundException
-    | InvalidMarkerException
-    | KMSInternalException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  pages: (
-    input: DescribeCustomKeyStoresRequest,
-  ) => stream.Stream<
-    DescribeCustomKeyStoresResponse,
-    | CustomKeyStoreNotFoundException
-    | InvalidMarkerException
-    | KMSInternalException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  items: (
-    input: DescribeCustomKeyStoresRequest,
-  ) => stream.Stream<
-    CustomKeyStoresListEntry,
-    | CustomKeyStoreNotFoundException
-    | InvalidMarkerException
-    | KMSInternalException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
-  input: DescribeCustomKeyStoresRequest,
-  output: DescribeCustomKeyStoresResponse,
-  errors: [
-    CustomKeyStoreNotFoundException,
-    InvalidMarkerException,
-    KMSInternalException,
-  ],
-  pagination: {
-    inputToken: "Marker",
-    outputToken: "NextMarker",
-    items: "CustomKeyStores",
-    pageSize: "Limit",
-  } as const,
-}));
-/**
- * Returns information about all grants in the Amazon Web Services account and Region that have the
- * specified retiring principal.
- *
- * You can specify any principal in your Amazon Web Services account. The grants that are returned include
- * grants for KMS keys in your Amazon Web Services account and other Amazon Web Services accounts. You might use this
- * operation to determine which grants you may retire. To retire a grant, use the RetireGrant operation.
- *
- * For detailed information about grants, including grant terminology, see Grants in KMS in the
- *
- * *Key Management Service Developer Guide*
- * . For examples of creating grants in several
- * programming languages, see Use CreateGrant with an Amazon Web Services SDK or CLI.
- *
- * **Cross-account use**: You must specify a principal in your
- * Amazon Web Services account. This operation returns a list of grants where the retiring principal specified
- * in the `ListRetirableGrants` request is the same retiring principal on the grant.
- * This can include grants on KMS keys owned by other Amazon Web Services accounts, but you do not need
- * `kms:ListRetirableGrants` permission (or any other additional permission) in any
- * Amazon Web Services account other than your own.
- *
- * **Required permissions**: kms:ListRetirableGrants (IAM policy) in your
- * Amazon Web Services account.
- *
- * KMS authorizes `ListRetirableGrants` requests by evaluating the caller
- * account's kms:ListRetirableGrants permissions. The authorized resource in
- * `ListRetirableGrants` calls is the retiring principal specified in the request.
- * KMS does not evaluate the caller's permissions to verify their access to any KMS keys or
- * grants that might be returned by the `ListRetirableGrants` call.
- *
- * **Related operations:**
- *
- * - CreateGrant
- *
- * - ListGrants
- *
- * - RetireGrant
- *
- * - RevokeGrant
- *
- * **Eventual consistency**: The KMS API follows an eventual consistency model.
- * For more information, see KMS eventual consistency.
- */
-export const listRetirableGrants: {
-  (
-    input: ListRetirableGrantsRequest,
-  ): effect.Effect<
-    ListGrantsResponse,
-    | DependencyTimeoutException
-    | InvalidArnException
-    | InvalidMarkerException
-    | KMSInternalException
-    | NotFoundException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  pages: (
-    input: ListRetirableGrantsRequest,
-  ) => stream.Stream<
-    ListGrantsResponse,
-    | DependencyTimeoutException
-    | InvalidArnException
-    | InvalidMarkerException
-    | KMSInternalException
-    | NotFoundException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  items: (
-    input: ListRetirableGrantsRequest,
-  ) => stream.Stream<
-    GrantListEntry,
-    | DependencyTimeoutException
-    | InvalidArnException
-    | InvalidMarkerException
-    | KMSInternalException
-    | NotFoundException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
-  input: ListRetirableGrantsRequest,
-  output: ListGrantsResponse,
-  errors: [
-    DependencyTimeoutException,
-    InvalidArnException,
-    InvalidMarkerException,
-    KMSInternalException,
-    NotFoundException,
-  ],
-  pagination: {
-    inputToken: "Marker",
-    outputToken: "NextMarker",
-    items: "Grants",
-    pageSize: "Limit",
-  } as const,
-}));
-/**
- * Sets the state of a KMS key to disabled. This change temporarily prevents use of the KMS
- * key for cryptographic operations.
- *
- * The KMS key that you use for this operation must be in a compatible key state. For more
- * information about how key state affects the use of a KMS key, see Key states of KMS keys in the
- *
- * *Key Management Service Developer Guide*
- * .
- *
- * **Cross-account use**: No. You cannot perform this operation on a KMS key in a different Amazon Web Services account.
- *
- * **Required permissions**: kms:DisableKey (key policy)
- *
- * **Related operations**: EnableKey
- *
- * **Eventual consistency**: The KMS API follows an eventual consistency model.
- * For more information, see KMS eventual consistency.
- */
-export const disableKey: (
-  input: DisableKeyRequest,
-) => effect.Effect<
-  DisableKeyResponse,
-  | DependencyTimeoutException
-  | InvalidArnException
-  | KMSInternalException
-  | KMSInvalidStateException
-  | NotFoundException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DisableKeyRequest,
-  output: DisableKeyResponse,
-  errors: [
-    DependencyTimeoutException,
-    InvalidArnException,
-    KMSInternalException,
-    KMSInvalidStateException,
-    NotFoundException,
-  ],
-}));
-/**
- * Updates the description of a KMS key. To see the description of a KMS key, use DescribeKey.
- *
- * The KMS key that you use for this operation must be in a compatible key state. For
- * details, see Key states of KMS keys in the *Key Management Service Developer Guide*.
- *
- * **Cross-account use**: No. You cannot perform this operation on a KMS key in a different Amazon Web Services account.
- *
- * **Required permissions**: kms:UpdateKeyDescription (key policy)
- *
- * **Related operations**
- *
- * - CreateKey
- *
- * - DescribeKey
- *
- * **Eventual consistency**: The KMS API follows an eventual consistency model.
- * For more information, see KMS eventual consistency.
- */
-export const updateKeyDescription: (
-  input: UpdateKeyDescriptionRequest,
-) => effect.Effect<
-  UpdateKeyDescriptionResponse,
-  | DependencyTimeoutException
-  | InvalidArnException
-  | KMSInternalException
-  | KMSInvalidStateException
-  | NotFoundException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateKeyDescriptionRequest,
-  output: UpdateKeyDescriptionResponse,
-  errors: [
-    DependencyTimeoutException,
-    InvalidArnException,
-    KMSInternalException,
-    KMSInvalidStateException,
-    NotFoundException,
-  ],
-}));
-/**
- * Cancels the deletion of a KMS key. When this operation succeeds, the key state of the KMS
- * key is `Disabled`. To enable the KMS key, use EnableKey.
- *
- * For more information about scheduling and canceling deletion of a KMS key, see Deleting KMS keys in the
- * *Key Management Service Developer Guide*.
- *
- * The KMS key that you use for this operation must be in a compatible key state. For
- * details, see Key states of KMS keys in the *Key Management Service Developer Guide*.
- *
- * **Cross-account use**: No. You cannot perform this operation on a KMS key in a different Amazon Web Services account.
- *
- * **Required permissions**: kms:CancelKeyDeletion (key policy)
- *
- * **Related operations**: ScheduleKeyDeletion
- *
- * **Eventual consistency**: The KMS API follows an eventual consistency model.
- * For more information, see KMS eventual consistency.
- */
-export const cancelKeyDeletion: (
-  input: CancelKeyDeletionRequest,
-) => effect.Effect<
-  CancelKeyDeletionResponse,
-  | DependencyTimeoutException
-  | InvalidArnException
-  | KMSInternalException
-  | KMSInvalidStateException
-  | NotFoundException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CancelKeyDeletionRequest,
-  output: CancelKeyDeletionResponse,
-  errors: [
-    DependencyTimeoutException,
-    InvalidArnException,
-    KMSInternalException,
-    KMSInvalidStateException,
-    NotFoundException,
-  ],
-}));
-/**
- * Gets a key policy attached to the specified KMS key.
- *
- * **Cross-account use**: No. You cannot perform this operation on a KMS key in a different Amazon Web Services account.
- *
- * **Required permissions**: kms:GetKeyPolicy (key policy)
- *
- * **Related operations**: PutKeyPolicy
- *
- * **Eventual consistency**: The KMS API follows an eventual consistency model.
- * For more information, see KMS eventual consistency.
- */
-export const getKeyPolicy: (
-  input: GetKeyPolicyRequest,
-) => effect.Effect<
-  GetKeyPolicyResponse,
-  | DependencyTimeoutException
-  | InvalidArnException
-  | KMSInternalException
-  | KMSInvalidStateException
-  | NotFoundException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetKeyPolicyRequest,
-  output: GetKeyPolicyResponse,
-  errors: [
-    DependencyTimeoutException,
-    InvalidArnException,
-    KMSInternalException,
-    KMSInvalidStateException,
-    NotFoundException,
-  ],
-}));
-/**
- * Gets the names of the key policies that are attached to a KMS key. This operation is
- * designed to get policy names that you can use in a GetKeyPolicy operation.
- * However, the only valid policy name is `default`.
- *
- * **Cross-account use**: No. You cannot perform this operation on a KMS key in a different Amazon Web Services account.
- *
- * **Required permissions**: kms:ListKeyPolicies (key policy)
- *
- * **Related operations:**
- *
- * - GetKeyPolicy
- *
- * - PutKeyPolicy
- *
- * **Eventual consistency**: The KMS API follows an eventual consistency model.
- * For more information, see KMS eventual consistency.
- */
-export const listKeyPolicies: {
-  (
-    input: ListKeyPoliciesRequest,
-  ): effect.Effect<
-    ListKeyPoliciesResponse,
-    | DependencyTimeoutException
-    | InvalidArnException
-    | KMSInternalException
-    | KMSInvalidStateException
-    | NotFoundException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  pages: (
-    input: ListKeyPoliciesRequest,
-  ) => stream.Stream<
-    ListKeyPoliciesResponse,
-    | DependencyTimeoutException
-    | InvalidArnException
-    | KMSInternalException
-    | KMSInvalidStateException
-    | NotFoundException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  items: (
-    input: ListKeyPoliciesRequest,
-  ) => stream.Stream<
-    PolicyNameType,
-    | DependencyTimeoutException
-    | InvalidArnException
-    | KMSInternalException
-    | KMSInvalidStateException
-    | NotFoundException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
-  input: ListKeyPoliciesRequest,
-  output: ListKeyPoliciesResponse,
-  errors: [
-    DependencyTimeoutException,
-    InvalidArnException,
-    KMSInternalException,
-    KMSInvalidStateException,
-    NotFoundException,
-  ],
-  pagination: {
-    inputToken: "Marker",
-    outputToken: "NextMarker",
-    items: "PolicyNames",
-    pageSize: "Limit",
-  } as const,
-}));
-/**
- * Schedules the deletion of a KMS key. By default, KMS applies a waiting period of 30
- * days, but you can specify a waiting period of 7-30 days. When this operation is successful,
- * the key state of the KMS key changes to `PendingDeletion` and the key can't be used
- * in any cryptographic operations. It remains in this state for the duration of the waiting
- * period. Before the waiting period ends, you can use CancelKeyDeletion to
- * cancel the deletion of the KMS key. After the waiting period ends, KMS deletes the KMS key,
- * its key material, and all KMS data associated with it, including all aliases that refer to
- * it.
- *
- * Deleting a KMS key is a destructive and potentially dangerous operation. When a KMS key
- * is deleted, all data that was encrypted under the KMS key is unrecoverable. (The only
- * exception is a multi-Region replica key, or an asymmetric or HMAC KMS key with
- * imported key material.) To prevent the use of a KMS key without deleting it, use
- * DisableKey.
- *
- * You can schedule the deletion of a multi-Region primary key and its replica keys at any
- * time. However, KMS will not delete a multi-Region primary key with existing replica keys. If
- * you schedule the deletion of a primary key with replicas, its key state changes to
- * `PendingReplicaDeletion` and it cannot be replicated or used in cryptographic
- * operations. This status can continue indefinitely. When the last of its replicas keys is
- * deleted (not just scheduled), the key state of the primary key changes to
- * `PendingDeletion` and its waiting period (`PendingWindowInDays`)
- * begins. For details, see Deleting multi-Region keys in
- * the *Key Management Service Developer Guide*.
- *
- * When KMS deletes a KMS key from an CloudHSM
- * key store, it makes a best effort to delete the associated key material from the
- * associated CloudHSM cluster. However, you might need to manually delete the orphaned key
- * material from the cluster and its backups. Deleting a KMS key from an external key
- * store has no effect on the associated external key. However, for both types of
- * custom key stores, deleting a KMS key is destructive and irreversible. You cannot decrypt
- * ciphertext encrypted under the KMS key by using only its associated external key or CloudHSM key.
- * Also, you cannot recreate a KMS key in an external key store by creating a new KMS key with
- * the same key material.
- *
- * For more information about scheduling a KMS key for deletion, see Deleting KMS keys in the
- * *Key Management Service Developer Guide*.
- *
- * The KMS key that you use for this operation must be in a compatible key state. For
- * details, see Key states of KMS keys in the *Key Management Service Developer Guide*.
- *
- * **Cross-account use**: No. You cannot perform this operation on a KMS key in a different Amazon Web Services account.
- *
- * **Required permissions**: kms:ScheduleKeyDeletion (key
- * policy)
- *
- * **Related operations**
- *
- * - CancelKeyDeletion
- *
- * - DisableKey
- *
- * **Eventual consistency**: The KMS API follows an eventual consistency model.
- * For more information, see KMS eventual consistency.
- */
-export const scheduleKeyDeletion: (
-  input: ScheduleKeyDeletionRequest,
-) => effect.Effect<
-  ScheduleKeyDeletionResponse,
-  | DependencyTimeoutException
-  | InvalidArnException
-  | KMSInternalException
-  | KMSInvalidStateException
-  | NotFoundException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ScheduleKeyDeletionRequest,
-  output: ScheduleKeyDeletionResponse,
-  errors: [
-    DependencyTimeoutException,
-    InvalidArnException,
-    KMSInternalException,
-    KMSInvalidStateException,
-    NotFoundException,
-  ],
-}));
-/**
- * Returns a random byte string that is cryptographically secure.
- *
- * You must use the `NumberOfBytes` parameter to specify the length of the random
- * byte string. There is no default value for string length.
- *
- * By default, the random byte string is generated in KMS. To generate the byte string in
- * the CloudHSM cluster associated with an CloudHSM key store, use the `CustomKeyStoreId`
- * parameter.
- *
- * `GenerateRandom` also supports Amazon Web Services Nitro Enclaves, which provide an
- * isolated compute environment in Amazon EC2. To call `GenerateRandom` for a Nitro enclave
- * or NitroTPM, use the Amazon Web Services Nitro Enclaves SDK or any Amazon Web Services SDK. Use the `Recipient`
- * parameter to provide the attestation document for the attested environment. Instead of
- * plaintext bytes, the response includes the plaintext bytes encrypted under the public key from
- * the attestation document (`CiphertextForRecipient`). For information about the interaction between KMS and Amazon Web Services Nitro Enclaves or Amazon Web Services NitroTPM, see Cryptographic attestation support in KMS in the *Key Management Service Developer Guide*.
- *
- * For more information about entropy and random number generation, see Entropy and random number generation in the *Key Management Service Developer Guide*.
- *
- * **Cross-account use**: Not applicable.
- * `GenerateRandom` does not use any account-specific resources, such as KMS
- * keys.
- *
- * **Required permissions**: kms:GenerateRandom (IAM policy)
- *
- * **Eventual consistency**: The KMS API follows an eventual consistency model.
- * For more information, see KMS eventual consistency.
- */
-export const generateRandom: (
-  input: GenerateRandomRequest,
-) => effect.Effect<
-  GenerateRandomResponse,
-  | CustomKeyStoreInvalidStateException
-  | CustomKeyStoreNotFoundException
-  | DependencyTimeoutException
-  | KMSInternalException
-  | UnsupportedOperationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GenerateRandomRequest,
-  output: GenerateRandomResponse,
-  errors: [
-    CustomKeyStoreInvalidStateException,
-    CustomKeyStoreNotFoundException,
-    DependencyTimeoutException,
-    KMSInternalException,
-    UnsupportedOperationException,
-  ],
-}));
-/**
- * Deletes a grant. Typically, you retire a grant when you no longer need its permissions. To
- * identify the grant to retire, use a grant token, or both the grant ID and a
- * key identifier (key ID or key ARN) of the KMS key. The CreateGrant operation
- * returns both values.
- *
- * This operation can be called by the *retiring principal* for a grant,
- * by the *grantee principal* if the grant allows the `RetireGrant`
- * operation, and by the Amazon Web Services account in which the grant is created. It can also be called by
- * principals to whom permission for retiring a grant is delegated.
- *
- * For detailed information about grants, including grant terminology, see Grants in KMS in the
- *
- * *Key Management Service Developer Guide*
- * . For examples of creating grants in several
- * programming languages, see Use CreateGrant with an Amazon Web Services SDK or CLI.
- *
- * **Cross-account use**: Yes. You can retire a grant on a KMS
- * key in a different Amazon Web Services account.
- *
- * **Required permissions**: Permission to retire a grant is
- * determined primarily by the grant. For details, see Retiring and revoking grants in the
- * *Key Management Service Developer Guide*.
- *
- * **Related operations:**
- *
- * - CreateGrant
- *
- * - ListGrants
- *
- * - ListRetirableGrants
- *
- * - RevokeGrant
- *
- * **Eventual consistency**: The KMS API follows an eventual consistency model.
- * For more information, see KMS eventual consistency.
- */
-export const retireGrant: (
-  input: RetireGrantRequest,
-) => effect.Effect<
-  RetireGrantResponse,
-  | DependencyTimeoutException
-  | DryRunOperationException
-  | InvalidArnException
-  | InvalidGrantIdException
-  | InvalidGrantTokenException
-  | KMSInternalException
-  | KMSInvalidStateException
-  | NotFoundException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: RetireGrantRequest,
-  output: RetireGrantResponse,
-  errors: [
-    DependencyTimeoutException,
-    DryRunOperationException,
-    InvalidArnException,
-    InvalidGrantIdException,
-    InvalidGrantTokenException,
-    KMSInternalException,
-    KMSInvalidStateException,
-    NotFoundException,
-  ],
-}));
-/**
- * Deletes the specified grant. You revoke a grant to terminate the permissions that the
- * grant allows. For more information, see Retiring and revoking grants in the
- *
- * *Key Management Service Developer Guide*
- * .
- *
- * When you create, retire, or revoke a grant, there might be a brief delay, usually less than five minutes, until the grant is available throughout KMS. This state is known as *eventual consistency*. For details, see Eventual consistency in
- * the
- * *Key Management Service Developer Guide*
- * .
- *
- * For detailed information about grants, including grant terminology, see Grants in KMS in the
- *
- * *Key Management Service Developer Guide*
- * . For examples of creating grants in several
- * programming languages, see Use CreateGrant with an Amazon Web Services SDK or CLI.
- *
- * **Cross-account use**: Yes. To perform this operation on a KMS key in a different Amazon Web Services account, specify the key
- * ARN in the value of the `KeyId` parameter.
- *
- * **Required permissions**: kms:RevokeGrant (key policy).
- *
- * **Related operations:**
- *
- * - CreateGrant
- *
- * - ListGrants
- *
- * - ListRetirableGrants
- *
- * - RetireGrant
- *
- * **Eventual consistency**: The KMS API follows an eventual consistency model.
- * For more information, see KMS eventual consistency.
- */
-export const revokeGrant: (
-  input: RevokeGrantRequest,
-) => effect.Effect<
-  RevokeGrantResponse,
-  | DependencyTimeoutException
-  | DryRunOperationException
-  | InvalidArnException
-  | InvalidGrantIdException
-  | KMSInternalException
-  | KMSInvalidStateException
-  | NotFoundException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: RevokeGrantRequest,
-  output: RevokeGrantResponse,
-  errors: [
-    DependencyTimeoutException,
-    DryRunOperationException,
-    InvalidArnException,
-    InvalidGrantIdException,
-    KMSInternalException,
-    KMSInvalidStateException,
-    NotFoundException,
-  ],
-}));
-/**
- * Returns all tags on the specified KMS key.
- *
- * For general information about tags, including the format and syntax, see Tagging Amazon Web Services resources in
- * the *Amazon Web Services General Reference*. For information about using
- * tags in KMS, see Tags in
- * KMS.
- *
- * **Cross-account use**: No. You cannot perform this operation on a KMS key in a different Amazon Web Services account.
- *
- * **Required permissions**: kms:ListResourceTags (key policy)
- *
- * **Related operations:**
- *
- * - CreateKey
- *
- * - ReplicateKey
- *
- * - TagResource
- *
- * - UntagResource
- *
- * **Eventual consistency**: The KMS API follows an eventual consistency model.
- * For more information, see KMS eventual consistency.
- */
-export const listResourceTags: {
-  (
-    input: ListResourceTagsRequest,
-  ): effect.Effect<
-    ListResourceTagsResponse,
-    | InvalidArnException
-    | InvalidMarkerException
-    | KMSInternalException
-    | NotFoundException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  pages: (
-    input: ListResourceTagsRequest,
-  ) => stream.Stream<
-    ListResourceTagsResponse,
-    | InvalidArnException
-    | InvalidMarkerException
-    | KMSInternalException
-    | NotFoundException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  items: (
-    input: ListResourceTagsRequest,
-  ) => stream.Stream<
-    Tag,
-    | InvalidArnException
-    | InvalidMarkerException
-    | KMSInternalException
-    | NotFoundException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
-  input: ListResourceTagsRequest,
-  output: ListResourceTagsResponse,
-  errors: [
-    InvalidArnException,
-    InvalidMarkerException,
-    KMSInternalException,
-    NotFoundException,
-  ],
-  pagination: {
-    inputToken: "Marker",
-    outputToken: "NextMarker",
-    items: "Tags",
-    pageSize: "Limit",
-  } as const,
-}));
-/**
- * Gets a list of aliases in the caller's Amazon Web Services account and region. For more information
- * about aliases, see CreateAlias.
- *
- * By default, the `ListAliases` operation returns all aliases in the account and
- * region. To get only the aliases associated with a particular KMS key, use the
- * `KeyId` parameter.
- *
- * The `ListAliases` response can include aliases that you created and associated
- * with your customer managed keys, and aliases that Amazon Web Services created and associated with Amazon Web Services
- * managed keys in your account. You can recognize Amazon Web Services aliases because their names have the
- * format `aws/`, such as `aws/dynamodb`.
- *
- * The response might also include aliases that have no `TargetKeyId` field. These
- * are predefined aliases that Amazon Web Services has created but has not yet associated with a KMS key.
- * Aliases that Amazon Web Services creates in your account, including predefined aliases, do not count against
- * your KMS
- * aliases quota.
- *
- * **Cross-account use**: No. `ListAliases` does not
- * return aliases in other Amazon Web Services accounts.
- *
- * **Required permissions**: kms:ListAliases (IAM policy)
- *
- * For details, see Controlling access to aliases in the *Key Management Service Developer Guide*.
- *
- * **Related operations:**
- *
- * - CreateAlias
- *
- * - DeleteAlias
- *
- * - UpdateAlias
- *
- * **Eventual consistency**: The KMS API follows an eventual consistency model.
- * For more information, see KMS eventual consistency.
- */
-export const listAliases: {
-  (
-    input: ListAliasesRequest,
-  ): effect.Effect<
-    ListAliasesResponse,
-    | DependencyTimeoutException
-    | InvalidArnException
-    | InvalidMarkerException
-    | KMSInternalException
-    | NotFoundException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  pages: (
-    input: ListAliasesRequest,
-  ) => stream.Stream<
-    ListAliasesResponse,
-    | DependencyTimeoutException
-    | InvalidArnException
-    | InvalidMarkerException
-    | KMSInternalException
-    | NotFoundException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  items: (
-    input: ListAliasesRequest,
-  ) => stream.Stream<
-    AliasListEntry,
-    | DependencyTimeoutException
-    | InvalidArnException
-    | InvalidMarkerException
-    | KMSInternalException
-    | NotFoundException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
-  input: ListAliasesRequest,
-  output: ListAliasesResponse,
-  errors: [
-    DependencyTimeoutException,
-    InvalidArnException,
-    InvalidMarkerException,
-    KMSInternalException,
-    NotFoundException,
-  ],
-  pagination: {
-    inputToken: "Marker",
-    outputToken: "NextMarker",
-    items: "Aliases",
-    pageSize: "Limit",
-  } as const,
-}));
-/**
- * Deletes the specified alias.
- *
- * Adding, deleting, or updating an alias can allow or deny permission to the KMS key. For details, see ABAC for KMS in the *Key Management Service Developer Guide*.
- *
- * Because an alias is not a property of a KMS key, you can delete and change the aliases of
- * a KMS key without affecting the KMS key. Also, aliases do not appear in the response from the
- * DescribeKey operation. To get the aliases of all KMS keys, use the ListAliases operation.
- *
- * Each KMS key can have multiple aliases. To change the alias of a KMS key, use DeleteAlias to delete the current alias and CreateAlias to
- * create a new alias. To associate an existing alias with a different KMS key, call UpdateAlias.
- *
- * **Cross-account use**: No. You cannot perform this operation on an alias in a different Amazon Web Services account.
- *
- * **Required permissions**
- *
- * - kms:DeleteAlias on
- * the alias (IAM policy).
- *
- * - kms:DeleteAlias on
- * the KMS key (key policy).
- *
- * For details, see Controlling access to aliases in the
- * *Key Management Service Developer Guide*.
- *
- * **Related operations:**
- *
- * - CreateAlias
- *
- * - ListAliases
- *
- * - UpdateAlias
- *
- * **Eventual consistency**: The KMS API follows an eventual consistency model.
- * For more information, see KMS eventual consistency.
- */
-export const deleteAlias: (
-  input: DeleteAliasRequest,
-) => effect.Effect<
-  DeleteAliasResponse,
-  | DependencyTimeoutException
-  | KMSInternalException
-  | KMSInvalidStateException
-  | NotFoundException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteAliasRequest,
-  output: DeleteAliasResponse,
-  errors: [
-    DependencyTimeoutException,
-    KMSInternalException,
-    KMSInvalidStateException,
-    NotFoundException,
-  ],
-}));
-/**
- * Gets a list of all grants for the specified KMS key.
- *
- * You must specify the KMS key in all requests. You can filter the grant list by grant ID or
- * grantee principal.
- *
- * For detailed information about grants, including grant terminology, see Grants in KMS in the
- *
- * *Key Management Service Developer Guide*
- * . For examples of creating grants in several
- * programming languages, see Use CreateGrant with an Amazon Web Services SDK or CLI.
- *
- * The `GranteePrincipal` field in the `ListGrants` response usually contains the
- * user or role designated as the grantee principal in the grant. However, when the grantee
- * principal in the grant is an Amazon Web Services service, the `GranteePrincipal` field contains
- * the service
- * principal, which might represent several different grantee principals.
- *
- * **Cross-account use**: Yes. To perform this operation on a KMS key in a different Amazon Web Services account, specify the key
- * ARN in the value of the `KeyId` parameter.
- *
- * **Required permissions**: kms:ListGrants (key policy)
- *
- * **Related operations:**
- *
- * - CreateGrant
- *
- * - ListRetirableGrants
- *
- * - RetireGrant
- *
- * - RevokeGrant
- *
- * **Eventual consistency**: The KMS API follows an eventual consistency model.
- * For more information, see KMS eventual consistency.
- */
-export const listGrants: {
-  (
-    input: ListGrantsRequest,
-  ): effect.Effect<
-    ListGrantsResponse,
-    | DependencyTimeoutException
-    | InvalidArnException
-    | InvalidGrantIdException
-    | InvalidMarkerException
-    | KMSInternalException
-    | KMSInvalidStateException
-    | NotFoundException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  pages: (
-    input: ListGrantsRequest,
-  ) => stream.Stream<
-    ListGrantsResponse,
-    | DependencyTimeoutException
-    | InvalidArnException
-    | InvalidGrantIdException
-    | InvalidMarkerException
-    | KMSInternalException
-    | KMSInvalidStateException
-    | NotFoundException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  items: (
-    input: ListGrantsRequest,
-  ) => stream.Stream<
-    GrantListEntry,
-    | DependencyTimeoutException
-    | InvalidArnException
-    | InvalidGrantIdException
-    | InvalidMarkerException
-    | KMSInternalException
-    | KMSInvalidStateException
-    | NotFoundException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
-  input: ListGrantsRequest,
-  output: ListGrantsResponse,
-  errors: [
-    DependencyTimeoutException,
-    InvalidArnException,
-    InvalidGrantIdException,
-    InvalidMarkerException,
-    KMSInternalException,
-    KMSInvalidStateException,
-    NotFoundException,
-  ],
-  pagination: {
-    inputToken: "Marker",
-    outputToken: "NextMarker",
-    items: "Grants",
-    pageSize: "Limit",
-  } as const,
-}));
-/**
- * Changes the primary key of a multi-Region key.
- *
- * This operation changes the replica key in the specified Region to a primary key and
- * changes the former primary key to a replica key. For example, suppose you have a primary key
- * in `us-east-1` and a replica key in `eu-west-2`. If you run
- * `UpdatePrimaryRegion` with a `PrimaryRegion` value of
- * `eu-west-2`, the primary key is now the key in `eu-west-2`, and the
- * key in `us-east-1` becomes a replica key. For details, see Change the primary key in a
- * set of multi-Region keys in the *Key Management Service Developer Guide*.
- *
- * This operation supports *multi-Region keys*, an KMS feature that lets you create multiple
- * interoperable KMS keys in different Amazon Web Services Regions. Because these KMS keys have the same key ID, key
- * material, and other metadata, you can use them interchangeably to encrypt data in one Amazon Web Services Region and decrypt
- * it in a different Amazon Web Services Region without re-encrypting the data or making a cross-Region call. For more information about multi-Region keys, see Multi-Region keys in KMS in the *Key Management Service Developer Guide*.
- *
- * The *primary key* of a multi-Region key is the source for properties
- * that are always shared by primary and replica keys, including the key material, key ID, key spec, key usage, key material
- * origin, and automatic
- * key rotation. It's the only key that can be replicated. You cannot delete the primary
- * key until all replica keys are deleted.
- *
- * The key ID and primary Region that you specify uniquely identify the replica key that will
- * become the primary key. The primary Region must already have a replica key. This operation
- * does not create a KMS key in the specified Region. To find the replica keys, use the DescribeKey operation on the primary key or any replica key. To create a replica
- * key, use the ReplicateKey operation.
- *
- * You can run this operation while using the affected multi-Region keys in cryptographic
- * operations. This operation should not delay, interrupt, or cause failures in cryptographic
- * operations.
- *
- * Even after this operation completes, the process of updating the primary Region might
- * still be in progress for a few more seconds. Operations such as `DescribeKey` might
- * display both the old and new primary keys as replicas. The old and new primary keys have a
- * transient key state of `Updating`. The original key state is restored when the
- * update is complete. While the key state is `Updating`, you can use the keys in
- * cryptographic operations, but you cannot replicate the new primary key or perform certain
- * management operations, such as enabling or disabling these keys. For details about the
- * `Updating` key state, see Key states of KMS keys in the *Key Management Service Developer Guide*.
- *
- * This operation does not return any output. To verify that primary key is changed, use the
- * DescribeKey operation.
- *
- * **Cross-account use**: No. You cannot use this operation in a
- * different Amazon Web Services account.
- *
- * **Required permissions**:
- *
- * - `kms:UpdatePrimaryRegion` on the current primary key (in the primary key's
- * Region). Include this permission primary key's key policy.
- *
- * - `kms:UpdatePrimaryRegion` on the current replica key (in the replica key's
- * Region). Include this permission in the replica key's key policy.
- *
- * **Related operations**
- *
- * - CreateKey
- *
- * - ReplicateKey
- *
- * **Eventual consistency**: The KMS API follows an eventual consistency model.
- * For more information, see KMS eventual consistency.
- */
-export const updatePrimaryRegion: (
-  input: UpdatePrimaryRegionRequest,
-) => effect.Effect<
-  UpdatePrimaryRegionResponse,
-  | DisabledException
-  | InvalidArnException
-  | KMSInternalException
-  | KMSInvalidStateException
-  | NotFoundException
-  | UnsupportedOperationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdatePrimaryRegionRequest,
-  output: UpdatePrimaryRegionResponse,
-  errors: [
-    DisabledException,
-    InvalidArnException,
-    KMSInternalException,
-    KMSInvalidStateException,
-    NotFoundException,
-    UnsupportedOperationException,
-  ],
-}));
-/**
- * Disables automatic rotation of the key material of the specified symmetric encryption KMS
- * key.
- *
- * Automatic key rotation is supported only on symmetric encryption KMS keys.
- * You cannot enable automatic rotation of asymmetric KMS keys, HMAC KMS keys, KMS keys with imported key material, or KMS keys in a custom key store. To enable or disable automatic rotation of a set of related multi-Region keys, set the property on the primary key.
- *
- * You can enable (EnableKeyRotation) and disable automatic rotation of the
- * key material in customer managed KMS keys. Key material rotation of Amazon Web Services managed KMS keys is not
- * configurable. KMS always rotates the key material for every year. Rotation of Amazon Web Services owned KMS
- * keys varies.
- *
- * In May 2022, KMS changed the rotation schedule for Amazon Web Services managed keys from every three
- * years to every year. For details, see EnableKeyRotation.
- *
- * The KMS key that you use for this operation must be in a compatible key state. For
- * details, see Key states of KMS keys in the *Key Management Service Developer Guide*.
- *
- * **Cross-account use**: No. You cannot perform this operation on a KMS key in a different Amazon Web Services account.
- *
- * **Required permissions**: kms:DisableKeyRotation (key policy)
- *
- * **Related operations:**
- *
- * - EnableKeyRotation
- *
- * - GetKeyRotationStatus
- *
- * - ListKeyRotations
- *
- * - RotateKeyOnDemand
- *
- * **Eventual consistency**: The KMS API follows an eventual consistency model.
- * For more information, see KMS eventual consistency.
- */
-export const disableKeyRotation: (
-  input: DisableKeyRotationRequest,
-) => effect.Effect<
-  DisableKeyRotationResponse,
-  | DependencyTimeoutException
-  | DisabledException
-  | InvalidArnException
-  | KMSInternalException
-  | KMSInvalidStateException
-  | NotFoundException
-  | UnsupportedOperationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DisableKeyRotationRequest,
-  output: DisableKeyRotationResponse,
-  errors: [
-    DependencyTimeoutException,
-    DisabledException,
-    InvalidArnException,
-    KMSInternalException,
-    KMSInvalidStateException,
-    NotFoundException,
-    UnsupportedOperationException,
-  ],
-}));
-/**
- * Enables automatic rotation of the key material of the specified symmetric encryption KMS
- * key.
- *
- * By default, when you enable automatic rotation of a customer managed KMS key, KMS
- * rotates the key material of the KMS key one year (approximately 365 days) from the enable date
- * and every year thereafter. You can use the optional `RotationPeriodInDays`
- * parameter to specify a custom rotation period when you enable key rotation, or you can use
- * `RotationPeriodInDays` to modify the rotation period of a key that you previously
- * enabled automatic key rotation on.
- *
- * You can monitor rotation of the key material for your KMS keys in CloudTrail and Amazon CloudWatch. To disable rotation of the key material in a customer managed KMS key, use
- * the DisableKeyRotation operation. You can use the GetKeyRotationStatus operation to identify any in progress rotations. You can
- * use the ListKeyRotations operation to view the details of completed
- * rotations.
- *
- * Automatic key rotation is supported only on symmetric encryption KMS keys. You cannot enable automatic rotation of asymmetric KMS keys, HMAC KMS keys, KMS keys with imported key material, or KMS keys in a custom key store. To enable or disable automatic rotation of a set of related multi-Region keys, set the property on the primary key.
- *
- * You cannot enable or disable automatic rotation of Amazon Web Services managed KMS keys. KMS
- * always rotates the key material of Amazon Web Services managed keys every year. Rotation of Amazon Web Services owned KMS
- * keys is managed by the Amazon Web Services service that owns the key.
- *
- * In May 2022, KMS changed the rotation schedule for Amazon Web Services managed keys from every three
- * years (approximately 1,095 days) to every year (approximately 365 days).
- *
- * New Amazon Web Services managed keys are automatically rotated one year after they are created, and
- * approximately every year thereafter.
- *
- * Existing Amazon Web Services managed keys are automatically rotated one year after their most recent
- * rotation, and every year thereafter.
- *
- * The KMS key that you use for this operation must be in a compatible key state. For
- * details, see Key states of KMS keys in the *Key Management Service Developer Guide*.
- *
- * **Cross-account use**: No. You cannot perform this operation on a KMS key in a different Amazon Web Services account.
- *
- * **Required permissions**: kms:EnableKeyRotation (key policy)
- *
- * **Related operations:**
- *
- * - DisableKeyRotation
- *
- * - GetKeyRotationStatus
- *
- * - ListKeyRotations
- *
- * - RotateKeyOnDemand
- *
- * You can perform on-demand (RotateKeyOnDemand) rotation of the key
- * material in customer managed KMS keys, regardless of whether or not automatic key
- * rotation is enabled.
- *
- * **Eventual consistency**: The KMS API follows an eventual consistency model.
- * For more information, see KMS eventual consistency.
- */
-export const enableKeyRotation: (
-  input: EnableKeyRotationRequest,
-) => effect.Effect<
-  EnableKeyRotationResponse,
-  | DependencyTimeoutException
-  | DisabledException
-  | InvalidArnException
-  | KMSInternalException
-  | KMSInvalidStateException
-  | NotFoundException
-  | UnsupportedOperationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: EnableKeyRotationRequest,
-  output: EnableKeyRotationResponse,
-  errors: [
-    DependencyTimeoutException,
-    DisabledException,
-    InvalidArnException,
-    KMSInternalException,
-    KMSInvalidStateException,
-    NotFoundException,
-    UnsupportedOperationException,
-  ],
-}));
-/**
- * Deletes key material that was previously imported. This operation makes the specified KMS
- * key temporarily unusable. To restore the usability of the KMS key, reimport the same key
- * material. For more information about importing key material into KMS, see Importing Key Material
- * in the *Key Management Service Developer Guide*.
- *
- * When the specified KMS key is in the `PendingDeletion` state, this operation
- * does not change the KMS key's state. Otherwise, it changes the KMS key's state to
- * `PendingImport`.
- *
- * **Considerations for multi-Region symmetric encryption keys**
- *
- * - When you delete the key material of a primary Region key that is in
- * `PENDING_ROTATION` or `PENDING_MULTI_REGION_IMPORT_AND_ROTATION`state,
- * you'll also be deleting the key materials for the replica Region keys.
- *
- * - If you delete any key material of a replica Region key, the primary Region key and
- * other replica Region keys remain unchanged.
- *
- * The KMS key that you use for this operation must be in a compatible key state. For
- * details, see Key states of KMS keys in the *Key Management Service Developer Guide*.
- *
- * **Cross-account use**: No. You cannot perform this operation on a KMS key in a different Amazon Web Services account.
- *
- * **Required permissions**: kms:DeleteImportedKeyMaterial (key policy)
- *
- * **Related operations:**
- *
- * - GetParametersForImport
- *
- * - ListKeyRotations
- *
- * - ImportKeyMaterial
- *
- * **Eventual consistency**: The KMS API follows an eventual consistency model.
- * For more information, see KMS eventual consistency.
- */
-export const deleteImportedKeyMaterial: (
-  input: DeleteImportedKeyMaterialRequest,
-) => effect.Effect<
-  DeleteImportedKeyMaterialResponse,
-  | DependencyTimeoutException
-  | InvalidArnException
-  | KMSInternalException
-  | KMSInvalidStateException
-  | NotFoundException
-  | UnsupportedOperationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteImportedKeyMaterialRequest,
-  output: DeleteImportedKeyMaterialResponse,
-  errors: [
-    DependencyTimeoutException,
-    InvalidArnException,
-    KMSInternalException,
-    KMSInvalidStateException,
-    NotFoundException,
-    UnsupportedOperationException,
-  ],
-}));
-/**
- * Provides detailed information about the rotation status for a KMS key, including whether
- * automatic
- * rotation of the key material is enabled for the specified KMS key, the rotation
- * period, and the next scheduled rotation date.
- *
- * Automatic key rotation is supported only on symmetric encryption KMS keys.
- * You cannot enable automatic rotation of asymmetric KMS keys, HMAC KMS keys, KMS keys with imported key material, or KMS keys in a custom key store. To enable or disable automatic rotation of a set of related multi-Region keys, set the property on the primary key.
- *
- * You can enable (EnableKeyRotation) and disable automatic rotation (DisableKeyRotation) of the key material in customer managed KMS keys. Key
- * material rotation of Amazon Web Services managed KMS keys is not
- * configurable. KMS always rotates the key material in Amazon Web Services managed KMS keys every year. The
- * key rotation status for Amazon Web Services managed KMS keys is always `true`.
- *
- * You can perform on-demand (RotateKeyOnDemand) rotation of the key
- * material in customer managed KMS keys, regardless of whether or not automatic key rotation is
- * enabled. You can use GetKeyRotationStatus to identify the date and time that an in progress
- * on-demand rotation was initiated. You can use ListKeyRotations to view the
- * details of completed rotations.
- *
- * In May 2022, KMS changed the rotation schedule for Amazon Web Services managed keys from every three
- * years to every year. For details, see EnableKeyRotation.
- *
- * The KMS key that you use for this operation must be in a compatible key state. For
- * details, see Key states of KMS keys in the *Key Management Service Developer Guide*.
- *
- * - Disabled: The key rotation status does not change when you disable a KMS key. However,
- * while the KMS key is disabled, KMS does not rotate the key material. When you re-enable
- * the KMS key, rotation resumes. If the key material in the re-enabled KMS key hasn't been
- * rotated in one year, KMS rotates it immediately, and every year thereafter. If it's been
- * less than a year since the key material in the re-enabled KMS key was rotated, the KMS key
- * resumes its prior rotation schedule.
- *
- * - Pending deletion: While a KMS key is pending deletion, its key rotation status is
- * `false` and KMS does not rotate the key material. If you cancel the
- * deletion, the original key rotation status returns to `true`.
- *
- * **Cross-account use**: Yes. To perform this operation on a KMS key in a different Amazon Web Services account, specify the key
- * ARN in the value of the `KeyId` parameter.
- *
- * **Required permissions**: kms:GetKeyRotationStatus (key policy)
- *
- * **Related operations:**
- *
- * - DisableKeyRotation
- *
- * - EnableKeyRotation
- *
- * - ListKeyRotations
- *
- * - RotateKeyOnDemand
- *
- * **Eventual consistency**: The KMS API follows an eventual consistency model.
- * For more information, see KMS eventual consistency.
- */
-export const getKeyRotationStatus: (
-  input: GetKeyRotationStatusRequest,
-) => effect.Effect<
-  GetKeyRotationStatusResponse,
-  | DependencyTimeoutException
-  | InvalidArnException
-  | KMSInternalException
-  | KMSInvalidStateException
-  | NotFoundException
-  | UnsupportedOperationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetKeyRotationStatusRequest,
-  output: GetKeyRotationStatusResponse,
-  errors: [
-    DependencyTimeoutException,
-    InvalidArnException,
-    KMSInternalException,
-    KMSInvalidStateException,
-    NotFoundException,
-    UnsupportedOperationException,
-  ],
-}));
-/**
- * Returns the public key and an import token you need to import or reimport key material for
- * a KMS key.
- *
- * By default, KMS keys are created with key material that KMS generates. This operation
- * supports Importing key
- * material, an advanced feature that lets you generate and import the cryptographic
- * key material for a KMS key.
- *
- * Before calling `GetParametersForImport`, use the CreateKey
- * operation with an `Origin` value of `EXTERNAL` to create a KMS key with
- * no key material. You can import key material for a symmetric encryption KMS key, HMAC KMS key,
- * asymmetric encryption KMS key, or asymmetric signing KMS key. You can also import key material
- * into a multi-Region key of any supported type. However, you can't import key material into
- * a KMS key in a custom
- * key store. You can also use `GetParametersForImport` to get a public key
- * and import token to reimport
- * the original key material into a KMS key whose key material expired or was
- * deleted.
- *
- * `GetParametersForImport` returns the items that you need to import your key
- * material.
- *
- * - The public key (or "wrapping key") of an RSA key pair that KMS generates.
- *
- * You will use this public key to encrypt ("wrap") your key material while it's in
- * transit to KMS.
- *
- * - A import token that ensures that KMS can decrypt your key material and associate it
- * with the correct KMS key.
- *
- * The public key and its import token are permanently linked and must be used together. Each
- * public key and import token set is valid for 24 hours. The expiration date and time appear in
- * the `ParametersValidTo` field in the `GetParametersForImport` response.
- * You cannot use an expired public key or import token in an ImportKeyMaterial
- * request. If your key and token expire, send another `GetParametersForImport`
- * request.
- *
- * `GetParametersForImport` requires the following information:
- *
- * - The key ID of the KMS key for which you are importing the key material.
- *
- * - The key spec of the public key ("wrapping key") that you will use to encrypt your key
- * material during import.
- *
- * - The wrapping algorithm that you will use with the public key to encrypt your key
- * material.
- *
- * You can use the same or a different public key spec and wrapping algorithm each time you
- * import or reimport the same key material.
- *
- * The KMS key that you use for this operation must be in a compatible key state. For
- * details, see Key states of KMS keys in the *Key Management Service Developer Guide*.
- *
- * **Cross-account use**: No. You cannot perform this operation on a KMS key in a different Amazon Web Services account.
- *
- * **Required permissions**: kms:GetParametersForImport (key policy)
- *
- * **Related operations:**
- *
- * - ImportKeyMaterial
- *
- * - DeleteImportedKeyMaterial
- *
- * **Eventual consistency**: The KMS API follows an eventual consistency model.
- * For more information, see KMS eventual consistency.
- */
-export const getParametersForImport: (
-  input: GetParametersForImportRequest,
-) => effect.Effect<
-  GetParametersForImportResponse,
-  | DependencyTimeoutException
-  | InvalidArnException
-  | KMSInternalException
-  | KMSInvalidStateException
-  | NotFoundException
-  | UnsupportedOperationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetParametersForImportRequest,
-  output: GetParametersForImportResponse,
-  errors: [
-    DependencyTimeoutException,
-    InvalidArnException,
-    KMSInternalException,
-    KMSInvalidStateException,
-    NotFoundException,
-    UnsupportedOperationException,
-  ],
-}));
-/**
- * Returns information about the key materials associated with the specified KMS key. You can
- * use the optional `IncludeKeyMaterial` parameter to control which key materials are
- * included in the response.
- *
- * You must specify the KMS key in all requests. You can refine the key rotations list by
- * limiting the number of rotations returned.
- *
- * For detailed information about automatic and on-demand key rotations, see Rotate KMS keys in the
- * *Key Management Service Developer Guide*.
- *
- * **Cross-account use**: No. You cannot perform this operation on a KMS key in a different Amazon Web Services account.
- *
- * **Required permissions**: kms:ListKeyRotations (key policy)
- *
- * **Related operations:**
- *
- * - EnableKeyRotation
- *
- * - DeleteImportedKeyMaterial
- *
- * - DisableKeyRotation
- *
- * - GetKeyRotationStatus
- *
- * - ImportKeyMaterial
- *
- * - RotateKeyOnDemand
- *
- * **Eventual consistency**: The KMS API follows an eventual consistency model.
- * For more information, see KMS eventual consistency.
- */
-export const listKeyRotations: {
-  (
-    input: ListKeyRotationsRequest,
-  ): effect.Effect<
-    ListKeyRotationsResponse,
-    | InvalidArnException
-    | InvalidMarkerException
-    | KMSInternalException
-    | KMSInvalidStateException
-    | NotFoundException
-    | UnsupportedOperationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  pages: (
-    input: ListKeyRotationsRequest,
-  ) => stream.Stream<
-    ListKeyRotationsResponse,
-    | InvalidArnException
-    | InvalidMarkerException
-    | KMSInternalException
-    | KMSInvalidStateException
-    | NotFoundException
-    | UnsupportedOperationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  items: (
-    input: ListKeyRotationsRequest,
-  ) => stream.Stream<
-    RotationsListEntry,
-    | InvalidArnException
-    | InvalidMarkerException
-    | KMSInternalException
-    | KMSInvalidStateException
-    | NotFoundException
-    | UnsupportedOperationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
-  input: ListKeyRotationsRequest,
-  output: ListKeyRotationsResponse,
-  errors: [
-    InvalidArnException,
-    InvalidMarkerException,
-    KMSInternalException,
-    KMSInvalidStateException,
-    NotFoundException,
-    UnsupportedOperationException,
-  ],
-  pagination: {
-    inputToken: "Marker",
-    outputToken: "NextMarker",
-    items: "Rotations",
-    pageSize: "Limit",
-  } as const,
-}));
-/**
- * Immediately initiates rotation of the key material of the specified symmetric encryption
- * KMS key.
- *
- * You can perform on-demand rotation of the key
- * material in customer managed KMS keys, regardless of whether or not automatic key
- * rotation is enabled. On-demand rotations do not change existing automatic rotation
- * schedules. For example, consider a KMS key that has automatic key rotation enabled with a
- * rotation period of 730 days. If the key is scheduled to automatically rotate on April 14,
- * 2024, and you perform an on-demand rotation on April 10, 2024, the key will automatically
- * rotate, as scheduled, on April 14, 2024 and every 730 days thereafter.
- *
- * You can perform on-demand key rotation a maximum of 10
- * times per KMS key. You can use the KMS console to view the number of
- * remaining on-demand rotations available for a KMS key.
- *
- * You can use GetKeyRotationStatus to identify any in progress on-demand
- * rotations. You can use ListKeyRotations to identify the date that completed
- * on-demand rotations were performed. You can monitor rotation of the key material for your KMS
- * keys in CloudTrail and Amazon CloudWatch.
- *
- * On-demand key rotation is supported only on symmetric encryption KMS keys. You cannot
- * perform on-demand rotation of asymmetric KMS keys, HMAC KMS keys, or KMS keys in a
- * custom key store. When you initiate on-demand key rotation on a symmetric encryption KMS key
- * with imported key material, you must have already imported new key material and that
- * key material's state should be `PENDING_ROTATION`. Use the
- * `ListKeyRotations` operation to check the state of all key materials associated
- * with a KMS key. To perform on-demand rotation of a set of related multi-Region keys, import
- * new key material in the primary Region key, import the same key material in each replica
- * Region key, and invoke the on-demand rotation on the primary Region key.
- *
- * You cannot initiate on-demand rotation of Amazon Web Services managed KMS keys. KMS
- * always rotates the key material of Amazon Web Services managed keys every year. Rotation of Amazon Web Services owned KMS
- * keys is managed by the Amazon Web Services service that owns the key.
- *
- * The KMS key that you use for this operation must be in a compatible key state. For
- * details, see Key states of KMS keys in the *Key Management Service Developer Guide*.
- *
- * **Cross-account use**: No. You cannot perform this operation on a KMS key in a different Amazon Web Services account.
- *
- * **Required permissions**: kms:RotateKeyOnDemand (key policy)
- *
- * **Related operations:**
- *
- * - EnableKeyRotation
- *
- * - DisableKeyRotation
- *
- * - GetKeyRotationStatus
- *
- * - ImportKeyMaterial
- *
- * - ListKeyRotations
- *
- * **Eventual consistency**: The KMS API follows an eventual consistency model.
- * For more information, see KMS eventual consistency.
- */
-export const rotateKeyOnDemand: (
-  input: RotateKeyOnDemandRequest,
-) => effect.Effect<
-  RotateKeyOnDemandResponse,
-  | ConflictException
-  | DependencyTimeoutException
-  | DisabledException
-  | InvalidArnException
-  | KMSInternalException
-  | KMSInvalidStateException
-  | LimitExceededException
-  | NotFoundException
-  | UnsupportedOperationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: RotateKeyOnDemandRequest,
-  output: RotateKeyOnDemandResponse,
-  errors: [
-    ConflictException,
-    DependencyTimeoutException,
-    DisabledException,
-    InvalidArnException,
-    KMSInternalException,
-    KMSInvalidStateException,
-    LimitExceededException,
-    NotFoundException,
-    UnsupportedOperationException,
-  ],
-}));
-/**
  * Creates a friendly name for a KMS key.
  *
  * Adding, deleting, or updating an alias can allow or deny permission to the KMS key. For details, see ABAC for KMS in the *Key Management Service Developer Guide*.
@@ -4877,116 +3070,124 @@ export const createAlias: (
   ],
 }));
 /**
- * Sets the key state of a KMS key to enabled. This allows you to use the KMS key for
- * cryptographic operations.
+ * Creates a custom key store backed by a key store that you own and manage. When you use a
+ * KMS key in a custom key store for a cryptographic operation, the cryptographic operation is
+ * actually performed in your key store using your keys. KMS supports CloudHSM key stores
+ * backed by an CloudHSM cluster
+ * and external key
+ * stores backed by an external key store proxy and external key manager outside of
+ * Amazon Web Services.
  *
- * The KMS key that you use for this operation must be in a compatible key state. For
- * details, see Key states of KMS keys in the *Key Management Service Developer Guide*.
+ * This operation is part of the custom key stores feature in KMS, which
+ * combines the convenience and extensive integration of KMS with the isolation and control of a
+ * key store that you own and manage.
  *
- * **Cross-account use**: No. You cannot perform this operation on a KMS key in a different Amazon Web Services account.
+ * Before you create the custom key store, the required elements must be in place and
+ * operational. We recommend that you use the test tools that KMS provides to verify the
+ * configuration your external key store proxy. For details about the required elements and
+ * verification tests, see Assemble the prerequisites (for
+ * CloudHSM key stores) or Assemble the prerequisites (for
+ * external key stores) in the *Key Management Service Developer Guide*.
  *
- * **Required permissions**: kms:EnableKey (key policy)
+ * To create a custom key store, use the following parameters.
  *
- * **Related operations**: DisableKey
- *
- * **Eventual consistency**: The KMS API follows an eventual consistency model.
- * For more information, see KMS eventual consistency.
- */
-export const enableKey: (
-  input: EnableKeyRequest,
-) => effect.Effect<
-  EnableKeyResponse,
-  | DependencyTimeoutException
-  | InvalidArnException
-  | KMSInternalException
-  | KMSInvalidStateException
-  | LimitExceededException
-  | NotFoundException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: EnableKeyRequest,
-  output: EnableKeyResponse,
-  errors: [
-    DependencyTimeoutException,
-    InvalidArnException,
-    KMSInternalException,
-    KMSInvalidStateException,
-    LimitExceededException,
-    NotFoundException,
-  ],
-}));
-/**
- * Associates an existing KMS alias with a different KMS key. Each alias is associated with
- * only one KMS key at a time, although a KMS key can have multiple aliases. The alias and the
- * KMS key must be in the same Amazon Web Services account and Region.
- *
- * Adding, deleting, or updating an alias can allow or deny permission to the KMS key. For details, see ABAC for KMS in the *Key Management Service Developer Guide*.
- *
- * The current and new KMS key must be the same type (both symmetric or both asymmetric or
- * both HMAC), and they must have the same key usage. This restriction prevents errors in code
- * that uses aliases. If you must assign an alias to a different type of KMS key, use DeleteAlias to delete the old alias and CreateAlias to create
- * a new alias.
- *
- * You cannot use `UpdateAlias` to change an alias name. To change an alias name,
- * use DeleteAlias to delete the old alias and CreateAlias to
- * create a new alias.
- *
- * Because an alias is not a property of a KMS key, you can create, update, and delete the
- * aliases of a KMS key without affecting the KMS key. Also, aliases do not appear in the
- * response from the DescribeKey operation. To get the aliases of all KMS keys
- * in the account, use the ListAliases operation.
- *
- * The KMS key that you use for this operation must be in a compatible key state. For
- * details, see Key states of KMS keys in the *Key Management Service Developer Guide*.
- *
- * **Cross-account use**: No. You cannot perform this operation on a KMS key in a different Amazon Web Services account.
- *
- * **Required permissions**
- *
- * - kms:UpdateAlias on
- * the alias (IAM policy).
- *
- * - kms:UpdateAlias on
- * the current KMS key (key policy).
- *
- * - kms:UpdateAlias on
- * the new KMS key (key policy).
- *
- * For details, see Controlling access to aliases in the
+ * - To create an CloudHSM key store, specify the `CustomKeyStoreName`,
+ * `CloudHsmClusterId`, `KeyStorePassword`, and
+ * `TrustAnchorCertificate`. The `CustomKeyStoreType` parameter is
+ * optional for CloudHSM key stores. If you include it, set it to the default value,
+ * `AWS_CLOUDHSM`. For help with failures, see Troubleshooting an CloudHSM key store in the
  * *Key Management Service Developer Guide*.
+ *
+ * - To create an external key store, specify the `CustomKeyStoreName` and a
+ * `CustomKeyStoreType` of `EXTERNAL_KEY_STORE`. Also, specify values
+ * for `XksProxyConnectivity`, `XksProxyAuthenticationCredential`,
+ * `XksProxyUriEndpoint`, and `XksProxyUriPath`. If your
+ * `XksProxyConnectivity` value is `VPC_ENDPOINT_SERVICE`, specify
+ * the `XksProxyVpcEndpointServiceName` parameter. For help with failures, see
+ * Troubleshooting
+ * an external key store in the *Key Management Service Developer Guide*.
+ *
+ * For external key stores:
+ *
+ * Some external key managers provide a simpler method for creating an external key store.
+ * For details, see your external key manager documentation.
+ *
+ * When creating an external key store in the KMS console, you can upload a JSON-based
+ * proxy configuration file with the desired values. You cannot use a proxy configuration with
+ * the `CreateCustomKeyStore` operation. However, you can use the values in the file
+ * to help you determine the correct values for the `CreateCustomKeyStore`
+ * parameters.
+ *
+ * When the operation completes successfully, it returns the ID of the new custom key store.
+ * Before you can use your new custom key store, you need to use the ConnectCustomKeyStore operation to connect a new CloudHSM key store to its CloudHSM
+ * cluster, or to connect a new external key store to the external key store proxy for your
+ * external key manager. Even if you are not going to use your custom key store immediately, you
+ * might want to connect it to verify that all settings are correct and then disconnect it until
+ * you are ready to use it.
+ *
+ * **Cross-account use**: No. You cannot perform this operation on a custom key store in a different Amazon Web Services account.
+ *
+ * **Required permissions**: kms:CreateCustomKeyStore (IAM policy).
  *
  * **Related operations:**
  *
- * - CreateAlias
+ * - ConnectCustomKeyStore
  *
- * - DeleteAlias
+ * - DeleteCustomKeyStore
  *
- * - ListAliases
+ * - DescribeCustomKeyStores
+ *
+ * - DisconnectCustomKeyStore
+ *
+ * - UpdateCustomKeyStore
  *
  * **Eventual consistency**: The KMS API follows an eventual consistency model.
  * For more information, see KMS eventual consistency.
  */
-export const updateAlias: (
-  input: UpdateAliasRequest,
+export const createCustomKeyStore: (
+  input: CreateCustomKeyStoreRequest,
 ) => effect.Effect<
-  UpdateAliasResponse,
-  | DependencyTimeoutException
+  CreateCustomKeyStoreResponse,
+  | CloudHsmClusterInUseException
+  | CloudHsmClusterInvalidConfigurationException
+  | CloudHsmClusterNotActiveException
+  | CloudHsmClusterNotFoundException
+  | CustomKeyStoreNameInUseException
+  | IncorrectTrustAnchorException
   | KMSInternalException
-  | KMSInvalidStateException
   | LimitExceededException
-  | NotFoundException
+  | XksProxyIncorrectAuthenticationCredentialException
+  | XksProxyInvalidConfigurationException
+  | XksProxyInvalidResponseException
+  | XksProxyUriEndpointInUseException
+  | XksProxyUriInUseException
+  | XksProxyUriUnreachableException
+  | XksProxyVpcEndpointServiceInUseException
+  | XksProxyVpcEndpointServiceInvalidConfigurationException
+  | XksProxyVpcEndpointServiceNotFoundException
   | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateAliasRequest,
-  output: UpdateAliasResponse,
+  input: CreateCustomKeyStoreRequest,
+  output: CreateCustomKeyStoreResponse,
   errors: [
-    DependencyTimeoutException,
+    CloudHsmClusterInUseException,
+    CloudHsmClusterInvalidConfigurationException,
+    CloudHsmClusterNotActiveException,
+    CloudHsmClusterNotFoundException,
+    CustomKeyStoreNameInUseException,
+    IncorrectTrustAnchorException,
     KMSInternalException,
-    KMSInvalidStateException,
     LimitExceededException,
-    NotFoundException,
+    XksProxyIncorrectAuthenticationCredentialException,
+    XksProxyInvalidConfigurationException,
+    XksProxyInvalidResponseException,
+    XksProxyUriEndpointInUseException,
+    XksProxyUriInUseException,
+    XksProxyUriUnreachableException,
+    XksProxyVpcEndpointServiceInUseException,
+    XksProxyVpcEndpointServiceInvalidConfigurationException,
+    XksProxyVpcEndpointServiceNotFoundException,
   ],
 }));
 /**
@@ -5073,435 +3274,501 @@ export const createGrant: (
   ],
 }));
 /**
- * Provides detailed information about a KMS key. You can run `DescribeKey` on a
- * customer
- * managed key or an Amazon Web Services managed key.
+ * Creates a unique customer managed KMS key in your Amazon Web Services account and Region.
+ * You can use a KMS key in cryptographic operations, such as encryption and signing. Some Amazon Web Services
+ * services let you use KMS keys that you create and manage to protect your service
+ * resources.
  *
- * This detailed information includes the key ARN, creation date (and deletion date, if
- * applicable), the key state, and the origin and expiration date (if any) of the key material.
- * It includes fields, like `KeySpec`, that help you distinguish different types of
- * KMS keys. It also displays the key usage (encryption, signing, or generating and verifying
- * MACs) and the algorithms that the KMS key supports.
+ * A KMS key is a logical representation of a cryptographic key. In addition to the key
+ * material used in cryptographic operations, a KMS key includes metadata, such as the key ID,
+ * key policy, creation date, description, and key state.
  *
- * For multi-Region keys, `DescribeKey` displays the primary key and all
- * related replica keys. For KMS keys in CloudHSM key stores, it includes information
- * about the key store, such as the key store ID and the CloudHSM cluster ID. For KMS keys in external key stores,
- * it includes the custom key store ID and the ID of the external key.
+ * Use the parameters of `CreateKey` to specify the type of KMS key, the source of
+ * its key material, its key policy, description, tags, and other properties.
  *
- * `DescribeKey` does not return the following information:
+ * KMS has replaced the term *customer master key (CMK)* with *Key Management Service key*
+ * and *KMS key*. The concept has not changed. To prevent breaking changes, KMS is keeping some variations of this term.
  *
- * - Aliases associated with the KMS key. To get this information, use ListAliases.
+ * To create different types of KMS keys, use the following guidance:
  *
- * - Whether automatic key rotation is enabled on the KMS key. To get this information, use
- * GetKeyRotationStatus. Also, some key states prevent a KMS key from
- * being automatically rotated. For details, see How key rotation
- * works in the *Key Management Service Developer Guide*.
+ * ### Symmetric encryption KMS key
  *
- * - Tags on the KMS key. To get this information, use ListResourceTags.
+ * By default, `CreateKey` creates a symmetric encryption KMS key with key
+ * material that KMS generates. This is the basic and most widely used type of KMS key, and
+ * provides the best performance.
  *
- * - Key policies and grants on the KMS key. To get this information, use GetKeyPolicy and ListGrants.
+ * To create a symmetric encryption KMS key, you don't need to specify any parameters.
+ * The default value for `KeySpec`, `SYMMETRIC_DEFAULT`, the default
+ * value for `KeyUsage`, `ENCRYPT_DECRYPT`, and the default value for
+ * `Origin`, `AWS_KMS`, create a symmetric encryption KMS key with
+ * KMS key material.
  *
- * In general, `DescribeKey` is a non-mutating operation. It returns data about
- * KMS keys, but doesn't change them. However, Amazon Web Services services use `DescribeKey` to
- * create Amazon Web Services
- * managed keys from a *predefined Amazon Web Services alias* with no key
- * ID.
+ * If you need a key for basic encryption and decryption or you are creating a KMS key
+ * to protect your resources in an Amazon Web Services service, create a symmetric encryption KMS key.
+ * The key material in a symmetric encryption key never leaves KMS unencrypted. You can
+ * use a symmetric encryption KMS key to encrypt and decrypt data up to 4,096 bytes, but
+ * they are typically used to generate data keys and data keys pairs. For details, see
+ * GenerateDataKey and GenerateDataKeyPair.
  *
- * **Cross-account use**: Yes. To perform this operation with a KMS key in a different Amazon Web Services account, specify
- * the key ARN or alias ARN in the value of the `KeyId` parameter.
+ * ### Asymmetric KMS keys
  *
- * **Required permissions**: kms:DescribeKey (key policy)
+ * To create an asymmetric KMS key, use the `KeySpec` parameter to specify
+ * the type of key material in the KMS key. Then, use the `KeyUsage` parameter
+ * to determine whether the KMS key will be used to encrypt and decrypt or sign and verify.
+ * You can't change these properties after the KMS key is created.
  *
- * **Related operations:**
+ * Asymmetric KMS keys contain an RSA key pair, Elliptic Curve (ECC) key pair, ML-DSA
+ * key pair or an SM2 key pair (China Regions only). The private key in an asymmetric KMS
+ * key never leaves KMS unencrypted. However, you can use the GetPublicKey operation to download the public key so it can be used
+ * outside of KMS. Each KMS key can have only one key usage. KMS keys with RSA key pairs
+ * can be used to encrypt and decrypt data or sign and verify messages (but not both). KMS
+ * keys with NIST-standard ECC key pairs can be used to sign and verify messages or
+ * derive shared secrets (but not both). KMS keys with `ECC_SECG_P256K1` can be
+ * used only to sign and verify messages. KMS keys with ML-DSA key pairs can be used to
+ * sign and verify messages. KMS keys with SM2 key pairs (China Regions only) can be used
+ * to either encrypt and decrypt data, sign and verify messages, or derive shared secrets
+ * (you must choose one key usage type). For information about asymmetric KMS keys, see
+ * Asymmetric
+ * KMS keys in the *Key Management Service Developer Guide*.
  *
- * - GetKeyPolicy
+ * ### HMAC KMS key
  *
- * - GetKeyRotationStatus
+ * To create an HMAC KMS key, set the `KeySpec` parameter to a key spec
+ * value for HMAC KMS keys. Then set the `KeyUsage` parameter to
+ * `GENERATE_VERIFY_MAC`. You must set the key usage even though
+ * `GENERATE_VERIFY_MAC` is the only valid key usage value for HMAC KMS keys.
+ * You can't change these properties after the KMS key is created.
  *
- * - ListAliases
+ * HMAC KMS keys are symmetric keys that never leave KMS unencrypted. You can use
+ * HMAC keys to generate (GenerateMac) and verify (VerifyMac) HMAC codes for messages up to 4096 bytes.
  *
- * - ListGrants
+ * ### Multi-Region primary keys
  *
- * - ListKeys
+ * ### Imported key material
  *
- * - ListResourceTags
- *
- * - ListRetirableGrants
- *
- * **Eventual consistency**: The KMS API follows an eventual consistency model.
- * For more information, see KMS eventual consistency.
- */
-export const describeKey: (
-  input: DescribeKeyRequest,
-) => effect.Effect<
-  DescribeKeyResponse,
-  | DependencyTimeoutException
-  | InvalidArnException
-  | KMSInternalException
-  | NotFoundException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeKeyRequest,
-  output: DescribeKeyResponse,
-  errors: [
-    DependencyTimeoutException,
-    InvalidArnException,
-    KMSInternalException,
-    NotFoundException,
-  ],
-}));
-/**
- * Deletes tags from a customer managed key. To delete a
- * tag, specify the tag key and the KMS key.
- *
- * Tagging or untagging a KMS key can allow or deny permission to the KMS key. For details, see ABAC for KMS in the *Key Management Service Developer Guide*.
- *
- * When it succeeds, the `UntagResource` operation doesn't return any output.
- * Also, if the specified tag key isn't found on the KMS key, it doesn't throw an exception or
- * return a response. To confirm that the operation worked, use the ListResourceTags operation.
- *
- * For information about using tags in KMS, see Tagging keys. For general information about
- * tags, including the format and syntax, see Tagging Amazon Web Services resources in the Amazon
- * Web Services General Reference.
- *
- * The KMS key that you use for this operation must be in a compatible key state. For
- * details, see Key states of KMS keys in the *Key Management Service Developer Guide*.
- *
- * **Cross-account use**: No. You cannot perform this operation on a KMS key in a different Amazon Web Services account.
- *
- * **Required permissions**: kms:UntagResource (key policy)
- *
- * **Related operations**
- *
- * - CreateKey
- *
- * - ListResourceTags
- *
- * - ReplicateKey
- *
- * - TagResource
- *
- * **Eventual consistency**: The KMS API follows an eventual consistency model.
- * For more information, see KMS eventual consistency.
- */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
-  UntagResourceResponse,
-  | InvalidArnException
-  | KMSInternalException
-  | KMSInvalidStateException
-  | NotFoundException
-  | TagException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
-  errors: [
-    InvalidArnException,
-    KMSInternalException,
-    KMSInvalidStateException,
-    NotFoundException,
-    TagException,
-  ],
-}));
-/**
- * Returns the public key of an asymmetric KMS key. Unlike the private key of a asymmetric
- * KMS key, which never leaves KMS unencrypted, callers with `kms:GetPublicKey`
- * permission can download the public key of an asymmetric KMS key. You can share the public key
- * to allow others to encrypt messages and verify signatures outside of KMS.
- * For information about asymmetric KMS keys, see Asymmetric KMS keys in the *Key Management Service Developer Guide*.
- *
- * You do not need to download the public key. Instead, you can use the public key within
- * KMS by calling the Encrypt, ReEncrypt, or Verify operations with the identifier of an asymmetric KMS key. When you use the
- * public key within KMS, you benefit from the authentication, authorization, and logging that
- * are part of every KMS operation. You also reduce of risk of encrypting data that cannot be
- * decrypted. These features are not effective outside of KMS.
- *
- * To help you use the public key safely outside of KMS, `GetPublicKey` returns
- * important information about the public key in the response, including:
- *
- * - KeySpec: The type of key material in the public key, such as
- * `RSA_4096` or `ECC_NIST_P521`.
- *
- * - KeyUsage: Whether the key is used for encryption, signing, or deriving a shared
- * secret.
- *
- * - EncryptionAlgorithms, KeyAgreementAlgorithms, or SigningAlgorithms: A list of the encryption algorithms, key agreement
- * algorithms, or signing algorithms for the key.
- *
- * Although KMS cannot enforce these restrictions on external operations, it is crucial
- * that you use this information to prevent the public key from being used improperly. For
- * example, you can prevent a public signing key from being used encrypt data, or prevent a
- * public key from being used with an encryption algorithm that is not supported by KMS. You
- * can also avoid errors, such as using the wrong signing algorithm in a verification
+ * To create a multi-Region *primary key* in the local Amazon Web Services Region,
+ * use the `MultiRegion` parameter with a value of `True`. To create
+ * a multi-Region *replica key*, that is, a KMS key with the same key ID
+ * and key material as a primary key, but in a different Amazon Web Services Region, use the ReplicateKey operation. To change a replica key to a primary key, and its
+ * primary key to a replica key, use the UpdatePrimaryRegion
  * operation.
  *
- * To verify a signature outside of KMS with an SM2 public key (China Regions only), you
- * must specify the distinguishing ID. By default, KMS uses `1234567812345678` as
- * the distinguishing ID. For more information, see Offline
- * verification with SM2 key pairs.
- *
- * The KMS key that you use for this operation must be in a compatible key state. For
- * details, see Key states of KMS keys in the *Key Management Service Developer Guide*.
- *
- * **Cross-account use**: Yes. To perform this operation with a KMS key in a different Amazon Web Services account, specify
- * the key ARN or alias ARN in the value of the `KeyId` parameter.
- *
- * **Required permissions**: kms:GetPublicKey (key policy)
- *
- * **Related operations**: CreateKey
- *
- * **Eventual consistency**: The KMS API follows an eventual consistency model.
- * For more information, see KMS eventual consistency.
- */
-export const getPublicKey: (
-  input: GetPublicKeyRequest,
-) => effect.Effect<
-  GetPublicKeyResponse,
-  | DependencyTimeoutException
-  | DisabledException
-  | InvalidArnException
-  | InvalidGrantTokenException
-  | InvalidKeyUsageException
-  | KeyUnavailableException
-  | KMSInternalException
-  | KMSInvalidStateException
-  | NotFoundException
-  | UnsupportedOperationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetPublicKeyRequest,
-  output: GetPublicKeyResponse,
-  errors: [
-    DependencyTimeoutException,
-    DisabledException,
-    InvalidArnException,
-    InvalidGrantTokenException,
-    InvalidKeyUsageException,
-    KeyUnavailableException,
-    KMSInternalException,
-    KMSInvalidStateException,
-    NotFoundException,
-    UnsupportedOperationException,
-  ],
-}));
-/**
- * Adds or edits tags on a customer managed key.
- *
- * Tagging or untagging a KMS key can allow or deny permission to the KMS key. For details, see ABAC for KMS in the *Key Management Service Developer Guide*.
- *
- * Each tag consists of a tag key and a tag value, both of which are case-sensitive strings.
- * The tag value can be an empty (null) string. To add a tag, specify a new tag key and a tag
- * value. To edit a tag, specify an existing tag key and a new tag value.
- *
- * You can use this operation to tag a customer managed key, but you
- * cannot tag an Amazon Web Services managed key, an Amazon Web Services owned key, a custom key store,
- * or an alias.
- *
- * You can also add tags to a KMS key while creating it (CreateKey) or
- * replicating it (ReplicateKey).
- *
- * For information about using tags in KMS, see Tagging keys. For general information about
- * tags, including the format and syntax, see Tagging Amazon Web Services resources in the Amazon
- * Web Services General Reference.
- *
- * The KMS key that you use for this operation must be in a compatible key state. For
- * details, see Key states of KMS keys in the *Key Management Service Developer Guide*.
- *
- * **Cross-account use**: No. You cannot perform this operation on a KMS key in a different Amazon Web Services account.
- *
- * **Required permissions**: kms:TagResource (key policy)
- *
- * **Related operations**
- *
- * - CreateKey
- *
- * - ListResourceTags
- *
- * - ReplicateKey
- *
- * - UntagResource
- *
- * **Eventual consistency**: The KMS API follows an eventual consistency model.
- * For more information, see KMS eventual consistency.
- */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
-  TagResourceResponse,
-  | InvalidArnException
-  | KMSInternalException
-  | KMSInvalidStateException
-  | LimitExceededException
-  | NotFoundException
-  | TagException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
-  errors: [
-    InvalidArnException,
-    KMSInternalException,
-    KMSInvalidStateException,
-    LimitExceededException,
-    NotFoundException,
-    TagException,
-  ],
-}));
-/**
- * Attaches a key policy to the specified KMS key.
- *
- * For more information about key policies, see Key Policies in the *Key Management Service Developer Guide*.
- * For help writing and formatting a JSON policy document, see the IAM JSON Policy Reference in the
- * *Identity and Access Management User Guide*
- * . For examples of adding a key policy in multiple programming languages,
- * see Use
- * PutKeyPolicy with an Amazon Web Services SDK or CLI in the *Key Management Service Developer Guide*.
- *
- * **Cross-account use**: No. You cannot perform this operation on a KMS key in a different Amazon Web Services account.
- *
- * **Required permissions**: kms:PutKeyPolicy (key policy)
- *
- * **Related operations**: GetKeyPolicy
- *
- * **Eventual consistency**: The KMS API follows an eventual consistency model.
- * For more information, see KMS eventual consistency.
- */
-export const putKeyPolicy: (
-  input: PutKeyPolicyRequest,
-) => effect.Effect<
-  PutKeyPolicyResponse,
-  | DependencyTimeoutException
-  | InvalidArnException
-  | KMSInternalException
-  | KMSInvalidStateException
-  | LimitExceededException
-  | MalformedPolicyDocumentException
-  | NotFoundException
-  | UnsupportedOperationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PutKeyPolicyRequest,
-  output: PutKeyPolicyResponse,
-  errors: [
-    DependencyTimeoutException,
-    InvalidArnException,
-    KMSInternalException,
-    KMSInvalidStateException,
-    LimitExceededException,
-    MalformedPolicyDocumentException,
-    NotFoundException,
-    UnsupportedOperationException,
-  ],
-}));
-/**
- * Replicates a multi-Region key into the specified Region. This operation creates a
- * multi-Region replica key based on a multi-Region primary key in a different Region of the same
- * Amazon Web Services partition. You can create multiple replicas of a primary key, but each must be in a
- * different Region. To create a multi-Region primary key, use the CreateKey
- * operation.
+ * You can create multi-Region KMS keys for all supported KMS key types: symmetric
+ * encryption KMS keys, HMAC KMS keys, asymmetric encryption KMS keys, and asymmetric
+ * signing KMS keys. You can also create multi-Region keys with imported key material.
+ * However, you can't create multi-Region keys in a custom key store.
  *
  * This operation supports *multi-Region keys*, an KMS feature that lets you create multiple
  * interoperable KMS keys in different Amazon Web Services Regions. Because these KMS keys have the same key ID, key
  * material, and other metadata, you can use them interchangeably to encrypt data in one Amazon Web Services Region and decrypt
  * it in a different Amazon Web Services Region without re-encrypting the data or making a cross-Region call. For more information about multi-Region keys, see Multi-Region keys in KMS in the *Key Management Service Developer Guide*.
  *
- * A *replica key* is a fully-functional KMS key that can be used
- * independently of its primary and peer replica keys. A primary key and its replica keys share
- * properties that make them interoperable. They have the same key ID and key material. They also
- * have the same key spec, key usage, key material origin, and automatic key rotation status.
- * KMS automatically synchronizes these shared properties among related multi-Region keys. All
- * other properties of a replica key can differ, including its key policy, tags, aliases, and key state. KMS pricing and quotas for KMS keys
- * apply to each primary key and replica key.
+ * To import your own key material into a KMS key, begin by creating a KMS key with no
+ * key material. To do this, use the `Origin` parameter of
+ * `CreateKey` with a value of `EXTERNAL`. Next, use GetParametersForImport operation to get a public key and import token. Use
+ * the wrapping public key to encrypt your key material. Then, use ImportKeyMaterial with your import token to import the key material. For
+ * step-by-step instructions, see Importing Key Material in the
+ * *Key Management Service Developer Guide*
+ * .
  *
- * When this operation completes, the new replica key has a transient key state of
- * `Creating`. This key state changes to `Enabled` (or
- * `PendingImport`) after a few seconds when the process of creating the new replica
- * key is complete. While the key state is `Creating`, you can manage key, but you
- * cannot yet use it in cryptographic operations. If you are creating and using the replica key
- * programmatically, retry on `KMSInvalidStateException` or call
- * `DescribeKey` to check its `KeyState` value before using it. For
- * details about the `Creating` key state, see Key states of KMS keys in the
- * *Key Management Service Developer Guide*.
+ * You can import key material into KMS keys of all supported KMS key types: symmetric
+ * encryption KMS keys, HMAC KMS keys, asymmetric encryption KMS keys, and asymmetric
+ * signing KMS keys. You can also create multi-Region keys with imported key material.
+ * However, you can't import key material into a KMS key in a custom key store.
  *
- * You cannot create more than one replica of a primary key in any Region. If the Region
- * already includes a replica of the key you're trying to replicate, `ReplicateKey`
- * returns an `AlreadyExistsException` error. If the key state of the existing replica
- * is `PendingDeletion`, you can cancel the scheduled key deletion (CancelKeyDeletion) or wait for the key to be deleted. The new replica key you
- * create will have the same shared
- * properties as the original replica key.
+ * To create a multi-Region primary key with imported key material, use the
+ * `Origin` parameter of `CreateKey` with a value of
+ * `EXTERNAL` and the `MultiRegion` parameter with a value of
+ * `True`. To create replicas of the multi-Region primary key, use the ReplicateKey operation. For instructions, see Importing key material step
+ * 1. For more information about multi-Region keys, see Multi-Region keys in KMS in the *Key Management Service Developer Guide*.
  *
- * The CloudTrail log of a `ReplicateKey` operation records a
- * `ReplicateKey` operation in the primary key's Region and a CreateKey operation in the replica key's Region.
+ * ### Custom key store
  *
- * If you replicate a multi-Region primary key with imported key material, the replica key is
- * created with no key material. You must import the same key material that you imported into the
- * primary key.
+ * A custom key store lets you protect your Amazon Web Services resources using keys in a backing key
+ * store that you own and manage. When you request a cryptographic operation with a KMS key
+ * in a custom key store, the operation is performed in the backing key store using its
+ * cryptographic keys.
  *
- * To convert a replica key to a primary key, use the UpdatePrimaryRegion
+ * KMS supports CloudHSM key stores backed by an CloudHSM cluster and external key stores backed by an
+ * external key manager outside of Amazon Web Services. When you create a KMS key in an CloudHSM key store,
+ * KMS generates an encryption key in the CloudHSM cluster and associates it with the KMS
+ * key. When you create a KMS key in an external key store, you specify an existing
+ * encryption key in the external key manager.
+ *
+ * Some external key managers provide a simpler method for creating a KMS key in an
+ * external key store. For details, see your external key manager documentation.
+ *
+ * Before you create a KMS key in a custom key store, the `ConnectionState`
+ * of the key store must be `CONNECTED`. To connect the custom key store, use
+ * the ConnectCustomKeyStore operation. To find the
+ * `ConnectionState`, use the DescribeCustomKeyStores
  * operation.
  *
- * `ReplicateKey` uses different default values for the `KeyPolicy`
- * and `Tags` parameters than those used in the KMS console. For details, see the
- * parameter descriptions.
+ * To create a KMS key in a custom key store, use the `CustomKeyStoreId`.
+ * Use the default `KeySpec` value, `SYMMETRIC_DEFAULT`, and the
+ * default `KeyUsage` value, `ENCRYPT_DECRYPT` to create a symmetric
+ * encryption key. No other key type is supported in a custom key store.
+ *
+ * To create a KMS key in an CloudHSM key store, use the
+ * `Origin` parameter with a value of `AWS_CLOUDHSM`. The CloudHSM
+ * cluster that is associated with the custom key store must have at least two active HSMs
+ * in different Availability Zones in the Amazon Web Services Region.
+ *
+ * To create a KMS key in an external key store, use the
+ * `Origin` parameter with a value of `EXTERNAL_KEY_STORE` and an
+ * `XksKeyId` parameter that identifies an existing external key.
+ *
+ * Some external key managers provide a simpler method for creating a KMS key in an
+ * external key store. For details, see your external key manager documentation.
  *
  * **Cross-account use**: No. You cannot use this operation to
- * create a replica key in a different Amazon Web Services account.
+ * create a KMS key in a different Amazon Web Services account.
  *
- * **Required permissions**:
+ * **Required permissions**: kms:CreateKey (IAM policy). To use the
+ * `Tags` parameter, kms:TagResource (IAM policy). For examples and information about related
+ * permissions, see Allow a user
+ * to create KMS keys in the *Key Management Service Developer Guide*.
  *
- * - `kms:ReplicateKey` on the primary key (in the primary key's Region).
- * Include this permission in the primary key's key policy.
+ * **Related operations:**
  *
- * - `kms:CreateKey` in an IAM policy in the replica Region.
+ * - DescribeKey
  *
- * - To use the `Tags` parameter, `kms:TagResource` in an IAM policy
- * in the replica Region.
+ * - ListKeys
  *
- * **Related operations**
- *
- * - CreateKey
- *
- * - UpdatePrimaryRegion
+ * - ScheduleKeyDeletion
  *
  * **Eventual consistency**: The KMS API follows an eventual consistency model.
  * For more information, see KMS eventual consistency.
  */
-export const replicateKey: (
-  input: ReplicateKeyRequest,
+export const createKey: (
+  input: CreateKeyRequest,
 ) => effect.Effect<
-  ReplicateKeyResponse,
-  | AlreadyExistsException
+  CreateKeyResponse,
+  | CloudHsmClusterInvalidConfigurationException
+  | CustomKeyStoreInvalidStateException
+  | CustomKeyStoreNotFoundException
+  | DependencyTimeoutException
+  | InvalidArnException
+  | KMSInternalException
+  | LimitExceededException
+  | MalformedPolicyDocumentException
+  | TagException
+  | UnsupportedOperationException
+  | XksKeyAlreadyInUseException
+  | XksKeyInvalidConfigurationException
+  | XksKeyNotFoundException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateKeyRequest,
+  output: CreateKeyResponse,
+  errors: [
+    CloudHsmClusterInvalidConfigurationException,
+    CustomKeyStoreInvalidStateException,
+    CustomKeyStoreNotFoundException,
+    DependencyTimeoutException,
+    InvalidArnException,
+    KMSInternalException,
+    LimitExceededException,
+    MalformedPolicyDocumentException,
+    TagException,
+    UnsupportedOperationException,
+    XksKeyAlreadyInUseException,
+    XksKeyInvalidConfigurationException,
+    XksKeyNotFoundException,
+  ],
+}));
+/**
+ * Decrypts ciphertext that was encrypted by a KMS key using any of the following
+ * operations:
+ *
+ * - Encrypt
+ *
+ * - GenerateDataKey
+ *
+ * - GenerateDataKeyPair
+ *
+ * - GenerateDataKeyWithoutPlaintext
+ *
+ * - GenerateDataKeyPairWithoutPlaintext
+ *
+ * You can use this operation to decrypt ciphertext that was encrypted under a symmetric
+ * encryption KMS key or an asymmetric encryption KMS key. When the KMS key is asymmetric, you
+ * must specify the KMS key and the encryption algorithm that was used to encrypt the ciphertext.
+ * For information about asymmetric KMS keys, see Asymmetric KMS keys in the *Key Management Service Developer Guide*.
+ *
+ * The `Decrypt` operation also decrypts ciphertext that was encrypted outside of
+ * KMS by the public key in an KMS asymmetric KMS key. However, it cannot decrypt symmetric
+ * ciphertext produced by other libraries, such as the Amazon Web Services Encryption SDK or Amazon S3 client-side encryption.
+ * These libraries return a ciphertext format that is incompatible with KMS.
+ *
+ * If the ciphertext was encrypted under a symmetric encryption KMS key, the
+ * `KeyId` parameter is optional. KMS can get this information from metadata that
+ * it adds to the symmetric ciphertext blob. This feature adds durability to your implementation
+ * by ensuring that authorized users can decrypt ciphertext decades after it was encrypted, even
+ * if they've lost track of the key ID. However, specifying the KMS key is always recommended as
+ * a best practice. When you use the `KeyId` parameter to specify a KMS key, KMS
+ * only uses the KMS key you specify. If the ciphertext was encrypted under a different KMS key,
+ * the `Decrypt` operation fails. This practice ensures that you use the KMS key that
+ * you intend.
+ *
+ * Whenever possible, use key policies to give users permission to call the
+ * `Decrypt` operation on a particular KMS key, instead of using IAM policies.
+ * Otherwise, you might create an IAM policy that gives the user `Decrypt`
+ * permission on all KMS keys. This user could decrypt ciphertext that was encrypted by KMS keys
+ * in other accounts if the key policy for the cross-account KMS key permits it. If you must use
+ * an IAM policy for `Decrypt` permissions, limit the user to particular KMS keys or
+ * particular trusted accounts. For details, see Best practices for IAM
+ * policies in the *Key Management Service Developer Guide*.
+ *
+ * `Decrypt` also supports Amazon Web Services Nitro Enclaves and NitroTPM, which
+ * provide attested environments in Amazon EC2. To call `Decrypt` for a Nitro enclave or
+ * NitroTPM, use the Amazon Web Services Nitro Enclaves SDK or any Amazon Web Services SDK. Use the `Recipient`
+ * parameter to provide the attestation document for the attested environment. Instead of the
+ * plaintext data, the response includes the plaintext data encrypted with the public key from
+ * the attestation document (`CiphertextForRecipient`). For information about the interaction between KMS and Amazon Web Services Nitro Enclaves or Amazon Web Services NitroTPM, see Cryptographic attestation support in KMS in the *Key Management Service Developer Guide*.
+ *
+ * The KMS key that you use for this operation must be in a compatible key state. For
+ * details, see Key states of KMS keys in the *Key Management Service Developer Guide*.
+ *
+ * **Cross-account use**: Yes. If you use the `KeyId`
+ * parameter to identify a KMS key in a different Amazon Web Services account, specify the key ARN or the alias
+ * ARN of the KMS key.
+ *
+ * **Required permissions**: kms:Decrypt (key policy)
+ *
+ * **Related operations:**
+ *
+ * - Encrypt
+ *
+ * - GenerateDataKey
+ *
+ * - GenerateDataKeyPair
+ *
+ * - ReEncrypt
+ *
+ * **Eventual consistency**: The KMS API follows an eventual consistency model.
+ * For more information, see KMS eventual consistency.
+ */
+export const decrypt: (
+  input: DecryptRequest,
+) => effect.Effect<
+  DecryptResponse,
+  | DependencyTimeoutException
   | DisabledException
+  | DryRunOperationException
+  | IncorrectKeyException
+  | InvalidCiphertextException
+  | InvalidGrantTokenException
+  | InvalidKeyUsageException
+  | KeyUnavailableException
+  | KMSInternalException
+  | KMSInvalidStateException
+  | NotFoundException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DecryptRequest,
+  output: DecryptResponse,
+  errors: [
+    DependencyTimeoutException,
+    DisabledException,
+    DryRunOperationException,
+    IncorrectKeyException,
+    InvalidCiphertextException,
+    InvalidGrantTokenException,
+    InvalidKeyUsageException,
+    KeyUnavailableException,
+    KMSInternalException,
+    KMSInvalidStateException,
+    NotFoundException,
+  ],
+}));
+/**
+ * Deletes the specified alias.
+ *
+ * Adding, deleting, or updating an alias can allow or deny permission to the KMS key. For details, see ABAC for KMS in the *Key Management Service Developer Guide*.
+ *
+ * Because an alias is not a property of a KMS key, you can delete and change the aliases of
+ * a KMS key without affecting the KMS key. Also, aliases do not appear in the response from the
+ * DescribeKey operation. To get the aliases of all KMS keys, use the ListAliases operation.
+ *
+ * Each KMS key can have multiple aliases. To change the alias of a KMS key, use DeleteAlias to delete the current alias and CreateAlias to
+ * create a new alias. To associate an existing alias with a different KMS key, call UpdateAlias.
+ *
+ * **Cross-account use**: No. You cannot perform this operation on an alias in a different Amazon Web Services account.
+ *
+ * **Required permissions**
+ *
+ * - kms:DeleteAlias on
+ * the alias (IAM policy).
+ *
+ * - kms:DeleteAlias on
+ * the KMS key (key policy).
+ *
+ * For details, see Controlling access to aliases in the
+ * *Key Management Service Developer Guide*.
+ *
+ * **Related operations:**
+ *
+ * - CreateAlias
+ *
+ * - ListAliases
+ *
+ * - UpdateAlias
+ *
+ * **Eventual consistency**: The KMS API follows an eventual consistency model.
+ * For more information, see KMS eventual consistency.
+ */
+export const deleteAlias: (
+  input: DeleteAliasRequest,
+) => effect.Effect<
+  DeleteAliasResponse,
+  | DependencyTimeoutException
+  | KMSInternalException
+  | KMSInvalidStateException
+  | NotFoundException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteAliasRequest,
+  output: DeleteAliasResponse,
+  errors: [
+    DependencyTimeoutException,
+    KMSInternalException,
+    KMSInvalidStateException,
+    NotFoundException,
+  ],
+}));
+/**
+ * Deletes a custom key store. This operation does not affect any backing elements of the
+ * custom key store. It does not delete the CloudHSM cluster that is associated with an CloudHSM key
+ * store, or affect any users or keys in the cluster. For an external key store, it does not
+ * affect the external key store proxy, external key manager, or any external keys.
+ *
+ * This operation is part of the custom key stores feature in KMS, which
+ * combines the convenience and extensive integration of KMS with the isolation and control of a
+ * key store that you own and manage.
+ *
+ * The custom key store that you delete cannot contain any KMS keys. Before deleting the key store,
+ * verify that you will never need to use any of the KMS keys in the key store for any
+ * cryptographic operations. Then, use ScheduleKeyDeletion to delete the KMS keys from the
+ * key store. After the required waiting period expires and all KMS keys are deleted from the
+ * custom key store, use DisconnectCustomKeyStore to disconnect the key store
+ * from KMS. Then, you can delete the custom key store.
+ *
+ * For keys in an CloudHSM key store, the `ScheduleKeyDeletion` operation makes a
+ * best effort to delete the key material from the associated cluster. However, you might need to
+ * manually delete the orphaned key
+ * material from the cluster and its backups. KMS never creates, manages, or deletes
+ * cryptographic keys in the external key manager associated with an external key store. You must
+ * manage them using your external key manager tools.
+ *
+ * Instead of deleting the custom key store, consider using the DisconnectCustomKeyStore operation to disconnect the custom key store from its
+ * backing key store. While the key store is disconnected, you cannot create or use the KMS keys
+ * in the key store. But, you do not need to delete KMS keys and you can reconnect a disconnected
+ * custom key store at any time.
+ *
+ * If the operation succeeds, it returns a JSON object with no
+ * properties.
+ *
+ * **Cross-account use**: No. You cannot perform this operation on a custom key store in a different Amazon Web Services account.
+ *
+ * **Required permissions**: kms:DeleteCustomKeyStore (IAM policy)
+ *
+ * **Related operations:**
+ *
+ * - ConnectCustomKeyStore
+ *
+ * - CreateCustomKeyStore
+ *
+ * - DescribeCustomKeyStores
+ *
+ * - DisconnectCustomKeyStore
+ *
+ * - UpdateCustomKeyStore
+ *
+ * **Eventual consistency**: The KMS API follows an eventual consistency model.
+ * For more information, see KMS eventual consistency.
+ */
+export const deleteCustomKeyStore: (
+  input: DeleteCustomKeyStoreRequest,
+) => effect.Effect<
+  DeleteCustomKeyStoreResponse,
+  | CustomKeyStoreHasCMKsException
+  | CustomKeyStoreInvalidStateException
+  | CustomKeyStoreNotFoundException
+  | KMSInternalException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteCustomKeyStoreRequest,
+  output: DeleteCustomKeyStoreResponse,
+  errors: [
+    CustomKeyStoreHasCMKsException,
+    CustomKeyStoreInvalidStateException,
+    CustomKeyStoreNotFoundException,
+    KMSInternalException,
+  ],
+}));
+/**
+ * Deletes key material that was previously imported. This operation makes the specified KMS
+ * key temporarily unusable. To restore the usability of the KMS key, reimport the same key
+ * material. For more information about importing key material into KMS, see Importing Key Material
+ * in the *Key Management Service Developer Guide*.
+ *
+ * When the specified KMS key is in the `PendingDeletion` state, this operation
+ * does not change the KMS key's state. Otherwise, it changes the KMS key's state to
+ * `PendingImport`.
+ *
+ * **Considerations for multi-Region symmetric encryption keys**
+ *
+ * - When you delete the key material of a primary Region key that is in
+ * `PENDING_ROTATION` or `PENDING_MULTI_REGION_IMPORT_AND_ROTATION`state,
+ * you'll also be deleting the key materials for the replica Region keys.
+ *
+ * - If you delete any key material of a replica Region key, the primary Region key and
+ * other replica Region keys remain unchanged.
+ *
+ * The KMS key that you use for this operation must be in a compatible key state. For
+ * details, see Key states of KMS keys in the *Key Management Service Developer Guide*.
+ *
+ * **Cross-account use**: No. You cannot perform this operation on a KMS key in a different Amazon Web Services account.
+ *
+ * **Required permissions**: kms:DeleteImportedKeyMaterial (key policy)
+ *
+ * **Related operations:**
+ *
+ * - GetParametersForImport
+ *
+ * - ListKeyRotations
+ *
+ * - ImportKeyMaterial
+ *
+ * **Eventual consistency**: The KMS API follows an eventual consistency model.
+ * For more information, see KMS eventual consistency.
+ */
+export const deleteImportedKeyMaterial: (
+  input: DeleteImportedKeyMaterialRequest,
+) => effect.Effect<
+  DeleteImportedKeyMaterialResponse,
+  | DependencyTimeoutException
   | InvalidArnException
   | KMSInternalException
   | KMSInvalidStateException
-  | LimitExceededException
-  | MalformedPolicyDocumentException
   | NotFoundException
-  | TagException
   | UnsupportedOperationException
   | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ReplicateKeyRequest,
-  output: ReplicateKeyResponse,
+  input: DeleteImportedKeyMaterialRequest,
+  output: DeleteImportedKeyMaterialResponse,
   errors: [
-    AlreadyExistsException,
-    DisabledException,
+    DependencyTimeoutException,
     InvalidArnException,
     KMSInternalException,
     KMSInvalidStateException,
-    LimitExceededException,
-    MalformedPolicyDocumentException,
     NotFoundException,
-    TagException,
     UnsupportedOperationException,
   ],
 }));
@@ -5609,6 +3876,465 @@ export const deriveSharedSecret: (
     KMSInternalException,
     KMSInvalidStateException,
     NotFoundException,
+  ],
+}));
+/**
+ * Gets information about custom key stores in the account and Region.
+ *
+ * This operation is part of the custom key stores feature in KMS, which
+ * combines the convenience and extensive integration of KMS with the isolation and control of a
+ * key store that you own and manage.
+ *
+ * By default, this operation returns information about all custom key stores in the account
+ * and Region. To get only information about a particular custom key store, use either the
+ * `CustomKeyStoreName` or `CustomKeyStoreId` parameter (but not
+ * both).
+ *
+ * To determine whether the custom key store is connected to its CloudHSM cluster or external
+ * key store proxy, use the `ConnectionState` element in the response. If an attempt
+ * to connect the custom key store failed, the `ConnectionState` value is
+ * `FAILED` and the `ConnectionErrorCode` element in the response
+ * indicates the cause of the failure. For help interpreting the
+ * `ConnectionErrorCode`, see CustomKeyStoresListEntry.
+ *
+ * Custom key stores have a `DISCONNECTED` connection state if the key store has
+ * never been connected or you used the DisconnectCustomKeyStore operation to
+ * disconnect it. Otherwise, the connection state is CONNECTED. If your custom key store
+ * connection state is `CONNECTED` but you are having trouble using it, verify that
+ * the backing store is active and available. For an CloudHSM key store, verify that the associated
+ * CloudHSM cluster is active and contains the minimum number of HSMs required for the operation, if
+ * any. For an external key store, verify that the external key store proxy and its associated
+ * external key manager are reachable and enabled.
+ *
+ * For help repairing your CloudHSM key store, see the Troubleshooting CloudHSM key stores. For help
+ * repairing your external key store, see the Troubleshooting external key stores.
+ * Both topics are in the *Key Management Service Developer Guide*.
+ *
+ * **Cross-account use**: No. You cannot perform this operation on a custom key store in a different Amazon Web Services account.
+ *
+ * **Required permissions**: kms:DescribeCustomKeyStores (IAM policy)
+ *
+ * **Related operations:**
+ *
+ * - ConnectCustomKeyStore
+ *
+ * - CreateCustomKeyStore
+ *
+ * - DeleteCustomKeyStore
+ *
+ * - DisconnectCustomKeyStore
+ *
+ * - UpdateCustomKeyStore
+ *
+ * **Eventual consistency**: The KMS API follows an eventual consistency model.
+ * For more information, see KMS eventual consistency.
+ */
+export const describeCustomKeyStores: {
+  (
+    input: DescribeCustomKeyStoresRequest,
+  ): effect.Effect<
+    DescribeCustomKeyStoresResponse,
+    | CustomKeyStoreNotFoundException
+    | InvalidMarkerException
+    | KMSInternalException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeCustomKeyStoresRequest,
+  ) => stream.Stream<
+    DescribeCustomKeyStoresResponse,
+    | CustomKeyStoreNotFoundException
+    | InvalidMarkerException
+    | KMSInternalException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeCustomKeyStoresRequest,
+  ) => stream.Stream<
+    CustomKeyStoresListEntry,
+    | CustomKeyStoreNotFoundException
+    | InvalidMarkerException
+    | KMSInternalException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeCustomKeyStoresRequest,
+  output: DescribeCustomKeyStoresResponse,
+  errors: [
+    CustomKeyStoreNotFoundException,
+    InvalidMarkerException,
+    KMSInternalException,
+  ],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "NextMarker",
+    items: "CustomKeyStores",
+    pageSize: "Limit",
+  } as const,
+}));
+/**
+ * Provides detailed information about a KMS key. You can run `DescribeKey` on a
+ * customer
+ * managed key or an Amazon Web Services managed key.
+ *
+ * This detailed information includes the key ARN, creation date (and deletion date, if
+ * applicable), the key state, and the origin and expiration date (if any) of the key material.
+ * It includes fields, like `KeySpec`, that help you distinguish different types of
+ * KMS keys. It also displays the key usage (encryption, signing, or generating and verifying
+ * MACs) and the algorithms that the KMS key supports.
+ *
+ * For multi-Region keys, `DescribeKey` displays the primary key and all
+ * related replica keys. For KMS keys in CloudHSM key stores, it includes information
+ * about the key store, such as the key store ID and the CloudHSM cluster ID. For KMS keys in external key stores,
+ * it includes the custom key store ID and the ID of the external key.
+ *
+ * `DescribeKey` does not return the following information:
+ *
+ * - Aliases associated with the KMS key. To get this information, use ListAliases.
+ *
+ * - Whether automatic key rotation is enabled on the KMS key. To get this information, use
+ * GetKeyRotationStatus. Also, some key states prevent a KMS key from
+ * being automatically rotated. For details, see How key rotation
+ * works in the *Key Management Service Developer Guide*.
+ *
+ * - Tags on the KMS key. To get this information, use ListResourceTags.
+ *
+ * - Key policies and grants on the KMS key. To get this information, use GetKeyPolicy and ListGrants.
+ *
+ * In general, `DescribeKey` is a non-mutating operation. It returns data about
+ * KMS keys, but doesn't change them. However, Amazon Web Services services use `DescribeKey` to
+ * create Amazon Web Services
+ * managed keys from a *predefined Amazon Web Services alias* with no key
+ * ID.
+ *
+ * **Cross-account use**: Yes. To perform this operation with a KMS key in a different Amazon Web Services account, specify
+ * the key ARN or alias ARN in the value of the `KeyId` parameter.
+ *
+ * **Required permissions**: kms:DescribeKey (key policy)
+ *
+ * **Related operations:**
+ *
+ * - GetKeyPolicy
+ *
+ * - GetKeyRotationStatus
+ *
+ * - ListAliases
+ *
+ * - ListGrants
+ *
+ * - ListKeys
+ *
+ * - ListResourceTags
+ *
+ * - ListRetirableGrants
+ *
+ * **Eventual consistency**: The KMS API follows an eventual consistency model.
+ * For more information, see KMS eventual consistency.
+ */
+export const describeKey: (
+  input: DescribeKeyRequest,
+) => effect.Effect<
+  DescribeKeyResponse,
+  | DependencyTimeoutException
+  | InvalidArnException
+  | KMSInternalException
+  | NotFoundException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeKeyRequest,
+  output: DescribeKeyResponse,
+  errors: [
+    DependencyTimeoutException,
+    InvalidArnException,
+    KMSInternalException,
+    NotFoundException,
+  ],
+}));
+/**
+ * Sets the state of a KMS key to disabled. This change temporarily prevents use of the KMS
+ * key for cryptographic operations.
+ *
+ * The KMS key that you use for this operation must be in a compatible key state. For more
+ * information about how key state affects the use of a KMS key, see Key states of KMS keys in the
+ *
+ * *Key Management Service Developer Guide*
+ * .
+ *
+ * **Cross-account use**: No. You cannot perform this operation on a KMS key in a different Amazon Web Services account.
+ *
+ * **Required permissions**: kms:DisableKey (key policy)
+ *
+ * **Related operations**: EnableKey
+ *
+ * **Eventual consistency**: The KMS API follows an eventual consistency model.
+ * For more information, see KMS eventual consistency.
+ */
+export const disableKey: (
+  input: DisableKeyRequest,
+) => effect.Effect<
+  DisableKeyResponse,
+  | DependencyTimeoutException
+  | InvalidArnException
+  | KMSInternalException
+  | KMSInvalidStateException
+  | NotFoundException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisableKeyRequest,
+  output: DisableKeyResponse,
+  errors: [
+    DependencyTimeoutException,
+    InvalidArnException,
+    KMSInternalException,
+    KMSInvalidStateException,
+    NotFoundException,
+  ],
+}));
+/**
+ * Disables automatic rotation of the key material of the specified symmetric encryption KMS
+ * key.
+ *
+ * Automatic key rotation is supported only on symmetric encryption KMS keys.
+ * You cannot enable automatic rotation of asymmetric KMS keys, HMAC KMS keys, KMS keys with imported key material, or KMS keys in a custom key store. To enable or disable automatic rotation of a set of related multi-Region keys, set the property on the primary key.
+ *
+ * You can enable (EnableKeyRotation) and disable automatic rotation of the
+ * key material in customer managed KMS keys. Key material rotation of Amazon Web Services managed KMS keys is not
+ * configurable. KMS always rotates the key material for every year. Rotation of Amazon Web Services owned KMS
+ * keys varies.
+ *
+ * In May 2022, KMS changed the rotation schedule for Amazon Web Services managed keys from every three
+ * years to every year. For details, see EnableKeyRotation.
+ *
+ * The KMS key that you use for this operation must be in a compatible key state. For
+ * details, see Key states of KMS keys in the *Key Management Service Developer Guide*.
+ *
+ * **Cross-account use**: No. You cannot perform this operation on a KMS key in a different Amazon Web Services account.
+ *
+ * **Required permissions**: kms:DisableKeyRotation (key policy)
+ *
+ * **Related operations:**
+ *
+ * - EnableKeyRotation
+ *
+ * - GetKeyRotationStatus
+ *
+ * - ListKeyRotations
+ *
+ * - RotateKeyOnDemand
+ *
+ * **Eventual consistency**: The KMS API follows an eventual consistency model.
+ * For more information, see KMS eventual consistency.
+ */
+export const disableKeyRotation: (
+  input: DisableKeyRotationRequest,
+) => effect.Effect<
+  DisableKeyRotationResponse,
+  | DependencyTimeoutException
+  | DisabledException
+  | InvalidArnException
+  | KMSInternalException
+  | KMSInvalidStateException
+  | NotFoundException
+  | UnsupportedOperationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisableKeyRotationRequest,
+  output: DisableKeyRotationResponse,
+  errors: [
+    DependencyTimeoutException,
+    DisabledException,
+    InvalidArnException,
+    KMSInternalException,
+    KMSInvalidStateException,
+    NotFoundException,
+    UnsupportedOperationException,
+  ],
+}));
+/**
+ * Disconnects the custom key store from its backing key store. This operation disconnects an
+ * CloudHSM key store from its associated CloudHSM cluster or disconnects an external key store from
+ * the external key store proxy that communicates with your external key manager.
+ *
+ * This operation is part of the custom key stores feature in KMS, which
+ * combines the convenience and extensive integration of KMS with the isolation and control of a
+ * key store that you own and manage.
+ *
+ * While a custom key store is disconnected, you can manage the custom key store and its KMS
+ * keys, but you cannot create or use its KMS keys. You can reconnect the custom key store at any
+ * time.
+ *
+ * While a custom key store is disconnected, all attempts to create KMS keys in the custom key store or to use existing KMS keys in cryptographic operations will
+ * fail. This action can prevent users from storing and accessing sensitive data.
+ *
+ * When you disconnect a custom key store, its `ConnectionState` changes to
+ * `Disconnected`. To find the connection state of a custom key store, use the DescribeCustomKeyStores operation. To reconnect a custom key store, use the
+ * ConnectCustomKeyStore operation.
+ *
+ * If the operation succeeds, it returns a JSON object with no
+ * properties.
+ *
+ * **Cross-account use**: No. You cannot perform this operation on a custom key store in a different Amazon Web Services account.
+ *
+ * **Required permissions**: kms:DisconnectCustomKeyStore (IAM policy)
+ *
+ * **Related operations:**
+ *
+ * - ConnectCustomKeyStore
+ *
+ * - CreateCustomKeyStore
+ *
+ * - DeleteCustomKeyStore
+ *
+ * - DescribeCustomKeyStores
+ *
+ * - UpdateCustomKeyStore
+ *
+ * **Eventual consistency**: The KMS API follows an eventual consistency model.
+ * For more information, see KMS eventual consistency.
+ */
+export const disconnectCustomKeyStore: (
+  input: DisconnectCustomKeyStoreRequest,
+) => effect.Effect<
+  DisconnectCustomKeyStoreResponse,
+  | CustomKeyStoreInvalidStateException
+  | CustomKeyStoreNotFoundException
+  | KMSInternalException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisconnectCustomKeyStoreRequest,
+  output: DisconnectCustomKeyStoreResponse,
+  errors: [
+    CustomKeyStoreInvalidStateException,
+    CustomKeyStoreNotFoundException,
+    KMSInternalException,
+  ],
+}));
+/**
+ * Sets the key state of a KMS key to enabled. This allows you to use the KMS key for
+ * cryptographic operations.
+ *
+ * The KMS key that you use for this operation must be in a compatible key state. For
+ * details, see Key states of KMS keys in the *Key Management Service Developer Guide*.
+ *
+ * **Cross-account use**: No. You cannot perform this operation on a KMS key in a different Amazon Web Services account.
+ *
+ * **Required permissions**: kms:EnableKey (key policy)
+ *
+ * **Related operations**: DisableKey
+ *
+ * **Eventual consistency**: The KMS API follows an eventual consistency model.
+ * For more information, see KMS eventual consistency.
+ */
+export const enableKey: (
+  input: EnableKeyRequest,
+) => effect.Effect<
+  EnableKeyResponse,
+  | DependencyTimeoutException
+  | InvalidArnException
+  | KMSInternalException
+  | KMSInvalidStateException
+  | LimitExceededException
+  | NotFoundException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: EnableKeyRequest,
+  output: EnableKeyResponse,
+  errors: [
+    DependencyTimeoutException,
+    InvalidArnException,
+    KMSInternalException,
+    KMSInvalidStateException,
+    LimitExceededException,
+    NotFoundException,
+  ],
+}));
+/**
+ * Enables automatic rotation of the key material of the specified symmetric encryption KMS
+ * key.
+ *
+ * By default, when you enable automatic rotation of a customer managed KMS key, KMS
+ * rotates the key material of the KMS key one year (approximately 365 days) from the enable date
+ * and every year thereafter. You can use the optional `RotationPeriodInDays`
+ * parameter to specify a custom rotation period when you enable key rotation, or you can use
+ * `RotationPeriodInDays` to modify the rotation period of a key that you previously
+ * enabled automatic key rotation on.
+ *
+ * You can monitor rotation of the key material for your KMS keys in CloudTrail and Amazon CloudWatch. To disable rotation of the key material in a customer managed KMS key, use
+ * the DisableKeyRotation operation. You can use the GetKeyRotationStatus operation to identify any in progress rotations. You can
+ * use the ListKeyRotations operation to view the details of completed
+ * rotations.
+ *
+ * Automatic key rotation is supported only on symmetric encryption KMS keys. You cannot enable automatic rotation of asymmetric KMS keys, HMAC KMS keys, KMS keys with imported key material, or KMS keys in a custom key store. To enable or disable automatic rotation of a set of related multi-Region keys, set the property on the primary key.
+ *
+ * You cannot enable or disable automatic rotation of Amazon Web Services managed KMS keys. KMS
+ * always rotates the key material of Amazon Web Services managed keys every year. Rotation of Amazon Web Services owned KMS
+ * keys is managed by the Amazon Web Services service that owns the key.
+ *
+ * In May 2022, KMS changed the rotation schedule for Amazon Web Services managed keys from every three
+ * years (approximately 1,095 days) to every year (approximately 365 days).
+ *
+ * New Amazon Web Services managed keys are automatically rotated one year after they are created, and
+ * approximately every year thereafter.
+ *
+ * Existing Amazon Web Services managed keys are automatically rotated one year after their most recent
+ * rotation, and every year thereafter.
+ *
+ * The KMS key that you use for this operation must be in a compatible key state. For
+ * details, see Key states of KMS keys in the *Key Management Service Developer Guide*.
+ *
+ * **Cross-account use**: No. You cannot perform this operation on a KMS key in a different Amazon Web Services account.
+ *
+ * **Required permissions**: kms:EnableKeyRotation (key policy)
+ *
+ * **Related operations:**
+ *
+ * - DisableKeyRotation
+ *
+ * - GetKeyRotationStatus
+ *
+ * - ListKeyRotations
+ *
+ * - RotateKeyOnDemand
+ *
+ * You can perform on-demand (RotateKeyOnDemand) rotation of the key
+ * material in customer managed KMS keys, regardless of whether or not automatic key
+ * rotation is enabled.
+ *
+ * **Eventual consistency**: The KMS API follows an eventual consistency model.
+ * For more information, see KMS eventual consistency.
+ */
+export const enableKeyRotation: (
+  input: EnableKeyRotationRequest,
+) => effect.Effect<
+  EnableKeyRotationResponse,
+  | DependencyTimeoutException
+  | DisabledException
+  | InvalidArnException
+  | KMSInternalException
+  | KMSInvalidStateException
+  | NotFoundException
+  | UnsupportedOperationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: EnableKeyRotationRequest,
+  output: EnableKeyRotationResponse,
+  errors: [
+    DependencyTimeoutException,
+    DisabledException,
+    InvalidArnException,
+    KMSInternalException,
+    KMSInvalidStateException,
+    NotFoundException,
+    UnsupportedOperationException,
   ],
 }));
 /**
@@ -6188,44 +4914,295 @@ export const generateMac: (
   ],
 }));
 /**
- * Creates a digital
- * signature for a message or message digest by using the private key in an asymmetric
- * signing KMS key. To verify the signature, use the Verify operation, or use
- * the public key in the same asymmetric KMS key outside of KMS. For information about asymmetric KMS keys, see Asymmetric KMS keys in the *Key Management Service Developer Guide*.
+ * Returns a random byte string that is cryptographically secure.
  *
- * Digital signatures are generated and verified by using asymmetric key pair, such as an
- * RSA, ECC, or ML-DSA pair that is represented by an asymmetric KMS key. The key owner (or an
- * authorized user) uses their private key to sign a message. Anyone with the public key can
- * verify that the message was signed with that particular private key and that the message
- * hasn't changed since it was signed.
+ * You must use the `NumberOfBytes` parameter to specify the length of the random
+ * byte string. There is no default value for string length.
  *
- * To use the `Sign` operation, provide the following information:
+ * By default, the random byte string is generated in KMS. To generate the byte string in
+ * the CloudHSM cluster associated with an CloudHSM key store, use the `CustomKeyStoreId`
+ * parameter.
  *
- * - Use the `KeyId` parameter to identify an asymmetric KMS key with a
- * `KeyUsage` value of `SIGN_VERIFY`. To get the
- * `KeyUsage` value of a KMS key, use the DescribeKey
- * operation. The caller must have `kms:Sign` permission on the KMS key.
+ * `GenerateRandom` also supports Amazon Web Services Nitro Enclaves, which provide an
+ * isolated compute environment in Amazon EC2. To call `GenerateRandom` for a Nitro enclave
+ * or NitroTPM, use the Amazon Web Services Nitro Enclaves SDK or any Amazon Web Services SDK. Use the `Recipient`
+ * parameter to provide the attestation document for the attested environment. Instead of
+ * plaintext bytes, the response includes the plaintext bytes encrypted under the public key from
+ * the attestation document (`CiphertextForRecipient`). For information about the interaction between KMS and Amazon Web Services Nitro Enclaves or Amazon Web Services NitroTPM, see Cryptographic attestation support in KMS in the *Key Management Service Developer Guide*.
  *
- * - Use the `Message` parameter to specify the message or message digest to
- * sign. You can submit messages of up to 4096 bytes. To sign a larger message, generate a
- * hash digest of the message, and then provide the hash digest in the `Message`
- * parameter. To indicate whether the message is a full message, a digest, or an ML-DSA
- * EXTERNAL_MU, use the `MessageType` parameter.
+ * For more information about entropy and random number generation, see Entropy and random number generation in the *Key Management Service Developer Guide*.
  *
- * - Choose a signing algorithm that is compatible with the KMS key.
+ * **Cross-account use**: Not applicable.
+ * `GenerateRandom` does not use any account-specific resources, such as KMS
+ * keys.
  *
- * When signing a message, be sure to record the KMS key and the signing algorithm. This
- * information is required to verify the signature.
+ * **Required permissions**: kms:GenerateRandom (IAM policy)
  *
- * Best practices recommend that you limit the time during which any signature is
- * effective. This deters an attack where the actor uses a signed message to establish validity
- * repeatedly or long after the message is superseded. Signatures do not include a timestamp,
- * but you can include a timestamp in the signed message to help you detect when its time to
- * refresh the signature.
+ * **Eventual consistency**: The KMS API follows an eventual consistency model.
+ * For more information, see KMS eventual consistency.
+ */
+export const generateRandom: (
+  input: GenerateRandomRequest,
+) => effect.Effect<
+  GenerateRandomResponse,
+  | CustomKeyStoreInvalidStateException
+  | CustomKeyStoreNotFoundException
+  | DependencyTimeoutException
+  | KMSInternalException
+  | UnsupportedOperationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GenerateRandomRequest,
+  output: GenerateRandomResponse,
+  errors: [
+    CustomKeyStoreInvalidStateException,
+    CustomKeyStoreNotFoundException,
+    DependencyTimeoutException,
+    KMSInternalException,
+    UnsupportedOperationException,
+  ],
+}));
+/**
+ * Gets a key policy attached to the specified KMS key.
  *
- * To verify the signature that this operation generates, use the Verify
- * operation. Or use the GetPublicKey operation to download the public key and
- * then use the public key to verify the signature outside of KMS.
+ * **Cross-account use**: No. You cannot perform this operation on a KMS key in a different Amazon Web Services account.
+ *
+ * **Required permissions**: kms:GetKeyPolicy (key policy)
+ *
+ * **Related operations**: PutKeyPolicy
+ *
+ * **Eventual consistency**: The KMS API follows an eventual consistency model.
+ * For more information, see KMS eventual consistency.
+ */
+export const getKeyPolicy: (
+  input: GetKeyPolicyRequest,
+) => effect.Effect<
+  GetKeyPolicyResponse,
+  | DependencyTimeoutException
+  | InvalidArnException
+  | KMSInternalException
+  | KMSInvalidStateException
+  | NotFoundException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetKeyPolicyRequest,
+  output: GetKeyPolicyResponse,
+  errors: [
+    DependencyTimeoutException,
+    InvalidArnException,
+    KMSInternalException,
+    KMSInvalidStateException,
+    NotFoundException,
+  ],
+}));
+/**
+ * Provides detailed information about the rotation status for a KMS key, including whether
+ * automatic
+ * rotation of the key material is enabled for the specified KMS key, the rotation
+ * period, and the next scheduled rotation date.
+ *
+ * Automatic key rotation is supported only on symmetric encryption KMS keys.
+ * You cannot enable automatic rotation of asymmetric KMS keys, HMAC KMS keys, KMS keys with imported key material, or KMS keys in a custom key store. To enable or disable automatic rotation of a set of related multi-Region keys, set the property on the primary key.
+ *
+ * You can enable (EnableKeyRotation) and disable automatic rotation (DisableKeyRotation) of the key material in customer managed KMS keys. Key
+ * material rotation of Amazon Web Services managed KMS keys is not
+ * configurable. KMS always rotates the key material in Amazon Web Services managed KMS keys every year. The
+ * key rotation status for Amazon Web Services managed KMS keys is always `true`.
+ *
+ * You can perform on-demand (RotateKeyOnDemand) rotation of the key
+ * material in customer managed KMS keys, regardless of whether or not automatic key rotation is
+ * enabled. You can use GetKeyRotationStatus to identify the date and time that an in progress
+ * on-demand rotation was initiated. You can use ListKeyRotations to view the
+ * details of completed rotations.
+ *
+ * In May 2022, KMS changed the rotation schedule for Amazon Web Services managed keys from every three
+ * years to every year. For details, see EnableKeyRotation.
+ *
+ * The KMS key that you use for this operation must be in a compatible key state. For
+ * details, see Key states of KMS keys in the *Key Management Service Developer Guide*.
+ *
+ * - Disabled: The key rotation status does not change when you disable a KMS key. However,
+ * while the KMS key is disabled, KMS does not rotate the key material. When you re-enable
+ * the KMS key, rotation resumes. If the key material in the re-enabled KMS key hasn't been
+ * rotated in one year, KMS rotates it immediately, and every year thereafter. If it's been
+ * less than a year since the key material in the re-enabled KMS key was rotated, the KMS key
+ * resumes its prior rotation schedule.
+ *
+ * - Pending deletion: While a KMS key is pending deletion, its key rotation status is
+ * `false` and KMS does not rotate the key material. If you cancel the
+ * deletion, the original key rotation status returns to `true`.
+ *
+ * **Cross-account use**: Yes. To perform this operation on a KMS key in a different Amazon Web Services account, specify the key
+ * ARN in the value of the `KeyId` parameter.
+ *
+ * **Required permissions**: kms:GetKeyRotationStatus (key policy)
+ *
+ * **Related operations:**
+ *
+ * - DisableKeyRotation
+ *
+ * - EnableKeyRotation
+ *
+ * - ListKeyRotations
+ *
+ * - RotateKeyOnDemand
+ *
+ * **Eventual consistency**: The KMS API follows an eventual consistency model.
+ * For more information, see KMS eventual consistency.
+ */
+export const getKeyRotationStatus: (
+  input: GetKeyRotationStatusRequest,
+) => effect.Effect<
+  GetKeyRotationStatusResponse,
+  | DependencyTimeoutException
+  | InvalidArnException
+  | KMSInternalException
+  | KMSInvalidStateException
+  | NotFoundException
+  | UnsupportedOperationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetKeyRotationStatusRequest,
+  output: GetKeyRotationStatusResponse,
+  errors: [
+    DependencyTimeoutException,
+    InvalidArnException,
+    KMSInternalException,
+    KMSInvalidStateException,
+    NotFoundException,
+    UnsupportedOperationException,
+  ],
+}));
+/**
+ * Returns the public key and an import token you need to import or reimport key material for
+ * a KMS key.
+ *
+ * By default, KMS keys are created with key material that KMS generates. This operation
+ * supports Importing key
+ * material, an advanced feature that lets you generate and import the cryptographic
+ * key material for a KMS key.
+ *
+ * Before calling `GetParametersForImport`, use the CreateKey
+ * operation with an `Origin` value of `EXTERNAL` to create a KMS key with
+ * no key material. You can import key material for a symmetric encryption KMS key, HMAC KMS key,
+ * asymmetric encryption KMS key, or asymmetric signing KMS key. You can also import key material
+ * into a multi-Region key of any supported type. However, you can't import key material into
+ * a KMS key in a custom
+ * key store. You can also use `GetParametersForImport` to get a public key
+ * and import token to reimport
+ * the original key material into a KMS key whose key material expired or was
+ * deleted.
+ *
+ * `GetParametersForImport` returns the items that you need to import your key
+ * material.
+ *
+ * - The public key (or "wrapping key") of an RSA key pair that KMS generates.
+ *
+ * You will use this public key to encrypt ("wrap") your key material while it's in
+ * transit to KMS.
+ *
+ * - A import token that ensures that KMS can decrypt your key material and associate it
+ * with the correct KMS key.
+ *
+ * The public key and its import token are permanently linked and must be used together. Each
+ * public key and import token set is valid for 24 hours. The expiration date and time appear in
+ * the `ParametersValidTo` field in the `GetParametersForImport` response.
+ * You cannot use an expired public key or import token in an ImportKeyMaterial
+ * request. If your key and token expire, send another `GetParametersForImport`
+ * request.
+ *
+ * `GetParametersForImport` requires the following information:
+ *
+ * - The key ID of the KMS key for which you are importing the key material.
+ *
+ * - The key spec of the public key ("wrapping key") that you will use to encrypt your key
+ * material during import.
+ *
+ * - The wrapping algorithm that you will use with the public key to encrypt your key
+ * material.
+ *
+ * You can use the same or a different public key spec and wrapping algorithm each time you
+ * import or reimport the same key material.
+ *
+ * The KMS key that you use for this operation must be in a compatible key state. For
+ * details, see Key states of KMS keys in the *Key Management Service Developer Guide*.
+ *
+ * **Cross-account use**: No. You cannot perform this operation on a KMS key in a different Amazon Web Services account.
+ *
+ * **Required permissions**: kms:GetParametersForImport (key policy)
+ *
+ * **Related operations:**
+ *
+ * - ImportKeyMaterial
+ *
+ * - DeleteImportedKeyMaterial
+ *
+ * **Eventual consistency**: The KMS API follows an eventual consistency model.
+ * For more information, see KMS eventual consistency.
+ */
+export const getParametersForImport: (
+  input: GetParametersForImportRequest,
+) => effect.Effect<
+  GetParametersForImportResponse,
+  | DependencyTimeoutException
+  | InvalidArnException
+  | KMSInternalException
+  | KMSInvalidStateException
+  | NotFoundException
+  | UnsupportedOperationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetParametersForImportRequest,
+  output: GetParametersForImportResponse,
+  errors: [
+    DependencyTimeoutException,
+    InvalidArnException,
+    KMSInternalException,
+    KMSInvalidStateException,
+    NotFoundException,
+    UnsupportedOperationException,
+  ],
+}));
+/**
+ * Returns the public key of an asymmetric KMS key. Unlike the private key of a asymmetric
+ * KMS key, which never leaves KMS unencrypted, callers with `kms:GetPublicKey`
+ * permission can download the public key of an asymmetric KMS key. You can share the public key
+ * to allow others to encrypt messages and verify signatures outside of KMS.
+ * For information about asymmetric KMS keys, see Asymmetric KMS keys in the *Key Management Service Developer Guide*.
+ *
+ * You do not need to download the public key. Instead, you can use the public key within
+ * KMS by calling the Encrypt, ReEncrypt, or Verify operations with the identifier of an asymmetric KMS key. When you use the
+ * public key within KMS, you benefit from the authentication, authorization, and logging that
+ * are part of every KMS operation. You also reduce of risk of encrypting data that cannot be
+ * decrypted. These features are not effective outside of KMS.
+ *
+ * To help you use the public key safely outside of KMS, `GetPublicKey` returns
+ * important information about the public key in the response, including:
+ *
+ * - KeySpec: The type of key material in the public key, such as
+ * `RSA_4096` or `ECC_NIST_P521`.
+ *
+ * - KeyUsage: Whether the key is used for encryption, signing, or deriving a shared
+ * secret.
+ *
+ * - EncryptionAlgorithms, KeyAgreementAlgorithms, or SigningAlgorithms: A list of the encryption algorithms, key agreement
+ * algorithms, or signing algorithms for the key.
+ *
+ * Although KMS cannot enforce these restrictions on external operations, it is crucial
+ * that you use this information to prevent the public key from being used improperly. For
+ * example, you can prevent a public signing key from being used encrypt data, or prevent a
+ * public key from being used with an encryption algorithm that is not supported by KMS. You
+ * can also avoid errors, such as using the wrong signing algorithm in a verification
+ * operation.
+ *
+ * To verify a signature outside of KMS with an SM2 public key (China Regions only), you
+ * must specify the distinguishing ID. By default, KMS uses `1234567812345678` as
+ * the distinguishing ID. For more information, see Offline
+ * verification with SM2 key pairs.
  *
  * The KMS key that you use for this operation must be in a compatible key state. For
  * details, see Key states of KMS keys in the *Key Management Service Developer Guide*.
@@ -6233,256 +5210,43 @@ export const generateMac: (
  * **Cross-account use**: Yes. To perform this operation with a KMS key in a different Amazon Web Services account, specify
  * the key ARN or alias ARN in the value of the `KeyId` parameter.
  *
- * **Required permissions**: kms:Sign (key policy)
+ * **Required permissions**: kms:GetPublicKey (key policy)
  *
- * **Related operations**: Verify
+ * **Related operations**: CreateKey
  *
  * **Eventual consistency**: The KMS API follows an eventual consistency model.
  * For more information, see KMS eventual consistency.
  */
-export const sign: (
-  input: SignRequest,
+export const getPublicKey: (
+  input: GetPublicKeyRequest,
 ) => effect.Effect<
-  SignResponse,
+  GetPublicKeyResponse,
   | DependencyTimeoutException
   | DisabledException
-  | DryRunOperationException
+  | InvalidArnException
   | InvalidGrantTokenException
   | InvalidKeyUsageException
   | KeyUnavailableException
   | KMSInternalException
   | KMSInvalidStateException
   | NotFoundException
+  | UnsupportedOperationException
   | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: SignRequest,
-  output: SignResponse,
+  input: GetPublicKeyRequest,
+  output: GetPublicKeyResponse,
   errors: [
     DependencyTimeoutException,
     DisabledException,
-    DryRunOperationException,
+    InvalidArnException,
     InvalidGrantTokenException,
     InvalidKeyUsageException,
     KeyUnavailableException,
     KMSInternalException,
     KMSInvalidStateException,
     NotFoundException,
-  ],
-}));
-/**
- * Decrypts ciphertext and then reencrypts it entirely within KMS. You can use this
- * operation to change the KMS key under which data is encrypted, such as when you manually rotate a
- * KMS key or change the KMS key that protects a ciphertext. You can also use it to reencrypt
- * ciphertext under the same KMS key, such as to change the encryption context of a ciphertext.
- *
- * The `ReEncrypt` operation can decrypt ciphertext that was encrypted by using a
- * KMS key in an KMS operation, such as Encrypt or GenerateDataKey. It can also decrypt ciphertext that was encrypted by using the
- * public key of an asymmetric KMS key outside of KMS. However, it cannot decrypt ciphertext produced
- * by other libraries, such as the Amazon Web Services
- * Encryption SDK or Amazon S3 client-side encryption.
- * These libraries return a ciphertext format that is incompatible with KMS.
- *
- * When you use the `ReEncrypt` operation, you need to provide information for the
- * decrypt operation and the subsequent encrypt operation.
- *
- * - If your ciphertext was encrypted under an asymmetric KMS key, you must use the
- * `SourceKeyId` parameter to identify the KMS key that encrypted the
- * ciphertext. You must also supply the encryption algorithm that was used. This information
- * is required to decrypt the data.
- *
- * - If your ciphertext was encrypted under a symmetric encryption KMS key, the
- * `SourceKeyId` parameter is optional. KMS can get this information from
- * metadata that it adds to the symmetric ciphertext blob. This feature adds durability to
- * your implementation by ensuring that authorized users can decrypt ciphertext decades after
- * it was encrypted, even if they've lost track of the key ID. However, specifying the source
- * KMS key is always recommended as a best practice. When you use the
- * `SourceKeyId` parameter to specify a KMS key, KMS uses only the KMS key you
- * specify. If the ciphertext was encrypted under a different KMS key, the
- * `ReEncrypt` operation fails. This practice ensures that you use the KMS key
- * that you intend.
- *
- * - To reencrypt the data, you must use the `DestinationKeyId` parameter to
- * specify the KMS key that re-encrypts the data after it is decrypted. If the destination
- * KMS key is an asymmetric KMS key, you must also provide the encryption algorithm. The
- * algorithm that you choose must be compatible with the KMS key.
- *
- * When you use an asymmetric KMS key to encrypt or reencrypt data, be sure to record the KMS key and encryption algorithm that you choose. You will be required to provide the same KMS key and encryption algorithm when you decrypt the data. If the KMS key and algorithm do not match the values used to encrypt the data, the decrypt operation fails.
- *
- * You are not required to supply the key ID and encryption algorithm when you decrypt with symmetric encryption KMS keys because KMS stores this information in the ciphertext blob. KMS cannot store metadata in ciphertext generated with asymmetric keys. The standard format for asymmetric key ciphertext does not include configurable fields.
- *
- * The KMS key that you use for this operation must be in a compatible key state. For
- * details, see Key states of KMS keys in the *Key Management Service Developer Guide*.
- *
- * **Cross-account use**: Yes. The source KMS key and
- * destination KMS key can be in different Amazon Web Services accounts. Either or both KMS keys can be in a
- * different account than the caller. To specify a KMS key in a different account, you must use
- * its key ARN or alias ARN.
- *
- * **Required permissions**:
- *
- * - kms:ReEncryptFrom
- * permission on the source KMS key (key policy)
- *
- * - kms:ReEncryptTo
- * permission on the destination KMS key (key policy)
- *
- * To permit reencryption from or to a KMS key, include the `"kms:ReEncrypt*"`
- * permission in your key policy. This permission is
- * automatically included in the key policy when you use the console to create a KMS key. But you
- * must include it manually when you create a KMS key programmatically or when you use the PutKeyPolicy operation to set a key policy.
- *
- * **Related operations:**
- *
- * - Decrypt
- *
- * - Encrypt
- *
- * - GenerateDataKey
- *
- * - GenerateDataKeyPair
- *
- * **Eventual consistency**: The KMS API follows an eventual consistency model.
- * For more information, see KMS eventual consistency.
- */
-export const reEncrypt: (
-  input: ReEncryptRequest,
-) => effect.Effect<
-  ReEncryptResponse,
-  | DependencyTimeoutException
-  | DisabledException
-  | DryRunOperationException
-  | IncorrectKeyException
-  | InvalidCiphertextException
-  | InvalidGrantTokenException
-  | InvalidKeyUsageException
-  | KeyUnavailableException
-  | KMSInternalException
-  | KMSInvalidStateException
-  | NotFoundException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ReEncryptRequest,
-  output: ReEncryptResponse,
-  errors: [
-    DependencyTimeoutException,
-    DisabledException,
-    DryRunOperationException,
-    IncorrectKeyException,
-    InvalidCiphertextException,
-    InvalidGrantTokenException,
-    InvalidKeyUsageException,
-    KeyUnavailableException,
-    KMSInternalException,
-    KMSInvalidStateException,
-    NotFoundException,
-  ],
-}));
-/**
- * Decrypts ciphertext that was encrypted by a KMS key using any of the following
- * operations:
- *
- * - Encrypt
- *
- * - GenerateDataKey
- *
- * - GenerateDataKeyPair
- *
- * - GenerateDataKeyWithoutPlaintext
- *
- * - GenerateDataKeyPairWithoutPlaintext
- *
- * You can use this operation to decrypt ciphertext that was encrypted under a symmetric
- * encryption KMS key or an asymmetric encryption KMS key. When the KMS key is asymmetric, you
- * must specify the KMS key and the encryption algorithm that was used to encrypt the ciphertext.
- * For information about asymmetric KMS keys, see Asymmetric KMS keys in the *Key Management Service Developer Guide*.
- *
- * The `Decrypt` operation also decrypts ciphertext that was encrypted outside of
- * KMS by the public key in an KMS asymmetric KMS key. However, it cannot decrypt symmetric
- * ciphertext produced by other libraries, such as the Amazon Web Services Encryption SDK or Amazon S3 client-side encryption.
- * These libraries return a ciphertext format that is incompatible with KMS.
- *
- * If the ciphertext was encrypted under a symmetric encryption KMS key, the
- * `KeyId` parameter is optional. KMS can get this information from metadata that
- * it adds to the symmetric ciphertext blob. This feature adds durability to your implementation
- * by ensuring that authorized users can decrypt ciphertext decades after it was encrypted, even
- * if they've lost track of the key ID. However, specifying the KMS key is always recommended as
- * a best practice. When you use the `KeyId` parameter to specify a KMS key, KMS
- * only uses the KMS key you specify. If the ciphertext was encrypted under a different KMS key,
- * the `Decrypt` operation fails. This practice ensures that you use the KMS key that
- * you intend.
- *
- * Whenever possible, use key policies to give users permission to call the
- * `Decrypt` operation on a particular KMS key, instead of using IAM policies.
- * Otherwise, you might create an IAM policy that gives the user `Decrypt`
- * permission on all KMS keys. This user could decrypt ciphertext that was encrypted by KMS keys
- * in other accounts if the key policy for the cross-account KMS key permits it. If you must use
- * an IAM policy for `Decrypt` permissions, limit the user to particular KMS keys or
- * particular trusted accounts. For details, see Best practices for IAM
- * policies in the *Key Management Service Developer Guide*.
- *
- * `Decrypt` also supports Amazon Web Services Nitro Enclaves and NitroTPM, which
- * provide attested environments in Amazon EC2. To call `Decrypt` for a Nitro enclave or
- * NitroTPM, use the Amazon Web Services Nitro Enclaves SDK or any Amazon Web Services SDK. Use the `Recipient`
- * parameter to provide the attestation document for the attested environment. Instead of the
- * plaintext data, the response includes the plaintext data encrypted with the public key from
- * the attestation document (`CiphertextForRecipient`). For information about the interaction between KMS and Amazon Web Services Nitro Enclaves or Amazon Web Services NitroTPM, see Cryptographic attestation support in KMS in the *Key Management Service Developer Guide*.
- *
- * The KMS key that you use for this operation must be in a compatible key state. For
- * details, see Key states of KMS keys in the *Key Management Service Developer Guide*.
- *
- * **Cross-account use**: Yes. If you use the `KeyId`
- * parameter to identify a KMS key in a different Amazon Web Services account, specify the key ARN or the alias
- * ARN of the KMS key.
- *
- * **Required permissions**: kms:Decrypt (key policy)
- *
- * **Related operations:**
- *
- * - Encrypt
- *
- * - GenerateDataKey
- *
- * - GenerateDataKeyPair
- *
- * - ReEncrypt
- *
- * **Eventual consistency**: The KMS API follows an eventual consistency model.
- * For more information, see KMS eventual consistency.
- */
-export const decrypt: (
-  input: DecryptRequest,
-) => effect.Effect<
-  DecryptResponse,
-  | DependencyTimeoutException
-  | DisabledException
-  | DryRunOperationException
-  | IncorrectKeyException
-  | InvalidCiphertextException
-  | InvalidGrantTokenException
-  | InvalidKeyUsageException
-  | KeyUnavailableException
-  | KMSInternalException
-  | KMSInvalidStateException
-  | NotFoundException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DecryptRequest,
-  output: DecryptResponse,
-  errors: [
-    DependencyTimeoutException,
-    DisabledException,
-    DryRunOperationException,
-    IncorrectKeyException,
-    InvalidCiphertextException,
-    InvalidGrantTokenException,
-    InvalidKeyUsageException,
-    KeyUnavailableException,
-    KMSInternalException,
-    KMSInvalidStateException,
-    NotFoundException,
+    UnsupportedOperationException,
   ],
 }));
 /**
@@ -6634,342 +5398,1421 @@ export const importKeyMaterial: (
   ],
 }));
 /**
- * Verifies the hash-based message authentication code (HMAC) for a specified message, HMAC
- * KMS key, and MAC algorithm. To verify the HMAC, `VerifyMac` computes an HMAC using
- * the message, HMAC KMS key, and MAC algorithm that you specify, and compares the computed HMAC
- * to the HMAC that you specify. If the HMACs are identical, the verification succeeds;
- * otherwise, it fails. Verification indicates that the message hasn't changed since the HMAC was
- * calculated, and the specified key was used to generate and verify the HMAC.
+ * Gets a list of aliases in the caller's Amazon Web Services account and region. For more information
+ * about aliases, see CreateAlias.
  *
- * HMAC KMS keys and the HMAC algorithms that KMS uses conform to industry standards
- * defined in RFC 2104.
+ * By default, the `ListAliases` operation returns all aliases in the account and
+ * region. To get only the aliases associated with a particular KMS key, use the
+ * `KeyId` parameter.
  *
- * This operation is part of KMS support for HMAC KMS keys. For details, see
- * HMAC keys in KMS in the
- * *Key Management Service Developer Guide*.
+ * The `ListAliases` response can include aliases that you created and associated
+ * with your customer managed keys, and aliases that Amazon Web Services created and associated with Amazon Web Services
+ * managed keys in your account. You can recognize Amazon Web Services aliases because their names have the
+ * format `aws/`, such as `aws/dynamodb`.
  *
- * The KMS key that you use for this operation must be in a compatible key state. For
- * details, see Key states of KMS keys in the *Key Management Service Developer Guide*.
+ * The response might also include aliases that have no `TargetKeyId` field. These
+ * are predefined aliases that Amazon Web Services has created but has not yet associated with a KMS key.
+ * Aliases that Amazon Web Services creates in your account, including predefined aliases, do not count against
+ * your KMS
+ * aliases quota.
  *
- * **Cross-account use**: Yes. To perform this operation with a KMS key in a different Amazon Web Services account, specify
- * the key ARN or alias ARN in the value of the `KeyId` parameter.
+ * **Cross-account use**: No. `ListAliases` does not
+ * return aliases in other Amazon Web Services accounts.
  *
- * **Required permissions**: kms:VerifyMac (key policy)
+ * **Required permissions**: kms:ListAliases (IAM policy)
  *
- * **Related operations**: GenerateMac
+ * For details, see Controlling access to aliases in the *Key Management Service Developer Guide*.
+ *
+ * **Related operations:**
+ *
+ * - CreateAlias
+ *
+ * - DeleteAlias
+ *
+ * - UpdateAlias
  *
  * **Eventual consistency**: The KMS API follows an eventual consistency model.
  * For more information, see KMS eventual consistency.
  */
-export const verifyMac: (
-  input: VerifyMacRequest,
-) => effect.Effect<
-  VerifyMacResponse,
-  | DisabledException
-  | DryRunOperationException
-  | InvalidGrantTokenException
-  | InvalidKeyUsageException
-  | KeyUnavailableException
-  | KMSInternalException
-  | KMSInvalidMacException
-  | KMSInvalidStateException
-  | NotFoundException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: VerifyMacRequest,
-  output: VerifyMacResponse,
+export const listAliases: {
+  (
+    input: ListAliasesRequest,
+  ): effect.Effect<
+    ListAliasesResponse,
+    | DependencyTimeoutException
+    | InvalidArnException
+    | InvalidMarkerException
+    | KMSInternalException
+    | NotFoundException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAliasesRequest,
+  ) => stream.Stream<
+    ListAliasesResponse,
+    | DependencyTimeoutException
+    | InvalidArnException
+    | InvalidMarkerException
+    | KMSInternalException
+    | NotFoundException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAliasesRequest,
+  ) => stream.Stream<
+    AliasListEntry,
+    | DependencyTimeoutException
+    | InvalidArnException
+    | InvalidMarkerException
+    | KMSInternalException
+    | NotFoundException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAliasesRequest,
+  output: ListAliasesResponse,
   errors: [
-    DisabledException,
-    DryRunOperationException,
-    InvalidGrantTokenException,
-    InvalidKeyUsageException,
-    KeyUnavailableException,
+    DependencyTimeoutException,
+    InvalidArnException,
+    InvalidMarkerException,
     KMSInternalException,
-    KMSInvalidMacException,
+    NotFoundException,
+  ],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "NextMarker",
+    items: "Aliases",
+    pageSize: "Limit",
+  } as const,
+}));
+/**
+ * Gets a list of all grants for the specified KMS key.
+ *
+ * You must specify the KMS key in all requests. You can filter the grant list by grant ID or
+ * grantee principal.
+ *
+ * For detailed information about grants, including grant terminology, see Grants in KMS in the
+ *
+ * *Key Management Service Developer Guide*
+ * . For examples of creating grants in several
+ * programming languages, see Use CreateGrant with an Amazon Web Services SDK or CLI.
+ *
+ * The `GranteePrincipal` field in the `ListGrants` response usually contains the
+ * user or role designated as the grantee principal in the grant. However, when the grantee
+ * principal in the grant is an Amazon Web Services service, the `GranteePrincipal` field contains
+ * the service
+ * principal, which might represent several different grantee principals.
+ *
+ * **Cross-account use**: Yes. To perform this operation on a KMS key in a different Amazon Web Services account, specify the key
+ * ARN in the value of the `KeyId` parameter.
+ *
+ * **Required permissions**: kms:ListGrants (key policy)
+ *
+ * **Related operations:**
+ *
+ * - CreateGrant
+ *
+ * - ListRetirableGrants
+ *
+ * - RetireGrant
+ *
+ * - RevokeGrant
+ *
+ * **Eventual consistency**: The KMS API follows an eventual consistency model.
+ * For more information, see KMS eventual consistency.
+ */
+export const listGrants: {
+  (
+    input: ListGrantsRequest,
+  ): effect.Effect<
+    ListGrantsResponse,
+    | DependencyTimeoutException
+    | InvalidArnException
+    | InvalidGrantIdException
+    | InvalidMarkerException
+    | KMSInternalException
+    | KMSInvalidStateException
+    | NotFoundException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListGrantsRequest,
+  ) => stream.Stream<
+    ListGrantsResponse,
+    | DependencyTimeoutException
+    | InvalidArnException
+    | InvalidGrantIdException
+    | InvalidMarkerException
+    | KMSInternalException
+    | KMSInvalidStateException
+    | NotFoundException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListGrantsRequest,
+  ) => stream.Stream<
+    GrantListEntry,
+    | DependencyTimeoutException
+    | InvalidArnException
+    | InvalidGrantIdException
+    | InvalidMarkerException
+    | KMSInternalException
+    | KMSInvalidStateException
+    | NotFoundException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListGrantsRequest,
+  output: ListGrantsResponse,
+  errors: [
+    DependencyTimeoutException,
+    InvalidArnException,
+    InvalidGrantIdException,
+    InvalidMarkerException,
+    KMSInternalException,
     KMSInvalidStateException,
     NotFoundException,
   ],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "NextMarker",
+    items: "Grants",
+    pageSize: "Limit",
+  } as const,
 }));
 /**
- * Verifies a digital signature that was generated by the Sign operation.
+ * Gets the names of the key policies that are attached to a KMS key. This operation is
+ * designed to get policy names that you can use in a GetKeyPolicy operation.
+ * However, the only valid policy name is `default`.
  *
- * Verification confirms that an authorized user signed the message with the specified KMS
- * key and signing algorithm, and the message hasn't changed since it was signed. If the
- * signature is verified, the value of the `SignatureValid` field in the response is
- * `True`. If the signature verification fails, the `Verify` operation
- * fails with an `KMSInvalidSignatureException` exception.
+ * **Cross-account use**: No. You cannot perform this operation on a KMS key in a different Amazon Web Services account.
  *
- * A digital signature is generated by using the private key in an asymmetric KMS key. The
- * signature is verified by using the public key in the same asymmetric KMS key.
- * For information about asymmetric KMS keys, see Asymmetric KMS keys in the *Key Management Service Developer Guide*.
+ * **Required permissions**: kms:ListKeyPolicies (key policy)
  *
- * To use the `Verify` operation, specify the same asymmetric KMS key, message,
- * and signing algorithm that were used to produce the signature. The message type does not need
- * to be the same as the one used for signing, but it must indicate whether the value of the
- * `Message` parameter should be hashed as part of the verification process.
+ * **Related operations:**
  *
- * You can also verify the digital signature by using the public key of the KMS key outside
- * of KMS. Use the GetPublicKey operation to download the public key in the
- * asymmetric KMS key and then use the public key to verify the signature outside of KMS. The
- * advantage of using the `Verify` operation is that it is performed within KMS. As
- * a result, it's easy to call, the operation is performed within the FIPS boundary, it is logged
- * in CloudTrail, and you can use key policy and IAM policy to determine who is authorized to use
- * the KMS key to verify signatures.
+ * - GetKeyPolicy
  *
- * To verify a signature outside of KMS with an SM2 public key (China Regions only), you
- * must specify the distinguishing ID. By default, KMS uses `1234567812345678` as
- * the distinguishing ID. For more information, see Offline
- * verification with SM2 key pairs.
- *
- * The KMS key that you use for this operation must be in a compatible key state. For
- * details, see Key states of KMS keys in the *Key Management Service Developer Guide*.
- *
- * **Cross-account use**: Yes. To perform this operation with a KMS key in a different Amazon Web Services account, specify
- * the key ARN or alias ARN in the value of the `KeyId` parameter.
- *
- * **Required permissions**: kms:Verify (key policy)
- *
- * **Related operations**: Sign
+ * - PutKeyPolicy
  *
  * **Eventual consistency**: The KMS API follows an eventual consistency model.
  * For more information, see KMS eventual consistency.
  */
-export const verify: (
-  input: VerifyRequest,
+export const listKeyPolicies: {
+  (
+    input: ListKeyPoliciesRequest,
+  ): effect.Effect<
+    ListKeyPoliciesResponse,
+    | DependencyTimeoutException
+    | InvalidArnException
+    | KMSInternalException
+    | KMSInvalidStateException
+    | NotFoundException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListKeyPoliciesRequest,
+  ) => stream.Stream<
+    ListKeyPoliciesResponse,
+    | DependencyTimeoutException
+    | InvalidArnException
+    | KMSInternalException
+    | KMSInvalidStateException
+    | NotFoundException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListKeyPoliciesRequest,
+  ) => stream.Stream<
+    PolicyNameType,
+    | DependencyTimeoutException
+    | InvalidArnException
+    | KMSInternalException
+    | KMSInvalidStateException
+    | NotFoundException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListKeyPoliciesRequest,
+  output: ListKeyPoliciesResponse,
+  errors: [
+    DependencyTimeoutException,
+    InvalidArnException,
+    KMSInternalException,
+    KMSInvalidStateException,
+    NotFoundException,
+  ],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "NextMarker",
+    items: "PolicyNames",
+    pageSize: "Limit",
+  } as const,
+}));
+/**
+ * Returns information about the key materials associated with the specified KMS key. You can
+ * use the optional `IncludeKeyMaterial` parameter to control which key materials are
+ * included in the response.
+ *
+ * You must specify the KMS key in all requests. You can refine the key rotations list by
+ * limiting the number of rotations returned.
+ *
+ * For detailed information about automatic and on-demand key rotations, see Rotate KMS keys in the
+ * *Key Management Service Developer Guide*.
+ *
+ * **Cross-account use**: No. You cannot perform this operation on a KMS key in a different Amazon Web Services account.
+ *
+ * **Required permissions**: kms:ListKeyRotations (key policy)
+ *
+ * **Related operations:**
+ *
+ * - EnableKeyRotation
+ *
+ * - DeleteImportedKeyMaterial
+ *
+ * - DisableKeyRotation
+ *
+ * - GetKeyRotationStatus
+ *
+ * - ImportKeyMaterial
+ *
+ * - RotateKeyOnDemand
+ *
+ * **Eventual consistency**: The KMS API follows an eventual consistency model.
+ * For more information, see KMS eventual consistency.
+ */
+export const listKeyRotations: {
+  (
+    input: ListKeyRotationsRequest,
+  ): effect.Effect<
+    ListKeyRotationsResponse,
+    | InvalidArnException
+    | InvalidMarkerException
+    | KMSInternalException
+    | KMSInvalidStateException
+    | NotFoundException
+    | UnsupportedOperationException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListKeyRotationsRequest,
+  ) => stream.Stream<
+    ListKeyRotationsResponse,
+    | InvalidArnException
+    | InvalidMarkerException
+    | KMSInternalException
+    | KMSInvalidStateException
+    | NotFoundException
+    | UnsupportedOperationException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListKeyRotationsRequest,
+  ) => stream.Stream<
+    RotationsListEntry,
+    | InvalidArnException
+    | InvalidMarkerException
+    | KMSInternalException
+    | KMSInvalidStateException
+    | NotFoundException
+    | UnsupportedOperationException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListKeyRotationsRequest,
+  output: ListKeyRotationsResponse,
+  errors: [
+    InvalidArnException,
+    InvalidMarkerException,
+    KMSInternalException,
+    KMSInvalidStateException,
+    NotFoundException,
+    UnsupportedOperationException,
+  ],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "NextMarker",
+    items: "Rotations",
+    pageSize: "Limit",
+  } as const,
+}));
+/**
+ * Gets a list of all KMS keys in the caller's Amazon Web Services account and Region.
+ *
+ * **Cross-account use**: No. You cannot perform this operation on a KMS key in a different Amazon Web Services account.
+ *
+ * **Required permissions**: kms:ListKeys (IAM policy)
+ *
+ * **Related operations:**
+ *
+ * - CreateKey
+ *
+ * - DescribeKey
+ *
+ * - ListAliases
+ *
+ * - ListResourceTags
+ *
+ * **Eventual consistency**: The KMS API follows an eventual consistency model.
+ * For more information, see KMS eventual consistency.
+ */
+export const listKeys: {
+  (
+    input: ListKeysRequest,
+  ): effect.Effect<
+    ListKeysResponse,
+    | DependencyTimeoutException
+    | InvalidMarkerException
+    | KMSInternalException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListKeysRequest,
+  ) => stream.Stream<
+    ListKeysResponse,
+    | DependencyTimeoutException
+    | InvalidMarkerException
+    | KMSInternalException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListKeysRequest,
+  ) => stream.Stream<
+    KeyListEntry,
+    | DependencyTimeoutException
+    | InvalidMarkerException
+    | KMSInternalException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListKeysRequest,
+  output: ListKeysResponse,
+  errors: [
+    DependencyTimeoutException,
+    InvalidMarkerException,
+    KMSInternalException,
+  ],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "NextMarker",
+    items: "Keys",
+    pageSize: "Limit",
+  } as const,
+}));
+/**
+ * Returns all tags on the specified KMS key.
+ *
+ * For general information about tags, including the format and syntax, see Tagging Amazon Web Services resources in
+ * the *Amazon Web Services General Reference*. For information about using
+ * tags in KMS, see Tags in
+ * KMS.
+ *
+ * **Cross-account use**: No. You cannot perform this operation on a KMS key in a different Amazon Web Services account.
+ *
+ * **Required permissions**: kms:ListResourceTags (key policy)
+ *
+ * **Related operations:**
+ *
+ * - CreateKey
+ *
+ * - ReplicateKey
+ *
+ * - TagResource
+ *
+ * - UntagResource
+ *
+ * **Eventual consistency**: The KMS API follows an eventual consistency model.
+ * For more information, see KMS eventual consistency.
+ */
+export const listResourceTags: {
+  (
+    input: ListResourceTagsRequest,
+  ): effect.Effect<
+    ListResourceTagsResponse,
+    | InvalidArnException
+    | InvalidMarkerException
+    | KMSInternalException
+    | NotFoundException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListResourceTagsRequest,
+  ) => stream.Stream<
+    ListResourceTagsResponse,
+    | InvalidArnException
+    | InvalidMarkerException
+    | KMSInternalException
+    | NotFoundException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListResourceTagsRequest,
+  ) => stream.Stream<
+    Tag,
+    | InvalidArnException
+    | InvalidMarkerException
+    | KMSInternalException
+    | NotFoundException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListResourceTagsRequest,
+  output: ListResourceTagsResponse,
+  errors: [
+    InvalidArnException,
+    InvalidMarkerException,
+    KMSInternalException,
+    NotFoundException,
+  ],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "NextMarker",
+    items: "Tags",
+    pageSize: "Limit",
+  } as const,
+}));
+/**
+ * Returns information about all grants in the Amazon Web Services account and Region that have the
+ * specified retiring principal.
+ *
+ * You can specify any principal in your Amazon Web Services account. The grants that are returned include
+ * grants for KMS keys in your Amazon Web Services account and other Amazon Web Services accounts. You might use this
+ * operation to determine which grants you may retire. To retire a grant, use the RetireGrant operation.
+ *
+ * For detailed information about grants, including grant terminology, see Grants in KMS in the
+ *
+ * *Key Management Service Developer Guide*
+ * . For examples of creating grants in several
+ * programming languages, see Use CreateGrant with an Amazon Web Services SDK or CLI.
+ *
+ * **Cross-account use**: You must specify a principal in your
+ * Amazon Web Services account. This operation returns a list of grants where the retiring principal specified
+ * in the `ListRetirableGrants` request is the same retiring principal on the grant.
+ * This can include grants on KMS keys owned by other Amazon Web Services accounts, but you do not need
+ * `kms:ListRetirableGrants` permission (or any other additional permission) in any
+ * Amazon Web Services account other than your own.
+ *
+ * **Required permissions**: kms:ListRetirableGrants (IAM policy) in your
+ * Amazon Web Services account.
+ *
+ * KMS authorizes `ListRetirableGrants` requests by evaluating the caller
+ * account's kms:ListRetirableGrants permissions. The authorized resource in
+ * `ListRetirableGrants` calls is the retiring principal specified in the request.
+ * KMS does not evaluate the caller's permissions to verify their access to any KMS keys or
+ * grants that might be returned by the `ListRetirableGrants` call.
+ *
+ * **Related operations:**
+ *
+ * - CreateGrant
+ *
+ * - ListGrants
+ *
+ * - RetireGrant
+ *
+ * - RevokeGrant
+ *
+ * **Eventual consistency**: The KMS API follows an eventual consistency model.
+ * For more information, see KMS eventual consistency.
+ */
+export const listRetirableGrants: {
+  (
+    input: ListRetirableGrantsRequest,
+  ): effect.Effect<
+    ListGrantsResponse,
+    | DependencyTimeoutException
+    | InvalidArnException
+    | InvalidMarkerException
+    | KMSInternalException
+    | NotFoundException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListRetirableGrantsRequest,
+  ) => stream.Stream<
+    ListGrantsResponse,
+    | DependencyTimeoutException
+    | InvalidArnException
+    | InvalidMarkerException
+    | KMSInternalException
+    | NotFoundException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListRetirableGrantsRequest,
+  ) => stream.Stream<
+    GrantListEntry,
+    | DependencyTimeoutException
+    | InvalidArnException
+    | InvalidMarkerException
+    | KMSInternalException
+    | NotFoundException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListRetirableGrantsRequest,
+  output: ListGrantsResponse,
+  errors: [
+    DependencyTimeoutException,
+    InvalidArnException,
+    InvalidMarkerException,
+    KMSInternalException,
+    NotFoundException,
+  ],
+  pagination: {
+    inputToken: "Marker",
+    outputToken: "NextMarker",
+    items: "Grants",
+    pageSize: "Limit",
+  } as const,
+}));
+/**
+ * Attaches a key policy to the specified KMS key.
+ *
+ * For more information about key policies, see Key Policies in the *Key Management Service Developer Guide*.
+ * For help writing and formatting a JSON policy document, see the IAM JSON Policy Reference in the
+ * *Identity and Access Management User Guide*
+ * . For examples of adding a key policy in multiple programming languages,
+ * see Use
+ * PutKeyPolicy with an Amazon Web Services SDK or CLI in the *Key Management Service Developer Guide*.
+ *
+ * **Cross-account use**: No. You cannot perform this operation on a KMS key in a different Amazon Web Services account.
+ *
+ * **Required permissions**: kms:PutKeyPolicy (key policy)
+ *
+ * **Related operations**: GetKeyPolicy
+ *
+ * **Eventual consistency**: The KMS API follows an eventual consistency model.
+ * For more information, see KMS eventual consistency.
+ */
+export const putKeyPolicy: (
+  input: PutKeyPolicyRequest,
 ) => effect.Effect<
-  VerifyResponse,
+  PutKeyPolicyResponse,
+  | DependencyTimeoutException
+  | InvalidArnException
+  | KMSInternalException
+  | KMSInvalidStateException
+  | LimitExceededException
+  | MalformedPolicyDocumentException
+  | NotFoundException
+  | UnsupportedOperationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutKeyPolicyRequest,
+  output: PutKeyPolicyResponse,
+  errors: [
+    DependencyTimeoutException,
+    InvalidArnException,
+    KMSInternalException,
+    KMSInvalidStateException,
+    LimitExceededException,
+    MalformedPolicyDocumentException,
+    NotFoundException,
+    UnsupportedOperationException,
+  ],
+}));
+/**
+ * Decrypts ciphertext and then reencrypts it entirely within KMS. You can use this
+ * operation to change the KMS key under which data is encrypted, such as when you manually rotate a
+ * KMS key or change the KMS key that protects a ciphertext. You can also use it to reencrypt
+ * ciphertext under the same KMS key, such as to change the encryption context of a ciphertext.
+ *
+ * The `ReEncrypt` operation can decrypt ciphertext that was encrypted by using a
+ * KMS key in an KMS operation, such as Encrypt or GenerateDataKey. It can also decrypt ciphertext that was encrypted by using the
+ * public key of an asymmetric KMS key outside of KMS. However, it cannot decrypt ciphertext produced
+ * by other libraries, such as the Amazon Web Services
+ * Encryption SDK or Amazon S3 client-side encryption.
+ * These libraries return a ciphertext format that is incompatible with KMS.
+ *
+ * When you use the `ReEncrypt` operation, you need to provide information for the
+ * decrypt operation and the subsequent encrypt operation.
+ *
+ * - If your ciphertext was encrypted under an asymmetric KMS key, you must use the
+ * `SourceKeyId` parameter to identify the KMS key that encrypted the
+ * ciphertext. You must also supply the encryption algorithm that was used. This information
+ * is required to decrypt the data.
+ *
+ * - If your ciphertext was encrypted under a symmetric encryption KMS key, the
+ * `SourceKeyId` parameter is optional. KMS can get this information from
+ * metadata that it adds to the symmetric ciphertext blob. This feature adds durability to
+ * your implementation by ensuring that authorized users can decrypt ciphertext decades after
+ * it was encrypted, even if they've lost track of the key ID. However, specifying the source
+ * KMS key is always recommended as a best practice. When you use the
+ * `SourceKeyId` parameter to specify a KMS key, KMS uses only the KMS key you
+ * specify. If the ciphertext was encrypted under a different KMS key, the
+ * `ReEncrypt` operation fails. This practice ensures that you use the KMS key
+ * that you intend.
+ *
+ * - To reencrypt the data, you must use the `DestinationKeyId` parameter to
+ * specify the KMS key that re-encrypts the data after it is decrypted. If the destination
+ * KMS key is an asymmetric KMS key, you must also provide the encryption algorithm. The
+ * algorithm that you choose must be compatible with the KMS key.
+ *
+ * When you use an asymmetric KMS key to encrypt or reencrypt data, be sure to record the KMS key and encryption algorithm that you choose. You will be required to provide the same KMS key and encryption algorithm when you decrypt the data. If the KMS key and algorithm do not match the values used to encrypt the data, the decrypt operation fails.
+ *
+ * You are not required to supply the key ID and encryption algorithm when you decrypt with symmetric encryption KMS keys because KMS stores this information in the ciphertext blob. KMS cannot store metadata in ciphertext generated with asymmetric keys. The standard format for asymmetric key ciphertext does not include configurable fields.
+ *
+ * The KMS key that you use for this operation must be in a compatible key state. For
+ * details, see Key states of KMS keys in the *Key Management Service Developer Guide*.
+ *
+ * **Cross-account use**: Yes. The source KMS key and
+ * destination KMS key can be in different Amazon Web Services accounts. Either or both KMS keys can be in a
+ * different account than the caller. To specify a KMS key in a different account, you must use
+ * its key ARN or alias ARN.
+ *
+ * **Required permissions**:
+ *
+ * - kms:ReEncryptFrom
+ * permission on the source KMS key (key policy)
+ *
+ * - kms:ReEncryptTo
+ * permission on the destination KMS key (key policy)
+ *
+ * To permit reencryption from or to a KMS key, include the `"kms:ReEncrypt*"`
+ * permission in your key policy. This permission is
+ * automatically included in the key policy when you use the console to create a KMS key. But you
+ * must include it manually when you create a KMS key programmatically or when you use the PutKeyPolicy operation to set a key policy.
+ *
+ * **Related operations:**
+ *
+ * - Decrypt
+ *
+ * - Encrypt
+ *
+ * - GenerateDataKey
+ *
+ * - GenerateDataKeyPair
+ *
+ * **Eventual consistency**: The KMS API follows an eventual consistency model.
+ * For more information, see KMS eventual consistency.
+ */
+export const reEncrypt: (
+  input: ReEncryptRequest,
+) => effect.Effect<
+  ReEncryptResponse,
   | DependencyTimeoutException
   | DisabledException
   | DryRunOperationException
+  | IncorrectKeyException
+  | InvalidCiphertextException
   | InvalidGrantTokenException
   | InvalidKeyUsageException
   | KeyUnavailableException
   | KMSInternalException
-  | KMSInvalidSignatureException
   | KMSInvalidStateException
   | NotFoundException
   | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: VerifyRequest,
-  output: VerifyResponse,
+  input: ReEncryptRequest,
+  output: ReEncryptResponse,
   errors: [
     DependencyTimeoutException,
     DisabledException,
     DryRunOperationException,
+    IncorrectKeyException,
+    InvalidCiphertextException,
     InvalidGrantTokenException,
     InvalidKeyUsageException,
     KeyUnavailableException,
     KMSInternalException,
-    KMSInvalidSignatureException,
     KMSInvalidStateException,
     NotFoundException,
   ],
 }));
 /**
- * Creates a unique customer managed KMS key in your Amazon Web Services account and Region.
- * You can use a KMS key in cryptographic operations, such as encryption and signing. Some Amazon Web Services
- * services let you use KMS keys that you create and manage to protect your service
- * resources.
- *
- * A KMS key is a logical representation of a cryptographic key. In addition to the key
- * material used in cryptographic operations, a KMS key includes metadata, such as the key ID,
- * key policy, creation date, description, and key state.
- *
- * Use the parameters of `CreateKey` to specify the type of KMS key, the source of
- * its key material, its key policy, description, tags, and other properties.
- *
- * KMS has replaced the term *customer master key (CMK)* with *Key Management Service key*
- * and *KMS key*. The concept has not changed. To prevent breaking changes, KMS is keeping some variations of this term.
- *
- * To create different types of KMS keys, use the following guidance:
- *
- * ### Symmetric encryption KMS key
- *
- * By default, `CreateKey` creates a symmetric encryption KMS key with key
- * material that KMS generates. This is the basic and most widely used type of KMS key, and
- * provides the best performance.
- *
- * To create a symmetric encryption KMS key, you don't need to specify any parameters.
- * The default value for `KeySpec`, `SYMMETRIC_DEFAULT`, the default
- * value for `KeyUsage`, `ENCRYPT_DECRYPT`, and the default value for
- * `Origin`, `AWS_KMS`, create a symmetric encryption KMS key with
- * KMS key material.
- *
- * If you need a key for basic encryption and decryption or you are creating a KMS key
- * to protect your resources in an Amazon Web Services service, create a symmetric encryption KMS key.
- * The key material in a symmetric encryption key never leaves KMS unencrypted. You can
- * use a symmetric encryption KMS key to encrypt and decrypt data up to 4,096 bytes, but
- * they are typically used to generate data keys and data keys pairs. For details, see
- * GenerateDataKey and GenerateDataKeyPair.
- *
- * ### Asymmetric KMS keys
- *
- * To create an asymmetric KMS key, use the `KeySpec` parameter to specify
- * the type of key material in the KMS key. Then, use the `KeyUsage` parameter
- * to determine whether the KMS key will be used to encrypt and decrypt or sign and verify.
- * You can't change these properties after the KMS key is created.
- *
- * Asymmetric KMS keys contain an RSA key pair, Elliptic Curve (ECC) key pair, ML-DSA
- * key pair or an SM2 key pair (China Regions only). The private key in an asymmetric KMS
- * key never leaves KMS unencrypted. However, you can use the GetPublicKey operation to download the public key so it can be used
- * outside of KMS. Each KMS key can have only one key usage. KMS keys with RSA key pairs
- * can be used to encrypt and decrypt data or sign and verify messages (but not both). KMS
- * keys with NIST-standard ECC key pairs can be used to sign and verify messages or
- * derive shared secrets (but not both). KMS keys with `ECC_SECG_P256K1` can be
- * used only to sign and verify messages. KMS keys with ML-DSA key pairs can be used to
- * sign and verify messages. KMS keys with SM2 key pairs (China Regions only) can be used
- * to either encrypt and decrypt data, sign and verify messages, or derive shared secrets
- * (you must choose one key usage type). For information about asymmetric KMS keys, see
- * Asymmetric
- * KMS keys in the *Key Management Service Developer Guide*.
- *
- * ### HMAC KMS key
- *
- * To create an HMAC KMS key, set the `KeySpec` parameter to a key spec
- * value for HMAC KMS keys. Then set the `KeyUsage` parameter to
- * `GENERATE_VERIFY_MAC`. You must set the key usage even though
- * `GENERATE_VERIFY_MAC` is the only valid key usage value for HMAC KMS keys.
- * You can't change these properties after the KMS key is created.
- *
- * HMAC KMS keys are symmetric keys that never leave KMS unencrypted. You can use
- * HMAC keys to generate (GenerateMac) and verify (VerifyMac) HMAC codes for messages up to 4096 bytes.
- *
- * ### Multi-Region primary keys
- *
- * ### Imported key material
- *
- * To create a multi-Region *primary key* in the local Amazon Web Services Region,
- * use the `MultiRegion` parameter with a value of `True`. To create
- * a multi-Region *replica key*, that is, a KMS key with the same key ID
- * and key material as a primary key, but in a different Amazon Web Services Region, use the ReplicateKey operation. To change a replica key to a primary key, and its
- * primary key to a replica key, use the UpdatePrimaryRegion
+ * Replicates a multi-Region key into the specified Region. This operation creates a
+ * multi-Region replica key based on a multi-Region primary key in a different Region of the same
+ * Amazon Web Services partition. You can create multiple replicas of a primary key, but each must be in a
+ * different Region. To create a multi-Region primary key, use the CreateKey
  * operation.
- *
- * You can create multi-Region KMS keys for all supported KMS key types: symmetric
- * encryption KMS keys, HMAC KMS keys, asymmetric encryption KMS keys, and asymmetric
- * signing KMS keys. You can also create multi-Region keys with imported key material.
- * However, you can't create multi-Region keys in a custom key store.
  *
  * This operation supports *multi-Region keys*, an KMS feature that lets you create multiple
  * interoperable KMS keys in different Amazon Web Services Regions. Because these KMS keys have the same key ID, key
  * material, and other metadata, you can use them interchangeably to encrypt data in one Amazon Web Services Region and decrypt
  * it in a different Amazon Web Services Region without re-encrypting the data or making a cross-Region call. For more information about multi-Region keys, see Multi-Region keys in KMS in the *Key Management Service Developer Guide*.
  *
- * To import your own key material into a KMS key, begin by creating a KMS key with no
- * key material. To do this, use the `Origin` parameter of
- * `CreateKey` with a value of `EXTERNAL`. Next, use GetParametersForImport operation to get a public key and import token. Use
- * the wrapping public key to encrypt your key material. Then, use ImportKeyMaterial with your import token to import the key material. For
- * step-by-step instructions, see Importing Key Material in the
- * *Key Management Service Developer Guide*
- * .
+ * A *replica key* is a fully-functional KMS key that can be used
+ * independently of its primary and peer replica keys. A primary key and its replica keys share
+ * properties that make them interoperable. They have the same key ID and key material. They also
+ * have the same key spec, key usage, key material origin, and automatic key rotation status.
+ * KMS automatically synchronizes these shared properties among related multi-Region keys. All
+ * other properties of a replica key can differ, including its key policy, tags, aliases, and key state. KMS pricing and quotas for KMS keys
+ * apply to each primary key and replica key.
  *
- * You can import key material into KMS keys of all supported KMS key types: symmetric
- * encryption KMS keys, HMAC KMS keys, asymmetric encryption KMS keys, and asymmetric
- * signing KMS keys. You can also create multi-Region keys with imported key material.
- * However, you can't import key material into a KMS key in a custom key store.
+ * When this operation completes, the new replica key has a transient key state of
+ * `Creating`. This key state changes to `Enabled` (or
+ * `PendingImport`) after a few seconds when the process of creating the new replica
+ * key is complete. While the key state is `Creating`, you can manage key, but you
+ * cannot yet use it in cryptographic operations. If you are creating and using the replica key
+ * programmatically, retry on `KMSInvalidStateException` or call
+ * `DescribeKey` to check its `KeyState` value before using it. For
+ * details about the `Creating` key state, see Key states of KMS keys in the
+ * *Key Management Service Developer Guide*.
  *
- * To create a multi-Region primary key with imported key material, use the
- * `Origin` parameter of `CreateKey` with a value of
- * `EXTERNAL` and the `MultiRegion` parameter with a value of
- * `True`. To create replicas of the multi-Region primary key, use the ReplicateKey operation. For instructions, see Importing key material step
- * 1. For more information about multi-Region keys, see Multi-Region keys in KMS in the *Key Management Service Developer Guide*.
+ * You cannot create more than one replica of a primary key in any Region. If the Region
+ * already includes a replica of the key you're trying to replicate, `ReplicateKey`
+ * returns an `AlreadyExistsException` error. If the key state of the existing replica
+ * is `PendingDeletion`, you can cancel the scheduled key deletion (CancelKeyDeletion) or wait for the key to be deleted. The new replica key you
+ * create will have the same shared
+ * properties as the original replica key.
  *
- * ### Custom key store
+ * The CloudTrail log of a `ReplicateKey` operation records a
+ * `ReplicateKey` operation in the primary key's Region and a CreateKey operation in the replica key's Region.
  *
- * A custom key store lets you protect your Amazon Web Services resources using keys in a backing key
- * store that you own and manage. When you request a cryptographic operation with a KMS key
- * in a custom key store, the operation is performed in the backing key store using its
- * cryptographic keys.
+ * If you replicate a multi-Region primary key with imported key material, the replica key is
+ * created with no key material. You must import the same key material that you imported into the
+ * primary key.
  *
- * KMS supports CloudHSM key stores backed by an CloudHSM cluster and external key stores backed by an
- * external key manager outside of Amazon Web Services. When you create a KMS key in an CloudHSM key store,
- * KMS generates an encryption key in the CloudHSM cluster and associates it with the KMS
- * key. When you create a KMS key in an external key store, you specify an existing
- * encryption key in the external key manager.
- *
- * Some external key managers provide a simpler method for creating a KMS key in an
- * external key store. For details, see your external key manager documentation.
- *
- * Before you create a KMS key in a custom key store, the `ConnectionState`
- * of the key store must be `CONNECTED`. To connect the custom key store, use
- * the ConnectCustomKeyStore operation. To find the
- * `ConnectionState`, use the DescribeCustomKeyStores
+ * To convert a replica key to a primary key, use the UpdatePrimaryRegion
  * operation.
  *
- * To create a KMS key in a custom key store, use the `CustomKeyStoreId`.
- * Use the default `KeySpec` value, `SYMMETRIC_DEFAULT`, and the
- * default `KeyUsage` value, `ENCRYPT_DECRYPT` to create a symmetric
- * encryption key. No other key type is supported in a custom key store.
- *
- * To create a KMS key in an CloudHSM key store, use the
- * `Origin` parameter with a value of `AWS_CLOUDHSM`. The CloudHSM
- * cluster that is associated with the custom key store must have at least two active HSMs
- * in different Availability Zones in the Amazon Web Services Region.
- *
- * To create a KMS key in an external key store, use the
- * `Origin` parameter with a value of `EXTERNAL_KEY_STORE` and an
- * `XksKeyId` parameter that identifies an existing external key.
- *
- * Some external key managers provide a simpler method for creating a KMS key in an
- * external key store. For details, see your external key manager documentation.
+ * `ReplicateKey` uses different default values for the `KeyPolicy`
+ * and `Tags` parameters than those used in the KMS console. For details, see the
+ * parameter descriptions.
  *
  * **Cross-account use**: No. You cannot use this operation to
- * create a KMS key in a different Amazon Web Services account.
+ * create a replica key in a different Amazon Web Services account.
  *
- * **Required permissions**: kms:CreateKey (IAM policy). To use the
- * `Tags` parameter, kms:TagResource (IAM policy). For examples and information about related
- * permissions, see Allow a user
- * to create KMS keys in the *Key Management Service Developer Guide*.
+ * **Required permissions**:
  *
- * **Related operations:**
+ * - `kms:ReplicateKey` on the primary key (in the primary key's Region).
+ * Include this permission in the primary key's key policy.
  *
- * - DescribeKey
+ * - `kms:CreateKey` in an IAM policy in the replica Region.
  *
- * - ListKeys
+ * - To use the `Tags` parameter, `kms:TagResource` in an IAM policy
+ * in the replica Region.
  *
- * - ScheduleKeyDeletion
+ * **Related operations**
+ *
+ * - CreateKey
+ *
+ * - UpdatePrimaryRegion
  *
  * **Eventual consistency**: The KMS API follows an eventual consistency model.
  * For more information, see KMS eventual consistency.
  */
-export const createKey: (
-  input: CreateKeyRequest,
+export const replicateKey: (
+  input: ReplicateKeyRequest,
 ) => effect.Effect<
-  CreateKeyResponse,
-  | CloudHsmClusterInvalidConfigurationException
-  | CustomKeyStoreInvalidStateException
-  | CustomKeyStoreNotFoundException
-  | DependencyTimeoutException
+  ReplicateKeyResponse,
+  | AlreadyExistsException
+  | DisabledException
   | InvalidArnException
   | KMSInternalException
+  | KMSInvalidStateException
   | LimitExceededException
   | MalformedPolicyDocumentException
+  | NotFoundException
   | TagException
   | UnsupportedOperationException
-  | XksKeyAlreadyInUseException
-  | XksKeyInvalidConfigurationException
-  | XksKeyNotFoundException
   | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateKeyRequest,
-  output: CreateKeyResponse,
+  input: ReplicateKeyRequest,
+  output: ReplicateKeyResponse,
   errors: [
-    CloudHsmClusterInvalidConfigurationException,
-    CustomKeyStoreInvalidStateException,
-    CustomKeyStoreNotFoundException,
+    AlreadyExistsException,
+    DisabledException,
+    InvalidArnException,
+    KMSInternalException,
+    KMSInvalidStateException,
+    LimitExceededException,
+    MalformedPolicyDocumentException,
+    NotFoundException,
+    TagException,
+    UnsupportedOperationException,
+  ],
+}));
+/**
+ * Deletes a grant. Typically, you retire a grant when you no longer need its permissions. To
+ * identify the grant to retire, use a grant token, or both the grant ID and a
+ * key identifier (key ID or key ARN) of the KMS key. The CreateGrant operation
+ * returns both values.
+ *
+ * This operation can be called by the *retiring principal* for a grant,
+ * by the *grantee principal* if the grant allows the `RetireGrant`
+ * operation, and by the Amazon Web Services account in which the grant is created. It can also be called by
+ * principals to whom permission for retiring a grant is delegated.
+ *
+ * For detailed information about grants, including grant terminology, see Grants in KMS in the
+ *
+ * *Key Management Service Developer Guide*
+ * . For examples of creating grants in several
+ * programming languages, see Use CreateGrant with an Amazon Web Services SDK or CLI.
+ *
+ * **Cross-account use**: Yes. You can retire a grant on a KMS
+ * key in a different Amazon Web Services account.
+ *
+ * **Required permissions**: Permission to retire a grant is
+ * determined primarily by the grant. For details, see Retiring and revoking grants in the
+ * *Key Management Service Developer Guide*.
+ *
+ * **Related operations:**
+ *
+ * - CreateGrant
+ *
+ * - ListGrants
+ *
+ * - ListRetirableGrants
+ *
+ * - RevokeGrant
+ *
+ * **Eventual consistency**: The KMS API follows an eventual consistency model.
+ * For more information, see KMS eventual consistency.
+ */
+export const retireGrant: (
+  input: RetireGrantRequest,
+) => effect.Effect<
+  RetireGrantResponse,
+  | DependencyTimeoutException
+  | DryRunOperationException
+  | InvalidArnException
+  | InvalidGrantIdException
+  | InvalidGrantTokenException
+  | KMSInternalException
+  | KMSInvalidStateException
+  | NotFoundException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RetireGrantRequest,
+  output: RetireGrantResponse,
+  errors: [
+    DependencyTimeoutException,
+    DryRunOperationException,
+    InvalidArnException,
+    InvalidGrantIdException,
+    InvalidGrantTokenException,
+    KMSInternalException,
+    KMSInvalidStateException,
+    NotFoundException,
+  ],
+}));
+/**
+ * Deletes the specified grant. You revoke a grant to terminate the permissions that the
+ * grant allows. For more information, see Retiring and revoking grants in the
+ *
+ * *Key Management Service Developer Guide*
+ * .
+ *
+ * When you create, retire, or revoke a grant, there might be a brief delay, usually less than five minutes, until the grant is available throughout KMS. This state is known as *eventual consistency*. For details, see Eventual consistency in
+ * the
+ * *Key Management Service Developer Guide*
+ * .
+ *
+ * For detailed information about grants, including grant terminology, see Grants in KMS in the
+ *
+ * *Key Management Service Developer Guide*
+ * . For examples of creating grants in several
+ * programming languages, see Use CreateGrant with an Amazon Web Services SDK or CLI.
+ *
+ * **Cross-account use**: Yes. To perform this operation on a KMS key in a different Amazon Web Services account, specify the key
+ * ARN in the value of the `KeyId` parameter.
+ *
+ * **Required permissions**: kms:RevokeGrant (key policy).
+ *
+ * **Related operations:**
+ *
+ * - CreateGrant
+ *
+ * - ListGrants
+ *
+ * - ListRetirableGrants
+ *
+ * - RetireGrant
+ *
+ * **Eventual consistency**: The KMS API follows an eventual consistency model.
+ * For more information, see KMS eventual consistency.
+ */
+export const revokeGrant: (
+  input: RevokeGrantRequest,
+) => effect.Effect<
+  RevokeGrantResponse,
+  | DependencyTimeoutException
+  | DryRunOperationException
+  | InvalidArnException
+  | InvalidGrantIdException
+  | KMSInternalException
+  | KMSInvalidStateException
+  | NotFoundException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RevokeGrantRequest,
+  output: RevokeGrantResponse,
+  errors: [
+    DependencyTimeoutException,
+    DryRunOperationException,
+    InvalidArnException,
+    InvalidGrantIdException,
+    KMSInternalException,
+    KMSInvalidStateException,
+    NotFoundException,
+  ],
+}));
+/**
+ * Immediately initiates rotation of the key material of the specified symmetric encryption
+ * KMS key.
+ *
+ * You can perform on-demand rotation of the key
+ * material in customer managed KMS keys, regardless of whether or not automatic key
+ * rotation is enabled. On-demand rotations do not change existing automatic rotation
+ * schedules. For example, consider a KMS key that has automatic key rotation enabled with a
+ * rotation period of 730 days. If the key is scheduled to automatically rotate on April 14,
+ * 2024, and you perform an on-demand rotation on April 10, 2024, the key will automatically
+ * rotate, as scheduled, on April 14, 2024 and every 730 days thereafter.
+ *
+ * You can perform on-demand key rotation a maximum of 10
+ * times per KMS key. You can use the KMS console to view the number of
+ * remaining on-demand rotations available for a KMS key.
+ *
+ * You can use GetKeyRotationStatus to identify any in progress on-demand
+ * rotations. You can use ListKeyRotations to identify the date that completed
+ * on-demand rotations were performed. You can monitor rotation of the key material for your KMS
+ * keys in CloudTrail and Amazon CloudWatch.
+ *
+ * On-demand key rotation is supported only on symmetric encryption KMS keys. You cannot
+ * perform on-demand rotation of asymmetric KMS keys, HMAC KMS keys, or KMS keys in a
+ * custom key store. When you initiate on-demand key rotation on a symmetric encryption KMS key
+ * with imported key material, you must have already imported new key material and that
+ * key material's state should be `PENDING_ROTATION`. Use the
+ * `ListKeyRotations` operation to check the state of all key materials associated
+ * with a KMS key. To perform on-demand rotation of a set of related multi-Region keys, import
+ * new key material in the primary Region key, import the same key material in each replica
+ * Region key, and invoke the on-demand rotation on the primary Region key.
+ *
+ * You cannot initiate on-demand rotation of Amazon Web Services managed KMS keys. KMS
+ * always rotates the key material of Amazon Web Services managed keys every year. Rotation of Amazon Web Services owned KMS
+ * keys is managed by the Amazon Web Services service that owns the key.
+ *
+ * The KMS key that you use for this operation must be in a compatible key state. For
+ * details, see Key states of KMS keys in the *Key Management Service Developer Guide*.
+ *
+ * **Cross-account use**: No. You cannot perform this operation on a KMS key in a different Amazon Web Services account.
+ *
+ * **Required permissions**: kms:RotateKeyOnDemand (key policy)
+ *
+ * **Related operations:**
+ *
+ * - EnableKeyRotation
+ *
+ * - DisableKeyRotation
+ *
+ * - GetKeyRotationStatus
+ *
+ * - ImportKeyMaterial
+ *
+ * - ListKeyRotations
+ *
+ * **Eventual consistency**: The KMS API follows an eventual consistency model.
+ * For more information, see KMS eventual consistency.
+ */
+export const rotateKeyOnDemand: (
+  input: RotateKeyOnDemandRequest,
+) => effect.Effect<
+  RotateKeyOnDemandResponse,
+  | ConflictException
+  | DependencyTimeoutException
+  | DisabledException
+  | InvalidArnException
+  | KMSInternalException
+  | KMSInvalidStateException
+  | LimitExceededException
+  | NotFoundException
+  | UnsupportedOperationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RotateKeyOnDemandRequest,
+  output: RotateKeyOnDemandResponse,
+  errors: [
+    ConflictException,
+    DependencyTimeoutException,
+    DisabledException,
+    InvalidArnException,
+    KMSInternalException,
+    KMSInvalidStateException,
+    LimitExceededException,
+    NotFoundException,
+    UnsupportedOperationException,
+  ],
+}));
+/**
+ * Schedules the deletion of a KMS key. By default, KMS applies a waiting period of 30
+ * days, but you can specify a waiting period of 7-30 days. When this operation is successful,
+ * the key state of the KMS key changes to `PendingDeletion` and the key can't be used
+ * in any cryptographic operations. It remains in this state for the duration of the waiting
+ * period. Before the waiting period ends, you can use CancelKeyDeletion to
+ * cancel the deletion of the KMS key. After the waiting period ends, KMS deletes the KMS key,
+ * its key material, and all KMS data associated with it, including all aliases that refer to
+ * it.
+ *
+ * Deleting a KMS key is a destructive and potentially dangerous operation. When a KMS key
+ * is deleted, all data that was encrypted under the KMS key is unrecoverable. (The only
+ * exception is a multi-Region replica key, or an asymmetric or HMAC KMS key with
+ * imported key material.) To prevent the use of a KMS key without deleting it, use
+ * DisableKey.
+ *
+ * You can schedule the deletion of a multi-Region primary key and its replica keys at any
+ * time. However, KMS will not delete a multi-Region primary key with existing replica keys. If
+ * you schedule the deletion of a primary key with replicas, its key state changes to
+ * `PendingReplicaDeletion` and it cannot be replicated or used in cryptographic
+ * operations. This status can continue indefinitely. When the last of its replicas keys is
+ * deleted (not just scheduled), the key state of the primary key changes to
+ * `PendingDeletion` and its waiting period (`PendingWindowInDays`)
+ * begins. For details, see Deleting multi-Region keys in
+ * the *Key Management Service Developer Guide*.
+ *
+ * When KMS deletes a KMS key from an CloudHSM
+ * key store, it makes a best effort to delete the associated key material from the
+ * associated CloudHSM cluster. However, you might need to manually delete the orphaned key
+ * material from the cluster and its backups. Deleting a KMS key from an external key
+ * store has no effect on the associated external key. However, for both types of
+ * custom key stores, deleting a KMS key is destructive and irreversible. You cannot decrypt
+ * ciphertext encrypted under the KMS key by using only its associated external key or CloudHSM key.
+ * Also, you cannot recreate a KMS key in an external key store by creating a new KMS key with
+ * the same key material.
+ *
+ * For more information about scheduling a KMS key for deletion, see Deleting KMS keys in the
+ * *Key Management Service Developer Guide*.
+ *
+ * The KMS key that you use for this operation must be in a compatible key state. For
+ * details, see Key states of KMS keys in the *Key Management Service Developer Guide*.
+ *
+ * **Cross-account use**: No. You cannot perform this operation on a KMS key in a different Amazon Web Services account.
+ *
+ * **Required permissions**: kms:ScheduleKeyDeletion (key
+ * policy)
+ *
+ * **Related operations**
+ *
+ * - CancelKeyDeletion
+ *
+ * - DisableKey
+ *
+ * **Eventual consistency**: The KMS API follows an eventual consistency model.
+ * For more information, see KMS eventual consistency.
+ */
+export const scheduleKeyDeletion: (
+  input: ScheduleKeyDeletionRequest,
+) => effect.Effect<
+  ScheduleKeyDeletionResponse,
+  | DependencyTimeoutException
+  | InvalidArnException
+  | KMSInternalException
+  | KMSInvalidStateException
+  | NotFoundException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ScheduleKeyDeletionRequest,
+  output: ScheduleKeyDeletionResponse,
+  errors: [
     DependencyTimeoutException,
     InvalidArnException,
     KMSInternalException,
+    KMSInvalidStateException,
+    NotFoundException,
+  ],
+}));
+/**
+ * Creates a digital
+ * signature for a message or message digest by using the private key in an asymmetric
+ * signing KMS key. To verify the signature, use the Verify operation, or use
+ * the public key in the same asymmetric KMS key outside of KMS. For information about asymmetric KMS keys, see Asymmetric KMS keys in the *Key Management Service Developer Guide*.
+ *
+ * Digital signatures are generated and verified by using asymmetric key pair, such as an
+ * RSA, ECC, or ML-DSA pair that is represented by an asymmetric KMS key. The key owner (or an
+ * authorized user) uses their private key to sign a message. Anyone with the public key can
+ * verify that the message was signed with that particular private key and that the message
+ * hasn't changed since it was signed.
+ *
+ * To use the `Sign` operation, provide the following information:
+ *
+ * - Use the `KeyId` parameter to identify an asymmetric KMS key with a
+ * `KeyUsage` value of `SIGN_VERIFY`. To get the
+ * `KeyUsage` value of a KMS key, use the DescribeKey
+ * operation. The caller must have `kms:Sign` permission on the KMS key.
+ *
+ * - Use the `Message` parameter to specify the message or message digest to
+ * sign. You can submit messages of up to 4096 bytes. To sign a larger message, generate a
+ * hash digest of the message, and then provide the hash digest in the `Message`
+ * parameter. To indicate whether the message is a full message, a digest, or an ML-DSA
+ * EXTERNAL_MU, use the `MessageType` parameter.
+ *
+ * - Choose a signing algorithm that is compatible with the KMS key.
+ *
+ * When signing a message, be sure to record the KMS key and the signing algorithm. This
+ * information is required to verify the signature.
+ *
+ * Best practices recommend that you limit the time during which any signature is
+ * effective. This deters an attack where the actor uses a signed message to establish validity
+ * repeatedly or long after the message is superseded. Signatures do not include a timestamp,
+ * but you can include a timestamp in the signed message to help you detect when its time to
+ * refresh the signature.
+ *
+ * To verify the signature that this operation generates, use the Verify
+ * operation. Or use the GetPublicKey operation to download the public key and
+ * then use the public key to verify the signature outside of KMS.
+ *
+ * The KMS key that you use for this operation must be in a compatible key state. For
+ * details, see Key states of KMS keys in the *Key Management Service Developer Guide*.
+ *
+ * **Cross-account use**: Yes. To perform this operation with a KMS key in a different Amazon Web Services account, specify
+ * the key ARN or alias ARN in the value of the `KeyId` parameter.
+ *
+ * **Required permissions**: kms:Sign (key policy)
+ *
+ * **Related operations**: Verify
+ *
+ * **Eventual consistency**: The KMS API follows an eventual consistency model.
+ * For more information, see KMS eventual consistency.
+ */
+export const sign: (
+  input: SignRequest,
+) => effect.Effect<
+  SignResponse,
+  | DependencyTimeoutException
+  | DisabledException
+  | DryRunOperationException
+  | InvalidGrantTokenException
+  | InvalidKeyUsageException
+  | KeyUnavailableException
+  | KMSInternalException
+  | KMSInvalidStateException
+  | NotFoundException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SignRequest,
+  output: SignResponse,
+  errors: [
+    DependencyTimeoutException,
+    DisabledException,
+    DryRunOperationException,
+    InvalidGrantTokenException,
+    InvalidKeyUsageException,
+    KeyUnavailableException,
+    KMSInternalException,
+    KMSInvalidStateException,
+    NotFoundException,
+  ],
+}));
+/**
+ * Adds or edits tags on a customer managed key.
+ *
+ * Tagging or untagging a KMS key can allow or deny permission to the KMS key. For details, see ABAC for KMS in the *Key Management Service Developer Guide*.
+ *
+ * Each tag consists of a tag key and a tag value, both of which are case-sensitive strings.
+ * The tag value can be an empty (null) string. To add a tag, specify a new tag key and a tag
+ * value. To edit a tag, specify an existing tag key and a new tag value.
+ *
+ * You can use this operation to tag a customer managed key, but you
+ * cannot tag an Amazon Web Services managed key, an Amazon Web Services owned key, a custom key store,
+ * or an alias.
+ *
+ * You can also add tags to a KMS key while creating it (CreateKey) or
+ * replicating it (ReplicateKey).
+ *
+ * For information about using tags in KMS, see Tagging keys. For general information about
+ * tags, including the format and syntax, see Tagging Amazon Web Services resources in the Amazon
+ * Web Services General Reference.
+ *
+ * The KMS key that you use for this operation must be in a compatible key state. For
+ * details, see Key states of KMS keys in the *Key Management Service Developer Guide*.
+ *
+ * **Cross-account use**: No. You cannot perform this operation on a KMS key in a different Amazon Web Services account.
+ *
+ * **Required permissions**: kms:TagResource (key policy)
+ *
+ * **Related operations**
+ *
+ * - CreateKey
+ *
+ * - ListResourceTags
+ *
+ * - ReplicateKey
+ *
+ * - UntagResource
+ *
+ * **Eventual consistency**: The KMS API follows an eventual consistency model.
+ * For more information, see KMS eventual consistency.
+ */
+export const tagResource: (
+  input: TagResourceRequest,
+) => effect.Effect<
+  TagResourceResponse,
+  | InvalidArnException
+  | KMSInternalException
+  | KMSInvalidStateException
+  | LimitExceededException
+  | NotFoundException
+  | TagException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResponse,
+  errors: [
+    InvalidArnException,
+    KMSInternalException,
+    KMSInvalidStateException,
     LimitExceededException,
-    MalformedPolicyDocumentException,
+    NotFoundException,
     TagException,
-    UnsupportedOperationException,
-    XksKeyAlreadyInUseException,
-    XksKeyInvalidConfigurationException,
-    XksKeyNotFoundException,
+  ],
+}));
+/**
+ * Deletes tags from a customer managed key. To delete a
+ * tag, specify the tag key and the KMS key.
+ *
+ * Tagging or untagging a KMS key can allow or deny permission to the KMS key. For details, see ABAC for KMS in the *Key Management Service Developer Guide*.
+ *
+ * When it succeeds, the `UntagResource` operation doesn't return any output.
+ * Also, if the specified tag key isn't found on the KMS key, it doesn't throw an exception or
+ * return a response. To confirm that the operation worked, use the ListResourceTags operation.
+ *
+ * For information about using tags in KMS, see Tagging keys. For general information about
+ * tags, including the format and syntax, see Tagging Amazon Web Services resources in the Amazon
+ * Web Services General Reference.
+ *
+ * The KMS key that you use for this operation must be in a compatible key state. For
+ * details, see Key states of KMS keys in the *Key Management Service Developer Guide*.
+ *
+ * **Cross-account use**: No. You cannot perform this operation on a KMS key in a different Amazon Web Services account.
+ *
+ * **Required permissions**: kms:UntagResource (key policy)
+ *
+ * **Related operations**
+ *
+ * - CreateKey
+ *
+ * - ListResourceTags
+ *
+ * - ReplicateKey
+ *
+ * - TagResource
+ *
+ * **Eventual consistency**: The KMS API follows an eventual consistency model.
+ * For more information, see KMS eventual consistency.
+ */
+export const untagResource: (
+  input: UntagResourceRequest,
+) => effect.Effect<
+  UntagResourceResponse,
+  | InvalidArnException
+  | KMSInternalException
+  | KMSInvalidStateException
+  | NotFoundException
+  | TagException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
+  errors: [
+    InvalidArnException,
+    KMSInternalException,
+    KMSInvalidStateException,
+    NotFoundException,
+    TagException,
+  ],
+}));
+/**
+ * Associates an existing KMS alias with a different KMS key. Each alias is associated with
+ * only one KMS key at a time, although a KMS key can have multiple aliases. The alias and the
+ * KMS key must be in the same Amazon Web Services account and Region.
+ *
+ * Adding, deleting, or updating an alias can allow or deny permission to the KMS key. For details, see ABAC for KMS in the *Key Management Service Developer Guide*.
+ *
+ * The current and new KMS key must be the same type (both symmetric or both asymmetric or
+ * both HMAC), and they must have the same key usage. This restriction prevents errors in code
+ * that uses aliases. If you must assign an alias to a different type of KMS key, use DeleteAlias to delete the old alias and CreateAlias to create
+ * a new alias.
+ *
+ * You cannot use `UpdateAlias` to change an alias name. To change an alias name,
+ * use DeleteAlias to delete the old alias and CreateAlias to
+ * create a new alias.
+ *
+ * Because an alias is not a property of a KMS key, you can create, update, and delete the
+ * aliases of a KMS key without affecting the KMS key. Also, aliases do not appear in the
+ * response from the DescribeKey operation. To get the aliases of all KMS keys
+ * in the account, use the ListAliases operation.
+ *
+ * The KMS key that you use for this operation must be in a compatible key state. For
+ * details, see Key states of KMS keys in the *Key Management Service Developer Guide*.
+ *
+ * **Cross-account use**: No. You cannot perform this operation on a KMS key in a different Amazon Web Services account.
+ *
+ * **Required permissions**
+ *
+ * - kms:UpdateAlias on
+ * the alias (IAM policy).
+ *
+ * - kms:UpdateAlias on
+ * the current KMS key (key policy).
+ *
+ * - kms:UpdateAlias on
+ * the new KMS key (key policy).
+ *
+ * For details, see Controlling access to aliases in the
+ * *Key Management Service Developer Guide*.
+ *
+ * **Related operations:**
+ *
+ * - CreateAlias
+ *
+ * - DeleteAlias
+ *
+ * - ListAliases
+ *
+ * **Eventual consistency**: The KMS API follows an eventual consistency model.
+ * For more information, see KMS eventual consistency.
+ */
+export const updateAlias: (
+  input: UpdateAliasRequest,
+) => effect.Effect<
+  UpdateAliasResponse,
+  | DependencyTimeoutException
+  | KMSInternalException
+  | KMSInvalidStateException
+  | LimitExceededException
+  | NotFoundException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateAliasRequest,
+  output: UpdateAliasResponse,
+  errors: [
+    DependencyTimeoutException,
+    KMSInternalException,
+    KMSInvalidStateException,
+    LimitExceededException,
+    NotFoundException,
   ],
 }));
 /**
@@ -7104,123 +6947,264 @@ export const updateCustomKeyStore: (
   ],
 }));
 /**
- * Creates a custom key store backed by a key store that you own and manage. When you use a
- * KMS key in a custom key store for a cryptographic operation, the cryptographic operation is
- * actually performed in your key store using your keys. KMS supports CloudHSM key stores
- * backed by an CloudHSM cluster
- * and external key
- * stores backed by an external key store proxy and external key manager outside of
- * Amazon Web Services.
+ * Updates the description of a KMS key. To see the description of a KMS key, use DescribeKey.
  *
- * This operation is part of the custom key stores feature in KMS, which
- * combines the convenience and extensive integration of KMS with the isolation and control of a
- * key store that you own and manage.
+ * The KMS key that you use for this operation must be in a compatible key state. For
+ * details, see Key states of KMS keys in the *Key Management Service Developer Guide*.
  *
- * Before you create the custom key store, the required elements must be in place and
- * operational. We recommend that you use the test tools that KMS provides to verify the
- * configuration your external key store proxy. For details about the required elements and
- * verification tests, see Assemble the prerequisites (for
- * CloudHSM key stores) or Assemble the prerequisites (for
- * external key stores) in the *Key Management Service Developer Guide*.
+ * **Cross-account use**: No. You cannot perform this operation on a KMS key in a different Amazon Web Services account.
  *
- * To create a custom key store, use the following parameters.
+ * **Required permissions**: kms:UpdateKeyDescription (key policy)
  *
- * - To create an CloudHSM key store, specify the `CustomKeyStoreName`,
- * `CloudHsmClusterId`, `KeyStorePassword`, and
- * `TrustAnchorCertificate`. The `CustomKeyStoreType` parameter is
- * optional for CloudHSM key stores. If you include it, set it to the default value,
- * `AWS_CLOUDHSM`. For help with failures, see Troubleshooting an CloudHSM key store in the
- * *Key Management Service Developer Guide*.
+ * **Related operations**
  *
- * - To create an external key store, specify the `CustomKeyStoreName` and a
- * `CustomKeyStoreType` of `EXTERNAL_KEY_STORE`. Also, specify values
- * for `XksProxyConnectivity`, `XksProxyAuthenticationCredential`,
- * `XksProxyUriEndpoint`, and `XksProxyUriPath`. If your
- * `XksProxyConnectivity` value is `VPC_ENDPOINT_SERVICE`, specify
- * the `XksProxyVpcEndpointServiceName` parameter. For help with failures, see
- * Troubleshooting
- * an external key store in the *Key Management Service Developer Guide*.
+ * - CreateKey
  *
- * For external key stores:
- *
- * Some external key managers provide a simpler method for creating an external key store.
- * For details, see your external key manager documentation.
- *
- * When creating an external key store in the KMS console, you can upload a JSON-based
- * proxy configuration file with the desired values. You cannot use a proxy configuration with
- * the `CreateCustomKeyStore` operation. However, you can use the values in the file
- * to help you determine the correct values for the `CreateCustomKeyStore`
- * parameters.
- *
- * When the operation completes successfully, it returns the ID of the new custom key store.
- * Before you can use your new custom key store, you need to use the ConnectCustomKeyStore operation to connect a new CloudHSM key store to its CloudHSM
- * cluster, or to connect a new external key store to the external key store proxy for your
- * external key manager. Even if you are not going to use your custom key store immediately, you
- * might want to connect it to verify that all settings are correct and then disconnect it until
- * you are ready to use it.
- *
- * **Cross-account use**: No. You cannot perform this operation on a custom key store in a different Amazon Web Services account.
- *
- * **Required permissions**: kms:CreateCustomKeyStore (IAM policy).
- *
- * **Related operations:**
- *
- * - ConnectCustomKeyStore
- *
- * - DeleteCustomKeyStore
- *
- * - DescribeCustomKeyStores
- *
- * - DisconnectCustomKeyStore
- *
- * - UpdateCustomKeyStore
+ * - DescribeKey
  *
  * **Eventual consistency**: The KMS API follows an eventual consistency model.
  * For more information, see KMS eventual consistency.
  */
-export const createCustomKeyStore: (
-  input: CreateCustomKeyStoreRequest,
+export const updateKeyDescription: (
+  input: UpdateKeyDescriptionRequest,
 ) => effect.Effect<
-  CreateCustomKeyStoreResponse,
-  | CloudHsmClusterInUseException
-  | CloudHsmClusterInvalidConfigurationException
-  | CloudHsmClusterNotActiveException
-  | CloudHsmClusterNotFoundException
-  | CustomKeyStoreNameInUseException
-  | IncorrectTrustAnchorException
+  UpdateKeyDescriptionResponse,
+  | DependencyTimeoutException
+  | InvalidArnException
   | KMSInternalException
-  | LimitExceededException
-  | XksProxyIncorrectAuthenticationCredentialException
-  | XksProxyInvalidConfigurationException
-  | XksProxyInvalidResponseException
-  | XksProxyUriEndpointInUseException
-  | XksProxyUriInUseException
-  | XksProxyUriUnreachableException
-  | XksProxyVpcEndpointServiceInUseException
-  | XksProxyVpcEndpointServiceInvalidConfigurationException
-  | XksProxyVpcEndpointServiceNotFoundException
+  | KMSInvalidStateException
+  | NotFoundException
   | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateCustomKeyStoreRequest,
-  output: CreateCustomKeyStoreResponse,
+  input: UpdateKeyDescriptionRequest,
+  output: UpdateKeyDescriptionResponse,
   errors: [
-    CloudHsmClusterInUseException,
-    CloudHsmClusterInvalidConfigurationException,
-    CloudHsmClusterNotActiveException,
-    CloudHsmClusterNotFoundException,
-    CustomKeyStoreNameInUseException,
-    IncorrectTrustAnchorException,
+    DependencyTimeoutException,
+    InvalidArnException,
     KMSInternalException,
-    LimitExceededException,
-    XksProxyIncorrectAuthenticationCredentialException,
-    XksProxyInvalidConfigurationException,
-    XksProxyInvalidResponseException,
-    XksProxyUriEndpointInUseException,
-    XksProxyUriInUseException,
-    XksProxyUriUnreachableException,
-    XksProxyVpcEndpointServiceInUseException,
-    XksProxyVpcEndpointServiceInvalidConfigurationException,
-    XksProxyVpcEndpointServiceNotFoundException,
+    KMSInvalidStateException,
+    NotFoundException,
+  ],
+}));
+/**
+ * Changes the primary key of a multi-Region key.
+ *
+ * This operation changes the replica key in the specified Region to a primary key and
+ * changes the former primary key to a replica key. For example, suppose you have a primary key
+ * in `us-east-1` and a replica key in `eu-west-2`. If you run
+ * `UpdatePrimaryRegion` with a `PrimaryRegion` value of
+ * `eu-west-2`, the primary key is now the key in `eu-west-2`, and the
+ * key in `us-east-1` becomes a replica key. For details, see Change the primary key in a
+ * set of multi-Region keys in the *Key Management Service Developer Guide*.
+ *
+ * This operation supports *multi-Region keys*, an KMS feature that lets you create multiple
+ * interoperable KMS keys in different Amazon Web Services Regions. Because these KMS keys have the same key ID, key
+ * material, and other metadata, you can use them interchangeably to encrypt data in one Amazon Web Services Region and decrypt
+ * it in a different Amazon Web Services Region without re-encrypting the data or making a cross-Region call. For more information about multi-Region keys, see Multi-Region keys in KMS in the *Key Management Service Developer Guide*.
+ *
+ * The *primary key* of a multi-Region key is the source for properties
+ * that are always shared by primary and replica keys, including the key material, key ID, key spec, key usage, key material
+ * origin, and automatic
+ * key rotation. It's the only key that can be replicated. You cannot delete the primary
+ * key until all replica keys are deleted.
+ *
+ * The key ID and primary Region that you specify uniquely identify the replica key that will
+ * become the primary key. The primary Region must already have a replica key. This operation
+ * does not create a KMS key in the specified Region. To find the replica keys, use the DescribeKey operation on the primary key or any replica key. To create a replica
+ * key, use the ReplicateKey operation.
+ *
+ * You can run this operation while using the affected multi-Region keys in cryptographic
+ * operations. This operation should not delay, interrupt, or cause failures in cryptographic
+ * operations.
+ *
+ * Even after this operation completes, the process of updating the primary Region might
+ * still be in progress for a few more seconds. Operations such as `DescribeKey` might
+ * display both the old and new primary keys as replicas. The old and new primary keys have a
+ * transient key state of `Updating`. The original key state is restored when the
+ * update is complete. While the key state is `Updating`, you can use the keys in
+ * cryptographic operations, but you cannot replicate the new primary key or perform certain
+ * management operations, such as enabling or disabling these keys. For details about the
+ * `Updating` key state, see Key states of KMS keys in the *Key Management Service Developer Guide*.
+ *
+ * This operation does not return any output. To verify that primary key is changed, use the
+ * DescribeKey operation.
+ *
+ * **Cross-account use**: No. You cannot use this operation in a
+ * different Amazon Web Services account.
+ *
+ * **Required permissions**:
+ *
+ * - `kms:UpdatePrimaryRegion` on the current primary key (in the primary key's
+ * Region). Include this permission primary key's key policy.
+ *
+ * - `kms:UpdatePrimaryRegion` on the current replica key (in the replica key's
+ * Region). Include this permission in the replica key's key policy.
+ *
+ * **Related operations**
+ *
+ * - CreateKey
+ *
+ * - ReplicateKey
+ *
+ * **Eventual consistency**: The KMS API follows an eventual consistency model.
+ * For more information, see KMS eventual consistency.
+ */
+export const updatePrimaryRegion: (
+  input: UpdatePrimaryRegionRequest,
+) => effect.Effect<
+  UpdatePrimaryRegionResponse,
+  | DisabledException
+  | InvalidArnException
+  | KMSInternalException
+  | KMSInvalidStateException
+  | NotFoundException
+  | UnsupportedOperationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdatePrimaryRegionRequest,
+  output: UpdatePrimaryRegionResponse,
+  errors: [
+    DisabledException,
+    InvalidArnException,
+    KMSInternalException,
+    KMSInvalidStateException,
+    NotFoundException,
+    UnsupportedOperationException,
+  ],
+}));
+/**
+ * Verifies a digital signature that was generated by the Sign operation.
+ *
+ * Verification confirms that an authorized user signed the message with the specified KMS
+ * key and signing algorithm, and the message hasn't changed since it was signed. If the
+ * signature is verified, the value of the `SignatureValid` field in the response is
+ * `True`. If the signature verification fails, the `Verify` operation
+ * fails with an `KMSInvalidSignatureException` exception.
+ *
+ * A digital signature is generated by using the private key in an asymmetric KMS key. The
+ * signature is verified by using the public key in the same asymmetric KMS key.
+ * For information about asymmetric KMS keys, see Asymmetric KMS keys in the *Key Management Service Developer Guide*.
+ *
+ * To use the `Verify` operation, specify the same asymmetric KMS key, message,
+ * and signing algorithm that were used to produce the signature. The message type does not need
+ * to be the same as the one used for signing, but it must indicate whether the value of the
+ * `Message` parameter should be hashed as part of the verification process.
+ *
+ * You can also verify the digital signature by using the public key of the KMS key outside
+ * of KMS. Use the GetPublicKey operation to download the public key in the
+ * asymmetric KMS key and then use the public key to verify the signature outside of KMS. The
+ * advantage of using the `Verify` operation is that it is performed within KMS. As
+ * a result, it's easy to call, the operation is performed within the FIPS boundary, it is logged
+ * in CloudTrail, and you can use key policy and IAM policy to determine who is authorized to use
+ * the KMS key to verify signatures.
+ *
+ * To verify a signature outside of KMS with an SM2 public key (China Regions only), you
+ * must specify the distinguishing ID. By default, KMS uses `1234567812345678` as
+ * the distinguishing ID. For more information, see Offline
+ * verification with SM2 key pairs.
+ *
+ * The KMS key that you use for this operation must be in a compatible key state. For
+ * details, see Key states of KMS keys in the *Key Management Service Developer Guide*.
+ *
+ * **Cross-account use**: Yes. To perform this operation with a KMS key in a different Amazon Web Services account, specify
+ * the key ARN or alias ARN in the value of the `KeyId` parameter.
+ *
+ * **Required permissions**: kms:Verify (key policy)
+ *
+ * **Related operations**: Sign
+ *
+ * **Eventual consistency**: The KMS API follows an eventual consistency model.
+ * For more information, see KMS eventual consistency.
+ */
+export const verify: (
+  input: VerifyRequest,
+) => effect.Effect<
+  VerifyResponse,
+  | DependencyTimeoutException
+  | DisabledException
+  | DryRunOperationException
+  | InvalidGrantTokenException
+  | InvalidKeyUsageException
+  | KeyUnavailableException
+  | KMSInternalException
+  | KMSInvalidSignatureException
+  | KMSInvalidStateException
+  | NotFoundException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: VerifyRequest,
+  output: VerifyResponse,
+  errors: [
+    DependencyTimeoutException,
+    DisabledException,
+    DryRunOperationException,
+    InvalidGrantTokenException,
+    InvalidKeyUsageException,
+    KeyUnavailableException,
+    KMSInternalException,
+    KMSInvalidSignatureException,
+    KMSInvalidStateException,
+    NotFoundException,
+  ],
+}));
+/**
+ * Verifies the hash-based message authentication code (HMAC) for a specified message, HMAC
+ * KMS key, and MAC algorithm. To verify the HMAC, `VerifyMac` computes an HMAC using
+ * the message, HMAC KMS key, and MAC algorithm that you specify, and compares the computed HMAC
+ * to the HMAC that you specify. If the HMACs are identical, the verification succeeds;
+ * otherwise, it fails. Verification indicates that the message hasn't changed since the HMAC was
+ * calculated, and the specified key was used to generate and verify the HMAC.
+ *
+ * HMAC KMS keys and the HMAC algorithms that KMS uses conform to industry standards
+ * defined in RFC 2104.
+ *
+ * This operation is part of KMS support for HMAC KMS keys. For details, see
+ * HMAC keys in KMS in the
+ * *Key Management Service Developer Guide*.
+ *
+ * The KMS key that you use for this operation must be in a compatible key state. For
+ * details, see Key states of KMS keys in the *Key Management Service Developer Guide*.
+ *
+ * **Cross-account use**: Yes. To perform this operation with a KMS key in a different Amazon Web Services account, specify
+ * the key ARN or alias ARN in the value of the `KeyId` parameter.
+ *
+ * **Required permissions**: kms:VerifyMac (key policy)
+ *
+ * **Related operations**: GenerateMac
+ *
+ * **Eventual consistency**: The KMS API follows an eventual consistency model.
+ * For more information, see KMS eventual consistency.
+ */
+export const verifyMac: (
+  input: VerifyMacRequest,
+) => effect.Effect<
+  VerifyMacResponse,
+  | DisabledException
+  | DryRunOperationException
+  | InvalidGrantTokenException
+  | InvalidKeyUsageException
+  | KeyUnavailableException
+  | KMSInternalException
+  | KMSInvalidMacException
+  | KMSInvalidStateException
+  | NotFoundException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: VerifyMacRequest,
+  output: VerifyMacResponse,
+  errors: [
+    DisabledException,
+    DryRunOperationException,
+    InvalidGrantTokenException,
+    InvalidKeyUsageException,
+    KeyUnavailableException,
+    KMSInternalException,
+    KMSInvalidMacException,
+    KMSInvalidStateException,
+    NotFoundException,
   ],
 }));

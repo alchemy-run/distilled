@@ -6,8 +6,14 @@ import { NotFound } from "../errors";
 // Input Schema
 export const GetWebhookSubscriptionInput = Schema.Struct({
   subscriptionId: Schema.String.pipe(T.PathParam()),
-}).pipe(T.Http({ method: "GET", path: "/v2/data/webhooks/subscriptions/{subscriptionId}" }));
-export type GetWebhookSubscriptionInput = typeof GetWebhookSubscriptionInput.Type;
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/v2/data/webhooks/subscriptions/{subscriptionId}",
+  }),
+);
+export type GetWebhookSubscriptionInput =
+  typeof GetWebhookSubscriptionInput.Type;
 
 // Output Schema
 export const GetWebhookSubscriptionOutput = Schema.Struct({
@@ -15,18 +21,21 @@ export const GetWebhookSubscriptionOutput = Schema.Struct({
   description: Schema.optional(Schema.String),
   eventTypes: Schema.Array(Schema.String),
   isEnabled: Schema.Boolean,
-  metadata: Schema.optional(Schema.Struct({
-    secret: Schema.optional(Schema.String),
-  })),
+  metadata: Schema.optional(
+    Schema.Struct({
+      secret: Schema.optional(Schema.String),
+    }),
+  ),
   secret: Schema.String,
   subscriptionId: Schema.String,
   target: Schema.Struct({
     url: Schema.String,
-    headers: Schema.optional(Schema.Record({ key: Schema.String, value: Schema.String })),
+    headers: Schema.optional(Schema.Record(Schema.String, Schema.String)),
   }),
-  labels: Schema.optional(Schema.Record({ key: Schema.String, value: Schema.String })),
+  labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
 });
-export type GetWebhookSubscriptionOutput = typeof GetWebhookSubscriptionOutput.Type;
+export type GetWebhookSubscriptionOutput =
+  typeof GetWebhookSubscriptionOutput.Type;
 
 // The operation
 /**
@@ -42,8 +51,10 @@ export type GetWebhookSubscriptionOutput = typeof GetWebhookSubscriptionOutput.T
  *
  * @param subscriptionId - Unique identifier for the webhook subscription.
  */
-export const getWebhookSubscription = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  inputSchema: GetWebhookSubscriptionInput,
-  outputSchema: GetWebhookSubscriptionOutput,
-  errors: [NotFound],
-}));
+export const getWebhookSubscription = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    inputSchema: GetWebhookSubscriptionInput,
+    outputSchema: GetWebhookSubscriptionOutput,
+    errors: [NotFound],
+  }),
+);

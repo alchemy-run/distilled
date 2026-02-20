@@ -10,7 +10,7 @@ export const CreateOauthTokenInput = Schema.Struct({
   id: Schema.String.pipe(T.PathParam()),
   client_id: Schema.String,
   client_secret: Schema.String,
-  grant_type: Schema.Literal("authorization_code", "refresh_token"),
+  grant_type: Schema.Literals(["authorization_code", "refresh_token"]),
   code: Schema.optional(Schema.String),
   redirect_uri: Schema.optional(Schema.String),
   refresh_token: Schema.optional(Schema.String),

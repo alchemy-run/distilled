@@ -1,4 +1,4 @@
-import { HttpClient } from "@effect/platform";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as effect from "effect/Effect";
 import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
@@ -160,166 +160,110 @@ const rules = T.EndpointResolver((p, _) => {
 
 //# Newtypes
 export type EventSourceName = string;
+export type ErrorMessage = string;
 export type ReplayName = string;
+export type ReplayArn = string;
+export type ReplayStateReason = string;
 export type ApiDestinationName = string;
 export type ApiDestinationDescription = string;
 export type ConnectionArn = string;
 export type HttpsEndpoint = string;
 export type ApiDestinationInvocationRateLimitPerSecond = number;
+export type ApiDestinationArn = string;
 export type ArchiveName = string;
 export type EventBusArn = string;
 export type ArchiveDescription = string;
 export type EventPattern = string;
 export type RetentionDays = number;
 export type KmsKeyIdentifier = string;
+export type ArchiveArn = string;
+export type ArchiveStateReason = string;
 export type ConnectionName = string;
 export type ConnectionDescription = string;
-export type EndpointName = string;
-export type EndpointDescription = string;
-export type IamRoleArn = string;
-export type EventBusName = string;
-export type EventBusDescription = string;
-export type AccountId = string;
-export type RuleName = string;
-export type EventBusNameOrArn = string;
-export type HomeRegion = string;
-export type NextToken = string;
-export type LimitMax100 = number;
-export type EventSourceNamePrefix = string;
-export type PartnerEventSourceNamePrefix = string;
-export type ArchiveArn = string;
-export type TargetArn = string;
-export type Arn = string;
-export type EndpointId = string;
-export type NonPartnerEventBusName = string;
-export type Action = string;
-export type Principal = string;
-export type StatementId = string;
-export type ScheduleExpression = string;
-export type RuleDescription = string;
-export type RoleArn = string;
-export type TargetId = string;
-export type ReplayDescription = string;
-export type TagKey = string;
-export type NonPartnerEventBusArn = string;
-export type ResourceArn = string;
-export type TagValue = string;
-export type EventTime = Date;
-export type EventResource = string;
-export type NonPartnerEventBusNameOrArn = string;
-export type TraceHeader = string;
-export type TargetInput = string;
-export type TargetInputPath = string;
-export type ErrorMessage = string;
-export type ReplayArn = string;
-export type ReplayStateReason = string;
-export type ApiDestinationArn = string;
-export type ArchiveStateReason = string;
-export type ConnectionStateReason = string;
-export type SecretsManagerSecretArn = string;
-export type EndpointArn = string;
-export type EndpointUrl = string;
-export type EndpointStateReason = string;
-export type RuleArn = string;
-export type ManagedBy = string;
-export type CreatedBy = string;
 export type AuthHeaderParameters = string;
 export type AuthHeaderParametersSensitive = string | redacted.Redacted<string>;
-export type ResourceConfigurationArn = string;
-export type TransformerInput = string;
-export type TargetPartitionKeyPath = string;
-export type LimitMin1 = number;
-export type ReferenceId = string;
-export type MessageGroupId = string;
-export type PathParameter = string;
-export type RedshiftSecretManagerArn = string;
-export type Database = string;
-export type DbUser = string;
-export type Sql = string | redacted.Redacted<string>;
-export type StatementName = string;
-export type MaximumRetryAttempts = number;
-export type MaximumEventAgeInSeconds = number;
-export type GraphQLOperation = string | redacted.Redacted<string>;
-export type ErrorCode = string;
 export type HeaderKey = string;
 export type HeaderValueSensitive = string | redacted.Redacted<string>;
 export type QueryStringKey = string;
 export type QueryStringValueSensitive = string | redacted.Redacted<string>;
 export type SensitiveString = string | redacted.Redacted<string>;
+export type ResourceConfigurationArn = string;
+export type EndpointName = string;
+export type EndpointDescription = string;
 export type HealthCheck = string;
 export type Route = string;
+export type NonPartnerEventBusArn = string;
+export type IamRoleArn = string;
+export type EndpointArn = string;
+export type EventBusName = string;
+export type EventBusDescription = string;
+export type ResourceArn = string;
+export type TagKey = string;
+export type TagValue = string;
+export type AccountId = string;
+export type RuleName = string;
+export type EventBusNameOrArn = string;
+export type ResourceAssociationArn = string;
+export type ConnectionStateReason = string;
+export type SecretsManagerSecretArn = string;
+export type HomeRegion = string;
+export type EndpointId = string;
+export type EndpointUrl = string;
+export type EndpointStateReason = string;
+export type ReplayDescription = string;
+export type Arn = string;
+export type RuleArn = string;
+export type ScheduleExpression = string;
+export type RuleDescription = string;
+export type RoleArn = string;
+export type ManagedBy = string;
+export type CreatedBy = string;
+export type NextToken = string;
+export type LimitMax100 = number;
+export type EventSourceNamePrefix = string;
+export type PartnerEventSourceNamePrefix = string;
+export type TargetArn = string;
+export type TargetId = string;
+export type TargetInput = string;
+export type TargetInputPath = string;
 export type InputTransformerPathKey = string;
+export type TransformerInput = string;
+export type TargetPartitionKeyPath = string;
 export type RunCommandTargetKey = string;
 export type RunCommandTargetValue = string;
+export type LimitMin1 = number;
 export type CapacityProvider = string;
 export type CapacityProviderStrategyItemWeight = number;
 export type CapacityProviderStrategyItemBase = number;
 export type PlacementConstraintExpression = string;
 export type PlacementStrategyField = string;
+export type ReferenceId = string;
+export type MessageGroupId = string;
+export type PathParameter = string;
 export type HeaderValue = string;
 export type QueryStringValue = string;
+export type RedshiftSecretManagerArn = string;
+export type Database = string;
+export type DbUser = string;
+export type Sql = string | redacted.Redacted<string>;
+export type StatementName = string;
 export type SageMakerPipelineParameterName = string;
 export type SageMakerPipelineParameterValue = string;
-export type ResourceAssociationArn = string;
+export type MaximumRetryAttempts = number;
+export type MaximumEventAgeInSeconds = number;
+export type GraphQLOperation = string | redacted.Redacted<string>;
+export type EventTime = Date;
+export type EventResource = string;
+export type NonPartnerEventBusNameOrArn = string;
+export type TraceHeader = string;
 export type EventId = string;
+export type ErrorCode = string;
+export type NonPartnerEventBusName = string;
+export type Action = string;
+export type Principal = string;
+export type StatementId = string;
 
 //# Schemas
-export type ApiDestinationHttpMethod =
-  | "POST"
-  | "GET"
-  | "HEAD"
-  | "OPTIONS"
-  | "PUT"
-  | "PATCH"
-  | "DELETE"
-  | (string & {});
-export const ApiDestinationHttpMethod = S.String;
-export type ConnectionAuthorizationType =
-  | "BASIC"
-  | "OAUTH_CLIENT_CREDENTIALS"
-  | "API_KEY"
-  | (string & {});
-export const ConnectionAuthorizationType = S.String;
-export type ArchiveState =
-  | "ENABLED"
-  | "DISABLED"
-  | "CREATING"
-  | "UPDATING"
-  | "CREATE_FAILED"
-  | "UPDATE_FAILED"
-  | (string & {});
-export const ArchiveState = S.String;
-export type ConnectionState =
-  | "CREATING"
-  | "UPDATING"
-  | "DELETING"
-  | "AUTHORIZED"
-  | "DEAUTHORIZED"
-  | "AUTHORIZING"
-  | "DEAUTHORIZING"
-  | "ACTIVE"
-  | "FAILED_CONNECTIVITY"
-  | (string & {});
-export const ConnectionState = S.String;
-export type ReplayState =
-  | "STARTING"
-  | "RUNNING"
-  | "CANCELLING"
-  | "COMPLETED"
-  | "CANCELLED"
-  | "FAILED"
-  | (string & {});
-export const ReplayState = S.String;
-export type RuleState =
-  | "ENABLED"
-  | "DISABLED"
-  | "ENABLED_WITH_ALL_CLOUDTRAIL_MANAGEMENT_EVENTS"
-  | (string & {});
-export const RuleState = S.String;
-export type TargetIdList = string[];
-export const TargetIdList = S.Array(S.String);
-export type TagKeyList = string[];
-export const TagKeyList = S.Array(S.String);
 export interface ActivateEventSourceRequest {
   Name: string;
 }
@@ -335,13 +279,13 @@ export const ActivateEventSourceRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "ActivateEventSourceRequest",
 }) as any as S.Schema<ActivateEventSourceRequest>;
 export interface ActivateEventSourceResponse {}
 export const ActivateEventSourceResponse = S.suspend(() =>
   S.Struct({}).pipe(ns),
-).annotations({
+).annotate({
   identifier: "ActivateEventSourceResponse",
 }) as any as S.Schema<ActivateEventSourceResponse>;
 export interface CancelReplayRequest {
@@ -359,9 +303,42 @@ export const CancelReplayRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "CancelReplayRequest",
 }) as any as S.Schema<CancelReplayRequest>;
+export type ReplayState =
+  | "STARTING"
+  | "RUNNING"
+  | "CANCELLING"
+  | "COMPLETED"
+  | "CANCELLED"
+  | "FAILED"
+  | (string & {});
+export const ReplayState = S.String;
+export interface CancelReplayResponse {
+  ReplayArn?: string;
+  State?: ReplayState;
+  StateReason?: string;
+}
+export const CancelReplayResponse = S.suspend(() =>
+  S.Struct({
+    ReplayArn: S.optional(S.String),
+    State: S.optional(ReplayState),
+    StateReason: S.optional(S.String),
+  }).pipe(ns),
+).annotate({
+  identifier: "CancelReplayResponse",
+}) as any as S.Schema<CancelReplayResponse>;
+export type ApiDestinationHttpMethod =
+  | "POST"
+  | "GET"
+  | "HEAD"
+  | "OPTIONS"
+  | "PUT"
+  | "PATCH"
+  | "DELETE"
+  | (string & {});
+export const ApiDestinationHttpMethod = S.String;
 export interface CreateApiDestinationRequest {
   Name: string;
   Description?: string;
@@ -389,9 +366,29 @@ export const CreateApiDestinationRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "CreateApiDestinationRequest",
 }) as any as S.Schema<CreateApiDestinationRequest>;
+export type ApiDestinationState = "ACTIVE" | "INACTIVE" | (string & {});
+export const ApiDestinationState = S.String;
+export interface CreateApiDestinationResponse {
+  ApiDestinationArn?: string;
+  ApiDestinationState?: ApiDestinationState;
+  CreationTime?: Date;
+  LastModifiedTime?: Date;
+}
+export const CreateApiDestinationResponse = S.suspend(() =>
+  S.Struct({
+    ApiDestinationArn: S.optional(S.String),
+    ApiDestinationState: S.optional(ApiDestinationState),
+    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    LastModifiedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }).pipe(ns),
+).annotate({
+  identifier: "CreateApiDestinationResponse",
+}) as any as S.Schema<CreateApiDestinationResponse>;
 export interface CreateArchiveRequest {
   ArchiveName: string;
   EventSourceArn: string;
@@ -419,990 +416,205 @@ export const CreateArchiveRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "CreateArchiveRequest",
 }) as any as S.Schema<CreateArchiveRequest>;
-export interface CreatePartnerEventSourceRequest {
-  Name: string;
-  Account: string;
-}
-export const CreatePartnerEventSourceRequest = S.suspend(() =>
-  S.Struct({ Name: S.String, Account: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "CreatePartnerEventSourceRequest",
-}) as any as S.Schema<CreatePartnerEventSourceRequest>;
-export interface DeactivateEventSourceRequest {
-  Name: string;
-}
-export const DeactivateEventSourceRequest = S.suspend(() =>
-  S.Struct({ Name: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DeactivateEventSourceRequest",
-}) as any as S.Schema<DeactivateEventSourceRequest>;
-export interface DeactivateEventSourceResponse {}
-export const DeactivateEventSourceResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotations({
-  identifier: "DeactivateEventSourceResponse",
-}) as any as S.Schema<DeactivateEventSourceResponse>;
-export interface DeauthorizeConnectionRequest {
-  Name: string;
-}
-export const DeauthorizeConnectionRequest = S.suspend(() =>
-  S.Struct({ Name: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DeauthorizeConnectionRequest",
-}) as any as S.Schema<DeauthorizeConnectionRequest>;
-export interface DeleteApiDestinationRequest {
-  Name: string;
-}
-export const DeleteApiDestinationRequest = S.suspend(() =>
-  S.Struct({ Name: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DeleteApiDestinationRequest",
-}) as any as S.Schema<DeleteApiDestinationRequest>;
-export interface DeleteApiDestinationResponse {}
-export const DeleteApiDestinationResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotations({
-  identifier: "DeleteApiDestinationResponse",
-}) as any as S.Schema<DeleteApiDestinationResponse>;
-export interface DeleteArchiveRequest {
-  ArchiveName: string;
-}
-export const DeleteArchiveRequest = S.suspend(() =>
-  S.Struct({ ArchiveName: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DeleteArchiveRequest",
-}) as any as S.Schema<DeleteArchiveRequest>;
-export interface DeleteArchiveResponse {}
-export const DeleteArchiveResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotations({
-  identifier: "DeleteArchiveResponse",
-}) as any as S.Schema<DeleteArchiveResponse>;
-export interface DeleteConnectionRequest {
-  Name: string;
-}
-export const DeleteConnectionRequest = S.suspend(() =>
-  S.Struct({ Name: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DeleteConnectionRequest",
-}) as any as S.Schema<DeleteConnectionRequest>;
-export interface DeleteEndpointRequest {
-  Name: string;
-}
-export const DeleteEndpointRequest = S.suspend(() =>
-  S.Struct({ Name: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DeleteEndpointRequest",
-}) as any as S.Schema<DeleteEndpointRequest>;
-export interface DeleteEndpointResponse {}
-export const DeleteEndpointResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotations({
-  identifier: "DeleteEndpointResponse",
-}) as any as S.Schema<DeleteEndpointResponse>;
-export interface DeleteEventBusRequest {
-  Name: string;
-}
-export const DeleteEventBusRequest = S.suspend(() =>
-  S.Struct({ Name: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DeleteEventBusRequest",
-}) as any as S.Schema<DeleteEventBusRequest>;
-export interface DeleteEventBusResponse {}
-export const DeleteEventBusResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotations({
-  identifier: "DeleteEventBusResponse",
-}) as any as S.Schema<DeleteEventBusResponse>;
-export interface DeletePartnerEventSourceRequest {
-  Name: string;
-  Account: string;
-}
-export const DeletePartnerEventSourceRequest = S.suspend(() =>
-  S.Struct({ Name: S.String, Account: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DeletePartnerEventSourceRequest",
-}) as any as S.Schema<DeletePartnerEventSourceRequest>;
-export interface DeletePartnerEventSourceResponse {}
-export const DeletePartnerEventSourceResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotations({
-  identifier: "DeletePartnerEventSourceResponse",
-}) as any as S.Schema<DeletePartnerEventSourceResponse>;
-export interface DeleteRuleRequest {
-  Name: string;
-  EventBusName?: string;
-  Force?: boolean;
-}
-export const DeleteRuleRequest = S.suspend(() =>
-  S.Struct({
-    Name: S.String,
-    EventBusName: S.optional(S.String),
-    Force: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DeleteRuleRequest",
-}) as any as S.Schema<DeleteRuleRequest>;
-export interface DeleteRuleResponse {}
-export const DeleteRuleResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotations({
-  identifier: "DeleteRuleResponse",
-}) as any as S.Schema<DeleteRuleResponse>;
-export interface DescribeApiDestinationRequest {
-  Name: string;
-}
-export const DescribeApiDestinationRequest = S.suspend(() =>
-  S.Struct({ Name: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DescribeApiDestinationRequest",
-}) as any as S.Schema<DescribeApiDestinationRequest>;
-export interface DescribeArchiveRequest {
-  ArchiveName: string;
-}
-export const DescribeArchiveRequest = S.suspend(() =>
-  S.Struct({ ArchiveName: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DescribeArchiveRequest",
-}) as any as S.Schema<DescribeArchiveRequest>;
-export interface DescribeConnectionRequest {
-  Name: string;
-}
-export const DescribeConnectionRequest = S.suspend(() =>
-  S.Struct({ Name: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DescribeConnectionRequest",
-}) as any as S.Schema<DescribeConnectionRequest>;
-export interface DescribeEndpointRequest {
-  Name: string;
-  HomeRegion?: string;
-}
-export const DescribeEndpointRequest = S.suspend(() =>
-  S.Struct({ Name: S.String, HomeRegion: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DescribeEndpointRequest",
-}) as any as S.Schema<DescribeEndpointRequest>;
-export interface DescribeEventBusRequest {
-  Name?: string;
-}
-export const DescribeEventBusRequest = S.suspend(() =>
-  S.Struct({ Name: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DescribeEventBusRequest",
-}) as any as S.Schema<DescribeEventBusRequest>;
-export interface DescribeEventSourceRequest {
-  Name: string;
-}
-export const DescribeEventSourceRequest = S.suspend(() =>
-  S.Struct({ Name: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DescribeEventSourceRequest",
-}) as any as S.Schema<DescribeEventSourceRequest>;
-export interface DescribePartnerEventSourceRequest {
-  Name: string;
-}
-export const DescribePartnerEventSourceRequest = S.suspend(() =>
-  S.Struct({ Name: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DescribePartnerEventSourceRequest",
-}) as any as S.Schema<DescribePartnerEventSourceRequest>;
-export interface DescribeReplayRequest {
-  ReplayName: string;
-}
-export const DescribeReplayRequest = S.suspend(() =>
-  S.Struct({ ReplayName: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DescribeReplayRequest",
-}) as any as S.Schema<DescribeReplayRequest>;
-export interface DescribeRuleRequest {
-  Name: string;
-  EventBusName?: string;
-}
-export const DescribeRuleRequest = S.suspend(() =>
-  S.Struct({ Name: S.String, EventBusName: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DescribeRuleRequest",
-}) as any as S.Schema<DescribeRuleRequest>;
-export interface DisableRuleRequest {
-  Name: string;
-  EventBusName?: string;
-}
-export const DisableRuleRequest = S.suspend(() =>
-  S.Struct({ Name: S.String, EventBusName: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DisableRuleRequest",
-}) as any as S.Schema<DisableRuleRequest>;
-export interface DisableRuleResponse {}
-export const DisableRuleResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotations({
-  identifier: "DisableRuleResponse",
-}) as any as S.Schema<DisableRuleResponse>;
-export interface EnableRuleRequest {
-  Name: string;
-  EventBusName?: string;
-}
-export const EnableRuleRequest = S.suspend(() =>
-  S.Struct({ Name: S.String, EventBusName: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "EnableRuleRequest",
-}) as any as S.Schema<EnableRuleRequest>;
-export interface EnableRuleResponse {}
-export const EnableRuleResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotations({
-  identifier: "EnableRuleResponse",
-}) as any as S.Schema<EnableRuleResponse>;
-export interface ListApiDestinationsRequest {
-  NamePrefix?: string;
-  ConnectionArn?: string;
-  NextToken?: string;
-  Limit?: number;
-}
-export const ListApiDestinationsRequest = S.suspend(() =>
-  S.Struct({
-    NamePrefix: S.optional(S.String),
-    ConnectionArn: S.optional(S.String),
-    NextToken: S.optional(S.String),
-    Limit: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListApiDestinationsRequest",
-}) as any as S.Schema<ListApiDestinationsRequest>;
-export interface ListArchivesRequest {
-  NamePrefix?: string;
-  EventSourceArn?: string;
+export type ArchiveState =
+  | "ENABLED"
+  | "DISABLED"
+  | "CREATING"
+  | "UPDATING"
+  | "CREATE_FAILED"
+  | "UPDATE_FAILED"
+  | (string & {});
+export const ArchiveState = S.String;
+export interface CreateArchiveResponse {
+  ArchiveArn?: string;
   State?: ArchiveState;
-  NextToken?: string;
-  Limit?: number;
+  StateReason?: string;
+  CreationTime?: Date;
 }
-export const ListArchivesRequest = S.suspend(() =>
+export const CreateArchiveResponse = S.suspend(() =>
   S.Struct({
-    NamePrefix: S.optional(S.String),
-    EventSourceArn: S.optional(S.String),
+    ArchiveArn: S.optional(S.String),
     State: S.optional(ArchiveState),
-    NextToken: S.optional(S.String),
-    Limit: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListArchivesRequest",
-}) as any as S.Schema<ListArchivesRequest>;
-export interface ListConnectionsRequest {
-  NamePrefix?: string;
-  ConnectionState?: ConnectionState;
-  NextToken?: string;
-  Limit?: number;
+    StateReason: S.optional(S.String),
+    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }).pipe(ns),
+).annotate({
+  identifier: "CreateArchiveResponse",
+}) as any as S.Schema<CreateArchiveResponse>;
+export type ConnectionAuthorizationType =
+  | "BASIC"
+  | "OAUTH_CLIENT_CREDENTIALS"
+  | "API_KEY"
+  | (string & {});
+export const ConnectionAuthorizationType = S.String;
+export interface CreateConnectionBasicAuthRequestParameters {
+  Username: string;
+  Password: string | redacted.Redacted<string>;
 }
-export const ListConnectionsRequest = S.suspend(() =>
+export const CreateConnectionBasicAuthRequestParameters = S.suspend(() =>
+  S.Struct({ Username: S.String, Password: SensitiveString }),
+).annotate({
+  identifier: "CreateConnectionBasicAuthRequestParameters",
+}) as any as S.Schema<CreateConnectionBasicAuthRequestParameters>;
+export interface CreateConnectionOAuthClientRequestParameters {
+  ClientID: string;
+  ClientSecret: string | redacted.Redacted<string>;
+}
+export const CreateConnectionOAuthClientRequestParameters = S.suspend(() =>
+  S.Struct({ ClientID: S.String, ClientSecret: SensitiveString }),
+).annotate({
+  identifier: "CreateConnectionOAuthClientRequestParameters",
+}) as any as S.Schema<CreateConnectionOAuthClientRequestParameters>;
+export type ConnectionOAuthHttpMethod = "GET" | "POST" | "PUT" | (string & {});
+export const ConnectionOAuthHttpMethod = S.String;
+export interface ConnectionHeaderParameter {
+  Key?: string;
+  Value?: string | redacted.Redacted<string>;
+  IsValueSecret?: boolean;
+}
+export const ConnectionHeaderParameter = S.suspend(() =>
   S.Struct({
-    NamePrefix: S.optional(S.String),
-    ConnectionState: S.optional(ConnectionState),
-    NextToken: S.optional(S.String),
-    Limit: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListConnectionsRequest",
-}) as any as S.Schema<ListConnectionsRequest>;
-export interface ListEndpointsRequest {
-  NamePrefix?: string;
-  HomeRegion?: string;
-  NextToken?: string;
-  MaxResults?: number;
+    Key: S.optional(S.String),
+    Value: S.optional(SensitiveString),
+    IsValueSecret: S.optional(S.Boolean),
+  }),
+).annotate({
+  identifier: "ConnectionHeaderParameter",
+}) as any as S.Schema<ConnectionHeaderParameter>;
+export type ConnectionHeaderParametersList = ConnectionHeaderParameter[];
+export const ConnectionHeaderParametersList = S.Array(
+  ConnectionHeaderParameter,
+);
+export interface ConnectionQueryStringParameter {
+  Key?: string;
+  Value?: string | redacted.Redacted<string>;
+  IsValueSecret?: boolean;
 }
-export const ListEndpointsRequest = S.suspend(() =>
+export const ConnectionQueryStringParameter = S.suspend(() =>
   S.Struct({
-    NamePrefix: S.optional(S.String),
-    HomeRegion: S.optional(S.String),
-    NextToken: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListEndpointsRequest",
-}) as any as S.Schema<ListEndpointsRequest>;
-export interface ListEventBusesRequest {
-  NamePrefix?: string;
-  NextToken?: string;
-  Limit?: number;
+    Key: S.optional(S.String),
+    Value: S.optional(SensitiveString),
+    IsValueSecret: S.optional(S.Boolean),
+  }),
+).annotate({
+  identifier: "ConnectionQueryStringParameter",
+}) as any as S.Schema<ConnectionQueryStringParameter>;
+export type ConnectionQueryStringParametersList =
+  ConnectionQueryStringParameter[];
+export const ConnectionQueryStringParametersList = S.Array(
+  ConnectionQueryStringParameter,
+);
+export interface ConnectionBodyParameter {
+  Key?: string;
+  Value?: string | redacted.Redacted<string>;
+  IsValueSecret?: boolean;
 }
-export const ListEventBusesRequest = S.suspend(() =>
+export const ConnectionBodyParameter = S.suspend(() =>
   S.Struct({
-    NamePrefix: S.optional(S.String),
-    NextToken: S.optional(S.String),
-    Limit: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListEventBusesRequest",
-}) as any as S.Schema<ListEventBusesRequest>;
-export interface ListEventSourcesRequest {
-  NamePrefix?: string;
-  NextToken?: string;
-  Limit?: number;
+    Key: S.optional(S.String),
+    Value: S.optional(SensitiveString),
+    IsValueSecret: S.optional(S.Boolean),
+  }),
+).annotate({
+  identifier: "ConnectionBodyParameter",
+}) as any as S.Schema<ConnectionBodyParameter>;
+export type ConnectionBodyParametersList = ConnectionBodyParameter[];
+export const ConnectionBodyParametersList = S.Array(ConnectionBodyParameter);
+export interface ConnectionHttpParameters {
+  HeaderParameters?: ConnectionHeaderParameter[];
+  QueryStringParameters?: ConnectionQueryStringParameter[];
+  BodyParameters?: ConnectionBodyParameter[];
 }
-export const ListEventSourcesRequest = S.suspend(() =>
+export const ConnectionHttpParameters = S.suspend(() =>
   S.Struct({
-    NamePrefix: S.optional(S.String),
-    NextToken: S.optional(S.String),
-    Limit: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListEventSourcesRequest",
-}) as any as S.Schema<ListEventSourcesRequest>;
-export interface ListPartnerEventSourceAccountsRequest {
-  EventSourceName: string;
-  NextToken?: string;
-  Limit?: number;
+    HeaderParameters: S.optional(ConnectionHeaderParametersList),
+    QueryStringParameters: S.optional(ConnectionQueryStringParametersList),
+    BodyParameters: S.optional(ConnectionBodyParametersList),
+  }),
+).annotate({
+  identifier: "ConnectionHttpParameters",
+}) as any as S.Schema<ConnectionHttpParameters>;
+export interface CreateConnectionOAuthRequestParameters {
+  ClientParameters: CreateConnectionOAuthClientRequestParameters;
+  AuthorizationEndpoint: string;
+  HttpMethod: ConnectionOAuthHttpMethod;
+  OAuthHttpParameters?: ConnectionHttpParameters;
 }
-export const ListPartnerEventSourceAccountsRequest = S.suspend(() =>
+export const CreateConnectionOAuthRequestParameters = S.suspend(() =>
   S.Struct({
-    EventSourceName: S.String,
-    NextToken: S.optional(S.String),
-    Limit: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListPartnerEventSourceAccountsRequest",
-}) as any as S.Schema<ListPartnerEventSourceAccountsRequest>;
-export interface ListPartnerEventSourcesRequest {
-  NamePrefix: string;
-  NextToken?: string;
-  Limit?: number;
+    ClientParameters: CreateConnectionOAuthClientRequestParameters,
+    AuthorizationEndpoint: S.String,
+    HttpMethod: ConnectionOAuthHttpMethod,
+    OAuthHttpParameters: S.optional(ConnectionHttpParameters),
+  }),
+).annotate({
+  identifier: "CreateConnectionOAuthRequestParameters",
+}) as any as S.Schema<CreateConnectionOAuthRequestParameters>;
+export interface CreateConnectionApiKeyAuthRequestParameters {
+  ApiKeyName: string;
+  ApiKeyValue: string | redacted.Redacted<string>;
 }
-export const ListPartnerEventSourcesRequest = S.suspend(() =>
+export const CreateConnectionApiKeyAuthRequestParameters = S.suspend(() =>
+  S.Struct({ ApiKeyName: S.String, ApiKeyValue: SensitiveString }),
+).annotate({
+  identifier: "CreateConnectionApiKeyAuthRequestParameters",
+}) as any as S.Schema<CreateConnectionApiKeyAuthRequestParameters>;
+export interface ConnectivityResourceConfigurationArn {
+  ResourceConfigurationArn: string;
+}
+export const ConnectivityResourceConfigurationArn = S.suspend(() =>
+  S.Struct({ ResourceConfigurationArn: S.String }),
+).annotate({
+  identifier: "ConnectivityResourceConfigurationArn",
+}) as any as S.Schema<ConnectivityResourceConfigurationArn>;
+export interface ConnectivityResourceParameters {
+  ResourceParameters: ConnectivityResourceConfigurationArn;
+}
+export const ConnectivityResourceParameters = S.suspend(() =>
+  S.Struct({ ResourceParameters: ConnectivityResourceConfigurationArn }),
+).annotate({
+  identifier: "ConnectivityResourceParameters",
+}) as any as S.Schema<ConnectivityResourceParameters>;
+export interface CreateConnectionAuthRequestParameters {
+  BasicAuthParameters?: CreateConnectionBasicAuthRequestParameters;
+  OAuthParameters?: CreateConnectionOAuthRequestParameters;
+  ApiKeyAuthParameters?: CreateConnectionApiKeyAuthRequestParameters;
+  InvocationHttpParameters?: ConnectionHttpParameters;
+  ConnectivityParameters?: ConnectivityResourceParameters;
+}
+export const CreateConnectionAuthRequestParameters = S.suspend(() =>
   S.Struct({
-    NamePrefix: S.String,
-    NextToken: S.optional(S.String),
-    Limit: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+    BasicAuthParameters: S.optional(CreateConnectionBasicAuthRequestParameters),
+    OAuthParameters: S.optional(CreateConnectionOAuthRequestParameters),
+    ApiKeyAuthParameters: S.optional(
+      CreateConnectionApiKeyAuthRequestParameters,
     ),
-  ),
-).annotations({
-  identifier: "ListPartnerEventSourcesRequest",
-}) as any as S.Schema<ListPartnerEventSourcesRequest>;
-export interface ListReplaysRequest {
-  NamePrefix?: string;
-  State?: ReplayState;
-  EventSourceArn?: string;
-  NextToken?: string;
-  Limit?: number;
-}
-export const ListReplaysRequest = S.suspend(() =>
-  S.Struct({
-    NamePrefix: S.optional(S.String),
-    State: S.optional(ReplayState),
-    EventSourceArn: S.optional(S.String),
-    NextToken: S.optional(S.String),
-    Limit: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListReplaysRequest",
-}) as any as S.Schema<ListReplaysRequest>;
-export interface ListRuleNamesByTargetRequest {
-  TargetArn: string;
-  EventBusName?: string;
-  NextToken?: string;
-  Limit?: number;
-}
-export const ListRuleNamesByTargetRequest = S.suspend(() =>
-  S.Struct({
-    TargetArn: S.String,
-    EventBusName: S.optional(S.String),
-    NextToken: S.optional(S.String),
-    Limit: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListRuleNamesByTargetRequest",
-}) as any as S.Schema<ListRuleNamesByTargetRequest>;
-export interface ListRulesRequest {
-  NamePrefix?: string;
-  EventBusName?: string;
-  NextToken?: string;
-  Limit?: number;
-}
-export const ListRulesRequest = S.suspend(() =>
-  S.Struct({
-    NamePrefix: S.optional(S.String),
-    EventBusName: S.optional(S.String),
-    NextToken: S.optional(S.String),
-    Limit: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListRulesRequest",
-}) as any as S.Schema<ListRulesRequest>;
-export interface ListTagsForResourceRequest {
-  ResourceARN: string;
-}
-export const ListTagsForResourceRequest = S.suspend(() =>
-  S.Struct({ ResourceARN: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListTagsForResourceRequest",
-}) as any as S.Schema<ListTagsForResourceRequest>;
-export interface ListTargetsByRuleRequest {
-  Rule: string;
-  EventBusName?: string;
-  NextToken?: string;
-  Limit?: number;
-}
-export const ListTargetsByRuleRequest = S.suspend(() =>
-  S.Struct({
-    Rule: S.String,
-    EventBusName: S.optional(S.String),
-    NextToken: S.optional(S.String),
-    Limit: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListTargetsByRuleRequest",
-}) as any as S.Schema<ListTargetsByRuleRequest>;
-export interface Tag {
-  Key: string;
-  Value: string;
-}
-export const Tag = S.suspend(() =>
-  S.Struct({ Key: S.String, Value: S.String }),
-).annotations({ identifier: "Tag" }) as any as S.Schema<Tag>;
-export type TagList = Tag[];
-export const TagList = S.Array(Tag);
-export interface PutRuleRequest {
-  Name: string;
-  ScheduleExpression?: string;
-  EventPattern?: string;
-  State?: RuleState;
-  Description?: string;
-  RoleArn?: string;
-  Tags?: Tag[];
-  EventBusName?: string;
-}
-export const PutRuleRequest = S.suspend(() =>
-  S.Struct({
-    Name: S.String,
-    ScheduleExpression: S.optional(S.String),
-    EventPattern: S.optional(S.String),
-    State: S.optional(RuleState),
-    Description: S.optional(S.String),
-    RoleArn: S.optional(S.String),
-    Tags: S.optional(TagList),
-    EventBusName: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "PutRuleRequest",
-}) as any as S.Schema<PutRuleRequest>;
-export interface RemovePermissionRequest {
-  StatementId?: string;
-  RemoveAllPermissions?: boolean;
-  EventBusName?: string;
-}
-export const RemovePermissionRequest = S.suspend(() =>
-  S.Struct({
-    StatementId: S.optional(S.String),
-    RemoveAllPermissions: S.optional(S.Boolean),
-    EventBusName: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "RemovePermissionRequest",
-}) as any as S.Schema<RemovePermissionRequest>;
-export interface RemovePermissionResponse {}
-export const RemovePermissionResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotations({
-  identifier: "RemovePermissionResponse",
-}) as any as S.Schema<RemovePermissionResponse>;
-export interface RemoveTargetsRequest {
-  Rule: string;
-  EventBusName?: string;
-  Ids: string[];
-  Force?: boolean;
-}
-export const RemoveTargetsRequest = S.suspend(() =>
-  S.Struct({
-    Rule: S.String,
-    EventBusName: S.optional(S.String),
-    Ids: TargetIdList,
-    Force: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "RemoveTargetsRequest",
-}) as any as S.Schema<RemoveTargetsRequest>;
-export interface TagResourceRequest {
-  ResourceARN: string;
-  Tags: Tag[];
-}
-export const TagResourceRequest = S.suspend(() =>
-  S.Struct({ ResourceARN: S.String, Tags: TagList }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
-export interface TagResourceResponse {}
-export const TagResourceResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotations({
-  identifier: "TagResourceResponse",
-}) as any as S.Schema<TagResourceResponse>;
-export interface TestEventPatternRequest {
-  EventPattern: string;
-  Event: string;
-}
-export const TestEventPatternRequest = S.suspend(() =>
-  S.Struct({ EventPattern: S.String, Event: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "TestEventPatternRequest",
-}) as any as S.Schema<TestEventPatternRequest>;
-export interface UntagResourceRequest {
-  ResourceARN: string;
-  TagKeys: string[];
-}
-export const UntagResourceRequest = S.suspend(() =>
-  S.Struct({ ResourceARN: S.String, TagKeys: TagKeyList }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
-export interface UntagResourceResponse {}
-export const UntagResourceResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotations({
-  identifier: "UntagResourceResponse",
-}) as any as S.Schema<UntagResourceResponse>;
-export interface UpdateApiDestinationRequest {
+    InvocationHttpParameters: S.optional(ConnectionHttpParameters),
+    ConnectivityParameters: S.optional(ConnectivityResourceParameters),
+  }),
+).annotate({
+  identifier: "CreateConnectionAuthRequestParameters",
+}) as any as S.Schema<CreateConnectionAuthRequestParameters>;
+export interface CreateConnectionRequest {
   Name: string;
   Description?: string;
-  ConnectionArn?: string;
-  InvocationEndpoint?: string;
-  HttpMethod?: ApiDestinationHttpMethod;
-  InvocationRateLimitPerSecond?: number;
-}
-export const UpdateApiDestinationRequest = S.suspend(() =>
-  S.Struct({
-    Name: S.String,
-    Description: S.optional(S.String),
-    ConnectionArn: S.optional(S.String),
-    InvocationEndpoint: S.optional(S.String),
-    HttpMethod: S.optional(ApiDestinationHttpMethod),
-    InvocationRateLimitPerSecond: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "UpdateApiDestinationRequest",
-}) as any as S.Schema<UpdateApiDestinationRequest>;
-export interface UpdateArchiveRequest {
-  ArchiveName: string;
-  Description?: string;
-  EventPattern?: string;
-  RetentionDays?: number;
+  AuthorizationType: ConnectionAuthorizationType;
+  AuthParameters: CreateConnectionAuthRequestParameters;
+  InvocationConnectivityParameters?: ConnectivityResourceParameters;
   KmsKeyIdentifier?: string;
 }
-export const UpdateArchiveRequest = S.suspend(() =>
+export const CreateConnectionRequest = S.suspend(() =>
   S.Struct({
-    ArchiveName: S.String,
+    Name: S.String,
     Description: S.optional(S.String),
-    EventPattern: S.optional(S.String),
-    RetentionDays: S.optional(S.Number),
+    AuthorizationType: ConnectionAuthorizationType,
+    AuthParameters: CreateConnectionAuthRequestParameters,
+    InvocationConnectivityParameters: S.optional(
+      ConnectivityResourceParameters,
+    ),
     KmsKeyIdentifier: S.optional(S.String),
   }).pipe(
     T.all(
@@ -1415,38 +627,64 @@ export const UpdateArchiveRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
-  identifier: "UpdateArchiveRequest",
-}) as any as S.Schema<UpdateArchiveRequest>;
+).annotate({
+  identifier: "CreateConnectionRequest",
+}) as any as S.Schema<CreateConnectionRequest>;
+export type ConnectionState =
+  | "CREATING"
+  | "UPDATING"
+  | "DELETING"
+  | "AUTHORIZED"
+  | "DEAUTHORIZED"
+  | "AUTHORIZING"
+  | "DEAUTHORIZING"
+  | "ACTIVE"
+  | "FAILED_CONNECTIVITY"
+  | (string & {});
+export const ConnectionState = S.String;
+export interface CreateConnectionResponse {
+  ConnectionArn?: string;
+  ConnectionState?: ConnectionState;
+  CreationTime?: Date;
+  LastModifiedTime?: Date;
+}
+export const CreateConnectionResponse = S.suspend(() =>
+  S.Struct({
+    ConnectionArn: S.optional(S.String),
+    ConnectionState: S.optional(ConnectionState),
+    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    LastModifiedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }).pipe(ns),
+).annotate({
+  identifier: "CreateConnectionResponse",
+}) as any as S.Schema<CreateConnectionResponse>;
 export interface Primary {
   HealthCheck: string;
 }
 export const Primary = S.suspend(() =>
   S.Struct({ HealthCheck: S.String }),
-).annotations({ identifier: "Primary" }) as any as S.Schema<Primary>;
+).annotate({ identifier: "Primary" }) as any as S.Schema<Primary>;
 export interface Secondary {
   Route: string;
 }
 export const Secondary = S.suspend(() =>
   S.Struct({ Route: S.String }),
-).annotations({ identifier: "Secondary" }) as any as S.Schema<Secondary>;
+).annotate({ identifier: "Secondary" }) as any as S.Schema<Secondary>;
 export interface FailoverConfig {
   Primary: Primary;
   Secondary: Secondary;
 }
 export const FailoverConfig = S.suspend(() =>
   S.Struct({ Primary: Primary, Secondary: Secondary }),
-).annotations({
-  identifier: "FailoverConfig",
-}) as any as S.Schema<FailoverConfig>;
+).annotate({ identifier: "FailoverConfig" }) as any as S.Schema<FailoverConfig>;
 export interface RoutingConfig {
   FailoverConfig: FailoverConfig;
 }
 export const RoutingConfig = S.suspend(() =>
   S.Struct({ FailoverConfig: FailoverConfig }),
-).annotations({
-  identifier: "RoutingConfig",
-}) as any as S.Schema<RoutingConfig>;
+).annotate({ identifier: "RoutingConfig" }) as any as S.Schema<RoutingConfig>;
 export type ReplicationState = "ENABLED" | "DISABLED" | (string & {});
 export const ReplicationState = S.String;
 export interface ReplicationConfig {
@@ -1454,7 +692,7 @@ export interface ReplicationConfig {
 }
 export const ReplicationConfig = S.suspend(() =>
   S.Struct({ State: S.optional(ReplicationState) }),
-).annotations({
+).annotate({
   identifier: "ReplicationConfig",
 }) as any as S.Schema<ReplicationConfig>;
 export interface EndpointEventBus {
@@ -1462,26 +700,26 @@ export interface EndpointEventBus {
 }
 export const EndpointEventBus = S.suspend(() =>
   S.Struct({ EventBusArn: S.String }),
-).annotations({
+).annotate({
   identifier: "EndpointEventBus",
 }) as any as S.Schema<EndpointEventBus>;
 export type EndpointEventBusList = EndpointEventBus[];
 export const EndpointEventBusList = S.Array(EndpointEventBus);
-export interface UpdateEndpointRequest {
+export interface CreateEndpointRequest {
   Name: string;
   Description?: string;
-  RoutingConfig?: RoutingConfig;
+  RoutingConfig: RoutingConfig;
   ReplicationConfig?: ReplicationConfig;
-  EventBuses?: EndpointEventBus[];
+  EventBuses: EndpointEventBus[];
   RoleArn?: string;
 }
-export const UpdateEndpointRequest = S.suspend(() =>
+export const CreateEndpointRequest = S.suspend(() =>
   S.Struct({
     Name: S.String,
     Description: S.optional(S.String),
-    RoutingConfig: S.optional(RoutingConfig),
+    RoutingConfig: RoutingConfig,
     ReplicationConfig: S.optional(ReplicationConfig),
-    EventBuses: S.optional(EndpointEventBusList),
+    EventBuses: EndpointEventBusList,
     RoleArn: S.optional(S.String),
   }).pipe(
     T.all(
@@ -1494,15 +732,47 @@ export const UpdateEndpointRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
-  identifier: "UpdateEndpointRequest",
-}) as any as S.Schema<UpdateEndpointRequest>;
+).annotate({
+  identifier: "CreateEndpointRequest",
+}) as any as S.Schema<CreateEndpointRequest>;
+export type EndpointState =
+  | "ACTIVE"
+  | "CREATING"
+  | "UPDATING"
+  | "DELETING"
+  | "CREATE_FAILED"
+  | "UPDATE_FAILED"
+  | "DELETE_FAILED"
+  | (string & {});
+export const EndpointState = S.String;
+export interface CreateEndpointResponse {
+  Name?: string;
+  Arn?: string;
+  RoutingConfig?: RoutingConfig;
+  ReplicationConfig?: ReplicationConfig;
+  EventBuses?: EndpointEventBus[];
+  RoleArn?: string;
+  State?: EndpointState;
+}
+export const CreateEndpointResponse = S.suspend(() =>
+  S.Struct({
+    Name: S.optional(S.String),
+    Arn: S.optional(S.String),
+    RoutingConfig: S.optional(RoutingConfig),
+    ReplicationConfig: S.optional(ReplicationConfig),
+    EventBuses: S.optional(EndpointEventBusList),
+    RoleArn: S.optional(S.String),
+    State: S.optional(EndpointState),
+  }).pipe(ns),
+).annotate({
+  identifier: "CreateEndpointResponse",
+}) as any as S.Schema<CreateEndpointResponse>;
 export interface DeadLetterConfig {
   Arn?: string;
 }
 export const DeadLetterConfig = S.suspend(() =>
   S.Struct({ Arn: S.optional(S.String) }),
-).annotations({
+).annotate({
   identifier: "DeadLetterConfig",
 }) as any as S.Schema<DeadLetterConfig>;
 export type IncludeDetail = "NONE" | "FULL" | (string & {});
@@ -1518,176 +788,16 @@ export const LogConfig = S.suspend(() =>
     IncludeDetail: S.optional(IncludeDetail),
     Level: S.optional(Level),
   }),
-).annotations({ identifier: "LogConfig" }) as any as S.Schema<LogConfig>;
-export interface UpdateEventBusRequest {
-  Name?: string;
-  KmsKeyIdentifier?: string;
-  Description?: string;
-  DeadLetterConfig?: DeadLetterConfig;
-  LogConfig?: LogConfig;
-}
-export const UpdateEventBusRequest = S.suspend(() =>
-  S.Struct({
-    Name: S.optional(S.String),
-    KmsKeyIdentifier: S.optional(S.String),
-    Description: S.optional(S.String),
-    DeadLetterConfig: S.optional(DeadLetterConfig),
-    LogConfig: S.optional(LogConfig),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "UpdateEventBusRequest",
-}) as any as S.Schema<UpdateEventBusRequest>;
-export type EventResourceList = string[];
-export const EventResourceList = S.Array(S.String);
-export type ReplayDestinationFilters = string[];
-export const ReplayDestinationFilters = S.Array(S.String);
-export type ApiDestinationState = "ACTIVE" | "INACTIVE" | (string & {});
-export const ApiDestinationState = S.String;
-export type EndpointState =
-  | "ACTIVE"
-  | "CREATING"
-  | "UPDATING"
-  | "DELETING"
-  | "CREATE_FAILED"
-  | "UPDATE_FAILED"
-  | "DELETE_FAILED"
-  | (string & {});
-export const EndpointState = S.String;
-export type EventSourceState = "PENDING" | "ACTIVE" | "DELETED" | (string & {});
-export const EventSourceState = S.String;
-export type RuleNameList = string[];
-export const RuleNameList = S.Array(S.String);
-export interface PutEventsRequestEntry {
-  Time?: Date;
-  Source?: string;
-  Resources?: string[];
-  DetailType?: string;
-  Detail?: string;
-  EventBusName?: string;
-  TraceHeader?: string;
-}
-export const PutEventsRequestEntry = S.suspend(() =>
-  S.Struct({
-    Time: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    Source: S.optional(S.String),
-    Resources: S.optional(EventResourceList),
-    DetailType: S.optional(S.String),
-    Detail: S.optional(S.String),
-    EventBusName: S.optional(S.String),
-    TraceHeader: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "PutEventsRequestEntry",
-}) as any as S.Schema<PutEventsRequestEntry>;
-export type PutEventsRequestEntryList = PutEventsRequestEntry[];
-export const PutEventsRequestEntryList = S.Array(PutEventsRequestEntry);
-export interface PutPartnerEventsRequestEntry {
-  Time?: Date;
-  Source?: string;
-  Resources?: string[];
-  DetailType?: string;
-  Detail?: string;
-}
-export const PutPartnerEventsRequestEntry = S.suspend(() =>
-  S.Struct({
-    Time: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    Source: S.optional(S.String),
-    Resources: S.optional(EventResourceList),
-    DetailType: S.optional(S.String),
-    Detail: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "PutPartnerEventsRequestEntry",
-}) as any as S.Schema<PutPartnerEventsRequestEntry>;
-export type PutPartnerEventsRequestEntryList = PutPartnerEventsRequestEntry[];
-export const PutPartnerEventsRequestEntryList = S.Array(
-  PutPartnerEventsRequestEntry,
-);
-export interface Condition {
-  Type: string;
+).annotate({ identifier: "LogConfig" }) as any as S.Schema<LogConfig>;
+export interface Tag {
   Key: string;
   Value: string;
 }
-export const Condition = S.suspend(() =>
-  S.Struct({ Type: S.String, Key: S.String, Value: S.String }),
-).annotations({ identifier: "Condition" }) as any as S.Schema<Condition>;
-export interface ReplayDestination {
-  Arn: string;
-  FilterArns?: string[];
-}
-export const ReplayDestination = S.suspend(() =>
-  S.Struct({ Arn: S.String, FilterArns: S.optional(ReplayDestinationFilters) }),
-).annotations({
-  identifier: "ReplayDestination",
-}) as any as S.Schema<ReplayDestination>;
-export type ConnectionOAuthHttpMethod = "GET" | "POST" | "PUT" | (string & {});
-export const ConnectionOAuthHttpMethod = S.String;
-export type LaunchType = "EC2" | "FARGATE" | "EXTERNAL" | (string & {});
-export const LaunchType = S.String;
-export type PropagateTags = "TASK_DEFINITION" | (string & {});
-export const PropagateTags = S.String;
-export type PathParameterList = string[];
-export const PathParameterList = S.Array(S.String);
-export type Sqls = string | redacted.Redacted<string>[];
-export const Sqls = S.Array(SensitiveString);
-export interface CancelReplayResponse {
-  ReplayArn?: string;
-  State?: ReplayState;
-  StateReason?: string;
-}
-export const CancelReplayResponse = S.suspend(() =>
-  S.Struct({
-    ReplayArn: S.optional(S.String),
-    State: S.optional(ReplayState),
-    StateReason: S.optional(S.String),
-  }).pipe(ns),
-).annotations({
-  identifier: "CancelReplayResponse",
-}) as any as S.Schema<CancelReplayResponse>;
-export interface CreateApiDestinationResponse {
-  ApiDestinationArn?: string;
-  ApiDestinationState?: ApiDestinationState;
-  CreationTime?: Date;
-  LastModifiedTime?: Date;
-}
-export const CreateApiDestinationResponse = S.suspend(() =>
-  S.Struct({
-    ApiDestinationArn: S.optional(S.String),
-    ApiDestinationState: S.optional(ApiDestinationState),
-    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    LastModifiedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-  }).pipe(ns),
-).annotations({
-  identifier: "CreateApiDestinationResponse",
-}) as any as S.Schema<CreateApiDestinationResponse>;
-export interface CreateArchiveResponse {
-  ArchiveArn?: string;
-  State?: ArchiveState;
-  StateReason?: string;
-  CreationTime?: Date;
-}
-export const CreateArchiveResponse = S.suspend(() =>
-  S.Struct({
-    ArchiveArn: S.optional(S.String),
-    State: S.optional(ArchiveState),
-    StateReason: S.optional(S.String),
-    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }).pipe(ns),
-).annotations({
-  identifier: "CreateArchiveResponse",
-}) as any as S.Schema<CreateArchiveResponse>;
+export const Tag = S.suspend(() =>
+  S.Struct({ Key: S.String, Value: S.String }),
+).annotate({ identifier: "Tag" }) as any as S.Schema<Tag>;
+export type TagList = Tag[];
+export const TagList = S.Array(Tag);
 export interface CreateEventBusRequest {
   Name: string;
   EventSourceName?: string;
@@ -1717,17 +827,96 @@ export const CreateEventBusRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "CreateEventBusRequest",
 }) as any as S.Schema<CreateEventBusRequest>;
+export interface CreateEventBusResponse {
+  EventBusArn?: string;
+  Description?: string;
+  KmsKeyIdentifier?: string;
+  DeadLetterConfig?: DeadLetterConfig;
+  LogConfig?: LogConfig;
+}
+export const CreateEventBusResponse = S.suspend(() =>
+  S.Struct({
+    EventBusArn: S.optional(S.String),
+    Description: S.optional(S.String),
+    KmsKeyIdentifier: S.optional(S.String),
+    DeadLetterConfig: S.optional(DeadLetterConfig),
+    LogConfig: S.optional(LogConfig),
+  }).pipe(ns),
+).annotate({
+  identifier: "CreateEventBusResponse",
+}) as any as S.Schema<CreateEventBusResponse>;
+export interface CreatePartnerEventSourceRequest {
+  Name: string;
+  Account: string;
+}
+export const CreatePartnerEventSourceRequest = S.suspend(() =>
+  S.Struct({ Name: S.String, Account: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "CreatePartnerEventSourceRequest",
+}) as any as S.Schema<CreatePartnerEventSourceRequest>;
 export interface CreatePartnerEventSourceResponse {
   EventSourceArn?: string;
 }
 export const CreatePartnerEventSourceResponse = S.suspend(() =>
   S.Struct({ EventSourceArn: S.optional(S.String) }).pipe(ns),
-).annotations({
+).annotate({
   identifier: "CreatePartnerEventSourceResponse",
 }) as any as S.Schema<CreatePartnerEventSourceResponse>;
+export interface DeactivateEventSourceRequest {
+  Name: string;
+}
+export const DeactivateEventSourceRequest = S.suspend(() =>
+  S.Struct({ Name: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeactivateEventSourceRequest",
+}) as any as S.Schema<DeactivateEventSourceRequest>;
+export interface DeactivateEventSourceResponse {}
+export const DeactivateEventSourceResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "DeactivateEventSourceResponse",
+}) as any as S.Schema<DeactivateEventSourceResponse>;
+export interface DeauthorizeConnectionRequest {
+  Name: string;
+}
+export const DeauthorizeConnectionRequest = S.suspend(() =>
+  S.Struct({ Name: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeauthorizeConnectionRequest",
+}) as any as S.Schema<DeauthorizeConnectionRequest>;
 export interface DeauthorizeConnectionResponse {
   ConnectionArn?: string;
   ConnectionState?: ConnectionState;
@@ -1747,9 +936,75 @@ export const DeauthorizeConnectionResponse = S.suspend(() =>
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
   }).pipe(ns),
-).annotations({
+).annotate({
   identifier: "DeauthorizeConnectionResponse",
 }) as any as S.Schema<DeauthorizeConnectionResponse>;
+export interface DeleteApiDestinationRequest {
+  Name: string;
+}
+export const DeleteApiDestinationRequest = S.suspend(() =>
+  S.Struct({ Name: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeleteApiDestinationRequest",
+}) as any as S.Schema<DeleteApiDestinationRequest>;
+export interface DeleteApiDestinationResponse {}
+export const DeleteApiDestinationResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "DeleteApiDestinationResponse",
+}) as any as S.Schema<DeleteApiDestinationResponse>;
+export interface DeleteArchiveRequest {
+  ArchiveName: string;
+}
+export const DeleteArchiveRequest = S.suspend(() =>
+  S.Struct({ ArchiveName: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeleteArchiveRequest",
+}) as any as S.Schema<DeleteArchiveRequest>;
+export interface DeleteArchiveResponse {}
+export const DeleteArchiveResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "DeleteArchiveResponse",
+}) as any as S.Schema<DeleteArchiveResponse>;
+export interface DeleteConnectionRequest {
+  Name: string;
+}
+export const DeleteConnectionRequest = S.suspend(() =>
+  S.Struct({ Name: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeleteConnectionRequest",
+}) as any as S.Schema<DeleteConnectionRequest>;
 export interface DeleteConnectionResponse {
   ConnectionArn?: string;
   ConnectionState?: ConnectionState;
@@ -1769,9 +1024,130 @@ export const DeleteConnectionResponse = S.suspend(() =>
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
   }).pipe(ns),
-).annotations({
+).annotate({
   identifier: "DeleteConnectionResponse",
 }) as any as S.Schema<DeleteConnectionResponse>;
+export interface DeleteEndpointRequest {
+  Name: string;
+}
+export const DeleteEndpointRequest = S.suspend(() =>
+  S.Struct({ Name: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeleteEndpointRequest",
+}) as any as S.Schema<DeleteEndpointRequest>;
+export interface DeleteEndpointResponse {}
+export const DeleteEndpointResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "DeleteEndpointResponse",
+}) as any as S.Schema<DeleteEndpointResponse>;
+export interface DeleteEventBusRequest {
+  Name: string;
+}
+export const DeleteEventBusRequest = S.suspend(() =>
+  S.Struct({ Name: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeleteEventBusRequest",
+}) as any as S.Schema<DeleteEventBusRequest>;
+export interface DeleteEventBusResponse {}
+export const DeleteEventBusResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "DeleteEventBusResponse",
+}) as any as S.Schema<DeleteEventBusResponse>;
+export interface DeletePartnerEventSourceRequest {
+  Name: string;
+  Account: string;
+}
+export const DeletePartnerEventSourceRequest = S.suspend(() =>
+  S.Struct({ Name: S.String, Account: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeletePartnerEventSourceRequest",
+}) as any as S.Schema<DeletePartnerEventSourceRequest>;
+export interface DeletePartnerEventSourceResponse {}
+export const DeletePartnerEventSourceResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "DeletePartnerEventSourceResponse",
+}) as any as S.Schema<DeletePartnerEventSourceResponse>;
+export interface DeleteRuleRequest {
+  Name: string;
+  EventBusName?: string;
+  Force?: boolean;
+}
+export const DeleteRuleRequest = S.suspend(() =>
+  S.Struct({
+    Name: S.String,
+    EventBusName: S.optional(S.String),
+    Force: S.optional(S.Boolean),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeleteRuleRequest",
+}) as any as S.Schema<DeleteRuleRequest>;
+export interface DeleteRuleResponse {}
+export const DeleteRuleResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "DeleteRuleResponse",
+}) as any as S.Schema<DeleteRuleResponse>;
+export interface DescribeApiDestinationRequest {
+  Name: string;
+}
+export const DescribeApiDestinationRequest = S.suspend(() =>
+  S.Struct({ Name: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DescribeApiDestinationRequest",
+}) as any as S.Schema<DescribeApiDestinationRequest>;
 export interface DescribeApiDestinationResponse {
   ApiDestinationArn?: string;
   Name?: string;
@@ -1799,9 +1175,27 @@ export const DescribeApiDestinationResponse = S.suspend(() =>
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
   }).pipe(ns),
-).annotations({
+).annotate({
   identifier: "DescribeApiDestinationResponse",
 }) as any as S.Schema<DescribeApiDestinationResponse>;
+export interface DescribeArchiveRequest {
+  ArchiveName: string;
+}
+export const DescribeArchiveRequest = S.suspend(() =>
+  S.Struct({ ArchiveName: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DescribeArchiveRequest",
+}) as any as S.Schema<DescribeArchiveRequest>;
 export interface DescribeArchiveResponse {
   ArchiveArn?: string;
   ArchiveName?: string;
@@ -1831,9 +1225,166 @@ export const DescribeArchiveResponse = S.suspend(() =>
     EventCount: S.optional(S.Number),
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }).pipe(ns),
-).annotations({
+).annotate({
   identifier: "DescribeArchiveResponse",
 }) as any as S.Schema<DescribeArchiveResponse>;
+export interface DescribeConnectionRequest {
+  Name: string;
+}
+export const DescribeConnectionRequest = S.suspend(() =>
+  S.Struct({ Name: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DescribeConnectionRequest",
+}) as any as S.Schema<DescribeConnectionRequest>;
+export interface DescribeConnectionResourceParameters {
+  ResourceConfigurationArn: string;
+  ResourceAssociationArn: string;
+}
+export const DescribeConnectionResourceParameters = S.suspend(() =>
+  S.Struct({
+    ResourceConfigurationArn: S.String,
+    ResourceAssociationArn: S.String,
+  }),
+).annotate({
+  identifier: "DescribeConnectionResourceParameters",
+}) as any as S.Schema<DescribeConnectionResourceParameters>;
+export interface DescribeConnectionConnectivityParameters {
+  ResourceParameters: DescribeConnectionResourceParameters;
+}
+export const DescribeConnectionConnectivityParameters = S.suspend(() =>
+  S.Struct({ ResourceParameters: DescribeConnectionResourceParameters }),
+).annotate({
+  identifier: "DescribeConnectionConnectivityParameters",
+}) as any as S.Schema<DescribeConnectionConnectivityParameters>;
+export interface ConnectionBasicAuthResponseParameters {
+  Username?: string;
+}
+export const ConnectionBasicAuthResponseParameters = S.suspend(() =>
+  S.Struct({ Username: S.optional(S.String) }),
+).annotate({
+  identifier: "ConnectionBasicAuthResponseParameters",
+}) as any as S.Schema<ConnectionBasicAuthResponseParameters>;
+export interface ConnectionOAuthClientResponseParameters {
+  ClientID?: string;
+}
+export const ConnectionOAuthClientResponseParameters = S.suspend(() =>
+  S.Struct({ ClientID: S.optional(S.String) }),
+).annotate({
+  identifier: "ConnectionOAuthClientResponseParameters",
+}) as any as S.Schema<ConnectionOAuthClientResponseParameters>;
+export interface ConnectionOAuthResponseParameters {
+  ClientParameters?: ConnectionOAuthClientResponseParameters;
+  AuthorizationEndpoint?: string;
+  HttpMethod?: ConnectionOAuthHttpMethod;
+  OAuthHttpParameters?: ConnectionHttpParameters;
+}
+export const ConnectionOAuthResponseParameters = S.suspend(() =>
+  S.Struct({
+    ClientParameters: S.optional(ConnectionOAuthClientResponseParameters),
+    AuthorizationEndpoint: S.optional(S.String),
+    HttpMethod: S.optional(ConnectionOAuthHttpMethod),
+    OAuthHttpParameters: S.optional(ConnectionHttpParameters),
+  }),
+).annotate({
+  identifier: "ConnectionOAuthResponseParameters",
+}) as any as S.Schema<ConnectionOAuthResponseParameters>;
+export interface ConnectionApiKeyAuthResponseParameters {
+  ApiKeyName?: string;
+}
+export const ConnectionApiKeyAuthResponseParameters = S.suspend(() =>
+  S.Struct({ ApiKeyName: S.optional(S.String) }),
+).annotate({
+  identifier: "ConnectionApiKeyAuthResponseParameters",
+}) as any as S.Schema<ConnectionApiKeyAuthResponseParameters>;
+export interface ConnectionAuthResponseParameters {
+  BasicAuthParameters?: ConnectionBasicAuthResponseParameters;
+  OAuthParameters?: ConnectionOAuthResponseParameters;
+  ApiKeyAuthParameters?: ConnectionApiKeyAuthResponseParameters;
+  InvocationHttpParameters?: ConnectionHttpParameters;
+  ConnectivityParameters?: DescribeConnectionConnectivityParameters;
+}
+export const ConnectionAuthResponseParameters = S.suspend(() =>
+  S.Struct({
+    BasicAuthParameters: S.optional(ConnectionBasicAuthResponseParameters),
+    OAuthParameters: S.optional(ConnectionOAuthResponseParameters),
+    ApiKeyAuthParameters: S.optional(ConnectionApiKeyAuthResponseParameters),
+    InvocationHttpParameters: S.optional(ConnectionHttpParameters),
+    ConnectivityParameters: S.optional(
+      DescribeConnectionConnectivityParameters,
+    ),
+  }),
+).annotate({
+  identifier: "ConnectionAuthResponseParameters",
+}) as any as S.Schema<ConnectionAuthResponseParameters>;
+export interface DescribeConnectionResponse {
+  ConnectionArn?: string;
+  Name?: string;
+  Description?: string;
+  InvocationConnectivityParameters?: DescribeConnectionConnectivityParameters;
+  ConnectionState?: ConnectionState;
+  StateReason?: string;
+  AuthorizationType?: ConnectionAuthorizationType;
+  SecretArn?: string;
+  KmsKeyIdentifier?: string;
+  AuthParameters?: ConnectionAuthResponseParameters;
+  CreationTime?: Date;
+  LastModifiedTime?: Date;
+  LastAuthorizedTime?: Date;
+}
+export const DescribeConnectionResponse = S.suspend(() =>
+  S.Struct({
+    ConnectionArn: S.optional(S.String),
+    Name: S.optional(S.String),
+    Description: S.optional(S.String),
+    InvocationConnectivityParameters: S.optional(
+      DescribeConnectionConnectivityParameters,
+    ),
+    ConnectionState: S.optional(ConnectionState),
+    StateReason: S.optional(S.String),
+    AuthorizationType: S.optional(ConnectionAuthorizationType),
+    SecretArn: S.optional(S.String),
+    KmsKeyIdentifier: S.optional(S.String),
+    AuthParameters: S.optional(ConnectionAuthResponseParameters),
+    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    LastModifiedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    LastAuthorizedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }).pipe(ns),
+).annotate({
+  identifier: "DescribeConnectionResponse",
+}) as any as S.Schema<DescribeConnectionResponse>;
+export interface DescribeEndpointRequest {
+  Name: string;
+  HomeRegion?: string;
+}
+export const DescribeEndpointRequest = S.suspend(() =>
+  S.Struct({ Name: S.String, HomeRegion: S.optional(S.String) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DescribeEndpointRequest",
+}) as any as S.Schema<DescribeEndpointRequest>;
 export interface DescribeEndpointResponse {
   Name?: string;
   Description?: string;
@@ -1867,9 +1418,27 @@ export const DescribeEndpointResponse = S.suspend(() =>
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
   }).pipe(ns),
-).annotations({
+).annotate({
   identifier: "DescribeEndpointResponse",
 }) as any as S.Schema<DescribeEndpointResponse>;
+export interface DescribeEventBusRequest {
+  Name?: string;
+}
+export const DescribeEventBusRequest = S.suspend(() =>
+  S.Struct({ Name: S.optional(S.String) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DescribeEventBusRequest",
+}) as any as S.Schema<DescribeEventBusRequest>;
 export interface DescribeEventBusResponse {
   Name?: string;
   Arn?: string;
@@ -1895,9 +1464,29 @@ export const DescribeEventBusResponse = S.suspend(() =>
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
   }).pipe(ns),
-).annotations({
+).annotate({
   identifier: "DescribeEventBusResponse",
 }) as any as S.Schema<DescribeEventBusResponse>;
+export interface DescribeEventSourceRequest {
+  Name: string;
+}
+export const DescribeEventSourceRequest = S.suspend(() =>
+  S.Struct({ Name: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DescribeEventSourceRequest",
+}) as any as S.Schema<DescribeEventSourceRequest>;
+export type EventSourceState = "PENDING" | "ACTIVE" | "DELETED" | (string & {});
+export const EventSourceState = S.String;
 export interface DescribeEventSourceResponse {
   Arn?: string;
   CreatedBy?: string;
@@ -1915,18 +1504,65 @@ export const DescribeEventSourceResponse = S.suspend(() =>
     Name: S.optional(S.String),
     State: S.optional(EventSourceState),
   }).pipe(ns),
-).annotations({
+).annotate({
   identifier: "DescribeEventSourceResponse",
 }) as any as S.Schema<DescribeEventSourceResponse>;
+export interface DescribePartnerEventSourceRequest {
+  Name: string;
+}
+export const DescribePartnerEventSourceRequest = S.suspend(() =>
+  S.Struct({ Name: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DescribePartnerEventSourceRequest",
+}) as any as S.Schema<DescribePartnerEventSourceRequest>;
 export interface DescribePartnerEventSourceResponse {
   Arn?: string;
   Name?: string;
 }
 export const DescribePartnerEventSourceResponse = S.suspend(() =>
   S.Struct({ Arn: S.optional(S.String), Name: S.optional(S.String) }).pipe(ns),
-).annotations({
+).annotate({
   identifier: "DescribePartnerEventSourceResponse",
 }) as any as S.Schema<DescribePartnerEventSourceResponse>;
+export interface DescribeReplayRequest {
+  ReplayName: string;
+}
+export const DescribeReplayRequest = S.suspend(() =>
+  S.Struct({ ReplayName: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DescribeReplayRequest",
+}) as any as S.Schema<DescribeReplayRequest>;
+export type ReplayDestinationFilters = string[];
+export const ReplayDestinationFilters = S.Array(S.String);
+export interface ReplayDestination {
+  Arn: string;
+  FilterArns?: string[];
+}
+export const ReplayDestination = S.suspend(() =>
+  S.Struct({ Arn: S.String, FilterArns: S.optional(ReplayDestinationFilters) }),
+).annotate({
+  identifier: "ReplayDestination",
+}) as any as S.Schema<ReplayDestination>;
 export interface DescribeReplayResponse {
   ReplayName?: string;
   ReplayArn?: string;
@@ -1960,9 +1596,34 @@ export const DescribeReplayResponse = S.suspend(() =>
     ),
     ReplayEndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }).pipe(ns),
-).annotations({
+).annotate({
   identifier: "DescribeReplayResponse",
 }) as any as S.Schema<DescribeReplayResponse>;
+export interface DescribeRuleRequest {
+  Name: string;
+  EventBusName?: string;
+}
+export const DescribeRuleRequest = S.suspend(() =>
+  S.Struct({ Name: S.String, EventBusName: S.optional(S.String) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DescribeRuleRequest",
+}) as any as S.Schema<DescribeRuleRequest>;
+export type RuleState =
+  | "ENABLED"
+  | "DISABLED"
+  | "ENABLED_WITH_ALL_CLOUDTRAIL_MANAGEMENT_EVENTS"
+  | (string & {});
+export const RuleState = S.String;
 export interface DescribeRuleResponse {
   Name?: string;
   Arn?: string;
@@ -1988,9 +1649,642 @@ export const DescribeRuleResponse = S.suspend(() =>
     EventBusName: S.optional(S.String),
     CreatedBy: S.optional(S.String),
   }).pipe(ns),
-).annotations({
+).annotate({
   identifier: "DescribeRuleResponse",
 }) as any as S.Schema<DescribeRuleResponse>;
+export interface DisableRuleRequest {
+  Name: string;
+  EventBusName?: string;
+}
+export const DisableRuleRequest = S.suspend(() =>
+  S.Struct({ Name: S.String, EventBusName: S.optional(S.String) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DisableRuleRequest",
+}) as any as S.Schema<DisableRuleRequest>;
+export interface DisableRuleResponse {}
+export const DisableRuleResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "DisableRuleResponse",
+}) as any as S.Schema<DisableRuleResponse>;
+export interface EnableRuleRequest {
+  Name: string;
+  EventBusName?: string;
+}
+export const EnableRuleRequest = S.suspend(() =>
+  S.Struct({ Name: S.String, EventBusName: S.optional(S.String) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "EnableRuleRequest",
+}) as any as S.Schema<EnableRuleRequest>;
+export interface EnableRuleResponse {}
+export const EnableRuleResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "EnableRuleResponse",
+}) as any as S.Schema<EnableRuleResponse>;
+export interface ListApiDestinationsRequest {
+  NamePrefix?: string;
+  ConnectionArn?: string;
+  NextToken?: string;
+  Limit?: number;
+}
+export const ListApiDestinationsRequest = S.suspend(() =>
+  S.Struct({
+    NamePrefix: S.optional(S.String),
+    ConnectionArn: S.optional(S.String),
+    NextToken: S.optional(S.String),
+    Limit: S.optional(S.Number),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListApiDestinationsRequest",
+}) as any as S.Schema<ListApiDestinationsRequest>;
+export interface ApiDestination {
+  ApiDestinationArn?: string;
+  Name?: string;
+  ApiDestinationState?: ApiDestinationState;
+  ConnectionArn?: string;
+  InvocationEndpoint?: string;
+  HttpMethod?: ApiDestinationHttpMethod;
+  InvocationRateLimitPerSecond?: number;
+  CreationTime?: Date;
+  LastModifiedTime?: Date;
+}
+export const ApiDestination = S.suspend(() =>
+  S.Struct({
+    ApiDestinationArn: S.optional(S.String),
+    Name: S.optional(S.String),
+    ApiDestinationState: S.optional(ApiDestinationState),
+    ConnectionArn: S.optional(S.String),
+    InvocationEndpoint: S.optional(S.String),
+    HttpMethod: S.optional(ApiDestinationHttpMethod),
+    InvocationRateLimitPerSecond: S.optional(S.Number),
+    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    LastModifiedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }),
+).annotate({ identifier: "ApiDestination" }) as any as S.Schema<ApiDestination>;
+export type ApiDestinationResponseList = ApiDestination[];
+export const ApiDestinationResponseList = S.Array(ApiDestination);
+export interface ListApiDestinationsResponse {
+  ApiDestinations?: ApiDestination[];
+  NextToken?: string;
+}
+export const ListApiDestinationsResponse = S.suspend(() =>
+  S.Struct({
+    ApiDestinations: S.optional(ApiDestinationResponseList),
+    NextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotate({
+  identifier: "ListApiDestinationsResponse",
+}) as any as S.Schema<ListApiDestinationsResponse>;
+export interface ListArchivesRequest {
+  NamePrefix?: string;
+  EventSourceArn?: string;
+  State?: ArchiveState;
+  NextToken?: string;
+  Limit?: number;
+}
+export const ListArchivesRequest = S.suspend(() =>
+  S.Struct({
+    NamePrefix: S.optional(S.String),
+    EventSourceArn: S.optional(S.String),
+    State: S.optional(ArchiveState),
+    NextToken: S.optional(S.String),
+    Limit: S.optional(S.Number),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListArchivesRequest",
+}) as any as S.Schema<ListArchivesRequest>;
+export interface Archive {
+  ArchiveName?: string;
+  EventSourceArn?: string;
+  State?: ArchiveState;
+  StateReason?: string;
+  RetentionDays?: number;
+  SizeBytes?: number;
+  EventCount?: number;
+  CreationTime?: Date;
+}
+export const Archive = S.suspend(() =>
+  S.Struct({
+    ArchiveName: S.optional(S.String),
+    EventSourceArn: S.optional(S.String),
+    State: S.optional(ArchiveState),
+    StateReason: S.optional(S.String),
+    RetentionDays: S.optional(S.Number),
+    SizeBytes: S.optional(S.Number),
+    EventCount: S.optional(S.Number),
+    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotate({ identifier: "Archive" }) as any as S.Schema<Archive>;
+export type ArchiveResponseList = Archive[];
+export const ArchiveResponseList = S.Array(Archive);
+export interface ListArchivesResponse {
+  Archives?: Archive[];
+  NextToken?: string;
+}
+export const ListArchivesResponse = S.suspend(() =>
+  S.Struct({
+    Archives: S.optional(ArchiveResponseList),
+    NextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotate({
+  identifier: "ListArchivesResponse",
+}) as any as S.Schema<ListArchivesResponse>;
+export interface ListConnectionsRequest {
+  NamePrefix?: string;
+  ConnectionState?: ConnectionState;
+  NextToken?: string;
+  Limit?: number;
+}
+export const ListConnectionsRequest = S.suspend(() =>
+  S.Struct({
+    NamePrefix: S.optional(S.String),
+    ConnectionState: S.optional(ConnectionState),
+    NextToken: S.optional(S.String),
+    Limit: S.optional(S.Number),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListConnectionsRequest",
+}) as any as S.Schema<ListConnectionsRequest>;
+export interface Connection {
+  ConnectionArn?: string;
+  Name?: string;
+  ConnectionState?: ConnectionState;
+  StateReason?: string;
+  AuthorizationType?: ConnectionAuthorizationType;
+  CreationTime?: Date;
+  LastModifiedTime?: Date;
+  LastAuthorizedTime?: Date;
+}
+export const Connection = S.suspend(() =>
+  S.Struct({
+    ConnectionArn: S.optional(S.String),
+    Name: S.optional(S.String),
+    ConnectionState: S.optional(ConnectionState),
+    StateReason: S.optional(S.String),
+    AuthorizationType: S.optional(ConnectionAuthorizationType),
+    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    LastModifiedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    LastAuthorizedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }),
+).annotate({ identifier: "Connection" }) as any as S.Schema<Connection>;
+export type ConnectionResponseList = Connection[];
+export const ConnectionResponseList = S.Array(Connection);
+export interface ListConnectionsResponse {
+  Connections?: Connection[];
+  NextToken?: string;
+}
+export const ListConnectionsResponse = S.suspend(() =>
+  S.Struct({
+    Connections: S.optional(ConnectionResponseList),
+    NextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotate({
+  identifier: "ListConnectionsResponse",
+}) as any as S.Schema<ListConnectionsResponse>;
+export interface ListEndpointsRequest {
+  NamePrefix?: string;
+  HomeRegion?: string;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListEndpointsRequest = S.suspend(() =>
+  S.Struct({
+    NamePrefix: S.optional(S.String),
+    HomeRegion: S.optional(S.String),
+    NextToken: S.optional(S.String),
+    MaxResults: S.optional(S.Number),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListEndpointsRequest",
+}) as any as S.Schema<ListEndpointsRequest>;
+export interface Endpoint {
+  Name?: string;
+  Description?: string;
+  Arn?: string;
+  RoutingConfig?: RoutingConfig;
+  ReplicationConfig?: ReplicationConfig;
+  EventBuses?: EndpointEventBus[];
+  RoleArn?: string;
+  EndpointId?: string;
+  EndpointUrl?: string;
+  State?: EndpointState;
+  StateReason?: string;
+  CreationTime?: Date;
+  LastModifiedTime?: Date;
+}
+export const Endpoint = S.suspend(() =>
+  S.Struct({
+    Name: S.optional(S.String),
+    Description: S.optional(S.String),
+    Arn: S.optional(S.String),
+    RoutingConfig: S.optional(RoutingConfig),
+    ReplicationConfig: S.optional(ReplicationConfig),
+    EventBuses: S.optional(EndpointEventBusList),
+    RoleArn: S.optional(S.String),
+    EndpointId: S.optional(S.String),
+    EndpointUrl: S.optional(S.String),
+    State: S.optional(EndpointState),
+    StateReason: S.optional(S.String),
+    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    LastModifiedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }),
+).annotate({ identifier: "Endpoint" }) as any as S.Schema<Endpoint>;
+export type EndpointList = Endpoint[];
+export const EndpointList = S.Array(Endpoint);
+export interface ListEndpointsResponse {
+  Endpoints?: Endpoint[];
+  NextToken?: string;
+}
+export const ListEndpointsResponse = S.suspend(() =>
+  S.Struct({
+    Endpoints: S.optional(EndpointList),
+    NextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotate({
+  identifier: "ListEndpointsResponse",
+}) as any as S.Schema<ListEndpointsResponse>;
+export interface ListEventBusesRequest {
+  NamePrefix?: string;
+  NextToken?: string;
+  Limit?: number;
+}
+export const ListEventBusesRequest = S.suspend(() =>
+  S.Struct({
+    NamePrefix: S.optional(S.String),
+    NextToken: S.optional(S.String),
+    Limit: S.optional(S.Number),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListEventBusesRequest",
+}) as any as S.Schema<ListEventBusesRequest>;
+export interface EventBus {
+  Name?: string;
+  Arn?: string;
+  Description?: string;
+  Policy?: string;
+  CreationTime?: Date;
+  LastModifiedTime?: Date;
+}
+export const EventBus = S.suspend(() =>
+  S.Struct({
+    Name: S.optional(S.String),
+    Arn: S.optional(S.String),
+    Description: S.optional(S.String),
+    Policy: S.optional(S.String),
+    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    LastModifiedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }),
+).annotate({ identifier: "EventBus" }) as any as S.Schema<EventBus>;
+export type EventBusList = EventBus[];
+export const EventBusList = S.Array(EventBus);
+export interface ListEventBusesResponse {
+  EventBuses?: EventBus[];
+  NextToken?: string;
+}
+export const ListEventBusesResponse = S.suspend(() =>
+  S.Struct({
+    EventBuses: S.optional(EventBusList),
+    NextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotate({
+  identifier: "ListEventBusesResponse",
+}) as any as S.Schema<ListEventBusesResponse>;
+export interface ListEventSourcesRequest {
+  NamePrefix?: string;
+  NextToken?: string;
+  Limit?: number;
+}
+export const ListEventSourcesRequest = S.suspend(() =>
+  S.Struct({
+    NamePrefix: S.optional(S.String),
+    NextToken: S.optional(S.String),
+    Limit: S.optional(S.Number),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListEventSourcesRequest",
+}) as any as S.Schema<ListEventSourcesRequest>;
+export interface EventSource {
+  Arn?: string;
+  CreatedBy?: string;
+  CreationTime?: Date;
+  ExpirationTime?: Date;
+  Name?: string;
+  State?: EventSourceState;
+}
+export const EventSource = S.suspend(() =>
+  S.Struct({
+    Arn: S.optional(S.String),
+    CreatedBy: S.optional(S.String),
+    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    ExpirationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    Name: S.optional(S.String),
+    State: S.optional(EventSourceState),
+  }),
+).annotate({ identifier: "EventSource" }) as any as S.Schema<EventSource>;
+export type EventSourceList = EventSource[];
+export const EventSourceList = S.Array(EventSource);
+export interface ListEventSourcesResponse {
+  EventSources?: EventSource[];
+  NextToken?: string;
+}
+export const ListEventSourcesResponse = S.suspend(() =>
+  S.Struct({
+    EventSources: S.optional(EventSourceList),
+    NextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotate({
+  identifier: "ListEventSourcesResponse",
+}) as any as S.Schema<ListEventSourcesResponse>;
+export interface ListPartnerEventSourceAccountsRequest {
+  EventSourceName: string;
+  NextToken?: string;
+  Limit?: number;
+}
+export const ListPartnerEventSourceAccountsRequest = S.suspend(() =>
+  S.Struct({
+    EventSourceName: S.String,
+    NextToken: S.optional(S.String),
+    Limit: S.optional(S.Number),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListPartnerEventSourceAccountsRequest",
+}) as any as S.Schema<ListPartnerEventSourceAccountsRequest>;
+export interface PartnerEventSourceAccount {
+  Account?: string;
+  CreationTime?: Date;
+  ExpirationTime?: Date;
+  State?: EventSourceState;
+}
+export const PartnerEventSourceAccount = S.suspend(() =>
+  S.Struct({
+    Account: S.optional(S.String),
+    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    ExpirationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    State: S.optional(EventSourceState),
+  }),
+).annotate({
+  identifier: "PartnerEventSourceAccount",
+}) as any as S.Schema<PartnerEventSourceAccount>;
+export type PartnerEventSourceAccountList = PartnerEventSourceAccount[];
+export const PartnerEventSourceAccountList = S.Array(PartnerEventSourceAccount);
+export interface ListPartnerEventSourceAccountsResponse {
+  PartnerEventSourceAccounts?: PartnerEventSourceAccount[];
+  NextToken?: string;
+}
+export const ListPartnerEventSourceAccountsResponse = S.suspend(() =>
+  S.Struct({
+    PartnerEventSourceAccounts: S.optional(PartnerEventSourceAccountList),
+    NextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotate({
+  identifier: "ListPartnerEventSourceAccountsResponse",
+}) as any as S.Schema<ListPartnerEventSourceAccountsResponse>;
+export interface ListPartnerEventSourcesRequest {
+  NamePrefix: string;
+  NextToken?: string;
+  Limit?: number;
+}
+export const ListPartnerEventSourcesRequest = S.suspend(() =>
+  S.Struct({
+    NamePrefix: S.String,
+    NextToken: S.optional(S.String),
+    Limit: S.optional(S.Number),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListPartnerEventSourcesRequest",
+}) as any as S.Schema<ListPartnerEventSourcesRequest>;
+export interface PartnerEventSource {
+  Arn?: string;
+  Name?: string;
+}
+export const PartnerEventSource = S.suspend(() =>
+  S.Struct({ Arn: S.optional(S.String), Name: S.optional(S.String) }),
+).annotate({
+  identifier: "PartnerEventSource",
+}) as any as S.Schema<PartnerEventSource>;
+export type PartnerEventSourceList = PartnerEventSource[];
+export const PartnerEventSourceList = S.Array(PartnerEventSource);
+export interface ListPartnerEventSourcesResponse {
+  PartnerEventSources?: PartnerEventSource[];
+  NextToken?: string;
+}
+export const ListPartnerEventSourcesResponse = S.suspend(() =>
+  S.Struct({
+    PartnerEventSources: S.optional(PartnerEventSourceList),
+    NextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotate({
+  identifier: "ListPartnerEventSourcesResponse",
+}) as any as S.Schema<ListPartnerEventSourcesResponse>;
+export interface ListReplaysRequest {
+  NamePrefix?: string;
+  State?: ReplayState;
+  EventSourceArn?: string;
+  NextToken?: string;
+  Limit?: number;
+}
+export const ListReplaysRequest = S.suspend(() =>
+  S.Struct({
+    NamePrefix: S.optional(S.String),
+    State: S.optional(ReplayState),
+    EventSourceArn: S.optional(S.String),
+    NextToken: S.optional(S.String),
+    Limit: S.optional(S.Number),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListReplaysRequest",
+}) as any as S.Schema<ListReplaysRequest>;
+export interface Replay {
+  ReplayName?: string;
+  EventSourceArn?: string;
+  State?: ReplayState;
+  StateReason?: string;
+  EventStartTime?: Date;
+  EventEndTime?: Date;
+  EventLastReplayedTime?: Date;
+  ReplayStartTime?: Date;
+  ReplayEndTime?: Date;
+}
+export const Replay = S.suspend(() =>
+  S.Struct({
+    ReplayName: S.optional(S.String),
+    EventSourceArn: S.optional(S.String),
+    State: S.optional(ReplayState),
+    StateReason: S.optional(S.String),
+    EventStartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    EventEndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    EventLastReplayedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    ReplayStartTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    ReplayEndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotate({ identifier: "Replay" }) as any as S.Schema<Replay>;
+export type ReplayList = Replay[];
+export const ReplayList = S.Array(Replay);
+export interface ListReplaysResponse {
+  Replays?: Replay[];
+  NextToken?: string;
+}
+export const ListReplaysResponse = S.suspend(() =>
+  S.Struct({
+    Replays: S.optional(ReplayList),
+    NextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotate({
+  identifier: "ListReplaysResponse",
+}) as any as S.Schema<ListReplaysResponse>;
+export interface ListRuleNamesByTargetRequest {
+  TargetArn: string;
+  EventBusName?: string;
+  NextToken?: string;
+  Limit?: number;
+}
+export const ListRuleNamesByTargetRequest = S.suspend(() =>
+  S.Struct({
+    TargetArn: S.String,
+    EventBusName: S.optional(S.String),
+    NextToken: S.optional(S.String),
+    Limit: S.optional(S.Number),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListRuleNamesByTargetRequest",
+}) as any as S.Schema<ListRuleNamesByTargetRequest>;
+export type RuleNameList = string[];
+export const RuleNameList = S.Array(S.String);
 export interface ListRuleNamesByTargetResponse {
   RuleNames?: string[];
   NextToken?: string;
@@ -2000,22 +2294,127 @@ export const ListRuleNamesByTargetResponse = S.suspend(() =>
     RuleNames: S.optional(RuleNameList),
     NextToken: S.optional(S.String),
   }).pipe(ns),
-).annotations({
+).annotate({
   identifier: "ListRuleNamesByTargetResponse",
 }) as any as S.Schema<ListRuleNamesByTargetResponse>;
+export interface ListRulesRequest {
+  NamePrefix?: string;
+  EventBusName?: string;
+  NextToken?: string;
+  Limit?: number;
+}
+export const ListRulesRequest = S.suspend(() =>
+  S.Struct({
+    NamePrefix: S.optional(S.String),
+    EventBusName: S.optional(S.String),
+    NextToken: S.optional(S.String),
+    Limit: S.optional(S.Number),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListRulesRequest",
+}) as any as S.Schema<ListRulesRequest>;
+export interface Rule {
+  Name?: string;
+  Arn?: string;
+  EventPattern?: string;
+  State?: RuleState;
+  Description?: string;
+  ScheduleExpression?: string;
+  RoleArn?: string;
+  ManagedBy?: string;
+  EventBusName?: string;
+}
+export const Rule = S.suspend(() =>
+  S.Struct({
+    Name: S.optional(S.String),
+    Arn: S.optional(S.String),
+    EventPattern: S.optional(S.String),
+    State: S.optional(RuleState),
+    Description: S.optional(S.String),
+    ScheduleExpression: S.optional(S.String),
+    RoleArn: S.optional(S.String),
+    ManagedBy: S.optional(S.String),
+    EventBusName: S.optional(S.String),
+  }),
+).annotate({ identifier: "Rule" }) as any as S.Schema<Rule>;
+export type RuleResponseList = Rule[];
+export const RuleResponseList = S.Array(Rule);
+export interface ListRulesResponse {
+  Rules?: Rule[];
+  NextToken?: string;
+}
+export const ListRulesResponse = S.suspend(() =>
+  S.Struct({
+    Rules: S.optional(RuleResponseList),
+    NextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotate({
+  identifier: "ListRulesResponse",
+}) as any as S.Schema<ListRulesResponse>;
+export interface ListTagsForResourceRequest {
+  ResourceARN: string;
+}
+export const ListTagsForResourceRequest = S.suspend(() =>
+  S.Struct({ ResourceARN: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListTagsForResourceRequest",
+}) as any as S.Schema<ListTagsForResourceRequest>;
 export interface ListTagsForResourceResponse {
   Tags?: Tag[];
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ Tags: S.optional(TagList) }).pipe(ns),
-).annotations({
+).annotate({
   identifier: "ListTagsForResourceResponse",
 }) as any as S.Schema<ListTagsForResourceResponse>;
+export interface ListTargetsByRuleRequest {
+  Rule: string;
+  EventBusName?: string;
+  NextToken?: string;
+  Limit?: number;
+}
+export const ListTargetsByRuleRequest = S.suspend(() =>
+  S.Struct({
+    Rule: S.String,
+    EventBusName: S.optional(S.String),
+    NextToken: S.optional(S.String),
+    Limit: S.optional(S.Number),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListTargetsByRuleRequest",
+}) as any as S.Schema<ListTargetsByRuleRequest>;
 export type TransformerPaths = { [key: string]: string | undefined };
-export const TransformerPaths = S.Record({
-  key: S.String,
-  value: S.UndefinedOr(S.String),
-});
+export const TransformerPaths = S.Record(S.String, S.String.pipe(S.optional));
 export interface InputTransformer {
   InputPathsMap?: { [key: string]: string | undefined };
   InputTemplate: string;
@@ -2025,7 +2424,7 @@ export const InputTransformer = S.suspend(() =>
     InputPathsMap: S.optional(TransformerPaths),
     InputTemplate: S.String,
   }),
-).annotations({
+).annotate({
   identifier: "InputTransformer",
 }) as any as S.Schema<InputTransformer>;
 export interface KinesisParameters {
@@ -2033,7 +2432,7 @@ export interface KinesisParameters {
 }
 export const KinesisParameters = S.suspend(() =>
   S.Struct({ PartitionKeyPath: S.String }),
-).annotations({
+).annotate({
   identifier: "KinesisParameters",
 }) as any as S.Schema<KinesisParameters>;
 export type RunCommandTargetValues = string[];
@@ -2044,7 +2443,7 @@ export interface RunCommandTarget {
 }
 export const RunCommandTarget = S.suspend(() =>
   S.Struct({ Key: S.String, Values: RunCommandTargetValues }),
-).annotations({
+).annotate({
   identifier: "RunCommandTarget",
 }) as any as S.Schema<RunCommandTarget>;
 export type RunCommandTargets = RunCommandTarget[];
@@ -2054,9 +2453,11 @@ export interface RunCommandParameters {
 }
 export const RunCommandParameters = S.suspend(() =>
   S.Struct({ RunCommandTargets: RunCommandTargets }),
-).annotations({
+).annotate({
   identifier: "RunCommandParameters",
 }) as any as S.Schema<RunCommandParameters>;
+export type LaunchType = "EC2" | "FARGATE" | "EXTERNAL" | (string & {});
+export const LaunchType = S.String;
 export type StringList = string[];
 export const StringList = S.Array(S.String);
 export type AssignPublicIp = "ENABLED" | "DISABLED" | (string & {});
@@ -2072,7 +2473,7 @@ export const AwsVpcConfiguration = S.suspend(() =>
     SecurityGroups: S.optional(StringList),
     AssignPublicIp: S.optional(AssignPublicIp),
   }),
-).annotations({
+).annotate({
   identifier: "AwsVpcConfiguration",
 }) as any as S.Schema<AwsVpcConfiguration>;
 export interface NetworkConfiguration {
@@ -2080,7 +2481,7 @@ export interface NetworkConfiguration {
 }
 export const NetworkConfiguration = S.suspend(() =>
   S.Struct({ awsvpcConfiguration: S.optional(AwsVpcConfiguration) }),
-).annotations({
+).annotate({
   identifier: "NetworkConfiguration",
 }) as any as S.Schema<NetworkConfiguration>;
 export interface CapacityProviderStrategyItem {
@@ -2094,7 +2495,7 @@ export const CapacityProviderStrategyItem = S.suspend(() =>
     weight: S.optional(S.Number),
     base: S.optional(S.Number),
   }),
-).annotations({
+).annotate({
   identifier: "CapacityProviderStrategyItem",
 }) as any as S.Schema<CapacityProviderStrategyItem>;
 export type CapacityProviderStrategy = CapacityProviderStrategyItem[];
@@ -2113,7 +2514,7 @@ export const PlacementConstraint = S.suspend(() =>
     type: S.optional(PlacementConstraintType),
     expression: S.optional(S.String),
   }),
-).annotations({
+).annotate({
   identifier: "PlacementConstraint",
 }) as any as S.Schema<PlacementConstraint>;
 export type PlacementConstraints = PlacementConstraint[];
@@ -2133,11 +2534,13 @@ export const PlacementStrategy = S.suspend(() =>
     type: S.optional(PlacementStrategyType),
     field: S.optional(S.String),
   }),
-).annotations({
+).annotate({
   identifier: "PlacementStrategy",
 }) as any as S.Schema<PlacementStrategy>;
 export type PlacementStrategies = PlacementStrategy[];
 export const PlacementStrategies = S.Array(PlacementStrategy);
+export type PropagateTags = "TASK_DEFINITION" | (string & {});
+export const PropagateTags = S.String;
 export interface EcsParameters {
   TaskDefinitionArn: string;
   TaskCount?: number;
@@ -2171,15 +2574,13 @@ export const EcsParameters = S.suspend(() =>
     ReferenceId: S.optional(S.String),
     Tags: S.optional(TagList),
   }),
-).annotations({
-  identifier: "EcsParameters",
-}) as any as S.Schema<EcsParameters>;
+).annotate({ identifier: "EcsParameters" }) as any as S.Schema<EcsParameters>;
 export interface BatchArrayProperties {
   Size?: number;
 }
 export const BatchArrayProperties = S.suspend(() =>
   S.Struct({ Size: S.optional(S.Number) }),
-).annotations({
+).annotate({
   identifier: "BatchArrayProperties",
 }) as any as S.Schema<BatchArrayProperties>;
 export interface BatchRetryStrategy {
@@ -2187,7 +2588,7 @@ export interface BatchRetryStrategy {
 }
 export const BatchRetryStrategy = S.suspend(() =>
   S.Struct({ Attempts: S.optional(S.Number) }),
-).annotations({
+).annotate({
   identifier: "BatchRetryStrategy",
 }) as any as S.Schema<BatchRetryStrategy>;
 export interface BatchParameters {
@@ -2203,7 +2604,7 @@ export const BatchParameters = S.suspend(() =>
     ArrayProperties: S.optional(BatchArrayProperties),
     RetryStrategy: S.optional(BatchRetryStrategy),
   }),
-).annotations({
+).annotate({
   identifier: "BatchParameters",
 }) as any as S.Schema<BatchParameters>;
 export interface SqsParameters {
@@ -2211,19 +2612,19 @@ export interface SqsParameters {
 }
 export const SqsParameters = S.suspend(() =>
   S.Struct({ MessageGroupId: S.optional(S.String) }),
-).annotations({
-  identifier: "SqsParameters",
-}) as any as S.Schema<SqsParameters>;
+).annotate({ identifier: "SqsParameters" }) as any as S.Schema<SqsParameters>;
+export type PathParameterList = string[];
+export const PathParameterList = S.Array(S.String);
 export type HeaderParametersMap = { [key: string]: string | undefined };
-export const HeaderParametersMap = S.Record({
-  key: S.String,
-  value: S.UndefinedOr(S.String),
-});
+export const HeaderParametersMap = S.Record(
+  S.String,
+  S.String.pipe(S.optional),
+);
 export type QueryStringParametersMap = { [key: string]: string | undefined };
-export const QueryStringParametersMap = S.Record({
-  key: S.String,
-  value: S.UndefinedOr(S.String),
-});
+export const QueryStringParametersMap = S.Record(
+  S.String,
+  S.String.pipe(S.optional),
+);
 export interface HttpParameters {
   PathParameterValues?: string[];
   HeaderParameters?: { [key: string]: string | undefined };
@@ -2235,9 +2636,9 @@ export const HttpParameters = S.suspend(() =>
     HeaderParameters: S.optional(HeaderParametersMap),
     QueryStringParameters: S.optional(QueryStringParametersMap),
   }),
-).annotations({
-  identifier: "HttpParameters",
-}) as any as S.Schema<HttpParameters>;
+).annotate({ identifier: "HttpParameters" }) as any as S.Schema<HttpParameters>;
+export type Sqls = string | redacted.Redacted<string>[];
+export const Sqls = S.Array(SensitiveString);
 export interface RedshiftDataParameters {
   SecretManagerArn?: string;
   Database: string;
@@ -2257,7 +2658,7 @@ export const RedshiftDataParameters = S.suspend(() =>
     WithEvent: S.optional(S.Boolean),
     Sqls: S.optional(Sqls),
   }),
-).annotations({
+).annotate({
   identifier: "RedshiftDataParameters",
 }) as any as S.Schema<RedshiftDataParameters>;
 export interface SageMakerPipelineParameter {
@@ -2266,7 +2667,7 @@ export interface SageMakerPipelineParameter {
 }
 export const SageMakerPipelineParameter = S.suspend(() =>
   S.Struct({ Name: S.String, Value: S.String }),
-).annotations({
+).annotate({
   identifier: "SageMakerPipelineParameter",
 }) as any as S.Schema<SageMakerPipelineParameter>;
 export type SageMakerPipelineParameterList = SageMakerPipelineParameter[];
@@ -2280,7 +2681,7 @@ export const SageMakerPipelineParameters = S.suspend(() =>
   S.Struct({
     PipelineParameterList: S.optional(SageMakerPipelineParameterList),
   }),
-).annotations({
+).annotate({
   identifier: "SageMakerPipelineParameters",
 }) as any as S.Schema<SageMakerPipelineParameters>;
 export interface RetryPolicy {
@@ -2292,13 +2693,13 @@ export const RetryPolicy = S.suspend(() =>
     MaximumRetryAttempts: S.optional(S.Number),
     MaximumEventAgeInSeconds: S.optional(S.Number),
   }),
-).annotations({ identifier: "RetryPolicy" }) as any as S.Schema<RetryPolicy>;
+).annotate({ identifier: "RetryPolicy" }) as any as S.Schema<RetryPolicy>;
 export interface AppSyncParameters {
   GraphQLOperation?: string | redacted.Redacted<string>;
 }
 export const AppSyncParameters = S.suspend(() =>
   S.Struct({ GraphQLOperation: S.optional(SensitiveString) }),
-).annotations({
+).annotate({
   identifier: "AppSyncParameters",
 }) as any as S.Schema<AppSyncParameters>;
 export interface Target {
@@ -2340,7 +2741,7 @@ export const Target = S.suspend(() =>
     RetryPolicy: S.optional(RetryPolicy),
     AppSyncParameters: S.optional(AppSyncParameters),
   }),
-).annotations({ identifier: "Target" }) as any as S.Schema<Target>;
+).annotate({ identifier: "Target" }) as any as S.Schema<Target>;
 export type TargetList = Target[];
 export const TargetList = S.Array(Target);
 export interface ListTargetsByRuleResponse {
@@ -2352,9 +2753,35 @@ export const ListTargetsByRuleResponse = S.suspend(() =>
     Targets: S.optional(TargetList),
     NextToken: S.optional(S.String),
   }).pipe(ns),
-).annotations({
+).annotate({
   identifier: "ListTargetsByRuleResponse",
 }) as any as S.Schema<ListTargetsByRuleResponse>;
+export type EventResourceList = string[];
+export const EventResourceList = S.Array(S.String);
+export interface PutEventsRequestEntry {
+  Time?: Date;
+  Source?: string;
+  Resources?: string[];
+  DetailType?: string;
+  Detail?: string;
+  EventBusName?: string;
+  TraceHeader?: string;
+}
+export const PutEventsRequestEntry = S.suspend(() =>
+  S.Struct({
+    Time: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    Source: S.optional(S.String),
+    Resources: S.optional(EventResourceList),
+    DetailType: S.optional(S.String),
+    Detail: S.optional(S.String),
+    EventBusName: S.optional(S.String),
+    TraceHeader: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "PutEventsRequestEntry",
+}) as any as S.Schema<PutEventsRequestEntry>;
+export type PutEventsRequestEntryList = PutEventsRequestEntry[];
+export const PutEventsRequestEntryList = S.Array(PutEventsRequestEntry);
 export interface PutEventsRequest {
   Entries: PutEventsRequestEntry[];
   EndpointId?: string;
@@ -2374,9 +2801,59 @@ export const PutEventsRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "PutEventsRequest",
 }) as any as S.Schema<PutEventsRequest>;
+export interface PutEventsResultEntry {
+  EventId?: string;
+  ErrorCode?: string;
+  ErrorMessage?: string;
+}
+export const PutEventsResultEntry = S.suspend(() =>
+  S.Struct({
+    EventId: S.optional(S.String),
+    ErrorCode: S.optional(S.String),
+    ErrorMessage: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "PutEventsResultEntry",
+}) as any as S.Schema<PutEventsResultEntry>;
+export type PutEventsResultEntryList = PutEventsResultEntry[];
+export const PutEventsResultEntryList = S.Array(PutEventsResultEntry);
+export interface PutEventsResponse {
+  FailedEntryCount?: number;
+  Entries?: PutEventsResultEntry[];
+}
+export const PutEventsResponse = S.suspend(() =>
+  S.Struct({
+    FailedEntryCount: S.optional(S.Number),
+    Entries: S.optional(PutEventsResultEntryList),
+  }).pipe(ns),
+).annotate({
+  identifier: "PutEventsResponse",
+}) as any as S.Schema<PutEventsResponse>;
+export interface PutPartnerEventsRequestEntry {
+  Time?: Date;
+  Source?: string;
+  Resources?: string[];
+  DetailType?: string;
+  Detail?: string;
+}
+export const PutPartnerEventsRequestEntry = S.suspend(() =>
+  S.Struct({
+    Time: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    Source: S.optional(S.String),
+    Resources: S.optional(EventResourceList),
+    DetailType: S.optional(S.String),
+    Detail: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "PutPartnerEventsRequestEntry",
+}) as any as S.Schema<PutPartnerEventsRequestEntry>;
+export type PutPartnerEventsRequestEntryList = PutPartnerEventsRequestEntry[];
+export const PutPartnerEventsRequestEntryList = S.Array(
+  PutPartnerEventsRequestEntry,
+);
 export interface PutPartnerEventsRequest {
   Entries: PutPartnerEventsRequestEntry[];
 }
@@ -2392,9 +2869,47 @@ export const PutPartnerEventsRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "PutPartnerEventsRequest",
 }) as any as S.Schema<PutPartnerEventsRequest>;
+export interface PutPartnerEventsResultEntry {
+  EventId?: string;
+  ErrorCode?: string;
+  ErrorMessage?: string;
+}
+export const PutPartnerEventsResultEntry = S.suspend(() =>
+  S.Struct({
+    EventId: S.optional(S.String),
+    ErrorCode: S.optional(S.String),
+    ErrorMessage: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "PutPartnerEventsResultEntry",
+}) as any as S.Schema<PutPartnerEventsResultEntry>;
+export type PutPartnerEventsResultEntryList = PutPartnerEventsResultEntry[];
+export const PutPartnerEventsResultEntryList = S.Array(
+  PutPartnerEventsResultEntry,
+);
+export interface PutPartnerEventsResponse {
+  FailedEntryCount?: number;
+  Entries?: PutPartnerEventsResultEntry[];
+}
+export const PutPartnerEventsResponse = S.suspend(() =>
+  S.Struct({
+    FailedEntryCount: S.optional(S.Number),
+    Entries: S.optional(PutPartnerEventsResultEntryList),
+  }).pipe(ns),
+).annotate({
+  identifier: "PutPartnerEventsResponse",
+}) as any as S.Schema<PutPartnerEventsResponse>;
+export interface Condition {
+  Type: string;
+  Key: string;
+  Value: string;
+}
+export const Condition = S.suspend(() =>
+  S.Struct({ Type: S.String, Key: S.String, Value: S.String }),
+).annotate({ identifier: "Condition" }) as any as S.Schema<Condition>;
 export interface PutPermissionRequest {
   EventBusName?: string;
   Action?: string;
@@ -2422,23 +2937,193 @@ export const PutPermissionRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "PutPermissionRequest",
 }) as any as S.Schema<PutPermissionRequest>;
 export interface PutPermissionResponse {}
 export const PutPermissionResponse = S.suspend(() =>
   S.Struct({}).pipe(ns),
-).annotations({
+).annotate({
   identifier: "PutPermissionResponse",
 }) as any as S.Schema<PutPermissionResponse>;
+export interface PutRuleRequest {
+  Name: string;
+  ScheduleExpression?: string;
+  EventPattern?: string;
+  State?: RuleState;
+  Description?: string;
+  RoleArn?: string;
+  Tags?: Tag[];
+  EventBusName?: string;
+}
+export const PutRuleRequest = S.suspend(() =>
+  S.Struct({
+    Name: S.String,
+    ScheduleExpression: S.optional(S.String),
+    EventPattern: S.optional(S.String),
+    State: S.optional(RuleState),
+    Description: S.optional(S.String),
+    RoleArn: S.optional(S.String),
+    Tags: S.optional(TagList),
+    EventBusName: S.optional(S.String),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({ identifier: "PutRuleRequest" }) as any as S.Schema<PutRuleRequest>;
 export interface PutRuleResponse {
   RuleArn?: string;
 }
 export const PutRuleResponse = S.suspend(() =>
   S.Struct({ RuleArn: S.optional(S.String) }).pipe(ns),
-).annotations({
+).annotate({
   identifier: "PutRuleResponse",
 }) as any as S.Schema<PutRuleResponse>;
+export interface PutTargetsRequest {
+  Rule: string;
+  EventBusName?: string;
+  Targets: Target[];
+}
+export const PutTargetsRequest = S.suspend(() =>
+  S.Struct({
+    Rule: S.String,
+    EventBusName: S.optional(S.String),
+    Targets: TargetList,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "PutTargetsRequest",
+}) as any as S.Schema<PutTargetsRequest>;
+export interface PutTargetsResultEntry {
+  TargetId?: string;
+  ErrorCode?: string;
+  ErrorMessage?: string;
+}
+export const PutTargetsResultEntry = S.suspend(() =>
+  S.Struct({
+    TargetId: S.optional(S.String),
+    ErrorCode: S.optional(S.String),
+    ErrorMessage: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "PutTargetsResultEntry",
+}) as any as S.Schema<PutTargetsResultEntry>;
+export type PutTargetsResultEntryList = PutTargetsResultEntry[];
+export const PutTargetsResultEntryList = S.Array(PutTargetsResultEntry);
+export interface PutTargetsResponse {
+  FailedEntryCount?: number;
+  FailedEntries?: PutTargetsResultEntry[];
+}
+export const PutTargetsResponse = S.suspend(() =>
+  S.Struct({
+    FailedEntryCount: S.optional(S.Number),
+    FailedEntries: S.optional(PutTargetsResultEntryList),
+  }).pipe(ns),
+).annotate({
+  identifier: "PutTargetsResponse",
+}) as any as S.Schema<PutTargetsResponse>;
+export interface RemovePermissionRequest {
+  StatementId?: string;
+  RemoveAllPermissions?: boolean;
+  EventBusName?: string;
+}
+export const RemovePermissionRequest = S.suspend(() =>
+  S.Struct({
+    StatementId: S.optional(S.String),
+    RemoveAllPermissions: S.optional(S.Boolean),
+    EventBusName: S.optional(S.String),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "RemovePermissionRequest",
+}) as any as S.Schema<RemovePermissionRequest>;
+export interface RemovePermissionResponse {}
+export const RemovePermissionResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "RemovePermissionResponse",
+}) as any as S.Schema<RemovePermissionResponse>;
+export type TargetIdList = string[];
+export const TargetIdList = S.Array(S.String);
+export interface RemoveTargetsRequest {
+  Rule: string;
+  EventBusName?: string;
+  Ids: string[];
+  Force?: boolean;
+}
+export const RemoveTargetsRequest = S.suspend(() =>
+  S.Struct({
+    Rule: S.String,
+    EventBusName: S.optional(S.String),
+    Ids: TargetIdList,
+    Force: S.optional(S.Boolean),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "RemoveTargetsRequest",
+}) as any as S.Schema<RemoveTargetsRequest>;
+export interface RemoveTargetsResultEntry {
+  TargetId?: string;
+  ErrorCode?: string;
+  ErrorMessage?: string;
+}
+export const RemoveTargetsResultEntry = S.suspend(() =>
+  S.Struct({
+    TargetId: S.optional(S.String),
+    ErrorCode: S.optional(S.String),
+    ErrorMessage: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "RemoveTargetsResultEntry",
+}) as any as S.Schema<RemoveTargetsResultEntry>;
+export type RemoveTargetsResultEntryList = RemoveTargetsResultEntry[];
+export const RemoveTargetsResultEntryList = S.Array(RemoveTargetsResultEntry);
+export interface RemoveTargetsResponse {
+  FailedEntryCount?: number;
+  FailedEntries?: RemoveTargetsResultEntry[];
+}
+export const RemoveTargetsResponse = S.suspend(() =>
+  S.Struct({
+    FailedEntryCount: S.optional(S.Number),
+    FailedEntries: S.optional(RemoveTargetsResultEntryList),
+  }).pipe(ns),
+).annotate({
+  identifier: "RemoveTargetsResponse",
+}) as any as S.Schema<RemoveTargetsResponse>;
 export interface StartReplayRequest {
   ReplayName: string;
   Description?: string;
@@ -2466,640 +3151,9 @@ export const StartReplayRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "StartReplayRequest",
 }) as any as S.Schema<StartReplayRequest>;
-export interface TestEventPatternResponse {
-  Result?: boolean;
-}
-export const TestEventPatternResponse = S.suspend(() =>
-  S.Struct({ Result: S.optional(S.Boolean) }).pipe(ns),
-).annotations({
-  identifier: "TestEventPatternResponse",
-}) as any as S.Schema<TestEventPatternResponse>;
-export interface UpdateApiDestinationResponse {
-  ApiDestinationArn?: string;
-  ApiDestinationState?: ApiDestinationState;
-  CreationTime?: Date;
-  LastModifiedTime?: Date;
-}
-export const UpdateApiDestinationResponse = S.suspend(() =>
-  S.Struct({
-    ApiDestinationArn: S.optional(S.String),
-    ApiDestinationState: S.optional(ApiDestinationState),
-    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    LastModifiedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-  }).pipe(ns),
-).annotations({
-  identifier: "UpdateApiDestinationResponse",
-}) as any as S.Schema<UpdateApiDestinationResponse>;
-export interface UpdateArchiveResponse {
-  ArchiveArn?: string;
-  State?: ArchiveState;
-  StateReason?: string;
-  CreationTime?: Date;
-}
-export const UpdateArchiveResponse = S.suspend(() =>
-  S.Struct({
-    ArchiveArn: S.optional(S.String),
-    State: S.optional(ArchiveState),
-    StateReason: S.optional(S.String),
-    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }).pipe(ns),
-).annotations({
-  identifier: "UpdateArchiveResponse",
-}) as any as S.Schema<UpdateArchiveResponse>;
-export interface UpdateEndpointResponse {
-  Name?: string;
-  Arn?: string;
-  RoutingConfig?: RoutingConfig;
-  ReplicationConfig?: ReplicationConfig;
-  EventBuses?: EndpointEventBus[];
-  RoleArn?: string;
-  EndpointId?: string;
-  EndpointUrl?: string;
-  State?: EndpointState;
-}
-export const UpdateEndpointResponse = S.suspend(() =>
-  S.Struct({
-    Name: S.optional(S.String),
-    Arn: S.optional(S.String),
-    RoutingConfig: S.optional(RoutingConfig),
-    ReplicationConfig: S.optional(ReplicationConfig),
-    EventBuses: S.optional(EndpointEventBusList),
-    RoleArn: S.optional(S.String),
-    EndpointId: S.optional(S.String),
-    EndpointUrl: S.optional(S.String),
-    State: S.optional(EndpointState),
-  }).pipe(ns),
-).annotations({
-  identifier: "UpdateEndpointResponse",
-}) as any as S.Schema<UpdateEndpointResponse>;
-export interface UpdateEventBusResponse {
-  Arn?: string;
-  Name?: string;
-  KmsKeyIdentifier?: string;
-  Description?: string;
-  DeadLetterConfig?: DeadLetterConfig;
-  LogConfig?: LogConfig;
-}
-export const UpdateEventBusResponse = S.suspend(() =>
-  S.Struct({
-    Arn: S.optional(S.String),
-    Name: S.optional(S.String),
-    KmsKeyIdentifier: S.optional(S.String),
-    Description: S.optional(S.String),
-    DeadLetterConfig: S.optional(DeadLetterConfig),
-    LogConfig: S.optional(LogConfig),
-  }).pipe(ns),
-).annotations({
-  identifier: "UpdateEventBusResponse",
-}) as any as S.Schema<UpdateEventBusResponse>;
-export interface CreateConnectionBasicAuthRequestParameters {
-  Username: string;
-  Password: string | redacted.Redacted<string>;
-}
-export const CreateConnectionBasicAuthRequestParameters = S.suspend(() =>
-  S.Struct({ Username: S.String, Password: SensitiveString }),
-).annotations({
-  identifier: "CreateConnectionBasicAuthRequestParameters",
-}) as any as S.Schema<CreateConnectionBasicAuthRequestParameters>;
-export interface CreateConnectionApiKeyAuthRequestParameters {
-  ApiKeyName: string;
-  ApiKeyValue: string | redacted.Redacted<string>;
-}
-export const CreateConnectionApiKeyAuthRequestParameters = S.suspend(() =>
-  S.Struct({ ApiKeyName: S.String, ApiKeyValue: SensitiveString }),
-).annotations({
-  identifier: "CreateConnectionApiKeyAuthRequestParameters",
-}) as any as S.Schema<CreateConnectionApiKeyAuthRequestParameters>;
-export interface ConnectivityResourceConfigurationArn {
-  ResourceConfigurationArn: string;
-}
-export const ConnectivityResourceConfigurationArn = S.suspend(() =>
-  S.Struct({ ResourceConfigurationArn: S.String }),
-).annotations({
-  identifier: "ConnectivityResourceConfigurationArn",
-}) as any as S.Schema<ConnectivityResourceConfigurationArn>;
-export interface UpdateConnectionBasicAuthRequestParameters {
-  Username?: string;
-  Password?: string | redacted.Redacted<string>;
-}
-export const UpdateConnectionBasicAuthRequestParameters = S.suspend(() =>
-  S.Struct({
-    Username: S.optional(S.String),
-    Password: S.optional(SensitiveString),
-  }),
-).annotations({
-  identifier: "UpdateConnectionBasicAuthRequestParameters",
-}) as any as S.Schema<UpdateConnectionBasicAuthRequestParameters>;
-export interface UpdateConnectionApiKeyAuthRequestParameters {
-  ApiKeyName?: string;
-  ApiKeyValue?: string | redacted.Redacted<string>;
-}
-export const UpdateConnectionApiKeyAuthRequestParameters = S.suspend(() =>
-  S.Struct({
-    ApiKeyName: S.optional(S.String),
-    ApiKeyValue: S.optional(SensitiveString),
-  }),
-).annotations({
-  identifier: "UpdateConnectionApiKeyAuthRequestParameters",
-}) as any as S.Schema<UpdateConnectionApiKeyAuthRequestParameters>;
-export interface ConnectivityResourceParameters {
-  ResourceParameters: ConnectivityResourceConfigurationArn;
-}
-export const ConnectivityResourceParameters = S.suspend(() =>
-  S.Struct({ ResourceParameters: ConnectivityResourceConfigurationArn }),
-).annotations({
-  identifier: "ConnectivityResourceParameters",
-}) as any as S.Schema<ConnectivityResourceParameters>;
-export interface ApiDestination {
-  ApiDestinationArn?: string;
-  Name?: string;
-  ApiDestinationState?: ApiDestinationState;
-  ConnectionArn?: string;
-  InvocationEndpoint?: string;
-  HttpMethod?: ApiDestinationHttpMethod;
-  InvocationRateLimitPerSecond?: number;
-  CreationTime?: Date;
-  LastModifiedTime?: Date;
-}
-export const ApiDestination = S.suspend(() =>
-  S.Struct({
-    ApiDestinationArn: S.optional(S.String),
-    Name: S.optional(S.String),
-    ApiDestinationState: S.optional(ApiDestinationState),
-    ConnectionArn: S.optional(S.String),
-    InvocationEndpoint: S.optional(S.String),
-    HttpMethod: S.optional(ApiDestinationHttpMethod),
-    InvocationRateLimitPerSecond: S.optional(S.Number),
-    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    LastModifiedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-  }),
-).annotations({
-  identifier: "ApiDestination",
-}) as any as S.Schema<ApiDestination>;
-export type ApiDestinationResponseList = ApiDestination[];
-export const ApiDestinationResponseList = S.Array(ApiDestination);
-export interface Archive {
-  ArchiveName?: string;
-  EventSourceArn?: string;
-  State?: ArchiveState;
-  StateReason?: string;
-  RetentionDays?: number;
-  SizeBytes?: number;
-  EventCount?: number;
-  CreationTime?: Date;
-}
-export const Archive = S.suspend(() =>
-  S.Struct({
-    ArchiveName: S.optional(S.String),
-    EventSourceArn: S.optional(S.String),
-    State: S.optional(ArchiveState),
-    StateReason: S.optional(S.String),
-    RetentionDays: S.optional(S.Number),
-    SizeBytes: S.optional(S.Number),
-    EventCount: S.optional(S.Number),
-    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }),
-).annotations({ identifier: "Archive" }) as any as S.Schema<Archive>;
-export type ArchiveResponseList = Archive[];
-export const ArchiveResponseList = S.Array(Archive);
-export interface Connection {
-  ConnectionArn?: string;
-  Name?: string;
-  ConnectionState?: ConnectionState;
-  StateReason?: string;
-  AuthorizationType?: ConnectionAuthorizationType;
-  CreationTime?: Date;
-  LastModifiedTime?: Date;
-  LastAuthorizedTime?: Date;
-}
-export const Connection = S.suspend(() =>
-  S.Struct({
-    ConnectionArn: S.optional(S.String),
-    Name: S.optional(S.String),
-    ConnectionState: S.optional(ConnectionState),
-    StateReason: S.optional(S.String),
-    AuthorizationType: S.optional(ConnectionAuthorizationType),
-    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    LastModifiedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    LastAuthorizedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-  }),
-).annotations({ identifier: "Connection" }) as any as S.Schema<Connection>;
-export type ConnectionResponseList = Connection[];
-export const ConnectionResponseList = S.Array(Connection);
-export interface Endpoint {
-  Name?: string;
-  Description?: string;
-  Arn?: string;
-  RoutingConfig?: RoutingConfig;
-  ReplicationConfig?: ReplicationConfig;
-  EventBuses?: EndpointEventBus[];
-  RoleArn?: string;
-  EndpointId?: string;
-  EndpointUrl?: string;
-  State?: EndpointState;
-  StateReason?: string;
-  CreationTime?: Date;
-  LastModifiedTime?: Date;
-}
-export const Endpoint = S.suspend(() =>
-  S.Struct({
-    Name: S.optional(S.String),
-    Description: S.optional(S.String),
-    Arn: S.optional(S.String),
-    RoutingConfig: S.optional(RoutingConfig),
-    ReplicationConfig: S.optional(ReplicationConfig),
-    EventBuses: S.optional(EndpointEventBusList),
-    RoleArn: S.optional(S.String),
-    EndpointId: S.optional(S.String),
-    EndpointUrl: S.optional(S.String),
-    State: S.optional(EndpointState),
-    StateReason: S.optional(S.String),
-    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    LastModifiedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-  }),
-).annotations({ identifier: "Endpoint" }) as any as S.Schema<Endpoint>;
-export type EndpointList = Endpoint[];
-export const EndpointList = S.Array(Endpoint);
-export interface EventBus {
-  Name?: string;
-  Arn?: string;
-  Description?: string;
-  Policy?: string;
-  CreationTime?: Date;
-  LastModifiedTime?: Date;
-}
-export const EventBus = S.suspend(() =>
-  S.Struct({
-    Name: S.optional(S.String),
-    Arn: S.optional(S.String),
-    Description: S.optional(S.String),
-    Policy: S.optional(S.String),
-    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    LastModifiedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-  }),
-).annotations({ identifier: "EventBus" }) as any as S.Schema<EventBus>;
-export type EventBusList = EventBus[];
-export const EventBusList = S.Array(EventBus);
-export interface EventSource {
-  Arn?: string;
-  CreatedBy?: string;
-  CreationTime?: Date;
-  ExpirationTime?: Date;
-  Name?: string;
-  State?: EventSourceState;
-}
-export const EventSource = S.suspend(() =>
-  S.Struct({
-    Arn: S.optional(S.String),
-    CreatedBy: S.optional(S.String),
-    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    ExpirationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    Name: S.optional(S.String),
-    State: S.optional(EventSourceState),
-  }),
-).annotations({ identifier: "EventSource" }) as any as S.Schema<EventSource>;
-export type EventSourceList = EventSource[];
-export const EventSourceList = S.Array(EventSource);
-export interface PartnerEventSourceAccount {
-  Account?: string;
-  CreationTime?: Date;
-  ExpirationTime?: Date;
-  State?: EventSourceState;
-}
-export const PartnerEventSourceAccount = S.suspend(() =>
-  S.Struct({
-    Account: S.optional(S.String),
-    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    ExpirationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    State: S.optional(EventSourceState),
-  }),
-).annotations({
-  identifier: "PartnerEventSourceAccount",
-}) as any as S.Schema<PartnerEventSourceAccount>;
-export type PartnerEventSourceAccountList = PartnerEventSourceAccount[];
-export const PartnerEventSourceAccountList = S.Array(PartnerEventSourceAccount);
-export interface PartnerEventSource {
-  Arn?: string;
-  Name?: string;
-}
-export const PartnerEventSource = S.suspend(() =>
-  S.Struct({ Arn: S.optional(S.String), Name: S.optional(S.String) }),
-).annotations({
-  identifier: "PartnerEventSource",
-}) as any as S.Schema<PartnerEventSource>;
-export type PartnerEventSourceList = PartnerEventSource[];
-export const PartnerEventSourceList = S.Array(PartnerEventSource);
-export interface Replay {
-  ReplayName?: string;
-  EventSourceArn?: string;
-  State?: ReplayState;
-  StateReason?: string;
-  EventStartTime?: Date;
-  EventEndTime?: Date;
-  EventLastReplayedTime?: Date;
-  ReplayStartTime?: Date;
-  ReplayEndTime?: Date;
-}
-export const Replay = S.suspend(() =>
-  S.Struct({
-    ReplayName: S.optional(S.String),
-    EventSourceArn: S.optional(S.String),
-    State: S.optional(ReplayState),
-    StateReason: S.optional(S.String),
-    EventStartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    EventEndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    EventLastReplayedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    ReplayStartTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    ReplayEndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }),
-).annotations({ identifier: "Replay" }) as any as S.Schema<Replay>;
-export type ReplayList = Replay[];
-export const ReplayList = S.Array(Replay);
-export interface Rule {
-  Name?: string;
-  Arn?: string;
-  EventPattern?: string;
-  State?: RuleState;
-  Description?: string;
-  ScheduleExpression?: string;
-  RoleArn?: string;
-  ManagedBy?: string;
-  EventBusName?: string;
-}
-export const Rule = S.suspend(() =>
-  S.Struct({
-    Name: S.optional(S.String),
-    Arn: S.optional(S.String),
-    EventPattern: S.optional(S.String),
-    State: S.optional(RuleState),
-    Description: S.optional(S.String),
-    ScheduleExpression: S.optional(S.String),
-    RoleArn: S.optional(S.String),
-    ManagedBy: S.optional(S.String),
-    EventBusName: S.optional(S.String),
-  }),
-).annotations({ identifier: "Rule" }) as any as S.Schema<Rule>;
-export type RuleResponseList = Rule[];
-export const RuleResponseList = S.Array(Rule);
-export interface RemoveTargetsResultEntry {
-  TargetId?: string;
-  ErrorCode?: string;
-  ErrorMessage?: string;
-}
-export const RemoveTargetsResultEntry = S.suspend(() =>
-  S.Struct({
-    TargetId: S.optional(S.String),
-    ErrorCode: S.optional(S.String),
-    ErrorMessage: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "RemoveTargetsResultEntry",
-}) as any as S.Schema<RemoveTargetsResultEntry>;
-export type RemoveTargetsResultEntryList = RemoveTargetsResultEntry[];
-export const RemoveTargetsResultEntryList = S.Array(RemoveTargetsResultEntry);
-export interface CreateConnectionOAuthClientRequestParameters {
-  ClientID: string;
-  ClientSecret: string | redacted.Redacted<string>;
-}
-export const CreateConnectionOAuthClientRequestParameters = S.suspend(() =>
-  S.Struct({ ClientID: S.String, ClientSecret: SensitiveString }),
-).annotations({
-  identifier: "CreateConnectionOAuthClientRequestParameters",
-}) as any as S.Schema<CreateConnectionOAuthClientRequestParameters>;
-export interface ConnectionHeaderParameter {
-  Key?: string;
-  Value?: string | redacted.Redacted<string>;
-  IsValueSecret?: boolean;
-}
-export const ConnectionHeaderParameter = S.suspend(() =>
-  S.Struct({
-    Key: S.optional(S.String),
-    Value: S.optional(SensitiveString),
-    IsValueSecret: S.optional(S.Boolean),
-  }),
-).annotations({
-  identifier: "ConnectionHeaderParameter",
-}) as any as S.Schema<ConnectionHeaderParameter>;
-export type ConnectionHeaderParametersList = ConnectionHeaderParameter[];
-export const ConnectionHeaderParametersList = S.Array(
-  ConnectionHeaderParameter,
-);
-export interface ConnectionQueryStringParameter {
-  Key?: string;
-  Value?: string | redacted.Redacted<string>;
-  IsValueSecret?: boolean;
-}
-export const ConnectionQueryStringParameter = S.suspend(() =>
-  S.Struct({
-    Key: S.optional(S.String),
-    Value: S.optional(SensitiveString),
-    IsValueSecret: S.optional(S.Boolean),
-  }),
-).annotations({
-  identifier: "ConnectionQueryStringParameter",
-}) as any as S.Schema<ConnectionQueryStringParameter>;
-export type ConnectionQueryStringParametersList =
-  ConnectionQueryStringParameter[];
-export const ConnectionQueryStringParametersList = S.Array(
-  ConnectionQueryStringParameter,
-);
-export interface ConnectionBodyParameter {
-  Key?: string;
-  Value?: string | redacted.Redacted<string>;
-  IsValueSecret?: boolean;
-}
-export const ConnectionBodyParameter = S.suspend(() =>
-  S.Struct({
-    Key: S.optional(S.String),
-    Value: S.optional(SensitiveString),
-    IsValueSecret: S.optional(S.Boolean),
-  }),
-).annotations({
-  identifier: "ConnectionBodyParameter",
-}) as any as S.Schema<ConnectionBodyParameter>;
-export type ConnectionBodyParametersList = ConnectionBodyParameter[];
-export const ConnectionBodyParametersList = S.Array(ConnectionBodyParameter);
-export interface UpdateConnectionOAuthClientRequestParameters {
-  ClientID?: string;
-  ClientSecret?: string | redacted.Redacted<string>;
-}
-export const UpdateConnectionOAuthClientRequestParameters = S.suspend(() =>
-  S.Struct({
-    ClientID: S.optional(S.String),
-    ClientSecret: S.optional(SensitiveString),
-  }),
-).annotations({
-  identifier: "UpdateConnectionOAuthClientRequestParameters",
-}) as any as S.Schema<UpdateConnectionOAuthClientRequestParameters>;
-export interface CreateEventBusResponse {
-  EventBusArn?: string;
-  Description?: string;
-  KmsKeyIdentifier?: string;
-  DeadLetterConfig?: DeadLetterConfig;
-  LogConfig?: LogConfig;
-}
-export const CreateEventBusResponse = S.suspend(() =>
-  S.Struct({
-    EventBusArn: S.optional(S.String),
-    Description: S.optional(S.String),
-    KmsKeyIdentifier: S.optional(S.String),
-    DeadLetterConfig: S.optional(DeadLetterConfig),
-    LogConfig: S.optional(LogConfig),
-  }).pipe(ns),
-).annotations({
-  identifier: "CreateEventBusResponse",
-}) as any as S.Schema<CreateEventBusResponse>;
-export interface ListApiDestinationsResponse {
-  ApiDestinations?: ApiDestination[];
-  NextToken?: string;
-}
-export const ListApiDestinationsResponse = S.suspend(() =>
-  S.Struct({
-    ApiDestinations: S.optional(ApiDestinationResponseList),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotations({
-  identifier: "ListApiDestinationsResponse",
-}) as any as S.Schema<ListApiDestinationsResponse>;
-export interface ListArchivesResponse {
-  Archives?: Archive[];
-  NextToken?: string;
-}
-export const ListArchivesResponse = S.suspend(() =>
-  S.Struct({
-    Archives: S.optional(ArchiveResponseList),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotations({
-  identifier: "ListArchivesResponse",
-}) as any as S.Schema<ListArchivesResponse>;
-export interface ListConnectionsResponse {
-  Connections?: Connection[];
-  NextToken?: string;
-}
-export const ListConnectionsResponse = S.suspend(() =>
-  S.Struct({
-    Connections: S.optional(ConnectionResponseList),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotations({
-  identifier: "ListConnectionsResponse",
-}) as any as S.Schema<ListConnectionsResponse>;
-export interface ListEndpointsResponse {
-  Endpoints?: Endpoint[];
-  NextToken?: string;
-}
-export const ListEndpointsResponse = S.suspend(() =>
-  S.Struct({
-    Endpoints: S.optional(EndpointList),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotations({
-  identifier: "ListEndpointsResponse",
-}) as any as S.Schema<ListEndpointsResponse>;
-export interface ListEventBusesResponse {
-  EventBuses?: EventBus[];
-  NextToken?: string;
-}
-export const ListEventBusesResponse = S.suspend(() =>
-  S.Struct({
-    EventBuses: S.optional(EventBusList),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotations({
-  identifier: "ListEventBusesResponse",
-}) as any as S.Schema<ListEventBusesResponse>;
-export interface ListEventSourcesResponse {
-  EventSources?: EventSource[];
-  NextToken?: string;
-}
-export const ListEventSourcesResponse = S.suspend(() =>
-  S.Struct({
-    EventSources: S.optional(EventSourceList),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotations({
-  identifier: "ListEventSourcesResponse",
-}) as any as S.Schema<ListEventSourcesResponse>;
-export interface ListPartnerEventSourceAccountsResponse {
-  PartnerEventSourceAccounts?: PartnerEventSourceAccount[];
-  NextToken?: string;
-}
-export const ListPartnerEventSourceAccountsResponse = S.suspend(() =>
-  S.Struct({
-    PartnerEventSourceAccounts: S.optional(PartnerEventSourceAccountList),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotations({
-  identifier: "ListPartnerEventSourceAccountsResponse",
-}) as any as S.Schema<ListPartnerEventSourceAccountsResponse>;
-export interface ListPartnerEventSourcesResponse {
-  PartnerEventSources?: PartnerEventSource[];
-  NextToken?: string;
-}
-export const ListPartnerEventSourcesResponse = S.suspend(() =>
-  S.Struct({
-    PartnerEventSources: S.optional(PartnerEventSourceList),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotations({
-  identifier: "ListPartnerEventSourcesResponse",
-}) as any as S.Schema<ListPartnerEventSourcesResponse>;
-export interface ListReplaysResponse {
-  Replays?: Replay[];
-  NextToken?: string;
-}
-export const ListReplaysResponse = S.suspend(() =>
-  S.Struct({
-    Replays: S.optional(ReplayList),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotations({
-  identifier: "ListReplaysResponse",
-}) as any as S.Schema<ListReplaysResponse>;
-export interface ListRulesResponse {
-  Rules?: Rule[];
-  NextToken?: string;
-}
-export const ListRulesResponse = S.suspend(() =>
-  S.Struct({
-    Rules: S.optional(RuleResponseList),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotations({
-  identifier: "ListRulesResponse",
-}) as any as S.Schema<ListRulesResponse>;
-export interface RemoveTargetsResponse {
-  FailedEntryCount?: number;
-  FailedEntries?: RemoveTargetsResultEntry[];
-}
-export const RemoveTargetsResponse = S.suspend(() =>
-  S.Struct({
-    FailedEntryCount: S.optional(S.Number),
-    FailedEntries: S.optional(RemoveTargetsResultEntryList),
-  }).pipe(ns),
-).annotations({
-  identifier: "RemoveTargetsResponse",
-}) as any as S.Schema<RemoveTargetsResponse>;
 export interface StartReplayResponse {
   ReplayArn?: string;
   State?: ReplayState;
@@ -3115,67 +3169,204 @@ export const StartReplayResponse = S.suspend(() =>
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
   }).pipe(ns),
-).annotations({
+).annotate({
   identifier: "StartReplayResponse",
 }) as any as S.Schema<StartReplayResponse>;
-export interface ConnectionHttpParameters {
-  HeaderParameters?: ConnectionHeaderParameter[];
-  QueryStringParameters?: ConnectionQueryStringParameter[];
-  BodyParameters?: ConnectionBodyParameter[];
+export interface TagResourceRequest {
+  ResourceARN: string;
+  Tags: Tag[];
 }
-export const ConnectionHttpParameters = S.suspend(() =>
-  S.Struct({
-    HeaderParameters: S.optional(ConnectionHeaderParametersList),
-    QueryStringParameters: S.optional(ConnectionQueryStringParametersList),
-    BodyParameters: S.optional(ConnectionBodyParametersList),
-  }),
-).annotations({
-  identifier: "ConnectionHttpParameters",
-}) as any as S.Schema<ConnectionHttpParameters>;
-export interface CreateConnectionOAuthRequestParameters {
-  ClientParameters: CreateConnectionOAuthClientRequestParameters;
-  AuthorizationEndpoint: string;
-  HttpMethod: ConnectionOAuthHttpMethod;
-  OAuthHttpParameters?: ConnectionHttpParameters;
+export const TagResourceRequest = S.suspend(() =>
+  S.Struct({ ResourceARN: S.String, Tags: TagList }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "TagResourceRequest",
+}) as any as S.Schema<TagResourceRequest>;
+export interface TagResourceResponse {}
+export const TagResourceResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "TagResourceResponse",
+}) as any as S.Schema<TagResourceResponse>;
+export interface TestEventPatternRequest {
+  EventPattern: string;
+  Event: string;
 }
-export const CreateConnectionOAuthRequestParameters = S.suspend(() =>
-  S.Struct({
-    ClientParameters: CreateConnectionOAuthClientRequestParameters,
-    AuthorizationEndpoint: S.String,
-    HttpMethod: ConnectionOAuthHttpMethod,
-    OAuthHttpParameters: S.optional(ConnectionHttpParameters),
-  }),
-).annotations({
-  identifier: "CreateConnectionOAuthRequestParameters",
-}) as any as S.Schema<CreateConnectionOAuthRequestParameters>;
-export interface DescribeConnectionResourceParameters {
-  ResourceConfigurationArn: string;
-  ResourceAssociationArn: string;
+export const TestEventPatternRequest = S.suspend(() =>
+  S.Struct({ EventPattern: S.String, Event: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "TestEventPatternRequest",
+}) as any as S.Schema<TestEventPatternRequest>;
+export interface TestEventPatternResponse {
+  Result?: boolean;
 }
-export const DescribeConnectionResourceParameters = S.suspend(() =>
+export const TestEventPatternResponse = S.suspend(() =>
+  S.Struct({ Result: S.optional(S.Boolean) }).pipe(ns),
+).annotate({
+  identifier: "TestEventPatternResponse",
+}) as any as S.Schema<TestEventPatternResponse>;
+export type TagKeyList = string[];
+export const TagKeyList = S.Array(S.String);
+export interface UntagResourceRequest {
+  ResourceARN: string;
+  TagKeys: string[];
+}
+export const UntagResourceRequest = S.suspend(() =>
+  S.Struct({ ResourceARN: S.String, TagKeys: TagKeyList }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "UntagResourceRequest",
+}) as any as S.Schema<UntagResourceRequest>;
+export interface UntagResourceResponse {}
+export const UntagResourceResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "UntagResourceResponse",
+}) as any as S.Schema<UntagResourceResponse>;
+export interface UpdateApiDestinationRequest {
+  Name: string;
+  Description?: string;
+  ConnectionArn?: string;
+  InvocationEndpoint?: string;
+  HttpMethod?: ApiDestinationHttpMethod;
+  InvocationRateLimitPerSecond?: number;
+}
+export const UpdateApiDestinationRequest = S.suspend(() =>
   S.Struct({
-    ResourceConfigurationArn: S.String,
-    ResourceAssociationArn: S.String,
-  }),
-).annotations({
-  identifier: "DescribeConnectionResourceParameters",
-}) as any as S.Schema<DescribeConnectionResourceParameters>;
-export interface ConnectionBasicAuthResponseParameters {
+    Name: S.String,
+    Description: S.optional(S.String),
+    ConnectionArn: S.optional(S.String),
+    InvocationEndpoint: S.optional(S.String),
+    HttpMethod: S.optional(ApiDestinationHttpMethod),
+    InvocationRateLimitPerSecond: S.optional(S.Number),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "UpdateApiDestinationRequest",
+}) as any as S.Schema<UpdateApiDestinationRequest>;
+export interface UpdateApiDestinationResponse {
+  ApiDestinationArn?: string;
+  ApiDestinationState?: ApiDestinationState;
+  CreationTime?: Date;
+  LastModifiedTime?: Date;
+}
+export const UpdateApiDestinationResponse = S.suspend(() =>
+  S.Struct({
+    ApiDestinationArn: S.optional(S.String),
+    ApiDestinationState: S.optional(ApiDestinationState),
+    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    LastModifiedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }).pipe(ns),
+).annotate({
+  identifier: "UpdateApiDestinationResponse",
+}) as any as S.Schema<UpdateApiDestinationResponse>;
+export interface UpdateArchiveRequest {
+  ArchiveName: string;
+  Description?: string;
+  EventPattern?: string;
+  RetentionDays?: number;
+  KmsKeyIdentifier?: string;
+}
+export const UpdateArchiveRequest = S.suspend(() =>
+  S.Struct({
+    ArchiveName: S.String,
+    Description: S.optional(S.String),
+    EventPattern: S.optional(S.String),
+    RetentionDays: S.optional(S.Number),
+    KmsKeyIdentifier: S.optional(S.String),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "UpdateArchiveRequest",
+}) as any as S.Schema<UpdateArchiveRequest>;
+export interface UpdateArchiveResponse {
+  ArchiveArn?: string;
+  State?: ArchiveState;
+  StateReason?: string;
+  CreationTime?: Date;
+}
+export const UpdateArchiveResponse = S.suspend(() =>
+  S.Struct({
+    ArchiveArn: S.optional(S.String),
+    State: S.optional(ArchiveState),
+    StateReason: S.optional(S.String),
+    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }).pipe(ns),
+).annotate({
+  identifier: "UpdateArchiveResponse",
+}) as any as S.Schema<UpdateArchiveResponse>;
+export interface UpdateConnectionBasicAuthRequestParameters {
   Username?: string;
+  Password?: string | redacted.Redacted<string>;
 }
-export const ConnectionBasicAuthResponseParameters = S.suspend(() =>
-  S.Struct({ Username: S.optional(S.String) }),
-).annotations({
-  identifier: "ConnectionBasicAuthResponseParameters",
-}) as any as S.Schema<ConnectionBasicAuthResponseParameters>;
-export interface ConnectionApiKeyAuthResponseParameters {
-  ApiKeyName?: string;
+export const UpdateConnectionBasicAuthRequestParameters = S.suspend(() =>
+  S.Struct({
+    Username: S.optional(S.String),
+    Password: S.optional(SensitiveString),
+  }),
+).annotate({
+  identifier: "UpdateConnectionBasicAuthRequestParameters",
+}) as any as S.Schema<UpdateConnectionBasicAuthRequestParameters>;
+export interface UpdateConnectionOAuthClientRequestParameters {
+  ClientID?: string;
+  ClientSecret?: string | redacted.Redacted<string>;
 }
-export const ConnectionApiKeyAuthResponseParameters = S.suspend(() =>
-  S.Struct({ ApiKeyName: S.optional(S.String) }),
-).annotations({
-  identifier: "ConnectionApiKeyAuthResponseParameters",
-}) as any as S.Schema<ConnectionApiKeyAuthResponseParameters>;
+export const UpdateConnectionOAuthClientRequestParameters = S.suspend(() =>
+  S.Struct({
+    ClientID: S.optional(S.String),
+    ClientSecret: S.optional(SensitiveString),
+  }),
+).annotate({
+  identifier: "UpdateConnectionOAuthClientRequestParameters",
+}) as any as S.Schema<UpdateConnectionOAuthClientRequestParameters>;
 export interface UpdateConnectionOAuthRequestParameters {
   ClientParameters?: UpdateConnectionOAuthClientRequestParameters;
   AuthorizationEndpoint?: string;
@@ -3189,71 +3380,21 @@ export const UpdateConnectionOAuthRequestParameters = S.suspend(() =>
     HttpMethod: S.optional(ConnectionOAuthHttpMethod),
     OAuthHttpParameters: S.optional(ConnectionHttpParameters),
   }),
-).annotations({
+).annotate({
   identifier: "UpdateConnectionOAuthRequestParameters",
 }) as any as S.Schema<UpdateConnectionOAuthRequestParameters>;
-export interface CreateConnectionAuthRequestParameters {
-  BasicAuthParameters?: CreateConnectionBasicAuthRequestParameters;
-  OAuthParameters?: CreateConnectionOAuthRequestParameters;
-  ApiKeyAuthParameters?: CreateConnectionApiKeyAuthRequestParameters;
-  InvocationHttpParameters?: ConnectionHttpParameters;
-  ConnectivityParameters?: ConnectivityResourceParameters;
+export interface UpdateConnectionApiKeyAuthRequestParameters {
+  ApiKeyName?: string;
+  ApiKeyValue?: string | redacted.Redacted<string>;
 }
-export const CreateConnectionAuthRequestParameters = S.suspend(() =>
+export const UpdateConnectionApiKeyAuthRequestParameters = S.suspend(() =>
   S.Struct({
-    BasicAuthParameters: S.optional(CreateConnectionBasicAuthRequestParameters),
-    OAuthParameters: S.optional(CreateConnectionOAuthRequestParameters),
-    ApiKeyAuthParameters: S.optional(
-      CreateConnectionApiKeyAuthRequestParameters,
-    ),
-    InvocationHttpParameters: S.optional(ConnectionHttpParameters),
-    ConnectivityParameters: S.optional(ConnectivityResourceParameters),
+    ApiKeyName: S.optional(S.String),
+    ApiKeyValue: S.optional(SensitiveString),
   }),
-).annotations({
-  identifier: "CreateConnectionAuthRequestParameters",
-}) as any as S.Schema<CreateConnectionAuthRequestParameters>;
-export interface DescribeConnectionConnectivityParameters {
-  ResourceParameters: DescribeConnectionResourceParameters;
-}
-export const DescribeConnectionConnectivityParameters = S.suspend(() =>
-  S.Struct({ ResourceParameters: DescribeConnectionResourceParameters }),
-).annotations({
-  identifier: "DescribeConnectionConnectivityParameters",
-}) as any as S.Schema<DescribeConnectionConnectivityParameters>;
-export interface PutEventsResultEntry {
-  EventId?: string;
-  ErrorCode?: string;
-  ErrorMessage?: string;
-}
-export const PutEventsResultEntry = S.suspend(() =>
-  S.Struct({
-    EventId: S.optional(S.String),
-    ErrorCode: S.optional(S.String),
-    ErrorMessage: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "PutEventsResultEntry",
-}) as any as S.Schema<PutEventsResultEntry>;
-export type PutEventsResultEntryList = PutEventsResultEntry[];
-export const PutEventsResultEntryList = S.Array(PutEventsResultEntry);
-export interface PutPartnerEventsResultEntry {
-  EventId?: string;
-  ErrorCode?: string;
-  ErrorMessage?: string;
-}
-export const PutPartnerEventsResultEntry = S.suspend(() =>
-  S.Struct({
-    EventId: S.optional(S.String),
-    ErrorCode: S.optional(S.String),
-    ErrorMessage: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "PutPartnerEventsResultEntry",
-}) as any as S.Schema<PutPartnerEventsResultEntry>;
-export type PutPartnerEventsResultEntryList = PutPartnerEventsResultEntry[];
-export const PutPartnerEventsResultEntryList = S.Array(
-  PutPartnerEventsResultEntry,
-);
+).annotate({
+  identifier: "UpdateConnectionApiKeyAuthRequestParameters",
+}) as any as S.Schema<UpdateConnectionApiKeyAuthRequestParameters>;
 export interface UpdateConnectionAuthRequestParameters {
   BasicAuthParameters?: UpdateConnectionBasicAuthRequestParameters;
   OAuthParameters?: UpdateConnectionOAuthRequestParameters;
@@ -3271,103 +3412,9 @@ export const UpdateConnectionAuthRequestParameters = S.suspend(() =>
     InvocationHttpParameters: S.optional(ConnectionHttpParameters),
     ConnectivityParameters: S.optional(ConnectivityResourceParameters),
   }),
-).annotations({
+).annotate({
   identifier: "UpdateConnectionAuthRequestParameters",
 }) as any as S.Schema<UpdateConnectionAuthRequestParameters>;
-export interface ConnectionOAuthClientResponseParameters {
-  ClientID?: string;
-}
-export const ConnectionOAuthClientResponseParameters = S.suspend(() =>
-  S.Struct({ ClientID: S.optional(S.String) }),
-).annotations({
-  identifier: "ConnectionOAuthClientResponseParameters",
-}) as any as S.Schema<ConnectionOAuthClientResponseParameters>;
-export interface CreateConnectionRequest {
-  Name: string;
-  Description?: string;
-  AuthorizationType: ConnectionAuthorizationType;
-  AuthParameters: CreateConnectionAuthRequestParameters;
-  InvocationConnectivityParameters?: ConnectivityResourceParameters;
-  KmsKeyIdentifier?: string;
-}
-export const CreateConnectionRequest = S.suspend(() =>
-  S.Struct({
-    Name: S.String,
-    Description: S.optional(S.String),
-    AuthorizationType: ConnectionAuthorizationType,
-    AuthParameters: CreateConnectionAuthRequestParameters,
-    InvocationConnectivityParameters: S.optional(
-      ConnectivityResourceParameters,
-    ),
-    KmsKeyIdentifier: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "CreateConnectionRequest",
-}) as any as S.Schema<CreateConnectionRequest>;
-export interface CreateEndpointRequest {
-  Name: string;
-  Description?: string;
-  RoutingConfig: RoutingConfig;
-  ReplicationConfig?: ReplicationConfig;
-  EventBuses: EndpointEventBus[];
-  RoleArn?: string;
-}
-export const CreateEndpointRequest = S.suspend(() =>
-  S.Struct({
-    Name: S.String,
-    Description: S.optional(S.String),
-    RoutingConfig: RoutingConfig,
-    ReplicationConfig: S.optional(ReplicationConfig),
-    EventBuses: EndpointEventBusList,
-    RoleArn: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "CreateEndpointRequest",
-}) as any as S.Schema<CreateEndpointRequest>;
-export interface PutEventsResponse {
-  FailedEntryCount?: number;
-  Entries?: PutEventsResultEntry[];
-}
-export const PutEventsResponse = S.suspend(() =>
-  S.Struct({
-    FailedEntryCount: S.optional(S.Number),
-    Entries: S.optional(PutEventsResultEntryList),
-  }).pipe(ns),
-).annotations({
-  identifier: "PutEventsResponse",
-}) as any as S.Schema<PutEventsResponse>;
-export interface PutPartnerEventsResponse {
-  FailedEntryCount?: number;
-  Entries?: PutPartnerEventsResultEntry[];
-}
-export const PutPartnerEventsResponse = S.suspend(() =>
-  S.Struct({
-    FailedEntryCount: S.optional(S.Number),
-    Entries: S.optional(PutPartnerEventsResultEntryList),
-  }).pipe(ns),
-).annotations({
-  identifier: "PutPartnerEventsResponse",
-}) as any as S.Schema<PutPartnerEventsResponse>;
 export interface UpdateConnectionRequest {
   Name: string;
   Description?: string;
@@ -3397,149 +3444,9 @@ export const UpdateConnectionRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "UpdateConnectionRequest",
 }) as any as S.Schema<UpdateConnectionRequest>;
-export interface ConnectionOAuthResponseParameters {
-  ClientParameters?: ConnectionOAuthClientResponseParameters;
-  AuthorizationEndpoint?: string;
-  HttpMethod?: ConnectionOAuthHttpMethod;
-  OAuthHttpParameters?: ConnectionHttpParameters;
-}
-export const ConnectionOAuthResponseParameters = S.suspend(() =>
-  S.Struct({
-    ClientParameters: S.optional(ConnectionOAuthClientResponseParameters),
-    AuthorizationEndpoint: S.optional(S.String),
-    HttpMethod: S.optional(ConnectionOAuthHttpMethod),
-    OAuthHttpParameters: S.optional(ConnectionHttpParameters),
-  }),
-).annotations({
-  identifier: "ConnectionOAuthResponseParameters",
-}) as any as S.Schema<ConnectionOAuthResponseParameters>;
-export interface ConnectionAuthResponseParameters {
-  BasicAuthParameters?: ConnectionBasicAuthResponseParameters;
-  OAuthParameters?: ConnectionOAuthResponseParameters;
-  ApiKeyAuthParameters?: ConnectionApiKeyAuthResponseParameters;
-  InvocationHttpParameters?: ConnectionHttpParameters;
-  ConnectivityParameters?: DescribeConnectionConnectivityParameters;
-}
-export const ConnectionAuthResponseParameters = S.suspend(() =>
-  S.Struct({
-    BasicAuthParameters: S.optional(ConnectionBasicAuthResponseParameters),
-    OAuthParameters: S.optional(ConnectionOAuthResponseParameters),
-    ApiKeyAuthParameters: S.optional(ConnectionApiKeyAuthResponseParameters),
-    InvocationHttpParameters: S.optional(ConnectionHttpParameters),
-    ConnectivityParameters: S.optional(
-      DescribeConnectionConnectivityParameters,
-    ),
-  }),
-).annotations({
-  identifier: "ConnectionAuthResponseParameters",
-}) as any as S.Schema<ConnectionAuthResponseParameters>;
-export interface CreateConnectionResponse {
-  ConnectionArn?: string;
-  ConnectionState?: ConnectionState;
-  CreationTime?: Date;
-  LastModifiedTime?: Date;
-}
-export const CreateConnectionResponse = S.suspend(() =>
-  S.Struct({
-    ConnectionArn: S.optional(S.String),
-    ConnectionState: S.optional(ConnectionState),
-    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    LastModifiedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-  }).pipe(ns),
-).annotations({
-  identifier: "CreateConnectionResponse",
-}) as any as S.Schema<CreateConnectionResponse>;
-export interface CreateEndpointResponse {
-  Name?: string;
-  Arn?: string;
-  RoutingConfig?: RoutingConfig;
-  ReplicationConfig?: ReplicationConfig;
-  EventBuses?: EndpointEventBus[];
-  RoleArn?: string;
-  State?: EndpointState;
-}
-export const CreateEndpointResponse = S.suspend(() =>
-  S.Struct({
-    Name: S.optional(S.String),
-    Arn: S.optional(S.String),
-    RoutingConfig: S.optional(RoutingConfig),
-    ReplicationConfig: S.optional(ReplicationConfig),
-    EventBuses: S.optional(EndpointEventBusList),
-    RoleArn: S.optional(S.String),
-    State: S.optional(EndpointState),
-  }).pipe(ns),
-).annotations({
-  identifier: "CreateEndpointResponse",
-}) as any as S.Schema<CreateEndpointResponse>;
-export interface DescribeConnectionResponse {
-  ConnectionArn?: string;
-  Name?: string;
-  Description?: string;
-  InvocationConnectivityParameters?: DescribeConnectionConnectivityParameters;
-  ConnectionState?: ConnectionState;
-  StateReason?: string;
-  AuthorizationType?: ConnectionAuthorizationType;
-  SecretArn?: string;
-  KmsKeyIdentifier?: string;
-  AuthParameters?: ConnectionAuthResponseParameters;
-  CreationTime?: Date;
-  LastModifiedTime?: Date;
-  LastAuthorizedTime?: Date;
-}
-export const DescribeConnectionResponse = S.suspend(() =>
-  S.Struct({
-    ConnectionArn: S.optional(S.String),
-    Name: S.optional(S.String),
-    Description: S.optional(S.String),
-    InvocationConnectivityParameters: S.optional(
-      DescribeConnectionConnectivityParameters,
-    ),
-    ConnectionState: S.optional(ConnectionState),
-    StateReason: S.optional(S.String),
-    AuthorizationType: S.optional(ConnectionAuthorizationType),
-    SecretArn: S.optional(S.String),
-    KmsKeyIdentifier: S.optional(S.String),
-    AuthParameters: S.optional(ConnectionAuthResponseParameters),
-    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    LastModifiedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    LastAuthorizedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-  }).pipe(ns),
-).annotations({
-  identifier: "DescribeConnectionResponse",
-}) as any as S.Schema<DescribeConnectionResponse>;
-export interface PutTargetsRequest {
-  Rule: string;
-  EventBusName?: string;
-  Targets: Target[];
-}
-export const PutTargetsRequest = S.suspend(() =>
-  S.Struct({
-    Rule: S.String,
-    EventBusName: S.optional(S.String),
-    Targets: TargetList,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "PutTargetsRequest",
-}) as any as S.Schema<PutTargetsRequest>;
 export interface UpdateConnectionResponse {
   ConnectionArn?: string;
   ConnectionState?: ConnectionState;
@@ -3559,184 +3466,194 @@ export const UpdateConnectionResponse = S.suspend(() =>
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
   }).pipe(ns),
-).annotations({
+).annotate({
   identifier: "UpdateConnectionResponse",
 }) as any as S.Schema<UpdateConnectionResponse>;
-export interface PutTargetsResultEntry {
-  TargetId?: string;
-  ErrorCode?: string;
-  ErrorMessage?: string;
+export interface UpdateEndpointRequest {
+  Name: string;
+  Description?: string;
+  RoutingConfig?: RoutingConfig;
+  ReplicationConfig?: ReplicationConfig;
+  EventBuses?: EndpointEventBus[];
+  RoleArn?: string;
 }
-export const PutTargetsResultEntry = S.suspend(() =>
+export const UpdateEndpointRequest = S.suspend(() =>
   S.Struct({
-    TargetId: S.optional(S.String),
-    ErrorCode: S.optional(S.String),
-    ErrorMessage: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "PutTargetsResultEntry",
-}) as any as S.Schema<PutTargetsResultEntry>;
-export type PutTargetsResultEntryList = PutTargetsResultEntry[];
-export const PutTargetsResultEntryList = S.Array(PutTargetsResultEntry);
-export interface PutTargetsResponse {
-  FailedEntryCount?: number;
-  FailedEntries?: PutTargetsResultEntry[];
+    Name: S.String,
+    Description: S.optional(S.String),
+    RoutingConfig: S.optional(RoutingConfig),
+    ReplicationConfig: S.optional(ReplicationConfig),
+    EventBuses: S.optional(EndpointEventBusList),
+    RoleArn: S.optional(S.String),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "UpdateEndpointRequest",
+}) as any as S.Schema<UpdateEndpointRequest>;
+export interface UpdateEndpointResponse {
+  Name?: string;
+  Arn?: string;
+  RoutingConfig?: RoutingConfig;
+  ReplicationConfig?: ReplicationConfig;
+  EventBuses?: EndpointEventBus[];
+  RoleArn?: string;
+  EndpointId?: string;
+  EndpointUrl?: string;
+  State?: EndpointState;
 }
-export const PutTargetsResponse = S.suspend(() =>
+export const UpdateEndpointResponse = S.suspend(() =>
   S.Struct({
-    FailedEntryCount: S.optional(S.Number),
-    FailedEntries: S.optional(PutTargetsResultEntryList),
+    Name: S.optional(S.String),
+    Arn: S.optional(S.String),
+    RoutingConfig: S.optional(RoutingConfig),
+    ReplicationConfig: S.optional(ReplicationConfig),
+    EventBuses: S.optional(EndpointEventBusList),
+    RoleArn: S.optional(S.String),
+    EndpointId: S.optional(S.String),
+    EndpointUrl: S.optional(S.String),
+    State: S.optional(EndpointState),
   }).pipe(ns),
-).annotations({
-  identifier: "PutTargetsResponse",
-}) as any as S.Schema<PutTargetsResponse>;
+).annotate({
+  identifier: "UpdateEndpointResponse",
+}) as any as S.Schema<UpdateEndpointResponse>;
+export interface UpdateEventBusRequest {
+  Name?: string;
+  KmsKeyIdentifier?: string;
+  Description?: string;
+  DeadLetterConfig?: DeadLetterConfig;
+  LogConfig?: LogConfig;
+}
+export const UpdateEventBusRequest = S.suspend(() =>
+  S.Struct({
+    Name: S.optional(S.String),
+    KmsKeyIdentifier: S.optional(S.String),
+    Description: S.optional(S.String),
+    DeadLetterConfig: S.optional(DeadLetterConfig),
+    LogConfig: S.optional(LogConfig),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "UpdateEventBusRequest",
+}) as any as S.Schema<UpdateEventBusRequest>;
+export interface UpdateEventBusResponse {
+  Arn?: string;
+  Name?: string;
+  KmsKeyIdentifier?: string;
+  Description?: string;
+  DeadLetterConfig?: DeadLetterConfig;
+  LogConfig?: LogConfig;
+}
+export const UpdateEventBusResponse = S.suspend(() =>
+  S.Struct({
+    Arn: S.optional(S.String),
+    Name: S.optional(S.String),
+    KmsKeyIdentifier: S.optional(S.String),
+    Description: S.optional(S.String),
+    DeadLetterConfig: S.optional(DeadLetterConfig),
+    LogConfig: S.optional(LogConfig),
+  }).pipe(ns),
+).annotate({
+  identifier: "UpdateEventBusResponse",
+}) as any as S.Schema<UpdateEventBusResponse>;
 
 //# Errors
-export class ConcurrentModificationException extends S.TaggedError<ConcurrentModificationException>()(
+export class ConcurrentModificationException extends S.TaggedErrorClass<ConcurrentModificationException>()(
   "ConcurrentModificationException",
   { message: S.optional(S.String) },
 ) {}
-export class InternalException extends S.TaggedError<InternalException>()(
+export class InternalException extends S.TaggedErrorClass<InternalException>()(
   "InternalException",
   { message: S.optional(S.String) },
 ) {}
-export class IllegalStatusException extends S.TaggedError<IllegalStatusException>()(
-  "IllegalStatusException",
-  { message: S.optional(S.String) },
-) {}
-export class InvalidStateException extends S.TaggedError<InvalidStateException>()(
+export class InvalidStateException extends S.TaggedErrorClass<InvalidStateException>()(
   "InvalidStateException",
   { message: S.optional(S.String) },
 ) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
-  "ResourceNotFoundException",
-  { message: S.optional(S.String) },
-) {}
-export class OperationDisabledException extends S.TaggedError<OperationDisabledException>()(
+export class OperationDisabledException extends S.TaggedErrorClass<OperationDisabledException>()(
   "OperationDisabledException",
   { message: S.optional(S.String) },
 ) {}
-export class ManagedRuleException extends S.TaggedError<ManagedRuleException>()(
-  "ManagedRuleException",
+export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFoundException>()(
+  "ResourceNotFoundException",
   { message: S.optional(S.String) },
 ) {}
-export class InvalidEventPatternException extends S.TaggedError<InvalidEventPatternException>()(
-  "InvalidEventPatternException",
+export class IllegalStatusException extends S.TaggedErrorClass<IllegalStatusException>()(
+  "IllegalStatusException",
   { message: S.optional(S.String) },
 ) {}
-export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
+export class LimitExceededException extends S.TaggedErrorClass<LimitExceededException>()(
   "LimitExceededException",
   { message: S.optional(S.String) },
 ) {}
-export class ResourceAlreadyExistsException extends S.TaggedError<ResourceAlreadyExistsException>()(
+export class ResourceAlreadyExistsException extends S.TaggedErrorClass<ResourceAlreadyExistsException>()(
   "ResourceAlreadyExistsException",
   { message: S.optional(S.String) },
 ).pipe(C.withAlreadyExistsError) {}
-export class PolicyLengthExceededException extends S.TaggedError<PolicyLengthExceededException>()(
-  "PolicyLengthExceededException",
+export class InvalidEventPatternException extends S.TaggedErrorClass<InvalidEventPatternException>()(
+  "InvalidEventPatternException",
   { message: S.optional(S.String) },
 ) {}
-export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
+export class AccessDeniedException extends S.TaggedErrorClass<AccessDeniedException>()(
   "AccessDeniedException",
   { message: S.optional(S.String) },
 ).pipe(C.withAuthError) {}
-export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
+export class ThrottlingException extends S.TaggedErrorClass<ThrottlingException>()(
   "ThrottlingException",
+  { message: S.optional(S.String) },
+) {}
+export class ManagedRuleException extends S.TaggedErrorClass<ManagedRuleException>()(
+  "ManagedRuleException",
+  { message: S.optional(S.String) },
+) {}
+export class PolicyLengthExceededException extends S.TaggedErrorClass<PolicyLengthExceededException>()(
+  "PolicyLengthExceededException",
   { message: S.optional(S.String) },
 ) {}
 
 //# Operations
 /**
- * Retrieves a list of API destination in the account in the current Region.
+ * Activates a partner event source that has been deactivated. Once activated, your matching
+ * event bus will start receiving events from the event source.
  */
-export const listApiDestinations: (
-  input: ListApiDestinationsRequest,
+export const activateEventSource: (
+  input: ActivateEventSourceRequest,
 ) => effect.Effect<
-  ListApiDestinationsResponse,
-  InternalException | CommonErrors,
+  ActivateEventSourceResponse,
+  | ConcurrentModificationException
+  | InternalException
+  | InvalidStateException
+  | OperationDisabledException
+  | ResourceNotFoundException
+  | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListApiDestinationsRequest,
-  output: ListApiDestinationsResponse,
-  errors: [InternalException],
-}));
-/**
- * Retrieves a list of connections from the account.
- */
-export const listConnections: (
-  input: ListConnectionsRequest,
-) => effect.Effect<
-  ListConnectionsResponse,
-  InternalException | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListConnectionsRequest,
-  output: ListConnectionsResponse,
-  errors: [InternalException],
-}));
-/**
- * List the global endpoints associated with this account. For more information about global
- * endpoints, see Making applications
- * Regional-fault tolerant with global endpoints and event replication in the
- *
- * *Amazon EventBridge User Guide*
- * .
- */
-export const listEndpoints: (
-  input: ListEndpointsRequest,
-) => effect.Effect<
-  ListEndpointsResponse,
-  InternalException | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListEndpointsRequest,
-  output: ListEndpointsResponse,
-  errors: [InternalException],
-}));
-/**
- * Lists all the event buses in your account, including the default event bus, custom event
- * buses, and partner event buses.
- */
-export const listEventBuses: (
-  input: ListEventBusesRequest,
-) => effect.Effect<
-  ListEventBusesResponse,
-  InternalException | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListEventBusesRequest,
-  output: ListEventBusesResponse,
-  errors: [InternalException],
-}));
-/**
- * Lists your replays. You can either list all the replays or you can provide a prefix to
- * match to the replay names. Filter parameters are exclusive.
- */
-export const listReplays: (
-  input: ListReplaysRequest,
-) => effect.Effect<
-  ListReplaysResponse,
-  InternalException | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListReplaysRequest,
-  output: ListReplaysResponse,
-  errors: [InternalException],
-}));
-/**
- * Deletes the specified custom event bus or partner event bus. All rules associated with
- * this event bus need to be deleted. You can't delete your account's default event bus.
- */
-export const deleteEventBus: (
-  input: DeleteEventBusRequest,
-) => effect.Effect<
-  DeleteEventBusResponse,
-  ConcurrentModificationException | InternalException | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteEventBusRequest,
-  output: DeleteEventBusResponse,
-  errors: [ConcurrentModificationException, InternalException],
+  input: ActivateEventSourceRequest,
+  output: ActivateEventSourceResponse,
+  errors: [
+    ConcurrentModificationException,
+    InternalException,
+    InvalidStateException,
+    OperationDisabledException,
+    ResourceNotFoundException,
+  ],
 }));
 /**
  * Cancels the specified replay.
@@ -3762,119 +3679,125 @@ export const cancelReplay: (
   ],
 }));
 /**
- * You can use this to see all the partner event sources that have been shared with your
- * Amazon Web Services account. For more information about partner event sources, see CreateEventBus.
+ * Creates an API destination, which is an HTTP invocation endpoint configured as a target
+ * for events.
+ *
+ * API destinations do not support private destinations, such as interface VPC
+ * endpoints.
+ *
+ * For more information, see API destinations in the
+ * *EventBridge User Guide*.
  */
-export const listEventSources: (
-  input: ListEventSourcesRequest,
+export const createApiDestination: (
+  input: CreateApiDestinationRequest,
 ) => effect.Effect<
-  ListEventSourcesResponse,
-  InternalException | OperationDisabledException | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListEventSourcesRequest,
-  output: ListEventSourcesResponse,
-  errors: [InternalException, OperationDisabledException],
-}));
-/**
- * Sends custom events to Amazon EventBridge so that they can be matched to rules.
- *
- * You can batch multiple event entries into one request for efficiency.
- * However, the total entry size must be less than 256KB. You can calculate the entry size before you send the events.
- * For more information, see Calculating PutEvents event entry
- * size in the
- * *Amazon EventBridge User Guide*
- * .
- *
- * PutEvents accepts the data in JSON format. For the JSON number (integer) data type, the
- * constraints are: a minimum value of -9,223,372,036,854,775,808 and a maximum value of
- * 9,223,372,036,854,775,807.
- *
- * PutEvents will only process nested JSON up to 1000 levels deep.
- */
-export const putEvents: (
-  input: PutEventsRequest,
-) => effect.Effect<
-  PutEventsResponse,
-  InternalException | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PutEventsRequest,
-  output: PutEventsResponse,
-  errors: [InternalException],
-}));
-/**
- * This is used by SaaS partners to write events to a customer's partner event bus. Amazon Web Services customers do not use this operation.
- *
- * For information on calculating event batch size, see Calculating EventBridge PutEvents event
- * entry size in the *EventBridge User Guide*.
- */
-export const putPartnerEvents: (
-  input: PutPartnerEventsRequest,
-) => effect.Effect<
-  PutPartnerEventsResponse,
-  InternalException | OperationDisabledException | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PutPartnerEventsRequest,
-  output: PutPartnerEventsResponse,
-  errors: [InternalException, OperationDisabledException],
-}));
-/**
- * Removes the specified targets from the specified rule. When the rule is triggered, those
- * targets are no longer be invoked.
- *
- * A successful execution of `RemoveTargets` doesn't guarantee all targets are
- * removed from the rule, it means that the target(s) listed in the request are removed.
- *
- * When you remove a target, when the associated rule triggers, removed targets might
- * continue to be invoked. Allow a short period of time for changes to take effect.
- *
- * This action can partially fail if too many requests are made at the same time. If that
- * happens, `FailedEntryCount` is non-zero in the response and each entry in
- * `FailedEntries` provides the ID of the failed target and the error code.
- *
- * The maximum number of entries per request is 10.
- */
-export const removeTargets: (
-  input: RemoveTargetsRequest,
-) => effect.Effect<
-  RemoveTargetsResponse,
-  | ConcurrentModificationException
+  CreateApiDestinationResponse,
   | InternalException
-  | ManagedRuleException
-  | ResourceNotFoundException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: RemoveTargetsRequest,
-  output: RemoveTargetsResponse,
-  errors: [
-    ConcurrentModificationException,
-    InternalException,
-    ManagedRuleException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Retrieves details about an archive.
- */
-export const describeArchive: (
-  input: DescribeArchiveRequest,
-) => effect.Effect<
-  DescribeArchiveResponse,
-  | InternalException
+  | LimitExceededException
   | ResourceAlreadyExistsException
   | ResourceNotFoundException
   | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeArchiveRequest,
-  output: DescribeArchiveResponse,
+  input: CreateApiDestinationRequest,
+  output: CreateApiDestinationResponse,
   errors: [
     InternalException,
+    LimitExceededException,
     ResourceAlreadyExistsException,
     ResourceNotFoundException,
+  ],
+}));
+/**
+ * Creates an archive of events with the specified settings. When you create an archive,
+ * incoming events might not immediately start being sent to the archive. Allow a short period of
+ * time for changes to take effect. If you do not specify a pattern to filter events sent to the
+ * archive, all events are sent to the archive except replayed events. Replayed events are not
+ * sent to an archive.
+ *
+ * If you have specified that EventBridge use a customer managed key for encrypting the source event bus, we strongly recommend you also specify a
+ * customer managed key for any archives for the event bus as well.
+ *
+ * For more information, see Encrypting archives in the *Amazon EventBridge User Guide*.
+ */
+export const createArchive: (
+  input: CreateArchiveRequest,
+) => effect.Effect<
+  CreateArchiveResponse,
+  | ConcurrentModificationException
+  | InternalException
+  | InvalidEventPatternException
+  | LimitExceededException
+  | ResourceAlreadyExistsException
+  | ResourceNotFoundException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateArchiveRequest,
+  output: CreateArchiveResponse,
+  errors: [
+    ConcurrentModificationException,
+    InternalException,
+    InvalidEventPatternException,
+    LimitExceededException,
+    ResourceAlreadyExistsException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Creates a connection. A connection defines the authorization type and credentials to use
+ * for authorization with an API destination HTTP endpoint.
+ *
+ * For more information, see Connections for endpoint targets in the *Amazon EventBridge User Guide*.
+ */
+export const createConnection: (
+  input: CreateConnectionRequest,
+) => effect.Effect<
+  CreateConnectionResponse,
+  | AccessDeniedException
+  | InternalException
+  | LimitExceededException
+  | ResourceAlreadyExistsException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateConnectionRequest,
+  output: CreateConnectionResponse,
+  errors: [
+    AccessDeniedException,
+    InternalException,
+    LimitExceededException,
+    ResourceAlreadyExistsException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Creates a global endpoint. Global endpoints improve your application's availability by
+ * making it regional-fault tolerant. To do this, you define a primary and secondary Region with
+ * event buses in each Region. You also create a Amazon Route 53 health check that will
+ * tell EventBridge to route events to the secondary Region when an "unhealthy" state is
+ * encountered and events will be routed back to the primary Region when the health check reports
+ * a "healthy" state.
+ */
+export const createEndpoint: (
+  input: CreateEndpointRequest,
+) => effect.Effect<
+  CreateEndpointResponse,
+  | InternalException
+  | LimitExceededException
+  | ResourceAlreadyExistsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateEndpointRequest,
+  output: CreateEndpointResponse,
+  errors: [
+    InternalException,
+    LimitExceededException,
+    ResourceAlreadyExistsException,
   ],
 }));
 /**
@@ -3909,6 +3832,65 @@ export const createEventBus: (
   ],
 }));
 /**
+ * Called by an SaaS partner to create a partner event source. This operation is not used by
+ * Amazon Web Services customers.
+ *
+ * Each partner event source can be used by one Amazon Web Services account to create a
+ * matching partner event bus in that Amazon Web Services account. A SaaS partner must create one
+ * partner event source for each Amazon Web Services account that wants to receive those event
+ * types.
+ *
+ * A partner event source creates events based on resources within the SaaS partner's service
+ * or application.
+ *
+ * An Amazon Web Services account that creates a partner event bus that matches the partner
+ * event source can use that event bus to receive events from the partner, and then process them
+ * using Amazon Web Services Events rules and targets.
+ *
+ * Partner event source names follow this format:
+ *
+ * *partner_name*\/*event_namespace*\/*event_name*
+ *
+ * - *partner_name* is determined during partner registration, and
+ * identifies the partner to Amazon Web Services customers.
+ *
+ * - *event_namespace* is determined by the partner, and is a way for
+ * the partner to categorize their events.
+ *
+ * - *event_name* is determined by the partner, and should uniquely
+ * identify an event-generating resource within the partner system.
+ *
+ * The *event_name* must be unique across all Amazon Web Services
+ * customers. This is because the event source is a shared resource between the partner and
+ * customer accounts, and each partner event source unique in the partner account.
+ *
+ * The combination of *event_namespace* and
+ * *event_name* should help Amazon Web Services customers decide whether to
+ * create an event bus to receive these events.
+ */
+export const createPartnerEventSource: (
+  input: CreatePartnerEventSourceRequest,
+) => effect.Effect<
+  CreatePartnerEventSourceResponse,
+  | ConcurrentModificationException
+  | InternalException
+  | LimitExceededException
+  | OperationDisabledException
+  | ResourceAlreadyExistsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreatePartnerEventSourceRequest,
+  output: CreatePartnerEventSourceResponse,
+  errors: [
+    ConcurrentModificationException,
+    InternalException,
+    LimitExceededException,
+    OperationDisabledException,
+    ResourceAlreadyExistsException,
+  ],
+}));
+/**
  * You can use this operation to temporarily stop receiving events from the specified partner
  * event source. The matching event bus is not deleted.
  *
@@ -3940,41 +3922,6 @@ export const deactivateEventSource: (
   ],
 }));
 /**
- * Lists your archives. You can either list all the archives or you can provide a prefix to
- * match to the archive names. Filter parameters are exclusive.
- */
-export const listArchives: (
-  input: ListArchivesRequest,
-) => effect.Effect<
-  ListArchivesResponse,
-  InternalException | ResourceNotFoundException | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListArchivesRequest,
-  output: ListArchivesResponse,
-  errors: [InternalException, ResourceNotFoundException],
-}));
-/**
- * Lists your Amazon EventBridge rules. You can either list all the rules or you can
- * provide a prefix to match to the rule names.
- *
- * The maximum number of results per page for requests is 100.
- *
- * ListRules does not list the targets of a rule. To see the targets associated with a rule,
- * use ListTargetsByRule.
- */
-export const listRules: (
-  input: ListRulesRequest,
-) => effect.Effect<
-  ListRulesResponse,
-  InternalException | ResourceNotFoundException | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListRulesRequest,
-  output: ListRulesResponse,
-  errors: [InternalException, ResourceNotFoundException],
-}));
-/**
  * Removes all authorization parameters from the connection. This lets you remove the secret
  * from the connection so you can reuse it without having to create a new connection.
  */
@@ -3990,193 +3937,6 @@ export const deauthorizeConnection: (
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeauthorizeConnectionRequest,
   output: DeauthorizeConnectionResponse,
-  errors: [
-    ConcurrentModificationException,
-    InternalException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Deletes a connection.
- */
-export const deleteConnection: (
-  input: DeleteConnectionRequest,
-) => effect.Effect<
-  DeleteConnectionResponse,
-  | ConcurrentModificationException
-  | InternalException
-  | ResourceNotFoundException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteConnectionRequest,
-  output: DeleteConnectionResponse,
-  errors: [
-    ConcurrentModificationException,
-    InternalException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Retrieves details about an API destination.
- */
-export const describeApiDestination: (
-  input: DescribeApiDestinationRequest,
-) => effect.Effect<
-  DescribeApiDestinationResponse,
-  InternalException | ResourceNotFoundException | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeApiDestinationRequest,
-  output: DescribeApiDestinationResponse,
-  errors: [InternalException, ResourceNotFoundException],
-}));
-/**
- * Get the information about an existing global endpoint. For more information about global
- * endpoints, see Making applications
- * Regional-fault tolerant with global endpoints and event replication in the
- *
- * *Amazon EventBridge User Guide*
- * .
- */
-export const describeEndpoint: (
-  input: DescribeEndpointRequest,
-) => effect.Effect<
-  DescribeEndpointResponse,
-  InternalException | ResourceNotFoundException | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeEndpointRequest,
-  output: DescribeEndpointResponse,
-  errors: [InternalException, ResourceNotFoundException],
-}));
-/**
- * Displays details about an event bus in your account. This can include the external Amazon Web Services accounts that are permitted to write events to your default event bus, and the
- * associated policy. For custom event buses and partner event buses, it displays the name, ARN,
- * policy, state, and creation time.
- *
- * To enable your account to receive events from other accounts on its default event bus,
- * use PutPermission.
- *
- * For more information about partner event buses, see CreateEventBus.
- */
-export const describeEventBus: (
-  input: DescribeEventBusRequest,
-) => effect.Effect<
-  DescribeEventBusResponse,
-  InternalException | ResourceNotFoundException | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeEventBusRequest,
-  output: DescribeEventBusResponse,
-  errors: [InternalException, ResourceNotFoundException],
-}));
-/**
- * Retrieves details about a replay. Use `DescribeReplay` to determine the
- * progress of a running replay. A replay processes events to replay based on the time in the
- * event, and replays them using 1 minute intervals. If you use `StartReplay` and
- * specify an `EventStartTime` and an `EventEndTime` that covers a 20
- * minute time range, the events are replayed from the first minute of that 20 minute range
- * first. Then the events from the second minute are replayed. You can use
- * `DescribeReplay` to determine the progress of a replay. The value returned for
- * `EventLastReplayedTime` indicates the time within the specified time range
- * associated with the last event replayed.
- */
-export const describeReplay: (
-  input: DescribeReplayRequest,
-) => effect.Effect<
-  DescribeReplayResponse,
-  InternalException | ResourceNotFoundException | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeReplayRequest,
-  output: DescribeReplayResponse,
-  errors: [InternalException, ResourceNotFoundException],
-}));
-/**
- * Describes the specified rule.
- *
- * DescribeRule does not list the targets of a rule. To see the targets associated with a
- * rule, use ListTargetsByRule.
- */
-export const describeRule: (
-  input: DescribeRuleRequest,
-) => effect.Effect<
-  DescribeRuleResponse,
-  InternalException | ResourceNotFoundException | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeRuleRequest,
-  output: DescribeRuleResponse,
-  errors: [InternalException, ResourceNotFoundException],
-}));
-/**
- * Lists the rules for the specified target. You can see which of the rules in Amazon
- * EventBridge can invoke a specific target in your account.
- *
- * The maximum number of results per page for requests is 100.
- */
-export const listRuleNamesByTarget: (
-  input: ListRuleNamesByTargetRequest,
-) => effect.Effect<
-  ListRuleNamesByTargetResponse,
-  InternalException | ResourceNotFoundException | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListRuleNamesByTargetRequest,
-  output: ListRuleNamesByTargetResponse,
-  errors: [InternalException, ResourceNotFoundException],
-}));
-/**
- * Displays the tags associated with an EventBridge resource. In EventBridge, rules and event
- * buses can be tagged.
- */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
-  ListTagsForResourceResponse,
-  InternalException | ResourceNotFoundException | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
-  errors: [InternalException, ResourceNotFoundException],
-}));
-/**
- * Lists the targets assigned to the specified rule.
- *
- * The maximum number of results per page for requests is 100.
- */
-export const listTargetsByRule: (
-  input: ListTargetsByRuleRequest,
-) => effect.Effect<
-  ListTargetsByRuleResponse,
-  InternalException | ResourceNotFoundException | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTargetsByRuleRequest,
-  output: ListTargetsByRuleResponse,
-  errors: [InternalException, ResourceNotFoundException],
-}));
-/**
- * Update an existing endpoint. For more information about global endpoints, see Making
- * applications Regional-fault tolerant with global endpoints and event replication in
- * the
- * *Amazon EventBridge User Guide*
- * .
- */
-export const updateEndpoint: (
-  input: UpdateEndpointRequest,
-) => effect.Effect<
-  UpdateEndpointResponse,
-  | ConcurrentModificationException
-  | InternalException
-  | ResourceNotFoundException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateEndpointRequest,
-  output: UpdateEndpointResponse,
   errors: [
     ConcurrentModificationException,
     InternalException,
@@ -4226,6 +3986,27 @@ export const deleteArchive: (
   ],
 }));
 /**
+ * Deletes a connection.
+ */
+export const deleteConnection: (
+  input: DeleteConnectionRequest,
+) => effect.Effect<
+  DeleteConnectionResponse,
+  | ConcurrentModificationException
+  | InternalException
+  | ResourceNotFoundException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteConnectionRequest,
+  output: DeleteConnectionResponse,
+  errors: [
+    ConcurrentModificationException,
+    InternalException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
  * Delete an existing global endpoint. For more information about global endpoints, see
  * Making applications Regional-fault tolerant with global endpoints and event
  * replication in the
@@ -4251,41 +4032,171 @@ export const deleteEndpoint: (
   ],
 }));
 /**
- * An SaaS partner can use this operation to display the Amazon Web Services account ID that a
- * particular partner event source name is associated with. This operation is not used by Amazon Web Services customers.
+ * Deletes the specified custom event bus or partner event bus. All rules associated with
+ * this event bus need to be deleted. You can't delete your account's default event bus.
  */
-export const listPartnerEventSourceAccounts: (
-  input: ListPartnerEventSourceAccountsRequest,
+export const deleteEventBus: (
+  input: DeleteEventBusRequest,
 ) => effect.Effect<
-  ListPartnerEventSourceAccountsResponse,
+  DeleteEventBusResponse,
+  ConcurrentModificationException | InternalException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteEventBusRequest,
+  output: DeleteEventBusResponse,
+  errors: [ConcurrentModificationException, InternalException],
+}));
+/**
+ * This operation is used by SaaS partners to delete a partner event source. This operation
+ * is not used by Amazon Web Services customers.
+ *
+ * When you delete an event source, the status of the corresponding partner event bus in the
+ * Amazon Web Services customer account becomes DELETED.
+ */
+export const deletePartnerEventSource: (
+  input: DeletePartnerEventSourceRequest,
+) => effect.Effect<
+  DeletePartnerEventSourceResponse,
+  | ConcurrentModificationException
   | InternalException
   | OperationDisabledException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeletePartnerEventSourceRequest,
+  output: DeletePartnerEventSourceResponse,
+  errors: [
+    ConcurrentModificationException,
+    InternalException,
+    OperationDisabledException,
+  ],
+}));
+/**
+ * Deletes the specified rule.
+ *
+ * Before you can delete the rule, you must remove all targets, using RemoveTargets.
+ *
+ * When you delete a rule, incoming events might continue to match to the deleted rule. Allow
+ * a short period of time for changes to take effect.
+ *
+ * If you call delete rule multiple times for the same rule, all calls will succeed. When you
+ * call delete rule for a non-existent custom eventbus, `ResourceNotFoundException` is
+ * returned.
+ *
+ * Managed rules are rules created and managed by another Amazon Web Services service on your
+ * behalf. These rules are created by those other Amazon Web Services services to support
+ * functionality in those services. You can delete these rules using the `Force`
+ * option, but you should do so only if you are sure the other service is not still using that
+ * rule.
+ */
+export const deleteRule: (
+  input: DeleteRuleRequest,
+) => effect.Effect<
+  DeleteRuleResponse,
+  | ConcurrentModificationException
+  | InternalException
+  | ManagedRuleException
   | ResourceNotFoundException
   | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListPartnerEventSourceAccountsRequest,
-  output: ListPartnerEventSourceAccountsResponse,
+  input: DeleteRuleRequest,
+  output: DeleteRuleResponse,
   errors: [
+    ConcurrentModificationException,
     InternalException,
-    OperationDisabledException,
+    ManagedRuleException,
     ResourceNotFoundException,
   ],
 }));
 /**
- * An SaaS partner can use this operation to list all the partner event source names that
- * they have created. This operation is not used by Amazon Web Services customers.
+ * Retrieves details about an API destination.
  */
-export const listPartnerEventSources: (
-  input: ListPartnerEventSourcesRequest,
+export const describeApiDestination: (
+  input: DescribeApiDestinationRequest,
 ) => effect.Effect<
-  ListPartnerEventSourcesResponse,
-  InternalException | OperationDisabledException | CommonErrors,
+  DescribeApiDestinationResponse,
+  InternalException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListPartnerEventSourcesRequest,
-  output: ListPartnerEventSourcesResponse,
-  errors: [InternalException, OperationDisabledException],
+  input: DescribeApiDestinationRequest,
+  output: DescribeApiDestinationResponse,
+  errors: [InternalException, ResourceNotFoundException],
+}));
+/**
+ * Retrieves details about an archive.
+ */
+export const describeArchive: (
+  input: DescribeArchiveRequest,
+) => effect.Effect<
+  DescribeArchiveResponse,
+  | InternalException
+  | ResourceAlreadyExistsException
+  | ResourceNotFoundException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeArchiveRequest,
+  output: DescribeArchiveResponse,
+  errors: [
+    InternalException,
+    ResourceAlreadyExistsException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Retrieves details about a connection.
+ */
+export const describeConnection: (
+  input: DescribeConnectionRequest,
+) => effect.Effect<
+  DescribeConnectionResponse,
+  InternalException | ResourceNotFoundException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeConnectionRequest,
+  output: DescribeConnectionResponse,
+  errors: [InternalException, ResourceNotFoundException],
+}));
+/**
+ * Get the information about an existing global endpoint. For more information about global
+ * endpoints, see Making applications
+ * Regional-fault tolerant with global endpoints and event replication in the
+ *
+ * *Amazon EventBridge User Guide*
+ * .
+ */
+export const describeEndpoint: (
+  input: DescribeEndpointRequest,
+) => effect.Effect<
+  DescribeEndpointResponse,
+  InternalException | ResourceNotFoundException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeEndpointRequest,
+  output: DescribeEndpointResponse,
+  errors: [InternalException, ResourceNotFoundException],
+}));
+/**
+ * Displays details about an event bus in your account. This can include the external Amazon Web Services accounts that are permitted to write events to your default event bus, and the
+ * associated policy. For custom event buses and partner event buses, it displays the name, ARN,
+ * policy, state, and creation time.
+ *
+ * To enable your account to receive events from other accounts on its default event bus,
+ * use PutPermission.
+ *
+ * For more information about partner event buses, see CreateEventBus.
+ */
+export const describeEventBus: (
+  input: DescribeEventBusRequest,
+) => effect.Effect<
+  DescribeEventBusResponse,
+  InternalException | ResourceNotFoundException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeEventBusRequest,
+  output: DescribeEventBusResponse,
+  errors: [InternalException, ResourceNotFoundException],
 }));
 /**
  * This operation lists details about a partner event source that is shared with your
@@ -4333,142 +4244,43 @@ export const describePartnerEventSource: (
   ],
 }));
 /**
- * Updates the specified event bus.
+ * Retrieves details about a replay. Use `DescribeReplay` to determine the
+ * progress of a running replay. A replay processes events to replay based on the time in the
+ * event, and replays them using 1 minute intervals. If you use `StartReplay` and
+ * specify an `EventStartTime` and an `EventEndTime` that covers a 20
+ * minute time range, the events are replayed from the first minute of that 20 minute range
+ * first. Then the events from the second minute are replayed. You can use
+ * `DescribeReplay` to determine the progress of a replay. The value returned for
+ * `EventLastReplayedTime` indicates the time within the specified time range
+ * associated with the last event replayed.
  */
-export const updateEventBus: (
-  input: UpdateEventBusRequest,
+export const describeReplay: (
+  input: DescribeReplayRequest,
 ) => effect.Effect<
-  UpdateEventBusResponse,
-  | ConcurrentModificationException
-  | InternalException
-  | OperationDisabledException
-  | ResourceNotFoundException
-  | CommonErrors,
+  DescribeReplayResponse,
+  InternalException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateEventBusRequest,
-  output: UpdateEventBusResponse,
-  errors: [
-    ConcurrentModificationException,
-    InternalException,
-    OperationDisabledException,
-    ResourceNotFoundException,
-  ],
+  input: DescribeReplayRequest,
+  output: DescribeReplayResponse,
+  errors: [InternalException, ResourceNotFoundException],
 }));
 /**
- * This operation is used by SaaS partners to delete a partner event source. This operation
- * is not used by Amazon Web Services customers.
+ * Describes the specified rule.
  *
- * When you delete an event source, the status of the corresponding partner event bus in the
- * Amazon Web Services customer account becomes DELETED.
+ * DescribeRule does not list the targets of a rule. To see the targets associated with a
+ * rule, use ListTargetsByRule.
  */
-export const deletePartnerEventSource: (
-  input: DeletePartnerEventSourceRequest,
+export const describeRule: (
+  input: DescribeRuleRequest,
 ) => effect.Effect<
-  DeletePartnerEventSourceResponse,
-  | ConcurrentModificationException
-  | InternalException
-  | OperationDisabledException
-  | CommonErrors,
+  DescribeRuleResponse,
+  InternalException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeletePartnerEventSourceRequest,
-  output: DeletePartnerEventSourceResponse,
-  errors: [
-    ConcurrentModificationException,
-    InternalException,
-    OperationDisabledException,
-  ],
-}));
-/**
- * Revokes the permission of another Amazon Web Services account to be able to put events to
- * the specified event bus. Specify the account to revoke by the `StatementId` value
- * that you associated with the account when you granted it permission with
- * `PutPermission`. You can find the `StatementId` by using DescribeEventBus.
- */
-export const removePermission: (
-  input: RemovePermissionRequest,
-) => effect.Effect<
-  RemovePermissionResponse,
-  | ConcurrentModificationException
-  | InternalException
-  | OperationDisabledException
-  | ResourceNotFoundException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: RemovePermissionRequest,
-  output: RemovePermissionResponse,
-  errors: [
-    ConcurrentModificationException,
-    InternalException,
-    OperationDisabledException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Activates a partner event source that has been deactivated. Once activated, your matching
- * event bus will start receiving events from the event source.
- */
-export const activateEventSource: (
-  input: ActivateEventSourceRequest,
-) => effect.Effect<
-  ActivateEventSourceResponse,
-  | ConcurrentModificationException
-  | InternalException
-  | InvalidStateException
-  | OperationDisabledException
-  | ResourceNotFoundException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ActivateEventSourceRequest,
-  output: ActivateEventSourceResponse,
-  errors: [
-    ConcurrentModificationException,
-    InternalException,
-    InvalidStateException,
-    OperationDisabledException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Deletes the specified rule.
- *
- * Before you can delete the rule, you must remove all targets, using RemoveTargets.
- *
- * When you delete a rule, incoming events might continue to match to the deleted rule. Allow
- * a short period of time for changes to take effect.
- *
- * If you call delete rule multiple times for the same rule, all calls will succeed. When you
- * call delete rule for a non-existent custom eventbus, `ResourceNotFoundException` is
- * returned.
- *
- * Managed rules are rules created and managed by another Amazon Web Services service on your
- * behalf. These rules are created by those other Amazon Web Services services to support
- * functionality in those services. You can delete these rules using the `Force`
- * option, but you should do so only if you are sure the other service is not still using that
- * rule.
- */
-export const deleteRule: (
-  input: DeleteRuleRequest,
-) => effect.Effect<
-  DeleteRuleResponse,
-  | ConcurrentModificationException
-  | InternalException
-  | ManagedRuleException
-  | ResourceNotFoundException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteRuleRequest,
-  output: DeleteRuleResponse,
-  errors: [
-    ConcurrentModificationException,
-    InternalException,
-    ManagedRuleException,
-    ResourceNotFoundException,
-  ],
+  input: DescribeRuleRequest,
+  output: DescribeRuleResponse,
+  errors: [InternalException, ResourceNotFoundException],
 }));
 /**
  * Disables the specified rule. A disabled rule won't match any events, and won't
@@ -4524,97 +4336,302 @@ export const enableRule: (
   ],
 }));
 /**
- * Assigns one or more tags (key-value pairs) to the specified EventBridge resource. Tags can
- * help you organize and categorize your resources. You can also use them to scope user
- * permissions by granting a user permission to access or change only resources with certain tag
- * values. In EventBridge, rules and event buses can be tagged.
- *
- * Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as
- * strings of characters.
- *
- * You can use the `TagResource` action with a resource that already has tags. If
- * you specify a new tag key, this tag is appended to the list of tags associated with the
- * resource. If you specify a tag key that is already associated with the resource, the new tag
- * value that you specify replaces the previous value for that tag.
- *
- * You can associate as many as 50 tags with a resource.
+ * Retrieves a list of API destination in the account in the current Region.
  */
-export const tagResource: (
-  input: TagResourceRequest,
+export const listApiDestinations: (
+  input: ListApiDestinationsRequest,
 ) => effect.Effect<
-  TagResourceResponse,
-  | ConcurrentModificationException
+  ListApiDestinationsResponse,
+  InternalException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListApiDestinationsRequest,
+  output: ListApiDestinationsResponse,
+  errors: [InternalException],
+}));
+/**
+ * Lists your archives. You can either list all the archives or you can provide a prefix to
+ * match to the archive names. Filter parameters are exclusive.
+ */
+export const listArchives: (
+  input: ListArchivesRequest,
+) => effect.Effect<
+  ListArchivesResponse,
+  InternalException | ResourceNotFoundException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListArchivesRequest,
+  output: ListArchivesResponse,
+  errors: [InternalException, ResourceNotFoundException],
+}));
+/**
+ * Retrieves a list of connections from the account.
+ */
+export const listConnections: (
+  input: ListConnectionsRequest,
+) => effect.Effect<
+  ListConnectionsResponse,
+  InternalException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListConnectionsRequest,
+  output: ListConnectionsResponse,
+  errors: [InternalException],
+}));
+/**
+ * List the global endpoints associated with this account. For more information about global
+ * endpoints, see Making applications
+ * Regional-fault tolerant with global endpoints and event replication in the
+ *
+ * *Amazon EventBridge User Guide*
+ * .
+ */
+export const listEndpoints: (
+  input: ListEndpointsRequest,
+) => effect.Effect<
+  ListEndpointsResponse,
+  InternalException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListEndpointsRequest,
+  output: ListEndpointsResponse,
+  errors: [InternalException],
+}));
+/**
+ * Lists all the event buses in your account, including the default event bus, custom event
+ * buses, and partner event buses.
+ */
+export const listEventBuses: (
+  input: ListEventBusesRequest,
+) => effect.Effect<
+  ListEventBusesResponse,
+  InternalException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListEventBusesRequest,
+  output: ListEventBusesResponse,
+  errors: [InternalException],
+}));
+/**
+ * You can use this to see all the partner event sources that have been shared with your
+ * Amazon Web Services account. For more information about partner event sources, see CreateEventBus.
+ */
+export const listEventSources: (
+  input: ListEventSourcesRequest,
+) => effect.Effect<
+  ListEventSourcesResponse,
+  InternalException | OperationDisabledException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListEventSourcesRequest,
+  output: ListEventSourcesResponse,
+  errors: [InternalException, OperationDisabledException],
+}));
+/**
+ * An SaaS partner can use this operation to display the Amazon Web Services account ID that a
+ * particular partner event source name is associated with. This operation is not used by Amazon Web Services customers.
+ */
+export const listPartnerEventSourceAccounts: (
+  input: ListPartnerEventSourceAccountsRequest,
+) => effect.Effect<
+  ListPartnerEventSourceAccountsResponse,
   | InternalException
-  | ManagedRuleException
+  | OperationDisabledException
   | ResourceNotFoundException
   | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
+  input: ListPartnerEventSourceAccountsRequest,
+  output: ListPartnerEventSourceAccountsResponse,
   errors: [
-    ConcurrentModificationException,
     InternalException,
-    ManagedRuleException,
+    OperationDisabledException,
     ResourceNotFoundException,
   ],
 }));
 /**
- * Removes one or more tags from the specified EventBridge resource. In Amazon EventBridge, rules and event buses can be tagged.
+ * An SaaS partner can use this operation to list all the partner event source names that
+ * they have created. This operation is not used by Amazon Web Services customers.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
+export const listPartnerEventSources: (
+  input: ListPartnerEventSourcesRequest,
 ) => effect.Effect<
-  UntagResourceResponse,
-  | ConcurrentModificationException
-  | InternalException
-  | ManagedRuleException
-  | ResourceNotFoundException
-  | CommonErrors,
+  ListPartnerEventSourcesResponse,
+  InternalException | OperationDisabledException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
-  errors: [
-    ConcurrentModificationException,
-    InternalException,
-    ManagedRuleException,
-    ResourceNotFoundException,
-  ],
+  input: ListPartnerEventSourcesRequest,
+  output: ListPartnerEventSourcesResponse,
+  errors: [InternalException, OperationDisabledException],
 }));
 /**
- * Creates an archive of events with the specified settings. When you create an archive,
- * incoming events might not immediately start being sent to the archive. Allow a short period of
- * time for changes to take effect. If you do not specify a pattern to filter events sent to the
- * archive, all events are sent to the archive except replayed events. Replayed events are not
- * sent to an archive.
- *
- * If you have specified that EventBridge use a customer managed key for encrypting the source event bus, we strongly recommend you also specify a
- * customer managed key for any archives for the event bus as well.
- *
- * For more information, see Encrypting archives in the *Amazon EventBridge User Guide*.
+ * Lists your replays. You can either list all the replays or you can provide a prefix to
+ * match to the replay names. Filter parameters are exclusive.
  */
-export const createArchive: (
-  input: CreateArchiveRequest,
+export const listReplays: (
+  input: ListReplaysRequest,
 ) => effect.Effect<
-  CreateArchiveResponse,
+  ListReplaysResponse,
+  InternalException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListReplaysRequest,
+  output: ListReplaysResponse,
+  errors: [InternalException],
+}));
+/**
+ * Lists the rules for the specified target. You can see which of the rules in Amazon
+ * EventBridge can invoke a specific target in your account.
+ *
+ * The maximum number of results per page for requests is 100.
+ */
+export const listRuleNamesByTarget: (
+  input: ListRuleNamesByTargetRequest,
+) => effect.Effect<
+  ListRuleNamesByTargetResponse,
+  InternalException | ResourceNotFoundException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListRuleNamesByTargetRequest,
+  output: ListRuleNamesByTargetResponse,
+  errors: [InternalException, ResourceNotFoundException],
+}));
+/**
+ * Lists your Amazon EventBridge rules. You can either list all the rules or you can
+ * provide a prefix to match to the rule names.
+ *
+ * The maximum number of results per page for requests is 100.
+ *
+ * ListRules does not list the targets of a rule. To see the targets associated with a rule,
+ * use ListTargetsByRule.
+ */
+export const listRules: (
+  input: ListRulesRequest,
+) => effect.Effect<
+  ListRulesResponse,
+  InternalException | ResourceNotFoundException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListRulesRequest,
+  output: ListRulesResponse,
+  errors: [InternalException, ResourceNotFoundException],
+}));
+/**
+ * Displays the tags associated with an EventBridge resource. In EventBridge, rules and event
+ * buses can be tagged.
+ */
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => effect.Effect<
+  ListTagsForResourceResponse,
+  InternalException | ResourceNotFoundException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
+  errors: [InternalException, ResourceNotFoundException],
+}));
+/**
+ * Lists the targets assigned to the specified rule.
+ *
+ * The maximum number of results per page for requests is 100.
+ */
+export const listTargetsByRule: (
+  input: ListTargetsByRuleRequest,
+) => effect.Effect<
+  ListTargetsByRuleResponse,
+  InternalException | ResourceNotFoundException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTargetsByRuleRequest,
+  output: ListTargetsByRuleResponse,
+  errors: [InternalException, ResourceNotFoundException],
+}));
+/**
+ * Sends custom events to Amazon EventBridge so that they can be matched to rules.
+ *
+ * You can batch multiple event entries into one request for efficiency.
+ * However, the total entry size must be less than 256KB. You can calculate the entry size before you send the events.
+ * For more information, see Calculating PutEvents event entry
+ * size in the
+ * *Amazon EventBridge User Guide*
+ * .
+ *
+ * PutEvents accepts the data in JSON format. For the JSON number (integer) data type, the
+ * constraints are: a minimum value of -9,223,372,036,854,775,808 and a maximum value of
+ * 9,223,372,036,854,775,807.
+ *
+ * PutEvents will only process nested JSON up to 1000 levels deep.
+ */
+export const putEvents: (
+  input: PutEventsRequest,
+) => effect.Effect<
+  PutEventsResponse,
+  InternalException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutEventsRequest,
+  output: PutEventsResponse,
+  errors: [InternalException],
+}));
+/**
+ * This is used by SaaS partners to write events to a customer's partner event bus. Amazon Web Services customers do not use this operation.
+ *
+ * For information on calculating event batch size, see Calculating EventBridge PutEvents event
+ * entry size in the *EventBridge User Guide*.
+ */
+export const putPartnerEvents: (
+  input: PutPartnerEventsRequest,
+) => effect.Effect<
+  PutPartnerEventsResponse,
+  InternalException | OperationDisabledException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutPartnerEventsRequest,
+  output: PutPartnerEventsResponse,
+  errors: [InternalException, OperationDisabledException],
+}));
+/**
+ * Running `PutPermission` permits the specified Amazon Web Services account or Amazon Web Services organization
+ * to put events to the specified *event bus*. Amazon EventBridge rules in your account are triggered by these events arriving to an event bus in your
+ * account.
+ *
+ * For another account to send events to your account, that external account must have an
+ * EventBridge rule with your account's event bus as a target.
+ *
+ * To enable multiple Amazon Web Services accounts to put events to your event bus, run
+ * `PutPermission` once for each of these accounts. Or, if all the accounts are
+ * members of the same Amazon Web Services organization, you can run `PutPermission`
+ * once specifying `Principal` as "*" and specifying the Amazon Web Services
+ * organization ID in `Condition`, to grant permissions to all accounts in that
+ * organization.
+ *
+ * If you grant permissions using an organization, then accounts in that organization must
+ * specify a `RoleArn` with proper permissions when they use `PutTarget` to
+ * add your account's event bus as a target. For more information, see Sending and
+ * Receiving Events Between Amazon Web Services Accounts in the *Amazon EventBridge User Guide*.
+ *
+ * The permission policy on the event bus cannot exceed 10 KB in size.
+ */
+export const putPermission: (
+  input: PutPermissionRequest,
+) => effect.Effect<
+  PutPermissionResponse,
   | ConcurrentModificationException
   | InternalException
-  | InvalidEventPatternException
-  | LimitExceededException
-  | ResourceAlreadyExistsException
+  | OperationDisabledException
+  | PolicyLengthExceededException
   | ResourceNotFoundException
   | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateArchiveRequest,
-  output: CreateArchiveResponse,
+  input: PutPermissionRequest,
+  output: PutPermissionResponse,
   errors: [
     ConcurrentModificationException,
     InternalException,
-    InvalidEventPatternException,
-    LimitExceededException,
-    ResourceAlreadyExistsException,
+    OperationDisabledException,
+    PolicyLengthExceededException,
     ResourceNotFoundException,
   ],
 }));
@@ -4695,309 +4712,6 @@ export const putRule: (
     LimitExceededException,
     ManagedRuleException,
     ResourceNotFoundException,
-  ],
-}));
-/**
- * Tests whether the specified event pattern matches the provided event.
- *
- * Most services in Amazon Web Services treat : or / as the same character in Amazon Resource
- * Names (ARNs). However, EventBridge uses an exact match in event patterns and rules. Be
- * sure to use the correct ARN characters when creating event patterns so that they match the ARN
- * syntax in the event you want to match.
- */
-export const testEventPattern: (
-  input: TestEventPatternRequest,
-) => effect.Effect<
-  TestEventPatternResponse,
-  InternalException | InvalidEventPatternException | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TestEventPatternRequest,
-  output: TestEventPatternResponse,
-  errors: [InternalException, InvalidEventPatternException],
-}));
-/**
- * Updates the specified archive.
- */
-export const updateArchive: (
-  input: UpdateArchiveRequest,
-) => effect.Effect<
-  UpdateArchiveResponse,
-  | ConcurrentModificationException
-  | InternalException
-  | InvalidEventPatternException
-  | LimitExceededException
-  | ResourceNotFoundException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateArchiveRequest,
-  output: UpdateArchiveResponse,
-  errors: [
-    ConcurrentModificationException,
-    InternalException,
-    InvalidEventPatternException,
-    LimitExceededException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Called by an SaaS partner to create a partner event source. This operation is not used by
- * Amazon Web Services customers.
- *
- * Each partner event source can be used by one Amazon Web Services account to create a
- * matching partner event bus in that Amazon Web Services account. A SaaS partner must create one
- * partner event source for each Amazon Web Services account that wants to receive those event
- * types.
- *
- * A partner event source creates events based on resources within the SaaS partner's service
- * or application.
- *
- * An Amazon Web Services account that creates a partner event bus that matches the partner
- * event source can use that event bus to receive events from the partner, and then process them
- * using Amazon Web Services Events rules and targets.
- *
- * Partner event source names follow this format:
- *
- * *partner_name*\/*event_namespace*\/*event_name*
- *
- * - *partner_name* is determined during partner registration, and
- * identifies the partner to Amazon Web Services customers.
- *
- * - *event_namespace* is determined by the partner, and is a way for
- * the partner to categorize their events.
- *
- * - *event_name* is determined by the partner, and should uniquely
- * identify an event-generating resource within the partner system.
- *
- * The *event_name* must be unique across all Amazon Web Services
- * customers. This is because the event source is a shared resource between the partner and
- * customer accounts, and each partner event source unique in the partner account.
- *
- * The combination of *event_namespace* and
- * *event_name* should help Amazon Web Services customers decide whether to
- * create an event bus to receive these events.
- */
-export const createPartnerEventSource: (
-  input: CreatePartnerEventSourceRequest,
-) => effect.Effect<
-  CreatePartnerEventSourceResponse,
-  | ConcurrentModificationException
-  | InternalException
-  | LimitExceededException
-  | OperationDisabledException
-  | ResourceAlreadyExistsException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreatePartnerEventSourceRequest,
-  output: CreatePartnerEventSourceResponse,
-  errors: [
-    ConcurrentModificationException,
-    InternalException,
-    LimitExceededException,
-    OperationDisabledException,
-    ResourceAlreadyExistsException,
-  ],
-}));
-/**
- * Updates an API destination.
- */
-export const updateApiDestination: (
-  input: UpdateApiDestinationRequest,
-) => effect.Effect<
-  UpdateApiDestinationResponse,
-  | ConcurrentModificationException
-  | InternalException
-  | LimitExceededException
-  | ResourceNotFoundException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateApiDestinationRequest,
-  output: UpdateApiDestinationResponse,
-  errors: [
-    ConcurrentModificationException,
-    InternalException,
-    LimitExceededException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Starts the specified replay. Events are not necessarily replayed in the exact same order
- * that they were added to the archive. A replay processes events to replay based on the time in
- * the event, and replays them using 1 minute intervals. If you specify an
- * `EventStartTime` and an `EventEndTime` that covers a 20 minute time
- * range, the events are replayed from the first minute of that 20 minute range first. Then the
- * events from the second minute are replayed. You can use `DescribeReplay` to
- * determine the progress of a replay. The value returned for `EventLastReplayedTime`
- * indicates the time within the specified time range associated with the last event
- * replayed.
- */
-export const startReplay: (
-  input: StartReplayRequest,
-) => effect.Effect<
-  StartReplayResponse,
-  | InternalException
-  | InvalidEventPatternException
-  | LimitExceededException
-  | ResourceAlreadyExistsException
-  | ResourceNotFoundException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StartReplayRequest,
-  output: StartReplayResponse,
-  errors: [
-    InternalException,
-    InvalidEventPatternException,
-    LimitExceededException,
-    ResourceAlreadyExistsException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Creates an API destination, which is an HTTP invocation endpoint configured as a target
- * for events.
- *
- * API destinations do not support private destinations, such as interface VPC
- * endpoints.
- *
- * For more information, see API destinations in the
- * *EventBridge User Guide*.
- */
-export const createApiDestination: (
-  input: CreateApiDestinationRequest,
-) => effect.Effect<
-  CreateApiDestinationResponse,
-  | InternalException
-  | LimitExceededException
-  | ResourceAlreadyExistsException
-  | ResourceNotFoundException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateApiDestinationRequest,
-  output: CreateApiDestinationResponse,
-  errors: [
-    InternalException,
-    LimitExceededException,
-    ResourceAlreadyExistsException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Creates a global endpoint. Global endpoints improve your application's availability by
- * making it regional-fault tolerant. To do this, you define a primary and secondary Region with
- * event buses in each Region. You also create a Amazon Route 53 health check that will
- * tell EventBridge to route events to the secondary Region when an "unhealthy" state is
- * encountered and events will be routed back to the primary Region when the health check reports
- * a "healthy" state.
- */
-export const createEndpoint: (
-  input: CreateEndpointRequest,
-) => effect.Effect<
-  CreateEndpointResponse,
-  | InternalException
-  | LimitExceededException
-  | ResourceAlreadyExistsException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateEndpointRequest,
-  output: CreateEndpointResponse,
-  errors: [
-    InternalException,
-    LimitExceededException,
-    ResourceAlreadyExistsException,
-  ],
-}));
-/**
- * Retrieves details about a connection.
- */
-export const describeConnection: (
-  input: DescribeConnectionRequest,
-) => effect.Effect<
-  DescribeConnectionResponse,
-  InternalException | ResourceNotFoundException | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeConnectionRequest,
-  output: DescribeConnectionResponse,
-  errors: [InternalException, ResourceNotFoundException],
-}));
-/**
- * Running `PutPermission` permits the specified Amazon Web Services account or Amazon Web Services organization
- * to put events to the specified *event bus*. Amazon EventBridge rules in your account are triggered by these events arriving to an event bus in your
- * account.
- *
- * For another account to send events to your account, that external account must have an
- * EventBridge rule with your account's event bus as a target.
- *
- * To enable multiple Amazon Web Services accounts to put events to your event bus, run
- * `PutPermission` once for each of these accounts. Or, if all the accounts are
- * members of the same Amazon Web Services organization, you can run `PutPermission`
- * once specifying `Principal` as "*" and specifying the Amazon Web Services
- * organization ID in `Condition`, to grant permissions to all accounts in that
- * organization.
- *
- * If you grant permissions using an organization, then accounts in that organization must
- * specify a `RoleArn` with proper permissions when they use `PutTarget` to
- * add your account's event bus as a target. For more information, see Sending and
- * Receiving Events Between Amazon Web Services Accounts in the *Amazon EventBridge User Guide*.
- *
- * The permission policy on the event bus cannot exceed 10 KB in size.
- */
-export const putPermission: (
-  input: PutPermissionRequest,
-) => effect.Effect<
-  PutPermissionResponse,
-  | ConcurrentModificationException
-  | InternalException
-  | OperationDisabledException
-  | PolicyLengthExceededException
-  | ResourceNotFoundException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PutPermissionRequest,
-  output: PutPermissionResponse,
-  errors: [
-    ConcurrentModificationException,
-    InternalException,
-    OperationDisabledException,
-    PolicyLengthExceededException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Creates a connection. A connection defines the authorization type and credentials to use
- * for authorization with an API destination HTTP endpoint.
- *
- * For more information, see Connections for endpoint targets in the *Amazon EventBridge User Guide*.
- */
-export const createConnection: (
-  input: CreateConnectionRequest,
-) => effect.Effect<
-  CreateConnectionResponse,
-  | AccessDeniedException
-  | InternalException
-  | LimitExceededException
-  | ResourceAlreadyExistsException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateConnectionRequest,
-  output: CreateConnectionResponse,
-  errors: [
-    AccessDeniedException,
-    InternalException,
-    LimitExceededException,
-    ResourceAlreadyExistsException,
-    ResourceNotFoundException,
-    ThrottlingException,
   ],
 }));
 /**
@@ -5123,6 +4837,227 @@ export const putTargets: (
   ],
 }));
 /**
+ * Revokes the permission of another Amazon Web Services account to be able to put events to
+ * the specified event bus. Specify the account to revoke by the `StatementId` value
+ * that you associated with the account when you granted it permission with
+ * `PutPermission`. You can find the `StatementId` by using DescribeEventBus.
+ */
+export const removePermission: (
+  input: RemovePermissionRequest,
+) => effect.Effect<
+  RemovePermissionResponse,
+  | ConcurrentModificationException
+  | InternalException
+  | OperationDisabledException
+  | ResourceNotFoundException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RemovePermissionRequest,
+  output: RemovePermissionResponse,
+  errors: [
+    ConcurrentModificationException,
+    InternalException,
+    OperationDisabledException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Removes the specified targets from the specified rule. When the rule is triggered, those
+ * targets are no longer be invoked.
+ *
+ * A successful execution of `RemoveTargets` doesn't guarantee all targets are
+ * removed from the rule, it means that the target(s) listed in the request are removed.
+ *
+ * When you remove a target, when the associated rule triggers, removed targets might
+ * continue to be invoked. Allow a short period of time for changes to take effect.
+ *
+ * This action can partially fail if too many requests are made at the same time. If that
+ * happens, `FailedEntryCount` is non-zero in the response and each entry in
+ * `FailedEntries` provides the ID of the failed target and the error code.
+ *
+ * The maximum number of entries per request is 10.
+ */
+export const removeTargets: (
+  input: RemoveTargetsRequest,
+) => effect.Effect<
+  RemoveTargetsResponse,
+  | ConcurrentModificationException
+  | InternalException
+  | ManagedRuleException
+  | ResourceNotFoundException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RemoveTargetsRequest,
+  output: RemoveTargetsResponse,
+  errors: [
+    ConcurrentModificationException,
+    InternalException,
+    ManagedRuleException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Starts the specified replay. Events are not necessarily replayed in the exact same order
+ * that they were added to the archive. A replay processes events to replay based on the time in
+ * the event, and replays them using 1 minute intervals. If you specify an
+ * `EventStartTime` and an `EventEndTime` that covers a 20 minute time
+ * range, the events are replayed from the first minute of that 20 minute range first. Then the
+ * events from the second minute are replayed. You can use `DescribeReplay` to
+ * determine the progress of a replay. The value returned for `EventLastReplayedTime`
+ * indicates the time within the specified time range associated with the last event
+ * replayed.
+ */
+export const startReplay: (
+  input: StartReplayRequest,
+) => effect.Effect<
+  StartReplayResponse,
+  | InternalException
+  | InvalidEventPatternException
+  | LimitExceededException
+  | ResourceAlreadyExistsException
+  | ResourceNotFoundException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartReplayRequest,
+  output: StartReplayResponse,
+  errors: [
+    InternalException,
+    InvalidEventPatternException,
+    LimitExceededException,
+    ResourceAlreadyExistsException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Assigns one or more tags (key-value pairs) to the specified EventBridge resource. Tags can
+ * help you organize and categorize your resources. You can also use them to scope user
+ * permissions by granting a user permission to access or change only resources with certain tag
+ * values. In EventBridge, rules and event buses can be tagged.
+ *
+ * Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as
+ * strings of characters.
+ *
+ * You can use the `TagResource` action with a resource that already has tags. If
+ * you specify a new tag key, this tag is appended to the list of tags associated with the
+ * resource. If you specify a tag key that is already associated with the resource, the new tag
+ * value that you specify replaces the previous value for that tag.
+ *
+ * You can associate as many as 50 tags with a resource.
+ */
+export const tagResource: (
+  input: TagResourceRequest,
+) => effect.Effect<
+  TagResourceResponse,
+  | ConcurrentModificationException
+  | InternalException
+  | ManagedRuleException
+  | ResourceNotFoundException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResponse,
+  errors: [
+    ConcurrentModificationException,
+    InternalException,
+    ManagedRuleException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Tests whether the specified event pattern matches the provided event.
+ *
+ * Most services in Amazon Web Services treat : or / as the same character in Amazon Resource
+ * Names (ARNs). However, EventBridge uses an exact match in event patterns and rules. Be
+ * sure to use the correct ARN characters when creating event patterns so that they match the ARN
+ * syntax in the event you want to match.
+ */
+export const testEventPattern: (
+  input: TestEventPatternRequest,
+) => effect.Effect<
+  TestEventPatternResponse,
+  InternalException | InvalidEventPatternException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TestEventPatternRequest,
+  output: TestEventPatternResponse,
+  errors: [InternalException, InvalidEventPatternException],
+}));
+/**
+ * Removes one or more tags from the specified EventBridge resource. In Amazon EventBridge, rules and event buses can be tagged.
+ */
+export const untagResource: (
+  input: UntagResourceRequest,
+) => effect.Effect<
+  UntagResourceResponse,
+  | ConcurrentModificationException
+  | InternalException
+  | ManagedRuleException
+  | ResourceNotFoundException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
+  errors: [
+    ConcurrentModificationException,
+    InternalException,
+    ManagedRuleException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Updates an API destination.
+ */
+export const updateApiDestination: (
+  input: UpdateApiDestinationRequest,
+) => effect.Effect<
+  UpdateApiDestinationResponse,
+  | ConcurrentModificationException
+  | InternalException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateApiDestinationRequest,
+  output: UpdateApiDestinationResponse,
+  errors: [
+    ConcurrentModificationException,
+    InternalException,
+    LimitExceededException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Updates the specified archive.
+ */
+export const updateArchive: (
+  input: UpdateArchiveRequest,
+) => effect.Effect<
+  UpdateArchiveResponse,
+  | ConcurrentModificationException
+  | InternalException
+  | InvalidEventPatternException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateArchiveRequest,
+  output: UpdateArchiveResponse,
+  errors: [
+    ConcurrentModificationException,
+    InternalException,
+    InvalidEventPatternException,
+    LimitExceededException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
  * Updates settings for a connection.
  */
 export const updateConnection: (
@@ -5147,5 +5082,53 @@ export const updateConnection: (
     LimitExceededException,
     ResourceNotFoundException,
     ThrottlingException,
+  ],
+}));
+/**
+ * Update an existing endpoint. For more information about global endpoints, see Making
+ * applications Regional-fault tolerant with global endpoints and event replication in
+ * the
+ * *Amazon EventBridge User Guide*
+ * .
+ */
+export const updateEndpoint: (
+  input: UpdateEndpointRequest,
+) => effect.Effect<
+  UpdateEndpointResponse,
+  | ConcurrentModificationException
+  | InternalException
+  | ResourceNotFoundException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateEndpointRequest,
+  output: UpdateEndpointResponse,
+  errors: [
+    ConcurrentModificationException,
+    InternalException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Updates the specified event bus.
+ */
+export const updateEventBus: (
+  input: UpdateEventBusRequest,
+) => effect.Effect<
+  UpdateEventBusResponse,
+  | ConcurrentModificationException
+  | InternalException
+  | OperationDisabledException
+  | ResourceNotFoundException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateEventBusRequest,
+  output: UpdateEventBusResponse,
+  errors: [
+    ConcurrentModificationException,
+    InternalException,
+    OperationDisabledException,
+    ResourceNotFoundException,
   ],
 }));

@@ -1,7 +1,7 @@
-import { FetchHttpClient } from "@effect/platform";
 import { config } from "dotenv";
 import { Effect, Layer } from "effect";
-import { Credentials, CredentialsFromEnv } from "../src/credentials";
+import * as FetchHttpClient from "effect/unstable/http/FetchHttpClient";
+import { CredentialsFromEnv } from "../src/credentials";
 
 // Load environment variables from .env file
 config();

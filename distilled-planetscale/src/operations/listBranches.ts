@@ -10,7 +10,7 @@ export const ListBranchesInput = Schema.Struct({
   q: Schema.optional(Schema.String),
   production: Schema.optional(Schema.Boolean),
   safe_migrations: Schema.optional(Schema.Boolean),
-  order: Schema.optional(Schema.Literal("asc", "desc")),
+  order: Schema.optional(Schema.Literals(["asc", "desc"])),
   page: Schema.optional(Schema.Number),
   per_page: Schema.optional(Schema.Number),
 }).pipe(
@@ -37,16 +37,16 @@ export const ListBranchesOutput = Schema.Struct({
       deleted_at: Schema.NullOr(Schema.String),
       restore_checklist_completed_at: Schema.NullOr(Schema.String),
       schema_last_updated_at: Schema.String,
-      kind: Schema.Literal("mysql", "postgresql"),
+      kind: Schema.Literals(["mysql", "postgresql"]),
       mysql_address: Schema.String,
       mysql_edge_address: Schema.String,
-      state: Schema.Literal(
+      state: Schema.Literals([
         "pending",
         "sleep_in_progress",
         "sleeping",
         "awakening",
         "ready",
-      ),
+      ]),
       direct_vtgate: Schema.Boolean,
       vtgate_size: Schema.String,
       vtgate_count: Schema.Number,

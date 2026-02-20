@@ -14,18 +14,15 @@
  * 5. Outputs to src/services/{service}.ts
  */
 
-import { Command as CliCommand, Options } from "@effect/cli";
-import { Command, FileSystem } from "@effect/platform";
-import { NodeContext, NodeRuntime } from "@effect/platform-node";
-import { Console, Effect, Logger, LogLevel } from "effect";
+import { NodeRuntime, NodeServices } from "@effect/platform-node";
+import { Console, Effect, FileSystem } from "effect";
+import * as ChildProcess from "effect/unstable/process/ChildProcess";
 import * as path from "node:path";
 import {
   type ParsedOperation,
   type ServiceInfo,
   type TypeInfo,
   resolveTypeInfoDeep,
-  // Naming functions (still needed for some transformations)
-  buildResourceName,
   singularize,
   toCamelCase,
   toPascalCase,
@@ -69,14 +66,14 @@ const loadOperationPatch = (
 
     const exists = yield* fs
       .exists(patchFile)
-      .pipe(Effect.catchAll(() => Effect.succeed(false)));
+      .pipe(Effect.catch(() => Effect.succeed(false)));
     if (!exists) {
       return undefined;
     }
 
     const content = yield* fs
       .readFileString(patchFile)
-      .pipe(Effect.catchAll(() => Effect.succeed(undefined)));
+      .pipe(Effect.catch(() => Effect.succeed(undefined)));
     if (!content) {
       return undefined;
     }
@@ -155,16 +152,23 @@ function mergeServiceErrors(
     .map(([tag, matchers]) => ({ tag, matchers }));
 }
 
-// CLI Options
-const serviceOption = Options.text("service").pipe(
-  Options.withDescription("Generate only this service (e.g., r2, workers)"),
-  Options.optional,
-);
+// Parse CLI args manually
+const parseArgs = (): { service: string | undefined; debug: boolean } => {
+  const args = process.argv.slice(2);
+  let service: string | undefined;
+  let debug = false;
 
-const debugOption = Options.boolean("debug").pipe(
-  Options.withDescription("Enable debug logging"),
-  Options.withDefault(false),
-);
+  for (let i = 0; i < args.length; i++) {
+    if (args[i] === "--service" && args[i + 1]) {
+      service = args[i + 1];
+      i++;
+    } else if (args[i] === "--debug") {
+      debug = true;
+    }
+  }
+
+  return { service, debug };
+};
 
 /**
  * Convert TypeInfo to Effect Schema code
@@ -210,7 +214,7 @@ function typeInfoToSchema(
       if (type.values.every((v) => v.kind === "unknown")) {
         return "Schema.Unknown";
       }
-      // Check if all values are literals
+      // Check if all values are literals - v4 uses Schema.Literals([...]) for multiple
       const allLiterals = type.values.every((v) => v.kind === "literal");
       if (allLiterals) {
         const literals = type.values.map((v) => {
@@ -219,7 +223,7 @@ function typeInfoToSchema(
           }
           return `"${v.value}"`;
         });
-        return `Schema.Literal(${literals.join(", ")})`;
+        return `Schema.Literals([${literals.join(", ")}])`;
       }
       // General union - de-duplicate and filter unknowns
       const unionParts = type.values
@@ -232,7 +236,7 @@ function typeInfoToSchema(
       if (uniqueUnionParts.length === 1) {
         return uniqueUnionParts[0];
       }
-      return `Schema.Union(${uniqueUnionParts.join(", ")})`;
+      return `Schema.Union([${uniqueUnionParts.join(", ")}])`;
 
     case "array":
       if (!type.elementType) {
@@ -251,6 +255,7 @@ function typeInfoToSchema(
         return "Schema.Unknown";
       }
       if (type.properties && type.properties.length > 0) {
+        const encodeKeysMap: Record<string, string> = {};
         const props = type.properties
           .map((p) => {
             const wireName = p.name;
@@ -259,14 +264,19 @@ function typeInfoToSchema(
             if (!p.required) {
               propSchema = `Schema.optional(${propSchema})`;
             }
-            // Add JsonName if property name differs from wire name (for JSON serialization)
+            // Collect encodeKeys mapping if property name differs from wire name
             if (propName !== wireName) {
-              return `${indent}  ${propName}: ${propSchema}.pipe(T.JsonName("${wireName}"))`;
+              encodeKeysMap[propName] = wireName;
             }
             return `${indent}  ${propName}: ${propSchema}`;
           })
           .join(",\n");
-        return `Schema.Struct({\n${props}\n${indent}})`;
+        // Build encodeKeys pipe if there are any key mappings
+        const encodeKeysPipe =
+          Object.keys(encodeKeysMap).length > 0
+            ? `.pipe(Schema.encodeKeys({ ${Object.entries(encodeKeysMap).map(([k, v]) => `${k}: "${v}"`).join(", ")} }))`
+            : "";
+        return `Schema.Struct({\n${props}\n${indent}})${encodeKeysPipe}`;
       }
       return "Schema.Struct({})";
 
@@ -483,7 +493,8 @@ function generateOperationSchema(
     );
   }
 
-  // Add body params
+  // Add body params and collect encodeKeys mappings
+  const encodeKeysMap: Record<string, string> = {};
   for (const param of resolvedBodyParams) {
     const propName = toCamelCase(param.name);
     const wireName = param.name;
@@ -491,14 +502,11 @@ function generateOperationSchema(
     if (!param.required) {
       schema = `Schema.optional(${schema})`;
     }
-    // Add JsonName if property name differs from wire name (for JSON body serialization)
+    // Collect encodeKeys mapping if property name differs from wire name
     if (propName !== wireName) {
-      requestProps.push(
-        `  ${propName}: ${schema}.pipe(T.JsonName("${wireName}"))`,
-      );
-    } else {
-      requestProps.push(`  ${propName}: ${schema}`);
+      encodeKeysMap[propName] = wireName;
     }
+    requestProps.push(`  ${propName}: ${schema}`);
   }
 
   // Convert URL template to OpenAPI style
@@ -509,13 +517,24 @@ function generateOperationSchema(
     lines.push(requestProps.join(",\n"));
   }
   lines.push(`})`);
+  
+  // Build pipes: encodeKeys for body param renaming, then Http trait
+  const pipes: string[] = [];
+  if (Object.keys(encodeKeysMap).length > 0) {
+    const encodeKeysEntries = Object.entries(encodeKeysMap)
+      .map(([k, v]) => `${k}: "${v}"`)
+      .join(", ");
+    pipes.push(`Schema.encodeKeys({ ${encodeKeysEntries} })`);
+  }
   // Add contentType: "multipart" when operation has file uploads
   const hasFiles = operationHasFiles(op);
   const httpTrait = hasFiles
     ? `T.Http({ method: "${op.httpMethod}", path: "${openApiPath}", contentType: "multipart" })`
     : `T.Http({ method: "${op.httpMethod}", path: "${openApiPath}" })`;
+  pipes.push(httpTrait);
+  
   lines.push(
-    `  .pipe(${httpTrait}) as unknown as Schema.Schema<${requestTypeName}>;`,
+    `  .pipe(${pipes.join(", ")}) as unknown as Schema.Schema<${requestTypeName}>;`,
   );
   lines.push("");
 
@@ -575,7 +594,8 @@ function generateOperationSchema(
     lines.push(`}`);
     lines.push("");
 
-    // Generate schema with resolved types
+    // Generate schema with resolved types and collect encodeKeys mappings
+    const responseEncodeKeysMap: Record<string, string> = {};
     const responseProps = resolvedResponseType.properties.map((prop) => {
       const wireName = prop.name;
       const propName = toCamelCase(wireName);
@@ -583,18 +603,24 @@ function generateOperationSchema(
       if (!prop.required) {
         schema = `Schema.optional(${schema})`;
       }
-      // Add JsonName if property name differs from wire name
+      // Collect encodeKeys mapping if property name differs from wire name
       if (propName !== wireName) {
-        return `  ${propName}: ${schema}.pipe(T.JsonName("${wireName}"))`;
+        responseEncodeKeysMap[propName] = wireName;
       }
       return `  ${propName}: ${schema}`;
     });
+
+    // Build encodeKeys pipe if there are any key mappings
+    const responseEncodeKeysPipe =
+      Object.keys(responseEncodeKeysMap).length > 0
+        ? `.pipe(Schema.encodeKeys({ ${Object.entries(responseEncodeKeysMap).map(([k, v]) => `${k}: "${v}"`).join(", ")} }))`
+        : "";
 
     lines.push(`export const ${responseTypeName} = Schema.Struct({`);
     if (responseProps.length > 0) {
       lines.push(responseProps.join(",\n"));
     }
-    lines.push(`}) as unknown as Schema.Schema<${responseTypeName}>;`);
+    lines.push(`})${responseEncodeKeysPipe} as unknown as Schema.Schema<${responseTypeName}>;`);
     lines.push("");
   } else {
     // Fallback to unknown if we can't resolve the response type
@@ -823,7 +849,9 @@ function generateServiceFile(
   // Imports
   lines.push(`import * as Effect from "effect/Effect";`);
   lines.push(`import * as Schema from "effect/Schema";`);
-  lines.push(`import type { HttpClient } from "@effect/platform";`);
+  lines.push(
+    `import type * as HttpClient from "effect/unstable/http/HttpClient";`,
+  );
   lines.push(`import * as API from "../client/api.ts";`);
   lines.push(`import * as T from "../traits.ts";`);
   lines.push(`import type { ApiToken } from "../auth.ts";`);
@@ -847,7 +875,7 @@ function generateServiceFile(
     lines.push(`// ${"=".repeat(77)}`);
     lines.push("");
     for (const { tag, matchers } of mergedErrors) {
-      lines.push(`export class ${tag} extends Schema.TaggedError<${tag}>()(
+      lines.push(`export class ${tag} extends Schema.TaggedErrorClass<${tag}>()(
   "${tag}",
   { code: Schema.Number, message: Schema.String }
 ).pipe(T.HttpErrorMatchers(${JSON.stringify(matchers)})) {}`);
@@ -932,43 +960,35 @@ const generateCode = (services: ServiceInfo[], options: GenerateOptions) =>
 
     // Format generated files
     yield* Console.log("Formatting generated files...");
-    yield* Command.make("bun", "oxfmt", outputPath).pipe(Command.string);
+    yield* ChildProcess.make("bun oxfmt", {
+      cwd: outputPath,
+      shell: true,
+    }).pipe(ChildProcess.string);
 
     yield* Console.log("Done!");
   });
 
-const command = CliCommand.make(
-  "generate-from-sdk",
-  { service: serviceOption, debug: debugOption },
-  ({ service, debug }) =>
-    Effect.gen(function* () {
-      const basePath = path.resolve(SDK_PATH);
+const main = Effect.gen(function* () {
+  const { service, debug } = parseArgs();
+  const basePath = path.resolve(SDK_PATH);
 
-      yield* Console.log(`Parsing SDK from: ${basePath}`);
+  yield* Console.log(`Parsing SDK from: ${basePath}`);
 
-      if (service._tag === "Some") {
-        yield* Console.log(`Filtering to service: ${service.value}`);
-      }
+  if (service) {
+    yield* Console.log(`Filtering to service: ${service}`);
+  }
 
-      // Parse all services
-      const services = yield* parseCode({
-        basePath,
-        serviceFilter: service._tag === "Some" ? service.value : undefined,
-      });
+  // Parse all services
+  const services = yield* parseCode({
+    basePath,
+    serviceFilter: service,
+  });
 
-      const outputPath = path.resolve(OUTPUT_PATH);
-      yield* generateCode(services, { outputPath, debug });
-    }),
-);
-
-// Run the command
-const cli = CliCommand.run(command, {
-  name: "generate-from-sdk",
-  version: "1.0.0",
+  const outputPath = path.resolve(OUTPUT_PATH);
+  yield* generateCode(services, { outputPath, debug });
 });
 
-Effect.suspend(() => cli(process.argv)).pipe(
-  Effect.provide(NodeContext.layer),
-  Logger.withMinimumLogLevel(LogLevel.Info),
+main.pipe(
+  Effect.provide(NodeServices.layer),
   NodeRuntime.runMain,
 );

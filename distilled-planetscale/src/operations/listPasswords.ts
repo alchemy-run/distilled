@@ -30,7 +30,7 @@ export const ListPasswordsOutput = Schema.Struct({
     Schema.Struct({
       id: Schema.String,
       name: Schema.String,
-      role: Schema.Literal("reader", "writer", "admin", "readwriter"),
+      role: Schema.Literals(["reader", "writer", "admin", "readwriter"]),
       cidrs: Schema.Array(Schema.String),
       created_at: Schema.String,
       deleted_at: Schema.String,

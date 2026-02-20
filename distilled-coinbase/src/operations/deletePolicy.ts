@@ -1,12 +1,19 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
-import { AlreadyExists, IdempotencyError, NotFound, PolicyInUse } from "../errors";
+import {
+  AlreadyExists,
+  IdempotencyError,
+  NotFound,
+  PolicyInUse,
+} from "../errors";
 
 // Input Schema
 export const DeletePolicyInput = Schema.Struct({
   policyId: Schema.String.pipe(T.PathParam()),
-}).pipe(T.Http({ method: "DELETE", path: "/v2/policy-engine/policies/{policyId}" }));
+}).pipe(
+  T.Http({ method: "DELETE", path: "/v2/policy-engine/policies/{policyId}" }),
+);
 export type DeletePolicyInput = typeof DeletePolicyInput.Type;
 
 // Output Schema

@@ -7,7 +7,7 @@
 
 import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
-import type { HttpClient } from "@effect/platform";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
@@ -44,13 +44,16 @@ export interface GetTotalTlResponse {
 
 export const GetTotalTlResponse = Schema.Struct({
   certificateAuthority: Schema.optional(
-    Schema.Literal("google", "lets_encrypt", "ssl_com"),
-  ).pipe(T.JsonName("certificate_authority")),
-  enabled: Schema.optional(Schema.Boolean),
-  validityPeriod: Schema.optional(Schema.Literal("90")).pipe(
-    T.JsonName("validity_period"),
+    Schema.Literals(["google", "lets_encrypt", "ssl_com"]),
   ),
-}) as unknown as Schema.Schema<GetTotalTlResponse>;
+  enabled: Schema.optional(Schema.Boolean),
+  validityPeriod: Schema.optional(Schema.Literal("90")),
+}).pipe(
+  Schema.encodeKeys({
+    certificateAuthority: "certificate_authority",
+    validityPeriod: "validity_period",
+  }),
+) as unknown as Schema.Schema<GetTotalTlResponse>;
 
 export const getTotalTl: (
   input: GetTotalTlRequest,
@@ -77,9 +80,10 @@ export const CreateTotalTlRequest = Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
   enabled: Schema.Boolean,
   certificateAuthority: Schema.optional(
-    Schema.Literal("google", "lets_encrypt", "ssl_com"),
-  ).pipe(T.JsonName("certificate_authority")),
+    Schema.Literals(["google", "lets_encrypt", "ssl_com"]),
+  ),
 }).pipe(
+  Schema.encodeKeys({ certificateAuthority: "certificate_authority" }),
   T.Http({ method: "POST", path: "/zones/{zone_id}/acm/total_tls" }),
 ) as unknown as Schema.Schema<CreateTotalTlRequest>;
 
@@ -94,13 +98,16 @@ export interface CreateTotalTlResponse {
 
 export const CreateTotalTlResponse = Schema.Struct({
   certificateAuthority: Schema.optional(
-    Schema.Literal("google", "lets_encrypt", "ssl_com"),
-  ).pipe(T.JsonName("certificate_authority")),
-  enabled: Schema.optional(Schema.Boolean),
-  validityPeriod: Schema.optional(Schema.Literal("90")).pipe(
-    T.JsonName("validity_period"),
+    Schema.Literals(["google", "lets_encrypt", "ssl_com"]),
   ),
-}) as unknown as Schema.Schema<CreateTotalTlResponse>;
+  enabled: Schema.optional(Schema.Boolean),
+  validityPeriod: Schema.optional(Schema.Literal("90")),
+}).pipe(
+  Schema.encodeKeys({
+    certificateAuthority: "certificate_authority",
+    validityPeriod: "validity_period",
+  }),
+) as unknown as Schema.Schema<CreateTotalTlResponse>;
 
 export const createTotalTl: (
   input: CreateTotalTlRequest,

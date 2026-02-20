@@ -10,7 +10,7 @@ export const CreateBackupInput = Schema.Struct({
   branch: Schema.String.pipe(T.PathParam()),
   name: Schema.optional(Schema.String),
   retention_unit: Schema.optional(
-    Schema.Literal("hour", "day", "week", "month", "year"),
+    Schema.Literals(["hour", "day", "week", "month", "year"]),
   ),
   retention_value: Schema.optional(Schema.Number),
   emergency: Schema.optional(Schema.Boolean),
@@ -26,14 +26,14 @@ export type CreateBackupInput = typeof CreateBackupInput.Type;
 export const CreateBackupOutput = Schema.Struct({
   id: Schema.String,
   name: Schema.String,
-  state: Schema.Literal(
+  state: Schema.Literals([
     "pending",
     "running",
     "success",
     "failed",
     "canceled",
     "ignored",
-  ),
+  ]),
   size: Schema.Number,
   estimated_storage_cost: Schema.Number,
   created_at: Schema.String,
@@ -63,7 +63,7 @@ export const CreateBackupOutput = Schema.Struct({
     Schema.Struct({
       id: Schema.String,
       name: Schema.String,
-      target: Schema.Literal("production", "development"),
+      target: Schema.Literals(["production", "development"]),
       retention_value: Schema.Number,
       retention_unit: Schema.String,
       frequency_value: Schema.Number,

@@ -1,4 +1,4 @@
-import { HttpClient } from "@effect/platform";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as effect from "effect/Effect";
 import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
@@ -67,34 +67,179 @@ const rules = T.EndpointResolver((p, _) => {
 
 //# Newtypes
 export type AccountIdString = string;
-export type InvoiceUnitName = string;
-export type DescriptionString = string;
-export type TaxInheritanceDisabledFlag = boolean;
 export type BasicStringWithoutSpace = string;
+export type BasicString = string;
 export type SensitiveBasicStringWithoutSpace =
   | string
   | redacted.Redacted<string>;
 export type InvoiceUnitArnString = string;
+export type InvoiceUnitName = string;
+export type DescriptionString = string;
+export type TaxInheritanceDisabledFlag = boolean;
+export type ResourceTagKey = string;
+export type ResourceTagValue = string;
+export type EmailString = string;
 export type ProcurementPortalPreferenceArnString = string;
 export type StringWithoutNewLine = string;
 export type AsOfTimestamp = Date;
-export type NextTokenString = string;
-export type InvoiceSummariesMaxResults = number;
-export type MaxResultsInteger = number;
-export type MaxResults = number;
-export type TagrisArn = string;
-export type ResourceTagKey = string;
-export type BasicString = string;
-export type ResourceTagValue = string;
-export type EmailString = string;
 export type LastModifiedTimestamp = Date;
 export type Month = number;
 export type Year = number;
+export type NextTokenString = string;
+export type InvoiceSummariesMaxResults = number;
 export type CurrencyCode = string;
+export type MaxResultsInteger = number;
+export type MaxResults = number;
+export type TagrisArn = string;
 
 //# Schemas
 export type AccountIdList = string[];
 export const AccountIdList = S.Array(S.String);
+export interface BatchGetInvoiceProfileRequest {
+  AccountIds: string[];
+}
+export const BatchGetInvoiceProfileRequest = S.suspend(() =>
+  S.Struct({ AccountIds: AccountIdList }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "BatchGetInvoiceProfileRequest",
+}) as any as S.Schema<BatchGetInvoiceProfileRequest>;
+export interface ReceiverAddress {
+  AddressLine1?: string;
+  AddressLine2?: string;
+  AddressLine3?: string;
+  DistrictOrCounty?: string;
+  City?: string;
+  StateOrRegion?: string;
+  CountryCode?: string;
+  CompanyName?: string;
+  PostalCode?: string;
+}
+export const ReceiverAddress = S.suspend(() =>
+  S.Struct({
+    AddressLine1: S.optional(S.String),
+    AddressLine2: S.optional(S.String),
+    AddressLine3: S.optional(S.String),
+    DistrictOrCounty: S.optional(S.String),
+    City: S.optional(S.String),
+    StateOrRegion: S.optional(S.String),
+    CountryCode: S.optional(S.String),
+    CompanyName: S.optional(S.String),
+    PostalCode: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ReceiverAddress",
+}) as any as S.Schema<ReceiverAddress>;
+export interface InvoiceProfile {
+  AccountId?: string;
+  ReceiverName?: string;
+  ReceiverAddress?: ReceiverAddress;
+  ReceiverEmail?: string | redacted.Redacted<string>;
+  Issuer?: string;
+  TaxRegistrationNumber?: string | redacted.Redacted<string>;
+}
+export const InvoiceProfile = S.suspend(() =>
+  S.Struct({
+    AccountId: S.optional(S.String),
+    ReceiverName: S.optional(S.String),
+    ReceiverAddress: S.optional(ReceiverAddress),
+    ReceiverEmail: S.optional(SensitiveString),
+    Issuer: S.optional(S.String),
+    TaxRegistrationNumber: S.optional(SensitiveString),
+  }),
+).annotate({ identifier: "InvoiceProfile" }) as any as S.Schema<InvoiceProfile>;
+export type ProfileList = InvoiceProfile[];
+export const ProfileList = S.Array(InvoiceProfile);
+export interface BatchGetInvoiceProfileResponse {
+  Profiles?: InvoiceProfile[];
+}
+export const BatchGetInvoiceProfileResponse = S.suspend(() =>
+  S.Struct({ Profiles: S.optional(ProfileList) }),
+).annotate({
+  identifier: "BatchGetInvoiceProfileResponse",
+}) as any as S.Schema<BatchGetInvoiceProfileResponse>;
+export type ValidationExceptionReason =
+  | "nonMemberPresent"
+  | "maxAccountsExceeded"
+  | "maxInvoiceUnitsExceeded"
+  | "duplicateInvoiceUnit"
+  | "mutualExclusionError"
+  | "accountMembershipError"
+  | "taxSettingsError"
+  | "expiredNextToken"
+  | "invalidNextToken"
+  | "invalidInput"
+  | "fieldValidationFailed"
+  | "cannotParse"
+  | "unknownOperation"
+  | "other"
+  | (string & {});
+export const ValidationExceptionReason = S.String;
+export interface ValidationExceptionField {
+  name: string;
+  message: string;
+}
+export const ValidationExceptionField = S.suspend(() =>
+  S.Struct({ name: S.String, message: S.String }),
+).annotate({
+  identifier: "ValidationExceptionField",
+}) as any as S.Schema<ValidationExceptionField>;
+export type ValidationExceptionFieldList = ValidationExceptionField[];
+export const ValidationExceptionFieldList = S.Array(ValidationExceptionField);
+export type RuleAccountIdList = string[];
+export const RuleAccountIdList = S.Array(S.String);
+export interface InvoiceUnitRule {
+  LinkedAccounts?: string[];
+  BillSourceAccounts?: string[];
+}
+export const InvoiceUnitRule = S.suspend(() =>
+  S.Struct({
+    LinkedAccounts: S.optional(RuleAccountIdList),
+    BillSourceAccounts: S.optional(RuleAccountIdList),
+  }),
+).annotate({
+  identifier: "InvoiceUnitRule",
+}) as any as S.Schema<InvoiceUnitRule>;
+export interface ResourceTag {
+  Key: string;
+  Value: string;
+}
+export const ResourceTag = S.suspend(() =>
+  S.Struct({ Key: S.String, Value: S.String }),
+).annotate({ identifier: "ResourceTag" }) as any as S.Schema<ResourceTag>;
+export type ResourceTagList = ResourceTag[];
+export const ResourceTagList = S.Array(ResourceTag);
+export interface CreateInvoiceUnitRequest {
+  Name: string;
+  InvoiceReceiver: string;
+  Description?: string;
+  TaxInheritanceDisabled?: boolean;
+  Rule: InvoiceUnitRule;
+  ResourceTags?: ResourceTag[];
+}
+export const CreateInvoiceUnitRequest = S.suspend(() =>
+  S.Struct({
+    Name: S.String,
+    InvoiceReceiver: S.String,
+    Description: S.optional(S.String),
+    TaxInheritanceDisabled: S.optional(S.Boolean),
+    Rule: InvoiceUnitRule,
+    ResourceTags: S.optional(ResourceTagList),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "CreateInvoiceUnitRequest",
+}) as any as S.Schema<CreateInvoiceUnitRequest>;
+export interface CreateInvoiceUnitResponse {
+  InvoiceUnitArn?: string;
+}
+export const CreateInvoiceUnitResponse = S.suspend(() =>
+  S.Struct({ InvoiceUnitArn: S.optional(S.String) }),
+).annotate({
+  identifier: "CreateInvoiceUnitResponse",
+}) as any as S.Schema<CreateInvoiceUnitResponse>;
 export type ProcurementPortalName =
   | "SAP_BUSINESS_NETWORK"
   | "COUPA"
@@ -104,105 +249,6 @@ export type BuyerDomain = "NetworkID" | (string & {});
 export const BuyerDomain = S.String;
 export type SupplierDomain = "NetworkID" | (string & {});
 export const SupplierDomain = S.String;
-export type ResourceTagKeyList = string[];
-export const ResourceTagKeyList = S.Array(S.String);
-export type ProcurementPortalPreferenceStatus =
-  | "PENDING_VERIFICATION"
-  | "TEST_INITIALIZED"
-  | "TEST_INITIALIZATION_FAILED"
-  | "TEST_FAILED"
-  | "ACTIVE"
-  | "SUSPENDED"
-  | (string & {});
-export const ProcurementPortalPreferenceStatus = S.String;
-export interface BatchGetInvoiceProfileRequest {
-  AccountIds: string[];
-}
-export const BatchGetInvoiceProfileRequest = S.suspend(() =>
-  S.Struct({ AccountIds: AccountIdList }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotations({
-  identifier: "BatchGetInvoiceProfileRequest",
-}) as any as S.Schema<BatchGetInvoiceProfileRequest>;
-export interface DeleteInvoiceUnitRequest {
-  InvoiceUnitArn: string;
-}
-export const DeleteInvoiceUnitRequest = S.suspend(() =>
-  S.Struct({ InvoiceUnitArn: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotations({
-  identifier: "DeleteInvoiceUnitRequest",
-}) as any as S.Schema<DeleteInvoiceUnitRequest>;
-export interface DeleteProcurementPortalPreferenceRequest {
-  ProcurementPortalPreferenceArn: string;
-}
-export const DeleteProcurementPortalPreferenceRequest = S.suspend(() =>
-  S.Struct({ ProcurementPortalPreferenceArn: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotations({
-  identifier: "DeleteProcurementPortalPreferenceRequest",
-}) as any as S.Schema<DeleteProcurementPortalPreferenceRequest>;
-export interface GetInvoicePDFRequest {
-  InvoiceId: string;
-}
-export const GetInvoicePDFRequest = S.suspend(() =>
-  S.Struct({ InvoiceId: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotations({
-  identifier: "GetInvoicePDFRequest",
-}) as any as S.Schema<GetInvoicePDFRequest>;
-export interface GetInvoiceUnitRequest {
-  InvoiceUnitArn: string;
-  AsOf?: Date;
-}
-export const GetInvoiceUnitRequest = S.suspend(() =>
-  S.Struct({
-    InvoiceUnitArn: S.String,
-    AsOf: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotations({
-  identifier: "GetInvoiceUnitRequest",
-}) as any as S.Schema<GetInvoiceUnitRequest>;
-export interface GetProcurementPortalPreferenceRequest {
-  ProcurementPortalPreferenceArn: string;
-}
-export const GetProcurementPortalPreferenceRequest = S.suspend(() =>
-  S.Struct({ ProcurementPortalPreferenceArn: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotations({
-  identifier: "GetProcurementPortalPreferenceRequest",
-}) as any as S.Schema<GetProcurementPortalPreferenceRequest>;
-export interface ListProcurementPortalPreferencesRequest {
-  NextToken?: string;
-  MaxResults?: number;
-}
-export const ListProcurementPortalPreferencesRequest = S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotations({
-  identifier: "ListProcurementPortalPreferencesRequest",
-}) as any as S.Schema<ListProcurementPortalPreferencesRequest>;
-export interface ListTagsForResourceRequest {
-  ResourceArn: string;
-}
-export const ListTagsForResourceRequest = S.suspend(() =>
-  S.Struct({ ResourceArn: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotations({
-  identifier: "ListTagsForResourceRequest",
-}) as any as S.Schema<ListTagsForResourceRequest>;
 export type InvoiceUnitArns = string[];
 export const InvoiceUnitArns = S.Array(S.String);
 export type SellerOfRecords = string[];
@@ -216,7 +262,7 @@ export const ProcurementPortalPreferenceSelector = S.suspend(() =>
     InvoiceUnitArns: S.optional(InvoiceUnitArns),
     SellerOfRecords: S.optional(SellerOfRecords),
   }),
-).annotations({
+).annotate({
   identifier: "ProcurementPortalPreferenceSelector",
 }) as any as S.Schema<ProcurementPortalPreferenceSelector>;
 export interface TestEnvPreferenceInput {
@@ -236,7 +282,7 @@ export const TestEnvPreferenceInput = S.suspend(() =>
     ProcurementPortalSharedSecret: S.optional(S.String),
     ProcurementPortalInstanceEndpoint: S.optional(S.String),
   }),
-).annotations({
+).annotate({
   identifier: "TestEnvPreferenceInput",
 }) as any as S.Schema<TestEnvPreferenceInput>;
 export type EinvoiceDeliveryDocumentType =
@@ -276,7 +322,7 @@ export const PurchaseOrderDataSource = S.suspend(() =>
     EinvoiceDeliveryDocumentType: S.optional(EinvoiceDeliveryDocumentType),
     PurchaseOrderDataSourceType: S.optional(PurchaseOrderDataSourceType),
   }),
-).annotations({
+).annotate({
   identifier: "PurchaseOrderDataSource",
 }) as any as S.Schema<PurchaseOrderDataSource>;
 export type PurchaseOrderDataSources = PurchaseOrderDataSource[];
@@ -307,7 +353,7 @@ export const EinvoiceDeliveryPreference = S.suspend(() =>
       T.TimestampFormat("epoch-seconds"),
     ),
   }),
-).annotations({
+).annotate({
   identifier: "EinvoiceDeliveryPreference",
 }) as any as S.Schema<EinvoiceDeliveryPreference>;
 export interface Contact {
@@ -316,364 +362,9 @@ export interface Contact {
 }
 export const Contact = S.suspend(() =>
   S.Struct({ Name: S.optional(S.String), Email: S.optional(S.String) }),
-).annotations({ identifier: "Contact" }) as any as S.Schema<Contact>;
+).annotate({ identifier: "Contact" }) as any as S.Schema<Contact>;
 export type Contacts = Contact[];
 export const Contacts = S.Array(Contact);
-export interface PutProcurementPortalPreferenceRequest {
-  ProcurementPortalPreferenceArn: string;
-  Selector?: ProcurementPortalPreferenceSelector;
-  ProcurementPortalSharedSecret?: string | redacted.Redacted<string>;
-  ProcurementPortalInstanceEndpoint?: string;
-  TestEnvPreference?: TestEnvPreferenceInput;
-  EinvoiceDeliveryEnabled: boolean;
-  EinvoiceDeliveryPreference?: EinvoiceDeliveryPreference;
-  PurchaseOrderRetrievalEnabled: boolean;
-  Contacts: Contact[];
-}
-export const PutProcurementPortalPreferenceRequest = S.suspend(() =>
-  S.Struct({
-    ProcurementPortalPreferenceArn: S.String,
-    Selector: S.optional(ProcurementPortalPreferenceSelector),
-    ProcurementPortalSharedSecret: S.optional(SensitiveString),
-    ProcurementPortalInstanceEndpoint: S.optional(S.String),
-    TestEnvPreference: S.optional(TestEnvPreferenceInput),
-    EinvoiceDeliveryEnabled: S.Boolean,
-    EinvoiceDeliveryPreference: S.optional(EinvoiceDeliveryPreference),
-    PurchaseOrderRetrievalEnabled: S.Boolean,
-    Contacts: Contacts,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotations({
-  identifier: "PutProcurementPortalPreferenceRequest",
-}) as any as S.Schema<PutProcurementPortalPreferenceRequest>;
-export interface ResourceTag {
-  Key: string;
-  Value: string;
-}
-export const ResourceTag = S.suspend(() =>
-  S.Struct({ Key: S.String, Value: S.String }),
-).annotations({ identifier: "ResourceTag" }) as any as S.Schema<ResourceTag>;
-export type ResourceTagList = ResourceTag[];
-export const ResourceTagList = S.Array(ResourceTag);
-export interface TagResourceRequest {
-  ResourceArn: string;
-  ResourceTags: ResourceTag[];
-}
-export const TagResourceRequest = S.suspend(() =>
-  S.Struct({ ResourceArn: S.String, ResourceTags: ResourceTagList }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotations({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
-export interface TagResourceResponse {}
-export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
-  identifier: "TagResourceResponse",
-}) as any as S.Schema<TagResourceResponse>;
-export interface UntagResourceRequest {
-  ResourceArn: string;
-  ResourceTagKeys: string[];
-}
-export const UntagResourceRequest = S.suspend(() =>
-  S.Struct({ ResourceArn: S.String, ResourceTagKeys: ResourceTagKeyList }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotations({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
-export interface UntagResourceResponse {}
-export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
-  identifier: "UntagResourceResponse",
-}) as any as S.Schema<UntagResourceResponse>;
-export type RuleAccountIdList = string[];
-export const RuleAccountIdList = S.Array(S.String);
-export interface InvoiceUnitRule {
-  LinkedAccounts?: string[];
-  BillSourceAccounts?: string[];
-}
-export const InvoiceUnitRule = S.suspend(() =>
-  S.Struct({
-    LinkedAccounts: S.optional(RuleAccountIdList),
-    BillSourceAccounts: S.optional(RuleAccountIdList),
-  }),
-).annotations({
-  identifier: "InvoiceUnitRule",
-}) as any as S.Schema<InvoiceUnitRule>;
-export interface UpdateInvoiceUnitRequest {
-  InvoiceUnitArn: string;
-  Description?: string;
-  TaxInheritanceDisabled?: boolean;
-  Rule?: InvoiceUnitRule;
-}
-export const UpdateInvoiceUnitRequest = S.suspend(() =>
-  S.Struct({
-    InvoiceUnitArn: S.String,
-    Description: S.optional(S.String),
-    TaxInheritanceDisabled: S.optional(S.Boolean),
-    Rule: S.optional(InvoiceUnitRule),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotations({
-  identifier: "UpdateInvoiceUnitRequest",
-}) as any as S.Schema<UpdateInvoiceUnitRequest>;
-export interface UpdateProcurementPortalPreferenceStatusRequest {
-  ProcurementPortalPreferenceArn: string;
-  EinvoiceDeliveryPreferenceStatus?: ProcurementPortalPreferenceStatus;
-  EinvoiceDeliveryPreferenceStatusReason?: string;
-  PurchaseOrderRetrievalPreferenceStatus?: ProcurementPortalPreferenceStatus;
-  PurchaseOrderRetrievalPreferenceStatusReason?: string;
-}
-export const UpdateProcurementPortalPreferenceStatusRequest = S.suspend(() =>
-  S.Struct({
-    ProcurementPortalPreferenceArn: S.String,
-    EinvoiceDeliveryPreferenceStatus: S.optional(
-      ProcurementPortalPreferenceStatus,
-    ),
-    EinvoiceDeliveryPreferenceStatusReason: S.optional(S.String),
-    PurchaseOrderRetrievalPreferenceStatus: S.optional(
-      ProcurementPortalPreferenceStatus,
-    ),
-    PurchaseOrderRetrievalPreferenceStatusReason: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotations({
-  identifier: "UpdateProcurementPortalPreferenceStatusRequest",
-}) as any as S.Schema<UpdateProcurementPortalPreferenceStatusRequest>;
-export type ListInvoiceSummariesResourceType =
-  | "ACCOUNT_ID"
-  | "INVOICE_ID"
-  | (string & {});
-export const ListInvoiceSummariesResourceType = S.String;
-export type InvoiceUnitNames = string[];
-export const InvoiceUnitNames = S.Array(S.String);
-export interface InvoiceSummariesSelector {
-  ResourceType: ListInvoiceSummariesResourceType;
-  Value: string;
-}
-export const InvoiceSummariesSelector = S.suspend(() =>
-  S.Struct({ ResourceType: ListInvoiceSummariesResourceType, Value: S.String }),
-).annotations({
-  identifier: "InvoiceSummariesSelector",
-}) as any as S.Schema<InvoiceSummariesSelector>;
-export interface Filters {
-  Names?: string[];
-  InvoiceReceivers?: string[];
-  Accounts?: string[];
-  BillSourceAccounts?: string[];
-}
-export const Filters = S.suspend(() =>
-  S.Struct({
-    Names: S.optional(InvoiceUnitNames),
-    InvoiceReceivers: S.optional(AccountIdList),
-    Accounts: S.optional(AccountIdList),
-    BillSourceAccounts: S.optional(AccountIdList),
-  }),
-).annotations({ identifier: "Filters" }) as any as S.Schema<Filters>;
-export interface CreateInvoiceUnitRequest {
-  Name: string;
-  InvoiceReceiver: string;
-  Description?: string;
-  TaxInheritanceDisabled?: boolean;
-  Rule: InvoiceUnitRule;
-  ResourceTags?: ResourceTag[];
-}
-export const CreateInvoiceUnitRequest = S.suspend(() =>
-  S.Struct({
-    Name: S.String,
-    InvoiceReceiver: S.String,
-    Description: S.optional(S.String),
-    TaxInheritanceDisabled: S.optional(S.Boolean),
-    Rule: InvoiceUnitRule,
-    ResourceTags: S.optional(ResourceTagList),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotations({
-  identifier: "CreateInvoiceUnitRequest",
-}) as any as S.Schema<CreateInvoiceUnitRequest>;
-export interface DeleteInvoiceUnitResponse {
-  InvoiceUnitArn?: string;
-}
-export const DeleteInvoiceUnitResponse = S.suspend(() =>
-  S.Struct({ InvoiceUnitArn: S.optional(S.String) }),
-).annotations({
-  identifier: "DeleteInvoiceUnitResponse",
-}) as any as S.Schema<DeleteInvoiceUnitResponse>;
-export interface DeleteProcurementPortalPreferenceResponse {
-  ProcurementPortalPreferenceArn: string;
-}
-export const DeleteProcurementPortalPreferenceResponse = S.suspend(() =>
-  S.Struct({ ProcurementPortalPreferenceArn: S.String }),
-).annotations({
-  identifier: "DeleteProcurementPortalPreferenceResponse",
-}) as any as S.Schema<DeleteProcurementPortalPreferenceResponse>;
-export interface GetInvoiceUnitResponse {
-  InvoiceUnitArn?: string;
-  InvoiceReceiver?: string;
-  Name?: string;
-  Description?: string;
-  TaxInheritanceDisabled?: boolean;
-  Rule?: InvoiceUnitRule;
-  LastModified?: Date;
-}
-export const GetInvoiceUnitResponse = S.suspend(() =>
-  S.Struct({
-    InvoiceUnitArn: S.optional(S.String),
-    InvoiceReceiver: S.optional(S.String),
-    Name: S.optional(S.String),
-    Description: S.optional(S.String),
-    TaxInheritanceDisabled: S.optional(S.Boolean),
-    Rule: S.optional(InvoiceUnitRule),
-    LastModified: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }),
-).annotations({
-  identifier: "GetInvoiceUnitResponse",
-}) as any as S.Schema<GetInvoiceUnitResponse>;
-export interface ListInvoiceUnitsRequest {
-  Filters?: Filters;
-  NextToken?: string;
-  MaxResults?: number;
-  AsOf?: Date;
-}
-export const ListInvoiceUnitsRequest = S.suspend(() =>
-  S.Struct({
-    Filters: S.optional(Filters),
-    NextToken: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-    AsOf: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotations({
-  identifier: "ListInvoiceUnitsRequest",
-}) as any as S.Schema<ListInvoiceUnitsRequest>;
-export interface ListTagsForResourceResponse {
-  ResourceTags?: ResourceTag[];
-}
-export const ListTagsForResourceResponse = S.suspend(() =>
-  S.Struct({ ResourceTags: S.optional(ResourceTagList) }),
-).annotations({
-  identifier: "ListTagsForResourceResponse",
-}) as any as S.Schema<ListTagsForResourceResponse>;
-export interface PutProcurementPortalPreferenceResponse {
-  ProcurementPortalPreferenceArn: string;
-}
-export const PutProcurementPortalPreferenceResponse = S.suspend(() =>
-  S.Struct({ ProcurementPortalPreferenceArn: S.String }),
-).annotations({
-  identifier: "PutProcurementPortalPreferenceResponse",
-}) as any as S.Schema<PutProcurementPortalPreferenceResponse>;
-export interface UpdateInvoiceUnitResponse {
-  InvoiceUnitArn?: string;
-}
-export const UpdateInvoiceUnitResponse = S.suspend(() =>
-  S.Struct({ InvoiceUnitArn: S.optional(S.String) }),
-).annotations({
-  identifier: "UpdateInvoiceUnitResponse",
-}) as any as S.Schema<UpdateInvoiceUnitResponse>;
-export interface UpdateProcurementPortalPreferenceStatusResponse {
-  ProcurementPortalPreferenceArn: string;
-}
-export const UpdateProcurementPortalPreferenceStatusResponse = S.suspend(() =>
-  S.Struct({ ProcurementPortalPreferenceArn: S.String }),
-).annotations({
-  identifier: "UpdateProcurementPortalPreferenceStatusResponse",
-}) as any as S.Schema<UpdateProcurementPortalPreferenceStatusResponse>;
-export interface DateInterval {
-  StartDate: Date;
-  EndDate: Date;
-}
-export const DateInterval = S.suspend(() =>
-  S.Struct({
-    StartDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    EndDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  }),
-).annotations({ identifier: "DateInterval" }) as any as S.Schema<DateInterval>;
-export interface BillingPeriod {
-  Month: number;
-  Year: number;
-}
-export const BillingPeriod = S.suspend(() =>
-  S.Struct({ Month: S.Number, Year: S.Number }),
-).annotations({
-  identifier: "BillingPeriod",
-}) as any as S.Schema<BillingPeriod>;
-export interface InvoiceSummariesFilter {
-  TimeInterval?: DateInterval;
-  BillingPeriod?: BillingPeriod;
-  InvoicingEntity?: string;
-}
-export const InvoiceSummariesFilter = S.suspend(() =>
-  S.Struct({
-    TimeInterval: S.optional(DateInterval),
-    BillingPeriod: S.optional(BillingPeriod),
-    InvoicingEntity: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "InvoiceSummariesFilter",
-}) as any as S.Schema<InvoiceSummariesFilter>;
-export interface ProcurementPortalPreferenceSummary {
-  AwsAccountId: string;
-  ProcurementPortalPreferenceArn: string;
-  ProcurementPortalName: ProcurementPortalName;
-  BuyerDomain: BuyerDomain;
-  BuyerIdentifier: string;
-  SupplierDomain: SupplierDomain;
-  SupplierIdentifier: string;
-  Selector?: ProcurementPortalPreferenceSelector;
-  EinvoiceDeliveryEnabled: boolean;
-  PurchaseOrderRetrievalEnabled: boolean;
-  EinvoiceDeliveryPreferenceStatus?: ProcurementPortalPreferenceStatus;
-  EinvoiceDeliveryPreferenceStatusReason?: string;
-  PurchaseOrderRetrievalPreferenceStatus?: ProcurementPortalPreferenceStatus;
-  PurchaseOrderRetrievalPreferenceStatusReason?: string;
-  Version: number;
-  CreateDate: Date;
-  LastUpdateDate: Date;
-}
-export const ProcurementPortalPreferenceSummary = S.suspend(() =>
-  S.Struct({
-    AwsAccountId: S.String,
-    ProcurementPortalPreferenceArn: S.String,
-    ProcurementPortalName: ProcurementPortalName,
-    BuyerDomain: BuyerDomain,
-    BuyerIdentifier: S.String,
-    SupplierDomain: SupplierDomain,
-    SupplierIdentifier: S.String,
-    Selector: S.optional(ProcurementPortalPreferenceSelector),
-    EinvoiceDeliveryEnabled: S.Boolean,
-    PurchaseOrderRetrievalEnabled: S.Boolean,
-    EinvoiceDeliveryPreferenceStatus: S.optional(
-      ProcurementPortalPreferenceStatus,
-    ),
-    EinvoiceDeliveryPreferenceStatusReason: S.optional(S.String),
-    PurchaseOrderRetrievalPreferenceStatus: S.optional(
-      ProcurementPortalPreferenceStatus,
-    ),
-    PurchaseOrderRetrievalPreferenceStatusReason: S.optional(S.String),
-    Version: S.Number,
-    CreateDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    LastUpdateDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  }),
-).annotations({
-  identifier: "ProcurementPortalPreferenceSummary",
-}) as any as S.Schema<ProcurementPortalPreferenceSummary>;
-export type ProcurementPortalPreferenceSummaries =
-  ProcurementPortalPreferenceSummary[];
-export const ProcurementPortalPreferenceSummaries = S.Array(
-  ProcurementPortalPreferenceSummary,
-);
-export interface CreateInvoiceUnitResponse {
-  InvoiceUnitArn?: string;
-}
-export const CreateInvoiceUnitResponse = S.suspend(() =>
-  S.Struct({ InvoiceUnitArn: S.optional(S.String) }),
-).annotations({
-  identifier: "CreateInvoiceUnitResponse",
-}) as any as S.Schema<CreateInvoiceUnitResponse>;
 export interface CreateProcurementPortalPreferenceRequest {
   ProcurementPortalName: ProcurementPortalName;
   BuyerDomain: BuyerDomain;
@@ -711,67 +402,63 @@ export const CreateProcurementPortalPreferenceRequest = S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotations({
+).annotate({
   identifier: "CreateProcurementPortalPreferenceRequest",
 }) as any as S.Schema<CreateProcurementPortalPreferenceRequest>;
-export interface ListInvoiceSummariesRequest {
-  Selector: InvoiceSummariesSelector;
-  Filter?: InvoiceSummariesFilter;
-  NextToken?: string;
-  MaxResults?: number;
+export interface CreateProcurementPortalPreferenceResponse {
+  ProcurementPortalPreferenceArn: string;
 }
-export const ListInvoiceSummariesRequest = S.suspend(() =>
-  S.Struct({
-    Selector: InvoiceSummariesSelector,
-    Filter: S.optional(InvoiceSummariesFilter),
-    NextToken: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-  }).pipe(
+export const CreateProcurementPortalPreferenceResponse = S.suspend(() =>
+  S.Struct({ ProcurementPortalPreferenceArn: S.String }),
+).annotate({
+  identifier: "CreateProcurementPortalPreferenceResponse",
+}) as any as S.Schema<CreateProcurementPortalPreferenceResponse>;
+export interface DeleteInvoiceUnitRequest {
+  InvoiceUnitArn: string;
+}
+export const DeleteInvoiceUnitRequest = S.suspend(() =>
+  S.Struct({ InvoiceUnitArn: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotations({
-  identifier: "ListInvoiceSummariesRequest",
-}) as any as S.Schema<ListInvoiceSummariesRequest>;
-export interface ListProcurementPortalPreferencesResponse {
-  ProcurementPortalPreferences?: ProcurementPortalPreferenceSummary[];
-  NextToken?: string;
+).annotate({
+  identifier: "DeleteInvoiceUnitRequest",
+}) as any as S.Schema<DeleteInvoiceUnitRequest>;
+export interface DeleteInvoiceUnitResponse {
+  InvoiceUnitArn?: string;
 }
-export const ListProcurementPortalPreferencesResponse = S.suspend(() =>
-  S.Struct({
-    ProcurementPortalPreferences: S.optional(
-      ProcurementPortalPreferenceSummaries,
-    ),
-    NextToken: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "ListProcurementPortalPreferencesResponse",
-}) as any as S.Schema<ListProcurementPortalPreferencesResponse>;
-export interface ReceiverAddress {
-  AddressLine1?: string;
-  AddressLine2?: string;
-  AddressLine3?: string;
-  DistrictOrCounty?: string;
-  City?: string;
-  StateOrRegion?: string;
-  CountryCode?: string;
-  CompanyName?: string;
-  PostalCode?: string;
+export const DeleteInvoiceUnitResponse = S.suspend(() =>
+  S.Struct({ InvoiceUnitArn: S.optional(S.String) }),
+).annotate({
+  identifier: "DeleteInvoiceUnitResponse",
+}) as any as S.Schema<DeleteInvoiceUnitResponse>;
+export interface DeleteProcurementPortalPreferenceRequest {
+  ProcurementPortalPreferenceArn: string;
 }
-export const ReceiverAddress = S.suspend(() =>
-  S.Struct({
-    AddressLine1: S.optional(S.String),
-    AddressLine2: S.optional(S.String),
-    AddressLine3: S.optional(S.String),
-    DistrictOrCounty: S.optional(S.String),
-    City: S.optional(S.String),
-    StateOrRegion: S.optional(S.String),
-    CountryCode: S.optional(S.String),
-    CompanyName: S.optional(S.String),
-    PostalCode: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "ReceiverAddress",
-}) as any as S.Schema<ReceiverAddress>;
+export const DeleteProcurementPortalPreferenceRequest = S.suspend(() =>
+  S.Struct({ ProcurementPortalPreferenceArn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "DeleteProcurementPortalPreferenceRequest",
+}) as any as S.Schema<DeleteProcurementPortalPreferenceRequest>;
+export interface DeleteProcurementPortalPreferenceResponse {
+  ProcurementPortalPreferenceArn: string;
+}
+export const DeleteProcurementPortalPreferenceResponse = S.suspend(() =>
+  S.Struct({ ProcurementPortalPreferenceArn: S.String }),
+).annotate({
+  identifier: "DeleteProcurementPortalPreferenceResponse",
+}) as any as S.Schema<DeleteProcurementPortalPreferenceResponse>;
+export interface GetInvoicePDFRequest {
+  InvoiceId: string;
+}
+export const GetInvoicePDFRequest = S.suspend(() =>
+  S.Struct({ InvoiceId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "GetInvoicePDFRequest",
+}) as any as S.Schema<GetInvoicePDFRequest>;
 export interface SupplementalDocument {
   DocumentUrl?: string;
   DocumentUrlExpirationDate?: Date;
@@ -783,11 +470,81 @@ export const SupplementalDocument = S.suspend(() =>
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
   }),
-).annotations({
+).annotate({
   identifier: "SupplementalDocument",
 }) as any as S.Schema<SupplementalDocument>;
 export type SupplementalDocuments = SupplementalDocument[];
 export const SupplementalDocuments = S.Array(SupplementalDocument);
+export interface InvoicePDF {
+  InvoiceId?: string;
+  DocumentUrl?: string;
+  DocumentUrlExpirationDate?: Date;
+  SupplementalDocuments?: SupplementalDocument[];
+}
+export const InvoicePDF = S.suspend(() =>
+  S.Struct({
+    InvoiceId: S.optional(S.String),
+    DocumentUrl: S.optional(S.String),
+    DocumentUrlExpirationDate: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    SupplementalDocuments: S.optional(SupplementalDocuments),
+  }),
+).annotate({ identifier: "InvoicePDF" }) as any as S.Schema<InvoicePDF>;
+export interface GetInvoicePDFResponse {
+  InvoicePDF?: InvoicePDF;
+}
+export const GetInvoicePDFResponse = S.suspend(() =>
+  S.Struct({ InvoicePDF: S.optional(InvoicePDF) }),
+).annotate({
+  identifier: "GetInvoicePDFResponse",
+}) as any as S.Schema<GetInvoicePDFResponse>;
+export interface GetInvoiceUnitRequest {
+  InvoiceUnitArn: string;
+  AsOf?: Date;
+}
+export const GetInvoiceUnitRequest = S.suspend(() =>
+  S.Struct({
+    InvoiceUnitArn: S.String,
+    AsOf: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "GetInvoiceUnitRequest",
+}) as any as S.Schema<GetInvoiceUnitRequest>;
+export interface GetInvoiceUnitResponse {
+  InvoiceUnitArn?: string;
+  InvoiceReceiver?: string;
+  Name?: string;
+  Description?: string;
+  TaxInheritanceDisabled?: boolean;
+  Rule?: InvoiceUnitRule;
+  LastModified?: Date;
+}
+export const GetInvoiceUnitResponse = S.suspend(() =>
+  S.Struct({
+    InvoiceUnitArn: S.optional(S.String),
+    InvoiceReceiver: S.optional(S.String),
+    Name: S.optional(S.String),
+    Description: S.optional(S.String),
+    TaxInheritanceDisabled: S.optional(S.Boolean),
+    Rule: S.optional(InvoiceUnitRule),
+    LastModified: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotate({
+  identifier: "GetInvoiceUnitResponse",
+}) as any as S.Schema<GetInvoiceUnitResponse>;
+export interface GetProcurementPortalPreferenceRequest {
+  ProcurementPortalPreferenceArn: string;
+}
+export const GetProcurementPortalPreferenceRequest = S.suspend(() =>
+  S.Struct({ ProcurementPortalPreferenceArn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "GetProcurementPortalPreferenceRequest",
+}) as any as S.Schema<GetProcurementPortalPreferenceRequest>;
 export interface TestEnvPreference {
   BuyerDomain: BuyerDomain;
   BuyerIdentifier: string;
@@ -807,47 +564,18 @@ export const TestEnvPreference = S.suspend(() =>
     ProcurementPortalInstanceEndpoint: S.optional(S.String),
     PurchaseOrderRetrievalEndpoint: S.optional(S.String),
   }),
-).annotations({
+).annotate({
   identifier: "TestEnvPreference",
 }) as any as S.Schema<TestEnvPreference>;
-export interface InvoiceProfile {
-  AccountId?: string;
-  ReceiverName?: string;
-  ReceiverAddress?: ReceiverAddress;
-  ReceiverEmail?: string | redacted.Redacted<string>;
-  Issuer?: string;
-  TaxRegistrationNumber?: string | redacted.Redacted<string>;
-}
-export const InvoiceProfile = S.suspend(() =>
-  S.Struct({
-    AccountId: S.optional(S.String),
-    ReceiverName: S.optional(S.String),
-    ReceiverAddress: S.optional(ReceiverAddress),
-    ReceiverEmail: S.optional(SensitiveString),
-    Issuer: S.optional(S.String),
-    TaxRegistrationNumber: S.optional(SensitiveString),
-  }),
-).annotations({
-  identifier: "InvoiceProfile",
-}) as any as S.Schema<InvoiceProfile>;
-export type ProfileList = InvoiceProfile[];
-export const ProfileList = S.Array(InvoiceProfile);
-export interface InvoicePDF {
-  InvoiceId?: string;
-  DocumentUrl?: string;
-  DocumentUrlExpirationDate?: Date;
-  SupplementalDocuments?: SupplementalDocument[];
-}
-export const InvoicePDF = S.suspend(() =>
-  S.Struct({
-    InvoiceId: S.optional(S.String),
-    DocumentUrl: S.optional(S.String),
-    DocumentUrlExpirationDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    SupplementalDocuments: S.optional(SupplementalDocuments),
-  }),
-).annotations({ identifier: "InvoicePDF" }) as any as S.Schema<InvoicePDF>;
+export type ProcurementPortalPreferenceStatus =
+  | "PENDING_VERIFICATION"
+  | "TEST_INITIALIZED"
+  | "TEST_INITIALIZATION_FAILED"
+  | "TEST_FAILED"
+  | "ACTIVE"
+  | "SUSPENDED"
+  | (string & {});
+export const ProcurementPortalPreferenceStatus = S.String;
 export interface ProcurementPortalPreference {
   AwsAccountId: string;
   ProcurementPortalPreferenceArn: string;
@@ -903,125 +631,88 @@ export const ProcurementPortalPreference = S.suspend(() =>
     CreateDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     LastUpdateDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
   }),
-).annotations({
+).annotate({
   identifier: "ProcurementPortalPreference",
 }) as any as S.Schema<ProcurementPortalPreference>;
-export interface InvoiceUnit {
-  InvoiceUnitArn?: string;
-  InvoiceReceiver?: string;
-  Name?: string;
-  Description?: string;
-  TaxInheritanceDisabled?: boolean;
-  Rule?: InvoiceUnitRule;
-  LastModified?: Date;
-}
-export const InvoiceUnit = S.suspend(() =>
-  S.Struct({
-    InvoiceUnitArn: S.optional(S.String),
-    InvoiceReceiver: S.optional(S.String),
-    Name: S.optional(S.String),
-    Description: S.optional(S.String),
-    TaxInheritanceDisabled: S.optional(S.Boolean),
-    Rule: S.optional(InvoiceUnitRule),
-    LastModified: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }),
-).annotations({ identifier: "InvoiceUnit" }) as any as S.Schema<InvoiceUnit>;
-export type InvoiceUnits = InvoiceUnit[];
-export const InvoiceUnits = S.Array(InvoiceUnit);
-export interface BatchGetInvoiceProfileResponse {
-  Profiles?: InvoiceProfile[];
-}
-export const BatchGetInvoiceProfileResponse = S.suspend(() =>
-  S.Struct({ Profiles: S.optional(ProfileList) }),
-).annotations({
-  identifier: "BatchGetInvoiceProfileResponse",
-}) as any as S.Schema<BatchGetInvoiceProfileResponse>;
-export interface CreateProcurementPortalPreferenceResponse {
-  ProcurementPortalPreferenceArn: string;
-}
-export const CreateProcurementPortalPreferenceResponse = S.suspend(() =>
-  S.Struct({ ProcurementPortalPreferenceArn: S.String }),
-).annotations({
-  identifier: "CreateProcurementPortalPreferenceResponse",
-}) as any as S.Schema<CreateProcurementPortalPreferenceResponse>;
-export interface GetInvoicePDFResponse {
-  InvoicePDF?: InvoicePDF;
-}
-export const GetInvoicePDFResponse = S.suspend(() =>
-  S.Struct({ InvoicePDF: S.optional(InvoicePDF) }),
-).annotations({
-  identifier: "GetInvoicePDFResponse",
-}) as any as S.Schema<GetInvoicePDFResponse>;
 export interface GetProcurementPortalPreferenceResponse {
   ProcurementPortalPreference: ProcurementPortalPreference;
 }
 export const GetProcurementPortalPreferenceResponse = S.suspend(() =>
   S.Struct({ ProcurementPortalPreference: ProcurementPortalPreference }),
-).annotations({
+).annotate({
   identifier: "GetProcurementPortalPreferenceResponse",
 }) as any as S.Schema<GetProcurementPortalPreferenceResponse>;
-export interface ListInvoiceUnitsResponse {
-  InvoiceUnits?: InvoiceUnit[];
-  NextToken?: string;
-}
-export const ListInvoiceUnitsResponse = S.suspend(() =>
-  S.Struct({
-    InvoiceUnits: S.optional(InvoiceUnits),
-    NextToken: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "ListInvoiceUnitsResponse",
-}) as any as S.Schema<ListInvoiceUnitsResponse>;
-export type InvoiceType = "INVOICE" | "CREDIT_MEMO" | (string & {});
-export const InvoiceType = S.String;
-export type ValidationExceptionReason =
-  | "nonMemberPresent"
-  | "maxAccountsExceeded"
-  | "maxInvoiceUnitsExceeded"
-  | "duplicateInvoiceUnit"
-  | "mutualExclusionError"
-  | "accountMembershipError"
-  | "taxSettingsError"
-  | "expiredNextToken"
-  | "invalidNextToken"
-  | "invalidInput"
-  | "fieldValidationFailed"
-  | "cannotParse"
-  | "unknownOperation"
-  | "other"
+export type ListInvoiceSummariesResourceType =
+  | "ACCOUNT_ID"
+  | "INVOICE_ID"
   | (string & {});
-export const ValidationExceptionReason = S.String;
+export const ListInvoiceSummariesResourceType = S.String;
+export interface InvoiceSummariesSelector {
+  ResourceType: ListInvoiceSummariesResourceType;
+  Value: string;
+}
+export const InvoiceSummariesSelector = S.suspend(() =>
+  S.Struct({ ResourceType: ListInvoiceSummariesResourceType, Value: S.String }),
+).annotate({
+  identifier: "InvoiceSummariesSelector",
+}) as any as S.Schema<InvoiceSummariesSelector>;
+export interface DateInterval {
+  StartDate: Date;
+  EndDate: Date;
+}
+export const DateInterval = S.suspend(() =>
+  S.Struct({
+    StartDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    EndDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  }),
+).annotate({ identifier: "DateInterval" }) as any as S.Schema<DateInterval>;
+export interface BillingPeriod {
+  Month: number;
+  Year: number;
+}
+export const BillingPeriod = S.suspend(() =>
+  S.Struct({ Month: S.Number, Year: S.Number }),
+).annotate({ identifier: "BillingPeriod" }) as any as S.Schema<BillingPeriod>;
+export interface InvoiceSummariesFilter {
+  TimeInterval?: DateInterval;
+  BillingPeriod?: BillingPeriod;
+  InvoicingEntity?: string;
+}
+export const InvoiceSummariesFilter = S.suspend(() =>
+  S.Struct({
+    TimeInterval: S.optional(DateInterval),
+    BillingPeriod: S.optional(BillingPeriod),
+    InvoicingEntity: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "InvoiceSummariesFilter",
+}) as any as S.Schema<InvoiceSummariesFilter>;
+export interface ListInvoiceSummariesRequest {
+  Selector: InvoiceSummariesSelector;
+  Filter?: InvoiceSummariesFilter;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListInvoiceSummariesRequest = S.suspend(() =>
+  S.Struct({
+    Selector: InvoiceSummariesSelector,
+    Filter: S.optional(InvoiceSummariesFilter),
+    NextToken: S.optional(S.String),
+    MaxResults: S.optional(S.Number),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "ListInvoiceSummariesRequest",
+}) as any as S.Schema<ListInvoiceSummariesRequest>;
 export interface Entity {
   InvoicingEntity?: string;
 }
 export const Entity = S.suspend(() =>
   S.Struct({ InvoicingEntity: S.optional(S.String) }),
-).annotations({ identifier: "Entity" }) as any as S.Schema<Entity>;
-export interface CurrencyExchangeDetails {
-  SourceCurrencyCode?: string;
-  TargetCurrencyCode?: string;
-  Rate?: string;
-}
-export const CurrencyExchangeDetails = S.suspend(() =>
-  S.Struct({
-    SourceCurrencyCode: S.optional(S.String),
-    TargetCurrencyCode: S.optional(S.String),
-    Rate: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "CurrencyExchangeDetails",
-}) as any as S.Schema<CurrencyExchangeDetails>;
-export interface ValidationExceptionField {
-  name: string;
-  message: string;
-}
-export const ValidationExceptionField = S.suspend(() =>
-  S.Struct({ name: S.String, message: S.String }),
-).annotations({
-  identifier: "ValidationExceptionField",
-}) as any as S.Schema<ValidationExceptionField>;
-export type ValidationExceptionFieldList = ValidationExceptionField[];
-export const ValidationExceptionFieldList = S.Array(ValidationExceptionField);
+).annotate({ identifier: "Entity" }) as any as S.Schema<Entity>;
+export type InvoiceType = "INVOICE" | "CREDIT_MEMO" | (string & {});
+export const InvoiceType = S.String;
 export interface DiscountsBreakdownAmount {
   Description?: string;
   Amount?: string;
@@ -1033,11 +724,23 @@ export const DiscountsBreakdownAmount = S.suspend(() =>
     Amount: S.optional(S.String),
     Rate: S.optional(S.String),
   }),
-).annotations({
+).annotate({
   identifier: "DiscountsBreakdownAmount",
 }) as any as S.Schema<DiscountsBreakdownAmount>;
 export type DiscountsBreakdownAmountList = DiscountsBreakdownAmount[];
 export const DiscountsBreakdownAmountList = S.Array(DiscountsBreakdownAmount);
+export interface DiscountsBreakdown {
+  Breakdown?: DiscountsBreakdownAmount[];
+  TotalAmount?: string;
+}
+export const DiscountsBreakdown = S.suspend(() =>
+  S.Struct({
+    Breakdown: S.optional(DiscountsBreakdownAmountList),
+    TotalAmount: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "DiscountsBreakdown",
+}) as any as S.Schema<DiscountsBreakdown>;
 export interface TaxesBreakdownAmount {
   Description?: string;
   Amount?: string;
@@ -1049,11 +752,21 @@ export const TaxesBreakdownAmount = S.suspend(() =>
     Amount: S.optional(S.String),
     Rate: S.optional(S.String),
   }),
-).annotations({
+).annotate({
   identifier: "TaxesBreakdownAmount",
 }) as any as S.Schema<TaxesBreakdownAmount>;
 export type TaxesBreakdownAmountList = TaxesBreakdownAmount[];
 export const TaxesBreakdownAmountList = S.Array(TaxesBreakdownAmount);
+export interface TaxesBreakdown {
+  Breakdown?: TaxesBreakdownAmount[];
+  TotalAmount?: string;
+}
+export const TaxesBreakdown = S.suspend(() =>
+  S.Struct({
+    Breakdown: S.optional(TaxesBreakdownAmountList),
+    TotalAmount: S.optional(S.String),
+  }),
+).annotate({ identifier: "TaxesBreakdown" }) as any as S.Schema<TaxesBreakdown>;
 export interface FeesBreakdownAmount {
   Description?: string;
   Amount?: string;
@@ -1065,35 +778,11 @@ export const FeesBreakdownAmount = S.suspend(() =>
     Amount: S.optional(S.String),
     Rate: S.optional(S.String),
   }),
-).annotations({
+).annotate({
   identifier: "FeesBreakdownAmount",
 }) as any as S.Schema<FeesBreakdownAmount>;
 export type FeesBreakdownAmountList = FeesBreakdownAmount[];
 export const FeesBreakdownAmountList = S.Array(FeesBreakdownAmount);
-export interface DiscountsBreakdown {
-  Breakdown?: DiscountsBreakdownAmount[];
-  TotalAmount?: string;
-}
-export const DiscountsBreakdown = S.suspend(() =>
-  S.Struct({
-    Breakdown: S.optional(DiscountsBreakdownAmountList),
-    TotalAmount: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "DiscountsBreakdown",
-}) as any as S.Schema<DiscountsBreakdown>;
-export interface TaxesBreakdown {
-  Breakdown?: TaxesBreakdownAmount[];
-  TotalAmount?: string;
-}
-export const TaxesBreakdown = S.suspend(() =>
-  S.Struct({
-    Breakdown: S.optional(TaxesBreakdownAmountList),
-    TotalAmount: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "TaxesBreakdown",
-}) as any as S.Schema<TaxesBreakdown>;
 export interface FeesBreakdown {
   Breakdown?: FeesBreakdownAmount[];
   TotalAmount?: string;
@@ -1103,9 +792,7 @@ export const FeesBreakdown = S.suspend(() =>
     Breakdown: S.optional(FeesBreakdownAmountList),
     TotalAmount: S.optional(S.String),
   }),
-).annotations({
-  identifier: "FeesBreakdown",
-}) as any as S.Schema<FeesBreakdown>;
+).annotate({ identifier: "FeesBreakdown" }) as any as S.Schema<FeesBreakdown>;
 export interface AmountBreakdown {
   SubTotalAmount?: string;
   Discounts?: DiscountsBreakdown;
@@ -1119,9 +806,23 @@ export const AmountBreakdown = S.suspend(() =>
     Taxes: S.optional(TaxesBreakdown),
     Fees: S.optional(FeesBreakdown),
   }),
-).annotations({
+).annotate({
   identifier: "AmountBreakdown",
 }) as any as S.Schema<AmountBreakdown>;
+export interface CurrencyExchangeDetails {
+  SourceCurrencyCode?: string;
+  TargetCurrencyCode?: string;
+  Rate?: string;
+}
+export const CurrencyExchangeDetails = S.suspend(() =>
+  S.Struct({
+    SourceCurrencyCode: S.optional(S.String),
+    TargetCurrencyCode: S.optional(S.String),
+    Rate: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "CurrencyExchangeDetails",
+}) as any as S.Schema<CurrencyExchangeDetails>;
 export interface InvoiceCurrencyAmount {
   TotalAmount?: string;
   TotalAmountBeforeTax?: string;
@@ -1137,7 +838,7 @@ export const InvoiceCurrencyAmount = S.suspend(() =>
     AmountBreakdown: S.optional(AmountBreakdown),
     CurrencyExchangeDetails: S.optional(CurrencyExchangeDetails),
   }),
-).annotations({
+).annotate({
   identifier: "InvoiceCurrencyAmount",
 }) as any as S.Schema<InvoiceCurrencyAmount>;
 export interface InvoiceSummary {
@@ -1169,9 +870,7 @@ export const InvoiceSummary = S.suspend(() =>
     TaxCurrencyAmount: S.optional(InvoiceCurrencyAmount),
     PaymentCurrencyAmount: S.optional(InvoiceCurrencyAmount),
   }),
-).annotations({
-  identifier: "InvoiceSummary",
-}) as any as S.Schema<InvoiceSummary>;
+).annotate({ identifier: "InvoiceSummary" }) as any as S.Schema<InvoiceSummary>;
 export type InvoiceSummaries = InvoiceSummary[];
 export const InvoiceSummaries = S.Array(InvoiceSummary);
 export interface ListInvoiceSummariesResponse {
@@ -1183,17 +882,308 @@ export const ListInvoiceSummariesResponse = S.suspend(() =>
     InvoiceSummaries: InvoiceSummaries,
     NextToken: S.optional(S.String),
   }),
-).annotations({
+).annotate({
   identifier: "ListInvoiceSummariesResponse",
 }) as any as S.Schema<ListInvoiceSummariesResponse>;
+export type InvoiceUnitNames = string[];
+export const InvoiceUnitNames = S.Array(S.String);
+export interface Filters {
+  Names?: string[];
+  InvoiceReceivers?: string[];
+  Accounts?: string[];
+  BillSourceAccounts?: string[];
+}
+export const Filters = S.suspend(() =>
+  S.Struct({
+    Names: S.optional(InvoiceUnitNames),
+    InvoiceReceivers: S.optional(AccountIdList),
+    Accounts: S.optional(AccountIdList),
+    BillSourceAccounts: S.optional(AccountIdList),
+  }),
+).annotate({ identifier: "Filters" }) as any as S.Schema<Filters>;
+export interface ListInvoiceUnitsRequest {
+  Filters?: Filters;
+  NextToken?: string;
+  MaxResults?: number;
+  AsOf?: Date;
+}
+export const ListInvoiceUnitsRequest = S.suspend(() =>
+  S.Struct({
+    Filters: S.optional(Filters),
+    NextToken: S.optional(S.String),
+    MaxResults: S.optional(S.Number),
+    AsOf: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "ListInvoiceUnitsRequest",
+}) as any as S.Schema<ListInvoiceUnitsRequest>;
+export interface InvoiceUnit {
+  InvoiceUnitArn?: string;
+  InvoiceReceiver?: string;
+  Name?: string;
+  Description?: string;
+  TaxInheritanceDisabled?: boolean;
+  Rule?: InvoiceUnitRule;
+  LastModified?: Date;
+}
+export const InvoiceUnit = S.suspend(() =>
+  S.Struct({
+    InvoiceUnitArn: S.optional(S.String),
+    InvoiceReceiver: S.optional(S.String),
+    Name: S.optional(S.String),
+    Description: S.optional(S.String),
+    TaxInheritanceDisabled: S.optional(S.Boolean),
+    Rule: S.optional(InvoiceUnitRule),
+    LastModified: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotate({ identifier: "InvoiceUnit" }) as any as S.Schema<InvoiceUnit>;
+export type InvoiceUnits = InvoiceUnit[];
+export const InvoiceUnits = S.Array(InvoiceUnit);
+export interface ListInvoiceUnitsResponse {
+  InvoiceUnits?: InvoiceUnit[];
+  NextToken?: string;
+}
+export const ListInvoiceUnitsResponse = S.suspend(() =>
+  S.Struct({
+    InvoiceUnits: S.optional(InvoiceUnits),
+    NextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ListInvoiceUnitsResponse",
+}) as any as S.Schema<ListInvoiceUnitsResponse>;
+export interface ListProcurementPortalPreferencesRequest {
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListProcurementPortalPreferencesRequest = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    MaxResults: S.optional(S.Number),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "ListProcurementPortalPreferencesRequest",
+}) as any as S.Schema<ListProcurementPortalPreferencesRequest>;
+export interface ProcurementPortalPreferenceSummary {
+  AwsAccountId: string;
+  ProcurementPortalPreferenceArn: string;
+  ProcurementPortalName: ProcurementPortalName;
+  BuyerDomain: BuyerDomain;
+  BuyerIdentifier: string;
+  SupplierDomain: SupplierDomain;
+  SupplierIdentifier: string;
+  Selector?: ProcurementPortalPreferenceSelector;
+  EinvoiceDeliveryEnabled: boolean;
+  PurchaseOrderRetrievalEnabled: boolean;
+  EinvoiceDeliveryPreferenceStatus?: ProcurementPortalPreferenceStatus;
+  EinvoiceDeliveryPreferenceStatusReason?: string;
+  PurchaseOrderRetrievalPreferenceStatus?: ProcurementPortalPreferenceStatus;
+  PurchaseOrderRetrievalPreferenceStatusReason?: string;
+  Version: number;
+  CreateDate: Date;
+  LastUpdateDate: Date;
+}
+export const ProcurementPortalPreferenceSummary = S.suspend(() =>
+  S.Struct({
+    AwsAccountId: S.String,
+    ProcurementPortalPreferenceArn: S.String,
+    ProcurementPortalName: ProcurementPortalName,
+    BuyerDomain: BuyerDomain,
+    BuyerIdentifier: S.String,
+    SupplierDomain: SupplierDomain,
+    SupplierIdentifier: S.String,
+    Selector: S.optional(ProcurementPortalPreferenceSelector),
+    EinvoiceDeliveryEnabled: S.Boolean,
+    PurchaseOrderRetrievalEnabled: S.Boolean,
+    EinvoiceDeliveryPreferenceStatus: S.optional(
+      ProcurementPortalPreferenceStatus,
+    ),
+    EinvoiceDeliveryPreferenceStatusReason: S.optional(S.String),
+    PurchaseOrderRetrievalPreferenceStatus: S.optional(
+      ProcurementPortalPreferenceStatus,
+    ),
+    PurchaseOrderRetrievalPreferenceStatusReason: S.optional(S.String),
+    Version: S.Number,
+    CreateDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    LastUpdateDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  }),
+).annotate({
+  identifier: "ProcurementPortalPreferenceSummary",
+}) as any as S.Schema<ProcurementPortalPreferenceSummary>;
+export type ProcurementPortalPreferenceSummaries =
+  ProcurementPortalPreferenceSummary[];
+export const ProcurementPortalPreferenceSummaries = S.Array(
+  ProcurementPortalPreferenceSummary,
+);
+export interface ListProcurementPortalPreferencesResponse {
+  ProcurementPortalPreferences?: ProcurementPortalPreferenceSummary[];
+  NextToken?: string;
+}
+export const ListProcurementPortalPreferencesResponse = S.suspend(() =>
+  S.Struct({
+    ProcurementPortalPreferences: S.optional(
+      ProcurementPortalPreferenceSummaries,
+    ),
+    NextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ListProcurementPortalPreferencesResponse",
+}) as any as S.Schema<ListProcurementPortalPreferencesResponse>;
+export interface ListTagsForResourceRequest {
+  ResourceArn: string;
+}
+export const ListTagsForResourceRequest = S.suspend(() =>
+  S.Struct({ ResourceArn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "ListTagsForResourceRequest",
+}) as any as S.Schema<ListTagsForResourceRequest>;
+export interface ListTagsForResourceResponse {
+  ResourceTags?: ResourceTag[];
+}
+export const ListTagsForResourceResponse = S.suspend(() =>
+  S.Struct({ ResourceTags: S.optional(ResourceTagList) }),
+).annotate({
+  identifier: "ListTagsForResourceResponse",
+}) as any as S.Schema<ListTagsForResourceResponse>;
+export interface PutProcurementPortalPreferenceRequest {
+  ProcurementPortalPreferenceArn: string;
+  Selector?: ProcurementPortalPreferenceSelector;
+  ProcurementPortalSharedSecret?: string | redacted.Redacted<string>;
+  ProcurementPortalInstanceEndpoint?: string;
+  TestEnvPreference?: TestEnvPreferenceInput;
+  EinvoiceDeliveryEnabled: boolean;
+  EinvoiceDeliveryPreference?: EinvoiceDeliveryPreference;
+  PurchaseOrderRetrievalEnabled: boolean;
+  Contacts: Contact[];
+}
+export const PutProcurementPortalPreferenceRequest = S.suspend(() =>
+  S.Struct({
+    ProcurementPortalPreferenceArn: S.String,
+    Selector: S.optional(ProcurementPortalPreferenceSelector),
+    ProcurementPortalSharedSecret: S.optional(SensitiveString),
+    ProcurementPortalInstanceEndpoint: S.optional(S.String),
+    TestEnvPreference: S.optional(TestEnvPreferenceInput),
+    EinvoiceDeliveryEnabled: S.Boolean,
+    EinvoiceDeliveryPreference: S.optional(EinvoiceDeliveryPreference),
+    PurchaseOrderRetrievalEnabled: S.Boolean,
+    Contacts: Contacts,
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "PutProcurementPortalPreferenceRequest",
+}) as any as S.Schema<PutProcurementPortalPreferenceRequest>;
+export interface PutProcurementPortalPreferenceResponse {
+  ProcurementPortalPreferenceArn: string;
+}
+export const PutProcurementPortalPreferenceResponse = S.suspend(() =>
+  S.Struct({ ProcurementPortalPreferenceArn: S.String }),
+).annotate({
+  identifier: "PutProcurementPortalPreferenceResponse",
+}) as any as S.Schema<PutProcurementPortalPreferenceResponse>;
+export interface TagResourceRequest {
+  ResourceArn: string;
+  ResourceTags: ResourceTag[];
+}
+export const TagResourceRequest = S.suspend(() =>
+  S.Struct({ ResourceArn: S.String, ResourceTags: ResourceTagList }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "TagResourceRequest",
+}) as any as S.Schema<TagResourceRequest>;
+export interface TagResourceResponse {}
+export const TagResourceResponse = S.suspend(() => S.Struct({})).annotate({
+  identifier: "TagResourceResponse",
+}) as any as S.Schema<TagResourceResponse>;
+export type ResourceTagKeyList = string[];
+export const ResourceTagKeyList = S.Array(S.String);
+export interface UntagResourceRequest {
+  ResourceArn: string;
+  ResourceTagKeys: string[];
+}
+export const UntagResourceRequest = S.suspend(() =>
+  S.Struct({ ResourceArn: S.String, ResourceTagKeys: ResourceTagKeyList }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "UntagResourceRequest",
+}) as any as S.Schema<UntagResourceRequest>;
+export interface UntagResourceResponse {}
+export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotate({
+  identifier: "UntagResourceResponse",
+}) as any as S.Schema<UntagResourceResponse>;
+export interface UpdateInvoiceUnitRequest {
+  InvoiceUnitArn: string;
+  Description?: string;
+  TaxInheritanceDisabled?: boolean;
+  Rule?: InvoiceUnitRule;
+}
+export const UpdateInvoiceUnitRequest = S.suspend(() =>
+  S.Struct({
+    InvoiceUnitArn: S.String,
+    Description: S.optional(S.String),
+    TaxInheritanceDisabled: S.optional(S.Boolean),
+    Rule: S.optional(InvoiceUnitRule),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "UpdateInvoiceUnitRequest",
+}) as any as S.Schema<UpdateInvoiceUnitRequest>;
+export interface UpdateInvoiceUnitResponse {
+  InvoiceUnitArn?: string;
+}
+export const UpdateInvoiceUnitResponse = S.suspend(() =>
+  S.Struct({ InvoiceUnitArn: S.optional(S.String) }),
+).annotate({
+  identifier: "UpdateInvoiceUnitResponse",
+}) as any as S.Schema<UpdateInvoiceUnitResponse>;
+export interface UpdateProcurementPortalPreferenceStatusRequest {
+  ProcurementPortalPreferenceArn: string;
+  EinvoiceDeliveryPreferenceStatus?: ProcurementPortalPreferenceStatus;
+  EinvoiceDeliveryPreferenceStatusReason?: string;
+  PurchaseOrderRetrievalPreferenceStatus?: ProcurementPortalPreferenceStatus;
+  PurchaseOrderRetrievalPreferenceStatusReason?: string;
+}
+export const UpdateProcurementPortalPreferenceStatusRequest = S.suspend(() =>
+  S.Struct({
+    ProcurementPortalPreferenceArn: S.String,
+    EinvoiceDeliveryPreferenceStatus: S.optional(
+      ProcurementPortalPreferenceStatus,
+    ),
+    EinvoiceDeliveryPreferenceStatusReason: S.optional(S.String),
+    PurchaseOrderRetrievalPreferenceStatus: S.optional(
+      ProcurementPortalPreferenceStatus,
+    ),
+    PurchaseOrderRetrievalPreferenceStatusReason: S.optional(S.String),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "UpdateProcurementPortalPreferenceStatusRequest",
+}) as any as S.Schema<UpdateProcurementPortalPreferenceStatusRequest>;
+export interface UpdateProcurementPortalPreferenceStatusResponse {
+  ProcurementPortalPreferenceArn: string;
+}
+export const UpdateProcurementPortalPreferenceStatusResponse = S.suspend(() =>
+  S.Struct({ ProcurementPortalPreferenceArn: S.String }),
+).annotate({
+  identifier: "UpdateProcurementPortalPreferenceStatusResponse",
+}) as any as S.Schema<UpdateProcurementPortalPreferenceStatusResponse>;
 
 //# Errors
-export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
+export class AccessDeniedException extends S.TaggedErrorClass<AccessDeniedException>()(
   "AccessDeniedException",
   { message: S.optional(S.String), resourceName: S.optional(S.String) },
   T.AwsQueryError({ code: "InvoicingAccessDenied", httpResponseCode: 403 }),
 ).pipe(C.withAuthError) {}
-export class InternalServerException extends S.TaggedError<InternalServerException>()(
+export class InternalServerException extends S.TaggedErrorClass<InternalServerException>()(
   "InternalServerException",
   {
     retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
@@ -1201,34 +1191,17 @@ export class InternalServerException extends S.TaggedError<InternalServerExcepti
   },
   T.AwsQueryError({ code: "InvoicingInternalServer", httpResponseCode: 500 }),
 ).pipe(C.withServerError) {}
-export class ConflictException extends S.TaggedError<ConflictException>()(
-  "ConflictException",
-  {
-    message: S.optional(S.String),
-    resourceId: S.optional(S.String),
-    resourceType: S.optional(S.String),
-  },
-  T.AwsQueryError({ code: "InvoicingConflict", httpResponseCode: 409 }),
-).pipe(C.withConflictError) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { message: S.optional(S.String), resourceName: S.optional(S.String) },
   T.AwsQueryError({ code: "InvoicingResourceNotFound", httpResponseCode: 404 }),
 ).pipe(C.withBadRequestError) {}
-export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
+export class ThrottlingException extends S.TaggedErrorClass<ThrottlingException>()(
   "ThrottlingException",
   { message: S.optional(S.String) },
   T.AwsQueryError({ code: "InvoicingThrottling", httpResponseCode: 429 }),
 ).pipe(C.withThrottlingError) {}
-export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
-  "ServiceQuotaExceededException",
-  { message: S.String },
-  T.AwsQueryError({
-    code: "InvoicingServiceQuotaExceeded",
-    httpResponseCode: 402,
-  }),
-).pipe(C.withQuotaError) {}
-export class ValidationException extends S.TaggedError<ValidationException>()(
+export class ValidationException extends S.TaggedErrorClass<ValidationException>()(
   "ValidationException",
   {
     message: S.optional(S.String),
@@ -1238,156 +1211,25 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
   },
   T.AwsQueryError({ code: "InvoicingValidation", httpResponseCode: 400 }),
 ).pipe(C.withBadRequestError) {}
+export class ConflictException extends S.TaggedErrorClass<ConflictException>()(
+  "ConflictException",
+  {
+    message: S.optional(S.String),
+    resourceId: S.optional(S.String),
+    resourceType: S.optional(S.String),
+  },
+  T.AwsQueryError({ code: "InvoicingConflict", httpResponseCode: 409 }),
+).pipe(C.withConflictError) {}
+export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuotaExceededException>()(
+  "ServiceQuotaExceededException",
+  { message: S.String },
+  T.AwsQueryError({
+    code: "InvoicingServiceQuotaExceeded",
+    httpResponseCode: 402,
+  }),
+).pipe(C.withQuotaError) {}
 
 //# Operations
-/**
- * This creates a new invoice unit with the provided definition.
- */
-export const createInvoiceUnit: (
-  input: CreateInvoiceUnitRequest,
-) => effect.Effect<
-  CreateInvoiceUnitResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateInvoiceUnitRequest,
-  output: CreateInvoiceUnitResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * You can update the invoice unit configuration at any time, and Amazon Web Services will use the latest configuration at the end of the month.
- */
-export const updateInvoiceUnit: (
-  input: UpdateInvoiceUnitRequest,
-) => effect.Effect<
-  UpdateInvoiceUnitResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateInvoiceUnitRequest,
-  output: UpdateInvoiceUnitResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Removes a tag from a resource.
- */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
-  UntagResourceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * This deletes an invoice unit with the provided invoice unit ARN.
- */
-export const deleteInvoiceUnit: (
-  input: DeleteInvoiceUnitRequest,
-) => effect.Effect<
-  DeleteInvoiceUnitResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteInvoiceUnitRequest,
-  output: DeleteInvoiceUnitResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * This retrieves the invoice unit definition.
- */
-export const getInvoiceUnit: (
-  input: GetInvoiceUnitRequest,
-) => effect.Effect<
-  GetInvoiceUnitResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetInvoiceUnitRequest,
-  output: GetInvoiceUnitResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Lists the tags for a resource.
- */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
-  ListTagsForResourceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
 /**
  * This gets the invoice profile associated with a set of accounts. The accounts must be linked accounts under the requester management account organization.
  */
@@ -1414,143 +1256,27 @@ export const batchGetInvoiceProfile: (
   ],
 }));
 /**
- * Returns a URL to download the invoice document and supplemental documents associated with an invoice. The URLs are pre-signed and have expiration time. For special cases like Brazil, where Amazon Web Services generated invoice identifiers and government provided identifiers do not match, use the Amazon Web Services generated invoice identifier when making API requests. To grant IAM permission to use this operation, the caller needs the `invoicing:GetInvoicePDF` policy action.
+ * This creates a new invoice unit with the provided definition.
  */
-export const getInvoicePDF: (
-  input: GetInvoicePDFRequest,
+export const createInvoiceUnit: (
+  input: CreateInvoiceUnitRequest,
 ) => effect.Effect<
-  GetInvoicePDFResponse,
+  CreateInvoiceUnitResponse,
   | AccessDeniedException
   | InternalServerException
-  | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
   | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetInvoicePDFRequest,
-  output: GetInvoicePDFResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Retrieves a list of procurement portal preferences associated with the Amazon Web Services account.
- */
-export const listProcurementPortalPreferences: {
-  (
-    input: ListProcurementPortalPreferencesRequest,
-  ): effect.Effect<
-    ListProcurementPortalPreferencesResponse,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  pages: (
-    input: ListProcurementPortalPreferencesRequest,
-  ) => stream.Stream<
-    ListProcurementPortalPreferencesResponse,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  items: (
-    input: ListProcurementPortalPreferencesRequest,
-  ) => stream.Stream<
-    ProcurementPortalPreferenceSummary,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
-  input: ListProcurementPortalPreferencesRequest,
-  output: ListProcurementPortalPreferencesResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-  pagination: {
-    inputToken: "NextToken",
-    outputToken: "NextToken",
-    items: "ProcurementPortalPreferences",
-    pageSize: "MaxResults",
-  } as const,
-}));
-/**
- * This fetches a list of all invoice unit definitions for a given account, as of the provided `AsOf` date.
- */
-export const listInvoiceUnits: {
-  (
-    input: ListInvoiceUnitsRequest,
-  ): effect.Effect<
-    ListInvoiceUnitsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  pages: (
-    input: ListInvoiceUnitsRequest,
-  ) => stream.Stream<
-    ListInvoiceUnitsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  items: (
-    input: ListInvoiceUnitsRequest,
-  ) => stream.Stream<
-    InvoiceUnit,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
-  input: ListInvoiceUnitsRequest,
-  output: ListInvoiceUnitsResponse,
+  input: CreateInvoiceUnitRequest,
+  output: CreateInvoiceUnitResponse,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
   ],
-  pagination: {
-    inputToken: "NextToken",
-    outputToken: "NextToken",
-    items: "InvoiceUnits",
-    pageSize: "MaxResults",
-  } as const,
 }));
 /**
  * Creates a procurement portal preference configuration for e-invoice delivery and purchase order retrieval. This preference defines how invoices are delivered to a procurement portal and how purchase orders are retrieved.
@@ -1580,57 +1306,26 @@ export const createProcurementPortalPreference: (
   ],
 }));
 /**
- * Adds a tag to a resource.
+ * This deletes an invoice unit with the provided invoice unit ARN.
  */
-export const tagResource: (
-  input: TagResourceRequest,
+export const deleteInvoiceUnit: (
+  input: DeleteInvoiceUnitRequest,
 ) => effect.Effect<
-  TagResourceResponse,
+  DeleteInvoiceUnitResponse,
   | AccessDeniedException
   | InternalServerException
   | ResourceNotFoundException
-  | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
   | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
+  input: DeleteInvoiceUnitRequest,
+  output: DeleteInvoiceUnitResponse,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Updates the status of a procurement portal preference, including the activation state of e-invoice delivery and purchase order retrieval features.
- */
-export const updateProcurementPortalPreferenceStatus: (
-  input: UpdateProcurementPortalPreferenceStatusRequest,
-) => effect.Effect<
-  UpdateProcurementPortalPreferenceStatusResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateProcurementPortalPreferenceStatusRequest,
-  output: UpdateProcurementPortalPreferenceStatusResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
   ],
@@ -1663,30 +1358,51 @@ export const deleteProcurementPortalPreference: (
   ],
 }));
 /**
- * Updates an existing procurement portal preference configuration. This operation can modify settings for e-invoice delivery and purchase order retrieval.
+ * Returns a URL to download the invoice document and supplemental documents associated with an invoice. The URLs are pre-signed and have expiration time. For special cases like Brazil, where Amazon Web Services generated invoice identifiers and government provided identifiers do not match, use the Amazon Web Services generated invoice identifier when making API requests. To grant IAM permission to use this operation, the caller needs the `invoicing:GetInvoicePDF` policy action.
  */
-export const putProcurementPortalPreference: (
-  input: PutProcurementPortalPreferenceRequest,
+export const getInvoicePDF: (
+  input: GetInvoicePDFRequest,
 ) => effect.Effect<
-  PutProcurementPortalPreferenceResponse,
+  GetInvoicePDFResponse,
   | AccessDeniedException
-  | ConflictException
   | InternalServerException
   | ResourceNotFoundException
-  | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
   | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PutProcurementPortalPreferenceRequest,
-  output: PutProcurementPortalPreferenceResponse,
+  input: GetInvoicePDFRequest,
+  output: GetInvoicePDFResponse,
   errors: [
     AccessDeniedException,
-    ConflictException,
     InternalServerException,
     ResourceNotFoundException,
-    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * This retrieves the invoice unit definition.
+ */
+export const getInvoiceUnit: (
+  input: GetInvoiceUnitRequest,
+) => effect.Effect<
+  GetInvoiceUnitResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetInvoiceUnitRequest,
+  output: GetInvoiceUnitResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
   ],
@@ -1776,4 +1492,278 @@ export const listInvoiceSummaries: {
     items: "InvoiceSummaries",
     pageSize: "MaxResults",
   } as const,
+}));
+/**
+ * This fetches a list of all invoice unit definitions for a given account, as of the provided `AsOf` date.
+ */
+export const listInvoiceUnits: {
+  (
+    input: ListInvoiceUnitsRequest,
+  ): effect.Effect<
+    ListInvoiceUnitsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListInvoiceUnitsRequest,
+  ) => stream.Stream<
+    ListInvoiceUnitsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListInvoiceUnitsRequest,
+  ) => stream.Stream<
+    InvoiceUnit,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListInvoiceUnitsRequest,
+  output: ListInvoiceUnitsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "InvoiceUnits",
+    pageSize: "MaxResults",
+  } as const,
+}));
+/**
+ * Retrieves a list of procurement portal preferences associated with the Amazon Web Services account.
+ */
+export const listProcurementPortalPreferences: {
+  (
+    input: ListProcurementPortalPreferencesRequest,
+  ): effect.Effect<
+    ListProcurementPortalPreferencesResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListProcurementPortalPreferencesRequest,
+  ) => stream.Stream<
+    ListProcurementPortalPreferencesResponse,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListProcurementPortalPreferencesRequest,
+  ) => stream.Stream<
+    ProcurementPortalPreferenceSummary,
+    | AccessDeniedException
+    | ConflictException
+    | InternalServerException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListProcurementPortalPreferencesRequest,
+  output: ListProcurementPortalPreferencesResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ProcurementPortalPreferences",
+    pageSize: "MaxResults",
+  } as const,
+}));
+/**
+ * Lists the tags for a resource.
+ */
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => effect.Effect<
+  ListTagsForResourceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Updates an existing procurement portal preference configuration. This operation can modify settings for e-invoice delivery and purchase order retrieval.
+ */
+export const putProcurementPortalPreference: (
+  input: PutProcurementPortalPreferenceRequest,
+) => effect.Effect<
+  PutProcurementPortalPreferenceResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutProcurementPortalPreferenceRequest,
+  output: PutProcurementPortalPreferenceResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Adds a tag to a resource.
+ */
+export const tagResource: (
+  input: TagResourceRequest,
+) => effect.Effect<
+  TagResourceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Removes a tag from a resource.
+ */
+export const untagResource: (
+  input: UntagResourceRequest,
+) => effect.Effect<
+  UntagResourceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * You can update the invoice unit configuration at any time, and Amazon Web Services will use the latest configuration at the end of the month.
+ */
+export const updateInvoiceUnit: (
+  input: UpdateInvoiceUnitRequest,
+) => effect.Effect<
+  UpdateInvoiceUnitResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateInvoiceUnitRequest,
+  output: UpdateInvoiceUnitResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Updates the status of a procurement portal preference, including the activation state of e-invoice delivery and purchase order retrieval features.
+ */
+export const updateProcurementPortalPreferenceStatus: (
+  input: UpdateProcurementPortalPreferenceStatusRequest,
+) => effect.Effect<
+  UpdateProcurementPortalPreferenceStatusResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateProcurementPortalPreferenceStatusRequest,
+  output: UpdateProcurementPortalPreferenceStatusResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
 }));

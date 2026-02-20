@@ -19,7 +19,8 @@ export const CreateEvmSmartAccountOutput = Schema.Struct({
   createdAt: Schema.optional(Schema.String),
   updatedAt: Schema.optional(Schema.String),
 });
-export type CreateEvmSmartAccountOutput = typeof CreateEvmSmartAccountOutput.Type;
+export type CreateEvmSmartAccountOutput =
+  typeof CreateEvmSmartAccountOutput.Type;
 
 // The operation
 /**
@@ -27,8 +28,10 @@ export type CreateEvmSmartAccountOutput = typeof CreateEvmSmartAccountOutput.Typ
  *
  * Creates a new Smart Account.
  */
-export const createEvmSmartAccount = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  inputSchema: CreateEvmSmartAccountInput,
-  outputSchema: CreateEvmSmartAccountOutput,
-  errors: [InvalidRequest, PaymentMethodRequired],
-}));
+export const createEvmSmartAccount = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    inputSchema: CreateEvmSmartAccountInput,
+    outputSchema: CreateEvmSmartAccountOutput,
+    errors: [InvalidRequest, PaymentMethodRequired],
+  }),
+);

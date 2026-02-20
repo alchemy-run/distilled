@@ -26,7 +26,7 @@ export class CloudflareErrorInfo extends Schema.Class<CloudflareErrorInfo>(
  * Unknown Cloudflare error - returned when an error code is not recognized.
  * Contains the raw error code for later cataloging.
  */
-export class UnknownCloudflareError extends Schema.TaggedError<UnknownCloudflareError>()(
+export class UnknownCloudflareError extends Schema.TaggedErrorClass<UnknownCloudflareError>()(
   "UnknownCloudflareError",
   {
     code: Schema.optional(Schema.Number),
@@ -37,7 +37,7 @@ export class UnknownCloudflareError extends Schema.TaggedError<UnknownCloudflare
 /**
  * Network error - HTTP request failed at the transport level.
  */
-export class CloudflareNetworkError extends Schema.TaggedError<CloudflareNetworkError>()(
+export class CloudflareNetworkError extends Schema.TaggedErrorClass<CloudflareNetworkError>()(
   "CloudflareNetworkError",
   {
     message: Schema.String,
@@ -48,7 +48,7 @@ export class CloudflareNetworkError extends Schema.TaggedError<CloudflareNetwork
 /**
  * HTTP error - non-2xx response without a parseable Cloudflare error body.
  */
-export class CloudflareHttpError extends Schema.TaggedError<CloudflareHttpError>()(
+export class CloudflareHttpError extends Schema.TaggedErrorClass<CloudflareHttpError>()(
   "CloudflareHttpError",
   {
     status: Schema.Number,

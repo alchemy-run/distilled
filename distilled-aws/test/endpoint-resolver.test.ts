@@ -30,18 +30,19 @@ import { GetCallerIdentityRequest } from "../src/services/sts.ts";
 import { existsSync, readdirSync, readFileSync } from "fs";
 import { join } from "path";
 import { compileRuleSet } from "../scripts/compile-rules.ts";
+import type { Operation } from "../src/client/operation.ts";
 import type {
   EndpointParams,
   RuleSetObject,
 } from "../src/rules-engine/expression.ts";
 
 // Helper to resolve endpoint for a given schema and input
-const resolveEndpoint = <A, I>(
-  schema: S.Schema<A, I>,
-  input: A,
-  region: string,
-) => {
-  const operation = { input: schema, output: schema, errors: [] };
+const resolveEndpoint = <A>(schema: S.Schema<A>, input: A, region: string) => {
+  const operation: Operation<any, any, any> = {
+    input: schema,
+    output: schema,
+    errors: [],
+  };
   const resolver = makeEndpointResolver(operation);
   if (!resolver) {
     return Effect.fail(new Error("No rules resolver available"));

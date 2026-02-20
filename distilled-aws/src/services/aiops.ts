@@ -1,4 +1,4 @@
-import { HttpClient } from "@effect/platform";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as effect from "effect/Effect";
 import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
@@ -85,26 +85,22 @@ const rules = T.EndpointResolver((p, _) => {
 
 //# Newtypes
 export type TagKey = string;
+export type TagValue = string;
 export type StringWithPatternAndLengthLimits = string;
 export type RoleArn = string;
+export type KmsKeyId = string;
 export type Retention = number;
+export type SNSTopicArn = string;
+export type ChatConfigurationArn = string;
+export type InvestigationGroupArn = string;
 export type InvestigationGroupIdentifier = string;
+export type IdentifierStringWithPatternAndLengthLimits = string;
 export type SensitiveStringWithLengthLimits =
   | string
   | redacted.Redacted<string>;
 export type InvestigationGroupPolicyDocument = string;
-export type TagValue = string;
-export type KmsKeyId = string;
-export type SNSTopicArn = string;
-export type ChatConfigurationArn = string;
-export type IdentifierStringWithPatternAndLengthLimits = string;
-export type InvestigationGroupArn = string;
 
 //# Schemas
-export type TagKeys = string[];
-export const TagKeys = S.Array(S.String);
-export type TagKeyBoundaries = string[];
-export const TagKeyBoundaries = S.Array(S.String);
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
@@ -119,246 +115,17 @@ export const ListTagsForResourceRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "ListTagsForResourceRequest",
 }) as any as S.Schema<ListTagsForResourceRequest>;
-export interface UntagResourceRequest {
-  resourceArn: string;
-  tagKeys: string[];
-}
-export const UntagResourceRequest = S.suspend(() =>
-  S.Struct({
-    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-    tagKeys: TagKeys.pipe(T.HttpQuery("tagKeys")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
-export interface UntagResourceResponse {}
-export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
-  identifier: "UntagResourceResponse",
-}) as any as S.Schema<UntagResourceResponse>;
-export interface GetInvestigationGroupRequest {
-  identifier: string;
-}
-export const GetInvestigationGroupRequest = S.suspend(() =>
-  S.Struct({ identifier: S.String.pipe(T.HttpLabel("identifier")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/investigationGroups/{identifier}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "GetInvestigationGroupRequest",
-}) as any as S.Schema<GetInvestigationGroupRequest>;
-export type EncryptionConfigurationType =
-  | "AWS_OWNED_KEY"
-  | "CUSTOMER_MANAGED_KMS_KEY"
-  | (string & {});
-export const EncryptionConfigurationType = S.String;
-export interface EncryptionConfiguration {
-  type?: EncryptionConfigurationType;
-  kmsKeyId?: string;
-}
-export const EncryptionConfiguration = S.suspend(() =>
-  S.Struct({
-    type: S.optional(EncryptionConfigurationType),
-    kmsKeyId: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "EncryptionConfiguration",
-}) as any as S.Schema<EncryptionConfiguration>;
-export type ChatConfigurationArns = string[];
-export const ChatConfigurationArns = S.Array(S.String);
-export type ChatbotNotificationChannel = {
-  [key: string]: string[] | undefined;
-};
-export const ChatbotNotificationChannel = S.Record({
-  key: S.String,
-  value: S.UndefinedOr(ChatConfigurationArns),
-});
-export interface CrossAccountConfiguration {
-  sourceRoleArn?: string;
-}
-export const CrossAccountConfiguration = S.suspend(() =>
-  S.Struct({ sourceRoleArn: S.optional(S.String) }),
-).annotations({
-  identifier: "CrossAccountConfiguration",
-}) as any as S.Schema<CrossAccountConfiguration>;
-export type CrossAccountConfigurations = CrossAccountConfiguration[];
-export const CrossAccountConfigurations = S.Array(CrossAccountConfiguration);
-export interface UpdateInvestigationGroupRequest {
-  identifier: string;
-  roleArn?: string;
-  encryptionConfiguration?: EncryptionConfiguration;
-  tagKeyBoundaries?: string[];
-  chatbotNotificationChannel?: { [key: string]: string[] | undefined };
-  isCloudTrailEventHistoryEnabled?: boolean;
-  crossAccountConfigurations?: CrossAccountConfiguration[];
-}
-export const UpdateInvestigationGroupRequest = S.suspend(() =>
-  S.Struct({
-    identifier: S.String.pipe(T.HttpLabel("identifier")),
-    roleArn: S.optional(S.String),
-    encryptionConfiguration: S.optional(EncryptionConfiguration),
-    tagKeyBoundaries: S.optional(TagKeyBoundaries),
-    chatbotNotificationChannel: S.optional(ChatbotNotificationChannel),
-    isCloudTrailEventHistoryEnabled: S.optional(S.Boolean),
-    crossAccountConfigurations: S.optional(CrossAccountConfigurations),
-  }).pipe(
-    T.all(
-      T.Http({ method: "PATCH", uri: "/investigationGroups/{identifier}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "UpdateInvestigationGroupRequest",
-}) as any as S.Schema<UpdateInvestigationGroupRequest>;
-export interface UpdateInvestigationGroupOutput {}
-export const UpdateInvestigationGroupOutput = S.suspend(() =>
-  S.Struct({}),
-).annotations({
-  identifier: "UpdateInvestigationGroupOutput",
-}) as any as S.Schema<UpdateInvestigationGroupOutput>;
-export interface DeleteInvestigationGroupRequest {
-  identifier: string;
-}
-export const DeleteInvestigationGroupRequest = S.suspend(() =>
-  S.Struct({ identifier: S.String.pipe(T.HttpLabel("identifier")) }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/investigationGroups/{identifier}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DeleteInvestigationGroupRequest",
-}) as any as S.Schema<DeleteInvestigationGroupRequest>;
-export interface DeleteInvestigationGroupResponse {}
-export const DeleteInvestigationGroupResponse = S.suspend(() =>
-  S.Struct({}),
-).annotations({
-  identifier: "DeleteInvestigationGroupResponse",
-}) as any as S.Schema<DeleteInvestigationGroupResponse>;
-export interface ListInvestigationGroupsInput {
-  nextToken?: string | redacted.Redacted<string>;
-  maxResults?: number;
-}
-export const ListInvestigationGroupsInput = S.suspend(() =>
-  S.Struct({
-    nextToken: S.optional(SensitiveString).pipe(T.HttpQuery("nextToken")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/investigationGroups" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListInvestigationGroupsInput",
-}) as any as S.Schema<ListInvestigationGroupsInput>;
-export interface PutInvestigationGroupPolicyRequest {
-  identifier: string;
-  policy: string;
-}
-export const PutInvestigationGroupPolicyRequest = S.suspend(() =>
-  S.Struct({
-    identifier: S.String.pipe(T.HttpLabel("identifier")),
-    policy: S.String,
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/investigationGroups/{identifier}/policy",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "PutInvestigationGroupPolicyRequest",
-}) as any as S.Schema<PutInvestigationGroupPolicyRequest>;
-export interface GetInvestigationGroupPolicyRequest {
-  identifier: string;
-}
-export const GetInvestigationGroupPolicyRequest = S.suspend(() =>
-  S.Struct({ identifier: S.String.pipe(T.HttpLabel("identifier")) }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/investigationGroups/{identifier}/policy",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "GetInvestigationGroupPolicyRequest",
-}) as any as S.Schema<GetInvestigationGroupPolicyRequest>;
-export interface DeleteInvestigationGroupPolicyRequest {
-  identifier: string;
-}
-export const DeleteInvestigationGroupPolicyRequest = S.suspend(() =>
-  S.Struct({ identifier: S.String.pipe(T.HttpLabel("identifier")) }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/investigationGroups/{identifier}/policy",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DeleteInvestigationGroupPolicyRequest",
-}) as any as S.Schema<DeleteInvestigationGroupPolicyRequest>;
-export interface DeleteInvestigationGroupPolicyOutput {}
-export const DeleteInvestigationGroupPolicyOutput = S.suspend(() =>
-  S.Struct({}),
-).annotations({
-  identifier: "DeleteInvestigationGroupPolicyOutput",
-}) as any as S.Schema<DeleteInvestigationGroupPolicyOutput>;
 export type Tags = { [key: string]: string | undefined };
-export const Tags = S.Record({ key: S.String, value: S.UndefinedOr(S.String) });
+export const Tags = S.Record(S.String, S.String.pipe(S.optional));
 export interface ListTagsForResourceOutput {
   tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceOutput = S.suspend(() =>
   S.Struct({ tags: S.optional(Tags) }),
-).annotations({
+).annotate({
   identifier: "ListTagsForResourceOutput",
 }) as any as S.Schema<ListTagsForResourceOutput>;
 export interface TagResourceRequest {
@@ -379,13 +146,78 @@ export const TagResourceRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "TagResourceRequest",
 }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+export const TagResourceResponse = S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
+export type TagKeys = string[];
+export const TagKeys = S.Array(S.String);
+export interface UntagResourceRequest {
+  resourceArn: string;
+  tagKeys: string[];
+}
+export const UntagResourceRequest = S.suspend(() =>
+  S.Struct({
+    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
+    tagKeys: TagKeys.pipe(T.HttpQuery("tagKeys")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "UntagResourceRequest",
+}) as any as S.Schema<UntagResourceRequest>;
+export interface UntagResourceResponse {}
+export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotate({
+  identifier: "UntagResourceResponse",
+}) as any as S.Schema<UntagResourceResponse>;
+export type EncryptionConfigurationType =
+  | "AWS_OWNED_KEY"
+  | "CUSTOMER_MANAGED_KMS_KEY"
+  | (string & {});
+export const EncryptionConfigurationType = S.String;
+export interface EncryptionConfiguration {
+  type?: EncryptionConfigurationType;
+  kmsKeyId?: string;
+}
+export const EncryptionConfiguration = S.suspend(() =>
+  S.Struct({
+    type: S.optional(EncryptionConfigurationType),
+    kmsKeyId: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "EncryptionConfiguration",
+}) as any as S.Schema<EncryptionConfiguration>;
+export type TagKeyBoundaries = string[];
+export const TagKeyBoundaries = S.Array(S.String);
+export type ChatConfigurationArns = string[];
+export const ChatConfigurationArns = S.Array(S.String);
+export type ChatbotNotificationChannel = {
+  [key: string]: string[] | undefined;
+};
+export const ChatbotNotificationChannel = S.Record(
+  S.String,
+  ChatConfigurationArns.pipe(S.optional),
+);
+export interface CrossAccountConfiguration {
+  sourceRoleArn?: string;
+}
+export const CrossAccountConfiguration = S.suspend(() =>
+  S.Struct({ sourceRoleArn: S.optional(S.String) }),
+).annotate({
+  identifier: "CrossAccountConfiguration",
+}) as any as S.Schema<CrossAccountConfiguration>;
+export type CrossAccountConfigurations = CrossAccountConfiguration[];
+export const CrossAccountConfigurations = S.Array(CrossAccountConfiguration);
 export interface CreateInvestigationGroupInput {
   name: string;
   roleArn: string;
@@ -418,9 +250,34 @@ export const CreateInvestigationGroupInput = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "CreateInvestigationGroupInput",
 }) as any as S.Schema<CreateInvestigationGroupInput>;
+export interface CreateInvestigationGroupOutput {
+  arn?: string;
+}
+export const CreateInvestigationGroupOutput = S.suspend(() =>
+  S.Struct({ arn: S.optional(S.String) }),
+).annotate({
+  identifier: "CreateInvestigationGroupOutput",
+}) as any as S.Schema<CreateInvestigationGroupOutput>;
+export interface GetInvestigationGroupRequest {
+  identifier: string;
+}
+export const GetInvestigationGroupRequest = S.suspend(() =>
+  S.Struct({ identifier: S.String.pipe(T.HttpLabel("identifier")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/investigationGroups/{identifier}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetInvestigationGroupRequest",
+}) as any as S.Schema<GetInvestigationGroupRequest>;
 export interface GetInvestigationGroupResponse {
   createdBy?: string;
   createdAt?: number;
@@ -452,48 +309,101 @@ export const GetInvestigationGroupResponse = S.suspend(() =>
     isCloudTrailEventHistoryEnabled: S.optional(S.Boolean),
     crossAccountConfigurations: S.optional(CrossAccountConfigurations),
   }),
-).annotations({
+).annotate({
   identifier: "GetInvestigationGroupResponse",
 }) as any as S.Schema<GetInvestigationGroupResponse>;
-export interface PutInvestigationGroupPolicyResponse {
-  investigationGroupArn?: string;
+export interface UpdateInvestigationGroupRequest {
+  identifier: string;
+  roleArn?: string;
+  encryptionConfiguration?: EncryptionConfiguration;
+  tagKeyBoundaries?: string[];
+  chatbotNotificationChannel?: { [key: string]: string[] | undefined };
+  isCloudTrailEventHistoryEnabled?: boolean;
+  crossAccountConfigurations?: CrossAccountConfiguration[];
 }
-export const PutInvestigationGroupPolicyResponse = S.suspend(() =>
-  S.Struct({ investigationGroupArn: S.optional(S.String) }),
-).annotations({
-  identifier: "PutInvestigationGroupPolicyResponse",
-}) as any as S.Schema<PutInvestigationGroupPolicyResponse>;
-export interface GetInvestigationGroupPolicyResponse {
-  investigationGroupArn?: string;
-  policy?: string;
-}
-export const GetInvestigationGroupPolicyResponse = S.suspend(() =>
+export const UpdateInvestigationGroupRequest = S.suspend(() =>
   S.Struct({
-    investigationGroupArn: S.optional(S.String),
-    policy: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "GetInvestigationGroupPolicyResponse",
-}) as any as S.Schema<GetInvestigationGroupPolicyResponse>;
+    identifier: S.String.pipe(T.HttpLabel("identifier")),
+    roleArn: S.optional(S.String),
+    encryptionConfiguration: S.optional(EncryptionConfiguration),
+    tagKeyBoundaries: S.optional(TagKeyBoundaries),
+    chatbotNotificationChannel: S.optional(ChatbotNotificationChannel),
+    isCloudTrailEventHistoryEnabled: S.optional(S.Boolean),
+    crossAccountConfigurations: S.optional(CrossAccountConfigurations),
+  }).pipe(
+    T.all(
+      T.Http({ method: "PATCH", uri: "/investigationGroups/{identifier}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "UpdateInvestigationGroupRequest",
+}) as any as S.Schema<UpdateInvestigationGroupRequest>;
+export interface UpdateInvestigationGroupOutput {}
+export const UpdateInvestigationGroupOutput = S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "UpdateInvestigationGroupOutput",
+}) as any as S.Schema<UpdateInvestigationGroupOutput>;
+export interface DeleteInvestigationGroupRequest {
+  identifier: string;
+}
+export const DeleteInvestigationGroupRequest = S.suspend(() =>
+  S.Struct({ identifier: S.String.pipe(T.HttpLabel("identifier")) }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/investigationGroups/{identifier}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeleteInvestigationGroupRequest",
+}) as any as S.Schema<DeleteInvestigationGroupRequest>;
+export interface DeleteInvestigationGroupResponse {}
+export const DeleteInvestigationGroupResponse = S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "DeleteInvestigationGroupResponse",
+}) as any as S.Schema<DeleteInvestigationGroupResponse>;
+export interface ListInvestigationGroupsInput {
+  nextToken?: string | redacted.Redacted<string>;
+  maxResults?: number;
+}
+export const ListInvestigationGroupsInput = S.suspend(() =>
+  S.Struct({
+    nextToken: S.optional(SensitiveString).pipe(T.HttpQuery("nextToken")),
+    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/investigationGroups" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListInvestigationGroupsInput",
+}) as any as S.Schema<ListInvestigationGroupsInput>;
 export interface ListInvestigationGroupsModel {
   arn?: string;
   name?: string;
 }
 export const ListInvestigationGroupsModel = S.suspend(() =>
   S.Struct({ arn: S.optional(S.String), name: S.optional(S.String) }),
-).annotations({
+).annotate({
   identifier: "ListInvestigationGroupsModel",
 }) as any as S.Schema<ListInvestigationGroupsModel>;
 export type InvestigationGroups = ListInvestigationGroupsModel[];
 export const InvestigationGroups = S.Array(ListInvestigationGroupsModel);
-export interface CreateInvestigationGroupOutput {
-  arn?: string;
-}
-export const CreateInvestigationGroupOutput = S.suspend(() =>
-  S.Struct({ arn: S.optional(S.String) }),
-).annotations({
-  identifier: "CreateInvestigationGroupOutput",
-}) as any as S.Schema<CreateInvestigationGroupOutput>;
 export interface ListInvestigationGroupsOutput {
   nextToken?: string | redacted.Redacted<string>;
   investigationGroups?: ListInvestigationGroupsModel[];
@@ -503,36 +413,126 @@ export const ListInvestigationGroupsOutput = S.suspend(() =>
     nextToken: S.optional(SensitiveString),
     investigationGroups: S.optional(InvestigationGroups),
   }),
-).annotations({
+).annotate({
   identifier: "ListInvestigationGroupsOutput",
 }) as any as S.Schema<ListInvestigationGroupsOutput>;
+export interface PutInvestigationGroupPolicyRequest {
+  identifier: string;
+  policy: string;
+}
+export const PutInvestigationGroupPolicyRequest = S.suspend(() =>
+  S.Struct({
+    identifier: S.String.pipe(T.HttpLabel("identifier")),
+    policy: S.String,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/investigationGroups/{identifier}/policy",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "PutInvestigationGroupPolicyRequest",
+}) as any as S.Schema<PutInvestigationGroupPolicyRequest>;
+export interface PutInvestigationGroupPolicyResponse {
+  investigationGroupArn?: string;
+}
+export const PutInvestigationGroupPolicyResponse = S.suspend(() =>
+  S.Struct({ investigationGroupArn: S.optional(S.String) }),
+).annotate({
+  identifier: "PutInvestigationGroupPolicyResponse",
+}) as any as S.Schema<PutInvestigationGroupPolicyResponse>;
+export interface GetInvestigationGroupPolicyRequest {
+  identifier: string;
+}
+export const GetInvestigationGroupPolicyRequest = S.suspend(() =>
+  S.Struct({ identifier: S.String.pipe(T.HttpLabel("identifier")) }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/investigationGroups/{identifier}/policy",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetInvestigationGroupPolicyRequest",
+}) as any as S.Schema<GetInvestigationGroupPolicyRequest>;
+export interface GetInvestigationGroupPolicyResponse {
+  investigationGroupArn?: string;
+  policy?: string;
+}
+export const GetInvestigationGroupPolicyResponse = S.suspend(() =>
+  S.Struct({
+    investigationGroupArn: S.optional(S.String),
+    policy: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GetInvestigationGroupPolicyResponse",
+}) as any as S.Schema<GetInvestigationGroupPolicyResponse>;
+export interface DeleteInvestigationGroupPolicyRequest {
+  identifier: string;
+}
+export const DeleteInvestigationGroupPolicyRequest = S.suspend(() =>
+  S.Struct({ identifier: S.String.pipe(T.HttpLabel("identifier")) }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/investigationGroups/{identifier}/policy",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeleteInvestigationGroupPolicyRequest",
+}) as any as S.Schema<DeleteInvestigationGroupPolicyRequest>;
+export interface DeleteInvestigationGroupPolicyOutput {}
+export const DeleteInvestigationGroupPolicyOutput = S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "DeleteInvestigationGroupPolicyOutput",
+}) as any as S.Schema<DeleteInvestigationGroupPolicyOutput>;
 
 //# Errors
-export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
+export class AccessDeniedException extends S.TaggedErrorClass<AccessDeniedException>()(
   "AccessDeniedException",
   { message: S.optional(S.String) },
 ).pipe(C.withAuthError) {}
-export class ConflictException extends S.TaggedError<ConflictException>()(
+export class ConflictException extends S.TaggedErrorClass<ConflictException>()(
   "ConflictException",
   { message: S.optional(S.String) },
 ).pipe(C.withConflictError) {}
-export class InternalServerException extends S.TaggedError<InternalServerException>()(
+export class InternalServerException extends S.TaggedErrorClass<InternalServerException>()(
   "InternalServerException",
   { message: S.optional(S.String) },
 ).pipe(C.withServerError) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { message: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
-export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
+export class ThrottlingException extends S.TaggedErrorClass<ThrottlingException>()(
   "ThrottlingException",
   { message: S.optional(S.String) },
 ).pipe(C.withThrottlingError) {}
-export class ValidationException extends S.TaggedError<ValidationException>()(
+export class ValidationException extends S.TaggedErrorClass<ValidationException>()(
   "ValidationException",
   { message: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
-export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
+export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
   {
     message: S.optional(S.String),
@@ -544,200 +544,6 @@ export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExc
 ).pipe(C.withQuotaError) {}
 
 //# Operations
-/**
- * Returns the ARN and name of each investigation group in the account.
- */
-export const listInvestigationGroups: {
-  (
-    input: ListInvestigationGroupsInput,
-  ): effect.Effect<
-    ListInvestigationGroupsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  pages: (
-    input: ListInvestigationGroupsInput,
-  ) => stream.Stream<
-    ListInvestigationGroupsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  items: (
-    input: ListInvestigationGroupsInput,
-  ) => stream.Stream<
-    ListInvestigationGroupsModel,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
-  input: ListInvestigationGroupsInput,
-  output: ListInvestigationGroupsOutput,
-  errors: [AccessDeniedException, InternalServerException, ThrottlingException],
-  pagination: {
-    inputToken: "nextToken",
-    outputToken: "nextToken",
-    items: "investigationGroups",
-    pageSize: "maxResults",
-  } as const,
-}));
-/**
- * Deletes the specified investigation group from your account. You can currently have one investigation group per Region in your account. After you delete an investigation group, you can later create a new investigation group in the same Region.
- */
-export const deleteInvestigationGroup: (
-  input: DeleteInvestigationGroupRequest,
-) => effect.Effect<
-  DeleteInvestigationGroupResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteInvestigationGroupRequest,
-  output: DeleteInvestigationGroupResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Returns the configuration information for the specified investigation group.
- */
-export const getInvestigationGroup: (
-  input: GetInvestigationGroupRequest,
-) => effect.Effect<
-  GetInvestigationGroupResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetInvestigationGroupRequest,
-  output: GetInvestigationGroupResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Creates an IAM resource policy and assigns it to the specified investigation group.
- *
- * If you create your investigation group with `CreateInvestigationGroup` and you want to enable CloudWatch alarms to create investigations and add events to investigations, you must use this operation to create a policy similar to this example.
- *
- * ` { "Version": "2008-10-17", "Statement": [ { "Effect": "Allow", "Principal": { "Service": "aiops.alarms.cloudwatch.amazonaws.com" }, "Action": [ "aiops:CreateInvestigation", "aiops:CreateInvestigationEvent" ], "Resource": "*", "Condition": { "StringEquals": { "aws:SourceAccount": "account-id" }, "ArnLike": { "aws:SourceArn": "arn:aws:cloudwatch:region:account-id:alarm:*" } } } ] } `
- */
-export const putInvestigationGroupPolicy: (
-  input: PutInvestigationGroupPolicyRequest,
-) => effect.Effect<
-  PutInvestigationGroupPolicyResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PutInvestigationGroupPolicyRequest,
-  output: PutInvestigationGroupPolicyResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Creates an *investigation group* in your account. Creating an investigation group is a one-time setup task for each Region in your account. It is a necessary task to be able to perform investigations.
- *
- * Settings in the investigation group help you centrally manage the common properties of your investigations, such as the following:
- *
- * - Who can access the investigations
- *
- * - Whether investigation data is encrypted with a customer managed Key Management Service key.
- *
- * - How long investigations and their data are retained by default.
- *
- * Currently, you can have one investigation group in each Region in your account. Each investigation in a Region is a part of the investigation group in that Region
- *
- * To create an investigation group and set up CloudWatch investigations, you must be signed in to an IAM principal that has either the `AIOpsConsoleAdminPolicy` or the `AdministratorAccess` IAM policy attached, or to an account that has similar permissions.
- *
- * You can configure CloudWatch alarms to start investigations and add events to investigations. If you create your investigation group with `CreateInvestigationGroup` and you want to enable alarms to do this, you must use `PutInvestigationGroupPolicy` to create a resource policy that grants this permission to CloudWatch alarms.
- *
- * For more information about configuring CloudWatch alarms, see Using Amazon CloudWatch alarms
- */
-export const createInvestigationGroup: (
-  input: CreateInvestigationGroupInput,
-) => effect.Effect<
-  CreateInvestigationGroupOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateInvestigationGroupInput,
-  output: CreateInvestigationGroupOutput,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Updates the configuration of the specified investigation group.
- */
-export const updateInvestigationGroup: (
-  input: UpdateInvestigationGroupRequest,
-) => effect.Effect<
-  UpdateInvestigationGroupOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateInvestigationGroupRequest,
-  output: UpdateInvestigationGroupOutput,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
 /**
  * Displays the tags associated with a CloudWatch investigations resource. Currently, investigation groups support tagging.
  */
@@ -799,6 +605,227 @@ export const tagResource: (
   ],
 }));
 /**
+ * Removes one or more tags from the specified resource.
+ */
+export const untagResource: (
+  input: UntagResourceRequest,
+) => effect.Effect<
+  UntagResourceResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Creates an *investigation group* in your account. Creating an investigation group is a one-time setup task for each Region in your account. It is a necessary task to be able to perform investigations.
+ *
+ * Settings in the investigation group help you centrally manage the common properties of your investigations, such as the following:
+ *
+ * - Who can access the investigations
+ *
+ * - Whether investigation data is encrypted with a customer managed Key Management Service key.
+ *
+ * - How long investigations and their data are retained by default.
+ *
+ * Currently, you can have one investigation group in each Region in your account. Each investigation in a Region is a part of the investigation group in that Region
+ *
+ * To create an investigation group and set up CloudWatch investigations, you must be signed in to an IAM principal that has either the `AIOpsConsoleAdminPolicy` or the `AdministratorAccess` IAM policy attached, or to an account that has similar permissions.
+ *
+ * You can configure CloudWatch alarms to start investigations and add events to investigations. If you create your investigation group with `CreateInvestigationGroup` and you want to enable alarms to do this, you must use `PutInvestigationGroupPolicy` to create a resource policy that grants this permission to CloudWatch alarms.
+ *
+ * For more information about configuring CloudWatch alarms, see Using Amazon CloudWatch alarms
+ */
+export const createInvestigationGroup: (
+  input: CreateInvestigationGroupInput,
+) => effect.Effect<
+  CreateInvestigationGroupOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateInvestigationGroupInput,
+  output: CreateInvestigationGroupOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Returns the configuration information for the specified investigation group.
+ */
+export const getInvestigationGroup: (
+  input: GetInvestigationGroupRequest,
+) => effect.Effect<
+  GetInvestigationGroupResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetInvestigationGroupRequest,
+  output: GetInvestigationGroupResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Updates the configuration of the specified investigation group.
+ */
+export const updateInvestigationGroup: (
+  input: UpdateInvestigationGroupRequest,
+) => effect.Effect<
+  UpdateInvestigationGroupOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateInvestigationGroupRequest,
+  output: UpdateInvestigationGroupOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Deletes the specified investigation group from your account. You can currently have one investigation group per Region in your account. After you delete an investigation group, you can later create a new investigation group in the same Region.
+ */
+export const deleteInvestigationGroup: (
+  input: DeleteInvestigationGroupRequest,
+) => effect.Effect<
+  DeleteInvestigationGroupResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteInvestigationGroupRequest,
+  output: DeleteInvestigationGroupResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Returns the ARN and name of each investigation group in the account.
+ */
+export const listInvestigationGroups: {
+  (
+    input: ListInvestigationGroupsInput,
+  ): effect.Effect<
+    ListInvestigationGroupsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListInvestigationGroupsInput,
+  ) => stream.Stream<
+    ListInvestigationGroupsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListInvestigationGroupsInput,
+  ) => stream.Stream<
+    ListInvestigationGroupsModel,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListInvestigationGroupsInput,
+  output: ListInvestigationGroupsOutput,
+  errors: [AccessDeniedException, InternalServerException, ThrottlingException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "investigationGroups",
+    pageSize: "maxResults",
+  } as const,
+}));
+/**
+ * Creates an IAM resource policy and assigns it to the specified investigation group.
+ *
+ * If you create your investigation group with `CreateInvestigationGroup` and you want to enable CloudWatch alarms to create investigations and add events to investigations, you must use this operation to create a policy similar to this example.
+ *
+ * ` { "Version": "2008-10-17", "Statement": [ { "Effect": "Allow", "Principal": { "Service": "aiops.alarms.cloudwatch.amazonaws.com" }, "Action": [ "aiops:CreateInvestigation", "aiops:CreateInvestigationEvent" ], "Resource": "*", "Condition": { "StringEquals": { "aws:SourceAccount": "account-id" }, "ArnLike": { "aws:SourceArn": "arn:aws:cloudwatch:region:account-id:alarm:*" } } } ] } `
+ */
+export const putInvestigationGroupPolicy: (
+  input: PutInvestigationGroupPolicyRequest,
+) => effect.Effect<
+  PutInvestigationGroupPolicyResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutInvestigationGroupPolicyRequest,
+  output: PutInvestigationGroupPolicyResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
  * Returns the JSON of the IAM resource policy associated with the specified investigation group in a string. For example, `{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":{\"Service\":\"aiops.alarms.cloudwatch.amazonaws.com\"},\"Action\":[\"aiops:CreateInvestigation\",\"aiops:CreateInvestigationEvent\"],\"Resource\":\"*\",\"Condition\":{\"StringEquals\":{\"aws:SourceAccount\":\"111122223333\"},\"ArnLike\":{\"aws:SourceArn\":\"arn:aws:cloudwatch:us-east-1:111122223333:alarm:*\"}}}]}`.
  */
 export const getInvestigationGroupPolicy: (
@@ -842,33 +869,6 @@ export const deleteInvestigationGroupPolicy: (
   output: DeleteInvestigationGroupPolicyOutput,
   errors: [
     AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Removes one or more tags from the specified resource.
- */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
-  UntagResourceResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
     InternalServerException,
     ResourceNotFoundException,
     ThrottlingException,

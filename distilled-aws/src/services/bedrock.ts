@@ -1,4 +1,4 @@
-import { HttpClient } from "@effect/platform";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as effect from "effect/Effect";
 import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
@@ -88,116 +88,21 @@ const rules = T.EndpointResolver((p, _) => {
 
 //# Newtypes
 export type AcknowledgementFormDataBody = Uint8Array;
+export type NonBlankString = string;
 export type AutomatedReasoningPolicyName = string | redacted.Redacted<string>;
 export type AutomatedReasoningPolicyDescription =
   | string
   | redacted.Redacted<string>;
 export type IdempotencyToken = string;
-export type KmsKeyId = string;
-export type AutomatedReasoningPolicyArn = string;
-export type PaginationToken = string;
-export type MaxResults = number;
-export type AutomatedReasoningPolicyBuildWorkflowId = string;
-export type AutomatedReasoningPolicyTestGuardContent =
-  | string
-  | redacted.Redacted<string>;
-export type AutomatedReasoningPolicyTestQueryContent =
-  | string
-  | redacted.Redacted<string>;
-export type AutomatedReasoningCheckTranslationConfidence = number;
-export type AutomatedReasoningPolicyHash = string;
-export type AutomatedReasoningPolicyTestCaseId = string;
-export type ModelSourceIdentifier = string;
-export type AcceptEula = boolean;
-export type EndpointName = string;
-export type Arn = string;
-export type ModelDeploymentName = string;
-export type CustomModelArn = string;
-export type CustomModelDeploymentDescription = string;
-export type CustomModelDeploymentIdentifier = string;
-export type CustomModelName = string;
-export type KmsKeyArn = string;
-export type RoleArn = string;
-export type ModelIdentifier = string;
-export type ModelArn = string;
-export type FoundationModelArn = string;
-export type AccountEnforcedGuardrailConfigurationId = string;
-export type EvaluationJobIdentifier = string | redacted.Redacted<string>;
-export type EvaluationJobName = string;
-export type EvaluationJobDescription = string | redacted.Redacted<string>;
-export type GuardrailName = string | redacted.Redacted<string>;
-export type GuardrailDescription = string | redacted.Redacted<string>;
-export type GuardrailBlockedMessaging = string | redacted.Redacted<string>;
-export type GuardrailIdentifier = string;
-export type GuardrailVersion = string;
-export type GuardrailNumericalVersion = string;
-export type InferenceProfileName = string;
-export type InferenceProfileDescription = string | redacted.Redacted<string>;
-export type InferenceProfileIdentifier = string;
-export type NonBlankString = string;
-export type ModelCopyJobArn = string;
-export type AccountId = string;
-export type JobName = string;
-export type ImportedModelName = string;
-export type ImportedModelIdentifier = string;
-export type ModelImportJobIdentifier = string;
-export type ModelInvocationJobName = string;
-export type ModelInvocationIdempotencyToken = string;
-export type ModelId = string;
-export type ModelInvocationJobTimeoutDurationInHours = number;
-export type ModelInvocationJobIdentifier = string;
-export type GetFoundationModelIdentifier = string;
-export type Provider = string;
-export type PromptRouterName = string;
-export type PromptRouterDescription = string | redacted.Redacted<string>;
-export type PromptRouterArn = string;
-export type PositiveInteger = number;
-export type ProvisionedModelName = string;
-export type ProvisionedModelId = string;
-export type OfferToken = string;
-export type BedrockModelId = string;
-export type TaggableResourcesArn = string;
-export type TagKey = string;
-export type BaseModelIdentifier = string;
-export type ModelCustomizationJobIdentifier = string;
 export type AutomatedReasoningPolicyFormatVersion = string;
-export type TagValue = string;
-export type S3Uri = string;
-export type AutomatedReasoningConfidenceFilterThreshold = number;
-export type GuardrailCrossRegionGuardrailProfileIdentifier = string;
-export type InferenceProfileModelSourceArn = string;
-export type SubnetId = string;
-export type SecurityGroupId = string;
-export type PromptRouterTargetModelArn = string;
-export type AutomatedReasoningPolicyVersion = string;
-export type AutomatedReasoningPolicyId = string;
-export type AutomatedReasoningPolicyBuildDocumentName =
-  | string
-  | redacted.Redacted<string>;
-export type AutomatedReasoningPolicyBuildDocumentDescription =
-  | string
-  | redacted.Redacted<string>;
-export type CustomModelDeploymentArn = string;
-export type ErrorMessage = string;
-export type ModelCustomizationJobArn = string;
-export type EvaluationJobArn = string;
-export type GuardrailId = string;
-export type GuardrailArn = string;
-export type GuardrailStatusReason = string | redacted.Redacted<string>;
-export type GuardrailFailureRecommendation = string | redacted.Redacted<string>;
-export type GuardrailDraftVersion = string;
-export type InferenceProfileArn = string;
-export type InferenceProfileId = string;
-export type ImportedModelArn = string;
-export type ModelImportJobArn = string;
-export type InstructSupported = boolean;
-export type ModelInvocationJobArn = string;
-export type Message = string | redacted.Redacted<string>;
-export type ProvisionedModelArn = string;
 export type AutomatedReasoningPolicyDefinitionTypeName =
   | string
   | redacted.Redacted<string>;
 export type AutomatedReasoningPolicyDefinitionTypeDescription =
+  | string
+  | redacted.Redacted<string>;
+export type AutomatedReasoningPolicyDefinitionTypeValueName = string;
+export type AutomatedReasoningPolicyDefinitionTypeValueDescription =
   | string
   | redacted.Redacted<string>;
 export type AutomatedReasoningPolicyDefinitionRuleId = string;
@@ -213,6 +118,26 @@ export type AutomatedReasoningPolicyDefinitionVariableName =
 export type AutomatedReasoningPolicyDefinitionVariableDescription =
   | string
   | redacted.Redacted<string>;
+export type KmsKeyId = string;
+export type TagKey = string;
+export type TagValue = string;
+export type AutomatedReasoningPolicyArn = string;
+export type AutomatedReasoningPolicyVersion = string;
+export type AutomatedReasoningPolicyHash = string;
+export type TaggableResourcesArn = string;
+export type AutomatedReasoningPolicyId = string;
+export type KmsKeyArn = string;
+export type PaginationToken = string;
+export type MaxResults = number;
+export type AutomatedReasoningPolicyBuildWorkflowId = string;
+export type AutomatedReasoningPolicyTestGuardContent =
+  | string
+  | redacted.Redacted<string>;
+export type AutomatedReasoningPolicyTestQueryContent =
+  | string
+  | redacted.Redacted<string>;
+export type AutomatedReasoningCheckTranslationConfidence = number;
+export type AutomatedReasoningPolicyTestCaseId = string;
 export type AutomatedReasoningPolicyAnnotationRuleNaturalLanguage =
   | string
   | redacted.Redacted<string>;
@@ -225,45 +150,49 @@ export type AutomatedReasoningPolicyScenarioExpression =
 export type AutomatedReasoningPolicyAnnotationIngestContent =
   | string
   | redacted.Redacted<string>;
-export type InstanceCount = number;
-export type InstanceType = string;
-export type GuardrailTopicName = string | redacted.Redacted<string>;
-export type GuardrailTopicDefinition = string | redacted.Redacted<string>;
-export type GuardrailTopicExample = string | redacted.Redacted<string>;
-export type LogGroupName = string;
-export type BucketName = string;
-export type KeyPrefix = string;
-export type UsePromptResponse = boolean;
+export type AutomatedReasoningPolicyBuildDocumentName =
+  | string
+  | redacted.Redacted<string>;
+export type AutomatedReasoningPolicyBuildDocumentDescription =
+  | string
+  | redacted.Redacted<string>;
 export type AutomatedReasoningPolicyScenarioAlternateExpression =
   | string
   | redacted.Redacted<string>;
-export type MetricFloat = number;
-export type ModelName = string;
-export type ConfigurationOwner = string;
-export type EvaluationBedrockModelIdentifier = string;
-export type KnowledgeBaseId = string;
-export type EvaluatorModelIdentifier = string;
-export type GuardrailCrossRegionGuardrailProfileId = string;
-export type GuardrailCrossRegionGuardrailProfileArn = string;
-export type CustomModelUnitsVersion = string;
-export type ModelArchitecture = string;
-export type BrandedName = string;
-export type OfferId = string;
-export type AutomatedReasoningPolicyDefinitionTypeValueName = string;
-export type AutomatedReasoningPolicyDefinitionTypeValueDescription =
+export type AutomatedReasoningLogicStatementContent =
+  | string
+  | redacted.Redacted<string>;
+export type AutomatedReasoningNaturalLanguageStatementContent =
   | string
   | redacted.Redacted<string>;
 export type AutomatedReasoningPolicyBuildDocumentBlob =
   | Uint8Array
   | redacted.Redacted<Uint8Array>;
-export type EvaluationMetricName = string | redacted.Redacted<string>;
-export type SageMakerFlowDefinitionArn = string;
-export type HumanTaskInstructions = string | redacted.Redacted<string>;
-export type EvaluationMetricDescription = string | redacted.Redacted<string>;
-export type EvaluationRatingMethod = string;
-export type EvaluationModelInferenceParams = string | redacted.Redacted<string>;
-export type EvaluationPrecomputedInferenceSourceIdentifier = string;
+export type ModelSourceIdentifier = string;
+export type InstanceCount = number;
+export type InstanceType = string;
+export type RoleArn = string;
+export type SubnetId = string;
+export type SecurityGroupId = string;
+export type AcceptEula = boolean;
+export type EndpointName = string;
+export type Arn = string;
+export type ModelDeploymentName = string;
+export type CustomModelArn = string;
+export type CustomModelDeploymentDescription = string;
+export type CustomModelDeploymentArn = string;
+export type CustomModelDeploymentIdentifier = string;
+export type ModelArn = string;
+export type ErrorMessage = string;
+export type CustomModelName = string;
+export type S3Uri = string;
+export type ModelIdentifier = string;
+export type JobName = string;
+export type ModelCustomizationJobArn = string;
+export type UsePromptResponse = boolean;
+export type MetricFloat = number;
 export type TeacherModelIdentifier = string;
+export type LambdaArn = string;
 export type EpochCount = number;
 export type RFTBatchSize = number;
 export type RFTLearningRate = number;
@@ -271,32 +200,103 @@ export type RFTMaxPromptLength = number;
 export type RFTTrainingSamplePerPrompt = number;
 export type RFTInferenceMaxTokens = number;
 export type RFTEvalInterval = number;
+export type FoundationModelArn = string;
+export type ModelName = string;
+export type AccountId = string;
+export type AccountEnforcedGuardrailConfigurationId = string;
+export type GuardrailArn = string;
+export type GuardrailId = string;
+export type GuardrailNumericalVersion = string;
+export type ConfigurationOwner = string;
+export type GuardrailIdentifier = string;
+export type EvaluationJobIdentifier = string | redacted.Redacted<string>;
+export type EvaluationJobName = string;
+export type EvaluationJobDescription = string | redacted.Redacted<string>;
 export type EvaluationDatasetName = string | redacted.Redacted<string>;
-export type EvaluationPrecomputedRagSourceIdentifier = string;
-export type LambdaArn = string;
+export type EvaluationMetricName = string | redacted.Redacted<string>;
+export type EvaluatorModelIdentifier = string;
 export type MetricName = string | redacted.Redacted<string>;
 export type CustomMetricInstructions = string;
-export type BedrockModelArn = string;
 export type RatingScaleItemDefinition = string;
-export type AutomatedReasoningLogicStatementContent =
-  | string
-  | redacted.Redacted<string>;
-export type AutomatedReasoningNaturalLanguageStatementContent =
-  | string
-  | redacted.Redacted<string>;
-export type TextPromptTemplate = string | redacted.Redacted<string>;
+export type SageMakerFlowDefinitionArn = string;
+export type HumanTaskInstructions = string | redacted.Redacted<string>;
+export type EvaluationMetricDescription = string | redacted.Redacted<string>;
+export type EvaluationRatingMethod = string;
+export type EvaluationBedrockModelIdentifier = string;
+export type EvaluationModelInferenceParams = string | redacted.Redacted<string>;
+export type EvaluationPrecomputedInferenceSourceIdentifier = string;
+export type KnowledgeBaseId = string;
+export type FilterKey = string;
+export type FilterValue = unknown;
+export type BedrockModelArn = string;
+export type BedrockRerankingModelArn = string;
 export type AdditionalModelRequestFieldsKey = string;
 export type AdditionalModelRequestFieldsValue = unknown;
+export type TextPromptTemplate = string | redacted.Redacted<string>;
+export type Temperature = number;
+export type TopP = number;
+export type MaxTokens = number;
 export type KBS3Uri = string;
 export type Identifier = string | redacted.Redacted<string>;
 export type ContentType = string;
 export type ByteContentBlob = Uint8Array | redacted.Redacted<Uint8Array>;
-export type FilterKey = string;
-export type FilterValue = unknown;
-export type Temperature = number;
-export type TopP = number;
-export type MaxTokens = number;
-export type BedrockRerankingModelArn = string;
+export type EvaluationPrecomputedRagSourceIdentifier = string;
+export type EvaluationJobArn = string;
+export type GuardrailName = string | redacted.Redacted<string>;
+export type GuardrailDescription = string | redacted.Redacted<string>;
+export type GuardrailTopicName = string | redacted.Redacted<string>;
+export type GuardrailTopicDefinition = string | redacted.Redacted<string>;
+export type GuardrailTopicExample = string | redacted.Redacted<string>;
+export type AutomatedReasoningConfidenceFilterThreshold = number;
+export type GuardrailCrossRegionGuardrailProfileIdentifier = string;
+export type GuardrailBlockedMessaging = string | redacted.Redacted<string>;
+export type GuardrailDraftVersion = string;
+export type GuardrailVersion = string;
+export type GuardrailCrossRegionGuardrailProfileId = string;
+export type GuardrailCrossRegionGuardrailProfileArn = string;
+export type GuardrailStatusReason = string | redacted.Redacted<string>;
+export type GuardrailFailureRecommendation = string | redacted.Redacted<string>;
+export type InferenceProfileName = string;
+export type InferenceProfileDescription = string | redacted.Redacted<string>;
+export type InferenceProfileModelSourceArn = string;
+export type InferenceProfileArn = string;
+export type InferenceProfileIdentifier = string;
+export type InferenceProfileId = string;
+export type LogGroupName = string;
+export type BucketName = string;
+export type KeyPrefix = string;
+export type ModelCopyJobArn = string;
+export type ImportedModelName = string;
+export type ModelImportJobArn = string;
+export type ImportedModelIdentifier = string;
+export type ImportedModelArn = string;
+export type InstructSupported = boolean;
+export type CustomModelUnitsVersion = string;
+export type ModelImportJobIdentifier = string;
+export type ModelArchitecture = string;
+export type ModelInvocationJobName = string;
+export type ModelInvocationIdempotencyToken = string;
+export type ModelId = string;
+export type ModelInvocationJobTimeoutDurationInHours = number;
+export type ModelInvocationJobArn = string;
+export type ModelInvocationJobIdentifier = string;
+export type Message = string | redacted.Redacted<string>;
+export type GetFoundationModelIdentifier = string;
+export type BedrockModelId = string;
+export type BrandedName = string;
+export type Provider = string;
+export type PromptRouterName = string;
+export type PromptRouterTargetModelArn = string;
+export type PromptRouterDescription = string | redacted.Redacted<string>;
+export type PromptRouterArn = string;
+export type PositiveInteger = number;
+export type ProvisionedModelName = string;
+export type ProvisionedModelArn = string;
+export type ProvisionedModelId = string;
+export type OfferToken = string;
+export type OfferId = string;
+export type BaseModelIdentifier = string;
+export type ModelCustomizationJobIdentifier = string;
 
 //# Schemas
 export interface GetUseCaseForModelAccessRequest {}
@@ -311,180 +311,15 @@ export const GetUseCaseForModelAccessRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "GetUseCaseForModelAccessRequest",
 }) as any as S.Schema<GetUseCaseForModelAccessRequest>;
-export interface DeleteModelInvocationLoggingConfigurationRequest {}
-export const DeleteModelInvocationLoggingConfigurationRequest = S.suspend(() =>
-  S.Struct({}).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/logging/modelinvocations" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DeleteModelInvocationLoggingConfigurationRequest",
-}) as any as S.Schema<DeleteModelInvocationLoggingConfigurationRequest>;
-export interface DeleteModelInvocationLoggingConfigurationResponse {}
-export const DeleteModelInvocationLoggingConfigurationResponse = S.suspend(() =>
-  S.Struct({}),
-).annotations({
-  identifier: "DeleteModelInvocationLoggingConfigurationResponse",
-}) as any as S.Schema<DeleteModelInvocationLoggingConfigurationResponse>;
-export interface GetModelInvocationLoggingConfigurationRequest {}
-export const GetModelInvocationLoggingConfigurationRequest = S.suspend(() =>
-  S.Struct({}).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/logging/modelinvocations" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "GetModelInvocationLoggingConfigurationRequest",
-}) as any as S.Schema<GetModelInvocationLoggingConfigurationRequest>;
-export type AutomatedReasoningCheckResult =
-  | "VALID"
-  | "INVALID"
-  | "SATISFIABLE"
-  | "IMPOSSIBLE"
-  | "TRANSLATION_AMBIGUOUS"
-  | "TOO_COMPLEX"
-  | "NO_TRANSLATION"
-  | (string & {});
-export const AutomatedReasoningCheckResult = S.String;
-export type AutomatedReasoningPolicyBuildResultAssetType =
-  | "BUILD_LOG"
-  | "QUALITY_REPORT"
-  | "POLICY_DEFINITION"
-  | "GENERATED_TEST_CASES"
-  | "POLICY_SCENARIOS"
-  | (string & {});
-export const AutomatedReasoningPolicyBuildResultAssetType = S.String;
-export type AutomatedReasoningPolicyBuildWorkflowType =
-  | "INGEST_CONTENT"
-  | "REFINE_POLICY"
-  | "IMPORT_POLICY"
-  | (string & {});
-export const AutomatedReasoningPolicyBuildWorkflowType = S.String;
-export type AutomatedReasoningPolicyTestCaseIdList = string[];
-export const AutomatedReasoningPolicyTestCaseIdList = S.Array(S.String);
-export type SortModelsBy = "CreationTime" | (string & {});
-export const SortModelsBy = S.String;
-export type SortOrder = "Ascending" | "Descending" | (string & {});
-export const SortOrder = S.String;
-export type CustomModelDeploymentStatus =
-  | "Creating"
-  | "Active"
-  | "Failed"
-  | (string & {});
-export const CustomModelDeploymentStatus = S.String;
-export type ModelStatus = "Active" | "Creating" | "Failed" | (string & {});
-export const ModelStatus = S.String;
-export type EvaluationJobIdentifiers = string | redacted.Redacted<string>[];
-export const EvaluationJobIdentifiers = S.Array(SensitiveString);
-export type ApplicationType =
-  | "ModelEvaluation"
-  | "RagEvaluation"
-  | (string & {});
-export const ApplicationType = S.String;
-export type EvaluationJobStatus =
-  | "InProgress"
-  | "Completed"
-  | "Failed"
-  | "Stopping"
-  | "Stopped"
-  | "Deleting"
-  | (string & {});
-export const EvaluationJobStatus = S.String;
-export type SortJobsBy = "CreationTime" | (string & {});
-export const SortJobsBy = S.String;
-export type InferenceProfileType =
-  | "SYSTEM_DEFINED"
-  | "APPLICATION"
-  | (string & {});
-export const InferenceProfileType = S.String;
-export type ModelCopyJobStatus =
-  | "InProgress"
-  | "Completed"
-  | "Failed"
-  | (string & {});
-export const ModelCopyJobStatus = S.String;
-export type ModelImportJobStatus =
-  | "InProgress"
-  | "Completed"
-  | "Failed"
-  | (string & {});
-export const ModelImportJobStatus = S.String;
-export type ModelInvocationJobStatus =
-  | "Submitted"
-  | "InProgress"
-  | "Completed"
-  | "Failed"
-  | "Stopping"
-  | "Stopped"
-  | "PartiallyCompleted"
-  | "Expired"
-  | "Validating"
-  | "Scheduled"
-  | (string & {});
-export const ModelInvocationJobStatus = S.String;
-export type ModelCustomization =
-  | "FINE_TUNING"
-  | "CONTINUED_PRE_TRAINING"
-  | "DISTILLATION"
-  | (string & {});
-export const ModelCustomization = S.String;
-export type ModelModality = "TEXT" | "IMAGE" | "EMBEDDING" | (string & {});
-export const ModelModality = S.String;
-export type InferenceType = "ON_DEMAND" | "PROVISIONED" | (string & {});
-export const InferenceType = S.String;
-export type PromptRouterType = "custom" | "default" | (string & {});
-export const PromptRouterType = S.String;
-export type CommitmentDuration = "OneMonth" | "SixMonths" | (string & {});
-export const CommitmentDuration = S.String;
-export type ProvisionedModelStatus =
-  | "Creating"
-  | "InService"
-  | "Updating"
-  | "Failed"
-  | (string & {});
-export const ProvisionedModelStatus = S.String;
-export type SortByProvisionedModels = "CreationTime" | (string & {});
-export const SortByProvisionedModels = S.String;
-export type OfferType = "ALL" | "PUBLIC" | (string & {});
-export const OfferType = S.String;
-export type TagKeyList = string[];
-export const TagKeyList = S.Array(S.String);
-export type CustomizationType =
-  | "FINE_TUNING"
-  | "CONTINUED_PRE_TRAINING"
-  | "DISTILLATION"
-  | "REINFORCEMENT_FINE_TUNING"
-  | "IMPORTED"
-  | (string & {});
-export const CustomizationType = S.String;
-export type FineTuningJobStatus =
-  | "InProgress"
-  | "Completed"
-  | "Failed"
-  | "Stopping"
-  | "Stopped"
-  | (string & {});
-export const FineTuningJobStatus = S.String;
 export interface GetUseCaseForModelAccessResponse {
   formData: Uint8Array;
 }
 export const GetUseCaseForModelAccessResponse = S.suspend(() =>
   S.Struct({ formData: T.Blob }),
-).annotations({
+).annotate({
   identifier: "GetUseCaseForModelAccessResponse",
 }) as any as S.Schema<GetUseCaseForModelAccessResponse>;
 export interface PutUseCaseForModelAccessRequest {
@@ -501,42 +336,22 @@ export const PutUseCaseForModelAccessRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "PutUseCaseForModelAccessRequest",
 }) as any as S.Schema<PutUseCaseForModelAccessRequest>;
 export interface PutUseCaseForModelAccessResponse {}
 export const PutUseCaseForModelAccessResponse = S.suspend(() =>
   S.Struct({}),
-).annotations({
+).annotate({
   identifier: "PutUseCaseForModelAccessResponse",
 }) as any as S.Schema<PutUseCaseForModelAccessResponse>;
-export interface GetAutomatedReasoningPolicyRequest {
-  policyArn: string;
-}
-export const GetAutomatedReasoningPolicyRequest = S.suspend(() =>
-  S.Struct({ policyArn: S.String.pipe(T.HttpLabel("policyArn")) }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/automated-reasoning-policies/{policyArn}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "GetAutomatedReasoningPolicyRequest",
-}) as any as S.Schema<GetAutomatedReasoningPolicyRequest>;
 export interface AutomatedReasoningPolicyDefinitionTypeValue {
   value: string;
   description?: string | redacted.Redacted<string>;
 }
 export const AutomatedReasoningPolicyDefinitionTypeValue = S.suspend(() =>
   S.Struct({ value: S.String, description: S.optional(SensitiveString) }),
-).annotations({
+).annotate({
   identifier: "AutomatedReasoningPolicyDefinitionTypeValue",
 }) as any as S.Schema<AutomatedReasoningPolicyDefinitionTypeValue>;
 export type AutomatedReasoningPolicyDefinitionTypeValueList =
@@ -555,7 +370,7 @@ export const AutomatedReasoningPolicyDefinitionType = S.suspend(() =>
     description: S.optional(SensitiveString),
     values: AutomatedReasoningPolicyDefinitionTypeValueList,
   }),
-).annotations({
+).annotate({
   identifier: "AutomatedReasoningPolicyDefinitionType",
 }) as any as S.Schema<AutomatedReasoningPolicyDefinitionType>;
 export type AutomatedReasoningPolicyDefinitionTypeList =
@@ -574,7 +389,7 @@ export const AutomatedReasoningPolicyDefinitionRule = S.suspend(() =>
     expression: SensitiveString,
     alternateExpression: S.optional(SensitiveString),
   }),
-).annotations({
+).annotate({
   identifier: "AutomatedReasoningPolicyDefinitionRule",
 }) as any as S.Schema<AutomatedReasoningPolicyDefinitionRule>;
 export type AutomatedReasoningPolicyDefinitionRuleList =
@@ -593,7 +408,7 @@ export const AutomatedReasoningPolicyDefinitionVariable = S.suspend(() =>
     type: SensitiveString,
     description: SensitiveString,
   }),
-).annotations({
+).annotate({
   identifier: "AutomatedReasoningPolicyDefinitionVariable",
 }) as any as S.Schema<AutomatedReasoningPolicyDefinitionVariable>;
 export type AutomatedReasoningPolicyDefinitionVariableList =
@@ -614,9 +429,117 @@ export const AutomatedReasoningPolicyDefinition = S.suspend(() =>
     rules: S.optional(AutomatedReasoningPolicyDefinitionRuleList),
     variables: S.optional(AutomatedReasoningPolicyDefinitionVariableList),
   }),
-).annotations({
+).annotate({
   identifier: "AutomatedReasoningPolicyDefinition",
 }) as any as S.Schema<AutomatedReasoningPolicyDefinition>;
+export interface Tag {
+  key: string;
+  value: string;
+}
+export const Tag = S.suspend(() =>
+  S.Struct({ key: S.String, value: S.String }),
+).annotate({ identifier: "Tag" }) as any as S.Schema<Tag>;
+export type TagList = Tag[];
+export const TagList = S.Array(Tag);
+export interface CreateAutomatedReasoningPolicyRequest {
+  name: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
+  clientRequestToken?: string;
+  policyDefinition?: AutomatedReasoningPolicyDefinition;
+  kmsKeyId?: string;
+  tags?: Tag[];
+}
+export const CreateAutomatedReasoningPolicyRequest = S.suspend(() =>
+  S.Struct({
+    name: SensitiveString,
+    description: S.optional(SensitiveString),
+    clientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+    policyDefinition: S.optional(AutomatedReasoningPolicyDefinition),
+    kmsKeyId: S.optional(S.String),
+    tags: S.optional(TagList),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/automated-reasoning-policies" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "CreateAutomatedReasoningPolicyRequest",
+}) as any as S.Schema<CreateAutomatedReasoningPolicyRequest>;
+export interface CreateAutomatedReasoningPolicyResponse {
+  policyArn: string;
+  version: string;
+  name: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
+  definitionHash?: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+export const CreateAutomatedReasoningPolicyResponse = S.suspend(() =>
+  S.Struct({
+    policyArn: S.String,
+    version: S.String,
+    name: SensitiveString,
+    description: S.optional(SensitiveString),
+    definitionHash: S.optional(S.String),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+  }),
+).annotate({
+  identifier: "CreateAutomatedReasoningPolicyResponse",
+}) as any as S.Schema<CreateAutomatedReasoningPolicyResponse>;
+export interface GetAutomatedReasoningPolicyRequest {
+  policyArn: string;
+}
+export const GetAutomatedReasoningPolicyRequest = S.suspend(() =>
+  S.Struct({ policyArn: S.String.pipe(T.HttpLabel("policyArn")) }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/automated-reasoning-policies/{policyArn}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetAutomatedReasoningPolicyRequest",
+}) as any as S.Schema<GetAutomatedReasoningPolicyRequest>;
+export interface GetAutomatedReasoningPolicyResponse {
+  policyArn: string;
+  name: string | redacted.Redacted<string>;
+  version: string;
+  policyId: string;
+  description?: string | redacted.Redacted<string>;
+  definitionHash: string;
+  kmsKeyArn?: string;
+  createdAt?: Date;
+  updatedAt: Date;
+}
+export const GetAutomatedReasoningPolicyResponse = S.suspend(() =>
+  S.Struct({
+    policyArn: S.String,
+    name: SensitiveString,
+    version: S.String,
+    policyId: S.String,
+    description: S.optional(SensitiveString),
+    definitionHash: S.String,
+    kmsKeyArn: S.optional(S.String),
+    createdAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+  }),
+).annotate({
+  identifier: "GetAutomatedReasoningPolicyResponse",
+}) as any as S.Schema<GetAutomatedReasoningPolicyResponse>;
 export interface UpdateAutomatedReasoningPolicyRequest {
   policyArn: string;
   policyDefinition: AutomatedReasoningPolicyDefinition;
@@ -642,9 +565,25 @@ export const UpdateAutomatedReasoningPolicyRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "UpdateAutomatedReasoningPolicyRequest",
 }) as any as S.Schema<UpdateAutomatedReasoningPolicyRequest>;
+export interface UpdateAutomatedReasoningPolicyResponse {
+  policyArn: string;
+  name: string | redacted.Redacted<string>;
+  definitionHash: string;
+  updatedAt: Date;
+}
+export const UpdateAutomatedReasoningPolicyResponse = S.suspend(() =>
+  S.Struct({
+    policyArn: S.String,
+    name: SensitiveString,
+    definitionHash: S.String,
+    updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+  }),
+).annotate({
+  identifier: "UpdateAutomatedReasoningPolicyResponse",
+}) as any as S.Schema<UpdateAutomatedReasoningPolicyResponse>;
 export interface DeleteAutomatedReasoningPolicyRequest {
   policyArn: string;
   force?: boolean;
@@ -666,13 +605,13 @@ export const DeleteAutomatedReasoningPolicyRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "DeleteAutomatedReasoningPolicyRequest",
 }) as any as S.Schema<DeleteAutomatedReasoningPolicyRequest>;
 export interface DeleteAutomatedReasoningPolicyResponse {}
 export const DeleteAutomatedReasoningPolicyResponse = S.suspend(() =>
   S.Struct({}),
-).annotations({
+).annotate({
   identifier: "DeleteAutomatedReasoningPolicyResponse",
 }) as any as S.Schema<DeleteAutomatedReasoningPolicyResponse>;
 export interface ListAutomatedReasoningPoliciesRequest {
@@ -695,9 +634,48 @@ export const ListAutomatedReasoningPoliciesRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "ListAutomatedReasoningPoliciesRequest",
 }) as any as S.Schema<ListAutomatedReasoningPoliciesRequest>;
+export interface AutomatedReasoningPolicySummary {
+  policyArn: string;
+  name: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
+  version: string;
+  policyId: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+export const AutomatedReasoningPolicySummary = S.suspend(() =>
+  S.Struct({
+    policyArn: S.String,
+    name: SensitiveString,
+    description: S.optional(SensitiveString),
+    version: S.String,
+    policyId: S.String,
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+  }),
+).annotate({
+  identifier: "AutomatedReasoningPolicySummary",
+}) as any as S.Schema<AutomatedReasoningPolicySummary>;
+export type AutomatedReasoningPolicySummaries =
+  AutomatedReasoningPolicySummary[];
+export const AutomatedReasoningPolicySummaries = S.Array(
+  AutomatedReasoningPolicySummary,
+);
+export interface ListAutomatedReasoningPoliciesResponse {
+  automatedReasoningPolicySummaries: AutomatedReasoningPolicySummary[];
+  nextToken?: string;
+}
+export const ListAutomatedReasoningPoliciesResponse = S.suspend(() =>
+  S.Struct({
+    automatedReasoningPolicySummaries: AutomatedReasoningPolicySummaries,
+    nextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ListAutomatedReasoningPoliciesResponse",
+}) as any as S.Schema<ListAutomatedReasoningPoliciesResponse>;
 export interface CancelAutomatedReasoningPolicyBuildWorkflowRequest {
   policyArn: string;
   buildWorkflowId: string;
@@ -720,15 +698,25 @@ export const CancelAutomatedReasoningPolicyBuildWorkflowRequest = S.suspend(
         rules,
       ),
     ),
-).annotations({
+).annotate({
   identifier: "CancelAutomatedReasoningPolicyBuildWorkflowRequest",
 }) as any as S.Schema<CancelAutomatedReasoningPolicyBuildWorkflowRequest>;
 export interface CancelAutomatedReasoningPolicyBuildWorkflowResponse {}
 export const CancelAutomatedReasoningPolicyBuildWorkflowResponse = S.suspend(
   () => S.Struct({}),
-).annotations({
+).annotate({
   identifier: "CancelAutomatedReasoningPolicyBuildWorkflowResponse",
 }) as any as S.Schema<CancelAutomatedReasoningPolicyBuildWorkflowResponse>;
+export type AutomatedReasoningCheckResult =
+  | "VALID"
+  | "INVALID"
+  | "SATISFIABLE"
+  | "IMPOSSIBLE"
+  | "TRANSLATION_AMBIGUOUS"
+  | "TOO_COMPLEX"
+  | "NO_TRANSLATION"
+  | (string & {});
+export const AutomatedReasoningCheckResult = S.String;
 export interface CreateAutomatedReasoningPolicyTestCaseRequest {
   policyArn: string;
   guardContent: string | redacted.Redacted<string>;
@@ -758,18 +746,18 @@ export const CreateAutomatedReasoningPolicyTestCaseRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "CreateAutomatedReasoningPolicyTestCaseRequest",
 }) as any as S.Schema<CreateAutomatedReasoningPolicyTestCaseRequest>;
-export interface Tag {
-  key: string;
-  value: string;
+export interface CreateAutomatedReasoningPolicyTestCaseResponse {
+  policyArn: string;
+  testCaseId: string;
 }
-export const Tag = S.suspend(() =>
-  S.Struct({ key: S.String, value: S.String }),
-).annotations({ identifier: "Tag" }) as any as S.Schema<Tag>;
-export type TagList = Tag[];
-export const TagList = S.Array(Tag);
+export const CreateAutomatedReasoningPolicyTestCaseResponse = S.suspend(() =>
+  S.Struct({ policyArn: S.String, testCaseId: S.String }),
+).annotate({
+  identifier: "CreateAutomatedReasoningPolicyTestCaseResponse",
+}) as any as S.Schema<CreateAutomatedReasoningPolicyTestCaseResponse>;
 export interface CreateAutomatedReasoningPolicyVersionRequest {
   policyArn: string;
   clientRequestToken?: string;
@@ -795,9 +783,29 @@ export const CreateAutomatedReasoningPolicyVersionRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "CreateAutomatedReasoningPolicyVersionRequest",
 }) as any as S.Schema<CreateAutomatedReasoningPolicyVersionRequest>;
+export interface CreateAutomatedReasoningPolicyVersionResponse {
+  policyArn: string;
+  version: string;
+  name: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
+  definitionHash: string;
+  createdAt: Date;
+}
+export const CreateAutomatedReasoningPolicyVersionResponse = S.suspend(() =>
+  S.Struct({
+    policyArn: S.String,
+    version: S.String,
+    name: SensitiveString,
+    description: S.optional(SensitiveString),
+    definitionHash: S.String,
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+  }),
+).annotate({
+  identifier: "CreateAutomatedReasoningPolicyVersionResponse",
+}) as any as S.Schema<CreateAutomatedReasoningPolicyVersionResponse>;
 export interface DeleteAutomatedReasoningPolicyBuildWorkflowRequest {
   policyArn: string;
   buildWorkflowId: string;
@@ -808,7 +816,7 @@ export const DeleteAutomatedReasoningPolicyBuildWorkflowRequest = S.suspend(
     S.Struct({
       policyArn: S.String.pipe(T.HttpLabel("policyArn")),
       buildWorkflowId: S.String.pipe(T.HttpLabel("buildWorkflowId")),
-      lastUpdatedAt: S.Date.pipe(T.TimestampFormat("date-time")).pipe(
+      lastUpdatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")).pipe(
         T.HttpQuery("updatedAt"),
       ),
     }).pipe(
@@ -824,13 +832,13 @@ export const DeleteAutomatedReasoningPolicyBuildWorkflowRequest = S.suspend(
         rules,
       ),
     ),
-).annotations({
+).annotate({
   identifier: "DeleteAutomatedReasoningPolicyBuildWorkflowRequest",
 }) as any as S.Schema<DeleteAutomatedReasoningPolicyBuildWorkflowRequest>;
 export interface DeleteAutomatedReasoningPolicyBuildWorkflowResponse {}
 export const DeleteAutomatedReasoningPolicyBuildWorkflowResponse = S.suspend(
   () => S.Struct({}),
-).annotations({
+).annotate({
   identifier: "DeleteAutomatedReasoningPolicyBuildWorkflowResponse",
 }) as any as S.Schema<DeleteAutomatedReasoningPolicyBuildWorkflowResponse>;
 export interface DeleteAutomatedReasoningPolicyTestCaseRequest {
@@ -842,7 +850,7 @@ export const DeleteAutomatedReasoningPolicyTestCaseRequest = S.suspend(() =>
   S.Struct({
     policyArn: S.String.pipe(T.HttpLabel("policyArn")),
     testCaseId: S.String.pipe(T.HttpLabel("testCaseId")),
-    lastUpdatedAt: S.Date.pipe(T.TimestampFormat("date-time")).pipe(
+    lastUpdatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")).pipe(
       T.HttpQuery("updatedAt"),
     ),
   }).pipe(
@@ -858,13 +866,13 @@ export const DeleteAutomatedReasoningPolicyTestCaseRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "DeleteAutomatedReasoningPolicyTestCaseRequest",
 }) as any as S.Schema<DeleteAutomatedReasoningPolicyTestCaseRequest>;
 export interface DeleteAutomatedReasoningPolicyTestCaseResponse {}
 export const DeleteAutomatedReasoningPolicyTestCaseResponse = S.suspend(() =>
   S.Struct({}),
-).annotations({
+).annotate({
   identifier: "DeleteAutomatedReasoningPolicyTestCaseResponse",
 }) as any as S.Schema<DeleteAutomatedReasoningPolicyTestCaseResponse>;
 export interface ExportAutomatedReasoningPolicyVersionRequest {
@@ -884,9 +892,21 @@ export const ExportAutomatedReasoningPolicyVersionRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "ExportAutomatedReasoningPolicyVersionRequest",
 }) as any as S.Schema<ExportAutomatedReasoningPolicyVersionRequest>;
+export interface ExportAutomatedReasoningPolicyVersionResponse {
+  policyDefinition: AutomatedReasoningPolicyDefinition;
+}
+export const ExportAutomatedReasoningPolicyVersionResponse = S.suspend(() =>
+  S.Struct({
+    policyDefinition: AutomatedReasoningPolicyDefinition.pipe(
+      T.HttpPayload(),
+    ).annotate({ identifier: "AutomatedReasoningPolicyDefinition" }),
+  }),
+).annotate({
+  identifier: "ExportAutomatedReasoningPolicyVersionResponse",
+}) as any as S.Schema<ExportAutomatedReasoningPolicyVersionResponse>;
 export interface GetAutomatedReasoningPolicyAnnotationsRequest {
   policyArn: string;
   buildWorkflowId: string;
@@ -908,2868 +928,9 @@ export const GetAutomatedReasoningPolicyAnnotationsRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "GetAutomatedReasoningPolicyAnnotationsRequest",
 }) as any as S.Schema<GetAutomatedReasoningPolicyAnnotationsRequest>;
-export interface GetAutomatedReasoningPolicyBuildWorkflowRequest {
-  policyArn: string;
-  buildWorkflowId: string;
-}
-export const GetAutomatedReasoningPolicyBuildWorkflowRequest = S.suspend(() =>
-  S.Struct({
-    policyArn: S.String.pipe(T.HttpLabel("policyArn")),
-    buildWorkflowId: S.String.pipe(T.HttpLabel("buildWorkflowId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/automated-reasoning-policies/{policyArn}/build-workflows/{buildWorkflowId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "GetAutomatedReasoningPolicyBuildWorkflowRequest",
-}) as any as S.Schema<GetAutomatedReasoningPolicyBuildWorkflowRequest>;
-export interface GetAutomatedReasoningPolicyBuildWorkflowResultAssetsRequest {
-  policyArn: string;
-  buildWorkflowId: string;
-  assetType: AutomatedReasoningPolicyBuildResultAssetType;
-}
-export const GetAutomatedReasoningPolicyBuildWorkflowResultAssetsRequest =
-  S.suspend(() =>
-    S.Struct({
-      policyArn: S.String.pipe(T.HttpLabel("policyArn")),
-      buildWorkflowId: S.String.pipe(T.HttpLabel("buildWorkflowId")),
-      assetType: AutomatedReasoningPolicyBuildResultAssetType.pipe(
-        T.HttpQuery("assetType"),
-      ),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "GET",
-          uri: "/automated-reasoning-policies/{policyArn}/build-workflows/{buildWorkflowId}/result-assets",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotations({
-    identifier: "GetAutomatedReasoningPolicyBuildWorkflowResultAssetsRequest",
-  }) as any as S.Schema<GetAutomatedReasoningPolicyBuildWorkflowResultAssetsRequest>;
-export interface GetAutomatedReasoningPolicyNextScenarioRequest {
-  policyArn: string;
-  buildWorkflowId: string;
-}
-export const GetAutomatedReasoningPolicyNextScenarioRequest = S.suspend(() =>
-  S.Struct({
-    policyArn: S.String.pipe(T.HttpLabel("policyArn")),
-    buildWorkflowId: S.String.pipe(T.HttpLabel("buildWorkflowId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/automated-reasoning-policies/{policyArn}/build-workflows/{buildWorkflowId}/scenarios",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "GetAutomatedReasoningPolicyNextScenarioRequest",
-}) as any as S.Schema<GetAutomatedReasoningPolicyNextScenarioRequest>;
-export interface GetAutomatedReasoningPolicyTestCaseRequest {
-  policyArn: string;
-  testCaseId: string;
-}
-export const GetAutomatedReasoningPolicyTestCaseRequest = S.suspend(() =>
-  S.Struct({
-    policyArn: S.String.pipe(T.HttpLabel("policyArn")),
-    testCaseId: S.String.pipe(T.HttpLabel("testCaseId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/automated-reasoning-policies/{policyArn}/test-cases/{testCaseId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "GetAutomatedReasoningPolicyTestCaseRequest",
-}) as any as S.Schema<GetAutomatedReasoningPolicyTestCaseRequest>;
-export interface GetAutomatedReasoningPolicyTestResultRequest {
-  policyArn: string;
-  buildWorkflowId: string;
-  testCaseId: string;
-}
-export const GetAutomatedReasoningPolicyTestResultRequest = S.suspend(() =>
-  S.Struct({
-    policyArn: S.String.pipe(T.HttpLabel("policyArn")),
-    buildWorkflowId: S.String.pipe(T.HttpLabel("buildWorkflowId")),
-    testCaseId: S.String.pipe(T.HttpLabel("testCaseId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/automated-reasoning-policies/{policyArn}/build-workflows/{buildWorkflowId}/test-cases/{testCaseId}/test-results",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "GetAutomatedReasoningPolicyTestResultRequest",
-}) as any as S.Schema<GetAutomatedReasoningPolicyTestResultRequest>;
-export interface ListAutomatedReasoningPolicyBuildWorkflowsRequest {
-  policyArn: string;
-  nextToken?: string;
-  maxResults?: number;
-}
-export const ListAutomatedReasoningPolicyBuildWorkflowsRequest = S.suspend(() =>
-  S.Struct({
-    policyArn: S.String.pipe(T.HttpLabel("policyArn")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/automated-reasoning-policies/{policyArn}/build-workflows",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListAutomatedReasoningPolicyBuildWorkflowsRequest",
-}) as any as S.Schema<ListAutomatedReasoningPolicyBuildWorkflowsRequest>;
-export interface ListAutomatedReasoningPolicyTestCasesRequest {
-  policyArn: string;
-  nextToken?: string;
-  maxResults?: number;
-}
-export const ListAutomatedReasoningPolicyTestCasesRequest = S.suspend(() =>
-  S.Struct({
-    policyArn: S.String.pipe(T.HttpLabel("policyArn")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/automated-reasoning-policies/{policyArn}/test-cases",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListAutomatedReasoningPolicyTestCasesRequest",
-}) as any as S.Schema<ListAutomatedReasoningPolicyTestCasesRequest>;
-export interface ListAutomatedReasoningPolicyTestResultsRequest {
-  policyArn: string;
-  buildWorkflowId: string;
-  nextToken?: string;
-  maxResults?: number;
-}
-export const ListAutomatedReasoningPolicyTestResultsRequest = S.suspend(() =>
-  S.Struct({
-    policyArn: S.String.pipe(T.HttpLabel("policyArn")),
-    buildWorkflowId: S.String.pipe(T.HttpLabel("buildWorkflowId")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/automated-reasoning-policies/{policyArn}/build-workflows/{buildWorkflowId}/test-results",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListAutomatedReasoningPolicyTestResultsRequest",
-}) as any as S.Schema<ListAutomatedReasoningPolicyTestResultsRequest>;
-export interface StartAutomatedReasoningPolicyTestWorkflowRequest {
-  policyArn: string;
-  buildWorkflowId: string;
-  testCaseIds?: string[];
-  clientRequestToken?: string;
-}
-export const StartAutomatedReasoningPolicyTestWorkflowRequest = S.suspend(() =>
-  S.Struct({
-    policyArn: S.String.pipe(T.HttpLabel("policyArn")),
-    buildWorkflowId: S.String.pipe(T.HttpLabel("buildWorkflowId")),
-    testCaseIds: S.optional(AutomatedReasoningPolicyTestCaseIdList),
-    clientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/automated-reasoning-policies/{policyArn}/build-workflows/{buildWorkflowId}/test-workflows",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "StartAutomatedReasoningPolicyTestWorkflowRequest",
-}) as any as S.Schema<StartAutomatedReasoningPolicyTestWorkflowRequest>;
-export interface UpdateAutomatedReasoningPolicyTestCaseRequest {
-  policyArn: string;
-  testCaseId: string;
-  guardContent: string | redacted.Redacted<string>;
-  queryContent?: string | redacted.Redacted<string>;
-  lastUpdatedAt: Date;
-  expectedAggregatedFindingsResult: AutomatedReasoningCheckResult;
-  confidenceThreshold?: number;
-  clientRequestToken?: string;
-}
-export const UpdateAutomatedReasoningPolicyTestCaseRequest = S.suspend(() =>
-  S.Struct({
-    policyArn: S.String.pipe(T.HttpLabel("policyArn")),
-    testCaseId: S.String.pipe(T.HttpLabel("testCaseId")),
-    guardContent: SensitiveString,
-    queryContent: S.optional(SensitiveString),
-    lastUpdatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    expectedAggregatedFindingsResult: AutomatedReasoningCheckResult,
-    confidenceThreshold: S.optional(S.Number),
-    clientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PATCH",
-        uri: "/automated-reasoning-policies/{policyArn}/test-cases/{testCaseId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "UpdateAutomatedReasoningPolicyTestCaseRequest",
-}) as any as S.Schema<UpdateAutomatedReasoningPolicyTestCaseRequest>;
-export interface DeleteMarketplaceModelEndpointRequest {
-  endpointArn: string;
-}
-export const DeleteMarketplaceModelEndpointRequest = S.suspend(() =>
-  S.Struct({ endpointArn: S.String.pipe(T.HttpLabel("endpointArn")) }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/marketplace-model/endpoints/{endpointArn}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DeleteMarketplaceModelEndpointRequest",
-}) as any as S.Schema<DeleteMarketplaceModelEndpointRequest>;
-export interface DeleteMarketplaceModelEndpointResponse {}
-export const DeleteMarketplaceModelEndpointResponse = S.suspend(() =>
-  S.Struct({}),
-).annotations({
-  identifier: "DeleteMarketplaceModelEndpointResponse",
-}) as any as S.Schema<DeleteMarketplaceModelEndpointResponse>;
-export interface DeregisterMarketplaceModelEndpointRequest {
-  endpointArn: string;
-}
-export const DeregisterMarketplaceModelEndpointRequest = S.suspend(() =>
-  S.Struct({ endpointArn: S.String.pipe(T.HttpLabel("endpointArn")) }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/marketplace-model/endpoints/{endpointArn}/registration",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DeregisterMarketplaceModelEndpointRequest",
-}) as any as S.Schema<DeregisterMarketplaceModelEndpointRequest>;
-export interface DeregisterMarketplaceModelEndpointResponse {}
-export const DeregisterMarketplaceModelEndpointResponse = S.suspend(() =>
-  S.Struct({}),
-).annotations({
-  identifier: "DeregisterMarketplaceModelEndpointResponse",
-}) as any as S.Schema<DeregisterMarketplaceModelEndpointResponse>;
-export interface GetMarketplaceModelEndpointRequest {
-  endpointArn: string;
-}
-export const GetMarketplaceModelEndpointRequest = S.suspend(() =>
-  S.Struct({ endpointArn: S.String.pipe(T.HttpLabel("endpointArn")) }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/marketplace-model/endpoints/{endpointArn}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "GetMarketplaceModelEndpointRequest",
-}) as any as S.Schema<GetMarketplaceModelEndpointRequest>;
-export interface ListMarketplaceModelEndpointsRequest {
-  maxResults?: number;
-  nextToken?: string;
-  modelSourceEquals?: string;
-}
-export const ListMarketplaceModelEndpointsRequest = S.suspend(() =>
-  S.Struct({
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    modelSourceEquals: S.optional(S.String).pipe(
-      T.HttpQuery("modelSourceIdentifier"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/marketplace-model/endpoints" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListMarketplaceModelEndpointsRequest",
-}) as any as S.Schema<ListMarketplaceModelEndpointsRequest>;
-export interface RegisterMarketplaceModelEndpointRequest {
-  endpointIdentifier: string;
-  modelSourceIdentifier: string;
-}
-export const RegisterMarketplaceModelEndpointRequest = S.suspend(() =>
-  S.Struct({
-    endpointIdentifier: S.String.pipe(T.HttpLabel("endpointIdentifier")),
-    modelSourceIdentifier: S.String,
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/marketplace-model/endpoints/{endpointIdentifier}/registration",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "RegisterMarketplaceModelEndpointRequest",
-}) as any as S.Schema<RegisterMarketplaceModelEndpointRequest>;
-export type SubnetIds = string[];
-export const SubnetIds = S.Array(S.String);
-export type SecurityGroupIds = string[];
-export const SecurityGroupIds = S.Array(S.String);
-export interface VpcConfig {
-  subnetIds: string[];
-  securityGroupIds: string[];
-}
-export const VpcConfig = S.suspend(() =>
-  S.Struct({ subnetIds: SubnetIds, securityGroupIds: SecurityGroupIds }),
-).annotations({ identifier: "VpcConfig" }) as any as S.Schema<VpcConfig>;
-export interface SageMakerEndpoint {
-  initialInstanceCount: number;
-  instanceType: string;
-  executionRole: string;
-  kmsEncryptionKey?: string;
-  vpc?: VpcConfig;
-}
-export const SageMakerEndpoint = S.suspend(() =>
-  S.Struct({
-    initialInstanceCount: S.Number,
-    instanceType: S.String,
-    executionRole: S.String,
-    kmsEncryptionKey: S.optional(S.String),
-    vpc: S.optional(VpcConfig),
-  }),
-).annotations({
-  identifier: "SageMakerEndpoint",
-}) as any as S.Schema<SageMakerEndpoint>;
-export type EndpointConfig = { sageMaker: SageMakerEndpoint };
-export const EndpointConfig = S.Union(
-  S.Struct({ sageMaker: SageMakerEndpoint }),
-);
-export interface UpdateMarketplaceModelEndpointRequest {
-  endpointArn: string;
-  endpointConfig: EndpointConfig;
-  clientRequestToken?: string;
-}
-export const UpdateMarketplaceModelEndpointRequest = S.suspend(() =>
-  S.Struct({
-    endpointArn: S.String.pipe(T.HttpLabel("endpointArn")),
-    endpointConfig: EndpointConfig,
-    clientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PATCH",
-        uri: "/marketplace-model/endpoints/{endpointArn}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "UpdateMarketplaceModelEndpointRequest",
-}) as any as S.Schema<UpdateMarketplaceModelEndpointRequest>;
-export interface CreateCustomModelDeploymentRequest {
-  modelDeploymentName: string;
-  modelArn: string;
-  description?: string;
-  tags?: Tag[];
-  clientRequestToken?: string;
-}
-export const CreateCustomModelDeploymentRequest = S.suspend(() =>
-  S.Struct({
-    modelDeploymentName: S.String,
-    modelArn: S.String,
-    description: S.optional(S.String),
-    tags: S.optional(TagList),
-    clientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/model-customization/custom-model-deployments",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "CreateCustomModelDeploymentRequest",
-}) as any as S.Schema<CreateCustomModelDeploymentRequest>;
-export interface DeleteCustomModelDeploymentRequest {
-  customModelDeploymentIdentifier: string;
-}
-export const DeleteCustomModelDeploymentRequest = S.suspend(() =>
-  S.Struct({
-    customModelDeploymentIdentifier: S.String.pipe(
-      T.HttpLabel("customModelDeploymentIdentifier"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/model-customization/custom-model-deployments/{customModelDeploymentIdentifier}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DeleteCustomModelDeploymentRequest",
-}) as any as S.Schema<DeleteCustomModelDeploymentRequest>;
-export interface DeleteCustomModelDeploymentResponse {}
-export const DeleteCustomModelDeploymentResponse = S.suspend(() =>
-  S.Struct({}),
-).annotations({
-  identifier: "DeleteCustomModelDeploymentResponse",
-}) as any as S.Schema<DeleteCustomModelDeploymentResponse>;
-export interface GetCustomModelDeploymentRequest {
-  customModelDeploymentIdentifier: string;
-}
-export const GetCustomModelDeploymentRequest = S.suspend(() =>
-  S.Struct({
-    customModelDeploymentIdentifier: S.String.pipe(
-      T.HttpLabel("customModelDeploymentIdentifier"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/model-customization/custom-model-deployments/{customModelDeploymentIdentifier}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "GetCustomModelDeploymentRequest",
-}) as any as S.Schema<GetCustomModelDeploymentRequest>;
-export interface ListCustomModelDeploymentsRequest {
-  createdBefore?: Date;
-  createdAfter?: Date;
-  nameContains?: string;
-  maxResults?: number;
-  nextToken?: string;
-  sortBy?: SortModelsBy;
-  sortOrder?: SortOrder;
-  statusEquals?: CustomModelDeploymentStatus;
-  modelArnEquals?: string;
-}
-export const ListCustomModelDeploymentsRequest = S.suspend(() =>
-  S.Struct({
-    createdBefore: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.HttpQuery("createdBefore"),
-    ),
-    createdAfter: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.HttpQuery("createdAfter"),
-    ),
-    nameContains: S.optional(S.String).pipe(T.HttpQuery("nameContains")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    sortBy: S.optional(SortModelsBy).pipe(T.HttpQuery("sortBy")),
-    sortOrder: S.optional(SortOrder).pipe(T.HttpQuery("sortOrder")),
-    statusEquals: S.optional(CustomModelDeploymentStatus).pipe(
-      T.HttpQuery("statusEquals"),
-    ),
-    modelArnEquals: S.optional(S.String).pipe(T.HttpQuery("modelArnEquals")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/model-customization/custom-model-deployments",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListCustomModelDeploymentsRequest",
-}) as any as S.Schema<ListCustomModelDeploymentsRequest>;
-export interface UpdateCustomModelDeploymentRequest {
-  modelArn: string;
-  customModelDeploymentIdentifier: string;
-}
-export const UpdateCustomModelDeploymentRequest = S.suspend(() =>
-  S.Struct({
-    modelArn: S.String,
-    customModelDeploymentIdentifier: S.String.pipe(
-      T.HttpLabel("customModelDeploymentIdentifier"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PATCH",
-        uri: "/model-customization/custom-model-deployments/{customModelDeploymentIdentifier}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "UpdateCustomModelDeploymentRequest",
-}) as any as S.Schema<UpdateCustomModelDeploymentRequest>;
-export interface DeleteCustomModelRequest {
-  modelIdentifier: string;
-}
-export const DeleteCustomModelRequest = S.suspend(() =>
-  S.Struct({
-    modelIdentifier: S.String.pipe(T.HttpLabel("modelIdentifier")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/custom-models/{modelIdentifier}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DeleteCustomModelRequest",
-}) as any as S.Schema<DeleteCustomModelRequest>;
-export interface DeleteCustomModelResponse {}
-export const DeleteCustomModelResponse = S.suspend(() =>
-  S.Struct({}),
-).annotations({
-  identifier: "DeleteCustomModelResponse",
-}) as any as S.Schema<DeleteCustomModelResponse>;
-export interface GetCustomModelRequest {
-  modelIdentifier: string;
-}
-export const GetCustomModelRequest = S.suspend(() =>
-  S.Struct({
-    modelIdentifier: S.String.pipe(T.HttpLabel("modelIdentifier")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/custom-models/{modelIdentifier}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "GetCustomModelRequest",
-}) as any as S.Schema<GetCustomModelRequest>;
-export interface ListCustomModelsRequest {
-  creationTimeBefore?: Date;
-  creationTimeAfter?: Date;
-  nameContains?: string;
-  baseModelArnEquals?: string;
-  foundationModelArnEquals?: string;
-  maxResults?: number;
-  nextToken?: string;
-  sortBy?: SortModelsBy;
-  sortOrder?: SortOrder;
-  isOwned?: boolean;
-  modelStatus?: ModelStatus;
-}
-export const ListCustomModelsRequest = S.suspend(() =>
-  S.Struct({
-    creationTimeBefore: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
-    ).pipe(T.HttpQuery("creationTimeBefore")),
-    creationTimeAfter: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
-    ).pipe(T.HttpQuery("creationTimeAfter")),
-    nameContains: S.optional(S.String).pipe(T.HttpQuery("nameContains")),
-    baseModelArnEquals: S.optional(S.String).pipe(
-      T.HttpQuery("baseModelArnEquals"),
-    ),
-    foundationModelArnEquals: S.optional(S.String).pipe(
-      T.HttpQuery("foundationModelArnEquals"),
-    ),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    sortBy: S.optional(SortModelsBy).pipe(T.HttpQuery("sortBy")),
-    sortOrder: S.optional(SortOrder).pipe(T.HttpQuery("sortOrder")),
-    isOwned: S.optional(S.Boolean).pipe(T.HttpQuery("isOwned")),
-    modelStatus: S.optional(ModelStatus).pipe(T.HttpQuery("modelStatus")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/custom-models" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListCustomModelsRequest",
-}) as any as S.Schema<ListCustomModelsRequest>;
-export interface DeleteEnforcedGuardrailConfigurationRequest {
-  configId: string;
-}
-export const DeleteEnforcedGuardrailConfigurationRequest = S.suspend(() =>
-  S.Struct({ configId: S.String.pipe(T.HttpLabel("configId")) }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/enforcedGuardrailsConfiguration/{configId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DeleteEnforcedGuardrailConfigurationRequest",
-}) as any as S.Schema<DeleteEnforcedGuardrailConfigurationRequest>;
-export interface DeleteEnforcedGuardrailConfigurationResponse {}
-export const DeleteEnforcedGuardrailConfigurationResponse = S.suspend(() =>
-  S.Struct({}),
-).annotations({
-  identifier: "DeleteEnforcedGuardrailConfigurationResponse",
-}) as any as S.Schema<DeleteEnforcedGuardrailConfigurationResponse>;
-export interface ListEnforcedGuardrailsConfigurationRequest {
-  nextToken?: string;
-}
-export const ListEnforcedGuardrailsConfigurationRequest = S.suspend(() =>
-  S.Struct({
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/enforcedGuardrailsConfiguration" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListEnforcedGuardrailsConfigurationRequest",
-}) as any as S.Schema<ListEnforcedGuardrailsConfigurationRequest>;
-export interface BatchDeleteEvaluationJobRequest {
-  jobIdentifiers: string | redacted.Redacted<string>[];
-}
-export const BatchDeleteEvaluationJobRequest = S.suspend(() =>
-  S.Struct({ jobIdentifiers: EvaluationJobIdentifiers }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/evaluation-jobs/batch-delete" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "BatchDeleteEvaluationJobRequest",
-}) as any as S.Schema<BatchDeleteEvaluationJobRequest>;
-export interface GetEvaluationJobRequest {
-  jobIdentifier: string | redacted.Redacted<string>;
-}
-export const GetEvaluationJobRequest = S.suspend(() =>
-  S.Struct({
-    jobIdentifier: SensitiveString.pipe(T.HttpLabel("jobIdentifier")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/evaluation-jobs/{jobIdentifier}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "GetEvaluationJobRequest",
-}) as any as S.Schema<GetEvaluationJobRequest>;
-export interface ListEvaluationJobsRequest {
-  creationTimeAfter?: Date;
-  creationTimeBefore?: Date;
-  statusEquals?: EvaluationJobStatus;
-  applicationTypeEquals?: ApplicationType;
-  nameContains?: string;
-  maxResults?: number;
-  nextToken?: string;
-  sortBy?: SortJobsBy;
-  sortOrder?: SortOrder;
-}
-export const ListEvaluationJobsRequest = S.suspend(() =>
-  S.Struct({
-    creationTimeAfter: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
-    ).pipe(T.HttpQuery("creationTimeAfter")),
-    creationTimeBefore: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
-    ).pipe(T.HttpQuery("creationTimeBefore")),
-    statusEquals: S.optional(EvaluationJobStatus).pipe(
-      T.HttpQuery("statusEquals"),
-    ),
-    applicationTypeEquals: S.optional(ApplicationType).pipe(
-      T.HttpQuery("applicationTypeEquals"),
-    ),
-    nameContains: S.optional(S.String).pipe(T.HttpQuery("nameContains")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    sortBy: S.optional(SortJobsBy).pipe(T.HttpQuery("sortBy")),
-    sortOrder: S.optional(SortOrder).pipe(T.HttpQuery("sortOrder")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/evaluation-jobs" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListEvaluationJobsRequest",
-}) as any as S.Schema<ListEvaluationJobsRequest>;
-export interface StopEvaluationJobRequest {
-  jobIdentifier: string | redacted.Redacted<string>;
-}
-export const StopEvaluationJobRequest = S.suspend(() =>
-  S.Struct({
-    jobIdentifier: SensitiveString.pipe(T.HttpLabel("jobIdentifier")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/evaluation-job/{jobIdentifier}/stop" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "StopEvaluationJobRequest",
-}) as any as S.Schema<StopEvaluationJobRequest>;
-export interface StopEvaluationJobResponse {}
-export const StopEvaluationJobResponse = S.suspend(() =>
-  S.Struct({}),
-).annotations({
-  identifier: "StopEvaluationJobResponse",
-}) as any as S.Schema<StopEvaluationJobResponse>;
-export interface GetGuardrailRequest {
-  guardrailIdentifier: string;
-  guardrailVersion?: string;
-}
-export const GetGuardrailRequest = S.suspend(() =>
-  S.Struct({
-    guardrailIdentifier: S.String.pipe(T.HttpLabel("guardrailIdentifier")),
-    guardrailVersion: S.optional(S.String).pipe(
-      T.HttpQuery("guardrailVersion"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/guardrails/{guardrailIdentifier}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "GetGuardrailRequest",
-}) as any as S.Schema<GetGuardrailRequest>;
-export type GuardrailTopicExamples = string | redacted.Redacted<string>[];
-export const GuardrailTopicExamples = S.Array(SensitiveString);
-export type GuardrailTopicType = "DENY" | (string & {});
-export const GuardrailTopicType = S.String;
-export type GuardrailTopicAction = "BLOCK" | "NONE" | (string & {});
-export const GuardrailTopicAction = S.String;
-export interface GuardrailTopicConfig {
-  name: string | redacted.Redacted<string>;
-  definition: string | redacted.Redacted<string>;
-  examples?: string | redacted.Redacted<string>[];
-  type: GuardrailTopicType;
-  inputAction?: GuardrailTopicAction;
-  outputAction?: GuardrailTopicAction;
-  inputEnabled?: boolean;
-  outputEnabled?: boolean;
-}
-export const GuardrailTopicConfig = S.suspend(() =>
-  S.Struct({
-    name: SensitiveString,
-    definition: SensitiveString,
-    examples: S.optional(GuardrailTopicExamples),
-    type: GuardrailTopicType,
-    inputAction: S.optional(GuardrailTopicAction),
-    outputAction: S.optional(GuardrailTopicAction),
-    inputEnabled: S.optional(S.Boolean),
-    outputEnabled: S.optional(S.Boolean),
-  }),
-).annotations({
-  identifier: "GuardrailTopicConfig",
-}) as any as S.Schema<GuardrailTopicConfig>;
-export type GuardrailTopicsConfig = GuardrailTopicConfig[];
-export const GuardrailTopicsConfig = S.Array(GuardrailTopicConfig);
-export type GuardrailTopicsTierName = "CLASSIC" | "STANDARD" | (string & {});
-export const GuardrailTopicsTierName = S.String;
-export interface GuardrailTopicsTierConfig {
-  tierName: GuardrailTopicsTierName;
-}
-export const GuardrailTopicsTierConfig = S.suspend(() =>
-  S.Struct({ tierName: GuardrailTopicsTierName }),
-).annotations({
-  identifier: "GuardrailTopicsTierConfig",
-}) as any as S.Schema<GuardrailTopicsTierConfig>;
-export interface GuardrailTopicPolicyConfig {
-  topicsConfig: GuardrailTopicConfig[];
-  tierConfig?: GuardrailTopicsTierConfig;
-}
-export const GuardrailTopicPolicyConfig = S.suspend(() =>
-  S.Struct({
-    topicsConfig: GuardrailTopicsConfig,
-    tierConfig: S.optional(GuardrailTopicsTierConfig),
-  }),
-).annotations({
-  identifier: "GuardrailTopicPolicyConfig",
-}) as any as S.Schema<GuardrailTopicPolicyConfig>;
-export type GuardrailContentFilterType =
-  | "SEXUAL"
-  | "VIOLENCE"
-  | "HATE"
-  | "INSULTS"
-  | "MISCONDUCT"
-  | "PROMPT_ATTACK"
-  | (string & {});
-export const GuardrailContentFilterType = S.String;
-export type GuardrailFilterStrength =
-  | "NONE"
-  | "LOW"
-  | "MEDIUM"
-  | "HIGH"
-  | (string & {});
-export const GuardrailFilterStrength = S.String;
-export type GuardrailModality = "TEXT" | "IMAGE" | (string & {});
-export const GuardrailModality = S.String;
-export type GuardrailModalities = GuardrailModality[];
-export const GuardrailModalities = S.Array(GuardrailModality);
-export type GuardrailContentFilterAction = "BLOCK" | "NONE" | (string & {});
-export const GuardrailContentFilterAction = S.String;
-export interface GuardrailContentFilterConfig {
-  type: GuardrailContentFilterType;
-  inputStrength: GuardrailFilterStrength;
-  outputStrength: GuardrailFilterStrength;
-  inputModalities?: GuardrailModality[];
-  outputModalities?: GuardrailModality[];
-  inputAction?: GuardrailContentFilterAction;
-  outputAction?: GuardrailContentFilterAction;
-  inputEnabled?: boolean;
-  outputEnabled?: boolean;
-}
-export const GuardrailContentFilterConfig = S.suspend(() =>
-  S.Struct({
-    type: GuardrailContentFilterType,
-    inputStrength: GuardrailFilterStrength,
-    outputStrength: GuardrailFilterStrength,
-    inputModalities: S.optional(GuardrailModalities),
-    outputModalities: S.optional(GuardrailModalities),
-    inputAction: S.optional(GuardrailContentFilterAction),
-    outputAction: S.optional(GuardrailContentFilterAction),
-    inputEnabled: S.optional(S.Boolean),
-    outputEnabled: S.optional(S.Boolean),
-  }),
-).annotations({
-  identifier: "GuardrailContentFilterConfig",
-}) as any as S.Schema<GuardrailContentFilterConfig>;
-export type GuardrailContentFiltersConfig = GuardrailContentFilterConfig[];
-export const GuardrailContentFiltersConfig = S.Array(
-  GuardrailContentFilterConfig,
-);
-export type GuardrailContentFiltersTierName =
-  | "CLASSIC"
-  | "STANDARD"
-  | (string & {});
-export const GuardrailContentFiltersTierName = S.String;
-export interface GuardrailContentFiltersTierConfig {
-  tierName: GuardrailContentFiltersTierName;
-}
-export const GuardrailContentFiltersTierConfig = S.suspend(() =>
-  S.Struct({ tierName: GuardrailContentFiltersTierName }),
-).annotations({
-  identifier: "GuardrailContentFiltersTierConfig",
-}) as any as S.Schema<GuardrailContentFiltersTierConfig>;
-export interface GuardrailContentPolicyConfig {
-  filtersConfig: GuardrailContentFilterConfig[];
-  tierConfig?: GuardrailContentFiltersTierConfig;
-}
-export const GuardrailContentPolicyConfig = S.suspend(() =>
-  S.Struct({
-    filtersConfig: GuardrailContentFiltersConfig,
-    tierConfig: S.optional(GuardrailContentFiltersTierConfig),
-  }),
-).annotations({
-  identifier: "GuardrailContentPolicyConfig",
-}) as any as S.Schema<GuardrailContentPolicyConfig>;
-export type GuardrailWordAction = "BLOCK" | "NONE" | (string & {});
-export const GuardrailWordAction = S.String;
-export interface GuardrailWordConfig {
-  text: string;
-  inputAction?: GuardrailWordAction;
-  outputAction?: GuardrailWordAction;
-  inputEnabled?: boolean;
-  outputEnabled?: boolean;
-}
-export const GuardrailWordConfig = S.suspend(() =>
-  S.Struct({
-    text: S.String,
-    inputAction: S.optional(GuardrailWordAction),
-    outputAction: S.optional(GuardrailWordAction),
-    inputEnabled: S.optional(S.Boolean),
-    outputEnabled: S.optional(S.Boolean),
-  }),
-).annotations({
-  identifier: "GuardrailWordConfig",
-}) as any as S.Schema<GuardrailWordConfig>;
-export type GuardrailWordsConfig = GuardrailWordConfig[];
-export const GuardrailWordsConfig = S.Array(GuardrailWordConfig);
-export type GuardrailManagedWordsType = "PROFANITY" | (string & {});
-export const GuardrailManagedWordsType = S.String;
-export interface GuardrailManagedWordsConfig {
-  type: GuardrailManagedWordsType;
-  inputAction?: GuardrailWordAction;
-  outputAction?: GuardrailWordAction;
-  inputEnabled?: boolean;
-  outputEnabled?: boolean;
-}
-export const GuardrailManagedWordsConfig = S.suspend(() =>
-  S.Struct({
-    type: GuardrailManagedWordsType,
-    inputAction: S.optional(GuardrailWordAction),
-    outputAction: S.optional(GuardrailWordAction),
-    inputEnabled: S.optional(S.Boolean),
-    outputEnabled: S.optional(S.Boolean),
-  }),
-).annotations({
-  identifier: "GuardrailManagedWordsConfig",
-}) as any as S.Schema<GuardrailManagedWordsConfig>;
-export type GuardrailManagedWordListsConfig = GuardrailManagedWordsConfig[];
-export const GuardrailManagedWordListsConfig = S.Array(
-  GuardrailManagedWordsConfig,
-);
-export interface GuardrailWordPolicyConfig {
-  wordsConfig?: GuardrailWordConfig[];
-  managedWordListsConfig?: GuardrailManagedWordsConfig[];
-}
-export const GuardrailWordPolicyConfig = S.suspend(() =>
-  S.Struct({
-    wordsConfig: S.optional(GuardrailWordsConfig),
-    managedWordListsConfig: S.optional(GuardrailManagedWordListsConfig),
-  }),
-).annotations({
-  identifier: "GuardrailWordPolicyConfig",
-}) as any as S.Schema<GuardrailWordPolicyConfig>;
-export type GuardrailPiiEntityType =
-  | "ADDRESS"
-  | "AGE"
-  | "AWS_ACCESS_KEY"
-  | "AWS_SECRET_KEY"
-  | "CA_HEALTH_NUMBER"
-  | "CA_SOCIAL_INSURANCE_NUMBER"
-  | "CREDIT_DEBIT_CARD_CVV"
-  | "CREDIT_DEBIT_CARD_EXPIRY"
-  | "CREDIT_DEBIT_CARD_NUMBER"
-  | "DRIVER_ID"
-  | "EMAIL"
-  | "INTERNATIONAL_BANK_ACCOUNT_NUMBER"
-  | "IP_ADDRESS"
-  | "LICENSE_PLATE"
-  | "MAC_ADDRESS"
-  | "NAME"
-  | "PASSWORD"
-  | "PHONE"
-  | "PIN"
-  | "SWIFT_CODE"
-  | "UK_NATIONAL_HEALTH_SERVICE_NUMBER"
-  | "UK_NATIONAL_INSURANCE_NUMBER"
-  | "UK_UNIQUE_TAXPAYER_REFERENCE_NUMBER"
-  | "URL"
-  | "USERNAME"
-  | "US_BANK_ACCOUNT_NUMBER"
-  | "US_BANK_ROUTING_NUMBER"
-  | "US_INDIVIDUAL_TAX_IDENTIFICATION_NUMBER"
-  | "US_PASSPORT_NUMBER"
-  | "US_SOCIAL_SECURITY_NUMBER"
-  | "VEHICLE_IDENTIFICATION_NUMBER"
-  | (string & {});
-export const GuardrailPiiEntityType = S.String;
-export type GuardrailSensitiveInformationAction =
-  | "BLOCK"
-  | "ANONYMIZE"
-  | "NONE"
-  | (string & {});
-export const GuardrailSensitiveInformationAction = S.String;
-export interface GuardrailPiiEntityConfig {
-  type: GuardrailPiiEntityType;
-  action: GuardrailSensitiveInformationAction;
-  inputAction?: GuardrailSensitiveInformationAction;
-  outputAction?: GuardrailSensitiveInformationAction;
-  inputEnabled?: boolean;
-  outputEnabled?: boolean;
-}
-export const GuardrailPiiEntityConfig = S.suspend(() =>
-  S.Struct({
-    type: GuardrailPiiEntityType,
-    action: GuardrailSensitiveInformationAction,
-    inputAction: S.optional(GuardrailSensitiveInformationAction),
-    outputAction: S.optional(GuardrailSensitiveInformationAction),
-    inputEnabled: S.optional(S.Boolean),
-    outputEnabled: S.optional(S.Boolean),
-  }),
-).annotations({
-  identifier: "GuardrailPiiEntityConfig",
-}) as any as S.Schema<GuardrailPiiEntityConfig>;
-export type GuardrailPiiEntitiesConfig = GuardrailPiiEntityConfig[];
-export const GuardrailPiiEntitiesConfig = S.Array(GuardrailPiiEntityConfig);
-export interface GuardrailRegexConfig {
-  name: string;
-  description?: string;
-  pattern: string;
-  action: GuardrailSensitiveInformationAction;
-  inputAction?: GuardrailSensitiveInformationAction;
-  outputAction?: GuardrailSensitiveInformationAction;
-  inputEnabled?: boolean;
-  outputEnabled?: boolean;
-}
-export const GuardrailRegexConfig = S.suspend(() =>
-  S.Struct({
-    name: S.String,
-    description: S.optional(S.String),
-    pattern: S.String,
-    action: GuardrailSensitiveInformationAction,
-    inputAction: S.optional(GuardrailSensitiveInformationAction),
-    outputAction: S.optional(GuardrailSensitiveInformationAction),
-    inputEnabled: S.optional(S.Boolean),
-    outputEnabled: S.optional(S.Boolean),
-  }),
-).annotations({
-  identifier: "GuardrailRegexConfig",
-}) as any as S.Schema<GuardrailRegexConfig>;
-export type GuardrailRegexesConfig = GuardrailRegexConfig[];
-export const GuardrailRegexesConfig = S.Array(GuardrailRegexConfig);
-export interface GuardrailSensitiveInformationPolicyConfig {
-  piiEntitiesConfig?: GuardrailPiiEntityConfig[];
-  regexesConfig?: GuardrailRegexConfig[];
-}
-export const GuardrailSensitiveInformationPolicyConfig = S.suspend(() =>
-  S.Struct({
-    piiEntitiesConfig: S.optional(GuardrailPiiEntitiesConfig),
-    regexesConfig: S.optional(GuardrailRegexesConfig),
-  }),
-).annotations({
-  identifier: "GuardrailSensitiveInformationPolicyConfig",
-}) as any as S.Schema<GuardrailSensitiveInformationPolicyConfig>;
-export type GuardrailContextualGroundingFilterType =
-  | "GROUNDING"
-  | "RELEVANCE"
-  | (string & {});
-export const GuardrailContextualGroundingFilterType = S.String;
-export type GuardrailContextualGroundingAction =
-  | "BLOCK"
-  | "NONE"
-  | (string & {});
-export const GuardrailContextualGroundingAction = S.String;
-export interface GuardrailContextualGroundingFilterConfig {
-  type: GuardrailContextualGroundingFilterType;
-  threshold: number;
-  action?: GuardrailContextualGroundingAction;
-  enabled?: boolean;
-}
-export const GuardrailContextualGroundingFilterConfig = S.suspend(() =>
-  S.Struct({
-    type: GuardrailContextualGroundingFilterType,
-    threshold: S.Number,
-    action: S.optional(GuardrailContextualGroundingAction),
-    enabled: S.optional(S.Boolean),
-  }),
-).annotations({
-  identifier: "GuardrailContextualGroundingFilterConfig",
-}) as any as S.Schema<GuardrailContextualGroundingFilterConfig>;
-export type GuardrailContextualGroundingFiltersConfig =
-  GuardrailContextualGroundingFilterConfig[];
-export const GuardrailContextualGroundingFiltersConfig = S.Array(
-  GuardrailContextualGroundingFilterConfig,
-);
-export interface GuardrailContextualGroundingPolicyConfig {
-  filtersConfig: GuardrailContextualGroundingFilterConfig[];
-}
-export const GuardrailContextualGroundingPolicyConfig = S.suspend(() =>
-  S.Struct({ filtersConfig: GuardrailContextualGroundingFiltersConfig }),
-).annotations({
-  identifier: "GuardrailContextualGroundingPolicyConfig",
-}) as any as S.Schema<GuardrailContextualGroundingPolicyConfig>;
-export type AutomatedReasoningPolicyArnList = string[];
-export const AutomatedReasoningPolicyArnList = S.Array(S.String);
-export interface GuardrailAutomatedReasoningPolicyConfig {
-  policies: string[];
-  confidenceThreshold?: number;
-}
-export const GuardrailAutomatedReasoningPolicyConfig = S.suspend(() =>
-  S.Struct({
-    policies: AutomatedReasoningPolicyArnList,
-    confidenceThreshold: S.optional(S.Number),
-  }),
-).annotations({
-  identifier: "GuardrailAutomatedReasoningPolicyConfig",
-}) as any as S.Schema<GuardrailAutomatedReasoningPolicyConfig>;
-export interface GuardrailCrossRegionConfig {
-  guardrailProfileIdentifier: string;
-}
-export const GuardrailCrossRegionConfig = S.suspend(() =>
-  S.Struct({ guardrailProfileIdentifier: S.String }),
-).annotations({
-  identifier: "GuardrailCrossRegionConfig",
-}) as any as S.Schema<GuardrailCrossRegionConfig>;
-export interface UpdateGuardrailRequest {
-  guardrailIdentifier: string;
-  name: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
-  topicPolicyConfig?: GuardrailTopicPolicyConfig;
-  contentPolicyConfig?: GuardrailContentPolicyConfig;
-  wordPolicyConfig?: GuardrailWordPolicyConfig;
-  sensitiveInformationPolicyConfig?: GuardrailSensitiveInformationPolicyConfig;
-  contextualGroundingPolicyConfig?: GuardrailContextualGroundingPolicyConfig;
-  automatedReasoningPolicyConfig?: GuardrailAutomatedReasoningPolicyConfig;
-  crossRegionConfig?: GuardrailCrossRegionConfig;
-  blockedInputMessaging: string | redacted.Redacted<string>;
-  blockedOutputsMessaging: string | redacted.Redacted<string>;
-  kmsKeyId?: string;
-}
-export const UpdateGuardrailRequest = S.suspend(() =>
-  S.Struct({
-    guardrailIdentifier: S.String.pipe(T.HttpLabel("guardrailIdentifier")),
-    name: SensitiveString,
-    description: S.optional(SensitiveString),
-    topicPolicyConfig: S.optional(GuardrailTopicPolicyConfig),
-    contentPolicyConfig: S.optional(GuardrailContentPolicyConfig),
-    wordPolicyConfig: S.optional(GuardrailWordPolicyConfig),
-    sensitiveInformationPolicyConfig: S.optional(
-      GuardrailSensitiveInformationPolicyConfig,
-    ),
-    contextualGroundingPolicyConfig: S.optional(
-      GuardrailContextualGroundingPolicyConfig,
-    ),
-    automatedReasoningPolicyConfig: S.optional(
-      GuardrailAutomatedReasoningPolicyConfig,
-    ),
-    crossRegionConfig: S.optional(GuardrailCrossRegionConfig),
-    blockedInputMessaging: SensitiveString,
-    blockedOutputsMessaging: SensitiveString,
-    kmsKeyId: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/guardrails/{guardrailIdentifier}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "UpdateGuardrailRequest",
-}) as any as S.Schema<UpdateGuardrailRequest>;
-export interface DeleteGuardrailRequest {
-  guardrailIdentifier: string;
-  guardrailVersion?: string;
-}
-export const DeleteGuardrailRequest = S.suspend(() =>
-  S.Struct({
-    guardrailIdentifier: S.String.pipe(T.HttpLabel("guardrailIdentifier")),
-    guardrailVersion: S.optional(S.String).pipe(
-      T.HttpQuery("guardrailVersion"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/guardrails/{guardrailIdentifier}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DeleteGuardrailRequest",
-}) as any as S.Schema<DeleteGuardrailRequest>;
-export interface DeleteGuardrailResponse {}
-export const DeleteGuardrailResponse = S.suspend(() =>
-  S.Struct({}),
-).annotations({
-  identifier: "DeleteGuardrailResponse",
-}) as any as S.Schema<DeleteGuardrailResponse>;
-export interface ListGuardrailsRequest {
-  guardrailIdentifier?: string;
-  maxResults?: number;
-  nextToken?: string;
-}
-export const ListGuardrailsRequest = S.suspend(() =>
-  S.Struct({
-    guardrailIdentifier: S.optional(S.String).pipe(
-      T.HttpQuery("guardrailIdentifier"),
-    ),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/guardrails" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListGuardrailsRequest",
-}) as any as S.Schema<ListGuardrailsRequest>;
-export interface CreateGuardrailVersionRequest {
-  guardrailIdentifier: string;
-  description?: string | redacted.Redacted<string>;
-  clientRequestToken?: string;
-}
-export const CreateGuardrailVersionRequest = S.suspend(() =>
-  S.Struct({
-    guardrailIdentifier: S.String.pipe(T.HttpLabel("guardrailIdentifier")),
-    description: S.optional(SensitiveString),
-    clientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/guardrails/{guardrailIdentifier}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "CreateGuardrailVersionRequest",
-}) as any as S.Schema<CreateGuardrailVersionRequest>;
-export interface GetInferenceProfileRequest {
-  inferenceProfileIdentifier: string;
-}
-export const GetInferenceProfileRequest = S.suspend(() =>
-  S.Struct({
-    inferenceProfileIdentifier: S.String.pipe(
-      T.HttpLabel("inferenceProfileIdentifier"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/inference-profiles/{inferenceProfileIdentifier}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "GetInferenceProfileRequest",
-}) as any as S.Schema<GetInferenceProfileRequest>;
-export interface DeleteInferenceProfileRequest {
-  inferenceProfileIdentifier: string;
-}
-export const DeleteInferenceProfileRequest = S.suspend(() =>
-  S.Struct({
-    inferenceProfileIdentifier: S.String.pipe(
-      T.HttpLabel("inferenceProfileIdentifier"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/inference-profiles/{inferenceProfileIdentifier}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DeleteInferenceProfileRequest",
-}) as any as S.Schema<DeleteInferenceProfileRequest>;
-export interface DeleteInferenceProfileResponse {}
-export const DeleteInferenceProfileResponse = S.suspend(() =>
-  S.Struct({}),
-).annotations({
-  identifier: "DeleteInferenceProfileResponse",
-}) as any as S.Schema<DeleteInferenceProfileResponse>;
-export interface ListInferenceProfilesRequest {
-  maxResults?: number;
-  nextToken?: string;
-  typeEquals?: InferenceProfileType;
-}
-export const ListInferenceProfilesRequest = S.suspend(() =>
-  S.Struct({
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    typeEquals: S.optional(InferenceProfileType).pipe(T.HttpQuery("type")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/inference-profiles" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListInferenceProfilesRequest",
-}) as any as S.Schema<ListInferenceProfilesRequest>;
-export interface S3Config {
-  bucketName: string;
-  keyPrefix?: string;
-}
-export const S3Config = S.suspend(() =>
-  S.Struct({ bucketName: S.String, keyPrefix: S.optional(S.String) }),
-).annotations({ identifier: "S3Config" }) as any as S.Schema<S3Config>;
-export interface CloudWatchConfig {
-  logGroupName: string;
-  roleArn: string;
-  largeDataDeliveryS3Config?: S3Config;
-}
-export const CloudWatchConfig = S.suspend(() =>
-  S.Struct({
-    logGroupName: S.String,
-    roleArn: S.String,
-    largeDataDeliveryS3Config: S.optional(S3Config),
-  }),
-).annotations({
-  identifier: "CloudWatchConfig",
-}) as any as S.Schema<CloudWatchConfig>;
-export interface LoggingConfig {
-  cloudWatchConfig?: CloudWatchConfig;
-  s3Config?: S3Config;
-  textDataDeliveryEnabled?: boolean;
-  imageDataDeliveryEnabled?: boolean;
-  embeddingDataDeliveryEnabled?: boolean;
-  videoDataDeliveryEnabled?: boolean;
-  audioDataDeliveryEnabled?: boolean;
-}
-export const LoggingConfig = S.suspend(() =>
-  S.Struct({
-    cloudWatchConfig: S.optional(CloudWatchConfig),
-    s3Config: S.optional(S3Config),
-    textDataDeliveryEnabled: S.optional(S.Boolean),
-    imageDataDeliveryEnabled: S.optional(S.Boolean),
-    embeddingDataDeliveryEnabled: S.optional(S.Boolean),
-    videoDataDeliveryEnabled: S.optional(S.Boolean),
-    audioDataDeliveryEnabled: S.optional(S.Boolean),
-  }),
-).annotations({
-  identifier: "LoggingConfig",
-}) as any as S.Schema<LoggingConfig>;
-export interface PutModelInvocationLoggingConfigurationRequest {
-  loggingConfig: LoggingConfig;
-}
-export const PutModelInvocationLoggingConfigurationRequest = S.suspend(() =>
-  S.Struct({ loggingConfig: LoggingConfig }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/logging/modelinvocations" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "PutModelInvocationLoggingConfigurationRequest",
-}) as any as S.Schema<PutModelInvocationLoggingConfigurationRequest>;
-export interface PutModelInvocationLoggingConfigurationResponse {}
-export const PutModelInvocationLoggingConfigurationResponse = S.suspend(() =>
-  S.Struct({}),
-).annotations({
-  identifier: "PutModelInvocationLoggingConfigurationResponse",
-}) as any as S.Schema<PutModelInvocationLoggingConfigurationResponse>;
-export interface CreateModelCopyJobRequest {
-  sourceModelArn: string;
-  targetModelName: string;
-  modelKmsKeyId?: string;
-  targetModelTags?: Tag[];
-  clientRequestToken?: string;
-}
-export const CreateModelCopyJobRequest = S.suspend(() =>
-  S.Struct({
-    sourceModelArn: S.String,
-    targetModelName: S.String,
-    modelKmsKeyId: S.optional(S.String),
-    targetModelTags: S.optional(TagList),
-    clientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/model-copy-jobs" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "CreateModelCopyJobRequest",
-}) as any as S.Schema<CreateModelCopyJobRequest>;
-export interface GetModelCopyJobRequest {
-  jobArn: string;
-}
-export const GetModelCopyJobRequest = S.suspend(() =>
-  S.Struct({ jobArn: S.String.pipe(T.HttpLabel("jobArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/model-copy-jobs/{jobArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "GetModelCopyJobRequest",
-}) as any as S.Schema<GetModelCopyJobRequest>;
-export interface ListModelCopyJobsRequest {
-  creationTimeAfter?: Date;
-  creationTimeBefore?: Date;
-  statusEquals?: ModelCopyJobStatus;
-  sourceAccountEquals?: string;
-  sourceModelArnEquals?: string;
-  targetModelNameContains?: string;
-  maxResults?: number;
-  nextToken?: string;
-  sortBy?: SortJobsBy;
-  sortOrder?: SortOrder;
-}
-export const ListModelCopyJobsRequest = S.suspend(() =>
-  S.Struct({
-    creationTimeAfter: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
-    ).pipe(T.HttpQuery("creationTimeAfter")),
-    creationTimeBefore: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
-    ).pipe(T.HttpQuery("creationTimeBefore")),
-    statusEquals: S.optional(ModelCopyJobStatus).pipe(
-      T.HttpQuery("statusEquals"),
-    ),
-    sourceAccountEquals: S.optional(S.String).pipe(
-      T.HttpQuery("sourceAccountEquals"),
-    ),
-    sourceModelArnEquals: S.optional(S.String).pipe(
-      T.HttpQuery("sourceModelArnEquals"),
-    ),
-    targetModelNameContains: S.optional(S.String).pipe(
-      T.HttpQuery("outputModelNameContains"),
-    ),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    sortBy: S.optional(SortJobsBy).pipe(T.HttpQuery("sortBy")),
-    sortOrder: S.optional(SortOrder).pipe(T.HttpQuery("sortOrder")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/model-copy-jobs" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListModelCopyJobsRequest",
-}) as any as S.Schema<ListModelCopyJobsRequest>;
-export interface DeleteImportedModelRequest {
-  modelIdentifier: string;
-}
-export const DeleteImportedModelRequest = S.suspend(() =>
-  S.Struct({
-    modelIdentifier: S.String.pipe(T.HttpLabel("modelIdentifier")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/imported-models/{modelIdentifier}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DeleteImportedModelRequest",
-}) as any as S.Schema<DeleteImportedModelRequest>;
-export interface DeleteImportedModelResponse {}
-export const DeleteImportedModelResponse = S.suspend(() =>
-  S.Struct({}),
-).annotations({
-  identifier: "DeleteImportedModelResponse",
-}) as any as S.Schema<DeleteImportedModelResponse>;
-export interface GetImportedModelRequest {
-  modelIdentifier: string;
-}
-export const GetImportedModelRequest = S.suspend(() =>
-  S.Struct({
-    modelIdentifier: S.String.pipe(T.HttpLabel("modelIdentifier")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/imported-models/{modelIdentifier}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "GetImportedModelRequest",
-}) as any as S.Schema<GetImportedModelRequest>;
-export interface GetModelImportJobRequest {
-  jobIdentifier: string;
-}
-export const GetModelImportJobRequest = S.suspend(() =>
-  S.Struct({ jobIdentifier: S.String.pipe(T.HttpLabel("jobIdentifier")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/model-import-jobs/{jobIdentifier}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "GetModelImportJobRequest",
-}) as any as S.Schema<GetModelImportJobRequest>;
-export interface ListImportedModelsRequest {
-  creationTimeBefore?: Date;
-  creationTimeAfter?: Date;
-  nameContains?: string;
-  maxResults?: number;
-  nextToken?: string;
-  sortBy?: SortModelsBy;
-  sortOrder?: SortOrder;
-}
-export const ListImportedModelsRequest = S.suspend(() =>
-  S.Struct({
-    creationTimeBefore: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
-    ).pipe(T.HttpQuery("creationTimeBefore")),
-    creationTimeAfter: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
-    ).pipe(T.HttpQuery("creationTimeAfter")),
-    nameContains: S.optional(S.String).pipe(T.HttpQuery("nameContains")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    sortBy: S.optional(SortModelsBy).pipe(T.HttpQuery("sortBy")),
-    sortOrder: S.optional(SortOrder).pipe(T.HttpQuery("sortOrder")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/imported-models" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListImportedModelsRequest",
-}) as any as S.Schema<ListImportedModelsRequest>;
-export interface ListModelImportJobsRequest {
-  creationTimeAfter?: Date;
-  creationTimeBefore?: Date;
-  statusEquals?: ModelImportJobStatus;
-  nameContains?: string;
-  maxResults?: number;
-  nextToken?: string;
-  sortBy?: SortJobsBy;
-  sortOrder?: SortOrder;
-}
-export const ListModelImportJobsRequest = S.suspend(() =>
-  S.Struct({
-    creationTimeAfter: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
-    ).pipe(T.HttpQuery("creationTimeAfter")),
-    creationTimeBefore: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
-    ).pipe(T.HttpQuery("creationTimeBefore")),
-    statusEquals: S.optional(ModelImportJobStatus).pipe(
-      T.HttpQuery("statusEquals"),
-    ),
-    nameContains: S.optional(S.String).pipe(T.HttpQuery("nameContains")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    sortBy: S.optional(SortJobsBy).pipe(T.HttpQuery("sortBy")),
-    sortOrder: S.optional(SortOrder).pipe(T.HttpQuery("sortOrder")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/model-import-jobs" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListModelImportJobsRequest",
-}) as any as S.Schema<ListModelImportJobsRequest>;
-export interface GetModelInvocationJobRequest {
-  jobIdentifier: string;
-}
-export const GetModelInvocationJobRequest = S.suspend(() =>
-  S.Struct({ jobIdentifier: S.String.pipe(T.HttpLabel("jobIdentifier")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/model-invocation-job/{jobIdentifier}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "GetModelInvocationJobRequest",
-}) as any as S.Schema<GetModelInvocationJobRequest>;
-export interface ListModelInvocationJobsRequest {
-  submitTimeAfter?: Date;
-  submitTimeBefore?: Date;
-  statusEquals?: ModelInvocationJobStatus;
-  nameContains?: string;
-  maxResults?: number;
-  nextToken?: string;
-  sortBy?: SortJobsBy;
-  sortOrder?: SortOrder;
-}
-export const ListModelInvocationJobsRequest = S.suspend(() =>
-  S.Struct({
-    submitTimeAfter: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
-    ).pipe(T.HttpQuery("submitTimeAfter")),
-    submitTimeBefore: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
-    ).pipe(T.HttpQuery("submitTimeBefore")),
-    statusEquals: S.optional(ModelInvocationJobStatus).pipe(
-      T.HttpQuery("statusEquals"),
-    ),
-    nameContains: S.optional(S.String).pipe(T.HttpQuery("nameContains")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    sortBy: S.optional(SortJobsBy).pipe(T.HttpQuery("sortBy")),
-    sortOrder: S.optional(SortOrder).pipe(T.HttpQuery("sortOrder")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/model-invocation-jobs" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListModelInvocationJobsRequest",
-}) as any as S.Schema<ListModelInvocationJobsRequest>;
-export interface StopModelInvocationJobRequest {
-  jobIdentifier: string;
-}
-export const StopModelInvocationJobRequest = S.suspend(() =>
-  S.Struct({ jobIdentifier: S.String.pipe(T.HttpLabel("jobIdentifier")) }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/model-invocation-job/{jobIdentifier}/stop",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "StopModelInvocationJobRequest",
-}) as any as S.Schema<StopModelInvocationJobRequest>;
-export interface StopModelInvocationJobResponse {}
-export const StopModelInvocationJobResponse = S.suspend(() =>
-  S.Struct({}),
-).annotations({
-  identifier: "StopModelInvocationJobResponse",
-}) as any as S.Schema<StopModelInvocationJobResponse>;
-export interface GetFoundationModelRequest {
-  modelIdentifier: string;
-}
-export const GetFoundationModelRequest = S.suspend(() =>
-  S.Struct({
-    modelIdentifier: S.String.pipe(T.HttpLabel("modelIdentifier")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/foundation-models/{modelIdentifier}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "GetFoundationModelRequest",
-}) as any as S.Schema<GetFoundationModelRequest>;
-export interface ListFoundationModelsRequest {
-  byProvider?: string;
-  byCustomizationType?: ModelCustomization;
-  byOutputModality?: ModelModality;
-  byInferenceType?: InferenceType;
-}
-export const ListFoundationModelsRequest = S.suspend(() =>
-  S.Struct({
-    byProvider: S.optional(S.String).pipe(T.HttpQuery("byProvider")),
-    byCustomizationType: S.optional(ModelCustomization).pipe(
-      T.HttpQuery("byCustomizationType"),
-    ),
-    byOutputModality: S.optional(ModelModality).pipe(
-      T.HttpQuery("byOutputModality"),
-    ),
-    byInferenceType: S.optional(InferenceType).pipe(
-      T.HttpQuery("byInferenceType"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/foundation-models" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListFoundationModelsRequest",
-}) as any as S.Schema<ListFoundationModelsRequest>;
-export interface GetPromptRouterRequest {
-  promptRouterArn: string;
-}
-export const GetPromptRouterRequest = S.suspend(() =>
-  S.Struct({
-    promptRouterArn: S.String.pipe(T.HttpLabel("promptRouterArn")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/prompt-routers/{promptRouterArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "GetPromptRouterRequest",
-}) as any as S.Schema<GetPromptRouterRequest>;
-export interface DeletePromptRouterRequest {
-  promptRouterArn: string;
-}
-export const DeletePromptRouterRequest = S.suspend(() =>
-  S.Struct({
-    promptRouterArn: S.String.pipe(T.HttpLabel("promptRouterArn")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/prompt-routers/{promptRouterArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DeletePromptRouterRequest",
-}) as any as S.Schema<DeletePromptRouterRequest>;
-export interface DeletePromptRouterResponse {}
-export const DeletePromptRouterResponse = S.suspend(() =>
-  S.Struct({}),
-).annotations({
-  identifier: "DeletePromptRouterResponse",
-}) as any as S.Schema<DeletePromptRouterResponse>;
-export interface ListPromptRoutersRequest {
-  maxResults?: number;
-  nextToken?: string;
-  type?: PromptRouterType;
-}
-export const ListPromptRoutersRequest = S.suspend(() =>
-  S.Struct({
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    type: S.optional(PromptRouterType).pipe(T.HttpQuery("type")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/prompt-routers" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListPromptRoutersRequest",
-}) as any as S.Schema<ListPromptRoutersRequest>;
-export interface CreateProvisionedModelThroughputRequest {
-  clientRequestToken?: string;
-  modelUnits: number;
-  provisionedModelName: string;
-  modelId: string;
-  commitmentDuration?: CommitmentDuration;
-  tags?: Tag[];
-}
-export const CreateProvisionedModelThroughputRequest = S.suspend(() =>
-  S.Struct({
-    clientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    modelUnits: S.Number,
-    provisionedModelName: S.String,
-    modelId: S.String,
-    commitmentDuration: S.optional(CommitmentDuration),
-    tags: S.optional(TagList),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/provisioned-model-throughput" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "CreateProvisionedModelThroughputRequest",
-}) as any as S.Schema<CreateProvisionedModelThroughputRequest>;
-export interface DeleteProvisionedModelThroughputRequest {
-  provisionedModelId: string;
-}
-export const DeleteProvisionedModelThroughputRequest = S.suspend(() =>
-  S.Struct({
-    provisionedModelId: S.String.pipe(T.HttpLabel("provisionedModelId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/provisioned-model-throughput/{provisionedModelId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DeleteProvisionedModelThroughputRequest",
-}) as any as S.Schema<DeleteProvisionedModelThroughputRequest>;
-export interface DeleteProvisionedModelThroughputResponse {}
-export const DeleteProvisionedModelThroughputResponse = S.suspend(() =>
-  S.Struct({}),
-).annotations({
-  identifier: "DeleteProvisionedModelThroughputResponse",
-}) as any as S.Schema<DeleteProvisionedModelThroughputResponse>;
-export interface GetProvisionedModelThroughputRequest {
-  provisionedModelId: string;
-}
-export const GetProvisionedModelThroughputRequest = S.suspend(() =>
-  S.Struct({
-    provisionedModelId: S.String.pipe(T.HttpLabel("provisionedModelId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/provisioned-model-throughput/{provisionedModelId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "GetProvisionedModelThroughputRequest",
-}) as any as S.Schema<GetProvisionedModelThroughputRequest>;
-export interface ListProvisionedModelThroughputsRequest {
-  creationTimeAfter?: Date;
-  creationTimeBefore?: Date;
-  statusEquals?: ProvisionedModelStatus;
-  modelArnEquals?: string;
-  nameContains?: string;
-  maxResults?: number;
-  nextToken?: string;
-  sortBy?: SortByProvisionedModels;
-  sortOrder?: SortOrder;
-}
-export const ListProvisionedModelThroughputsRequest = S.suspend(() =>
-  S.Struct({
-    creationTimeAfter: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
-    ).pipe(T.HttpQuery("creationTimeAfter")),
-    creationTimeBefore: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
-    ).pipe(T.HttpQuery("creationTimeBefore")),
-    statusEquals: S.optional(ProvisionedModelStatus).pipe(
-      T.HttpQuery("statusEquals"),
-    ),
-    modelArnEquals: S.optional(S.String).pipe(T.HttpQuery("modelArnEquals")),
-    nameContains: S.optional(S.String).pipe(T.HttpQuery("nameContains")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    sortBy: S.optional(SortByProvisionedModels).pipe(T.HttpQuery("sortBy")),
-    sortOrder: S.optional(SortOrder).pipe(T.HttpQuery("sortOrder")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/provisioned-model-throughputs" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListProvisionedModelThroughputsRequest",
-}) as any as S.Schema<ListProvisionedModelThroughputsRequest>;
-export interface UpdateProvisionedModelThroughputRequest {
-  provisionedModelId: string;
-  desiredProvisionedModelName?: string;
-  desiredModelId?: string;
-}
-export const UpdateProvisionedModelThroughputRequest = S.suspend(() =>
-  S.Struct({
-    provisionedModelId: S.String.pipe(T.HttpLabel("provisionedModelId")),
-    desiredProvisionedModelName: S.optional(S.String),
-    desiredModelId: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PATCH",
-        uri: "/provisioned-model-throughput/{provisionedModelId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "UpdateProvisionedModelThroughputRequest",
-}) as any as S.Schema<UpdateProvisionedModelThroughputRequest>;
-export interface UpdateProvisionedModelThroughputResponse {}
-export const UpdateProvisionedModelThroughputResponse = S.suspend(() =>
-  S.Struct({}),
-).annotations({
-  identifier: "UpdateProvisionedModelThroughputResponse",
-}) as any as S.Schema<UpdateProvisionedModelThroughputResponse>;
-export interface CreateFoundationModelAgreementRequest {
-  offerToken: string;
-  modelId: string;
-}
-export const CreateFoundationModelAgreementRequest = S.suspend(() =>
-  S.Struct({ offerToken: S.String, modelId: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/create-foundation-model-agreement" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "CreateFoundationModelAgreementRequest",
-}) as any as S.Schema<CreateFoundationModelAgreementRequest>;
-export interface DeleteFoundationModelAgreementRequest {
-  modelId: string;
-}
-export const DeleteFoundationModelAgreementRequest = S.suspend(() =>
-  S.Struct({ modelId: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/delete-foundation-model-agreement" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DeleteFoundationModelAgreementRequest",
-}) as any as S.Schema<DeleteFoundationModelAgreementRequest>;
-export interface DeleteFoundationModelAgreementResponse {}
-export const DeleteFoundationModelAgreementResponse = S.suspend(() =>
-  S.Struct({}),
-).annotations({
-  identifier: "DeleteFoundationModelAgreementResponse",
-}) as any as S.Schema<DeleteFoundationModelAgreementResponse>;
-export interface GetFoundationModelAvailabilityRequest {
-  modelId: string;
-}
-export const GetFoundationModelAvailabilityRequest = S.suspend(() =>
-  S.Struct({ modelId: S.String.pipe(T.HttpLabel("modelId")) }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/foundation-model-availability/{modelId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "GetFoundationModelAvailabilityRequest",
-}) as any as S.Schema<GetFoundationModelAvailabilityRequest>;
-export interface ListFoundationModelAgreementOffersRequest {
-  modelId: string;
-  offerType?: OfferType;
-}
-export const ListFoundationModelAgreementOffersRequest = S.suspend(() =>
-  S.Struct({
-    modelId: S.String.pipe(T.HttpLabel("modelId")),
-    offerType: S.optional(OfferType).pipe(T.HttpQuery("offerType")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/list-foundation-model-agreement-offers/{modelId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListFoundationModelAgreementOffersRequest",
-}) as any as S.Schema<ListFoundationModelAgreementOffersRequest>;
-export interface ListTagsForResourceRequest {
-  resourceARN: string;
-}
-export const ListTagsForResourceRequest = S.suspend(() =>
-  S.Struct({ resourceARN: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/listTagsForResource" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListTagsForResourceRequest",
-}) as any as S.Schema<ListTagsForResourceRequest>;
-export interface TagResourceRequest {
-  resourceARN: string;
-  tags: Tag[];
-}
-export const TagResourceRequest = S.suspend(() =>
-  S.Struct({ resourceARN: S.String, tags: TagList }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/tagResource" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
-export interface TagResourceResponse {}
-export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
-  identifier: "TagResourceResponse",
-}) as any as S.Schema<TagResourceResponse>;
-export interface UntagResourceRequest {
-  resourceARN: string;
-  tagKeys: string[];
-}
-export const UntagResourceRequest = S.suspend(() =>
-  S.Struct({ resourceARN: S.String, tagKeys: TagKeyList }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/untagResource" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
-export interface UntagResourceResponse {}
-export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
-  identifier: "UntagResourceResponse",
-}) as any as S.Schema<UntagResourceResponse>;
-export interface GetModelCustomizationJobRequest {
-  jobIdentifier: string;
-}
-export const GetModelCustomizationJobRequest = S.suspend(() =>
-  S.Struct({ jobIdentifier: S.String.pipe(T.HttpLabel("jobIdentifier")) }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/model-customization-jobs/{jobIdentifier}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "GetModelCustomizationJobRequest",
-}) as any as S.Schema<GetModelCustomizationJobRequest>;
-export interface ListModelCustomizationJobsRequest {
-  creationTimeAfter?: Date;
-  creationTimeBefore?: Date;
-  statusEquals?: FineTuningJobStatus;
-  nameContains?: string;
-  maxResults?: number;
-  nextToken?: string;
-  sortBy?: SortJobsBy;
-  sortOrder?: SortOrder;
-}
-export const ListModelCustomizationJobsRequest = S.suspend(() =>
-  S.Struct({
-    creationTimeAfter: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
-    ).pipe(T.HttpQuery("creationTimeAfter")),
-    creationTimeBefore: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
-    ).pipe(T.HttpQuery("creationTimeBefore")),
-    statusEquals: S.optional(FineTuningJobStatus).pipe(
-      T.HttpQuery("statusEquals"),
-    ),
-    nameContains: S.optional(S.String).pipe(T.HttpQuery("nameContains")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    sortBy: S.optional(SortJobsBy).pipe(T.HttpQuery("sortBy")),
-    sortOrder: S.optional(SortOrder).pipe(T.HttpQuery("sortOrder")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/model-customization-jobs" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListModelCustomizationJobsRequest",
-}) as any as S.Schema<ListModelCustomizationJobsRequest>;
-export interface StopModelCustomizationJobRequest {
-  jobIdentifier: string;
-}
-export const StopModelCustomizationJobRequest = S.suspend(() =>
-  S.Struct({ jobIdentifier: S.String.pipe(T.HttpLabel("jobIdentifier")) }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/model-customization-jobs/{jobIdentifier}/stop",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "StopModelCustomizationJobRequest",
-}) as any as S.Schema<StopModelCustomizationJobRequest>;
-export interface StopModelCustomizationJobResponse {}
-export const StopModelCustomizationJobResponse = S.suspend(() =>
-  S.Struct({}),
-).annotations({
-  identifier: "StopModelCustomizationJobResponse",
-}) as any as S.Schema<StopModelCustomizationJobResponse>;
-export type InputTags = "HONOR" | "IGNORE" | (string & {});
-export const InputTags = S.String;
-export type AutomatedReasoningPolicyBuildWorkflowStatus =
-  | "SCHEDULED"
-  | "CANCEL_REQUESTED"
-  | "PREPROCESSING"
-  | "BUILDING"
-  | "TESTING"
-  | "COMPLETED"
-  | "FAILED"
-  | "CANCELLED"
-  | (string & {});
-export const AutomatedReasoningPolicyBuildWorkflowStatus = S.String;
-export type AutomatedReasoningPolicyBuildDocumentContentType =
-  | "pdf"
-  | "txt"
-  | (string & {});
-export const AutomatedReasoningPolicyBuildDocumentContentType = S.String;
-export interface AutomatedReasoningPolicyTestCase {
-  testCaseId: string;
-  guardContent: string | redacted.Redacted<string>;
-  queryContent?: string | redacted.Redacted<string>;
-  expectedAggregatedFindingsResult?: AutomatedReasoningCheckResult;
-  createdAt: Date;
-  updatedAt: Date;
-  confidenceThreshold?: number;
-}
-export const AutomatedReasoningPolicyTestCase = S.suspend(() =>
-  S.Struct({
-    testCaseId: S.String,
-    guardContent: SensitiveString,
-    queryContent: S.optional(SensitiveString),
-    expectedAggregatedFindingsResult: S.optional(AutomatedReasoningCheckResult),
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    confidenceThreshold: S.optional(S.Number),
-  }),
-).annotations({
-  identifier: "AutomatedReasoningPolicyTestCase",
-}) as any as S.Schema<AutomatedReasoningPolicyTestCase>;
-export type AutomatedReasoningPolicyTestCaseList =
-  AutomatedReasoningPolicyTestCase[];
-export const AutomatedReasoningPolicyTestCaseList = S.Array(
-  AutomatedReasoningPolicyTestCase,
-);
-export type AutomatedReasoningPolicyTestRunStatus =
-  | "NOT_STARTED"
-  | "SCHEDULED"
-  | "IN_PROGRESS"
-  | "COMPLETED"
-  | "FAILED"
-  | (string & {});
-export const AutomatedReasoningPolicyTestRunStatus = S.String;
-export interface AutomatedReasoningLogicStatement {
-  logic: string | redacted.Redacted<string>;
-  naturalLanguage?: string | redacted.Redacted<string>;
-}
-export const AutomatedReasoningLogicStatement = S.suspend(() =>
-  S.Struct({
-    logic: SensitiveString,
-    naturalLanguage: S.optional(SensitiveString),
-  }),
-).annotations({
-  identifier: "AutomatedReasoningLogicStatement",
-}) as any as S.Schema<AutomatedReasoningLogicStatement>;
-export type AutomatedReasoningLogicStatementList =
-  AutomatedReasoningLogicStatement[];
-export const AutomatedReasoningLogicStatementList = S.Array(
-  AutomatedReasoningLogicStatement,
-);
-export interface AutomatedReasoningCheckInputTextReference {
-  text?: string | redacted.Redacted<string>;
-}
-export const AutomatedReasoningCheckInputTextReference = S.suspend(() =>
-  S.Struct({ text: S.optional(SensitiveString) }),
-).annotations({
-  identifier: "AutomatedReasoningCheckInputTextReference",
-}) as any as S.Schema<AutomatedReasoningCheckInputTextReference>;
-export type AutomatedReasoningCheckInputTextReferenceList =
-  AutomatedReasoningCheckInputTextReference[];
-export const AutomatedReasoningCheckInputTextReferenceList = S.Array(
-  AutomatedReasoningCheckInputTextReference,
-);
-export interface AutomatedReasoningCheckTranslation {
-  premises?: AutomatedReasoningLogicStatement[];
-  claims: AutomatedReasoningLogicStatement[];
-  untranslatedPremises?: AutomatedReasoningCheckInputTextReference[];
-  untranslatedClaims?: AutomatedReasoningCheckInputTextReference[];
-  confidence: number;
-}
-export const AutomatedReasoningCheckTranslation = S.suspend(() =>
-  S.Struct({
-    premises: S.optional(AutomatedReasoningLogicStatementList),
-    claims: AutomatedReasoningLogicStatementList,
-    untranslatedPremises: S.optional(
-      AutomatedReasoningCheckInputTextReferenceList,
-    ),
-    untranslatedClaims: S.optional(
-      AutomatedReasoningCheckInputTextReferenceList,
-    ),
-    confidence: S.Number,
-  }),
-).annotations({
-  identifier: "AutomatedReasoningCheckTranslation",
-}) as any as S.Schema<AutomatedReasoningCheckTranslation>;
-export interface AutomatedReasoningCheckScenario {
-  statements?: AutomatedReasoningLogicStatement[];
-}
-export const AutomatedReasoningCheckScenario = S.suspend(() =>
-  S.Struct({ statements: S.optional(AutomatedReasoningLogicStatementList) }),
-).annotations({
-  identifier: "AutomatedReasoningCheckScenario",
-}) as any as S.Schema<AutomatedReasoningCheckScenario>;
-export interface AutomatedReasoningCheckRule {
-  id?: string;
-  policyVersionArn?: string;
-}
-export const AutomatedReasoningCheckRule = S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    policyVersionArn: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "AutomatedReasoningCheckRule",
-}) as any as S.Schema<AutomatedReasoningCheckRule>;
-export type AutomatedReasoningCheckRuleList = AutomatedReasoningCheckRule[];
-export const AutomatedReasoningCheckRuleList = S.Array(
-  AutomatedReasoningCheckRule,
-);
-export type AutomatedReasoningCheckLogicWarningType =
-  | "ALWAYS_TRUE"
-  | "ALWAYS_FALSE"
-  | (string & {});
-export const AutomatedReasoningCheckLogicWarningType = S.String;
-export interface AutomatedReasoningCheckLogicWarning {
-  type?: AutomatedReasoningCheckLogicWarningType;
-  premises?: AutomatedReasoningLogicStatement[];
-  claims?: AutomatedReasoningLogicStatement[];
-}
-export const AutomatedReasoningCheckLogicWarning = S.suspend(() =>
-  S.Struct({
-    type: S.optional(AutomatedReasoningCheckLogicWarningType),
-    premises: S.optional(AutomatedReasoningLogicStatementList),
-    claims: S.optional(AutomatedReasoningLogicStatementList),
-  }),
-).annotations({
-  identifier: "AutomatedReasoningCheckLogicWarning",
-}) as any as S.Schema<AutomatedReasoningCheckLogicWarning>;
-export interface AutomatedReasoningCheckValidFinding {
-  translation?: AutomatedReasoningCheckTranslation;
-  claimsTrueScenario?: AutomatedReasoningCheckScenario;
-  supportingRules?: AutomatedReasoningCheckRule[];
-  logicWarning?: AutomatedReasoningCheckLogicWarning;
-}
-export const AutomatedReasoningCheckValidFinding = S.suspend(() =>
-  S.Struct({
-    translation: S.optional(AutomatedReasoningCheckTranslation),
-    claimsTrueScenario: S.optional(AutomatedReasoningCheckScenario),
-    supportingRules: S.optional(AutomatedReasoningCheckRuleList),
-    logicWarning: S.optional(AutomatedReasoningCheckLogicWarning),
-  }),
-).annotations({
-  identifier: "AutomatedReasoningCheckValidFinding",
-}) as any as S.Schema<AutomatedReasoningCheckValidFinding>;
-export interface AutomatedReasoningCheckInvalidFinding {
-  translation?: AutomatedReasoningCheckTranslation;
-  contradictingRules?: AutomatedReasoningCheckRule[];
-  logicWarning?: AutomatedReasoningCheckLogicWarning;
-}
-export const AutomatedReasoningCheckInvalidFinding = S.suspend(() =>
-  S.Struct({
-    translation: S.optional(AutomatedReasoningCheckTranslation),
-    contradictingRules: S.optional(AutomatedReasoningCheckRuleList),
-    logicWarning: S.optional(AutomatedReasoningCheckLogicWarning),
-  }),
-).annotations({
-  identifier: "AutomatedReasoningCheckInvalidFinding",
-}) as any as S.Schema<AutomatedReasoningCheckInvalidFinding>;
-export interface AutomatedReasoningCheckSatisfiableFinding {
-  translation?: AutomatedReasoningCheckTranslation;
-  claimsTrueScenario?: AutomatedReasoningCheckScenario;
-  claimsFalseScenario?: AutomatedReasoningCheckScenario;
-  logicWarning?: AutomatedReasoningCheckLogicWarning;
-}
-export const AutomatedReasoningCheckSatisfiableFinding = S.suspend(() =>
-  S.Struct({
-    translation: S.optional(AutomatedReasoningCheckTranslation),
-    claimsTrueScenario: S.optional(AutomatedReasoningCheckScenario),
-    claimsFalseScenario: S.optional(AutomatedReasoningCheckScenario),
-    logicWarning: S.optional(AutomatedReasoningCheckLogicWarning),
-  }),
-).annotations({
-  identifier: "AutomatedReasoningCheckSatisfiableFinding",
-}) as any as S.Schema<AutomatedReasoningCheckSatisfiableFinding>;
-export interface AutomatedReasoningCheckImpossibleFinding {
-  translation?: AutomatedReasoningCheckTranslation;
-  contradictingRules?: AutomatedReasoningCheckRule[];
-  logicWarning?: AutomatedReasoningCheckLogicWarning;
-}
-export const AutomatedReasoningCheckImpossibleFinding = S.suspend(() =>
-  S.Struct({
-    translation: S.optional(AutomatedReasoningCheckTranslation),
-    contradictingRules: S.optional(AutomatedReasoningCheckRuleList),
-    logicWarning: S.optional(AutomatedReasoningCheckLogicWarning),
-  }),
-).annotations({
-  identifier: "AutomatedReasoningCheckImpossibleFinding",
-}) as any as S.Schema<AutomatedReasoningCheckImpossibleFinding>;
-export type AutomatedReasoningCheckTranslationList =
-  AutomatedReasoningCheckTranslation[];
-export const AutomatedReasoningCheckTranslationList = S.Array(
-  AutomatedReasoningCheckTranslation,
-);
-export interface AutomatedReasoningCheckTranslationOption {
-  translations?: AutomatedReasoningCheckTranslation[];
-}
-export const AutomatedReasoningCheckTranslationOption = S.suspend(() =>
-  S.Struct({
-    translations: S.optional(AutomatedReasoningCheckTranslationList),
-  }),
-).annotations({
-  identifier: "AutomatedReasoningCheckTranslationOption",
-}) as any as S.Schema<AutomatedReasoningCheckTranslationOption>;
-export type AutomatedReasoningCheckTranslationOptionList =
-  AutomatedReasoningCheckTranslationOption[];
-export const AutomatedReasoningCheckTranslationOptionList = S.Array(
-  AutomatedReasoningCheckTranslationOption,
-);
-export type AutomatedReasoningCheckDifferenceScenarioList =
-  AutomatedReasoningCheckScenario[];
-export const AutomatedReasoningCheckDifferenceScenarioList = S.Array(
-  AutomatedReasoningCheckScenario,
-);
-export interface AutomatedReasoningCheckTranslationAmbiguousFinding {
-  options?: AutomatedReasoningCheckTranslationOption[];
-  differenceScenarios?: AutomatedReasoningCheckScenario[];
-}
-export const AutomatedReasoningCheckTranslationAmbiguousFinding = S.suspend(
-  () =>
-    S.Struct({
-      options: S.optional(AutomatedReasoningCheckTranslationOptionList),
-      differenceScenarios: S.optional(
-        AutomatedReasoningCheckDifferenceScenarioList,
-      ),
-    }),
-).annotations({
-  identifier: "AutomatedReasoningCheckTranslationAmbiguousFinding",
-}) as any as S.Schema<AutomatedReasoningCheckTranslationAmbiguousFinding>;
-export interface AutomatedReasoningCheckTooComplexFinding {}
-export const AutomatedReasoningCheckTooComplexFinding = S.suspend(() =>
-  S.Struct({}),
-).annotations({
-  identifier: "AutomatedReasoningCheckTooComplexFinding",
-}) as any as S.Schema<AutomatedReasoningCheckTooComplexFinding>;
-export interface AutomatedReasoningCheckNoTranslationsFinding {}
-export const AutomatedReasoningCheckNoTranslationsFinding = S.suspend(() =>
-  S.Struct({}),
-).annotations({
-  identifier: "AutomatedReasoningCheckNoTranslationsFinding",
-}) as any as S.Schema<AutomatedReasoningCheckNoTranslationsFinding>;
-export type AutomatedReasoningCheckFinding =
-  | {
-      valid: AutomatedReasoningCheckValidFinding;
-      invalid?: never;
-      satisfiable?: never;
-      impossible?: never;
-      translationAmbiguous?: never;
-      tooComplex?: never;
-      noTranslations?: never;
-    }
-  | {
-      valid?: never;
-      invalid: AutomatedReasoningCheckInvalidFinding;
-      satisfiable?: never;
-      impossible?: never;
-      translationAmbiguous?: never;
-      tooComplex?: never;
-      noTranslations?: never;
-    }
-  | {
-      valid?: never;
-      invalid?: never;
-      satisfiable: AutomatedReasoningCheckSatisfiableFinding;
-      impossible?: never;
-      translationAmbiguous?: never;
-      tooComplex?: never;
-      noTranslations?: never;
-    }
-  | {
-      valid?: never;
-      invalid?: never;
-      satisfiable?: never;
-      impossible: AutomatedReasoningCheckImpossibleFinding;
-      translationAmbiguous?: never;
-      tooComplex?: never;
-      noTranslations?: never;
-    }
-  | {
-      valid?: never;
-      invalid?: never;
-      satisfiable?: never;
-      impossible?: never;
-      translationAmbiguous: AutomatedReasoningCheckTranslationAmbiguousFinding;
-      tooComplex?: never;
-      noTranslations?: never;
-    }
-  | {
-      valid?: never;
-      invalid?: never;
-      satisfiable?: never;
-      impossible?: never;
-      translationAmbiguous?: never;
-      tooComplex: AutomatedReasoningCheckTooComplexFinding;
-      noTranslations?: never;
-    }
-  | {
-      valid?: never;
-      invalid?: never;
-      satisfiable?: never;
-      impossible?: never;
-      translationAmbiguous?: never;
-      tooComplex?: never;
-      noTranslations: AutomatedReasoningCheckNoTranslationsFinding;
-    };
-export const AutomatedReasoningCheckFinding = S.Union(
-  S.Struct({ valid: AutomatedReasoningCheckValidFinding }),
-  S.Struct({ invalid: AutomatedReasoningCheckInvalidFinding }),
-  S.Struct({ satisfiable: AutomatedReasoningCheckSatisfiableFinding }),
-  S.Struct({ impossible: AutomatedReasoningCheckImpossibleFinding }),
-  S.Struct({
-    translationAmbiguous: AutomatedReasoningCheckTranslationAmbiguousFinding,
-  }),
-  S.Struct({ tooComplex: AutomatedReasoningCheckTooComplexFinding }),
-  S.Struct({ noTranslations: AutomatedReasoningCheckNoTranslationsFinding }),
-);
-export type AutomatedReasoningCheckFindingList =
-  AutomatedReasoningCheckFinding[];
-export const AutomatedReasoningCheckFindingList = S.Array(
-  AutomatedReasoningCheckFinding,
-);
-export type AutomatedReasoningPolicyTestRunResult =
-  | "PASSED"
-  | "FAILED"
-  | (string & {});
-export const AutomatedReasoningPolicyTestRunResult = S.String;
-export interface AutomatedReasoningPolicyTestResult {
-  testCase: AutomatedReasoningPolicyTestCase;
-  policyArn: string;
-  testRunStatus: AutomatedReasoningPolicyTestRunStatus;
-  testFindings?: AutomatedReasoningCheckFinding[];
-  testRunResult?: AutomatedReasoningPolicyTestRunResult;
-  aggregatedTestFindingsResult?: AutomatedReasoningCheckResult;
-  updatedAt: Date;
-}
-export const AutomatedReasoningPolicyTestResult = S.suspend(() =>
-  S.Struct({
-    testCase: AutomatedReasoningPolicyTestCase,
-    policyArn: S.String,
-    testRunStatus: AutomatedReasoningPolicyTestRunStatus,
-    testFindings: S.optional(AutomatedReasoningCheckFindingList),
-    testRunResult: S.optional(AutomatedReasoningPolicyTestRunResult),
-    aggregatedTestFindingsResult: S.optional(AutomatedReasoningCheckResult),
-    updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  }),
-).annotations({
-  identifier: "AutomatedReasoningPolicyTestResult",
-}) as any as S.Schema<AutomatedReasoningPolicyTestResult>;
-export type AutomatedReasoningPolicyTestList =
-  AutomatedReasoningPolicyTestResult[];
-export const AutomatedReasoningPolicyTestList = S.Array(
-  AutomatedReasoningPolicyTestResult,
-);
-export interface AccountEnforcedGuardrailInferenceInputConfiguration {
-  guardrailIdentifier: string;
-  guardrailVersion: string;
-  inputTags: InputTags;
-}
-export const AccountEnforcedGuardrailInferenceInputConfiguration = S.suspend(
-  () =>
-    S.Struct({
-      guardrailIdentifier: S.String,
-      guardrailVersion: S.String,
-      inputTags: InputTags,
-    }),
-).annotations({
-  identifier: "AccountEnforcedGuardrailInferenceInputConfiguration",
-}) as any as S.Schema<AccountEnforcedGuardrailInferenceInputConfiguration>;
-export interface EvaluationOutputDataConfig {
-  s3Uri: string;
-}
-export const EvaluationOutputDataConfig = S.suspend(() =>
-  S.Struct({ s3Uri: S.String }),
-).annotations({
-  identifier: "EvaluationOutputDataConfig",
-}) as any as S.Schema<EvaluationOutputDataConfig>;
-export type EvaluationJobType = "Human" | "Automated" | (string & {});
-export const EvaluationJobType = S.String;
-export type ErrorMessages = string[];
-export const ErrorMessages = S.Array(S.String);
-export type GuardrailStatus =
-  | "CREATING"
-  | "UPDATING"
-  | "VERSIONING"
-  | "READY"
-  | "FAILED"
-  | "DELETING"
-  | (string & {});
-export const GuardrailStatus = S.String;
-export type GuardrailStatusReasons = string | redacted.Redacted<string>[];
-export const GuardrailStatusReasons = S.Array(SensitiveString);
-export type GuardrailFailureRecommendations =
-  | string
-  | redacted.Redacted<string>[];
-export const GuardrailFailureRecommendations = S.Array(SensitiveString);
-export type InferenceProfileModelSource = { copyFrom: string };
-export const InferenceProfileModelSource = S.Union(
-  S.Struct({ copyFrom: S.String }),
-);
-export type InferenceProfileStatus = "ACTIVE" | (string & {});
-export const InferenceProfileStatus = S.String;
-export interface PromptRouterTargetModel {
-  modelArn?: string;
-}
-export const PromptRouterTargetModel = S.suspend(() =>
-  S.Struct({ modelArn: S.optional(S.String) }),
-).annotations({
-  identifier: "PromptRouterTargetModel",
-}) as any as S.Schema<PromptRouterTargetModel>;
-export type PromptRouterTargetModels = PromptRouterTargetModel[];
-export const PromptRouterTargetModels = S.Array(PromptRouterTargetModel);
-export interface RoutingCriteria {
-  responseQualityDifference: number;
-}
-export const RoutingCriteria = S.suspend(() =>
-  S.Struct({ responseQualityDifference: S.Number }),
-).annotations({
-  identifier: "RoutingCriteria",
-}) as any as S.Schema<RoutingCriteria>;
-export type PromptRouterStatus = "AVAILABLE" | (string & {});
-export const PromptRouterStatus = S.String;
-export type AuthorizationStatus =
-  | "AUTHORIZED"
-  | "NOT_AUTHORIZED"
-  | (string & {});
-export const AuthorizationStatus = S.String;
-export type EntitlementAvailability =
-  | "AVAILABLE"
-  | "NOT_AVAILABLE"
-  | (string & {});
-export const EntitlementAvailability = S.String;
-export type RegionAvailability = "AVAILABLE" | "NOT_AVAILABLE" | (string & {});
-export const RegionAvailability = S.String;
-export interface OutputDataConfig {
-  s3Uri: string;
-}
-export const OutputDataConfig = S.suspend(() =>
-  S.Struct({ s3Uri: S.String }),
-).annotations({
-  identifier: "OutputDataConfig",
-}) as any as S.Schema<OutputDataConfig>;
-export type ModelCustomizationHyperParameters = {
-  [key: string]: string | undefined;
-};
-export const ModelCustomizationHyperParameters = S.Record({
-  key: S.String,
-  value: S.UndefinedOr(S.String),
-});
-export type ModelCustomizationJobStatus =
-  | "InProgress"
-  | "Completed"
-  | "Failed"
-  | "Stopping"
-  | "Stopped"
-  | (string & {});
-export const ModelCustomizationJobStatus = S.String;
-export type AutomatedReasoningPolicyDefinitionRuleIdList = string[];
-export const AutomatedReasoningPolicyDefinitionRuleIdList = S.Array(S.String);
-export type S3InputFormat = "JSONL" | (string & {});
-export const S3InputFormat = S.String;
-export interface GetAutomatedReasoningPolicyResponse {
-  policyArn: string;
-  name: string | redacted.Redacted<string>;
-  version: string;
-  policyId: string;
-  description?: string | redacted.Redacted<string>;
-  definitionHash: string;
-  kmsKeyArn?: string;
-  createdAt?: Date;
-  updatedAt: Date;
-}
-export const GetAutomatedReasoningPolicyResponse = S.suspend(() =>
-  S.Struct({
-    policyArn: S.String,
-    name: SensitiveString,
-    version: S.String,
-    policyId: S.String,
-    description: S.optional(SensitiveString),
-    definitionHash: S.String,
-    kmsKeyArn: S.optional(S.String),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  }),
-).annotations({
-  identifier: "GetAutomatedReasoningPolicyResponse",
-}) as any as S.Schema<GetAutomatedReasoningPolicyResponse>;
-export interface UpdateAutomatedReasoningPolicyResponse {
-  policyArn: string;
-  name: string | redacted.Redacted<string>;
-  definitionHash: string;
-  updatedAt: Date;
-}
-export const UpdateAutomatedReasoningPolicyResponse = S.suspend(() =>
-  S.Struct({
-    policyArn: S.String,
-    name: SensitiveString,
-    definitionHash: S.String,
-    updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  }),
-).annotations({
-  identifier: "UpdateAutomatedReasoningPolicyResponse",
-}) as any as S.Schema<UpdateAutomatedReasoningPolicyResponse>;
-export interface CreateAutomatedReasoningPolicyTestCaseResponse {
-  policyArn: string;
-  testCaseId: string;
-}
-export const CreateAutomatedReasoningPolicyTestCaseResponse = S.suspend(() =>
-  S.Struct({ policyArn: S.String, testCaseId: S.String }),
-).annotations({
-  identifier: "CreateAutomatedReasoningPolicyTestCaseResponse",
-}) as any as S.Schema<CreateAutomatedReasoningPolicyTestCaseResponse>;
-export interface CreateAutomatedReasoningPolicyVersionResponse {
-  policyArn: string;
-  version: string;
-  name: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
-  definitionHash: string;
-  createdAt: Date;
-}
-export const CreateAutomatedReasoningPolicyVersionResponse = S.suspend(() =>
-  S.Struct({
-    policyArn: S.String,
-    version: S.String,
-    name: SensitiveString,
-    description: S.optional(SensitiveString),
-    definitionHash: S.String,
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  }),
-).annotations({
-  identifier: "CreateAutomatedReasoningPolicyVersionResponse",
-}) as any as S.Schema<CreateAutomatedReasoningPolicyVersionResponse>;
-export interface ExportAutomatedReasoningPolicyVersionResponse {
-  policyDefinition: AutomatedReasoningPolicyDefinition;
-}
-export const ExportAutomatedReasoningPolicyVersionResponse = S.suspend(() =>
-  S.Struct({
-    policyDefinition: AutomatedReasoningPolicyDefinition.pipe(
-      T.HttpPayload(),
-    ).annotations({ identifier: "AutomatedReasoningPolicyDefinition" }),
-  }),
-).annotations({
-  identifier: "ExportAutomatedReasoningPolicyVersionResponse",
-}) as any as S.Schema<ExportAutomatedReasoningPolicyVersionResponse>;
 export interface AutomatedReasoningPolicyAddTypeAnnotation {
   name: string | redacted.Redacted<string>;
   description: string | redacted.Redacted<string>;
@@ -3781,7 +942,7 @@ export const AutomatedReasoningPolicyAddTypeAnnotation = S.suspend(() =>
     description: SensitiveString,
     values: AutomatedReasoningPolicyDefinitionTypeValueList,
   }),
-).annotations({
+).annotate({
   identifier: "AutomatedReasoningPolicyAddTypeAnnotation",
 }) as any as S.Schema<AutomatedReasoningPolicyAddTypeAnnotation>;
 export interface AutomatedReasoningPolicyAddTypeValue {
@@ -3790,7 +951,7 @@ export interface AutomatedReasoningPolicyAddTypeValue {
 }
 export const AutomatedReasoningPolicyAddTypeValue = S.suspend(() =>
   S.Struct({ value: S.String, description: S.optional(SensitiveString) }),
-).annotations({
+).annotate({
   identifier: "AutomatedReasoningPolicyAddTypeValue",
 }) as any as S.Schema<AutomatedReasoningPolicyAddTypeValue>;
 export interface AutomatedReasoningPolicyUpdateTypeValue {
@@ -3804,7 +965,7 @@ export const AutomatedReasoningPolicyUpdateTypeValue = S.suspend(() =>
     newValue: S.optional(S.String),
     description: S.optional(SensitiveString),
   }),
-).annotations({
+).annotate({
   identifier: "AutomatedReasoningPolicyUpdateTypeValue",
 }) as any as S.Schema<AutomatedReasoningPolicyUpdateTypeValue>;
 export interface AutomatedReasoningPolicyDeleteTypeValue {
@@ -3812,7 +973,7 @@ export interface AutomatedReasoningPolicyDeleteTypeValue {
 }
 export const AutomatedReasoningPolicyDeleteTypeValue = S.suspend(() =>
   S.Struct({ value: S.String }),
-).annotations({
+).annotate({
   identifier: "AutomatedReasoningPolicyDeleteTypeValue",
 }) as any as S.Schema<AutomatedReasoningPolicyDeleteTypeValue>;
 export type AutomatedReasoningPolicyTypeValueAnnotation =
@@ -3831,11 +992,11 @@ export type AutomatedReasoningPolicyTypeValueAnnotation =
       updateTypeValue?: never;
       deleteTypeValue: AutomatedReasoningPolicyDeleteTypeValue;
     };
-export const AutomatedReasoningPolicyTypeValueAnnotation = S.Union(
+export const AutomatedReasoningPolicyTypeValueAnnotation = S.Union([
   S.Struct({ addTypeValue: AutomatedReasoningPolicyAddTypeValue }),
   S.Struct({ updateTypeValue: AutomatedReasoningPolicyUpdateTypeValue }),
   S.Struct({ deleteTypeValue: AutomatedReasoningPolicyDeleteTypeValue }),
-);
+]);
 export type AutomatedReasoningPolicyTypeValueAnnotationList =
   AutomatedReasoningPolicyTypeValueAnnotation[];
 export const AutomatedReasoningPolicyTypeValueAnnotationList = S.Array(
@@ -3854,7 +1015,7 @@ export const AutomatedReasoningPolicyUpdateTypeAnnotation = S.suspend(() =>
     description: S.optional(SensitiveString),
     values: AutomatedReasoningPolicyTypeValueAnnotationList,
   }),
-).annotations({
+).annotate({
   identifier: "AutomatedReasoningPolicyUpdateTypeAnnotation",
 }) as any as S.Schema<AutomatedReasoningPolicyUpdateTypeAnnotation>;
 export interface AutomatedReasoningPolicyDeleteTypeAnnotation {
@@ -3862,7 +1023,7 @@ export interface AutomatedReasoningPolicyDeleteTypeAnnotation {
 }
 export const AutomatedReasoningPolicyDeleteTypeAnnotation = S.suspend(() =>
   S.Struct({ name: SensitiveString }),
-).annotations({
+).annotate({
   identifier: "AutomatedReasoningPolicyDeleteTypeAnnotation",
 }) as any as S.Schema<AutomatedReasoningPolicyDeleteTypeAnnotation>;
 export interface AutomatedReasoningPolicyAddVariableAnnotation {
@@ -3876,7 +1037,7 @@ export const AutomatedReasoningPolicyAddVariableAnnotation = S.suspend(() =>
     type: SensitiveString,
     description: SensitiveString,
   }),
-).annotations({
+).annotate({
   identifier: "AutomatedReasoningPolicyAddVariableAnnotation",
 }) as any as S.Schema<AutomatedReasoningPolicyAddVariableAnnotation>;
 export interface AutomatedReasoningPolicyUpdateVariableAnnotation {
@@ -3890,7 +1051,7 @@ export const AutomatedReasoningPolicyUpdateVariableAnnotation = S.suspend(() =>
     newName: S.optional(SensitiveString),
     description: S.optional(SensitiveString),
   }),
-).annotations({
+).annotate({
   identifier: "AutomatedReasoningPolicyUpdateVariableAnnotation",
 }) as any as S.Schema<AutomatedReasoningPolicyUpdateVariableAnnotation>;
 export interface AutomatedReasoningPolicyDeleteVariableAnnotation {
@@ -3898,7 +1059,7 @@ export interface AutomatedReasoningPolicyDeleteVariableAnnotation {
 }
 export const AutomatedReasoningPolicyDeleteVariableAnnotation = S.suspend(() =>
   S.Struct({ name: SensitiveString }),
-).annotations({
+).annotate({
   identifier: "AutomatedReasoningPolicyDeleteVariableAnnotation",
 }) as any as S.Schema<AutomatedReasoningPolicyDeleteVariableAnnotation>;
 export interface AutomatedReasoningPolicyAddRuleAnnotation {
@@ -3906,7 +1067,7 @@ export interface AutomatedReasoningPolicyAddRuleAnnotation {
 }
 export const AutomatedReasoningPolicyAddRuleAnnotation = S.suspend(() =>
   S.Struct({ expression: SensitiveString }),
-).annotations({
+).annotate({
   identifier: "AutomatedReasoningPolicyAddRuleAnnotation",
 }) as any as S.Schema<AutomatedReasoningPolicyAddRuleAnnotation>;
 export interface AutomatedReasoningPolicyUpdateRuleAnnotation {
@@ -3915,7 +1076,7 @@ export interface AutomatedReasoningPolicyUpdateRuleAnnotation {
 }
 export const AutomatedReasoningPolicyUpdateRuleAnnotation = S.suspend(() =>
   S.Struct({ ruleId: S.String, expression: SensitiveString }),
-).annotations({
+).annotate({
   identifier: "AutomatedReasoningPolicyUpdateRuleAnnotation",
 }) as any as S.Schema<AutomatedReasoningPolicyUpdateRuleAnnotation>;
 export interface AutomatedReasoningPolicyDeleteRuleAnnotation {
@@ -3923,16 +1084,18 @@ export interface AutomatedReasoningPolicyDeleteRuleAnnotation {
 }
 export const AutomatedReasoningPolicyDeleteRuleAnnotation = S.suspend(() =>
   S.Struct({ ruleId: S.String }),
-).annotations({
+).annotate({
   identifier: "AutomatedReasoningPolicyDeleteRuleAnnotation",
 }) as any as S.Schema<AutomatedReasoningPolicyDeleteRuleAnnotation>;
 export interface AutomatedReasoningPolicyAddRuleFromNaturalLanguageAnnotation {
   naturalLanguage: string | redacted.Redacted<string>;
 }
 export const AutomatedReasoningPolicyAddRuleFromNaturalLanguageAnnotation =
-  S.suspend(() => S.Struct({ naturalLanguage: SensitiveString })).annotations({
+  S.suspend(() => S.Struct({ naturalLanguage: SensitiveString })).annotate({
     identifier: "AutomatedReasoningPolicyAddRuleFromNaturalLanguageAnnotation",
   }) as any as S.Schema<AutomatedReasoningPolicyAddRuleFromNaturalLanguageAnnotation>;
+export type AutomatedReasoningPolicyDefinitionRuleIdList = string[];
+export const AutomatedReasoningPolicyDefinitionRuleIdList = S.Array(S.String);
 export interface AutomatedReasoningPolicyUpdateFromRuleFeedbackAnnotation {
   ruleIds?: string[];
   feedback: string | redacted.Redacted<string>;
@@ -3943,7 +1106,7 @@ export const AutomatedReasoningPolicyUpdateFromRuleFeedbackAnnotation =
       ruleIds: S.optional(AutomatedReasoningPolicyDefinitionRuleIdList),
       feedback: SensitiveString,
     }),
-  ).annotations({
+  ).annotate({
     identifier: "AutomatedReasoningPolicyUpdateFromRuleFeedbackAnnotation",
   }) as any as S.Schema<AutomatedReasoningPolicyUpdateFromRuleFeedbackAnnotation>;
 export interface AutomatedReasoningPolicyUpdateFromScenarioFeedbackAnnotation {
@@ -3958,7 +1121,7 @@ export const AutomatedReasoningPolicyUpdateFromScenarioFeedbackAnnotation =
       scenarioExpression: SensitiveString,
       feedback: S.optional(SensitiveString),
     }),
-  ).annotations({
+  ).annotate({
     identifier: "AutomatedReasoningPolicyUpdateFromScenarioFeedbackAnnotation",
   }) as any as S.Schema<AutomatedReasoningPolicyUpdateFromScenarioFeedbackAnnotation>;
 export interface AutomatedReasoningPolicyIngestContentAnnotation {
@@ -3966,7 +1129,7 @@ export interface AutomatedReasoningPolicyIngestContentAnnotation {
 }
 export const AutomatedReasoningPolicyIngestContentAnnotation = S.suspend(() =>
   S.Struct({ content: SensitiveString }),
-).annotations({
+).annotate({
   identifier: "AutomatedReasoningPolicyIngestContentAnnotation",
 }) as any as S.Schema<AutomatedReasoningPolicyIngestContentAnnotation>;
 export type AutomatedReasoningPolicyAnnotation =
@@ -4165,7 +1328,7 @@ export type AutomatedReasoningPolicyAnnotation =
       updateFromScenarioFeedback?: never;
       ingestContent: AutomatedReasoningPolicyIngestContentAnnotation;
     };
-export const AutomatedReasoningPolicyAnnotation = S.Union(
+export const AutomatedReasoningPolicyAnnotation = S.Union([
   S.Struct({ addType: AutomatedReasoningPolicyAddTypeAnnotation }),
   S.Struct({ updateType: AutomatedReasoningPolicyUpdateTypeAnnotation }),
   S.Struct({ deleteType: AutomatedReasoningPolicyDeleteTypeAnnotation }),
@@ -4192,7 +1355,7 @@ export const AutomatedReasoningPolicyAnnotation = S.Union(
       AutomatedReasoningPolicyUpdateFromScenarioFeedbackAnnotation,
   }),
   S.Struct({ ingestContent: AutomatedReasoningPolicyIngestContentAnnotation }),
-);
+]);
 export type AutomatedReasoningPolicyAnnotationList =
   AutomatedReasoningPolicyAnnotation[];
 export const AutomatedReasoningPolicyAnnotationList = S.Array(
@@ -4213,11 +1376,57 @@ export const GetAutomatedReasoningPolicyAnnotationsResponse = S.suspend(() =>
     buildWorkflowId: S.String,
     annotations: AutomatedReasoningPolicyAnnotationList,
     annotationSetHash: S.String,
-    updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
-).annotations({
+).annotate({
   identifier: "GetAutomatedReasoningPolicyAnnotationsResponse",
 }) as any as S.Schema<GetAutomatedReasoningPolicyAnnotationsResponse>;
+export interface GetAutomatedReasoningPolicyBuildWorkflowRequest {
+  policyArn: string;
+  buildWorkflowId: string;
+}
+export const GetAutomatedReasoningPolicyBuildWorkflowRequest = S.suspend(() =>
+  S.Struct({
+    policyArn: S.String.pipe(T.HttpLabel("policyArn")),
+    buildWorkflowId: S.String.pipe(T.HttpLabel("buildWorkflowId")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/automated-reasoning-policies/{policyArn}/build-workflows/{buildWorkflowId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetAutomatedReasoningPolicyBuildWorkflowRequest",
+}) as any as S.Schema<GetAutomatedReasoningPolicyBuildWorkflowRequest>;
+export type AutomatedReasoningPolicyBuildWorkflowStatus =
+  | "SCHEDULED"
+  | "CANCEL_REQUESTED"
+  | "PREPROCESSING"
+  | "BUILDING"
+  | "TESTING"
+  | "COMPLETED"
+  | "FAILED"
+  | "CANCELLED"
+  | (string & {});
+export const AutomatedReasoningPolicyBuildWorkflowStatus = S.String;
+export type AutomatedReasoningPolicyBuildWorkflowType =
+  | "INGEST_CONTENT"
+  | "REFINE_POLICY"
+  | "IMPORT_POLICY"
+  | (string & {});
+export const AutomatedReasoningPolicyBuildWorkflowType = S.String;
+export type AutomatedReasoningPolicyBuildDocumentContentType =
+  | "pdf"
+  | "txt"
+  | (string & {});
+export const AutomatedReasoningPolicyBuildDocumentContentType = S.String;
 export interface GetAutomatedReasoningPolicyBuildWorkflowResponse {
   policyArn: string;
   buildWorkflowId: string;
@@ -4240,12 +1449,1072 @@ export const GetAutomatedReasoningPolicyBuildWorkflowResponse = S.suspend(() =>
       AutomatedReasoningPolicyBuildDocumentContentType,
     ),
     documentDescription: S.optional(SensitiveString),
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
-).annotations({
+).annotate({
   identifier: "GetAutomatedReasoningPolicyBuildWorkflowResponse",
 }) as any as S.Schema<GetAutomatedReasoningPolicyBuildWorkflowResponse>;
+export type AutomatedReasoningPolicyBuildResultAssetType =
+  | "BUILD_LOG"
+  | "QUALITY_REPORT"
+  | "POLICY_DEFINITION"
+  | "GENERATED_TEST_CASES"
+  | "POLICY_SCENARIOS"
+  | (string & {});
+export const AutomatedReasoningPolicyBuildResultAssetType = S.String;
+export interface GetAutomatedReasoningPolicyBuildWorkflowResultAssetsRequest {
+  policyArn: string;
+  buildWorkflowId: string;
+  assetType: AutomatedReasoningPolicyBuildResultAssetType;
+}
+export const GetAutomatedReasoningPolicyBuildWorkflowResultAssetsRequest =
+  S.suspend(() =>
+    S.Struct({
+      policyArn: S.String.pipe(T.HttpLabel("policyArn")),
+      buildWorkflowId: S.String.pipe(T.HttpLabel("buildWorkflowId")),
+      assetType: AutomatedReasoningPolicyBuildResultAssetType.pipe(
+        T.HttpQuery("assetType"),
+      ),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "GET",
+          uri: "/automated-reasoning-policies/{policyArn}/build-workflows/{buildWorkflowId}/result-assets",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
+    ),
+  ).annotate({
+    identifier: "GetAutomatedReasoningPolicyBuildWorkflowResultAssetsRequest",
+  }) as any as S.Schema<GetAutomatedReasoningPolicyBuildWorkflowResultAssetsRequest>;
+export type AutomatedReasoningPolicyDefinitionTypeNameList =
+  | string
+  | redacted.Redacted<string>[];
+export const AutomatedReasoningPolicyDefinitionTypeNameList =
+  S.Array(SensitiveString);
+export interface AutomatedReasoningPolicyDefinitionTypeValuePair {
+  typeName: string | redacted.Redacted<string>;
+  valueName: string;
+}
+export const AutomatedReasoningPolicyDefinitionTypeValuePair = S.suspend(() =>
+  S.Struct({ typeName: SensitiveString, valueName: S.String }),
+).annotate({
+  identifier: "AutomatedReasoningPolicyDefinitionTypeValuePair",
+}) as any as S.Schema<AutomatedReasoningPolicyDefinitionTypeValuePair>;
+export type AutomatedReasoningPolicyDefinitionTypeValuePairList =
+  AutomatedReasoningPolicyDefinitionTypeValuePair[];
+export const AutomatedReasoningPolicyDefinitionTypeValuePairList = S.Array(
+  AutomatedReasoningPolicyDefinitionTypeValuePair,
+);
+export type AutomatedReasoningPolicyDefinitionVariableNameList =
+  | string
+  | redacted.Redacted<string>[];
+export const AutomatedReasoningPolicyDefinitionVariableNameList =
+  S.Array(SensitiveString);
+export type AutomatedReasoningPolicyConflictedRuleIdList = string[];
+export const AutomatedReasoningPolicyConflictedRuleIdList = S.Array(S.String);
+export type AutomatedReasoningPolicyDisjointedRuleIdList = string[];
+export const AutomatedReasoningPolicyDisjointedRuleIdList = S.Array(S.String);
+export interface AutomatedReasoningPolicyDisjointRuleSet {
+  variables: string | redacted.Redacted<string>[];
+  rules: string[];
+}
+export const AutomatedReasoningPolicyDisjointRuleSet = S.suspend(() =>
+  S.Struct({
+    variables: AutomatedReasoningPolicyDefinitionVariableNameList,
+    rules: AutomatedReasoningPolicyDisjointedRuleIdList,
+  }),
+).annotate({
+  identifier: "AutomatedReasoningPolicyDisjointRuleSet",
+}) as any as S.Schema<AutomatedReasoningPolicyDisjointRuleSet>;
+export type AutomatedReasoningPolicyDisjointRuleSetList =
+  AutomatedReasoningPolicyDisjointRuleSet[];
+export const AutomatedReasoningPolicyDisjointRuleSetList = S.Array(
+  AutomatedReasoningPolicyDisjointRuleSet,
+);
+export interface AutomatedReasoningPolicyDefinitionQualityReport {
+  typeCount: number;
+  variableCount: number;
+  ruleCount: number;
+  unusedTypes: string | redacted.Redacted<string>[];
+  unusedTypeValues: AutomatedReasoningPolicyDefinitionTypeValuePair[];
+  unusedVariables: string | redacted.Redacted<string>[];
+  conflictingRules: string[];
+  disjointRuleSets: AutomatedReasoningPolicyDisjointRuleSet[];
+}
+export const AutomatedReasoningPolicyDefinitionQualityReport = S.suspend(() =>
+  S.Struct({
+    typeCount: S.Number,
+    variableCount: S.Number,
+    ruleCount: S.Number,
+    unusedTypes: AutomatedReasoningPolicyDefinitionTypeNameList,
+    unusedTypeValues: AutomatedReasoningPolicyDefinitionTypeValuePairList,
+    unusedVariables: AutomatedReasoningPolicyDefinitionVariableNameList,
+    conflictingRules: AutomatedReasoningPolicyConflictedRuleIdList,
+    disjointRuleSets: AutomatedReasoningPolicyDisjointRuleSetList,
+  }),
+).annotate({
+  identifier: "AutomatedReasoningPolicyDefinitionQualityReport",
+}) as any as S.Schema<AutomatedReasoningPolicyDefinitionQualityReport>;
+export type AutomatedReasoningPolicyAnnotationStatus =
+  | "APPLIED"
+  | "FAILED"
+  | (string & {});
+export const AutomatedReasoningPolicyAnnotationStatus = S.String;
+export interface AutomatedReasoningPolicyPlanning {}
+export const AutomatedReasoningPolicyPlanning = S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "AutomatedReasoningPolicyPlanning",
+}) as any as S.Schema<AutomatedReasoningPolicyPlanning>;
+export interface AutomatedReasoningPolicyAddTypeMutation {
+  type: AutomatedReasoningPolicyDefinitionType;
+}
+export const AutomatedReasoningPolicyAddTypeMutation = S.suspend(() =>
+  S.Struct({ type: AutomatedReasoningPolicyDefinitionType }),
+).annotate({
+  identifier: "AutomatedReasoningPolicyAddTypeMutation",
+}) as any as S.Schema<AutomatedReasoningPolicyAddTypeMutation>;
+export interface AutomatedReasoningPolicyUpdateTypeMutation {
+  type: AutomatedReasoningPolicyDefinitionType;
+}
+export const AutomatedReasoningPolicyUpdateTypeMutation = S.suspend(() =>
+  S.Struct({ type: AutomatedReasoningPolicyDefinitionType }),
+).annotate({
+  identifier: "AutomatedReasoningPolicyUpdateTypeMutation",
+}) as any as S.Schema<AutomatedReasoningPolicyUpdateTypeMutation>;
+export interface AutomatedReasoningPolicyDeleteTypeMutation {
+  name: string | redacted.Redacted<string>;
+}
+export const AutomatedReasoningPolicyDeleteTypeMutation = S.suspend(() =>
+  S.Struct({ name: SensitiveString }),
+).annotate({
+  identifier: "AutomatedReasoningPolicyDeleteTypeMutation",
+}) as any as S.Schema<AutomatedReasoningPolicyDeleteTypeMutation>;
+export interface AutomatedReasoningPolicyAddVariableMutation {
+  variable: AutomatedReasoningPolicyDefinitionVariable;
+}
+export const AutomatedReasoningPolicyAddVariableMutation = S.suspend(() =>
+  S.Struct({ variable: AutomatedReasoningPolicyDefinitionVariable }),
+).annotate({
+  identifier: "AutomatedReasoningPolicyAddVariableMutation",
+}) as any as S.Schema<AutomatedReasoningPolicyAddVariableMutation>;
+export interface AutomatedReasoningPolicyUpdateVariableMutation {
+  variable: AutomatedReasoningPolicyDefinitionVariable;
+}
+export const AutomatedReasoningPolicyUpdateVariableMutation = S.suspend(() =>
+  S.Struct({ variable: AutomatedReasoningPolicyDefinitionVariable }),
+).annotate({
+  identifier: "AutomatedReasoningPolicyUpdateVariableMutation",
+}) as any as S.Schema<AutomatedReasoningPolicyUpdateVariableMutation>;
+export interface AutomatedReasoningPolicyDeleteVariableMutation {
+  name: string | redacted.Redacted<string>;
+}
+export const AutomatedReasoningPolicyDeleteVariableMutation = S.suspend(() =>
+  S.Struct({ name: SensitiveString }),
+).annotate({
+  identifier: "AutomatedReasoningPolicyDeleteVariableMutation",
+}) as any as S.Schema<AutomatedReasoningPolicyDeleteVariableMutation>;
+export interface AutomatedReasoningPolicyAddRuleMutation {
+  rule: AutomatedReasoningPolicyDefinitionRule;
+}
+export const AutomatedReasoningPolicyAddRuleMutation = S.suspend(() =>
+  S.Struct({ rule: AutomatedReasoningPolicyDefinitionRule }),
+).annotate({
+  identifier: "AutomatedReasoningPolicyAddRuleMutation",
+}) as any as S.Schema<AutomatedReasoningPolicyAddRuleMutation>;
+export interface AutomatedReasoningPolicyUpdateRuleMutation {
+  rule: AutomatedReasoningPolicyDefinitionRule;
+}
+export const AutomatedReasoningPolicyUpdateRuleMutation = S.suspend(() =>
+  S.Struct({ rule: AutomatedReasoningPolicyDefinitionRule }),
+).annotate({
+  identifier: "AutomatedReasoningPolicyUpdateRuleMutation",
+}) as any as S.Schema<AutomatedReasoningPolicyUpdateRuleMutation>;
+export interface AutomatedReasoningPolicyDeleteRuleMutation {
+  id: string;
+}
+export const AutomatedReasoningPolicyDeleteRuleMutation = S.suspend(() =>
+  S.Struct({ id: S.String }),
+).annotate({
+  identifier: "AutomatedReasoningPolicyDeleteRuleMutation",
+}) as any as S.Schema<AutomatedReasoningPolicyDeleteRuleMutation>;
+export type AutomatedReasoningPolicyMutation =
+  | {
+      addType: AutomatedReasoningPolicyAddTypeMutation;
+      updateType?: never;
+      deleteType?: never;
+      addVariable?: never;
+      updateVariable?: never;
+      deleteVariable?: never;
+      addRule?: never;
+      updateRule?: never;
+      deleteRule?: never;
+    }
+  | {
+      addType?: never;
+      updateType: AutomatedReasoningPolicyUpdateTypeMutation;
+      deleteType?: never;
+      addVariable?: never;
+      updateVariable?: never;
+      deleteVariable?: never;
+      addRule?: never;
+      updateRule?: never;
+      deleteRule?: never;
+    }
+  | {
+      addType?: never;
+      updateType?: never;
+      deleteType: AutomatedReasoningPolicyDeleteTypeMutation;
+      addVariable?: never;
+      updateVariable?: never;
+      deleteVariable?: never;
+      addRule?: never;
+      updateRule?: never;
+      deleteRule?: never;
+    }
+  | {
+      addType?: never;
+      updateType?: never;
+      deleteType?: never;
+      addVariable: AutomatedReasoningPolicyAddVariableMutation;
+      updateVariable?: never;
+      deleteVariable?: never;
+      addRule?: never;
+      updateRule?: never;
+      deleteRule?: never;
+    }
+  | {
+      addType?: never;
+      updateType?: never;
+      deleteType?: never;
+      addVariable?: never;
+      updateVariable: AutomatedReasoningPolicyUpdateVariableMutation;
+      deleteVariable?: never;
+      addRule?: never;
+      updateRule?: never;
+      deleteRule?: never;
+    }
+  | {
+      addType?: never;
+      updateType?: never;
+      deleteType?: never;
+      addVariable?: never;
+      updateVariable?: never;
+      deleteVariable: AutomatedReasoningPolicyDeleteVariableMutation;
+      addRule?: never;
+      updateRule?: never;
+      deleteRule?: never;
+    }
+  | {
+      addType?: never;
+      updateType?: never;
+      deleteType?: never;
+      addVariable?: never;
+      updateVariable?: never;
+      deleteVariable?: never;
+      addRule: AutomatedReasoningPolicyAddRuleMutation;
+      updateRule?: never;
+      deleteRule?: never;
+    }
+  | {
+      addType?: never;
+      updateType?: never;
+      deleteType?: never;
+      addVariable?: never;
+      updateVariable?: never;
+      deleteVariable?: never;
+      addRule?: never;
+      updateRule: AutomatedReasoningPolicyUpdateRuleMutation;
+      deleteRule?: never;
+    }
+  | {
+      addType?: never;
+      updateType?: never;
+      deleteType?: never;
+      addVariable?: never;
+      updateVariable?: never;
+      deleteVariable?: never;
+      addRule?: never;
+      updateRule?: never;
+      deleteRule: AutomatedReasoningPolicyDeleteRuleMutation;
+    };
+export const AutomatedReasoningPolicyMutation = S.Union([
+  S.Struct({ addType: AutomatedReasoningPolicyAddTypeMutation }),
+  S.Struct({ updateType: AutomatedReasoningPolicyUpdateTypeMutation }),
+  S.Struct({ deleteType: AutomatedReasoningPolicyDeleteTypeMutation }),
+  S.Struct({ addVariable: AutomatedReasoningPolicyAddVariableMutation }),
+  S.Struct({ updateVariable: AutomatedReasoningPolicyUpdateVariableMutation }),
+  S.Struct({ deleteVariable: AutomatedReasoningPolicyDeleteVariableMutation }),
+  S.Struct({ addRule: AutomatedReasoningPolicyAddRuleMutation }),
+  S.Struct({ updateRule: AutomatedReasoningPolicyUpdateRuleMutation }),
+  S.Struct({ deleteRule: AutomatedReasoningPolicyDeleteRuleMutation }),
+]);
+export type AutomatedReasoningPolicyBuildStepContext =
+  | { planning: AutomatedReasoningPolicyPlanning; mutation?: never }
+  | { planning?: never; mutation: AutomatedReasoningPolicyMutation };
+export const AutomatedReasoningPolicyBuildStepContext = S.Union([
+  S.Struct({ planning: AutomatedReasoningPolicyPlanning }),
+  S.Struct({ mutation: AutomatedReasoningPolicyMutation }),
+]);
+export type AutomatedReasoningPolicyDefinitionElement =
+  | {
+      policyDefinitionVariable: AutomatedReasoningPolicyDefinitionVariable;
+      policyDefinitionType?: never;
+      policyDefinitionRule?: never;
+    }
+  | {
+      policyDefinitionVariable?: never;
+      policyDefinitionType: AutomatedReasoningPolicyDefinitionType;
+      policyDefinitionRule?: never;
+    }
+  | {
+      policyDefinitionVariable?: never;
+      policyDefinitionType?: never;
+      policyDefinitionRule: AutomatedReasoningPolicyDefinitionRule;
+    };
+export const AutomatedReasoningPolicyDefinitionElement = S.Union([
+  S.Struct({
+    policyDefinitionVariable: AutomatedReasoningPolicyDefinitionVariable,
+  }),
+  S.Struct({ policyDefinitionType: AutomatedReasoningPolicyDefinitionType }),
+  S.Struct({ policyDefinitionRule: AutomatedReasoningPolicyDefinitionRule }),
+]);
+export type AutomatedReasoningPolicyBuildMessageType =
+  | "INFO"
+  | "WARNING"
+  | "ERROR"
+  | (string & {});
+export const AutomatedReasoningPolicyBuildMessageType = S.String;
+export interface AutomatedReasoningPolicyBuildStepMessage {
+  message: string;
+  messageType: AutomatedReasoningPolicyBuildMessageType;
+}
+export const AutomatedReasoningPolicyBuildStepMessage = S.suspend(() =>
+  S.Struct({
+    message: S.String,
+    messageType: AutomatedReasoningPolicyBuildMessageType,
+  }),
+).annotate({
+  identifier: "AutomatedReasoningPolicyBuildStepMessage",
+}) as any as S.Schema<AutomatedReasoningPolicyBuildStepMessage>;
+export type AutomatedReasoningPolicyBuildStepMessageList =
+  AutomatedReasoningPolicyBuildStepMessage[];
+export const AutomatedReasoningPolicyBuildStepMessageList = S.Array(
+  AutomatedReasoningPolicyBuildStepMessage,
+);
+export interface AutomatedReasoningPolicyBuildStep {
+  context: AutomatedReasoningPolicyBuildStepContext;
+  priorElement?: AutomatedReasoningPolicyDefinitionElement;
+  messages: AutomatedReasoningPolicyBuildStepMessage[];
+}
+export const AutomatedReasoningPolicyBuildStep = S.suspend(() =>
+  S.Struct({
+    context: AutomatedReasoningPolicyBuildStepContext,
+    priorElement: S.optional(AutomatedReasoningPolicyDefinitionElement),
+    messages: AutomatedReasoningPolicyBuildStepMessageList,
+  }),
+).annotate({
+  identifier: "AutomatedReasoningPolicyBuildStep",
+}) as any as S.Schema<AutomatedReasoningPolicyBuildStep>;
+export type AutomatedReasoningPolicyBuildStepList =
+  AutomatedReasoningPolicyBuildStep[];
+export const AutomatedReasoningPolicyBuildStepList = S.Array(
+  AutomatedReasoningPolicyBuildStep,
+);
+export interface AutomatedReasoningPolicyBuildLogEntry {
+  annotation: AutomatedReasoningPolicyAnnotation;
+  status: AutomatedReasoningPolicyAnnotationStatus;
+  buildSteps: AutomatedReasoningPolicyBuildStep[];
+}
+export const AutomatedReasoningPolicyBuildLogEntry = S.suspend(() =>
+  S.Struct({
+    annotation: AutomatedReasoningPolicyAnnotation,
+    status: AutomatedReasoningPolicyAnnotationStatus,
+    buildSteps: AutomatedReasoningPolicyBuildStepList,
+  }),
+).annotate({
+  identifier: "AutomatedReasoningPolicyBuildLogEntry",
+}) as any as S.Schema<AutomatedReasoningPolicyBuildLogEntry>;
+export type AutomatedReasoningPolicyBuildLogEntryList =
+  AutomatedReasoningPolicyBuildLogEntry[];
+export const AutomatedReasoningPolicyBuildLogEntryList = S.Array(
+  AutomatedReasoningPolicyBuildLogEntry,
+);
+export interface AutomatedReasoningPolicyBuildLog {
+  entries: AutomatedReasoningPolicyBuildLogEntry[];
+}
+export const AutomatedReasoningPolicyBuildLog = S.suspend(() =>
+  S.Struct({ entries: AutomatedReasoningPolicyBuildLogEntryList }),
+).annotate({
+  identifier: "AutomatedReasoningPolicyBuildLog",
+}) as any as S.Schema<AutomatedReasoningPolicyBuildLog>;
+export interface AutomatedReasoningPolicyGeneratedTestCase {
+  queryContent: string | redacted.Redacted<string>;
+  guardContent: string | redacted.Redacted<string>;
+  expectedAggregatedFindingsResult: AutomatedReasoningCheckResult;
+}
+export const AutomatedReasoningPolicyGeneratedTestCase = S.suspend(() =>
+  S.Struct({
+    queryContent: SensitiveString,
+    guardContent: SensitiveString,
+    expectedAggregatedFindingsResult: AutomatedReasoningCheckResult,
+  }),
+).annotate({
+  identifier: "AutomatedReasoningPolicyGeneratedTestCase",
+}) as any as S.Schema<AutomatedReasoningPolicyGeneratedTestCase>;
+export type AutomatedReasoningPolicyGeneratedTestCaseList =
+  AutomatedReasoningPolicyGeneratedTestCase[];
+export const AutomatedReasoningPolicyGeneratedTestCaseList = S.Array(
+  AutomatedReasoningPolicyGeneratedTestCase,
+);
+export interface AutomatedReasoningPolicyGeneratedTestCases {
+  generatedTestCases: AutomatedReasoningPolicyGeneratedTestCase[];
+}
+export const AutomatedReasoningPolicyGeneratedTestCases = S.suspend(() =>
+  S.Struct({
+    generatedTestCases: AutomatedReasoningPolicyGeneratedTestCaseList,
+  }),
+).annotate({
+  identifier: "AutomatedReasoningPolicyGeneratedTestCases",
+}) as any as S.Schema<AutomatedReasoningPolicyGeneratedTestCases>;
+export interface AutomatedReasoningPolicyScenario {
+  expression: string | redacted.Redacted<string>;
+  alternateExpression: string | redacted.Redacted<string>;
+  expectedResult: AutomatedReasoningCheckResult;
+  ruleIds: string[];
+}
+export const AutomatedReasoningPolicyScenario = S.suspend(() =>
+  S.Struct({
+    expression: SensitiveString,
+    alternateExpression: SensitiveString,
+    expectedResult: AutomatedReasoningCheckResult,
+    ruleIds: AutomatedReasoningPolicyDefinitionRuleIdList,
+  }),
+).annotate({
+  identifier: "AutomatedReasoningPolicyScenario",
+}) as any as S.Schema<AutomatedReasoningPolicyScenario>;
+export type AutomatedReasoningPolicyScenarioList =
+  AutomatedReasoningPolicyScenario[];
+export const AutomatedReasoningPolicyScenarioList = S.Array(
+  AutomatedReasoningPolicyScenario,
+);
+export interface AutomatedReasoningPolicyScenarios {
+  policyScenarios: AutomatedReasoningPolicyScenario[];
+}
+export const AutomatedReasoningPolicyScenarios = S.suspend(() =>
+  S.Struct({ policyScenarios: AutomatedReasoningPolicyScenarioList }),
+).annotate({
+  identifier: "AutomatedReasoningPolicyScenarios",
+}) as any as S.Schema<AutomatedReasoningPolicyScenarios>;
+export type AutomatedReasoningPolicyBuildResultAssets =
+  | {
+      policyDefinition: AutomatedReasoningPolicyDefinition;
+      qualityReport?: never;
+      buildLog?: never;
+      generatedTestCases?: never;
+      policyScenarios?: never;
+    }
+  | {
+      policyDefinition?: never;
+      qualityReport: AutomatedReasoningPolicyDefinitionQualityReport;
+      buildLog?: never;
+      generatedTestCases?: never;
+      policyScenarios?: never;
+    }
+  | {
+      policyDefinition?: never;
+      qualityReport?: never;
+      buildLog: AutomatedReasoningPolicyBuildLog;
+      generatedTestCases?: never;
+      policyScenarios?: never;
+    }
+  | {
+      policyDefinition?: never;
+      qualityReport?: never;
+      buildLog?: never;
+      generatedTestCases: AutomatedReasoningPolicyGeneratedTestCases;
+      policyScenarios?: never;
+    }
+  | {
+      policyDefinition?: never;
+      qualityReport?: never;
+      buildLog?: never;
+      generatedTestCases?: never;
+      policyScenarios: AutomatedReasoningPolicyScenarios;
+    };
+export const AutomatedReasoningPolicyBuildResultAssets = S.Union([
+  S.Struct({ policyDefinition: AutomatedReasoningPolicyDefinition }),
+  S.Struct({ qualityReport: AutomatedReasoningPolicyDefinitionQualityReport }),
+  S.Struct({ buildLog: AutomatedReasoningPolicyBuildLog }),
+  S.Struct({ generatedTestCases: AutomatedReasoningPolicyGeneratedTestCases }),
+  S.Struct({ policyScenarios: AutomatedReasoningPolicyScenarios }),
+]);
+export interface GetAutomatedReasoningPolicyBuildWorkflowResultAssetsResponse {
+  policyArn: string;
+  buildWorkflowId: string;
+  buildWorkflowAssets?: AutomatedReasoningPolicyBuildResultAssets;
+}
+export const GetAutomatedReasoningPolicyBuildWorkflowResultAssetsResponse =
+  S.suspend(() =>
+    S.Struct({
+      policyArn: S.String,
+      buildWorkflowId: S.String,
+      buildWorkflowAssets: S.optional(
+        AutomatedReasoningPolicyBuildResultAssets,
+      ),
+    }),
+  ).annotate({
+    identifier: "GetAutomatedReasoningPolicyBuildWorkflowResultAssetsResponse",
+  }) as any as S.Schema<GetAutomatedReasoningPolicyBuildWorkflowResultAssetsResponse>;
+export interface GetAutomatedReasoningPolicyNextScenarioRequest {
+  policyArn: string;
+  buildWorkflowId: string;
+}
+export const GetAutomatedReasoningPolicyNextScenarioRequest = S.suspend(() =>
+  S.Struct({
+    policyArn: S.String.pipe(T.HttpLabel("policyArn")),
+    buildWorkflowId: S.String.pipe(T.HttpLabel("buildWorkflowId")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/automated-reasoning-policies/{policyArn}/build-workflows/{buildWorkflowId}/scenarios",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetAutomatedReasoningPolicyNextScenarioRequest",
+}) as any as S.Schema<GetAutomatedReasoningPolicyNextScenarioRequest>;
+export interface GetAutomatedReasoningPolicyNextScenarioResponse {
+  policyArn: string;
+  scenario?: AutomatedReasoningPolicyScenario;
+}
+export const GetAutomatedReasoningPolicyNextScenarioResponse = S.suspend(() =>
+  S.Struct({
+    policyArn: S.String,
+    scenario: S.optional(AutomatedReasoningPolicyScenario),
+  }),
+).annotate({
+  identifier: "GetAutomatedReasoningPolicyNextScenarioResponse",
+}) as any as S.Schema<GetAutomatedReasoningPolicyNextScenarioResponse>;
+export interface GetAutomatedReasoningPolicyTestCaseRequest {
+  policyArn: string;
+  testCaseId: string;
+}
+export const GetAutomatedReasoningPolicyTestCaseRequest = S.suspend(() =>
+  S.Struct({
+    policyArn: S.String.pipe(T.HttpLabel("policyArn")),
+    testCaseId: S.String.pipe(T.HttpLabel("testCaseId")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/automated-reasoning-policies/{policyArn}/test-cases/{testCaseId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetAutomatedReasoningPolicyTestCaseRequest",
+}) as any as S.Schema<GetAutomatedReasoningPolicyTestCaseRequest>;
+export interface AutomatedReasoningPolicyTestCase {
+  testCaseId: string;
+  guardContent: string | redacted.Redacted<string>;
+  queryContent?: string | redacted.Redacted<string>;
+  expectedAggregatedFindingsResult?: AutomatedReasoningCheckResult;
+  createdAt: Date;
+  updatedAt: Date;
+  confidenceThreshold?: number;
+}
+export const AutomatedReasoningPolicyTestCase = S.suspend(() =>
+  S.Struct({
+    testCaseId: S.String,
+    guardContent: SensitiveString,
+    queryContent: S.optional(SensitiveString),
+    expectedAggregatedFindingsResult: S.optional(AutomatedReasoningCheckResult),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    confidenceThreshold: S.optional(S.Number),
+  }),
+).annotate({
+  identifier: "AutomatedReasoningPolicyTestCase",
+}) as any as S.Schema<AutomatedReasoningPolicyTestCase>;
+export interface GetAutomatedReasoningPolicyTestCaseResponse {
+  policyArn: string;
+  testCase: AutomatedReasoningPolicyTestCase;
+}
+export const GetAutomatedReasoningPolicyTestCaseResponse = S.suspend(() =>
+  S.Struct({ policyArn: S.String, testCase: AutomatedReasoningPolicyTestCase }),
+).annotate({
+  identifier: "GetAutomatedReasoningPolicyTestCaseResponse",
+}) as any as S.Schema<GetAutomatedReasoningPolicyTestCaseResponse>;
+export interface GetAutomatedReasoningPolicyTestResultRequest {
+  policyArn: string;
+  buildWorkflowId: string;
+  testCaseId: string;
+}
+export const GetAutomatedReasoningPolicyTestResultRequest = S.suspend(() =>
+  S.Struct({
+    policyArn: S.String.pipe(T.HttpLabel("policyArn")),
+    buildWorkflowId: S.String.pipe(T.HttpLabel("buildWorkflowId")),
+    testCaseId: S.String.pipe(T.HttpLabel("testCaseId")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/automated-reasoning-policies/{policyArn}/build-workflows/{buildWorkflowId}/test-cases/{testCaseId}/test-results",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetAutomatedReasoningPolicyTestResultRequest",
+}) as any as S.Schema<GetAutomatedReasoningPolicyTestResultRequest>;
+export type AutomatedReasoningPolicyTestRunStatus =
+  | "NOT_STARTED"
+  | "SCHEDULED"
+  | "IN_PROGRESS"
+  | "COMPLETED"
+  | "FAILED"
+  | (string & {});
+export const AutomatedReasoningPolicyTestRunStatus = S.String;
+export interface AutomatedReasoningLogicStatement {
+  logic: string | redacted.Redacted<string>;
+  naturalLanguage?: string | redacted.Redacted<string>;
+}
+export const AutomatedReasoningLogicStatement = S.suspend(() =>
+  S.Struct({
+    logic: SensitiveString,
+    naturalLanguage: S.optional(SensitiveString),
+  }),
+).annotate({
+  identifier: "AutomatedReasoningLogicStatement",
+}) as any as S.Schema<AutomatedReasoningLogicStatement>;
+export type AutomatedReasoningLogicStatementList =
+  AutomatedReasoningLogicStatement[];
+export const AutomatedReasoningLogicStatementList = S.Array(
+  AutomatedReasoningLogicStatement,
+);
+export interface AutomatedReasoningCheckInputTextReference {
+  text?: string | redacted.Redacted<string>;
+}
+export const AutomatedReasoningCheckInputTextReference = S.suspend(() =>
+  S.Struct({ text: S.optional(SensitiveString) }),
+).annotate({
+  identifier: "AutomatedReasoningCheckInputTextReference",
+}) as any as S.Schema<AutomatedReasoningCheckInputTextReference>;
+export type AutomatedReasoningCheckInputTextReferenceList =
+  AutomatedReasoningCheckInputTextReference[];
+export const AutomatedReasoningCheckInputTextReferenceList = S.Array(
+  AutomatedReasoningCheckInputTextReference,
+);
+export interface AutomatedReasoningCheckTranslation {
+  premises?: AutomatedReasoningLogicStatement[];
+  claims: AutomatedReasoningLogicStatement[];
+  untranslatedPremises?: AutomatedReasoningCheckInputTextReference[];
+  untranslatedClaims?: AutomatedReasoningCheckInputTextReference[];
+  confidence: number;
+}
+export const AutomatedReasoningCheckTranslation = S.suspend(() =>
+  S.Struct({
+    premises: S.optional(AutomatedReasoningLogicStatementList),
+    claims: AutomatedReasoningLogicStatementList,
+    untranslatedPremises: S.optional(
+      AutomatedReasoningCheckInputTextReferenceList,
+    ),
+    untranslatedClaims: S.optional(
+      AutomatedReasoningCheckInputTextReferenceList,
+    ),
+    confidence: S.Number,
+  }),
+).annotate({
+  identifier: "AutomatedReasoningCheckTranslation",
+}) as any as S.Schema<AutomatedReasoningCheckTranslation>;
+export interface AutomatedReasoningCheckScenario {
+  statements?: AutomatedReasoningLogicStatement[];
+}
+export const AutomatedReasoningCheckScenario = S.suspend(() =>
+  S.Struct({ statements: S.optional(AutomatedReasoningLogicStatementList) }),
+).annotate({
+  identifier: "AutomatedReasoningCheckScenario",
+}) as any as S.Schema<AutomatedReasoningCheckScenario>;
+export interface AutomatedReasoningCheckRule {
+  id?: string;
+  policyVersionArn?: string;
+}
+export const AutomatedReasoningCheckRule = S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    policyVersionArn: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "AutomatedReasoningCheckRule",
+}) as any as S.Schema<AutomatedReasoningCheckRule>;
+export type AutomatedReasoningCheckRuleList = AutomatedReasoningCheckRule[];
+export const AutomatedReasoningCheckRuleList = S.Array(
+  AutomatedReasoningCheckRule,
+);
+export type AutomatedReasoningCheckLogicWarningType =
+  | "ALWAYS_TRUE"
+  | "ALWAYS_FALSE"
+  | (string & {});
+export const AutomatedReasoningCheckLogicWarningType = S.String;
+export interface AutomatedReasoningCheckLogicWarning {
+  type?: AutomatedReasoningCheckLogicWarningType;
+  premises?: AutomatedReasoningLogicStatement[];
+  claims?: AutomatedReasoningLogicStatement[];
+}
+export const AutomatedReasoningCheckLogicWarning = S.suspend(() =>
+  S.Struct({
+    type: S.optional(AutomatedReasoningCheckLogicWarningType),
+    premises: S.optional(AutomatedReasoningLogicStatementList),
+    claims: S.optional(AutomatedReasoningLogicStatementList),
+  }),
+).annotate({
+  identifier: "AutomatedReasoningCheckLogicWarning",
+}) as any as S.Schema<AutomatedReasoningCheckLogicWarning>;
+export interface AutomatedReasoningCheckValidFinding {
+  translation?: AutomatedReasoningCheckTranslation;
+  claimsTrueScenario?: AutomatedReasoningCheckScenario;
+  supportingRules?: AutomatedReasoningCheckRule[];
+  logicWarning?: AutomatedReasoningCheckLogicWarning;
+}
+export const AutomatedReasoningCheckValidFinding = S.suspend(() =>
+  S.Struct({
+    translation: S.optional(AutomatedReasoningCheckTranslation),
+    claimsTrueScenario: S.optional(AutomatedReasoningCheckScenario),
+    supportingRules: S.optional(AutomatedReasoningCheckRuleList),
+    logicWarning: S.optional(AutomatedReasoningCheckLogicWarning),
+  }),
+).annotate({
+  identifier: "AutomatedReasoningCheckValidFinding",
+}) as any as S.Schema<AutomatedReasoningCheckValidFinding>;
+export interface AutomatedReasoningCheckInvalidFinding {
+  translation?: AutomatedReasoningCheckTranslation;
+  contradictingRules?: AutomatedReasoningCheckRule[];
+  logicWarning?: AutomatedReasoningCheckLogicWarning;
+}
+export const AutomatedReasoningCheckInvalidFinding = S.suspend(() =>
+  S.Struct({
+    translation: S.optional(AutomatedReasoningCheckTranslation),
+    contradictingRules: S.optional(AutomatedReasoningCheckRuleList),
+    logicWarning: S.optional(AutomatedReasoningCheckLogicWarning),
+  }),
+).annotate({
+  identifier: "AutomatedReasoningCheckInvalidFinding",
+}) as any as S.Schema<AutomatedReasoningCheckInvalidFinding>;
+export interface AutomatedReasoningCheckSatisfiableFinding {
+  translation?: AutomatedReasoningCheckTranslation;
+  claimsTrueScenario?: AutomatedReasoningCheckScenario;
+  claimsFalseScenario?: AutomatedReasoningCheckScenario;
+  logicWarning?: AutomatedReasoningCheckLogicWarning;
+}
+export const AutomatedReasoningCheckSatisfiableFinding = S.suspend(() =>
+  S.Struct({
+    translation: S.optional(AutomatedReasoningCheckTranslation),
+    claimsTrueScenario: S.optional(AutomatedReasoningCheckScenario),
+    claimsFalseScenario: S.optional(AutomatedReasoningCheckScenario),
+    logicWarning: S.optional(AutomatedReasoningCheckLogicWarning),
+  }),
+).annotate({
+  identifier: "AutomatedReasoningCheckSatisfiableFinding",
+}) as any as S.Schema<AutomatedReasoningCheckSatisfiableFinding>;
+export interface AutomatedReasoningCheckImpossibleFinding {
+  translation?: AutomatedReasoningCheckTranslation;
+  contradictingRules?: AutomatedReasoningCheckRule[];
+  logicWarning?: AutomatedReasoningCheckLogicWarning;
+}
+export const AutomatedReasoningCheckImpossibleFinding = S.suspend(() =>
+  S.Struct({
+    translation: S.optional(AutomatedReasoningCheckTranslation),
+    contradictingRules: S.optional(AutomatedReasoningCheckRuleList),
+    logicWarning: S.optional(AutomatedReasoningCheckLogicWarning),
+  }),
+).annotate({
+  identifier: "AutomatedReasoningCheckImpossibleFinding",
+}) as any as S.Schema<AutomatedReasoningCheckImpossibleFinding>;
+export type AutomatedReasoningCheckTranslationList =
+  AutomatedReasoningCheckTranslation[];
+export const AutomatedReasoningCheckTranslationList = S.Array(
+  AutomatedReasoningCheckTranslation,
+);
+export interface AutomatedReasoningCheckTranslationOption {
+  translations?: AutomatedReasoningCheckTranslation[];
+}
+export const AutomatedReasoningCheckTranslationOption = S.suspend(() =>
+  S.Struct({
+    translations: S.optional(AutomatedReasoningCheckTranslationList),
+  }),
+).annotate({
+  identifier: "AutomatedReasoningCheckTranslationOption",
+}) as any as S.Schema<AutomatedReasoningCheckTranslationOption>;
+export type AutomatedReasoningCheckTranslationOptionList =
+  AutomatedReasoningCheckTranslationOption[];
+export const AutomatedReasoningCheckTranslationOptionList = S.Array(
+  AutomatedReasoningCheckTranslationOption,
+);
+export type AutomatedReasoningCheckDifferenceScenarioList =
+  AutomatedReasoningCheckScenario[];
+export const AutomatedReasoningCheckDifferenceScenarioList = S.Array(
+  AutomatedReasoningCheckScenario,
+);
+export interface AutomatedReasoningCheckTranslationAmbiguousFinding {
+  options?: AutomatedReasoningCheckTranslationOption[];
+  differenceScenarios?: AutomatedReasoningCheckScenario[];
+}
+export const AutomatedReasoningCheckTranslationAmbiguousFinding = S.suspend(
+  () =>
+    S.Struct({
+      options: S.optional(AutomatedReasoningCheckTranslationOptionList),
+      differenceScenarios: S.optional(
+        AutomatedReasoningCheckDifferenceScenarioList,
+      ),
+    }),
+).annotate({
+  identifier: "AutomatedReasoningCheckTranslationAmbiguousFinding",
+}) as any as S.Schema<AutomatedReasoningCheckTranslationAmbiguousFinding>;
+export interface AutomatedReasoningCheckTooComplexFinding {}
+export const AutomatedReasoningCheckTooComplexFinding = S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "AutomatedReasoningCheckTooComplexFinding",
+}) as any as S.Schema<AutomatedReasoningCheckTooComplexFinding>;
+export interface AutomatedReasoningCheckNoTranslationsFinding {}
+export const AutomatedReasoningCheckNoTranslationsFinding = S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "AutomatedReasoningCheckNoTranslationsFinding",
+}) as any as S.Schema<AutomatedReasoningCheckNoTranslationsFinding>;
+export type AutomatedReasoningCheckFinding =
+  | {
+      valid: AutomatedReasoningCheckValidFinding;
+      invalid?: never;
+      satisfiable?: never;
+      impossible?: never;
+      translationAmbiguous?: never;
+      tooComplex?: never;
+      noTranslations?: never;
+    }
+  | {
+      valid?: never;
+      invalid: AutomatedReasoningCheckInvalidFinding;
+      satisfiable?: never;
+      impossible?: never;
+      translationAmbiguous?: never;
+      tooComplex?: never;
+      noTranslations?: never;
+    }
+  | {
+      valid?: never;
+      invalid?: never;
+      satisfiable: AutomatedReasoningCheckSatisfiableFinding;
+      impossible?: never;
+      translationAmbiguous?: never;
+      tooComplex?: never;
+      noTranslations?: never;
+    }
+  | {
+      valid?: never;
+      invalid?: never;
+      satisfiable?: never;
+      impossible: AutomatedReasoningCheckImpossibleFinding;
+      translationAmbiguous?: never;
+      tooComplex?: never;
+      noTranslations?: never;
+    }
+  | {
+      valid?: never;
+      invalid?: never;
+      satisfiable?: never;
+      impossible?: never;
+      translationAmbiguous: AutomatedReasoningCheckTranslationAmbiguousFinding;
+      tooComplex?: never;
+      noTranslations?: never;
+    }
+  | {
+      valid?: never;
+      invalid?: never;
+      satisfiable?: never;
+      impossible?: never;
+      translationAmbiguous?: never;
+      tooComplex: AutomatedReasoningCheckTooComplexFinding;
+      noTranslations?: never;
+    }
+  | {
+      valid?: never;
+      invalid?: never;
+      satisfiable?: never;
+      impossible?: never;
+      translationAmbiguous?: never;
+      tooComplex?: never;
+      noTranslations: AutomatedReasoningCheckNoTranslationsFinding;
+    };
+export const AutomatedReasoningCheckFinding = S.Union([
+  S.Struct({ valid: AutomatedReasoningCheckValidFinding }),
+  S.Struct({ invalid: AutomatedReasoningCheckInvalidFinding }),
+  S.Struct({ satisfiable: AutomatedReasoningCheckSatisfiableFinding }),
+  S.Struct({ impossible: AutomatedReasoningCheckImpossibleFinding }),
+  S.Struct({
+    translationAmbiguous: AutomatedReasoningCheckTranslationAmbiguousFinding,
+  }),
+  S.Struct({ tooComplex: AutomatedReasoningCheckTooComplexFinding }),
+  S.Struct({ noTranslations: AutomatedReasoningCheckNoTranslationsFinding }),
+]);
+export type AutomatedReasoningCheckFindingList =
+  AutomatedReasoningCheckFinding[];
+export const AutomatedReasoningCheckFindingList = S.Array(
+  AutomatedReasoningCheckFinding,
+);
+export type AutomatedReasoningPolicyTestRunResult =
+  | "PASSED"
+  | "FAILED"
+  | (string & {});
+export const AutomatedReasoningPolicyTestRunResult = S.String;
+export interface AutomatedReasoningPolicyTestResult {
+  testCase: AutomatedReasoningPolicyTestCase;
+  policyArn: string;
+  testRunStatus: AutomatedReasoningPolicyTestRunStatus;
+  testFindings?: AutomatedReasoningCheckFinding[];
+  testRunResult?: AutomatedReasoningPolicyTestRunResult;
+  aggregatedTestFindingsResult?: AutomatedReasoningCheckResult;
+  updatedAt: Date;
+}
+export const AutomatedReasoningPolicyTestResult = S.suspend(() =>
+  S.Struct({
+    testCase: AutomatedReasoningPolicyTestCase,
+    policyArn: S.String,
+    testRunStatus: AutomatedReasoningPolicyTestRunStatus,
+    testFindings: S.optional(AutomatedReasoningCheckFindingList),
+    testRunResult: S.optional(AutomatedReasoningPolicyTestRunResult),
+    aggregatedTestFindingsResult: S.optional(AutomatedReasoningCheckResult),
+    updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+  }),
+).annotate({
+  identifier: "AutomatedReasoningPolicyTestResult",
+}) as any as S.Schema<AutomatedReasoningPolicyTestResult>;
+export interface GetAutomatedReasoningPolicyTestResultResponse {
+  testResult: AutomatedReasoningPolicyTestResult;
+}
+export const GetAutomatedReasoningPolicyTestResultResponse = S.suspend(() =>
+  S.Struct({ testResult: AutomatedReasoningPolicyTestResult }),
+).annotate({
+  identifier: "GetAutomatedReasoningPolicyTestResultResponse",
+}) as any as S.Schema<GetAutomatedReasoningPolicyTestResultResponse>;
+export interface ListAutomatedReasoningPolicyBuildWorkflowsRequest {
+  policyArn: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListAutomatedReasoningPolicyBuildWorkflowsRequest = S.suspend(() =>
+  S.Struct({
+    policyArn: S.String.pipe(T.HttpLabel("policyArn")),
+    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/automated-reasoning-policies/{policyArn}/build-workflows",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListAutomatedReasoningPolicyBuildWorkflowsRequest",
+}) as any as S.Schema<ListAutomatedReasoningPolicyBuildWorkflowsRequest>;
+export interface AutomatedReasoningPolicyBuildWorkflowSummary {
+  policyArn: string;
+  buildWorkflowId: string;
+  status: AutomatedReasoningPolicyBuildWorkflowStatus;
+  buildWorkflowType: AutomatedReasoningPolicyBuildWorkflowType;
+  createdAt: Date;
+  updatedAt: Date;
+}
+export const AutomatedReasoningPolicyBuildWorkflowSummary = S.suspend(() =>
+  S.Struct({
+    policyArn: S.String,
+    buildWorkflowId: S.String,
+    status: AutomatedReasoningPolicyBuildWorkflowStatus,
+    buildWorkflowType: AutomatedReasoningPolicyBuildWorkflowType,
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+  }),
+).annotate({
+  identifier: "AutomatedReasoningPolicyBuildWorkflowSummary",
+}) as any as S.Schema<AutomatedReasoningPolicyBuildWorkflowSummary>;
+export type AutomatedReasoningPolicyBuildWorkflowSummaries =
+  AutomatedReasoningPolicyBuildWorkflowSummary[];
+export const AutomatedReasoningPolicyBuildWorkflowSummaries = S.Array(
+  AutomatedReasoningPolicyBuildWorkflowSummary,
+);
+export interface ListAutomatedReasoningPolicyBuildWorkflowsResponse {
+  automatedReasoningPolicyBuildWorkflowSummaries: AutomatedReasoningPolicyBuildWorkflowSummary[];
+  nextToken?: string;
+}
+export const ListAutomatedReasoningPolicyBuildWorkflowsResponse = S.suspend(
+  () =>
+    S.Struct({
+      automatedReasoningPolicyBuildWorkflowSummaries:
+        AutomatedReasoningPolicyBuildWorkflowSummaries,
+      nextToken: S.optional(S.String),
+    }),
+).annotate({
+  identifier: "ListAutomatedReasoningPolicyBuildWorkflowsResponse",
+}) as any as S.Schema<ListAutomatedReasoningPolicyBuildWorkflowsResponse>;
+export interface ListAutomatedReasoningPolicyTestCasesRequest {
+  policyArn: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListAutomatedReasoningPolicyTestCasesRequest = S.suspend(() =>
+  S.Struct({
+    policyArn: S.String.pipe(T.HttpLabel("policyArn")),
+    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/automated-reasoning-policies/{policyArn}/test-cases",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListAutomatedReasoningPolicyTestCasesRequest",
+}) as any as S.Schema<ListAutomatedReasoningPolicyTestCasesRequest>;
+export type AutomatedReasoningPolicyTestCaseList =
+  AutomatedReasoningPolicyTestCase[];
+export const AutomatedReasoningPolicyTestCaseList = S.Array(
+  AutomatedReasoningPolicyTestCase,
+);
 export interface ListAutomatedReasoningPolicyTestCasesResponse {
   testCases: AutomatedReasoningPolicyTestCase[];
   nextToken?: string;
@@ -4255,9 +2524,42 @@ export const ListAutomatedReasoningPolicyTestCasesResponse = S.suspend(() =>
     testCases: AutomatedReasoningPolicyTestCaseList,
     nextToken: S.optional(S.String),
   }),
-).annotations({
+).annotate({
   identifier: "ListAutomatedReasoningPolicyTestCasesResponse",
 }) as any as S.Schema<ListAutomatedReasoningPolicyTestCasesResponse>;
+export interface ListAutomatedReasoningPolicyTestResultsRequest {
+  policyArn: string;
+  buildWorkflowId: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListAutomatedReasoningPolicyTestResultsRequest = S.suspend(() =>
+  S.Struct({
+    policyArn: S.String.pipe(T.HttpLabel("policyArn")),
+    buildWorkflowId: S.String.pipe(T.HttpLabel("buildWorkflowId")),
+    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/automated-reasoning-policies/{policyArn}/build-workflows/{buildWorkflowId}/test-results",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListAutomatedReasoningPolicyTestResultsRequest",
+}) as any as S.Schema<ListAutomatedReasoningPolicyTestResultsRequest>;
+export type AutomatedReasoningPolicyTestList =
+  AutomatedReasoningPolicyTestResult[];
+export const AutomatedReasoningPolicyTestList = S.Array(
+  AutomatedReasoningPolicyTestResult,
+);
 export interface ListAutomatedReasoningPolicyTestResultsResponse {
   testResults: AutomatedReasoningPolicyTestResult[];
   nextToken?: string;
@@ -4267,26 +2569,298 @@ export const ListAutomatedReasoningPolicyTestResultsResponse = S.suspend(() =>
     testResults: AutomatedReasoningPolicyTestList,
     nextToken: S.optional(S.String),
   }),
-).annotations({
+).annotate({
   identifier: "ListAutomatedReasoningPolicyTestResultsResponse",
 }) as any as S.Schema<ListAutomatedReasoningPolicyTestResultsResponse>;
+export interface AutomatedReasoningPolicyBuildWorkflowDocument {
+  document: Uint8Array | redacted.Redacted<Uint8Array>;
+  documentContentType: AutomatedReasoningPolicyBuildDocumentContentType;
+  documentName: string | redacted.Redacted<string>;
+  documentDescription?: string | redacted.Redacted<string>;
+}
+export const AutomatedReasoningPolicyBuildWorkflowDocument = S.suspend(() =>
+  S.Struct({
+    document: SensitiveBlob,
+    documentContentType: AutomatedReasoningPolicyBuildDocumentContentType,
+    documentName: SensitiveString,
+    documentDescription: S.optional(SensitiveString),
+  }),
+).annotate({
+  identifier: "AutomatedReasoningPolicyBuildWorkflowDocument",
+}) as any as S.Schema<AutomatedReasoningPolicyBuildWorkflowDocument>;
+export type AutomatedReasoningPolicyBuildWorkflowDocumentList =
+  AutomatedReasoningPolicyBuildWorkflowDocument[];
+export const AutomatedReasoningPolicyBuildWorkflowDocumentList = S.Array(
+  AutomatedReasoningPolicyBuildWorkflowDocument,
+);
+export interface AutomatedReasoningPolicyBuildWorkflowRepairContent {
+  annotations: AutomatedReasoningPolicyAnnotation[];
+}
+export const AutomatedReasoningPolicyBuildWorkflowRepairContent = S.suspend(
+  () => S.Struct({ annotations: AutomatedReasoningPolicyAnnotationList }),
+).annotate({
+  identifier: "AutomatedReasoningPolicyBuildWorkflowRepairContent",
+}) as any as S.Schema<AutomatedReasoningPolicyBuildWorkflowRepairContent>;
+export type AutomatedReasoningPolicyWorkflowTypeContent =
+  | {
+      documents: AutomatedReasoningPolicyBuildWorkflowDocument[];
+      policyRepairAssets?: never;
+    }
+  | {
+      documents?: never;
+      policyRepairAssets: AutomatedReasoningPolicyBuildWorkflowRepairContent;
+    };
+export const AutomatedReasoningPolicyWorkflowTypeContent = S.Union([
+  S.Struct({ documents: AutomatedReasoningPolicyBuildWorkflowDocumentList }),
+  S.Struct({
+    policyRepairAssets: AutomatedReasoningPolicyBuildWorkflowRepairContent,
+  }),
+]);
+export interface AutomatedReasoningPolicyBuildWorkflowSource {
+  policyDefinition?: AutomatedReasoningPolicyDefinition;
+  workflowContent?: AutomatedReasoningPolicyWorkflowTypeContent;
+}
+export const AutomatedReasoningPolicyBuildWorkflowSource = S.suspend(() =>
+  S.Struct({
+    policyDefinition: S.optional(AutomatedReasoningPolicyDefinition),
+    workflowContent: S.optional(AutomatedReasoningPolicyWorkflowTypeContent),
+  }),
+).annotate({
+  identifier: "AutomatedReasoningPolicyBuildWorkflowSource",
+}) as any as S.Schema<AutomatedReasoningPolicyBuildWorkflowSource>;
+export interface StartAutomatedReasoningPolicyBuildWorkflowRequest {
+  policyArn: string;
+  buildWorkflowType: AutomatedReasoningPolicyBuildWorkflowType;
+  clientRequestToken?: string;
+  sourceContent: AutomatedReasoningPolicyBuildWorkflowSource;
+}
+export const StartAutomatedReasoningPolicyBuildWorkflowRequest = S.suspend(() =>
+  S.Struct({
+    policyArn: S.String.pipe(T.HttpLabel("policyArn")),
+    buildWorkflowType: AutomatedReasoningPolicyBuildWorkflowType.pipe(
+      T.HttpLabel("buildWorkflowType"),
+    ),
+    clientRequestToken: S.optional(S.String).pipe(
+      T.HttpHeader("x-amz-client-token"),
+      T.IdempotencyToken(),
+    ),
+    sourceContent: AutomatedReasoningPolicyBuildWorkflowSource.pipe(
+      T.HttpPayload(),
+    ).annotate({ identifier: "AutomatedReasoningPolicyBuildWorkflowSource" }),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/automated-reasoning-policies/{policyArn}/build-workflows/{buildWorkflowType}/start",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "StartAutomatedReasoningPolicyBuildWorkflowRequest",
+}) as any as S.Schema<StartAutomatedReasoningPolicyBuildWorkflowRequest>;
+export interface StartAutomatedReasoningPolicyBuildWorkflowResponse {
+  policyArn: string;
+  buildWorkflowId: string;
+}
+export const StartAutomatedReasoningPolicyBuildWorkflowResponse = S.suspend(
+  () => S.Struct({ policyArn: S.String, buildWorkflowId: S.String }),
+).annotate({
+  identifier: "StartAutomatedReasoningPolicyBuildWorkflowResponse",
+}) as any as S.Schema<StartAutomatedReasoningPolicyBuildWorkflowResponse>;
+export type AutomatedReasoningPolicyTestCaseIdList = string[];
+export const AutomatedReasoningPolicyTestCaseIdList = S.Array(S.String);
+export interface StartAutomatedReasoningPolicyTestWorkflowRequest {
+  policyArn: string;
+  buildWorkflowId: string;
+  testCaseIds?: string[];
+  clientRequestToken?: string;
+}
+export const StartAutomatedReasoningPolicyTestWorkflowRequest = S.suspend(() =>
+  S.Struct({
+    policyArn: S.String.pipe(T.HttpLabel("policyArn")),
+    buildWorkflowId: S.String.pipe(T.HttpLabel("buildWorkflowId")),
+    testCaseIds: S.optional(AutomatedReasoningPolicyTestCaseIdList),
+    clientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/automated-reasoning-policies/{policyArn}/build-workflows/{buildWorkflowId}/test-workflows",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "StartAutomatedReasoningPolicyTestWorkflowRequest",
+}) as any as S.Schema<StartAutomatedReasoningPolicyTestWorkflowRequest>;
 export interface StartAutomatedReasoningPolicyTestWorkflowResponse {
   policyArn: string;
 }
 export const StartAutomatedReasoningPolicyTestWorkflowResponse = S.suspend(() =>
   S.Struct({ policyArn: S.String }),
-).annotations({
+).annotate({
   identifier: "StartAutomatedReasoningPolicyTestWorkflowResponse",
 }) as any as S.Schema<StartAutomatedReasoningPolicyTestWorkflowResponse>;
+export interface UpdateAutomatedReasoningPolicyAnnotationsRequest {
+  policyArn: string;
+  buildWorkflowId: string;
+  annotations: AutomatedReasoningPolicyAnnotation[];
+  lastUpdatedAnnotationSetHash: string;
+}
+export const UpdateAutomatedReasoningPolicyAnnotationsRequest = S.suspend(() =>
+  S.Struct({
+    policyArn: S.String.pipe(T.HttpLabel("policyArn")),
+    buildWorkflowId: S.String.pipe(T.HttpLabel("buildWorkflowId")),
+    annotations: AutomatedReasoningPolicyAnnotationList,
+    lastUpdatedAnnotationSetHash: S.String,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PATCH",
+        uri: "/automated-reasoning-policies/{policyArn}/build-workflows/{buildWorkflowId}/annotations",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "UpdateAutomatedReasoningPolicyAnnotationsRequest",
+}) as any as S.Schema<UpdateAutomatedReasoningPolicyAnnotationsRequest>;
+export interface UpdateAutomatedReasoningPolicyAnnotationsResponse {
+  policyArn: string;
+  buildWorkflowId: string;
+  annotationSetHash: string;
+  updatedAt: Date;
+}
+export const UpdateAutomatedReasoningPolicyAnnotationsResponse = S.suspend(() =>
+  S.Struct({
+    policyArn: S.String,
+    buildWorkflowId: S.String,
+    annotationSetHash: S.String,
+    updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+  }),
+).annotate({
+  identifier: "UpdateAutomatedReasoningPolicyAnnotationsResponse",
+}) as any as S.Schema<UpdateAutomatedReasoningPolicyAnnotationsResponse>;
+export interface UpdateAutomatedReasoningPolicyTestCaseRequest {
+  policyArn: string;
+  testCaseId: string;
+  guardContent: string | redacted.Redacted<string>;
+  queryContent?: string | redacted.Redacted<string>;
+  lastUpdatedAt: Date;
+  expectedAggregatedFindingsResult: AutomatedReasoningCheckResult;
+  confidenceThreshold?: number;
+  clientRequestToken?: string;
+}
+export const UpdateAutomatedReasoningPolicyTestCaseRequest = S.suspend(() =>
+  S.Struct({
+    policyArn: S.String.pipe(T.HttpLabel("policyArn")),
+    testCaseId: S.String.pipe(T.HttpLabel("testCaseId")),
+    guardContent: SensitiveString,
+    queryContent: S.optional(SensitiveString),
+    lastUpdatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    expectedAggregatedFindingsResult: AutomatedReasoningCheckResult,
+    confidenceThreshold: S.optional(S.Number),
+    clientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PATCH",
+        uri: "/automated-reasoning-policies/{policyArn}/test-cases/{testCaseId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "UpdateAutomatedReasoningPolicyTestCaseRequest",
+}) as any as S.Schema<UpdateAutomatedReasoningPolicyTestCaseRequest>;
 export interface UpdateAutomatedReasoningPolicyTestCaseResponse {
   policyArn: string;
   testCaseId: string;
 }
 export const UpdateAutomatedReasoningPolicyTestCaseResponse = S.suspend(() =>
   S.Struct({ policyArn: S.String, testCaseId: S.String }),
-).annotations({
+).annotate({
   identifier: "UpdateAutomatedReasoningPolicyTestCaseResponse",
 }) as any as S.Schema<UpdateAutomatedReasoningPolicyTestCaseResponse>;
+export type SubnetIds = string[];
+export const SubnetIds = S.Array(S.String);
+export type SecurityGroupIds = string[];
+export const SecurityGroupIds = S.Array(S.String);
+export interface VpcConfig {
+  subnetIds: string[];
+  securityGroupIds: string[];
+}
+export const VpcConfig = S.suspend(() =>
+  S.Struct({ subnetIds: SubnetIds, securityGroupIds: SecurityGroupIds }),
+).annotate({ identifier: "VpcConfig" }) as any as S.Schema<VpcConfig>;
+export interface SageMakerEndpoint {
+  initialInstanceCount: number;
+  instanceType: string;
+  executionRole: string;
+  kmsEncryptionKey?: string;
+  vpc?: VpcConfig;
+}
+export const SageMakerEndpoint = S.suspend(() =>
+  S.Struct({
+    initialInstanceCount: S.Number,
+    instanceType: S.String,
+    executionRole: S.String,
+    kmsEncryptionKey: S.optional(S.String),
+    vpc: S.optional(VpcConfig),
+  }),
+).annotate({
+  identifier: "SageMakerEndpoint",
+}) as any as S.Schema<SageMakerEndpoint>;
+export type EndpointConfig = { sageMaker: SageMakerEndpoint };
+export const EndpointConfig = S.Union([
+  S.Struct({ sageMaker: SageMakerEndpoint }),
+]);
+export interface CreateMarketplaceModelEndpointRequest {
+  modelSourceIdentifier: string;
+  endpointConfig: EndpointConfig;
+  acceptEula?: boolean;
+  endpointName: string;
+  clientRequestToken?: string;
+  tags?: Tag[];
+}
+export const CreateMarketplaceModelEndpointRequest = S.suspend(() =>
+  S.Struct({
+    modelSourceIdentifier: S.String,
+    endpointConfig: EndpointConfig,
+    acceptEula: S.optional(S.Boolean),
+    endpointName: S.String,
+    clientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+    tags: S.optional(TagList),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/marketplace-model/endpoints" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "CreateMarketplaceModelEndpointRequest",
+}) as any as S.Schema<CreateMarketplaceModelEndpointRequest>;
 export type Status = "REGISTERED" | "INCOMPATIBLE_ENDPOINT" | (string & {});
 export const Status = S.String;
 export interface MarketplaceModelEndpoint {
@@ -4306,47 +2880,1033 @@ export const MarketplaceModelEndpoint = S.suspend(() =>
     modelSourceIdentifier: S.String,
     status: S.optional(Status),
     statusMessage: S.optional(S.String),
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     endpointConfig: EndpointConfig,
     endpointStatus: S.String,
     endpointStatusMessage: S.optional(S.String),
   }),
-).annotations({
+).annotate({
   identifier: "MarketplaceModelEndpoint",
 }) as any as S.Schema<MarketplaceModelEndpoint>;
+export interface CreateMarketplaceModelEndpointResponse {
+  marketplaceModelEndpoint: MarketplaceModelEndpoint;
+}
+export const CreateMarketplaceModelEndpointResponse = S.suspend(() =>
+  S.Struct({ marketplaceModelEndpoint: MarketplaceModelEndpoint }),
+).annotate({
+  identifier: "CreateMarketplaceModelEndpointResponse",
+}) as any as S.Schema<CreateMarketplaceModelEndpointResponse>;
+export interface DeleteMarketplaceModelEndpointRequest {
+  endpointArn: string;
+}
+export const DeleteMarketplaceModelEndpointRequest = S.suspend(() =>
+  S.Struct({ endpointArn: S.String.pipe(T.HttpLabel("endpointArn")) }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/marketplace-model/endpoints/{endpointArn}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeleteMarketplaceModelEndpointRequest",
+}) as any as S.Schema<DeleteMarketplaceModelEndpointRequest>;
+export interface DeleteMarketplaceModelEndpointResponse {}
+export const DeleteMarketplaceModelEndpointResponse = S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "DeleteMarketplaceModelEndpointResponse",
+}) as any as S.Schema<DeleteMarketplaceModelEndpointResponse>;
+export interface DeregisterMarketplaceModelEndpointRequest {
+  endpointArn: string;
+}
+export const DeregisterMarketplaceModelEndpointRequest = S.suspend(() =>
+  S.Struct({ endpointArn: S.String.pipe(T.HttpLabel("endpointArn")) }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/marketplace-model/endpoints/{endpointArn}/registration",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeregisterMarketplaceModelEndpointRequest",
+}) as any as S.Schema<DeregisterMarketplaceModelEndpointRequest>;
+export interface DeregisterMarketplaceModelEndpointResponse {}
+export const DeregisterMarketplaceModelEndpointResponse = S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "DeregisterMarketplaceModelEndpointResponse",
+}) as any as S.Schema<DeregisterMarketplaceModelEndpointResponse>;
+export interface GetMarketplaceModelEndpointRequest {
+  endpointArn: string;
+}
+export const GetMarketplaceModelEndpointRequest = S.suspend(() =>
+  S.Struct({ endpointArn: S.String.pipe(T.HttpLabel("endpointArn")) }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/marketplace-model/endpoints/{endpointArn}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetMarketplaceModelEndpointRequest",
+}) as any as S.Schema<GetMarketplaceModelEndpointRequest>;
+export interface GetMarketplaceModelEndpointResponse {
+  marketplaceModelEndpoint?: MarketplaceModelEndpoint;
+}
+export const GetMarketplaceModelEndpointResponse = S.suspend(() =>
+  S.Struct({ marketplaceModelEndpoint: S.optional(MarketplaceModelEndpoint) }),
+).annotate({
+  identifier: "GetMarketplaceModelEndpointResponse",
+}) as any as S.Schema<GetMarketplaceModelEndpointResponse>;
+export interface ListMarketplaceModelEndpointsRequest {
+  maxResults?: number;
+  nextToken?: string;
+  modelSourceEquals?: string;
+}
+export const ListMarketplaceModelEndpointsRequest = S.suspend(() =>
+  S.Struct({
+    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+    modelSourceEquals: S.optional(S.String).pipe(
+      T.HttpQuery("modelSourceIdentifier"),
+    ),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/marketplace-model/endpoints" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListMarketplaceModelEndpointsRequest",
+}) as any as S.Schema<ListMarketplaceModelEndpointsRequest>;
+export interface MarketplaceModelEndpointSummary {
+  endpointArn: string;
+  modelSourceIdentifier: string;
+  status?: Status;
+  statusMessage?: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+export const MarketplaceModelEndpointSummary = S.suspend(() =>
+  S.Struct({
+    endpointArn: S.String,
+    modelSourceIdentifier: S.String,
+    status: S.optional(Status),
+    statusMessage: S.optional(S.String),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+  }),
+).annotate({
+  identifier: "MarketplaceModelEndpointSummary",
+}) as any as S.Schema<MarketplaceModelEndpointSummary>;
+export type MarketplaceModelEndpointSummaries =
+  MarketplaceModelEndpointSummary[];
+export const MarketplaceModelEndpointSummaries = S.Array(
+  MarketplaceModelEndpointSummary,
+);
+export interface ListMarketplaceModelEndpointsResponse {
+  marketplaceModelEndpoints?: MarketplaceModelEndpointSummary[];
+  nextToken?: string;
+}
+export const ListMarketplaceModelEndpointsResponse = S.suspend(() =>
+  S.Struct({
+    marketplaceModelEndpoints: S.optional(MarketplaceModelEndpointSummaries),
+    nextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ListMarketplaceModelEndpointsResponse",
+}) as any as S.Schema<ListMarketplaceModelEndpointsResponse>;
+export interface RegisterMarketplaceModelEndpointRequest {
+  endpointIdentifier: string;
+  modelSourceIdentifier: string;
+}
+export const RegisterMarketplaceModelEndpointRequest = S.suspend(() =>
+  S.Struct({
+    endpointIdentifier: S.String.pipe(T.HttpLabel("endpointIdentifier")),
+    modelSourceIdentifier: S.String,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/marketplace-model/endpoints/{endpointIdentifier}/registration",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "RegisterMarketplaceModelEndpointRequest",
+}) as any as S.Schema<RegisterMarketplaceModelEndpointRequest>;
 export interface RegisterMarketplaceModelEndpointResponse {
   marketplaceModelEndpoint: MarketplaceModelEndpoint;
 }
 export const RegisterMarketplaceModelEndpointResponse = S.suspend(() =>
   S.Struct({ marketplaceModelEndpoint: MarketplaceModelEndpoint }),
-).annotations({
+).annotate({
   identifier: "RegisterMarketplaceModelEndpointResponse",
 }) as any as S.Schema<RegisterMarketplaceModelEndpointResponse>;
+export interface UpdateMarketplaceModelEndpointRequest {
+  endpointArn: string;
+  endpointConfig: EndpointConfig;
+  clientRequestToken?: string;
+}
+export const UpdateMarketplaceModelEndpointRequest = S.suspend(() =>
+  S.Struct({
+    endpointArn: S.String.pipe(T.HttpLabel("endpointArn")),
+    endpointConfig: EndpointConfig,
+    clientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PATCH",
+        uri: "/marketplace-model/endpoints/{endpointArn}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "UpdateMarketplaceModelEndpointRequest",
+}) as any as S.Schema<UpdateMarketplaceModelEndpointRequest>;
 export interface UpdateMarketplaceModelEndpointResponse {
   marketplaceModelEndpoint: MarketplaceModelEndpoint;
 }
 export const UpdateMarketplaceModelEndpointResponse = S.suspend(() =>
   S.Struct({ marketplaceModelEndpoint: MarketplaceModelEndpoint }),
-).annotations({
+).annotate({
   identifier: "UpdateMarketplaceModelEndpointResponse",
 }) as any as S.Schema<UpdateMarketplaceModelEndpointResponse>;
+export interface CreateCustomModelDeploymentRequest {
+  modelDeploymentName: string;
+  modelArn: string;
+  description?: string;
+  tags?: Tag[];
+  clientRequestToken?: string;
+}
+export const CreateCustomModelDeploymentRequest = S.suspend(() =>
+  S.Struct({
+    modelDeploymentName: S.String,
+    modelArn: S.String,
+    description: S.optional(S.String),
+    tags: S.optional(TagList),
+    clientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/model-customization/custom-model-deployments",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "CreateCustomModelDeploymentRequest",
+}) as any as S.Schema<CreateCustomModelDeploymentRequest>;
 export interface CreateCustomModelDeploymentResponse {
   customModelDeploymentArn: string;
 }
 export const CreateCustomModelDeploymentResponse = S.suspend(() =>
   S.Struct({ customModelDeploymentArn: S.String }),
-).annotations({
+).annotate({
   identifier: "CreateCustomModelDeploymentResponse",
 }) as any as S.Schema<CreateCustomModelDeploymentResponse>;
+export interface DeleteCustomModelDeploymentRequest {
+  customModelDeploymentIdentifier: string;
+}
+export const DeleteCustomModelDeploymentRequest = S.suspend(() =>
+  S.Struct({
+    customModelDeploymentIdentifier: S.String.pipe(
+      T.HttpLabel("customModelDeploymentIdentifier"),
+    ),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/model-customization/custom-model-deployments/{customModelDeploymentIdentifier}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeleteCustomModelDeploymentRequest",
+}) as any as S.Schema<DeleteCustomModelDeploymentRequest>;
+export interface DeleteCustomModelDeploymentResponse {}
+export const DeleteCustomModelDeploymentResponse = S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "DeleteCustomModelDeploymentResponse",
+}) as any as S.Schema<DeleteCustomModelDeploymentResponse>;
+export interface GetCustomModelDeploymentRequest {
+  customModelDeploymentIdentifier: string;
+}
+export const GetCustomModelDeploymentRequest = S.suspend(() =>
+  S.Struct({
+    customModelDeploymentIdentifier: S.String.pipe(
+      T.HttpLabel("customModelDeploymentIdentifier"),
+    ),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/model-customization/custom-model-deployments/{customModelDeploymentIdentifier}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetCustomModelDeploymentRequest",
+}) as any as S.Schema<GetCustomModelDeploymentRequest>;
+export type CustomModelDeploymentStatus =
+  | "Creating"
+  | "Active"
+  | "Failed"
+  | (string & {});
+export const CustomModelDeploymentStatus = S.String;
+export type CustomModelDeploymentUpdateStatus =
+  | "Updating"
+  | "UpdateCompleted"
+  | "UpdateFailed"
+  | (string & {});
+export const CustomModelDeploymentUpdateStatus = S.String;
+export interface CustomModelDeploymentUpdateDetails {
+  modelArn: string;
+  updateStatus: CustomModelDeploymentUpdateStatus;
+}
+export const CustomModelDeploymentUpdateDetails = S.suspend(() =>
+  S.Struct({
+    modelArn: S.String,
+    updateStatus: CustomModelDeploymentUpdateStatus,
+  }),
+).annotate({
+  identifier: "CustomModelDeploymentUpdateDetails",
+}) as any as S.Schema<CustomModelDeploymentUpdateDetails>;
+export interface GetCustomModelDeploymentResponse {
+  customModelDeploymentArn: string;
+  modelDeploymentName: string;
+  modelArn: string;
+  createdAt: Date;
+  status: CustomModelDeploymentStatus;
+  description?: string;
+  updateDetails?: CustomModelDeploymentUpdateDetails;
+  failureMessage?: string;
+  lastUpdatedAt?: Date;
+}
+export const GetCustomModelDeploymentResponse = S.suspend(() =>
+  S.Struct({
+    customModelDeploymentArn: S.String,
+    modelDeploymentName: S.String,
+    modelArn: S.String,
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    status: CustomModelDeploymentStatus,
+    description: S.optional(S.String),
+    updateDetails: S.optional(CustomModelDeploymentUpdateDetails),
+    failureMessage: S.optional(S.String),
+    lastUpdatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+  }),
+).annotate({
+  identifier: "GetCustomModelDeploymentResponse",
+}) as any as S.Schema<GetCustomModelDeploymentResponse>;
+export type SortModelsBy = "CreationTime" | (string & {});
+export const SortModelsBy = S.String;
+export type SortOrder = "Ascending" | "Descending" | (string & {});
+export const SortOrder = S.String;
+export interface ListCustomModelDeploymentsRequest {
+  createdBefore?: Date;
+  createdAfter?: Date;
+  nameContains?: string;
+  maxResults?: number;
+  nextToken?: string;
+  sortBy?: SortModelsBy;
+  sortOrder?: SortOrder;
+  statusEquals?: CustomModelDeploymentStatus;
+  modelArnEquals?: string;
+}
+export const ListCustomModelDeploymentsRequest = S.suspend(() =>
+  S.Struct({
+    createdBefore: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.HttpQuery("createdBefore")),
+    createdAfter: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.HttpQuery("createdAfter")),
+    nameContains: S.optional(S.String).pipe(T.HttpQuery("nameContains")),
+    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+    sortBy: S.optional(SortModelsBy).pipe(T.HttpQuery("sortBy")),
+    sortOrder: S.optional(SortOrder).pipe(T.HttpQuery("sortOrder")),
+    statusEquals: S.optional(CustomModelDeploymentStatus).pipe(
+      T.HttpQuery("statusEquals"),
+    ),
+    modelArnEquals: S.optional(S.String).pipe(T.HttpQuery("modelArnEquals")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/model-customization/custom-model-deployments",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListCustomModelDeploymentsRequest",
+}) as any as S.Schema<ListCustomModelDeploymentsRequest>;
+export interface CustomModelDeploymentSummary {
+  customModelDeploymentArn: string;
+  customModelDeploymentName: string;
+  modelArn: string;
+  createdAt: Date;
+  status: CustomModelDeploymentStatus;
+  lastUpdatedAt?: Date;
+  failureMessage?: string;
+}
+export const CustomModelDeploymentSummary = S.suspend(() =>
+  S.Struct({
+    customModelDeploymentArn: S.String,
+    customModelDeploymentName: S.String,
+    modelArn: S.String,
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    status: CustomModelDeploymentStatus,
+    lastUpdatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    failureMessage: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "CustomModelDeploymentSummary",
+}) as any as S.Schema<CustomModelDeploymentSummary>;
+export type CustomModelDeploymentSummaryList = CustomModelDeploymentSummary[];
+export const CustomModelDeploymentSummaryList = S.Array(
+  CustomModelDeploymentSummary,
+);
+export interface ListCustomModelDeploymentsResponse {
+  nextToken?: string;
+  modelDeploymentSummaries?: CustomModelDeploymentSummary[];
+}
+export const ListCustomModelDeploymentsResponse = S.suspend(() =>
+  S.Struct({
+    nextToken: S.optional(S.String),
+    modelDeploymentSummaries: S.optional(CustomModelDeploymentSummaryList),
+  }),
+).annotate({
+  identifier: "ListCustomModelDeploymentsResponse",
+}) as any as S.Schema<ListCustomModelDeploymentsResponse>;
+export interface UpdateCustomModelDeploymentRequest {
+  modelArn: string;
+  customModelDeploymentIdentifier: string;
+}
+export const UpdateCustomModelDeploymentRequest = S.suspend(() =>
+  S.Struct({
+    modelArn: S.String,
+    customModelDeploymentIdentifier: S.String.pipe(
+      T.HttpLabel("customModelDeploymentIdentifier"),
+    ),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PATCH",
+        uri: "/model-customization/custom-model-deployments/{customModelDeploymentIdentifier}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "UpdateCustomModelDeploymentRequest",
+}) as any as S.Schema<UpdateCustomModelDeploymentRequest>;
 export interface UpdateCustomModelDeploymentResponse {
   customModelDeploymentArn: string;
 }
 export const UpdateCustomModelDeploymentResponse = S.suspend(() =>
   S.Struct({ customModelDeploymentArn: S.String }),
-).annotations({
+).annotate({
   identifier: "UpdateCustomModelDeploymentResponse",
 }) as any as S.Schema<UpdateCustomModelDeploymentResponse>;
+export interface S3DataSource {
+  s3Uri: string;
+}
+export const S3DataSource = S.suspend(() =>
+  S.Struct({ s3Uri: S.String }),
+).annotate({ identifier: "S3DataSource" }) as any as S.Schema<S3DataSource>;
+export type ModelDataSource = { s3DataSource: S3DataSource };
+export const ModelDataSource = S.Union([
+  S.Struct({ s3DataSource: S3DataSource }),
+]);
+export interface CreateCustomModelRequest {
+  modelName: string;
+  modelSourceConfig: ModelDataSource;
+  modelKmsKeyArn?: string;
+  roleArn?: string;
+  modelTags?: Tag[];
+  clientRequestToken?: string;
+}
+export const CreateCustomModelRequest = S.suspend(() =>
+  S.Struct({
+    modelName: S.String,
+    modelSourceConfig: ModelDataSource,
+    modelKmsKeyArn: S.optional(S.String),
+    roleArn: S.optional(S.String),
+    modelTags: S.optional(TagList),
+    clientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/custom-models/create-custom-model" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "CreateCustomModelRequest",
+}) as any as S.Schema<CreateCustomModelRequest>;
+export interface CreateCustomModelResponse {
+  modelArn: string;
+}
+export const CreateCustomModelResponse = S.suspend(() =>
+  S.Struct({ modelArn: S.String }),
+).annotate({
+  identifier: "CreateCustomModelResponse",
+}) as any as S.Schema<CreateCustomModelResponse>;
+export interface DeleteCustomModelRequest {
+  modelIdentifier: string;
+}
+export const DeleteCustomModelRequest = S.suspend(() =>
+  S.Struct({
+    modelIdentifier: S.String.pipe(T.HttpLabel("modelIdentifier")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/custom-models/{modelIdentifier}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeleteCustomModelRequest",
+}) as any as S.Schema<DeleteCustomModelRequest>;
+export interface DeleteCustomModelResponse {}
+export const DeleteCustomModelResponse = S.suspend(() => S.Struct({})).annotate(
+  { identifier: "DeleteCustomModelResponse" },
+) as any as S.Schema<DeleteCustomModelResponse>;
+export interface GetCustomModelRequest {
+  modelIdentifier: string;
+}
+export const GetCustomModelRequest = S.suspend(() =>
+  S.Struct({
+    modelIdentifier: S.String.pipe(T.HttpLabel("modelIdentifier")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/custom-models/{modelIdentifier}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetCustomModelRequest",
+}) as any as S.Schema<GetCustomModelRequest>;
+export type CustomizationType =
+  | "FINE_TUNING"
+  | "CONTINUED_PRE_TRAINING"
+  | "DISTILLATION"
+  | "REINFORCEMENT_FINE_TUNING"
+  | "IMPORTED"
+  | (string & {});
+export const CustomizationType = S.String;
+export type ModelCustomizationHyperParameters = {
+  [key: string]: string | undefined;
+};
+export const ModelCustomizationHyperParameters = S.Record(
+  S.String,
+  S.String.pipe(S.optional),
+);
+export type InvocationLogSource = { s3Uri: string };
+export const InvocationLogSource = S.Union([S.Struct({ s3Uri: S.String })]);
+export type RequestMetadataMap = { [key: string]: string | undefined };
+export const RequestMetadataMap = S.Record(S.String, S.String.pipe(S.optional));
+export interface RequestMetadataBaseFilters {
+  equals?: { [key: string]: string | undefined };
+  notEquals?: { [key: string]: string | undefined };
+}
+export const RequestMetadataBaseFilters = S.suspend(() =>
+  S.Struct({
+    equals: S.optional(RequestMetadataMap),
+    notEquals: S.optional(RequestMetadataMap),
+  }),
+).annotate({
+  identifier: "RequestMetadataBaseFilters",
+}) as any as S.Schema<RequestMetadataBaseFilters>;
+export type RequestMetadataFiltersList = RequestMetadataBaseFilters[];
+export const RequestMetadataFiltersList = S.Array(RequestMetadataBaseFilters);
+export type RequestMetadataFilters =
+  | {
+      equals: { [key: string]: string | undefined };
+      notEquals?: never;
+      andAll?: never;
+      orAll?: never;
+    }
+  | {
+      equals?: never;
+      notEquals: { [key: string]: string | undefined };
+      andAll?: never;
+      orAll?: never;
+    }
+  | {
+      equals?: never;
+      notEquals?: never;
+      andAll: RequestMetadataBaseFilters[];
+      orAll?: never;
+    }
+  | {
+      equals?: never;
+      notEquals?: never;
+      andAll?: never;
+      orAll: RequestMetadataBaseFilters[];
+    };
+export const RequestMetadataFilters = S.Union([
+  S.Struct({ equals: RequestMetadataMap }),
+  S.Struct({ notEquals: RequestMetadataMap }),
+  S.Struct({ andAll: RequestMetadataFiltersList }),
+  S.Struct({ orAll: RequestMetadataFiltersList }),
+]);
+export interface InvocationLogsConfig {
+  usePromptResponse?: boolean;
+  invocationLogSource: InvocationLogSource;
+  requestMetadataFilters?: RequestMetadataFilters;
+}
+export const InvocationLogsConfig = S.suspend(() =>
+  S.Struct({
+    usePromptResponse: S.optional(S.Boolean),
+    invocationLogSource: InvocationLogSource,
+    requestMetadataFilters: S.optional(RequestMetadataFilters),
+  }),
+).annotate({
+  identifier: "InvocationLogsConfig",
+}) as any as S.Schema<InvocationLogsConfig>;
+export interface TrainingDataConfig {
+  s3Uri?: string;
+  invocationLogsConfig?: InvocationLogsConfig;
+}
+export const TrainingDataConfig = S.suspend(() =>
+  S.Struct({
+    s3Uri: S.optional(S.String),
+    invocationLogsConfig: S.optional(InvocationLogsConfig),
+  }),
+).annotate({
+  identifier: "TrainingDataConfig",
+}) as any as S.Schema<TrainingDataConfig>;
+export interface Validator {
+  s3Uri: string;
+}
+export const Validator = S.suspend(() =>
+  S.Struct({ s3Uri: S.String }),
+).annotate({ identifier: "Validator" }) as any as S.Schema<Validator>;
+export type Validators = Validator[];
+export const Validators = S.Array(Validator);
+export interface ValidationDataConfig {
+  validators: Validator[];
+}
+export const ValidationDataConfig = S.suspend(() =>
+  S.Struct({ validators: Validators }),
+).annotate({
+  identifier: "ValidationDataConfig",
+}) as any as S.Schema<ValidationDataConfig>;
+export interface OutputDataConfig {
+  s3Uri: string;
+}
+export const OutputDataConfig = S.suspend(() =>
+  S.Struct({ s3Uri: S.String }),
+).annotate({
+  identifier: "OutputDataConfig",
+}) as any as S.Schema<OutputDataConfig>;
+export interface TrainingMetrics {
+  trainingLoss?: number;
+}
+export const TrainingMetrics = S.suspend(() =>
+  S.Struct({ trainingLoss: S.optional(S.Number) }),
+).annotate({
+  identifier: "TrainingMetrics",
+}) as any as S.Schema<TrainingMetrics>;
+export interface ValidatorMetric {
+  validationLoss?: number;
+}
+export const ValidatorMetric = S.suspend(() =>
+  S.Struct({ validationLoss: S.optional(S.Number) }),
+).annotate({
+  identifier: "ValidatorMetric",
+}) as any as S.Schema<ValidatorMetric>;
+export type ValidationMetrics = ValidatorMetric[];
+export const ValidationMetrics = S.Array(ValidatorMetric);
+export interface TeacherModelConfig {
+  teacherModelIdentifier: string;
+  maxResponseLengthForInference?: number;
+}
+export const TeacherModelConfig = S.suspend(() =>
+  S.Struct({
+    teacherModelIdentifier: S.String,
+    maxResponseLengthForInference: S.optional(S.Number),
+  }),
+).annotate({
+  identifier: "TeacherModelConfig",
+}) as any as S.Schema<TeacherModelConfig>;
+export interface DistillationConfig {
+  teacherModelConfig: TeacherModelConfig;
+}
+export const DistillationConfig = S.suspend(() =>
+  S.Struct({ teacherModelConfig: TeacherModelConfig }),
+).annotate({
+  identifier: "DistillationConfig",
+}) as any as S.Schema<DistillationConfig>;
+export interface LambdaGraderConfig {
+  lambdaArn: string;
+}
+export const LambdaGraderConfig = S.suspend(() =>
+  S.Struct({ lambdaArn: S.String }),
+).annotate({
+  identifier: "LambdaGraderConfig",
+}) as any as S.Schema<LambdaGraderConfig>;
+export type GraderConfig = { lambdaGrader: LambdaGraderConfig };
+export const GraderConfig = S.Union([
+  S.Struct({ lambdaGrader: LambdaGraderConfig }),
+]);
+export type ReasoningEffort = "low" | "medium" | "high" | (string & {});
+export const ReasoningEffort = S.String;
+export interface RFTHyperParameters {
+  epochCount?: number;
+  batchSize?: number;
+  learningRate?: number;
+  maxPromptLength?: number;
+  trainingSamplePerPrompt?: number;
+  inferenceMaxTokens?: number;
+  reasoningEffort?: ReasoningEffort;
+  evalInterval?: number;
+}
+export const RFTHyperParameters = S.suspend(() =>
+  S.Struct({
+    epochCount: S.optional(S.Number),
+    batchSize: S.optional(S.Number),
+    learningRate: S.optional(S.Number),
+    maxPromptLength: S.optional(S.Number),
+    trainingSamplePerPrompt: S.optional(S.Number),
+    inferenceMaxTokens: S.optional(S.Number),
+    reasoningEffort: S.optional(ReasoningEffort),
+    evalInterval: S.optional(S.Number),
+  }),
+).annotate({
+  identifier: "RFTHyperParameters",
+}) as any as S.Schema<RFTHyperParameters>;
+export interface RFTConfig {
+  graderConfig?: GraderConfig;
+  hyperParameters?: RFTHyperParameters;
+}
+export const RFTConfig = S.suspend(() =>
+  S.Struct({
+    graderConfig: S.optional(GraderConfig),
+    hyperParameters: S.optional(RFTHyperParameters),
+  }),
+).annotate({ identifier: "RFTConfig" }) as any as S.Schema<RFTConfig>;
+export type CustomizationConfig =
+  | { distillationConfig: DistillationConfig; rftConfig?: never }
+  | { distillationConfig?: never; rftConfig: RFTConfig };
+export const CustomizationConfig = S.Union([
+  S.Struct({ distillationConfig: DistillationConfig }),
+  S.Struct({ rftConfig: RFTConfig }),
+]);
+export type ModelStatus = "Active" | "Creating" | "Failed" | (string & {});
+export const ModelStatus = S.String;
+export interface GetCustomModelResponse {
+  modelArn: string;
+  modelName: string;
+  jobName?: string;
+  jobArn?: string;
+  baseModelArn?: string;
+  customizationType?: CustomizationType;
+  modelKmsKeyArn?: string;
+  hyperParameters?: { [key: string]: string | undefined };
+  trainingDataConfig?: TrainingDataConfig;
+  validationDataConfig?: ValidationDataConfig;
+  outputDataConfig?: OutputDataConfig;
+  trainingMetrics?: TrainingMetrics;
+  validationMetrics?: ValidatorMetric[];
+  creationTime: Date;
+  customizationConfig?: CustomizationConfig;
+  modelStatus?: ModelStatus;
+  failureMessage?: string;
+}
+export const GetCustomModelResponse = S.suspend(() =>
+  S.Struct({
+    modelArn: S.String,
+    modelName: S.String,
+    jobName: S.optional(S.String),
+    jobArn: S.optional(S.String),
+    baseModelArn: S.optional(S.String),
+    customizationType: S.optional(CustomizationType),
+    modelKmsKeyArn: S.optional(S.String),
+    hyperParameters: S.optional(ModelCustomizationHyperParameters),
+    trainingDataConfig: S.optional(TrainingDataConfig),
+    validationDataConfig: S.optional(ValidationDataConfig),
+    outputDataConfig: S.optional(OutputDataConfig),
+    trainingMetrics: S.optional(TrainingMetrics),
+    validationMetrics: S.optional(ValidationMetrics),
+    creationTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    customizationConfig: S.optional(CustomizationConfig),
+    modelStatus: S.optional(ModelStatus),
+    failureMessage: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GetCustomModelResponse",
+}) as any as S.Schema<GetCustomModelResponse>;
+export interface ListCustomModelsRequest {
+  creationTimeBefore?: Date;
+  creationTimeAfter?: Date;
+  nameContains?: string;
+  baseModelArnEquals?: string;
+  foundationModelArnEquals?: string;
+  maxResults?: number;
+  nextToken?: string;
+  sortBy?: SortModelsBy;
+  sortOrder?: SortOrder;
+  isOwned?: boolean;
+  modelStatus?: ModelStatus;
+}
+export const ListCustomModelsRequest = S.suspend(() =>
+  S.Struct({
+    creationTimeBefore: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.HttpQuery("creationTimeBefore")),
+    creationTimeAfter: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.HttpQuery("creationTimeAfter")),
+    nameContains: S.optional(S.String).pipe(T.HttpQuery("nameContains")),
+    baseModelArnEquals: S.optional(S.String).pipe(
+      T.HttpQuery("baseModelArnEquals"),
+    ),
+    foundationModelArnEquals: S.optional(S.String).pipe(
+      T.HttpQuery("foundationModelArnEquals"),
+    ),
+    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+    sortBy: S.optional(SortModelsBy).pipe(T.HttpQuery("sortBy")),
+    sortOrder: S.optional(SortOrder).pipe(T.HttpQuery("sortOrder")),
+    isOwned: S.optional(S.Boolean).pipe(T.HttpQuery("isOwned")),
+    modelStatus: S.optional(ModelStatus).pipe(T.HttpQuery("modelStatus")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/custom-models" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListCustomModelsRequest",
+}) as any as S.Schema<ListCustomModelsRequest>;
+export interface CustomModelSummary {
+  modelArn: string;
+  modelName: string;
+  creationTime: Date;
+  baseModelArn: string;
+  baseModelName: string;
+  customizationType?: CustomizationType;
+  ownerAccountId?: string;
+  modelStatus?: ModelStatus;
+}
+export const CustomModelSummary = S.suspend(() =>
+  S.Struct({
+    modelArn: S.String,
+    modelName: S.String,
+    creationTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    baseModelArn: S.String,
+    baseModelName: S.String,
+    customizationType: S.optional(CustomizationType),
+    ownerAccountId: S.optional(S.String),
+    modelStatus: S.optional(ModelStatus),
+  }),
+).annotate({
+  identifier: "CustomModelSummary",
+}) as any as S.Schema<CustomModelSummary>;
+export type CustomModelSummaryList = CustomModelSummary[];
+export const CustomModelSummaryList = S.Array(CustomModelSummary);
+export interface ListCustomModelsResponse {
+  nextToken?: string;
+  modelSummaries?: CustomModelSummary[];
+}
+export const ListCustomModelsResponse = S.suspend(() =>
+  S.Struct({
+    nextToken: S.optional(S.String),
+    modelSummaries: S.optional(CustomModelSummaryList),
+  }),
+).annotate({
+  identifier: "ListCustomModelsResponse",
+}) as any as S.Schema<ListCustomModelsResponse>;
+export interface DeleteEnforcedGuardrailConfigurationRequest {
+  configId: string;
+}
+export const DeleteEnforcedGuardrailConfigurationRequest = S.suspend(() =>
+  S.Struct({ configId: S.String.pipe(T.HttpLabel("configId")) }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/enforcedGuardrailsConfiguration/{configId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeleteEnforcedGuardrailConfigurationRequest",
+}) as any as S.Schema<DeleteEnforcedGuardrailConfigurationRequest>;
+export interface DeleteEnforcedGuardrailConfigurationResponse {}
+export const DeleteEnforcedGuardrailConfigurationResponse = S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "DeleteEnforcedGuardrailConfigurationResponse",
+}) as any as S.Schema<DeleteEnforcedGuardrailConfigurationResponse>;
+export interface ListEnforcedGuardrailsConfigurationRequest {
+  nextToken?: string;
+}
+export const ListEnforcedGuardrailsConfigurationRequest = S.suspend(() =>
+  S.Struct({
+    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/enforcedGuardrailsConfiguration" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListEnforcedGuardrailsConfigurationRequest",
+}) as any as S.Schema<ListEnforcedGuardrailsConfigurationRequest>;
+export type InputTags = "HONOR" | "IGNORE" | (string & {});
+export const InputTags = S.String;
+export interface AccountEnforcedGuardrailOutputConfiguration {
+  configId?: string;
+  guardrailArn?: string;
+  guardrailId?: string;
+  inputTags?: InputTags;
+  guardrailVersion?: string;
+  createdAt?: Date;
+  createdBy?: string;
+  updatedAt?: Date;
+  updatedBy?: string;
+  owner?: string;
+}
+export const AccountEnforcedGuardrailOutputConfiguration = S.suspend(() =>
+  S.Struct({
+    configId: S.optional(S.String),
+    guardrailArn: S.optional(S.String),
+    guardrailId: S.optional(S.String),
+    inputTags: S.optional(InputTags),
+    guardrailVersion: S.optional(S.String),
+    createdAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    createdBy: S.optional(S.String),
+    updatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    updatedBy: S.optional(S.String),
+    owner: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "AccountEnforcedGuardrailOutputConfiguration",
+}) as any as S.Schema<AccountEnforcedGuardrailOutputConfiguration>;
+export type AccountEnforcedGuardrailsOutputConfiguration =
+  AccountEnforcedGuardrailOutputConfiguration[];
+export const AccountEnforcedGuardrailsOutputConfiguration = S.Array(
+  AccountEnforcedGuardrailOutputConfiguration,
+);
+export interface ListEnforcedGuardrailsConfigurationResponse {
+  guardrailsConfig: AccountEnforcedGuardrailOutputConfiguration[];
+  nextToken?: string;
+}
+export const ListEnforcedGuardrailsConfigurationResponse = S.suspend(() =>
+  S.Struct({
+    guardrailsConfig: AccountEnforcedGuardrailsOutputConfiguration,
+    nextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ListEnforcedGuardrailsConfigurationResponse",
+}) as any as S.Schema<ListEnforcedGuardrailsConfigurationResponse>;
+export interface AccountEnforcedGuardrailInferenceInputConfiguration {
+  guardrailIdentifier: string;
+  guardrailVersion: string;
+  inputTags: InputTags;
+}
+export const AccountEnforcedGuardrailInferenceInputConfiguration = S.suspend(
+  () =>
+    S.Struct({
+      guardrailIdentifier: S.String,
+      guardrailVersion: S.String,
+      inputTags: InputTags,
+    }),
+).annotate({
+  identifier: "AccountEnforcedGuardrailInferenceInputConfiguration",
+}) as any as S.Schema<AccountEnforcedGuardrailInferenceInputConfiguration>;
 export interface PutEnforcedGuardrailConfigurationRequest {
   configId?: string;
   guardrailInferenceConfig: AccountEnforcedGuardrailInferenceInputConfiguration;
@@ -4366,9 +3926,101 @@ export const PutEnforcedGuardrailConfigurationRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "PutEnforcedGuardrailConfigurationRequest",
 }) as any as S.Schema<PutEnforcedGuardrailConfigurationRequest>;
+export interface PutEnforcedGuardrailConfigurationResponse {
+  configId?: string;
+  updatedAt?: Date;
+  updatedBy?: string;
+}
+export const PutEnforcedGuardrailConfigurationResponse = S.suspend(() =>
+  S.Struct({
+    configId: S.optional(S.String),
+    updatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    updatedBy: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "PutEnforcedGuardrailConfigurationResponse",
+}) as any as S.Schema<PutEnforcedGuardrailConfigurationResponse>;
+export type EvaluationJobIdentifiers = string | redacted.Redacted<string>[];
+export const EvaluationJobIdentifiers = S.Array(SensitiveString);
+export interface BatchDeleteEvaluationJobRequest {
+  jobIdentifiers: string | redacted.Redacted<string>[];
+}
+export const BatchDeleteEvaluationJobRequest = S.suspend(() =>
+  S.Struct({ jobIdentifiers: EvaluationJobIdentifiers }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/evaluation-jobs/batch-delete" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "BatchDeleteEvaluationJobRequest",
+}) as any as S.Schema<BatchDeleteEvaluationJobRequest>;
+export interface BatchDeleteEvaluationJobError {
+  jobIdentifier: string | redacted.Redacted<string>;
+  code: string;
+  message?: string;
+}
+export const BatchDeleteEvaluationJobError = S.suspend(() =>
+  S.Struct({
+    jobIdentifier: SensitiveString,
+    code: S.String,
+    message: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "BatchDeleteEvaluationJobError",
+}) as any as S.Schema<BatchDeleteEvaluationJobError>;
+export type BatchDeleteEvaluationJobErrors = BatchDeleteEvaluationJobError[];
+export const BatchDeleteEvaluationJobErrors = S.Array(
+  BatchDeleteEvaluationJobError,
+);
+export type EvaluationJobStatus =
+  | "InProgress"
+  | "Completed"
+  | "Failed"
+  | "Stopping"
+  | "Stopped"
+  | "Deleting"
+  | (string & {});
+export const EvaluationJobStatus = S.String;
+export interface BatchDeleteEvaluationJobItem {
+  jobIdentifier: string | redacted.Redacted<string>;
+  jobStatus: EvaluationJobStatus;
+}
+export const BatchDeleteEvaluationJobItem = S.suspend(() =>
+  S.Struct({ jobIdentifier: SensitiveString, jobStatus: EvaluationJobStatus }),
+).annotate({
+  identifier: "BatchDeleteEvaluationJobItem",
+}) as any as S.Schema<BatchDeleteEvaluationJobItem>;
+export type BatchDeleteEvaluationJobItems = BatchDeleteEvaluationJobItem[];
+export const BatchDeleteEvaluationJobItems = S.Array(
+  BatchDeleteEvaluationJobItem,
+);
+export interface BatchDeleteEvaluationJobResponse {
+  errors: BatchDeleteEvaluationJobError[];
+  evaluationJobs: BatchDeleteEvaluationJobItem[];
+}
+export const BatchDeleteEvaluationJobResponse = S.suspend(() =>
+  S.Struct({
+    errors: BatchDeleteEvaluationJobErrors,
+    evaluationJobs: BatchDeleteEvaluationJobItems,
+  }),
+).annotate({
+  identifier: "BatchDeleteEvaluationJobResponse",
+}) as any as S.Schema<BatchDeleteEvaluationJobResponse>;
+export type ApplicationType =
+  | "ModelEvaluation"
+  | "RagEvaluation"
+  | (string & {});
+export const ApplicationType = S.String;
 export type EvaluationTaskType =
   | "Summarization"
   | "Classification"
@@ -4378,7 +4030,9 @@ export type EvaluationTaskType =
   | (string & {});
 export const EvaluationTaskType = S.String;
 export type EvaluationDatasetLocation = { s3Uri: string };
-export const EvaluationDatasetLocation = S.Union(S.Struct({ s3Uri: S.String }));
+export const EvaluationDatasetLocation = S.Union([
+  S.Struct({ s3Uri: S.String }),
+]);
 export interface EvaluationDataset {
   name: string | redacted.Redacted<string>;
   datasetLocation?: EvaluationDatasetLocation;
@@ -4388,7 +4042,7 @@ export const EvaluationDataset = S.suspend(() =>
     name: SensitiveString,
     datasetLocation: S.optional(EvaluationDatasetLocation),
   }),
-).annotations({
+).annotate({
   identifier: "EvaluationDataset",
 }) as any as S.Schema<EvaluationDataset>;
 export type EvaluationMetricNames = string | redacted.Redacted<string>[];
@@ -4404,7 +4058,7 @@ export const EvaluationDatasetMetricConfig = S.suspend(() =>
     dataset: EvaluationDataset,
     metricNames: EvaluationMetricNames,
   }),
-).annotations({
+).annotate({
   identifier: "EvaluationDatasetMetricConfig",
 }) as any as S.Schema<EvaluationDatasetMetricConfig>;
 export type EvaluationDatasetMetricConfigs = EvaluationDatasetMetricConfig[];
@@ -4416,7 +4070,7 @@ export interface BedrockEvaluatorModel {
 }
 export const BedrockEvaluatorModel = S.suspend(() =>
   S.Struct({ modelIdentifier: S.String }),
-).annotations({
+).annotate({
   identifier: "BedrockEvaluatorModel",
 }) as any as S.Schema<BedrockEvaluatorModel>;
 export type BedrockEvaluatorModels = BedrockEvaluatorModel[];
@@ -4424,23 +4078,23 @@ export const BedrockEvaluatorModels = S.Array(BedrockEvaluatorModel);
 export type EvaluatorModelConfig = {
   bedrockEvaluatorModels: BedrockEvaluatorModel[];
 };
-export const EvaluatorModelConfig = S.Union(
+export const EvaluatorModelConfig = S.Union([
   S.Struct({ bedrockEvaluatorModels: BedrockEvaluatorModels }),
-);
+]);
 export type RatingScaleItemValue =
   | { stringValue: string; floatValue?: never }
   | { stringValue?: never; floatValue: number };
-export const RatingScaleItemValue = S.Union(
+export const RatingScaleItemValue = S.Union([
   S.Struct({ stringValue: S.String }),
   S.Struct({ floatValue: S.Number }),
-);
+]);
 export interface RatingScaleItem {
   definition: string;
   value: RatingScaleItemValue;
 }
 export const RatingScaleItem = S.suspend(() =>
   S.Struct({ definition: S.String, value: RatingScaleItemValue }),
-).annotations({
+).annotate({
   identifier: "RatingScaleItem",
 }) as any as S.Schema<RatingScaleItem>;
 export type RatingScale = RatingScaleItem[];
@@ -4456,15 +4110,15 @@ export const CustomMetricDefinition = S.suspend(() =>
     instructions: S.String,
     ratingScale: S.optional(RatingScale),
   }),
-).annotations({
+).annotate({
   identifier: "CustomMetricDefinition",
 }) as any as S.Schema<CustomMetricDefinition>;
 export type AutomatedEvaluationCustomMetricSource = {
   customMetricDefinition: CustomMetricDefinition;
 };
-export const AutomatedEvaluationCustomMetricSource = S.Union(
+export const AutomatedEvaluationCustomMetricSource = S.Union([
   S.Struct({ customMetricDefinition: CustomMetricDefinition }),
-);
+]);
 export type AutomatedEvaluationCustomMetrics =
   AutomatedEvaluationCustomMetricSource[];
 export const AutomatedEvaluationCustomMetrics = S.Array(
@@ -4475,7 +4129,7 @@ export interface CustomMetricBedrockEvaluatorModel {
 }
 export const CustomMetricBedrockEvaluatorModel = S.suspend(() =>
   S.Struct({ modelIdentifier: S.String }),
-).annotations({
+).annotate({
   identifier: "CustomMetricBedrockEvaluatorModel",
 }) as any as S.Schema<CustomMetricBedrockEvaluatorModel>;
 export type CustomMetricBedrockEvaluatorModels =
@@ -4488,7 +4142,7 @@ export interface CustomMetricEvaluatorModelConfig {
 }
 export const CustomMetricEvaluatorModelConfig = S.suspend(() =>
   S.Struct({ bedrockEvaluatorModels: CustomMetricBedrockEvaluatorModels }),
-).annotations({
+).annotate({
   identifier: "CustomMetricEvaluatorModelConfig",
 }) as any as S.Schema<CustomMetricEvaluatorModelConfig>;
 export interface AutomatedEvaluationCustomMetricConfig {
@@ -4500,7 +4154,7 @@ export const AutomatedEvaluationCustomMetricConfig = S.suspend(() =>
     customMetrics: AutomatedEvaluationCustomMetrics,
     evaluatorModelConfig: CustomMetricEvaluatorModelConfig,
   }),
-).annotations({
+).annotate({
   identifier: "AutomatedEvaluationCustomMetricConfig",
 }) as any as S.Schema<AutomatedEvaluationCustomMetricConfig>;
 export interface AutomatedEvaluationConfig {
@@ -4514,7 +4168,7 @@ export const AutomatedEvaluationConfig = S.suspend(() =>
     evaluatorModelConfig: S.optional(EvaluatorModelConfig),
     customMetricConfig: S.optional(AutomatedEvaluationCustomMetricConfig),
   }),
-).annotations({
+).annotate({
   identifier: "AutomatedEvaluationConfig",
 }) as any as S.Schema<AutomatedEvaluationConfig>;
 export interface HumanWorkflowConfig {
@@ -4526,7 +4180,7 @@ export const HumanWorkflowConfig = S.suspend(() =>
     flowDefinitionArn: S.String,
     instructions: S.optional(SensitiveString),
   }),
-).annotations({
+).annotate({
   identifier: "HumanWorkflowConfig",
 }) as any as S.Schema<HumanWorkflowConfig>;
 export interface HumanEvaluationCustomMetric {
@@ -4540,7 +4194,7 @@ export const HumanEvaluationCustomMetric = S.suspend(() =>
     description: S.optional(SensitiveString),
     ratingMethod: S.String,
   }),
-).annotations({
+).annotate({
   identifier: "HumanEvaluationCustomMetric",
 }) as any as S.Schema<HumanEvaluationCustomMetric>;
 export type HumanEvaluationCustomMetrics = HumanEvaluationCustomMetric[];
@@ -4558,16 +4212,16 @@ export const HumanEvaluationConfig = S.suspend(() =>
     customMetrics: S.optional(HumanEvaluationCustomMetrics),
     datasetMetricConfigs: EvaluationDatasetMetricConfigs,
   }),
-).annotations({
+).annotate({
   identifier: "HumanEvaluationConfig",
 }) as any as S.Schema<HumanEvaluationConfig>;
 export type EvaluationConfig =
   | { automated: AutomatedEvaluationConfig; human?: never }
   | { automated?: never; human: HumanEvaluationConfig };
-export const EvaluationConfig = S.Union(
+export const EvaluationConfig = S.Union([
   S.Struct({ automated: AutomatedEvaluationConfig }),
   S.Struct({ human: HumanEvaluationConfig }),
-);
+]);
 export type PerformanceConfigLatency = "standard" | "optimized" | (string & {});
 export const PerformanceConfigLatency = S.String;
 export interface PerformanceConfiguration {
@@ -4575,7 +4229,7 @@ export interface PerformanceConfiguration {
 }
 export const PerformanceConfiguration = S.suspend(() =>
   S.Struct({ latency: S.optional(PerformanceConfigLatency) }),
-).annotations({
+).annotate({
   identifier: "PerformanceConfiguration",
 }) as any as S.Schema<PerformanceConfiguration>;
 export interface EvaluationBedrockModel {
@@ -4589,7 +4243,7 @@ export const EvaluationBedrockModel = S.suspend(() =>
     inferenceParams: S.optional(SensitiveString),
     performanceConfig: S.optional(PerformanceConfiguration),
   }),
-).annotations({
+).annotate({
   identifier: "EvaluationBedrockModel",
 }) as any as S.Schema<EvaluationBedrockModel>;
 export interface EvaluationPrecomputedInferenceSource {
@@ -4597,7 +4251,7 @@ export interface EvaluationPrecomputedInferenceSource {
 }
 export const EvaluationPrecomputedInferenceSource = S.suspend(() =>
   S.Struct({ inferenceSourceIdentifier: S.String }),
-).annotations({
+).annotate({
   identifier: "EvaluationPrecomputedInferenceSource",
 }) as any as S.Schema<EvaluationPrecomputedInferenceSource>;
 export type EvaluationModelConfig =
@@ -4606,12 +4260,12 @@ export type EvaluationModelConfig =
       bedrockModel?: never;
       precomputedInferenceSource: EvaluationPrecomputedInferenceSource;
     };
-export const EvaluationModelConfig = S.Union(
+export const EvaluationModelConfig = S.Union([
   S.Struct({ bedrockModel: EvaluationBedrockModel }),
   S.Struct({
     precomputedInferenceSource: EvaluationPrecomputedInferenceSource,
   }),
-);
+]);
 export type EvaluationModelConfigs = EvaluationModelConfig[];
 export const EvaluationModelConfigs = S.Array(EvaluationModelConfig);
 export type SearchType = "HYBRID" | "SEMANTIC" | (string & {});
@@ -4622,9 +4276,13 @@ export interface FilterAttribute {
 }
 export const FilterAttribute = S.suspend(() =>
   S.Struct({ key: S.String, value: S.Any }),
-).annotations({
+).annotate({
   identifier: "FilterAttribute",
 }) as any as S.Schema<FilterAttribute>;
+export type RetrievalFilterList = RetrievalFilter[];
+export const RetrievalFilterList = S.Array(
+  S.suspend(() => RetrievalFilter).annotate({ identifier: "RetrievalFilter" }),
+) as any as S.Schema<RetrievalFilterList>;
 export type RetrievalFilter =
   | {
       equals: FilterAttribute;
@@ -4821,7 +4479,7 @@ export type RetrievalFilter =
       andAll?: never;
       orAll: RetrievalFilter[];
     };
-export const RetrievalFilter = S.Union(
+export const RetrievalFilter = S.Union([
   S.Struct({ equals: FilterAttribute }),
   S.Struct({ notEquals: FilterAttribute }),
   S.Struct({ greaterThan: FilterAttribute }),
@@ -4834,16 +4492,16 @@ export const RetrievalFilter = S.Union(
   S.Struct({ listContains: FilterAttribute }),
   S.Struct({ stringContains: FilterAttribute }),
   S.Struct({
-    andAll: S.suspend(() => RetrievalFilterList).annotations({
+    andAll: S.suspend(() => RetrievalFilterList).annotate({
       identifier: "RetrievalFilterList",
     }),
   }),
   S.Struct({
-    orAll: S.suspend(() => RetrievalFilterList).annotations({
+    orAll: S.suspend(() => RetrievalFilterList).annotate({
       identifier: "RetrievalFilterList",
     }),
   }),
-) as any as S.Schema<RetrievalFilter>;
+]) as any as S.Schema<RetrievalFilter>;
 export type AttributeType =
   | "STRING"
   | "NUMBER"
@@ -4858,7 +4516,7 @@ export interface MetadataAttributeSchema {
 }
 export const MetadataAttributeSchema = S.suspend(() =>
   S.Struct({ key: S.String, type: AttributeType, description: S.String }),
-).annotations({
+).annotate({
   identifier: "MetadataAttributeSchema",
 }) as any as S.Schema<MetadataAttributeSchema>;
 export type MetadataAttributeSchemaList = MetadataAttributeSchema[];
@@ -4872,7 +4530,7 @@ export const ImplicitFilterConfiguration = S.suspend(() =>
     metadataAttributes: MetadataAttributeSchemaList,
     modelArn: S.String,
   }),
-).annotations({
+).annotate({
   identifier: "ImplicitFilterConfiguration",
 }) as any as S.Schema<ImplicitFilterConfiguration>;
 export type VectorSearchRerankingConfigurationType =
@@ -4880,10 +4538,10 @@ export type VectorSearchRerankingConfigurationType =
   | (string & {});
 export const VectorSearchRerankingConfigurationType = S.String;
 export type AdditionalModelRequestFields = { [key: string]: any | undefined };
-export const AdditionalModelRequestFields = S.Record({
-  key: S.String,
-  value: S.UndefinedOr(S.Any),
-});
+export const AdditionalModelRequestFields = S.Record(
+  S.String,
+  S.Any.pipe(S.optional),
+);
 export interface VectorSearchBedrockRerankingModelConfiguration {
   modelArn: string;
   additionalModelRequestFields?: { [key: string]: any | undefined };
@@ -4893,7 +4551,7 @@ export const VectorSearchBedrockRerankingModelConfiguration = S.suspend(() =>
     modelArn: S.String,
     additionalModelRequestFields: S.optional(AdditionalModelRequestFields),
   }),
-).annotations({
+).annotate({
   identifier: "VectorSearchBedrockRerankingModelConfiguration",
 }) as any as S.Schema<VectorSearchBedrockRerankingModelConfiguration>;
 export type RerankingMetadataSelectionMode =
@@ -4906,7 +4564,7 @@ export interface FieldForReranking {
 }
 export const FieldForReranking = S.suspend(() =>
   S.Struct({ fieldName: S.String }),
-).annotations({
+).annotate({
   identifier: "FieldForReranking",
 }) as any as S.Schema<FieldForReranking>;
 export type FieldsForReranking = FieldForReranking[];
@@ -4914,10 +4572,10 @@ export const FieldsForReranking = S.Array(FieldForReranking);
 export type RerankingMetadataSelectiveModeConfiguration =
   | { fieldsToInclude: FieldForReranking[]; fieldsToExclude?: never }
   | { fieldsToInclude?: never; fieldsToExclude: FieldForReranking[] };
-export const RerankingMetadataSelectiveModeConfiguration = S.Union(
+export const RerankingMetadataSelectiveModeConfiguration = S.Union([
   S.Struct({ fieldsToInclude: FieldsForReranking }),
   S.Struct({ fieldsToExclude: FieldsForReranking }),
-);
+]);
 export interface MetadataConfigurationForReranking {
   selectionMode: RerankingMetadataSelectionMode;
   selectiveModeConfiguration?: RerankingMetadataSelectiveModeConfiguration;
@@ -4929,7 +4587,7 @@ export const MetadataConfigurationForReranking = S.suspend(() =>
       RerankingMetadataSelectiveModeConfiguration,
     ),
   }),
-).annotations({
+).annotate({
   identifier: "MetadataConfigurationForReranking",
 }) as any as S.Schema<MetadataConfigurationForReranking>;
 export interface VectorSearchBedrockRerankingConfiguration {
@@ -4943,7 +4601,7 @@ export const VectorSearchBedrockRerankingConfiguration = S.suspend(() =>
     numberOfRerankedResults: S.optional(S.Number),
     metadataConfiguration: S.optional(MetadataConfigurationForReranking),
   }),
-).annotations({
+).annotate({
   identifier: "VectorSearchBedrockRerankingConfiguration",
 }) as any as S.Schema<VectorSearchBedrockRerankingConfiguration>;
 export interface VectorSearchRerankingConfiguration {
@@ -4957,7 +4615,7 @@ export const VectorSearchRerankingConfiguration = S.suspend(() =>
       VectorSearchBedrockRerankingConfiguration,
     ),
   }),
-).annotations({
+).annotate({
   identifier: "VectorSearchRerankingConfiguration",
 }) as any as S.Schema<VectorSearchRerankingConfiguration>;
 export interface KnowledgeBaseVectorSearchConfiguration {
@@ -4975,7 +4633,7 @@ export const KnowledgeBaseVectorSearchConfiguration = S.suspend(() =>
     implicitFilterConfiguration: S.optional(ImplicitFilterConfiguration),
     rerankingConfiguration: S.optional(VectorSearchRerankingConfiguration),
   }),
-).annotations({
+).annotate({
   identifier: "KnowledgeBaseVectorSearchConfiguration",
 }) as any as S.Schema<KnowledgeBaseVectorSearchConfiguration>;
 export interface KnowledgeBaseRetrievalConfiguration {
@@ -4985,7 +4643,7 @@ export const KnowledgeBaseRetrievalConfiguration = S.suspend(() =>
   S.Struct({
     vectorSearchConfiguration: KnowledgeBaseVectorSearchConfiguration,
   }),
-).annotations({
+).annotate({
   identifier: "KnowledgeBaseRetrievalConfiguration",
 }) as any as S.Schema<KnowledgeBaseRetrievalConfiguration>;
 export interface RetrieveConfig {
@@ -4997,9 +4655,7 @@ export const RetrieveConfig = S.suspend(() =>
     knowledgeBaseId: S.String,
     knowledgeBaseRetrievalConfiguration: KnowledgeBaseRetrievalConfiguration,
   }),
-).annotations({
-  identifier: "RetrieveConfig",
-}) as any as S.Schema<RetrieveConfig>;
+).annotate({ identifier: "RetrieveConfig" }) as any as S.Schema<RetrieveConfig>;
 export type RetrieveAndGenerateType =
   | "KNOWLEDGE_BASE"
   | "EXTERNAL_SOURCES"
@@ -5010,16 +4666,14 @@ export interface PromptTemplate {
 }
 export const PromptTemplate = S.suspend(() =>
   S.Struct({ textPromptTemplate: S.optional(SensitiveString) }),
-).annotations({
-  identifier: "PromptTemplate",
-}) as any as S.Schema<PromptTemplate>;
+).annotate({ identifier: "PromptTemplate" }) as any as S.Schema<PromptTemplate>;
 export interface GuardrailConfiguration {
   guardrailId: string;
   guardrailVersion: string;
 }
 export const GuardrailConfiguration = S.suspend(() =>
   S.Struct({ guardrailId: S.String, guardrailVersion: S.String }),
-).annotations({
+).annotate({
   identifier: "GuardrailConfiguration",
 }) as any as S.Schema<GuardrailConfiguration>;
 export type RAGStopSequences = string[];
@@ -5037,7 +4691,7 @@ export const TextInferenceConfig = S.suspend(() =>
     maxTokens: S.optional(S.Number),
     stopSequences: S.optional(RAGStopSequences),
   }),
-).annotations({
+).annotate({
   identifier: "TextInferenceConfig",
 }) as any as S.Schema<TextInferenceConfig>;
 export interface KbInferenceConfig {
@@ -5045,7 +4699,7 @@ export interface KbInferenceConfig {
 }
 export const KbInferenceConfig = S.suspend(() =>
   S.Struct({ textInferenceConfig: S.optional(TextInferenceConfig) }),
-).annotations({
+).annotate({
   identifier: "KbInferenceConfig",
 }) as any as S.Schema<KbInferenceConfig>;
 export interface GenerationConfiguration {
@@ -5061,7 +4715,7 @@ export const GenerationConfiguration = S.suspend(() =>
     kbInferenceConfig: S.optional(KbInferenceConfig),
     additionalModelRequestFields: S.optional(AdditionalModelRequestFields),
   }),
-).annotations({
+).annotate({
   identifier: "GenerationConfiguration",
 }) as any as S.Schema<GenerationConfiguration>;
 export type QueryTransformationType = "QUERY_DECOMPOSITION" | (string & {});
@@ -5071,7 +4725,7 @@ export interface QueryTransformationConfiguration {
 }
 export const QueryTransformationConfiguration = S.suspend(() =>
   S.Struct({ type: QueryTransformationType }),
-).annotations({
+).annotate({
   identifier: "QueryTransformationConfiguration",
 }) as any as S.Schema<QueryTransformationConfiguration>;
 export interface OrchestrationConfiguration {
@@ -5081,7 +4735,7 @@ export const OrchestrationConfiguration = S.suspend(() =>
   S.Struct({
     queryTransformationConfiguration: QueryTransformationConfiguration,
   }),
-).annotations({
+).annotate({
   identifier: "OrchestrationConfiguration",
 }) as any as S.Schema<OrchestrationConfiguration>;
 export interface KnowledgeBaseRetrieveAndGenerateConfiguration {
@@ -5099,7 +4753,7 @@ export const KnowledgeBaseRetrieveAndGenerateConfiguration = S.suspend(() =>
     generationConfiguration: S.optional(GenerationConfiguration),
     orchestrationConfiguration: S.optional(OrchestrationConfiguration),
   }),
-).annotations({
+).annotate({
   identifier: "KnowledgeBaseRetrieveAndGenerateConfiguration",
 }) as any as S.Schema<KnowledgeBaseRetrieveAndGenerateConfiguration>;
 export type ExternalSourceType = "S3" | "BYTE_CONTENT" | (string & {});
@@ -5109,7 +4763,7 @@ export interface S3ObjectDoc {
 }
 export const S3ObjectDoc = S.suspend(() =>
   S.Struct({ uri: S.String }),
-).annotations({ identifier: "S3ObjectDoc" }) as any as S.Schema<S3ObjectDoc>;
+).annotate({ identifier: "S3ObjectDoc" }) as any as S.Schema<S3ObjectDoc>;
 export interface ByteContentDoc {
   identifier: string | redacted.Redacted<string>;
   contentType: string;
@@ -5121,9 +4775,7 @@ export const ByteContentDoc = S.suspend(() =>
     contentType: S.String,
     data: SensitiveBlob,
   }),
-).annotations({
-  identifier: "ByteContentDoc",
-}) as any as S.Schema<ByteContentDoc>;
+).annotate({ identifier: "ByteContentDoc" }) as any as S.Schema<ByteContentDoc>;
 export interface ExternalSource {
   sourceType: ExternalSourceType;
   s3Location?: S3ObjectDoc;
@@ -5135,9 +4787,7 @@ export const ExternalSource = S.suspend(() =>
     s3Location: S.optional(S3ObjectDoc),
     byteContent: S.optional(ByteContentDoc),
   }),
-).annotations({
-  identifier: "ExternalSource",
-}) as any as S.Schema<ExternalSource>;
+).annotate({ identifier: "ExternalSource" }) as any as S.Schema<ExternalSource>;
 export type ExternalSources = ExternalSource[];
 export const ExternalSources = S.Array(ExternalSource);
 export interface ExternalSourcesGenerationConfiguration {
@@ -5153,7 +4803,7 @@ export const ExternalSourcesGenerationConfiguration = S.suspend(() =>
     kbInferenceConfig: S.optional(KbInferenceConfig),
     additionalModelRequestFields: S.optional(AdditionalModelRequestFields),
   }),
-).annotations({
+).annotate({
   identifier: "ExternalSourcesGenerationConfiguration",
 }) as any as S.Schema<ExternalSourcesGenerationConfiguration>;
 export interface ExternalSourcesRetrieveAndGenerateConfiguration {
@@ -5167,7 +4817,7 @@ export const ExternalSourcesRetrieveAndGenerateConfiguration = S.suspend(() =>
     sources: ExternalSources,
     generationConfiguration: S.optional(ExternalSourcesGenerationConfiguration),
   }),
-).annotations({
+).annotate({
   identifier: "ExternalSourcesRetrieveAndGenerateConfiguration",
 }) as any as S.Schema<ExternalSourcesRetrieveAndGenerateConfiguration>;
 export interface RetrieveAndGenerateConfiguration {
@@ -5185,7 +4835,7 @@ export const RetrieveAndGenerateConfiguration = S.suspend(() =>
       ExternalSourcesRetrieveAndGenerateConfiguration,
     ),
   }),
-).annotations({
+).annotate({
   identifier: "RetrieveAndGenerateConfiguration",
 }) as any as S.Schema<RetrieveAndGenerateConfiguration>;
 export type KnowledgeBaseConfig =
@@ -5194,16 +4844,16 @@ export type KnowledgeBaseConfig =
       retrieveConfig?: never;
       retrieveAndGenerateConfig: RetrieveAndGenerateConfiguration;
     };
-export const KnowledgeBaseConfig = S.Union(
+export const KnowledgeBaseConfig = S.Union([
   S.Struct({ retrieveConfig: RetrieveConfig }),
   S.Struct({ retrieveAndGenerateConfig: RetrieveAndGenerateConfiguration }),
-);
+]);
 export interface EvaluationPrecomputedRetrieveSourceConfig {
   ragSourceIdentifier: string;
 }
 export const EvaluationPrecomputedRetrieveSourceConfig = S.suspend(() =>
   S.Struct({ ragSourceIdentifier: S.String }),
-).annotations({
+).annotate({
   identifier: "EvaluationPrecomputedRetrieveSourceConfig",
 }) as any as S.Schema<EvaluationPrecomputedRetrieveSourceConfig>;
 export interface EvaluationPrecomputedRetrieveAndGenerateSourceConfig {
@@ -5211,7 +4861,7 @@ export interface EvaluationPrecomputedRetrieveAndGenerateSourceConfig {
 }
 export const EvaluationPrecomputedRetrieveAndGenerateSourceConfig = S.suspend(
   () => S.Struct({ ragSourceIdentifier: S.String }),
-).annotations({
+).annotate({
   identifier: "EvaluationPrecomputedRetrieveAndGenerateSourceConfig",
 }) as any as S.Schema<EvaluationPrecomputedRetrieveAndGenerateSourceConfig>;
 export type EvaluationPrecomputedRagSourceConfig =
@@ -5223,13 +4873,13 @@ export type EvaluationPrecomputedRagSourceConfig =
       retrieveSourceConfig?: never;
       retrieveAndGenerateSourceConfig: EvaluationPrecomputedRetrieveAndGenerateSourceConfig;
     };
-export const EvaluationPrecomputedRagSourceConfig = S.Union(
+export const EvaluationPrecomputedRagSourceConfig = S.Union([
   S.Struct({ retrieveSourceConfig: EvaluationPrecomputedRetrieveSourceConfig }),
   S.Struct({
     retrieveAndGenerateSourceConfig:
       EvaluationPrecomputedRetrieveAndGenerateSourceConfig,
   }),
-);
+]);
 export type RAGConfig =
   | {
       knowledgeBaseConfig: KnowledgeBaseConfig;
@@ -5239,21 +4889,97 @@ export type RAGConfig =
       knowledgeBaseConfig?: never;
       precomputedRagSourceConfig: EvaluationPrecomputedRagSourceConfig;
     };
-export const RAGConfig = S.Union(
+export const RAGConfig = S.Union([
   S.Struct({ knowledgeBaseConfig: KnowledgeBaseConfig }),
   S.Struct({
     precomputedRagSourceConfig: EvaluationPrecomputedRagSourceConfig,
   }),
-);
+]);
 export type RagConfigs = RAGConfig[];
 export const RagConfigs = S.Array(RAGConfig);
 export type EvaluationInferenceConfig =
   | { models: EvaluationModelConfig[]; ragConfigs?: never }
   | { models?: never; ragConfigs: RAGConfig[] };
-export const EvaluationInferenceConfig = S.Union(
+export const EvaluationInferenceConfig = S.Union([
   S.Struct({ models: EvaluationModelConfigs }),
   S.Struct({ ragConfigs: RagConfigs }),
-);
+]);
+export interface EvaluationOutputDataConfig {
+  s3Uri: string;
+}
+export const EvaluationOutputDataConfig = S.suspend(() =>
+  S.Struct({ s3Uri: S.String }),
+).annotate({
+  identifier: "EvaluationOutputDataConfig",
+}) as any as S.Schema<EvaluationOutputDataConfig>;
+export interface CreateEvaluationJobRequest {
+  jobName: string;
+  jobDescription?: string | redacted.Redacted<string>;
+  clientRequestToken?: string;
+  roleArn: string;
+  customerEncryptionKeyId?: string;
+  jobTags?: Tag[];
+  applicationType?: ApplicationType;
+  evaluationConfig: EvaluationConfig;
+  inferenceConfig: EvaluationInferenceConfig;
+  outputDataConfig: EvaluationOutputDataConfig;
+}
+export const CreateEvaluationJobRequest = S.suspend(() =>
+  S.Struct({
+    jobName: S.String,
+    jobDescription: S.optional(SensitiveString),
+    clientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+    roleArn: S.String,
+    customerEncryptionKeyId: S.optional(S.String),
+    jobTags: S.optional(TagList),
+    applicationType: S.optional(ApplicationType),
+    evaluationConfig: EvaluationConfig,
+    inferenceConfig: EvaluationInferenceConfig,
+    outputDataConfig: EvaluationOutputDataConfig,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/evaluation-jobs" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "CreateEvaluationJobRequest",
+}) as any as S.Schema<CreateEvaluationJobRequest>;
+export interface CreateEvaluationJobResponse {
+  jobArn: string;
+}
+export const CreateEvaluationJobResponse = S.suspend(() =>
+  S.Struct({ jobArn: S.String }),
+).annotate({
+  identifier: "CreateEvaluationJobResponse",
+}) as any as S.Schema<CreateEvaluationJobResponse>;
+export interface GetEvaluationJobRequest {
+  jobIdentifier: string | redacted.Redacted<string>;
+}
+export const GetEvaluationJobRequest = S.suspend(() =>
+  S.Struct({
+    jobIdentifier: SensitiveString.pipe(T.HttpLabel("jobIdentifier")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/evaluation-jobs/{jobIdentifier}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetEvaluationJobRequest",
+}) as any as S.Schema<GetEvaluationJobRequest>;
+export type EvaluationJobType = "Human" | "Automated" | (string & {});
+export const EvaluationJobType = S.String;
+export type ErrorMessages = string[];
+export const ErrorMessages = S.Array(S.String);
 export interface GetEvaluationJobResponse {
   jobName: string;
   status: EvaluationJobStatus;
@@ -5283,55 +5009,50 @@ export const GetEvaluationJobResponse = S.suspend(() =>
     evaluationConfig: EvaluationConfig,
     inferenceConfig: EvaluationInferenceConfig,
     outputDataConfig: EvaluationOutputDataConfig,
-    creationTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    lastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    creationTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    lastModifiedTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     failureMessages: S.optional(ErrorMessages),
   }),
-).annotations({
+).annotate({
   identifier: "GetEvaluationJobResponse",
 }) as any as S.Schema<GetEvaluationJobResponse>;
-export interface UpdateGuardrailResponse {
-  guardrailId: string;
-  guardrailArn: string;
-  version: string;
-  updatedAt: Date;
+export type SortJobsBy = "CreationTime" | (string & {});
+export const SortJobsBy = S.String;
+export interface ListEvaluationJobsRequest {
+  creationTimeAfter?: Date;
+  creationTimeBefore?: Date;
+  statusEquals?: EvaluationJobStatus;
+  applicationTypeEquals?: ApplicationType;
+  nameContains?: string;
+  maxResults?: number;
+  nextToken?: string;
+  sortBy?: SortJobsBy;
+  sortOrder?: SortOrder;
 }
-export const UpdateGuardrailResponse = S.suspend(() =>
+export const ListEvaluationJobsRequest = S.suspend(() =>
   S.Struct({
-    guardrailId: S.String,
-    guardrailArn: S.String,
-    version: S.String,
-    updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  }),
-).annotations({
-  identifier: "UpdateGuardrailResponse",
-}) as any as S.Schema<UpdateGuardrailResponse>;
-export interface CreateGuardrailVersionResponse {
-  guardrailId: string;
-  version: string;
-}
-export const CreateGuardrailVersionResponse = S.suspend(() =>
-  S.Struct({ guardrailId: S.String, version: S.String }),
-).annotations({
-  identifier: "CreateGuardrailVersionResponse",
-}) as any as S.Schema<CreateGuardrailVersionResponse>;
-export interface CreateInferenceProfileRequest {
-  inferenceProfileName: string;
-  description?: string | redacted.Redacted<string>;
-  clientRequestToken?: string;
-  modelSource: InferenceProfileModelSource;
-  tags?: Tag[];
-}
-export const CreateInferenceProfileRequest = S.suspend(() =>
-  S.Struct({
-    inferenceProfileName: S.String,
-    description: S.optional(SensitiveString),
-    clientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    modelSource: InferenceProfileModelSource,
-    tags: S.optional(TagList),
+    creationTimeAfter: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.HttpQuery("creationTimeAfter")),
+    creationTimeBefore: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.HttpQuery("creationTimeBefore")),
+    statusEquals: S.optional(EvaluationJobStatus).pipe(
+      T.HttpQuery("statusEquals"),
+    ),
+    applicationTypeEquals: S.optional(ApplicationType).pipe(
+      T.HttpQuery("applicationTypeEquals"),
+    ),
+    nameContains: S.optional(S.String).pipe(T.HttpQuery("nameContains")),
+    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+    sortBy: S.optional(SortJobsBy).pipe(T.HttpQuery("sortBy")),
+    sortOrder: S.optional(SortOrder).pipe(T.HttpQuery("sortOrder")),
   }).pipe(
     T.all(
-      T.Http({ method: "POST", uri: "/inference-profiles" }),
+      T.Http({ method: "GET", uri: "/evaluation-jobs" }),
       svc,
       auth,
       proto,
@@ -5339,333 +5060,9 @@ export const CreateInferenceProfileRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
-  identifier: "CreateInferenceProfileRequest",
-}) as any as S.Schema<CreateInferenceProfileRequest>;
-export interface CreateModelCopyJobResponse {
-  jobArn: string;
-}
-export const CreateModelCopyJobResponse = S.suspend(() =>
-  S.Struct({ jobArn: S.String }),
-).annotations({
-  identifier: "CreateModelCopyJobResponse",
-}) as any as S.Schema<CreateModelCopyJobResponse>;
-export interface GetModelCopyJobResponse {
-  jobArn: string;
-  status: ModelCopyJobStatus;
-  creationTime: Date;
-  targetModelArn: string;
-  targetModelName?: string;
-  sourceAccountId: string;
-  sourceModelArn: string;
-  targetModelKmsKeyArn?: string;
-  targetModelTags?: Tag[];
-  failureMessage?: string;
-  sourceModelName?: string;
-}
-export const GetModelCopyJobResponse = S.suspend(() =>
-  S.Struct({
-    jobArn: S.String,
-    status: ModelCopyJobStatus,
-    creationTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    targetModelArn: S.String,
-    targetModelName: S.optional(S.String),
-    sourceAccountId: S.String,
-    sourceModelArn: S.String,
-    targetModelKmsKeyArn: S.optional(S.String),
-    targetModelTags: S.optional(TagList),
-    failureMessage: S.optional(S.String),
-    sourceModelName: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "GetModelCopyJobResponse",
-}) as any as S.Schema<GetModelCopyJobResponse>;
-export interface S3DataSource {
-  s3Uri: string;
-}
-export const S3DataSource = S.suspend(() =>
-  S.Struct({ s3Uri: S.String }),
-).annotations({ identifier: "S3DataSource" }) as any as S.Schema<S3DataSource>;
-export type ModelDataSource = { s3DataSource: S3DataSource };
-export const ModelDataSource = S.Union(
-  S.Struct({ s3DataSource: S3DataSource }),
-);
-export interface CreateModelImportJobRequest {
-  jobName: string;
-  importedModelName: string;
-  roleArn: string;
-  modelDataSource: ModelDataSource;
-  jobTags?: Tag[];
-  importedModelTags?: Tag[];
-  clientRequestToken?: string;
-  vpcConfig?: VpcConfig;
-  importedModelKmsKeyId?: string;
-}
-export const CreateModelImportJobRequest = S.suspend(() =>
-  S.Struct({
-    jobName: S.String,
-    importedModelName: S.String,
-    roleArn: S.String,
-    modelDataSource: ModelDataSource,
-    jobTags: S.optional(TagList),
-    importedModelTags: S.optional(TagList),
-    clientRequestToken: S.optional(S.String),
-    vpcConfig: S.optional(VpcConfig),
-    importedModelKmsKeyId: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/model-import-jobs" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "CreateModelImportJobRequest",
-}) as any as S.Schema<CreateModelImportJobRequest>;
-export interface GetModelImportJobResponse {
-  jobArn?: string;
-  jobName?: string;
-  importedModelName?: string;
-  importedModelArn?: string;
-  roleArn?: string;
-  modelDataSource?: ModelDataSource;
-  status?: ModelImportJobStatus;
-  failureMessage?: string;
-  creationTime?: Date;
-  lastModifiedTime?: Date;
-  endTime?: Date;
-  vpcConfig?: VpcConfig;
-  importedModelKmsKeyArn?: string;
-}
-export const GetModelImportJobResponse = S.suspend(() =>
-  S.Struct({
-    jobArn: S.optional(S.String),
-    jobName: S.optional(S.String),
-    importedModelName: S.optional(S.String),
-    importedModelArn: S.optional(S.String),
-    roleArn: S.optional(S.String),
-    modelDataSource: S.optional(ModelDataSource),
-    status: S.optional(ModelImportJobStatus),
-    failureMessage: S.optional(S.String),
-    creationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    lastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    endTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    vpcConfig: S.optional(VpcConfig),
-    importedModelKmsKeyArn: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "GetModelImportJobResponse",
-}) as any as S.Schema<GetModelImportJobResponse>;
-export interface ModelInvocationJobS3InputDataConfig {
-  s3InputFormat?: S3InputFormat;
-  s3Uri: string;
-  s3BucketOwner?: string;
-}
-export const ModelInvocationJobS3InputDataConfig = S.suspend(() =>
-  S.Struct({
-    s3InputFormat: S.optional(S3InputFormat),
-    s3Uri: S.String,
-    s3BucketOwner: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "ModelInvocationJobS3InputDataConfig",
-}) as any as S.Schema<ModelInvocationJobS3InputDataConfig>;
-export type ModelInvocationJobInputDataConfig = {
-  s3InputDataConfig: ModelInvocationJobS3InputDataConfig;
-};
-export const ModelInvocationJobInputDataConfig = S.Union(
-  S.Struct({ s3InputDataConfig: ModelInvocationJobS3InputDataConfig }),
-);
-export interface ModelInvocationJobS3OutputDataConfig {
-  s3Uri: string;
-  s3EncryptionKeyId?: string;
-  s3BucketOwner?: string;
-}
-export const ModelInvocationJobS3OutputDataConfig = S.suspend(() =>
-  S.Struct({
-    s3Uri: S.String,
-    s3EncryptionKeyId: S.optional(S.String),
-    s3BucketOwner: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "ModelInvocationJobS3OutputDataConfig",
-}) as any as S.Schema<ModelInvocationJobS3OutputDataConfig>;
-export type ModelInvocationJobOutputDataConfig = {
-  s3OutputDataConfig: ModelInvocationJobS3OutputDataConfig;
-};
-export const ModelInvocationJobOutputDataConfig = S.Union(
-  S.Struct({ s3OutputDataConfig: ModelInvocationJobS3OutputDataConfig }),
-);
-export interface GetModelInvocationJobResponse {
-  jobArn: string;
-  jobName?: string;
-  modelId: string;
-  clientRequestToken?: string;
-  roleArn: string;
-  status?: ModelInvocationJobStatus;
-  message?: string | redacted.Redacted<string>;
-  submitTime: Date;
-  lastModifiedTime?: Date;
-  endTime?: Date;
-  inputDataConfig: ModelInvocationJobInputDataConfig;
-  outputDataConfig: ModelInvocationJobOutputDataConfig;
-  vpcConfig?: VpcConfig;
-  timeoutDurationInHours?: number;
-  jobExpirationTime?: Date;
-}
-export const GetModelInvocationJobResponse = S.suspend(() =>
-  S.Struct({
-    jobArn: S.String,
-    jobName: S.optional(S.String),
-    modelId: S.String,
-    clientRequestToken: S.optional(S.String),
-    roleArn: S.String,
-    status: S.optional(ModelInvocationJobStatus),
-    message: S.optional(SensitiveString),
-    submitTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    lastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    endTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    inputDataConfig: ModelInvocationJobInputDataConfig,
-    outputDataConfig: ModelInvocationJobOutputDataConfig,
-    vpcConfig: S.optional(VpcConfig),
-    timeoutDurationInHours: S.optional(S.Number),
-    jobExpirationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  }),
-).annotations({
-  identifier: "GetModelInvocationJobResponse",
-}) as any as S.Schema<GetModelInvocationJobResponse>;
-export interface CreatePromptRouterRequest {
-  clientRequestToken?: string;
-  promptRouterName: string;
-  models: PromptRouterTargetModel[];
-  description?: string | redacted.Redacted<string>;
-  routingCriteria: RoutingCriteria;
-  fallbackModel: PromptRouterTargetModel;
-  tags?: Tag[];
-}
-export const CreatePromptRouterRequest = S.suspend(() =>
-  S.Struct({
-    clientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    promptRouterName: S.String,
-    models: PromptRouterTargetModels,
-    description: S.optional(SensitiveString),
-    routingCriteria: RoutingCriteria,
-    fallbackModel: PromptRouterTargetModel,
-    tags: S.optional(TagList),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/prompt-routers" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "CreatePromptRouterRequest",
-}) as any as S.Schema<CreatePromptRouterRequest>;
-export interface GetPromptRouterResponse {
-  promptRouterName: string;
-  routingCriteria: RoutingCriteria;
-  description?: string | redacted.Redacted<string>;
-  createdAt?: Date;
-  updatedAt?: Date;
-  promptRouterArn: string;
-  models: (PromptRouterTargetModel & {
-    modelArn: PromptRouterTargetModelArn;
-  })[];
-  fallbackModel: PromptRouterTargetModel & {
-    modelArn: PromptRouterTargetModelArn;
-  };
-  status: PromptRouterStatus;
-  type: PromptRouterType;
-}
-export const GetPromptRouterResponse = S.suspend(() =>
-  S.Struct({
-    promptRouterName: S.String,
-    routingCriteria: RoutingCriteria,
-    description: S.optional(SensitiveString),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    promptRouterArn: S.String,
-    models: PromptRouterTargetModels,
-    fallbackModel: PromptRouterTargetModel,
-    status: PromptRouterStatus,
-    type: PromptRouterType,
-  }),
-).annotations({
-  identifier: "GetPromptRouterResponse",
-}) as any as S.Schema<GetPromptRouterResponse>;
-export interface CreateProvisionedModelThroughputResponse {
-  provisionedModelArn: string;
-}
-export const CreateProvisionedModelThroughputResponse = S.suspend(() =>
-  S.Struct({ provisionedModelArn: S.String }),
-).annotations({
-  identifier: "CreateProvisionedModelThroughputResponse",
-}) as any as S.Schema<CreateProvisionedModelThroughputResponse>;
-export interface GetProvisionedModelThroughputResponse {
-  modelUnits: number;
-  desiredModelUnits: number;
-  provisionedModelName: string;
-  provisionedModelArn: string;
-  modelArn: string;
-  desiredModelArn: string;
-  foundationModelArn: string;
-  status: ProvisionedModelStatus;
-  creationTime: Date;
-  lastModifiedTime: Date;
-  failureMessage?: string;
-  commitmentDuration?: CommitmentDuration;
-  commitmentExpirationTime?: Date;
-}
-export const GetProvisionedModelThroughputResponse = S.suspend(() =>
-  S.Struct({
-    modelUnits: S.Number,
-    desiredModelUnits: S.Number,
-    provisionedModelName: S.String,
-    provisionedModelArn: S.String,
-    modelArn: S.String,
-    desiredModelArn: S.String,
-    foundationModelArn: S.String,
-    status: ProvisionedModelStatus,
-    creationTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    lastModifiedTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    failureMessage: S.optional(S.String),
-    commitmentDuration: S.optional(CommitmentDuration),
-    commitmentExpirationTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
-    ),
-  }),
-).annotations({
-  identifier: "GetProvisionedModelThroughputResponse",
-}) as any as S.Schema<GetProvisionedModelThroughputResponse>;
-export interface CreateFoundationModelAgreementResponse {
-  modelId: string;
-}
-export const CreateFoundationModelAgreementResponse = S.suspend(() =>
-  S.Struct({ modelId: S.String }),
-).annotations({
-  identifier: "CreateFoundationModelAgreementResponse",
-}) as any as S.Schema<CreateFoundationModelAgreementResponse>;
-export interface ListTagsForResourceResponse {
-  tags?: Tag[];
-}
-export const ListTagsForResourceResponse = S.suspend(() =>
-  S.Struct({ tags: S.optional(TagList) }),
-).annotations({
-  identifier: "ListTagsForResourceResponse",
-}) as any as S.Schema<ListTagsForResourceResponse>;
-export type CustomModelDeploymentUpdateStatus =
-  | "Updating"
-  | "UpdateCompleted"
-  | "UpdateFailed"
-  | (string & {});
-export const CustomModelDeploymentUpdateStatus = S.String;
+).annotate({
+  identifier: "ListEvaluationJobsRequest",
+}) as any as S.Schema<ListEvaluationJobsRequest>;
 export type EvaluationTaskTypes = EvaluationTaskType[];
 export const EvaluationTaskTypes = S.Array(EvaluationTaskType);
 export type EvaluationBedrockModelIdentifiers = string[];
@@ -5674,1165 +5071,475 @@ export type EvaluationBedrockKnowledgeBaseIdentifiers = string[];
 export const EvaluationBedrockKnowledgeBaseIdentifiers = S.Array(S.String);
 export type EvaluatorModelIdentifiers = string[];
 export const EvaluatorModelIdentifiers = S.Array(S.String);
-export type ModelModalityList = ModelModality[];
-export const ModelModalityList = S.Array(ModelModality);
-export type ModelCustomizationList = ModelCustomization[];
-export const ModelCustomizationList = S.Array(ModelCustomization);
-export type InferenceTypeList = InferenceType[];
-export const InferenceTypeList = S.Array(InferenceType);
-export type AgreementStatus =
-  | "AVAILABLE"
-  | "PENDING"
-  | "NOT_AVAILABLE"
-  | "ERROR"
-  | (string & {});
-export const AgreementStatus = S.String;
-export interface Validator {
-  s3Uri: string;
-}
-export const Validator = S.suspend(() =>
-  S.Struct({ s3Uri: S.String }),
-).annotations({ identifier: "Validator" }) as any as S.Schema<Validator>;
-export type Validators = Validator[];
-export const Validators = S.Array(Validator);
-export type ReasoningEffort = "low" | "medium" | "high" | (string & {});
-export const ReasoningEffort = S.String;
-export interface AutomatedReasoningPolicySummary {
-  policyArn: string;
-  name: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
-  version: string;
-  policyId: string;
-  createdAt: Date;
-  updatedAt: Date;
-}
-export const AutomatedReasoningPolicySummary = S.suspend(() =>
-  S.Struct({
-    policyArn: S.String,
-    name: SensitiveString,
-    description: S.optional(SensitiveString),
-    version: S.String,
-    policyId: S.String,
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  }),
-).annotations({
-  identifier: "AutomatedReasoningPolicySummary",
-}) as any as S.Schema<AutomatedReasoningPolicySummary>;
-export type AutomatedReasoningPolicySummaries =
-  AutomatedReasoningPolicySummary[];
-export const AutomatedReasoningPolicySummaries = S.Array(
-  AutomatedReasoningPolicySummary,
+export type EvaluationPrecomputedInferenceSourceIdentifiers = string[];
+export const EvaluationPrecomputedInferenceSourceIdentifiers = S.Array(
+  S.String,
 );
-export interface AutomatedReasoningPolicyScenario {
-  expression: string | redacted.Redacted<string>;
-  alternateExpression: string | redacted.Redacted<string>;
-  expectedResult: AutomatedReasoningCheckResult;
-  ruleIds: string[];
+export interface EvaluationModelConfigSummary {
+  bedrockModelIdentifiers?: string[];
+  precomputedInferenceSourceIdentifiers?: string[];
 }
-export const AutomatedReasoningPolicyScenario = S.suspend(() =>
+export const EvaluationModelConfigSummary = S.suspend(() =>
   S.Struct({
-    expression: SensitiveString,
-    alternateExpression: SensitiveString,
-    expectedResult: AutomatedReasoningCheckResult,
-    ruleIds: AutomatedReasoningPolicyDefinitionRuleIdList,
+    bedrockModelIdentifiers: S.optional(EvaluationBedrockModelIdentifiers),
+    precomputedInferenceSourceIdentifiers: S.optional(
+      EvaluationPrecomputedInferenceSourceIdentifiers,
+    ),
   }),
-).annotations({
-  identifier: "AutomatedReasoningPolicyScenario",
-}) as any as S.Schema<AutomatedReasoningPolicyScenario>;
-export interface AutomatedReasoningPolicyBuildWorkflowSummary {
-  policyArn: string;
-  buildWorkflowId: string;
-  status: AutomatedReasoningPolicyBuildWorkflowStatus;
-  buildWorkflowType: AutomatedReasoningPolicyBuildWorkflowType;
-  createdAt: Date;
-  updatedAt: Date;
+).annotate({
+  identifier: "EvaluationModelConfigSummary",
+}) as any as S.Schema<EvaluationModelConfigSummary>;
+export type EvaluationPrecomputedRagSourceIdentifiers = string[];
+export const EvaluationPrecomputedRagSourceIdentifiers = S.Array(S.String);
+export interface EvaluationRagConfigSummary {
+  bedrockKnowledgeBaseIdentifiers?: string[];
+  precomputedRagSourceIdentifiers?: string[];
 }
-export const AutomatedReasoningPolicyBuildWorkflowSummary = S.suspend(() =>
+export const EvaluationRagConfigSummary = S.suspend(() =>
   S.Struct({
-    policyArn: S.String,
-    buildWorkflowId: S.String,
-    status: AutomatedReasoningPolicyBuildWorkflowStatus,
-    buildWorkflowType: AutomatedReasoningPolicyBuildWorkflowType,
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    bedrockKnowledgeBaseIdentifiers: S.optional(
+      EvaluationBedrockKnowledgeBaseIdentifiers,
+    ),
+    precomputedRagSourceIdentifiers: S.optional(
+      EvaluationPrecomputedRagSourceIdentifiers,
+    ),
   }),
-).annotations({
-  identifier: "AutomatedReasoningPolicyBuildWorkflowSummary",
-}) as any as S.Schema<AutomatedReasoningPolicyBuildWorkflowSummary>;
-export type AutomatedReasoningPolicyBuildWorkflowSummaries =
-  AutomatedReasoningPolicyBuildWorkflowSummary[];
-export const AutomatedReasoningPolicyBuildWorkflowSummaries = S.Array(
-  AutomatedReasoningPolicyBuildWorkflowSummary,
-);
-export interface MarketplaceModelEndpointSummary {
-  endpointArn: string;
-  modelSourceIdentifier: string;
-  status?: Status;
-  statusMessage?: string;
-  createdAt: Date;
-  updatedAt: Date;
+).annotate({
+  identifier: "EvaluationRagConfigSummary",
+}) as any as S.Schema<EvaluationRagConfigSummary>;
+export interface EvaluationInferenceConfigSummary {
+  modelConfigSummary?: EvaluationModelConfigSummary;
+  ragConfigSummary?: EvaluationRagConfigSummary;
 }
-export const MarketplaceModelEndpointSummary = S.suspend(() =>
+export const EvaluationInferenceConfigSummary = S.suspend(() =>
   S.Struct({
-    endpointArn: S.String,
-    modelSourceIdentifier: S.String,
-    status: S.optional(Status),
-    statusMessage: S.optional(S.String),
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    modelConfigSummary: S.optional(EvaluationModelConfigSummary),
+    ragConfigSummary: S.optional(EvaluationRagConfigSummary),
   }),
-).annotations({
-  identifier: "MarketplaceModelEndpointSummary",
-}) as any as S.Schema<MarketplaceModelEndpointSummary>;
-export type MarketplaceModelEndpointSummaries =
-  MarketplaceModelEndpointSummary[];
-export const MarketplaceModelEndpointSummaries = S.Array(
-  MarketplaceModelEndpointSummary,
-);
-export interface CustomModelDeploymentUpdateDetails {
-  modelArn: string;
-  updateStatus: CustomModelDeploymentUpdateStatus;
-}
-export const CustomModelDeploymentUpdateDetails = S.suspend(() =>
-  S.Struct({
-    modelArn: S.String,
-    updateStatus: CustomModelDeploymentUpdateStatus,
-  }),
-).annotations({
-  identifier: "CustomModelDeploymentUpdateDetails",
-}) as any as S.Schema<CustomModelDeploymentUpdateDetails>;
-export interface CustomModelDeploymentSummary {
-  customModelDeploymentArn: string;
-  customModelDeploymentName: string;
-  modelArn: string;
-  createdAt: Date;
-  status: CustomModelDeploymentStatus;
-  lastUpdatedAt?: Date;
-  failureMessage?: string;
-}
-export const CustomModelDeploymentSummary = S.suspend(() =>
-  S.Struct({
-    customModelDeploymentArn: S.String,
-    customModelDeploymentName: S.String,
-    modelArn: S.String,
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    status: CustomModelDeploymentStatus,
-    lastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    failureMessage: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "CustomModelDeploymentSummary",
-}) as any as S.Schema<CustomModelDeploymentSummary>;
-export type CustomModelDeploymentSummaryList = CustomModelDeploymentSummary[];
-export const CustomModelDeploymentSummaryList = S.Array(
-  CustomModelDeploymentSummary,
-);
-export interface TrainingMetrics {
-  trainingLoss?: number;
-}
-export const TrainingMetrics = S.suspend(() =>
-  S.Struct({ trainingLoss: S.optional(S.Number) }),
-).annotations({
-  identifier: "TrainingMetrics",
-}) as any as S.Schema<TrainingMetrics>;
-export interface ValidatorMetric {
-  validationLoss?: number;
-}
-export const ValidatorMetric = S.suspend(() =>
-  S.Struct({ validationLoss: S.optional(S.Number) }),
-).annotations({
-  identifier: "ValidatorMetric",
-}) as any as S.Schema<ValidatorMetric>;
-export type ValidationMetrics = ValidatorMetric[];
-export const ValidationMetrics = S.Array(ValidatorMetric);
-export interface CustomModelSummary {
-  modelArn: string;
-  modelName: string;
+).annotate({
+  identifier: "EvaluationInferenceConfigSummary",
+}) as any as S.Schema<EvaluationInferenceConfigSummary>;
+export interface EvaluationSummary {
+  jobArn: string;
+  jobName: string;
+  status: EvaluationJobStatus;
   creationTime: Date;
-  baseModelArn: string;
-  baseModelName: string;
-  customizationType?: CustomizationType;
-  ownerAccountId?: string;
-  modelStatus?: ModelStatus;
+  jobType: EvaluationJobType;
+  evaluationTaskTypes: EvaluationTaskType[];
+  modelIdentifiers?: string[];
+  ragIdentifiers?: string[];
+  evaluatorModelIdentifiers?: string[];
+  customMetricsEvaluatorModelIdentifiers?: string[];
+  inferenceConfigSummary?: EvaluationInferenceConfigSummary;
+  applicationType?: ApplicationType;
 }
-export const CustomModelSummary = S.suspend(() =>
+export const EvaluationSummary = S.suspend(() =>
   S.Struct({
-    modelArn: S.String,
-    modelName: S.String,
-    creationTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    baseModelArn: S.String,
-    baseModelName: S.String,
-    customizationType: S.optional(CustomizationType),
-    ownerAccountId: S.optional(S.String),
-    modelStatus: S.optional(ModelStatus),
+    jobArn: S.String,
+    jobName: S.String,
+    status: EvaluationJobStatus,
+    creationTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    jobType: EvaluationJobType,
+    evaluationTaskTypes: EvaluationTaskTypes,
+    modelIdentifiers: S.optional(EvaluationBedrockModelIdentifiers),
+    ragIdentifiers: S.optional(EvaluationBedrockKnowledgeBaseIdentifiers),
+    evaluatorModelIdentifiers: S.optional(EvaluatorModelIdentifiers),
+    customMetricsEvaluatorModelIdentifiers: S.optional(
+      EvaluatorModelIdentifiers,
+    ),
+    inferenceConfigSummary: S.optional(EvaluationInferenceConfigSummary),
+    applicationType: S.optional(ApplicationType),
   }),
-).annotations({
-  identifier: "CustomModelSummary",
-}) as any as S.Schema<CustomModelSummary>;
-export type CustomModelSummaryList = CustomModelSummary[];
-export const CustomModelSummaryList = S.Array(CustomModelSummary);
-export interface AccountEnforcedGuardrailOutputConfiguration {
-  configId?: string;
-  guardrailArn?: string;
-  guardrailId?: string;
-  inputTags?: InputTags;
-  guardrailVersion?: string;
-  createdAt?: Date;
-  createdBy?: string;
-  updatedAt?: Date;
-  updatedBy?: string;
-  owner?: string;
+).annotate({
+  identifier: "EvaluationSummary",
+}) as any as S.Schema<EvaluationSummary>;
+export type EvaluationSummaries = EvaluationSummary[];
+export const EvaluationSummaries = S.Array(EvaluationSummary);
+export interface ListEvaluationJobsResponse {
+  nextToken?: string;
+  jobSummaries?: EvaluationSummary[];
 }
-export const AccountEnforcedGuardrailOutputConfiguration = S.suspend(() =>
+export const ListEvaluationJobsResponse = S.suspend(() =>
   S.Struct({
-    configId: S.optional(S.String),
-    guardrailArn: S.optional(S.String),
-    guardrailId: S.optional(S.String),
-    inputTags: S.optional(InputTags),
-    guardrailVersion: S.optional(S.String),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    createdBy: S.optional(S.String),
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    updatedBy: S.optional(S.String),
-    owner: S.optional(S.String),
+    nextToken: S.optional(S.String),
+    jobSummaries: S.optional(EvaluationSummaries),
   }),
-).annotations({
-  identifier: "AccountEnforcedGuardrailOutputConfiguration",
-}) as any as S.Schema<AccountEnforcedGuardrailOutputConfiguration>;
-export type AccountEnforcedGuardrailsOutputConfiguration =
-  AccountEnforcedGuardrailOutputConfiguration[];
-export const AccountEnforcedGuardrailsOutputConfiguration = S.Array(
-  AccountEnforcedGuardrailOutputConfiguration,
-);
-export interface BatchDeleteEvaluationJobError {
+).annotate({
+  identifier: "ListEvaluationJobsResponse",
+}) as any as S.Schema<ListEvaluationJobsResponse>;
+export interface StopEvaluationJobRequest {
   jobIdentifier: string | redacted.Redacted<string>;
-  code: string;
-  message?: string;
 }
-export const BatchDeleteEvaluationJobError = S.suspend(() =>
+export const StopEvaluationJobRequest = S.suspend(() =>
   S.Struct({
-    jobIdentifier: SensitiveString,
-    code: S.String,
-    message: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "BatchDeleteEvaluationJobError",
-}) as any as S.Schema<BatchDeleteEvaluationJobError>;
-export type BatchDeleteEvaluationJobErrors = BatchDeleteEvaluationJobError[];
-export const BatchDeleteEvaluationJobErrors = S.Array(
-  BatchDeleteEvaluationJobError,
-);
-export interface BatchDeleteEvaluationJobItem {
-  jobIdentifier: string | redacted.Redacted<string>;
-  jobStatus: EvaluationJobStatus;
+    jobIdentifier: SensitiveString.pipe(T.HttpLabel("jobIdentifier")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/evaluation-job/{jobIdentifier}/stop" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "StopEvaluationJobRequest",
+}) as any as S.Schema<StopEvaluationJobRequest>;
+export interface StopEvaluationJobResponse {}
+export const StopEvaluationJobResponse = S.suspend(() => S.Struct({})).annotate(
+  { identifier: "StopEvaluationJobResponse" },
+) as any as S.Schema<StopEvaluationJobResponse>;
+export type GuardrailTopicExamples = string | redacted.Redacted<string>[];
+export const GuardrailTopicExamples = S.Array(SensitiveString);
+export type GuardrailTopicType = "DENY" | (string & {});
+export const GuardrailTopicType = S.String;
+export type GuardrailTopicAction = "BLOCK" | "NONE" | (string & {});
+export const GuardrailTopicAction = S.String;
+export interface GuardrailTopicConfig {
+  name: string | redacted.Redacted<string>;
+  definition: string | redacted.Redacted<string>;
+  examples?: string | redacted.Redacted<string>[];
+  type: GuardrailTopicType;
+  inputAction?: GuardrailTopicAction;
+  outputAction?: GuardrailTopicAction;
+  inputEnabled?: boolean;
+  outputEnabled?: boolean;
 }
-export const BatchDeleteEvaluationJobItem = S.suspend(() =>
-  S.Struct({ jobIdentifier: SensitiveString, jobStatus: EvaluationJobStatus }),
-).annotations({
-  identifier: "BatchDeleteEvaluationJobItem",
-}) as any as S.Schema<BatchDeleteEvaluationJobItem>;
-export type BatchDeleteEvaluationJobItems = BatchDeleteEvaluationJobItem[];
-export const BatchDeleteEvaluationJobItems = S.Array(
-  BatchDeleteEvaluationJobItem,
+export const GuardrailTopicConfig = S.suspend(() =>
+  S.Struct({
+    name: SensitiveString,
+    definition: SensitiveString,
+    examples: S.optional(GuardrailTopicExamples),
+    type: GuardrailTopicType,
+    inputAction: S.optional(GuardrailTopicAction),
+    outputAction: S.optional(GuardrailTopicAction),
+    inputEnabled: S.optional(S.Boolean),
+    outputEnabled: S.optional(S.Boolean),
+  }),
+).annotate({
+  identifier: "GuardrailTopicConfig",
+}) as any as S.Schema<GuardrailTopicConfig>;
+export type GuardrailTopicsConfig = GuardrailTopicConfig[];
+export const GuardrailTopicsConfig = S.Array(GuardrailTopicConfig);
+export type GuardrailTopicsTierName = "CLASSIC" | "STANDARD" | (string & {});
+export const GuardrailTopicsTierName = S.String;
+export interface GuardrailTopicsTierConfig {
+  tierName: GuardrailTopicsTierName;
+}
+export const GuardrailTopicsTierConfig = S.suspend(() =>
+  S.Struct({ tierName: GuardrailTopicsTierName }),
+).annotate({
+  identifier: "GuardrailTopicsTierConfig",
+}) as any as S.Schema<GuardrailTopicsTierConfig>;
+export interface GuardrailTopicPolicyConfig {
+  topicsConfig: GuardrailTopicConfig[];
+  tierConfig?: GuardrailTopicsTierConfig;
+}
+export const GuardrailTopicPolicyConfig = S.suspend(() =>
+  S.Struct({
+    topicsConfig: GuardrailTopicsConfig,
+    tierConfig: S.optional(GuardrailTopicsTierConfig),
+  }),
+).annotate({
+  identifier: "GuardrailTopicPolicyConfig",
+}) as any as S.Schema<GuardrailTopicPolicyConfig>;
+export type GuardrailContentFilterType =
+  | "SEXUAL"
+  | "VIOLENCE"
+  | "HATE"
+  | "INSULTS"
+  | "MISCONDUCT"
+  | "PROMPT_ATTACK"
+  | (string & {});
+export const GuardrailContentFilterType = S.String;
+export type GuardrailFilterStrength =
+  | "NONE"
+  | "LOW"
+  | "MEDIUM"
+  | "HIGH"
+  | (string & {});
+export const GuardrailFilterStrength = S.String;
+export type GuardrailModality = "TEXT" | "IMAGE" | (string & {});
+export const GuardrailModality = S.String;
+export type GuardrailModalities = GuardrailModality[];
+export const GuardrailModalities = S.Array(GuardrailModality);
+export type GuardrailContentFilterAction = "BLOCK" | "NONE" | (string & {});
+export const GuardrailContentFilterAction = S.String;
+export interface GuardrailContentFilterConfig {
+  type: GuardrailContentFilterType;
+  inputStrength: GuardrailFilterStrength;
+  outputStrength: GuardrailFilterStrength;
+  inputModalities?: GuardrailModality[];
+  outputModalities?: GuardrailModality[];
+  inputAction?: GuardrailContentFilterAction;
+  outputAction?: GuardrailContentFilterAction;
+  inputEnabled?: boolean;
+  outputEnabled?: boolean;
+}
+export const GuardrailContentFilterConfig = S.suspend(() =>
+  S.Struct({
+    type: GuardrailContentFilterType,
+    inputStrength: GuardrailFilterStrength,
+    outputStrength: GuardrailFilterStrength,
+    inputModalities: S.optional(GuardrailModalities),
+    outputModalities: S.optional(GuardrailModalities),
+    inputAction: S.optional(GuardrailContentFilterAction),
+    outputAction: S.optional(GuardrailContentFilterAction),
+    inputEnabled: S.optional(S.Boolean),
+    outputEnabled: S.optional(S.Boolean),
+  }),
+).annotate({
+  identifier: "GuardrailContentFilterConfig",
+}) as any as S.Schema<GuardrailContentFilterConfig>;
+export type GuardrailContentFiltersConfig = GuardrailContentFilterConfig[];
+export const GuardrailContentFiltersConfig = S.Array(
+  GuardrailContentFilterConfig,
 );
-export interface GuardrailAutomatedReasoningPolicy {
+export type GuardrailContentFiltersTierName =
+  | "CLASSIC"
+  | "STANDARD"
+  | (string & {});
+export const GuardrailContentFiltersTierName = S.String;
+export interface GuardrailContentFiltersTierConfig {
+  tierName: GuardrailContentFiltersTierName;
+}
+export const GuardrailContentFiltersTierConfig = S.suspend(() =>
+  S.Struct({ tierName: GuardrailContentFiltersTierName }),
+).annotate({
+  identifier: "GuardrailContentFiltersTierConfig",
+}) as any as S.Schema<GuardrailContentFiltersTierConfig>;
+export interface GuardrailContentPolicyConfig {
+  filtersConfig: GuardrailContentFilterConfig[];
+  tierConfig?: GuardrailContentFiltersTierConfig;
+}
+export const GuardrailContentPolicyConfig = S.suspend(() =>
+  S.Struct({
+    filtersConfig: GuardrailContentFiltersConfig,
+    tierConfig: S.optional(GuardrailContentFiltersTierConfig),
+  }),
+).annotate({
+  identifier: "GuardrailContentPolicyConfig",
+}) as any as S.Schema<GuardrailContentPolicyConfig>;
+export type GuardrailWordAction = "BLOCK" | "NONE" | (string & {});
+export const GuardrailWordAction = S.String;
+export interface GuardrailWordConfig {
+  text: string;
+  inputAction?: GuardrailWordAction;
+  outputAction?: GuardrailWordAction;
+  inputEnabled?: boolean;
+  outputEnabled?: boolean;
+}
+export const GuardrailWordConfig = S.suspend(() =>
+  S.Struct({
+    text: S.String,
+    inputAction: S.optional(GuardrailWordAction),
+    outputAction: S.optional(GuardrailWordAction),
+    inputEnabled: S.optional(S.Boolean),
+    outputEnabled: S.optional(S.Boolean),
+  }),
+).annotate({
+  identifier: "GuardrailWordConfig",
+}) as any as S.Schema<GuardrailWordConfig>;
+export type GuardrailWordsConfig = GuardrailWordConfig[];
+export const GuardrailWordsConfig = S.Array(GuardrailWordConfig);
+export type GuardrailManagedWordsType = "PROFANITY" | (string & {});
+export const GuardrailManagedWordsType = S.String;
+export interface GuardrailManagedWordsConfig {
+  type: GuardrailManagedWordsType;
+  inputAction?: GuardrailWordAction;
+  outputAction?: GuardrailWordAction;
+  inputEnabled?: boolean;
+  outputEnabled?: boolean;
+}
+export const GuardrailManagedWordsConfig = S.suspend(() =>
+  S.Struct({
+    type: GuardrailManagedWordsType,
+    inputAction: S.optional(GuardrailWordAction),
+    outputAction: S.optional(GuardrailWordAction),
+    inputEnabled: S.optional(S.Boolean),
+    outputEnabled: S.optional(S.Boolean),
+  }),
+).annotate({
+  identifier: "GuardrailManagedWordsConfig",
+}) as any as S.Schema<GuardrailManagedWordsConfig>;
+export type GuardrailManagedWordListsConfig = GuardrailManagedWordsConfig[];
+export const GuardrailManagedWordListsConfig = S.Array(
+  GuardrailManagedWordsConfig,
+);
+export interface GuardrailWordPolicyConfig {
+  wordsConfig?: GuardrailWordConfig[];
+  managedWordListsConfig?: GuardrailManagedWordsConfig[];
+}
+export const GuardrailWordPolicyConfig = S.suspend(() =>
+  S.Struct({
+    wordsConfig: S.optional(GuardrailWordsConfig),
+    managedWordListsConfig: S.optional(GuardrailManagedWordListsConfig),
+  }),
+).annotate({
+  identifier: "GuardrailWordPolicyConfig",
+}) as any as S.Schema<GuardrailWordPolicyConfig>;
+export type GuardrailPiiEntityType =
+  | "ADDRESS"
+  | "AGE"
+  | "AWS_ACCESS_KEY"
+  | "AWS_SECRET_KEY"
+  | "CA_HEALTH_NUMBER"
+  | "CA_SOCIAL_INSURANCE_NUMBER"
+  | "CREDIT_DEBIT_CARD_CVV"
+  | "CREDIT_DEBIT_CARD_EXPIRY"
+  | "CREDIT_DEBIT_CARD_NUMBER"
+  | "DRIVER_ID"
+  | "EMAIL"
+  | "INTERNATIONAL_BANK_ACCOUNT_NUMBER"
+  | "IP_ADDRESS"
+  | "LICENSE_PLATE"
+  | "MAC_ADDRESS"
+  | "NAME"
+  | "PASSWORD"
+  | "PHONE"
+  | "PIN"
+  | "SWIFT_CODE"
+  | "UK_NATIONAL_HEALTH_SERVICE_NUMBER"
+  | "UK_NATIONAL_INSURANCE_NUMBER"
+  | "UK_UNIQUE_TAXPAYER_REFERENCE_NUMBER"
+  | "URL"
+  | "USERNAME"
+  | "US_BANK_ACCOUNT_NUMBER"
+  | "US_BANK_ROUTING_NUMBER"
+  | "US_INDIVIDUAL_TAX_IDENTIFICATION_NUMBER"
+  | "US_PASSPORT_NUMBER"
+  | "US_SOCIAL_SECURITY_NUMBER"
+  | "VEHICLE_IDENTIFICATION_NUMBER"
+  | (string & {});
+export const GuardrailPiiEntityType = S.String;
+export type GuardrailSensitiveInformationAction =
+  | "BLOCK"
+  | "ANONYMIZE"
+  | "NONE"
+  | (string & {});
+export const GuardrailSensitiveInformationAction = S.String;
+export interface GuardrailPiiEntityConfig {
+  type: GuardrailPiiEntityType;
+  action: GuardrailSensitiveInformationAction;
+  inputAction?: GuardrailSensitiveInformationAction;
+  outputAction?: GuardrailSensitiveInformationAction;
+  inputEnabled?: boolean;
+  outputEnabled?: boolean;
+}
+export const GuardrailPiiEntityConfig = S.suspend(() =>
+  S.Struct({
+    type: GuardrailPiiEntityType,
+    action: GuardrailSensitiveInformationAction,
+    inputAction: S.optional(GuardrailSensitiveInformationAction),
+    outputAction: S.optional(GuardrailSensitiveInformationAction),
+    inputEnabled: S.optional(S.Boolean),
+    outputEnabled: S.optional(S.Boolean),
+  }),
+).annotate({
+  identifier: "GuardrailPiiEntityConfig",
+}) as any as S.Schema<GuardrailPiiEntityConfig>;
+export type GuardrailPiiEntitiesConfig = GuardrailPiiEntityConfig[];
+export const GuardrailPiiEntitiesConfig = S.Array(GuardrailPiiEntityConfig);
+export interface GuardrailRegexConfig {
+  name: string;
+  description?: string;
+  pattern: string;
+  action: GuardrailSensitiveInformationAction;
+  inputAction?: GuardrailSensitiveInformationAction;
+  outputAction?: GuardrailSensitiveInformationAction;
+  inputEnabled?: boolean;
+  outputEnabled?: boolean;
+}
+export const GuardrailRegexConfig = S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    description: S.optional(S.String),
+    pattern: S.String,
+    action: GuardrailSensitiveInformationAction,
+    inputAction: S.optional(GuardrailSensitiveInformationAction),
+    outputAction: S.optional(GuardrailSensitiveInformationAction),
+    inputEnabled: S.optional(S.Boolean),
+    outputEnabled: S.optional(S.Boolean),
+  }),
+).annotate({
+  identifier: "GuardrailRegexConfig",
+}) as any as S.Schema<GuardrailRegexConfig>;
+export type GuardrailRegexesConfig = GuardrailRegexConfig[];
+export const GuardrailRegexesConfig = S.Array(GuardrailRegexConfig);
+export interface GuardrailSensitiveInformationPolicyConfig {
+  piiEntitiesConfig?: GuardrailPiiEntityConfig[];
+  regexesConfig?: GuardrailRegexConfig[];
+}
+export const GuardrailSensitiveInformationPolicyConfig = S.suspend(() =>
+  S.Struct({
+    piiEntitiesConfig: S.optional(GuardrailPiiEntitiesConfig),
+    regexesConfig: S.optional(GuardrailRegexesConfig),
+  }),
+).annotate({
+  identifier: "GuardrailSensitiveInformationPolicyConfig",
+}) as any as S.Schema<GuardrailSensitiveInformationPolicyConfig>;
+export type GuardrailContextualGroundingFilterType =
+  | "GROUNDING"
+  | "RELEVANCE"
+  | (string & {});
+export const GuardrailContextualGroundingFilterType = S.String;
+export type GuardrailContextualGroundingAction =
+  | "BLOCK"
+  | "NONE"
+  | (string & {});
+export const GuardrailContextualGroundingAction = S.String;
+export interface GuardrailContextualGroundingFilterConfig {
+  type: GuardrailContextualGroundingFilterType;
+  threshold: number;
+  action?: GuardrailContextualGroundingAction;
+  enabled?: boolean;
+}
+export const GuardrailContextualGroundingFilterConfig = S.suspend(() =>
+  S.Struct({
+    type: GuardrailContextualGroundingFilterType,
+    threshold: S.Number,
+    action: S.optional(GuardrailContextualGroundingAction),
+    enabled: S.optional(S.Boolean),
+  }),
+).annotate({
+  identifier: "GuardrailContextualGroundingFilterConfig",
+}) as any as S.Schema<GuardrailContextualGroundingFilterConfig>;
+export type GuardrailContextualGroundingFiltersConfig =
+  GuardrailContextualGroundingFilterConfig[];
+export const GuardrailContextualGroundingFiltersConfig = S.Array(
+  GuardrailContextualGroundingFilterConfig,
+);
+export interface GuardrailContextualGroundingPolicyConfig {
+  filtersConfig: GuardrailContextualGroundingFilterConfig[];
+}
+export const GuardrailContextualGroundingPolicyConfig = S.suspend(() =>
+  S.Struct({ filtersConfig: GuardrailContextualGroundingFiltersConfig }),
+).annotate({
+  identifier: "GuardrailContextualGroundingPolicyConfig",
+}) as any as S.Schema<GuardrailContextualGroundingPolicyConfig>;
+export type AutomatedReasoningPolicyArnList = string[];
+export const AutomatedReasoningPolicyArnList = S.Array(S.String);
+export interface GuardrailAutomatedReasoningPolicyConfig {
   policies: string[];
   confidenceThreshold?: number;
 }
-export const GuardrailAutomatedReasoningPolicy = S.suspend(() =>
+export const GuardrailAutomatedReasoningPolicyConfig = S.suspend(() =>
   S.Struct({
     policies: AutomatedReasoningPolicyArnList,
     confidenceThreshold: S.optional(S.Number),
   }),
-).annotations({
-  identifier: "GuardrailAutomatedReasoningPolicy",
-}) as any as S.Schema<GuardrailAutomatedReasoningPolicy>;
-export interface GuardrailCrossRegionDetails {
-  guardrailProfileId?: string;
-  guardrailProfileArn?: string;
+).annotate({
+  identifier: "GuardrailAutomatedReasoningPolicyConfig",
+}) as any as S.Schema<GuardrailAutomatedReasoningPolicyConfig>;
+export interface GuardrailCrossRegionConfig {
+  guardrailProfileIdentifier: string;
 }
-export const GuardrailCrossRegionDetails = S.suspend(() =>
-  S.Struct({
-    guardrailProfileId: S.optional(S.String),
-    guardrailProfileArn: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "GuardrailCrossRegionDetails",
-}) as any as S.Schema<GuardrailCrossRegionDetails>;
-export interface GuardrailSummary {
-  id: string;
-  arn: string;
-  status: GuardrailStatus;
-  name: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
-  version: string;
-  createdAt: Date;
-  updatedAt: Date;
-  crossRegionDetails?: GuardrailCrossRegionDetails;
-}
-export const GuardrailSummary = S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    arn: S.String,
-    status: GuardrailStatus,
-    name: SensitiveString,
-    description: S.optional(SensitiveString),
-    version: S.String,
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    crossRegionDetails: S.optional(GuardrailCrossRegionDetails),
-  }),
-).annotations({
-  identifier: "GuardrailSummary",
-}) as any as S.Schema<GuardrailSummary>;
-export type GuardrailSummaries = GuardrailSummary[];
-export const GuardrailSummaries = S.Array(GuardrailSummary);
-export interface InferenceProfileModel {
-  modelArn?: string;
-}
-export const InferenceProfileModel = S.suspend(() =>
-  S.Struct({ modelArn: S.optional(S.String) }),
-).annotations({
-  identifier: "InferenceProfileModel",
-}) as any as S.Schema<InferenceProfileModel>;
-export type InferenceProfileModels = InferenceProfileModel[];
-export const InferenceProfileModels = S.Array(InferenceProfileModel);
-export interface InferenceProfileSummary {
-  inferenceProfileName: string;
-  description?: string | redacted.Redacted<string>;
-  createdAt?: Date;
-  updatedAt?: Date;
-  inferenceProfileArn: string;
-  models: InferenceProfileModel[];
-  inferenceProfileId: string;
-  status: InferenceProfileStatus;
-  type: InferenceProfileType;
-}
-export const InferenceProfileSummary = S.suspend(() =>
-  S.Struct({
-    inferenceProfileName: S.String,
-    description: S.optional(SensitiveString),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    inferenceProfileArn: S.String,
-    models: InferenceProfileModels,
-    inferenceProfileId: S.String,
-    status: InferenceProfileStatus,
-    type: InferenceProfileType,
-  }),
-).annotations({
-  identifier: "InferenceProfileSummary",
-}) as any as S.Schema<InferenceProfileSummary>;
-export type InferenceProfileSummaries = InferenceProfileSummary[];
-export const InferenceProfileSummaries = S.Array(InferenceProfileSummary);
-export interface ModelCopyJobSummary {
-  jobArn: string;
-  status: ModelCopyJobStatus;
-  creationTime: Date;
-  targetModelArn: string;
-  targetModelName?: string;
-  sourceAccountId: string;
-  sourceModelArn: string;
-  targetModelKmsKeyArn?: string;
-  targetModelTags?: Tag[];
-  failureMessage?: string;
-  sourceModelName?: string;
-}
-export const ModelCopyJobSummary = S.suspend(() =>
-  S.Struct({
-    jobArn: S.String,
-    status: ModelCopyJobStatus,
-    creationTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    targetModelArn: S.String,
-    targetModelName: S.optional(S.String),
-    sourceAccountId: S.String,
-    sourceModelArn: S.String,
-    targetModelKmsKeyArn: S.optional(S.String),
-    targetModelTags: S.optional(TagList),
-    failureMessage: S.optional(S.String),
-    sourceModelName: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "ModelCopyJobSummary",
-}) as any as S.Schema<ModelCopyJobSummary>;
-export type ModelCopyJobSummaries = ModelCopyJobSummary[];
-export const ModelCopyJobSummaries = S.Array(ModelCopyJobSummary);
-export interface CustomModelUnits {
-  customModelUnitsPerModelCopy?: number;
-  customModelUnitsVersion?: string;
-}
-export const CustomModelUnits = S.suspend(() =>
-  S.Struct({
-    customModelUnitsPerModelCopy: S.optional(S.Number),
-    customModelUnitsVersion: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "CustomModelUnits",
-}) as any as S.Schema<CustomModelUnits>;
-export interface ImportedModelSummary {
-  modelArn: string;
-  modelName: string;
-  creationTime: Date;
-  instructSupported?: boolean;
-  modelArchitecture?: string;
-}
-export const ImportedModelSummary = S.suspend(() =>
-  S.Struct({
-    modelArn: S.String,
-    modelName: S.String,
-    creationTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    instructSupported: S.optional(S.Boolean),
-    modelArchitecture: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "ImportedModelSummary",
-}) as any as S.Schema<ImportedModelSummary>;
-export type ImportedModelSummaryList = ImportedModelSummary[];
-export const ImportedModelSummaryList = S.Array(ImportedModelSummary);
-export interface ModelImportJobSummary {
-  jobArn: string;
-  jobName: string;
-  status: ModelImportJobStatus;
-  lastModifiedTime?: Date;
-  creationTime: Date;
-  endTime?: Date;
-  importedModelArn?: string;
-  importedModelName?: string;
-}
-export const ModelImportJobSummary = S.suspend(() =>
-  S.Struct({
-    jobArn: S.String,
-    jobName: S.String,
-    status: ModelImportJobStatus,
-    lastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    creationTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    endTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    importedModelArn: S.optional(S.String),
-    importedModelName: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "ModelImportJobSummary",
-}) as any as S.Schema<ModelImportJobSummary>;
-export type ModelImportJobSummaries = ModelImportJobSummary[];
-export const ModelImportJobSummaries = S.Array(ModelImportJobSummary);
-export interface ModelInvocationJobSummary {
-  jobArn: string;
-  jobName: string;
-  modelId: string;
-  clientRequestToken?: string;
-  roleArn: string;
-  status?: ModelInvocationJobStatus;
-  message?: string | redacted.Redacted<string>;
-  submitTime: Date;
-  lastModifiedTime?: Date;
-  endTime?: Date;
-  inputDataConfig: ModelInvocationJobInputDataConfig;
-  outputDataConfig: ModelInvocationJobOutputDataConfig;
-  vpcConfig?: VpcConfig;
-  timeoutDurationInHours?: number;
-  jobExpirationTime?: Date;
-}
-export const ModelInvocationJobSummary = S.suspend(() =>
-  S.Struct({
-    jobArn: S.String,
-    jobName: S.String,
-    modelId: S.String,
-    clientRequestToken: S.optional(S.String),
-    roleArn: S.String,
-    status: S.optional(ModelInvocationJobStatus),
-    message: S.optional(SensitiveString),
-    submitTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    lastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    endTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    inputDataConfig: ModelInvocationJobInputDataConfig,
-    outputDataConfig: ModelInvocationJobOutputDataConfig,
-    vpcConfig: S.optional(VpcConfig),
-    timeoutDurationInHours: S.optional(S.Number),
-    jobExpirationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  }),
-).annotations({
-  identifier: "ModelInvocationJobSummary",
-}) as any as S.Schema<ModelInvocationJobSummary>;
-export type ModelInvocationJobSummaries = ModelInvocationJobSummary[];
-export const ModelInvocationJobSummaries = S.Array(ModelInvocationJobSummary);
-export type FoundationModelLifecycleStatus =
-  | "ACTIVE"
-  | "LEGACY"
-  | (string & {});
-export const FoundationModelLifecycleStatus = S.String;
-export interface FoundationModelLifecycle {
-  status: FoundationModelLifecycleStatus;
-}
-export const FoundationModelLifecycle = S.suspend(() =>
-  S.Struct({ status: FoundationModelLifecycleStatus }),
-).annotations({
-  identifier: "FoundationModelLifecycle",
-}) as any as S.Schema<FoundationModelLifecycle>;
-export interface FoundationModelSummary {
-  modelArn: string;
-  modelId: string;
-  modelName?: string;
-  providerName?: string;
-  inputModalities?: ModelModality[];
-  outputModalities?: ModelModality[];
-  responseStreamingSupported?: boolean;
-  customizationsSupported?: ModelCustomization[];
-  inferenceTypesSupported?: InferenceType[];
-  modelLifecycle?: FoundationModelLifecycle;
-}
-export const FoundationModelSummary = S.suspend(() =>
-  S.Struct({
-    modelArn: S.String,
-    modelId: S.String,
-    modelName: S.optional(S.String),
-    providerName: S.optional(S.String),
-    inputModalities: S.optional(ModelModalityList),
-    outputModalities: S.optional(ModelModalityList),
-    responseStreamingSupported: S.optional(S.Boolean),
-    customizationsSupported: S.optional(ModelCustomizationList),
-    inferenceTypesSupported: S.optional(InferenceTypeList),
-    modelLifecycle: S.optional(FoundationModelLifecycle),
-  }),
-).annotations({
-  identifier: "FoundationModelSummary",
-}) as any as S.Schema<FoundationModelSummary>;
-export type FoundationModelSummaryList = FoundationModelSummary[];
-export const FoundationModelSummaryList = S.Array(FoundationModelSummary);
-export interface PromptRouterSummary {
-  promptRouterName: string;
-  routingCriteria: RoutingCriteria;
-  description?: string | redacted.Redacted<string>;
-  createdAt?: Date;
-  updatedAt?: Date;
-  promptRouterArn: string;
-  models: PromptRouterTargetModel[];
-  fallbackModel: PromptRouterTargetModel;
-  status: PromptRouterStatus;
-  type: PromptRouterType;
-}
-export const PromptRouterSummary = S.suspend(() =>
-  S.Struct({
-    promptRouterName: S.String,
-    routingCriteria: RoutingCriteria,
-    description: S.optional(SensitiveString),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    promptRouterArn: S.String,
-    models: PromptRouterTargetModels,
-    fallbackModel: PromptRouterTargetModel,
-    status: PromptRouterStatus,
-    type: PromptRouterType,
-  }),
-).annotations({
-  identifier: "PromptRouterSummary",
-}) as any as S.Schema<PromptRouterSummary>;
-export type PromptRouterSummaries = PromptRouterSummary[];
-export const PromptRouterSummaries = S.Array(PromptRouterSummary);
-export interface ProvisionedModelSummary {
-  provisionedModelName: string;
-  provisionedModelArn: string;
-  modelArn: string;
-  desiredModelArn: string;
-  foundationModelArn: string;
-  modelUnits: number;
-  desiredModelUnits: number;
-  status: ProvisionedModelStatus;
-  commitmentDuration?: CommitmentDuration;
-  commitmentExpirationTime?: Date;
-  creationTime: Date;
-  lastModifiedTime: Date;
-}
-export const ProvisionedModelSummary = S.suspend(() =>
-  S.Struct({
-    provisionedModelName: S.String,
-    provisionedModelArn: S.String,
-    modelArn: S.String,
-    desiredModelArn: S.String,
-    foundationModelArn: S.String,
-    modelUnits: S.Number,
-    desiredModelUnits: S.Number,
-    status: ProvisionedModelStatus,
-    commitmentDuration: S.optional(CommitmentDuration),
-    commitmentExpirationTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
-    ),
-    creationTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    lastModifiedTime: S.Date.pipe(T.TimestampFormat("date-time")),
-  }),
-).annotations({
-  identifier: "ProvisionedModelSummary",
-}) as any as S.Schema<ProvisionedModelSummary>;
-export type ProvisionedModelSummaries = ProvisionedModelSummary[];
-export const ProvisionedModelSummaries = S.Array(ProvisionedModelSummary);
-export interface AgreementAvailability {
-  status: AgreementStatus;
-  errorMessage?: string;
-}
-export const AgreementAvailability = S.suspend(() =>
-  S.Struct({ status: AgreementStatus, errorMessage: S.optional(S.String) }),
-).annotations({
-  identifier: "AgreementAvailability",
-}) as any as S.Schema<AgreementAvailability>;
-export interface ValidationDataConfig {
-  validators: Validator[];
-}
-export const ValidationDataConfig = S.suspend(() =>
-  S.Struct({ validators: Validators }),
-).annotations({
-  identifier: "ValidationDataConfig",
-}) as any as S.Schema<ValidationDataConfig>;
-export type JobStatusDetails =
-  | "InProgress"
-  | "Completed"
-  | "Stopping"
-  | "Stopped"
-  | "Failed"
-  | "NotStarted"
-  | (string & {});
-export const JobStatusDetails = S.String;
-export interface ValidationDetails {
-  status?: JobStatusDetails;
-  creationTime?: Date;
-  lastModifiedTime?: Date;
-}
-export const ValidationDetails = S.suspend(() =>
-  S.Struct({
-    status: S.optional(JobStatusDetails),
-    creationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    lastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  }),
-).annotations({
-  identifier: "ValidationDetails",
-}) as any as S.Schema<ValidationDetails>;
-export interface DataProcessingDetails {
-  status?: JobStatusDetails;
-  creationTime?: Date;
-  lastModifiedTime?: Date;
-}
-export const DataProcessingDetails = S.suspend(() =>
-  S.Struct({
-    status: S.optional(JobStatusDetails),
-    creationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    lastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  }),
-).annotations({
-  identifier: "DataProcessingDetails",
-}) as any as S.Schema<DataProcessingDetails>;
-export interface TrainingDetails {
-  status?: JobStatusDetails;
-  creationTime?: Date;
-  lastModifiedTime?: Date;
-}
-export const TrainingDetails = S.suspend(() =>
-  S.Struct({
-    status: S.optional(JobStatusDetails),
-    creationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    lastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  }),
-).annotations({
-  identifier: "TrainingDetails",
-}) as any as S.Schema<TrainingDetails>;
-export interface StatusDetails {
-  validationDetails?: ValidationDetails;
-  dataProcessingDetails?: DataProcessingDetails;
-  trainingDetails?: TrainingDetails;
-}
-export const StatusDetails = S.suspend(() =>
-  S.Struct({
-    validationDetails: S.optional(ValidationDetails),
-    dataProcessingDetails: S.optional(DataProcessingDetails),
-    trainingDetails: S.optional(TrainingDetails),
-  }),
-).annotations({
-  identifier: "StatusDetails",
-}) as any as S.Schema<StatusDetails>;
-export interface ModelCustomizationJobSummary {
-  jobArn: string;
-  baseModelArn: string;
-  jobName: string;
-  status: ModelCustomizationJobStatus;
-  statusDetails?: StatusDetails;
-  lastModifiedTime?: Date;
-  creationTime: Date;
-  endTime?: Date;
-  customModelArn?: string;
-  customModelName?: string;
-  customizationType?: CustomizationType;
-}
-export const ModelCustomizationJobSummary = S.suspend(() =>
-  S.Struct({
-    jobArn: S.String,
-    baseModelArn: S.String,
-    jobName: S.String,
-    status: ModelCustomizationJobStatus,
-    statusDetails: S.optional(StatusDetails),
-    lastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    creationTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    endTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    customModelArn: S.optional(S.String),
-    customModelName: S.optional(S.String),
-    customizationType: S.optional(CustomizationType),
-  }),
-).annotations({
-  identifier: "ModelCustomizationJobSummary",
-}) as any as S.Schema<ModelCustomizationJobSummary>;
-export type ModelCustomizationJobSummaries = ModelCustomizationJobSummary[];
-export const ModelCustomizationJobSummaries = S.Array(
-  ModelCustomizationJobSummary,
-);
-export type AutomatedReasoningPolicyDefinitionTypeNameList =
-  | string
-  | redacted.Redacted<string>[];
-export const AutomatedReasoningPolicyDefinitionTypeNameList =
-  S.Array(SensitiveString);
-export type AutomatedReasoningPolicyDefinitionVariableNameList =
-  | string
-  | redacted.Redacted<string>[];
-export const AutomatedReasoningPolicyDefinitionVariableNameList =
-  S.Array(SensitiveString);
-export type AutomatedReasoningPolicyConflictedRuleIdList = string[];
-export const AutomatedReasoningPolicyConflictedRuleIdList = S.Array(S.String);
-export type AutomatedReasoningPolicyScenarioList =
-  AutomatedReasoningPolicyScenario[];
-export const AutomatedReasoningPolicyScenarioList = S.Array(
-  AutomatedReasoningPolicyScenario,
-);
-export interface AutomatedReasoningPolicyBuildWorkflowDocument {
-  document: Uint8Array | redacted.Redacted<Uint8Array>;
-  documentContentType: AutomatedReasoningPolicyBuildDocumentContentType;
-  documentName: string | redacted.Redacted<string>;
-  documentDescription?: string | redacted.Redacted<string>;
-}
-export const AutomatedReasoningPolicyBuildWorkflowDocument = S.suspend(() =>
-  S.Struct({
-    document: SensitiveBlob,
-    documentContentType: AutomatedReasoningPolicyBuildDocumentContentType,
-    documentName: SensitiveString,
-    documentDescription: S.optional(SensitiveString),
-  }),
-).annotations({
-  identifier: "AutomatedReasoningPolicyBuildWorkflowDocument",
-}) as any as S.Schema<AutomatedReasoningPolicyBuildWorkflowDocument>;
-export type AutomatedReasoningPolicyBuildWorkflowDocumentList =
-  AutomatedReasoningPolicyBuildWorkflowDocument[];
-export const AutomatedReasoningPolicyBuildWorkflowDocumentList = S.Array(
-  AutomatedReasoningPolicyBuildWorkflowDocument,
-);
-export interface AutomatedReasoningPolicyBuildWorkflowRepairContent {
-  annotations: AutomatedReasoningPolicyAnnotation[];
-}
-export const AutomatedReasoningPolicyBuildWorkflowRepairContent = S.suspend(
-  () => S.Struct({ annotations: AutomatedReasoningPolicyAnnotationList }),
-).annotations({
-  identifier: "AutomatedReasoningPolicyBuildWorkflowRepairContent",
-}) as any as S.Schema<AutomatedReasoningPolicyBuildWorkflowRepairContent>;
-export type InvocationLogSource = { s3Uri: string };
-export const InvocationLogSource = S.Union(S.Struct({ s3Uri: S.String }));
-export interface TeacherModelConfig {
-  teacherModelIdentifier: string;
-  maxResponseLengthForInference?: number;
-}
-export const TeacherModelConfig = S.suspend(() =>
-  S.Struct({
-    teacherModelIdentifier: S.String,
-    maxResponseLengthForInference: S.optional(S.Number),
-  }),
-).annotations({
-  identifier: "TeacherModelConfig",
-}) as any as S.Schema<TeacherModelConfig>;
-export interface RFTHyperParameters {
-  epochCount?: number;
-  batchSize?: number;
-  learningRate?: number;
-  maxPromptLength?: number;
-  trainingSamplePerPrompt?: number;
-  inferenceMaxTokens?: number;
-  reasoningEffort?: ReasoningEffort;
-  evalInterval?: number;
-}
-export const RFTHyperParameters = S.suspend(() =>
-  S.Struct({
-    epochCount: S.optional(S.Number),
-    batchSize: S.optional(S.Number),
-    learningRate: S.optional(S.Number),
-    maxPromptLength: S.optional(S.Number),
-    trainingSamplePerPrompt: S.optional(S.Number),
-    inferenceMaxTokens: S.optional(S.Number),
-    reasoningEffort: S.optional(ReasoningEffort),
-    evalInterval: S.optional(S.Number),
-  }),
-).annotations({
-  identifier: "RFTHyperParameters",
-}) as any as S.Schema<RFTHyperParameters>;
-export interface ListAutomatedReasoningPoliciesResponse {
-  automatedReasoningPolicySummaries: AutomatedReasoningPolicySummary[];
-  nextToken?: string;
-}
-export const ListAutomatedReasoningPoliciesResponse = S.suspend(() =>
-  S.Struct({
-    automatedReasoningPolicySummaries: AutomatedReasoningPolicySummaries,
-    nextToken: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "ListAutomatedReasoningPoliciesResponse",
-}) as any as S.Schema<ListAutomatedReasoningPoliciesResponse>;
-export interface GetAutomatedReasoningPolicyNextScenarioResponse {
-  policyArn: string;
-  scenario?: AutomatedReasoningPolicyScenario;
-}
-export const GetAutomatedReasoningPolicyNextScenarioResponse = S.suspend(() =>
-  S.Struct({
-    policyArn: S.String,
-    scenario: S.optional(AutomatedReasoningPolicyScenario),
-  }),
-).annotations({
-  identifier: "GetAutomatedReasoningPolicyNextScenarioResponse",
-}) as any as S.Schema<GetAutomatedReasoningPolicyNextScenarioResponse>;
-export interface GetAutomatedReasoningPolicyTestCaseResponse {
-  policyArn: string;
-  testCase: AutomatedReasoningPolicyTestCase;
-}
-export const GetAutomatedReasoningPolicyTestCaseResponse = S.suspend(() =>
-  S.Struct({ policyArn: S.String, testCase: AutomatedReasoningPolicyTestCase }),
-).annotations({
-  identifier: "GetAutomatedReasoningPolicyTestCaseResponse",
-}) as any as S.Schema<GetAutomatedReasoningPolicyTestCaseResponse>;
-export interface ListAutomatedReasoningPolicyBuildWorkflowsResponse {
-  automatedReasoningPolicyBuildWorkflowSummaries: AutomatedReasoningPolicyBuildWorkflowSummary[];
-  nextToken?: string;
-}
-export const ListAutomatedReasoningPolicyBuildWorkflowsResponse = S.suspend(
-  () =>
-    S.Struct({
-      automatedReasoningPolicyBuildWorkflowSummaries:
-        AutomatedReasoningPolicyBuildWorkflowSummaries,
-      nextToken: S.optional(S.String),
-    }),
-).annotations({
-  identifier: "ListAutomatedReasoningPolicyBuildWorkflowsResponse",
-}) as any as S.Schema<ListAutomatedReasoningPolicyBuildWorkflowsResponse>;
-export interface CreateMarketplaceModelEndpointRequest {
-  modelSourceIdentifier: string;
-  endpointConfig: EndpointConfig;
-  acceptEula?: boolean;
-  endpointName: string;
-  clientRequestToken?: string;
-  tags?: Tag[];
-}
-export const CreateMarketplaceModelEndpointRequest = S.suspend(() =>
-  S.Struct({
-    modelSourceIdentifier: S.String,
-    endpointConfig: EndpointConfig,
-    acceptEula: S.optional(S.Boolean),
-    endpointName: S.String,
-    clientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    tags: S.optional(TagList),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/marketplace-model/endpoints" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "CreateMarketplaceModelEndpointRequest",
-}) as any as S.Schema<CreateMarketplaceModelEndpointRequest>;
-export interface GetMarketplaceModelEndpointResponse {
-  marketplaceModelEndpoint?: MarketplaceModelEndpoint;
-}
-export const GetMarketplaceModelEndpointResponse = S.suspend(() =>
-  S.Struct({ marketplaceModelEndpoint: S.optional(MarketplaceModelEndpoint) }),
-).annotations({
-  identifier: "GetMarketplaceModelEndpointResponse",
-}) as any as S.Schema<GetMarketplaceModelEndpointResponse>;
-export interface ListMarketplaceModelEndpointsResponse {
-  marketplaceModelEndpoints?: MarketplaceModelEndpointSummary[];
-  nextToken?: string;
-}
-export const ListMarketplaceModelEndpointsResponse = S.suspend(() =>
-  S.Struct({
-    marketplaceModelEndpoints: S.optional(MarketplaceModelEndpointSummaries),
-    nextToken: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "ListMarketplaceModelEndpointsResponse",
-}) as any as S.Schema<ListMarketplaceModelEndpointsResponse>;
-export interface GetCustomModelDeploymentResponse {
-  customModelDeploymentArn: string;
-  modelDeploymentName: string;
-  modelArn: string;
-  createdAt: Date;
-  status: CustomModelDeploymentStatus;
-  description?: string;
-  updateDetails?: CustomModelDeploymentUpdateDetails;
-  failureMessage?: string;
-  lastUpdatedAt?: Date;
-}
-export const GetCustomModelDeploymentResponse = S.suspend(() =>
-  S.Struct({
-    customModelDeploymentArn: S.String,
-    modelDeploymentName: S.String,
-    modelArn: S.String,
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    status: CustomModelDeploymentStatus,
-    description: S.optional(S.String),
-    updateDetails: S.optional(CustomModelDeploymentUpdateDetails),
-    failureMessage: S.optional(S.String),
-    lastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  }),
-).annotations({
-  identifier: "GetCustomModelDeploymentResponse",
-}) as any as S.Schema<GetCustomModelDeploymentResponse>;
-export interface ListCustomModelDeploymentsResponse {
-  nextToken?: string;
-  modelDeploymentSummaries?: CustomModelDeploymentSummary[];
-}
-export const ListCustomModelDeploymentsResponse = S.suspend(() =>
-  S.Struct({
-    nextToken: S.optional(S.String),
-    modelDeploymentSummaries: S.optional(CustomModelDeploymentSummaryList),
-  }),
-).annotations({
-  identifier: "ListCustomModelDeploymentsResponse",
-}) as any as S.Schema<ListCustomModelDeploymentsResponse>;
-export interface CreateCustomModelRequest {
-  modelName: string;
-  modelSourceConfig: ModelDataSource;
-  modelKmsKeyArn?: string;
-  roleArn?: string;
-  modelTags?: Tag[];
-  clientRequestToken?: string;
-}
-export const CreateCustomModelRequest = S.suspend(() =>
-  S.Struct({
-    modelName: S.String,
-    modelSourceConfig: ModelDataSource,
-    modelKmsKeyArn: S.optional(S.String),
-    roleArn: S.optional(S.String),
-    modelTags: S.optional(TagList),
-    clientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/custom-models/create-custom-model" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "CreateCustomModelRequest",
-}) as any as S.Schema<CreateCustomModelRequest>;
-export type RequestMetadataMap = { [key: string]: string | undefined };
-export const RequestMetadataMap = S.Record({
-  key: S.String,
-  value: S.UndefinedOr(S.String),
-});
-export interface RequestMetadataBaseFilters {
-  equals?: { [key: string]: string | undefined };
-  notEquals?: { [key: string]: string | undefined };
-}
-export const RequestMetadataBaseFilters = S.suspend(() =>
-  S.Struct({
-    equals: S.optional(RequestMetadataMap),
-    notEquals: S.optional(RequestMetadataMap),
-  }),
-).annotations({
-  identifier: "RequestMetadataBaseFilters",
-}) as any as S.Schema<RequestMetadataBaseFilters>;
-export type RequestMetadataFiltersList = RequestMetadataBaseFilters[];
-export const RequestMetadataFiltersList = S.Array(RequestMetadataBaseFilters);
-export type RequestMetadataFilters =
-  | {
-      equals: { [key: string]: string | undefined };
-      notEquals?: never;
-      andAll?: never;
-      orAll?: never;
-    }
-  | {
-      equals?: never;
-      notEquals: { [key: string]: string | undefined };
-      andAll?: never;
-      orAll?: never;
-    }
-  | {
-      equals?: never;
-      notEquals?: never;
-      andAll: RequestMetadataBaseFilters[];
-      orAll?: never;
-    }
-  | {
-      equals?: never;
-      notEquals?: never;
-      andAll?: never;
-      orAll: RequestMetadataBaseFilters[];
-    };
-export const RequestMetadataFilters = S.Union(
-  S.Struct({ equals: RequestMetadataMap }),
-  S.Struct({ notEquals: RequestMetadataMap }),
-  S.Struct({ andAll: RequestMetadataFiltersList }),
-  S.Struct({ orAll: RequestMetadataFiltersList }),
-);
-export interface InvocationLogsConfig {
-  usePromptResponse?: boolean;
-  invocationLogSource: InvocationLogSource;
-  requestMetadataFilters?: RequestMetadataFilters;
-}
-export const InvocationLogsConfig = S.suspend(() =>
-  S.Struct({
-    usePromptResponse: S.optional(S.Boolean),
-    invocationLogSource: InvocationLogSource,
-    requestMetadataFilters: S.optional(RequestMetadataFilters),
-  }),
-).annotations({
-  identifier: "InvocationLogsConfig",
-}) as any as S.Schema<InvocationLogsConfig>;
-export interface TrainingDataConfig {
-  s3Uri?: string;
-  invocationLogsConfig?: InvocationLogsConfig;
-}
-export const TrainingDataConfig = S.suspend(() =>
-  S.Struct({
-    s3Uri: S.optional(S.String),
-    invocationLogsConfig: S.optional(InvocationLogsConfig),
-  }),
-).annotations({
-  identifier: "TrainingDataConfig",
-}) as any as S.Schema<TrainingDataConfig>;
-export interface DistillationConfig {
-  teacherModelConfig: TeacherModelConfig;
-}
-export const DistillationConfig = S.suspend(() =>
-  S.Struct({ teacherModelConfig: TeacherModelConfig }),
-).annotations({
-  identifier: "DistillationConfig",
-}) as any as S.Schema<DistillationConfig>;
-export interface LambdaGraderConfig {
-  lambdaArn: string;
-}
-export const LambdaGraderConfig = S.suspend(() =>
-  S.Struct({ lambdaArn: S.String }),
-).annotations({
-  identifier: "LambdaGraderConfig",
-}) as any as S.Schema<LambdaGraderConfig>;
-export type GraderConfig = { lambdaGrader: LambdaGraderConfig };
-export const GraderConfig = S.Union(
-  S.Struct({ lambdaGrader: LambdaGraderConfig }),
-);
-export interface RFTConfig {
-  graderConfig?: GraderConfig;
-  hyperParameters?: RFTHyperParameters;
-}
-export const RFTConfig = S.suspend(() =>
-  S.Struct({
-    graderConfig: S.optional(GraderConfig),
-    hyperParameters: S.optional(RFTHyperParameters),
-  }),
-).annotations({ identifier: "RFTConfig" }) as any as S.Schema<RFTConfig>;
-export type CustomizationConfig =
-  | { distillationConfig: DistillationConfig; rftConfig?: never }
-  | { distillationConfig?: never; rftConfig: RFTConfig };
-export const CustomizationConfig = S.Union(
-  S.Struct({ distillationConfig: DistillationConfig }),
-  S.Struct({ rftConfig: RFTConfig }),
-);
-export interface GetCustomModelResponse {
-  modelArn: string;
-  modelName: string;
-  jobName?: string;
-  jobArn?: string;
-  baseModelArn?: string;
-  customizationType?: CustomizationType;
-  modelKmsKeyArn?: string;
-  hyperParameters?: { [key: string]: string | undefined };
-  trainingDataConfig?: TrainingDataConfig;
-  validationDataConfig?: ValidationDataConfig;
-  outputDataConfig?: OutputDataConfig;
-  trainingMetrics?: TrainingMetrics;
-  validationMetrics?: ValidatorMetric[];
-  creationTime: Date;
-  customizationConfig?: CustomizationConfig;
-  modelStatus?: ModelStatus;
-  failureMessage?: string;
-}
-export const GetCustomModelResponse = S.suspend(() =>
-  S.Struct({
-    modelArn: S.String,
-    modelName: S.String,
-    jobName: S.optional(S.String),
-    jobArn: S.optional(S.String),
-    baseModelArn: S.optional(S.String),
-    customizationType: S.optional(CustomizationType),
-    modelKmsKeyArn: S.optional(S.String),
-    hyperParameters: S.optional(ModelCustomizationHyperParameters),
-    trainingDataConfig: S.optional(TrainingDataConfig),
-    validationDataConfig: S.optional(ValidationDataConfig),
-    outputDataConfig: S.optional(OutputDataConfig),
-    trainingMetrics: S.optional(TrainingMetrics),
-    validationMetrics: S.optional(ValidationMetrics),
-    creationTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    customizationConfig: S.optional(CustomizationConfig),
-    modelStatus: S.optional(ModelStatus),
-    failureMessage: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "GetCustomModelResponse",
-}) as any as S.Schema<GetCustomModelResponse>;
-export interface ListCustomModelsResponse {
-  nextToken?: string;
-  modelSummaries?: CustomModelSummary[];
-}
-export const ListCustomModelsResponse = S.suspend(() =>
-  S.Struct({
-    nextToken: S.optional(S.String),
-    modelSummaries: S.optional(CustomModelSummaryList),
-  }),
-).annotations({
-  identifier: "ListCustomModelsResponse",
-}) as any as S.Schema<ListCustomModelsResponse>;
-export interface ListEnforcedGuardrailsConfigurationResponse {
-  guardrailsConfig: AccountEnforcedGuardrailOutputConfiguration[];
-  nextToken?: string;
-}
-export const ListEnforcedGuardrailsConfigurationResponse = S.suspend(() =>
-  S.Struct({
-    guardrailsConfig: AccountEnforcedGuardrailsOutputConfiguration,
-    nextToken: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "ListEnforcedGuardrailsConfigurationResponse",
-}) as any as S.Schema<ListEnforcedGuardrailsConfigurationResponse>;
-export interface PutEnforcedGuardrailConfigurationResponse {
-  configId?: string;
-  updatedAt?: Date;
-  updatedBy?: string;
-}
-export const PutEnforcedGuardrailConfigurationResponse = S.suspend(() =>
-  S.Struct({
-    configId: S.optional(S.String),
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    updatedBy: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "PutEnforcedGuardrailConfigurationResponse",
-}) as any as S.Schema<PutEnforcedGuardrailConfigurationResponse>;
-export interface BatchDeleteEvaluationJobResponse {
-  errors: BatchDeleteEvaluationJobError[];
-  evaluationJobs: BatchDeleteEvaluationJobItem[];
-}
-export const BatchDeleteEvaluationJobResponse = S.suspend(() =>
-  S.Struct({
-    errors: BatchDeleteEvaluationJobErrors,
-    evaluationJobs: BatchDeleteEvaluationJobItems,
-  }),
-).annotations({
-  identifier: "BatchDeleteEvaluationJobResponse",
-}) as any as S.Schema<BatchDeleteEvaluationJobResponse>;
+export const GuardrailCrossRegionConfig = S.suspend(() =>
+  S.Struct({ guardrailProfileIdentifier: S.String }),
+).annotate({
+  identifier: "GuardrailCrossRegionConfig",
+}) as any as S.Schema<GuardrailCrossRegionConfig>;
 export interface CreateGuardrailRequest {
   name: string | redacted.Redacted<string>;
   description?: string | redacted.Redacted<string>;
@@ -6881,173 +5588,38 @@ export const CreateGuardrailRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "CreateGuardrailRequest",
 }) as any as S.Schema<CreateGuardrailRequest>;
-export interface ListGuardrailsResponse {
-  guardrails: GuardrailSummary[];
-  nextToken?: string;
+export interface CreateGuardrailResponse {
+  guardrailId: string;
+  guardrailArn: string;
+  version: string;
+  createdAt: Date;
 }
-export const ListGuardrailsResponse = S.suspend(() =>
-  S.Struct({ guardrails: GuardrailSummaries, nextToken: S.optional(S.String) }),
-).annotations({
-  identifier: "ListGuardrailsResponse",
-}) as any as S.Schema<ListGuardrailsResponse>;
-export interface CreateInferenceProfileResponse {
-  inferenceProfileArn: string;
-  status?: InferenceProfileStatus;
-}
-export const CreateInferenceProfileResponse = S.suspend(() =>
+export const CreateGuardrailResponse = S.suspend(() =>
   S.Struct({
-    inferenceProfileArn: S.String,
-    status: S.optional(InferenceProfileStatus),
+    guardrailId: S.String,
+    guardrailArn: S.String,
+    version: S.String,
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
-).annotations({
-  identifier: "CreateInferenceProfileResponse",
-}) as any as S.Schema<CreateInferenceProfileResponse>;
-export interface GetInferenceProfileResponse {
-  inferenceProfileName: string;
-  description?: string | redacted.Redacted<string>;
-  createdAt?: Date;
-  updatedAt?: Date;
-  inferenceProfileArn: string;
-  models: InferenceProfileModel[];
-  inferenceProfileId: string;
-  status: InferenceProfileStatus;
-  type: InferenceProfileType;
+).annotate({
+  identifier: "CreateGuardrailResponse",
+}) as any as S.Schema<CreateGuardrailResponse>;
+export interface GetGuardrailRequest {
+  guardrailIdentifier: string;
+  guardrailVersion?: string;
 }
-export const GetInferenceProfileResponse = S.suspend(() =>
+export const GetGuardrailRequest = S.suspend(() =>
   S.Struct({
-    inferenceProfileName: S.String,
-    description: S.optional(SensitiveString),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    inferenceProfileArn: S.String,
-    models: InferenceProfileModels,
-    inferenceProfileId: S.String,
-    status: InferenceProfileStatus,
-    type: InferenceProfileType,
-  }),
-).annotations({
-  identifier: "GetInferenceProfileResponse",
-}) as any as S.Schema<GetInferenceProfileResponse>;
-export interface ListInferenceProfilesResponse {
-  inferenceProfileSummaries?: InferenceProfileSummary[];
-  nextToken?: string;
-}
-export const ListInferenceProfilesResponse = S.suspend(() =>
-  S.Struct({
-    inferenceProfileSummaries: S.optional(InferenceProfileSummaries),
-    nextToken: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "ListInferenceProfilesResponse",
-}) as any as S.Schema<ListInferenceProfilesResponse>;
-export interface GetModelInvocationLoggingConfigurationResponse {
-  loggingConfig?: LoggingConfig;
-}
-export const GetModelInvocationLoggingConfigurationResponse = S.suspend(() =>
-  S.Struct({ loggingConfig: S.optional(LoggingConfig) }),
-).annotations({
-  identifier: "GetModelInvocationLoggingConfigurationResponse",
-}) as any as S.Schema<GetModelInvocationLoggingConfigurationResponse>;
-export interface ListModelCopyJobsResponse {
-  nextToken?: string;
-  modelCopyJobSummaries?: ModelCopyJobSummary[];
-}
-export const ListModelCopyJobsResponse = S.suspend(() =>
-  S.Struct({
-    nextToken: S.optional(S.String),
-    modelCopyJobSummaries: S.optional(ModelCopyJobSummaries),
-  }),
-).annotations({
-  identifier: "ListModelCopyJobsResponse",
-}) as any as S.Schema<ListModelCopyJobsResponse>;
-export interface CreateModelImportJobResponse {
-  jobArn: string;
-}
-export const CreateModelImportJobResponse = S.suspend(() =>
-  S.Struct({ jobArn: S.String }),
-).annotations({
-  identifier: "CreateModelImportJobResponse",
-}) as any as S.Schema<CreateModelImportJobResponse>;
-export interface GetImportedModelResponse {
-  modelArn?: string;
-  modelName?: string;
-  jobName?: string;
-  jobArn?: string;
-  modelDataSource?: ModelDataSource;
-  creationTime?: Date;
-  modelArchitecture?: string;
-  modelKmsKeyArn?: string;
-  instructSupported?: boolean;
-  customModelUnits?: CustomModelUnits;
-}
-export const GetImportedModelResponse = S.suspend(() =>
-  S.Struct({
-    modelArn: S.optional(S.String),
-    modelName: S.optional(S.String),
-    jobName: S.optional(S.String),
-    jobArn: S.optional(S.String),
-    modelDataSource: S.optional(ModelDataSource),
-    creationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    modelArchitecture: S.optional(S.String),
-    modelKmsKeyArn: S.optional(S.String),
-    instructSupported: S.optional(S.Boolean),
-    customModelUnits: S.optional(CustomModelUnits),
-  }),
-).annotations({
-  identifier: "GetImportedModelResponse",
-}) as any as S.Schema<GetImportedModelResponse>;
-export interface ListImportedModelsResponse {
-  nextToken?: string;
-  modelSummaries?: ImportedModelSummary[];
-}
-export const ListImportedModelsResponse = S.suspend(() =>
-  S.Struct({
-    nextToken: S.optional(S.String),
-    modelSummaries: S.optional(ImportedModelSummaryList),
-  }),
-).annotations({
-  identifier: "ListImportedModelsResponse",
-}) as any as S.Schema<ListImportedModelsResponse>;
-export interface ListModelImportJobsResponse {
-  nextToken?: string;
-  modelImportJobSummaries?: ModelImportJobSummary[];
-}
-export const ListModelImportJobsResponse = S.suspend(() =>
-  S.Struct({
-    nextToken: S.optional(S.String),
-    modelImportJobSummaries: S.optional(ModelImportJobSummaries),
-  }),
-).annotations({
-  identifier: "ListModelImportJobsResponse",
-}) as any as S.Schema<ListModelImportJobsResponse>;
-export interface CreateModelInvocationJobRequest {
-  jobName: string;
-  roleArn: string;
-  clientRequestToken?: string;
-  modelId: string;
-  inputDataConfig: ModelInvocationJobInputDataConfig;
-  outputDataConfig: ModelInvocationJobOutputDataConfig;
-  vpcConfig?: VpcConfig;
-  timeoutDurationInHours?: number;
-  tags?: Tag[];
-}
-export const CreateModelInvocationJobRequest = S.suspend(() =>
-  S.Struct({
-    jobName: S.String,
-    roleArn: S.String,
-    clientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    modelId: S.String,
-    inputDataConfig: ModelInvocationJobInputDataConfig,
-    outputDataConfig: ModelInvocationJobOutputDataConfig,
-    vpcConfig: S.optional(VpcConfig),
-    timeoutDurationInHours: S.optional(S.Number),
-    tags: S.optional(TagList),
+    guardrailIdentifier: S.String.pipe(T.HttpLabel("guardrailIdentifier")),
+    guardrailVersion: S.optional(S.String).pipe(
+      T.HttpQuery("guardrailVersion"),
+    ),
   }).pipe(
     T.all(
-      T.Http({ method: "POST", uri: "/model-invocation-job" }),
+      T.Http({ method: "GET", uri: "/guardrails/{guardrailIdentifier}" }),
       svc,
       auth,
       proto,
@@ -7055,121 +5627,18 @@ export const CreateModelInvocationJobRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
-  identifier: "CreateModelInvocationJobRequest",
-}) as any as S.Schema<CreateModelInvocationJobRequest>;
-export interface ListModelInvocationJobsResponse {
-  nextToken?: string;
-  invocationJobSummaries?: ModelInvocationJobSummary[];
-}
-export const ListModelInvocationJobsResponse = S.suspend(() =>
-  S.Struct({
-    nextToken: S.optional(S.String),
-    invocationJobSummaries: S.optional(ModelInvocationJobSummaries),
-  }),
-).annotations({
-  identifier: "ListModelInvocationJobsResponse",
-}) as any as S.Schema<ListModelInvocationJobsResponse>;
-export interface ListFoundationModelsResponse {
-  modelSummaries?: FoundationModelSummary[];
-}
-export const ListFoundationModelsResponse = S.suspend(() =>
-  S.Struct({ modelSummaries: S.optional(FoundationModelSummaryList) }),
-).annotations({
-  identifier: "ListFoundationModelsResponse",
-}) as any as S.Schema<ListFoundationModelsResponse>;
-export interface CreatePromptRouterResponse {
-  promptRouterArn?: string;
-}
-export const CreatePromptRouterResponse = S.suspend(() =>
-  S.Struct({ promptRouterArn: S.optional(S.String) }),
-).annotations({
-  identifier: "CreatePromptRouterResponse",
-}) as any as S.Schema<CreatePromptRouterResponse>;
-export interface ListPromptRoutersResponse {
-  promptRouterSummaries?: (PromptRouterSummary & {
-    models: (PromptRouterTargetModel & {
-      modelArn: PromptRouterTargetModelArn;
-    })[];
-    fallbackModel: PromptRouterTargetModel & {
-      modelArn: PromptRouterTargetModelArn;
-    };
-  })[];
-  nextToken?: string;
-}
-export const ListPromptRoutersResponse = S.suspend(() =>
-  S.Struct({
-    promptRouterSummaries: S.optional(PromptRouterSummaries),
-    nextToken: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "ListPromptRoutersResponse",
-}) as any as S.Schema<ListPromptRoutersResponse>;
-export interface ListProvisionedModelThroughputsResponse {
-  nextToken?: string;
-  provisionedModelSummaries?: ProvisionedModelSummary[];
-}
-export const ListProvisionedModelThroughputsResponse = S.suspend(() =>
-  S.Struct({
-    nextToken: S.optional(S.String),
-    provisionedModelSummaries: S.optional(ProvisionedModelSummaries),
-  }),
-).annotations({
-  identifier: "ListProvisionedModelThroughputsResponse",
-}) as any as S.Schema<ListProvisionedModelThroughputsResponse>;
-export interface GetFoundationModelAvailabilityResponse {
-  modelId: string;
-  agreementAvailability: AgreementAvailability;
-  authorizationStatus: AuthorizationStatus;
-  entitlementAvailability: EntitlementAvailability;
-  regionAvailability: RegionAvailability;
-}
-export const GetFoundationModelAvailabilityResponse = S.suspend(() =>
-  S.Struct({
-    modelId: S.String,
-    agreementAvailability: AgreementAvailability,
-    authorizationStatus: AuthorizationStatus,
-    entitlementAvailability: EntitlementAvailability,
-    regionAvailability: RegionAvailability,
-  }),
-).annotations({
-  identifier: "GetFoundationModelAvailabilityResponse",
-}) as any as S.Schema<GetFoundationModelAvailabilityResponse>;
-export interface ListModelCustomizationJobsResponse {
-  nextToken?: string;
-  modelCustomizationJobSummaries?: ModelCustomizationJobSummary[];
-}
-export const ListModelCustomizationJobsResponse = S.suspend(() =>
-  S.Struct({
-    nextToken: S.optional(S.String),
-    modelCustomizationJobSummaries: S.optional(ModelCustomizationJobSummaries),
-  }),
-).annotations({
-  identifier: "ListModelCustomizationJobsResponse",
-}) as any as S.Schema<ListModelCustomizationJobsResponse>;
-export interface AutomatedReasoningPolicyScenarios {
-  policyScenarios: AutomatedReasoningPolicyScenario[];
-}
-export const AutomatedReasoningPolicyScenarios = S.suspend(() =>
-  S.Struct({ policyScenarios: AutomatedReasoningPolicyScenarioList }),
-).annotations({
-  identifier: "AutomatedReasoningPolicyScenarios",
-}) as any as S.Schema<AutomatedReasoningPolicyScenarios>;
-export type AutomatedReasoningPolicyWorkflowTypeContent =
-  | {
-      documents: AutomatedReasoningPolicyBuildWorkflowDocument[];
-      policyRepairAssets?: never;
-    }
-  | {
-      documents?: never;
-      policyRepairAssets: AutomatedReasoningPolicyBuildWorkflowRepairContent;
-    };
-export const AutomatedReasoningPolicyWorkflowTypeContent = S.Union(
-  S.Struct({ documents: AutomatedReasoningPolicyBuildWorkflowDocumentList }),
-  S.Struct({
-    policyRepairAssets: AutomatedReasoningPolicyBuildWorkflowRepairContent,
-  }),
-);
+).annotate({
+  identifier: "GetGuardrailRequest",
+}) as any as S.Schema<GetGuardrailRequest>;
+export type GuardrailStatus =
+  | "CREATING"
+  | "UPDATING"
+  | "VERSIONING"
+  | "READY"
+  | "FAILED"
+  | "DELETING"
+  | (string & {});
+export const GuardrailStatus = S.String;
 export interface GuardrailTopic {
   name: string | redacted.Redacted<string>;
   definition: string | redacted.Redacted<string>;
@@ -7191,9 +5660,7 @@ export const GuardrailTopic = S.suspend(() =>
     inputEnabled: S.optional(S.Boolean),
     outputEnabled: S.optional(S.Boolean),
   }),
-).annotations({
-  identifier: "GuardrailTopic",
-}) as any as S.Schema<GuardrailTopic>;
+).annotate({ identifier: "GuardrailTopic" }) as any as S.Schema<GuardrailTopic>;
 export type GuardrailTopics = GuardrailTopic[];
 export const GuardrailTopics = S.Array(GuardrailTopic);
 export interface GuardrailTopicsTier {
@@ -7201,9 +5668,18 @@ export interface GuardrailTopicsTier {
 }
 export const GuardrailTopicsTier = S.suspend(() =>
   S.Struct({ tierName: GuardrailTopicsTierName }),
-).annotations({
+).annotate({
   identifier: "GuardrailTopicsTier",
 }) as any as S.Schema<GuardrailTopicsTier>;
+export interface GuardrailTopicPolicy {
+  topics: GuardrailTopic[];
+  tier?: GuardrailTopicsTier;
+}
+export const GuardrailTopicPolicy = S.suspend(() =>
+  S.Struct({ topics: GuardrailTopics, tier: S.optional(GuardrailTopicsTier) }),
+).annotate({
+  identifier: "GuardrailTopicPolicy",
+}) as any as S.Schema<GuardrailTopicPolicy>;
 export interface GuardrailContentFilter {
   type: GuardrailContentFilterType;
   inputStrength: GuardrailFilterStrength;
@@ -7227,7 +5703,7 @@ export const GuardrailContentFilter = S.suspend(() =>
     inputEnabled: S.optional(S.Boolean),
     outputEnabled: S.optional(S.Boolean),
   }),
-).annotations({
+).annotate({
   identifier: "GuardrailContentFilter",
 }) as any as S.Schema<GuardrailContentFilter>;
 export type GuardrailContentFilters = GuardrailContentFilter[];
@@ -7237,9 +5713,21 @@ export interface GuardrailContentFiltersTier {
 }
 export const GuardrailContentFiltersTier = S.suspend(() =>
   S.Struct({ tierName: GuardrailContentFiltersTierName }),
-).annotations({
+).annotate({
   identifier: "GuardrailContentFiltersTier",
 }) as any as S.Schema<GuardrailContentFiltersTier>;
+export interface GuardrailContentPolicy {
+  filters?: GuardrailContentFilter[];
+  tier?: GuardrailContentFiltersTier;
+}
+export const GuardrailContentPolicy = S.suspend(() =>
+  S.Struct({
+    filters: S.optional(GuardrailContentFilters),
+    tier: S.optional(GuardrailContentFiltersTier),
+  }),
+).annotate({
+  identifier: "GuardrailContentPolicy",
+}) as any as S.Schema<GuardrailContentPolicy>;
 export interface GuardrailWord {
   text: string;
   inputAction?: GuardrailWordAction;
@@ -7255,9 +5743,7 @@ export const GuardrailWord = S.suspend(() =>
     inputEnabled: S.optional(S.Boolean),
     outputEnabled: S.optional(S.Boolean),
   }),
-).annotations({
-  identifier: "GuardrailWord",
-}) as any as S.Schema<GuardrailWord>;
+).annotate({ identifier: "GuardrailWord" }) as any as S.Schema<GuardrailWord>;
 export type GuardrailWords = GuardrailWord[];
 export const GuardrailWords = S.Array(GuardrailWord);
 export interface GuardrailManagedWords {
@@ -7275,11 +5761,23 @@ export const GuardrailManagedWords = S.suspend(() =>
     inputEnabled: S.optional(S.Boolean),
     outputEnabled: S.optional(S.Boolean),
   }),
-).annotations({
+).annotate({
   identifier: "GuardrailManagedWords",
 }) as any as S.Schema<GuardrailManagedWords>;
 export type GuardrailManagedWordLists = GuardrailManagedWords[];
 export const GuardrailManagedWordLists = S.Array(GuardrailManagedWords);
+export interface GuardrailWordPolicy {
+  words?: GuardrailWord[];
+  managedWordLists?: GuardrailManagedWords[];
+}
+export const GuardrailWordPolicy = S.suspend(() =>
+  S.Struct({
+    words: S.optional(GuardrailWords),
+    managedWordLists: S.optional(GuardrailManagedWordLists),
+  }),
+).annotate({
+  identifier: "GuardrailWordPolicy",
+}) as any as S.Schema<GuardrailWordPolicy>;
 export interface GuardrailPiiEntity {
   type: GuardrailPiiEntityType;
   action: GuardrailSensitiveInformationAction;
@@ -7297,7 +5795,7 @@ export const GuardrailPiiEntity = S.suspend(() =>
     inputEnabled: S.optional(S.Boolean),
     outputEnabled: S.optional(S.Boolean),
   }),
-).annotations({
+).annotate({
   identifier: "GuardrailPiiEntity",
 }) as any as S.Schema<GuardrailPiiEntity>;
 export type GuardrailPiiEntities = GuardrailPiiEntity[];
@@ -7323,11 +5821,21 @@ export const GuardrailRegex = S.suspend(() =>
     inputEnabled: S.optional(S.Boolean),
     outputEnabled: S.optional(S.Boolean),
   }),
-).annotations({
-  identifier: "GuardrailRegex",
-}) as any as S.Schema<GuardrailRegex>;
+).annotate({ identifier: "GuardrailRegex" }) as any as S.Schema<GuardrailRegex>;
 export type GuardrailRegexes = GuardrailRegex[];
 export const GuardrailRegexes = S.Array(GuardrailRegex);
+export interface GuardrailSensitiveInformationPolicy {
+  piiEntities?: GuardrailPiiEntity[];
+  regexes?: GuardrailRegex[];
+}
+export const GuardrailSensitiveInformationPolicy = S.suspend(() =>
+  S.Struct({
+    piiEntities: S.optional(GuardrailPiiEntities),
+    regexes: S.optional(GuardrailRegexes),
+  }),
+).annotate({
+  identifier: "GuardrailSensitiveInformationPolicy",
+}) as any as S.Schema<GuardrailSensitiveInformationPolicy>;
 export interface GuardrailContextualGroundingFilter {
   type: GuardrailContextualGroundingFilterType;
   threshold: number;
@@ -7341,7 +5849,7 @@ export const GuardrailContextualGroundingFilter = S.suspend(() =>
     action: S.optional(GuardrailContextualGroundingAction),
     enabled: S.optional(S.Boolean),
   }),
-).annotations({
+).annotate({
   identifier: "GuardrailContextualGroundingFilter",
 }) as any as S.Schema<GuardrailContextualGroundingFilter>;
 export type GuardrailContextualGroundingFilters =
@@ -7349,308 +5857,44 @@ export type GuardrailContextualGroundingFilters =
 export const GuardrailContextualGroundingFilters = S.Array(
   GuardrailContextualGroundingFilter,
 );
-export type AutomatedReasoningPolicyDisjointedRuleIdList = string[];
-export const AutomatedReasoningPolicyDisjointedRuleIdList = S.Array(S.String);
-export type AutomatedReasoningPolicyAnnotationStatus =
-  | "APPLIED"
-  | "FAILED"
-  | (string & {});
-export const AutomatedReasoningPolicyAnnotationStatus = S.String;
-export type EvaluationPrecomputedInferenceSourceIdentifiers = string[];
-export const EvaluationPrecomputedInferenceSourceIdentifiers = S.Array(
-  S.String,
-);
-export type EvaluationPrecomputedRagSourceIdentifiers = string[];
-export const EvaluationPrecomputedRagSourceIdentifiers = S.Array(S.String);
-export interface AutomatedReasoningPolicyBuildWorkflowSource {
-  policyDefinition?: AutomatedReasoningPolicyDefinition;
-  workflowContent?: AutomatedReasoningPolicyWorkflowTypeContent;
-}
-export const AutomatedReasoningPolicyBuildWorkflowSource = S.suspend(() =>
-  S.Struct({
-    policyDefinition: S.optional(AutomatedReasoningPolicyDefinition),
-    workflowContent: S.optional(AutomatedReasoningPolicyWorkflowTypeContent),
-  }),
-).annotations({
-  identifier: "AutomatedReasoningPolicyBuildWorkflowSource",
-}) as any as S.Schema<AutomatedReasoningPolicyBuildWorkflowSource>;
-export interface GuardrailTopicPolicy {
-  topics: GuardrailTopic[];
-  tier?: GuardrailTopicsTier;
-}
-export const GuardrailTopicPolicy = S.suspend(() =>
-  S.Struct({ topics: GuardrailTopics, tier: S.optional(GuardrailTopicsTier) }),
-).annotations({
-  identifier: "GuardrailTopicPolicy",
-}) as any as S.Schema<GuardrailTopicPolicy>;
-export interface GuardrailContentPolicy {
-  filters?: GuardrailContentFilter[];
-  tier?: GuardrailContentFiltersTier;
-}
-export const GuardrailContentPolicy = S.suspend(() =>
-  S.Struct({
-    filters: S.optional(GuardrailContentFilters),
-    tier: S.optional(GuardrailContentFiltersTier),
-  }),
-).annotations({
-  identifier: "GuardrailContentPolicy",
-}) as any as S.Schema<GuardrailContentPolicy>;
-export interface GuardrailWordPolicy {
-  words?: GuardrailWord[];
-  managedWordLists?: GuardrailManagedWords[];
-}
-export const GuardrailWordPolicy = S.suspend(() =>
-  S.Struct({
-    words: S.optional(GuardrailWords),
-    managedWordLists: S.optional(GuardrailManagedWordLists),
-  }),
-).annotations({
-  identifier: "GuardrailWordPolicy",
-}) as any as S.Schema<GuardrailWordPolicy>;
-export interface GuardrailSensitiveInformationPolicy {
-  piiEntities?: GuardrailPiiEntity[];
-  regexes?: GuardrailRegex[];
-}
-export const GuardrailSensitiveInformationPolicy = S.suspend(() =>
-  S.Struct({
-    piiEntities: S.optional(GuardrailPiiEntities),
-    regexes: S.optional(GuardrailRegexes),
-  }),
-).annotations({
-  identifier: "GuardrailSensitiveInformationPolicy",
-}) as any as S.Schema<GuardrailSensitiveInformationPolicy>;
 export interface GuardrailContextualGroundingPolicy {
   filters: GuardrailContextualGroundingFilter[];
 }
 export const GuardrailContextualGroundingPolicy = S.suspend(() =>
   S.Struct({ filters: GuardrailContextualGroundingFilters }),
-).annotations({
+).annotate({
   identifier: "GuardrailContextualGroundingPolicy",
 }) as any as S.Schema<GuardrailContextualGroundingPolicy>;
-export interface FoundationModelDetails {
-  modelArn: string;
-  modelId: string;
-  modelName?: string;
-  providerName?: string;
-  inputModalities?: ModelModality[];
-  outputModalities?: ModelModality[];
-  responseStreamingSupported?: boolean;
-  customizationsSupported?: ModelCustomization[];
-  inferenceTypesSupported?: InferenceType[];
-  modelLifecycle?: FoundationModelLifecycle;
+export interface GuardrailAutomatedReasoningPolicy {
+  policies: string[];
+  confidenceThreshold?: number;
 }
-export const FoundationModelDetails = S.suspend(() =>
+export const GuardrailAutomatedReasoningPolicy = S.suspend(() =>
   S.Struct({
-    modelArn: S.String,
-    modelId: S.String,
-    modelName: S.optional(S.String),
-    providerName: S.optional(S.String),
-    inputModalities: S.optional(ModelModalityList),
-    outputModalities: S.optional(ModelModalityList),
-    responseStreamingSupported: S.optional(S.Boolean),
-    customizationsSupported: S.optional(ModelCustomizationList),
-    inferenceTypesSupported: S.optional(InferenceTypeList),
-    modelLifecycle: S.optional(FoundationModelLifecycle),
+    policies: AutomatedReasoningPolicyArnList,
+    confidenceThreshold: S.optional(S.Number),
   }),
-).annotations({
-  identifier: "FoundationModelDetails",
-}) as any as S.Schema<FoundationModelDetails>;
-export interface AutomatedReasoningPolicyDefinitionTypeValuePair {
-  typeName: string | redacted.Redacted<string>;
-  valueName: string;
+).annotate({
+  identifier: "GuardrailAutomatedReasoningPolicy",
+}) as any as S.Schema<GuardrailAutomatedReasoningPolicy>;
+export interface GuardrailCrossRegionDetails {
+  guardrailProfileId?: string;
+  guardrailProfileArn?: string;
 }
-export const AutomatedReasoningPolicyDefinitionTypeValuePair = S.suspend(() =>
-  S.Struct({ typeName: SensitiveString, valueName: S.String }),
-).annotations({
-  identifier: "AutomatedReasoningPolicyDefinitionTypeValuePair",
-}) as any as S.Schema<AutomatedReasoningPolicyDefinitionTypeValuePair>;
-export type AutomatedReasoningPolicyDefinitionTypeValuePairList =
-  AutomatedReasoningPolicyDefinitionTypeValuePair[];
-export const AutomatedReasoningPolicyDefinitionTypeValuePairList = S.Array(
-  AutomatedReasoningPolicyDefinitionTypeValuePair,
-);
-export interface AutomatedReasoningPolicyDisjointRuleSet {
-  variables: string | redacted.Redacted<string>[];
-  rules: string[];
-}
-export const AutomatedReasoningPolicyDisjointRuleSet = S.suspend(() =>
+export const GuardrailCrossRegionDetails = S.suspend(() =>
   S.Struct({
-    variables: AutomatedReasoningPolicyDefinitionVariableNameList,
-    rules: AutomatedReasoningPolicyDisjointedRuleIdList,
+    guardrailProfileId: S.optional(S.String),
+    guardrailProfileArn: S.optional(S.String),
   }),
-).annotations({
-  identifier: "AutomatedReasoningPolicyDisjointRuleSet",
-}) as any as S.Schema<AutomatedReasoningPolicyDisjointRuleSet>;
-export type AutomatedReasoningPolicyDisjointRuleSetList =
-  AutomatedReasoningPolicyDisjointRuleSet[];
-export const AutomatedReasoningPolicyDisjointRuleSetList = S.Array(
-  AutomatedReasoningPolicyDisjointRuleSet,
-);
-export interface AutomatedReasoningPolicyGeneratedTestCase {
-  queryContent: string | redacted.Redacted<string>;
-  guardContent: string | redacted.Redacted<string>;
-  expectedAggregatedFindingsResult: AutomatedReasoningCheckResult;
-}
-export const AutomatedReasoningPolicyGeneratedTestCase = S.suspend(() =>
-  S.Struct({
-    queryContent: SensitiveString,
-    guardContent: SensitiveString,
-    expectedAggregatedFindingsResult: AutomatedReasoningCheckResult,
-  }),
-).annotations({
-  identifier: "AutomatedReasoningPolicyGeneratedTestCase",
-}) as any as S.Schema<AutomatedReasoningPolicyGeneratedTestCase>;
-export type AutomatedReasoningPolicyGeneratedTestCaseList =
-  AutomatedReasoningPolicyGeneratedTestCase[];
-export const AutomatedReasoningPolicyGeneratedTestCaseList = S.Array(
-  AutomatedReasoningPolicyGeneratedTestCase,
-);
-export interface EvaluationModelConfigSummary {
-  bedrockModelIdentifiers?: string[];
-  precomputedInferenceSourceIdentifiers?: string[];
-}
-export const EvaluationModelConfigSummary = S.suspend(() =>
-  S.Struct({
-    bedrockModelIdentifiers: S.optional(EvaluationBedrockModelIdentifiers),
-    precomputedInferenceSourceIdentifiers: S.optional(
-      EvaluationPrecomputedInferenceSourceIdentifiers,
-    ),
-  }),
-).annotations({
-  identifier: "EvaluationModelConfigSummary",
-}) as any as S.Schema<EvaluationModelConfigSummary>;
-export interface EvaluationRagConfigSummary {
-  bedrockKnowledgeBaseIdentifiers?: string[];
-  precomputedRagSourceIdentifiers?: string[];
-}
-export const EvaluationRagConfigSummary = S.suspend(() =>
-  S.Struct({
-    bedrockKnowledgeBaseIdentifiers: S.optional(
-      EvaluationBedrockKnowledgeBaseIdentifiers,
-    ),
-    precomputedRagSourceIdentifiers: S.optional(
-      EvaluationPrecomputedRagSourceIdentifiers,
-    ),
-  }),
-).annotations({
-  identifier: "EvaluationRagConfigSummary",
-}) as any as S.Schema<EvaluationRagConfigSummary>;
-export interface LegalTerm {
-  url?: string;
-}
-export const LegalTerm = S.suspend(() =>
-  S.Struct({ url: S.optional(S.String) }),
-).annotations({ identifier: "LegalTerm" }) as any as S.Schema<LegalTerm>;
-export interface SupportTerm {
-  refundPolicyDescription?: string;
-}
-export const SupportTerm = S.suspend(() =>
-  S.Struct({ refundPolicyDescription: S.optional(S.String) }),
-).annotations({ identifier: "SupportTerm" }) as any as S.Schema<SupportTerm>;
-export interface ValidityTerm {
-  agreementDuration?: string;
-}
-export const ValidityTerm = S.suspend(() =>
-  S.Struct({ agreementDuration: S.optional(S.String) }),
-).annotations({ identifier: "ValidityTerm" }) as any as S.Schema<ValidityTerm>;
-export interface CreateAutomatedReasoningPolicyRequest {
-  name: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
-  clientRequestToken?: string;
-  policyDefinition?: AutomatedReasoningPolicyDefinition;
-  kmsKeyId?: string;
-  tags?: Tag[];
-}
-export const CreateAutomatedReasoningPolicyRequest = S.suspend(() =>
-  S.Struct({
-    name: SensitiveString,
-    description: S.optional(SensitiveString),
-    clientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    policyDefinition: S.optional(AutomatedReasoningPolicyDefinition),
-    kmsKeyId: S.optional(S.String),
-    tags: S.optional(TagList),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/automated-reasoning-policies" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "CreateAutomatedReasoningPolicyRequest",
-}) as any as S.Schema<CreateAutomatedReasoningPolicyRequest>;
-export interface StartAutomatedReasoningPolicyBuildWorkflowRequest {
-  policyArn: string;
-  buildWorkflowType: AutomatedReasoningPolicyBuildWorkflowType;
-  clientRequestToken?: string;
-  sourceContent: AutomatedReasoningPolicyBuildWorkflowSource;
-}
-export const StartAutomatedReasoningPolicyBuildWorkflowRequest = S.suspend(() =>
-  S.Struct({
-    policyArn: S.String.pipe(T.HttpLabel("policyArn")),
-    buildWorkflowType: AutomatedReasoningPolicyBuildWorkflowType.pipe(
-      T.HttpLabel("buildWorkflowType"),
-    ),
-    clientRequestToken: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-client-token"),
-      T.IdempotencyToken(),
-    ),
-    sourceContent: AutomatedReasoningPolicyBuildWorkflowSource.pipe(
-      T.HttpPayload(),
-    ).annotations({
-      identifier: "AutomatedReasoningPolicyBuildWorkflowSource",
-    }),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/automated-reasoning-policies/{policyArn}/build-workflows/{buildWorkflowType}/start",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "StartAutomatedReasoningPolicyBuildWorkflowRequest",
-}) as any as S.Schema<StartAutomatedReasoningPolicyBuildWorkflowRequest>;
-export interface CreateMarketplaceModelEndpointResponse {
-  marketplaceModelEndpoint: MarketplaceModelEndpoint;
-}
-export const CreateMarketplaceModelEndpointResponse = S.suspend(() =>
-  S.Struct({ marketplaceModelEndpoint: MarketplaceModelEndpoint }),
-).annotations({
-  identifier: "CreateMarketplaceModelEndpointResponse",
-}) as any as S.Schema<CreateMarketplaceModelEndpointResponse>;
-export interface CreateCustomModelResponse {
-  modelArn: string;
-}
-export const CreateCustomModelResponse = S.suspend(() =>
-  S.Struct({ modelArn: S.String }),
-).annotations({
-  identifier: "CreateCustomModelResponse",
-}) as any as S.Schema<CreateCustomModelResponse>;
-export interface CreateGuardrailResponse {
-  guardrailId: string;
-  guardrailArn: string;
-  version: string;
-  createdAt: Date;
-}
-export const CreateGuardrailResponse = S.suspend(() =>
-  S.Struct({
-    guardrailId: S.String,
-    guardrailArn: S.String,
-    version: S.String,
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  }),
-).annotations({
-  identifier: "CreateGuardrailResponse",
-}) as any as S.Schema<CreateGuardrailResponse>;
+).annotate({
+  identifier: "GuardrailCrossRegionDetails",
+}) as any as S.Schema<GuardrailCrossRegionDetails>;
+export type GuardrailStatusReasons = string | redacted.Redacted<string>[];
+export const GuardrailStatusReasons = S.Array(SensitiveString);
+export type GuardrailFailureRecommendations =
+  | string
+  | redacted.Redacted<string>[];
+export const GuardrailFailureRecommendations = S.Array(SensitiveString);
 export interface GetGuardrailResponse {
   name: string | redacted.Redacted<string>;
   description?: string | redacted.Redacted<string>;
@@ -7688,133 +5932,2083 @@ export const GetGuardrailResponse = S.suspend(() =>
     contextualGroundingPolicy: S.optional(GuardrailContextualGroundingPolicy),
     automatedReasoningPolicy: S.optional(GuardrailAutomatedReasoningPolicy),
     crossRegionDetails: S.optional(GuardrailCrossRegionDetails),
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     statusReasons: S.optional(GuardrailStatusReasons),
     failureRecommendations: S.optional(GuardrailFailureRecommendations),
     blockedInputMessaging: SensitiveString,
     blockedOutputsMessaging: SensitiveString,
     kmsKeyArn: S.optional(S.String),
   }),
-).annotations({
+).annotate({
   identifier: "GetGuardrailResponse",
 }) as any as S.Schema<GetGuardrailResponse>;
+export interface UpdateGuardrailRequest {
+  guardrailIdentifier: string;
+  name: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
+  topicPolicyConfig?: GuardrailTopicPolicyConfig;
+  contentPolicyConfig?: GuardrailContentPolicyConfig;
+  wordPolicyConfig?: GuardrailWordPolicyConfig;
+  sensitiveInformationPolicyConfig?: GuardrailSensitiveInformationPolicyConfig;
+  contextualGroundingPolicyConfig?: GuardrailContextualGroundingPolicyConfig;
+  automatedReasoningPolicyConfig?: GuardrailAutomatedReasoningPolicyConfig;
+  crossRegionConfig?: GuardrailCrossRegionConfig;
+  blockedInputMessaging: string | redacted.Redacted<string>;
+  blockedOutputsMessaging: string | redacted.Redacted<string>;
+  kmsKeyId?: string;
+}
+export const UpdateGuardrailRequest = S.suspend(() =>
+  S.Struct({
+    guardrailIdentifier: S.String.pipe(T.HttpLabel("guardrailIdentifier")),
+    name: SensitiveString,
+    description: S.optional(SensitiveString),
+    topicPolicyConfig: S.optional(GuardrailTopicPolicyConfig),
+    contentPolicyConfig: S.optional(GuardrailContentPolicyConfig),
+    wordPolicyConfig: S.optional(GuardrailWordPolicyConfig),
+    sensitiveInformationPolicyConfig: S.optional(
+      GuardrailSensitiveInformationPolicyConfig,
+    ),
+    contextualGroundingPolicyConfig: S.optional(
+      GuardrailContextualGroundingPolicyConfig,
+    ),
+    automatedReasoningPolicyConfig: S.optional(
+      GuardrailAutomatedReasoningPolicyConfig,
+    ),
+    crossRegionConfig: S.optional(GuardrailCrossRegionConfig),
+    blockedInputMessaging: SensitiveString,
+    blockedOutputsMessaging: SensitiveString,
+    kmsKeyId: S.optional(S.String),
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/guardrails/{guardrailIdentifier}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "UpdateGuardrailRequest",
+}) as any as S.Schema<UpdateGuardrailRequest>;
+export interface UpdateGuardrailResponse {
+  guardrailId: string;
+  guardrailArn: string;
+  version: string;
+  updatedAt: Date;
+}
+export const UpdateGuardrailResponse = S.suspend(() =>
+  S.Struct({
+    guardrailId: S.String,
+    guardrailArn: S.String,
+    version: S.String,
+    updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+  }),
+).annotate({
+  identifier: "UpdateGuardrailResponse",
+}) as any as S.Schema<UpdateGuardrailResponse>;
+export interface DeleteGuardrailRequest {
+  guardrailIdentifier: string;
+  guardrailVersion?: string;
+}
+export const DeleteGuardrailRequest = S.suspend(() =>
+  S.Struct({
+    guardrailIdentifier: S.String.pipe(T.HttpLabel("guardrailIdentifier")),
+    guardrailVersion: S.optional(S.String).pipe(
+      T.HttpQuery("guardrailVersion"),
+    ),
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/guardrails/{guardrailIdentifier}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeleteGuardrailRequest",
+}) as any as S.Schema<DeleteGuardrailRequest>;
+export interface DeleteGuardrailResponse {}
+export const DeleteGuardrailResponse = S.suspend(() => S.Struct({})).annotate({
+  identifier: "DeleteGuardrailResponse",
+}) as any as S.Schema<DeleteGuardrailResponse>;
+export interface ListGuardrailsRequest {
+  guardrailIdentifier?: string;
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListGuardrailsRequest = S.suspend(() =>
+  S.Struct({
+    guardrailIdentifier: S.optional(S.String).pipe(
+      T.HttpQuery("guardrailIdentifier"),
+    ),
+    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/guardrails" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListGuardrailsRequest",
+}) as any as S.Schema<ListGuardrailsRequest>;
+export interface GuardrailSummary {
+  id: string;
+  arn: string;
+  status: GuardrailStatus;
+  name: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
+  version: string;
+  createdAt: Date;
+  updatedAt: Date;
+  crossRegionDetails?: GuardrailCrossRegionDetails;
+}
+export const GuardrailSummary = S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    arn: S.String,
+    status: GuardrailStatus,
+    name: SensitiveString,
+    description: S.optional(SensitiveString),
+    version: S.String,
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    crossRegionDetails: S.optional(GuardrailCrossRegionDetails),
+  }),
+).annotate({
+  identifier: "GuardrailSummary",
+}) as any as S.Schema<GuardrailSummary>;
+export type GuardrailSummaries = GuardrailSummary[];
+export const GuardrailSummaries = S.Array(GuardrailSummary);
+export interface ListGuardrailsResponse {
+  guardrails: GuardrailSummary[];
+  nextToken?: string;
+}
+export const ListGuardrailsResponse = S.suspend(() =>
+  S.Struct({ guardrails: GuardrailSummaries, nextToken: S.optional(S.String) }),
+).annotate({
+  identifier: "ListGuardrailsResponse",
+}) as any as S.Schema<ListGuardrailsResponse>;
+export interface CreateGuardrailVersionRequest {
+  guardrailIdentifier: string;
+  description?: string | redacted.Redacted<string>;
+  clientRequestToken?: string;
+}
+export const CreateGuardrailVersionRequest = S.suspend(() =>
+  S.Struct({
+    guardrailIdentifier: S.String.pipe(T.HttpLabel("guardrailIdentifier")),
+    description: S.optional(SensitiveString),
+    clientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/guardrails/{guardrailIdentifier}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "CreateGuardrailVersionRequest",
+}) as any as S.Schema<CreateGuardrailVersionRequest>;
+export interface CreateGuardrailVersionResponse {
+  guardrailId: string;
+  version: string;
+}
+export const CreateGuardrailVersionResponse = S.suspend(() =>
+  S.Struct({ guardrailId: S.String, version: S.String }),
+).annotate({
+  identifier: "CreateGuardrailVersionResponse",
+}) as any as S.Schema<CreateGuardrailVersionResponse>;
+export type InferenceProfileModelSource = { copyFrom: string };
+export const InferenceProfileModelSource = S.Union([
+  S.Struct({ copyFrom: S.String }),
+]);
+export interface CreateInferenceProfileRequest {
+  inferenceProfileName: string;
+  description?: string | redacted.Redacted<string>;
+  clientRequestToken?: string;
+  modelSource: InferenceProfileModelSource;
+  tags?: Tag[];
+}
+export const CreateInferenceProfileRequest = S.suspend(() =>
+  S.Struct({
+    inferenceProfileName: S.String,
+    description: S.optional(SensitiveString),
+    clientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+    modelSource: InferenceProfileModelSource,
+    tags: S.optional(TagList),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/inference-profiles" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "CreateInferenceProfileRequest",
+}) as any as S.Schema<CreateInferenceProfileRequest>;
+export type InferenceProfileStatus = "ACTIVE" | (string & {});
+export const InferenceProfileStatus = S.String;
+export interface CreateInferenceProfileResponse {
+  inferenceProfileArn: string;
+  status?: InferenceProfileStatus;
+}
+export const CreateInferenceProfileResponse = S.suspend(() =>
+  S.Struct({
+    inferenceProfileArn: S.String,
+    status: S.optional(InferenceProfileStatus),
+  }),
+).annotate({
+  identifier: "CreateInferenceProfileResponse",
+}) as any as S.Schema<CreateInferenceProfileResponse>;
+export interface GetInferenceProfileRequest {
+  inferenceProfileIdentifier: string;
+}
+export const GetInferenceProfileRequest = S.suspend(() =>
+  S.Struct({
+    inferenceProfileIdentifier: S.String.pipe(
+      T.HttpLabel("inferenceProfileIdentifier"),
+    ),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/inference-profiles/{inferenceProfileIdentifier}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetInferenceProfileRequest",
+}) as any as S.Schema<GetInferenceProfileRequest>;
+export interface InferenceProfileModel {
+  modelArn?: string;
+}
+export const InferenceProfileModel = S.suspend(() =>
+  S.Struct({ modelArn: S.optional(S.String) }),
+).annotate({
+  identifier: "InferenceProfileModel",
+}) as any as S.Schema<InferenceProfileModel>;
+export type InferenceProfileModels = InferenceProfileModel[];
+export const InferenceProfileModels = S.Array(InferenceProfileModel);
+export type InferenceProfileType =
+  | "SYSTEM_DEFINED"
+  | "APPLICATION"
+  | (string & {});
+export const InferenceProfileType = S.String;
+export interface GetInferenceProfileResponse {
+  inferenceProfileName: string;
+  description?: string | redacted.Redacted<string>;
+  createdAt?: Date;
+  updatedAt?: Date;
+  inferenceProfileArn: string;
+  models: InferenceProfileModel[];
+  inferenceProfileId: string;
+  status: InferenceProfileStatus;
+  type: InferenceProfileType;
+}
+export const GetInferenceProfileResponse = S.suspend(() =>
+  S.Struct({
+    inferenceProfileName: S.String,
+    description: S.optional(SensitiveString),
+    createdAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    updatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    inferenceProfileArn: S.String,
+    models: InferenceProfileModels,
+    inferenceProfileId: S.String,
+    status: InferenceProfileStatus,
+    type: InferenceProfileType,
+  }),
+).annotate({
+  identifier: "GetInferenceProfileResponse",
+}) as any as S.Schema<GetInferenceProfileResponse>;
+export interface DeleteInferenceProfileRequest {
+  inferenceProfileIdentifier: string;
+}
+export const DeleteInferenceProfileRequest = S.suspend(() =>
+  S.Struct({
+    inferenceProfileIdentifier: S.String.pipe(
+      T.HttpLabel("inferenceProfileIdentifier"),
+    ),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/inference-profiles/{inferenceProfileIdentifier}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeleteInferenceProfileRequest",
+}) as any as S.Schema<DeleteInferenceProfileRequest>;
+export interface DeleteInferenceProfileResponse {}
+export const DeleteInferenceProfileResponse = S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "DeleteInferenceProfileResponse",
+}) as any as S.Schema<DeleteInferenceProfileResponse>;
+export interface ListInferenceProfilesRequest {
+  maxResults?: number;
+  nextToken?: string;
+  typeEquals?: InferenceProfileType;
+}
+export const ListInferenceProfilesRequest = S.suspend(() =>
+  S.Struct({
+    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+    typeEquals: S.optional(InferenceProfileType).pipe(T.HttpQuery("type")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/inference-profiles" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListInferenceProfilesRequest",
+}) as any as S.Schema<ListInferenceProfilesRequest>;
+export interface InferenceProfileSummary {
+  inferenceProfileName: string;
+  description?: string | redacted.Redacted<string>;
+  createdAt?: Date;
+  updatedAt?: Date;
+  inferenceProfileArn: string;
+  models: InferenceProfileModel[];
+  inferenceProfileId: string;
+  status: InferenceProfileStatus;
+  type: InferenceProfileType;
+}
+export const InferenceProfileSummary = S.suspend(() =>
+  S.Struct({
+    inferenceProfileName: S.String,
+    description: S.optional(SensitiveString),
+    createdAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    updatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    inferenceProfileArn: S.String,
+    models: InferenceProfileModels,
+    inferenceProfileId: S.String,
+    status: InferenceProfileStatus,
+    type: InferenceProfileType,
+  }),
+).annotate({
+  identifier: "InferenceProfileSummary",
+}) as any as S.Schema<InferenceProfileSummary>;
+export type InferenceProfileSummaries = InferenceProfileSummary[];
+export const InferenceProfileSummaries = S.Array(InferenceProfileSummary);
+export interface ListInferenceProfilesResponse {
+  inferenceProfileSummaries?: InferenceProfileSummary[];
+  nextToken?: string;
+}
+export const ListInferenceProfilesResponse = S.suspend(() =>
+  S.Struct({
+    inferenceProfileSummaries: S.optional(InferenceProfileSummaries),
+    nextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ListInferenceProfilesResponse",
+}) as any as S.Schema<ListInferenceProfilesResponse>;
+export interface DeleteModelInvocationLoggingConfigurationRequest {}
+export const DeleteModelInvocationLoggingConfigurationRequest = S.suspend(() =>
+  S.Struct({}).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/logging/modelinvocations" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeleteModelInvocationLoggingConfigurationRequest",
+}) as any as S.Schema<DeleteModelInvocationLoggingConfigurationRequest>;
+export interface DeleteModelInvocationLoggingConfigurationResponse {}
+export const DeleteModelInvocationLoggingConfigurationResponse = S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "DeleteModelInvocationLoggingConfigurationResponse",
+}) as any as S.Schema<DeleteModelInvocationLoggingConfigurationResponse>;
+export interface GetModelInvocationLoggingConfigurationRequest {}
+export const GetModelInvocationLoggingConfigurationRequest = S.suspend(() =>
+  S.Struct({}).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/logging/modelinvocations" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetModelInvocationLoggingConfigurationRequest",
+}) as any as S.Schema<GetModelInvocationLoggingConfigurationRequest>;
+export interface S3Config {
+  bucketName: string;
+  keyPrefix?: string;
+}
+export const S3Config = S.suspend(() =>
+  S.Struct({ bucketName: S.String, keyPrefix: S.optional(S.String) }),
+).annotate({ identifier: "S3Config" }) as any as S.Schema<S3Config>;
+export interface CloudWatchConfig {
+  logGroupName: string;
+  roleArn: string;
+  largeDataDeliveryS3Config?: S3Config;
+}
+export const CloudWatchConfig = S.suspend(() =>
+  S.Struct({
+    logGroupName: S.String,
+    roleArn: S.String,
+    largeDataDeliveryS3Config: S.optional(S3Config),
+  }),
+).annotate({
+  identifier: "CloudWatchConfig",
+}) as any as S.Schema<CloudWatchConfig>;
+export interface LoggingConfig {
+  cloudWatchConfig?: CloudWatchConfig;
+  s3Config?: S3Config;
+  textDataDeliveryEnabled?: boolean;
+  imageDataDeliveryEnabled?: boolean;
+  embeddingDataDeliveryEnabled?: boolean;
+  videoDataDeliveryEnabled?: boolean;
+  audioDataDeliveryEnabled?: boolean;
+}
+export const LoggingConfig = S.suspend(() =>
+  S.Struct({
+    cloudWatchConfig: S.optional(CloudWatchConfig),
+    s3Config: S.optional(S3Config),
+    textDataDeliveryEnabled: S.optional(S.Boolean),
+    imageDataDeliveryEnabled: S.optional(S.Boolean),
+    embeddingDataDeliveryEnabled: S.optional(S.Boolean),
+    videoDataDeliveryEnabled: S.optional(S.Boolean),
+    audioDataDeliveryEnabled: S.optional(S.Boolean),
+  }),
+).annotate({ identifier: "LoggingConfig" }) as any as S.Schema<LoggingConfig>;
+export interface GetModelInvocationLoggingConfigurationResponse {
+  loggingConfig?: LoggingConfig;
+}
+export const GetModelInvocationLoggingConfigurationResponse = S.suspend(() =>
+  S.Struct({ loggingConfig: S.optional(LoggingConfig) }),
+).annotate({
+  identifier: "GetModelInvocationLoggingConfigurationResponse",
+}) as any as S.Schema<GetModelInvocationLoggingConfigurationResponse>;
+export interface PutModelInvocationLoggingConfigurationRequest {
+  loggingConfig: LoggingConfig;
+}
+export const PutModelInvocationLoggingConfigurationRequest = S.suspend(() =>
+  S.Struct({ loggingConfig: LoggingConfig }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/logging/modelinvocations" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "PutModelInvocationLoggingConfigurationRequest",
+}) as any as S.Schema<PutModelInvocationLoggingConfigurationRequest>;
+export interface PutModelInvocationLoggingConfigurationResponse {}
+export const PutModelInvocationLoggingConfigurationResponse = S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "PutModelInvocationLoggingConfigurationResponse",
+}) as any as S.Schema<PutModelInvocationLoggingConfigurationResponse>;
+export interface CreateModelCopyJobRequest {
+  sourceModelArn: string;
+  targetModelName: string;
+  modelKmsKeyId?: string;
+  targetModelTags?: Tag[];
+  clientRequestToken?: string;
+}
+export const CreateModelCopyJobRequest = S.suspend(() =>
+  S.Struct({
+    sourceModelArn: S.String,
+    targetModelName: S.String,
+    modelKmsKeyId: S.optional(S.String),
+    targetModelTags: S.optional(TagList),
+    clientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/model-copy-jobs" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "CreateModelCopyJobRequest",
+}) as any as S.Schema<CreateModelCopyJobRequest>;
+export interface CreateModelCopyJobResponse {
+  jobArn: string;
+}
+export const CreateModelCopyJobResponse = S.suspend(() =>
+  S.Struct({ jobArn: S.String }),
+).annotate({
+  identifier: "CreateModelCopyJobResponse",
+}) as any as S.Schema<CreateModelCopyJobResponse>;
+export interface GetModelCopyJobRequest {
+  jobArn: string;
+}
+export const GetModelCopyJobRequest = S.suspend(() =>
+  S.Struct({ jobArn: S.String.pipe(T.HttpLabel("jobArn")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/model-copy-jobs/{jobArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetModelCopyJobRequest",
+}) as any as S.Schema<GetModelCopyJobRequest>;
+export type ModelCopyJobStatus =
+  | "InProgress"
+  | "Completed"
+  | "Failed"
+  | (string & {});
+export const ModelCopyJobStatus = S.String;
+export interface GetModelCopyJobResponse {
+  jobArn: string;
+  status: ModelCopyJobStatus;
+  creationTime: Date;
+  targetModelArn: string;
+  targetModelName?: string;
+  sourceAccountId: string;
+  sourceModelArn: string;
+  targetModelKmsKeyArn?: string;
+  targetModelTags?: Tag[];
+  failureMessage?: string;
+  sourceModelName?: string;
+}
+export const GetModelCopyJobResponse = S.suspend(() =>
+  S.Struct({
+    jobArn: S.String,
+    status: ModelCopyJobStatus,
+    creationTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    targetModelArn: S.String,
+    targetModelName: S.optional(S.String),
+    sourceAccountId: S.String,
+    sourceModelArn: S.String,
+    targetModelKmsKeyArn: S.optional(S.String),
+    targetModelTags: S.optional(TagList),
+    failureMessage: S.optional(S.String),
+    sourceModelName: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GetModelCopyJobResponse",
+}) as any as S.Schema<GetModelCopyJobResponse>;
+export interface ListModelCopyJobsRequest {
+  creationTimeAfter?: Date;
+  creationTimeBefore?: Date;
+  statusEquals?: ModelCopyJobStatus;
+  sourceAccountEquals?: string;
+  sourceModelArnEquals?: string;
+  targetModelNameContains?: string;
+  maxResults?: number;
+  nextToken?: string;
+  sortBy?: SortJobsBy;
+  sortOrder?: SortOrder;
+}
+export const ListModelCopyJobsRequest = S.suspend(() =>
+  S.Struct({
+    creationTimeAfter: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.HttpQuery("creationTimeAfter")),
+    creationTimeBefore: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.HttpQuery("creationTimeBefore")),
+    statusEquals: S.optional(ModelCopyJobStatus).pipe(
+      T.HttpQuery("statusEquals"),
+    ),
+    sourceAccountEquals: S.optional(S.String).pipe(
+      T.HttpQuery("sourceAccountEquals"),
+    ),
+    sourceModelArnEquals: S.optional(S.String).pipe(
+      T.HttpQuery("sourceModelArnEquals"),
+    ),
+    targetModelNameContains: S.optional(S.String).pipe(
+      T.HttpQuery("outputModelNameContains"),
+    ),
+    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+    sortBy: S.optional(SortJobsBy).pipe(T.HttpQuery("sortBy")),
+    sortOrder: S.optional(SortOrder).pipe(T.HttpQuery("sortOrder")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/model-copy-jobs" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListModelCopyJobsRequest",
+}) as any as S.Schema<ListModelCopyJobsRequest>;
+export interface ModelCopyJobSummary {
+  jobArn: string;
+  status: ModelCopyJobStatus;
+  creationTime: Date;
+  targetModelArn: string;
+  targetModelName?: string;
+  sourceAccountId: string;
+  sourceModelArn: string;
+  targetModelKmsKeyArn?: string;
+  targetModelTags?: Tag[];
+  failureMessage?: string;
+  sourceModelName?: string;
+}
+export const ModelCopyJobSummary = S.suspend(() =>
+  S.Struct({
+    jobArn: S.String,
+    status: ModelCopyJobStatus,
+    creationTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    targetModelArn: S.String,
+    targetModelName: S.optional(S.String),
+    sourceAccountId: S.String,
+    sourceModelArn: S.String,
+    targetModelKmsKeyArn: S.optional(S.String),
+    targetModelTags: S.optional(TagList),
+    failureMessage: S.optional(S.String),
+    sourceModelName: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ModelCopyJobSummary",
+}) as any as S.Schema<ModelCopyJobSummary>;
+export type ModelCopyJobSummaries = ModelCopyJobSummary[];
+export const ModelCopyJobSummaries = S.Array(ModelCopyJobSummary);
+export interface ListModelCopyJobsResponse {
+  nextToken?: string;
+  modelCopyJobSummaries?: ModelCopyJobSummary[];
+}
+export const ListModelCopyJobsResponse = S.suspend(() =>
+  S.Struct({
+    nextToken: S.optional(S.String),
+    modelCopyJobSummaries: S.optional(ModelCopyJobSummaries),
+  }),
+).annotate({
+  identifier: "ListModelCopyJobsResponse",
+}) as any as S.Schema<ListModelCopyJobsResponse>;
+export interface CreateModelImportJobRequest {
+  jobName: string;
+  importedModelName: string;
+  roleArn: string;
+  modelDataSource: ModelDataSource;
+  jobTags?: Tag[];
+  importedModelTags?: Tag[];
+  clientRequestToken?: string;
+  vpcConfig?: VpcConfig;
+  importedModelKmsKeyId?: string;
+}
+export const CreateModelImportJobRequest = S.suspend(() =>
+  S.Struct({
+    jobName: S.String,
+    importedModelName: S.String,
+    roleArn: S.String,
+    modelDataSource: ModelDataSource,
+    jobTags: S.optional(TagList),
+    importedModelTags: S.optional(TagList),
+    clientRequestToken: S.optional(S.String),
+    vpcConfig: S.optional(VpcConfig),
+    importedModelKmsKeyId: S.optional(S.String),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/model-import-jobs" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "CreateModelImportJobRequest",
+}) as any as S.Schema<CreateModelImportJobRequest>;
+export interface CreateModelImportJobResponse {
+  jobArn: string;
+}
+export const CreateModelImportJobResponse = S.suspend(() =>
+  S.Struct({ jobArn: S.String }),
+).annotate({
+  identifier: "CreateModelImportJobResponse",
+}) as any as S.Schema<CreateModelImportJobResponse>;
+export interface DeleteImportedModelRequest {
+  modelIdentifier: string;
+}
+export const DeleteImportedModelRequest = S.suspend(() =>
+  S.Struct({
+    modelIdentifier: S.String.pipe(T.HttpLabel("modelIdentifier")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/imported-models/{modelIdentifier}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeleteImportedModelRequest",
+}) as any as S.Schema<DeleteImportedModelRequest>;
+export interface DeleteImportedModelResponse {}
+export const DeleteImportedModelResponse = S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "DeleteImportedModelResponse",
+}) as any as S.Schema<DeleteImportedModelResponse>;
+export interface GetImportedModelRequest {
+  modelIdentifier: string;
+}
+export const GetImportedModelRequest = S.suspend(() =>
+  S.Struct({
+    modelIdentifier: S.String.pipe(T.HttpLabel("modelIdentifier")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/imported-models/{modelIdentifier}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetImportedModelRequest",
+}) as any as S.Schema<GetImportedModelRequest>;
+export interface CustomModelUnits {
+  customModelUnitsPerModelCopy?: number;
+  customModelUnitsVersion?: string;
+}
+export const CustomModelUnits = S.suspend(() =>
+  S.Struct({
+    customModelUnitsPerModelCopy: S.optional(S.Number),
+    customModelUnitsVersion: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "CustomModelUnits",
+}) as any as S.Schema<CustomModelUnits>;
+export interface GetImportedModelResponse {
+  modelArn?: string;
+  modelName?: string;
+  jobName?: string;
+  jobArn?: string;
+  modelDataSource?: ModelDataSource;
+  creationTime?: Date;
+  modelArchitecture?: string;
+  modelKmsKeyArn?: string;
+  instructSupported?: boolean;
+  customModelUnits?: CustomModelUnits;
+}
+export const GetImportedModelResponse = S.suspend(() =>
+  S.Struct({
+    modelArn: S.optional(S.String),
+    modelName: S.optional(S.String),
+    jobName: S.optional(S.String),
+    jobArn: S.optional(S.String),
+    modelDataSource: S.optional(ModelDataSource),
+    creationTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    modelArchitecture: S.optional(S.String),
+    modelKmsKeyArn: S.optional(S.String),
+    instructSupported: S.optional(S.Boolean),
+    customModelUnits: S.optional(CustomModelUnits),
+  }),
+).annotate({
+  identifier: "GetImportedModelResponse",
+}) as any as S.Schema<GetImportedModelResponse>;
+export interface GetModelImportJobRequest {
+  jobIdentifier: string;
+}
+export const GetModelImportJobRequest = S.suspend(() =>
+  S.Struct({ jobIdentifier: S.String.pipe(T.HttpLabel("jobIdentifier")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/model-import-jobs/{jobIdentifier}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetModelImportJobRequest",
+}) as any as S.Schema<GetModelImportJobRequest>;
+export type ModelImportJobStatus =
+  | "InProgress"
+  | "Completed"
+  | "Failed"
+  | (string & {});
+export const ModelImportJobStatus = S.String;
+export interface GetModelImportJobResponse {
+  jobArn?: string;
+  jobName?: string;
+  importedModelName?: string;
+  importedModelArn?: string;
+  roleArn?: string;
+  modelDataSource?: ModelDataSource;
+  status?: ModelImportJobStatus;
+  failureMessage?: string;
+  creationTime?: Date;
+  lastModifiedTime?: Date;
+  endTime?: Date;
+  vpcConfig?: VpcConfig;
+  importedModelKmsKeyArn?: string;
+}
+export const GetModelImportJobResponse = S.suspend(() =>
+  S.Struct({
+    jobArn: S.optional(S.String),
+    jobName: S.optional(S.String),
+    importedModelName: S.optional(S.String),
+    importedModelArn: S.optional(S.String),
+    roleArn: S.optional(S.String),
+    modelDataSource: S.optional(ModelDataSource),
+    status: S.optional(ModelImportJobStatus),
+    failureMessage: S.optional(S.String),
+    creationTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    lastModifiedTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    endTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    vpcConfig: S.optional(VpcConfig),
+    importedModelKmsKeyArn: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GetModelImportJobResponse",
+}) as any as S.Schema<GetModelImportJobResponse>;
+export interface ListImportedModelsRequest {
+  creationTimeBefore?: Date;
+  creationTimeAfter?: Date;
+  nameContains?: string;
+  maxResults?: number;
+  nextToken?: string;
+  sortBy?: SortModelsBy;
+  sortOrder?: SortOrder;
+}
+export const ListImportedModelsRequest = S.suspend(() =>
+  S.Struct({
+    creationTimeBefore: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.HttpQuery("creationTimeBefore")),
+    creationTimeAfter: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.HttpQuery("creationTimeAfter")),
+    nameContains: S.optional(S.String).pipe(T.HttpQuery("nameContains")),
+    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+    sortBy: S.optional(SortModelsBy).pipe(T.HttpQuery("sortBy")),
+    sortOrder: S.optional(SortOrder).pipe(T.HttpQuery("sortOrder")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/imported-models" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListImportedModelsRequest",
+}) as any as S.Schema<ListImportedModelsRequest>;
+export interface ImportedModelSummary {
+  modelArn: string;
+  modelName: string;
+  creationTime: Date;
+  instructSupported?: boolean;
+  modelArchitecture?: string;
+}
+export const ImportedModelSummary = S.suspend(() =>
+  S.Struct({
+    modelArn: S.String,
+    modelName: S.String,
+    creationTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    instructSupported: S.optional(S.Boolean),
+    modelArchitecture: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ImportedModelSummary",
+}) as any as S.Schema<ImportedModelSummary>;
+export type ImportedModelSummaryList = ImportedModelSummary[];
+export const ImportedModelSummaryList = S.Array(ImportedModelSummary);
+export interface ListImportedModelsResponse {
+  nextToken?: string;
+  modelSummaries?: ImportedModelSummary[];
+}
+export const ListImportedModelsResponse = S.suspend(() =>
+  S.Struct({
+    nextToken: S.optional(S.String),
+    modelSummaries: S.optional(ImportedModelSummaryList),
+  }),
+).annotate({
+  identifier: "ListImportedModelsResponse",
+}) as any as S.Schema<ListImportedModelsResponse>;
+export interface ListModelImportJobsRequest {
+  creationTimeAfter?: Date;
+  creationTimeBefore?: Date;
+  statusEquals?: ModelImportJobStatus;
+  nameContains?: string;
+  maxResults?: number;
+  nextToken?: string;
+  sortBy?: SortJobsBy;
+  sortOrder?: SortOrder;
+}
+export const ListModelImportJobsRequest = S.suspend(() =>
+  S.Struct({
+    creationTimeAfter: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.HttpQuery("creationTimeAfter")),
+    creationTimeBefore: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.HttpQuery("creationTimeBefore")),
+    statusEquals: S.optional(ModelImportJobStatus).pipe(
+      T.HttpQuery("statusEquals"),
+    ),
+    nameContains: S.optional(S.String).pipe(T.HttpQuery("nameContains")),
+    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+    sortBy: S.optional(SortJobsBy).pipe(T.HttpQuery("sortBy")),
+    sortOrder: S.optional(SortOrder).pipe(T.HttpQuery("sortOrder")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/model-import-jobs" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListModelImportJobsRequest",
+}) as any as S.Schema<ListModelImportJobsRequest>;
+export interface ModelImportJobSummary {
+  jobArn: string;
+  jobName: string;
+  status: ModelImportJobStatus;
+  lastModifiedTime?: Date;
+  creationTime: Date;
+  endTime?: Date;
+  importedModelArn?: string;
+  importedModelName?: string;
+}
+export const ModelImportJobSummary = S.suspend(() =>
+  S.Struct({
+    jobArn: S.String,
+    jobName: S.String,
+    status: ModelImportJobStatus,
+    lastModifiedTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    creationTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    endTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    importedModelArn: S.optional(S.String),
+    importedModelName: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ModelImportJobSummary",
+}) as any as S.Schema<ModelImportJobSummary>;
+export type ModelImportJobSummaries = ModelImportJobSummary[];
+export const ModelImportJobSummaries = S.Array(ModelImportJobSummary);
+export interface ListModelImportJobsResponse {
+  nextToken?: string;
+  modelImportJobSummaries?: ModelImportJobSummary[];
+}
+export const ListModelImportJobsResponse = S.suspend(() =>
+  S.Struct({
+    nextToken: S.optional(S.String),
+    modelImportJobSummaries: S.optional(ModelImportJobSummaries),
+  }),
+).annotate({
+  identifier: "ListModelImportJobsResponse",
+}) as any as S.Schema<ListModelImportJobsResponse>;
+export type S3InputFormat = "JSONL" | (string & {});
+export const S3InputFormat = S.String;
+export interface ModelInvocationJobS3InputDataConfig {
+  s3InputFormat?: S3InputFormat;
+  s3Uri: string;
+  s3BucketOwner?: string;
+}
+export const ModelInvocationJobS3InputDataConfig = S.suspend(() =>
+  S.Struct({
+    s3InputFormat: S.optional(S3InputFormat),
+    s3Uri: S.String,
+    s3BucketOwner: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ModelInvocationJobS3InputDataConfig",
+}) as any as S.Schema<ModelInvocationJobS3InputDataConfig>;
+export type ModelInvocationJobInputDataConfig = {
+  s3InputDataConfig: ModelInvocationJobS3InputDataConfig;
+};
+export const ModelInvocationJobInputDataConfig = S.Union([
+  S.Struct({ s3InputDataConfig: ModelInvocationJobS3InputDataConfig }),
+]);
+export interface ModelInvocationJobS3OutputDataConfig {
+  s3Uri: string;
+  s3EncryptionKeyId?: string;
+  s3BucketOwner?: string;
+}
+export const ModelInvocationJobS3OutputDataConfig = S.suspend(() =>
+  S.Struct({
+    s3Uri: S.String,
+    s3EncryptionKeyId: S.optional(S.String),
+    s3BucketOwner: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ModelInvocationJobS3OutputDataConfig",
+}) as any as S.Schema<ModelInvocationJobS3OutputDataConfig>;
+export type ModelInvocationJobOutputDataConfig = {
+  s3OutputDataConfig: ModelInvocationJobS3OutputDataConfig;
+};
+export const ModelInvocationJobOutputDataConfig = S.Union([
+  S.Struct({ s3OutputDataConfig: ModelInvocationJobS3OutputDataConfig }),
+]);
+export interface CreateModelInvocationJobRequest {
+  jobName: string;
+  roleArn: string;
+  clientRequestToken?: string;
+  modelId: string;
+  inputDataConfig: ModelInvocationJobInputDataConfig;
+  outputDataConfig: ModelInvocationJobOutputDataConfig;
+  vpcConfig?: VpcConfig;
+  timeoutDurationInHours?: number;
+  tags?: Tag[];
+}
+export const CreateModelInvocationJobRequest = S.suspend(() =>
+  S.Struct({
+    jobName: S.String,
+    roleArn: S.String,
+    clientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+    modelId: S.String,
+    inputDataConfig: ModelInvocationJobInputDataConfig,
+    outputDataConfig: ModelInvocationJobOutputDataConfig,
+    vpcConfig: S.optional(VpcConfig),
+    timeoutDurationInHours: S.optional(S.Number),
+    tags: S.optional(TagList),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/model-invocation-job" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "CreateModelInvocationJobRequest",
+}) as any as S.Schema<CreateModelInvocationJobRequest>;
 export interface CreateModelInvocationJobResponse {
   jobArn: string;
 }
 export const CreateModelInvocationJobResponse = S.suspend(() =>
   S.Struct({ jobArn: S.String }),
-).annotations({
+).annotate({
   identifier: "CreateModelInvocationJobResponse",
 }) as any as S.Schema<CreateModelInvocationJobResponse>;
+export interface GetModelInvocationJobRequest {
+  jobIdentifier: string;
+}
+export const GetModelInvocationJobRequest = S.suspend(() =>
+  S.Struct({ jobIdentifier: S.String.pipe(T.HttpLabel("jobIdentifier")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/model-invocation-job/{jobIdentifier}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetModelInvocationJobRequest",
+}) as any as S.Schema<GetModelInvocationJobRequest>;
+export type ModelInvocationJobStatus =
+  | "Submitted"
+  | "InProgress"
+  | "Completed"
+  | "Failed"
+  | "Stopping"
+  | "Stopped"
+  | "PartiallyCompleted"
+  | "Expired"
+  | "Validating"
+  | "Scheduled"
+  | (string & {});
+export const ModelInvocationJobStatus = S.String;
+export interface GetModelInvocationJobResponse {
+  jobArn: string;
+  jobName?: string;
+  modelId: string;
+  clientRequestToken?: string;
+  roleArn: string;
+  status?: ModelInvocationJobStatus;
+  message?: string | redacted.Redacted<string>;
+  submitTime: Date;
+  lastModifiedTime?: Date;
+  endTime?: Date;
+  inputDataConfig: ModelInvocationJobInputDataConfig;
+  outputDataConfig: ModelInvocationJobOutputDataConfig;
+  vpcConfig?: VpcConfig;
+  timeoutDurationInHours?: number;
+  jobExpirationTime?: Date;
+}
+export const GetModelInvocationJobResponse = S.suspend(() =>
+  S.Struct({
+    jobArn: S.String,
+    jobName: S.optional(S.String),
+    modelId: S.String,
+    clientRequestToken: S.optional(S.String),
+    roleArn: S.String,
+    status: S.optional(ModelInvocationJobStatus),
+    message: S.optional(SensitiveString),
+    submitTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    lastModifiedTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    endTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    inputDataConfig: ModelInvocationJobInputDataConfig,
+    outputDataConfig: ModelInvocationJobOutputDataConfig,
+    vpcConfig: S.optional(VpcConfig),
+    timeoutDurationInHours: S.optional(S.Number),
+    jobExpirationTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+  }),
+).annotate({
+  identifier: "GetModelInvocationJobResponse",
+}) as any as S.Schema<GetModelInvocationJobResponse>;
+export interface ListModelInvocationJobsRequest {
+  submitTimeAfter?: Date;
+  submitTimeBefore?: Date;
+  statusEquals?: ModelInvocationJobStatus;
+  nameContains?: string;
+  maxResults?: number;
+  nextToken?: string;
+  sortBy?: SortJobsBy;
+  sortOrder?: SortOrder;
+}
+export const ListModelInvocationJobsRequest = S.suspend(() =>
+  S.Struct({
+    submitTimeAfter: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.HttpQuery("submitTimeAfter")),
+    submitTimeBefore: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.HttpQuery("submitTimeBefore")),
+    statusEquals: S.optional(ModelInvocationJobStatus).pipe(
+      T.HttpQuery("statusEquals"),
+    ),
+    nameContains: S.optional(S.String).pipe(T.HttpQuery("nameContains")),
+    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+    sortBy: S.optional(SortJobsBy).pipe(T.HttpQuery("sortBy")),
+    sortOrder: S.optional(SortOrder).pipe(T.HttpQuery("sortOrder")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/model-invocation-jobs" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListModelInvocationJobsRequest",
+}) as any as S.Schema<ListModelInvocationJobsRequest>;
+export interface ModelInvocationJobSummary {
+  jobArn: string;
+  jobName: string;
+  modelId: string;
+  clientRequestToken?: string;
+  roleArn: string;
+  status?: ModelInvocationJobStatus;
+  message?: string | redacted.Redacted<string>;
+  submitTime: Date;
+  lastModifiedTime?: Date;
+  endTime?: Date;
+  inputDataConfig: ModelInvocationJobInputDataConfig;
+  outputDataConfig: ModelInvocationJobOutputDataConfig;
+  vpcConfig?: VpcConfig;
+  timeoutDurationInHours?: number;
+  jobExpirationTime?: Date;
+}
+export const ModelInvocationJobSummary = S.suspend(() =>
+  S.Struct({
+    jobArn: S.String,
+    jobName: S.String,
+    modelId: S.String,
+    clientRequestToken: S.optional(S.String),
+    roleArn: S.String,
+    status: S.optional(ModelInvocationJobStatus),
+    message: S.optional(SensitiveString),
+    submitTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    lastModifiedTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    endTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    inputDataConfig: ModelInvocationJobInputDataConfig,
+    outputDataConfig: ModelInvocationJobOutputDataConfig,
+    vpcConfig: S.optional(VpcConfig),
+    timeoutDurationInHours: S.optional(S.Number),
+    jobExpirationTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+  }),
+).annotate({
+  identifier: "ModelInvocationJobSummary",
+}) as any as S.Schema<ModelInvocationJobSummary>;
+export type ModelInvocationJobSummaries = ModelInvocationJobSummary[];
+export const ModelInvocationJobSummaries = S.Array(ModelInvocationJobSummary);
+export interface ListModelInvocationJobsResponse {
+  nextToken?: string;
+  invocationJobSummaries?: ModelInvocationJobSummary[];
+}
+export const ListModelInvocationJobsResponse = S.suspend(() =>
+  S.Struct({
+    nextToken: S.optional(S.String),
+    invocationJobSummaries: S.optional(ModelInvocationJobSummaries),
+  }),
+).annotate({
+  identifier: "ListModelInvocationJobsResponse",
+}) as any as S.Schema<ListModelInvocationJobsResponse>;
+export interface StopModelInvocationJobRequest {
+  jobIdentifier: string;
+}
+export const StopModelInvocationJobRequest = S.suspend(() =>
+  S.Struct({ jobIdentifier: S.String.pipe(T.HttpLabel("jobIdentifier")) }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/model-invocation-job/{jobIdentifier}/stop",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "StopModelInvocationJobRequest",
+}) as any as S.Schema<StopModelInvocationJobRequest>;
+export interface StopModelInvocationJobResponse {}
+export const StopModelInvocationJobResponse = S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "StopModelInvocationJobResponse",
+}) as any as S.Schema<StopModelInvocationJobResponse>;
+export interface GetFoundationModelRequest {
+  modelIdentifier: string;
+}
+export const GetFoundationModelRequest = S.suspend(() =>
+  S.Struct({
+    modelIdentifier: S.String.pipe(T.HttpLabel("modelIdentifier")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/foundation-models/{modelIdentifier}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetFoundationModelRequest",
+}) as any as S.Schema<GetFoundationModelRequest>;
+export type ModelModality = "TEXT" | "IMAGE" | "EMBEDDING" | (string & {});
+export const ModelModality = S.String;
+export type ModelModalityList = ModelModality[];
+export const ModelModalityList = S.Array(ModelModality);
+export type ModelCustomization =
+  | "FINE_TUNING"
+  | "CONTINUED_PRE_TRAINING"
+  | "DISTILLATION"
+  | (string & {});
+export const ModelCustomization = S.String;
+export type ModelCustomizationList = ModelCustomization[];
+export const ModelCustomizationList = S.Array(ModelCustomization);
+export type InferenceType = "ON_DEMAND" | "PROVISIONED" | (string & {});
+export const InferenceType = S.String;
+export type InferenceTypeList = InferenceType[];
+export const InferenceTypeList = S.Array(InferenceType);
+export type FoundationModelLifecycleStatus =
+  | "ACTIVE"
+  | "LEGACY"
+  | (string & {});
+export const FoundationModelLifecycleStatus = S.String;
+export interface FoundationModelLifecycle {
+  status: FoundationModelLifecycleStatus;
+}
+export const FoundationModelLifecycle = S.suspend(() =>
+  S.Struct({ status: FoundationModelLifecycleStatus }),
+).annotate({
+  identifier: "FoundationModelLifecycle",
+}) as any as S.Schema<FoundationModelLifecycle>;
+export interface FoundationModelDetails {
+  modelArn: string;
+  modelId: string;
+  modelName?: string;
+  providerName?: string;
+  inputModalities?: ModelModality[];
+  outputModalities?: ModelModality[];
+  responseStreamingSupported?: boolean;
+  customizationsSupported?: ModelCustomization[];
+  inferenceTypesSupported?: InferenceType[];
+  modelLifecycle?: FoundationModelLifecycle;
+}
+export const FoundationModelDetails = S.suspend(() =>
+  S.Struct({
+    modelArn: S.String,
+    modelId: S.String,
+    modelName: S.optional(S.String),
+    providerName: S.optional(S.String),
+    inputModalities: S.optional(ModelModalityList),
+    outputModalities: S.optional(ModelModalityList),
+    responseStreamingSupported: S.optional(S.Boolean),
+    customizationsSupported: S.optional(ModelCustomizationList),
+    inferenceTypesSupported: S.optional(InferenceTypeList),
+    modelLifecycle: S.optional(FoundationModelLifecycle),
+  }),
+).annotate({
+  identifier: "FoundationModelDetails",
+}) as any as S.Schema<FoundationModelDetails>;
 export interface GetFoundationModelResponse {
   modelDetails?: FoundationModelDetails;
 }
 export const GetFoundationModelResponse = S.suspend(() =>
   S.Struct({ modelDetails: S.optional(FoundationModelDetails) }),
-).annotations({
+).annotate({
   identifier: "GetFoundationModelResponse",
 }) as any as S.Schema<GetFoundationModelResponse>;
-export interface GetModelCustomizationJobResponse {
-  jobArn: string;
-  jobName: string;
-  outputModelName: string;
-  outputModelArn?: string;
+export interface ListFoundationModelsRequest {
+  byProvider?: string;
+  byCustomizationType?: ModelCustomization;
+  byOutputModality?: ModelModality;
+  byInferenceType?: InferenceType;
+}
+export const ListFoundationModelsRequest = S.suspend(() =>
+  S.Struct({
+    byProvider: S.optional(S.String).pipe(T.HttpQuery("byProvider")),
+    byCustomizationType: S.optional(ModelCustomization).pipe(
+      T.HttpQuery("byCustomizationType"),
+    ),
+    byOutputModality: S.optional(ModelModality).pipe(
+      T.HttpQuery("byOutputModality"),
+    ),
+    byInferenceType: S.optional(InferenceType).pipe(
+      T.HttpQuery("byInferenceType"),
+    ),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/foundation-models" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListFoundationModelsRequest",
+}) as any as S.Schema<ListFoundationModelsRequest>;
+export interface FoundationModelSummary {
+  modelArn: string;
+  modelId: string;
+  modelName?: string;
+  providerName?: string;
+  inputModalities?: ModelModality[];
+  outputModalities?: ModelModality[];
+  responseStreamingSupported?: boolean;
+  customizationsSupported?: ModelCustomization[];
+  inferenceTypesSupported?: InferenceType[];
+  modelLifecycle?: FoundationModelLifecycle;
+}
+export const FoundationModelSummary = S.suspend(() =>
+  S.Struct({
+    modelArn: S.String,
+    modelId: S.String,
+    modelName: S.optional(S.String),
+    providerName: S.optional(S.String),
+    inputModalities: S.optional(ModelModalityList),
+    outputModalities: S.optional(ModelModalityList),
+    responseStreamingSupported: S.optional(S.Boolean),
+    customizationsSupported: S.optional(ModelCustomizationList),
+    inferenceTypesSupported: S.optional(InferenceTypeList),
+    modelLifecycle: S.optional(FoundationModelLifecycle),
+  }),
+).annotate({
+  identifier: "FoundationModelSummary",
+}) as any as S.Schema<FoundationModelSummary>;
+export type FoundationModelSummaryList = FoundationModelSummary[];
+export const FoundationModelSummaryList = S.Array(FoundationModelSummary);
+export interface ListFoundationModelsResponse {
+  modelSummaries?: FoundationModelSummary[];
+}
+export const ListFoundationModelsResponse = S.suspend(() =>
+  S.Struct({ modelSummaries: S.optional(FoundationModelSummaryList) }),
+).annotate({
+  identifier: "ListFoundationModelsResponse",
+}) as any as S.Schema<ListFoundationModelsResponse>;
+export interface PromptRouterTargetModel {
+  modelArn?: string;
+}
+export const PromptRouterTargetModel = S.suspend(() =>
+  S.Struct({ modelArn: S.optional(S.String) }),
+).annotate({
+  identifier: "PromptRouterTargetModel",
+}) as any as S.Schema<PromptRouterTargetModel>;
+export type PromptRouterTargetModels = PromptRouterTargetModel[];
+export const PromptRouterTargetModels = S.Array(PromptRouterTargetModel);
+export interface RoutingCriteria {
+  responseQualityDifference: number;
+}
+export const RoutingCriteria = S.suspend(() =>
+  S.Struct({ responseQualityDifference: S.Number }),
+).annotate({
+  identifier: "RoutingCriteria",
+}) as any as S.Schema<RoutingCriteria>;
+export interface CreatePromptRouterRequest {
   clientRequestToken?: string;
-  roleArn: string;
-  status?: ModelCustomizationJobStatus;
-  statusDetails?: StatusDetails;
-  failureMessage?: string;
+  promptRouterName: string;
+  models: PromptRouterTargetModel[];
+  description?: string | redacted.Redacted<string>;
+  routingCriteria: RoutingCriteria;
+  fallbackModel: PromptRouterTargetModel;
+  tags?: Tag[];
+}
+export const CreatePromptRouterRequest = S.suspend(() =>
+  S.Struct({
+    clientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+    promptRouterName: S.String,
+    models: PromptRouterTargetModels,
+    description: S.optional(SensitiveString),
+    routingCriteria: RoutingCriteria,
+    fallbackModel: PromptRouterTargetModel,
+    tags: S.optional(TagList),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/prompt-routers" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "CreatePromptRouterRequest",
+}) as any as S.Schema<CreatePromptRouterRequest>;
+export interface CreatePromptRouterResponse {
+  promptRouterArn?: string;
+}
+export const CreatePromptRouterResponse = S.suspend(() =>
+  S.Struct({ promptRouterArn: S.optional(S.String) }),
+).annotate({
+  identifier: "CreatePromptRouterResponse",
+}) as any as S.Schema<CreatePromptRouterResponse>;
+export interface GetPromptRouterRequest {
+  promptRouterArn: string;
+}
+export const GetPromptRouterRequest = S.suspend(() =>
+  S.Struct({
+    promptRouterArn: S.String.pipe(T.HttpLabel("promptRouterArn")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/prompt-routers/{promptRouterArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetPromptRouterRequest",
+}) as any as S.Schema<GetPromptRouterRequest>;
+export type PromptRouterStatus = "AVAILABLE" | (string & {});
+export const PromptRouterStatus = S.String;
+export type PromptRouterType = "custom" | "default" | (string & {});
+export const PromptRouterType = S.String;
+export interface GetPromptRouterResponse {
+  promptRouterName: string;
+  routingCriteria: RoutingCriteria;
+  description?: string | redacted.Redacted<string>;
+  createdAt?: Date;
+  updatedAt?: Date;
+  promptRouterArn: string;
+  models: (PromptRouterTargetModel & {
+    modelArn: PromptRouterTargetModelArn;
+  })[];
+  fallbackModel: PromptRouterTargetModel & {
+    modelArn: PromptRouterTargetModelArn;
+  };
+  status: PromptRouterStatus;
+  type: PromptRouterType;
+}
+export const GetPromptRouterResponse = S.suspend(() =>
+  S.Struct({
+    promptRouterName: S.String,
+    routingCriteria: RoutingCriteria,
+    description: S.optional(SensitiveString),
+    createdAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    updatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    promptRouterArn: S.String,
+    models: PromptRouterTargetModels,
+    fallbackModel: PromptRouterTargetModel,
+    status: PromptRouterStatus,
+    type: PromptRouterType,
+  }),
+).annotate({
+  identifier: "GetPromptRouterResponse",
+}) as any as S.Schema<GetPromptRouterResponse>;
+export interface DeletePromptRouterRequest {
+  promptRouterArn: string;
+}
+export const DeletePromptRouterRequest = S.suspend(() =>
+  S.Struct({
+    promptRouterArn: S.String.pipe(T.HttpLabel("promptRouterArn")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/prompt-routers/{promptRouterArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeletePromptRouterRequest",
+}) as any as S.Schema<DeletePromptRouterRequest>;
+export interface DeletePromptRouterResponse {}
+export const DeletePromptRouterResponse = S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "DeletePromptRouterResponse",
+}) as any as S.Schema<DeletePromptRouterResponse>;
+export interface ListPromptRoutersRequest {
+  maxResults?: number;
+  nextToken?: string;
+  type?: PromptRouterType;
+}
+export const ListPromptRoutersRequest = S.suspend(() =>
+  S.Struct({
+    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+    type: S.optional(PromptRouterType).pipe(T.HttpQuery("type")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/prompt-routers" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListPromptRoutersRequest",
+}) as any as S.Schema<ListPromptRoutersRequest>;
+export interface PromptRouterSummary {
+  promptRouterName: string;
+  routingCriteria: RoutingCriteria;
+  description?: string | redacted.Redacted<string>;
+  createdAt?: Date;
+  updatedAt?: Date;
+  promptRouterArn: string;
+  models: PromptRouterTargetModel[];
+  fallbackModel: PromptRouterTargetModel;
+  status: PromptRouterStatus;
+  type: PromptRouterType;
+}
+export const PromptRouterSummary = S.suspend(() =>
+  S.Struct({
+    promptRouterName: S.String,
+    routingCriteria: RoutingCriteria,
+    description: S.optional(SensitiveString),
+    createdAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    updatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    promptRouterArn: S.String,
+    models: PromptRouterTargetModels,
+    fallbackModel: PromptRouterTargetModel,
+    status: PromptRouterStatus,
+    type: PromptRouterType,
+  }),
+).annotate({
+  identifier: "PromptRouterSummary",
+}) as any as S.Schema<PromptRouterSummary>;
+export type PromptRouterSummaries = PromptRouterSummary[];
+export const PromptRouterSummaries = S.Array(PromptRouterSummary);
+export interface ListPromptRoutersResponse {
+  promptRouterSummaries?: (PromptRouterSummary & {
+    models: (PromptRouterTargetModel & {
+      modelArn: PromptRouterTargetModelArn;
+    })[];
+    fallbackModel: PromptRouterTargetModel & {
+      modelArn: PromptRouterTargetModelArn;
+    };
+  })[];
+  nextToken?: string;
+}
+export const ListPromptRoutersResponse = S.suspend(() =>
+  S.Struct({
+    promptRouterSummaries: S.optional(PromptRouterSummaries),
+    nextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ListPromptRoutersResponse",
+}) as any as S.Schema<ListPromptRoutersResponse>;
+export type CommitmentDuration = "OneMonth" | "SixMonths" | (string & {});
+export const CommitmentDuration = S.String;
+export interface CreateProvisionedModelThroughputRequest {
+  clientRequestToken?: string;
+  modelUnits: number;
+  provisionedModelName: string;
+  modelId: string;
+  commitmentDuration?: CommitmentDuration;
+  tags?: Tag[];
+}
+export const CreateProvisionedModelThroughputRequest = S.suspend(() =>
+  S.Struct({
+    clientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+    modelUnits: S.Number,
+    provisionedModelName: S.String,
+    modelId: S.String,
+    commitmentDuration: S.optional(CommitmentDuration),
+    tags: S.optional(TagList),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/provisioned-model-throughput" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "CreateProvisionedModelThroughputRequest",
+}) as any as S.Schema<CreateProvisionedModelThroughputRequest>;
+export interface CreateProvisionedModelThroughputResponse {
+  provisionedModelArn: string;
+}
+export const CreateProvisionedModelThroughputResponse = S.suspend(() =>
+  S.Struct({ provisionedModelArn: S.String }),
+).annotate({
+  identifier: "CreateProvisionedModelThroughputResponse",
+}) as any as S.Schema<CreateProvisionedModelThroughputResponse>;
+export interface DeleteProvisionedModelThroughputRequest {
+  provisionedModelId: string;
+}
+export const DeleteProvisionedModelThroughputRequest = S.suspend(() =>
+  S.Struct({
+    provisionedModelId: S.String.pipe(T.HttpLabel("provisionedModelId")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/provisioned-model-throughput/{provisionedModelId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeleteProvisionedModelThroughputRequest",
+}) as any as S.Schema<DeleteProvisionedModelThroughputRequest>;
+export interface DeleteProvisionedModelThroughputResponse {}
+export const DeleteProvisionedModelThroughputResponse = S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "DeleteProvisionedModelThroughputResponse",
+}) as any as S.Schema<DeleteProvisionedModelThroughputResponse>;
+export interface GetProvisionedModelThroughputRequest {
+  provisionedModelId: string;
+}
+export const GetProvisionedModelThroughputRequest = S.suspend(() =>
+  S.Struct({
+    provisionedModelId: S.String.pipe(T.HttpLabel("provisionedModelId")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/provisioned-model-throughput/{provisionedModelId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetProvisionedModelThroughputRequest",
+}) as any as S.Schema<GetProvisionedModelThroughputRequest>;
+export type ProvisionedModelStatus =
+  | "Creating"
+  | "InService"
+  | "Updating"
+  | "Failed"
+  | (string & {});
+export const ProvisionedModelStatus = S.String;
+export interface GetProvisionedModelThroughputResponse {
+  modelUnits: number;
+  desiredModelUnits: number;
+  provisionedModelName: string;
+  provisionedModelArn: string;
+  modelArn: string;
+  desiredModelArn: string;
+  foundationModelArn: string;
+  status: ProvisionedModelStatus;
   creationTime: Date;
-  lastModifiedTime?: Date;
-  endTime?: Date;
-  baseModelArn: string;
-  hyperParameters?: { [key: string]: string | undefined };
-  trainingDataConfig: TrainingDataConfig;
-  validationDataConfig: ValidationDataConfig;
-  outputDataConfig: OutputDataConfig;
-  customizationType?: CustomizationType;
-  outputModelKmsKeyArn?: string;
-  trainingMetrics?: TrainingMetrics;
-  validationMetrics?: ValidatorMetric[];
-  vpcConfig?: VpcConfig;
-  customizationConfig?: CustomizationConfig;
+  lastModifiedTime: Date;
+  failureMessage?: string;
+  commitmentDuration?: CommitmentDuration;
+  commitmentExpirationTime?: Date;
 }
-export const GetModelCustomizationJobResponse = S.suspend(() =>
+export const GetProvisionedModelThroughputResponse = S.suspend(() =>
   S.Struct({
-    jobArn: S.String,
-    jobName: S.String,
-    outputModelName: S.String,
-    outputModelArn: S.optional(S.String),
-    clientRequestToken: S.optional(S.String),
-    roleArn: S.String,
-    status: S.optional(ModelCustomizationJobStatus),
-    statusDetails: S.optional(StatusDetails),
+    modelUnits: S.Number,
+    desiredModelUnits: S.Number,
+    provisionedModelName: S.String,
+    provisionedModelArn: S.String,
+    modelArn: S.String,
+    desiredModelArn: S.String,
+    foundationModelArn: S.String,
+    status: ProvisionedModelStatus,
+    creationTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    lastModifiedTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     failureMessage: S.optional(S.String),
-    creationTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    lastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    endTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    baseModelArn: S.String,
-    hyperParameters: S.optional(ModelCustomizationHyperParameters),
-    trainingDataConfig: TrainingDataConfig,
-    validationDataConfig: ValidationDataConfig,
-    outputDataConfig: OutputDataConfig,
-    customizationType: S.optional(CustomizationType),
-    outputModelKmsKeyArn: S.optional(S.String),
-    trainingMetrics: S.optional(TrainingMetrics),
-    validationMetrics: S.optional(ValidationMetrics),
-    vpcConfig: S.optional(VpcConfig),
-    customizationConfig: S.optional(CustomizationConfig),
+    commitmentDuration: S.optional(CommitmentDuration),
+    commitmentExpirationTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
-).annotations({
-  identifier: "GetModelCustomizationJobResponse",
-}) as any as S.Schema<GetModelCustomizationJobResponse>;
-export interface AutomatedReasoningPolicyDefinitionQualityReport {
-  typeCount: number;
-  variableCount: number;
-  ruleCount: number;
-  unusedTypes: string | redacted.Redacted<string>[];
-  unusedTypeValues: AutomatedReasoningPolicyDefinitionTypeValuePair[];
-  unusedVariables: string | redacted.Redacted<string>[];
-  conflictingRules: string[];
-  disjointRuleSets: AutomatedReasoningPolicyDisjointRuleSet[];
+).annotate({
+  identifier: "GetProvisionedModelThroughputResponse",
+}) as any as S.Schema<GetProvisionedModelThroughputResponse>;
+export type SortByProvisionedModels = "CreationTime" | (string & {});
+export const SortByProvisionedModels = S.String;
+export interface ListProvisionedModelThroughputsRequest {
+  creationTimeAfter?: Date;
+  creationTimeBefore?: Date;
+  statusEquals?: ProvisionedModelStatus;
+  modelArnEquals?: string;
+  nameContains?: string;
+  maxResults?: number;
+  nextToken?: string;
+  sortBy?: SortByProvisionedModels;
+  sortOrder?: SortOrder;
 }
-export const AutomatedReasoningPolicyDefinitionQualityReport = S.suspend(() =>
+export const ListProvisionedModelThroughputsRequest = S.suspend(() =>
   S.Struct({
-    typeCount: S.Number,
-    variableCount: S.Number,
-    ruleCount: S.Number,
-    unusedTypes: AutomatedReasoningPolicyDefinitionTypeNameList,
-    unusedTypeValues: AutomatedReasoningPolicyDefinitionTypeValuePairList,
-    unusedVariables: AutomatedReasoningPolicyDefinitionVariableNameList,
-    conflictingRules: AutomatedReasoningPolicyConflictedRuleIdList,
-    disjointRuleSets: AutomatedReasoningPolicyDisjointRuleSetList,
-  }),
-).annotations({
-  identifier: "AutomatedReasoningPolicyDefinitionQualityReport",
-}) as any as S.Schema<AutomatedReasoningPolicyDefinitionQualityReport>;
-export interface AutomatedReasoningPolicyGeneratedTestCases {
-  generatedTestCases: AutomatedReasoningPolicyGeneratedTestCase[];
+    creationTimeAfter: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.HttpQuery("creationTimeAfter")),
+    creationTimeBefore: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.HttpQuery("creationTimeBefore")),
+    statusEquals: S.optional(ProvisionedModelStatus).pipe(
+      T.HttpQuery("statusEquals"),
+    ),
+    modelArnEquals: S.optional(S.String).pipe(T.HttpQuery("modelArnEquals")),
+    nameContains: S.optional(S.String).pipe(T.HttpQuery("nameContains")),
+    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+    sortBy: S.optional(SortByProvisionedModels).pipe(T.HttpQuery("sortBy")),
+    sortOrder: S.optional(SortOrder).pipe(T.HttpQuery("sortOrder")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/provisioned-model-throughputs" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListProvisionedModelThroughputsRequest",
+}) as any as S.Schema<ListProvisionedModelThroughputsRequest>;
+export interface ProvisionedModelSummary {
+  provisionedModelName: string;
+  provisionedModelArn: string;
+  modelArn: string;
+  desiredModelArn: string;
+  foundationModelArn: string;
+  modelUnits: number;
+  desiredModelUnits: number;
+  status: ProvisionedModelStatus;
+  commitmentDuration?: CommitmentDuration;
+  commitmentExpirationTime?: Date;
+  creationTime: Date;
+  lastModifiedTime: Date;
 }
-export const AutomatedReasoningPolicyGeneratedTestCases = S.suspend(() =>
+export const ProvisionedModelSummary = S.suspend(() =>
   S.Struct({
-    generatedTestCases: AutomatedReasoningPolicyGeneratedTestCaseList,
+    provisionedModelName: S.String,
+    provisionedModelArn: S.String,
+    modelArn: S.String,
+    desiredModelArn: S.String,
+    foundationModelArn: S.String,
+    modelUnits: S.Number,
+    desiredModelUnits: S.Number,
+    status: ProvisionedModelStatus,
+    commitmentDuration: S.optional(CommitmentDuration),
+    commitmentExpirationTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    creationTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    lastModifiedTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
-).annotations({
-  identifier: "AutomatedReasoningPolicyGeneratedTestCases",
-}) as any as S.Schema<AutomatedReasoningPolicyGeneratedTestCases>;
-export interface EvaluationInferenceConfigSummary {
-  modelConfigSummary?: EvaluationModelConfigSummary;
-  ragConfigSummary?: EvaluationRagConfigSummary;
+).annotate({
+  identifier: "ProvisionedModelSummary",
+}) as any as S.Schema<ProvisionedModelSummary>;
+export type ProvisionedModelSummaries = ProvisionedModelSummary[];
+export const ProvisionedModelSummaries = S.Array(ProvisionedModelSummary);
+export interface ListProvisionedModelThroughputsResponse {
+  nextToken?: string;
+  provisionedModelSummaries?: ProvisionedModelSummary[];
 }
-export const EvaluationInferenceConfigSummary = S.suspend(() =>
+export const ListProvisionedModelThroughputsResponse = S.suspend(() =>
   S.Struct({
-    modelConfigSummary: S.optional(EvaluationModelConfigSummary),
-    ragConfigSummary: S.optional(EvaluationRagConfigSummary),
+    nextToken: S.optional(S.String),
+    provisionedModelSummaries: S.optional(ProvisionedModelSummaries),
   }),
-).annotations({
-  identifier: "EvaluationInferenceConfigSummary",
-}) as any as S.Schema<EvaluationInferenceConfigSummary>;
+).annotate({
+  identifier: "ListProvisionedModelThroughputsResponse",
+}) as any as S.Schema<ListProvisionedModelThroughputsResponse>;
+export interface UpdateProvisionedModelThroughputRequest {
+  provisionedModelId: string;
+  desiredProvisionedModelName?: string;
+  desiredModelId?: string;
+}
+export const UpdateProvisionedModelThroughputRequest = S.suspend(() =>
+  S.Struct({
+    provisionedModelId: S.String.pipe(T.HttpLabel("provisionedModelId")),
+    desiredProvisionedModelName: S.optional(S.String),
+    desiredModelId: S.optional(S.String),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PATCH",
+        uri: "/provisioned-model-throughput/{provisionedModelId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "UpdateProvisionedModelThroughputRequest",
+}) as any as S.Schema<UpdateProvisionedModelThroughputRequest>;
+export interface UpdateProvisionedModelThroughputResponse {}
+export const UpdateProvisionedModelThroughputResponse = S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "UpdateProvisionedModelThroughputResponse",
+}) as any as S.Schema<UpdateProvisionedModelThroughputResponse>;
+export interface CreateFoundationModelAgreementRequest {
+  offerToken: string;
+  modelId: string;
+}
+export const CreateFoundationModelAgreementRequest = S.suspend(() =>
+  S.Struct({ offerToken: S.String, modelId: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/create-foundation-model-agreement" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "CreateFoundationModelAgreementRequest",
+}) as any as S.Schema<CreateFoundationModelAgreementRequest>;
+export interface CreateFoundationModelAgreementResponse {
+  modelId: string;
+}
+export const CreateFoundationModelAgreementResponse = S.suspend(() =>
+  S.Struct({ modelId: S.String }),
+).annotate({
+  identifier: "CreateFoundationModelAgreementResponse",
+}) as any as S.Schema<CreateFoundationModelAgreementResponse>;
+export interface DeleteFoundationModelAgreementRequest {
+  modelId: string;
+}
+export const DeleteFoundationModelAgreementRequest = S.suspend(() =>
+  S.Struct({ modelId: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/delete-foundation-model-agreement" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeleteFoundationModelAgreementRequest",
+}) as any as S.Schema<DeleteFoundationModelAgreementRequest>;
+export interface DeleteFoundationModelAgreementResponse {}
+export const DeleteFoundationModelAgreementResponse = S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "DeleteFoundationModelAgreementResponse",
+}) as any as S.Schema<DeleteFoundationModelAgreementResponse>;
+export interface GetFoundationModelAvailabilityRequest {
+  modelId: string;
+}
+export const GetFoundationModelAvailabilityRequest = S.suspend(() =>
+  S.Struct({ modelId: S.String.pipe(T.HttpLabel("modelId")) }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/foundation-model-availability/{modelId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetFoundationModelAvailabilityRequest",
+}) as any as S.Schema<GetFoundationModelAvailabilityRequest>;
+export type AgreementStatus =
+  | "AVAILABLE"
+  | "PENDING"
+  | "NOT_AVAILABLE"
+  | "ERROR"
+  | (string & {});
+export const AgreementStatus = S.String;
+export interface AgreementAvailability {
+  status: AgreementStatus;
+  errorMessage?: string;
+}
+export const AgreementAvailability = S.suspend(() =>
+  S.Struct({ status: AgreementStatus, errorMessage: S.optional(S.String) }),
+).annotate({
+  identifier: "AgreementAvailability",
+}) as any as S.Schema<AgreementAvailability>;
+export type AuthorizationStatus =
+  | "AUTHORIZED"
+  | "NOT_AUTHORIZED"
+  | (string & {});
+export const AuthorizationStatus = S.String;
+export type EntitlementAvailability =
+  | "AVAILABLE"
+  | "NOT_AVAILABLE"
+  | (string & {});
+export const EntitlementAvailability = S.String;
+export type RegionAvailability = "AVAILABLE" | "NOT_AVAILABLE" | (string & {});
+export const RegionAvailability = S.String;
+export interface GetFoundationModelAvailabilityResponse {
+  modelId: string;
+  agreementAvailability: AgreementAvailability;
+  authorizationStatus: AuthorizationStatus;
+  entitlementAvailability: EntitlementAvailability;
+  regionAvailability: RegionAvailability;
+}
+export const GetFoundationModelAvailabilityResponse = S.suspend(() =>
+  S.Struct({
+    modelId: S.String,
+    agreementAvailability: AgreementAvailability,
+    authorizationStatus: AuthorizationStatus,
+    entitlementAvailability: EntitlementAvailability,
+    regionAvailability: RegionAvailability,
+  }),
+).annotate({
+  identifier: "GetFoundationModelAvailabilityResponse",
+}) as any as S.Schema<GetFoundationModelAvailabilityResponse>;
+export type OfferType = "ALL" | "PUBLIC" | (string & {});
+export const OfferType = S.String;
+export interface ListFoundationModelAgreementOffersRequest {
+  modelId: string;
+  offerType?: OfferType;
+}
+export const ListFoundationModelAgreementOffersRequest = S.suspend(() =>
+  S.Struct({
+    modelId: S.String.pipe(T.HttpLabel("modelId")),
+    offerType: S.optional(OfferType).pipe(T.HttpQuery("offerType")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/list-foundation-model-agreement-offers/{modelId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListFoundationModelAgreementOffersRequest",
+}) as any as S.Schema<ListFoundationModelAgreementOffersRequest>;
 export interface DimensionalPriceRate {
   dimension?: string;
   price?: string;
@@ -7828,160 +8022,79 @@ export const DimensionalPriceRate = S.suspend(() =>
     description: S.optional(S.String),
     unit: S.optional(S.String),
   }),
-).annotations({
+).annotate({
   identifier: "DimensionalPriceRate",
 }) as any as S.Schema<DimensionalPriceRate>;
 export type RateCard = DimensionalPriceRate[];
 export const RateCard = S.Array(DimensionalPriceRate);
-export interface AutomatedReasoningPolicyPlanning {}
-export const AutomatedReasoningPolicyPlanning = S.suspend(() =>
-  S.Struct({}),
-).annotations({
-  identifier: "AutomatedReasoningPolicyPlanning",
-}) as any as S.Schema<AutomatedReasoningPolicyPlanning>;
-export type AutomatedReasoningPolicyBuildMessageType =
-  | "INFO"
-  | "WARNING"
-  | "ERROR"
-  | (string & {});
-export const AutomatedReasoningPolicyBuildMessageType = S.String;
-export interface EvaluationSummary {
-  jobArn: string;
-  jobName: string;
-  status: EvaluationJobStatus;
-  creationTime: Date;
-  jobType: EvaluationJobType;
-  evaluationTaskTypes: EvaluationTaskType[];
-  modelIdentifiers?: string[];
-  ragIdentifiers?: string[];
-  evaluatorModelIdentifiers?: string[];
-  customMetricsEvaluatorModelIdentifiers?: string[];
-  inferenceConfigSummary?: EvaluationInferenceConfigSummary;
-  applicationType?: ApplicationType;
-}
-export const EvaluationSummary = S.suspend(() =>
-  S.Struct({
-    jobArn: S.String,
-    jobName: S.String,
-    status: EvaluationJobStatus,
-    creationTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    jobType: EvaluationJobType,
-    evaluationTaskTypes: EvaluationTaskTypes,
-    modelIdentifiers: S.optional(EvaluationBedrockModelIdentifiers),
-    ragIdentifiers: S.optional(EvaluationBedrockKnowledgeBaseIdentifiers),
-    evaluatorModelIdentifiers: S.optional(EvaluatorModelIdentifiers),
-    customMetricsEvaluatorModelIdentifiers: S.optional(
-      EvaluatorModelIdentifiers,
-    ),
-    inferenceConfigSummary: S.optional(EvaluationInferenceConfigSummary),
-    applicationType: S.optional(ApplicationType),
-  }),
-).annotations({
-  identifier: "EvaluationSummary",
-}) as any as S.Schema<EvaluationSummary>;
-export type EvaluationSummaries = EvaluationSummary[];
-export const EvaluationSummaries = S.Array(EvaluationSummary);
-export type RetrievalFilterList = RetrievalFilter[];
-export const RetrievalFilterList = S.Array(
-  S.suspend(() => RetrievalFilter).annotations({
-    identifier: "RetrievalFilter",
-  }),
-) as any as S.Schema<RetrievalFilterList>;
 export interface PricingTerm {
   rateCard: DimensionalPriceRate[];
 }
 export const PricingTerm = S.suspend(() =>
   S.Struct({ rateCard: RateCard }),
-).annotations({ identifier: "PricingTerm" }) as any as S.Schema<PricingTerm>;
-export interface CreateAutomatedReasoningPolicyResponse {
-  policyArn: string;
-  version: string;
-  name: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
-  definitionHash?: string;
-  createdAt: Date;
-  updatedAt: Date;
+).annotate({ identifier: "PricingTerm" }) as any as S.Schema<PricingTerm>;
+export interface LegalTerm {
+  url?: string;
 }
-export const CreateAutomatedReasoningPolicyResponse = S.suspend(() =>
+export const LegalTerm = S.suspend(() =>
+  S.Struct({ url: S.optional(S.String) }),
+).annotate({ identifier: "LegalTerm" }) as any as S.Schema<LegalTerm>;
+export interface SupportTerm {
+  refundPolicyDescription?: string;
+}
+export const SupportTerm = S.suspend(() =>
+  S.Struct({ refundPolicyDescription: S.optional(S.String) }),
+).annotate({ identifier: "SupportTerm" }) as any as S.Schema<SupportTerm>;
+export interface ValidityTerm {
+  agreementDuration?: string;
+}
+export const ValidityTerm = S.suspend(() =>
+  S.Struct({ agreementDuration: S.optional(S.String) }),
+).annotate({ identifier: "ValidityTerm" }) as any as S.Schema<ValidityTerm>;
+export interface TermDetails {
+  usageBasedPricingTerm: PricingTerm;
+  legalTerm: LegalTerm;
+  supportTerm: SupportTerm;
+  validityTerm?: ValidityTerm;
+}
+export const TermDetails = S.suspend(() =>
   S.Struct({
-    policyArn: S.String,
-    version: S.String,
-    name: SensitiveString,
-    description: S.optional(SensitiveString),
-    definitionHash: S.optional(S.String),
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    usageBasedPricingTerm: PricingTerm,
+    legalTerm: LegalTerm,
+    supportTerm: SupportTerm,
+    validityTerm: S.optional(ValidityTerm),
   }),
-).annotations({
-  identifier: "CreateAutomatedReasoningPolicyResponse",
-}) as any as S.Schema<CreateAutomatedReasoningPolicyResponse>;
-export type AutomatedReasoningPolicyDefinitionElement =
-  | {
-      policyDefinitionVariable: AutomatedReasoningPolicyDefinitionVariable;
-      policyDefinitionType?: never;
-      policyDefinitionRule?: never;
-    }
-  | {
-      policyDefinitionVariable?: never;
-      policyDefinitionType: AutomatedReasoningPolicyDefinitionType;
-      policyDefinitionRule?: never;
-    }
-  | {
-      policyDefinitionVariable?: never;
-      policyDefinitionType?: never;
-      policyDefinitionRule: AutomatedReasoningPolicyDefinitionRule;
-    };
-export const AutomatedReasoningPolicyDefinitionElement = S.Union(
+).annotate({ identifier: "TermDetails" }) as any as S.Schema<TermDetails>;
+export interface Offer {
+  offerId?: string;
+  offerToken: string;
+  termDetails: TermDetails;
+}
+export const Offer = S.suspend(() =>
   S.Struct({
-    policyDefinitionVariable: AutomatedReasoningPolicyDefinitionVariable,
+    offerId: S.optional(S.String),
+    offerToken: S.String,
+    termDetails: TermDetails,
   }),
-  S.Struct({ policyDefinitionType: AutomatedReasoningPolicyDefinitionType }),
-  S.Struct({ policyDefinitionRule: AutomatedReasoningPolicyDefinitionRule }),
-);
-export interface AutomatedReasoningPolicyBuildStepMessage {
-  message: string;
-  messageType: AutomatedReasoningPolicyBuildMessageType;
+).annotate({ identifier: "Offer" }) as any as S.Schema<Offer>;
+export type Offers = Offer[];
+export const Offers = S.Array(Offer);
+export interface ListFoundationModelAgreementOffersResponse {
+  modelId: string;
+  offers: Offer[];
 }
-export const AutomatedReasoningPolicyBuildStepMessage = S.suspend(() =>
-  S.Struct({
-    message: S.String,
-    messageType: AutomatedReasoningPolicyBuildMessageType,
-  }),
-).annotations({
-  identifier: "AutomatedReasoningPolicyBuildStepMessage",
-}) as any as S.Schema<AutomatedReasoningPolicyBuildStepMessage>;
-export type AutomatedReasoningPolicyBuildStepMessageList =
-  AutomatedReasoningPolicyBuildStepMessage[];
-export const AutomatedReasoningPolicyBuildStepMessageList = S.Array(
-  AutomatedReasoningPolicyBuildStepMessage,
-);
-export interface StartAutomatedReasoningPolicyBuildWorkflowResponse {
-  policyArn: string;
-  buildWorkflowId: string;
+export const ListFoundationModelAgreementOffersResponse = S.suspend(() =>
+  S.Struct({ modelId: S.String, offers: Offers }),
+).annotate({
+  identifier: "ListFoundationModelAgreementOffersResponse",
+}) as any as S.Schema<ListFoundationModelAgreementOffersResponse>;
+export interface ListTagsForResourceRequest {
+  resourceARN: string;
 }
-export const StartAutomatedReasoningPolicyBuildWorkflowResponse = S.suspend(
-  () => S.Struct({ policyArn: S.String, buildWorkflowId: S.String }),
-).annotations({
-  identifier: "StartAutomatedReasoningPolicyBuildWorkflowResponse",
-}) as any as S.Schema<StartAutomatedReasoningPolicyBuildWorkflowResponse>;
-export interface UpdateAutomatedReasoningPolicyAnnotationsRequest {
-  policyArn: string;
-  buildWorkflowId: string;
-  annotations: AutomatedReasoningPolicyAnnotation[];
-  lastUpdatedAnnotationSetHash: string;
-}
-export const UpdateAutomatedReasoningPolicyAnnotationsRequest = S.suspend(() =>
-  S.Struct({
-    policyArn: S.String.pipe(T.HttpLabel("policyArn")),
-    buildWorkflowId: S.String.pipe(T.HttpLabel("buildWorkflowId")),
-    annotations: AutomatedReasoningPolicyAnnotationList,
-    lastUpdatedAnnotationSetHash: S.String,
-  }).pipe(
+export const ListTagsForResourceRequest = S.suspend(() =>
+  S.Struct({ resourceARN: S.String }).pipe(
     T.all(
-      T.Http({
-        method: "PATCH",
-        uri: "/automated-reasoning-policies/{policyArn}/build-workflows/{buildWorkflowId}/annotations",
-      }),
+      T.Http({ method: "POST", uri: "/listTagsForResource" }),
       svc,
       auth,
       proto,
@@ -7989,21 +8102,63 @@ export const UpdateAutomatedReasoningPolicyAnnotationsRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
-  identifier: "UpdateAutomatedReasoningPolicyAnnotationsRequest",
-}) as any as S.Schema<UpdateAutomatedReasoningPolicyAnnotationsRequest>;
-export interface ListEvaluationJobsResponse {
-  nextToken?: string;
-  jobSummaries?: EvaluationSummary[];
+).annotate({
+  identifier: "ListTagsForResourceRequest",
+}) as any as S.Schema<ListTagsForResourceRequest>;
+export interface ListTagsForResourceResponse {
+  tags?: Tag[];
 }
-export const ListEvaluationJobsResponse = S.suspend(() =>
-  S.Struct({
-    nextToken: S.optional(S.String),
-    jobSummaries: S.optional(EvaluationSummaries),
-  }),
-).annotations({
-  identifier: "ListEvaluationJobsResponse",
-}) as any as S.Schema<ListEvaluationJobsResponse>;
+export const ListTagsForResourceResponse = S.suspend(() =>
+  S.Struct({ tags: S.optional(TagList) }),
+).annotate({
+  identifier: "ListTagsForResourceResponse",
+}) as any as S.Schema<ListTagsForResourceResponse>;
+export interface TagResourceRequest {
+  resourceARN: string;
+  tags: Tag[];
+}
+export const TagResourceRequest = S.suspend(() =>
+  S.Struct({ resourceARN: S.String, tags: TagList }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/tagResource" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "TagResourceRequest",
+}) as any as S.Schema<TagResourceRequest>;
+export interface TagResourceResponse {}
+export const TagResourceResponse = S.suspend(() => S.Struct({})).annotate({
+  identifier: "TagResourceResponse",
+}) as any as S.Schema<TagResourceResponse>;
+export type TagKeyList = string[];
+export const TagKeyList = S.Array(S.String);
+export interface UntagResourceRequest {
+  resourceARN: string;
+  tagKeys: string[];
+}
+export const UntagResourceRequest = S.suspend(() =>
+  S.Struct({ resourceARN: S.String, tagKeys: TagKeyList }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/untagResource" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "UntagResourceRequest",
+}) as any as S.Schema<UntagResourceRequest>;
+export interface UntagResourceResponse {}
+export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotate({
+  identifier: "UntagResourceResponse",
+}) as any as S.Schema<UntagResourceResponse>;
 export interface CreateModelCustomizationJobRequest {
   jobName: string;
   customModelName: string;
@@ -8048,401 +8203,27 @@ export const CreateModelCustomizationJobRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "CreateModelCustomizationJobRequest",
 }) as any as S.Schema<CreateModelCustomizationJobRequest>;
-export interface TermDetails {
-  usageBasedPricingTerm: PricingTerm;
-  legalTerm: LegalTerm;
-  supportTerm: SupportTerm;
-  validityTerm?: ValidityTerm;
-}
-export const TermDetails = S.suspend(() =>
-  S.Struct({
-    usageBasedPricingTerm: PricingTerm,
-    legalTerm: LegalTerm,
-    supportTerm: SupportTerm,
-    validityTerm: S.optional(ValidityTerm),
-  }),
-).annotations({ identifier: "TermDetails" }) as any as S.Schema<TermDetails>;
-export interface Offer {
-  offerId?: string;
-  offerToken: string;
-  termDetails: TermDetails;
-}
-export const Offer = S.suspend(() =>
-  S.Struct({
-    offerId: S.optional(S.String),
-    offerToken: S.String,
-    termDetails: TermDetails,
-  }),
-).annotations({ identifier: "Offer" }) as any as S.Schema<Offer>;
-export type Offers = Offer[];
-export const Offers = S.Array(Offer);
-export interface UpdateAutomatedReasoningPolicyAnnotationsResponse {
-  policyArn: string;
-  buildWorkflowId: string;
-  annotationSetHash: string;
-  updatedAt: Date;
-}
-export const UpdateAutomatedReasoningPolicyAnnotationsResponse = S.suspend(() =>
-  S.Struct({
-    policyArn: S.String,
-    buildWorkflowId: S.String,
-    annotationSetHash: S.String,
-    updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  }),
-).annotations({
-  identifier: "UpdateAutomatedReasoningPolicyAnnotationsResponse",
-}) as any as S.Schema<UpdateAutomatedReasoningPolicyAnnotationsResponse>;
-export interface ListFoundationModelAgreementOffersResponse {
-  modelId: string;
-  offers: Offer[];
-}
-export const ListFoundationModelAgreementOffersResponse = S.suspend(() =>
-  S.Struct({ modelId: S.String, offers: Offers }),
-).annotations({
-  identifier: "ListFoundationModelAgreementOffersResponse",
-}) as any as S.Schema<ListFoundationModelAgreementOffersResponse>;
 export interface CreateModelCustomizationJobResponse {
   jobArn: string;
 }
 export const CreateModelCustomizationJobResponse = S.suspend(() =>
   S.Struct({ jobArn: S.String }),
-).annotations({
+).annotate({
   identifier: "CreateModelCustomizationJobResponse",
 }) as any as S.Schema<CreateModelCustomizationJobResponse>;
-export interface AutomatedReasoningPolicyAddTypeMutation {
-  type: AutomatedReasoningPolicyDefinitionType;
+export interface GetModelCustomizationJobRequest {
+  jobIdentifier: string;
 }
-export const AutomatedReasoningPolicyAddTypeMutation = S.suspend(() =>
-  S.Struct({ type: AutomatedReasoningPolicyDefinitionType }),
-).annotations({
-  identifier: "AutomatedReasoningPolicyAddTypeMutation",
-}) as any as S.Schema<AutomatedReasoningPolicyAddTypeMutation>;
-export interface AutomatedReasoningPolicyUpdateTypeMutation {
-  type: AutomatedReasoningPolicyDefinitionType;
-}
-export const AutomatedReasoningPolicyUpdateTypeMutation = S.suspend(() =>
-  S.Struct({ type: AutomatedReasoningPolicyDefinitionType }),
-).annotations({
-  identifier: "AutomatedReasoningPolicyUpdateTypeMutation",
-}) as any as S.Schema<AutomatedReasoningPolicyUpdateTypeMutation>;
-export interface AutomatedReasoningPolicyDeleteTypeMutation {
-  name: string | redacted.Redacted<string>;
-}
-export const AutomatedReasoningPolicyDeleteTypeMutation = S.suspend(() =>
-  S.Struct({ name: SensitiveString }),
-).annotations({
-  identifier: "AutomatedReasoningPolicyDeleteTypeMutation",
-}) as any as S.Schema<AutomatedReasoningPolicyDeleteTypeMutation>;
-export interface AutomatedReasoningPolicyAddVariableMutation {
-  variable: AutomatedReasoningPolicyDefinitionVariable;
-}
-export const AutomatedReasoningPolicyAddVariableMutation = S.suspend(() =>
-  S.Struct({ variable: AutomatedReasoningPolicyDefinitionVariable }),
-).annotations({
-  identifier: "AutomatedReasoningPolicyAddVariableMutation",
-}) as any as S.Schema<AutomatedReasoningPolicyAddVariableMutation>;
-export interface AutomatedReasoningPolicyUpdateVariableMutation {
-  variable: AutomatedReasoningPolicyDefinitionVariable;
-}
-export const AutomatedReasoningPolicyUpdateVariableMutation = S.suspend(() =>
-  S.Struct({ variable: AutomatedReasoningPolicyDefinitionVariable }),
-).annotations({
-  identifier: "AutomatedReasoningPolicyUpdateVariableMutation",
-}) as any as S.Schema<AutomatedReasoningPolicyUpdateVariableMutation>;
-export interface AutomatedReasoningPolicyDeleteVariableMutation {
-  name: string | redacted.Redacted<string>;
-}
-export const AutomatedReasoningPolicyDeleteVariableMutation = S.suspend(() =>
-  S.Struct({ name: SensitiveString }),
-).annotations({
-  identifier: "AutomatedReasoningPolicyDeleteVariableMutation",
-}) as any as S.Schema<AutomatedReasoningPolicyDeleteVariableMutation>;
-export interface AutomatedReasoningPolicyAddRuleMutation {
-  rule: AutomatedReasoningPolicyDefinitionRule;
-}
-export const AutomatedReasoningPolicyAddRuleMutation = S.suspend(() =>
-  S.Struct({ rule: AutomatedReasoningPolicyDefinitionRule }),
-).annotations({
-  identifier: "AutomatedReasoningPolicyAddRuleMutation",
-}) as any as S.Schema<AutomatedReasoningPolicyAddRuleMutation>;
-export interface AutomatedReasoningPolicyUpdateRuleMutation {
-  rule: AutomatedReasoningPolicyDefinitionRule;
-}
-export const AutomatedReasoningPolicyUpdateRuleMutation = S.suspend(() =>
-  S.Struct({ rule: AutomatedReasoningPolicyDefinitionRule }),
-).annotations({
-  identifier: "AutomatedReasoningPolicyUpdateRuleMutation",
-}) as any as S.Schema<AutomatedReasoningPolicyUpdateRuleMutation>;
-export interface AutomatedReasoningPolicyDeleteRuleMutation {
-  id: string;
-}
-export const AutomatedReasoningPolicyDeleteRuleMutation = S.suspend(() =>
-  S.Struct({ id: S.String }),
-).annotations({
-  identifier: "AutomatedReasoningPolicyDeleteRuleMutation",
-}) as any as S.Schema<AutomatedReasoningPolicyDeleteRuleMutation>;
-export type AutomatedReasoningPolicyMutation =
-  | {
-      addType: AutomatedReasoningPolicyAddTypeMutation;
-      updateType?: never;
-      deleteType?: never;
-      addVariable?: never;
-      updateVariable?: never;
-      deleteVariable?: never;
-      addRule?: never;
-      updateRule?: never;
-      deleteRule?: never;
-    }
-  | {
-      addType?: never;
-      updateType: AutomatedReasoningPolicyUpdateTypeMutation;
-      deleteType?: never;
-      addVariable?: never;
-      updateVariable?: never;
-      deleteVariable?: never;
-      addRule?: never;
-      updateRule?: never;
-      deleteRule?: never;
-    }
-  | {
-      addType?: never;
-      updateType?: never;
-      deleteType: AutomatedReasoningPolicyDeleteTypeMutation;
-      addVariable?: never;
-      updateVariable?: never;
-      deleteVariable?: never;
-      addRule?: never;
-      updateRule?: never;
-      deleteRule?: never;
-    }
-  | {
-      addType?: never;
-      updateType?: never;
-      deleteType?: never;
-      addVariable: AutomatedReasoningPolicyAddVariableMutation;
-      updateVariable?: never;
-      deleteVariable?: never;
-      addRule?: never;
-      updateRule?: never;
-      deleteRule?: never;
-    }
-  | {
-      addType?: never;
-      updateType?: never;
-      deleteType?: never;
-      addVariable?: never;
-      updateVariable: AutomatedReasoningPolicyUpdateVariableMutation;
-      deleteVariable?: never;
-      addRule?: never;
-      updateRule?: never;
-      deleteRule?: never;
-    }
-  | {
-      addType?: never;
-      updateType?: never;
-      deleteType?: never;
-      addVariable?: never;
-      updateVariable?: never;
-      deleteVariable: AutomatedReasoningPolicyDeleteVariableMutation;
-      addRule?: never;
-      updateRule?: never;
-      deleteRule?: never;
-    }
-  | {
-      addType?: never;
-      updateType?: never;
-      deleteType?: never;
-      addVariable?: never;
-      updateVariable?: never;
-      deleteVariable?: never;
-      addRule: AutomatedReasoningPolicyAddRuleMutation;
-      updateRule?: never;
-      deleteRule?: never;
-    }
-  | {
-      addType?: never;
-      updateType?: never;
-      deleteType?: never;
-      addVariable?: never;
-      updateVariable?: never;
-      deleteVariable?: never;
-      addRule?: never;
-      updateRule: AutomatedReasoningPolicyUpdateRuleMutation;
-      deleteRule?: never;
-    }
-  | {
-      addType?: never;
-      updateType?: never;
-      deleteType?: never;
-      addVariable?: never;
-      updateVariable?: never;
-      deleteVariable?: never;
-      addRule?: never;
-      updateRule?: never;
-      deleteRule: AutomatedReasoningPolicyDeleteRuleMutation;
-    };
-export const AutomatedReasoningPolicyMutation = S.Union(
-  S.Struct({ addType: AutomatedReasoningPolicyAddTypeMutation }),
-  S.Struct({ updateType: AutomatedReasoningPolicyUpdateTypeMutation }),
-  S.Struct({ deleteType: AutomatedReasoningPolicyDeleteTypeMutation }),
-  S.Struct({ addVariable: AutomatedReasoningPolicyAddVariableMutation }),
-  S.Struct({ updateVariable: AutomatedReasoningPolicyUpdateVariableMutation }),
-  S.Struct({ deleteVariable: AutomatedReasoningPolicyDeleteVariableMutation }),
-  S.Struct({ addRule: AutomatedReasoningPolicyAddRuleMutation }),
-  S.Struct({ updateRule: AutomatedReasoningPolicyUpdateRuleMutation }),
-  S.Struct({ deleteRule: AutomatedReasoningPolicyDeleteRuleMutation }),
-);
-export type AutomatedReasoningPolicyBuildStepContext =
-  | { planning: AutomatedReasoningPolicyPlanning; mutation?: never }
-  | { planning?: never; mutation: AutomatedReasoningPolicyMutation };
-export const AutomatedReasoningPolicyBuildStepContext = S.Union(
-  S.Struct({ planning: AutomatedReasoningPolicyPlanning }),
-  S.Struct({ mutation: AutomatedReasoningPolicyMutation }),
-);
-export interface GetAutomatedReasoningPolicyTestResultResponse {
-  testResult: AutomatedReasoningPolicyTestResult;
-}
-export const GetAutomatedReasoningPolicyTestResultResponse = S.suspend(() =>
-  S.Struct({ testResult: AutomatedReasoningPolicyTestResult }),
-).annotations({
-  identifier: "GetAutomatedReasoningPolicyTestResultResponse",
-}) as any as S.Schema<GetAutomatedReasoningPolicyTestResultResponse>;
-export interface AutomatedReasoningPolicyBuildStep {
-  context: AutomatedReasoningPolicyBuildStepContext;
-  priorElement?: AutomatedReasoningPolicyDefinitionElement;
-  messages: AutomatedReasoningPolicyBuildStepMessage[];
-}
-export const AutomatedReasoningPolicyBuildStep = S.suspend(() =>
-  S.Struct({
-    context: AutomatedReasoningPolicyBuildStepContext,
-    priorElement: S.optional(AutomatedReasoningPolicyDefinitionElement),
-    messages: AutomatedReasoningPolicyBuildStepMessageList,
-  }),
-).annotations({
-  identifier: "AutomatedReasoningPolicyBuildStep",
-}) as any as S.Schema<AutomatedReasoningPolicyBuildStep>;
-export type AutomatedReasoningPolicyBuildStepList =
-  AutomatedReasoningPolicyBuildStep[];
-export const AutomatedReasoningPolicyBuildStepList = S.Array(
-  AutomatedReasoningPolicyBuildStep,
-);
-export interface AutomatedReasoningPolicyBuildLogEntry {
-  annotation: AutomatedReasoningPolicyAnnotation;
-  status: AutomatedReasoningPolicyAnnotationStatus;
-  buildSteps: AutomatedReasoningPolicyBuildStep[];
-}
-export const AutomatedReasoningPolicyBuildLogEntry = S.suspend(() =>
-  S.Struct({
-    annotation: AutomatedReasoningPolicyAnnotation,
-    status: AutomatedReasoningPolicyAnnotationStatus,
-    buildSteps: AutomatedReasoningPolicyBuildStepList,
-  }),
-).annotations({
-  identifier: "AutomatedReasoningPolicyBuildLogEntry",
-}) as any as S.Schema<AutomatedReasoningPolicyBuildLogEntry>;
-export type AutomatedReasoningPolicyBuildLogEntryList =
-  AutomatedReasoningPolicyBuildLogEntry[];
-export const AutomatedReasoningPolicyBuildLogEntryList = S.Array(
-  AutomatedReasoningPolicyBuildLogEntry,
-);
-export interface AutomatedReasoningPolicyBuildLog {
-  entries: AutomatedReasoningPolicyBuildLogEntry[];
-}
-export const AutomatedReasoningPolicyBuildLog = S.suspend(() =>
-  S.Struct({ entries: AutomatedReasoningPolicyBuildLogEntryList }),
-).annotations({
-  identifier: "AutomatedReasoningPolicyBuildLog",
-}) as any as S.Schema<AutomatedReasoningPolicyBuildLog>;
-export type AutomatedReasoningPolicyBuildResultAssets =
-  | {
-      policyDefinition: AutomatedReasoningPolicyDefinition;
-      qualityReport?: never;
-      buildLog?: never;
-      generatedTestCases?: never;
-      policyScenarios?: never;
-    }
-  | {
-      policyDefinition?: never;
-      qualityReport: AutomatedReasoningPolicyDefinitionQualityReport;
-      buildLog?: never;
-      generatedTestCases?: never;
-      policyScenarios?: never;
-    }
-  | {
-      policyDefinition?: never;
-      qualityReport?: never;
-      buildLog: AutomatedReasoningPolicyBuildLog;
-      generatedTestCases?: never;
-      policyScenarios?: never;
-    }
-  | {
-      policyDefinition?: never;
-      qualityReport?: never;
-      buildLog?: never;
-      generatedTestCases: AutomatedReasoningPolicyGeneratedTestCases;
-      policyScenarios?: never;
-    }
-  | {
-      policyDefinition?: never;
-      qualityReport?: never;
-      buildLog?: never;
-      generatedTestCases?: never;
-      policyScenarios: AutomatedReasoningPolicyScenarios;
-    };
-export const AutomatedReasoningPolicyBuildResultAssets = S.Union(
-  S.Struct({ policyDefinition: AutomatedReasoningPolicyDefinition }),
-  S.Struct({ qualityReport: AutomatedReasoningPolicyDefinitionQualityReport }),
-  S.Struct({ buildLog: AutomatedReasoningPolicyBuildLog }),
-  S.Struct({ generatedTestCases: AutomatedReasoningPolicyGeneratedTestCases }),
-  S.Struct({ policyScenarios: AutomatedReasoningPolicyScenarios }),
-);
-export interface GetAutomatedReasoningPolicyBuildWorkflowResultAssetsResponse {
-  policyArn: string;
-  buildWorkflowId: string;
-  buildWorkflowAssets?: AutomatedReasoningPolicyBuildResultAssets;
-}
-export const GetAutomatedReasoningPolicyBuildWorkflowResultAssetsResponse =
-  S.suspend(() =>
-    S.Struct({
-      policyArn: S.String,
-      buildWorkflowId: S.String,
-      buildWorkflowAssets: S.optional(
-        AutomatedReasoningPolicyBuildResultAssets,
-      ),
-    }),
-  ).annotations({
-    identifier: "GetAutomatedReasoningPolicyBuildWorkflowResultAssetsResponse",
-  }) as any as S.Schema<GetAutomatedReasoningPolicyBuildWorkflowResultAssetsResponse>;
-export interface CreateEvaluationJobRequest {
-  jobName: string;
-  jobDescription?: string | redacted.Redacted<string>;
-  clientRequestToken?: string;
-  roleArn: string;
-  customerEncryptionKeyId?: string;
-  jobTags?: Tag[];
-  applicationType?: ApplicationType;
-  evaluationConfig: EvaluationConfig;
-  inferenceConfig: EvaluationInferenceConfig;
-  outputDataConfig: EvaluationOutputDataConfig;
-}
-export const CreateEvaluationJobRequest = S.suspend(() =>
-  S.Struct({
-    jobName: S.String,
-    jobDescription: S.optional(SensitiveString),
-    clientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    roleArn: S.String,
-    customerEncryptionKeyId: S.optional(S.String),
-    jobTags: S.optional(TagList),
-    applicationType: S.optional(ApplicationType),
-    evaluationConfig: EvaluationConfig,
-    inferenceConfig: EvaluationInferenceConfig,
-    outputDataConfig: EvaluationOutputDataConfig,
-  }).pipe(
+export const GetModelCustomizationJobRequest = S.suspend(() =>
+  S.Struct({ jobIdentifier: S.String.pipe(T.HttpLabel("jobIdentifier")) }).pipe(
     T.all(
-      T.Http({ method: "POST", uri: "/evaluation-jobs" }),
+      T.Http({
+        method: "GET",
+        uri: "/model-customization-jobs/{jobIdentifier}",
+      }),
       svc,
       auth,
       proto,
@@ -8450,94 +8231,391 @@ export const CreateEvaluationJobRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
-  identifier: "CreateEvaluationJobRequest",
-}) as any as S.Schema<CreateEvaluationJobRequest>;
-export interface CreateEvaluationJobResponse {
-  jobArn: string;
+).annotate({
+  identifier: "GetModelCustomizationJobRequest",
+}) as any as S.Schema<GetModelCustomizationJobRequest>;
+export type ModelCustomizationJobStatus =
+  | "InProgress"
+  | "Completed"
+  | "Failed"
+  | "Stopping"
+  | "Stopped"
+  | (string & {});
+export const ModelCustomizationJobStatus = S.String;
+export type JobStatusDetails =
+  | "InProgress"
+  | "Completed"
+  | "Stopping"
+  | "Stopped"
+  | "Failed"
+  | "NotStarted"
+  | (string & {});
+export const JobStatusDetails = S.String;
+export interface ValidationDetails {
+  status?: JobStatusDetails;
+  creationTime?: Date;
+  lastModifiedTime?: Date;
 }
-export const CreateEvaluationJobResponse = S.suspend(() =>
-  S.Struct({ jobArn: S.String }),
-).annotations({
-  identifier: "CreateEvaluationJobResponse",
-}) as any as S.Schema<CreateEvaluationJobResponse>;
+export const ValidationDetails = S.suspend(() =>
+  S.Struct({
+    status: S.optional(JobStatusDetails),
+    creationTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    lastModifiedTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+  }),
+).annotate({
+  identifier: "ValidationDetails",
+}) as any as S.Schema<ValidationDetails>;
+export interface DataProcessingDetails {
+  status?: JobStatusDetails;
+  creationTime?: Date;
+  lastModifiedTime?: Date;
+}
+export const DataProcessingDetails = S.suspend(() =>
+  S.Struct({
+    status: S.optional(JobStatusDetails),
+    creationTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    lastModifiedTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+  }),
+).annotate({
+  identifier: "DataProcessingDetails",
+}) as any as S.Schema<DataProcessingDetails>;
+export interface TrainingDetails {
+  status?: JobStatusDetails;
+  creationTime?: Date;
+  lastModifiedTime?: Date;
+}
+export const TrainingDetails = S.suspend(() =>
+  S.Struct({
+    status: S.optional(JobStatusDetails),
+    creationTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    lastModifiedTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+  }),
+).annotate({
+  identifier: "TrainingDetails",
+}) as any as S.Schema<TrainingDetails>;
+export interface StatusDetails {
+  validationDetails?: ValidationDetails;
+  dataProcessingDetails?: DataProcessingDetails;
+  trainingDetails?: TrainingDetails;
+}
+export const StatusDetails = S.suspend(() =>
+  S.Struct({
+    validationDetails: S.optional(ValidationDetails),
+    dataProcessingDetails: S.optional(DataProcessingDetails),
+    trainingDetails: S.optional(TrainingDetails),
+  }),
+).annotate({ identifier: "StatusDetails" }) as any as S.Schema<StatusDetails>;
+export interface GetModelCustomizationJobResponse {
+  jobArn: string;
+  jobName: string;
+  outputModelName: string;
+  outputModelArn?: string;
+  clientRequestToken?: string;
+  roleArn: string;
+  status?: ModelCustomizationJobStatus;
+  statusDetails?: StatusDetails;
+  failureMessage?: string;
+  creationTime: Date;
+  lastModifiedTime?: Date;
+  endTime?: Date;
+  baseModelArn: string;
+  hyperParameters?: { [key: string]: string | undefined };
+  trainingDataConfig: TrainingDataConfig;
+  validationDataConfig: ValidationDataConfig;
+  outputDataConfig: OutputDataConfig;
+  customizationType?: CustomizationType;
+  outputModelKmsKeyArn?: string;
+  trainingMetrics?: TrainingMetrics;
+  validationMetrics?: ValidatorMetric[];
+  vpcConfig?: VpcConfig;
+  customizationConfig?: CustomizationConfig;
+}
+export const GetModelCustomizationJobResponse = S.suspend(() =>
+  S.Struct({
+    jobArn: S.String,
+    jobName: S.String,
+    outputModelName: S.String,
+    outputModelArn: S.optional(S.String),
+    clientRequestToken: S.optional(S.String),
+    roleArn: S.String,
+    status: S.optional(ModelCustomizationJobStatus),
+    statusDetails: S.optional(StatusDetails),
+    failureMessage: S.optional(S.String),
+    creationTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    lastModifiedTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    endTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    baseModelArn: S.String,
+    hyperParameters: S.optional(ModelCustomizationHyperParameters),
+    trainingDataConfig: TrainingDataConfig,
+    validationDataConfig: ValidationDataConfig,
+    outputDataConfig: OutputDataConfig,
+    customizationType: S.optional(CustomizationType),
+    outputModelKmsKeyArn: S.optional(S.String),
+    trainingMetrics: S.optional(TrainingMetrics),
+    validationMetrics: S.optional(ValidationMetrics),
+    vpcConfig: S.optional(VpcConfig),
+    customizationConfig: S.optional(CustomizationConfig),
+  }),
+).annotate({
+  identifier: "GetModelCustomizationJobResponse",
+}) as any as S.Schema<GetModelCustomizationJobResponse>;
+export type FineTuningJobStatus =
+  | "InProgress"
+  | "Completed"
+  | "Failed"
+  | "Stopping"
+  | "Stopped"
+  | (string & {});
+export const FineTuningJobStatus = S.String;
+export interface ListModelCustomizationJobsRequest {
+  creationTimeAfter?: Date;
+  creationTimeBefore?: Date;
+  statusEquals?: FineTuningJobStatus;
+  nameContains?: string;
+  maxResults?: number;
+  nextToken?: string;
+  sortBy?: SortJobsBy;
+  sortOrder?: SortOrder;
+}
+export const ListModelCustomizationJobsRequest = S.suspend(() =>
+  S.Struct({
+    creationTimeAfter: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.HttpQuery("creationTimeAfter")),
+    creationTimeBefore: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.HttpQuery("creationTimeBefore")),
+    statusEquals: S.optional(FineTuningJobStatus).pipe(
+      T.HttpQuery("statusEquals"),
+    ),
+    nameContains: S.optional(S.String).pipe(T.HttpQuery("nameContains")),
+    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+    sortBy: S.optional(SortJobsBy).pipe(T.HttpQuery("sortBy")),
+    sortOrder: S.optional(SortOrder).pipe(T.HttpQuery("sortOrder")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/model-customization-jobs" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListModelCustomizationJobsRequest",
+}) as any as S.Schema<ListModelCustomizationJobsRequest>;
+export interface ModelCustomizationJobSummary {
+  jobArn: string;
+  baseModelArn: string;
+  jobName: string;
+  status: ModelCustomizationJobStatus;
+  statusDetails?: StatusDetails;
+  lastModifiedTime?: Date;
+  creationTime: Date;
+  endTime?: Date;
+  customModelArn?: string;
+  customModelName?: string;
+  customizationType?: CustomizationType;
+}
+export const ModelCustomizationJobSummary = S.suspend(() =>
+  S.Struct({
+    jobArn: S.String,
+    baseModelArn: S.String,
+    jobName: S.String,
+    status: ModelCustomizationJobStatus,
+    statusDetails: S.optional(StatusDetails),
+    lastModifiedTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    creationTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    endTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    customModelArn: S.optional(S.String),
+    customModelName: S.optional(S.String),
+    customizationType: S.optional(CustomizationType),
+  }),
+).annotate({
+  identifier: "ModelCustomizationJobSummary",
+}) as any as S.Schema<ModelCustomizationJobSummary>;
+export type ModelCustomizationJobSummaries = ModelCustomizationJobSummary[];
+export const ModelCustomizationJobSummaries = S.Array(
+  ModelCustomizationJobSummary,
+);
+export interface ListModelCustomizationJobsResponse {
+  nextToken?: string;
+  modelCustomizationJobSummaries?: ModelCustomizationJobSummary[];
+}
+export const ListModelCustomizationJobsResponse = S.suspend(() =>
+  S.Struct({
+    nextToken: S.optional(S.String),
+    modelCustomizationJobSummaries: S.optional(ModelCustomizationJobSummaries),
+  }),
+).annotate({
+  identifier: "ListModelCustomizationJobsResponse",
+}) as any as S.Schema<ListModelCustomizationJobsResponse>;
+export interface StopModelCustomizationJobRequest {
+  jobIdentifier: string;
+}
+export const StopModelCustomizationJobRequest = S.suspend(() =>
+  S.Struct({ jobIdentifier: S.String.pipe(T.HttpLabel("jobIdentifier")) }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/model-customization-jobs/{jobIdentifier}/stop",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "StopModelCustomizationJobRequest",
+}) as any as S.Schema<StopModelCustomizationJobRequest>;
+export interface StopModelCustomizationJobResponse {}
+export const StopModelCustomizationJobResponse = S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "StopModelCustomizationJobResponse",
+}) as any as S.Schema<StopModelCustomizationJobResponse>;
 
 //# Errors
-export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
-  "AccessDeniedException",
-  { message: S.optional(S.String) },
-).pipe(C.withAuthError) {}
-export class InternalServerException extends S.TaggedError<InternalServerException>()(
+export class InternalServerException extends S.TaggedErrorClass<InternalServerException>()(
   "InternalServerException",
   { message: S.optional(S.String) },
 ).pipe(C.withServerError) {}
-export class ConflictException extends S.TaggedError<ConflictException>()(
-  "ConflictException",
-  { message: S.optional(S.String) },
-).pipe(C.withBadRequestError) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { message: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
-export class ResourceInUseException extends S.TaggedError<ResourceInUseException>()(
-  "ResourceInUseException",
-  { message: S.optional(S.String) },
-).pipe(C.withBadRequestError) {}
-export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
+export class ThrottlingException extends S.TaggedErrorClass<ThrottlingException>()(
   "ThrottlingException",
   { message: S.optional(S.String) },
 ).pipe(C.withThrottlingError) {}
-export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
-  "ServiceQuotaExceededException",
-  { message: S.optional(S.String) },
-).pipe(C.withBadRequestError) {}
-export class ValidationException extends S.TaggedError<ValidationException>()(
+export class ValidationException extends S.TaggedErrorClass<ValidationException>()(
   "ValidationException",
   { message: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
-export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailableException>()(
-  "ServiceUnavailableException",
+export class AccessDeniedException extends S.TaggedErrorClass<AccessDeniedException>()(
+  "AccessDeniedException",
   { message: S.optional(S.String) },
-).pipe(C.withServerError) {}
-export class TooManyTagsException extends S.TaggedError<TooManyTagsException>()(
+).pipe(C.withAuthError) {}
+export class ConflictException extends S.TaggedErrorClass<ConflictException>()(
+  "ConflictException",
+  { message: S.optional(S.String) },
+).pipe(C.withBadRequestError) {}
+export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuotaExceededException>()(
+  "ServiceQuotaExceededException",
+  { message: S.optional(S.String) },
+).pipe(C.withBadRequestError) {}
+export class TooManyTagsException extends S.TaggedErrorClass<TooManyTagsException>()(
   "TooManyTagsException",
   { message: S.optional(S.String), resourceName: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
+export class ResourceInUseException extends S.TaggedErrorClass<ResourceInUseException>()(
+  "ResourceInUseException",
+  { message: S.optional(S.String) },
+).pipe(C.withBadRequestError) {}
+export class ServiceUnavailableException extends S.TaggedErrorClass<ServiceUnavailableException>()(
+  "ServiceUnavailableException",
+  { message: S.optional(S.String) },
+).pipe(C.withServerError) {}
 
 //# Operations
 /**
- * Delete the invocation logging.
+ * Get usecase for model access.
  */
-export const deleteModelInvocationLoggingConfiguration: (
-  input: DeleteModelInvocationLoggingConfigurationRequest,
+export const getUseCaseForModelAccess: (
+  input: GetUseCaseForModelAccessRequest,
 ) => effect.Effect<
-  DeleteModelInvocationLoggingConfigurationResponse,
-  | AccessDeniedException
+  GetUseCaseForModelAccessResponse,
   | InternalServerException
+  | ResourceNotFoundException
   | ThrottlingException
+  | ValidationException
   | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteModelInvocationLoggingConfigurationRequest,
-  output: DeleteModelInvocationLoggingConfigurationResponse,
-  errors: [AccessDeniedException, InternalServerException, ThrottlingException],
+  input: GetUseCaseForModelAccessRequest,
+  output: GetUseCaseForModelAccessResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
 }));
 /**
- * Get the current configuration values for model invocation logging.
+ * Put usecase for model access.
  */
-export const getModelInvocationLoggingConfiguration: (
-  input: GetModelInvocationLoggingConfigurationRequest,
+export const putUseCaseForModelAccess: (
+  input: PutUseCaseForModelAccessRequest,
 ) => effect.Effect<
-  GetModelInvocationLoggingConfigurationResponse,
+  PutUseCaseForModelAccessResponse,
   | AccessDeniedException
   | InternalServerException
   | ThrottlingException
+  | ValidationException
   | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetModelInvocationLoggingConfigurationRequest,
-  output: GetModelInvocationLoggingConfigurationResponse,
-  errors: [AccessDeniedException, InternalServerException, ThrottlingException],
+  input: PutUseCaseForModelAccessRequest,
+  output: PutUseCaseForModelAccessResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Creates an Automated Reasoning policy for Amazon Bedrock Guardrails. Automated Reasoning policies use mathematical techniques to detect hallucinations, suggest corrections, and highlight unstated assumptions in the responses of your GenAI application.
+ *
+ * To create a policy, you upload a source document that describes the rules that you're encoding. Automated Reasoning extracts important concepts from the source document that will become variables in the policy and infers policy rules.
+ */
+export const createAutomatedReasoningPolicy: (
+  input: CreateAutomatedReasoningPolicyRequest,
+) => effect.Effect<
+  CreateAutomatedReasoningPolicyResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | TooManyTagsException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateAutomatedReasoningPolicyRequest,
+  output: CreateAutomatedReasoningPolicyResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    TooManyTagsException,
+    ValidationException,
+  ],
 }));
 /**
  * Retrieves details about an Automated Reasoning policy or policy version. Returns information including the policy definition, metadata, and timestamps.
@@ -8565,243 +8643,142 @@ export const getAutomatedReasoningPolicy: (
   ],
 }));
 /**
- * Registers an existing Amazon SageMaker endpoint with Amazon Bedrock Marketplace, allowing it to be used with Amazon Bedrock APIs.
+ * Updates an existing Automated Reasoning policy with new rules, variables, or configuration. This creates a new version of the policy while preserving the previous version.
  */
-export const registerMarketplaceModelEndpoint: (
-  input: RegisterMarketplaceModelEndpointRequest,
+export const updateAutomatedReasoningPolicy: (
+  input: UpdateAutomatedReasoningPolicyRequest,
 ) => effect.Effect<
-  RegisterMarketplaceModelEndpointResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: RegisterMarketplaceModelEndpointRequest,
-  output: RegisterMarketplaceModelEndpointResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ServiceUnavailableException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Copies a model to another region so that it can be used there. For more information, see Copy models to be used in other regions in the Amazon Bedrock User Guide.
- */
-export const createModelCopyJob: (
-  input: CreateModelCopyJobRequest,
-) => effect.Effect<
-  CreateModelCopyJobResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | TooManyTagsException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateModelCopyJobRequest,
-  output: CreateModelCopyJobResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    TooManyTagsException,
-  ],
-}));
-/**
- * Creates a model import job to import model that you have customized in other environments, such as Amazon SageMaker. For more information, see Import a customized model
- */
-export const createModelImportJob: (
-  input: CreateModelImportJobRequest,
-) => effect.Effect<
-  CreateModelImportJobResponse,
+  UpdateAutomatedReasoningPolicyResponse,
   | AccessDeniedException
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
-  | ServiceQuotaExceededException
   | ThrottlingException
   | TooManyTagsException
   | ValidationException
   | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateModelImportJobRequest,
-  output: CreateModelImportJobResponse,
+  input: UpdateAutomatedReasoningPolicyRequest,
+  output: UpdateAutomatedReasoningPolicyResponse,
   errors: [
     AccessDeniedException,
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
-    ServiceQuotaExceededException,
     ThrottlingException,
     TooManyTagsException,
     ValidationException,
   ],
 }));
 /**
- * Creates a prompt router that manages the routing of requests between multiple foundation models based on the routing criteria.
+ * Deletes an Automated Reasoning policy or policy version. This operation is idempotent. If you delete a policy more than once, each call succeeds. Deleting a policy removes it permanently and cannot be undone.
  */
-export const createPromptRouter: (
-  input: CreatePromptRouterRequest,
+export const deleteAutomatedReasoningPolicy: (
+  input: DeleteAutomatedReasoningPolicyRequest,
 ) => effect.Effect<
-  CreatePromptRouterResponse,
+  DeleteAutomatedReasoningPolicyResponse,
   | AccessDeniedException
   | ConflictException
   | InternalServerException
+  | ResourceInUseException
   | ResourceNotFoundException
-  | ServiceQuotaExceededException
   | ThrottlingException
-  | TooManyTagsException
   | ValidationException
   | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreatePromptRouterRequest,
-  output: CreatePromptRouterResponse,
+  input: DeleteAutomatedReasoningPolicyRequest,
+  output: DeleteAutomatedReasoningPolicyResponse,
   errors: [
     AccessDeniedException,
     ConflictException,
     InternalServerException,
+    ResourceInUseException,
     ResourceNotFoundException,
-    ServiceQuotaExceededException,
     ThrottlingException,
-    TooManyTagsException,
     ValidationException,
   ],
 }));
 /**
- * Lists test results for an Automated Reasoning policy, showing how the policy performed against various test scenarios and validation checks.
+ * Lists all Automated Reasoning policies in your account, with optional filtering by policy ARN. This helps you manage and discover existing policies.
  */
-export const listAutomatedReasoningPolicyTestResults: {
+export const listAutomatedReasoningPolicies: {
   (
-    input: ListAutomatedReasoningPolicyTestResultsRequest,
+    input: ListAutomatedReasoningPoliciesRequest,
   ): effect.Effect<
-    ListAutomatedReasoningPolicyTestResultsResponse,
+    ListAutomatedReasoningPoliciesResponse,
     | AccessDeniedException
     | InternalServerException
     | ResourceNotFoundException
-    | ServiceQuotaExceededException
     | ThrottlingException
     | ValidationException
     | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
-    input: ListAutomatedReasoningPolicyTestResultsRequest,
+    input: ListAutomatedReasoningPoliciesRequest,
   ) => stream.Stream<
-    ListAutomatedReasoningPolicyTestResultsResponse,
+    ListAutomatedReasoningPoliciesResponse,
     | AccessDeniedException
     | InternalServerException
     | ResourceNotFoundException
-    | ServiceQuotaExceededException
     | ThrottlingException
     | ValidationException
     | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
-    input: ListAutomatedReasoningPolicyTestResultsRequest,
+    input: ListAutomatedReasoningPoliciesRequest,
   ) => stream.Stream<
-    AutomatedReasoningPolicyTestResult,
+    AutomatedReasoningPolicySummary,
     | AccessDeniedException
     | InternalServerException
     | ResourceNotFoundException
-    | ServiceQuotaExceededException
     | ThrottlingException
     | ValidationException
     | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
-  input: ListAutomatedReasoningPolicyTestResultsRequest,
-  output: ListAutomatedReasoningPolicyTestResultsResponse,
+  input: ListAutomatedReasoningPoliciesRequest,
+  output: ListAutomatedReasoningPoliciesResponse,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ResourceNotFoundException,
-    ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
   ],
   pagination: {
     inputToken: "nextToken",
     outputToken: "nextToken",
-    items: "testResults",
+    items: "automatedReasoningPolicySummaries",
     pageSize: "maxResults",
   } as const,
 }));
 /**
- * Deploys a custom model for on-demand inference in Amazon Bedrock. After you deploy your custom model, you use the deployment's Amazon Resource Name (ARN) as the `modelId` parameter when you submit prompts and generate responses with model inference.
- *
- * For more information about setting up on-demand inference for custom models, see Set up inference for a custom model.
- *
- * The following actions are related to the `CreateCustomModelDeployment` operation:
- *
- * - GetCustomModelDeployment
- *
- * - ListCustomModelDeployments
- *
- * - DeleteCustomModelDeployment
+ * Cancels a running Automated Reasoning policy build workflow. This stops the policy generation process and prevents further processing of the source documents.
  */
-export const createCustomModelDeployment: (
-  input: CreateCustomModelDeploymentRequest,
+export const cancelAutomatedReasoningPolicyBuildWorkflow: (
+  input: CancelAutomatedReasoningPolicyBuildWorkflowRequest,
 ) => effect.Effect<
-  CreateCustomModelDeploymentResponse,
+  CancelAutomatedReasoningPolicyBuildWorkflowResponse,
   | AccessDeniedException
   | InternalServerException
   | ResourceNotFoundException
-  | ServiceQuotaExceededException
   | ThrottlingException
-  | TooManyTagsException
   | ValidationException
   | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateCustomModelDeploymentRequest,
-  output: CreateCustomModelDeploymentResponse,
+  input: CancelAutomatedReasoningPolicyBuildWorkflowRequest,
+  output: CancelAutomatedReasoningPolicyBuildWorkflowResponse,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ResourceNotFoundException,
-    ServiceQuotaExceededException,
     ThrottlingException,
-    TooManyTagsException,
-    ValidationException,
-  ],
-}));
-/**
- * Creates dedicated throughput for a base or custom model with the model units and for the duration that you specify. For pricing details, see Amazon Bedrock Pricing. For more information, see Provisioned Throughput in the Amazon Bedrock User Guide.
- */
-export const createProvisionedModelThroughput: (
-  input: CreateProvisionedModelThroughputRequest,
-) => effect.Effect<
-  CreateProvisionedModelThroughputResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | TooManyTagsException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateProvisionedModelThroughputRequest,
-  output: CreateProvisionedModelThroughputResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    TooManyTagsException,
     ValidationException,
   ],
 }));
@@ -8866,232 +8843,60 @@ export const createAutomatedReasoningPolicyVersion: (
   ],
 }));
 /**
- * Updates the configuration of an existing endpoint for a model from Amazon Bedrock Marketplace.
+ * Deletes an Automated Reasoning policy build workflow and its associated artifacts. This permanently removes the workflow history and any generated assets.
  */
-export const updateMarketplaceModelEndpoint: (
-  input: UpdateMarketplaceModelEndpointRequest,
+export const deleteAutomatedReasoningPolicyBuildWorkflow: (
+  input: DeleteAutomatedReasoningPolicyBuildWorkflowRequest,
 ) => effect.Effect<
-  UpdateMarketplaceModelEndpointResponse,
+  DeleteAutomatedReasoningPolicyBuildWorkflowResponse,
   | AccessDeniedException
   | ConflictException
   | InternalServerException
+  | ResourceInUseException
   | ResourceNotFoundException
-  | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
   | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateMarketplaceModelEndpointRequest,
-  output: UpdateMarketplaceModelEndpointResponse,
+  input: DeleteAutomatedReasoningPolicyBuildWorkflowRequest,
+  output: DeleteAutomatedReasoningPolicyBuildWorkflowResponse,
   errors: [
     AccessDeniedException,
     ConflictException,
     InternalServerException,
+    ResourceInUseException,
     ResourceNotFoundException,
-    ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
   ],
 }));
 /**
- * Updates a guardrail with the values you specify.
- *
- * - Specify a `name` and optional `description`.
- *
- * - Specify messages for when the guardrail successfully blocks a prompt or a model response in the `blockedInputMessaging` and `blockedOutputsMessaging` fields.
- *
- * - Specify topics for the guardrail to deny in the `topicPolicyConfig` object. Each GuardrailTopicConfig object in the `topicsConfig` list pertains to one topic.
- *
- * - Give a `name` and `description` so that the guardrail can properly identify the topic.
- *
- * - Specify `DENY` in the `type` field.
- *
- * - (Optional) Provide up to five prompts that you would categorize as belonging to the topic in the `examples` list.
- *
- * - Specify filter strengths for the harmful categories defined in Amazon Bedrock in the `contentPolicyConfig` object. Each GuardrailContentFilterConfig object in the `filtersConfig` list pertains to a harmful category. For more information, see Content filters. For more information about the fields in a content filter, see GuardrailContentFilterConfig.
- *
- * - Specify the category in the `type` field.
- *
- * - Specify the strength of the filter for prompts in the `inputStrength` field and for model responses in the `strength` field of the GuardrailContentFilterConfig.
- *
- * - (Optional) For security, include the ARN of a KMS key in the `kmsKeyId` field.
+ * Deletes an Automated Reasoning policy test. This operation is idempotent; if you delete a test more than once, each call succeeds.
  */
-export const updateGuardrail: (
-  input: UpdateGuardrailRequest,
+export const deleteAutomatedReasoningPolicyTestCase: (
+  input: DeleteAutomatedReasoningPolicyTestCaseRequest,
 ) => effect.Effect<
-  UpdateGuardrailResponse,
+  DeleteAutomatedReasoningPolicyTestCaseResponse,
   | AccessDeniedException
   | ConflictException
   | InternalServerException
+  | ResourceInUseException
   | ResourceNotFoundException
-  | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
   | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateGuardrailRequest,
-  output: UpdateGuardrailResponse,
+  input: DeleteAutomatedReasoningPolicyTestCaseRequest,
+  output: DeleteAutomatedReasoningPolicyTestCaseResponse,
   errors: [
     AccessDeniedException,
     ConflictException,
     InternalServerException,
+    ResourceInUseException,
     ResourceNotFoundException,
-    ServiceQuotaExceededException,
     ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Creates a version of the guardrail. Use this API to create a snapshot of the guardrail when you are satisfied with a configuration, or to compare the configuration with another version.
- */
-export const createGuardrailVersion: (
-  input: CreateGuardrailVersionRequest,
-) => effect.Effect<
-  CreateGuardrailVersionResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateGuardrailVersionRequest,
-  output: CreateGuardrailVersionResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Creates an endpoint for a model from Amazon Bedrock Marketplace. The endpoint is hosted by Amazon SageMaker.
- */
-export const createMarketplaceModelEndpoint: (
-  input: CreateMarketplaceModelEndpointRequest,
-) => effect.Effect<
-  CreateMarketplaceModelEndpointResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateMarketplaceModelEndpointRequest,
-  output: CreateMarketplaceModelEndpointResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Creates a new custom model in Amazon Bedrock. After the model is active, you can use it for inference.
- *
- * To use the model for inference, you must purchase Provisioned Throughput for it. You can't use On-demand inference with these custom models. For more information about Provisioned Throughput, see Provisioned Throughput.
- *
- * The model appears in `ListCustomModels` with a `customizationType` of `imported`. To track the status of the new model, you use the `GetCustomModel` API operation. The model can be in the following states:
- *
- * - `Creating` - Initial state during validation and registration
- *
- * - `Active` - Model is ready for use in inference
- *
- * - `Failed` - Creation process encountered an error
- *
- * **Related APIs**
- *
- * - GetCustomModel
- *
- * - ListCustomModels
- *
- * - DeleteCustomModel
- */
-export const createCustomModel: (
-  input: CreateCustomModelRequest,
-) => effect.Effect<
-  CreateCustomModelResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | TooManyTagsException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateCustomModelRequest,
-  output: CreateCustomModelResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    TooManyTagsException,
-    ValidationException,
-  ],
-}));
-/**
- * Creates a guardrail to block topics and to implement safeguards for your generative AI applications.
- *
- * You can configure the following policies in a guardrail to avoid undesirable and harmful content, filter out denied topics and words, and remove sensitive information for privacy protection.
- *
- * - **Content filters** - Adjust filter strengths to block input prompts or model responses containing harmful content.
- *
- * - **Denied topics** - Define a set of topics that are undesirable in the context of your application. These topics will be blocked if detected in user queries or model responses.
- *
- * - **Word filters** - Configure filters to block undesirable words, phrases, and profanity. Such words can include offensive terms, competitor names etc.
- *
- * - **Sensitive information filters** - Block or mask sensitive information such as personally identifiable information (PII) or custom regex in user inputs and model responses.
- *
- * In addition to the above policies, you can also configure the messages to be returned to the user if a user input or model response is in violation of the policies defined in the guardrail.
- *
- * For more information, see Amazon Bedrock Guardrails in the *Amazon Bedrock User Guide*.
- */
-export const createGuardrail: (
-  input: CreateGuardrailRequest,
-) => effect.Effect<
-  CreateGuardrailResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | TooManyTagsException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateGuardrailRequest,
-  output: CreateGuardrailResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    TooManyTagsException,
     ValidationException,
   ],
 }));
@@ -9171,69 +8976,12 @@ export const getAutomatedReasoningPolicyBuildWorkflow: (
   ],
 }));
 /**
- * Lists tests for an Automated Reasoning policy. We recommend using pagination to ensure that the operation returns quickly and successfully.
+ * Retrieves the resulting assets from a completed Automated Reasoning policy build workflow, including build logs, quality reports, and generated policy artifacts.
  */
-export const listAutomatedReasoningPolicyTestCases: {
-  (
-    input: ListAutomatedReasoningPolicyTestCasesRequest,
-  ): effect.Effect<
-    ListAutomatedReasoningPolicyTestCasesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  pages: (
-    input: ListAutomatedReasoningPolicyTestCasesRequest,
-  ) => stream.Stream<
-    ListAutomatedReasoningPolicyTestCasesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  items: (
-    input: ListAutomatedReasoningPolicyTestCasesRequest,
-  ) => stream.Stream<
-    AutomatedReasoningPolicyTestCase,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
-  input: ListAutomatedReasoningPolicyTestCasesRequest,
-  output: ListAutomatedReasoningPolicyTestCasesResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-  pagination: {
-    inputToken: "nextToken",
-    outputToken: "nextToken",
-    items: "testCases",
-    pageSize: "maxResults",
-  } as const,
-}));
-/**
- * Updates a custom model deployment with a new custom model. This allows you to deploy updated models without creating new deployment endpoints.
- */
-export const updateCustomModelDeployment: (
-  input: UpdateCustomModelDeploymentRequest,
+export const getAutomatedReasoningPolicyBuildWorkflowResultAssets: (
+  input: GetAutomatedReasoningPolicyBuildWorkflowResultAssetsRequest,
 ) => effect.Effect<
-  UpdateCustomModelDeploymentResponse,
+  GetAutomatedReasoningPolicyBuildWorkflowResultAssetsResponse,
   | AccessDeniedException
   | InternalServerException
   | ResourceNotFoundException
@@ -9242,8 +8990,8 @@ export const updateCustomModelDeployment: (
   | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateCustomModelDeploymentRequest,
-  output: UpdateCustomModelDeploymentResponse,
+  input: GetAutomatedReasoningPolicyBuildWorkflowResultAssetsRequest,
+  output: GetAutomatedReasoningPolicyBuildWorkflowResultAssetsResponse,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -9251,884 +8999,6 @@ export const updateCustomModelDeployment: (
     ThrottlingException,
     ValidationException,
   ],
-}));
-/**
- * Gets information about an evaluation job, such as the status of the job.
- */
-export const getEvaluationJob: (
-  input: GetEvaluationJobRequest,
-) => effect.Effect<
-  GetEvaluationJobResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetEvaluationJobRequest,
-  output: GetEvaluationJobResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Retrieves information about a model copy job. For more information, see Copy models to be used in other regions in the Amazon Bedrock User Guide.
- */
-export const getModelCopyJob: (
-  input: GetModelCopyJobRequest,
-) => effect.Effect<
-  GetModelCopyJobResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetModelCopyJobRequest,
-  output: GetModelCopyJobResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Deletes a custom model that you imported earlier. For more information, see Import a customized model in the Amazon Bedrock User Guide.
- */
-export const deleteImportedModel: (
-  input: DeleteImportedModelRequest,
-) => effect.Effect<
-  DeleteImportedModelResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteImportedModelRequest,
-  output: DeleteImportedModelResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Retrieves the properties associated with import model job, including the status of the job. For more information, see Import a customized model in the Amazon Bedrock User Guide.
- */
-export const getModelImportJob: (
-  input: GetModelImportJobRequest,
-) => effect.Effect<
-  GetModelImportJobResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetModelImportJobRequest,
-  output: GetModelImportJobResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Gets details about a batch inference job. For more information, see Monitor batch inference jobs
- */
-export const getModelInvocationJob: (
-  input: GetModelInvocationJobRequest,
-) => effect.Effect<
-  GetModelInvocationJobResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetModelInvocationJobRequest,
-  output: GetModelInvocationJobResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Retrieves details about a prompt router.
- */
-export const getPromptRouter: (
-  input: GetPromptRouterRequest,
-) => effect.Effect<
-  GetPromptRouterResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetPromptRouterRequest,
-  output: GetPromptRouterResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Returns details for a Provisioned Throughput. For more information, see Provisioned Throughput in the Amazon Bedrock User Guide.
- */
-export const getProvisionedModelThroughput: (
-  input: GetProvisionedModelThroughputRequest,
-) => effect.Effect<
-  GetProvisionedModelThroughputResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetProvisionedModelThroughputRequest,
-  output: GetProvisionedModelThroughputResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Request a model access agreement for the specified model.
- */
-export const createFoundationModelAgreement: (
-  input: CreateFoundationModelAgreementRequest,
-) => effect.Effect<
-  CreateFoundationModelAgreementResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateFoundationModelAgreementRequest,
-  output: CreateFoundationModelAgreementResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * List the tags associated with the specified resource.
- *
- * For more information, see Tagging resources in the Amazon Bedrock User Guide.
- */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
-  ListTagsForResourceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Deletes a specified prompt router. This action cannot be undone.
- */
-export const deletePromptRouter: (
-  input: DeletePromptRouterRequest,
-) => effect.Effect<
-  DeletePromptRouterResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeletePromptRouterRequest,
-  output: DeletePromptRouterResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Updates the name or associated model for a Provisioned Throughput. For more information, see Provisioned Throughput in the Amazon Bedrock User Guide.
- */
-export const updateProvisionedModelThroughput: (
-  input: UpdateProvisionedModelThroughputRequest,
-) => effect.Effect<
-  UpdateProvisionedModelThroughputResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateProvisionedModelThroughputRequest,
-  output: UpdateProvisionedModelThroughputResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Remove one or more tags from a resource. For more information, see Tagging resources in the Amazon Bedrock User Guide.
- */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
-  UntagResourceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Cancels a running Automated Reasoning policy build workflow. This stops the policy generation process and prevents further processing of the source documents.
- */
-export const cancelAutomatedReasoningPolicyBuildWorkflow: (
-  input: CancelAutomatedReasoningPolicyBuildWorkflowRequest,
-) => effect.Effect<
-  CancelAutomatedReasoningPolicyBuildWorkflowResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CancelAutomatedReasoningPolicyBuildWorkflowRequest,
-  output: CancelAutomatedReasoningPolicyBuildWorkflowResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Deletes an endpoint for a model from Amazon Bedrock Marketplace.
- */
-export const deleteMarketplaceModelEndpoint: (
-  input: DeleteMarketplaceModelEndpointRequest,
-) => effect.Effect<
-  DeleteMarketplaceModelEndpointResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteMarketplaceModelEndpointRequest,
-  output: DeleteMarketplaceModelEndpointResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Deletes the account-level enforced guardrail configuration.
- */
-export const deleteEnforcedGuardrailConfiguration: (
-  input: DeleteEnforcedGuardrailConfigurationRequest,
-) => effect.Effect<
-  DeleteEnforcedGuardrailConfigurationResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteEnforcedGuardrailConfigurationRequest,
-  output: DeleteEnforcedGuardrailConfigurationResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Stops a batch inference job. You're only charged for tokens that were already processed. For more information, see Stop a batch inference job.
- */
-export const stopModelInvocationJob: (
-  input: StopModelInvocationJobRequest,
-) => effect.Effect<
-  StopModelInvocationJobResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StopModelInvocationJobRequest,
-  output: StopModelInvocationJobResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Deletes a Provisioned Throughput. You can't delete a Provisioned Throughput before the commitment term is over. For more information, see Provisioned Throughput in the Amazon Bedrock User Guide.
- */
-export const deleteProvisionedModelThroughput: (
-  input: DeleteProvisionedModelThroughputRequest,
-) => effect.Effect<
-  DeleteProvisionedModelThroughputResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteProvisionedModelThroughputRequest,
-  output: DeleteProvisionedModelThroughputResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Delete the model access agreement for the specified model.
- */
-export const deleteFoundationModelAgreement: (
-  input: DeleteFoundationModelAgreementRequest,
-) => effect.Effect<
-  DeleteFoundationModelAgreementResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteFoundationModelAgreementRequest,
-  output: DeleteFoundationModelAgreementResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Stops an active model customization job. For more information, see Custom models in the Amazon Bedrock User Guide.
- */
-export const stopModelCustomizationJob: (
-  input: StopModelCustomizationJobRequest,
-) => effect.Effect<
-  StopModelCustomizationJobResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StopModelCustomizationJobRequest,
-  output: StopModelCustomizationJobResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Deletes a custom model deployment. This operation stops the deployment and removes it from your account. After deletion, the deployment ARN can no longer be used for inference requests.
- *
- * The following actions are related to the `DeleteCustomModelDeployment` operation:
- *
- * - CreateCustomModelDeployment
- *
- * - GetCustomModelDeployment
- *
- * - ListCustomModelDeployments
- */
-export const deleteCustomModelDeployment: (
-  input: DeleteCustomModelDeploymentRequest,
-) => effect.Effect<
-  DeleteCustomModelDeploymentResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteCustomModelDeploymentRequest,
-  output: DeleteCustomModelDeploymentResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Deletes a custom model that you created earlier. For more information, see Custom models in the Amazon Bedrock User Guide.
- */
-export const deleteCustomModel: (
-  input: DeleteCustomModelRequest,
-) => effect.Effect<
-  DeleteCustomModelResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteCustomModelRequest,
-  output: DeleteCustomModelResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Stops an evaluation job that is current being created or running.
- */
-export const stopEvaluationJob: (
-  input: StopEvaluationJobRequest,
-) => effect.Effect<
-  StopEvaluationJobResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StopEvaluationJobRequest,
-  output: StopEvaluationJobResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Deletes a guardrail.
- *
- * - To delete a guardrail, only specify the ARN of the guardrail in the `guardrailIdentifier` field. If you delete a guardrail, all of its versions will be deleted.
- *
- * - To delete a version of a guardrail, specify the ARN of the guardrail in the `guardrailIdentifier` field and the version in the `guardrailVersion` field.
- */
-export const deleteGuardrail: (
-  input: DeleteGuardrailRequest,
-) => effect.Effect<
-  DeleteGuardrailResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteGuardrailRequest,
-  output: DeleteGuardrailResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Deletes an application inference profile. For more information, see Increase throughput and resilience with cross-region inference in Amazon Bedrock. in the Amazon Bedrock User Guide.
- */
-export const deleteInferenceProfile: (
-  input: DeleteInferenceProfileRequest,
-) => effect.Effect<
-  DeleteInferenceProfileResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteInferenceProfileRequest,
-  output: DeleteInferenceProfileResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Deletes an Automated Reasoning policy or policy version. This operation is idempotent. If you delete a policy more than once, each call succeeds. Deleting a policy removes it permanently and cannot be undone.
- */
-export const deleteAutomatedReasoningPolicy: (
-  input: DeleteAutomatedReasoningPolicyRequest,
-) => effect.Effect<
-  DeleteAutomatedReasoningPolicyResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteAutomatedReasoningPolicyRequest,
-  output: DeleteAutomatedReasoningPolicyResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceInUseException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Deletes an Automated Reasoning policy build workflow and its associated artifacts. This permanently removes the workflow history and any generated assets.
- */
-export const deleteAutomatedReasoningPolicyBuildWorkflow: (
-  input: DeleteAutomatedReasoningPolicyBuildWorkflowRequest,
-) => effect.Effect<
-  DeleteAutomatedReasoningPolicyBuildWorkflowResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteAutomatedReasoningPolicyBuildWorkflowRequest,
-  output: DeleteAutomatedReasoningPolicyBuildWorkflowResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceInUseException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Deletes an Automated Reasoning policy test. This operation is idempotent; if you delete a test more than once, each call succeeds.
- */
-export const deleteAutomatedReasoningPolicyTestCase: (
-  input: DeleteAutomatedReasoningPolicyTestCaseRequest,
-) => effect.Effect<
-  DeleteAutomatedReasoningPolicyTestCaseResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteAutomatedReasoningPolicyTestCaseRequest,
-  output: DeleteAutomatedReasoningPolicyTestCaseResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceInUseException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Updates an existing Automated Reasoning policy test. You can modify the content, query, expected result, and confidence threshold.
- */
-export const updateAutomatedReasoningPolicyTestCase: (
-  input: UpdateAutomatedReasoningPolicyTestCaseRequest,
-) => effect.Effect<
-  UpdateAutomatedReasoningPolicyTestCaseResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateAutomatedReasoningPolicyTestCaseRequest,
-  output: UpdateAutomatedReasoningPolicyTestCaseResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceInUseException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Set the configuration values for model invocation logging.
- */
-export const putModelInvocationLoggingConfiguration: (
-  input: PutModelInvocationLoggingConfigurationRequest,
-) => effect.Effect<
-  PutModelInvocationLoggingConfigurationResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PutModelInvocationLoggingConfigurationRequest,
-  output: PutModelInvocationLoggingConfigurationResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Put usecase for model access.
- */
-export const putUseCaseForModelAccess: (
-  input: PutUseCaseForModelAccessRequest,
-) => effect.Effect<
-  PutUseCaseForModelAccessResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PutUseCaseForModelAccessRequest,
-  output: PutUseCaseForModelAccessResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Get usecase for model access.
- */
-export const getUseCaseForModelAccess: (
-  input: GetUseCaseForModelAccessRequest,
-) => effect.Effect<
-  GetUseCaseForModelAccessResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetUseCaseForModelAccessRequest,
-  output: GetUseCaseForModelAccessResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Lists all Automated Reasoning policies in your account, with optional filtering by policy ARN. This helps you manage and discover existing policies.
- */
-export const listAutomatedReasoningPolicies: {
-  (
-    input: ListAutomatedReasoningPoliciesRequest,
-  ): effect.Effect<
-    ListAutomatedReasoningPoliciesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  pages: (
-    input: ListAutomatedReasoningPoliciesRequest,
-  ) => stream.Stream<
-    ListAutomatedReasoningPoliciesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  items: (
-    input: ListAutomatedReasoningPoliciesRequest,
-  ) => stream.Stream<
-    AutomatedReasoningPolicySummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
-  input: ListAutomatedReasoningPoliciesRequest,
-  output: ListAutomatedReasoningPoliciesResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-  pagination: {
-    inputToken: "nextToken",
-    outputToken: "nextToken",
-    items: "automatedReasoningPolicySummaries",
-    pageSize: "maxResults",
-  } as const,
 }));
 /**
  * Retrieves the next test scenario for validating an Automated Reasoning policy. This is used during the interactive policy refinement process to test policy behavior.
@@ -10172,6 +9042,31 @@ export const getAutomatedReasoningPolicyTestCase: (
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAutomatedReasoningPolicyTestCaseRequest,
   output: GetAutomatedReasoningPolicyTestCaseResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Retrieves the test result for a specific Automated Reasoning policy test. Returns detailed validation findings and execution status.
+ */
+export const getAutomatedReasoningPolicyTestResult: (
+  input: GetAutomatedReasoningPolicyTestResultRequest,
+) => effect.Effect<
+  GetAutomatedReasoningPolicyTestResultResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetAutomatedReasoningPolicyTestResultRequest,
+  output: GetAutomatedReasoningPolicyTestResultResponse,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -10238,6 +9133,155 @@ export const listAutomatedReasoningPolicyBuildWorkflows: {
   } as const,
 }));
 /**
+ * Lists tests for an Automated Reasoning policy. We recommend using pagination to ensure that the operation returns quickly and successfully.
+ */
+export const listAutomatedReasoningPolicyTestCases: {
+  (
+    input: ListAutomatedReasoningPolicyTestCasesRequest,
+  ): effect.Effect<
+    ListAutomatedReasoningPolicyTestCasesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAutomatedReasoningPolicyTestCasesRequest,
+  ) => stream.Stream<
+    ListAutomatedReasoningPolicyTestCasesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAutomatedReasoningPolicyTestCasesRequest,
+  ) => stream.Stream<
+    AutomatedReasoningPolicyTestCase,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAutomatedReasoningPolicyTestCasesRequest,
+  output: ListAutomatedReasoningPolicyTestCasesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "testCases",
+    pageSize: "maxResults",
+  } as const,
+}));
+/**
+ * Lists test results for an Automated Reasoning policy, showing how the policy performed against various test scenarios and validation checks.
+ */
+export const listAutomatedReasoningPolicyTestResults: {
+  (
+    input: ListAutomatedReasoningPolicyTestResultsRequest,
+  ): effect.Effect<
+    ListAutomatedReasoningPolicyTestResultsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAutomatedReasoningPolicyTestResultsRequest,
+  ) => stream.Stream<
+    ListAutomatedReasoningPolicyTestResultsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAutomatedReasoningPolicyTestResultsRequest,
+  ) => stream.Stream<
+    AutomatedReasoningPolicyTestResult,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ServiceQuotaExceededException
+    | ThrottlingException
+    | ValidationException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAutomatedReasoningPolicyTestResultsRequest,
+  output: ListAutomatedReasoningPolicyTestResultsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "testResults",
+    pageSize: "maxResults",
+  } as const,
+}));
+/**
+ * Starts a new build workflow for an Automated Reasoning policy. This initiates the process of analyzing source documents and generating policy rules, variables, and types.
+ */
+export const startAutomatedReasoningPolicyBuildWorkflow: (
+  input: StartAutomatedReasoningPolicyBuildWorkflowRequest,
+) => effect.Effect<
+  StartAutomatedReasoningPolicyBuildWorkflowResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartAutomatedReasoningPolicyBuildWorkflowRequest,
+  output: StartAutomatedReasoningPolicyBuildWorkflowResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
  * Initiates a test workflow to validate Automated Reasoning policy tests. The workflow executes the specified tests against the policy and generates validation results.
  */
 export const startAutomatedReasoningPolicyTestWorkflow: (
@@ -10260,6 +9304,143 @@ export const startAutomatedReasoningPolicyTestWorkflow: (
     InternalServerException,
     ResourceInUseException,
     ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Updates the annotations for an Automated Reasoning policy build workflow. This allows you to modify extracted rules, variables, and types before finalizing the policy.
+ */
+export const updateAutomatedReasoningPolicyAnnotations: (
+  input: UpdateAutomatedReasoningPolicyAnnotationsRequest,
+) => effect.Effect<
+  UpdateAutomatedReasoningPolicyAnnotationsResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateAutomatedReasoningPolicyAnnotationsRequest,
+  output: UpdateAutomatedReasoningPolicyAnnotationsResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Updates an existing Automated Reasoning policy test. You can modify the content, query, expected result, and confidence threshold.
+ */
+export const updateAutomatedReasoningPolicyTestCase: (
+  input: UpdateAutomatedReasoningPolicyTestCaseRequest,
+) => effect.Effect<
+  UpdateAutomatedReasoningPolicyTestCaseResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateAutomatedReasoningPolicyTestCaseRequest,
+  output: UpdateAutomatedReasoningPolicyTestCaseResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Creates an endpoint for a model from Amazon Bedrock Marketplace. The endpoint is hosted by Amazon SageMaker.
+ */
+export const createMarketplaceModelEndpoint: (
+  input: CreateMarketplaceModelEndpointRequest,
+) => effect.Effect<
+  CreateMarketplaceModelEndpointResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateMarketplaceModelEndpointRequest,
+  output: CreateMarketplaceModelEndpointResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Deletes an endpoint for a model from Amazon Bedrock Marketplace.
+ */
+export const deleteMarketplaceModelEndpoint: (
+  input: DeleteMarketplaceModelEndpointRequest,
+) => effect.Effect<
+  DeleteMarketplaceModelEndpointResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteMarketplaceModelEndpointRequest,
+  output: DeleteMarketplaceModelEndpointResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Deregisters an endpoint for a model from Amazon Bedrock Marketplace. This operation removes the endpoint's association with Amazon Bedrock but does not delete the underlying Amazon SageMaker endpoint.
+ */
+export const deregisterMarketplaceModelEndpoint: (
+  input: DeregisterMarketplaceModelEndpointRequest,
+) => effect.Effect<
+  DeregisterMarketplaceModelEndpointResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeregisterMarketplaceModelEndpointRequest,
+  output: DeregisterMarketplaceModelEndpointResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
     ThrottlingException,
     ValidationException,
   ],
@@ -10345,6 +9526,136 @@ export const listMarketplaceModelEndpoints: {
     items: "marketplaceModelEndpoints",
     pageSize: "maxResults",
   } as const,
+}));
+/**
+ * Registers an existing Amazon SageMaker endpoint with Amazon Bedrock Marketplace, allowing it to be used with Amazon Bedrock APIs.
+ */
+export const registerMarketplaceModelEndpoint: (
+  input: RegisterMarketplaceModelEndpointRequest,
+) => effect.Effect<
+  RegisterMarketplaceModelEndpointResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RegisterMarketplaceModelEndpointRequest,
+  output: RegisterMarketplaceModelEndpointResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Updates the configuration of an existing endpoint for a model from Amazon Bedrock Marketplace.
+ */
+export const updateMarketplaceModelEndpoint: (
+  input: UpdateMarketplaceModelEndpointRequest,
+) => effect.Effect<
+  UpdateMarketplaceModelEndpointResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateMarketplaceModelEndpointRequest,
+  output: UpdateMarketplaceModelEndpointResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Deploys a custom model for on-demand inference in Amazon Bedrock. After you deploy your custom model, you use the deployment's Amazon Resource Name (ARN) as the `modelId` parameter when you submit prompts and generate responses with model inference.
+ *
+ * For more information about setting up on-demand inference for custom models, see Set up inference for a custom model.
+ *
+ * The following actions are related to the `CreateCustomModelDeployment` operation:
+ *
+ * - GetCustomModelDeployment
+ *
+ * - ListCustomModelDeployments
+ *
+ * - DeleteCustomModelDeployment
+ */
+export const createCustomModelDeployment: (
+  input: CreateCustomModelDeploymentRequest,
+) => effect.Effect<
+  CreateCustomModelDeploymentResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | TooManyTagsException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateCustomModelDeploymentRequest,
+  output: CreateCustomModelDeploymentResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    TooManyTagsException,
+    ValidationException,
+  ],
+}));
+/**
+ * Deletes a custom model deployment. This operation stops the deployment and removes it from your account. After deletion, the deployment ARN can no longer be used for inference requests.
+ *
+ * The following actions are related to the `DeleteCustomModelDeployment` operation:
+ *
+ * - CreateCustomModelDeployment
+ *
+ * - GetCustomModelDeployment
+ *
+ * - ListCustomModelDeployments
+ */
+export const deleteCustomModelDeployment: (
+  input: DeleteCustomModelDeploymentRequest,
+) => effect.Effect<
+  DeleteCustomModelDeploymentResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteCustomModelDeploymentRequest,
+  output: DeleteCustomModelDeploymentResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
 }));
 /**
  * Retrieves information about a custom model deployment, including its status, configuration, and metadata. Use this operation to monitor the deployment status and retrieve details needed for inference requests.
@@ -10443,6 +9754,107 @@ export const listCustomModelDeployments: {
   } as const,
 }));
 /**
+ * Updates a custom model deployment with a new custom model. This allows you to deploy updated models without creating new deployment endpoints.
+ */
+export const updateCustomModelDeployment: (
+  input: UpdateCustomModelDeploymentRequest,
+) => effect.Effect<
+  UpdateCustomModelDeploymentResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateCustomModelDeploymentRequest,
+  output: UpdateCustomModelDeploymentResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Creates a new custom model in Amazon Bedrock. After the model is active, you can use it for inference.
+ *
+ * To use the model for inference, you must purchase Provisioned Throughput for it. You can't use On-demand inference with these custom models. For more information about Provisioned Throughput, see Provisioned Throughput.
+ *
+ * The model appears in `ListCustomModels` with a `customizationType` of `imported`. To track the status of the new model, you use the `GetCustomModel` API operation. The model can be in the following states:
+ *
+ * - `Creating` - Initial state during validation and registration
+ *
+ * - `Active` - Model is ready for use in inference
+ *
+ * - `Failed` - Creation process encountered an error
+ *
+ * **Related APIs**
+ *
+ * - GetCustomModel
+ *
+ * - ListCustomModels
+ *
+ * - DeleteCustomModel
+ */
+export const createCustomModel: (
+  input: CreateCustomModelRequest,
+) => effect.Effect<
+  CreateCustomModelResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | TooManyTagsException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateCustomModelRequest,
+  output: CreateCustomModelResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    TooManyTagsException,
+    ValidationException,
+  ],
+}));
+/**
+ * Deletes a custom model that you created earlier. For more information, see Custom models in the Amazon Bedrock User Guide.
+ */
+export const deleteCustomModel: (
+  input: DeleteCustomModelRequest,
+) => effect.Effect<
+  DeleteCustomModelResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteCustomModelRequest,
+  output: DeleteCustomModelResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
  * Get the properties associated with a Amazon Bedrock custom model that you have created. For more information, see Custom models in the Amazon Bedrock User Guide.
  */
 export const getCustomModel: (
@@ -10521,6 +9933,31 @@ export const listCustomModels: {
     items: "modelSummaries",
     pageSize: "maxResults",
   } as const,
+}));
+/**
+ * Deletes the account-level enforced guardrail configuration.
+ */
+export const deleteEnforcedGuardrailConfiguration: (
+  input: DeleteEnforcedGuardrailConfigurationRequest,
+) => effect.Effect<
+  DeleteEnforcedGuardrailConfigurationResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteEnforcedGuardrailConfigurationRequest,
+  output: DeleteEnforcedGuardrailConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
 }));
 /**
  * Lists the account-level enforced guardrail configurations.
@@ -10633,6 +10070,290 @@ export const batchDeleteEvaluationJob: (
   ],
 }));
 /**
+ * Creates an evaluation job.
+ */
+export const createEvaluationJob: (
+  input: CreateEvaluationJobRequest,
+) => effect.Effect<
+  CreateEvaluationJobResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateEvaluationJobRequest,
+  output: CreateEvaluationJobResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Gets information about an evaluation job, such as the status of the job.
+ */
+export const getEvaluationJob: (
+  input: GetEvaluationJobRequest,
+) => effect.Effect<
+  GetEvaluationJobResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetEvaluationJobRequest,
+  output: GetEvaluationJobResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Lists all existing evaluation jobs.
+ */
+export const listEvaluationJobs: {
+  (
+    input: ListEvaluationJobsRequest,
+  ): effect.Effect<
+    ListEvaluationJobsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListEvaluationJobsRequest,
+  ) => stream.Stream<
+    ListEvaluationJobsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListEvaluationJobsRequest,
+  ) => stream.Stream<
+    EvaluationSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListEvaluationJobsRequest,
+  output: ListEvaluationJobsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "jobSummaries",
+    pageSize: "maxResults",
+  } as const,
+}));
+/**
+ * Stops an evaluation job that is current being created or running.
+ */
+export const stopEvaluationJob: (
+  input: StopEvaluationJobRequest,
+) => effect.Effect<
+  StopEvaluationJobResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StopEvaluationJobRequest,
+  output: StopEvaluationJobResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Creates a guardrail to block topics and to implement safeguards for your generative AI applications.
+ *
+ * You can configure the following policies in a guardrail to avoid undesirable and harmful content, filter out denied topics and words, and remove sensitive information for privacy protection.
+ *
+ * - **Content filters** - Adjust filter strengths to block input prompts or model responses containing harmful content.
+ *
+ * - **Denied topics** - Define a set of topics that are undesirable in the context of your application. These topics will be blocked if detected in user queries or model responses.
+ *
+ * - **Word filters** - Configure filters to block undesirable words, phrases, and profanity. Such words can include offensive terms, competitor names etc.
+ *
+ * - **Sensitive information filters** - Block or mask sensitive information such as personally identifiable information (PII) or custom regex in user inputs and model responses.
+ *
+ * In addition to the above policies, you can also configure the messages to be returned to the user if a user input or model response is in violation of the policies defined in the guardrail.
+ *
+ * For more information, see Amazon Bedrock Guardrails in the *Amazon Bedrock User Guide*.
+ */
+export const createGuardrail: (
+  input: CreateGuardrailRequest,
+) => effect.Effect<
+  CreateGuardrailResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | TooManyTagsException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateGuardrailRequest,
+  output: CreateGuardrailResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    TooManyTagsException,
+    ValidationException,
+  ],
+}));
+/**
+ * Gets details about a guardrail. If you don't specify a version, the response returns details for the `DRAFT` version.
+ */
+export const getGuardrail: (
+  input: GetGuardrailRequest,
+) => effect.Effect<
+  GetGuardrailResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetGuardrailRequest,
+  output: GetGuardrailResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Updates a guardrail with the values you specify.
+ *
+ * - Specify a `name` and optional `description`.
+ *
+ * - Specify messages for when the guardrail successfully blocks a prompt or a model response in the `blockedInputMessaging` and `blockedOutputsMessaging` fields.
+ *
+ * - Specify topics for the guardrail to deny in the `topicPolicyConfig` object. Each GuardrailTopicConfig object in the `topicsConfig` list pertains to one topic.
+ *
+ * - Give a `name` and `description` so that the guardrail can properly identify the topic.
+ *
+ * - Specify `DENY` in the `type` field.
+ *
+ * - (Optional) Provide up to five prompts that you would categorize as belonging to the topic in the `examples` list.
+ *
+ * - Specify filter strengths for the harmful categories defined in Amazon Bedrock in the `contentPolicyConfig` object. Each GuardrailContentFilterConfig object in the `filtersConfig` list pertains to a harmful category. For more information, see Content filters. For more information about the fields in a content filter, see GuardrailContentFilterConfig.
+ *
+ * - Specify the category in the `type` field.
+ *
+ * - Specify the strength of the filter for prompts in the `inputStrength` field and for model responses in the `strength` field of the GuardrailContentFilterConfig.
+ *
+ * - (Optional) For security, include the ARN of a KMS key in the `kmsKeyId` field.
+ */
+export const updateGuardrail: (
+  input: UpdateGuardrailRequest,
+) => effect.Effect<
+  UpdateGuardrailResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateGuardrailRequest,
+  output: UpdateGuardrailResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Deletes a guardrail.
+ *
+ * - To delete a guardrail, only specify the ARN of the guardrail in the `guardrailIdentifier` field. If you delete a guardrail, all of its versions will be deleted.
+ *
+ * - To delete a version of a guardrail, specify the ARN of the guardrail in the `guardrailIdentifier` field and the version in the `guardrailVersion` field.
+ */
+export const deleteGuardrail: (
+  input: DeleteGuardrailRequest,
+) => effect.Effect<
+  DeleteGuardrailResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteGuardrailRequest,
+  output: DeleteGuardrailResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
  * Lists details about all the guardrails in an account. To list the `DRAFT` version of all your guardrails, don't specify the `guardrailIdentifier` field. To list all versions of a guardrail, specify the ARN of the guardrail in the `guardrailIdentifier` field.
  *
  * You can set the maximum number of results to return in a response in the `maxResults` field. If there are more results than the number you set, the response returns a `nextToken` that you can send in another `ListGuardrails` request to see the next batch of results.
@@ -10692,6 +10413,66 @@ export const listGuardrails: {
   } as const,
 }));
 /**
+ * Creates a version of the guardrail. Use this API to create a snapshot of the guardrail when you are satisfied with a configuration, or to compare the configuration with another version.
+ */
+export const createGuardrailVersion: (
+  input: CreateGuardrailVersionRequest,
+) => effect.Effect<
+  CreateGuardrailVersionResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateGuardrailVersionRequest,
+  output: CreateGuardrailVersionResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Creates an application inference profile to track metrics and costs when invoking a model. To create an application inference profile for a foundation model in one region, specify the ARN of the model in that region. To create an application inference profile for a foundation model across multiple regions, specify the ARN of the system-defined inference profile that contains the regions that you want to route requests to. For more information, see Increase throughput and resilience with cross-region inference in Amazon Bedrock. in the Amazon Bedrock User Guide.
+ */
+export const createInferenceProfile: (
+  input: CreateInferenceProfileRequest,
+) => effect.Effect<
+  CreateInferenceProfileResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | TooManyTagsException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateInferenceProfileRequest,
+  output: CreateInferenceProfileResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    TooManyTagsException,
+    ValidationException,
+  ],
+}));
+/**
  * Gets information about an inference profile. For more information, see Increase throughput and resilience with cross-region inference in Amazon Bedrock. in the Amazon Bedrock User Guide.
  */
 export const getInferenceProfile: (
@@ -10710,6 +10491,33 @@ export const getInferenceProfile: (
   output: GetInferenceProfileResponse,
   errors: [
     AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Deletes an application inference profile. For more information, see Increase throughput and resilience with cross-region inference in Amazon Bedrock. in the Amazon Bedrock User Guide.
+ */
+export const deleteInferenceProfile: (
+  input: DeleteInferenceProfileRequest,
+) => effect.Effect<
+  DeleteInferenceProfileResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteInferenceProfileRequest,
+  output: DeleteInferenceProfileResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
     InternalServerException,
     ResourceNotFoundException,
     ThrottlingException,
@@ -10770,6 +10578,111 @@ export const listInferenceProfiles: {
   } as const,
 }));
 /**
+ * Delete the invocation logging.
+ */
+export const deleteModelInvocationLoggingConfiguration: (
+  input: DeleteModelInvocationLoggingConfigurationRequest,
+) => effect.Effect<
+  DeleteModelInvocationLoggingConfigurationResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteModelInvocationLoggingConfigurationRequest,
+  output: DeleteModelInvocationLoggingConfigurationResponse,
+  errors: [AccessDeniedException, InternalServerException, ThrottlingException],
+}));
+/**
+ * Get the current configuration values for model invocation logging.
+ */
+export const getModelInvocationLoggingConfiguration: (
+  input: GetModelInvocationLoggingConfigurationRequest,
+) => effect.Effect<
+  GetModelInvocationLoggingConfigurationResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetModelInvocationLoggingConfigurationRequest,
+  output: GetModelInvocationLoggingConfigurationResponse,
+  errors: [AccessDeniedException, InternalServerException, ThrottlingException],
+}));
+/**
+ * Set the configuration values for model invocation logging.
+ */
+export const putModelInvocationLoggingConfiguration: (
+  input: PutModelInvocationLoggingConfigurationRequest,
+) => effect.Effect<
+  PutModelInvocationLoggingConfigurationResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutModelInvocationLoggingConfigurationRequest,
+  output: PutModelInvocationLoggingConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Copies a model to another region so that it can be used there. For more information, see Copy models to be used in other regions in the Amazon Bedrock User Guide.
+ */
+export const createModelCopyJob: (
+  input: CreateModelCopyJobRequest,
+) => effect.Effect<
+  CreateModelCopyJobResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | TooManyTagsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateModelCopyJobRequest,
+  output: CreateModelCopyJobResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    TooManyTagsException,
+  ],
+}));
+/**
+ * Retrieves information about a model copy job. For more information, see Copy models to be used in other regions in the Amazon Bedrock User Guide.
+ */
+export const getModelCopyJob: (
+  input: GetModelCopyJobRequest,
+) => effect.Effect<
+  GetModelCopyJobResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetModelCopyJobRequest,
+  output: GetModelCopyJobResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
  * Returns a list of model copy jobs that you have submitted. You can filter the jobs to return based on one or more criteria. For more information, see Copy models to be used in other regions in the Amazon Bedrock User Guide.
  */
 export const listModelCopyJobs: {
@@ -10827,6 +10740,64 @@ export const listModelCopyJobs: {
   } as const,
 }));
 /**
+ * Creates a model import job to import model that you have customized in other environments, such as Amazon SageMaker. For more information, see Import a customized model
+ */
+export const createModelImportJob: (
+  input: CreateModelImportJobRequest,
+) => effect.Effect<
+  CreateModelImportJobResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | TooManyTagsException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateModelImportJobRequest,
+  output: CreateModelImportJobResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    TooManyTagsException,
+    ValidationException,
+  ],
+}));
+/**
+ * Deletes a custom model that you imported earlier. For more information, see Import a customized model in the Amazon Bedrock User Guide.
+ */
+export const deleteImportedModel: (
+  input: DeleteImportedModelRequest,
+) => effect.Effect<
+  DeleteImportedModelResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteImportedModelRequest,
+  output: DeleteImportedModelResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
  * Gets properties associated with a customized model you imported.
  */
 export const getImportedModel: (
@@ -10843,6 +10814,31 @@ export const getImportedModel: (
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetImportedModelRequest,
   output: GetImportedModelResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Retrieves the properties associated with import model job, including the status of the job. For more information, see Import a customized model in the Amazon Bedrock User Guide.
+ */
+export const getModelImportJob: (
+  input: GetModelImportJobRequest,
+) => effect.Effect<
+  GetModelImportJobResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetModelImportJobRequest,
+  output: GetModelImportJobResponse,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -10958,6 +10954,62 @@ export const listModelImportJobs: {
   } as const,
 }));
 /**
+ * Creates a batch inference job to invoke a model on multiple prompts. Format your data according to Format your inference data and upload it to an Amazon S3 bucket. For more information, see Process multiple prompts with batch inference.
+ *
+ * The response returns a `jobArn` that you can use to stop or get details about the job.
+ */
+export const createModelInvocationJob: (
+  input: CreateModelInvocationJobRequest,
+) => effect.Effect<
+  CreateModelInvocationJobResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateModelInvocationJobRequest,
+  output: CreateModelInvocationJobResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Gets details about a batch inference job. For more information, see Monitor batch inference jobs
+ */
+export const getModelInvocationJob: (
+  input: GetModelInvocationJobRequest,
+) => effect.Effect<
+  GetModelInvocationJobResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetModelInvocationJobRequest,
+  output: GetModelInvocationJobResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
  * Lists all batch inference jobs in the account. For more information, see View details about a batch inference job.
  */
 export const listModelInvocationJobs: {
@@ -11011,6 +11063,58 @@ export const listModelInvocationJobs: {
   } as const,
 }));
 /**
+ * Stops a batch inference job. You're only charged for tokens that were already processed. For more information, see Stop a batch inference job.
+ */
+export const stopModelInvocationJob: (
+  input: StopModelInvocationJobRequest,
+) => effect.Effect<
+  StopModelInvocationJobResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StopModelInvocationJobRequest,
+  output: StopModelInvocationJobResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Get details about a Amazon Bedrock foundation model.
+ */
+export const getFoundationModel: (
+  input: GetFoundationModelRequest,
+) => effect.Effect<
+  GetFoundationModelResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetFoundationModelRequest,
+  output: GetFoundationModelResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
  * Lists Amazon Bedrock foundation models that you can use. You can filter the results with the request parameters. For more information, see Foundation models in the Amazon Bedrock User Guide.
  */
 export const listFoundationModels: (
@@ -11029,6 +11133,87 @@ export const listFoundationModels: (
   errors: [
     AccessDeniedException,
     InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Creates a prompt router that manages the routing of requests between multiple foundation models based on the routing criteria.
+ */
+export const createPromptRouter: (
+  input: CreatePromptRouterRequest,
+) => effect.Effect<
+  CreatePromptRouterResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | TooManyTagsException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreatePromptRouterRequest,
+  output: CreatePromptRouterResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    TooManyTagsException,
+    ValidationException,
+  ],
+}));
+/**
+ * Retrieves details about a prompt router.
+ */
+export const getPromptRouter: (
+  input: GetPromptRouterRequest,
+) => effect.Effect<
+  GetPromptRouterResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetPromptRouterRequest,
+  output: GetPromptRouterResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Deletes a specified prompt router. This action cannot be undone.
+ */
+export const deletePromptRouter: (
+  input: DeletePromptRouterRequest,
+) => effect.Effect<
+  DeletePromptRouterResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeletePromptRouterRequest,
+  output: DeletePromptRouterResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
   ],
@@ -11087,6 +11272,87 @@ export const listPromptRouters: {
   } as const,
 }));
 /**
+ * Creates dedicated throughput for a base or custom model with the model units and for the duration that you specify. For pricing details, see Amazon Bedrock Pricing. For more information, see Provisioned Throughput in the Amazon Bedrock User Guide.
+ */
+export const createProvisionedModelThroughput: (
+  input: CreateProvisionedModelThroughputRequest,
+) => effect.Effect<
+  CreateProvisionedModelThroughputResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | TooManyTagsException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateProvisionedModelThroughputRequest,
+  output: CreateProvisionedModelThroughputResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    TooManyTagsException,
+    ValidationException,
+  ],
+}));
+/**
+ * Deletes a Provisioned Throughput. You can't delete a Provisioned Throughput before the commitment term is over. For more information, see Provisioned Throughput in the Amazon Bedrock User Guide.
+ */
+export const deleteProvisionedModelThroughput: (
+  input: DeleteProvisionedModelThroughputRequest,
+) => effect.Effect<
+  DeleteProvisionedModelThroughputResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteProvisionedModelThroughputRequest,
+  output: DeleteProvisionedModelThroughputResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Returns details for a Provisioned Throughput. For more information, see Provisioned Throughput in the Amazon Bedrock User Guide.
+ */
+export const getProvisionedModelThroughput: (
+  input: GetProvisionedModelThroughputRequest,
+) => effect.Effect<
+  GetProvisionedModelThroughputResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetProvisionedModelThroughputRequest,
+  output: GetProvisionedModelThroughputResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
  * Lists the Provisioned Throughputs in the account. For more information, see Provisioned Throughput in the Amazon Bedrock User Guide.
  */
 export const listProvisionedModelThroughputs: {
@@ -11140,6 +11406,85 @@ export const listProvisionedModelThroughputs: {
   } as const,
 }));
 /**
+ * Updates the name or associated model for a Provisioned Throughput. For more information, see Provisioned Throughput in the Amazon Bedrock User Guide.
+ */
+export const updateProvisionedModelThroughput: (
+  input: UpdateProvisionedModelThroughputRequest,
+) => effect.Effect<
+  UpdateProvisionedModelThroughputResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateProvisionedModelThroughputRequest,
+  output: UpdateProvisionedModelThroughputResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Request a model access agreement for the specified model.
+ */
+export const createFoundationModelAgreement: (
+  input: CreateFoundationModelAgreementRequest,
+) => effect.Effect<
+  CreateFoundationModelAgreementResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateFoundationModelAgreementRequest,
+  output: CreateFoundationModelAgreementResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Delete the model access agreement for the specified model.
+ */
+export const deleteFoundationModelAgreement: (
+  input: DeleteFoundationModelAgreementRequest,
+) => effect.Effect<
+  DeleteFoundationModelAgreementResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteFoundationModelAgreementRequest,
+  output: DeleteFoundationModelAgreementResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
  * Get information about the Foundation model availability.
  */
 export const getFoundationModelAvailability: (
@@ -11156,6 +11501,174 @@ export const getFoundationModelAvailability: (
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetFoundationModelAvailabilityRequest,
   output: GetFoundationModelAvailabilityResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Get the offers associated with the specified model.
+ */
+export const listFoundationModelAgreementOffers: (
+  input: ListFoundationModelAgreementOffersRequest,
+) => effect.Effect<
+  ListFoundationModelAgreementOffersResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListFoundationModelAgreementOffersRequest,
+  output: ListFoundationModelAgreementOffersResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * List the tags associated with the specified resource.
+ *
+ * For more information, see Tagging resources in the Amazon Bedrock User Guide.
+ */
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => effect.Effect<
+  ListTagsForResourceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Associate tags with a resource. For more information, see Tagging resources in the Amazon Bedrock User Guide.
+ */
+export const tagResource: (
+  input: TagResourceRequest,
+) => effect.Effect<
+  TagResourceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | TooManyTagsException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    TooManyTagsException,
+    ValidationException,
+  ],
+}));
+/**
+ * Remove one or more tags from a resource. For more information, see Tagging resources in the Amazon Bedrock User Guide.
+ */
+export const untagResource: (
+  input: UntagResourceRequest,
+) => effect.Effect<
+  UntagResourceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Creates a fine-tuning job to customize a base model.
+ *
+ * You specify the base foundation model and the location of the training data. After the model-customization job completes successfully, your custom model resource will be ready to use. Amazon Bedrock returns validation loss metrics and output generations after the job completes.
+ *
+ * For information on the format of training and validation data, see Prepare the datasets.
+ *
+ * Model-customization jobs are asynchronous and the completion time depends on the base model and the training/validation data size. To monitor a job, use the `GetModelCustomizationJob` operation to retrieve the job status.
+ *
+ * For more information, see Custom models in the Amazon Bedrock User Guide.
+ */
+export const createModelCustomizationJob: (
+  input: CreateModelCustomizationJobRequest,
+) => effect.Effect<
+  CreateModelCustomizationJobResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | TooManyTagsException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateModelCustomizationJobRequest,
+  output: CreateModelCustomizationJobResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    TooManyTagsException,
+    ValidationException,
+  ],
+}));
+/**
+ * Retrieves the properties associated with a model-customization job, including the status of the job. For more information, see Custom models in the Amazon Bedrock User Guide.
+ */
+export const getModelCustomizationJob: (
+  input: GetModelCustomizationJobRequest,
+) => effect.Effect<
+  GetModelCustomizationJobResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetModelCustomizationJobRequest,
+  output: GetModelCustomizationJobResponse,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -11220,349 +11733,12 @@ export const listModelCustomizationJobs: {
   } as const,
 }));
 /**
- * Gets details about a guardrail. If you don't specify a version, the response returns details for the `DRAFT` version.
+ * Stops an active model customization job. For more information, see Custom models in the Amazon Bedrock User Guide.
  */
-export const getGuardrail: (
-  input: GetGuardrailRequest,
+export const stopModelCustomizationJob: (
+  input: StopModelCustomizationJobRequest,
 ) => effect.Effect<
-  GetGuardrailResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetGuardrailRequest,
-  output: GetGuardrailResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Creates a batch inference job to invoke a model on multiple prompts. Format your data according to Format your inference data and upload it to an Amazon S3 bucket. For more information, see Process multiple prompts with batch inference.
- *
- * The response returns a `jobArn` that you can use to stop or get details about the job.
- */
-export const createModelInvocationJob: (
-  input: CreateModelInvocationJobRequest,
-) => effect.Effect<
-  CreateModelInvocationJobResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateModelInvocationJobRequest,
-  output: CreateModelInvocationJobResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Get details about a Amazon Bedrock foundation model.
- */
-export const getFoundationModel: (
-  input: GetFoundationModelRequest,
-) => effect.Effect<
-  GetFoundationModelResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetFoundationModelRequest,
-  output: GetFoundationModelResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Retrieves the properties associated with a model-customization job, including the status of the job. For more information, see Custom models in the Amazon Bedrock User Guide.
- */
-export const getModelCustomizationJob: (
-  input: GetModelCustomizationJobRequest,
-) => effect.Effect<
-  GetModelCustomizationJobResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetModelCustomizationJobRequest,
-  output: GetModelCustomizationJobResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Deregisters an endpoint for a model from Amazon Bedrock Marketplace. This operation removes the endpoint's association with Amazon Bedrock but does not delete the underlying Amazon SageMaker endpoint.
- */
-export const deregisterMarketplaceModelEndpoint: (
-  input: DeregisterMarketplaceModelEndpointRequest,
-) => effect.Effect<
-  DeregisterMarketplaceModelEndpointResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeregisterMarketplaceModelEndpointRequest,
-  output: DeregisterMarketplaceModelEndpointResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ServiceUnavailableException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Associate tags with a resource. For more information, see Tagging resources in the Amazon Bedrock User Guide.
- */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
-  TagResourceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | TooManyTagsException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    TooManyTagsException,
-    ValidationException,
-  ],
-}));
-/**
- * Updates an existing Automated Reasoning policy with new rules, variables, or configuration. This creates a new version of the policy while preserving the previous version.
- */
-export const updateAutomatedReasoningPolicy: (
-  input: UpdateAutomatedReasoningPolicyRequest,
-) => effect.Effect<
-  UpdateAutomatedReasoningPolicyResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | TooManyTagsException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateAutomatedReasoningPolicyRequest,
-  output: UpdateAutomatedReasoningPolicyResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    TooManyTagsException,
-    ValidationException,
-  ],
-}));
-/**
- * Creates an application inference profile to track metrics and costs when invoking a model. To create an application inference profile for a foundation model in one region, specify the ARN of the model in that region. To create an application inference profile for a foundation model across multiple regions, specify the ARN of the system-defined inference profile that contains the regions that you want to route requests to. For more information, see Increase throughput and resilience with cross-region inference in Amazon Bedrock. in the Amazon Bedrock User Guide.
- */
-export const createInferenceProfile: (
-  input: CreateInferenceProfileRequest,
-) => effect.Effect<
-  CreateInferenceProfileResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | TooManyTagsException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateInferenceProfileRequest,
-  output: CreateInferenceProfileResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    TooManyTagsException,
-    ValidationException,
-  ],
-}));
-/**
- * Creates an Automated Reasoning policy for Amazon Bedrock Guardrails. Automated Reasoning policies use mathematical techniques to detect hallucinations, suggest corrections, and highlight unstated assumptions in the responses of your GenAI application.
- *
- * To create a policy, you upload a source document that describes the rules that you're encoding. Automated Reasoning extracts important concepts from the source document that will become variables in the policy and infers policy rules.
- */
-export const createAutomatedReasoningPolicy: (
-  input: CreateAutomatedReasoningPolicyRequest,
-) => effect.Effect<
-  CreateAutomatedReasoningPolicyResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | TooManyTagsException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateAutomatedReasoningPolicyRequest,
-  output: CreateAutomatedReasoningPolicyResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    TooManyTagsException,
-    ValidationException,
-  ],
-}));
-/**
- * Starts a new build workflow for an Automated Reasoning policy. This initiates the process of analyzing source documents and generating policy rules, variables, and types.
- */
-export const startAutomatedReasoningPolicyBuildWorkflow: (
-  input: StartAutomatedReasoningPolicyBuildWorkflowRequest,
-) => effect.Effect<
-  StartAutomatedReasoningPolicyBuildWorkflowResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StartAutomatedReasoningPolicyBuildWorkflowRequest,
-  output: StartAutomatedReasoningPolicyBuildWorkflowResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceInUseException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Lists all existing evaluation jobs.
- */
-export const listEvaluationJobs: {
-  (
-    input: ListEvaluationJobsRequest,
-  ): effect.Effect<
-    ListEvaluationJobsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  pages: (
-    input: ListEvaluationJobsRequest,
-  ) => stream.Stream<
-    ListEvaluationJobsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  items: (
-    input: ListEvaluationJobsRequest,
-  ) => stream.Stream<
-    EvaluationSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
-  input: ListEvaluationJobsRequest,
-  output: ListEvaluationJobsResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ThrottlingException,
-    ValidationException,
-  ],
-  pagination: {
-    inputToken: "nextToken",
-    outputToken: "nextToken",
-    items: "jobSummaries",
-    pageSize: "maxResults",
-  } as const,
-}));
-/**
- * Updates the annotations for an Automated Reasoning policy build workflow. This allows you to modify extracted rules, variables, and types before finalizing the policy.
- */
-export const updateAutomatedReasoningPolicyAnnotations: (
-  input: UpdateAutomatedReasoningPolicyAnnotationsRequest,
-) => effect.Effect<
-  UpdateAutomatedReasoningPolicyAnnotationsResponse,
+  StopModelCustomizationJobResponse,
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -11572,156 +11748,13 @@ export const updateAutomatedReasoningPolicyAnnotations: (
   | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateAutomatedReasoningPolicyAnnotationsRequest,
-  output: UpdateAutomatedReasoningPolicyAnnotationsResponse,
+  input: StopModelCustomizationJobRequest,
+  output: StopModelCustomizationJobResponse,
   errors: [
     AccessDeniedException,
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Get the offers associated with the specified model.
- */
-export const listFoundationModelAgreementOffers: (
-  input: ListFoundationModelAgreementOffersRequest,
-) => effect.Effect<
-  ListFoundationModelAgreementOffersResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListFoundationModelAgreementOffersRequest,
-  output: ListFoundationModelAgreementOffersResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Creates a fine-tuning job to customize a base model.
- *
- * You specify the base foundation model and the location of the training data. After the model-customization job completes successfully, your custom model resource will be ready to use. Amazon Bedrock returns validation loss metrics and output generations after the job completes.
- *
- * For information on the format of training and validation data, see Prepare the datasets.
- *
- * Model-customization jobs are asynchronous and the completion time depends on the base model and the training/validation data size. To monitor a job, use the `GetModelCustomizationJob` operation to retrieve the job status.
- *
- * For more information, see Custom models in the Amazon Bedrock User Guide.
- */
-export const createModelCustomizationJob: (
-  input: CreateModelCustomizationJobRequest,
-) => effect.Effect<
-  CreateModelCustomizationJobResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | TooManyTagsException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateModelCustomizationJobRequest,
-  output: CreateModelCustomizationJobResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    TooManyTagsException,
-    ValidationException,
-  ],
-}));
-/**
- * Retrieves the test result for a specific Automated Reasoning policy test. Returns detailed validation findings and execution status.
- */
-export const getAutomatedReasoningPolicyTestResult: (
-  input: GetAutomatedReasoningPolicyTestResultRequest,
-) => effect.Effect<
-  GetAutomatedReasoningPolicyTestResultResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetAutomatedReasoningPolicyTestResultRequest,
-  output: GetAutomatedReasoningPolicyTestResultResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Retrieves the resulting assets from a completed Automated Reasoning policy build workflow, including build logs, quality reports, and generated policy artifacts.
- */
-export const getAutomatedReasoningPolicyBuildWorkflowResultAssets: (
-  input: GetAutomatedReasoningPolicyBuildWorkflowResultAssetsRequest,
-) => effect.Effect<
-  GetAutomatedReasoningPolicyBuildWorkflowResultAssetsResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetAutomatedReasoningPolicyBuildWorkflowResultAssetsRequest,
-  output: GetAutomatedReasoningPolicyBuildWorkflowResultAssetsResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Creates an evaluation job.
- */
-export const createEvaluationJob: (
-  input: CreateEvaluationJobRequest,
-) => effect.Effect<
-  CreateEvaluationJobResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateEvaluationJobRequest,
-  output: CreateEvaluationJobResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
   ],

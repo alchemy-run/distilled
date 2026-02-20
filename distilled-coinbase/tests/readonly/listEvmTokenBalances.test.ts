@@ -13,7 +13,10 @@ describe("listEvmTokenBalances", () => {
         const accounts = yield* listEvmAccounts({});
         if (accounts.accounts.length === 0) return null;
         const address = accounts.accounts[0]!.address;
-        return yield* listEvmTokenBalances({ address, network: "base-sepolia" });
+        return yield* listEvmTokenBalances({
+          address,
+          network: "base-sepolia",
+        });
       }),
     );
     if (result !== null) {
@@ -23,7 +26,10 @@ describe("listEvmTokenBalances", () => {
 
   it("can list token balances for a non-existent address (returns empty)", async () => {
     const result = await runEffect(
-      listEvmTokenBalances({ address: NON_EXISTENT_ADDRESS, network: "base-sepolia" }).pipe(
+      listEvmTokenBalances({
+        address: NON_EXISTENT_ADDRESS,
+        network: "base-sepolia",
+      }).pipe(
         Effect.matchEffect({
           onFailure: (e) => Effect.succeed({ error: e }),
           onSuccess: (data) => Effect.succeed({ data }),

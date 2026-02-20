@@ -1,25 +1,31 @@
 import { Effect, Schedule } from "effect";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
-import { NeonApiError } from "../src/client";
 import { Forbidden, NotFound } from "../src/errors";
+import { createProjectBranch } from "../src/operations/createProjectBranch";
 import { createProjectEndpoint } from "../src/operations/createProjectEndpoint";
+import { deleteProjectBranch } from "../src/operations/deleteProjectBranch";
 import { deleteProjectEndpoint } from "../src/operations/deleteProjectEndpoint";
 import { getProjectEndpoint } from "../src/operations/getProjectEndpoint";
 import { listProjectEndpoints } from "../src/operations/listProjectEndpoints";
-import { updateProjectEndpoint } from "../src/operations/updateProjectEndpoint";
+import { listProjectOperations } from "../src/operations/listProjectOperations";
+import { restartProjectEndpoint } from "../src/operations/restartProjectEndpoint";
 import { startProjectEndpoint } from "../src/operations/startProjectEndpoint";
 import { suspendProjectEndpoint } from "../src/operations/suspendProjectEndpoint";
-import { restartProjectEndpoint } from "../src/operations/restartProjectEndpoint";
-import { createProjectBranch } from "../src/operations/createProjectBranch";
-import { deleteProjectBranch } from "../src/operations/deleteProjectBranch";
-import { listProjectOperations } from "../src/operations/listProjectOperations";
-import { getTestProject, runEffect, setupTestProject, teardownTestProject, TestLayer } from "./setup";
+import { updateProjectEndpoint } from "../src/operations/updateProjectEndpoint";
+import {
+  getTestProject,
+  runEffect,
+  setupTestProject,
+  teardownTestProject,
+  TestLayer,
+} from "./setup";
 
 const TEST_SUFFIX = "endpoints";
 
 // Non-existent identifiers for unhappy path tests
 const NON_EXISTENT_PROJECT = "this-project-definitely-does-not-exist-12345";
-const NON_EXISTENT_ENDPOINT = "ep-this-endpoint-definitely-does-not-exist-12345";
+const NON_EXISTENT_ENDPOINT =
+  "ep-this-endpoint-definitely-does-not-exist-12345";
 
 /**
  * Helper to check if an error is an expected "not found" type error.
@@ -46,8 +52,15 @@ const waitForOperations = (projectId: string) =>
         }),
       ),
       {
-        schedule: Schedule.intersect(Schedule.recurs(60), Schedule.spaced("5 seconds")),
-        while: (e) => typeof e === "object" && e !== null && "_tag" in e && e._tag === "OperationsPending",
+        schedule: Schedule.both(
+          Schedule.recurs(60),
+          Schedule.spaced("5 seconds"),
+        ),
+        while: (e) =>
+          typeof e === "object" &&
+          e !== null &&
+          "_tag" in e &&
+          e._tag === "OperationsPending",
       },
     );
   }).pipe(Effect.provide(TestLayer));

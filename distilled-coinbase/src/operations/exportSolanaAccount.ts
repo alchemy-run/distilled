@@ -1,13 +1,21 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
-import { IdempotencyError, InvalidRequest, NotFound, PaymentMethodRequired } from "../errors";
+import {
+  IdempotencyError,
+  InvalidRequest,
+  NotFound,
+  PaymentMethodRequired,
+} from "../errors";
 
 // Input Schema
 export const ExportSolanaAccountInput = Schema.Struct({
   address: Schema.String.pipe(T.PathParam()),
   exportEncryptionKey: Schema.String,
-}).pipe(T.Http({ method: "POST", path: "/v2/solana/accounts/{address}/export" }), T.WalletAuth());
+}).pipe(
+  T.Http({ method: "POST", path: "/v2/solana/accounts/{address}/export" }),
+  T.WalletAuth(),
+);
 export type ExportSolanaAccountInput = typeof ExportSolanaAccountInput.Type;
 
 // Output Schema

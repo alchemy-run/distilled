@@ -44,7 +44,7 @@ const waitForDatabaseReady = (organization: string, database: string) =>
       ),
     ),
     {
-      schedule: Schedule.intersect(
+      schedule: Schedule.both(
         Schedule.recurs(120),
         Schedule.spaced("5 seconds"),
       ),

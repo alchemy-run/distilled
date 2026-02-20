@@ -6,8 +6,14 @@ import * as T from "../traits";
 export const GetAnonymizedBranchStatusInput = Schema.Struct({
   project_id: Schema.String.pipe(T.PathParam()),
   branch_id: Schema.String.pipe(T.PathParam()),
-}).pipe(T.Http({ method: "GET", path: "/projects/{project_id}/branches/{branch_id}/anonymized_status" }));
-export type GetAnonymizedBranchStatusInput = typeof GetAnonymizedBranchStatusInput.Type;
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/projects/{project_id}/branches/{branch_id}/anonymized_status",
+  }),
+);
+export type GetAnonymizedBranchStatusInput =
+  typeof GetAnonymizedBranchStatusInput.Type;
 
 // Output Schema
 export const GetAnonymizedBranchStatusOutput = Schema.Struct({
@@ -18,15 +24,18 @@ export const GetAnonymizedBranchStatusOutput = Schema.Struct({
   created_at: Schema.String,
   updated_at: Schema.String,
   failed_at: Schema.optional(Schema.String),
-  last_run: Schema.optional(Schema.Struct({
-    started_at: Schema.optional(Schema.String),
-    completed_at: Schema.optional(Schema.String),
-    triggered_by: Schema.optional(Schema.String),
-    triggered_by_username: Schema.optional(Schema.String),
-    masked_columns: Schema.optional(Schema.Number),
-  })),
+  last_run: Schema.optional(
+    Schema.Struct({
+      started_at: Schema.optional(Schema.String),
+      completed_at: Schema.optional(Schema.String),
+      triggered_by: Schema.optional(Schema.String),
+      triggered_by_username: Schema.optional(Schema.String),
+      masked_columns: Schema.optional(Schema.Number),
+    }),
+  ),
 });
-export type GetAnonymizedBranchStatusOutput = typeof GetAnonymizedBranchStatusOutput.Type;
+export type GetAnonymizedBranchStatusOutput =
+  typeof GetAnonymizedBranchStatusOutput.Type;
 
 // The operation
 /**
@@ -42,7 +51,9 @@ export type GetAnonymizedBranchStatusOutput = typeof GetAnonymizedBranchStatusOu
  * @param project_id - The Neon project ID
  * @param branch_id - The branch ID
  */
-export const getAnonymizedBranchStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  inputSchema: GetAnonymizedBranchStatusInput,
-  outputSchema: GetAnonymizedBranchStatusOutput,
-}));
+export const getAnonymizedBranchStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    inputSchema: GetAnonymizedBranchStatusInput,
+    outputSchema: GetAnonymizedBranchStatusOutput,
+  }),
+);

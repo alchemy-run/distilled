@@ -1,4 +1,4 @@
-import { HttpClient } from "@effect/platform";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as effect from "effect/Effect";
 import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
@@ -84,40 +84,31 @@ const rules = T.EndpointResolver((p, _) => {
 });
 
 //# Newtypes
+export type BucketName = string;
+export type S3Key = string;
+export type ErrorMessage = string;
 export type GenerateMappingInputFileContent = string;
 export type GenerateMappingOutputFileContent = string;
 export type TransformerJobId = string;
 export type TransformerId = string;
 export type AmazonResourceName = string;
+export type TagKey = string;
+export type TagValue = string;
+export type ElementId = string;
+export type ElementPosition = string;
 export type TestMappingInputFileContent = string;
 export type MappingTemplate = string;
-export type TagKey = string;
 export type CapabilityName = string;
 export type CapabilityId = string;
+export type ResourceArn = string;
+export type CreatedDate = Date;
+export type ModifiedDate = Date;
 export type PageToken = string;
 export type MaxResults = number;
 export type ProfileId = string;
 export type PartnerName = string;
 export type Email = string | redacted.Redacted<string>;
 export type Phone = string | redacted.Redacted<string>;
-export type PartnershipId = string;
-export type ProfileName = string;
-export type BusinessName = string;
-export type TransformerName = string;
-export type FileLocation = string;
-export type BucketName = string;
-export type S3Key = string;
-export type TagValue = string;
-export type ErrorMessage = string;
-export type ResourceArn = string;
-export type CreatedDate = Date;
-export type ModifiedDate = Date;
-export type TradingPartnerId = string;
-export type LogGroupName = string;
-export type X12ValidateEdi = boolean;
-export type LineLength = number;
-export type ElementId = string;
-export type ElementPosition = string;
 export type X12IdQualifier = string;
 export type X12SenderId = string;
 export type X12ReceiverId = string;
@@ -130,187 +121,29 @@ export type X12ResponsibleAgencyCode = string;
 export type X12ComponentSeparator = string;
 export type X12DataElementSeparator = string;
 export type X12SegmentTerminator = string;
+export type X12ValidateEdi = boolean;
 export type StartingInterchangeControlNumber = number;
 export type StartingFunctionalGroupControlNumber = number;
 export type StartingTransactionSetControlNumber = number;
+export type LineLength = number;
+export type PartnershipId = string;
+export type TradingPartnerId = string;
+export type ProfileName = string;
+export type BusinessName = string;
+export type LogGroupName = string;
+export type TransformerName = string;
+export type FileLocation = string;
 
 //# Schemas
-export type MappingType = "JSONATA" | "XSLT" | (string & {});
-export const MappingType = S.String;
-export type FileFormat = "XML" | "JSON" | "NOT_USED" | (string & {});
-export const FileFormat = S.String;
-export type TagKeyList = string[];
-export const TagKeyList = S.Array(S.String);
-export type CapabilityType = "edi" | (string & {});
-export const CapabilityType = S.String;
 export interface S3Location {
   bucketName?: string;
   key?: string;
 }
 export const S3Location = S.suspend(() =>
   S.Struct({ bucketName: S.optional(S.String), key: S.optional(S.String) }),
-).annotations({ identifier: "S3Location" }) as any as S.Schema<S3Location>;
-export type InstructionsDocuments = S3Location[];
-export const InstructionsDocuments = S.Array(S3Location);
-export type PartnershipCapabilities = string[];
-export const PartnershipCapabilities = S.Array(S.String);
-export type Logging = "ENABLED" | "DISABLED" | (string & {});
-export const Logging = S.String;
-export type TransformerStatus = "active" | "inactive" | (string & {});
-export const TransformerStatus = S.String;
-export interface GenerateMappingRequest {
-  inputFileContent: string;
-  outputFileContent: string;
-  mappingType: MappingType;
-}
-export const GenerateMappingRequest = S.suspend(() =>
-  S.Struct({
-    inputFileContent: S.String,
-    outputFileContent: S.String,
-    mappingType: MappingType,
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/generate-mapping" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "GenerateMappingRequest",
-}) as any as S.Schema<GenerateMappingRequest>;
-export interface GetTransformerJobRequest {
-  transformerJobId: string;
-  transformerId: string;
-}
-export const GetTransformerJobRequest = S.suspend(() =>
-  S.Struct({
-    transformerJobId: S.String.pipe(T.HttpLabel("transformerJobId")),
-    transformerId: S.String.pipe(T.HttpQuery("transformerId")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/transformer-jobs/{transformerJobId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "GetTransformerJobRequest",
-}) as any as S.Schema<GetTransformerJobRequest>;
-export interface ListTagsForResourceRequest {
-  ResourceARN: string;
-}
-export const ListTagsForResourceRequest = S.suspend(() =>
-  S.Struct({ ResourceARN: S.String.pipe(T.HttpLabel("ResourceARN")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/tags/{ResourceARN}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListTagsForResourceRequest",
-}) as any as S.Schema<ListTagsForResourceRequest>;
-export interface StartTransformerJobRequest {
-  inputFile: S3Location;
-  outputLocation: S3Location;
-  transformerId: string;
-  clientToken?: string;
-}
-export const StartTransformerJobRequest = S.suspend(() =>
-  S.Struct({
-    inputFile: S3Location,
-    outputLocation: S3Location,
-    transformerId: S.String,
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/transformer-jobs" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "StartTransformerJobRequest",
-}) as any as S.Schema<StartTransformerJobRequest>;
-export interface TestMappingRequest {
-  inputFileContent: string;
-  mappingTemplate: string;
-  fileFormat: FileFormat;
-}
-export const TestMappingRequest = S.suspend(() =>
-  S.Struct({
-    inputFileContent: S.String,
-    mappingTemplate: S.String,
-    fileFormat: FileFormat,
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/testmapping" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "TestMappingRequest",
-}) as any as S.Schema<TestMappingRequest>;
-export interface UntagResourceRequest {
-  ResourceARN: string;
-  TagKeys: string[];
-}
-export const UntagResourceRequest = S.suspend(() =>
-  S.Struct({
-    ResourceARN: S.String.pipe(T.HttpLabel("ResourceARN")),
-    TagKeys: TagKeyList.pipe(T.HttpQuery("TagKeys")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/tags/{ResourceARN}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
-export interface UntagResourceResponse {}
-export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
-  identifier: "UntagResourceResponse",
-}) as any as S.Schema<UntagResourceResponse>;
-export interface GetCapabilityRequest {
-  capabilityId: string;
-}
-export const GetCapabilityRequest = S.suspend(() =>
-  S.Struct({ capabilityId: S.String.pipe(T.HttpLabel("capabilityId")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/capabilities/{capabilityId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "GetCapabilityRequest",
-}) as any as S.Schema<GetCapabilityRequest>;
-export type CapabilityDirection = "INBOUND" | "OUTBOUND" | (string & {});
-export const CapabilityDirection = S.String;
+).annotate({ identifier: "S3Location" }) as any as S.Schema<S3Location>;
+export type MappingType = "JSONATA" | "XSLT" | (string & {});
+export const MappingType = S.String;
 export type X12TransactionSet =
   | "X12_100"
   | "X12_101"
@@ -674,9 +507,488 @@ export const X12Details = S.suspend(() =>
     transactionSet: S.optional(X12TransactionSet),
     version: S.optional(X12Version),
   }),
-).annotations({ identifier: "X12Details" }) as any as S.Schema<X12Details>;
+).annotate({ identifier: "X12Details" }) as any as S.Schema<X12Details>;
+export type TemplateDetails = { x12: X12Details };
+export const TemplateDetails = S.Union([S.Struct({ x12: X12Details })]);
+export interface CreateStarterMappingTemplateRequest {
+  outputSampleLocation?: S3Location;
+  mappingType: MappingType;
+  templateDetails: TemplateDetails;
+}
+export const CreateStarterMappingTemplateRequest = S.suspend(() =>
+  S.Struct({
+    outputSampleLocation: S.optional(S3Location),
+    mappingType: MappingType,
+    templateDetails: TemplateDetails,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/createmappingstarttemplate" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "CreateStarterMappingTemplateRequest",
+}) as any as S.Schema<CreateStarterMappingTemplateRequest>;
+export interface CreateStarterMappingTemplateResponse {
+  mappingTemplate: string;
+}
+export const CreateStarterMappingTemplateResponse = S.suspend(() =>
+  S.Struct({ mappingTemplate: S.String }),
+).annotate({
+  identifier: "CreateStarterMappingTemplateResponse",
+}) as any as S.Schema<CreateStarterMappingTemplateResponse>;
+export interface GenerateMappingRequest {
+  inputFileContent: string;
+  outputFileContent: string;
+  mappingType: MappingType;
+}
+export const GenerateMappingRequest = S.suspend(() =>
+  S.Struct({
+    inputFileContent: S.String,
+    outputFileContent: S.String,
+    mappingType: MappingType,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/generate-mapping" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GenerateMappingRequest",
+}) as any as S.Schema<GenerateMappingRequest>;
+export interface GenerateMappingResponse {
+  mappingTemplate: string;
+  mappingAccuracy?: number;
+}
+export const GenerateMappingResponse = S.suspend(() =>
+  S.Struct({
+    mappingTemplate: S.String,
+    mappingAccuracy: S.optional(S.Number),
+  }),
+).annotate({
+  identifier: "GenerateMappingResponse",
+}) as any as S.Schema<GenerateMappingResponse>;
+export interface GetTransformerJobRequest {
+  transformerJobId: string;
+  transformerId: string;
+}
+export const GetTransformerJobRequest = S.suspend(() =>
+  S.Struct({
+    transformerJobId: S.String.pipe(T.HttpLabel("transformerJobId")),
+    transformerId: S.String.pipe(T.HttpQuery("transformerId")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/transformer-jobs/{transformerJobId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetTransformerJobRequest",
+}) as any as S.Schema<GetTransformerJobRequest>;
+export type TransformerJobStatus =
+  | "running"
+  | "succeeded"
+  | "failed"
+  | (string & {});
+export const TransformerJobStatus = S.String;
+export type S3LocationList = S3Location[];
+export const S3LocationList = S.Array(S3Location);
+export interface GetTransformerJobResponse {
+  status: TransformerJobStatus;
+  outputFiles?: S3Location[];
+  message?: string;
+}
+export const GetTransformerJobResponse = S.suspend(() =>
+  S.Struct({
+    status: TransformerJobStatus,
+    outputFiles: S.optional(S3LocationList),
+    message: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GetTransformerJobResponse",
+}) as any as S.Schema<GetTransformerJobResponse>;
+export interface ListTagsForResourceRequest {
+  ResourceARN: string;
+}
+export const ListTagsForResourceRequest = S.suspend(() =>
+  S.Struct({ ResourceARN: S.String.pipe(T.HttpLabel("ResourceARN")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/tags/{ResourceARN}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListTagsForResourceRequest",
+}) as any as S.Schema<ListTagsForResourceRequest>;
+export interface Tag {
+  Key: string;
+  Value: string;
+}
+export const Tag = S.suspend(() =>
+  S.Struct({ Key: S.String, Value: S.String }),
+).annotate({ identifier: "Tag" }) as any as S.Schema<Tag>;
+export type TagList = Tag[];
+export const TagList = S.Array(Tag);
+export interface ListTagsForResourceResponse {
+  Tags?: Tag[];
+}
+export const ListTagsForResourceResponse = S.suspend(() =>
+  S.Struct({ Tags: S.optional(TagList) }),
+).annotate({
+  identifier: "ListTagsForResourceResponse",
+}) as any as S.Schema<ListTagsForResourceResponse>;
+export interface StartTransformerJobRequest {
+  inputFile: S3Location;
+  outputLocation: S3Location;
+  transformerId: string;
+  clientToken?: string;
+}
+export const StartTransformerJobRequest = S.suspend(() =>
+  S.Struct({
+    inputFile: S3Location,
+    outputLocation: S3Location,
+    transformerId: S.String,
+    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/transformer-jobs" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "StartTransformerJobRequest",
+}) as any as S.Schema<StartTransformerJobRequest>;
+export interface StartTransformerJobResponse {
+  transformerJobId: string;
+}
+export const StartTransformerJobResponse = S.suspend(() =>
+  S.Struct({ transformerJobId: S.String }),
+).annotate({
+  identifier: "StartTransformerJobResponse",
+}) as any as S.Schema<StartTransformerJobResponse>;
+export interface TagResourceRequest {
+  ResourceARN: string;
+  Tags: Tag[];
+}
+export const TagResourceRequest = S.suspend(() =>
+  S.Struct({
+    ResourceARN: S.String.pipe(T.HttpLabel("ResourceARN")),
+    Tags: TagList,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/tags/{ResourceARN}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "TagResourceRequest",
+}) as any as S.Schema<TagResourceRequest>;
+export interface TagResourceResponse {}
+export const TagResourceResponse = S.suspend(() => S.Struct({})).annotate({
+  identifier: "TagResourceResponse",
+}) as any as S.Schema<TagResourceResponse>;
+export type ConversionSourceFormat = "JSON" | "XML" | (string & {});
+export const ConversionSourceFormat = S.String;
+export type InputFileSource = { fileContent: string };
+export const InputFileSource = S.Union([S.Struct({ fileContent: S.String })]);
+export interface ConversionSource {
+  fileFormat: ConversionSourceFormat;
+  inputFile: InputFileSource;
+}
+export const ConversionSource = S.suspend(() =>
+  S.Struct({ fileFormat: ConversionSourceFormat, inputFile: InputFileSource }),
+).annotate({
+  identifier: "ConversionSource",
+}) as any as S.Schema<ConversionSource>;
+export type ConversionTargetFormat = "X12" | (string & {});
+export const ConversionTargetFormat = S.String;
+export type ConversionTargetFormatDetails = { x12: X12Details };
+export const ConversionTargetFormatDetails = S.Union([
+  S.Struct({ x12: X12Details }),
+]);
+export type OutputSampleFileSource = { fileLocation: S3Location };
+export const OutputSampleFileSource = S.Union([
+  S.Struct({ fileLocation: S3Location }),
+]);
+export type X12SplitBy = "NONE" | "TRANSACTION" | (string & {});
+export const X12SplitBy = S.String;
+export interface X12SplitOptions {
+  splitBy: X12SplitBy;
+}
+export const X12SplitOptions = S.suspend(() =>
+  S.Struct({ splitBy: X12SplitBy }),
+).annotate({
+  identifier: "X12SplitOptions",
+}) as any as S.Schema<X12SplitOptions>;
+export type CodeList = string[];
+export const CodeList = S.Array(S.String);
+export interface X12CodeListValidationRule {
+  elementId: string;
+  codesToAdd?: string[];
+  codesToRemove?: string[];
+}
+export const X12CodeListValidationRule = S.suspend(() =>
+  S.Struct({
+    elementId: S.String,
+    codesToAdd: S.optional(CodeList),
+    codesToRemove: S.optional(CodeList),
+  }),
+).annotate({
+  identifier: "X12CodeListValidationRule",
+}) as any as S.Schema<X12CodeListValidationRule>;
+export interface X12ElementLengthValidationRule {
+  elementId: string;
+  maxLength: number;
+  minLength: number;
+}
+export const X12ElementLengthValidationRule = S.suspend(() =>
+  S.Struct({ elementId: S.String, maxLength: S.Number, minLength: S.Number }),
+).annotate({
+  identifier: "X12ElementLengthValidationRule",
+}) as any as S.Schema<X12ElementLengthValidationRule>;
+export type ElementRequirement = "OPTIONAL" | "MANDATORY" | (string & {});
+export const ElementRequirement = S.String;
+export interface X12ElementRequirementValidationRule {
+  elementPosition: string;
+  requirement: ElementRequirement;
+}
+export const X12ElementRequirementValidationRule = S.suspend(() =>
+  S.Struct({ elementPosition: S.String, requirement: ElementRequirement }),
+).annotate({
+  identifier: "X12ElementRequirementValidationRule",
+}) as any as S.Schema<X12ElementRequirementValidationRule>;
+export type X12ValidationRule =
+  | {
+      codeListValidationRule: X12CodeListValidationRule;
+      elementLengthValidationRule?: never;
+      elementRequirementValidationRule?: never;
+    }
+  | {
+      codeListValidationRule?: never;
+      elementLengthValidationRule: X12ElementLengthValidationRule;
+      elementRequirementValidationRule?: never;
+    }
+  | {
+      codeListValidationRule?: never;
+      elementLengthValidationRule?: never;
+      elementRequirementValidationRule: X12ElementRequirementValidationRule;
+    };
+export const X12ValidationRule = S.Union([
+  S.Struct({ codeListValidationRule: X12CodeListValidationRule }),
+  S.Struct({ elementLengthValidationRule: X12ElementLengthValidationRule }),
+  S.Struct({
+    elementRequirementValidationRule: X12ElementRequirementValidationRule,
+  }),
+]);
+export type X12ValidationRules = X12ValidationRule[];
+export const X12ValidationRules = S.Array(X12ValidationRule);
+export interface X12ValidationOptions {
+  validationRules?: X12ValidationRule[];
+}
+export const X12ValidationOptions = S.suspend(() =>
+  S.Struct({ validationRules: S.optional(X12ValidationRules) }),
+).annotate({
+  identifier: "X12ValidationOptions",
+}) as any as S.Schema<X12ValidationOptions>;
+export interface X12AdvancedOptions {
+  splitOptions?: X12SplitOptions;
+  validationOptions?: X12ValidationOptions;
+}
+export const X12AdvancedOptions = S.suspend(() =>
+  S.Struct({
+    splitOptions: S.optional(X12SplitOptions),
+    validationOptions: S.optional(X12ValidationOptions),
+  }),
+).annotate({
+  identifier: "X12AdvancedOptions",
+}) as any as S.Schema<X12AdvancedOptions>;
+export interface AdvancedOptions {
+  x12?: X12AdvancedOptions;
+}
+export const AdvancedOptions = S.suspend(() =>
+  S.Struct({ x12: S.optional(X12AdvancedOptions) }),
+).annotate({
+  identifier: "AdvancedOptions",
+}) as any as S.Schema<AdvancedOptions>;
+export interface ConversionTarget {
+  fileFormat: ConversionTargetFormat;
+  formatDetails?: ConversionTargetFormatDetails;
+  outputSampleFile?: OutputSampleFileSource;
+  advancedOptions?: AdvancedOptions;
+}
+export const ConversionTarget = S.suspend(() =>
+  S.Struct({
+    fileFormat: ConversionTargetFormat,
+    formatDetails: S.optional(ConversionTargetFormatDetails),
+    outputSampleFile: S.optional(OutputSampleFileSource),
+    advancedOptions: S.optional(AdvancedOptions),
+  }),
+).annotate({
+  identifier: "ConversionTarget",
+}) as any as S.Schema<ConversionTarget>;
+export interface TestConversionRequest {
+  source: ConversionSource;
+  target: ConversionTarget;
+}
+export const TestConversionRequest = S.suspend(() =>
+  S.Struct({ source: ConversionSource, target: ConversionTarget }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/testconversion" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "TestConversionRequest",
+}) as any as S.Schema<TestConversionRequest>;
+export type ValidationMessages = string[];
+export const ValidationMessages = S.Array(S.String);
+export interface TestConversionResponse {
+  convertedFileContent: string;
+  validationMessages?: string[];
+}
+export const TestConversionResponse = S.suspend(() =>
+  S.Struct({
+    convertedFileContent: S.String,
+    validationMessages: S.optional(ValidationMessages),
+  }),
+).annotate({
+  identifier: "TestConversionResponse",
+}) as any as S.Schema<TestConversionResponse>;
+export type FileFormat = "XML" | "JSON" | "NOT_USED" | (string & {});
+export const FileFormat = S.String;
+export interface TestMappingRequest {
+  inputFileContent: string;
+  mappingTemplate: string;
+  fileFormat: FileFormat;
+}
+export const TestMappingRequest = S.suspend(() =>
+  S.Struct({
+    inputFileContent: S.String,
+    mappingTemplate: S.String,
+    fileFormat: FileFormat,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/testmapping" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "TestMappingRequest",
+}) as any as S.Schema<TestMappingRequest>;
+export interface TestMappingResponse {
+  mappedFileContent: string;
+}
+export const TestMappingResponse = S.suspend(() =>
+  S.Struct({ mappedFileContent: S.String }),
+).annotate({
+  identifier: "TestMappingResponse",
+}) as any as S.Schema<TestMappingResponse>;
 export type EdiType = { x12Details: X12Details };
-export const EdiType = S.Union(S.Struct({ x12Details: X12Details }));
+export const EdiType = S.Union([S.Struct({ x12Details: X12Details })]);
+export interface TestParsingRequest {
+  inputFile: S3Location;
+  fileFormat: FileFormat;
+  ediType: EdiType;
+  advancedOptions?: AdvancedOptions;
+}
+export const TestParsingRequest = S.suspend(() =>
+  S.Struct({
+    inputFile: S3Location,
+    fileFormat: FileFormat,
+    ediType: EdiType,
+    advancedOptions: S.optional(AdvancedOptions),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/testparsing" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "TestParsingRequest",
+}) as any as S.Schema<TestParsingRequest>;
+export type ParsedSplitFileContentsList = string[];
+export const ParsedSplitFileContentsList = S.Array(S.String);
+export interface TestParsingResponse {
+  parsedFileContent: string;
+  parsedSplitFileContents?: string[];
+  validationMessages?: string[];
+}
+export const TestParsingResponse = S.suspend(() =>
+  S.Struct({
+    parsedFileContent: S.String,
+    parsedSplitFileContents: S.optional(ParsedSplitFileContentsList),
+    validationMessages: S.optional(ValidationMessages),
+  }),
+).annotate({
+  identifier: "TestParsingResponse",
+}) as any as S.Schema<TestParsingResponse>;
+export type TagKeyList = string[];
+export const TagKeyList = S.Array(S.String);
+export interface UntagResourceRequest {
+  ResourceARN: string;
+  TagKeys: string[];
+}
+export const UntagResourceRequest = S.suspend(() =>
+  S.Struct({
+    ResourceARN: S.String.pipe(T.HttpLabel("ResourceARN")),
+    TagKeys: TagKeyList.pipe(T.HttpQuery("TagKeys")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/tags/{ResourceARN}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "UntagResourceRequest",
+}) as any as S.Schema<UntagResourceRequest>;
+export interface UntagResourceResponse {}
+export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotate({
+  identifier: "UntagResourceResponse",
+}) as any as S.Schema<UntagResourceResponse>;
+export type CapabilityType = "edi" | (string & {});
+export const CapabilityType = S.String;
+export type CapabilityDirection = "INBOUND" | "OUTBOUND" | (string & {});
+export const CapabilityDirection = S.String;
 export interface EdiConfiguration {
   capabilityDirection?: CapabilityDirection;
   type: EdiType;
@@ -692,13 +1004,109 @@ export const EdiConfiguration = S.suspend(() =>
     outputLocation: S3Location,
     transformerId: S.String,
   }),
-).annotations({
+).annotate({
   identifier: "EdiConfiguration",
 }) as any as S.Schema<EdiConfiguration>;
 export type CapabilityConfiguration = { edi: EdiConfiguration };
-export const CapabilityConfiguration = S.Union(
+export const CapabilityConfiguration = S.Union([
   S.Struct({ edi: EdiConfiguration }),
-);
+]);
+export type InstructionsDocuments = S3Location[];
+export const InstructionsDocuments = S.Array(S3Location);
+export interface CreateCapabilityRequest {
+  name: string;
+  type: CapabilityType;
+  configuration: CapabilityConfiguration;
+  instructionsDocuments?: S3Location[];
+  clientToken?: string;
+  tags?: Tag[];
+}
+export const CreateCapabilityRequest = S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    type: CapabilityType,
+    configuration: CapabilityConfiguration,
+    instructionsDocuments: S.optional(InstructionsDocuments),
+    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+    tags: S.optional(TagList),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/capabilities" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "CreateCapabilityRequest",
+}) as any as S.Schema<CreateCapabilityRequest>;
+export interface CreateCapabilityResponse {
+  capabilityId: string;
+  capabilityArn: string;
+  name: string;
+  type: CapabilityType;
+  configuration: CapabilityConfiguration;
+  instructionsDocuments?: S3Location[];
+  createdAt: Date;
+}
+export const CreateCapabilityResponse = S.suspend(() =>
+  S.Struct({
+    capabilityId: S.String,
+    capabilityArn: S.String,
+    name: S.String,
+    type: CapabilityType,
+    configuration: CapabilityConfiguration,
+    instructionsDocuments: S.optional(InstructionsDocuments),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+  }),
+).annotate({
+  identifier: "CreateCapabilityResponse",
+}) as any as S.Schema<CreateCapabilityResponse>;
+export interface GetCapabilityRequest {
+  capabilityId: string;
+}
+export const GetCapabilityRequest = S.suspend(() =>
+  S.Struct({ capabilityId: S.String.pipe(T.HttpLabel("capabilityId")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/capabilities/{capabilityId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetCapabilityRequest",
+}) as any as S.Schema<GetCapabilityRequest>;
+export interface GetCapabilityResponse {
+  capabilityId: string;
+  capabilityArn: string;
+  name: string;
+  type: CapabilityType;
+  configuration: CapabilityConfiguration;
+  instructionsDocuments?: S3Location[];
+  createdAt: Date;
+  modifiedAt?: Date;
+}
+export const GetCapabilityResponse = S.suspend(() =>
+  S.Struct({
+    capabilityId: S.String,
+    capabilityArn: S.String,
+    name: S.String,
+    type: CapabilityType,
+    configuration: CapabilityConfiguration,
+    instructionsDocuments: S.optional(InstructionsDocuments),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    modifiedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+  }),
+).annotate({
+  identifier: "GetCapabilityResponse",
+}) as any as S.Schema<GetCapabilityResponse>;
 export interface UpdateCapabilityRequest {
   capabilityId: string;
   name?: string;
@@ -721,9 +1129,35 @@ export const UpdateCapabilityRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "UpdateCapabilityRequest",
 }) as any as S.Schema<UpdateCapabilityRequest>;
+export interface UpdateCapabilityResponse {
+  capabilityId: string;
+  capabilityArn: string;
+  name: string;
+  type: CapabilityType;
+  configuration: CapabilityConfiguration;
+  instructionsDocuments?: S3Location[];
+  createdAt: Date;
+  modifiedAt?: Date;
+}
+export const UpdateCapabilityResponse = S.suspend(() =>
+  S.Struct({
+    capabilityId: S.String,
+    capabilityArn: S.String,
+    name: S.String,
+    type: CapabilityType,
+    configuration: CapabilityConfiguration,
+    instructionsDocuments: S.optional(InstructionsDocuments),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    modifiedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+  }),
+).annotate({
+  identifier: "UpdateCapabilityResponse",
+}) as any as S.Schema<UpdateCapabilityResponse>;
 export interface DeleteCapabilityRequest {
   capabilityId: string;
 }
@@ -738,13 +1172,11 @@ export const DeleteCapabilityRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "DeleteCapabilityRequest",
 }) as any as S.Schema<DeleteCapabilityRequest>;
 export interface DeleteCapabilityResponse {}
-export const DeleteCapabilityResponse = S.suspend(() =>
-  S.Struct({}),
-).annotations({
+export const DeleteCapabilityResponse = S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteCapabilityResponse",
 }) as any as S.Schema<DeleteCapabilityResponse>;
 export interface ListCapabilitiesRequest {
@@ -765,26 +1197,42 @@ export const ListCapabilitiesRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "ListCapabilitiesRequest",
 }) as any as S.Schema<ListCapabilitiesRequest>;
-export interface GetPartnershipRequest {
-  partnershipId: string;
+export interface CapabilitySummary {
+  capabilityId: string;
+  name: string;
+  type: CapabilityType;
+  createdAt: Date;
+  modifiedAt?: Date;
 }
-export const GetPartnershipRequest = S.suspend(() =>
-  S.Struct({ partnershipId: S.String.pipe(T.HttpLabel("partnershipId")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/partnerships/{partnershipId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const CapabilitySummary = S.suspend(() =>
+  S.Struct({
+    capabilityId: S.String,
+    name: S.String,
+    type: CapabilityType,
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    modifiedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
-  ),
-).annotations({
-  identifier: "GetPartnershipRequest",
-}) as any as S.Schema<GetPartnershipRequest>;
+  }),
+).annotate({
+  identifier: "CapabilitySummary",
+}) as any as S.Schema<CapabilitySummary>;
+export type CapabilityList = CapabilitySummary[];
+export const CapabilityList = S.Array(CapabilitySummary);
+export interface ListCapabilitiesResponse {
+  capabilities: CapabilitySummary[];
+  nextToken?: string;
+}
+export const ListCapabilitiesResponse = S.suspend(() =>
+  S.Struct({ capabilities: CapabilityList, nextToken: S.optional(S.String) }),
+).annotate({
+  identifier: "ListCapabilitiesResponse",
+}) as any as S.Schema<ListCapabilitiesResponse>;
+export type PartnershipCapabilities = string[];
+export const PartnershipCapabilities = S.Array(S.String);
 export interface X12InterchangeControlHeaders {
   senderIdQualifier?: string;
   senderId?: string;
@@ -804,7 +1252,7 @@ export const X12InterchangeControlHeaders = S.suspend(() =>
     acknowledgmentRequestedCode: S.optional(S.String),
     usageIndicatorCode: S.optional(S.String),
   }),
-).annotations({
+).annotate({
   identifier: "X12InterchangeControlHeaders",
 }) as any as S.Schema<X12InterchangeControlHeaders>;
 export interface X12FunctionalGroupHeaders {
@@ -818,7 +1266,7 @@ export const X12FunctionalGroupHeaders = S.suspend(() =>
     applicationReceiverCode: S.optional(S.String),
     responsibleAgencyCode: S.optional(S.String),
   }),
-).annotations({
+).annotate({
   identifier: "X12FunctionalGroupHeaders",
 }) as any as S.Schema<X12FunctionalGroupHeaders>;
 export interface X12Delimiters {
@@ -832,9 +1280,7 @@ export const X12Delimiters = S.suspend(() =>
     dataElementSeparator: S.optional(S.String),
     segmentTerminator: S.optional(S.String),
   }),
-).annotations({
-  identifier: "X12Delimiters",
-}) as any as S.Schema<X12Delimiters>;
+).annotate({ identifier: "X12Delimiters" }) as any as S.Schema<X12Delimiters>;
 export interface X12ControlNumbers {
   startingInterchangeControlNumber?: number;
   startingFunctionalGroupControlNumber?: number;
@@ -846,7 +1292,7 @@ export const X12ControlNumbers = S.suspend(() =>
     startingFunctionalGroupControlNumber: S.optional(S.Number),
     startingTransactionSetControlNumber: S.optional(S.Number),
   }),
-).annotations({
+).annotate({
   identifier: "X12ControlNumbers",
 }) as any as S.Schema<X12ControlNumbers>;
 export type X12GS05TimeFormat = "HHMM" | "HHMMSS" | "HHMMSSDD" | (string & {});
@@ -868,7 +1314,7 @@ export const X12OutboundEdiHeaders = S.suspend(() =>
     controlNumbers: S.optional(X12ControlNumbers),
     gs05TimeFormat: S.optional(X12GS05TimeFormat),
   }),
-).annotations({
+).annotate({
   identifier: "X12OutboundEdiHeaders",
 }) as any as S.Schema<X12OutboundEdiHeaders>;
 export type WrapFormat = "SEGMENT" | "ONE_LINE" | "LINE_LENGTH" | (string & {});
@@ -886,7 +1332,7 @@ export const WrapOptions = S.suspend(() =>
     lineTerminator: S.optional(LineTerminator),
     lineLength: S.optional(S.Number),
   }),
-).annotations({ identifier: "WrapOptions" }) as any as S.Schema<WrapOptions>;
+).annotate({ identifier: "WrapOptions" }) as any as S.Schema<WrapOptions>;
 export interface X12Envelope {
   common?: X12OutboundEdiHeaders;
   wrapOptions?: WrapOptions;
@@ -896,9 +1342,9 @@ export const X12Envelope = S.suspend(() =>
     common: S.optional(X12OutboundEdiHeaders),
     wrapOptions: S.optional(WrapOptions),
   }),
-).annotations({ identifier: "X12Envelope" }) as any as S.Schema<X12Envelope>;
+).annotate({ identifier: "X12Envelope" }) as any as S.Schema<X12Envelope>;
 export type OutboundEdiOptions = { x12: X12Envelope };
-export const OutboundEdiOptions = S.Union(S.Struct({ x12: X12Envelope }));
+export const OutboundEdiOptions = S.Union([S.Struct({ x12: X12Envelope })]);
 export type X12FunctionalAcknowledgment =
   | "DO_NOT_GENERATE"
   | "GENERATE_ALL_SEGMENTS"
@@ -919,7 +1365,7 @@ export const X12AcknowledgmentOptions = S.suspend(() =>
     functionalAcknowledgment: X12FunctionalAcknowledgment,
     technicalAcknowledgment: X12TechnicalAcknowledgment,
   }),
-).annotations({
+).annotate({
   identifier: "X12AcknowledgmentOptions",
 }) as any as S.Schema<X12AcknowledgmentOptions>;
 export interface X12InboundEdiOptions {
@@ -927,7 +1373,7 @@ export interface X12InboundEdiOptions {
 }
 export const X12InboundEdiOptions = S.suspend(() =>
   S.Struct({ acknowledgmentOptions: S.optional(X12AcknowledgmentOptions) }),
-).annotations({
+).annotate({
   identifier: "X12InboundEdiOptions",
 }) as any as S.Schema<X12InboundEdiOptions>;
 export interface InboundEdiOptions {
@@ -935,7 +1381,7 @@ export interface InboundEdiOptions {
 }
 export const InboundEdiOptions = S.suspend(() =>
   S.Struct({ x12: S.optional(X12InboundEdiOptions) }),
-).annotations({
+).annotate({
   identifier: "InboundEdiOptions",
 }) as any as S.Schema<InboundEdiOptions>;
 export interface CapabilityOptions {
@@ -947,9 +1393,119 @@ export const CapabilityOptions = S.suspend(() =>
     outboundEdi: S.optional(OutboundEdiOptions),
     inboundEdi: S.optional(InboundEdiOptions),
   }),
-).annotations({
+).annotate({
   identifier: "CapabilityOptions",
 }) as any as S.Schema<CapabilityOptions>;
+export interface CreatePartnershipRequest {
+  profileId: string;
+  name: string;
+  email: string | redacted.Redacted<string>;
+  phone?: string | redacted.Redacted<string>;
+  capabilities: string[];
+  capabilityOptions?: CapabilityOptions;
+  clientToken?: string;
+  tags?: Tag[];
+}
+export const CreatePartnershipRequest = S.suspend(() =>
+  S.Struct({
+    profileId: S.String,
+    name: S.String,
+    email: SensitiveString,
+    phone: S.optional(SensitiveString),
+    capabilities: PartnershipCapabilities,
+    capabilityOptions: S.optional(CapabilityOptions),
+    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+    tags: S.optional(TagList),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/partnerships" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "CreatePartnershipRequest",
+}) as any as S.Schema<CreatePartnershipRequest>;
+export interface CreatePartnershipResponse {
+  profileId: string;
+  partnershipId: string;
+  partnershipArn: string;
+  name?: string;
+  email?: string | redacted.Redacted<string>;
+  phone?: string | redacted.Redacted<string>;
+  capabilities?: string[];
+  capabilityOptions?: CapabilityOptions;
+  tradingPartnerId?: string;
+  createdAt: Date;
+}
+export const CreatePartnershipResponse = S.suspend(() =>
+  S.Struct({
+    profileId: S.String,
+    partnershipId: S.String,
+    partnershipArn: S.String,
+    name: S.optional(S.String),
+    email: S.optional(SensitiveString),
+    phone: S.optional(SensitiveString),
+    capabilities: S.optional(PartnershipCapabilities),
+    capabilityOptions: S.optional(CapabilityOptions),
+    tradingPartnerId: S.optional(S.String),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+  }),
+).annotate({
+  identifier: "CreatePartnershipResponse",
+}) as any as S.Schema<CreatePartnershipResponse>;
+export interface GetPartnershipRequest {
+  partnershipId: string;
+}
+export const GetPartnershipRequest = S.suspend(() =>
+  S.Struct({ partnershipId: S.String.pipe(T.HttpLabel("partnershipId")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/partnerships/{partnershipId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetPartnershipRequest",
+}) as any as S.Schema<GetPartnershipRequest>;
+export interface GetPartnershipResponse {
+  profileId: string;
+  partnershipId: string;
+  partnershipArn: string;
+  name?: string;
+  email?: string | redacted.Redacted<string>;
+  phone?: string | redacted.Redacted<string>;
+  capabilities?: string[];
+  capabilityOptions?: CapabilityOptions;
+  tradingPartnerId?: string;
+  createdAt: Date;
+  modifiedAt?: Date;
+}
+export const GetPartnershipResponse = S.suspend(() =>
+  S.Struct({
+    profileId: S.String,
+    partnershipId: S.String,
+    partnershipArn: S.String,
+    name: S.optional(S.String),
+    email: S.optional(SensitiveString),
+    phone: S.optional(SensitiveString),
+    capabilities: S.optional(PartnershipCapabilities),
+    capabilityOptions: S.optional(CapabilityOptions),
+    tradingPartnerId: S.optional(S.String),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    modifiedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+  }),
+).annotate({
+  identifier: "GetPartnershipResponse",
+}) as any as S.Schema<GetPartnershipResponse>;
 export interface UpdatePartnershipRequest {
   partnershipId: string;
   name?: string;
@@ -972,9 +1528,41 @@ export const UpdatePartnershipRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "UpdatePartnershipRequest",
 }) as any as S.Schema<UpdatePartnershipRequest>;
+export interface UpdatePartnershipResponse {
+  profileId: string;
+  partnershipId: string;
+  partnershipArn: string;
+  name?: string;
+  email?: string | redacted.Redacted<string>;
+  phone?: string | redacted.Redacted<string>;
+  capabilities?: string[];
+  capabilityOptions?: CapabilityOptions;
+  tradingPartnerId?: string;
+  createdAt: Date;
+  modifiedAt?: Date;
+}
+export const UpdatePartnershipResponse = S.suspend(() =>
+  S.Struct({
+    profileId: S.String,
+    partnershipId: S.String,
+    partnershipArn: S.String,
+    name: S.optional(S.String),
+    email: S.optional(SensitiveString),
+    phone: S.optional(SensitiveString),
+    capabilities: S.optional(PartnershipCapabilities),
+    capabilityOptions: S.optional(CapabilityOptions),
+    tradingPartnerId: S.optional(S.String),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    modifiedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+  }),
+).annotate({
+  identifier: "UpdatePartnershipResponse",
+}) as any as S.Schema<UpdatePartnershipResponse>;
 export interface DeletePartnershipRequest {
   partnershipId: string;
 }
@@ -989,15 +1577,13 @@ export const DeletePartnershipRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "DeletePartnershipRequest",
 }) as any as S.Schema<DeletePartnershipRequest>;
 export interface DeletePartnershipResponse {}
-export const DeletePartnershipResponse = S.suspend(() =>
-  S.Struct({}),
-).annotations({
-  identifier: "DeletePartnershipResponse",
-}) as any as S.Schema<DeletePartnershipResponse>;
+export const DeletePartnershipResponse = S.suspend(() => S.Struct({})).annotate(
+  { identifier: "DeletePartnershipResponse" },
+) as any as S.Schema<DeletePartnershipResponse>;
 export interface ListPartnershipsRequest {
   profileId?: string;
   nextToken?: string;
@@ -1018,18 +1604,48 @@ export const ListPartnershipsRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "ListPartnershipsRequest",
 }) as any as S.Schema<ListPartnershipsRequest>;
-export interface Tag {
-  Key: string;
-  Value: string;
+export interface PartnershipSummary {
+  profileId: string;
+  partnershipId: string;
+  name?: string;
+  capabilities?: string[];
+  capabilityOptions?: CapabilityOptions;
+  tradingPartnerId?: string;
+  createdAt: Date;
+  modifiedAt?: Date;
 }
-export const Tag = S.suspend(() =>
-  S.Struct({ Key: S.String, Value: S.String }),
-).annotations({ identifier: "Tag" }) as any as S.Schema<Tag>;
-export type TagList = Tag[];
-export const TagList = S.Array(Tag);
+export const PartnershipSummary = S.suspend(() =>
+  S.Struct({
+    profileId: S.String,
+    partnershipId: S.String,
+    name: S.optional(S.String),
+    capabilities: S.optional(PartnershipCapabilities),
+    capabilityOptions: S.optional(CapabilityOptions),
+    tradingPartnerId: S.optional(S.String),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    modifiedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+  }),
+).annotate({
+  identifier: "PartnershipSummary",
+}) as any as S.Schema<PartnershipSummary>;
+export type PartnershipList = PartnershipSummary[];
+export const PartnershipList = S.Array(PartnershipSummary);
+export interface ListPartnershipsResponse {
+  partnerships: PartnershipSummary[];
+  nextToken?: string;
+}
+export const ListPartnershipsResponse = S.suspend(() =>
+  S.Struct({ partnerships: PartnershipList, nextToken: S.optional(S.String) }),
+).annotate({
+  identifier: "ListPartnershipsResponse",
+}) as any as S.Schema<ListPartnershipsResponse>;
+export type Logging = "ENABLED" | "DISABLED" | (string & {});
+export const Logging = S.String;
 export interface CreateProfileRequest {
   name: string;
   email?: string | redacted.Redacted<string>;
@@ -1058,9 +1674,35 @@ export const CreateProfileRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "CreateProfileRequest",
 }) as any as S.Schema<CreateProfileRequest>;
+export interface CreateProfileResponse {
+  profileId: string;
+  profileArn: string;
+  name: string;
+  businessName: string;
+  phone: string | redacted.Redacted<string>;
+  email?: string | redacted.Redacted<string>;
+  logging?: Logging;
+  logGroupName?: string;
+  createdAt: Date;
+}
+export const CreateProfileResponse = S.suspend(() =>
+  S.Struct({
+    profileId: S.String,
+    profileArn: S.String,
+    name: S.String,
+    businessName: S.String,
+    phone: SensitiveString,
+    email: S.optional(SensitiveString),
+    logging: S.optional(Logging),
+    logGroupName: S.optional(S.String),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+  }),
+).annotate({
+  identifier: "CreateProfileResponse",
+}) as any as S.Schema<CreateProfileResponse>;
 export interface GetProfileRequest {
   profileId: string;
 }
@@ -1075,9 +1717,39 @@ export const GetProfileRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "GetProfileRequest",
 }) as any as S.Schema<GetProfileRequest>;
+export interface GetProfileResponse {
+  profileId: string;
+  profileArn: string;
+  name: string;
+  email?: string | redacted.Redacted<string>;
+  phone: string | redacted.Redacted<string>;
+  businessName: string;
+  logging?: Logging;
+  logGroupName?: string;
+  createdAt: Date;
+  modifiedAt?: Date;
+}
+export const GetProfileResponse = S.suspend(() =>
+  S.Struct({
+    profileId: S.String,
+    profileArn: S.String,
+    name: S.String,
+    email: S.optional(SensitiveString),
+    phone: SensitiveString,
+    businessName: S.String,
+    logging: S.optional(Logging),
+    logGroupName: S.optional(S.String),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    modifiedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+  }),
+).annotate({
+  identifier: "GetProfileResponse",
+}) as any as S.Schema<GetProfileResponse>;
 export interface UpdateProfileRequest {
   profileId: string;
   name?: string;
@@ -1102,566 +1774,9 @@ export const UpdateProfileRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "UpdateProfileRequest",
 }) as any as S.Schema<UpdateProfileRequest>;
-export interface DeleteProfileRequest {
-  profileId: string;
-}
-export const DeleteProfileRequest = S.suspend(() =>
-  S.Struct({ profileId: S.String.pipe(T.HttpLabel("profileId")) }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/profiles/{profileId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DeleteProfileRequest",
-}) as any as S.Schema<DeleteProfileRequest>;
-export interface DeleteProfileResponse {}
-export const DeleteProfileResponse = S.suspend(() => S.Struct({})).annotations({
-  identifier: "DeleteProfileResponse",
-}) as any as S.Schema<DeleteProfileResponse>;
-export interface ListProfilesRequest {
-  nextToken?: string;
-  maxResults?: number;
-}
-export const ListProfilesRequest = S.suspend(() =>
-  S.Struct({
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/profiles" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListProfilesRequest",
-}) as any as S.Schema<ListProfilesRequest>;
-export interface GetTransformerRequest {
-  transformerId: string;
-}
-export const GetTransformerRequest = S.suspend(() =>
-  S.Struct({ transformerId: S.String.pipe(T.HttpLabel("transformerId")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/transformers/{transformerId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "GetTransformerRequest",
-}) as any as S.Schema<GetTransformerRequest>;
-export type FromFormat = "X12" | (string & {});
-export const FromFormat = S.String;
-export type FormatOptions = { x12: X12Details };
-export const FormatOptions = S.Union(S.Struct({ x12: X12Details }));
-export type X12SplitBy = "NONE" | "TRANSACTION" | (string & {});
-export const X12SplitBy = S.String;
-export interface X12SplitOptions {
-  splitBy: X12SplitBy;
-}
-export const X12SplitOptions = S.suspend(() =>
-  S.Struct({ splitBy: X12SplitBy }),
-).annotations({
-  identifier: "X12SplitOptions",
-}) as any as S.Schema<X12SplitOptions>;
-export type CodeList = string[];
-export const CodeList = S.Array(S.String);
-export interface X12CodeListValidationRule {
-  elementId: string;
-  codesToAdd?: string[];
-  codesToRemove?: string[];
-}
-export const X12CodeListValidationRule = S.suspend(() =>
-  S.Struct({
-    elementId: S.String,
-    codesToAdd: S.optional(CodeList),
-    codesToRemove: S.optional(CodeList),
-  }),
-).annotations({
-  identifier: "X12CodeListValidationRule",
-}) as any as S.Schema<X12CodeListValidationRule>;
-export interface X12ElementLengthValidationRule {
-  elementId: string;
-  maxLength: number;
-  minLength: number;
-}
-export const X12ElementLengthValidationRule = S.suspend(() =>
-  S.Struct({ elementId: S.String, maxLength: S.Number, minLength: S.Number }),
-).annotations({
-  identifier: "X12ElementLengthValidationRule",
-}) as any as S.Schema<X12ElementLengthValidationRule>;
-export type ElementRequirement = "OPTIONAL" | "MANDATORY" | (string & {});
-export const ElementRequirement = S.String;
-export interface X12ElementRequirementValidationRule {
-  elementPosition: string;
-  requirement: ElementRequirement;
-}
-export const X12ElementRequirementValidationRule = S.suspend(() =>
-  S.Struct({ elementPosition: S.String, requirement: ElementRequirement }),
-).annotations({
-  identifier: "X12ElementRequirementValidationRule",
-}) as any as S.Schema<X12ElementRequirementValidationRule>;
-export type X12ValidationRule =
-  | {
-      codeListValidationRule: X12CodeListValidationRule;
-      elementLengthValidationRule?: never;
-      elementRequirementValidationRule?: never;
-    }
-  | {
-      codeListValidationRule?: never;
-      elementLengthValidationRule: X12ElementLengthValidationRule;
-      elementRequirementValidationRule?: never;
-    }
-  | {
-      codeListValidationRule?: never;
-      elementLengthValidationRule?: never;
-      elementRequirementValidationRule: X12ElementRequirementValidationRule;
-    };
-export const X12ValidationRule = S.Union(
-  S.Struct({ codeListValidationRule: X12CodeListValidationRule }),
-  S.Struct({ elementLengthValidationRule: X12ElementLengthValidationRule }),
-  S.Struct({
-    elementRequirementValidationRule: X12ElementRequirementValidationRule,
-  }),
-);
-export type X12ValidationRules = X12ValidationRule[];
-export const X12ValidationRules = S.Array(X12ValidationRule);
-export interface X12ValidationOptions {
-  validationRules?: X12ValidationRule[];
-}
-export const X12ValidationOptions = S.suspend(() =>
-  S.Struct({ validationRules: S.optional(X12ValidationRules) }),
-).annotations({
-  identifier: "X12ValidationOptions",
-}) as any as S.Schema<X12ValidationOptions>;
-export interface X12AdvancedOptions {
-  splitOptions?: X12SplitOptions;
-  validationOptions?: X12ValidationOptions;
-}
-export const X12AdvancedOptions = S.suspend(() =>
-  S.Struct({
-    splitOptions: S.optional(X12SplitOptions),
-    validationOptions: S.optional(X12ValidationOptions),
-  }),
-).annotations({
-  identifier: "X12AdvancedOptions",
-}) as any as S.Schema<X12AdvancedOptions>;
-export interface AdvancedOptions {
-  x12?: X12AdvancedOptions;
-}
-export const AdvancedOptions = S.suspend(() =>
-  S.Struct({ x12: S.optional(X12AdvancedOptions) }),
-).annotations({
-  identifier: "AdvancedOptions",
-}) as any as S.Schema<AdvancedOptions>;
-export interface InputConversion {
-  fromFormat: FromFormat;
-  formatOptions?: FormatOptions;
-  advancedOptions?: AdvancedOptions;
-}
-export const InputConversion = S.suspend(() =>
-  S.Struct({
-    fromFormat: FromFormat,
-    formatOptions: S.optional(FormatOptions),
-    advancedOptions: S.optional(AdvancedOptions),
-  }),
-).annotations({
-  identifier: "InputConversion",
-}) as any as S.Schema<InputConversion>;
-export type MappingTemplateLanguage = "XSLT" | "JSONATA" | (string & {});
-export const MappingTemplateLanguage = S.String;
-export interface Mapping {
-  templateLanguage: MappingTemplateLanguage;
-  template?: string;
-}
-export const Mapping = S.suspend(() =>
-  S.Struct({
-    templateLanguage: MappingTemplateLanguage,
-    template: S.optional(S.String),
-  }),
-).annotations({ identifier: "Mapping" }) as any as S.Schema<Mapping>;
-export type ToFormat = "X12" | (string & {});
-export const ToFormat = S.String;
-export interface OutputConversion {
-  toFormat: ToFormat;
-  formatOptions?: FormatOptions;
-  advancedOptions?: AdvancedOptions;
-}
-export const OutputConversion = S.suspend(() =>
-  S.Struct({
-    toFormat: ToFormat,
-    formatOptions: S.optional(FormatOptions),
-    advancedOptions: S.optional(AdvancedOptions),
-  }),
-).annotations({
-  identifier: "OutputConversion",
-}) as any as S.Schema<OutputConversion>;
-export interface SampleDocumentKeys {
-  input?: string;
-  output?: string;
-}
-export const SampleDocumentKeys = S.suspend(() =>
-  S.Struct({ input: S.optional(S.String), output: S.optional(S.String) }),
-).annotations({
-  identifier: "SampleDocumentKeys",
-}) as any as S.Schema<SampleDocumentKeys>;
-export type KeyList = SampleDocumentKeys[];
-export const KeyList = S.Array(SampleDocumentKeys);
-export interface SampleDocuments {
-  bucketName: string;
-  keys: SampleDocumentKeys[];
-}
-export const SampleDocuments = S.suspend(() =>
-  S.Struct({ bucketName: S.String, keys: KeyList }),
-).annotations({
-  identifier: "SampleDocuments",
-}) as any as S.Schema<SampleDocuments>;
-export interface UpdateTransformerRequest {
-  transformerId: string;
-  name?: string;
-  status?: TransformerStatus;
-  fileFormat?: FileFormat;
-  mappingTemplate?: string;
-  ediType?: EdiType;
-  sampleDocument?: string;
-  inputConversion?: InputConversion;
-  mapping?: Mapping;
-  outputConversion?: OutputConversion;
-  sampleDocuments?: SampleDocuments;
-}
-export const UpdateTransformerRequest = S.suspend(() =>
-  S.Struct({
-    transformerId: S.String.pipe(T.HttpLabel("transformerId")),
-    name: S.optional(S.String),
-    status: S.optional(TransformerStatus),
-    fileFormat: S.optional(FileFormat),
-    mappingTemplate: S.optional(S.String),
-    ediType: S.optional(EdiType),
-    sampleDocument: S.optional(S.String),
-    inputConversion: S.optional(InputConversion),
-    mapping: S.optional(Mapping),
-    outputConversion: S.optional(OutputConversion),
-    sampleDocuments: S.optional(SampleDocuments),
-  }).pipe(
-    T.all(
-      T.Http({ method: "PATCH", uri: "/transformers/{transformerId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "UpdateTransformerRequest",
-}) as any as S.Schema<UpdateTransformerRequest>;
-export interface DeleteTransformerRequest {
-  transformerId: string;
-}
-export const DeleteTransformerRequest = S.suspend(() =>
-  S.Struct({ transformerId: S.String.pipe(T.HttpLabel("transformerId")) }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/transformers/{transformerId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DeleteTransformerRequest",
-}) as any as S.Schema<DeleteTransformerRequest>;
-export interface DeleteTransformerResponse {}
-export const DeleteTransformerResponse = S.suspend(() =>
-  S.Struct({}),
-).annotations({
-  identifier: "DeleteTransformerResponse",
-}) as any as S.Schema<DeleteTransformerResponse>;
-export interface ListTransformersRequest {
-  nextToken?: string;
-  maxResults?: number;
-}
-export const ListTransformersRequest = S.suspend(() =>
-  S.Struct({
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/transformers" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListTransformersRequest",
-}) as any as S.Schema<ListTransformersRequest>;
-export type ConversionSourceFormat = "JSON" | "XML" | (string & {});
-export const ConversionSourceFormat = S.String;
-export type ConversionTargetFormat = "X12" | (string & {});
-export const ConversionTargetFormat = S.String;
-export type TransformerJobStatus =
-  | "running"
-  | "succeeded"
-  | "failed"
-  | (string & {});
-export const TransformerJobStatus = S.String;
-export type S3LocationList = S3Location[];
-export const S3LocationList = S.Array(S3Location);
-export interface GenerateMappingResponse {
-  mappingTemplate: string;
-  mappingAccuracy?: number;
-}
-export const GenerateMappingResponse = S.suspend(() =>
-  S.Struct({
-    mappingTemplate: S.String,
-    mappingAccuracy: S.optional(S.Number),
-  }),
-).annotations({
-  identifier: "GenerateMappingResponse",
-}) as any as S.Schema<GenerateMappingResponse>;
-export interface GetTransformerJobResponse {
-  status: TransformerJobStatus;
-  outputFiles?: S3Location[];
-  message?: string;
-}
-export const GetTransformerJobResponse = S.suspend(() =>
-  S.Struct({
-    status: TransformerJobStatus,
-    outputFiles: S.optional(S3LocationList),
-    message: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "GetTransformerJobResponse",
-}) as any as S.Schema<GetTransformerJobResponse>;
-export interface ListTagsForResourceResponse {
-  Tags?: Tag[];
-}
-export const ListTagsForResourceResponse = S.suspend(() =>
-  S.Struct({ Tags: S.optional(TagList) }),
-).annotations({
-  identifier: "ListTagsForResourceResponse",
-}) as any as S.Schema<ListTagsForResourceResponse>;
-export interface StartTransformerJobResponse {
-  transformerJobId: string;
-}
-export const StartTransformerJobResponse = S.suspend(() =>
-  S.Struct({ transformerJobId: S.String }),
-).annotations({
-  identifier: "StartTransformerJobResponse",
-}) as any as S.Schema<StartTransformerJobResponse>;
-export interface TagResourceRequest {
-  ResourceARN: string;
-  Tags: Tag[];
-}
-export const TagResourceRequest = S.suspend(() =>
-  S.Struct({
-    ResourceARN: S.String.pipe(T.HttpLabel("ResourceARN")),
-    Tags: TagList,
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/tags/{ResourceARN}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
-export interface TagResourceResponse {}
-export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
-  identifier: "TagResourceResponse",
-}) as any as S.Schema<TagResourceResponse>;
-export interface TestMappingResponse {
-  mappedFileContent: string;
-}
-export const TestMappingResponse = S.suspend(() =>
-  S.Struct({ mappedFileContent: S.String }),
-).annotations({
-  identifier: "TestMappingResponse",
-}) as any as S.Schema<TestMappingResponse>;
-export interface GetCapabilityResponse {
-  capabilityId: string;
-  capabilityArn: string;
-  name: string;
-  type: CapabilityType;
-  configuration: CapabilityConfiguration;
-  instructionsDocuments?: S3Location[];
-  createdAt: Date;
-  modifiedAt?: Date;
-}
-export const GetCapabilityResponse = S.suspend(() =>
-  S.Struct({
-    capabilityId: S.String,
-    capabilityArn: S.String,
-    name: S.String,
-    type: CapabilityType,
-    configuration: CapabilityConfiguration,
-    instructionsDocuments: S.optional(InstructionsDocuments),
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    modifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  }),
-).annotations({
-  identifier: "GetCapabilityResponse",
-}) as any as S.Schema<GetCapabilityResponse>;
-export interface UpdateCapabilityResponse {
-  capabilityId: string;
-  capabilityArn: string;
-  name: string;
-  type: CapabilityType;
-  configuration: CapabilityConfiguration;
-  instructionsDocuments?: S3Location[];
-  createdAt: Date;
-  modifiedAt?: Date;
-}
-export const UpdateCapabilityResponse = S.suspend(() =>
-  S.Struct({
-    capabilityId: S.String,
-    capabilityArn: S.String,
-    name: S.String,
-    type: CapabilityType,
-    configuration: CapabilityConfiguration,
-    instructionsDocuments: S.optional(InstructionsDocuments),
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    modifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  }),
-).annotations({
-  identifier: "UpdateCapabilityResponse",
-}) as any as S.Schema<UpdateCapabilityResponse>;
-export interface GetPartnershipResponse {
-  profileId: string;
-  partnershipId: string;
-  partnershipArn: string;
-  name?: string;
-  email?: string | redacted.Redacted<string>;
-  phone?: string | redacted.Redacted<string>;
-  capabilities?: string[];
-  capabilityOptions?: CapabilityOptions;
-  tradingPartnerId?: string;
-  createdAt: Date;
-  modifiedAt?: Date;
-}
-export const GetPartnershipResponse = S.suspend(() =>
-  S.Struct({
-    profileId: S.String,
-    partnershipId: S.String,
-    partnershipArn: S.String,
-    name: S.optional(S.String),
-    email: S.optional(SensitiveString),
-    phone: S.optional(SensitiveString),
-    capabilities: S.optional(PartnershipCapabilities),
-    capabilityOptions: S.optional(CapabilityOptions),
-    tradingPartnerId: S.optional(S.String),
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    modifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  }),
-).annotations({
-  identifier: "GetPartnershipResponse",
-}) as any as S.Schema<GetPartnershipResponse>;
-export interface UpdatePartnershipResponse {
-  profileId: string;
-  partnershipId: string;
-  partnershipArn: string;
-  name?: string;
-  email?: string | redacted.Redacted<string>;
-  phone?: string | redacted.Redacted<string>;
-  capabilities?: string[];
-  capabilityOptions?: CapabilityOptions;
-  tradingPartnerId?: string;
-  createdAt: Date;
-  modifiedAt?: Date;
-}
-export const UpdatePartnershipResponse = S.suspend(() =>
-  S.Struct({
-    profileId: S.String,
-    partnershipId: S.String,
-    partnershipArn: S.String,
-    name: S.optional(S.String),
-    email: S.optional(SensitiveString),
-    phone: S.optional(SensitiveString),
-    capabilities: S.optional(PartnershipCapabilities),
-    capabilityOptions: S.optional(CapabilityOptions),
-    tradingPartnerId: S.optional(S.String),
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    modifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  }),
-).annotations({
-  identifier: "UpdatePartnershipResponse",
-}) as any as S.Schema<UpdatePartnershipResponse>;
-export interface CreateProfileResponse {
-  profileId: string;
-  profileArn: string;
-  name: string;
-  businessName: string;
-  phone: string | redacted.Redacted<string>;
-  email?: string | redacted.Redacted<string>;
-  logging?: Logging;
-  logGroupName?: string;
-  createdAt: Date;
-}
-export const CreateProfileResponse = S.suspend(() =>
-  S.Struct({
-    profileId: S.String,
-    profileArn: S.String,
-    name: S.String,
-    businessName: S.String,
-    phone: SensitiveString,
-    email: S.optional(SensitiveString),
-    logging: S.optional(Logging),
-    logGroupName: S.optional(S.String),
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  }),
-).annotations({
-  identifier: "CreateProfileResponse",
-}) as any as S.Schema<CreateProfileResponse>;
-export interface GetProfileResponse {
-  profileId: string;
-  profileArn: string;
-  name: string;
-  email?: string | redacted.Redacted<string>;
-  phone: string | redacted.Redacted<string>;
-  businessName: string;
-  logging?: Logging;
-  logGroupName?: string;
-  createdAt: Date;
-  modifiedAt?: Date;
-}
-export const GetProfileResponse = S.suspend(() =>
-  S.Struct({
-    profileId: S.String,
-    profileArn: S.String,
-    name: S.String,
-    email: S.optional(SensitiveString),
-    phone: SensitiveString,
-    businessName: S.String,
-    logging: S.optional(Logging),
-    logGroupName: S.optional(S.String),
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    modifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  }),
-).annotations({
-  identifier: "GetProfileResponse",
-}) as any as S.Schema<GetProfileResponse>;
 export interface UpdateProfileResponse {
   profileId: string;
   profileArn: string;
@@ -1684,167 +1799,56 @@ export const UpdateProfileResponse = S.suspend(() =>
     businessName: S.String,
     logging: S.optional(Logging),
     logGroupName: S.optional(S.String),
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    modifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    modifiedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
-).annotations({
+).annotate({
   identifier: "UpdateProfileResponse",
 }) as any as S.Schema<UpdateProfileResponse>;
-export interface GetTransformerResponse {
-  transformerId: string;
-  transformerArn: string;
-  name: string;
-  status: TransformerStatus;
-  createdAt: Date;
-  modifiedAt?: Date;
-  fileFormat?: FileFormat;
-  mappingTemplate?: string;
-  ediType?: EdiType;
-  sampleDocument?: string;
-  inputConversion?: InputConversion;
-  mapping?: Mapping;
-  outputConversion?: OutputConversion;
-  sampleDocuments?: SampleDocuments;
-}
-export const GetTransformerResponse = S.suspend(() =>
-  S.Struct({
-    transformerId: S.String,
-    transformerArn: S.String,
-    name: S.String,
-    status: TransformerStatus,
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    modifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    fileFormat: S.optional(FileFormat),
-    mappingTemplate: S.optional(S.String),
-    ediType: S.optional(EdiType),
-    sampleDocument: S.optional(S.String),
-    inputConversion: S.optional(InputConversion),
-    mapping: S.optional(Mapping),
-    outputConversion: S.optional(OutputConversion),
-    sampleDocuments: S.optional(SampleDocuments),
-  }),
-).annotations({
-  identifier: "GetTransformerResponse",
-}) as any as S.Schema<GetTransformerResponse>;
-export interface UpdateTransformerResponse {
-  transformerId: string;
-  transformerArn: string;
-  name: string;
-  status: TransformerStatus;
-  createdAt: Date;
-  modifiedAt: Date;
-  fileFormat?: FileFormat;
-  mappingTemplate?: string;
-  ediType?: EdiType;
-  sampleDocument?: string;
-  inputConversion?: InputConversion;
-  mapping?: Mapping;
-  outputConversion?: OutputConversion;
-  sampleDocuments?: SampleDocuments;
-}
-export const UpdateTransformerResponse = S.suspend(() =>
-  S.Struct({
-    transformerId: S.String,
-    transformerArn: S.String,
-    name: S.String,
-    status: TransformerStatus,
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    modifiedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    fileFormat: S.optional(FileFormat),
-    mappingTemplate: S.optional(S.String),
-    ediType: S.optional(EdiType),
-    sampleDocument: S.optional(S.String),
-    inputConversion: S.optional(InputConversion),
-    mapping: S.optional(Mapping),
-    outputConversion: S.optional(OutputConversion),
-    sampleDocuments: S.optional(SampleDocuments),
-  }),
-).annotations({
-  identifier: "UpdateTransformerResponse",
-}) as any as S.Schema<UpdateTransformerResponse>;
-export type InputFileSource = { fileContent: string };
-export const InputFileSource = S.Union(S.Struct({ fileContent: S.String }));
-export type ConversionTargetFormatDetails = { x12: X12Details };
-export const ConversionTargetFormatDetails = S.Union(
-  S.Struct({ x12: X12Details }),
-);
-export type OutputSampleFileSource = { fileLocation: S3Location };
-export const OutputSampleFileSource = S.Union(
-  S.Struct({ fileLocation: S3Location }),
-);
-export type TemplateDetails = { x12: X12Details };
-export const TemplateDetails = S.Union(S.Struct({ x12: X12Details }));
-export interface ConversionSource {
-  fileFormat: ConversionSourceFormat;
-  inputFile: InputFileSource;
-}
-export const ConversionSource = S.suspend(() =>
-  S.Struct({ fileFormat: ConversionSourceFormat, inputFile: InputFileSource }),
-).annotations({
-  identifier: "ConversionSource",
-}) as any as S.Schema<ConversionSource>;
-export interface ConversionTarget {
-  fileFormat: ConversionTargetFormat;
-  formatDetails?: ConversionTargetFormatDetails;
-  outputSampleFile?: OutputSampleFileSource;
-  advancedOptions?: AdvancedOptions;
-}
-export const ConversionTarget = S.suspend(() =>
-  S.Struct({
-    fileFormat: ConversionTargetFormat,
-    formatDetails: S.optional(ConversionTargetFormatDetails),
-    outputSampleFile: S.optional(OutputSampleFileSource),
-    advancedOptions: S.optional(AdvancedOptions),
-  }),
-).annotations({
-  identifier: "ConversionTarget",
-}) as any as S.Schema<ConversionTarget>;
-export interface CapabilitySummary {
-  capabilityId: string;
-  name: string;
-  type: CapabilityType;
-  createdAt: Date;
-  modifiedAt?: Date;
-}
-export const CapabilitySummary = S.suspend(() =>
-  S.Struct({
-    capabilityId: S.String,
-    name: S.String,
-    type: CapabilityType,
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    modifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  }),
-).annotations({
-  identifier: "CapabilitySummary",
-}) as any as S.Schema<CapabilitySummary>;
-export type CapabilityList = CapabilitySummary[];
-export const CapabilityList = S.Array(CapabilitySummary);
-export interface PartnershipSummary {
+export interface DeleteProfileRequest {
   profileId: string;
-  partnershipId: string;
-  name?: string;
-  capabilities?: string[];
-  capabilityOptions?: CapabilityOptions;
-  tradingPartnerId?: string;
-  createdAt: Date;
-  modifiedAt?: Date;
 }
-export const PartnershipSummary = S.suspend(() =>
+export const DeleteProfileRequest = S.suspend(() =>
+  S.Struct({ profileId: S.String.pipe(T.HttpLabel("profileId")) }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/profiles/{profileId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeleteProfileRequest",
+}) as any as S.Schema<DeleteProfileRequest>;
+export interface DeleteProfileResponse {}
+export const DeleteProfileResponse = S.suspend(() => S.Struct({})).annotate({
+  identifier: "DeleteProfileResponse",
+}) as any as S.Schema<DeleteProfileResponse>;
+export interface ListProfilesRequest {
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListProfilesRequest = S.suspend(() =>
   S.Struct({
-    profileId: S.String,
-    partnershipId: S.String,
-    name: S.optional(S.String),
-    capabilities: S.optional(PartnershipCapabilities),
-    capabilityOptions: S.optional(CapabilityOptions),
-    tradingPartnerId: S.optional(S.String),
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    modifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  }),
-).annotations({
-  identifier: "PartnershipSummary",
-}) as any as S.Schema<PartnershipSummary>;
-export type PartnershipList = PartnershipSummary[];
-export const PartnershipList = S.Array(PartnershipSummary);
+    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/profiles" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListProfilesRequest",
+}) as any as S.Schema<ListProfilesRequest>;
 export interface ProfileSummary {
   profileId: string;
   name: string;
@@ -1861,147 +1865,89 @@ export const ProfileSummary = S.suspend(() =>
     businessName: S.String,
     logging: S.optional(Logging),
     logGroupName: S.optional(S.String),
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    modifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    modifiedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
-).annotations({
-  identifier: "ProfileSummary",
-}) as any as S.Schema<ProfileSummary>;
+).annotate({ identifier: "ProfileSummary" }) as any as S.Schema<ProfileSummary>;
 export type ProfileList = ProfileSummary[];
 export const ProfileList = S.Array(ProfileSummary);
-export interface TransformerSummary {
-  transformerId: string;
-  name: string;
-  status: TransformerStatus;
-  createdAt: Date;
-  modifiedAt?: Date;
-  fileFormat?: FileFormat;
-  mappingTemplate?: string;
-  ediType?: EdiType;
-  sampleDocument?: string;
-  inputConversion?: InputConversion;
-  mapping?: Mapping;
-  outputConversion?: OutputConversion;
-  sampleDocuments?: SampleDocuments;
-}
-export const TransformerSummary = S.suspend(() =>
-  S.Struct({
-    transformerId: S.String,
-    name: S.String,
-    status: TransformerStatus,
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    modifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    fileFormat: S.optional(FileFormat),
-    mappingTemplate: S.optional(S.String),
-    ediType: S.optional(EdiType),
-    sampleDocument: S.optional(S.String),
-    inputConversion: S.optional(InputConversion),
-    mapping: S.optional(Mapping),
-    outputConversion: S.optional(OutputConversion),
-    sampleDocuments: S.optional(SampleDocuments),
-  }),
-).annotations({
-  identifier: "TransformerSummary",
-}) as any as S.Schema<TransformerSummary>;
-export type TransformerList = TransformerSummary[];
-export const TransformerList = S.Array(TransformerSummary);
-export interface CreateStarterMappingTemplateRequest {
-  outputSampleLocation?: S3Location;
-  mappingType: MappingType;
-  templateDetails: TemplateDetails;
-}
-export const CreateStarterMappingTemplateRequest = S.suspend(() =>
-  S.Struct({
-    outputSampleLocation: S.optional(S3Location),
-    mappingType: MappingType,
-    templateDetails: TemplateDetails,
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/createmappingstarttemplate" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "CreateStarterMappingTemplateRequest",
-}) as any as S.Schema<CreateStarterMappingTemplateRequest>;
-export interface TestConversionRequest {
-  source: ConversionSource;
-  target: ConversionTarget;
-}
-export const TestConversionRequest = S.suspend(() =>
-  S.Struct({ source: ConversionSource, target: ConversionTarget }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/testconversion" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "TestConversionRequest",
-}) as any as S.Schema<TestConversionRequest>;
-export interface CreateCapabilityRequest {
-  name: string;
-  type: CapabilityType;
-  configuration: CapabilityConfiguration;
-  instructionsDocuments?: S3Location[];
-  clientToken?: string;
-  tags?: Tag[];
-}
-export const CreateCapabilityRequest = S.suspend(() =>
-  S.Struct({
-    name: S.String,
-    type: CapabilityType,
-    configuration: CapabilityConfiguration,
-    instructionsDocuments: S.optional(InstructionsDocuments),
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    tags: S.optional(TagList),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/capabilities" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "CreateCapabilityRequest",
-}) as any as S.Schema<CreateCapabilityRequest>;
-export interface ListCapabilitiesResponse {
-  capabilities: CapabilitySummary[];
-  nextToken?: string;
-}
-export const ListCapabilitiesResponse = S.suspend(() =>
-  S.Struct({ capabilities: CapabilityList, nextToken: S.optional(S.String) }),
-).annotations({
-  identifier: "ListCapabilitiesResponse",
-}) as any as S.Schema<ListCapabilitiesResponse>;
-export interface ListPartnershipsResponse {
-  partnerships: PartnershipSummary[];
-  nextToken?: string;
-}
-export const ListPartnershipsResponse = S.suspend(() =>
-  S.Struct({ partnerships: PartnershipList, nextToken: S.optional(S.String) }),
-).annotations({
-  identifier: "ListPartnershipsResponse",
-}) as any as S.Schema<ListPartnershipsResponse>;
 export interface ListProfilesResponse {
   profiles: ProfileSummary[];
   nextToken?: string;
 }
 export const ListProfilesResponse = S.suspend(() =>
   S.Struct({ profiles: ProfileList, nextToken: S.optional(S.String) }),
-).annotations({
+).annotate({
   identifier: "ListProfilesResponse",
 }) as any as S.Schema<ListProfilesResponse>;
+export type FromFormat = "X12" | (string & {});
+export const FromFormat = S.String;
+export type FormatOptions = { x12: X12Details };
+export const FormatOptions = S.Union([S.Struct({ x12: X12Details })]);
+export interface InputConversion {
+  fromFormat: FromFormat;
+  formatOptions?: FormatOptions;
+  advancedOptions?: AdvancedOptions;
+}
+export const InputConversion = S.suspend(() =>
+  S.Struct({
+    fromFormat: FromFormat,
+    formatOptions: S.optional(FormatOptions),
+    advancedOptions: S.optional(AdvancedOptions),
+  }),
+).annotate({
+  identifier: "InputConversion",
+}) as any as S.Schema<InputConversion>;
+export type MappingTemplateLanguage = "XSLT" | "JSONATA" | (string & {});
+export const MappingTemplateLanguage = S.String;
+export interface Mapping {
+  templateLanguage: MappingTemplateLanguage;
+  template?: string;
+}
+export const Mapping = S.suspend(() =>
+  S.Struct({
+    templateLanguage: MappingTemplateLanguage,
+    template: S.optional(S.String),
+  }),
+).annotate({ identifier: "Mapping" }) as any as S.Schema<Mapping>;
+export type ToFormat = "X12" | (string & {});
+export const ToFormat = S.String;
+export interface OutputConversion {
+  toFormat: ToFormat;
+  formatOptions?: FormatOptions;
+  advancedOptions?: AdvancedOptions;
+}
+export const OutputConversion = S.suspend(() =>
+  S.Struct({
+    toFormat: ToFormat,
+    formatOptions: S.optional(FormatOptions),
+    advancedOptions: S.optional(AdvancedOptions),
+  }),
+).annotate({
+  identifier: "OutputConversion",
+}) as any as S.Schema<OutputConversion>;
+export interface SampleDocumentKeys {
+  input?: string;
+  output?: string;
+}
+export const SampleDocumentKeys = S.suspend(() =>
+  S.Struct({ input: S.optional(S.String), output: S.optional(S.String) }),
+).annotate({
+  identifier: "SampleDocumentKeys",
+}) as any as S.Schema<SampleDocumentKeys>;
+export type KeyList = SampleDocumentKeys[];
+export const KeyList = S.Array(SampleDocumentKeys);
+export interface SampleDocuments {
+  bucketName: string;
+  keys: SampleDocumentKeys[];
+}
+export const SampleDocuments = S.suspend(() =>
+  S.Struct({ bucketName: S.String, keys: KeyList }),
+).annotate({
+  identifier: "SampleDocuments",
+}) as any as S.Schema<SampleDocuments>;
 export interface CreateTransformerRequest {
   name: string;
   clientToken?: string;
@@ -2038,62 +1984,11 @@ export const CreateTransformerRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "CreateTransformerRequest",
 }) as any as S.Schema<CreateTransformerRequest>;
-export interface ListTransformersResponse {
-  transformers: TransformerSummary[];
-  nextToken?: string;
-}
-export const ListTransformersResponse = S.suspend(() =>
-  S.Struct({ transformers: TransformerList, nextToken: S.optional(S.String) }),
-).annotations({
-  identifier: "ListTransformersResponse",
-}) as any as S.Schema<ListTransformersResponse>;
-export type ValidationMessages = string[];
-export const ValidationMessages = S.Array(S.String);
-export interface CreateStarterMappingTemplateResponse {
-  mappingTemplate: string;
-}
-export const CreateStarterMappingTemplateResponse = S.suspend(() =>
-  S.Struct({ mappingTemplate: S.String }),
-).annotations({
-  identifier: "CreateStarterMappingTemplateResponse",
-}) as any as S.Schema<CreateStarterMappingTemplateResponse>;
-export interface TestConversionResponse {
-  convertedFileContent: string;
-  validationMessages?: string[];
-}
-export const TestConversionResponse = S.suspend(() =>
-  S.Struct({
-    convertedFileContent: S.String,
-    validationMessages: S.optional(ValidationMessages),
-  }),
-).annotations({
-  identifier: "TestConversionResponse",
-}) as any as S.Schema<TestConversionResponse>;
-export interface CreateCapabilityResponse {
-  capabilityId: string;
-  capabilityArn: string;
-  name: string;
-  type: CapabilityType;
-  configuration: CapabilityConfiguration;
-  instructionsDocuments?: S3Location[];
-  createdAt: Date;
-}
-export const CreateCapabilityResponse = S.suspend(() =>
-  S.Struct({
-    capabilityId: S.String,
-    capabilityArn: S.String,
-    name: S.String,
-    type: CapabilityType,
-    configuration: CapabilityConfiguration,
-    instructionsDocuments: S.optional(InstructionsDocuments),
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-  }),
-).annotations({
-  identifier: "CreateCapabilityResponse",
-}) as any as S.Schema<CreateCapabilityResponse>;
+export type TransformerStatus = "active" | "inactive" | (string & {});
+export const TransformerStatus = S.String;
 export interface CreateTransformerResponse {
   transformerId: string;
   transformerArn: string;
@@ -2115,7 +2010,7 @@ export const CreateTransformerResponse = S.suspend(() =>
     transformerArn: S.String,
     name: S.String,
     status: TransformerStatus,
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     fileFormat: S.optional(FileFormat),
     mappingTemplate: S.optional(S.String),
     ediType: S.optional(EdiType),
@@ -2125,24 +2020,16 @@ export const CreateTransformerResponse = S.suspend(() =>
     outputConversion: S.optional(OutputConversion),
     sampleDocuments: S.optional(SampleDocuments),
   }),
-).annotations({
+).annotate({
   identifier: "CreateTransformerResponse",
 }) as any as S.Schema<CreateTransformerResponse>;
-export interface TestParsingRequest {
-  inputFile: S3Location;
-  fileFormat: FileFormat;
-  ediType: EdiType;
-  advancedOptions?: AdvancedOptions;
+export interface GetTransformerRequest {
+  transformerId: string;
 }
-export const TestParsingRequest = S.suspend(() =>
-  S.Struct({
-    inputFile: S3Location,
-    fileFormat: FileFormat,
-    ediType: EdiType,
-    advancedOptions: S.optional(AdvancedOptions),
-  }).pipe(
+export const GetTransformerRequest = S.suspend(() =>
+  S.Struct({ transformerId: S.String.pipe(T.HttpLabel("transformerId")) }).pipe(
     T.all(
-      T.Http({ method: "POST", uri: "/testparsing" }),
+      T.Http({ method: "GET", uri: "/transformers/{transformerId}" }),
       svc,
       auth,
       proto,
@@ -2150,32 +2037,76 @@ export const TestParsingRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
-  identifier: "TestParsingRequest",
-}) as any as S.Schema<TestParsingRequest>;
-export interface CreatePartnershipRequest {
-  profileId: string;
+).annotate({
+  identifier: "GetTransformerRequest",
+}) as any as S.Schema<GetTransformerRequest>;
+export interface GetTransformerResponse {
+  transformerId: string;
+  transformerArn: string;
   name: string;
-  email: string | redacted.Redacted<string>;
-  phone?: string | redacted.Redacted<string>;
-  capabilities: string[];
-  capabilityOptions?: CapabilityOptions;
-  clientToken?: string;
-  tags?: Tag[];
+  status: TransformerStatus;
+  createdAt: Date;
+  modifiedAt?: Date;
+  fileFormat?: FileFormat;
+  mappingTemplate?: string;
+  ediType?: EdiType;
+  sampleDocument?: string;
+  inputConversion?: InputConversion;
+  mapping?: Mapping;
+  outputConversion?: OutputConversion;
+  sampleDocuments?: SampleDocuments;
 }
-export const CreatePartnershipRequest = S.suspend(() =>
+export const GetTransformerResponse = S.suspend(() =>
   S.Struct({
-    profileId: S.String,
+    transformerId: S.String,
+    transformerArn: S.String,
     name: S.String,
-    email: SensitiveString,
-    phone: S.optional(SensitiveString),
-    capabilities: PartnershipCapabilities,
-    capabilityOptions: S.optional(CapabilityOptions),
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    tags: S.optional(TagList),
+    status: TransformerStatus,
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    modifiedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    fileFormat: S.optional(FileFormat),
+    mappingTemplate: S.optional(S.String),
+    ediType: S.optional(EdiType),
+    sampleDocument: S.optional(S.String),
+    inputConversion: S.optional(InputConversion),
+    mapping: S.optional(Mapping),
+    outputConversion: S.optional(OutputConversion),
+    sampleDocuments: S.optional(SampleDocuments),
+  }),
+).annotate({
+  identifier: "GetTransformerResponse",
+}) as any as S.Schema<GetTransformerResponse>;
+export interface UpdateTransformerRequest {
+  transformerId: string;
+  name?: string;
+  status?: TransformerStatus;
+  fileFormat?: FileFormat;
+  mappingTemplate?: string;
+  ediType?: EdiType;
+  sampleDocument?: string;
+  inputConversion?: InputConversion;
+  mapping?: Mapping;
+  outputConversion?: OutputConversion;
+  sampleDocuments?: SampleDocuments;
+}
+export const UpdateTransformerRequest = S.suspend(() =>
+  S.Struct({
+    transformerId: S.String.pipe(T.HttpLabel("transformerId")),
+    name: S.optional(S.String),
+    status: S.optional(TransformerStatus),
+    fileFormat: S.optional(FileFormat),
+    mappingTemplate: S.optional(S.String),
+    ediType: S.optional(EdiType),
+    sampleDocument: S.optional(S.String),
+    inputConversion: S.optional(InputConversion),
+    mapping: S.optional(Mapping),
+    outputConversion: S.optional(OutputConversion),
+    sampleDocuments: S.optional(SampleDocuments),
   }).pipe(
     T.all(
-      T.Http({ method: "POST", uri: "/partnerships" }),
+      T.Http({ method: "PATCH", uri: "/transformers/{transformerId}" }),
       svc,
       auth,
       proto,
@@ -2183,56 +2114,141 @@ export const CreatePartnershipRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
-  identifier: "CreatePartnershipRequest",
-}) as any as S.Schema<CreatePartnershipRequest>;
-export type ParsedSplitFileContentsList = string[];
-export const ParsedSplitFileContentsList = S.Array(S.String);
-export interface TestParsingResponse {
-  parsedFileContent: string;
-  parsedSplitFileContents?: string[];
-  validationMessages?: string[];
-}
-export const TestParsingResponse = S.suspend(() =>
-  S.Struct({
-    parsedFileContent: S.String,
-    parsedSplitFileContents: S.optional(ParsedSplitFileContentsList),
-    validationMessages: S.optional(ValidationMessages),
-  }),
-).annotations({
-  identifier: "TestParsingResponse",
-}) as any as S.Schema<TestParsingResponse>;
-export interface CreatePartnershipResponse {
-  profileId: string;
-  partnershipId: string;
-  partnershipArn: string;
-  name?: string;
-  email?: string | redacted.Redacted<string>;
-  phone?: string | redacted.Redacted<string>;
-  capabilities?: string[];
-  capabilityOptions?: CapabilityOptions;
-  tradingPartnerId?: string;
+).annotate({
+  identifier: "UpdateTransformerRequest",
+}) as any as S.Schema<UpdateTransformerRequest>;
+export interface UpdateTransformerResponse {
+  transformerId: string;
+  transformerArn: string;
+  name: string;
+  status: TransformerStatus;
   createdAt: Date;
+  modifiedAt: Date;
+  fileFormat?: FileFormat;
+  mappingTemplate?: string;
+  ediType?: EdiType;
+  sampleDocument?: string;
+  inputConversion?: InputConversion;
+  mapping?: Mapping;
+  outputConversion?: OutputConversion;
+  sampleDocuments?: SampleDocuments;
 }
-export const CreatePartnershipResponse = S.suspend(() =>
+export const UpdateTransformerResponse = S.suspend(() =>
   S.Struct({
-    profileId: S.String,
-    partnershipId: S.String,
-    partnershipArn: S.String,
-    name: S.optional(S.String),
-    email: S.optional(SensitiveString),
-    phone: S.optional(SensitiveString),
-    capabilities: S.optional(PartnershipCapabilities),
-    capabilityOptions: S.optional(CapabilityOptions),
-    tradingPartnerId: S.optional(S.String),
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    transformerId: S.String,
+    transformerArn: S.String,
+    name: S.String,
+    status: TransformerStatus,
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    modifiedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    fileFormat: S.optional(FileFormat),
+    mappingTemplate: S.optional(S.String),
+    ediType: S.optional(EdiType),
+    sampleDocument: S.optional(S.String),
+    inputConversion: S.optional(InputConversion),
+    mapping: S.optional(Mapping),
+    outputConversion: S.optional(OutputConversion),
+    sampleDocuments: S.optional(SampleDocuments),
   }),
-).annotations({
-  identifier: "CreatePartnershipResponse",
-}) as any as S.Schema<CreatePartnershipResponse>;
+).annotate({
+  identifier: "UpdateTransformerResponse",
+}) as any as S.Schema<UpdateTransformerResponse>;
+export interface DeleteTransformerRequest {
+  transformerId: string;
+}
+export const DeleteTransformerRequest = S.suspend(() =>
+  S.Struct({ transformerId: S.String.pipe(T.HttpLabel("transformerId")) }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/transformers/{transformerId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeleteTransformerRequest",
+}) as any as S.Schema<DeleteTransformerRequest>;
+export interface DeleteTransformerResponse {}
+export const DeleteTransformerResponse = S.suspend(() => S.Struct({})).annotate(
+  { identifier: "DeleteTransformerResponse" },
+) as any as S.Schema<DeleteTransformerResponse>;
+export interface ListTransformersRequest {
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListTransformersRequest = S.suspend(() =>
+  S.Struct({
+    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/transformers" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListTransformersRequest",
+}) as any as S.Schema<ListTransformersRequest>;
+export interface TransformerSummary {
+  transformerId: string;
+  name: string;
+  status: TransformerStatus;
+  createdAt: Date;
+  modifiedAt?: Date;
+  fileFormat?: FileFormat;
+  mappingTemplate?: string;
+  ediType?: EdiType;
+  sampleDocument?: string;
+  inputConversion?: InputConversion;
+  mapping?: Mapping;
+  outputConversion?: OutputConversion;
+  sampleDocuments?: SampleDocuments;
+}
+export const TransformerSummary = S.suspend(() =>
+  S.Struct({
+    transformerId: S.String,
+    name: S.String,
+    status: TransformerStatus,
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    modifiedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    fileFormat: S.optional(FileFormat),
+    mappingTemplate: S.optional(S.String),
+    ediType: S.optional(EdiType),
+    sampleDocument: S.optional(S.String),
+    inputConversion: S.optional(InputConversion),
+    mapping: S.optional(Mapping),
+    outputConversion: S.optional(OutputConversion),
+    sampleDocuments: S.optional(SampleDocuments),
+  }),
+).annotate({
+  identifier: "TransformerSummary",
+}) as any as S.Schema<TransformerSummary>;
+export type TransformerList = TransformerSummary[];
+export const TransformerList = S.Array(TransformerSummary);
+export interface ListTransformersResponse {
+  transformers: TransformerSummary[];
+  nextToken?: string;
+}
+export const ListTransformersResponse = S.suspend(() =>
+  S.Struct({ transformers: TransformerList, nextToken: S.optional(S.String) }),
+).annotate({
+  identifier: "ListTransformersResponse",
+}) as any as S.Schema<ListTransformersResponse>;
 
 //# Errors
-export class InternalServerException extends S.TaggedError<InternalServerException>()(
+export class AccessDeniedException extends S.TaggedErrorClass<AccessDeniedException>()(
+  "AccessDeniedException",
+  { message: S.String },
+).pipe(C.withAuthError) {}
+export class InternalServerException extends S.TaggedErrorClass<InternalServerException>()(
   "InternalServerException",
   {
     message: S.String,
@@ -2240,19 +2256,15 @@ export class InternalServerException extends S.TaggedError<InternalServerExcepti
   },
   T.Retryable(),
 ).pipe(C.withServerError, C.withRetryableError) {}
-export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
-  "AccessDeniedException",
-  { message: S.String },
-).pipe(C.withAuthError) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { message: S.String },
 ).pipe(C.withBadRequestError) {}
-export class ConflictException extends S.TaggedError<ConflictException>()(
-  "ConflictException",
-  { message: S.String },
-).pipe(C.withConflictError) {}
-export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
+export class ValidationException extends S.TaggedErrorClass<ValidationException>()(
+  "ValidationException",
+  { Message: S.String },
+).pipe(C.withBadRequestError) {}
+export class ThrottlingException extends S.TaggedErrorClass<ThrottlingException>()(
   "ThrottlingException",
   {
     message: S.String,
@@ -2260,11 +2272,11 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   },
   T.Retryable(),
 ).pipe(C.withThrottlingError, C.withRetryableError) {}
-export class ValidationException extends S.TaggedError<ValidationException>()(
-  "ValidationException",
-  { Message: S.String },
-).pipe(C.withBadRequestError) {}
-export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
+export class ConflictException extends S.TaggedErrorClass<ConflictException>()(
+  "ConflictException",
+  { message: S.String },
+).pipe(C.withConflictError) {}
+export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
   {
     message: S.String,
@@ -2277,42 +2289,29 @@ export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExc
 
 //# Operations
 /**
- * Detaches a key-value pair from the specified resource, as identified by its Amazon Resource Name (ARN). Resources are capability, partnership, profile, transformers and other entities.
+ * Amazon Web Services B2B Data Interchange uses a mapping template in JSONata or XSLT format to transform a customer input file into a JSON or XML file that can be converted to EDI.
+ *
+ * If you provide a sample EDI file with the same structure as the EDI files that you wish to generate, then the service can generate a mapping template. The starter template contains placeholder values which you can replace with JSONata or XSLT expressions to take data from your input file and insert it into the JSON or XML file that is used to generate the EDI.
+ *
+ * If you do not provide a sample EDI file, then the service can generate a mapping template based on the EDI settings in the `templateDetails` parameter.
+ *
+ * Currently, we only support generating a template that can generate the input to produce an Outbound X12 EDI file.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
+export const createStarterMappingTemplate: (
+  input: CreateStarterMappingTemplateRequest,
 ) => effect.Effect<
-  UntagResourceResponse,
+  CreateStarterMappingTemplateResponse,
+  | AccessDeniedException
   | InternalServerException
   | ResourceNotFoundException
   | ValidationException
   | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
+  input: CreateStarterMappingTemplateRequest,
+  output: CreateStarterMappingTemplateResponse,
   errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Lists all of the tags associated with the Amazon Resource Name (ARN) that you specify. The resource can be a capability, partnership, profile, or transformer.
- */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
-  ListTagsForResourceResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
-  errors: [
+    AccessDeniedException,
     InternalServerException,
     ResourceNotFoundException,
     ValidationException,
@@ -2352,14 +2351,15 @@ export const generateMapping: (
   ],
 }));
 /**
- * Deletes the specified partnership. A partnership represents the connection between you and your trading partner. It ties together a profile and one or more trading capabilities.
+ * Returns the details of the transformer run, based on the Transformer job ID.
+ *
+ * If 30 days have elapsed since your transformer job was started, the system deletes it. So, if you run `GetTransformerJob` and supply a `transformerId` and `transformerJobId` for a job that was started more than 30 days previously, you receive a 404 response.
  */
-export const deletePartnership: (
-  input: DeletePartnershipRequest,
+export const getTransformerJob: (
+  input: GetTransformerJobRequest,
 ) => effect.Effect<
-  DeletePartnershipResponse,
+  GetTransformerJobResponse,
   | AccessDeniedException
-  | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
@@ -2367,11 +2367,10 @@ export const deletePartnership: (
   | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeletePartnershipRequest,
-  output: DeletePartnershipResponse,
+  input: GetTransformerJobRequest,
+  output: GetTransformerJobResponse,
   errors: [
     AccessDeniedException,
-    ConflictException,
     InternalServerException,
     ResourceNotFoundException,
     ThrottlingException,
@@ -2379,56 +2378,23 @@ export const deletePartnership: (
   ],
 }));
 /**
- * Deletes the specified profile. A profile is the mechanism used to create the concept of a private network.
+ * Lists all of the tags associated with the Amazon Resource Name (ARN) that you specify. The resource can be a capability, partnership, profile, or transformer.
  */
-export const deleteProfile: (
-  input: DeleteProfileRequest,
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
 ) => effect.Effect<
-  DeleteProfileResponse,
-  | AccessDeniedException
-  | ConflictException
+  ListTagsForResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
-  | ThrottlingException
   | ValidationException
   | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteProfileRequest,
-  output: DeleteProfileResponse,
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
   errors: [
-    AccessDeniedException,
-    ConflictException,
     InternalServerException,
     ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Deletes the specified transformer. A transformer can take an EDI file as input and transform it into a JSON-or XML-formatted document. Alternatively, a transformer can take a JSON-or XML-formatted document as input and transform it into an EDI file.
- */
-export const deleteTransformer: (
-  input: DeleteTransformerRequest,
-) => effect.Effect<
-  DeleteTransformerResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteTransformerRequest,
-  output: DeleteTransformerResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
     ValidationException,
   ],
 }));
@@ -2459,6 +2425,210 @@ export const startTransformerJob: (
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Attaches a key-value pair to a resource, as identified by its Amazon Resource Name (ARN). Resources are capability, partnership, profile, transformers and other entities.
+ *
+ * There is no response returned from this call.
+ */
+export const tagResource: (
+  input: TagResourceRequest,
+) => effect.Effect<
+  TagResourceResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * This operation mimics the latter half of a typical Outbound EDI request. It takes an input JSON/XML in the B2Bi shape as input, converts it to an X12 EDI string, and return that string.
+ */
+export const testConversion: (
+  input: TestConversionRequest,
+) => effect.Effect<
+  TestConversionResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TestConversionRequest,
+  output: TestConversionResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Maps the input file according to the provided template file. The API call downloads the file contents from the Amazon S3 location, and passes the contents in as a string, to the `inputFileContent` parameter.
+ */
+export const testMapping: (
+  input: TestMappingRequest,
+) => effect.Effect<
+  TestMappingResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TestMappingRequest,
+  output: TestMappingResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Parses the input EDI (electronic data interchange) file. The input file has a file size limit of 250 KB.
+ */
+export const testParsing: (
+  input: TestParsingRequest,
+) => effect.Effect<
+  TestParsingResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TestParsingRequest,
+  output: TestParsingResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Detaches a key-value pair from the specified resource, as identified by its Amazon Resource Name (ARN). Resources are capability, partnership, profile, transformers and other entities.
+ */
+export const untagResource: (
+  input: UntagResourceRequest,
+) => effect.Effect<
+  UntagResourceResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Instantiates a capability based on the specified parameters. A trading capability contains the information required to transform incoming EDI documents into JSON or XML outputs.
+ */
+export const createCapability: (
+  input: CreateCapabilityRequest,
+) => effect.Effect<
+  CreateCapabilityResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateCapabilityRequest,
+  output: CreateCapabilityResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Retrieves the details for the specified capability. A trading capability contains the information required to transform incoming EDI documents into JSON or XML outputs.
+ */
+export const getCapability: (
+  input: GetCapabilityRequest,
+) => effect.Effect<
+  GetCapabilityResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetCapabilityRequest,
+  output: GetCapabilityResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Updates some of the parameters for a capability, based on the specified parameters. A trading capability contains the information required to transform incoming EDI documents into JSON or XML outputs.
+ */
+export const updateCapability: (
+  input: UpdateCapabilityRequest,
+) => effect.Effect<
+  UpdateCapabilityResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateCapabilityRequest,
+  output: UpdateCapabilityResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
   ],
@@ -2544,6 +2714,116 @@ export const listCapabilities: {
   } as const,
 }));
 /**
+ * Creates a partnership between a customer and a trading partner, based on the supplied parameters. A partnership represents the connection between you and your trading partner. It ties together a profile and one or more trading capabilities.
+ */
+export const createPartnership: (
+  input: CreatePartnershipRequest,
+) => effect.Effect<
+  CreatePartnershipResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreatePartnershipRequest,
+  output: CreatePartnershipResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Retrieves the details for a partnership, based on the partner and profile IDs specified. A partnership represents the connection between you and your trading partner. It ties together a profile and one or more trading capabilities.
+ */
+export const getPartnership: (
+  input: GetPartnershipRequest,
+) => effect.Effect<
+  GetPartnershipResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetPartnershipRequest,
+  output: GetPartnershipResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Updates some of the parameters for a partnership between a customer and trading partner. A partnership represents the connection between you and your trading partner. It ties together a profile and one or more trading capabilities.
+ */
+export const updatePartnership: (
+  input: UpdatePartnershipRequest,
+) => effect.Effect<
+  UpdatePartnershipResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdatePartnershipRequest,
+  output: UpdatePartnershipResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Deletes the specified partnership. A partnership represents the connection between you and your trading partner. It ties together a profile and one or more trading capabilities.
+ */
+export const deletePartnership: (
+  input: DeletePartnershipRequest,
+) => effect.Effect<
+  DeletePartnershipResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeletePartnershipRequest,
+  output: DeletePartnershipResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
  * Lists the partnerships associated with your Amazon Web Services account for your current or specified region. A partnership represents the connection between you and your trading partner. It ties together a profile and one or more trading capabilities.
  */
 export const listPartnerships: {
@@ -2601,6 +2881,116 @@ export const listPartnerships: {
   } as const,
 }));
 /**
+ * Creates a customer profile. You can have up to five customer profiles, each representing a distinct private network. A profile is the mechanism used to create the concept of a private network.
+ */
+export const createProfile: (
+  input: CreateProfileRequest,
+) => effect.Effect<
+  CreateProfileResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateProfileRequest,
+  output: CreateProfileResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Retrieves the details for the profile specified by the profile ID. A profile is the mechanism used to create the concept of a private network.
+ */
+export const getProfile: (
+  input: GetProfileRequest,
+) => effect.Effect<
+  GetProfileResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetProfileRequest,
+  output: GetProfileResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Updates the specified parameters for a profile. A profile is the mechanism used to create the concept of a private network.
+ */
+export const updateProfile: (
+  input: UpdateProfileRequest,
+) => effect.Effect<
+  UpdateProfileResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateProfileRequest,
+  output: UpdateProfileResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Deletes the specified profile. A profile is the mechanism used to create the concept of a private network.
+ */
+export const deleteProfile: (
+  input: DeleteProfileRequest,
+) => effect.Effect<
+  DeleteProfileResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteProfileRequest,
+  output: DeleteProfileResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
  * Lists the profiles associated with your Amazon Web Services account for your current or specified region. A profile is the mechanism used to create the concept of a private network.
  */
 export const listProfiles: {
@@ -2654,6 +3044,128 @@ export const listProfiles: {
   } as const,
 }));
 /**
+ * Creates a transformer. Amazon Web Services B2B Data Interchange currently supports two scenarios:
+ *
+ * - *Inbound EDI*: the Amazon Web Services customer receives an EDI file from their trading partner. Amazon Web Services B2B Data Interchange converts this EDI file into a JSON or XML file with a service-defined structure. A mapping template provided by the customer, in JSONata or XSLT format, is optionally applied to this file to produce a JSON or XML file with the structure the customer requires.
+ *
+ * - *Outbound EDI*: the Amazon Web Services customer has a JSON or XML file containing data that they wish to use in an EDI file. A mapping template, provided by the customer (in either JSONata or XSLT format) is applied to this file to generate a JSON or XML file in the service-defined structure. This file is then converted to an EDI file.
+ *
+ * The following fields are provided for backwards compatibility only: `fileFormat`, `mappingTemplate`, `ediType`, and `sampleDocument`.
+ *
+ * - Use the `mapping` data type in place of `mappingTemplate` and `fileFormat`
+ *
+ * - Use the `sampleDocuments` data type in place of `sampleDocument`
+ *
+ * - Use either the `inputConversion` or `outputConversion` in place of `ediType`
+ */
+export const createTransformer: (
+  input: CreateTransformerRequest,
+) => effect.Effect<
+  CreateTransformerResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateTransformerRequest,
+  output: CreateTransformerResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Retrieves the details for the transformer specified by the transformer ID. A transformer can take an EDI file as input and transform it into a JSON-or XML-formatted document. Alternatively, a transformer can take a JSON-or XML-formatted document as input and transform it into an EDI file.
+ */
+export const getTransformer: (
+  input: GetTransformerRequest,
+) => effect.Effect<
+  GetTransformerResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetTransformerRequest,
+  output: GetTransformerResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Updates the specified parameters for a transformer. A transformer can take an EDI file as input and transform it into a JSON-or XML-formatted document. Alternatively, a transformer can take a JSON-or XML-formatted document as input and transform it into an EDI file.
+ */
+export const updateTransformer: (
+  input: UpdateTransformerRequest,
+) => effect.Effect<
+  UpdateTransformerResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateTransformerRequest,
+  output: UpdateTransformerResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Deletes the specified transformer. A transformer can take an EDI file as input and transform it into a JSON-or XML-formatted document. Alternatively, a transformer can take a JSON-or XML-formatted document as input and transform it into an EDI file.
+ */
+export const deleteTransformer: (
+  input: DeleteTransformerRequest,
+) => effect.Effect<
+  DeleteTransformerResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteTransformerRequest,
+  output: DeleteTransformerResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
  * Lists the available transformers. A transformer can take an EDI file as input and transform it into a JSON-or XML-formatted document. Alternatively, a transformer can take a JSON-or XML-formatted document as input and transform it into an EDI file.
  */
 export const listTransformers: {
@@ -2705,504 +3217,4 @@ export const listTransformers: {
     items: "transformers",
     pageSize: "maxResults",
   } as const,
-}));
-/**
- * Retrieves the details for a partnership, based on the partner and profile IDs specified. A partnership represents the connection between you and your trading partner. It ties together a profile and one or more trading capabilities.
- */
-export const getPartnership: (
-  input: GetPartnershipRequest,
-) => effect.Effect<
-  GetPartnershipResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetPartnershipRequest,
-  output: GetPartnershipResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Retrieves the details for the profile specified by the profile ID. A profile is the mechanism used to create the concept of a private network.
- */
-export const getProfile: (
-  input: GetProfileRequest,
-) => effect.Effect<
-  GetProfileResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetProfileRequest,
-  output: GetProfileResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Retrieves the details for the transformer specified by the transformer ID. A transformer can take an EDI file as input and transform it into a JSON-or XML-formatted document. Alternatively, a transformer can take a JSON-or XML-formatted document as input and transform it into an EDI file.
- */
-export const getTransformer: (
-  input: GetTransformerRequest,
-) => effect.Effect<
-  GetTransformerResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetTransformerRequest,
-  output: GetTransformerResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Attaches a key-value pair to a resource, as identified by its Amazon Resource Name (ARN). Resources are capability, partnership, profile, transformers and other entities.
- *
- * There is no response returned from this call.
- */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
-  TagResourceResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Returns the details of the transformer run, based on the Transformer job ID.
- *
- * If 30 days have elapsed since your transformer job was started, the system deletes it. So, if you run `GetTransformerJob` and supply a `transformerId` and `transformerJobId` for a job that was started more than 30 days previously, you receive a 404 response.
- */
-export const getTransformerJob: (
-  input: GetTransformerJobRequest,
-) => effect.Effect<
-  GetTransformerJobResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetTransformerJobRequest,
-  output: GetTransformerJobResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Maps the input file according to the provided template file. The API call downloads the file contents from the Amazon S3 location, and passes the contents in as a string, to the `inputFileContent` parameter.
- */
-export const testMapping: (
-  input: TestMappingRequest,
-) => effect.Effect<
-  TestMappingResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TestMappingRequest,
-  output: TestMappingResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Retrieves the details for the specified capability. A trading capability contains the information required to transform incoming EDI documents into JSON or XML outputs.
- */
-export const getCapability: (
-  input: GetCapabilityRequest,
-) => effect.Effect<
-  GetCapabilityResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetCapabilityRequest,
-  output: GetCapabilityResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Amazon Web Services B2B Data Interchange uses a mapping template in JSONata or XSLT format to transform a customer input file into a JSON or XML file that can be converted to EDI.
- *
- * If you provide a sample EDI file with the same structure as the EDI files that you wish to generate, then the service can generate a mapping template. The starter template contains placeholder values which you can replace with JSONata or XSLT expressions to take data from your input file and insert it into the JSON or XML file that is used to generate the EDI.
- *
- * If you do not provide a sample EDI file, then the service can generate a mapping template based on the EDI settings in the `templateDetails` parameter.
- *
- * Currently, we only support generating a template that can generate the input to produce an Outbound X12 EDI file.
- */
-export const createStarterMappingTemplate: (
-  input: CreateStarterMappingTemplateRequest,
-) => effect.Effect<
-  CreateStarterMappingTemplateResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateStarterMappingTemplateRequest,
-  output: CreateStarterMappingTemplateResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * This operation mimics the latter half of a typical Outbound EDI request. It takes an input JSON/XML in the B2Bi shape as input, converts it to an X12 EDI string, and return that string.
- */
-export const testConversion: (
-  input: TestConversionRequest,
-) => effect.Effect<
-  TestConversionResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TestConversionRequest,
-  output: TestConversionResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Updates some of the parameters for a partnership between a customer and trading partner. A partnership represents the connection between you and your trading partner. It ties together a profile and one or more trading capabilities.
- */
-export const updatePartnership: (
-  input: UpdatePartnershipRequest,
-) => effect.Effect<
-  UpdatePartnershipResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdatePartnershipRequest,
-  output: UpdatePartnershipResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Creates a customer profile. You can have up to five customer profiles, each representing a distinct private network. A profile is the mechanism used to create the concept of a private network.
- */
-export const createProfile: (
-  input: CreateProfileRequest,
-) => effect.Effect<
-  CreateProfileResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateProfileRequest,
-  output: CreateProfileResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Updates the specified parameters for a profile. A profile is the mechanism used to create the concept of a private network.
- */
-export const updateProfile: (
-  input: UpdateProfileRequest,
-) => effect.Effect<
-  UpdateProfileResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateProfileRequest,
-  output: UpdateProfileResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Updates the specified parameters for a transformer. A transformer can take an EDI file as input and transform it into a JSON-or XML-formatted document. Alternatively, a transformer can take a JSON-or XML-formatted document as input and transform it into an EDI file.
- */
-export const updateTransformer: (
-  input: UpdateTransformerRequest,
-) => effect.Effect<
-  UpdateTransformerResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateTransformerRequest,
-  output: UpdateTransformerResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Updates some of the parameters for a capability, based on the specified parameters. A trading capability contains the information required to transform incoming EDI documents into JSON or XML outputs.
- */
-export const updateCapability: (
-  input: UpdateCapabilityRequest,
-) => effect.Effect<
-  UpdateCapabilityResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateCapabilityRequest,
-  output: UpdateCapabilityResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Instantiates a capability based on the specified parameters. A trading capability contains the information required to transform incoming EDI documents into JSON or XML outputs.
- */
-export const createCapability: (
-  input: CreateCapabilityRequest,
-) => effect.Effect<
-  CreateCapabilityResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateCapabilityRequest,
-  output: CreateCapabilityResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Creates a transformer. Amazon Web Services B2B Data Interchange currently supports two scenarios:
- *
- * - *Inbound EDI*: the Amazon Web Services customer receives an EDI file from their trading partner. Amazon Web Services B2B Data Interchange converts this EDI file into a JSON or XML file with a service-defined structure. A mapping template provided by the customer, in JSONata or XSLT format, is optionally applied to this file to produce a JSON or XML file with the structure the customer requires.
- *
- * - *Outbound EDI*: the Amazon Web Services customer has a JSON or XML file containing data that they wish to use in an EDI file. A mapping template, provided by the customer (in either JSONata or XSLT format) is applied to this file to generate a JSON or XML file in the service-defined structure. This file is then converted to an EDI file.
- *
- * The following fields are provided for backwards compatibility only: `fileFormat`, `mappingTemplate`, `ediType`, and `sampleDocument`.
- *
- * - Use the `mapping` data type in place of `mappingTemplate` and `fileFormat`
- *
- * - Use the `sampleDocuments` data type in place of `sampleDocument`
- *
- * - Use either the `inputConversion` or `outputConversion` in place of `ediType`
- */
-export const createTransformer: (
-  input: CreateTransformerRequest,
-) => effect.Effect<
-  CreateTransformerResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateTransformerRequest,
-  output: CreateTransformerResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Parses the input EDI (electronic data interchange) file. The input file has a file size limit of 250 KB.
- */
-export const testParsing: (
-  input: TestParsingRequest,
-) => effect.Effect<
-  TestParsingResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TestParsingRequest,
-  output: TestParsingResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Creates a partnership between a customer and a trading partner, based on the supplied parameters. A partnership represents the connection between you and your trading partner. It ties together a profile and one or more trading capabilities.
- */
-export const createPartnership: (
-  input: CreatePartnershipRequest,
-) => effect.Effect<
-  CreatePartnershipResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreatePartnershipRequest,
-  output: CreatePartnershipResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
 }));

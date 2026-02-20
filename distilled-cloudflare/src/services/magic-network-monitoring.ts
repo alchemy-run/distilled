@@ -7,7 +7,7 @@
 
 import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
-import type { HttpClient } from "@effect/platform";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
@@ -42,17 +42,23 @@ export interface GetConfigResponse {
 }
 
 export const GetConfigResponse = Schema.Struct({
-  defaultSampling: Schema.Number.pipe(T.JsonName("default_sampling")),
+  defaultSampling: Schema.Number,
   name: Schema.String,
-  routerIps: Schema.Array(Schema.String).pipe(T.JsonName("router_ips")),
+  routerIps: Schema.Array(Schema.String),
   warpDevices: Schema.Array(
     Schema.Struct({
       id: Schema.String,
       name: Schema.String,
-      routerIp: Schema.String.pipe(T.JsonName("router_ip")),
-    }),
-  ).pipe(T.JsonName("warp_devices")),
-}) as unknown as Schema.Schema<GetConfigResponse>;
+      routerIp: Schema.String,
+    }).pipe(Schema.encodeKeys({ routerIp: "router_ip" })),
+  ),
+}).pipe(
+  Schema.encodeKeys({
+    defaultSampling: "default_sampling",
+    routerIps: "router_ips",
+    warpDevices: "warp_devices",
+  }),
+) as unknown as Schema.Schema<GetConfigResponse>;
 
 export const getConfig: (
   input: GetConfigRequest,
@@ -81,21 +87,24 @@ export interface CreateConfigRequest {
 
 export const CreateConfigRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  defaultSampling: Schema.Number.pipe(T.JsonName("default_sampling")),
+  defaultSampling: Schema.Number,
   name: Schema.String,
-  routerIps: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.JsonName("router_ips"),
-  ),
+  routerIps: Schema.optional(Schema.Array(Schema.String)),
   warpDevices: Schema.optional(
     Schema.Array(
       Schema.Struct({
         id: Schema.String,
         name: Schema.String,
-        routerIp: Schema.String.pipe(T.JsonName("router_ip")),
-      }),
+        routerIp: Schema.String,
+      }).pipe(Schema.encodeKeys({ routerIp: "router_ip" })),
     ),
-  ).pipe(T.JsonName("warp_devices")),
+  ),
 }).pipe(
+  Schema.encodeKeys({
+    defaultSampling: "default_sampling",
+    routerIps: "router_ips",
+    warpDevices: "warp_devices",
+  }),
   T.Http({ method: "POST", path: "/accounts/{account_id}/mnm/config" }),
 ) as unknown as Schema.Schema<CreateConfigRequest>;
 
@@ -109,17 +118,23 @@ export interface CreateConfigResponse {
 }
 
 export const CreateConfigResponse = Schema.Struct({
-  defaultSampling: Schema.Number.pipe(T.JsonName("default_sampling")),
+  defaultSampling: Schema.Number,
   name: Schema.String,
-  routerIps: Schema.Array(Schema.String).pipe(T.JsonName("router_ips")),
+  routerIps: Schema.Array(Schema.String),
   warpDevices: Schema.Array(
     Schema.Struct({
       id: Schema.String,
       name: Schema.String,
-      routerIp: Schema.String.pipe(T.JsonName("router_ip")),
-    }),
-  ).pipe(T.JsonName("warp_devices")),
-}) as unknown as Schema.Schema<CreateConfigResponse>;
+      routerIp: Schema.String,
+    }).pipe(Schema.encodeKeys({ routerIp: "router_ip" })),
+  ),
+}).pipe(
+  Schema.encodeKeys({
+    defaultSampling: "default_sampling",
+    routerIps: "router_ips",
+    warpDevices: "warp_devices",
+  }),
+) as unknown as Schema.Schema<CreateConfigResponse>;
 
 export const createConfig: (
   input: CreateConfigRequest,
@@ -148,21 +163,24 @@ export interface UpdateConfigRequest {
 
 export const UpdateConfigRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  defaultSampling: Schema.Number.pipe(T.JsonName("default_sampling")),
+  defaultSampling: Schema.Number,
   name: Schema.String,
-  routerIps: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.JsonName("router_ips"),
-  ),
+  routerIps: Schema.optional(Schema.Array(Schema.String)),
   warpDevices: Schema.optional(
     Schema.Array(
       Schema.Struct({
         id: Schema.String,
         name: Schema.String,
-        routerIp: Schema.String.pipe(T.JsonName("router_ip")),
-      }),
+        routerIp: Schema.String,
+      }).pipe(Schema.encodeKeys({ routerIp: "router_ip" })),
     ),
-  ).pipe(T.JsonName("warp_devices")),
+  ),
 }).pipe(
+  Schema.encodeKeys({
+    defaultSampling: "default_sampling",
+    routerIps: "router_ips",
+    warpDevices: "warp_devices",
+  }),
   T.Http({ method: "PUT", path: "/accounts/{account_id}/mnm/config" }),
 ) as unknown as Schema.Schema<UpdateConfigRequest>;
 
@@ -176,17 +194,23 @@ export interface UpdateConfigResponse {
 }
 
 export const UpdateConfigResponse = Schema.Struct({
-  defaultSampling: Schema.Number.pipe(T.JsonName("default_sampling")),
+  defaultSampling: Schema.Number,
   name: Schema.String,
-  routerIps: Schema.Array(Schema.String).pipe(T.JsonName("router_ips")),
+  routerIps: Schema.Array(Schema.String),
   warpDevices: Schema.Array(
     Schema.Struct({
       id: Schema.String,
       name: Schema.String,
-      routerIp: Schema.String.pipe(T.JsonName("router_ip")),
-    }),
-  ).pipe(T.JsonName("warp_devices")),
-}) as unknown as Schema.Schema<UpdateConfigResponse>;
+      routerIp: Schema.String,
+    }).pipe(Schema.encodeKeys({ routerIp: "router_ip" })),
+  ),
+}).pipe(
+  Schema.encodeKeys({
+    defaultSampling: "default_sampling",
+    routerIps: "router_ips",
+    warpDevices: "warp_devices",
+  }),
+) as unknown as Schema.Schema<UpdateConfigResponse>;
 
 export const updateConfig: (
   input: UpdateConfigRequest,
@@ -215,23 +239,24 @@ export interface PatchConfigRequest {
 
 export const PatchConfigRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  defaultSampling: Schema.optional(Schema.Number).pipe(
-    T.JsonName("default_sampling"),
-  ),
+  defaultSampling: Schema.optional(Schema.Number),
   name: Schema.optional(Schema.String),
-  routerIps: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.JsonName("router_ips"),
-  ),
+  routerIps: Schema.optional(Schema.Array(Schema.String)),
   warpDevices: Schema.optional(
     Schema.Array(
       Schema.Struct({
         id: Schema.String,
         name: Schema.String,
-        routerIp: Schema.String.pipe(T.JsonName("router_ip")),
-      }),
+        routerIp: Schema.String,
+      }).pipe(Schema.encodeKeys({ routerIp: "router_ip" })),
     ),
-  ).pipe(T.JsonName("warp_devices")),
+  ),
 }).pipe(
+  Schema.encodeKeys({
+    defaultSampling: "default_sampling",
+    routerIps: "router_ips",
+    warpDevices: "warp_devices",
+  }),
   T.Http({ method: "PATCH", path: "/accounts/{account_id}/mnm/config" }),
 ) as unknown as Schema.Schema<PatchConfigRequest>;
 
@@ -245,17 +270,23 @@ export interface PatchConfigResponse {
 }
 
 export const PatchConfigResponse = Schema.Struct({
-  defaultSampling: Schema.Number.pipe(T.JsonName("default_sampling")),
+  defaultSampling: Schema.Number,
   name: Schema.String,
-  routerIps: Schema.Array(Schema.String).pipe(T.JsonName("router_ips")),
+  routerIps: Schema.Array(Schema.String),
   warpDevices: Schema.Array(
     Schema.Struct({
       id: Schema.String,
       name: Schema.String,
-      routerIp: Schema.String.pipe(T.JsonName("router_ip")),
-    }),
-  ).pipe(T.JsonName("warp_devices")),
-}) as unknown as Schema.Schema<PatchConfigResponse>;
+      routerIp: Schema.String,
+    }).pipe(Schema.encodeKeys({ routerIp: "router_ip" })),
+  ),
+}).pipe(
+  Schema.encodeKeys({
+    defaultSampling: "default_sampling",
+    routerIps: "router_ips",
+    warpDevices: "warp_devices",
+  }),
+) as unknown as Schema.Schema<PatchConfigResponse>;
 
 export const patchConfig: (
   input: PatchConfigRequest,
@@ -289,17 +320,23 @@ export interface DeleteConfigResponse {
 }
 
 export const DeleteConfigResponse = Schema.Struct({
-  defaultSampling: Schema.Number.pipe(T.JsonName("default_sampling")),
+  defaultSampling: Schema.Number,
   name: Schema.String,
-  routerIps: Schema.Array(Schema.String).pipe(T.JsonName("router_ips")),
+  routerIps: Schema.Array(Schema.String),
   warpDevices: Schema.Array(
     Schema.Struct({
       id: Schema.String,
       name: Schema.String,
-      routerIp: Schema.String.pipe(T.JsonName("router_ip")),
-    }),
-  ).pipe(T.JsonName("warp_devices")),
-}) as unknown as Schema.Schema<DeleteConfigResponse>;
+      routerIp: Schema.String,
+    }).pipe(Schema.encodeKeys({ routerIp: "router_ip" })),
+  ),
+}).pipe(
+  Schema.encodeKeys({
+    defaultSampling: "default_sampling",
+    routerIps: "router_ips",
+    warpDevices: "warp_devices",
+  }),
+) as unknown as Schema.Schema<DeleteConfigResponse>;
 
 export const deleteConfig: (
   input: DeleteConfigRequest,
@@ -396,7 +433,7 @@ export interface CreateRuleRequest {
 
 export const CreateRuleRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  duration: Schema.Literal(
+  duration: Schema.Literals([
     "1m",
     "5m",
     "10m",
@@ -405,17 +442,19 @@ export const CreateRuleRequest = Schema.Struct({
     "30m",
     "45m",
     "60m",
-  ),
+  ]),
   name: Schema.String,
   automaticAdvertisement: Schema.optional(
-    Schema.Union(Schema.Boolean, Schema.Null),
-  ).pipe(T.JsonName("automatic_advertisement")),
-  bandwidth: Schema.optional(Schema.Number),
-  packetThreshold: Schema.optional(Schema.Number).pipe(
-    T.JsonName("packet_threshold"),
+    Schema.Union([Schema.Boolean, Schema.Null]),
   ),
+  bandwidth: Schema.optional(Schema.Number),
+  packetThreshold: Schema.optional(Schema.Number),
   prefixes: Schema.optional(Schema.Array(Schema.String)),
 }).pipe(
+  Schema.encodeKeys({
+    automaticAdvertisement: "automatic_advertisement",
+    packetThreshold: "packet_threshold",
+  }),
   T.Http({ method: "POST", path: "/accounts/{account_id}/mnm/rules" }),
 ) as unknown as Schema.Schema<CreateRuleRequest>;
 
@@ -457,7 +496,7 @@ export interface UpdateRuleRequest {
 
 export const UpdateRuleRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  duration: Schema.Literal(
+  duration: Schema.Literals([
     "1m",
     "5m",
     "10m",
@@ -466,18 +505,20 @@ export const UpdateRuleRequest = Schema.Struct({
     "30m",
     "45m",
     "60m",
-  ),
+  ]),
   name: Schema.String,
   id: Schema.optional(Schema.String),
   automaticAdvertisement: Schema.optional(
-    Schema.Union(Schema.Boolean, Schema.Null),
-  ).pipe(T.JsonName("automatic_advertisement")),
-  bandwidth: Schema.optional(Schema.Number),
-  packetThreshold: Schema.optional(Schema.Number).pipe(
-    T.JsonName("packet_threshold"),
+    Schema.Union([Schema.Boolean, Schema.Null]),
   ),
+  bandwidth: Schema.optional(Schema.Number),
+  packetThreshold: Schema.optional(Schema.Number),
   prefixes: Schema.optional(Schema.Array(Schema.String)),
 }).pipe(
+  Schema.encodeKeys({
+    automaticAdvertisement: "automatic_advertisement",
+    packetThreshold: "packet_threshold",
+  }),
   T.Http({ method: "PUT", path: "/accounts/{account_id}/mnm/rules" }),
 ) as unknown as Schema.Schema<UpdateRuleRequest>;
 
@@ -520,18 +561,20 @@ export const PatchRuleRequest = Schema.Struct({
   ruleId: Schema.String.pipe(T.HttpPath("ruleId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   automaticAdvertisement: Schema.optional(
-    Schema.Union(Schema.Boolean, Schema.Null),
-  ).pipe(T.JsonName("automatic_advertisement")),
+    Schema.Union([Schema.Boolean, Schema.Null]),
+  ),
   bandwidth: Schema.optional(Schema.Number),
   duration: Schema.optional(
-    Schema.Literal("1m", "5m", "10m", "15m", "20m", "30m", "45m", "60m"),
+    Schema.Literals(["1m", "5m", "10m", "15m", "20m", "30m", "45m", "60m"]),
   ),
   name: Schema.optional(Schema.String),
-  packetThreshold: Schema.optional(Schema.Number).pipe(
-    T.JsonName("packet_threshold"),
-  ),
+  packetThreshold: Schema.optional(Schema.Number),
   prefixes: Schema.optional(Schema.Array(Schema.String)),
 }).pipe(
+  Schema.encodeKeys({
+    automaticAdvertisement: "automatic_advertisement",
+    packetThreshold: "packet_threshold",
+  }),
   T.Http({
     method: "PATCH",
     path: "/accounts/{account_id}/mnm/rules/{ruleId}",

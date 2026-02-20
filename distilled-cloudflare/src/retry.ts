@@ -19,13 +19,13 @@
  * ```
  */
 
-import * as Context from "effect/Context";
 import * as Duration from "effect/Duration";
 import * as Effect from "effect/Effect";
 import { pipe } from "effect/Function";
 import * as Layer from "effect/Layer";
-import type * as Ref from "effect/Ref";
+import * as Ref from "effect/Ref";
 import * as Schedule from "effect/Schedule";
+import * as ServiceMap from "effect/ServiceMap";
 import {
   isRetryable,
   isThrottlingError,
@@ -60,7 +60,7 @@ export type Policy = Options | Factory;
 /**
  * Context tag for configuring retry behavior of Cloudflare API calls.
  */
-export class Retry extends Context.Tag("Retry")<Retry, Policy>() {}
+export class Retry extends ServiceMap.Service<Retry, Policy>()("Retry") {}
 
 /**
  * Provides a custom retry policy to all Cloudflare API calls in the effect.
@@ -128,6 +128,23 @@ export const none: <A, E, R>(
 );
 
 /**
+ * Custom jittered schedule helper (Schedule.jittered was removed in Effect v4)
+ */
+export const jittered = Schedule.addDelay(() =>
+  Effect.succeed(Duration.millis(Math.random() * 50)),
+);
+
+/**
+ * Cap delay at a maximum duration
+ */
+export const capped = (max: Duration.Duration) =>
+  Schedule.modifyDelay((duration: Duration.Duration) =>
+    Effect.succeed(
+      Duration.isGreaterThan(duration, max) ? Duration.millis(5000) : duration,
+    ),
+  );
+
+/**
  * Creates the default retry policy used by distilled-cloudflare.
  *
  * This policy:
@@ -143,9 +160,9 @@ export const makeDefault: Factory = (lastError) => ({
     isTransientError(error) || isThrottlingError(error) || isRetryable(error),
   schedule: pipe(
     Schedule.exponential(100, 2),
-    Schedule.modifyDelayEffect(
+    Schedule.modifyDelay(
       Effect.fnUntraced(function* (duration) {
-        const error = yield* lastError;
+        const error = yield* Ref.get(lastError);
         if (isRetryable(error)) {
           const retryable = error as {
             retryAfterSeconds?: number;
@@ -160,15 +177,14 @@ export const makeDefault: Factory = (lastError) => ({
         }
         if (isThrottlingError(error)) {
           if (Duration.toMillis(duration) < 500) {
-            // if we got throttled, ensure the delay is at least 500ms
             return Duration.toMillis(Duration.millis(500));
           }
         }
         return Duration.toMillis(duration);
       }),
     ),
-    Schedule.intersect(Schedule.recurs(5)),
-    Schedule.jittered,
+    Schedule.both(Schedule.recurs(5)),
+    jittered,
   ),
 });
 
@@ -179,10 +195,8 @@ export const throttlingOptions: Options = {
   while: isThrottlingError,
   schedule: pipe(
     Schedule.exponential(1000, 2),
-    Schedule.modifyDelay((duration) =>
-      Duration.toMillis(duration) > 5000 ? Duration.millis(5000) : duration,
-    ),
-    Schedule.jittered,
+    capped(Duration.seconds(5)),
+    jittered,
   ),
 };
 
@@ -213,10 +227,8 @@ export const transientOptions: Options = {
   while: isTransientError,
   schedule: pipe(
     Schedule.exponential(1000, 2),
-    Schedule.modifyDelay((duration) =>
-      Duration.toMillis(duration) > 5000 ? Duration.millis(5000) : duration,
-    ),
-    Schedule.jittered,
+    capped(Duration.seconds(5)),
+    jittered,
   ),
 };
 

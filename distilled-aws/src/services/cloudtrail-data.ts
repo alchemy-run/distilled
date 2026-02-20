@@ -1,4 +1,4 @@
-import { HttpClient } from "@effect/platform";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as effect from "effect/Effect";
 import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
@@ -87,9 +87,9 @@ const rules = T.EndpointResolver((p, _) => {
 });
 
 //# Newtypes
+export type Uuid = string;
 export type ChannelArn = string;
 export type ExternalId = string;
-export type Uuid = string;
 export type ErrorCode = string;
 export type ErrorMessage = string;
 
@@ -105,7 +105,7 @@ export const AuditEvent = S.suspend(() =>
     eventData: S.String,
     eventDataChecksum: S.optional(S.String),
   }),
-).annotations({ identifier: "AuditEvent" }) as any as S.Schema<AuditEvent>;
+).annotate({ identifier: "AuditEvent" }) as any as S.Schema<AuditEvent>;
 export type AuditEvents = AuditEvent[];
 export const AuditEvents = S.Array(AuditEvent);
 export interface PutAuditEventsRequest {
@@ -128,7 +128,7 @@ export const PutAuditEventsRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "PutAuditEventsRequest",
 }) as any as S.Schema<PutAuditEventsRequest>;
 export interface AuditEventResultEntry {
@@ -137,7 +137,7 @@ export interface AuditEventResultEntry {
 }
 export const AuditEventResultEntry = S.suspend(() =>
   S.Struct({ id: S.String, eventID: S.String }),
-).annotations({
+).annotate({
   identifier: "AuditEventResultEntry",
 }) as any as S.Schema<AuditEventResultEntry>;
 export type AuditEventResultEntries = AuditEventResultEntry[];
@@ -149,7 +149,7 @@ export interface ResultErrorEntry {
 }
 export const ResultErrorEntry = S.suspend(() =>
   S.Struct({ id: S.String, errorCode: S.String, errorMessage: S.String }),
-).annotations({
+).annotate({
   identifier: "ResultErrorEntry",
 }) as any as S.Schema<ResultErrorEntry>;
 export type ResultErrorEntries = ResultErrorEntry[];
@@ -160,32 +160,32 @@ export interface PutAuditEventsResponse {
 }
 export const PutAuditEventsResponse = S.suspend(() =>
   S.Struct({ successful: AuditEventResultEntries, failed: ResultErrorEntries }),
-).annotations({
+).annotate({
   identifier: "PutAuditEventsResponse",
 }) as any as S.Schema<PutAuditEventsResponse>;
 
 //# Errors
-export class ChannelInsufficientPermission extends S.TaggedError<ChannelInsufficientPermission>()(
+export class ChannelInsufficientPermission extends S.TaggedErrorClass<ChannelInsufficientPermission>()(
   "ChannelInsufficientPermission",
   { message: S.optional(S.String) },
 ) {}
-export class ChannelNotFound extends S.TaggedError<ChannelNotFound>()(
+export class ChannelNotFound extends S.TaggedErrorClass<ChannelNotFound>()(
   "ChannelNotFound",
   { message: S.optional(S.String) },
 ) {}
-export class ChannelUnsupportedSchema extends S.TaggedError<ChannelUnsupportedSchema>()(
+export class ChannelUnsupportedSchema extends S.TaggedErrorClass<ChannelUnsupportedSchema>()(
   "ChannelUnsupportedSchema",
   { message: S.optional(S.String) },
 ) {}
-export class DuplicatedAuditEventId extends S.TaggedError<DuplicatedAuditEventId>()(
+export class DuplicatedAuditEventId extends S.TaggedErrorClass<DuplicatedAuditEventId>()(
   "DuplicatedAuditEventId",
   { message: S.optional(S.String) },
 ) {}
-export class InvalidChannelARN extends S.TaggedError<InvalidChannelARN>()(
+export class InvalidChannelARN extends S.TaggedErrorClass<InvalidChannelARN>()(
   "InvalidChannelARN",
   { message: S.optional(S.String) },
 ) {}
-export class UnsupportedOperationException extends S.TaggedError<UnsupportedOperationException>()(
+export class UnsupportedOperationException extends S.TaggedErrorClass<UnsupportedOperationException>()(
   "UnsupportedOperationException",
   { message: S.optional(S.String) },
 ) {}

@@ -4,9 +4,9 @@ import * as T from "../traits";
 import { TimedOut } from "../errors";
 
 // Input Schema
-export const GetSQLGrammarInput = Schema.Struct({
-
-}).pipe(T.Http({ method: "GET", path: "/v2/data/query/grammar" }));
+export const GetSQLGrammarInput = Schema.Struct({}).pipe(
+  T.Http({ method: "GET", path: "/v2/data/query/grammar" }),
+);
 export type GetSQLGrammarInput = typeof GetSQLGrammarInput.Type;
 
 // Output Schema

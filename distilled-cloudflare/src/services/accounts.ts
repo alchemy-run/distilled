@@ -7,7 +7,7 @@
 
 import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
-import type { HttpClient } from "@effect/platform";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
@@ -50,29 +50,33 @@ export interface GetAccountResponse {
 export const GetAccountResponse = Schema.Struct({
   id: Schema.String,
   name: Schema.String,
-  type: Schema.Literal("standard", "enterprise"),
-  createdOn: Schema.optional(Schema.String).pipe(T.JsonName("created_on")),
+  type: Schema.Literals(["standard", "enterprise"]),
+  createdOn: Schema.optional(Schema.String),
   managedBy: Schema.optional(
     Schema.Struct({
-      parentOrgId: Schema.optional(Schema.String).pipe(
-        T.JsonName("parent_org_id"),
-      ),
-      parentOrgName: Schema.optional(Schema.String).pipe(
-        T.JsonName("parent_org_name"),
-      ),
-    }),
-  ).pipe(T.JsonName("managed_by")),
+      parentOrgId: Schema.optional(Schema.String),
+      parentOrgName: Schema.optional(Schema.String),
+    }).pipe(
+      Schema.encodeKeys({
+        parentOrgId: "parent_org_id",
+        parentOrgName: "parent_org_name",
+      }),
+    ),
+  ),
   settings: Schema.optional(
     Schema.Struct({
-      abuseContactEmail: Schema.optional(Schema.String).pipe(
-        T.JsonName("abuse_contact_email"),
-      ),
-      enforceTwofactor: Schema.optional(Schema.Boolean).pipe(
-        T.JsonName("enforce_twofactor"),
-      ),
-    }),
+      abuseContactEmail: Schema.optional(Schema.String),
+      enforceTwofactor: Schema.optional(Schema.Boolean),
+    }).pipe(
+      Schema.encodeKeys({
+        abuseContactEmail: "abuse_contact_email",
+        enforceTwofactor: "enforce_twofactor",
+      }),
+    ),
   ),
-}) as unknown as Schema.Schema<GetAccountResponse>;
+}).pipe(
+  Schema.encodeKeys({ createdOn: "created_on", managedBy: "managed_by" }),
+) as unknown as Schema.Schema<GetAccountResponse>;
 
 export const getAccount: (
   input: GetAccountRequest,
@@ -96,7 +100,7 @@ export interface CreateAccountRequest {
 
 export const CreateAccountRequest = Schema.Struct({
   name: Schema.String,
-  type: Schema.optional(Schema.Literal("standard", "enterprise")),
+  type: Schema.optional(Schema.Literals(["standard", "enterprise"])),
   unit: Schema.optional(
     Schema.Struct({
       id: Schema.optional(Schema.String),
@@ -123,29 +127,33 @@ export interface CreateAccountResponse {
 export const CreateAccountResponse = Schema.Struct({
   id: Schema.String,
   name: Schema.String,
-  type: Schema.Literal("standard", "enterprise"),
-  createdOn: Schema.optional(Schema.String).pipe(T.JsonName("created_on")),
+  type: Schema.Literals(["standard", "enterprise"]),
+  createdOn: Schema.optional(Schema.String),
   managedBy: Schema.optional(
     Schema.Struct({
-      parentOrgId: Schema.optional(Schema.String).pipe(
-        T.JsonName("parent_org_id"),
-      ),
-      parentOrgName: Schema.optional(Schema.String).pipe(
-        T.JsonName("parent_org_name"),
-      ),
-    }),
-  ).pipe(T.JsonName("managed_by")),
+      parentOrgId: Schema.optional(Schema.String),
+      parentOrgName: Schema.optional(Schema.String),
+    }).pipe(
+      Schema.encodeKeys({
+        parentOrgId: "parent_org_id",
+        parentOrgName: "parent_org_name",
+      }),
+    ),
+  ),
   settings: Schema.optional(
     Schema.Struct({
-      abuseContactEmail: Schema.optional(Schema.String).pipe(
-        T.JsonName("abuse_contact_email"),
-      ),
-      enforceTwofactor: Schema.optional(Schema.Boolean).pipe(
-        T.JsonName("enforce_twofactor"),
-      ),
-    }),
+      abuseContactEmail: Schema.optional(Schema.String),
+      enforceTwofactor: Schema.optional(Schema.Boolean),
+    }).pipe(
+      Schema.encodeKeys({
+        abuseContactEmail: "abuse_contact_email",
+        enforceTwofactor: "enforce_twofactor",
+      }),
+    ),
   ),
-}) as unknown as Schema.Schema<CreateAccountResponse>;
+}).pipe(
+  Schema.encodeKeys({ createdOn: "created_on", managedBy: "managed_by" }),
+) as unknown as Schema.Schema<CreateAccountResponse>;
 
 export const createAccount: (
   input: CreateAccountRequest,
@@ -178,19 +186,21 @@ export const UpdateAccountRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   id: Schema.String,
   name: Schema.String,
-  type: Schema.Literal("standard", "enterprise"),
-  managedBy: Schema.optional(Schema.Unknown).pipe(T.JsonName("managed_by")),
+  type: Schema.Literals(["standard", "enterprise"]),
+  managedBy: Schema.optional(Schema.Unknown),
   settings: Schema.optional(
     Schema.Struct({
-      abuseContactEmail: Schema.optional(Schema.String).pipe(
-        T.JsonName("abuse_contact_email"),
-      ),
-      enforceTwofactor: Schema.optional(Schema.Boolean).pipe(
-        T.JsonName("enforce_twofactor"),
-      ),
-    }),
+      abuseContactEmail: Schema.optional(Schema.String),
+      enforceTwofactor: Schema.optional(Schema.Boolean),
+    }).pipe(
+      Schema.encodeKeys({
+        abuseContactEmail: "abuse_contact_email",
+        enforceTwofactor: "enforce_twofactor",
+      }),
+    ),
   ),
 }).pipe(
+  Schema.encodeKeys({ managedBy: "managed_by" }),
   T.Http({ method: "PUT", path: "/accounts/{account_id}" }),
 ) as unknown as Schema.Schema<UpdateAccountRequest>;
 
@@ -211,29 +221,33 @@ export interface UpdateAccountResponse {
 export const UpdateAccountResponse = Schema.Struct({
   id: Schema.String,
   name: Schema.String,
-  type: Schema.Literal("standard", "enterprise"),
-  createdOn: Schema.optional(Schema.String).pipe(T.JsonName("created_on")),
+  type: Schema.Literals(["standard", "enterprise"]),
+  createdOn: Schema.optional(Schema.String),
   managedBy: Schema.optional(
     Schema.Struct({
-      parentOrgId: Schema.optional(Schema.String).pipe(
-        T.JsonName("parent_org_id"),
-      ),
-      parentOrgName: Schema.optional(Schema.String).pipe(
-        T.JsonName("parent_org_name"),
-      ),
-    }),
-  ).pipe(T.JsonName("managed_by")),
+      parentOrgId: Schema.optional(Schema.String),
+      parentOrgName: Schema.optional(Schema.String),
+    }).pipe(
+      Schema.encodeKeys({
+        parentOrgId: "parent_org_id",
+        parentOrgName: "parent_org_name",
+      }),
+    ),
+  ),
   settings: Schema.optional(
     Schema.Struct({
-      abuseContactEmail: Schema.optional(Schema.String).pipe(
-        T.JsonName("abuse_contact_email"),
-      ),
-      enforceTwofactor: Schema.optional(Schema.Boolean).pipe(
-        T.JsonName("enforce_twofactor"),
-      ),
-    }),
+      abuseContactEmail: Schema.optional(Schema.String),
+      enforceTwofactor: Schema.optional(Schema.Boolean),
+    }).pipe(
+      Schema.encodeKeys({
+        abuseContactEmail: "abuse_contact_email",
+        enforceTwofactor: "enforce_twofactor",
+      }),
+    ),
   ),
-}) as unknown as Schema.Schema<UpdateAccountResponse>;
+}).pipe(
+  Schema.encodeKeys({ createdOn: "created_on", managedBy: "managed_by" }),
+) as unknown as Schema.Schema<UpdateAccountResponse>;
 
 export const updateAccount: (
   input: UpdateAccountRequest,
@@ -442,10 +456,11 @@ export interface CreateSubscriptionRequest {
 export const CreateSubscriptionRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   frequency: Schema.optional(
-    Schema.Literal("weekly", "monthly", "quarterly", "yearly"),
+    Schema.Literals(["weekly", "monthly", "quarterly", "yearly"]),
   ),
-  ratePlan: Schema.optional(Schema.Unknown).pipe(T.JsonName("rate_plan")),
+  ratePlan: Schema.optional(Schema.Unknown),
 }).pipe(
+  Schema.encodeKeys({ ratePlan: "rate_plan" }),
   T.Http({ method: "POST", path: "/accounts/{account_id}/subscriptions" }),
 ) as unknown as Schema.Schema<CreateSubscriptionRequest>;
 
@@ -482,10 +497,11 @@ export const UpdateSubscriptionRequest = Schema.Struct({
   ),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   frequency: Schema.optional(
-    Schema.Literal("weekly", "monthly", "quarterly", "yearly"),
+    Schema.Literals(["weekly", "monthly", "quarterly", "yearly"]),
   ),
-  ratePlan: Schema.optional(Schema.Unknown).pipe(T.JsonName("rate_plan")),
+  ratePlan: Schema.optional(Schema.Unknown),
 }).pipe(
+  Schema.encodeKeys({ ratePlan: "rate_plan" }),
   T.Http({
     method: "PUT",
     path: "/accounts/{account_id}/subscriptions/{subscriptionIdentifier}",
@@ -533,10 +549,10 @@ export interface DeleteSubscriptionResponse {
 }
 
 export const DeleteSubscriptionResponse = Schema.Struct({
-  subscriptionId: Schema.optional(Schema.String).pipe(
-    T.JsonName("subscription_id"),
-  ),
-}) as unknown as Schema.Schema<DeleteSubscriptionResponse>;
+  subscriptionId: Schema.optional(Schema.String),
+}).pipe(
+  Schema.encodeKeys({ subscriptionId: "subscription_id" }),
+) as unknown as Schema.Schema<DeleteSubscriptionResponse>;
 
 export const deleteSubscription: (
   input: DeleteSubscriptionRequest,
@@ -608,16 +624,15 @@ export const CreateTokenRequest = Schema.Struct({
       requestIp: Schema.optional(
         Schema.Struct({
           in: Schema.optional(Schema.Array(Schema.String)),
-          notIn: Schema.optional(Schema.Array(Schema.String)).pipe(
-            T.JsonName("not_in"),
-          ),
-        }),
-      ).pipe(T.JsonName("request_ip")),
-    }),
+          notIn: Schema.optional(Schema.Array(Schema.String)),
+        }).pipe(Schema.encodeKeys({ notIn: "not_in" })),
+      ),
+    }).pipe(Schema.encodeKeys({ requestIp: "request_ip" })),
   ),
-  expiresOn: Schema.optional(Schema.String).pipe(T.JsonName("expires_on")),
-  notBefore: Schema.optional(Schema.String).pipe(T.JsonName("not_before")),
+  expiresOn: Schema.optional(Schema.String),
+  notBefore: Schema.optional(Schema.String),
 }).pipe(
+  Schema.encodeKeys({ expiresOn: "expires_on", notBefore: "not_before" }),
   T.Http({ method: "POST", path: "/accounts/{account_id}/tokens" }),
 ) as unknown as Schema.Schema<CreateTokenRequest>;
 
@@ -652,23 +667,29 @@ export const CreateTokenResponse = Schema.Struct({
       requestIp: Schema.optional(
         Schema.Struct({
           in: Schema.optional(Schema.Array(Schema.String)),
-          notIn: Schema.optional(Schema.Array(Schema.String)).pipe(
-            T.JsonName("not_in"),
-          ),
-        }),
-      ).pipe(T.JsonName("request_ip")),
-    }),
+          notIn: Schema.optional(Schema.Array(Schema.String)),
+        }).pipe(Schema.encodeKeys({ notIn: "not_in" })),
+      ),
+    }).pipe(Schema.encodeKeys({ requestIp: "request_ip" })),
   ),
-  expiresOn: Schema.optional(Schema.String).pipe(T.JsonName("expires_on")),
-  issuedOn: Schema.optional(Schema.String).pipe(T.JsonName("issued_on")),
-  lastUsedOn: Schema.optional(Schema.String).pipe(T.JsonName("last_used_on")),
-  modifiedOn: Schema.optional(Schema.String).pipe(T.JsonName("modified_on")),
+  expiresOn: Schema.optional(Schema.String),
+  issuedOn: Schema.optional(Schema.String),
+  lastUsedOn: Schema.optional(Schema.String),
+  modifiedOn: Schema.optional(Schema.String),
   name: Schema.optional(Schema.String),
-  notBefore: Schema.optional(Schema.String).pipe(T.JsonName("not_before")),
+  notBefore: Schema.optional(Schema.String),
   policies: Schema.optional(Schema.Array(Schema.Unknown)),
-  status: Schema.optional(Schema.Literal("active", "disabled", "expired")),
+  status: Schema.optional(Schema.Literals(["active", "disabled", "expired"])),
   value: Schema.optional(Schema.String),
-}) as unknown as Schema.Schema<CreateTokenResponse>;
+}).pipe(
+  Schema.encodeKeys({
+    expiresOn: "expires_on",
+    issuedOn: "issued_on",
+    lastUsedOn: "last_used_on",
+    modifiedOn: "modified_on",
+    notBefore: "not_before",
+  }),
+) as unknown as Schema.Schema<CreateTokenResponse>;
 
 export const createToken: (
   input: CreateTokenRequest,
@@ -710,17 +731,16 @@ export const UpdateTokenRequest = Schema.Struct({
       requestIp: Schema.optional(
         Schema.Struct({
           in: Schema.optional(Schema.Array(Schema.String)),
-          notIn: Schema.optional(Schema.Array(Schema.String)).pipe(
-            T.JsonName("not_in"),
-          ),
-        }),
-      ).pipe(T.JsonName("request_ip")),
-    }),
+          notIn: Schema.optional(Schema.Array(Schema.String)),
+        }).pipe(Schema.encodeKeys({ notIn: "not_in" })),
+      ),
+    }).pipe(Schema.encodeKeys({ requestIp: "request_ip" })),
   ),
-  expiresOn: Schema.optional(Schema.String).pipe(T.JsonName("expires_on")),
-  notBefore: Schema.optional(Schema.String).pipe(T.JsonName("not_before")),
-  status: Schema.optional(Schema.Literal("active", "disabled", "expired")),
+  expiresOn: Schema.optional(Schema.String),
+  notBefore: Schema.optional(Schema.String),
+  status: Schema.optional(Schema.Literals(["active", "disabled", "expired"])),
 }).pipe(
+  Schema.encodeKeys({ expiresOn: "expires_on", notBefore: "not_before" }),
   T.Http({ method: "PUT", path: "/accounts/{account_id}/tokens/{tokenId}" }),
 ) as unknown as Schema.Schema<UpdateTokenRequest>;
 
@@ -795,10 +815,12 @@ export interface VerifyTokenResponse {
 
 export const VerifyTokenResponse = Schema.Struct({
   id: Schema.String,
-  status: Schema.Literal("active", "disabled", "expired"),
-  expiresOn: Schema.optional(Schema.String).pipe(T.JsonName("expires_on")),
-  notBefore: Schema.optional(Schema.String).pipe(T.JsonName("not_before")),
-}) as unknown as Schema.Schema<VerifyTokenResponse>;
+  status: Schema.Literals(["active", "disabled", "expired"]),
+  expiresOn: Schema.optional(Schema.String),
+  notBefore: Schema.optional(Schema.String),
+}).pipe(
+  Schema.encodeKeys({ expiresOn: "expires_on", notBefore: "not_before" }),
+) as unknown as Schema.Schema<VerifyTokenResponse>;
 
 export const verifyToken: (
   input: VerifyTokenRequest,
@@ -853,12 +875,12 @@ export const GetTokenPermissionGroupResponse = Schema.Array(
     name: Schema.optional(Schema.String),
     scopes: Schema.optional(
       Schema.Array(
-        Schema.Literal(
+        Schema.Literals([
           "com.cloudflare.api.account",
           "com.cloudflare.api.account.zone",
           "com.cloudflare.api.user",
           "com.cloudflare.edge.r2.bucket",
-        ),
+        ]),
       ),
     ),
   }),

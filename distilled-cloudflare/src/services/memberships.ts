@@ -7,7 +7,7 @@
 
 import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
-import type { HttpClient } from "@effect/platform";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
@@ -79,35 +79,35 @@ export const GetMembershipResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
   account: Schema.optional(Schema.Unknown),
   apiAccessEnabled: Schema.optional(
-    Schema.Union(Schema.Boolean, Schema.Null),
-  ).pipe(T.JsonName("api_access_enabled")),
+    Schema.Union([Schema.Boolean, Schema.Null]),
+  ),
   permissions: Schema.optional(
     Schema.Struct({
       analytics: Schema.optional(Schema.Unknown),
       billing: Schema.optional(Schema.Unknown),
-      cachePurge: Schema.optional(Schema.Unknown).pipe(
-        T.JsonName("cache_purge"),
-      ),
+      cachePurge: Schema.optional(Schema.Unknown),
       dns: Schema.optional(Schema.Unknown),
-      dnsRecords: Schema.optional(Schema.Unknown).pipe(
-        T.JsonName("dns_records"),
-      ),
+      dnsRecords: Schema.optional(Schema.Unknown),
       lb: Schema.optional(Schema.Unknown),
       logs: Schema.optional(Schema.Unknown),
       organization: Schema.optional(Schema.Unknown),
       ssl: Schema.optional(Schema.Unknown),
       waf: Schema.optional(Schema.Unknown),
-      zoneSettings: Schema.optional(Schema.Unknown).pipe(
-        T.JsonName("zone_settings"),
-      ),
+      zoneSettings: Schema.optional(Schema.Unknown),
       zones: Schema.optional(Schema.Unknown),
-    }),
+    }).pipe(
+      Schema.encodeKeys({
+        cachePurge: "cache_purge",
+        dnsRecords: "dns_records",
+        zoneSettings: "zone_settings",
+      }),
+    ),
   ),
   policies: Schema.optional(
     Schema.Array(
       Schema.Struct({
         id: Schema.optional(Schema.String),
-        access: Schema.optional(Schema.Literal("allow", "deny")),
+        access: Schema.optional(Schema.Literals(["allow", "deny"])),
         permissionGroups: Schema.optional(
           Schema.Array(
             Schema.Struct({
@@ -121,7 +121,7 @@ export const GetMembershipResponse = Schema.Struct({
               name: Schema.optional(Schema.String),
             }),
           ),
-        ).pipe(T.JsonName("permission_groups")),
+        ),
         resourceGroups: Schema.optional(
           Schema.Array(
             Schema.Struct({
@@ -145,13 +145,20 @@ export const GetMembershipResponse = Schema.Struct({
               name: Schema.optional(Schema.String),
             }),
           ),
-        ).pipe(T.JsonName("resource_groups")),
-      }),
+        ),
+      }).pipe(
+        Schema.encodeKeys({
+          permissionGroups: "permission_groups",
+          resourceGroups: "resource_groups",
+        }),
+      ),
     ),
   ),
   roles: Schema.optional(Schema.Array(Schema.String)),
-  status: Schema.optional(Schema.Literal("accepted", "pending", "rejected")),
-}) as unknown as Schema.Schema<GetMembershipResponse>;
+  status: Schema.optional(Schema.Literals(["accepted", "pending", "rejected"])),
+}).pipe(
+  Schema.encodeKeys({ apiAccessEnabled: "api_access_enabled" }),
+) as unknown as Schema.Schema<GetMembershipResponse>;
 
 export const getMembership: (
   input: GetMembershipRequest,
@@ -173,7 +180,7 @@ export interface PutMembershipRequest {
 
 export const PutMembershipRequest = Schema.Struct({
   membershipId: Schema.String.pipe(T.HttpPath("membershipId")),
-  status: Schema.Literal("accepted", "rejected"),
+  status: Schema.Literals(["accepted", "rejected"]),
 }).pipe(
   T.Http({ method: "PUT", path: "/memberships/{membershipId}" }),
 ) as unknown as Schema.Schema<PutMembershipRequest>;
@@ -225,35 +232,35 @@ export const PutMembershipResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
   account: Schema.optional(Schema.Unknown),
   apiAccessEnabled: Schema.optional(
-    Schema.Union(Schema.Boolean, Schema.Null),
-  ).pipe(T.JsonName("api_access_enabled")),
+    Schema.Union([Schema.Boolean, Schema.Null]),
+  ),
   permissions: Schema.optional(
     Schema.Struct({
       analytics: Schema.optional(Schema.Unknown),
       billing: Schema.optional(Schema.Unknown),
-      cachePurge: Schema.optional(Schema.Unknown).pipe(
-        T.JsonName("cache_purge"),
-      ),
+      cachePurge: Schema.optional(Schema.Unknown),
       dns: Schema.optional(Schema.Unknown),
-      dnsRecords: Schema.optional(Schema.Unknown).pipe(
-        T.JsonName("dns_records"),
-      ),
+      dnsRecords: Schema.optional(Schema.Unknown),
       lb: Schema.optional(Schema.Unknown),
       logs: Schema.optional(Schema.Unknown),
       organization: Schema.optional(Schema.Unknown),
       ssl: Schema.optional(Schema.Unknown),
       waf: Schema.optional(Schema.Unknown),
-      zoneSettings: Schema.optional(Schema.Unknown).pipe(
-        T.JsonName("zone_settings"),
-      ),
+      zoneSettings: Schema.optional(Schema.Unknown),
       zones: Schema.optional(Schema.Unknown),
-    }),
+    }).pipe(
+      Schema.encodeKeys({
+        cachePurge: "cache_purge",
+        dnsRecords: "dns_records",
+        zoneSettings: "zone_settings",
+      }),
+    ),
   ),
   policies: Schema.optional(
     Schema.Array(
       Schema.Struct({
         id: Schema.optional(Schema.String),
-        access: Schema.optional(Schema.Literal("allow", "deny")),
+        access: Schema.optional(Schema.Literals(["allow", "deny"])),
         permissionGroups: Schema.optional(
           Schema.Array(
             Schema.Struct({
@@ -267,7 +274,7 @@ export const PutMembershipResponse = Schema.Struct({
               name: Schema.optional(Schema.String),
             }),
           ),
-        ).pipe(T.JsonName("permission_groups")),
+        ),
         resourceGroups: Schema.optional(
           Schema.Array(
             Schema.Struct({
@@ -291,13 +298,20 @@ export const PutMembershipResponse = Schema.Struct({
               name: Schema.optional(Schema.String),
             }),
           ),
-        ).pipe(T.JsonName("resource_groups")),
-      }),
+        ),
+      }).pipe(
+        Schema.encodeKeys({
+          permissionGroups: "permission_groups",
+          resourceGroups: "resource_groups",
+        }),
+      ),
     ),
   ),
   roles: Schema.optional(Schema.Array(Schema.String)),
-  status: Schema.optional(Schema.Literal("accepted", "pending", "rejected")),
-}) as unknown as Schema.Schema<PutMembershipResponse>;
+  status: Schema.optional(Schema.Literals(["accepted", "pending", "rejected"])),
+}).pipe(
+  Schema.encodeKeys({ apiAccessEnabled: "api_access_enabled" }),
+) as unknown as Schema.Schema<PutMembershipResponse>;
 
 export const putMembership: (
   input: PutMembershipRequest,

@@ -1,4 +1,4 @@
-import { HttpClient } from "@effect/platform";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as effect from "effect/Effect";
 import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
@@ -121,54 +121,28 @@ const rules = T.EndpointResolver((p, _) => {
 });
 
 //# Newtypes
-export type ProductCode = string;
+export type CustomerIdentifier = string;
 export type UsageDimension = string;
 export type UsageQuantity = number;
+export type AllocatedUsageQuantity = number;
+export type TagKey = string;
+export type TagValue = string;
+export type CustomerAWSAccountId = string;
+export type ProductCode = string;
+export type ErrorMessage = string;
 export type ClientToken = string;
 export type VersionInteger = number;
 export type Nonce = string;
 export type NonEmptyString = string;
-export type CustomerIdentifier = string;
-export type CustomerAWSAccountId = string;
-export type AllocatedUsageQuantity = number;
-export type TagKey = string;
-export type TagValue = string;
-export type ErrorMessage = string;
 
 //# Schemas
-export interface RegisterUsageRequest {
-  ProductCode: string;
-  PublicKeyVersion: number;
-  Nonce?: string;
-}
-export const RegisterUsageRequest = S.suspend(() =>
-  S.Struct({
-    ProductCode: S.String,
-    PublicKeyVersion: S.Number,
-    Nonce: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotations({
-  identifier: "RegisterUsageRequest",
-}) as any as S.Schema<RegisterUsageRequest>;
-export interface ResolveCustomerRequest {
-  RegistrationToken: string;
-}
-export const ResolveCustomerRequest = S.suspend(() =>
-  S.Struct({ RegistrationToken: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotations({
-  identifier: "ResolveCustomerRequest",
-}) as any as S.Schema<ResolveCustomerRequest>;
 export interface Tag {
   Key: string;
   Value: string;
 }
 export const Tag = S.suspend(() =>
   S.Struct({ Key: S.String, Value: S.String }),
-).annotations({ identifier: "Tag" }) as any as S.Schema<Tag>;
+).annotate({ identifier: "Tag" }) as any as S.Schema<Tag>;
 export type TagList = Tag[];
 export const TagList = S.Array(Tag);
 export interface UsageAllocation {
@@ -177,7 +151,7 @@ export interface UsageAllocation {
 }
 export const UsageAllocation = S.suspend(() =>
   S.Struct({ AllocatedUsageQuantity: S.Number, Tags: S.optional(TagList) }),
-).annotations({
+).annotate({
   identifier: "UsageAllocation",
 }) as any as S.Schema<UsageAllocation>;
 export type UsageAllocations = UsageAllocation[];
@@ -199,7 +173,7 @@ export const UsageRecord = S.suspend(() =>
     UsageAllocations: S.optional(UsageAllocations),
     CustomerAWSAccountId: S.optional(S.String),
   }),
-).annotations({ identifier: "UsageRecord" }) as any as S.Schema<UsageRecord>;
+).annotate({ identifier: "UsageRecord" }) as any as S.Schema<UsageRecord>;
 export type UsageRecordList = UsageRecord[];
 export const UsageRecordList = S.Array(UsageRecord);
 export interface BatchMeterUsageRequest {
@@ -210,37 +184,43 @@ export const BatchMeterUsageRequest = S.suspend(() =>
   S.Struct({ UsageRecords: UsageRecordList, ProductCode: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotations({
+).annotate({
   identifier: "BatchMeterUsageRequest",
 }) as any as S.Schema<BatchMeterUsageRequest>;
-export interface RegisterUsageResult {
-  PublicKeyRotationTimestamp?: Date;
-  Signature?: string;
+export type UsageRecordResultStatus =
+  | "Success"
+  | "CustomerNotSubscribed"
+  | "DuplicateRecord"
+  | (string & {});
+export const UsageRecordResultStatus = S.String;
+export interface UsageRecordResult {
+  UsageRecord?: UsageRecord;
+  MeteringRecordId?: string;
+  Status?: UsageRecordResultStatus;
 }
-export const RegisterUsageResult = S.suspend(() =>
+export const UsageRecordResult = S.suspend(() =>
   S.Struct({
-    PublicKeyRotationTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    Signature: S.optional(S.String),
+    UsageRecord: S.optional(UsageRecord),
+    MeteringRecordId: S.optional(S.String),
+    Status: S.optional(UsageRecordResultStatus),
   }),
-).annotations({
-  identifier: "RegisterUsageResult",
-}) as any as S.Schema<RegisterUsageResult>;
-export interface ResolveCustomerResult {
-  CustomerIdentifier?: string;
-  ProductCode?: string;
-  CustomerAWSAccountId?: string;
+).annotate({
+  identifier: "UsageRecordResult",
+}) as any as S.Schema<UsageRecordResult>;
+export type UsageRecordResultList = UsageRecordResult[];
+export const UsageRecordResultList = S.Array(UsageRecordResult);
+export interface BatchMeterUsageResult {
+  Results?: UsageRecordResult[];
+  UnprocessedRecords?: UsageRecord[];
 }
-export const ResolveCustomerResult = S.suspend(() =>
+export const BatchMeterUsageResult = S.suspend(() =>
   S.Struct({
-    CustomerIdentifier: S.optional(S.String),
-    ProductCode: S.optional(S.String),
-    CustomerAWSAccountId: S.optional(S.String),
+    Results: S.optional(UsageRecordResultList),
+    UnprocessedRecords: S.optional(UsageRecordList),
   }),
-).annotations({
-  identifier: "ResolveCustomerResult",
-}) as any as S.Schema<ResolveCustomerResult>;
+).annotate({
+  identifier: "BatchMeterUsageResult",
+}) as any as S.Schema<BatchMeterUsageResult>;
 export interface MeterUsageRequest {
   ProductCode: string;
   Timestamp: Date;
@@ -262,236 +242,147 @@ export const MeterUsageRequest = S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotations({
+).annotate({
   identifier: "MeterUsageRequest",
 }) as any as S.Schema<MeterUsageRequest>;
-export type UsageRecordResultStatus =
-  | "Success"
-  | "CustomerNotSubscribed"
-  | "DuplicateRecord"
-  | (string & {});
-export const UsageRecordResultStatus = S.String;
-export interface UsageRecordResult {
-  UsageRecord?: UsageRecord;
-  MeteringRecordId?: string;
-  Status?: UsageRecordResultStatus;
-}
-export const UsageRecordResult = S.suspend(() =>
-  S.Struct({
-    UsageRecord: S.optional(UsageRecord),
-    MeteringRecordId: S.optional(S.String),
-    Status: S.optional(UsageRecordResultStatus),
-  }),
-).annotations({
-  identifier: "UsageRecordResult",
-}) as any as S.Schema<UsageRecordResult>;
-export type UsageRecordResultList = UsageRecordResult[];
-export const UsageRecordResultList = S.Array(UsageRecordResult);
-export interface BatchMeterUsageResult {
-  Results?: UsageRecordResult[];
-  UnprocessedRecords?: UsageRecord[];
-}
-export const BatchMeterUsageResult = S.suspend(() =>
-  S.Struct({
-    Results: S.optional(UsageRecordResultList),
-    UnprocessedRecords: S.optional(UsageRecordList),
-  }),
-).annotations({
-  identifier: "BatchMeterUsageResult",
-}) as any as S.Schema<BatchMeterUsageResult>;
 export interface MeterUsageResult {
   MeteringRecordId?: string;
 }
 export const MeterUsageResult = S.suspend(() =>
   S.Struct({ MeteringRecordId: S.optional(S.String) }),
-).annotations({
+).annotate({
   identifier: "MeterUsageResult",
 }) as any as S.Schema<MeterUsageResult>;
+export interface RegisterUsageRequest {
+  ProductCode: string;
+  PublicKeyVersion: number;
+  Nonce?: string;
+}
+export const RegisterUsageRequest = S.suspend(() =>
+  S.Struct({
+    ProductCode: S.String,
+    PublicKeyVersion: S.Number,
+    Nonce: S.optional(S.String),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "RegisterUsageRequest",
+}) as any as S.Schema<RegisterUsageRequest>;
+export interface RegisterUsageResult {
+  PublicKeyRotationTimestamp?: Date;
+  Signature?: string;
+}
+export const RegisterUsageResult = S.suspend(() =>
+  S.Struct({
+    PublicKeyRotationTimestamp: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    Signature: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "RegisterUsageResult",
+}) as any as S.Schema<RegisterUsageResult>;
+export interface ResolveCustomerRequest {
+  RegistrationToken: string;
+}
+export const ResolveCustomerRequest = S.suspend(() =>
+  S.Struct({ RegistrationToken: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "ResolveCustomerRequest",
+}) as any as S.Schema<ResolveCustomerRequest>;
+export interface ResolveCustomerResult {
+  CustomerIdentifier?: string;
+  ProductCode?: string;
+  CustomerAWSAccountId?: string;
+}
+export const ResolveCustomerResult = S.suspend(() =>
+  S.Struct({
+    CustomerIdentifier: S.optional(S.String),
+    ProductCode: S.optional(S.String),
+    CustomerAWSAccountId: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ResolveCustomerResult",
+}) as any as S.Schema<ResolveCustomerResult>;
 
 //# Errors
-export class CustomerNotEntitledException extends S.TaggedError<CustomerNotEntitledException>()(
-  "CustomerNotEntitledException",
-  { message: S.optional(S.String) },
-) {}
-export class DisabledApiException extends S.TaggedError<DisabledApiException>()(
+export class DisabledApiException extends S.TaggedErrorClass<DisabledApiException>()(
   "DisabledApiException",
   { message: S.optional(S.String) },
 ) {}
-export class ExpiredTokenException extends S.TaggedError<ExpiredTokenException>()(
-  "ExpiredTokenException",
-  { message: S.optional(S.String) },
-) {}
-export class InternalServiceErrorException extends S.TaggedError<InternalServiceErrorException>()(
+export class InternalServiceErrorException extends S.TaggedErrorClass<InternalServiceErrorException>()(
   "InternalServiceErrorException",
   { message: S.optional(S.String) },
 ) {}
-export class DuplicateRequestException extends S.TaggedError<DuplicateRequestException>()(
-  "DuplicateRequestException",
-  { message: S.optional(S.String) },
-) {}
-export class InvalidProductCodeException extends S.TaggedError<InvalidProductCodeException>()(
-  "InvalidProductCodeException",
-  { message: S.optional(S.String) },
-) {}
-export class InvalidCustomerIdentifierException extends S.TaggedError<InvalidCustomerIdentifierException>()(
+export class InvalidCustomerIdentifierException extends S.TaggedErrorClass<InvalidCustomerIdentifierException>()(
   "InvalidCustomerIdentifierException",
   { message: S.optional(S.String) },
 ) {}
-export class InvalidTokenException extends S.TaggedError<InvalidTokenException>()(
-  "InvalidTokenException",
+export class InvalidProductCodeException extends S.TaggedErrorClass<InvalidProductCodeException>()(
+  "InvalidProductCodeException",
   { message: S.optional(S.String) },
 ) {}
-export class IdempotencyConflictException extends S.TaggedError<IdempotencyConflictException>()(
-  "IdempotencyConflictException",
-  { message: S.optional(S.String) },
-).pipe(C.withConflictError) {}
-export class InvalidPublicKeyVersionException extends S.TaggedError<InvalidPublicKeyVersionException>()(
-  "InvalidPublicKeyVersionException",
-  { message: S.optional(S.String) },
-) {}
-export class InvalidTagException extends S.TaggedError<InvalidTagException>()(
+export class InvalidTagException extends S.TaggedErrorClass<InvalidTagException>()(
   "InvalidTagException",
   { message: S.optional(S.String) },
 ) {}
-export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
-  "ThrottlingException",
-  { message: S.optional(S.String) },
-) {}
-export class InvalidEndpointRegionException extends S.TaggedError<InvalidEndpointRegionException>()(
-  "InvalidEndpointRegionException",
-  { message: S.optional(S.String) },
-) {}
-export class InvalidRegionException extends S.TaggedError<InvalidRegionException>()(
-  "InvalidRegionException",
-  { message: S.optional(S.String) },
-) {}
-export class InvalidUsageAllocationsException extends S.TaggedError<InvalidUsageAllocationsException>()(
+export class InvalidUsageAllocationsException extends S.TaggedErrorClass<InvalidUsageAllocationsException>()(
   "InvalidUsageAllocationsException",
   { message: S.optional(S.String) },
 ) {}
-export class PlatformNotSupportedException extends S.TaggedError<PlatformNotSupportedException>()(
-  "PlatformNotSupportedException",
-  { message: S.optional(S.String) },
-) {}
-export class InvalidUsageDimensionException extends S.TaggedError<InvalidUsageDimensionException>()(
+export class InvalidUsageDimensionException extends S.TaggedErrorClass<InvalidUsageDimensionException>()(
   "InvalidUsageDimensionException",
   { message: S.optional(S.String) },
 ) {}
-export class TimestampOutOfBoundsException extends S.TaggedError<TimestampOutOfBoundsException>()(
+export class ThrottlingException extends S.TaggedErrorClass<ThrottlingException>()(
+  "ThrottlingException",
+  { message: S.optional(S.String) },
+) {}
+export class TimestampOutOfBoundsException extends S.TaggedErrorClass<TimestampOutOfBoundsException>()(
   "TimestampOutOfBoundsException",
+  { message: S.optional(S.String) },
+) {}
+export class CustomerNotEntitledException extends S.TaggedErrorClass<CustomerNotEntitledException>()(
+  "CustomerNotEntitledException",
+  { message: S.optional(S.String) },
+) {}
+export class DuplicateRequestException extends S.TaggedErrorClass<DuplicateRequestException>()(
+  "DuplicateRequestException",
+  { message: S.optional(S.String) },
+) {}
+export class IdempotencyConflictException extends S.TaggedErrorClass<IdempotencyConflictException>()(
+  "IdempotencyConflictException",
+  { message: S.optional(S.String) },
+).pipe(C.withConflictError) {}
+export class InvalidEndpointRegionException extends S.TaggedErrorClass<InvalidEndpointRegionException>()(
+  "InvalidEndpointRegionException",
+  { message: S.optional(S.String) },
+) {}
+export class InvalidPublicKeyVersionException extends S.TaggedErrorClass<InvalidPublicKeyVersionException>()(
+  "InvalidPublicKeyVersionException",
+  { message: S.optional(S.String) },
+) {}
+export class InvalidRegionException extends S.TaggedErrorClass<InvalidRegionException>()(
+  "InvalidRegionException",
+  { message: S.optional(S.String) },
+) {}
+export class PlatformNotSupportedException extends S.TaggedErrorClass<PlatformNotSupportedException>()(
+  "PlatformNotSupportedException",
+  { message: S.optional(S.String) },
+) {}
+export class ExpiredTokenException extends S.TaggedErrorClass<ExpiredTokenException>()(
+  "ExpiredTokenException",
+  { message: S.optional(S.String) },
+) {}
+export class InvalidTokenException extends S.TaggedErrorClass<InvalidTokenException>()(
+  "InvalidTokenException",
   { message: S.optional(S.String) },
 ) {}
 
 //# Operations
-/**
- * `ResolveCustomer` is called by a SaaS application during the registration
- * process. When a buyer visits your website during the registration process, the buyer
- * submits a registration token through their browser. The registration token is resolved
- * through this API to obtain a `CustomerIdentifier` along with the
- * `CustomerAWSAccountId` and `ProductCode`.
- *
- * To successfully resolve the token, the API must be called from the account that was used to publish the SaaS
- * application. For an example of using `ResolveCustomer`, see ResolveCustomer code example in the Amazon Web Services Marketplace Seller
- * Guide.
- *
- * Permission is required for this operation. Your IAM role or user performing this
- * operation requires a policy to allow the `aws-marketplace:ResolveCustomer`
- * action. For more information, see Actions, resources, and condition keys for Amazon Web Services Marketplace Metering Service in
- * the *Service Authorization Reference*.
- *
- * For Amazon Web Services Regions that support `ResolveCustomer`, see ResolveCustomer Region support.
- */
-export const resolveCustomer: (
-  input: ResolveCustomerRequest,
-) => effect.Effect<
-  ResolveCustomerResult,
-  | DisabledApiException
-  | ExpiredTokenException
-  | InternalServiceErrorException
-  | InvalidTokenException
-  | ThrottlingException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ResolveCustomerRequest,
-  output: ResolveCustomerResult,
-  errors: [
-    DisabledApiException,
-    ExpiredTokenException,
-    InternalServiceErrorException,
-    InvalidTokenException,
-    ThrottlingException,
-  ],
-}));
-/**
- * Paid container software products sold through Amazon Web Services Marketplace must integrate with the Amazon Web Services Marketplace
- * Metering Service and call the `RegisterUsage` operation for software
- * entitlement and metering. Free and BYOL products for Amazon ECS or Amazon EKS aren't required to call `RegisterUsage`, but you may choose to
- * do so if you would like to receive usage data in your seller reports. The sections below
- * explain the behavior of `RegisterUsage`. `RegisterUsage` performs
- * two primary functions: metering and entitlement.
- *
- * - *Entitlement*: `RegisterUsage` allows you to
- * verify that the customer running your paid software is subscribed to your
- * product on Amazon Web Services Marketplace, enabling you to guard against unauthorized use. Your container
- * image that integrates with `RegisterUsage` is only required to guard
- * against unauthorized use at container startup, as such a
- * `CustomerNotSubscribedException` or
- * `PlatformNotSupportedException` will only be thrown on the
- * initial call to `RegisterUsage`. Subsequent calls from the same
- * Amazon ECS task instance (e.g. task-id) or Amazon EKS pod
- * will not throw a `CustomerNotSubscribedException`, even if the
- * customer unsubscribes while the Amazon ECS task or Amazon EKS
- * pod is still running.
- *
- * - *Metering*: `RegisterUsage` meters software use
- * per ECS task, per hour, or per pod for Amazon EKS with usage prorated to
- * the second. A minimum of 1 minute of usage applies to tasks that are short
- * lived. For example, if a customer has a 10 node Amazon ECS or Amazon EKS cluster and a service configured as a Daemon Set, then Amazon ECS or Amazon EKS will launch a task on all 10 cluster nodes
- * and the customer will be charged for 10 tasks. Software metering
- * is handled by the Amazon Web Services Marketplace metering control plane—your software is
- * not required to perform metering-specific actions other than to call
- * `RegisterUsage` to commence metering.
- * The Amazon Web Services Marketplace metering control plane will also bill customers for
- * running ECS tasks and Amazon EKS pods, regardless of the customer's
- * subscription state, which removes the need for your software to run entitlement
- * checks at runtime. For containers, `RegisterUsage` should be called
- * immediately at launch. If you don’t register the container within the first 6 hours
- * of the launch, Amazon Web Services Marketplace Metering Service doesn’t provide any metering
- * guarantees for previous months. Metering will continue, however, for the
- * current month forward until the container ends. `RegisterUsage` is
- * for metering paid hourly container products.
- *
- * For Amazon Web Services Regions that support `RegisterUsage`, see RegisterUsage Region support.
- */
-export const registerUsage: (
-  input: RegisterUsageRequest,
-) => effect.Effect<
-  RegisterUsageResult,
-  | CustomerNotEntitledException
-  | DisabledApiException
-  | InternalServiceErrorException
-  | InvalidProductCodeException
-  | InvalidPublicKeyVersionException
-  | InvalidRegionException
-  | PlatformNotSupportedException
-  | ThrottlingException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: RegisterUsageRequest,
-  output: RegisterUsageResult,
-  errors: [
-    CustomerNotEntitledException,
-    DisabledApiException,
-    InternalServiceErrorException,
-    InvalidProductCodeException,
-    InvalidPublicKeyVersionException,
-    InvalidRegionException,
-    PlatformNotSupportedException,
-    ThrottlingException,
-  ],
-}));
 /**
  * The `CustomerIdentifier` parameter is scheduled for deprecation on March 31, 2026. Use `CustomerAWSAccountID` instead.
  *
@@ -610,5 +501,114 @@ export const meterUsage: (
     InvalidUsageDimensionException,
     ThrottlingException,
     TimestampOutOfBoundsException,
+  ],
+}));
+/**
+ * Paid container software products sold through Amazon Web Services Marketplace must integrate with the Amazon Web Services Marketplace
+ * Metering Service and call the `RegisterUsage` operation for software
+ * entitlement and metering. Free and BYOL products for Amazon ECS or Amazon EKS aren't required to call `RegisterUsage`, but you may choose to
+ * do so if you would like to receive usage data in your seller reports. The sections below
+ * explain the behavior of `RegisterUsage`. `RegisterUsage` performs
+ * two primary functions: metering and entitlement.
+ *
+ * - *Entitlement*: `RegisterUsage` allows you to
+ * verify that the customer running your paid software is subscribed to your
+ * product on Amazon Web Services Marketplace, enabling you to guard against unauthorized use. Your container
+ * image that integrates with `RegisterUsage` is only required to guard
+ * against unauthorized use at container startup, as such a
+ * `CustomerNotSubscribedException` or
+ * `PlatformNotSupportedException` will only be thrown on the
+ * initial call to `RegisterUsage`. Subsequent calls from the same
+ * Amazon ECS task instance (e.g. task-id) or Amazon EKS pod
+ * will not throw a `CustomerNotSubscribedException`, even if the
+ * customer unsubscribes while the Amazon ECS task or Amazon EKS
+ * pod is still running.
+ *
+ * - *Metering*: `RegisterUsage` meters software use
+ * per ECS task, per hour, or per pod for Amazon EKS with usage prorated to
+ * the second. A minimum of 1 minute of usage applies to tasks that are short
+ * lived. For example, if a customer has a 10 node Amazon ECS or Amazon EKS cluster and a service configured as a Daemon Set, then Amazon ECS or Amazon EKS will launch a task on all 10 cluster nodes
+ * and the customer will be charged for 10 tasks. Software metering
+ * is handled by the Amazon Web Services Marketplace metering control plane—your software is
+ * not required to perform metering-specific actions other than to call
+ * `RegisterUsage` to commence metering.
+ * The Amazon Web Services Marketplace metering control plane will also bill customers for
+ * running ECS tasks and Amazon EKS pods, regardless of the customer's
+ * subscription state, which removes the need for your software to run entitlement
+ * checks at runtime. For containers, `RegisterUsage` should be called
+ * immediately at launch. If you don’t register the container within the first 6 hours
+ * of the launch, Amazon Web Services Marketplace Metering Service doesn’t provide any metering
+ * guarantees for previous months. Metering will continue, however, for the
+ * current month forward until the container ends. `RegisterUsage` is
+ * for metering paid hourly container products.
+ *
+ * For Amazon Web Services Regions that support `RegisterUsage`, see RegisterUsage Region support.
+ */
+export const registerUsage: (
+  input: RegisterUsageRequest,
+) => effect.Effect<
+  RegisterUsageResult,
+  | CustomerNotEntitledException
+  | DisabledApiException
+  | InternalServiceErrorException
+  | InvalidProductCodeException
+  | InvalidPublicKeyVersionException
+  | InvalidRegionException
+  | PlatformNotSupportedException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RegisterUsageRequest,
+  output: RegisterUsageResult,
+  errors: [
+    CustomerNotEntitledException,
+    DisabledApiException,
+    InternalServiceErrorException,
+    InvalidProductCodeException,
+    InvalidPublicKeyVersionException,
+    InvalidRegionException,
+    PlatformNotSupportedException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * `ResolveCustomer` is called by a SaaS application during the registration
+ * process. When a buyer visits your website during the registration process, the buyer
+ * submits a registration token through their browser. The registration token is resolved
+ * through this API to obtain a `CustomerIdentifier` along with the
+ * `CustomerAWSAccountId` and `ProductCode`.
+ *
+ * To successfully resolve the token, the API must be called from the account that was used to publish the SaaS
+ * application. For an example of using `ResolveCustomer`, see ResolveCustomer code example in the Amazon Web Services Marketplace Seller
+ * Guide.
+ *
+ * Permission is required for this operation. Your IAM role or user performing this
+ * operation requires a policy to allow the `aws-marketplace:ResolveCustomer`
+ * action. For more information, see Actions, resources, and condition keys for Amazon Web Services Marketplace Metering Service in
+ * the *Service Authorization Reference*.
+ *
+ * For Amazon Web Services Regions that support `ResolveCustomer`, see ResolveCustomer Region support.
+ */
+export const resolveCustomer: (
+  input: ResolveCustomerRequest,
+) => effect.Effect<
+  ResolveCustomerResult,
+  | DisabledApiException
+  | ExpiredTokenException
+  | InternalServiceErrorException
+  | InvalidTokenException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ResolveCustomerRequest,
+  output: ResolveCustomerResult,
+  errors: [
+    DisabledApiException,
+    ExpiredTokenException,
+    InternalServiceErrorException,
+    InvalidTokenException,
+    ThrottlingException,
   ],
 }));

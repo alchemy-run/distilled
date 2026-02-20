@@ -1,4 +1,4 @@
-import { HttpClient } from "@effect/platform";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as effect from "effect/Effect";
 import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
@@ -108,479 +108,40 @@ const rules = T.EndpointResolver((p, _) => {
 export type IdentityPoolName = string;
 export type IdentityPoolUnauthenticated = boolean;
 export type ClassicFlow = boolean;
+export type IdentityProviderName = string;
+export type IdentityProviderId = string;
 export type DeveloperProviderName = string;
 export type ARNString = string;
-export type IdentityId = string;
+export type CognitoIdentityProviderName = string;
+export type CognitoIdentityProviderClientId = string;
+export type CognitoIdentityProviderTokenCheck = boolean;
+export type TagKeysType = string;
+export type TagValueType = string;
 export type IdentityPoolId = string;
+export type IdentityId = string;
+export type IdentityProviderToken = string | redacted.Redacted<string>;
+export type AccessKeyString = string;
+export type SecretKeyString = string | redacted.Redacted<string>;
+export type SessionTokenString = string;
 export type AccountId = string;
+export type RoleType = string;
+export type ClaimName = string;
+export type ClaimValue = string;
+export type OIDCToken = string | redacted.Redacted<string>;
+export type PrincipalTagID = string;
+export type PrincipalTagValue = string;
 export type TokenDuration = number;
-export type IdentityProviderName = string;
+export type UseDefaults = boolean;
 export type QueryLimit = number;
 export type PaginationKey = string;
 export type HideDisabled = boolean;
 export type DeveloperUserIdentifier = string;
-export type UseDefaults = boolean;
-export type TagKeysType = string;
-export type IdentityProviderId = string;
-export type CognitoIdentityProviderName = string;
-export type CognitoIdentityProviderClientId = string;
-export type CognitoIdentityProviderTokenCheck = boolean;
-export type TagValueType = string;
-export type IdentityProviderToken = string | redacted.Redacted<string>;
-export type PrincipalTagID = string;
-export type PrincipalTagValue = string;
-export type RoleType = string;
-export type OIDCToken = string | redacted.Redacted<string>;
-export type ClaimName = string;
-export type ClaimValue = string;
-export type AccessKeyString = string;
-export type SecretKeyString = string | redacted.Redacted<string>;
-export type SessionTokenString = string;
 
 //# Schemas
+export type IdentityProviders = { [key: string]: string | undefined };
+export const IdentityProviders = S.Record(S.String, S.String.pipe(S.optional));
 export type OIDCProviderList = string[];
 export const OIDCProviderList = S.Array(S.String);
-export type SAMLProviderList = string[];
-export const SAMLProviderList = S.Array(S.String);
-export type IdentityIdList = string[];
-export const IdentityIdList = S.Array(S.String);
-export type LoginsList = string[];
-export const LoginsList = S.Array(S.String);
-export type IdentityPoolTagsListType = string[];
-export const IdentityPoolTagsListType = S.Array(S.String);
-export interface DeleteIdentitiesInput {
-  IdentityIdsToDelete: string[];
-}
-export const DeleteIdentitiesInput = S.suspend(() =>
-  S.Struct({ IdentityIdsToDelete: IdentityIdList }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DeleteIdentitiesInput",
-}) as any as S.Schema<DeleteIdentitiesInput>;
-export interface DeleteIdentityPoolInput {
-  IdentityPoolId: string;
-}
-export const DeleteIdentityPoolInput = S.suspend(() =>
-  S.Struct({ IdentityPoolId: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DeleteIdentityPoolInput",
-}) as any as S.Schema<DeleteIdentityPoolInput>;
-export interface DeleteIdentityPoolResponse {}
-export const DeleteIdentityPoolResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotations({
-  identifier: "DeleteIdentityPoolResponse",
-}) as any as S.Schema<DeleteIdentityPoolResponse>;
-export interface DescribeIdentityInput {
-  IdentityId: string;
-}
-export const DescribeIdentityInput = S.suspend(() =>
-  S.Struct({ IdentityId: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DescribeIdentityInput",
-}) as any as S.Schema<DescribeIdentityInput>;
-export interface DescribeIdentityPoolInput {
-  IdentityPoolId: string;
-}
-export const DescribeIdentityPoolInput = S.suspend(() =>
-  S.Struct({ IdentityPoolId: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DescribeIdentityPoolInput",
-}) as any as S.Schema<DescribeIdentityPoolInput>;
-export type LoginsMap = {
-  [key: string]: string | redacted.Redacted<string> | undefined;
-};
-export const LoginsMap = S.Record({
-  key: S.String,
-  value: S.UndefinedOr(SensitiveString),
-});
-export interface GetIdInput {
-  AccountId?: string;
-  IdentityPoolId: string;
-  Logins?: { [key: string]: string | redacted.Redacted<string> | undefined };
-}
-export const GetIdInput = S.suspend(() =>
-  S.Struct({
-    AccountId: S.optional(S.String),
-    IdentityPoolId: S.String,
-    Logins: S.optional(LoginsMap),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({ identifier: "GetIdInput" }) as any as S.Schema<GetIdInput>;
-export interface GetIdentityPoolRolesInput {
-  IdentityPoolId: string;
-}
-export const GetIdentityPoolRolesInput = S.suspend(() =>
-  S.Struct({ IdentityPoolId: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "GetIdentityPoolRolesInput",
-}) as any as S.Schema<GetIdentityPoolRolesInput>;
-export interface GetOpenIdTokenInput {
-  IdentityId: string;
-  Logins?: { [key: string]: string | redacted.Redacted<string> | undefined };
-}
-export const GetOpenIdTokenInput = S.suspend(() =>
-  S.Struct({ IdentityId: S.String, Logins: S.optional(LoginsMap) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "GetOpenIdTokenInput",
-}) as any as S.Schema<GetOpenIdTokenInput>;
-export interface GetPrincipalTagAttributeMapInput {
-  IdentityPoolId: string;
-  IdentityProviderName: string;
-}
-export const GetPrincipalTagAttributeMapInput = S.suspend(() =>
-  S.Struct({ IdentityPoolId: S.String, IdentityProviderName: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "GetPrincipalTagAttributeMapInput",
-}) as any as S.Schema<GetPrincipalTagAttributeMapInput>;
-export interface ListIdentitiesInput {
-  IdentityPoolId: string;
-  MaxResults: number;
-  NextToken?: string;
-  HideDisabled?: boolean;
-}
-export const ListIdentitiesInput = S.suspend(() =>
-  S.Struct({
-    IdentityPoolId: S.String,
-    MaxResults: S.Number,
-    NextToken: S.optional(S.String),
-    HideDisabled: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListIdentitiesInput",
-}) as any as S.Schema<ListIdentitiesInput>;
-export interface ListIdentityPoolsInput {
-  MaxResults: number;
-  NextToken?: string;
-}
-export const ListIdentityPoolsInput = S.suspend(() =>
-  S.Struct({ MaxResults: S.Number, NextToken: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListIdentityPoolsInput",
-}) as any as S.Schema<ListIdentityPoolsInput>;
-export interface ListTagsForResourceInput {
-  ResourceArn: string;
-}
-export const ListTagsForResourceInput = S.suspend(() =>
-  S.Struct({ ResourceArn: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListTagsForResourceInput",
-}) as any as S.Schema<ListTagsForResourceInput>;
-export interface LookupDeveloperIdentityInput {
-  IdentityPoolId: string;
-  IdentityId?: string;
-  DeveloperUserIdentifier?: string;
-  MaxResults?: number;
-  NextToken?: string;
-}
-export const LookupDeveloperIdentityInput = S.suspend(() =>
-  S.Struct({
-    IdentityPoolId: S.String,
-    IdentityId: S.optional(S.String),
-    DeveloperUserIdentifier: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "LookupDeveloperIdentityInput",
-}) as any as S.Schema<LookupDeveloperIdentityInput>;
-export interface MergeDeveloperIdentitiesInput {
-  SourceUserIdentifier: string;
-  DestinationUserIdentifier: string;
-  DeveloperProviderName: string;
-  IdentityPoolId: string;
-}
-export const MergeDeveloperIdentitiesInput = S.suspend(() =>
-  S.Struct({
-    SourceUserIdentifier: S.String,
-    DestinationUserIdentifier: S.String,
-    DeveloperProviderName: S.String,
-    IdentityPoolId: S.String,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "MergeDeveloperIdentitiesInput",
-}) as any as S.Schema<MergeDeveloperIdentitiesInput>;
-export type PrincipalTags = { [key: string]: string | undefined };
-export const PrincipalTags = S.Record({
-  key: S.String,
-  value: S.UndefinedOr(S.String),
-});
-export interface SetPrincipalTagAttributeMapInput {
-  IdentityPoolId: string;
-  IdentityProviderName: string;
-  UseDefaults?: boolean;
-  PrincipalTags?: { [key: string]: string | undefined };
-}
-export const SetPrincipalTagAttributeMapInput = S.suspend(() =>
-  S.Struct({
-    IdentityPoolId: S.String,
-    IdentityProviderName: S.String,
-    UseDefaults: S.optional(S.Boolean),
-    PrincipalTags: S.optional(PrincipalTags),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "SetPrincipalTagAttributeMapInput",
-}) as any as S.Schema<SetPrincipalTagAttributeMapInput>;
-export type IdentityPoolTagsType = { [key: string]: string | undefined };
-export const IdentityPoolTagsType = S.Record({
-  key: S.String,
-  value: S.UndefinedOr(S.String),
-});
-export interface TagResourceInput {
-  ResourceArn: string;
-  Tags: { [key: string]: string | undefined };
-}
-export const TagResourceInput = S.suspend(() =>
-  S.Struct({ ResourceArn: S.String, Tags: IdentityPoolTagsType }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "TagResourceInput",
-}) as any as S.Schema<TagResourceInput>;
-export interface TagResourceResponse {}
-export const TagResourceResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotations({
-  identifier: "TagResourceResponse",
-}) as any as S.Schema<TagResourceResponse>;
-export interface UnlinkDeveloperIdentityInput {
-  IdentityId: string;
-  IdentityPoolId: string;
-  DeveloperProviderName: string;
-  DeveloperUserIdentifier: string;
-}
-export const UnlinkDeveloperIdentityInput = S.suspend(() =>
-  S.Struct({
-    IdentityId: S.String,
-    IdentityPoolId: S.String,
-    DeveloperProviderName: S.String,
-    DeveloperUserIdentifier: S.String,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "UnlinkDeveloperIdentityInput",
-}) as any as S.Schema<UnlinkDeveloperIdentityInput>;
-export interface UnlinkDeveloperIdentityResponse {}
-export const UnlinkDeveloperIdentityResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotations({
-  identifier: "UnlinkDeveloperIdentityResponse",
-}) as any as S.Schema<UnlinkDeveloperIdentityResponse>;
-export interface UnlinkIdentityInput {
-  IdentityId: string;
-  Logins: { [key: string]: string | redacted.Redacted<string> | undefined };
-  LoginsToRemove: string[];
-}
-export const UnlinkIdentityInput = S.suspend(() =>
-  S.Struct({
-    IdentityId: S.String,
-    Logins: LoginsMap,
-    LoginsToRemove: LoginsList,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "UnlinkIdentityInput",
-}) as any as S.Schema<UnlinkIdentityInput>;
-export interface UnlinkIdentityResponse {}
-export const UnlinkIdentityResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotations({
-  identifier: "UnlinkIdentityResponse",
-}) as any as S.Schema<UnlinkIdentityResponse>;
-export interface UntagResourceInput {
-  ResourceArn: string;
-  TagKeys: string[];
-}
-export const UntagResourceInput = S.suspend(() =>
-  S.Struct({ ResourceArn: S.String, TagKeys: IdentityPoolTagsListType }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "UntagResourceInput",
-}) as any as S.Schema<UntagResourceInput>;
-export interface UntagResourceResponse {}
-export const UntagResourceResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotations({
-  identifier: "UntagResourceResponse",
-}) as any as S.Schema<UntagResourceResponse>;
-export type IdentityProviders = { [key: string]: string | undefined };
-export const IdentityProviders = S.Record({
-  key: S.String,
-  value: S.UndefinedOr(S.String),
-});
 export interface CognitoIdentityProvider {
   ProviderName?: string;
   ClientId?: string;
@@ -592,11 +153,54 @@ export const CognitoIdentityProvider = S.suspend(() =>
     ClientId: S.optional(S.String),
     ServerSideTokenCheck: S.optional(S.Boolean),
   }),
-).annotations({
+).annotate({
   identifier: "CognitoIdentityProvider",
 }) as any as S.Schema<CognitoIdentityProvider>;
 export type CognitoIdentityProviderList = CognitoIdentityProvider[];
 export const CognitoIdentityProviderList = S.Array(CognitoIdentityProvider);
+export type SAMLProviderList = string[];
+export const SAMLProviderList = S.Array(S.String);
+export type IdentityPoolTagsType = { [key: string]: string | undefined };
+export const IdentityPoolTagsType = S.Record(
+  S.String,
+  S.String.pipe(S.optional),
+);
+export interface CreateIdentityPoolInput {
+  IdentityPoolName: string;
+  AllowUnauthenticatedIdentities: boolean;
+  AllowClassicFlow?: boolean;
+  SupportedLoginProviders?: { [key: string]: string | undefined };
+  DeveloperProviderName?: string;
+  OpenIdConnectProviderARNs?: string[];
+  CognitoIdentityProviders?: CognitoIdentityProvider[];
+  SamlProviderARNs?: string[];
+  IdentityPoolTags?: { [key: string]: string | undefined };
+}
+export const CreateIdentityPoolInput = S.suspend(() =>
+  S.Struct({
+    IdentityPoolName: S.String,
+    AllowUnauthenticatedIdentities: S.Boolean,
+    AllowClassicFlow: S.optional(S.Boolean),
+    SupportedLoginProviders: S.optional(IdentityProviders),
+    DeveloperProviderName: S.optional(S.String),
+    OpenIdConnectProviderARNs: S.optional(OIDCProviderList),
+    CognitoIdentityProviders: S.optional(CognitoIdentityProviderList),
+    SamlProviderARNs: S.optional(SAMLProviderList),
+    IdentityPoolTags: S.optional(IdentityPoolTagsType),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "CreateIdentityPoolInput",
+}) as any as S.Schema<CreateIdentityPoolInput>;
 export interface IdentityPool {
   IdentityPoolId: string;
   IdentityPoolName: string;
@@ -632,7 +236,97 @@ export const IdentityPool = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({ identifier: "IdentityPool" }) as any as S.Schema<IdentityPool>;
+).annotate({ identifier: "IdentityPool" }) as any as S.Schema<IdentityPool>;
+export type IdentityIdList = string[];
+export const IdentityIdList = S.Array(S.String);
+export interface DeleteIdentitiesInput {
+  IdentityIdsToDelete: string[];
+}
+export const DeleteIdentitiesInput = S.suspend(() =>
+  S.Struct({ IdentityIdsToDelete: IdentityIdList }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeleteIdentitiesInput",
+}) as any as S.Schema<DeleteIdentitiesInput>;
+export type ErrorCode = "AccessDenied" | "InternalServerError" | (string & {});
+export const ErrorCode = S.String;
+export interface UnprocessedIdentityId {
+  IdentityId?: string;
+  ErrorCode?: ErrorCode;
+}
+export const UnprocessedIdentityId = S.suspend(() =>
+  S.Struct({
+    IdentityId: S.optional(S.String),
+    ErrorCode: S.optional(ErrorCode),
+  }),
+).annotate({
+  identifier: "UnprocessedIdentityId",
+}) as any as S.Schema<UnprocessedIdentityId>;
+export type UnprocessedIdentityIdList = UnprocessedIdentityId[];
+export const UnprocessedIdentityIdList = S.Array(UnprocessedIdentityId);
+export interface DeleteIdentitiesResponse {
+  UnprocessedIdentityIds?: UnprocessedIdentityId[];
+}
+export const DeleteIdentitiesResponse = S.suspend(() =>
+  S.Struct({
+    UnprocessedIdentityIds: S.optional(UnprocessedIdentityIdList),
+  }).pipe(ns),
+).annotate({
+  identifier: "DeleteIdentitiesResponse",
+}) as any as S.Schema<DeleteIdentitiesResponse>;
+export interface DeleteIdentityPoolInput {
+  IdentityPoolId: string;
+}
+export const DeleteIdentityPoolInput = S.suspend(() =>
+  S.Struct({ IdentityPoolId: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeleteIdentityPoolInput",
+}) as any as S.Schema<DeleteIdentityPoolInput>;
+export interface DeleteIdentityPoolResponse {}
+export const DeleteIdentityPoolResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "DeleteIdentityPoolResponse",
+}) as any as S.Schema<DeleteIdentityPoolResponse>;
+export interface DescribeIdentityInput {
+  IdentityId: string;
+}
+export const DescribeIdentityInput = S.suspend(() =>
+  S.Struct({ IdentityId: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DescribeIdentityInput",
+}) as any as S.Schema<DescribeIdentityInput>;
+export type LoginsList = string[];
+export const LoginsList = S.Array(S.String);
 export interface IdentityDescription {
   IdentityId?: string;
   Logins?: string[];
@@ -648,48 +342,14 @@ export const IdentityDescription = S.suspend(() =>
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
   }).pipe(ns),
-).annotations({
+).annotate({
   identifier: "IdentityDescription",
 }) as any as S.Schema<IdentityDescription>;
-export type IdentitiesList = IdentityDescription[];
-export const IdentitiesList = S.Array(IdentityDescription);
-export type DeveloperUserIdentifierList = string[];
-export const DeveloperUserIdentifierList = S.Array(S.String);
-export type RolesMap = { [key: string]: string | undefined };
-export const RolesMap = S.Record({
-  key: S.String,
-  value: S.UndefinedOr(S.String),
-});
-export type RoleMappingType = "Token" | "Rules" | (string & {});
-export const RoleMappingType = S.String;
-export type AmbiguousRoleResolutionType =
-  | "AuthenticatedRole"
-  | "Deny"
-  | (string & {});
-export const AmbiguousRoleResolutionType = S.String;
-export interface CreateIdentityPoolInput {
-  IdentityPoolName: string;
-  AllowUnauthenticatedIdentities: boolean;
-  AllowClassicFlow?: boolean;
-  SupportedLoginProviders?: { [key: string]: string | undefined };
-  DeveloperProviderName?: string;
-  OpenIdConnectProviderARNs?: string[];
-  CognitoIdentityProviders?: CognitoIdentityProvider[];
-  SamlProviderARNs?: string[];
-  IdentityPoolTags?: { [key: string]: string | undefined };
+export interface DescribeIdentityPoolInput {
+  IdentityPoolId: string;
 }
-export const CreateIdentityPoolInput = S.suspend(() =>
-  S.Struct({
-    IdentityPoolName: S.String,
-    AllowUnauthenticatedIdentities: S.Boolean,
-    AllowClassicFlow: S.optional(S.Boolean),
-    SupportedLoginProviders: S.optional(IdentityProviders),
-    DeveloperProviderName: S.optional(S.String),
-    OpenIdConnectProviderARNs: S.optional(OIDCProviderList),
-    CognitoIdentityProviders: S.optional(CognitoIdentityProviderList),
-    SamlProviderARNs: S.optional(SAMLProviderList),
-    IdentityPoolTags: S.optional(IdentityPoolTagsType),
-  }).pipe(
+export const DescribeIdentityPoolInput = S.suspend(() =>
+  S.Struct({ IdentityPoolId: S.String }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -700,9 +360,13 @@ export const CreateIdentityPoolInput = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
-  identifier: "CreateIdentityPoolInput",
-}) as any as S.Schema<CreateIdentityPoolInput>;
+).annotate({
+  identifier: "DescribeIdentityPoolInput",
+}) as any as S.Schema<DescribeIdentityPoolInput>;
+export type LoginsMap = {
+  [key: string]: string | redacted.Redacted<string> | undefined;
+};
+export const LoginsMap = S.Record(S.String, SensitiveString.pipe(S.optional));
 export interface GetCredentialsForIdentityInput {
   IdentityId: string;
   Logins?: { [key: string]: string | redacted.Redacted<string> | undefined };
@@ -724,17 +388,90 @@ export const GetCredentialsForIdentityInput = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "GetCredentialsForIdentityInput",
 }) as any as S.Schema<GetCredentialsForIdentityInput>;
+export interface Credentials {
+  AccessKeyId?: string;
+  SecretKey?: string | redacted.Redacted<string>;
+  SessionToken?: string;
+  Expiration?: Date;
+}
+export const Credentials = S.suspend(() =>
+  S.Struct({
+    AccessKeyId: S.optional(S.String),
+    SecretKey: S.optional(SensitiveString),
+    SessionToken: S.optional(S.String),
+    Expiration: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotate({ identifier: "Credentials" }) as any as S.Schema<Credentials>;
+export interface GetCredentialsForIdentityResponse {
+  IdentityId?: string;
+  Credentials?: Credentials;
+}
+export const GetCredentialsForIdentityResponse = S.suspend(() =>
+  S.Struct({
+    IdentityId: S.optional(S.String),
+    Credentials: S.optional(Credentials),
+  }).pipe(ns),
+).annotate({
+  identifier: "GetCredentialsForIdentityResponse",
+}) as any as S.Schema<GetCredentialsForIdentityResponse>;
+export interface GetIdInput {
+  AccountId?: string;
+  IdentityPoolId: string;
+  Logins?: { [key: string]: string | redacted.Redacted<string> | undefined };
+}
+export const GetIdInput = S.suspend(() =>
+  S.Struct({
+    AccountId: S.optional(S.String),
+    IdentityPoolId: S.String,
+    Logins: S.optional(LoginsMap),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({ identifier: "GetIdInput" }) as any as S.Schema<GetIdInput>;
 export interface GetIdResponse {
   IdentityId?: string;
 }
 export const GetIdResponse = S.suspend(() =>
   S.Struct({ IdentityId: S.optional(S.String) }).pipe(ns),
-).annotations({
-  identifier: "GetIdResponse",
-}) as any as S.Schema<GetIdResponse>;
+).annotate({ identifier: "GetIdResponse" }) as any as S.Schema<GetIdResponse>;
+export interface GetIdentityPoolRolesInput {
+  IdentityPoolId: string;
+}
+export const GetIdentityPoolRolesInput = S.suspend(() =>
+  S.Struct({ IdentityPoolId: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetIdentityPoolRolesInput",
+}) as any as S.Schema<GetIdentityPoolRolesInput>;
+export type RolesMap = { [key: string]: string | undefined };
+export const RolesMap = S.Record(S.String, S.String.pipe(S.optional));
+export type RoleMappingType = "Token" | "Rules" | (string & {});
+export const RoleMappingType = S.String;
+export type AmbiguousRoleResolutionType =
+  | "AuthenticatedRole"
+  | "Deny"
+  | (string & {});
+export const AmbiguousRoleResolutionType = S.String;
 export type MappingRuleMatchType =
   | "Equals"
   | "Contains"
@@ -755,7 +492,7 @@ export const MappingRule = S.suspend(() =>
     Value: S.String,
     RoleARN: S.String,
   }),
-).annotations({ identifier: "MappingRule" }) as any as S.Schema<MappingRule>;
+).annotate({ identifier: "MappingRule" }) as any as S.Schema<MappingRule>;
 export type MappingRulesList = MappingRule[];
 export const MappingRulesList = S.Array(MappingRule);
 export interface RulesConfigurationType {
@@ -763,7 +500,7 @@ export interface RulesConfigurationType {
 }
 export const RulesConfigurationType = S.suspend(() =>
   S.Struct({ Rules: MappingRulesList }),
-).annotations({
+).annotate({
   identifier: "RulesConfigurationType",
 }) as any as S.Schema<RulesConfigurationType>;
 export interface RoleMapping {
@@ -777,12 +514,9 @@ export const RoleMapping = S.suspend(() =>
     AmbiguousRoleResolution: S.optional(AmbiguousRoleResolutionType),
     RulesConfiguration: S.optional(RulesConfigurationType),
   }),
-).annotations({ identifier: "RoleMapping" }) as any as S.Schema<RoleMapping>;
+).annotate({ identifier: "RoleMapping" }) as any as S.Schema<RoleMapping>;
 export type RoleMappingMap = { [key: string]: RoleMapping | undefined };
-export const RoleMappingMap = S.Record({
-  key: S.String,
-  value: S.UndefinedOr(RoleMapping),
-});
+export const RoleMappingMap = S.Record(S.String, RoleMapping.pipe(S.optional));
 export interface GetIdentityPoolRolesResponse {
   IdentityPoolId?: string;
   Roles?: { [key: string]: string | undefined };
@@ -794,9 +528,28 @@ export const GetIdentityPoolRolesResponse = S.suspend(() =>
     Roles: S.optional(RolesMap),
     RoleMappings: S.optional(RoleMappingMap),
   }).pipe(ns),
-).annotations({
+).annotate({
   identifier: "GetIdentityPoolRolesResponse",
 }) as any as S.Schema<GetIdentityPoolRolesResponse>;
+export interface GetOpenIdTokenInput {
+  IdentityId: string;
+  Logins?: { [key: string]: string | redacted.Redacted<string> | undefined };
+}
+export const GetOpenIdTokenInput = S.suspend(() =>
+  S.Struct({ IdentityId: S.String, Logins: S.optional(LoginsMap) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetOpenIdTokenInput",
+}) as any as S.Schema<GetOpenIdTokenInput>;
 export interface GetOpenIdTokenResponse {
   IdentityId?: string;
   Token?: string | redacted.Redacted<string>;
@@ -806,9 +559,11 @@ export const GetOpenIdTokenResponse = S.suspend(() =>
     IdentityId: S.optional(S.String),
     Token: S.optional(SensitiveString),
   }).pipe(ns),
-).annotations({
+).annotate({
   identifier: "GetOpenIdTokenResponse",
 }) as any as S.Schema<GetOpenIdTokenResponse>;
+export type PrincipalTags = { [key: string]: string | undefined };
+export const PrincipalTags = S.Record(S.String, S.String.pipe(S.optional));
 export interface GetOpenIdTokenForDeveloperIdentityInput {
   IdentityPoolId: string;
   IdentityId?: string;
@@ -834,9 +589,40 @@ export const GetOpenIdTokenForDeveloperIdentityInput = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "GetOpenIdTokenForDeveloperIdentityInput",
 }) as any as S.Schema<GetOpenIdTokenForDeveloperIdentityInput>;
+export interface GetOpenIdTokenForDeveloperIdentityResponse {
+  IdentityId?: string;
+  Token?: string | redacted.Redacted<string>;
+}
+export const GetOpenIdTokenForDeveloperIdentityResponse = S.suspend(() =>
+  S.Struct({
+    IdentityId: S.optional(S.String),
+    Token: S.optional(SensitiveString),
+  }).pipe(ns),
+).annotate({
+  identifier: "GetOpenIdTokenForDeveloperIdentityResponse",
+}) as any as S.Schema<GetOpenIdTokenForDeveloperIdentityResponse>;
+export interface GetPrincipalTagAttributeMapInput {
+  IdentityPoolId: string;
+  IdentityProviderName: string;
+}
+export const GetPrincipalTagAttributeMapInput = S.suspend(() =>
+  S.Struct({ IdentityPoolId: S.String, IdentityProviderName: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetPrincipalTagAttributeMapInput",
+}) as any as S.Schema<GetPrincipalTagAttributeMapInput>;
 export interface GetPrincipalTagAttributeMapResponse {
   IdentityPoolId?: string;
   IdentityProviderName?: string;
@@ -850,9 +636,37 @@ export const GetPrincipalTagAttributeMapResponse = S.suspend(() =>
     UseDefaults: S.optional(S.Boolean),
     PrincipalTags: S.optional(PrincipalTags),
   }).pipe(ns),
-).annotations({
+).annotate({
   identifier: "GetPrincipalTagAttributeMapResponse",
 }) as any as S.Schema<GetPrincipalTagAttributeMapResponse>;
+export interface ListIdentitiesInput {
+  IdentityPoolId: string;
+  MaxResults: number;
+  NextToken?: string;
+  HideDisabled?: boolean;
+}
+export const ListIdentitiesInput = S.suspend(() =>
+  S.Struct({
+    IdentityPoolId: S.String,
+    MaxResults: S.Number,
+    NextToken: S.optional(S.String),
+    HideDisabled: S.optional(S.Boolean),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListIdentitiesInput",
+}) as any as S.Schema<ListIdentitiesInput>;
+export type IdentitiesList = IdentityDescription[];
+export const IdentitiesList = S.Array(IdentityDescription);
 export interface ListIdentitiesResponse {
   IdentityPoolId?: string;
   Identities?: IdentityDescription[];
@@ -864,17 +678,110 @@ export const ListIdentitiesResponse = S.suspend(() =>
     Identities: S.optional(IdentitiesList),
     NextToken: S.optional(S.String),
   }).pipe(ns),
-).annotations({
+).annotate({
   identifier: "ListIdentitiesResponse",
 }) as any as S.Schema<ListIdentitiesResponse>;
+export interface ListIdentityPoolsInput {
+  MaxResults: number;
+  NextToken?: string;
+}
+export const ListIdentityPoolsInput = S.suspend(() =>
+  S.Struct({ MaxResults: S.Number, NextToken: S.optional(S.String) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListIdentityPoolsInput",
+}) as any as S.Schema<ListIdentityPoolsInput>;
+export interface IdentityPoolShortDescription {
+  IdentityPoolId?: string;
+  IdentityPoolName?: string;
+}
+export const IdentityPoolShortDescription = S.suspend(() =>
+  S.Struct({
+    IdentityPoolId: S.optional(S.String),
+    IdentityPoolName: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "IdentityPoolShortDescription",
+}) as any as S.Schema<IdentityPoolShortDescription>;
+export type IdentityPoolsList = IdentityPoolShortDescription[];
+export const IdentityPoolsList = S.Array(IdentityPoolShortDescription);
+export interface ListIdentityPoolsResponse {
+  IdentityPools?: IdentityPoolShortDescription[];
+  NextToken?: string;
+}
+export const ListIdentityPoolsResponse = S.suspend(() =>
+  S.Struct({
+    IdentityPools: S.optional(IdentityPoolsList),
+    NextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotate({
+  identifier: "ListIdentityPoolsResponse",
+}) as any as S.Schema<ListIdentityPoolsResponse>;
+export interface ListTagsForResourceInput {
+  ResourceArn: string;
+}
+export const ListTagsForResourceInput = S.suspend(() =>
+  S.Struct({ ResourceArn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListTagsForResourceInput",
+}) as any as S.Schema<ListTagsForResourceInput>;
 export interface ListTagsForResourceResponse {
   Tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ Tags: S.optional(IdentityPoolTagsType) }).pipe(ns),
-).annotations({
+).annotate({
   identifier: "ListTagsForResourceResponse",
 }) as any as S.Schema<ListTagsForResourceResponse>;
+export interface LookupDeveloperIdentityInput {
+  IdentityPoolId: string;
+  IdentityId?: string;
+  DeveloperUserIdentifier?: string;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const LookupDeveloperIdentityInput = S.suspend(() =>
+  S.Struct({
+    IdentityPoolId: S.String,
+    IdentityId: S.optional(S.String),
+    DeveloperUserIdentifier: S.optional(S.String),
+    MaxResults: S.optional(S.Number),
+    NextToken: S.optional(S.String),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "LookupDeveloperIdentityInput",
+}) as any as S.Schema<LookupDeveloperIdentityInput>;
+export type DeveloperUserIdentifierList = string[];
+export const DeveloperUserIdentifierList = S.Array(S.String);
 export interface LookupDeveloperIdentityResponse {
   IdentityId?: string;
   DeveloperUserIdentifierList?: string[];
@@ -886,123 +793,43 @@ export const LookupDeveloperIdentityResponse = S.suspend(() =>
     DeveloperUserIdentifierList: S.optional(DeveloperUserIdentifierList),
     NextToken: S.optional(S.String),
   }).pipe(ns),
-).annotations({
+).annotate({
   identifier: "LookupDeveloperIdentityResponse",
 }) as any as S.Schema<LookupDeveloperIdentityResponse>;
+export interface MergeDeveloperIdentitiesInput {
+  SourceUserIdentifier: string;
+  DestinationUserIdentifier: string;
+  DeveloperProviderName: string;
+  IdentityPoolId: string;
+}
+export const MergeDeveloperIdentitiesInput = S.suspend(() =>
+  S.Struct({
+    SourceUserIdentifier: S.String,
+    DestinationUserIdentifier: S.String,
+    DeveloperProviderName: S.String,
+    IdentityPoolId: S.String,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "MergeDeveloperIdentitiesInput",
+}) as any as S.Schema<MergeDeveloperIdentitiesInput>;
 export interface MergeDeveloperIdentitiesResponse {
   IdentityId?: string;
 }
 export const MergeDeveloperIdentitiesResponse = S.suspend(() =>
   S.Struct({ IdentityId: S.optional(S.String) }).pipe(ns),
-).annotations({
+).annotate({
   identifier: "MergeDeveloperIdentitiesResponse",
 }) as any as S.Schema<MergeDeveloperIdentitiesResponse>;
-export interface SetPrincipalTagAttributeMapResponse {
-  IdentityPoolId?: string;
-  IdentityProviderName?: string;
-  UseDefaults?: boolean;
-  PrincipalTags?: { [key: string]: string | undefined };
-}
-export const SetPrincipalTagAttributeMapResponse = S.suspend(() =>
-  S.Struct({
-    IdentityPoolId: S.optional(S.String),
-    IdentityProviderName: S.optional(S.String),
-    UseDefaults: S.optional(S.Boolean),
-    PrincipalTags: S.optional(PrincipalTags),
-  }).pipe(ns),
-).annotations({
-  identifier: "SetPrincipalTagAttributeMapResponse",
-}) as any as S.Schema<SetPrincipalTagAttributeMapResponse>;
-export type ErrorCode = "AccessDenied" | "InternalServerError" | (string & {});
-export const ErrorCode = S.String;
-export interface UnprocessedIdentityId {
-  IdentityId?: string;
-  ErrorCode?: ErrorCode;
-}
-export const UnprocessedIdentityId = S.suspend(() =>
-  S.Struct({
-    IdentityId: S.optional(S.String),
-    ErrorCode: S.optional(ErrorCode),
-  }),
-).annotations({
-  identifier: "UnprocessedIdentityId",
-}) as any as S.Schema<UnprocessedIdentityId>;
-export type UnprocessedIdentityIdList = UnprocessedIdentityId[];
-export const UnprocessedIdentityIdList = S.Array(UnprocessedIdentityId);
-export interface IdentityPoolShortDescription {
-  IdentityPoolId?: string;
-  IdentityPoolName?: string;
-}
-export const IdentityPoolShortDescription = S.suspend(() =>
-  S.Struct({
-    IdentityPoolId: S.optional(S.String),
-    IdentityPoolName: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "IdentityPoolShortDescription",
-}) as any as S.Schema<IdentityPoolShortDescription>;
-export type IdentityPoolsList = IdentityPoolShortDescription[];
-export const IdentityPoolsList = S.Array(IdentityPoolShortDescription);
-export interface DeleteIdentitiesResponse {
-  UnprocessedIdentityIds?: UnprocessedIdentityId[];
-}
-export const DeleteIdentitiesResponse = S.suspend(() =>
-  S.Struct({
-    UnprocessedIdentityIds: S.optional(UnprocessedIdentityIdList),
-  }).pipe(ns),
-).annotations({
-  identifier: "DeleteIdentitiesResponse",
-}) as any as S.Schema<DeleteIdentitiesResponse>;
-export interface GetOpenIdTokenForDeveloperIdentityResponse {
-  IdentityId?: string;
-  Token?: string | redacted.Redacted<string>;
-}
-export const GetOpenIdTokenForDeveloperIdentityResponse = S.suspend(() =>
-  S.Struct({
-    IdentityId: S.optional(S.String),
-    Token: S.optional(SensitiveString),
-  }).pipe(ns),
-).annotations({
-  identifier: "GetOpenIdTokenForDeveloperIdentityResponse",
-}) as any as S.Schema<GetOpenIdTokenForDeveloperIdentityResponse>;
-export interface ListIdentityPoolsResponse {
-  IdentityPools?: IdentityPoolShortDescription[];
-  NextToken?: string;
-}
-export const ListIdentityPoolsResponse = S.suspend(() =>
-  S.Struct({
-    IdentityPools: S.optional(IdentityPoolsList),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotations({
-  identifier: "ListIdentityPoolsResponse",
-}) as any as S.Schema<ListIdentityPoolsResponse>;
-export interface Credentials {
-  AccessKeyId?: string;
-  SecretKey?: string | redacted.Redacted<string>;
-  SessionToken?: string;
-  Expiration?: Date;
-}
-export const Credentials = S.suspend(() =>
-  S.Struct({
-    AccessKeyId: S.optional(S.String),
-    SecretKey: S.optional(SensitiveString),
-    SessionToken: S.optional(S.String),
-    Expiration: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }),
-).annotations({ identifier: "Credentials" }) as any as S.Schema<Credentials>;
-export interface GetCredentialsForIdentityResponse {
-  IdentityId?: string;
-  Credentials?: Credentials;
-}
-export const GetCredentialsForIdentityResponse = S.suspend(() =>
-  S.Struct({
-    IdentityId: S.optional(S.String),
-    Credentials: S.optional(Credentials),
-  }).pipe(ns),
-).annotations({
-  identifier: "GetCredentialsForIdentityResponse",
-}) as any as S.Schema<GetCredentialsForIdentityResponse>;
 export interface SetIdentityPoolRolesInput {
   IdentityPoolId: string;
   Roles: { [key: string]: string | undefined };
@@ -1024,63 +851,265 @@ export const SetIdentityPoolRolesInput = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "SetIdentityPoolRolesInput",
 }) as any as S.Schema<SetIdentityPoolRolesInput>;
 export interface SetIdentityPoolRolesResponse {}
 export const SetIdentityPoolRolesResponse = S.suspend(() =>
   S.Struct({}).pipe(ns),
-).annotations({
+).annotate({
   identifier: "SetIdentityPoolRolesResponse",
 }) as any as S.Schema<SetIdentityPoolRolesResponse>;
+export interface SetPrincipalTagAttributeMapInput {
+  IdentityPoolId: string;
+  IdentityProviderName: string;
+  UseDefaults?: boolean;
+  PrincipalTags?: { [key: string]: string | undefined };
+}
+export const SetPrincipalTagAttributeMapInput = S.suspend(() =>
+  S.Struct({
+    IdentityPoolId: S.String,
+    IdentityProviderName: S.String,
+    UseDefaults: S.optional(S.Boolean),
+    PrincipalTags: S.optional(PrincipalTags),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "SetPrincipalTagAttributeMapInput",
+}) as any as S.Schema<SetPrincipalTagAttributeMapInput>;
+export interface SetPrincipalTagAttributeMapResponse {
+  IdentityPoolId?: string;
+  IdentityProviderName?: string;
+  UseDefaults?: boolean;
+  PrincipalTags?: { [key: string]: string | undefined };
+}
+export const SetPrincipalTagAttributeMapResponse = S.suspend(() =>
+  S.Struct({
+    IdentityPoolId: S.optional(S.String),
+    IdentityProviderName: S.optional(S.String),
+    UseDefaults: S.optional(S.Boolean),
+    PrincipalTags: S.optional(PrincipalTags),
+  }).pipe(ns),
+).annotate({
+  identifier: "SetPrincipalTagAttributeMapResponse",
+}) as any as S.Schema<SetPrincipalTagAttributeMapResponse>;
+export interface TagResourceInput {
+  ResourceArn: string;
+  Tags: { [key: string]: string | undefined };
+}
+export const TagResourceInput = S.suspend(() =>
+  S.Struct({ ResourceArn: S.String, Tags: IdentityPoolTagsType }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "TagResourceInput",
+}) as any as S.Schema<TagResourceInput>;
+export interface TagResourceResponse {}
+export const TagResourceResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "TagResourceResponse",
+}) as any as S.Schema<TagResourceResponse>;
+export interface UnlinkDeveloperIdentityInput {
+  IdentityId: string;
+  IdentityPoolId: string;
+  DeveloperProviderName: string;
+  DeveloperUserIdentifier: string;
+}
+export const UnlinkDeveloperIdentityInput = S.suspend(() =>
+  S.Struct({
+    IdentityId: S.String,
+    IdentityPoolId: S.String,
+    DeveloperProviderName: S.String,
+    DeveloperUserIdentifier: S.String,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "UnlinkDeveloperIdentityInput",
+}) as any as S.Schema<UnlinkDeveloperIdentityInput>;
+export interface UnlinkDeveloperIdentityResponse {}
+export const UnlinkDeveloperIdentityResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "UnlinkDeveloperIdentityResponse",
+}) as any as S.Schema<UnlinkDeveloperIdentityResponse>;
+export interface UnlinkIdentityInput {
+  IdentityId: string;
+  Logins: { [key: string]: string | redacted.Redacted<string> | undefined };
+  LoginsToRemove: string[];
+}
+export const UnlinkIdentityInput = S.suspend(() =>
+  S.Struct({
+    IdentityId: S.String,
+    Logins: LoginsMap,
+    LoginsToRemove: LoginsList,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "UnlinkIdentityInput",
+}) as any as S.Schema<UnlinkIdentityInput>;
+export interface UnlinkIdentityResponse {}
+export const UnlinkIdentityResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "UnlinkIdentityResponse",
+}) as any as S.Schema<UnlinkIdentityResponse>;
+export type IdentityPoolTagsListType = string[];
+export const IdentityPoolTagsListType = S.Array(S.String);
+export interface UntagResourceInput {
+  ResourceArn: string;
+  TagKeys: string[];
+}
+export const UntagResourceInput = S.suspend(() =>
+  S.Struct({ ResourceArn: S.String, TagKeys: IdentityPoolTagsListType }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "UntagResourceInput",
+}) as any as S.Schema<UntagResourceInput>;
+export interface UntagResourceResponse {}
+export const UntagResourceResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "UntagResourceResponse",
+}) as any as S.Schema<UntagResourceResponse>;
 
 //# Errors
-export class InternalErrorException extends S.TaggedError<InternalErrorException>()(
+export class InternalErrorException extends S.TaggedErrorClass<InternalErrorException>()(
   "InternalErrorException",
   { message: S.optional(S.String) },
 ).pipe(C.withServerError) {}
-export class ExternalServiceException extends S.TaggedError<ExternalServiceException>()(
-  "ExternalServiceException",
-  { message: S.optional(S.String) },
-).pipe(C.withBadRequestError) {}
-export class ConcurrentModificationException extends S.TaggedError<ConcurrentModificationException>()(
-  "ConcurrentModificationException",
-  { message: S.optional(S.String) },
-).pipe(C.withBadRequestError) {}
-export class InvalidParameterException extends S.TaggedError<InvalidParameterException>()(
+export class InvalidParameterException extends S.TaggedErrorClass<InvalidParameterException>()(
   "InvalidParameterException",
   { message: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
-export class NotAuthorizedException extends S.TaggedError<NotAuthorizedException>()(
-  "NotAuthorizedException",
-  { message: S.optional(S.String) },
-).pipe(C.withAuthError) {}
-export class DeveloperUserAlreadyRegisteredException extends S.TaggedError<DeveloperUserAlreadyRegisteredException>()(
-  "DeveloperUserAlreadyRegisteredException",
-  { message: S.optional(S.String) },
-).pipe(C.withBadRequestError) {}
-export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
+export class LimitExceededException extends S.TaggedErrorClass<LimitExceededException>()(
   "LimitExceededException",
   { message: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
-export class TooManyRequestsException extends S.TaggedError<TooManyRequestsException>()(
-  "TooManyRequestsException",
+export class NotAuthorizedException extends S.TaggedErrorClass<NotAuthorizedException>()(
+  "NotAuthorizedException",
   { message: S.optional(S.String) },
-).pipe(C.withThrottlingError) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
-  "ResourceNotFoundException",
-  { message: S.optional(S.String) },
-).pipe(C.withBadRequestError) {}
-export class InvalidIdentityPoolConfigurationException extends S.TaggedError<InvalidIdentityPoolConfigurationException>()(
-  "InvalidIdentityPoolConfigurationException",
-  { message: S.optional(S.String) },
-).pipe(C.withBadRequestError) {}
-export class ResourceConflictException extends S.TaggedError<ResourceConflictException>()(
+).pipe(C.withAuthError) {}
+export class ResourceConflictException extends S.TaggedErrorClass<ResourceConflictException>()(
   "ResourceConflictException",
   { message: S.optional(S.String) },
 ).pipe(C.withConflictError) {}
+export class TooManyRequestsException extends S.TaggedErrorClass<TooManyRequestsException>()(
+  "TooManyRequestsException",
+  { message: S.optional(S.String) },
+).pipe(C.withThrottlingError) {}
+export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFoundException>()(
+  "ResourceNotFoundException",
+  { message: S.optional(S.String) },
+).pipe(C.withBadRequestError) {}
+export class ExternalServiceException extends S.TaggedErrorClass<ExternalServiceException>()(
+  "ExternalServiceException",
+  { message: S.optional(S.String) },
+).pipe(C.withBadRequestError) {}
+export class InvalidIdentityPoolConfigurationException extends S.TaggedErrorClass<InvalidIdentityPoolConfigurationException>()(
+  "InvalidIdentityPoolConfigurationException",
+  { message: S.optional(S.String) },
+).pipe(C.withBadRequestError) {}
+export class DeveloperUserAlreadyRegisteredException extends S.TaggedErrorClass<DeveloperUserAlreadyRegisteredException>()(
+  "DeveloperUserAlreadyRegisteredException",
+  { message: S.optional(S.String) },
+).pipe(C.withBadRequestError) {}
+export class ConcurrentModificationException extends S.TaggedErrorClass<ConcurrentModificationException>()(
+  "ConcurrentModificationException",
+  { message: S.optional(S.String) },
+).pipe(C.withBadRequestError) {}
 
 //# Operations
+/**
+ * Creates a new identity pool. The identity pool is a store of user identity
+ * information that is specific to your Amazon Web Services account. The keys for
+ * `SupportedLoginProviders` are as follows:
+ *
+ * - Facebook: `graph.facebook.com`
+ *
+ * - Google: `accounts.google.com`
+ *
+ * - Sign in With Apple: `appleid.apple.com`
+ *
+ * - Amazon: `www.amazon.com`
+ *
+ * - Twitter: `api.twitter.com`
+ *
+ * - Digits: `www.digits.com`
+ *
+ * If you don't provide a value for a parameter, Amazon Cognito sets it to its default value.
+ *
+ * You must use Amazon Web Services developer credentials to call this
+ * operation.
+ */
+export const createIdentityPool: (
+  input: CreateIdentityPoolInput,
+) => effect.Effect<
+  IdentityPool,
+  | InternalErrorException
+  | InvalidParameterException
+  | LimitExceededException
+  | NotAuthorizedException
+  | ResourceConflictException
+  | TooManyRequestsException
+  | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateIdentityPoolInput,
+  output: IdentityPool,
+  errors: [
+    InternalErrorException,
+    InvalidParameterException,
+    LimitExceededException,
+    NotAuthorizedException,
+    ResourceConflictException,
+    TooManyRequestsException,
+  ],
+}));
 /**
  * Deletes identities from an identity pool. You can specify a list of 1-60 identities
  * that you want to delete.
@@ -1136,6 +1165,198 @@ export const deleteIdentityPool: (
   ],
 }));
 /**
+ * Returns metadata related to the given identity, including when the identity was
+ * created and any associated linked logins.
+ *
+ * You must use Amazon Web Services developer credentials to call this
+ * operation.
+ */
+export const describeIdentity: (
+  input: DescribeIdentityInput,
+) => effect.Effect<
+  IdentityDescription,
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeIdentityInput,
+  output: IdentityDescription,
+  errors: [
+    InternalErrorException,
+    InvalidParameterException,
+    NotAuthorizedException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Gets details about a particular identity pool, including the pool name, ID
+ * description, creation date, and current number of users.
+ *
+ * You must use Amazon Web Services developer credentials to call this
+ * operation.
+ */
+export const describeIdentityPool: (
+  input: DescribeIdentityPoolInput,
+) => effect.Effect<
+  IdentityPool,
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeIdentityPoolInput,
+  output: IdentityPool,
+  errors: [
+    InternalErrorException,
+    InvalidParameterException,
+    NotAuthorizedException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Returns credentials for the provided identity ID. Any provided logins will be
+ * validated against supported login providers. If the token is for
+ * `cognito-identity.amazonaws.com`, it will be passed through to Security Token Service with the appropriate role for the token.
+ *
+ * This is a public API. You do not need any credentials to call this API.
+ */
+export const getCredentialsForIdentity: (
+  input: GetCredentialsForIdentityInput,
+) => effect.Effect<
+  GetCredentialsForIdentityResponse,
+  | ExternalServiceException
+  | InternalErrorException
+  | InvalidIdentityPoolConfigurationException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceConflictException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetCredentialsForIdentityInput,
+  output: GetCredentialsForIdentityResponse,
+  errors: [
+    ExternalServiceException,
+    InternalErrorException,
+    InvalidIdentityPoolConfigurationException,
+    InvalidParameterException,
+    NotAuthorizedException,
+    ResourceConflictException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Generates (or retrieves) IdentityID. Supplying multiple logins will create an
+ * implicit linked account.
+ *
+ * This is a public API. You do not need any credentials to call this API.
+ */
+export const getId: (
+  input: GetIdInput,
+) => effect.Effect<
+  GetIdResponse,
+  | ExternalServiceException
+  | InternalErrorException
+  | InvalidParameterException
+  | LimitExceededException
+  | NotAuthorizedException
+  | ResourceConflictException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetIdInput,
+  output: GetIdResponse,
+  errors: [
+    ExternalServiceException,
+    InternalErrorException,
+    InvalidParameterException,
+    LimitExceededException,
+    NotAuthorizedException,
+    ResourceConflictException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Gets the roles for an identity pool.
+ *
+ * You must use Amazon Web Services developer credentials to call this
+ * operation.
+ */
+export const getIdentityPoolRoles: (
+  input: GetIdentityPoolRolesInput,
+) => effect.Effect<
+  GetIdentityPoolRolesResponse,
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceConflictException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetIdentityPoolRolesInput,
+  output: GetIdentityPoolRolesResponse,
+  errors: [
+    InternalErrorException,
+    InvalidParameterException,
+    NotAuthorizedException,
+    ResourceConflictException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Gets an OpenID token, using a known Cognito ID. This known Cognito ID is returned by
+ * GetId. You can optionally add additional logins for the identity.
+ * Supplying multiple logins creates an implicit link.
+ *
+ * The OpenID token is valid for 10 minutes.
+ *
+ * This is a public API. You do not need any credentials to call this API.
+ */
+export const getOpenIdToken: (
+  input: GetOpenIdTokenInput,
+) => effect.Effect<
+  GetOpenIdTokenResponse,
+  | ExternalServiceException
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceConflictException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetOpenIdTokenInput,
+  output: GetOpenIdTokenResponse,
+  errors: [
+    ExternalServiceException,
+    InternalErrorException,
+    InvalidParameterException,
+    NotAuthorizedException,
+    ResourceConflictException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+  ],
+}));
+/**
  * Registers (or retrieves) a Cognito `IdentityId` and an OpenID Connect
  * token for a user authenticated by your backend authentication process. Supplying multiple
  * logins will create an implicit linked account. You can only specify one developer provider
@@ -1180,33 +1401,55 @@ export const getOpenIdTokenForDeveloperIdentity: (
   ],
 }));
 /**
- * Sets the roles for an identity pool. These roles are used when making calls to GetCredentialsForIdentity action.
- *
- * You must use Amazon Web Services developer credentials to call this
- * operation.
+ * Use `GetPrincipalTagAttributeMap` to list all mappings between
+ * `PrincipalTags` and user attributes.
  */
-export const setIdentityPoolRoles: (
-  input: SetIdentityPoolRolesInput,
+export const getPrincipalTagAttributeMap: (
+  input: GetPrincipalTagAttributeMapInput,
 ) => effect.Effect<
-  SetIdentityPoolRolesResponse,
-  | ConcurrentModificationException
+  GetPrincipalTagAttributeMapResponse,
   | InternalErrorException
   | InvalidParameterException
   | NotAuthorizedException
-  | ResourceConflictException
   | ResourceNotFoundException
   | TooManyRequestsException
   | CommonErrors,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: SetIdentityPoolRolesInput,
-  output: SetIdentityPoolRolesResponse,
+  input: GetPrincipalTagAttributeMapInput,
+  output: GetPrincipalTagAttributeMapResponse,
   errors: [
-    ConcurrentModificationException,
     InternalErrorException,
     InvalidParameterException,
     NotAuthorizedException,
-    ResourceConflictException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Lists the identities in an identity pool.
+ *
+ * You must use Amazon Web Services developer credentials to call this
+ * operation.
+ */
+export const listIdentities: (
+  input: ListIdentitiesInput,
+) => effect.Effect<
+  ListIdentitiesResponse,
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListIdentitiesInput,
+  output: ListIdentitiesResponse,
+  errors: [
+    InternalErrorException,
+    InvalidParameterException,
+    NotAuthorizedException,
     ResourceNotFoundException,
     TooManyRequestsException,
   ],
@@ -1272,89 +1515,6 @@ export const listIdentityPools: {
   } as const,
 }));
 /**
- * Returns metadata related to the given identity, including when the identity was
- * created and any associated linked logins.
- *
- * You must use Amazon Web Services developer credentials to call this
- * operation.
- */
-export const describeIdentity: (
-  input: DescribeIdentityInput,
-) => effect.Effect<
-  IdentityDescription,
-  | InternalErrorException
-  | InvalidParameterException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
-  Creds | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeIdentityInput,
-  output: IdentityDescription,
-  errors: [
-    InternalErrorException,
-    InvalidParameterException,
-    NotAuthorizedException,
-    ResourceNotFoundException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Use `GetPrincipalTagAttributeMap` to list all mappings between
- * `PrincipalTags` and user attributes.
- */
-export const getPrincipalTagAttributeMap: (
-  input: GetPrincipalTagAttributeMapInput,
-) => effect.Effect<
-  GetPrincipalTagAttributeMapResponse,
-  | InternalErrorException
-  | InvalidParameterException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
-  Creds | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetPrincipalTagAttributeMapInput,
-  output: GetPrincipalTagAttributeMapResponse,
-  errors: [
-    InternalErrorException,
-    InvalidParameterException,
-    NotAuthorizedException,
-    ResourceNotFoundException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Lists the identities in an identity pool.
- *
- * You must use Amazon Web Services developer credentials to call this
- * operation.
- */
-export const listIdentities: (
-  input: ListIdentitiesInput,
-) => effect.Effect<
-  ListIdentitiesResponse,
-  | InternalErrorException
-  | InvalidParameterException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
-  Creds | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListIdentitiesInput,
-  output: ListIdentitiesResponse,
-  errors: [
-    InternalErrorException,
-    InvalidParameterException,
-    NotAuthorizedException,
-    ResourceNotFoundException,
-    TooManyRequestsException,
-  ],
-}));
-/**
  * Lists the tags that are assigned to an Amazon Cognito identity pool.
  *
  * A tag is a label that you can apply to identity pools to categorize and manage them in
@@ -1380,195 +1540,6 @@ export const listTagsForResource: (
     InternalErrorException,
     InvalidParameterException,
     NotAuthorizedException,
-    ResourceNotFoundException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * You can use this operation to use default (username and clientID) attribute or custom
- * attribute mappings.
- */
-export const setPrincipalTagAttributeMap: (
-  input: SetPrincipalTagAttributeMapInput,
-) => effect.Effect<
-  SetPrincipalTagAttributeMapResponse,
-  | InternalErrorException
-  | InvalidParameterException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
-  Creds | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: SetPrincipalTagAttributeMapInput,
-  output: SetPrincipalTagAttributeMapResponse,
-  errors: [
-    InternalErrorException,
-    InvalidParameterException,
-    NotAuthorizedException,
-    ResourceNotFoundException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Gets details about a particular identity pool, including the pool name, ID
- * description, creation date, and current number of users.
- *
- * You must use Amazon Web Services developer credentials to call this
- * operation.
- */
-export const describeIdentityPool: (
-  input: DescribeIdentityPoolInput,
-) => effect.Effect<
-  IdentityPool,
-  | InternalErrorException
-  | InvalidParameterException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
-  Creds | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeIdentityPoolInput,
-  output: IdentityPool,
-  errors: [
-    InternalErrorException,
-    InvalidParameterException,
-    NotAuthorizedException,
-    ResourceNotFoundException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Assigns a set of tags to the specified Amazon Cognito identity pool. A tag is a label
- * that you can use to categorize and manage identity pools in different ways, such as by
- * purpose, owner, environment, or other criteria.
- *
- * Each tag consists of a key and value, both of which you define. A key is a general
- * category for more specific values. For example, if you have two versions of an identity
- * pool, one for testing and another for production, you might assign an
- * `Environment` tag key to both identity pools. The value of this key might be
- * `Test` for one identity pool and `Production` for the
- * other.
- *
- * Tags are useful for cost tracking and access control. You can activate your tags so that
- * they appear on the Billing and Cost Management console, where you can track the costs
- * associated with your identity pools. In an IAM policy, you can constrain
- * permissions for identity pools based on specific tags or tag values.
- *
- * You can use this action up to 5 times per second, per account. An identity pool can have
- * as many as 50 tags.
- */
-export const tagResource: (
-  input: TagResourceInput,
-) => effect.Effect<
-  TagResourceResponse,
-  | InternalErrorException
-  | InvalidParameterException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
-  Creds | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceInput,
-  output: TagResourceResponse,
-  errors: [
-    InternalErrorException,
-    InvalidParameterException,
-    NotAuthorizedException,
-    ResourceNotFoundException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Removes the specified tags from the specified Amazon Cognito identity pool. You can use
- * this action up to 5 times per second, per account
- */
-export const untagResource: (
-  input: UntagResourceInput,
-) => effect.Effect<
-  UntagResourceResponse,
-  | InternalErrorException
-  | InvalidParameterException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
-  Creds | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceInput,
-  output: UntagResourceResponse,
-  errors: [
-    InternalErrorException,
-    InvalidParameterException,
-    NotAuthorizedException,
-    ResourceNotFoundException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Updates the configuration of an identity pool.
- *
- * If you don't provide a value for a parameter, Amazon Cognito sets it to its default value.
- *
- * You must use Amazon Web Services developer credentials to call this
- * operation.
- */
-export const updateIdentityPool: (
-  input: IdentityPool,
-) => effect.Effect<
-  IdentityPool,
-  | ConcurrentModificationException
-  | InternalErrorException
-  | InvalidParameterException
-  | LimitExceededException
-  | NotAuthorizedException
-  | ResourceConflictException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
-  Creds | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: IdentityPool,
-  output: IdentityPool,
-  errors: [
-    ConcurrentModificationException,
-    InternalErrorException,
-    InvalidParameterException,
-    LimitExceededException,
-    NotAuthorizedException,
-    ResourceConflictException,
-    ResourceNotFoundException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Gets the roles for an identity pool.
- *
- * You must use Amazon Web Services developer credentials to call this
- * operation.
- */
-export const getIdentityPoolRoles: (
-  input: GetIdentityPoolRolesInput,
-) => effect.Effect<
-  GetIdentityPoolRolesResponse,
-  | InternalErrorException
-  | InvalidParameterException
-  | NotAuthorizedException
-  | ResourceConflictException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
-  Creds | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetIdentityPoolRolesInput,
-  output: GetIdentityPoolRolesResponse,
-  errors: [
-    InternalErrorException,
-    InvalidParameterException,
-    NotAuthorizedException,
-    ResourceConflictException,
     ResourceNotFoundException,
     TooManyRequestsException,
   ],
@@ -1661,17 +1632,16 @@ export const mergeDeveloperIdentities: (
   ],
 }));
 /**
- * Unlinks a federated identity from an existing account. Unlinked logins will be
- * considered new identities next time they are seen. Removing the last linked login will make
- * this identity inaccessible.
+ * Sets the roles for an identity pool. These roles are used when making calls to GetCredentialsForIdentity action.
  *
- * This is a public API. You do not need any credentials to call this API.
+ * You must use Amazon Web Services developer credentials to call this
+ * operation.
  */
-export const unlinkIdentity: (
-  input: UnlinkIdentityInput,
+export const setIdentityPoolRoles: (
+  input: SetIdentityPoolRolesInput,
 ) => effect.Effect<
-  UnlinkIdentityResponse,
-  | ExternalServiceException
+  SetIdentityPoolRolesResponse,
+  | ConcurrentModificationException
   | InternalErrorException
   | InvalidParameterException
   | NotAuthorizedException
@@ -1681,14 +1651,82 @@ export const unlinkIdentity: (
   | CommonErrors,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UnlinkIdentityInput,
-  output: UnlinkIdentityResponse,
+  input: SetIdentityPoolRolesInput,
+  output: SetIdentityPoolRolesResponse,
   errors: [
-    ExternalServiceException,
+    ConcurrentModificationException,
     InternalErrorException,
     InvalidParameterException,
     NotAuthorizedException,
     ResourceConflictException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * You can use this operation to use default (username and clientID) attribute or custom
+ * attribute mappings.
+ */
+export const setPrincipalTagAttributeMap: (
+  input: SetPrincipalTagAttributeMapInput,
+) => effect.Effect<
+  SetPrincipalTagAttributeMapResponse,
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SetPrincipalTagAttributeMapInput,
+  output: SetPrincipalTagAttributeMapResponse,
+  errors: [
+    InternalErrorException,
+    InvalidParameterException,
+    NotAuthorizedException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Assigns a set of tags to the specified Amazon Cognito identity pool. A tag is a label
+ * that you can use to categorize and manage identity pools in different ways, such as by
+ * purpose, owner, environment, or other criteria.
+ *
+ * Each tag consists of a key and value, both of which you define. A key is a general
+ * category for more specific values. For example, if you have two versions of an identity
+ * pool, one for testing and another for production, you might assign an
+ * `Environment` tag key to both identity pools. The value of this key might be
+ * `Test` for one identity pool and `Production` for the
+ * other.
+ *
+ * Tags are useful for cost tracking and access control. You can activate your tags so that
+ * they appear on the Billing and Cost Management console, where you can track the costs
+ * associated with your identity pools. In an IAM policy, you can constrain
+ * permissions for identity pools based on specific tags or tag values.
+ *
+ * You can use this action up to 5 times per second, per account. An identity pool can have
+ * as many as 50 tags.
+ */
+export const tagResource: (
+  input: TagResourceInput,
+) => effect.Effect<
+  TagResourceResponse,
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceInput,
+  output: TagResourceResponse,
+  errors: [
+    InternalErrorException,
+    InvalidParameterException,
+    NotAuthorizedException,
     ResourceNotFoundException,
     TooManyRequestsException,
   ],
@@ -1727,18 +1765,16 @@ export const unlinkDeveloperIdentity: (
   ],
 }));
 /**
- * Gets an OpenID token, using a known Cognito ID. This known Cognito ID is returned by
- * GetId. You can optionally add additional logins for the identity.
- * Supplying multiple logins creates an implicit link.
- *
- * The OpenID token is valid for 10 minutes.
+ * Unlinks a federated identity from an existing account. Unlinked logins will be
+ * considered new identities next time they are seen. Removing the last linked login will make
+ * this identity inaccessible.
  *
  * This is a public API. You do not need any credentials to call this API.
  */
-export const getOpenIdToken: (
-  input: GetOpenIdTokenInput,
+export const unlinkIdentity: (
+  input: UnlinkIdentityInput,
 ) => effect.Effect<
-  GetOpenIdTokenResponse,
+  UnlinkIdentityResponse,
   | ExternalServiceException
   | InternalErrorException
   | InvalidParameterException
@@ -1749,8 +1785,8 @@ export const getOpenIdToken: (
   | CommonErrors,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetOpenIdTokenInput,
-  output: GetOpenIdTokenResponse,
+  input: UnlinkIdentityInput,
+  output: UnlinkIdentityResponse,
   errors: [
     ExternalServiceException,
     InternalErrorException,
@@ -1762,114 +1798,61 @@ export const getOpenIdToken: (
   ],
 }));
 /**
- * Creates a new identity pool. The identity pool is a store of user identity
- * information that is specific to your Amazon Web Services account. The keys for
- * `SupportedLoginProviders` are as follows:
- *
- * - Facebook: `graph.facebook.com`
- *
- * - Google: `accounts.google.com`
- *
- * - Sign in With Apple: `appleid.apple.com`
- *
- * - Amazon: `www.amazon.com`
- *
- * - Twitter: `api.twitter.com`
- *
- * - Digits: `www.digits.com`
+ * Removes the specified tags from the specified Amazon Cognito identity pool. You can use
+ * this action up to 5 times per second, per account
+ */
+export const untagResource: (
+  input: UntagResourceInput,
+) => effect.Effect<
+  UntagResourceResponse,
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceInput,
+  output: UntagResourceResponse,
+  errors: [
+    InternalErrorException,
+    InvalidParameterException,
+    NotAuthorizedException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Updates the configuration of an identity pool.
  *
  * If you don't provide a value for a parameter, Amazon Cognito sets it to its default value.
  *
  * You must use Amazon Web Services developer credentials to call this
  * operation.
  */
-export const createIdentityPool: (
-  input: CreateIdentityPoolInput,
+export const updateIdentityPool: (
+  input: IdentityPool,
 ) => effect.Effect<
   IdentityPool,
+  | ConcurrentModificationException
   | InternalErrorException
   | InvalidParameterException
   | LimitExceededException
   | NotAuthorizedException
   | ResourceConflictException
+  | ResourceNotFoundException
   | TooManyRequestsException
   | CommonErrors,
   Creds | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateIdentityPoolInput,
+  input: IdentityPool,
   output: IdentityPool,
   errors: [
+    ConcurrentModificationException,
     InternalErrorException,
     InvalidParameterException,
     LimitExceededException,
-    NotAuthorizedException,
-    ResourceConflictException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Generates (or retrieves) IdentityID. Supplying multiple logins will create an
- * implicit linked account.
- *
- * This is a public API. You do not need any credentials to call this API.
- */
-export const getId: (
-  input: GetIdInput,
-) => effect.Effect<
-  GetIdResponse,
-  | ExternalServiceException
-  | InternalErrorException
-  | InvalidParameterException
-  | LimitExceededException
-  | NotAuthorizedException
-  | ResourceConflictException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
-  Creds | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetIdInput,
-  output: GetIdResponse,
-  errors: [
-    ExternalServiceException,
-    InternalErrorException,
-    InvalidParameterException,
-    LimitExceededException,
-    NotAuthorizedException,
-    ResourceConflictException,
-    ResourceNotFoundException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Returns credentials for the provided identity ID. Any provided logins will be
- * validated against supported login providers. If the token is for
- * `cognito-identity.amazonaws.com`, it will be passed through to Security Token Service with the appropriate role for the token.
- *
- * This is a public API. You do not need any credentials to call this API.
- */
-export const getCredentialsForIdentity: (
-  input: GetCredentialsForIdentityInput,
-) => effect.Effect<
-  GetCredentialsForIdentityResponse,
-  | ExternalServiceException
-  | InternalErrorException
-  | InvalidIdentityPoolConfigurationException
-  | InvalidParameterException
-  | NotAuthorizedException
-  | ResourceConflictException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
-  Creds | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetCredentialsForIdentityInput,
-  output: GetCredentialsForIdentityResponse,
-  errors: [
-    ExternalServiceException,
-    InternalErrorException,
-    InvalidIdentityPoolConfigurationException,
-    InvalidParameterException,
     NotAuthorizedException,
     ResourceConflictException,
     ResourceNotFoundException,

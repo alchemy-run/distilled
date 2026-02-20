@@ -43,8 +43,8 @@ const waitForStreamActive = (streamName: string) =>
     Effect.retry({
       while: (err) => err instanceof NotReady && err.status !== "DELETING",
       schedule: Schedule.exponential("1 second", 1.5).pipe(
-        Schedule.union(Schedule.spaced("10 seconds")),
-        Schedule.intersect(Schedule.recurs(60)),
+        Schedule.either(Schedule.spaced("10 seconds")),
+        Schedule.both(Schedule.recurs(60)),
       ),
     }),
     Effect.mapError(() => new StreamNotActive()),
@@ -67,8 +67,8 @@ const waitForStreamDeleted = (streamName: string) =>
       while: (err) => err instanceof StillExists,
       // Use exponential backoff capped at 10 seconds, with more retries
       schedule: Schedule.exponential("1 second", 1.5).pipe(
-        Schedule.union(Schedule.spaced("10 seconds")),
-        Schedule.intersect(Schedule.recurs(60)),
+        Schedule.either(Schedule.spaced("10 seconds")),
+        Schedule.both(Schedule.recurs(60)),
       ),
     }),
     Effect.mapError(() => new StreamNotDeleted()),
@@ -98,8 +98,8 @@ const waitForConsumerActive = (consumerArn: string) =>
     Effect.retry({
       while: (err) => err instanceof NotReady,
       schedule: Schedule.exponential("1 second", 1.5).pipe(
-        Schedule.union(Schedule.spaced("10 seconds")),
-        Schedule.intersect(Schedule.recurs(60)),
+        Schedule.either(Schedule.spaced("10 seconds")),
+        Schedule.both(Schedule.recurs(60)),
       ),
     }),
     Effect.mapError((err) =>
@@ -181,7 +181,7 @@ test(
         Effect.retry({
           while: (err) => err._tag === "ResourceNotFoundException",
           schedule: Schedule.spaced("2 seconds").pipe(
-            Schedule.intersect(Schedule.recurs(10)),
+            Schedule.both(Schedule.recurs(10)),
           ),
         }),
       );
@@ -193,7 +193,7 @@ test(
         Effect.retry({
           while: (err) => err._tag === "ResourceNotFoundException",
           schedule: Schedule.spaced("2 seconds").pipe(
-            Schedule.intersect(Schedule.recurs(10)),
+            Schedule.both(Schedule.recurs(10)),
           ),
         }),
       );
@@ -221,7 +221,7 @@ test(
       }).pipe(
         Effect.retry({
           schedule: Schedule.spaced("1 second").pipe(
-            Schedule.intersect(Schedule.recurs(30)),
+            Schedule.both(Schedule.recurs(30)),
           ),
         }),
       );
@@ -258,7 +258,7 @@ test(
 
       // Retry schedule for eventual consistency
       const retrySchedule = Schedule.spaced("2 seconds").pipe(
-        Schedule.intersect(Schedule.recurs(10)),
+        Schedule.both(Schedule.recurs(10)),
       );
 
       for (const record of testRecords) {
@@ -324,7 +324,7 @@ test(
         const events = yield* Stream.take(eventStream, 5).pipe(
           Stream.runCollect,
           Effect.timeout("30 seconds"),
-          Effect.catchAll((err) => {
+          Effect.catch((err) => {
             return Effect.logWarning(
               `Event stream timeout or error: ${err}`,
             ).pipe(Effect.as([]));

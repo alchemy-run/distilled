@@ -1,9 +1,6 @@
 import type * as AST from "effect/SchemaAST";
 import { xmlNamespaceSymbol, xmlNameSymbol } from "../traits.ts";
 
-const Identifier = Symbol.for("effect/annotation/Identifier");
-const Surrogate = Symbol.for("effect/annotation/Surrogate");
-
 /**
  * Unwrap Union types to get to the actual type (handles S.optional)
  * Does NOT unwrap Suspend - callers should handle Suspend separately to preserve annotations
@@ -12,8 +9,7 @@ export function unwrapUnion(ast: AST.AST): AST.AST {
   if (ast._tag === "Union") {
     const nonNullish = ast.types.filter(
       (t) =>
-        t._tag !== "UndefinedKeyword" &&
-        !(t._tag === "Literal" && t.literal === null),
+        t._tag !== "Undefined" && !(t._tag === "Literal" && t.literal === null),
     );
     if (nonNullish.length === 1) {
       return unwrapUnion(nonNullish[0]);
@@ -26,31 +22,36 @@ export function unwrapUnion(ast: AST.AST): AST.AST {
  * Get the identifier (class name) from an AST node
  */
 export function getIdentifier(ast: AST.AST): string | undefined {
-  // Check annotations on current node FIRST (handles S.suspend with .annotations())
-  const directId = ast.annotations?.[Identifier];
+  const directId = ast.annotations?.identifier;
   if (typeof directId === "string") return directId;
 
-  // Handle S.suspend - check the inner AST
   if (ast._tag === "Suspend") {
-    return getIdentifier(ast.f());
+    return getIdentifier(ast.thunk());
   }
 
   const unwrapped = unwrapUnion(ast);
   if (unwrapped !== ast) return getIdentifier(unwrapped);
 
-  if (unwrapped._tag === "Transformation" && unwrapped.to) {
-    const id = unwrapped.to.annotations?.[Identifier];
-    if (typeof id === "string") return id;
-  }
   if (unwrapped._tag === "Declaration") {
-    const id = unwrapped.annotations?.[Identifier];
-    if (typeof id === "string") return id;
+    const declId = unwrapped.annotations?.identifier;
+    if (typeof declId === "string") return declId;
+    const enc = unwrapped.encoding;
+    if (enc && enc.length > 0) {
+      const toId = enc[0].to?.annotations?.identifier;
+      if (typeof toId === "string") return toId;
+    }
   }
+
+  if (unwrapped.encoding && unwrapped.encoding.length > 0) {
+    const toId = unwrapped.encoding[0].to?.annotations?.identifier;
+    if (typeof toId === "string") return toId;
+  }
+
   return undefined;
 }
 
 /**
- * Get property signatures from a schema AST
+ * Get property signatures from a schema AST (the "type" / decoded side)
  */
 export function getPropertySignatures(
   ast: AST.AST,
@@ -58,83 +59,86 @@ export function getPropertySignatures(
   const unwrapped = unwrapUnion(ast);
   if (unwrapped !== ast) return getPropertySignatures(unwrapped);
 
-  // Handle S.suspend - call the thunk to get the actual AST
   if (unwrapped._tag === "Suspend") {
-    return getPropertySignatures(unwrapped.f());
+    return getPropertySignatures(unwrapped.thunk());
   }
 
-  if (unwrapped._tag === "Transformation" && unwrapped.to) {
-    const surrogate = unwrapped.to.annotations?.[Surrogate] as
-      | AST.AST
-      | undefined;
-    if (surrogate && surrogate._tag === "TypeLiteral") {
-      return surrogate.propertySignatures;
-    }
-  }
-  if (unwrapped._tag === "Declaration") {
-    const surrogate = unwrapped.annotations?.[Surrogate] as AST.AST | undefined;
-    if (surrogate && surrogate._tag === "TypeLiteral") {
-      return surrogate.propertySignatures;
-    }
-  }
-  if (unwrapped._tag === "TypeLiteral") {
+  if (unwrapped._tag === "Objects") {
     return unwrapped.propertySignatures;
   }
+
+  if (unwrapped._tag === "Declaration") {
+    const enc = unwrapped.encoding;
+    if (enc && enc.length > 0 && enc[0].to?._tag === "Objects") {
+      return enc[0].to.propertySignatures;
+    }
+  }
+
   return [];
 }
 
 /**
- * Recursively find the TypeLiteral on the "from" (encoded/wire) side of transformations.
- * S.Class + S.fromKey (JsonName) creates nested transformation layers.
- * S.suspend is also handled by calling the thunk to get the actual AST.
+ * Recursively find the Objects AST on the encoded (wire) side.
+ * In v4, encoding chains replace the old Transformation node.
  */
-function findEncodedTypeLiteral(ast: AST.AST): AST.TypeLiteral | undefined {
-  if (ast._tag === "TypeLiteral") return ast;
-  if (ast._tag === "Transformation") {
-    // Prioritize the "from" side (encoded/wire format)
-    const fromResult = findEncodedTypeLiteral(ast.from);
-    if (fromResult) return fromResult;
-    // Fall back to "to" side
-    return findEncodedTypeLiteral(ast.to);
-  }
-  // Handle S.suspend - call the thunk to get the actual AST
+function findEncodedObjects(ast: AST.AST): AST.Objects | undefined {
   if (ast._tag === "Suspend") {
-    return findEncodedTypeLiteral(ast.f());
+    return findEncodedObjects(ast.thunk());
   }
+
+  // Follow encoding chain to the leaf (wire-format) Objects
+  if (ast.encoding && ast.encoding.length > 0) {
+    let current = ast as AST.AST;
+    while (current.encoding && current.encoding.length > 0) {
+      current = current.encoding[0].to;
+    }
+    if (current._tag === "Objects") return current as AST.Objects;
+  }
+
+  if (ast._tag === "Objects") return ast as AST.Objects;
+
+  if (ast._tag === "Declaration") {
+    const enc = ast.encoding;
+    if (enc && enc.length > 0) {
+      return findEncodedObjects(enc[0].to);
+    }
+  }
+
   return undefined;
 }
 
 /**
- * Get encoded property signatures (from side of Transformation)
+ * Get encoded property signatures (wire-format side)
  */
 export function getEncodedPropertySignatures(
   ast: AST.AST,
 ): readonly AST.PropertySignature[] {
-  // First unwrap Union (handles S.optional)
   const unwrapped = unwrapUnion(ast);
   if (unwrapped !== ast) return getEncodedPropertySignatures(unwrapped);
 
-  // Recursively find TypeLiteral through nested transformations
-  const typeLiteral = findEncodedTypeLiteral(unwrapped);
-  if (typeLiteral) {
-    return typeLiteral.propertySignatures;
+  const objects = findEncodedObjects(unwrapped);
+  if (objects) {
+    return objects.propertySignatures;
   }
   return getPropertySignatures(unwrapped);
 }
 
 /**
- * Get element AST from array/tuple type
+ * Get element AST from array type.
+ * In v4, Arrays has rest elements directly as AST nodes (not wrapped in { type }).
  */
 export function getArrayElementAST(ast: AST.AST): AST.AST | undefined {
   const unwrapped = unwrapUnion(ast);
   if (unwrapped !== ast) return getArrayElementAST(unwrapped);
 
-  if (unwrapped._tag === "TupleType" && unwrapped.rest?.[0]) {
-    return unwrapped.rest[0].type;
+  if (unwrapped._tag === "Arrays" && unwrapped.rest?.[0]) {
+    return unwrapped.rest[0];
   }
-  if (unwrapped._tag === "Transformation") {
-    return getArrayElementAST(unwrapped.from);
+
+  if (unwrapped.encoding && unwrapped.encoding.length > 0) {
+    return getArrayElementAST(unwrapped.encoding[0].to);
   }
+
   return undefined;
 }
 
@@ -145,8 +149,11 @@ export function isArrayAST(ast: AST.AST): boolean {
   const unwrapped = unwrapUnion(ast);
   if (unwrapped !== ast) return isArrayAST(unwrapped);
 
-  if (unwrapped._tag === "TupleType" && unwrapped.rest?.[0]) return true;
-  if (unwrapped._tag === "Transformation") return isArrayAST(unwrapped.from);
+  if (unwrapped._tag === "Arrays" && unwrapped.rest?.[0]) return true;
+
+  if (unwrapped.encoding && unwrapped.encoding.length > 0) {
+    return isArrayAST(unwrapped.encoding[0].to);
+  }
   return false;
 }
 
@@ -157,8 +164,11 @@ export function isNumberAST(ast: AST.AST): boolean {
   const unwrapped = unwrapUnion(ast);
   if (unwrapped !== ast) return isNumberAST(unwrapped);
 
-  if (unwrapped._tag === "NumberKeyword") return true;
-  if (unwrapped._tag === "Transformation") return isNumberAST(unwrapped.from);
+  if (unwrapped._tag === "Number") return true;
+
+  if (unwrapped.encoding && unwrapped.encoding.length > 0) {
+    return isNumberAST(unwrapped.encoding[0].to);
+  }
   return false;
 }
 
@@ -169,31 +179,34 @@ export function isBooleanAST(ast: AST.AST): boolean {
   const unwrapped = unwrapUnion(ast);
   if (unwrapped !== ast) return isBooleanAST(unwrapped);
 
-  if (unwrapped._tag === "BooleanKeyword") return true;
-  if (unwrapped._tag === "Transformation") return isBooleanAST(unwrapped.from);
+  if (unwrapped._tag === "Boolean") return true;
+
+  if (unwrapped.encoding && unwrapped.encoding.length > 0) {
+    return isBooleanAST(unwrapped.encoding[0].to);
+  }
   return false;
 }
 
 /**
- * Check if AST represents a Date type (DateFromString transformation)
+ * Check if AST represents a Date type
  */
 export function isDateAST(ast: AST.AST): boolean {
   const unwrapped = unwrapUnion(ast);
   if (unwrapped !== ast) return isDateAST(unwrapped);
 
-  // S.Date is wrapped in a Refinement that contains a Transformation
-  if (unwrapped._tag === "Refinement") {
-    return isDateAST(unwrapped.from);
-  }
-
-  // S.Date is a Transformation from string to Date (DateFromSelf)
-  if (
-    unwrapped._tag === "Transformation" &&
-    unwrapped.to?._tag === "Declaration"
-  ) {
-    const id = unwrapped.to.annotations?.[Identifier];
+  if (unwrapped._tag === "Declaration") {
+    const tc = unwrapped.annotations?.typeConstructor as
+      | { _tag?: string }
+      | undefined;
+    if (tc?._tag === "Date") return true;
+    const id = unwrapped.annotations?.identifier;
     if (id === "Date" || id === "DateFromSelf") return true;
   }
+
+  if (unwrapped.encoding && unwrapped.encoding.length > 0) {
+    return isDateAST(unwrapped.encoding[0].to);
+  }
+
   return false;
 }
 
@@ -201,24 +214,30 @@ export function isDateAST(ast: AST.AST): boolean {
  * Get xmlNamespace annotation from AST
  */
 export function getXmlNamespace(ast: AST.AST): string | undefined {
-  // Check annotations on the current node first (handles S.suspend with .pipe())
   const directNs = ast.annotations?.[xmlNamespaceSymbol] as string | undefined;
   if (directNs) return directNs;
 
-  // Handle S.suspend - check the inner AST but preserve outer annotations
   if (ast._tag === "Suspend") {
-    return getXmlNamespace(ast.f());
+    return getXmlNamespace(ast.thunk());
   }
 
   const unwrapped = unwrapUnion(ast);
   if (unwrapped !== ast) return getXmlNamespace(unwrapped);
 
-  if (unwrapped._tag === "Transformation" && unwrapped.to) {
-    const ns = unwrapped.to.annotations?.[xmlNamespaceSymbol] as
+  if (unwrapped._tag === "Declaration" && unwrapped.encoding?.length) {
+    const ns = unwrapped.encoding[0].to?.annotations?.[xmlNamespaceSymbol] as
       | string
       | undefined;
     if (ns) return ns;
   }
+
+  if (unwrapped.encoding && unwrapped.encoding.length > 0) {
+    const ns = unwrapped.encoding[0].to?.annotations?.[xmlNamespaceSymbol] as
+      | string
+      | undefined;
+    if (ns) return ns;
+  }
+
   return unwrapped.annotations?.[xmlNamespaceSymbol] as string | undefined;
 }
 
@@ -226,24 +245,30 @@ export function getXmlNamespace(ast: AST.AST): string | undefined {
  * Get xmlName annotation from AST (class-level)
  */
 export function getXmlNameFromAST(ast: AST.AST): string | undefined {
-  // Check annotations on the current node first (handles S.suspend with .pipe())
   const directName = ast.annotations?.[xmlNameSymbol] as string | undefined;
   if (directName) return directName;
 
-  // Handle S.suspend - check the inner AST but preserve outer annotations
   if (ast._tag === "Suspend") {
-    return getXmlNameFromAST(ast.f());
+    return getXmlNameFromAST(ast.thunk());
   }
 
   const unwrapped = unwrapUnion(ast);
   if (unwrapped !== ast) return getXmlNameFromAST(unwrapped);
 
-  if (unwrapped._tag === "Transformation" && unwrapped.to) {
-    const name = unwrapped.to.annotations?.[xmlNameSymbol] as
+  if (unwrapped._tag === "Declaration" && unwrapped.encoding?.length) {
+    const name = unwrapped.encoding[0].to?.annotations?.[xmlNameSymbol] as
       | string
       | undefined;
     if (name) return name;
   }
+
+  if (unwrapped.encoding && unwrapped.encoding.length > 0) {
+    const name = unwrapped.encoding[0].to?.annotations?.[xmlNameSymbol] as
+      | string
+      | undefined;
+    if (name) return name;
+  }
+
   return unwrapped.annotations?.[xmlNameSymbol] as string | undefined;
 }
 
@@ -254,9 +279,12 @@ export function isMapAST(ast: AST.AST): boolean {
   const unwrapped = unwrapUnion(ast);
   if (unwrapped !== ast) return isMapAST(unwrapped);
 
-  if (unwrapped._tag === "TypeLiteral" && unwrapped.indexSignatures?.length > 0)
+  if (unwrapped._tag === "Objects" && unwrapped.indexSignatures?.length > 0)
     return true;
-  if (unwrapped._tag === "Transformation") return isMapAST(unwrapped.from);
+
+  if (unwrapped.encoding && unwrapped.encoding.length > 0) {
+    return isMapAST(unwrapped.encoding[0].to);
+  }
   return false;
 }
 
@@ -269,17 +297,16 @@ export function getMapKeyValueAST(
   const unwrapped = unwrapUnion(ast);
   if (unwrapped !== ast) return getMapKeyValueAST(unwrapped);
 
-  if (
-    unwrapped._tag === "TypeLiteral" &&
-    unwrapped.indexSignatures?.length > 0
-  ) {
+  if (unwrapped._tag === "Objects" && unwrapped.indexSignatures?.length > 0) {
     const indexSig = unwrapped.indexSignatures[0];
     return {
       keyAST: indexSig.parameter,
       valueAST: indexSig.type,
     };
   }
-  if (unwrapped._tag === "Transformation")
-    return getMapKeyValueAST(unwrapped.from);
+
+  if (unwrapped.encoding && unwrapped.encoding.length > 0) {
+    return getMapKeyValueAST(unwrapped.encoding[0].to);
+  }
   return undefined;
 }

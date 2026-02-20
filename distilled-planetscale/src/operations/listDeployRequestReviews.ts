@@ -29,7 +29,7 @@ export const ListDeployRequestReviewsOutput = Schema.Struct({
       id: Schema.String,
       body: Schema.String,
       html_body: Schema.String,
-      state: Schema.Literal("commented", "approved"),
+      state: Schema.Literals(["commented", "approved"]),
       created_at: Schema.String,
       updated_at: Schema.String,
       actor: Schema.Struct({

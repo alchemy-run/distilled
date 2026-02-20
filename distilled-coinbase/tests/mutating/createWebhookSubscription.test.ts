@@ -14,7 +14,9 @@ describe("createWebhookSubscription", () => {
         target: { url: "https://example.com/webhook" },
       }).pipe(
         Effect.tap((created) =>
-          deleteWebhookSubscription({ subscriptionId: created.subscriptionId }).pipe(Effect.ignore),
+          deleteWebhookSubscription({
+            subscriptionId: created.subscriptionId,
+          }).pipe(Effect.ignore),
         ),
         Effect.matchEffect({
           onFailure: (e) => Effect.succeed({ error: e }),

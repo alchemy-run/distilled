@@ -7,6 +7,7 @@
  */
 import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
+import * as SchemaTransformation from "effect/SchemaTransformation";
 
 /**
  * smithy.api#sensitive - Marks data as sensitive, wrapping in Effect's Redacted type.
@@ -35,29 +36,31 @@ import * as S from "effect/Schema";
  * // But at runtime, it's always Redacted:
  * console.log(key); // logs "<redacted>"
  */
-export const Sensitive = <A, I, R>(
-  schema: S.Schema<A, I, R>,
-): S.Schema<A | Redacted.Redacted<A>, I, R> =>
-  S.transform(
-    schema,
-    S.Union(S.typeSchema(schema), S.RedactedFromSelf(S.typeSchema(schema))),
-    {
-      strict: true,
-      // Decode: wire format → always wrap in Redacted
-      decode: (a) => Redacted.make(a),
-      // Encode: accept both raw and Redacted → extract raw value
-      encode: (v) => (Redacted.isRedacted(v) ? Redacted.value(v) : v),
-    },
-  ).annotations({
-    identifier: `Sensitive<${schema.ast.annotations?.identifier ?? "unknown"}>`,
-  });
+export const Sensitive = <A>(
+  schema: S.Schema<A>,
+): S.Schema<A | Redacted.Redacted<A>> =>
+  schema
+    .pipe(
+      S.decodeTo(
+        S.Union([S.toType(schema), S.Redacted(S.toType(schema))]),
+        SchemaTransformation.transform({
+          // Decode: wire format → always wrap in Redacted
+          decode: (a) => Redacted.make(a) as any,
+          // Encode: accept both raw and Redacted → extract raw value
+          encode: (v) => (Redacted.isRedacted(v) ? Redacted.value(v) : v),
+        }),
+      ),
+    )
+    .annotate({
+      identifier: `Sensitive<${schema.ast.annotations?.identifier ?? "unknown"}>`,
+    });
 
 /**
  * Sensitive string - a string marked with @sensitive trait.
  * Wire format is plain string, TypeScript type is string | Redacted<string>.
  * At runtime, decoded values are always Redacted<string>.
  */
-export const SensitiveString = Sensitive(S.String).annotations({
+export const SensitiveString = Sensitive(S.String).annotate({
   identifier: "SensitiveString",
 });
 
@@ -66,19 +69,14 @@ export const SensitiveString = Sensitive(S.String).annotations({
  * Wire format is base64 string, TypeScript type is Uint8Array | Redacted<Uint8Array>.
  * At runtime, decoded values are always Redacted<Uint8Array>.
  */
-export const SensitiveBlob = S.transform(
-  S.String, // wire format: base64 string
-  S.Union(
-    S.instanceOf(Uint8Array<ArrayBufferLike>),
-    S.RedactedFromSelf(S.instanceOf(Uint8Array<ArrayBufferLike>)),
+export const SensitiveBlob = Sensitive(
+  S.String.pipe(
+    S.decodeTo(
+      S.instanceOf(Uint8Array),
+      SchemaTransformation.transform({
+        decode: (s) => Uint8Array.from(atob(s), (c) => c.charCodeAt(0)),
+        encode: (bytes) => btoa(String.fromCharCode(...bytes)),
+      }),
+    ),
   ),
-  {
-    strict: true,
-    decode: (s) =>
-      Redacted.make(Uint8Array.from(atob(s), (c) => c.charCodeAt(0))),
-    encode: (v) => {
-      const bytes = Redacted.isRedacted(v) ? Redacted.value(v) : v;
-      return btoa(String.fromCharCode(...bytes));
-    },
-  },
-).annotations({ identifier: "SensitiveBlob" });
+).annotate({ identifier: "SensitiveBlob" });

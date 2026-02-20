@@ -196,7 +196,9 @@ describe("organizations", () => {
 
       if ("error" in result) {
         // May not have permission to list org API keys
-        expect(isNotFoundOrForbidden(result.error) || isNotAllowed(result.error)).toBe(true);
+        expect(
+          isNotFoundOrForbidden(result.error) || isNotAllowed(result.error),
+        ).toBe(true);
       } else {
         expect(Array.isArray(result.data)).toBe(true);
       }
@@ -273,7 +275,9 @@ describe("organizations", () => {
       );
 
       if ("error" in result) {
-        expect(isNotFoundOrForbidden(result.error) || isNotAllowed(result.error)).toBe(true);
+        expect(
+          isNotFoundOrForbidden(result.error) || isNotAllowed(result.error),
+        ).toBe(true);
       } else {
         expect(result.data.members).toBeDefined();
         expect(Array.isArray(result.data.members)).toBe(true);
@@ -353,7 +357,9 @@ describe("organizations", () => {
       );
 
       if ("error" in result) {
-        expect(isNotFoundOrForbidden(result.error) || isNotAllowed(result.error)).toBe(true);
+        expect(
+          isNotFoundOrForbidden(result.error) || isNotAllowed(result.error),
+        ).toBe(true);
       } else {
         expect(result.data.invitations).toBeDefined();
         expect(Array.isArray(result.data.invitations)).toBe(true);

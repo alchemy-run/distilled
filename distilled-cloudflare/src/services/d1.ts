@@ -7,7 +7,7 @@
 
 import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
-import type { HttpClient } from "@effect/platform";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
@@ -113,11 +113,12 @@ export interface CreateDatabaseRequest {
 export const CreateDatabaseRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   name: Schema.String,
-  jurisdiction: Schema.optional(Schema.Literal("eu", "fedramp")),
+  jurisdiction: Schema.optional(Schema.Literals(["eu", "fedramp"])),
   primaryLocationHint: Schema.optional(
-    Schema.Literal("wnam", "enam", "weur", "eeur", "apac", "oc"),
-  ).pipe(T.JsonName("primary_location_hint")),
+    Schema.Literals(["wnam", "enam", "weur", "eeur", "apac", "oc"]),
+  ),
 }).pipe(
+  Schema.encodeKeys({ primaryLocationHint: "primary_location_hint" }),
   T.Http({ method: "POST", path: "/accounts/{account_id}/d1/database" }),
 ) as unknown as Schema.Schema<CreateDatabaseRequest>;
 
@@ -150,9 +151,10 @@ export const UpdateDatabaseRequest = Schema.Struct({
   databaseId: Schema.String.pipe(T.HttpPath("databaseId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   readReplication: Schema.Struct({
-    mode: Schema.Literal("auto", "disabled"),
-  }).pipe(T.JsonName("read_replication")),
+    mode: Schema.Literals(["auto", "disabled"]),
+  }),
 }).pipe(
+  Schema.encodeKeys({ readReplication: "read_replication" }),
   T.Http({
     method: "PUT",
     path: "/accounts/{account_id}/d1/database/{databaseId}",
@@ -189,10 +191,11 @@ export const PatchDatabaseRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   readReplication: Schema.optional(
     Schema.Struct({
-      mode: Schema.Literal("auto", "disabled"),
+      mode: Schema.Literals(["auto", "disabled"]),
     }),
-  ).pipe(T.JsonName("read_replication")),
+  ),
 }).pipe(
+  Schema.encodeKeys({ readReplication: "read_replication" }),
   T.Http({
     method: "PATCH",
     path: "/accounts/{account_id}/d1/database/{databaseId}",
@@ -264,18 +267,21 @@ export interface ExportDatabaseRequest {
 export const ExportDatabaseRequest = Schema.Struct({
   databaseId: Schema.String.pipe(T.HttpPath("databaseId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  outputFormat: Schema.Literal("polling").pipe(T.JsonName("output_format")),
-  currentBookmark: Schema.optional(Schema.String).pipe(
-    T.JsonName("current_bookmark"),
-  ),
+  outputFormat: Schema.Literal("polling"),
+  currentBookmark: Schema.optional(Schema.String),
   dumpOptions: Schema.optional(
     Schema.Struct({
-      noData: Schema.optional(Schema.Boolean).pipe(T.JsonName("no_data")),
-      noSchema: Schema.optional(Schema.Boolean).pipe(T.JsonName("no_schema")),
+      noData: Schema.optional(Schema.Boolean),
+      noSchema: Schema.optional(Schema.Boolean),
       tables: Schema.optional(Schema.Array(Schema.String)),
-    }),
-  ).pipe(T.JsonName("dump_options")),
+    }).pipe(Schema.encodeKeys({ noData: "no_data", noSchema: "no_schema" })),
+  ),
 }).pipe(
+  Schema.encodeKeys({
+    outputFormat: "output_format",
+    currentBookmark: "current_bookmark",
+    dumpOptions: "dump_options",
+  }),
   T.Http({
     method: "POST",
     path: "/accounts/{account_id}/d1/database/{databaseId}/export",
@@ -297,19 +303,21 @@ export interface ExportDatabaseResponse {
 }
 
 export const ExportDatabaseResponse = Schema.Struct({
-  atBookmark: Schema.optional(Schema.String).pipe(T.JsonName("at_bookmark")),
+  atBookmark: Schema.optional(Schema.String),
   error: Schema.optional(Schema.String),
   messages: Schema.optional(Schema.Array(Schema.String)),
   result: Schema.optional(
     Schema.Struct({
       filename: Schema.optional(Schema.String),
-      signedUrl: Schema.optional(Schema.String).pipe(T.JsonName("signed_url")),
-    }),
+      signedUrl: Schema.optional(Schema.String),
+    }).pipe(Schema.encodeKeys({ signedUrl: "signed_url" })),
   ),
-  status: Schema.optional(Schema.Literal("complete", "error")),
+  status: Schema.optional(Schema.Literals(["complete", "error"])),
   success: Schema.optional(Schema.Boolean),
   type: Schema.optional(Schema.Literal("export")),
-}) as unknown as Schema.Schema<ExportDatabaseResponse>;
+}).pipe(
+  Schema.encodeKeys({ atBookmark: "at_bookmark" }),
+) as unknown as Schema.Schema<ExportDatabaseResponse>;
 
 export const exportDatabase: (
   input: ExportDatabaseRequest,
@@ -371,62 +379,60 @@ export interface ImportDatabaseResponse {
 }
 
 export const ImportDatabaseResponse = Schema.Struct({
-  atBookmark: Schema.optional(Schema.String).pipe(T.JsonName("at_bookmark")),
+  atBookmark: Schema.optional(Schema.String),
   error: Schema.optional(Schema.String),
   filename: Schema.optional(Schema.String),
   messages: Schema.optional(Schema.Array(Schema.String)),
   result: Schema.optional(
     Schema.Struct({
-      finalBookmark: Schema.optional(Schema.String).pipe(
-        T.JsonName("final_bookmark"),
-      ),
+      finalBookmark: Schema.optional(Schema.String),
       meta: Schema.optional(
         Schema.Struct({
-          changedDb: Schema.optional(Schema.Boolean).pipe(
-            T.JsonName("changed_db"),
-          ),
+          changedDb: Schema.optional(Schema.Boolean),
           changes: Schema.optional(Schema.Number),
           duration: Schema.optional(Schema.Number),
-          lastRowId: Schema.optional(Schema.Number).pipe(
-            T.JsonName("last_row_id"),
-          ),
-          rowsRead: Schema.optional(Schema.Number).pipe(
-            T.JsonName("rows_read"),
-          ),
-          rowsWritten: Schema.optional(Schema.Number).pipe(
-            T.JsonName("rows_written"),
-          ),
-          servedByColo: Schema.optional(Schema.String).pipe(
-            T.JsonName("served_by_colo"),
-          ),
-          servedByPrimary: Schema.optional(Schema.Boolean).pipe(
-            T.JsonName("served_by_primary"),
-          ),
+          lastRowId: Schema.optional(Schema.Number),
+          rowsRead: Schema.optional(Schema.Number),
+          rowsWritten: Schema.optional(Schema.Number),
+          servedByColo: Schema.optional(Schema.String),
+          servedByPrimary: Schema.optional(Schema.Boolean),
           servedByRegion: Schema.optional(
-            Schema.Literal("WNAM", "ENAM", "WEUR", "EEUR", "APAC", "OC"),
-          ).pipe(T.JsonName("served_by_region")),
-          sizeAfter: Schema.optional(Schema.Number).pipe(
-            T.JsonName("size_after"),
+            Schema.Literals(["WNAM", "ENAM", "WEUR", "EEUR", "APAC", "OC"]),
           ),
+          sizeAfter: Schema.optional(Schema.Number),
           timings: Schema.optional(
             Schema.Struct({
-              sqlDurationMs: Schema.optional(Schema.Number).pipe(
-                T.JsonName("sql_duration_ms"),
-              ),
-            }),
+              sqlDurationMs: Schema.optional(Schema.Number),
+            }).pipe(Schema.encodeKeys({ sqlDurationMs: "sql_duration_ms" })),
           ),
-        }),
+        }).pipe(
+          Schema.encodeKeys({
+            changedDb: "changed_db",
+            lastRowId: "last_row_id",
+            rowsRead: "rows_read",
+            rowsWritten: "rows_written",
+            servedByColo: "served_by_colo",
+            servedByPrimary: "served_by_primary",
+            servedByRegion: "served_by_region",
+            sizeAfter: "size_after",
+          }),
+        ),
       ),
-      numQueries: Schema.optional(Schema.Number).pipe(
-        T.JsonName("num_queries"),
-      ),
-    }),
+      numQueries: Schema.optional(Schema.Number),
+    }).pipe(
+      Schema.encodeKeys({
+        finalBookmark: "final_bookmark",
+        numQueries: "num_queries",
+      }),
+    ),
   ),
-  status: Schema.optional(Schema.Literal("complete", "error")),
+  status: Schema.optional(Schema.Literals(["complete", "error"])),
   success: Schema.optional(Schema.Boolean),
   type: Schema.optional(Schema.Literal("import")),
-  uploadUrl: Schema.optional(Schema.String).pipe(T.JsonName("upload_url")),
-}) as unknown as Schema.Schema<ImportDatabaseResponse>;
+  uploadUrl: Schema.optional(Schema.String),
+}).pipe(
+  Schema.encodeKeys({ atBookmark: "at_bookmark", uploadUrl: "upload_url" }),
+) as unknown as Schema.Schema<ImportDatabaseResponse>;
 
 export const importDatabase: (
   input: ImportDatabaseRequest,
@@ -478,10 +484,10 @@ export interface RestoreDatabaseTimeTravelResponse {
 export const RestoreDatabaseTimeTravelResponse = Schema.Struct({
   bookmark: Schema.optional(Schema.String),
   message: Schema.optional(Schema.String),
-  previousBookmark: Schema.optional(Schema.String).pipe(
-    T.JsonName("previous_bookmark"),
-  ),
-}) as unknown as Schema.Schema<RestoreDatabaseTimeTravelResponse>;
+  previousBookmark: Schema.optional(Schema.String),
+}).pipe(
+  Schema.encodeKeys({ previousBookmark: "previous_bookmark" }),
+) as unknown as Schema.Schema<RestoreDatabaseTimeTravelResponse>;
 
 export const restoreDatabaseTimeTravel: (
   input: RestoreDatabaseTimeTravelRequest,

@@ -56,7 +56,7 @@ export const awsQueryProtocol: Protocol = (
   const outputAst = outputSchema.ast;
 
   // Pre-compute encoder (done once at init)
-  const encodeInput = S.encode(inputSchema);
+  const encodeInput = S.encodeEffect(inputSchema);
 
   // Pre-compute operation name and version from annotations
   const identifier = getIdentifier(inputAst) ?? "";
@@ -67,7 +67,9 @@ export const awsQueryProtocol: Protocol = (
     serializeRequest: Effect.fn(function* (input: unknown) {
       // Encode the input via schema - handles all transformations
       // (TimestampFormat → ISO 8601 strings, etc.)
-      const encoded = yield* encodeInput(input);
+      const encoded = yield* encodeInput(input).pipe(
+        Effect.mapError((err) => new ParseError({ message: err.message })),
+      );
 
       const request: Request = {
         method: "POST",
@@ -249,8 +251,15 @@ function serializeValue(
 ): void {
   if (value === undefined || value === null) return;
 
+  // Handle Date objects (v4: S.Date remains Date after encode)
+  if (value instanceof Date) {
+    params.push(
+      `${encodeURIComponent(key)}=${encodeURIComponent(value.toISOString())}`,
+    );
+    return;
+  }
+
   // Handle primitives (includes encoded dates as strings, blobs as base64)
-  // Blob schema transforms Uint8Array → base64 string during encoding
   if (typeof value !== "object") {
     params.push(
       `${encodeURIComponent(key)}=${encodeURIComponent(String(value))}`,

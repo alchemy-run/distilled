@@ -16,6 +16,20 @@ import { beforeAll, test } from "../test.ts";
 
 const TEST_ALIAS = "alias/distilled-aws-test";
 
+const waitForKey = (keyId: string) =>
+  describeKey({ KeyId: keyId }).pipe(
+    Effect.flatMap((result) =>
+      result.KeyMetadata?.KeyState === "Enabled"
+        ? Effect.succeed(result)
+        : Effect.fail(new Error(`Key ${keyId} not yet Enabled`)),
+    ),
+    Effect.retry({
+      schedule: Schedule.spaced("1 second").pipe(
+        Schedule.both(Schedule.recurs(30)),
+      ),
+    }),
+  );
+
 // Clean up all keys before running tests
 beforeAll(
   Effect.gen(function* () {
@@ -41,7 +55,7 @@ beforeAll(
               while: (err) => err._tag === "ThrottlingException",
               schedule: Schedule.exponential("1 second"),
             }),
-            Effect.catchAll(() => Effect.succeed(null)),
+            Effect.catch(() => Effect.succeed(null)),
           );
           if (
             keyInfo?.KeyMetadata?.KeyState === "Enabled" ||
@@ -76,6 +90,8 @@ test(
 
     const keyId = createResult.KeyMetadata?.KeyId;
     expect(keyId).toBeDefined();
+
+    yield* waitForKey(keyId!);
 
     try {
       // Describe the key
@@ -119,6 +135,8 @@ test(
     const keyId = createResult.KeyMetadata?.KeyId;
     expect(keyId).toBeDefined();
 
+    yield* waitForKey(keyId!);
+
     try {
       // Schedule deletion
       yield* scheduleKeyDeletion({
@@ -149,7 +167,7 @@ test(
         }),
         Effect.retry({
           schedule: Schedule.spaced("1 second").pipe(
-            Schedule.intersect(Schedule.recurs(30)),
+            Schedule.both(Schedule.recurs(30)),
           ),
         }),
       );
@@ -168,7 +186,7 @@ test(
 // ============================================================================
 
 const retrySchedule = Schedule.spaced("1 second").pipe(
-  Schedule.intersect(Schedule.recurs(30)),
+  Schedule.both(Schedule.recurs(30)),
 );
 
 const waitForAlias = (keyId: string, aliasName: string) =>
@@ -205,6 +223,8 @@ test(
 
     const keyId = createKeyResult.KeyMetadata?.KeyId;
     expect(keyId).toBeDefined();
+
+    yield* waitForKey(keyId!);
 
     const aliasName = TEST_ALIAS;
 
@@ -258,6 +278,8 @@ test(
 
     const keyId = createResult.KeyMetadata?.KeyId;
     expect(keyId).toBeDefined();
+
+    yield* waitForKey(keyId!);
 
     try {
       // Test data
@@ -316,6 +338,8 @@ test(
     const keyId = createResult.KeyMetadata?.KeyId;
     expect(keyId).toBeDefined();
 
+    yield* waitForKey(keyId!);
+
     try {
       const plaintext = new TextEncoder().encode("Secret data");
       const encryptionContext = {
@@ -359,7 +383,7 @@ test(
         },
       }).pipe(
         Effect.map(() => "success" as const),
-        Effect.catchAll(() => Effect.succeed("error" as const)),
+        Effect.catch(() => Effect.succeed("error" as const)),
       );
 
       expect(wrongContextResult).toEqual("error");

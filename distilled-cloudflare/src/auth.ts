@@ -9,12 +9,14 @@
  * @see https://developers.cloudflare.com/fundamentals/api/
  */
 
-import { HttpClient, HttpClientRequest, HttpBody } from "@effect/platform";
-import * as Context from "effect/Context";
 import * as Data from "effect/Data";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
+import * as ServiceMap from "effect/ServiceMap";
+import * as HttpBody from "effect/unstable/http/HttpBody";
+import * as HttpClient from "effect/unstable/http/HttpClient";
+import * as HttpClientRequest from "effect/unstable/http/HttpClientRequest";
 
 /**
  * OAuth token endpoint for Cloudflare.
@@ -49,7 +51,7 @@ export interface ApiToken {
   readonly auth: CloudflareAuth;
 }
 
-export const ApiToken = Context.GenericTag<ApiToken>(
+export const ApiToken = ServiceMap.Service<ApiToken>(
   "@distilled-cloudflare/ApiToken",
 );
 
@@ -60,7 +62,7 @@ export interface AccountId {
   readonly accountId: string;
 }
 
-export const AccountId = Context.GenericTag<AccountId>(
+export const AccountId = ServiceMap.Service<AccountId>(
   "@distilled-cloudflare/AccountId",
 );
 
@@ -71,7 +73,7 @@ export interface ZoneId {
   readonly zoneId: string;
 }
 
-export const ZoneId = Context.GenericTag<ZoneId>(
+export const ZoneId = ServiceMap.Service<ZoneId>(
   "@distilled-cloudflare/ZoneId",
 );
 
@@ -275,7 +277,7 @@ const refreshAccessToken = (
  * @example
  * ```typescript
  * import { Auth } from "distilled-cloudflare";
- * import { FetchHttpClient } from "@effect/platform";
+ * import * as FetchHttpClient from "effect/unstable/http/FetchHttpClient";
  *
  * const authLayer = Auth.fromOAuth({
  *   clientId: "your-client-id",

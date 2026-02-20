@@ -1,4 +1,4 @@
-import { HttpClient } from "@effect/platform";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as effect from "effect/Effect";
 import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
@@ -88,20 +88,18 @@ const rules = T.EndpointResolver((p, _) => {
 
 //# Newtypes
 export type ReportName = string;
+export type DeleteResponseMessage = string;
+export type ErrorMessage = string;
 export type MaxResults = number;
-export type TagKey = string;
 export type S3Bucket = string;
 export type S3Prefix = string;
 export type RefreshClosedReports = boolean;
 export type BillingViewArn = string;
-export type TagValue = string;
-export type DeleteResponseMessage = string;
-export type ErrorMessage = string;
 export type LastDelivery = string;
+export type TagKey = string;
+export type TagValue = string;
 
 //# Schemas
-export type TagKeyList = string[];
-export const TagKeyList = S.Array(S.String);
 export interface DeleteReportDefinitionRequest {
   ReportName: string;
 }
@@ -109,9 +107,17 @@ export const DeleteReportDefinitionRequest = S.suspend(() =>
   S.Struct({ ReportName: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotations({
+).annotate({
   identifier: "DeleteReportDefinitionRequest",
 }) as any as S.Schema<DeleteReportDefinitionRequest>;
+export interface DeleteReportDefinitionResponse {
+  ResponseMessage?: string;
+}
+export const DeleteReportDefinitionResponse = S.suspend(() =>
+  S.Struct({ ResponseMessage: S.optional(S.String) }),
+).annotate({
+  identifier: "DeleteReportDefinitionResponse",
+}) as any as S.Schema<DeleteReportDefinitionResponse>;
 export interface DescribeReportDefinitionsRequest {
   MaxResults?: number;
   NextToken?: string;
@@ -123,58 +129,9 @@ export const DescribeReportDefinitionsRequest = S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotations({
+).annotate({
   identifier: "DescribeReportDefinitionsRequest",
 }) as any as S.Schema<DescribeReportDefinitionsRequest>;
-export interface ListTagsForResourceRequest {
-  ReportName: string;
-}
-export const ListTagsForResourceRequest = S.suspend(() =>
-  S.Struct({ ReportName: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotations({
-  identifier: "ListTagsForResourceRequest",
-}) as any as S.Schema<ListTagsForResourceRequest>;
-export interface Tag {
-  Key: string;
-  Value: string;
-}
-export const Tag = S.suspend(() =>
-  S.Struct({ Key: S.String, Value: S.String }),
-).annotations({ identifier: "Tag" }) as any as S.Schema<Tag>;
-export type TagList = Tag[];
-export const TagList = S.Array(Tag);
-export interface TagResourceRequest {
-  ReportName: string;
-  Tags: Tag[];
-}
-export const TagResourceRequest = S.suspend(() =>
-  S.Struct({ ReportName: S.String, Tags: TagList }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotations({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
-export interface TagResourceResponse {}
-export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
-  identifier: "TagResourceResponse",
-}) as any as S.Schema<TagResourceResponse>;
-export interface UntagResourceRequest {
-  ReportName: string;
-  TagKeys: string[];
-}
-export const UntagResourceRequest = S.suspend(() =>
-  S.Struct({ ReportName: S.String, TagKeys: TagKeyList }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotations({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
-export interface UntagResourceResponse {}
-export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
-  identifier: "UntagResourceResponse",
-}) as any as S.Schema<UntagResourceResponse>;
 export type TimeUnit = "HOURLY" | "DAILY" | "MONTHLY" | (string & {});
 export const TimeUnit = S.String;
 export type ReportFormat = "textORcsv" | "Parquet" | (string & {});
@@ -248,7 +205,7 @@ export const ReportStatus = S.suspend(() =>
     lastDelivery: S.optional(S.String),
     lastStatus: S.optional(LastStatus),
   }),
-).annotations({ identifier: "ReportStatus" }) as any as S.Schema<ReportStatus>;
+).annotate({ identifier: "ReportStatus" }) as any as S.Schema<ReportStatus>;
 export interface ReportDefinition {
   ReportName: string;
   TimeUnit: TimeUnit;
@@ -280,19 +237,11 @@ export const ReportDefinition = S.suspend(() =>
     BillingViewArn: S.optional(S.String),
     ReportStatus: S.optional(ReportStatus),
   }),
-).annotations({
+).annotate({
   identifier: "ReportDefinition",
 }) as any as S.Schema<ReportDefinition>;
 export type ReportDefinitionList = ReportDefinition[];
 export const ReportDefinitionList = S.Array(ReportDefinition);
-export interface DeleteReportDefinitionResponse {
-  ResponseMessage?: string;
-}
-export const DeleteReportDefinitionResponse = S.suspend(() =>
-  S.Struct({ ResponseMessage: S.optional(S.String) }),
-).annotations({
-  identifier: "DeleteReportDefinitionResponse",
-}) as any as S.Schema<DeleteReportDefinitionResponse>;
 export interface DescribeReportDefinitionsResponse {
   ReportDefinitions?: ReportDefinition[];
   NextToken?: string;
@@ -302,17 +251,53 @@ export const DescribeReportDefinitionsResponse = S.suspend(() =>
     ReportDefinitions: S.optional(ReportDefinitionList),
     NextToken: S.optional(S.String),
   }),
-).annotations({
+).annotate({
   identifier: "DescribeReportDefinitionsResponse",
 }) as any as S.Schema<DescribeReportDefinitionsResponse>;
+export interface ListTagsForResourceRequest {
+  ReportName: string;
+}
+export const ListTagsForResourceRequest = S.suspend(() =>
+  S.Struct({ ReportName: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "ListTagsForResourceRequest",
+}) as any as S.Schema<ListTagsForResourceRequest>;
+export interface Tag {
+  Key: string;
+  Value: string;
+}
+export const Tag = S.suspend(() =>
+  S.Struct({ Key: S.String, Value: S.String }),
+).annotate({ identifier: "Tag" }) as any as S.Schema<Tag>;
+export type TagList = Tag[];
+export const TagList = S.Array(Tag);
 export interface ListTagsForResourceResponse {
   Tags?: Tag[];
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ Tags: S.optional(TagList) }),
-).annotations({
+).annotate({
   identifier: "ListTagsForResourceResponse",
 }) as any as S.Schema<ListTagsForResourceResponse>;
+export interface ModifyReportDefinitionRequest {
+  ReportName: string;
+  ReportDefinition: ReportDefinition;
+}
+export const ModifyReportDefinitionRequest = S.suspend(() =>
+  S.Struct({ ReportName: S.String, ReportDefinition: ReportDefinition }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "ModifyReportDefinitionRequest",
+}) as any as S.Schema<ModifyReportDefinitionRequest>;
+export interface ModifyReportDefinitionResponse {}
+export const ModifyReportDefinitionResponse = S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "ModifyReportDefinitionResponse",
+}) as any as S.Schema<ModifyReportDefinitionResponse>;
 export interface PutReportDefinitionRequest {
   ReportDefinition: ReportDefinition;
   Tags?: Tag[];
@@ -324,56 +309,86 @@ export const PutReportDefinitionRequest = S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotations({
+).annotate({
   identifier: "PutReportDefinitionRequest",
 }) as any as S.Schema<PutReportDefinitionRequest>;
 export interface PutReportDefinitionResponse {}
 export const PutReportDefinitionResponse = S.suspend(() =>
   S.Struct({}),
-).annotations({
+).annotate({
   identifier: "PutReportDefinitionResponse",
 }) as any as S.Schema<PutReportDefinitionResponse>;
-export interface ModifyReportDefinitionRequest {
+export interface TagResourceRequest {
   ReportName: string;
-  ReportDefinition: ReportDefinition;
+  Tags: Tag[];
 }
-export const ModifyReportDefinitionRequest = S.suspend(() =>
-  S.Struct({ ReportName: S.String, ReportDefinition: ReportDefinition }).pipe(
+export const TagResourceRequest = S.suspend(() =>
+  S.Struct({ ReportName: S.String, Tags: TagList }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotations({
-  identifier: "ModifyReportDefinitionRequest",
-}) as any as S.Schema<ModifyReportDefinitionRequest>;
-export interface ModifyReportDefinitionResponse {}
-export const ModifyReportDefinitionResponse = S.suspend(() =>
-  S.Struct({}),
-).annotations({
-  identifier: "ModifyReportDefinitionResponse",
-}) as any as S.Schema<ModifyReportDefinitionResponse>;
+).annotate({
+  identifier: "TagResourceRequest",
+}) as any as S.Schema<TagResourceRequest>;
+export interface TagResourceResponse {}
+export const TagResourceResponse = S.suspend(() => S.Struct({})).annotate({
+  identifier: "TagResourceResponse",
+}) as any as S.Schema<TagResourceResponse>;
+export type TagKeyList = string[];
+export const TagKeyList = S.Array(S.String);
+export interface UntagResourceRequest {
+  ReportName: string;
+  TagKeys: string[];
+}
+export const UntagResourceRequest = S.suspend(() =>
+  S.Struct({ ReportName: S.String, TagKeys: TagKeyList }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "UntagResourceRequest",
+}) as any as S.Schema<UntagResourceRequest>;
+export interface UntagResourceResponse {}
+export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotate({
+  identifier: "UntagResourceResponse",
+}) as any as S.Schema<UntagResourceResponse>;
 
 //# Errors
-export class InternalErrorException extends S.TaggedError<InternalErrorException>()(
+export class InternalErrorException extends S.TaggedErrorClass<InternalErrorException>()(
   "InternalErrorException",
   { Message: S.optional(S.String) },
 ).pipe(C.withServerError) {}
-export class DuplicateReportNameException extends S.TaggedError<DuplicateReportNameException>()(
-  "DuplicateReportNameException",
-  { Message: S.optional(S.String) },
-) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
-  "ResourceNotFoundException",
-  { Message: S.optional(S.String) },
-) {}
-export class ValidationException extends S.TaggedError<ValidationException>()(
+export class ValidationException extends S.TaggedErrorClass<ValidationException>()(
   "ValidationException",
   { Message: S.optional(S.String) },
 ) {}
-export class ReportLimitReachedException extends S.TaggedError<ReportLimitReachedException>()(
+export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFoundException>()(
+  "ResourceNotFoundException",
+  { Message: S.optional(S.String) },
+) {}
+export class DuplicateReportNameException extends S.TaggedErrorClass<DuplicateReportNameException>()(
+  "DuplicateReportNameException",
+  { Message: S.optional(S.String) },
+) {}
+export class ReportLimitReachedException extends S.TaggedErrorClass<ReportLimitReachedException>()(
   "ReportLimitReachedException",
   { Message: S.optional(S.String) },
 ) {}
 
 //# Operations
+/**
+ * Deletes the specified report. Any tags associated with the report are also
+ * deleted.
+ */
+export const deleteReportDefinition: (
+  input: DeleteReportDefinitionRequest,
+) => effect.Effect<
+  DeleteReportDefinitionResponse,
+  InternalErrorException | ValidationException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteReportDefinitionRequest,
+  output: DeleteReportDefinitionResponse,
+  errors: [InternalErrorException, ValidationException],
+}));
 /**
  * Lists the Amazon Web Services Cost and Usage Report available to this account.
  */
@@ -408,42 +423,6 @@ export const describeReportDefinitions: {
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-}));
-/**
- * Deletes the specified report. Any tags associated with the report are also
- * deleted.
- */
-export const deleteReportDefinition: (
-  input: DeleteReportDefinitionRequest,
-) => effect.Effect<
-  DeleteReportDefinitionResponse,
-  InternalErrorException | ValidationException | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteReportDefinitionRequest,
-  output: DeleteReportDefinitionResponse,
-  errors: [InternalErrorException, ValidationException],
-}));
-/**
- * Disassociates a set of tags from a report definition.
- */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
-  UntagResourceResponse,
-  | InternalErrorException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
-  errors: [
-    InternalErrorException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
 }));
 /**
  * Lists the tags associated with the specified report definition.
@@ -481,6 +460,31 @@ export const modifyReportDefinition: (
   errors: [InternalErrorException, ValidationException],
 }));
 /**
+ * Creates a new report using the description that you provide.
+ */
+export const putReportDefinition: (
+  input: PutReportDefinitionRequest,
+) => effect.Effect<
+  PutReportDefinitionResponse,
+  | DuplicateReportNameException
+  | InternalErrorException
+  | ReportLimitReachedException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutReportDefinitionRequest,
+  output: PutReportDefinitionResponse,
+  errors: [
+    DuplicateReportNameException,
+    InternalErrorException,
+    ReportLimitReachedException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
  * Associates a set of tags with a report definition.
  */
 export const tagResource: (
@@ -502,26 +506,22 @@ export const tagResource: (
   ],
 }));
 /**
- * Creates a new report using the description that you provide.
+ * Disassociates a set of tags from a report definition.
  */
-export const putReportDefinition: (
-  input: PutReportDefinitionRequest,
+export const untagResource: (
+  input: UntagResourceRequest,
 ) => effect.Effect<
-  PutReportDefinitionResponse,
-  | DuplicateReportNameException
+  UntagResourceResponse,
   | InternalErrorException
-  | ReportLimitReachedException
   | ResourceNotFoundException
   | ValidationException
   | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PutReportDefinitionRequest,
-  output: PutReportDefinitionResponse,
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
   errors: [
-    DuplicateReportNameException,
     InternalErrorException,
-    ReportLimitReachedException,
     ResourceNotFoundException,
     ValidationException,
   ],

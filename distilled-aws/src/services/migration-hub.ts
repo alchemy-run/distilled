@@ -1,4 +1,4 @@
-import { HttpClient } from "@effect/platform";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as effect from "effect/Effect";
 import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
@@ -89,37 +89,131 @@ const rules = T.EndpointResolver((p, _) => {
 //# Newtypes
 export type ProgressUpdateStream = string;
 export type MigrationTaskName = string;
-export type DryRun = boolean;
-export type ApplicationId = string;
 export type CreatedArtifactName = string;
+export type CreatedArtifactDescription = string;
+export type DryRun = boolean;
+export type ErrorMessage = string;
+export type RetryAfterSeconds = number;
 export type ConfigurationId = string;
+export type DiscoveredResourceDescription = string;
 export type SourceResourceName = string;
+export type SourceResourceDescription = string;
+export type StatusDetail = string;
+export type ApplicationId = string;
+export type UpdateDateTime = Date;
+export type ProgressPercent = number;
+export type ResourceAttributeValue = string;
 export type Token = string;
 export type MaxResults = number;
 export type MaxResultsCreatedArtifacts = number;
 export type MaxResultsResources = number;
 export type ResourceName = string;
 export type MaxResultsSourceResources = number;
-export type UpdateDateTime = Date;
 export type NextUpdateSeconds = number;
-export type CreatedArtifactDescription = string;
-export type DiscoveredResourceDescription = string;
-export type SourceResourceDescription = string;
-export type StatusDetail = string;
-export type ProgressPercent = number;
-export type ResourceAttributeValue = string;
-export type ErrorMessage = string;
-export type RetryAfterSeconds = number;
 
 //# Schemas
-export type ApplicationIds = string[];
-export const ApplicationIds = S.Array(S.String);
-export type ApplicationStatus =
-  | "NOT_STARTED"
-  | "IN_PROGRESS"
-  | "COMPLETED"
-  | (string & {});
-export const ApplicationStatus = S.String;
+export interface CreatedArtifact {
+  Name: string;
+  Description?: string;
+}
+export const CreatedArtifact = S.suspend(() =>
+  S.Struct({ Name: S.String, Description: S.optional(S.String) }),
+).annotate({
+  identifier: "CreatedArtifact",
+}) as any as S.Schema<CreatedArtifact>;
+export interface AssociateCreatedArtifactRequest {
+  ProgressUpdateStream: string;
+  MigrationTaskName: string;
+  CreatedArtifact: CreatedArtifact;
+  DryRun?: boolean;
+}
+export const AssociateCreatedArtifactRequest = S.suspend(() =>
+  S.Struct({
+    ProgressUpdateStream: S.String,
+    MigrationTaskName: S.String,
+    CreatedArtifact: CreatedArtifact,
+    DryRun: S.optional(S.Boolean),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "AssociateCreatedArtifactRequest",
+}) as any as S.Schema<AssociateCreatedArtifactRequest>;
+export interface AssociateCreatedArtifactResult {}
+export const AssociateCreatedArtifactResult = S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "AssociateCreatedArtifactResult",
+}) as any as S.Schema<AssociateCreatedArtifactResult>;
+export interface DiscoveredResource {
+  ConfigurationId: string;
+  Description?: string;
+}
+export const DiscoveredResource = S.suspend(() =>
+  S.Struct({ ConfigurationId: S.String, Description: S.optional(S.String) }),
+).annotate({
+  identifier: "DiscoveredResource",
+}) as any as S.Schema<DiscoveredResource>;
+export interface AssociateDiscoveredResourceRequest {
+  ProgressUpdateStream: string;
+  MigrationTaskName: string;
+  DiscoveredResource: DiscoveredResource;
+  DryRun?: boolean;
+}
+export const AssociateDiscoveredResourceRequest = S.suspend(() =>
+  S.Struct({
+    ProgressUpdateStream: S.String,
+    MigrationTaskName: S.String,
+    DiscoveredResource: DiscoveredResource,
+    DryRun: S.optional(S.Boolean),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "AssociateDiscoveredResourceRequest",
+}) as any as S.Schema<AssociateDiscoveredResourceRequest>;
+export interface AssociateDiscoveredResourceResult {}
+export const AssociateDiscoveredResourceResult = S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "AssociateDiscoveredResourceResult",
+}) as any as S.Schema<AssociateDiscoveredResourceResult>;
+export interface SourceResource {
+  Name: string;
+  Description?: string;
+  StatusDetail?: string;
+}
+export const SourceResource = S.suspend(() =>
+  S.Struct({
+    Name: S.String,
+    Description: S.optional(S.String),
+    StatusDetail: S.optional(S.String),
+  }),
+).annotate({ identifier: "SourceResource" }) as any as S.Schema<SourceResource>;
+export interface AssociateSourceResourceRequest {
+  ProgressUpdateStream: string;
+  MigrationTaskName: string;
+  SourceResource: SourceResource;
+  DryRun?: boolean;
+}
+export const AssociateSourceResourceRequest = S.suspend(() =>
+  S.Struct({
+    ProgressUpdateStream: S.String,
+    MigrationTaskName: S.String,
+    SourceResource: SourceResource,
+    DryRun: S.optional(S.Boolean),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "AssociateSourceResourceRequest",
+}) as any as S.Schema<AssociateSourceResourceRequest>;
+export interface AssociateSourceResourceResult {}
+export const AssociateSourceResourceResult = S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "AssociateSourceResourceResult",
+}) as any as S.Schema<AssociateSourceResourceResult>;
 export interface CreateProgressUpdateStreamRequest {
   ProgressUpdateStreamName: string;
   DryRun?: boolean;
@@ -131,13 +225,13 @@ export const CreateProgressUpdateStreamRequest = S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotations({
+).annotate({
   identifier: "CreateProgressUpdateStreamRequest",
 }) as any as S.Schema<CreateProgressUpdateStreamRequest>;
 export interface CreateProgressUpdateStreamResult {}
 export const CreateProgressUpdateStreamResult = S.suspend(() =>
   S.Struct({}),
-).annotations({
+).annotate({
   identifier: "CreateProgressUpdateStreamResult",
 }) as any as S.Schema<CreateProgressUpdateStreamResult>;
 export interface DeleteProgressUpdateStreamRequest {
@@ -151,13 +245,13 @@ export const DeleteProgressUpdateStreamRequest = S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotations({
+).annotate({
   identifier: "DeleteProgressUpdateStreamRequest",
 }) as any as S.Schema<DeleteProgressUpdateStreamRequest>;
 export interface DeleteProgressUpdateStreamResult {}
 export const DeleteProgressUpdateStreamResult = S.suspend(() =>
   S.Struct({}),
-).annotations({
+).annotate({
   identifier: "DeleteProgressUpdateStreamResult",
 }) as any as S.Schema<DeleteProgressUpdateStreamResult>;
 export interface DescribeApplicationStateRequest {
@@ -167,9 +261,29 @@ export const DescribeApplicationStateRequest = S.suspend(() =>
   S.Struct({ ApplicationId: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotations({
+).annotate({
   identifier: "DescribeApplicationStateRequest",
 }) as any as S.Schema<DescribeApplicationStateRequest>;
+export type ApplicationStatus =
+  | "NOT_STARTED"
+  | "IN_PROGRESS"
+  | "COMPLETED"
+  | (string & {});
+export const ApplicationStatus = S.String;
+export interface DescribeApplicationStateResult {
+  ApplicationStatus?: ApplicationStatus;
+  LastUpdatedTime?: Date;
+}
+export const DescribeApplicationStateResult = S.suspend(() =>
+  S.Struct({
+    ApplicationStatus: S.optional(ApplicationStatus),
+    LastUpdatedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }),
+).annotate({
+  identifier: "DescribeApplicationStateResult",
+}) as any as S.Schema<DescribeApplicationStateResult>;
 export interface DescribeMigrationTaskRequest {
   ProgressUpdateStream: string;
   MigrationTaskName: string;
@@ -181,9 +295,76 @@ export const DescribeMigrationTaskRequest = S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotations({
+).annotate({
   identifier: "DescribeMigrationTaskRequest",
 }) as any as S.Schema<DescribeMigrationTaskRequest>;
+export type Status =
+  | "NOT_STARTED"
+  | "IN_PROGRESS"
+  | "FAILED"
+  | "COMPLETED"
+  | (string & {});
+export const Status = S.String;
+export interface Task {
+  Status: Status;
+  StatusDetail?: string;
+  ProgressPercent?: number;
+}
+export const Task = S.suspend(() =>
+  S.Struct({
+    Status: Status,
+    StatusDetail: S.optional(S.String),
+    ProgressPercent: S.optional(S.Number),
+  }),
+).annotate({ identifier: "Task" }) as any as S.Schema<Task>;
+export type ResourceAttributeType =
+  | "IPV4_ADDRESS"
+  | "IPV6_ADDRESS"
+  | "MAC_ADDRESS"
+  | "FQDN"
+  | "VM_MANAGER_ID"
+  | "VM_MANAGED_OBJECT_REFERENCE"
+  | "VM_NAME"
+  | "VM_PATH"
+  | "BIOS_ID"
+  | "MOTHERBOARD_SERIAL_NUMBER"
+  | (string & {});
+export const ResourceAttributeType = S.String;
+export interface ResourceAttribute {
+  Type: ResourceAttributeType;
+  Value: string;
+}
+export const ResourceAttribute = S.suspend(() =>
+  S.Struct({ Type: ResourceAttributeType, Value: S.String }),
+).annotate({
+  identifier: "ResourceAttribute",
+}) as any as S.Schema<ResourceAttribute>;
+export type LatestResourceAttributeList = ResourceAttribute[];
+export const LatestResourceAttributeList = S.Array(ResourceAttribute);
+export interface MigrationTask {
+  ProgressUpdateStream?: string;
+  MigrationTaskName?: string;
+  Task?: Task;
+  UpdateDateTime?: Date;
+  ResourceAttributeList?: ResourceAttribute[];
+}
+export const MigrationTask = S.suspend(() =>
+  S.Struct({
+    ProgressUpdateStream: S.optional(S.String),
+    MigrationTaskName: S.optional(S.String),
+    Task: S.optional(Task),
+    UpdateDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    ResourceAttributeList: S.optional(LatestResourceAttributeList),
+  }),
+).annotate({ identifier: "MigrationTask" }) as any as S.Schema<MigrationTask>;
+export interface DescribeMigrationTaskResult {
+  MigrationTask?: MigrationTask;
+}
+export const DescribeMigrationTaskResult = S.suspend(() =>
+  S.Struct({ MigrationTask: S.optional(MigrationTask) }),
+).annotate({
+  identifier: "DescribeMigrationTaskResult",
+}) as any as S.Schema<DescribeMigrationTaskResult>;
 export interface DisassociateCreatedArtifactRequest {
   ProgressUpdateStream: string;
   MigrationTaskName: string;
@@ -199,13 +380,13 @@ export const DisassociateCreatedArtifactRequest = S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotations({
+).annotate({
   identifier: "DisassociateCreatedArtifactRequest",
 }) as any as S.Schema<DisassociateCreatedArtifactRequest>;
 export interface DisassociateCreatedArtifactResult {}
 export const DisassociateCreatedArtifactResult = S.suspend(() =>
   S.Struct({}),
-).annotations({
+).annotate({
   identifier: "DisassociateCreatedArtifactResult",
 }) as any as S.Schema<DisassociateCreatedArtifactResult>;
 export interface DisassociateDiscoveredResourceRequest {
@@ -223,13 +404,13 @@ export const DisassociateDiscoveredResourceRequest = S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotations({
+).annotate({
   identifier: "DisassociateDiscoveredResourceRequest",
 }) as any as S.Schema<DisassociateDiscoveredResourceRequest>;
 export interface DisassociateDiscoveredResourceResult {}
 export const DisassociateDiscoveredResourceResult = S.suspend(() =>
   S.Struct({}),
-).annotations({
+).annotate({
   identifier: "DisassociateDiscoveredResourceResult",
 }) as any as S.Schema<DisassociateDiscoveredResourceResult>;
 export interface DisassociateSourceResourceRequest {
@@ -247,13 +428,13 @@ export const DisassociateSourceResourceRequest = S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotations({
+).annotate({
   identifier: "DisassociateSourceResourceRequest",
 }) as any as S.Schema<DisassociateSourceResourceRequest>;
 export interface DisassociateSourceResourceResult {}
 export const DisassociateSourceResourceResult = S.suspend(() =>
   S.Struct({}),
-).annotations({
+).annotate({
   identifier: "DisassociateSourceResourceResult",
 }) as any as S.Schema<DisassociateSourceResourceResult>;
 export interface ImportMigrationTaskRequest {
@@ -269,15 +450,15 @@ export const ImportMigrationTaskRequest = S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotations({
+).annotate({
   identifier: "ImportMigrationTaskRequest",
 }) as any as S.Schema<ImportMigrationTaskRequest>;
 export interface ImportMigrationTaskResult {}
-export const ImportMigrationTaskResult = S.suspend(() =>
-  S.Struct({}),
-).annotations({
-  identifier: "ImportMigrationTaskResult",
-}) as any as S.Schema<ImportMigrationTaskResult>;
+export const ImportMigrationTaskResult = S.suspend(() => S.Struct({})).annotate(
+  { identifier: "ImportMigrationTaskResult" },
+) as any as S.Schema<ImportMigrationTaskResult>;
+export type ApplicationIds = string[];
+export const ApplicationIds = S.Array(S.String);
 export interface ListApplicationStatesRequest {
   ApplicationIds?: string[];
   NextToken?: string;
@@ -291,9 +472,39 @@ export const ListApplicationStatesRequest = S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotations({
+).annotate({
   identifier: "ListApplicationStatesRequest",
 }) as any as S.Schema<ListApplicationStatesRequest>;
+export interface ApplicationState {
+  ApplicationId?: string;
+  ApplicationStatus?: ApplicationStatus;
+  LastUpdatedTime?: Date;
+}
+export const ApplicationState = S.suspend(() =>
+  S.Struct({
+    ApplicationId: S.optional(S.String),
+    ApplicationStatus: S.optional(ApplicationStatus),
+    LastUpdatedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }),
+).annotate({
+  identifier: "ApplicationState",
+}) as any as S.Schema<ApplicationState>;
+export type ApplicationStateList = ApplicationState[];
+export const ApplicationStateList = S.Array(ApplicationState);
+export interface ListApplicationStatesResult {
+  ApplicationStateList?: ApplicationState[];
+  NextToken?: string;
+}
+export const ListApplicationStatesResult = S.suspend(() =>
+  S.Struct({
+    ApplicationStateList: S.optional(ApplicationStateList),
+    NextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ListApplicationStatesResult",
+}) as any as S.Schema<ListApplicationStatesResult>;
 export interface ListCreatedArtifactsRequest {
   ProgressUpdateStream: string;
   MigrationTaskName: string;
@@ -309,9 +520,23 @@ export const ListCreatedArtifactsRequest = S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotations({
+).annotate({
   identifier: "ListCreatedArtifactsRequest",
 }) as any as S.Schema<ListCreatedArtifactsRequest>;
+export type CreatedArtifactList = CreatedArtifact[];
+export const CreatedArtifactList = S.Array(CreatedArtifact);
+export interface ListCreatedArtifactsResult {
+  NextToken?: string;
+  CreatedArtifactList?: CreatedArtifact[];
+}
+export const ListCreatedArtifactsResult = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    CreatedArtifactList: S.optional(CreatedArtifactList),
+  }),
+).annotate({
+  identifier: "ListCreatedArtifactsResult",
+}) as any as S.Schema<ListCreatedArtifactsResult>;
 export interface ListDiscoveredResourcesRequest {
   ProgressUpdateStream: string;
   MigrationTaskName: string;
@@ -327,9 +552,23 @@ export const ListDiscoveredResourcesRequest = S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotations({
+).annotate({
   identifier: "ListDiscoveredResourcesRequest",
 }) as any as S.Schema<ListDiscoveredResourcesRequest>;
+export type DiscoveredResourceList = DiscoveredResource[];
+export const DiscoveredResourceList = S.Array(DiscoveredResource);
+export interface ListDiscoveredResourcesResult {
+  NextToken?: string;
+  DiscoveredResourceList?: DiscoveredResource[];
+}
+export const ListDiscoveredResourcesResult = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    DiscoveredResourceList: S.optional(DiscoveredResourceList),
+  }),
+).annotate({
+  identifier: "ListDiscoveredResourcesResult",
+}) as any as S.Schema<ListDiscoveredResourcesResult>;
 export interface ListMigrationTasksRequest {
   NextToken?: string;
   MaxResults?: number;
@@ -343,9 +582,43 @@ export const ListMigrationTasksRequest = S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotations({
+).annotate({
   identifier: "ListMigrationTasksRequest",
 }) as any as S.Schema<ListMigrationTasksRequest>;
+export interface MigrationTaskSummary {
+  ProgressUpdateStream?: string;
+  MigrationTaskName?: string;
+  Status?: Status;
+  ProgressPercent?: number;
+  StatusDetail?: string;
+  UpdateDateTime?: Date;
+}
+export const MigrationTaskSummary = S.suspend(() =>
+  S.Struct({
+    ProgressUpdateStream: S.optional(S.String),
+    MigrationTaskName: S.optional(S.String),
+    Status: S.optional(Status),
+    ProgressPercent: S.optional(S.Number),
+    StatusDetail: S.optional(S.String),
+    UpdateDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotate({
+  identifier: "MigrationTaskSummary",
+}) as any as S.Schema<MigrationTaskSummary>;
+export type MigrationTaskSummaryList = MigrationTaskSummary[];
+export const MigrationTaskSummaryList = S.Array(MigrationTaskSummary);
+export interface ListMigrationTasksResult {
+  NextToken?: string;
+  MigrationTaskSummaryList?: MigrationTaskSummary[];
+}
+export const ListMigrationTasksResult = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    MigrationTaskSummaryList: S.optional(MigrationTaskSummaryList),
+  }),
+).annotate({
+  identifier: "ListMigrationTasksResult",
+}) as any as S.Schema<ListMigrationTasksResult>;
 export interface ListMigrationTaskUpdatesRequest {
   ProgressUpdateStream: string;
   MigrationTaskName: string;
@@ -361,9 +634,39 @@ export const ListMigrationTaskUpdatesRequest = S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotations({
+).annotate({
   identifier: "ListMigrationTaskUpdatesRequest",
 }) as any as S.Schema<ListMigrationTaskUpdatesRequest>;
+export type UpdateType = "MIGRATION_TASK_STATE_UPDATED" | (string & {});
+export const UpdateType = S.String;
+export interface MigrationTaskUpdate {
+  UpdateDateTime?: Date;
+  UpdateType?: UpdateType;
+  MigrationTaskState?: Task;
+}
+export const MigrationTaskUpdate = S.suspend(() =>
+  S.Struct({
+    UpdateDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    UpdateType: S.optional(UpdateType),
+    MigrationTaskState: S.optional(Task),
+  }),
+).annotate({
+  identifier: "MigrationTaskUpdate",
+}) as any as S.Schema<MigrationTaskUpdate>;
+export type MigrationTaskUpdateList = MigrationTaskUpdate[];
+export const MigrationTaskUpdateList = S.Array(MigrationTaskUpdate);
+export interface ListMigrationTaskUpdatesResult {
+  NextToken?: string;
+  MigrationTaskUpdateList?: MigrationTaskUpdate[];
+}
+export const ListMigrationTaskUpdatesResult = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    MigrationTaskUpdateList: S.optional(MigrationTaskUpdateList),
+  }),
+).annotate({
+  identifier: "ListMigrationTaskUpdatesResult",
+}) as any as S.Schema<ListMigrationTaskUpdatesResult>;
 export interface ListProgressUpdateStreamsRequest {
   NextToken?: string;
   MaxResults?: number;
@@ -375,9 +678,35 @@ export const ListProgressUpdateStreamsRequest = S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotations({
+).annotate({
   identifier: "ListProgressUpdateStreamsRequest",
 }) as any as S.Schema<ListProgressUpdateStreamsRequest>;
+export interface ProgressUpdateStreamSummary {
+  ProgressUpdateStreamName?: string;
+}
+export const ProgressUpdateStreamSummary = S.suspend(() =>
+  S.Struct({ ProgressUpdateStreamName: S.optional(S.String) }),
+).annotate({
+  identifier: "ProgressUpdateStreamSummary",
+}) as any as S.Schema<ProgressUpdateStreamSummary>;
+export type ProgressUpdateStreamSummaryList = ProgressUpdateStreamSummary[];
+export const ProgressUpdateStreamSummaryList = S.Array(
+  ProgressUpdateStreamSummary,
+);
+export interface ListProgressUpdateStreamsResult {
+  ProgressUpdateStreamSummaryList?: ProgressUpdateStreamSummary[];
+  NextToken?: string;
+}
+export const ListProgressUpdateStreamsResult = S.suspend(() =>
+  S.Struct({
+    ProgressUpdateStreamSummaryList: S.optional(
+      ProgressUpdateStreamSummaryList,
+    ),
+    NextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ListProgressUpdateStreamsResult",
+}) as any as S.Schema<ListProgressUpdateStreamsResult>;
 export interface ListSourceResourcesRequest {
   ProgressUpdateStream: string;
   MigrationTaskName: string;
@@ -393,9 +722,23 @@ export const ListSourceResourcesRequest = S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotations({
+).annotate({
   identifier: "ListSourceResourcesRequest",
 }) as any as S.Schema<ListSourceResourcesRequest>;
+export type SourceResourceList = SourceResource[];
+export const SourceResourceList = S.Array(SourceResource);
+export interface ListSourceResourcesResult {
+  NextToken?: string;
+  SourceResourceList?: SourceResource[];
+}
+export const ListSourceResourcesResult = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    SourceResourceList: S.optional(SourceResourceList),
+  }),
+).annotate({
+  identifier: "ListSourceResourcesResult",
+}) as any as S.Schema<ListSourceResourcesResult>;
 export interface NotifyApplicationStateRequest {
   ApplicationId: string;
   Status: ApplicationStatus;
@@ -411,218 +754,15 @@ export const NotifyApplicationStateRequest = S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotations({
+).annotate({
   identifier: "NotifyApplicationStateRequest",
 }) as any as S.Schema<NotifyApplicationStateRequest>;
 export interface NotifyApplicationStateResult {}
 export const NotifyApplicationStateResult = S.suspend(() =>
   S.Struct({}),
-).annotations({
+).annotate({
   identifier: "NotifyApplicationStateResult",
 }) as any as S.Schema<NotifyApplicationStateResult>;
-export type Status =
-  | "NOT_STARTED"
-  | "IN_PROGRESS"
-  | "FAILED"
-  | "COMPLETED"
-  | (string & {});
-export const Status = S.String;
-export type ResourceAttributeType =
-  | "IPV4_ADDRESS"
-  | "IPV6_ADDRESS"
-  | "MAC_ADDRESS"
-  | "FQDN"
-  | "VM_MANAGER_ID"
-  | "VM_MANAGED_OBJECT_REFERENCE"
-  | "VM_NAME"
-  | "VM_PATH"
-  | "BIOS_ID"
-  | "MOTHERBOARD_SERIAL_NUMBER"
-  | (string & {});
-export const ResourceAttributeType = S.String;
-export interface CreatedArtifact {
-  Name: string;
-  Description?: string;
-}
-export const CreatedArtifact = S.suspend(() =>
-  S.Struct({ Name: S.String, Description: S.optional(S.String) }),
-).annotations({
-  identifier: "CreatedArtifact",
-}) as any as S.Schema<CreatedArtifact>;
-export interface DiscoveredResource {
-  ConfigurationId: string;
-  Description?: string;
-}
-export const DiscoveredResource = S.suspend(() =>
-  S.Struct({ ConfigurationId: S.String, Description: S.optional(S.String) }),
-).annotations({
-  identifier: "DiscoveredResource",
-}) as any as S.Schema<DiscoveredResource>;
-export interface SourceResource {
-  Name: string;
-  Description?: string;
-  StatusDetail?: string;
-}
-export const SourceResource = S.suspend(() =>
-  S.Struct({
-    Name: S.String,
-    Description: S.optional(S.String),
-    StatusDetail: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "SourceResource",
-}) as any as S.Schema<SourceResource>;
-export type CreatedArtifactList = CreatedArtifact[];
-export const CreatedArtifactList = S.Array(CreatedArtifact);
-export type DiscoveredResourceList = DiscoveredResource[];
-export const DiscoveredResourceList = S.Array(DiscoveredResource);
-export type SourceResourceList = SourceResource[];
-export const SourceResourceList = S.Array(SourceResource);
-export interface Task {
-  Status: Status;
-  StatusDetail?: string;
-  ProgressPercent?: number;
-}
-export const Task = S.suspend(() =>
-  S.Struct({
-    Status: Status,
-    StatusDetail: S.optional(S.String),
-    ProgressPercent: S.optional(S.Number),
-  }),
-).annotations({ identifier: "Task" }) as any as S.Schema<Task>;
-export interface ResourceAttribute {
-  Type: ResourceAttributeType;
-  Value: string;
-}
-export const ResourceAttribute = S.suspend(() =>
-  S.Struct({ Type: ResourceAttributeType, Value: S.String }),
-).annotations({
-  identifier: "ResourceAttribute",
-}) as any as S.Schema<ResourceAttribute>;
-export type ResourceAttributeList = ResourceAttribute[];
-export const ResourceAttributeList = S.Array(ResourceAttribute);
-export interface AssociateCreatedArtifactRequest {
-  ProgressUpdateStream: string;
-  MigrationTaskName: string;
-  CreatedArtifact: CreatedArtifact;
-  DryRun?: boolean;
-}
-export const AssociateCreatedArtifactRequest = S.suspend(() =>
-  S.Struct({
-    ProgressUpdateStream: S.String,
-    MigrationTaskName: S.String,
-    CreatedArtifact: CreatedArtifact,
-    DryRun: S.optional(S.Boolean),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotations({
-  identifier: "AssociateCreatedArtifactRequest",
-}) as any as S.Schema<AssociateCreatedArtifactRequest>;
-export interface AssociateCreatedArtifactResult {}
-export const AssociateCreatedArtifactResult = S.suspend(() =>
-  S.Struct({}),
-).annotations({
-  identifier: "AssociateCreatedArtifactResult",
-}) as any as S.Schema<AssociateCreatedArtifactResult>;
-export interface AssociateDiscoveredResourceRequest {
-  ProgressUpdateStream: string;
-  MigrationTaskName: string;
-  DiscoveredResource: DiscoveredResource;
-  DryRun?: boolean;
-}
-export const AssociateDiscoveredResourceRequest = S.suspend(() =>
-  S.Struct({
-    ProgressUpdateStream: S.String,
-    MigrationTaskName: S.String,
-    DiscoveredResource: DiscoveredResource,
-    DryRun: S.optional(S.Boolean),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotations({
-  identifier: "AssociateDiscoveredResourceRequest",
-}) as any as S.Schema<AssociateDiscoveredResourceRequest>;
-export interface AssociateDiscoveredResourceResult {}
-export const AssociateDiscoveredResourceResult = S.suspend(() =>
-  S.Struct({}),
-).annotations({
-  identifier: "AssociateDiscoveredResourceResult",
-}) as any as S.Schema<AssociateDiscoveredResourceResult>;
-export interface AssociateSourceResourceRequest {
-  ProgressUpdateStream: string;
-  MigrationTaskName: string;
-  SourceResource: SourceResource;
-  DryRun?: boolean;
-}
-export const AssociateSourceResourceRequest = S.suspend(() =>
-  S.Struct({
-    ProgressUpdateStream: S.String,
-    MigrationTaskName: S.String,
-    SourceResource: SourceResource,
-    DryRun: S.optional(S.Boolean),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotations({
-  identifier: "AssociateSourceResourceRequest",
-}) as any as S.Schema<AssociateSourceResourceRequest>;
-export interface AssociateSourceResourceResult {}
-export const AssociateSourceResourceResult = S.suspend(() =>
-  S.Struct({}),
-).annotations({
-  identifier: "AssociateSourceResourceResult",
-}) as any as S.Schema<AssociateSourceResourceResult>;
-export interface DescribeApplicationStateResult {
-  ApplicationStatus?: ApplicationStatus;
-  LastUpdatedTime?: Date;
-}
-export const DescribeApplicationStateResult = S.suspend(() =>
-  S.Struct({
-    ApplicationStatus: S.optional(ApplicationStatus),
-    LastUpdatedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-  }),
-).annotations({
-  identifier: "DescribeApplicationStateResult",
-}) as any as S.Schema<DescribeApplicationStateResult>;
-export interface ListCreatedArtifactsResult {
-  NextToken?: string;
-  CreatedArtifactList?: CreatedArtifact[];
-}
-export const ListCreatedArtifactsResult = S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    CreatedArtifactList: S.optional(CreatedArtifactList),
-  }),
-).annotations({
-  identifier: "ListCreatedArtifactsResult",
-}) as any as S.Schema<ListCreatedArtifactsResult>;
-export interface ListDiscoveredResourcesResult {
-  NextToken?: string;
-  DiscoveredResourceList?: DiscoveredResource[];
-}
-export const ListDiscoveredResourcesResult = S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    DiscoveredResourceList: S.optional(DiscoveredResourceList),
-  }),
-).annotations({
-  identifier: "ListDiscoveredResourcesResult",
-}) as any as S.Schema<ListDiscoveredResourcesResult>;
-export interface ListSourceResourcesResult {
-  NextToken?: string;
-  SourceResourceList?: SourceResource[];
-}
-export const ListSourceResourcesResult = S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    SourceResourceList: S.optional(SourceResourceList),
-  }),
-).annotations({
-  identifier: "ListSourceResourcesResult",
-}) as any as S.Schema<ListSourceResourcesResult>;
 export interface NotifyMigrationTaskStateRequest {
   ProgressUpdateStream: string;
   MigrationTaskName: string;
@@ -642,15 +782,17 @@ export const NotifyMigrationTaskStateRequest = S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotations({
+).annotate({
   identifier: "NotifyMigrationTaskStateRequest",
 }) as any as S.Schema<NotifyMigrationTaskStateRequest>;
 export interface NotifyMigrationTaskStateResult {}
 export const NotifyMigrationTaskStateResult = S.suspend(() =>
   S.Struct({}),
-).annotations({
+).annotate({
   identifier: "NotifyMigrationTaskStateResult",
 }) as any as S.Schema<NotifyMigrationTaskStateResult>;
+export type ResourceAttributeList = ResourceAttribute[];
+export const ResourceAttributeList = S.Array(ResourceAttribute);
 export interface PutResourceAttributesRequest {
   ProgressUpdateStream: string;
   MigrationTaskName: string;
@@ -666,448 +808,117 @@ export const PutResourceAttributesRequest = S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotations({
+).annotate({
   identifier: "PutResourceAttributesRequest",
 }) as any as S.Schema<PutResourceAttributesRequest>;
 export interface PutResourceAttributesResult {}
 export const PutResourceAttributesResult = S.suspend(() =>
   S.Struct({}),
-).annotations({
+).annotate({
   identifier: "PutResourceAttributesResult",
 }) as any as S.Schema<PutResourceAttributesResult>;
-export type LatestResourceAttributeList = ResourceAttribute[];
-export const LatestResourceAttributeList = S.Array(ResourceAttribute);
-export type UpdateType = "MIGRATION_TASK_STATE_UPDATED" | (string & {});
-export const UpdateType = S.String;
-export interface MigrationTask {
-  ProgressUpdateStream?: string;
-  MigrationTaskName?: string;
-  Task?: Task;
-  UpdateDateTime?: Date;
-  ResourceAttributeList?: ResourceAttribute[];
-}
-export const MigrationTask = S.suspend(() =>
-  S.Struct({
-    ProgressUpdateStream: S.optional(S.String),
-    MigrationTaskName: S.optional(S.String),
-    Task: S.optional(Task),
-    UpdateDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    ResourceAttributeList: S.optional(LatestResourceAttributeList),
-  }),
-).annotations({
-  identifier: "MigrationTask",
-}) as any as S.Schema<MigrationTask>;
-export interface ApplicationState {
-  ApplicationId?: string;
-  ApplicationStatus?: ApplicationStatus;
-  LastUpdatedTime?: Date;
-}
-export const ApplicationState = S.suspend(() =>
-  S.Struct({
-    ApplicationId: S.optional(S.String),
-    ApplicationStatus: S.optional(ApplicationStatus),
-    LastUpdatedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-  }),
-).annotations({
-  identifier: "ApplicationState",
-}) as any as S.Schema<ApplicationState>;
-export type ApplicationStateList = ApplicationState[];
-export const ApplicationStateList = S.Array(ApplicationState);
-export interface MigrationTaskSummary {
-  ProgressUpdateStream?: string;
-  MigrationTaskName?: string;
-  Status?: Status;
-  ProgressPercent?: number;
-  StatusDetail?: string;
-  UpdateDateTime?: Date;
-}
-export const MigrationTaskSummary = S.suspend(() =>
-  S.Struct({
-    ProgressUpdateStream: S.optional(S.String),
-    MigrationTaskName: S.optional(S.String),
-    Status: S.optional(Status),
-    ProgressPercent: S.optional(S.Number),
-    StatusDetail: S.optional(S.String),
-    UpdateDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }),
-).annotations({
-  identifier: "MigrationTaskSummary",
-}) as any as S.Schema<MigrationTaskSummary>;
-export type MigrationTaskSummaryList = MigrationTaskSummary[];
-export const MigrationTaskSummaryList = S.Array(MigrationTaskSummary);
-export interface MigrationTaskUpdate {
-  UpdateDateTime?: Date;
-  UpdateType?: UpdateType;
-  MigrationTaskState?: Task;
-}
-export const MigrationTaskUpdate = S.suspend(() =>
-  S.Struct({
-    UpdateDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    UpdateType: S.optional(UpdateType),
-    MigrationTaskState: S.optional(Task),
-  }),
-).annotations({
-  identifier: "MigrationTaskUpdate",
-}) as any as S.Schema<MigrationTaskUpdate>;
-export type MigrationTaskUpdateList = MigrationTaskUpdate[];
-export const MigrationTaskUpdateList = S.Array(MigrationTaskUpdate);
-export interface ProgressUpdateStreamSummary {
-  ProgressUpdateStreamName?: string;
-}
-export const ProgressUpdateStreamSummary = S.suspend(() =>
-  S.Struct({ ProgressUpdateStreamName: S.optional(S.String) }),
-).annotations({
-  identifier: "ProgressUpdateStreamSummary",
-}) as any as S.Schema<ProgressUpdateStreamSummary>;
-export type ProgressUpdateStreamSummaryList = ProgressUpdateStreamSummary[];
-export const ProgressUpdateStreamSummaryList = S.Array(
-  ProgressUpdateStreamSummary,
-);
-export interface DescribeMigrationTaskResult {
-  MigrationTask?: MigrationTask;
-}
-export const DescribeMigrationTaskResult = S.suspend(() =>
-  S.Struct({ MigrationTask: S.optional(MigrationTask) }),
-).annotations({
-  identifier: "DescribeMigrationTaskResult",
-}) as any as S.Schema<DescribeMigrationTaskResult>;
-export interface ListApplicationStatesResult {
-  ApplicationStateList?: ApplicationState[];
-  NextToken?: string;
-}
-export const ListApplicationStatesResult = S.suspend(() =>
-  S.Struct({
-    ApplicationStateList: S.optional(ApplicationStateList),
-    NextToken: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "ListApplicationStatesResult",
-}) as any as S.Schema<ListApplicationStatesResult>;
-export interface ListMigrationTasksResult {
-  NextToken?: string;
-  MigrationTaskSummaryList?: MigrationTaskSummary[];
-}
-export const ListMigrationTasksResult = S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    MigrationTaskSummaryList: S.optional(MigrationTaskSummaryList),
-  }),
-).annotations({
-  identifier: "ListMigrationTasksResult",
-}) as any as S.Schema<ListMigrationTasksResult>;
-export interface ListMigrationTaskUpdatesResult {
-  NextToken?: string;
-  MigrationTaskUpdateList?: MigrationTaskUpdate[];
-}
-export const ListMigrationTaskUpdatesResult = S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    MigrationTaskUpdateList: S.optional(MigrationTaskUpdateList),
-  }),
-).annotations({
-  identifier: "ListMigrationTaskUpdatesResult",
-}) as any as S.Schema<ListMigrationTaskUpdatesResult>;
-export interface ListProgressUpdateStreamsResult {
-  ProgressUpdateStreamSummaryList?: ProgressUpdateStreamSummary[];
-  NextToken?: string;
-}
-export const ListProgressUpdateStreamsResult = S.suspend(() =>
-  S.Struct({
-    ProgressUpdateStreamSummaryList: S.optional(
-      ProgressUpdateStreamSummaryList,
-    ),
-    NextToken: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "ListProgressUpdateStreamsResult",
-}) as any as S.Schema<ListProgressUpdateStreamsResult>;
 
 //# Errors
-export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
+export class AccessDeniedException extends S.TaggedErrorClass<AccessDeniedException>()(
   "AccessDeniedException",
   { Message: S.optional(S.String) },
 ).pipe(C.withAuthError) {}
-export class DryRunOperation extends S.TaggedError<DryRunOperation>()(
+export class DryRunOperation extends S.TaggedErrorClass<DryRunOperation>()(
   "DryRunOperation",
   { Message: S.optional(S.String) },
 ) {}
-export class HomeRegionNotSetException extends S.TaggedError<HomeRegionNotSetException>()(
+export class HomeRegionNotSetException extends S.TaggedErrorClass<HomeRegionNotSetException>()(
   "HomeRegionNotSetException",
   { Message: S.optional(S.String) },
 ) {}
-export class InternalServerError extends S.TaggedError<InternalServerError>()(
+export class InternalServerError extends S.TaggedErrorClass<InternalServerError>()(
   "InternalServerError",
   { Message: S.optional(S.String) },
 ) {}
-export class InvalidInputException extends S.TaggedError<InvalidInputException>()(
+export class InvalidInputException extends S.TaggedErrorClass<InvalidInputException>()(
   "InvalidInputException",
   { Message: S.optional(S.String) },
 ) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { Message: S.optional(S.String) },
 ) {}
-export class PolicyErrorException extends S.TaggedError<PolicyErrorException>()(
-  "PolicyErrorException",
-  { Message: S.optional(S.String) },
-) {}
-export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailableException>()(
+export class ServiceUnavailableException extends S.TaggedErrorClass<ServiceUnavailableException>()(
   "ServiceUnavailableException",
   { Message: S.optional(S.String) },
 ).pipe(C.withServerError) {}
-export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
+export class ThrottlingException extends S.TaggedErrorClass<ThrottlingException>()(
   "ThrottlingException",
   {
     Message: S.String,
     RetryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
   },
 ).pipe(C.withThrottlingError) {}
-export class UnauthorizedOperation extends S.TaggedError<UnauthorizedOperation>()(
+export class UnauthorizedOperation extends S.TaggedErrorClass<UnauthorizedOperation>()(
   "UnauthorizedOperation",
   { Message: S.optional(S.String) },
 ).pipe(C.withAuthError) {}
+export class PolicyErrorException extends S.TaggedErrorClass<PolicyErrorException>()(
+  "PolicyErrorException",
+  { Message: S.optional(S.String) },
+) {}
 
 //# Operations
 /**
- * Lists the created artifacts attached to a given migration task in an update stream. This
- * API has the following traits:
+ * Associates a created artifact of an AWS cloud resource, the target receiving the
+ * migration, with the migration task performed by a migration tool. This API has the
+ * following traits:
  *
- * - Gets the list of the created artifacts while
- * migration is taking place.
+ * - Migration tools can call the `AssociateCreatedArtifact` operation to
+ * indicate which AWS artifact is associated with a migration task.
  *
- * - Shows the artifacts created by the migration tool that was associated by the
- * `AssociateCreatedArtifact` API.
+ * - The created artifact name must be provided in ARN (Amazon Resource Name) format
+ * which will contain information about type and region; for example:
+ * `arn:aws:ec2:us-east-1:488216288981:image/ami-6d0ba87b`.
  *
- * - Lists created artifacts in a paginated interface.
+ * - Examples of the AWS resource behind the created artifact are, AMI's, EC2 instance,
+ * or DMS endpoint, etc.
  */
-export const listCreatedArtifacts: {
-  (
-    input: ListCreatedArtifactsRequest,
-  ): effect.Effect<
-    ListCreatedArtifactsResult,
-    | AccessDeniedException
-    | HomeRegionNotSetException
-    | InternalServerError
-    | InvalidInputException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  pages: (
-    input: ListCreatedArtifactsRequest,
-  ) => stream.Stream<
-    ListCreatedArtifactsResult,
-    | AccessDeniedException
-    | HomeRegionNotSetException
-    | InternalServerError
-    | InvalidInputException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  items: (
-    input: ListCreatedArtifactsRequest,
-  ) => stream.Stream<
-    CreatedArtifact,
-    | AccessDeniedException
-    | HomeRegionNotSetException
-    | InternalServerError
-    | InvalidInputException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
-  input: ListCreatedArtifactsRequest,
-  output: ListCreatedArtifactsResult,
-  errors: [
-    AccessDeniedException,
-    HomeRegionNotSetException,
-    InternalServerError,
-    InvalidInputException,
-    ResourceNotFoundException,
-    ServiceUnavailableException,
-    ThrottlingException,
-  ],
-  pagination: {
-    inputToken: "NextToken",
-    outputToken: "NextToken",
-    items: "CreatedArtifactList",
-    pageSize: "MaxResults",
-  } as const,
-}));
-/**
- * Lists discovered resources associated with the given `MigrationTask`.
- */
-export const listDiscoveredResources: {
-  (
-    input: ListDiscoveredResourcesRequest,
-  ): effect.Effect<
-    ListDiscoveredResourcesResult,
-    | AccessDeniedException
-    | HomeRegionNotSetException
-    | InternalServerError
-    | InvalidInputException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  pages: (
-    input: ListDiscoveredResourcesRequest,
-  ) => stream.Stream<
-    ListDiscoveredResourcesResult,
-    | AccessDeniedException
-    | HomeRegionNotSetException
-    | InternalServerError
-    | InvalidInputException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  items: (
-    input: ListDiscoveredResourcesRequest,
-  ) => stream.Stream<
-    DiscoveredResource,
-    | AccessDeniedException
-    | HomeRegionNotSetException
-    | InternalServerError
-    | InvalidInputException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
-  input: ListDiscoveredResourcesRequest,
-  output: ListDiscoveredResourcesResult,
-  errors: [
-    AccessDeniedException,
-    HomeRegionNotSetException,
-    InternalServerError,
-    InvalidInputException,
-    ResourceNotFoundException,
-    ServiceUnavailableException,
-    ThrottlingException,
-  ],
-  pagination: {
-    inputToken: "NextToken",
-    outputToken: "NextToken",
-    items: "DiscoveredResourceList",
-    pageSize: "MaxResults",
-  } as const,
-}));
-/**
- * Retrieves a list of all attributes associated with a specific migration task.
- */
-export const describeMigrationTask: (
-  input: DescribeMigrationTaskRequest,
+export const associateCreatedArtifact: (
+  input: AssociateCreatedArtifactRequest,
 ) => effect.Effect<
-  DescribeMigrationTaskResult,
+  AssociateCreatedArtifactResult,
   | AccessDeniedException
+  | DryRunOperation
   | HomeRegionNotSetException
   | InternalServerError
   | InvalidInputException
   | ResourceNotFoundException
   | ServiceUnavailableException
   | ThrottlingException
+  | UnauthorizedOperation
   | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeMigrationTaskRequest,
-  output: DescribeMigrationTaskResult,
+  input: AssociateCreatedArtifactRequest,
+  output: AssociateCreatedArtifactResult,
   errors: [
     AccessDeniedException,
+    DryRunOperation,
     HomeRegionNotSetException,
     InternalServerError,
     InvalidInputException,
     ResourceNotFoundException,
     ServiceUnavailableException,
     ThrottlingException,
+    UnauthorizedOperation,
   ],
 }));
 /**
- * This is a paginated API that returns all the migration-task states for the specified
- * `MigrationTaskName` and `ProgressUpdateStream`.
+ * Associates a discovered resource ID from Application Discovery Service with a migration
+ * task.
  */
-export const listMigrationTaskUpdates: {
-  (
-    input: ListMigrationTaskUpdatesRequest,
-  ): effect.Effect<
-    ListMigrationTaskUpdatesResult,
-    | AccessDeniedException
-    | InternalServerError
-    | InvalidInputException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  pages: (
-    input: ListMigrationTaskUpdatesRequest,
-  ) => stream.Stream<
-    ListMigrationTaskUpdatesResult,
-    | AccessDeniedException
-    | InternalServerError
-    | InvalidInputException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  items: (
-    input: ListMigrationTaskUpdatesRequest,
-  ) => stream.Stream<
-    MigrationTaskUpdate,
-    | AccessDeniedException
-    | InternalServerError
-    | InvalidInputException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
-  input: ListMigrationTaskUpdatesRequest,
-  output: ListMigrationTaskUpdatesResult,
-  errors: [
-    AccessDeniedException,
-    InternalServerError,
-    InvalidInputException,
-    ResourceNotFoundException,
-    ServiceUnavailableException,
-    ThrottlingException,
-  ],
-  pagination: {
-    inputToken: "NextToken",
-    outputToken: "NextToken",
-    items: "MigrationTaskUpdateList",
-    pageSize: "MaxResults",
-  } as const,
-}));
-/**
- * Gets the migration status of an application.
- */
-export const describeApplicationState: (
-  input: DescribeApplicationStateRequest,
+export const associateDiscoveredResource: (
+  input: AssociateDiscoveredResourceRequest,
 ) => effect.Effect<
-  DescribeApplicationStateResult,
+  AssociateDiscoveredResourceResult,
   | AccessDeniedException
+  | DryRunOperation
   | HomeRegionNotSetException
   | InternalServerError
   | InvalidInputException
@@ -1115,13 +926,15 @@ export const describeApplicationState: (
   | ResourceNotFoundException
   | ServiceUnavailableException
   | ThrottlingException
+  | UnauthorizedOperation
   | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeApplicationStateRequest,
-  output: DescribeApplicationStateResult,
+  input: AssociateDiscoveredResourceRequest,
+  output: AssociateDiscoveredResourceResult,
   errors: [
     AccessDeniedException,
+    DryRunOperation,
     HomeRegionNotSetException,
     InternalServerError,
     InvalidInputException,
@@ -1129,270 +942,40 @@ export const describeApplicationState: (
     ResourceNotFoundException,
     ServiceUnavailableException,
     ThrottlingException,
+    UnauthorizedOperation,
   ],
 }));
 /**
- * Lists all, or filtered by resource name, migration tasks associated with the user
- * account making this call. This API has the following traits:
- *
- * - Can show a summary list of the most recent migration tasks.
- *
- * - Can show a summary list of migration tasks associated with a given discovered
- * resource.
- *
- * - Lists migration tasks in a paginated interface.
+ * Associates a source resource with a migration task. For example, the source resource can
+ * be a source server, an application, or a migration wave.
  */
-export const listMigrationTasks: {
-  (
-    input: ListMigrationTasksRequest,
-  ): effect.Effect<
-    ListMigrationTasksResult,
-    | AccessDeniedException
-    | HomeRegionNotSetException
-    | InternalServerError
-    | InvalidInputException
-    | PolicyErrorException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  pages: (
-    input: ListMigrationTasksRequest,
-  ) => stream.Stream<
-    ListMigrationTasksResult,
-    | AccessDeniedException
-    | HomeRegionNotSetException
-    | InternalServerError
-    | InvalidInputException
-    | PolicyErrorException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  items: (
-    input: ListMigrationTasksRequest,
-  ) => stream.Stream<
-    MigrationTaskSummary,
-    | AccessDeniedException
-    | HomeRegionNotSetException
-    | InternalServerError
-    | InvalidInputException
-    | PolicyErrorException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
-  input: ListMigrationTasksRequest,
-  output: ListMigrationTasksResult,
+export const associateSourceResource: (
+  input: AssociateSourceResourceRequest,
+) => effect.Effect<
+  AssociateSourceResourceResult,
+  | AccessDeniedException
+  | DryRunOperation
+  | InternalServerError
+  | InvalidInputException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedOperation
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateSourceResourceRequest,
+  output: AssociateSourceResourceResult,
   errors: [
     AccessDeniedException,
-    HomeRegionNotSetException,
-    InternalServerError,
-    InvalidInputException,
-    PolicyErrorException,
-    ResourceNotFoundException,
-    ServiceUnavailableException,
-    ThrottlingException,
-  ],
-  pagination: {
-    inputToken: "NextToken",
-    outputToken: "NextToken",
-    items: "MigrationTaskSummaryList",
-    pageSize: "MaxResults",
-  } as const,
-}));
-/**
- * Lists all the migration statuses for your applications. If you use the optional
- * `ApplicationIds` parameter, only the migration statuses for those
- * applications will be returned.
- */
-export const listApplicationStates: {
-  (
-    input: ListApplicationStatesRequest,
-  ): effect.Effect<
-    ListApplicationStatesResult,
-    | AccessDeniedException
-    | HomeRegionNotSetException
-    | InternalServerError
-    | InvalidInputException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  pages: (
-    input: ListApplicationStatesRequest,
-  ) => stream.Stream<
-    ListApplicationStatesResult,
-    | AccessDeniedException
-    | HomeRegionNotSetException
-    | InternalServerError
-    | InvalidInputException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  items: (
-    input: ListApplicationStatesRequest,
-  ) => stream.Stream<
-    ApplicationState,
-    | AccessDeniedException
-    | HomeRegionNotSetException
-    | InternalServerError
-    | InvalidInputException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
-  input: ListApplicationStatesRequest,
-  output: ListApplicationStatesResult,
-  errors: [
-    AccessDeniedException,
-    HomeRegionNotSetException,
-    InternalServerError,
-    InvalidInputException,
-    ServiceUnavailableException,
-    ThrottlingException,
-  ],
-  pagination: {
-    inputToken: "NextToken",
-    outputToken: "NextToken",
-    items: "ApplicationStateList",
-    pageSize: "MaxResults",
-  } as const,
-}));
-/**
- * Lists progress update streams associated with the user account making this call.
- */
-export const listProgressUpdateStreams: {
-  (
-    input: ListProgressUpdateStreamsRequest,
-  ): effect.Effect<
-    ListProgressUpdateStreamsResult,
-    | AccessDeniedException
-    | HomeRegionNotSetException
-    | InternalServerError
-    | InvalidInputException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  pages: (
-    input: ListProgressUpdateStreamsRequest,
-  ) => stream.Stream<
-    ListProgressUpdateStreamsResult,
-    | AccessDeniedException
-    | HomeRegionNotSetException
-    | InternalServerError
-    | InvalidInputException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  items: (
-    input: ListProgressUpdateStreamsRequest,
-  ) => stream.Stream<
-    ProgressUpdateStreamSummary,
-    | AccessDeniedException
-    | HomeRegionNotSetException
-    | InternalServerError
-    | InvalidInputException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
-  input: ListProgressUpdateStreamsRequest,
-  output: ListProgressUpdateStreamsResult,
-  errors: [
-    AccessDeniedException,
-    HomeRegionNotSetException,
-    InternalServerError,
-    InvalidInputException,
-    ServiceUnavailableException,
-    ThrottlingException,
-  ],
-  pagination: {
-    inputToken: "NextToken",
-    outputToken: "NextToken",
-    items: "ProgressUpdateStreamSummaryList",
-    pageSize: "MaxResults",
-  } as const,
-}));
-/**
- * Lists all the source resource that are associated with the specified
- * `MigrationTaskName` and `ProgressUpdateStream`.
- */
-export const listSourceResources: {
-  (
-    input: ListSourceResourcesRequest,
-  ): effect.Effect<
-    ListSourceResourcesResult,
-    | AccessDeniedException
-    | InternalServerError
-    | InvalidInputException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  pages: (
-    input: ListSourceResourcesRequest,
-  ) => stream.Stream<
-    ListSourceResourcesResult,
-    | AccessDeniedException
-    | InternalServerError
-    | InvalidInputException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  items: (
-    input: ListSourceResourcesRequest,
-  ) => stream.Stream<
-    SourceResource,
-    | AccessDeniedException
-    | InternalServerError
-    | InvalidInputException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
-  input: ListSourceResourcesRequest,
-  output: ListSourceResourcesResult,
-  errors: [
-    AccessDeniedException,
+    DryRunOperation,
     InternalServerError,
     InvalidInputException,
     ResourceNotFoundException,
     ServiceUnavailableException,
     ThrottlingException,
+    UnauthorizedOperation,
   ],
-  pagination: {
-    inputToken: "NextToken",
-    outputToken: "NextToken",
-    items: "SourceResourceList",
-    pageSize: "MaxResults",
-  } as const,
 }));
 /**
  * Creates a progress update stream which is an AWS resource used for access control as
@@ -1424,99 +1007,6 @@ export const createProgressUpdateStream: (
     HomeRegionNotSetException,
     InternalServerError,
     InvalidInputException,
-    ServiceUnavailableException,
-    ThrottlingException,
-    UnauthorizedOperation,
-  ],
-}));
-/**
- * Notifies Migration Hub of the current status, progress, or other detail regarding a
- * migration task. This API has the following traits:
- *
- * - Migration tools will call the `NotifyMigrationTaskState` API to share
- * the latest progress and status.
- *
- * - `MigrationTaskName` is used for addressing updates to the correct
- * target.
- *
- * - `ProgressUpdateStream` is used for access control and to provide a
- * namespace for each migration tool.
- */
-export const notifyMigrationTaskState: (
-  input: NotifyMigrationTaskStateRequest,
-) => effect.Effect<
-  NotifyMigrationTaskStateResult,
-  | AccessDeniedException
-  | DryRunOperation
-  | HomeRegionNotSetException
-  | InternalServerError
-  | InvalidInputException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | UnauthorizedOperation
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: NotifyMigrationTaskStateRequest,
-  output: NotifyMigrationTaskStateResult,
-  errors: [
-    AccessDeniedException,
-    DryRunOperation,
-    HomeRegionNotSetException,
-    InternalServerError,
-    InvalidInputException,
-    ResourceNotFoundException,
-    ServiceUnavailableException,
-    ThrottlingException,
-    UnauthorizedOperation,
-  ],
-}));
-/**
- * Provides identifying details of the resource being migrated so that it can be associated
- * in the Application Discovery Service repository. This association occurs asynchronously
- * after `PutResourceAttributes` returns.
- *
- * - Keep in mind that subsequent calls to PutResourceAttributes will override
- * previously stored attributes. For example, if it is first called with a MAC
- * address, but later, it is desired to *add* an IP address, it
- * will then be required to call it with *both* the IP and MAC
- * addresses to prevent overriding the MAC address.
- *
- * - Note the instructions regarding the special use case of the
- * `ResourceAttributeList`
- * parameter when specifying any
- * "VM" related value.
- *
- * Because this is an asynchronous call, it will always return 200, whether an
- * association occurs or not. To confirm if an association was found based on the provided
- * details, call `ListDiscoveredResources`.
- */
-export const putResourceAttributes: (
-  input: PutResourceAttributesRequest,
-) => effect.Effect<
-  PutResourceAttributesResult,
-  | AccessDeniedException
-  | DryRunOperation
-  | HomeRegionNotSetException
-  | InternalServerError
-  | InvalidInputException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | UnauthorizedOperation
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PutResourceAttributesRequest,
-  output: PutResourceAttributesResult,
-  errors: [
-    AccessDeniedException,
-    DryRunOperation,
-    HomeRegionNotSetException,
-    InternalServerError,
-    InvalidInputException,
-    ResourceNotFoundException,
     ServiceUnavailableException,
     ThrottlingException,
     UnauthorizedOperation,
@@ -1575,6 +1065,66 @@ export const deleteProgressUpdateStream: (
     ServiceUnavailableException,
     ThrottlingException,
     UnauthorizedOperation,
+  ],
+}));
+/**
+ * Gets the migration status of an application.
+ */
+export const describeApplicationState: (
+  input: DescribeApplicationStateRequest,
+) => effect.Effect<
+  DescribeApplicationStateResult,
+  | AccessDeniedException
+  | HomeRegionNotSetException
+  | InternalServerError
+  | InvalidInputException
+  | PolicyErrorException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeApplicationStateRequest,
+  output: DescribeApplicationStateResult,
+  errors: [
+    AccessDeniedException,
+    HomeRegionNotSetException,
+    InternalServerError,
+    InvalidInputException,
+    PolicyErrorException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Retrieves a list of all attributes associated with a specific migration task.
+ */
+export const describeMigrationTask: (
+  input: DescribeMigrationTaskRequest,
+) => effect.Effect<
+  DescribeMigrationTaskResult,
+  | AccessDeniedException
+  | HomeRegionNotSetException
+  | InternalServerError
+  | InvalidInputException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeMigrationTaskRequest,
+  output: DescribeMigrationTaskResult,
+  errors: [
+    AccessDeniedException,
+    HomeRegionNotSetException,
+    InternalServerError,
+    InvalidInputException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
   ],
 }));
 /**
@@ -1724,108 +1274,269 @@ export const importMigrationTask: (
   ],
 }));
 /**
- * Associates a created artifact of an AWS cloud resource, the target receiving the
- * migration, with the migration task performed by a migration tool. This API has the
- * following traits:
- *
- * - Migration tools can call the `AssociateCreatedArtifact` operation to
- * indicate which AWS artifact is associated with a migration task.
- *
- * - The created artifact name must be provided in ARN (Amazon Resource Name) format
- * which will contain information about type and region; for example:
- * `arn:aws:ec2:us-east-1:488216288981:image/ami-6d0ba87b`.
- *
- * - Examples of the AWS resource behind the created artifact are, AMI's, EC2 instance,
- * or DMS endpoint, etc.
+ * Lists all the migration statuses for your applications. If you use the optional
+ * `ApplicationIds` parameter, only the migration statuses for those
+ * applications will be returned.
  */
-export const associateCreatedArtifact: (
-  input: AssociateCreatedArtifactRequest,
-) => effect.Effect<
-  AssociateCreatedArtifactResult,
-  | AccessDeniedException
-  | DryRunOperation
-  | HomeRegionNotSetException
-  | InternalServerError
-  | InvalidInputException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | UnauthorizedOperation
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: AssociateCreatedArtifactRequest,
-  output: AssociateCreatedArtifactResult,
+export const listApplicationStates: {
+  (
+    input: ListApplicationStatesRequest,
+  ): effect.Effect<
+    ListApplicationStatesResult,
+    | AccessDeniedException
+    | HomeRegionNotSetException
+    | InternalServerError
+    | InvalidInputException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListApplicationStatesRequest,
+  ) => stream.Stream<
+    ListApplicationStatesResult,
+    | AccessDeniedException
+    | HomeRegionNotSetException
+    | InternalServerError
+    | InvalidInputException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListApplicationStatesRequest,
+  ) => stream.Stream<
+    ApplicationState,
+    | AccessDeniedException
+    | HomeRegionNotSetException
+    | InternalServerError
+    | InvalidInputException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListApplicationStatesRequest,
+  output: ListApplicationStatesResult,
   errors: [
     AccessDeniedException,
-    DryRunOperation,
+    HomeRegionNotSetException,
+    InternalServerError,
+    InvalidInputException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ApplicationStateList",
+    pageSize: "MaxResults",
+  } as const,
+}));
+/**
+ * Lists the created artifacts attached to a given migration task in an update stream. This
+ * API has the following traits:
+ *
+ * - Gets the list of the created artifacts while
+ * migration is taking place.
+ *
+ * - Shows the artifacts created by the migration tool that was associated by the
+ * `AssociateCreatedArtifact` API.
+ *
+ * - Lists created artifacts in a paginated interface.
+ */
+export const listCreatedArtifacts: {
+  (
+    input: ListCreatedArtifactsRequest,
+  ): effect.Effect<
+    ListCreatedArtifactsResult,
+    | AccessDeniedException
+    | HomeRegionNotSetException
+    | InternalServerError
+    | InvalidInputException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListCreatedArtifactsRequest,
+  ) => stream.Stream<
+    ListCreatedArtifactsResult,
+    | AccessDeniedException
+    | HomeRegionNotSetException
+    | InternalServerError
+    | InvalidInputException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListCreatedArtifactsRequest,
+  ) => stream.Stream<
+    CreatedArtifact,
+    | AccessDeniedException
+    | HomeRegionNotSetException
+    | InternalServerError
+    | InvalidInputException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListCreatedArtifactsRequest,
+  output: ListCreatedArtifactsResult,
+  errors: [
+    AccessDeniedException,
     HomeRegionNotSetException,
     InternalServerError,
     InvalidInputException,
     ResourceNotFoundException,
     ServiceUnavailableException,
     ThrottlingException,
-    UnauthorizedOperation,
   ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "CreatedArtifactList",
+    pageSize: "MaxResults",
+  } as const,
 }));
 /**
- * Associates a source resource with a migration task. For example, the source resource can
- * be a source server, an application, or a migration wave.
+ * Lists discovered resources associated with the given `MigrationTask`.
  */
-export const associateSourceResource: (
-  input: AssociateSourceResourceRequest,
-) => effect.Effect<
-  AssociateSourceResourceResult,
-  | AccessDeniedException
-  | DryRunOperation
-  | InternalServerError
-  | InvalidInputException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | UnauthorizedOperation
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: AssociateSourceResourceRequest,
-  output: AssociateSourceResourceResult,
+export const listDiscoveredResources: {
+  (
+    input: ListDiscoveredResourcesRequest,
+  ): effect.Effect<
+    ListDiscoveredResourcesResult,
+    | AccessDeniedException
+    | HomeRegionNotSetException
+    | InternalServerError
+    | InvalidInputException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDiscoveredResourcesRequest,
+  ) => stream.Stream<
+    ListDiscoveredResourcesResult,
+    | AccessDeniedException
+    | HomeRegionNotSetException
+    | InternalServerError
+    | InvalidInputException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDiscoveredResourcesRequest,
+  ) => stream.Stream<
+    DiscoveredResource,
+    | AccessDeniedException
+    | HomeRegionNotSetException
+    | InternalServerError
+    | InvalidInputException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDiscoveredResourcesRequest,
+  output: ListDiscoveredResourcesResult,
   errors: [
     AccessDeniedException,
-    DryRunOperation,
+    HomeRegionNotSetException,
     InternalServerError,
     InvalidInputException,
     ResourceNotFoundException,
     ServiceUnavailableException,
     ThrottlingException,
-    UnauthorizedOperation,
   ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "DiscoveredResourceList",
+    pageSize: "MaxResults",
+  } as const,
 }));
 /**
- * Associates a discovered resource ID from Application Discovery Service with a migration
- * task.
+ * Lists all, or filtered by resource name, migration tasks associated with the user
+ * account making this call. This API has the following traits:
+ *
+ * - Can show a summary list of the most recent migration tasks.
+ *
+ * - Can show a summary list of migration tasks associated with a given discovered
+ * resource.
+ *
+ * - Lists migration tasks in a paginated interface.
  */
-export const associateDiscoveredResource: (
-  input: AssociateDiscoveredResourceRequest,
-) => effect.Effect<
-  AssociateDiscoveredResourceResult,
-  | AccessDeniedException
-  | DryRunOperation
-  | HomeRegionNotSetException
-  | InternalServerError
-  | InvalidInputException
-  | PolicyErrorException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | ThrottlingException
-  | UnauthorizedOperation
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: AssociateDiscoveredResourceRequest,
-  output: AssociateDiscoveredResourceResult,
+export const listMigrationTasks: {
+  (
+    input: ListMigrationTasksRequest,
+  ): effect.Effect<
+    ListMigrationTasksResult,
+    | AccessDeniedException
+    | HomeRegionNotSetException
+    | InternalServerError
+    | InvalidInputException
+    | PolicyErrorException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListMigrationTasksRequest,
+  ) => stream.Stream<
+    ListMigrationTasksResult,
+    | AccessDeniedException
+    | HomeRegionNotSetException
+    | InternalServerError
+    | InvalidInputException
+    | PolicyErrorException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListMigrationTasksRequest,
+  ) => stream.Stream<
+    MigrationTaskSummary,
+    | AccessDeniedException
+    | HomeRegionNotSetException
+    | InternalServerError
+    | InvalidInputException
+    | PolicyErrorException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListMigrationTasksRequest,
+  output: ListMigrationTasksResult,
   errors: [
     AccessDeniedException,
-    DryRunOperation,
     HomeRegionNotSetException,
     InternalServerError,
     InvalidInputException,
@@ -1833,8 +1544,198 @@ export const associateDiscoveredResource: (
     ResourceNotFoundException,
     ServiceUnavailableException,
     ThrottlingException,
-    UnauthorizedOperation,
   ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "MigrationTaskSummaryList",
+    pageSize: "MaxResults",
+  } as const,
+}));
+/**
+ * This is a paginated API that returns all the migration-task states for the specified
+ * `MigrationTaskName` and `ProgressUpdateStream`.
+ */
+export const listMigrationTaskUpdates: {
+  (
+    input: ListMigrationTaskUpdatesRequest,
+  ): effect.Effect<
+    ListMigrationTaskUpdatesResult,
+    | AccessDeniedException
+    | InternalServerError
+    | InvalidInputException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListMigrationTaskUpdatesRequest,
+  ) => stream.Stream<
+    ListMigrationTaskUpdatesResult,
+    | AccessDeniedException
+    | InternalServerError
+    | InvalidInputException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListMigrationTaskUpdatesRequest,
+  ) => stream.Stream<
+    MigrationTaskUpdate,
+    | AccessDeniedException
+    | InternalServerError
+    | InvalidInputException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListMigrationTaskUpdatesRequest,
+  output: ListMigrationTaskUpdatesResult,
+  errors: [
+    AccessDeniedException,
+    InternalServerError,
+    InvalidInputException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "MigrationTaskUpdateList",
+    pageSize: "MaxResults",
+  } as const,
+}));
+/**
+ * Lists progress update streams associated with the user account making this call.
+ */
+export const listProgressUpdateStreams: {
+  (
+    input: ListProgressUpdateStreamsRequest,
+  ): effect.Effect<
+    ListProgressUpdateStreamsResult,
+    | AccessDeniedException
+    | HomeRegionNotSetException
+    | InternalServerError
+    | InvalidInputException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListProgressUpdateStreamsRequest,
+  ) => stream.Stream<
+    ListProgressUpdateStreamsResult,
+    | AccessDeniedException
+    | HomeRegionNotSetException
+    | InternalServerError
+    | InvalidInputException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListProgressUpdateStreamsRequest,
+  ) => stream.Stream<
+    ProgressUpdateStreamSummary,
+    | AccessDeniedException
+    | HomeRegionNotSetException
+    | InternalServerError
+    | InvalidInputException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListProgressUpdateStreamsRequest,
+  output: ListProgressUpdateStreamsResult,
+  errors: [
+    AccessDeniedException,
+    HomeRegionNotSetException,
+    InternalServerError,
+    InvalidInputException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ProgressUpdateStreamSummaryList",
+    pageSize: "MaxResults",
+  } as const,
+}));
+/**
+ * Lists all the source resource that are associated with the specified
+ * `MigrationTaskName` and `ProgressUpdateStream`.
+ */
+export const listSourceResources: {
+  (
+    input: ListSourceResourcesRequest,
+  ): effect.Effect<
+    ListSourceResourcesResult,
+    | AccessDeniedException
+    | InternalServerError
+    | InvalidInputException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListSourceResourcesRequest,
+  ) => stream.Stream<
+    ListSourceResourcesResult,
+    | AccessDeniedException
+    | InternalServerError
+    | InvalidInputException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListSourceResourcesRequest,
+  ) => stream.Stream<
+    SourceResource,
+    | AccessDeniedException
+    | InternalServerError
+    | InvalidInputException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | ThrottlingException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListSourceResourcesRequest,
+  output: ListSourceResourcesResult,
+  errors: [
+    AccessDeniedException,
+    InternalServerError,
+    InvalidInputException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "SourceResourceList",
+    pageSize: "MaxResults",
+  } as const,
 }));
 /**
  * Sets the migration state of an application. For a given application identified by the
@@ -1868,6 +1769,99 @@ export const notifyApplicationState: (
     InternalServerError,
     InvalidInputException,
     PolicyErrorException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedOperation,
+  ],
+}));
+/**
+ * Notifies Migration Hub of the current status, progress, or other detail regarding a
+ * migration task. This API has the following traits:
+ *
+ * - Migration tools will call the `NotifyMigrationTaskState` API to share
+ * the latest progress and status.
+ *
+ * - `MigrationTaskName` is used for addressing updates to the correct
+ * target.
+ *
+ * - `ProgressUpdateStream` is used for access control and to provide a
+ * namespace for each migration tool.
+ */
+export const notifyMigrationTaskState: (
+  input: NotifyMigrationTaskStateRequest,
+) => effect.Effect<
+  NotifyMigrationTaskStateResult,
+  | AccessDeniedException
+  | DryRunOperation
+  | HomeRegionNotSetException
+  | InternalServerError
+  | InvalidInputException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedOperation
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: NotifyMigrationTaskStateRequest,
+  output: NotifyMigrationTaskStateResult,
+  errors: [
+    AccessDeniedException,
+    DryRunOperation,
+    HomeRegionNotSetException,
+    InternalServerError,
+    InvalidInputException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    UnauthorizedOperation,
+  ],
+}));
+/**
+ * Provides identifying details of the resource being migrated so that it can be associated
+ * in the Application Discovery Service repository. This association occurs asynchronously
+ * after `PutResourceAttributes` returns.
+ *
+ * - Keep in mind that subsequent calls to PutResourceAttributes will override
+ * previously stored attributes. For example, if it is first called with a MAC
+ * address, but later, it is desired to *add* an IP address, it
+ * will then be required to call it with *both* the IP and MAC
+ * addresses to prevent overriding the MAC address.
+ *
+ * - Note the instructions regarding the special use case of the
+ * `ResourceAttributeList`
+ * parameter when specifying any
+ * "VM" related value.
+ *
+ * Because this is an asynchronous call, it will always return 200, whether an
+ * association occurs or not. To confirm if an association was found based on the provided
+ * details, call `ListDiscoveredResources`.
+ */
+export const putResourceAttributes: (
+  input: PutResourceAttributesRequest,
+) => effect.Effect<
+  PutResourceAttributesResult,
+  | AccessDeniedException
+  | DryRunOperation
+  | HomeRegionNotSetException
+  | InternalServerError
+  | InvalidInputException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedOperation
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutResourceAttributesRequest,
+  output: PutResourceAttributesResult,
+  errors: [
+    AccessDeniedException,
+    DryRunOperation,
+    HomeRegionNotSetException,
+    InternalServerError,
+    InvalidInputException,
     ResourceNotFoundException,
     ServiceUnavailableException,
     ThrottlingException,

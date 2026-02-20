@@ -1,4 +1,4 @@
-import { HttpClient } from "@effect/platform";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as effect from "effect/Effect";
 import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
@@ -90,361 +90,32 @@ const rules = T.EndpointResolver((p, _) => {
 //# Newtypes
 export type IdentifierString = string;
 export type ISOTimestamp = Date;
-export type AnalysisReportId = string;
-export type RequestString = string;
-export type SanitizedString = string;
-export type MaxResults = number;
-export type NextToken = string;
-export type AmazonResourceName = string;
 export type TagKey = string;
 export type TagValue = string;
-export type Limit = number;
+export type AnalysisReportId = string;
 export type ErrorString = string;
-export type Description = string;
+export type RequestString = string;
+export type SanitizedString = string;
+export type Limit = number;
+export type MaxResults = number;
+export type NextToken = string;
 export type MarkdownString = string | redacted.Redacted<string>;
 export type DescriptiveString = string;
+export type Description = string;
+export type AmazonResourceName = string;
 
 //# Schemas
 export type ServiceType = "RDS" | "DOCDB" | (string & {});
 export const ServiceType = S.String;
-export type AdditionalMetricsList = string[];
-export const AdditionalMetricsList = S.Array(S.String);
-export type RequestedDimensionList = string[];
-export const RequestedDimensionList = S.Array(S.String);
-export type TextFormat = "PLAIN_TEXT" | "MARKDOWN" | (string & {});
-export const TextFormat = S.String;
-export type AcceptLanguage = "EN_US" | (string & {});
-export const AcceptLanguage = S.String;
-export type PeriodAlignment = "END_TIME" | "START_TIME" | (string & {});
-export const PeriodAlignment = S.String;
-export type DimensionsMetricList = string[];
-export const DimensionsMetricList = S.Array(S.String);
-export type FineGrainedAction =
-  | "DescribeDimensionKeys"
-  | "GetDimensionKeyDetails"
-  | "GetResourceMetrics"
-  | (string & {});
-export const FineGrainedAction = S.String;
-export type AuthorizedActionsList = FineGrainedAction[];
-export const AuthorizedActionsList = S.Array(FineGrainedAction);
-export type MetricTypeList = string[];
-export const MetricTypeList = S.Array(S.String);
-export type TagKeyList = string[];
-export const TagKeyList = S.Array(S.String);
-export interface DeletePerformanceAnalysisReportRequest {
-  ServiceType: ServiceType;
-  Identifier: string;
-  AnalysisReportId: string;
-}
-export const DeletePerformanceAnalysisReportRequest = S.suspend(() =>
-  S.Struct({
-    ServiceType: ServiceType,
-    Identifier: S.String,
-    AnalysisReportId: S.String,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DeletePerformanceAnalysisReportRequest",
-}) as any as S.Schema<DeletePerformanceAnalysisReportRequest>;
-export interface DeletePerformanceAnalysisReportResponse {}
-export const DeletePerformanceAnalysisReportResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotations({
-  identifier: "DeletePerformanceAnalysisReportResponse",
-}) as any as S.Schema<DeletePerformanceAnalysisReportResponse>;
-export interface GetDimensionKeyDetailsRequest {
-  ServiceType: ServiceType;
-  Identifier: string;
-  Group: string;
-  GroupIdentifier: string;
-  RequestedDimensions?: string[];
-}
-export const GetDimensionKeyDetailsRequest = S.suspend(() =>
-  S.Struct({
-    ServiceType: ServiceType,
-    Identifier: S.String,
-    Group: S.String,
-    GroupIdentifier: S.String,
-    RequestedDimensions: S.optional(RequestedDimensionList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "GetDimensionKeyDetailsRequest",
-}) as any as S.Schema<GetDimensionKeyDetailsRequest>;
-export interface GetPerformanceAnalysisReportRequest {
-  ServiceType: ServiceType;
-  Identifier: string;
-  AnalysisReportId: string;
-  TextFormat?: TextFormat;
-  AcceptLanguage?: AcceptLanguage;
-}
-export const GetPerformanceAnalysisReportRequest = S.suspend(() =>
-  S.Struct({
-    ServiceType: ServiceType,
-    Identifier: S.String,
-    AnalysisReportId: S.String,
-    TextFormat: S.optional(TextFormat),
-    AcceptLanguage: S.optional(AcceptLanguage),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "GetPerformanceAnalysisReportRequest",
-}) as any as S.Schema<GetPerformanceAnalysisReportRequest>;
-export interface GetResourceMetadataRequest {
-  ServiceType: ServiceType;
-  Identifier: string;
-}
-export const GetResourceMetadataRequest = S.suspend(() =>
-  S.Struct({ ServiceType: ServiceType, Identifier: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "GetResourceMetadataRequest",
-}) as any as S.Schema<GetResourceMetadataRequest>;
-export interface ListAvailableResourceDimensionsRequest {
-  ServiceType: ServiceType;
-  Identifier: string;
-  Metrics: string[];
-  MaxResults?: number;
-  NextToken?: string;
-  AuthorizedActions?: FineGrainedAction[];
-}
-export const ListAvailableResourceDimensionsRequest = S.suspend(() =>
-  S.Struct({
-    ServiceType: ServiceType,
-    Identifier: S.String,
-    Metrics: DimensionsMetricList,
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-    AuthorizedActions: S.optional(AuthorizedActionsList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListAvailableResourceDimensionsRequest",
-}) as any as S.Schema<ListAvailableResourceDimensionsRequest>;
-export interface ListAvailableResourceMetricsRequest {
-  ServiceType: ServiceType;
-  Identifier: string;
-  MetricTypes: string[];
-  NextToken?: string;
-  MaxResults?: number;
-}
-export const ListAvailableResourceMetricsRequest = S.suspend(() =>
-  S.Struct({
-    ServiceType: ServiceType,
-    Identifier: S.String,
-    MetricTypes: MetricTypeList,
-    NextToken: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListAvailableResourceMetricsRequest",
-}) as any as S.Schema<ListAvailableResourceMetricsRequest>;
-export interface ListPerformanceAnalysisReportsRequest {
-  ServiceType: ServiceType;
-  Identifier: string;
-  NextToken?: string;
-  MaxResults?: number;
-  ListTags?: boolean;
-}
-export const ListPerformanceAnalysisReportsRequest = S.suspend(() =>
-  S.Struct({
-    ServiceType: ServiceType,
-    Identifier: S.String,
-    NextToken: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-    ListTags: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListPerformanceAnalysisReportsRequest",
-}) as any as S.Schema<ListPerformanceAnalysisReportsRequest>;
-export interface ListTagsForResourceRequest {
-  ServiceType: ServiceType;
-  ResourceARN: string;
-}
-export const ListTagsForResourceRequest = S.suspend(() =>
-  S.Struct({ ServiceType: ServiceType, ResourceARN: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListTagsForResourceRequest",
-}) as any as S.Schema<ListTagsForResourceRequest>;
 export interface Tag {
   Key: string;
   Value: string;
 }
 export const Tag = S.suspend(() =>
   S.Struct({ Key: S.String, Value: S.String }),
-).annotations({ identifier: "Tag" }) as any as S.Schema<Tag>;
+).annotate({ identifier: "Tag" }) as any as S.Schema<Tag>;
 export type TagList = Tag[];
 export const TagList = S.Array(Tag);
-export interface TagResourceRequest {
-  ServiceType: ServiceType;
-  ResourceARN: string;
-  Tags: Tag[];
-}
-export const TagResourceRequest = S.suspend(() =>
-  S.Struct({
-    ServiceType: ServiceType,
-    ResourceARN: S.String,
-    Tags: TagList,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
-export interface TagResourceResponse {}
-export const TagResourceResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotations({
-  identifier: "TagResourceResponse",
-}) as any as S.Schema<TagResourceResponse>;
-export interface UntagResourceRequest {
-  ServiceType: ServiceType;
-  ResourceARN: string;
-  TagKeys: string[];
-}
-export const UntagResourceRequest = S.suspend(() =>
-  S.Struct({
-    ServiceType: ServiceType,
-    ResourceARN: S.String,
-    TagKeys: TagKeyList,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
-export interface UntagResourceResponse {}
-export const UntagResourceResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotations({
-  identifier: "UntagResourceResponse",
-}) as any as S.Schema<UntagResourceResponse>;
-export type SanitizedStringList = string[];
-export const SanitizedStringList = S.Array(S.String);
-export interface DimensionGroup {
-  Group: string;
-  Dimensions?: string[];
-  Limit?: number;
-}
-export const DimensionGroup = S.suspend(() =>
-  S.Struct({
-    Group: S.String,
-    Dimensions: S.optional(SanitizedStringList),
-    Limit: S.optional(S.Number),
-  }),
-).annotations({
-  identifier: "DimensionGroup",
-}) as any as S.Schema<DimensionGroup>;
-export type MetricQueryFilterMap = { [key: string]: string | undefined };
-export const MetricQueryFilterMap = S.Record({
-  key: S.String,
-  value: S.UndefinedOr(S.String),
-});
-export interface MetricQuery {
-  Metric: string;
-  GroupBy?: DimensionGroup;
-  Filter?: { [key: string]: string | undefined };
-}
-export const MetricQuery = S.suspend(() =>
-  S.Struct({
-    Metric: S.String,
-    GroupBy: S.optional(DimensionGroup),
-    Filter: S.optional(MetricQueryFilterMap),
-  }),
-).annotations({ identifier: "MetricQuery" }) as any as S.Schema<MetricQuery>;
-export type MetricQueryList = MetricQuery[];
-export const MetricQueryList = S.Array(MetricQuery);
 export interface CreatePerformanceAnalysisReportRequest {
   ServiceType: ServiceType;
   Identifier: string;
@@ -470,9 +141,68 @@ export const CreatePerformanceAnalysisReportRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "CreatePerformanceAnalysisReportRequest",
 }) as any as S.Schema<CreatePerformanceAnalysisReportRequest>;
+export interface CreatePerformanceAnalysisReportResponse {
+  AnalysisReportId?: string;
+}
+export const CreatePerformanceAnalysisReportResponse = S.suspend(() =>
+  S.Struct({ AnalysisReportId: S.optional(S.String) }).pipe(ns),
+).annotate({
+  identifier: "CreatePerformanceAnalysisReportResponse",
+}) as any as S.Schema<CreatePerformanceAnalysisReportResponse>;
+export interface DeletePerformanceAnalysisReportRequest {
+  ServiceType: ServiceType;
+  Identifier: string;
+  AnalysisReportId: string;
+}
+export const DeletePerformanceAnalysisReportRequest = S.suspend(() =>
+  S.Struct({
+    ServiceType: ServiceType,
+    Identifier: S.String,
+    AnalysisReportId: S.String,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeletePerformanceAnalysisReportRequest",
+}) as any as S.Schema<DeletePerformanceAnalysisReportRequest>;
+export interface DeletePerformanceAnalysisReportResponse {}
+export const DeletePerformanceAnalysisReportResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "DeletePerformanceAnalysisReportResponse",
+}) as any as S.Schema<DeletePerformanceAnalysisReportResponse>;
+export type SanitizedStringList = string[];
+export const SanitizedStringList = S.Array(S.String);
+export interface DimensionGroup {
+  Group: string;
+  Dimensions?: string[];
+  Limit?: number;
+}
+export const DimensionGroup = S.suspend(() =>
+  S.Struct({
+    Group: S.String,
+    Dimensions: S.optional(SanitizedStringList),
+    Limit: S.optional(S.Number),
+  }),
+).annotate({ identifier: "DimensionGroup" }) as any as S.Schema<DimensionGroup>;
+export type AdditionalMetricsList = string[];
+export const AdditionalMetricsList = S.Array(S.String);
+export type MetricQueryFilterMap = { [key: string]: string | undefined };
+export const MetricQueryFilterMap = S.Record(
+  S.String,
+  S.String.pipe(S.optional),
+);
 export interface DescribeDimensionKeysRequest {
   ServiceType: ServiceType;
   Identifier: string;
@@ -512,9 +242,341 @@ export const DescribeDimensionKeysRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "DescribeDimensionKeysRequest",
 }) as any as S.Schema<DescribeDimensionKeysRequest>;
+export type DimensionMap = { [key: string]: string | undefined };
+export const DimensionMap = S.Record(S.String, S.String.pipe(S.optional));
+export interface ResponsePartitionKey {
+  Dimensions: { [key: string]: string | undefined };
+}
+export const ResponsePartitionKey = S.suspend(() =>
+  S.Struct({ Dimensions: DimensionMap }),
+).annotate({
+  identifier: "ResponsePartitionKey",
+}) as any as S.Schema<ResponsePartitionKey>;
+export type ResponsePartitionKeyList = ResponsePartitionKey[];
+export const ResponsePartitionKeyList = S.Array(ResponsePartitionKey);
+export type AdditionalMetricsMap = { [key: string]: number | undefined };
+export const AdditionalMetricsMap = S.Record(
+  S.String,
+  S.Number.pipe(S.optional),
+);
+export type MetricValuesList = number[];
+export const MetricValuesList = S.Array(S.Number);
+export interface DimensionKeyDescription {
+  Dimensions?: { [key: string]: string | undefined };
+  Total?: number;
+  AdditionalMetrics?: { [key: string]: number | undefined };
+  Partitions?: number[];
+}
+export const DimensionKeyDescription = S.suspend(() =>
+  S.Struct({
+    Dimensions: S.optional(DimensionMap),
+    Total: S.optional(S.Number),
+    AdditionalMetrics: S.optional(AdditionalMetricsMap),
+    Partitions: S.optional(MetricValuesList),
+  }),
+).annotate({
+  identifier: "DimensionKeyDescription",
+}) as any as S.Schema<DimensionKeyDescription>;
+export type DimensionKeyDescriptionList = DimensionKeyDescription[];
+export const DimensionKeyDescriptionList = S.Array(DimensionKeyDescription);
+export interface DescribeDimensionKeysResponse {
+  AlignedStartTime?: Date;
+  AlignedEndTime?: Date;
+  PartitionKeys?: ResponsePartitionKey[];
+  Keys?: DimensionKeyDescription[];
+  NextToken?: string;
+}
+export const DescribeDimensionKeysResponse = S.suspend(() =>
+  S.Struct({
+    AlignedStartTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    AlignedEndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    PartitionKeys: S.optional(ResponsePartitionKeyList),
+    Keys: S.optional(DimensionKeyDescriptionList),
+    NextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotate({
+  identifier: "DescribeDimensionKeysResponse",
+}) as any as S.Schema<DescribeDimensionKeysResponse>;
+export type RequestedDimensionList = string[];
+export const RequestedDimensionList = S.Array(S.String);
+export interface GetDimensionKeyDetailsRequest {
+  ServiceType: ServiceType;
+  Identifier: string;
+  Group: string;
+  GroupIdentifier: string;
+  RequestedDimensions?: string[];
+}
+export const GetDimensionKeyDetailsRequest = S.suspend(() =>
+  S.Struct({
+    ServiceType: ServiceType,
+    Identifier: S.String,
+    Group: S.String,
+    GroupIdentifier: S.String,
+    RequestedDimensions: S.optional(RequestedDimensionList),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetDimensionKeyDetailsRequest",
+}) as any as S.Schema<GetDimensionKeyDetailsRequest>;
+export type DetailStatus =
+  | "AVAILABLE"
+  | "PROCESSING"
+  | "UNAVAILABLE"
+  | (string & {});
+export const DetailStatus = S.String;
+export interface DimensionKeyDetail {
+  Value?: string;
+  Dimension?: string;
+  Status?: DetailStatus;
+}
+export const DimensionKeyDetail = S.suspend(() =>
+  S.Struct({
+    Value: S.optional(S.String),
+    Dimension: S.optional(S.String),
+    Status: S.optional(DetailStatus),
+  }),
+).annotate({
+  identifier: "DimensionKeyDetail",
+}) as any as S.Schema<DimensionKeyDetail>;
+export type DimensionKeyDetailList = DimensionKeyDetail[];
+export const DimensionKeyDetailList = S.Array(DimensionKeyDetail);
+export interface GetDimensionKeyDetailsResponse {
+  Dimensions?: DimensionKeyDetail[];
+}
+export const GetDimensionKeyDetailsResponse = S.suspend(() =>
+  S.Struct({ Dimensions: S.optional(DimensionKeyDetailList) }).pipe(ns),
+).annotate({
+  identifier: "GetDimensionKeyDetailsResponse",
+}) as any as S.Schema<GetDimensionKeyDetailsResponse>;
+export type TextFormat = "PLAIN_TEXT" | "MARKDOWN" | (string & {});
+export const TextFormat = S.String;
+export type AcceptLanguage = "EN_US" | (string & {});
+export const AcceptLanguage = S.String;
+export interface GetPerformanceAnalysisReportRequest {
+  ServiceType: ServiceType;
+  Identifier: string;
+  AnalysisReportId: string;
+  TextFormat?: TextFormat;
+  AcceptLanguage?: AcceptLanguage;
+}
+export const GetPerformanceAnalysisReportRequest = S.suspend(() =>
+  S.Struct({
+    ServiceType: ServiceType,
+    Identifier: S.String,
+    AnalysisReportId: S.String,
+    TextFormat: S.optional(TextFormat),
+    AcceptLanguage: S.optional(AcceptLanguage),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetPerformanceAnalysisReportRequest",
+}) as any as S.Schema<GetPerformanceAnalysisReportRequest>;
+export type AnalysisStatus = "RUNNING" | "SUCCEEDED" | "FAILED" | (string & {});
+export const AnalysisStatus = S.String;
+export type ContextType = "CAUSAL" | "CONTEXTUAL" | (string & {});
+export const ContextType = S.String;
+export type Severity = "LOW" | "MEDIUM" | "HIGH" | (string & {});
+export const Severity = S.String;
+export interface Recommendation {
+  RecommendationId?: string;
+  RecommendationDescription?: string | redacted.Redacted<string>;
+}
+export const Recommendation = S.suspend(() =>
+  S.Struct({
+    RecommendationId: S.optional(S.String),
+    RecommendationDescription: S.optional(SensitiveString),
+  }),
+).annotate({ identifier: "Recommendation" }) as any as S.Schema<Recommendation>;
+export type RecommendationList = Recommendation[];
+export const RecommendationList = S.Array(Recommendation);
+export type DescriptiveMap = { [key: string]: string | undefined };
+export const DescriptiveMap = S.Record(S.String, S.String.pipe(S.optional));
+export interface PerformanceInsightsMetric {
+  Metric?: string;
+  DisplayName?: string;
+  Dimensions?: { [key: string]: string | undefined };
+  Filter?: { [key: string]: string | undefined };
+  Value?: number;
+}
+export const PerformanceInsightsMetric = S.suspend(() =>
+  S.Struct({
+    Metric: S.optional(S.String),
+    DisplayName: S.optional(S.String),
+    Dimensions: S.optional(DescriptiveMap),
+    Filter: S.optional(DescriptiveMap),
+    Value: S.optional(S.Number),
+  }),
+).annotate({
+  identifier: "PerformanceInsightsMetric",
+}) as any as S.Schema<PerformanceInsightsMetric>;
+export interface Data {
+  PerformanceInsightsMetric?: PerformanceInsightsMetric;
+}
+export const Data = S.suspend(() =>
+  S.Struct({
+    PerformanceInsightsMetric: S.optional(PerformanceInsightsMetric),
+  }),
+).annotate({ identifier: "Data" }) as any as S.Schema<Data>;
+export type DataList = Data[];
+export const DataList = S.Array(Data);
+export interface Insight {
+  InsightId: string;
+  InsightType?: string;
+  Context?: ContextType;
+  StartTime?: Date;
+  EndTime?: Date;
+  Severity?: Severity;
+  SupportingInsights?: Insight[];
+  Description?: string | redacted.Redacted<string>;
+  Recommendations?: Recommendation[];
+  InsightData?: Data[];
+  BaselineData?: Data[];
+}
+export const Insight = S.suspend(() =>
+  S.Struct({
+    InsightId: S.String,
+    InsightType: S.optional(S.String),
+    Context: S.optional(ContextType),
+    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    Severity: S.optional(Severity),
+    SupportingInsights: S.optional(
+      S.suspend(() => InsightList).annotate({ identifier: "InsightList" }),
+    ),
+    Description: S.optional(SensitiveString),
+    Recommendations: S.optional(RecommendationList),
+    InsightData: S.optional(DataList),
+    BaselineData: S.optional(DataList),
+  }),
+).annotate({ identifier: "Insight" }) as any as S.Schema<Insight>;
+export type InsightList = Insight[];
+export const InsightList = S.Array(
+  S.suspend((): S.Schema<Insight> => Insight).annotate({
+    identifier: "Insight",
+  }),
+) as any as S.Schema<InsightList>;
+export interface AnalysisReport {
+  AnalysisReportId: string;
+  Identifier?: string;
+  ServiceType?: ServiceType;
+  CreateTime?: Date;
+  StartTime?: Date;
+  EndTime?: Date;
+  Status?: AnalysisStatus;
+  Insights?: Insight[];
+}
+export const AnalysisReport = S.suspend(() =>
+  S.Struct({
+    AnalysisReportId: S.String,
+    Identifier: S.optional(S.String),
+    ServiceType: S.optional(ServiceType),
+    CreateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    Status: S.optional(AnalysisStatus),
+    Insights: S.optional(InsightList),
+  }),
+).annotate({ identifier: "AnalysisReport" }) as any as S.Schema<AnalysisReport>;
+export interface GetPerformanceAnalysisReportResponse {
+  AnalysisReport?: AnalysisReport;
+}
+export const GetPerformanceAnalysisReportResponse = S.suspend(() =>
+  S.Struct({ AnalysisReport: S.optional(AnalysisReport) }).pipe(ns),
+).annotate({
+  identifier: "GetPerformanceAnalysisReportResponse",
+}) as any as S.Schema<GetPerformanceAnalysisReportResponse>;
+export interface GetResourceMetadataRequest {
+  ServiceType: ServiceType;
+  Identifier: string;
+}
+export const GetResourceMetadataRequest = S.suspend(() =>
+  S.Struct({ ServiceType: ServiceType, Identifier: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetResourceMetadataRequest",
+}) as any as S.Schema<GetResourceMetadataRequest>;
+export type FeatureStatus =
+  | "ENABLED"
+  | "DISABLED"
+  | "UNSUPPORTED"
+  | "ENABLED_PENDING_REBOOT"
+  | "DISABLED_PENDING_REBOOT"
+  | "UNKNOWN"
+  | (string & {});
+export const FeatureStatus = S.String;
+export interface FeatureMetadata {
+  Status?: FeatureStatus;
+}
+export const FeatureMetadata = S.suspend(() =>
+  S.Struct({ Status: S.optional(FeatureStatus) }),
+).annotate({
+  identifier: "FeatureMetadata",
+}) as any as S.Schema<FeatureMetadata>;
+export type FeatureMetadataMap = { [key: string]: FeatureMetadata | undefined };
+export const FeatureMetadataMap = S.Record(
+  S.String,
+  FeatureMetadata.pipe(S.optional),
+);
+export interface GetResourceMetadataResponse {
+  Identifier?: string;
+  Features?: { [key: string]: FeatureMetadata | undefined };
+}
+export const GetResourceMetadataResponse = S.suspend(() =>
+  S.Struct({
+    Identifier: S.optional(S.String),
+    Features: S.optional(FeatureMetadataMap),
+  }).pipe(ns),
+).annotate({
+  identifier: "GetResourceMetadataResponse",
+}) as any as S.Schema<GetResourceMetadataResponse>;
+export interface MetricQuery {
+  Metric: string;
+  GroupBy?: DimensionGroup;
+  Filter?: { [key: string]: string | undefined };
+}
+export const MetricQuery = S.suspend(() =>
+  S.Struct({
+    Metric: S.String,
+    GroupBy: S.optional(DimensionGroup),
+    Filter: S.optional(MetricQueryFilterMap),
+  }),
+).annotate({ identifier: "MetricQuery" }) as any as S.Schema<MetricQuery>;
+export type MetricQueryList = MetricQuery[];
+export const MetricQueryList = S.Array(MetricQuery);
+export type PeriodAlignment = "END_TIME" | "START_TIME" | (string & {});
+export const PeriodAlignment = S.String;
 export interface GetResourceMetricsRequest {
   ServiceType: ServiceType;
   Identifier: string;
@@ -548,200 +610,16 @@ export const GetResourceMetricsRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "GetResourceMetricsRequest",
 }) as any as S.Schema<GetResourceMetricsRequest>;
-export interface ListTagsForResourceResponse {
-  Tags?: Tag[];
-}
-export const ListTagsForResourceResponse = S.suspend(() =>
-  S.Struct({ Tags: S.optional(TagList) }).pipe(ns),
-).annotations({
-  identifier: "ListTagsForResourceResponse",
-}) as any as S.Schema<ListTagsForResourceResponse>;
-export type DetailStatus =
-  | "AVAILABLE"
-  | "PROCESSING"
-  | "UNAVAILABLE"
-  | (string & {});
-export const DetailStatus = S.String;
-export type AnalysisStatus = "RUNNING" | "SUCCEEDED" | "FAILED" | (string & {});
-export const AnalysisStatus = S.String;
-export interface DimensionKeyDetail {
-  Value?: string;
-  Dimension?: string;
-  Status?: DetailStatus;
-}
-export const DimensionKeyDetail = S.suspend(() =>
-  S.Struct({
-    Value: S.optional(S.String),
-    Dimension: S.optional(S.String),
-    Status: S.optional(DetailStatus),
-  }),
-).annotations({
-  identifier: "DimensionKeyDetail",
-}) as any as S.Schema<DimensionKeyDetail>;
-export type DimensionKeyDetailList = DimensionKeyDetail[];
-export const DimensionKeyDetailList = S.Array(DimensionKeyDetail);
-export interface ResponseResourceMetric {
-  Metric?: string;
-  Description?: string;
-  Unit?: string;
-}
-export const ResponseResourceMetric = S.suspend(() =>
-  S.Struct({
-    Metric: S.optional(S.String),
-    Description: S.optional(S.String),
-    Unit: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "ResponseResourceMetric",
-}) as any as S.Schema<ResponseResourceMetric>;
-export type ResponseResourceMetricList = ResponseResourceMetric[];
-export const ResponseResourceMetricList = S.Array(ResponseResourceMetric);
-export interface AnalysisReportSummary {
-  AnalysisReportId?: string;
-  CreateTime?: Date;
-  StartTime?: Date;
-  EndTime?: Date;
-  Status?: AnalysisStatus;
-  Tags?: Tag[];
-}
-export const AnalysisReportSummary = S.suspend(() =>
-  S.Struct({
-    AnalysisReportId: S.optional(S.String),
-    CreateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    Status: S.optional(AnalysisStatus),
-    Tags: S.optional(TagList),
-  }),
-).annotations({
-  identifier: "AnalysisReportSummary",
-}) as any as S.Schema<AnalysisReportSummary>;
-export type AnalysisReportSummaryList = AnalysisReportSummary[];
-export const AnalysisReportSummaryList = S.Array(AnalysisReportSummary);
-export type ContextType = "CAUSAL" | "CONTEXTUAL" | (string & {});
-export const ContextType = S.String;
-export type Severity = "LOW" | "MEDIUM" | "HIGH" | (string & {});
-export const Severity = S.String;
-export type FeatureStatus =
-  | "ENABLED"
-  | "DISABLED"
-  | "UNSUPPORTED"
-  | "ENABLED_PENDING_REBOOT"
-  | "DISABLED_PENDING_REBOOT"
-  | "UNKNOWN"
-  | (string & {});
-export const FeatureStatus = S.String;
-export interface CreatePerformanceAnalysisReportResponse {
-  AnalysisReportId?: string;
-}
-export const CreatePerformanceAnalysisReportResponse = S.suspend(() =>
-  S.Struct({ AnalysisReportId: S.optional(S.String) }).pipe(ns),
-).annotations({
-  identifier: "CreatePerformanceAnalysisReportResponse",
-}) as any as S.Schema<CreatePerformanceAnalysisReportResponse>;
-export interface GetDimensionKeyDetailsResponse {
-  Dimensions?: DimensionKeyDetail[];
-}
-export const GetDimensionKeyDetailsResponse = S.suspend(() =>
-  S.Struct({ Dimensions: S.optional(DimensionKeyDetailList) }).pipe(ns),
-).annotations({
-  identifier: "GetDimensionKeyDetailsResponse",
-}) as any as S.Schema<GetDimensionKeyDetailsResponse>;
-export interface ListAvailableResourceMetricsResponse {
-  Metrics?: ResponseResourceMetric[];
-  NextToken?: string;
-}
-export const ListAvailableResourceMetricsResponse = S.suspend(() =>
-  S.Struct({
-    Metrics: S.optional(ResponseResourceMetricList),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotations({
-  identifier: "ListAvailableResourceMetricsResponse",
-}) as any as S.Schema<ListAvailableResourceMetricsResponse>;
-export interface ListPerformanceAnalysisReportsResponse {
-  AnalysisReports?: AnalysisReportSummary[];
-  NextToken?: string;
-}
-export const ListPerformanceAnalysisReportsResponse = S.suspend(() =>
-  S.Struct({
-    AnalysisReports: S.optional(AnalysisReportSummaryList),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotations({
-  identifier: "ListPerformanceAnalysisReportsResponse",
-}) as any as S.Schema<ListPerformanceAnalysisReportsResponse>;
-export type MetricValuesList = number[];
-export const MetricValuesList = S.Array(S.Number);
-export interface FeatureMetadata {
-  Status?: FeatureStatus;
-}
-export const FeatureMetadata = S.suspend(() =>
-  S.Struct({ Status: S.optional(FeatureStatus) }),
-).annotations({
-  identifier: "FeatureMetadata",
-}) as any as S.Schema<FeatureMetadata>;
-export type FeatureMetadataMap = { [key: string]: FeatureMetadata | undefined };
-export const FeatureMetadataMap = S.Record({
-  key: S.String,
-  value: S.UndefinedOr(FeatureMetadata),
-});
-export interface Recommendation {
-  RecommendationId?: string;
-  RecommendationDescription?: string | redacted.Redacted<string>;
-}
-export const Recommendation = S.suspend(() =>
-  S.Struct({
-    RecommendationId: S.optional(S.String),
-    RecommendationDescription: S.optional(SensitiveString),
-  }),
-).annotations({
-  identifier: "Recommendation",
-}) as any as S.Schema<Recommendation>;
-export type RecommendationList = Recommendation[];
-export const RecommendationList = S.Array(Recommendation);
-export interface DimensionDetail {
-  Identifier?: string;
-}
-export const DimensionDetail = S.suspend(() =>
-  S.Struct({ Identifier: S.optional(S.String) }),
-).annotations({
-  identifier: "DimensionDetail",
-}) as any as S.Schema<DimensionDetail>;
-export type DimensionDetailList = DimensionDetail[];
-export const DimensionDetailList = S.Array(DimensionDetail);
-export interface GetResourceMetadataResponse {
-  Identifier?: string;
-  Features?: { [key: string]: FeatureMetadata | undefined };
-}
-export const GetResourceMetadataResponse = S.suspend(() =>
-  S.Struct({
-    Identifier: S.optional(S.String),
-    Features: S.optional(FeatureMetadataMap),
-  }).pipe(ns),
-).annotations({
-  identifier: "GetResourceMetadataResponse",
-}) as any as S.Schema<GetResourceMetadataResponse>;
-export type DimensionMap = { [key: string]: string | undefined };
-export const DimensionMap = S.Record({
-  key: S.String,
-  value: S.UndefinedOr(S.String),
-});
-export type AdditionalMetricsMap = { [key: string]: number | undefined };
-export const AdditionalMetricsMap = S.Record({
-  key: S.String,
-  value: S.UndefinedOr(S.Number),
-});
 export interface ResponseResourceMetricKey {
   Metric: string;
   Dimensions?: { [key: string]: string | undefined };
 }
 export const ResponseResourceMetricKey = S.suspend(() =>
   S.Struct({ Metric: S.String, Dimensions: S.optional(DimensionMap) }),
-).annotations({
+).annotate({
   identifier: "ResponseResourceMetricKey",
 }) as any as S.Schema<ResponseResourceMetricKey>;
 export interface DataPoint {
@@ -753,51 +631,9 @@ export const DataPoint = S.suspend(() =>
     Timestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     Value: S.Number,
   }),
-).annotations({ identifier: "DataPoint" }) as any as S.Schema<DataPoint>;
+).annotate({ identifier: "DataPoint" }) as any as S.Schema<DataPoint>;
 export type DataPointsList = DataPoint[];
 export const DataPointsList = S.Array(DataPoint);
-export interface DimensionGroupDetail {
-  Group?: string;
-  Dimensions?: DimensionDetail[];
-}
-export const DimensionGroupDetail = S.suspend(() =>
-  S.Struct({
-    Group: S.optional(S.String),
-    Dimensions: S.optional(DimensionDetailList),
-  }),
-).annotations({
-  identifier: "DimensionGroupDetail",
-}) as any as S.Schema<DimensionGroupDetail>;
-export type DimensionGroupDetailList = DimensionGroupDetail[];
-export const DimensionGroupDetailList = S.Array(DimensionGroupDetail);
-export interface ResponsePartitionKey {
-  Dimensions: { [key: string]: string | undefined };
-}
-export const ResponsePartitionKey = S.suspend(() =>
-  S.Struct({ Dimensions: DimensionMap }),
-).annotations({
-  identifier: "ResponsePartitionKey",
-}) as any as S.Schema<ResponsePartitionKey>;
-export type ResponsePartitionKeyList = ResponsePartitionKey[];
-export const ResponsePartitionKeyList = S.Array(ResponsePartitionKey);
-export interface DimensionKeyDescription {
-  Dimensions?: { [key: string]: string | undefined };
-  Total?: number;
-  AdditionalMetrics?: { [key: string]: number | undefined };
-  Partitions?: number[];
-}
-export const DimensionKeyDescription = S.suspend(() =>
-  S.Struct({
-    Dimensions: S.optional(DimensionMap),
-    Total: S.optional(S.Number),
-    AdditionalMetrics: S.optional(AdditionalMetricsMap),
-    Partitions: S.optional(MetricValuesList),
-  }),
-).annotations({
-  identifier: "DimensionKeyDescription",
-}) as any as S.Schema<DimensionKeyDescription>;
-export type DimensionKeyDescriptionList = DimensionKeyDescription[];
-export const DimensionKeyDescriptionList = S.Array(DimensionKeyDescription);
 export interface MetricKeyDataPoints {
   Key?: ResponseResourceMetricKey;
   DataPoints?: DataPoint[];
@@ -807,50 +643,11 @@ export const MetricKeyDataPoints = S.suspend(() =>
     Key: S.optional(ResponseResourceMetricKey),
     DataPoints: S.optional(DataPointsList),
   }),
-).annotations({
+).annotate({
   identifier: "MetricKeyDataPoints",
 }) as any as S.Schema<MetricKeyDataPoints>;
 export type MetricKeyDataPointsList = MetricKeyDataPoints[];
 export const MetricKeyDataPointsList = S.Array(MetricKeyDataPoints);
-export interface MetricDimensionGroups {
-  Metric?: string;
-  Groups?: DimensionGroupDetail[];
-}
-export const MetricDimensionGroups = S.suspend(() =>
-  S.Struct({
-    Metric: S.optional(S.String),
-    Groups: S.optional(DimensionGroupDetailList),
-  }),
-).annotations({
-  identifier: "MetricDimensionGroups",
-}) as any as S.Schema<MetricDimensionGroups>;
-export type MetricDimensionsList = MetricDimensionGroups[];
-export const MetricDimensionsList = S.Array(MetricDimensionGroups);
-export interface DescribeDimensionKeysResponse {
-  AlignedStartTime?: Date;
-  AlignedEndTime?: Date;
-  PartitionKeys?: ResponsePartitionKey[];
-  Keys?: DimensionKeyDescription[];
-  NextToken?: string;
-}
-export const DescribeDimensionKeysResponse = S.suspend(() =>
-  S.Struct({
-    AlignedStartTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    AlignedEndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    PartitionKeys: S.optional(ResponsePartitionKeyList),
-    Keys: S.optional(DimensionKeyDescriptionList),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotations({
-  identifier: "DescribeDimensionKeysResponse",
-}) as any as S.Schema<DescribeDimensionKeysResponse>;
-export type DescriptiveMap = { [key: string]: string | undefined };
-export const DescriptiveMap = S.Record({
-  key: S.String,
-  value: S.UndefinedOr(S.String),
-});
 export interface GetResourceMetricsResponse {
   AlignedStartTime?: Date;
   AlignedEndTime?: Date;
@@ -868,9 +665,87 @@ export const GetResourceMetricsResponse = S.suspend(() =>
     MetricList: S.optional(MetricKeyDataPointsList),
     NextToken: S.optional(S.String),
   }).pipe(ns),
-).annotations({
+).annotate({
   identifier: "GetResourceMetricsResponse",
 }) as any as S.Schema<GetResourceMetricsResponse>;
+export type DimensionsMetricList = string[];
+export const DimensionsMetricList = S.Array(S.String);
+export type FineGrainedAction =
+  | "DescribeDimensionKeys"
+  | "GetDimensionKeyDetails"
+  | "GetResourceMetrics"
+  | (string & {});
+export const FineGrainedAction = S.String;
+export type AuthorizedActionsList = FineGrainedAction[];
+export const AuthorizedActionsList = S.Array(FineGrainedAction);
+export interface ListAvailableResourceDimensionsRequest {
+  ServiceType: ServiceType;
+  Identifier: string;
+  Metrics: string[];
+  MaxResults?: number;
+  NextToken?: string;
+  AuthorizedActions?: FineGrainedAction[];
+}
+export const ListAvailableResourceDimensionsRequest = S.suspend(() =>
+  S.Struct({
+    ServiceType: ServiceType,
+    Identifier: S.String,
+    Metrics: DimensionsMetricList,
+    MaxResults: S.optional(S.Number),
+    NextToken: S.optional(S.String),
+    AuthorizedActions: S.optional(AuthorizedActionsList),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListAvailableResourceDimensionsRequest",
+}) as any as S.Schema<ListAvailableResourceDimensionsRequest>;
+export interface DimensionDetail {
+  Identifier?: string;
+}
+export const DimensionDetail = S.suspend(() =>
+  S.Struct({ Identifier: S.optional(S.String) }),
+).annotate({
+  identifier: "DimensionDetail",
+}) as any as S.Schema<DimensionDetail>;
+export type DimensionDetailList = DimensionDetail[];
+export const DimensionDetailList = S.Array(DimensionDetail);
+export interface DimensionGroupDetail {
+  Group?: string;
+  Dimensions?: DimensionDetail[];
+}
+export const DimensionGroupDetail = S.suspend(() =>
+  S.Struct({
+    Group: S.optional(S.String),
+    Dimensions: S.optional(DimensionDetailList),
+  }),
+).annotate({
+  identifier: "DimensionGroupDetail",
+}) as any as S.Schema<DimensionGroupDetail>;
+export type DimensionGroupDetailList = DimensionGroupDetail[];
+export const DimensionGroupDetailList = S.Array(DimensionGroupDetail);
+export interface MetricDimensionGroups {
+  Metric?: string;
+  Groups?: DimensionGroupDetail[];
+}
+export const MetricDimensionGroups = S.suspend(() =>
+  S.Struct({
+    Metric: S.optional(S.String),
+    Groups: S.optional(DimensionGroupDetailList),
+  }),
+).annotate({
+  identifier: "MetricDimensionGroups",
+}) as any as S.Schema<MetricDimensionGroups>;
+export type MetricDimensionsList = MetricDimensionGroups[];
+export const MetricDimensionsList = S.Array(MetricDimensionGroups);
 export interface ListAvailableResourceDimensionsResponse {
   MetricDimensions?: MetricDimensionGroups[];
   NextToken?: string;
@@ -880,121 +755,256 @@ export const ListAvailableResourceDimensionsResponse = S.suspend(() =>
     MetricDimensions: S.optional(MetricDimensionsList),
     NextToken: S.optional(S.String),
   }).pipe(ns),
-).annotations({
+).annotate({
   identifier: "ListAvailableResourceDimensionsResponse",
 }) as any as S.Schema<ListAvailableResourceDimensionsResponse>;
-export interface PerformanceInsightsMetric {
-  Metric?: string;
-  DisplayName?: string;
-  Dimensions?: { [key: string]: string | undefined };
-  Filter?: { [key: string]: string | undefined };
-  Value?: number;
+export type MetricTypeList = string[];
+export const MetricTypeList = S.Array(S.String);
+export interface ListAvailableResourceMetricsRequest {
+  ServiceType: ServiceType;
+  Identifier: string;
+  MetricTypes: string[];
+  NextToken?: string;
+  MaxResults?: number;
 }
-export const PerformanceInsightsMetric = S.suspend(() =>
+export const ListAvailableResourceMetricsRequest = S.suspend(() =>
+  S.Struct({
+    ServiceType: ServiceType,
+    Identifier: S.String,
+    MetricTypes: MetricTypeList,
+    NextToken: S.optional(S.String),
+    MaxResults: S.optional(S.Number),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListAvailableResourceMetricsRequest",
+}) as any as S.Schema<ListAvailableResourceMetricsRequest>;
+export interface ResponseResourceMetric {
+  Metric?: string;
+  Description?: string;
+  Unit?: string;
+}
+export const ResponseResourceMetric = S.suspend(() =>
   S.Struct({
     Metric: S.optional(S.String),
-    DisplayName: S.optional(S.String),
-    Dimensions: S.optional(DescriptiveMap),
-    Filter: S.optional(DescriptiveMap),
-    Value: S.optional(S.Number),
+    Description: S.optional(S.String),
+    Unit: S.optional(S.String),
   }),
-).annotations({
-  identifier: "PerformanceInsightsMetric",
-}) as any as S.Schema<PerformanceInsightsMetric>;
-export interface Data {
-  PerformanceInsightsMetric?: PerformanceInsightsMetric;
+).annotate({
+  identifier: "ResponseResourceMetric",
+}) as any as S.Schema<ResponseResourceMetric>;
+export type ResponseResourceMetricList = ResponseResourceMetric[];
+export const ResponseResourceMetricList = S.Array(ResponseResourceMetric);
+export interface ListAvailableResourceMetricsResponse {
+  Metrics?: ResponseResourceMetric[];
+  NextToken?: string;
 }
-export const Data = S.suspend(() =>
+export const ListAvailableResourceMetricsResponse = S.suspend(() =>
   S.Struct({
-    PerformanceInsightsMetric: S.optional(PerformanceInsightsMetric),
-  }),
-).annotations({ identifier: "Data" }) as any as S.Schema<Data>;
-export type DataList = Data[];
-export const DataList = S.Array(Data);
-export interface Insight {
-  InsightId: string;
-  InsightType?: string;
-  Context?: ContextType;
-  StartTime?: Date;
-  EndTime?: Date;
-  Severity?: Severity;
-  SupportingInsights?: Insight[];
-  Description?: string | redacted.Redacted<string>;
-  Recommendations?: Recommendation[];
-  InsightData?: Data[];
-  BaselineData?: Data[];
+    Metrics: S.optional(ResponseResourceMetricList),
+    NextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotate({
+  identifier: "ListAvailableResourceMetricsResponse",
+}) as any as S.Schema<ListAvailableResourceMetricsResponse>;
+export interface ListPerformanceAnalysisReportsRequest {
+  ServiceType: ServiceType;
+  Identifier: string;
+  NextToken?: string;
+  MaxResults?: number;
+  ListTags?: boolean;
 }
-export const Insight = S.suspend(() =>
+export const ListPerformanceAnalysisReportsRequest = S.suspend(() =>
   S.Struct({
-    InsightId: S.String,
-    InsightType: S.optional(S.String),
-    Context: S.optional(ContextType),
-    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    Severity: S.optional(Severity),
-    SupportingInsights: S.optional(
-      S.suspend(() => InsightList).annotations({ identifier: "InsightList" }),
+    ServiceType: ServiceType,
+    Identifier: S.String,
+    NextToken: S.optional(S.String),
+    MaxResults: S.optional(S.Number),
+    ListTags: S.optional(S.Boolean),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
-    Description: S.optional(SensitiveString),
-    Recommendations: S.optional(RecommendationList),
-    InsightData: S.optional(DataList),
-    BaselineData: S.optional(DataList),
-  }),
-).annotations({ identifier: "Insight" }) as any as S.Schema<Insight>;
-export type InsightList = Insight[];
-export const InsightList = S.Array(
-  S.suspend((): S.Schema<Insight, any> => Insight).annotations({
-    identifier: "Insight",
-  }),
-) as any as S.Schema<InsightList>;
-export interface AnalysisReport {
-  AnalysisReportId: string;
-  Identifier?: string;
-  ServiceType?: ServiceType;
+  ),
+).annotate({
+  identifier: "ListPerformanceAnalysisReportsRequest",
+}) as any as S.Schema<ListPerformanceAnalysisReportsRequest>;
+export interface AnalysisReportSummary {
+  AnalysisReportId?: string;
   CreateTime?: Date;
   StartTime?: Date;
   EndTime?: Date;
   Status?: AnalysisStatus;
-  Insights?: Insight[];
+  Tags?: Tag[];
 }
-export const AnalysisReport = S.suspend(() =>
+export const AnalysisReportSummary = S.suspend(() =>
   S.Struct({
-    AnalysisReportId: S.String,
-    Identifier: S.optional(S.String),
-    ServiceType: S.optional(ServiceType),
+    AnalysisReportId: S.optional(S.String),
     CreateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     Status: S.optional(AnalysisStatus),
-    Insights: S.optional(InsightList),
+    Tags: S.optional(TagList),
   }),
-).annotations({
-  identifier: "AnalysisReport",
-}) as any as S.Schema<AnalysisReport>;
-export interface GetPerformanceAnalysisReportResponse {
-  AnalysisReport?: AnalysisReport;
+).annotate({
+  identifier: "AnalysisReportSummary",
+}) as any as S.Schema<AnalysisReportSummary>;
+export type AnalysisReportSummaryList = AnalysisReportSummary[];
+export const AnalysisReportSummaryList = S.Array(AnalysisReportSummary);
+export interface ListPerformanceAnalysisReportsResponse {
+  AnalysisReports?: AnalysisReportSummary[];
+  NextToken?: string;
 }
-export const GetPerformanceAnalysisReportResponse = S.suspend(() =>
-  S.Struct({ AnalysisReport: S.optional(AnalysisReport) }).pipe(ns),
-).annotations({
-  identifier: "GetPerformanceAnalysisReportResponse",
-}) as any as S.Schema<GetPerformanceAnalysisReportResponse>;
+export const ListPerformanceAnalysisReportsResponse = S.suspend(() =>
+  S.Struct({
+    AnalysisReports: S.optional(AnalysisReportSummaryList),
+    NextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotate({
+  identifier: "ListPerformanceAnalysisReportsResponse",
+}) as any as S.Schema<ListPerformanceAnalysisReportsResponse>;
+export interface ListTagsForResourceRequest {
+  ServiceType: ServiceType;
+  ResourceARN: string;
+}
+export const ListTagsForResourceRequest = S.suspend(() =>
+  S.Struct({ ServiceType: ServiceType, ResourceARN: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListTagsForResourceRequest",
+}) as any as S.Schema<ListTagsForResourceRequest>;
+export interface ListTagsForResourceResponse {
+  Tags?: Tag[];
+}
+export const ListTagsForResourceResponse = S.suspend(() =>
+  S.Struct({ Tags: S.optional(TagList) }).pipe(ns),
+).annotate({
+  identifier: "ListTagsForResourceResponse",
+}) as any as S.Schema<ListTagsForResourceResponse>;
+export interface TagResourceRequest {
+  ServiceType: ServiceType;
+  ResourceARN: string;
+  Tags: Tag[];
+}
+export const TagResourceRequest = S.suspend(() =>
+  S.Struct({
+    ServiceType: ServiceType,
+    ResourceARN: S.String,
+    Tags: TagList,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "TagResourceRequest",
+}) as any as S.Schema<TagResourceRequest>;
+export interface TagResourceResponse {}
+export const TagResourceResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "TagResourceResponse",
+}) as any as S.Schema<TagResourceResponse>;
+export type TagKeyList = string[];
+export const TagKeyList = S.Array(S.String);
+export interface UntagResourceRequest {
+  ServiceType: ServiceType;
+  ResourceARN: string;
+  TagKeys: string[];
+}
+export const UntagResourceRequest = S.suspend(() =>
+  S.Struct({
+    ServiceType: ServiceType,
+    ResourceARN: S.String,
+    TagKeys: TagKeyList,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "UntagResourceRequest",
+}) as any as S.Schema<UntagResourceRequest>;
+export interface UntagResourceResponse {}
+export const UntagResourceResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "UntagResourceResponse",
+}) as any as S.Schema<UntagResourceResponse>;
 
 //# Errors
-export class InternalServiceError extends S.TaggedError<InternalServiceError>()(
+export class InternalServiceError extends S.TaggedErrorClass<InternalServiceError>()(
   "InternalServiceError",
   { Message: S.optional(S.String) },
 ) {}
-export class InvalidArgumentException extends S.TaggedError<InvalidArgumentException>()(
+export class InvalidArgumentException extends S.TaggedErrorClass<InvalidArgumentException>()(
   "InvalidArgumentException",
   { Message: S.optional(S.String) },
 ) {}
-export class NotAuthorizedException extends S.TaggedError<NotAuthorizedException>()(
+export class NotAuthorizedException extends S.TaggedErrorClass<NotAuthorizedException>()(
   "NotAuthorizedException",
   { Message: S.optional(S.String) },
 ) {}
 
 //# Operations
+/**
+ * Creates a new performance analysis report for a specific time period for the
+ * DB instance.
+ */
+export const createPerformanceAnalysisReport: (
+  input: CreatePerformanceAnalysisReportRequest,
+) => effect.Effect<
+  CreatePerformanceAnalysisReportResponse,
+  | InternalServiceError
+  | InvalidArgumentException
+  | NotAuthorizedException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreatePerformanceAnalysisReportRequest,
+  output: CreatePerformanceAnalysisReportResponse,
+  errors: [
+    InternalServiceError,
+    InvalidArgumentException,
+    NotAuthorizedException,
+  ],
+}));
 /**
  * Deletes a performance analysis report.
  */
@@ -1010,6 +1020,105 @@ export const deletePerformanceAnalysisReport: (
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePerformanceAnalysisReportRequest,
   output: DeletePerformanceAnalysisReportResponse,
+  errors: [
+    InternalServiceError,
+    InvalidArgumentException,
+    NotAuthorizedException,
+  ],
+}));
+/**
+ * For a specific time period, retrieve the top `N` dimension keys for a metric.
+ *
+ * Each response element returns a maximum of 500 bytes. For larger elements, such as SQL statements,
+ * only the first 500 bytes are returned.
+ */
+export const describeDimensionKeys: {
+  (
+    input: DescribeDimensionKeysRequest,
+  ): effect.Effect<
+    DescribeDimensionKeysResponse,
+    | InternalServiceError
+    | InvalidArgumentException
+    | NotAuthorizedException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeDimensionKeysRequest,
+  ) => stream.Stream<
+    DescribeDimensionKeysResponse,
+    | InternalServiceError
+    | InvalidArgumentException
+    | NotAuthorizedException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeDimensionKeysRequest,
+  ) => stream.Stream<
+    unknown,
+    | InternalServiceError
+    | InvalidArgumentException
+    | NotAuthorizedException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeDimensionKeysRequest,
+  output: DescribeDimensionKeysResponse,
+  errors: [
+    InternalServiceError,
+    InvalidArgumentException,
+    NotAuthorizedException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
+/**
+ * Get the attributes of the specified dimension group for a DB instance or data source. For example, if you specify a SQL ID,
+ * `GetDimensionKeyDetails` retrieves the full text of the dimension `db.sql.statement` associated with this ID.
+ * This operation is useful because `GetResourceMetrics` and `DescribeDimensionKeys` don't support retrieval of large
+ * SQL statement text, lock snapshots, and execution plans.
+ */
+export const getDimensionKeyDetails: (
+  input: GetDimensionKeyDetailsRequest,
+) => effect.Effect<
+  GetDimensionKeyDetailsResponse,
+  | InternalServiceError
+  | InvalidArgumentException
+  | NotAuthorizedException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetDimensionKeyDetailsRequest,
+  output: GetDimensionKeyDetailsResponse,
+  errors: [
+    InternalServiceError,
+    InvalidArgumentException,
+    NotAuthorizedException,
+  ],
+}));
+/**
+ * Retrieves the report including the report ID, status, time details, and the insights
+ * with recommendations. The report status can be `RUNNING`,
+ * `SUCCEEDED`, or `FAILED`. The insights include the
+ * `description` and `recommendation` fields.
+ */
+export const getPerformanceAnalysisReport: (
+  input: GetPerformanceAnalysisReportRequest,
+) => effect.Effect<
+  GetPerformanceAnalysisReportResponse,
+  | InternalServiceError
+  | InvalidArgumentException
+  | NotAuthorizedException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetPerformanceAnalysisReportRequest,
+  output: GetPerformanceAnalysisReportResponse,
   errors: [
     InternalServiceError,
     InvalidArgumentException,
@@ -1039,28 +1148,105 @@ export const getResourceMetadata: (
   ],
 }));
 /**
- * Get the attributes of the specified dimension group for a DB instance or data source. For example, if you specify a SQL ID,
- * `GetDimensionKeyDetails` retrieves the full text of the dimension `db.sql.statement` associated with this ID.
- * This operation is useful because `GetResourceMetrics` and `DescribeDimensionKeys` don't support retrieval of large
- * SQL statement text, lock snapshots, and execution plans.
+ * Retrieve Performance Insights metrics for a set of data sources over a time period. You can provide
+ * specific dimension groups and dimensions, and provide filtering criteria for each group. You must specify an aggregate function for
+ * each metric.
+ *
+ * Each response element returns a maximum of 500 bytes. For larger elements, such as SQL statements,
+ * only the first 500 bytes are returned.
  */
-export const getDimensionKeyDetails: (
-  input: GetDimensionKeyDetailsRequest,
-) => effect.Effect<
-  GetDimensionKeyDetailsResponse,
-  | InternalServiceError
-  | InvalidArgumentException
-  | NotAuthorizedException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetDimensionKeyDetailsRequest,
-  output: GetDimensionKeyDetailsResponse,
+export const getResourceMetrics: {
+  (
+    input: GetResourceMetricsRequest,
+  ): effect.Effect<
+    GetResourceMetricsResponse,
+    | InternalServiceError
+    | InvalidArgumentException
+    | NotAuthorizedException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetResourceMetricsRequest,
+  ) => stream.Stream<
+    GetResourceMetricsResponse,
+    | InternalServiceError
+    | InvalidArgumentException
+    | NotAuthorizedException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetResourceMetricsRequest,
+  ) => stream.Stream<
+    unknown,
+    | InternalServiceError
+    | InvalidArgumentException
+    | NotAuthorizedException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetResourceMetricsRequest,
+  output: GetResourceMetricsResponse,
   errors: [
     InternalServiceError,
     InvalidArgumentException,
     NotAuthorizedException,
   ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
+/**
+ * Retrieve the dimensions that can be queried for each specified metric type on a specified DB instance.
+ */
+export const listAvailableResourceDimensions: {
+  (
+    input: ListAvailableResourceDimensionsRequest,
+  ): effect.Effect<
+    ListAvailableResourceDimensionsResponse,
+    | InternalServiceError
+    | InvalidArgumentException
+    | NotAuthorizedException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAvailableResourceDimensionsRequest,
+  ) => stream.Stream<
+    ListAvailableResourceDimensionsResponse,
+    | InternalServiceError
+    | InvalidArgumentException
+    | NotAuthorizedException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAvailableResourceDimensionsRequest,
+  ) => stream.Stream<
+    unknown,
+    | InternalServiceError
+    | InvalidArgumentException
+    | NotAuthorizedException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAvailableResourceDimensionsRequest,
+  output: ListAvailableResourceDimensionsResponse,
+  errors: [
+    InternalServiceError,
+    InvalidArgumentException,
+    NotAuthorizedException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
 }));
 /**
  * Retrieve metrics of the specified types that can be queried for a specified DB instance.
@@ -1215,204 +1401,6 @@ export const untagResource: (
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
-  errors: [
-    InternalServiceError,
-    InvalidArgumentException,
-    NotAuthorizedException,
-  ],
-}));
-/**
- * Creates a new performance analysis report for a specific time period for the
- * DB instance.
- */
-export const createPerformanceAnalysisReport: (
-  input: CreatePerformanceAnalysisReportRequest,
-) => effect.Effect<
-  CreatePerformanceAnalysisReportResponse,
-  | InternalServiceError
-  | InvalidArgumentException
-  | NotAuthorizedException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreatePerformanceAnalysisReportRequest,
-  output: CreatePerformanceAnalysisReportResponse,
-  errors: [
-    InternalServiceError,
-    InvalidArgumentException,
-    NotAuthorizedException,
-  ],
-}));
-/**
- * For a specific time period, retrieve the top `N` dimension keys for a metric.
- *
- * Each response element returns a maximum of 500 bytes. For larger elements, such as SQL statements,
- * only the first 500 bytes are returned.
- */
-export const describeDimensionKeys: {
-  (
-    input: DescribeDimensionKeysRequest,
-  ): effect.Effect<
-    DescribeDimensionKeysResponse,
-    | InternalServiceError
-    | InvalidArgumentException
-    | NotAuthorizedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  pages: (
-    input: DescribeDimensionKeysRequest,
-  ) => stream.Stream<
-    DescribeDimensionKeysResponse,
-    | InternalServiceError
-    | InvalidArgumentException
-    | NotAuthorizedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  items: (
-    input: DescribeDimensionKeysRequest,
-  ) => stream.Stream<
-    unknown,
-    | InternalServiceError
-    | InvalidArgumentException
-    | NotAuthorizedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
-  input: DescribeDimensionKeysRequest,
-  output: DescribeDimensionKeysResponse,
-  errors: [
-    InternalServiceError,
-    InvalidArgumentException,
-    NotAuthorizedException,
-  ],
-  pagination: {
-    inputToken: "NextToken",
-    outputToken: "NextToken",
-    pageSize: "MaxResults",
-  } as const,
-}));
-/**
- * Retrieve Performance Insights metrics for a set of data sources over a time period. You can provide
- * specific dimension groups and dimensions, and provide filtering criteria for each group. You must specify an aggregate function for
- * each metric.
- *
- * Each response element returns a maximum of 500 bytes. For larger elements, such as SQL statements,
- * only the first 500 bytes are returned.
- */
-export const getResourceMetrics: {
-  (
-    input: GetResourceMetricsRequest,
-  ): effect.Effect<
-    GetResourceMetricsResponse,
-    | InternalServiceError
-    | InvalidArgumentException
-    | NotAuthorizedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  pages: (
-    input: GetResourceMetricsRequest,
-  ) => stream.Stream<
-    GetResourceMetricsResponse,
-    | InternalServiceError
-    | InvalidArgumentException
-    | NotAuthorizedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  items: (
-    input: GetResourceMetricsRequest,
-  ) => stream.Stream<
-    unknown,
-    | InternalServiceError
-    | InvalidArgumentException
-    | NotAuthorizedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
-  input: GetResourceMetricsRequest,
-  output: GetResourceMetricsResponse,
-  errors: [
-    InternalServiceError,
-    InvalidArgumentException,
-    NotAuthorizedException,
-  ],
-  pagination: {
-    inputToken: "NextToken",
-    outputToken: "NextToken",
-    pageSize: "MaxResults",
-  } as const,
-}));
-/**
- * Retrieve the dimensions that can be queried for each specified metric type on a specified DB instance.
- */
-export const listAvailableResourceDimensions: {
-  (
-    input: ListAvailableResourceDimensionsRequest,
-  ): effect.Effect<
-    ListAvailableResourceDimensionsResponse,
-    | InternalServiceError
-    | InvalidArgumentException
-    | NotAuthorizedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  pages: (
-    input: ListAvailableResourceDimensionsRequest,
-  ) => stream.Stream<
-    ListAvailableResourceDimensionsResponse,
-    | InternalServiceError
-    | InvalidArgumentException
-    | NotAuthorizedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  items: (
-    input: ListAvailableResourceDimensionsRequest,
-  ) => stream.Stream<
-    unknown,
-    | InternalServiceError
-    | InvalidArgumentException
-    | NotAuthorizedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
-  input: ListAvailableResourceDimensionsRequest,
-  output: ListAvailableResourceDimensionsResponse,
-  errors: [
-    InternalServiceError,
-    InvalidArgumentException,
-    NotAuthorizedException,
-  ],
-  pagination: {
-    inputToken: "NextToken",
-    outputToken: "NextToken",
-    pageSize: "MaxResults",
-  } as const,
-}));
-/**
- * Retrieves the report including the report ID, status, time details, and the insights
- * with recommendations. The report status can be `RUNNING`,
- * `SUCCEEDED`, or `FAILED`. The insights include the
- * `description` and `recommendation` fields.
- */
-export const getPerformanceAnalysisReport: (
-  input: GetPerformanceAnalysisReportRequest,
-) => effect.Effect<
-  GetPerformanceAnalysisReportResponse,
-  | InternalServiceError
-  | InvalidArgumentException
-  | NotAuthorizedException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetPerformanceAnalysisReportRequest,
-  output: GetPerformanceAnalysisReportResponse,
   errors: [
     InternalServiceError,
     InvalidArgumentException,

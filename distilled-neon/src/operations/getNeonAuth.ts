@@ -6,18 +6,23 @@ import * as T from "../traits";
 export const GetNeonAuthInput = Schema.Struct({
   project_id: Schema.String.pipe(T.PathParam()),
   branch_id: Schema.String.pipe(T.PathParam()),
-}).pipe(T.Http({ method: "GET", path: "/projects/{project_id}/branches/{branch_id}/auth" }));
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/projects/{project_id}/branches/{branch_id}/auth",
+  }),
+);
 export type GetNeonAuthInput = typeof GetNeonAuthInput.Type;
 
 // Output Schema
 export const GetNeonAuthOutput = Schema.Struct({
-  auth_provider: Schema.Literal("mock", "stack", "stack_v2", "better_auth"),
+  auth_provider: Schema.Literals(["mock", "stack", "stack_v2", "better_auth"]),
   auth_provider_project_id: Schema.String,
   branch_id: Schema.String,
   db_name: Schema.String,
   created_at: Schema.String,
-  owned_by: Schema.Literal("user", "neon"),
-  transfer_status: Schema.optional(Schema.Literal("initiated", "finished")),
+  owned_by: Schema.Literals(["user", "neon"]),
+  transfer_status: Schema.optional(Schema.Literals(["initiated", "finished"])),
   jwks_url: Schema.String,
   base_url: Schema.optional(Schema.String),
 });

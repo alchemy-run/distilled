@@ -7,7 +7,7 @@
 
 import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
-import type { HttpClient } from "@effect/platform";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
@@ -63,7 +63,7 @@ export type RunAiResponse =
   | { summary?: string }
   | { description?: string };
 
-export const RunAiResponse = Schema.Union(
+export const RunAiResponse = Schema.Union([
   Schema.Array(
     Schema.Struct({
       label: Schema.optional(Schema.String),
@@ -81,7 +81,7 @@ export const RunAiResponse = Schema.Union(
   Schema.Struct({
     text: Schema.String,
     vtt: Schema.optional(Schema.String),
-    wordCount: Schema.optional(Schema.Number).pipe(T.JsonName("word_count")),
+    wordCount: Schema.optional(Schema.Number),
     words: Schema.optional(
       Schema.Array(
         Schema.Struct({
@@ -91,7 +91,7 @@ export const RunAiResponse = Schema.Union(
         }),
       ),
     ),
-  }),
+  }).pipe(Schema.encodeKeys({ wordCount: "word_count" })),
   Schema.Array(
     Schema.Struct({
       box: Schema.optional(
@@ -115,33 +115,31 @@ export const RunAiResponse = Schema.Union(
           name: Schema.optional(Schema.String),
         }),
       ),
-    ).pipe(T.JsonName("tool_calls")),
+    ),
     usage: Schema.optional(
       Schema.Struct({
-        completionTokens: Schema.optional(Schema.Number).pipe(
-          T.JsonName("completion_tokens"),
-        ),
-        promptTokens: Schema.optional(Schema.Number).pipe(
-          T.JsonName("prompt_tokens"),
-        ),
-        totalTokens: Schema.optional(Schema.Number).pipe(
-          T.JsonName("total_tokens"),
-        ),
-      }),
+        completionTokens: Schema.optional(Schema.Number),
+        promptTokens: Schema.optional(Schema.Number),
+        totalTokens: Schema.optional(Schema.Number),
+      }).pipe(
+        Schema.encodeKeys({
+          completionTokens: "completion_tokens",
+          promptTokens: "prompt_tokens",
+          totalTokens: "total_tokens",
+        }),
+      ),
     ),
-  }),
+  }).pipe(Schema.encodeKeys({ toolCalls: "tool_calls" })),
   Schema.Struct({
-    translatedText: Schema.optional(Schema.String).pipe(
-      T.JsonName("translated_text"),
-    ),
-  }),
+    translatedText: Schema.optional(Schema.String),
+  }).pipe(Schema.encodeKeys({ translatedText: "translated_text" })),
   Schema.Struct({
     summary: Schema.optional(Schema.String),
   }),
   Schema.Struct({
     description: Schema.optional(Schema.String),
   }),
-) as unknown as Schema.Schema<RunAiResponse>;
+]) as unknown as Schema.Schema<RunAiResponse>;
 
 export const runAi: (
   input: RunAiRequest,
@@ -180,12 +178,14 @@ export interface ListFinetunesResponse {
 
 export const ListFinetunesResponse = Schema.Struct({
   id: Schema.String,
-  createdAt: Schema.String.pipe(T.JsonName("created_at")),
+  createdAt: Schema.String,
   model: Schema.String,
-  modifiedAt: Schema.String.pipe(T.JsonName("modified_at")),
+  modifiedAt: Schema.String,
   name: Schema.String,
   description: Schema.optional(Schema.String),
-}) as unknown as Schema.Schema<ListFinetunesResponse>;
+}).pipe(
+  Schema.encodeKeys({ createdAt: "created_at", modifiedAt: "modified_at" }),
+) as unknown as Schema.Schema<ListFinetunesResponse>;
 
 export const listFinetunes: (
   input: ListFinetunesRequest,
@@ -234,13 +234,15 @@ export interface CreateFinetuneResponse {
 
 export const CreateFinetuneResponse = Schema.Struct({
   id: Schema.String,
-  createdAt: Schema.String.pipe(T.JsonName("created_at")),
+  createdAt: Schema.String,
   model: Schema.String,
-  modifiedAt: Schema.String.pipe(T.JsonName("modified_at")),
+  modifiedAt: Schema.String,
   name: Schema.String,
   public: Schema.Boolean,
   description: Schema.optional(Schema.String),
-}) as unknown as Schema.Schema<CreateFinetuneResponse>;
+}).pipe(
+  Schema.encodeKeys({ createdAt: "created_at", modifiedAt: "modified_at" }),
+) as unknown as Schema.Schema<CreateFinetuneResponse>;
 
 export const createFinetune: (
   input: CreateFinetuneRequest,
@@ -272,8 +274,9 @@ export const CreateFinetuneAssetRequest = Schema.Struct({
   finetuneId: Schema.String.pipe(T.HttpPath("finetuneId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   file: Schema.optional(UploadableSchema.pipe(T.HttpFormDataFile())),
-  fileName: Schema.optional(Schema.String).pipe(T.JsonName("file_name")),
+  fileName: Schema.optional(Schema.String),
 }).pipe(
+  Schema.encodeKeys({ fileName: "file_name" }),
   T.Http({
     method: "POST",
     path: "/accounts/{account_id}/ai/finetunes/{finetuneId}/finetune-assets",

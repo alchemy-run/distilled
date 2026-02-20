@@ -7,7 +7,7 @@
 
 import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
-import type { HttpClient } from "@effect/platform";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
@@ -82,10 +82,16 @@ export interface GetSnippetResponse {
 }
 
 export const GetSnippetResponse = Schema.Struct({
-  createdOn: Schema.String.pipe(T.JsonName("created_on")),
-  snippetName: Schema.String.pipe(T.JsonName("snippet_name")),
-  modifiedOn: Schema.optional(Schema.String).pipe(T.JsonName("modified_on")),
-}) as unknown as Schema.Schema<GetSnippetResponse>;
+  createdOn: Schema.String,
+  snippetName: Schema.String,
+  modifiedOn: Schema.optional(Schema.String),
+}).pipe(
+  Schema.encodeKeys({
+    createdOn: "created_on",
+    snippetName: "snippet_name",
+    modifiedOn: "modified_on",
+  }),
+) as unknown as Schema.Schema<GetSnippetResponse>;
 
 export const getSnippet: (
   input: GetSnippetRequest,
@@ -111,8 +117,8 @@ export const PutSnippetRequest = Schema.Struct({
   snippetName: Schema.String.pipe(T.HttpPath("snippetName")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
   metadata: Schema.Struct({
-    mainModule: Schema.String.pipe(T.JsonName("main_module")),
-  }),
+    mainModule: Schema.String,
+  }).pipe(Schema.encodeKeys({ mainModule: "main_module" })),
 }).pipe(
   T.Http({ method: "PUT", path: "/zones/{zone_id}/snippets/{snippetName}" }),
 ) as unknown as Schema.Schema<PutSnippetRequest>;
@@ -127,10 +133,16 @@ export interface PutSnippetResponse {
 }
 
 export const PutSnippetResponse = Schema.Struct({
-  createdOn: Schema.String.pipe(T.JsonName("created_on")),
-  snippetName: Schema.String.pipe(T.JsonName("snippet_name")),
-  modifiedOn: Schema.optional(Schema.String).pipe(T.JsonName("modified_on")),
-}) as unknown as Schema.Schema<PutSnippetResponse>;
+  createdOn: Schema.String,
+  snippetName: Schema.String,
+  modifiedOn: Schema.optional(Schema.String),
+}).pipe(
+  Schema.encodeKeys({
+    createdOn: "created_on",
+    snippetName: "snippet_name",
+    modifiedOn: "modified_on",
+  }),
+) as unknown as Schema.Schema<PutSnippetResponse>;
 
 export const putSnippet: (
   input: PutSnippetRequest,

@@ -1,4 +1,4 @@
-import { HttpClient } from "@effect/platform";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as effect from "effect/Effect";
 import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
@@ -126,14 +126,14 @@ export interface CreateOAuth2TokenRequestBody {
 }
 export const CreateOAuth2TokenRequestBody = S.suspend(() =>
   S.Struct({
-    clientId: S.String.pipe(T.JsonName("clientId")),
-    grantType: S.String.pipe(T.JsonName("grantType")),
+    clientId: S.String,
+    grantType: S.String,
     code: S.optional(S.String),
-    redirectUri: S.optional(S.String).pipe(T.JsonName("redirectUri")),
-    codeVerifier: S.optional(S.String).pipe(T.JsonName("codeVerifier")),
-    refreshToken: S.optional(SensitiveString).pipe(T.JsonName("refreshToken")),
+    redirectUri: S.optional(S.String),
+    codeVerifier: S.optional(S.String),
+    refreshToken: S.optional(SensitiveString),
   }),
-).annotations({
+).annotate({
   identifier: "CreateOAuth2TokenRequestBody",
 }) as any as S.Schema<CreateOAuth2TokenRequestBody>;
 export interface CreateOAuth2TokenRequest {
@@ -141,7 +141,7 @@ export interface CreateOAuth2TokenRequest {
 }
 export const CreateOAuth2TokenRequest = S.suspend(() =>
   S.Struct({
-    tokenInput: CreateOAuth2TokenRequestBody.pipe(T.HttpPayload()).annotations({
+    tokenInput: CreateOAuth2TokenRequestBody.pipe(T.HttpPayload()).annotate({
       identifier: "CreateOAuth2TokenRequestBody",
     }),
   }).pipe(
@@ -154,7 +154,7 @@ export const CreateOAuth2TokenRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "CreateOAuth2TokenRequest",
 }) as any as S.Schema<CreateOAuth2TokenRequest>;
 export interface AccessToken {
@@ -164,11 +164,11 @@ export interface AccessToken {
 }
 export const AccessToken = S.suspend(() =>
   S.Struct({
-    accessKeyId: S.String.pipe(T.JsonName("accessKeyId")),
-    secretAccessKey: S.String.pipe(T.JsonName("secretAccessKey")),
-    sessionToken: S.String.pipe(T.JsonName("sessionToken")),
+    accessKeyId: S.String,
+    secretAccessKey: S.String,
+    sessionToken: S.String,
   }),
-).annotations({ identifier: "AccessToken" }) as any as S.Schema<AccessToken>;
+).annotate({ identifier: "AccessToken" }) as any as S.Schema<AccessToken>;
 export interface CreateOAuth2TokenResponseBody {
   accessToken: AccessToken;
   tokenType: string;
@@ -178,15 +178,13 @@ export interface CreateOAuth2TokenResponseBody {
 }
 export const CreateOAuth2TokenResponseBody = S.suspend(() =>
   S.Struct({
-    accessToken: AccessToken.pipe(T.JsonName("accessToken")).annotations({
-      identifier: "AccessToken",
-    }),
-    tokenType: S.String.pipe(T.JsonName("tokenType")),
-    expiresIn: S.Number.pipe(T.JsonName("expiresIn")),
-    refreshToken: SensitiveString.pipe(T.JsonName("refreshToken")),
-    idToken: S.optional(S.String).pipe(T.JsonName("idToken")),
+    accessToken: AccessToken,
+    tokenType: S.String,
+    expiresIn: S.Number,
+    refreshToken: SensitiveString,
+    idToken: S.optional(S.String),
   }),
-).annotations({
+).annotate({
   identifier: "CreateOAuth2TokenResponseBody",
 }) as any as S.Schema<CreateOAuth2TokenResponseBody>;
 export interface CreateOAuth2TokenResponse {
@@ -194,11 +192,11 @@ export interface CreateOAuth2TokenResponse {
 }
 export const CreateOAuth2TokenResponse = S.suspend(() =>
   S.Struct({
-    tokenOutput: CreateOAuth2TokenResponseBody.pipe(
-      T.HttpPayload(),
-    ).annotations({ identifier: "CreateOAuth2TokenResponseBody" }),
+    tokenOutput: CreateOAuth2TokenResponseBody.pipe(T.HttpPayload()).annotate({
+      identifier: "CreateOAuth2TokenResponseBody",
+    }),
   }),
-).annotations({
+).annotate({
   identifier: "CreateOAuth2TokenResponse",
 }) as any as S.Schema<CreateOAuth2TokenResponse>;
 export type OAuth2ErrorCode =
@@ -212,19 +210,19 @@ export type OAuth2ErrorCode =
 export const OAuth2ErrorCode = S.String;
 
 //# Errors
-export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
+export class AccessDeniedException extends S.TaggedErrorClass<AccessDeniedException>()(
   "AccessDeniedException",
   { error: OAuth2ErrorCode, message: S.String },
 ).pipe(C.withAuthError) {}
-export class InternalServerException extends S.TaggedError<InternalServerException>()(
+export class InternalServerException extends S.TaggedErrorClass<InternalServerException>()(
   "InternalServerException",
   { error: OAuth2ErrorCode, message: S.String },
 ).pipe(C.withServerError) {}
-export class TooManyRequestsError extends S.TaggedError<TooManyRequestsError>()(
+export class TooManyRequestsError extends S.TaggedErrorClass<TooManyRequestsError>()(
   "TooManyRequestsError",
   { error: OAuth2ErrorCode, message: S.String },
 ).pipe(C.withThrottlingError) {}
-export class ValidationException extends S.TaggedError<ValidationException>()(
+export class ValidationException extends S.TaggedErrorClass<ValidationException>()(
   "ValidationException",
   { error: OAuth2ErrorCode, message: S.String },
 ).pipe(C.withBadRequestError) {}

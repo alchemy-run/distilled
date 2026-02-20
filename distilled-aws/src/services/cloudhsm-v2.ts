@@ -1,4 +1,4 @@
-import { HttpClient } from "@effect/platform";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as effect from "effect/Effect";
 import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
@@ -95,182 +95,85 @@ const rules = T.EndpointResolver((p, _) => {
 //# Newtypes
 export type Region = string;
 export type BackupId = string;
+export type TagKey = string;
+export type TagValue = string;
+export type ClusterId = string;
+export type ErrorMessage = string;
+export type BackupRetentionValue = string;
 export type HsmType = string;
 export type BackupArn = string;
 export type SubnetId = string;
-export type ClusterId = string;
 export type ExternalAz = string;
-export type IpAddress = string;
-export type HsmId = string;
 export type EniId = string;
-export type CloudHsmArn = string;
-export type NextToken = string;
-export type BackupsMaxSize = number;
-export type ClustersMaxSize = number;
-export type Cert = string;
-export type ResourceId = string;
-export type MaxSize = number;
-export type ResourcePolicy = string;
-export type TagKey = string;
-export type TagValue = string;
-export type BackupRetentionValue = string;
-export type Field = string;
-export type StateMessage = string;
-export type ErrorMessage = string;
+export type IpAddress = string;
 export type IpV6Address = string;
+export type HsmId = string;
 export type PreCoPassword = string;
 export type SecurityGroup = string;
+export type StateMessage = string;
 export type VpcId = string;
+export type Cert = string;
+export type CloudHsmArn = string;
+export type ResourcePolicy = string;
+export type NextToken = string;
+export type BackupsMaxSize = number;
+export type Field = string;
+export type ClustersMaxSize = number;
+export type ResourceId = string;
+export type MaxSize = number;
 
 //# Schemas
-export type SubnetIds = string[];
-export const SubnetIds = S.Array(S.String);
-export type NetworkType = "IPV4" | "DUALSTACK" | (string & {});
-export const NetworkType = S.String;
-export type ClusterMode = "FIPS" | "NON_FIPS" | (string & {});
-export const ClusterMode = S.String;
-export type TagKeyList = string[];
-export const TagKeyList = S.Array(S.String);
-export interface CreateHsmRequest {
-  ClusterId: string;
-  AvailabilityZone: string;
-  IpAddress?: string;
+export interface Tag {
+  Key: string;
+  Value: string;
 }
-export const CreateHsmRequest = S.suspend(() =>
-  S.Struct({
-    ClusterId: S.String,
-    AvailabilityZone: S.String,
-    IpAddress: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotations({
-  identifier: "CreateHsmRequest",
-}) as any as S.Schema<CreateHsmRequest>;
-export interface DeleteBackupRequest {
+export const Tag = S.suspend(() =>
+  S.Struct({ Key: S.String, Value: S.String }),
+).annotate({ identifier: "Tag" }) as any as S.Schema<Tag>;
+export type TagList = Tag[];
+export const TagList = S.Array(Tag);
+export interface CopyBackupToRegionRequest {
+  DestinationRegion: string;
   BackupId: string;
+  TagList?: Tag[];
 }
-export const DeleteBackupRequest = S.suspend(() =>
-  S.Struct({ BackupId: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotations({
-  identifier: "DeleteBackupRequest",
-}) as any as S.Schema<DeleteBackupRequest>;
-export interface DeleteClusterRequest {
-  ClusterId: string;
-}
-export const DeleteClusterRequest = S.suspend(() =>
-  S.Struct({ ClusterId: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotations({
-  identifier: "DeleteClusterRequest",
-}) as any as S.Schema<DeleteClusterRequest>;
-export interface DeleteHsmRequest {
-  ClusterId: string;
-  HsmId?: string;
-  EniId?: string;
-  EniIp?: string;
-}
-export const DeleteHsmRequest = S.suspend(() =>
+export const CopyBackupToRegionRequest = S.suspend(() =>
   S.Struct({
-    ClusterId: S.String,
-    HsmId: S.optional(S.String),
-    EniId: S.optional(S.String),
-    EniIp: S.optional(S.String),
+    DestinationRegion: S.String,
+    BackupId: S.String,
+    TagList: S.optional(TagList),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotations({
-  identifier: "DeleteHsmRequest",
-}) as any as S.Schema<DeleteHsmRequest>;
-export interface DeleteResourcePolicyRequest {
-  ResourceArn?: string;
+).annotate({
+  identifier: "CopyBackupToRegionRequest",
+}) as any as S.Schema<CopyBackupToRegionRequest>;
+export interface DestinationBackup {
+  CreateTimestamp?: Date;
+  SourceRegion?: string;
+  SourceBackup?: string;
+  SourceCluster?: string;
 }
-export const DeleteResourcePolicyRequest = S.suspend(() =>
-  S.Struct({ ResourceArn: S.optional(S.String) }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotations({
-  identifier: "DeleteResourcePolicyRequest",
-}) as any as S.Schema<DeleteResourcePolicyRequest>;
-export type Strings = string[];
-export const Strings = S.Array(S.String);
-export type Filters = { [key: string]: string[] | undefined };
-export const Filters = S.Record({
-  key: S.String,
-  value: S.UndefinedOr(Strings),
-});
-export interface DescribeClustersRequest {
-  Filters?: { [key: string]: string[] | undefined };
-  NextToken?: string;
-  MaxResults?: number;
-}
-export const DescribeClustersRequest = S.suspend(() =>
+export const DestinationBackup = S.suspend(() =>
   S.Struct({
-    Filters: S.optional(Filters),
-    NextToken: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotations({
-  identifier: "DescribeClustersRequest",
-}) as any as S.Schema<DescribeClustersRequest>;
-export interface GetResourcePolicyRequest {
-  ResourceArn?: string;
+    CreateTimestamp: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    SourceRegion: S.optional(S.String),
+    SourceBackup: S.optional(S.String),
+    SourceCluster: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "DestinationBackup",
+}) as any as S.Schema<DestinationBackup>;
+export interface CopyBackupToRegionResponse {
+  DestinationBackup?: DestinationBackup;
 }
-export const GetResourcePolicyRequest = S.suspend(() =>
-  S.Struct({ ResourceArn: S.optional(S.String) }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotations({
-  identifier: "GetResourcePolicyRequest",
-}) as any as S.Schema<GetResourcePolicyRequest>;
-export interface InitializeClusterRequest {
-  ClusterId: string;
-  SignedCert: string;
-  TrustAnchor: string;
-}
-export const InitializeClusterRequest = S.suspend(() =>
-  S.Struct({
-    ClusterId: S.String,
-    SignedCert: S.String,
-    TrustAnchor: S.String,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotations({
-  identifier: "InitializeClusterRequest",
-}) as any as S.Schema<InitializeClusterRequest>;
-export interface ListTagsRequest {
-  ResourceId: string;
-  NextToken?: string;
-  MaxResults?: number;
-}
-export const ListTagsRequest = S.suspend(() =>
-  S.Struct({
-    ResourceId: S.String,
-    NextToken: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotations({
-  identifier: "ListTagsRequest",
-}) as any as S.Schema<ListTagsRequest>;
-export interface ModifyBackupAttributesRequest {
-  BackupId: string;
-  NeverExpires: boolean;
-}
-export const ModifyBackupAttributesRequest = S.suspend(() =>
-  S.Struct({ BackupId: S.String, NeverExpires: S.Boolean }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotations({
-  identifier: "ModifyBackupAttributesRequest",
-}) as any as S.Schema<ModifyBackupAttributesRequest>;
+export const CopyBackupToRegionResponse = S.suspend(() =>
+  S.Struct({ DestinationBackup: S.optional(DestinationBackup) }),
+).annotate({
+  identifier: "CopyBackupToRegionResponse",
+}) as any as S.Schema<CopyBackupToRegionResponse>;
 export type BackupRetentionType = "DAYS" | (string & {});
 export const BackupRetentionType = S.String;
 export interface BackupRetentionPolicy {
@@ -282,88 +185,39 @@ export const BackupRetentionPolicy = S.suspend(() =>
     Type: S.optional(BackupRetentionType),
     Value: S.optional(S.String),
   }),
-).annotations({
+).annotate({
   identifier: "BackupRetentionPolicy",
 }) as any as S.Schema<BackupRetentionPolicy>;
-export interface ModifyClusterRequest {
-  HsmType?: string;
+export type SubnetIds = string[];
+export const SubnetIds = S.Array(S.String);
+export type NetworkType = "IPV4" | "DUALSTACK" | (string & {});
+export const NetworkType = S.String;
+export type ClusterMode = "FIPS" | "NON_FIPS" | (string & {});
+export const ClusterMode = S.String;
+export interface CreateClusterRequest {
   BackupRetentionPolicy?: BackupRetentionPolicy;
-  ClusterId: string;
+  HsmType: string;
+  SourceBackupId?: string;
+  SubnetIds: string[];
+  NetworkType?: NetworkType;
+  TagList?: Tag[];
+  Mode?: ClusterMode;
 }
-export const ModifyClusterRequest = S.suspend(() =>
+export const CreateClusterRequest = S.suspend(() =>
   S.Struct({
-    HsmType: S.optional(S.String),
     BackupRetentionPolicy: S.optional(BackupRetentionPolicy),
-    ClusterId: S.String,
+    HsmType: S.String,
+    SourceBackupId: S.optional(S.String),
+    SubnetIds: SubnetIds,
+    NetworkType: S.optional(NetworkType),
+    TagList: S.optional(TagList),
+    Mode: S.optional(ClusterMode),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotations({
-  identifier: "ModifyClusterRequest",
-}) as any as S.Schema<ModifyClusterRequest>;
-export interface PutResourcePolicyRequest {
-  ResourceArn?: string;
-  Policy?: string;
-}
-export const PutResourcePolicyRequest = S.suspend(() =>
-  S.Struct({
-    ResourceArn: S.optional(S.String),
-    Policy: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotations({
-  identifier: "PutResourcePolicyRequest",
-}) as any as S.Schema<PutResourcePolicyRequest>;
-export interface RestoreBackupRequest {
-  BackupId: string;
-}
-export const RestoreBackupRequest = S.suspend(() =>
-  S.Struct({ BackupId: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotations({
-  identifier: "RestoreBackupRequest",
-}) as any as S.Schema<RestoreBackupRequest>;
-export interface Tag {
-  Key: string;
-  Value: string;
-}
-export const Tag = S.suspend(() =>
-  S.Struct({ Key: S.String, Value: S.String }),
-).annotations({ identifier: "Tag" }) as any as S.Schema<Tag>;
-export type TagList = Tag[];
-export const TagList = S.Array(Tag);
-export interface TagResourceRequest {
-  ResourceId: string;
-  TagList: Tag[];
-}
-export const TagResourceRequest = S.suspend(() =>
-  S.Struct({ ResourceId: S.String, TagList: TagList }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotations({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
-export interface TagResourceResponse {}
-export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
-  identifier: "TagResourceResponse",
-}) as any as S.Schema<TagResourceResponse>;
-export interface UntagResourceRequest {
-  ResourceId: string;
-  TagKeyList: string[];
-}
-export const UntagResourceRequest = S.suspend(() =>
-  S.Struct({ ResourceId: S.String, TagKeyList: TagKeyList }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotations({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
-export interface UntagResourceResponse {}
-export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
-  identifier: "UntagResourceResponse",
-}) as any as S.Schema<UntagResourceResponse>;
+).annotate({
+  identifier: "CreateClusterRequest",
+}) as any as S.Schema<CreateClusterRequest>;
 export type BackupPolicy = "DEFAULT" | (string & {});
 export const BackupPolicy = S.String;
 export type HsmState =
@@ -399,7 +253,7 @@ export const Hsm = S.suspend(() =>
     State: S.optional(HsmState),
     StateMessage: S.optional(S.String),
   }),
-).annotations({ identifier: "Hsm" }) as any as S.Schema<Hsm>;
+).annotate({ identifier: "Hsm" }) as any as S.Schema<Hsm>;
 export type Hsms = Hsm[];
 export const Hsms = S.Array(Hsm);
 export type ClusterState =
@@ -417,10 +271,10 @@ export type ClusterState =
   | (string & {});
 export const ClusterState = S.String;
 export type ExternalSubnetMapping = { [key: string]: string | undefined };
-export const ExternalSubnetMapping = S.Record({
-  key: S.String,
-  value: S.UndefinedOr(S.String),
-});
+export const ExternalSubnetMapping = S.Record(
+  S.String,
+  S.String.pipe(S.optional),
+);
 export interface Certificates {
   ClusterCsr?: string;
   HsmCertificate?: string;
@@ -436,7 +290,7 @@ export const Certificates = S.suspend(() =>
     ManufacturerHardwareCertificate: S.optional(S.String),
     ClusterCertificate: S.optional(S.String),
   }),
-).annotations({ identifier: "Certificates" }) as any as S.Schema<Certificates>;
+).annotate({ identifier: "Certificates" }) as any as S.Schema<Certificates>;
 export interface Cluster {
   BackupPolicy?: BackupPolicy;
   BackupRetentionPolicy?: BackupRetentionPolicy;
@@ -482,124 +336,49 @@ export const Cluster = S.suspend(() =>
     TagList: S.optional(TagList),
     Mode: S.optional(ClusterMode),
   }),
-).annotations({ identifier: "Cluster" }) as any as S.Schema<Cluster>;
-export type Clusters = Cluster[];
-export const Clusters = S.Array(Cluster);
-export interface CopyBackupToRegionRequest {
-  DestinationRegion: string;
+).annotate({ identifier: "Cluster" }) as any as S.Schema<Cluster>;
+export interface CreateClusterResponse {
+  Cluster?: Cluster;
+}
+export const CreateClusterResponse = S.suspend(() =>
+  S.Struct({ Cluster: S.optional(Cluster) }),
+).annotate({
+  identifier: "CreateClusterResponse",
+}) as any as S.Schema<CreateClusterResponse>;
+export interface CreateHsmRequest {
+  ClusterId: string;
+  AvailabilityZone: string;
+  IpAddress?: string;
+}
+export const CreateHsmRequest = S.suspend(() =>
+  S.Struct({
+    ClusterId: S.String,
+    AvailabilityZone: S.String,
+    IpAddress: S.optional(S.String),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "CreateHsmRequest",
+}) as any as S.Schema<CreateHsmRequest>;
+export interface CreateHsmResponse {
+  Hsm?: Hsm;
+}
+export const CreateHsmResponse = S.suspend(() =>
+  S.Struct({ Hsm: S.optional(Hsm) }),
+).annotate({
+  identifier: "CreateHsmResponse",
+}) as any as S.Schema<CreateHsmResponse>;
+export interface DeleteBackupRequest {
   BackupId: string;
-  TagList?: Tag[];
 }
-export const CopyBackupToRegionRequest = S.suspend(() =>
-  S.Struct({
-    DestinationRegion: S.String,
-    BackupId: S.String,
-    TagList: S.optional(TagList),
-  }).pipe(
+export const DeleteBackupRequest = S.suspend(() =>
+  S.Struct({ BackupId: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotations({
-  identifier: "CopyBackupToRegionRequest",
-}) as any as S.Schema<CopyBackupToRegionRequest>;
-export interface CreateClusterRequest {
-  BackupRetentionPolicy?: BackupRetentionPolicy;
-  HsmType: string;
-  SourceBackupId?: string;
-  SubnetIds: string[];
-  NetworkType?: NetworkType;
-  TagList?: Tag[];
-  Mode?: ClusterMode;
-}
-export const CreateClusterRequest = S.suspend(() =>
-  S.Struct({
-    BackupRetentionPolicy: S.optional(BackupRetentionPolicy),
-    HsmType: S.String,
-    SourceBackupId: S.optional(S.String),
-    SubnetIds: SubnetIds,
-    NetworkType: S.optional(NetworkType),
-    TagList: S.optional(TagList),
-    Mode: S.optional(ClusterMode),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotations({
-  identifier: "CreateClusterRequest",
-}) as any as S.Schema<CreateClusterRequest>;
-export interface DeleteHsmResponse {
-  HsmId?: string;
-}
-export const DeleteHsmResponse = S.suspend(() =>
-  S.Struct({ HsmId: S.optional(S.String) }),
-).annotations({
-  identifier: "DeleteHsmResponse",
-}) as any as S.Schema<DeleteHsmResponse>;
-export interface DeleteResourcePolicyResponse {
-  ResourceArn?: string;
-  Policy?: string;
-}
-export const DeleteResourcePolicyResponse = S.suspend(() =>
-  S.Struct({ ResourceArn: S.optional(S.String), Policy: S.optional(S.String) }),
-).annotations({
-  identifier: "DeleteResourcePolicyResponse",
-}) as any as S.Schema<DeleteResourcePolicyResponse>;
-export interface DescribeBackupsRequest {
-  NextToken?: string;
-  MaxResults?: number;
-  Filters?: { [key: string]: string[] | undefined };
-  Shared?: boolean;
-  SortAscending?: boolean;
-}
-export const DescribeBackupsRequest = S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-    Filters: S.optional(Filters),
-    Shared: S.optional(S.Boolean),
-    SortAscending: S.optional(S.Boolean),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotations({
-  identifier: "DescribeBackupsRequest",
-}) as any as S.Schema<DescribeBackupsRequest>;
-export interface DescribeClustersResponse {
-  Clusters?: Cluster[];
-  NextToken?: string;
-}
-export const DescribeClustersResponse = S.suspend(() =>
-  S.Struct({ Clusters: S.optional(Clusters), NextToken: S.optional(S.String) }),
-).annotations({
-  identifier: "DescribeClustersResponse",
-}) as any as S.Schema<DescribeClustersResponse>;
-export interface GetResourcePolicyResponse {
-  Policy?: string;
-}
-export const GetResourcePolicyResponse = S.suspend(() =>
-  S.Struct({ Policy: S.optional(S.String) }),
-).annotations({
-  identifier: "GetResourcePolicyResponse",
-}) as any as S.Schema<GetResourcePolicyResponse>;
-export interface InitializeClusterResponse {
-  State?: ClusterState;
-  StateMessage?: string;
-}
-export const InitializeClusterResponse = S.suspend(() =>
-  S.Struct({
-    State: S.optional(ClusterState),
-    StateMessage: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "InitializeClusterResponse",
-}) as any as S.Schema<InitializeClusterResponse>;
-export interface ListTagsResponse {
-  TagList: Tag[];
-  NextToken?: string;
-}
-export const ListTagsResponse = S.suspend(() =>
-  S.Struct({ TagList: TagList, NextToken: S.optional(S.String) }),
-).annotations({
-  identifier: "ListTagsResponse",
-}) as any as S.Schema<ListTagsResponse>;
+).annotate({
+  identifier: "DeleteBackupRequest",
+}) as any as S.Schema<DeleteBackupRequest>;
 export type BackupState =
   | "CREATE_IN_PROGRESS"
   | "READY"
@@ -644,141 +423,505 @@ export const Backup = S.suspend(() =>
     HsmType: S.optional(S.String),
     Mode: S.optional(ClusterMode),
   }),
-).annotations({ identifier: "Backup" }) as any as S.Schema<Backup>;
-export interface ModifyBackupAttributesResponse {
-  Backup?: Backup;
-}
-export const ModifyBackupAttributesResponse = S.suspend(() =>
-  S.Struct({ Backup: S.optional(Backup) }),
-).annotations({
-  identifier: "ModifyBackupAttributesResponse",
-}) as any as S.Schema<ModifyBackupAttributesResponse>;
-export interface ModifyClusterResponse {
-  Cluster?: Cluster;
-}
-export const ModifyClusterResponse = S.suspend(() =>
-  S.Struct({ Cluster: S.optional(Cluster) }),
-).annotations({
-  identifier: "ModifyClusterResponse",
-}) as any as S.Schema<ModifyClusterResponse>;
-export interface PutResourcePolicyResponse {
-  ResourceArn?: string;
-  Policy?: string;
-}
-export const PutResourcePolicyResponse = S.suspend(() =>
-  S.Struct({ ResourceArn: S.optional(S.String), Policy: S.optional(S.String) }),
-).annotations({
-  identifier: "PutResourcePolicyResponse",
-}) as any as S.Schema<PutResourcePolicyResponse>;
-export interface RestoreBackupResponse {
-  Backup?: Backup;
-}
-export const RestoreBackupResponse = S.suspend(() =>
-  S.Struct({ Backup: S.optional(Backup) }),
-).annotations({
-  identifier: "RestoreBackupResponse",
-}) as any as S.Schema<RestoreBackupResponse>;
-export type Backups = Backup[];
-export const Backups = S.Array(Backup);
-export interface CreateClusterResponse {
-  Cluster?: Cluster;
-}
-export const CreateClusterResponse = S.suspend(() =>
-  S.Struct({ Cluster: S.optional(Cluster) }),
-).annotations({
-  identifier: "CreateClusterResponse",
-}) as any as S.Schema<CreateClusterResponse>;
-export interface CreateHsmResponse {
-  Hsm?: Hsm;
-}
-export const CreateHsmResponse = S.suspend(() =>
-  S.Struct({ Hsm: S.optional(Hsm) }),
-).annotations({
-  identifier: "CreateHsmResponse",
-}) as any as S.Schema<CreateHsmResponse>;
+).annotate({ identifier: "Backup" }) as any as S.Schema<Backup>;
 export interface DeleteBackupResponse {
   Backup?: Backup;
 }
 export const DeleteBackupResponse = S.suspend(() =>
   S.Struct({ Backup: S.optional(Backup) }),
-).annotations({
+).annotate({
   identifier: "DeleteBackupResponse",
 }) as any as S.Schema<DeleteBackupResponse>;
+export interface DeleteClusterRequest {
+  ClusterId: string;
+}
+export const DeleteClusterRequest = S.suspend(() =>
+  S.Struct({ ClusterId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "DeleteClusterRequest",
+}) as any as S.Schema<DeleteClusterRequest>;
+export interface DeleteClusterResponse {
+  Cluster?: Cluster;
+}
+export const DeleteClusterResponse = S.suspend(() =>
+  S.Struct({ Cluster: S.optional(Cluster) }),
+).annotate({
+  identifier: "DeleteClusterResponse",
+}) as any as S.Schema<DeleteClusterResponse>;
+export interface DeleteHsmRequest {
+  ClusterId: string;
+  HsmId?: string;
+  EniId?: string;
+  EniIp?: string;
+}
+export const DeleteHsmRequest = S.suspend(() =>
+  S.Struct({
+    ClusterId: S.String,
+    HsmId: S.optional(S.String),
+    EniId: S.optional(S.String),
+    EniIp: S.optional(S.String),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "DeleteHsmRequest",
+}) as any as S.Schema<DeleteHsmRequest>;
+export interface DeleteHsmResponse {
+  HsmId?: string;
+}
+export const DeleteHsmResponse = S.suspend(() =>
+  S.Struct({ HsmId: S.optional(S.String) }),
+).annotate({
+  identifier: "DeleteHsmResponse",
+}) as any as S.Schema<DeleteHsmResponse>;
+export interface DeleteResourcePolicyRequest {
+  ResourceArn?: string;
+}
+export const DeleteResourcePolicyRequest = S.suspend(() =>
+  S.Struct({ ResourceArn: S.optional(S.String) }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "DeleteResourcePolicyRequest",
+}) as any as S.Schema<DeleteResourcePolicyRequest>;
+export interface DeleteResourcePolicyResponse {
+  ResourceArn?: string;
+  Policy?: string;
+}
+export const DeleteResourcePolicyResponse = S.suspend(() =>
+  S.Struct({ ResourceArn: S.optional(S.String), Policy: S.optional(S.String) }),
+).annotate({
+  identifier: "DeleteResourcePolicyResponse",
+}) as any as S.Schema<DeleteResourcePolicyResponse>;
+export type Strings = string[];
+export const Strings = S.Array(S.String);
+export type Filters = { [key: string]: string[] | undefined };
+export const Filters = S.Record(S.String, Strings.pipe(S.optional));
+export interface DescribeBackupsRequest {
+  NextToken?: string;
+  MaxResults?: number;
+  Filters?: { [key: string]: string[] | undefined };
+  Shared?: boolean;
+  SortAscending?: boolean;
+}
+export const DescribeBackupsRequest = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    MaxResults: S.optional(S.Number),
+    Filters: S.optional(Filters),
+    Shared: S.optional(S.Boolean),
+    SortAscending: S.optional(S.Boolean),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "DescribeBackupsRequest",
+}) as any as S.Schema<DescribeBackupsRequest>;
+export type Backups = Backup[];
+export const Backups = S.Array(Backup);
 export interface DescribeBackupsResponse {
   Backups?: Backup[];
   NextToken?: string;
 }
 export const DescribeBackupsResponse = S.suspend(() =>
   S.Struct({ Backups: S.optional(Backups), NextToken: S.optional(S.String) }),
-).annotations({
+).annotate({
   identifier: "DescribeBackupsResponse",
 }) as any as S.Schema<DescribeBackupsResponse>;
-export interface DestinationBackup {
-  CreateTimestamp?: Date;
-  SourceRegion?: string;
-  SourceBackup?: string;
-  SourceCluster?: string;
+export interface DescribeClustersRequest {
+  Filters?: { [key: string]: string[] | undefined };
+  NextToken?: string;
+  MaxResults?: number;
 }
-export const DestinationBackup = S.suspend(() =>
+export const DescribeClustersRequest = S.suspend(() =>
   S.Struct({
-    CreateTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    SourceRegion: S.optional(S.String),
-    SourceBackup: S.optional(S.String),
-    SourceCluster: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "DestinationBackup",
-}) as any as S.Schema<DestinationBackup>;
-export interface CopyBackupToRegionResponse {
-  DestinationBackup?: DestinationBackup;
+    Filters: S.optional(Filters),
+    NextToken: S.optional(S.String),
+    MaxResults: S.optional(S.Number),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "DescribeClustersRequest",
+}) as any as S.Schema<DescribeClustersRequest>;
+export type Clusters = Cluster[];
+export const Clusters = S.Array(Cluster);
+export interface DescribeClustersResponse {
+  Clusters?: Cluster[];
+  NextToken?: string;
 }
-export const CopyBackupToRegionResponse = S.suspend(() =>
-  S.Struct({ DestinationBackup: S.optional(DestinationBackup) }),
-).annotations({
-  identifier: "CopyBackupToRegionResponse",
-}) as any as S.Schema<CopyBackupToRegionResponse>;
-export interface DeleteClusterResponse {
+export const DescribeClustersResponse = S.suspend(() =>
+  S.Struct({ Clusters: S.optional(Clusters), NextToken: S.optional(S.String) }),
+).annotate({
+  identifier: "DescribeClustersResponse",
+}) as any as S.Schema<DescribeClustersResponse>;
+export interface GetResourcePolicyRequest {
+  ResourceArn?: string;
+}
+export const GetResourcePolicyRequest = S.suspend(() =>
+  S.Struct({ ResourceArn: S.optional(S.String) }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "GetResourcePolicyRequest",
+}) as any as S.Schema<GetResourcePolicyRequest>;
+export interface GetResourcePolicyResponse {
+  Policy?: string;
+}
+export const GetResourcePolicyResponse = S.suspend(() =>
+  S.Struct({ Policy: S.optional(S.String) }),
+).annotate({
+  identifier: "GetResourcePolicyResponse",
+}) as any as S.Schema<GetResourcePolicyResponse>;
+export interface InitializeClusterRequest {
+  ClusterId: string;
+  SignedCert: string;
+  TrustAnchor: string;
+}
+export const InitializeClusterRequest = S.suspend(() =>
+  S.Struct({
+    ClusterId: S.String,
+    SignedCert: S.String,
+    TrustAnchor: S.String,
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "InitializeClusterRequest",
+}) as any as S.Schema<InitializeClusterRequest>;
+export interface InitializeClusterResponse {
+  State?: ClusterState;
+  StateMessage?: string;
+}
+export const InitializeClusterResponse = S.suspend(() =>
+  S.Struct({
+    State: S.optional(ClusterState),
+    StateMessage: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "InitializeClusterResponse",
+}) as any as S.Schema<InitializeClusterResponse>;
+export interface ListTagsRequest {
+  ResourceId: string;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListTagsRequest = S.suspend(() =>
+  S.Struct({
+    ResourceId: S.String,
+    NextToken: S.optional(S.String),
+    MaxResults: S.optional(S.Number),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "ListTagsRequest",
+}) as any as S.Schema<ListTagsRequest>;
+export interface ListTagsResponse {
+  TagList: Tag[];
+  NextToken?: string;
+}
+export const ListTagsResponse = S.suspend(() =>
+  S.Struct({ TagList: TagList, NextToken: S.optional(S.String) }),
+).annotate({
+  identifier: "ListTagsResponse",
+}) as any as S.Schema<ListTagsResponse>;
+export interface ModifyBackupAttributesRequest {
+  BackupId: string;
+  NeverExpires: boolean;
+}
+export const ModifyBackupAttributesRequest = S.suspend(() =>
+  S.Struct({ BackupId: S.String, NeverExpires: S.Boolean }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "ModifyBackupAttributesRequest",
+}) as any as S.Schema<ModifyBackupAttributesRequest>;
+export interface ModifyBackupAttributesResponse {
+  Backup?: Backup;
+}
+export const ModifyBackupAttributesResponse = S.suspend(() =>
+  S.Struct({ Backup: S.optional(Backup) }),
+).annotate({
+  identifier: "ModifyBackupAttributesResponse",
+}) as any as S.Schema<ModifyBackupAttributesResponse>;
+export interface ModifyClusterRequest {
+  HsmType?: string;
+  BackupRetentionPolicy?: BackupRetentionPolicy;
+  ClusterId: string;
+}
+export const ModifyClusterRequest = S.suspend(() =>
+  S.Struct({
+    HsmType: S.optional(S.String),
+    BackupRetentionPolicy: S.optional(BackupRetentionPolicy),
+    ClusterId: S.String,
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "ModifyClusterRequest",
+}) as any as S.Schema<ModifyClusterRequest>;
+export interface ModifyClusterResponse {
   Cluster?: Cluster;
 }
-export const DeleteClusterResponse = S.suspend(() =>
+export const ModifyClusterResponse = S.suspend(() =>
   S.Struct({ Cluster: S.optional(Cluster) }),
-).annotations({
-  identifier: "DeleteClusterResponse",
-}) as any as S.Schema<DeleteClusterResponse>;
+).annotate({
+  identifier: "ModifyClusterResponse",
+}) as any as S.Schema<ModifyClusterResponse>;
+export interface PutResourcePolicyRequest {
+  ResourceArn?: string;
+  Policy?: string;
+}
+export const PutResourcePolicyRequest = S.suspend(() =>
+  S.Struct({
+    ResourceArn: S.optional(S.String),
+    Policy: S.optional(S.String),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "PutResourcePolicyRequest",
+}) as any as S.Schema<PutResourcePolicyRequest>;
+export interface PutResourcePolicyResponse {
+  ResourceArn?: string;
+  Policy?: string;
+}
+export const PutResourcePolicyResponse = S.suspend(() =>
+  S.Struct({ ResourceArn: S.optional(S.String), Policy: S.optional(S.String) }),
+).annotate({
+  identifier: "PutResourcePolicyResponse",
+}) as any as S.Schema<PutResourcePolicyResponse>;
+export interface RestoreBackupRequest {
+  BackupId: string;
+}
+export const RestoreBackupRequest = S.suspend(() =>
+  S.Struct({ BackupId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "RestoreBackupRequest",
+}) as any as S.Schema<RestoreBackupRequest>;
+export interface RestoreBackupResponse {
+  Backup?: Backup;
+}
+export const RestoreBackupResponse = S.suspend(() =>
+  S.Struct({ Backup: S.optional(Backup) }),
+).annotate({
+  identifier: "RestoreBackupResponse",
+}) as any as S.Schema<RestoreBackupResponse>;
+export interface TagResourceRequest {
+  ResourceId: string;
+  TagList: Tag[];
+}
+export const TagResourceRequest = S.suspend(() =>
+  S.Struct({ ResourceId: S.String, TagList: TagList }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "TagResourceRequest",
+}) as any as S.Schema<TagResourceRequest>;
+export interface TagResourceResponse {}
+export const TagResourceResponse = S.suspend(() => S.Struct({})).annotate({
+  identifier: "TagResourceResponse",
+}) as any as S.Schema<TagResourceResponse>;
+export type TagKeyList = string[];
+export const TagKeyList = S.Array(S.String);
+export interface UntagResourceRequest {
+  ResourceId: string;
+  TagKeyList: string[];
+}
+export const UntagResourceRequest = S.suspend(() =>
+  S.Struct({ ResourceId: S.String, TagKeyList: TagKeyList }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "UntagResourceRequest",
+}) as any as S.Schema<UntagResourceRequest>;
+export interface UntagResourceResponse {}
+export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotate({
+  identifier: "UntagResourceResponse",
+}) as any as S.Schema<UntagResourceResponse>;
 
 //# Errors
-export class CloudHsmAccessDeniedException extends S.TaggedError<CloudHsmAccessDeniedException>()(
+export class CloudHsmAccessDeniedException extends S.TaggedErrorClass<CloudHsmAccessDeniedException>()(
   "CloudHsmAccessDeniedException",
   { Message: S.optional(S.String) },
 ).pipe(C.withAuthError) {}
-export class CloudHsmInternalFailureException extends S.TaggedError<CloudHsmInternalFailureException>()(
+export class CloudHsmInternalFailureException extends S.TaggedErrorClass<CloudHsmInternalFailureException>()(
   "CloudHsmInternalFailureException",
   { Message: S.optional(S.String) },
 ) {}
-export class CloudHsmInvalidRequestException extends S.TaggedError<CloudHsmInvalidRequestException>()(
+export class CloudHsmInvalidRequestException extends S.TaggedErrorClass<CloudHsmInvalidRequestException>()(
   "CloudHsmInvalidRequestException",
   { Message: S.optional(S.String) },
 ) {}
-export class CloudHsmResourceLimitExceededException extends S.TaggedError<CloudHsmResourceLimitExceededException>()(
-  "CloudHsmResourceLimitExceededException",
-  { Message: S.optional(S.String) },
-) {}
-export class CloudHsmResourceNotFoundException extends S.TaggedError<CloudHsmResourceNotFoundException>()(
+export class CloudHsmResourceNotFoundException extends S.TaggedErrorClass<CloudHsmResourceNotFoundException>()(
   "CloudHsmResourceNotFoundException",
   { Message: S.optional(S.String) },
 ) {}
-export class CloudHsmServiceException extends S.TaggedError<CloudHsmServiceException>()(
+export class CloudHsmServiceException extends S.TaggedErrorClass<CloudHsmServiceException>()(
   "CloudHsmServiceException",
   { Message: S.optional(S.String) },
 ) {}
-export class CloudHsmTagException extends S.TaggedError<CloudHsmTagException>()(
+export class CloudHsmTagException extends S.TaggedErrorClass<CloudHsmTagException>()(
   "CloudHsmTagException",
+  { Message: S.optional(S.String) },
+) {}
+export class CloudHsmResourceLimitExceededException extends S.TaggedErrorClass<CloudHsmResourceLimitExceededException>()(
+  "CloudHsmResourceLimitExceededException",
   { Message: S.optional(S.String) },
 ) {}
 
 //# Operations
+/**
+ * Copy an CloudHSM cluster backup to a different region.
+ *
+ * **Cross-account use:** No. You cannot perform this operation on an CloudHSM backup in a different Amazon Web Services account.
+ */
+export const copyBackupToRegion: (
+  input: CopyBackupToRegionRequest,
+) => effect.Effect<
+  CopyBackupToRegionResponse,
+  | CloudHsmAccessDeniedException
+  | CloudHsmInternalFailureException
+  | CloudHsmInvalidRequestException
+  | CloudHsmResourceNotFoundException
+  | CloudHsmServiceException
+  | CloudHsmTagException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CopyBackupToRegionRequest,
+  output: CopyBackupToRegionResponse,
+  errors: [
+    CloudHsmAccessDeniedException,
+    CloudHsmInternalFailureException,
+    CloudHsmInvalidRequestException,
+    CloudHsmResourceNotFoundException,
+    CloudHsmServiceException,
+    CloudHsmTagException,
+  ],
+}));
+/**
+ * Creates a new CloudHSM cluster.
+ *
+ * **Cross-account use:** Yes. To perform this operation with an CloudHSM backup in a different AWS account, specify the full backup
+ * ARN in the value of the SourceBackupId parameter.
+ */
+export const createCluster: (
+  input: CreateClusterRequest,
+) => effect.Effect<
+  CreateClusterResponse,
+  | CloudHsmAccessDeniedException
+  | CloudHsmInternalFailureException
+  | CloudHsmInvalidRequestException
+  | CloudHsmResourceNotFoundException
+  | CloudHsmServiceException
+  | CloudHsmTagException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateClusterRequest,
+  output: CreateClusterResponse,
+  errors: [
+    CloudHsmAccessDeniedException,
+    CloudHsmInternalFailureException,
+    CloudHsmInvalidRequestException,
+    CloudHsmResourceNotFoundException,
+    CloudHsmServiceException,
+    CloudHsmTagException,
+  ],
+}));
+/**
+ * Creates a new hardware security module (HSM) in the specified CloudHSM
+ * cluster.
+ *
+ * **Cross-account use:** No. You cannot perform this operation on an CloudHSM cluster in a different Amazon Web Service account.
+ */
+export const createHsm: (
+  input: CreateHsmRequest,
+) => effect.Effect<
+  CreateHsmResponse,
+  | CloudHsmAccessDeniedException
+  | CloudHsmInternalFailureException
+  | CloudHsmInvalidRequestException
+  | CloudHsmResourceNotFoundException
+  | CloudHsmServiceException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateHsmRequest,
+  output: CreateHsmResponse,
+  errors: [
+    CloudHsmAccessDeniedException,
+    CloudHsmInternalFailureException,
+    CloudHsmInvalidRequestException,
+    CloudHsmResourceNotFoundException,
+    CloudHsmServiceException,
+  ],
+}));
+/**
+ * Deletes a specified CloudHSM backup. A backup can be restored up to 7 days
+ * after the DeleteBackup request is made. For more information on restoring a backup, see
+ * RestoreBackup.
+ *
+ * **Cross-account use:** No. You cannot perform this operation on an CloudHSM backup in a different Amazon Web Services account.
+ */
+export const deleteBackup: (
+  input: DeleteBackupRequest,
+) => effect.Effect<
+  DeleteBackupResponse,
+  | CloudHsmAccessDeniedException
+  | CloudHsmInternalFailureException
+  | CloudHsmInvalidRequestException
+  | CloudHsmResourceNotFoundException
+  | CloudHsmServiceException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteBackupRequest,
+  output: DeleteBackupResponse,
+  errors: [
+    CloudHsmAccessDeniedException,
+    CloudHsmInternalFailureException,
+    CloudHsmInvalidRequestException,
+    CloudHsmResourceNotFoundException,
+    CloudHsmServiceException,
+  ],
+}));
+/**
+ * Deletes the specified CloudHSM cluster. Before you can delete a cluster, you must
+ * delete all HSMs in the cluster. To see if the cluster contains any HSMs, use DescribeClusters. To delete an HSM, use DeleteHsm.
+ *
+ * **Cross-account use:** No. You cannot perform this operation on an CloudHSM cluster in a different Amazon Web Services account.
+ */
+export const deleteCluster: (
+  input: DeleteClusterRequest,
+) => effect.Effect<
+  DeleteClusterResponse,
+  | CloudHsmAccessDeniedException
+  | CloudHsmInternalFailureException
+  | CloudHsmInvalidRequestException
+  | CloudHsmResourceNotFoundException
+  | CloudHsmServiceException
+  | CloudHsmTagException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteClusterRequest,
+  output: DeleteClusterResponse,
+  errors: [
+    CloudHsmAccessDeniedException,
+    CloudHsmInternalFailureException,
+    CloudHsmInvalidRequestException,
+    CloudHsmResourceNotFoundException,
+    CloudHsmServiceException,
+    CloudHsmTagException,
+  ],
+}));
 /**
  * Deletes the specified HSM. To specify an HSM, you can use its identifier (ID), the IP
  * address of the HSM's elastic network interface (ENI), or the ID of the HSM's ENI. You need to
@@ -838,6 +981,138 @@ export const deleteResourcePolicy: (
   ],
 }));
 /**
+ * Gets information about backups of CloudHSM clusters. Lists either the backups you own or the backups shared with you when the Shared parameter is true.
+ *
+ * This is a paginated operation, which means that each response might contain only a
+ * subset of all the backups. When the response contains only a subset of backups, it includes a
+ * `NextToken` value. Use this value in a subsequent `DescribeBackups`
+ * request to get more backups. When you receive a response with no `NextToken` (or an
+ * empty or null value), that means there are no more backups to get.
+ *
+ * **Cross-account use:** Yes. Customers can describe backups in other Amazon Web Services accounts that are shared with them.
+ */
+export const describeBackups: {
+  (
+    input: DescribeBackupsRequest,
+  ): effect.Effect<
+    DescribeBackupsResponse,
+    | CloudHsmAccessDeniedException
+    | CloudHsmInternalFailureException
+    | CloudHsmInvalidRequestException
+    | CloudHsmResourceNotFoundException
+    | CloudHsmServiceException
+    | CloudHsmTagException
+    | CommonErrors,
+    Credentials | Rgn | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeBackupsRequest,
+  ) => stream.Stream<
+    DescribeBackupsResponse,
+    | CloudHsmAccessDeniedException
+    | CloudHsmInternalFailureException
+    | CloudHsmInvalidRequestException
+    | CloudHsmResourceNotFoundException
+    | CloudHsmServiceException
+    | CloudHsmTagException
+    | CommonErrors,
+    Credentials | Rgn | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeBackupsRequest,
+  ) => stream.Stream<
+    unknown,
+    | CloudHsmAccessDeniedException
+    | CloudHsmInternalFailureException
+    | CloudHsmInvalidRequestException
+    | CloudHsmResourceNotFoundException
+    | CloudHsmServiceException
+    | CloudHsmTagException
+    | CommonErrors,
+    Credentials | Rgn | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeBackupsRequest,
+  output: DescribeBackupsResponse,
+  errors: [
+    CloudHsmAccessDeniedException,
+    CloudHsmInternalFailureException,
+    CloudHsmInvalidRequestException,
+    CloudHsmResourceNotFoundException,
+    CloudHsmServiceException,
+    CloudHsmTagException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
+/**
+ * Gets information about CloudHSM clusters.
+ *
+ * This is a paginated operation, which means that each response might contain only a
+ * subset of all the clusters. When the response contains only a subset of clusters, it includes
+ * a `NextToken` value. Use this value in a subsequent `DescribeClusters`
+ * request to get more clusters. When you receive a response with no `NextToken` (or
+ * an empty or null value), that means there are no more clusters to get.
+ *
+ * **Cross-account use:** No. You cannot perform this operation on CloudHSM clusters in a different Amazon Web Services account.
+ */
+export const describeClusters: {
+  (
+    input: DescribeClustersRequest,
+  ): effect.Effect<
+    DescribeClustersResponse,
+    | CloudHsmAccessDeniedException
+    | CloudHsmInternalFailureException
+    | CloudHsmInvalidRequestException
+    | CloudHsmServiceException
+    | CloudHsmTagException
+    | CommonErrors,
+    Credentials | Rgn | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeClustersRequest,
+  ) => stream.Stream<
+    DescribeClustersResponse,
+    | CloudHsmAccessDeniedException
+    | CloudHsmInternalFailureException
+    | CloudHsmInvalidRequestException
+    | CloudHsmServiceException
+    | CloudHsmTagException
+    | CommonErrors,
+    Credentials | Rgn | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeClustersRequest,
+  ) => stream.Stream<
+    unknown,
+    | CloudHsmAccessDeniedException
+    | CloudHsmInternalFailureException
+    | CloudHsmInvalidRequestException
+    | CloudHsmServiceException
+    | CloudHsmTagException
+    | CommonErrors,
+    Credentials | Rgn | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeClustersRequest,
+  output: DescribeClustersResponse,
+  errors: [
+    CloudHsmAccessDeniedException,
+    CloudHsmInternalFailureException,
+    CloudHsmInvalidRequestException,
+    CloudHsmServiceException,
+    CloudHsmTagException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
+/**
  * Retrieves the resource policy document attached to a given resource.
  *
  * **Cross-account use:** No. You cannot perform this operation on an CloudHSM resource in a different Amazon Web Services account.
@@ -893,6 +1168,74 @@ export const initializeCluster: (
     CloudHsmResourceNotFoundException,
     CloudHsmServiceException,
   ],
+}));
+/**
+ * Gets a list of tags for the specified CloudHSM cluster.
+ *
+ * This is a paginated operation, which means that each response might contain only a
+ * subset of all the tags. When the response contains only a subset of tags, it includes a
+ * `NextToken` value. Use this value in a subsequent `ListTags` request to
+ * get more tags. When you receive a response with no `NextToken` (or an empty or null
+ * value), that means there are no more tags to get.
+ *
+ * **Cross-account use:** No. You cannot perform this operation on an CloudHSM resource in a different Amazon Web Services account.
+ */
+export const listTags: {
+  (
+    input: ListTagsRequest,
+  ): effect.Effect<
+    ListTagsResponse,
+    | CloudHsmAccessDeniedException
+    | CloudHsmInternalFailureException
+    | CloudHsmInvalidRequestException
+    | CloudHsmResourceNotFoundException
+    | CloudHsmServiceException
+    | CloudHsmTagException
+    | CommonErrors,
+    Credentials | Rgn | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListTagsRequest,
+  ) => stream.Stream<
+    ListTagsResponse,
+    | CloudHsmAccessDeniedException
+    | CloudHsmInternalFailureException
+    | CloudHsmInvalidRequestException
+    | CloudHsmResourceNotFoundException
+    | CloudHsmServiceException
+    | CloudHsmTagException
+    | CommonErrors,
+    Credentials | Rgn | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListTagsRequest,
+  ) => stream.Stream<
+    unknown,
+    | CloudHsmAccessDeniedException
+    | CloudHsmInternalFailureException
+    | CloudHsmInvalidRequestException
+    | CloudHsmResourceNotFoundException
+    | CloudHsmServiceException
+    | CloudHsmTagException
+    | CommonErrors,
+    Credentials | Rgn | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListTagsRequest,
+  output: ListTagsResponse,
+  errors: [
+    CloudHsmAccessDeniedException,
+    CloudHsmInternalFailureException,
+    CloudHsmInvalidRequestException,
+    CloudHsmResourceNotFoundException,
+    CloudHsmServiceException,
+    CloudHsmTagException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
 }));
 /**
  * Modifies attributes for CloudHSM backup.
@@ -1016,352 +1359,6 @@ export const restoreBackup: (
     CloudHsmInvalidRequestException,
     CloudHsmResourceNotFoundException,
     CloudHsmServiceException,
-  ],
-}));
-/**
- * Creates a new hardware security module (HSM) in the specified CloudHSM
- * cluster.
- *
- * **Cross-account use:** No. You cannot perform this operation on an CloudHSM cluster in a different Amazon Web Service account.
- */
-export const createHsm: (
-  input: CreateHsmRequest,
-) => effect.Effect<
-  CreateHsmResponse,
-  | CloudHsmAccessDeniedException
-  | CloudHsmInternalFailureException
-  | CloudHsmInvalidRequestException
-  | CloudHsmResourceNotFoundException
-  | CloudHsmServiceException
-  | CommonErrors,
-  Credentials | Rgn | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateHsmRequest,
-  output: CreateHsmResponse,
-  errors: [
-    CloudHsmAccessDeniedException,
-    CloudHsmInternalFailureException,
-    CloudHsmInvalidRequestException,
-    CloudHsmResourceNotFoundException,
-    CloudHsmServiceException,
-  ],
-}));
-/**
- * Deletes a specified CloudHSM backup. A backup can be restored up to 7 days
- * after the DeleteBackup request is made. For more information on restoring a backup, see
- * RestoreBackup.
- *
- * **Cross-account use:** No. You cannot perform this operation on an CloudHSM backup in a different Amazon Web Services account.
- */
-export const deleteBackup: (
-  input: DeleteBackupRequest,
-) => effect.Effect<
-  DeleteBackupResponse,
-  | CloudHsmAccessDeniedException
-  | CloudHsmInternalFailureException
-  | CloudHsmInvalidRequestException
-  | CloudHsmResourceNotFoundException
-  | CloudHsmServiceException
-  | CommonErrors,
-  Credentials | Rgn | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteBackupRequest,
-  output: DeleteBackupResponse,
-  errors: [
-    CloudHsmAccessDeniedException,
-    CloudHsmInternalFailureException,
-    CloudHsmInvalidRequestException,
-    CloudHsmResourceNotFoundException,
-    CloudHsmServiceException,
-  ],
-}));
-/**
- * Gets information about CloudHSM clusters.
- *
- * This is a paginated operation, which means that each response might contain only a
- * subset of all the clusters. When the response contains only a subset of clusters, it includes
- * a `NextToken` value. Use this value in a subsequent `DescribeClusters`
- * request to get more clusters. When you receive a response with no `NextToken` (or
- * an empty or null value), that means there are no more clusters to get.
- *
- * **Cross-account use:** No. You cannot perform this operation on CloudHSM clusters in a different Amazon Web Services account.
- */
-export const describeClusters: {
-  (
-    input: DescribeClustersRequest,
-  ): effect.Effect<
-    DescribeClustersResponse,
-    | CloudHsmAccessDeniedException
-    | CloudHsmInternalFailureException
-    | CloudHsmInvalidRequestException
-    | CloudHsmServiceException
-    | CloudHsmTagException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
-  pages: (
-    input: DescribeClustersRequest,
-  ) => stream.Stream<
-    DescribeClustersResponse,
-    | CloudHsmAccessDeniedException
-    | CloudHsmInternalFailureException
-    | CloudHsmInvalidRequestException
-    | CloudHsmServiceException
-    | CloudHsmTagException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
-  items: (
-    input: DescribeClustersRequest,
-  ) => stream.Stream<
-    unknown,
-    | CloudHsmAccessDeniedException
-    | CloudHsmInternalFailureException
-    | CloudHsmInvalidRequestException
-    | CloudHsmServiceException
-    | CloudHsmTagException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
-} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
-  input: DescribeClustersRequest,
-  output: DescribeClustersResponse,
-  errors: [
-    CloudHsmAccessDeniedException,
-    CloudHsmInternalFailureException,
-    CloudHsmInvalidRequestException,
-    CloudHsmServiceException,
-    CloudHsmTagException,
-  ],
-  pagination: {
-    inputToken: "NextToken",
-    outputToken: "NextToken",
-    pageSize: "MaxResults",
-  } as const,
-}));
-/**
- * Gets a list of tags for the specified CloudHSM cluster.
- *
- * This is a paginated operation, which means that each response might contain only a
- * subset of all the tags. When the response contains only a subset of tags, it includes a
- * `NextToken` value. Use this value in a subsequent `ListTags` request to
- * get more tags. When you receive a response with no `NextToken` (or an empty or null
- * value), that means there are no more tags to get.
- *
- * **Cross-account use:** No. You cannot perform this operation on an CloudHSM resource in a different Amazon Web Services account.
- */
-export const listTags: {
-  (
-    input: ListTagsRequest,
-  ): effect.Effect<
-    ListTagsResponse,
-    | CloudHsmAccessDeniedException
-    | CloudHsmInternalFailureException
-    | CloudHsmInvalidRequestException
-    | CloudHsmResourceNotFoundException
-    | CloudHsmServiceException
-    | CloudHsmTagException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
-  pages: (
-    input: ListTagsRequest,
-  ) => stream.Stream<
-    ListTagsResponse,
-    | CloudHsmAccessDeniedException
-    | CloudHsmInternalFailureException
-    | CloudHsmInvalidRequestException
-    | CloudHsmResourceNotFoundException
-    | CloudHsmServiceException
-    | CloudHsmTagException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
-  items: (
-    input: ListTagsRequest,
-  ) => stream.Stream<
-    unknown,
-    | CloudHsmAccessDeniedException
-    | CloudHsmInternalFailureException
-    | CloudHsmInvalidRequestException
-    | CloudHsmResourceNotFoundException
-    | CloudHsmServiceException
-    | CloudHsmTagException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
-} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
-  input: ListTagsRequest,
-  output: ListTagsResponse,
-  errors: [
-    CloudHsmAccessDeniedException,
-    CloudHsmInternalFailureException,
-    CloudHsmInvalidRequestException,
-    CloudHsmResourceNotFoundException,
-    CloudHsmServiceException,
-    CloudHsmTagException,
-  ],
-  pagination: {
-    inputToken: "NextToken",
-    outputToken: "NextToken",
-    pageSize: "MaxResults",
-  } as const,
-}));
-/**
- * Creates a new CloudHSM cluster.
- *
- * **Cross-account use:** Yes. To perform this operation with an CloudHSM backup in a different AWS account, specify the full backup
- * ARN in the value of the SourceBackupId parameter.
- */
-export const createCluster: (
-  input: CreateClusterRequest,
-) => effect.Effect<
-  CreateClusterResponse,
-  | CloudHsmAccessDeniedException
-  | CloudHsmInternalFailureException
-  | CloudHsmInvalidRequestException
-  | CloudHsmResourceNotFoundException
-  | CloudHsmServiceException
-  | CloudHsmTagException
-  | CommonErrors,
-  Credentials | Rgn | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateClusterRequest,
-  output: CreateClusterResponse,
-  errors: [
-    CloudHsmAccessDeniedException,
-    CloudHsmInternalFailureException,
-    CloudHsmInvalidRequestException,
-    CloudHsmResourceNotFoundException,
-    CloudHsmServiceException,
-    CloudHsmTagException,
-  ],
-}));
-/**
- * Gets information about backups of CloudHSM clusters. Lists either the backups you own or the backups shared with you when the Shared parameter is true.
- *
- * This is a paginated operation, which means that each response might contain only a
- * subset of all the backups. When the response contains only a subset of backups, it includes a
- * `NextToken` value. Use this value in a subsequent `DescribeBackups`
- * request to get more backups. When you receive a response with no `NextToken` (or an
- * empty or null value), that means there are no more backups to get.
- *
- * **Cross-account use:** Yes. Customers can describe backups in other Amazon Web Services accounts that are shared with them.
- */
-export const describeBackups: {
-  (
-    input: DescribeBackupsRequest,
-  ): effect.Effect<
-    DescribeBackupsResponse,
-    | CloudHsmAccessDeniedException
-    | CloudHsmInternalFailureException
-    | CloudHsmInvalidRequestException
-    | CloudHsmResourceNotFoundException
-    | CloudHsmServiceException
-    | CloudHsmTagException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
-  pages: (
-    input: DescribeBackupsRequest,
-  ) => stream.Stream<
-    DescribeBackupsResponse,
-    | CloudHsmAccessDeniedException
-    | CloudHsmInternalFailureException
-    | CloudHsmInvalidRequestException
-    | CloudHsmResourceNotFoundException
-    | CloudHsmServiceException
-    | CloudHsmTagException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
-  items: (
-    input: DescribeBackupsRequest,
-  ) => stream.Stream<
-    unknown,
-    | CloudHsmAccessDeniedException
-    | CloudHsmInternalFailureException
-    | CloudHsmInvalidRequestException
-    | CloudHsmResourceNotFoundException
-    | CloudHsmServiceException
-    | CloudHsmTagException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
-} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
-  input: DescribeBackupsRequest,
-  output: DescribeBackupsResponse,
-  errors: [
-    CloudHsmAccessDeniedException,
-    CloudHsmInternalFailureException,
-    CloudHsmInvalidRequestException,
-    CloudHsmResourceNotFoundException,
-    CloudHsmServiceException,
-    CloudHsmTagException,
-  ],
-  pagination: {
-    inputToken: "NextToken",
-    outputToken: "NextToken",
-    pageSize: "MaxResults",
-  } as const,
-}));
-/**
- * Copy an CloudHSM cluster backup to a different region.
- *
- * **Cross-account use:** No. You cannot perform this operation on an CloudHSM backup in a different Amazon Web Services account.
- */
-export const copyBackupToRegion: (
-  input: CopyBackupToRegionRequest,
-) => effect.Effect<
-  CopyBackupToRegionResponse,
-  | CloudHsmAccessDeniedException
-  | CloudHsmInternalFailureException
-  | CloudHsmInvalidRequestException
-  | CloudHsmResourceNotFoundException
-  | CloudHsmServiceException
-  | CloudHsmTagException
-  | CommonErrors,
-  Credentials | Rgn | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CopyBackupToRegionRequest,
-  output: CopyBackupToRegionResponse,
-  errors: [
-    CloudHsmAccessDeniedException,
-    CloudHsmInternalFailureException,
-    CloudHsmInvalidRequestException,
-    CloudHsmResourceNotFoundException,
-    CloudHsmServiceException,
-    CloudHsmTagException,
-  ],
-}));
-/**
- * Deletes the specified CloudHSM cluster. Before you can delete a cluster, you must
- * delete all HSMs in the cluster. To see if the cluster contains any HSMs, use DescribeClusters. To delete an HSM, use DeleteHsm.
- *
- * **Cross-account use:** No. You cannot perform this operation on an CloudHSM cluster in a different Amazon Web Services account.
- */
-export const deleteCluster: (
-  input: DeleteClusterRequest,
-) => effect.Effect<
-  DeleteClusterResponse,
-  | CloudHsmAccessDeniedException
-  | CloudHsmInternalFailureException
-  | CloudHsmInvalidRequestException
-  | CloudHsmResourceNotFoundException
-  | CloudHsmServiceException
-  | CloudHsmTagException
-  | CommonErrors,
-  Credentials | Rgn | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteClusterRequest,
-  output: DeleteClusterResponse,
-  errors: [
-    CloudHsmAccessDeniedException,
-    CloudHsmInternalFailureException,
-    CloudHsmInvalidRequestException,
-    CloudHsmResourceNotFoundException,
-    CloudHsmServiceException,
-    CloudHsmTagException,
   ],
 }));
 /**

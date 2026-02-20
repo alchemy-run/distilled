@@ -10,12 +10,13 @@ export const CreateWebhookSubscriptionInput = Schema.Struct({
   isEnabled: Schema.Boolean,
   target: Schema.Struct({
     url: Schema.String,
-    headers: Schema.optional(Schema.Record({ key: Schema.String, value: Schema.String })),
+    headers: Schema.optional(Schema.Record(Schema.String, Schema.String)),
   }),
-  metadata: Schema.optional(Schema.Record({ key: Schema.String, value: Schema.String })),
-  labels: Schema.optional(Schema.Record({ key: Schema.String, value: Schema.String })),
+  metadata: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+  labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
 }).pipe(T.Http({ method: "POST", path: "/v2/data/webhooks/subscriptions" }));
-export type CreateWebhookSubscriptionInput = typeof CreateWebhookSubscriptionInput.Type;
+export type CreateWebhookSubscriptionInput =
+  typeof CreateWebhookSubscriptionInput.Type;
 
 // Output Schema
 export const CreateWebhookSubscriptionOutput = Schema.Struct({
@@ -23,18 +24,21 @@ export const CreateWebhookSubscriptionOutput = Schema.Struct({
   description: Schema.optional(Schema.String),
   eventTypes: Schema.Array(Schema.String),
   isEnabled: Schema.Boolean,
-  metadata: Schema.optional(Schema.Struct({
-    secret: Schema.optional(Schema.String),
-  })),
+  metadata: Schema.optional(
+    Schema.Struct({
+      secret: Schema.optional(Schema.String),
+    }),
+  ),
   secret: Schema.String,
   subscriptionId: Schema.String,
   target: Schema.Struct({
     url: Schema.String,
-    headers: Schema.optional(Schema.Record({ key: Schema.String, value: Schema.String })),
+    headers: Schema.optional(Schema.Record(Schema.String, Schema.String)),
   }),
-  labels: Schema.optional(Schema.Record({ key: Schema.String, value: Schema.String })),
+  labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
 });
-export type CreateWebhookSubscriptionOutput = typeof CreateWebhookSubscriptionOutput.Type;
+export type CreateWebhookSubscriptionOutput =
+  typeof CreateWebhookSubscriptionOutput.Type;
 
 // The operation
 /**
@@ -79,8 +83,10 @@ export type CreateWebhookSubscriptionOutput = typeof CreateWebhookSubscriptionOu
  * - **Price Oracle Tracker**: `{"network": "base-mainnet", "contract_address": "0xbac4a9428ea707c51f171ed9890c3c2fa810305d", "event_name": "PriceUpdated"}`
  * - **DeFi Protocol Activity**: `{"network": "base-mainnet", "contract_address": "0x45c6e6a47a711b14d8357d5243f46704904578e3", "event_name": "Deposit"}`
  */
-export const createWebhookSubscription = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  inputSchema: CreateWebhookSubscriptionInput,
-  outputSchema: CreateWebhookSubscriptionOutput,
-  errors: [InvalidRequest],
-}));
+export const createWebhookSubscription = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    inputSchema: CreateWebhookSubscriptionInput,
+    outputSchema: CreateWebhookSubscriptionOutput,
+    errors: [InvalidRequest],
+  }),
+);

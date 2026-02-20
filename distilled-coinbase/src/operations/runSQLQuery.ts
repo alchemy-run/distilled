@@ -6,27 +6,60 @@ import { InvalidSqlQuery, TimedOut } from "../errors";
 // Input Schema
 export const RunSQLQueryInput = Schema.Struct({
   sql: Schema.String,
-  cache: Schema.optional(Schema.Struct({
-    maxAgeMs: Schema.optional(Schema.Number),
-  })),
+  cache: Schema.optional(
+    Schema.Struct({
+      maxAgeMs: Schema.optional(Schema.Number),
+    }),
+  ),
 }).pipe(T.Http({ method: "POST", path: "/v2/data/query/run" }));
 export type RunSQLQueryInput = typeof RunSQLQueryInput.Type;
 
 // Output Schema
 export const RunSQLQueryOutput = Schema.Struct({
   result: Schema.optional(Schema.Array(Schema.Unknown)),
-  schema: Schema.optional(Schema.Struct({
-    columns: Schema.optional(Schema.Array(Schema.Struct({
-      name: Schema.optional(Schema.String),
-      type: Schema.optional(Schema.Literal("String", "UInt8", "UInt16", "UInt32", "UInt64", "UInt128", "UInt256", "Int8", "Int16", "Int32", "Int64", "Int128", "Int256", "Float32", "Float64", "Bool", "Date", "DateTime", "DateTime64", "UUID")),
-    }))),
-  })),
-  metadata: Schema.optional(Schema.Struct({
-    cached: Schema.optional(Schema.Boolean),
-    executionTimestamp: Schema.optional(Schema.String),
-    executionTimeMs: Schema.optional(Schema.Number),
-    rowCount: Schema.optional(Schema.Number),
-  })),
+  schema: Schema.optional(
+    Schema.Struct({
+      columns: Schema.optional(
+        Schema.Array(
+          Schema.Struct({
+            name: Schema.optional(Schema.String),
+            type: Schema.optional(
+              Schema.Literals([
+                "String",
+                "UInt8",
+                "UInt16",
+                "UInt32",
+                "UInt64",
+                "UInt128",
+                "UInt256",
+                "Int8",
+                "Int16",
+                "Int32",
+                "Int64",
+                "Int128",
+                "Int256",
+                "Float32",
+                "Float64",
+                "Bool",
+                "Date",
+                "DateTime",
+                "DateTime64",
+                "UUID",
+              ]),
+            ),
+          }),
+        ),
+      ),
+    }),
+  ),
+  metadata: Schema.optional(
+    Schema.Struct({
+      cached: Schema.optional(Schema.Boolean),
+      executionTimestamp: Schema.optional(Schema.String),
+      executionTimeMs: Schema.optional(Schema.Number),
+      rowCount: Schema.optional(Schema.Number),
+    }),
+  ),
 });
 export type RunSQLQueryOutput = typeof RunSQLQueryOutput.Type;
 

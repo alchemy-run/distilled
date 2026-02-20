@@ -22,12 +22,12 @@ export const ListParametersOutput = Schema.Array(
     id: Schema.String,
     name: Schema.String,
     display_name: Schema.String,
-    namespace: Schema.Literal("patroni", "pgconf", "pgbouncer"),
+    namespace: Schema.Literals(["patroni", "pgconf", "pgbouncer"]),
     category: Schema.String,
     description: Schema.String,
     extension: Schema.Boolean,
     internal: Schema.Boolean,
-    parameter_type: Schema.Literal(
+    parameter_type: Schema.Literals([
       "array",
       "boolean",
       "bytes",
@@ -38,7 +38,7 @@ export const ListParametersOutput = Schema.Array(
       "select",
       "string",
       "time",
-    ),
+    ]),
     default_value: Schema.String,
     value: Schema.String,
     required: Schema.Boolean,

@@ -5,9 +5,13 @@ import { FaucetLimitExceeded, Forbidden, InvalidRequest } from "../errors";
 
 // Input Schema
 export const RequestEvmFaucetInput = Schema.Struct({
-  network: Schema.Literal("base-sepolia", "ethereum-sepolia", "ethereum-hoodi"),
+  network: Schema.Literals([
+    "base-sepolia",
+    "ethereum-sepolia",
+    "ethereum-hoodi",
+  ]),
   address: Schema.String,
-  token: Schema.Literal("eth", "usdc", "eurc", "cbbtc"),
+  token: Schema.Literals(["eth", "usdc", "eurc", "cbbtc"]),
 }).pipe(T.Http({ method: "POST", path: "/v2/evm/faucet" }));
 export type RequestEvmFaucetInput = typeof RequestEvmFaucetInput.Type;
 

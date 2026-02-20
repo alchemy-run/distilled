@@ -1,4 +1,4 @@
-import { HttpClient } from "@effect/platform";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as effect from "effect/Effect";
 import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
@@ -89,17 +89,17 @@ const rules = T.EndpointResolver((p, _) => {
 //# Newtypes
 export type DeviceName = string;
 export type DeviceFleetName = string;
-export type Version = string;
+export type EntityName = string;
+export type S3Uri = string;
+export type ChecksumString = string;
+export type ErrorMessage = string;
+export type DeviceRegistration = string;
+export type CacheTTLSeconds = string;
 export type Dimension = string;
 export type Metric = string;
 export type Value = number;
 export type ModelName = string;
-export type EntityName = string;
-export type DeviceRegistration = string;
-export type CacheTTLSeconds = string;
-export type ErrorMessage = string;
-export type S3Uri = string;
-export type ChecksumString = string;
+export type Version = string;
 
 //# Schemas
 export interface GetDeploymentsRequest {
@@ -120,9 +120,67 @@ export const GetDeploymentsRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "GetDeploymentsRequest",
 }) as any as S.Schema<GetDeploymentsRequest>;
+export type DeploymentType = "Model" | (string & {});
+export const DeploymentType = S.String;
+export type FailureHandlingPolicy =
+  | "ROLLBACK_ON_FAILURE"
+  | "DO_NOTHING"
+  | (string & {});
+export const FailureHandlingPolicy = S.String;
+export type ChecksumType = "SHA1" | (string & {});
+export const ChecksumType = S.String;
+export interface Checksum {
+  Type?: ChecksumType;
+  Sum?: string;
+}
+export const Checksum = S.suspend(() =>
+  S.Struct({ Type: S.optional(ChecksumType), Sum: S.optional(S.String) }),
+).annotate({ identifier: "Checksum" }) as any as S.Schema<Checksum>;
+export type ModelState = "DEPLOY" | "UNDEPLOY" | (string & {});
+export const ModelState = S.String;
+export interface Definition {
+  ModelHandle?: string;
+  S3Url?: string;
+  Checksum?: Checksum;
+  State?: ModelState;
+}
+export const Definition = S.suspend(() =>
+  S.Struct({
+    ModelHandle: S.optional(S.String),
+    S3Url: S.optional(S.String),
+    Checksum: S.optional(Checksum),
+    State: S.optional(ModelState),
+  }),
+).annotate({ identifier: "Definition" }) as any as S.Schema<Definition>;
+export type Definitions = Definition[];
+export const Definitions = S.Array(Definition);
+export interface EdgeDeployment {
+  DeploymentName?: string;
+  Type?: DeploymentType;
+  FailureHandlingPolicy?: FailureHandlingPolicy;
+  Definitions?: Definition[];
+}
+export const EdgeDeployment = S.suspend(() =>
+  S.Struct({
+    DeploymentName: S.optional(S.String),
+    Type: S.optional(DeploymentType),
+    FailureHandlingPolicy: S.optional(FailureHandlingPolicy),
+    Definitions: S.optional(Definitions),
+  }),
+).annotate({ identifier: "EdgeDeployment" }) as any as S.Schema<EdgeDeployment>;
+export type EdgeDeployments = EdgeDeployment[];
+export const EdgeDeployments = S.Array(EdgeDeployment);
+export interface GetDeploymentsResult {
+  Deployments?: EdgeDeployment[];
+}
+export const GetDeploymentsResult = S.suspend(() =>
+  S.Struct({ Deployments: S.optional(EdgeDeployments) }),
+).annotate({
+  identifier: "GetDeploymentsResult",
+}) as any as S.Schema<GetDeploymentsResult>;
 export interface GetDeviceRegistrationRequest {
   DeviceName?: string;
   DeviceFleetName?: string;
@@ -141,9 +199,21 @@ export const GetDeviceRegistrationRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "GetDeviceRegistrationRequest",
 }) as any as S.Schema<GetDeviceRegistrationRequest>;
+export interface GetDeviceRegistrationResult {
+  DeviceRegistration?: string;
+  CacheTTL?: string;
+}
+export const GetDeviceRegistrationResult = S.suspend(() =>
+  S.Struct({
+    DeviceRegistration: S.optional(S.String),
+    CacheTTL: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GetDeviceRegistrationResult",
+}) as any as S.Schema<GetDeviceRegistrationResult>;
 export interface EdgeMetric {
   Dimension?: string;
   MetricName?: string;
@@ -157,7 +227,7 @@ export const EdgeMetric = S.suspend(() =>
     Value: S.optional(S.Number),
     Timestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
-).annotations({ identifier: "EdgeMetric" }) as any as S.Schema<EdgeMetric>;
+).annotate({ identifier: "EdgeMetric" }) as any as S.Schema<EdgeMetric>;
 export type EdgeMetrics = EdgeMetric[];
 export const EdgeMetrics = S.Array(EdgeMetric);
 export interface Model {
@@ -179,32 +249,11 @@ export const Model = S.suspend(() =>
     ),
     ModelMetrics: S.optional(EdgeMetrics),
   }),
-).annotations({ identifier: "Model" }) as any as S.Schema<Model>;
+).annotate({ identifier: "Model" }) as any as S.Schema<Model>;
 export type Models = Model[];
 export const Models = S.Array(Model);
-export type ModelState = "DEPLOY" | "UNDEPLOY" | (string & {});
-export const ModelState = S.String;
 export type DeploymentStatus = "SUCCESS" | "FAIL" | (string & {});
 export const DeploymentStatus = S.String;
-export interface GetDeviceRegistrationResult {
-  DeviceRegistration?: string;
-  CacheTTL?: string;
-}
-export const GetDeviceRegistrationResult = S.suspend(() =>
-  S.Struct({
-    DeviceRegistration: S.optional(S.String),
-    CacheTTL: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "GetDeviceRegistrationResult",
-}) as any as S.Schema<GetDeviceRegistrationResult>;
-export type DeploymentType = "Model" | (string & {});
-export const DeploymentType = S.String;
-export type FailureHandlingPolicy =
-  | "ROLLBACK_ON_FAILURE"
-  | "DO_NOTHING"
-  | (string & {});
-export const FailureHandlingPolicy = S.String;
 export interface DeploymentModel {
   ModelHandle?: string;
   ModelName?: string;
@@ -226,7 +275,7 @@ export const DeploymentModel = S.suspend(() =>
     StatusReason: S.optional(S.String),
     RollbackFailureReason: S.optional(S.String),
   }),
-).annotations({
+).annotate({
   identifier: "DeploymentModel",
 }) as any as S.Schema<DeploymentModel>;
 export type DeploymentModels = DeploymentModel[];
@@ -252,7 +301,7 @@ export const DeploymentResult = S.suspend(() =>
     ),
     DeploymentModels: S.optional(DeploymentModels),
   }),
-).annotations({
+).annotate({
   identifier: "DeploymentResult",
 }) as any as S.Schema<DeploymentResult>;
 export interface SendHeartbeatRequest {
@@ -281,72 +330,35 @@ export const SendHeartbeatRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "SendHeartbeatRequest",
 }) as any as S.Schema<SendHeartbeatRequest>;
 export interface SendHeartbeatResponse {}
-export const SendHeartbeatResponse = S.suspend(() => S.Struct({})).annotations({
+export const SendHeartbeatResponse = S.suspend(() => S.Struct({})).annotate({
   identifier: "SendHeartbeatResponse",
 }) as any as S.Schema<SendHeartbeatResponse>;
-export type ChecksumType = "SHA1" | (string & {});
-export const ChecksumType = S.String;
-export interface Checksum {
-  Type?: ChecksumType;
-  Sum?: string;
-}
-export const Checksum = S.suspend(() =>
-  S.Struct({ Type: S.optional(ChecksumType), Sum: S.optional(S.String) }),
-).annotations({ identifier: "Checksum" }) as any as S.Schema<Checksum>;
-export interface Definition {
-  ModelHandle?: string;
-  S3Url?: string;
-  Checksum?: Checksum;
-  State?: ModelState;
-}
-export const Definition = S.suspend(() =>
-  S.Struct({
-    ModelHandle: S.optional(S.String),
-    S3Url: S.optional(S.String),
-    Checksum: S.optional(Checksum),
-    State: S.optional(ModelState),
-  }),
-).annotations({ identifier: "Definition" }) as any as S.Schema<Definition>;
-export type Definitions = Definition[];
-export const Definitions = S.Array(Definition);
-export interface EdgeDeployment {
-  DeploymentName?: string;
-  Type?: DeploymentType;
-  FailureHandlingPolicy?: FailureHandlingPolicy;
-  Definitions?: Definition[];
-}
-export const EdgeDeployment = S.suspend(() =>
-  S.Struct({
-    DeploymentName: S.optional(S.String),
-    Type: S.optional(DeploymentType),
-    FailureHandlingPolicy: S.optional(FailureHandlingPolicy),
-    Definitions: S.optional(Definitions),
-  }),
-).annotations({
-  identifier: "EdgeDeployment",
-}) as any as S.Schema<EdgeDeployment>;
-export type EdgeDeployments = EdgeDeployment[];
-export const EdgeDeployments = S.Array(EdgeDeployment);
-export interface GetDeploymentsResult {
-  Deployments?: EdgeDeployment[];
-}
-export const GetDeploymentsResult = S.suspend(() =>
-  S.Struct({ Deployments: S.optional(EdgeDeployments) }),
-).annotations({
-  identifier: "GetDeploymentsResult",
-}) as any as S.Schema<GetDeploymentsResult>;
 
 //# Errors
-export class InternalServiceException extends S.TaggedError<InternalServiceException>()(
+export class InternalServiceException extends S.TaggedErrorClass<InternalServiceException>()(
   "InternalServiceException",
   { Message: S.optional(S.String) },
 ) {}
 
 //# Operations
+/**
+ * Use to get the active deployments from a device.
+ */
+export const getDeployments: (
+  input: GetDeploymentsRequest,
+) => effect.Effect<
+  GetDeploymentsResult,
+  InternalServiceException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetDeploymentsRequest,
+  output: GetDeploymentsResult,
+  errors: [InternalServiceException],
+}));
 /**
  * Use to check if a device is registered with SageMaker Edge Manager.
  */
@@ -373,19 +385,5 @@ export const sendHeartbeat: (
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SendHeartbeatRequest,
   output: SendHeartbeatResponse,
-  errors: [InternalServiceException],
-}));
-/**
- * Use to get the active deployments from a device.
- */
-export const getDeployments: (
-  input: GetDeploymentsRequest,
-) => effect.Effect<
-  GetDeploymentsResult,
-  InternalServiceException | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetDeploymentsRequest,
-  output: GetDeploymentsResult,
   errors: [InternalServiceException],
 }));

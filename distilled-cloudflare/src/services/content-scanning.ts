@@ -7,7 +7,7 @@
 
 import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
-import type { HttpClient } from "@effect/platform";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
@@ -69,7 +69,7 @@ export interface CreateContentScanningRequest {
 
 export const CreateContentScanningRequest = Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  value: Schema.Literal("enabled", "disabled"),
+  value: Schema.Literals(["enabled", "disabled"]),
 }).pipe(
   T.Http({
     method: "PUT",
@@ -110,7 +110,7 @@ export interface PutContentScanningRequest {
 
 export const PutContentScanningRequest = Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  value: Schema.Literal("enabled", "disabled"),
+  value: Schema.Literals(["enabled", "disabled"]),
 }).pipe(
   T.Http({
     method: "PUT",

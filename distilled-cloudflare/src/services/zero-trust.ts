@@ -7,7 +7,7 @@
 
 import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
-import type { HttpClient } from "@effect/platform";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
@@ -56,11 +56,9 @@ export const CreateAccessAiControlMcpPortalRequest = Schema.Struct({
   servers: Schema.optional(
     Schema.Array(
       Schema.Struct({
-        serverId: Schema.String.pipe(T.JsonName("server_id")),
-        defaultDisabled: Schema.optional(Schema.Boolean).pipe(
-          T.JsonName("default_disabled"),
-        ),
-        onBehalf: Schema.optional(Schema.Boolean).pipe(T.JsonName("on_behalf")),
+        serverId: Schema.String,
+        defaultDisabled: Schema.optional(Schema.Boolean),
+        onBehalf: Schema.optional(Schema.Boolean),
         updatedPrompts: Schema.optional(
           Schema.Array(
             Schema.Struct({
@@ -69,7 +67,7 @@ export const CreateAccessAiControlMcpPortalRequest = Schema.Struct({
               enabled: Schema.optional(Schema.Boolean),
             }),
           ),
-        ).pipe(T.JsonName("updated_prompts")),
+        ),
         updatedTools: Schema.optional(
           Schema.Array(
             Schema.Struct({
@@ -78,8 +76,16 @@ export const CreateAccessAiControlMcpPortalRequest = Schema.Struct({
               enabled: Schema.optional(Schema.Boolean),
             }),
           ),
-        ).pipe(T.JsonName("updated_tools")),
-      }),
+        ),
+      }).pipe(
+        Schema.encodeKeys({
+          serverId: "server_id",
+          defaultDisabled: "default_disabled",
+          onBehalf: "on_behalf",
+          updatedPrompts: "updated_prompts",
+          updatedTools: "updated_tools",
+        }),
+      ),
     ),
   ),
 }).pipe(
@@ -105,12 +111,19 @@ export const CreateAccessAiControlMcpPortalResponse = Schema.Struct({
   id: Schema.String,
   hostname: Schema.String,
   name: Schema.String,
-  createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
-  createdBy: Schema.optional(Schema.String).pipe(T.JsonName("created_by")),
+  createdAt: Schema.optional(Schema.String),
+  createdBy: Schema.optional(Schema.String),
   description: Schema.optional(Schema.String),
-  modifiedAt: Schema.optional(Schema.String).pipe(T.JsonName("modified_at")),
-  modifiedBy: Schema.optional(Schema.String).pipe(T.JsonName("modified_by")),
-}) as unknown as Schema.Schema<CreateAccessAiControlMcpPortalResponse>;
+  modifiedAt: Schema.optional(Schema.String),
+  modifiedBy: Schema.optional(Schema.String),
+}).pipe(
+  Schema.encodeKeys({
+    createdAt: "created_at",
+    createdBy: "created_by",
+    modifiedAt: "modified_at",
+    modifiedBy: "modified_by",
+  }),
+) as unknown as Schema.Schema<CreateAccessAiControlMcpPortalResponse>;
 
 export const createAccessAiControlMcpPortal: (
   input: CreateAccessAiControlMcpPortalRequest,
@@ -157,11 +170,9 @@ export const UpdateAccessAiControlMcpPortalRequest = Schema.Struct({
   servers: Schema.optional(
     Schema.Array(
       Schema.Struct({
-        serverId: Schema.String.pipe(T.JsonName("server_id")),
-        defaultDisabled: Schema.optional(Schema.Boolean).pipe(
-          T.JsonName("default_disabled"),
-        ),
-        onBehalf: Schema.optional(Schema.Boolean).pipe(T.JsonName("on_behalf")),
+        serverId: Schema.String,
+        defaultDisabled: Schema.optional(Schema.Boolean),
+        onBehalf: Schema.optional(Schema.Boolean),
         updatedPrompts: Schema.optional(
           Schema.Array(
             Schema.Struct({
@@ -170,7 +181,7 @@ export const UpdateAccessAiControlMcpPortalRequest = Schema.Struct({
               enabled: Schema.optional(Schema.Boolean),
             }),
           ),
-        ).pipe(T.JsonName("updated_prompts")),
+        ),
         updatedTools: Schema.optional(
           Schema.Array(
             Schema.Struct({
@@ -179,8 +190,16 @@ export const UpdateAccessAiControlMcpPortalRequest = Schema.Struct({
               enabled: Schema.optional(Schema.Boolean),
             }),
           ),
-        ).pipe(T.JsonName("updated_tools")),
-      }),
+        ),
+      }).pipe(
+        Schema.encodeKeys({
+          serverId: "server_id",
+          defaultDisabled: "default_disabled",
+          onBehalf: "on_behalf",
+          updatedPrompts: "updated_prompts",
+          updatedTools: "updated_tools",
+        }),
+      ),
     ),
   ),
 }).pipe(
@@ -206,12 +225,19 @@ export const UpdateAccessAiControlMcpPortalResponse = Schema.Struct({
   id: Schema.String,
   hostname: Schema.String,
   name: Schema.String,
-  createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
-  createdBy: Schema.optional(Schema.String).pipe(T.JsonName("created_by")),
+  createdAt: Schema.optional(Schema.String),
+  createdBy: Schema.optional(Schema.String),
   description: Schema.optional(Schema.String),
-  modifiedAt: Schema.optional(Schema.String).pipe(T.JsonName("modified_at")),
-  modifiedBy: Schema.optional(Schema.String).pipe(T.JsonName("modified_by")),
-}) as unknown as Schema.Schema<UpdateAccessAiControlMcpPortalResponse>;
+  modifiedAt: Schema.optional(Schema.String),
+  modifiedBy: Schema.optional(Schema.String),
+}).pipe(
+  Schema.encodeKeys({
+    createdAt: "created_at",
+    createdBy: "created_by",
+    modifiedAt: "modified_at",
+    modifiedBy: "modified_by",
+  }),
+) as unknown as Schema.Schema<UpdateAccessAiControlMcpPortalResponse>;
 
 export const updateAccessAiControlMcpPortal: (
   input: UpdateAccessAiControlMcpPortalRequest,
@@ -256,12 +282,19 @@ export const DeleteAccessAiControlMcpPortalResponse = Schema.Struct({
   id: Schema.String,
   hostname: Schema.String,
   name: Schema.String,
-  createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
-  createdBy: Schema.optional(Schema.String).pipe(T.JsonName("created_by")),
+  createdAt: Schema.optional(Schema.String),
+  createdBy: Schema.optional(Schema.String),
   description: Schema.optional(Schema.String),
-  modifiedAt: Schema.optional(Schema.String).pipe(T.JsonName("modified_at")),
-  modifiedBy: Schema.optional(Schema.String).pipe(T.JsonName("modified_by")),
-}) as unknown as Schema.Schema<DeleteAccessAiControlMcpPortalResponse>;
+  modifiedAt: Schema.optional(Schema.String),
+  modifiedBy: Schema.optional(Schema.String),
+}).pipe(
+  Schema.encodeKeys({
+    createdAt: "created_at",
+    createdBy: "created_by",
+    modifiedAt: "modified_at",
+    modifiedBy: "modified_by",
+  }),
+) as unknown as Schema.Schema<DeleteAccessAiControlMcpPortalResponse>;
 
 export const deleteAccessAiControlMcpPortal: (
   input: DeleteAccessAiControlMcpPortalRequest,
@@ -329,45 +362,51 @@ export const ReadAccessAiControlMcpPortalResponse = Schema.Struct({
   servers: Schema.Array(
     Schema.Struct({
       id: Schema.String,
-      authType: Schema.Literal("oauth", "bearer", "unauthenticated").pipe(
-        T.JsonName("auth_type"),
-      ),
+      authType: Schema.Literals(["oauth", "bearer", "unauthenticated"]),
       hostname: Schema.String,
       name: Schema.String,
       prompts: Schema.Array(Schema.Struct({})),
       tools: Schema.Array(Schema.Struct({})),
-      updatedPrompts: Schema.Array(Schema.Struct({})).pipe(
-        T.JsonName("updated_prompts"),
-      ),
-      updatedTools: Schema.Array(Schema.Struct({})).pipe(
-        T.JsonName("updated_tools"),
-      ),
-      createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
-      createdBy: Schema.optional(Schema.String).pipe(T.JsonName("created_by")),
-      defaultDisabled: Schema.optional(Schema.Boolean).pipe(
-        T.JsonName("default_disabled"),
-      ),
-      description: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
+      updatedPrompts: Schema.Array(Schema.Struct({})),
+      updatedTools: Schema.Array(Schema.Struct({})),
+      createdAt: Schema.optional(Schema.String),
+      createdBy: Schema.optional(Schema.String),
+      defaultDisabled: Schema.optional(Schema.Boolean),
+      description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
       error: Schema.optional(Schema.String),
-      lastSynced: Schema.optional(Schema.String).pipe(
-        T.JsonName("last_synced"),
-      ),
-      modifiedAt: Schema.optional(Schema.String).pipe(
-        T.JsonName("modified_at"),
-      ),
-      modifiedBy: Schema.optional(Schema.String).pipe(
-        T.JsonName("modified_by"),
-      ),
-      onBehalf: Schema.optional(Schema.Boolean).pipe(T.JsonName("on_behalf")),
+      lastSynced: Schema.optional(Schema.String),
+      modifiedAt: Schema.optional(Schema.String),
+      modifiedBy: Schema.optional(Schema.String),
+      onBehalf: Schema.optional(Schema.Boolean),
       status: Schema.optional(Schema.String),
-    }),
+    }).pipe(
+      Schema.encodeKeys({
+        authType: "auth_type",
+        updatedPrompts: "updated_prompts",
+        updatedTools: "updated_tools",
+        createdAt: "created_at",
+        createdBy: "created_by",
+        defaultDisabled: "default_disabled",
+        lastSynced: "last_synced",
+        modifiedAt: "modified_at",
+        modifiedBy: "modified_by",
+        onBehalf: "on_behalf",
+      }),
+    ),
   ),
-  createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
-  createdBy: Schema.optional(Schema.String).pipe(T.JsonName("created_by")),
+  createdAt: Schema.optional(Schema.String),
+  createdBy: Schema.optional(Schema.String),
   description: Schema.optional(Schema.String),
-  modifiedAt: Schema.optional(Schema.String).pipe(T.JsonName("modified_at")),
-  modifiedBy: Schema.optional(Schema.String).pipe(T.JsonName("modified_by")),
-}) as unknown as Schema.Schema<ReadAccessAiControlMcpPortalResponse>;
+  modifiedAt: Schema.optional(Schema.String),
+  modifiedBy: Schema.optional(Schema.String),
+}).pipe(
+  Schema.encodeKeys({
+    createdAt: "created_at",
+    createdBy: "created_by",
+    modifiedAt: "modified_at",
+    modifiedBy: "modified_by",
+  }),
+) as unknown as Schema.Schema<ReadAccessAiControlMcpPortalResponse>;
 
 export const readAccessAiControlMcpPortal: (
   input: ReadAccessAiControlMcpPortalRequest,
@@ -405,16 +444,16 @@ export interface CreateAccessAiControlMcpServerRequest {
 export const CreateAccessAiControlMcpServerRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   id: Schema.String,
-  authType: Schema.Literal("oauth", "bearer", "unauthenticated").pipe(
-    T.JsonName("auth_type"),
-  ),
+  authType: Schema.Literals(["oauth", "bearer", "unauthenticated"]),
   hostname: Schema.String,
   name: Schema.String,
-  authCredentials: Schema.optional(Schema.String).pipe(
-    T.JsonName("auth_credentials"),
-  ),
-  description: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
+  authCredentials: Schema.optional(Schema.String),
+  description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
+  Schema.encodeKeys({
+    authType: "auth_type",
+    authCredentials: "auth_credentials",
+  }),
   T.Http({
     method: "POST",
     path: "/accounts/{account_id}/access/ai-controls/mcp/servers",
@@ -441,22 +480,29 @@ export interface CreateAccessAiControlMcpServerResponse {
 
 export const CreateAccessAiControlMcpServerResponse = Schema.Struct({
   id: Schema.String,
-  authType: Schema.Literal("oauth", "bearer", "unauthenticated").pipe(
-    T.JsonName("auth_type"),
-  ),
+  authType: Schema.Literals(["oauth", "bearer", "unauthenticated"]),
   hostname: Schema.String,
   name: Schema.String,
   prompts: Schema.Array(Schema.Struct({})),
   tools: Schema.Array(Schema.Struct({})),
-  createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
-  createdBy: Schema.optional(Schema.String).pipe(T.JsonName("created_by")),
-  description: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
+  createdAt: Schema.optional(Schema.String),
+  createdBy: Schema.optional(Schema.String),
+  description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   error: Schema.optional(Schema.String),
-  lastSynced: Schema.optional(Schema.String).pipe(T.JsonName("last_synced")),
-  modifiedAt: Schema.optional(Schema.String).pipe(T.JsonName("modified_at")),
-  modifiedBy: Schema.optional(Schema.String).pipe(T.JsonName("modified_by")),
+  lastSynced: Schema.optional(Schema.String),
+  modifiedAt: Schema.optional(Schema.String),
+  modifiedBy: Schema.optional(Schema.String),
   status: Schema.optional(Schema.String),
-}) as unknown as Schema.Schema<CreateAccessAiControlMcpServerResponse>;
+}).pipe(
+  Schema.encodeKeys({
+    authType: "auth_type",
+    createdAt: "created_at",
+    createdBy: "created_by",
+    lastSynced: "last_synced",
+    modifiedAt: "modified_at",
+    modifiedBy: "modified_by",
+  }),
+) as unknown as Schema.Schema<CreateAccessAiControlMcpServerResponse>;
 
 export const createAccessAiControlMcpServer: (
   input: CreateAccessAiControlMcpServerRequest,
@@ -485,12 +531,11 @@ export interface UpdateAccessAiControlMcpServerRequest {
 export const UpdateAccessAiControlMcpServerRequest = Schema.Struct({
   id: Schema.String.pipe(T.HttpPath("id")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  authCredentials: Schema.optional(Schema.String).pipe(
-    T.JsonName("auth_credentials"),
-  ),
-  description: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
+  authCredentials: Schema.optional(Schema.String),
+  description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   name: Schema.optional(Schema.String),
 }).pipe(
+  Schema.encodeKeys({ authCredentials: "auth_credentials" }),
   T.Http({
     method: "PUT",
     path: "/accounts/{account_id}/access/ai-controls/mcp/servers/{id}",
@@ -517,22 +562,29 @@ export interface UpdateAccessAiControlMcpServerResponse {
 
 export const UpdateAccessAiControlMcpServerResponse = Schema.Struct({
   id: Schema.String,
-  authType: Schema.Literal("oauth", "bearer", "unauthenticated").pipe(
-    T.JsonName("auth_type"),
-  ),
+  authType: Schema.Literals(["oauth", "bearer", "unauthenticated"]),
   hostname: Schema.String,
   name: Schema.String,
   prompts: Schema.Array(Schema.Struct({})),
   tools: Schema.Array(Schema.Struct({})),
-  createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
-  createdBy: Schema.optional(Schema.String).pipe(T.JsonName("created_by")),
-  description: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
+  createdAt: Schema.optional(Schema.String),
+  createdBy: Schema.optional(Schema.String),
+  description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   error: Schema.optional(Schema.String),
-  lastSynced: Schema.optional(Schema.String).pipe(T.JsonName("last_synced")),
-  modifiedAt: Schema.optional(Schema.String).pipe(T.JsonName("modified_at")),
-  modifiedBy: Schema.optional(Schema.String).pipe(T.JsonName("modified_by")),
+  lastSynced: Schema.optional(Schema.String),
+  modifiedAt: Schema.optional(Schema.String),
+  modifiedBy: Schema.optional(Schema.String),
   status: Schema.optional(Schema.String),
-}) as unknown as Schema.Schema<UpdateAccessAiControlMcpServerResponse>;
+}).pipe(
+  Schema.encodeKeys({
+    authType: "auth_type",
+    createdAt: "created_at",
+    createdBy: "created_by",
+    lastSynced: "last_synced",
+    modifiedAt: "modified_at",
+    modifiedBy: "modified_by",
+  }),
+) as unknown as Schema.Schema<UpdateAccessAiControlMcpServerResponse>;
 
 export const updateAccessAiControlMcpServer: (
   input: UpdateAccessAiControlMcpServerRequest,
@@ -581,22 +633,29 @@ export interface DeleteAccessAiControlMcpServerResponse {
 
 export const DeleteAccessAiControlMcpServerResponse = Schema.Struct({
   id: Schema.String,
-  authType: Schema.Literal("oauth", "bearer", "unauthenticated").pipe(
-    T.JsonName("auth_type"),
-  ),
+  authType: Schema.Literals(["oauth", "bearer", "unauthenticated"]),
   hostname: Schema.String,
   name: Schema.String,
   prompts: Schema.Array(Schema.Struct({})),
   tools: Schema.Array(Schema.Struct({})),
-  createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
-  createdBy: Schema.optional(Schema.String).pipe(T.JsonName("created_by")),
-  description: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
+  createdAt: Schema.optional(Schema.String),
+  createdBy: Schema.optional(Schema.String),
+  description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   error: Schema.optional(Schema.String),
-  lastSynced: Schema.optional(Schema.String).pipe(T.JsonName("last_synced")),
-  modifiedAt: Schema.optional(Schema.String).pipe(T.JsonName("modified_at")),
-  modifiedBy: Schema.optional(Schema.String).pipe(T.JsonName("modified_by")),
+  lastSynced: Schema.optional(Schema.String),
+  modifiedAt: Schema.optional(Schema.String),
+  modifiedBy: Schema.optional(Schema.String),
   status: Schema.optional(Schema.String),
-}) as unknown as Schema.Schema<DeleteAccessAiControlMcpServerResponse>;
+}).pipe(
+  Schema.encodeKeys({
+    authType: "auth_type",
+    createdAt: "created_at",
+    createdBy: "created_by",
+    lastSynced: "last_synced",
+    modifiedAt: "modified_at",
+    modifiedBy: "modified_by",
+  }),
+) as unknown as Schema.Schema<DeleteAccessAiControlMcpServerResponse>;
 
 export const deleteAccessAiControlMcpServer: (
   input: DeleteAccessAiControlMcpServerRequest,
@@ -645,22 +704,29 @@ export interface ReadAccessAiControlMcpServerResponse {
 
 export const ReadAccessAiControlMcpServerResponse = Schema.Struct({
   id: Schema.String,
-  authType: Schema.Literal("oauth", "bearer", "unauthenticated").pipe(
-    T.JsonName("auth_type"),
-  ),
+  authType: Schema.Literals(["oauth", "bearer", "unauthenticated"]),
   hostname: Schema.String,
   name: Schema.String,
   prompts: Schema.Array(Schema.Struct({})),
   tools: Schema.Array(Schema.Struct({})),
-  createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
-  createdBy: Schema.optional(Schema.String).pipe(T.JsonName("created_by")),
-  description: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
+  createdAt: Schema.optional(Schema.String),
+  createdBy: Schema.optional(Schema.String),
+  description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   error: Schema.optional(Schema.String),
-  lastSynced: Schema.optional(Schema.String).pipe(T.JsonName("last_synced")),
-  modifiedAt: Schema.optional(Schema.String).pipe(T.JsonName("modified_at")),
-  modifiedBy: Schema.optional(Schema.String).pipe(T.JsonName("modified_by")),
+  lastSynced: Schema.optional(Schema.String),
+  modifiedAt: Schema.optional(Schema.String),
+  modifiedBy: Schema.optional(Schema.String),
   status: Schema.optional(Schema.String),
-}) as unknown as Schema.Schema<ReadAccessAiControlMcpServerResponse>;
+}).pipe(
+  Schema.encodeKeys({
+    authType: "auth_type",
+    createdAt: "created_at",
+    createdBy: "created_by",
+    lastSynced: "last_synced",
+    modifiedAt: "modified_at",
+    modifiedBy: "modified_by",
+  }),
+) as unknown as Schema.Schema<ReadAccessAiControlMcpServerResponse>;
 
 export const readAccessAiControlMcpServer: (
   input: ReadAccessAiControlMcpServerRequest,
@@ -1139,10 +1205,10 @@ export type GetAccessApplicationResponse =
       tags?: string[];
     };
 
-export const GetAccessApplicationResponse = Schema.Union(
+export const GetAccessApplicationResponse = Schema.Union([
   Schema.Struct({
     domain: Schema.String,
-    type: Schema.Literal(
+    type: Schema.Literals([
       "self_hosted",
       "saas",
       "ssh",
@@ -1157,42 +1223,22 @@ export const GetAccessApplicationResponse = Schema.Union(
       "mcp",
       "mcp_portal",
       "proxy_endpoint",
-    ),
+    ]),
     id: Schema.optional(Schema.String),
-    allowAuthenticateViaWarp: Schema.optional(Schema.Boolean).pipe(
-      T.JsonName("allow_authenticate_via_warp"),
-    ),
-    allowIframe: Schema.optional(Schema.Boolean).pipe(
-      T.JsonName("allow_iframe"),
-    ),
-    allowedIdps: Schema.optional(Schema.Array(Schema.String)).pipe(
-      T.JsonName("allowed_idps"),
-    ),
-    appLauncherVisible: Schema.optional(Schema.Boolean).pipe(
-      T.JsonName("app_launcher_visible"),
-    ),
+    allowAuthenticateViaWarp: Schema.optional(Schema.Boolean),
+    allowIframe: Schema.optional(Schema.Boolean),
+    allowedIdps: Schema.optional(Schema.Array(Schema.String)),
+    appLauncherVisible: Schema.optional(Schema.Boolean),
     aud: Schema.optional(Schema.String),
-    autoRedirectToIdentity: Schema.optional(Schema.Boolean).pipe(
-      T.JsonName("auto_redirect_to_identity"),
-    ),
-    corsHeaders: Schema.optional(Schema.Unknown).pipe(
-      T.JsonName("cors_headers"),
-    ),
-    customDenyMessage: Schema.optional(Schema.String).pipe(
-      T.JsonName("custom_deny_message"),
-    ),
-    customDenyUrl: Schema.optional(Schema.String).pipe(
-      T.JsonName("custom_deny_url"),
-    ),
-    customNonIdentityDenyUrl: Schema.optional(Schema.String).pipe(
-      T.JsonName("custom_non_identity_deny_url"),
-    ),
-    customPages: Schema.optional(Schema.Array(Schema.String)).pipe(
-      T.JsonName("custom_pages"),
-    ),
+    autoRedirectToIdentity: Schema.optional(Schema.Boolean),
+    corsHeaders: Schema.optional(Schema.Unknown),
+    customDenyMessage: Schema.optional(Schema.String),
+    customDenyUrl: Schema.optional(Schema.String),
+    customNonIdentityDenyUrl: Schema.optional(Schema.String),
+    customPages: Schema.optional(Schema.Array(Schema.String)),
     destinations: Schema.optional(
       Schema.Array(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
             type: Schema.optional(Schema.Literal("public")),
             uri: Schema.optional(Schema.String),
@@ -1200,219 +1246,234 @@ export const GetAccessApplicationResponse = Schema.Union(
           Schema.Struct({
             cidr: Schema.optional(Schema.String),
             hostname: Schema.optional(Schema.String),
-            l4Protocol: Schema.optional(Schema.Literal("tcp", "udp")).pipe(
-              T.JsonName("l4_protocol"),
-            ),
-            portRange: Schema.optional(Schema.String).pipe(
-              T.JsonName("port_range"),
-            ),
+            l4Protocol: Schema.optional(Schema.Literals(["tcp", "udp"])),
+            portRange: Schema.optional(Schema.String),
             type: Schema.optional(Schema.Literal("private")),
-            vnetId: Schema.optional(Schema.String).pipe(T.JsonName("vnet_id")),
-          }),
+            vnetId: Schema.optional(Schema.String),
+          }).pipe(
+            Schema.encodeKeys({
+              l4Protocol: "l4_protocol",
+              portRange: "port_range",
+              vnetId: "vnet_id",
+            }),
+          ),
           Schema.Struct({
-            mcpServerId: Schema.optional(Schema.String).pipe(
-              T.JsonName("mcp_server_id"),
-            ),
+            mcpServerId: Schema.optional(Schema.String),
             type: Schema.optional(Schema.Literal("via_mcp_server_portal")),
-          }),
-        ),
+          }).pipe(Schema.encodeKeys({ mcpServerId: "mcp_server_id" })),
+        ]),
       ),
     ),
-    enableBindingCookie: Schema.optional(Schema.Boolean).pipe(
-      T.JsonName("enable_binding_cookie"),
-    ),
-    httpOnlyCookieAttribute: Schema.optional(Schema.Boolean).pipe(
-      T.JsonName("http_only_cookie_attribute"),
-    ),
-    logoUrl: Schema.optional(Schema.String).pipe(T.JsonName("logo_url")),
+    enableBindingCookie: Schema.optional(Schema.Boolean),
+    httpOnlyCookieAttribute: Schema.optional(Schema.Boolean),
+    logoUrl: Schema.optional(Schema.String),
     name: Schema.optional(Schema.String),
-    optionsPreflightBypass: Schema.optional(Schema.Boolean).pipe(
-      T.JsonName("options_preflight_bypass"),
-    ),
-    pathCookieAttribute: Schema.optional(Schema.Boolean).pipe(
-      T.JsonName("path_cookie_attribute"),
-    ),
+    optionsPreflightBypass: Schema.optional(Schema.Boolean),
+    pathCookieAttribute: Schema.optional(Schema.Boolean),
     policies: Schema.optional(
       Schema.Array(
         Schema.Struct({
           id: Schema.optional(Schema.String),
-          approvalGroups: Schema.optional(Schema.Array(Schema.Unknown)).pipe(
-            T.JsonName("approval_groups"),
-          ),
-          approvalRequired: Schema.optional(Schema.Boolean).pipe(
-            T.JsonName("approval_required"),
-          ),
-          createdAt: Schema.optional(Schema.String).pipe(
-            T.JsonName("created_at"),
-          ),
+          approvalGroups: Schema.optional(Schema.Array(Schema.Unknown)),
+          approvalRequired: Schema.optional(Schema.Boolean),
+          createdAt: Schema.optional(Schema.String),
           decision: Schema.optional(
-            Schema.Literal("allow", "bypass", "deny", "non_identity"),
+            Schema.Literals(["allow", "bypass", "deny", "non_identity"]),
           ),
           exclude: Schema.optional(Schema.Array(Schema.Unknown)),
           include: Schema.optional(Schema.Array(Schema.Unknown)),
-          isolationRequired: Schema.optional(Schema.Boolean).pipe(
-            T.JsonName("isolation_required"),
-          ),
+          isolationRequired: Schema.optional(Schema.Boolean),
           name: Schema.optional(Schema.String),
           precedence: Schema.optional(Schema.Number),
-          purposeJustificationPrompt: Schema.optional(Schema.String).pipe(
-            T.JsonName("purpose_justification_prompt"),
-          ),
-          purposeJustificationRequired: Schema.optional(Schema.Boolean).pipe(
-            T.JsonName("purpose_justification_required"),
-          ),
+          purposeJustificationPrompt: Schema.optional(Schema.String),
+          purposeJustificationRequired: Schema.optional(Schema.Boolean),
           require: Schema.optional(Schema.Array(Schema.Unknown)),
-          sessionDuration: Schema.optional(Schema.String).pipe(
-            T.JsonName("session_duration"),
-          ),
-          updatedAt: Schema.optional(Schema.String).pipe(
-            T.JsonName("updated_at"),
-          ),
+          sessionDuration: Schema.optional(Schema.String),
+          updatedAt: Schema.optional(Schema.String),
+        }).pipe(
+          Schema.encodeKeys({
+            approvalGroups: "approval_groups",
+            approvalRequired: "approval_required",
+            createdAt: "created_at",
+            isolationRequired: "isolation_required",
+            purposeJustificationPrompt: "purpose_justification_prompt",
+            purposeJustificationRequired: "purpose_justification_required",
+            sessionDuration: "session_duration",
+            updatedAt: "updated_at",
+          }),
+        ),
+      ),
+    ),
+    readServiceTokensFromHeader: Schema.optional(Schema.String),
+    sameSiteCookieAttribute: Schema.optional(Schema.String),
+    scimConfig: Schema.optional(
+      Schema.Struct({
+        idpUid: Schema.String,
+        remoteUri: Schema.String,
+        authentication: Schema.optional(
+          Schema.Union([
+            Schema.Unknown,
+            Schema.Struct({
+              clientId: Schema.String,
+              clientSecret: Schema.String,
+              scheme: Schema.Literal("access_service_token"),
+            }).pipe(
+              Schema.encodeKeys({
+                clientId: "client_id",
+                clientSecret: "client_secret",
+              }),
+            ),
+            Schema.Array(
+              Schema.Union([
+                Schema.Unknown,
+                Schema.Struct({
+                  clientId: Schema.String,
+                  clientSecret: Schema.String,
+                  scheme: Schema.Literal("access_service_token"),
+                }).pipe(
+                  Schema.encodeKeys({
+                    clientId: "client_id",
+                    clientSecret: "client_secret",
+                  }),
+                ),
+              ]),
+            ),
+          ]),
+        ),
+        deactivateOnDelete: Schema.optional(Schema.Boolean),
+        enabled: Schema.optional(Schema.Boolean),
+        mappings: Schema.optional(Schema.Array(Schema.Unknown)),
+      }).pipe(
+        Schema.encodeKeys({
+          idpUid: "idp_uid",
+          remoteUri: "remote_uri",
+          deactivateOnDelete: "deactivate_on_delete",
         }),
       ),
     ),
-    readServiceTokensFromHeader: Schema.optional(Schema.String).pipe(
-      T.JsonName("read_service_tokens_from_header"),
-    ),
-    sameSiteCookieAttribute: Schema.optional(Schema.String).pipe(
-      T.JsonName("same_site_cookie_attribute"),
-    ),
-    scimConfig: Schema.optional(
-      Schema.Struct({
-        idpUid: Schema.String.pipe(T.JsonName("idp_uid")),
-        remoteUri: Schema.String.pipe(T.JsonName("remote_uri")),
-        authentication: Schema.optional(
-          Schema.Union(
-            Schema.Unknown,
-            Schema.Struct({
-              clientId: Schema.String.pipe(T.JsonName("client_id")),
-              clientSecret: Schema.String.pipe(T.JsonName("client_secret")),
-              scheme: Schema.Literal("access_service_token"),
-            }),
-            Schema.Array(
-              Schema.Union(
-                Schema.Unknown,
-                Schema.Struct({
-                  clientId: Schema.String.pipe(T.JsonName("client_id")),
-                  clientSecret: Schema.String.pipe(T.JsonName("client_secret")),
-                  scheme: Schema.Literal("access_service_token"),
-                }),
-              ),
-            ),
-          ),
-        ),
-        deactivateOnDelete: Schema.optional(Schema.Boolean).pipe(
-          T.JsonName("deactivate_on_delete"),
-        ),
-        enabled: Schema.optional(Schema.Boolean),
-        mappings: Schema.optional(Schema.Array(Schema.Unknown)),
-      }),
-    ).pipe(T.JsonName("scim_config")),
-    selfHostedDomains: Schema.optional(Schema.Array(Schema.String)).pipe(
-      T.JsonName("self_hosted_domains"),
-    ),
-    serviceAuth_401Redirect: Schema.optional(Schema.Boolean).pipe(
-      T.JsonName("service_auth_401_redirect"),
-    ),
-    sessionDuration: Schema.optional(Schema.String).pipe(
-      T.JsonName("session_duration"),
-    ),
-    skipInterstitial: Schema.optional(Schema.Boolean).pipe(
-      T.JsonName("skip_interstitial"),
-    ),
+    selfHostedDomains: Schema.optional(Schema.Array(Schema.String)),
+    serviceAuth_401Redirect: Schema.optional(Schema.Boolean),
+    sessionDuration: Schema.optional(Schema.String),
+    skipInterstitial: Schema.optional(Schema.Boolean),
     tags: Schema.optional(Schema.Array(Schema.String)),
-  }),
+  }).pipe(
+    Schema.encodeKeys({
+      allowAuthenticateViaWarp: "allow_authenticate_via_warp",
+      allowIframe: "allow_iframe",
+      allowedIdps: "allowed_idps",
+      appLauncherVisible: "app_launcher_visible",
+      autoRedirectToIdentity: "auto_redirect_to_identity",
+      corsHeaders: "cors_headers",
+      customDenyMessage: "custom_deny_message",
+      customDenyUrl: "custom_deny_url",
+      customNonIdentityDenyUrl: "custom_non_identity_deny_url",
+      customPages: "custom_pages",
+      enableBindingCookie: "enable_binding_cookie",
+      httpOnlyCookieAttribute: "http_only_cookie_attribute",
+      logoUrl: "logo_url",
+      optionsPreflightBypass: "options_preflight_bypass",
+      pathCookieAttribute: "path_cookie_attribute",
+      readServiceTokensFromHeader: "read_service_tokens_from_header",
+      sameSiteCookieAttribute: "same_site_cookie_attribute",
+      scimConfig: "scim_config",
+      selfHostedDomains: "self_hosted_domains",
+      serviceAuth_401Redirect: "service_auth_401_redirect",
+      sessionDuration: "session_duration",
+      skipInterstitial: "skip_interstitial",
+    }),
+  ),
   Schema.Struct({
     id: Schema.optional(Schema.String),
-    allowedIdps: Schema.optional(Schema.Array(Schema.String)).pipe(
-      T.JsonName("allowed_idps"),
-    ),
-    appLauncherVisible: Schema.optional(Schema.Boolean).pipe(
-      T.JsonName("app_launcher_visible"),
-    ),
+    allowedIdps: Schema.optional(Schema.Array(Schema.String)),
+    appLauncherVisible: Schema.optional(Schema.Boolean),
     aud: Schema.optional(Schema.String),
-    autoRedirectToIdentity: Schema.optional(Schema.Boolean).pipe(
-      T.JsonName("auto_redirect_to_identity"),
-    ),
-    customPages: Schema.optional(Schema.Array(Schema.String)).pipe(
-      T.JsonName("custom_pages"),
-    ),
-    logoUrl: Schema.optional(Schema.String).pipe(T.JsonName("logo_url")),
+    autoRedirectToIdentity: Schema.optional(Schema.Boolean),
+    customPages: Schema.optional(Schema.Array(Schema.String)),
+    logoUrl: Schema.optional(Schema.String),
     name: Schema.optional(Schema.String),
     policies: Schema.optional(
       Schema.Array(
         Schema.Struct({
           id: Schema.optional(Schema.String),
-          approvalGroups: Schema.optional(Schema.Array(Schema.Unknown)).pipe(
-            T.JsonName("approval_groups"),
-          ),
-          approvalRequired: Schema.optional(Schema.Boolean).pipe(
-            T.JsonName("approval_required"),
-          ),
-          createdAt: Schema.optional(Schema.String).pipe(
-            T.JsonName("created_at"),
-          ),
+          approvalGroups: Schema.optional(Schema.Array(Schema.Unknown)),
+          approvalRequired: Schema.optional(Schema.Boolean),
+          createdAt: Schema.optional(Schema.String),
           decision: Schema.optional(
-            Schema.Literal("allow", "bypass", "deny", "non_identity"),
+            Schema.Literals(["allow", "bypass", "deny", "non_identity"]),
           ),
           exclude: Schema.optional(Schema.Array(Schema.Unknown)),
           include: Schema.optional(Schema.Array(Schema.Unknown)),
-          isolationRequired: Schema.optional(Schema.Boolean).pipe(
-            T.JsonName("isolation_required"),
-          ),
+          isolationRequired: Schema.optional(Schema.Boolean),
           name: Schema.optional(Schema.String),
           precedence: Schema.optional(Schema.Number),
-          purposeJustificationPrompt: Schema.optional(Schema.String).pipe(
-            T.JsonName("purpose_justification_prompt"),
-          ),
-          purposeJustificationRequired: Schema.optional(Schema.Boolean).pipe(
-            T.JsonName("purpose_justification_required"),
-          ),
+          purposeJustificationPrompt: Schema.optional(Schema.String),
+          purposeJustificationRequired: Schema.optional(Schema.Boolean),
           require: Schema.optional(Schema.Array(Schema.Unknown)),
-          sessionDuration: Schema.optional(Schema.String).pipe(
-            T.JsonName("session_duration"),
-          ),
-          updatedAt: Schema.optional(Schema.String).pipe(
-            T.JsonName("updated_at"),
-          ),
+          sessionDuration: Schema.optional(Schema.String),
+          updatedAt: Schema.optional(Schema.String),
+        }).pipe(
+          Schema.encodeKeys({
+            approvalGroups: "approval_groups",
+            approvalRequired: "approval_required",
+            createdAt: "created_at",
+            isolationRequired: "isolation_required",
+            purposeJustificationPrompt: "purpose_justification_prompt",
+            purposeJustificationRequired: "purpose_justification_required",
+            sessionDuration: "session_duration",
+            updatedAt: "updated_at",
+          }),
+        ),
+      ),
+    ),
+    saasApp: Schema.optional(Schema.Unknown),
+    scimConfig: Schema.optional(
+      Schema.Struct({
+        idpUid: Schema.String,
+        remoteUri: Schema.String,
+        authentication: Schema.optional(
+          Schema.Union([
+            Schema.Unknown,
+            Schema.Struct({
+              clientId: Schema.String,
+              clientSecret: Schema.String,
+              scheme: Schema.Literal("access_service_token"),
+            }).pipe(
+              Schema.encodeKeys({
+                clientId: "client_id",
+                clientSecret: "client_secret",
+              }),
+            ),
+            Schema.Array(
+              Schema.Union([
+                Schema.Unknown,
+                Schema.Struct({
+                  clientId: Schema.String,
+                  clientSecret: Schema.String,
+                  scheme: Schema.Literal("access_service_token"),
+                }).pipe(
+                  Schema.encodeKeys({
+                    clientId: "client_id",
+                    clientSecret: "client_secret",
+                  }),
+                ),
+              ]),
+            ),
+          ]),
+        ),
+        deactivateOnDelete: Schema.optional(Schema.Boolean),
+        enabled: Schema.optional(Schema.Boolean),
+        mappings: Schema.optional(Schema.Array(Schema.Unknown)),
+      }).pipe(
+        Schema.encodeKeys({
+          idpUid: "idp_uid",
+          remoteUri: "remote_uri",
+          deactivateOnDelete: "deactivate_on_delete",
         }),
       ),
     ),
-    saasApp: Schema.optional(Schema.Unknown).pipe(T.JsonName("saas_app")),
-    scimConfig: Schema.optional(
-      Schema.Struct({
-        idpUid: Schema.String.pipe(T.JsonName("idp_uid")),
-        remoteUri: Schema.String.pipe(T.JsonName("remote_uri")),
-        authentication: Schema.optional(
-          Schema.Union(
-            Schema.Unknown,
-            Schema.Struct({
-              clientId: Schema.String.pipe(T.JsonName("client_id")),
-              clientSecret: Schema.String.pipe(T.JsonName("client_secret")),
-              scheme: Schema.Literal("access_service_token"),
-            }),
-            Schema.Array(
-              Schema.Union(
-                Schema.Unknown,
-                Schema.Struct({
-                  clientId: Schema.String.pipe(T.JsonName("client_id")),
-                  clientSecret: Schema.String.pipe(T.JsonName("client_secret")),
-                  scheme: Schema.Literal("access_service_token"),
-                }),
-              ),
-            ),
-          ),
-        ),
-        deactivateOnDelete: Schema.optional(Schema.Boolean).pipe(
-          T.JsonName("deactivate_on_delete"),
-        ),
-        enabled: Schema.optional(Schema.Boolean),
-        mappings: Schema.optional(Schema.Array(Schema.Unknown)),
-      }),
-    ).pipe(T.JsonName("scim_config")),
     tags: Schema.optional(Schema.Array(Schema.String)),
     type: Schema.optional(
-      Schema.Literal(
+      Schema.Literals([
         "self_hosted",
         "saas",
         "ssh",
@@ -1427,11 +1488,21 @@ export const GetAccessApplicationResponse = Schema.Union(
         "mcp",
         "mcp_portal",
         "proxy_endpoint",
-      ),
+      ]),
     ),
-  }),
+  }).pipe(
+    Schema.encodeKeys({
+      allowedIdps: "allowed_idps",
+      appLauncherVisible: "app_launcher_visible",
+      autoRedirectToIdentity: "auto_redirect_to_identity",
+      customPages: "custom_pages",
+      logoUrl: "logo_url",
+      saasApp: "saas_app",
+      scimConfig: "scim_config",
+    }),
+  ),
   Schema.Struct({
-    type: Schema.Literal(
+    type: Schema.Literals([
       "self_hosted",
       "saas",
       "ssh",
@@ -1446,28 +1517,16 @@ export const GetAccessApplicationResponse = Schema.Union(
       "mcp",
       "mcp_portal",
       "proxy_endpoint",
-    ),
+    ]),
     id: Schema.optional(Schema.String),
-    allowedIdps: Schema.optional(Schema.Array(Schema.String)).pipe(
-      T.JsonName("allowed_idps"),
-    ),
-    appLauncherLogoUrl: Schema.optional(Schema.String).pipe(
-      T.JsonName("app_launcher_logo_url"),
-    ),
+    allowedIdps: Schema.optional(Schema.Array(Schema.String)),
+    appLauncherLogoUrl: Schema.optional(Schema.String),
     aud: Schema.optional(Schema.String),
-    autoRedirectToIdentity: Schema.optional(Schema.Boolean).pipe(
-      T.JsonName("auto_redirect_to_identity"),
-    ),
-    bgColor: Schema.optional(Schema.String).pipe(T.JsonName("bg_color")),
-    customDenyUrl: Schema.optional(Schema.String).pipe(
-      T.JsonName("custom_deny_url"),
-    ),
-    customNonIdentityDenyUrl: Schema.optional(Schema.String).pipe(
-      T.JsonName("custom_non_identity_deny_url"),
-    ),
-    customPages: Schema.optional(Schema.Array(Schema.String)).pipe(
-      T.JsonName("custom_pages"),
-    ),
+    autoRedirectToIdentity: Schema.optional(Schema.Boolean),
+    bgColor: Schema.optional(Schema.String),
+    customDenyUrl: Schema.optional(Schema.String),
+    customNonIdentityDenyUrl: Schema.optional(Schema.String),
+    customPages: Schema.optional(Schema.Array(Schema.String)),
     domain: Schema.optional(Schema.String),
     footerLinks: Schema.optional(
       Schema.Array(
@@ -1476,72 +1535,78 @@ export const GetAccessApplicationResponse = Schema.Union(
           url: Schema.String,
         }),
       ),
-    ).pipe(T.JsonName("footer_links")),
-    headerBgColor: Schema.optional(Schema.String).pipe(
-      T.JsonName("header_bg_color"),
     ),
+    headerBgColor: Schema.optional(Schema.String),
     landingPageDesign: Schema.optional(
       Schema.Struct({
-        buttonColor: Schema.optional(Schema.String).pipe(
-          T.JsonName("button_color"),
-        ),
-        buttonTextColor: Schema.optional(Schema.String).pipe(
-          T.JsonName("button_text_color"),
-        ),
-        imageUrl: Schema.optional(Schema.String).pipe(T.JsonName("image_url")),
+        buttonColor: Schema.optional(Schema.String),
+        buttonTextColor: Schema.optional(Schema.String),
+        imageUrl: Schema.optional(Schema.String),
         message: Schema.optional(Schema.String),
         title: Schema.optional(Schema.String),
-      }),
-    ).pipe(T.JsonName("landing_page_design")),
+      }).pipe(
+        Schema.encodeKeys({
+          buttonColor: "button_color",
+          buttonTextColor: "button_text_color",
+          imageUrl: "image_url",
+        }),
+      ),
+    ),
     name: Schema.optional(Schema.String),
     policies: Schema.optional(
       Schema.Array(
         Schema.Struct({
           id: Schema.optional(Schema.String),
-          approvalGroups: Schema.optional(Schema.Array(Schema.Unknown)).pipe(
-            T.JsonName("approval_groups"),
-          ),
-          approvalRequired: Schema.optional(Schema.Boolean).pipe(
-            T.JsonName("approval_required"),
-          ),
-          createdAt: Schema.optional(Schema.String).pipe(
-            T.JsonName("created_at"),
-          ),
+          approvalGroups: Schema.optional(Schema.Array(Schema.Unknown)),
+          approvalRequired: Schema.optional(Schema.Boolean),
+          createdAt: Schema.optional(Schema.String),
           decision: Schema.optional(
-            Schema.Literal("allow", "bypass", "deny", "non_identity"),
+            Schema.Literals(["allow", "bypass", "deny", "non_identity"]),
           ),
           exclude: Schema.optional(Schema.Array(Schema.Unknown)),
           include: Schema.optional(Schema.Array(Schema.Unknown)),
-          isolationRequired: Schema.optional(Schema.Boolean).pipe(
-            T.JsonName("isolation_required"),
-          ),
+          isolationRequired: Schema.optional(Schema.Boolean),
           name: Schema.optional(Schema.String),
           precedence: Schema.optional(Schema.Number),
-          purposeJustificationPrompt: Schema.optional(Schema.String).pipe(
-            T.JsonName("purpose_justification_prompt"),
-          ),
-          purposeJustificationRequired: Schema.optional(Schema.Boolean).pipe(
-            T.JsonName("purpose_justification_required"),
-          ),
+          purposeJustificationPrompt: Schema.optional(Schema.String),
+          purposeJustificationRequired: Schema.optional(Schema.Boolean),
           require: Schema.optional(Schema.Array(Schema.Unknown)),
-          sessionDuration: Schema.optional(Schema.String).pipe(
-            T.JsonName("session_duration"),
-          ),
-          updatedAt: Schema.optional(Schema.String).pipe(
-            T.JsonName("updated_at"),
-          ),
-        }),
+          sessionDuration: Schema.optional(Schema.String),
+          updatedAt: Schema.optional(Schema.String),
+        }).pipe(
+          Schema.encodeKeys({
+            approvalGroups: "approval_groups",
+            approvalRequired: "approval_required",
+            createdAt: "created_at",
+            isolationRequired: "isolation_required",
+            purposeJustificationPrompt: "purpose_justification_prompt",
+            purposeJustificationRequired: "purpose_justification_required",
+            sessionDuration: "session_duration",
+            updatedAt: "updated_at",
+          }),
+        ),
       ),
     ),
-    sessionDuration: Schema.optional(Schema.String).pipe(
-      T.JsonName("session_duration"),
-    ),
-    skipAppLauncherLoginPage: Schema.optional(Schema.Boolean).pipe(
-      T.JsonName("skip_app_launcher_login_page"),
-    ),
-  }),
+    sessionDuration: Schema.optional(Schema.String),
+    skipAppLauncherLoginPage: Schema.optional(Schema.Boolean),
+  }).pipe(
+    Schema.encodeKeys({
+      allowedIdps: "allowed_idps",
+      appLauncherLogoUrl: "app_launcher_logo_url",
+      autoRedirectToIdentity: "auto_redirect_to_identity",
+      bgColor: "bg_color",
+      customDenyUrl: "custom_deny_url",
+      customNonIdentityDenyUrl: "custom_non_identity_deny_url",
+      customPages: "custom_pages",
+      footerLinks: "footer_links",
+      headerBgColor: "header_bg_color",
+      landingPageDesign: "landing_page_design",
+      sessionDuration: "session_duration",
+      skipAppLauncherLoginPage: "skip_app_launcher_login_page",
+    }),
+  ),
   Schema.Struct({
-    type: Schema.Literal(
+    type: Schema.Literals([
       "self_hosted",
       "saas",
       "ssh",
@@ -1556,81 +1621,71 @@ export const GetAccessApplicationResponse = Schema.Union(
       "mcp",
       "mcp_portal",
       "proxy_endpoint",
-    ),
+    ]),
     id: Schema.optional(Schema.String),
-    allowedIdps: Schema.optional(Schema.Array(Schema.String)).pipe(
-      T.JsonName("allowed_idps"),
-    ),
+    allowedIdps: Schema.optional(Schema.Array(Schema.String)),
     aud: Schema.optional(Schema.String),
-    autoRedirectToIdentity: Schema.optional(Schema.Boolean).pipe(
-      T.JsonName("auto_redirect_to_identity"),
-    ),
-    customDenyUrl: Schema.optional(Schema.String).pipe(
-      T.JsonName("custom_deny_url"),
-    ),
-    customNonIdentityDenyUrl: Schema.optional(Schema.String).pipe(
-      T.JsonName("custom_non_identity_deny_url"),
-    ),
-    customPages: Schema.optional(Schema.Array(Schema.String)).pipe(
-      T.JsonName("custom_pages"),
-    ),
+    autoRedirectToIdentity: Schema.optional(Schema.Boolean),
+    customDenyUrl: Schema.optional(Schema.String),
+    customNonIdentityDenyUrl: Schema.optional(Schema.String),
+    customPages: Schema.optional(Schema.Array(Schema.String)),
     domain: Schema.optional(Schema.String),
     name: Schema.optional(Schema.String),
     policies: Schema.optional(
       Schema.Array(
         Schema.Struct({
           id: Schema.optional(Schema.String),
-          approvalGroups: Schema.optional(Schema.Array(Schema.Unknown)).pipe(
-            T.JsonName("approval_groups"),
-          ),
-          approvalRequired: Schema.optional(Schema.Boolean).pipe(
-            T.JsonName("approval_required"),
-          ),
-          createdAt: Schema.optional(Schema.String).pipe(
-            T.JsonName("created_at"),
-          ),
+          approvalGroups: Schema.optional(Schema.Array(Schema.Unknown)),
+          approvalRequired: Schema.optional(Schema.Boolean),
+          createdAt: Schema.optional(Schema.String),
           decision: Schema.optional(
-            Schema.Literal("allow", "bypass", "deny", "non_identity"),
+            Schema.Literals(["allow", "bypass", "deny", "non_identity"]),
           ),
           exclude: Schema.optional(Schema.Array(Schema.Unknown)),
           include: Schema.optional(Schema.Array(Schema.Unknown)),
-          isolationRequired: Schema.optional(Schema.Boolean).pipe(
-            T.JsonName("isolation_required"),
-          ),
+          isolationRequired: Schema.optional(Schema.Boolean),
           name: Schema.optional(Schema.String),
           precedence: Schema.optional(Schema.Number),
-          purposeJustificationPrompt: Schema.optional(Schema.String).pipe(
-            T.JsonName("purpose_justification_prompt"),
-          ),
-          purposeJustificationRequired: Schema.optional(Schema.Boolean).pipe(
-            T.JsonName("purpose_justification_required"),
-          ),
+          purposeJustificationPrompt: Schema.optional(Schema.String),
+          purposeJustificationRequired: Schema.optional(Schema.Boolean),
           require: Schema.optional(Schema.Array(Schema.Unknown)),
-          sessionDuration: Schema.optional(Schema.String).pipe(
-            T.JsonName("session_duration"),
-          ),
-          updatedAt: Schema.optional(Schema.String).pipe(
-            T.JsonName("updated_at"),
-          ),
-        }),
+          sessionDuration: Schema.optional(Schema.String),
+          updatedAt: Schema.optional(Schema.String),
+        }).pipe(
+          Schema.encodeKeys({
+            approvalGroups: "approval_groups",
+            approvalRequired: "approval_required",
+            createdAt: "created_at",
+            isolationRequired: "isolation_required",
+            purposeJustificationPrompt: "purpose_justification_prompt",
+            purposeJustificationRequired: "purpose_justification_required",
+            sessionDuration: "session_duration",
+            updatedAt: "updated_at",
+          }),
+        ),
       ),
     ),
-    sessionDuration: Schema.optional(Schema.String).pipe(
-      T.JsonName("session_duration"),
-    ),
-  }),
+    sessionDuration: Schema.optional(Schema.String),
+  }).pipe(
+    Schema.encodeKeys({
+      allowedIdps: "allowed_idps",
+      autoRedirectToIdentity: "auto_redirect_to_identity",
+      customDenyUrl: "custom_deny_url",
+      customNonIdentityDenyUrl: "custom_non_identity_deny_url",
+      customPages: "custom_pages",
+      sessionDuration: "session_duration",
+    }),
+  ),
   Schema.Struct({
     id: Schema.optional(Schema.String),
-    appLauncherVisible: Schema.optional(Schema.Boolean).pipe(
-      T.JsonName("app_launcher_visible"),
-    ),
+    appLauncherVisible: Schema.optional(Schema.Boolean),
     aud: Schema.optional(Schema.String),
     domain: Schema.optional(Schema.String),
-    logoUrl: Schema.optional(Schema.String).pipe(T.JsonName("logo_url")),
+    logoUrl: Schema.optional(Schema.String),
     name: Schema.optional(Schema.String),
     tags: Schema.optional(Schema.Array(Schema.String)),
     type: Schema.optional(
-      Schema.Literal(
+      Schema.Literals([
         "self_hosted",
         "saas",
         "ssh",
@@ -1645,20 +1700,23 @@ export const GetAccessApplicationResponse = Schema.Union(
         "mcp",
         "mcp_portal",
         "proxy_endpoint",
-      ),
+      ]),
     ),
-  }),
+  }).pipe(
+    Schema.encodeKeys({
+      appLauncherVisible: "app_launcher_visible",
+      logoUrl: "logo_url",
+    }),
+  ),
   Schema.Struct({
     targetCriteria: Schema.Array(
       Schema.Struct({
         port: Schema.Number,
         protocol: Schema.Literal("SSH"),
-        targetAttributes: Schema.Struct({}).pipe(
-          T.JsonName("target_attributes"),
-        ),
-      }),
-    ).pipe(T.JsonName("target_criteria")),
-    type: Schema.Literal(
+        targetAttributes: Schema.Struct({}),
+      }).pipe(Schema.encodeKeys({ targetAttributes: "target_attributes" })),
+    ),
+    type: Schema.Literals([
       "self_hosted",
       "saas",
       "ssh",
@@ -1673,14 +1731,19 @@ export const GetAccessApplicationResponse = Schema.Union(
       "mcp",
       "mcp_portal",
       "proxy_endpoint",
-    ),
+    ]),
     id: Schema.optional(Schema.String),
     aud: Schema.optional(Schema.String),
     name: Schema.optional(Schema.String),
     policies: Schema.optional(
       Schema.Array(
         Schema.Struct({
-          decision: Schema.Literal("allow", "bypass", "deny", "non_identity"),
+          decision: Schema.Literals([
+            "allow",
+            "bypass",
+            "deny",
+            "non_identity",
+          ]),
           include: Schema.Array(Schema.Unknown),
           name: Schema.String,
           connectionRules: Schema.optional(
@@ -1688,31 +1751,29 @@ export const GetAccessApplicationResponse = Schema.Union(
               ssh: Schema.optional(
                 Schema.Struct({
                   usernames: Schema.Array(Schema.String),
-                  allowEmailAlias: Schema.optional(Schema.Boolean).pipe(
-                    T.JsonName("allow_email_alias"),
-                  ),
-                }),
+                  allowEmailAlias: Schema.optional(Schema.Boolean),
+                }).pipe(
+                  Schema.encodeKeys({ allowEmailAlias: "allow_email_alias" }),
+                ),
               ),
             }),
-          ).pipe(T.JsonName("connection_rules")),
+          ),
           exclude: Schema.optional(Schema.Array(Schema.Unknown)),
           require: Schema.optional(Schema.Array(Schema.Unknown)),
-        }),
+        }).pipe(Schema.encodeKeys({ connectionRules: "connection_rules" })),
       ),
     ),
-  }),
+  }).pipe(Schema.encodeKeys({ targetCriteria: "target_criteria" })),
   Schema.Struct({
     domain: Schema.String,
     targetCriteria: Schema.Array(
       Schema.Struct({
         port: Schema.Number,
         protocol: Schema.Literal("RDP"),
-        targetAttributes: Schema.Struct({}).pipe(
-          T.JsonName("target_attributes"),
-        ),
-      }),
-    ).pipe(T.JsonName("target_criteria")),
-    type: Schema.Literal(
+        targetAttributes: Schema.Struct({}),
+      }).pipe(Schema.encodeKeys({ targetAttributes: "target_attributes" })),
+    ),
+    type: Schema.Literals([
       "self_hosted",
       "saas",
       "ssh",
@@ -1727,42 +1788,22 @@ export const GetAccessApplicationResponse = Schema.Union(
       "mcp",
       "mcp_portal",
       "proxy_endpoint",
-    ),
+    ]),
     id: Schema.optional(Schema.String),
-    allowAuthenticateViaWarp: Schema.optional(Schema.Boolean).pipe(
-      T.JsonName("allow_authenticate_via_warp"),
-    ),
-    allowIframe: Schema.optional(Schema.Boolean).pipe(
-      T.JsonName("allow_iframe"),
-    ),
-    allowedIdps: Schema.optional(Schema.Array(Schema.String)).pipe(
-      T.JsonName("allowed_idps"),
-    ),
-    appLauncherVisible: Schema.optional(Schema.Boolean).pipe(
-      T.JsonName("app_launcher_visible"),
-    ),
+    allowAuthenticateViaWarp: Schema.optional(Schema.Boolean),
+    allowIframe: Schema.optional(Schema.Boolean),
+    allowedIdps: Schema.optional(Schema.Array(Schema.String)),
+    appLauncherVisible: Schema.optional(Schema.Boolean),
     aud: Schema.optional(Schema.String),
-    autoRedirectToIdentity: Schema.optional(Schema.Boolean).pipe(
-      T.JsonName("auto_redirect_to_identity"),
-    ),
-    corsHeaders: Schema.optional(Schema.Unknown).pipe(
-      T.JsonName("cors_headers"),
-    ),
-    customDenyMessage: Schema.optional(Schema.String).pipe(
-      T.JsonName("custom_deny_message"),
-    ),
-    customDenyUrl: Schema.optional(Schema.String).pipe(
-      T.JsonName("custom_deny_url"),
-    ),
-    customNonIdentityDenyUrl: Schema.optional(Schema.String).pipe(
-      T.JsonName("custom_non_identity_deny_url"),
-    ),
-    customPages: Schema.optional(Schema.Array(Schema.String)).pipe(
-      T.JsonName("custom_pages"),
-    ),
+    autoRedirectToIdentity: Schema.optional(Schema.Boolean),
+    corsHeaders: Schema.optional(Schema.Unknown),
+    customDenyMessage: Schema.optional(Schema.String),
+    customDenyUrl: Schema.optional(Schema.String),
+    customNonIdentityDenyUrl: Schema.optional(Schema.String),
+    customPages: Schema.optional(Schema.Array(Schema.String)),
     destinations: Schema.optional(
       Schema.Array(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
             type: Schema.optional(Schema.Literal("public")),
             uri: Schema.optional(Schema.String),
@@ -1770,129 +1811,144 @@ export const GetAccessApplicationResponse = Schema.Union(
           Schema.Struct({
             cidr: Schema.optional(Schema.String),
             hostname: Schema.optional(Schema.String),
-            l4Protocol: Schema.optional(Schema.Literal("tcp", "udp")).pipe(
-              T.JsonName("l4_protocol"),
-            ),
-            portRange: Schema.optional(Schema.String).pipe(
-              T.JsonName("port_range"),
-            ),
+            l4Protocol: Schema.optional(Schema.Literals(["tcp", "udp"])),
+            portRange: Schema.optional(Schema.String),
             type: Schema.optional(Schema.Literal("private")),
-            vnetId: Schema.optional(Schema.String).pipe(T.JsonName("vnet_id")),
-          }),
+            vnetId: Schema.optional(Schema.String),
+          }).pipe(
+            Schema.encodeKeys({
+              l4Protocol: "l4_protocol",
+              portRange: "port_range",
+              vnetId: "vnet_id",
+            }),
+          ),
           Schema.Struct({
-            mcpServerId: Schema.optional(Schema.String).pipe(
-              T.JsonName("mcp_server_id"),
-            ),
+            mcpServerId: Schema.optional(Schema.String),
             type: Schema.optional(Schema.Literal("via_mcp_server_portal")),
-          }),
-        ),
+          }).pipe(Schema.encodeKeys({ mcpServerId: "mcp_server_id" })),
+        ]),
       ),
     ),
-    enableBindingCookie: Schema.optional(Schema.Boolean).pipe(
-      T.JsonName("enable_binding_cookie"),
-    ),
-    httpOnlyCookieAttribute: Schema.optional(Schema.Boolean).pipe(
-      T.JsonName("http_only_cookie_attribute"),
-    ),
-    logoUrl: Schema.optional(Schema.String).pipe(T.JsonName("logo_url")),
+    enableBindingCookie: Schema.optional(Schema.Boolean),
+    httpOnlyCookieAttribute: Schema.optional(Schema.Boolean),
+    logoUrl: Schema.optional(Schema.String),
     name: Schema.optional(Schema.String),
-    optionsPreflightBypass: Schema.optional(Schema.Boolean).pipe(
-      T.JsonName("options_preflight_bypass"),
-    ),
-    pathCookieAttribute: Schema.optional(Schema.Boolean).pipe(
-      T.JsonName("path_cookie_attribute"),
-    ),
+    optionsPreflightBypass: Schema.optional(Schema.Boolean),
+    pathCookieAttribute: Schema.optional(Schema.Boolean),
     policies: Schema.optional(
       Schema.Array(
         Schema.Struct({
           id: Schema.optional(Schema.String),
-          approvalGroups: Schema.optional(Schema.Array(Schema.Unknown)).pipe(
-            T.JsonName("approval_groups"),
-          ),
-          approvalRequired: Schema.optional(Schema.Boolean).pipe(
-            T.JsonName("approval_required"),
-          ),
-          createdAt: Schema.optional(Schema.String).pipe(
-            T.JsonName("created_at"),
-          ),
+          approvalGroups: Schema.optional(Schema.Array(Schema.Unknown)),
+          approvalRequired: Schema.optional(Schema.Boolean),
+          createdAt: Schema.optional(Schema.String),
           decision: Schema.optional(
-            Schema.Literal("allow", "bypass", "deny", "non_identity"),
+            Schema.Literals(["allow", "bypass", "deny", "non_identity"]),
           ),
           exclude: Schema.optional(Schema.Array(Schema.Unknown)),
           include: Schema.optional(Schema.Array(Schema.Unknown)),
-          isolationRequired: Schema.optional(Schema.Boolean).pipe(
-            T.JsonName("isolation_required"),
-          ),
+          isolationRequired: Schema.optional(Schema.Boolean),
           name: Schema.optional(Schema.String),
           precedence: Schema.optional(Schema.Number),
-          purposeJustificationPrompt: Schema.optional(Schema.String).pipe(
-            T.JsonName("purpose_justification_prompt"),
-          ),
-          purposeJustificationRequired: Schema.optional(Schema.Boolean).pipe(
-            T.JsonName("purpose_justification_required"),
-          ),
+          purposeJustificationPrompt: Schema.optional(Schema.String),
+          purposeJustificationRequired: Schema.optional(Schema.Boolean),
           require: Schema.optional(Schema.Array(Schema.Unknown)),
-          sessionDuration: Schema.optional(Schema.String).pipe(
-            T.JsonName("session_duration"),
-          ),
-          updatedAt: Schema.optional(Schema.String).pipe(
-            T.JsonName("updated_at"),
-          ),
+          sessionDuration: Schema.optional(Schema.String),
+          updatedAt: Schema.optional(Schema.String),
+        }).pipe(
+          Schema.encodeKeys({
+            approvalGroups: "approval_groups",
+            approvalRequired: "approval_required",
+            createdAt: "created_at",
+            isolationRequired: "isolation_required",
+            purposeJustificationPrompt: "purpose_justification_prompt",
+            purposeJustificationRequired: "purpose_justification_required",
+            sessionDuration: "session_duration",
+            updatedAt: "updated_at",
+          }),
+        ),
+      ),
+    ),
+    readServiceTokensFromHeader: Schema.optional(Schema.String),
+    sameSiteCookieAttribute: Schema.optional(Schema.String),
+    scimConfig: Schema.optional(
+      Schema.Struct({
+        idpUid: Schema.String,
+        remoteUri: Schema.String,
+        authentication: Schema.optional(
+          Schema.Union([
+            Schema.Unknown,
+            Schema.Struct({
+              clientId: Schema.String,
+              clientSecret: Schema.String,
+              scheme: Schema.Literal("access_service_token"),
+            }).pipe(
+              Schema.encodeKeys({
+                clientId: "client_id",
+                clientSecret: "client_secret",
+              }),
+            ),
+            Schema.Array(
+              Schema.Union([
+                Schema.Unknown,
+                Schema.Struct({
+                  clientId: Schema.String,
+                  clientSecret: Schema.String,
+                  scheme: Schema.Literal("access_service_token"),
+                }).pipe(
+                  Schema.encodeKeys({
+                    clientId: "client_id",
+                    clientSecret: "client_secret",
+                  }),
+                ),
+              ]),
+            ),
+          ]),
+        ),
+        deactivateOnDelete: Schema.optional(Schema.Boolean),
+        enabled: Schema.optional(Schema.Boolean),
+        mappings: Schema.optional(Schema.Array(Schema.Unknown)),
+      }).pipe(
+        Schema.encodeKeys({
+          idpUid: "idp_uid",
+          remoteUri: "remote_uri",
+          deactivateOnDelete: "deactivate_on_delete",
         }),
       ),
     ),
-    readServiceTokensFromHeader: Schema.optional(Schema.String).pipe(
-      T.JsonName("read_service_tokens_from_header"),
-    ),
-    sameSiteCookieAttribute: Schema.optional(Schema.String).pipe(
-      T.JsonName("same_site_cookie_attribute"),
-    ),
-    scimConfig: Schema.optional(
-      Schema.Struct({
-        idpUid: Schema.String.pipe(T.JsonName("idp_uid")),
-        remoteUri: Schema.String.pipe(T.JsonName("remote_uri")),
-        authentication: Schema.optional(
-          Schema.Union(
-            Schema.Unknown,
-            Schema.Struct({
-              clientId: Schema.String.pipe(T.JsonName("client_id")),
-              clientSecret: Schema.String.pipe(T.JsonName("client_secret")),
-              scheme: Schema.Literal("access_service_token"),
-            }),
-            Schema.Array(
-              Schema.Union(
-                Schema.Unknown,
-                Schema.Struct({
-                  clientId: Schema.String.pipe(T.JsonName("client_id")),
-                  clientSecret: Schema.String.pipe(T.JsonName("client_secret")),
-                  scheme: Schema.Literal("access_service_token"),
-                }),
-              ),
-            ),
-          ),
-        ),
-        deactivateOnDelete: Schema.optional(Schema.Boolean).pipe(
-          T.JsonName("deactivate_on_delete"),
-        ),
-        enabled: Schema.optional(Schema.Boolean),
-        mappings: Schema.optional(Schema.Array(Schema.Unknown)),
-      }),
-    ).pipe(T.JsonName("scim_config")),
-    selfHostedDomains: Schema.optional(Schema.Array(Schema.String)).pipe(
-      T.JsonName("self_hosted_domains"),
-    ),
-    serviceAuth_401Redirect: Schema.optional(Schema.Boolean).pipe(
-      T.JsonName("service_auth_401_redirect"),
-    ),
-    sessionDuration: Schema.optional(Schema.String).pipe(
-      T.JsonName("session_duration"),
-    ),
-    skipInterstitial: Schema.optional(Schema.Boolean).pipe(
-      T.JsonName("skip_interstitial"),
-    ),
+    selfHostedDomains: Schema.optional(Schema.Array(Schema.String)),
+    serviceAuth_401Redirect: Schema.optional(Schema.Boolean),
+    sessionDuration: Schema.optional(Schema.String),
+    skipInterstitial: Schema.optional(Schema.Boolean),
     tags: Schema.optional(Schema.Array(Schema.String)),
-  }),
-) as unknown as Schema.Schema<GetAccessApplicationResponse>;
+  }).pipe(
+    Schema.encodeKeys({
+      targetCriteria: "target_criteria",
+      allowAuthenticateViaWarp: "allow_authenticate_via_warp",
+      allowIframe: "allow_iframe",
+      allowedIdps: "allowed_idps",
+      appLauncherVisible: "app_launcher_visible",
+      autoRedirectToIdentity: "auto_redirect_to_identity",
+      corsHeaders: "cors_headers",
+      customDenyMessage: "custom_deny_message",
+      customDenyUrl: "custom_deny_url",
+      customNonIdentityDenyUrl: "custom_non_identity_deny_url",
+      customPages: "custom_pages",
+      enableBindingCookie: "enable_binding_cookie",
+      httpOnlyCookieAttribute: "http_only_cookie_attribute",
+      logoUrl: "logo_url",
+      optionsPreflightBypass: "options_preflight_bypass",
+      pathCookieAttribute: "path_cookie_attribute",
+      readServiceTokensFromHeader: "read_service_tokens_from_header",
+      sameSiteCookieAttribute: "same_site_cookie_attribute",
+      scimConfig: "scim_config",
+      selfHostedDomains: "self_hosted_domains",
+      serviceAuth_401Redirect: "service_auth_401_redirect",
+      sessionDuration: "session_duration",
+      skipInterstitial: "skip_interstitial",
+    }),
+  ),
+]) as unknown as Schema.Schema<GetAccessApplicationResponse>;
 
 export const getAccessApplication: (
   input: GetAccessApplicationRequest,
@@ -2335,10 +2391,10 @@ export type CreateAccessApplicationResponse =
       tags?: string[];
     };
 
-export const CreateAccessApplicationResponse = Schema.Union(
+export const CreateAccessApplicationResponse = Schema.Union([
   Schema.Struct({
     domain: Schema.String,
-    type: Schema.Literal(
+    type: Schema.Literals([
       "self_hosted",
       "saas",
       "ssh",
@@ -2353,42 +2409,22 @@ export const CreateAccessApplicationResponse = Schema.Union(
       "mcp",
       "mcp_portal",
       "proxy_endpoint",
-    ),
+    ]),
     id: Schema.optional(Schema.String),
-    allowAuthenticateViaWarp: Schema.optional(Schema.Boolean).pipe(
-      T.JsonName("allow_authenticate_via_warp"),
-    ),
-    allowIframe: Schema.optional(Schema.Boolean).pipe(
-      T.JsonName("allow_iframe"),
-    ),
-    allowedIdps: Schema.optional(Schema.Array(Schema.String)).pipe(
-      T.JsonName("allowed_idps"),
-    ),
-    appLauncherVisible: Schema.optional(Schema.Boolean).pipe(
-      T.JsonName("app_launcher_visible"),
-    ),
+    allowAuthenticateViaWarp: Schema.optional(Schema.Boolean),
+    allowIframe: Schema.optional(Schema.Boolean),
+    allowedIdps: Schema.optional(Schema.Array(Schema.String)),
+    appLauncherVisible: Schema.optional(Schema.Boolean),
     aud: Schema.optional(Schema.String),
-    autoRedirectToIdentity: Schema.optional(Schema.Boolean).pipe(
-      T.JsonName("auto_redirect_to_identity"),
-    ),
-    corsHeaders: Schema.optional(Schema.Unknown).pipe(
-      T.JsonName("cors_headers"),
-    ),
-    customDenyMessage: Schema.optional(Schema.String).pipe(
-      T.JsonName("custom_deny_message"),
-    ),
-    customDenyUrl: Schema.optional(Schema.String).pipe(
-      T.JsonName("custom_deny_url"),
-    ),
-    customNonIdentityDenyUrl: Schema.optional(Schema.String).pipe(
-      T.JsonName("custom_non_identity_deny_url"),
-    ),
-    customPages: Schema.optional(Schema.Array(Schema.String)).pipe(
-      T.JsonName("custom_pages"),
-    ),
+    autoRedirectToIdentity: Schema.optional(Schema.Boolean),
+    corsHeaders: Schema.optional(Schema.Unknown),
+    customDenyMessage: Schema.optional(Schema.String),
+    customDenyUrl: Schema.optional(Schema.String),
+    customNonIdentityDenyUrl: Schema.optional(Schema.String),
+    customPages: Schema.optional(Schema.Array(Schema.String)),
     destinations: Schema.optional(
       Schema.Array(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
             type: Schema.optional(Schema.Literal("public")),
             uri: Schema.optional(Schema.String),
@@ -2396,219 +2432,234 @@ export const CreateAccessApplicationResponse = Schema.Union(
           Schema.Struct({
             cidr: Schema.optional(Schema.String),
             hostname: Schema.optional(Schema.String),
-            l4Protocol: Schema.optional(Schema.Literal("tcp", "udp")).pipe(
-              T.JsonName("l4_protocol"),
-            ),
-            portRange: Schema.optional(Schema.String).pipe(
-              T.JsonName("port_range"),
-            ),
+            l4Protocol: Schema.optional(Schema.Literals(["tcp", "udp"])),
+            portRange: Schema.optional(Schema.String),
             type: Schema.optional(Schema.Literal("private")),
-            vnetId: Schema.optional(Schema.String).pipe(T.JsonName("vnet_id")),
-          }),
+            vnetId: Schema.optional(Schema.String),
+          }).pipe(
+            Schema.encodeKeys({
+              l4Protocol: "l4_protocol",
+              portRange: "port_range",
+              vnetId: "vnet_id",
+            }),
+          ),
           Schema.Struct({
-            mcpServerId: Schema.optional(Schema.String).pipe(
-              T.JsonName("mcp_server_id"),
-            ),
+            mcpServerId: Schema.optional(Schema.String),
             type: Schema.optional(Schema.Literal("via_mcp_server_portal")),
-          }),
-        ),
+          }).pipe(Schema.encodeKeys({ mcpServerId: "mcp_server_id" })),
+        ]),
       ),
     ),
-    enableBindingCookie: Schema.optional(Schema.Boolean).pipe(
-      T.JsonName("enable_binding_cookie"),
-    ),
-    httpOnlyCookieAttribute: Schema.optional(Schema.Boolean).pipe(
-      T.JsonName("http_only_cookie_attribute"),
-    ),
-    logoUrl: Schema.optional(Schema.String).pipe(T.JsonName("logo_url")),
+    enableBindingCookie: Schema.optional(Schema.Boolean),
+    httpOnlyCookieAttribute: Schema.optional(Schema.Boolean),
+    logoUrl: Schema.optional(Schema.String),
     name: Schema.optional(Schema.String),
-    optionsPreflightBypass: Schema.optional(Schema.Boolean).pipe(
-      T.JsonName("options_preflight_bypass"),
-    ),
-    pathCookieAttribute: Schema.optional(Schema.Boolean).pipe(
-      T.JsonName("path_cookie_attribute"),
-    ),
+    optionsPreflightBypass: Schema.optional(Schema.Boolean),
+    pathCookieAttribute: Schema.optional(Schema.Boolean),
     policies: Schema.optional(
       Schema.Array(
         Schema.Struct({
           id: Schema.optional(Schema.String),
-          approvalGroups: Schema.optional(Schema.Array(Schema.Unknown)).pipe(
-            T.JsonName("approval_groups"),
-          ),
-          approvalRequired: Schema.optional(Schema.Boolean).pipe(
-            T.JsonName("approval_required"),
-          ),
-          createdAt: Schema.optional(Schema.String).pipe(
-            T.JsonName("created_at"),
-          ),
+          approvalGroups: Schema.optional(Schema.Array(Schema.Unknown)),
+          approvalRequired: Schema.optional(Schema.Boolean),
+          createdAt: Schema.optional(Schema.String),
           decision: Schema.optional(
-            Schema.Literal("allow", "bypass", "deny", "non_identity"),
+            Schema.Literals(["allow", "bypass", "deny", "non_identity"]),
           ),
           exclude: Schema.optional(Schema.Array(Schema.Unknown)),
           include: Schema.optional(Schema.Array(Schema.Unknown)),
-          isolationRequired: Schema.optional(Schema.Boolean).pipe(
-            T.JsonName("isolation_required"),
-          ),
+          isolationRequired: Schema.optional(Schema.Boolean),
           name: Schema.optional(Schema.String),
           precedence: Schema.optional(Schema.Number),
-          purposeJustificationPrompt: Schema.optional(Schema.String).pipe(
-            T.JsonName("purpose_justification_prompt"),
-          ),
-          purposeJustificationRequired: Schema.optional(Schema.Boolean).pipe(
-            T.JsonName("purpose_justification_required"),
-          ),
+          purposeJustificationPrompt: Schema.optional(Schema.String),
+          purposeJustificationRequired: Schema.optional(Schema.Boolean),
           require: Schema.optional(Schema.Array(Schema.Unknown)),
-          sessionDuration: Schema.optional(Schema.String).pipe(
-            T.JsonName("session_duration"),
-          ),
-          updatedAt: Schema.optional(Schema.String).pipe(
-            T.JsonName("updated_at"),
-          ),
+          sessionDuration: Schema.optional(Schema.String),
+          updatedAt: Schema.optional(Schema.String),
+        }).pipe(
+          Schema.encodeKeys({
+            approvalGroups: "approval_groups",
+            approvalRequired: "approval_required",
+            createdAt: "created_at",
+            isolationRequired: "isolation_required",
+            purposeJustificationPrompt: "purpose_justification_prompt",
+            purposeJustificationRequired: "purpose_justification_required",
+            sessionDuration: "session_duration",
+            updatedAt: "updated_at",
+          }),
+        ),
+      ),
+    ),
+    readServiceTokensFromHeader: Schema.optional(Schema.String),
+    sameSiteCookieAttribute: Schema.optional(Schema.String),
+    scimConfig: Schema.optional(
+      Schema.Struct({
+        idpUid: Schema.String,
+        remoteUri: Schema.String,
+        authentication: Schema.optional(
+          Schema.Union([
+            Schema.Unknown,
+            Schema.Struct({
+              clientId: Schema.String,
+              clientSecret: Schema.String,
+              scheme: Schema.Literal("access_service_token"),
+            }).pipe(
+              Schema.encodeKeys({
+                clientId: "client_id",
+                clientSecret: "client_secret",
+              }),
+            ),
+            Schema.Array(
+              Schema.Union([
+                Schema.Unknown,
+                Schema.Struct({
+                  clientId: Schema.String,
+                  clientSecret: Schema.String,
+                  scheme: Schema.Literal("access_service_token"),
+                }).pipe(
+                  Schema.encodeKeys({
+                    clientId: "client_id",
+                    clientSecret: "client_secret",
+                  }),
+                ),
+              ]),
+            ),
+          ]),
+        ),
+        deactivateOnDelete: Schema.optional(Schema.Boolean),
+        enabled: Schema.optional(Schema.Boolean),
+        mappings: Schema.optional(Schema.Array(Schema.Unknown)),
+      }).pipe(
+        Schema.encodeKeys({
+          idpUid: "idp_uid",
+          remoteUri: "remote_uri",
+          deactivateOnDelete: "deactivate_on_delete",
         }),
       ),
     ),
-    readServiceTokensFromHeader: Schema.optional(Schema.String).pipe(
-      T.JsonName("read_service_tokens_from_header"),
-    ),
-    sameSiteCookieAttribute: Schema.optional(Schema.String).pipe(
-      T.JsonName("same_site_cookie_attribute"),
-    ),
-    scimConfig: Schema.optional(
-      Schema.Struct({
-        idpUid: Schema.String.pipe(T.JsonName("idp_uid")),
-        remoteUri: Schema.String.pipe(T.JsonName("remote_uri")),
-        authentication: Schema.optional(
-          Schema.Union(
-            Schema.Unknown,
-            Schema.Struct({
-              clientId: Schema.String.pipe(T.JsonName("client_id")),
-              clientSecret: Schema.String.pipe(T.JsonName("client_secret")),
-              scheme: Schema.Literal("access_service_token"),
-            }),
-            Schema.Array(
-              Schema.Union(
-                Schema.Unknown,
-                Schema.Struct({
-                  clientId: Schema.String.pipe(T.JsonName("client_id")),
-                  clientSecret: Schema.String.pipe(T.JsonName("client_secret")),
-                  scheme: Schema.Literal("access_service_token"),
-                }),
-              ),
-            ),
-          ),
-        ),
-        deactivateOnDelete: Schema.optional(Schema.Boolean).pipe(
-          T.JsonName("deactivate_on_delete"),
-        ),
-        enabled: Schema.optional(Schema.Boolean),
-        mappings: Schema.optional(Schema.Array(Schema.Unknown)),
-      }),
-    ).pipe(T.JsonName("scim_config")),
-    selfHostedDomains: Schema.optional(Schema.Array(Schema.String)).pipe(
-      T.JsonName("self_hosted_domains"),
-    ),
-    serviceAuth_401Redirect: Schema.optional(Schema.Boolean).pipe(
-      T.JsonName("service_auth_401_redirect"),
-    ),
-    sessionDuration: Schema.optional(Schema.String).pipe(
-      T.JsonName("session_duration"),
-    ),
-    skipInterstitial: Schema.optional(Schema.Boolean).pipe(
-      T.JsonName("skip_interstitial"),
-    ),
+    selfHostedDomains: Schema.optional(Schema.Array(Schema.String)),
+    serviceAuth_401Redirect: Schema.optional(Schema.Boolean),
+    sessionDuration: Schema.optional(Schema.String),
+    skipInterstitial: Schema.optional(Schema.Boolean),
     tags: Schema.optional(Schema.Array(Schema.String)),
-  }),
+  }).pipe(
+    Schema.encodeKeys({
+      allowAuthenticateViaWarp: "allow_authenticate_via_warp",
+      allowIframe: "allow_iframe",
+      allowedIdps: "allowed_idps",
+      appLauncherVisible: "app_launcher_visible",
+      autoRedirectToIdentity: "auto_redirect_to_identity",
+      corsHeaders: "cors_headers",
+      customDenyMessage: "custom_deny_message",
+      customDenyUrl: "custom_deny_url",
+      customNonIdentityDenyUrl: "custom_non_identity_deny_url",
+      customPages: "custom_pages",
+      enableBindingCookie: "enable_binding_cookie",
+      httpOnlyCookieAttribute: "http_only_cookie_attribute",
+      logoUrl: "logo_url",
+      optionsPreflightBypass: "options_preflight_bypass",
+      pathCookieAttribute: "path_cookie_attribute",
+      readServiceTokensFromHeader: "read_service_tokens_from_header",
+      sameSiteCookieAttribute: "same_site_cookie_attribute",
+      scimConfig: "scim_config",
+      selfHostedDomains: "self_hosted_domains",
+      serviceAuth_401Redirect: "service_auth_401_redirect",
+      sessionDuration: "session_duration",
+      skipInterstitial: "skip_interstitial",
+    }),
+  ),
   Schema.Struct({
     id: Schema.optional(Schema.String),
-    allowedIdps: Schema.optional(Schema.Array(Schema.String)).pipe(
-      T.JsonName("allowed_idps"),
-    ),
-    appLauncherVisible: Schema.optional(Schema.Boolean).pipe(
-      T.JsonName("app_launcher_visible"),
-    ),
+    allowedIdps: Schema.optional(Schema.Array(Schema.String)),
+    appLauncherVisible: Schema.optional(Schema.Boolean),
     aud: Schema.optional(Schema.String),
-    autoRedirectToIdentity: Schema.optional(Schema.Boolean).pipe(
-      T.JsonName("auto_redirect_to_identity"),
-    ),
-    customPages: Schema.optional(Schema.Array(Schema.String)).pipe(
-      T.JsonName("custom_pages"),
-    ),
-    logoUrl: Schema.optional(Schema.String).pipe(T.JsonName("logo_url")),
+    autoRedirectToIdentity: Schema.optional(Schema.Boolean),
+    customPages: Schema.optional(Schema.Array(Schema.String)),
+    logoUrl: Schema.optional(Schema.String),
     name: Schema.optional(Schema.String),
     policies: Schema.optional(
       Schema.Array(
         Schema.Struct({
           id: Schema.optional(Schema.String),
-          approvalGroups: Schema.optional(Schema.Array(Schema.Unknown)).pipe(
-            T.JsonName("approval_groups"),
-          ),
-          approvalRequired: Schema.optional(Schema.Boolean).pipe(
-            T.JsonName("approval_required"),
-          ),
-          createdAt: Schema.optional(Schema.String).pipe(
-            T.JsonName("created_at"),
-          ),
+          approvalGroups: Schema.optional(Schema.Array(Schema.Unknown)),
+          approvalRequired: Schema.optional(Schema.Boolean),
+          createdAt: Schema.optional(Schema.String),
           decision: Schema.optional(
-            Schema.Literal("allow", "bypass", "deny", "non_identity"),
+            Schema.Literals(["allow", "bypass", "deny", "non_identity"]),
           ),
           exclude: Schema.optional(Schema.Array(Schema.Unknown)),
           include: Schema.optional(Schema.Array(Schema.Unknown)),
-          isolationRequired: Schema.optional(Schema.Boolean).pipe(
-            T.JsonName("isolation_required"),
-          ),
+          isolationRequired: Schema.optional(Schema.Boolean),
           name: Schema.optional(Schema.String),
           precedence: Schema.optional(Schema.Number),
-          purposeJustificationPrompt: Schema.optional(Schema.String).pipe(
-            T.JsonName("purpose_justification_prompt"),
-          ),
-          purposeJustificationRequired: Schema.optional(Schema.Boolean).pipe(
-            T.JsonName("purpose_justification_required"),
-          ),
+          purposeJustificationPrompt: Schema.optional(Schema.String),
+          purposeJustificationRequired: Schema.optional(Schema.Boolean),
           require: Schema.optional(Schema.Array(Schema.Unknown)),
-          sessionDuration: Schema.optional(Schema.String).pipe(
-            T.JsonName("session_duration"),
-          ),
-          updatedAt: Schema.optional(Schema.String).pipe(
-            T.JsonName("updated_at"),
-          ),
+          sessionDuration: Schema.optional(Schema.String),
+          updatedAt: Schema.optional(Schema.String),
+        }).pipe(
+          Schema.encodeKeys({
+            approvalGroups: "approval_groups",
+            approvalRequired: "approval_required",
+            createdAt: "created_at",
+            isolationRequired: "isolation_required",
+            purposeJustificationPrompt: "purpose_justification_prompt",
+            purposeJustificationRequired: "purpose_justification_required",
+            sessionDuration: "session_duration",
+            updatedAt: "updated_at",
+          }),
+        ),
+      ),
+    ),
+    saasApp: Schema.optional(Schema.Unknown),
+    scimConfig: Schema.optional(
+      Schema.Struct({
+        idpUid: Schema.String,
+        remoteUri: Schema.String,
+        authentication: Schema.optional(
+          Schema.Union([
+            Schema.Unknown,
+            Schema.Struct({
+              clientId: Schema.String,
+              clientSecret: Schema.String,
+              scheme: Schema.Literal("access_service_token"),
+            }).pipe(
+              Schema.encodeKeys({
+                clientId: "client_id",
+                clientSecret: "client_secret",
+              }),
+            ),
+            Schema.Array(
+              Schema.Union([
+                Schema.Unknown,
+                Schema.Struct({
+                  clientId: Schema.String,
+                  clientSecret: Schema.String,
+                  scheme: Schema.Literal("access_service_token"),
+                }).pipe(
+                  Schema.encodeKeys({
+                    clientId: "client_id",
+                    clientSecret: "client_secret",
+                  }),
+                ),
+              ]),
+            ),
+          ]),
+        ),
+        deactivateOnDelete: Schema.optional(Schema.Boolean),
+        enabled: Schema.optional(Schema.Boolean),
+        mappings: Schema.optional(Schema.Array(Schema.Unknown)),
+      }).pipe(
+        Schema.encodeKeys({
+          idpUid: "idp_uid",
+          remoteUri: "remote_uri",
+          deactivateOnDelete: "deactivate_on_delete",
         }),
       ),
     ),
-    saasApp: Schema.optional(Schema.Unknown).pipe(T.JsonName("saas_app")),
-    scimConfig: Schema.optional(
-      Schema.Struct({
-        idpUid: Schema.String.pipe(T.JsonName("idp_uid")),
-        remoteUri: Schema.String.pipe(T.JsonName("remote_uri")),
-        authentication: Schema.optional(
-          Schema.Union(
-            Schema.Unknown,
-            Schema.Struct({
-              clientId: Schema.String.pipe(T.JsonName("client_id")),
-              clientSecret: Schema.String.pipe(T.JsonName("client_secret")),
-              scheme: Schema.Literal("access_service_token"),
-            }),
-            Schema.Array(
-              Schema.Union(
-                Schema.Unknown,
-                Schema.Struct({
-                  clientId: Schema.String.pipe(T.JsonName("client_id")),
-                  clientSecret: Schema.String.pipe(T.JsonName("client_secret")),
-                  scheme: Schema.Literal("access_service_token"),
-                }),
-              ),
-            ),
-          ),
-        ),
-        deactivateOnDelete: Schema.optional(Schema.Boolean).pipe(
-          T.JsonName("deactivate_on_delete"),
-        ),
-        enabled: Schema.optional(Schema.Boolean),
-        mappings: Schema.optional(Schema.Array(Schema.Unknown)),
-      }),
-    ).pipe(T.JsonName("scim_config")),
     tags: Schema.optional(Schema.Array(Schema.String)),
     type: Schema.optional(
-      Schema.Literal(
+      Schema.Literals([
         "self_hosted",
         "saas",
         "ssh",
@@ -2623,11 +2674,21 @@ export const CreateAccessApplicationResponse = Schema.Union(
         "mcp",
         "mcp_portal",
         "proxy_endpoint",
-      ),
+      ]),
     ),
-  }),
+  }).pipe(
+    Schema.encodeKeys({
+      allowedIdps: "allowed_idps",
+      appLauncherVisible: "app_launcher_visible",
+      autoRedirectToIdentity: "auto_redirect_to_identity",
+      customPages: "custom_pages",
+      logoUrl: "logo_url",
+      saasApp: "saas_app",
+      scimConfig: "scim_config",
+    }),
+  ),
   Schema.Struct({
-    type: Schema.Literal(
+    type: Schema.Literals([
       "self_hosted",
       "saas",
       "ssh",
@@ -2642,28 +2703,16 @@ export const CreateAccessApplicationResponse = Schema.Union(
       "mcp",
       "mcp_portal",
       "proxy_endpoint",
-    ),
+    ]),
     id: Schema.optional(Schema.String),
-    allowedIdps: Schema.optional(Schema.Array(Schema.String)).pipe(
-      T.JsonName("allowed_idps"),
-    ),
-    appLauncherLogoUrl: Schema.optional(Schema.String).pipe(
-      T.JsonName("app_launcher_logo_url"),
-    ),
+    allowedIdps: Schema.optional(Schema.Array(Schema.String)),
+    appLauncherLogoUrl: Schema.optional(Schema.String),
     aud: Schema.optional(Schema.String),
-    autoRedirectToIdentity: Schema.optional(Schema.Boolean).pipe(
-      T.JsonName("auto_redirect_to_identity"),
-    ),
-    bgColor: Schema.optional(Schema.String).pipe(T.JsonName("bg_color")),
-    customDenyUrl: Schema.optional(Schema.String).pipe(
-      T.JsonName("custom_deny_url"),
-    ),
-    customNonIdentityDenyUrl: Schema.optional(Schema.String).pipe(
-      T.JsonName("custom_non_identity_deny_url"),
-    ),
-    customPages: Schema.optional(Schema.Array(Schema.String)).pipe(
-      T.JsonName("custom_pages"),
-    ),
+    autoRedirectToIdentity: Schema.optional(Schema.Boolean),
+    bgColor: Schema.optional(Schema.String),
+    customDenyUrl: Schema.optional(Schema.String),
+    customNonIdentityDenyUrl: Schema.optional(Schema.String),
+    customPages: Schema.optional(Schema.Array(Schema.String)),
     domain: Schema.optional(Schema.String),
     footerLinks: Schema.optional(
       Schema.Array(
@@ -2672,72 +2721,78 @@ export const CreateAccessApplicationResponse = Schema.Union(
           url: Schema.String,
         }),
       ),
-    ).pipe(T.JsonName("footer_links")),
-    headerBgColor: Schema.optional(Schema.String).pipe(
-      T.JsonName("header_bg_color"),
     ),
+    headerBgColor: Schema.optional(Schema.String),
     landingPageDesign: Schema.optional(
       Schema.Struct({
-        buttonColor: Schema.optional(Schema.String).pipe(
-          T.JsonName("button_color"),
-        ),
-        buttonTextColor: Schema.optional(Schema.String).pipe(
-          T.JsonName("button_text_color"),
-        ),
-        imageUrl: Schema.optional(Schema.String).pipe(T.JsonName("image_url")),
+        buttonColor: Schema.optional(Schema.String),
+        buttonTextColor: Schema.optional(Schema.String),
+        imageUrl: Schema.optional(Schema.String),
         message: Schema.optional(Schema.String),
         title: Schema.optional(Schema.String),
-      }),
-    ).pipe(T.JsonName("landing_page_design")),
+      }).pipe(
+        Schema.encodeKeys({
+          buttonColor: "button_color",
+          buttonTextColor: "button_text_color",
+          imageUrl: "image_url",
+        }),
+      ),
+    ),
     name: Schema.optional(Schema.String),
     policies: Schema.optional(
       Schema.Array(
         Schema.Struct({
           id: Schema.optional(Schema.String),
-          approvalGroups: Schema.optional(Schema.Array(Schema.Unknown)).pipe(
-            T.JsonName("approval_groups"),
-          ),
-          approvalRequired: Schema.optional(Schema.Boolean).pipe(
-            T.JsonName("approval_required"),
-          ),
-          createdAt: Schema.optional(Schema.String).pipe(
-            T.JsonName("created_at"),
-          ),
+          approvalGroups: Schema.optional(Schema.Array(Schema.Unknown)),
+          approvalRequired: Schema.optional(Schema.Boolean),
+          createdAt: Schema.optional(Schema.String),
           decision: Schema.optional(
-            Schema.Literal("allow", "bypass", "deny", "non_identity"),
+            Schema.Literals(["allow", "bypass", "deny", "non_identity"]),
           ),
           exclude: Schema.optional(Schema.Array(Schema.Unknown)),
           include: Schema.optional(Schema.Array(Schema.Unknown)),
-          isolationRequired: Schema.optional(Schema.Boolean).pipe(
-            T.JsonName("isolation_required"),
-          ),
+          isolationRequired: Schema.optional(Schema.Boolean),
           name: Schema.optional(Schema.String),
           precedence: Schema.optional(Schema.Number),
-          purposeJustificationPrompt: Schema.optional(Schema.String).pipe(
-            T.JsonName("purpose_justification_prompt"),
-          ),
-          purposeJustificationRequired: Schema.optional(Schema.Boolean).pipe(
-            T.JsonName("purpose_justification_required"),
-          ),
+          purposeJustificationPrompt: Schema.optional(Schema.String),
+          purposeJustificationRequired: Schema.optional(Schema.Boolean),
           require: Schema.optional(Schema.Array(Schema.Unknown)),
-          sessionDuration: Schema.optional(Schema.String).pipe(
-            T.JsonName("session_duration"),
-          ),
-          updatedAt: Schema.optional(Schema.String).pipe(
-            T.JsonName("updated_at"),
-          ),
-        }),
+          sessionDuration: Schema.optional(Schema.String),
+          updatedAt: Schema.optional(Schema.String),
+        }).pipe(
+          Schema.encodeKeys({
+            approvalGroups: "approval_groups",
+            approvalRequired: "approval_required",
+            createdAt: "created_at",
+            isolationRequired: "isolation_required",
+            purposeJustificationPrompt: "purpose_justification_prompt",
+            purposeJustificationRequired: "purpose_justification_required",
+            sessionDuration: "session_duration",
+            updatedAt: "updated_at",
+          }),
+        ),
       ),
     ),
-    sessionDuration: Schema.optional(Schema.String).pipe(
-      T.JsonName("session_duration"),
-    ),
-    skipAppLauncherLoginPage: Schema.optional(Schema.Boolean).pipe(
-      T.JsonName("skip_app_launcher_login_page"),
-    ),
-  }),
+    sessionDuration: Schema.optional(Schema.String),
+    skipAppLauncherLoginPage: Schema.optional(Schema.Boolean),
+  }).pipe(
+    Schema.encodeKeys({
+      allowedIdps: "allowed_idps",
+      appLauncherLogoUrl: "app_launcher_logo_url",
+      autoRedirectToIdentity: "auto_redirect_to_identity",
+      bgColor: "bg_color",
+      customDenyUrl: "custom_deny_url",
+      customNonIdentityDenyUrl: "custom_non_identity_deny_url",
+      customPages: "custom_pages",
+      footerLinks: "footer_links",
+      headerBgColor: "header_bg_color",
+      landingPageDesign: "landing_page_design",
+      sessionDuration: "session_duration",
+      skipAppLauncherLoginPage: "skip_app_launcher_login_page",
+    }),
+  ),
   Schema.Struct({
-    type: Schema.Literal(
+    type: Schema.Literals([
       "self_hosted",
       "saas",
       "ssh",
@@ -2752,81 +2807,71 @@ export const CreateAccessApplicationResponse = Schema.Union(
       "mcp",
       "mcp_portal",
       "proxy_endpoint",
-    ),
+    ]),
     id: Schema.optional(Schema.String),
-    allowedIdps: Schema.optional(Schema.Array(Schema.String)).pipe(
-      T.JsonName("allowed_idps"),
-    ),
+    allowedIdps: Schema.optional(Schema.Array(Schema.String)),
     aud: Schema.optional(Schema.String),
-    autoRedirectToIdentity: Schema.optional(Schema.Boolean).pipe(
-      T.JsonName("auto_redirect_to_identity"),
-    ),
-    customDenyUrl: Schema.optional(Schema.String).pipe(
-      T.JsonName("custom_deny_url"),
-    ),
-    customNonIdentityDenyUrl: Schema.optional(Schema.String).pipe(
-      T.JsonName("custom_non_identity_deny_url"),
-    ),
-    customPages: Schema.optional(Schema.Array(Schema.String)).pipe(
-      T.JsonName("custom_pages"),
-    ),
+    autoRedirectToIdentity: Schema.optional(Schema.Boolean),
+    customDenyUrl: Schema.optional(Schema.String),
+    customNonIdentityDenyUrl: Schema.optional(Schema.String),
+    customPages: Schema.optional(Schema.Array(Schema.String)),
     domain: Schema.optional(Schema.String),
     name: Schema.optional(Schema.String),
     policies: Schema.optional(
       Schema.Array(
         Schema.Struct({
           id: Schema.optional(Schema.String),
-          approvalGroups: Schema.optional(Schema.Array(Schema.Unknown)).pipe(
-            T.JsonName("approval_groups"),
-          ),
-          approvalRequired: Schema.optional(Schema.Boolean).pipe(
-            T.JsonName("approval_required"),
-          ),
-          createdAt: Schema.optional(Schema.String).pipe(
-            T.JsonName("created_at"),
-          ),
+          approvalGroups: Schema.optional(Schema.Array(Schema.Unknown)),
+          approvalRequired: Schema.optional(Schema.Boolean),
+          createdAt: Schema.optional(Schema.String),
           decision: Schema.optional(
-            Schema.Literal("allow", "bypass", "deny", "non_identity"),
+            Schema.Literals(["allow", "bypass", "deny", "non_identity"]),
           ),
           exclude: Schema.optional(Schema.Array(Schema.Unknown)),
           include: Schema.optional(Schema.Array(Schema.Unknown)),
-          isolationRequired: Schema.optional(Schema.Boolean).pipe(
-            T.JsonName("isolation_required"),
-          ),
+          isolationRequired: Schema.optional(Schema.Boolean),
           name: Schema.optional(Schema.String),
           precedence: Schema.optional(Schema.Number),
-          purposeJustificationPrompt: Schema.optional(Schema.String).pipe(
-            T.JsonName("purpose_justification_prompt"),
-          ),
-          purposeJustificationRequired: Schema.optional(Schema.Boolean).pipe(
-            T.JsonName("purpose_justification_required"),
-          ),
+          purposeJustificationPrompt: Schema.optional(Schema.String),
+          purposeJustificationRequired: Schema.optional(Schema.Boolean),
           require: Schema.optional(Schema.Array(Schema.Unknown)),
-          sessionDuration: Schema.optional(Schema.String).pipe(
-            T.JsonName("session_duration"),
-          ),
-          updatedAt: Schema.optional(Schema.String).pipe(
-            T.JsonName("updated_at"),
-          ),
-        }),
+          sessionDuration: Schema.optional(Schema.String),
+          updatedAt: Schema.optional(Schema.String),
+        }).pipe(
+          Schema.encodeKeys({
+            approvalGroups: "approval_groups",
+            approvalRequired: "approval_required",
+            createdAt: "created_at",
+            isolationRequired: "isolation_required",
+            purposeJustificationPrompt: "purpose_justification_prompt",
+            purposeJustificationRequired: "purpose_justification_required",
+            sessionDuration: "session_duration",
+            updatedAt: "updated_at",
+          }),
+        ),
       ),
     ),
-    sessionDuration: Schema.optional(Schema.String).pipe(
-      T.JsonName("session_duration"),
-    ),
-  }),
+    sessionDuration: Schema.optional(Schema.String),
+  }).pipe(
+    Schema.encodeKeys({
+      allowedIdps: "allowed_idps",
+      autoRedirectToIdentity: "auto_redirect_to_identity",
+      customDenyUrl: "custom_deny_url",
+      customNonIdentityDenyUrl: "custom_non_identity_deny_url",
+      customPages: "custom_pages",
+      sessionDuration: "session_duration",
+    }),
+  ),
   Schema.Struct({
     id: Schema.optional(Schema.String),
-    appLauncherVisible: Schema.optional(Schema.Boolean).pipe(
-      T.JsonName("app_launcher_visible"),
-    ),
+    appLauncherVisible: Schema.optional(Schema.Boolean),
     aud: Schema.optional(Schema.String),
     domain: Schema.optional(Schema.String),
-    logoUrl: Schema.optional(Schema.String).pipe(T.JsonName("logo_url")),
+    logoUrl: Schema.optional(Schema.String),
     name: Schema.optional(Schema.String),
     tags: Schema.optional(Schema.Array(Schema.String)),
     type: Schema.optional(
-      Schema.Literal(
+      Schema.Literals([
         "self_hosted",
         "saas",
         "ssh",
@@ -2841,20 +2886,23 @@ export const CreateAccessApplicationResponse = Schema.Union(
         "mcp",
         "mcp_portal",
         "proxy_endpoint",
-      ),
+      ]),
     ),
-  }),
+  }).pipe(
+    Schema.encodeKeys({
+      appLauncherVisible: "app_launcher_visible",
+      logoUrl: "logo_url",
+    }),
+  ),
   Schema.Struct({
     targetCriteria: Schema.Array(
       Schema.Struct({
         port: Schema.Number,
         protocol: Schema.Literal("SSH"),
-        targetAttributes: Schema.Struct({}).pipe(
-          T.JsonName("target_attributes"),
-        ),
-      }),
-    ).pipe(T.JsonName("target_criteria")),
-    type: Schema.Literal(
+        targetAttributes: Schema.Struct({}),
+      }).pipe(Schema.encodeKeys({ targetAttributes: "target_attributes" })),
+    ),
+    type: Schema.Literals([
       "self_hosted",
       "saas",
       "ssh",
@@ -2869,14 +2917,19 @@ export const CreateAccessApplicationResponse = Schema.Union(
       "mcp",
       "mcp_portal",
       "proxy_endpoint",
-    ),
+    ]),
     id: Schema.optional(Schema.String),
     aud: Schema.optional(Schema.String),
     name: Schema.optional(Schema.String),
     policies: Schema.optional(
       Schema.Array(
         Schema.Struct({
-          decision: Schema.Literal("allow", "bypass", "deny", "non_identity"),
+          decision: Schema.Literals([
+            "allow",
+            "bypass",
+            "deny",
+            "non_identity",
+          ]),
           include: Schema.Array(Schema.Unknown),
           name: Schema.String,
           connectionRules: Schema.optional(
@@ -2884,31 +2937,29 @@ export const CreateAccessApplicationResponse = Schema.Union(
               ssh: Schema.optional(
                 Schema.Struct({
                   usernames: Schema.Array(Schema.String),
-                  allowEmailAlias: Schema.optional(Schema.Boolean).pipe(
-                    T.JsonName("allow_email_alias"),
-                  ),
-                }),
+                  allowEmailAlias: Schema.optional(Schema.Boolean),
+                }).pipe(
+                  Schema.encodeKeys({ allowEmailAlias: "allow_email_alias" }),
+                ),
               ),
             }),
-          ).pipe(T.JsonName("connection_rules")),
+          ),
           exclude: Schema.optional(Schema.Array(Schema.Unknown)),
           require: Schema.optional(Schema.Array(Schema.Unknown)),
-        }),
+        }).pipe(Schema.encodeKeys({ connectionRules: "connection_rules" })),
       ),
     ),
-  }),
+  }).pipe(Schema.encodeKeys({ targetCriteria: "target_criteria" })),
   Schema.Struct({
     domain: Schema.String,
     targetCriteria: Schema.Array(
       Schema.Struct({
         port: Schema.Number,
         protocol: Schema.Literal("RDP"),
-        targetAttributes: Schema.Struct({}).pipe(
-          T.JsonName("target_attributes"),
-        ),
-      }),
-    ).pipe(T.JsonName("target_criteria")),
-    type: Schema.Literal(
+        targetAttributes: Schema.Struct({}),
+      }).pipe(Schema.encodeKeys({ targetAttributes: "target_attributes" })),
+    ),
+    type: Schema.Literals([
       "self_hosted",
       "saas",
       "ssh",
@@ -2923,42 +2974,22 @@ export const CreateAccessApplicationResponse = Schema.Union(
       "mcp",
       "mcp_portal",
       "proxy_endpoint",
-    ),
+    ]),
     id: Schema.optional(Schema.String),
-    allowAuthenticateViaWarp: Schema.optional(Schema.Boolean).pipe(
-      T.JsonName("allow_authenticate_via_warp"),
-    ),
-    allowIframe: Schema.optional(Schema.Boolean).pipe(
-      T.JsonName("allow_iframe"),
-    ),
-    allowedIdps: Schema.optional(Schema.Array(Schema.String)).pipe(
-      T.JsonName("allowed_idps"),
-    ),
-    appLauncherVisible: Schema.optional(Schema.Boolean).pipe(
-      T.JsonName("app_launcher_visible"),
-    ),
+    allowAuthenticateViaWarp: Schema.optional(Schema.Boolean),
+    allowIframe: Schema.optional(Schema.Boolean),
+    allowedIdps: Schema.optional(Schema.Array(Schema.String)),
+    appLauncherVisible: Schema.optional(Schema.Boolean),
     aud: Schema.optional(Schema.String),
-    autoRedirectToIdentity: Schema.optional(Schema.Boolean).pipe(
-      T.JsonName("auto_redirect_to_identity"),
-    ),
-    corsHeaders: Schema.optional(Schema.Unknown).pipe(
-      T.JsonName("cors_headers"),
-    ),
-    customDenyMessage: Schema.optional(Schema.String).pipe(
-      T.JsonName("custom_deny_message"),
-    ),
-    customDenyUrl: Schema.optional(Schema.String).pipe(
-      T.JsonName("custom_deny_url"),
-    ),
-    customNonIdentityDenyUrl: Schema.optional(Schema.String).pipe(
-      T.JsonName("custom_non_identity_deny_url"),
-    ),
-    customPages: Schema.optional(Schema.Array(Schema.String)).pipe(
-      T.JsonName("custom_pages"),
-    ),
+    autoRedirectToIdentity: Schema.optional(Schema.Boolean),
+    corsHeaders: Schema.optional(Schema.Unknown),
+    customDenyMessage: Schema.optional(Schema.String),
+    customDenyUrl: Schema.optional(Schema.String),
+    customNonIdentityDenyUrl: Schema.optional(Schema.String),
+    customPages: Schema.optional(Schema.Array(Schema.String)),
     destinations: Schema.optional(
       Schema.Array(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
             type: Schema.optional(Schema.Literal("public")),
             uri: Schema.optional(Schema.String),
@@ -2966,129 +2997,144 @@ export const CreateAccessApplicationResponse = Schema.Union(
           Schema.Struct({
             cidr: Schema.optional(Schema.String),
             hostname: Schema.optional(Schema.String),
-            l4Protocol: Schema.optional(Schema.Literal("tcp", "udp")).pipe(
-              T.JsonName("l4_protocol"),
-            ),
-            portRange: Schema.optional(Schema.String).pipe(
-              T.JsonName("port_range"),
-            ),
+            l4Protocol: Schema.optional(Schema.Literals(["tcp", "udp"])),
+            portRange: Schema.optional(Schema.String),
             type: Schema.optional(Schema.Literal("private")),
-            vnetId: Schema.optional(Schema.String).pipe(T.JsonName("vnet_id")),
-          }),
+            vnetId: Schema.optional(Schema.String),
+          }).pipe(
+            Schema.encodeKeys({
+              l4Protocol: "l4_protocol",
+              portRange: "port_range",
+              vnetId: "vnet_id",
+            }),
+          ),
           Schema.Struct({
-            mcpServerId: Schema.optional(Schema.String).pipe(
-              T.JsonName("mcp_server_id"),
-            ),
+            mcpServerId: Schema.optional(Schema.String),
             type: Schema.optional(Schema.Literal("via_mcp_server_portal")),
-          }),
-        ),
+          }).pipe(Schema.encodeKeys({ mcpServerId: "mcp_server_id" })),
+        ]),
       ),
     ),
-    enableBindingCookie: Schema.optional(Schema.Boolean).pipe(
-      T.JsonName("enable_binding_cookie"),
-    ),
-    httpOnlyCookieAttribute: Schema.optional(Schema.Boolean).pipe(
-      T.JsonName("http_only_cookie_attribute"),
-    ),
-    logoUrl: Schema.optional(Schema.String).pipe(T.JsonName("logo_url")),
+    enableBindingCookie: Schema.optional(Schema.Boolean),
+    httpOnlyCookieAttribute: Schema.optional(Schema.Boolean),
+    logoUrl: Schema.optional(Schema.String),
     name: Schema.optional(Schema.String),
-    optionsPreflightBypass: Schema.optional(Schema.Boolean).pipe(
-      T.JsonName("options_preflight_bypass"),
-    ),
-    pathCookieAttribute: Schema.optional(Schema.Boolean).pipe(
-      T.JsonName("path_cookie_attribute"),
-    ),
+    optionsPreflightBypass: Schema.optional(Schema.Boolean),
+    pathCookieAttribute: Schema.optional(Schema.Boolean),
     policies: Schema.optional(
       Schema.Array(
         Schema.Struct({
           id: Schema.optional(Schema.String),
-          approvalGroups: Schema.optional(Schema.Array(Schema.Unknown)).pipe(
-            T.JsonName("approval_groups"),
-          ),
-          approvalRequired: Schema.optional(Schema.Boolean).pipe(
-            T.JsonName("approval_required"),
-          ),
-          createdAt: Schema.optional(Schema.String).pipe(
-            T.JsonName("created_at"),
-          ),
+          approvalGroups: Schema.optional(Schema.Array(Schema.Unknown)),
+          approvalRequired: Schema.optional(Schema.Boolean),
+          createdAt: Schema.optional(Schema.String),
           decision: Schema.optional(
-            Schema.Literal("allow", "bypass", "deny", "non_identity"),
+            Schema.Literals(["allow", "bypass", "deny", "non_identity"]),
           ),
           exclude: Schema.optional(Schema.Array(Schema.Unknown)),
           include: Schema.optional(Schema.Array(Schema.Unknown)),
-          isolationRequired: Schema.optional(Schema.Boolean).pipe(
-            T.JsonName("isolation_required"),
-          ),
+          isolationRequired: Schema.optional(Schema.Boolean),
           name: Schema.optional(Schema.String),
           precedence: Schema.optional(Schema.Number),
-          purposeJustificationPrompt: Schema.optional(Schema.String).pipe(
-            T.JsonName("purpose_justification_prompt"),
-          ),
-          purposeJustificationRequired: Schema.optional(Schema.Boolean).pipe(
-            T.JsonName("purpose_justification_required"),
-          ),
+          purposeJustificationPrompt: Schema.optional(Schema.String),
+          purposeJustificationRequired: Schema.optional(Schema.Boolean),
           require: Schema.optional(Schema.Array(Schema.Unknown)),
-          sessionDuration: Schema.optional(Schema.String).pipe(
-            T.JsonName("session_duration"),
-          ),
-          updatedAt: Schema.optional(Schema.String).pipe(
-            T.JsonName("updated_at"),
-          ),
+          sessionDuration: Schema.optional(Schema.String),
+          updatedAt: Schema.optional(Schema.String),
+        }).pipe(
+          Schema.encodeKeys({
+            approvalGroups: "approval_groups",
+            approvalRequired: "approval_required",
+            createdAt: "created_at",
+            isolationRequired: "isolation_required",
+            purposeJustificationPrompt: "purpose_justification_prompt",
+            purposeJustificationRequired: "purpose_justification_required",
+            sessionDuration: "session_duration",
+            updatedAt: "updated_at",
+          }),
+        ),
+      ),
+    ),
+    readServiceTokensFromHeader: Schema.optional(Schema.String),
+    sameSiteCookieAttribute: Schema.optional(Schema.String),
+    scimConfig: Schema.optional(
+      Schema.Struct({
+        idpUid: Schema.String,
+        remoteUri: Schema.String,
+        authentication: Schema.optional(
+          Schema.Union([
+            Schema.Unknown,
+            Schema.Struct({
+              clientId: Schema.String,
+              clientSecret: Schema.String,
+              scheme: Schema.Literal("access_service_token"),
+            }).pipe(
+              Schema.encodeKeys({
+                clientId: "client_id",
+                clientSecret: "client_secret",
+              }),
+            ),
+            Schema.Array(
+              Schema.Union([
+                Schema.Unknown,
+                Schema.Struct({
+                  clientId: Schema.String,
+                  clientSecret: Schema.String,
+                  scheme: Schema.Literal("access_service_token"),
+                }).pipe(
+                  Schema.encodeKeys({
+                    clientId: "client_id",
+                    clientSecret: "client_secret",
+                  }),
+                ),
+              ]),
+            ),
+          ]),
+        ),
+        deactivateOnDelete: Schema.optional(Schema.Boolean),
+        enabled: Schema.optional(Schema.Boolean),
+        mappings: Schema.optional(Schema.Array(Schema.Unknown)),
+      }).pipe(
+        Schema.encodeKeys({
+          idpUid: "idp_uid",
+          remoteUri: "remote_uri",
+          deactivateOnDelete: "deactivate_on_delete",
         }),
       ),
     ),
-    readServiceTokensFromHeader: Schema.optional(Schema.String).pipe(
-      T.JsonName("read_service_tokens_from_header"),
-    ),
-    sameSiteCookieAttribute: Schema.optional(Schema.String).pipe(
-      T.JsonName("same_site_cookie_attribute"),
-    ),
-    scimConfig: Schema.optional(
-      Schema.Struct({
-        idpUid: Schema.String.pipe(T.JsonName("idp_uid")),
-        remoteUri: Schema.String.pipe(T.JsonName("remote_uri")),
-        authentication: Schema.optional(
-          Schema.Union(
-            Schema.Unknown,
-            Schema.Struct({
-              clientId: Schema.String.pipe(T.JsonName("client_id")),
-              clientSecret: Schema.String.pipe(T.JsonName("client_secret")),
-              scheme: Schema.Literal("access_service_token"),
-            }),
-            Schema.Array(
-              Schema.Union(
-                Schema.Unknown,
-                Schema.Struct({
-                  clientId: Schema.String.pipe(T.JsonName("client_id")),
-                  clientSecret: Schema.String.pipe(T.JsonName("client_secret")),
-                  scheme: Schema.Literal("access_service_token"),
-                }),
-              ),
-            ),
-          ),
-        ),
-        deactivateOnDelete: Schema.optional(Schema.Boolean).pipe(
-          T.JsonName("deactivate_on_delete"),
-        ),
-        enabled: Schema.optional(Schema.Boolean),
-        mappings: Schema.optional(Schema.Array(Schema.Unknown)),
-      }),
-    ).pipe(T.JsonName("scim_config")),
-    selfHostedDomains: Schema.optional(Schema.Array(Schema.String)).pipe(
-      T.JsonName("self_hosted_domains"),
-    ),
-    serviceAuth_401Redirect: Schema.optional(Schema.Boolean).pipe(
-      T.JsonName("service_auth_401_redirect"),
-    ),
-    sessionDuration: Schema.optional(Schema.String).pipe(
-      T.JsonName("session_duration"),
-    ),
-    skipInterstitial: Schema.optional(Schema.Boolean).pipe(
-      T.JsonName("skip_interstitial"),
-    ),
+    selfHostedDomains: Schema.optional(Schema.Array(Schema.String)),
+    serviceAuth_401Redirect: Schema.optional(Schema.Boolean),
+    sessionDuration: Schema.optional(Schema.String),
+    skipInterstitial: Schema.optional(Schema.Boolean),
     tags: Schema.optional(Schema.Array(Schema.String)),
-  }),
-) as unknown as Schema.Schema<CreateAccessApplicationResponse>;
+  }).pipe(
+    Schema.encodeKeys({
+      targetCriteria: "target_criteria",
+      allowAuthenticateViaWarp: "allow_authenticate_via_warp",
+      allowIframe: "allow_iframe",
+      allowedIdps: "allowed_idps",
+      appLauncherVisible: "app_launcher_visible",
+      autoRedirectToIdentity: "auto_redirect_to_identity",
+      corsHeaders: "cors_headers",
+      customDenyMessage: "custom_deny_message",
+      customDenyUrl: "custom_deny_url",
+      customNonIdentityDenyUrl: "custom_non_identity_deny_url",
+      customPages: "custom_pages",
+      enableBindingCookie: "enable_binding_cookie",
+      httpOnlyCookieAttribute: "http_only_cookie_attribute",
+      logoUrl: "logo_url",
+      optionsPreflightBypass: "options_preflight_bypass",
+      pathCookieAttribute: "path_cookie_attribute",
+      readServiceTokensFromHeader: "read_service_tokens_from_header",
+      sameSiteCookieAttribute: "same_site_cookie_attribute",
+      scimConfig: "scim_config",
+      selfHostedDomains: "self_hosted_domains",
+      serviceAuth_401Redirect: "service_auth_401_redirect",
+      sessionDuration: "session_duration",
+      skipInterstitial: "skip_interstitial",
+    }),
+  ),
+]) as unknown as Schema.Schema<CreateAccessApplicationResponse>;
 
 export const createAccessApplication: (
   input: CreateAccessApplicationRequest,
@@ -3531,10 +3577,10 @@ export type UpdateAccessApplicationResponse =
       tags?: string[];
     };
 
-export const UpdateAccessApplicationResponse = Schema.Union(
+export const UpdateAccessApplicationResponse = Schema.Union([
   Schema.Struct({
     domain: Schema.String,
-    type: Schema.Literal(
+    type: Schema.Literals([
       "self_hosted",
       "saas",
       "ssh",
@@ -3549,42 +3595,22 @@ export const UpdateAccessApplicationResponse = Schema.Union(
       "mcp",
       "mcp_portal",
       "proxy_endpoint",
-    ),
+    ]),
     id: Schema.optional(Schema.String),
-    allowAuthenticateViaWarp: Schema.optional(Schema.Boolean).pipe(
-      T.JsonName("allow_authenticate_via_warp"),
-    ),
-    allowIframe: Schema.optional(Schema.Boolean).pipe(
-      T.JsonName("allow_iframe"),
-    ),
-    allowedIdps: Schema.optional(Schema.Array(Schema.String)).pipe(
-      T.JsonName("allowed_idps"),
-    ),
-    appLauncherVisible: Schema.optional(Schema.Boolean).pipe(
-      T.JsonName("app_launcher_visible"),
-    ),
+    allowAuthenticateViaWarp: Schema.optional(Schema.Boolean),
+    allowIframe: Schema.optional(Schema.Boolean),
+    allowedIdps: Schema.optional(Schema.Array(Schema.String)),
+    appLauncherVisible: Schema.optional(Schema.Boolean),
     aud: Schema.optional(Schema.String),
-    autoRedirectToIdentity: Schema.optional(Schema.Boolean).pipe(
-      T.JsonName("auto_redirect_to_identity"),
-    ),
-    corsHeaders: Schema.optional(Schema.Unknown).pipe(
-      T.JsonName("cors_headers"),
-    ),
-    customDenyMessage: Schema.optional(Schema.String).pipe(
-      T.JsonName("custom_deny_message"),
-    ),
-    customDenyUrl: Schema.optional(Schema.String).pipe(
-      T.JsonName("custom_deny_url"),
-    ),
-    customNonIdentityDenyUrl: Schema.optional(Schema.String).pipe(
-      T.JsonName("custom_non_identity_deny_url"),
-    ),
-    customPages: Schema.optional(Schema.Array(Schema.String)).pipe(
-      T.JsonName("custom_pages"),
-    ),
+    autoRedirectToIdentity: Schema.optional(Schema.Boolean),
+    corsHeaders: Schema.optional(Schema.Unknown),
+    customDenyMessage: Schema.optional(Schema.String),
+    customDenyUrl: Schema.optional(Schema.String),
+    customNonIdentityDenyUrl: Schema.optional(Schema.String),
+    customPages: Schema.optional(Schema.Array(Schema.String)),
     destinations: Schema.optional(
       Schema.Array(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
             type: Schema.optional(Schema.Literal("public")),
             uri: Schema.optional(Schema.String),
@@ -3592,219 +3618,234 @@ export const UpdateAccessApplicationResponse = Schema.Union(
           Schema.Struct({
             cidr: Schema.optional(Schema.String),
             hostname: Schema.optional(Schema.String),
-            l4Protocol: Schema.optional(Schema.Literal("tcp", "udp")).pipe(
-              T.JsonName("l4_protocol"),
-            ),
-            portRange: Schema.optional(Schema.String).pipe(
-              T.JsonName("port_range"),
-            ),
+            l4Protocol: Schema.optional(Schema.Literals(["tcp", "udp"])),
+            portRange: Schema.optional(Schema.String),
             type: Schema.optional(Schema.Literal("private")),
-            vnetId: Schema.optional(Schema.String).pipe(T.JsonName("vnet_id")),
-          }),
+            vnetId: Schema.optional(Schema.String),
+          }).pipe(
+            Schema.encodeKeys({
+              l4Protocol: "l4_protocol",
+              portRange: "port_range",
+              vnetId: "vnet_id",
+            }),
+          ),
           Schema.Struct({
-            mcpServerId: Schema.optional(Schema.String).pipe(
-              T.JsonName("mcp_server_id"),
-            ),
+            mcpServerId: Schema.optional(Schema.String),
             type: Schema.optional(Schema.Literal("via_mcp_server_portal")),
-          }),
-        ),
+          }).pipe(Schema.encodeKeys({ mcpServerId: "mcp_server_id" })),
+        ]),
       ),
     ),
-    enableBindingCookie: Schema.optional(Schema.Boolean).pipe(
-      T.JsonName("enable_binding_cookie"),
-    ),
-    httpOnlyCookieAttribute: Schema.optional(Schema.Boolean).pipe(
-      T.JsonName("http_only_cookie_attribute"),
-    ),
-    logoUrl: Schema.optional(Schema.String).pipe(T.JsonName("logo_url")),
+    enableBindingCookie: Schema.optional(Schema.Boolean),
+    httpOnlyCookieAttribute: Schema.optional(Schema.Boolean),
+    logoUrl: Schema.optional(Schema.String),
     name: Schema.optional(Schema.String),
-    optionsPreflightBypass: Schema.optional(Schema.Boolean).pipe(
-      T.JsonName("options_preflight_bypass"),
-    ),
-    pathCookieAttribute: Schema.optional(Schema.Boolean).pipe(
-      T.JsonName("path_cookie_attribute"),
-    ),
+    optionsPreflightBypass: Schema.optional(Schema.Boolean),
+    pathCookieAttribute: Schema.optional(Schema.Boolean),
     policies: Schema.optional(
       Schema.Array(
         Schema.Struct({
           id: Schema.optional(Schema.String),
-          approvalGroups: Schema.optional(Schema.Array(Schema.Unknown)).pipe(
-            T.JsonName("approval_groups"),
-          ),
-          approvalRequired: Schema.optional(Schema.Boolean).pipe(
-            T.JsonName("approval_required"),
-          ),
-          createdAt: Schema.optional(Schema.String).pipe(
-            T.JsonName("created_at"),
-          ),
+          approvalGroups: Schema.optional(Schema.Array(Schema.Unknown)),
+          approvalRequired: Schema.optional(Schema.Boolean),
+          createdAt: Schema.optional(Schema.String),
           decision: Schema.optional(
-            Schema.Literal("allow", "bypass", "deny", "non_identity"),
+            Schema.Literals(["allow", "bypass", "deny", "non_identity"]),
           ),
           exclude: Schema.optional(Schema.Array(Schema.Unknown)),
           include: Schema.optional(Schema.Array(Schema.Unknown)),
-          isolationRequired: Schema.optional(Schema.Boolean).pipe(
-            T.JsonName("isolation_required"),
-          ),
+          isolationRequired: Schema.optional(Schema.Boolean),
           name: Schema.optional(Schema.String),
           precedence: Schema.optional(Schema.Number),
-          purposeJustificationPrompt: Schema.optional(Schema.String).pipe(
-            T.JsonName("purpose_justification_prompt"),
-          ),
-          purposeJustificationRequired: Schema.optional(Schema.Boolean).pipe(
-            T.JsonName("purpose_justification_required"),
-          ),
+          purposeJustificationPrompt: Schema.optional(Schema.String),
+          purposeJustificationRequired: Schema.optional(Schema.Boolean),
           require: Schema.optional(Schema.Array(Schema.Unknown)),
-          sessionDuration: Schema.optional(Schema.String).pipe(
-            T.JsonName("session_duration"),
-          ),
-          updatedAt: Schema.optional(Schema.String).pipe(
-            T.JsonName("updated_at"),
-          ),
+          sessionDuration: Schema.optional(Schema.String),
+          updatedAt: Schema.optional(Schema.String),
+        }).pipe(
+          Schema.encodeKeys({
+            approvalGroups: "approval_groups",
+            approvalRequired: "approval_required",
+            createdAt: "created_at",
+            isolationRequired: "isolation_required",
+            purposeJustificationPrompt: "purpose_justification_prompt",
+            purposeJustificationRequired: "purpose_justification_required",
+            sessionDuration: "session_duration",
+            updatedAt: "updated_at",
+          }),
+        ),
+      ),
+    ),
+    readServiceTokensFromHeader: Schema.optional(Schema.String),
+    sameSiteCookieAttribute: Schema.optional(Schema.String),
+    scimConfig: Schema.optional(
+      Schema.Struct({
+        idpUid: Schema.String,
+        remoteUri: Schema.String,
+        authentication: Schema.optional(
+          Schema.Union([
+            Schema.Unknown,
+            Schema.Struct({
+              clientId: Schema.String,
+              clientSecret: Schema.String,
+              scheme: Schema.Literal("access_service_token"),
+            }).pipe(
+              Schema.encodeKeys({
+                clientId: "client_id",
+                clientSecret: "client_secret",
+              }),
+            ),
+            Schema.Array(
+              Schema.Union([
+                Schema.Unknown,
+                Schema.Struct({
+                  clientId: Schema.String,
+                  clientSecret: Schema.String,
+                  scheme: Schema.Literal("access_service_token"),
+                }).pipe(
+                  Schema.encodeKeys({
+                    clientId: "client_id",
+                    clientSecret: "client_secret",
+                  }),
+                ),
+              ]),
+            ),
+          ]),
+        ),
+        deactivateOnDelete: Schema.optional(Schema.Boolean),
+        enabled: Schema.optional(Schema.Boolean),
+        mappings: Schema.optional(Schema.Array(Schema.Unknown)),
+      }).pipe(
+        Schema.encodeKeys({
+          idpUid: "idp_uid",
+          remoteUri: "remote_uri",
+          deactivateOnDelete: "deactivate_on_delete",
         }),
       ),
     ),
-    readServiceTokensFromHeader: Schema.optional(Schema.String).pipe(
-      T.JsonName("read_service_tokens_from_header"),
-    ),
-    sameSiteCookieAttribute: Schema.optional(Schema.String).pipe(
-      T.JsonName("same_site_cookie_attribute"),
-    ),
-    scimConfig: Schema.optional(
-      Schema.Struct({
-        idpUid: Schema.String.pipe(T.JsonName("idp_uid")),
-        remoteUri: Schema.String.pipe(T.JsonName("remote_uri")),
-        authentication: Schema.optional(
-          Schema.Union(
-            Schema.Unknown,
-            Schema.Struct({
-              clientId: Schema.String.pipe(T.JsonName("client_id")),
-              clientSecret: Schema.String.pipe(T.JsonName("client_secret")),
-              scheme: Schema.Literal("access_service_token"),
-            }),
-            Schema.Array(
-              Schema.Union(
-                Schema.Unknown,
-                Schema.Struct({
-                  clientId: Schema.String.pipe(T.JsonName("client_id")),
-                  clientSecret: Schema.String.pipe(T.JsonName("client_secret")),
-                  scheme: Schema.Literal("access_service_token"),
-                }),
-              ),
-            ),
-          ),
-        ),
-        deactivateOnDelete: Schema.optional(Schema.Boolean).pipe(
-          T.JsonName("deactivate_on_delete"),
-        ),
-        enabled: Schema.optional(Schema.Boolean),
-        mappings: Schema.optional(Schema.Array(Schema.Unknown)),
-      }),
-    ).pipe(T.JsonName("scim_config")),
-    selfHostedDomains: Schema.optional(Schema.Array(Schema.String)).pipe(
-      T.JsonName("self_hosted_domains"),
-    ),
-    serviceAuth_401Redirect: Schema.optional(Schema.Boolean).pipe(
-      T.JsonName("service_auth_401_redirect"),
-    ),
-    sessionDuration: Schema.optional(Schema.String).pipe(
-      T.JsonName("session_duration"),
-    ),
-    skipInterstitial: Schema.optional(Schema.Boolean).pipe(
-      T.JsonName("skip_interstitial"),
-    ),
+    selfHostedDomains: Schema.optional(Schema.Array(Schema.String)),
+    serviceAuth_401Redirect: Schema.optional(Schema.Boolean),
+    sessionDuration: Schema.optional(Schema.String),
+    skipInterstitial: Schema.optional(Schema.Boolean),
     tags: Schema.optional(Schema.Array(Schema.String)),
-  }),
+  }).pipe(
+    Schema.encodeKeys({
+      allowAuthenticateViaWarp: "allow_authenticate_via_warp",
+      allowIframe: "allow_iframe",
+      allowedIdps: "allowed_idps",
+      appLauncherVisible: "app_launcher_visible",
+      autoRedirectToIdentity: "auto_redirect_to_identity",
+      corsHeaders: "cors_headers",
+      customDenyMessage: "custom_deny_message",
+      customDenyUrl: "custom_deny_url",
+      customNonIdentityDenyUrl: "custom_non_identity_deny_url",
+      customPages: "custom_pages",
+      enableBindingCookie: "enable_binding_cookie",
+      httpOnlyCookieAttribute: "http_only_cookie_attribute",
+      logoUrl: "logo_url",
+      optionsPreflightBypass: "options_preflight_bypass",
+      pathCookieAttribute: "path_cookie_attribute",
+      readServiceTokensFromHeader: "read_service_tokens_from_header",
+      sameSiteCookieAttribute: "same_site_cookie_attribute",
+      scimConfig: "scim_config",
+      selfHostedDomains: "self_hosted_domains",
+      serviceAuth_401Redirect: "service_auth_401_redirect",
+      sessionDuration: "session_duration",
+      skipInterstitial: "skip_interstitial",
+    }),
+  ),
   Schema.Struct({
     id: Schema.optional(Schema.String),
-    allowedIdps: Schema.optional(Schema.Array(Schema.String)).pipe(
-      T.JsonName("allowed_idps"),
-    ),
-    appLauncherVisible: Schema.optional(Schema.Boolean).pipe(
-      T.JsonName("app_launcher_visible"),
-    ),
+    allowedIdps: Schema.optional(Schema.Array(Schema.String)),
+    appLauncherVisible: Schema.optional(Schema.Boolean),
     aud: Schema.optional(Schema.String),
-    autoRedirectToIdentity: Schema.optional(Schema.Boolean).pipe(
-      T.JsonName("auto_redirect_to_identity"),
-    ),
-    customPages: Schema.optional(Schema.Array(Schema.String)).pipe(
-      T.JsonName("custom_pages"),
-    ),
-    logoUrl: Schema.optional(Schema.String).pipe(T.JsonName("logo_url")),
+    autoRedirectToIdentity: Schema.optional(Schema.Boolean),
+    customPages: Schema.optional(Schema.Array(Schema.String)),
+    logoUrl: Schema.optional(Schema.String),
     name: Schema.optional(Schema.String),
     policies: Schema.optional(
       Schema.Array(
         Schema.Struct({
           id: Schema.optional(Schema.String),
-          approvalGroups: Schema.optional(Schema.Array(Schema.Unknown)).pipe(
-            T.JsonName("approval_groups"),
-          ),
-          approvalRequired: Schema.optional(Schema.Boolean).pipe(
-            T.JsonName("approval_required"),
-          ),
-          createdAt: Schema.optional(Schema.String).pipe(
-            T.JsonName("created_at"),
-          ),
+          approvalGroups: Schema.optional(Schema.Array(Schema.Unknown)),
+          approvalRequired: Schema.optional(Schema.Boolean),
+          createdAt: Schema.optional(Schema.String),
           decision: Schema.optional(
-            Schema.Literal("allow", "bypass", "deny", "non_identity"),
+            Schema.Literals(["allow", "bypass", "deny", "non_identity"]),
           ),
           exclude: Schema.optional(Schema.Array(Schema.Unknown)),
           include: Schema.optional(Schema.Array(Schema.Unknown)),
-          isolationRequired: Schema.optional(Schema.Boolean).pipe(
-            T.JsonName("isolation_required"),
-          ),
+          isolationRequired: Schema.optional(Schema.Boolean),
           name: Schema.optional(Schema.String),
           precedence: Schema.optional(Schema.Number),
-          purposeJustificationPrompt: Schema.optional(Schema.String).pipe(
-            T.JsonName("purpose_justification_prompt"),
-          ),
-          purposeJustificationRequired: Schema.optional(Schema.Boolean).pipe(
-            T.JsonName("purpose_justification_required"),
-          ),
+          purposeJustificationPrompt: Schema.optional(Schema.String),
+          purposeJustificationRequired: Schema.optional(Schema.Boolean),
           require: Schema.optional(Schema.Array(Schema.Unknown)),
-          sessionDuration: Schema.optional(Schema.String).pipe(
-            T.JsonName("session_duration"),
-          ),
-          updatedAt: Schema.optional(Schema.String).pipe(
-            T.JsonName("updated_at"),
-          ),
+          sessionDuration: Schema.optional(Schema.String),
+          updatedAt: Schema.optional(Schema.String),
+        }).pipe(
+          Schema.encodeKeys({
+            approvalGroups: "approval_groups",
+            approvalRequired: "approval_required",
+            createdAt: "created_at",
+            isolationRequired: "isolation_required",
+            purposeJustificationPrompt: "purpose_justification_prompt",
+            purposeJustificationRequired: "purpose_justification_required",
+            sessionDuration: "session_duration",
+            updatedAt: "updated_at",
+          }),
+        ),
+      ),
+    ),
+    saasApp: Schema.optional(Schema.Unknown),
+    scimConfig: Schema.optional(
+      Schema.Struct({
+        idpUid: Schema.String,
+        remoteUri: Schema.String,
+        authentication: Schema.optional(
+          Schema.Union([
+            Schema.Unknown,
+            Schema.Struct({
+              clientId: Schema.String,
+              clientSecret: Schema.String,
+              scheme: Schema.Literal("access_service_token"),
+            }).pipe(
+              Schema.encodeKeys({
+                clientId: "client_id",
+                clientSecret: "client_secret",
+              }),
+            ),
+            Schema.Array(
+              Schema.Union([
+                Schema.Unknown,
+                Schema.Struct({
+                  clientId: Schema.String,
+                  clientSecret: Schema.String,
+                  scheme: Schema.Literal("access_service_token"),
+                }).pipe(
+                  Schema.encodeKeys({
+                    clientId: "client_id",
+                    clientSecret: "client_secret",
+                  }),
+                ),
+              ]),
+            ),
+          ]),
+        ),
+        deactivateOnDelete: Schema.optional(Schema.Boolean),
+        enabled: Schema.optional(Schema.Boolean),
+        mappings: Schema.optional(Schema.Array(Schema.Unknown)),
+      }).pipe(
+        Schema.encodeKeys({
+          idpUid: "idp_uid",
+          remoteUri: "remote_uri",
+          deactivateOnDelete: "deactivate_on_delete",
         }),
       ),
     ),
-    saasApp: Schema.optional(Schema.Unknown).pipe(T.JsonName("saas_app")),
-    scimConfig: Schema.optional(
-      Schema.Struct({
-        idpUid: Schema.String.pipe(T.JsonName("idp_uid")),
-        remoteUri: Schema.String.pipe(T.JsonName("remote_uri")),
-        authentication: Schema.optional(
-          Schema.Union(
-            Schema.Unknown,
-            Schema.Struct({
-              clientId: Schema.String.pipe(T.JsonName("client_id")),
-              clientSecret: Schema.String.pipe(T.JsonName("client_secret")),
-              scheme: Schema.Literal("access_service_token"),
-            }),
-            Schema.Array(
-              Schema.Union(
-                Schema.Unknown,
-                Schema.Struct({
-                  clientId: Schema.String.pipe(T.JsonName("client_id")),
-                  clientSecret: Schema.String.pipe(T.JsonName("client_secret")),
-                  scheme: Schema.Literal("access_service_token"),
-                }),
-              ),
-            ),
-          ),
-        ),
-        deactivateOnDelete: Schema.optional(Schema.Boolean).pipe(
-          T.JsonName("deactivate_on_delete"),
-        ),
-        enabled: Schema.optional(Schema.Boolean),
-        mappings: Schema.optional(Schema.Array(Schema.Unknown)),
-      }),
-    ).pipe(T.JsonName("scim_config")),
     tags: Schema.optional(Schema.Array(Schema.String)),
     type: Schema.optional(
-      Schema.Literal(
+      Schema.Literals([
         "self_hosted",
         "saas",
         "ssh",
@@ -3819,11 +3860,21 @@ export const UpdateAccessApplicationResponse = Schema.Union(
         "mcp",
         "mcp_portal",
         "proxy_endpoint",
-      ),
+      ]),
     ),
-  }),
+  }).pipe(
+    Schema.encodeKeys({
+      allowedIdps: "allowed_idps",
+      appLauncherVisible: "app_launcher_visible",
+      autoRedirectToIdentity: "auto_redirect_to_identity",
+      customPages: "custom_pages",
+      logoUrl: "logo_url",
+      saasApp: "saas_app",
+      scimConfig: "scim_config",
+    }),
+  ),
   Schema.Struct({
-    type: Schema.Literal(
+    type: Schema.Literals([
       "self_hosted",
       "saas",
       "ssh",
@@ -3838,28 +3889,16 @@ export const UpdateAccessApplicationResponse = Schema.Union(
       "mcp",
       "mcp_portal",
       "proxy_endpoint",
-    ),
+    ]),
     id: Schema.optional(Schema.String),
-    allowedIdps: Schema.optional(Schema.Array(Schema.String)).pipe(
-      T.JsonName("allowed_idps"),
-    ),
-    appLauncherLogoUrl: Schema.optional(Schema.String).pipe(
-      T.JsonName("app_launcher_logo_url"),
-    ),
+    allowedIdps: Schema.optional(Schema.Array(Schema.String)),
+    appLauncherLogoUrl: Schema.optional(Schema.String),
     aud: Schema.optional(Schema.String),
-    autoRedirectToIdentity: Schema.optional(Schema.Boolean).pipe(
-      T.JsonName("auto_redirect_to_identity"),
-    ),
-    bgColor: Schema.optional(Schema.String).pipe(T.JsonName("bg_color")),
-    customDenyUrl: Schema.optional(Schema.String).pipe(
-      T.JsonName("custom_deny_url"),
-    ),
-    customNonIdentityDenyUrl: Schema.optional(Schema.String).pipe(
-      T.JsonName("custom_non_identity_deny_url"),
-    ),
-    customPages: Schema.optional(Schema.Array(Schema.String)).pipe(
-      T.JsonName("custom_pages"),
-    ),
+    autoRedirectToIdentity: Schema.optional(Schema.Boolean),
+    bgColor: Schema.optional(Schema.String),
+    customDenyUrl: Schema.optional(Schema.String),
+    customNonIdentityDenyUrl: Schema.optional(Schema.String),
+    customPages: Schema.optional(Schema.Array(Schema.String)),
     domain: Schema.optional(Schema.String),
     footerLinks: Schema.optional(
       Schema.Array(
@@ -3868,72 +3907,78 @@ export const UpdateAccessApplicationResponse = Schema.Union(
           url: Schema.String,
         }),
       ),
-    ).pipe(T.JsonName("footer_links")),
-    headerBgColor: Schema.optional(Schema.String).pipe(
-      T.JsonName("header_bg_color"),
     ),
+    headerBgColor: Schema.optional(Schema.String),
     landingPageDesign: Schema.optional(
       Schema.Struct({
-        buttonColor: Schema.optional(Schema.String).pipe(
-          T.JsonName("button_color"),
-        ),
-        buttonTextColor: Schema.optional(Schema.String).pipe(
-          T.JsonName("button_text_color"),
-        ),
-        imageUrl: Schema.optional(Schema.String).pipe(T.JsonName("image_url")),
+        buttonColor: Schema.optional(Schema.String),
+        buttonTextColor: Schema.optional(Schema.String),
+        imageUrl: Schema.optional(Schema.String),
         message: Schema.optional(Schema.String),
         title: Schema.optional(Schema.String),
-      }),
-    ).pipe(T.JsonName("landing_page_design")),
+      }).pipe(
+        Schema.encodeKeys({
+          buttonColor: "button_color",
+          buttonTextColor: "button_text_color",
+          imageUrl: "image_url",
+        }),
+      ),
+    ),
     name: Schema.optional(Schema.String),
     policies: Schema.optional(
       Schema.Array(
         Schema.Struct({
           id: Schema.optional(Schema.String),
-          approvalGroups: Schema.optional(Schema.Array(Schema.Unknown)).pipe(
-            T.JsonName("approval_groups"),
-          ),
-          approvalRequired: Schema.optional(Schema.Boolean).pipe(
-            T.JsonName("approval_required"),
-          ),
-          createdAt: Schema.optional(Schema.String).pipe(
-            T.JsonName("created_at"),
-          ),
+          approvalGroups: Schema.optional(Schema.Array(Schema.Unknown)),
+          approvalRequired: Schema.optional(Schema.Boolean),
+          createdAt: Schema.optional(Schema.String),
           decision: Schema.optional(
-            Schema.Literal("allow", "bypass", "deny", "non_identity"),
+            Schema.Literals(["allow", "bypass", "deny", "non_identity"]),
           ),
           exclude: Schema.optional(Schema.Array(Schema.Unknown)),
           include: Schema.optional(Schema.Array(Schema.Unknown)),
-          isolationRequired: Schema.optional(Schema.Boolean).pipe(
-            T.JsonName("isolation_required"),
-          ),
+          isolationRequired: Schema.optional(Schema.Boolean),
           name: Schema.optional(Schema.String),
           precedence: Schema.optional(Schema.Number),
-          purposeJustificationPrompt: Schema.optional(Schema.String).pipe(
-            T.JsonName("purpose_justification_prompt"),
-          ),
-          purposeJustificationRequired: Schema.optional(Schema.Boolean).pipe(
-            T.JsonName("purpose_justification_required"),
-          ),
+          purposeJustificationPrompt: Schema.optional(Schema.String),
+          purposeJustificationRequired: Schema.optional(Schema.Boolean),
           require: Schema.optional(Schema.Array(Schema.Unknown)),
-          sessionDuration: Schema.optional(Schema.String).pipe(
-            T.JsonName("session_duration"),
-          ),
-          updatedAt: Schema.optional(Schema.String).pipe(
-            T.JsonName("updated_at"),
-          ),
-        }),
+          sessionDuration: Schema.optional(Schema.String),
+          updatedAt: Schema.optional(Schema.String),
+        }).pipe(
+          Schema.encodeKeys({
+            approvalGroups: "approval_groups",
+            approvalRequired: "approval_required",
+            createdAt: "created_at",
+            isolationRequired: "isolation_required",
+            purposeJustificationPrompt: "purpose_justification_prompt",
+            purposeJustificationRequired: "purpose_justification_required",
+            sessionDuration: "session_duration",
+            updatedAt: "updated_at",
+          }),
+        ),
       ),
     ),
-    sessionDuration: Schema.optional(Schema.String).pipe(
-      T.JsonName("session_duration"),
-    ),
-    skipAppLauncherLoginPage: Schema.optional(Schema.Boolean).pipe(
-      T.JsonName("skip_app_launcher_login_page"),
-    ),
-  }),
+    sessionDuration: Schema.optional(Schema.String),
+    skipAppLauncherLoginPage: Schema.optional(Schema.Boolean),
+  }).pipe(
+    Schema.encodeKeys({
+      allowedIdps: "allowed_idps",
+      appLauncherLogoUrl: "app_launcher_logo_url",
+      autoRedirectToIdentity: "auto_redirect_to_identity",
+      bgColor: "bg_color",
+      customDenyUrl: "custom_deny_url",
+      customNonIdentityDenyUrl: "custom_non_identity_deny_url",
+      customPages: "custom_pages",
+      footerLinks: "footer_links",
+      headerBgColor: "header_bg_color",
+      landingPageDesign: "landing_page_design",
+      sessionDuration: "session_duration",
+      skipAppLauncherLoginPage: "skip_app_launcher_login_page",
+    }),
+  ),
   Schema.Struct({
-    type: Schema.Literal(
+    type: Schema.Literals([
       "self_hosted",
       "saas",
       "ssh",
@@ -3948,81 +3993,71 @@ export const UpdateAccessApplicationResponse = Schema.Union(
       "mcp",
       "mcp_portal",
       "proxy_endpoint",
-    ),
+    ]),
     id: Schema.optional(Schema.String),
-    allowedIdps: Schema.optional(Schema.Array(Schema.String)).pipe(
-      T.JsonName("allowed_idps"),
-    ),
+    allowedIdps: Schema.optional(Schema.Array(Schema.String)),
     aud: Schema.optional(Schema.String),
-    autoRedirectToIdentity: Schema.optional(Schema.Boolean).pipe(
-      T.JsonName("auto_redirect_to_identity"),
-    ),
-    customDenyUrl: Schema.optional(Schema.String).pipe(
-      T.JsonName("custom_deny_url"),
-    ),
-    customNonIdentityDenyUrl: Schema.optional(Schema.String).pipe(
-      T.JsonName("custom_non_identity_deny_url"),
-    ),
-    customPages: Schema.optional(Schema.Array(Schema.String)).pipe(
-      T.JsonName("custom_pages"),
-    ),
+    autoRedirectToIdentity: Schema.optional(Schema.Boolean),
+    customDenyUrl: Schema.optional(Schema.String),
+    customNonIdentityDenyUrl: Schema.optional(Schema.String),
+    customPages: Schema.optional(Schema.Array(Schema.String)),
     domain: Schema.optional(Schema.String),
     name: Schema.optional(Schema.String),
     policies: Schema.optional(
       Schema.Array(
         Schema.Struct({
           id: Schema.optional(Schema.String),
-          approvalGroups: Schema.optional(Schema.Array(Schema.Unknown)).pipe(
-            T.JsonName("approval_groups"),
-          ),
-          approvalRequired: Schema.optional(Schema.Boolean).pipe(
-            T.JsonName("approval_required"),
-          ),
-          createdAt: Schema.optional(Schema.String).pipe(
-            T.JsonName("created_at"),
-          ),
+          approvalGroups: Schema.optional(Schema.Array(Schema.Unknown)),
+          approvalRequired: Schema.optional(Schema.Boolean),
+          createdAt: Schema.optional(Schema.String),
           decision: Schema.optional(
-            Schema.Literal("allow", "bypass", "deny", "non_identity"),
+            Schema.Literals(["allow", "bypass", "deny", "non_identity"]),
           ),
           exclude: Schema.optional(Schema.Array(Schema.Unknown)),
           include: Schema.optional(Schema.Array(Schema.Unknown)),
-          isolationRequired: Schema.optional(Schema.Boolean).pipe(
-            T.JsonName("isolation_required"),
-          ),
+          isolationRequired: Schema.optional(Schema.Boolean),
           name: Schema.optional(Schema.String),
           precedence: Schema.optional(Schema.Number),
-          purposeJustificationPrompt: Schema.optional(Schema.String).pipe(
-            T.JsonName("purpose_justification_prompt"),
-          ),
-          purposeJustificationRequired: Schema.optional(Schema.Boolean).pipe(
-            T.JsonName("purpose_justification_required"),
-          ),
+          purposeJustificationPrompt: Schema.optional(Schema.String),
+          purposeJustificationRequired: Schema.optional(Schema.Boolean),
           require: Schema.optional(Schema.Array(Schema.Unknown)),
-          sessionDuration: Schema.optional(Schema.String).pipe(
-            T.JsonName("session_duration"),
-          ),
-          updatedAt: Schema.optional(Schema.String).pipe(
-            T.JsonName("updated_at"),
-          ),
-        }),
+          sessionDuration: Schema.optional(Schema.String),
+          updatedAt: Schema.optional(Schema.String),
+        }).pipe(
+          Schema.encodeKeys({
+            approvalGroups: "approval_groups",
+            approvalRequired: "approval_required",
+            createdAt: "created_at",
+            isolationRequired: "isolation_required",
+            purposeJustificationPrompt: "purpose_justification_prompt",
+            purposeJustificationRequired: "purpose_justification_required",
+            sessionDuration: "session_duration",
+            updatedAt: "updated_at",
+          }),
+        ),
       ),
     ),
-    sessionDuration: Schema.optional(Schema.String).pipe(
-      T.JsonName("session_duration"),
-    ),
-  }),
+    sessionDuration: Schema.optional(Schema.String),
+  }).pipe(
+    Schema.encodeKeys({
+      allowedIdps: "allowed_idps",
+      autoRedirectToIdentity: "auto_redirect_to_identity",
+      customDenyUrl: "custom_deny_url",
+      customNonIdentityDenyUrl: "custom_non_identity_deny_url",
+      customPages: "custom_pages",
+      sessionDuration: "session_duration",
+    }),
+  ),
   Schema.Struct({
     id: Schema.optional(Schema.String),
-    appLauncherVisible: Schema.optional(Schema.Boolean).pipe(
-      T.JsonName("app_launcher_visible"),
-    ),
+    appLauncherVisible: Schema.optional(Schema.Boolean),
     aud: Schema.optional(Schema.String),
     domain: Schema.optional(Schema.String),
-    logoUrl: Schema.optional(Schema.String).pipe(T.JsonName("logo_url")),
+    logoUrl: Schema.optional(Schema.String),
     name: Schema.optional(Schema.String),
     tags: Schema.optional(Schema.Array(Schema.String)),
     type: Schema.optional(
-      Schema.Literal(
+      Schema.Literals([
         "self_hosted",
         "saas",
         "ssh",
@@ -4037,20 +4072,23 @@ export const UpdateAccessApplicationResponse = Schema.Union(
         "mcp",
         "mcp_portal",
         "proxy_endpoint",
-      ),
+      ]),
     ),
-  }),
+  }).pipe(
+    Schema.encodeKeys({
+      appLauncherVisible: "app_launcher_visible",
+      logoUrl: "logo_url",
+    }),
+  ),
   Schema.Struct({
     targetCriteria: Schema.Array(
       Schema.Struct({
         port: Schema.Number,
         protocol: Schema.Literal("SSH"),
-        targetAttributes: Schema.Struct({}).pipe(
-          T.JsonName("target_attributes"),
-        ),
-      }),
-    ).pipe(T.JsonName("target_criteria")),
-    type: Schema.Literal(
+        targetAttributes: Schema.Struct({}),
+      }).pipe(Schema.encodeKeys({ targetAttributes: "target_attributes" })),
+    ),
+    type: Schema.Literals([
       "self_hosted",
       "saas",
       "ssh",
@@ -4065,14 +4103,19 @@ export const UpdateAccessApplicationResponse = Schema.Union(
       "mcp",
       "mcp_portal",
       "proxy_endpoint",
-    ),
+    ]),
     id: Schema.optional(Schema.String),
     aud: Schema.optional(Schema.String),
     name: Schema.optional(Schema.String),
     policies: Schema.optional(
       Schema.Array(
         Schema.Struct({
-          decision: Schema.Literal("allow", "bypass", "deny", "non_identity"),
+          decision: Schema.Literals([
+            "allow",
+            "bypass",
+            "deny",
+            "non_identity",
+          ]),
           include: Schema.Array(Schema.Unknown),
           name: Schema.String,
           connectionRules: Schema.optional(
@@ -4080,31 +4123,29 @@ export const UpdateAccessApplicationResponse = Schema.Union(
               ssh: Schema.optional(
                 Schema.Struct({
                   usernames: Schema.Array(Schema.String),
-                  allowEmailAlias: Schema.optional(Schema.Boolean).pipe(
-                    T.JsonName("allow_email_alias"),
-                  ),
-                }),
+                  allowEmailAlias: Schema.optional(Schema.Boolean),
+                }).pipe(
+                  Schema.encodeKeys({ allowEmailAlias: "allow_email_alias" }),
+                ),
               ),
             }),
-          ).pipe(T.JsonName("connection_rules")),
+          ),
           exclude: Schema.optional(Schema.Array(Schema.Unknown)),
           require: Schema.optional(Schema.Array(Schema.Unknown)),
-        }),
+        }).pipe(Schema.encodeKeys({ connectionRules: "connection_rules" })),
       ),
     ),
-  }),
+  }).pipe(Schema.encodeKeys({ targetCriteria: "target_criteria" })),
   Schema.Struct({
     domain: Schema.String,
     targetCriteria: Schema.Array(
       Schema.Struct({
         port: Schema.Number,
         protocol: Schema.Literal("RDP"),
-        targetAttributes: Schema.Struct({}).pipe(
-          T.JsonName("target_attributes"),
-        ),
-      }),
-    ).pipe(T.JsonName("target_criteria")),
-    type: Schema.Literal(
+        targetAttributes: Schema.Struct({}),
+      }).pipe(Schema.encodeKeys({ targetAttributes: "target_attributes" })),
+    ),
+    type: Schema.Literals([
       "self_hosted",
       "saas",
       "ssh",
@@ -4119,42 +4160,22 @@ export const UpdateAccessApplicationResponse = Schema.Union(
       "mcp",
       "mcp_portal",
       "proxy_endpoint",
-    ),
+    ]),
     id: Schema.optional(Schema.String),
-    allowAuthenticateViaWarp: Schema.optional(Schema.Boolean).pipe(
-      T.JsonName("allow_authenticate_via_warp"),
-    ),
-    allowIframe: Schema.optional(Schema.Boolean).pipe(
-      T.JsonName("allow_iframe"),
-    ),
-    allowedIdps: Schema.optional(Schema.Array(Schema.String)).pipe(
-      T.JsonName("allowed_idps"),
-    ),
-    appLauncherVisible: Schema.optional(Schema.Boolean).pipe(
-      T.JsonName("app_launcher_visible"),
-    ),
+    allowAuthenticateViaWarp: Schema.optional(Schema.Boolean),
+    allowIframe: Schema.optional(Schema.Boolean),
+    allowedIdps: Schema.optional(Schema.Array(Schema.String)),
+    appLauncherVisible: Schema.optional(Schema.Boolean),
     aud: Schema.optional(Schema.String),
-    autoRedirectToIdentity: Schema.optional(Schema.Boolean).pipe(
-      T.JsonName("auto_redirect_to_identity"),
-    ),
-    corsHeaders: Schema.optional(Schema.Unknown).pipe(
-      T.JsonName("cors_headers"),
-    ),
-    customDenyMessage: Schema.optional(Schema.String).pipe(
-      T.JsonName("custom_deny_message"),
-    ),
-    customDenyUrl: Schema.optional(Schema.String).pipe(
-      T.JsonName("custom_deny_url"),
-    ),
-    customNonIdentityDenyUrl: Schema.optional(Schema.String).pipe(
-      T.JsonName("custom_non_identity_deny_url"),
-    ),
-    customPages: Schema.optional(Schema.Array(Schema.String)).pipe(
-      T.JsonName("custom_pages"),
-    ),
+    autoRedirectToIdentity: Schema.optional(Schema.Boolean),
+    corsHeaders: Schema.optional(Schema.Unknown),
+    customDenyMessage: Schema.optional(Schema.String),
+    customDenyUrl: Schema.optional(Schema.String),
+    customNonIdentityDenyUrl: Schema.optional(Schema.String),
+    customPages: Schema.optional(Schema.Array(Schema.String)),
     destinations: Schema.optional(
       Schema.Array(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
             type: Schema.optional(Schema.Literal("public")),
             uri: Schema.optional(Schema.String),
@@ -4162,129 +4183,144 @@ export const UpdateAccessApplicationResponse = Schema.Union(
           Schema.Struct({
             cidr: Schema.optional(Schema.String),
             hostname: Schema.optional(Schema.String),
-            l4Protocol: Schema.optional(Schema.Literal("tcp", "udp")).pipe(
-              T.JsonName("l4_protocol"),
-            ),
-            portRange: Schema.optional(Schema.String).pipe(
-              T.JsonName("port_range"),
-            ),
+            l4Protocol: Schema.optional(Schema.Literals(["tcp", "udp"])),
+            portRange: Schema.optional(Schema.String),
             type: Schema.optional(Schema.Literal("private")),
-            vnetId: Schema.optional(Schema.String).pipe(T.JsonName("vnet_id")),
-          }),
+            vnetId: Schema.optional(Schema.String),
+          }).pipe(
+            Schema.encodeKeys({
+              l4Protocol: "l4_protocol",
+              portRange: "port_range",
+              vnetId: "vnet_id",
+            }),
+          ),
           Schema.Struct({
-            mcpServerId: Schema.optional(Schema.String).pipe(
-              T.JsonName("mcp_server_id"),
-            ),
+            mcpServerId: Schema.optional(Schema.String),
             type: Schema.optional(Schema.Literal("via_mcp_server_portal")),
-          }),
-        ),
+          }).pipe(Schema.encodeKeys({ mcpServerId: "mcp_server_id" })),
+        ]),
       ),
     ),
-    enableBindingCookie: Schema.optional(Schema.Boolean).pipe(
-      T.JsonName("enable_binding_cookie"),
-    ),
-    httpOnlyCookieAttribute: Schema.optional(Schema.Boolean).pipe(
-      T.JsonName("http_only_cookie_attribute"),
-    ),
-    logoUrl: Schema.optional(Schema.String).pipe(T.JsonName("logo_url")),
+    enableBindingCookie: Schema.optional(Schema.Boolean),
+    httpOnlyCookieAttribute: Schema.optional(Schema.Boolean),
+    logoUrl: Schema.optional(Schema.String),
     name: Schema.optional(Schema.String),
-    optionsPreflightBypass: Schema.optional(Schema.Boolean).pipe(
-      T.JsonName("options_preflight_bypass"),
-    ),
-    pathCookieAttribute: Schema.optional(Schema.Boolean).pipe(
-      T.JsonName("path_cookie_attribute"),
-    ),
+    optionsPreflightBypass: Schema.optional(Schema.Boolean),
+    pathCookieAttribute: Schema.optional(Schema.Boolean),
     policies: Schema.optional(
       Schema.Array(
         Schema.Struct({
           id: Schema.optional(Schema.String),
-          approvalGroups: Schema.optional(Schema.Array(Schema.Unknown)).pipe(
-            T.JsonName("approval_groups"),
-          ),
-          approvalRequired: Schema.optional(Schema.Boolean).pipe(
-            T.JsonName("approval_required"),
-          ),
-          createdAt: Schema.optional(Schema.String).pipe(
-            T.JsonName("created_at"),
-          ),
+          approvalGroups: Schema.optional(Schema.Array(Schema.Unknown)),
+          approvalRequired: Schema.optional(Schema.Boolean),
+          createdAt: Schema.optional(Schema.String),
           decision: Schema.optional(
-            Schema.Literal("allow", "bypass", "deny", "non_identity"),
+            Schema.Literals(["allow", "bypass", "deny", "non_identity"]),
           ),
           exclude: Schema.optional(Schema.Array(Schema.Unknown)),
           include: Schema.optional(Schema.Array(Schema.Unknown)),
-          isolationRequired: Schema.optional(Schema.Boolean).pipe(
-            T.JsonName("isolation_required"),
-          ),
+          isolationRequired: Schema.optional(Schema.Boolean),
           name: Schema.optional(Schema.String),
           precedence: Schema.optional(Schema.Number),
-          purposeJustificationPrompt: Schema.optional(Schema.String).pipe(
-            T.JsonName("purpose_justification_prompt"),
-          ),
-          purposeJustificationRequired: Schema.optional(Schema.Boolean).pipe(
-            T.JsonName("purpose_justification_required"),
-          ),
+          purposeJustificationPrompt: Schema.optional(Schema.String),
+          purposeJustificationRequired: Schema.optional(Schema.Boolean),
           require: Schema.optional(Schema.Array(Schema.Unknown)),
-          sessionDuration: Schema.optional(Schema.String).pipe(
-            T.JsonName("session_duration"),
-          ),
-          updatedAt: Schema.optional(Schema.String).pipe(
-            T.JsonName("updated_at"),
-          ),
+          sessionDuration: Schema.optional(Schema.String),
+          updatedAt: Schema.optional(Schema.String),
+        }).pipe(
+          Schema.encodeKeys({
+            approvalGroups: "approval_groups",
+            approvalRequired: "approval_required",
+            createdAt: "created_at",
+            isolationRequired: "isolation_required",
+            purposeJustificationPrompt: "purpose_justification_prompt",
+            purposeJustificationRequired: "purpose_justification_required",
+            sessionDuration: "session_duration",
+            updatedAt: "updated_at",
+          }),
+        ),
+      ),
+    ),
+    readServiceTokensFromHeader: Schema.optional(Schema.String),
+    sameSiteCookieAttribute: Schema.optional(Schema.String),
+    scimConfig: Schema.optional(
+      Schema.Struct({
+        idpUid: Schema.String,
+        remoteUri: Schema.String,
+        authentication: Schema.optional(
+          Schema.Union([
+            Schema.Unknown,
+            Schema.Struct({
+              clientId: Schema.String,
+              clientSecret: Schema.String,
+              scheme: Schema.Literal("access_service_token"),
+            }).pipe(
+              Schema.encodeKeys({
+                clientId: "client_id",
+                clientSecret: "client_secret",
+              }),
+            ),
+            Schema.Array(
+              Schema.Union([
+                Schema.Unknown,
+                Schema.Struct({
+                  clientId: Schema.String,
+                  clientSecret: Schema.String,
+                  scheme: Schema.Literal("access_service_token"),
+                }).pipe(
+                  Schema.encodeKeys({
+                    clientId: "client_id",
+                    clientSecret: "client_secret",
+                  }),
+                ),
+              ]),
+            ),
+          ]),
+        ),
+        deactivateOnDelete: Schema.optional(Schema.Boolean),
+        enabled: Schema.optional(Schema.Boolean),
+        mappings: Schema.optional(Schema.Array(Schema.Unknown)),
+      }).pipe(
+        Schema.encodeKeys({
+          idpUid: "idp_uid",
+          remoteUri: "remote_uri",
+          deactivateOnDelete: "deactivate_on_delete",
         }),
       ),
     ),
-    readServiceTokensFromHeader: Schema.optional(Schema.String).pipe(
-      T.JsonName("read_service_tokens_from_header"),
-    ),
-    sameSiteCookieAttribute: Schema.optional(Schema.String).pipe(
-      T.JsonName("same_site_cookie_attribute"),
-    ),
-    scimConfig: Schema.optional(
-      Schema.Struct({
-        idpUid: Schema.String.pipe(T.JsonName("idp_uid")),
-        remoteUri: Schema.String.pipe(T.JsonName("remote_uri")),
-        authentication: Schema.optional(
-          Schema.Union(
-            Schema.Unknown,
-            Schema.Struct({
-              clientId: Schema.String.pipe(T.JsonName("client_id")),
-              clientSecret: Schema.String.pipe(T.JsonName("client_secret")),
-              scheme: Schema.Literal("access_service_token"),
-            }),
-            Schema.Array(
-              Schema.Union(
-                Schema.Unknown,
-                Schema.Struct({
-                  clientId: Schema.String.pipe(T.JsonName("client_id")),
-                  clientSecret: Schema.String.pipe(T.JsonName("client_secret")),
-                  scheme: Schema.Literal("access_service_token"),
-                }),
-              ),
-            ),
-          ),
-        ),
-        deactivateOnDelete: Schema.optional(Schema.Boolean).pipe(
-          T.JsonName("deactivate_on_delete"),
-        ),
-        enabled: Schema.optional(Schema.Boolean),
-        mappings: Schema.optional(Schema.Array(Schema.Unknown)),
-      }),
-    ).pipe(T.JsonName("scim_config")),
-    selfHostedDomains: Schema.optional(Schema.Array(Schema.String)).pipe(
-      T.JsonName("self_hosted_domains"),
-    ),
-    serviceAuth_401Redirect: Schema.optional(Schema.Boolean).pipe(
-      T.JsonName("service_auth_401_redirect"),
-    ),
-    sessionDuration: Schema.optional(Schema.String).pipe(
-      T.JsonName("session_duration"),
-    ),
-    skipInterstitial: Schema.optional(Schema.Boolean).pipe(
-      T.JsonName("skip_interstitial"),
-    ),
+    selfHostedDomains: Schema.optional(Schema.Array(Schema.String)),
+    serviceAuth_401Redirect: Schema.optional(Schema.Boolean),
+    sessionDuration: Schema.optional(Schema.String),
+    skipInterstitial: Schema.optional(Schema.Boolean),
     tags: Schema.optional(Schema.Array(Schema.String)),
-  }),
-) as unknown as Schema.Schema<UpdateAccessApplicationResponse>;
+  }).pipe(
+    Schema.encodeKeys({
+      targetCriteria: "target_criteria",
+      allowAuthenticateViaWarp: "allow_authenticate_via_warp",
+      allowIframe: "allow_iframe",
+      allowedIdps: "allowed_idps",
+      appLauncherVisible: "app_launcher_visible",
+      autoRedirectToIdentity: "auto_redirect_to_identity",
+      corsHeaders: "cors_headers",
+      customDenyMessage: "custom_deny_message",
+      customDenyUrl: "custom_deny_url",
+      customNonIdentityDenyUrl: "custom_non_identity_deny_url",
+      customPages: "custom_pages",
+      enableBindingCookie: "enable_binding_cookie",
+      httpOnlyCookieAttribute: "http_only_cookie_attribute",
+      logoUrl: "logo_url",
+      optionsPreflightBypass: "options_preflight_bypass",
+      pathCookieAttribute: "path_cookie_attribute",
+      readServiceTokensFromHeader: "read_service_tokens_from_header",
+      sameSiteCookieAttribute: "same_site_cookie_attribute",
+      scimConfig: "scim_config",
+      selfHostedDomains: "self_hosted_domains",
+      serviceAuth_401Redirect: "service_auth_401_redirect",
+      sessionDuration: "session_duration",
+      skipInterstitial: "skip_interstitial",
+    }),
+  ),
+]) as unknown as Schema.Schema<UpdateAccessApplicationResponse>;
 
 export const updateAccessApplication: (
   input: UpdateAccessApplicationRequest,
@@ -4357,8 +4393,10 @@ export interface GetAccessApplicationCaResponse {
 export const GetAccessApplicationCaResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
   aud: Schema.optional(Schema.String),
-  publicKey: Schema.optional(Schema.String).pipe(T.JsonName("public_key")),
-}) as unknown as Schema.Schema<GetAccessApplicationCaResponse>;
+  publicKey: Schema.optional(Schema.String),
+}).pipe(
+  Schema.encodeKeys({ publicKey: "public_key" }),
+) as unknown as Schema.Schema<GetAccessApplicationCaResponse>;
 
 export const getAccessApplicationCa: (
   input: GetAccessApplicationCaRequest,
@@ -4397,8 +4435,10 @@ export interface CreateAccessApplicationCaResponse {
 export const CreateAccessApplicationCaResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
   aud: Schema.optional(Schema.String),
-  publicKey: Schema.optional(Schema.String).pipe(T.JsonName("public_key")),
-}) as unknown as Schema.Schema<CreateAccessApplicationCaResponse>;
+  publicKey: Schema.optional(Schema.String),
+}).pipe(
+  Schema.encodeKeys({ publicKey: "public_key" }),
+) as unknown as Schema.Schema<CreateAccessApplicationCaResponse>;
 
 export const createAccessApplicationCa: (
   input: CreateAccessApplicationCaRequest,
@@ -4627,79 +4667,80 @@ export interface GetAccessApplicationPolicyResponse {
 
 export const GetAccessApplicationPolicyResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
-  approvalGroups: Schema.optional(Schema.Array(Schema.Unknown)).pipe(
-    T.JsonName("approval_groups"),
-  ),
-  approvalRequired: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("approval_required"),
-  ),
-  createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
+  approvalGroups: Schema.optional(Schema.Array(Schema.Unknown)),
+  approvalRequired: Schema.optional(Schema.Boolean),
+  createdAt: Schema.optional(Schema.String),
   decision: Schema.optional(
-    Schema.Literal("allow", "bypass", "deny", "non_identity"),
+    Schema.Literals(["allow", "bypass", "deny", "non_identity"]),
   ),
   exclude: Schema.optional(
     Schema.Array(
-      Schema.Union(
+      Schema.Union([
         Schema.Struct({
           group: Schema.Struct({
             id: Schema.String,
           }),
         }),
         Schema.Struct({
-          anyValidServiceToken: Schema.Unknown.pipe(
-            T.JsonName("any_valid_service_token"),
-          ),
-        }),
+          anyValidServiceToken: Schema.Unknown,
+        }).pipe(
+          Schema.encodeKeys({
+            anyValidServiceToken: "any_valid_service_token",
+          }),
+        ),
         Schema.Struct({
           authContext: Schema.Struct({
             id: Schema.String,
-            acId: Schema.String.pipe(T.JsonName("ac_id")),
-            identityProviderId: Schema.String.pipe(
-              T.JsonName("identity_provider_id"),
-            ),
-          }).pipe(T.JsonName("auth_context")),
-        }),
+            acId: Schema.String,
+            identityProviderId: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({
+              acId: "ac_id",
+              identityProviderId: "identity_provider_id",
+            }),
+          ),
+        }).pipe(Schema.encodeKeys({ authContext: "auth_context" })),
         Schema.Struct({
           authMethod: Schema.Struct({
-            authMethod: Schema.String.pipe(T.JsonName("auth_method")),
-          }).pipe(T.JsonName("auth_method")),
-        }),
+            authMethod: Schema.String,
+          }).pipe(Schema.encodeKeys({ authMethod: "auth_method" })),
+        }).pipe(Schema.encodeKeys({ authMethod: "auth_method" })),
         Schema.Struct({
           azureAD: Schema.Struct({
             id: Schema.String,
-            identityProviderId: Schema.String.pipe(
-              T.JsonName("identity_provider_id"),
-            ),
-          }),
+            identityProviderId: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({ identityProviderId: "identity_provider_id" }),
+          ),
         }),
         Schema.Struct({
           certificate: Schema.Unknown,
         }),
         Schema.Struct({
           commonName: Schema.Struct({
-            commonName: Schema.String.pipe(T.JsonName("common_name")),
-          }).pipe(T.JsonName("common_name")),
-        }),
+            commonName: Schema.String,
+          }).pipe(Schema.encodeKeys({ commonName: "common_name" })),
+        }).pipe(Schema.encodeKeys({ commonName: "common_name" })),
         Schema.Struct({
           geo: Schema.Struct({
-            countryCode: Schema.String.pipe(T.JsonName("country_code")),
-          }),
+            countryCode: Schema.String,
+          }).pipe(Schema.encodeKeys({ countryCode: "country_code" })),
         }),
         Schema.Struct({
           devicePosture: Schema.Struct({
-            integrationUid: Schema.String.pipe(T.JsonName("integration_uid")),
-          }).pipe(T.JsonName("device_posture")),
-        }),
+            integrationUid: Schema.String,
+          }).pipe(Schema.encodeKeys({ integrationUid: "integration_uid" })),
+        }).pipe(Schema.encodeKeys({ devicePosture: "device_posture" })),
         Schema.Struct({
           emailDomain: Schema.Struct({
             domain: Schema.String,
-          }).pipe(T.JsonName("email_domain")),
-        }),
+          }),
+        }).pipe(Schema.encodeKeys({ emailDomain: "email_domain" })),
         Schema.Struct({
           emailList: Schema.Struct({
             id: Schema.String,
-          }).pipe(T.JsonName("email_list")),
-        }),
+          }),
+        }).pipe(Schema.encodeKeys({ emailList: "email_list" })),
         Schema.Struct({
           email: Schema.Struct({
             email: Schema.String,
@@ -4710,37 +4751,46 @@ export const GetAccessApplicationPolicyResponse = Schema.Struct({
         }),
         Schema.Struct({
           externalEvaluation: Schema.Struct({
-            evaluateUrl: Schema.String.pipe(T.JsonName("evaluate_url")),
-            keysUrl: Schema.String.pipe(T.JsonName("keys_url")),
-          }).pipe(T.JsonName("external_evaluation")),
-        }),
+            evaluateUrl: Schema.String,
+            keysUrl: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({
+              evaluateUrl: "evaluate_url",
+              keysUrl: "keys_url",
+            }),
+          ),
+        }).pipe(
+          Schema.encodeKeys({ externalEvaluation: "external_evaluation" }),
+        ),
         Schema.Struct({
           githubOrganization: Schema.Struct({
-            identityProviderId: Schema.String.pipe(
-              T.JsonName("identity_provider_id"),
-            ),
+            identityProviderId: Schema.String,
             name: Schema.String,
             team: Schema.optional(Schema.String),
-          }).pipe(T.JsonName("'github-organization'")),
-        }),
+          }).pipe(
+            Schema.encodeKeys({ identityProviderId: "identity_provider_id" }),
+          ),
+        }).pipe(
+          Schema.encodeKeys({ githubOrganization: "'github-organization'" }),
+        ),
         Schema.Struct({
           gsuite: Schema.Struct({
             email: Schema.String,
-            identityProviderId: Schema.String.pipe(
-              T.JsonName("identity_provider_id"),
-            ),
-          }),
+            identityProviderId: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({ identityProviderId: "identity_provider_id" }),
+          ),
         }),
         Schema.Struct({
           loginMethod: Schema.Struct({
             id: Schema.String,
-          }).pipe(T.JsonName("login_method")),
-        }),
+          }),
+        }).pipe(Schema.encodeKeys({ loginMethod: "login_method" })),
         Schema.Struct({
           ipList: Schema.Struct({
             id: Schema.String,
-          }).pipe(T.JsonName("ip_list")),
-        }),
+          }),
+        }).pipe(Schema.encodeKeys({ ipList: "ip_list" })),
         Schema.Struct({
           ip: Schema.Struct({
             ip: Schema.String,
@@ -4748,106 +4798,119 @@ export const GetAccessApplicationPolicyResponse = Schema.Struct({
         }),
         Schema.Struct({
           okta: Schema.Struct({
-            identityProviderId: Schema.String.pipe(
-              T.JsonName("identity_provider_id"),
-            ),
+            identityProviderId: Schema.String,
             name: Schema.String,
-          }),
+          }).pipe(
+            Schema.encodeKeys({ identityProviderId: "identity_provider_id" }),
+          ),
         }),
         Schema.Struct({
           saml: Schema.Struct({
-            attributeName: Schema.String.pipe(T.JsonName("attribute_name")),
-            attributeValue: Schema.String.pipe(T.JsonName("attribute_value")),
-            identityProviderId: Schema.String.pipe(
-              T.JsonName("identity_provider_id"),
-            ),
-          }),
+            attributeName: Schema.String,
+            attributeValue: Schema.String,
+            identityProviderId: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({
+              attributeName: "attribute_name",
+              attributeValue: "attribute_value",
+              identityProviderId: "identity_provider_id",
+            }),
+          ),
         }),
         Schema.Struct({
           oidc: Schema.Struct({
-            claimName: Schema.String.pipe(T.JsonName("claim_name")),
-            claimValue: Schema.String.pipe(T.JsonName("claim_value")),
-            identityProviderId: Schema.String.pipe(
-              T.JsonName("identity_provider_id"),
-            ),
-          }),
+            claimName: Schema.String,
+            claimValue: Schema.String,
+            identityProviderId: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({
+              claimName: "claim_name",
+              claimValue: "claim_value",
+              identityProviderId: "identity_provider_id",
+            }),
+          ),
         }),
         Schema.Struct({
           serviceToken: Schema.Struct({
-            tokenId: Schema.String.pipe(T.JsonName("token_id")),
-          }).pipe(T.JsonName("service_token")),
-        }),
+            tokenId: Schema.String,
+          }).pipe(Schema.encodeKeys({ tokenId: "token_id" })),
+        }).pipe(Schema.encodeKeys({ serviceToken: "service_token" })),
         Schema.Struct({
           linkedAppToken: Schema.Struct({
-            appUid: Schema.String.pipe(T.JsonName("app_uid")),
-          }).pipe(T.JsonName("linked_app_token")),
-        }),
-      ),
+            appUid: Schema.String,
+          }).pipe(Schema.encodeKeys({ appUid: "app_uid" })),
+        }).pipe(Schema.encodeKeys({ linkedAppToken: "linked_app_token" })),
+      ]),
     ),
   ),
   include: Schema.optional(
     Schema.Array(
-      Schema.Union(
+      Schema.Union([
         Schema.Struct({
           group: Schema.Struct({
             id: Schema.String,
           }),
         }),
         Schema.Struct({
-          anyValidServiceToken: Schema.Unknown.pipe(
-            T.JsonName("any_valid_service_token"),
-          ),
-        }),
+          anyValidServiceToken: Schema.Unknown,
+        }).pipe(
+          Schema.encodeKeys({
+            anyValidServiceToken: "any_valid_service_token",
+          }),
+        ),
         Schema.Struct({
           authContext: Schema.Struct({
             id: Schema.String,
-            acId: Schema.String.pipe(T.JsonName("ac_id")),
-            identityProviderId: Schema.String.pipe(
-              T.JsonName("identity_provider_id"),
-            ),
-          }).pipe(T.JsonName("auth_context")),
-        }),
+            acId: Schema.String,
+            identityProviderId: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({
+              acId: "ac_id",
+              identityProviderId: "identity_provider_id",
+            }),
+          ),
+        }).pipe(Schema.encodeKeys({ authContext: "auth_context" })),
         Schema.Struct({
           authMethod: Schema.Struct({
-            authMethod: Schema.String.pipe(T.JsonName("auth_method")),
-          }).pipe(T.JsonName("auth_method")),
-        }),
+            authMethod: Schema.String,
+          }).pipe(Schema.encodeKeys({ authMethod: "auth_method" })),
+        }).pipe(Schema.encodeKeys({ authMethod: "auth_method" })),
         Schema.Struct({
           azureAD: Schema.Struct({
             id: Schema.String,
-            identityProviderId: Schema.String.pipe(
-              T.JsonName("identity_provider_id"),
-            ),
-          }),
+            identityProviderId: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({ identityProviderId: "identity_provider_id" }),
+          ),
         }),
         Schema.Struct({
           certificate: Schema.Unknown,
         }),
         Schema.Struct({
           commonName: Schema.Struct({
-            commonName: Schema.String.pipe(T.JsonName("common_name")),
-          }).pipe(T.JsonName("common_name")),
-        }),
+            commonName: Schema.String,
+          }).pipe(Schema.encodeKeys({ commonName: "common_name" })),
+        }).pipe(Schema.encodeKeys({ commonName: "common_name" })),
         Schema.Struct({
           geo: Schema.Struct({
-            countryCode: Schema.String.pipe(T.JsonName("country_code")),
-          }),
+            countryCode: Schema.String,
+          }).pipe(Schema.encodeKeys({ countryCode: "country_code" })),
         }),
         Schema.Struct({
           devicePosture: Schema.Struct({
-            integrationUid: Schema.String.pipe(T.JsonName("integration_uid")),
-          }).pipe(T.JsonName("device_posture")),
-        }),
+            integrationUid: Schema.String,
+          }).pipe(Schema.encodeKeys({ integrationUid: "integration_uid" })),
+        }).pipe(Schema.encodeKeys({ devicePosture: "device_posture" })),
         Schema.Struct({
           emailDomain: Schema.Struct({
             domain: Schema.String,
-          }).pipe(T.JsonName("email_domain")),
-        }),
+          }),
+        }).pipe(Schema.encodeKeys({ emailDomain: "email_domain" })),
         Schema.Struct({
           emailList: Schema.Struct({
             id: Schema.String,
-          }).pipe(T.JsonName("email_list")),
-        }),
+          }),
+        }).pipe(Schema.encodeKeys({ emailList: "email_list" })),
         Schema.Struct({
           email: Schema.Struct({
             email: Schema.String,
@@ -4858,37 +4921,46 @@ export const GetAccessApplicationPolicyResponse = Schema.Struct({
         }),
         Schema.Struct({
           externalEvaluation: Schema.Struct({
-            evaluateUrl: Schema.String.pipe(T.JsonName("evaluate_url")),
-            keysUrl: Schema.String.pipe(T.JsonName("keys_url")),
-          }).pipe(T.JsonName("external_evaluation")),
-        }),
+            evaluateUrl: Schema.String,
+            keysUrl: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({
+              evaluateUrl: "evaluate_url",
+              keysUrl: "keys_url",
+            }),
+          ),
+        }).pipe(
+          Schema.encodeKeys({ externalEvaluation: "external_evaluation" }),
+        ),
         Schema.Struct({
           githubOrganization: Schema.Struct({
-            identityProviderId: Schema.String.pipe(
-              T.JsonName("identity_provider_id"),
-            ),
+            identityProviderId: Schema.String,
             name: Schema.String,
             team: Schema.optional(Schema.String),
-          }).pipe(T.JsonName("'github-organization'")),
-        }),
+          }).pipe(
+            Schema.encodeKeys({ identityProviderId: "identity_provider_id" }),
+          ),
+        }).pipe(
+          Schema.encodeKeys({ githubOrganization: "'github-organization'" }),
+        ),
         Schema.Struct({
           gsuite: Schema.Struct({
             email: Schema.String,
-            identityProviderId: Schema.String.pipe(
-              T.JsonName("identity_provider_id"),
-            ),
-          }),
+            identityProviderId: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({ identityProviderId: "identity_provider_id" }),
+          ),
         }),
         Schema.Struct({
           loginMethod: Schema.Struct({
             id: Schema.String,
-          }).pipe(T.JsonName("login_method")),
-        }),
+          }),
+        }).pipe(Schema.encodeKeys({ loginMethod: "login_method" })),
         Schema.Struct({
           ipList: Schema.Struct({
             id: Schema.String,
-          }).pipe(T.JsonName("ip_list")),
-        }),
+          }),
+        }).pipe(Schema.encodeKeys({ ipList: "ip_list" })),
         Schema.Struct({
           ip: Schema.Struct({
             ip: Schema.String,
@@ -4896,117 +4968,124 @@ export const GetAccessApplicationPolicyResponse = Schema.Struct({
         }),
         Schema.Struct({
           okta: Schema.Struct({
-            identityProviderId: Schema.String.pipe(
-              T.JsonName("identity_provider_id"),
-            ),
+            identityProviderId: Schema.String,
             name: Schema.String,
-          }),
+          }).pipe(
+            Schema.encodeKeys({ identityProviderId: "identity_provider_id" }),
+          ),
         }),
         Schema.Struct({
           saml: Schema.Struct({
-            attributeName: Schema.String.pipe(T.JsonName("attribute_name")),
-            attributeValue: Schema.String.pipe(T.JsonName("attribute_value")),
-            identityProviderId: Schema.String.pipe(
-              T.JsonName("identity_provider_id"),
-            ),
-          }),
+            attributeName: Schema.String,
+            attributeValue: Schema.String,
+            identityProviderId: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({
+              attributeName: "attribute_name",
+              attributeValue: "attribute_value",
+              identityProviderId: "identity_provider_id",
+            }),
+          ),
         }),
         Schema.Struct({
           oidc: Schema.Struct({
-            claimName: Schema.String.pipe(T.JsonName("claim_name")),
-            claimValue: Schema.String.pipe(T.JsonName("claim_value")),
-            identityProviderId: Schema.String.pipe(
-              T.JsonName("identity_provider_id"),
-            ),
-          }),
+            claimName: Schema.String,
+            claimValue: Schema.String,
+            identityProviderId: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({
+              claimName: "claim_name",
+              claimValue: "claim_value",
+              identityProviderId: "identity_provider_id",
+            }),
+          ),
         }),
         Schema.Struct({
           serviceToken: Schema.Struct({
-            tokenId: Schema.String.pipe(T.JsonName("token_id")),
-          }).pipe(T.JsonName("service_token")),
-        }),
+            tokenId: Schema.String,
+          }).pipe(Schema.encodeKeys({ tokenId: "token_id" })),
+        }).pipe(Schema.encodeKeys({ serviceToken: "service_token" })),
         Schema.Struct({
           linkedAppToken: Schema.Struct({
-            appUid: Schema.String.pipe(T.JsonName("app_uid")),
-          }).pipe(T.JsonName("linked_app_token")),
-        }),
-      ),
+            appUid: Schema.String,
+          }).pipe(Schema.encodeKeys({ appUid: "app_uid" })),
+        }).pipe(Schema.encodeKeys({ linkedAppToken: "linked_app_token" })),
+      ]),
     ),
   ),
-  isolationRequired: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("isolation_required"),
-  ),
+  isolationRequired: Schema.optional(Schema.Boolean),
   name: Schema.optional(Schema.String),
   precedence: Schema.optional(Schema.Number),
-  purposeJustificationPrompt: Schema.optional(Schema.String).pipe(
-    T.JsonName("purpose_justification_prompt"),
-  ),
-  purposeJustificationRequired: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("purpose_justification_required"),
-  ),
+  purposeJustificationPrompt: Schema.optional(Schema.String),
+  purposeJustificationRequired: Schema.optional(Schema.Boolean),
   require: Schema.optional(
     Schema.Array(
-      Schema.Union(
+      Schema.Union([
         Schema.Struct({
           group: Schema.Struct({
             id: Schema.String,
           }),
         }),
         Schema.Struct({
-          anyValidServiceToken: Schema.Unknown.pipe(
-            T.JsonName("any_valid_service_token"),
-          ),
-        }),
+          anyValidServiceToken: Schema.Unknown,
+        }).pipe(
+          Schema.encodeKeys({
+            anyValidServiceToken: "any_valid_service_token",
+          }),
+        ),
         Schema.Struct({
           authContext: Schema.Struct({
             id: Schema.String,
-            acId: Schema.String.pipe(T.JsonName("ac_id")),
-            identityProviderId: Schema.String.pipe(
-              T.JsonName("identity_provider_id"),
-            ),
-          }).pipe(T.JsonName("auth_context")),
-        }),
+            acId: Schema.String,
+            identityProviderId: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({
+              acId: "ac_id",
+              identityProviderId: "identity_provider_id",
+            }),
+          ),
+        }).pipe(Schema.encodeKeys({ authContext: "auth_context" })),
         Schema.Struct({
           authMethod: Schema.Struct({
-            authMethod: Schema.String.pipe(T.JsonName("auth_method")),
-          }).pipe(T.JsonName("auth_method")),
-        }),
+            authMethod: Schema.String,
+          }).pipe(Schema.encodeKeys({ authMethod: "auth_method" })),
+        }).pipe(Schema.encodeKeys({ authMethod: "auth_method" })),
         Schema.Struct({
           azureAD: Schema.Struct({
             id: Schema.String,
-            identityProviderId: Schema.String.pipe(
-              T.JsonName("identity_provider_id"),
-            ),
-          }),
+            identityProviderId: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({ identityProviderId: "identity_provider_id" }),
+          ),
         }),
         Schema.Struct({
           certificate: Schema.Unknown,
         }),
         Schema.Struct({
           commonName: Schema.Struct({
-            commonName: Schema.String.pipe(T.JsonName("common_name")),
-          }).pipe(T.JsonName("common_name")),
-        }),
+            commonName: Schema.String,
+          }).pipe(Schema.encodeKeys({ commonName: "common_name" })),
+        }).pipe(Schema.encodeKeys({ commonName: "common_name" })),
         Schema.Struct({
           geo: Schema.Struct({
-            countryCode: Schema.String.pipe(T.JsonName("country_code")),
-          }),
+            countryCode: Schema.String,
+          }).pipe(Schema.encodeKeys({ countryCode: "country_code" })),
         }),
         Schema.Struct({
           devicePosture: Schema.Struct({
-            integrationUid: Schema.String.pipe(T.JsonName("integration_uid")),
-          }).pipe(T.JsonName("device_posture")),
-        }),
+            integrationUid: Schema.String,
+          }).pipe(Schema.encodeKeys({ integrationUid: "integration_uid" })),
+        }).pipe(Schema.encodeKeys({ devicePosture: "device_posture" })),
         Schema.Struct({
           emailDomain: Schema.Struct({
             domain: Schema.String,
-          }).pipe(T.JsonName("email_domain")),
-        }),
+          }),
+        }).pipe(Schema.encodeKeys({ emailDomain: "email_domain" })),
         Schema.Struct({
           emailList: Schema.Struct({
             id: Schema.String,
-          }).pipe(T.JsonName("email_list")),
-        }),
+          }),
+        }).pipe(Schema.encodeKeys({ emailList: "email_list" })),
         Schema.Struct({
           email: Schema.Struct({
             email: Schema.String,
@@ -5017,37 +5096,46 @@ export const GetAccessApplicationPolicyResponse = Schema.Struct({
         }),
         Schema.Struct({
           externalEvaluation: Schema.Struct({
-            evaluateUrl: Schema.String.pipe(T.JsonName("evaluate_url")),
-            keysUrl: Schema.String.pipe(T.JsonName("keys_url")),
-          }).pipe(T.JsonName("external_evaluation")),
-        }),
+            evaluateUrl: Schema.String,
+            keysUrl: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({
+              evaluateUrl: "evaluate_url",
+              keysUrl: "keys_url",
+            }),
+          ),
+        }).pipe(
+          Schema.encodeKeys({ externalEvaluation: "external_evaluation" }),
+        ),
         Schema.Struct({
           githubOrganization: Schema.Struct({
-            identityProviderId: Schema.String.pipe(
-              T.JsonName("identity_provider_id"),
-            ),
+            identityProviderId: Schema.String,
             name: Schema.String,
             team: Schema.optional(Schema.String),
-          }).pipe(T.JsonName("'github-organization'")),
-        }),
+          }).pipe(
+            Schema.encodeKeys({ identityProviderId: "identity_provider_id" }),
+          ),
+        }).pipe(
+          Schema.encodeKeys({ githubOrganization: "'github-organization'" }),
+        ),
         Schema.Struct({
           gsuite: Schema.Struct({
             email: Schema.String,
-            identityProviderId: Schema.String.pipe(
-              T.JsonName("identity_provider_id"),
-            ),
-          }),
+            identityProviderId: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({ identityProviderId: "identity_provider_id" }),
+          ),
         }),
         Schema.Struct({
           loginMethod: Schema.Struct({
             id: Schema.String,
-          }).pipe(T.JsonName("login_method")),
-        }),
+          }),
+        }).pipe(Schema.encodeKeys({ loginMethod: "login_method" })),
         Schema.Struct({
           ipList: Schema.Struct({
             id: Schema.String,
-          }).pipe(T.JsonName("ip_list")),
-        }),
+          }),
+        }).pipe(Schema.encodeKeys({ ipList: "ip_list" })),
         Schema.Struct({
           ip: Schema.Struct({
             ip: Schema.String,
@@ -5055,48 +5143,65 @@ export const GetAccessApplicationPolicyResponse = Schema.Struct({
         }),
         Schema.Struct({
           okta: Schema.Struct({
-            identityProviderId: Schema.String.pipe(
-              T.JsonName("identity_provider_id"),
-            ),
+            identityProviderId: Schema.String,
             name: Schema.String,
-          }),
+          }).pipe(
+            Schema.encodeKeys({ identityProviderId: "identity_provider_id" }),
+          ),
         }),
         Schema.Struct({
           saml: Schema.Struct({
-            attributeName: Schema.String.pipe(T.JsonName("attribute_name")),
-            attributeValue: Schema.String.pipe(T.JsonName("attribute_value")),
-            identityProviderId: Schema.String.pipe(
-              T.JsonName("identity_provider_id"),
-            ),
-          }),
+            attributeName: Schema.String,
+            attributeValue: Schema.String,
+            identityProviderId: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({
+              attributeName: "attribute_name",
+              attributeValue: "attribute_value",
+              identityProviderId: "identity_provider_id",
+            }),
+          ),
         }),
         Schema.Struct({
           oidc: Schema.Struct({
-            claimName: Schema.String.pipe(T.JsonName("claim_name")),
-            claimValue: Schema.String.pipe(T.JsonName("claim_value")),
-            identityProviderId: Schema.String.pipe(
-              T.JsonName("identity_provider_id"),
-            ),
-          }),
+            claimName: Schema.String,
+            claimValue: Schema.String,
+            identityProviderId: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({
+              claimName: "claim_name",
+              claimValue: "claim_value",
+              identityProviderId: "identity_provider_id",
+            }),
+          ),
         }),
         Schema.Struct({
           serviceToken: Schema.Struct({
-            tokenId: Schema.String.pipe(T.JsonName("token_id")),
-          }).pipe(T.JsonName("service_token")),
-        }),
+            tokenId: Schema.String,
+          }).pipe(Schema.encodeKeys({ tokenId: "token_id" })),
+        }).pipe(Schema.encodeKeys({ serviceToken: "service_token" })),
         Schema.Struct({
           linkedAppToken: Schema.Struct({
-            appUid: Schema.String.pipe(T.JsonName("app_uid")),
-          }).pipe(T.JsonName("linked_app_token")),
-        }),
-      ),
+            appUid: Schema.String,
+          }).pipe(Schema.encodeKeys({ appUid: "app_uid" })),
+        }).pipe(Schema.encodeKeys({ linkedAppToken: "linked_app_token" })),
+      ]),
     ),
   ),
-  sessionDuration: Schema.optional(Schema.String).pipe(
-    T.JsonName("session_duration"),
-  ),
-  updatedAt: Schema.optional(Schema.String).pipe(T.JsonName("updated_at")),
-}) as unknown as Schema.Schema<GetAccessApplicationPolicyResponse>;
+  sessionDuration: Schema.optional(Schema.String),
+  updatedAt: Schema.optional(Schema.String),
+}).pipe(
+  Schema.encodeKeys({
+    approvalGroups: "approval_groups",
+    approvalRequired: "approval_required",
+    createdAt: "created_at",
+    isolationRequired: "isolation_required",
+    purposeJustificationPrompt: "purpose_justification_prompt",
+    purposeJustificationRequired: "purpose_justification_required",
+    sessionDuration: "session_duration",
+    updatedAt: "updated_at",
+  }),
+) as unknown as Schema.Schema<GetAccessApplicationPolicyResponse>;
 
 export const getAccessApplicationPolicy: (
   input: GetAccessApplicationPolicyRequest,
@@ -5136,26 +5241,22 @@ export const CreateAccessApplicationPolicyRequest = Schema.Struct({
   appId: Schema.String.pipe(T.HttpPath("appId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  approvalGroups: Schema.optional(Schema.Array(Schema.Unknown)).pipe(
-    T.JsonName("approval_groups"),
-  ),
-  approvalRequired: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("approval_required"),
-  ),
-  isolationRequired: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("isolation_required"),
-  ),
+  approvalGroups: Schema.optional(Schema.Array(Schema.Unknown)),
+  approvalRequired: Schema.optional(Schema.Boolean),
+  isolationRequired: Schema.optional(Schema.Boolean),
   precedence: Schema.optional(Schema.Number),
-  purposeJustificationPrompt: Schema.optional(Schema.String).pipe(
-    T.JsonName("purpose_justification_prompt"),
-  ),
-  purposeJustificationRequired: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("purpose_justification_required"),
-  ),
-  sessionDuration: Schema.optional(Schema.String).pipe(
-    T.JsonName("session_duration"),
-  ),
+  purposeJustificationPrompt: Schema.optional(Schema.String),
+  purposeJustificationRequired: Schema.optional(Schema.Boolean),
+  sessionDuration: Schema.optional(Schema.String),
 }).pipe(
+  Schema.encodeKeys({
+    approvalGroups: "approval_groups",
+    approvalRequired: "approval_required",
+    isolationRequired: "isolation_required",
+    purposeJustificationPrompt: "purpose_justification_prompt",
+    purposeJustificationRequired: "purpose_justification_required",
+    sessionDuration: "session_duration",
+  }),
   T.Http({
     method: "POST",
     path: "/{accountOrZone}/{accountOrZoneId}/access/apps/{appId}/policies",
@@ -5324,79 +5425,80 @@ export interface CreateAccessApplicationPolicyResponse {
 
 export const CreateAccessApplicationPolicyResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
-  approvalGroups: Schema.optional(Schema.Array(Schema.Unknown)).pipe(
-    T.JsonName("approval_groups"),
-  ),
-  approvalRequired: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("approval_required"),
-  ),
-  createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
+  approvalGroups: Schema.optional(Schema.Array(Schema.Unknown)),
+  approvalRequired: Schema.optional(Schema.Boolean),
+  createdAt: Schema.optional(Schema.String),
   decision: Schema.optional(
-    Schema.Literal("allow", "bypass", "deny", "non_identity"),
+    Schema.Literals(["allow", "bypass", "deny", "non_identity"]),
   ),
   exclude: Schema.optional(
     Schema.Array(
-      Schema.Union(
+      Schema.Union([
         Schema.Struct({
           group: Schema.Struct({
             id: Schema.String,
           }),
         }),
         Schema.Struct({
-          anyValidServiceToken: Schema.Unknown.pipe(
-            T.JsonName("any_valid_service_token"),
-          ),
-        }),
+          anyValidServiceToken: Schema.Unknown,
+        }).pipe(
+          Schema.encodeKeys({
+            anyValidServiceToken: "any_valid_service_token",
+          }),
+        ),
         Schema.Struct({
           authContext: Schema.Struct({
             id: Schema.String,
-            acId: Schema.String.pipe(T.JsonName("ac_id")),
-            identityProviderId: Schema.String.pipe(
-              T.JsonName("identity_provider_id"),
-            ),
-          }).pipe(T.JsonName("auth_context")),
-        }),
+            acId: Schema.String,
+            identityProviderId: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({
+              acId: "ac_id",
+              identityProviderId: "identity_provider_id",
+            }),
+          ),
+        }).pipe(Schema.encodeKeys({ authContext: "auth_context" })),
         Schema.Struct({
           authMethod: Schema.Struct({
-            authMethod: Schema.String.pipe(T.JsonName("auth_method")),
-          }).pipe(T.JsonName("auth_method")),
-        }),
+            authMethod: Schema.String,
+          }).pipe(Schema.encodeKeys({ authMethod: "auth_method" })),
+        }).pipe(Schema.encodeKeys({ authMethod: "auth_method" })),
         Schema.Struct({
           azureAD: Schema.Struct({
             id: Schema.String,
-            identityProviderId: Schema.String.pipe(
-              T.JsonName("identity_provider_id"),
-            ),
-          }),
+            identityProviderId: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({ identityProviderId: "identity_provider_id" }),
+          ),
         }),
         Schema.Struct({
           certificate: Schema.Unknown,
         }),
         Schema.Struct({
           commonName: Schema.Struct({
-            commonName: Schema.String.pipe(T.JsonName("common_name")),
-          }).pipe(T.JsonName("common_name")),
-        }),
+            commonName: Schema.String,
+          }).pipe(Schema.encodeKeys({ commonName: "common_name" })),
+        }).pipe(Schema.encodeKeys({ commonName: "common_name" })),
         Schema.Struct({
           geo: Schema.Struct({
-            countryCode: Schema.String.pipe(T.JsonName("country_code")),
-          }),
+            countryCode: Schema.String,
+          }).pipe(Schema.encodeKeys({ countryCode: "country_code" })),
         }),
         Schema.Struct({
           devicePosture: Schema.Struct({
-            integrationUid: Schema.String.pipe(T.JsonName("integration_uid")),
-          }).pipe(T.JsonName("device_posture")),
-        }),
+            integrationUid: Schema.String,
+          }).pipe(Schema.encodeKeys({ integrationUid: "integration_uid" })),
+        }).pipe(Schema.encodeKeys({ devicePosture: "device_posture" })),
         Schema.Struct({
           emailDomain: Schema.Struct({
             domain: Schema.String,
-          }).pipe(T.JsonName("email_domain")),
-        }),
+          }),
+        }).pipe(Schema.encodeKeys({ emailDomain: "email_domain" })),
         Schema.Struct({
           emailList: Schema.Struct({
             id: Schema.String,
-          }).pipe(T.JsonName("email_list")),
-        }),
+          }),
+        }).pipe(Schema.encodeKeys({ emailList: "email_list" })),
         Schema.Struct({
           email: Schema.Struct({
             email: Schema.String,
@@ -5407,37 +5509,46 @@ export const CreateAccessApplicationPolicyResponse = Schema.Struct({
         }),
         Schema.Struct({
           externalEvaluation: Schema.Struct({
-            evaluateUrl: Schema.String.pipe(T.JsonName("evaluate_url")),
-            keysUrl: Schema.String.pipe(T.JsonName("keys_url")),
-          }).pipe(T.JsonName("external_evaluation")),
-        }),
+            evaluateUrl: Schema.String,
+            keysUrl: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({
+              evaluateUrl: "evaluate_url",
+              keysUrl: "keys_url",
+            }),
+          ),
+        }).pipe(
+          Schema.encodeKeys({ externalEvaluation: "external_evaluation" }),
+        ),
         Schema.Struct({
           githubOrganization: Schema.Struct({
-            identityProviderId: Schema.String.pipe(
-              T.JsonName("identity_provider_id"),
-            ),
+            identityProviderId: Schema.String,
             name: Schema.String,
             team: Schema.optional(Schema.String),
-          }).pipe(T.JsonName("'github-organization'")),
-        }),
+          }).pipe(
+            Schema.encodeKeys({ identityProviderId: "identity_provider_id" }),
+          ),
+        }).pipe(
+          Schema.encodeKeys({ githubOrganization: "'github-organization'" }),
+        ),
         Schema.Struct({
           gsuite: Schema.Struct({
             email: Schema.String,
-            identityProviderId: Schema.String.pipe(
-              T.JsonName("identity_provider_id"),
-            ),
-          }),
+            identityProviderId: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({ identityProviderId: "identity_provider_id" }),
+          ),
         }),
         Schema.Struct({
           loginMethod: Schema.Struct({
             id: Schema.String,
-          }).pipe(T.JsonName("login_method")),
-        }),
+          }),
+        }).pipe(Schema.encodeKeys({ loginMethod: "login_method" })),
         Schema.Struct({
           ipList: Schema.Struct({
             id: Schema.String,
-          }).pipe(T.JsonName("ip_list")),
-        }),
+          }),
+        }).pipe(Schema.encodeKeys({ ipList: "ip_list" })),
         Schema.Struct({
           ip: Schema.Struct({
             ip: Schema.String,
@@ -5445,106 +5556,119 @@ export const CreateAccessApplicationPolicyResponse = Schema.Struct({
         }),
         Schema.Struct({
           okta: Schema.Struct({
-            identityProviderId: Schema.String.pipe(
-              T.JsonName("identity_provider_id"),
-            ),
+            identityProviderId: Schema.String,
             name: Schema.String,
-          }),
+          }).pipe(
+            Schema.encodeKeys({ identityProviderId: "identity_provider_id" }),
+          ),
         }),
         Schema.Struct({
           saml: Schema.Struct({
-            attributeName: Schema.String.pipe(T.JsonName("attribute_name")),
-            attributeValue: Schema.String.pipe(T.JsonName("attribute_value")),
-            identityProviderId: Schema.String.pipe(
-              T.JsonName("identity_provider_id"),
-            ),
-          }),
+            attributeName: Schema.String,
+            attributeValue: Schema.String,
+            identityProviderId: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({
+              attributeName: "attribute_name",
+              attributeValue: "attribute_value",
+              identityProviderId: "identity_provider_id",
+            }),
+          ),
         }),
         Schema.Struct({
           oidc: Schema.Struct({
-            claimName: Schema.String.pipe(T.JsonName("claim_name")),
-            claimValue: Schema.String.pipe(T.JsonName("claim_value")),
-            identityProviderId: Schema.String.pipe(
-              T.JsonName("identity_provider_id"),
-            ),
-          }),
+            claimName: Schema.String,
+            claimValue: Schema.String,
+            identityProviderId: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({
+              claimName: "claim_name",
+              claimValue: "claim_value",
+              identityProviderId: "identity_provider_id",
+            }),
+          ),
         }),
         Schema.Struct({
           serviceToken: Schema.Struct({
-            tokenId: Schema.String.pipe(T.JsonName("token_id")),
-          }).pipe(T.JsonName("service_token")),
-        }),
+            tokenId: Schema.String,
+          }).pipe(Schema.encodeKeys({ tokenId: "token_id" })),
+        }).pipe(Schema.encodeKeys({ serviceToken: "service_token" })),
         Schema.Struct({
           linkedAppToken: Schema.Struct({
-            appUid: Schema.String.pipe(T.JsonName("app_uid")),
-          }).pipe(T.JsonName("linked_app_token")),
-        }),
-      ),
+            appUid: Schema.String,
+          }).pipe(Schema.encodeKeys({ appUid: "app_uid" })),
+        }).pipe(Schema.encodeKeys({ linkedAppToken: "linked_app_token" })),
+      ]),
     ),
   ),
   include: Schema.optional(
     Schema.Array(
-      Schema.Union(
+      Schema.Union([
         Schema.Struct({
           group: Schema.Struct({
             id: Schema.String,
           }),
         }),
         Schema.Struct({
-          anyValidServiceToken: Schema.Unknown.pipe(
-            T.JsonName("any_valid_service_token"),
-          ),
-        }),
+          anyValidServiceToken: Schema.Unknown,
+        }).pipe(
+          Schema.encodeKeys({
+            anyValidServiceToken: "any_valid_service_token",
+          }),
+        ),
         Schema.Struct({
           authContext: Schema.Struct({
             id: Schema.String,
-            acId: Schema.String.pipe(T.JsonName("ac_id")),
-            identityProviderId: Schema.String.pipe(
-              T.JsonName("identity_provider_id"),
-            ),
-          }).pipe(T.JsonName("auth_context")),
-        }),
+            acId: Schema.String,
+            identityProviderId: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({
+              acId: "ac_id",
+              identityProviderId: "identity_provider_id",
+            }),
+          ),
+        }).pipe(Schema.encodeKeys({ authContext: "auth_context" })),
         Schema.Struct({
           authMethod: Schema.Struct({
-            authMethod: Schema.String.pipe(T.JsonName("auth_method")),
-          }).pipe(T.JsonName("auth_method")),
-        }),
+            authMethod: Schema.String,
+          }).pipe(Schema.encodeKeys({ authMethod: "auth_method" })),
+        }).pipe(Schema.encodeKeys({ authMethod: "auth_method" })),
         Schema.Struct({
           azureAD: Schema.Struct({
             id: Schema.String,
-            identityProviderId: Schema.String.pipe(
-              T.JsonName("identity_provider_id"),
-            ),
-          }),
+            identityProviderId: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({ identityProviderId: "identity_provider_id" }),
+          ),
         }),
         Schema.Struct({
           certificate: Schema.Unknown,
         }),
         Schema.Struct({
           commonName: Schema.Struct({
-            commonName: Schema.String.pipe(T.JsonName("common_name")),
-          }).pipe(T.JsonName("common_name")),
-        }),
+            commonName: Schema.String,
+          }).pipe(Schema.encodeKeys({ commonName: "common_name" })),
+        }).pipe(Schema.encodeKeys({ commonName: "common_name" })),
         Schema.Struct({
           geo: Schema.Struct({
-            countryCode: Schema.String.pipe(T.JsonName("country_code")),
-          }),
+            countryCode: Schema.String,
+          }).pipe(Schema.encodeKeys({ countryCode: "country_code" })),
         }),
         Schema.Struct({
           devicePosture: Schema.Struct({
-            integrationUid: Schema.String.pipe(T.JsonName("integration_uid")),
-          }).pipe(T.JsonName("device_posture")),
-        }),
+            integrationUid: Schema.String,
+          }).pipe(Schema.encodeKeys({ integrationUid: "integration_uid" })),
+        }).pipe(Schema.encodeKeys({ devicePosture: "device_posture" })),
         Schema.Struct({
           emailDomain: Schema.Struct({
             domain: Schema.String,
-          }).pipe(T.JsonName("email_domain")),
-        }),
+          }),
+        }).pipe(Schema.encodeKeys({ emailDomain: "email_domain" })),
         Schema.Struct({
           emailList: Schema.Struct({
             id: Schema.String,
-          }).pipe(T.JsonName("email_list")),
-        }),
+          }),
+        }).pipe(Schema.encodeKeys({ emailList: "email_list" })),
         Schema.Struct({
           email: Schema.Struct({
             email: Schema.String,
@@ -5555,37 +5679,46 @@ export const CreateAccessApplicationPolicyResponse = Schema.Struct({
         }),
         Schema.Struct({
           externalEvaluation: Schema.Struct({
-            evaluateUrl: Schema.String.pipe(T.JsonName("evaluate_url")),
-            keysUrl: Schema.String.pipe(T.JsonName("keys_url")),
-          }).pipe(T.JsonName("external_evaluation")),
-        }),
+            evaluateUrl: Schema.String,
+            keysUrl: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({
+              evaluateUrl: "evaluate_url",
+              keysUrl: "keys_url",
+            }),
+          ),
+        }).pipe(
+          Schema.encodeKeys({ externalEvaluation: "external_evaluation" }),
+        ),
         Schema.Struct({
           githubOrganization: Schema.Struct({
-            identityProviderId: Schema.String.pipe(
-              T.JsonName("identity_provider_id"),
-            ),
+            identityProviderId: Schema.String,
             name: Schema.String,
             team: Schema.optional(Schema.String),
-          }).pipe(T.JsonName("'github-organization'")),
-        }),
+          }).pipe(
+            Schema.encodeKeys({ identityProviderId: "identity_provider_id" }),
+          ),
+        }).pipe(
+          Schema.encodeKeys({ githubOrganization: "'github-organization'" }),
+        ),
         Schema.Struct({
           gsuite: Schema.Struct({
             email: Schema.String,
-            identityProviderId: Schema.String.pipe(
-              T.JsonName("identity_provider_id"),
-            ),
-          }),
+            identityProviderId: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({ identityProviderId: "identity_provider_id" }),
+          ),
         }),
         Schema.Struct({
           loginMethod: Schema.Struct({
             id: Schema.String,
-          }).pipe(T.JsonName("login_method")),
-        }),
+          }),
+        }).pipe(Schema.encodeKeys({ loginMethod: "login_method" })),
         Schema.Struct({
           ipList: Schema.Struct({
             id: Schema.String,
-          }).pipe(T.JsonName("ip_list")),
-        }),
+          }),
+        }).pipe(Schema.encodeKeys({ ipList: "ip_list" })),
         Schema.Struct({
           ip: Schema.Struct({
             ip: Schema.String,
@@ -5593,117 +5726,124 @@ export const CreateAccessApplicationPolicyResponse = Schema.Struct({
         }),
         Schema.Struct({
           okta: Schema.Struct({
-            identityProviderId: Schema.String.pipe(
-              T.JsonName("identity_provider_id"),
-            ),
+            identityProviderId: Schema.String,
             name: Schema.String,
-          }),
+          }).pipe(
+            Schema.encodeKeys({ identityProviderId: "identity_provider_id" }),
+          ),
         }),
         Schema.Struct({
           saml: Schema.Struct({
-            attributeName: Schema.String.pipe(T.JsonName("attribute_name")),
-            attributeValue: Schema.String.pipe(T.JsonName("attribute_value")),
-            identityProviderId: Schema.String.pipe(
-              T.JsonName("identity_provider_id"),
-            ),
-          }),
+            attributeName: Schema.String,
+            attributeValue: Schema.String,
+            identityProviderId: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({
+              attributeName: "attribute_name",
+              attributeValue: "attribute_value",
+              identityProviderId: "identity_provider_id",
+            }),
+          ),
         }),
         Schema.Struct({
           oidc: Schema.Struct({
-            claimName: Schema.String.pipe(T.JsonName("claim_name")),
-            claimValue: Schema.String.pipe(T.JsonName("claim_value")),
-            identityProviderId: Schema.String.pipe(
-              T.JsonName("identity_provider_id"),
-            ),
-          }),
+            claimName: Schema.String,
+            claimValue: Schema.String,
+            identityProviderId: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({
+              claimName: "claim_name",
+              claimValue: "claim_value",
+              identityProviderId: "identity_provider_id",
+            }),
+          ),
         }),
         Schema.Struct({
           serviceToken: Schema.Struct({
-            tokenId: Schema.String.pipe(T.JsonName("token_id")),
-          }).pipe(T.JsonName("service_token")),
-        }),
+            tokenId: Schema.String,
+          }).pipe(Schema.encodeKeys({ tokenId: "token_id" })),
+        }).pipe(Schema.encodeKeys({ serviceToken: "service_token" })),
         Schema.Struct({
           linkedAppToken: Schema.Struct({
-            appUid: Schema.String.pipe(T.JsonName("app_uid")),
-          }).pipe(T.JsonName("linked_app_token")),
-        }),
-      ),
+            appUid: Schema.String,
+          }).pipe(Schema.encodeKeys({ appUid: "app_uid" })),
+        }).pipe(Schema.encodeKeys({ linkedAppToken: "linked_app_token" })),
+      ]),
     ),
   ),
-  isolationRequired: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("isolation_required"),
-  ),
+  isolationRequired: Schema.optional(Schema.Boolean),
   name: Schema.optional(Schema.String),
   precedence: Schema.optional(Schema.Number),
-  purposeJustificationPrompt: Schema.optional(Schema.String).pipe(
-    T.JsonName("purpose_justification_prompt"),
-  ),
-  purposeJustificationRequired: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("purpose_justification_required"),
-  ),
+  purposeJustificationPrompt: Schema.optional(Schema.String),
+  purposeJustificationRequired: Schema.optional(Schema.Boolean),
   require: Schema.optional(
     Schema.Array(
-      Schema.Union(
+      Schema.Union([
         Schema.Struct({
           group: Schema.Struct({
             id: Schema.String,
           }),
         }),
         Schema.Struct({
-          anyValidServiceToken: Schema.Unknown.pipe(
-            T.JsonName("any_valid_service_token"),
-          ),
-        }),
+          anyValidServiceToken: Schema.Unknown,
+        }).pipe(
+          Schema.encodeKeys({
+            anyValidServiceToken: "any_valid_service_token",
+          }),
+        ),
         Schema.Struct({
           authContext: Schema.Struct({
             id: Schema.String,
-            acId: Schema.String.pipe(T.JsonName("ac_id")),
-            identityProviderId: Schema.String.pipe(
-              T.JsonName("identity_provider_id"),
-            ),
-          }).pipe(T.JsonName("auth_context")),
-        }),
+            acId: Schema.String,
+            identityProviderId: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({
+              acId: "ac_id",
+              identityProviderId: "identity_provider_id",
+            }),
+          ),
+        }).pipe(Schema.encodeKeys({ authContext: "auth_context" })),
         Schema.Struct({
           authMethod: Schema.Struct({
-            authMethod: Schema.String.pipe(T.JsonName("auth_method")),
-          }).pipe(T.JsonName("auth_method")),
-        }),
+            authMethod: Schema.String,
+          }).pipe(Schema.encodeKeys({ authMethod: "auth_method" })),
+        }).pipe(Schema.encodeKeys({ authMethod: "auth_method" })),
         Schema.Struct({
           azureAD: Schema.Struct({
             id: Schema.String,
-            identityProviderId: Schema.String.pipe(
-              T.JsonName("identity_provider_id"),
-            ),
-          }),
+            identityProviderId: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({ identityProviderId: "identity_provider_id" }),
+          ),
         }),
         Schema.Struct({
           certificate: Schema.Unknown,
         }),
         Schema.Struct({
           commonName: Schema.Struct({
-            commonName: Schema.String.pipe(T.JsonName("common_name")),
-          }).pipe(T.JsonName("common_name")),
-        }),
+            commonName: Schema.String,
+          }).pipe(Schema.encodeKeys({ commonName: "common_name" })),
+        }).pipe(Schema.encodeKeys({ commonName: "common_name" })),
         Schema.Struct({
           geo: Schema.Struct({
-            countryCode: Schema.String.pipe(T.JsonName("country_code")),
-          }),
+            countryCode: Schema.String,
+          }).pipe(Schema.encodeKeys({ countryCode: "country_code" })),
         }),
         Schema.Struct({
           devicePosture: Schema.Struct({
-            integrationUid: Schema.String.pipe(T.JsonName("integration_uid")),
-          }).pipe(T.JsonName("device_posture")),
-        }),
+            integrationUid: Schema.String,
+          }).pipe(Schema.encodeKeys({ integrationUid: "integration_uid" })),
+        }).pipe(Schema.encodeKeys({ devicePosture: "device_posture" })),
         Schema.Struct({
           emailDomain: Schema.Struct({
             domain: Schema.String,
-          }).pipe(T.JsonName("email_domain")),
-        }),
+          }),
+        }).pipe(Schema.encodeKeys({ emailDomain: "email_domain" })),
         Schema.Struct({
           emailList: Schema.Struct({
             id: Schema.String,
-          }).pipe(T.JsonName("email_list")),
-        }),
+          }),
+        }).pipe(Schema.encodeKeys({ emailList: "email_list" })),
         Schema.Struct({
           email: Schema.Struct({
             email: Schema.String,
@@ -5714,37 +5854,46 @@ export const CreateAccessApplicationPolicyResponse = Schema.Struct({
         }),
         Schema.Struct({
           externalEvaluation: Schema.Struct({
-            evaluateUrl: Schema.String.pipe(T.JsonName("evaluate_url")),
-            keysUrl: Schema.String.pipe(T.JsonName("keys_url")),
-          }).pipe(T.JsonName("external_evaluation")),
-        }),
+            evaluateUrl: Schema.String,
+            keysUrl: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({
+              evaluateUrl: "evaluate_url",
+              keysUrl: "keys_url",
+            }),
+          ),
+        }).pipe(
+          Schema.encodeKeys({ externalEvaluation: "external_evaluation" }),
+        ),
         Schema.Struct({
           githubOrganization: Schema.Struct({
-            identityProviderId: Schema.String.pipe(
-              T.JsonName("identity_provider_id"),
-            ),
+            identityProviderId: Schema.String,
             name: Schema.String,
             team: Schema.optional(Schema.String),
-          }).pipe(T.JsonName("'github-organization'")),
-        }),
+          }).pipe(
+            Schema.encodeKeys({ identityProviderId: "identity_provider_id" }),
+          ),
+        }).pipe(
+          Schema.encodeKeys({ githubOrganization: "'github-organization'" }),
+        ),
         Schema.Struct({
           gsuite: Schema.Struct({
             email: Schema.String,
-            identityProviderId: Schema.String.pipe(
-              T.JsonName("identity_provider_id"),
-            ),
-          }),
+            identityProviderId: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({ identityProviderId: "identity_provider_id" }),
+          ),
         }),
         Schema.Struct({
           loginMethod: Schema.Struct({
             id: Schema.String,
-          }).pipe(T.JsonName("login_method")),
-        }),
+          }),
+        }).pipe(Schema.encodeKeys({ loginMethod: "login_method" })),
         Schema.Struct({
           ipList: Schema.Struct({
             id: Schema.String,
-          }).pipe(T.JsonName("ip_list")),
-        }),
+          }),
+        }).pipe(Schema.encodeKeys({ ipList: "ip_list" })),
         Schema.Struct({
           ip: Schema.Struct({
             ip: Schema.String,
@@ -5752,48 +5901,65 @@ export const CreateAccessApplicationPolicyResponse = Schema.Struct({
         }),
         Schema.Struct({
           okta: Schema.Struct({
-            identityProviderId: Schema.String.pipe(
-              T.JsonName("identity_provider_id"),
-            ),
+            identityProviderId: Schema.String,
             name: Schema.String,
-          }),
+          }).pipe(
+            Schema.encodeKeys({ identityProviderId: "identity_provider_id" }),
+          ),
         }),
         Schema.Struct({
           saml: Schema.Struct({
-            attributeName: Schema.String.pipe(T.JsonName("attribute_name")),
-            attributeValue: Schema.String.pipe(T.JsonName("attribute_value")),
-            identityProviderId: Schema.String.pipe(
-              T.JsonName("identity_provider_id"),
-            ),
-          }),
+            attributeName: Schema.String,
+            attributeValue: Schema.String,
+            identityProviderId: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({
+              attributeName: "attribute_name",
+              attributeValue: "attribute_value",
+              identityProviderId: "identity_provider_id",
+            }),
+          ),
         }),
         Schema.Struct({
           oidc: Schema.Struct({
-            claimName: Schema.String.pipe(T.JsonName("claim_name")),
-            claimValue: Schema.String.pipe(T.JsonName("claim_value")),
-            identityProviderId: Schema.String.pipe(
-              T.JsonName("identity_provider_id"),
-            ),
-          }),
+            claimName: Schema.String,
+            claimValue: Schema.String,
+            identityProviderId: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({
+              claimName: "claim_name",
+              claimValue: "claim_value",
+              identityProviderId: "identity_provider_id",
+            }),
+          ),
         }),
         Schema.Struct({
           serviceToken: Schema.Struct({
-            tokenId: Schema.String.pipe(T.JsonName("token_id")),
-          }).pipe(T.JsonName("service_token")),
-        }),
+            tokenId: Schema.String,
+          }).pipe(Schema.encodeKeys({ tokenId: "token_id" })),
+        }).pipe(Schema.encodeKeys({ serviceToken: "service_token" })),
         Schema.Struct({
           linkedAppToken: Schema.Struct({
-            appUid: Schema.String.pipe(T.JsonName("app_uid")),
-          }).pipe(T.JsonName("linked_app_token")),
-        }),
-      ),
+            appUid: Schema.String,
+          }).pipe(Schema.encodeKeys({ appUid: "app_uid" })),
+        }).pipe(Schema.encodeKeys({ linkedAppToken: "linked_app_token" })),
+      ]),
     ),
   ),
-  sessionDuration: Schema.optional(Schema.String).pipe(
-    T.JsonName("session_duration"),
-  ),
-  updatedAt: Schema.optional(Schema.String).pipe(T.JsonName("updated_at")),
-}) as unknown as Schema.Schema<CreateAccessApplicationPolicyResponse>;
+  sessionDuration: Schema.optional(Schema.String),
+  updatedAt: Schema.optional(Schema.String),
+}).pipe(
+  Schema.encodeKeys({
+    approvalGroups: "approval_groups",
+    approvalRequired: "approval_required",
+    createdAt: "created_at",
+    isolationRequired: "isolation_required",
+    purposeJustificationPrompt: "purpose_justification_prompt",
+    purposeJustificationRequired: "purpose_justification_required",
+    sessionDuration: "session_duration",
+    updatedAt: "updated_at",
+  }),
+) as unknown as Schema.Schema<CreateAccessApplicationPolicyResponse>;
 
 export const createAccessApplicationPolicy: (
   input: CreateAccessApplicationPolicyRequest,
@@ -5835,26 +6001,22 @@ export const UpdateAccessApplicationPolicyRequest = Schema.Struct({
   policyId: Schema.String.pipe(T.HttpPath("policyId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  approvalGroups: Schema.optional(Schema.Array(Schema.Unknown)).pipe(
-    T.JsonName("approval_groups"),
-  ),
-  approvalRequired: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("approval_required"),
-  ),
-  isolationRequired: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("isolation_required"),
-  ),
+  approvalGroups: Schema.optional(Schema.Array(Schema.Unknown)),
+  approvalRequired: Schema.optional(Schema.Boolean),
+  isolationRequired: Schema.optional(Schema.Boolean),
   precedence: Schema.optional(Schema.Number),
-  purposeJustificationPrompt: Schema.optional(Schema.String).pipe(
-    T.JsonName("purpose_justification_prompt"),
-  ),
-  purposeJustificationRequired: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("purpose_justification_required"),
-  ),
-  sessionDuration: Schema.optional(Schema.String).pipe(
-    T.JsonName("session_duration"),
-  ),
+  purposeJustificationPrompt: Schema.optional(Schema.String),
+  purposeJustificationRequired: Schema.optional(Schema.Boolean),
+  sessionDuration: Schema.optional(Schema.String),
 }).pipe(
+  Schema.encodeKeys({
+    approvalGroups: "approval_groups",
+    approvalRequired: "approval_required",
+    isolationRequired: "isolation_required",
+    purposeJustificationPrompt: "purpose_justification_prompt",
+    purposeJustificationRequired: "purpose_justification_required",
+    sessionDuration: "session_duration",
+  }),
   T.Http({
     method: "PUT",
     path: "/{accountOrZone}/{accountOrZoneId}/access/apps/{appId}/policies/{policyId}",
@@ -6023,79 +6185,80 @@ export interface UpdateAccessApplicationPolicyResponse {
 
 export const UpdateAccessApplicationPolicyResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
-  approvalGroups: Schema.optional(Schema.Array(Schema.Unknown)).pipe(
-    T.JsonName("approval_groups"),
-  ),
-  approvalRequired: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("approval_required"),
-  ),
-  createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
+  approvalGroups: Schema.optional(Schema.Array(Schema.Unknown)),
+  approvalRequired: Schema.optional(Schema.Boolean),
+  createdAt: Schema.optional(Schema.String),
   decision: Schema.optional(
-    Schema.Literal("allow", "bypass", "deny", "non_identity"),
+    Schema.Literals(["allow", "bypass", "deny", "non_identity"]),
   ),
   exclude: Schema.optional(
     Schema.Array(
-      Schema.Union(
+      Schema.Union([
         Schema.Struct({
           group: Schema.Struct({
             id: Schema.String,
           }),
         }),
         Schema.Struct({
-          anyValidServiceToken: Schema.Unknown.pipe(
-            T.JsonName("any_valid_service_token"),
-          ),
-        }),
+          anyValidServiceToken: Schema.Unknown,
+        }).pipe(
+          Schema.encodeKeys({
+            anyValidServiceToken: "any_valid_service_token",
+          }),
+        ),
         Schema.Struct({
           authContext: Schema.Struct({
             id: Schema.String,
-            acId: Schema.String.pipe(T.JsonName("ac_id")),
-            identityProviderId: Schema.String.pipe(
-              T.JsonName("identity_provider_id"),
-            ),
-          }).pipe(T.JsonName("auth_context")),
-        }),
+            acId: Schema.String,
+            identityProviderId: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({
+              acId: "ac_id",
+              identityProviderId: "identity_provider_id",
+            }),
+          ),
+        }).pipe(Schema.encodeKeys({ authContext: "auth_context" })),
         Schema.Struct({
           authMethod: Schema.Struct({
-            authMethod: Schema.String.pipe(T.JsonName("auth_method")),
-          }).pipe(T.JsonName("auth_method")),
-        }),
+            authMethod: Schema.String,
+          }).pipe(Schema.encodeKeys({ authMethod: "auth_method" })),
+        }).pipe(Schema.encodeKeys({ authMethod: "auth_method" })),
         Schema.Struct({
           azureAD: Schema.Struct({
             id: Schema.String,
-            identityProviderId: Schema.String.pipe(
-              T.JsonName("identity_provider_id"),
-            ),
-          }),
+            identityProviderId: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({ identityProviderId: "identity_provider_id" }),
+          ),
         }),
         Schema.Struct({
           certificate: Schema.Unknown,
         }),
         Schema.Struct({
           commonName: Schema.Struct({
-            commonName: Schema.String.pipe(T.JsonName("common_name")),
-          }).pipe(T.JsonName("common_name")),
-        }),
+            commonName: Schema.String,
+          }).pipe(Schema.encodeKeys({ commonName: "common_name" })),
+        }).pipe(Schema.encodeKeys({ commonName: "common_name" })),
         Schema.Struct({
           geo: Schema.Struct({
-            countryCode: Schema.String.pipe(T.JsonName("country_code")),
-          }),
+            countryCode: Schema.String,
+          }).pipe(Schema.encodeKeys({ countryCode: "country_code" })),
         }),
         Schema.Struct({
           devicePosture: Schema.Struct({
-            integrationUid: Schema.String.pipe(T.JsonName("integration_uid")),
-          }).pipe(T.JsonName("device_posture")),
-        }),
+            integrationUid: Schema.String,
+          }).pipe(Schema.encodeKeys({ integrationUid: "integration_uid" })),
+        }).pipe(Schema.encodeKeys({ devicePosture: "device_posture" })),
         Schema.Struct({
           emailDomain: Schema.Struct({
             domain: Schema.String,
-          }).pipe(T.JsonName("email_domain")),
-        }),
+          }),
+        }).pipe(Schema.encodeKeys({ emailDomain: "email_domain" })),
         Schema.Struct({
           emailList: Schema.Struct({
             id: Schema.String,
-          }).pipe(T.JsonName("email_list")),
-        }),
+          }),
+        }).pipe(Schema.encodeKeys({ emailList: "email_list" })),
         Schema.Struct({
           email: Schema.Struct({
             email: Schema.String,
@@ -6106,37 +6269,46 @@ export const UpdateAccessApplicationPolicyResponse = Schema.Struct({
         }),
         Schema.Struct({
           externalEvaluation: Schema.Struct({
-            evaluateUrl: Schema.String.pipe(T.JsonName("evaluate_url")),
-            keysUrl: Schema.String.pipe(T.JsonName("keys_url")),
-          }).pipe(T.JsonName("external_evaluation")),
-        }),
+            evaluateUrl: Schema.String,
+            keysUrl: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({
+              evaluateUrl: "evaluate_url",
+              keysUrl: "keys_url",
+            }),
+          ),
+        }).pipe(
+          Schema.encodeKeys({ externalEvaluation: "external_evaluation" }),
+        ),
         Schema.Struct({
           githubOrganization: Schema.Struct({
-            identityProviderId: Schema.String.pipe(
-              T.JsonName("identity_provider_id"),
-            ),
+            identityProviderId: Schema.String,
             name: Schema.String,
             team: Schema.optional(Schema.String),
-          }).pipe(T.JsonName("'github-organization'")),
-        }),
+          }).pipe(
+            Schema.encodeKeys({ identityProviderId: "identity_provider_id" }),
+          ),
+        }).pipe(
+          Schema.encodeKeys({ githubOrganization: "'github-organization'" }),
+        ),
         Schema.Struct({
           gsuite: Schema.Struct({
             email: Schema.String,
-            identityProviderId: Schema.String.pipe(
-              T.JsonName("identity_provider_id"),
-            ),
-          }),
+            identityProviderId: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({ identityProviderId: "identity_provider_id" }),
+          ),
         }),
         Schema.Struct({
           loginMethod: Schema.Struct({
             id: Schema.String,
-          }).pipe(T.JsonName("login_method")),
-        }),
+          }),
+        }).pipe(Schema.encodeKeys({ loginMethod: "login_method" })),
         Schema.Struct({
           ipList: Schema.Struct({
             id: Schema.String,
-          }).pipe(T.JsonName("ip_list")),
-        }),
+          }),
+        }).pipe(Schema.encodeKeys({ ipList: "ip_list" })),
         Schema.Struct({
           ip: Schema.Struct({
             ip: Schema.String,
@@ -6144,106 +6316,119 @@ export const UpdateAccessApplicationPolicyResponse = Schema.Struct({
         }),
         Schema.Struct({
           okta: Schema.Struct({
-            identityProviderId: Schema.String.pipe(
-              T.JsonName("identity_provider_id"),
-            ),
+            identityProviderId: Schema.String,
             name: Schema.String,
-          }),
+          }).pipe(
+            Schema.encodeKeys({ identityProviderId: "identity_provider_id" }),
+          ),
         }),
         Schema.Struct({
           saml: Schema.Struct({
-            attributeName: Schema.String.pipe(T.JsonName("attribute_name")),
-            attributeValue: Schema.String.pipe(T.JsonName("attribute_value")),
-            identityProviderId: Schema.String.pipe(
-              T.JsonName("identity_provider_id"),
-            ),
-          }),
+            attributeName: Schema.String,
+            attributeValue: Schema.String,
+            identityProviderId: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({
+              attributeName: "attribute_name",
+              attributeValue: "attribute_value",
+              identityProviderId: "identity_provider_id",
+            }),
+          ),
         }),
         Schema.Struct({
           oidc: Schema.Struct({
-            claimName: Schema.String.pipe(T.JsonName("claim_name")),
-            claimValue: Schema.String.pipe(T.JsonName("claim_value")),
-            identityProviderId: Schema.String.pipe(
-              T.JsonName("identity_provider_id"),
-            ),
-          }),
+            claimName: Schema.String,
+            claimValue: Schema.String,
+            identityProviderId: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({
+              claimName: "claim_name",
+              claimValue: "claim_value",
+              identityProviderId: "identity_provider_id",
+            }),
+          ),
         }),
         Schema.Struct({
           serviceToken: Schema.Struct({
-            tokenId: Schema.String.pipe(T.JsonName("token_id")),
-          }).pipe(T.JsonName("service_token")),
-        }),
+            tokenId: Schema.String,
+          }).pipe(Schema.encodeKeys({ tokenId: "token_id" })),
+        }).pipe(Schema.encodeKeys({ serviceToken: "service_token" })),
         Schema.Struct({
           linkedAppToken: Schema.Struct({
-            appUid: Schema.String.pipe(T.JsonName("app_uid")),
-          }).pipe(T.JsonName("linked_app_token")),
-        }),
-      ),
+            appUid: Schema.String,
+          }).pipe(Schema.encodeKeys({ appUid: "app_uid" })),
+        }).pipe(Schema.encodeKeys({ linkedAppToken: "linked_app_token" })),
+      ]),
     ),
   ),
   include: Schema.optional(
     Schema.Array(
-      Schema.Union(
+      Schema.Union([
         Schema.Struct({
           group: Schema.Struct({
             id: Schema.String,
           }),
         }),
         Schema.Struct({
-          anyValidServiceToken: Schema.Unknown.pipe(
-            T.JsonName("any_valid_service_token"),
-          ),
-        }),
+          anyValidServiceToken: Schema.Unknown,
+        }).pipe(
+          Schema.encodeKeys({
+            anyValidServiceToken: "any_valid_service_token",
+          }),
+        ),
         Schema.Struct({
           authContext: Schema.Struct({
             id: Schema.String,
-            acId: Schema.String.pipe(T.JsonName("ac_id")),
-            identityProviderId: Schema.String.pipe(
-              T.JsonName("identity_provider_id"),
-            ),
-          }).pipe(T.JsonName("auth_context")),
-        }),
+            acId: Schema.String,
+            identityProviderId: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({
+              acId: "ac_id",
+              identityProviderId: "identity_provider_id",
+            }),
+          ),
+        }).pipe(Schema.encodeKeys({ authContext: "auth_context" })),
         Schema.Struct({
           authMethod: Schema.Struct({
-            authMethod: Schema.String.pipe(T.JsonName("auth_method")),
-          }).pipe(T.JsonName("auth_method")),
-        }),
+            authMethod: Schema.String,
+          }).pipe(Schema.encodeKeys({ authMethod: "auth_method" })),
+        }).pipe(Schema.encodeKeys({ authMethod: "auth_method" })),
         Schema.Struct({
           azureAD: Schema.Struct({
             id: Schema.String,
-            identityProviderId: Schema.String.pipe(
-              T.JsonName("identity_provider_id"),
-            ),
-          }),
+            identityProviderId: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({ identityProviderId: "identity_provider_id" }),
+          ),
         }),
         Schema.Struct({
           certificate: Schema.Unknown,
         }),
         Schema.Struct({
           commonName: Schema.Struct({
-            commonName: Schema.String.pipe(T.JsonName("common_name")),
-          }).pipe(T.JsonName("common_name")),
-        }),
+            commonName: Schema.String,
+          }).pipe(Schema.encodeKeys({ commonName: "common_name" })),
+        }).pipe(Schema.encodeKeys({ commonName: "common_name" })),
         Schema.Struct({
           geo: Schema.Struct({
-            countryCode: Schema.String.pipe(T.JsonName("country_code")),
-          }),
+            countryCode: Schema.String,
+          }).pipe(Schema.encodeKeys({ countryCode: "country_code" })),
         }),
         Schema.Struct({
           devicePosture: Schema.Struct({
-            integrationUid: Schema.String.pipe(T.JsonName("integration_uid")),
-          }).pipe(T.JsonName("device_posture")),
-        }),
+            integrationUid: Schema.String,
+          }).pipe(Schema.encodeKeys({ integrationUid: "integration_uid" })),
+        }).pipe(Schema.encodeKeys({ devicePosture: "device_posture" })),
         Schema.Struct({
           emailDomain: Schema.Struct({
             domain: Schema.String,
-          }).pipe(T.JsonName("email_domain")),
-        }),
+          }),
+        }).pipe(Schema.encodeKeys({ emailDomain: "email_domain" })),
         Schema.Struct({
           emailList: Schema.Struct({
             id: Schema.String,
-          }).pipe(T.JsonName("email_list")),
-        }),
+          }),
+        }).pipe(Schema.encodeKeys({ emailList: "email_list" })),
         Schema.Struct({
           email: Schema.Struct({
             email: Schema.String,
@@ -6254,37 +6439,46 @@ export const UpdateAccessApplicationPolicyResponse = Schema.Struct({
         }),
         Schema.Struct({
           externalEvaluation: Schema.Struct({
-            evaluateUrl: Schema.String.pipe(T.JsonName("evaluate_url")),
-            keysUrl: Schema.String.pipe(T.JsonName("keys_url")),
-          }).pipe(T.JsonName("external_evaluation")),
-        }),
+            evaluateUrl: Schema.String,
+            keysUrl: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({
+              evaluateUrl: "evaluate_url",
+              keysUrl: "keys_url",
+            }),
+          ),
+        }).pipe(
+          Schema.encodeKeys({ externalEvaluation: "external_evaluation" }),
+        ),
         Schema.Struct({
           githubOrganization: Schema.Struct({
-            identityProviderId: Schema.String.pipe(
-              T.JsonName("identity_provider_id"),
-            ),
+            identityProviderId: Schema.String,
             name: Schema.String,
             team: Schema.optional(Schema.String),
-          }).pipe(T.JsonName("'github-organization'")),
-        }),
+          }).pipe(
+            Schema.encodeKeys({ identityProviderId: "identity_provider_id" }),
+          ),
+        }).pipe(
+          Schema.encodeKeys({ githubOrganization: "'github-organization'" }),
+        ),
         Schema.Struct({
           gsuite: Schema.Struct({
             email: Schema.String,
-            identityProviderId: Schema.String.pipe(
-              T.JsonName("identity_provider_id"),
-            ),
-          }),
+            identityProviderId: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({ identityProviderId: "identity_provider_id" }),
+          ),
         }),
         Schema.Struct({
           loginMethod: Schema.Struct({
             id: Schema.String,
-          }).pipe(T.JsonName("login_method")),
-        }),
+          }),
+        }).pipe(Schema.encodeKeys({ loginMethod: "login_method" })),
         Schema.Struct({
           ipList: Schema.Struct({
             id: Schema.String,
-          }).pipe(T.JsonName("ip_list")),
-        }),
+          }),
+        }).pipe(Schema.encodeKeys({ ipList: "ip_list" })),
         Schema.Struct({
           ip: Schema.Struct({
             ip: Schema.String,
@@ -6292,117 +6486,124 @@ export const UpdateAccessApplicationPolicyResponse = Schema.Struct({
         }),
         Schema.Struct({
           okta: Schema.Struct({
-            identityProviderId: Schema.String.pipe(
-              T.JsonName("identity_provider_id"),
-            ),
+            identityProviderId: Schema.String,
             name: Schema.String,
-          }),
+          }).pipe(
+            Schema.encodeKeys({ identityProviderId: "identity_provider_id" }),
+          ),
         }),
         Schema.Struct({
           saml: Schema.Struct({
-            attributeName: Schema.String.pipe(T.JsonName("attribute_name")),
-            attributeValue: Schema.String.pipe(T.JsonName("attribute_value")),
-            identityProviderId: Schema.String.pipe(
-              T.JsonName("identity_provider_id"),
-            ),
-          }),
+            attributeName: Schema.String,
+            attributeValue: Schema.String,
+            identityProviderId: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({
+              attributeName: "attribute_name",
+              attributeValue: "attribute_value",
+              identityProviderId: "identity_provider_id",
+            }),
+          ),
         }),
         Schema.Struct({
           oidc: Schema.Struct({
-            claimName: Schema.String.pipe(T.JsonName("claim_name")),
-            claimValue: Schema.String.pipe(T.JsonName("claim_value")),
-            identityProviderId: Schema.String.pipe(
-              T.JsonName("identity_provider_id"),
-            ),
-          }),
+            claimName: Schema.String,
+            claimValue: Schema.String,
+            identityProviderId: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({
+              claimName: "claim_name",
+              claimValue: "claim_value",
+              identityProviderId: "identity_provider_id",
+            }),
+          ),
         }),
         Schema.Struct({
           serviceToken: Schema.Struct({
-            tokenId: Schema.String.pipe(T.JsonName("token_id")),
-          }).pipe(T.JsonName("service_token")),
-        }),
+            tokenId: Schema.String,
+          }).pipe(Schema.encodeKeys({ tokenId: "token_id" })),
+        }).pipe(Schema.encodeKeys({ serviceToken: "service_token" })),
         Schema.Struct({
           linkedAppToken: Schema.Struct({
-            appUid: Schema.String.pipe(T.JsonName("app_uid")),
-          }).pipe(T.JsonName("linked_app_token")),
-        }),
-      ),
+            appUid: Schema.String,
+          }).pipe(Schema.encodeKeys({ appUid: "app_uid" })),
+        }).pipe(Schema.encodeKeys({ linkedAppToken: "linked_app_token" })),
+      ]),
     ),
   ),
-  isolationRequired: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("isolation_required"),
-  ),
+  isolationRequired: Schema.optional(Schema.Boolean),
   name: Schema.optional(Schema.String),
   precedence: Schema.optional(Schema.Number),
-  purposeJustificationPrompt: Schema.optional(Schema.String).pipe(
-    T.JsonName("purpose_justification_prompt"),
-  ),
-  purposeJustificationRequired: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("purpose_justification_required"),
-  ),
+  purposeJustificationPrompt: Schema.optional(Schema.String),
+  purposeJustificationRequired: Schema.optional(Schema.Boolean),
   require: Schema.optional(
     Schema.Array(
-      Schema.Union(
+      Schema.Union([
         Schema.Struct({
           group: Schema.Struct({
             id: Schema.String,
           }),
         }),
         Schema.Struct({
-          anyValidServiceToken: Schema.Unknown.pipe(
-            T.JsonName("any_valid_service_token"),
-          ),
-        }),
+          anyValidServiceToken: Schema.Unknown,
+        }).pipe(
+          Schema.encodeKeys({
+            anyValidServiceToken: "any_valid_service_token",
+          }),
+        ),
         Schema.Struct({
           authContext: Schema.Struct({
             id: Schema.String,
-            acId: Schema.String.pipe(T.JsonName("ac_id")),
-            identityProviderId: Schema.String.pipe(
-              T.JsonName("identity_provider_id"),
-            ),
-          }).pipe(T.JsonName("auth_context")),
-        }),
+            acId: Schema.String,
+            identityProviderId: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({
+              acId: "ac_id",
+              identityProviderId: "identity_provider_id",
+            }),
+          ),
+        }).pipe(Schema.encodeKeys({ authContext: "auth_context" })),
         Schema.Struct({
           authMethod: Schema.Struct({
-            authMethod: Schema.String.pipe(T.JsonName("auth_method")),
-          }).pipe(T.JsonName("auth_method")),
-        }),
+            authMethod: Schema.String,
+          }).pipe(Schema.encodeKeys({ authMethod: "auth_method" })),
+        }).pipe(Schema.encodeKeys({ authMethod: "auth_method" })),
         Schema.Struct({
           azureAD: Schema.Struct({
             id: Schema.String,
-            identityProviderId: Schema.String.pipe(
-              T.JsonName("identity_provider_id"),
-            ),
-          }),
+            identityProviderId: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({ identityProviderId: "identity_provider_id" }),
+          ),
         }),
         Schema.Struct({
           certificate: Schema.Unknown,
         }),
         Schema.Struct({
           commonName: Schema.Struct({
-            commonName: Schema.String.pipe(T.JsonName("common_name")),
-          }).pipe(T.JsonName("common_name")),
-        }),
+            commonName: Schema.String,
+          }).pipe(Schema.encodeKeys({ commonName: "common_name" })),
+        }).pipe(Schema.encodeKeys({ commonName: "common_name" })),
         Schema.Struct({
           geo: Schema.Struct({
-            countryCode: Schema.String.pipe(T.JsonName("country_code")),
-          }),
+            countryCode: Schema.String,
+          }).pipe(Schema.encodeKeys({ countryCode: "country_code" })),
         }),
         Schema.Struct({
           devicePosture: Schema.Struct({
-            integrationUid: Schema.String.pipe(T.JsonName("integration_uid")),
-          }).pipe(T.JsonName("device_posture")),
-        }),
+            integrationUid: Schema.String,
+          }).pipe(Schema.encodeKeys({ integrationUid: "integration_uid" })),
+        }).pipe(Schema.encodeKeys({ devicePosture: "device_posture" })),
         Schema.Struct({
           emailDomain: Schema.Struct({
             domain: Schema.String,
-          }).pipe(T.JsonName("email_domain")),
-        }),
+          }),
+        }).pipe(Schema.encodeKeys({ emailDomain: "email_domain" })),
         Schema.Struct({
           emailList: Schema.Struct({
             id: Schema.String,
-          }).pipe(T.JsonName("email_list")),
-        }),
+          }),
+        }).pipe(Schema.encodeKeys({ emailList: "email_list" })),
         Schema.Struct({
           email: Schema.Struct({
             email: Schema.String,
@@ -6413,37 +6614,46 @@ export const UpdateAccessApplicationPolicyResponse = Schema.Struct({
         }),
         Schema.Struct({
           externalEvaluation: Schema.Struct({
-            evaluateUrl: Schema.String.pipe(T.JsonName("evaluate_url")),
-            keysUrl: Schema.String.pipe(T.JsonName("keys_url")),
-          }).pipe(T.JsonName("external_evaluation")),
-        }),
+            evaluateUrl: Schema.String,
+            keysUrl: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({
+              evaluateUrl: "evaluate_url",
+              keysUrl: "keys_url",
+            }),
+          ),
+        }).pipe(
+          Schema.encodeKeys({ externalEvaluation: "external_evaluation" }),
+        ),
         Schema.Struct({
           githubOrganization: Schema.Struct({
-            identityProviderId: Schema.String.pipe(
-              T.JsonName("identity_provider_id"),
-            ),
+            identityProviderId: Schema.String,
             name: Schema.String,
             team: Schema.optional(Schema.String),
-          }).pipe(T.JsonName("'github-organization'")),
-        }),
+          }).pipe(
+            Schema.encodeKeys({ identityProviderId: "identity_provider_id" }),
+          ),
+        }).pipe(
+          Schema.encodeKeys({ githubOrganization: "'github-organization'" }),
+        ),
         Schema.Struct({
           gsuite: Schema.Struct({
             email: Schema.String,
-            identityProviderId: Schema.String.pipe(
-              T.JsonName("identity_provider_id"),
-            ),
-          }),
+            identityProviderId: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({ identityProviderId: "identity_provider_id" }),
+          ),
         }),
         Schema.Struct({
           loginMethod: Schema.Struct({
             id: Schema.String,
-          }).pipe(T.JsonName("login_method")),
-        }),
+          }),
+        }).pipe(Schema.encodeKeys({ loginMethod: "login_method" })),
         Schema.Struct({
           ipList: Schema.Struct({
             id: Schema.String,
-          }).pipe(T.JsonName("ip_list")),
-        }),
+          }),
+        }).pipe(Schema.encodeKeys({ ipList: "ip_list" })),
         Schema.Struct({
           ip: Schema.Struct({
             ip: Schema.String,
@@ -6451,48 +6661,65 @@ export const UpdateAccessApplicationPolicyResponse = Schema.Struct({
         }),
         Schema.Struct({
           okta: Schema.Struct({
-            identityProviderId: Schema.String.pipe(
-              T.JsonName("identity_provider_id"),
-            ),
+            identityProviderId: Schema.String,
             name: Schema.String,
-          }),
+          }).pipe(
+            Schema.encodeKeys({ identityProviderId: "identity_provider_id" }),
+          ),
         }),
         Schema.Struct({
           saml: Schema.Struct({
-            attributeName: Schema.String.pipe(T.JsonName("attribute_name")),
-            attributeValue: Schema.String.pipe(T.JsonName("attribute_value")),
-            identityProviderId: Schema.String.pipe(
-              T.JsonName("identity_provider_id"),
-            ),
-          }),
+            attributeName: Schema.String,
+            attributeValue: Schema.String,
+            identityProviderId: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({
+              attributeName: "attribute_name",
+              attributeValue: "attribute_value",
+              identityProviderId: "identity_provider_id",
+            }),
+          ),
         }),
         Schema.Struct({
           oidc: Schema.Struct({
-            claimName: Schema.String.pipe(T.JsonName("claim_name")),
-            claimValue: Schema.String.pipe(T.JsonName("claim_value")),
-            identityProviderId: Schema.String.pipe(
-              T.JsonName("identity_provider_id"),
-            ),
-          }),
+            claimName: Schema.String,
+            claimValue: Schema.String,
+            identityProviderId: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({
+              claimName: "claim_name",
+              claimValue: "claim_value",
+              identityProviderId: "identity_provider_id",
+            }),
+          ),
         }),
         Schema.Struct({
           serviceToken: Schema.Struct({
-            tokenId: Schema.String.pipe(T.JsonName("token_id")),
-          }).pipe(T.JsonName("service_token")),
-        }),
+            tokenId: Schema.String,
+          }).pipe(Schema.encodeKeys({ tokenId: "token_id" })),
+        }).pipe(Schema.encodeKeys({ serviceToken: "service_token" })),
         Schema.Struct({
           linkedAppToken: Schema.Struct({
-            appUid: Schema.String.pipe(T.JsonName("app_uid")),
-          }).pipe(T.JsonName("linked_app_token")),
-        }),
-      ),
+            appUid: Schema.String,
+          }).pipe(Schema.encodeKeys({ appUid: "app_uid" })),
+        }).pipe(Schema.encodeKeys({ linkedAppToken: "linked_app_token" })),
+      ]),
     ),
   ),
-  sessionDuration: Schema.optional(Schema.String).pipe(
-    T.JsonName("session_duration"),
-  ),
-  updatedAt: Schema.optional(Schema.String).pipe(T.JsonName("updated_at")),
-}) as unknown as Schema.Schema<UpdateAccessApplicationPolicyResponse>;
+  sessionDuration: Schema.optional(Schema.String),
+  updatedAt: Schema.optional(Schema.String),
+}).pipe(
+  Schema.encodeKeys({
+    approvalGroups: "approval_groups",
+    approvalRequired: "approval_required",
+    createdAt: "created_at",
+    isolationRequired: "isolation_required",
+    purposeJustificationPrompt: "purpose_justification_prompt",
+    purposeJustificationRequired: "purpose_justification_required",
+    sessionDuration: "session_duration",
+    updatedAt: "updated_at",
+  }),
+) as unknown as Schema.Schema<UpdateAccessApplicationPolicyResponse>;
 
 export const updateAccessApplicationPolicy: (
   input: UpdateAccessApplicationPolicyRequest,
@@ -6587,32 +6814,29 @@ export interface GetAccessApplicationPolicyTestResponse {
 
 export const GetAccessApplicationPolicyTestResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
-  percentApproved: Schema.optional(Schema.Number).pipe(
-    T.JsonName("percent_approved"),
-  ),
-  percentBlocked: Schema.optional(Schema.Number).pipe(
-    T.JsonName("percent_blocked"),
-  ),
-  percentErrored: Schema.optional(Schema.Number).pipe(
-    T.JsonName("percent_errored"),
-  ),
-  percentUsersProcessed: Schema.optional(Schema.Number).pipe(
-    T.JsonName("percent_users_processed"),
-  ),
+  percentApproved: Schema.optional(Schema.Number),
+  percentBlocked: Schema.optional(Schema.Number),
+  percentErrored: Schema.optional(Schema.Number),
+  percentUsersProcessed: Schema.optional(Schema.Number),
   status: Schema.optional(
-    Schema.Literal("blocked", "processing", "exceeded time", "complete"),
+    Schema.Literals(["blocked", "processing", "exceeded time", "complete"]),
   ),
-  totalUsers: Schema.optional(Schema.Number).pipe(T.JsonName("total_users")),
-  usersApproved: Schema.optional(Schema.Number).pipe(
-    T.JsonName("users_approved"),
-  ),
-  usersBlocked: Schema.optional(Schema.Number).pipe(
-    T.JsonName("users_blocked"),
-  ),
-  usersErrored: Schema.optional(Schema.Number).pipe(
-    T.JsonName("users_errored"),
-  ),
-}) as unknown as Schema.Schema<GetAccessApplicationPolicyTestResponse>;
+  totalUsers: Schema.optional(Schema.Number),
+  usersApproved: Schema.optional(Schema.Number),
+  usersBlocked: Schema.optional(Schema.Number),
+  usersErrored: Schema.optional(Schema.Number),
+}).pipe(
+  Schema.encodeKeys({
+    percentApproved: "percent_approved",
+    percentBlocked: "percent_blocked",
+    percentErrored: "percent_errored",
+    percentUsersProcessed: "percent_users_processed",
+    totalUsers: "total_users",
+    usersApproved: "users_approved",
+    usersBlocked: "users_blocked",
+    usersErrored: "users_errored",
+  }),
+) as unknown as Schema.Schema<GetAccessApplicationPolicyTestResponse>;
 
 export const getAccessApplicationPolicyTest: (
   input: GetAccessApplicationPolicyTestRequest,
@@ -6652,34 +6876,36 @@ export const CreateAccessApplicationPolicyTestRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   policies: Schema.optional(
     Schema.Array(
-      Schema.Union(
+      Schema.Union([
         Schema.Struct({
-          decision: Schema.Literal("allow", "bypass", "deny", "non_identity"),
+          decision: Schema.Literals([
+            "allow",
+            "bypass",
+            "deny",
+            "non_identity",
+          ]),
           include: Schema.Array(Schema.Unknown),
           name: Schema.String,
-          approvalGroups: Schema.optional(Schema.Array(Schema.Unknown)).pipe(
-            T.JsonName("approval_groups"),
-          ),
-          approvalRequired: Schema.optional(Schema.Boolean).pipe(
-            T.JsonName("approval_required"),
-          ),
+          approvalGroups: Schema.optional(Schema.Array(Schema.Unknown)),
+          approvalRequired: Schema.optional(Schema.Boolean),
           exclude: Schema.optional(Schema.Array(Schema.Unknown)),
-          isolationRequired: Schema.optional(Schema.Boolean).pipe(
-            T.JsonName("isolation_required"),
-          ),
-          purposeJustificationPrompt: Schema.optional(Schema.String).pipe(
-            T.JsonName("purpose_justification_prompt"),
-          ),
-          purposeJustificationRequired: Schema.optional(Schema.Boolean).pipe(
-            T.JsonName("purpose_justification_required"),
-          ),
+          isolationRequired: Schema.optional(Schema.Boolean),
+          purposeJustificationPrompt: Schema.optional(Schema.String),
+          purposeJustificationRequired: Schema.optional(Schema.Boolean),
           require: Schema.optional(Schema.Array(Schema.Unknown)),
-          sessionDuration: Schema.optional(Schema.String).pipe(
-            T.JsonName("session_duration"),
-          ),
-        }),
+          sessionDuration: Schema.optional(Schema.String),
+        }).pipe(
+          Schema.encodeKeys({
+            approvalGroups: "approval_groups",
+            approvalRequired: "approval_required",
+            isolationRequired: "isolation_required",
+            purposeJustificationPrompt: "purpose_justification_prompt",
+            purposeJustificationRequired: "purpose_justification_required",
+            sessionDuration: "session_duration",
+          }),
+        ),
         Schema.String,
-      ),
+      ]),
     ),
   ),
 }).pipe(
@@ -6731,11 +6957,13 @@ export interface PutAccessApplicationSettingRequest {
 export const PutAccessApplicationSettingRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  allowIframe: Schema.optional(Schema.Boolean).pipe(T.JsonName("allow_iframe")),
-  skipInterstitial: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("skip_interstitial"),
-  ),
+  allowIframe: Schema.optional(Schema.Boolean),
+  skipInterstitial: Schema.optional(Schema.Boolean),
 }).pipe(
+  Schema.encodeKeys({
+    allowIframe: "allow_iframe",
+    skipInterstitial: "skip_interstitial",
+  }),
   T.Http({
     method: "PUT",
     path: "/{accountOrZone}/{accountOrZoneId}/access/apps/{appId}/settings",
@@ -6750,11 +6978,14 @@ export interface PutAccessApplicationSettingResponse {
 }
 
 export const PutAccessApplicationSettingResponse = Schema.Struct({
-  allowIframe: Schema.optional(Schema.Boolean).pipe(T.JsonName("allow_iframe")),
-  skipInterstitial: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("skip_interstitial"),
-  ),
-}) as unknown as Schema.Schema<PutAccessApplicationSettingResponse>;
+  allowIframe: Schema.optional(Schema.Boolean),
+  skipInterstitial: Schema.optional(Schema.Boolean),
+}).pipe(
+  Schema.encodeKeys({
+    allowIframe: "allow_iframe",
+    skipInterstitial: "skip_interstitial",
+  }),
+) as unknown as Schema.Schema<PutAccessApplicationSettingResponse>;
 
 export const putAccessApplicationSetting: (
   input: PutAccessApplicationSettingRequest,
@@ -6782,11 +7013,13 @@ export interface PatchAccessApplicationSettingRequest {
 export const PatchAccessApplicationSettingRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  allowIframe: Schema.optional(Schema.Boolean).pipe(T.JsonName("allow_iframe")),
-  skipInterstitial: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("skip_interstitial"),
-  ),
+  allowIframe: Schema.optional(Schema.Boolean),
+  skipInterstitial: Schema.optional(Schema.Boolean),
 }).pipe(
+  Schema.encodeKeys({
+    allowIframe: "allow_iframe",
+    skipInterstitial: "skip_interstitial",
+  }),
   T.Http({
     method: "PATCH",
     path: "/{accountOrZone}/{accountOrZoneId}/access/apps/{appId}/settings",
@@ -6801,11 +7034,14 @@ export interface PatchAccessApplicationSettingResponse {
 }
 
 export const PatchAccessApplicationSettingResponse = Schema.Struct({
-  allowIframe: Schema.optional(Schema.Boolean).pipe(T.JsonName("allow_iframe")),
-  skipInterstitial: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("skip_interstitial"),
-  ),
-}) as unknown as Schema.Schema<PatchAccessApplicationSettingResponse>;
+  allowIframe: Schema.optional(Schema.Boolean),
+  skipInterstitial: Schema.optional(Schema.Boolean),
+}).pipe(
+  Schema.encodeKeys({
+    allowIframe: "allow_iframe",
+    skipInterstitial: "skip_interstitial",
+  }),
+) as unknown as Schema.Schema<PatchAccessApplicationSettingResponse>;
 
 export const patchAccessApplicationSetting: (
   input: PatchAccessApplicationSettingRequest,
@@ -6861,32 +7097,40 @@ export interface ListAccessApplicationUserPolicyChecksResponse {
 export const ListAccessApplicationUserPolicyChecksResponse = Schema.Struct({
   appState: Schema.optional(
     Schema.Struct({
-      appUid: Schema.optional(Schema.String).pipe(T.JsonName("app_uid")),
+      appUid: Schema.optional(Schema.String),
       aud: Schema.optional(Schema.String),
       hostname: Schema.optional(Schema.String),
       name: Schema.optional(Schema.String),
       policies: Schema.optional(Schema.Array(Schema.Unknown)),
       status: Schema.optional(Schema.String),
-    }),
-  ).pipe(T.JsonName("app_state")),
+    }).pipe(Schema.encodeKeys({ appUid: "app_uid" })),
+  ),
   userIdentity: Schema.optional(
     Schema.Struct({
       id: Schema.optional(Schema.String),
-      accountId: Schema.optional(Schema.String).pipe(T.JsonName("account_id")),
-      deviceSessions: Schema.optional(Schema.Unknown).pipe(
-        T.JsonName("device_sessions"),
-      ),
+      accountId: Schema.optional(Schema.String),
+      deviceSessions: Schema.optional(Schema.Unknown),
       email: Schema.optional(Schema.String),
       geo: Schema.optional(Schema.Unknown),
       iat: Schema.optional(Schema.Number),
-      isGateway: Schema.optional(Schema.Boolean).pipe(T.JsonName("is_gateway")),
-      isWarp: Schema.optional(Schema.Boolean).pipe(T.JsonName("is_warp")),
+      isGateway: Schema.optional(Schema.Boolean),
+      isWarp: Schema.optional(Schema.Boolean),
       name: Schema.optional(Schema.String),
-      userUuid: Schema.optional(Schema.String).pipe(T.JsonName("user_uuid")),
+      userUuid: Schema.optional(Schema.String),
       version: Schema.optional(Schema.Number),
-    }),
-  ).pipe(T.JsonName("user_identity")),
-}) as unknown as Schema.Schema<ListAccessApplicationUserPolicyChecksResponse>;
+    }).pipe(
+      Schema.encodeKeys({
+        accountId: "account_id",
+        deviceSessions: "device_sessions",
+        isGateway: "is_gateway",
+        isWarp: "is_warp",
+        userUuid: "user_uuid",
+      }),
+    ),
+  ),
+}).pipe(
+  Schema.encodeKeys({ appState: "app_state", userIdentity: "user_identity" }),
+) as unknown as Schema.Schema<ListAccessApplicationUserPolicyChecksResponse>;
 
 export const listAccessApplicationUserPolicyChecks: (
   input: ListAccessApplicationUserPolicyChecksRequest,
@@ -6934,13 +7178,16 @@ export interface GetAccessBookmarkResponse {
 
 export const GetAccessBookmarkResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
-  appLauncherVisible: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("app_launcher_visible"),
-  ),
+  appLauncherVisible: Schema.optional(Schema.Boolean),
   domain: Schema.optional(Schema.String),
-  logoUrl: Schema.optional(Schema.String).pipe(T.JsonName("logo_url")),
+  logoUrl: Schema.optional(Schema.String),
   name: Schema.optional(Schema.String),
-}) as unknown as Schema.Schema<GetAccessBookmarkResponse>;
+}).pipe(
+  Schema.encodeKeys({
+    appLauncherVisible: "app_launcher_visible",
+    logoUrl: "logo_url",
+  }),
+) as unknown as Schema.Schema<GetAccessBookmarkResponse>;
 
 export const getAccessBookmark: (
   input: GetAccessBookmarkRequest,
@@ -6988,13 +7235,16 @@ export interface CreateAccessBookmarkResponse {
 
 export const CreateAccessBookmarkResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
-  appLauncherVisible: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("app_launcher_visible"),
-  ),
+  appLauncherVisible: Schema.optional(Schema.Boolean),
   domain: Schema.optional(Schema.String),
-  logoUrl: Schema.optional(Schema.String).pipe(T.JsonName("logo_url")),
+  logoUrl: Schema.optional(Schema.String),
   name: Schema.optional(Schema.String),
-}) as unknown as Schema.Schema<CreateAccessBookmarkResponse>;
+}).pipe(
+  Schema.encodeKeys({
+    appLauncherVisible: "app_launcher_visible",
+    logoUrl: "logo_url",
+  }),
+) as unknown as Schema.Schema<CreateAccessBookmarkResponse>;
 
 export const createAccessBookmark: (
   input: CreateAccessBookmarkRequest,
@@ -7042,13 +7292,16 @@ export interface UpdateAccessBookmarkResponse {
 
 export const UpdateAccessBookmarkResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
-  appLauncherVisible: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("app_launcher_visible"),
-  ),
+  appLauncherVisible: Schema.optional(Schema.Boolean),
   domain: Schema.optional(Schema.String),
-  logoUrl: Schema.optional(Schema.String).pipe(T.JsonName("logo_url")),
+  logoUrl: Schema.optional(Schema.String),
   name: Schema.optional(Schema.String),
-}) as unknown as Schema.Schema<UpdateAccessBookmarkResponse>;
+}).pipe(
+  Schema.encodeKeys({
+    appLauncherVisible: "app_launcher_visible",
+    logoUrl: "logo_url",
+  }),
+) as unknown as Schema.Schema<UpdateAccessBookmarkResponse>;
 
 export const updateAccessBookmark: (
   input: UpdateAccessBookmarkRequest,
@@ -7129,13 +7382,16 @@ export interface GetAccessCertificateResponse {
 
 export const GetAccessCertificateResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
-  associatedHostnames: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.JsonName("associated_hostnames"),
-  ),
-  expiresOn: Schema.optional(Schema.String).pipe(T.JsonName("expires_on")),
+  associatedHostnames: Schema.optional(Schema.Array(Schema.String)),
+  expiresOn: Schema.optional(Schema.String),
   fingerprint: Schema.optional(Schema.String),
   name: Schema.optional(Schema.String),
-}) as unknown as Schema.Schema<GetAccessCertificateResponse>;
+}).pipe(
+  Schema.encodeKeys({
+    associatedHostnames: "associated_hostnames",
+    expiresOn: "expires_on",
+  }),
+) as unknown as Schema.Schema<GetAccessCertificateResponse>;
 
 export const getAccessCertificate: (
   input: GetAccessCertificateRequest,
@@ -7167,10 +7423,9 @@ export const CreateAccessCertificateRequest = Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
   certificate: Schema.String,
   name: Schema.String,
-  associatedHostnames: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.JsonName("associated_hostnames"),
-  ),
+  associatedHostnames: Schema.optional(Schema.Array(Schema.String)),
 }).pipe(
+  Schema.encodeKeys({ associatedHostnames: "associated_hostnames" }),
   T.Http({
     method: "POST",
     path: "/{accountOrZone}/{accountOrZoneId}/access/certificates",
@@ -7191,13 +7446,16 @@ export interface CreateAccessCertificateResponse {
 
 export const CreateAccessCertificateResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
-  associatedHostnames: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.JsonName("associated_hostnames"),
-  ),
-  expiresOn: Schema.optional(Schema.String).pipe(T.JsonName("expires_on")),
+  associatedHostnames: Schema.optional(Schema.Array(Schema.String)),
+  expiresOn: Schema.optional(Schema.String),
   fingerprint: Schema.optional(Schema.String),
   name: Schema.optional(Schema.String),
-}) as unknown as Schema.Schema<CreateAccessCertificateResponse>;
+}).pipe(
+  Schema.encodeKeys({
+    associatedHostnames: "associated_hostnames",
+    expiresOn: "expires_on",
+  }),
+) as unknown as Schema.Schema<CreateAccessCertificateResponse>;
 
 export const createAccessCertificate: (
   input: CreateAccessCertificateRequest,
@@ -7227,11 +7485,10 @@ export const UpdateAccessCertificateRequest = Schema.Struct({
   certificateId: Schema.String.pipe(T.HttpPath("certificateId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  associatedHostnames: Schema.Array(Schema.String).pipe(
-    T.JsonName("associated_hostnames"),
-  ),
+  associatedHostnames: Schema.Array(Schema.String),
   name: Schema.optional(Schema.String),
 }).pipe(
+  Schema.encodeKeys({ associatedHostnames: "associated_hostnames" }),
   T.Http({
     method: "PUT",
     path: "/{accountOrZone}/{accountOrZoneId}/access/certificates/{certificateId}",
@@ -7252,13 +7509,16 @@ export interface UpdateAccessCertificateResponse {
 
 export const UpdateAccessCertificateResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
-  associatedHostnames: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.JsonName("associated_hostnames"),
-  ),
-  expiresOn: Schema.optional(Schema.String).pipe(T.JsonName("expires_on")),
+  associatedHostnames: Schema.optional(Schema.Array(Schema.String)),
+  expiresOn: Schema.optional(Schema.String),
   fingerprint: Schema.optional(Schema.String),
   name: Schema.optional(Schema.String),
-}) as unknown as Schema.Schema<UpdateAccessCertificateResponse>;
+}).pipe(
+  Schema.encodeKeys({
+    associatedHostnames: "associated_hostnames",
+    expiresOn: "expires_on",
+  }),
+) as unknown as Schema.Schema<UpdateAccessCertificateResponse>;
 
 export const updateAccessCertificate: (
   input: UpdateAccessCertificateRequest,
@@ -7338,11 +7598,13 @@ export interface GetAccessCustomPageResponse {
 }
 
 export const GetAccessCustomPageResponse = Schema.Struct({
-  customHtml: Schema.String.pipe(T.JsonName("custom_html")),
+  customHtml: Schema.String,
   name: Schema.String,
-  type: Schema.Literal("identity_denied", "forbidden"),
+  type: Schema.Literals(["identity_denied", "forbidden"]),
   uid: Schema.optional(Schema.String),
-}) as unknown as Schema.Schema<GetAccessCustomPageResponse>;
+}).pipe(
+  Schema.encodeKeys({ customHtml: "custom_html" }),
+) as unknown as Schema.Schema<GetAccessCustomPageResponse>;
 
 export const getAccessCustomPage: (
   input: GetAccessCustomPageRequest,
@@ -7369,10 +7631,11 @@ export interface CreateAccessCustomPageRequest {
 
 export const CreateAccessCustomPageRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  customHtml: Schema.String.pipe(T.JsonName("custom_html")),
+  customHtml: Schema.String,
   name: Schema.String,
-  type: Schema.Literal("identity_denied", "forbidden"),
+  type: Schema.Literals(["identity_denied", "forbidden"]),
 }).pipe(
+  Schema.encodeKeys({ customHtml: "custom_html" }),
   T.Http({
     method: "POST",
     path: "/accounts/{account_id}/access/custom_pages",
@@ -7390,7 +7653,7 @@ export interface CreateAccessCustomPageResponse {
 
 export const CreateAccessCustomPageResponse = Schema.Struct({
   name: Schema.String,
-  type: Schema.Literal("identity_denied", "forbidden"),
+  type: Schema.Literals(["identity_denied", "forbidden"]),
   uid: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<CreateAccessCustomPageResponse>;
 
@@ -7421,10 +7684,11 @@ export interface UpdateAccessCustomPageRequest {
 export const UpdateAccessCustomPageRequest = Schema.Struct({
   customPageId: Schema.String.pipe(T.HttpPath("customPageId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  customHtml: Schema.String.pipe(T.JsonName("custom_html")),
+  customHtml: Schema.String,
   name: Schema.String,
-  type: Schema.Literal("identity_denied", "forbidden"),
+  type: Schema.Literals(["identity_denied", "forbidden"]),
 }).pipe(
+  Schema.encodeKeys({ customHtml: "custom_html" }),
   T.Http({
     method: "PUT",
     path: "/accounts/{account_id}/access/custom_pages/{customPageId}",
@@ -7442,7 +7706,7 @@ export interface UpdateAccessCustomPageResponse {
 
 export const UpdateAccessCustomPageResponse = Schema.Struct({
   name: Schema.String,
-  type: Schema.Literal("identity_denied", "forbidden"),
+  type: Schema.Literals(["identity_denied", "forbidden"]),
   uid: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<UpdateAccessCustomPageResponse>;
 
@@ -7519,8 +7783,10 @@ export interface CreateAccessGatewayCaResponse {
 
 export const CreateAccessGatewayCaResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
-  publicKey: Schema.optional(Schema.String).pipe(T.JsonName("public_key")),
-}) as unknown as Schema.Schema<CreateAccessGatewayCaResponse>;
+  publicKey: Schema.optional(Schema.String),
+}).pipe(
+  Schema.encodeKeys({ publicKey: "public_key" }),
+) as unknown as Schema.Schema<CreateAccessGatewayCaResponse>;
 
 export const createAccessGatewayCa: (
   input: CreateAccessGatewayCaRequest,
@@ -7607,12 +7873,12 @@ export const GetAccessGroupResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
   exclude: Schema.optional(Schema.Array(Schema.Unknown)),
   include: Schema.optional(Schema.Array(Schema.Unknown)),
-  isDefault: Schema.optional(Schema.Array(Schema.Unknown)).pipe(
-    T.JsonName("is_default"),
-  ),
+  isDefault: Schema.optional(Schema.Array(Schema.Unknown)),
   name: Schema.optional(Schema.String),
   require: Schema.optional(Schema.Array(Schema.Unknown)),
-}) as unknown as Schema.Schema<GetAccessGroupResponse>;
+}).pipe(
+  Schema.encodeKeys({ isDefault: "is_default" }),
+) as unknown as Schema.Schema<GetAccessGroupResponse>;
 
 export const getAccessGroup: (
   input: GetAccessGroupRequest,
@@ -7649,9 +7915,10 @@ export const CreateAccessGroupRequest = Schema.Struct({
   include: Schema.Array(Schema.Unknown),
   name: Schema.String,
   exclude: Schema.optional(Schema.Array(Schema.Unknown)),
-  isDefault: Schema.optional(Schema.Boolean).pipe(T.JsonName("is_default")),
+  isDefault: Schema.optional(Schema.Boolean),
   require: Schema.optional(Schema.Array(Schema.Unknown)),
 }).pipe(
+  Schema.encodeKeys({ isDefault: "is_default" }),
   T.Http({
     method: "POST",
     path: "/{accountOrZone}/{accountOrZoneId}/access/groups",
@@ -7677,12 +7944,12 @@ export const CreateAccessGroupResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
   exclude: Schema.optional(Schema.Array(Schema.Unknown)),
   include: Schema.optional(Schema.Array(Schema.Unknown)),
-  isDefault: Schema.optional(Schema.Array(Schema.Unknown)).pipe(
-    T.JsonName("is_default"),
-  ),
+  isDefault: Schema.optional(Schema.Array(Schema.Unknown)),
   name: Schema.optional(Schema.String),
   require: Schema.optional(Schema.Array(Schema.Unknown)),
-}) as unknown as Schema.Schema<CreateAccessGroupResponse>;
+}).pipe(
+  Schema.encodeKeys({ isDefault: "is_default" }),
+) as unknown as Schema.Schema<CreateAccessGroupResponse>;
 
 export const createAccessGroup: (
   input: CreateAccessGroupRequest,
@@ -7721,9 +7988,10 @@ export const UpdateAccessGroupRequest = Schema.Struct({
   include: Schema.Array(Schema.Unknown),
   name: Schema.String,
   exclude: Schema.optional(Schema.Array(Schema.Unknown)),
-  isDefault: Schema.optional(Schema.Boolean).pipe(T.JsonName("is_default")),
+  isDefault: Schema.optional(Schema.Boolean),
   require: Schema.optional(Schema.Array(Schema.Unknown)),
 }).pipe(
+  Schema.encodeKeys({ isDefault: "is_default" }),
   T.Http({
     method: "PUT",
     path: "/{accountOrZone}/{accountOrZoneId}/access/groups/{groupId}",
@@ -7749,12 +8017,12 @@ export const UpdateAccessGroupResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
   exclude: Schema.optional(Schema.Array(Schema.Unknown)),
   include: Schema.optional(Schema.Array(Schema.Unknown)),
-  isDefault: Schema.optional(Schema.Array(Schema.Unknown)).pipe(
-    T.JsonName("is_default"),
-  ),
+  isDefault: Schema.optional(Schema.Array(Schema.Unknown)),
   name: Schema.optional(Schema.String),
   require: Schema.optional(Schema.Array(Schema.Unknown)),
-}) as unknown as Schema.Schema<UpdateAccessGroupResponse>;
+}).pipe(
+  Schema.encodeKeys({ isDefault: "is_default" }),
+) as unknown as Schema.Schema<UpdateAccessGroupResponse>;
 
 export const updateAccessGroup: (
   input: UpdateAccessGroupRequest,
@@ -7840,28 +8108,36 @@ export interface GetAccessInfrastructureTargetResponse {
 
 export const GetAccessInfrastructureTargetResponse = Schema.Struct({
   id: Schema.String,
-  createdAt: Schema.String.pipe(T.JsonName("created_at")),
+  createdAt: Schema.String,
   hostname: Schema.String,
   ip: Schema.Struct({
     ipv4: Schema.optional(
       Schema.Struct({
-        ipAddr: Schema.optional(Schema.String).pipe(T.JsonName("ip_addr")),
-        virtualNetworkId: Schema.optional(Schema.String).pipe(
-          T.JsonName("virtual_network_id"),
-        ),
-      }),
+        ipAddr: Schema.optional(Schema.String),
+        virtualNetworkId: Schema.optional(Schema.String),
+      }).pipe(
+        Schema.encodeKeys({
+          ipAddr: "ip_addr",
+          virtualNetworkId: "virtual_network_id",
+        }),
+      ),
     ),
     ipv6: Schema.optional(
       Schema.Struct({
-        ipAddr: Schema.optional(Schema.String).pipe(T.JsonName("ip_addr")),
-        virtualNetworkId: Schema.optional(Schema.String).pipe(
-          T.JsonName("virtual_network_id"),
-        ),
-      }),
+        ipAddr: Schema.optional(Schema.String),
+        virtualNetworkId: Schema.optional(Schema.String),
+      }).pipe(
+        Schema.encodeKeys({
+          ipAddr: "ip_addr",
+          virtualNetworkId: "virtual_network_id",
+        }),
+      ),
     ),
   }),
-  modifiedAt: Schema.String.pipe(T.JsonName("modified_at")),
-}) as unknown as Schema.Schema<GetAccessInfrastructureTargetResponse>;
+  modifiedAt: Schema.String,
+}).pipe(
+  Schema.encodeKeys({ createdAt: "created_at", modifiedAt: "modified_at" }),
+) as unknown as Schema.Schema<GetAccessInfrastructureTargetResponse>;
 
 export const getAccessInfrastructureTarget: (
   input: GetAccessInfrastructureTargetRequest,
@@ -7893,19 +8169,25 @@ export const CreateAccessInfrastructureTargetRequest = Schema.Struct({
   ip: Schema.Struct({
     ipv4: Schema.optional(
       Schema.Struct({
-        ipAddr: Schema.optional(Schema.String).pipe(T.JsonName("ip_addr")),
-        virtualNetworkId: Schema.optional(Schema.String).pipe(
-          T.JsonName("virtual_network_id"),
-        ),
-      }),
+        ipAddr: Schema.optional(Schema.String),
+        virtualNetworkId: Schema.optional(Schema.String),
+      }).pipe(
+        Schema.encodeKeys({
+          ipAddr: "ip_addr",
+          virtualNetworkId: "virtual_network_id",
+        }),
+      ),
     ),
     ipv6: Schema.optional(
       Schema.Struct({
-        ipAddr: Schema.optional(Schema.String).pipe(T.JsonName("ip_addr")),
-        virtualNetworkId: Schema.optional(Schema.String).pipe(
-          T.JsonName("virtual_network_id"),
-        ),
-      }),
+        ipAddr: Schema.optional(Schema.String),
+        virtualNetworkId: Schema.optional(Schema.String),
+      }).pipe(
+        Schema.encodeKeys({
+          ipAddr: "ip_addr",
+          virtualNetworkId: "virtual_network_id",
+        }),
+      ),
     ),
   }),
 }).pipe(
@@ -7933,28 +8215,36 @@ export interface CreateAccessInfrastructureTargetResponse {
 
 export const CreateAccessInfrastructureTargetResponse = Schema.Struct({
   id: Schema.String,
-  createdAt: Schema.String.pipe(T.JsonName("created_at")),
+  createdAt: Schema.String,
   hostname: Schema.String,
   ip: Schema.Struct({
     ipv4: Schema.optional(
       Schema.Struct({
-        ipAddr: Schema.optional(Schema.String).pipe(T.JsonName("ip_addr")),
-        virtualNetworkId: Schema.optional(Schema.String).pipe(
-          T.JsonName("virtual_network_id"),
-        ),
-      }),
+        ipAddr: Schema.optional(Schema.String),
+        virtualNetworkId: Schema.optional(Schema.String),
+      }).pipe(
+        Schema.encodeKeys({
+          ipAddr: "ip_addr",
+          virtualNetworkId: "virtual_network_id",
+        }),
+      ),
     ),
     ipv6: Schema.optional(
       Schema.Struct({
-        ipAddr: Schema.optional(Schema.String).pipe(T.JsonName("ip_addr")),
-        virtualNetworkId: Schema.optional(Schema.String).pipe(
-          T.JsonName("virtual_network_id"),
-        ),
-      }),
+        ipAddr: Schema.optional(Schema.String),
+        virtualNetworkId: Schema.optional(Schema.String),
+      }).pipe(
+        Schema.encodeKeys({
+          ipAddr: "ip_addr",
+          virtualNetworkId: "virtual_network_id",
+        }),
+      ),
     ),
   }),
-  modifiedAt: Schema.String.pipe(T.JsonName("modified_at")),
-}) as unknown as Schema.Schema<CreateAccessInfrastructureTargetResponse>;
+  modifiedAt: Schema.String,
+}).pipe(
+  Schema.encodeKeys({ createdAt: "created_at", modifiedAt: "modified_at" }),
+) as unknown as Schema.Schema<CreateAccessInfrastructureTargetResponse>;
 
 export const createAccessInfrastructureTarget: (
   input: CreateAccessInfrastructureTargetRequest,
@@ -7988,19 +8278,25 @@ export const UpdateAccessInfrastructureTargetRequest = Schema.Struct({
   ip: Schema.Struct({
     ipv4: Schema.optional(
       Schema.Struct({
-        ipAddr: Schema.optional(Schema.String).pipe(T.JsonName("ip_addr")),
-        virtualNetworkId: Schema.optional(Schema.String).pipe(
-          T.JsonName("virtual_network_id"),
-        ),
-      }),
+        ipAddr: Schema.optional(Schema.String),
+        virtualNetworkId: Schema.optional(Schema.String),
+      }).pipe(
+        Schema.encodeKeys({
+          ipAddr: "ip_addr",
+          virtualNetworkId: "virtual_network_id",
+        }),
+      ),
     ),
     ipv6: Schema.optional(
       Schema.Struct({
-        ipAddr: Schema.optional(Schema.String).pipe(T.JsonName("ip_addr")),
-        virtualNetworkId: Schema.optional(Schema.String).pipe(
-          T.JsonName("virtual_network_id"),
-        ),
-      }),
+        ipAddr: Schema.optional(Schema.String),
+        virtualNetworkId: Schema.optional(Schema.String),
+      }).pipe(
+        Schema.encodeKeys({
+          ipAddr: "ip_addr",
+          virtualNetworkId: "virtual_network_id",
+        }),
+      ),
     ),
   }),
 }).pipe(
@@ -8028,28 +8324,36 @@ export interface UpdateAccessInfrastructureTargetResponse {
 
 export const UpdateAccessInfrastructureTargetResponse = Schema.Struct({
   id: Schema.String,
-  createdAt: Schema.String.pipe(T.JsonName("created_at")),
+  createdAt: Schema.String,
   hostname: Schema.String,
   ip: Schema.Struct({
     ipv4: Schema.optional(
       Schema.Struct({
-        ipAddr: Schema.optional(Schema.String).pipe(T.JsonName("ip_addr")),
-        virtualNetworkId: Schema.optional(Schema.String).pipe(
-          T.JsonName("virtual_network_id"),
-        ),
-      }),
+        ipAddr: Schema.optional(Schema.String),
+        virtualNetworkId: Schema.optional(Schema.String),
+      }).pipe(
+        Schema.encodeKeys({
+          ipAddr: "ip_addr",
+          virtualNetworkId: "virtual_network_id",
+        }),
+      ),
     ),
     ipv6: Schema.optional(
       Schema.Struct({
-        ipAddr: Schema.optional(Schema.String).pipe(T.JsonName("ip_addr")),
-        virtualNetworkId: Schema.optional(Schema.String).pipe(
-          T.JsonName("virtual_network_id"),
-        ),
-      }),
+        ipAddr: Schema.optional(Schema.String),
+        virtualNetworkId: Schema.optional(Schema.String),
+      }).pipe(
+        Schema.encodeKeys({
+          ipAddr: "ip_addr",
+          virtualNetworkId: "virtual_network_id",
+        }),
+      ),
     ),
   }),
-  modifiedAt: Schema.String.pipe(T.JsonName("modified_at")),
-}) as unknown as Schema.Schema<UpdateAccessInfrastructureTargetResponse>;
+  modifiedAt: Schema.String,
+}).pipe(
+  Schema.encodeKeys({ createdAt: "created_at", modifiedAt: "modified_at" }),
+) as unknown as Schema.Schema<UpdateAccessInfrastructureTargetResponse>;
 
 export const updateAccessInfrastructureTarget: (
   input: UpdateAccessInfrastructureTargetRequest,
@@ -8152,16 +8456,16 @@ export interface GetAccessKeyResponse {
 }
 
 export const GetAccessKeyResponse = Schema.Struct({
-  daysUntilNextRotation: Schema.optional(Schema.Number).pipe(
-    T.JsonName("days_until_next_rotation"),
-  ),
-  keyRotationIntervalDays: Schema.optional(Schema.Number).pipe(
-    T.JsonName("key_rotation_interval_days"),
-  ),
-  lastKeyRotationAt: Schema.optional(Schema.String).pipe(
-    T.JsonName("last_key_rotation_at"),
-  ),
-}) as unknown as Schema.Schema<GetAccessKeyResponse>;
+  daysUntilNextRotation: Schema.optional(Schema.Number),
+  keyRotationIntervalDays: Schema.optional(Schema.Number),
+  lastKeyRotationAt: Schema.optional(Schema.String),
+}).pipe(
+  Schema.encodeKeys({
+    daysUntilNextRotation: "days_until_next_rotation",
+    keyRotationIntervalDays: "key_rotation_interval_days",
+    lastKeyRotationAt: "last_key_rotation_at",
+  }),
+) as unknown as Schema.Schema<GetAccessKeyResponse>;
 
 export const getAccessKey: (
   input: GetAccessKeyRequest,
@@ -8184,10 +8488,9 @@ export interface PutAccessKeyRequest {
 
 export const PutAccessKeyRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  keyRotationIntervalDays: Schema.Number.pipe(
-    T.JsonName("key_rotation_interval_days"),
-  ),
+  keyRotationIntervalDays: Schema.Number,
 }).pipe(
+  Schema.encodeKeys({ keyRotationIntervalDays: "key_rotation_interval_days" }),
   T.Http({ method: "PUT", path: "/accounts/{account_id}/access/keys" }),
 ) as unknown as Schema.Schema<PutAccessKeyRequest>;
 
@@ -8201,16 +8504,16 @@ export interface PutAccessKeyResponse {
 }
 
 export const PutAccessKeyResponse = Schema.Struct({
-  daysUntilNextRotation: Schema.optional(Schema.Number).pipe(
-    T.JsonName("days_until_next_rotation"),
-  ),
-  keyRotationIntervalDays: Schema.optional(Schema.Number).pipe(
-    T.JsonName("key_rotation_interval_days"),
-  ),
-  lastKeyRotationAt: Schema.optional(Schema.String).pipe(
-    T.JsonName("last_key_rotation_at"),
-  ),
-}) as unknown as Schema.Schema<PutAccessKeyResponse>;
+  daysUntilNextRotation: Schema.optional(Schema.Number),
+  keyRotationIntervalDays: Schema.optional(Schema.Number),
+  lastKeyRotationAt: Schema.optional(Schema.String),
+}).pipe(
+  Schema.encodeKeys({
+    daysUntilNextRotation: "days_until_next_rotation",
+    keyRotationIntervalDays: "key_rotation_interval_days",
+    lastKeyRotationAt: "last_key_rotation_at",
+  }),
+) as unknown as Schema.Schema<PutAccessKeyResponse>;
 
 export const putAccessKey: (
   input: PutAccessKeyRequest,
@@ -8245,16 +8548,16 @@ export interface RotateAccessKeyResponse {
 }
 
 export const RotateAccessKeyResponse = Schema.Struct({
-  daysUntilNextRotation: Schema.optional(Schema.Number).pipe(
-    T.JsonName("days_until_next_rotation"),
-  ),
-  keyRotationIntervalDays: Schema.optional(Schema.Number).pipe(
-    T.JsonName("key_rotation_interval_days"),
-  ),
-  lastKeyRotationAt: Schema.optional(Schema.String).pipe(
-    T.JsonName("last_key_rotation_at"),
-  ),
-}) as unknown as Schema.Schema<RotateAccessKeyResponse>;
+  daysUntilNextRotation: Schema.optional(Schema.Number),
+  keyRotationIntervalDays: Schema.optional(Schema.Number),
+  lastKeyRotationAt: Schema.optional(Schema.String),
+}).pipe(
+  Schema.encodeKeys({
+    daysUntilNextRotation: "days_until_next_rotation",
+    keyRotationIntervalDays: "key_rotation_interval_days",
+    lastKeyRotationAt: "last_key_rotation_at",
+  }),
+) as unknown as Schema.Schema<RotateAccessKeyResponse>;
 
 export const rotateAccessKey: (
   input: RotateAccessKeyRequest,
@@ -8297,7 +8600,7 @@ export interface ListAccessLogAccessRequestsRequest {
 
 export const ListAccessLogAccessRequestsRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  direction: Schema.optional(Schema.Literal("desc", "asc")).pipe(
+  direction: Schema.optional(Schema.Literals(["desc", "asc"])).pipe(
     T.HttpQuery("direction"),
   ),
   email: Schema.optional(Schema.String).pipe(T.HttpQuery("email")),
@@ -8391,46 +8694,50 @@ export interface GetAccessPolicyResponse {
 
 export const GetAccessPolicyResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
-  appCount: Schema.optional(Schema.Number).pipe(T.JsonName("app_count")),
+  appCount: Schema.optional(Schema.Number),
   approvalGroups: Schema.optional(
     Schema.Array(
       Schema.Struct({
-        approvalsNeeded: Schema.Number.pipe(T.JsonName("approvals_needed")),
-        emailAddresses: Schema.optional(Schema.Array(Schema.Unknown)).pipe(
-          T.JsonName("email_addresses"),
-        ),
-        emailListUuid: Schema.optional(Schema.String).pipe(
-          T.JsonName("email_list_uuid"),
-        ),
-      }),
+        approvalsNeeded: Schema.Number,
+        emailAddresses: Schema.optional(Schema.Array(Schema.Unknown)),
+        emailListUuid: Schema.optional(Schema.String),
+      }).pipe(
+        Schema.encodeKeys({
+          approvalsNeeded: "approvals_needed",
+          emailAddresses: "email_addresses",
+          emailListUuid: "email_list_uuid",
+        }),
+      ),
     ),
-  ).pipe(T.JsonName("approval_groups")),
-  approvalRequired: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("approval_required"),
   ),
-  createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
+  approvalRequired: Schema.optional(Schema.Boolean),
+  createdAt: Schema.optional(Schema.String),
   decision: Schema.optional(
-    Schema.Literal("allow", "bypass", "deny", "non_identity"),
+    Schema.Literals(["allow", "bypass", "deny", "non_identity"]),
   ),
   exclude: Schema.optional(Schema.Array(Schema.Unknown)),
   include: Schema.optional(Schema.Array(Schema.Unknown)),
-  isolationRequired: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("isolation_required"),
-  ),
+  isolationRequired: Schema.optional(Schema.Boolean),
   name: Schema.optional(Schema.String),
-  purposeJustificationPrompt: Schema.optional(Schema.String).pipe(
-    T.JsonName("purpose_justification_prompt"),
-  ),
-  purposeJustificationRequired: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("purpose_justification_required"),
-  ),
+  purposeJustificationPrompt: Schema.optional(Schema.String),
+  purposeJustificationRequired: Schema.optional(Schema.Boolean),
   require: Schema.optional(Schema.Array(Schema.Unknown)),
   reusable: Schema.optional(Schema.Literal(true)),
-  sessionDuration: Schema.optional(Schema.String).pipe(
-    T.JsonName("session_duration"),
-  ),
-  updatedAt: Schema.optional(Schema.String).pipe(T.JsonName("updated_at")),
-}) as unknown as Schema.Schema<GetAccessPolicyResponse>;
+  sessionDuration: Schema.optional(Schema.String),
+  updatedAt: Schema.optional(Schema.String),
+}).pipe(
+  Schema.encodeKeys({
+    appCount: "app_count",
+    approvalGroups: "approval_groups",
+    approvalRequired: "approval_required",
+    createdAt: "created_at",
+    isolationRequired: "isolation_required",
+    purposeJustificationPrompt: "purpose_justification_prompt",
+    purposeJustificationRequired: "purpose_justification_required",
+    sessionDuration: "session_duration",
+    updatedAt: "updated_at",
+  }),
+) as unknown as Schema.Schema<GetAccessPolicyResponse>;
 
 export const getAccessPolicy: (
   input: GetAccessPolicyRequest,
@@ -8477,40 +8784,40 @@ export interface CreateAccessPolicyRequest {
 
 export const CreateAccessPolicyRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  decision: Schema.Literal("allow", "bypass", "deny", "non_identity"),
+  decision: Schema.Literals(["allow", "bypass", "deny", "non_identity"]),
   include: Schema.Array(Schema.Unknown),
   name: Schema.String,
   approvalGroups: Schema.optional(
     Schema.Array(
       Schema.Struct({
-        approvalsNeeded: Schema.Number.pipe(T.JsonName("approvals_needed")),
-        emailAddresses: Schema.optional(Schema.Array(Schema.String)).pipe(
-          T.JsonName("email_addresses"),
-        ),
-        emailListUuid: Schema.optional(Schema.String).pipe(
-          T.JsonName("email_list_uuid"),
-        ),
-      }),
+        approvalsNeeded: Schema.Number,
+        emailAddresses: Schema.optional(Schema.Array(Schema.String)),
+        emailListUuid: Schema.optional(Schema.String),
+      }).pipe(
+        Schema.encodeKeys({
+          approvalsNeeded: "approvals_needed",
+          emailAddresses: "email_addresses",
+          emailListUuid: "email_list_uuid",
+        }),
+      ),
     ),
-  ).pipe(T.JsonName("approval_groups")),
-  approvalRequired: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("approval_required"),
   ),
+  approvalRequired: Schema.optional(Schema.Boolean),
   exclude: Schema.optional(Schema.Array(Schema.Unknown)),
-  isolationRequired: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("isolation_required"),
-  ),
-  purposeJustificationPrompt: Schema.optional(Schema.String).pipe(
-    T.JsonName("purpose_justification_prompt"),
-  ),
-  purposeJustificationRequired: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("purpose_justification_required"),
-  ),
+  isolationRequired: Schema.optional(Schema.Boolean),
+  purposeJustificationPrompt: Schema.optional(Schema.String),
+  purposeJustificationRequired: Schema.optional(Schema.Boolean),
   require: Schema.optional(Schema.Array(Schema.Unknown)),
-  sessionDuration: Schema.optional(Schema.String).pipe(
-    T.JsonName("session_duration"),
-  ),
+  sessionDuration: Schema.optional(Schema.String),
 }).pipe(
+  Schema.encodeKeys({
+    approvalGroups: "approval_groups",
+    approvalRequired: "approval_required",
+    isolationRequired: "isolation_required",
+    purposeJustificationPrompt: "purpose_justification_prompt",
+    purposeJustificationRequired: "purpose_justification_required",
+    sessionDuration: "session_duration",
+  }),
   T.Http({ method: "POST", path: "/accounts/{account_id}/access/policies" }),
 ) as unknown as Schema.Schema<CreateAccessPolicyRequest>;
 
@@ -8552,46 +8859,50 @@ export interface CreateAccessPolicyResponse {
 
 export const CreateAccessPolicyResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
-  appCount: Schema.optional(Schema.Number).pipe(T.JsonName("app_count")),
+  appCount: Schema.optional(Schema.Number),
   approvalGroups: Schema.optional(
     Schema.Array(
       Schema.Struct({
-        approvalsNeeded: Schema.Number.pipe(T.JsonName("approvals_needed")),
-        emailAddresses: Schema.optional(Schema.Array(Schema.Unknown)).pipe(
-          T.JsonName("email_addresses"),
-        ),
-        emailListUuid: Schema.optional(Schema.String).pipe(
-          T.JsonName("email_list_uuid"),
-        ),
-      }),
+        approvalsNeeded: Schema.Number,
+        emailAddresses: Schema.optional(Schema.Array(Schema.Unknown)),
+        emailListUuid: Schema.optional(Schema.String),
+      }).pipe(
+        Schema.encodeKeys({
+          approvalsNeeded: "approvals_needed",
+          emailAddresses: "email_addresses",
+          emailListUuid: "email_list_uuid",
+        }),
+      ),
     ),
-  ).pipe(T.JsonName("approval_groups")),
-  approvalRequired: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("approval_required"),
   ),
-  createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
+  approvalRequired: Schema.optional(Schema.Boolean),
+  createdAt: Schema.optional(Schema.String),
   decision: Schema.optional(
-    Schema.Literal("allow", "bypass", "deny", "non_identity"),
+    Schema.Literals(["allow", "bypass", "deny", "non_identity"]),
   ),
   exclude: Schema.optional(Schema.Array(Schema.Unknown)),
   include: Schema.optional(Schema.Array(Schema.Unknown)),
-  isolationRequired: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("isolation_required"),
-  ),
+  isolationRequired: Schema.optional(Schema.Boolean),
   name: Schema.optional(Schema.String),
-  purposeJustificationPrompt: Schema.optional(Schema.String).pipe(
-    T.JsonName("purpose_justification_prompt"),
-  ),
-  purposeJustificationRequired: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("purpose_justification_required"),
-  ),
+  purposeJustificationPrompt: Schema.optional(Schema.String),
+  purposeJustificationRequired: Schema.optional(Schema.Boolean),
   require: Schema.optional(Schema.Array(Schema.Unknown)),
   reusable: Schema.optional(Schema.Literal(true)),
-  sessionDuration: Schema.optional(Schema.String).pipe(
-    T.JsonName("session_duration"),
-  ),
-  updatedAt: Schema.optional(Schema.String).pipe(T.JsonName("updated_at")),
-}) as unknown as Schema.Schema<CreateAccessPolicyResponse>;
+  sessionDuration: Schema.optional(Schema.String),
+  updatedAt: Schema.optional(Schema.String),
+}).pipe(
+  Schema.encodeKeys({
+    appCount: "app_count",
+    approvalGroups: "approval_groups",
+    approvalRequired: "approval_required",
+    createdAt: "created_at",
+    isolationRequired: "isolation_required",
+    purposeJustificationPrompt: "purpose_justification_prompt",
+    purposeJustificationRequired: "purpose_justification_required",
+    sessionDuration: "session_duration",
+    updatedAt: "updated_at",
+  }),
+) as unknown as Schema.Schema<CreateAccessPolicyResponse>;
 
 export const createAccessPolicy: (
   input: CreateAccessPolicyRequest,
@@ -8640,40 +8951,40 @@ export interface UpdateAccessPolicyRequest {
 export const UpdateAccessPolicyRequest = Schema.Struct({
   policyId: Schema.String.pipe(T.HttpPath("policyId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  decision: Schema.Literal("allow", "bypass", "deny", "non_identity"),
+  decision: Schema.Literals(["allow", "bypass", "deny", "non_identity"]),
   include: Schema.Array(Schema.Unknown),
   name: Schema.String,
   approvalGroups: Schema.optional(
     Schema.Array(
       Schema.Struct({
-        approvalsNeeded: Schema.Number.pipe(T.JsonName("approvals_needed")),
-        emailAddresses: Schema.optional(Schema.Array(Schema.String)).pipe(
-          T.JsonName("email_addresses"),
-        ),
-        emailListUuid: Schema.optional(Schema.String).pipe(
-          T.JsonName("email_list_uuid"),
-        ),
-      }),
+        approvalsNeeded: Schema.Number,
+        emailAddresses: Schema.optional(Schema.Array(Schema.String)),
+        emailListUuid: Schema.optional(Schema.String),
+      }).pipe(
+        Schema.encodeKeys({
+          approvalsNeeded: "approvals_needed",
+          emailAddresses: "email_addresses",
+          emailListUuid: "email_list_uuid",
+        }),
+      ),
     ),
-  ).pipe(T.JsonName("approval_groups")),
-  approvalRequired: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("approval_required"),
   ),
+  approvalRequired: Schema.optional(Schema.Boolean),
   exclude: Schema.optional(Schema.Array(Schema.Unknown)),
-  isolationRequired: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("isolation_required"),
-  ),
-  purposeJustificationPrompt: Schema.optional(Schema.String).pipe(
-    T.JsonName("purpose_justification_prompt"),
-  ),
-  purposeJustificationRequired: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("purpose_justification_required"),
-  ),
+  isolationRequired: Schema.optional(Schema.Boolean),
+  purposeJustificationPrompt: Schema.optional(Schema.String),
+  purposeJustificationRequired: Schema.optional(Schema.Boolean),
   require: Schema.optional(Schema.Array(Schema.Unknown)),
-  sessionDuration: Schema.optional(Schema.String).pipe(
-    T.JsonName("session_duration"),
-  ),
+  sessionDuration: Schema.optional(Schema.String),
 }).pipe(
+  Schema.encodeKeys({
+    approvalGroups: "approval_groups",
+    approvalRequired: "approval_required",
+    isolationRequired: "isolation_required",
+    purposeJustificationPrompt: "purpose_justification_prompt",
+    purposeJustificationRequired: "purpose_justification_required",
+    sessionDuration: "session_duration",
+  }),
   T.Http({
     method: "PUT",
     path: "/accounts/{account_id}/access/policies/{policyId}",
@@ -8718,46 +9029,50 @@ export interface UpdateAccessPolicyResponse {
 
 export const UpdateAccessPolicyResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
-  appCount: Schema.optional(Schema.Number).pipe(T.JsonName("app_count")),
+  appCount: Schema.optional(Schema.Number),
   approvalGroups: Schema.optional(
     Schema.Array(
       Schema.Struct({
-        approvalsNeeded: Schema.Number.pipe(T.JsonName("approvals_needed")),
-        emailAddresses: Schema.optional(Schema.Array(Schema.Unknown)).pipe(
-          T.JsonName("email_addresses"),
-        ),
-        emailListUuid: Schema.optional(Schema.String).pipe(
-          T.JsonName("email_list_uuid"),
-        ),
-      }),
+        approvalsNeeded: Schema.Number,
+        emailAddresses: Schema.optional(Schema.Array(Schema.Unknown)),
+        emailListUuid: Schema.optional(Schema.String),
+      }).pipe(
+        Schema.encodeKeys({
+          approvalsNeeded: "approvals_needed",
+          emailAddresses: "email_addresses",
+          emailListUuid: "email_list_uuid",
+        }),
+      ),
     ),
-  ).pipe(T.JsonName("approval_groups")),
-  approvalRequired: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("approval_required"),
   ),
-  createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
+  approvalRequired: Schema.optional(Schema.Boolean),
+  createdAt: Schema.optional(Schema.String),
   decision: Schema.optional(
-    Schema.Literal("allow", "bypass", "deny", "non_identity"),
+    Schema.Literals(["allow", "bypass", "deny", "non_identity"]),
   ),
   exclude: Schema.optional(Schema.Array(Schema.Unknown)),
   include: Schema.optional(Schema.Array(Schema.Unknown)),
-  isolationRequired: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("isolation_required"),
-  ),
+  isolationRequired: Schema.optional(Schema.Boolean),
   name: Schema.optional(Schema.String),
-  purposeJustificationPrompt: Schema.optional(Schema.String).pipe(
-    T.JsonName("purpose_justification_prompt"),
-  ),
-  purposeJustificationRequired: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("purpose_justification_required"),
-  ),
+  purposeJustificationPrompt: Schema.optional(Schema.String),
+  purposeJustificationRequired: Schema.optional(Schema.Boolean),
   require: Schema.optional(Schema.Array(Schema.Unknown)),
   reusable: Schema.optional(Schema.Literal(true)),
-  sessionDuration: Schema.optional(Schema.String).pipe(
-    T.JsonName("session_duration"),
-  ),
-  updatedAt: Schema.optional(Schema.String).pipe(T.JsonName("updated_at")),
-}) as unknown as Schema.Schema<UpdateAccessPolicyResponse>;
+  sessionDuration: Schema.optional(Schema.String),
+  updatedAt: Schema.optional(Schema.String),
+}).pipe(
+  Schema.encodeKeys({
+    appCount: "app_count",
+    approvalGroups: "approval_groups",
+    approvalRequired: "approval_required",
+    createdAt: "created_at",
+    isolationRequired: "isolation_required",
+    purposeJustificationPrompt: "purpose_justification_prompt",
+    purposeJustificationRequired: "purpose_justification_required",
+    sessionDuration: "session_duration",
+    updatedAt: "updated_at",
+  }),
+) as unknown as Schema.Schema<UpdateAccessPolicyResponse>;
 
 export const updateAccessPolicy: (
   input: UpdateAccessPolicyRequest,
@@ -8839,11 +9154,13 @@ export interface GetAccessServiceTokenResponse {
 
 export const GetAccessServiceTokenResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
-  clientId: Schema.optional(Schema.String).pipe(T.JsonName("client_id")),
+  clientId: Schema.optional(Schema.String),
   duration: Schema.optional(Schema.String),
-  expiresAt: Schema.optional(Schema.String).pipe(T.JsonName("expires_at")),
+  expiresAt: Schema.optional(Schema.String),
   name: Schema.optional(Schema.String),
-}) as unknown as Schema.Schema<GetAccessServiceTokenResponse>;
+}).pipe(
+  Schema.encodeKeys({ clientId: "client_id", expiresAt: "expires_at" }),
+) as unknown as Schema.Schema<GetAccessServiceTokenResponse>;
 
 export const getAccessServiceToken: (
   input: GetAccessServiceTokenRequest,
@@ -8876,14 +9193,14 @@ export const CreateAccessServiceTokenRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
   name: Schema.String,
-  clientSecretVersion: Schema.optional(Schema.Number).pipe(
-    T.JsonName("client_secret_version"),
-  ),
+  clientSecretVersion: Schema.optional(Schema.Number),
   duration: Schema.optional(Schema.String),
-  previousClientSecretExpiresAt: Schema.optional(Schema.String).pipe(
-    T.JsonName("previous_client_secret_expires_at"),
-  ),
+  previousClientSecretExpiresAt: Schema.optional(Schema.String),
 }).pipe(
+  Schema.encodeKeys({
+    clientSecretVersion: "client_secret_version",
+    previousClientSecretExpiresAt: "previous_client_secret_expires_at",
+  }),
   T.Http({
     method: "POST",
     path: "/{accountOrZone}/{accountOrZoneId}/access/service_tokens",
@@ -8905,13 +9222,13 @@ export interface CreateAccessServiceTokenResponse {
 
 export const CreateAccessServiceTokenResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
-  clientId: Schema.optional(Schema.String).pipe(T.JsonName("client_id")),
-  clientSecret: Schema.optional(Schema.String).pipe(
-    T.JsonName("client_secret"),
-  ),
+  clientId: Schema.optional(Schema.String),
+  clientSecret: Schema.optional(Schema.String),
   duration: Schema.optional(Schema.String),
   name: Schema.optional(Schema.String),
-}) as unknown as Schema.Schema<CreateAccessServiceTokenResponse>;
+}).pipe(
+  Schema.encodeKeys({ clientId: "client_id", clientSecret: "client_secret" }),
+) as unknown as Schema.Schema<CreateAccessServiceTokenResponse>;
 
 export const createAccessServiceToken: (
   input: CreateAccessServiceTokenRequest,
@@ -8945,15 +9262,15 @@ export const UpdateAccessServiceTokenRequest = Schema.Struct({
   serviceTokenId: Schema.String.pipe(T.HttpPath("serviceTokenId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  clientSecretVersion: Schema.optional(Schema.Number).pipe(
-    T.JsonName("client_secret_version"),
-  ),
+  clientSecretVersion: Schema.optional(Schema.Number),
   duration: Schema.optional(Schema.String),
   name: Schema.optional(Schema.String),
-  previousClientSecretExpiresAt: Schema.optional(Schema.String).pipe(
-    T.JsonName("previous_client_secret_expires_at"),
-  ),
+  previousClientSecretExpiresAt: Schema.optional(Schema.String),
 }).pipe(
+  Schema.encodeKeys({
+    clientSecretVersion: "client_secret_version",
+    previousClientSecretExpiresAt: "previous_client_secret_expires_at",
+  }),
   T.Http({
     method: "PUT",
     path: "/{accountOrZone}/{accountOrZoneId}/access/service_tokens/{serviceTokenId}",
@@ -8974,11 +9291,13 @@ export interface UpdateAccessServiceTokenResponse {
 
 export const UpdateAccessServiceTokenResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
-  clientId: Schema.optional(Schema.String).pipe(T.JsonName("client_id")),
+  clientId: Schema.optional(Schema.String),
   duration: Schema.optional(Schema.String),
-  expiresAt: Schema.optional(Schema.String).pipe(T.JsonName("expires_at")),
+  expiresAt: Schema.optional(Schema.String),
   name: Schema.optional(Schema.String),
-}) as unknown as Schema.Schema<UpdateAccessServiceTokenResponse>;
+}).pipe(
+  Schema.encodeKeys({ clientId: "client_id", expiresAt: "expires_at" }),
+) as unknown as Schema.Schema<UpdateAccessServiceTokenResponse>;
 
 export const updateAccessServiceToken: (
   input: UpdateAccessServiceTokenRequest,
@@ -9019,11 +9338,13 @@ export interface DeleteAccessServiceTokenResponse {
 
 export const DeleteAccessServiceTokenResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
-  clientId: Schema.optional(Schema.String).pipe(T.JsonName("client_id")),
+  clientId: Schema.optional(Schema.String),
   duration: Schema.optional(Schema.String),
-  expiresAt: Schema.optional(Schema.String).pipe(T.JsonName("expires_at")),
+  expiresAt: Schema.optional(Schema.String),
   name: Schema.optional(Schema.String),
-}) as unknown as Schema.Schema<DeleteAccessServiceTokenResponse>;
+}).pipe(
+  Schema.encodeKeys({ clientId: "client_id", expiresAt: "expires_at" }),
+) as unknown as Schema.Schema<DeleteAccessServiceTokenResponse>;
 
 export const deleteAccessServiceToken: (
   input: DeleteAccessServiceTokenRequest,
@@ -9067,11 +9388,13 @@ export interface RefreshAccessServiceTokenResponse {
 
 export const RefreshAccessServiceTokenResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
-  clientId: Schema.optional(Schema.String).pipe(T.JsonName("client_id")),
+  clientId: Schema.optional(Schema.String),
   duration: Schema.optional(Schema.String),
-  expiresAt: Schema.optional(Schema.String).pipe(T.JsonName("expires_at")),
+  expiresAt: Schema.optional(Schema.String),
   name: Schema.optional(Schema.String),
-}) as unknown as Schema.Schema<RefreshAccessServiceTokenResponse>;
+}).pipe(
+  Schema.encodeKeys({ clientId: "client_id", expiresAt: "expires_at" }),
+) as unknown as Schema.Schema<RefreshAccessServiceTokenResponse>;
 
 export const refreshAccessServiceToken: (
   input: RefreshAccessServiceTokenRequest,
@@ -9096,10 +9419,11 @@ export interface RotateAccessServiceTokenRequest {
 export const RotateAccessServiceTokenRequest = Schema.Struct({
   serviceTokenId: Schema.String.pipe(T.HttpPath("serviceTokenId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  previousClientSecretExpiresAt: Schema.optional(Schema.String).pipe(
-    T.JsonName("previous_client_secret_expires_at"),
-  ),
+  previousClientSecretExpiresAt: Schema.optional(Schema.String),
 }).pipe(
+  Schema.encodeKeys({
+    previousClientSecretExpiresAt: "previous_client_secret_expires_at",
+  }),
   T.Http({
     method: "POST",
     path: "/accounts/{account_id}/access/service_tokens/{serviceTokenId}/rotate",
@@ -9121,13 +9445,13 @@ export interface RotateAccessServiceTokenResponse {
 
 export const RotateAccessServiceTokenResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
-  clientId: Schema.optional(Schema.String).pipe(T.JsonName("client_id")),
-  clientSecret: Schema.optional(Schema.String).pipe(
-    T.JsonName("client_secret"),
-  ),
+  clientId: Schema.optional(Schema.String),
+  clientSecret: Schema.optional(Schema.String),
   duration: Schema.optional(Schema.String),
   name: Schema.optional(Schema.String),
-}) as unknown as Schema.Schema<RotateAccessServiceTokenResponse>;
+}).pipe(
+  Schema.encodeKeys({ clientId: "client_id", clientSecret: "client_secret" }),
+) as unknown as Schema.Schema<RotateAccessServiceTokenResponse>;
 
 export const rotateAccessServiceToken: (
   input: RotateAccessServiceTokenRequest,
@@ -9345,13 +9669,11 @@ export interface GetAccessUserActiveSessionResponse {
 }
 
 export const GetAccessUserActiveSessionResponse = Schema.Struct({
-  accountId: Schema.optional(Schema.String).pipe(T.JsonName("account_id")),
-  authStatus: Schema.optional(Schema.String).pipe(T.JsonName("auth_status")),
-  commonName: Schema.optional(Schema.String).pipe(T.JsonName("common_name")),
-  deviceId: Schema.optional(Schema.String).pipe(T.JsonName("device_id")),
-  deviceSessions: Schema.optional(Schema.Struct({})).pipe(
-    T.JsonName("device_sessions"),
-  ),
+  accountId: Schema.optional(Schema.String),
+  authStatus: Schema.optional(Schema.String),
+  commonName: Schema.optional(Schema.String),
+  deviceId: Schema.optional(Schema.String),
+  deviceSessions: Schema.optional(Schema.Struct({})),
   devicePosture: Schema.optional(Schema.Struct({})),
   email: Schema.optional(Schema.String),
   geo: Schema.optional(Schema.Unknown),
@@ -9363,37 +9685,45 @@ export const GetAccessUserActiveSessionResponse = Schema.Struct({
     }),
   ),
   ip: Schema.optional(Schema.String),
-  isGateway: Schema.optional(Schema.Boolean).pipe(T.JsonName("is_gateway")),
-  isWarp: Schema.optional(Schema.Boolean).pipe(T.JsonName("is_warp")),
+  isGateway: Schema.optional(Schema.Boolean),
+  isWarp: Schema.optional(Schema.Boolean),
   isActive: Schema.optional(Schema.Boolean),
   mtlsAuth: Schema.optional(
     Schema.Struct({
-      authStatus: Schema.optional(Schema.String).pipe(
-        T.JsonName("auth_status"),
-      ),
-      certIssuerDn: Schema.optional(Schema.String).pipe(
-        T.JsonName("cert_issuer_dn"),
-      ),
-      certIssuerSki: Schema.optional(Schema.String).pipe(
-        T.JsonName("cert_issuer_ski"),
-      ),
-      certPresented: Schema.optional(Schema.Boolean).pipe(
-        T.JsonName("cert_presented"),
-      ),
-      certSerial: Schema.optional(Schema.String).pipe(
-        T.JsonName("cert_serial"),
-      ),
-    }),
-  ).pipe(T.JsonName("mtls_auth")),
-  serviceTokenId: Schema.optional(Schema.String).pipe(
-    T.JsonName("service_token_id"),
+      authStatus: Schema.optional(Schema.String),
+      certIssuerDn: Schema.optional(Schema.String),
+      certIssuerSki: Schema.optional(Schema.String),
+      certPresented: Schema.optional(Schema.Boolean),
+      certSerial: Schema.optional(Schema.String),
+    }).pipe(
+      Schema.encodeKeys({
+        authStatus: "auth_status",
+        certIssuerDn: "cert_issuer_dn",
+        certIssuerSki: "cert_issuer_ski",
+        certPresented: "cert_presented",
+        certSerial: "cert_serial",
+      }),
+    ),
   ),
-  serviceTokenStatus: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("service_token_status"),
-  ),
-  userUuid: Schema.optional(Schema.String).pipe(T.JsonName("user_uuid")),
+  serviceTokenId: Schema.optional(Schema.String),
+  serviceTokenStatus: Schema.optional(Schema.Boolean),
+  userUuid: Schema.optional(Schema.String),
   version: Schema.optional(Schema.Number),
-}) as unknown as Schema.Schema<GetAccessUserActiveSessionResponse>;
+}).pipe(
+  Schema.encodeKeys({
+    accountId: "account_id",
+    authStatus: "auth_status",
+    commonName: "common_name",
+    deviceId: "device_id",
+    deviceSessions: "device_sessions",
+    isGateway: "is_gateway",
+    isWarp: "is_warp",
+    mtlsAuth: "mtls_auth",
+    serviceTokenId: "service_token_id",
+    serviceTokenStatus: "service_token_status",
+    userUuid: "user_uuid",
+  }),
+) as unknown as Schema.Schema<GetAccessUserActiveSessionResponse>;
 
 export const getAccessUserActiveSession: (
   input: GetAccessUserActiveSessionRequest,
@@ -9455,13 +9785,11 @@ export interface GetAccessUserLastSeenIdentityResponse {
 }
 
 export const GetAccessUserLastSeenIdentityResponse = Schema.Struct({
-  accountId: Schema.optional(Schema.String).pipe(T.JsonName("account_id")),
-  authStatus: Schema.optional(Schema.String).pipe(T.JsonName("auth_status")),
-  commonName: Schema.optional(Schema.String).pipe(T.JsonName("common_name")),
-  deviceId: Schema.optional(Schema.String).pipe(T.JsonName("device_id")),
-  deviceSessions: Schema.optional(Schema.Struct({})).pipe(
-    T.JsonName("device_sessions"),
-  ),
+  accountId: Schema.optional(Schema.String),
+  authStatus: Schema.optional(Schema.String),
+  commonName: Schema.optional(Schema.String),
+  deviceId: Schema.optional(Schema.String),
+  deviceSessions: Schema.optional(Schema.Struct({})),
   devicePosture: Schema.optional(Schema.Struct({})),
   email: Schema.optional(Schema.String),
   geo: Schema.optional(Schema.Unknown),
@@ -9473,36 +9801,44 @@ export const GetAccessUserLastSeenIdentityResponse = Schema.Struct({
     }),
   ),
   ip: Schema.optional(Schema.String),
-  isGateway: Schema.optional(Schema.Boolean).pipe(T.JsonName("is_gateway")),
-  isWarp: Schema.optional(Schema.Boolean).pipe(T.JsonName("is_warp")),
+  isGateway: Schema.optional(Schema.Boolean),
+  isWarp: Schema.optional(Schema.Boolean),
   mtlsAuth: Schema.optional(
     Schema.Struct({
-      authStatus: Schema.optional(Schema.String).pipe(
-        T.JsonName("auth_status"),
-      ),
-      certIssuerDn: Schema.optional(Schema.String).pipe(
-        T.JsonName("cert_issuer_dn"),
-      ),
-      certIssuerSki: Schema.optional(Schema.String).pipe(
-        T.JsonName("cert_issuer_ski"),
-      ),
-      certPresented: Schema.optional(Schema.Boolean).pipe(
-        T.JsonName("cert_presented"),
-      ),
-      certSerial: Schema.optional(Schema.String).pipe(
-        T.JsonName("cert_serial"),
-      ),
-    }),
-  ).pipe(T.JsonName("mtls_auth")),
-  serviceTokenId: Schema.optional(Schema.String).pipe(
-    T.JsonName("service_token_id"),
+      authStatus: Schema.optional(Schema.String),
+      certIssuerDn: Schema.optional(Schema.String),
+      certIssuerSki: Schema.optional(Schema.String),
+      certPresented: Schema.optional(Schema.Boolean),
+      certSerial: Schema.optional(Schema.String),
+    }).pipe(
+      Schema.encodeKeys({
+        authStatus: "auth_status",
+        certIssuerDn: "cert_issuer_dn",
+        certIssuerSki: "cert_issuer_ski",
+        certPresented: "cert_presented",
+        certSerial: "cert_serial",
+      }),
+    ),
   ),
-  serviceTokenStatus: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("service_token_status"),
-  ),
-  userUuid: Schema.optional(Schema.String).pipe(T.JsonName("user_uuid")),
+  serviceTokenId: Schema.optional(Schema.String),
+  serviceTokenStatus: Schema.optional(Schema.Boolean),
+  userUuid: Schema.optional(Schema.String),
   version: Schema.optional(Schema.Number),
-}) as unknown as Schema.Schema<GetAccessUserLastSeenIdentityResponse>;
+}).pipe(
+  Schema.encodeKeys({
+    accountId: "account_id",
+    authStatus: "auth_status",
+    commonName: "common_name",
+    deviceId: "device_id",
+    deviceSessions: "device_sessions",
+    isGateway: "is_gateway",
+    isWarp: "is_warp",
+    mtlsAuth: "mtls_auth",
+    serviceTokenId: "service_token_id",
+    serviceTokenStatus: "service_token_status",
+    userUuid: "user_uuid",
+  }),
+) as unknown as Schema.Schema<GetAccessUserLastSeenIdentityResponse>;
 
 export const getAccessUserLastSeenIdentity: (
   input: GetAccessUserLastSeenIdentityRequest,
@@ -9542,13 +9878,14 @@ export interface GetConnectivitySettingResponse {
 }
 
 export const GetConnectivitySettingResponse = Schema.Struct({
-  icmpProxyEnabled: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("icmp_proxy_enabled"),
-  ),
-  offrampWarpEnabled: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("offramp_warp_enabled"),
-  ),
-}) as unknown as Schema.Schema<GetConnectivitySettingResponse>;
+  icmpProxyEnabled: Schema.optional(Schema.Boolean),
+  offrampWarpEnabled: Schema.optional(Schema.Boolean),
+}).pipe(
+  Schema.encodeKeys({
+    icmpProxyEnabled: "icmp_proxy_enabled",
+    offrampWarpEnabled: "offramp_warp_enabled",
+  }),
+) as unknown as Schema.Schema<GetConnectivitySettingResponse>;
 
 export const getConnectivitySetting: (
   input: GetConnectivitySettingRequest,
@@ -9573,13 +9910,13 @@ export interface PatchConnectivitySettingRequest {
 
 export const PatchConnectivitySettingRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  icmpProxyEnabled: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("icmp_proxy_enabled"),
-  ),
-  offrampWarpEnabled: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("offramp_warp_enabled"),
-  ),
+  icmpProxyEnabled: Schema.optional(Schema.Boolean),
+  offrampWarpEnabled: Schema.optional(Schema.Boolean),
 }).pipe(
+  Schema.encodeKeys({
+    icmpProxyEnabled: "icmp_proxy_enabled",
+    offrampWarpEnabled: "offramp_warp_enabled",
+  }),
   T.Http({
     method: "PATCH",
     path: "/accounts/{account_id}/zerotrust/connectivity_settings",
@@ -9594,13 +9931,14 @@ export interface PatchConnectivitySettingResponse {
 }
 
 export const PatchConnectivitySettingResponse = Schema.Struct({
-  icmpProxyEnabled: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("icmp_proxy_enabled"),
-  ),
-  offrampWarpEnabled: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("offramp_warp_enabled"),
-  ),
-}) as unknown as Schema.Schema<PatchConnectivitySettingResponse>;
+  icmpProxyEnabled: Schema.optional(Schema.Boolean),
+  offrampWarpEnabled: Schema.optional(Schema.Boolean),
+}).pipe(
+  Schema.encodeKeys({
+    icmpProxyEnabled: "icmp_proxy_enabled",
+    offrampWarpEnabled: "offramp_warp_enabled",
+  }),
+) as unknown as Schema.Schema<PatchConnectivitySettingResponse>;
 
 export const patchConnectivitySetting: (
   input: PatchConnectivitySettingRequest,
@@ -9721,72 +10059,70 @@ export interface GetDeviceDevices_Response {
 
 export const GetDeviceDevices_Response = Schema.Struct({
   id: Schema.String,
-  activeRegistrations: Schema.Number.pipe(T.JsonName("active_registrations")),
-  createdAt: Schema.String.pipe(T.JsonName("created_at")),
-  lastSeenAt: Schema.Union(Schema.String, Schema.Null).pipe(
-    T.JsonName("last_seen_at"),
-  ),
+  activeRegistrations: Schema.Number,
+  createdAt: Schema.String,
+  lastSeenAt: Schema.Union([Schema.String, Schema.Null]),
   name: Schema.String,
-  updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
-  clientVersion: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-    T.JsonName("client_version"),
-  ),
-  deletedAt: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-    T.JsonName("deleted_at"),
-  ),
-  deviceType: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-    T.JsonName("device_type"),
-  ),
-  hardwareId: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-    T.JsonName("hardware_id"),
-  ),
+  updatedAt: Schema.String,
+  clientVersion: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  deletedAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  deviceType: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  hardwareId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   lastSeenRegistration: Schema.optional(
-    Schema.Union(
+    Schema.Union([
       Schema.Struct({
         policy: Schema.optional(
-          Schema.Union(
+          Schema.Union([
             Schema.Struct({
               id: Schema.String,
               default: Schema.Boolean,
               deleted: Schema.Boolean,
               name: Schema.String,
-              updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
-            }),
+              updatedAt: Schema.String,
+            }).pipe(Schema.encodeKeys({ updatedAt: "updated_at" })),
             Schema.Null,
-          ),
+          ]),
         ),
       }),
       Schema.Null,
-    ),
-  ).pipe(T.JsonName("last_seen_registration")),
+    ]),
+  ),
   lastSeenUser: Schema.optional(
-    Schema.Union(
+    Schema.Union([
       Schema.Struct({
         id: Schema.optional(Schema.String),
         email: Schema.optional(Schema.String),
         name: Schema.optional(Schema.String),
       }),
       Schema.Null,
-    ),
-  ).pipe(T.JsonName("last_seen_user")),
-  macAddress: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-    T.JsonName("mac_address"),
+    ]),
   ),
-  manufacturer: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
-  model: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
-  osVersion: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-    T.JsonName("os_version"),
-  ),
-  osVersionExtra: Schema.optional(
-    Schema.Union(Schema.String, Schema.Null),
-  ).pipe(T.JsonName("os_version_extra")),
-  publicIp: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-    T.JsonName("public_ip"),
-  ),
-  serialNumber: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-    T.JsonName("serial_number"),
-  ),
-}) as unknown as Schema.Schema<GetDeviceDevices_Response>;
+  macAddress: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  manufacturer: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  model: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  osVersion: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  osVersionExtra: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  publicIp: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  serialNumber: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+}).pipe(
+  Schema.encodeKeys({
+    activeRegistrations: "active_registrations",
+    createdAt: "created_at",
+    lastSeenAt: "last_seen_at",
+    updatedAt: "updated_at",
+    clientVersion: "client_version",
+    deletedAt: "deleted_at",
+    deviceType: "device_type",
+    hardwareId: "hardware_id",
+    lastSeenRegistration: "last_seen_registration",
+    lastSeenUser: "last_seen_user",
+    macAddress: "mac_address",
+    osVersion: "os_version",
+    osVersionExtra: "os_version_extra",
+    publicIp: "public_ip",
+    serialNumber: "serial_number",
+  }),
+) as unknown as Schema.Schema<GetDeviceDevices_Response>;
 
 export const getDeviceDevices_: (
   input: GetDeviceDevices_Request,
@@ -9919,10 +10255,12 @@ export const GetDeviceDexTestResponse = Schema.Struct({
         name: Schema.optional(Schema.String),
       }),
     ),
-  ).pipe(T.JsonName("target_policies")),
+  ),
   targeted: Schema.optional(Schema.Boolean),
-  testId: Schema.optional(Schema.String).pipe(T.JsonName("test_id")),
-}) as unknown as Schema.Schema<GetDeviceDexTestResponse>;
+  testId: Schema.optional(Schema.String),
+}).pipe(
+  Schema.encodeKeys({ targetPolicies: "target_policies", testId: "test_id" }),
+) as unknown as Schema.Schema<GetDeviceDexTestResponse>;
 
 export const getDeviceDexTest: (
   input: GetDeviceDexTestRequest,
@@ -9974,9 +10312,10 @@ export const CreateDeviceDexTestRequest = Schema.Struct({
         name: Schema.optional(Schema.String),
       }),
     ),
-  ).pipe(T.JsonName("target_policies")),
+  ),
   targeted: Schema.optional(Schema.Boolean),
 }).pipe(
+  Schema.encodeKeys({ targetPolicies: "target_policies" }),
   T.Http({
     method: "POST",
     path: "/accounts/{account_id}/dex/devices/dex_tests",
@@ -10019,10 +10358,12 @@ export const CreateDeviceDexTestResponse = Schema.Struct({
         name: Schema.optional(Schema.String),
       }),
     ),
-  ).pipe(T.JsonName("target_policies")),
+  ),
   targeted: Schema.optional(Schema.Boolean),
-  testId: Schema.optional(Schema.String).pipe(T.JsonName("test_id")),
-}) as unknown as Schema.Schema<CreateDeviceDexTestResponse>;
+  testId: Schema.optional(Schema.String),
+}).pipe(
+  Schema.encodeKeys({ targetPolicies: "target_policies", testId: "test_id" }),
+) as unknown as Schema.Schema<CreateDeviceDexTestResponse>;
 
 export const createDeviceDexTest: (
   input: CreateDeviceDexTestRequest,
@@ -10076,9 +10417,10 @@ export const UpdateDeviceDexTestRequest = Schema.Struct({
         name: Schema.optional(Schema.String),
       }),
     ),
-  ).pipe(T.JsonName("target_policies")),
+  ),
   targeted: Schema.optional(Schema.Boolean),
 }).pipe(
+  Schema.encodeKeys({ targetPolicies: "target_policies" }),
   T.Http({
     method: "PUT",
     path: "/accounts/{account_id}/dex/devices/dex_tests/{dexTestId}",
@@ -10121,10 +10463,12 @@ export const UpdateDeviceDexTestResponse = Schema.Struct({
         name: Schema.optional(Schema.String),
       }),
     ),
-  ).pipe(T.JsonName("target_policies")),
+  ),
   targeted: Schema.optional(Schema.Boolean),
-  testId: Schema.optional(Schema.String).pipe(T.JsonName("test_id")),
-}) as unknown as Schema.Schema<UpdateDeviceDexTestResponse>;
+  testId: Schema.optional(Schema.String),
+}).pipe(
+  Schema.encodeKeys({ targetPolicies: "target_policies", testId: "test_id" }),
+) as unknown as Schema.Schema<UpdateDeviceDexTestResponse>;
 
 export const updateDeviceDexTest: (
   input: UpdateDeviceDexTestRequest,
@@ -10187,13 +10531,20 @@ export const DeleteDeviceDexTestResponse = Schema.Struct({
               name: Schema.optional(Schema.String),
             }),
           ),
-        ).pipe(T.JsonName("target_policies")),
+        ),
         targeted: Schema.optional(Schema.Boolean),
-        testId: Schema.optional(Schema.String).pipe(T.JsonName("test_id")),
-      }),
+        testId: Schema.optional(Schema.String),
+      }).pipe(
+        Schema.encodeKeys({
+          targetPolicies: "target_policies",
+          testId: "test_id",
+        }),
+      ),
     ),
-  ).pipe(T.JsonName("dex_tests")),
-}) as unknown as Schema.Schema<DeleteDeviceDexTestResponse>;
+  ),
+}).pipe(
+  Schema.encodeKeys({ dexTests: "dex_tests" }),
+) as unknown as Schema.Schema<DeleteDeviceDexTestResponse>;
 
 export const deleteDeviceDexTest: (
   input: DeleteDeviceDexTestRequest,
@@ -10366,183 +10717,201 @@ export const GetDeviceFleetStatusResponse = Schema.Struct({
   status: Schema.String,
   timestamp: Schema.String,
   version: Schema.String,
-  alwaysOn: Schema.optional(Schema.Union(Schema.Boolean, Schema.Null)),
-  batteryCharging: Schema.optional(Schema.Union(Schema.Boolean, Schema.Null)),
-  batteryCycles: Schema.optional(Schema.Union(Schema.Number, Schema.Null)),
-  batteryPct: Schema.optional(Schema.Union(Schema.Number, Schema.Null)),
-  connectionType: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
-  cpuPct: Schema.optional(Schema.Union(Schema.Number, Schema.Null)),
+  alwaysOn: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+  batteryCharging: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+  batteryCycles: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  batteryPct: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  connectionType: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  cpuPct: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
   cpuPctByApp: Schema.optional(
-    Schema.Union(
+    Schema.Union([
       Schema.Array(
         Schema.Array(
           Schema.Struct({
-            cpuPct: Schema.optional(Schema.Number).pipe(T.JsonName("cpu_pct")),
+            cpuPct: Schema.optional(Schema.Number),
             name: Schema.optional(Schema.String),
-          }),
+          }).pipe(Schema.encodeKeys({ cpuPct: "cpu_pct" })),
         ),
       ),
       Schema.Null,
-    ),
+    ]),
   ),
   deviceIpv4: Schema.optional(
     Schema.Struct({
-      address: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
-      asn: Schema.optional(Schema.Union(Schema.Number, Schema.Null)),
-      aso: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
+      address: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      asn: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      aso: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
       location: Schema.optional(
         Schema.Struct({
-          city: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
+          city: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
           countryIso: Schema.optional(
-            Schema.Union(Schema.String, Schema.Null),
-          ).pipe(T.JsonName("country_iso")),
-          stateIso: Schema.optional(
-            Schema.Union(Schema.String, Schema.Null),
-          ).pipe(T.JsonName("state_iso")),
-          zip: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
-        }),
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+          stateIso: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+          zip: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        }).pipe(
+          Schema.encodeKeys({
+            countryIso: "country_iso",
+            stateIso: "state_iso",
+          }),
+        ),
       ),
-      netmask: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
-      version: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
+      netmask: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      version: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     }),
   ),
   deviceIpv6: Schema.optional(
     Schema.Struct({
-      address: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
-      asn: Schema.optional(Schema.Union(Schema.Number, Schema.Null)),
-      aso: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
+      address: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      asn: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      aso: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
       location: Schema.optional(
         Schema.Struct({
-          city: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
+          city: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
           countryIso: Schema.optional(
-            Schema.Union(Schema.String, Schema.Null),
-          ).pipe(T.JsonName("country_iso")),
-          stateIso: Schema.optional(
-            Schema.Union(Schema.String, Schema.Null),
-          ).pipe(T.JsonName("state_iso")),
-          zip: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
-        }),
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+          stateIso: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+          zip: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        }).pipe(
+          Schema.encodeKeys({
+            countryIso: "country_iso",
+            stateIso: "state_iso",
+          }),
+        ),
       ),
-      netmask: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
-      version: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
+      netmask: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      version: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     }),
   ),
   deviceName: Schema.optional(Schema.String),
-  diskReadBps: Schema.optional(Schema.Union(Schema.Number, Schema.Null)),
-  diskUsagePct: Schema.optional(Schema.Union(Schema.Number, Schema.Null)),
-  diskWriteBps: Schema.optional(Schema.Union(Schema.Number, Schema.Null)),
-  dohSubdomain: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
-  estimatedLossPct: Schema.optional(Schema.Union(Schema.Number, Schema.Null)),
-  firewallEnabled: Schema.optional(Schema.Union(Schema.Boolean, Schema.Null)),
+  diskReadBps: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  diskUsagePct: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  diskWriteBps: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  dohSubdomain: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  estimatedLossPct: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  firewallEnabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
   gatewayIpv4: Schema.optional(
     Schema.Struct({
-      address: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
-      asn: Schema.optional(Schema.Union(Schema.Number, Schema.Null)),
-      aso: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
+      address: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      asn: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      aso: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
       location: Schema.optional(
         Schema.Struct({
-          city: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
+          city: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
           countryIso: Schema.optional(
-            Schema.Union(Schema.String, Schema.Null),
-          ).pipe(T.JsonName("country_iso")),
-          stateIso: Schema.optional(
-            Schema.Union(Schema.String, Schema.Null),
-          ).pipe(T.JsonName("state_iso")),
-          zip: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
-        }),
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+          stateIso: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+          zip: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        }).pipe(
+          Schema.encodeKeys({
+            countryIso: "country_iso",
+            stateIso: "state_iso",
+          }),
+        ),
       ),
-      netmask: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
-      version: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
+      netmask: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      version: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     }),
   ),
   gatewayIpv6: Schema.optional(
     Schema.Struct({
-      address: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
-      asn: Schema.optional(Schema.Union(Schema.Number, Schema.Null)),
-      aso: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
+      address: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      asn: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      aso: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
       location: Schema.optional(
         Schema.Struct({
-          city: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
+          city: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
           countryIso: Schema.optional(
-            Schema.Union(Schema.String, Schema.Null),
-          ).pipe(T.JsonName("country_iso")),
-          stateIso: Schema.optional(
-            Schema.Union(Schema.String, Schema.Null),
-          ).pipe(T.JsonName("state_iso")),
-          zip: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
-        }),
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+          stateIso: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+          zip: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        }).pipe(
+          Schema.encodeKeys({
+            countryIso: "country_iso",
+            stateIso: "state_iso",
+          }),
+        ),
       ),
-      netmask: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
-      version: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
+      netmask: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      version: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     }),
   ),
-  handshakeLatencyMs: Schema.optional(Schema.Union(Schema.Number, Schema.Null)),
+  handshakeLatencyMs: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
   ispIpv4: Schema.optional(
     Schema.Struct({
-      address: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
-      asn: Schema.optional(Schema.Union(Schema.Number, Schema.Null)),
-      aso: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
+      address: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      asn: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      aso: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
       location: Schema.optional(
         Schema.Struct({
-          city: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
+          city: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
           countryIso: Schema.optional(
-            Schema.Union(Schema.String, Schema.Null),
-          ).pipe(T.JsonName("country_iso")),
-          stateIso: Schema.optional(
-            Schema.Union(Schema.String, Schema.Null),
-          ).pipe(T.JsonName("state_iso")),
-          zip: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
-        }),
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+          stateIso: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+          zip: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        }).pipe(
+          Schema.encodeKeys({
+            countryIso: "country_iso",
+            stateIso: "state_iso",
+          }),
+        ),
       ),
-      netmask: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
-      version: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
+      netmask: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      version: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     }),
   ),
   ispIpv6: Schema.optional(
     Schema.Struct({
-      address: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
-      asn: Schema.optional(Schema.Union(Schema.Number, Schema.Null)),
-      aso: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
+      address: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      asn: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      aso: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
       location: Schema.optional(
         Schema.Struct({
-          city: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
+          city: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
           countryIso: Schema.optional(
-            Schema.Union(Schema.String, Schema.Null),
-          ).pipe(T.JsonName("country_iso")),
-          stateIso: Schema.optional(
-            Schema.Union(Schema.String, Schema.Null),
-          ).pipe(T.JsonName("state_iso")),
-          zip: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
-        }),
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+          stateIso: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+          zip: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        }).pipe(
+          Schema.encodeKeys({
+            countryIso: "country_iso",
+            stateIso: "state_iso",
+          }),
+        ),
       ),
-      netmask: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
-      version: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
+      netmask: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      version: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     }),
   ),
-  metal: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
-  networkRcvdBps: Schema.optional(Schema.Union(Schema.Number, Schema.Null)),
-  networkSentBps: Schema.optional(Schema.Union(Schema.Number, Schema.Null)),
-  networkSsid: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
+  metal: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  networkRcvdBps: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  networkSentBps: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  networkSsid: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   personEmail: Schema.optional(Schema.String),
-  ramAvailableKb: Schema.optional(Schema.Union(Schema.Number, Schema.Null)),
-  ramUsedPct: Schema.optional(Schema.Union(Schema.Number, Schema.Null)),
+  ramAvailableKb: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  ramUsedPct: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
   ramUsedPctByApp: Schema.optional(
-    Schema.Union(
+    Schema.Union([
       Schema.Array(
         Schema.Array(
           Schema.Struct({
             name: Schema.optional(Schema.String),
-            ramUsedPct: Schema.optional(Schema.Number).pipe(
-              T.JsonName("ram_used_pct"),
-            ),
-          }),
+            ramUsedPct: Schema.optional(Schema.Number),
+          }).pipe(Schema.encodeKeys({ ramUsedPct: "ram_used_pct" })),
         ),
       ),
       Schema.Null,
-    ),
+    ]),
   ),
-  switchLocked: Schema.optional(Schema.Union(Schema.Boolean, Schema.Null)),
-  wifiStrengthDbm: Schema.optional(Schema.Union(Schema.Number, Schema.Null)),
+  switchLocked: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+  wifiStrengthDbm: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
 }) as unknown as Schema.Schema<GetDeviceFleetStatusResponse>;
 
 export const getDeviceFleetStatus: (
@@ -10607,9 +10976,9 @@ export interface CreateDeviceNetworkRequest {
 export const CreateDeviceNetworkRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   config: Schema.Struct({
-    tlsSockaddr: Schema.String.pipe(T.JsonName("tls_sockaddr")),
+    tlsSockaddr: Schema.String,
     sha256: Schema.optional(Schema.String),
-  }),
+  }).pipe(Schema.encodeKeys({ tlsSockaddr: "tls_sockaddr" })),
   name: Schema.String,
   type: Schema.Literal("tls"),
 }).pipe(
@@ -10650,9 +11019,9 @@ export const UpdateDeviceNetworkRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   config: Schema.optional(
     Schema.Struct({
-      tlsSockaddr: Schema.String.pipe(T.JsonName("tls_sockaddr")),
+      tlsSockaddr: Schema.String,
       sha256: Schema.optional(Schema.String),
-    }),
+    }).pipe(Schema.encodeKeys({ tlsSockaddr: "tls_sockaddr" })),
   ),
   name: Schema.optional(Schema.String),
   type: Schema.optional(Schema.Literal("tls")),
@@ -10704,10 +11073,10 @@ export interface GetDeviceOverrideCodeResponse {
 }
 
 export const GetDeviceOverrideCodeResponse = Schema.Struct({
-  disableForTime: Schema.optional(Schema.Struct({})).pipe(
-    T.JsonName("disable_for_time"),
-  ),
-}) as unknown as Schema.Schema<GetDeviceOverrideCodeResponse>;
+  disableForTime: Schema.optional(Schema.Struct({})),
+}).pipe(
+  Schema.encodeKeys({ disableForTime: "disable_for_time" }),
+) as unknown as Schema.Schema<GetDeviceOverrideCodeResponse>;
 
 export const getDeviceOverrideCode: (
   input: GetDeviceOverrideCodeRequest,
@@ -10811,55 +11180,48 @@ export const CreateDevicePolicyCustomRequest = Schema.Struct({
   match: Schema.String,
   name: Schema.String,
   precedence: Schema.Number,
-  allowModeSwitch: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("allow_mode_switch"),
-  ),
-  allowUpdates: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("allow_updates"),
-  ),
-  allowedToLeave: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("allowed_to_leave"),
-  ),
-  autoConnect: Schema.optional(Schema.Number).pipe(T.JsonName("auto_connect")),
-  captivePortal: Schema.optional(Schema.Number).pipe(
-    T.JsonName("captive_portal"),
-  ),
+  allowModeSwitch: Schema.optional(Schema.Boolean),
+  allowUpdates: Schema.optional(Schema.Boolean),
+  allowedToLeave: Schema.optional(Schema.Boolean),
+  autoConnect: Schema.optional(Schema.Number),
+  captivePortal: Schema.optional(Schema.Number),
   description: Schema.optional(Schema.String),
-  disableAutoFallback: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("disable_auto_fallback"),
-  ),
+  disableAutoFallback: Schema.optional(Schema.Boolean),
   enabled: Schema.optional(Schema.Boolean),
   exclude: Schema.optional(Schema.Array(Schema.Unknown)),
-  excludeOfficeIps: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("exclude_office_ips"),
-  ),
+  excludeOfficeIps: Schema.optional(Schema.Boolean),
   include: Schema.optional(Schema.Array(Schema.Unknown)),
-  lanAllowMinutes: Schema.optional(Schema.Number).pipe(
-    T.JsonName("lan_allow_minutes"),
-  ),
-  lanAllowSubnetSize: Schema.optional(Schema.Number).pipe(
-    T.JsonName("lan_allow_subnet_size"),
-  ),
-  registerInterfaceIpWithDns: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("register_interface_ip_with_dns"),
-  ),
-  sccmVpnBoundarySupport: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("sccm_vpn_boundary_support"),
-  ),
+  lanAllowMinutes: Schema.optional(Schema.Number),
+  lanAllowSubnetSize: Schema.optional(Schema.Number),
+  registerInterfaceIpWithDns: Schema.optional(Schema.Boolean),
+  sccmVpnBoundarySupport: Schema.optional(Schema.Boolean),
   serviceModeV2: Schema.optional(
     Schema.Struct({
       mode: Schema.optional(Schema.String),
       port: Schema.optional(Schema.Number),
     }),
-  ).pipe(T.JsonName("service_mode_v2")),
-  supportUrl: Schema.optional(Schema.String).pipe(T.JsonName("support_url")),
-  switchLocked: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("switch_locked"),
   ),
-  tunnelProtocol: Schema.optional(Schema.String).pipe(
-    T.JsonName("tunnel_protocol"),
-  ),
+  supportUrl: Schema.optional(Schema.String),
+  switchLocked: Schema.optional(Schema.Boolean),
+  tunnelProtocol: Schema.optional(Schema.String),
 }).pipe(
+  Schema.encodeKeys({
+    allowModeSwitch: "allow_mode_switch",
+    allowUpdates: "allow_updates",
+    allowedToLeave: "allowed_to_leave",
+    autoConnect: "auto_connect",
+    captivePortal: "captive_portal",
+    disableAutoFallback: "disable_auto_fallback",
+    excludeOfficeIps: "exclude_office_ips",
+    lanAllowMinutes: "lan_allow_minutes",
+    lanAllowSubnetSize: "lan_allow_subnet_size",
+    registerInterfaceIpWithDns: "register_interface_ip_with_dns",
+    sccmVpnBoundarySupport: "sccm_vpn_boundary_support",
+    serviceModeV2: "service_mode_v2",
+    supportUrl: "support_url",
+    switchLocked: "switch_locked",
+    tunnelProtocol: "tunnel_protocol",
+  }),
   T.Http({ method: "POST", path: "/accounts/{account_id}/devices/policy" }),
 ) as unknown as Schema.Schema<CreateDevicePolicyCustomRequest>;
 
@@ -10933,58 +11295,51 @@ export interface PatchDevicePolicyCustomRequest {
 export const PatchDevicePolicyCustomRequest = Schema.Struct({
   policyId: Schema.String.pipe(T.HttpPath("policyId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  allowModeSwitch: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("allow_mode_switch"),
-  ),
-  allowUpdates: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("allow_updates"),
-  ),
-  allowedToLeave: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("allowed_to_leave"),
-  ),
-  autoConnect: Schema.optional(Schema.Number).pipe(T.JsonName("auto_connect")),
-  captivePortal: Schema.optional(Schema.Number).pipe(
-    T.JsonName("captive_portal"),
-  ),
+  allowModeSwitch: Schema.optional(Schema.Boolean),
+  allowUpdates: Schema.optional(Schema.Boolean),
+  allowedToLeave: Schema.optional(Schema.Boolean),
+  autoConnect: Schema.optional(Schema.Number),
+  captivePortal: Schema.optional(Schema.Number),
   description: Schema.optional(Schema.String),
-  disableAutoFallback: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("disable_auto_fallback"),
-  ),
+  disableAutoFallback: Schema.optional(Schema.Boolean),
   enabled: Schema.optional(Schema.Boolean),
   exclude: Schema.optional(Schema.Array(Schema.Unknown)),
-  excludeOfficeIps: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("exclude_office_ips"),
-  ),
+  excludeOfficeIps: Schema.optional(Schema.Boolean),
   include: Schema.optional(Schema.Array(Schema.Unknown)),
-  lanAllowMinutes: Schema.optional(Schema.Number).pipe(
-    T.JsonName("lan_allow_minutes"),
-  ),
-  lanAllowSubnetSize: Schema.optional(Schema.Number).pipe(
-    T.JsonName("lan_allow_subnet_size"),
-  ),
+  lanAllowMinutes: Schema.optional(Schema.Number),
+  lanAllowSubnetSize: Schema.optional(Schema.Number),
   match: Schema.optional(Schema.String),
   name: Schema.optional(Schema.String),
   precedence: Schema.optional(Schema.Number),
-  registerInterfaceIpWithDns: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("register_interface_ip_with_dns"),
-  ),
-  sccmVpnBoundarySupport: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("sccm_vpn_boundary_support"),
-  ),
+  registerInterfaceIpWithDns: Schema.optional(Schema.Boolean),
+  sccmVpnBoundarySupport: Schema.optional(Schema.Boolean),
   serviceModeV2: Schema.optional(
     Schema.Struct({
       mode: Schema.optional(Schema.String),
       port: Schema.optional(Schema.Number),
     }),
-  ).pipe(T.JsonName("service_mode_v2")),
-  supportUrl: Schema.optional(Schema.String).pipe(T.JsonName("support_url")),
-  switchLocked: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("switch_locked"),
   ),
-  tunnelProtocol: Schema.optional(Schema.String).pipe(
-    T.JsonName("tunnel_protocol"),
-  ),
+  supportUrl: Schema.optional(Schema.String),
+  switchLocked: Schema.optional(Schema.Boolean),
+  tunnelProtocol: Schema.optional(Schema.String),
 }).pipe(
+  Schema.encodeKeys({
+    allowModeSwitch: "allow_mode_switch",
+    allowUpdates: "allow_updates",
+    allowedToLeave: "allowed_to_leave",
+    autoConnect: "auto_connect",
+    captivePortal: "captive_portal",
+    disableAutoFallback: "disable_auto_fallback",
+    excludeOfficeIps: "exclude_office_ips",
+    lanAllowMinutes: "lan_allow_minutes",
+    lanAllowSubnetSize: "lan_allow_subnet_size",
+    registerInterfaceIpWithDns: "register_interface_ip_with_dns",
+    sccmVpnBoundarySupport: "sccm_vpn_boundary_support",
+    serviceModeV2: "service_mode_v2",
+    supportUrl: "support_url",
+    switchLocked: "switch_locked",
+    tunnelProtocol: "tunnel_protocol",
+  }),
   T.Http({
     method: "PATCH",
     path: "/accounts/{account_id}/devices/policy/{policyId}",
@@ -11080,53 +11435,46 @@ export interface PatchDevicePolicyDefaultRequest {
 
 export const PatchDevicePolicyDefaultRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  allowModeSwitch: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("allow_mode_switch"),
-  ),
-  allowUpdates: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("allow_updates"),
-  ),
-  allowedToLeave: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("allowed_to_leave"),
-  ),
-  autoConnect: Schema.optional(Schema.Number).pipe(T.JsonName("auto_connect")),
-  captivePortal: Schema.optional(Schema.Number).pipe(
-    T.JsonName("captive_portal"),
-  ),
-  disableAutoFallback: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("disable_auto_fallback"),
-  ),
+  allowModeSwitch: Schema.optional(Schema.Boolean),
+  allowUpdates: Schema.optional(Schema.Boolean),
+  allowedToLeave: Schema.optional(Schema.Boolean),
+  autoConnect: Schema.optional(Schema.Number),
+  captivePortal: Schema.optional(Schema.Number),
+  disableAutoFallback: Schema.optional(Schema.Boolean),
   exclude: Schema.optional(Schema.Array(Schema.Unknown)),
-  excludeOfficeIps: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("exclude_office_ips"),
-  ),
+  excludeOfficeIps: Schema.optional(Schema.Boolean),
   include: Schema.optional(Schema.Array(Schema.Unknown)),
-  lanAllowMinutes: Schema.optional(Schema.Number).pipe(
-    T.JsonName("lan_allow_minutes"),
-  ),
-  lanAllowSubnetSize: Schema.optional(Schema.Number).pipe(
-    T.JsonName("lan_allow_subnet_size"),
-  ),
-  registerInterfaceIpWithDns: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("register_interface_ip_with_dns"),
-  ),
-  sccmVpnBoundarySupport: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("sccm_vpn_boundary_support"),
-  ),
+  lanAllowMinutes: Schema.optional(Schema.Number),
+  lanAllowSubnetSize: Schema.optional(Schema.Number),
+  registerInterfaceIpWithDns: Schema.optional(Schema.Boolean),
+  sccmVpnBoundarySupport: Schema.optional(Schema.Boolean),
   serviceModeV2: Schema.optional(
     Schema.Struct({
       mode: Schema.optional(Schema.String),
       port: Schema.optional(Schema.Number),
     }),
-  ).pipe(T.JsonName("service_mode_v2")),
-  supportUrl: Schema.optional(Schema.String).pipe(T.JsonName("support_url")),
-  switchLocked: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("switch_locked"),
   ),
-  tunnelProtocol: Schema.optional(Schema.String).pipe(
-    T.JsonName("tunnel_protocol"),
-  ),
+  supportUrl: Schema.optional(Schema.String),
+  switchLocked: Schema.optional(Schema.Boolean),
+  tunnelProtocol: Schema.optional(Schema.String),
 }).pipe(
+  Schema.encodeKeys({
+    allowModeSwitch: "allow_mode_switch",
+    allowUpdates: "allow_updates",
+    allowedToLeave: "allowed_to_leave",
+    autoConnect: "auto_connect",
+    captivePortal: "captive_portal",
+    disableAutoFallback: "disable_auto_fallback",
+    excludeOfficeIps: "exclude_office_ips",
+    lanAllowMinutes: "lan_allow_minutes",
+    lanAllowSubnetSize: "lan_allow_subnet_size",
+    registerInterfaceIpWithDns: "register_interface_ip_with_dns",
+    sccmVpnBoundarySupport: "sccm_vpn_boundary_support",
+    serviceModeV2: "service_mode_v2",
+    supportUrl: "support_url",
+    switchLocked: "switch_locked",
+    tunnelProtocol: "tunnel_protocol",
+  }),
   T.Http({ method: "PATCH", path: "/accounts/{account_id}/devices/policy" }),
 ) as unknown as Schema.Schema<PatchDevicePolicyDefaultRequest>;
 
@@ -11398,7 +11746,7 @@ export interface CreateDevicePostureRequest {
 export const CreateDevicePostureRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   name: Schema.String,
-  type: Schema.Literal(
+  type: Schema.Literals([
     "file",
     "application",
     "tanium",
@@ -11422,62 +11770,51 @@ export const CreateDevicePostureRequest = Schema.Struct({
     "workspace_one",
     "sentinelone_s2s",
     "custom_s2s",
-  ),
+  ]),
   description: Schema.optional(Schema.String),
   expiration: Schema.optional(Schema.String),
   input: Schema.optional(
-    Schema.Union(
+    Schema.Union([
       Schema.Struct({
-        operatingSystem: Schema.Literal("windows", "linux", "mac").pipe(
-          T.JsonName("operating_system"),
-        ),
+        operatingSystem: Schema.Literals(["windows", "linux", "mac"]),
         path: Schema.String,
         exists: Schema.optional(Schema.Boolean),
         sha256: Schema.optional(Schema.String),
         thumbprint: Schema.optional(Schema.String),
-      }),
+      }).pipe(Schema.encodeKeys({ operatingSystem: "operating_system" })),
       Schema.Struct({
         id: Schema.String,
-        operatingSystem: Schema.Literal("android", "ios", "chromeos").pipe(
-          T.JsonName("operating_system"),
-        ),
-      }),
+        operatingSystem: Schema.Literals(["android", "ios", "chromeos"]),
+      }).pipe(Schema.encodeKeys({ operatingSystem: "operating_system" })),
       Schema.Struct({
-        operatingSystem: Schema.Literal("windows").pipe(
-          T.JsonName("operating_system"),
-        ),
+        operatingSystem: Schema.Literal("windows"),
         domain: Schema.optional(Schema.String),
-      }),
+      }).pipe(Schema.encodeKeys({ operatingSystem: "operating_system" })),
       Schema.Struct({
-        operatingSystem: Schema.Literal("windows").pipe(
-          T.JsonName("operating_system"),
-        ),
-        operator: Schema.Literal("<", "<=", ">", ">=", "=="),
+        operatingSystem: Schema.Literal("windows"),
+        operator: Schema.Literals(["<", "<=", ">", ">=", "=="]),
         version: Schema.String,
-        osDistroName: Schema.optional(Schema.String).pipe(
-          T.JsonName("os_distro_name"),
-        ),
-        osDistroRevision: Schema.optional(Schema.String).pipe(
-          T.JsonName("os_distro_revision"),
-        ),
-        osVersionExtra: Schema.optional(Schema.String).pipe(
-          T.JsonName("os_version_extra"),
-        ),
-      }),
+        osDistroName: Schema.optional(Schema.String),
+        osDistroRevision: Schema.optional(Schema.String),
+        osVersionExtra: Schema.optional(Schema.String),
+      }).pipe(
+        Schema.encodeKeys({
+          operatingSystem: "operating_system",
+          osDistroName: "os_distro_name",
+          osDistroRevision: "os_distro_revision",
+          osVersionExtra: "os_version_extra",
+        }),
+      ),
       Schema.Struct({
         enabled: Schema.Boolean,
-        operatingSystem: Schema.Literal("windows", "mac").pipe(
-          T.JsonName("operating_system"),
-        ),
-      }),
+        operatingSystem: Schema.Literals(["windows", "mac"]),
+      }).pipe(Schema.encodeKeys({ operatingSystem: "operating_system" })),
       Schema.Struct({
-        operatingSystem: Schema.Literal("windows", "linux", "mac").pipe(
-          T.JsonName("operating_system"),
-        ),
+        operatingSystem: Schema.Literals(["windows", "linux", "mac"]),
         path: Schema.String,
         sha256: Schema.optional(Schema.String),
         thumbprint: Schema.optional(Schema.String),
-      }),
+      }).pipe(Schema.encodeKeys({ operatingSystem: "operating_system" })),
       Schema.Struct({
         id: Schema.String,
       }),
@@ -11486,108 +11823,136 @@ export const CreateDevicePostureRequest = Schema.Struct({
         requireAll: Schema.optional(Schema.Boolean),
       }),
       Schema.Struct({
-        certificateId: Schema.String.pipe(T.JsonName("certificate_id")),
+        certificateId: Schema.String,
         cn: Schema.String,
-      }),
+      }).pipe(Schema.encodeKeys({ certificateId: "certificate_id" })),
       Schema.Struct({
-        certificateId: Schema.String.pipe(T.JsonName("certificate_id")),
-        checkPrivateKey: Schema.Boolean.pipe(T.JsonName("check_private_key")),
-        operatingSystem: Schema.Literal("windows", "linux", "mac").pipe(
-          T.JsonName("operating_system"),
-        ),
+        certificateId: Schema.String,
+        checkPrivateKey: Schema.Boolean,
+        operatingSystem: Schema.Literals(["windows", "linux", "mac"]),
         cn: Schema.optional(Schema.String),
         extendedKeyUsage: Schema.optional(
-          Schema.Array(Schema.Literal("clientAuth", "emailProtection")),
-        ).pipe(T.JsonName("extended_key_usage")),
+          Schema.Array(Schema.Literals(["clientAuth", "emailProtection"])),
+        ),
         locations: Schema.optional(
           Schema.Struct({
             paths: Schema.optional(Schema.Array(Schema.String)),
             trustStores: Schema.optional(
-              Schema.Array(Schema.Literal("system", "user")),
-            ).pipe(T.JsonName("trust_stores")),
-          }),
+              Schema.Array(Schema.Literals(["system", "user"])),
+            ),
+          }).pipe(Schema.encodeKeys({ trustStores: "trust_stores" })),
         ),
-        subjectAlternativeNames: Schema.optional(
-          Schema.Array(Schema.String),
-        ).pipe(T.JsonName("subject_alternative_names")),
-      }),
+        subjectAlternativeNames: Schema.optional(Schema.Array(Schema.String)),
+      }).pipe(
+        Schema.encodeKeys({
+          certificateId: "certificate_id",
+          checkPrivateKey: "check_private_key",
+          operatingSystem: "operating_system",
+          extendedKeyUsage: "extended_key_usage",
+          subjectAlternativeNames: "subject_alternative_names",
+        }),
+      ),
       Schema.Struct({
-        updateWindowDays: Schema.optional(Schema.Number).pipe(
-          T.JsonName("update_window_days"),
-        ),
-      }),
+        updateWindowDays: Schema.optional(Schema.Number),
+      }).pipe(Schema.encodeKeys({ updateWindowDays: "update_window_days" })),
       Schema.Struct({
-        complianceStatus: Schema.Literal(
+        complianceStatus: Schema.Literals([
           "compliant",
           "noncompliant",
           "unknown",
-        ).pipe(T.JsonName("compliance_status")),
-        connectionId: Schema.String.pipe(T.JsonName("connection_id")),
-      }),
+        ]),
+        connectionId: Schema.String,
+      }).pipe(
+        Schema.encodeKeys({
+          complianceStatus: "compliance_status",
+          connectionId: "connection_id",
+        }),
+      ),
       Schema.Struct({
-        connectionId: Schema.String.pipe(T.JsonName("connection_id")),
-        lastSeen: Schema.optional(Schema.String).pipe(T.JsonName("last_seen")),
-        operator: Schema.optional(Schema.Literal("<", "<=", ">", ">=", "==")),
+        connectionId: Schema.String,
+        lastSeen: Schema.optional(Schema.String),
+        operator: Schema.optional(
+          Schema.Literals(["<", "<=", ">", ">=", "=="]),
+        ),
         os: Schema.optional(Schema.String),
         overall: Schema.optional(Schema.String),
-        sensorConfig: Schema.optional(Schema.String).pipe(
-          T.JsonName("sensor_config"),
+        sensorConfig: Schema.optional(Schema.String),
+        state: Schema.optional(
+          Schema.Literals(["online", "offline", "unknown"]),
         ),
-        state: Schema.optional(Schema.Literal("online", "offline", "unknown")),
         version: Schema.optional(Schema.String),
         versionOperator: Schema.optional(
-          Schema.Literal("<", "<=", ">", ">=", "=="),
+          Schema.Literals(["<", "<=", ">", ">=", "=="]),
         ),
-      }),
+      }).pipe(
+        Schema.encodeKeys({
+          connectionId: "connection_id",
+          lastSeen: "last_seen",
+          sensorConfig: "sensor_config",
+        }),
+      ),
       Schema.Struct({
-        complianceStatus: Schema.Literal(
+        complianceStatus: Schema.Literals([
           "compliant",
           "noncompliant",
           "unknown",
           "notapplicable",
           "ingraceperiod",
           "error",
-        ).pipe(T.JsonName("compliance_status")),
-        connectionId: Schema.String.pipe(T.JsonName("connection_id")),
-      }),
+        ]),
+        connectionId: Schema.String,
+      }).pipe(
+        Schema.encodeKeys({
+          complianceStatus: "compliance_status",
+          connectionId: "connection_id",
+        }),
+      ),
       Schema.Struct({
-        connectionId: Schema.String.pipe(T.JsonName("connection_id")),
-        countOperator: Schema.Literal("<", "<=", ">", ">=", "=="),
-        issueCount: Schema.String.pipe(T.JsonName("issue_count")),
-      }),
+        connectionId: Schema.String,
+        countOperator: Schema.Literals(["<", "<=", ">", ">=", "=="]),
+        issueCount: Schema.String,
+      }).pipe(
+        Schema.encodeKeys({
+          connectionId: "connection_id",
+          issueCount: "issue_count",
+        }),
+      ),
       Schema.Struct({
-        connectionId: Schema.String.pipe(T.JsonName("connection_id")),
-        eidLastSeen: Schema.optional(Schema.String).pipe(
-          T.JsonName("eid_last_seen"),
+        connectionId: Schema.String,
+        eidLastSeen: Schema.optional(Schema.String),
+        operator: Schema.optional(
+          Schema.Literals(["<", "<=", ">", ">=", "=="]),
         ),
-        operator: Schema.optional(Schema.Literal("<", "<=", ">", ">=", "==")),
         riskLevel: Schema.optional(
-          Schema.Literal("low", "medium", "high", "critical"),
-        ).pipe(T.JsonName("risk_level")),
+          Schema.Literals(["low", "medium", "high", "critical"]),
+        ),
         scoreOperator: Schema.optional(
-          Schema.Literal("<", "<=", ">", ">=", "=="),
+          Schema.Literals(["<", "<=", ">", ">=", "=="]),
         ),
-        totalScore: Schema.optional(Schema.Number).pipe(
-          T.JsonName("total_score"),
-        ),
-      }),
+        totalScore: Schema.optional(Schema.Number),
+      }).pipe(
+        Schema.encodeKeys({
+          connectionId: "connection_id",
+          eidLastSeen: "eid_last_seen",
+          riskLevel: "risk_level",
+          totalScore: "total_score",
+        }),
+      ),
       Schema.Struct({
-        connectionId: Schema.String.pipe(T.JsonName("connection_id")),
-        activeThreats: Schema.optional(Schema.Number).pipe(
-          T.JsonName("active_threats"),
-        ),
+        connectionId: Schema.String,
+        activeThreats: Schema.optional(Schema.Number),
         infected: Schema.optional(Schema.Boolean),
-        isActive: Schema.optional(Schema.Boolean).pipe(T.JsonName("is_active")),
+        isActive: Schema.optional(Schema.Boolean),
         networkStatus: Schema.optional(
-          Schema.Literal(
+          Schema.Literals([
             "connected",
             "disconnected",
             "disconnecting",
             "connecting",
-          ),
-        ).pipe(T.JsonName("network_status")),
+          ]),
+        ),
         operationalState: Schema.optional(
-          Schema.Literal(
+          Schema.Literals([
             "na",
             "partially_disabled",
             "auto_fully_disabled",
@@ -11595,29 +11960,39 @@ export const CreateDevicePostureRequest = Schema.Struct({
             "auto_partially_disabled",
             "disabled_error",
             "db_corruption",
-          ),
-        ).pipe(T.JsonName("operational_state")),
-        operator: Schema.optional(Schema.Literal("<", "<=", ">", ">=", "==")),
-      }),
+          ]),
+        ),
+        operator: Schema.optional(
+          Schema.Literals(["<", "<=", ">", ">=", "=="]),
+        ),
+      }).pipe(
+        Schema.encodeKeys({
+          connectionId: "connection_id",
+          activeThreats: "active_threats",
+          isActive: "is_active",
+          networkStatus: "network_status",
+          operationalState: "operational_state",
+        }),
+      ),
       Schema.Struct({
-        connectionId: Schema.String.pipe(T.JsonName("connection_id")),
-        operator: Schema.Literal("<", "<=", ">", ">=", "=="),
+        connectionId: Schema.String,
+        operator: Schema.Literals(["<", "<=", ">", ">=", "=="]),
         score: Schema.Number,
-      }),
-    ),
+      }).pipe(Schema.encodeKeys({ connectionId: "connection_id" })),
+    ]),
   ),
   match: Schema.optional(
     Schema.Array(
       Schema.Struct({
         platform: Schema.optional(
-          Schema.Literal(
+          Schema.Literals([
             "windows",
             "mac",
             "linux",
             "android",
             "ios",
             "chromeos",
-          ),
+          ]),
         ),
       }),
     ),
@@ -11793,7 +12168,7 @@ export const UpdateDevicePostureRequest = Schema.Struct({
   ruleId: Schema.String.pipe(T.HttpPath("ruleId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   name: Schema.String,
-  type: Schema.Literal(
+  type: Schema.Literals([
     "file",
     "application",
     "tanium",
@@ -11817,62 +12192,51 @@ export const UpdateDevicePostureRequest = Schema.Struct({
     "workspace_one",
     "sentinelone_s2s",
     "custom_s2s",
-  ),
+  ]),
   description: Schema.optional(Schema.String),
   expiration: Schema.optional(Schema.String),
   input: Schema.optional(
-    Schema.Union(
+    Schema.Union([
       Schema.Struct({
-        operatingSystem: Schema.Literal("windows", "linux", "mac").pipe(
-          T.JsonName("operating_system"),
-        ),
+        operatingSystem: Schema.Literals(["windows", "linux", "mac"]),
         path: Schema.String,
         exists: Schema.optional(Schema.Boolean),
         sha256: Schema.optional(Schema.String),
         thumbprint: Schema.optional(Schema.String),
-      }),
+      }).pipe(Schema.encodeKeys({ operatingSystem: "operating_system" })),
       Schema.Struct({
         id: Schema.String,
-        operatingSystem: Schema.Literal("android", "ios", "chromeos").pipe(
-          T.JsonName("operating_system"),
-        ),
-      }),
+        operatingSystem: Schema.Literals(["android", "ios", "chromeos"]),
+      }).pipe(Schema.encodeKeys({ operatingSystem: "operating_system" })),
       Schema.Struct({
-        operatingSystem: Schema.Literal("windows").pipe(
-          T.JsonName("operating_system"),
-        ),
+        operatingSystem: Schema.Literal("windows"),
         domain: Schema.optional(Schema.String),
-      }),
+      }).pipe(Schema.encodeKeys({ operatingSystem: "operating_system" })),
       Schema.Struct({
-        operatingSystem: Schema.Literal("windows").pipe(
-          T.JsonName("operating_system"),
-        ),
-        operator: Schema.Literal("<", "<=", ">", ">=", "=="),
+        operatingSystem: Schema.Literal("windows"),
+        operator: Schema.Literals(["<", "<=", ">", ">=", "=="]),
         version: Schema.String,
-        osDistroName: Schema.optional(Schema.String).pipe(
-          T.JsonName("os_distro_name"),
-        ),
-        osDistroRevision: Schema.optional(Schema.String).pipe(
-          T.JsonName("os_distro_revision"),
-        ),
-        osVersionExtra: Schema.optional(Schema.String).pipe(
-          T.JsonName("os_version_extra"),
-        ),
-      }),
+        osDistroName: Schema.optional(Schema.String),
+        osDistroRevision: Schema.optional(Schema.String),
+        osVersionExtra: Schema.optional(Schema.String),
+      }).pipe(
+        Schema.encodeKeys({
+          operatingSystem: "operating_system",
+          osDistroName: "os_distro_name",
+          osDistroRevision: "os_distro_revision",
+          osVersionExtra: "os_version_extra",
+        }),
+      ),
       Schema.Struct({
         enabled: Schema.Boolean,
-        operatingSystem: Schema.Literal("windows", "mac").pipe(
-          T.JsonName("operating_system"),
-        ),
-      }),
+        operatingSystem: Schema.Literals(["windows", "mac"]),
+      }).pipe(Schema.encodeKeys({ operatingSystem: "operating_system" })),
       Schema.Struct({
-        operatingSystem: Schema.Literal("windows", "linux", "mac").pipe(
-          T.JsonName("operating_system"),
-        ),
+        operatingSystem: Schema.Literals(["windows", "linux", "mac"]),
         path: Schema.String,
         sha256: Schema.optional(Schema.String),
         thumbprint: Schema.optional(Schema.String),
-      }),
+      }).pipe(Schema.encodeKeys({ operatingSystem: "operating_system" })),
       Schema.Struct({
         id: Schema.String,
       }),
@@ -11881,108 +12245,136 @@ export const UpdateDevicePostureRequest = Schema.Struct({
         requireAll: Schema.optional(Schema.Boolean),
       }),
       Schema.Struct({
-        certificateId: Schema.String.pipe(T.JsonName("certificate_id")),
+        certificateId: Schema.String,
         cn: Schema.String,
-      }),
+      }).pipe(Schema.encodeKeys({ certificateId: "certificate_id" })),
       Schema.Struct({
-        certificateId: Schema.String.pipe(T.JsonName("certificate_id")),
-        checkPrivateKey: Schema.Boolean.pipe(T.JsonName("check_private_key")),
-        operatingSystem: Schema.Literal("windows", "linux", "mac").pipe(
-          T.JsonName("operating_system"),
-        ),
+        certificateId: Schema.String,
+        checkPrivateKey: Schema.Boolean,
+        operatingSystem: Schema.Literals(["windows", "linux", "mac"]),
         cn: Schema.optional(Schema.String),
         extendedKeyUsage: Schema.optional(
-          Schema.Array(Schema.Literal("clientAuth", "emailProtection")),
-        ).pipe(T.JsonName("extended_key_usage")),
+          Schema.Array(Schema.Literals(["clientAuth", "emailProtection"])),
+        ),
         locations: Schema.optional(
           Schema.Struct({
             paths: Schema.optional(Schema.Array(Schema.String)),
             trustStores: Schema.optional(
-              Schema.Array(Schema.Literal("system", "user")),
-            ).pipe(T.JsonName("trust_stores")),
-          }),
+              Schema.Array(Schema.Literals(["system", "user"])),
+            ),
+          }).pipe(Schema.encodeKeys({ trustStores: "trust_stores" })),
         ),
-        subjectAlternativeNames: Schema.optional(
-          Schema.Array(Schema.String),
-        ).pipe(T.JsonName("subject_alternative_names")),
-      }),
+        subjectAlternativeNames: Schema.optional(Schema.Array(Schema.String)),
+      }).pipe(
+        Schema.encodeKeys({
+          certificateId: "certificate_id",
+          checkPrivateKey: "check_private_key",
+          operatingSystem: "operating_system",
+          extendedKeyUsage: "extended_key_usage",
+          subjectAlternativeNames: "subject_alternative_names",
+        }),
+      ),
       Schema.Struct({
-        updateWindowDays: Schema.optional(Schema.Number).pipe(
-          T.JsonName("update_window_days"),
-        ),
-      }),
+        updateWindowDays: Schema.optional(Schema.Number),
+      }).pipe(Schema.encodeKeys({ updateWindowDays: "update_window_days" })),
       Schema.Struct({
-        complianceStatus: Schema.Literal(
+        complianceStatus: Schema.Literals([
           "compliant",
           "noncompliant",
           "unknown",
-        ).pipe(T.JsonName("compliance_status")),
-        connectionId: Schema.String.pipe(T.JsonName("connection_id")),
-      }),
+        ]),
+        connectionId: Schema.String,
+      }).pipe(
+        Schema.encodeKeys({
+          complianceStatus: "compliance_status",
+          connectionId: "connection_id",
+        }),
+      ),
       Schema.Struct({
-        connectionId: Schema.String.pipe(T.JsonName("connection_id")),
-        lastSeen: Schema.optional(Schema.String).pipe(T.JsonName("last_seen")),
-        operator: Schema.optional(Schema.Literal("<", "<=", ">", ">=", "==")),
+        connectionId: Schema.String,
+        lastSeen: Schema.optional(Schema.String),
+        operator: Schema.optional(
+          Schema.Literals(["<", "<=", ">", ">=", "=="]),
+        ),
         os: Schema.optional(Schema.String),
         overall: Schema.optional(Schema.String),
-        sensorConfig: Schema.optional(Schema.String).pipe(
-          T.JsonName("sensor_config"),
+        sensorConfig: Schema.optional(Schema.String),
+        state: Schema.optional(
+          Schema.Literals(["online", "offline", "unknown"]),
         ),
-        state: Schema.optional(Schema.Literal("online", "offline", "unknown")),
         version: Schema.optional(Schema.String),
         versionOperator: Schema.optional(
-          Schema.Literal("<", "<=", ">", ">=", "=="),
+          Schema.Literals(["<", "<=", ">", ">=", "=="]),
         ),
-      }),
+      }).pipe(
+        Schema.encodeKeys({
+          connectionId: "connection_id",
+          lastSeen: "last_seen",
+          sensorConfig: "sensor_config",
+        }),
+      ),
       Schema.Struct({
-        complianceStatus: Schema.Literal(
+        complianceStatus: Schema.Literals([
           "compliant",
           "noncompliant",
           "unknown",
           "notapplicable",
           "ingraceperiod",
           "error",
-        ).pipe(T.JsonName("compliance_status")),
-        connectionId: Schema.String.pipe(T.JsonName("connection_id")),
-      }),
+        ]),
+        connectionId: Schema.String,
+      }).pipe(
+        Schema.encodeKeys({
+          complianceStatus: "compliance_status",
+          connectionId: "connection_id",
+        }),
+      ),
       Schema.Struct({
-        connectionId: Schema.String.pipe(T.JsonName("connection_id")),
-        countOperator: Schema.Literal("<", "<=", ">", ">=", "=="),
-        issueCount: Schema.String.pipe(T.JsonName("issue_count")),
-      }),
+        connectionId: Schema.String,
+        countOperator: Schema.Literals(["<", "<=", ">", ">=", "=="]),
+        issueCount: Schema.String,
+      }).pipe(
+        Schema.encodeKeys({
+          connectionId: "connection_id",
+          issueCount: "issue_count",
+        }),
+      ),
       Schema.Struct({
-        connectionId: Schema.String.pipe(T.JsonName("connection_id")),
-        eidLastSeen: Schema.optional(Schema.String).pipe(
-          T.JsonName("eid_last_seen"),
+        connectionId: Schema.String,
+        eidLastSeen: Schema.optional(Schema.String),
+        operator: Schema.optional(
+          Schema.Literals(["<", "<=", ">", ">=", "=="]),
         ),
-        operator: Schema.optional(Schema.Literal("<", "<=", ">", ">=", "==")),
         riskLevel: Schema.optional(
-          Schema.Literal("low", "medium", "high", "critical"),
-        ).pipe(T.JsonName("risk_level")),
+          Schema.Literals(["low", "medium", "high", "critical"]),
+        ),
         scoreOperator: Schema.optional(
-          Schema.Literal("<", "<=", ">", ">=", "=="),
+          Schema.Literals(["<", "<=", ">", ">=", "=="]),
         ),
-        totalScore: Schema.optional(Schema.Number).pipe(
-          T.JsonName("total_score"),
-        ),
-      }),
+        totalScore: Schema.optional(Schema.Number),
+      }).pipe(
+        Schema.encodeKeys({
+          connectionId: "connection_id",
+          eidLastSeen: "eid_last_seen",
+          riskLevel: "risk_level",
+          totalScore: "total_score",
+        }),
+      ),
       Schema.Struct({
-        connectionId: Schema.String.pipe(T.JsonName("connection_id")),
-        activeThreats: Schema.optional(Schema.Number).pipe(
-          T.JsonName("active_threats"),
-        ),
+        connectionId: Schema.String,
+        activeThreats: Schema.optional(Schema.Number),
         infected: Schema.optional(Schema.Boolean),
-        isActive: Schema.optional(Schema.Boolean).pipe(T.JsonName("is_active")),
+        isActive: Schema.optional(Schema.Boolean),
         networkStatus: Schema.optional(
-          Schema.Literal(
+          Schema.Literals([
             "connected",
             "disconnected",
             "disconnecting",
             "connecting",
-          ),
-        ).pipe(T.JsonName("network_status")),
+          ]),
+        ),
         operationalState: Schema.optional(
-          Schema.Literal(
+          Schema.Literals([
             "na",
             "partially_disabled",
             "auto_fully_disabled",
@@ -11990,29 +12382,39 @@ export const UpdateDevicePostureRequest = Schema.Struct({
             "auto_partially_disabled",
             "disabled_error",
             "db_corruption",
-          ),
-        ).pipe(T.JsonName("operational_state")),
-        operator: Schema.optional(Schema.Literal("<", "<=", ">", ">=", "==")),
-      }),
+          ]),
+        ),
+        operator: Schema.optional(
+          Schema.Literals(["<", "<=", ">", ">=", "=="]),
+        ),
+      }).pipe(
+        Schema.encodeKeys({
+          connectionId: "connection_id",
+          activeThreats: "active_threats",
+          isActive: "is_active",
+          networkStatus: "network_status",
+          operationalState: "operational_state",
+        }),
+      ),
       Schema.Struct({
-        connectionId: Schema.String.pipe(T.JsonName("connection_id")),
-        operator: Schema.Literal("<", "<=", ">", ">=", "=="),
+        connectionId: Schema.String,
+        operator: Schema.Literals(["<", "<=", ">", ">=", "=="]),
         score: Schema.Number,
-      }),
-    ),
+      }).pipe(Schema.encodeKeys({ connectionId: "connection_id" })),
+    ]),
   ),
   match: Schema.optional(
     Schema.Array(
       Schema.Struct({
         platform: Schema.optional(
-          Schema.Literal(
+          Schema.Literals([
             "windows",
             "mac",
             "linux",
             "android",
             "ios",
             "chromeos",
-          ),
+          ]),
         ),
       }),
     ),
@@ -12161,59 +12563,100 @@ export interface CreateDevicePostureIntegrationRequest {
 
 export const CreateDevicePostureIntegrationRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  config: Schema.Union(
+  config: Schema.Union([
     Schema.Struct({
-      apiUrl: Schema.String.pipe(T.JsonName("api_url")),
-      authUrl: Schema.String.pipe(T.JsonName("auth_url")),
-      clientId: Schema.String.pipe(T.JsonName("client_id")),
-      clientSecret: Schema.String.pipe(T.JsonName("client_secret")),
-    }),
+      apiUrl: Schema.String,
+      authUrl: Schema.String,
+      clientId: Schema.String,
+      clientSecret: Schema.String,
+    }).pipe(
+      Schema.encodeKeys({
+        apiUrl: "api_url",
+        authUrl: "auth_url",
+        clientId: "client_id",
+        clientSecret: "client_secret",
+      }),
+    ),
     Schema.Struct({
-      apiUrl: Schema.String.pipe(T.JsonName("api_url")),
-      clientId: Schema.String.pipe(T.JsonName("client_id")),
-      clientSecret: Schema.String.pipe(T.JsonName("client_secret")),
-      customerId: Schema.String.pipe(T.JsonName("customer_id")),
-    }),
+      apiUrl: Schema.String,
+      clientId: Schema.String,
+      clientSecret: Schema.String,
+      customerId: Schema.String,
+    }).pipe(
+      Schema.encodeKeys({
+        apiUrl: "api_url",
+        clientId: "client_id",
+        clientSecret: "client_secret",
+        customerId: "customer_id",
+      }),
+    ),
     Schema.Struct({
-      apiUrl: Schema.String.pipe(T.JsonName("api_url")),
-      clientKey: Schema.String.pipe(T.JsonName("client_key")),
-      clientSecret: Schema.String.pipe(T.JsonName("client_secret")),
-      customerId: Schema.String.pipe(T.JsonName("customer_id")),
-    }),
+      apiUrl: Schema.String,
+      clientKey: Schema.String,
+      clientSecret: Schema.String,
+      customerId: Schema.String,
+    }).pipe(
+      Schema.encodeKeys({
+        apiUrl: "api_url",
+        clientKey: "client_key",
+        clientSecret: "client_secret",
+        customerId: "customer_id",
+      }),
+    ),
     Schema.Struct({
-      clientId: Schema.String.pipe(T.JsonName("client_id")),
-      clientSecret: Schema.String.pipe(T.JsonName("client_secret")),
-      customerId: Schema.String.pipe(T.JsonName("customer_id")),
-    }),
+      clientId: Schema.String,
+      clientSecret: Schema.String,
+      customerId: Schema.String,
+    }).pipe(
+      Schema.encodeKeys({
+        clientId: "client_id",
+        clientSecret: "client_secret",
+        customerId: "customer_id",
+      }),
+    ),
     Schema.Struct({
-      clientId: Schema.String.pipe(T.JsonName("client_id")),
-      clientSecret: Schema.String.pipe(T.JsonName("client_secret")),
-    }),
+      clientId: Schema.String,
+      clientSecret: Schema.String,
+    }).pipe(
+      Schema.encodeKeys({
+        clientId: "client_id",
+        clientSecret: "client_secret",
+      }),
+    ),
     Schema.Struct({
-      apiUrl: Schema.String.pipe(T.JsonName("api_url")),
-      clientSecret: Schema.String.pipe(T.JsonName("client_secret")),
-      accessClientId: Schema.optional(Schema.String).pipe(
-        T.JsonName("access_client_id"),
-      ),
-      accessClientSecret: Schema.optional(Schema.String).pipe(
-        T.JsonName("access_client_secret"),
-      ),
-    }),
+      apiUrl: Schema.String,
+      clientSecret: Schema.String,
+      accessClientId: Schema.optional(Schema.String),
+      accessClientSecret: Schema.optional(Schema.String),
+    }).pipe(
+      Schema.encodeKeys({
+        apiUrl: "api_url",
+        clientSecret: "client_secret",
+        accessClientId: "access_client_id",
+        accessClientSecret: "access_client_secret",
+      }),
+    ),
     Schema.Struct({
-      apiUrl: Schema.String.pipe(T.JsonName("api_url")),
-      clientSecret: Schema.String.pipe(T.JsonName("client_secret")),
-    }),
+      apiUrl: Schema.String,
+      clientSecret: Schema.String,
+    }).pipe(
+      Schema.encodeKeys({ apiUrl: "api_url", clientSecret: "client_secret" }),
+    ),
     Schema.Struct({
-      accessClientId: Schema.String.pipe(T.JsonName("access_client_id")),
-      accessClientSecret: Schema.String.pipe(
-        T.JsonName("access_client_secret"),
-      ),
-      apiUrl: Schema.String.pipe(T.JsonName("api_url")),
-    }),
-  ),
+      accessClientId: Schema.String,
+      accessClientSecret: Schema.String,
+      apiUrl: Schema.String,
+    }).pipe(
+      Schema.encodeKeys({
+        accessClientId: "access_client_id",
+        accessClientSecret: "access_client_secret",
+        apiUrl: "api_url",
+      }),
+    ),
+  ]),
   interval: Schema.String,
   name: Schema.String,
-  type: Schema.Literal(
+  type: Schema.Literals([
     "workspace_one",
     "crowdstrike_s2s",
     "uptycs",
@@ -12222,7 +12665,7 @@ export const CreateDevicePostureIntegrationRequest = Schema.Struct({
     "tanium_s2s",
     "sentinelone_s2s",
     "custom_s2s",
-  ),
+  ]),
 }).pipe(
   T.Http({
     method: "POST",
@@ -12301,61 +12744,102 @@ export const PatchDevicePostureIntegrationRequest = Schema.Struct({
   integrationId: Schema.String.pipe(T.HttpPath("integrationId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   config: Schema.optional(
-    Schema.Union(
+    Schema.Union([
       Schema.Struct({
-        apiUrl: Schema.String.pipe(T.JsonName("api_url")),
-        authUrl: Schema.String.pipe(T.JsonName("auth_url")),
-        clientId: Schema.String.pipe(T.JsonName("client_id")),
-        clientSecret: Schema.String.pipe(T.JsonName("client_secret")),
-      }),
+        apiUrl: Schema.String,
+        authUrl: Schema.String,
+        clientId: Schema.String,
+        clientSecret: Schema.String,
+      }).pipe(
+        Schema.encodeKeys({
+          apiUrl: "api_url",
+          authUrl: "auth_url",
+          clientId: "client_id",
+          clientSecret: "client_secret",
+        }),
+      ),
       Schema.Struct({
-        apiUrl: Schema.String.pipe(T.JsonName("api_url")),
-        clientId: Schema.String.pipe(T.JsonName("client_id")),
-        clientSecret: Schema.String.pipe(T.JsonName("client_secret")),
-        customerId: Schema.String.pipe(T.JsonName("customer_id")),
-      }),
+        apiUrl: Schema.String,
+        clientId: Schema.String,
+        clientSecret: Schema.String,
+        customerId: Schema.String,
+      }).pipe(
+        Schema.encodeKeys({
+          apiUrl: "api_url",
+          clientId: "client_id",
+          clientSecret: "client_secret",
+          customerId: "customer_id",
+        }),
+      ),
       Schema.Struct({
-        apiUrl: Schema.String.pipe(T.JsonName("api_url")),
-        clientKey: Schema.String.pipe(T.JsonName("client_key")),
-        clientSecret: Schema.String.pipe(T.JsonName("client_secret")),
-        customerId: Schema.String.pipe(T.JsonName("customer_id")),
-      }),
+        apiUrl: Schema.String,
+        clientKey: Schema.String,
+        clientSecret: Schema.String,
+        customerId: Schema.String,
+      }).pipe(
+        Schema.encodeKeys({
+          apiUrl: "api_url",
+          clientKey: "client_key",
+          clientSecret: "client_secret",
+          customerId: "customer_id",
+        }),
+      ),
       Schema.Struct({
-        clientId: Schema.String.pipe(T.JsonName("client_id")),
-        clientSecret: Schema.String.pipe(T.JsonName("client_secret")),
-        customerId: Schema.String.pipe(T.JsonName("customer_id")),
-      }),
+        clientId: Schema.String,
+        clientSecret: Schema.String,
+        customerId: Schema.String,
+      }).pipe(
+        Schema.encodeKeys({
+          clientId: "client_id",
+          clientSecret: "client_secret",
+          customerId: "customer_id",
+        }),
+      ),
       Schema.Struct({
-        clientId: Schema.String.pipe(T.JsonName("client_id")),
-        clientSecret: Schema.String.pipe(T.JsonName("client_secret")),
-      }),
+        clientId: Schema.String,
+        clientSecret: Schema.String,
+      }).pipe(
+        Schema.encodeKeys({
+          clientId: "client_id",
+          clientSecret: "client_secret",
+        }),
+      ),
       Schema.Struct({
-        apiUrl: Schema.String.pipe(T.JsonName("api_url")),
-        clientSecret: Schema.String.pipe(T.JsonName("client_secret")),
-        accessClientId: Schema.optional(Schema.String).pipe(
-          T.JsonName("access_client_id"),
-        ),
-        accessClientSecret: Schema.optional(Schema.String).pipe(
-          T.JsonName("access_client_secret"),
-        ),
-      }),
+        apiUrl: Schema.String,
+        clientSecret: Schema.String,
+        accessClientId: Schema.optional(Schema.String),
+        accessClientSecret: Schema.optional(Schema.String),
+      }).pipe(
+        Schema.encodeKeys({
+          apiUrl: "api_url",
+          clientSecret: "client_secret",
+          accessClientId: "access_client_id",
+          accessClientSecret: "access_client_secret",
+        }),
+      ),
       Schema.Struct({
-        apiUrl: Schema.String.pipe(T.JsonName("api_url")),
-        clientSecret: Schema.String.pipe(T.JsonName("client_secret")),
-      }),
+        apiUrl: Schema.String,
+        clientSecret: Schema.String,
+      }).pipe(
+        Schema.encodeKeys({ apiUrl: "api_url", clientSecret: "client_secret" }),
+      ),
       Schema.Struct({
-        accessClientId: Schema.String.pipe(T.JsonName("access_client_id")),
-        accessClientSecret: Schema.String.pipe(
-          T.JsonName("access_client_secret"),
-        ),
-        apiUrl: Schema.String.pipe(T.JsonName("api_url")),
-      }),
-    ),
+        accessClientId: Schema.String,
+        accessClientSecret: Schema.String,
+        apiUrl: Schema.String,
+      }).pipe(
+        Schema.encodeKeys({
+          accessClientId: "access_client_id",
+          accessClientSecret: "access_client_secret",
+          apiUrl: "api_url",
+        }),
+      ),
+    ]),
   ),
   interval: Schema.optional(Schema.String),
   name: Schema.optional(Schema.String),
   type: Schema.optional(
-    Schema.Literal(
+    Schema.Literals([
       "workspace_one",
       "crowdstrike_s2s",
       "uptycs",
@@ -12364,7 +12848,7 @@ export const PatchDevicePostureIntegrationRequest = Schema.Struct({
       "tanium_s2s",
       "sentinelone_s2s",
       "custom_s2s",
-    ),
+    ]),
   ),
 }).pipe(
   T.Http({
@@ -12479,38 +12963,28 @@ export interface GetDeviceRegistrationResponse {
 
 export const GetDeviceRegistrationResponse = Schema.Struct({
   id: Schema.String,
-  createdAt: Schema.String.pipe(T.JsonName("created_at")),
+  createdAt: Schema.String,
   device: Schema.Struct({
     id: Schema.String,
     name: Schema.String,
-    clientVersion: Schema.optional(Schema.String).pipe(
-      T.JsonName("client_version"),
-    ),
-  }),
+    clientVersion: Schema.optional(Schema.String),
+  }).pipe(Schema.encodeKeys({ clientVersion: "client_version" })),
   key: Schema.String,
-  lastSeenAt: Schema.String.pipe(T.JsonName("last_seen_at")),
-  updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
-  deletedAt: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-    T.JsonName("deleted_at"),
-  ),
-  keyType: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-    T.JsonName("key_type"),
-  ),
+  lastSeenAt: Schema.String,
+  updatedAt: Schema.String,
+  deletedAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  keyType: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   policy: Schema.optional(
     Schema.Struct({
       id: Schema.String,
       default: Schema.Boolean,
       deleted: Schema.Boolean,
       name: Schema.String,
-      updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
-    }),
+      updatedAt: Schema.String,
+    }).pipe(Schema.encodeKeys({ updatedAt: "updated_at" })),
   ),
-  revokedAt: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-    T.JsonName("revoked_at"),
-  ),
-  tunnelType: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-    T.JsonName("tunnel_type"),
-  ),
+  revokedAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  tunnelType: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   user: Schema.optional(
     Schema.Struct({
       id: Schema.optional(Schema.String),
@@ -12518,7 +12992,17 @@ export const GetDeviceRegistrationResponse = Schema.Struct({
       name: Schema.optional(Schema.String),
     }),
   ),
-}) as unknown as Schema.Schema<GetDeviceRegistrationResponse>;
+}).pipe(
+  Schema.encodeKeys({
+    createdAt: "created_at",
+    lastSeenAt: "last_seen_at",
+    updatedAt: "updated_at",
+    deletedAt: "deleted_at",
+    keyType: "key_type",
+    revokedAt: "revoked_at",
+    tunnelType: "tunnel_type",
+  }),
+) as unknown as Schema.Schema<GetDeviceRegistrationResponse>;
 
 export const getDeviceRegistration: (
   input: GetDeviceRegistrationRequest,
@@ -12828,34 +13312,27 @@ export interface PutDeviceSettingRequest {
 
 export const PutDeviceSettingRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  disableForTime: Schema.optional(Schema.Number).pipe(
-    T.JsonName("disable_for_time"),
-  ),
-  externalEmergencySignalEnabled: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("external_emergency_signal_enabled"),
-  ),
-  externalEmergencySignalFingerprint: Schema.optional(Schema.String).pipe(
-    T.JsonName("external_emergency_signal_fingerprint"),
-  ),
-  externalEmergencySignalInterval: Schema.optional(Schema.String).pipe(
-    T.JsonName("external_emergency_signal_interval"),
-  ),
-  externalEmergencySignalUrl: Schema.optional(Schema.String).pipe(
-    T.JsonName("external_emergency_signal_url"),
-  ),
-  gatewayProxyEnabled: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("gateway_proxy_enabled"),
-  ),
-  gatewayUdpProxyEnabled: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("gateway_udp_proxy_enabled"),
-  ),
-  rootCertificateInstallationEnabled: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("root_certificate_installation_enabled"),
-  ),
-  useZtVirtualIp: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("use_zt_virtual_ip"),
-  ),
+  disableForTime: Schema.optional(Schema.Number),
+  externalEmergencySignalEnabled: Schema.optional(Schema.Boolean),
+  externalEmergencySignalFingerprint: Schema.optional(Schema.String),
+  externalEmergencySignalInterval: Schema.optional(Schema.String),
+  externalEmergencySignalUrl: Schema.optional(Schema.String),
+  gatewayProxyEnabled: Schema.optional(Schema.Boolean),
+  gatewayUdpProxyEnabled: Schema.optional(Schema.Boolean),
+  rootCertificateInstallationEnabled: Schema.optional(Schema.Boolean),
+  useZtVirtualIp: Schema.optional(Schema.Boolean),
 }).pipe(
+  Schema.encodeKeys({
+    disableForTime: "disable_for_time",
+    externalEmergencySignalEnabled: "external_emergency_signal_enabled",
+    externalEmergencySignalFingerprint: "external_emergency_signal_fingerprint",
+    externalEmergencySignalInterval: "external_emergency_signal_interval",
+    externalEmergencySignalUrl: "external_emergency_signal_url",
+    gatewayProxyEnabled: "gateway_proxy_enabled",
+    gatewayUdpProxyEnabled: "gateway_udp_proxy_enabled",
+    rootCertificateInstallationEnabled: "root_certificate_installation_enabled",
+    useZtVirtualIp: "use_zt_virtual_ip",
+  }),
   T.Http({ method: "PUT", path: "/accounts/{account_id}/devices/settings" }),
 ) as unknown as Schema.Schema<PutDeviceSettingRequest>;
 
@@ -12901,34 +13378,27 @@ export interface PatchDeviceSettingRequest {
 
 export const PatchDeviceSettingRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  disableForTime: Schema.optional(Schema.Number).pipe(
-    T.JsonName("disable_for_time"),
-  ),
-  externalEmergencySignalEnabled: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("external_emergency_signal_enabled"),
-  ),
-  externalEmergencySignalFingerprint: Schema.optional(Schema.String).pipe(
-    T.JsonName("external_emergency_signal_fingerprint"),
-  ),
-  externalEmergencySignalInterval: Schema.optional(Schema.String).pipe(
-    T.JsonName("external_emergency_signal_interval"),
-  ),
-  externalEmergencySignalUrl: Schema.optional(Schema.String).pipe(
-    T.JsonName("external_emergency_signal_url"),
-  ),
-  gatewayProxyEnabled: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("gateway_proxy_enabled"),
-  ),
-  gatewayUdpProxyEnabled: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("gateway_udp_proxy_enabled"),
-  ),
-  rootCertificateInstallationEnabled: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("root_certificate_installation_enabled"),
-  ),
-  useZtVirtualIp: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("use_zt_virtual_ip"),
-  ),
+  disableForTime: Schema.optional(Schema.Number),
+  externalEmergencySignalEnabled: Schema.optional(Schema.Boolean),
+  externalEmergencySignalFingerprint: Schema.optional(Schema.String),
+  externalEmergencySignalInterval: Schema.optional(Schema.String),
+  externalEmergencySignalUrl: Schema.optional(Schema.String),
+  gatewayProxyEnabled: Schema.optional(Schema.Boolean),
+  gatewayUdpProxyEnabled: Schema.optional(Schema.Boolean),
+  rootCertificateInstallationEnabled: Schema.optional(Schema.Boolean),
+  useZtVirtualIp: Schema.optional(Schema.Boolean),
 }).pipe(
+  Schema.encodeKeys({
+    disableForTime: "disable_for_time",
+    externalEmergencySignalEnabled: "external_emergency_signal_enabled",
+    externalEmergencySignalFingerprint: "external_emergency_signal_fingerprint",
+    externalEmergencySignalInterval: "external_emergency_signal_interval",
+    externalEmergencySignalUrl: "external_emergency_signal_url",
+    gatewayProxyEnabled: "gateway_proxy_enabled",
+    gatewayUdpProxyEnabled: "gateway_udp_proxy_enabled",
+    rootCertificateInstallationEnabled: "root_certificate_installation_enabled",
+    useZtVirtualIp: "use_zt_virtual_ip",
+  }),
   T.Http({ method: "PATCH", path: "/accounts/{account_id}/devices/settings" }),
 ) as unknown as Schema.Schema<PatchDeviceSettingRequest>;
 
@@ -13037,31 +13507,35 @@ export const CreateDexCommandRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   commands: Schema.Array(
     Schema.Struct({
-      commandType: Schema.Literal("pcap", "warp-diag").pipe(
-        T.JsonName("command_type"),
-      ),
-      deviceId: Schema.String.pipe(T.JsonName("device_id")),
-      userEmail: Schema.String.pipe(T.JsonName("user_email")),
+      commandType: Schema.Literals(["pcap", "warp-diag"]),
+      deviceId: Schema.String,
+      userEmail: Schema.String,
       commandArgs: Schema.optional(
         Schema.Struct({
           interfaces: Schema.optional(
-            Schema.Array(Schema.Literal("default", "tunnel")),
+            Schema.Array(Schema.Literals(["default", "tunnel"])),
           ),
-          maxFileSizeMb: Schema.optional(Schema.Number).pipe(
-            T.JsonName("'max-file-size-mb'"),
-          ),
-          packetSizeBytes: Schema.optional(Schema.Number).pipe(
-            T.JsonName("'packet-size-bytes'"),
-          ),
-          testAllRoutes: Schema.optional(Schema.Boolean).pipe(
-            T.JsonName("'test-all-routes'"),
-          ),
-          timeLimitMin: Schema.optional(Schema.Number).pipe(
-            T.JsonName("'time-limit-min'"),
-          ),
-        }),
-      ).pipe(T.JsonName("command_args")),
-    }),
+          maxFileSizeMb: Schema.optional(Schema.Number),
+          packetSizeBytes: Schema.optional(Schema.Number),
+          testAllRoutes: Schema.optional(Schema.Boolean),
+          timeLimitMin: Schema.optional(Schema.Number),
+        }).pipe(
+          Schema.encodeKeys({
+            maxFileSizeMb: "'max-file-size-mb'",
+            packetSizeBytes: "'packet-size-bytes'",
+            testAllRoutes: "'test-all-routes'",
+            timeLimitMin: "'time-limit-min'",
+          }),
+        ),
+      ),
+    }).pipe(
+      Schema.encodeKeys({
+        commandType: "command_type",
+        deviceId: "device_id",
+        userEmail: "user_email",
+        commandArgs: "command_args",
+      }),
+    ),
   ),
 }).pipe(
   T.Http({ method: "POST", path: "/accounts/{account_id}/dex/commands" }),
@@ -13084,12 +13558,17 @@ export const CreateDexCommandResponse = Schema.Struct({
       Schema.Struct({
         id: Schema.optional(Schema.String),
         args: Schema.optional(Schema.Struct({})),
-        deviceId: Schema.optional(Schema.String).pipe(T.JsonName("device_id")),
+        deviceId: Schema.optional(Schema.String),
         status: Schema.optional(
-          Schema.Literal("PENDING_EXEC", "PENDING_UPLOAD", "SUCCESS", "FAILED"),
+          Schema.Literals([
+            "PENDING_EXEC",
+            "PENDING_UPLOAD",
+            "SUCCESS",
+            "FAILED",
+          ]),
         ),
         type: Schema.optional(Schema.String),
-      }),
+      }).pipe(Schema.encodeKeys({ deviceId: "device_id" })),
     ),
   ),
 }) as unknown as Schema.Schema<CreateDexCommandResponse>;
@@ -13171,9 +13650,11 @@ export interface GetDexCommandQuotaResponse {
 
 export const GetDexCommandQuotaResponse = Schema.Struct({
   quota: Schema.Number,
-  quotaUsage: Schema.Number.pipe(T.JsonName("quota_usage")),
-  resetTime: Schema.String.pipe(T.JsonName("reset_time")),
-}) as unknown as Schema.Schema<GetDexCommandQuotaResponse>;
+  quotaUsage: Schema.Number,
+  resetTime: Schema.String,
+}).pipe(
+  Schema.encodeKeys({ quotaUsage: "quota_usage", resetTime: "reset_time" }),
+) as unknown as Schema.Schema<GetDexCommandQuotaResponse>;
 
 export const getDexCommandQuota: (
   input: GetDexCommandQuotaRequest,
@@ -13223,19 +13704,19 @@ export const LiveDexFleetStatusResponse = Schema.Struct({
   deviceStats: Schema.optional(
     Schema.Struct({
       byColo: Schema.optional(
-        Schema.Union(Schema.Array(Schema.Unknown), Schema.Null),
+        Schema.Union([Schema.Array(Schema.Unknown), Schema.Null]),
       ),
       byMode: Schema.optional(
-        Schema.Union(Schema.Array(Schema.Unknown), Schema.Null),
+        Schema.Union([Schema.Array(Schema.Unknown), Schema.Null]),
       ),
       byPlatform: Schema.optional(
-        Schema.Union(Schema.Array(Schema.Unknown), Schema.Null),
+        Schema.Union([Schema.Array(Schema.Unknown), Schema.Null]),
       ),
       byStatus: Schema.optional(
-        Schema.Union(Schema.Array(Schema.Unknown), Schema.Null),
+        Schema.Union([Schema.Array(Schema.Unknown), Schema.Null]),
       ),
       byVersion: Schema.optional(
-        Schema.Union(Schema.Array(Schema.Unknown), Schema.Null),
+        Schema.Union([Schema.Array(Schema.Unknown), Schema.Null]),
       ),
       uniqueDevicesTotal: Schema.optional(Schema.Number),
     }),
@@ -13278,7 +13759,7 @@ export const GetDexHttpTestRequest = Schema.Struct({
   testId: Schema.String.pipe(T.HttpPath("testId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   from: Schema.String.pipe(T.HttpQuery("from")),
-  interval: Schema.Literal("minute", "hour").pipe(T.HttpQuery("interval")),
+  interval: Schema.Literals(["minute", "hour"]).pipe(T.HttpQuery("interval")),
   to: Schema.String.pipe(T.HttpQuery("to")),
   colo: Schema.optional(Schema.String).pipe(T.HttpQuery("colo")),
   deviceId: Schema.optional(Schema.Array(Schema.String)).pipe(
@@ -13347,7 +13828,7 @@ export interface GetDexHttpTestResponse {
 export const GetDexHttpTestResponse = Schema.Struct({
   host: Schema.optional(Schema.String),
   httpStats: Schema.optional(
-    Schema.Union(
+    Schema.Union([
       Schema.Struct({
         availabilityPct: Schema.Struct({
           slots: Schema.Array(
@@ -13356,9 +13837,9 @@ export const GetDexHttpTestResponse = Schema.Struct({
               value: Schema.Number,
             }),
           ),
-          avg: Schema.optional(Schema.Union(Schema.Number, Schema.Null)),
-          max: Schema.optional(Schema.Union(Schema.Number, Schema.Null)),
-          min: Schema.optional(Schema.Union(Schema.Number, Schema.Null)),
+          avg: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+          max: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+          min: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
         }),
         dnsResponseTimeMs: Schema.Unknown,
         httpStatusCode: Schema.Array(
@@ -13375,7 +13856,7 @@ export const GetDexHttpTestResponse = Schema.Struct({
         uniqueDevicesTotal: Schema.Number,
       }),
       Schema.Null,
-    ),
+    ]),
   ),
   httpStatsByColo: Schema.optional(
     Schema.Array(
@@ -13387,9 +13868,9 @@ export const GetDexHttpTestResponse = Schema.Struct({
               value: Schema.Number,
             }),
           ),
-          avg: Schema.optional(Schema.Union(Schema.Number, Schema.Null)),
-          max: Schema.optional(Schema.Union(Schema.Number, Schema.Null)),
-          min: Schema.optional(Schema.Union(Schema.Number, Schema.Null)),
+          avg: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+          max: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+          min: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
         }),
         colo: Schema.String,
         dnsResponseTimeMs: Schema.Unknown,
@@ -13413,10 +13894,12 @@ export const GetDexHttpTestResponse = Schema.Struct({
   method: Schema.optional(Schema.String),
   name: Schema.optional(Schema.String),
   targetPolicies: Schema.optional(
-    Schema.Union(Schema.Array(Schema.Unknown), Schema.Null),
-  ).pipe(T.JsonName("target_policies")),
+    Schema.Union([Schema.Array(Schema.Unknown), Schema.Null]),
+  ),
   targeted: Schema.optional(Schema.Boolean),
-}) as unknown as Schema.Schema<GetDexHttpTestResponse>;
+}).pipe(
+  Schema.encodeKeys({ targetPolicies: "target_policies" }),
+) as unknown as Schema.Schema<GetDexHttpTestResponse>;
 
 export const getDexHttpTest: (
   input: GetDexHttpTestRequest,
@@ -13559,7 +14042,7 @@ export const GetDexTracerouteTestRequest = Schema.Struct({
   testId: Schema.String.pipe(T.HttpPath("testId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   from: Schema.String.pipe(T.HttpQuery("from")),
-  interval: Schema.Literal("minute", "hour").pipe(T.HttpQuery("interval")),
+  interval: Schema.Literals(["minute", "hour"]).pipe(T.HttpQuery("interval")),
   to: Schema.String.pipe(T.HttpQuery("to")),
   colo: Schema.optional(Schema.String).pipe(T.HttpQuery("colo")),
   deviceId: Schema.optional(Schema.Array(Schema.String)).pipe(
@@ -13625,11 +14108,11 @@ export const GetDexTracerouteTestResponse = Schema.Struct({
   kind: Schema.Literal("traceroute"),
   name: Schema.String,
   targetPolicies: Schema.optional(
-    Schema.Union(Schema.Array(Schema.Unknown), Schema.Null),
-  ).pipe(T.JsonName("target_policies")),
+    Schema.Union([Schema.Array(Schema.Unknown), Schema.Null]),
+  ),
   targeted: Schema.optional(Schema.Boolean),
   tracerouteStats: Schema.optional(
-    Schema.Union(
+    Schema.Union([
       Schema.Struct({
         availabilityPct: Schema.Struct({
           slots: Schema.Array(
@@ -13638,9 +14121,9 @@ export const GetDexTracerouteTestResponse = Schema.Struct({
               value: Schema.Number,
             }),
           ),
-          avg: Schema.optional(Schema.Union(Schema.Number, Schema.Null)),
-          max: Schema.optional(Schema.Union(Schema.Number, Schema.Null)),
-          min: Schema.optional(Schema.Union(Schema.Number, Schema.Null)),
+          avg: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+          max: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+          min: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
         }),
         hopsCount: Schema.Unknown,
         packetLossPct: Schema.Struct({
@@ -13650,15 +14133,15 @@ export const GetDexTracerouteTestResponse = Schema.Struct({
               value: Schema.Number,
             }),
           ),
-          avg: Schema.optional(Schema.Union(Schema.Number, Schema.Null)),
-          max: Schema.optional(Schema.Union(Schema.Number, Schema.Null)),
-          min: Schema.optional(Schema.Union(Schema.Number, Schema.Null)),
+          avg: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+          max: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+          min: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
         }),
         roundTripTimeMs: Schema.Unknown,
         uniqueDevicesTotal: Schema.Number,
       }),
       Schema.Null,
-    ),
+    ]),
   ),
   tracerouteStatsByColo: Schema.optional(
     Schema.Array(
@@ -13670,9 +14153,9 @@ export const GetDexTracerouteTestResponse = Schema.Struct({
               value: Schema.Number,
             }),
           ),
-          avg: Schema.optional(Schema.Union(Schema.Number, Schema.Null)),
-          max: Schema.optional(Schema.Union(Schema.Number, Schema.Null)),
-          min: Schema.optional(Schema.Union(Schema.Number, Schema.Null)),
+          avg: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+          max: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+          min: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
         }),
         colo: Schema.String,
         hopsCount: Schema.Unknown,
@@ -13683,16 +14166,18 @@ export const GetDexTracerouteTestResponse = Schema.Struct({
               value: Schema.Number,
             }),
           ),
-          avg: Schema.optional(Schema.Union(Schema.Number, Schema.Null)),
-          max: Schema.optional(Schema.Union(Schema.Number, Schema.Null)),
-          min: Schema.optional(Schema.Union(Schema.Number, Schema.Null)),
+          avg: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+          max: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+          min: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
         }),
         roundTripTimeMs: Schema.Unknown,
         uniqueDevicesTotal: Schema.Number,
       }),
     ),
   ),
-}) as unknown as Schema.Schema<GetDexTracerouteTestResponse>;
+}).pipe(
+  Schema.encodeKeys({ targetPolicies: "target_policies" }),
+) as unknown as Schema.Schema<GetDexTracerouteTestResponse>;
 
 export const getDexTracerouteTest: (
   input: GetDexTracerouteTestRequest,
@@ -13816,31 +14301,33 @@ export const GetDexTracerouteTestResultNetworkPathResponse = Schema.Struct({
   hops: Schema.Array(
     Schema.Struct({
       ttl: Schema.Number,
-      asn: Schema.optional(Schema.Union(Schema.Number, Schema.Null)),
-      aso: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
-      ipAddress: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
+      asn: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      aso: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      ipAddress: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
       location: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
-            city: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
-            state: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
-            zip: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
+            city: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+            state: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+            zip: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
           }),
           Schema.Null,
-        ),
+        ]),
       ),
       mile: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Literal("client-to-app"),
           Schema.Literal("client-to-cf-egress"),
           Schema.Literal("client-to-cf-ingress"),
           Schema.Literal("client-to-isp"),
           Schema.Null,
-        ),
+        ]),
       ),
-      name: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
-      packetLossPct: Schema.optional(Schema.Union(Schema.Number, Schema.Null)),
-      rttMs: Schema.optional(Schema.Union(Schema.Number, Schema.Null)),
+      name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      packetLossPct: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      rttMs: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
     }),
   ),
   resultId: Schema.String,
@@ -13896,13 +14383,13 @@ export const GetDexWarpChangeEventRequest = Schema.Struct({
   to: Schema.String.pipe(T.HttpQuery("to")),
   accountName: Schema.optional(Schema.String).pipe(T.HttpQuery("account_name")),
   configName: Schema.optional(Schema.String).pipe(T.HttpQuery("config_name")),
-  sortOrder: Schema.optional(Schema.Literal("ASC", "DESC")).pipe(
+  sortOrder: Schema.optional(Schema.Literals(["ASC", "DESC"])).pipe(
     T.HttpQuery("sort_order"),
   ),
-  toggle: Schema.optional(Schema.Literal("on", "off")).pipe(
+  toggle: Schema.optional(Schema.Literals(["on", "off"])).pipe(
     T.HttpQuery("toggle"),
   ),
-  type: Schema.optional(Schema.Literal("config", "toggle")).pipe(
+  type: Schema.optional(Schema.Literals(["config", "toggle"])).pipe(
     T.HttpQuery("type"),
   ),
 }).pipe(
@@ -13937,65 +14424,69 @@ export type GetDexWarpChangeEventResponse = (
 )[];
 
 export const GetDexWarpChangeEventResponse = Schema.Array(
-  Schema.Union(
+  Schema.Union([
     Schema.Struct({
-      accountName: Schema.optional(Schema.String).pipe(
-        T.JsonName("account_name"),
-      ),
-      accountTag: Schema.optional(Schema.String).pipe(
-        T.JsonName("account_tag"),
-      ),
-      deviceId: Schema.optional(Schema.String).pipe(T.JsonName("device_id")),
-      deviceRegistration: Schema.optional(Schema.String).pipe(
-        T.JsonName("device_registration"),
-      ),
+      accountName: Schema.optional(Schema.String),
+      accountTag: Schema.optional(Schema.String),
+      deviceId: Schema.optional(Schema.String),
+      deviceRegistration: Schema.optional(Schema.String),
       hostname: Schema.optional(Schema.String),
-      serialNumber: Schema.optional(Schema.String).pipe(
-        T.JsonName("serial_number"),
-      ),
+      serialNumber: Schema.optional(Schema.String),
       timestamp: Schema.optional(Schema.String),
-      toggle: Schema.optional(Schema.Literal("on", "off")),
-      userEmail: Schema.optional(Schema.String).pipe(T.JsonName("user_email")),
-    }),
+      toggle: Schema.optional(Schema.Literals(["on", "off"])),
+      userEmail: Schema.optional(Schema.String),
+    }).pipe(
+      Schema.encodeKeys({
+        accountName: "account_name",
+        accountTag: "account_tag",
+        deviceId: "device_id",
+        deviceRegistration: "device_registration",
+        serialNumber: "serial_number",
+        userEmail: "user_email",
+      }),
+    ),
     Schema.Struct({
-      deviceId: Schema.optional(Schema.String).pipe(T.JsonName("device_id")),
-      deviceRegistration: Schema.optional(Schema.String).pipe(
-        T.JsonName("device_registration"),
-      ),
+      deviceId: Schema.optional(Schema.String),
+      deviceRegistration: Schema.optional(Schema.String),
       from: Schema.optional(
         Schema.Struct({
-          accountName: Schema.optional(Schema.String).pipe(
-            T.JsonName("account_name"),
-          ),
-          accountTag: Schema.optional(Schema.String).pipe(
-            T.JsonName("account_tag"),
-          ),
-          configName: Schema.optional(Schema.String).pipe(
-            T.JsonName("config_name"),
-          ),
-        }),
+          accountName: Schema.optional(Schema.String),
+          accountTag: Schema.optional(Schema.String),
+          configName: Schema.optional(Schema.String),
+        }).pipe(
+          Schema.encodeKeys({
+            accountName: "account_name",
+            accountTag: "account_tag",
+            configName: "config_name",
+          }),
+        ),
       ),
       hostname: Schema.optional(Schema.String),
-      serialNumber: Schema.optional(Schema.String).pipe(
-        T.JsonName("serial_number"),
-      ),
+      serialNumber: Schema.optional(Schema.String),
       timestamp: Schema.optional(Schema.String),
       to: Schema.optional(
         Schema.Struct({
-          accountName: Schema.optional(Schema.String).pipe(
-            T.JsonName("account_name"),
-          ),
-          accountTag: Schema.optional(Schema.String).pipe(
-            T.JsonName("account_tag"),
-          ),
-          configName: Schema.optional(Schema.String).pipe(
-            T.JsonName("config_name"),
-          ),
-        }),
+          accountName: Schema.optional(Schema.String),
+          accountTag: Schema.optional(Schema.String),
+          configName: Schema.optional(Schema.String),
+        }).pipe(
+          Schema.encodeKeys({
+            accountName: "account_name",
+            accountTag: "account_tag",
+            configName: "config_name",
+          }),
+        ),
       ),
-      userEmail: Schema.optional(Schema.String).pipe(T.JsonName("user_email")),
-    }),
-  ),
+      userEmail: Schema.optional(Schema.String),
+    }).pipe(
+      Schema.encodeKeys({
+        deviceId: "device_id",
+        deviceRegistration: "device_registration",
+        serialNumber: "serial_number",
+        userEmail: "user_email",
+      }),
+    ),
+  ]),
 ) as unknown as Schema.Schema<GetDexWarpChangeEventResponse>;
 
 export const getDexWarpChangeEvent: (
@@ -14077,52 +14568,65 @@ export const GetDlpDatasetResponse = Schema.Struct({
   id: Schema.String,
   columns: Schema.Array(
     Schema.Struct({
-      entryId: Schema.String.pipe(T.JsonName("entry_id")),
-      headerName: Schema.String.pipe(T.JsonName("header_name")),
-      numCells: Schema.Number.pipe(T.JsonName("num_cells")),
-      uploadStatus: Schema.Literal(
+      entryId: Schema.String,
+      headerName: Schema.String,
+      numCells: Schema.Number,
+      uploadStatus: Schema.Literals([
         "empty",
         "uploading",
         "pending",
         "processing",
         "failed",
         "complete",
-      ).pipe(T.JsonName("upload_status")),
-    }),
+      ]),
+    }).pipe(
+      Schema.encodeKeys({
+        entryId: "entry_id",
+        headerName: "header_name",
+        numCells: "num_cells",
+        uploadStatus: "upload_status",
+      }),
+    ),
   ),
-  createdAt: Schema.String.pipe(T.JsonName("created_at")),
-  encodingVersion: Schema.Number.pipe(T.JsonName("encoding_version")),
+  createdAt: Schema.String,
+  encodingVersion: Schema.Number,
   name: Schema.String,
-  numCells: Schema.Number.pipe(T.JsonName("num_cells")),
+  numCells: Schema.Number,
   secret: Schema.Boolean,
-  status: Schema.Literal(
+  status: Schema.Literals([
     "empty",
     "uploading",
     "pending",
     "processing",
     "failed",
     "complete",
-  ),
-  updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
+  ]),
+  updatedAt: Schema.String,
   uploads: Schema.Array(
     Schema.Struct({
-      numCells: Schema.Number.pipe(T.JsonName("num_cells")),
-      status: Schema.Literal(
+      numCells: Schema.Number,
+      status: Schema.Literals([
         "empty",
         "uploading",
         "pending",
         "processing",
         "failed",
         "complete",
-      ),
+      ]),
       version: Schema.Number,
-    }),
+    }).pipe(Schema.encodeKeys({ numCells: "num_cells" })),
   ),
-  caseSensitive: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("case_sensitive"),
-  ),
-  description: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
-}) as unknown as Schema.Schema<GetDlpDatasetResponse>;
+  caseSensitive: Schema.optional(Schema.Boolean),
+  description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+}).pipe(
+  Schema.encodeKeys({
+    createdAt: "created_at",
+    encodingVersion: "encoding_version",
+    numCells: "num_cells",
+    updatedAt: "updated_at",
+    caseSensitive: "case_sensitive",
+  }),
+) as unknown as Schema.Schema<GetDlpDatasetResponse>;
 
 export const getDlpDataset: (
   input: GetDlpDatasetRequest,
@@ -14154,15 +14658,15 @@ export interface CreateDlpDatasetRequest {
 export const CreateDlpDatasetRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   name: Schema.String,
-  caseSensitive: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("case_sensitive"),
-  ),
-  description: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
-  encodingVersion: Schema.optional(Schema.Number).pipe(
-    T.JsonName("encoding_version"),
-  ),
+  caseSensitive: Schema.optional(Schema.Boolean),
+  description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  encodingVersion: Schema.optional(Schema.Number),
   secret: Schema.optional(Schema.Boolean),
 }).pipe(
+  Schema.encodeKeys({
+    caseSensitive: "case_sensitive",
+    encodingVersion: "encoding_version",
+  }),
   T.Http({ method: "POST", path: "/accounts/{account_id}/dlp/datasets" }),
 ) as unknown as Schema.Schema<CreateDlpDatasetRequest>;
 
@@ -14222,57 +14726,75 @@ export const CreateDlpDatasetResponse = Schema.Struct({
     id: Schema.String,
     columns: Schema.Array(
       Schema.Struct({
-        entryId: Schema.String.pipe(T.JsonName("entry_id")),
-        headerName: Schema.String.pipe(T.JsonName("header_name")),
-        numCells: Schema.Number.pipe(T.JsonName("num_cells")),
-        uploadStatus: Schema.Literal(
+        entryId: Schema.String,
+        headerName: Schema.String,
+        numCells: Schema.Number,
+        uploadStatus: Schema.Literals([
           "empty",
           "uploading",
           "pending",
           "processing",
           "failed",
           "complete",
-        ).pipe(T.JsonName("upload_status")),
-      }),
+        ]),
+      }).pipe(
+        Schema.encodeKeys({
+          entryId: "entry_id",
+          headerName: "header_name",
+          numCells: "num_cells",
+          uploadStatus: "upload_status",
+        }),
+      ),
     ),
-    createdAt: Schema.String.pipe(T.JsonName("created_at")),
-    encodingVersion: Schema.Number.pipe(T.JsonName("encoding_version")),
+    createdAt: Schema.String,
+    encodingVersion: Schema.Number,
     name: Schema.String,
-    numCells: Schema.Number.pipe(T.JsonName("num_cells")),
+    numCells: Schema.Number,
     secret: Schema.Boolean,
-    status: Schema.Literal(
+    status: Schema.Literals([
       "empty",
       "uploading",
       "pending",
       "processing",
       "failed",
       "complete",
-    ),
-    updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
+    ]),
+    updatedAt: Schema.String,
     uploads: Schema.Array(
       Schema.Struct({
-        numCells: Schema.Number.pipe(T.JsonName("num_cells")),
-        status: Schema.Literal(
+        numCells: Schema.Number,
+        status: Schema.Literals([
           "empty",
           "uploading",
           "pending",
           "processing",
           "failed",
           "complete",
-        ),
+        ]),
         version: Schema.Number,
-      }),
+      }).pipe(Schema.encodeKeys({ numCells: "num_cells" })),
     ),
-    caseSensitive: Schema.optional(Schema.Boolean).pipe(
-      T.JsonName("case_sensitive"),
-    ),
-    description: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
-  }),
-  encodingVersion: Schema.Number.pipe(T.JsonName("encoding_version")),
-  maxCells: Schema.Number.pipe(T.JsonName("max_cells")),
+    caseSensitive: Schema.optional(Schema.Boolean),
+    description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  }).pipe(
+    Schema.encodeKeys({
+      createdAt: "created_at",
+      encodingVersion: "encoding_version",
+      numCells: "num_cells",
+      updatedAt: "updated_at",
+      caseSensitive: "case_sensitive",
+    }),
+  ),
+  encodingVersion: Schema.Number,
+  maxCells: Schema.Number,
   version: Schema.Number,
   secret: Schema.optional(Schema.String),
-}) as unknown as Schema.Schema<CreateDlpDatasetResponse>;
+}).pipe(
+  Schema.encodeKeys({
+    encodingVersion: "encoding_version",
+    maxCells: "max_cells",
+  }),
+) as unknown as Schema.Schema<CreateDlpDatasetResponse>;
 
 export const createDlpDataset: (
   input: CreateDlpDatasetRequest,
@@ -14301,12 +14823,11 @@ export interface UpdateDlpDatasetRequest {
 export const UpdateDlpDatasetRequest = Schema.Struct({
   datasetId: Schema.String.pipe(T.HttpPath("datasetId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  caseSensitive: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("case_sensitive"),
-  ),
-  description: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
-  name: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
+  caseSensitive: Schema.optional(Schema.Boolean),
+  description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
+  Schema.encodeKeys({ caseSensitive: "case_sensitive" }),
   T.Http({
     method: "PUT",
     path: "/accounts/{account_id}/dlp/datasets/{datasetId}",
@@ -14361,52 +14882,65 @@ export const UpdateDlpDatasetResponse = Schema.Struct({
   id: Schema.String,
   columns: Schema.Array(
     Schema.Struct({
-      entryId: Schema.String.pipe(T.JsonName("entry_id")),
-      headerName: Schema.String.pipe(T.JsonName("header_name")),
-      numCells: Schema.Number.pipe(T.JsonName("num_cells")),
-      uploadStatus: Schema.Literal(
+      entryId: Schema.String,
+      headerName: Schema.String,
+      numCells: Schema.Number,
+      uploadStatus: Schema.Literals([
         "empty",
         "uploading",
         "pending",
         "processing",
         "failed",
         "complete",
-      ).pipe(T.JsonName("upload_status")),
-    }),
+      ]),
+    }).pipe(
+      Schema.encodeKeys({
+        entryId: "entry_id",
+        headerName: "header_name",
+        numCells: "num_cells",
+        uploadStatus: "upload_status",
+      }),
+    ),
   ),
-  createdAt: Schema.String.pipe(T.JsonName("created_at")),
-  encodingVersion: Schema.Number.pipe(T.JsonName("encoding_version")),
+  createdAt: Schema.String,
+  encodingVersion: Schema.Number,
   name: Schema.String,
-  numCells: Schema.Number.pipe(T.JsonName("num_cells")),
+  numCells: Schema.Number,
   secret: Schema.Boolean,
-  status: Schema.Literal(
+  status: Schema.Literals([
     "empty",
     "uploading",
     "pending",
     "processing",
     "failed",
     "complete",
-  ),
-  updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
+  ]),
+  updatedAt: Schema.String,
   uploads: Schema.Array(
     Schema.Struct({
-      numCells: Schema.Number.pipe(T.JsonName("num_cells")),
-      status: Schema.Literal(
+      numCells: Schema.Number,
+      status: Schema.Literals([
         "empty",
         "uploading",
         "pending",
         "processing",
         "failed",
         "complete",
-      ),
+      ]),
       version: Schema.Number,
-    }),
+    }).pipe(Schema.encodeKeys({ numCells: "num_cells" })),
   ),
-  caseSensitive: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("case_sensitive"),
-  ),
-  description: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
-}) as unknown as Schema.Schema<UpdateDlpDatasetResponse>;
+  caseSensitive: Schema.optional(Schema.Boolean),
+  description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+}).pipe(
+  Schema.encodeKeys({
+    createdAt: "created_at",
+    encodingVersion: "encoding_version",
+    numCells: "num_cells",
+    updatedAt: "updated_at",
+    caseSensitive: "case_sensitive",
+  }),
+) as unknown as Schema.Schema<UpdateDlpDatasetResponse>;
 
 export const updateDlpDataset: (
   input: UpdateDlpDatasetRequest,
@@ -14492,31 +15026,42 @@ export interface CreateDlpDatasetUploadResponse {
 }
 
 export const CreateDlpDatasetUploadResponse = Schema.Struct({
-  encodingVersion: Schema.Number.pipe(T.JsonName("encoding_version")),
-  maxCells: Schema.Number.pipe(T.JsonName("max_cells")),
+  encodingVersion: Schema.Number,
+  maxCells: Schema.Number,
   version: Schema.Number,
-  caseSensitive: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("case_sensitive"),
-  ),
+  caseSensitive: Schema.optional(Schema.Boolean),
   columns: Schema.optional(
     Schema.Array(
       Schema.Struct({
-        entryId: Schema.String.pipe(T.JsonName("entry_id")),
-        headerName: Schema.String.pipe(T.JsonName("header_name")),
-        numCells: Schema.Number.pipe(T.JsonName("num_cells")),
-        uploadStatus: Schema.Literal(
+        entryId: Schema.String,
+        headerName: Schema.String,
+        numCells: Schema.Number,
+        uploadStatus: Schema.Literals([
           "empty",
           "uploading",
           "pending",
           "processing",
           "failed",
           "complete",
-        ).pipe(T.JsonName("upload_status")),
-      }),
+        ]),
+      }).pipe(
+        Schema.encodeKeys({
+          entryId: "entry_id",
+          headerName: "header_name",
+          numCells: "num_cells",
+          uploadStatus: "upload_status",
+        }),
+      ),
     ),
   ),
   secret: Schema.optional(Schema.String),
-}) as unknown as Schema.Schema<CreateDlpDatasetUploadResponse>;
+}).pipe(
+  Schema.encodeKeys({
+    encodingVersion: "encoding_version",
+    maxCells: "max_cells",
+    caseSensitive: "case_sensitive",
+  }),
+) as unknown as Schema.Schema<CreateDlpDatasetUploadResponse>;
 
 export const createDlpDatasetUpload: (
   input: CreateDlpDatasetUploadRequest,
@@ -14596,52 +15141,65 @@ export const EditDlpDatasetUploadResponse = Schema.Struct({
   id: Schema.String,
   columns: Schema.Array(
     Schema.Struct({
-      entryId: Schema.String.pipe(T.JsonName("entry_id")),
-      headerName: Schema.String.pipe(T.JsonName("header_name")),
-      numCells: Schema.Number.pipe(T.JsonName("num_cells")),
-      uploadStatus: Schema.Literal(
+      entryId: Schema.String,
+      headerName: Schema.String,
+      numCells: Schema.Number,
+      uploadStatus: Schema.Literals([
         "empty",
         "uploading",
         "pending",
         "processing",
         "failed",
         "complete",
-      ).pipe(T.JsonName("upload_status")),
-    }),
+      ]),
+    }).pipe(
+      Schema.encodeKeys({
+        entryId: "entry_id",
+        headerName: "header_name",
+        numCells: "num_cells",
+        uploadStatus: "upload_status",
+      }),
+    ),
   ),
-  createdAt: Schema.String.pipe(T.JsonName("created_at")),
-  encodingVersion: Schema.Number.pipe(T.JsonName("encoding_version")),
+  createdAt: Schema.String,
+  encodingVersion: Schema.Number,
   name: Schema.String,
-  numCells: Schema.Number.pipe(T.JsonName("num_cells")),
+  numCells: Schema.Number,
   secret: Schema.Boolean,
-  status: Schema.Literal(
+  status: Schema.Literals([
     "empty",
     "uploading",
     "pending",
     "processing",
     "failed",
     "complete",
-  ),
-  updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
+  ]),
+  updatedAt: Schema.String,
   uploads: Schema.Array(
     Schema.Struct({
-      numCells: Schema.Number.pipe(T.JsonName("num_cells")),
-      status: Schema.Literal(
+      numCells: Schema.Number,
+      status: Schema.Literals([
         "empty",
         "uploading",
         "pending",
         "processing",
         "failed",
         "complete",
-      ),
+      ]),
       version: Schema.Number,
-    }),
+    }).pipe(Schema.encodeKeys({ numCells: "num_cells" })),
   ),
-  caseSensitive: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("case_sensitive"),
-  ),
-  description: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
-}) as unknown as Schema.Schema<EditDlpDatasetUploadResponse>;
+  caseSensitive: Schema.optional(Schema.Boolean),
+  description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+}).pipe(
+  Schema.encodeKeys({
+    createdAt: "created_at",
+    encodingVersion: "encoding_version",
+    numCells: "num_cells",
+    updatedAt: "updated_at",
+    caseSensitive: "case_sensitive",
+  }),
+) as unknown as Schema.Schema<EditDlpDatasetUploadResponse>;
 
 export const editDlpDatasetUpload: (
   input: EditDlpDatasetUploadRequest,
@@ -14693,18 +15251,25 @@ export interface CreateDlpDatasetVersionEntryResponse {
 }
 
 export const CreateDlpDatasetVersionEntryResponse = Schema.Struct({
-  entryId: Schema.String.pipe(T.JsonName("entry_id")),
-  headerName: Schema.String.pipe(T.JsonName("header_name")),
-  numCells: Schema.Number.pipe(T.JsonName("num_cells")),
-  uploadStatus: Schema.Literal(
+  entryId: Schema.String,
+  headerName: Schema.String,
+  numCells: Schema.Number,
+  uploadStatus: Schema.Literals([
     "empty",
     "uploading",
     "pending",
     "processing",
     "failed",
     "complete",
-  ).pipe(T.JsonName("upload_status")),
-}) as unknown as Schema.Schema<CreateDlpDatasetVersionEntryResponse>;
+  ]),
+}).pipe(
+  Schema.encodeKeys({
+    entryId: "entry_id",
+    headerName: "header_name",
+    numCells: "num_cells",
+    uploadStatus: "upload_status",
+  }),
+) as unknown as Schema.Schema<CreateDlpDatasetVersionEntryResponse>;
 
 export const createDlpDatasetVersionEntry: (
   input: CreateDlpDatasetVersionEntryRequest,
@@ -14743,21 +15308,26 @@ export interface GetDlpEmailAccountMappingResponse {
 }
 
 export const GetDlpEmailAccountMappingResponse = Schema.Struct({
-  addinIdentifierToken: Schema.String.pipe(
-    T.JsonName("addin_identifier_token"),
-  ),
-  authRequirements: Schema.Union(
+  addinIdentifierToken: Schema.String,
+  authRequirements: Schema.Union([
     Schema.Struct({
-      allowedMicrosoftOrganizations: Schema.Array(Schema.String).pipe(
-        T.JsonName("allowed_microsoft_organizations"),
-      ),
+      allowedMicrosoftOrganizations: Schema.Array(Schema.String),
       type: Schema.Literal("Org"),
-    }),
+    }).pipe(
+      Schema.encodeKeys({
+        allowedMicrosoftOrganizations: "allowed_microsoft_organizations",
+      }),
+    ),
     Schema.Struct({
       type: Schema.Literal("NoAuth"),
     }),
-  ).pipe(T.JsonName("auth_requirements")),
-}) as unknown as Schema.Schema<GetDlpEmailAccountMappingResponse>;
+  ]),
+}).pipe(
+  Schema.encodeKeys({
+    addinIdentifierToken: "addin_identifier_token",
+    authRequirements: "auth_requirements",
+  }),
+) as unknown as Schema.Schema<GetDlpEmailAccountMappingResponse>;
 
 export const getDlpEmailAccountMapping: (
   input: GetDlpEmailAccountMappingRequest,
@@ -14782,18 +15352,21 @@ export interface CreateDlpEmailAccountMappingRequest {
 
 export const CreateDlpEmailAccountMappingRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  authRequirements: Schema.Union(
+  authRequirements: Schema.Union([
     Schema.Struct({
-      allowedMicrosoftOrganizations: Schema.Array(Schema.String).pipe(
-        T.JsonName("allowed_microsoft_organizations"),
-      ),
+      allowedMicrosoftOrganizations: Schema.Array(Schema.String),
       type: Schema.Literal("Org"),
-    }),
+    }).pipe(
+      Schema.encodeKeys({
+        allowedMicrosoftOrganizations: "allowed_microsoft_organizations",
+      }),
+    ),
     Schema.Struct({
       type: Schema.Literal("NoAuth"),
     }),
-  ).pipe(T.JsonName("auth_requirements")),
+  ]),
 }).pipe(
+  Schema.encodeKeys({ authRequirements: "auth_requirements" }),
   T.Http({
     method: "POST",
     path: "/accounts/{account_id}/dlp/email/account_mapping",
@@ -14808,21 +15381,26 @@ export interface CreateDlpEmailAccountMappingResponse {
 }
 
 export const CreateDlpEmailAccountMappingResponse = Schema.Struct({
-  addinIdentifierToken: Schema.String.pipe(
-    T.JsonName("addin_identifier_token"),
-  ),
-  authRequirements: Schema.Union(
+  addinIdentifierToken: Schema.String,
+  authRequirements: Schema.Union([
     Schema.Struct({
-      allowedMicrosoftOrganizations: Schema.Array(Schema.String).pipe(
-        T.JsonName("allowed_microsoft_organizations"),
-      ),
+      allowedMicrosoftOrganizations: Schema.Array(Schema.String),
       type: Schema.Literal("Org"),
-    }),
+    }).pipe(
+      Schema.encodeKeys({
+        allowedMicrosoftOrganizations: "allowed_microsoft_organizations",
+      }),
+    ),
     Schema.Struct({
       type: Schema.Literal("NoAuth"),
     }),
-  ).pipe(T.JsonName("auth_requirements")),
-}) as unknown as Schema.Schema<CreateDlpEmailAccountMappingResponse>;
+  ]),
+}).pipe(
+  Schema.encodeKeys({
+    addinIdentifierToken: "addin_identifier_token",
+    authRequirements: "auth_requirements",
+  }),
+) as unknown as Schema.Schema<CreateDlpEmailAccountMappingResponse>;
 
 export const createDlpEmailAccountMapping: (
   input: CreateDlpEmailAccountMappingRequest,
@@ -14875,28 +15453,34 @@ export interface GetDlpEmailRuleResponse {
 export const GetDlpEmailRuleResponse = Schema.Struct({
   action: Schema.Struct({
     action: Schema.Literal("Block"),
-    message: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
+    message: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }),
   conditions: Schema.Array(
     Schema.Struct({
-      operator: Schema.Literal(
+      operator: Schema.Literals([
         "InList",
         "NotInList",
         "MatchRegex",
         "NotMatchRegex",
-      ),
-      selector: Schema.Literal("Recipients", "Sender", "DLPProfiles"),
-      value: Schema.Union(Schema.Array(Schema.String), Schema.String),
+      ]),
+      selector: Schema.Literals(["Recipients", "Sender", "DLPProfiles"]),
+      value: Schema.Union([Schema.Array(Schema.String), Schema.String]),
     }),
   ),
-  createdAt: Schema.String.pipe(T.JsonName("created_at")),
+  createdAt: Schema.String,
   enabled: Schema.Boolean,
   name: Schema.String,
   priority: Schema.Number,
-  ruleId: Schema.String.pipe(T.JsonName("rule_id")),
-  updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
-  description: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
-}) as unknown as Schema.Schema<GetDlpEmailRuleResponse>;
+  ruleId: Schema.String,
+  updatedAt: Schema.String,
+  description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+}).pipe(
+  Schema.encodeKeys({
+    createdAt: "created_at",
+    ruleId: "rule_id",
+    updatedAt: "updated_at",
+  }),
+) as unknown as Schema.Schema<GetDlpEmailRuleResponse>;
 
 export const getDlpEmailRule: (
   input: GetDlpEmailRuleRequest,
@@ -14933,23 +15517,23 @@ export const CreateDlpEmailRuleRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   action: Schema.Struct({
     action: Schema.Literal("Block"),
-    message: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
+    message: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }),
   conditions: Schema.Array(
     Schema.Struct({
-      operator: Schema.Literal(
+      operator: Schema.Literals([
         "InList",
         "NotInList",
         "MatchRegex",
         "NotMatchRegex",
-      ),
-      selector: Schema.Literal("Recipients", "Sender", "DLPProfiles"),
-      value: Schema.Union(Schema.Array(Schema.String), Schema.String),
+      ]),
+      selector: Schema.Literals(["Recipients", "Sender", "DLPProfiles"]),
+      value: Schema.Union([Schema.Array(Schema.String), Schema.String]),
     }),
   ),
   enabled: Schema.Boolean,
   name: Schema.String,
-  description: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
+  description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   T.Http({ method: "POST", path: "/accounts/{account_id}/dlp/email/rules" }),
 ) as unknown as Schema.Schema<CreateDlpEmailRuleRequest>;
@@ -14974,28 +15558,34 @@ export interface CreateDlpEmailRuleResponse {
 export const CreateDlpEmailRuleResponse = Schema.Struct({
   action: Schema.Struct({
     action: Schema.Literal("Block"),
-    message: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
+    message: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }),
   conditions: Schema.Array(
     Schema.Struct({
-      operator: Schema.Literal(
+      operator: Schema.Literals([
         "InList",
         "NotInList",
         "MatchRegex",
         "NotMatchRegex",
-      ),
-      selector: Schema.Literal("Recipients", "Sender", "DLPProfiles"),
-      value: Schema.Union(Schema.Array(Schema.String), Schema.String),
+      ]),
+      selector: Schema.Literals(["Recipients", "Sender", "DLPProfiles"]),
+      value: Schema.Union([Schema.Array(Schema.String), Schema.String]),
     }),
   ),
-  createdAt: Schema.String.pipe(T.JsonName("created_at")),
+  createdAt: Schema.String,
   enabled: Schema.Boolean,
   name: Schema.String,
   priority: Schema.Number,
-  ruleId: Schema.String.pipe(T.JsonName("rule_id")),
-  updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
-  description: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
-}) as unknown as Schema.Schema<CreateDlpEmailRuleResponse>;
+  ruleId: Schema.String,
+  updatedAt: Schema.String,
+  description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+}).pipe(
+  Schema.encodeKeys({
+    createdAt: "created_at",
+    ruleId: "rule_id",
+    updatedAt: "updated_at",
+  }),
+) as unknown as Schema.Schema<CreateDlpEmailRuleResponse>;
 
 export const createDlpEmailRule: (
   input: CreateDlpEmailRuleRequest,
@@ -15034,23 +15624,23 @@ export const UpdateDlpEmailRuleRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   action: Schema.Struct({
     action: Schema.Literal("Block"),
-    message: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
+    message: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }),
   conditions: Schema.Array(
     Schema.Struct({
-      operator: Schema.Literal(
+      operator: Schema.Literals([
         "InList",
         "NotInList",
         "MatchRegex",
         "NotMatchRegex",
-      ),
-      selector: Schema.Literal("Recipients", "Sender", "DLPProfiles"),
-      value: Schema.Union(Schema.Array(Schema.String), Schema.String),
+      ]),
+      selector: Schema.Literals(["Recipients", "Sender", "DLPProfiles"]),
+      value: Schema.Union([Schema.Array(Schema.String), Schema.String]),
     }),
   ),
   enabled: Schema.Boolean,
   name: Schema.String,
-  description: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
+  description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   T.Http({
     method: "PUT",
@@ -15078,28 +15668,34 @@ export interface UpdateDlpEmailRuleResponse {
 export const UpdateDlpEmailRuleResponse = Schema.Struct({
   action: Schema.Struct({
     action: Schema.Literal("Block"),
-    message: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
+    message: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }),
   conditions: Schema.Array(
     Schema.Struct({
-      operator: Schema.Literal(
+      operator: Schema.Literals([
         "InList",
         "NotInList",
         "MatchRegex",
         "NotMatchRegex",
-      ),
-      selector: Schema.Literal("Recipients", "Sender", "DLPProfiles"),
-      value: Schema.Union(Schema.Array(Schema.String), Schema.String),
+      ]),
+      selector: Schema.Literals(["Recipients", "Sender", "DLPProfiles"]),
+      value: Schema.Union([Schema.Array(Schema.String), Schema.String]),
     }),
   ),
-  createdAt: Schema.String.pipe(T.JsonName("created_at")),
+  createdAt: Schema.String,
   enabled: Schema.Boolean,
   name: Schema.String,
   priority: Schema.Number,
-  ruleId: Schema.String.pipe(T.JsonName("rule_id")),
-  updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
-  description: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
-}) as unknown as Schema.Schema<UpdateDlpEmailRuleResponse>;
+  ruleId: Schema.String,
+  updatedAt: Schema.String,
+  description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+}).pipe(
+  Schema.encodeKeys({
+    createdAt: "created_at",
+    ruleId: "rule_id",
+    updatedAt: "updated_at",
+  }),
+) as unknown as Schema.Schema<UpdateDlpEmailRuleResponse>;
 
 export const updateDlpEmailRule: (
   input: UpdateDlpEmailRuleRequest,
@@ -15148,28 +15744,34 @@ export interface DeleteDlpEmailRuleResponse {
 export const DeleteDlpEmailRuleResponse = Schema.Struct({
   action: Schema.Struct({
     action: Schema.Literal("Block"),
-    message: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
+    message: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }),
   conditions: Schema.Array(
     Schema.Struct({
-      operator: Schema.Literal(
+      operator: Schema.Literals([
         "InList",
         "NotInList",
         "MatchRegex",
         "NotMatchRegex",
-      ),
-      selector: Schema.Literal("Recipients", "Sender", "DLPProfiles"),
-      value: Schema.Union(Schema.Array(Schema.String), Schema.String),
+      ]),
+      selector: Schema.Literals(["Recipients", "Sender", "DLPProfiles"]),
+      value: Schema.Union([Schema.Array(Schema.String), Schema.String]),
     }),
   ),
-  createdAt: Schema.String.pipe(T.JsonName("created_at")),
+  createdAt: Schema.String,
   enabled: Schema.Boolean,
   name: Schema.String,
   priority: Schema.Number,
-  ruleId: Schema.String.pipe(T.JsonName("rule_id")),
-  updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
-  description: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
-}) as unknown as Schema.Schema<DeleteDlpEmailRuleResponse>;
+  ruleId: Schema.String,
+  updatedAt: Schema.String,
+  description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+}).pipe(
+  Schema.encodeKeys({
+    createdAt: "created_at",
+    ruleId: "rule_id",
+    updatedAt: "updated_at",
+  }),
+) as unknown as Schema.Schema<DeleteDlpEmailRuleResponse>;
 
 export const deleteDlpEmailRule: (
   input: DeleteDlpEmailRuleRequest,
@@ -15192,8 +15794,9 @@ export interface BulkPatchDlpEmailRulesRequest {
 
 export const BulkPatchDlpEmailRulesRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  newPriorities: Schema.Struct({}).pipe(T.JsonName("new_priorities")),
+  newPriorities: Schema.Struct({}),
 }).pipe(
+  Schema.encodeKeys({ newPriorities: "new_priorities" }),
   T.Http({ method: "PATCH", path: "/accounts/{account_id}/dlp/email/rules" }),
 ) as unknown as Schema.Schema<BulkPatchDlpEmailRulesRequest>;
 
@@ -15217,28 +15820,34 @@ export interface BulkPatchDlpEmailRulesResponse {
 export const BulkPatchDlpEmailRulesResponse = Schema.Struct({
   action: Schema.Struct({
     action: Schema.Literal("Block"),
-    message: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
+    message: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }),
   conditions: Schema.Array(
     Schema.Struct({
-      operator: Schema.Literal(
+      operator: Schema.Literals([
         "InList",
         "NotInList",
         "MatchRegex",
         "NotMatchRegex",
-      ),
-      selector: Schema.Literal("Recipients", "Sender", "DLPProfiles"),
-      value: Schema.Union(Schema.Array(Schema.String), Schema.String),
+      ]),
+      selector: Schema.Literals(["Recipients", "Sender", "DLPProfiles"]),
+      value: Schema.Union([Schema.Array(Schema.String), Schema.String]),
     }),
   ),
-  createdAt: Schema.String.pipe(T.JsonName("created_at")),
+  createdAt: Schema.String,
   enabled: Schema.Boolean,
   name: Schema.String,
   priority: Schema.Number,
-  ruleId: Schema.String.pipe(T.JsonName("rule_id")),
-  updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
-  description: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
-}) as unknown as Schema.Schema<BulkPatchDlpEmailRulesResponse>;
+  ruleId: Schema.String,
+  updatedAt: Schema.String,
+  description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+}).pipe(
+  Schema.encodeKeys({
+    createdAt: "created_at",
+    ruleId: "rule_id",
+    updatedAt: "updated_at",
+  }),
+) as unknown as Schema.Schema<BulkPatchDlpEmailRulesResponse>;
 
 export const bulkPatchDlpEmailRules: (
   input: BulkPatchDlpEmailRulesRequest,
@@ -15381,18 +15990,16 @@ export type GetDlpEntryResponse =
         | "complete";
     };
 
-export const GetDlpEntryResponse = Schema.Union(
+export const GetDlpEntryResponse = Schema.Union([
   Schema.Struct({
     id: Schema.String,
-    createdAt: Schema.String.pipe(T.JsonName("created_at")),
+    createdAt: Schema.String,
     enabled: Schema.Boolean,
     name: Schema.String,
     pattern: Schema.Unknown,
     type: Schema.Literal("custom"),
-    updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
-    profileId: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-      T.JsonName("profile_id"),
-    ),
+    updatedAt: Schema.String,
+    profileId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     profiles: Schema.optional(
       Schema.Array(
         Schema.Struct({
@@ -15402,30 +16009,33 @@ export const GetDlpEntryResponse = Schema.Union(
       ),
     ),
     uploadStatus: Schema.optional(
-      Schema.Literal(
+      Schema.Literals([
         "empty",
         "uploading",
         "pending",
         "processing",
         "failed",
         "complete",
-      ),
-    ).pipe(T.JsonName("upload_status")),
-  }),
+      ]),
+    ),
+  }).pipe(
+    Schema.encodeKeys({
+      createdAt: "created_at",
+      updatedAt: "updated_at",
+      profileId: "profile_id",
+      uploadStatus: "upload_status",
+    }),
+  ),
   Schema.Struct({
     id: Schema.String,
     confidence: Schema.Struct({
-      aiContextAvailable: Schema.Boolean.pipe(
-        T.JsonName("ai_context_available"),
-      ),
+      aiContextAvailable: Schema.Boolean,
       available: Schema.Boolean,
-    }),
+    }).pipe(Schema.encodeKeys({ aiContextAvailable: "ai_context_available" })),
     enabled: Schema.Boolean,
     name: Schema.String,
     type: Schema.Literal("predefined"),
-    profileId: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-      T.JsonName("profile_id"),
-    ),
+    profileId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     profiles: Schema.optional(
       Schema.Array(
         Schema.Struct({
@@ -15435,35 +16045,38 @@ export const GetDlpEntryResponse = Schema.Union(
       ),
     ),
     uploadStatus: Schema.optional(
-      Schema.Literal(
+      Schema.Literals([
         "empty",
         "uploading",
         "pending",
         "processing",
         "failed",
         "complete",
-      ),
-    ).pipe(T.JsonName("upload_status")),
+      ]),
+    ),
     variant: Schema.optional(
       Schema.Struct({
-        topicType: Schema.Literal("Intent", "Content").pipe(
-          T.JsonName("topic_type"),
-        ),
+        topicType: Schema.Literals(["Intent", "Content"]),
         type: Schema.Literal("PromptTopic"),
-        description: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
-      }),
+        description: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+      }).pipe(Schema.encodeKeys({ topicType: "topic_type" })),
     ),
-  }),
+  }).pipe(
+    Schema.encodeKeys({
+      profileId: "profile_id",
+      uploadStatus: "upload_status",
+    }),
+  ),
   Schema.Struct({
     id: Schema.String,
-    createdAt: Schema.String.pipe(T.JsonName("created_at")),
+    createdAt: Schema.String,
     enabled: Schema.Boolean,
     name: Schema.String,
     type: Schema.Literal("integration"),
-    updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
-    profileId: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-      T.JsonName("profile_id"),
-    ),
+    updatedAt: Schema.String,
+    profileId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     profiles: Schema.optional(
       Schema.Array(
         Schema.Struct({
@@ -15473,25 +16086,32 @@ export const GetDlpEntryResponse = Schema.Union(
       ),
     ),
     uploadStatus: Schema.optional(
-      Schema.Literal(
+      Schema.Literals([
         "empty",
         "uploading",
         "pending",
         "processing",
         "failed",
         "complete",
-      ),
-    ).pipe(T.JsonName("upload_status")),
-  }),
+      ]),
+    ),
+  }).pipe(
+    Schema.encodeKeys({
+      createdAt: "created_at",
+      updatedAt: "updated_at",
+      profileId: "profile_id",
+      uploadStatus: "upload_status",
+    }),
+  ),
   Schema.Struct({
     id: Schema.String,
-    caseSensitive: Schema.Boolean.pipe(T.JsonName("case_sensitive")),
-    createdAt: Schema.String.pipe(T.JsonName("created_at")),
+    caseSensitive: Schema.Boolean,
+    createdAt: Schema.String,
     enabled: Schema.Boolean,
     name: Schema.String,
     secret: Schema.Boolean,
     type: Schema.Literal("exact_data"),
-    updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
+    updatedAt: Schema.String,
     profiles: Schema.optional(
       Schema.Array(
         Schema.Struct({
@@ -15501,23 +16121,30 @@ export const GetDlpEntryResponse = Schema.Union(
       ),
     ),
     uploadStatus: Schema.optional(
-      Schema.Literal(
+      Schema.Literals([
         "empty",
         "uploading",
         "pending",
         "processing",
         "failed",
         "complete",
-      ),
-    ).pipe(T.JsonName("upload_status")),
-  }),
+      ]),
+    ),
+  }).pipe(
+    Schema.encodeKeys({
+      caseSensitive: "case_sensitive",
+      createdAt: "created_at",
+      updatedAt: "updated_at",
+      uploadStatus: "upload_status",
+    }),
+  ),
   Schema.Struct({
     id: Schema.String,
-    createdAt: Schema.String.pipe(T.JsonName("created_at")),
+    createdAt: Schema.String,
     enabled: Schema.Boolean,
     name: Schema.String,
     type: Schema.Literal("document_fingerprint"),
-    updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
+    updatedAt: Schema.String,
     profiles: Schema.optional(
       Schema.Array(
         Schema.Struct({
@@ -15527,27 +16154,31 @@ export const GetDlpEntryResponse = Schema.Union(
       ),
     ),
     uploadStatus: Schema.optional(
-      Schema.Literal(
+      Schema.Literals([
         "empty",
         "uploading",
         "pending",
         "processing",
         "failed",
         "complete",
-      ),
-    ).pipe(T.JsonName("upload_status")),
-  }),
+      ]),
+    ),
+  }).pipe(
+    Schema.encodeKeys({
+      createdAt: "created_at",
+      updatedAt: "updated_at",
+      uploadStatus: "upload_status",
+    }),
+  ),
   Schema.Struct({
     id: Schema.String,
-    createdAt: Schema.String.pipe(T.JsonName("created_at")),
+    createdAt: Schema.String,
     enabled: Schema.Boolean,
     name: Schema.String,
     type: Schema.Literal("word_list"),
-    updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
-    wordList: Schema.Unknown.pipe(T.JsonName("word_list")),
-    profileId: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-      T.JsonName("profile_id"),
-    ),
+    updatedAt: Schema.String,
+    wordList: Schema.Unknown,
+    profileId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     profiles: Schema.optional(
       Schema.Array(
         Schema.Struct({
@@ -15557,17 +16188,25 @@ export const GetDlpEntryResponse = Schema.Union(
       ),
     ),
     uploadStatus: Schema.optional(
-      Schema.Literal(
+      Schema.Literals([
         "empty",
         "uploading",
         "pending",
         "processing",
         "failed",
         "complete",
-      ),
-    ).pipe(T.JsonName("upload_status")),
-  }),
-) as unknown as Schema.Schema<GetDlpEntryResponse>;
+      ]),
+    ),
+  }).pipe(
+    Schema.encodeKeys({
+      createdAt: "created_at",
+      updatedAt: "updated_at",
+      wordList: "word_list",
+      profileId: "profile_id",
+      uploadStatus: "upload_status",
+    }),
+  ),
+]) as unknown as Schema.Schema<GetDlpEntryResponse>;
 
 export const getDlpEntry: (
   input: GetDlpEntryRequest,
@@ -15599,8 +16238,9 @@ export const CreateDlpEntryRequest = Schema.Struct({
   enabled: Schema.Boolean,
   name: Schema.String,
   pattern: Schema.Unknown,
-  profileId: Schema.optional(Schema.String).pipe(T.JsonName("profile_id")),
+  profileId: Schema.optional(Schema.String),
 }).pipe(
+  Schema.encodeKeys({ profileId: "profile_id" }),
   T.Http({ method: "POST", path: "/accounts/{account_id}/dlp/entries" }),
 ) as unknown as Schema.Schema<CreateDlpEntryRequest>;
 
@@ -15616,15 +16256,19 @@ export interface CreateDlpEntryResponse {
 
 export const CreateDlpEntryResponse = Schema.Struct({
   id: Schema.String,
-  createdAt: Schema.String.pipe(T.JsonName("created_at")),
+  createdAt: Schema.String,
   enabled: Schema.Boolean,
   name: Schema.String,
   pattern: Schema.Unknown,
-  updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
-  profileId: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-    T.JsonName("profile_id"),
-  ),
-}) as unknown as Schema.Schema<CreateDlpEntryResponse>;
+  updatedAt: Schema.String,
+  profileId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+}).pipe(
+  Schema.encodeKeys({
+    createdAt: "created_at",
+    updatedAt: "updated_at",
+    profileId: "profile_id",
+  }),
+) as unknown as Schema.Schema<CreateDlpEntryResponse>;
 
 export const createDlpEntry: (
   input: CreateDlpEntryRequest,
@@ -15713,85 +16357,102 @@ export type UpdateDlpEntryResponse =
       profileId?: string | null;
     };
 
-export const UpdateDlpEntryResponse = Schema.Union(
+export const UpdateDlpEntryResponse = Schema.Union([
   Schema.Struct({
     id: Schema.String,
-    createdAt: Schema.String.pipe(T.JsonName("created_at")),
+    createdAt: Schema.String,
     enabled: Schema.Boolean,
     name: Schema.String,
     pattern: Schema.Unknown,
     type: Schema.Literal("custom"),
-    updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
-    profileId: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-      T.JsonName("profile_id"),
-    ),
-  }),
+    updatedAt: Schema.String,
+    profileId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  }).pipe(
+    Schema.encodeKeys({
+      createdAt: "created_at",
+      updatedAt: "updated_at",
+      profileId: "profile_id",
+    }),
+  ),
   Schema.Struct({
     id: Schema.String,
     confidence: Schema.Struct({
-      aiContextAvailable: Schema.Boolean.pipe(
-        T.JsonName("ai_context_available"),
-      ),
+      aiContextAvailable: Schema.Boolean,
       available: Schema.Boolean,
-    }),
+    }).pipe(Schema.encodeKeys({ aiContextAvailable: "ai_context_available" })),
     enabled: Schema.Boolean,
     name: Schema.String,
     type: Schema.Literal("predefined"),
-    profileId: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-      T.JsonName("profile_id"),
-    ),
+    profileId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     variant: Schema.optional(
       Schema.Struct({
-        topicType: Schema.Literal("Intent", "Content").pipe(
-          T.JsonName("topic_type"),
-        ),
+        topicType: Schema.Literals(["Intent", "Content"]),
         type: Schema.Literal("PromptTopic"),
-        description: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
-      }),
+        description: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+      }).pipe(Schema.encodeKeys({ topicType: "topic_type" })),
     ),
-  }),
+  }).pipe(Schema.encodeKeys({ profileId: "profile_id" })),
   Schema.Struct({
     id: Schema.String,
-    createdAt: Schema.String.pipe(T.JsonName("created_at")),
+    createdAt: Schema.String,
     enabled: Schema.Boolean,
     name: Schema.String,
     type: Schema.Literal("integration"),
-    updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
-    profileId: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-      T.JsonName("profile_id"),
-    ),
-  }),
+    updatedAt: Schema.String,
+    profileId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  }).pipe(
+    Schema.encodeKeys({
+      createdAt: "created_at",
+      updatedAt: "updated_at",
+      profileId: "profile_id",
+    }),
+  ),
   Schema.Struct({
     id: Schema.String,
-    caseSensitive: Schema.Boolean.pipe(T.JsonName("case_sensitive")),
-    createdAt: Schema.String.pipe(T.JsonName("created_at")),
+    caseSensitive: Schema.Boolean,
+    createdAt: Schema.String,
     enabled: Schema.Boolean,
     name: Schema.String,
     secret: Schema.Boolean,
     type: Schema.Literal("exact_data"),
-    updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
-  }),
+    updatedAt: Schema.String,
+  }).pipe(
+    Schema.encodeKeys({
+      caseSensitive: "case_sensitive",
+      createdAt: "created_at",
+      updatedAt: "updated_at",
+    }),
+  ),
   Schema.Struct({
     id: Schema.String,
-    createdAt: Schema.String.pipe(T.JsonName("created_at")),
+    createdAt: Schema.String,
     enabled: Schema.Boolean,
     name: Schema.String,
     type: Schema.Literal("document_fingerprint"),
-    updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
-  }),
+    updatedAt: Schema.String,
+  }).pipe(
+    Schema.encodeKeys({ createdAt: "created_at", updatedAt: "updated_at" }),
+  ),
   Schema.Struct({
     id: Schema.String,
-    createdAt: Schema.String.pipe(T.JsonName("created_at")),
+    createdAt: Schema.String,
     enabled: Schema.Boolean,
     name: Schema.String,
     type: Schema.Literal("word_list"),
-    updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
-    wordList: Schema.Unknown.pipe(T.JsonName("word_list")),
-    profileId: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-      T.JsonName("profile_id"),
-    ),
-  }),
-) as unknown as Schema.Schema<UpdateDlpEntryResponse>;
+    updatedAt: Schema.String,
+    wordList: Schema.Unknown,
+    profileId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  }).pipe(
+    Schema.encodeKeys({
+      createdAt: "created_at",
+      updatedAt: "updated_at",
+      wordList: "word_list",
+      profileId: "profile_id",
+    }),
+  ),
+]) as unknown as Schema.Schema<UpdateDlpEntryResponse>;
 
 export const updateDlpEntry: (
   input: UpdateDlpEntryRequest,
@@ -15966,18 +16627,16 @@ export type GetDlpEntryCustomResponse =
         | "complete";
     };
 
-export const GetDlpEntryCustomResponse = Schema.Union(
+export const GetDlpEntryCustomResponse = Schema.Union([
   Schema.Struct({
     id: Schema.String,
-    createdAt: Schema.String.pipe(T.JsonName("created_at")),
+    createdAt: Schema.String,
     enabled: Schema.Boolean,
     name: Schema.String,
     pattern: Schema.Unknown,
     type: Schema.Literal("custom"),
-    updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
-    profileId: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-      T.JsonName("profile_id"),
-    ),
+    updatedAt: Schema.String,
+    profileId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     profiles: Schema.optional(
       Schema.Array(
         Schema.Struct({
@@ -15987,30 +16646,33 @@ export const GetDlpEntryCustomResponse = Schema.Union(
       ),
     ),
     uploadStatus: Schema.optional(
-      Schema.Literal(
+      Schema.Literals([
         "empty",
         "uploading",
         "pending",
         "processing",
         "failed",
         "complete",
-      ),
-    ).pipe(T.JsonName("upload_status")),
-  }),
+      ]),
+    ),
+  }).pipe(
+    Schema.encodeKeys({
+      createdAt: "created_at",
+      updatedAt: "updated_at",
+      profileId: "profile_id",
+      uploadStatus: "upload_status",
+    }),
+  ),
   Schema.Struct({
     id: Schema.String,
     confidence: Schema.Struct({
-      aiContextAvailable: Schema.Boolean.pipe(
-        T.JsonName("ai_context_available"),
-      ),
+      aiContextAvailable: Schema.Boolean,
       available: Schema.Boolean,
-    }),
+    }).pipe(Schema.encodeKeys({ aiContextAvailable: "ai_context_available" })),
     enabled: Schema.Boolean,
     name: Schema.String,
     type: Schema.Literal("predefined"),
-    profileId: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-      T.JsonName("profile_id"),
-    ),
+    profileId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     profiles: Schema.optional(
       Schema.Array(
         Schema.Struct({
@@ -16020,35 +16682,38 @@ export const GetDlpEntryCustomResponse = Schema.Union(
       ),
     ),
     uploadStatus: Schema.optional(
-      Schema.Literal(
+      Schema.Literals([
         "empty",
         "uploading",
         "pending",
         "processing",
         "failed",
         "complete",
-      ),
-    ).pipe(T.JsonName("upload_status")),
+      ]),
+    ),
     variant: Schema.optional(
       Schema.Struct({
-        topicType: Schema.Literal("Intent", "Content").pipe(
-          T.JsonName("topic_type"),
-        ),
+        topicType: Schema.Literals(["Intent", "Content"]),
         type: Schema.Literal("PromptTopic"),
-        description: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
-      }),
+        description: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+      }).pipe(Schema.encodeKeys({ topicType: "topic_type" })),
     ),
-  }),
+  }).pipe(
+    Schema.encodeKeys({
+      profileId: "profile_id",
+      uploadStatus: "upload_status",
+    }),
+  ),
   Schema.Struct({
     id: Schema.String,
-    createdAt: Schema.String.pipe(T.JsonName("created_at")),
+    createdAt: Schema.String,
     enabled: Schema.Boolean,
     name: Schema.String,
     type: Schema.Literal("integration"),
-    updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
-    profileId: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-      T.JsonName("profile_id"),
-    ),
+    updatedAt: Schema.String,
+    profileId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     profiles: Schema.optional(
       Schema.Array(
         Schema.Struct({
@@ -16058,25 +16723,32 @@ export const GetDlpEntryCustomResponse = Schema.Union(
       ),
     ),
     uploadStatus: Schema.optional(
-      Schema.Literal(
+      Schema.Literals([
         "empty",
         "uploading",
         "pending",
         "processing",
         "failed",
         "complete",
-      ),
-    ).pipe(T.JsonName("upload_status")),
-  }),
+      ]),
+    ),
+  }).pipe(
+    Schema.encodeKeys({
+      createdAt: "created_at",
+      updatedAt: "updated_at",
+      profileId: "profile_id",
+      uploadStatus: "upload_status",
+    }),
+  ),
   Schema.Struct({
     id: Schema.String,
-    caseSensitive: Schema.Boolean.pipe(T.JsonName("case_sensitive")),
-    createdAt: Schema.String.pipe(T.JsonName("created_at")),
+    caseSensitive: Schema.Boolean,
+    createdAt: Schema.String,
     enabled: Schema.Boolean,
     name: Schema.String,
     secret: Schema.Boolean,
     type: Schema.Literal("exact_data"),
-    updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
+    updatedAt: Schema.String,
     profiles: Schema.optional(
       Schema.Array(
         Schema.Struct({
@@ -16086,23 +16758,30 @@ export const GetDlpEntryCustomResponse = Schema.Union(
       ),
     ),
     uploadStatus: Schema.optional(
-      Schema.Literal(
+      Schema.Literals([
         "empty",
         "uploading",
         "pending",
         "processing",
         "failed",
         "complete",
-      ),
-    ).pipe(T.JsonName("upload_status")),
-  }),
+      ]),
+    ),
+  }).pipe(
+    Schema.encodeKeys({
+      caseSensitive: "case_sensitive",
+      createdAt: "created_at",
+      updatedAt: "updated_at",
+      uploadStatus: "upload_status",
+    }),
+  ),
   Schema.Struct({
     id: Schema.String,
-    createdAt: Schema.String.pipe(T.JsonName("created_at")),
+    createdAt: Schema.String,
     enabled: Schema.Boolean,
     name: Schema.String,
     type: Schema.Literal("document_fingerprint"),
-    updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
+    updatedAt: Schema.String,
     profiles: Schema.optional(
       Schema.Array(
         Schema.Struct({
@@ -16112,27 +16791,31 @@ export const GetDlpEntryCustomResponse = Schema.Union(
       ),
     ),
     uploadStatus: Schema.optional(
-      Schema.Literal(
+      Schema.Literals([
         "empty",
         "uploading",
         "pending",
         "processing",
         "failed",
         "complete",
-      ),
-    ).pipe(T.JsonName("upload_status")),
-  }),
+      ]),
+    ),
+  }).pipe(
+    Schema.encodeKeys({
+      createdAt: "created_at",
+      updatedAt: "updated_at",
+      uploadStatus: "upload_status",
+    }),
+  ),
   Schema.Struct({
     id: Schema.String,
-    createdAt: Schema.String.pipe(T.JsonName("created_at")),
+    createdAt: Schema.String,
     enabled: Schema.Boolean,
     name: Schema.String,
     type: Schema.Literal("word_list"),
-    updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
-    wordList: Schema.Unknown.pipe(T.JsonName("word_list")),
-    profileId: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-      T.JsonName("profile_id"),
-    ),
+    updatedAt: Schema.String,
+    wordList: Schema.Unknown,
+    profileId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     profiles: Schema.optional(
       Schema.Array(
         Schema.Struct({
@@ -16142,17 +16825,25 @@ export const GetDlpEntryCustomResponse = Schema.Union(
       ),
     ),
     uploadStatus: Schema.optional(
-      Schema.Literal(
+      Schema.Literals([
         "empty",
         "uploading",
         "pending",
         "processing",
         "failed",
         "complete",
-      ),
-    ).pipe(T.JsonName("upload_status")),
-  }),
-) as unknown as Schema.Schema<GetDlpEntryCustomResponse>;
+      ]),
+    ),
+  }).pipe(
+    Schema.encodeKeys({
+      createdAt: "created_at",
+      updatedAt: "updated_at",
+      wordList: "word_list",
+      profileId: "profile_id",
+      uploadStatus: "upload_status",
+    }),
+  ),
+]) as unknown as Schema.Schema<GetDlpEntryCustomResponse>;
 
 export const getDlpEntryCustom: (
   input: GetDlpEntryCustomRequest,
@@ -16184,8 +16875,9 @@ export const CreateDlpEntryCustomRequest = Schema.Struct({
   enabled: Schema.Boolean,
   name: Schema.String,
   pattern: Schema.Unknown,
-  profileId: Schema.optional(Schema.String).pipe(T.JsonName("profile_id")),
+  profileId: Schema.optional(Schema.String),
 }).pipe(
+  Schema.encodeKeys({ profileId: "profile_id" }),
   T.Http({ method: "POST", path: "/accounts/{account_id}/dlp/entries" }),
 ) as unknown as Schema.Schema<CreateDlpEntryCustomRequest>;
 
@@ -16201,15 +16893,19 @@ export interface CreateDlpEntryCustomResponse {
 
 export const CreateDlpEntryCustomResponse = Schema.Struct({
   id: Schema.String,
-  createdAt: Schema.String.pipe(T.JsonName("created_at")),
+  createdAt: Schema.String,
   enabled: Schema.Boolean,
   name: Schema.String,
   pattern: Schema.Unknown,
-  updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
-  profileId: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-    T.JsonName("profile_id"),
-  ),
-}) as unknown as Schema.Schema<CreateDlpEntryCustomResponse>;
+  updatedAt: Schema.String,
+  profileId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+}).pipe(
+  Schema.encodeKeys({
+    createdAt: "created_at",
+    updatedAt: "updated_at",
+    profileId: "profile_id",
+  }),
+) as unknown as Schema.Schema<CreateDlpEntryCustomResponse>;
 
 export const createDlpEntryCustom: (
   input: CreateDlpEntryCustomRequest,
@@ -16260,15 +16956,19 @@ export interface UpdateDlpEntryCustomResponse {
 
 export const UpdateDlpEntryCustomResponse = Schema.Struct({
   id: Schema.String,
-  createdAt: Schema.String.pipe(T.JsonName("created_at")),
+  createdAt: Schema.String,
   enabled: Schema.Boolean,
   name: Schema.String,
   pattern: Schema.Unknown,
-  updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
-  profileId: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-    T.JsonName("profile_id"),
-  ),
-}) as unknown as Schema.Schema<UpdateDlpEntryCustomResponse>;
+  updatedAt: Schema.String,
+  profileId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+}).pipe(
+  Schema.encodeKeys({
+    createdAt: "created_at",
+    updatedAt: "updated_at",
+    profileId: "profile_id",
+  }),
+) as unknown as Schema.Schema<UpdateDlpEntryCustomResponse>;
 
 export const updateDlpEntryCustom: (
   input: UpdateDlpEntryCustomRequest,
@@ -16443,18 +17143,16 @@ export type GetDlpEntryIntegrationResponse =
         | "complete";
     };
 
-export const GetDlpEntryIntegrationResponse = Schema.Union(
+export const GetDlpEntryIntegrationResponse = Schema.Union([
   Schema.Struct({
     id: Schema.String,
-    createdAt: Schema.String.pipe(T.JsonName("created_at")),
+    createdAt: Schema.String,
     enabled: Schema.Boolean,
     name: Schema.String,
     pattern: Schema.Unknown,
     type: Schema.Literal("custom"),
-    updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
-    profileId: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-      T.JsonName("profile_id"),
-    ),
+    updatedAt: Schema.String,
+    profileId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     profiles: Schema.optional(
       Schema.Array(
         Schema.Struct({
@@ -16464,30 +17162,33 @@ export const GetDlpEntryIntegrationResponse = Schema.Union(
       ),
     ),
     uploadStatus: Schema.optional(
-      Schema.Literal(
+      Schema.Literals([
         "empty",
         "uploading",
         "pending",
         "processing",
         "failed",
         "complete",
-      ),
-    ).pipe(T.JsonName("upload_status")),
-  }),
+      ]),
+    ),
+  }).pipe(
+    Schema.encodeKeys({
+      createdAt: "created_at",
+      updatedAt: "updated_at",
+      profileId: "profile_id",
+      uploadStatus: "upload_status",
+    }),
+  ),
   Schema.Struct({
     id: Schema.String,
     confidence: Schema.Struct({
-      aiContextAvailable: Schema.Boolean.pipe(
-        T.JsonName("ai_context_available"),
-      ),
+      aiContextAvailable: Schema.Boolean,
       available: Schema.Boolean,
-    }),
+    }).pipe(Schema.encodeKeys({ aiContextAvailable: "ai_context_available" })),
     enabled: Schema.Boolean,
     name: Schema.String,
     type: Schema.Literal("predefined"),
-    profileId: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-      T.JsonName("profile_id"),
-    ),
+    profileId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     profiles: Schema.optional(
       Schema.Array(
         Schema.Struct({
@@ -16497,35 +17198,38 @@ export const GetDlpEntryIntegrationResponse = Schema.Union(
       ),
     ),
     uploadStatus: Schema.optional(
-      Schema.Literal(
+      Schema.Literals([
         "empty",
         "uploading",
         "pending",
         "processing",
         "failed",
         "complete",
-      ),
-    ).pipe(T.JsonName("upload_status")),
+      ]),
+    ),
     variant: Schema.optional(
       Schema.Struct({
-        topicType: Schema.Literal("Intent", "Content").pipe(
-          T.JsonName("topic_type"),
-        ),
+        topicType: Schema.Literals(["Intent", "Content"]),
         type: Schema.Literal("PromptTopic"),
-        description: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
-      }),
+        description: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+      }).pipe(Schema.encodeKeys({ topicType: "topic_type" })),
     ),
-  }),
+  }).pipe(
+    Schema.encodeKeys({
+      profileId: "profile_id",
+      uploadStatus: "upload_status",
+    }),
+  ),
   Schema.Struct({
     id: Schema.String,
-    createdAt: Schema.String.pipe(T.JsonName("created_at")),
+    createdAt: Schema.String,
     enabled: Schema.Boolean,
     name: Schema.String,
     type: Schema.Literal("integration"),
-    updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
-    profileId: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-      T.JsonName("profile_id"),
-    ),
+    updatedAt: Schema.String,
+    profileId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     profiles: Schema.optional(
       Schema.Array(
         Schema.Struct({
@@ -16535,25 +17239,32 @@ export const GetDlpEntryIntegrationResponse = Schema.Union(
       ),
     ),
     uploadStatus: Schema.optional(
-      Schema.Literal(
+      Schema.Literals([
         "empty",
         "uploading",
         "pending",
         "processing",
         "failed",
         "complete",
-      ),
-    ).pipe(T.JsonName("upload_status")),
-  }),
+      ]),
+    ),
+  }).pipe(
+    Schema.encodeKeys({
+      createdAt: "created_at",
+      updatedAt: "updated_at",
+      profileId: "profile_id",
+      uploadStatus: "upload_status",
+    }),
+  ),
   Schema.Struct({
     id: Schema.String,
-    caseSensitive: Schema.Boolean.pipe(T.JsonName("case_sensitive")),
-    createdAt: Schema.String.pipe(T.JsonName("created_at")),
+    caseSensitive: Schema.Boolean,
+    createdAt: Schema.String,
     enabled: Schema.Boolean,
     name: Schema.String,
     secret: Schema.Boolean,
     type: Schema.Literal("exact_data"),
-    updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
+    updatedAt: Schema.String,
     profiles: Schema.optional(
       Schema.Array(
         Schema.Struct({
@@ -16563,23 +17274,30 @@ export const GetDlpEntryIntegrationResponse = Schema.Union(
       ),
     ),
     uploadStatus: Schema.optional(
-      Schema.Literal(
+      Schema.Literals([
         "empty",
         "uploading",
         "pending",
         "processing",
         "failed",
         "complete",
-      ),
-    ).pipe(T.JsonName("upload_status")),
-  }),
+      ]),
+    ),
+  }).pipe(
+    Schema.encodeKeys({
+      caseSensitive: "case_sensitive",
+      createdAt: "created_at",
+      updatedAt: "updated_at",
+      uploadStatus: "upload_status",
+    }),
+  ),
   Schema.Struct({
     id: Schema.String,
-    createdAt: Schema.String.pipe(T.JsonName("created_at")),
+    createdAt: Schema.String,
     enabled: Schema.Boolean,
     name: Schema.String,
     type: Schema.Literal("document_fingerprint"),
-    updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
+    updatedAt: Schema.String,
     profiles: Schema.optional(
       Schema.Array(
         Schema.Struct({
@@ -16589,27 +17307,31 @@ export const GetDlpEntryIntegrationResponse = Schema.Union(
       ),
     ),
     uploadStatus: Schema.optional(
-      Schema.Literal(
+      Schema.Literals([
         "empty",
         "uploading",
         "pending",
         "processing",
         "failed",
         "complete",
-      ),
-    ).pipe(T.JsonName("upload_status")),
-  }),
+      ]),
+    ),
+  }).pipe(
+    Schema.encodeKeys({
+      createdAt: "created_at",
+      updatedAt: "updated_at",
+      uploadStatus: "upload_status",
+    }),
+  ),
   Schema.Struct({
     id: Schema.String,
-    createdAt: Schema.String.pipe(T.JsonName("created_at")),
+    createdAt: Schema.String,
     enabled: Schema.Boolean,
     name: Schema.String,
     type: Schema.Literal("word_list"),
-    updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
-    wordList: Schema.Unknown.pipe(T.JsonName("word_list")),
-    profileId: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-      T.JsonName("profile_id"),
-    ),
+    updatedAt: Schema.String,
+    wordList: Schema.Unknown,
+    profileId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     profiles: Schema.optional(
       Schema.Array(
         Schema.Struct({
@@ -16619,17 +17341,25 @@ export const GetDlpEntryIntegrationResponse = Schema.Union(
       ),
     ),
     uploadStatus: Schema.optional(
-      Schema.Literal(
+      Schema.Literals([
         "empty",
         "uploading",
         "pending",
         "processing",
         "failed",
         "complete",
-      ),
-    ).pipe(T.JsonName("upload_status")),
-  }),
-) as unknown as Schema.Schema<GetDlpEntryIntegrationResponse>;
+      ]),
+    ),
+  }).pipe(
+    Schema.encodeKeys({
+      createdAt: "created_at",
+      updatedAt: "updated_at",
+      wordList: "word_list",
+      profileId: "profile_id",
+      uploadStatus: "upload_status",
+    }),
+  ),
+]) as unknown as Schema.Schema<GetDlpEntryIntegrationResponse>;
 
 export const getDlpEntryIntegration: (
   input: GetDlpEntryIntegrationRequest,
@@ -16657,11 +17387,10 @@ export interface CreateDlpEntryIntegrationRequest {
 export const CreateDlpEntryIntegrationRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   enabled: Schema.Boolean,
-  entryId: Schema.String.pipe(T.JsonName("entry_id")),
-  profileId: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-    T.JsonName("profile_id"),
-  ),
+  entryId: Schema.String,
+  profileId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
+  Schema.encodeKeys({ entryId: "entry_id", profileId: "profile_id" }),
   T.Http({
     method: "POST",
     path: "/accounts/{account_id}/dlp/entries/integration",
@@ -16679,14 +17408,18 @@ export interface CreateDlpEntryIntegrationResponse {
 
 export const CreateDlpEntryIntegrationResponse = Schema.Struct({
   id: Schema.String,
-  createdAt: Schema.String.pipe(T.JsonName("created_at")),
+  createdAt: Schema.String,
   enabled: Schema.Boolean,
   name: Schema.String,
-  updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
-  profileId: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-    T.JsonName("profile_id"),
-  ),
-}) as unknown as Schema.Schema<CreateDlpEntryIntegrationResponse>;
+  updatedAt: Schema.String,
+  profileId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+}).pipe(
+  Schema.encodeKeys({
+    createdAt: "created_at",
+    updatedAt: "updated_at",
+    profileId: "profile_id",
+  }),
+) as unknown as Schema.Schema<CreateDlpEntryIntegrationResponse>;
 
 export const createDlpEntryIntegration: (
   input: CreateDlpEntryIntegrationRequest,
@@ -16730,14 +17463,18 @@ export interface UpdateDlpEntryIntegrationResponse {
 
 export const UpdateDlpEntryIntegrationResponse = Schema.Struct({
   id: Schema.String,
-  createdAt: Schema.String.pipe(T.JsonName("created_at")),
+  createdAt: Schema.String,
   enabled: Schema.Boolean,
   name: Schema.String,
-  updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
-  profileId: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-    T.JsonName("profile_id"),
-  ),
-}) as unknown as Schema.Schema<UpdateDlpEntryIntegrationResponse>;
+  updatedAt: Schema.String,
+  profileId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+}).pipe(
+  Schema.encodeKeys({
+    createdAt: "created_at",
+    updatedAt: "updated_at",
+    profileId: "profile_id",
+  }),
+) as unknown as Schema.Schema<UpdateDlpEntryIntegrationResponse>;
 
 export const updateDlpEntryIntegration: (
   input: UpdateDlpEntryIntegrationRequest,
@@ -16912,18 +17649,16 @@ export type GetDlpEntryPredefinedResponse =
         | "complete";
     };
 
-export const GetDlpEntryPredefinedResponse = Schema.Union(
+export const GetDlpEntryPredefinedResponse = Schema.Union([
   Schema.Struct({
     id: Schema.String,
-    createdAt: Schema.String.pipe(T.JsonName("created_at")),
+    createdAt: Schema.String,
     enabled: Schema.Boolean,
     name: Schema.String,
     pattern: Schema.Unknown,
     type: Schema.Literal("custom"),
-    updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
-    profileId: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-      T.JsonName("profile_id"),
-    ),
+    updatedAt: Schema.String,
+    profileId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     profiles: Schema.optional(
       Schema.Array(
         Schema.Struct({
@@ -16933,30 +17668,33 @@ export const GetDlpEntryPredefinedResponse = Schema.Union(
       ),
     ),
     uploadStatus: Schema.optional(
-      Schema.Literal(
+      Schema.Literals([
         "empty",
         "uploading",
         "pending",
         "processing",
         "failed",
         "complete",
-      ),
-    ).pipe(T.JsonName("upload_status")),
-  }),
+      ]),
+    ),
+  }).pipe(
+    Schema.encodeKeys({
+      createdAt: "created_at",
+      updatedAt: "updated_at",
+      profileId: "profile_id",
+      uploadStatus: "upload_status",
+    }),
+  ),
   Schema.Struct({
     id: Schema.String,
     confidence: Schema.Struct({
-      aiContextAvailable: Schema.Boolean.pipe(
-        T.JsonName("ai_context_available"),
-      ),
+      aiContextAvailable: Schema.Boolean,
       available: Schema.Boolean,
-    }),
+    }).pipe(Schema.encodeKeys({ aiContextAvailable: "ai_context_available" })),
     enabled: Schema.Boolean,
     name: Schema.String,
     type: Schema.Literal("predefined"),
-    profileId: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-      T.JsonName("profile_id"),
-    ),
+    profileId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     profiles: Schema.optional(
       Schema.Array(
         Schema.Struct({
@@ -16966,35 +17704,38 @@ export const GetDlpEntryPredefinedResponse = Schema.Union(
       ),
     ),
     uploadStatus: Schema.optional(
-      Schema.Literal(
+      Schema.Literals([
         "empty",
         "uploading",
         "pending",
         "processing",
         "failed",
         "complete",
-      ),
-    ).pipe(T.JsonName("upload_status")),
+      ]),
+    ),
     variant: Schema.optional(
       Schema.Struct({
-        topicType: Schema.Literal("Intent", "Content").pipe(
-          T.JsonName("topic_type"),
-        ),
+        topicType: Schema.Literals(["Intent", "Content"]),
         type: Schema.Literal("PromptTopic"),
-        description: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
-      }),
+        description: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+      }).pipe(Schema.encodeKeys({ topicType: "topic_type" })),
     ),
-  }),
+  }).pipe(
+    Schema.encodeKeys({
+      profileId: "profile_id",
+      uploadStatus: "upload_status",
+    }),
+  ),
   Schema.Struct({
     id: Schema.String,
-    createdAt: Schema.String.pipe(T.JsonName("created_at")),
+    createdAt: Schema.String,
     enabled: Schema.Boolean,
     name: Schema.String,
     type: Schema.Literal("integration"),
-    updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
-    profileId: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-      T.JsonName("profile_id"),
-    ),
+    updatedAt: Schema.String,
+    profileId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     profiles: Schema.optional(
       Schema.Array(
         Schema.Struct({
@@ -17004,25 +17745,32 @@ export const GetDlpEntryPredefinedResponse = Schema.Union(
       ),
     ),
     uploadStatus: Schema.optional(
-      Schema.Literal(
+      Schema.Literals([
         "empty",
         "uploading",
         "pending",
         "processing",
         "failed",
         "complete",
-      ),
-    ).pipe(T.JsonName("upload_status")),
-  }),
+      ]),
+    ),
+  }).pipe(
+    Schema.encodeKeys({
+      createdAt: "created_at",
+      updatedAt: "updated_at",
+      profileId: "profile_id",
+      uploadStatus: "upload_status",
+    }),
+  ),
   Schema.Struct({
     id: Schema.String,
-    caseSensitive: Schema.Boolean.pipe(T.JsonName("case_sensitive")),
-    createdAt: Schema.String.pipe(T.JsonName("created_at")),
+    caseSensitive: Schema.Boolean,
+    createdAt: Schema.String,
     enabled: Schema.Boolean,
     name: Schema.String,
     secret: Schema.Boolean,
     type: Schema.Literal("exact_data"),
-    updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
+    updatedAt: Schema.String,
     profiles: Schema.optional(
       Schema.Array(
         Schema.Struct({
@@ -17032,23 +17780,30 @@ export const GetDlpEntryPredefinedResponse = Schema.Union(
       ),
     ),
     uploadStatus: Schema.optional(
-      Schema.Literal(
+      Schema.Literals([
         "empty",
         "uploading",
         "pending",
         "processing",
         "failed",
         "complete",
-      ),
-    ).pipe(T.JsonName("upload_status")),
-  }),
+      ]),
+    ),
+  }).pipe(
+    Schema.encodeKeys({
+      caseSensitive: "case_sensitive",
+      createdAt: "created_at",
+      updatedAt: "updated_at",
+      uploadStatus: "upload_status",
+    }),
+  ),
   Schema.Struct({
     id: Schema.String,
-    createdAt: Schema.String.pipe(T.JsonName("created_at")),
+    createdAt: Schema.String,
     enabled: Schema.Boolean,
     name: Schema.String,
     type: Schema.Literal("document_fingerprint"),
-    updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
+    updatedAt: Schema.String,
     profiles: Schema.optional(
       Schema.Array(
         Schema.Struct({
@@ -17058,27 +17813,31 @@ export const GetDlpEntryPredefinedResponse = Schema.Union(
       ),
     ),
     uploadStatus: Schema.optional(
-      Schema.Literal(
+      Schema.Literals([
         "empty",
         "uploading",
         "pending",
         "processing",
         "failed",
         "complete",
-      ),
-    ).pipe(T.JsonName("upload_status")),
-  }),
+      ]),
+    ),
+  }).pipe(
+    Schema.encodeKeys({
+      createdAt: "created_at",
+      updatedAt: "updated_at",
+      uploadStatus: "upload_status",
+    }),
+  ),
   Schema.Struct({
     id: Schema.String,
-    createdAt: Schema.String.pipe(T.JsonName("created_at")),
+    createdAt: Schema.String,
     enabled: Schema.Boolean,
     name: Schema.String,
     type: Schema.Literal("word_list"),
-    updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
-    wordList: Schema.Unknown.pipe(T.JsonName("word_list")),
-    profileId: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-      T.JsonName("profile_id"),
-    ),
+    updatedAt: Schema.String,
+    wordList: Schema.Unknown,
+    profileId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     profiles: Schema.optional(
       Schema.Array(
         Schema.Struct({
@@ -17088,17 +17847,25 @@ export const GetDlpEntryPredefinedResponse = Schema.Union(
       ),
     ),
     uploadStatus: Schema.optional(
-      Schema.Literal(
+      Schema.Literals([
         "empty",
         "uploading",
         "pending",
         "processing",
         "failed",
         "complete",
-      ),
-    ).pipe(T.JsonName("upload_status")),
-  }),
-) as unknown as Schema.Schema<GetDlpEntryPredefinedResponse>;
+      ]),
+    ),
+  }).pipe(
+    Schema.encodeKeys({
+      createdAt: "created_at",
+      updatedAt: "updated_at",
+      wordList: "word_list",
+      profileId: "profile_id",
+      uploadStatus: "upload_status",
+    }),
+  ),
+]) as unknown as Schema.Schema<GetDlpEntryPredefinedResponse>;
 
 export const getDlpEntryPredefined: (
   input: GetDlpEntryPredefinedRequest,
@@ -17126,11 +17893,10 @@ export interface CreateDlpEntryPredefinedRequest {
 export const CreateDlpEntryPredefinedRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   enabled: Schema.Boolean,
-  entryId: Schema.String.pipe(T.JsonName("entry_id")),
-  profileId: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-    T.JsonName("profile_id"),
-  ),
+  entryId: Schema.String,
+  profileId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
+  Schema.encodeKeys({ entryId: "entry_id", profileId: "profile_id" }),
   T.Http({
     method: "POST",
     path: "/accounts/{account_id}/dlp/entries/predefined",
@@ -17153,24 +17919,22 @@ export interface CreateDlpEntryPredefinedResponse {
 export const CreateDlpEntryPredefinedResponse = Schema.Struct({
   id: Schema.String,
   confidence: Schema.Struct({
-    aiContextAvailable: Schema.Boolean.pipe(T.JsonName("ai_context_available")),
+    aiContextAvailable: Schema.Boolean,
     available: Schema.Boolean,
-  }),
+  }).pipe(Schema.encodeKeys({ aiContextAvailable: "ai_context_available" })),
   enabled: Schema.Boolean,
   name: Schema.String,
-  profileId: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-    T.JsonName("profile_id"),
-  ),
+  profileId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   variant: Schema.optional(
     Schema.Struct({
-      topicType: Schema.Literal("Intent", "Content").pipe(
-        T.JsonName("topic_type"),
-      ),
+      topicType: Schema.Literals(["Intent", "Content"]),
       type: Schema.Literal("PromptTopic"),
-      description: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
-    }),
+      description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    }).pipe(Schema.encodeKeys({ topicType: "topic_type" })),
   ),
-}) as unknown as Schema.Schema<CreateDlpEntryPredefinedResponse>;
+}).pipe(
+  Schema.encodeKeys({ profileId: "profile_id" }),
+) as unknown as Schema.Schema<CreateDlpEntryPredefinedResponse>;
 
 export const createDlpEntryPredefined: (
   input: CreateDlpEntryPredefinedRequest,
@@ -17219,24 +17983,22 @@ export interface UpdateDlpEntryPredefinedResponse {
 export const UpdateDlpEntryPredefinedResponse = Schema.Struct({
   id: Schema.String,
   confidence: Schema.Struct({
-    aiContextAvailable: Schema.Boolean.pipe(T.JsonName("ai_context_available")),
+    aiContextAvailable: Schema.Boolean,
     available: Schema.Boolean,
-  }),
+  }).pipe(Schema.encodeKeys({ aiContextAvailable: "ai_context_available" })),
   enabled: Schema.Boolean,
   name: Schema.String,
-  profileId: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-    T.JsonName("profile_id"),
-  ),
+  profileId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   variant: Schema.optional(
     Schema.Struct({
-      topicType: Schema.Literal("Intent", "Content").pipe(
-        T.JsonName("topic_type"),
-      ),
+      topicType: Schema.Literals(["Intent", "Content"]),
       type: Schema.Literal("PromptTopic"),
-      description: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
-    }),
+      description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    }).pipe(Schema.encodeKeys({ topicType: "topic_type" })),
   ),
-}) as unknown as Schema.Schema<UpdateDlpEntryPredefinedResponse>;
+}).pipe(
+  Schema.encodeKeys({ profileId: "profile_id" }),
+) as unknown as Schema.Schema<UpdateDlpEntryPredefinedResponse>;
 
 export const updateDlpEntryPredefined: (
   input: UpdateDlpEntryPredefinedRequest,
@@ -17301,8 +18063,10 @@ export interface ListDlpLimitsResponse {
 }
 
 export const ListDlpLimitsResponse = Schema.Struct({
-  maxDatasetCells: Schema.Number.pipe(T.JsonName("max_dataset_cells")),
-}) as unknown as Schema.Schema<ListDlpLimitsResponse>;
+  maxDatasetCells: Schema.Number,
+}).pipe(
+  Schema.encodeKeys({ maxDatasetCells: "max_dataset_cells" }),
+) as unknown as Schema.Schema<ListDlpLimitsResponse>;
 
 export const listDlpLimits: (
   input: ListDlpLimitsRequest,
@@ -17332,10 +18096,9 @@ export interface ValidateDlpPatternRequest {
 export const ValidateDlpPatternRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   regex: Schema.String,
-  maxMatchBytes: Schema.optional(Schema.Union(Schema.Number, Schema.Null)).pipe(
-    T.JsonName("max_match_bytes"),
-  ),
+  maxMatchBytes: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
 }).pipe(
+  Schema.encodeKeys({ maxMatchBytes: "max_match_bytes" }),
   T.Http({
     method: "POST",
     path: "/accounts/{account_id}/dlp/patterns/validate",
@@ -17382,11 +18145,11 @@ export interface GetDlpPayloadLogResponse {
 }
 
 export const GetDlpPayloadLogResponse = Schema.Struct({
-  updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
-  publicKey: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-    T.JsonName("public_key"),
-  ),
-}) as unknown as Schema.Schema<GetDlpPayloadLogResponse>;
+  updatedAt: Schema.String,
+  publicKey: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+}).pipe(
+  Schema.encodeKeys({ updatedAt: "updated_at", publicKey: "public_key" }),
+) as unknown as Schema.Schema<GetDlpPayloadLogResponse>;
 
 export const getDlpPayloadLog: (
   input: GetDlpPayloadLogRequest,
@@ -17409,10 +18172,9 @@ export interface PutDlpPayloadLogRequest {
 
 export const PutDlpPayloadLogRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  publicKey: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-    T.JsonName("public_key"),
-  ),
+  publicKey: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
+  Schema.encodeKeys({ publicKey: "public_key" }),
   T.Http({ method: "PUT", path: "/accounts/{account_id}/dlp/payload_log" }),
 ) as unknown as Schema.Schema<PutDlpPayloadLogRequest>;
 
@@ -17422,11 +18184,11 @@ export interface PutDlpPayloadLogResponse {
 }
 
 export const PutDlpPayloadLogResponse = Schema.Struct({
-  updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
-  publicKey: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-    T.JsonName("public_key"),
-  ),
-}) as unknown as Schema.Schema<PutDlpPayloadLogResponse>;
+  updatedAt: Schema.String,
+  publicKey: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+}).pipe(
+  Schema.encodeKeys({ updatedAt: "updated_at", publicKey: "public_key" }),
+) as unknown as Schema.Schema<PutDlpPayloadLogResponse>;
 
 export const putDlpPayloadLog: (
   input: PutDlpPayloadLogRequest,
@@ -17679,303 +18441,400 @@ export type GetDlpProfileResponse =
       description?: string | null;
     };
 
-export const GetDlpProfileResponse = Schema.Union(
+export const GetDlpProfileResponse = Schema.Union([
   Schema.Struct({
     id: Schema.String,
-    allowedMatchCount: Schema.Number.pipe(T.JsonName("allowed_match_count")),
-    createdAt: Schema.String.pipe(T.JsonName("created_at")),
+    allowedMatchCount: Schema.Number,
+    createdAt: Schema.String,
     name: Schema.String,
-    ocrEnabled: Schema.Boolean.pipe(T.JsonName("ocr_enabled")),
+    ocrEnabled: Schema.Boolean,
     type: Schema.Literal("custom"),
-    updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
-    aiContextEnabled: Schema.optional(Schema.Boolean).pipe(
-      T.JsonName("ai_context_enabled"),
-    ),
+    updatedAt: Schema.String,
+    aiContextEnabled: Schema.optional(Schema.Boolean),
     confidenceThreshold: Schema.optional(
-      Schema.Literal("low", "medium", "high", "very_high"),
-    ).pipe(T.JsonName("confidence_threshold")),
-    contextAwareness: Schema.optional(Schema.Unknown).pipe(
-      T.JsonName("context_awareness"),
+      Schema.Literals(["low", "medium", "high", "very_high"]),
     ),
-    description: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
+    contextAwareness: Schema.optional(Schema.Unknown),
+    description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     entries: Schema.optional(
       Schema.Array(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
             id: Schema.String,
-            createdAt: Schema.String.pipe(T.JsonName("created_at")),
+            createdAt: Schema.String,
             enabled: Schema.Boolean,
             name: Schema.String,
             pattern: Schema.Unknown,
             type: Schema.Literal("custom"),
-            updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
+            updatedAt: Schema.String,
             profileId: Schema.optional(
-              Schema.Union(Schema.String, Schema.Null),
-            ).pipe(T.JsonName("profile_id")),
-          }),
+              Schema.Union([Schema.String, Schema.Null]),
+            ),
+          }).pipe(
+            Schema.encodeKeys({
+              createdAt: "created_at",
+              updatedAt: "updated_at",
+              profileId: "profile_id",
+            }),
+          ),
           Schema.Struct({
             id: Schema.String,
             confidence: Schema.Struct({
-              aiContextAvailable: Schema.Boolean.pipe(
-                T.JsonName("ai_context_available"),
-              ),
+              aiContextAvailable: Schema.Boolean,
               available: Schema.Boolean,
-            }),
+            }).pipe(
+              Schema.encodeKeys({ aiContextAvailable: "ai_context_available" }),
+            ),
             enabled: Schema.Boolean,
             name: Schema.String,
             type: Schema.Literal("predefined"),
             profileId: Schema.optional(
-              Schema.Union(Schema.String, Schema.Null),
-            ).pipe(T.JsonName("profile_id")),
+              Schema.Union([Schema.String, Schema.Null]),
+            ),
             variant: Schema.optional(
               Schema.Struct({
-                topicType: Schema.Literal("Intent", "Content").pipe(
-                  T.JsonName("topic_type"),
-                ),
+                topicType: Schema.Literals(["Intent", "Content"]),
                 type: Schema.Literal("PromptTopic"),
                 description: Schema.optional(
-                  Schema.Union(Schema.String, Schema.Null),
+                  Schema.Union([Schema.String, Schema.Null]),
                 ),
-              }),
+              }).pipe(Schema.encodeKeys({ topicType: "topic_type" })),
             ),
-          }),
+          }).pipe(Schema.encodeKeys({ profileId: "profile_id" })),
           Schema.Struct({
             id: Schema.String,
-            createdAt: Schema.String.pipe(T.JsonName("created_at")),
+            createdAt: Schema.String,
             enabled: Schema.Boolean,
             name: Schema.String,
             type: Schema.Literal("integration"),
-            updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
+            updatedAt: Schema.String,
             profileId: Schema.optional(
-              Schema.Union(Schema.String, Schema.Null),
-            ).pipe(T.JsonName("profile_id")),
-          }),
+              Schema.Union([Schema.String, Schema.Null]),
+            ),
+          }).pipe(
+            Schema.encodeKeys({
+              createdAt: "created_at",
+              updatedAt: "updated_at",
+              profileId: "profile_id",
+            }),
+          ),
           Schema.Struct({
             id: Schema.String,
-            caseSensitive: Schema.Boolean.pipe(T.JsonName("case_sensitive")),
-            createdAt: Schema.String.pipe(T.JsonName("created_at")),
+            caseSensitive: Schema.Boolean,
+            createdAt: Schema.String,
             enabled: Schema.Boolean,
             name: Schema.String,
             secret: Schema.Boolean,
             type: Schema.Literal("exact_data"),
-            updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
-          }),
+            updatedAt: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({
+              caseSensitive: "case_sensitive",
+              createdAt: "created_at",
+              updatedAt: "updated_at",
+            }),
+          ),
           Schema.Struct({
             id: Schema.String,
-            createdAt: Schema.String.pipe(T.JsonName("created_at")),
+            createdAt: Schema.String,
             enabled: Schema.Boolean,
             name: Schema.String,
             type: Schema.Literal("document_fingerprint"),
-            updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
-          }),
+            updatedAt: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({
+              createdAt: "created_at",
+              updatedAt: "updated_at",
+            }),
+          ),
           Schema.Struct({
             id: Schema.String,
-            createdAt: Schema.String.pipe(T.JsonName("created_at")),
+            createdAt: Schema.String,
             enabled: Schema.Boolean,
             name: Schema.String,
             type: Schema.Literal("word_list"),
-            updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
-            wordList: Schema.Unknown.pipe(T.JsonName("word_list")),
+            updatedAt: Schema.String,
+            wordList: Schema.Unknown,
             profileId: Schema.optional(
-              Schema.Union(Schema.String, Schema.Null),
-            ).pipe(T.JsonName("profile_id")),
-          }),
-        ),
+              Schema.Union([Schema.String, Schema.Null]),
+            ),
+          }).pipe(
+            Schema.encodeKeys({
+              createdAt: "created_at",
+              updatedAt: "updated_at",
+              wordList: "word_list",
+              profileId: "profile_id",
+            }),
+          ),
+        ]),
       ),
     ),
-  }),
+  }).pipe(
+    Schema.encodeKeys({
+      allowedMatchCount: "allowed_match_count",
+      createdAt: "created_at",
+      ocrEnabled: "ocr_enabled",
+      updatedAt: "updated_at",
+      aiContextEnabled: "ai_context_enabled",
+      confidenceThreshold: "confidence_threshold",
+      contextAwareness: "context_awareness",
+    }),
+  ),
   Schema.Struct({
     id: Schema.String,
-    allowedMatchCount: Schema.Number.pipe(T.JsonName("allowed_match_count")),
+    allowedMatchCount: Schema.Number,
     entries: Schema.Array(
-      Schema.Union(
+      Schema.Union([
         Schema.Struct({
           id: Schema.String,
-          createdAt: Schema.String.pipe(T.JsonName("created_at")),
+          createdAt: Schema.String,
           enabled: Schema.Boolean,
           name: Schema.String,
           pattern: Schema.Unknown,
           type: Schema.Literal("custom"),
-          updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
+          updatedAt: Schema.String,
           profileId: Schema.optional(
-            Schema.Union(Schema.String, Schema.Null),
-          ).pipe(T.JsonName("profile_id")),
-        }),
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+        }).pipe(
+          Schema.encodeKeys({
+            createdAt: "created_at",
+            updatedAt: "updated_at",
+            profileId: "profile_id",
+          }),
+        ),
         Schema.Struct({
           id: Schema.String,
           confidence: Schema.Struct({
-            aiContextAvailable: Schema.Boolean.pipe(
-              T.JsonName("ai_context_available"),
-            ),
+            aiContextAvailable: Schema.Boolean,
             available: Schema.Boolean,
-          }),
+          }).pipe(
+            Schema.encodeKeys({ aiContextAvailable: "ai_context_available" }),
+          ),
           enabled: Schema.Boolean,
           name: Schema.String,
           type: Schema.Literal("predefined"),
           profileId: Schema.optional(
-            Schema.Union(Schema.String, Schema.Null),
-          ).pipe(T.JsonName("profile_id")),
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
           variant: Schema.optional(
             Schema.Struct({
-              topicType: Schema.Literal("Intent", "Content").pipe(
-                T.JsonName("topic_type"),
-              ),
+              topicType: Schema.Literals(["Intent", "Content"]),
               type: Schema.Literal("PromptTopic"),
               description: Schema.optional(
-                Schema.Union(Schema.String, Schema.Null),
+                Schema.Union([Schema.String, Schema.Null]),
               ),
-            }),
+            }).pipe(Schema.encodeKeys({ topicType: "topic_type" })),
           ),
-        }),
+        }).pipe(Schema.encodeKeys({ profileId: "profile_id" })),
         Schema.Struct({
           id: Schema.String,
-          createdAt: Schema.String.pipe(T.JsonName("created_at")),
+          createdAt: Schema.String,
           enabled: Schema.Boolean,
           name: Schema.String,
           type: Schema.Literal("integration"),
-          updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
+          updatedAt: Schema.String,
           profileId: Schema.optional(
-            Schema.Union(Schema.String, Schema.Null),
-          ).pipe(T.JsonName("profile_id")),
-        }),
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+        }).pipe(
+          Schema.encodeKeys({
+            createdAt: "created_at",
+            updatedAt: "updated_at",
+            profileId: "profile_id",
+          }),
+        ),
         Schema.Struct({
           id: Schema.String,
-          caseSensitive: Schema.Boolean.pipe(T.JsonName("case_sensitive")),
-          createdAt: Schema.String.pipe(T.JsonName("created_at")),
+          caseSensitive: Schema.Boolean,
+          createdAt: Schema.String,
           enabled: Schema.Boolean,
           name: Schema.String,
           secret: Schema.Boolean,
           type: Schema.Literal("exact_data"),
-          updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
-        }),
+          updatedAt: Schema.String,
+        }).pipe(
+          Schema.encodeKeys({
+            caseSensitive: "case_sensitive",
+            createdAt: "created_at",
+            updatedAt: "updated_at",
+          }),
+        ),
         Schema.Struct({
           id: Schema.String,
-          createdAt: Schema.String.pipe(T.JsonName("created_at")),
+          createdAt: Schema.String,
           enabled: Schema.Boolean,
           name: Schema.String,
           type: Schema.Literal("document_fingerprint"),
-          updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
-        }),
+          updatedAt: Schema.String,
+        }).pipe(
+          Schema.encodeKeys({
+            createdAt: "created_at",
+            updatedAt: "updated_at",
+          }),
+        ),
         Schema.Struct({
           id: Schema.String,
-          createdAt: Schema.String.pipe(T.JsonName("created_at")),
+          createdAt: Schema.String,
           enabled: Schema.Boolean,
           name: Schema.String,
           type: Schema.Literal("word_list"),
-          updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
-          wordList: Schema.Unknown.pipe(T.JsonName("word_list")),
+          updatedAt: Schema.String,
+          wordList: Schema.Unknown,
           profileId: Schema.optional(
-            Schema.Union(Schema.String, Schema.Null),
-          ).pipe(T.JsonName("profile_id")),
-        }),
-      ),
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+        }).pipe(
+          Schema.encodeKeys({
+            createdAt: "created_at",
+            updatedAt: "updated_at",
+            wordList: "word_list",
+            profileId: "profile_id",
+          }),
+        ),
+      ]),
     ),
     name: Schema.String,
     type: Schema.Literal("predefined"),
-    aiContextEnabled: Schema.optional(Schema.Boolean).pipe(
-      T.JsonName("ai_context_enabled"),
-    ),
+    aiContextEnabled: Schema.optional(Schema.Boolean),
     confidenceThreshold: Schema.optional(
-      Schema.Literal("low", "medium", "high", "very_high"),
-    ).pipe(T.JsonName("confidence_threshold")),
-    contextAwareness: Schema.optional(Schema.Unknown).pipe(
-      T.JsonName("context_awareness"),
+      Schema.Literals(["low", "medium", "high", "very_high"]),
     ),
-    ocrEnabled: Schema.optional(Schema.Boolean).pipe(T.JsonName("ocr_enabled")),
-    openAccess: Schema.optional(Schema.Boolean).pipe(T.JsonName("open_access")),
-  }),
+    contextAwareness: Schema.optional(Schema.Unknown),
+    ocrEnabled: Schema.optional(Schema.Boolean),
+    openAccess: Schema.optional(Schema.Boolean),
+  }).pipe(
+    Schema.encodeKeys({
+      allowedMatchCount: "allowed_match_count",
+      aiContextEnabled: "ai_context_enabled",
+      confidenceThreshold: "confidence_threshold",
+      contextAwareness: "context_awareness",
+      ocrEnabled: "ocr_enabled",
+      openAccess: "open_access",
+    }),
+  ),
   Schema.Struct({
     id: Schema.String,
-    createdAt: Schema.String.pipe(T.JsonName("created_at")),
+    createdAt: Schema.String,
     entries: Schema.Array(
-      Schema.Union(
+      Schema.Union([
         Schema.Struct({
           id: Schema.String,
-          createdAt: Schema.String.pipe(T.JsonName("created_at")),
+          createdAt: Schema.String,
           enabled: Schema.Boolean,
           name: Schema.String,
           pattern: Schema.Unknown,
           type: Schema.Literal("custom"),
-          updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
+          updatedAt: Schema.String,
           profileId: Schema.optional(
-            Schema.Union(Schema.String, Schema.Null),
-          ).pipe(T.JsonName("profile_id")),
-        }),
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+        }).pipe(
+          Schema.encodeKeys({
+            createdAt: "created_at",
+            updatedAt: "updated_at",
+            profileId: "profile_id",
+          }),
+        ),
         Schema.Struct({
           id: Schema.String,
           confidence: Schema.Struct({
-            aiContextAvailable: Schema.Boolean.pipe(
-              T.JsonName("ai_context_available"),
-            ),
+            aiContextAvailable: Schema.Boolean,
             available: Schema.Boolean,
-          }),
+          }).pipe(
+            Schema.encodeKeys({ aiContextAvailable: "ai_context_available" }),
+          ),
           enabled: Schema.Boolean,
           name: Schema.String,
           type: Schema.Literal("predefined"),
           profileId: Schema.optional(
-            Schema.Union(Schema.String, Schema.Null),
-          ).pipe(T.JsonName("profile_id")),
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
           variant: Schema.optional(
             Schema.Struct({
-              topicType: Schema.Literal("Intent", "Content").pipe(
-                T.JsonName("topic_type"),
-              ),
+              topicType: Schema.Literals(["Intent", "Content"]),
               type: Schema.Literal("PromptTopic"),
               description: Schema.optional(
-                Schema.Union(Schema.String, Schema.Null),
+                Schema.Union([Schema.String, Schema.Null]),
               ),
-            }),
+            }).pipe(Schema.encodeKeys({ topicType: "topic_type" })),
           ),
-        }),
+        }).pipe(Schema.encodeKeys({ profileId: "profile_id" })),
         Schema.Struct({
           id: Schema.String,
-          createdAt: Schema.String.pipe(T.JsonName("created_at")),
+          createdAt: Schema.String,
           enabled: Schema.Boolean,
           name: Schema.String,
           type: Schema.Literal("integration"),
-          updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
+          updatedAt: Schema.String,
           profileId: Schema.optional(
-            Schema.Union(Schema.String, Schema.Null),
-          ).pipe(T.JsonName("profile_id")),
-        }),
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+        }).pipe(
+          Schema.encodeKeys({
+            createdAt: "created_at",
+            updatedAt: "updated_at",
+            profileId: "profile_id",
+          }),
+        ),
         Schema.Struct({
           id: Schema.String,
-          caseSensitive: Schema.Boolean.pipe(T.JsonName("case_sensitive")),
-          createdAt: Schema.String.pipe(T.JsonName("created_at")),
+          caseSensitive: Schema.Boolean,
+          createdAt: Schema.String,
           enabled: Schema.Boolean,
           name: Schema.String,
           secret: Schema.Boolean,
           type: Schema.Literal("exact_data"),
-          updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
-        }),
+          updatedAt: Schema.String,
+        }).pipe(
+          Schema.encodeKeys({
+            caseSensitive: "case_sensitive",
+            createdAt: "created_at",
+            updatedAt: "updated_at",
+          }),
+        ),
         Schema.Struct({
           id: Schema.String,
-          createdAt: Schema.String.pipe(T.JsonName("created_at")),
+          createdAt: Schema.String,
           enabled: Schema.Boolean,
           name: Schema.String,
           type: Schema.Literal("document_fingerprint"),
-          updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
-        }),
+          updatedAt: Schema.String,
+        }).pipe(
+          Schema.encodeKeys({
+            createdAt: "created_at",
+            updatedAt: "updated_at",
+          }),
+        ),
         Schema.Struct({
           id: Schema.String,
-          createdAt: Schema.String.pipe(T.JsonName("created_at")),
+          createdAt: Schema.String,
           enabled: Schema.Boolean,
           name: Schema.String,
           type: Schema.Literal("word_list"),
-          updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
-          wordList: Schema.Unknown.pipe(T.JsonName("word_list")),
+          updatedAt: Schema.String,
+          wordList: Schema.Unknown,
           profileId: Schema.optional(
-            Schema.Union(Schema.String, Schema.Null),
-          ).pipe(T.JsonName("profile_id")),
-        }),
-      ),
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+        }).pipe(
+          Schema.encodeKeys({
+            createdAt: "created_at",
+            updatedAt: "updated_at",
+            wordList: "word_list",
+            profileId: "profile_id",
+          }),
+        ),
+      ]),
     ),
     name: Schema.String,
     type: Schema.Literal("integration"),
-    updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
-    description: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
-  }),
-) as unknown as Schema.Schema<GetDlpProfileResponse>;
+    updatedAt: Schema.String,
+    description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  }).pipe(
+    Schema.encodeKeys({ createdAt: "created_at", updatedAt: "updated_at" }),
+  ),
+]) as unknown as Schema.Schema<GetDlpProfileResponse>;
 
 export const getDlpProfile: (
   input: GetDlpProfileRequest,
@@ -18228,303 +19087,400 @@ export type GetDlpProfileCustomResponse =
       description?: string | null;
     };
 
-export const GetDlpProfileCustomResponse = Schema.Union(
+export const GetDlpProfileCustomResponse = Schema.Union([
   Schema.Struct({
     id: Schema.String,
-    allowedMatchCount: Schema.Number.pipe(T.JsonName("allowed_match_count")),
-    createdAt: Schema.String.pipe(T.JsonName("created_at")),
+    allowedMatchCount: Schema.Number,
+    createdAt: Schema.String,
     name: Schema.String,
-    ocrEnabled: Schema.Boolean.pipe(T.JsonName("ocr_enabled")),
+    ocrEnabled: Schema.Boolean,
     type: Schema.Literal("custom"),
-    updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
-    aiContextEnabled: Schema.optional(Schema.Boolean).pipe(
-      T.JsonName("ai_context_enabled"),
-    ),
+    updatedAt: Schema.String,
+    aiContextEnabled: Schema.optional(Schema.Boolean),
     confidenceThreshold: Schema.optional(
-      Schema.Literal("low", "medium", "high", "very_high"),
-    ).pipe(T.JsonName("confidence_threshold")),
-    contextAwareness: Schema.optional(Schema.Unknown).pipe(
-      T.JsonName("context_awareness"),
+      Schema.Literals(["low", "medium", "high", "very_high"]),
     ),
-    description: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
+    contextAwareness: Schema.optional(Schema.Unknown),
+    description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     entries: Schema.optional(
       Schema.Array(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
             id: Schema.String,
-            createdAt: Schema.String.pipe(T.JsonName("created_at")),
+            createdAt: Schema.String,
             enabled: Schema.Boolean,
             name: Schema.String,
             pattern: Schema.Unknown,
             type: Schema.Literal("custom"),
-            updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
+            updatedAt: Schema.String,
             profileId: Schema.optional(
-              Schema.Union(Schema.String, Schema.Null),
-            ).pipe(T.JsonName("profile_id")),
-          }),
+              Schema.Union([Schema.String, Schema.Null]),
+            ),
+          }).pipe(
+            Schema.encodeKeys({
+              createdAt: "created_at",
+              updatedAt: "updated_at",
+              profileId: "profile_id",
+            }),
+          ),
           Schema.Struct({
             id: Schema.String,
             confidence: Schema.Struct({
-              aiContextAvailable: Schema.Boolean.pipe(
-                T.JsonName("ai_context_available"),
-              ),
+              aiContextAvailable: Schema.Boolean,
               available: Schema.Boolean,
-            }),
+            }).pipe(
+              Schema.encodeKeys({ aiContextAvailable: "ai_context_available" }),
+            ),
             enabled: Schema.Boolean,
             name: Schema.String,
             type: Schema.Literal("predefined"),
             profileId: Schema.optional(
-              Schema.Union(Schema.String, Schema.Null),
-            ).pipe(T.JsonName("profile_id")),
+              Schema.Union([Schema.String, Schema.Null]),
+            ),
             variant: Schema.optional(
               Schema.Struct({
-                topicType: Schema.Literal("Intent", "Content").pipe(
-                  T.JsonName("topic_type"),
-                ),
+                topicType: Schema.Literals(["Intent", "Content"]),
                 type: Schema.Literal("PromptTopic"),
                 description: Schema.optional(
-                  Schema.Union(Schema.String, Schema.Null),
+                  Schema.Union([Schema.String, Schema.Null]),
                 ),
-              }),
+              }).pipe(Schema.encodeKeys({ topicType: "topic_type" })),
             ),
-          }),
+          }).pipe(Schema.encodeKeys({ profileId: "profile_id" })),
           Schema.Struct({
             id: Schema.String,
-            createdAt: Schema.String.pipe(T.JsonName("created_at")),
+            createdAt: Schema.String,
             enabled: Schema.Boolean,
             name: Schema.String,
             type: Schema.Literal("integration"),
-            updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
+            updatedAt: Schema.String,
             profileId: Schema.optional(
-              Schema.Union(Schema.String, Schema.Null),
-            ).pipe(T.JsonName("profile_id")),
-          }),
+              Schema.Union([Schema.String, Schema.Null]),
+            ),
+          }).pipe(
+            Schema.encodeKeys({
+              createdAt: "created_at",
+              updatedAt: "updated_at",
+              profileId: "profile_id",
+            }),
+          ),
           Schema.Struct({
             id: Schema.String,
-            caseSensitive: Schema.Boolean.pipe(T.JsonName("case_sensitive")),
-            createdAt: Schema.String.pipe(T.JsonName("created_at")),
+            caseSensitive: Schema.Boolean,
+            createdAt: Schema.String,
             enabled: Schema.Boolean,
             name: Schema.String,
             secret: Schema.Boolean,
             type: Schema.Literal("exact_data"),
-            updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
-          }),
+            updatedAt: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({
+              caseSensitive: "case_sensitive",
+              createdAt: "created_at",
+              updatedAt: "updated_at",
+            }),
+          ),
           Schema.Struct({
             id: Schema.String,
-            createdAt: Schema.String.pipe(T.JsonName("created_at")),
+            createdAt: Schema.String,
             enabled: Schema.Boolean,
             name: Schema.String,
             type: Schema.Literal("document_fingerprint"),
-            updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
-          }),
+            updatedAt: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({
+              createdAt: "created_at",
+              updatedAt: "updated_at",
+            }),
+          ),
           Schema.Struct({
             id: Schema.String,
-            createdAt: Schema.String.pipe(T.JsonName("created_at")),
+            createdAt: Schema.String,
             enabled: Schema.Boolean,
             name: Schema.String,
             type: Schema.Literal("word_list"),
-            updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
-            wordList: Schema.Unknown.pipe(T.JsonName("word_list")),
+            updatedAt: Schema.String,
+            wordList: Schema.Unknown,
             profileId: Schema.optional(
-              Schema.Union(Schema.String, Schema.Null),
-            ).pipe(T.JsonName("profile_id")),
-          }),
-        ),
+              Schema.Union([Schema.String, Schema.Null]),
+            ),
+          }).pipe(
+            Schema.encodeKeys({
+              createdAt: "created_at",
+              updatedAt: "updated_at",
+              wordList: "word_list",
+              profileId: "profile_id",
+            }),
+          ),
+        ]),
       ),
     ),
-  }),
+  }).pipe(
+    Schema.encodeKeys({
+      allowedMatchCount: "allowed_match_count",
+      createdAt: "created_at",
+      ocrEnabled: "ocr_enabled",
+      updatedAt: "updated_at",
+      aiContextEnabled: "ai_context_enabled",
+      confidenceThreshold: "confidence_threshold",
+      contextAwareness: "context_awareness",
+    }),
+  ),
   Schema.Struct({
     id: Schema.String,
-    allowedMatchCount: Schema.Number.pipe(T.JsonName("allowed_match_count")),
+    allowedMatchCount: Schema.Number,
     entries: Schema.Array(
-      Schema.Union(
+      Schema.Union([
         Schema.Struct({
           id: Schema.String,
-          createdAt: Schema.String.pipe(T.JsonName("created_at")),
+          createdAt: Schema.String,
           enabled: Schema.Boolean,
           name: Schema.String,
           pattern: Schema.Unknown,
           type: Schema.Literal("custom"),
-          updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
+          updatedAt: Schema.String,
           profileId: Schema.optional(
-            Schema.Union(Schema.String, Schema.Null),
-          ).pipe(T.JsonName("profile_id")),
-        }),
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+        }).pipe(
+          Schema.encodeKeys({
+            createdAt: "created_at",
+            updatedAt: "updated_at",
+            profileId: "profile_id",
+          }),
+        ),
         Schema.Struct({
           id: Schema.String,
           confidence: Schema.Struct({
-            aiContextAvailable: Schema.Boolean.pipe(
-              T.JsonName("ai_context_available"),
-            ),
+            aiContextAvailable: Schema.Boolean,
             available: Schema.Boolean,
-          }),
+          }).pipe(
+            Schema.encodeKeys({ aiContextAvailable: "ai_context_available" }),
+          ),
           enabled: Schema.Boolean,
           name: Schema.String,
           type: Schema.Literal("predefined"),
           profileId: Schema.optional(
-            Schema.Union(Schema.String, Schema.Null),
-          ).pipe(T.JsonName("profile_id")),
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
           variant: Schema.optional(
             Schema.Struct({
-              topicType: Schema.Literal("Intent", "Content").pipe(
-                T.JsonName("topic_type"),
-              ),
+              topicType: Schema.Literals(["Intent", "Content"]),
               type: Schema.Literal("PromptTopic"),
               description: Schema.optional(
-                Schema.Union(Schema.String, Schema.Null),
+                Schema.Union([Schema.String, Schema.Null]),
               ),
-            }),
+            }).pipe(Schema.encodeKeys({ topicType: "topic_type" })),
           ),
-        }),
+        }).pipe(Schema.encodeKeys({ profileId: "profile_id" })),
         Schema.Struct({
           id: Schema.String,
-          createdAt: Schema.String.pipe(T.JsonName("created_at")),
+          createdAt: Schema.String,
           enabled: Schema.Boolean,
           name: Schema.String,
           type: Schema.Literal("integration"),
-          updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
+          updatedAt: Schema.String,
           profileId: Schema.optional(
-            Schema.Union(Schema.String, Schema.Null),
-          ).pipe(T.JsonName("profile_id")),
-        }),
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+        }).pipe(
+          Schema.encodeKeys({
+            createdAt: "created_at",
+            updatedAt: "updated_at",
+            profileId: "profile_id",
+          }),
+        ),
         Schema.Struct({
           id: Schema.String,
-          caseSensitive: Schema.Boolean.pipe(T.JsonName("case_sensitive")),
-          createdAt: Schema.String.pipe(T.JsonName("created_at")),
+          caseSensitive: Schema.Boolean,
+          createdAt: Schema.String,
           enabled: Schema.Boolean,
           name: Schema.String,
           secret: Schema.Boolean,
           type: Schema.Literal("exact_data"),
-          updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
-        }),
+          updatedAt: Schema.String,
+        }).pipe(
+          Schema.encodeKeys({
+            caseSensitive: "case_sensitive",
+            createdAt: "created_at",
+            updatedAt: "updated_at",
+          }),
+        ),
         Schema.Struct({
           id: Schema.String,
-          createdAt: Schema.String.pipe(T.JsonName("created_at")),
+          createdAt: Schema.String,
           enabled: Schema.Boolean,
           name: Schema.String,
           type: Schema.Literal("document_fingerprint"),
-          updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
-        }),
+          updatedAt: Schema.String,
+        }).pipe(
+          Schema.encodeKeys({
+            createdAt: "created_at",
+            updatedAt: "updated_at",
+          }),
+        ),
         Schema.Struct({
           id: Schema.String,
-          createdAt: Schema.String.pipe(T.JsonName("created_at")),
+          createdAt: Schema.String,
           enabled: Schema.Boolean,
           name: Schema.String,
           type: Schema.Literal("word_list"),
-          updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
-          wordList: Schema.Unknown.pipe(T.JsonName("word_list")),
+          updatedAt: Schema.String,
+          wordList: Schema.Unknown,
           profileId: Schema.optional(
-            Schema.Union(Schema.String, Schema.Null),
-          ).pipe(T.JsonName("profile_id")),
-        }),
-      ),
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+        }).pipe(
+          Schema.encodeKeys({
+            createdAt: "created_at",
+            updatedAt: "updated_at",
+            wordList: "word_list",
+            profileId: "profile_id",
+          }),
+        ),
+      ]),
     ),
     name: Schema.String,
     type: Schema.Literal("predefined"),
-    aiContextEnabled: Schema.optional(Schema.Boolean).pipe(
-      T.JsonName("ai_context_enabled"),
-    ),
+    aiContextEnabled: Schema.optional(Schema.Boolean),
     confidenceThreshold: Schema.optional(
-      Schema.Literal("low", "medium", "high", "very_high"),
-    ).pipe(T.JsonName("confidence_threshold")),
-    contextAwareness: Schema.optional(Schema.Unknown).pipe(
-      T.JsonName("context_awareness"),
+      Schema.Literals(["low", "medium", "high", "very_high"]),
     ),
-    ocrEnabled: Schema.optional(Schema.Boolean).pipe(T.JsonName("ocr_enabled")),
-    openAccess: Schema.optional(Schema.Boolean).pipe(T.JsonName("open_access")),
-  }),
+    contextAwareness: Schema.optional(Schema.Unknown),
+    ocrEnabled: Schema.optional(Schema.Boolean),
+    openAccess: Schema.optional(Schema.Boolean),
+  }).pipe(
+    Schema.encodeKeys({
+      allowedMatchCount: "allowed_match_count",
+      aiContextEnabled: "ai_context_enabled",
+      confidenceThreshold: "confidence_threshold",
+      contextAwareness: "context_awareness",
+      ocrEnabled: "ocr_enabled",
+      openAccess: "open_access",
+    }),
+  ),
   Schema.Struct({
     id: Schema.String,
-    createdAt: Schema.String.pipe(T.JsonName("created_at")),
+    createdAt: Schema.String,
     entries: Schema.Array(
-      Schema.Union(
+      Schema.Union([
         Schema.Struct({
           id: Schema.String,
-          createdAt: Schema.String.pipe(T.JsonName("created_at")),
+          createdAt: Schema.String,
           enabled: Schema.Boolean,
           name: Schema.String,
           pattern: Schema.Unknown,
           type: Schema.Literal("custom"),
-          updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
+          updatedAt: Schema.String,
           profileId: Schema.optional(
-            Schema.Union(Schema.String, Schema.Null),
-          ).pipe(T.JsonName("profile_id")),
-        }),
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+        }).pipe(
+          Schema.encodeKeys({
+            createdAt: "created_at",
+            updatedAt: "updated_at",
+            profileId: "profile_id",
+          }),
+        ),
         Schema.Struct({
           id: Schema.String,
           confidence: Schema.Struct({
-            aiContextAvailable: Schema.Boolean.pipe(
-              T.JsonName("ai_context_available"),
-            ),
+            aiContextAvailable: Schema.Boolean,
             available: Schema.Boolean,
-          }),
+          }).pipe(
+            Schema.encodeKeys({ aiContextAvailable: "ai_context_available" }),
+          ),
           enabled: Schema.Boolean,
           name: Schema.String,
           type: Schema.Literal("predefined"),
           profileId: Schema.optional(
-            Schema.Union(Schema.String, Schema.Null),
-          ).pipe(T.JsonName("profile_id")),
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
           variant: Schema.optional(
             Schema.Struct({
-              topicType: Schema.Literal("Intent", "Content").pipe(
-                T.JsonName("topic_type"),
-              ),
+              topicType: Schema.Literals(["Intent", "Content"]),
               type: Schema.Literal("PromptTopic"),
               description: Schema.optional(
-                Schema.Union(Schema.String, Schema.Null),
+                Schema.Union([Schema.String, Schema.Null]),
               ),
-            }),
+            }).pipe(Schema.encodeKeys({ topicType: "topic_type" })),
           ),
-        }),
+        }).pipe(Schema.encodeKeys({ profileId: "profile_id" })),
         Schema.Struct({
           id: Schema.String,
-          createdAt: Schema.String.pipe(T.JsonName("created_at")),
+          createdAt: Schema.String,
           enabled: Schema.Boolean,
           name: Schema.String,
           type: Schema.Literal("integration"),
-          updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
+          updatedAt: Schema.String,
           profileId: Schema.optional(
-            Schema.Union(Schema.String, Schema.Null),
-          ).pipe(T.JsonName("profile_id")),
-        }),
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+        }).pipe(
+          Schema.encodeKeys({
+            createdAt: "created_at",
+            updatedAt: "updated_at",
+            profileId: "profile_id",
+          }),
+        ),
         Schema.Struct({
           id: Schema.String,
-          caseSensitive: Schema.Boolean.pipe(T.JsonName("case_sensitive")),
-          createdAt: Schema.String.pipe(T.JsonName("created_at")),
+          caseSensitive: Schema.Boolean,
+          createdAt: Schema.String,
           enabled: Schema.Boolean,
           name: Schema.String,
           secret: Schema.Boolean,
           type: Schema.Literal("exact_data"),
-          updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
-        }),
+          updatedAt: Schema.String,
+        }).pipe(
+          Schema.encodeKeys({
+            caseSensitive: "case_sensitive",
+            createdAt: "created_at",
+            updatedAt: "updated_at",
+          }),
+        ),
         Schema.Struct({
           id: Schema.String,
-          createdAt: Schema.String.pipe(T.JsonName("created_at")),
+          createdAt: Schema.String,
           enabled: Schema.Boolean,
           name: Schema.String,
           type: Schema.Literal("document_fingerprint"),
-          updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
-        }),
+          updatedAt: Schema.String,
+        }).pipe(
+          Schema.encodeKeys({
+            createdAt: "created_at",
+            updatedAt: "updated_at",
+          }),
+        ),
         Schema.Struct({
           id: Schema.String,
-          createdAt: Schema.String.pipe(T.JsonName("created_at")),
+          createdAt: Schema.String,
           enabled: Schema.Boolean,
           name: Schema.String,
           type: Schema.Literal("word_list"),
-          updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
-          wordList: Schema.Unknown.pipe(T.JsonName("word_list")),
+          updatedAt: Schema.String,
+          wordList: Schema.Unknown,
           profileId: Schema.optional(
-            Schema.Union(Schema.String, Schema.Null),
-          ).pipe(T.JsonName("profile_id")),
-        }),
-      ),
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+        }).pipe(
+          Schema.encodeKeys({
+            createdAt: "created_at",
+            updatedAt: "updated_at",
+            wordList: "word_list",
+            profileId: "profile_id",
+          }),
+        ),
+      ]),
     ),
     name: Schema.String,
     type: Schema.Literal("integration"),
-    updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
-    description: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
-  }),
-) as unknown as Schema.Schema<GetDlpProfileCustomResponse>;
+    updatedAt: Schema.String,
+    description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  }).pipe(
+    Schema.encodeKeys({ createdAt: "created_at", updatedAt: "updated_at" }),
+  ),
+]) as unknown as Schema.Schema<GetDlpProfileCustomResponse>;
 
 export const getDlpProfileCustom: (
   input: GetDlpProfileCustomRequest,
@@ -18567,22 +19523,16 @@ export interface CreateDlpProfileCustomRequest {
 export const CreateDlpProfileCustomRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   name: Schema.String,
-  aiContextEnabled: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("ai_context_enabled"),
-  ),
-  allowedMatchCount: Schema.optional(Schema.Number).pipe(
-    T.JsonName("allowed_match_count"),
-  ),
+  aiContextEnabled: Schema.optional(Schema.Boolean),
+  allowedMatchCount: Schema.optional(Schema.Number),
   confidenceThreshold: Schema.optional(
-    Schema.Union(Schema.String, Schema.Null),
-  ).pipe(T.JsonName("confidence_threshold")),
-  contextAwareness: Schema.optional(Schema.Unknown).pipe(
-    T.JsonName("context_awareness"),
+    Schema.Union([Schema.String, Schema.Null]),
   ),
-  description: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
+  contextAwareness: Schema.optional(Schema.Unknown),
+  description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   entries: Schema.optional(
     Schema.Array(
-      Schema.Union(
+      Schema.Union([
         Schema.Struct({
           enabled: Schema.Boolean,
           name: Schema.String,
@@ -18593,19 +19543,27 @@ export const CreateDlpProfileCustomRequest = Schema.Struct({
           name: Schema.String,
           words: Schema.Array(Schema.String),
         }),
-      ),
+      ]),
     ),
   ),
-  ocrEnabled: Schema.optional(Schema.Boolean).pipe(T.JsonName("ocr_enabled")),
+  ocrEnabled: Schema.optional(Schema.Boolean),
   sharedEntries: Schema.optional(
     Schema.Array(
       Schema.Struct({
         enabled: Schema.Boolean,
-        entryId: Schema.String.pipe(T.JsonName("entry_id")),
-      }),
+        entryId: Schema.String,
+      }).pipe(Schema.encodeKeys({ entryId: "entry_id" })),
     ),
-  ).pipe(T.JsonName("shared_entries")),
+  ),
 }).pipe(
+  Schema.encodeKeys({
+    aiContextEnabled: "ai_context_enabled",
+    allowedMatchCount: "allowed_match_count",
+    confidenceThreshold: "confidence_threshold",
+    contextAwareness: "context_awareness",
+    ocrEnabled: "ocr_enabled",
+    sharedEntries: "shared_entries",
+  }),
   T.Http({
     method: "POST",
     path: "/accounts/{account_id}/dlp/profiles/custom",
@@ -18832,303 +19790,400 @@ export type CreateDlpProfileCustomResponse =
       description?: string | null;
     };
 
-export const CreateDlpProfileCustomResponse = Schema.Union(
+export const CreateDlpProfileCustomResponse = Schema.Union([
   Schema.Struct({
     id: Schema.String,
-    allowedMatchCount: Schema.Number.pipe(T.JsonName("allowed_match_count")),
-    createdAt: Schema.String.pipe(T.JsonName("created_at")),
+    allowedMatchCount: Schema.Number,
+    createdAt: Schema.String,
     name: Schema.String,
-    ocrEnabled: Schema.Boolean.pipe(T.JsonName("ocr_enabled")),
+    ocrEnabled: Schema.Boolean,
     type: Schema.Literal("custom"),
-    updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
-    aiContextEnabled: Schema.optional(Schema.Boolean).pipe(
-      T.JsonName("ai_context_enabled"),
-    ),
+    updatedAt: Schema.String,
+    aiContextEnabled: Schema.optional(Schema.Boolean),
     confidenceThreshold: Schema.optional(
-      Schema.Literal("low", "medium", "high", "very_high"),
-    ).pipe(T.JsonName("confidence_threshold")),
-    contextAwareness: Schema.optional(Schema.Unknown).pipe(
-      T.JsonName("context_awareness"),
+      Schema.Literals(["low", "medium", "high", "very_high"]),
     ),
-    description: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
+    contextAwareness: Schema.optional(Schema.Unknown),
+    description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     entries: Schema.optional(
       Schema.Array(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
             id: Schema.String,
-            createdAt: Schema.String.pipe(T.JsonName("created_at")),
+            createdAt: Schema.String,
             enabled: Schema.Boolean,
             name: Schema.String,
             pattern: Schema.Unknown,
             type: Schema.Literal("custom"),
-            updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
+            updatedAt: Schema.String,
             profileId: Schema.optional(
-              Schema.Union(Schema.String, Schema.Null),
-            ).pipe(T.JsonName("profile_id")),
-          }),
+              Schema.Union([Schema.String, Schema.Null]),
+            ),
+          }).pipe(
+            Schema.encodeKeys({
+              createdAt: "created_at",
+              updatedAt: "updated_at",
+              profileId: "profile_id",
+            }),
+          ),
           Schema.Struct({
             id: Schema.String,
             confidence: Schema.Struct({
-              aiContextAvailable: Schema.Boolean.pipe(
-                T.JsonName("ai_context_available"),
-              ),
+              aiContextAvailable: Schema.Boolean,
               available: Schema.Boolean,
-            }),
+            }).pipe(
+              Schema.encodeKeys({ aiContextAvailable: "ai_context_available" }),
+            ),
             enabled: Schema.Boolean,
             name: Schema.String,
             type: Schema.Literal("predefined"),
             profileId: Schema.optional(
-              Schema.Union(Schema.String, Schema.Null),
-            ).pipe(T.JsonName("profile_id")),
+              Schema.Union([Schema.String, Schema.Null]),
+            ),
             variant: Schema.optional(
               Schema.Struct({
-                topicType: Schema.Literal("Intent", "Content").pipe(
-                  T.JsonName("topic_type"),
-                ),
+                topicType: Schema.Literals(["Intent", "Content"]),
                 type: Schema.Literal("PromptTopic"),
                 description: Schema.optional(
-                  Schema.Union(Schema.String, Schema.Null),
+                  Schema.Union([Schema.String, Schema.Null]),
                 ),
-              }),
+              }).pipe(Schema.encodeKeys({ topicType: "topic_type" })),
             ),
-          }),
+          }).pipe(Schema.encodeKeys({ profileId: "profile_id" })),
           Schema.Struct({
             id: Schema.String,
-            createdAt: Schema.String.pipe(T.JsonName("created_at")),
+            createdAt: Schema.String,
             enabled: Schema.Boolean,
             name: Schema.String,
             type: Schema.Literal("integration"),
-            updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
+            updatedAt: Schema.String,
             profileId: Schema.optional(
-              Schema.Union(Schema.String, Schema.Null),
-            ).pipe(T.JsonName("profile_id")),
-          }),
+              Schema.Union([Schema.String, Schema.Null]),
+            ),
+          }).pipe(
+            Schema.encodeKeys({
+              createdAt: "created_at",
+              updatedAt: "updated_at",
+              profileId: "profile_id",
+            }),
+          ),
           Schema.Struct({
             id: Schema.String,
-            caseSensitive: Schema.Boolean.pipe(T.JsonName("case_sensitive")),
-            createdAt: Schema.String.pipe(T.JsonName("created_at")),
+            caseSensitive: Schema.Boolean,
+            createdAt: Schema.String,
             enabled: Schema.Boolean,
             name: Schema.String,
             secret: Schema.Boolean,
             type: Schema.Literal("exact_data"),
-            updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
-          }),
+            updatedAt: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({
+              caseSensitive: "case_sensitive",
+              createdAt: "created_at",
+              updatedAt: "updated_at",
+            }),
+          ),
           Schema.Struct({
             id: Schema.String,
-            createdAt: Schema.String.pipe(T.JsonName("created_at")),
+            createdAt: Schema.String,
             enabled: Schema.Boolean,
             name: Schema.String,
             type: Schema.Literal("document_fingerprint"),
-            updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
-          }),
+            updatedAt: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({
+              createdAt: "created_at",
+              updatedAt: "updated_at",
+            }),
+          ),
           Schema.Struct({
             id: Schema.String,
-            createdAt: Schema.String.pipe(T.JsonName("created_at")),
+            createdAt: Schema.String,
             enabled: Schema.Boolean,
             name: Schema.String,
             type: Schema.Literal("word_list"),
-            updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
-            wordList: Schema.Unknown.pipe(T.JsonName("word_list")),
+            updatedAt: Schema.String,
+            wordList: Schema.Unknown,
             profileId: Schema.optional(
-              Schema.Union(Schema.String, Schema.Null),
-            ).pipe(T.JsonName("profile_id")),
-          }),
-        ),
+              Schema.Union([Schema.String, Schema.Null]),
+            ),
+          }).pipe(
+            Schema.encodeKeys({
+              createdAt: "created_at",
+              updatedAt: "updated_at",
+              wordList: "word_list",
+              profileId: "profile_id",
+            }),
+          ),
+        ]),
       ),
     ),
-  }),
+  }).pipe(
+    Schema.encodeKeys({
+      allowedMatchCount: "allowed_match_count",
+      createdAt: "created_at",
+      ocrEnabled: "ocr_enabled",
+      updatedAt: "updated_at",
+      aiContextEnabled: "ai_context_enabled",
+      confidenceThreshold: "confidence_threshold",
+      contextAwareness: "context_awareness",
+    }),
+  ),
   Schema.Struct({
     id: Schema.String,
-    allowedMatchCount: Schema.Number.pipe(T.JsonName("allowed_match_count")),
+    allowedMatchCount: Schema.Number,
     entries: Schema.Array(
-      Schema.Union(
+      Schema.Union([
         Schema.Struct({
           id: Schema.String,
-          createdAt: Schema.String.pipe(T.JsonName("created_at")),
+          createdAt: Schema.String,
           enabled: Schema.Boolean,
           name: Schema.String,
           pattern: Schema.Unknown,
           type: Schema.Literal("custom"),
-          updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
+          updatedAt: Schema.String,
           profileId: Schema.optional(
-            Schema.Union(Schema.String, Schema.Null),
-          ).pipe(T.JsonName("profile_id")),
-        }),
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+        }).pipe(
+          Schema.encodeKeys({
+            createdAt: "created_at",
+            updatedAt: "updated_at",
+            profileId: "profile_id",
+          }),
+        ),
         Schema.Struct({
           id: Schema.String,
           confidence: Schema.Struct({
-            aiContextAvailable: Schema.Boolean.pipe(
-              T.JsonName("ai_context_available"),
-            ),
+            aiContextAvailable: Schema.Boolean,
             available: Schema.Boolean,
-          }),
+          }).pipe(
+            Schema.encodeKeys({ aiContextAvailable: "ai_context_available" }),
+          ),
           enabled: Schema.Boolean,
           name: Schema.String,
           type: Schema.Literal("predefined"),
           profileId: Schema.optional(
-            Schema.Union(Schema.String, Schema.Null),
-          ).pipe(T.JsonName("profile_id")),
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
           variant: Schema.optional(
             Schema.Struct({
-              topicType: Schema.Literal("Intent", "Content").pipe(
-                T.JsonName("topic_type"),
-              ),
+              topicType: Schema.Literals(["Intent", "Content"]),
               type: Schema.Literal("PromptTopic"),
               description: Schema.optional(
-                Schema.Union(Schema.String, Schema.Null),
+                Schema.Union([Schema.String, Schema.Null]),
               ),
-            }),
+            }).pipe(Schema.encodeKeys({ topicType: "topic_type" })),
           ),
-        }),
+        }).pipe(Schema.encodeKeys({ profileId: "profile_id" })),
         Schema.Struct({
           id: Schema.String,
-          createdAt: Schema.String.pipe(T.JsonName("created_at")),
+          createdAt: Schema.String,
           enabled: Schema.Boolean,
           name: Schema.String,
           type: Schema.Literal("integration"),
-          updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
+          updatedAt: Schema.String,
           profileId: Schema.optional(
-            Schema.Union(Schema.String, Schema.Null),
-          ).pipe(T.JsonName("profile_id")),
-        }),
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+        }).pipe(
+          Schema.encodeKeys({
+            createdAt: "created_at",
+            updatedAt: "updated_at",
+            profileId: "profile_id",
+          }),
+        ),
         Schema.Struct({
           id: Schema.String,
-          caseSensitive: Schema.Boolean.pipe(T.JsonName("case_sensitive")),
-          createdAt: Schema.String.pipe(T.JsonName("created_at")),
+          caseSensitive: Schema.Boolean,
+          createdAt: Schema.String,
           enabled: Schema.Boolean,
           name: Schema.String,
           secret: Schema.Boolean,
           type: Schema.Literal("exact_data"),
-          updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
-        }),
+          updatedAt: Schema.String,
+        }).pipe(
+          Schema.encodeKeys({
+            caseSensitive: "case_sensitive",
+            createdAt: "created_at",
+            updatedAt: "updated_at",
+          }),
+        ),
         Schema.Struct({
           id: Schema.String,
-          createdAt: Schema.String.pipe(T.JsonName("created_at")),
+          createdAt: Schema.String,
           enabled: Schema.Boolean,
           name: Schema.String,
           type: Schema.Literal("document_fingerprint"),
-          updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
-        }),
+          updatedAt: Schema.String,
+        }).pipe(
+          Schema.encodeKeys({
+            createdAt: "created_at",
+            updatedAt: "updated_at",
+          }),
+        ),
         Schema.Struct({
           id: Schema.String,
-          createdAt: Schema.String.pipe(T.JsonName("created_at")),
+          createdAt: Schema.String,
           enabled: Schema.Boolean,
           name: Schema.String,
           type: Schema.Literal("word_list"),
-          updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
-          wordList: Schema.Unknown.pipe(T.JsonName("word_list")),
+          updatedAt: Schema.String,
+          wordList: Schema.Unknown,
           profileId: Schema.optional(
-            Schema.Union(Schema.String, Schema.Null),
-          ).pipe(T.JsonName("profile_id")),
-        }),
-      ),
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+        }).pipe(
+          Schema.encodeKeys({
+            createdAt: "created_at",
+            updatedAt: "updated_at",
+            wordList: "word_list",
+            profileId: "profile_id",
+          }),
+        ),
+      ]),
     ),
     name: Schema.String,
     type: Schema.Literal("predefined"),
-    aiContextEnabled: Schema.optional(Schema.Boolean).pipe(
-      T.JsonName("ai_context_enabled"),
-    ),
+    aiContextEnabled: Schema.optional(Schema.Boolean),
     confidenceThreshold: Schema.optional(
-      Schema.Literal("low", "medium", "high", "very_high"),
-    ).pipe(T.JsonName("confidence_threshold")),
-    contextAwareness: Schema.optional(Schema.Unknown).pipe(
-      T.JsonName("context_awareness"),
+      Schema.Literals(["low", "medium", "high", "very_high"]),
     ),
-    ocrEnabled: Schema.optional(Schema.Boolean).pipe(T.JsonName("ocr_enabled")),
-    openAccess: Schema.optional(Schema.Boolean).pipe(T.JsonName("open_access")),
-  }),
+    contextAwareness: Schema.optional(Schema.Unknown),
+    ocrEnabled: Schema.optional(Schema.Boolean),
+    openAccess: Schema.optional(Schema.Boolean),
+  }).pipe(
+    Schema.encodeKeys({
+      allowedMatchCount: "allowed_match_count",
+      aiContextEnabled: "ai_context_enabled",
+      confidenceThreshold: "confidence_threshold",
+      contextAwareness: "context_awareness",
+      ocrEnabled: "ocr_enabled",
+      openAccess: "open_access",
+    }),
+  ),
   Schema.Struct({
     id: Schema.String,
-    createdAt: Schema.String.pipe(T.JsonName("created_at")),
+    createdAt: Schema.String,
     entries: Schema.Array(
-      Schema.Union(
+      Schema.Union([
         Schema.Struct({
           id: Schema.String,
-          createdAt: Schema.String.pipe(T.JsonName("created_at")),
+          createdAt: Schema.String,
           enabled: Schema.Boolean,
           name: Schema.String,
           pattern: Schema.Unknown,
           type: Schema.Literal("custom"),
-          updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
+          updatedAt: Schema.String,
           profileId: Schema.optional(
-            Schema.Union(Schema.String, Schema.Null),
-          ).pipe(T.JsonName("profile_id")),
-        }),
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+        }).pipe(
+          Schema.encodeKeys({
+            createdAt: "created_at",
+            updatedAt: "updated_at",
+            profileId: "profile_id",
+          }),
+        ),
         Schema.Struct({
           id: Schema.String,
           confidence: Schema.Struct({
-            aiContextAvailable: Schema.Boolean.pipe(
-              T.JsonName("ai_context_available"),
-            ),
+            aiContextAvailable: Schema.Boolean,
             available: Schema.Boolean,
-          }),
+          }).pipe(
+            Schema.encodeKeys({ aiContextAvailable: "ai_context_available" }),
+          ),
           enabled: Schema.Boolean,
           name: Schema.String,
           type: Schema.Literal("predefined"),
           profileId: Schema.optional(
-            Schema.Union(Schema.String, Schema.Null),
-          ).pipe(T.JsonName("profile_id")),
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
           variant: Schema.optional(
             Schema.Struct({
-              topicType: Schema.Literal("Intent", "Content").pipe(
-                T.JsonName("topic_type"),
-              ),
+              topicType: Schema.Literals(["Intent", "Content"]),
               type: Schema.Literal("PromptTopic"),
               description: Schema.optional(
-                Schema.Union(Schema.String, Schema.Null),
+                Schema.Union([Schema.String, Schema.Null]),
               ),
-            }),
+            }).pipe(Schema.encodeKeys({ topicType: "topic_type" })),
           ),
-        }),
+        }).pipe(Schema.encodeKeys({ profileId: "profile_id" })),
         Schema.Struct({
           id: Schema.String,
-          createdAt: Schema.String.pipe(T.JsonName("created_at")),
+          createdAt: Schema.String,
           enabled: Schema.Boolean,
           name: Schema.String,
           type: Schema.Literal("integration"),
-          updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
+          updatedAt: Schema.String,
           profileId: Schema.optional(
-            Schema.Union(Schema.String, Schema.Null),
-          ).pipe(T.JsonName("profile_id")),
-        }),
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+        }).pipe(
+          Schema.encodeKeys({
+            createdAt: "created_at",
+            updatedAt: "updated_at",
+            profileId: "profile_id",
+          }),
+        ),
         Schema.Struct({
           id: Schema.String,
-          caseSensitive: Schema.Boolean.pipe(T.JsonName("case_sensitive")),
-          createdAt: Schema.String.pipe(T.JsonName("created_at")),
+          caseSensitive: Schema.Boolean,
+          createdAt: Schema.String,
           enabled: Schema.Boolean,
           name: Schema.String,
           secret: Schema.Boolean,
           type: Schema.Literal("exact_data"),
-          updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
-        }),
+          updatedAt: Schema.String,
+        }).pipe(
+          Schema.encodeKeys({
+            caseSensitive: "case_sensitive",
+            createdAt: "created_at",
+            updatedAt: "updated_at",
+          }),
+        ),
         Schema.Struct({
           id: Schema.String,
-          createdAt: Schema.String.pipe(T.JsonName("created_at")),
+          createdAt: Schema.String,
           enabled: Schema.Boolean,
           name: Schema.String,
           type: Schema.Literal("document_fingerprint"),
-          updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
-        }),
+          updatedAt: Schema.String,
+        }).pipe(
+          Schema.encodeKeys({
+            createdAt: "created_at",
+            updatedAt: "updated_at",
+          }),
+        ),
         Schema.Struct({
           id: Schema.String,
-          createdAt: Schema.String.pipe(T.JsonName("created_at")),
+          createdAt: Schema.String,
           enabled: Schema.Boolean,
           name: Schema.String,
           type: Schema.Literal("word_list"),
-          updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
-          wordList: Schema.Unknown.pipe(T.JsonName("word_list")),
+          updatedAt: Schema.String,
+          wordList: Schema.Unknown,
           profileId: Schema.optional(
-            Schema.Union(Schema.String, Schema.Null),
-          ).pipe(T.JsonName("profile_id")),
-        }),
-      ),
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+        }).pipe(
+          Schema.encodeKeys({
+            createdAt: "created_at",
+            updatedAt: "updated_at",
+            wordList: "word_list",
+            profileId: "profile_id",
+          }),
+        ),
+      ]),
     ),
     name: Schema.String,
     type: Schema.Literal("integration"),
-    updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
-    description: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
-  }),
-) as unknown as Schema.Schema<CreateDlpProfileCustomResponse>;
+    updatedAt: Schema.String,
+    description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  }).pipe(
+    Schema.encodeKeys({ createdAt: "created_at", updatedAt: "updated_at" }),
+  ),
+]) as unknown as Schema.Schema<CreateDlpProfileCustomResponse>;
 
 export const createDlpProfileCustom: (
   input: CreateDlpProfileCustomRequest,
@@ -19175,49 +20230,53 @@ export const UpdateDlpProfileCustomRequest = Schema.Struct({
   profileId: Schema.String.pipe(T.HttpPath("profileId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   name: Schema.String,
-  aiContextEnabled: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("ai_context_enabled"),
-  ),
+  aiContextEnabled: Schema.optional(Schema.Boolean),
   allowedMatchCount: Schema.optional(
-    Schema.Union(Schema.Number, Schema.Null),
-  ).pipe(T.JsonName("allowed_match_count")),
-  confidenceThreshold: Schema.optional(
-    Schema.Union(Schema.String, Schema.Null),
-  ).pipe(T.JsonName("confidence_threshold")),
-  contextAwareness: Schema.optional(Schema.Unknown).pipe(
-    T.JsonName("context_awareness"),
+    Schema.Union([Schema.Number, Schema.Null]),
   ),
-  description: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
+  confidenceThreshold: Schema.optional(
+    Schema.Union([Schema.String, Schema.Null]),
+  ),
+  contextAwareness: Schema.optional(Schema.Unknown),
+  description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   entries: Schema.optional(
-    Schema.Union(
+    Schema.Union([
       Schema.Array(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
             enabled: Schema.Boolean,
-            entryId: Schema.String.pipe(T.JsonName("entry_id")),
+            entryId: Schema.String,
+            name: Schema.String,
+            pattern: Schema.Unknown,
+          }).pipe(Schema.encodeKeys({ entryId: "entry_id" })),
+          Schema.Struct({
+            enabled: Schema.Boolean,
             name: Schema.String,
             pattern: Schema.Unknown,
           }),
-          Schema.Struct({
-            enabled: Schema.Boolean,
-            name: Schema.String,
-            pattern: Schema.Unknown,
-          }),
-        ),
+        ]),
       ),
       Schema.Null,
-    ),
+    ]),
   ),
-  ocrEnabled: Schema.optional(Schema.Boolean).pipe(T.JsonName("ocr_enabled")),
+  ocrEnabled: Schema.optional(Schema.Boolean),
   sharedEntries: Schema.optional(
     Schema.Array(
       Schema.Struct({
         enabled: Schema.Boolean,
-        entryId: Schema.String.pipe(T.JsonName("entry_id")),
-      }),
+        entryId: Schema.String,
+      }).pipe(Schema.encodeKeys({ entryId: "entry_id" })),
     ),
-  ).pipe(T.JsonName("shared_entries")),
+  ),
 }).pipe(
+  Schema.encodeKeys({
+    aiContextEnabled: "ai_context_enabled",
+    allowedMatchCount: "allowed_match_count",
+    confidenceThreshold: "confidence_threshold",
+    contextAwareness: "context_awareness",
+    ocrEnabled: "ocr_enabled",
+    sharedEntries: "shared_entries",
+  }),
   T.Http({
     method: "PUT",
     path: "/accounts/{account_id}/dlp/profiles/custom/{profileId}",
@@ -19444,303 +20503,400 @@ export type UpdateDlpProfileCustomResponse =
       description?: string | null;
     };
 
-export const UpdateDlpProfileCustomResponse = Schema.Union(
+export const UpdateDlpProfileCustomResponse = Schema.Union([
   Schema.Struct({
     id: Schema.String,
-    allowedMatchCount: Schema.Number.pipe(T.JsonName("allowed_match_count")),
-    createdAt: Schema.String.pipe(T.JsonName("created_at")),
+    allowedMatchCount: Schema.Number,
+    createdAt: Schema.String,
     name: Schema.String,
-    ocrEnabled: Schema.Boolean.pipe(T.JsonName("ocr_enabled")),
+    ocrEnabled: Schema.Boolean,
     type: Schema.Literal("custom"),
-    updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
-    aiContextEnabled: Schema.optional(Schema.Boolean).pipe(
-      T.JsonName("ai_context_enabled"),
-    ),
+    updatedAt: Schema.String,
+    aiContextEnabled: Schema.optional(Schema.Boolean),
     confidenceThreshold: Schema.optional(
-      Schema.Literal("low", "medium", "high", "very_high"),
-    ).pipe(T.JsonName("confidence_threshold")),
-    contextAwareness: Schema.optional(Schema.Unknown).pipe(
-      T.JsonName("context_awareness"),
+      Schema.Literals(["low", "medium", "high", "very_high"]),
     ),
-    description: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
+    contextAwareness: Schema.optional(Schema.Unknown),
+    description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     entries: Schema.optional(
       Schema.Array(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
             id: Schema.String,
-            createdAt: Schema.String.pipe(T.JsonName("created_at")),
+            createdAt: Schema.String,
             enabled: Schema.Boolean,
             name: Schema.String,
             pattern: Schema.Unknown,
             type: Schema.Literal("custom"),
-            updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
+            updatedAt: Schema.String,
             profileId: Schema.optional(
-              Schema.Union(Schema.String, Schema.Null),
-            ).pipe(T.JsonName("profile_id")),
-          }),
+              Schema.Union([Schema.String, Schema.Null]),
+            ),
+          }).pipe(
+            Schema.encodeKeys({
+              createdAt: "created_at",
+              updatedAt: "updated_at",
+              profileId: "profile_id",
+            }),
+          ),
           Schema.Struct({
             id: Schema.String,
             confidence: Schema.Struct({
-              aiContextAvailable: Schema.Boolean.pipe(
-                T.JsonName("ai_context_available"),
-              ),
+              aiContextAvailable: Schema.Boolean,
               available: Schema.Boolean,
-            }),
+            }).pipe(
+              Schema.encodeKeys({ aiContextAvailable: "ai_context_available" }),
+            ),
             enabled: Schema.Boolean,
             name: Schema.String,
             type: Schema.Literal("predefined"),
             profileId: Schema.optional(
-              Schema.Union(Schema.String, Schema.Null),
-            ).pipe(T.JsonName("profile_id")),
+              Schema.Union([Schema.String, Schema.Null]),
+            ),
             variant: Schema.optional(
               Schema.Struct({
-                topicType: Schema.Literal("Intent", "Content").pipe(
-                  T.JsonName("topic_type"),
-                ),
+                topicType: Schema.Literals(["Intent", "Content"]),
                 type: Schema.Literal("PromptTopic"),
                 description: Schema.optional(
-                  Schema.Union(Schema.String, Schema.Null),
+                  Schema.Union([Schema.String, Schema.Null]),
                 ),
-              }),
+              }).pipe(Schema.encodeKeys({ topicType: "topic_type" })),
             ),
-          }),
+          }).pipe(Schema.encodeKeys({ profileId: "profile_id" })),
           Schema.Struct({
             id: Schema.String,
-            createdAt: Schema.String.pipe(T.JsonName("created_at")),
+            createdAt: Schema.String,
             enabled: Schema.Boolean,
             name: Schema.String,
             type: Schema.Literal("integration"),
-            updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
+            updatedAt: Schema.String,
             profileId: Schema.optional(
-              Schema.Union(Schema.String, Schema.Null),
-            ).pipe(T.JsonName("profile_id")),
-          }),
+              Schema.Union([Schema.String, Schema.Null]),
+            ),
+          }).pipe(
+            Schema.encodeKeys({
+              createdAt: "created_at",
+              updatedAt: "updated_at",
+              profileId: "profile_id",
+            }),
+          ),
           Schema.Struct({
             id: Schema.String,
-            caseSensitive: Schema.Boolean.pipe(T.JsonName("case_sensitive")),
-            createdAt: Schema.String.pipe(T.JsonName("created_at")),
+            caseSensitive: Schema.Boolean,
+            createdAt: Schema.String,
             enabled: Schema.Boolean,
             name: Schema.String,
             secret: Schema.Boolean,
             type: Schema.Literal("exact_data"),
-            updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
-          }),
+            updatedAt: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({
+              caseSensitive: "case_sensitive",
+              createdAt: "created_at",
+              updatedAt: "updated_at",
+            }),
+          ),
           Schema.Struct({
             id: Schema.String,
-            createdAt: Schema.String.pipe(T.JsonName("created_at")),
+            createdAt: Schema.String,
             enabled: Schema.Boolean,
             name: Schema.String,
             type: Schema.Literal("document_fingerprint"),
-            updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
-          }),
+            updatedAt: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({
+              createdAt: "created_at",
+              updatedAt: "updated_at",
+            }),
+          ),
           Schema.Struct({
             id: Schema.String,
-            createdAt: Schema.String.pipe(T.JsonName("created_at")),
+            createdAt: Schema.String,
             enabled: Schema.Boolean,
             name: Schema.String,
             type: Schema.Literal("word_list"),
-            updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
-            wordList: Schema.Unknown.pipe(T.JsonName("word_list")),
+            updatedAt: Schema.String,
+            wordList: Schema.Unknown,
             profileId: Schema.optional(
-              Schema.Union(Schema.String, Schema.Null),
-            ).pipe(T.JsonName("profile_id")),
-          }),
-        ),
+              Schema.Union([Schema.String, Schema.Null]),
+            ),
+          }).pipe(
+            Schema.encodeKeys({
+              createdAt: "created_at",
+              updatedAt: "updated_at",
+              wordList: "word_list",
+              profileId: "profile_id",
+            }),
+          ),
+        ]),
       ),
     ),
-  }),
+  }).pipe(
+    Schema.encodeKeys({
+      allowedMatchCount: "allowed_match_count",
+      createdAt: "created_at",
+      ocrEnabled: "ocr_enabled",
+      updatedAt: "updated_at",
+      aiContextEnabled: "ai_context_enabled",
+      confidenceThreshold: "confidence_threshold",
+      contextAwareness: "context_awareness",
+    }),
+  ),
   Schema.Struct({
     id: Schema.String,
-    allowedMatchCount: Schema.Number.pipe(T.JsonName("allowed_match_count")),
+    allowedMatchCount: Schema.Number,
     entries: Schema.Array(
-      Schema.Union(
+      Schema.Union([
         Schema.Struct({
           id: Schema.String,
-          createdAt: Schema.String.pipe(T.JsonName("created_at")),
+          createdAt: Schema.String,
           enabled: Schema.Boolean,
           name: Schema.String,
           pattern: Schema.Unknown,
           type: Schema.Literal("custom"),
-          updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
+          updatedAt: Schema.String,
           profileId: Schema.optional(
-            Schema.Union(Schema.String, Schema.Null),
-          ).pipe(T.JsonName("profile_id")),
-        }),
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+        }).pipe(
+          Schema.encodeKeys({
+            createdAt: "created_at",
+            updatedAt: "updated_at",
+            profileId: "profile_id",
+          }),
+        ),
         Schema.Struct({
           id: Schema.String,
           confidence: Schema.Struct({
-            aiContextAvailable: Schema.Boolean.pipe(
-              T.JsonName("ai_context_available"),
-            ),
+            aiContextAvailable: Schema.Boolean,
             available: Schema.Boolean,
-          }),
+          }).pipe(
+            Schema.encodeKeys({ aiContextAvailable: "ai_context_available" }),
+          ),
           enabled: Schema.Boolean,
           name: Schema.String,
           type: Schema.Literal("predefined"),
           profileId: Schema.optional(
-            Schema.Union(Schema.String, Schema.Null),
-          ).pipe(T.JsonName("profile_id")),
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
           variant: Schema.optional(
             Schema.Struct({
-              topicType: Schema.Literal("Intent", "Content").pipe(
-                T.JsonName("topic_type"),
-              ),
+              topicType: Schema.Literals(["Intent", "Content"]),
               type: Schema.Literal("PromptTopic"),
               description: Schema.optional(
-                Schema.Union(Schema.String, Schema.Null),
+                Schema.Union([Schema.String, Schema.Null]),
               ),
-            }),
+            }).pipe(Schema.encodeKeys({ topicType: "topic_type" })),
           ),
-        }),
+        }).pipe(Schema.encodeKeys({ profileId: "profile_id" })),
         Schema.Struct({
           id: Schema.String,
-          createdAt: Schema.String.pipe(T.JsonName("created_at")),
+          createdAt: Schema.String,
           enabled: Schema.Boolean,
           name: Schema.String,
           type: Schema.Literal("integration"),
-          updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
+          updatedAt: Schema.String,
           profileId: Schema.optional(
-            Schema.Union(Schema.String, Schema.Null),
-          ).pipe(T.JsonName("profile_id")),
-        }),
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+        }).pipe(
+          Schema.encodeKeys({
+            createdAt: "created_at",
+            updatedAt: "updated_at",
+            profileId: "profile_id",
+          }),
+        ),
         Schema.Struct({
           id: Schema.String,
-          caseSensitive: Schema.Boolean.pipe(T.JsonName("case_sensitive")),
-          createdAt: Schema.String.pipe(T.JsonName("created_at")),
+          caseSensitive: Schema.Boolean,
+          createdAt: Schema.String,
           enabled: Schema.Boolean,
           name: Schema.String,
           secret: Schema.Boolean,
           type: Schema.Literal("exact_data"),
-          updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
-        }),
+          updatedAt: Schema.String,
+        }).pipe(
+          Schema.encodeKeys({
+            caseSensitive: "case_sensitive",
+            createdAt: "created_at",
+            updatedAt: "updated_at",
+          }),
+        ),
         Schema.Struct({
           id: Schema.String,
-          createdAt: Schema.String.pipe(T.JsonName("created_at")),
+          createdAt: Schema.String,
           enabled: Schema.Boolean,
           name: Schema.String,
           type: Schema.Literal("document_fingerprint"),
-          updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
-        }),
+          updatedAt: Schema.String,
+        }).pipe(
+          Schema.encodeKeys({
+            createdAt: "created_at",
+            updatedAt: "updated_at",
+          }),
+        ),
         Schema.Struct({
           id: Schema.String,
-          createdAt: Schema.String.pipe(T.JsonName("created_at")),
+          createdAt: Schema.String,
           enabled: Schema.Boolean,
           name: Schema.String,
           type: Schema.Literal("word_list"),
-          updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
-          wordList: Schema.Unknown.pipe(T.JsonName("word_list")),
+          updatedAt: Schema.String,
+          wordList: Schema.Unknown,
           profileId: Schema.optional(
-            Schema.Union(Schema.String, Schema.Null),
-          ).pipe(T.JsonName("profile_id")),
-        }),
-      ),
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+        }).pipe(
+          Schema.encodeKeys({
+            createdAt: "created_at",
+            updatedAt: "updated_at",
+            wordList: "word_list",
+            profileId: "profile_id",
+          }),
+        ),
+      ]),
     ),
     name: Schema.String,
     type: Schema.Literal("predefined"),
-    aiContextEnabled: Schema.optional(Schema.Boolean).pipe(
-      T.JsonName("ai_context_enabled"),
-    ),
+    aiContextEnabled: Schema.optional(Schema.Boolean),
     confidenceThreshold: Schema.optional(
-      Schema.Literal("low", "medium", "high", "very_high"),
-    ).pipe(T.JsonName("confidence_threshold")),
-    contextAwareness: Schema.optional(Schema.Unknown).pipe(
-      T.JsonName("context_awareness"),
+      Schema.Literals(["low", "medium", "high", "very_high"]),
     ),
-    ocrEnabled: Schema.optional(Schema.Boolean).pipe(T.JsonName("ocr_enabled")),
-    openAccess: Schema.optional(Schema.Boolean).pipe(T.JsonName("open_access")),
-  }),
+    contextAwareness: Schema.optional(Schema.Unknown),
+    ocrEnabled: Schema.optional(Schema.Boolean),
+    openAccess: Schema.optional(Schema.Boolean),
+  }).pipe(
+    Schema.encodeKeys({
+      allowedMatchCount: "allowed_match_count",
+      aiContextEnabled: "ai_context_enabled",
+      confidenceThreshold: "confidence_threshold",
+      contextAwareness: "context_awareness",
+      ocrEnabled: "ocr_enabled",
+      openAccess: "open_access",
+    }),
+  ),
   Schema.Struct({
     id: Schema.String,
-    createdAt: Schema.String.pipe(T.JsonName("created_at")),
+    createdAt: Schema.String,
     entries: Schema.Array(
-      Schema.Union(
+      Schema.Union([
         Schema.Struct({
           id: Schema.String,
-          createdAt: Schema.String.pipe(T.JsonName("created_at")),
+          createdAt: Schema.String,
           enabled: Schema.Boolean,
           name: Schema.String,
           pattern: Schema.Unknown,
           type: Schema.Literal("custom"),
-          updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
+          updatedAt: Schema.String,
           profileId: Schema.optional(
-            Schema.Union(Schema.String, Schema.Null),
-          ).pipe(T.JsonName("profile_id")),
-        }),
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+        }).pipe(
+          Schema.encodeKeys({
+            createdAt: "created_at",
+            updatedAt: "updated_at",
+            profileId: "profile_id",
+          }),
+        ),
         Schema.Struct({
           id: Schema.String,
           confidence: Schema.Struct({
-            aiContextAvailable: Schema.Boolean.pipe(
-              T.JsonName("ai_context_available"),
-            ),
+            aiContextAvailable: Schema.Boolean,
             available: Schema.Boolean,
-          }),
+          }).pipe(
+            Schema.encodeKeys({ aiContextAvailable: "ai_context_available" }),
+          ),
           enabled: Schema.Boolean,
           name: Schema.String,
           type: Schema.Literal("predefined"),
           profileId: Schema.optional(
-            Schema.Union(Schema.String, Schema.Null),
-          ).pipe(T.JsonName("profile_id")),
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
           variant: Schema.optional(
             Schema.Struct({
-              topicType: Schema.Literal("Intent", "Content").pipe(
-                T.JsonName("topic_type"),
-              ),
+              topicType: Schema.Literals(["Intent", "Content"]),
               type: Schema.Literal("PromptTopic"),
               description: Schema.optional(
-                Schema.Union(Schema.String, Schema.Null),
+                Schema.Union([Schema.String, Schema.Null]),
               ),
-            }),
+            }).pipe(Schema.encodeKeys({ topicType: "topic_type" })),
           ),
-        }),
+        }).pipe(Schema.encodeKeys({ profileId: "profile_id" })),
         Schema.Struct({
           id: Schema.String,
-          createdAt: Schema.String.pipe(T.JsonName("created_at")),
+          createdAt: Schema.String,
           enabled: Schema.Boolean,
           name: Schema.String,
           type: Schema.Literal("integration"),
-          updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
+          updatedAt: Schema.String,
           profileId: Schema.optional(
-            Schema.Union(Schema.String, Schema.Null),
-          ).pipe(T.JsonName("profile_id")),
-        }),
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+        }).pipe(
+          Schema.encodeKeys({
+            createdAt: "created_at",
+            updatedAt: "updated_at",
+            profileId: "profile_id",
+          }),
+        ),
         Schema.Struct({
           id: Schema.String,
-          caseSensitive: Schema.Boolean.pipe(T.JsonName("case_sensitive")),
-          createdAt: Schema.String.pipe(T.JsonName("created_at")),
+          caseSensitive: Schema.Boolean,
+          createdAt: Schema.String,
           enabled: Schema.Boolean,
           name: Schema.String,
           secret: Schema.Boolean,
           type: Schema.Literal("exact_data"),
-          updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
-        }),
+          updatedAt: Schema.String,
+        }).pipe(
+          Schema.encodeKeys({
+            caseSensitive: "case_sensitive",
+            createdAt: "created_at",
+            updatedAt: "updated_at",
+          }),
+        ),
         Schema.Struct({
           id: Schema.String,
-          createdAt: Schema.String.pipe(T.JsonName("created_at")),
+          createdAt: Schema.String,
           enabled: Schema.Boolean,
           name: Schema.String,
           type: Schema.Literal("document_fingerprint"),
-          updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
-        }),
+          updatedAt: Schema.String,
+        }).pipe(
+          Schema.encodeKeys({
+            createdAt: "created_at",
+            updatedAt: "updated_at",
+          }),
+        ),
         Schema.Struct({
           id: Schema.String,
-          createdAt: Schema.String.pipe(T.JsonName("created_at")),
+          createdAt: Schema.String,
           enabled: Schema.Boolean,
           name: Schema.String,
           type: Schema.Literal("word_list"),
-          updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
-          wordList: Schema.Unknown.pipe(T.JsonName("word_list")),
+          updatedAt: Schema.String,
+          wordList: Schema.Unknown,
           profileId: Schema.optional(
-            Schema.Union(Schema.String, Schema.Null),
-          ).pipe(T.JsonName("profile_id")),
-        }),
-      ),
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+        }).pipe(
+          Schema.encodeKeys({
+            createdAt: "created_at",
+            updatedAt: "updated_at",
+            wordList: "word_list",
+            profileId: "profile_id",
+          }),
+        ),
+      ]),
     ),
     name: Schema.String,
     type: Schema.Literal("integration"),
-    updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
-    description: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
-  }),
-) as unknown as Schema.Schema<UpdateDlpProfileCustomResponse>;
+    updatedAt: Schema.String,
+    description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  }).pipe(
+    Schema.encodeKeys({ createdAt: "created_at", updatedAt: "updated_at" }),
+  ),
+]) as unknown as Schema.Schema<UpdateDlpProfileCustomResponse>;
 
 export const updateDlpProfileCustom: (
   input: UpdateDlpProfileCustomRequest,
@@ -19884,103 +21040,123 @@ export interface GetDlpProfilePredefinedResponse {
 
 export const GetDlpProfilePredefinedResponse = Schema.Struct({
   id: Schema.String,
-  allowedMatchCount: Schema.Number.pipe(T.JsonName("allowed_match_count")),
-  confidenceThreshold: Schema.Union(Schema.String, Schema.Null).pipe(
-    T.JsonName("confidence_threshold"),
-  ),
-  enabledEntries: Schema.Array(Schema.String).pipe(
-    T.JsonName("enabled_entries"),
-  ),
+  allowedMatchCount: Schema.Number,
+  confidenceThreshold: Schema.Union([Schema.String, Schema.Null]),
+  enabledEntries: Schema.Array(Schema.String),
   entries: Schema.Array(
-    Schema.Union(
+    Schema.Union([
       Schema.Struct({
         id: Schema.String,
-        createdAt: Schema.String.pipe(T.JsonName("created_at")),
+        createdAt: Schema.String,
         enabled: Schema.Boolean,
         name: Schema.String,
         pattern: Schema.Unknown,
         type: Schema.Literal("custom"),
-        updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
-        profileId: Schema.optional(
-          Schema.Union(Schema.String, Schema.Null),
-        ).pipe(T.JsonName("profile_id")),
-      }),
+        updatedAt: Schema.String,
+        profileId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      }).pipe(
+        Schema.encodeKeys({
+          createdAt: "created_at",
+          updatedAt: "updated_at",
+          profileId: "profile_id",
+        }),
+      ),
       Schema.Struct({
         id: Schema.String,
         confidence: Schema.Struct({
-          aiContextAvailable: Schema.Boolean.pipe(
-            T.JsonName("ai_context_available"),
-          ),
+          aiContextAvailable: Schema.Boolean,
           available: Schema.Boolean,
-        }),
+        }).pipe(
+          Schema.encodeKeys({ aiContextAvailable: "ai_context_available" }),
+        ),
         enabled: Schema.Boolean,
         name: Schema.String,
         type: Schema.Literal("predefined"),
-        profileId: Schema.optional(
-          Schema.Union(Schema.String, Schema.Null),
-        ).pipe(T.JsonName("profile_id")),
+        profileId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
         variant: Schema.optional(
           Schema.Struct({
-            topicType: Schema.Literal("Intent", "Content").pipe(
-              T.JsonName("topic_type"),
-            ),
+            topicType: Schema.Literals(["Intent", "Content"]),
             type: Schema.Literal("PromptTopic"),
             description: Schema.optional(
-              Schema.Union(Schema.String, Schema.Null),
+              Schema.Union([Schema.String, Schema.Null]),
             ),
-          }),
+          }).pipe(Schema.encodeKeys({ topicType: "topic_type" })),
         ),
-      }),
+      }).pipe(Schema.encodeKeys({ profileId: "profile_id" })),
       Schema.Struct({
         id: Schema.String,
-        createdAt: Schema.String.pipe(T.JsonName("created_at")),
+        createdAt: Schema.String,
         enabled: Schema.Boolean,
         name: Schema.String,
         type: Schema.Literal("integration"),
-        updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
-        profileId: Schema.optional(
-          Schema.Union(Schema.String, Schema.Null),
-        ).pipe(T.JsonName("profile_id")),
-      }),
+        updatedAt: Schema.String,
+        profileId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      }).pipe(
+        Schema.encodeKeys({
+          createdAt: "created_at",
+          updatedAt: "updated_at",
+          profileId: "profile_id",
+        }),
+      ),
       Schema.Struct({
         id: Schema.String,
-        caseSensitive: Schema.Boolean.pipe(T.JsonName("case_sensitive")),
-        createdAt: Schema.String.pipe(T.JsonName("created_at")),
+        caseSensitive: Schema.Boolean,
+        createdAt: Schema.String,
         enabled: Schema.Boolean,
         name: Schema.String,
         secret: Schema.Boolean,
         type: Schema.Literal("exact_data"),
-        updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
-      }),
+        updatedAt: Schema.String,
+      }).pipe(
+        Schema.encodeKeys({
+          caseSensitive: "case_sensitive",
+          createdAt: "created_at",
+          updatedAt: "updated_at",
+        }),
+      ),
       Schema.Struct({
         id: Schema.String,
-        createdAt: Schema.String.pipe(T.JsonName("created_at")),
+        createdAt: Schema.String,
         enabled: Schema.Boolean,
         name: Schema.String,
         type: Schema.Literal("document_fingerprint"),
-        updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
-      }),
+        updatedAt: Schema.String,
+      }).pipe(
+        Schema.encodeKeys({ createdAt: "created_at", updatedAt: "updated_at" }),
+      ),
       Schema.Struct({
         id: Schema.String,
-        createdAt: Schema.String.pipe(T.JsonName("created_at")),
+        createdAt: Schema.String,
         enabled: Schema.Boolean,
         name: Schema.String,
         type: Schema.Literal("word_list"),
-        updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
-        wordList: Schema.Unknown.pipe(T.JsonName("word_list")),
-        profileId: Schema.optional(
-          Schema.Union(Schema.String, Schema.Null),
-        ).pipe(T.JsonName("profile_id")),
-      }),
-    ),
+        updatedAt: Schema.String,
+        wordList: Schema.Unknown,
+        profileId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      }).pipe(
+        Schema.encodeKeys({
+          createdAt: "created_at",
+          updatedAt: "updated_at",
+          wordList: "word_list",
+          profileId: "profile_id",
+        }),
+      ),
+    ]),
   ),
   name: Schema.String,
-  aiContextEnabled: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("ai_context_enabled"),
-  ),
-  ocrEnabled: Schema.optional(Schema.Boolean).pipe(T.JsonName("ocr_enabled")),
-  openAccess: Schema.optional(Schema.Boolean).pipe(T.JsonName("open_access")),
-}) as unknown as Schema.Schema<GetDlpProfilePredefinedResponse>;
+  aiContextEnabled: Schema.optional(Schema.Boolean),
+  ocrEnabled: Schema.optional(Schema.Boolean),
+  openAccess: Schema.optional(Schema.Boolean),
+}).pipe(
+  Schema.encodeKeys({
+    allowedMatchCount: "allowed_match_count",
+    confidenceThreshold: "confidence_threshold",
+    enabledEntries: "enabled_entries",
+    aiContextEnabled: "ai_context_enabled",
+    ocrEnabled: "ocr_enabled",
+    openAccess: "open_access",
+  }),
+) as unknown as Schema.Schema<GetDlpProfilePredefinedResponse>;
 
 export const getDlpProfilePredefined: (
   input: GetDlpProfilePredefinedRequest,
@@ -20015,18 +21191,16 @@ export interface PutDlpProfilePredefinedRequest {
 export const PutDlpProfilePredefinedRequest = Schema.Struct({
   profileId: Schema.String.pipe(T.HttpPath("profileId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  aiContextEnabled: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("ai_context_enabled"),
-  ),
+  aiContextEnabled: Schema.optional(Schema.Boolean),
   allowedMatchCount: Schema.optional(
-    Schema.Union(Schema.Number, Schema.Null),
-  ).pipe(T.JsonName("allowed_match_count")),
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
   confidenceThreshold: Schema.optional(
-    Schema.Union(Schema.String, Schema.Null),
-  ).pipe(T.JsonName("confidence_threshold")),
+    Schema.Union([Schema.String, Schema.Null]),
+  ),
   enabledEntries: Schema.optional(
-    Schema.Union(Schema.Array(Schema.String), Schema.Null),
-  ).pipe(T.JsonName("enabled_entries")),
+    Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+  ),
   entries: Schema.optional(
     Schema.Array(
       Schema.Struct({
@@ -20035,8 +21209,15 @@ export const PutDlpProfilePredefinedRequest = Schema.Struct({
       }),
     ),
   ),
-  ocrEnabled: Schema.optional(Schema.Boolean).pipe(T.JsonName("ocr_enabled")),
+  ocrEnabled: Schema.optional(Schema.Boolean),
 }).pipe(
+  Schema.encodeKeys({
+    aiContextEnabled: "ai_context_enabled",
+    allowedMatchCount: "allowed_match_count",
+    confidenceThreshold: "confidence_threshold",
+    enabledEntries: "enabled_entries",
+    ocrEnabled: "ocr_enabled",
+  }),
   T.Http({
     method: "PUT",
     path: "/accounts/{account_id}/dlp/profiles/predefined/{profileId}/config",
@@ -20122,103 +21303,123 @@ export interface PutDlpProfilePredefinedResponse {
 
 export const PutDlpProfilePredefinedResponse = Schema.Struct({
   id: Schema.String,
-  allowedMatchCount: Schema.Number.pipe(T.JsonName("allowed_match_count")),
-  confidenceThreshold: Schema.Union(Schema.String, Schema.Null).pipe(
-    T.JsonName("confidence_threshold"),
-  ),
-  enabledEntries: Schema.Array(Schema.String).pipe(
-    T.JsonName("enabled_entries"),
-  ),
+  allowedMatchCount: Schema.Number,
+  confidenceThreshold: Schema.Union([Schema.String, Schema.Null]),
+  enabledEntries: Schema.Array(Schema.String),
   entries: Schema.Array(
-    Schema.Union(
+    Schema.Union([
       Schema.Struct({
         id: Schema.String,
-        createdAt: Schema.String.pipe(T.JsonName("created_at")),
+        createdAt: Schema.String,
         enabled: Schema.Boolean,
         name: Schema.String,
         pattern: Schema.Unknown,
         type: Schema.Literal("custom"),
-        updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
-        profileId: Schema.optional(
-          Schema.Union(Schema.String, Schema.Null),
-        ).pipe(T.JsonName("profile_id")),
-      }),
+        updatedAt: Schema.String,
+        profileId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      }).pipe(
+        Schema.encodeKeys({
+          createdAt: "created_at",
+          updatedAt: "updated_at",
+          profileId: "profile_id",
+        }),
+      ),
       Schema.Struct({
         id: Schema.String,
         confidence: Schema.Struct({
-          aiContextAvailable: Schema.Boolean.pipe(
-            T.JsonName("ai_context_available"),
-          ),
+          aiContextAvailable: Schema.Boolean,
           available: Schema.Boolean,
-        }),
+        }).pipe(
+          Schema.encodeKeys({ aiContextAvailable: "ai_context_available" }),
+        ),
         enabled: Schema.Boolean,
         name: Schema.String,
         type: Schema.Literal("predefined"),
-        profileId: Schema.optional(
-          Schema.Union(Schema.String, Schema.Null),
-        ).pipe(T.JsonName("profile_id")),
+        profileId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
         variant: Schema.optional(
           Schema.Struct({
-            topicType: Schema.Literal("Intent", "Content").pipe(
-              T.JsonName("topic_type"),
-            ),
+            topicType: Schema.Literals(["Intent", "Content"]),
             type: Schema.Literal("PromptTopic"),
             description: Schema.optional(
-              Schema.Union(Schema.String, Schema.Null),
+              Schema.Union([Schema.String, Schema.Null]),
             ),
-          }),
+          }).pipe(Schema.encodeKeys({ topicType: "topic_type" })),
         ),
-      }),
+      }).pipe(Schema.encodeKeys({ profileId: "profile_id" })),
       Schema.Struct({
         id: Schema.String,
-        createdAt: Schema.String.pipe(T.JsonName("created_at")),
+        createdAt: Schema.String,
         enabled: Schema.Boolean,
         name: Schema.String,
         type: Schema.Literal("integration"),
-        updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
-        profileId: Schema.optional(
-          Schema.Union(Schema.String, Schema.Null),
-        ).pipe(T.JsonName("profile_id")),
-      }),
+        updatedAt: Schema.String,
+        profileId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      }).pipe(
+        Schema.encodeKeys({
+          createdAt: "created_at",
+          updatedAt: "updated_at",
+          profileId: "profile_id",
+        }),
+      ),
       Schema.Struct({
         id: Schema.String,
-        caseSensitive: Schema.Boolean.pipe(T.JsonName("case_sensitive")),
-        createdAt: Schema.String.pipe(T.JsonName("created_at")),
+        caseSensitive: Schema.Boolean,
+        createdAt: Schema.String,
         enabled: Schema.Boolean,
         name: Schema.String,
         secret: Schema.Boolean,
         type: Schema.Literal("exact_data"),
-        updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
-      }),
+        updatedAt: Schema.String,
+      }).pipe(
+        Schema.encodeKeys({
+          caseSensitive: "case_sensitive",
+          createdAt: "created_at",
+          updatedAt: "updated_at",
+        }),
+      ),
       Schema.Struct({
         id: Schema.String,
-        createdAt: Schema.String.pipe(T.JsonName("created_at")),
+        createdAt: Schema.String,
         enabled: Schema.Boolean,
         name: Schema.String,
         type: Schema.Literal("document_fingerprint"),
-        updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
-      }),
+        updatedAt: Schema.String,
+      }).pipe(
+        Schema.encodeKeys({ createdAt: "created_at", updatedAt: "updated_at" }),
+      ),
       Schema.Struct({
         id: Schema.String,
-        createdAt: Schema.String.pipe(T.JsonName("created_at")),
+        createdAt: Schema.String,
         enabled: Schema.Boolean,
         name: Schema.String,
         type: Schema.Literal("word_list"),
-        updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
-        wordList: Schema.Unknown.pipe(T.JsonName("word_list")),
-        profileId: Schema.optional(
-          Schema.Union(Schema.String, Schema.Null),
-        ).pipe(T.JsonName("profile_id")),
-      }),
-    ),
+        updatedAt: Schema.String,
+        wordList: Schema.Unknown,
+        profileId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      }).pipe(
+        Schema.encodeKeys({
+          createdAt: "created_at",
+          updatedAt: "updated_at",
+          wordList: "word_list",
+          profileId: "profile_id",
+        }),
+      ),
+    ]),
   ),
   name: Schema.String,
-  aiContextEnabled: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("ai_context_enabled"),
-  ),
-  ocrEnabled: Schema.optional(Schema.Boolean).pipe(T.JsonName("ocr_enabled")),
-  openAccess: Schema.optional(Schema.Boolean).pipe(T.JsonName("open_access")),
-}) as unknown as Schema.Schema<PutDlpProfilePredefinedResponse>;
+  aiContextEnabled: Schema.optional(Schema.Boolean),
+  ocrEnabled: Schema.optional(Schema.Boolean),
+  openAccess: Schema.optional(Schema.Boolean),
+}).pipe(
+  Schema.encodeKeys({
+    allowedMatchCount: "allowed_match_count",
+    confidenceThreshold: "confidence_threshold",
+    enabledEntries: "enabled_entries",
+    aiContextEnabled: "ai_context_enabled",
+    ocrEnabled: "ocr_enabled",
+    openAccess: "open_access",
+  }),
+) as unknown as Schema.Schema<PutDlpProfilePredefinedResponse>;
 
 export const putDlpProfilePredefined: (
   input: PutDlpProfilePredefinedRequest,
@@ -20424,7 +21625,7 @@ export interface ResetExpirationGatewayRuleResponse {
 }
 
 export const ResetExpirationGatewayRuleResponse = Schema.Struct({
-  action: Schema.Literal(
+  action: Schema.Literals([
     "on",
     "off",
     "allow",
@@ -20441,189 +21642,171 @@ export const ResetExpirationGatewayRuleResponse = Schema.Struct({
     "resolve",
     "quarantine",
     "redirect",
-  ),
+  ]),
   enabled: Schema.Boolean,
   filters: Schema.Array(
-    Schema.Literal("http", "dns", "l4", "egress", "dns_resolver"),
+    Schema.Literals(["http", "dns", "l4", "egress", "dns_resolver"]),
   ),
   name: Schema.String,
   precedence: Schema.Number,
   traffic: Schema.String,
   id: Schema.optional(Schema.String),
-  createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
-  deletedAt: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-    T.JsonName("deleted_at"),
-  ),
+  createdAt: Schema.optional(Schema.String),
+  deletedAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   description: Schema.optional(Schema.String),
-  devicePosture: Schema.optional(Schema.String).pipe(
-    T.JsonName("device_posture"),
-  ),
+  devicePosture: Schema.optional(Schema.String),
   expiration: Schema.optional(
-    Schema.Union(
+    Schema.Union([
       Schema.Struct({
-        expiresAt: Schema.String.pipe(T.JsonName("expires_at")),
+        expiresAt: Schema.String,
         duration: Schema.optional(Schema.Number),
         expired: Schema.optional(Schema.Boolean),
-      }),
+      }).pipe(Schema.encodeKeys({ expiresAt: "expires_at" })),
       Schema.Null,
-    ),
+    ]),
   ),
   identity: Schema.optional(Schema.String),
-  readOnly: Schema.optional(Schema.Boolean).pipe(T.JsonName("read_only")),
+  readOnly: Schema.optional(Schema.Boolean),
   ruleSettings: Schema.optional(
     Schema.Struct({
       addHeaders: Schema.optional(
-        Schema.Union(Schema.Struct({}), Schema.Null),
-      ).pipe(T.JsonName("add_headers")),
+        Schema.Union([Schema.Struct({}), Schema.Null]),
+      ),
       allowChildBypass: Schema.optional(
-        Schema.Union(Schema.Boolean, Schema.Null),
-      ).pipe(T.JsonName("allow_child_bypass")),
+        Schema.Union([Schema.Boolean, Schema.Null]),
+      ),
       auditSsh: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
-            commandLogging: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("command_logging"),
-            ),
-          }),
+            commandLogging: Schema.optional(Schema.Boolean),
+          }).pipe(Schema.encodeKeys({ commandLogging: "command_logging" })),
           Schema.Null,
-        ),
-      ).pipe(T.JsonName("audit_ssh")),
+        ]),
+      ),
       bisoAdminControls: Schema.optional(
         Schema.Struct({
           copy: Schema.optional(
-            Schema.Literal("enabled", "disabled", "remote_only"),
+            Schema.Literals(["enabled", "disabled", "remote_only"]),
           ),
           dcp: Schema.optional(Schema.Boolean),
           dd: Schema.optional(Schema.Boolean),
           dk: Schema.optional(Schema.Boolean),
           download: Schema.optional(
-            Schema.Literal("enabled", "disabled", "remote_only"),
+            Schema.Literals(["enabled", "disabled", "remote_only"]),
           ),
           dp: Schema.optional(Schema.Boolean),
           du: Schema.optional(Schema.Boolean),
-          keyboard: Schema.optional(Schema.Literal("enabled", "disabled")),
+          keyboard: Schema.optional(Schema.Literals(["enabled", "disabled"])),
           paste: Schema.optional(
-            Schema.Literal("enabled", "disabled", "remote_only"),
+            Schema.Literals(["enabled", "disabled", "remote_only"]),
           ),
-          printing: Schema.optional(Schema.Literal("enabled", "disabled")),
-          upload: Schema.optional(Schema.Literal("enabled", "disabled")),
-          version: Schema.optional(Schema.Literal("v1", "v2")),
+          printing: Schema.optional(Schema.Literals(["enabled", "disabled"])),
+          upload: Schema.optional(Schema.Literals(["enabled", "disabled"])),
+          version: Schema.optional(Schema.Literals(["v1", "v2"])),
         }),
-      ).pipe(T.JsonName("biso_admin_controls")),
-      blockPage: Schema.optional(
-        Schema.Union(
-          Schema.Struct({
-            targetUri: Schema.String.pipe(T.JsonName("target_uri")),
-            includeContext: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("include_context"),
-            ),
-          }),
-          Schema.Null,
-        ),
-      ).pipe(T.JsonName("block_page")),
-      blockPageEnabled: Schema.optional(Schema.Boolean).pipe(
-        T.JsonName("block_page_enabled"),
       ),
-      blockReason: Schema.optional(
-        Schema.Union(Schema.String, Schema.Null),
-      ).pipe(T.JsonName("block_reason")),
+      blockPage: Schema.optional(
+        Schema.Union([
+          Schema.Struct({
+            targetUri: Schema.String,
+            includeContext: Schema.optional(Schema.Boolean),
+          }).pipe(
+            Schema.encodeKeys({
+              targetUri: "target_uri",
+              includeContext: "include_context",
+            }),
+          ),
+          Schema.Null,
+        ]),
+      ),
+      blockPageEnabled: Schema.optional(Schema.Boolean),
+      blockReason: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
       bypassParentRule: Schema.optional(
-        Schema.Union(Schema.Boolean, Schema.Null),
-      ).pipe(T.JsonName("bypass_parent_rule")),
+        Schema.Union([Schema.Boolean, Schema.Null]),
+      ),
       checkSession: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
             duration: Schema.optional(Schema.String),
             enforce: Schema.optional(Schema.Boolean),
           }),
           Schema.Null,
-        ),
-      ).pipe(T.JsonName("check_session")),
+        ]),
+      ),
       dnsResolvers: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
             ipv4: Schema.optional(Schema.Array(Schema.Unknown)),
             ipv6: Schema.optional(Schema.Array(Schema.Unknown)),
           }),
           Schema.Null,
-        ),
-      ).pipe(T.JsonName("dns_resolvers")),
+        ]),
+      ),
       egress: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
             ipv4: Schema.optional(Schema.String),
-            ipv4Fallback: Schema.optional(Schema.String).pipe(
-              T.JsonName("ipv4_fallback"),
-            ),
+            ipv4Fallback: Schema.optional(Schema.String),
             ipv6: Schema.optional(Schema.String),
-          }),
+          }).pipe(Schema.encodeKeys({ ipv4Fallback: "ipv4_fallback" })),
           Schema.Null,
-        ),
+        ]),
       ),
       forensicCopy: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
             enabled: Schema.optional(Schema.Boolean),
           }),
           Schema.Null,
-        ),
-      ).pipe(T.JsonName("forensic_copy")),
-      ignoreCnameCategoryMatches: Schema.optional(Schema.Boolean).pipe(
-        T.JsonName("ignore_cname_category_matches"),
+        ]),
       ),
-      insecureDisableDnssecValidation: Schema.optional(Schema.Boolean).pipe(
-        T.JsonName("insecure_disable_dnssec_validation"),
-      ),
-      ipCategories: Schema.optional(Schema.Boolean).pipe(
-        T.JsonName("ip_categories"),
-      ),
-      ipIndicatorFeeds: Schema.optional(Schema.Boolean).pipe(
-        T.JsonName("ip_indicator_feeds"),
-      ),
+      ignoreCnameCategoryMatches: Schema.optional(Schema.Boolean),
+      insecureDisableDnssecValidation: Schema.optional(Schema.Boolean),
+      ipCategories: Schema.optional(Schema.Boolean),
+      ipIndicatorFeeds: Schema.optional(Schema.Boolean),
       l4override: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
             ip: Schema.optional(Schema.String),
             port: Schema.optional(Schema.Number),
           }),
           Schema.Null,
-        ),
+        ]),
       ),
       notificationSettings: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
             enabled: Schema.optional(Schema.Boolean),
-            includeContext: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("include_context"),
-            ),
+            includeContext: Schema.optional(Schema.Boolean),
             msg: Schema.optional(Schema.String),
-            supportUrl: Schema.optional(Schema.String).pipe(
-              T.JsonName("support_url"),
-            ),
-          }),
+            supportUrl: Schema.optional(Schema.String),
+          }).pipe(
+            Schema.encodeKeys({
+              includeContext: "include_context",
+              supportUrl: "support_url",
+            }),
+          ),
           Schema.Null,
-        ),
-      ).pipe(T.JsonName("notification_settings")),
-      overrideHost: Schema.optional(Schema.String).pipe(
-        T.JsonName("override_host"),
+        ]),
       ),
+      overrideHost: Schema.optional(Schema.String),
       overrideIps: Schema.optional(
-        Schema.Union(Schema.Array(Schema.String), Schema.Null),
-      ).pipe(T.JsonName("override_ips")),
+        Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+      ),
       payloadLog: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
             enabled: Schema.optional(Schema.Boolean),
           }),
           Schema.Null,
-        ),
-      ).pipe(T.JsonName("payload_log")),
+        ]),
+      ),
       quarantine: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
             fileTypes: Schema.optional(
               Schema.Array(
-                Schema.Literal(
+                Schema.Literals([
                   "exe",
                   "pdf",
                   "doc",
@@ -20637,76 +21820,110 @@ export const ResetExpirationGatewayRuleResponse = Schema.Struct({
                   "xlsx",
                   "zip",
                   "rar",
-                ),
+                ]),
               ),
-            ).pipe(T.JsonName("file_types")),
-          }),
+            ),
+          }).pipe(Schema.encodeKeys({ fileTypes: "file_types" })),
           Schema.Null,
-        ),
+        ]),
       ),
       redirect: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
-            targetUri: Schema.String.pipe(T.JsonName("target_uri")),
-            includeContext: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("include_context"),
-            ),
-            preservePathAndQuery: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("preserve_path_and_query"),
-            ),
-          }),
+            targetUri: Schema.String,
+            includeContext: Schema.optional(Schema.Boolean),
+            preservePathAndQuery: Schema.optional(Schema.Boolean),
+          }).pipe(
+            Schema.encodeKeys({
+              targetUri: "target_uri",
+              includeContext: "include_context",
+              preservePathAndQuery: "preserve_path_and_query",
+            }),
+          ),
           Schema.Null,
-        ),
+        ]),
       ),
       resolveDnsInternally: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
-            fallback: Schema.optional(Schema.Literal("none", "public_dns")),
-            viewId: Schema.optional(Schema.String).pipe(T.JsonName("view_id")),
-          }),
+            fallback: Schema.optional(Schema.Literals(["none", "public_dns"])),
+            viewId: Schema.optional(Schema.String),
+          }).pipe(Schema.encodeKeys({ viewId: "view_id" })),
           Schema.Null,
-        ),
-      ).pipe(T.JsonName("resolve_dns_internally")),
+        ]),
+      ),
       resolveDnsThroughCloudflare: Schema.optional(
-        Schema.Union(Schema.Boolean, Schema.Null),
-      ).pipe(T.JsonName("resolve_dns_through_cloudflare")),
+        Schema.Union([Schema.Boolean, Schema.Null]),
+      ),
       untrustedCert: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
             action: Schema.optional(
-              Schema.Literal("pass_through", "block", "error"),
+              Schema.Literals(["pass_through", "block", "error"]),
             ),
           }),
           Schema.Null,
-        ),
-      ).pipe(T.JsonName("untrusted_cert")),
-    }),
-  ).pipe(T.JsonName("rule_settings")),
+        ]),
+      ),
+    }).pipe(
+      Schema.encodeKeys({
+        addHeaders: "add_headers",
+        allowChildBypass: "allow_child_bypass",
+        auditSsh: "audit_ssh",
+        bisoAdminControls: "biso_admin_controls",
+        blockPage: "block_page",
+        blockPageEnabled: "block_page_enabled",
+        blockReason: "block_reason",
+        bypassParentRule: "bypass_parent_rule",
+        checkSession: "check_session",
+        dnsResolvers: "dns_resolvers",
+        forensicCopy: "forensic_copy",
+        ignoreCnameCategoryMatches: "ignore_cname_category_matches",
+        insecureDisableDnssecValidation: "insecure_disable_dnssec_validation",
+        ipCategories: "ip_categories",
+        ipIndicatorFeeds: "ip_indicator_feeds",
+        notificationSettings: "notification_settings",
+        overrideHost: "override_host",
+        overrideIps: "override_ips",
+        payloadLog: "payload_log",
+        resolveDnsInternally: "resolve_dns_internally",
+        resolveDnsThroughCloudflare: "resolve_dns_through_cloudflare",
+        untrustedCert: "untrusted_cert",
+      }),
+    ),
+  ),
   schedule: Schema.optional(
-    Schema.Union(
+    Schema.Union([
       Schema.Struct({
         fri: Schema.optional(Schema.String),
         mon: Schema.optional(Schema.String),
         sat: Schema.optional(Schema.String),
         sun: Schema.optional(Schema.String),
         thu: Schema.optional(Schema.String),
-        timeZone: Schema.optional(Schema.String).pipe(T.JsonName("time_zone")),
+        timeZone: Schema.optional(Schema.String),
         tue: Schema.optional(Schema.String),
         wed: Schema.optional(Schema.String),
-      }),
+      }).pipe(Schema.encodeKeys({ timeZone: "time_zone" })),
       Schema.Null,
-    ),
+    ]),
   ),
   sharable: Schema.optional(Schema.Boolean),
-  sourceAccount: Schema.optional(Schema.String).pipe(
-    T.JsonName("source_account"),
-  ),
-  updatedAt: Schema.optional(Schema.String).pipe(T.JsonName("updated_at")),
+  sourceAccount: Schema.optional(Schema.String),
+  updatedAt: Schema.optional(Schema.String),
   version: Schema.optional(Schema.Number),
-  warningStatus: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-    T.JsonName("warning_status"),
-  ),
-}) as unknown as Schema.Schema<ResetExpirationGatewayRuleResponse>;
+  warningStatus: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+}).pipe(
+  Schema.encodeKeys({
+    createdAt: "created_at",
+    deletedAt: "deleted_at",
+    devicePosture: "device_posture",
+    readOnly: "read_only",
+    ruleSettings: "rule_settings",
+    sourceAccount: "source_account",
+    updatedAt: "updated_at",
+    warningStatus: "warning_status",
+  }),
+) as unknown as Schema.Schema<ResetExpirationGatewayRuleResponse>;
 
 export const resetExpirationGatewayRule: (
   input: ResetExpirationGatewayRuleRequest,
@@ -20745,11 +21962,14 @@ export interface ListGatewaysResponse {
 
 export const ListGatewaysResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
-  gatewayTag: Schema.optional(Schema.String).pipe(T.JsonName("gateway_tag")),
-  providerName: Schema.optional(Schema.String).pipe(
-    T.JsonName("provider_name"),
-  ),
-}) as unknown as Schema.Schema<ListGatewaysResponse>;
+  gatewayTag: Schema.optional(Schema.String),
+  providerName: Schema.optional(Schema.String),
+}).pipe(
+  Schema.encodeKeys({
+    gatewayTag: "gateway_tag",
+    providerName: "provider_name",
+  }),
+) as unknown as Schema.Schema<ListGatewaysResponse>;
 
 export const listGateways: (
   input: ListGatewaysRequest,
@@ -20784,11 +22004,14 @@ export interface CreateGatewayResponse {
 
 export const CreateGatewayResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
-  gatewayTag: Schema.optional(Schema.String).pipe(T.JsonName("gateway_tag")),
-  providerName: Schema.optional(Schema.String).pipe(
-    T.JsonName("provider_name"),
-  ),
-}) as unknown as Schema.Schema<CreateGatewayResponse>;
+  gatewayTag: Schema.optional(Schema.String),
+  providerName: Schema.optional(Schema.String),
+}).pipe(
+  Schema.encodeKeys({
+    gatewayTag: "gateway_tag",
+    providerName: "provider_name",
+  }),
+) as unknown as Schema.Schema<CreateGatewayResponse>;
 
 export const createGateway: (
   input: CreateGatewayRequest,
@@ -20829,11 +22052,18 @@ export interface GetGatewayAuditSshSettingResponse {
 }
 
 export const GetGatewayAuditSshSettingResponse = Schema.Struct({
-  createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
-  publicKey: Schema.optional(Schema.String).pipe(T.JsonName("public_key")),
-  seedId: Schema.optional(Schema.String).pipe(T.JsonName("seed_id")),
-  updatedAt: Schema.optional(Schema.String).pipe(T.JsonName("updated_at")),
-}) as unknown as Schema.Schema<GetGatewayAuditSshSettingResponse>;
+  createdAt: Schema.optional(Schema.String),
+  publicKey: Schema.optional(Schema.String),
+  seedId: Schema.optional(Schema.String),
+  updatedAt: Schema.optional(Schema.String),
+}).pipe(
+  Schema.encodeKeys({
+    createdAt: "created_at",
+    publicKey: "public_key",
+    seedId: "seed_id",
+    updatedAt: "updated_at",
+  }),
+) as unknown as Schema.Schema<GetGatewayAuditSshSettingResponse>;
 
 export const getGatewayAuditSshSetting: (
   input: GetGatewayAuditSshSettingRequest,
@@ -20856,8 +22086,9 @@ export interface PutGatewayAuditSshSettingRequest {
 
 export const PutGatewayAuditSshSettingRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  publicKey: Schema.String.pipe(T.JsonName("public_key")),
+  publicKey: Schema.String,
 }).pipe(
+  Schema.encodeKeys({ publicKey: "public_key" }),
   T.Http({
     method: "PUT",
     path: "/accounts/{account_id}/gateway/audit_ssh_settings",
@@ -20874,11 +22105,18 @@ export interface PutGatewayAuditSshSettingResponse {
 }
 
 export const PutGatewayAuditSshSettingResponse = Schema.Struct({
-  createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
-  publicKey: Schema.optional(Schema.String).pipe(T.JsonName("public_key")),
-  seedId: Schema.optional(Schema.String).pipe(T.JsonName("seed_id")),
-  updatedAt: Schema.optional(Schema.String).pipe(T.JsonName("updated_at")),
-}) as unknown as Schema.Schema<PutGatewayAuditSshSettingResponse>;
+  createdAt: Schema.optional(Schema.String),
+  publicKey: Schema.optional(Schema.String),
+  seedId: Schema.optional(Schema.String),
+  updatedAt: Schema.optional(Schema.String),
+}).pipe(
+  Schema.encodeKeys({
+    createdAt: "created_at",
+    publicKey: "public_key",
+    seedId: "seed_id",
+    updatedAt: "updated_at",
+  }),
+) as unknown as Schema.Schema<PutGatewayAuditSshSettingResponse>;
 
 export const putGatewayAuditSshSetting: (
   input: PutGatewayAuditSshSettingRequest,
@@ -20941,24 +22179,35 @@ export interface GetGatewayCertificateResponse {
 export const GetGatewayCertificateResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
   bindingStatus: Schema.optional(
-    Schema.Literal(
+    Schema.Literals([
       "pending_deployment",
       "available",
       "pending_deletion",
       "inactive",
-    ),
-  ).pipe(T.JsonName("binding_status")),
+    ]),
+  ),
   certificate: Schema.optional(Schema.String),
-  createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
-  expiresOn: Schema.optional(Schema.String).pipe(T.JsonName("expires_on")),
+  createdAt: Schema.optional(Schema.String),
+  expiresOn: Schema.optional(Schema.String),
   fingerprint: Schema.optional(Schema.String),
-  inUse: Schema.optional(Schema.Boolean).pipe(T.JsonName("in_use")),
-  issuerOrg: Schema.optional(Schema.String).pipe(T.JsonName("issuer_org")),
-  issuerRaw: Schema.optional(Schema.String).pipe(T.JsonName("issuer_raw")),
-  type: Schema.optional(Schema.Literal("custom", "gateway_managed")),
-  updatedAt: Schema.optional(Schema.String).pipe(T.JsonName("updated_at")),
-  uploadedOn: Schema.optional(Schema.String).pipe(T.JsonName("uploaded_on")),
-}) as unknown as Schema.Schema<GetGatewayCertificateResponse>;
+  inUse: Schema.optional(Schema.Boolean),
+  issuerOrg: Schema.optional(Schema.String),
+  issuerRaw: Schema.optional(Schema.String),
+  type: Schema.optional(Schema.Literals(["custom", "gateway_managed"])),
+  updatedAt: Schema.optional(Schema.String),
+  uploadedOn: Schema.optional(Schema.String),
+}).pipe(
+  Schema.encodeKeys({
+    bindingStatus: "binding_status",
+    createdAt: "created_at",
+    expiresOn: "expires_on",
+    inUse: "in_use",
+    issuerOrg: "issuer_org",
+    issuerRaw: "issuer_raw",
+    updatedAt: "updated_at",
+    uploadedOn: "uploaded_on",
+  }),
+) as unknown as Schema.Schema<GetGatewayCertificateResponse>;
 
 export const getGatewayCertificate: (
   input: GetGatewayCertificateRequest,
@@ -20981,10 +22230,9 @@ export interface CreateGatewayCertificateRequest {
 
 export const CreateGatewayCertificateRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  validityPeriodDays: Schema.optional(Schema.Number).pipe(
-    T.JsonName("validity_period_days"),
-  ),
+  validityPeriodDays: Schema.optional(Schema.Number),
 }).pipe(
+  Schema.encodeKeys({ validityPeriodDays: "validity_period_days" }),
   T.Http({
     method: "POST",
     path: "/accounts/{account_id}/gateway/certificates",
@@ -21021,24 +22269,35 @@ export interface CreateGatewayCertificateResponse {
 export const CreateGatewayCertificateResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
   bindingStatus: Schema.optional(
-    Schema.Literal(
+    Schema.Literals([
       "pending_deployment",
       "available",
       "pending_deletion",
       "inactive",
-    ),
-  ).pipe(T.JsonName("binding_status")),
+    ]),
+  ),
   certificate: Schema.optional(Schema.String),
-  createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
-  expiresOn: Schema.optional(Schema.String).pipe(T.JsonName("expires_on")),
+  createdAt: Schema.optional(Schema.String),
+  expiresOn: Schema.optional(Schema.String),
   fingerprint: Schema.optional(Schema.String),
-  inUse: Schema.optional(Schema.Boolean).pipe(T.JsonName("in_use")),
-  issuerOrg: Schema.optional(Schema.String).pipe(T.JsonName("issuer_org")),
-  issuerRaw: Schema.optional(Schema.String).pipe(T.JsonName("issuer_raw")),
-  type: Schema.optional(Schema.Literal("custom", "gateway_managed")),
-  updatedAt: Schema.optional(Schema.String).pipe(T.JsonName("updated_at")),
-  uploadedOn: Schema.optional(Schema.String).pipe(T.JsonName("uploaded_on")),
-}) as unknown as Schema.Schema<CreateGatewayCertificateResponse>;
+  inUse: Schema.optional(Schema.Boolean),
+  issuerOrg: Schema.optional(Schema.String),
+  issuerRaw: Schema.optional(Schema.String),
+  type: Schema.optional(Schema.Literals(["custom", "gateway_managed"])),
+  updatedAt: Schema.optional(Schema.String),
+  uploadedOn: Schema.optional(Schema.String),
+}).pipe(
+  Schema.encodeKeys({
+    bindingStatus: "binding_status",
+    createdAt: "created_at",
+    expiresOn: "expires_on",
+    inUse: "in_use",
+    issuerOrg: "issuer_org",
+    issuerRaw: "issuer_raw",
+    updatedAt: "updated_at",
+    uploadedOn: "uploaded_on",
+  }),
+) as unknown as Schema.Schema<CreateGatewayCertificateResponse>;
 
 export const createGatewayCertificate: (
   input: CreateGatewayCertificateRequest,
@@ -21097,24 +22356,35 @@ export interface DeleteGatewayCertificateResponse {
 export const DeleteGatewayCertificateResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
   bindingStatus: Schema.optional(
-    Schema.Literal(
+    Schema.Literals([
       "pending_deployment",
       "available",
       "pending_deletion",
       "inactive",
-    ),
-  ).pipe(T.JsonName("binding_status")),
+    ]),
+  ),
   certificate: Schema.optional(Schema.String),
-  createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
-  expiresOn: Schema.optional(Schema.String).pipe(T.JsonName("expires_on")),
+  createdAt: Schema.optional(Schema.String),
+  expiresOn: Schema.optional(Schema.String),
   fingerprint: Schema.optional(Schema.String),
-  inUse: Schema.optional(Schema.Boolean).pipe(T.JsonName("in_use")),
-  issuerOrg: Schema.optional(Schema.String).pipe(T.JsonName("issuer_org")),
-  issuerRaw: Schema.optional(Schema.String).pipe(T.JsonName("issuer_raw")),
-  type: Schema.optional(Schema.Literal("custom", "gateway_managed")),
-  updatedAt: Schema.optional(Schema.String).pipe(T.JsonName("updated_at")),
-  uploadedOn: Schema.optional(Schema.String).pipe(T.JsonName("uploaded_on")),
-}) as unknown as Schema.Schema<DeleteGatewayCertificateResponse>;
+  inUse: Schema.optional(Schema.Boolean),
+  issuerOrg: Schema.optional(Schema.String),
+  issuerRaw: Schema.optional(Schema.String),
+  type: Schema.optional(Schema.Literals(["custom", "gateway_managed"])),
+  updatedAt: Schema.optional(Schema.String),
+  uploadedOn: Schema.optional(Schema.String),
+}).pipe(
+  Schema.encodeKeys({
+    bindingStatus: "binding_status",
+    createdAt: "created_at",
+    expiresOn: "expires_on",
+    inUse: "in_use",
+    issuerOrg: "issuer_org",
+    issuerRaw: "issuer_raw",
+    updatedAt: "updated_at",
+    uploadedOn: "uploaded_on",
+  }),
+) as unknown as Schema.Schema<DeleteGatewayCertificateResponse>;
 
 export const deleteGatewayCertificate: (
   input: DeleteGatewayCertificateRequest,
@@ -21177,24 +22447,35 @@ export interface ActivateGatewayCertificateResponse {
 export const ActivateGatewayCertificateResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
   bindingStatus: Schema.optional(
-    Schema.Literal(
+    Schema.Literals([
       "pending_deployment",
       "available",
       "pending_deletion",
       "inactive",
-    ),
-  ).pipe(T.JsonName("binding_status")),
+    ]),
+  ),
   certificate: Schema.optional(Schema.String),
-  createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
-  expiresOn: Schema.optional(Schema.String).pipe(T.JsonName("expires_on")),
+  createdAt: Schema.optional(Schema.String),
+  expiresOn: Schema.optional(Schema.String),
   fingerprint: Schema.optional(Schema.String),
-  inUse: Schema.optional(Schema.Boolean).pipe(T.JsonName("in_use")),
-  issuerOrg: Schema.optional(Schema.String).pipe(T.JsonName("issuer_org")),
-  issuerRaw: Schema.optional(Schema.String).pipe(T.JsonName("issuer_raw")),
-  type: Schema.optional(Schema.Literal("custom", "gateway_managed")),
-  updatedAt: Schema.optional(Schema.String).pipe(T.JsonName("updated_at")),
-  uploadedOn: Schema.optional(Schema.String).pipe(T.JsonName("uploaded_on")),
-}) as unknown as Schema.Schema<ActivateGatewayCertificateResponse>;
+  inUse: Schema.optional(Schema.Boolean),
+  issuerOrg: Schema.optional(Schema.String),
+  issuerRaw: Schema.optional(Schema.String),
+  type: Schema.optional(Schema.Literals(["custom", "gateway_managed"])),
+  updatedAt: Schema.optional(Schema.String),
+  uploadedOn: Schema.optional(Schema.String),
+}).pipe(
+  Schema.encodeKeys({
+    bindingStatus: "binding_status",
+    createdAt: "created_at",
+    expiresOn: "expires_on",
+    inUse: "in_use",
+    issuerOrg: "issuer_org",
+    issuerRaw: "issuer_raw",
+    updatedAt: "updated_at",
+    uploadedOn: "uploaded_on",
+  }),
+) as unknown as Schema.Schema<ActivateGatewayCertificateResponse>;
 
 export const activateGatewayCertificate: (
   input: ActivateGatewayCertificateRequest,
@@ -21257,24 +22538,35 @@ export interface DeactivateGatewayCertificateResponse {
 export const DeactivateGatewayCertificateResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
   bindingStatus: Schema.optional(
-    Schema.Literal(
+    Schema.Literals([
       "pending_deployment",
       "available",
       "pending_deletion",
       "inactive",
-    ),
-  ).pipe(T.JsonName("binding_status")),
+    ]),
+  ),
   certificate: Schema.optional(Schema.String),
-  createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
-  expiresOn: Schema.optional(Schema.String).pipe(T.JsonName("expires_on")),
+  createdAt: Schema.optional(Schema.String),
+  expiresOn: Schema.optional(Schema.String),
   fingerprint: Schema.optional(Schema.String),
-  inUse: Schema.optional(Schema.Boolean).pipe(T.JsonName("in_use")),
-  issuerOrg: Schema.optional(Schema.String).pipe(T.JsonName("issuer_org")),
-  issuerRaw: Schema.optional(Schema.String).pipe(T.JsonName("issuer_raw")),
-  type: Schema.optional(Schema.Literal("custom", "gateway_managed")),
-  updatedAt: Schema.optional(Schema.String).pipe(T.JsonName("updated_at")),
-  uploadedOn: Schema.optional(Schema.String).pipe(T.JsonName("uploaded_on")),
-}) as unknown as Schema.Schema<DeactivateGatewayCertificateResponse>;
+  inUse: Schema.optional(Schema.Boolean),
+  issuerOrg: Schema.optional(Schema.String),
+  issuerRaw: Schema.optional(Schema.String),
+  type: Schema.optional(Schema.Literals(["custom", "gateway_managed"])),
+  updatedAt: Schema.optional(Schema.String),
+  uploadedOn: Schema.optional(Schema.String),
+}).pipe(
+  Schema.encodeKeys({
+    bindingStatus: "binding_status",
+    createdAt: "created_at",
+    expiresOn: "expires_on",
+    inUse: "in_use",
+    issuerOrg: "issuer_org",
+    issuerRaw: "issuer_raw",
+    updatedAt: "updated_at",
+    uploadedOn: "uploaded_on",
+  }),
+) as unknown as Schema.Schema<DeactivateGatewayCertificateResponse>;
 
 export const deactivateGatewayCertificate: (
   input: DeactivateGatewayCertificateRequest,
@@ -21370,210 +22662,245 @@ export interface GetGatewayConfigurationResponse {
 }
 
 export const GetGatewayConfigurationResponse = Schema.Struct({
-  createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
+  createdAt: Schema.optional(Schema.String),
   settings: Schema.optional(
     Schema.Struct({
       activityLog: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
-            enabled: Schema.optional(Schema.Union(Schema.Boolean, Schema.Null)),
+            enabled: Schema.optional(
+              Schema.Union([Schema.Boolean, Schema.Null]),
+            ),
           }),
           Schema.Null,
-        ),
-      ).pipe(T.JsonName("activity_log")),
+        ]),
+      ),
       antivirus: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
             enabledDownloadPhase: Schema.optional(
-              Schema.Union(Schema.Boolean, Schema.Null),
-            ).pipe(T.JsonName("enabled_download_phase")),
+              Schema.Union([Schema.Boolean, Schema.Null]),
+            ),
             enabledUploadPhase: Schema.optional(
-              Schema.Union(Schema.Boolean, Schema.Null),
-            ).pipe(T.JsonName("enabled_upload_phase")),
+              Schema.Union([Schema.Boolean, Schema.Null]),
+            ),
             failClosed: Schema.optional(
-              Schema.Union(Schema.Boolean, Schema.Null),
-            ).pipe(T.JsonName("fail_closed")),
+              Schema.Union([Schema.Boolean, Schema.Null]),
+            ),
             notificationSettings: Schema.optional(
-              Schema.Union(
+              Schema.Union([
                 Schema.Struct({
                   enabled: Schema.optional(Schema.Boolean),
-                  includeContext: Schema.optional(Schema.Boolean).pipe(
-                    T.JsonName("include_context"),
-                  ),
+                  includeContext: Schema.optional(Schema.Boolean),
                   msg: Schema.optional(Schema.String),
-                  supportUrl: Schema.optional(Schema.String).pipe(
-                    T.JsonName("support_url"),
-                  ),
-                }),
+                  supportUrl: Schema.optional(Schema.String),
+                }).pipe(
+                  Schema.encodeKeys({
+                    includeContext: "include_context",
+                    supportUrl: "support_url",
+                  }),
+                ),
                 Schema.Null,
-              ),
-            ).pipe(T.JsonName("notification_settings")),
-          }),
+              ]),
+            ),
+          }).pipe(
+            Schema.encodeKeys({
+              enabledDownloadPhase: "enabled_download_phase",
+              enabledUploadPhase: "enabled_upload_phase",
+              failClosed: "fail_closed",
+              notificationSettings: "notification_settings",
+            }),
+          ),
           Schema.Null,
-        ),
+        ]),
       ),
       blockPage: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
-            backgroundColor: Schema.optional(Schema.String).pipe(
-              T.JsonName("background_color"),
+            backgroundColor: Schema.optional(Schema.String),
+            enabled: Schema.optional(
+              Schema.Union([Schema.Boolean, Schema.Null]),
             ),
-            enabled: Schema.optional(Schema.Union(Schema.Boolean, Schema.Null)),
-            footerText: Schema.optional(Schema.String).pipe(
-              T.JsonName("footer_text"),
-            ),
-            headerText: Schema.optional(Schema.String).pipe(
-              T.JsonName("header_text"),
-            ),
-            includeContext: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("include_context"),
-            ),
-            logoPath: Schema.optional(Schema.String).pipe(
-              T.JsonName("logo_path"),
-            ),
-            mailtoAddress: Schema.optional(Schema.String).pipe(
-              T.JsonName("mailto_address"),
-            ),
-            mailtoSubject: Schema.optional(Schema.String).pipe(
-              T.JsonName("mailto_subject"),
-            ),
+            footerText: Schema.optional(Schema.String),
+            headerText: Schema.optional(Schema.String),
+            includeContext: Schema.optional(Schema.Boolean),
+            logoPath: Schema.optional(Schema.String),
+            mailtoAddress: Schema.optional(Schema.String),
+            mailtoSubject: Schema.optional(Schema.String),
             mode: Schema.optional(
-              Schema.Literal("", "customized_block_page", "redirect_uri"),
+              Schema.Literals(["", "customized_block_page", "redirect_uri"]),
             ),
             name: Schema.optional(Schema.String),
             readOnly: Schema.optional(
-              Schema.Union(Schema.Boolean, Schema.Null),
-            ).pipe(T.JsonName("read_only")),
+              Schema.Union([Schema.Boolean, Schema.Null]),
+            ),
             sourceAccount: Schema.optional(
-              Schema.Union(Schema.String, Schema.Null),
-            ).pipe(T.JsonName("source_account")),
-            suppressFooter: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("suppress_footer"),
+              Schema.Union([Schema.String, Schema.Null]),
             ),
-            targetUri: Schema.optional(Schema.String).pipe(
-              T.JsonName("target_uri"),
+            suppressFooter: Schema.optional(Schema.Boolean),
+            targetUri: Schema.optional(Schema.String),
+            version: Schema.optional(
+              Schema.Union([Schema.Number, Schema.Null]),
             ),
-            version: Schema.optional(Schema.Union(Schema.Number, Schema.Null)),
-          }),
+          }).pipe(
+            Schema.encodeKeys({
+              backgroundColor: "background_color",
+              footerText: "footer_text",
+              headerText: "header_text",
+              includeContext: "include_context",
+              logoPath: "logo_path",
+              mailtoAddress: "mailto_address",
+              mailtoSubject: "mailto_subject",
+              readOnly: "read_only",
+              sourceAccount: "source_account",
+              suppressFooter: "suppress_footer",
+              targetUri: "target_uri",
+            }),
+          ),
           Schema.Null,
-        ),
-      ).pipe(T.JsonName("block_page")),
+        ]),
+      ),
       bodyScanning: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
             inspectionMode: Schema.optional(
-              Schema.Literal("deep", "shallow"),
-            ).pipe(T.JsonName("inspection_mode")),
-          }),
+              Schema.Literals(["deep", "shallow"]),
+            ),
+          }).pipe(Schema.encodeKeys({ inspectionMode: "inspection_mode" })),
           Schema.Null,
-        ),
-      ).pipe(T.JsonName("body_scanning")),
+        ]),
+      ),
       browserIsolation: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
-            nonIdentityEnabled: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("non_identity_enabled"),
-            ),
-            urlBrowserIsolationEnabled: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("url_browser_isolation_enabled"),
-            ),
-          }),
+            nonIdentityEnabled: Schema.optional(Schema.Boolean),
+            urlBrowserIsolationEnabled: Schema.optional(Schema.Boolean),
+          }).pipe(
+            Schema.encodeKeys({
+              nonIdentityEnabled: "non_identity_enabled",
+              urlBrowserIsolationEnabled: "url_browser_isolation_enabled",
+            }),
+          ),
           Schema.Null,
-        ),
-      ).pipe(T.JsonName("browser_isolation")),
+        ]),
+      ),
       certificate: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
             id: Schema.String,
           }),
           Schema.Null,
-        ),
+        ]),
       ),
       customCertificate: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
-            enabled: Schema.Union(Schema.Boolean, Schema.Null),
+            enabled: Schema.Union([Schema.Boolean, Schema.Null]),
             id: Schema.optional(Schema.String),
-            bindingStatus: Schema.optional(Schema.String).pipe(
-              T.JsonName("binding_status"),
-            ),
-            updatedAt: Schema.optional(Schema.String).pipe(
-              T.JsonName("updated_at"),
-            ),
-          }),
+            bindingStatus: Schema.optional(Schema.String),
+            updatedAt: Schema.optional(Schema.String),
+          }).pipe(
+            Schema.encodeKeys({
+              bindingStatus: "binding_status",
+              updatedAt: "updated_at",
+            }),
+          ),
           Schema.Null,
-        ),
-      ).pipe(T.JsonName("custom_certificate")),
+        ]),
+      ),
       extendedEmailMatching: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
-            enabled: Schema.optional(Schema.Union(Schema.Boolean, Schema.Null)),
-            readOnly: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("read_only"),
+            enabled: Schema.optional(
+              Schema.Union([Schema.Boolean, Schema.Null]),
             ),
-            sourceAccount: Schema.optional(Schema.String).pipe(
-              T.JsonName("source_account"),
-            ),
+            readOnly: Schema.optional(Schema.Boolean),
+            sourceAccount: Schema.optional(Schema.String),
             version: Schema.optional(Schema.Number),
-          }),
+          }).pipe(
+            Schema.encodeKeys({
+              readOnly: "read_only",
+              sourceAccount: "source_account",
+            }),
+          ),
           Schema.Null,
-        ),
-      ).pipe(T.JsonName("extended_email_matching")),
+        ]),
+      ),
       fips: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
             tls: Schema.optional(Schema.Boolean),
           }),
           Schema.Null,
-        ),
+        ]),
       ),
       hostSelector: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
-            enabled: Schema.optional(Schema.Union(Schema.Boolean, Schema.Null)),
+            enabled: Schema.optional(
+              Schema.Union([Schema.Boolean, Schema.Null]),
+            ),
           }),
           Schema.Null,
-        ),
-      ).pipe(T.JsonName("host_selector")),
+        ]),
+      ),
       inspection: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
-            mode: Schema.optional(Schema.Literal("static", "dynamic")),
+            mode: Schema.optional(Schema.Literals(["static", "dynamic"])),
           }),
           Schema.Null,
-        ),
+        ]),
       ),
       protocolDetection: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
-            enabled: Schema.optional(Schema.Union(Schema.Boolean, Schema.Null)),
+            enabled: Schema.optional(
+              Schema.Union([Schema.Boolean, Schema.Null]),
+            ),
           }),
           Schema.Null,
-        ),
-      ).pipe(T.JsonName("protocol_detection")),
+        ]),
+      ),
       sandbox: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
-            enabled: Schema.optional(Schema.Union(Schema.Boolean, Schema.Null)),
+            enabled: Schema.optional(
+              Schema.Union([Schema.Boolean, Schema.Null]),
+            ),
             fallbackAction: Schema.optional(
-              Schema.Literal("allow", "block"),
-            ).pipe(T.JsonName("fallback_action")),
-          }),
+              Schema.Literals(["allow", "block"]),
+            ),
+          }).pipe(Schema.encodeKeys({ fallbackAction: "fallback_action" })),
           Schema.Null,
-        ),
+        ]),
       ),
       tlsDecrypt: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
             enabled: Schema.optional(Schema.Boolean),
           }),
           Schema.Null,
-        ),
-      ).pipe(T.JsonName("tls_decrypt")),
-    }),
+        ]),
+      ),
+    }).pipe(
+      Schema.encodeKeys({
+        activityLog: "activity_log",
+        blockPage: "block_page",
+        bodyScanning: "body_scanning",
+        browserIsolation: "browser_isolation",
+        customCertificate: "custom_certificate",
+        extendedEmailMatching: "extended_email_matching",
+        hostSelector: "host_selector",
+        protocolDetection: "protocol_detection",
+        tlsDecrypt: "tls_decrypt",
+      }),
+    ),
   ),
-  updatedAt: Schema.optional(Schema.String).pipe(T.JsonName("updated_at")),
-}) as unknown as Schema.Schema<GetGatewayConfigurationResponse>;
+  updatedAt: Schema.optional(Schema.String),
+}).pipe(
+  Schema.encodeKeys({ createdAt: "created_at", updatedAt: "updated_at" }),
+) as unknown as Schema.Schema<GetGatewayConfigurationResponse>;
 
 export const getGatewayConfiguration: (
   input: GetGatewayConfigurationRequest,
@@ -21643,183 +22970,210 @@ export const PutGatewayConfigurationRequest = Schema.Struct({
   settings: Schema.optional(
     Schema.Struct({
       activityLog: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
-            enabled: Schema.optional(Schema.Union(Schema.Boolean, Schema.Null)),
+            enabled: Schema.optional(
+              Schema.Union([Schema.Boolean, Schema.Null]),
+            ),
           }),
           Schema.Null,
-        ),
-      ).pipe(T.JsonName("activity_log")),
+        ]),
+      ),
       antivirus: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
             enabledDownloadPhase: Schema.optional(
-              Schema.Union(Schema.Boolean, Schema.Null),
-            ).pipe(T.JsonName("enabled_download_phase")),
+              Schema.Union([Schema.Boolean, Schema.Null]),
+            ),
             enabledUploadPhase: Schema.optional(
-              Schema.Union(Schema.Boolean, Schema.Null),
-            ).pipe(T.JsonName("enabled_upload_phase")),
+              Schema.Union([Schema.Boolean, Schema.Null]),
+            ),
             failClosed: Schema.optional(
-              Schema.Union(Schema.Boolean, Schema.Null),
-            ).pipe(T.JsonName("fail_closed")),
+              Schema.Union([Schema.Boolean, Schema.Null]),
+            ),
             notificationSettings: Schema.optional(
-              Schema.Union(
+              Schema.Union([
                 Schema.Struct({
                   enabled: Schema.optional(Schema.Boolean),
-                  includeContext: Schema.optional(Schema.Boolean).pipe(
-                    T.JsonName("include_context"),
-                  ),
+                  includeContext: Schema.optional(Schema.Boolean),
                   msg: Schema.optional(Schema.String),
-                  supportUrl: Schema.optional(Schema.String).pipe(
-                    T.JsonName("support_url"),
-                  ),
-                }),
+                  supportUrl: Schema.optional(Schema.String),
+                }).pipe(
+                  Schema.encodeKeys({
+                    includeContext: "include_context",
+                    supportUrl: "support_url",
+                  }),
+                ),
                 Schema.Null,
-              ),
-            ).pipe(T.JsonName("notification_settings")),
-          }),
+              ]),
+            ),
+          }).pipe(
+            Schema.encodeKeys({
+              enabledDownloadPhase: "enabled_download_phase",
+              enabledUploadPhase: "enabled_upload_phase",
+              failClosed: "fail_closed",
+              notificationSettings: "notification_settings",
+            }),
+          ),
           Schema.Null,
-        ),
+        ]),
       ),
       blockPage: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
-            backgroundColor: Schema.optional(Schema.String).pipe(
-              T.JsonName("background_color"),
+            backgroundColor: Schema.optional(Schema.String),
+            enabled: Schema.optional(
+              Schema.Union([Schema.Boolean, Schema.Null]),
             ),
-            enabled: Schema.optional(Schema.Union(Schema.Boolean, Schema.Null)),
-            footerText: Schema.optional(Schema.String).pipe(
-              T.JsonName("footer_text"),
-            ),
-            headerText: Schema.optional(Schema.String).pipe(
-              T.JsonName("header_text"),
-            ),
-            includeContext: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("include_context"),
-            ),
-            logoPath: Schema.optional(Schema.String).pipe(
-              T.JsonName("logo_path"),
-            ),
-            mailtoAddress: Schema.optional(Schema.String).pipe(
-              T.JsonName("mailto_address"),
-            ),
-            mailtoSubject: Schema.optional(Schema.String).pipe(
-              T.JsonName("mailto_subject"),
-            ),
+            footerText: Schema.optional(Schema.String),
+            headerText: Schema.optional(Schema.String),
+            includeContext: Schema.optional(Schema.Boolean),
+            logoPath: Schema.optional(Schema.String),
+            mailtoAddress: Schema.optional(Schema.String),
+            mailtoSubject: Schema.optional(Schema.String),
             mode: Schema.optional(
-              Schema.Literal("", "customized_block_page", "redirect_uri"),
+              Schema.Literals(["", "customized_block_page", "redirect_uri"]),
             ),
             name: Schema.optional(Schema.String),
-            suppressFooter: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("suppress_footer"),
-            ),
-            targetUri: Schema.optional(Schema.String).pipe(
-              T.JsonName("target_uri"),
-            ),
-          }),
+            suppressFooter: Schema.optional(Schema.Boolean),
+            targetUri: Schema.optional(Schema.String),
+          }).pipe(
+            Schema.encodeKeys({
+              backgroundColor: "background_color",
+              footerText: "footer_text",
+              headerText: "header_text",
+              includeContext: "include_context",
+              logoPath: "logo_path",
+              mailtoAddress: "mailto_address",
+              mailtoSubject: "mailto_subject",
+              suppressFooter: "suppress_footer",
+              targetUri: "target_uri",
+            }),
+          ),
           Schema.Null,
-        ),
-      ).pipe(T.JsonName("block_page")),
+        ]),
+      ),
       bodyScanning: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
             inspectionMode: Schema.optional(
-              Schema.Literal("deep", "shallow"),
-            ).pipe(T.JsonName("inspection_mode")),
-          }),
+              Schema.Literals(["deep", "shallow"]),
+            ),
+          }).pipe(Schema.encodeKeys({ inspectionMode: "inspection_mode" })),
           Schema.Null,
-        ),
-      ).pipe(T.JsonName("body_scanning")),
+        ]),
+      ),
       browserIsolation: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
-            nonIdentityEnabled: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("non_identity_enabled"),
-            ),
-            urlBrowserIsolationEnabled: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("url_browser_isolation_enabled"),
-            ),
-          }),
+            nonIdentityEnabled: Schema.optional(Schema.Boolean),
+            urlBrowserIsolationEnabled: Schema.optional(Schema.Boolean),
+          }).pipe(
+            Schema.encodeKeys({
+              nonIdentityEnabled: "non_identity_enabled",
+              urlBrowserIsolationEnabled: "url_browser_isolation_enabled",
+            }),
+          ),
           Schema.Null,
-        ),
-      ).pipe(T.JsonName("browser_isolation")),
+        ]),
+      ),
       certificate: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
             id: Schema.String,
           }),
           Schema.Null,
-        ),
+        ]),
       ),
       customCertificate: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
-            enabled: Schema.Union(Schema.Boolean, Schema.Null),
+            enabled: Schema.Union([Schema.Boolean, Schema.Null]),
             id: Schema.optional(Schema.String),
           }),
           Schema.Null,
-        ),
-      ).pipe(T.JsonName("custom_certificate")),
+        ]),
+      ),
       extendedEmailMatching: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
-            enabled: Schema.optional(Schema.Union(Schema.Boolean, Schema.Null)),
+            enabled: Schema.optional(
+              Schema.Union([Schema.Boolean, Schema.Null]),
+            ),
           }),
           Schema.Null,
-        ),
-      ).pipe(T.JsonName("extended_email_matching")),
+        ]),
+      ),
       fips: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
             tls: Schema.optional(Schema.Boolean),
           }),
           Schema.Null,
-        ),
+        ]),
       ),
       hostSelector: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
-            enabled: Schema.optional(Schema.Union(Schema.Boolean, Schema.Null)),
+            enabled: Schema.optional(
+              Schema.Union([Schema.Boolean, Schema.Null]),
+            ),
           }),
           Schema.Null,
-        ),
-      ).pipe(T.JsonName("host_selector")),
+        ]),
+      ),
       inspection: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
-            mode: Schema.optional(Schema.Literal("static", "dynamic")),
+            mode: Schema.optional(Schema.Literals(["static", "dynamic"])),
           }),
           Schema.Null,
-        ),
+        ]),
       ),
       protocolDetection: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
-            enabled: Schema.optional(Schema.Union(Schema.Boolean, Schema.Null)),
+            enabled: Schema.optional(
+              Schema.Union([Schema.Boolean, Schema.Null]),
+            ),
           }),
           Schema.Null,
-        ),
-      ).pipe(T.JsonName("protocol_detection")),
+        ]),
+      ),
       sandbox: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
-            enabled: Schema.optional(Schema.Union(Schema.Boolean, Schema.Null)),
+            enabled: Schema.optional(
+              Schema.Union([Schema.Boolean, Schema.Null]),
+            ),
             fallbackAction: Schema.optional(
-              Schema.Literal("allow", "block"),
-            ).pipe(T.JsonName("fallback_action")),
-          }),
+              Schema.Literals(["allow", "block"]),
+            ),
+          }).pipe(Schema.encodeKeys({ fallbackAction: "fallback_action" })),
           Schema.Null,
-        ),
+        ]),
       ),
       tlsDecrypt: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
             enabled: Schema.optional(Schema.Boolean),
           }),
           Schema.Null,
-        ),
-      ).pipe(T.JsonName("tls_decrypt")),
-    }),
+        ]),
+      ),
+    }).pipe(
+      Schema.encodeKeys({
+        activityLog: "activity_log",
+        blockPage: "block_page",
+        bodyScanning: "body_scanning",
+        browserIsolation: "browser_isolation",
+        customCertificate: "custom_certificate",
+        extendedEmailMatching: "extended_email_matching",
+        hostSelector: "host_selector",
+        protocolDetection: "protocol_detection",
+        tlsDecrypt: "tls_decrypt",
+      }),
+    ),
   ),
 }).pipe(
   T.Http({
@@ -21893,210 +23247,245 @@ export interface PutGatewayConfigurationResponse {
 }
 
 export const PutGatewayConfigurationResponse = Schema.Struct({
-  createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
+  createdAt: Schema.optional(Schema.String),
   settings: Schema.optional(
     Schema.Struct({
       activityLog: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
-            enabled: Schema.optional(Schema.Union(Schema.Boolean, Schema.Null)),
+            enabled: Schema.optional(
+              Schema.Union([Schema.Boolean, Schema.Null]),
+            ),
           }),
           Schema.Null,
-        ),
-      ).pipe(T.JsonName("activity_log")),
+        ]),
+      ),
       antivirus: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
             enabledDownloadPhase: Schema.optional(
-              Schema.Union(Schema.Boolean, Schema.Null),
-            ).pipe(T.JsonName("enabled_download_phase")),
+              Schema.Union([Schema.Boolean, Schema.Null]),
+            ),
             enabledUploadPhase: Schema.optional(
-              Schema.Union(Schema.Boolean, Schema.Null),
-            ).pipe(T.JsonName("enabled_upload_phase")),
+              Schema.Union([Schema.Boolean, Schema.Null]),
+            ),
             failClosed: Schema.optional(
-              Schema.Union(Schema.Boolean, Schema.Null),
-            ).pipe(T.JsonName("fail_closed")),
+              Schema.Union([Schema.Boolean, Schema.Null]),
+            ),
             notificationSettings: Schema.optional(
-              Schema.Union(
+              Schema.Union([
                 Schema.Struct({
                   enabled: Schema.optional(Schema.Boolean),
-                  includeContext: Schema.optional(Schema.Boolean).pipe(
-                    T.JsonName("include_context"),
-                  ),
+                  includeContext: Schema.optional(Schema.Boolean),
                   msg: Schema.optional(Schema.String),
-                  supportUrl: Schema.optional(Schema.String).pipe(
-                    T.JsonName("support_url"),
-                  ),
-                }),
+                  supportUrl: Schema.optional(Schema.String),
+                }).pipe(
+                  Schema.encodeKeys({
+                    includeContext: "include_context",
+                    supportUrl: "support_url",
+                  }),
+                ),
                 Schema.Null,
-              ),
-            ).pipe(T.JsonName("notification_settings")),
-          }),
+              ]),
+            ),
+          }).pipe(
+            Schema.encodeKeys({
+              enabledDownloadPhase: "enabled_download_phase",
+              enabledUploadPhase: "enabled_upload_phase",
+              failClosed: "fail_closed",
+              notificationSettings: "notification_settings",
+            }),
+          ),
           Schema.Null,
-        ),
+        ]),
       ),
       blockPage: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
-            backgroundColor: Schema.optional(Schema.String).pipe(
-              T.JsonName("background_color"),
+            backgroundColor: Schema.optional(Schema.String),
+            enabled: Schema.optional(
+              Schema.Union([Schema.Boolean, Schema.Null]),
             ),
-            enabled: Schema.optional(Schema.Union(Schema.Boolean, Schema.Null)),
-            footerText: Schema.optional(Schema.String).pipe(
-              T.JsonName("footer_text"),
-            ),
-            headerText: Schema.optional(Schema.String).pipe(
-              T.JsonName("header_text"),
-            ),
-            includeContext: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("include_context"),
-            ),
-            logoPath: Schema.optional(Schema.String).pipe(
-              T.JsonName("logo_path"),
-            ),
-            mailtoAddress: Schema.optional(Schema.String).pipe(
-              T.JsonName("mailto_address"),
-            ),
-            mailtoSubject: Schema.optional(Schema.String).pipe(
-              T.JsonName("mailto_subject"),
-            ),
+            footerText: Schema.optional(Schema.String),
+            headerText: Schema.optional(Schema.String),
+            includeContext: Schema.optional(Schema.Boolean),
+            logoPath: Schema.optional(Schema.String),
+            mailtoAddress: Schema.optional(Schema.String),
+            mailtoSubject: Schema.optional(Schema.String),
             mode: Schema.optional(
-              Schema.Literal("", "customized_block_page", "redirect_uri"),
+              Schema.Literals(["", "customized_block_page", "redirect_uri"]),
             ),
             name: Schema.optional(Schema.String),
             readOnly: Schema.optional(
-              Schema.Union(Schema.Boolean, Schema.Null),
-            ).pipe(T.JsonName("read_only")),
+              Schema.Union([Schema.Boolean, Schema.Null]),
+            ),
             sourceAccount: Schema.optional(
-              Schema.Union(Schema.String, Schema.Null),
-            ).pipe(T.JsonName("source_account")),
-            suppressFooter: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("suppress_footer"),
+              Schema.Union([Schema.String, Schema.Null]),
             ),
-            targetUri: Schema.optional(Schema.String).pipe(
-              T.JsonName("target_uri"),
+            suppressFooter: Schema.optional(Schema.Boolean),
+            targetUri: Schema.optional(Schema.String),
+            version: Schema.optional(
+              Schema.Union([Schema.Number, Schema.Null]),
             ),
-            version: Schema.optional(Schema.Union(Schema.Number, Schema.Null)),
-          }),
+          }).pipe(
+            Schema.encodeKeys({
+              backgroundColor: "background_color",
+              footerText: "footer_text",
+              headerText: "header_text",
+              includeContext: "include_context",
+              logoPath: "logo_path",
+              mailtoAddress: "mailto_address",
+              mailtoSubject: "mailto_subject",
+              readOnly: "read_only",
+              sourceAccount: "source_account",
+              suppressFooter: "suppress_footer",
+              targetUri: "target_uri",
+            }),
+          ),
           Schema.Null,
-        ),
-      ).pipe(T.JsonName("block_page")),
+        ]),
+      ),
       bodyScanning: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
             inspectionMode: Schema.optional(
-              Schema.Literal("deep", "shallow"),
-            ).pipe(T.JsonName("inspection_mode")),
-          }),
+              Schema.Literals(["deep", "shallow"]),
+            ),
+          }).pipe(Schema.encodeKeys({ inspectionMode: "inspection_mode" })),
           Schema.Null,
-        ),
-      ).pipe(T.JsonName("body_scanning")),
+        ]),
+      ),
       browserIsolation: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
-            nonIdentityEnabled: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("non_identity_enabled"),
-            ),
-            urlBrowserIsolationEnabled: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("url_browser_isolation_enabled"),
-            ),
-          }),
+            nonIdentityEnabled: Schema.optional(Schema.Boolean),
+            urlBrowserIsolationEnabled: Schema.optional(Schema.Boolean),
+          }).pipe(
+            Schema.encodeKeys({
+              nonIdentityEnabled: "non_identity_enabled",
+              urlBrowserIsolationEnabled: "url_browser_isolation_enabled",
+            }),
+          ),
           Schema.Null,
-        ),
-      ).pipe(T.JsonName("browser_isolation")),
+        ]),
+      ),
       certificate: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
             id: Schema.String,
           }),
           Schema.Null,
-        ),
+        ]),
       ),
       customCertificate: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
-            enabled: Schema.Union(Schema.Boolean, Schema.Null),
+            enabled: Schema.Union([Schema.Boolean, Schema.Null]),
             id: Schema.optional(Schema.String),
-            bindingStatus: Schema.optional(Schema.String).pipe(
-              T.JsonName("binding_status"),
-            ),
-            updatedAt: Schema.optional(Schema.String).pipe(
-              T.JsonName("updated_at"),
-            ),
-          }),
+            bindingStatus: Schema.optional(Schema.String),
+            updatedAt: Schema.optional(Schema.String),
+          }).pipe(
+            Schema.encodeKeys({
+              bindingStatus: "binding_status",
+              updatedAt: "updated_at",
+            }),
+          ),
           Schema.Null,
-        ),
-      ).pipe(T.JsonName("custom_certificate")),
+        ]),
+      ),
       extendedEmailMatching: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
-            enabled: Schema.optional(Schema.Union(Schema.Boolean, Schema.Null)),
-            readOnly: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("read_only"),
+            enabled: Schema.optional(
+              Schema.Union([Schema.Boolean, Schema.Null]),
             ),
-            sourceAccount: Schema.optional(Schema.String).pipe(
-              T.JsonName("source_account"),
-            ),
+            readOnly: Schema.optional(Schema.Boolean),
+            sourceAccount: Schema.optional(Schema.String),
             version: Schema.optional(Schema.Number),
-          }),
+          }).pipe(
+            Schema.encodeKeys({
+              readOnly: "read_only",
+              sourceAccount: "source_account",
+            }),
+          ),
           Schema.Null,
-        ),
-      ).pipe(T.JsonName("extended_email_matching")),
+        ]),
+      ),
       fips: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
             tls: Schema.optional(Schema.Boolean),
           }),
           Schema.Null,
-        ),
+        ]),
       ),
       hostSelector: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
-            enabled: Schema.optional(Schema.Union(Schema.Boolean, Schema.Null)),
+            enabled: Schema.optional(
+              Schema.Union([Schema.Boolean, Schema.Null]),
+            ),
           }),
           Schema.Null,
-        ),
-      ).pipe(T.JsonName("host_selector")),
+        ]),
+      ),
       inspection: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
-            mode: Schema.optional(Schema.Literal("static", "dynamic")),
+            mode: Schema.optional(Schema.Literals(["static", "dynamic"])),
           }),
           Schema.Null,
-        ),
+        ]),
       ),
       protocolDetection: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
-            enabled: Schema.optional(Schema.Union(Schema.Boolean, Schema.Null)),
+            enabled: Schema.optional(
+              Schema.Union([Schema.Boolean, Schema.Null]),
+            ),
           }),
           Schema.Null,
-        ),
-      ).pipe(T.JsonName("protocol_detection")),
+        ]),
+      ),
       sandbox: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
-            enabled: Schema.optional(Schema.Union(Schema.Boolean, Schema.Null)),
+            enabled: Schema.optional(
+              Schema.Union([Schema.Boolean, Schema.Null]),
+            ),
             fallbackAction: Schema.optional(
-              Schema.Literal("allow", "block"),
-            ).pipe(T.JsonName("fallback_action")),
-          }),
+              Schema.Literals(["allow", "block"]),
+            ),
+          }).pipe(Schema.encodeKeys({ fallbackAction: "fallback_action" })),
           Schema.Null,
-        ),
+        ]),
       ),
       tlsDecrypt: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
             enabled: Schema.optional(Schema.Boolean),
           }),
           Schema.Null,
-        ),
-      ).pipe(T.JsonName("tls_decrypt")),
-    }),
+        ]),
+      ),
+    }).pipe(
+      Schema.encodeKeys({
+        activityLog: "activity_log",
+        blockPage: "block_page",
+        bodyScanning: "body_scanning",
+        browserIsolation: "browser_isolation",
+        customCertificate: "custom_certificate",
+        extendedEmailMatching: "extended_email_matching",
+        hostSelector: "host_selector",
+        protocolDetection: "protocol_detection",
+        tlsDecrypt: "tls_decrypt",
+      }),
+    ),
   ),
-  updatedAt: Schema.optional(Schema.String).pipe(T.JsonName("updated_at")),
-}) as unknown as Schema.Schema<PutGatewayConfigurationResponse>;
+  updatedAt: Schema.optional(Schema.String),
+}).pipe(
+  Schema.encodeKeys({ createdAt: "created_at", updatedAt: "updated_at" }),
+) as unknown as Schema.Schema<PutGatewayConfigurationResponse>;
 
 export const putGatewayConfiguration: (
   input: PutGatewayConfigurationRequest,
@@ -22166,183 +23555,210 @@ export const PatchGatewayConfigurationRequest = Schema.Struct({
   settings: Schema.optional(
     Schema.Struct({
       activityLog: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
-            enabled: Schema.optional(Schema.Union(Schema.Boolean, Schema.Null)),
+            enabled: Schema.optional(
+              Schema.Union([Schema.Boolean, Schema.Null]),
+            ),
           }),
           Schema.Null,
-        ),
-      ).pipe(T.JsonName("activity_log")),
+        ]),
+      ),
       antivirus: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
             enabledDownloadPhase: Schema.optional(
-              Schema.Union(Schema.Boolean, Schema.Null),
-            ).pipe(T.JsonName("enabled_download_phase")),
+              Schema.Union([Schema.Boolean, Schema.Null]),
+            ),
             enabledUploadPhase: Schema.optional(
-              Schema.Union(Schema.Boolean, Schema.Null),
-            ).pipe(T.JsonName("enabled_upload_phase")),
+              Schema.Union([Schema.Boolean, Schema.Null]),
+            ),
             failClosed: Schema.optional(
-              Schema.Union(Schema.Boolean, Schema.Null),
-            ).pipe(T.JsonName("fail_closed")),
+              Schema.Union([Schema.Boolean, Schema.Null]),
+            ),
             notificationSettings: Schema.optional(
-              Schema.Union(
+              Schema.Union([
                 Schema.Struct({
                   enabled: Schema.optional(Schema.Boolean),
-                  includeContext: Schema.optional(Schema.Boolean).pipe(
-                    T.JsonName("include_context"),
-                  ),
+                  includeContext: Schema.optional(Schema.Boolean),
                   msg: Schema.optional(Schema.String),
-                  supportUrl: Schema.optional(Schema.String).pipe(
-                    T.JsonName("support_url"),
-                  ),
-                }),
+                  supportUrl: Schema.optional(Schema.String),
+                }).pipe(
+                  Schema.encodeKeys({
+                    includeContext: "include_context",
+                    supportUrl: "support_url",
+                  }),
+                ),
                 Schema.Null,
-              ),
-            ).pipe(T.JsonName("notification_settings")),
-          }),
+              ]),
+            ),
+          }).pipe(
+            Schema.encodeKeys({
+              enabledDownloadPhase: "enabled_download_phase",
+              enabledUploadPhase: "enabled_upload_phase",
+              failClosed: "fail_closed",
+              notificationSettings: "notification_settings",
+            }),
+          ),
           Schema.Null,
-        ),
+        ]),
       ),
       blockPage: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
-            backgroundColor: Schema.optional(Schema.String).pipe(
-              T.JsonName("background_color"),
+            backgroundColor: Schema.optional(Schema.String),
+            enabled: Schema.optional(
+              Schema.Union([Schema.Boolean, Schema.Null]),
             ),
-            enabled: Schema.optional(Schema.Union(Schema.Boolean, Schema.Null)),
-            footerText: Schema.optional(Schema.String).pipe(
-              T.JsonName("footer_text"),
-            ),
-            headerText: Schema.optional(Schema.String).pipe(
-              T.JsonName("header_text"),
-            ),
-            includeContext: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("include_context"),
-            ),
-            logoPath: Schema.optional(Schema.String).pipe(
-              T.JsonName("logo_path"),
-            ),
-            mailtoAddress: Schema.optional(Schema.String).pipe(
-              T.JsonName("mailto_address"),
-            ),
-            mailtoSubject: Schema.optional(Schema.String).pipe(
-              T.JsonName("mailto_subject"),
-            ),
+            footerText: Schema.optional(Schema.String),
+            headerText: Schema.optional(Schema.String),
+            includeContext: Schema.optional(Schema.Boolean),
+            logoPath: Schema.optional(Schema.String),
+            mailtoAddress: Schema.optional(Schema.String),
+            mailtoSubject: Schema.optional(Schema.String),
             mode: Schema.optional(
-              Schema.Literal("", "customized_block_page", "redirect_uri"),
+              Schema.Literals(["", "customized_block_page", "redirect_uri"]),
             ),
             name: Schema.optional(Schema.String),
-            suppressFooter: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("suppress_footer"),
-            ),
-            targetUri: Schema.optional(Schema.String).pipe(
-              T.JsonName("target_uri"),
-            ),
-          }),
+            suppressFooter: Schema.optional(Schema.Boolean),
+            targetUri: Schema.optional(Schema.String),
+          }).pipe(
+            Schema.encodeKeys({
+              backgroundColor: "background_color",
+              footerText: "footer_text",
+              headerText: "header_text",
+              includeContext: "include_context",
+              logoPath: "logo_path",
+              mailtoAddress: "mailto_address",
+              mailtoSubject: "mailto_subject",
+              suppressFooter: "suppress_footer",
+              targetUri: "target_uri",
+            }),
+          ),
           Schema.Null,
-        ),
-      ).pipe(T.JsonName("block_page")),
+        ]),
+      ),
       bodyScanning: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
             inspectionMode: Schema.optional(
-              Schema.Literal("deep", "shallow"),
-            ).pipe(T.JsonName("inspection_mode")),
-          }),
+              Schema.Literals(["deep", "shallow"]),
+            ),
+          }).pipe(Schema.encodeKeys({ inspectionMode: "inspection_mode" })),
           Schema.Null,
-        ),
-      ).pipe(T.JsonName("body_scanning")),
+        ]),
+      ),
       browserIsolation: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
-            nonIdentityEnabled: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("non_identity_enabled"),
-            ),
-            urlBrowserIsolationEnabled: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("url_browser_isolation_enabled"),
-            ),
-          }),
+            nonIdentityEnabled: Schema.optional(Schema.Boolean),
+            urlBrowserIsolationEnabled: Schema.optional(Schema.Boolean),
+          }).pipe(
+            Schema.encodeKeys({
+              nonIdentityEnabled: "non_identity_enabled",
+              urlBrowserIsolationEnabled: "url_browser_isolation_enabled",
+            }),
+          ),
           Schema.Null,
-        ),
-      ).pipe(T.JsonName("browser_isolation")),
+        ]),
+      ),
       certificate: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
             id: Schema.String,
           }),
           Schema.Null,
-        ),
+        ]),
       ),
       customCertificate: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
-            enabled: Schema.Union(Schema.Boolean, Schema.Null),
+            enabled: Schema.Union([Schema.Boolean, Schema.Null]),
             id: Schema.optional(Schema.String),
           }),
           Schema.Null,
-        ),
-      ).pipe(T.JsonName("custom_certificate")),
+        ]),
+      ),
       extendedEmailMatching: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
-            enabled: Schema.optional(Schema.Union(Schema.Boolean, Schema.Null)),
+            enabled: Schema.optional(
+              Schema.Union([Schema.Boolean, Schema.Null]),
+            ),
           }),
           Schema.Null,
-        ),
-      ).pipe(T.JsonName("extended_email_matching")),
+        ]),
+      ),
       fips: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
             tls: Schema.optional(Schema.Boolean),
           }),
           Schema.Null,
-        ),
+        ]),
       ),
       hostSelector: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
-            enabled: Schema.optional(Schema.Union(Schema.Boolean, Schema.Null)),
+            enabled: Schema.optional(
+              Schema.Union([Schema.Boolean, Schema.Null]),
+            ),
           }),
           Schema.Null,
-        ),
-      ).pipe(T.JsonName("host_selector")),
+        ]),
+      ),
       inspection: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
-            mode: Schema.optional(Schema.Literal("static", "dynamic")),
+            mode: Schema.optional(Schema.Literals(["static", "dynamic"])),
           }),
           Schema.Null,
-        ),
+        ]),
       ),
       protocolDetection: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
-            enabled: Schema.optional(Schema.Union(Schema.Boolean, Schema.Null)),
+            enabled: Schema.optional(
+              Schema.Union([Schema.Boolean, Schema.Null]),
+            ),
           }),
           Schema.Null,
-        ),
-      ).pipe(T.JsonName("protocol_detection")),
+        ]),
+      ),
       sandbox: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
-            enabled: Schema.optional(Schema.Union(Schema.Boolean, Schema.Null)),
+            enabled: Schema.optional(
+              Schema.Union([Schema.Boolean, Schema.Null]),
+            ),
             fallbackAction: Schema.optional(
-              Schema.Literal("allow", "block"),
-            ).pipe(T.JsonName("fallback_action")),
-          }),
+              Schema.Literals(["allow", "block"]),
+            ),
+          }).pipe(Schema.encodeKeys({ fallbackAction: "fallback_action" })),
           Schema.Null,
-        ),
+        ]),
       ),
       tlsDecrypt: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
             enabled: Schema.optional(Schema.Boolean),
           }),
           Schema.Null,
-        ),
-      ).pipe(T.JsonName("tls_decrypt")),
-    }),
+        ]),
+      ),
+    }).pipe(
+      Schema.encodeKeys({
+        activityLog: "activity_log",
+        blockPage: "block_page",
+        bodyScanning: "body_scanning",
+        browserIsolation: "browser_isolation",
+        customCertificate: "custom_certificate",
+        extendedEmailMatching: "extended_email_matching",
+        hostSelector: "host_selector",
+        protocolDetection: "protocol_detection",
+        tlsDecrypt: "tls_decrypt",
+      }),
+    ),
   ),
 }).pipe(
   T.Http({
@@ -22416,210 +23832,245 @@ export interface PatchGatewayConfigurationResponse {
 }
 
 export const PatchGatewayConfigurationResponse = Schema.Struct({
-  createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
+  createdAt: Schema.optional(Schema.String),
   settings: Schema.optional(
     Schema.Struct({
       activityLog: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
-            enabled: Schema.optional(Schema.Union(Schema.Boolean, Schema.Null)),
+            enabled: Schema.optional(
+              Schema.Union([Schema.Boolean, Schema.Null]),
+            ),
           }),
           Schema.Null,
-        ),
-      ).pipe(T.JsonName("activity_log")),
+        ]),
+      ),
       antivirus: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
             enabledDownloadPhase: Schema.optional(
-              Schema.Union(Schema.Boolean, Schema.Null),
-            ).pipe(T.JsonName("enabled_download_phase")),
+              Schema.Union([Schema.Boolean, Schema.Null]),
+            ),
             enabledUploadPhase: Schema.optional(
-              Schema.Union(Schema.Boolean, Schema.Null),
-            ).pipe(T.JsonName("enabled_upload_phase")),
+              Schema.Union([Schema.Boolean, Schema.Null]),
+            ),
             failClosed: Schema.optional(
-              Schema.Union(Schema.Boolean, Schema.Null),
-            ).pipe(T.JsonName("fail_closed")),
+              Schema.Union([Schema.Boolean, Schema.Null]),
+            ),
             notificationSettings: Schema.optional(
-              Schema.Union(
+              Schema.Union([
                 Schema.Struct({
                   enabled: Schema.optional(Schema.Boolean),
-                  includeContext: Schema.optional(Schema.Boolean).pipe(
-                    T.JsonName("include_context"),
-                  ),
+                  includeContext: Schema.optional(Schema.Boolean),
                   msg: Schema.optional(Schema.String),
-                  supportUrl: Schema.optional(Schema.String).pipe(
-                    T.JsonName("support_url"),
-                  ),
-                }),
+                  supportUrl: Schema.optional(Schema.String),
+                }).pipe(
+                  Schema.encodeKeys({
+                    includeContext: "include_context",
+                    supportUrl: "support_url",
+                  }),
+                ),
                 Schema.Null,
-              ),
-            ).pipe(T.JsonName("notification_settings")),
-          }),
+              ]),
+            ),
+          }).pipe(
+            Schema.encodeKeys({
+              enabledDownloadPhase: "enabled_download_phase",
+              enabledUploadPhase: "enabled_upload_phase",
+              failClosed: "fail_closed",
+              notificationSettings: "notification_settings",
+            }),
+          ),
           Schema.Null,
-        ),
+        ]),
       ),
       blockPage: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
-            backgroundColor: Schema.optional(Schema.String).pipe(
-              T.JsonName("background_color"),
+            backgroundColor: Schema.optional(Schema.String),
+            enabled: Schema.optional(
+              Schema.Union([Schema.Boolean, Schema.Null]),
             ),
-            enabled: Schema.optional(Schema.Union(Schema.Boolean, Schema.Null)),
-            footerText: Schema.optional(Schema.String).pipe(
-              T.JsonName("footer_text"),
-            ),
-            headerText: Schema.optional(Schema.String).pipe(
-              T.JsonName("header_text"),
-            ),
-            includeContext: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("include_context"),
-            ),
-            logoPath: Schema.optional(Schema.String).pipe(
-              T.JsonName("logo_path"),
-            ),
-            mailtoAddress: Schema.optional(Schema.String).pipe(
-              T.JsonName("mailto_address"),
-            ),
-            mailtoSubject: Schema.optional(Schema.String).pipe(
-              T.JsonName("mailto_subject"),
-            ),
+            footerText: Schema.optional(Schema.String),
+            headerText: Schema.optional(Schema.String),
+            includeContext: Schema.optional(Schema.Boolean),
+            logoPath: Schema.optional(Schema.String),
+            mailtoAddress: Schema.optional(Schema.String),
+            mailtoSubject: Schema.optional(Schema.String),
             mode: Schema.optional(
-              Schema.Literal("", "customized_block_page", "redirect_uri"),
+              Schema.Literals(["", "customized_block_page", "redirect_uri"]),
             ),
             name: Schema.optional(Schema.String),
             readOnly: Schema.optional(
-              Schema.Union(Schema.Boolean, Schema.Null),
-            ).pipe(T.JsonName("read_only")),
+              Schema.Union([Schema.Boolean, Schema.Null]),
+            ),
             sourceAccount: Schema.optional(
-              Schema.Union(Schema.String, Schema.Null),
-            ).pipe(T.JsonName("source_account")),
-            suppressFooter: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("suppress_footer"),
+              Schema.Union([Schema.String, Schema.Null]),
             ),
-            targetUri: Schema.optional(Schema.String).pipe(
-              T.JsonName("target_uri"),
+            suppressFooter: Schema.optional(Schema.Boolean),
+            targetUri: Schema.optional(Schema.String),
+            version: Schema.optional(
+              Schema.Union([Schema.Number, Schema.Null]),
             ),
-            version: Schema.optional(Schema.Union(Schema.Number, Schema.Null)),
-          }),
+          }).pipe(
+            Schema.encodeKeys({
+              backgroundColor: "background_color",
+              footerText: "footer_text",
+              headerText: "header_text",
+              includeContext: "include_context",
+              logoPath: "logo_path",
+              mailtoAddress: "mailto_address",
+              mailtoSubject: "mailto_subject",
+              readOnly: "read_only",
+              sourceAccount: "source_account",
+              suppressFooter: "suppress_footer",
+              targetUri: "target_uri",
+            }),
+          ),
           Schema.Null,
-        ),
-      ).pipe(T.JsonName("block_page")),
+        ]),
+      ),
       bodyScanning: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
             inspectionMode: Schema.optional(
-              Schema.Literal("deep", "shallow"),
-            ).pipe(T.JsonName("inspection_mode")),
-          }),
+              Schema.Literals(["deep", "shallow"]),
+            ),
+          }).pipe(Schema.encodeKeys({ inspectionMode: "inspection_mode" })),
           Schema.Null,
-        ),
-      ).pipe(T.JsonName("body_scanning")),
+        ]),
+      ),
       browserIsolation: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
-            nonIdentityEnabled: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("non_identity_enabled"),
-            ),
-            urlBrowserIsolationEnabled: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("url_browser_isolation_enabled"),
-            ),
-          }),
+            nonIdentityEnabled: Schema.optional(Schema.Boolean),
+            urlBrowserIsolationEnabled: Schema.optional(Schema.Boolean),
+          }).pipe(
+            Schema.encodeKeys({
+              nonIdentityEnabled: "non_identity_enabled",
+              urlBrowserIsolationEnabled: "url_browser_isolation_enabled",
+            }),
+          ),
           Schema.Null,
-        ),
-      ).pipe(T.JsonName("browser_isolation")),
+        ]),
+      ),
       certificate: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
             id: Schema.String,
           }),
           Schema.Null,
-        ),
+        ]),
       ),
       customCertificate: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
-            enabled: Schema.Union(Schema.Boolean, Schema.Null),
+            enabled: Schema.Union([Schema.Boolean, Schema.Null]),
             id: Schema.optional(Schema.String),
-            bindingStatus: Schema.optional(Schema.String).pipe(
-              T.JsonName("binding_status"),
-            ),
-            updatedAt: Schema.optional(Schema.String).pipe(
-              T.JsonName("updated_at"),
-            ),
-          }),
+            bindingStatus: Schema.optional(Schema.String),
+            updatedAt: Schema.optional(Schema.String),
+          }).pipe(
+            Schema.encodeKeys({
+              bindingStatus: "binding_status",
+              updatedAt: "updated_at",
+            }),
+          ),
           Schema.Null,
-        ),
-      ).pipe(T.JsonName("custom_certificate")),
+        ]),
+      ),
       extendedEmailMatching: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
-            enabled: Schema.optional(Schema.Union(Schema.Boolean, Schema.Null)),
-            readOnly: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("read_only"),
+            enabled: Schema.optional(
+              Schema.Union([Schema.Boolean, Schema.Null]),
             ),
-            sourceAccount: Schema.optional(Schema.String).pipe(
-              T.JsonName("source_account"),
-            ),
+            readOnly: Schema.optional(Schema.Boolean),
+            sourceAccount: Schema.optional(Schema.String),
             version: Schema.optional(Schema.Number),
-          }),
+          }).pipe(
+            Schema.encodeKeys({
+              readOnly: "read_only",
+              sourceAccount: "source_account",
+            }),
+          ),
           Schema.Null,
-        ),
-      ).pipe(T.JsonName("extended_email_matching")),
+        ]),
+      ),
       fips: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
             tls: Schema.optional(Schema.Boolean),
           }),
           Schema.Null,
-        ),
+        ]),
       ),
       hostSelector: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
-            enabled: Schema.optional(Schema.Union(Schema.Boolean, Schema.Null)),
+            enabled: Schema.optional(
+              Schema.Union([Schema.Boolean, Schema.Null]),
+            ),
           }),
           Schema.Null,
-        ),
-      ).pipe(T.JsonName("host_selector")),
+        ]),
+      ),
       inspection: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
-            mode: Schema.optional(Schema.Literal("static", "dynamic")),
+            mode: Schema.optional(Schema.Literals(["static", "dynamic"])),
           }),
           Schema.Null,
-        ),
+        ]),
       ),
       protocolDetection: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
-            enabled: Schema.optional(Schema.Union(Schema.Boolean, Schema.Null)),
+            enabled: Schema.optional(
+              Schema.Union([Schema.Boolean, Schema.Null]),
+            ),
           }),
           Schema.Null,
-        ),
-      ).pipe(T.JsonName("protocol_detection")),
+        ]),
+      ),
       sandbox: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
-            enabled: Schema.optional(Schema.Union(Schema.Boolean, Schema.Null)),
+            enabled: Schema.optional(
+              Schema.Union([Schema.Boolean, Schema.Null]),
+            ),
             fallbackAction: Schema.optional(
-              Schema.Literal("allow", "block"),
-            ).pipe(T.JsonName("fallback_action")),
-          }),
+              Schema.Literals(["allow", "block"]),
+            ),
+          }).pipe(Schema.encodeKeys({ fallbackAction: "fallback_action" })),
           Schema.Null,
-        ),
+        ]),
       ),
       tlsDecrypt: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
             enabled: Schema.optional(Schema.Boolean),
           }),
           Schema.Null,
-        ),
-      ).pipe(T.JsonName("tls_decrypt")),
-    }),
+        ]),
+      ),
+    }).pipe(
+      Schema.encodeKeys({
+        activityLog: "activity_log",
+        blockPage: "block_page",
+        bodyScanning: "body_scanning",
+        browserIsolation: "browser_isolation",
+        customCertificate: "custom_certificate",
+        extendedEmailMatching: "extended_email_matching",
+        hostSelector: "host_selector",
+        protocolDetection: "protocol_detection",
+        tlsDecrypt: "tls_decrypt",
+      }),
+    ),
   ),
-  updatedAt: Schema.optional(Schema.String).pipe(T.JsonName("updated_at")),
-}) as unknown as Schema.Schema<PatchGatewayConfigurationResponse>;
+  updatedAt: Schema.optional(Schema.String),
+}).pipe(
+  Schema.encodeKeys({ createdAt: "created_at", updatedAt: "updated_at" }),
+) as unknown as Schema.Schema<PatchGatewayConfigurationResponse>;
 
 export const patchGatewayConfiguration: (
   input: PatchGatewayConfigurationRequest,
@@ -22714,22 +24165,20 @@ export interface GetGatewayListResponse {
 export const GetGatewayListResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
   count: Schema.optional(Schema.Number),
-  createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
+  createdAt: Schema.optional(Schema.String),
   description: Schema.optional(Schema.String),
   items: Schema.optional(
     Schema.Array(
       Schema.Struct({
-        createdAt: Schema.optional(Schema.String).pipe(
-          T.JsonName("created_at"),
-        ),
+        createdAt: Schema.optional(Schema.String),
         description: Schema.optional(Schema.String),
         value: Schema.optional(Schema.String),
-      }),
+      }).pipe(Schema.encodeKeys({ createdAt: "created_at" })),
     ),
   ),
   name: Schema.optional(Schema.String),
   type: Schema.optional(
-    Schema.Literal(
+    Schema.Literals([
       "SERIAL",
       "URL",
       "DOMAIN",
@@ -22738,10 +24187,12 @@ export const GetGatewayListResponse = Schema.Struct({
       "CATEGORY",
       "LOCATION",
       "DEVICE",
-    ),
+    ]),
   ),
-  updatedAt: Schema.optional(Schema.String).pipe(T.JsonName("updated_at")),
-}) as unknown as Schema.Schema<GetGatewayListResponse>;
+  updatedAt: Schema.optional(Schema.String),
+}).pipe(
+  Schema.encodeKeys({ createdAt: "created_at", updatedAt: "updated_at" }),
+) as unknown as Schema.Schema<GetGatewayListResponse>;
 
 export const getGatewayList: (
   input: GetGatewayListRequest,
@@ -22779,7 +24230,7 @@ export interface CreateGatewayListRequest {
 export const CreateGatewayListRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   name: Schema.String,
-  type: Schema.Literal(
+  type: Schema.Literals([
     "SERIAL",
     "URL",
     "DOMAIN",
@@ -22788,7 +24239,7 @@ export const CreateGatewayListRequest = Schema.Struct({
     "CATEGORY",
     "LOCATION",
     "DEVICE",
-  ),
+  ]),
   description: Schema.optional(Schema.String),
   items: Schema.optional(
     Schema.Array(
@@ -22827,22 +24278,20 @@ export interface CreateGatewayListResponse {
 
 export const CreateGatewayListResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
-  createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
+  createdAt: Schema.optional(Schema.String),
   description: Schema.optional(Schema.String),
   items: Schema.optional(
     Schema.Array(
       Schema.Struct({
-        createdAt: Schema.optional(Schema.String).pipe(
-          T.JsonName("created_at"),
-        ),
+        createdAt: Schema.optional(Schema.String),
         description: Schema.optional(Schema.String),
         value: Schema.optional(Schema.String),
-      }),
+      }).pipe(Schema.encodeKeys({ createdAt: "created_at" })),
     ),
   ),
   name: Schema.optional(Schema.String),
   type: Schema.optional(
-    Schema.Literal(
+    Schema.Literals([
       "SERIAL",
       "URL",
       "DOMAIN",
@@ -22851,10 +24300,12 @@ export const CreateGatewayListResponse = Schema.Struct({
       "CATEGORY",
       "LOCATION",
       "DEVICE",
-    ),
+    ]),
   ),
-  updatedAt: Schema.optional(Schema.String).pipe(T.JsonName("updated_at")),
-}) as unknown as Schema.Schema<CreateGatewayListResponse>;
+  updatedAt: Schema.optional(Schema.String),
+}).pipe(
+  Schema.encodeKeys({ createdAt: "created_at", updatedAt: "updated_at" }),
+) as unknown as Schema.Schema<CreateGatewayListResponse>;
 
 export const createGatewayList: (
   input: CreateGatewayListRequest,
@@ -22928,22 +24379,20 @@ export interface UpdateGatewayListResponse {
 export const UpdateGatewayListResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
   count: Schema.optional(Schema.Number),
-  createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
+  createdAt: Schema.optional(Schema.String),
   description: Schema.optional(Schema.String),
   items: Schema.optional(
     Schema.Array(
       Schema.Struct({
-        createdAt: Schema.optional(Schema.String).pipe(
-          T.JsonName("created_at"),
-        ),
+        createdAt: Schema.optional(Schema.String),
         description: Schema.optional(Schema.String),
         value: Schema.optional(Schema.String),
-      }),
+      }).pipe(Schema.encodeKeys({ createdAt: "created_at" })),
     ),
   ),
   name: Schema.optional(Schema.String),
   type: Schema.optional(
-    Schema.Literal(
+    Schema.Literals([
       "SERIAL",
       "URL",
       "DOMAIN",
@@ -22952,10 +24401,12 @@ export const UpdateGatewayListResponse = Schema.Struct({
       "CATEGORY",
       "LOCATION",
       "DEVICE",
-    ),
+    ]),
   ),
-  updatedAt: Schema.optional(Schema.String).pipe(T.JsonName("updated_at")),
-}) as unknown as Schema.Schema<UpdateGatewayListResponse>;
+  updatedAt: Schema.optional(Schema.String),
+}).pipe(
+  Schema.encodeKeys({ createdAt: "created_at", updatedAt: "updated_at" }),
+) as unknown as Schema.Schema<UpdateGatewayListResponse>;
 
 export const updateGatewayList: (
   input: UpdateGatewayListRequest,
@@ -23026,22 +24477,20 @@ export interface PatchGatewayListResponse {
 export const PatchGatewayListResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
   count: Schema.optional(Schema.Number),
-  createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
+  createdAt: Schema.optional(Schema.String),
   description: Schema.optional(Schema.String),
   items: Schema.optional(
     Schema.Array(
       Schema.Struct({
-        createdAt: Schema.optional(Schema.String).pipe(
-          T.JsonName("created_at"),
-        ),
+        createdAt: Schema.optional(Schema.String),
         description: Schema.optional(Schema.String),
         value: Schema.optional(Schema.String),
-      }),
+      }).pipe(Schema.encodeKeys({ createdAt: "created_at" })),
     ),
   ),
   name: Schema.optional(Schema.String),
   type: Schema.optional(
-    Schema.Literal(
+    Schema.Literals([
       "SERIAL",
       "URL",
       "DOMAIN",
@@ -23050,10 +24499,12 @@ export const PatchGatewayListResponse = Schema.Struct({
       "CATEGORY",
       "LOCATION",
       "DEVICE",
-    ),
+    ]),
   ),
-  updatedAt: Schema.optional(Schema.String).pipe(T.JsonName("updated_at")),
-}) as unknown as Schema.Schema<PatchGatewayListResponse>;
+  updatedAt: Schema.optional(Schema.String),
+}).pipe(
+  Schema.encodeKeys({ createdAt: "created_at", updatedAt: "updated_at" }),
+) as unknown as Schema.Schema<PatchGatewayListResponse>;
 
 export const patchGatewayList: (
   input: PatchGatewayListRequest,
@@ -23157,50 +24608,42 @@ export interface GetGatewayLocationResponse {
 
 export const GetGatewayLocationResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
-  clientDefault: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("client_default"),
-  ),
-  createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
-  dnsDestinationIpsId: Schema.optional(Schema.String).pipe(
-    T.JsonName("dns_destination_ips_id"),
-  ),
+  clientDefault: Schema.optional(Schema.Boolean),
+  createdAt: Schema.optional(Schema.String),
+  dnsDestinationIpsId: Schema.optional(Schema.String),
   dnsDestinationIpv6BlockId: Schema.optional(
-    Schema.Union(Schema.String, Schema.Null),
-  ).pipe(T.JsonName("dns_destination_ipv6_block_id")),
-  dohSubdomain: Schema.optional(Schema.String).pipe(
-    T.JsonName("doh_subdomain"),
+    Schema.Union([Schema.String, Schema.Null]),
   ),
-  ecsSupport: Schema.optional(Schema.Boolean).pipe(T.JsonName("ecs_support")),
+  dohSubdomain: Schema.optional(Schema.String),
+  ecsSupport: Schema.optional(Schema.Boolean),
   endpoints: Schema.optional(
-    Schema.Union(
+    Schema.Union([
       Schema.Struct({
         doh: Schema.Struct({
           enabled: Schema.optional(Schema.Boolean),
           networks: Schema.optional(
-            Schema.Union(
+            Schema.Union([
               Schema.Array(
                 Schema.Struct({
                   network: Schema.String,
                 }),
               ),
               Schema.Null,
-            ),
+            ]),
           ),
-          requireToken: Schema.optional(Schema.Boolean).pipe(
-            T.JsonName("require_token"),
-          ),
-        }),
+          requireToken: Schema.optional(Schema.Boolean),
+        }).pipe(Schema.encodeKeys({ requireToken: "require_token" })),
         dot: Schema.Struct({
           enabled: Schema.optional(Schema.Boolean),
           networks: Schema.optional(
-            Schema.Union(
+            Schema.Union([
               Schema.Array(
                 Schema.Struct({
                   network: Schema.String,
                 }),
               ),
               Schema.Null,
-            ),
+            ]),
           ),
         }),
         ipv4: Schema.Struct({
@@ -23209,40 +24652,48 @@ export const GetGatewayLocationResponse = Schema.Struct({
         ipv6: Schema.Struct({
           enabled: Schema.optional(Schema.Boolean),
           networks: Schema.optional(
-            Schema.Union(
+            Schema.Union([
               Schema.Array(
                 Schema.Struct({
                   network: Schema.String,
                 }),
               ),
               Schema.Null,
-            ),
+            ]),
           ),
         }),
       }),
       Schema.Null,
-    ),
+    ]),
   ),
   ip: Schema.optional(Schema.String),
-  ipv4Destination: Schema.optional(Schema.String).pipe(
-    T.JsonName("ipv4_destination"),
-  ),
-  ipv4DestinationBackup: Schema.optional(Schema.String).pipe(
-    T.JsonName("ipv4_destination_backup"),
-  ),
+  ipv4Destination: Schema.optional(Schema.String),
+  ipv4DestinationBackup: Schema.optional(Schema.String),
   name: Schema.optional(Schema.String),
   networks: Schema.optional(
-    Schema.Union(
+    Schema.Union([
       Schema.Array(
         Schema.Struct({
           network: Schema.String,
         }),
       ),
       Schema.Null,
-    ),
+    ]),
   ),
-  updatedAt: Schema.optional(Schema.String).pipe(T.JsonName("updated_at")),
-}) as unknown as Schema.Schema<GetGatewayLocationResponse>;
+  updatedAt: Schema.optional(Schema.String),
+}).pipe(
+  Schema.encodeKeys({
+    clientDefault: "client_default",
+    createdAt: "created_at",
+    dnsDestinationIpsId: "dns_destination_ips_id",
+    dnsDestinationIpv6BlockId: "dns_destination_ipv6_block_id",
+    dohSubdomain: "doh_subdomain",
+    ecsSupport: "ecs_support",
+    ipv4Destination: "ipv4_destination",
+    ipv4DestinationBackup: "ipv4_destination_backup",
+    updatedAt: "updated_at",
+  }),
+) as unknown as Schema.Schema<GetGatewayLocationResponse>;
 
 export const getGatewayLocation: (
   input: GetGatewayLocationRequest,
@@ -23285,43 +24736,37 @@ export interface CreateGatewayLocationRequest {
 export const CreateGatewayLocationRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   name: Schema.String,
-  clientDefault: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("client_default"),
-  ),
-  dnsDestinationIpsId: Schema.optional(Schema.String).pipe(
-    T.JsonName("dns_destination_ips_id"),
-  ),
-  ecsSupport: Schema.optional(Schema.Boolean).pipe(T.JsonName("ecs_support")),
+  clientDefault: Schema.optional(Schema.Boolean),
+  dnsDestinationIpsId: Schema.optional(Schema.String),
+  ecsSupport: Schema.optional(Schema.Boolean),
   endpoints: Schema.optional(
-    Schema.Union(
+    Schema.Union([
       Schema.Struct({
         doh: Schema.Struct({
           enabled: Schema.optional(Schema.Boolean),
           networks: Schema.optional(
-            Schema.Union(
+            Schema.Union([
               Schema.Array(
                 Schema.Struct({
                   network: Schema.String,
                 }),
               ),
               Schema.Null,
-            ),
+            ]),
           ),
-          requireToken: Schema.optional(Schema.Boolean).pipe(
-            T.JsonName("require_token"),
-          ),
-        }),
+          requireToken: Schema.optional(Schema.Boolean),
+        }).pipe(Schema.encodeKeys({ requireToken: "require_token" })),
         dot: Schema.Struct({
           enabled: Schema.optional(Schema.Boolean),
           networks: Schema.optional(
-            Schema.Union(
+            Schema.Union([
               Schema.Array(
                 Schema.Struct({
                   network: Schema.String,
                 }),
               ),
               Schema.Null,
-            ),
+            ]),
           ),
         }),
         ipv4: Schema.Struct({
@@ -23330,31 +24775,36 @@ export const CreateGatewayLocationRequest = Schema.Struct({
         ipv6: Schema.Struct({
           enabled: Schema.optional(Schema.Boolean),
           networks: Schema.optional(
-            Schema.Union(
+            Schema.Union([
               Schema.Array(
                 Schema.Struct({
                   network: Schema.String,
                 }),
               ),
               Schema.Null,
-            ),
+            ]),
           ),
         }),
       }),
       Schema.Null,
-    ),
+    ]),
   ),
   networks: Schema.optional(
-    Schema.Union(
+    Schema.Union([
       Schema.Array(
         Schema.Struct({
           network: Schema.String,
         }),
       ),
       Schema.Null,
-    ),
+    ]),
   ),
 }).pipe(
+  Schema.encodeKeys({
+    clientDefault: "client_default",
+    dnsDestinationIpsId: "dns_destination_ips_id",
+    ecsSupport: "ecs_support",
+  }),
   T.Http({ method: "POST", path: "/accounts/{account_id}/gateway/locations" }),
 ) as unknown as Schema.Schema<CreateGatewayLocationRequest>;
 
@@ -23397,50 +24847,42 @@ export interface CreateGatewayLocationResponse {
 
 export const CreateGatewayLocationResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
-  clientDefault: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("client_default"),
-  ),
-  createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
-  dnsDestinationIpsId: Schema.optional(Schema.String).pipe(
-    T.JsonName("dns_destination_ips_id"),
-  ),
+  clientDefault: Schema.optional(Schema.Boolean),
+  createdAt: Schema.optional(Schema.String),
+  dnsDestinationIpsId: Schema.optional(Schema.String),
   dnsDestinationIpv6BlockId: Schema.optional(
-    Schema.Union(Schema.String, Schema.Null),
-  ).pipe(T.JsonName("dns_destination_ipv6_block_id")),
-  dohSubdomain: Schema.optional(Schema.String).pipe(
-    T.JsonName("doh_subdomain"),
+    Schema.Union([Schema.String, Schema.Null]),
   ),
-  ecsSupport: Schema.optional(Schema.Boolean).pipe(T.JsonName("ecs_support")),
+  dohSubdomain: Schema.optional(Schema.String),
+  ecsSupport: Schema.optional(Schema.Boolean),
   endpoints: Schema.optional(
-    Schema.Union(
+    Schema.Union([
       Schema.Struct({
         doh: Schema.Struct({
           enabled: Schema.optional(Schema.Boolean),
           networks: Schema.optional(
-            Schema.Union(
+            Schema.Union([
               Schema.Array(
                 Schema.Struct({
                   network: Schema.String,
                 }),
               ),
               Schema.Null,
-            ),
+            ]),
           ),
-          requireToken: Schema.optional(Schema.Boolean).pipe(
-            T.JsonName("require_token"),
-          ),
-        }),
+          requireToken: Schema.optional(Schema.Boolean),
+        }).pipe(Schema.encodeKeys({ requireToken: "require_token" })),
         dot: Schema.Struct({
           enabled: Schema.optional(Schema.Boolean),
           networks: Schema.optional(
-            Schema.Union(
+            Schema.Union([
               Schema.Array(
                 Schema.Struct({
                   network: Schema.String,
                 }),
               ),
               Schema.Null,
-            ),
+            ]),
           ),
         }),
         ipv4: Schema.Struct({
@@ -23449,40 +24891,48 @@ export const CreateGatewayLocationResponse = Schema.Struct({
         ipv6: Schema.Struct({
           enabled: Schema.optional(Schema.Boolean),
           networks: Schema.optional(
-            Schema.Union(
+            Schema.Union([
               Schema.Array(
                 Schema.Struct({
                   network: Schema.String,
                 }),
               ),
               Schema.Null,
-            ),
+            ]),
           ),
         }),
       }),
       Schema.Null,
-    ),
+    ]),
   ),
   ip: Schema.optional(Schema.String),
-  ipv4Destination: Schema.optional(Schema.String).pipe(
-    T.JsonName("ipv4_destination"),
-  ),
-  ipv4DestinationBackup: Schema.optional(Schema.String).pipe(
-    T.JsonName("ipv4_destination_backup"),
-  ),
+  ipv4Destination: Schema.optional(Schema.String),
+  ipv4DestinationBackup: Schema.optional(Schema.String),
   name: Schema.optional(Schema.String),
   networks: Schema.optional(
-    Schema.Union(
+    Schema.Union([
       Schema.Array(
         Schema.Struct({
           network: Schema.String,
         }),
       ),
       Schema.Null,
-    ),
+    ]),
   ),
-  updatedAt: Schema.optional(Schema.String).pipe(T.JsonName("updated_at")),
-}) as unknown as Schema.Schema<CreateGatewayLocationResponse>;
+  updatedAt: Schema.optional(Schema.String),
+}).pipe(
+  Schema.encodeKeys({
+    clientDefault: "client_default",
+    createdAt: "created_at",
+    dnsDestinationIpsId: "dns_destination_ips_id",
+    dnsDestinationIpv6BlockId: "dns_destination_ipv6_block_id",
+    dohSubdomain: "doh_subdomain",
+    ecsSupport: "ecs_support",
+    ipv4Destination: "ipv4_destination",
+    ipv4DestinationBackup: "ipv4_destination_backup",
+    updatedAt: "updated_at",
+  }),
+) as unknown as Schema.Schema<CreateGatewayLocationResponse>;
 
 export const createGatewayLocation: (
   input: CreateGatewayLocationRequest,
@@ -23527,43 +24977,37 @@ export const UpdateGatewayLocationRequest = Schema.Struct({
   locationId: Schema.String.pipe(T.HttpPath("locationId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   name: Schema.String,
-  clientDefault: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("client_default"),
-  ),
-  dnsDestinationIpsId: Schema.optional(Schema.String).pipe(
-    T.JsonName("dns_destination_ips_id"),
-  ),
-  ecsSupport: Schema.optional(Schema.Boolean).pipe(T.JsonName("ecs_support")),
+  clientDefault: Schema.optional(Schema.Boolean),
+  dnsDestinationIpsId: Schema.optional(Schema.String),
+  ecsSupport: Schema.optional(Schema.Boolean),
   endpoints: Schema.optional(
-    Schema.Union(
+    Schema.Union([
       Schema.Struct({
         doh: Schema.Struct({
           enabled: Schema.optional(Schema.Boolean),
           networks: Schema.optional(
-            Schema.Union(
+            Schema.Union([
               Schema.Array(
                 Schema.Struct({
                   network: Schema.String,
                 }),
               ),
               Schema.Null,
-            ),
+            ]),
           ),
-          requireToken: Schema.optional(Schema.Boolean).pipe(
-            T.JsonName("require_token"),
-          ),
-        }),
+          requireToken: Schema.optional(Schema.Boolean),
+        }).pipe(Schema.encodeKeys({ requireToken: "require_token" })),
         dot: Schema.Struct({
           enabled: Schema.optional(Schema.Boolean),
           networks: Schema.optional(
-            Schema.Union(
+            Schema.Union([
               Schema.Array(
                 Schema.Struct({
                   network: Schema.String,
                 }),
               ),
               Schema.Null,
-            ),
+            ]),
           ),
         }),
         ipv4: Schema.Struct({
@@ -23572,31 +25016,36 @@ export const UpdateGatewayLocationRequest = Schema.Struct({
         ipv6: Schema.Struct({
           enabled: Schema.optional(Schema.Boolean),
           networks: Schema.optional(
-            Schema.Union(
+            Schema.Union([
               Schema.Array(
                 Schema.Struct({
                   network: Schema.String,
                 }),
               ),
               Schema.Null,
-            ),
+            ]),
           ),
         }),
       }),
       Schema.Null,
-    ),
+    ]),
   ),
   networks: Schema.optional(
-    Schema.Union(
+    Schema.Union([
       Schema.Array(
         Schema.Struct({
           network: Schema.String,
         }),
       ),
       Schema.Null,
-    ),
+    ]),
   ),
 }).pipe(
+  Schema.encodeKeys({
+    clientDefault: "client_default",
+    dnsDestinationIpsId: "dns_destination_ips_id",
+    ecsSupport: "ecs_support",
+  }),
   T.Http({
     method: "PUT",
     path: "/accounts/{account_id}/gateway/locations/{locationId}",
@@ -23642,50 +25091,42 @@ export interface UpdateGatewayLocationResponse {
 
 export const UpdateGatewayLocationResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
-  clientDefault: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("client_default"),
-  ),
-  createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
-  dnsDestinationIpsId: Schema.optional(Schema.String).pipe(
-    T.JsonName("dns_destination_ips_id"),
-  ),
+  clientDefault: Schema.optional(Schema.Boolean),
+  createdAt: Schema.optional(Schema.String),
+  dnsDestinationIpsId: Schema.optional(Schema.String),
   dnsDestinationIpv6BlockId: Schema.optional(
-    Schema.Union(Schema.String, Schema.Null),
-  ).pipe(T.JsonName("dns_destination_ipv6_block_id")),
-  dohSubdomain: Schema.optional(Schema.String).pipe(
-    T.JsonName("doh_subdomain"),
+    Schema.Union([Schema.String, Schema.Null]),
   ),
-  ecsSupport: Schema.optional(Schema.Boolean).pipe(T.JsonName("ecs_support")),
+  dohSubdomain: Schema.optional(Schema.String),
+  ecsSupport: Schema.optional(Schema.Boolean),
   endpoints: Schema.optional(
-    Schema.Union(
+    Schema.Union([
       Schema.Struct({
         doh: Schema.Struct({
           enabled: Schema.optional(Schema.Boolean),
           networks: Schema.optional(
-            Schema.Union(
+            Schema.Union([
               Schema.Array(
                 Schema.Struct({
                   network: Schema.String,
                 }),
               ),
               Schema.Null,
-            ),
+            ]),
           ),
-          requireToken: Schema.optional(Schema.Boolean).pipe(
-            T.JsonName("require_token"),
-          ),
-        }),
+          requireToken: Schema.optional(Schema.Boolean),
+        }).pipe(Schema.encodeKeys({ requireToken: "require_token" })),
         dot: Schema.Struct({
           enabled: Schema.optional(Schema.Boolean),
           networks: Schema.optional(
-            Schema.Union(
+            Schema.Union([
               Schema.Array(
                 Schema.Struct({
                   network: Schema.String,
                 }),
               ),
               Schema.Null,
-            ),
+            ]),
           ),
         }),
         ipv4: Schema.Struct({
@@ -23694,40 +25135,48 @@ export const UpdateGatewayLocationResponse = Schema.Struct({
         ipv6: Schema.Struct({
           enabled: Schema.optional(Schema.Boolean),
           networks: Schema.optional(
-            Schema.Union(
+            Schema.Union([
               Schema.Array(
                 Schema.Struct({
                   network: Schema.String,
                 }),
               ),
               Schema.Null,
-            ),
+            ]),
           ),
         }),
       }),
       Schema.Null,
-    ),
+    ]),
   ),
   ip: Schema.optional(Schema.String),
-  ipv4Destination: Schema.optional(Schema.String).pipe(
-    T.JsonName("ipv4_destination"),
-  ),
-  ipv4DestinationBackup: Schema.optional(Schema.String).pipe(
-    T.JsonName("ipv4_destination_backup"),
-  ),
+  ipv4Destination: Schema.optional(Schema.String),
+  ipv4DestinationBackup: Schema.optional(Schema.String),
   name: Schema.optional(Schema.String),
   networks: Schema.optional(
-    Schema.Union(
+    Schema.Union([
       Schema.Array(
         Schema.Struct({
           network: Schema.String,
         }),
       ),
       Schema.Null,
-    ),
+    ]),
   ),
-  updatedAt: Schema.optional(Schema.String).pipe(T.JsonName("updated_at")),
-}) as unknown as Schema.Schema<UpdateGatewayLocationResponse>;
+  updatedAt: Schema.optional(Schema.String),
+}).pipe(
+  Schema.encodeKeys({
+    clientDefault: "client_default",
+    createdAt: "created_at",
+    dnsDestinationIpsId: "dns_destination_ips_id",
+    dnsDestinationIpv6BlockId: "dns_destination_ipv6_block_id",
+    dohSubdomain: "doh_subdomain",
+    ecsSupport: "ecs_support",
+    ipv4Destination: "ipv4_destination",
+    ipv4DestinationBackup: "ipv4_destination_backup",
+    updatedAt: "updated_at",
+  }),
+) as unknown as Schema.Schema<UpdateGatewayLocationResponse>;
 
 export const updateGatewayLocation: (
   input: UpdateGatewayLocationRequest,
@@ -23799,36 +25248,41 @@ export interface GetGatewayLoggingResponse {
 }
 
 export const GetGatewayLoggingResponse = Schema.Struct({
-  redactPii: Schema.optional(Schema.Boolean).pipe(T.JsonName("redact_pii")),
+  redactPii: Schema.optional(Schema.Boolean),
   settingsByRuleType: Schema.optional(
     Schema.Struct({
       dns: Schema.optional(
         Schema.Struct({
-          logAll: Schema.optional(Schema.Boolean).pipe(T.JsonName("log_all")),
-          logBlocks: Schema.optional(Schema.Boolean).pipe(
-            T.JsonName("log_blocks"),
-          ),
-        }),
+          logAll: Schema.optional(Schema.Boolean),
+          logBlocks: Schema.optional(Schema.Boolean),
+        }).pipe(
+          Schema.encodeKeys({ logAll: "log_all", logBlocks: "log_blocks" }),
+        ),
       ),
       http: Schema.optional(
         Schema.Struct({
-          logAll: Schema.optional(Schema.Boolean).pipe(T.JsonName("log_all")),
-          logBlocks: Schema.optional(Schema.Boolean).pipe(
-            T.JsonName("log_blocks"),
-          ),
-        }),
+          logAll: Schema.optional(Schema.Boolean),
+          logBlocks: Schema.optional(Schema.Boolean),
+        }).pipe(
+          Schema.encodeKeys({ logAll: "log_all", logBlocks: "log_blocks" }),
+        ),
       ),
       l4: Schema.optional(
         Schema.Struct({
-          logAll: Schema.optional(Schema.Boolean).pipe(T.JsonName("log_all")),
-          logBlocks: Schema.optional(Schema.Boolean).pipe(
-            T.JsonName("log_blocks"),
-          ),
-        }),
+          logAll: Schema.optional(Schema.Boolean),
+          logBlocks: Schema.optional(Schema.Boolean),
+        }).pipe(
+          Schema.encodeKeys({ logAll: "log_all", logBlocks: "log_blocks" }),
+        ),
       ),
     }),
-  ).pipe(T.JsonName("settings_by_rule_type")),
-}) as unknown as Schema.Schema<GetGatewayLoggingResponse>;
+  ),
+}).pipe(
+  Schema.encodeKeys({
+    redactPii: "redact_pii",
+    settingsByRuleType: "settings_by_rule_type",
+  }),
+) as unknown as Schema.Schema<GetGatewayLoggingResponse>;
 
 export const getGatewayLogging: (
   input: GetGatewayLoggingRequest,
@@ -23857,36 +25311,40 @@ export interface PutGatewayLoggingRequest {
 
 export const PutGatewayLoggingRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  redactPii: Schema.optional(Schema.Boolean).pipe(T.JsonName("redact_pii")),
+  redactPii: Schema.optional(Schema.Boolean),
   settingsByRuleType: Schema.optional(
     Schema.Struct({
       dns: Schema.optional(
         Schema.Struct({
-          logAll: Schema.optional(Schema.Boolean).pipe(T.JsonName("log_all")),
-          logBlocks: Schema.optional(Schema.Boolean).pipe(
-            T.JsonName("log_blocks"),
-          ),
-        }),
+          logAll: Schema.optional(Schema.Boolean),
+          logBlocks: Schema.optional(Schema.Boolean),
+        }).pipe(
+          Schema.encodeKeys({ logAll: "log_all", logBlocks: "log_blocks" }),
+        ),
       ),
       http: Schema.optional(
         Schema.Struct({
-          logAll: Schema.optional(Schema.Boolean).pipe(T.JsonName("log_all")),
-          logBlocks: Schema.optional(Schema.Boolean).pipe(
-            T.JsonName("log_blocks"),
-          ),
-        }),
+          logAll: Schema.optional(Schema.Boolean),
+          logBlocks: Schema.optional(Schema.Boolean),
+        }).pipe(
+          Schema.encodeKeys({ logAll: "log_all", logBlocks: "log_blocks" }),
+        ),
       ),
       l4: Schema.optional(
         Schema.Struct({
-          logAll: Schema.optional(Schema.Boolean).pipe(T.JsonName("log_all")),
-          logBlocks: Schema.optional(Schema.Boolean).pipe(
-            T.JsonName("log_blocks"),
-          ),
-        }),
+          logAll: Schema.optional(Schema.Boolean),
+          logBlocks: Schema.optional(Schema.Boolean),
+        }).pipe(
+          Schema.encodeKeys({ logAll: "log_all", logBlocks: "log_blocks" }),
+        ),
       ),
     }),
-  ).pipe(T.JsonName("settings_by_rule_type")),
+  ),
 }).pipe(
+  Schema.encodeKeys({
+    redactPii: "redact_pii",
+    settingsByRuleType: "settings_by_rule_type",
+  }),
   T.Http({ method: "PUT", path: "/accounts/{account_id}/gateway/logging" }),
 ) as unknown as Schema.Schema<PutGatewayLoggingRequest>;
 
@@ -23902,36 +25360,41 @@ export interface PutGatewayLoggingResponse {
 }
 
 export const PutGatewayLoggingResponse = Schema.Struct({
-  redactPii: Schema.optional(Schema.Boolean).pipe(T.JsonName("redact_pii")),
+  redactPii: Schema.optional(Schema.Boolean),
   settingsByRuleType: Schema.optional(
     Schema.Struct({
       dns: Schema.optional(
         Schema.Struct({
-          logAll: Schema.optional(Schema.Boolean).pipe(T.JsonName("log_all")),
-          logBlocks: Schema.optional(Schema.Boolean).pipe(
-            T.JsonName("log_blocks"),
-          ),
-        }),
+          logAll: Schema.optional(Schema.Boolean),
+          logBlocks: Schema.optional(Schema.Boolean),
+        }).pipe(
+          Schema.encodeKeys({ logAll: "log_all", logBlocks: "log_blocks" }),
+        ),
       ),
       http: Schema.optional(
         Schema.Struct({
-          logAll: Schema.optional(Schema.Boolean).pipe(T.JsonName("log_all")),
-          logBlocks: Schema.optional(Schema.Boolean).pipe(
-            T.JsonName("log_blocks"),
-          ),
-        }),
+          logAll: Schema.optional(Schema.Boolean),
+          logBlocks: Schema.optional(Schema.Boolean),
+        }).pipe(
+          Schema.encodeKeys({ logAll: "log_all", logBlocks: "log_blocks" }),
+        ),
       ),
       l4: Schema.optional(
         Schema.Struct({
-          logAll: Schema.optional(Schema.Boolean).pipe(T.JsonName("log_all")),
-          logBlocks: Schema.optional(Schema.Boolean).pipe(
-            T.JsonName("log_blocks"),
-          ),
-        }),
+          logAll: Schema.optional(Schema.Boolean),
+          logBlocks: Schema.optional(Schema.Boolean),
+        }).pipe(
+          Schema.encodeKeys({ logAll: "log_all", logBlocks: "log_blocks" }),
+        ),
       ),
     }),
-  ).pipe(T.JsonName("settings_by_rule_type")),
-}) as unknown as Schema.Schema<PutGatewayLoggingResponse>;
+  ),
+}).pipe(
+  Schema.encodeKeys({
+    redactPii: "redact_pii",
+    settingsByRuleType: "settings_by_rule_type",
+  }),
+) as unknown as Schema.Schema<PutGatewayLoggingResponse>;
 
 export const putGatewayLogging: (
   input: PutGatewayLoggingRequest,
@@ -23983,25 +25446,29 @@ export type GetGatewayProxyEndpointResponse =
       updatedAt?: string;
     };
 
-export const GetGatewayProxyEndpointResponse = Schema.Union(
+export const GetGatewayProxyEndpointResponse = Schema.Union([
   Schema.Struct({
     ips: Schema.Array(Schema.String),
     name: Schema.String,
     id: Schema.optional(Schema.String),
-    createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
+    createdAt: Schema.optional(Schema.String),
     kind: Schema.optional(Schema.Literal("ip")),
     subdomain: Schema.optional(Schema.String),
-    updatedAt: Schema.optional(Schema.String).pipe(T.JsonName("updated_at")),
-  }),
+    updatedAt: Schema.optional(Schema.String),
+  }).pipe(
+    Schema.encodeKeys({ createdAt: "created_at", updatedAt: "updated_at" }),
+  ),
   Schema.Struct({
     kind: Schema.Literal("identity"),
     name: Schema.String,
     id: Schema.optional(Schema.String),
-    createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
+    createdAt: Schema.optional(Schema.String),
     subdomain: Schema.optional(Schema.String),
-    updatedAt: Schema.optional(Schema.String).pipe(T.JsonName("updated_at")),
-  }),
-) as unknown as Schema.Schema<GetGatewayProxyEndpointResponse>;
+    updatedAt: Schema.optional(Schema.String),
+  }).pipe(
+    Schema.encodeKeys({ createdAt: "created_at", updatedAt: "updated_at" }),
+  ),
+]) as unknown as Schema.Schema<GetGatewayProxyEndpointResponse>;
 
 export const getGatewayProxyEndpoint: (
   input: GetGatewayProxyEndpointRequest,
@@ -24043,25 +25510,29 @@ export type CreateGatewayProxyEndpointResponse =
       updatedAt?: string;
     };
 
-export const CreateGatewayProxyEndpointResponse = Schema.Union(
+export const CreateGatewayProxyEndpointResponse = Schema.Union([
   Schema.Struct({
     ips: Schema.Array(Schema.String),
     name: Schema.String,
     id: Schema.optional(Schema.String),
-    createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
+    createdAt: Schema.optional(Schema.String),
     kind: Schema.optional(Schema.Literal("ip")),
     subdomain: Schema.optional(Schema.String),
-    updatedAt: Schema.optional(Schema.String).pipe(T.JsonName("updated_at")),
-  }),
+    updatedAt: Schema.optional(Schema.String),
+  }).pipe(
+    Schema.encodeKeys({ createdAt: "created_at", updatedAt: "updated_at" }),
+  ),
   Schema.Struct({
     kind: Schema.Literal("identity"),
     name: Schema.String,
     id: Schema.optional(Schema.String),
-    createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
+    createdAt: Schema.optional(Schema.String),
     subdomain: Schema.optional(Schema.String),
-    updatedAt: Schema.optional(Schema.String).pipe(T.JsonName("updated_at")),
-  }),
-) as unknown as Schema.Schema<CreateGatewayProxyEndpointResponse>;
+    updatedAt: Schema.optional(Schema.String),
+  }).pipe(
+    Schema.encodeKeys({ createdAt: "created_at", updatedAt: "updated_at" }),
+  ),
+]) as unknown as Schema.Schema<CreateGatewayProxyEndpointResponse>;
 
 export const createGatewayProxyEndpoint: (
   input: CreateGatewayProxyEndpointRequest,
@@ -24116,25 +25587,29 @@ export type PatchGatewayProxyEndpointResponse =
       updatedAt?: string;
     };
 
-export const PatchGatewayProxyEndpointResponse = Schema.Union(
+export const PatchGatewayProxyEndpointResponse = Schema.Union([
   Schema.Struct({
     ips: Schema.Array(Schema.String),
     name: Schema.String,
     id: Schema.optional(Schema.String),
-    createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
+    createdAt: Schema.optional(Schema.String),
     kind: Schema.optional(Schema.Literal("ip")),
     subdomain: Schema.optional(Schema.String),
-    updatedAt: Schema.optional(Schema.String).pipe(T.JsonName("updated_at")),
-  }),
+    updatedAt: Schema.optional(Schema.String),
+  }).pipe(
+    Schema.encodeKeys({ createdAt: "created_at", updatedAt: "updated_at" }),
+  ),
   Schema.Struct({
     kind: Schema.Literal("identity"),
     name: Schema.String,
     id: Schema.optional(Schema.String),
-    createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
+    createdAt: Schema.optional(Schema.String),
     subdomain: Schema.optional(Schema.String),
-    updatedAt: Schema.optional(Schema.String).pipe(T.JsonName("updated_at")),
-  }),
-) as unknown as Schema.Schema<PatchGatewayProxyEndpointResponse>;
+    updatedAt: Schema.optional(Schema.String),
+  }).pipe(
+    Schema.encodeKeys({ createdAt: "created_at", updatedAt: "updated_at" }),
+  ),
+]) as unknown as Schema.Schema<PatchGatewayProxyEndpointResponse>;
 
 export const patchGatewayProxyEndpoint: (
   input: PatchGatewayProxyEndpointRequest,
@@ -24340,7 +25815,7 @@ export interface GetGatewayRuleResponse {
 }
 
 export const GetGatewayRuleResponse = Schema.Struct({
-  action: Schema.Literal(
+  action: Schema.Literals([
     "on",
     "off",
     "allow",
@@ -24357,189 +25832,171 @@ export const GetGatewayRuleResponse = Schema.Struct({
     "resolve",
     "quarantine",
     "redirect",
-  ),
+  ]),
   enabled: Schema.Boolean,
   filters: Schema.Array(
-    Schema.Literal("http", "dns", "l4", "egress", "dns_resolver"),
+    Schema.Literals(["http", "dns", "l4", "egress", "dns_resolver"]),
   ),
   name: Schema.String,
   precedence: Schema.Number,
   traffic: Schema.String,
   id: Schema.optional(Schema.String),
-  createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
-  deletedAt: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-    T.JsonName("deleted_at"),
-  ),
+  createdAt: Schema.optional(Schema.String),
+  deletedAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   description: Schema.optional(Schema.String),
-  devicePosture: Schema.optional(Schema.String).pipe(
-    T.JsonName("device_posture"),
-  ),
+  devicePosture: Schema.optional(Schema.String),
   expiration: Schema.optional(
-    Schema.Union(
+    Schema.Union([
       Schema.Struct({
-        expiresAt: Schema.String.pipe(T.JsonName("expires_at")),
+        expiresAt: Schema.String,
         duration: Schema.optional(Schema.Number),
         expired: Schema.optional(Schema.Boolean),
-      }),
+      }).pipe(Schema.encodeKeys({ expiresAt: "expires_at" })),
       Schema.Null,
-    ),
+    ]),
   ),
   identity: Schema.optional(Schema.String),
-  readOnly: Schema.optional(Schema.Boolean).pipe(T.JsonName("read_only")),
+  readOnly: Schema.optional(Schema.Boolean),
   ruleSettings: Schema.optional(
     Schema.Struct({
       addHeaders: Schema.optional(
-        Schema.Union(Schema.Struct({}), Schema.Null),
-      ).pipe(T.JsonName("add_headers")),
+        Schema.Union([Schema.Struct({}), Schema.Null]),
+      ),
       allowChildBypass: Schema.optional(
-        Schema.Union(Schema.Boolean, Schema.Null),
-      ).pipe(T.JsonName("allow_child_bypass")),
+        Schema.Union([Schema.Boolean, Schema.Null]),
+      ),
       auditSsh: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
-            commandLogging: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("command_logging"),
-            ),
-          }),
+            commandLogging: Schema.optional(Schema.Boolean),
+          }).pipe(Schema.encodeKeys({ commandLogging: "command_logging" })),
           Schema.Null,
-        ),
-      ).pipe(T.JsonName("audit_ssh")),
+        ]),
+      ),
       bisoAdminControls: Schema.optional(
         Schema.Struct({
           copy: Schema.optional(
-            Schema.Literal("enabled", "disabled", "remote_only"),
+            Schema.Literals(["enabled", "disabled", "remote_only"]),
           ),
           dcp: Schema.optional(Schema.Boolean),
           dd: Schema.optional(Schema.Boolean),
           dk: Schema.optional(Schema.Boolean),
           download: Schema.optional(
-            Schema.Literal("enabled", "disabled", "remote_only"),
+            Schema.Literals(["enabled", "disabled", "remote_only"]),
           ),
           dp: Schema.optional(Schema.Boolean),
           du: Schema.optional(Schema.Boolean),
-          keyboard: Schema.optional(Schema.Literal("enabled", "disabled")),
+          keyboard: Schema.optional(Schema.Literals(["enabled", "disabled"])),
           paste: Schema.optional(
-            Schema.Literal("enabled", "disabled", "remote_only"),
+            Schema.Literals(["enabled", "disabled", "remote_only"]),
           ),
-          printing: Schema.optional(Schema.Literal("enabled", "disabled")),
-          upload: Schema.optional(Schema.Literal("enabled", "disabled")),
-          version: Schema.optional(Schema.Literal("v1", "v2")),
+          printing: Schema.optional(Schema.Literals(["enabled", "disabled"])),
+          upload: Schema.optional(Schema.Literals(["enabled", "disabled"])),
+          version: Schema.optional(Schema.Literals(["v1", "v2"])),
         }),
-      ).pipe(T.JsonName("biso_admin_controls")),
-      blockPage: Schema.optional(
-        Schema.Union(
-          Schema.Struct({
-            targetUri: Schema.String.pipe(T.JsonName("target_uri")),
-            includeContext: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("include_context"),
-            ),
-          }),
-          Schema.Null,
-        ),
-      ).pipe(T.JsonName("block_page")),
-      blockPageEnabled: Schema.optional(Schema.Boolean).pipe(
-        T.JsonName("block_page_enabled"),
       ),
-      blockReason: Schema.optional(
-        Schema.Union(Schema.String, Schema.Null),
-      ).pipe(T.JsonName("block_reason")),
+      blockPage: Schema.optional(
+        Schema.Union([
+          Schema.Struct({
+            targetUri: Schema.String,
+            includeContext: Schema.optional(Schema.Boolean),
+          }).pipe(
+            Schema.encodeKeys({
+              targetUri: "target_uri",
+              includeContext: "include_context",
+            }),
+          ),
+          Schema.Null,
+        ]),
+      ),
+      blockPageEnabled: Schema.optional(Schema.Boolean),
+      blockReason: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
       bypassParentRule: Schema.optional(
-        Schema.Union(Schema.Boolean, Schema.Null),
-      ).pipe(T.JsonName("bypass_parent_rule")),
+        Schema.Union([Schema.Boolean, Schema.Null]),
+      ),
       checkSession: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
             duration: Schema.optional(Schema.String),
             enforce: Schema.optional(Schema.Boolean),
           }),
           Schema.Null,
-        ),
-      ).pipe(T.JsonName("check_session")),
+        ]),
+      ),
       dnsResolvers: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
             ipv4: Schema.optional(Schema.Array(Schema.Unknown)),
             ipv6: Schema.optional(Schema.Array(Schema.Unknown)),
           }),
           Schema.Null,
-        ),
-      ).pipe(T.JsonName("dns_resolvers")),
+        ]),
+      ),
       egress: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
             ipv4: Schema.optional(Schema.String),
-            ipv4Fallback: Schema.optional(Schema.String).pipe(
-              T.JsonName("ipv4_fallback"),
-            ),
+            ipv4Fallback: Schema.optional(Schema.String),
             ipv6: Schema.optional(Schema.String),
-          }),
+          }).pipe(Schema.encodeKeys({ ipv4Fallback: "ipv4_fallback" })),
           Schema.Null,
-        ),
+        ]),
       ),
       forensicCopy: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
             enabled: Schema.optional(Schema.Boolean),
           }),
           Schema.Null,
-        ),
-      ).pipe(T.JsonName("forensic_copy")),
-      ignoreCnameCategoryMatches: Schema.optional(Schema.Boolean).pipe(
-        T.JsonName("ignore_cname_category_matches"),
+        ]),
       ),
-      insecureDisableDnssecValidation: Schema.optional(Schema.Boolean).pipe(
-        T.JsonName("insecure_disable_dnssec_validation"),
-      ),
-      ipCategories: Schema.optional(Schema.Boolean).pipe(
-        T.JsonName("ip_categories"),
-      ),
-      ipIndicatorFeeds: Schema.optional(Schema.Boolean).pipe(
-        T.JsonName("ip_indicator_feeds"),
-      ),
+      ignoreCnameCategoryMatches: Schema.optional(Schema.Boolean),
+      insecureDisableDnssecValidation: Schema.optional(Schema.Boolean),
+      ipCategories: Schema.optional(Schema.Boolean),
+      ipIndicatorFeeds: Schema.optional(Schema.Boolean),
       l4override: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
             ip: Schema.optional(Schema.String),
             port: Schema.optional(Schema.Number),
           }),
           Schema.Null,
-        ),
+        ]),
       ),
       notificationSettings: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
             enabled: Schema.optional(Schema.Boolean),
-            includeContext: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("include_context"),
-            ),
+            includeContext: Schema.optional(Schema.Boolean),
             msg: Schema.optional(Schema.String),
-            supportUrl: Schema.optional(Schema.String).pipe(
-              T.JsonName("support_url"),
-            ),
-          }),
+            supportUrl: Schema.optional(Schema.String),
+          }).pipe(
+            Schema.encodeKeys({
+              includeContext: "include_context",
+              supportUrl: "support_url",
+            }),
+          ),
           Schema.Null,
-        ),
-      ).pipe(T.JsonName("notification_settings")),
-      overrideHost: Schema.optional(Schema.String).pipe(
-        T.JsonName("override_host"),
+        ]),
       ),
+      overrideHost: Schema.optional(Schema.String),
       overrideIps: Schema.optional(
-        Schema.Union(Schema.Array(Schema.String), Schema.Null),
-      ).pipe(T.JsonName("override_ips")),
+        Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+      ),
       payloadLog: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
             enabled: Schema.optional(Schema.Boolean),
           }),
           Schema.Null,
-        ),
-      ).pipe(T.JsonName("payload_log")),
+        ]),
+      ),
       quarantine: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
             fileTypes: Schema.optional(
               Schema.Array(
-                Schema.Literal(
+                Schema.Literals([
                   "exe",
                   "pdf",
                   "doc",
@@ -24553,76 +26010,110 @@ export const GetGatewayRuleResponse = Schema.Struct({
                   "xlsx",
                   "zip",
                   "rar",
-                ),
+                ]),
               ),
-            ).pipe(T.JsonName("file_types")),
-          }),
+            ),
+          }).pipe(Schema.encodeKeys({ fileTypes: "file_types" })),
           Schema.Null,
-        ),
+        ]),
       ),
       redirect: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
-            targetUri: Schema.String.pipe(T.JsonName("target_uri")),
-            includeContext: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("include_context"),
-            ),
-            preservePathAndQuery: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("preserve_path_and_query"),
-            ),
-          }),
+            targetUri: Schema.String,
+            includeContext: Schema.optional(Schema.Boolean),
+            preservePathAndQuery: Schema.optional(Schema.Boolean),
+          }).pipe(
+            Schema.encodeKeys({
+              targetUri: "target_uri",
+              includeContext: "include_context",
+              preservePathAndQuery: "preserve_path_and_query",
+            }),
+          ),
           Schema.Null,
-        ),
+        ]),
       ),
       resolveDnsInternally: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
-            fallback: Schema.optional(Schema.Literal("none", "public_dns")),
-            viewId: Schema.optional(Schema.String).pipe(T.JsonName("view_id")),
-          }),
+            fallback: Schema.optional(Schema.Literals(["none", "public_dns"])),
+            viewId: Schema.optional(Schema.String),
+          }).pipe(Schema.encodeKeys({ viewId: "view_id" })),
           Schema.Null,
-        ),
-      ).pipe(T.JsonName("resolve_dns_internally")),
+        ]),
+      ),
       resolveDnsThroughCloudflare: Schema.optional(
-        Schema.Union(Schema.Boolean, Schema.Null),
-      ).pipe(T.JsonName("resolve_dns_through_cloudflare")),
+        Schema.Union([Schema.Boolean, Schema.Null]),
+      ),
       untrustedCert: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
             action: Schema.optional(
-              Schema.Literal("pass_through", "block", "error"),
+              Schema.Literals(["pass_through", "block", "error"]),
             ),
           }),
           Schema.Null,
-        ),
-      ).pipe(T.JsonName("untrusted_cert")),
-    }),
-  ).pipe(T.JsonName("rule_settings")),
+        ]),
+      ),
+    }).pipe(
+      Schema.encodeKeys({
+        addHeaders: "add_headers",
+        allowChildBypass: "allow_child_bypass",
+        auditSsh: "audit_ssh",
+        bisoAdminControls: "biso_admin_controls",
+        blockPage: "block_page",
+        blockPageEnabled: "block_page_enabled",
+        blockReason: "block_reason",
+        bypassParentRule: "bypass_parent_rule",
+        checkSession: "check_session",
+        dnsResolvers: "dns_resolvers",
+        forensicCopy: "forensic_copy",
+        ignoreCnameCategoryMatches: "ignore_cname_category_matches",
+        insecureDisableDnssecValidation: "insecure_disable_dnssec_validation",
+        ipCategories: "ip_categories",
+        ipIndicatorFeeds: "ip_indicator_feeds",
+        notificationSettings: "notification_settings",
+        overrideHost: "override_host",
+        overrideIps: "override_ips",
+        payloadLog: "payload_log",
+        resolveDnsInternally: "resolve_dns_internally",
+        resolveDnsThroughCloudflare: "resolve_dns_through_cloudflare",
+        untrustedCert: "untrusted_cert",
+      }),
+    ),
+  ),
   schedule: Schema.optional(
-    Schema.Union(
+    Schema.Union([
       Schema.Struct({
         fri: Schema.optional(Schema.String),
         mon: Schema.optional(Schema.String),
         sat: Schema.optional(Schema.String),
         sun: Schema.optional(Schema.String),
         thu: Schema.optional(Schema.String),
-        timeZone: Schema.optional(Schema.String).pipe(T.JsonName("time_zone")),
+        timeZone: Schema.optional(Schema.String),
         tue: Schema.optional(Schema.String),
         wed: Schema.optional(Schema.String),
-      }),
+      }).pipe(Schema.encodeKeys({ timeZone: "time_zone" })),
       Schema.Null,
-    ),
+    ]),
   ),
   sharable: Schema.optional(Schema.Boolean),
-  sourceAccount: Schema.optional(Schema.String).pipe(
-    T.JsonName("source_account"),
-  ),
-  updatedAt: Schema.optional(Schema.String).pipe(T.JsonName("updated_at")),
+  sourceAccount: Schema.optional(Schema.String),
+  updatedAt: Schema.optional(Schema.String),
   version: Schema.optional(Schema.Number),
-  warningStatus: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-    T.JsonName("warning_status"),
-  ),
-}) as unknown as Schema.Schema<GetGatewayRuleResponse>;
+  warningStatus: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+}).pipe(
+  Schema.encodeKeys({
+    createdAt: "created_at",
+    deletedAt: "deleted_at",
+    devicePosture: "device_posture",
+    readOnly: "read_only",
+    ruleSettings: "rule_settings",
+    sourceAccount: "source_account",
+    updatedAt: "updated_at",
+    warningStatus: "warning_status",
+  }),
+) as unknown as Schema.Schema<GetGatewayRuleResponse>;
 
 export const getGatewayRule: (
   input: GetGatewayRuleRequest,
@@ -24760,7 +26251,7 @@ export interface CreateGatewayRuleRequest {
 
 export const CreateGatewayRuleRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  action: Schema.Literal(
+  action: Schema.Literals([
     "on",
     "off",
     "allow",
@@ -24777,181 +26268,167 @@ export const CreateGatewayRuleRequest = Schema.Struct({
     "resolve",
     "quarantine",
     "redirect",
-  ),
+  ]),
   name: Schema.String,
   description: Schema.optional(Schema.String),
-  devicePosture: Schema.optional(Schema.String).pipe(
-    T.JsonName("device_posture"),
-  ),
+  devicePosture: Schema.optional(Schema.String),
   enabled: Schema.optional(Schema.Boolean),
   expiration: Schema.optional(
-    Schema.Union(
+    Schema.Union([
       Schema.Struct({
-        expiresAt: Schema.String.pipe(T.JsonName("expires_at")),
+        expiresAt: Schema.String,
         duration: Schema.optional(Schema.Number),
-      }),
+      }).pipe(Schema.encodeKeys({ expiresAt: "expires_at" })),
       Schema.Null,
-    ),
+    ]),
   ),
   filters: Schema.optional(
-    Schema.Array(Schema.Literal("http", "dns", "l4", "egress", "dns_resolver")),
+    Schema.Array(
+      Schema.Literals(["http", "dns", "l4", "egress", "dns_resolver"]),
+    ),
   ),
   identity: Schema.optional(Schema.String),
   precedence: Schema.optional(Schema.Number),
   ruleSettings: Schema.optional(
     Schema.Struct({
       addHeaders: Schema.optional(
-        Schema.Union(Schema.Struct({}), Schema.Null),
-      ).pipe(T.JsonName("add_headers")),
+        Schema.Union([Schema.Struct({}), Schema.Null]),
+      ),
       allowChildBypass: Schema.optional(
-        Schema.Union(Schema.Boolean, Schema.Null),
-      ).pipe(T.JsonName("allow_child_bypass")),
+        Schema.Union([Schema.Boolean, Schema.Null]),
+      ),
       auditSsh: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
-            commandLogging: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("command_logging"),
-            ),
-          }),
+            commandLogging: Schema.optional(Schema.Boolean),
+          }).pipe(Schema.encodeKeys({ commandLogging: "command_logging" })),
           Schema.Null,
-        ),
-      ).pipe(T.JsonName("audit_ssh")),
+        ]),
+      ),
       bisoAdminControls: Schema.optional(
         Schema.Struct({
           copy: Schema.optional(
-            Schema.Literal("enabled", "disabled", "remote_only"),
+            Schema.Literals(["enabled", "disabled", "remote_only"]),
           ),
           dcp: Schema.optional(Schema.Boolean),
           dd: Schema.optional(Schema.Boolean),
           dk: Schema.optional(Schema.Boolean),
           download: Schema.optional(
-            Schema.Literal("enabled", "disabled", "remote_only"),
+            Schema.Literals(["enabled", "disabled", "remote_only"]),
           ),
           dp: Schema.optional(Schema.Boolean),
           du: Schema.optional(Schema.Boolean),
-          keyboard: Schema.optional(Schema.Literal("enabled", "disabled")),
+          keyboard: Schema.optional(Schema.Literals(["enabled", "disabled"])),
           paste: Schema.optional(
-            Schema.Literal("enabled", "disabled", "remote_only"),
+            Schema.Literals(["enabled", "disabled", "remote_only"]),
           ),
-          printing: Schema.optional(Schema.Literal("enabled", "disabled")),
-          upload: Schema.optional(Schema.Literal("enabled", "disabled")),
-          version: Schema.optional(Schema.Literal("v1", "v2")),
+          printing: Schema.optional(Schema.Literals(["enabled", "disabled"])),
+          upload: Schema.optional(Schema.Literals(["enabled", "disabled"])),
+          version: Schema.optional(Schema.Literals(["v1", "v2"])),
         }),
-      ).pipe(T.JsonName("biso_admin_controls")),
-      blockPage: Schema.optional(
-        Schema.Union(
-          Schema.Struct({
-            targetUri: Schema.String.pipe(T.JsonName("target_uri")),
-            includeContext: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("include_context"),
-            ),
-          }),
-          Schema.Null,
-        ),
-      ).pipe(T.JsonName("block_page")),
-      blockPageEnabled: Schema.optional(Schema.Boolean).pipe(
-        T.JsonName("block_page_enabled"),
       ),
-      blockReason: Schema.optional(
-        Schema.Union(Schema.String, Schema.Null),
-      ).pipe(T.JsonName("block_reason")),
+      blockPage: Schema.optional(
+        Schema.Union([
+          Schema.Struct({
+            targetUri: Schema.String,
+            includeContext: Schema.optional(Schema.Boolean),
+          }).pipe(
+            Schema.encodeKeys({
+              targetUri: "target_uri",
+              includeContext: "include_context",
+            }),
+          ),
+          Schema.Null,
+        ]),
+      ),
+      blockPageEnabled: Schema.optional(Schema.Boolean),
+      blockReason: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
       bypassParentRule: Schema.optional(
-        Schema.Union(Schema.Boolean, Schema.Null),
-      ).pipe(T.JsonName("bypass_parent_rule")),
+        Schema.Union([Schema.Boolean, Schema.Null]),
+      ),
       checkSession: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
             duration: Schema.optional(Schema.String),
             enforce: Schema.optional(Schema.Boolean),
           }),
           Schema.Null,
-        ),
-      ).pipe(T.JsonName("check_session")),
+        ]),
+      ),
       dnsResolvers: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
             ipv4: Schema.optional(Schema.Array(Schema.Unknown)),
             ipv6: Schema.optional(Schema.Array(Schema.Unknown)),
           }),
           Schema.Null,
-        ),
-      ).pipe(T.JsonName("dns_resolvers")),
+        ]),
+      ),
       egress: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
             ipv4: Schema.optional(Schema.String),
-            ipv4Fallback: Schema.optional(Schema.String).pipe(
-              T.JsonName("ipv4_fallback"),
-            ),
+            ipv4Fallback: Schema.optional(Schema.String),
             ipv6: Schema.optional(Schema.String),
-          }),
+          }).pipe(Schema.encodeKeys({ ipv4Fallback: "ipv4_fallback" })),
           Schema.Null,
-        ),
+        ]),
       ),
       forensicCopy: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
             enabled: Schema.optional(Schema.Boolean),
           }),
           Schema.Null,
-        ),
-      ).pipe(T.JsonName("forensic_copy")),
-      ignoreCnameCategoryMatches: Schema.optional(Schema.Boolean).pipe(
-        T.JsonName("ignore_cname_category_matches"),
+        ]),
       ),
-      insecureDisableDnssecValidation: Schema.optional(Schema.Boolean).pipe(
-        T.JsonName("insecure_disable_dnssec_validation"),
-      ),
-      ipCategories: Schema.optional(Schema.Boolean).pipe(
-        T.JsonName("ip_categories"),
-      ),
-      ipIndicatorFeeds: Schema.optional(Schema.Boolean).pipe(
-        T.JsonName("ip_indicator_feeds"),
-      ),
+      ignoreCnameCategoryMatches: Schema.optional(Schema.Boolean),
+      insecureDisableDnssecValidation: Schema.optional(Schema.Boolean),
+      ipCategories: Schema.optional(Schema.Boolean),
+      ipIndicatorFeeds: Schema.optional(Schema.Boolean),
       l4override: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
             ip: Schema.optional(Schema.String),
             port: Schema.optional(Schema.Number),
           }),
           Schema.Null,
-        ),
+        ]),
       ),
       notificationSettings: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
             enabled: Schema.optional(Schema.Boolean),
-            includeContext: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("include_context"),
-            ),
+            includeContext: Schema.optional(Schema.Boolean),
             msg: Schema.optional(Schema.String),
-            supportUrl: Schema.optional(Schema.String).pipe(
-              T.JsonName("support_url"),
-            ),
-          }),
+            supportUrl: Schema.optional(Schema.String),
+          }).pipe(
+            Schema.encodeKeys({
+              includeContext: "include_context",
+              supportUrl: "support_url",
+            }),
+          ),
           Schema.Null,
-        ),
-      ).pipe(T.JsonName("notification_settings")),
-      overrideHost: Schema.optional(Schema.String).pipe(
-        T.JsonName("override_host"),
+        ]),
       ),
+      overrideHost: Schema.optional(Schema.String),
       overrideIps: Schema.optional(
-        Schema.Union(Schema.Array(Schema.String), Schema.Null),
-      ).pipe(T.JsonName("override_ips")),
+        Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+      ),
       payloadLog: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
             enabled: Schema.optional(Schema.Boolean),
           }),
           Schema.Null,
-        ),
-      ).pipe(T.JsonName("payload_log")),
+        ]),
+      ),
       quarantine: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
             fileTypes: Schema.optional(
               Schema.Array(
-                Schema.Literal(
+                Schema.Literals([
                   "exe",
                   "pdf",
                   "doc",
@@ -24965,68 +26442,99 @@ export const CreateGatewayRuleRequest = Schema.Struct({
                   "xlsx",
                   "zip",
                   "rar",
-                ),
+                ]),
               ),
-            ).pipe(T.JsonName("file_types")),
-          }),
+            ),
+          }).pipe(Schema.encodeKeys({ fileTypes: "file_types" })),
           Schema.Null,
-        ),
+        ]),
       ),
       redirect: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
-            targetUri: Schema.String.pipe(T.JsonName("target_uri")),
-            includeContext: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("include_context"),
-            ),
-            preservePathAndQuery: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("preserve_path_and_query"),
-            ),
-          }),
+            targetUri: Schema.String,
+            includeContext: Schema.optional(Schema.Boolean),
+            preservePathAndQuery: Schema.optional(Schema.Boolean),
+          }).pipe(
+            Schema.encodeKeys({
+              targetUri: "target_uri",
+              includeContext: "include_context",
+              preservePathAndQuery: "preserve_path_and_query",
+            }),
+          ),
           Schema.Null,
-        ),
+        ]),
       ),
       resolveDnsInternally: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
-            fallback: Schema.optional(Schema.Literal("none", "public_dns")),
-            viewId: Schema.optional(Schema.String).pipe(T.JsonName("view_id")),
-          }),
+            fallback: Schema.optional(Schema.Literals(["none", "public_dns"])),
+            viewId: Schema.optional(Schema.String),
+          }).pipe(Schema.encodeKeys({ viewId: "view_id" })),
           Schema.Null,
-        ),
-      ).pipe(T.JsonName("resolve_dns_internally")),
+        ]),
+      ),
       resolveDnsThroughCloudflare: Schema.optional(
-        Schema.Union(Schema.Boolean, Schema.Null),
-      ).pipe(T.JsonName("resolve_dns_through_cloudflare")),
+        Schema.Union([Schema.Boolean, Schema.Null]),
+      ),
       untrustedCert: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
             action: Schema.optional(
-              Schema.Literal("pass_through", "block", "error"),
+              Schema.Literals(["pass_through", "block", "error"]),
             ),
           }),
           Schema.Null,
-        ),
-      ).pipe(T.JsonName("untrusted_cert")),
-    }),
-  ).pipe(T.JsonName("rule_settings")),
+        ]),
+      ),
+    }).pipe(
+      Schema.encodeKeys({
+        addHeaders: "add_headers",
+        allowChildBypass: "allow_child_bypass",
+        auditSsh: "audit_ssh",
+        bisoAdminControls: "biso_admin_controls",
+        blockPage: "block_page",
+        blockPageEnabled: "block_page_enabled",
+        blockReason: "block_reason",
+        bypassParentRule: "bypass_parent_rule",
+        checkSession: "check_session",
+        dnsResolvers: "dns_resolvers",
+        forensicCopy: "forensic_copy",
+        ignoreCnameCategoryMatches: "ignore_cname_category_matches",
+        insecureDisableDnssecValidation: "insecure_disable_dnssec_validation",
+        ipCategories: "ip_categories",
+        ipIndicatorFeeds: "ip_indicator_feeds",
+        notificationSettings: "notification_settings",
+        overrideHost: "override_host",
+        overrideIps: "override_ips",
+        payloadLog: "payload_log",
+        resolveDnsInternally: "resolve_dns_internally",
+        resolveDnsThroughCloudflare: "resolve_dns_through_cloudflare",
+        untrustedCert: "untrusted_cert",
+      }),
+    ),
+  ),
   schedule: Schema.optional(
-    Schema.Union(
+    Schema.Union([
       Schema.Struct({
         fri: Schema.optional(Schema.String),
         mon: Schema.optional(Schema.String),
         sat: Schema.optional(Schema.String),
         sun: Schema.optional(Schema.String),
         thu: Schema.optional(Schema.String),
-        timeZone: Schema.optional(Schema.String).pipe(T.JsonName("time_zone")),
+        timeZone: Schema.optional(Schema.String),
         tue: Schema.optional(Schema.String),
         wed: Schema.optional(Schema.String),
-      }),
+      }).pipe(Schema.encodeKeys({ timeZone: "time_zone" })),
       Schema.Null,
-    ),
+    ]),
   ),
   traffic: Schema.optional(Schema.String),
 }).pipe(
+  Schema.encodeKeys({
+    devicePosture: "device_posture",
+    ruleSettings: "rule_settings",
+  }),
   T.Http({ method: "POST", path: "/accounts/{account_id}/gateway/rules" }),
 ) as unknown as Schema.Schema<CreateGatewayRuleRequest>;
 
@@ -25171,7 +26679,7 @@ export interface CreateGatewayRuleResponse {
 }
 
 export const CreateGatewayRuleResponse = Schema.Struct({
-  action: Schema.Literal(
+  action: Schema.Literals([
     "on",
     "off",
     "allow",
@@ -25188,189 +26696,171 @@ export const CreateGatewayRuleResponse = Schema.Struct({
     "resolve",
     "quarantine",
     "redirect",
-  ),
+  ]),
   enabled: Schema.Boolean,
   filters: Schema.Array(
-    Schema.Literal("http", "dns", "l4", "egress", "dns_resolver"),
+    Schema.Literals(["http", "dns", "l4", "egress", "dns_resolver"]),
   ),
   name: Schema.String,
   precedence: Schema.Number,
   traffic: Schema.String,
   id: Schema.optional(Schema.String),
-  createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
-  deletedAt: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-    T.JsonName("deleted_at"),
-  ),
+  createdAt: Schema.optional(Schema.String),
+  deletedAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   description: Schema.optional(Schema.String),
-  devicePosture: Schema.optional(Schema.String).pipe(
-    T.JsonName("device_posture"),
-  ),
+  devicePosture: Schema.optional(Schema.String),
   expiration: Schema.optional(
-    Schema.Union(
+    Schema.Union([
       Schema.Struct({
-        expiresAt: Schema.String.pipe(T.JsonName("expires_at")),
+        expiresAt: Schema.String,
         duration: Schema.optional(Schema.Number),
         expired: Schema.optional(Schema.Boolean),
-      }),
+      }).pipe(Schema.encodeKeys({ expiresAt: "expires_at" })),
       Schema.Null,
-    ),
+    ]),
   ),
   identity: Schema.optional(Schema.String),
-  readOnly: Schema.optional(Schema.Boolean).pipe(T.JsonName("read_only")),
+  readOnly: Schema.optional(Schema.Boolean),
   ruleSettings: Schema.optional(
     Schema.Struct({
       addHeaders: Schema.optional(
-        Schema.Union(Schema.Struct({}), Schema.Null),
-      ).pipe(T.JsonName("add_headers")),
+        Schema.Union([Schema.Struct({}), Schema.Null]),
+      ),
       allowChildBypass: Schema.optional(
-        Schema.Union(Schema.Boolean, Schema.Null),
-      ).pipe(T.JsonName("allow_child_bypass")),
+        Schema.Union([Schema.Boolean, Schema.Null]),
+      ),
       auditSsh: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
-            commandLogging: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("command_logging"),
-            ),
-          }),
+            commandLogging: Schema.optional(Schema.Boolean),
+          }).pipe(Schema.encodeKeys({ commandLogging: "command_logging" })),
           Schema.Null,
-        ),
-      ).pipe(T.JsonName("audit_ssh")),
+        ]),
+      ),
       bisoAdminControls: Schema.optional(
         Schema.Struct({
           copy: Schema.optional(
-            Schema.Literal("enabled", "disabled", "remote_only"),
+            Schema.Literals(["enabled", "disabled", "remote_only"]),
           ),
           dcp: Schema.optional(Schema.Boolean),
           dd: Schema.optional(Schema.Boolean),
           dk: Schema.optional(Schema.Boolean),
           download: Schema.optional(
-            Schema.Literal("enabled", "disabled", "remote_only"),
+            Schema.Literals(["enabled", "disabled", "remote_only"]),
           ),
           dp: Schema.optional(Schema.Boolean),
           du: Schema.optional(Schema.Boolean),
-          keyboard: Schema.optional(Schema.Literal("enabled", "disabled")),
+          keyboard: Schema.optional(Schema.Literals(["enabled", "disabled"])),
           paste: Schema.optional(
-            Schema.Literal("enabled", "disabled", "remote_only"),
+            Schema.Literals(["enabled", "disabled", "remote_only"]),
           ),
-          printing: Schema.optional(Schema.Literal("enabled", "disabled")),
-          upload: Schema.optional(Schema.Literal("enabled", "disabled")),
-          version: Schema.optional(Schema.Literal("v1", "v2")),
+          printing: Schema.optional(Schema.Literals(["enabled", "disabled"])),
+          upload: Schema.optional(Schema.Literals(["enabled", "disabled"])),
+          version: Schema.optional(Schema.Literals(["v1", "v2"])),
         }),
-      ).pipe(T.JsonName("biso_admin_controls")),
-      blockPage: Schema.optional(
-        Schema.Union(
-          Schema.Struct({
-            targetUri: Schema.String.pipe(T.JsonName("target_uri")),
-            includeContext: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("include_context"),
-            ),
-          }),
-          Schema.Null,
-        ),
-      ).pipe(T.JsonName("block_page")),
-      blockPageEnabled: Schema.optional(Schema.Boolean).pipe(
-        T.JsonName("block_page_enabled"),
       ),
-      blockReason: Schema.optional(
-        Schema.Union(Schema.String, Schema.Null),
-      ).pipe(T.JsonName("block_reason")),
+      blockPage: Schema.optional(
+        Schema.Union([
+          Schema.Struct({
+            targetUri: Schema.String,
+            includeContext: Schema.optional(Schema.Boolean),
+          }).pipe(
+            Schema.encodeKeys({
+              targetUri: "target_uri",
+              includeContext: "include_context",
+            }),
+          ),
+          Schema.Null,
+        ]),
+      ),
+      blockPageEnabled: Schema.optional(Schema.Boolean),
+      blockReason: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
       bypassParentRule: Schema.optional(
-        Schema.Union(Schema.Boolean, Schema.Null),
-      ).pipe(T.JsonName("bypass_parent_rule")),
+        Schema.Union([Schema.Boolean, Schema.Null]),
+      ),
       checkSession: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
             duration: Schema.optional(Schema.String),
             enforce: Schema.optional(Schema.Boolean),
           }),
           Schema.Null,
-        ),
-      ).pipe(T.JsonName("check_session")),
+        ]),
+      ),
       dnsResolvers: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
             ipv4: Schema.optional(Schema.Array(Schema.Unknown)),
             ipv6: Schema.optional(Schema.Array(Schema.Unknown)),
           }),
           Schema.Null,
-        ),
-      ).pipe(T.JsonName("dns_resolvers")),
+        ]),
+      ),
       egress: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
             ipv4: Schema.optional(Schema.String),
-            ipv4Fallback: Schema.optional(Schema.String).pipe(
-              T.JsonName("ipv4_fallback"),
-            ),
+            ipv4Fallback: Schema.optional(Schema.String),
             ipv6: Schema.optional(Schema.String),
-          }),
+          }).pipe(Schema.encodeKeys({ ipv4Fallback: "ipv4_fallback" })),
           Schema.Null,
-        ),
+        ]),
       ),
       forensicCopy: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
             enabled: Schema.optional(Schema.Boolean),
           }),
           Schema.Null,
-        ),
-      ).pipe(T.JsonName("forensic_copy")),
-      ignoreCnameCategoryMatches: Schema.optional(Schema.Boolean).pipe(
-        T.JsonName("ignore_cname_category_matches"),
+        ]),
       ),
-      insecureDisableDnssecValidation: Schema.optional(Schema.Boolean).pipe(
-        T.JsonName("insecure_disable_dnssec_validation"),
-      ),
-      ipCategories: Schema.optional(Schema.Boolean).pipe(
-        T.JsonName("ip_categories"),
-      ),
-      ipIndicatorFeeds: Schema.optional(Schema.Boolean).pipe(
-        T.JsonName("ip_indicator_feeds"),
-      ),
+      ignoreCnameCategoryMatches: Schema.optional(Schema.Boolean),
+      insecureDisableDnssecValidation: Schema.optional(Schema.Boolean),
+      ipCategories: Schema.optional(Schema.Boolean),
+      ipIndicatorFeeds: Schema.optional(Schema.Boolean),
       l4override: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
             ip: Schema.optional(Schema.String),
             port: Schema.optional(Schema.Number),
           }),
           Schema.Null,
-        ),
+        ]),
       ),
       notificationSettings: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
             enabled: Schema.optional(Schema.Boolean),
-            includeContext: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("include_context"),
-            ),
+            includeContext: Schema.optional(Schema.Boolean),
             msg: Schema.optional(Schema.String),
-            supportUrl: Schema.optional(Schema.String).pipe(
-              T.JsonName("support_url"),
-            ),
-          }),
+            supportUrl: Schema.optional(Schema.String),
+          }).pipe(
+            Schema.encodeKeys({
+              includeContext: "include_context",
+              supportUrl: "support_url",
+            }),
+          ),
           Schema.Null,
-        ),
-      ).pipe(T.JsonName("notification_settings")),
-      overrideHost: Schema.optional(Schema.String).pipe(
-        T.JsonName("override_host"),
+        ]),
       ),
+      overrideHost: Schema.optional(Schema.String),
       overrideIps: Schema.optional(
-        Schema.Union(Schema.Array(Schema.String), Schema.Null),
-      ).pipe(T.JsonName("override_ips")),
+        Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+      ),
       payloadLog: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
             enabled: Schema.optional(Schema.Boolean),
           }),
           Schema.Null,
-        ),
-      ).pipe(T.JsonName("payload_log")),
+        ]),
+      ),
       quarantine: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
             fileTypes: Schema.optional(
               Schema.Array(
-                Schema.Literal(
+                Schema.Literals([
                   "exe",
                   "pdf",
                   "doc",
@@ -25384,76 +26874,110 @@ export const CreateGatewayRuleResponse = Schema.Struct({
                   "xlsx",
                   "zip",
                   "rar",
-                ),
+                ]),
               ),
-            ).pipe(T.JsonName("file_types")),
-          }),
+            ),
+          }).pipe(Schema.encodeKeys({ fileTypes: "file_types" })),
           Schema.Null,
-        ),
+        ]),
       ),
       redirect: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
-            targetUri: Schema.String.pipe(T.JsonName("target_uri")),
-            includeContext: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("include_context"),
-            ),
-            preservePathAndQuery: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("preserve_path_and_query"),
-            ),
-          }),
+            targetUri: Schema.String,
+            includeContext: Schema.optional(Schema.Boolean),
+            preservePathAndQuery: Schema.optional(Schema.Boolean),
+          }).pipe(
+            Schema.encodeKeys({
+              targetUri: "target_uri",
+              includeContext: "include_context",
+              preservePathAndQuery: "preserve_path_and_query",
+            }),
+          ),
           Schema.Null,
-        ),
+        ]),
       ),
       resolveDnsInternally: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
-            fallback: Schema.optional(Schema.Literal("none", "public_dns")),
-            viewId: Schema.optional(Schema.String).pipe(T.JsonName("view_id")),
-          }),
+            fallback: Schema.optional(Schema.Literals(["none", "public_dns"])),
+            viewId: Schema.optional(Schema.String),
+          }).pipe(Schema.encodeKeys({ viewId: "view_id" })),
           Schema.Null,
-        ),
-      ).pipe(T.JsonName("resolve_dns_internally")),
+        ]),
+      ),
       resolveDnsThroughCloudflare: Schema.optional(
-        Schema.Union(Schema.Boolean, Schema.Null),
-      ).pipe(T.JsonName("resolve_dns_through_cloudflare")),
+        Schema.Union([Schema.Boolean, Schema.Null]),
+      ),
       untrustedCert: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
             action: Schema.optional(
-              Schema.Literal("pass_through", "block", "error"),
+              Schema.Literals(["pass_through", "block", "error"]),
             ),
           }),
           Schema.Null,
-        ),
-      ).pipe(T.JsonName("untrusted_cert")),
-    }),
-  ).pipe(T.JsonName("rule_settings")),
+        ]),
+      ),
+    }).pipe(
+      Schema.encodeKeys({
+        addHeaders: "add_headers",
+        allowChildBypass: "allow_child_bypass",
+        auditSsh: "audit_ssh",
+        bisoAdminControls: "biso_admin_controls",
+        blockPage: "block_page",
+        blockPageEnabled: "block_page_enabled",
+        blockReason: "block_reason",
+        bypassParentRule: "bypass_parent_rule",
+        checkSession: "check_session",
+        dnsResolvers: "dns_resolvers",
+        forensicCopy: "forensic_copy",
+        ignoreCnameCategoryMatches: "ignore_cname_category_matches",
+        insecureDisableDnssecValidation: "insecure_disable_dnssec_validation",
+        ipCategories: "ip_categories",
+        ipIndicatorFeeds: "ip_indicator_feeds",
+        notificationSettings: "notification_settings",
+        overrideHost: "override_host",
+        overrideIps: "override_ips",
+        payloadLog: "payload_log",
+        resolveDnsInternally: "resolve_dns_internally",
+        resolveDnsThroughCloudflare: "resolve_dns_through_cloudflare",
+        untrustedCert: "untrusted_cert",
+      }),
+    ),
+  ),
   schedule: Schema.optional(
-    Schema.Union(
+    Schema.Union([
       Schema.Struct({
         fri: Schema.optional(Schema.String),
         mon: Schema.optional(Schema.String),
         sat: Schema.optional(Schema.String),
         sun: Schema.optional(Schema.String),
         thu: Schema.optional(Schema.String),
-        timeZone: Schema.optional(Schema.String).pipe(T.JsonName("time_zone")),
+        timeZone: Schema.optional(Schema.String),
         tue: Schema.optional(Schema.String),
         wed: Schema.optional(Schema.String),
-      }),
+      }).pipe(Schema.encodeKeys({ timeZone: "time_zone" })),
       Schema.Null,
-    ),
+    ]),
   ),
   sharable: Schema.optional(Schema.Boolean),
-  sourceAccount: Schema.optional(Schema.String).pipe(
-    T.JsonName("source_account"),
-  ),
-  updatedAt: Schema.optional(Schema.String).pipe(T.JsonName("updated_at")),
+  sourceAccount: Schema.optional(Schema.String),
+  updatedAt: Schema.optional(Schema.String),
   version: Schema.optional(Schema.Number),
-  warningStatus: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-    T.JsonName("warning_status"),
-  ),
-}) as unknown as Schema.Schema<CreateGatewayRuleResponse>;
+  warningStatus: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+}).pipe(
+  Schema.encodeKeys({
+    createdAt: "created_at",
+    deletedAt: "deleted_at",
+    devicePosture: "device_posture",
+    readOnly: "read_only",
+    ruleSettings: "rule_settings",
+    sourceAccount: "source_account",
+    updatedAt: "updated_at",
+    warningStatus: "warning_status",
+  }),
+) as unknown as Schema.Schema<CreateGatewayRuleResponse>;
 
 export const createGatewayRule: (
   input: CreateGatewayRuleRequest,
@@ -25593,7 +27117,7 @@ export interface UpdateGatewayRuleRequest {
 export const UpdateGatewayRuleRequest = Schema.Struct({
   ruleId: Schema.String.pipe(T.HttpPath("ruleId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  action: Schema.Literal(
+  action: Schema.Literals([
     "on",
     "off",
     "allow",
@@ -25610,181 +27134,167 @@ export const UpdateGatewayRuleRequest = Schema.Struct({
     "resolve",
     "quarantine",
     "redirect",
-  ),
+  ]),
   name: Schema.String,
   description: Schema.optional(Schema.String),
-  devicePosture: Schema.optional(Schema.String).pipe(
-    T.JsonName("device_posture"),
-  ),
+  devicePosture: Schema.optional(Schema.String),
   enabled: Schema.optional(Schema.Boolean),
   expiration: Schema.optional(
-    Schema.Union(
+    Schema.Union([
       Schema.Struct({
-        expiresAt: Schema.String.pipe(T.JsonName("expires_at")),
+        expiresAt: Schema.String,
         duration: Schema.optional(Schema.Number),
-      }),
+      }).pipe(Schema.encodeKeys({ expiresAt: "expires_at" })),
       Schema.Null,
-    ),
+    ]),
   ),
   filters: Schema.optional(
-    Schema.Array(Schema.Literal("http", "dns", "l4", "egress", "dns_resolver")),
+    Schema.Array(
+      Schema.Literals(["http", "dns", "l4", "egress", "dns_resolver"]),
+    ),
   ),
   identity: Schema.optional(Schema.String),
   precedence: Schema.optional(Schema.Number),
   ruleSettings: Schema.optional(
     Schema.Struct({
       addHeaders: Schema.optional(
-        Schema.Union(Schema.Struct({}), Schema.Null),
-      ).pipe(T.JsonName("add_headers")),
+        Schema.Union([Schema.Struct({}), Schema.Null]),
+      ),
       allowChildBypass: Schema.optional(
-        Schema.Union(Schema.Boolean, Schema.Null),
-      ).pipe(T.JsonName("allow_child_bypass")),
+        Schema.Union([Schema.Boolean, Schema.Null]),
+      ),
       auditSsh: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
-            commandLogging: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("command_logging"),
-            ),
-          }),
+            commandLogging: Schema.optional(Schema.Boolean),
+          }).pipe(Schema.encodeKeys({ commandLogging: "command_logging" })),
           Schema.Null,
-        ),
-      ).pipe(T.JsonName("audit_ssh")),
+        ]),
+      ),
       bisoAdminControls: Schema.optional(
         Schema.Struct({
           copy: Schema.optional(
-            Schema.Literal("enabled", "disabled", "remote_only"),
+            Schema.Literals(["enabled", "disabled", "remote_only"]),
           ),
           dcp: Schema.optional(Schema.Boolean),
           dd: Schema.optional(Schema.Boolean),
           dk: Schema.optional(Schema.Boolean),
           download: Schema.optional(
-            Schema.Literal("enabled", "disabled", "remote_only"),
+            Schema.Literals(["enabled", "disabled", "remote_only"]),
           ),
           dp: Schema.optional(Schema.Boolean),
           du: Schema.optional(Schema.Boolean),
-          keyboard: Schema.optional(Schema.Literal("enabled", "disabled")),
+          keyboard: Schema.optional(Schema.Literals(["enabled", "disabled"])),
           paste: Schema.optional(
-            Schema.Literal("enabled", "disabled", "remote_only"),
+            Schema.Literals(["enabled", "disabled", "remote_only"]),
           ),
-          printing: Schema.optional(Schema.Literal("enabled", "disabled")),
-          upload: Schema.optional(Schema.Literal("enabled", "disabled")),
-          version: Schema.optional(Schema.Literal("v1", "v2")),
+          printing: Schema.optional(Schema.Literals(["enabled", "disabled"])),
+          upload: Schema.optional(Schema.Literals(["enabled", "disabled"])),
+          version: Schema.optional(Schema.Literals(["v1", "v2"])),
         }),
-      ).pipe(T.JsonName("biso_admin_controls")),
-      blockPage: Schema.optional(
-        Schema.Union(
-          Schema.Struct({
-            targetUri: Schema.String.pipe(T.JsonName("target_uri")),
-            includeContext: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("include_context"),
-            ),
-          }),
-          Schema.Null,
-        ),
-      ).pipe(T.JsonName("block_page")),
-      blockPageEnabled: Schema.optional(Schema.Boolean).pipe(
-        T.JsonName("block_page_enabled"),
       ),
-      blockReason: Schema.optional(
-        Schema.Union(Schema.String, Schema.Null),
-      ).pipe(T.JsonName("block_reason")),
+      blockPage: Schema.optional(
+        Schema.Union([
+          Schema.Struct({
+            targetUri: Schema.String,
+            includeContext: Schema.optional(Schema.Boolean),
+          }).pipe(
+            Schema.encodeKeys({
+              targetUri: "target_uri",
+              includeContext: "include_context",
+            }),
+          ),
+          Schema.Null,
+        ]),
+      ),
+      blockPageEnabled: Schema.optional(Schema.Boolean),
+      blockReason: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
       bypassParentRule: Schema.optional(
-        Schema.Union(Schema.Boolean, Schema.Null),
-      ).pipe(T.JsonName("bypass_parent_rule")),
+        Schema.Union([Schema.Boolean, Schema.Null]),
+      ),
       checkSession: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
             duration: Schema.optional(Schema.String),
             enforce: Schema.optional(Schema.Boolean),
           }),
           Schema.Null,
-        ),
-      ).pipe(T.JsonName("check_session")),
+        ]),
+      ),
       dnsResolvers: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
             ipv4: Schema.optional(Schema.Array(Schema.Unknown)),
             ipv6: Schema.optional(Schema.Array(Schema.Unknown)),
           }),
           Schema.Null,
-        ),
-      ).pipe(T.JsonName("dns_resolvers")),
+        ]),
+      ),
       egress: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
             ipv4: Schema.optional(Schema.String),
-            ipv4Fallback: Schema.optional(Schema.String).pipe(
-              T.JsonName("ipv4_fallback"),
-            ),
+            ipv4Fallback: Schema.optional(Schema.String),
             ipv6: Schema.optional(Schema.String),
-          }),
+          }).pipe(Schema.encodeKeys({ ipv4Fallback: "ipv4_fallback" })),
           Schema.Null,
-        ),
+        ]),
       ),
       forensicCopy: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
             enabled: Schema.optional(Schema.Boolean),
           }),
           Schema.Null,
-        ),
-      ).pipe(T.JsonName("forensic_copy")),
-      ignoreCnameCategoryMatches: Schema.optional(Schema.Boolean).pipe(
-        T.JsonName("ignore_cname_category_matches"),
+        ]),
       ),
-      insecureDisableDnssecValidation: Schema.optional(Schema.Boolean).pipe(
-        T.JsonName("insecure_disable_dnssec_validation"),
-      ),
-      ipCategories: Schema.optional(Schema.Boolean).pipe(
-        T.JsonName("ip_categories"),
-      ),
-      ipIndicatorFeeds: Schema.optional(Schema.Boolean).pipe(
-        T.JsonName("ip_indicator_feeds"),
-      ),
+      ignoreCnameCategoryMatches: Schema.optional(Schema.Boolean),
+      insecureDisableDnssecValidation: Schema.optional(Schema.Boolean),
+      ipCategories: Schema.optional(Schema.Boolean),
+      ipIndicatorFeeds: Schema.optional(Schema.Boolean),
       l4override: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
             ip: Schema.optional(Schema.String),
             port: Schema.optional(Schema.Number),
           }),
           Schema.Null,
-        ),
+        ]),
       ),
       notificationSettings: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
             enabled: Schema.optional(Schema.Boolean),
-            includeContext: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("include_context"),
-            ),
+            includeContext: Schema.optional(Schema.Boolean),
             msg: Schema.optional(Schema.String),
-            supportUrl: Schema.optional(Schema.String).pipe(
-              T.JsonName("support_url"),
-            ),
-          }),
+            supportUrl: Schema.optional(Schema.String),
+          }).pipe(
+            Schema.encodeKeys({
+              includeContext: "include_context",
+              supportUrl: "support_url",
+            }),
+          ),
           Schema.Null,
-        ),
-      ).pipe(T.JsonName("notification_settings")),
-      overrideHost: Schema.optional(Schema.String).pipe(
-        T.JsonName("override_host"),
+        ]),
       ),
+      overrideHost: Schema.optional(Schema.String),
       overrideIps: Schema.optional(
-        Schema.Union(Schema.Array(Schema.String), Schema.Null),
-      ).pipe(T.JsonName("override_ips")),
+        Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+      ),
       payloadLog: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
             enabled: Schema.optional(Schema.Boolean),
           }),
           Schema.Null,
-        ),
-      ).pipe(T.JsonName("payload_log")),
+        ]),
+      ),
       quarantine: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
             fileTypes: Schema.optional(
               Schema.Array(
-                Schema.Literal(
+                Schema.Literals([
                   "exe",
                   "pdf",
                   "doc",
@@ -25798,68 +27308,99 @@ export const UpdateGatewayRuleRequest = Schema.Struct({
                   "xlsx",
                   "zip",
                   "rar",
-                ),
+                ]),
               ),
-            ).pipe(T.JsonName("file_types")),
-          }),
+            ),
+          }).pipe(Schema.encodeKeys({ fileTypes: "file_types" })),
           Schema.Null,
-        ),
+        ]),
       ),
       redirect: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
-            targetUri: Schema.String.pipe(T.JsonName("target_uri")),
-            includeContext: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("include_context"),
-            ),
-            preservePathAndQuery: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("preserve_path_and_query"),
-            ),
-          }),
+            targetUri: Schema.String,
+            includeContext: Schema.optional(Schema.Boolean),
+            preservePathAndQuery: Schema.optional(Schema.Boolean),
+          }).pipe(
+            Schema.encodeKeys({
+              targetUri: "target_uri",
+              includeContext: "include_context",
+              preservePathAndQuery: "preserve_path_and_query",
+            }),
+          ),
           Schema.Null,
-        ),
+        ]),
       ),
       resolveDnsInternally: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
-            fallback: Schema.optional(Schema.Literal("none", "public_dns")),
-            viewId: Schema.optional(Schema.String).pipe(T.JsonName("view_id")),
-          }),
+            fallback: Schema.optional(Schema.Literals(["none", "public_dns"])),
+            viewId: Schema.optional(Schema.String),
+          }).pipe(Schema.encodeKeys({ viewId: "view_id" })),
           Schema.Null,
-        ),
-      ).pipe(T.JsonName("resolve_dns_internally")),
+        ]),
+      ),
       resolveDnsThroughCloudflare: Schema.optional(
-        Schema.Union(Schema.Boolean, Schema.Null),
-      ).pipe(T.JsonName("resolve_dns_through_cloudflare")),
+        Schema.Union([Schema.Boolean, Schema.Null]),
+      ),
       untrustedCert: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
             action: Schema.optional(
-              Schema.Literal("pass_through", "block", "error"),
+              Schema.Literals(["pass_through", "block", "error"]),
             ),
           }),
           Schema.Null,
-        ),
-      ).pipe(T.JsonName("untrusted_cert")),
-    }),
-  ).pipe(T.JsonName("rule_settings")),
+        ]),
+      ),
+    }).pipe(
+      Schema.encodeKeys({
+        addHeaders: "add_headers",
+        allowChildBypass: "allow_child_bypass",
+        auditSsh: "audit_ssh",
+        bisoAdminControls: "biso_admin_controls",
+        blockPage: "block_page",
+        blockPageEnabled: "block_page_enabled",
+        blockReason: "block_reason",
+        bypassParentRule: "bypass_parent_rule",
+        checkSession: "check_session",
+        dnsResolvers: "dns_resolvers",
+        forensicCopy: "forensic_copy",
+        ignoreCnameCategoryMatches: "ignore_cname_category_matches",
+        insecureDisableDnssecValidation: "insecure_disable_dnssec_validation",
+        ipCategories: "ip_categories",
+        ipIndicatorFeeds: "ip_indicator_feeds",
+        notificationSettings: "notification_settings",
+        overrideHost: "override_host",
+        overrideIps: "override_ips",
+        payloadLog: "payload_log",
+        resolveDnsInternally: "resolve_dns_internally",
+        resolveDnsThroughCloudflare: "resolve_dns_through_cloudflare",
+        untrustedCert: "untrusted_cert",
+      }),
+    ),
+  ),
   schedule: Schema.optional(
-    Schema.Union(
+    Schema.Union([
       Schema.Struct({
         fri: Schema.optional(Schema.String),
         mon: Schema.optional(Schema.String),
         sat: Schema.optional(Schema.String),
         sun: Schema.optional(Schema.String),
         thu: Schema.optional(Schema.String),
-        timeZone: Schema.optional(Schema.String).pipe(T.JsonName("time_zone")),
+        timeZone: Schema.optional(Schema.String),
         tue: Schema.optional(Schema.String),
         wed: Schema.optional(Schema.String),
-      }),
+      }).pipe(Schema.encodeKeys({ timeZone: "time_zone" })),
       Schema.Null,
-    ),
+    ]),
   ),
   traffic: Schema.optional(Schema.String),
 }).pipe(
+  Schema.encodeKeys({
+    devicePosture: "device_posture",
+    ruleSettings: "rule_settings",
+  }),
   T.Http({
     method: "PUT",
     path: "/accounts/{account_id}/gateway/rules/{ruleId}",
@@ -26007,7 +27548,7 @@ export interface UpdateGatewayRuleResponse {
 }
 
 export const UpdateGatewayRuleResponse = Schema.Struct({
-  action: Schema.Literal(
+  action: Schema.Literals([
     "on",
     "off",
     "allow",
@@ -26024,189 +27565,171 @@ export const UpdateGatewayRuleResponse = Schema.Struct({
     "resolve",
     "quarantine",
     "redirect",
-  ),
+  ]),
   enabled: Schema.Boolean,
   filters: Schema.Array(
-    Schema.Literal("http", "dns", "l4", "egress", "dns_resolver"),
+    Schema.Literals(["http", "dns", "l4", "egress", "dns_resolver"]),
   ),
   name: Schema.String,
   precedence: Schema.Number,
   traffic: Schema.String,
   id: Schema.optional(Schema.String),
-  createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
-  deletedAt: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-    T.JsonName("deleted_at"),
-  ),
+  createdAt: Schema.optional(Schema.String),
+  deletedAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   description: Schema.optional(Schema.String),
-  devicePosture: Schema.optional(Schema.String).pipe(
-    T.JsonName("device_posture"),
-  ),
+  devicePosture: Schema.optional(Schema.String),
   expiration: Schema.optional(
-    Schema.Union(
+    Schema.Union([
       Schema.Struct({
-        expiresAt: Schema.String.pipe(T.JsonName("expires_at")),
+        expiresAt: Schema.String,
         duration: Schema.optional(Schema.Number),
         expired: Schema.optional(Schema.Boolean),
-      }),
+      }).pipe(Schema.encodeKeys({ expiresAt: "expires_at" })),
       Schema.Null,
-    ),
+    ]),
   ),
   identity: Schema.optional(Schema.String),
-  readOnly: Schema.optional(Schema.Boolean).pipe(T.JsonName("read_only")),
+  readOnly: Schema.optional(Schema.Boolean),
   ruleSettings: Schema.optional(
     Schema.Struct({
       addHeaders: Schema.optional(
-        Schema.Union(Schema.Struct({}), Schema.Null),
-      ).pipe(T.JsonName("add_headers")),
+        Schema.Union([Schema.Struct({}), Schema.Null]),
+      ),
       allowChildBypass: Schema.optional(
-        Schema.Union(Schema.Boolean, Schema.Null),
-      ).pipe(T.JsonName("allow_child_bypass")),
+        Schema.Union([Schema.Boolean, Schema.Null]),
+      ),
       auditSsh: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
-            commandLogging: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("command_logging"),
-            ),
-          }),
+            commandLogging: Schema.optional(Schema.Boolean),
+          }).pipe(Schema.encodeKeys({ commandLogging: "command_logging" })),
           Schema.Null,
-        ),
-      ).pipe(T.JsonName("audit_ssh")),
+        ]),
+      ),
       bisoAdminControls: Schema.optional(
         Schema.Struct({
           copy: Schema.optional(
-            Schema.Literal("enabled", "disabled", "remote_only"),
+            Schema.Literals(["enabled", "disabled", "remote_only"]),
           ),
           dcp: Schema.optional(Schema.Boolean),
           dd: Schema.optional(Schema.Boolean),
           dk: Schema.optional(Schema.Boolean),
           download: Schema.optional(
-            Schema.Literal("enabled", "disabled", "remote_only"),
+            Schema.Literals(["enabled", "disabled", "remote_only"]),
           ),
           dp: Schema.optional(Schema.Boolean),
           du: Schema.optional(Schema.Boolean),
-          keyboard: Schema.optional(Schema.Literal("enabled", "disabled")),
+          keyboard: Schema.optional(Schema.Literals(["enabled", "disabled"])),
           paste: Schema.optional(
-            Schema.Literal("enabled", "disabled", "remote_only"),
+            Schema.Literals(["enabled", "disabled", "remote_only"]),
           ),
-          printing: Schema.optional(Schema.Literal("enabled", "disabled")),
-          upload: Schema.optional(Schema.Literal("enabled", "disabled")),
-          version: Schema.optional(Schema.Literal("v1", "v2")),
+          printing: Schema.optional(Schema.Literals(["enabled", "disabled"])),
+          upload: Schema.optional(Schema.Literals(["enabled", "disabled"])),
+          version: Schema.optional(Schema.Literals(["v1", "v2"])),
         }),
-      ).pipe(T.JsonName("biso_admin_controls")),
-      blockPage: Schema.optional(
-        Schema.Union(
-          Schema.Struct({
-            targetUri: Schema.String.pipe(T.JsonName("target_uri")),
-            includeContext: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("include_context"),
-            ),
-          }),
-          Schema.Null,
-        ),
-      ).pipe(T.JsonName("block_page")),
-      blockPageEnabled: Schema.optional(Schema.Boolean).pipe(
-        T.JsonName("block_page_enabled"),
       ),
-      blockReason: Schema.optional(
-        Schema.Union(Schema.String, Schema.Null),
-      ).pipe(T.JsonName("block_reason")),
+      blockPage: Schema.optional(
+        Schema.Union([
+          Schema.Struct({
+            targetUri: Schema.String,
+            includeContext: Schema.optional(Schema.Boolean),
+          }).pipe(
+            Schema.encodeKeys({
+              targetUri: "target_uri",
+              includeContext: "include_context",
+            }),
+          ),
+          Schema.Null,
+        ]),
+      ),
+      blockPageEnabled: Schema.optional(Schema.Boolean),
+      blockReason: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
       bypassParentRule: Schema.optional(
-        Schema.Union(Schema.Boolean, Schema.Null),
-      ).pipe(T.JsonName("bypass_parent_rule")),
+        Schema.Union([Schema.Boolean, Schema.Null]),
+      ),
       checkSession: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
             duration: Schema.optional(Schema.String),
             enforce: Schema.optional(Schema.Boolean),
           }),
           Schema.Null,
-        ),
-      ).pipe(T.JsonName("check_session")),
+        ]),
+      ),
       dnsResolvers: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
             ipv4: Schema.optional(Schema.Array(Schema.Unknown)),
             ipv6: Schema.optional(Schema.Array(Schema.Unknown)),
           }),
           Schema.Null,
-        ),
-      ).pipe(T.JsonName("dns_resolvers")),
+        ]),
+      ),
       egress: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
             ipv4: Schema.optional(Schema.String),
-            ipv4Fallback: Schema.optional(Schema.String).pipe(
-              T.JsonName("ipv4_fallback"),
-            ),
+            ipv4Fallback: Schema.optional(Schema.String),
             ipv6: Schema.optional(Schema.String),
-          }),
+          }).pipe(Schema.encodeKeys({ ipv4Fallback: "ipv4_fallback" })),
           Schema.Null,
-        ),
+        ]),
       ),
       forensicCopy: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
             enabled: Schema.optional(Schema.Boolean),
           }),
           Schema.Null,
-        ),
-      ).pipe(T.JsonName("forensic_copy")),
-      ignoreCnameCategoryMatches: Schema.optional(Schema.Boolean).pipe(
-        T.JsonName("ignore_cname_category_matches"),
+        ]),
       ),
-      insecureDisableDnssecValidation: Schema.optional(Schema.Boolean).pipe(
-        T.JsonName("insecure_disable_dnssec_validation"),
-      ),
-      ipCategories: Schema.optional(Schema.Boolean).pipe(
-        T.JsonName("ip_categories"),
-      ),
-      ipIndicatorFeeds: Schema.optional(Schema.Boolean).pipe(
-        T.JsonName("ip_indicator_feeds"),
-      ),
+      ignoreCnameCategoryMatches: Schema.optional(Schema.Boolean),
+      insecureDisableDnssecValidation: Schema.optional(Schema.Boolean),
+      ipCategories: Schema.optional(Schema.Boolean),
+      ipIndicatorFeeds: Schema.optional(Schema.Boolean),
       l4override: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
             ip: Schema.optional(Schema.String),
             port: Schema.optional(Schema.Number),
           }),
           Schema.Null,
-        ),
+        ]),
       ),
       notificationSettings: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
             enabled: Schema.optional(Schema.Boolean),
-            includeContext: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("include_context"),
-            ),
+            includeContext: Schema.optional(Schema.Boolean),
             msg: Schema.optional(Schema.String),
-            supportUrl: Schema.optional(Schema.String).pipe(
-              T.JsonName("support_url"),
-            ),
-          }),
+            supportUrl: Schema.optional(Schema.String),
+          }).pipe(
+            Schema.encodeKeys({
+              includeContext: "include_context",
+              supportUrl: "support_url",
+            }),
+          ),
           Schema.Null,
-        ),
-      ).pipe(T.JsonName("notification_settings")),
-      overrideHost: Schema.optional(Schema.String).pipe(
-        T.JsonName("override_host"),
+        ]),
       ),
+      overrideHost: Schema.optional(Schema.String),
       overrideIps: Schema.optional(
-        Schema.Union(Schema.Array(Schema.String), Schema.Null),
-      ).pipe(T.JsonName("override_ips")),
+        Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+      ),
       payloadLog: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
             enabled: Schema.optional(Schema.Boolean),
           }),
           Schema.Null,
-        ),
-      ).pipe(T.JsonName("payload_log")),
+        ]),
+      ),
       quarantine: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
             fileTypes: Schema.optional(
               Schema.Array(
-                Schema.Literal(
+                Schema.Literals([
                   "exe",
                   "pdf",
                   "doc",
@@ -26220,76 +27743,110 @@ export const UpdateGatewayRuleResponse = Schema.Struct({
                   "xlsx",
                   "zip",
                   "rar",
-                ),
+                ]),
               ),
-            ).pipe(T.JsonName("file_types")),
-          }),
+            ),
+          }).pipe(Schema.encodeKeys({ fileTypes: "file_types" })),
           Schema.Null,
-        ),
+        ]),
       ),
       redirect: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
-            targetUri: Schema.String.pipe(T.JsonName("target_uri")),
-            includeContext: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("include_context"),
-            ),
-            preservePathAndQuery: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("preserve_path_and_query"),
-            ),
-          }),
+            targetUri: Schema.String,
+            includeContext: Schema.optional(Schema.Boolean),
+            preservePathAndQuery: Schema.optional(Schema.Boolean),
+          }).pipe(
+            Schema.encodeKeys({
+              targetUri: "target_uri",
+              includeContext: "include_context",
+              preservePathAndQuery: "preserve_path_and_query",
+            }),
+          ),
           Schema.Null,
-        ),
+        ]),
       ),
       resolveDnsInternally: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
-            fallback: Schema.optional(Schema.Literal("none", "public_dns")),
-            viewId: Schema.optional(Schema.String).pipe(T.JsonName("view_id")),
-          }),
+            fallback: Schema.optional(Schema.Literals(["none", "public_dns"])),
+            viewId: Schema.optional(Schema.String),
+          }).pipe(Schema.encodeKeys({ viewId: "view_id" })),
           Schema.Null,
-        ),
-      ).pipe(T.JsonName("resolve_dns_internally")),
+        ]),
+      ),
       resolveDnsThroughCloudflare: Schema.optional(
-        Schema.Union(Schema.Boolean, Schema.Null),
-      ).pipe(T.JsonName("resolve_dns_through_cloudflare")),
+        Schema.Union([Schema.Boolean, Schema.Null]),
+      ),
       untrustedCert: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
             action: Schema.optional(
-              Schema.Literal("pass_through", "block", "error"),
+              Schema.Literals(["pass_through", "block", "error"]),
             ),
           }),
           Schema.Null,
-        ),
-      ).pipe(T.JsonName("untrusted_cert")),
-    }),
-  ).pipe(T.JsonName("rule_settings")),
+        ]),
+      ),
+    }).pipe(
+      Schema.encodeKeys({
+        addHeaders: "add_headers",
+        allowChildBypass: "allow_child_bypass",
+        auditSsh: "audit_ssh",
+        bisoAdminControls: "biso_admin_controls",
+        blockPage: "block_page",
+        blockPageEnabled: "block_page_enabled",
+        blockReason: "block_reason",
+        bypassParentRule: "bypass_parent_rule",
+        checkSession: "check_session",
+        dnsResolvers: "dns_resolvers",
+        forensicCopy: "forensic_copy",
+        ignoreCnameCategoryMatches: "ignore_cname_category_matches",
+        insecureDisableDnssecValidation: "insecure_disable_dnssec_validation",
+        ipCategories: "ip_categories",
+        ipIndicatorFeeds: "ip_indicator_feeds",
+        notificationSettings: "notification_settings",
+        overrideHost: "override_host",
+        overrideIps: "override_ips",
+        payloadLog: "payload_log",
+        resolveDnsInternally: "resolve_dns_internally",
+        resolveDnsThroughCloudflare: "resolve_dns_through_cloudflare",
+        untrustedCert: "untrusted_cert",
+      }),
+    ),
+  ),
   schedule: Schema.optional(
-    Schema.Union(
+    Schema.Union([
       Schema.Struct({
         fri: Schema.optional(Schema.String),
         mon: Schema.optional(Schema.String),
         sat: Schema.optional(Schema.String),
         sun: Schema.optional(Schema.String),
         thu: Schema.optional(Schema.String),
-        timeZone: Schema.optional(Schema.String).pipe(T.JsonName("time_zone")),
+        timeZone: Schema.optional(Schema.String),
         tue: Schema.optional(Schema.String),
         wed: Schema.optional(Schema.String),
-      }),
+      }).pipe(Schema.encodeKeys({ timeZone: "time_zone" })),
       Schema.Null,
-    ),
+    ]),
   ),
   sharable: Schema.optional(Schema.Boolean),
-  sourceAccount: Schema.optional(Schema.String).pipe(
-    T.JsonName("source_account"),
-  ),
-  updatedAt: Schema.optional(Schema.String).pipe(T.JsonName("updated_at")),
+  sourceAccount: Schema.optional(Schema.String),
+  updatedAt: Schema.optional(Schema.String),
   version: Schema.optional(Schema.Number),
-  warningStatus: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-    T.JsonName("warning_status"),
-  ),
-}) as unknown as Schema.Schema<UpdateGatewayRuleResponse>;
+  warningStatus: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+}).pipe(
+  Schema.encodeKeys({
+    createdAt: "created_at",
+    deletedAt: "deleted_at",
+    devicePosture: "device_posture",
+    readOnly: "read_only",
+    ruleSettings: "rule_settings",
+    sourceAccount: "source_account",
+    updatedAt: "updated_at",
+    warningStatus: "warning_status",
+  }),
+) as unknown as Schema.Schema<UpdateGatewayRuleResponse>;
 
 export const updateGatewayRule: (
   input: UpdateGatewayRuleRequest,
@@ -26634,32 +28191,31 @@ export type GetIdentityProviderResponse =
       scimConfig?: unknown;
     };
 
-export const GetIdentityProviderResponse = Schema.Union(
+export const GetIdentityProviderResponse = Schema.Union([
   Schema.Struct({
     config: Schema.Struct({
       claims: Schema.optional(Schema.Array(Schema.String)),
-      clientId: Schema.optional(Schema.String).pipe(T.JsonName("client_id")),
-      clientSecret: Schema.optional(Schema.String).pipe(
-        T.JsonName("client_secret"),
-      ),
-      conditionalAccessEnabled: Schema.optional(Schema.Boolean).pipe(
-        T.JsonName("conditional_access_enabled"),
-      ),
-      directoryId: Schema.optional(Schema.String).pipe(
-        T.JsonName("directory_id"),
-      ),
-      emailClaimName: Schema.optional(Schema.String).pipe(
-        T.JsonName("email_claim_name"),
-      ),
+      clientId: Schema.optional(Schema.String),
+      clientSecret: Schema.optional(Schema.String),
+      conditionalAccessEnabled: Schema.optional(Schema.Boolean),
+      directoryId: Schema.optional(Schema.String),
+      emailClaimName: Schema.optional(Schema.String),
       prompt: Schema.optional(
-        Schema.Literal("login", "select_account", "none"),
+        Schema.Literals(["login", "select_account", "none"]),
       ),
-      supportGroups: Schema.optional(Schema.Boolean).pipe(
-        T.JsonName("support_groups"),
-      ),
-    }),
+      supportGroups: Schema.optional(Schema.Boolean),
+    }).pipe(
+      Schema.encodeKeys({
+        clientId: "client_id",
+        clientSecret: "client_secret",
+        conditionalAccessEnabled: "conditional_access_enabled",
+        directoryId: "directory_id",
+        emailClaimName: "email_claim_name",
+        supportGroups: "support_groups",
+      }),
+    ),
     name: Schema.String,
-    type: Schema.Literal(
+    type: Schema.Literals([
       "google",
       "onetimepin",
       "azureAD",
@@ -26674,43 +28230,51 @@ export const GetIdentityProviderResponse = Schema.Union(
       "onelogin",
       "pingone",
       "yandex",
-    ),
-    accountId: Schema.optional(Schema.String).pipe(T.JsonName("account_id")),
-    zoneId: Schema.optional(Schema.String).pipe(T.JsonName("zone_id")),
+    ]),
+    accountId: Schema.optional(Schema.String),
+    zoneId: Schema.optional(Schema.String),
     scimConfig: Schema.optional(
       Schema.Struct({
         enabled: Schema.optional(Schema.Boolean),
         identityUpdateBehavior: Schema.optional(
-          Schema.Literal("automatic", "reauth", "no_action"),
-        ).pipe(T.JsonName("identity_update_behavior")),
-        seatDeprovision: Schema.optional(Schema.Boolean).pipe(
-          T.JsonName("seat_deprovision"),
+          Schema.Literals(["automatic", "reauth", "no_action"]),
         ),
-        userDeprovision: Schema.optional(Schema.Boolean).pipe(
-          T.JsonName("user_deprovision"),
-        ),
-      }),
-    ).pipe(T.JsonName("scim_config")),
-  }),
+        seatDeprovision: Schema.optional(Schema.Boolean),
+        userDeprovision: Schema.optional(Schema.Boolean),
+      }).pipe(
+        Schema.encodeKeys({
+          identityUpdateBehavior: "identity_update_behavior",
+          seatDeprovision: "seat_deprovision",
+          userDeprovision: "user_deprovision",
+        }),
+      ),
+    ),
+  }).pipe(
+    Schema.encodeKeys({
+      accountId: "account_id",
+      zoneId: "zone_id",
+      scimConfig: "scim_config",
+    }),
+  ),
   Schema.Struct({
     config: Schema.Struct({
-      centrifyAccount: Schema.optional(Schema.String).pipe(
-        T.JsonName("centrify_account"),
-      ),
-      centrifyAppId: Schema.optional(Schema.String).pipe(
-        T.JsonName("centrify_app_id"),
-      ),
+      centrifyAccount: Schema.optional(Schema.String),
+      centrifyAppId: Schema.optional(Schema.String),
       claims: Schema.optional(Schema.Array(Schema.String)),
-      clientId: Schema.optional(Schema.String).pipe(T.JsonName("client_id")),
-      clientSecret: Schema.optional(Schema.String).pipe(
-        T.JsonName("client_secret"),
-      ),
-      emailClaimName: Schema.optional(Schema.String).pipe(
-        T.JsonName("email_claim_name"),
-      ),
-    }),
+      clientId: Schema.optional(Schema.String),
+      clientSecret: Schema.optional(Schema.String),
+      emailClaimName: Schema.optional(Schema.String),
+    }).pipe(
+      Schema.encodeKeys({
+        centrifyAccount: "centrify_account",
+        centrifyAppId: "centrify_app_id",
+        clientId: "client_id",
+        clientSecret: "client_secret",
+        emailClaimName: "email_claim_name",
+      }),
+    ),
     name: Schema.String,
-    type: Schema.Literal(
+    type: Schema.Literals([
       "google",
       "onetimepin",
       "azureAD",
@@ -26725,14 +28289,14 @@ export const GetIdentityProviderResponse = Schema.Union(
       "onelogin",
       "pingone",
       "yandex",
-    ),
+    ]),
     id: Schema.optional(Schema.String),
-    scimConfig: Schema.optional(Schema.Unknown).pipe(T.JsonName("scim_config")),
-  }),
+    scimConfig: Schema.optional(Schema.Unknown),
+  }).pipe(Schema.encodeKeys({ scimConfig: "scim_config" })),
   Schema.Struct({
     config: Schema.Unknown,
     name: Schema.String,
-    type: Schema.Literal(
+    type: Schema.Literals([
       "google",
       "onetimepin",
       "azureAD",
@@ -26747,23 +28311,25 @@ export const GetIdentityProviderResponse = Schema.Union(
       "onelogin",
       "pingone",
       "yandex",
-    ),
+    ]),
     id: Schema.optional(Schema.String),
-    scimConfig: Schema.optional(Schema.Unknown).pipe(T.JsonName("scim_config")),
-  }),
+    scimConfig: Schema.optional(Schema.Unknown),
+  }).pipe(Schema.encodeKeys({ scimConfig: "scim_config" })),
   Schema.Struct({
     config: Schema.Struct({
       claims: Schema.optional(Schema.Array(Schema.String)),
-      clientId: Schema.optional(Schema.String).pipe(T.JsonName("client_id")),
-      clientSecret: Schema.optional(Schema.String).pipe(
-        T.JsonName("client_secret"),
-      ),
-      emailClaimName: Schema.optional(Schema.String).pipe(
-        T.JsonName("email_claim_name"),
-      ),
-    }),
+      clientId: Schema.optional(Schema.String),
+      clientSecret: Schema.optional(Schema.String),
+      emailClaimName: Schema.optional(Schema.String),
+    }).pipe(
+      Schema.encodeKeys({
+        clientId: "client_id",
+        clientSecret: "client_secret",
+        emailClaimName: "email_claim_name",
+      }),
+    ),
     name: Schema.String,
-    type: Schema.Literal(
+    type: Schema.Literals([
       "google",
       "onetimepin",
       "azureAD",
@@ -26778,26 +28344,27 @@ export const GetIdentityProviderResponse = Schema.Union(
       "onelogin",
       "pingone",
       "yandex",
-    ),
+    ]),
     id: Schema.optional(Schema.String),
-    scimConfig: Schema.optional(Schema.Unknown).pipe(T.JsonName("scim_config")),
-  }),
+    scimConfig: Schema.optional(Schema.Unknown),
+  }).pipe(Schema.encodeKeys({ scimConfig: "scim_config" })),
   Schema.Struct({
     config: Schema.Struct({
-      appsDomain: Schema.optional(Schema.String).pipe(
-        T.JsonName("apps_domain"),
-      ),
+      appsDomain: Schema.optional(Schema.String),
       claims: Schema.optional(Schema.Array(Schema.String)),
-      clientId: Schema.optional(Schema.String).pipe(T.JsonName("client_id")),
-      clientSecret: Schema.optional(Schema.String).pipe(
-        T.JsonName("client_secret"),
-      ),
-      emailClaimName: Schema.optional(Schema.String).pipe(
-        T.JsonName("email_claim_name"),
-      ),
-    }),
+      clientId: Schema.optional(Schema.String),
+      clientSecret: Schema.optional(Schema.String),
+      emailClaimName: Schema.optional(Schema.String),
+    }).pipe(
+      Schema.encodeKeys({
+        appsDomain: "apps_domain",
+        clientId: "client_id",
+        clientSecret: "client_secret",
+        emailClaimName: "email_claim_name",
+      }),
+    ),
     name: Schema.String,
-    type: Schema.Literal(
+    type: Schema.Literals([
       "google",
       "onetimepin",
       "azureAD",
@@ -26812,30 +28379,34 @@ export const GetIdentityProviderResponse = Schema.Union(
       "onelogin",
       "pingone",
       "yandex",
-    ),
+    ]),
     id: Schema.optional(Schema.String),
-    scimConfig: Schema.optional(Schema.Unknown).pipe(T.JsonName("scim_config")),
-  }),
+    scimConfig: Schema.optional(Schema.Unknown),
+  }).pipe(Schema.encodeKeys({ scimConfig: "scim_config" })),
   Schema.Struct({
     config: Schema.Struct({
-      authUrl: Schema.optional(Schema.String).pipe(T.JsonName("auth_url")),
-      certsUrl: Schema.optional(Schema.String).pipe(T.JsonName("certs_url")),
+      authUrl: Schema.optional(Schema.String),
+      certsUrl: Schema.optional(Schema.String),
       claims: Schema.optional(Schema.Array(Schema.String)),
-      clientId: Schema.optional(Schema.String).pipe(T.JsonName("client_id")),
-      clientSecret: Schema.optional(Schema.String).pipe(
-        T.JsonName("client_secret"),
-      ),
-      emailClaimName: Schema.optional(Schema.String).pipe(
-        T.JsonName("email_claim_name"),
-      ),
-      pkceEnabled: Schema.optional(Schema.Boolean).pipe(
-        T.JsonName("pkce_enabled"),
-      ),
+      clientId: Schema.optional(Schema.String),
+      clientSecret: Schema.optional(Schema.String),
+      emailClaimName: Schema.optional(Schema.String),
+      pkceEnabled: Schema.optional(Schema.Boolean),
       scopes: Schema.optional(Schema.Array(Schema.String)),
-      tokenUrl: Schema.optional(Schema.String).pipe(T.JsonName("token_url")),
-    }),
+      tokenUrl: Schema.optional(Schema.String),
+    }).pipe(
+      Schema.encodeKeys({
+        authUrl: "auth_url",
+        certsUrl: "certs_url",
+        clientId: "client_id",
+        clientSecret: "client_secret",
+        emailClaimName: "email_claim_name",
+        pkceEnabled: "pkce_enabled",
+        tokenUrl: "token_url",
+      }),
+    ),
     name: Schema.String,
-    type: Schema.Literal(
+    type: Schema.Literals([
       "google",
       "onetimepin",
       "azureAD",
@@ -26850,29 +28421,29 @@ export const GetIdentityProviderResponse = Schema.Union(
       "onelogin",
       "pingone",
       "yandex",
-    ),
+    ]),
     id: Schema.optional(Schema.String),
-    scimConfig: Schema.optional(Schema.Unknown).pipe(T.JsonName("scim_config")),
-  }),
+    scimConfig: Schema.optional(Schema.Unknown),
+  }).pipe(Schema.encodeKeys({ scimConfig: "scim_config" })),
   Schema.Struct({
     config: Schema.Struct({
-      authorizationServerId: Schema.optional(Schema.String).pipe(
-        T.JsonName("authorization_server_id"),
-      ),
+      authorizationServerId: Schema.optional(Schema.String),
       claims: Schema.optional(Schema.Array(Schema.String)),
-      clientId: Schema.optional(Schema.String).pipe(T.JsonName("client_id")),
-      clientSecret: Schema.optional(Schema.String).pipe(
-        T.JsonName("client_secret"),
-      ),
-      emailClaimName: Schema.optional(Schema.String).pipe(
-        T.JsonName("email_claim_name"),
-      ),
-      oktaAccount: Schema.optional(Schema.String).pipe(
-        T.JsonName("okta_account"),
-      ),
-    }),
+      clientId: Schema.optional(Schema.String),
+      clientSecret: Schema.optional(Schema.String),
+      emailClaimName: Schema.optional(Schema.String),
+      oktaAccount: Schema.optional(Schema.String),
+    }).pipe(
+      Schema.encodeKeys({
+        authorizationServerId: "authorization_server_id",
+        clientId: "client_id",
+        clientSecret: "client_secret",
+        emailClaimName: "email_claim_name",
+        oktaAccount: "okta_account",
+      }),
+    ),
     name: Schema.String,
-    type: Schema.Literal(
+    type: Schema.Literals([
       "google",
       "onetimepin",
       "azureAD",
@@ -26887,58 +28458,27 @@ export const GetIdentityProviderResponse = Schema.Union(
       "onelogin",
       "pingone",
       "yandex",
-    ),
+    ]),
     id: Schema.optional(Schema.String),
-    scimConfig: Schema.optional(Schema.Unknown).pipe(T.JsonName("scim_config")),
-  }),
-  Schema.Struct({
-    config: Schema.Struct({
-      claims: Schema.optional(Schema.Array(Schema.String)),
-      clientId: Schema.optional(Schema.String).pipe(T.JsonName("client_id")),
-      clientSecret: Schema.optional(Schema.String).pipe(
-        T.JsonName("client_secret"),
-      ),
-      emailClaimName: Schema.optional(Schema.String).pipe(
-        T.JsonName("email_claim_name"),
-      ),
-      oneloginAccount: Schema.optional(Schema.String).pipe(
-        T.JsonName("onelogin_account"),
-      ),
-    }),
-    name: Schema.String,
-    type: Schema.Literal(
-      "google",
-      "onetimepin",
-      "azureAD",
-      "saml",
-      "centrify",
-      "facebook",
-      "github",
-      "google-apps",
-      "linkedin",
-      "oidc",
-      "okta",
-      "onelogin",
-      "pingone",
-      "yandex",
-    ),
-    id: Schema.optional(Schema.String),
-    scimConfig: Schema.optional(Schema.Unknown).pipe(T.JsonName("scim_config")),
-  }),
+    scimConfig: Schema.optional(Schema.Unknown),
+  }).pipe(Schema.encodeKeys({ scimConfig: "scim_config" })),
   Schema.Struct({
     config: Schema.Struct({
       claims: Schema.optional(Schema.Array(Schema.String)),
-      clientId: Schema.optional(Schema.String).pipe(T.JsonName("client_id")),
-      clientSecret: Schema.optional(Schema.String).pipe(
-        T.JsonName("client_secret"),
-      ),
-      emailClaimName: Schema.optional(Schema.String).pipe(
-        T.JsonName("email_claim_name"),
-      ),
-      pingEnvId: Schema.optional(Schema.String).pipe(T.JsonName("ping_env_id")),
-    }),
+      clientId: Schema.optional(Schema.String),
+      clientSecret: Schema.optional(Schema.String),
+      emailClaimName: Schema.optional(Schema.String),
+      oneloginAccount: Schema.optional(Schema.String),
+    }).pipe(
+      Schema.encodeKeys({
+        clientId: "client_id",
+        clientSecret: "client_secret",
+        emailClaimName: "email_claim_name",
+        oneloginAccount: "onelogin_account",
+      }),
+    ),
     name: Schema.String,
-    type: Schema.Literal(
+    type: Schema.Literals([
       "google",
       "onetimepin",
       "azureAD",
@@ -26953,41 +28493,78 @@ export const GetIdentityProviderResponse = Schema.Union(
       "onelogin",
       "pingone",
       "yandex",
-    ),
+    ]),
     id: Schema.optional(Schema.String),
-    scimConfig: Schema.optional(Schema.Unknown).pipe(T.JsonName("scim_config")),
-  }),
+    scimConfig: Schema.optional(Schema.Unknown),
+  }).pipe(Schema.encodeKeys({ scimConfig: "scim_config" })),
+  Schema.Struct({
+    config: Schema.Struct({
+      claims: Schema.optional(Schema.Array(Schema.String)),
+      clientId: Schema.optional(Schema.String),
+      clientSecret: Schema.optional(Schema.String),
+      emailClaimName: Schema.optional(Schema.String),
+      pingEnvId: Schema.optional(Schema.String),
+    }).pipe(
+      Schema.encodeKeys({
+        clientId: "client_id",
+        clientSecret: "client_secret",
+        emailClaimName: "email_claim_name",
+        pingEnvId: "ping_env_id",
+      }),
+    ),
+    name: Schema.String,
+    type: Schema.Literals([
+      "google",
+      "onetimepin",
+      "azureAD",
+      "saml",
+      "centrify",
+      "facebook",
+      "github",
+      "google-apps",
+      "linkedin",
+      "oidc",
+      "okta",
+      "onelogin",
+      "pingone",
+      "yandex",
+    ]),
+    id: Schema.optional(Schema.String),
+    scimConfig: Schema.optional(Schema.Unknown),
+  }).pipe(Schema.encodeKeys({ scimConfig: "scim_config" })),
   Schema.Struct({
     config: Schema.Struct({
       attributes: Schema.optional(Schema.Array(Schema.String)),
-      emailAttributeName: Schema.optional(Schema.String).pipe(
-        T.JsonName("email_attribute_name"),
-      ),
+      emailAttributeName: Schema.optional(Schema.String),
       headerAttributes: Schema.optional(
         Schema.Array(
           Schema.Struct({
-            attributeName: Schema.optional(Schema.String).pipe(
-              T.JsonName("attribute_name"),
-            ),
-            headerName: Schema.optional(Schema.String).pipe(
-              T.JsonName("header_name"),
-            ),
-          }),
+            attributeName: Schema.optional(Schema.String),
+            headerName: Schema.optional(Schema.String),
+          }).pipe(
+            Schema.encodeKeys({
+              attributeName: "attribute_name",
+              headerName: "header_name",
+            }),
+          ),
         ),
-      ).pipe(T.JsonName("header_attributes")),
-      idpPublicCerts: Schema.optional(Schema.Array(Schema.String)).pipe(
-        T.JsonName("idp_public_certs"),
       ),
-      issuerUrl: Schema.optional(Schema.String).pipe(T.JsonName("issuer_url")),
-      signRequest: Schema.optional(Schema.Boolean).pipe(
-        T.JsonName("sign_request"),
-      ),
-      ssoTargetUrl: Schema.optional(Schema.String).pipe(
-        T.JsonName("sso_target_url"),
-      ),
-    }),
+      idpPublicCerts: Schema.optional(Schema.Array(Schema.String)),
+      issuerUrl: Schema.optional(Schema.String),
+      signRequest: Schema.optional(Schema.Boolean),
+      ssoTargetUrl: Schema.optional(Schema.String),
+    }).pipe(
+      Schema.encodeKeys({
+        emailAttributeName: "email_attribute_name",
+        headerAttributes: "header_attributes",
+        idpPublicCerts: "idp_public_certs",
+        issuerUrl: "issuer_url",
+        signRequest: "sign_request",
+        ssoTargetUrl: "sso_target_url",
+      }),
+    ),
     name: Schema.String,
-    type: Schema.Literal(
+    type: Schema.Literals([
       "google",
       "onetimepin",
       "azureAD",
@@ -27002,11 +28579,11 @@ export const GetIdentityProviderResponse = Schema.Union(
       "onelogin",
       "pingone",
       "yandex",
-    ),
+    ]),
     id: Schema.optional(Schema.String),
-    scimConfig: Schema.optional(Schema.Unknown).pipe(T.JsonName("scim_config")),
-  }),
-) as unknown as Schema.Schema<GetIdentityProviderResponse>;
+    scimConfig: Schema.optional(Schema.Unknown),
+  }).pipe(Schema.encodeKeys({ scimConfig: "scim_config" })),
+]) as unknown as Schema.Schema<GetIdentityProviderResponse>;
 
 export const getIdentityProvider: (
   input: GetIdentityProviderRequest,
@@ -27311,32 +28888,31 @@ export type CreateIdentityProviderResponse =
       scimConfig?: unknown;
     };
 
-export const CreateIdentityProviderResponse = Schema.Union(
+export const CreateIdentityProviderResponse = Schema.Union([
   Schema.Struct({
     config: Schema.Struct({
       claims: Schema.optional(Schema.Array(Schema.String)),
-      clientId: Schema.optional(Schema.String).pipe(T.JsonName("client_id")),
-      clientSecret: Schema.optional(Schema.String).pipe(
-        T.JsonName("client_secret"),
-      ),
-      conditionalAccessEnabled: Schema.optional(Schema.Boolean).pipe(
-        T.JsonName("conditional_access_enabled"),
-      ),
-      directoryId: Schema.optional(Schema.String).pipe(
-        T.JsonName("directory_id"),
-      ),
-      emailClaimName: Schema.optional(Schema.String).pipe(
-        T.JsonName("email_claim_name"),
-      ),
+      clientId: Schema.optional(Schema.String),
+      clientSecret: Schema.optional(Schema.String),
+      conditionalAccessEnabled: Schema.optional(Schema.Boolean),
+      directoryId: Schema.optional(Schema.String),
+      emailClaimName: Schema.optional(Schema.String),
       prompt: Schema.optional(
-        Schema.Literal("login", "select_account", "none"),
+        Schema.Literals(["login", "select_account", "none"]),
       ),
-      supportGroups: Schema.optional(Schema.Boolean).pipe(
-        T.JsonName("support_groups"),
-      ),
-    }),
+      supportGroups: Schema.optional(Schema.Boolean),
+    }).pipe(
+      Schema.encodeKeys({
+        clientId: "client_id",
+        clientSecret: "client_secret",
+        conditionalAccessEnabled: "conditional_access_enabled",
+        directoryId: "directory_id",
+        emailClaimName: "email_claim_name",
+        supportGroups: "support_groups",
+      }),
+    ),
     name: Schema.String,
-    type: Schema.Literal(
+    type: Schema.Literals([
       "google",
       "onetimepin",
       "azureAD",
@@ -27351,43 +28927,51 @@ export const CreateIdentityProviderResponse = Schema.Union(
       "onelogin",
       "pingone",
       "yandex",
-    ),
-    accountId: Schema.optional(Schema.String).pipe(T.JsonName("account_id")),
-    zoneId: Schema.optional(Schema.String).pipe(T.JsonName("zone_id")),
+    ]),
+    accountId: Schema.optional(Schema.String),
+    zoneId: Schema.optional(Schema.String),
     scimConfig: Schema.optional(
       Schema.Struct({
         enabled: Schema.optional(Schema.Boolean),
         identityUpdateBehavior: Schema.optional(
-          Schema.Literal("automatic", "reauth", "no_action"),
-        ).pipe(T.JsonName("identity_update_behavior")),
-        seatDeprovision: Schema.optional(Schema.Boolean).pipe(
-          T.JsonName("seat_deprovision"),
+          Schema.Literals(["automatic", "reauth", "no_action"]),
         ),
-        userDeprovision: Schema.optional(Schema.Boolean).pipe(
-          T.JsonName("user_deprovision"),
-        ),
-      }),
-    ).pipe(T.JsonName("scim_config")),
-  }),
+        seatDeprovision: Schema.optional(Schema.Boolean),
+        userDeprovision: Schema.optional(Schema.Boolean),
+      }).pipe(
+        Schema.encodeKeys({
+          identityUpdateBehavior: "identity_update_behavior",
+          seatDeprovision: "seat_deprovision",
+          userDeprovision: "user_deprovision",
+        }),
+      ),
+    ),
+  }).pipe(
+    Schema.encodeKeys({
+      accountId: "account_id",
+      zoneId: "zone_id",
+      scimConfig: "scim_config",
+    }),
+  ),
   Schema.Struct({
     config: Schema.Struct({
-      centrifyAccount: Schema.optional(Schema.String).pipe(
-        T.JsonName("centrify_account"),
-      ),
-      centrifyAppId: Schema.optional(Schema.String).pipe(
-        T.JsonName("centrify_app_id"),
-      ),
+      centrifyAccount: Schema.optional(Schema.String),
+      centrifyAppId: Schema.optional(Schema.String),
       claims: Schema.optional(Schema.Array(Schema.String)),
-      clientId: Schema.optional(Schema.String).pipe(T.JsonName("client_id")),
-      clientSecret: Schema.optional(Schema.String).pipe(
-        T.JsonName("client_secret"),
-      ),
-      emailClaimName: Schema.optional(Schema.String).pipe(
-        T.JsonName("email_claim_name"),
-      ),
-    }),
+      clientId: Schema.optional(Schema.String),
+      clientSecret: Schema.optional(Schema.String),
+      emailClaimName: Schema.optional(Schema.String),
+    }).pipe(
+      Schema.encodeKeys({
+        centrifyAccount: "centrify_account",
+        centrifyAppId: "centrify_app_id",
+        clientId: "client_id",
+        clientSecret: "client_secret",
+        emailClaimName: "email_claim_name",
+      }),
+    ),
     name: Schema.String,
-    type: Schema.Literal(
+    type: Schema.Literals([
       "google",
       "onetimepin",
       "azureAD",
@@ -27402,14 +28986,14 @@ export const CreateIdentityProviderResponse = Schema.Union(
       "onelogin",
       "pingone",
       "yandex",
-    ),
+    ]),
     id: Schema.optional(Schema.String),
-    scimConfig: Schema.optional(Schema.Unknown).pipe(T.JsonName("scim_config")),
-  }),
+    scimConfig: Schema.optional(Schema.Unknown),
+  }).pipe(Schema.encodeKeys({ scimConfig: "scim_config" })),
   Schema.Struct({
     config: Schema.Unknown,
     name: Schema.String,
-    type: Schema.Literal(
+    type: Schema.Literals([
       "google",
       "onetimepin",
       "azureAD",
@@ -27424,23 +29008,25 @@ export const CreateIdentityProviderResponse = Schema.Union(
       "onelogin",
       "pingone",
       "yandex",
-    ),
+    ]),
     id: Schema.optional(Schema.String),
-    scimConfig: Schema.optional(Schema.Unknown).pipe(T.JsonName("scim_config")),
-  }),
+    scimConfig: Schema.optional(Schema.Unknown),
+  }).pipe(Schema.encodeKeys({ scimConfig: "scim_config" })),
   Schema.Struct({
     config: Schema.Struct({
       claims: Schema.optional(Schema.Array(Schema.String)),
-      clientId: Schema.optional(Schema.String).pipe(T.JsonName("client_id")),
-      clientSecret: Schema.optional(Schema.String).pipe(
-        T.JsonName("client_secret"),
-      ),
-      emailClaimName: Schema.optional(Schema.String).pipe(
-        T.JsonName("email_claim_name"),
-      ),
-    }),
+      clientId: Schema.optional(Schema.String),
+      clientSecret: Schema.optional(Schema.String),
+      emailClaimName: Schema.optional(Schema.String),
+    }).pipe(
+      Schema.encodeKeys({
+        clientId: "client_id",
+        clientSecret: "client_secret",
+        emailClaimName: "email_claim_name",
+      }),
+    ),
     name: Schema.String,
-    type: Schema.Literal(
+    type: Schema.Literals([
       "google",
       "onetimepin",
       "azureAD",
@@ -27455,26 +29041,27 @@ export const CreateIdentityProviderResponse = Schema.Union(
       "onelogin",
       "pingone",
       "yandex",
-    ),
+    ]),
     id: Schema.optional(Schema.String),
-    scimConfig: Schema.optional(Schema.Unknown).pipe(T.JsonName("scim_config")),
-  }),
+    scimConfig: Schema.optional(Schema.Unknown),
+  }).pipe(Schema.encodeKeys({ scimConfig: "scim_config" })),
   Schema.Struct({
     config: Schema.Struct({
-      appsDomain: Schema.optional(Schema.String).pipe(
-        T.JsonName("apps_domain"),
-      ),
+      appsDomain: Schema.optional(Schema.String),
       claims: Schema.optional(Schema.Array(Schema.String)),
-      clientId: Schema.optional(Schema.String).pipe(T.JsonName("client_id")),
-      clientSecret: Schema.optional(Schema.String).pipe(
-        T.JsonName("client_secret"),
-      ),
-      emailClaimName: Schema.optional(Schema.String).pipe(
-        T.JsonName("email_claim_name"),
-      ),
-    }),
+      clientId: Schema.optional(Schema.String),
+      clientSecret: Schema.optional(Schema.String),
+      emailClaimName: Schema.optional(Schema.String),
+    }).pipe(
+      Schema.encodeKeys({
+        appsDomain: "apps_domain",
+        clientId: "client_id",
+        clientSecret: "client_secret",
+        emailClaimName: "email_claim_name",
+      }),
+    ),
     name: Schema.String,
-    type: Schema.Literal(
+    type: Schema.Literals([
       "google",
       "onetimepin",
       "azureAD",
@@ -27489,30 +29076,34 @@ export const CreateIdentityProviderResponse = Schema.Union(
       "onelogin",
       "pingone",
       "yandex",
-    ),
+    ]),
     id: Schema.optional(Schema.String),
-    scimConfig: Schema.optional(Schema.Unknown).pipe(T.JsonName("scim_config")),
-  }),
+    scimConfig: Schema.optional(Schema.Unknown),
+  }).pipe(Schema.encodeKeys({ scimConfig: "scim_config" })),
   Schema.Struct({
     config: Schema.Struct({
-      authUrl: Schema.optional(Schema.String).pipe(T.JsonName("auth_url")),
-      certsUrl: Schema.optional(Schema.String).pipe(T.JsonName("certs_url")),
+      authUrl: Schema.optional(Schema.String),
+      certsUrl: Schema.optional(Schema.String),
       claims: Schema.optional(Schema.Array(Schema.String)),
-      clientId: Schema.optional(Schema.String).pipe(T.JsonName("client_id")),
-      clientSecret: Schema.optional(Schema.String).pipe(
-        T.JsonName("client_secret"),
-      ),
-      emailClaimName: Schema.optional(Schema.String).pipe(
-        T.JsonName("email_claim_name"),
-      ),
-      pkceEnabled: Schema.optional(Schema.Boolean).pipe(
-        T.JsonName("pkce_enabled"),
-      ),
+      clientId: Schema.optional(Schema.String),
+      clientSecret: Schema.optional(Schema.String),
+      emailClaimName: Schema.optional(Schema.String),
+      pkceEnabled: Schema.optional(Schema.Boolean),
       scopes: Schema.optional(Schema.Array(Schema.String)),
-      tokenUrl: Schema.optional(Schema.String).pipe(T.JsonName("token_url")),
-    }),
+      tokenUrl: Schema.optional(Schema.String),
+    }).pipe(
+      Schema.encodeKeys({
+        authUrl: "auth_url",
+        certsUrl: "certs_url",
+        clientId: "client_id",
+        clientSecret: "client_secret",
+        emailClaimName: "email_claim_name",
+        pkceEnabled: "pkce_enabled",
+        tokenUrl: "token_url",
+      }),
+    ),
     name: Schema.String,
-    type: Schema.Literal(
+    type: Schema.Literals([
       "google",
       "onetimepin",
       "azureAD",
@@ -27527,29 +29118,29 @@ export const CreateIdentityProviderResponse = Schema.Union(
       "onelogin",
       "pingone",
       "yandex",
-    ),
+    ]),
     id: Schema.optional(Schema.String),
-    scimConfig: Schema.optional(Schema.Unknown).pipe(T.JsonName("scim_config")),
-  }),
+    scimConfig: Schema.optional(Schema.Unknown),
+  }).pipe(Schema.encodeKeys({ scimConfig: "scim_config" })),
   Schema.Struct({
     config: Schema.Struct({
-      authorizationServerId: Schema.optional(Schema.String).pipe(
-        T.JsonName("authorization_server_id"),
-      ),
+      authorizationServerId: Schema.optional(Schema.String),
       claims: Schema.optional(Schema.Array(Schema.String)),
-      clientId: Schema.optional(Schema.String).pipe(T.JsonName("client_id")),
-      clientSecret: Schema.optional(Schema.String).pipe(
-        T.JsonName("client_secret"),
-      ),
-      emailClaimName: Schema.optional(Schema.String).pipe(
-        T.JsonName("email_claim_name"),
-      ),
-      oktaAccount: Schema.optional(Schema.String).pipe(
-        T.JsonName("okta_account"),
-      ),
-    }),
+      clientId: Schema.optional(Schema.String),
+      clientSecret: Schema.optional(Schema.String),
+      emailClaimName: Schema.optional(Schema.String),
+      oktaAccount: Schema.optional(Schema.String),
+    }).pipe(
+      Schema.encodeKeys({
+        authorizationServerId: "authorization_server_id",
+        clientId: "client_id",
+        clientSecret: "client_secret",
+        emailClaimName: "email_claim_name",
+        oktaAccount: "okta_account",
+      }),
+    ),
     name: Schema.String,
-    type: Schema.Literal(
+    type: Schema.Literals([
       "google",
       "onetimepin",
       "azureAD",
@@ -27564,58 +29155,27 @@ export const CreateIdentityProviderResponse = Schema.Union(
       "onelogin",
       "pingone",
       "yandex",
-    ),
+    ]),
     id: Schema.optional(Schema.String),
-    scimConfig: Schema.optional(Schema.Unknown).pipe(T.JsonName("scim_config")),
-  }),
-  Schema.Struct({
-    config: Schema.Struct({
-      claims: Schema.optional(Schema.Array(Schema.String)),
-      clientId: Schema.optional(Schema.String).pipe(T.JsonName("client_id")),
-      clientSecret: Schema.optional(Schema.String).pipe(
-        T.JsonName("client_secret"),
-      ),
-      emailClaimName: Schema.optional(Schema.String).pipe(
-        T.JsonName("email_claim_name"),
-      ),
-      oneloginAccount: Schema.optional(Schema.String).pipe(
-        T.JsonName("onelogin_account"),
-      ),
-    }),
-    name: Schema.String,
-    type: Schema.Literal(
-      "google",
-      "onetimepin",
-      "azureAD",
-      "saml",
-      "centrify",
-      "facebook",
-      "github",
-      "google-apps",
-      "linkedin",
-      "oidc",
-      "okta",
-      "onelogin",
-      "pingone",
-      "yandex",
-    ),
-    id: Schema.optional(Schema.String),
-    scimConfig: Schema.optional(Schema.Unknown).pipe(T.JsonName("scim_config")),
-  }),
+    scimConfig: Schema.optional(Schema.Unknown),
+  }).pipe(Schema.encodeKeys({ scimConfig: "scim_config" })),
   Schema.Struct({
     config: Schema.Struct({
       claims: Schema.optional(Schema.Array(Schema.String)),
-      clientId: Schema.optional(Schema.String).pipe(T.JsonName("client_id")),
-      clientSecret: Schema.optional(Schema.String).pipe(
-        T.JsonName("client_secret"),
-      ),
-      emailClaimName: Schema.optional(Schema.String).pipe(
-        T.JsonName("email_claim_name"),
-      ),
-      pingEnvId: Schema.optional(Schema.String).pipe(T.JsonName("ping_env_id")),
-    }),
+      clientId: Schema.optional(Schema.String),
+      clientSecret: Schema.optional(Schema.String),
+      emailClaimName: Schema.optional(Schema.String),
+      oneloginAccount: Schema.optional(Schema.String),
+    }).pipe(
+      Schema.encodeKeys({
+        clientId: "client_id",
+        clientSecret: "client_secret",
+        emailClaimName: "email_claim_name",
+        oneloginAccount: "onelogin_account",
+      }),
+    ),
     name: Schema.String,
-    type: Schema.Literal(
+    type: Schema.Literals([
       "google",
       "onetimepin",
       "azureAD",
@@ -27630,41 +29190,78 @@ export const CreateIdentityProviderResponse = Schema.Union(
       "onelogin",
       "pingone",
       "yandex",
-    ),
+    ]),
     id: Schema.optional(Schema.String),
-    scimConfig: Schema.optional(Schema.Unknown).pipe(T.JsonName("scim_config")),
-  }),
+    scimConfig: Schema.optional(Schema.Unknown),
+  }).pipe(Schema.encodeKeys({ scimConfig: "scim_config" })),
+  Schema.Struct({
+    config: Schema.Struct({
+      claims: Schema.optional(Schema.Array(Schema.String)),
+      clientId: Schema.optional(Schema.String),
+      clientSecret: Schema.optional(Schema.String),
+      emailClaimName: Schema.optional(Schema.String),
+      pingEnvId: Schema.optional(Schema.String),
+    }).pipe(
+      Schema.encodeKeys({
+        clientId: "client_id",
+        clientSecret: "client_secret",
+        emailClaimName: "email_claim_name",
+        pingEnvId: "ping_env_id",
+      }),
+    ),
+    name: Schema.String,
+    type: Schema.Literals([
+      "google",
+      "onetimepin",
+      "azureAD",
+      "saml",
+      "centrify",
+      "facebook",
+      "github",
+      "google-apps",
+      "linkedin",
+      "oidc",
+      "okta",
+      "onelogin",
+      "pingone",
+      "yandex",
+    ]),
+    id: Schema.optional(Schema.String),
+    scimConfig: Schema.optional(Schema.Unknown),
+  }).pipe(Schema.encodeKeys({ scimConfig: "scim_config" })),
   Schema.Struct({
     config: Schema.Struct({
       attributes: Schema.optional(Schema.Array(Schema.String)),
-      emailAttributeName: Schema.optional(Schema.String).pipe(
-        T.JsonName("email_attribute_name"),
-      ),
+      emailAttributeName: Schema.optional(Schema.String),
       headerAttributes: Schema.optional(
         Schema.Array(
           Schema.Struct({
-            attributeName: Schema.optional(Schema.String).pipe(
-              T.JsonName("attribute_name"),
-            ),
-            headerName: Schema.optional(Schema.String).pipe(
-              T.JsonName("header_name"),
-            ),
-          }),
+            attributeName: Schema.optional(Schema.String),
+            headerName: Schema.optional(Schema.String),
+          }).pipe(
+            Schema.encodeKeys({
+              attributeName: "attribute_name",
+              headerName: "header_name",
+            }),
+          ),
         ),
-      ).pipe(T.JsonName("header_attributes")),
-      idpPublicCerts: Schema.optional(Schema.Array(Schema.String)).pipe(
-        T.JsonName("idp_public_certs"),
       ),
-      issuerUrl: Schema.optional(Schema.String).pipe(T.JsonName("issuer_url")),
-      signRequest: Schema.optional(Schema.Boolean).pipe(
-        T.JsonName("sign_request"),
-      ),
-      ssoTargetUrl: Schema.optional(Schema.String).pipe(
-        T.JsonName("sso_target_url"),
-      ),
-    }),
+      idpPublicCerts: Schema.optional(Schema.Array(Schema.String)),
+      issuerUrl: Schema.optional(Schema.String),
+      signRequest: Schema.optional(Schema.Boolean),
+      ssoTargetUrl: Schema.optional(Schema.String),
+    }).pipe(
+      Schema.encodeKeys({
+        emailAttributeName: "email_attribute_name",
+        headerAttributes: "header_attributes",
+        idpPublicCerts: "idp_public_certs",
+        issuerUrl: "issuer_url",
+        signRequest: "sign_request",
+        ssoTargetUrl: "sso_target_url",
+      }),
+    ),
     name: Schema.String,
-    type: Schema.Literal(
+    type: Schema.Literals([
       "google",
       "onetimepin",
       "azureAD",
@@ -27679,11 +29276,11 @@ export const CreateIdentityProviderResponse = Schema.Union(
       "onelogin",
       "pingone",
       "yandex",
-    ),
+    ]),
     id: Schema.optional(Schema.String),
-    scimConfig: Schema.optional(Schema.Unknown).pipe(T.JsonName("scim_config")),
-  }),
-) as unknown as Schema.Schema<CreateIdentityProviderResponse>;
+    scimConfig: Schema.optional(Schema.Unknown),
+  }).pipe(Schema.encodeKeys({ scimConfig: "scim_config" })),
+]) as unknown as Schema.Schema<CreateIdentityProviderResponse>;
 
 export const createIdentityProvider: (
   input: CreateIdentityProviderRequest,
@@ -27992,32 +29589,31 @@ export type UpdateIdentityProviderResponse =
       scimConfig?: unknown;
     };
 
-export const UpdateIdentityProviderResponse = Schema.Union(
+export const UpdateIdentityProviderResponse = Schema.Union([
   Schema.Struct({
     config: Schema.Struct({
       claims: Schema.optional(Schema.Array(Schema.String)),
-      clientId: Schema.optional(Schema.String).pipe(T.JsonName("client_id")),
-      clientSecret: Schema.optional(Schema.String).pipe(
-        T.JsonName("client_secret"),
-      ),
-      conditionalAccessEnabled: Schema.optional(Schema.Boolean).pipe(
-        T.JsonName("conditional_access_enabled"),
-      ),
-      directoryId: Schema.optional(Schema.String).pipe(
-        T.JsonName("directory_id"),
-      ),
-      emailClaimName: Schema.optional(Schema.String).pipe(
-        T.JsonName("email_claim_name"),
-      ),
+      clientId: Schema.optional(Schema.String),
+      clientSecret: Schema.optional(Schema.String),
+      conditionalAccessEnabled: Schema.optional(Schema.Boolean),
+      directoryId: Schema.optional(Schema.String),
+      emailClaimName: Schema.optional(Schema.String),
       prompt: Schema.optional(
-        Schema.Literal("login", "select_account", "none"),
+        Schema.Literals(["login", "select_account", "none"]),
       ),
-      supportGroups: Schema.optional(Schema.Boolean).pipe(
-        T.JsonName("support_groups"),
-      ),
-    }),
+      supportGroups: Schema.optional(Schema.Boolean),
+    }).pipe(
+      Schema.encodeKeys({
+        clientId: "client_id",
+        clientSecret: "client_secret",
+        conditionalAccessEnabled: "conditional_access_enabled",
+        directoryId: "directory_id",
+        emailClaimName: "email_claim_name",
+        supportGroups: "support_groups",
+      }),
+    ),
     name: Schema.String,
-    type: Schema.Literal(
+    type: Schema.Literals([
       "google",
       "onetimepin",
       "azureAD",
@@ -28032,43 +29628,51 @@ export const UpdateIdentityProviderResponse = Schema.Union(
       "onelogin",
       "pingone",
       "yandex",
-    ),
-    accountId: Schema.optional(Schema.String).pipe(T.JsonName("account_id")),
-    zoneId: Schema.optional(Schema.String).pipe(T.JsonName("zone_id")),
+    ]),
+    accountId: Schema.optional(Schema.String),
+    zoneId: Schema.optional(Schema.String),
     scimConfig: Schema.optional(
       Schema.Struct({
         enabled: Schema.optional(Schema.Boolean),
         identityUpdateBehavior: Schema.optional(
-          Schema.Literal("automatic", "reauth", "no_action"),
-        ).pipe(T.JsonName("identity_update_behavior")),
-        seatDeprovision: Schema.optional(Schema.Boolean).pipe(
-          T.JsonName("seat_deprovision"),
+          Schema.Literals(["automatic", "reauth", "no_action"]),
         ),
-        userDeprovision: Schema.optional(Schema.Boolean).pipe(
-          T.JsonName("user_deprovision"),
-        ),
-      }),
-    ).pipe(T.JsonName("scim_config")),
-  }),
+        seatDeprovision: Schema.optional(Schema.Boolean),
+        userDeprovision: Schema.optional(Schema.Boolean),
+      }).pipe(
+        Schema.encodeKeys({
+          identityUpdateBehavior: "identity_update_behavior",
+          seatDeprovision: "seat_deprovision",
+          userDeprovision: "user_deprovision",
+        }),
+      ),
+    ),
+  }).pipe(
+    Schema.encodeKeys({
+      accountId: "account_id",
+      zoneId: "zone_id",
+      scimConfig: "scim_config",
+    }),
+  ),
   Schema.Struct({
     config: Schema.Struct({
-      centrifyAccount: Schema.optional(Schema.String).pipe(
-        T.JsonName("centrify_account"),
-      ),
-      centrifyAppId: Schema.optional(Schema.String).pipe(
-        T.JsonName("centrify_app_id"),
-      ),
+      centrifyAccount: Schema.optional(Schema.String),
+      centrifyAppId: Schema.optional(Schema.String),
       claims: Schema.optional(Schema.Array(Schema.String)),
-      clientId: Schema.optional(Schema.String).pipe(T.JsonName("client_id")),
-      clientSecret: Schema.optional(Schema.String).pipe(
-        T.JsonName("client_secret"),
-      ),
-      emailClaimName: Schema.optional(Schema.String).pipe(
-        T.JsonName("email_claim_name"),
-      ),
-    }),
+      clientId: Schema.optional(Schema.String),
+      clientSecret: Schema.optional(Schema.String),
+      emailClaimName: Schema.optional(Schema.String),
+    }).pipe(
+      Schema.encodeKeys({
+        centrifyAccount: "centrify_account",
+        centrifyAppId: "centrify_app_id",
+        clientId: "client_id",
+        clientSecret: "client_secret",
+        emailClaimName: "email_claim_name",
+      }),
+    ),
     name: Schema.String,
-    type: Schema.Literal(
+    type: Schema.Literals([
       "google",
       "onetimepin",
       "azureAD",
@@ -28083,14 +29687,14 @@ export const UpdateIdentityProviderResponse = Schema.Union(
       "onelogin",
       "pingone",
       "yandex",
-    ),
+    ]),
     id: Schema.optional(Schema.String),
-    scimConfig: Schema.optional(Schema.Unknown).pipe(T.JsonName("scim_config")),
-  }),
+    scimConfig: Schema.optional(Schema.Unknown),
+  }).pipe(Schema.encodeKeys({ scimConfig: "scim_config" })),
   Schema.Struct({
     config: Schema.Unknown,
     name: Schema.String,
-    type: Schema.Literal(
+    type: Schema.Literals([
       "google",
       "onetimepin",
       "azureAD",
@@ -28105,23 +29709,25 @@ export const UpdateIdentityProviderResponse = Schema.Union(
       "onelogin",
       "pingone",
       "yandex",
-    ),
+    ]),
     id: Schema.optional(Schema.String),
-    scimConfig: Schema.optional(Schema.Unknown).pipe(T.JsonName("scim_config")),
-  }),
+    scimConfig: Schema.optional(Schema.Unknown),
+  }).pipe(Schema.encodeKeys({ scimConfig: "scim_config" })),
   Schema.Struct({
     config: Schema.Struct({
       claims: Schema.optional(Schema.Array(Schema.String)),
-      clientId: Schema.optional(Schema.String).pipe(T.JsonName("client_id")),
-      clientSecret: Schema.optional(Schema.String).pipe(
-        T.JsonName("client_secret"),
-      ),
-      emailClaimName: Schema.optional(Schema.String).pipe(
-        T.JsonName("email_claim_name"),
-      ),
-    }),
+      clientId: Schema.optional(Schema.String),
+      clientSecret: Schema.optional(Schema.String),
+      emailClaimName: Schema.optional(Schema.String),
+    }).pipe(
+      Schema.encodeKeys({
+        clientId: "client_id",
+        clientSecret: "client_secret",
+        emailClaimName: "email_claim_name",
+      }),
+    ),
     name: Schema.String,
-    type: Schema.Literal(
+    type: Schema.Literals([
       "google",
       "onetimepin",
       "azureAD",
@@ -28136,26 +29742,27 @@ export const UpdateIdentityProviderResponse = Schema.Union(
       "onelogin",
       "pingone",
       "yandex",
-    ),
+    ]),
     id: Schema.optional(Schema.String),
-    scimConfig: Schema.optional(Schema.Unknown).pipe(T.JsonName("scim_config")),
-  }),
+    scimConfig: Schema.optional(Schema.Unknown),
+  }).pipe(Schema.encodeKeys({ scimConfig: "scim_config" })),
   Schema.Struct({
     config: Schema.Struct({
-      appsDomain: Schema.optional(Schema.String).pipe(
-        T.JsonName("apps_domain"),
-      ),
+      appsDomain: Schema.optional(Schema.String),
       claims: Schema.optional(Schema.Array(Schema.String)),
-      clientId: Schema.optional(Schema.String).pipe(T.JsonName("client_id")),
-      clientSecret: Schema.optional(Schema.String).pipe(
-        T.JsonName("client_secret"),
-      ),
-      emailClaimName: Schema.optional(Schema.String).pipe(
-        T.JsonName("email_claim_name"),
-      ),
-    }),
+      clientId: Schema.optional(Schema.String),
+      clientSecret: Schema.optional(Schema.String),
+      emailClaimName: Schema.optional(Schema.String),
+    }).pipe(
+      Schema.encodeKeys({
+        appsDomain: "apps_domain",
+        clientId: "client_id",
+        clientSecret: "client_secret",
+        emailClaimName: "email_claim_name",
+      }),
+    ),
     name: Schema.String,
-    type: Schema.Literal(
+    type: Schema.Literals([
       "google",
       "onetimepin",
       "azureAD",
@@ -28170,30 +29777,34 @@ export const UpdateIdentityProviderResponse = Schema.Union(
       "onelogin",
       "pingone",
       "yandex",
-    ),
+    ]),
     id: Schema.optional(Schema.String),
-    scimConfig: Schema.optional(Schema.Unknown).pipe(T.JsonName("scim_config")),
-  }),
+    scimConfig: Schema.optional(Schema.Unknown),
+  }).pipe(Schema.encodeKeys({ scimConfig: "scim_config" })),
   Schema.Struct({
     config: Schema.Struct({
-      authUrl: Schema.optional(Schema.String).pipe(T.JsonName("auth_url")),
-      certsUrl: Schema.optional(Schema.String).pipe(T.JsonName("certs_url")),
+      authUrl: Schema.optional(Schema.String),
+      certsUrl: Schema.optional(Schema.String),
       claims: Schema.optional(Schema.Array(Schema.String)),
-      clientId: Schema.optional(Schema.String).pipe(T.JsonName("client_id")),
-      clientSecret: Schema.optional(Schema.String).pipe(
-        T.JsonName("client_secret"),
-      ),
-      emailClaimName: Schema.optional(Schema.String).pipe(
-        T.JsonName("email_claim_name"),
-      ),
-      pkceEnabled: Schema.optional(Schema.Boolean).pipe(
-        T.JsonName("pkce_enabled"),
-      ),
+      clientId: Schema.optional(Schema.String),
+      clientSecret: Schema.optional(Schema.String),
+      emailClaimName: Schema.optional(Schema.String),
+      pkceEnabled: Schema.optional(Schema.Boolean),
       scopes: Schema.optional(Schema.Array(Schema.String)),
-      tokenUrl: Schema.optional(Schema.String).pipe(T.JsonName("token_url")),
-    }),
+      tokenUrl: Schema.optional(Schema.String),
+    }).pipe(
+      Schema.encodeKeys({
+        authUrl: "auth_url",
+        certsUrl: "certs_url",
+        clientId: "client_id",
+        clientSecret: "client_secret",
+        emailClaimName: "email_claim_name",
+        pkceEnabled: "pkce_enabled",
+        tokenUrl: "token_url",
+      }),
+    ),
     name: Schema.String,
-    type: Schema.Literal(
+    type: Schema.Literals([
       "google",
       "onetimepin",
       "azureAD",
@@ -28208,29 +29819,29 @@ export const UpdateIdentityProviderResponse = Schema.Union(
       "onelogin",
       "pingone",
       "yandex",
-    ),
+    ]),
     id: Schema.optional(Schema.String),
-    scimConfig: Schema.optional(Schema.Unknown).pipe(T.JsonName("scim_config")),
-  }),
+    scimConfig: Schema.optional(Schema.Unknown),
+  }).pipe(Schema.encodeKeys({ scimConfig: "scim_config" })),
   Schema.Struct({
     config: Schema.Struct({
-      authorizationServerId: Schema.optional(Schema.String).pipe(
-        T.JsonName("authorization_server_id"),
-      ),
+      authorizationServerId: Schema.optional(Schema.String),
       claims: Schema.optional(Schema.Array(Schema.String)),
-      clientId: Schema.optional(Schema.String).pipe(T.JsonName("client_id")),
-      clientSecret: Schema.optional(Schema.String).pipe(
-        T.JsonName("client_secret"),
-      ),
-      emailClaimName: Schema.optional(Schema.String).pipe(
-        T.JsonName("email_claim_name"),
-      ),
-      oktaAccount: Schema.optional(Schema.String).pipe(
-        T.JsonName("okta_account"),
-      ),
-    }),
+      clientId: Schema.optional(Schema.String),
+      clientSecret: Schema.optional(Schema.String),
+      emailClaimName: Schema.optional(Schema.String),
+      oktaAccount: Schema.optional(Schema.String),
+    }).pipe(
+      Schema.encodeKeys({
+        authorizationServerId: "authorization_server_id",
+        clientId: "client_id",
+        clientSecret: "client_secret",
+        emailClaimName: "email_claim_name",
+        oktaAccount: "okta_account",
+      }),
+    ),
     name: Schema.String,
-    type: Schema.Literal(
+    type: Schema.Literals([
       "google",
       "onetimepin",
       "azureAD",
@@ -28245,58 +29856,27 @@ export const UpdateIdentityProviderResponse = Schema.Union(
       "onelogin",
       "pingone",
       "yandex",
-    ),
+    ]),
     id: Schema.optional(Schema.String),
-    scimConfig: Schema.optional(Schema.Unknown).pipe(T.JsonName("scim_config")),
-  }),
-  Schema.Struct({
-    config: Schema.Struct({
-      claims: Schema.optional(Schema.Array(Schema.String)),
-      clientId: Schema.optional(Schema.String).pipe(T.JsonName("client_id")),
-      clientSecret: Schema.optional(Schema.String).pipe(
-        T.JsonName("client_secret"),
-      ),
-      emailClaimName: Schema.optional(Schema.String).pipe(
-        T.JsonName("email_claim_name"),
-      ),
-      oneloginAccount: Schema.optional(Schema.String).pipe(
-        T.JsonName("onelogin_account"),
-      ),
-    }),
-    name: Schema.String,
-    type: Schema.Literal(
-      "google",
-      "onetimepin",
-      "azureAD",
-      "saml",
-      "centrify",
-      "facebook",
-      "github",
-      "google-apps",
-      "linkedin",
-      "oidc",
-      "okta",
-      "onelogin",
-      "pingone",
-      "yandex",
-    ),
-    id: Schema.optional(Schema.String),
-    scimConfig: Schema.optional(Schema.Unknown).pipe(T.JsonName("scim_config")),
-  }),
+    scimConfig: Schema.optional(Schema.Unknown),
+  }).pipe(Schema.encodeKeys({ scimConfig: "scim_config" })),
   Schema.Struct({
     config: Schema.Struct({
       claims: Schema.optional(Schema.Array(Schema.String)),
-      clientId: Schema.optional(Schema.String).pipe(T.JsonName("client_id")),
-      clientSecret: Schema.optional(Schema.String).pipe(
-        T.JsonName("client_secret"),
-      ),
-      emailClaimName: Schema.optional(Schema.String).pipe(
-        T.JsonName("email_claim_name"),
-      ),
-      pingEnvId: Schema.optional(Schema.String).pipe(T.JsonName("ping_env_id")),
-    }),
+      clientId: Schema.optional(Schema.String),
+      clientSecret: Schema.optional(Schema.String),
+      emailClaimName: Schema.optional(Schema.String),
+      oneloginAccount: Schema.optional(Schema.String),
+    }).pipe(
+      Schema.encodeKeys({
+        clientId: "client_id",
+        clientSecret: "client_secret",
+        emailClaimName: "email_claim_name",
+        oneloginAccount: "onelogin_account",
+      }),
+    ),
     name: Schema.String,
-    type: Schema.Literal(
+    type: Schema.Literals([
       "google",
       "onetimepin",
       "azureAD",
@@ -28311,41 +29891,78 @@ export const UpdateIdentityProviderResponse = Schema.Union(
       "onelogin",
       "pingone",
       "yandex",
-    ),
+    ]),
     id: Schema.optional(Schema.String),
-    scimConfig: Schema.optional(Schema.Unknown).pipe(T.JsonName("scim_config")),
-  }),
+    scimConfig: Schema.optional(Schema.Unknown),
+  }).pipe(Schema.encodeKeys({ scimConfig: "scim_config" })),
+  Schema.Struct({
+    config: Schema.Struct({
+      claims: Schema.optional(Schema.Array(Schema.String)),
+      clientId: Schema.optional(Schema.String),
+      clientSecret: Schema.optional(Schema.String),
+      emailClaimName: Schema.optional(Schema.String),
+      pingEnvId: Schema.optional(Schema.String),
+    }).pipe(
+      Schema.encodeKeys({
+        clientId: "client_id",
+        clientSecret: "client_secret",
+        emailClaimName: "email_claim_name",
+        pingEnvId: "ping_env_id",
+      }),
+    ),
+    name: Schema.String,
+    type: Schema.Literals([
+      "google",
+      "onetimepin",
+      "azureAD",
+      "saml",
+      "centrify",
+      "facebook",
+      "github",
+      "google-apps",
+      "linkedin",
+      "oidc",
+      "okta",
+      "onelogin",
+      "pingone",
+      "yandex",
+    ]),
+    id: Schema.optional(Schema.String),
+    scimConfig: Schema.optional(Schema.Unknown),
+  }).pipe(Schema.encodeKeys({ scimConfig: "scim_config" })),
   Schema.Struct({
     config: Schema.Struct({
       attributes: Schema.optional(Schema.Array(Schema.String)),
-      emailAttributeName: Schema.optional(Schema.String).pipe(
-        T.JsonName("email_attribute_name"),
-      ),
+      emailAttributeName: Schema.optional(Schema.String),
       headerAttributes: Schema.optional(
         Schema.Array(
           Schema.Struct({
-            attributeName: Schema.optional(Schema.String).pipe(
-              T.JsonName("attribute_name"),
-            ),
-            headerName: Schema.optional(Schema.String).pipe(
-              T.JsonName("header_name"),
-            ),
-          }),
+            attributeName: Schema.optional(Schema.String),
+            headerName: Schema.optional(Schema.String),
+          }).pipe(
+            Schema.encodeKeys({
+              attributeName: "attribute_name",
+              headerName: "header_name",
+            }),
+          ),
         ),
-      ).pipe(T.JsonName("header_attributes")),
-      idpPublicCerts: Schema.optional(Schema.Array(Schema.String)).pipe(
-        T.JsonName("idp_public_certs"),
       ),
-      issuerUrl: Schema.optional(Schema.String).pipe(T.JsonName("issuer_url")),
-      signRequest: Schema.optional(Schema.Boolean).pipe(
-        T.JsonName("sign_request"),
-      ),
-      ssoTargetUrl: Schema.optional(Schema.String).pipe(
-        T.JsonName("sso_target_url"),
-      ),
-    }),
+      idpPublicCerts: Schema.optional(Schema.Array(Schema.String)),
+      issuerUrl: Schema.optional(Schema.String),
+      signRequest: Schema.optional(Schema.Boolean),
+      ssoTargetUrl: Schema.optional(Schema.String),
+    }).pipe(
+      Schema.encodeKeys({
+        emailAttributeName: "email_attribute_name",
+        headerAttributes: "header_attributes",
+        idpPublicCerts: "idp_public_certs",
+        issuerUrl: "issuer_url",
+        signRequest: "sign_request",
+        ssoTargetUrl: "sso_target_url",
+      }),
+    ),
     name: Schema.String,
-    type: Schema.Literal(
+    type: Schema.Literals([
       "google",
       "onetimepin",
       "azureAD",
@@ -28360,11 +29977,11 @@ export const UpdateIdentityProviderResponse = Schema.Union(
       "onelogin",
       "pingone",
       "yandex",
-    ),
+    ]),
     id: Schema.optional(Schema.String),
-    scimConfig: Schema.optional(Schema.Unknown).pipe(T.JsonName("scim_config")),
-  }),
-) as unknown as Schema.Schema<UpdateIdentityProviderResponse>;
+    scimConfig: Schema.optional(Schema.Unknown),
+  }).pipe(Schema.encodeKeys({ scimConfig: "scim_config" })),
+]) as unknown as Schema.Schema<UpdateIdentityProviderResponse>;
 
 export const updateIdentityProvider: (
   input: UpdateIdentityProviderRequest,
@@ -28452,12 +30069,19 @@ export interface GetNetworkHostnameRouteResponse {
 export const GetNetworkHostnameRouteResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
   comment: Schema.optional(Schema.String),
-  createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
-  deletedAt: Schema.optional(Schema.String).pipe(T.JsonName("deleted_at")),
+  createdAt: Schema.optional(Schema.String),
+  deletedAt: Schema.optional(Schema.String),
   hostname: Schema.optional(Schema.String),
-  tunnelId: Schema.optional(Schema.String).pipe(T.JsonName("tunnel_id")),
-  tunnelName: Schema.optional(Schema.String).pipe(T.JsonName("tunnel_name")),
-}) as unknown as Schema.Schema<GetNetworkHostnameRouteResponse>;
+  tunnelId: Schema.optional(Schema.String),
+  tunnelName: Schema.optional(Schema.String),
+}).pipe(
+  Schema.encodeKeys({
+    createdAt: "created_at",
+    deletedAt: "deleted_at",
+    tunnelId: "tunnel_id",
+    tunnelName: "tunnel_name",
+  }),
+) as unknown as Schema.Schema<GetNetworkHostnameRouteResponse>;
 
 export const getNetworkHostnameRoute: (
   input: GetNetworkHostnameRouteRequest,
@@ -28486,8 +30110,9 @@ export const CreateNetworkHostnameRouteRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   comment: Schema.optional(Schema.String),
   hostname: Schema.optional(Schema.String),
-  tunnelId: Schema.optional(Schema.String).pipe(T.JsonName("tunnel_id")),
+  tunnelId: Schema.optional(Schema.String),
 }).pipe(
+  Schema.encodeKeys({ tunnelId: "tunnel_id" }),
   T.Http({
     method: "POST",
     path: "/accounts/{account_id}/zerotrust/routes/hostname",
@@ -28514,12 +30139,19 @@ export interface CreateNetworkHostnameRouteResponse {
 export const CreateNetworkHostnameRouteResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
   comment: Schema.optional(Schema.String),
-  createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
-  deletedAt: Schema.optional(Schema.String).pipe(T.JsonName("deleted_at")),
+  createdAt: Schema.optional(Schema.String),
+  deletedAt: Schema.optional(Schema.String),
   hostname: Schema.optional(Schema.String),
-  tunnelId: Schema.optional(Schema.String).pipe(T.JsonName("tunnel_id")),
-  tunnelName: Schema.optional(Schema.String).pipe(T.JsonName("tunnel_name")),
-}) as unknown as Schema.Schema<CreateNetworkHostnameRouteResponse>;
+  tunnelId: Schema.optional(Schema.String),
+  tunnelName: Schema.optional(Schema.String),
+}).pipe(
+  Schema.encodeKeys({
+    createdAt: "created_at",
+    deletedAt: "deleted_at",
+    tunnelId: "tunnel_id",
+    tunnelName: "tunnel_name",
+  }),
+) as unknown as Schema.Schema<CreateNetworkHostnameRouteResponse>;
 
 export const createNetworkHostnameRoute: (
   input: CreateNetworkHostnameRouteRequest,
@@ -28550,8 +30182,9 @@ export const PatchNetworkHostnameRouteRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   comment: Schema.optional(Schema.String),
   hostname: Schema.optional(Schema.String),
-  tunnelId: Schema.optional(Schema.String).pipe(T.JsonName("tunnel_id")),
+  tunnelId: Schema.optional(Schema.String),
 }).pipe(
+  Schema.encodeKeys({ tunnelId: "tunnel_id" }),
   T.Http({
     method: "PATCH",
     path: "/accounts/{account_id}/zerotrust/routes/hostname/{hostnameRouteId}",
@@ -28578,12 +30211,19 @@ export interface PatchNetworkHostnameRouteResponse {
 export const PatchNetworkHostnameRouteResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
   comment: Schema.optional(Schema.String),
-  createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
-  deletedAt: Schema.optional(Schema.String).pipe(T.JsonName("deleted_at")),
+  createdAt: Schema.optional(Schema.String),
+  deletedAt: Schema.optional(Schema.String),
   hostname: Schema.optional(Schema.String),
-  tunnelId: Schema.optional(Schema.String).pipe(T.JsonName("tunnel_id")),
-  tunnelName: Schema.optional(Schema.String).pipe(T.JsonName("tunnel_name")),
-}) as unknown as Schema.Schema<PatchNetworkHostnameRouteResponse>;
+  tunnelId: Schema.optional(Schema.String),
+  tunnelName: Schema.optional(Schema.String),
+}).pipe(
+  Schema.encodeKeys({
+    createdAt: "created_at",
+    deletedAt: "deleted_at",
+    tunnelId: "tunnel_id",
+    tunnelName: "tunnel_name",
+  }),
+) as unknown as Schema.Schema<PatchNetworkHostnameRouteResponse>;
 
 export const patchNetworkHostnameRoute: (
   input: PatchNetworkHostnameRouteRequest,
@@ -28633,12 +30273,19 @@ export interface DeleteNetworkHostnameRouteResponse {
 export const DeleteNetworkHostnameRouteResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
   comment: Schema.optional(Schema.String),
-  createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
-  deletedAt: Schema.optional(Schema.String).pipe(T.JsonName("deleted_at")),
+  createdAt: Schema.optional(Schema.String),
+  deletedAt: Schema.optional(Schema.String),
   hostname: Schema.optional(Schema.String),
-  tunnelId: Schema.optional(Schema.String).pipe(T.JsonName("tunnel_id")),
-  tunnelName: Schema.optional(Schema.String).pipe(T.JsonName("tunnel_name")),
-}) as unknown as Schema.Schema<DeleteNetworkHostnameRouteResponse>;
+  tunnelId: Schema.optional(Schema.String),
+  tunnelName: Schema.optional(Schema.String),
+}).pipe(
+  Schema.encodeKeys({
+    createdAt: "created_at",
+    deletedAt: "deleted_at",
+    tunnelId: "tunnel_id",
+    tunnelName: "tunnel_name",
+  }),
+) as unknown as Schema.Schema<DeleteNetworkHostnameRouteResponse>;
 
 export const deleteNetworkHostnameRoute: (
   input: DeleteNetworkHostnameRouteRequest,
@@ -28692,14 +30339,19 @@ export interface GetNetworkRouteResponse {
 export const GetNetworkRouteResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
   comment: Schema.optional(Schema.String),
-  createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
-  deletedAt: Schema.optional(Schema.String).pipe(T.JsonName("deleted_at")),
+  createdAt: Schema.optional(Schema.String),
+  deletedAt: Schema.optional(Schema.String),
   network: Schema.optional(Schema.String),
-  tunnelId: Schema.optional(Schema.String).pipe(T.JsonName("tunnel_id")),
-  virtualNetworkId: Schema.optional(Schema.String).pipe(
-    T.JsonName("virtual_network_id"),
-  ),
-}) as unknown as Schema.Schema<GetNetworkRouteResponse>;
+  tunnelId: Schema.optional(Schema.String),
+  virtualNetworkId: Schema.optional(Schema.String),
+}).pipe(
+  Schema.encodeKeys({
+    createdAt: "created_at",
+    deletedAt: "deleted_at",
+    tunnelId: "tunnel_id",
+    virtualNetworkId: "virtual_network_id",
+  }),
+) as unknown as Schema.Schema<GetNetworkRouteResponse>;
 
 export const getNetworkRoute: (
   input: GetNetworkRouteRequest,
@@ -28729,12 +30381,14 @@ export interface CreateNetworkRouteRequest {
 export const CreateNetworkRouteRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   network: Schema.String,
-  tunnelId: Schema.String.pipe(T.JsonName("tunnel_id")),
+  tunnelId: Schema.String,
   comment: Schema.optional(Schema.String),
-  virtualNetworkId: Schema.optional(Schema.String).pipe(
-    T.JsonName("virtual_network_id"),
-  ),
+  virtualNetworkId: Schema.optional(Schema.String),
 }).pipe(
+  Schema.encodeKeys({
+    tunnelId: "tunnel_id",
+    virtualNetworkId: "virtual_network_id",
+  }),
   T.Http({ method: "POST", path: "/accounts/{account_id}/teamnet/routes" }),
 ) as unknown as Schema.Schema<CreateNetworkRouteRequest>;
 
@@ -28758,14 +30412,19 @@ export interface CreateNetworkRouteResponse {
 export const CreateNetworkRouteResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
   comment: Schema.optional(Schema.String),
-  createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
-  deletedAt: Schema.optional(Schema.String).pipe(T.JsonName("deleted_at")),
+  createdAt: Schema.optional(Schema.String),
+  deletedAt: Schema.optional(Schema.String),
   network: Schema.optional(Schema.String),
-  tunnelId: Schema.optional(Schema.String).pipe(T.JsonName("tunnel_id")),
-  virtualNetworkId: Schema.optional(Schema.String).pipe(
-    T.JsonName("virtual_network_id"),
-  ),
-}) as unknown as Schema.Schema<CreateNetworkRouteResponse>;
+  tunnelId: Schema.optional(Schema.String),
+  virtualNetworkId: Schema.optional(Schema.String),
+}).pipe(
+  Schema.encodeKeys({
+    createdAt: "created_at",
+    deletedAt: "deleted_at",
+    tunnelId: "tunnel_id",
+    virtualNetworkId: "virtual_network_id",
+  }),
+) as unknown as Schema.Schema<CreateNetworkRouteResponse>;
 
 export const createNetworkRoute: (
   input: CreateNetworkRouteRequest,
@@ -28798,11 +30457,13 @@ export const PatchNetworkRouteRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   comment: Schema.optional(Schema.String),
   network: Schema.optional(Schema.String),
-  tunnelId: Schema.optional(Schema.String).pipe(T.JsonName("tunnel_id")),
-  virtualNetworkId: Schema.optional(Schema.String).pipe(
-    T.JsonName("virtual_network_id"),
-  ),
+  tunnelId: Schema.optional(Schema.String),
+  virtualNetworkId: Schema.optional(Schema.String),
 }).pipe(
+  Schema.encodeKeys({
+    tunnelId: "tunnel_id",
+    virtualNetworkId: "virtual_network_id",
+  }),
   T.Http({
     method: "PATCH",
     path: "/accounts/{account_id}/teamnet/routes/{routeId}",
@@ -28829,14 +30490,19 @@ export interface PatchNetworkRouteResponse {
 export const PatchNetworkRouteResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
   comment: Schema.optional(Schema.String),
-  createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
-  deletedAt: Schema.optional(Schema.String).pipe(T.JsonName("deleted_at")),
+  createdAt: Schema.optional(Schema.String),
+  deletedAt: Schema.optional(Schema.String),
   network: Schema.optional(Schema.String),
-  tunnelId: Schema.optional(Schema.String).pipe(T.JsonName("tunnel_id")),
-  virtualNetworkId: Schema.optional(Schema.String).pipe(
-    T.JsonName("virtual_network_id"),
-  ),
-}) as unknown as Schema.Schema<PatchNetworkRouteResponse>;
+  tunnelId: Schema.optional(Schema.String),
+  virtualNetworkId: Schema.optional(Schema.String),
+}).pipe(
+  Schema.encodeKeys({
+    createdAt: "created_at",
+    deletedAt: "deleted_at",
+    tunnelId: "tunnel_id",
+    virtualNetworkId: "virtual_network_id",
+  }),
+) as unknown as Schema.Schema<PatchNetworkRouteResponse>;
 
 export const patchNetworkRoute: (
   input: PatchNetworkRouteRequest,
@@ -28886,14 +30552,19 @@ export interface DeleteNetworkRouteResponse {
 export const DeleteNetworkRouteResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
   comment: Schema.optional(Schema.String),
-  createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
-  deletedAt: Schema.optional(Schema.String).pipe(T.JsonName("deleted_at")),
+  createdAt: Schema.optional(Schema.String),
+  deletedAt: Schema.optional(Schema.String),
   network: Schema.optional(Schema.String),
-  tunnelId: Schema.optional(Schema.String).pipe(T.JsonName("tunnel_id")),
-  virtualNetworkId: Schema.optional(Schema.String).pipe(
-    T.JsonName("virtual_network_id"),
-  ),
-}) as unknown as Schema.Schema<DeleteNetworkRouteResponse>;
+  tunnelId: Schema.optional(Schema.String),
+  virtualNetworkId: Schema.optional(Schema.String),
+}).pipe(
+  Schema.encodeKeys({
+    createdAt: "created_at",
+    deletedAt: "deleted_at",
+    tunnelId: "tunnel_id",
+    virtualNetworkId: "virtual_network_id",
+  }),
+) as unknown as Schema.Schema<DeleteNetworkRouteResponse>;
 
 export const deleteNetworkRoute: (
   input: DeleteNetworkRouteRequest,
@@ -28973,12 +30644,14 @@ export interface CreateNetworkRouteNetworkRequest {
 export const CreateNetworkRouteNetworkRequest = Schema.Struct({
   ipNetworkEncoded: Schema.String.pipe(T.HttpPath("ipNetworkEncoded")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  tunnelId: Schema.String.pipe(T.JsonName("tunnel_id")),
+  tunnelId: Schema.String,
   comment: Schema.optional(Schema.String),
-  virtualNetworkId: Schema.optional(Schema.String).pipe(
-    T.JsonName("virtual_network_id"),
-  ),
+  virtualNetworkId: Schema.optional(Schema.String),
 }).pipe(
+  Schema.encodeKeys({
+    tunnelId: "tunnel_id",
+    virtualNetworkId: "virtual_network_id",
+  }),
   T.Http({
     method: "POST",
     path: "/accounts/{account_id}/teamnet/routes/network/{ipNetworkEncoded}",
@@ -29058,7 +30731,7 @@ export const DeleteNetworkRouteNetworkRequest = Schema.Struct({
   ipNetworkEncoded: Schema.String.pipe(T.HttpPath("ipNetworkEncoded")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   tunType: Schema.optional(
-    Schema.Literal(
+    Schema.Literals([
       "cfd_tunnel",
       "warp_connector",
       "warp",
@@ -29066,7 +30739,7 @@ export const DeleteNetworkRouteNetworkRequest = Schema.Struct({
       "ip_sec",
       "gre",
       "cni",
-    ),
+    ]),
   ).pipe(T.HttpQuery("tun_type")),
   tunnelId: Schema.optional(Schema.String).pipe(T.HttpQuery("tunnel_id")),
   virtualNetworkId: Schema.optional(Schema.String).pipe(
@@ -29113,7 +30786,9 @@ export interface PatchNetworkSubnetCloudflareSourceRequest {
 }
 
 export const PatchNetworkSubnetCloudflareSourceRequest = Schema.Struct({
-  addressFamily: Schema.Literal("v4", "v6").pipe(T.HttpPath("addressFamily")),
+  addressFamily: Schema.Literals(["v4", "v6"]).pipe(
+    T.HttpPath("addressFamily"),
+  ),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   comment: Schema.optional(Schema.String),
   name: Schema.optional(Schema.String),
@@ -29147,17 +30822,20 @@ export interface PatchNetworkSubnetCloudflareSourceResponse {
 export const PatchNetworkSubnetCloudflareSourceResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
   comment: Schema.optional(Schema.String),
-  createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
-  deletedAt: Schema.optional(Schema.String).pipe(T.JsonName("deleted_at")),
-  isDefaultNetwork: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("is_default_network"),
-  ),
+  createdAt: Schema.optional(Schema.String),
+  deletedAt: Schema.optional(Schema.String),
+  isDefaultNetwork: Schema.optional(Schema.Boolean),
   name: Schema.optional(Schema.String),
   network: Schema.optional(Schema.String),
-  subnetType: Schema.optional(Schema.Literal("cloudflare_source")).pipe(
-    T.JsonName("subnet_type"),
-  ),
-}) as unknown as Schema.Schema<PatchNetworkSubnetCloudflareSourceResponse>;
+  subnetType: Schema.optional(Schema.Literal("cloudflare_source")),
+}).pipe(
+  Schema.encodeKeys({
+    createdAt: "created_at",
+    deletedAt: "deleted_at",
+    isDefaultNetwork: "is_default_network",
+    subnetType: "subnet_type",
+  }),
+) as unknown as Schema.Schema<PatchNetworkSubnetCloudflareSourceResponse>;
 
 export const patchNetworkSubnetCloudflareSource: (
   input: PatchNetworkSubnetCloudflareSourceRequest,
@@ -29209,11 +30887,17 @@ export interface GetNetworkVirtualNetworkResponse {
 export const GetNetworkVirtualNetworkResponse = Schema.Struct({
   id: Schema.String,
   comment: Schema.String,
-  createdAt: Schema.String.pipe(T.JsonName("created_at")),
-  isDefaultNetwork: Schema.Boolean.pipe(T.JsonName("is_default_network")),
+  createdAt: Schema.String,
+  isDefaultNetwork: Schema.Boolean,
   name: Schema.String,
-  deletedAt: Schema.optional(Schema.String).pipe(T.JsonName("deleted_at")),
-}) as unknown as Schema.Schema<GetNetworkVirtualNetworkResponse>;
+  deletedAt: Schema.optional(Schema.String),
+}).pipe(
+  Schema.encodeKeys({
+    createdAt: "created_at",
+    isDefaultNetwork: "is_default_network",
+    deletedAt: "deleted_at",
+  }),
+) as unknown as Schema.Schema<GetNetworkVirtualNetworkResponse>;
 
 export const getNetworkVirtualNetwork: (
   input: GetNetworkVirtualNetworkRequest,
@@ -29244,11 +30928,13 @@ export const CreateNetworkVirtualNetworkRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   name: Schema.String,
   comment: Schema.optional(Schema.String),
-  isDefault: Schema.optional(Schema.Boolean).pipe(T.JsonName("is_default")),
-  isDefaultNetwork: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("is_default_network"),
-  ),
+  isDefault: Schema.optional(Schema.Boolean),
+  isDefaultNetwork: Schema.optional(Schema.Boolean),
 }).pipe(
+  Schema.encodeKeys({
+    isDefault: "is_default",
+    isDefaultNetwork: "is_default_network",
+  }),
   T.Http({
     method: "POST",
     path: "/accounts/{account_id}/teamnet/virtual_networks",
@@ -29273,11 +30959,17 @@ export interface CreateNetworkVirtualNetworkResponse {
 export const CreateNetworkVirtualNetworkResponse = Schema.Struct({
   id: Schema.String,
   comment: Schema.String,
-  createdAt: Schema.String.pipe(T.JsonName("created_at")),
-  isDefaultNetwork: Schema.Boolean.pipe(T.JsonName("is_default_network")),
+  createdAt: Schema.String,
+  isDefaultNetwork: Schema.Boolean,
   name: Schema.String,
-  deletedAt: Schema.optional(Schema.String).pipe(T.JsonName("deleted_at")),
-}) as unknown as Schema.Schema<CreateNetworkVirtualNetworkResponse>;
+  deletedAt: Schema.optional(Schema.String),
+}).pipe(
+  Schema.encodeKeys({
+    createdAt: "created_at",
+    isDefaultNetwork: "is_default_network",
+    deletedAt: "deleted_at",
+  }),
+) as unknown as Schema.Schema<CreateNetworkVirtualNetworkResponse>;
 
 export const createNetworkVirtualNetwork: (
   input: CreateNetworkVirtualNetworkRequest,
@@ -29307,11 +30999,10 @@ export const PatchNetworkVirtualNetworkRequest = Schema.Struct({
   virtualNetworkId: Schema.String.pipe(T.HttpPath("virtualNetworkId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   comment: Schema.optional(Schema.String),
-  isDefaultNetwork: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("is_default_network"),
-  ),
+  isDefaultNetwork: Schema.optional(Schema.Boolean),
   name: Schema.optional(Schema.String),
 }).pipe(
+  Schema.encodeKeys({ isDefaultNetwork: "is_default_network" }),
   T.Http({
     method: "PATCH",
     path: "/accounts/{account_id}/teamnet/virtual_networks/{virtualNetworkId}",
@@ -29336,11 +31027,17 @@ export interface PatchNetworkVirtualNetworkResponse {
 export const PatchNetworkVirtualNetworkResponse = Schema.Struct({
   id: Schema.String,
   comment: Schema.String,
-  createdAt: Schema.String.pipe(T.JsonName("created_at")),
-  isDefaultNetwork: Schema.Boolean.pipe(T.JsonName("is_default_network")),
+  createdAt: Schema.String,
+  isDefaultNetwork: Schema.Boolean,
   name: Schema.String,
-  deletedAt: Schema.optional(Schema.String).pipe(T.JsonName("deleted_at")),
-}) as unknown as Schema.Schema<PatchNetworkVirtualNetworkResponse>;
+  deletedAt: Schema.optional(Schema.String),
+}).pipe(
+  Schema.encodeKeys({
+    createdAt: "created_at",
+    isDefaultNetwork: "is_default_network",
+    deletedAt: "deleted_at",
+  }),
+) as unknown as Schema.Schema<PatchNetworkVirtualNetworkResponse>;
 
 export const patchNetworkVirtualNetwork: (
   input: PatchNetworkVirtualNetworkRequest,
@@ -29388,11 +31085,17 @@ export interface DeleteNetworkVirtualNetworkResponse {
 export const DeleteNetworkVirtualNetworkResponse = Schema.Struct({
   id: Schema.String,
   comment: Schema.String,
-  createdAt: Schema.String.pipe(T.JsonName("created_at")),
-  isDefaultNetwork: Schema.Boolean.pipe(T.JsonName("is_default_network")),
+  createdAt: Schema.String,
+  isDefaultNetwork: Schema.Boolean,
   name: Schema.String,
-  deletedAt: Schema.optional(Schema.String).pipe(T.JsonName("deleted_at")),
-}) as unknown as Schema.Schema<DeleteNetworkVirtualNetworkResponse>;
+  deletedAt: Schema.optional(Schema.String),
+}).pipe(
+  Schema.encodeKeys({
+    createdAt: "created_at",
+    isDefaultNetwork: "is_default_network",
+    deletedAt: "deleted_at",
+  }),
+) as unknown as Schema.Schema<DeleteNetworkVirtualNetworkResponse>;
 
 export const deleteNetworkVirtualNetwork: (
   input: DeleteNetworkVirtualNetworkRequest,
@@ -29449,53 +31152,52 @@ export interface ListOrganizationsResponse {
 }
 
 export const ListOrganizationsResponse = Schema.Struct({
-  allowAuthenticateViaWarp: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("allow_authenticate_via_warp"),
-  ),
-  authDomain: Schema.optional(Schema.String).pipe(T.JsonName("auth_domain")),
-  autoRedirectToIdentity: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("auto_redirect_to_identity"),
-  ),
+  allowAuthenticateViaWarp: Schema.optional(Schema.Boolean),
+  authDomain: Schema.optional(Schema.String),
+  autoRedirectToIdentity: Schema.optional(Schema.Boolean),
   customPages: Schema.optional(
     Schema.Struct({
       forbidden: Schema.optional(Schema.String),
-      identityDenied: Schema.optional(Schema.String).pipe(
-        T.JsonName("identity_denied"),
-      ),
-    }),
-  ).pipe(T.JsonName("custom_pages")),
-  isUiReadOnly: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("is_ui_read_only"),
+      identityDenied: Schema.optional(Schema.String),
+    }).pipe(Schema.encodeKeys({ identityDenied: "identity_denied" })),
   ),
+  isUiReadOnly: Schema.optional(Schema.Boolean),
   loginDesign: Schema.optional(
     Schema.Struct({
-      backgroundColor: Schema.optional(Schema.String).pipe(
-        T.JsonName("background_color"),
-      ),
-      footerText: Schema.optional(Schema.String).pipe(
-        T.JsonName("footer_text"),
-      ),
-      headerText: Schema.optional(Schema.String).pipe(
-        T.JsonName("header_text"),
-      ),
-      logoPath: Schema.optional(Schema.String).pipe(T.JsonName("logo_path")),
-      textColor: Schema.optional(Schema.String).pipe(T.JsonName("text_color")),
-    }),
-  ).pipe(T.JsonName("login_design")),
+      backgroundColor: Schema.optional(Schema.String),
+      footerText: Schema.optional(Schema.String),
+      headerText: Schema.optional(Schema.String),
+      logoPath: Schema.optional(Schema.String),
+      textColor: Schema.optional(Schema.String),
+    }).pipe(
+      Schema.encodeKeys({
+        backgroundColor: "background_color",
+        footerText: "footer_text",
+        headerText: "header_text",
+        logoPath: "logo_path",
+        textColor: "text_color",
+      }),
+    ),
+  ),
   name: Schema.optional(Schema.String),
-  sessionDuration: Schema.optional(Schema.String).pipe(
-    T.JsonName("session_duration"),
-  ),
-  uiReadOnlyToggleReason: Schema.optional(Schema.String).pipe(
-    T.JsonName("ui_read_only_toggle_reason"),
-  ),
-  userSeatExpirationInactiveTime: Schema.optional(Schema.String).pipe(
-    T.JsonName("user_seat_expiration_inactive_time"),
-  ),
-  warpAuthSessionDuration: Schema.optional(Schema.String).pipe(
-    T.JsonName("warp_auth_session_duration"),
-  ),
-}) as unknown as Schema.Schema<ListOrganizationsResponse>;
+  sessionDuration: Schema.optional(Schema.String),
+  uiReadOnlyToggleReason: Schema.optional(Schema.String),
+  userSeatExpirationInactiveTime: Schema.optional(Schema.String),
+  warpAuthSessionDuration: Schema.optional(Schema.String),
+}).pipe(
+  Schema.encodeKeys({
+    allowAuthenticateViaWarp: "allow_authenticate_via_warp",
+    authDomain: "auth_domain",
+    autoRedirectToIdentity: "auto_redirect_to_identity",
+    customPages: "custom_pages",
+    isUiReadOnly: "is_ui_read_only",
+    loginDesign: "login_design",
+    sessionDuration: "session_duration",
+    uiReadOnlyToggleReason: "ui_read_only_toggle_reason",
+    userSeatExpirationInactiveTime: "user_seat_expiration_inactive_time",
+    warpAuthSessionDuration: "warp_auth_session_duration",
+  }),
+) as unknown as Schema.Schema<ListOrganizationsResponse>;
 
 export const listOrganizations: (
   input: ListOrganizationsRequest,
@@ -29545,45 +31247,44 @@ export interface CreateOrganizationRequest {
 export const CreateOrganizationRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  authDomain: Schema.String.pipe(T.JsonName("auth_domain")),
+  authDomain: Schema.String,
   name: Schema.String,
-  allowAuthenticateViaWarp: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("allow_authenticate_via_warp"),
-  ),
-  autoRedirectToIdentity: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("auto_redirect_to_identity"),
-  ),
-  isUiReadOnly: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("is_ui_read_only"),
-  ),
+  allowAuthenticateViaWarp: Schema.optional(Schema.Boolean),
+  autoRedirectToIdentity: Schema.optional(Schema.Boolean),
+  isUiReadOnly: Schema.optional(Schema.Boolean),
   loginDesign: Schema.optional(
     Schema.Struct({
-      backgroundColor: Schema.optional(Schema.String).pipe(
-        T.JsonName("background_color"),
-      ),
-      footerText: Schema.optional(Schema.String).pipe(
-        T.JsonName("footer_text"),
-      ),
-      headerText: Schema.optional(Schema.String).pipe(
-        T.JsonName("header_text"),
-      ),
-      logoPath: Schema.optional(Schema.String).pipe(T.JsonName("logo_path")),
-      textColor: Schema.optional(Schema.String).pipe(T.JsonName("text_color")),
-    }),
-  ).pipe(T.JsonName("login_design")),
-  sessionDuration: Schema.optional(Schema.String).pipe(
-    T.JsonName("session_duration"),
+      backgroundColor: Schema.optional(Schema.String),
+      footerText: Schema.optional(Schema.String),
+      headerText: Schema.optional(Schema.String),
+      logoPath: Schema.optional(Schema.String),
+      textColor: Schema.optional(Schema.String),
+    }).pipe(
+      Schema.encodeKeys({
+        backgroundColor: "background_color",
+        footerText: "footer_text",
+        headerText: "header_text",
+        logoPath: "logo_path",
+        textColor: "text_color",
+      }),
+    ),
   ),
-  uiReadOnlyToggleReason: Schema.optional(Schema.String).pipe(
-    T.JsonName("ui_read_only_toggle_reason"),
-  ),
-  userSeatExpirationInactiveTime: Schema.optional(Schema.String).pipe(
-    T.JsonName("user_seat_expiration_inactive_time"),
-  ),
-  warpAuthSessionDuration: Schema.optional(Schema.String).pipe(
-    T.JsonName("warp_auth_session_duration"),
-  ),
+  sessionDuration: Schema.optional(Schema.String),
+  uiReadOnlyToggleReason: Schema.optional(Schema.String),
+  userSeatExpirationInactiveTime: Schema.optional(Schema.String),
+  warpAuthSessionDuration: Schema.optional(Schema.String),
 }).pipe(
+  Schema.encodeKeys({
+    authDomain: "auth_domain",
+    allowAuthenticateViaWarp: "allow_authenticate_via_warp",
+    autoRedirectToIdentity: "auto_redirect_to_identity",
+    isUiReadOnly: "is_ui_read_only",
+    loginDesign: "login_design",
+    sessionDuration: "session_duration",
+    uiReadOnlyToggleReason: "ui_read_only_toggle_reason",
+    userSeatExpirationInactiveTime: "user_seat_expiration_inactive_time",
+    warpAuthSessionDuration: "warp_auth_session_duration",
+  }),
   T.Http({
     method: "POST",
     path: "/{accountOrZone}/{accountOrZoneId}/access/organizations",
@@ -29620,53 +31321,52 @@ export interface CreateOrganizationResponse {
 }
 
 export const CreateOrganizationResponse = Schema.Struct({
-  allowAuthenticateViaWarp: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("allow_authenticate_via_warp"),
-  ),
-  authDomain: Schema.optional(Schema.String).pipe(T.JsonName("auth_domain")),
-  autoRedirectToIdentity: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("auto_redirect_to_identity"),
-  ),
+  allowAuthenticateViaWarp: Schema.optional(Schema.Boolean),
+  authDomain: Schema.optional(Schema.String),
+  autoRedirectToIdentity: Schema.optional(Schema.Boolean),
   customPages: Schema.optional(
     Schema.Struct({
       forbidden: Schema.optional(Schema.String),
-      identityDenied: Schema.optional(Schema.String).pipe(
-        T.JsonName("identity_denied"),
-      ),
-    }),
-  ).pipe(T.JsonName("custom_pages")),
-  isUiReadOnly: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("is_ui_read_only"),
+      identityDenied: Schema.optional(Schema.String),
+    }).pipe(Schema.encodeKeys({ identityDenied: "identity_denied" })),
   ),
+  isUiReadOnly: Schema.optional(Schema.Boolean),
   loginDesign: Schema.optional(
     Schema.Struct({
-      backgroundColor: Schema.optional(Schema.String).pipe(
-        T.JsonName("background_color"),
-      ),
-      footerText: Schema.optional(Schema.String).pipe(
-        T.JsonName("footer_text"),
-      ),
-      headerText: Schema.optional(Schema.String).pipe(
-        T.JsonName("header_text"),
-      ),
-      logoPath: Schema.optional(Schema.String).pipe(T.JsonName("logo_path")),
-      textColor: Schema.optional(Schema.String).pipe(T.JsonName("text_color")),
-    }),
-  ).pipe(T.JsonName("login_design")),
+      backgroundColor: Schema.optional(Schema.String),
+      footerText: Schema.optional(Schema.String),
+      headerText: Schema.optional(Schema.String),
+      logoPath: Schema.optional(Schema.String),
+      textColor: Schema.optional(Schema.String),
+    }).pipe(
+      Schema.encodeKeys({
+        backgroundColor: "background_color",
+        footerText: "footer_text",
+        headerText: "header_text",
+        logoPath: "logo_path",
+        textColor: "text_color",
+      }),
+    ),
+  ),
   name: Schema.optional(Schema.String),
-  sessionDuration: Schema.optional(Schema.String).pipe(
-    T.JsonName("session_duration"),
-  ),
-  uiReadOnlyToggleReason: Schema.optional(Schema.String).pipe(
-    T.JsonName("ui_read_only_toggle_reason"),
-  ),
-  userSeatExpirationInactiveTime: Schema.optional(Schema.String).pipe(
-    T.JsonName("user_seat_expiration_inactive_time"),
-  ),
-  warpAuthSessionDuration: Schema.optional(Schema.String).pipe(
-    T.JsonName("warp_auth_session_duration"),
-  ),
-}) as unknown as Schema.Schema<CreateOrganizationResponse>;
+  sessionDuration: Schema.optional(Schema.String),
+  uiReadOnlyToggleReason: Schema.optional(Schema.String),
+  userSeatExpirationInactiveTime: Schema.optional(Schema.String),
+  warpAuthSessionDuration: Schema.optional(Schema.String),
+}).pipe(
+  Schema.encodeKeys({
+    allowAuthenticateViaWarp: "allow_authenticate_via_warp",
+    authDomain: "auth_domain",
+    autoRedirectToIdentity: "auto_redirect_to_identity",
+    customPages: "custom_pages",
+    isUiReadOnly: "is_ui_read_only",
+    loginDesign: "login_design",
+    sessionDuration: "session_duration",
+    uiReadOnlyToggleReason: "ui_read_only_toggle_reason",
+    userSeatExpirationInactiveTime: "user_seat_expiration_inactive_time",
+    warpAuthSessionDuration: "warp_auth_session_duration",
+  }),
+) as unknown as Schema.Schema<CreateOrganizationResponse>;
 
 export const createOrganization: (
   input: CreateOrganizationRequest,
@@ -29718,53 +31418,51 @@ export interface UpdateOrganizationRequest {
 export const UpdateOrganizationRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  allowAuthenticateViaWarp: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("allow_authenticate_via_warp"),
-  ),
-  authDomain: Schema.optional(Schema.String).pipe(T.JsonName("auth_domain")),
-  autoRedirectToIdentity: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("auto_redirect_to_identity"),
-  ),
+  allowAuthenticateViaWarp: Schema.optional(Schema.Boolean),
+  authDomain: Schema.optional(Schema.String),
+  autoRedirectToIdentity: Schema.optional(Schema.Boolean),
   customPages: Schema.optional(
     Schema.Struct({
       forbidden: Schema.optional(Schema.String),
-      identityDenied: Schema.optional(Schema.String).pipe(
-        T.JsonName("identity_denied"),
-      ),
-    }),
-  ).pipe(T.JsonName("custom_pages")),
-  isUiReadOnly: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("is_ui_read_only"),
+      identityDenied: Schema.optional(Schema.String),
+    }).pipe(Schema.encodeKeys({ identityDenied: "identity_denied" })),
   ),
+  isUiReadOnly: Schema.optional(Schema.Boolean),
   loginDesign: Schema.optional(
     Schema.Struct({
-      backgroundColor: Schema.optional(Schema.String).pipe(
-        T.JsonName("background_color"),
-      ),
-      footerText: Schema.optional(Schema.String).pipe(
-        T.JsonName("footer_text"),
-      ),
-      headerText: Schema.optional(Schema.String).pipe(
-        T.JsonName("header_text"),
-      ),
-      logoPath: Schema.optional(Schema.String).pipe(T.JsonName("logo_path")),
-      textColor: Schema.optional(Schema.String).pipe(T.JsonName("text_color")),
-    }),
-  ).pipe(T.JsonName("login_design")),
+      backgroundColor: Schema.optional(Schema.String),
+      footerText: Schema.optional(Schema.String),
+      headerText: Schema.optional(Schema.String),
+      logoPath: Schema.optional(Schema.String),
+      textColor: Schema.optional(Schema.String),
+    }).pipe(
+      Schema.encodeKeys({
+        backgroundColor: "background_color",
+        footerText: "footer_text",
+        headerText: "header_text",
+        logoPath: "logo_path",
+        textColor: "text_color",
+      }),
+    ),
+  ),
   name: Schema.optional(Schema.String),
-  sessionDuration: Schema.optional(Schema.String).pipe(
-    T.JsonName("session_duration"),
-  ),
-  uiReadOnlyToggleReason: Schema.optional(Schema.String).pipe(
-    T.JsonName("ui_read_only_toggle_reason"),
-  ),
-  userSeatExpirationInactiveTime: Schema.optional(Schema.String).pipe(
-    T.JsonName("user_seat_expiration_inactive_time"),
-  ),
-  warpAuthSessionDuration: Schema.optional(Schema.String).pipe(
-    T.JsonName("warp_auth_session_duration"),
-  ),
+  sessionDuration: Schema.optional(Schema.String),
+  uiReadOnlyToggleReason: Schema.optional(Schema.String),
+  userSeatExpirationInactiveTime: Schema.optional(Schema.String),
+  warpAuthSessionDuration: Schema.optional(Schema.String),
 }).pipe(
+  Schema.encodeKeys({
+    allowAuthenticateViaWarp: "allow_authenticate_via_warp",
+    authDomain: "auth_domain",
+    autoRedirectToIdentity: "auto_redirect_to_identity",
+    customPages: "custom_pages",
+    isUiReadOnly: "is_ui_read_only",
+    loginDesign: "login_design",
+    sessionDuration: "session_duration",
+    uiReadOnlyToggleReason: "ui_read_only_toggle_reason",
+    userSeatExpirationInactiveTime: "user_seat_expiration_inactive_time",
+    warpAuthSessionDuration: "warp_auth_session_duration",
+  }),
   T.Http({
     method: "PUT",
     path: "/{accountOrZone}/{accountOrZoneId}/access/organizations",
@@ -29801,53 +31499,52 @@ export interface UpdateOrganizationResponse {
 }
 
 export const UpdateOrganizationResponse = Schema.Struct({
-  allowAuthenticateViaWarp: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("allow_authenticate_via_warp"),
-  ),
-  authDomain: Schema.optional(Schema.String).pipe(T.JsonName("auth_domain")),
-  autoRedirectToIdentity: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("auto_redirect_to_identity"),
-  ),
+  allowAuthenticateViaWarp: Schema.optional(Schema.Boolean),
+  authDomain: Schema.optional(Schema.String),
+  autoRedirectToIdentity: Schema.optional(Schema.Boolean),
   customPages: Schema.optional(
     Schema.Struct({
       forbidden: Schema.optional(Schema.String),
-      identityDenied: Schema.optional(Schema.String).pipe(
-        T.JsonName("identity_denied"),
-      ),
-    }),
-  ).pipe(T.JsonName("custom_pages")),
-  isUiReadOnly: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("is_ui_read_only"),
+      identityDenied: Schema.optional(Schema.String),
+    }).pipe(Schema.encodeKeys({ identityDenied: "identity_denied" })),
   ),
+  isUiReadOnly: Schema.optional(Schema.Boolean),
   loginDesign: Schema.optional(
     Schema.Struct({
-      backgroundColor: Schema.optional(Schema.String).pipe(
-        T.JsonName("background_color"),
-      ),
-      footerText: Schema.optional(Schema.String).pipe(
-        T.JsonName("footer_text"),
-      ),
-      headerText: Schema.optional(Schema.String).pipe(
-        T.JsonName("header_text"),
-      ),
-      logoPath: Schema.optional(Schema.String).pipe(T.JsonName("logo_path")),
-      textColor: Schema.optional(Schema.String).pipe(T.JsonName("text_color")),
-    }),
-  ).pipe(T.JsonName("login_design")),
+      backgroundColor: Schema.optional(Schema.String),
+      footerText: Schema.optional(Schema.String),
+      headerText: Schema.optional(Schema.String),
+      logoPath: Schema.optional(Schema.String),
+      textColor: Schema.optional(Schema.String),
+    }).pipe(
+      Schema.encodeKeys({
+        backgroundColor: "background_color",
+        footerText: "footer_text",
+        headerText: "header_text",
+        logoPath: "logo_path",
+        textColor: "text_color",
+      }),
+    ),
+  ),
   name: Schema.optional(Schema.String),
-  sessionDuration: Schema.optional(Schema.String).pipe(
-    T.JsonName("session_duration"),
-  ),
-  uiReadOnlyToggleReason: Schema.optional(Schema.String).pipe(
-    T.JsonName("ui_read_only_toggle_reason"),
-  ),
-  userSeatExpirationInactiveTime: Schema.optional(Schema.String).pipe(
-    T.JsonName("user_seat_expiration_inactive_time"),
-  ),
-  warpAuthSessionDuration: Schema.optional(Schema.String).pipe(
-    T.JsonName("warp_auth_session_duration"),
-  ),
-}) as unknown as Schema.Schema<UpdateOrganizationResponse>;
+  sessionDuration: Schema.optional(Schema.String),
+  uiReadOnlyToggleReason: Schema.optional(Schema.String),
+  userSeatExpirationInactiveTime: Schema.optional(Schema.String),
+  warpAuthSessionDuration: Schema.optional(Schema.String),
+}).pipe(
+  Schema.encodeKeys({
+    allowAuthenticateViaWarp: "allow_authenticate_via_warp",
+    authDomain: "auth_domain",
+    autoRedirectToIdentity: "auto_redirect_to_identity",
+    customPages: "custom_pages",
+    isUiReadOnly: "is_ui_read_only",
+    loginDesign: "login_design",
+    sessionDuration: "session_duration",
+    uiReadOnlyToggleReason: "ui_read_only_toggle_reason",
+    userSeatExpirationInactiveTime: "user_seat_expiration_inactive_time",
+    warpAuthSessionDuration: "warp_auth_session_duration",
+  }),
+) as unknown as Schema.Schema<UpdateOrganizationResponse>;
 
 export const updateOrganization: (
   input: UpdateOrganizationRequest,
@@ -29895,14 +31592,18 @@ export interface GetOrganizationDohResponse {
 
 export const GetOrganizationDohResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
-  clientId: Schema.optional(Schema.String).pipe(T.JsonName("client_id")),
-  dohJwtDuration: Schema.optional(Schema.String).pipe(
-    T.JsonName("doh_jwt_duration"),
-  ),
+  clientId: Schema.optional(Schema.String),
+  dohJwtDuration: Schema.optional(Schema.String),
   duration: Schema.optional(Schema.String),
-  expiresAt: Schema.optional(Schema.String).pipe(T.JsonName("expires_at")),
+  expiresAt: Schema.optional(Schema.String),
   name: Schema.optional(Schema.String),
-}) as unknown as Schema.Schema<GetOrganizationDohResponse>;
+}).pipe(
+  Schema.encodeKeys({
+    clientId: "client_id",
+    dohJwtDuration: "doh_jwt_duration",
+    expiresAt: "expires_at",
+  }),
+) as unknown as Schema.Schema<GetOrganizationDohResponse>;
 
 export const getOrganizationDoh: (
   input: GetOrganizationDohRequest,
@@ -29927,13 +31628,13 @@ export interface PutOrganizationDohRequest {
 
 export const PutOrganizationDohRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  dohJwtDuration: Schema.optional(Schema.String).pipe(
-    T.JsonName("doh_jwt_duration"),
-  ),
-  serviceTokenId: Schema.optional(Schema.String).pipe(
-    T.JsonName("service_token_id"),
-  ),
+  dohJwtDuration: Schema.optional(Schema.String),
+  serviceTokenId: Schema.optional(Schema.String),
 }).pipe(
+  Schema.encodeKeys({
+    dohJwtDuration: "doh_jwt_duration",
+    serviceTokenId: "service_token_id",
+  }),
   T.Http({
     method: "PUT",
     path: "/accounts/{account_id}/access/organizations/doh",
@@ -29956,14 +31657,18 @@ export interface PutOrganizationDohResponse {
 
 export const PutOrganizationDohResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
-  clientId: Schema.optional(Schema.String).pipe(T.JsonName("client_id")),
-  dohJwtDuration: Schema.optional(Schema.String).pipe(
-    T.JsonName("doh_jwt_duration"),
-  ),
+  clientId: Schema.optional(Schema.String),
+  dohJwtDuration: Schema.optional(Schema.String),
   duration: Schema.optional(Schema.String),
-  expiresAt: Schema.optional(Schema.String).pipe(T.JsonName("expires_at")),
+  expiresAt: Schema.optional(Schema.String),
   name: Schema.optional(Schema.String),
-}) as unknown as Schema.Schema<PutOrganizationDohResponse>;
+}).pipe(
+  Schema.encodeKeys({
+    clientId: "client_id",
+    dohJwtDuration: "doh_jwt_duration",
+    expiresAt: "expires_at",
+  }),
+) as unknown as Schema.Schema<PutOrganizationDohResponse>;
 
 export const putOrganizationDoh: (
   input: PutOrganizationDohRequest,
@@ -30000,7 +31705,7 @@ export const NetworkPathDexTracerouteTestRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   deviceId: Schema.String.pipe(T.HttpQuery("deviceId")),
   from: Schema.String.pipe(T.HttpQuery("from")),
-  interval: Schema.Literal("minute", "hour").pipe(T.HttpQuery("interval")),
+  interval: Schema.Literals(["minute", "hour"]).pipe(T.HttpQuery("interval")),
   to: Schema.String.pipe(T.HttpQuery("to")),
 }).pipe(
   T.Http({
@@ -30065,23 +31770,25 @@ export const GetRiskScoringResponse = Schema.Struct({
     Schema.Struct({
       id: Schema.String,
       name: Schema.String,
-      riskLevel: Schema.Literal("low", "medium", "high").pipe(
-        T.JsonName("risk_level"),
-      ),
+      riskLevel: Schema.Literals(["low", "medium", "high"]),
       timestamp: Schema.String,
-      eventDetails: Schema.optional(Schema.Unknown).pipe(
-        T.JsonName("event_details"),
-      ),
-    }),
+      eventDetails: Schema.optional(Schema.Unknown),
+    }).pipe(
+      Schema.encodeKeys({
+        riskLevel: "risk_level",
+        eventDetails: "event_details",
+      }),
+    ),
   ),
   name: Schema.String,
-  lastResetTime: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-    T.JsonName("last_reset_time"),
-  ),
-  riskLevel: Schema.optional(Schema.Literal("low", "medium", "high")).pipe(
-    T.JsonName("risk_level"),
-  ),
-}) as unknown as Schema.Schema<GetRiskScoringResponse>;
+  lastResetTime: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  riskLevel: Schema.optional(Schema.Literals(["low", "medium", "high"])),
+}).pipe(
+  Schema.encodeKeys({
+    lastResetTime: "last_reset_time",
+    riskLevel: "risk_level",
+  }),
+) as unknown as Schema.Schema<GetRiskScoringResponse>;
 
 export const getRiskScoring: (
   input: GetRiskScoringRequest,
@@ -30240,14 +31947,23 @@ export interface GetRiskScoringIntegrationResponse {
 
 export const GetRiskScoringIntegrationResponse = Schema.Struct({
   id: Schema.String,
-  accountTag: Schema.String.pipe(T.JsonName("account_tag")),
+  accountTag: Schema.String,
   active: Schema.Boolean,
-  createdAt: Schema.String.pipe(T.JsonName("created_at")),
-  integrationType: Schema.Literal("Okta").pipe(T.JsonName("integration_type")),
-  referenceId: Schema.String.pipe(T.JsonName("reference_id")),
-  tenantUrl: Schema.String.pipe(T.JsonName("tenant_url")),
-  wellKnownUrl: Schema.String.pipe(T.JsonName("well_known_url")),
-}) as unknown as Schema.Schema<GetRiskScoringIntegrationResponse>;
+  createdAt: Schema.String,
+  integrationType: Schema.Literal("Okta"),
+  referenceId: Schema.String,
+  tenantUrl: Schema.String,
+  wellKnownUrl: Schema.String,
+}).pipe(
+  Schema.encodeKeys({
+    accountTag: "account_tag",
+    createdAt: "created_at",
+    integrationType: "integration_type",
+    referenceId: "reference_id",
+    tenantUrl: "tenant_url",
+    wellKnownUrl: "well_known_url",
+  }),
+) as unknown as Schema.Schema<GetRiskScoringIntegrationResponse>;
 
 export const getRiskScoringIntegration: (
   input: GetRiskScoringIntegrationRequest,
@@ -30274,12 +31990,15 @@ export interface CreateRiskScoringIntegrationRequest {
 
 export const CreateRiskScoringIntegrationRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  integrationType: Schema.Literal("Okta").pipe(T.JsonName("integration_type")),
-  tenantUrl: Schema.String.pipe(T.JsonName("tenant_url")),
-  referenceId: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-    T.JsonName("reference_id"),
-  ),
+  integrationType: Schema.Literal("Okta"),
+  tenantUrl: Schema.String,
+  referenceId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
+  Schema.encodeKeys({
+    integrationType: "integration_type",
+    tenantUrl: "tenant_url",
+    referenceId: "reference_id",
+  }),
   T.Http({
     method: "POST",
     path: "/accounts/{account_id}/zt_risk_scoring/integrations",
@@ -30306,14 +32025,23 @@ export interface CreateRiskScoringIntegrationResponse {
 
 export const CreateRiskScoringIntegrationResponse = Schema.Struct({
   id: Schema.String,
-  accountTag: Schema.String.pipe(T.JsonName("account_tag")),
+  accountTag: Schema.String,
   active: Schema.Boolean,
-  createdAt: Schema.String.pipe(T.JsonName("created_at")),
-  integrationType: Schema.Literal("Okta").pipe(T.JsonName("integration_type")),
-  referenceId: Schema.String.pipe(T.JsonName("reference_id")),
-  tenantUrl: Schema.String.pipe(T.JsonName("tenant_url")),
-  wellKnownUrl: Schema.String.pipe(T.JsonName("well_known_url")),
-}) as unknown as Schema.Schema<CreateRiskScoringIntegrationResponse>;
+  createdAt: Schema.String,
+  integrationType: Schema.Literal("Okta"),
+  referenceId: Schema.String,
+  tenantUrl: Schema.String,
+  wellKnownUrl: Schema.String,
+}).pipe(
+  Schema.encodeKeys({
+    accountTag: "account_tag",
+    createdAt: "created_at",
+    integrationType: "integration_type",
+    referenceId: "reference_id",
+    tenantUrl: "tenant_url",
+    wellKnownUrl: "well_known_url",
+  }),
+) as unknown as Schema.Schema<CreateRiskScoringIntegrationResponse>;
 
 export const createRiskScoringIntegration: (
   input: CreateRiskScoringIntegrationRequest,
@@ -30343,11 +32071,10 @@ export const UpdateRiskScoringIntegrationRequest = Schema.Struct({
   integrationId: Schema.String.pipe(T.HttpPath("integrationId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   active: Schema.Boolean,
-  tenantUrl: Schema.String.pipe(T.JsonName("tenant_url")),
-  referenceId: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-    T.JsonName("reference_id"),
-  ),
+  tenantUrl: Schema.String,
+  referenceId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
+  Schema.encodeKeys({ tenantUrl: "tenant_url", referenceId: "reference_id" }),
   T.Http({
     method: "PUT",
     path: "/accounts/{account_id}/zt_risk_scoring/integrations/{integrationId}",
@@ -30374,14 +32101,23 @@ export interface UpdateRiskScoringIntegrationResponse {
 
 export const UpdateRiskScoringIntegrationResponse = Schema.Struct({
   id: Schema.String,
-  accountTag: Schema.String.pipe(T.JsonName("account_tag")),
+  accountTag: Schema.String,
   active: Schema.Boolean,
-  createdAt: Schema.String.pipe(T.JsonName("created_at")),
-  integrationType: Schema.Literal("Okta").pipe(T.JsonName("integration_type")),
-  referenceId: Schema.String.pipe(T.JsonName("reference_id")),
-  tenantUrl: Schema.String.pipe(T.JsonName("tenant_url")),
-  wellKnownUrl: Schema.String.pipe(T.JsonName("well_known_url")),
-}) as unknown as Schema.Schema<UpdateRiskScoringIntegrationResponse>;
+  createdAt: Schema.String,
+  integrationType: Schema.Literal("Okta"),
+  referenceId: Schema.String,
+  tenantUrl: Schema.String,
+  wellKnownUrl: Schema.String,
+}).pipe(
+  Schema.encodeKeys({
+    accountTag: "account_tag",
+    createdAt: "created_at",
+    integrationType: "integration_type",
+    referenceId: "reference_id",
+    tenantUrl: "tenant_url",
+    wellKnownUrl: "well_known_url",
+  }),
+) as unknown as Schema.Schema<UpdateRiskScoringIntegrationResponse>;
 
 export const updateRiskScoringIntegration: (
   input: UpdateRiskScoringIntegrationRequest,
@@ -30466,14 +32202,23 @@ export interface GetRiskScoringIntegrationReferenceResponse {
 
 export const GetRiskScoringIntegrationReferenceResponse = Schema.Struct({
   id: Schema.String,
-  accountTag: Schema.String.pipe(T.JsonName("account_tag")),
+  accountTag: Schema.String,
   active: Schema.Boolean,
-  createdAt: Schema.String.pipe(T.JsonName("created_at")),
-  integrationType: Schema.Literal("Okta").pipe(T.JsonName("integration_type")),
-  referenceId: Schema.String.pipe(T.JsonName("reference_id")),
-  tenantUrl: Schema.String.pipe(T.JsonName("tenant_url")),
-  wellKnownUrl: Schema.String.pipe(T.JsonName("well_known_url")),
-}) as unknown as Schema.Schema<GetRiskScoringIntegrationReferenceResponse>;
+  createdAt: Schema.String,
+  integrationType: Schema.Literal("Okta"),
+  referenceId: Schema.String,
+  tenantUrl: Schema.String,
+  wellKnownUrl: Schema.String,
+}).pipe(
+  Schema.encodeKeys({
+    accountTag: "account_tag",
+    createdAt: "created_at",
+    integrationType: "integration_type",
+    referenceId: "reference_id",
+    tenantUrl: "tenant_url",
+    wellKnownUrl: "well_known_url",
+  }),
+) as unknown as Schema.Schema<GetRiskScoringIntegrationReferenceResponse>;
 
 export const getRiskScoringIntegrationReference: (
   input: GetRiskScoringIntegrationReferenceRequest,
@@ -30519,14 +32264,19 @@ export const GetRiskScoringSummaryResponse = Schema.Struct({
   users: Schema.Array(
     Schema.Struct({
       email: Schema.String,
-      eventCount: Schema.Number.pipe(T.JsonName("event_count")),
-      lastEvent: Schema.String.pipe(T.JsonName("last_event")),
-      maxRiskLevel: Schema.Literal("low", "medium", "high").pipe(
-        T.JsonName("max_risk_level"),
-      ),
+      eventCount: Schema.Number,
+      lastEvent: Schema.String,
+      maxRiskLevel: Schema.Literals(["low", "medium", "high"]),
       name: Schema.String,
-      userId: Schema.String.pipe(T.JsonName("user_id")),
-    }),
+      userId: Schema.String,
+    }).pipe(
+      Schema.encodeKeys({
+        eventCount: "event_count",
+        lastEvent: "last_event",
+        maxRiskLevel: "max_risk_level",
+        userId: "user_id",
+      }),
+    ),
   ),
 }) as unknown as Schema.Schema<GetRiskScoringSummaryResponse>;
 
@@ -30569,11 +32319,18 @@ export interface RotateSeedGatewayAuditSshSettingResponse {
 }
 
 export const RotateSeedGatewayAuditSshSettingResponse = Schema.Struct({
-  createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
-  publicKey: Schema.optional(Schema.String).pipe(T.JsonName("public_key")),
-  seedId: Schema.optional(Schema.String).pipe(T.JsonName("seed_id")),
-  updatedAt: Schema.optional(Schema.String).pipe(T.JsonName("updated_at")),
-}) as unknown as Schema.Schema<RotateSeedGatewayAuditSshSettingResponse>;
+  createdAt: Schema.optional(Schema.String),
+  publicKey: Schema.optional(Schema.String),
+  seedId: Schema.optional(Schema.String),
+  updatedAt: Schema.optional(Schema.String),
+}).pipe(
+  Schema.encodeKeys({
+    createdAt: "created_at",
+    publicKey: "public_key",
+    seedId: "seed_id",
+    updatedAt: "updated_at",
+  }),
+) as unknown as Schema.Schema<RotateSeedGatewayAuditSshSettingResponse>;
 
 export const rotateSeedGatewayAuditSshSetting: (
   input: RotateSeedGatewayAuditSshSettingRequest,
@@ -30715,13 +32472,10 @@ export interface CreateTunnelCloudflaredRequest {
 export const CreateTunnelCloudflaredRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   name: Schema.String,
-  configSrc: Schema.optional(Schema.Literal("local", "cloudflare")).pipe(
-    T.JsonName("config_src"),
-  ),
-  tunnelSecret: Schema.optional(Schema.String).pipe(
-    T.JsonName("tunnel_secret"),
-  ),
+  configSrc: Schema.optional(Schema.Literals(["local", "cloudflare"])),
+  tunnelSecret: Schema.optional(Schema.String),
 }).pipe(
+  Schema.encodeKeys({ configSrc: "config_src", tunnelSecret: "tunnel_secret" }),
   T.Http({ method: "POST", path: "/accounts/{account_id}/cfd_tunnel" }),
 ) as unknown as Schema.Schema<CreateTunnelCloudflaredRequest>;
 
@@ -30756,10 +32510,9 @@ export const PatchTunnelCloudflaredRequest = Schema.Struct({
   tunnelId: Schema.String.pipe(T.HttpPath("tunnelId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   name: Schema.optional(Schema.String),
-  tunnelSecret: Schema.optional(Schema.String).pipe(
-    T.JsonName("tunnel_secret"),
-  ),
+  tunnelSecret: Schema.optional(Schema.String),
 }).pipe(
+  Schema.encodeKeys({ tunnelSecret: "tunnel_secret" }),
   T.Http({
     method: "PATCH",
     path: "/accounts/{account_id}/cfd_tunnel/{tunnelId}",
@@ -30891,7 +32644,7 @@ export interface GetTunnelCloudflaredConfigurationResponse {
 }
 
 export const GetTunnelCloudflaredConfigurationResponse = Schema.Struct({
-  accountId: Schema.optional(Schema.String).pipe(T.JsonName("account_id")),
+  accountId: Schema.optional(Schema.String),
   config: Schema.optional(
     Schema.Struct({
       ingress: Schema.optional(
@@ -30955,11 +32708,17 @@ export const GetTunnelCloudflaredConfigurationResponse = Schema.Struct({
       ),
     }),
   ),
-  createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
-  source: Schema.optional(Schema.Literal("local", "cloudflare")),
-  tunnelId: Schema.optional(Schema.String).pipe(T.JsonName("tunnel_id")),
+  createdAt: Schema.optional(Schema.String),
+  source: Schema.optional(Schema.Literals(["local", "cloudflare"])),
+  tunnelId: Schema.optional(Schema.String),
   version: Schema.optional(Schema.Number),
-}) as unknown as Schema.Schema<GetTunnelCloudflaredConfigurationResponse>;
+}).pipe(
+  Schema.encodeKeys({
+    accountId: "account_id",
+    createdAt: "created_at",
+    tunnelId: "tunnel_id",
+  }),
+) as unknown as Schema.Schema<GetTunnelCloudflaredConfigurationResponse>;
 
 export const getTunnelCloudflaredConfiguration: (
   input: GetTunnelCloudflaredConfigurationRequest,
@@ -31149,7 +32908,7 @@ export interface PutTunnelCloudflaredConfigurationResponse {
 }
 
 export const PutTunnelCloudflaredConfigurationResponse = Schema.Struct({
-  accountId: Schema.optional(Schema.String).pipe(T.JsonName("account_id")),
+  accountId: Schema.optional(Schema.String),
   config: Schema.optional(
     Schema.Struct({
       ingress: Schema.optional(
@@ -31213,11 +32972,17 @@ export const PutTunnelCloudflaredConfigurationResponse = Schema.Struct({
       ),
     }),
   ),
-  createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
-  source: Schema.optional(Schema.Literal("local", "cloudflare")),
-  tunnelId: Schema.optional(Schema.String).pipe(T.JsonName("tunnel_id")),
+  createdAt: Schema.optional(Schema.String),
+  source: Schema.optional(Schema.Literals(["local", "cloudflare"])),
+  tunnelId: Schema.optional(Schema.String),
   version: Schema.optional(Schema.Number),
-}) as unknown as Schema.Schema<PutTunnelCloudflaredConfigurationResponse>;
+}).pipe(
+  Schema.encodeKeys({
+    accountId: "account_id",
+    createdAt: "created_at",
+    tunnelId: "tunnel_id",
+  }),
+) as unknown as Schema.Schema<PutTunnelCloudflaredConfigurationResponse>;
 
 export const putTunnelCloudflaredConfiguration: (
   input: PutTunnelCloudflaredConfigurationRequest,
@@ -31450,40 +33215,41 @@ export interface GetTunnelWarpConnectorResponse {
 
 export const GetTunnelWarpConnectorResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
-  accountTag: Schema.optional(Schema.String).pipe(T.JsonName("account_tag")),
+  accountTag: Schema.optional(Schema.String),
   connections: Schema.optional(
     Schema.Array(
       Schema.Struct({
         id: Schema.optional(Schema.String),
-        clientId: Schema.optional(Schema.String).pipe(T.JsonName("client_id")),
-        clientVersion: Schema.optional(Schema.String).pipe(
-          T.JsonName("client_version"),
-        ),
-        coloName: Schema.optional(Schema.String).pipe(T.JsonName("colo_name")),
-        isPendingReconnect: Schema.optional(Schema.Boolean).pipe(
-          T.JsonName("is_pending_reconnect"),
-        ),
-        openedAt: Schema.optional(Schema.String).pipe(T.JsonName("opened_at")),
-        originIp: Schema.optional(Schema.String).pipe(T.JsonName("origin_ip")),
+        clientId: Schema.optional(Schema.String),
+        clientVersion: Schema.optional(Schema.String),
+        coloName: Schema.optional(Schema.String),
+        isPendingReconnect: Schema.optional(Schema.Boolean),
+        openedAt: Schema.optional(Schema.String),
+        originIp: Schema.optional(Schema.String),
         uuid: Schema.optional(Schema.String),
-      }),
+      }).pipe(
+        Schema.encodeKeys({
+          clientId: "client_id",
+          clientVersion: "client_version",
+          coloName: "colo_name",
+          isPendingReconnect: "is_pending_reconnect",
+          openedAt: "opened_at",
+          originIp: "origin_ip",
+        }),
+      ),
     ),
   ),
-  connsActiveAt: Schema.optional(Schema.String).pipe(
-    T.JsonName("conns_active_at"),
-  ),
-  connsInactiveAt: Schema.optional(Schema.String).pipe(
-    T.JsonName("conns_inactive_at"),
-  ),
-  createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
-  deletedAt: Schema.optional(Schema.String).pipe(T.JsonName("deleted_at")),
+  connsActiveAt: Schema.optional(Schema.String),
+  connsInactiveAt: Schema.optional(Schema.String),
+  createdAt: Schema.optional(Schema.String),
+  deletedAt: Schema.optional(Schema.String),
   metadata: Schema.optional(Schema.Unknown),
   name: Schema.optional(Schema.String),
   status: Schema.optional(
-    Schema.Literal("inactive", "degraded", "healthy", "down"),
+    Schema.Literals(["inactive", "degraded", "healthy", "down"]),
   ),
   tunType: Schema.optional(
-    Schema.Literal(
+    Schema.Literals([
       "cfd_tunnel",
       "warp_connector",
       "warp",
@@ -31491,9 +33257,18 @@ export const GetTunnelWarpConnectorResponse = Schema.Struct({
       "ip_sec",
       "gre",
       "cni",
-    ),
-  ).pipe(T.JsonName("tun_type")),
-}) as unknown as Schema.Schema<GetTunnelWarpConnectorResponse>;
+    ]),
+  ),
+}).pipe(
+  Schema.encodeKeys({
+    accountTag: "account_tag",
+    connsActiveAt: "conns_active_at",
+    connsInactiveAt: "conns_inactive_at",
+    createdAt: "created_at",
+    deletedAt: "deleted_at",
+    tunType: "tun_type",
+  }),
+) as unknown as Schema.Schema<GetTunnelWarpConnectorResponse>;
 
 export const getTunnelWarpConnector: (
   input: GetTunnelWarpConnectorRequest,
@@ -31564,40 +33339,41 @@ export interface CreateTunnelWarpConnectorResponse {
 
 export const CreateTunnelWarpConnectorResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
-  accountTag: Schema.optional(Schema.String).pipe(T.JsonName("account_tag")),
+  accountTag: Schema.optional(Schema.String),
   connections: Schema.optional(
     Schema.Array(
       Schema.Struct({
         id: Schema.optional(Schema.String),
-        clientId: Schema.optional(Schema.String).pipe(T.JsonName("client_id")),
-        clientVersion: Schema.optional(Schema.String).pipe(
-          T.JsonName("client_version"),
-        ),
-        coloName: Schema.optional(Schema.String).pipe(T.JsonName("colo_name")),
-        isPendingReconnect: Schema.optional(Schema.Boolean).pipe(
-          T.JsonName("is_pending_reconnect"),
-        ),
-        openedAt: Schema.optional(Schema.String).pipe(T.JsonName("opened_at")),
-        originIp: Schema.optional(Schema.String).pipe(T.JsonName("origin_ip")),
+        clientId: Schema.optional(Schema.String),
+        clientVersion: Schema.optional(Schema.String),
+        coloName: Schema.optional(Schema.String),
+        isPendingReconnect: Schema.optional(Schema.Boolean),
+        openedAt: Schema.optional(Schema.String),
+        originIp: Schema.optional(Schema.String),
         uuid: Schema.optional(Schema.String),
-      }),
+      }).pipe(
+        Schema.encodeKeys({
+          clientId: "client_id",
+          clientVersion: "client_version",
+          coloName: "colo_name",
+          isPendingReconnect: "is_pending_reconnect",
+          openedAt: "opened_at",
+          originIp: "origin_ip",
+        }),
+      ),
     ),
   ),
-  connsActiveAt: Schema.optional(Schema.String).pipe(
-    T.JsonName("conns_active_at"),
-  ),
-  connsInactiveAt: Schema.optional(Schema.String).pipe(
-    T.JsonName("conns_inactive_at"),
-  ),
-  createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
-  deletedAt: Schema.optional(Schema.String).pipe(T.JsonName("deleted_at")),
+  connsActiveAt: Schema.optional(Schema.String),
+  connsInactiveAt: Schema.optional(Schema.String),
+  createdAt: Schema.optional(Schema.String),
+  deletedAt: Schema.optional(Schema.String),
   metadata: Schema.optional(Schema.Unknown),
   name: Schema.optional(Schema.String),
   status: Schema.optional(
-    Schema.Literal("inactive", "degraded", "healthy", "down"),
+    Schema.Literals(["inactive", "degraded", "healthy", "down"]),
   ),
   tunType: Schema.optional(
-    Schema.Literal(
+    Schema.Literals([
       "cfd_tunnel",
       "warp_connector",
       "warp",
@@ -31605,9 +33381,18 @@ export const CreateTunnelWarpConnectorResponse = Schema.Struct({
       "ip_sec",
       "gre",
       "cni",
-    ),
-  ).pipe(T.JsonName("tun_type")),
-}) as unknown as Schema.Schema<CreateTunnelWarpConnectorResponse>;
+    ]),
+  ),
+}).pipe(
+  Schema.encodeKeys({
+    accountTag: "account_tag",
+    connsActiveAt: "conns_active_at",
+    connsInactiveAt: "conns_inactive_at",
+    createdAt: "created_at",
+    deletedAt: "deleted_at",
+    tunType: "tun_type",
+  }),
+) as unknown as Schema.Schema<CreateTunnelWarpConnectorResponse>;
 
 export const createTunnelWarpConnector: (
   input: CreateTunnelWarpConnectorRequest,
@@ -31635,10 +33420,9 @@ export const PatchTunnelWarpConnectorRequest = Schema.Struct({
   tunnelId: Schema.String.pipe(T.HttpPath("tunnelId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   name: Schema.optional(Schema.String),
-  tunnelSecret: Schema.optional(Schema.String).pipe(
-    T.JsonName("tunnel_secret"),
-  ),
+  tunnelSecret: Schema.optional(Schema.String),
 }).pipe(
+  Schema.encodeKeys({ tunnelSecret: "tunnel_secret" }),
   T.Http({
     method: "PATCH",
     path: "/accounts/{account_id}/warp_connector/{tunnelId}",
@@ -31688,40 +33472,41 @@ export interface PatchTunnelWarpConnectorResponse {
 
 export const PatchTunnelWarpConnectorResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
-  accountTag: Schema.optional(Schema.String).pipe(T.JsonName("account_tag")),
+  accountTag: Schema.optional(Schema.String),
   connections: Schema.optional(
     Schema.Array(
       Schema.Struct({
         id: Schema.optional(Schema.String),
-        clientId: Schema.optional(Schema.String).pipe(T.JsonName("client_id")),
-        clientVersion: Schema.optional(Schema.String).pipe(
-          T.JsonName("client_version"),
-        ),
-        coloName: Schema.optional(Schema.String).pipe(T.JsonName("colo_name")),
-        isPendingReconnect: Schema.optional(Schema.Boolean).pipe(
-          T.JsonName("is_pending_reconnect"),
-        ),
-        openedAt: Schema.optional(Schema.String).pipe(T.JsonName("opened_at")),
-        originIp: Schema.optional(Schema.String).pipe(T.JsonName("origin_ip")),
+        clientId: Schema.optional(Schema.String),
+        clientVersion: Schema.optional(Schema.String),
+        coloName: Schema.optional(Schema.String),
+        isPendingReconnect: Schema.optional(Schema.Boolean),
+        openedAt: Schema.optional(Schema.String),
+        originIp: Schema.optional(Schema.String),
         uuid: Schema.optional(Schema.String),
-      }),
+      }).pipe(
+        Schema.encodeKeys({
+          clientId: "client_id",
+          clientVersion: "client_version",
+          coloName: "colo_name",
+          isPendingReconnect: "is_pending_reconnect",
+          openedAt: "opened_at",
+          originIp: "origin_ip",
+        }),
+      ),
     ),
   ),
-  connsActiveAt: Schema.optional(Schema.String).pipe(
-    T.JsonName("conns_active_at"),
-  ),
-  connsInactiveAt: Schema.optional(Schema.String).pipe(
-    T.JsonName("conns_inactive_at"),
-  ),
-  createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
-  deletedAt: Schema.optional(Schema.String).pipe(T.JsonName("deleted_at")),
+  connsActiveAt: Schema.optional(Schema.String),
+  connsInactiveAt: Schema.optional(Schema.String),
+  createdAt: Schema.optional(Schema.String),
+  deletedAt: Schema.optional(Schema.String),
   metadata: Schema.optional(Schema.Unknown),
   name: Schema.optional(Schema.String),
   status: Schema.optional(
-    Schema.Literal("inactive", "degraded", "healthy", "down"),
+    Schema.Literals(["inactive", "degraded", "healthy", "down"]),
   ),
   tunType: Schema.optional(
-    Schema.Literal(
+    Schema.Literals([
       "cfd_tunnel",
       "warp_connector",
       "warp",
@@ -31729,9 +33514,18 @@ export const PatchTunnelWarpConnectorResponse = Schema.Struct({
       "ip_sec",
       "gre",
       "cni",
-    ),
-  ).pipe(T.JsonName("tun_type")),
-}) as unknown as Schema.Schema<PatchTunnelWarpConnectorResponse>;
+    ]),
+  ),
+}).pipe(
+  Schema.encodeKeys({
+    accountTag: "account_tag",
+    connsActiveAt: "conns_active_at",
+    connsInactiveAt: "conns_inactive_at",
+    createdAt: "created_at",
+    deletedAt: "deleted_at",
+    tunType: "tun_type",
+  }),
+) as unknown as Schema.Schema<PatchTunnelWarpConnectorResponse>;
 
 export const patchTunnelWarpConnector: (
   input: PatchTunnelWarpConnectorRequest,
@@ -31804,40 +33598,41 @@ export interface DeleteTunnelWarpConnectorResponse {
 
 export const DeleteTunnelWarpConnectorResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
-  accountTag: Schema.optional(Schema.String).pipe(T.JsonName("account_tag")),
+  accountTag: Schema.optional(Schema.String),
   connections: Schema.optional(
     Schema.Array(
       Schema.Struct({
         id: Schema.optional(Schema.String),
-        clientId: Schema.optional(Schema.String).pipe(T.JsonName("client_id")),
-        clientVersion: Schema.optional(Schema.String).pipe(
-          T.JsonName("client_version"),
-        ),
-        coloName: Schema.optional(Schema.String).pipe(T.JsonName("colo_name")),
-        isPendingReconnect: Schema.optional(Schema.Boolean).pipe(
-          T.JsonName("is_pending_reconnect"),
-        ),
-        openedAt: Schema.optional(Schema.String).pipe(T.JsonName("opened_at")),
-        originIp: Schema.optional(Schema.String).pipe(T.JsonName("origin_ip")),
+        clientId: Schema.optional(Schema.String),
+        clientVersion: Schema.optional(Schema.String),
+        coloName: Schema.optional(Schema.String),
+        isPendingReconnect: Schema.optional(Schema.Boolean),
+        openedAt: Schema.optional(Schema.String),
+        originIp: Schema.optional(Schema.String),
         uuid: Schema.optional(Schema.String),
-      }),
+      }).pipe(
+        Schema.encodeKeys({
+          clientId: "client_id",
+          clientVersion: "client_version",
+          coloName: "colo_name",
+          isPendingReconnect: "is_pending_reconnect",
+          openedAt: "opened_at",
+          originIp: "origin_ip",
+        }),
+      ),
     ),
   ),
-  connsActiveAt: Schema.optional(Schema.String).pipe(
-    T.JsonName("conns_active_at"),
-  ),
-  connsInactiveAt: Schema.optional(Schema.String).pipe(
-    T.JsonName("conns_inactive_at"),
-  ),
-  createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
-  deletedAt: Schema.optional(Schema.String).pipe(T.JsonName("deleted_at")),
+  connsActiveAt: Schema.optional(Schema.String),
+  connsInactiveAt: Schema.optional(Schema.String),
+  createdAt: Schema.optional(Schema.String),
+  deletedAt: Schema.optional(Schema.String),
   metadata: Schema.optional(Schema.Unknown),
   name: Schema.optional(Schema.String),
   status: Schema.optional(
-    Schema.Literal("inactive", "degraded", "healthy", "down"),
+    Schema.Literals(["inactive", "degraded", "healthy", "down"]),
   ),
   tunType: Schema.optional(
-    Schema.Literal(
+    Schema.Literals([
       "cfd_tunnel",
       "warp_connector",
       "warp",
@@ -31845,9 +33640,18 @@ export const DeleteTunnelWarpConnectorResponse = Schema.Struct({
       "ip_sec",
       "gre",
       "cni",
-    ),
-  ).pipe(T.JsonName("tun_type")),
-}) as unknown as Schema.Schema<DeleteTunnelWarpConnectorResponse>;
+    ]),
+  ),
+}).pipe(
+  Schema.encodeKeys({
+    accountTag: "account_tag",
+    connsActiveAt: "conns_active_at",
+    connsInactiveAt: "conns_inactive_at",
+    createdAt: "created_at",
+    deletedAt: "deleted_at",
+    tunType: "tun_type",
+  }),
+) as unknown as Schema.Schema<DeleteTunnelWarpConnectorResponse>;
 
 export const deleteTunnelWarpConnector: (
   input: DeleteTunnelWarpConnectorRequest,
@@ -31926,12 +33730,15 @@ export const RevokeUsersOrganizationRequest = Schema.Struct({
     T.HttpQuery("query_devices"),
   ),
   email: Schema.String,
-  bodyDevices: Schema.optional(Schema.Boolean).pipe(T.JsonName("body_devices")),
-  userUid: Schema.optional(Schema.String).pipe(T.JsonName("user_uid")),
-  warpSessionReauth: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("warp_session_reauth"),
-  ),
+  bodyDevices: Schema.optional(Schema.Boolean),
+  userUid: Schema.optional(Schema.String),
+  warpSessionReauth: Schema.optional(Schema.Boolean),
 }).pipe(
+  Schema.encodeKeys({
+    bodyDevices: "body_devices",
+    userUid: "user_uid",
+    warpSessionReauth: "warp_session_reauth",
+  }),
   T.Http({
     method: "POST",
     path: "/{accountOrZone}/{accountOrZoneId}/access/organizations/revoke_user",
@@ -31940,10 +33747,10 @@ export const RevokeUsersOrganizationRequest = Schema.Struct({
 
 export type RevokeUsersOrganizationResponse = true | false;
 
-export const RevokeUsersOrganizationResponse = Schema.Literal(
+export const RevokeUsersOrganizationResponse = Schema.Literals([
   true,
   false,
-) as unknown as Schema.Schema<RevokeUsersOrganizationResponse>;
+]) as unknown as Schema.Schema<RevokeUsersOrganizationResponse>;
 
 export const revokeUsersOrganization: (
   input: RevokeUsersOrganizationRequest,
@@ -31970,8 +33777,9 @@ export interface BulkDeleteV2AccessInfrastructureTargetsRequest {
 
 export const BulkDeleteV2AccessInfrastructureTargetsRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  targetIds: Schema.Array(Schema.String).pipe(T.JsonName("target_ids")),
+  targetIds: Schema.Array(Schema.String),
 }).pipe(
+  Schema.encodeKeys({ targetIds: "target_ids" }),
   T.Http({
     method: "POST",
     path: "/accounts/{account_id}/infrastructure/targets/batch_delete",

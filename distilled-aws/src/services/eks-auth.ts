@@ -1,4 +1,4 @@
-import { HttpClient } from "@effect/platform";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as effect from "effect/Effect";
 import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
@@ -99,7 +99,7 @@ export const AssumeRoleForPodIdentityRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "AssumeRoleForPodIdentityRequest",
 }) as any as S.Schema<AssumeRoleForPodIdentityRequest>;
 export interface Subject {
@@ -108,14 +108,14 @@ export interface Subject {
 }
 export const Subject = S.suspend(() =>
   S.Struct({ namespace: S.String, serviceAccount: S.String }),
-).annotations({ identifier: "Subject" }) as any as S.Schema<Subject>;
+).annotate({ identifier: "Subject" }) as any as S.Schema<Subject>;
 export interface PodIdentityAssociation {
   associationArn: string;
   associationId: string;
 }
 export const PodIdentityAssociation = S.suspend(() =>
   S.Struct({ associationArn: S.String, associationId: S.String }),
-).annotations({
+).annotate({
   identifier: "PodIdentityAssociation",
 }) as any as S.Schema<PodIdentityAssociation>;
 export interface AssumedRoleUser {
@@ -124,7 +124,7 @@ export interface AssumedRoleUser {
 }
 export const AssumedRoleUser = S.suspend(() =>
   S.Struct({ arn: S.String, assumeRoleId: S.String }),
-).annotations({
+).annotate({
   identifier: "AssumedRoleUser",
 }) as any as S.Schema<AssumedRoleUser>;
 export interface Credentials {
@@ -140,7 +140,7 @@ export const Credentials = S.suspend(() =>
     accessKeyId: S.String,
     expiration: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
   }),
-).annotations({ identifier: "Credentials" }) as any as S.Schema<Credentials>;
+).annotate({ identifier: "Credentials" }) as any as S.Schema<Credentials>;
 export interface AssumeRoleForPodIdentityResponse {
   subject: Subject;
   audience: string;
@@ -156,44 +156,44 @@ export const AssumeRoleForPodIdentityResponse = S.suspend(() =>
     assumedRoleUser: AssumedRoleUser,
     credentials: Credentials,
   }),
-).annotations({
+).annotate({
   identifier: "AssumeRoleForPodIdentityResponse",
 }) as any as S.Schema<AssumeRoleForPodIdentityResponse>;
 
 //# Errors
-export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
+export class AccessDeniedException extends S.TaggedErrorClass<AccessDeniedException>()(
   "AccessDeniedException",
   { message: S.optional(S.String) },
 ).pipe(C.withBadRequestError, C.withAuthError) {}
-export class ExpiredTokenException extends S.TaggedError<ExpiredTokenException>()(
+export class ExpiredTokenException extends S.TaggedErrorClass<ExpiredTokenException>()(
   "ExpiredTokenException",
   { message: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
-export class InternalServerException extends S.TaggedError<InternalServerException>()(
+export class InternalServerException extends S.TaggedErrorClass<InternalServerException>()(
   "InternalServerException",
   { message: S.optional(S.String) },
 ).pipe(C.withServerError) {}
-export class InvalidParameterException extends S.TaggedError<InvalidParameterException>()(
+export class InvalidParameterException extends S.TaggedErrorClass<InvalidParameterException>()(
   "InvalidParameterException",
   { message: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
-export class InvalidRequestException extends S.TaggedError<InvalidRequestException>()(
+export class InvalidRequestException extends S.TaggedErrorClass<InvalidRequestException>()(
   "InvalidRequestException",
   { message: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
-export class InvalidTokenException extends S.TaggedError<InvalidTokenException>()(
+export class InvalidTokenException extends S.TaggedErrorClass<InvalidTokenException>()(
   "InvalidTokenException",
   { message: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { message: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
-export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailableException>()(
+export class ServiceUnavailableException extends S.TaggedErrorClass<ServiceUnavailableException>()(
   "ServiceUnavailableException",
   { message: S.optional(S.String) },
 ).pipe(C.withServerError) {}
-export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
+export class ThrottlingException extends S.TaggedErrorClass<ThrottlingException>()(
   "ThrottlingException",
   { message: S.optional(S.String) },
 ).pipe(C.withThrottlingError) {}

@@ -14,17 +14,23 @@ import * as Category from "./category";
 /**
  * Base error for general Neon errors.
  */
-export class NeonError extends Schema.TaggedError<NeonError>()("NeonError", {
-  message: Schema.String,
-  status: Schema.optional(Schema.Number),
-}).pipe(Category.withServerError) {}
+export class NeonError extends Schema.TaggedErrorClass<NeonError>()(
+  "NeonError",
+  {
+    message: Schema.String,
+    status: Schema.optional(Schema.Number),
+  },
+).pipe(Category.withServerError) {}
 
 /**
  * Configuration error - missing or invalid configuration.
  */
-export class ConfigError extends Schema.TaggedError<ConfigError>()("ConfigError", {
-  message: Schema.String,
-}).pipe(Category.withConfigurationError) {}
+export class ConfigError extends Schema.TaggedErrorClass<ConfigError>()(
+  "ConfigError",
+  {
+    message: Schema.String,
+  },
+).pipe(Category.withConfigurationError) {}
 
 // ============================================================================
 // API Errors - mapped from Neon API error responses
@@ -34,23 +40,29 @@ export class ConfigError extends Schema.TaggedError<ConfigError>()("ConfigError"
  * Unauthorized - Authentication failure (401).
  * The API key is missing, invalid, or expired.
  */
-export class Unauthorized extends Schema.TaggedError<Unauthorized>()("Unauthorized", {
-  message: Schema.String,
-}).pipe(Category.withAuthError) {}
+export class Unauthorized extends Schema.TaggedErrorClass<Unauthorized>()(
+  "Unauthorized",
+  {
+    message: Schema.String,
+  },
+).pipe(Category.withAuthError) {}
 
 /**
  * Forbidden - Access denied (403).
  * The authenticated user doesn't have permission for this operation.
  */
-export class Forbidden extends Schema.TaggedError<Forbidden>()("Forbidden", {
-  message: Schema.String,
-}).pipe(Category.withAuthError) {}
+export class Forbidden extends Schema.TaggedErrorClass<Forbidden>()(
+  "Forbidden",
+  {
+    message: Schema.String,
+  },
+).pipe(Category.withAuthError) {}
 
 /**
  * NotFound - Resource not found (404).
  * The requested resource (project, branch, endpoint, etc.) doesn't exist.
  */
-export class NotFound extends Schema.TaggedError<NotFound>()("NotFound", {
+export class NotFound extends Schema.TaggedErrorClass<NotFound>()("NotFound", {
   message: Schema.String,
 }).pipe(Category.withNotFoundError) {}
 
@@ -58,7 +70,7 @@ export class NotFound extends Schema.TaggedError<NotFound>()("NotFound", {
  * Conflict - Resource conflict (409).
  * The operation conflicts with the current state of the resource.
  */
-export class Conflict extends Schema.TaggedError<Conflict>()("Conflict", {
+export class Conflict extends Schema.TaggedErrorClass<Conflict>()("Conflict", {
   message: Schema.String,
 }).pipe(Category.withConflictError) {}
 
@@ -66,7 +78,7 @@ export class Conflict extends Schema.TaggedError<Conflict>()("Conflict", {
  * UnprocessableEntity - Validation error (422).
  * The request was well-formed but contains semantic errors.
  */
-export class UnprocessableEntity extends Schema.TaggedError<UnprocessableEntity>()(
+export class UnprocessableEntity extends Schema.TaggedErrorClass<UnprocessableEntity>()(
   "UnprocessableEntity",
   {
     message: Schema.String,
@@ -77,25 +89,34 @@ export class UnprocessableEntity extends Schema.TaggedError<UnprocessableEntity>
  * BadRequest - Invalid request (400).
  * The request was malformed or contains invalid parameters.
  */
-export class BadRequest extends Schema.TaggedError<BadRequest>()("BadRequest", {
-  message: Schema.String,
-}).pipe(Category.withBadRequestError) {}
+export class BadRequest extends Schema.TaggedErrorClass<BadRequest>()(
+  "BadRequest",
+  {
+    message: Schema.String,
+  },
+).pipe(Category.withBadRequestError) {}
 
 /**
  * TooManyRequests - Rate limited (429).
  * Too many requests have been made in a given time period.
  * Marked as retryable with throttling backoff.
  */
-export class TooManyRequests extends Schema.TaggedError<TooManyRequests>()("TooManyRequests", {
-  message: Schema.String,
-}).pipe(Category.withThrottlingError, Category.withRetryable({ throttling: true })) {}
+export class TooManyRequests extends Schema.TaggedErrorClass<TooManyRequests>()(
+  "TooManyRequests",
+  {
+    message: Schema.String,
+  },
+).pipe(
+  Category.withThrottlingError,
+  Category.withRetryable({ throttling: true }),
+) {}
 
 /**
  * Locked - Resource locked (423).
  * The resource is temporarily locked (e.g., another operation in progress).
  * Marked as retryable.
  */
-export class Locked extends Schema.TaggedError<Locked>()("Locked", {
+export class Locked extends Schema.TaggedErrorClass<Locked>()("Locked", {
   message: Schema.String,
 }).pipe(Category.withLockedError, Category.withRetryable()) {}
 
@@ -104,7 +125,7 @@ export class Locked extends Schema.TaggedError<Locked>()("Locked", {
  * An unexpected error occurred on the Neon server.
  * Marked as retryable.
  */
-export class InternalServerError extends Schema.TaggedError<InternalServerError>()(
+export class InternalServerError extends Schema.TaggedErrorClass<InternalServerError>()(
   "InternalServerError",
   {
     message: Schema.String,
@@ -116,7 +137,7 @@ export class InternalServerError extends Schema.TaggedError<InternalServerError>
  * The Neon service is temporarily unavailable.
  * Marked as retryable.
  */
-export class ServiceUnavailable extends Schema.TaggedError<ServiceUnavailable>()(
+export class ServiceUnavailable extends Schema.TaggedErrorClass<ServiceUnavailable>()(
   "ServiceUnavailable",
   {
     message: Schema.String,
