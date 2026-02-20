@@ -11,7 +11,7 @@
     "generate:aws": "bun run --filter distilled-aws generate",
     "generate:cloudflare": "bun run --filter distilled-cloudflare generate",
     "generate:planetscale": "bun run --filter distilled-planetscale generate",
-    "generate": "bun run generate",
+    "generate": "bun run --filter 'distilled-*' generate",
     "format": "bun oxfmt ./distilled-* '!node_modules/' '!lib/'"
   },
   "workspaces": {
