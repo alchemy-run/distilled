@@ -144,10 +144,11 @@ const deleteDistributionById = (id: string) =>
  * Idempotent helper for Distribution - creates or reuses existing
  */
 const withDistribution = <A, E, R>(
-  callerReference: string,
+  _callerReference: string,
   testFn: (id: string, etag: string, arn: string) => Effect.Effect<A, E, R>,
 ) =>
   Effect.gen(function* () {
+    const callerReference = `${TEST_PREFIX}-${_callerReference}`;
     // Try to create, or find existing if already exists
     const { id, etag, arn } = yield* createDistribution({
       DistributionConfig: {
