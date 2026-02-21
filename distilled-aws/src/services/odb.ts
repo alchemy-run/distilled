@@ -657,6 +657,32 @@ export const GetCloudAutonomousVmClusterInput = S.suspend(() =>
 ).annotate({
   identifier: "GetCloudAutonomousVmClusterInput",
 }) as any as S.Schema<GetCloudAutonomousVmClusterInput>;
+export type IamRoleStatus =
+  | "ASSOCIATING"
+  | "DISASSOCIATING"
+  | "FAILED"
+  | "CONNECTED"
+  | "DISCONNECTED"
+  | "PARTIALLY_CONNECTED"
+  | "UNKNOWN"
+  | (string & {});
+export const IamRoleStatus = S.String;
+export interface IamRole {
+  iamRoleArn?: string;
+  status?: IamRoleStatus;
+  statusReason?: string;
+  awsIntegration?: SupportedAwsIntegration;
+}
+export const IamRole = S.suspend(() =>
+  S.Struct({
+    iamRoleArn: S.optional(S.String),
+    status: S.optional(IamRoleStatus),
+    statusReason: S.optional(S.String),
+    awsIntegration: S.optional(SupportedAwsIntegration),
+  }),
+).annotate({ identifier: "IamRole" }) as any as S.Schema<IamRole>;
+export type IamRoleList = IamRole[];
+export const IamRoleList = S.Array(IamRole);
 export interface CloudAutonomousVmCluster {
   cloudAutonomousVmClusterId: string;
   cloudAutonomousVmClusterArn?: string;
@@ -709,6 +735,7 @@ export interface CloudAutonomousVmCluster {
   timeOrdsCertificateExpires?: Date;
   timeZone?: string;
   totalContainerDatabases?: number;
+  iamRoles?: IamRole[];
 }
 export const CloudAutonomousVmCluster = S.suspend(() =>
   S.Struct({
@@ -769,6 +796,7 @@ export const CloudAutonomousVmCluster = S.suspend(() =>
     ),
     timeZone: S.optional(S.String),
     totalContainerDatabases: S.optional(S.Number),
+    iamRoles: S.optional(IamRoleList),
   }),
 ).annotate({
   identifier: "CloudAutonomousVmCluster",
@@ -869,6 +897,7 @@ export interface CloudAutonomousVmClusterSummary {
   timeOrdsCertificateExpires?: Date;
   timeZone?: string;
   totalContainerDatabases?: number;
+  iamRoles?: IamRole[];
 }
 export const CloudAutonomousVmClusterSummary = S.suspend(() =>
   S.Struct({
@@ -929,6 +958,7 @@ export const CloudAutonomousVmClusterSummary = S.suspend(() =>
     ),
     timeZone: S.optional(S.String),
     totalContainerDatabases: S.optional(S.Number),
+    iamRoles: S.optional(IamRoleList),
   }),
 ).annotate({
   identifier: "CloudAutonomousVmClusterSummary",
@@ -1745,32 +1775,6 @@ export const ExadataIormConfig = S.suspend(() =>
 }) as any as S.Schema<ExadataIormConfig>;
 export type SensitiveStringList = string | redacted.Redacted<string>[];
 export const SensitiveStringList = S.Array(SensitiveString);
-export type IamRoleStatus =
-  | "ASSOCIATING"
-  | "DISASSOCIATING"
-  | "FAILED"
-  | "CONNECTED"
-  | "DISCONNECTED"
-  | "PARTIALLY_CONNECTED"
-  | "UNKNOWN"
-  | (string & {});
-export const IamRoleStatus = S.String;
-export interface IamRole {
-  iamRoleArn?: string;
-  status?: IamRoleStatus;
-  statusReason?: string;
-  awsIntegration?: SupportedAwsIntegration;
-}
-export const IamRole = S.suspend(() =>
-  S.Struct({
-    iamRoleArn: S.optional(S.String),
-    status: S.optional(IamRoleStatus),
-    statusReason: S.optional(S.String),
-    awsIntegration: S.optional(SupportedAwsIntegration),
-  }),
-).annotate({ identifier: "IamRole" }) as any as S.Schema<IamRole>;
-export type IamRoleList = IamRole[];
-export const IamRoleList = S.Array(IamRole);
 export interface CloudVmCluster {
   cloudVmClusterId: string;
   displayName?: string;

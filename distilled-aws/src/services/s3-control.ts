@@ -1095,6 +1095,7 @@ export type S3ContentLength = number;
 export type NonEmptyMaxLength2048String = string;
 export type KmsKeyArnString = string;
 export type S3ExpirationInDays = number;
+export type NonEmptyKmsKeyArnString = string;
 export type S3BucketArnString = string;
 export type ReportPrefixString = string;
 export type S3KeyArnString = string;
@@ -1105,7 +1106,6 @@ export type ManifestPrefixString = string;
 export type ObjectCreationTime = Date;
 export type ObjectSizeGreaterThanBytes = number;
 export type ObjectSizeLessThanBytes = number;
-export type NonEmptyKmsKeyArnString = string;
 export type JobId = string;
 export type ExceptionMessage = string;
 export type MultiRegionAccessPointClientToken = string;
@@ -2068,6 +2068,38 @@ export const S3ComputeObjectChecksumOperation = S.suspend(() =>
 ).annotate({
   identifier: "S3ComputeObjectChecksumOperation",
 }) as any as S.Schema<S3ComputeObjectChecksumOperation>;
+export interface S3UpdateObjectEncryptionSSEKMS {
+  KMSKeyArn: string;
+  BucketKeyEnabled?: boolean;
+}
+export const S3UpdateObjectEncryptionSSEKMS = S.suspend(() =>
+  S.Struct({
+    KMSKeyArn: S.String,
+    BucketKeyEnabled: S.optional(S.Boolean),
+  }).pipe(T.XmlName("SSE-KMS")),
+).annotate({
+  identifier: "S3UpdateObjectEncryptionSSEKMS",
+}) as any as S.Schema<S3UpdateObjectEncryptionSSEKMS>;
+export interface ObjectEncryption {
+  SSEKMS?: S3UpdateObjectEncryptionSSEKMS;
+}
+export const ObjectEncryption = S.suspend(() =>
+  S.Struct({
+    SSEKMS: S.optional(S3UpdateObjectEncryptionSSEKMS)
+      .pipe(T.XmlName("SSE-KMS"))
+      .annotate({ identifier: "S3UpdateObjectEncryptionSSEKMS" }),
+  }),
+).annotate({
+  identifier: "ObjectEncryption",
+}) as any as S.Schema<ObjectEncryption>;
+export interface S3UpdateObjectEncryptionOperation {
+  ObjectEncryption?: ObjectEncryption;
+}
+export const S3UpdateObjectEncryptionOperation = S.suspend(() =>
+  S.Struct({ ObjectEncryption: S.optional(ObjectEncryption) }),
+).annotate({
+  identifier: "S3UpdateObjectEncryptionOperation",
+}) as any as S.Schema<S3UpdateObjectEncryptionOperation>;
 export interface JobOperation {
   LambdaInvoke?: LambdaInvokeOperation;
   S3PutObjectCopy?: S3CopyObjectOperation;
@@ -2079,6 +2111,7 @@ export interface JobOperation {
   S3PutObjectRetention?: S3SetObjectRetentionOperation;
   S3ReplicateObject?: S3ReplicateObjectOperation;
   S3ComputeObjectChecksum?: S3ComputeObjectChecksumOperation;
+  S3UpdateObjectEncryption?: S3UpdateObjectEncryptionOperation;
 }
 export const JobOperation = S.suspend(() =>
   S.Struct({
@@ -2092,6 +2125,7 @@ export const JobOperation = S.suspend(() =>
     S3PutObjectRetention: S.optional(S3SetObjectRetentionOperation),
     S3ReplicateObject: S.optional(S3ReplicateObjectOperation),
     S3ComputeObjectChecksum: S.optional(S3ComputeObjectChecksumOperation),
+    S3UpdateObjectEncryption: S.optional(S3UpdateObjectEncryptionOperation),
   }),
 ).annotate({ identifier: "JobOperation" }) as any as S.Schema<JobOperation>;
 export type JobReportFormat = "Report_CSV_20180820" | (string & {});
@@ -6154,6 +6188,7 @@ export type OperationName =
   | "S3PutObjectRetention"
   | "S3ReplicateObject"
   | "S3ComputeObjectChecksum"
+  | "S3UpdateObjectEncryption"
   | (string & {});
 export const OperationName = S.String;
 export interface JobListDescriptor {

@@ -111,6 +111,8 @@ export type Message = string;
 export type StatusCode = number;
 export type LogStreamArn = string;
 export type InputLocationHeader = string;
+export type S3OutputPathExtensionHeader = string;
+export type FilenameHeader = string;
 export type RequestTTLSecondsHeader = number;
 export type InvocationTimeoutSecondsHeader = number;
 export type PartBlob = Uint8Array | redacted.Redacted<Uint8Array>;
@@ -209,6 +211,8 @@ export interface InvokeEndpointAsyncInput {
   CustomAttributes?: string | redacted.Redacted<string>;
   InferenceId?: string;
   InputLocation?: string;
+  S3OutputPathExtension?: string;
+  Filename?: string;
   RequestTTLSeconds?: number;
   InvocationTimeoutSeconds?: number;
 }
@@ -227,6 +231,12 @@ export const InvokeEndpointAsyncInput = S.suspend(() =>
     ),
     InputLocation: S.optional(S.String).pipe(
       T.HttpHeader("X-Amzn-SageMaker-InputLocation"),
+    ),
+    S3OutputPathExtension: S.optional(S.String).pipe(
+      T.HttpHeader("X-Amzn-SageMaker-S3OutputPathExtension"),
+    ),
+    Filename: S.optional(S.String).pipe(
+      T.HttpHeader("X-Amzn-SageMaker-Filename"),
     ),
     RequestTTLSeconds: S.optional(S.Number).pipe(
       T.HttpHeader("X-Amzn-SageMaker-RequestTTLSeconds"),

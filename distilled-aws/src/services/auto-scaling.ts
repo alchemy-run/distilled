@@ -854,6 +854,12 @@ export const LifecycleHookSpecification = S.suspend(() =>
 }) as any as S.Schema<LifecycleHookSpecification>;
 export type LifecycleHookSpecifications = LifecycleHookSpecification[];
 export const LifecycleHookSpecifications = S.Array(LifecycleHookSpecification);
+export type DeletionProtection =
+  | "none"
+  | "prevent-force-deletion"
+  | "prevent-all-deletion"
+  | (string & {});
+export const DeletionProtection = S.String;
 export interface Tag {
   ResourceId?: string;
   ResourceType?: string;
@@ -994,6 +1000,7 @@ export interface CreateAutoScalingGroupType {
   NewInstancesProtectedFromScaleIn?: boolean;
   CapacityRebalance?: boolean;
   LifecycleHookSpecificationList?: LifecycleHookSpecification[];
+  DeletionProtection?: DeletionProtection;
   Tags?: Tag[];
   ServiceLinkedRoleARN?: string;
   MaxInstanceLifetime?: number;
@@ -1030,6 +1037,7 @@ export const CreateAutoScalingGroupType = S.suspend(() =>
     NewInstancesProtectedFromScaleIn: S.optional(S.Boolean),
     CapacityRebalance: S.optional(S.Boolean),
     LifecycleHookSpecificationList: S.optional(LifecycleHookSpecifications),
+    DeletionProtection: S.optional(DeletionProtection),
     Tags: S.optional(Tags),
     ServiceLinkedRoleARN: S.optional(S.String),
     MaxInstanceLifetime: S.optional(S.Number),
@@ -1711,6 +1719,7 @@ export interface AutoScalingGroup {
   DefaultInstanceWarmup?: number;
   TrafficSources?: TrafficSourceIdentifier[];
   InstanceMaintenancePolicy?: InstanceMaintenancePolicy;
+  DeletionProtection?: DeletionProtection;
   AvailabilityZoneDistribution?: AvailabilityZoneDistribution;
   AvailabilityZoneImpairmentPolicy?: AvailabilityZoneImpairmentPolicy;
   CapacityReservationSpecification?: CapacityReservationSpecification;
@@ -1755,6 +1764,7 @@ export const AutoScalingGroup = S.suspend(() =>
     DefaultInstanceWarmup: S.optional(S.Number),
     TrafficSources: S.optional(TrafficSources),
     InstanceMaintenancePolicy: S.optional(InstanceMaintenancePolicy),
+    DeletionProtection: S.optional(DeletionProtection),
     AvailabilityZoneDistribution: S.optional(AvailabilityZoneDistribution),
     AvailabilityZoneImpairmentPolicy: S.optional(
       AvailabilityZoneImpairmentPolicy,
@@ -3036,6 +3046,7 @@ export interface DescribeScalingActivitiesType {
   IncludeDeletedGroups?: boolean;
   MaxRecords?: number;
   NextToken?: string;
+  Filters?: Filter[];
 }
 export const DescribeScalingActivitiesType = S.suspend(() =>
   S.Struct({
@@ -3044,6 +3055,7 @@ export const DescribeScalingActivitiesType = S.suspend(() =>
     IncludeDeletedGroups: S.optional(S.Boolean),
     MaxRecords: S.optional(S.Number),
     NextToken: S.optional(S.String),
+    Filters: S.optional(Filters),
   }).pipe(
     T.all(
       ns,
@@ -4418,6 +4430,7 @@ export interface UpdateAutoScalingGroupType {
   SkipZonalShiftValidation?: boolean;
   CapacityReservationSpecification?: CapacityReservationSpecification;
   InstanceLifecyclePolicy?: InstanceLifecyclePolicy;
+  DeletionProtection?: DeletionProtection;
 }
 export const UpdateAutoScalingGroupType = S.suspend(() =>
   S.Struct({
@@ -4452,6 +4465,7 @@ export const UpdateAutoScalingGroupType = S.suspend(() =>
       CapacityReservationSpecification,
     ),
     InstanceLifecyclePolicy: S.optional(InstanceLifecyclePolicy),
+    DeletionProtection: S.optional(DeletionProtection),
   }).pipe(
     T.all(
       ns,
@@ -4567,7 +4581,7 @@ export const attachInstances: (
   errors: [ResourceContentionFault, ServiceLinkedRoleFailure],
 }));
 /**
- * This API operation is superseded by https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_AttachTrafficSources.html, which
+ * This API operation is superseded by AttachTrafficSources, which
  * can attach multiple traffic sources types. We recommend using
  * `AttachTrafficSources` to simplify how you manage traffic sources.
  * However, we continue to support `AttachLoadBalancers`. You can use both

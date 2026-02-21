@@ -181,6 +181,7 @@ export type Terrain = string;
 export type ContourDensity = string;
 export type Traffic = string;
 export type TravelMode = string;
+export type Buildings = string;
 export type TileAdditionalFeature = string;
 export type Tileset = string;
 export type SensitiveString = string | redacted.Redacted<string>;
@@ -373,6 +374,7 @@ export interface GetStyleDescriptorRequest {
   ContourDensity?: string;
   Traffic?: string;
   TravelModes?: string[];
+  Buildings?: string;
   Key?: string | redacted.Redacted<string>;
 }
 export const GetStyleDescriptorRequest = S.suspend(() =>
@@ -386,6 +388,7 @@ export const GetStyleDescriptorRequest = S.suspend(() =>
     ContourDensity: S.optional(S.String).pipe(T.HttpQuery("contour-density")),
     Traffic: S.optional(S.String).pipe(T.HttpQuery("traffic")),
     TravelModes: S.optional(TravelModeList).pipe(T.HttpQuery("travel-modes")),
+    Buildings: S.optional(S.String).pipe(T.HttpQuery("buildings")),
     Key: S.optional(SensitiveString).pipe(T.HttpQuery("key")),
   }).pipe(
     T.all(

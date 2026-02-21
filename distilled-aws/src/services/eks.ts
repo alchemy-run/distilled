@@ -270,6 +270,7 @@ export type UpdateType =
   | "RemoteNetworkConfigUpdate"
   | "DeletionProtectionUpdate"
   | "ControlPlaneScalingConfigUpdate"
+  | "VendedLogsUpdate"
   | (string & {});
 export const UpdateType = S.String;
 export type UpdateParamType =
@@ -1698,10 +1699,14 @@ export type AMITypes =
   | "BOTTLEROCKET_x86_64_FIPS"
   | "BOTTLEROCKET_ARM_64_NVIDIA"
   | "BOTTLEROCKET_x86_64_NVIDIA"
+  | "BOTTLEROCKET_ARM_64_NVIDIA_FIPS"
+  | "BOTTLEROCKET_x86_64_NVIDIA_FIPS"
   | "WINDOWS_CORE_2019_x86_64"
   | "WINDOWS_FULL_2019_x86_64"
   | "WINDOWS_CORE_2022_x86_64"
   | "WINDOWS_FULL_2022_x86_64"
+  | "WINDOWS_CORE_2025_x86_64"
+  | "WINDOWS_FULL_2025_x86_64"
   | "AL2023_x86_64_STANDARD"
   | "AL2023_ARM_64_STANDARD"
   | "AL2023_x86_64_NEURON"
@@ -2038,6 +2043,7 @@ export interface CreatePodIdentityAssociationRequest {
   tags?: { [key: string]: string | undefined };
   disableSessionTags?: boolean;
   targetRoleArn?: string;
+  policy?: string;
 }
 export const CreatePodIdentityAssociationRequest = S.suspend(() =>
   S.Struct({
@@ -2049,6 +2055,7 @@ export const CreatePodIdentityAssociationRequest = S.suspend(() =>
     tags: S.optional(TagMap),
     disableSessionTags: S.optional(S.Boolean),
     targetRoleArn: S.optional(S.String),
+    policy: S.optional(S.String),
   }).pipe(
     T.all(
       T.Http({
@@ -2079,6 +2086,7 @@ export interface PodIdentityAssociation {
   disableSessionTags?: boolean;
   targetRoleArn?: string;
   externalId?: string;
+  policy?: string;
 }
 export const PodIdentityAssociation = S.suspend(() =>
   S.Struct({
@@ -2095,6 +2103,7 @@ export const PodIdentityAssociation = S.suspend(() =>
     disableSessionTags: S.optional(S.Boolean),
     targetRoleArn: S.optional(S.String),
     externalId: S.optional(S.String),
+    policy: S.optional(S.String),
   }),
 ).annotate({
   identifier: "PodIdentityAssociation",
@@ -4418,6 +4427,7 @@ export interface UpdatePodIdentityAssociationRequest {
   clientRequestToken?: string;
   disableSessionTags?: boolean;
   targetRoleArn?: string;
+  policy?: string;
 }
 export const UpdatePodIdentityAssociationRequest = S.suspend(() =>
   S.Struct({
@@ -4427,6 +4437,7 @@ export const UpdatePodIdentityAssociationRequest = S.suspend(() =>
     clientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
     disableSessionTags: S.optional(S.Boolean),
     targetRoleArn: S.optional(S.String),
+    policy: S.optional(S.String),
   }).pipe(
     T.all(
       T.Http({
@@ -4773,7 +4784,7 @@ export const createCapability: (
  * Each Amazon EKS cluster control plane is single tenant and unique. It runs on its own set of
  * Amazon EC2 instances.
  *
- * The cluster control plane is provisioned across multiple Availability Zones and fronted by an ELB
+ * The cluster control plane is provisioned across multiple Availability Zones and fronted by an Elastic Load Balancing
  * Network Load Balancer. Amazon EKS also provisions elastic network interfaces in your VPC subnets to provide
  * connectivity from the control plane instances to the nodes (for example, to support
  * `kubectl exec`, `logs`, and `proxy` data
@@ -4935,7 +4946,7 @@ export const createFargateProfile: (
  * about using launch templates, see Customizing managed nodes with
  * launch templates.
  *
- * An Amazon EKS managed node group is an Amazon EC2 Amazon EC2 Auto Scaling group and associated Amazon EC2 instances that
+ * An Amazon EKS managed node group is an Amazon EC2 Auto Scaling group and associated Amazon EC2 instances that
  * are managed by Amazon Web Services for an Amazon EKS cluster. For more information, see Managed
  * node groups in the *Amazon EKS User Guide*.
  *
@@ -5101,7 +5112,7 @@ export const deleteCapability: (
 /**
  * Deletes an Amazon EKS cluster control plane.
  *
- * If you have active services in your cluster that are associated with a load balancer,
+ * If you have active services and ingress resources in your cluster that are associated with a load balancer,
  * you must delete those services before deleting the cluster so that the load balancers
  * are deleted properly. Otherwise, you can have orphaned resources in your VPC that
  * prevent you from being able to delete the VPC. For more information, see Deleting a

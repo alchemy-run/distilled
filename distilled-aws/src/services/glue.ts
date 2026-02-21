@@ -278,6 +278,12 @@ export type AllowedValueDescriptionString = string;
 export type AllowedValueValueString = string;
 export type ComputeEnvironmentName = string;
 export type ComputeEnvironmentConfigurationDescriptionString = string;
+export type PathString = string;
+export type ConnectorPropertyKey = string;
+export type JsonPathString = string;
+export type DefaultValue = string;
+export type EntityConfigurationMapKeyString = string;
+export type FieldDefinitionMapKeyString = string;
 export type EntityName = string;
 export type NextToken = string;
 export type ApiVersion = string;
@@ -7807,6 +7813,22 @@ export interface DeleteConnectionResponse {}
 export const DeleteConnectionResponse = S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteConnectionResponse",
 }) as any as S.Schema<DeleteConnectionResponse>;
+export interface DeleteConnectionTypeRequest {
+  ConnectionType: string;
+}
+export const DeleteConnectionTypeRequest = S.suspend(() =>
+  S.Struct({ ConnectionType: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "DeleteConnectionTypeRequest",
+}) as any as S.Schema<DeleteConnectionTypeRequest>;
+export interface DeleteConnectionTypeResponse {}
+export const DeleteConnectionTypeResponse = S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "DeleteConnectionTypeResponse",
+}) as any as S.Schema<DeleteConnectionTypeResponse>;
 export interface DeleteCrawlerRequest {
   Name: string;
 }
@@ -8398,6 +8420,13 @@ export const AllowedValue = S.suspend(() =>
 ).annotate({ identifier: "AllowedValue" }) as any as S.Schema<AllowedValue>;
 export type AllowedValues = AllowedValue[];
 export const AllowedValues = S.Array(AllowedValue);
+export type PropertyLocation =
+  | "HEADER"
+  | "BODY"
+  | "QUERY_PARAM"
+  | "PATH"
+  | (string & {});
+export const PropertyLocation = S.String;
 export interface Property {
   Name: string;
   Description: string;
@@ -8406,6 +8435,8 @@ export interface Property {
   PropertyTypes: PropertyType[];
   AllowedValues?: AllowedValue[];
   DataOperationScopes?: DataOperation[];
+  KeyOverride?: string;
+  PropertyLocation?: PropertyLocation;
 }
 export const Property = S.suspend(() =>
   S.Struct({
@@ -8416,6 +8447,8 @@ export const Property = S.suspend(() =>
     PropertyTypes: PropertyTypes,
     AllowedValues: S.optional(AllowedValues),
     DataOperationScopes: S.optional(DataOperations),
+    KeyOverride: S.optional(S.String),
+    PropertyLocation: S.optional(PropertyLocation),
   }),
 ).annotate({ identifier: "Property" }) as any as S.Schema<Property>;
 export type PropertiesMap = { [key: string]: Property | undefined };
@@ -8478,6 +8511,191 @@ export const ComputeEnvironmentConfigurationMap = S.Record(
   S.String,
   ComputeEnvironmentConfiguration.pipe(S.optional),
 );
+export type HTTPMethod = "GET" | "POST" | (string & {});
+export const HTTPMethod = S.String;
+export interface ConnectorProperty {
+  Name: string;
+  KeyOverride?: string;
+  Required: boolean;
+  DefaultValue?: string;
+  AllowedValues?: string[];
+  PropertyLocation?: PropertyLocation;
+  PropertyType: PropertyType;
+}
+export const ConnectorProperty = S.suspend(() =>
+  S.Struct({
+    Name: S.String,
+    KeyOverride: S.optional(S.String),
+    Required: S.Boolean,
+    DefaultValue: S.optional(S.String),
+    AllowedValues: S.optional(ListOfString),
+    PropertyLocation: S.optional(PropertyLocation),
+    PropertyType: PropertyType,
+  }),
+).annotate({
+  identifier: "ConnectorProperty",
+}) as any as S.Schema<ConnectorProperty>;
+export type ConnectorPropertyList = ConnectorProperty[];
+export const ConnectorPropertyList = S.Array(ConnectorProperty);
+export interface ResponseConfiguration {
+  ResultPath: string;
+  ErrorPath?: string;
+}
+export const ResponseConfiguration = S.suspend(() =>
+  S.Struct({ ResultPath: S.String, ErrorPath: S.optional(S.String) }),
+).annotate({
+  identifier: "ResponseConfiguration",
+}) as any as S.Schema<ResponseConfiguration>;
+export interface ResponseExtractionMapping {
+  ContentPath?: string;
+  HeaderKey?: string;
+}
+export const ResponseExtractionMapping = S.suspend(() =>
+  S.Struct({
+    ContentPath: S.optional(S.String),
+    HeaderKey: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ResponseExtractionMapping",
+}) as any as S.Schema<ResponseExtractionMapping>;
+export interface ExtractedParameter {
+  Key?: string;
+  DefaultValue?: string;
+  PropertyLocation?: PropertyLocation;
+  Value?: ResponseExtractionMapping;
+}
+export const ExtractedParameter = S.suspend(() =>
+  S.Struct({
+    Key: S.optional(S.String),
+    DefaultValue: S.optional(S.String),
+    PropertyLocation: S.optional(PropertyLocation),
+    Value: S.optional(ResponseExtractionMapping),
+  }),
+).annotate({
+  identifier: "ExtractedParameter",
+}) as any as S.Schema<ExtractedParameter>;
+export interface CursorConfiguration {
+  NextPage: ExtractedParameter;
+  LimitParameter?: ExtractedParameter;
+}
+export const CursorConfiguration = S.suspend(() =>
+  S.Struct({
+    NextPage: ExtractedParameter,
+    LimitParameter: S.optional(ExtractedParameter),
+  }),
+).annotate({
+  identifier: "CursorConfiguration",
+}) as any as S.Schema<CursorConfiguration>;
+export interface OffsetConfiguration {
+  OffsetParameter: ExtractedParameter;
+  LimitParameter: ExtractedParameter;
+}
+export const OffsetConfiguration = S.suspend(() =>
+  S.Struct({
+    OffsetParameter: ExtractedParameter,
+    LimitParameter: ExtractedParameter,
+  }),
+).annotate({
+  identifier: "OffsetConfiguration",
+}) as any as S.Schema<OffsetConfiguration>;
+export interface PaginationConfiguration {
+  CursorConfiguration?: CursorConfiguration;
+  OffsetConfiguration?: OffsetConfiguration;
+}
+export const PaginationConfiguration = S.suspend(() =>
+  S.Struct({
+    CursorConfiguration: S.optional(CursorConfiguration),
+    OffsetConfiguration: S.optional(OffsetConfiguration),
+  }),
+).annotate({
+  identifier: "PaginationConfiguration",
+}) as any as S.Schema<PaginationConfiguration>;
+export interface SourceConfiguration {
+  RequestMethod?: HTTPMethod;
+  RequestPath?: string;
+  RequestParameters?: ConnectorProperty[];
+  ResponseConfiguration?: ResponseConfiguration;
+  PaginationConfiguration?: PaginationConfiguration;
+}
+export const SourceConfiguration = S.suspend(() =>
+  S.Struct({
+    RequestMethod: S.optional(HTTPMethod),
+    RequestPath: S.optional(S.String),
+    RequestParameters: S.optional(ConnectorPropertyList),
+    ResponseConfiguration: S.optional(ResponseConfiguration),
+    PaginationConfiguration: S.optional(PaginationConfiguration),
+  }),
+).annotate({
+  identifier: "SourceConfiguration",
+}) as any as S.Schema<SourceConfiguration>;
+export type FieldDataType =
+  | "INT"
+  | "SMALLINT"
+  | "BIGINT"
+  | "FLOAT"
+  | "LONG"
+  | "DATE"
+  | "BOOLEAN"
+  | "MAP"
+  | "ARRAY"
+  | "STRING"
+  | "TIMESTAMP"
+  | "DECIMAL"
+  | "BYTE"
+  | "SHORT"
+  | "DOUBLE"
+  | "STRUCT"
+  | "BINARY"
+  | "UNION"
+  | (string & {});
+export const FieldDataType = S.String;
+export interface FieldDefinition {
+  Name: string;
+  FieldDataType: FieldDataType;
+}
+export const FieldDefinition = S.suspend(() =>
+  S.Struct({ Name: S.String, FieldDataType: FieldDataType }),
+).annotate({
+  identifier: "FieldDefinition",
+}) as any as S.Schema<FieldDefinition>;
+export type FieldDefinitionMap = { [key: string]: FieldDefinition | undefined };
+export const FieldDefinitionMap = S.Record(
+  S.String,
+  FieldDefinition.pipe(S.optional),
+);
+export interface EntityConfiguration {
+  SourceConfiguration?: SourceConfiguration;
+  Schema?: { [key: string]: FieldDefinition | undefined };
+}
+export const EntityConfiguration = S.suspend(() =>
+  S.Struct({
+    SourceConfiguration: S.optional(SourceConfiguration),
+    Schema: S.optional(FieldDefinitionMap),
+  }),
+).annotate({
+  identifier: "EntityConfiguration",
+}) as any as S.Schema<EntityConfiguration>;
+export type EntityConfigurationMap = {
+  [key: string]: EntityConfiguration | undefined;
+};
+export const EntityConfigurationMap = S.Record(
+  S.String,
+  EntityConfiguration.pipe(S.optional),
+);
+export interface RestConfiguration {
+  GlobalSourceConfiguration?: SourceConfiguration;
+  ValidationEndpointConfiguration?: SourceConfiguration;
+  EntityConfigurations?: { [key: string]: EntityConfiguration | undefined };
+}
+export const RestConfiguration = S.suspend(() =>
+  S.Struct({
+    GlobalSourceConfiguration: S.optional(SourceConfiguration),
+    ValidationEndpointConfiguration: S.optional(SourceConfiguration),
+    EntityConfigurations: S.optional(EntityConfigurationMap),
+  }),
+).annotate({
+  identifier: "RestConfiguration",
+}) as any as S.Schema<RestConfiguration>;
 export interface DescribeConnectionTypeResponse {
   ConnectionType?: string;
   Description?: string;
@@ -8492,6 +8710,7 @@ export interface DescribeConnectionTypeResponse {
   AthenaConnectionProperties?: { [key: string]: Property | undefined };
   PythonConnectionProperties?: { [key: string]: Property | undefined };
   SparkConnectionProperties?: { [key: string]: Property | undefined };
+  RestConfiguration?: RestConfiguration;
 }
 export const DescribeConnectionTypeResponse = S.suspend(() =>
   S.Struct({
@@ -8508,6 +8727,7 @@ export const DescribeConnectionTypeResponse = S.suspend(() =>
     AthenaConnectionProperties: S.optional(PropertiesMap),
     PythonConnectionProperties: S.optional(PropertiesMap),
     SparkConnectionProperties: S.optional(PropertiesMap),
+    RestConfiguration: S.optional(RestConfiguration),
   }),
 ).annotate({
   identifier: "DescribeConnectionTypeResponse",
@@ -8532,25 +8752,6 @@ export const DescribeEntityRequest = S.suspend(() =>
 ).annotate({
   identifier: "DescribeEntityRequest",
 }) as any as S.Schema<DescribeEntityRequest>;
-export type FieldDataType =
-  | "INT"
-  | "SMALLINT"
-  | "BIGINT"
-  | "FLOAT"
-  | "LONG"
-  | "DATE"
-  | "BOOLEAN"
-  | "MAP"
-  | "ARRAY"
-  | "STRING"
-  | "TIMESTAMP"
-  | "DECIMAL"
-  | "BYTE"
-  | "SHORT"
-  | "DOUBLE"
-  | "STRUCT"
-  | (string & {});
-export const FieldDataType = S.String;
 export type FieldFilterOperator =
   | "LESS_THAN"
   | "GREATER_THAN"
@@ -14307,6 +14508,184 @@ export const QuerySchemaVersionMetadataResponse = S.suspend(() =>
 ).annotate({
   identifier: "QuerySchemaVersionMetadataResponse",
 }) as any as S.Schema<QuerySchemaVersionMetadataResponse>;
+export type IntegrationType = "REST" | (string & {});
+export const IntegrationType = S.String;
+export interface ConnectionPropertiesConfiguration {
+  Url?: ConnectorProperty;
+  AdditionalRequestParameters?: ConnectorProperty[];
+}
+export const ConnectionPropertiesConfiguration = S.suspend(() =>
+  S.Struct({
+    Url: S.optional(ConnectorProperty),
+    AdditionalRequestParameters: S.optional(ConnectorPropertyList),
+  }),
+).annotate({
+  identifier: "ConnectionPropertiesConfiguration",
+}) as any as S.Schema<ConnectionPropertiesConfiguration>;
+export type ConnectorOAuth2GrantType =
+  | "CLIENT_CREDENTIALS"
+  | "JWT_BEARER"
+  | "AUTHORIZATION_CODE"
+  | (string & {});
+export const ConnectorOAuth2GrantType = S.String;
+export type ContentType = "APPLICATION_JSON" | "URL_ENCODED" | (string & {});
+export const ContentType = S.String;
+export interface ClientCredentialsProperties {
+  TokenUrl?: ConnectorProperty;
+  RequestMethod?: HTTPMethod;
+  ContentType?: ContentType;
+  ClientId?: ConnectorProperty;
+  ClientSecret?: ConnectorProperty;
+  Scope?: ConnectorProperty;
+  TokenUrlParameters?: ConnectorProperty[];
+}
+export const ClientCredentialsProperties = S.suspend(() =>
+  S.Struct({
+    TokenUrl: S.optional(ConnectorProperty),
+    RequestMethod: S.optional(HTTPMethod),
+    ContentType: S.optional(ContentType),
+    ClientId: S.optional(ConnectorProperty),
+    ClientSecret: S.optional(ConnectorProperty),
+    Scope: S.optional(ConnectorProperty),
+    TokenUrlParameters: S.optional(ConnectorPropertyList),
+  }),
+).annotate({
+  identifier: "ClientCredentialsProperties",
+}) as any as S.Schema<ClientCredentialsProperties>;
+export interface JWTBearerProperties {
+  TokenUrl?: ConnectorProperty;
+  RequestMethod?: HTTPMethod;
+  ContentType?: ContentType;
+  JwtToken?: ConnectorProperty;
+  TokenUrlParameters?: ConnectorProperty[];
+}
+export const JWTBearerProperties = S.suspend(() =>
+  S.Struct({
+    TokenUrl: S.optional(ConnectorProperty),
+    RequestMethod: S.optional(HTTPMethod),
+    ContentType: S.optional(ContentType),
+    JwtToken: S.optional(ConnectorProperty),
+    TokenUrlParameters: S.optional(ConnectorPropertyList),
+  }),
+).annotate({
+  identifier: "JWTBearerProperties",
+}) as any as S.Schema<JWTBearerProperties>;
+export interface ConnectorAuthorizationCodeProperties {
+  AuthorizationCodeUrl?: ConnectorProperty;
+  AuthorizationCode?: ConnectorProperty;
+  RedirectUri?: ConnectorProperty;
+  TokenUrl?: ConnectorProperty;
+  RequestMethod?: HTTPMethod;
+  ContentType?: ContentType;
+  ClientId?: ConnectorProperty;
+  ClientSecret?: ConnectorProperty;
+  Scope?: ConnectorProperty;
+  Prompt?: ConnectorProperty;
+  TokenUrlParameters?: ConnectorProperty[];
+}
+export const ConnectorAuthorizationCodeProperties = S.suspend(() =>
+  S.Struct({
+    AuthorizationCodeUrl: S.optional(ConnectorProperty),
+    AuthorizationCode: S.optional(ConnectorProperty),
+    RedirectUri: S.optional(ConnectorProperty),
+    TokenUrl: S.optional(ConnectorProperty),
+    RequestMethod: S.optional(HTTPMethod),
+    ContentType: S.optional(ContentType),
+    ClientId: S.optional(ConnectorProperty),
+    ClientSecret: S.optional(ConnectorProperty),
+    Scope: S.optional(ConnectorProperty),
+    Prompt: S.optional(ConnectorProperty),
+    TokenUrlParameters: S.optional(ConnectorPropertyList),
+  }),
+).annotate({
+  identifier: "ConnectorAuthorizationCodeProperties",
+}) as any as S.Schema<ConnectorAuthorizationCodeProperties>;
+export interface ConnectorOAuth2Properties {
+  OAuth2GrantType: ConnectorOAuth2GrantType;
+  ClientCredentialsProperties?: ClientCredentialsProperties;
+  JWTBearerProperties?: JWTBearerProperties;
+  AuthorizationCodeProperties?: ConnectorAuthorizationCodeProperties;
+}
+export const ConnectorOAuth2Properties = S.suspend(() =>
+  S.Struct({
+    OAuth2GrantType: ConnectorOAuth2GrantType,
+    ClientCredentialsProperties: S.optional(ClientCredentialsProperties),
+    JWTBearerProperties: S.optional(JWTBearerProperties),
+    AuthorizationCodeProperties: S.optional(
+      ConnectorAuthorizationCodeProperties,
+    ),
+  }),
+).annotate({
+  identifier: "ConnectorOAuth2Properties",
+}) as any as S.Schema<ConnectorOAuth2Properties>;
+export interface BasicAuthenticationProperties {
+  Username?: ConnectorProperty;
+  Password?: ConnectorProperty;
+}
+export const BasicAuthenticationProperties = S.suspend(() =>
+  S.Struct({
+    Username: S.optional(ConnectorProperty),
+    Password: S.optional(ConnectorProperty),
+  }),
+).annotate({
+  identifier: "BasicAuthenticationProperties",
+}) as any as S.Schema<BasicAuthenticationProperties>;
+export interface CustomAuthenticationProperties {
+  AuthenticationParameters: ConnectorProperty[];
+}
+export const CustomAuthenticationProperties = S.suspend(() =>
+  S.Struct({ AuthenticationParameters: ConnectorPropertyList }),
+).annotate({
+  identifier: "CustomAuthenticationProperties",
+}) as any as S.Schema<CustomAuthenticationProperties>;
+export interface ConnectorAuthenticationConfiguration {
+  AuthenticationTypes: AuthenticationType[];
+  OAuth2Properties?: ConnectorOAuth2Properties;
+  BasicAuthenticationProperties?: BasicAuthenticationProperties;
+  CustomAuthenticationProperties?: CustomAuthenticationProperties;
+}
+export const ConnectorAuthenticationConfiguration = S.suspend(() =>
+  S.Struct({
+    AuthenticationTypes: AuthenticationTypes,
+    OAuth2Properties: S.optional(ConnectorOAuth2Properties),
+    BasicAuthenticationProperties: S.optional(BasicAuthenticationProperties),
+    CustomAuthenticationProperties: S.optional(CustomAuthenticationProperties),
+  }),
+).annotate({
+  identifier: "ConnectorAuthenticationConfiguration",
+}) as any as S.Schema<ConnectorAuthenticationConfiguration>;
+export interface RegisterConnectionTypeRequest {
+  ConnectionType: string;
+  IntegrationType: IntegrationType;
+  Description?: string;
+  ConnectionProperties: ConnectionPropertiesConfiguration;
+  ConnectorAuthenticationConfiguration: ConnectorAuthenticationConfiguration;
+  RestConfiguration: RestConfiguration;
+  Tags?: { [key: string]: string | undefined };
+}
+export const RegisterConnectionTypeRequest = S.suspend(() =>
+  S.Struct({
+    ConnectionType: S.String,
+    IntegrationType: IntegrationType,
+    Description: S.optional(S.String),
+    ConnectionProperties: ConnectionPropertiesConfiguration,
+    ConnectorAuthenticationConfiguration: ConnectorAuthenticationConfiguration,
+    RestConfiguration: RestConfiguration,
+    Tags: S.optional(TagsMap),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "RegisterConnectionTypeRequest",
+}) as any as S.Schema<RegisterConnectionTypeRequest>;
+export interface RegisterConnectionTypeResponse {
+  ConnectionTypeArn?: string;
+}
+export const RegisterConnectionTypeResponse = S.suspend(() =>
+  S.Struct({ ConnectionTypeArn: S.optional(S.String) }),
+).annotate({
+  identifier: "RegisterConnectionTypeResponse",
+}) as any as S.Schema<RegisterConnectionTypeResponse>;
 export interface RegisterSchemaVersionInput {
   SchemaId: SchemaId;
   SchemaDefinition: string;
@@ -17847,6 +18226,35 @@ export const deleteConnection: (
   errors: [EntityNotFoundException, OperationTimeoutException],
 }));
 /**
+ * Deletes a custom connection type in Glue.
+ *
+ * The connection type must exist and be registered before it can be deleted. This operation supports cleanup of connection type resources and helps maintain proper lifecycle management of custom connection types.
+ */
+export const deleteConnectionType: (
+  input: DeleteConnectionTypeRequest,
+) => effect.Effect<
+  DeleteConnectionTypeResponse,
+  | AccessDeniedException
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteConnectionTypeRequest,
+  output: DeleteConnectionTypeResponse,
+  errors: [
+    AccessDeniedException,
+    EntityNotFoundException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+    ValidationException,
+  ],
+}));
+/**
  * Removes a specified crawler from the Glue Data Catalog, unless the crawler state is
  * `RUNNING`.
  */
@@ -18538,7 +18946,9 @@ export const deleteWorkflow: (
   ],
 }));
 /**
- * The `DescribeConnectionType` API provides full details of the supported options for a given connection type in Glue.
+ * The `DescribeConnectionType` API provides full details of the supported options for a given connection type in Glue. The response includes authentication configuration details that show supported authentication types and properties, and RestConfiguration for custom REST-based connection types registered via `RegisterConnectionType`.
+ *
+ * See also: `ListConnectionTypes`, `RegisterConnectionType`, `DeleteConnectionType`
  */
 export const describeConnectionType: (
   input: DescribeConnectionTypeRequest,
@@ -21374,7 +21784,9 @@ export const listColumnStatisticsTaskRuns: {
   } as const,
 }));
 /**
- * The `ListConnectionTypes` API provides a discovery mechanism to learn available connection types in Glue. The response contains a list of connection types with high-level details of what is supported for each connection type. The connection types listed are the set of supported options for the `ConnectionType` value in the `CreateConnection` API.
+ * The `ListConnectionTypes` API provides a discovery mechanism to learn available connection types in Glue. The response contains a list of connection types with high-level details of what is supported for each connection type, including both built-in connection types and custom connection types registered via `RegisterConnectionType`. The connection types listed are the set of supported options for the `ConnectionType` value in the `CreateConnection` API.
+ *
+ * See also: `DescribeConnectionType`, `RegisterConnectionType`, `DeleteConnectionType`
  */
 export const listConnectionTypes: {
   (
@@ -22706,6 +23118,37 @@ export const querySchemaVersionMetadata: (
     AccessDeniedException,
     EntityNotFoundException,
     InvalidInputException,
+  ],
+}));
+/**
+ * Registers a custom connection type in Glue based on the configuration provided. This operation enables customers to configure custom connectors for any data source with REST-based APIs, eliminating the need for building custom Lambda connectors.
+ *
+ * The registered connection type stores details about how requests and responses are interpreted by REST sources, including connection properties, authentication configuration, and REST configuration with entity definitions. Once registered, customers can create connections using this connection type and work with them the same way as natively supported Glue connectors.
+ *
+ * Supports multiple authentication types including Basic, OAuth2 (Client Credentials, JWT Bearer, Authorization Code), and Custom Auth configurations.
+ */
+export const registerConnectionType: (
+  input: RegisterConnectionTypeRequest,
+) => effect.Effect<
+  RegisterConnectionTypeResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | ResourceNumberLimitExceededException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RegisterConnectionTypeRequest,
+  output: RegisterConnectionTypeResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+    ResourceNumberLimitExceededException,
+    ValidationException,
   ],
 }));
 /**

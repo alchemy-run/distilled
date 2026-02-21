@@ -141,6 +141,7 @@ export type VerifiedAccessTrustProviderId = string;
 export type ClientSecretType = string | redacted.Redacted<string>;
 export type KmsKeyArn = string;
 export type VolumeId = string;
+export type BoxedInteger = number;
 export type VpnGatewayId = string;
 export type SecurityGroupRuleId = string;
 export type PrefixListResourceId = string;
@@ -203,6 +204,7 @@ export type KernelId = string;
 export type KeyPairName = string;
 export type RamdiskId = string;
 export type LaunchTemplateElasticInferenceAcceleratorCount = number;
+export type SecondarySubnetId = string;
 export type LocalGatewayVirtualInterfaceGroupId = string;
 export type LocalGatewayId = string;
 export type LocalGatewayRouteTableVirtualInterfaceGroupAssociationId = string;
@@ -222,6 +224,9 @@ export type OdbNetworkArn = string;
 export type VpcPeeringConnectionId = string;
 export type RouteServerEndpointId = string;
 export type RouteServerPeerId = string;
+export type SecondaryNetworkId = string;
+export type SecondaryNetworkCidrAssociationId = string;
+export type SecondarySubnetCidrAssociationId = string;
 export type SnapshotCompletionDurationMinutesResponse = number;
 export type InstanceIdWithVolumeResolver = string;
 export type SubnetCidrReservationId = string;
@@ -256,6 +261,7 @@ export type KeyPairId = string;
 export type NetworkInsightsAccessScopeAnalysisId = string;
 export type NetworkInsightsAnalysisId = string;
 export type NetworkInterfacePermissionId = string;
+export type PlacementGroupNameWithResolver = string;
 export type TrafficMirrorFilterRuleIdWithResolver = string;
 export type TrafficMirrorSessionId = string;
 export type VerifiedAccessEndpointId = string;
@@ -270,7 +276,6 @@ export type DescribeFutureCapacityMaxResults = number;
 export type OfferingId = string;
 export type DescribeCapacityBlockExtensionOfferingsMaxResults = number;
 export type DescribeCapacityBlockOfferingsMaxResults = number;
-export type BoxedInteger = number;
 export type DescribeCapacityBlocksMaxResults = number;
 export type DescribeCapacityBlockStatusMaxResults = number;
 export type DescribeCapacityManagerDataExportsRequestMaxResults = number;
@@ -316,6 +321,7 @@ export type InstanceConnectEndpointMaxResults = number;
 export type DescribeInstanceCreditSpecificationsMaxResults = number;
 export type ResultRange = number;
 export type DescribeInstanceImageMetadataMaxResults = number;
+export type SecondaryInterfaceId = string;
 export type DescribeInstanceSqlHaStatesRequestMaxResultsInteger = number;
 export type InstanceEventId = string;
 export type DescribeInstanceTopologyMaxResults = number;
@@ -341,11 +347,14 @@ export type MaximumBandwidthInMbps = number;
 export type MaximumThroughputInMBps = number;
 export type MaximumIops = number;
 export type MaximumEbsAttachments = number;
+export type MaximumEbsCards = number;
+export type EbsCardIndex = number;
 export type NetworkPerformance = string;
 export type MaxNetworkInterfaces = number;
 export type MaximumNetworkCards = number;
 export type DefaultNetworkCardIndex = number;
 export type NetworkCardIndex = number;
+export type AdditionalFlexibleNetworkInterfaces = number;
 export type BaselineBandwidthInGbps = number;
 export type PeakBandwidthInGbps = number;
 export type DefaultEnaQueueCountPerInterface = number;
@@ -358,9 +367,15 @@ export type EfaSupportedFlag = boolean;
 export type MaximumEfaInterfaces = number;
 export type EncryptionInTransitSupported = boolean;
 export type EnaSrdSupported = boolean;
+export type SecondaryNetworkSupportedFlag = boolean;
+export type MaximumSecondaryNetworkInterfaces = number;
+export type Ipv4AddressesPerSecondaryInterface = number;
 export type GpuDeviceName = string;
 export type GpuDeviceManufacturerName = string;
 export type GpuDeviceCount = number;
+export type LogicalGpuCount = number;
+export type GpuPartitionSize = number;
+export type Workload = string;
 export type GpuDeviceMemorySize = number;
 export type TotalGpuMemory = number;
 export type FpgaDeviceName = string;
@@ -421,6 +436,9 @@ export type RouteServerMaxResults = number;
 export type DescribeRouteTablesMaxResults = number;
 export type DescribeScheduledInstanceAvailabilityMaxResults = number;
 export type ScheduledInstanceId = string;
+export type DescribeSecondaryInterfacesMaxResults = number;
+export type DescribeSecondaryNetworksMaxResults = number;
+export type DescribeSecondarySubnetsMaxResults = number;
 export type DescribeSecurityGroupRulesMaxResults = number;
 export type DescribeSecurityGroupsMaxResults = number;
 export type DescribeSecurityGroupVpcAssociationsMaxResults = number;
@@ -605,6 +623,9 @@ export type ResourceType =
   | "ipam-prefix-list-resolver"
   | "ipam-policy"
   | "ipam-prefix-list-resolver-target"
+  | "secondary-interface"
+  | "secondary-network"
+  | "secondary-subnet"
   | "capacity-manager-data-export"
   | "vpn-concentrator"
   | (string & {});
@@ -4300,6 +4321,7 @@ export interface AttachVolumeRequest {
   Device?: string;
   InstanceId?: string;
   VolumeId?: string;
+  EbsCardIndex?: number;
   DryRun?: boolean;
 }
 export const AttachVolumeRequest = S.suspend(() =>
@@ -4307,6 +4329,7 @@ export const AttachVolumeRequest = S.suspend(() =>
     Device: S.optional(S.String),
     InstanceId: S.optional(S.String),
     VolumeId: S.optional(S.String),
+    EbsCardIndex: S.optional(S.Number),
     DryRun: S.optional(S.Boolean).pipe(
       T.XmlName("dryRun"),
       T.Ec2QueryName("DryRun"),
@@ -4337,6 +4360,7 @@ export interface VolumeAttachment {
   DeleteOnTermination?: boolean;
   AssociatedResource?: string;
   InstanceOwningService?: string;
+  EbsCardIndex?: number;
   VolumeId?: string;
   InstanceId?: string;
   Device?: string;
@@ -4356,6 +4380,10 @@ export const VolumeAttachment = S.suspend(() =>
     InstanceOwningService: S.optional(S.String).pipe(
       T.XmlName("instanceOwningService"),
       T.Ec2QueryName("InstanceOwningService"),
+    ),
+    EbsCardIndex: S.optional(S.Number).pipe(
+      T.XmlName("ebsCardIndex"),
+      T.Ec2QueryName("EbsCardIndex"),
     ),
     VolumeId: S.optional(S.String).pipe(
       T.XmlName("volumeId"),
@@ -7910,6 +7938,93 @@ export type InstanceType =
   | "c8gb.medium"
   | "c8gb.metal-24xl"
   | "c8gb.xlarge"
+  | "c8gb.48xlarge"
+  | "c8gb.metal-48xl"
+  | "m8gb.12xlarge"
+  | "m8gb.16xlarge"
+  | "m8gb.24xlarge"
+  | "m8gb.2xlarge"
+  | "m8gb.4xlarge"
+  | "m8gb.8xlarge"
+  | "m8gb.large"
+  | "m8gb.medium"
+  | "m8gb.xlarge"
+  | "m8gb.48xlarge"
+  | "m8gb.metal-24xl"
+  | "m8gb.metal-48xl"
+  | "m8gn.12xlarge"
+  | "m8gn.16xlarge"
+  | "m8gn.24xlarge"
+  | "m8gn.2xlarge"
+  | "m8gn.48xlarge"
+  | "m8gn.4xlarge"
+  | "m8gn.8xlarge"
+  | "m8gn.large"
+  | "m8gn.medium"
+  | "m8gn.xlarge"
+  | "m8gn.metal-24xl"
+  | "m8gn.metal-48xl"
+  | "x8aedz.12xlarge"
+  | "x8aedz.24xlarge"
+  | "x8aedz.3xlarge"
+  | "x8aedz.6xlarge"
+  | "x8aedz.large"
+  | "x8aedz.metal-12xl"
+  | "x8aedz.metal-24xl"
+  | "x8aedz.xlarge"
+  | "m8azn.medium"
+  | "m8azn.large"
+  | "m8azn.xlarge"
+  | "m8azn.3xlarge"
+  | "m8azn.6xlarge"
+  | "m8azn.12xlarge"
+  | "m8azn.24xlarge"
+  | "m8azn.metal-12xl"
+  | "m8azn.metal-24xl"
+  | "x8i.large"
+  | "x8i.xlarge"
+  | "x8i.2xlarge"
+  | "x8i.4xlarge"
+  | "x8i.8xlarge"
+  | "x8i.12xlarge"
+  | "x8i.16xlarge"
+  | "x8i.24xlarge"
+  | "x8i.32xlarge"
+  | "x8i.48xlarge"
+  | "x8i.64xlarge"
+  | "x8i.96xlarge"
+  | "x8i.metal-48xl"
+  | "x8i.metal-96xl"
+  | "mac-m4max.metal"
+  | "g7e.2xlarge"
+  | "g7e.4xlarge"
+  | "g7e.8xlarge"
+  | "g7e.12xlarge"
+  | "g7e.24xlarge"
+  | "g7e.48xlarge"
+  | "r8id.large"
+  | "r8id.xlarge"
+  | "r8id.2xlarge"
+  | "r8id.4xlarge"
+  | "r8id.8xlarge"
+  | "r8id.12xlarge"
+  | "r8id.16xlarge"
+  | "r8id.24xlarge"
+  | "r8id.32xlarge"
+  | "r8id.48xlarge"
+  | "r8id.96xlarge"
+  | "r8id.metal-48xl"
+  | "r8id.metal-96xl"
+  | "c8gb.12xlarge"
+  | "c8gb.16xlarge"
+  | "c8gb.24xlarge"
+  | "c8gb.2xlarge"
+  | "c8gb.4xlarge"
+  | "c8gb.8xlarge"
+  | "c8gb.large"
+  | "c8gb.medium"
+  | "c8gb.metal-24xl"
+  | "c8gb.xlarge"
   | "m8gb.12xlarge"
   | "m8gb.16xlarge"
   | "m8gb.24xlarge"
@@ -11015,6 +11130,7 @@ export interface EbsBlockDevice {
   Encrypted?: boolean;
   VolumeInitializationRate?: number;
   AvailabilityZoneId?: string;
+  EbsCardIndex?: number;
 }
 export const EbsBlockDevice = S.suspend(() =>
   S.Struct({
@@ -11057,6 +11173,7 @@ export const EbsBlockDevice = S.suspend(() =>
     ),
     VolumeInitializationRate: S.optional(S.Number),
     AvailabilityZoneId: S.optional(S.String),
+    EbsCardIndex: S.optional(S.Number),
   }),
 ).annotate({ identifier: "EbsBlockDevice" }) as any as S.Schema<EbsBlockDevice>;
 export interface BlockDeviceMapping {
@@ -13288,6 +13405,7 @@ export interface LaunchTemplateEbsBlockDeviceRequest {
   VolumeType?: VolumeType;
   Throughput?: number;
   VolumeInitializationRate?: number;
+  EbsCardIndex?: number;
 }
 export const LaunchTemplateEbsBlockDeviceRequest = S.suspend(() =>
   S.Struct({
@@ -13300,6 +13418,7 @@ export const LaunchTemplateEbsBlockDeviceRequest = S.suspend(() =>
     VolumeType: S.optional(VolumeType),
     Throughput: S.optional(S.Number),
     VolumeInitializationRate: S.optional(S.Number),
+    EbsCardIndex: S.optional(S.Number),
   }),
 ).annotate({
   identifier: "LaunchTemplateEbsBlockDeviceRequest",
@@ -13647,16 +13766,23 @@ export const CreditSpecificationRequest = S.suspend(() =>
 }) as any as S.Schema<CreditSpecificationRequest>;
 export type AmdSevSnpSpecification = "enabled" | "disabled" | (string & {});
 export const AmdSevSnpSpecification = S.String;
+export type NestedVirtualizationSpecification =
+  | "enabled"
+  | "disabled"
+  | (string & {});
+export const NestedVirtualizationSpecification = S.String;
 export interface LaunchTemplateCpuOptionsRequest {
   CoreCount?: number;
   ThreadsPerCore?: number;
   AmdSevSnp?: AmdSevSnpSpecification;
+  NestedVirtualization?: NestedVirtualizationSpecification;
 }
 export const LaunchTemplateCpuOptionsRequest = S.suspend(() =>
   S.Struct({
     CoreCount: S.optional(S.Number),
     ThreadsPerCore: S.optional(S.Number),
     AmdSevSnp: S.optional(AmdSevSnpSpecification),
+    NestedVirtualization: S.optional(NestedVirtualizationSpecification),
   }),
 ).annotate({
   identifier: "LaunchTemplateCpuOptionsRequest",
@@ -13810,6 +13936,62 @@ export const LaunchTemplateNetworkPerformanceOptionsRequest = S.suspend(() =>
 ).annotate({
   identifier: "LaunchTemplateNetworkPerformanceOptionsRequest",
 }) as any as S.Schema<LaunchTemplateNetworkPerformanceOptionsRequest>;
+export interface SecondaryInterfacePrivateIpAddressSpecificationRequest {
+  PrivateIpAddress?: string;
+}
+export const SecondaryInterfacePrivateIpAddressSpecificationRequest = S.suspend(
+  () => S.Struct({ PrivateIpAddress: S.optional(S.String) }),
+).annotate({
+  identifier: "SecondaryInterfacePrivateIpAddressSpecificationRequest",
+}) as any as S.Schema<SecondaryInterfacePrivateIpAddressSpecificationRequest>;
+export type SecondaryInterfacePrivateIpAddressSpecificationListRequest =
+  SecondaryInterfacePrivateIpAddressSpecificationRequest[];
+export const SecondaryInterfacePrivateIpAddressSpecificationListRequest =
+  S.Array(
+    SecondaryInterfacePrivateIpAddressSpecificationRequest.pipe(
+      T.XmlName("SecondaryInterfacePrivateIpAddressSpecification"),
+    ).annotate({
+      identifier: "SecondaryInterfacePrivateIpAddressSpecificationRequest",
+    }),
+  );
+export type SecondaryInterfaceType = "secondary" | (string & {});
+export const SecondaryInterfaceType = S.String;
+export interface LaunchTemplateInstanceSecondaryInterfaceSpecificationRequest {
+  DeleteOnTermination?: boolean;
+  DeviceIndex?: number;
+  PrivateIpAddresses?: SecondaryInterfacePrivateIpAddressSpecificationRequest[];
+  PrivateIpAddressCount?: number;
+  SecondarySubnetId?: string;
+  InterfaceType?: SecondaryInterfaceType;
+  NetworkCardIndex?: number;
+}
+export const LaunchTemplateInstanceSecondaryInterfaceSpecificationRequest =
+  S.suspend(() =>
+    S.Struct({
+      DeleteOnTermination: S.optional(S.Boolean),
+      DeviceIndex: S.optional(S.Number),
+      PrivateIpAddresses: S.optional(
+        SecondaryInterfacePrivateIpAddressSpecificationListRequest,
+      ).pipe(T.XmlName("PrivateIpAddress")),
+      PrivateIpAddressCount: S.optional(S.Number),
+      SecondarySubnetId: S.optional(S.String),
+      InterfaceType: S.optional(SecondaryInterfaceType),
+      NetworkCardIndex: S.optional(S.Number),
+    }),
+  ).annotate({
+    identifier: "LaunchTemplateInstanceSecondaryInterfaceSpecificationRequest",
+  }) as any as S.Schema<LaunchTemplateInstanceSecondaryInterfaceSpecificationRequest>;
+export type LaunchTemplateInstanceSecondaryInterfaceSpecificationRequestList =
+  LaunchTemplateInstanceSecondaryInterfaceSpecificationRequest[];
+export const LaunchTemplateInstanceSecondaryInterfaceSpecificationRequestList =
+  S.Array(
+    LaunchTemplateInstanceSecondaryInterfaceSpecificationRequest.pipe(
+      T.XmlName("InstanceSecondaryInterfaceSpecification"),
+    ).annotate({
+      identifier:
+        "LaunchTemplateInstanceSecondaryInterfaceSpecificationRequest",
+    }),
+  );
 export interface RequestLaunchTemplateData {
   KernelId?: string;
   EbsOptimized?: boolean;
@@ -13844,6 +14026,7 @@ export interface RequestLaunchTemplateData {
   DisableApiStop?: boolean;
   Operator?: OperatorRequest;
   NetworkPerformanceOptions?: LaunchTemplateNetworkPerformanceOptionsRequest;
+  SecondaryInterfaces?: LaunchTemplateInstanceSecondaryInterfaceSpecificationRequest[];
 }
 export const RequestLaunchTemplateData = S.suspend(() =>
   S.Struct({
@@ -13908,6 +14091,9 @@ export const RequestLaunchTemplateData = S.suspend(() =>
     NetworkPerformanceOptions: S.optional(
       LaunchTemplateNetworkPerformanceOptionsRequest,
     ),
+    SecondaryInterfaces: S.optional(
+      LaunchTemplateInstanceSecondaryInterfaceSpecificationRequestList,
+    ).pipe(T.XmlName("SecondaryInterface")),
   }),
 ).annotate({
   identifier: "RequestLaunchTemplateData",
@@ -14096,6 +14282,7 @@ export interface LaunchTemplateEbsBlockDevice {
   VolumeType?: VolumeType;
   Throughput?: number;
   VolumeInitializationRate?: number;
+  EbsCardIndex?: number;
 }
 export const LaunchTemplateEbsBlockDevice = S.suspend(() =>
   S.Struct({
@@ -14131,6 +14318,10 @@ export const LaunchTemplateEbsBlockDevice = S.suspend(() =>
     VolumeInitializationRate: S.optional(S.Number).pipe(
       T.XmlName("volumeInitializationRate"),
       T.Ec2QueryName("VolumeInitializationRate"),
+    ),
+    EbsCardIndex: S.optional(S.Number).pipe(
+      T.XmlName("ebsCardIndex"),
+      T.Ec2QueryName("EbsCardIndex"),
     ),
   }),
 ).annotate({
@@ -14630,6 +14821,7 @@ export interface LaunchTemplateCpuOptions {
   CoreCount?: number;
   ThreadsPerCore?: number;
   AmdSevSnp?: AmdSevSnpSpecification;
+  NestedVirtualization?: NestedVirtualizationSpecification;
 }
 export const LaunchTemplateCpuOptions = S.suspend(() =>
   S.Struct({
@@ -14644,6 +14836,10 @@ export const LaunchTemplateCpuOptions = S.suspend(() =>
     AmdSevSnp: S.optional(AmdSevSnpSpecification).pipe(
       T.XmlName("amdSevSnp"),
       T.Ec2QueryName("AmdSevSnp"),
+    ),
+    NestedVirtualization: S.optional(NestedVirtualizationSpecification).pipe(
+      T.XmlName("nestedVirtualization"),
+      T.Ec2QueryName("NestedVirtualization"),
     ),
   }),
 ).annotate({
@@ -14828,6 +15024,82 @@ export const LaunchTemplateNetworkPerformanceOptions = S.suspend(() =>
 ).annotate({
   identifier: "LaunchTemplateNetworkPerformanceOptions",
 }) as any as S.Schema<LaunchTemplateNetworkPerformanceOptions>;
+export interface SecondaryInterfacePrivateIpAddressSpecification {
+  PrivateIpAddress?: string;
+}
+export const SecondaryInterfacePrivateIpAddressSpecification = S.suspend(() =>
+  S.Struct({
+    PrivateIpAddress: S.optional(S.String).pipe(
+      T.XmlName("privateIpAddress"),
+      T.Ec2QueryName("PrivateIpAddress"),
+    ),
+  }),
+).annotate({
+  identifier: "SecondaryInterfacePrivateIpAddressSpecification",
+}) as any as S.Schema<SecondaryInterfacePrivateIpAddressSpecification>;
+export type SecondaryInterfacePrivateIpAddressSpecificationList =
+  SecondaryInterfacePrivateIpAddressSpecification[];
+export const SecondaryInterfacePrivateIpAddressSpecificationList = S.Array(
+  SecondaryInterfacePrivateIpAddressSpecification.pipe(
+    T.XmlName("item"),
+  ).annotate({ identifier: "SecondaryInterfacePrivateIpAddressSpecification" }),
+);
+export interface LaunchTemplateInstanceSecondaryInterfaceSpecification {
+  DeleteOnTermination?: boolean;
+  DeviceIndex?: number;
+  PrivateIpAddresses?: SecondaryInterfacePrivateIpAddressSpecification[];
+  PrivateIpAddressCount?: number;
+  SecondarySubnetId?: string;
+  InterfaceType?: SecondaryInterfaceType;
+  NetworkCardIndex?: number;
+}
+export const LaunchTemplateInstanceSecondaryInterfaceSpecification = S.suspend(
+  () =>
+    S.Struct({
+      DeleteOnTermination: S.optional(S.Boolean).pipe(
+        T.XmlName("deleteOnTermination"),
+        T.Ec2QueryName("DeleteOnTermination"),
+      ),
+      DeviceIndex: S.optional(S.Number).pipe(
+        T.XmlName("deviceIndex"),
+        T.Ec2QueryName("DeviceIndex"),
+      ),
+      PrivateIpAddresses: S.optional(
+        SecondaryInterfacePrivateIpAddressSpecificationList,
+      ).pipe(
+        T.XmlName("privateIpAddressesSet"),
+        T.Ec2QueryName("PrivateIpAddressesSet"),
+      ),
+      PrivateIpAddressCount: S.optional(S.Number).pipe(
+        T.XmlName("privateIpAddressCount"),
+        T.Ec2QueryName("PrivateIpAddressCount"),
+      ),
+      SecondarySubnetId: S.optional(S.String).pipe(
+        T.XmlName("secondarySubnetId"),
+        T.Ec2QueryName("SecondarySubnetId"),
+      ),
+      InterfaceType: S.optional(SecondaryInterfaceType).pipe(
+        T.XmlName("interfaceType"),
+        T.Ec2QueryName("InterfaceType"),
+      ),
+      NetworkCardIndex: S.optional(S.Number).pipe(
+        T.XmlName("networkCardIndex"),
+        T.Ec2QueryName("NetworkCardIndex"),
+      ),
+    }),
+).annotate({
+  identifier: "LaunchTemplateInstanceSecondaryInterfaceSpecification",
+}) as any as S.Schema<LaunchTemplateInstanceSecondaryInterfaceSpecification>;
+export type LaunchTemplateInstanceSecondaryInterfaceSpecificationList =
+  LaunchTemplateInstanceSecondaryInterfaceSpecification[];
+export const LaunchTemplateInstanceSecondaryInterfaceSpecificationList =
+  S.Array(
+    LaunchTemplateInstanceSecondaryInterfaceSpecification.pipe(
+      T.XmlName("item"),
+    ).annotate({
+      identifier: "LaunchTemplateInstanceSecondaryInterfaceSpecification",
+    }),
+  );
 export interface ResponseLaunchTemplateData {
   KernelId?: string;
   EbsOptimized?: boolean;
@@ -14862,6 +15134,7 @@ export interface ResponseLaunchTemplateData {
   DisableApiStop?: boolean;
   Operator?: OperatorResponse;
   NetworkPerformanceOptions?: LaunchTemplateNetworkPerformanceOptions;
+  SecondaryInterfaces?: LaunchTemplateInstanceSecondaryInterfaceSpecification[];
 }
 export const ResponseLaunchTemplateData = S.suspend(() =>
   S.Struct({
@@ -15025,6 +15298,12 @@ export const ResponseLaunchTemplateData = S.suspend(() =>
         T.Ec2QueryName("NetworkPerformanceOptions"),
       )
       .annotate({ identifier: "LaunchTemplateNetworkPerformanceOptions" }),
+    SecondaryInterfaces: S.optional(
+      LaunchTemplateInstanceSecondaryInterfaceSpecificationList,
+    ).pipe(
+      T.XmlName("secondaryInterfaceSet"),
+      T.Ec2QueryName("SecondaryInterfaceSet"),
+    ),
   }),
 ).annotate({
   identifier: "ResponseLaunchTemplateData",
@@ -17824,6 +18103,7 @@ export interface CreatePlacementGroupRequest {
   TagSpecifications?: TagSpecification[];
   SpreadLevel?: SpreadLevel;
   LinkedGroupId?: string;
+  Operator?: OperatorRequest;
   DryRun?: boolean;
   GroupName?: string;
   Strategy?: PlacementStrategy;
@@ -17836,6 +18116,7 @@ export const CreatePlacementGroupRequest = S.suspend(() =>
     ),
     SpreadLevel: S.optional(SpreadLevel),
     LinkedGroupId: S.optional(S.String),
+    Operator: S.optional(OperatorRequest),
     DryRun: S.optional(S.Boolean).pipe(
       T.XmlName("dryRun"),
       T.Ec2QueryName("DryRun"),
@@ -17879,6 +18160,7 @@ export interface PlacementGroup {
   GroupArn?: string;
   SpreadLevel?: SpreadLevel;
   LinkedGroupId?: string;
+  Operator?: OperatorResponse;
 }
 export const PlacementGroup = S.suspend(() =>
   S.Struct({
@@ -17918,6 +18200,9 @@ export const PlacementGroup = S.suspend(() =>
       T.XmlName("linkedGroupId"),
       T.Ec2QueryName("LinkedGroupId"),
     ),
+    Operator: S.optional(OperatorResponse)
+      .pipe(T.XmlName("operator"), T.Ec2QueryName("Operator"))
+      .annotate({ identifier: "OperatorResponse" }),
   }),
 ).annotate({ identifier: "PlacementGroup" }) as any as S.Schema<PlacementGroup>;
 export interface CreatePlacementGroupResult {
@@ -18976,6 +19261,327 @@ export const CreateRouteTableResult = S.suspend(() =>
 ).annotate({
   identifier: "CreateRouteTableResult",
 }) as any as S.Schema<CreateRouteTableResult>;
+export type SecondaryNetworkType = "rdma" | (string & {});
+export const SecondaryNetworkType = S.String;
+export interface CreateSecondaryNetworkRequest {
+  ClientToken?: string;
+  DryRun?: boolean;
+  Ipv4CidrBlock?: string;
+  NetworkType?: SecondaryNetworkType;
+  TagSpecifications?: TagSpecification[];
+}
+export const CreateSecondaryNetworkRequest = S.suspend(() =>
+  S.Struct({
+    ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+    DryRun: S.optional(S.Boolean),
+    Ipv4CidrBlock: S.optional(S.String),
+    NetworkType: S.optional(SecondaryNetworkType),
+    TagSpecifications: S.optional(TagSpecificationList).pipe(
+      T.XmlName("TagSpecification"),
+    ),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "CreateSecondaryNetworkRequest",
+}) as any as S.Schema<CreateSecondaryNetworkRequest>;
+export type SecondaryNetworkState =
+  | "create-in-progress"
+  | "create-complete"
+  | "create-failed"
+  | "delete-in-progress"
+  | "delete-complete"
+  | "delete-failed"
+  | (string & {});
+export const SecondaryNetworkState = S.String;
+export type SecondaryNetworkCidrBlockAssociationState =
+  | "associating"
+  | "associated"
+  | "association-failed"
+  | "disassociating"
+  | "disassociated"
+  | "disassociation-failed"
+  | (string & {});
+export const SecondaryNetworkCidrBlockAssociationState = S.String;
+export interface SecondaryNetworkIpv4CidrBlockAssociation {
+  AssociationId?: string;
+  CidrBlock?: string;
+  State?: SecondaryNetworkCidrBlockAssociationState;
+  StateReason?: string;
+}
+export const SecondaryNetworkIpv4CidrBlockAssociation = S.suspend(() =>
+  S.Struct({
+    AssociationId: S.optional(S.String).pipe(
+      T.XmlName("associationId"),
+      T.Ec2QueryName("AssociationId"),
+    ),
+    CidrBlock: S.optional(S.String).pipe(
+      T.XmlName("cidrBlock"),
+      T.Ec2QueryName("CidrBlock"),
+    ),
+    State: S.optional(SecondaryNetworkCidrBlockAssociationState).pipe(
+      T.XmlName("state"),
+      T.Ec2QueryName("State"),
+    ),
+    StateReason: S.optional(S.String).pipe(
+      T.XmlName("stateReason"),
+      T.Ec2QueryName("StateReason"),
+    ),
+  }),
+).annotate({
+  identifier: "SecondaryNetworkIpv4CidrBlockAssociation",
+}) as any as S.Schema<SecondaryNetworkIpv4CidrBlockAssociation>;
+export type SecondaryNetworkIpv4CidrBlockAssociationList =
+  SecondaryNetworkIpv4CidrBlockAssociation[];
+export const SecondaryNetworkIpv4CidrBlockAssociationList = S.Array(
+  SecondaryNetworkIpv4CidrBlockAssociation.pipe(T.XmlName("item")).annotate({
+    identifier: "SecondaryNetworkIpv4CidrBlockAssociation",
+  }),
+);
+export interface SecondaryNetwork {
+  SecondaryNetworkId?: string;
+  SecondaryNetworkArn?: string;
+  OwnerId?: string;
+  Type?: SecondaryNetworkType;
+  State?: SecondaryNetworkState;
+  StateReason?: string;
+  Ipv4CidrBlockAssociations?: SecondaryNetworkIpv4CidrBlockAssociation[];
+  Tags?: Tag[];
+}
+export const SecondaryNetwork = S.suspend(() =>
+  S.Struct({
+    SecondaryNetworkId: S.optional(S.String).pipe(
+      T.XmlName("secondaryNetworkId"),
+      T.Ec2QueryName("SecondaryNetworkId"),
+    ),
+    SecondaryNetworkArn: S.optional(S.String).pipe(
+      T.XmlName("secondaryNetworkArn"),
+      T.Ec2QueryName("SecondaryNetworkArn"),
+    ),
+    OwnerId: S.optional(S.String).pipe(
+      T.XmlName("ownerId"),
+      T.Ec2QueryName("OwnerId"),
+    ),
+    Type: S.optional(SecondaryNetworkType).pipe(
+      T.XmlName("type"),
+      T.Ec2QueryName("Type"),
+    ),
+    State: S.optional(SecondaryNetworkState).pipe(
+      T.XmlName("state"),
+      T.Ec2QueryName("State"),
+    ),
+    StateReason: S.optional(S.String).pipe(
+      T.XmlName("stateReason"),
+      T.Ec2QueryName("StateReason"),
+    ),
+    Ipv4CidrBlockAssociations: S.optional(
+      SecondaryNetworkIpv4CidrBlockAssociationList,
+    ).pipe(
+      T.XmlName("ipv4CidrBlockAssociationSet"),
+      T.Ec2QueryName("Ipv4CidrBlockAssociationSet"),
+    ),
+    Tags: S.optional(TagList).pipe(
+      T.XmlName("tagSet"),
+      T.Ec2QueryName("TagSet"),
+    ),
+  }),
+).annotate({
+  identifier: "SecondaryNetwork",
+}) as any as S.Schema<SecondaryNetwork>;
+export interface CreateSecondaryNetworkResult {
+  SecondaryNetwork?: SecondaryNetwork;
+  ClientToken?: string;
+}
+export const CreateSecondaryNetworkResult = S.suspend(() =>
+  S.Struct({
+    SecondaryNetwork: S.optional(SecondaryNetwork)
+      .pipe(T.XmlName("secondaryNetwork"), T.Ec2QueryName("SecondaryNetwork"))
+      .annotate({ identifier: "SecondaryNetwork" }),
+    ClientToken: S.optional(S.String).pipe(
+      T.XmlName("clientToken"),
+      T.Ec2QueryName("ClientToken"),
+    ),
+  }).pipe(ns),
+).annotate({
+  identifier: "CreateSecondaryNetworkResult",
+}) as any as S.Schema<CreateSecondaryNetworkResult>;
+export interface CreateSecondarySubnetRequest {
+  ClientToken?: string;
+  AvailabilityZone?: string;
+  AvailabilityZoneId?: string;
+  DryRun?: boolean;
+  Ipv4CidrBlock?: string;
+  SecondaryNetworkId?: string;
+  TagSpecifications?: TagSpecification[];
+}
+export const CreateSecondarySubnetRequest = S.suspend(() =>
+  S.Struct({
+    ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+    AvailabilityZone: S.optional(S.String),
+    AvailabilityZoneId: S.optional(S.String),
+    DryRun: S.optional(S.Boolean),
+    Ipv4CidrBlock: S.optional(S.String),
+    SecondaryNetworkId: S.optional(S.String),
+    TagSpecifications: S.optional(TagSpecificationList).pipe(
+      T.XmlName("TagSpecification"),
+    ),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "CreateSecondarySubnetRequest",
+}) as any as S.Schema<CreateSecondarySubnetRequest>;
+export type SecondarySubnetCidrBlockAssociationState =
+  | "associating"
+  | "associated"
+  | "association-failed"
+  | "disassociating"
+  | "disassociated"
+  | "disassociation-failed"
+  | (string & {});
+export const SecondarySubnetCidrBlockAssociationState = S.String;
+export interface SecondarySubnetIpv4CidrBlockAssociation {
+  AssociationId?: string;
+  CidrBlock?: string;
+  State?: SecondarySubnetCidrBlockAssociationState;
+  StateReason?: string;
+}
+export const SecondarySubnetIpv4CidrBlockAssociation = S.suspend(() =>
+  S.Struct({
+    AssociationId: S.optional(S.String).pipe(
+      T.XmlName("associationId"),
+      T.Ec2QueryName("AssociationId"),
+    ),
+    CidrBlock: S.optional(S.String).pipe(
+      T.XmlName("cidrBlock"),
+      T.Ec2QueryName("CidrBlock"),
+    ),
+    State: S.optional(SecondarySubnetCidrBlockAssociationState).pipe(
+      T.XmlName("state"),
+      T.Ec2QueryName("State"),
+    ),
+    StateReason: S.optional(S.String).pipe(
+      T.XmlName("stateReason"),
+      T.Ec2QueryName("StateReason"),
+    ),
+  }),
+).annotate({
+  identifier: "SecondarySubnetIpv4CidrBlockAssociation",
+}) as any as S.Schema<SecondarySubnetIpv4CidrBlockAssociation>;
+export type SecondarySubnetIpv4CidrBlockAssociationList =
+  SecondarySubnetIpv4CidrBlockAssociation[];
+export const SecondarySubnetIpv4CidrBlockAssociationList = S.Array(
+  SecondarySubnetIpv4CidrBlockAssociation.pipe(T.XmlName("item")).annotate({
+    identifier: "SecondarySubnetIpv4CidrBlockAssociation",
+  }),
+);
+export type SecondarySubnetState =
+  | "create-in-progress"
+  | "create-complete"
+  | "create-failed"
+  | "delete-in-progress"
+  | "delete-complete"
+  | "delete-failed"
+  | (string & {});
+export const SecondarySubnetState = S.String;
+export interface SecondarySubnet {
+  SecondarySubnetId?: string;
+  SecondarySubnetArn?: string;
+  SecondaryNetworkId?: string;
+  SecondaryNetworkType?: SecondaryNetworkType;
+  OwnerId?: string;
+  AvailabilityZoneId?: string;
+  AvailabilityZone?: string;
+  Ipv4CidrBlockAssociations?: SecondarySubnetIpv4CidrBlockAssociation[];
+  State?: SecondarySubnetState;
+  StateReason?: string;
+  Tags?: Tag[];
+}
+export const SecondarySubnet = S.suspend(() =>
+  S.Struct({
+    SecondarySubnetId: S.optional(S.String).pipe(
+      T.XmlName("secondarySubnetId"),
+      T.Ec2QueryName("SecondarySubnetId"),
+    ),
+    SecondarySubnetArn: S.optional(S.String).pipe(
+      T.XmlName("secondarySubnetArn"),
+      T.Ec2QueryName("SecondarySubnetArn"),
+    ),
+    SecondaryNetworkId: S.optional(S.String).pipe(
+      T.XmlName("secondaryNetworkId"),
+      T.Ec2QueryName("SecondaryNetworkId"),
+    ),
+    SecondaryNetworkType: S.optional(SecondaryNetworkType).pipe(
+      T.XmlName("secondaryNetworkType"),
+      T.Ec2QueryName("SecondaryNetworkType"),
+    ),
+    OwnerId: S.optional(S.String).pipe(
+      T.XmlName("ownerId"),
+      T.Ec2QueryName("OwnerId"),
+    ),
+    AvailabilityZoneId: S.optional(S.String).pipe(
+      T.XmlName("availabilityZoneId"),
+      T.Ec2QueryName("AvailabilityZoneId"),
+    ),
+    AvailabilityZone: S.optional(S.String).pipe(
+      T.XmlName("availabilityZone"),
+      T.Ec2QueryName("AvailabilityZone"),
+    ),
+    Ipv4CidrBlockAssociations: S.optional(
+      SecondarySubnetIpv4CidrBlockAssociationList,
+    ).pipe(
+      T.XmlName("ipv4CidrBlockAssociationSet"),
+      T.Ec2QueryName("Ipv4CidrBlockAssociationSet"),
+    ),
+    State: S.optional(SecondarySubnetState).pipe(
+      T.XmlName("state"),
+      T.Ec2QueryName("State"),
+    ),
+    StateReason: S.optional(S.String).pipe(
+      T.XmlName("stateReason"),
+      T.Ec2QueryName("StateReason"),
+    ),
+    Tags: S.optional(TagList).pipe(
+      T.XmlName("tagSet"),
+      T.Ec2QueryName("TagSet"),
+    ),
+  }),
+).annotate({
+  identifier: "SecondarySubnet",
+}) as any as S.Schema<SecondarySubnet>;
+export interface CreateSecondarySubnetResult {
+  SecondarySubnet?: SecondarySubnet;
+  ClientToken?: string;
+}
+export const CreateSecondarySubnetResult = S.suspend(() =>
+  S.Struct({
+    SecondarySubnet: S.optional(SecondarySubnet)
+      .pipe(T.XmlName("secondarySubnet"), T.Ec2QueryName("SecondarySubnet"))
+      .annotate({ identifier: "SecondarySubnet" }),
+    ClientToken: S.optional(S.String).pipe(
+      T.XmlName("clientToken"),
+      T.Ec2QueryName("ClientToken"),
+    ),
+  }).pipe(ns),
+).annotate({
+  identifier: "CreateSecondarySubnetResult",
+}) as any as S.Schema<CreateSecondarySubnetResult>;
 export interface CreateSecurityGroupRequest {
   Description?: string;
   GroupName?: string;
@@ -26829,6 +27435,88 @@ export const DeleteRouteTableResponse = S.suspend(() =>
 ).annotate({
   identifier: "DeleteRouteTableResponse",
 }) as any as S.Schema<DeleteRouteTableResponse>;
+export interface DeleteSecondaryNetworkRequest {
+  ClientToken?: string;
+  DryRun?: boolean;
+  SecondaryNetworkId?: string;
+}
+export const DeleteSecondaryNetworkRequest = S.suspend(() =>
+  S.Struct({
+    ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+    DryRun: S.optional(S.Boolean),
+    SecondaryNetworkId: S.optional(S.String),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeleteSecondaryNetworkRequest",
+}) as any as S.Schema<DeleteSecondaryNetworkRequest>;
+export interface DeleteSecondaryNetworkResult {
+  SecondaryNetwork?: SecondaryNetwork;
+  ClientToken?: string;
+}
+export const DeleteSecondaryNetworkResult = S.suspend(() =>
+  S.Struct({
+    SecondaryNetwork: S.optional(SecondaryNetwork)
+      .pipe(T.XmlName("secondaryNetwork"), T.Ec2QueryName("SecondaryNetwork"))
+      .annotate({ identifier: "SecondaryNetwork" }),
+    ClientToken: S.optional(S.String).pipe(
+      T.XmlName("clientToken"),
+      T.Ec2QueryName("ClientToken"),
+    ),
+  }).pipe(ns),
+).annotate({
+  identifier: "DeleteSecondaryNetworkResult",
+}) as any as S.Schema<DeleteSecondaryNetworkResult>;
+export interface DeleteSecondarySubnetRequest {
+  ClientToken?: string;
+  DryRun?: boolean;
+  SecondarySubnetId?: string;
+}
+export const DeleteSecondarySubnetRequest = S.suspend(() =>
+  S.Struct({
+    ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+    DryRun: S.optional(S.Boolean),
+    SecondarySubnetId: S.optional(S.String),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeleteSecondarySubnetRequest",
+}) as any as S.Schema<DeleteSecondarySubnetRequest>;
+export interface DeleteSecondarySubnetResult {
+  SecondarySubnet?: SecondarySubnet;
+  ClientToken?: string;
+}
+export const DeleteSecondarySubnetResult = S.suspend(() =>
+  S.Struct({
+    SecondarySubnet: S.optional(SecondarySubnet)
+      .pipe(T.XmlName("secondarySubnet"), T.Ec2QueryName("SecondarySubnet"))
+      .annotate({ identifier: "SecondarySubnet" }),
+    ClientToken: S.optional(S.String).pipe(
+      T.XmlName("clientToken"),
+      T.Ec2QueryName("ClientToken"),
+    ),
+  }).pipe(ns),
+).annotate({
+  identifier: "DeleteSecondarySubnetResult",
+}) as any as S.Schema<DeleteSecondarySubnetResult>;
 export interface DeleteSecurityGroupRequest {
   GroupId?: string;
   GroupName?: string;
@@ -29297,6 +29985,38 @@ export const AvailabilityZoneMessageList = S.Array(
     identifier: "AvailabilityZoneMessage",
   }),
 );
+export interface AvailabilityZoneGeography {
+  Name?: string;
+}
+export const AvailabilityZoneGeography = S.suspend(() =>
+  S.Struct({
+    Name: S.optional(S.String).pipe(T.XmlName("name"), T.Ec2QueryName("Name")),
+  }),
+).annotate({
+  identifier: "AvailabilityZoneGeography",
+}) as any as S.Schema<AvailabilityZoneGeography>;
+export type AvailabilityZoneGeographyList = AvailabilityZoneGeography[];
+export const AvailabilityZoneGeographyList = S.Array(
+  AvailabilityZoneGeography.pipe(T.XmlName("item")).annotate({
+    identifier: "AvailabilityZoneGeography",
+  }),
+);
+export interface AvailabilityZoneSubGeography {
+  Name?: string;
+}
+export const AvailabilityZoneSubGeography = S.suspend(() =>
+  S.Struct({
+    Name: S.optional(S.String).pipe(T.XmlName("name"), T.Ec2QueryName("Name")),
+  }),
+).annotate({
+  identifier: "AvailabilityZoneSubGeography",
+}) as any as S.Schema<AvailabilityZoneSubGeography>;
+export type AvailabilityZoneSubGeographyList = AvailabilityZoneSubGeography[];
+export const AvailabilityZoneSubGeographyList = S.Array(
+  AvailabilityZoneSubGeography.pipe(T.XmlName("item")).annotate({
+    identifier: "AvailabilityZoneSubGeography",
+  }),
+);
 export type AvailabilityZoneState =
   | "available"
   | "information"
@@ -29317,6 +30037,8 @@ export interface AvailabilityZone {
   ParentZoneName?: string;
   ParentZoneId?: string;
   GroupLongName?: string;
+  Geography?: AvailabilityZoneGeography[];
+  SubGeography?: AvailabilityZoneSubGeography[];
   State?: AvailabilityZoneState;
 }
 export const AvailabilityZone = S.suspend(() =>
@@ -29364,6 +30086,14 @@ export const AvailabilityZone = S.suspend(() =>
     GroupLongName: S.optional(S.String).pipe(
       T.XmlName("groupLongName"),
       T.Ec2QueryName("GroupLongName"),
+    ),
+    Geography: S.optional(AvailabilityZoneGeographyList).pipe(
+      T.XmlName("geographySet"),
+      T.Ec2QueryName("GeographySet"),
+    ),
+    SubGeography: S.optional(AvailabilityZoneSubGeographyList).pipe(
+      T.XmlName("subGeographySet"),
+      T.Ec2QueryName("SubGeographySet"),
     ),
     State: S.optional(AvailabilityZoneState).pipe(
       T.XmlName("zoneState"),
@@ -35959,6 +36689,7 @@ export interface EbsInstanceBlockDevice {
   AssociatedResource?: string;
   VolumeOwnerId?: string;
   Operator?: OperatorResponse;
+  EbsCardIndex?: number;
 }
 export const EbsInstanceBlockDevice = S.suspend(() =>
   S.Struct({
@@ -35988,6 +36719,10 @@ export const EbsInstanceBlockDevice = S.suspend(() =>
     Operator: S.optional(OperatorResponse)
       .pipe(T.XmlName("operator"), T.Ec2QueryName("Operator"))
       .annotate({ identifier: "OperatorResponse" }),
+    EbsCardIndex: S.optional(S.Number).pipe(
+      T.XmlName("ebsCardIndex"),
+      T.Ec2QueryName("EbsCardIndex"),
+    ),
   }),
 ).annotate({
   identifier: "EbsInstanceBlockDevice",
@@ -36962,6 +37697,7 @@ export interface CpuOptions {
   CoreCount?: number;
   ThreadsPerCore?: number;
   AmdSevSnp?: AmdSevSnpSpecification;
+  NestedVirtualization?: NestedVirtualizationSpecification;
 }
 export const CpuOptions = S.suspend(() =>
   S.Struct({
@@ -36976,6 +37712,10 @@ export const CpuOptions = S.suspend(() =>
     AmdSevSnp: S.optional(AmdSevSnpSpecification).pipe(
       T.XmlName("amdSevSnp"),
       T.Ec2QueryName("AmdSevSnp"),
+    ),
+    NestedVirtualization: S.optional(NestedVirtualizationSpecification).pipe(
+      T.XmlName("nestedVirtualization"),
+      T.Ec2QueryName("NestedVirtualization"),
     ),
   }),
 ).annotate({ identifier: "CpuOptions" }) as any as S.Schema<CpuOptions>;
@@ -37153,6 +37893,130 @@ export const InstanceNetworkPerformanceOptions = S.suspend(() =>
 ).annotate({
   identifier: "InstanceNetworkPerformanceOptions",
 }) as any as S.Schema<InstanceNetworkPerformanceOptions>;
+export interface InstanceSecondaryInterfaceAttachment {
+  AttachTime?: Date;
+  AttachmentId?: string;
+  DeleteOnTermination?: boolean;
+  DeviceIndex?: number;
+  Status?: AttachmentStatus;
+  NetworkCardIndex?: number;
+}
+export const InstanceSecondaryInterfaceAttachment = S.suspend(() =>
+  S.Struct({
+    AttachTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("attachTime"), T.Ec2QueryName("AttachTime")),
+    AttachmentId: S.optional(S.String).pipe(
+      T.XmlName("attachmentId"),
+      T.Ec2QueryName("AttachmentId"),
+    ),
+    DeleteOnTermination: S.optional(S.Boolean).pipe(
+      T.XmlName("deleteOnTermination"),
+      T.Ec2QueryName("DeleteOnTermination"),
+    ),
+    DeviceIndex: S.optional(S.Number).pipe(
+      T.XmlName("deviceIndex"),
+      T.Ec2QueryName("DeviceIndex"),
+    ),
+    Status: S.optional(AttachmentStatus).pipe(
+      T.XmlName("status"),
+      T.Ec2QueryName("Status"),
+    ),
+    NetworkCardIndex: S.optional(S.Number).pipe(
+      T.XmlName("networkCardIndex"),
+      T.Ec2QueryName("NetworkCardIndex"),
+    ),
+  }),
+).annotate({
+  identifier: "InstanceSecondaryInterfaceAttachment",
+}) as any as S.Schema<InstanceSecondaryInterfaceAttachment>;
+export interface InstanceSecondaryInterfacePrivateIpAddress {
+  PrivateIpAddress?: string;
+}
+export const InstanceSecondaryInterfacePrivateIpAddress = S.suspend(() =>
+  S.Struct({
+    PrivateIpAddress: S.optional(S.String).pipe(
+      T.XmlName("privateIpAddress"),
+      T.Ec2QueryName("PrivateIpAddress"),
+    ),
+  }),
+).annotate({
+  identifier: "InstanceSecondaryInterfacePrivateIpAddress",
+}) as any as S.Schema<InstanceSecondaryInterfacePrivateIpAddress>;
+export type InstanceSecondaryInterfacePrivateIpAddressList =
+  InstanceSecondaryInterfacePrivateIpAddress[];
+export const InstanceSecondaryInterfacePrivateIpAddressList = S.Array(
+  InstanceSecondaryInterfacePrivateIpAddress.pipe(T.XmlName("item")).annotate({
+    identifier: "InstanceSecondaryInterfacePrivateIpAddress",
+  }),
+);
+export type SecondaryInterfaceStatus = "available" | "in-use" | (string & {});
+export const SecondaryInterfaceStatus = S.String;
+export interface InstanceSecondaryInterface {
+  Attachment?: InstanceSecondaryInterfaceAttachment;
+  MacAddress?: string;
+  SecondaryInterfaceId?: string;
+  OwnerId?: string;
+  PrivateIpAddresses?: InstanceSecondaryInterfacePrivateIpAddress[];
+  SourceDestCheck?: boolean;
+  Status?: SecondaryInterfaceStatus;
+  SecondarySubnetId?: string;
+  SecondaryNetworkId?: string;
+  InterfaceType?: SecondaryInterfaceType;
+}
+export const InstanceSecondaryInterface = S.suspend(() =>
+  S.Struct({
+    Attachment: S.optional(InstanceSecondaryInterfaceAttachment)
+      .pipe(T.XmlName("attachment"), T.Ec2QueryName("Attachment"))
+      .annotate({ identifier: "InstanceSecondaryInterfaceAttachment" }),
+    MacAddress: S.optional(S.String).pipe(
+      T.XmlName("macAddress"),
+      T.Ec2QueryName("MacAddress"),
+    ),
+    SecondaryInterfaceId: S.optional(S.String).pipe(
+      T.XmlName("secondaryInterfaceId"),
+      T.Ec2QueryName("SecondaryInterfaceId"),
+    ),
+    OwnerId: S.optional(S.String).pipe(
+      T.XmlName("ownerId"),
+      T.Ec2QueryName("OwnerId"),
+    ),
+    PrivateIpAddresses: S.optional(
+      InstanceSecondaryInterfacePrivateIpAddressList,
+    ).pipe(
+      T.XmlName("privateIpAddressSet"),
+      T.Ec2QueryName("PrivateIpAddressSet"),
+    ),
+    SourceDestCheck: S.optional(S.Boolean).pipe(
+      T.XmlName("sourceDestCheck"),
+      T.Ec2QueryName("SourceDestCheck"),
+    ),
+    Status: S.optional(SecondaryInterfaceStatus).pipe(
+      T.XmlName("status"),
+      T.Ec2QueryName("Status"),
+    ),
+    SecondarySubnetId: S.optional(S.String).pipe(
+      T.XmlName("secondarySubnetId"),
+      T.Ec2QueryName("SecondarySubnetId"),
+    ),
+    SecondaryNetworkId: S.optional(S.String).pipe(
+      T.XmlName("secondaryNetworkId"),
+      T.Ec2QueryName("SecondaryNetworkId"),
+    ),
+    InterfaceType: S.optional(SecondaryInterfaceType).pipe(
+      T.XmlName("interfaceType"),
+      T.Ec2QueryName("InterfaceType"),
+    ),
+  }),
+).annotate({
+  identifier: "InstanceSecondaryInterface",
+}) as any as S.Schema<InstanceSecondaryInterface>;
+export type InstanceSecondaryInterfaceList = InstanceSecondaryInterface[];
+export const InstanceSecondaryInterfaceList = S.Array(
+  InstanceSecondaryInterface.pipe(T.XmlName("item")).annotate({
+    identifier: "InstanceSecondaryInterface",
+  }),
+);
 export type MonitoringState =
   | "disabled"
   | "disabling"
@@ -37212,6 +38076,7 @@ export interface Instance {
   CurrentInstanceBootMode?: InstanceBootModeValues;
   NetworkPerformanceOptions?: InstanceNetworkPerformanceOptions;
   Operator?: OperatorResponse;
+  SecondaryInterfaces?: InstanceSecondaryInterface[];
   InstanceId?: string;
   ImageId?: string;
   State?: InstanceState;
@@ -37408,6 +38273,10 @@ export const Instance = S.suspend(() =>
     Operator: S.optional(OperatorResponse)
       .pipe(T.XmlName("operator"), T.Ec2QueryName("Operator"))
       .annotate({ identifier: "OperatorResponse" }),
+    SecondaryInterfaces: S.optional(InstanceSecondaryInterfaceList).pipe(
+      T.XmlName("secondaryInterfaceSet"),
+      T.Ec2QueryName("SecondaryInterfaceSet"),
+    ),
     InstanceId: S.optional(S.String).pipe(
       T.XmlName("instanceId"),
       T.Ec2QueryName("InstanceId"),
@@ -38219,7 +39088,10 @@ export type ArchitectureTypeList = ArchitectureType[];
 export const ArchitectureTypeList = S.Array(
   ArchitectureType.pipe(T.XmlName("item")),
 );
-export type SupportedAdditionalProcessorFeature = "amd-sev-snp" | (string & {});
+export type SupportedAdditionalProcessorFeature =
+  | "amd-sev-snp"
+  | "nested-virtualization"
+  | (string & {});
 export const SupportedAdditionalProcessorFeature = S.String;
 export type SupportedAdditionalProcessorFeatureList =
   SupportedAdditionalProcessorFeature[];
@@ -38415,6 +39287,51 @@ export type EbsNvmeSupport =
 export const EbsNvmeSupport = S.String;
 export type AttachmentLimitType = "shared" | "dedicated" | (string & {});
 export const AttachmentLimitType = S.String;
+export interface EbsCardInfo {
+  EbsCardIndex?: number;
+  BaselineBandwidthInMbps?: number;
+  BaselineThroughputInMBps?: number;
+  BaselineIops?: number;
+  MaximumBandwidthInMbps?: number;
+  MaximumThroughputInMBps?: number;
+  MaximumIops?: number;
+}
+export const EbsCardInfo = S.suspend(() =>
+  S.Struct({
+    EbsCardIndex: S.optional(S.Number).pipe(
+      T.XmlName("ebsCardIndex"),
+      T.Ec2QueryName("EbsCardIndex"),
+    ),
+    BaselineBandwidthInMbps: S.optional(S.Number).pipe(
+      T.XmlName("baselineBandwidthInMbps"),
+      T.Ec2QueryName("BaselineBandwidthInMbps"),
+    ),
+    BaselineThroughputInMBps: S.optional(S.Number).pipe(
+      T.XmlName("baselineThroughputInMBps"),
+      T.Ec2QueryName("BaselineThroughputInMBps"),
+    ),
+    BaselineIops: S.optional(S.Number).pipe(
+      T.XmlName("baselineIops"),
+      T.Ec2QueryName("BaselineIops"),
+    ),
+    MaximumBandwidthInMbps: S.optional(S.Number).pipe(
+      T.XmlName("maximumBandwidthInMbps"),
+      T.Ec2QueryName("MaximumBandwidthInMbps"),
+    ),
+    MaximumThroughputInMBps: S.optional(S.Number).pipe(
+      T.XmlName("maximumThroughputInMBps"),
+      T.Ec2QueryName("MaximumThroughputInMBps"),
+    ),
+    MaximumIops: S.optional(S.Number).pipe(
+      T.XmlName("maximumIops"),
+      T.Ec2QueryName("MaximumIops"),
+    ),
+  }),
+).annotate({ identifier: "EbsCardInfo" }) as any as S.Schema<EbsCardInfo>;
+export type EbsCardInfoList = EbsCardInfo[];
+export const EbsCardInfoList = S.Array(
+  EbsCardInfo.pipe(T.XmlName("item")).annotate({ identifier: "EbsCardInfo" }),
+);
 export interface EbsInfo {
   EbsOptimizedSupport?: EbsOptimizedSupport;
   EncryptionSupport?: EbsEncryptionSupport;
@@ -38422,6 +39339,8 @@ export interface EbsInfo {
   NvmeSupport?: EbsNvmeSupport;
   MaximumEbsAttachments?: number;
   AttachmentLimitType?: AttachmentLimitType;
+  MaximumEbsCards?: number;
+  EbsCards?: EbsCardInfo[];
 }
 export const EbsInfo = S.suspend(() =>
   S.Struct({
@@ -38448,12 +39367,21 @@ export const EbsInfo = S.suspend(() =>
       T.XmlName("attachmentLimitType"),
       T.Ec2QueryName("AttachmentLimitType"),
     ),
+    MaximumEbsCards: S.optional(S.Number).pipe(
+      T.XmlName("maximumEbsCards"),
+      T.Ec2QueryName("MaximumEbsCards"),
+    ),
+    EbsCards: S.optional(EbsCardInfoList).pipe(
+      T.XmlName("ebsCardSet"),
+      T.Ec2QueryName("EbsCardSet"),
+    ),
   }),
 ).annotate({ identifier: "EbsInfo" }) as any as S.Schema<EbsInfo>;
 export interface NetworkCardInfo {
   NetworkCardIndex?: number;
   NetworkPerformance?: string;
   MaximumNetworkInterfaces?: number;
+  AdditionalFlexibleNetworkInterfaces?: number;
   BaselineBandwidthInGbps?: number;
   PeakBandwidthInGbps?: number;
   DefaultEnaQueueCountPerInterface?: number;
@@ -38473,6 +39401,10 @@ export const NetworkCardInfo = S.suspend(() =>
     MaximumNetworkInterfaces: S.optional(S.Number).pipe(
       T.XmlName("maximumNetworkInterfaces"),
       T.Ec2QueryName("MaximumNetworkInterfaces"),
+    ),
+    AdditionalFlexibleNetworkInterfaces: S.optional(S.Number).pipe(
+      T.XmlName("additionalFlexibleNetworkInterfaces"),
+      T.Ec2QueryName("AdditionalFlexibleNetworkInterfaces"),
     ),
     BaselineBandwidthInGbps: S.optional(S.Number).pipe(
       T.XmlName("baselineBandwidthInGbps"),
@@ -38552,6 +39484,9 @@ export interface NetworkInfo {
   EnaSrdSupported?: boolean;
   BandwidthWeightings?: BandwidthWeightingType[];
   FlexibleEnaQueuesSupport?: FlexibleEnaQueuesSupport;
+  SecondaryNetworkSupported?: boolean;
+  MaximumSecondaryNetworkInterfaces?: number;
+  Ipv4AddressesPerSecondaryInterface?: number;
 }
 export const NetworkInfo = S.suspend(() =>
   S.Struct({
@@ -38614,8 +39549,22 @@ export const NetworkInfo = S.suspend(() =>
       T.XmlName("flexibleEnaQueuesSupport"),
       T.Ec2QueryName("FlexibleEnaQueuesSupport"),
     ),
+    SecondaryNetworkSupported: S.optional(S.Boolean).pipe(
+      T.XmlName("secondaryNetworkSupported"),
+      T.Ec2QueryName("SecondaryNetworkSupported"),
+    ),
+    MaximumSecondaryNetworkInterfaces: S.optional(S.Number).pipe(
+      T.XmlName("maximumSecondaryNetworkInterfaces"),
+      T.Ec2QueryName("MaximumSecondaryNetworkInterfaces"),
+    ),
+    Ipv4AddressesPerSecondaryInterface: S.optional(S.Number).pipe(
+      T.XmlName("ipv4AddressesPerSecondaryInterface"),
+      T.Ec2QueryName("Ipv4AddressesPerSecondaryInterface"),
+    ),
   }),
 ).annotate({ identifier: "NetworkInfo" }) as any as S.Schema<NetworkInfo>;
+export type WorkloadsList = string[];
+export const WorkloadsList = S.Array(S.String.pipe(T.XmlName("item")));
 export interface GpuDeviceMemoryInfo {
   SizeInMiB?: number;
 }
@@ -38633,6 +39582,9 @@ export interface GpuDeviceInfo {
   Name?: string;
   Manufacturer?: string;
   Count?: number;
+  LogicalGpuCount?: number;
+  GpuPartitionSize?: number;
+  Workloads?: string[];
   MemoryInfo?: GpuDeviceMemoryInfo;
 }
 export const GpuDeviceInfo = S.suspend(() =>
@@ -38645,6 +39597,18 @@ export const GpuDeviceInfo = S.suspend(() =>
     Count: S.optional(S.Number).pipe(
       T.XmlName("count"),
       T.Ec2QueryName("Count"),
+    ),
+    LogicalGpuCount: S.optional(S.Number).pipe(
+      T.XmlName("logicalGpuCount"),
+      T.Ec2QueryName("LogicalGpuCount"),
+    ),
+    GpuPartitionSize: S.optional(S.Number).pipe(
+      T.XmlName("gpuPartitionSize"),
+      T.Ec2QueryName("GpuPartitionSize"),
+    ),
+    Workloads: S.optional(WorkloadsList).pipe(
+      T.XmlName("workloadSet"),
+      T.Ec2QueryName("WorkloadSet"),
     ),
     MemoryInfo: S.optional(GpuDeviceMemoryInfo)
       .pipe(T.XmlName("memoryInfo"), T.Ec2QueryName("MemoryInfo"))
@@ -42954,8 +43918,25 @@ export const DescribeRegionsRequest = S.suspend(() =>
 ).annotate({
   identifier: "DescribeRegionsRequest",
 }) as any as S.Schema<DescribeRegionsRequest>;
+export interface RegionGeography {
+  Name?: string;
+}
+export const RegionGeography = S.suspend(() =>
+  S.Struct({
+    Name: S.optional(S.String).pipe(T.XmlName("name"), T.Ec2QueryName("Name")),
+  }),
+).annotate({
+  identifier: "RegionGeography",
+}) as any as S.Schema<RegionGeography>;
+export type RegionGeographyList = RegionGeography[];
+export const RegionGeographyList = S.Array(
+  RegionGeography.pipe(T.XmlName("item")).annotate({
+    identifier: "RegionGeography",
+  }),
+);
 export interface Region {
   OptInStatus?: string;
+  Geography?: RegionGeography[];
   RegionName?: string;
   Endpoint?: string;
 }
@@ -42964,6 +43945,10 @@ export const Region = S.suspend(() =>
     OptInStatus: S.optional(S.String).pipe(
       T.XmlName("optInStatus"),
       T.Ec2QueryName("OptInStatus"),
+    ),
+    Geography: S.optional(RegionGeographyList).pipe(
+      T.XmlName("geographySet"),
+      T.Ec2QueryName("GeographySet"),
     ),
     RegionName: S.optional(S.String).pipe(
       T.XmlName("regionName"),
@@ -44289,6 +45274,324 @@ export const DescribeScheduledInstancesResult = S.suspend(() =>
 ).annotate({
   identifier: "DescribeScheduledInstancesResult",
 }) as any as S.Schema<DescribeScheduledInstancesResult>;
+export type SecondaryInterfaceIdList = string[];
+export const SecondaryInterfaceIdList = S.Array(
+  S.String.pipe(T.XmlName("item")),
+);
+export interface DescribeSecondaryInterfacesRequest {
+  DryRun?: boolean;
+  Filters?: Filter[];
+  MaxResults?: number;
+  NextToken?: string;
+  SecondaryInterfaceIds?: string[];
+}
+export const DescribeSecondaryInterfacesRequest = S.suspend(() =>
+  S.Struct({
+    DryRun: S.optional(S.Boolean),
+    Filters: S.optional(FilterList).pipe(T.XmlName("Filter")),
+    MaxResults: S.optional(S.Number),
+    NextToken: S.optional(S.String),
+    SecondaryInterfaceIds: S.optional(SecondaryInterfaceIdList).pipe(
+      T.XmlName("SecondaryInterfaceId"),
+    ),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DescribeSecondaryInterfacesRequest",
+}) as any as S.Schema<DescribeSecondaryInterfacesRequest>;
+export interface SecondaryInterfaceAttachment {
+  AttachmentId?: string;
+  AttachTime?: Date;
+  DeleteOnTermination?: boolean;
+  DeviceIndex?: number;
+  InstanceId?: string;
+  InstanceOwnerId?: string;
+  NetworkCardIndex?: number;
+  Status?: AttachmentStatus;
+}
+export const SecondaryInterfaceAttachment = S.suspend(() =>
+  S.Struct({
+    AttachmentId: S.optional(S.String).pipe(
+      T.XmlName("attachmentId"),
+      T.Ec2QueryName("AttachmentId"),
+    ),
+    AttachTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("attachTime"), T.Ec2QueryName("AttachTime")),
+    DeleteOnTermination: S.optional(S.Boolean).pipe(
+      T.XmlName("deleteOnTermination"),
+      T.Ec2QueryName("DeleteOnTermination"),
+    ),
+    DeviceIndex: S.optional(S.Number).pipe(
+      T.XmlName("deviceIndex"),
+      T.Ec2QueryName("DeviceIndex"),
+    ),
+    InstanceId: S.optional(S.String).pipe(
+      T.XmlName("instanceId"),
+      T.Ec2QueryName("InstanceId"),
+    ),
+    InstanceOwnerId: S.optional(S.String).pipe(
+      T.XmlName("instanceOwnerId"),
+      T.Ec2QueryName("InstanceOwnerId"),
+    ),
+    NetworkCardIndex: S.optional(S.Number).pipe(
+      T.XmlName("networkCardIndex"),
+      T.Ec2QueryName("NetworkCardIndex"),
+    ),
+    Status: S.optional(AttachmentStatus).pipe(
+      T.XmlName("status"),
+      T.Ec2QueryName("Status"),
+    ),
+  }),
+).annotate({
+  identifier: "SecondaryInterfaceAttachment",
+}) as any as S.Schema<SecondaryInterfaceAttachment>;
+export interface SecondaryInterfaceIpv4Address {
+  PrivateIpAddress?: string;
+}
+export const SecondaryInterfaceIpv4Address = S.suspend(() =>
+  S.Struct({
+    PrivateIpAddress: S.optional(S.String).pipe(
+      T.XmlName("privateIpAddress"),
+      T.Ec2QueryName("PrivateIpAddress"),
+    ),
+  }),
+).annotate({
+  identifier: "SecondaryInterfaceIpv4Address",
+}) as any as S.Schema<SecondaryInterfaceIpv4Address>;
+export type SecondaryInterfaceIpv4AddressList = SecondaryInterfaceIpv4Address[];
+export const SecondaryInterfaceIpv4AddressList = S.Array(
+  SecondaryInterfaceIpv4Address.pipe(T.XmlName("item")).annotate({
+    identifier: "SecondaryInterfaceIpv4Address",
+  }),
+);
+export interface SecondaryInterface {
+  AvailabilityZone?: string;
+  AvailabilityZoneId?: string;
+  Attachment?: SecondaryInterfaceAttachment;
+  MacAddress?: string;
+  OwnerId?: string;
+  PrivateIpv4Addresses?: SecondaryInterfaceIpv4Address[];
+  SecondaryInterfaceId?: string;
+  SecondaryInterfaceArn?: string;
+  SecondaryInterfaceType?: SecondaryInterfaceType;
+  SecondarySubnetId?: string;
+  SecondaryNetworkId?: string;
+  SecondaryNetworkType?: SecondaryNetworkType;
+  SourceDestCheck?: boolean;
+  Status?: SecondaryInterfaceStatus;
+  Tags?: Tag[];
+}
+export const SecondaryInterface = S.suspend(() =>
+  S.Struct({
+    AvailabilityZone: S.optional(S.String).pipe(
+      T.XmlName("availabilityZone"),
+      T.Ec2QueryName("AvailabilityZone"),
+    ),
+    AvailabilityZoneId: S.optional(S.String).pipe(
+      T.XmlName("availabilityZoneId"),
+      T.Ec2QueryName("AvailabilityZoneId"),
+    ),
+    Attachment: S.optional(SecondaryInterfaceAttachment)
+      .pipe(T.XmlName("attachment"), T.Ec2QueryName("Attachment"))
+      .annotate({ identifier: "SecondaryInterfaceAttachment" }),
+    MacAddress: S.optional(S.String).pipe(
+      T.XmlName("macAddress"),
+      T.Ec2QueryName("MacAddress"),
+    ),
+    OwnerId: S.optional(S.String).pipe(
+      T.XmlName("ownerId"),
+      T.Ec2QueryName("OwnerId"),
+    ),
+    PrivateIpv4Addresses: S.optional(SecondaryInterfaceIpv4AddressList).pipe(
+      T.XmlName("privateIpv4AddressSet"),
+      T.Ec2QueryName("PrivateIpv4AddressSet"),
+    ),
+    SecondaryInterfaceId: S.optional(S.String).pipe(
+      T.XmlName("secondaryInterfaceId"),
+      T.Ec2QueryName("SecondaryInterfaceId"),
+    ),
+    SecondaryInterfaceArn: S.optional(S.String).pipe(
+      T.XmlName("secondaryInterfaceArn"),
+      T.Ec2QueryName("SecondaryInterfaceArn"),
+    ),
+    SecondaryInterfaceType: S.optional(SecondaryInterfaceType).pipe(
+      T.XmlName("secondaryInterfaceType"),
+      T.Ec2QueryName("SecondaryInterfaceType"),
+    ),
+    SecondarySubnetId: S.optional(S.String).pipe(
+      T.XmlName("secondarySubnetId"),
+      T.Ec2QueryName("SecondarySubnetId"),
+    ),
+    SecondaryNetworkId: S.optional(S.String).pipe(
+      T.XmlName("secondaryNetworkId"),
+      T.Ec2QueryName("SecondaryNetworkId"),
+    ),
+    SecondaryNetworkType: S.optional(SecondaryNetworkType).pipe(
+      T.XmlName("secondaryNetworkType"),
+      T.Ec2QueryName("SecondaryNetworkType"),
+    ),
+    SourceDestCheck: S.optional(S.Boolean).pipe(
+      T.XmlName("sourceDestCheck"),
+      T.Ec2QueryName("SourceDestCheck"),
+    ),
+    Status: S.optional(SecondaryInterfaceStatus).pipe(
+      T.XmlName("status"),
+      T.Ec2QueryName("Status"),
+    ),
+    Tags: S.optional(TagList).pipe(
+      T.XmlName("tagSet"),
+      T.Ec2QueryName("TagSet"),
+    ),
+  }),
+).annotate({
+  identifier: "SecondaryInterface",
+}) as any as S.Schema<SecondaryInterface>;
+export type SecondaryInterfaceList = SecondaryInterface[];
+export const SecondaryInterfaceList = S.Array(
+  SecondaryInterface.pipe(T.XmlName("item")).annotate({
+    identifier: "SecondaryInterface",
+  }),
+);
+export interface DescribeSecondaryInterfacesResult {
+  SecondaryInterfaces?: SecondaryInterface[];
+  NextToken?: string;
+}
+export const DescribeSecondaryInterfacesResult = S.suspend(() =>
+  S.Struct({
+    SecondaryInterfaces: S.optional(SecondaryInterfaceList).pipe(
+      T.XmlName("secondaryInterfaceSet"),
+      T.Ec2QueryName("SecondaryInterfaceSet"),
+    ),
+    NextToken: S.optional(S.String).pipe(
+      T.XmlName("nextToken"),
+      T.Ec2QueryName("NextToken"),
+    ),
+  }).pipe(ns),
+).annotate({
+  identifier: "DescribeSecondaryInterfacesResult",
+}) as any as S.Schema<DescribeSecondaryInterfacesResult>;
+export type SecondaryNetworkIdList = string[];
+export const SecondaryNetworkIdList = S.Array(S.String.pipe(T.XmlName("item")));
+export interface DescribeSecondaryNetworksRequest {
+  DryRun?: boolean;
+  Filters?: Filter[];
+  MaxResults?: number;
+  NextToken?: string;
+  SecondaryNetworkIds?: string[];
+}
+export const DescribeSecondaryNetworksRequest = S.suspend(() =>
+  S.Struct({
+    DryRun: S.optional(S.Boolean),
+    Filters: S.optional(FilterList).pipe(T.XmlName("Filter")),
+    MaxResults: S.optional(S.Number),
+    NextToken: S.optional(S.String),
+    SecondaryNetworkIds: S.optional(SecondaryNetworkIdList).pipe(
+      T.XmlName("SecondaryNetworkId"),
+    ),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DescribeSecondaryNetworksRequest",
+}) as any as S.Schema<DescribeSecondaryNetworksRequest>;
+export type SecondaryNetworkList = SecondaryNetwork[];
+export const SecondaryNetworkList = S.Array(
+  SecondaryNetwork.pipe(T.XmlName("item")).annotate({
+    identifier: "SecondaryNetwork",
+  }),
+);
+export interface DescribeSecondaryNetworksResult {
+  SecondaryNetworks?: SecondaryNetwork[];
+  NextToken?: string;
+}
+export const DescribeSecondaryNetworksResult = S.suspend(() =>
+  S.Struct({
+    SecondaryNetworks: S.optional(SecondaryNetworkList).pipe(
+      T.XmlName("secondaryNetworkSet"),
+      T.Ec2QueryName("SecondaryNetworkSet"),
+    ),
+    NextToken: S.optional(S.String).pipe(
+      T.XmlName("nextToken"),
+      T.Ec2QueryName("NextToken"),
+    ),
+  }).pipe(ns),
+).annotate({
+  identifier: "DescribeSecondaryNetworksResult",
+}) as any as S.Schema<DescribeSecondaryNetworksResult>;
+export type SecondarySubnetIdList = string[];
+export const SecondarySubnetIdList = S.Array(S.String.pipe(T.XmlName("item")));
+export interface DescribeSecondarySubnetsRequest {
+  DryRun?: boolean;
+  Filters?: Filter[];
+  MaxResults?: number;
+  NextToken?: string;
+  SecondarySubnetIds?: string[];
+}
+export const DescribeSecondarySubnetsRequest = S.suspend(() =>
+  S.Struct({
+    DryRun: S.optional(S.Boolean),
+    Filters: S.optional(FilterList).pipe(T.XmlName("Filter")),
+    MaxResults: S.optional(S.Number),
+    NextToken: S.optional(S.String),
+    SecondarySubnetIds: S.optional(SecondarySubnetIdList).pipe(
+      T.XmlName("SecondarySubnetId"),
+    ),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DescribeSecondarySubnetsRequest",
+}) as any as S.Schema<DescribeSecondarySubnetsRequest>;
+export type SecondarySubnetList = SecondarySubnet[];
+export const SecondarySubnetList = S.Array(
+  SecondarySubnet.pipe(T.XmlName("item")).annotate({
+    identifier: "SecondarySubnet",
+  }),
+);
+export interface DescribeSecondarySubnetsResult {
+  SecondarySubnets?: SecondarySubnet[];
+  NextToken?: string;
+}
+export const DescribeSecondarySubnetsResult = S.suspend(() =>
+  S.Struct({
+    SecondarySubnets: S.optional(SecondarySubnetList).pipe(
+      T.XmlName("secondarySubnetSet"),
+      T.Ec2QueryName("SecondarySubnetSet"),
+    ),
+    NextToken: S.optional(S.String).pipe(
+      T.XmlName("nextToken"),
+      T.Ec2QueryName("NextToken"),
+    ),
+  }).pipe(ns),
+).annotate({
+  identifier: "DescribeSecondarySubnetsResult",
+}) as any as S.Schema<DescribeSecondarySubnetsResult>;
 export type GroupIds = string[];
 export const GroupIds = S.Array(S.String.pipe(T.XmlName("item")));
 export interface DescribeSecurityGroupReferencesRequest {
@@ -61193,6 +62496,7 @@ export interface ModifyInstanceCpuOptionsRequest {
   InstanceId?: string;
   CoreCount?: number;
   ThreadsPerCore?: number;
+  NestedVirtualization?: NestedVirtualizationSpecification;
   DryRun?: boolean;
 }
 export const ModifyInstanceCpuOptionsRequest = S.suspend(() =>
@@ -61200,6 +62504,7 @@ export const ModifyInstanceCpuOptionsRequest = S.suspend(() =>
     InstanceId: S.optional(S.String),
     CoreCount: S.optional(S.Number),
     ThreadsPerCore: S.optional(S.Number),
+    NestedVirtualization: S.optional(NestedVirtualizationSpecification),
     DryRun: S.optional(S.Boolean),
   }).pipe(
     T.all(
@@ -61219,6 +62524,7 @@ export interface ModifyInstanceCpuOptionsResult {
   InstanceId?: string;
   CoreCount?: number;
   ThreadsPerCore?: number;
+  NestedVirtualization?: NestedVirtualizationSpecification;
 }
 export const ModifyInstanceCpuOptionsResult = S.suspend(() =>
   S.Struct({
@@ -61233,6 +62539,10 @@ export const ModifyInstanceCpuOptionsResult = S.suspend(() =>
     ThreadsPerCore: S.optional(S.Number).pipe(
       T.XmlName("threadsPerCore"),
       T.Ec2QueryName("ThreadsPerCore"),
+    ),
+    NestedVirtualization: S.optional(NestedVirtualizationSpecification).pipe(
+      T.XmlName("nestedVirtualization"),
+      T.Ec2QueryName("NestedVirtualization"),
     ),
   }).pipe(ns),
 ).annotate({
@@ -67684,12 +68994,14 @@ export interface CpuOptionsRequest {
   CoreCount?: number;
   ThreadsPerCore?: number;
   AmdSevSnp?: AmdSevSnpSpecification;
+  NestedVirtualization?: NestedVirtualizationSpecification;
 }
 export const CpuOptionsRequest = S.suspend(() =>
   S.Struct({
     CoreCount: S.optional(S.Number),
     ThreadsPerCore: S.optional(S.Number),
     AmdSevSnp: S.optional(AmdSevSnpSpecification),
+    NestedVirtualization: S.optional(NestedVirtualizationSpecification),
   }),
 ).annotate({
   identifier: "CpuOptionsRequest",
@@ -67772,6 +69084,54 @@ export const InstanceNetworkPerformanceOptionsRequest = S.suspend(() =>
 ).annotate({
   identifier: "InstanceNetworkPerformanceOptionsRequest",
 }) as any as S.Schema<InstanceNetworkPerformanceOptionsRequest>;
+export interface InstanceSecondaryInterfacePrivateIpAddressRequest {
+  PrivateIpAddress?: string;
+}
+export const InstanceSecondaryInterfacePrivateIpAddressRequest = S.suspend(() =>
+  S.Struct({ PrivateIpAddress: S.optional(S.String) }),
+).annotate({
+  identifier: "InstanceSecondaryInterfacePrivateIpAddressRequest",
+}) as any as S.Schema<InstanceSecondaryInterfacePrivateIpAddressRequest>;
+export type InstanceSecondaryInterfacePrivateIpAddressListRequest =
+  InstanceSecondaryInterfacePrivateIpAddressRequest[];
+export const InstanceSecondaryInterfacePrivateIpAddressListRequest = S.Array(
+  InstanceSecondaryInterfacePrivateIpAddressRequest.pipe(
+    T.XmlName("item"),
+  ).annotate({
+    identifier: "InstanceSecondaryInterfacePrivateIpAddressRequest",
+  }),
+);
+export interface InstanceSecondaryInterfaceSpecificationRequest {
+  DeleteOnTermination?: boolean;
+  DeviceIndex?: number;
+  PrivateIpAddresses?: InstanceSecondaryInterfacePrivateIpAddressRequest[];
+  PrivateIpAddressCount?: number;
+  SecondarySubnetId?: string;
+  InterfaceType?: SecondaryInterfaceType;
+  NetworkCardIndex?: number;
+}
+export const InstanceSecondaryInterfaceSpecificationRequest = S.suspend(() =>
+  S.Struct({
+    DeleteOnTermination: S.optional(S.Boolean),
+    DeviceIndex: S.optional(S.Number),
+    PrivateIpAddresses: S.optional(
+      InstanceSecondaryInterfacePrivateIpAddressListRequest,
+    ).pipe(T.XmlName("PrivateIpAddress")),
+    PrivateIpAddressCount: S.optional(S.Number),
+    SecondarySubnetId: S.optional(S.String),
+    InterfaceType: S.optional(SecondaryInterfaceType),
+    NetworkCardIndex: S.optional(S.Number),
+  }),
+).annotate({
+  identifier: "InstanceSecondaryInterfaceSpecificationRequest",
+}) as any as S.Schema<InstanceSecondaryInterfaceSpecificationRequest>;
+export type InstanceSecondaryInterfaceSpecificationListRequest =
+  InstanceSecondaryInterfaceSpecificationRequest[];
+export const InstanceSecondaryInterfaceSpecificationListRequest = S.Array(
+  InstanceSecondaryInterfaceSpecificationRequest.pipe(
+    T.XmlName("item"),
+  ).annotate({ identifier: "InstanceSecondaryInterfaceSpecificationRequest" }),
+);
 export interface RunInstancesRequest {
   BlockDeviceMappings?: BlockDeviceMapping[];
   ImageId?: string;
@@ -67807,6 +69167,7 @@ export interface RunInstancesRequest {
   EnablePrimaryIpv6?: boolean;
   NetworkPerformanceOptions?: InstanceNetworkPerformanceOptionsRequest;
   Operator?: OperatorRequest;
+  SecondaryInterfaces?: InstanceSecondaryInterfaceSpecificationRequest[];
   DryRun?: boolean;
   DisableApiTermination?: boolean;
   InstanceInitiatedShutdownBehavior?: ShutdownBehavior;
@@ -67871,6 +69232,9 @@ export const RunInstancesRequest = S.suspend(() =>
       InstanceNetworkPerformanceOptionsRequest,
     ),
     Operator: S.optional(OperatorRequest),
+    SecondaryInterfaces: S.optional(
+      InstanceSecondaryInterfaceSpecificationListRequest,
+    ).pipe(T.XmlName("SecondaryInterface")),
     DryRun: S.optional(S.Boolean).pipe(
       T.XmlName("dryRun"),
       T.Ec2QueryName("DryRun"),
@@ -68336,6 +69700,7 @@ export interface SearchTransitGatewayRoutesRequest {
   Filters?: Filter[];
   MaxResults?: number;
   DryRun?: boolean;
+  NextToken?: string;
 }
 export const SearchTransitGatewayRoutesRequest = S.suspend(() =>
   S.Struct({
@@ -68343,6 +69708,7 @@ export const SearchTransitGatewayRoutesRequest = S.suspend(() =>
     Filters: S.optional(FilterList).pipe(T.XmlName("Filter")),
     MaxResults: S.optional(S.Number),
     DryRun: S.optional(S.Boolean),
+    NextToken: S.optional(S.String),
   }).pipe(
     T.all(
       ns,
@@ -68366,6 +69732,7 @@ export const TransitGatewayRouteList = S.Array(
 export interface SearchTransitGatewayRoutesResult {
   Routes?: TransitGatewayRoute[];
   AdditionalRoutesAvailable?: boolean;
+  NextToken?: string;
 }
 export const SearchTransitGatewayRoutesResult = S.suspend(() =>
   S.Struct({
@@ -68376,6 +69743,10 @@ export const SearchTransitGatewayRoutesResult = S.suspend(() =>
     AdditionalRoutesAvailable: S.optional(S.Boolean).pipe(
       T.XmlName("additionalRoutesAvailable"),
       T.Ec2QueryName("AdditionalRoutesAvailable"),
+    ),
+    NextToken: S.optional(S.String).pipe(
+      T.XmlName("nextToken"),
+      T.Ec2QueryName("NextToken"),
     ),
   }).pipe(ns),
 ).annotate({
@@ -73255,6 +74626,40 @@ export const createRouteTable: (
   ],
 }));
 /**
+ * Creates a secondary network.
+ *
+ * The allowed size for a secondary network CIDR block is between /28 netmask (16 IP addresses) and /12 netmask (1,048,576 IP addresses).
+ */
+export const createSecondaryNetwork: (
+  input: CreateSecondaryNetworkRequest,
+) => effect.Effect<
+  CreateSecondaryNetworkResult,
+  CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateSecondaryNetworkRequest,
+  output: CreateSecondaryNetworkResult,
+  errors: [],
+}));
+/**
+ * Creates a secondary subnet in a secondary network.
+ *
+ * A secondary subnet CIDR block must not overlap with the CIDR block of an existing secondary subnet in the secondary network. After you create a secondary subnet, you can't change its CIDR block.
+ *
+ * The allowed size for a secondary subnet CIDR block is between /28 netmask (16 IP addresses) and /12 netmask (1,048,576 IP addresses). Amazon reserves the first four IP addresses and the last IP address in each secondary subnet for internal use.
+ */
+export const createSecondarySubnet: (
+  input: CreateSecondarySubnetRequest,
+) => effect.Effect<
+  CreateSecondarySubnetResult,
+  CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateSecondarySubnetRequest,
+  output: CreateSecondarySubnetResult,
+  errors: [],
+}));
+/**
  * Creates a security group.
  *
  * A security group acts as a virtual firewall for your instance to control inbound and outbound traffic.
@@ -75492,6 +76897,34 @@ export const deleteRouteTable: (
     InvalidRouteTableIDNotFound,
     InvalidRouteTableIdMalformed,
   ],
+}));
+/**
+ * Deletes a secondary network. You must delete all secondary subnets in the secondary network before you can delete the secondary network.
+ */
+export const deleteSecondaryNetwork: (
+  input: DeleteSecondaryNetworkRequest,
+) => effect.Effect<
+  DeleteSecondaryNetworkResult,
+  CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteSecondaryNetworkRequest,
+  output: DeleteSecondaryNetworkResult,
+  errors: [],
+}));
+/**
+ * Deletes a secondary subnet. A secondary subnet must not contain any secondary interfaces prior to deletion.
+ */
+export const deleteSecondarySubnet: (
+  input: DeleteSecondarySubnetRequest,
+) => effect.Effect<
+  DeleteSecondarySubnetResult,
+  CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteSecondarySubnetRequest,
+  output: DeleteSecondarySubnetResult,
+  errors: [],
 }));
 /**
  * Deletes a security group.
@@ -81089,6 +82522,114 @@ export const describeScheduledInstances: {
     inputToken: "NextToken",
     outputToken: "NextToken",
     items: "ScheduledInstanceSet",
+    pageSize: "MaxResults",
+  } as const,
+}));
+/**
+ * Describes one or more of your secondary interfaces.
+ */
+export const describeSecondaryInterfaces: {
+  (
+    input: DescribeSecondaryInterfacesRequest,
+  ): effect.Effect<
+    DescribeSecondaryInterfacesResult,
+    CommonErrors,
+    Credentials | Rgn | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeSecondaryInterfacesRequest,
+  ) => stream.Stream<
+    DescribeSecondaryInterfacesResult,
+    CommonErrors,
+    Credentials | Rgn | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeSecondaryInterfacesRequest,
+  ) => stream.Stream<
+    SecondaryInterface,
+    CommonErrors,
+    Credentials | Rgn | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeSecondaryInterfacesRequest,
+  output: DescribeSecondaryInterfacesResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "SecondaryInterfaces",
+    pageSize: "MaxResults",
+  } as const,
+}));
+/**
+ * Describes one or more secondary networks.
+ */
+export const describeSecondaryNetworks: {
+  (
+    input: DescribeSecondaryNetworksRequest,
+  ): effect.Effect<
+    DescribeSecondaryNetworksResult,
+    CommonErrors,
+    Credentials | Rgn | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeSecondaryNetworksRequest,
+  ) => stream.Stream<
+    DescribeSecondaryNetworksResult,
+    CommonErrors,
+    Credentials | Rgn | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeSecondaryNetworksRequest,
+  ) => stream.Stream<
+    SecondaryNetwork,
+    CommonErrors,
+    Credentials | Rgn | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeSecondaryNetworksRequest,
+  output: DescribeSecondaryNetworksResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "SecondaryNetworks",
+    pageSize: "MaxResults",
+  } as const,
+}));
+/**
+ * Describes one or more of your secondary subnets.
+ */
+export const describeSecondarySubnets: {
+  (
+    input: DescribeSecondarySubnetsRequest,
+  ): effect.Effect<
+    DescribeSecondarySubnetsResult,
+    CommonErrors,
+    Credentials | Rgn | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeSecondarySubnetsRequest,
+  ) => stream.Stream<
+    DescribeSecondarySubnetsResult,
+    CommonErrors,
+    Credentials | Rgn | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeSecondarySubnetsRequest,
+  ) => stream.Stream<
+    SecondarySubnet,
+    CommonErrors,
+    Credentials | Rgn | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeSecondarySubnetsRequest,
+  output: DescribeSecondarySubnetsResult,
+  errors: [],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "SecondarySubnets",
     pageSize: "MaxResults",
   } as const,
 }));
@@ -88478,9 +90019,12 @@ export const modifyVerifiedAccessTrustProvider: (
  * With previous-generation instance types, resizing an EBS volume might require detaching and
  * reattaching the volume or stopping and restarting the instance.
  *
- * After modifying a volume, you must wait at least six hours and ensure that the volume
- * is in the `in-use` or `available` state before you can modify the same
- * volume. This is sometimes referred to as a cooldown period.
+ * After you initiate a volume modification, you must wait for that modification to reach the
+ * `completed` state before you can initiate another modification for the same volume.
+ * You can modify a volume up to four times within a rolling 24-hour period, as long as the volume
+ * is in the `in-use` or `available` state, and all previous modifications
+ * for that volume are `completed`. If you exceed this limit, you get an error message
+ * that indicates when you can perform your next modification.
  */
 export const modifyVolume: (
   input: ModifyVolumeRequest,
@@ -90289,19 +91833,47 @@ export const searchTransitGatewayMulticastGroups: {
 /**
  * Searches for routes in the specified transit gateway route table.
  */
-export const searchTransitGatewayRoutes: (
-  input: SearchTransitGatewayRoutesRequest,
-) => effect.Effect<
-  SearchTransitGatewayRoutesResult,
-  | RequestLimitExceeded
-  | InvalidRouteTableIDNotFound
-  | MissingParameter
-  | CommonErrors,
-  Credentials | Rgn | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+export const searchTransitGatewayRoutes: {
+  (
+    input: SearchTransitGatewayRoutesRequest,
+  ): effect.Effect<
+    SearchTransitGatewayRoutesResult,
+    | RequestLimitExceeded
+    | InvalidRouteTableIDNotFound
+    | MissingParameter
+    | CommonErrors,
+    Credentials | Rgn | HttpClient.HttpClient
+  >;
+  pages: (
+    input: SearchTransitGatewayRoutesRequest,
+  ) => stream.Stream<
+    SearchTransitGatewayRoutesResult,
+    | RequestLimitExceeded
+    | InvalidRouteTableIDNotFound
+    | MissingParameter
+    | CommonErrors,
+    Credentials | Rgn | HttpClient.HttpClient
+  >;
+  items: (
+    input: SearchTransitGatewayRoutesRequest,
+  ) => stream.Stream<
+    TransitGatewayRoute,
+    | RequestLimitExceeded
+    | InvalidRouteTableIDNotFound
+    | MissingParameter
+    | CommonErrors,
+    Credentials | Rgn | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: SearchTransitGatewayRoutesRequest,
   output: SearchTransitGatewayRoutesResult,
   errors: [RequestLimitExceeded, InvalidRouteTableIDNotFound, MissingParameter],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Routes",
+    pageSize: "MaxResults",
+  } as const,
 }));
 /**
  * Sends a diagnostic interrupt to the specified Amazon EC2 instance to trigger a

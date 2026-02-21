@@ -227,6 +227,7 @@ export type RecommendationSource =
   | "stir"
   | "ta_check"
   | "well_architected"
+  | "cost_optimization_hub"
   | (string & {});
 export const RecommendationSource = S.String;
 export type RecommendationAwsServiceList = string[];
@@ -235,9 +236,15 @@ export interface RecommendationResourcesAggregates {
   okCount: number;
   warningCount: number;
   errorCount: number;
+  excludedCount?: number;
 }
 export const RecommendationResourcesAggregates = S.suspend(() =>
-  S.Struct({ okCount: S.Number, warningCount: S.Number, errorCount: S.Number }),
+  S.Struct({
+    okCount: S.Number,
+    warningCount: S.Number,
+    errorCount: S.Number,
+    excludedCount: S.optional(S.Number),
+  }),
 ).annotate({
   identifier: "RecommendationResourcesAggregates",
 }) as any as S.Schema<RecommendationResourcesAggregates>;
@@ -341,14 +348,30 @@ export const GetOrganizationRecommendationResponse = S.suspend(() =>
 ).annotate({
   identifier: "GetOrganizationRecommendationResponse",
 }) as any as S.Schema<GetOrganizationRecommendationResponse>;
+export type RecommendationLanguage =
+  | "en"
+  | "ja"
+  | "zh"
+  | "fr"
+  | "de"
+  | "ko"
+  | "zh_TW"
+  | "it"
+  | "es"
+  | "pt_BR"
+  | "id"
+  | (string & {});
+export const RecommendationLanguage = S.String;
 export interface GetRecommendationRequest {
   recommendationIdentifier: string;
+  language?: RecommendationLanguage;
 }
 export const GetRecommendationRequest = S.suspend(() =>
   S.Struct({
     recommendationIdentifier: S.String.pipe(
       T.HttpLabel("recommendationIdentifier"),
     ),
+    language: S.optional(RecommendationLanguage).pipe(T.HttpQuery("language")),
   }).pipe(
     T.all(
       T.Http({
@@ -365,6 +388,8 @@ export const GetRecommendationRequest = S.suspend(() =>
 ).annotate({
   identifier: "GetRecommendationRequest",
 }) as any as S.Schema<GetRecommendationRequest>;
+export type StatusReason = "no_data_ok" | (string & {});
+export const StatusReason = S.String;
 export interface Recommendation {
   id: string;
   type: RecommendationType;
@@ -380,6 +405,7 @@ export interface Recommendation {
   createdAt?: Date;
   lastUpdatedAt?: Date;
   arn: string;
+  statusReason?: StatusReason;
   description: string;
   createdBy?: string;
   updatedOnBehalfOf?: string;
@@ -410,6 +436,7 @@ export const Recommendation = S.suspend(() =>
       T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
     arn: S.String,
+    statusReason: S.optional(StatusReason),
     description: S.String,
     createdBy: S.optional(S.String),
     updatedOnBehalfOf: S.optional(S.String),
@@ -429,20 +456,6 @@ export const GetRecommendationResponse = S.suspend(() =>
 ).annotate({
   identifier: "GetRecommendationResponse",
 }) as any as S.Schema<GetRecommendationResponse>;
-export type RecommendationLanguage =
-  | "en"
-  | "ja"
-  | "zh"
-  | "fr"
-  | "de"
-  | "ko"
-  | "zh_TW"
-  | "it"
-  | "es"
-  | "pt_BR"
-  | "id"
-  | (string & {});
-export const RecommendationLanguage = S.String;
 export interface ListChecksRequest {
   nextToken?: string;
   maxResults?: number;
@@ -783,6 +796,7 @@ export interface ListRecommendationResourcesRequest {
   exclusionStatus?: ExclusionStatus;
   regionCode?: string;
   recommendationIdentifier: string;
+  language?: RecommendationLanguage;
 }
 export const ListRecommendationResourcesRequest = S.suspend(() =>
   S.Struct({
@@ -796,6 +810,7 @@ export const ListRecommendationResourcesRequest = S.suspend(() =>
     recommendationIdentifier: S.String.pipe(
       T.HttpLabel("recommendationIdentifier"),
     ),
+    language: S.optional(RecommendationLanguage).pipe(T.HttpQuery("language")),
   }).pipe(
     T.all(
       T.Http({
@@ -865,6 +880,7 @@ export interface ListRecommendationsRequest {
   checkIdentifier?: string;
   afterLastUpdatedAt?: Date;
   beforeLastUpdatedAt?: Date;
+  language?: RecommendationLanguage;
 }
 export const ListRecommendationsRequest = S.suspend(() =>
   S.Struct({
@@ -882,6 +898,7 @@ export const ListRecommendationsRequest = S.suspend(() =>
     beforeLastUpdatedAt: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ).pipe(T.HttpQuery("beforeLastUpdatedAt")),
+    language: S.optional(RecommendationLanguage).pipe(T.HttpQuery("language")),
   }).pipe(
     T.all(
       T.Http({ method: "GET", uri: "/v1/recommendations" }),
@@ -910,6 +927,7 @@ export interface RecommendationSummary {
   createdAt?: Date;
   lastUpdatedAt?: Date;
   arn: string;
+  statusReason?: StatusReason;
 }
 export const RecommendationSummary = S.suspend(() =>
   S.Struct({
@@ -933,6 +951,7 @@ export const RecommendationSummary = S.suspend(() =>
       T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
     arn: S.String,
+    statusReason: S.optional(StatusReason),
   }),
 ).annotate({
   identifier: "RecommendationSummary",
@@ -1061,7 +1080,7 @@ export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFou
 
 //# Operations
 /**
- * Update one or more exclusion status for a list of recommendation resources
+ * Update one or more exclusion statuses for a list of recommendation resources. This API supports up to 25 unique recommendation resource ARNs per request. This API currently doesn't support prioritized recommendation resources. This API updates global recommendations, eliminating the need to call the API in each AWS Region. After submitting an exclusion update, note that it might take a few minutes for the changes to be reflected in the system.
  */
 export const batchUpdateRecommendationResourceExclusion: (
   input: BatchUpdateRecommendationResourceExclusionRequest,
@@ -1086,8 +1105,7 @@ export const batchUpdateRecommendationResourceExclusion: (
   ],
 }));
 /**
- * Get a specific recommendation within an AWS Organizations organization. This API supports only prioritized
- * recommendations.
+ * Get a specific recommendation within an AWS Organizations organization. This API supports only prioritized recommendations and provides global priority recommendations, eliminating the need to call the API in each AWS Region.
  */
 export const getOrganizationRecommendation: (
   input: GetOrganizationRecommendationRequest,
@@ -1112,7 +1130,7 @@ export const getOrganizationRecommendation: (
   ],
 }));
 /**
- * Get a specific Recommendation
+ * Get a specific Recommendation. This API provides global recommendations, eliminating the need to call the API in each AWS Region.
  */
 export const getRecommendation: (
   input: GetRecommendationRequest,
@@ -1137,7 +1155,7 @@ export const getRecommendation: (
   ],
 }));
 /**
- * List a filterable set of Checks
+ * List a filterable set of Checks. This API provides global recommendations, eliminating the need to call the API in each AWS Region.
  */
 export const listChecks: {
   (
@@ -1190,8 +1208,7 @@ export const listChecks: {
   } as const,
 }));
 /**
- * Lists the accounts that own the resources for an organization aggregate recommendation. This API only
- * supports prioritized recommendations.
+ * Lists the accounts that own the resources for an organization aggregate recommendation. This API only supports prioritized recommendations and provides global priority recommendations, eliminating the need to call the API in each AWS Region.
  */
 export const listOrganizationRecommendationAccounts: {
   (
@@ -1248,8 +1265,7 @@ export const listOrganizationRecommendationAccounts: {
   } as const,
 }));
 /**
- * List Resources of a Recommendation within an Organization. This API only supports prioritized
- * recommendations.
+ * List Resources of a Recommendation within an Organization. This API only supports prioritized recommendations and provides global priority recommendations, eliminating the need to call the API in each AWS Region.
  */
 export const listOrganizationRecommendationResources: {
   (
@@ -1306,8 +1322,7 @@ export const listOrganizationRecommendationResources: {
   } as const,
 }));
 /**
- * List a filterable set of Recommendations within an Organization. This API only supports prioritized
- * recommendations.
+ * List a filterable set of Recommendations within an Organization. This API only supports prioritized recommendations and provides global priority recommendations, eliminating the need to call the API in each AWS Region.
  */
 export const listOrganizationRecommendations: {
   (
@@ -1360,7 +1375,7 @@ export const listOrganizationRecommendations: {
   } as const,
 }));
 /**
- * List Resources of a Recommendation
+ * List Resources of a Recommendation. This API provides global recommendations, eliminating the need to call the API in each AWS Region.
  */
 export const listRecommendationResources: {
   (
@@ -1417,7 +1432,7 @@ export const listRecommendationResources: {
   } as const,
 }));
 /**
- * List a filterable set of Recommendations
+ * List a filterable set of Recommendations. This API provides global recommendations, eliminating the need to call the API in each AWS Region.
  */
 export const listRecommendations: {
   (
@@ -1470,8 +1485,7 @@ export const listRecommendations: {
   } as const,
 }));
 /**
- * Update the lifecycle of a Recommendation within an Organization. This API only supports prioritized
- * recommendations.
+ * Update the lifecycle of a Recommendation within an Organization. This API only supports prioritized recommendations and updates global priority recommendations, eliminating the need to call the API in each AWS Region.
  */
 export const updateOrganizationRecommendationLifecycle: (
   input: UpdateOrganizationRecommendationLifecycleRequest,
@@ -1498,7 +1512,7 @@ export const updateOrganizationRecommendationLifecycle: (
   ],
 }));
 /**
- * Update the lifecyle of a Recommendation. This API only supports prioritized recommendations.
+ * Update the lifecyle of a Recommendation. This API only supports prioritized recommendations and updates global priority recommendations, eliminating the need to call the API in each AWS Region.
  */
 export const updateRecommendationLifecycle: (
   input: UpdateRecommendationLifecycleRequest,

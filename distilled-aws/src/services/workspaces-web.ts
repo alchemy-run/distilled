@@ -131,6 +131,7 @@ export type SecurityGroupId = string;
 export type AuthenticationType = string;
 export type InstanceType = string;
 export type MaxConcurrentSessions = number;
+export type PortalCustomDomain = string;
 export type PortalEndpoint = string;
 export type RendererType = string;
 export type BrowserType = string;
@@ -1572,6 +1573,7 @@ export interface CreatePortalRequest {
   authenticationType?: string;
   instanceType?: string;
   maxConcurrentSessions?: number;
+  portalCustomDomain?: string;
 }
 export const CreatePortalRequest = S.suspend(() =>
   S.Struct({
@@ -1583,6 +1585,7 @@ export const CreatePortalRequest = S.suspend(() =>
     authenticationType: S.optional(S.String),
     instanceType: S.optional(S.String),
     maxConcurrentSessions: S.optional(S.Number),
+    portalCustomDomain: S.optional(S.String),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/portals" }),
@@ -1644,6 +1647,7 @@ export interface Portal {
   additionalEncryptionContext?: { [key: string]: string | undefined };
   instanceType?: string;
   maxConcurrentSessions?: number;
+  portalCustomDomain?: string;
 }
 export const Portal = S.suspend(() =>
   S.Struct({
@@ -1668,6 +1672,7 @@ export const Portal = S.suspend(() =>
     additionalEncryptionContext: S.optional(EncryptionContextMap),
     instanceType: S.optional(S.String),
     maxConcurrentSessions: S.optional(S.Number),
+    portalCustomDomain: S.optional(S.String),
   }),
 ).annotate({ identifier: "Portal" }) as any as S.Schema<Portal>;
 export interface GetPortalResponse {
@@ -1684,6 +1689,7 @@ export interface UpdatePortalRequest {
   authenticationType?: string;
   instanceType?: string;
   maxConcurrentSessions?: number;
+  portalCustomDomain?: string;
 }
 export const UpdatePortalRequest = S.suspend(() =>
   S.Struct({
@@ -1692,6 +1698,7 @@ export const UpdatePortalRequest = S.suspend(() =>
     authenticationType: S.optional(S.String),
     instanceType: S.optional(S.String),
     maxConcurrentSessions: S.optional(S.Number),
+    portalCustomDomain: S.optional(S.String),
   }).pipe(
     T.all(
       T.Http({ method: "PUT", uri: "/portals/{portalArn+}" }),
@@ -1774,6 +1781,7 @@ export interface PortalSummary {
   ipAccessSettingsArn?: string;
   instanceType?: string;
   maxConcurrentSessions?: number;
+  portalCustomDomain?: string;
 }
 export const PortalSummary = S.suspend(() =>
   S.Struct({
@@ -1795,6 +1803,7 @@ export const PortalSummary = S.suspend(() =>
     ipAccessSettingsArn: S.optional(S.String),
     instanceType: S.optional(S.String),
     maxConcurrentSessions: S.optional(S.Number),
+    portalCustomDomain: S.optional(S.String),
   }),
 ).annotate({ identifier: "PortalSummary" }) as any as S.Schema<PortalSummary>;
 export type PortalList = PortalSummary[];
@@ -3242,7 +3251,7 @@ export const ImageMetadata = S.suspend(() =>
 ).annotate({ identifier: "ImageMetadata" }) as any as S.Schema<ImageMetadata>;
 export interface BrandingConfiguration {
   logo: ImageMetadata;
-  wallpaper: ImageMetadata;
+  wallpaper?: ImageMetadata;
   favicon: ImageMetadata;
   localizedStrings: { [key: string]: LocalizedBrandingStrings | undefined };
   colorTheme: ColorTheme;
@@ -3251,7 +3260,7 @@ export interface BrandingConfiguration {
 export const BrandingConfiguration = S.suspend(() =>
   S.Struct({
     logo: ImageMetadata,
-    wallpaper: ImageMetadata,
+    wallpaper: S.optional(ImageMetadata),
     favicon: ImageMetadata,
     localizedStrings: LocalizedBrandingStringMap,
     colorTheme: ColorTheme,

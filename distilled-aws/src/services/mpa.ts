@@ -535,12 +535,26 @@ export type IdentityStatus =
   | "INVALID"
   | (string & {});
 export const IdentityStatus = S.String;
+export type MfaType = "EMAIL_OTP" | (string & {});
+export const MfaType = S.String;
+export type MfaSyncStatus = "IN_SYNC" | "OUT_OF_SYNC" | (string & {});
+export const MfaSyncStatus = S.String;
+export interface MfaMethod {
+  Type: MfaType;
+  SyncStatus: MfaSyncStatus;
+}
+export const MfaMethod = S.suspend(() =>
+  S.Struct({ Type: MfaType, SyncStatus: MfaSyncStatus }),
+).annotate({ identifier: "MfaMethod" }) as any as S.Schema<MfaMethod>;
+export type MfaMethods = MfaMethod[];
+export const MfaMethods = S.Array(MfaMethod);
 export interface GetApprovalTeamResponseApprover {
   ApproverId?: string;
   ResponseTime?: Date;
   PrimaryIdentityId?: string;
   PrimaryIdentitySourceArn?: string;
   PrimaryIdentityStatus?: IdentityStatus;
+  MfaMethods?: MfaMethod[];
 }
 export const GetApprovalTeamResponseApprover = S.suspend(() =>
   S.Struct({
@@ -551,6 +565,7 @@ export const GetApprovalTeamResponseApprover = S.suspend(() =>
     PrimaryIdentityId: S.optional(S.String),
     PrimaryIdentitySourceArn: S.optional(S.String),
     PrimaryIdentityStatus: S.optional(IdentityStatus),
+    MfaMethods: S.optional(MfaMethods),
   }),
 ).annotate({
   identifier: "GetApprovalTeamResponseApprover",
@@ -650,11 +665,16 @@ export const GetApprovalTeamResponse = S.suspend(() =>
 ).annotate({
   identifier: "GetApprovalTeamResponse",
 }) as any as S.Schema<GetApprovalTeamResponse>;
+export type UpdateAction = "SYNCHRONIZE_MFA_DEVICES" | (string & {});
+export const UpdateAction = S.String;
+export type UpdateActions = UpdateAction[];
+export const UpdateActions = S.Array(UpdateAction);
 export interface UpdateApprovalTeamRequest {
   ApprovalStrategy?: ApprovalStrategy;
   Approvers?: ApprovalTeamRequestApprover[];
   Description?: string | redacted.Redacted<string>;
   Arn: string;
+  UpdateActions?: UpdateAction[];
 }
 export const UpdateApprovalTeamRequest = S.suspend(() =>
   S.Struct({
@@ -662,6 +682,7 @@ export const UpdateApprovalTeamRequest = S.suspend(() =>
     Approvers: S.optional(ApprovalTeamRequestApprovers),
     Description: S.optional(SensitiveString),
     Arn: S.String.pipe(T.HttpLabel("Arn")),
+    UpdateActions: S.optional(UpdateActions),
   }).pipe(
     T.all(
       T.Http({ method: "PATCH", uri: "/approval-teams/{Arn}" }),
@@ -1134,6 +1155,14 @@ export type GetSessionResponseApproverResponses =
 export const GetSessionResponseApproverResponses = S.Array(
   GetSessionResponseApproverResponse,
 );
+export type AdditionalSecurityRequirement =
+  | "APPROVER_VERIFICATION_REQUIRED"
+  | (string & {});
+export const AdditionalSecurityRequirement = S.String;
+export type AdditionalSecurityRequirements = AdditionalSecurityRequirement[];
+export const AdditionalSecurityRequirements = S.Array(
+  AdditionalSecurityRequirement,
+);
 export interface GetSessionResponse {
   SessionArn?: string;
   ApprovalTeamArn?: string;
@@ -1158,6 +1187,7 @@ export interface GetSessionResponse {
   RequesterComment?: string | redacted.Redacted<string>;
   ActionCompletionStrategy?: ActionCompletionStrategy;
   ApproverResponses?: GetSessionResponseApproverResponse[];
+  AdditionalSecurityRequirements?: AdditionalSecurityRequirement[];
 }
 export const GetSessionResponse = S.suspend(() =>
   S.Struct({
@@ -1190,6 +1220,7 @@ export const GetSessionResponse = S.suspend(() =>
     RequesterComment: S.optional(SensitiveString),
     ActionCompletionStrategy: S.optional(ActionCompletionStrategy),
     ApproverResponses: S.optional(GetSessionResponseApproverResponses),
+    AdditionalSecurityRequirements: S.optional(AdditionalSecurityRequirements),
   }),
 ).annotate({
   identifier: "GetSessionResponse",
@@ -1296,6 +1327,7 @@ export interface ListSessionsResponseSession {
   StatusCode?: SessionStatusCode;
   StatusMessage?: string;
   ActionCompletionStrategy?: ActionCompletionStrategy;
+  AdditionalSecurityRequirements?: AdditionalSecurityRequirement[];
 }
 export const ListSessionsResponseSession = S.suspend(() =>
   S.Struct({
@@ -1322,6 +1354,7 @@ export const ListSessionsResponseSession = S.suspend(() =>
     StatusCode: S.optional(SessionStatusCode),
     StatusMessage: S.optional(S.String),
     ActionCompletionStrategy: S.optional(ActionCompletionStrategy),
+    AdditionalSecurityRequirements: S.optional(AdditionalSecurityRequirements),
   }),
 ).annotate({
   identifier: "ListSessionsResponseSession",
@@ -1385,8 +1418,6 @@ export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuo
 //# Operations
 /**
  * Returns details for the version of a policy. Policies define the permissions for team resources.
- *
- * The protected operation for a service integration might require specific permissions. For more information, see How other services work with Multi-party approval in the *Multi-party approval User Guide*.
  */
 export const getPolicyVersion: (
   input: GetPolicyVersionRequest,
@@ -1437,8 +1468,6 @@ export const getResourcePolicy: (
 }));
 /**
  * Returns a list of policies. Policies define the permissions for team resources.
- *
- * The protected operation for a service integration might require specific permissions. For more information, see How other services work with Multi-party approval in the *Multi-party approval User Guide*.
  */
 export const listPolicies: {
   (
@@ -1492,8 +1521,6 @@ export const listPolicies: {
 }));
 /**
  * Returns a list of the versions for policies. Policies define the permissions for team resources.
- *
- * The protected operation for a service integration might require specific permissions. For more information, see How other services work with Multi-party approval in the *Multi-party approval User Guide*.
  */
 export const listPolicyVersions: {
   (

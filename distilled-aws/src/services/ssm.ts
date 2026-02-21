@@ -133,6 +133,7 @@ export type ScheduleOffset = number;
 export type Duration = number;
 export type TargetMapKey = string;
 export type TargetMapValue = string;
+export type AssociationDispatchAssumeRoleArn = string;
 export type AssociationVersion = string;
 export type StatusMessage = string;
 export type StatusAdditionalInfo = string;
@@ -823,6 +824,7 @@ export interface CreateAssociationRequest {
   TargetMaps?: { [key: string]: string[] | undefined }[];
   Tags?: Tag[];
   AlarmConfiguration?: AlarmConfiguration;
+  AssociationDispatchAssumeRole?: string;
 }
 export const CreateAssociationRequest = S.suspend(() =>
   S.Struct({
@@ -847,6 +849,7 @@ export const CreateAssociationRequest = S.suspend(() =>
     TargetMaps: S.optional(TargetMaps),
     Tags: S.optional(TagList),
     AlarmConfiguration: S.optional(AlarmConfiguration),
+    AssociationDispatchAssumeRole: S.optional(S.String),
   }).pipe(
     T.all(
       ns,
@@ -949,6 +952,7 @@ export interface AssociationDescription {
   TargetMaps?: { [key: string]: string[] | undefined }[];
   AlarmConfiguration?: AlarmConfiguration;
   TriggeredAlarms?: AlarmStateInformation[];
+  AssociationDispatchAssumeRole?: string;
 }
 export const AssociationDescription = S.suspend(() =>
   S.Struct({
@@ -987,6 +991,7 @@ export const AssociationDescription = S.suspend(() =>
     TargetMaps: S.optional(TargetMaps),
     AlarmConfiguration: S.optional(AlarmConfiguration),
     TriggeredAlarms: S.optional(AlarmStateInformationList),
+    AssociationDispatchAssumeRole: S.optional(S.String),
   }),
 ).annotate({
   identifier: "AssociationDescription",
@@ -1058,9 +1063,13 @@ export const CreateAssociationBatchRequestEntries = S.Array(
 );
 export interface CreateAssociationBatchRequest {
   Entries: CreateAssociationBatchRequestEntry[];
+  AssociationDispatchAssumeRole?: string;
 }
 export const CreateAssociationBatchRequest = S.suspend(() =>
-  S.Struct({ Entries: CreateAssociationBatchRequestEntries }).pipe(
+  S.Struct({
+    Entries: CreateAssociationBatchRequestEntries,
+    AssociationDispatchAssumeRole: S.optional(S.String),
+  }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -7515,6 +7524,7 @@ export interface AssociationVersionInfo {
   ScheduleOffset?: number;
   Duration?: number;
   TargetMaps?: { [key: string]: string[] | undefined }[];
+  AssociationDispatchAssumeRole?: string;
 }
 export const AssociationVersionInfo = S.suspend(() =>
   S.Struct({
@@ -7538,6 +7548,7 @@ export const AssociationVersionInfo = S.suspend(() =>
     ScheduleOffset: S.optional(S.Number),
     Duration: S.optional(S.Number),
     TargetMaps: S.optional(TargetMaps),
+    AssociationDispatchAssumeRole: S.optional(S.String),
   }),
 ).annotate({
   identifier: "AssociationVersionInfo",
@@ -10019,6 +10030,7 @@ export interface UpdateAssociationRequest {
   Duration?: number;
   TargetMaps?: { [key: string]: string[] | undefined }[];
   AlarmConfiguration?: AlarmConfiguration;
+  AssociationDispatchAssumeRole?: string;
 }
 export const UpdateAssociationRequest = S.suspend(() =>
   S.Struct({
@@ -10043,6 +10055,7 @@ export const UpdateAssociationRequest = S.suspend(() =>
     Duration: S.optional(S.Number),
     TargetMaps: S.optional(TargetMaps),
     AlarmConfiguration: S.optional(AlarmConfiguration),
+    AssociationDispatchAssumeRole: S.optional(S.String),
   }).pipe(
     T.all(
       ns,
@@ -14987,8 +15000,7 @@ export const listComplianceSummaries: {
   } as const,
 }));
 /**
- * Amazon Web Services Systems Manager Change Manager will no longer be open to new
- * customers starting November 7, 2025. If you would like to use Change Manager, sign up prior to that date. Existing customers can
+ * Amazon Web Services Systems Manager Change Manager is no longer open to new customers. Existing customers can
  * continue to use the service as normal. For more information, see
  * Amazon Web Services Systems Manager Change Manager availability change.
  *
@@ -16013,8 +16025,7 @@ export const startAutomationExecution: (
   ],
 }));
 /**
- * Amazon Web Services Systems Manager Change Manager will no longer be open to new
- * customers starting November 7, 2025. If you would like to use Change Manager, sign up prior to that date. Existing customers can
+ * Amazon Web Services Systems Manager Change Manager is no longer open to new customers. Existing customers can
  * continue to use the service as normal. For more information, see
  * Amazon Web Services Systems Manager Change Manager availability change.
  *
@@ -16304,8 +16315,7 @@ export const updateDocumentDefaultVersion: (
   ],
 }));
 /**
- * Amazon Web Services Systems Manager Change Manager will no longer be open to new
- * customers starting November 7, 2025. If you would like to use Change Manager, sign up prior to that date. Existing customers can
+ * Amazon Web Services Systems Manager Change Manager is no longer open to new customers. Existing customers can
  * continue to use the service as normal. For more information, see
  * Amazon Web Services Systems Manager Change Manager availability change.
  *

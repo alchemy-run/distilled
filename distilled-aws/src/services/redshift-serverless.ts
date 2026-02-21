@@ -2209,6 +2209,7 @@ export interface CreateWorkgroupRequest {
   pricePerformanceTarget?: PerformanceTarget;
   ipAddressType?: string;
   trackName?: string;
+  extraComputeForAutomaticOptimization?: boolean;
 }
 export const CreateWorkgroupRequest = S.suspend(() =>
   S.Struct({
@@ -2226,6 +2227,7 @@ export const CreateWorkgroupRequest = S.suspend(() =>
     pricePerformanceTarget: S.optional(PerformanceTarget),
     ipAddressType: S.optional(S.String),
     trackName: S.optional(S.String),
+    extraComputeForAutomaticOptimization: S.optional(S.Boolean),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -2274,6 +2276,7 @@ export interface Workgroup {
   pricePerformanceTarget?: PerformanceTarget;
   trackName?: string;
   pendingTrackName?: string;
+  extraComputeForAutomaticOptimization?: boolean;
 }
 export const Workgroup = S.suspend(() =>
   S.Struct({
@@ -2306,6 +2309,7 @@ export const Workgroup = S.suspend(() =>
     pricePerformanceTarget: S.optional(PerformanceTarget),
     trackName: S.optional(S.String),
     pendingTrackName: S.optional(S.String),
+    extraComputeForAutomaticOptimization: S.optional(S.Boolean),
   }),
 ).annotate({ identifier: "Workgroup" }) as any as S.Schema<Workgroup>;
 export interface CreateWorkgroupResponse {
@@ -2347,6 +2351,7 @@ export interface UpdateWorkgroupRequest {
   ipAddressType?: string;
   pricePerformanceTarget?: PerformanceTarget;
   trackName?: string;
+  extraComputeForAutomaticOptimization?: boolean;
 }
 export const UpdateWorkgroupRequest = S.suspend(() =>
   S.Struct({
@@ -2362,6 +2367,7 @@ export const UpdateWorkgroupRequest = S.suspend(() =>
     ipAddressType: S.optional(S.String),
     pricePerformanceTarget: S.optional(PerformanceTarget),
     trackName: S.optional(S.String),
+    extraComputeForAutomaticOptimization: S.optional(S.Boolean),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),

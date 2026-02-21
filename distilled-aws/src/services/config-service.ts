@@ -5439,6 +5439,7 @@ export interface PutConformancePackRequest {
   DeliveryS3KeyPrefix?: string;
   ConformancePackInputParameters?: ConformancePackInputParameter[];
   TemplateSSMDocumentDetails?: TemplateSSMDocumentDetails;
+  Tags?: Tag[];
 }
 export const PutConformancePackRequest = S.suspend(() =>
   S.Struct({
@@ -5449,6 +5450,7 @@ export const PutConformancePackRequest = S.suspend(() =>
     DeliveryS3KeyPrefix: S.optional(S.String),
     ConformancePackInputParameters: S.optional(ConformancePackInputParameters),
     TemplateSSMDocumentDetails: S.optional(TemplateSSMDocumentDetails),
+    Tags: S.optional(TagsList),
   }).pipe(
     T.all(
       ns,
@@ -9573,6 +9575,13 @@ export const putConfigurationRecorder: (
  * The service-linked role is created only when the role does not exist in your account.
  *
  * You must specify only one of the follow parameters: `TemplateS3Uri`, `TemplateBody` or `TemplateSSMDocumentDetails`.
+ *
+ * **Tags are added at creation and cannot be updated with this operation**
+ *
+ * `PutConformancePack` is an idempotent API. Subsequent requests won't create a duplicate resource if one was already created. If a following request has different `tags` values,
+ * Config will ignore these differences and treat it as an idempotent request of the previous. In this case, `tags` will not be updated, even if they are different.
+ *
+ * Use TagResource and UntagResource to update tags after creation.
  */
 export const putConformancePack: (
   input: PutConformancePackRequest,

@@ -112,12 +112,16 @@ export type HttpResponseCode = number;
 export type MimeType = string;
 export type StringType = string;
 export type ClientToken = string;
+export type BrowserProfileId = string;
 export type BrowserSessionId = string;
 export type Name = string;
 export type ViewPortWidth = number;
 export type ViewPortHeight = number;
 export type BrowserSessionTimeout = number;
 export type BrowserStreamEndpoint = string;
+export type HostName = string;
+export type DomainPattern = string;
+export type SecretArn = string;
 export type MaxResults = number;
 export type NextToken = string;
 export type CodeInterpreterSessionTimeout = number;
@@ -874,6 +878,54 @@ export const StopRuntimeSessionResponse = S.suspend(() =>
 ).annotate({
   identifier: "StopRuntimeSessionResponse",
 }) as any as S.Schema<StopRuntimeSessionResponse>;
+export interface SaveBrowserSessionProfileRequest {
+  traceId?: string;
+  traceParent?: string;
+  profileIdentifier: string;
+  browserIdentifier: string;
+  sessionId: string;
+  clientToken?: string;
+}
+export const SaveBrowserSessionProfileRequest = S.suspend(() =>
+  S.Struct({
+    traceId: S.optional(S.String).pipe(T.HttpHeader("X-Amzn-Trace-Id")),
+    traceParent: S.optional(S.String).pipe(T.HttpHeader("traceparent")),
+    profileIdentifier: S.String.pipe(T.HttpLabel("profileIdentifier")),
+    browserIdentifier: S.String,
+    sessionId: S.String,
+    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/browser-profiles/{profileIdentifier}/save",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "SaveBrowserSessionProfileRequest",
+}) as any as S.Schema<SaveBrowserSessionProfileRequest>;
+export interface SaveBrowserSessionProfileResponse {
+  profileIdentifier: string;
+  browserIdentifier: string;
+  sessionId: string;
+  lastUpdatedAt: Date;
+}
+export const SaveBrowserSessionProfileResponse = S.suspend(() =>
+  S.Struct({
+    profileIdentifier: S.String,
+    browserIdentifier: S.String,
+    sessionId: S.String,
+    lastUpdatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+  }),
+).annotate({
+  identifier: "SaveBrowserSessionProfileResponse",
+}) as any as S.Schema<SaveBrowserSessionProfileResponse>;
 export interface GetBrowserSessionRequest {
   browserIdentifier: string;
   sessionId: string;
@@ -905,6 +957,38 @@ export interface ViewPort {
 export const ViewPort = S.suspend(() =>
   S.Struct({ width: S.Number, height: S.Number }),
 ).annotate({ identifier: "ViewPort" }) as any as S.Schema<ViewPort>;
+export interface S3Location {
+  bucket: string;
+  prefix: string;
+  versionId?: string;
+}
+export const S3Location = S.suspend(() =>
+  S.Struct({
+    bucket: S.String,
+    prefix: S.String,
+    versionId: S.optional(S.String),
+  }),
+).annotate({ identifier: "S3Location" }) as any as S.Schema<S3Location>;
+export type ResourceLocation = { s3: S3Location };
+export const ResourceLocation = S.Union([S.Struct({ s3: S3Location })]);
+export interface BrowserExtension {
+  location: ResourceLocation;
+}
+export const BrowserExtension = S.suspend(() =>
+  S.Struct({ location: ResourceLocation }),
+).annotate({
+  identifier: "BrowserExtension",
+}) as any as S.Schema<BrowserExtension>;
+export type BrowserExtensions = BrowserExtension[];
+export const BrowserExtensions = S.Array(BrowserExtension);
+export interface BrowserProfileConfiguration {
+  profileIdentifier: string;
+}
+export const BrowserProfileConfiguration = S.suspend(() =>
+  S.Struct({ profileIdentifier: S.String }),
+).annotate({
+  identifier: "BrowserProfileConfiguration",
+}) as any as S.Schema<BrowserProfileConfiguration>;
 export type BrowserSessionStatus = "READY" | "TERMINATED" | (string & {});
 export const BrowserSessionStatus = S.String;
 export type AutomationStreamStatus = "ENABLED" | "DISABLED" | (string & {});
@@ -936,15 +1020,61 @@ export const BrowserSessionStream = S.suspend(() =>
 ).annotate({
   identifier: "BrowserSessionStream",
 }) as any as S.Schema<BrowserSessionStream>;
+export type DomainPatterns = string[];
+export const DomainPatterns = S.Array(S.String);
+export interface BasicAuth {
+  secretArn: string;
+}
+export const BasicAuth = S.suspend(() =>
+  S.Struct({ secretArn: S.String }),
+).annotate({ identifier: "BasicAuth" }) as any as S.Schema<BasicAuth>;
+export type ProxyCredentials = { basicAuth: BasicAuth };
+export const ProxyCredentials = S.Union([S.Struct({ basicAuth: BasicAuth })]);
+export interface ExternalProxy {
+  server: string;
+  port: number;
+  domainPatterns?: string[];
+  credentials?: ProxyCredentials;
+}
+export const ExternalProxy = S.suspend(() =>
+  S.Struct({
+    server: S.String,
+    port: S.Number,
+    domainPatterns: S.optional(DomainPatterns),
+    credentials: S.optional(ProxyCredentials),
+  }),
+).annotate({ identifier: "ExternalProxy" }) as any as S.Schema<ExternalProxy>;
+export type Proxy = { externalProxy: ExternalProxy };
+export const Proxy = S.Union([S.Struct({ externalProxy: ExternalProxy })]);
+export type Proxies = Proxy[];
+export const Proxies = S.Array(Proxy);
+export interface ProxyBypass {
+  domainPatterns?: string[];
+}
+export const ProxyBypass = S.suspend(() =>
+  S.Struct({ domainPatterns: S.optional(DomainPatterns) }),
+).annotate({ identifier: "ProxyBypass" }) as any as S.Schema<ProxyBypass>;
+export interface ProxyConfiguration {
+  proxies: Proxy[];
+  bypass?: ProxyBypass;
+}
+export const ProxyConfiguration = S.suspend(() =>
+  S.Struct({ proxies: Proxies, bypass: S.optional(ProxyBypass) }),
+).annotate({
+  identifier: "ProxyConfiguration",
+}) as any as S.Schema<ProxyConfiguration>;
 export interface GetBrowserSessionResponse {
   browserIdentifier: string;
   sessionId: string;
   name?: string;
   createdAt: Date;
   viewPort?: ViewPort;
+  extensions?: BrowserExtension[];
+  profileConfiguration?: BrowserProfileConfiguration;
   sessionTimeoutSeconds?: number;
   status?: BrowserSessionStatus;
   streams?: BrowserSessionStream;
+  proxyConfiguration?: ProxyConfiguration;
   sessionReplayArtifact?: string;
   lastUpdatedAt?: Date;
 }
@@ -955,9 +1085,12 @@ export const GetBrowserSessionResponse = S.suspend(() =>
     name: S.optional(S.String),
     createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     viewPort: S.optional(ViewPort),
+    extensions: S.optional(BrowserExtensions),
+    profileConfiguration: S.optional(BrowserProfileConfiguration),
     sessionTimeoutSeconds: S.optional(S.Number),
     status: S.optional(BrowserSessionStatus),
     streams: S.optional(BrowserSessionStream),
+    proxyConfiguration: S.optional(ProxyConfiguration),
     sessionReplayArtifact: S.optional(S.String),
     lastUpdatedAt: S.optional(
       T.DateFromString.pipe(T.TimestampFormat("date-time")),
@@ -1034,6 +1167,9 @@ export interface StartBrowserSessionRequest {
   name?: string;
   sessionTimeoutSeconds?: number;
   viewPort?: ViewPort;
+  extensions?: BrowserExtension[];
+  profileConfiguration?: BrowserProfileConfiguration;
+  proxyConfiguration?: ProxyConfiguration;
   clientToken?: string;
 }
 export const StartBrowserSessionRequest = S.suspend(() =>
@@ -1044,6 +1180,9 @@ export const StartBrowserSessionRequest = S.suspend(() =>
     name: S.optional(S.String),
     sessionTimeoutSeconds: S.optional(S.Number),
     viewPort: S.optional(ViewPort),
+    extensions: S.optional(BrowserExtensions),
+    profileConfiguration: S.optional(BrowserProfileConfiguration),
+    proxyConfiguration: S.optional(ProxyConfiguration),
     clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
   }).pipe(
     T.all(
@@ -2433,6 +2572,11 @@ export class InvalidInputException extends S.TaggedErrorClass<InvalidInputExcept
   "InvalidInputException",
   { message: S.String },
 ).pipe(C.withBadRequestError) {}
+export class RetryableConflictException extends S.TaggedErrorClass<RetryableConflictException>()(
+  "RetryableConflictException",
+  { message: S.String },
+  T.Retryable(),
+).pipe(C.withConflictError, C.withRetryableError) {}
 
 //# Operations
 /**
@@ -2598,7 +2742,7 @@ export const getWorkloadAccessTokenForUserId: (
   ],
 }));
 /**
- * Executes code within an active code interpreter session in Amazon Bedrock. This operation processes the provided code, runs it in a secure environment, and returns the execution results including output, errors, and generated visualizations.
+ * Executes code within an active code interpreter session in Amazon Bedrock AgentCore. This operation processes the provided code, runs it in a secure environment, and returns the execution results including output, errors, and generated visualizations.
  *
  * To execute code, you must specify the code interpreter identifier, session ID, and the code to run in the arguments parameter. The operation returns a stream containing the execution results, which can include text output, error messages, and data visualizations.
  *
@@ -2738,7 +2882,44 @@ export const stopRuntimeSession: (
   ],
 }));
 /**
- * Retrieves detailed information about a specific browser session in Amazon Bedrock. This operation returns the session's configuration, current status, associated streams, and metadata.
+ * Saves the current state of a browser session as a reusable profile in Amazon Bedrock AgentCore. A browser profile captures persistent browser data such as cookies and local storage from an active session, enabling you to reuse this data in future browser sessions.
+ *
+ * To save a browser session profile, you must specify the profile identifier, browser identifier, and session ID. The session must be active when saving the profile. Once saved, the profile can be used with the `StartBrowserSession` operation to initialize new sessions with the stored browser state.
+ *
+ * Browser profiles are useful for scenarios that require persistent authentication, maintaining user preferences across sessions, or continuing tasks that depend on previously stored browser data.
+ *
+ * The following operations are related to `SaveBrowserSessionProfile`:
+ *
+ * - StartBrowserSession
+ *
+ * - GetBrowserSession
+ */
+export const saveBrowserSessionProfile: (
+  input: SaveBrowserSessionProfileRequest,
+) => effect.Effect<
+  SaveBrowserSessionProfileResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SaveBrowserSessionProfileRequest,
+  output: SaveBrowserSessionProfileResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Retrieves detailed information about a specific browser session in Amazon Bedrock AgentCore. This operation returns the session's configuration, current status, associated streams, and metadata.
  *
  * To get a browser session, you must specify both the browser identifier and the session ID. The response includes information about the session's viewport configuration, timeout settings, and stream endpoints.
  *
@@ -2773,7 +2954,7 @@ export const getBrowserSession: (
   ],
 }));
 /**
- * Retrieves a list of browser sessions in Amazon Bedrock that match the specified criteria. This operation returns summary information about each session, including identifiers, status, and timestamps.
+ * Retrieves a list of browser sessions in Amazon Bedrock AgentCore that match the specified criteria. This operation returns summary information about each session, including identifiers, status, and timestamps.
  *
  * You can filter the results by browser identifier and session status. The operation supports pagination to handle large result sets efficiently.
  *
@@ -2808,7 +2989,7 @@ export const listBrowserSessions: (
   ],
 }));
 /**
- * Creates and initializes a browser session in Amazon Bedrock. The session enables agents to navigate and interact with web content, extract information from websites, and perform web-based tasks as part of their response generation.
+ * Creates and initializes a browser session in Amazon Bedrock AgentCore. The session enables agents to navigate and interact with web content, extract information from websites, and perform web-based tasks as part of their response generation.
  *
  * To create a session, you must specify a browser identifier and a name. You can also configure the viewport dimensions to control the visible area of web content. The session remains active until it times out or you explicitly stop it using the `StopBrowserSession` operation.
  *
@@ -2817,6 +2998,8 @@ export const listBrowserSessions: (
  * - GetBrowserSession
  *
  * - UpdateBrowserStream
+ *
+ * - SaveBrowserSessionProfile
  *
  * - StopBrowserSession
  */
@@ -2847,7 +3030,7 @@ export const startBrowserSession: (
   ],
 }));
 /**
- * Terminates an active browser session in Amazon Bedrock. This operation stops the session, releases associated resources, and makes the session unavailable for further use.
+ * Terminates an active browser session in Amazon Bedrock AgentCore. This operation stops the session, releases associated resources, and makes the session unavailable for further use.
  *
  * To stop a browser session, you must specify both the browser identifier and the session ID. Once stopped, a session cannot be restarted; you must create a new session using `StartBrowserSession`.
  *
@@ -2913,7 +3096,7 @@ export const updateBrowserStream: (
   ],
 }));
 /**
- * Retrieves detailed information about a specific code interpreter session in Amazon Bedrock. This operation returns the session's configuration, current status, and metadata.
+ * Retrieves detailed information about a specific code interpreter session in Amazon Bedrock AgentCore. This operation returns the session's configuration, current status, and metadata.
  *
  * To get a code interpreter session, you must specify both the code interpreter identifier and the session ID. The response includes information about the session's timeout settings and current status.
  *
@@ -2948,7 +3131,7 @@ export const getCodeInterpreterSession: (
   ],
 }));
 /**
- * Retrieves a list of code interpreter sessions in Amazon Bedrock that match the specified criteria. This operation returns summary information about each session, including identifiers, status, and timestamps.
+ * Retrieves a list of code interpreter sessions in Amazon Bedrock AgentCore that match the specified criteria. This operation returns summary information about each session, including identifiers, status, and timestamps.
  *
  * You can filter the results by code interpreter identifier and session status. The operation supports pagination to handle large result sets efficiently.
  *
@@ -2983,7 +3166,7 @@ export const listCodeInterpreterSessions: (
   ],
 }));
 /**
- * Creates and initializes a code interpreter session in Amazon Bedrock. The session enables agents to execute code as part of their response generation, supporting programming languages such as Python for data analysis, visualization, and computation tasks.
+ * Creates and initializes a code interpreter session in Amazon Bedrock AgentCore. The session enables agents to execute code as part of their response generation, supporting programming languages such as Python for data analysis, visualization, and computation tasks.
  *
  * To create a session, you must specify a code interpreter identifier and a name. The session remains active until it times out or you explicitly stop it using the `StopCodeInterpreterSession` operation.
  *
@@ -3022,7 +3205,7 @@ export const startCodeInterpreterSession: (
   ],
 }));
 /**
- * Terminates an active code interpreter session in Amazon Bedrock. This operation stops the session, releases associated resources, and makes the session unavailable for further use.
+ * Terminates an active code interpreter session in Amazon Bedrock AgentCore. This operation stops the session, releases associated resources, and makes the session unavailable for further use.
  *
  * To stop a code interpreter session, you must specify both the code interpreter identifier and the session ID. Once stopped, a session cannot be restarted; you must create a new session using `StartCodeInterpreterSession`.
  *
@@ -3186,6 +3369,7 @@ export const createEvent: (
   | AccessDeniedException
   | InvalidInputException
   | ResourceNotFoundException
+  | RetryableConflictException
   | ServiceException
   | ServiceQuotaExceededException
   | ThrottledException
@@ -3199,6 +3383,7 @@ export const createEvent: (
     AccessDeniedException,
     InvalidInputException,
     ResourceNotFoundException,
+    RetryableConflictException,
     ServiceException,
     ServiceQuotaExceededException,
     ThrottledException,

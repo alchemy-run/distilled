@@ -24,6 +24,7 @@ const rules = T.EndpointResolver((p, _) => {
     UseDualStack = false,
     UseFIPS = false,
     Endpoint,
+    StreamId,
     StreamARN,
     OperationType,
     ConsumerARN,
@@ -37,6 +38,215 @@ const rules = T.EndpointResolver((p, _) => {
     type: "error" as const,
     message: m as string,
   });
+  {
+    const StreamIdDelimiterValue = _.substring(StreamId, 20, 21, false);
+    const StreamIdDelimiterReversedValue = _.substring(StreamId, 3, 4, true);
+    const StreamIdPrefixValue = _.substring(StreamId, 0, 20, false);
+    const StreamIdSuffixValue = _.substring(StreamId, 21, 24, false);
+    const PartitionResult = _.partition(Region);
+    if (
+      StreamId != null &&
+      StreamIdDelimiterValue != null &&
+      StreamIdDelimiterValue !== false &&
+      StreamIdDelimiterValue === "-" &&
+      StreamIdDelimiterReversedValue != null &&
+      StreamIdDelimiterReversedValue !== false &&
+      StreamIdDelimiterReversedValue === "-" &&
+      StreamIdPrefixValue != null &&
+      StreamIdPrefixValue !== false &&
+      StreamIdSuffixValue != null &&
+      StreamIdSuffixValue !== false &&
+      Region != null &&
+      PartitionResult != null &&
+      PartitionResult !== false &&
+      !(_.getAttr(PartitionResult, "name") === "aws-iso") &&
+      !(_.getAttr(PartitionResult, "name") === "aws-iso-b")
+    ) {
+      if (OperationType != null) {
+        {
+          const HttpsCustomEndpointDelimiterValue = _.substring(
+            Endpoint,
+            15,
+            16,
+            false,
+          );
+          const HttpsEndpointDelimiterValue = _.substring(
+            Endpoint,
+            20,
+            21,
+            false,
+          );
+          const HttpsCustomEndpointSuffixValue = _.substring(
+            Endpoint,
+            15,
+            20,
+            false,
+          );
+          if (
+            Endpoint != null &&
+            HttpsCustomEndpointDelimiterValue != null &&
+            HttpsCustomEndpointDelimiterValue !== false &&
+            HttpsCustomEndpointDelimiterValue === "-" &&
+            HttpsEndpointDelimiterValue != null &&
+            HttpsEndpointDelimiterValue !== false &&
+            HttpsEndpointDelimiterValue === "." &&
+            HttpsCustomEndpointSuffixValue != null &&
+            HttpsCustomEndpointSuffixValue !== false
+          ) {
+            if (UseFIPS === true && UseDualStack === true) {
+              if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
+                if (_.getAttr(PartitionResult, "supportsDualStack") === true) {
+                  return e(
+                    `https://${StreamIdPrefixValue}.${StreamIdSuffixValue}.${OperationType}-kinesis${HttpsCustomEndpointSuffixValue}-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+                  );
+                }
+                return err(
+                  "DualStack is enabled, but this partition does not support DualStack.",
+                );
+              }
+              return err(
+                "FIPS is enabled, but this partition does not support FIPS.",
+              );
+            }
+            if (UseFIPS === true) {
+              if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
+                return e(
+                  `https://${StreamIdPrefixValue}.${StreamIdSuffixValue}.${OperationType}-kinesis${HttpsCustomEndpointSuffixValue}-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+                );
+              }
+              return err(
+                "FIPS is enabled but this partition does not support FIPS",
+              );
+            }
+            if (UseDualStack === true) {
+              if (_.getAttr(PartitionResult, "supportsDualStack") === true) {
+                return e(
+                  `https://${StreamIdPrefixValue}.${StreamIdSuffixValue}.${OperationType}-kinesis${HttpsCustomEndpointSuffixValue}.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+                );
+              }
+              return err(
+                "DualStack is enabled but this partition does not support DualStack",
+              );
+            }
+            return e(
+              `https://${StreamIdPrefixValue}.${StreamIdSuffixValue}.${OperationType}-kinesis${HttpsCustomEndpointSuffixValue}.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+            );
+          }
+        }
+        {
+          const PlainCustomEndpointDelimiterValue = _.substring(
+            Endpoint,
+            7,
+            8,
+            false,
+          );
+          const PlainEndpointDelimiterValue = _.substring(
+            Endpoint,
+            12,
+            13,
+            false,
+          );
+          const PlainCustomEndpointSuffixValue = _.substring(
+            Endpoint,
+            7,
+            12,
+            false,
+          );
+          if (
+            Endpoint != null &&
+            PlainCustomEndpointDelimiterValue != null &&
+            PlainCustomEndpointDelimiterValue !== false &&
+            PlainCustomEndpointDelimiterValue === "-" &&
+            PlainEndpointDelimiterValue != null &&
+            PlainEndpointDelimiterValue !== false &&
+            PlainEndpointDelimiterValue === "." &&
+            PlainCustomEndpointSuffixValue != null &&
+            PlainCustomEndpointSuffixValue !== false
+          ) {
+            if (UseFIPS === true && UseDualStack === true) {
+              if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
+                if (_.getAttr(PartitionResult, "supportsDualStack") === true) {
+                  return e(
+                    `https://${StreamIdPrefixValue}.${StreamIdSuffixValue}.${OperationType}-kinesis${PlainCustomEndpointSuffixValue}-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+                  );
+                }
+                return err(
+                  "DualStack is enabled, but this partition does not support DualStack.",
+                );
+              }
+              return err(
+                "FIPS is enabled, but this partition does not support FIPS.",
+              );
+            }
+            if (UseFIPS === true) {
+              if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
+                return e(
+                  `https://${StreamIdPrefixValue}.${StreamIdSuffixValue}.${OperationType}-kinesis${PlainCustomEndpointSuffixValue}-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+                );
+              }
+              return err(
+                "FIPS is enabled but this partition does not support FIPS",
+              );
+            }
+            if (UseDualStack === true) {
+              if (_.getAttr(PartitionResult, "supportsDualStack") === true) {
+                return e(
+                  `https://${StreamIdPrefixValue}.${StreamIdSuffixValue}.${OperationType}-kinesis${PlainCustomEndpointSuffixValue}.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+                );
+              }
+              return err(
+                "DualStack is enabled but this partition does not support DualStack",
+              );
+            }
+            return e(
+              `https://${StreamIdPrefixValue}.${StreamIdSuffixValue}.${OperationType}-kinesis${PlainCustomEndpointSuffixValue}.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+            );
+          }
+        }
+        if (UseFIPS === true && UseDualStack === true) {
+          if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
+            if (_.getAttr(PartitionResult, "supportsDualStack") === true) {
+              return e(
+                `https://${StreamIdPrefixValue}.${StreamIdSuffixValue}.${OperationType}-kinesis-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              );
+            }
+            return err(
+              "DualStack is enabled, but this partition does not support DualStack.",
+            );
+          }
+          return err(
+            "FIPS is enabled, but this partition does not support FIPS.",
+          );
+        }
+        if (UseFIPS === true) {
+          if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
+            return e(
+              `https://${StreamIdPrefixValue}.${StreamIdSuffixValue}.${OperationType}-kinesis-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+            );
+          }
+          return err(
+            "FIPS is enabled but this partition does not support FIPS",
+          );
+        }
+        if (UseDualStack === true) {
+          if (_.getAttr(PartitionResult, "supportsDualStack") === true) {
+            return e(
+              `https://${StreamIdPrefixValue}.${StreamIdSuffixValue}.${OperationType}-kinesis.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+            );
+          }
+          return err(
+            "DualStack is enabled but this partition does not support DualStack",
+          );
+        }
+        return e(
+          `https://${StreamIdPrefixValue}.${StreamIdSuffixValue}.${OperationType}-kinesis.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+        );
+      }
+      return err(
+        "Operation Type is not set. Please contact service team for resolution.",
+      );
+    }
+  }
   {
     const PartitionResult = _.partition(Region);
     if (
@@ -440,6 +650,7 @@ export type StreamName = string;
 export type TagKey = string;
 export type TagValue = string;
 export type StreamARN = string;
+export type StreamId = string;
 export type ErrorMessage = string;
 export type PositiveIntegerObject = number;
 export type NaturalIntegerObject = number;
@@ -477,12 +688,14 @@ export interface AddTagsToStreamInput {
   StreamName?: string;
   Tags: { [key: string]: string | undefined };
   StreamARN?: string;
+  StreamId?: string;
 }
 export const AddTagsToStreamInput = S.suspend(() =>
   S.Struct({
     StreamName: S.optional(S.String),
     Tags: TagMap,
     StreamARN: S.optional(S.String).pipe(T.ContextParam("StreamARN")),
+    StreamId: S.optional(S.String).pipe(T.ContextParam("StreamId")),
   }).pipe(
     T.all(
       ns,
@@ -554,12 +767,14 @@ export interface DecreaseStreamRetentionPeriodInput {
   StreamName?: string;
   RetentionPeriodHours: number;
   StreamARN?: string;
+  StreamId?: string;
 }
 export const DecreaseStreamRetentionPeriodInput = S.suspend(() =>
   S.Struct({
     StreamName: S.optional(S.String),
     RetentionPeriodHours: S.Number,
     StreamARN: S.optional(S.String).pipe(T.ContextParam("StreamARN")),
+    StreamId: S.optional(S.String).pipe(T.ContextParam("StreamId")),
   }).pipe(
     T.all(
       ns,
@@ -583,9 +798,13 @@ export const DecreaseStreamRetentionPeriodResponse = S.suspend(() =>
 }) as any as S.Schema<DecreaseStreamRetentionPeriodResponse>;
 export interface DeleteResourcePolicyInput {
   ResourceARN: string;
+  StreamId?: string;
 }
 export const DeleteResourcePolicyInput = S.suspend(() =>
-  S.Struct({ ResourceARN: S.String.pipe(T.ContextParam("ResourceARN")) }).pipe(
+  S.Struct({
+    ResourceARN: S.String.pipe(T.ContextParam("ResourceARN")),
+    StreamId: S.optional(S.String).pipe(T.ContextParam("StreamId")),
+  }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -610,12 +829,14 @@ export interface DeleteStreamInput {
   StreamName?: string;
   EnforceConsumerDeletion?: boolean;
   StreamARN?: string;
+  StreamId?: string;
 }
 export const DeleteStreamInput = S.suspend(() =>
   S.Struct({
     StreamName: S.optional(S.String),
     EnforceConsumerDeletion: S.optional(S.Boolean),
     StreamARN: S.optional(S.String).pipe(T.ContextParam("StreamARN")),
+    StreamId: S.optional(S.String).pipe(T.ContextParam("StreamId")),
   }).pipe(
     T.all(
       ns,
@@ -641,12 +862,14 @@ export interface DeregisterStreamConsumerInput {
   StreamARN?: string;
   ConsumerName?: string;
   ConsumerARN?: string;
+  StreamId?: string;
 }
 export const DeregisterStreamConsumerInput = S.suspend(() =>
   S.Struct({
     StreamARN: S.optional(S.String).pipe(T.ContextParam("StreamARN")),
     ConsumerName: S.optional(S.String),
     ConsumerARN: S.optional(S.String).pipe(T.ContextParam("ConsumerARN")),
+    StreamId: S.optional(S.String).pipe(T.ContextParam("StreamId")),
   }).pipe(
     T.all(
       ns,
@@ -757,6 +980,7 @@ export interface DescribeStreamInput {
   Limit?: number;
   ExclusiveStartShardId?: string;
   StreamARN?: string;
+  StreamId?: string;
 }
 export const DescribeStreamInput = S.suspend(() =>
   S.Struct({
@@ -764,6 +988,7 @@ export const DescribeStreamInput = S.suspend(() =>
     Limit: S.optional(S.Number),
     ExclusiveStartShardId: S.optional(S.String),
     StreamARN: S.optional(S.String).pipe(T.ContextParam("StreamARN")),
+    StreamId: S.optional(S.String).pipe(T.ContextParam("StreamId")),
   }).pipe(
     T.all(
       ns,
@@ -890,12 +1115,14 @@ export interface DescribeStreamConsumerInput {
   StreamARN?: string;
   ConsumerName?: string;
   ConsumerARN?: string;
+  StreamId?: string;
 }
 export const DescribeStreamConsumerInput = S.suspend(() =>
   S.Struct({
     StreamARN: S.optional(S.String).pipe(T.ContextParam("StreamARN")),
     ConsumerName: S.optional(S.String),
     ConsumerARN: S.optional(S.String).pipe(T.ContextParam("ConsumerARN")),
+    StreamId: S.optional(S.String).pipe(T.ContextParam("StreamId")),
   }).pipe(
     T.all(
       ns,
@@ -942,11 +1169,13 @@ export const DescribeStreamConsumerOutput = S.suspend(() =>
 export interface DescribeStreamSummaryInput {
   StreamName?: string;
   StreamARN?: string;
+  StreamId?: string;
 }
 export const DescribeStreamSummaryInput = S.suspend(() =>
   S.Struct({
     StreamName: S.optional(S.String),
     StreamARN: S.optional(S.String).pipe(T.ContextParam("StreamARN")),
+    StreamId: S.optional(S.String).pipe(T.ContextParam("StreamId")),
   }).pipe(
     T.all(
       ns,
@@ -977,6 +1206,7 @@ export const WarmThroughputObject = S.suspend(() =>
 export interface StreamDescriptionSummary {
   StreamName: string;
   StreamARN: string;
+  StreamId?: string;
   StreamStatus: StreamStatus;
   StreamModeDetails?: StreamModeDetails;
   RetentionPeriodHours: number;
@@ -993,6 +1223,7 @@ export const StreamDescriptionSummary = S.suspend(() =>
   S.Struct({
     StreamName: S.String,
     StreamARN: S.String,
+    StreamId: S.optional(S.String),
     StreamStatus: StreamStatus,
     StreamModeDetails: S.optional(StreamModeDetails),
     RetentionPeriodHours: S.Number,
@@ -1020,12 +1251,14 @@ export interface DisableEnhancedMonitoringInput {
   StreamName?: string;
   ShardLevelMetrics: MetricsName[];
   StreamARN?: string;
+  StreamId?: string;
 }
 export const DisableEnhancedMonitoringInput = S.suspend(() =>
   S.Struct({
     StreamName: S.optional(S.String),
     ShardLevelMetrics: MetricsNameList,
     StreamARN: S.optional(S.String).pipe(T.ContextParam("StreamARN")),
+    StreamId: S.optional(S.String).pipe(T.ContextParam("StreamId")),
   }).pipe(
     T.all(
       ns,
@@ -1061,12 +1294,14 @@ export interface EnableEnhancedMonitoringInput {
   StreamName?: string;
   ShardLevelMetrics: MetricsName[];
   StreamARN?: string;
+  StreamId?: string;
 }
 export const EnableEnhancedMonitoringInput = S.suspend(() =>
   S.Struct({
     StreamName: S.optional(S.String),
     ShardLevelMetrics: MetricsNameList,
     StreamARN: S.optional(S.String).pipe(T.ContextParam("StreamARN")),
+    StreamId: S.optional(S.String).pipe(T.ContextParam("StreamId")),
   }).pipe(
     T.all(
       ns,
@@ -1086,12 +1321,14 @@ export interface GetRecordsInput {
   ShardIterator: string;
   Limit?: number;
   StreamARN?: string;
+  StreamId?: string;
 }
 export const GetRecordsInput = S.suspend(() =>
   S.Struct({
     ShardIterator: S.String,
     Limit: S.optional(S.Number),
     StreamARN: S.optional(S.String).pipe(T.ContextParam("StreamARN")),
+    StreamId: S.optional(S.String).pipe(T.ContextParam("StreamId")),
   }).pipe(
     T.all(
       ns,
@@ -1161,9 +1398,13 @@ export const GetRecordsOutput = S.suspend(() =>
 }) as any as S.Schema<GetRecordsOutput>;
 export interface GetResourcePolicyInput {
   ResourceARN: string;
+  StreamId?: string;
 }
 export const GetResourcePolicyInput = S.suspend(() =>
-  S.Struct({ ResourceARN: S.String.pipe(T.ContextParam("ResourceARN")) }).pipe(
+  S.Struct({
+    ResourceARN: S.String.pipe(T.ContextParam("ResourceARN")),
+    StreamId: S.optional(S.String).pipe(T.ContextParam("StreamId")),
+  }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -1201,6 +1442,7 @@ export interface GetShardIteratorInput {
   StartingSequenceNumber?: string;
   Timestamp?: Date;
   StreamARN?: string;
+  StreamId?: string;
 }
 export const GetShardIteratorInput = S.suspend(() =>
   S.Struct({
@@ -1210,6 +1452,7 @@ export const GetShardIteratorInput = S.suspend(() =>
     StartingSequenceNumber: S.optional(S.String),
     Timestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     StreamARN: S.optional(S.String).pipe(T.ContextParam("StreamARN")),
+    StreamId: S.optional(S.String).pipe(T.ContextParam("StreamId")),
   }).pipe(
     T.all(
       ns,
@@ -1237,12 +1480,14 @@ export interface IncreaseStreamRetentionPeriodInput {
   StreamName?: string;
   RetentionPeriodHours: number;
   StreamARN?: string;
+  StreamId?: string;
 }
 export const IncreaseStreamRetentionPeriodInput = S.suspend(() =>
   S.Struct({
     StreamName: S.optional(S.String),
     RetentionPeriodHours: S.Number,
     StreamARN: S.optional(S.String).pipe(T.ContextParam("StreamARN")),
+    StreamId: S.optional(S.String).pipe(T.ContextParam("StreamId")),
   }).pipe(
     T.all(
       ns,
@@ -1293,6 +1538,7 @@ export interface ListShardsInput {
   StreamCreationTimestamp?: Date;
   ShardFilter?: ShardFilter;
   StreamARN?: string;
+  StreamId?: string;
 }
 export const ListShardsInput = S.suspend(() =>
   S.Struct({
@@ -1305,6 +1551,7 @@ export const ListShardsInput = S.suspend(() =>
     ),
     ShardFilter: S.optional(ShardFilter),
     StreamARN: S.optional(S.String).pipe(T.ContextParam("StreamARN")),
+    StreamId: S.optional(S.String).pipe(T.ContextParam("StreamId")),
   }).pipe(
     T.all(
       ns,
@@ -1337,6 +1584,7 @@ export interface ListStreamConsumersInput {
   NextToken?: string;
   MaxResults?: number;
   StreamCreationTimestamp?: Date;
+  StreamId?: string;
 }
 export const ListStreamConsumersInput = S.suspend(() =>
   S.Struct({
@@ -1346,6 +1594,7 @@ export const ListStreamConsumersInput = S.suspend(() =>
     StreamCreationTimestamp: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
+    StreamId: S.optional(S.String).pipe(T.ContextParam("StreamId")),
   }).pipe(
     T.all(
       ns,
@@ -1453,9 +1702,13 @@ export const ListStreamsOutput = S.suspend(() =>
 }) as any as S.Schema<ListStreamsOutput>;
 export interface ListTagsForResourceInput {
   ResourceARN: string;
+  StreamId?: string;
 }
 export const ListTagsForResourceInput = S.suspend(() =>
-  S.Struct({ ResourceARN: S.String.pipe(T.ContextParam("ResourceARN")) }).pipe(
+  S.Struct({
+    ResourceARN: S.String.pipe(T.ContextParam("ResourceARN")),
+    StreamId: S.optional(S.String).pipe(T.ContextParam("StreamId")),
+  }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -1492,6 +1745,7 @@ export interface ListTagsForStreamInput {
   ExclusiveStartTagKey?: string;
   Limit?: number;
   StreamARN?: string;
+  StreamId?: string;
 }
 export const ListTagsForStreamInput = S.suspend(() =>
   S.Struct({
@@ -1499,6 +1753,7 @@ export const ListTagsForStreamInput = S.suspend(() =>
     ExclusiveStartTagKey: S.optional(S.String),
     Limit: S.optional(S.Number),
     StreamARN: S.optional(S.String).pipe(T.ContextParam("StreamARN")),
+    StreamId: S.optional(S.String).pipe(T.ContextParam("StreamId")),
   }).pipe(
     T.all(
       ns,
@@ -1528,6 +1783,7 @@ export interface MergeShardsInput {
   ShardToMerge: string;
   AdjacentShardToMerge: string;
   StreamARN?: string;
+  StreamId?: string;
 }
 export const MergeShardsInput = S.suspend(() =>
   S.Struct({
@@ -1535,6 +1791,7 @@ export const MergeShardsInput = S.suspend(() =>
     ShardToMerge: S.String,
     AdjacentShardToMerge: S.String,
     StreamARN: S.optional(S.String).pipe(T.ContextParam("StreamARN")),
+    StreamId: S.optional(S.String).pipe(T.ContextParam("StreamId")),
   }).pipe(
     T.all(
       ns,
@@ -1563,6 +1820,7 @@ export interface PutRecordInput {
   ExplicitHashKey?: string;
   SequenceNumberForOrdering?: string;
   StreamARN?: string;
+  StreamId?: string;
 }
 export const PutRecordInput = S.suspend(() =>
   S.Struct({
@@ -1572,6 +1830,7 @@ export const PutRecordInput = S.suspend(() =>
     ExplicitHashKey: S.optional(S.String),
     SequenceNumberForOrdering: S.optional(S.String),
     StreamARN: S.optional(S.String).pipe(T.ContextParam("StreamARN")),
+    StreamId: S.optional(S.String).pipe(T.ContextParam("StreamId")),
   }).pipe(
     T.all(
       ns,
@@ -1619,12 +1878,14 @@ export interface PutRecordsInput {
   Records: PutRecordsRequestEntry[];
   StreamName?: string;
   StreamARN?: string;
+  StreamId?: string;
 }
 export const PutRecordsInput = S.suspend(() =>
   S.Struct({
     Records: PutRecordsRequestEntryList,
     StreamName: S.optional(S.String),
     StreamARN: S.optional(S.String).pipe(T.ContextParam("StreamARN")),
+    StreamId: S.optional(S.String).pipe(T.ContextParam("StreamId")),
   }).pipe(
     T.all(
       ns,
@@ -1674,11 +1935,13 @@ export const PutRecordsOutput = S.suspend(() =>
 }) as any as S.Schema<PutRecordsOutput>;
 export interface PutResourcePolicyInput {
   ResourceARN: string;
+  StreamId?: string;
   Policy: string;
 }
 export const PutResourcePolicyInput = S.suspend(() =>
   S.Struct({
     ResourceARN: S.String.pipe(T.ContextParam("ResourceARN")),
+    StreamId: S.optional(S.String).pipe(T.ContextParam("StreamId")),
     Policy: S.String,
   }).pipe(
     T.all(
@@ -1704,12 +1967,14 @@ export const PutResourcePolicyResponse = S.suspend(() =>
 export interface RegisterStreamConsumerInput {
   StreamARN: string;
   ConsumerName: string;
+  StreamId?: string;
   Tags?: { [key: string]: string | undefined };
 }
 export const RegisterStreamConsumerInput = S.suspend(() =>
   S.Struct({
     StreamARN: S.String.pipe(T.ContextParam("StreamARN")),
     ConsumerName: S.String,
+    StreamId: S.optional(S.String).pipe(T.ContextParam("StreamId")),
     Tags: S.optional(TagMap),
   }).pipe(
     T.all(
@@ -1740,12 +2005,14 @@ export interface RemoveTagsFromStreamInput {
   StreamName?: string;
   TagKeys: string[];
   StreamARN?: string;
+  StreamId?: string;
 }
 export const RemoveTagsFromStreamInput = S.suspend(() =>
   S.Struct({
     StreamName: S.optional(S.String),
     TagKeys: TagKeyList,
     StreamARN: S.optional(S.String).pipe(T.ContextParam("StreamARN")),
+    StreamId: S.optional(S.String).pipe(T.ContextParam("StreamId")),
   }).pipe(
     T.all(
       ns,
@@ -1772,6 +2039,7 @@ export interface SplitShardInput {
   ShardToSplit: string;
   NewStartingHashKey: string;
   StreamARN?: string;
+  StreamId?: string;
 }
 export const SplitShardInput = S.suspend(() =>
   S.Struct({
@@ -1779,6 +2047,7 @@ export const SplitShardInput = S.suspend(() =>
     ShardToSplit: S.String,
     NewStartingHashKey: S.String,
     StreamARN: S.optional(S.String).pipe(T.ContextParam("StreamARN")),
+    StreamId: S.optional(S.String).pipe(T.ContextParam("StreamId")),
   }).pipe(
     T.all(
       ns,
@@ -1805,6 +2074,7 @@ export interface StartStreamEncryptionInput {
   EncryptionType: EncryptionType;
   KeyId: string;
   StreamARN?: string;
+  StreamId?: string;
 }
 export const StartStreamEncryptionInput = S.suspend(() =>
   S.Struct({
@@ -1812,6 +2082,7 @@ export const StartStreamEncryptionInput = S.suspend(() =>
     EncryptionType: EncryptionType,
     KeyId: S.String,
     StreamARN: S.optional(S.String).pipe(T.ContextParam("StreamARN")),
+    StreamId: S.optional(S.String).pipe(T.ContextParam("StreamId")),
   }).pipe(
     T.all(
       ns,
@@ -1838,6 +2109,7 @@ export interface StopStreamEncryptionInput {
   EncryptionType: EncryptionType;
   KeyId: string;
   StreamARN?: string;
+  StreamId?: string;
 }
 export const StopStreamEncryptionInput = S.suspend(() =>
   S.Struct({
@@ -1845,6 +2117,7 @@ export const StopStreamEncryptionInput = S.suspend(() =>
     EncryptionType: EncryptionType,
     KeyId: S.String,
     StreamARN: S.optional(S.String).pipe(T.ContextParam("StreamARN")),
+    StreamId: S.optional(S.String).pipe(T.ContextParam("StreamId")),
   }).pipe(
     T.all(
       ns,
@@ -1882,12 +2155,14 @@ export const StartingPosition = S.suspend(() =>
 }) as any as S.Schema<StartingPosition>;
 export interface SubscribeToShardInput {
   ConsumerARN: string;
+  StreamId?: string;
   ShardId: string;
   StartingPosition: StartingPosition;
 }
 export const SubscribeToShardInput = S.suspend(() =>
   S.Struct({
     ConsumerARN: S.String.pipe(T.ContextParam("ConsumerARN")),
+    StreamId: S.optional(S.String).pipe(T.ContextParam("StreamId")),
     ShardId: S.String,
     StartingPosition: StartingPosition,
   }).pipe(
@@ -2103,11 +2378,13 @@ export const SubscribeToShardOutput = S.suspend(() =>
 export interface TagResourceInput {
   Tags: { [key: string]: string | undefined };
   ResourceARN: string;
+  StreamId?: string;
 }
 export const TagResourceInput = S.suspend(() =>
   S.Struct({
     Tags: TagMap,
     ResourceARN: S.String.pipe(T.ContextParam("ResourceARN")),
+    StreamId: S.optional(S.String).pipe(T.ContextParam("StreamId")),
   }).pipe(
     T.all(
       ns,
@@ -2132,11 +2409,13 @@ export const TagResourceResponse = S.suspend(() =>
 export interface UntagResourceInput {
   TagKeys: string[];
   ResourceARN: string;
+  StreamId?: string;
 }
 export const UntagResourceInput = S.suspend(() =>
   S.Struct({
     TagKeys: TagKeyList,
     ResourceARN: S.String.pipe(T.ContextParam("ResourceARN")),
+    StreamId: S.optional(S.String).pipe(T.ContextParam("StreamId")),
   }).pipe(
     T.all(
       ns,
@@ -2205,11 +2484,13 @@ export const UpdateAccountSettingsOutput = S.suspend(() =>
 }) as any as S.Schema<UpdateAccountSettingsOutput>;
 export interface UpdateMaxRecordSizeInput {
   StreamARN?: string;
+  StreamId?: string;
   MaxRecordSizeInKiB: number;
 }
 export const UpdateMaxRecordSizeInput = S.suspend(() =>
   S.Struct({
     StreamARN: S.optional(S.String).pipe(T.ContextParam("StreamARN")),
+    StreamId: S.optional(S.String).pipe(T.ContextParam("StreamId")),
     MaxRecordSizeInKiB: S.Number,
   }).pipe(
     T.all(
@@ -2239,6 +2520,7 @@ export interface UpdateShardCountInput {
   TargetShardCount: number;
   ScalingType: ScalingType;
   StreamARN?: string;
+  StreamId?: string;
 }
 export const UpdateShardCountInput = S.suspend(() =>
   S.Struct({
@@ -2246,6 +2528,7 @@ export const UpdateShardCountInput = S.suspend(() =>
     TargetShardCount: S.Number,
     ScalingType: ScalingType,
     StreamARN: S.optional(S.String).pipe(T.ContextParam("StreamARN")),
+    StreamId: S.optional(S.String).pipe(T.ContextParam("StreamId")),
   }).pipe(
     T.all(
       ns,
@@ -2279,12 +2562,14 @@ export const UpdateShardCountOutput = S.suspend(() =>
 }) as any as S.Schema<UpdateShardCountOutput>;
 export interface UpdateStreamModeInput {
   StreamARN: string;
+  StreamId?: string;
   StreamModeDetails: StreamModeDetails;
   WarmThroughputMiBps?: number;
 }
 export const UpdateStreamModeInput = S.suspend(() =>
   S.Struct({
     StreamARN: S.String.pipe(T.ContextParam("StreamARN")),
+    StreamId: S.optional(S.String).pipe(T.ContextParam("StreamId")),
     StreamModeDetails: StreamModeDetails,
     WarmThroughputMiBps: S.optional(S.Number),
   }).pipe(
@@ -2311,12 +2596,14 @@ export const UpdateStreamModeResponse = S.suspend(() =>
 export interface UpdateStreamWarmThroughputInput {
   StreamARN?: string;
   StreamName?: string;
+  StreamId?: string;
   WarmThroughputMiBps: number;
 }
 export const UpdateStreamWarmThroughputInput = S.suspend(() =>
   S.Struct({
     StreamARN: S.optional(S.String).pipe(T.ContextParam("StreamARN")),
     StreamName: S.optional(S.String),
+    StreamId: S.optional(S.String).pipe(T.ContextParam("StreamId")),
     WarmThroughputMiBps: S.Number,
   }).pipe(
     T.all(

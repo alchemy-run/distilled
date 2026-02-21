@@ -98,6 +98,7 @@ export type __stringMax1024 = string;
 export type __stringMax256 = string;
 export type __stringMax249 = string;
 export type __stringMin1Max128Pattern09AZaZ09AZaZ0 = string;
+export type __integerMin1 = number;
 export type MaxResults = number;
 
 //# Schemas
@@ -320,18 +321,23 @@ export const VpcConnectivity = S.suspend(() =>
 ).annotate({
   identifier: "VpcConnectivity",
 }) as any as S.Schema<VpcConnectivity>;
+export type NetworkType = "IPV4" | "DUAL" | (string & {});
+export const NetworkType = S.String;
 export interface ConnectivityInfo {
   PublicAccess?: PublicAccess;
   VpcConnectivity?: VpcConnectivity;
+  NetworkType?: NetworkType;
 }
 export const ConnectivityInfo = S.suspend(() =>
   S.Struct({
     PublicAccess: S.optional(PublicAccess),
     VpcConnectivity: S.optional(VpcConnectivity),
+    NetworkType: S.optional(NetworkType),
   }).pipe(
     S.encodeKeys({
       PublicAccess: "publicAccess",
       VpcConnectivity: "vpcConnectivity",
+      NetworkType: "networkType",
     }),
   ),
 ).annotate({
@@ -1195,6 +1201,69 @@ export const CreateReplicatorResponse = S.suspend(() =>
 ).annotate({
   identifier: "CreateReplicatorResponse",
 }) as any as S.Schema<CreateReplicatorResponse>;
+export interface CreateTopicRequest {
+  ClusterArn: string;
+  TopicName?: string;
+  PartitionCount?: number;
+  ReplicationFactor?: number;
+  Configs?: string;
+}
+export const CreateTopicRequest = S.suspend(() =>
+  S.Struct({
+    ClusterArn: S.String.pipe(T.HttpLabel("ClusterArn")),
+    TopicName: S.optional(S.String),
+    PartitionCount: S.optional(S.Number),
+    ReplicationFactor: S.optional(S.Number),
+    Configs: S.optional(S.String),
+  })
+    .pipe(
+      S.encodeKeys({
+        TopicName: "topicName",
+        PartitionCount: "partitionCount",
+        ReplicationFactor: "replicationFactor",
+        Configs: "configs",
+      }),
+    )
+    .pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/v1/clusters/{ClusterArn}/topics" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
+    ),
+).annotate({
+  identifier: "CreateTopicRequest",
+}) as any as S.Schema<CreateTopicRequest>;
+export type TopicState =
+  | "CREATING"
+  | "UPDATING"
+  | "DELETING"
+  | "ACTIVE"
+  | (string & {});
+export const TopicState = S.String;
+export interface CreateTopicResponse {
+  TopicArn?: string;
+  TopicName?: string;
+  Status?: TopicState;
+}
+export const CreateTopicResponse = S.suspend(() =>
+  S.Struct({
+    TopicArn: S.optional(S.String),
+    TopicName: S.optional(S.String),
+    Status: S.optional(TopicState),
+  }).pipe(
+    S.encodeKeys({
+      TopicArn: "topicArn",
+      TopicName: "topicName",
+      Status: "status",
+    }),
+  ),
+).annotate({
+  identifier: "CreateTopicResponse",
+}) as any as S.Schema<CreateTopicResponse>;
 export interface CreateVpcConnectionRequest {
   TargetClusterArn?: string;
   Authentication?: string;
@@ -1409,6 +1478,50 @@ export const DeleteReplicatorResponse = S.suspend(() =>
 ).annotate({
   identifier: "DeleteReplicatorResponse",
 }) as any as S.Schema<DeleteReplicatorResponse>;
+export interface DeleteTopicRequest {
+  ClusterArn: string;
+  TopicName: string;
+}
+export const DeleteTopicRequest = S.suspend(() =>
+  S.Struct({
+    ClusterArn: S.String.pipe(T.HttpLabel("ClusterArn")),
+    TopicName: S.String.pipe(T.HttpLabel("TopicName")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/v1/clusters/{ClusterArn}/topics/{TopicName}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeleteTopicRequest",
+}) as any as S.Schema<DeleteTopicRequest>;
+export interface DeleteTopicResponse {
+  TopicArn?: string;
+  TopicName?: string;
+  Status?: TopicState;
+}
+export const DeleteTopicResponse = S.suspend(() =>
+  S.Struct({
+    TopicArn: S.optional(S.String),
+    TopicName: S.optional(S.String),
+    Status: S.optional(TopicState),
+  }).pipe(
+    S.encodeKeys({
+      TopicArn: "topicArn",
+      TopicName: "topicName",
+      Status: "status",
+    }),
+  ),
+).annotate({
+  identifier: "DeleteTopicResponse",
+}) as any as S.Schema<DeleteTopicResponse>;
 export interface DeleteVpcConnectionRequest {
   Arn: string;
 }
@@ -1966,6 +2079,16 @@ export const ClusterOperationV2Provisioned = S.suspend(() =>
 ).annotate({
   identifier: "ClusterOperationV2Provisioned",
 }) as any as S.Schema<ClusterOperationV2Provisioned>;
+export interface ServerlessConnectivityInfo {
+  NetworkType?: NetworkType;
+}
+export const ServerlessConnectivityInfo = S.suspend(() =>
+  S.Struct({ NetworkType: S.optional(NetworkType) }).pipe(
+    S.encodeKeys({ NetworkType: "networkType" }),
+  ),
+).annotate({
+  identifier: "ServerlessConnectivityInfo",
+}) as any as S.Schema<ServerlessConnectivityInfo>;
 export interface VpcConnectionInfoServerless {
   CreationTime?: Date;
   Owner?: string;
@@ -1992,11 +2115,21 @@ export const VpcConnectionInfoServerless = S.suspend(() =>
   identifier: "VpcConnectionInfoServerless",
 }) as any as S.Schema<VpcConnectionInfoServerless>;
 export interface ClusterOperationV2Serverless {
+  SourceClusterInfo?: ServerlessConnectivityInfo;
+  TargetClusterInfo?: ServerlessConnectivityInfo;
   VpcConnectionInfo?: VpcConnectionInfoServerless;
 }
 export const ClusterOperationV2Serverless = S.suspend(() =>
-  S.Struct({ VpcConnectionInfo: S.optional(VpcConnectionInfoServerless) }).pipe(
-    S.encodeKeys({ VpcConnectionInfo: "vpcConnectionInfo" }),
+  S.Struct({
+    SourceClusterInfo: S.optional(ServerlessConnectivityInfo),
+    TargetClusterInfo: S.optional(ServerlessConnectivityInfo),
+    VpcConnectionInfo: S.optional(VpcConnectionInfoServerless),
+  }).pipe(
+    S.encodeKeys({
+      SourceClusterInfo: "sourceClusterInfo",
+      TargetClusterInfo: "targetClusterInfo",
+      VpcConnectionInfo: "vpcConnectionInfo",
+    }),
   ),
 ).annotate({
   identifier: "ClusterOperationV2Serverless",
@@ -2175,15 +2308,18 @@ export const Provisioned = S.suspend(() =>
 export interface Serverless {
   VpcConfigs?: VpcConfig[];
   ClientAuthentication?: ServerlessClientAuthentication;
+  ConnectivityInfo?: ServerlessConnectivityInfo;
 }
 export const Serverless = S.suspend(() =>
   S.Struct({
     VpcConfigs: S.optional(__listOfVpcConfig),
     ClientAuthentication: S.optional(ServerlessClientAuthentication),
+    ConnectivityInfo: S.optional(ServerlessConnectivityInfo),
   }).pipe(
     S.encodeKeys({
       VpcConfigs: "vpcConfigs",
       ClientAuthentication: "clientAuthentication",
+      ConnectivityInfo: "connectivityInfo",
     }),
   ),
 ).annotate({ identifier: "Serverless" }) as any as S.Schema<Serverless>;
@@ -2543,13 +2679,6 @@ export const DescribeTopicRequest = S.suspend(() =>
 ).annotate({
   identifier: "DescribeTopicRequest",
 }) as any as S.Schema<DescribeTopicRequest>;
-export type TopicState =
-  | "CREATING"
-  | "UPDATING"
-  | "DELETING"
-  | "ACTIVE"
-  | (string & {});
-export const TopicState = S.String;
 export interface DescribeTopicResponse {
   TopicArn?: string;
   TopicName?: string;
@@ -2734,6 +2863,10 @@ export interface GetBootstrapBrokersResponse {
   BootstrapBrokerStringVpcConnectivityTls?: string;
   BootstrapBrokerStringVpcConnectivitySaslScram?: string;
   BootstrapBrokerStringVpcConnectivitySaslIam?: string;
+  BootstrapBrokerStringIpv6?: string;
+  BootstrapBrokerStringTlsIpv6?: string;
+  BootstrapBrokerStringSaslScramIpv6?: string;
+  BootstrapBrokerStringSaslIamIpv6?: string;
 }
 export const GetBootstrapBrokersResponse = S.suspend(() =>
   S.Struct({
@@ -2747,6 +2880,10 @@ export const GetBootstrapBrokersResponse = S.suspend(() =>
     BootstrapBrokerStringVpcConnectivityTls: S.optional(S.String),
     BootstrapBrokerStringVpcConnectivitySaslScram: S.optional(S.String),
     BootstrapBrokerStringVpcConnectivitySaslIam: S.optional(S.String),
+    BootstrapBrokerStringIpv6: S.optional(S.String),
+    BootstrapBrokerStringTlsIpv6: S.optional(S.String),
+    BootstrapBrokerStringSaslScramIpv6: S.optional(S.String),
+    BootstrapBrokerStringSaslIamIpv6: S.optional(S.String),
   }).pipe(
     S.encodeKeys({
       BootstrapBrokerString: "bootstrapBrokerString",
@@ -2763,6 +2900,10 @@ export const GetBootstrapBrokersResponse = S.suspend(() =>
         "bootstrapBrokerStringVpcConnectivitySaslScram",
       BootstrapBrokerStringVpcConnectivitySaslIam:
         "bootstrapBrokerStringVpcConnectivitySaslIam",
+      BootstrapBrokerStringIpv6: "bootstrapBrokerStringIpv6",
+      BootstrapBrokerStringTlsIpv6: "bootstrapBrokerStringTlsIpv6",
+      BootstrapBrokerStringSaslScramIpv6: "bootstrapBrokerStringSaslScramIpv6",
+      BootstrapBrokerStringSaslIamIpv6: "bootstrapBrokerStringSaslIamIpv6",
     }),
   ),
 ).annotate({
@@ -4658,6 +4799,58 @@ export const UpdateStorageResponse = S.suspend(() =>
 ).annotate({
   identifier: "UpdateStorageResponse",
 }) as any as S.Schema<UpdateStorageResponse>;
+export interface UpdateTopicRequest {
+  ClusterArn: string;
+  TopicName: string;
+  Configs?: string;
+  PartitionCount?: number;
+}
+export const UpdateTopicRequest = S.suspend(() =>
+  S.Struct({
+    ClusterArn: S.String.pipe(T.HttpLabel("ClusterArn")),
+    TopicName: S.String.pipe(T.HttpLabel("TopicName")),
+    Configs: S.optional(S.String),
+    PartitionCount: S.optional(S.Number),
+  })
+    .pipe(
+      S.encodeKeys({ Configs: "configs", PartitionCount: "partitionCount" }),
+    )
+    .pipe(
+      T.all(
+        T.Http({
+          method: "PUT",
+          uri: "/v1/clusters/{ClusterArn}/topics/{TopicName}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
+    ),
+).annotate({
+  identifier: "UpdateTopicRequest",
+}) as any as S.Schema<UpdateTopicRequest>;
+export interface UpdateTopicResponse {
+  TopicArn?: string;
+  TopicName?: string;
+  Status?: TopicState;
+}
+export const UpdateTopicResponse = S.suspend(() =>
+  S.Struct({
+    TopicArn: S.optional(S.String),
+    TopicName: S.optional(S.String),
+    Status: S.optional(TopicState),
+  }).pipe(
+    S.encodeKeys({
+      TopicArn: "topicArn",
+      TopicName: "topicName",
+      Status: "status",
+    }),
+  ),
+).annotate({
+  identifier: "UpdateTopicResponse",
+}) as any as S.Schema<UpdateTopicResponse>;
 
 //# Errors
 export class BadRequestException extends S.TaggedErrorClass<BadRequestException>()(
@@ -4692,6 +4885,42 @@ export class ConflictException extends S.TaggedErrorClass<ConflictException>()(
   "ConflictException",
   { InvalidParameter: S.optional(S.String), Message: S.optional(S.String) },
 ).pipe(C.withConflictError) {}
+export class ClusterConnectivityException extends S.TaggedErrorClass<ClusterConnectivityException>()(
+  "ClusterConnectivityException",
+  { InvalidParameter: S.optional(S.String), Message: S.optional(S.String) },
+).pipe(C.withConflictError) {}
+export class ControllerMovedException extends S.TaggedErrorClass<ControllerMovedException>()(
+  "ControllerMovedException",
+  { InvalidParameter: S.optional(S.String), Message: S.optional(S.String) },
+).pipe(C.withConflictError) {}
+export class GroupSubscribedToTopicException extends S.TaggedErrorClass<GroupSubscribedToTopicException>()(
+  "GroupSubscribedToTopicException",
+  { InvalidParameter: S.optional(S.String), Message: S.optional(S.String) },
+).pipe(C.withConflictError) {}
+export class KafkaRequestException extends S.TaggedErrorClass<KafkaRequestException>()(
+  "KafkaRequestException",
+  { InvalidParameter: S.optional(S.String), Message: S.optional(S.String) },
+).pipe(C.withBadRequestError) {}
+export class KafkaTimeoutException extends S.TaggedErrorClass<KafkaTimeoutException>()(
+  "KafkaTimeoutException",
+  { InvalidParameter: S.optional(S.String), Message: S.optional(S.String) },
+).pipe(C.withConflictError) {}
+export class NotControllerException extends S.TaggedErrorClass<NotControllerException>()(
+  "NotControllerException",
+  { InvalidParameter: S.optional(S.String), Message: S.optional(S.String) },
+).pipe(C.withConflictError) {}
+export class ReassignmentInProgressException extends S.TaggedErrorClass<ReassignmentInProgressException>()(
+  "ReassignmentInProgressException",
+  { InvalidParameter: S.optional(S.String), Message: S.optional(S.String) },
+).pipe(C.withConflictError) {}
+export class TopicExistsException extends S.TaggedErrorClass<TopicExistsException>()(
+  "TopicExistsException",
+  { InvalidParameter: S.optional(S.String), Message: S.optional(S.String) },
+).pipe(C.withConflictError) {}
+export class UnknownTopicOrPartitionException extends S.TaggedErrorClass<UnknownTopicOrPartitionException>()(
+  "UnknownTopicOrPartitionException",
+  { InvalidParameter: S.optional(S.String), Message: S.optional(S.String) },
+).pipe(C.withBadRequestError) {}
 
 //# Operations
 /**
@@ -4871,6 +5100,53 @@ export const createReplicator: (
   ],
 }));
 /**
+ * Creates a topic in the specified MSK cluster.
+ */
+export const createTopic: (
+  input: CreateTopicRequest,
+) => effect.Effect<
+  CreateTopicResponse,
+  | BadRequestException
+  | ClusterConnectivityException
+  | ConflictException
+  | ControllerMovedException
+  | ForbiddenException
+  | GroupSubscribedToTopicException
+  | InternalServerErrorException
+  | KafkaRequestException
+  | KafkaTimeoutException
+  | NotControllerException
+  | ReassignmentInProgressException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | TopicExistsException
+  | UnauthorizedException
+  | UnknownTopicOrPartitionException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateTopicRequest,
+  output: CreateTopicResponse,
+  errors: [
+    BadRequestException,
+    ClusterConnectivityException,
+    ConflictException,
+    ControllerMovedException,
+    ForbiddenException,
+    GroupSubscribedToTopicException,
+    InternalServerErrorException,
+    KafkaRequestException,
+    KafkaTimeoutException,
+    NotControllerException,
+    ReassignmentInProgressException,
+    ServiceUnavailableException,
+    TooManyRequestsException,
+    TopicExistsException,
+    UnauthorizedException,
+    UnknownTopicOrPartitionException,
+  ],
+}));
+/**
  * Creates a new MSK VPC connection.
  */
 export const createVpcConnection: (
@@ -4993,6 +5269,45 @@ export const deleteReplicator: (
     ServiceUnavailableException,
     TooManyRequestsException,
     UnauthorizedException,
+  ],
+}));
+/**
+ * Deletes a topic in the specified MSK cluster.
+ */
+export const deleteTopic: (
+  input: DeleteTopicRequest,
+) => effect.Effect<
+  DeleteTopicResponse,
+  | BadRequestException
+  | ClusterConnectivityException
+  | ControllerMovedException
+  | ForbiddenException
+  | GroupSubscribedToTopicException
+  | InternalServerErrorException
+  | KafkaRequestException
+  | KafkaTimeoutException
+  | NotControllerException
+  | NotFoundException
+  | ReassignmentInProgressException
+  | UnknownTopicOrPartitionException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteTopicRequest,
+  output: DeleteTopicResponse,
+  errors: [
+    BadRequestException,
+    ClusterConnectivityException,
+    ControllerMovedException,
+    ForbiddenException,
+    GroupSubscribedToTopicException,
+    InternalServerErrorException,
+    KafkaRequestException,
+    KafkaTimeoutException,
+    NotControllerException,
+    NotFoundException,
+    ReassignmentInProgressException,
+    UnknownTopicOrPartitionException,
   ],
 }));
 /**
@@ -6606,5 +6921,48 @@ export const updateStorage: (
     ServiceUnavailableException,
     TooManyRequestsException,
     UnauthorizedException,
+  ],
+}));
+/**
+ * Updates the configuration of the specified topic.
+ */
+export const updateTopic: (
+  input: UpdateTopicRequest,
+) => effect.Effect<
+  UpdateTopicResponse,
+  | BadRequestException
+  | ClusterConnectivityException
+  | ControllerMovedException
+  | ForbiddenException
+  | GroupSubscribedToTopicException
+  | InternalServerErrorException
+  | KafkaRequestException
+  | KafkaTimeoutException
+  | NotControllerException
+  | NotFoundException
+  | ReassignmentInProgressException
+  | ServiceUnavailableException
+  | UnauthorizedException
+  | UnknownTopicOrPartitionException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateTopicRequest,
+  output: UpdateTopicResponse,
+  errors: [
+    BadRequestException,
+    ClusterConnectivityException,
+    ControllerMovedException,
+    ForbiddenException,
+    GroupSubscribedToTopicException,
+    InternalServerErrorException,
+    KafkaRequestException,
+    KafkaTimeoutException,
+    NotControllerException,
+    NotFoundException,
+    ReassignmentInProgressException,
+    ServiceUnavailableException,
+    UnauthorizedException,
+    UnknownTopicOrPartitionException,
   ],
 }));

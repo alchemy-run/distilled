@@ -281,6 +281,7 @@ export type ClusterStatus =
   | "UPDATE_FAILED"
   | "SUSPENDING"
   | "SUSPENDED"
+  | "RESUMING"
   | (string & {});
 export const ClusterStatus = S.String;
 export interface Scheduler {
@@ -712,6 +713,7 @@ export type ComputeNodeGroupStatus =
   | "DELETED"
   | "SUSPENDING"
   | "SUSPENDED"
+  | "RESUMING"
   | (string & {});
 export const ComputeNodeGroupStatus = S.String;
 export interface ScalingConfiguration {
@@ -981,6 +983,7 @@ export type QueueStatus =
   | "UPDATE_FAILED"
   | "SUSPENDING"
   | "SUSPENDED"
+  | "RESUMING"
   | (string & {});
 export const QueueStatus = S.String;
 export interface QueueSlurmConfiguration {

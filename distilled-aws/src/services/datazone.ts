@@ -97,6 +97,7 @@ export type FirstName = string | redacted.Redacted<string>;
 export type LastName = string | redacted.Redacted<string>;
 export type GroupProfileId = string;
 export type GroupProfileName = string | redacted.Redacted<string>;
+export type IamPrincipalArn = string;
 export type ListingId = string;
 export type ListingName = string;
 export type Description = string | redacted.Redacted<string>;
@@ -400,14 +401,29 @@ export const SubscribedGroup = S.suspend(() =>
 ).annotate({
   identifier: "SubscribedGroup",
 }) as any as S.Schema<SubscribedGroup>;
+export interface SubscribedIamPrincipal {
+  principalArn?: string;
+}
+export const SubscribedIamPrincipal = S.suspend(() =>
+  S.Struct({ principalArn: S.optional(S.String) }),
+).annotate({
+  identifier: "SubscribedIamPrincipal",
+}) as any as S.Schema<SubscribedIamPrincipal>;
 export type SubscribedPrincipal =
-  | { project: SubscribedProject; user?: never; group?: never }
-  | { project?: never; user: SubscribedUser; group?: never }
-  | { project?: never; user?: never; group: SubscribedGroup };
+  | { project: SubscribedProject; user?: never; group?: never; iam?: never }
+  | { project?: never; user: SubscribedUser; group?: never; iam?: never }
+  | { project?: never; user?: never; group: SubscribedGroup; iam?: never }
+  | {
+      project?: never;
+      user?: never;
+      group?: never;
+      iam: SubscribedIamPrincipal;
+    };
 export const SubscribedPrincipal = S.Union([
   S.Struct({ project: SubscribedProject }),
   S.Struct({ user: SubscribedUser }),
   S.Struct({ group: SubscribedGroup }),
+  S.Struct({ iam: SubscribedIamPrincipal }),
 ]);
 export type SubscribedPrincipals = SubscribedPrincipal[];
 export const SubscribedPrincipals = S.Array(SubscribedPrincipal);
@@ -4132,14 +4148,34 @@ export const SubscribedGroupInput = S.suspend(() =>
 ).annotate({
   identifier: "SubscribedGroupInput",
 }) as any as S.Schema<SubscribedGroupInput>;
+export interface SubscribedIamPrincipalInput {
+  identifier?: string;
+}
+export const SubscribedIamPrincipalInput = S.suspend(() =>
+  S.Struct({ identifier: S.optional(S.String) }),
+).annotate({
+  identifier: "SubscribedIamPrincipalInput",
+}) as any as S.Schema<SubscribedIamPrincipalInput>;
 export type SubscribedPrincipalInput =
-  | { project: SubscribedProjectInput; user?: never; group?: never }
-  | { project?: never; user: SubscribedUserInput; group?: never }
-  | { project?: never; user?: never; group: SubscribedGroupInput };
+  | {
+      project: SubscribedProjectInput;
+      user?: never;
+      group?: never;
+      iam?: never;
+    }
+  | { project?: never; user: SubscribedUserInput; group?: never; iam?: never }
+  | { project?: never; user?: never; group: SubscribedGroupInput; iam?: never }
+  | {
+      project?: never;
+      user?: never;
+      group?: never;
+      iam: SubscribedIamPrincipalInput;
+    };
 export const SubscribedPrincipalInput = S.Union([
   S.Struct({ project: SubscribedProjectInput }),
   S.Struct({ user: SubscribedUserInput }),
   S.Struct({ group: SubscribedGroupInput }),
+  S.Struct({ iam: SubscribedIamPrincipalInput }),
 ]);
 export type SubscribedPrincipalInputs = SubscribedPrincipalInput[];
 export const SubscribedPrincipalInputs = S.Array(SubscribedPrincipalInput);
@@ -4242,6 +4278,11 @@ export type AuthorizedPrincipalIdentifiers = string[];
 export const AuthorizedPrincipalIdentifiers = S.Array(S.String);
 export type ApplicableAssetTypes = string[];
 export const ApplicableAssetTypes = S.Array(S.String);
+export type SubscriptionGrantCreationMode =
+  | "AUTOMATIC"
+  | "MANUAL"
+  | (string & {});
+export const SubscriptionGrantCreationMode = S.String;
 export interface CreateSubscriptionTargetInput {
   domainIdentifier: string;
   environmentIdentifier: string;
@@ -4253,6 +4294,7 @@ export interface CreateSubscriptionTargetInput {
   applicableAssetTypes: string[];
   provider?: string;
   clientToken?: string;
+  subscriptionGrantCreationMode?: SubscriptionGrantCreationMode;
 }
 export const CreateSubscriptionTargetInput = S.suspend(() =>
   S.Struct({
@@ -4266,6 +4308,7 @@ export const CreateSubscriptionTargetInput = S.suspend(() =>
     applicableAssetTypes: ApplicableAssetTypes,
     provider: S.optional(S.String),
     clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+    subscriptionGrantCreationMode: S.optional(SubscriptionGrantCreationMode),
   }).pipe(
     T.all(
       T.Http({
@@ -4298,6 +4341,7 @@ export interface CreateSubscriptionTargetOutput {
   applicableAssetTypes: string[];
   subscriptionTargetConfig: SubscriptionTargetForm[];
   provider: string;
+  subscriptionGrantCreationMode?: SubscriptionGrantCreationMode;
 }
 export const CreateSubscriptionTargetOutput = S.suspend(() =>
   S.Struct({
@@ -4316,6 +4360,7 @@ export const CreateSubscriptionTargetOutput = S.suspend(() =>
     applicableAssetTypes: ApplicableAssetTypes,
     subscriptionTargetConfig: SubscriptionTargetForms,
     provider: S.String,
+    subscriptionGrantCreationMode: S.optional(SubscriptionGrantCreationMode),
   }),
 ).annotate({
   identifier: "CreateSubscriptionTargetOutput",
@@ -4467,6 +4512,34 @@ export const DeleteConnectionOutput = S.suspend(() =>
 ).annotate({
   identifier: "DeleteConnectionOutput",
 }) as any as S.Schema<DeleteConnectionOutput>;
+export interface DeleteDataExportConfigurationInput {
+  domainIdentifier: string;
+}
+export const DeleteDataExportConfigurationInput = S.suspend(() =>
+  S.Struct({
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/v2/domains/{domainIdentifier}/data-export-configuration",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeleteDataExportConfigurationInput",
+}) as any as S.Schema<DeleteDataExportConfigurationInput>;
+export interface DeleteDataExportConfigurationOutput {}
+export const DeleteDataExportConfigurationOutput = S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "DeleteDataExportConfigurationOutput",
+}) as any as S.Schema<DeleteDataExportConfigurationOutput>;
 export interface DeleteEnvironmentInput {
   domainIdentifier: string;
   identifier: string;
@@ -6095,6 +6168,7 @@ export interface GetSubscriptionTargetOutput {
   applicableAssetTypes: string[];
   subscriptionTargetConfig: SubscriptionTargetForm[];
   provider: string;
+  subscriptionGrantCreationMode?: SubscriptionGrantCreationMode;
 }
 export const GetSubscriptionTargetOutput = S.suspend(() =>
   S.Struct({
@@ -6113,6 +6187,7 @@ export const GetSubscriptionTargetOutput = S.suspend(() =>
     applicableAssetTypes: ApplicableAssetTypes,
     subscriptionTargetConfig: SubscriptionTargetForms,
     provider: S.String,
+    subscriptionGrantCreationMode: S.optional(SubscriptionGrantCreationMode),
   }),
 ).annotate({
   identifier: "GetSubscriptionTargetOutput",
@@ -7811,6 +7886,7 @@ export interface ListSubscriptionGrantsInput {
   subscribedListingId?: string;
   subscriptionId?: string;
   owningProjectId?: string;
+  owningIamPrincipalArn?: string;
   owningUserId?: string;
   owningGroupId?: string;
   sortBy?: SortKey;
@@ -7830,6 +7906,9 @@ export const ListSubscriptionGrantsInput = S.suspend(() =>
     ),
     subscriptionId: S.optional(S.String).pipe(T.HttpQuery("subscriptionId")),
     owningProjectId: S.optional(S.String).pipe(T.HttpQuery("owningProjectId")),
+    owningIamPrincipalArn: S.optional(S.String).pipe(
+      T.HttpQuery("owningIamPrincipalArn"),
+    ),
     owningUserId: S.optional(S.String).pipe(T.HttpQuery("owningUserId")),
     owningGroupId: S.optional(S.String).pipe(T.HttpQuery("owningGroupId")),
     sortBy: S.optional(SortKey).pipe(T.HttpQuery("sortBy")),
@@ -7900,6 +7979,7 @@ export interface ListSubscriptionRequestsInput {
   status?: SubscriptionRequestStatus;
   subscribedListingId?: string;
   owningProjectId?: string;
+  owningIamPrincipalArn?: string;
   approverProjectId?: string;
   owningUserId?: string;
   owningGroupId?: string;
@@ -7916,6 +7996,9 @@ export const ListSubscriptionRequestsInput = S.suspend(() =>
       T.HttpQuery("subscribedListingId"),
     ),
     owningProjectId: S.optional(S.String).pipe(T.HttpQuery("owningProjectId")),
+    owningIamPrincipalArn: S.optional(S.String).pipe(
+      T.HttpQuery("owningIamPrincipalArn"),
+    ),
     approverProjectId: S.optional(S.String).pipe(
       T.HttpQuery("approverProjectId"),
     ),
@@ -8010,6 +8093,7 @@ export interface ListSubscriptionsInput {
   status?: SubscriptionStatus;
   subscribedListingId?: string;
   owningProjectId?: string;
+  owningIamPrincipalArn?: string;
   owningUserId?: string;
   owningGroupId?: string;
   approverProjectId?: string;
@@ -8029,6 +8113,9 @@ export const ListSubscriptionsInput = S.suspend(() =>
       T.HttpQuery("subscribedListingId"),
     ),
     owningProjectId: S.optional(S.String).pipe(T.HttpQuery("owningProjectId")),
+    owningIamPrincipalArn: S.optional(S.String).pipe(
+      T.HttpQuery("owningIamPrincipalArn"),
+    ),
     owningUserId: S.optional(S.String).pipe(T.HttpQuery("owningUserId")),
     owningGroupId: S.optional(S.String).pipe(T.HttpQuery("owningGroupId")),
     approverProjectId: S.optional(S.String).pipe(
@@ -8143,6 +8230,7 @@ export interface SubscriptionTargetSummary {
   applicableAssetTypes: string[];
   subscriptionTargetConfig: SubscriptionTargetForm[];
   provider: string;
+  subscriptionGrantCreationMode?: SubscriptionGrantCreationMode;
 }
 export const SubscriptionTargetSummary = S.suspend(() =>
   S.Struct({
@@ -8161,6 +8249,7 @@ export const SubscriptionTargetSummary = S.suspend(() =>
     applicableAssetTypes: ApplicableAssetTypes,
     subscriptionTargetConfig: SubscriptionTargetForms,
     provider: S.String,
+    subscriptionGrantCreationMode: S.optional(SubscriptionGrantCreationMode),
   }),
 ).annotate({
   identifier: "SubscriptionTargetSummary",
@@ -8695,12 +8784,28 @@ export const SearchInItem = S.suspend(() =>
 ).annotate({ identifier: "SearchInItem" }) as any as S.Schema<SearchInItem>;
 export type SearchInList = SearchInItem[];
 export const SearchInList = S.Array(SearchInItem);
+export type FilterOperator =
+  | "EQ"
+  | "LE"
+  | "LT"
+  | "GE"
+  | "GT"
+  | "TEXT_SEARCH"
+  | (string & {});
+export const FilterOperator = S.String;
 export interface Filter {
   attribute: string;
-  value: string;
+  value?: string;
+  intValue?: number;
+  operator?: FilterOperator;
 }
 export const Filter = S.suspend(() =>
-  S.Struct({ attribute: S.String, value: S.String }),
+  S.Struct({
+    attribute: S.String,
+    value: S.optional(S.String),
+    intValue: S.optional(S.Number),
+    operator: S.optional(FilterOperator),
+  }),
 ).annotate({ identifier: "Filter" }) as any as S.Schema<Filter>;
 export type FilterList = FilterClause[];
 export const FilterList = S.Array(
@@ -10702,6 +10807,7 @@ export interface UpdateSubscriptionTargetInput {
   subscriptionTargetConfig?: SubscriptionTargetForm[];
   manageAccessRole?: string;
   provider?: string;
+  subscriptionGrantCreationMode?: SubscriptionGrantCreationMode;
 }
 export const UpdateSubscriptionTargetInput = S.suspend(() =>
   S.Struct({
@@ -10714,6 +10820,7 @@ export const UpdateSubscriptionTargetInput = S.suspend(() =>
     subscriptionTargetConfig: S.optional(SubscriptionTargetForms),
     manageAccessRole: S.optional(S.String),
     provider: S.optional(S.String),
+    subscriptionGrantCreationMode: S.optional(SubscriptionGrantCreationMode),
   }).pipe(
     T.all(
       T.Http({
@@ -10746,6 +10853,7 @@ export interface UpdateSubscriptionTargetOutput {
   applicableAssetTypes: string[];
   subscriptionTargetConfig: SubscriptionTargetForm[];
   provider: string;
+  subscriptionGrantCreationMode?: SubscriptionGrantCreationMode;
 }
 export const UpdateSubscriptionTargetOutput = S.suspend(() =>
   S.Struct({
@@ -10764,6 +10872,7 @@ export const UpdateSubscriptionTargetOutput = S.suspend(() =>
     applicableAssetTypes: ApplicableAssetTypes,
     subscriptionTargetConfig: SubscriptionTargetForms,
     provider: S.String,
+    subscriptionGrantCreationMode: S.optional(SubscriptionGrantCreationMode),
   }),
 ).annotate({
   identifier: "UpdateSubscriptionTargetOutput",
@@ -15691,6 +15800,37 @@ export const deleteConnection: (
   ],
 }));
 /**
+ * Deletes data export configuration for a domain.
+ *
+ * This operation does not delete the S3 table created by the PutDataExportConfiguration operation.
+ *
+ * To temporarily disable export without deleting the configuration, use the PutDataExportConfiguration operation with the `--no-enable-export` flag instead. This allows you to re-enable export for the same domain using the `--enable-export` flag without deleting S3 table.
+ */
+export const deleteDataExportConfiguration: (
+  input: DeleteDataExportConfigurationInput,
+) => effect.Effect<
+  DeleteDataExportConfigurationOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteDataExportConfigurationInput,
+  output: DeleteDataExportConfigurationOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
  * Deletes an environment in Amazon DataZone.
  */
 export const deleteEnvironment: (
@@ -18081,7 +18221,15 @@ export const postTimeSeriesDataPoints: (
 /**
  * Creates data export configuration details.
  *
- * In the current release, you can enable exporting asset metadata only for one domain per Amazon Web Services account per region. If you disable exporting asset metadata feature for a domain where it's already enabled, you cannot enable this feature for another domain in the same Amazon Web Services account and region.
+ * If you want to temporarily disable export and later re-enable it for the same domain, use the `--no-enable-export` flag to disable and the `--enable-export` flag to re-enable. This preserves the configuration and allows you to re-enable export without deleting S3 table.
+ *
+ * You can enable asset metadata export for only one domain per account per Region. To enable export for a different domain, complete the following steps:
+ *
+ * - Delete the export configuration for the currently enabled domain using the DeleteDataExportConfiguration operation.
+ *
+ * - Delete the asset S3 table under the aws-sagemaker-catalog S3 table bucket. We recommend backing up the S3 table before deletion.
+ *
+ * - Call the PutDataExportConfiguration API to enable export for the new domain.
  */
 export const putDataExportConfiguration: (
   input: PutDataExportConfigurationInput,
@@ -18256,6 +18404,12 @@ export const revokeSubscription: (
  * - If using --filters, ensure that the JSON is well-formed and that each filter includes valid attribute and value keys.
  *
  * - For paginated results, be prepared to use --next-token to fetch additional pages.
+ *
+ * To run a standard free-text search, the `searchText` parameter must be supplied. By default, all searchable fields are indexed for semantic search and will return semantic matches for SearchListings queries. To prevent semantic search indexing for a custom form attribute, see the CreateFormType API documentation. To run a lexical search query, enclose the query with double quotes (""). This will disable semantic search even for fields that have semantic search enabled and will only return results that contain the keywords wrapped by double quotes (order of tokens in the query is not enforced). Free-text search is supported for all attributes annotated with @amazon.datazone#searchable.
+ *
+ * To run a filtered search, provide filter clause using the `filters` parameter. To filter on glossary terms, use the special attribute `__DataZoneGlossaryTerms`. To filter on an indexed numeric attribute (i.e., a numeric attribute annotated with `@amazon.datazone#sortable`), provide a filter using the `intValue` parameter. The filters parameter can also be used to run more advanced free-text searches that target specific attributes (attributes must be annotated with `@amazon.datazone#searchable` for free-text search). Create/update timestamp filtering is supported using the special `creationTime`/`lastUpdatedTime` attributes. Filter types can be mixed and matched to power complex queries.
+ *
+ * To find out whether an attribute has been annotated and indexed for a given search type, use the GetFormType API to retrieve the form containing the attribute.
  */
 export const search: {
   (
@@ -18369,9 +18523,9 @@ export const searchGroupProfiles: {
  *
  * The SearchListings API gives users flexibility in specifying what kind of search is run.
  *
- * To run a free-text search, the `searchText` parameter must be supplied. By default, all searchable fields are indexed for semantic search and will return semantic matches for SearchListings queries. To prevent semantic search indexing for a custom form attribute, see the CreateFormType API documentation. To run a lexical search query, enclose the query with double quotes (""). This will disable semantic search even for fields that have semantic search enabled and will only return results that contain the keywords wrapped by double quotes (order of tokens in the query is not enforced). Free-text search is supported for all attributes annotated with @amazon.datazone#searchable.
+ * To run a standard free-text search, the `searchText` parameter must be supplied. By default, all searchable fields are indexed for semantic search and will return semantic matches for SearchListings queries. To prevent semantic search indexing for a custom form attribute, see the CreateFormType API documentation. To run a lexical search query, enclose the query with double quotes (""). This will disable semantic search even for fields that have semantic search enabled and will only return results that contain the keywords wrapped by double quotes (order of tokens in the query is not enforced). Free-text search is supported for all attributes annotated with @amazon.datazone#searchable.
  *
- * To run a filtered search, provide filter clause using the filters parameter. To filter on glossary terms, use the special attribute `__DataZoneGlossaryTerms`.
+ * To run a filtered search, provide filter clause using the `filters` parameter. To filter on glossary terms, use the special attribute `__DataZoneGlossaryTerms`. To filter on an indexed numeric attribute (i.e., a numeric attribute annotated with `@amazon.datazone#sortable`), provide a filter using the `intValue` parameter. The filters parameter can also be used to run more advanced free-text searches that target specific attributes (attributes must be annotated with `@amazon.datazone#searchable` for free-text search). Create/update timestamp filtering is supported using the special `creationTime`/`lastUpdatedTime` attributes. Filter types can be mixed and matched to power complex queries.
  *
  * To find out whether an attribute has been annotated and indexed for a given search type, use the GetFormType API to retrieve the form containing the attribute.
  */

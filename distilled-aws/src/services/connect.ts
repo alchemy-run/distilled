@@ -106,6 +106,7 @@ export type ContactId = string;
 export type AgentResourceId = string;
 export type VocabularyId = string;
 export type EmailAddressId = string;
+export type HoursOfOperationId = string;
 export type AssociationId = string;
 export type BucketName = string;
 export type Prefix = string;
@@ -203,10 +204,13 @@ export type CommonNameLength127 = string;
 export type HoursOfOperationDescription = string;
 export type Hours24Format = number;
 export type MinutesLimit60 = number;
-export type HoursOfOperationId = string;
 export type CommonHumanReadableName = string;
 export type CommonHumanReadableDescription = string;
 export type HoursOfOperationOverrideYearMonthDayDateFormat = string;
+export type IntervalPositiveInteger = number;
+export type Month = number;
+export type MonthDay = number;
+export type WeekdayOccurrenceInteger = number;
 export type HoursOfOperationOverrideId = string;
 export type DirectoryAlias = string | redacted.Redacted<string>;
 export type DirectoryId = string;
@@ -215,6 +219,8 @@ export type OutboundCallsEnabled = boolean;
 export type URI = string;
 export type SourceApplicationName = string;
 export type IntegrationAssociationId = string;
+export type LocalizedString = string;
+export type NotificationId = string;
 export type DisplayName = string;
 export type ParticipantToken = string;
 export type ParticipantId = string;
@@ -269,6 +275,11 @@ export type TaskTemplateFieldDescription = string;
 export type TaskTemplateSingleSelectOption = string;
 export type TaskTemplateId = string;
 export type TaskTemplateArn = string;
+export type TestCaseName = string;
+export type TestCaseDescription = string;
+export type TestCaseContent = string;
+export type TestCaseInitializationData = string;
+export type TestCaseId = string;
 export type Name128 = string;
 export type Description250 = string;
 export type TrafficDistributionGroupId = string;
@@ -281,8 +292,10 @@ export type AgentLastName = string | redacted.Redacted<string>;
 export type Email = string | redacted.Redacted<string>;
 export type AutoAccept = boolean;
 export type AfterContactWorkTimeLimit = number;
+export type SensitivePhoneNumber = string | redacted.Redacted<string>;
 export type PersistentConnection = boolean;
 export type DirectoryUserId = string;
+export type AgentFirstCallbackAutoAccept = boolean;
 export type HierarchyGroupName = string;
 export type ViewsInstanceId = string;
 export type ViewsClientToken = string;
@@ -350,6 +363,7 @@ export type ActiveRegion = string;
 export type OriginRegion = string;
 export type EvaluationScorePercentage = number;
 export type EvaluationAcknowledgerCommentString = string;
+export type EvaluationReviewRequestCommentContent = string;
 export type EvaluationAnswerDataStringValue = string;
 export type EvaluationAnswerDataNumericValue = number;
 export type EvaluationSuggestedAnswerJustification = string;
@@ -367,6 +381,7 @@ export type InstanceAttributeValue = string;
 export type PhoneNumberWorkflowMessage = string;
 export type IsReadOnly = boolean;
 export type SecurityProfileName = string;
+export type TestCaseSha256 = string;
 export type InstanceArn = string;
 export type HierarchyLevelId = string;
 export type HierarchyLevelName = string;
@@ -394,6 +409,7 @@ export type DimensionsV2Key = string;
 export type DimensionsV2Value = string;
 export type PromptPresignedUrl = string;
 export type SnapshotVersion = string;
+export type TestCaseExecutionId = string;
 export type Percentage = number;
 export type MediaSource = string;
 export type MaxResult1000 = number;
@@ -420,6 +436,8 @@ export type ArtifactId = string;
 export type RealTimeContactAnalysisPostContactSummaryContent = string;
 export type MaxResult200 = number;
 export type MaxResult2 = number;
+export type TestCaseResourceId = string;
+export type ExecutionRecordString = string;
 export type ViewsNextToken = string;
 export type MaxResults = number;
 export type NullableProficiencyLimitValue = number;
@@ -839,6 +857,50 @@ export interface AssociateFlowResponse {}
 export const AssociateFlowResponse = S.suspend(() => S.Struct({})).annotate({
   identifier: "AssociateFlowResponse",
 }) as any as S.Schema<AssociateFlowResponse>;
+export interface ParentHoursOfOperationConfig {
+  HoursOfOperationId?: string;
+}
+export const ParentHoursOfOperationConfig = S.suspend(() =>
+  S.Struct({ HoursOfOperationId: S.optional(S.String) }),
+).annotate({
+  identifier: "ParentHoursOfOperationConfig",
+}) as any as S.Schema<ParentHoursOfOperationConfig>;
+export type ParentHoursOfOperationConfigList = ParentHoursOfOperationConfig[];
+export const ParentHoursOfOperationConfigList = S.Array(
+  ParentHoursOfOperationConfig,
+);
+export interface AssociateHoursOfOperationsRequest {
+  InstanceId: string;
+  HoursOfOperationId: string;
+  ParentHoursOfOperationConfigs: ParentHoursOfOperationConfig[];
+}
+export const AssociateHoursOfOperationsRequest = S.suspend(() =>
+  S.Struct({
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    HoursOfOperationId: S.String.pipe(T.HttpLabel("HoursOfOperationId")),
+    ParentHoursOfOperationConfigs: ParentHoursOfOperationConfigList,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/hours-of-operations/{InstanceId}/{HoursOfOperationId}/associate-hours",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "AssociateHoursOfOperationsRequest",
+}) as any as S.Schema<AssociateHoursOfOperationsRequest>;
+export interface AssociateHoursOfOperationsResponse {}
+export const AssociateHoursOfOperationsResponse = S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "AssociateHoursOfOperationsResponse",
+}) as any as S.Schema<AssociateHoursOfOperationsResponse>;
 export type InstanceStorageResourceType =
   | "CHAT_TRANSCRIPTS"
   | "CALL_RECORDINGS"
@@ -3498,6 +3560,47 @@ export const EvaluationFormAutoEvaluationConfiguration = S.suspend(() =>
 ).annotate({
   identifier: "EvaluationFormAutoEvaluationConfiguration",
 }) as any as S.Schema<EvaluationFormAutoEvaluationConfiguration>;
+export type EvaluationReviewNotificationRecipientType =
+  | "USER_ID"
+  | (string & {});
+export const EvaluationReviewNotificationRecipientType = S.String;
+export interface EvaluationReviewNotificationRecipientValue {
+  UserId?: string;
+}
+export const EvaluationReviewNotificationRecipientValue = S.suspend(() =>
+  S.Struct({ UserId: S.optional(S.String) }),
+).annotate({
+  identifier: "EvaluationReviewNotificationRecipientValue",
+}) as any as S.Schema<EvaluationReviewNotificationRecipientValue>;
+export interface EvaluationReviewNotificationRecipient {
+  Type: EvaluationReviewNotificationRecipientType;
+  Value: EvaluationReviewNotificationRecipientValue;
+}
+export const EvaluationReviewNotificationRecipient = S.suspend(() =>
+  S.Struct({
+    Type: EvaluationReviewNotificationRecipientType,
+    Value: EvaluationReviewNotificationRecipientValue,
+  }),
+).annotate({
+  identifier: "EvaluationReviewNotificationRecipient",
+}) as any as S.Schema<EvaluationReviewNotificationRecipient>;
+export type EvaluationReviewNotificationRecipientList =
+  EvaluationReviewNotificationRecipient[];
+export const EvaluationReviewNotificationRecipientList = S.Array(
+  EvaluationReviewNotificationRecipient,
+);
+export interface EvaluationReviewConfiguration {
+  ReviewNotificationRecipients: EvaluationReviewNotificationRecipient[];
+  EligibilityDays?: number;
+}
+export const EvaluationReviewConfiguration = S.suspend(() =>
+  S.Struct({
+    ReviewNotificationRecipients: EvaluationReviewNotificationRecipientList,
+    EligibilityDays: S.optional(S.Number),
+  }),
+).annotate({
+  identifier: "EvaluationReviewConfiguration",
+}) as any as S.Schema<EvaluationReviewConfiguration>;
 export type ContactInteractionType = "AGENT" | "AUTOMATED" | (string & {});
 export const ContactInteractionType = S.String;
 export interface EvaluationFormTargetConfiguration {
@@ -3535,6 +3638,7 @@ export interface CreateEvaluationFormRequest {
   ClientToken?: string;
   AsDraft?: boolean;
   Tags?: { [key: string]: string | undefined };
+  ReviewConfiguration?: EvaluationReviewConfiguration;
   TargetConfiguration?: EvaluationFormTargetConfiguration;
   LanguageConfiguration?: EvaluationFormLanguageConfiguration;
 }
@@ -3551,6 +3655,7 @@ export const CreateEvaluationFormRequest = S.suspend(() =>
     ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
     AsDraft: S.optional(S.Boolean),
     Tags: S.optional(TagMap),
+    ReviewConfiguration: S.optional(EvaluationReviewConfiguration),
     TargetConfiguration: S.optional(EvaluationFormTargetConfiguration),
     LanguageConfiguration: S.optional(EvaluationFormLanguageConfiguration),
   }).pipe(
@@ -3616,6 +3721,7 @@ export interface CreateHoursOfOperationRequest {
   Description?: string;
   TimeZone: string;
   Config: HoursOfOperationConfig[];
+  ParentHoursOfOperationConfigs?: ParentHoursOfOperationConfig[];
   Tags?: { [key: string]: string | undefined };
 }
 export const CreateHoursOfOperationRequest = S.suspend(() =>
@@ -3625,6 +3731,7 @@ export const CreateHoursOfOperationRequest = S.suspend(() =>
     Description: S.optional(S.String),
     TimeZone: S.String,
     Config: HoursOfOperationConfigList,
+    ParentHoursOfOperationConfigs: S.optional(ParentHoursOfOperationConfigList),
     Tags: S.optional(TagMap),
   }).pipe(
     T.all(
@@ -3689,6 +3796,46 @@ export type HoursOfOperationOverrideConfigList =
 export const HoursOfOperationOverrideConfigList = S.Array(
   HoursOfOperationOverrideConfig,
 );
+export type RecurrenceFrequency =
+  | "WEEKLY"
+  | "MONTHLY"
+  | "YEARLY"
+  | (string & {});
+export const RecurrenceFrequency = S.String;
+export type MonthList = number[];
+export const MonthList = S.Array(S.Number);
+export type MonthDayList = number[];
+export const MonthDayList = S.Array(S.Number);
+export type WeekdayOccurrenceList = number[];
+export const WeekdayOccurrenceList = S.Array(S.Number);
+export interface RecurrencePattern {
+  Frequency: RecurrenceFrequency;
+  Interval: number;
+  ByMonth?: number[];
+  ByMonthDay?: number[];
+  ByWeekdayOccurrence?: number[];
+}
+export const RecurrencePattern = S.suspend(() =>
+  S.Struct({
+    Frequency: RecurrenceFrequency,
+    Interval: S.Number,
+    ByMonth: S.optional(MonthList),
+    ByMonthDay: S.optional(MonthDayList),
+    ByWeekdayOccurrence: S.optional(WeekdayOccurrenceList),
+  }),
+).annotate({
+  identifier: "RecurrencePattern",
+}) as any as S.Schema<RecurrencePattern>;
+export interface RecurrenceConfig {
+  RecurrencePattern: RecurrencePattern;
+}
+export const RecurrenceConfig = S.suspend(() =>
+  S.Struct({ RecurrencePattern: RecurrencePattern }),
+).annotate({
+  identifier: "RecurrenceConfig",
+}) as any as S.Schema<RecurrenceConfig>;
+export type OverrideType = "STANDARD" | "OPEN" | "CLOSED" | (string & {});
+export const OverrideType = S.String;
 export interface CreateHoursOfOperationOverrideRequest {
   InstanceId: string;
   HoursOfOperationId: string;
@@ -3697,6 +3844,8 @@ export interface CreateHoursOfOperationOverrideRequest {
   Config: HoursOfOperationOverrideConfig[];
   EffectiveFrom: string;
   EffectiveTill: string;
+  RecurrenceConfig?: RecurrenceConfig;
+  OverrideType?: OverrideType;
 }
 export const CreateHoursOfOperationOverrideRequest = S.suspend(() =>
   S.Struct({
@@ -3707,6 +3856,8 @@ export const CreateHoursOfOperationOverrideRequest = S.suspend(() =>
     Config: HoursOfOperationOverrideConfigList,
     EffectiveFrom: S.String,
     EffectiveTill: S.String,
+    RecurrenceConfig: S.optional(RecurrenceConfig),
+    OverrideType: S.optional(OverrideType),
   }).pipe(
     T.all(
       T.Http({
@@ -3843,6 +3994,71 @@ export const CreateIntegrationAssociationResponse = S.suspend(() =>
 ).annotate({
   identifier: "CreateIntegrationAssociationResponse",
 }) as any as S.Schema<CreateIntegrationAssociationResponse>;
+export type RecipientList = string[];
+export const RecipientList = S.Array(S.String);
+export type ConfigurableNotificationPriority = "HIGH" | "LOW" | (string & {});
+export const ConfigurableNotificationPriority = S.String;
+export type LocaleCode =
+  | "en_US"
+  | "de_DE"
+  | "es_ES"
+  | "fr_FR"
+  | "id_ID"
+  | "it_IT"
+  | "ja_JP"
+  | "ko_KR"
+  | "pt_BR"
+  | "zh_CN"
+  | "zh_TW"
+  | (string & {});
+export const LocaleCode = S.String;
+export type NotificationContent = { [key in LocaleCode]?: string };
+export const NotificationContent = S.Record(
+  LocaleCode,
+  S.String.pipe(S.optional),
+);
+export interface CreateNotificationRequest {
+  InstanceId: string;
+  ExpiresAt?: Date;
+  Recipients: string[];
+  Priority?: ConfigurableNotificationPriority;
+  Content: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined };
+  PredefinedNotificationId?: string;
+  ClientToken?: string;
+}
+export const CreateNotificationRequest = S.suspend(() =>
+  S.Struct({
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    ExpiresAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    Recipients: RecipientList,
+    Priority: S.optional(ConfigurableNotificationPriority),
+    Content: NotificationContent,
+    Tags: S.optional(TagMap),
+    PredefinedNotificationId: S.optional(S.String),
+    ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/notifications/{InstanceId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "CreateNotificationRequest",
+}) as any as S.Schema<CreateNotificationRequest>;
+export interface CreateNotificationResponse {
+  NotificationId: string;
+  NotificationArn: string;
+}
+export const CreateNotificationResponse = S.suspend(() =>
+  S.Struct({ NotificationId: S.String, NotificationArn: S.String }),
+).annotate({
+  identifier: "CreateNotificationResponse",
+}) as any as S.Schema<CreateNotificationResponse>;
 export type ParticipantRole =
   | "AGENT"
   | "CUSTOMER"
@@ -4981,6 +5197,91 @@ export type PropertyValidationExceptionPropertyList =
 export const PropertyValidationExceptionPropertyList = S.Array(
   PropertyValidationExceptionProperty,
 );
+export type TestCaseEntryPointType = "VOICE_CALL" | (string & {});
+export const TestCaseEntryPointType = S.String;
+export interface VoiceCallEntryPointParameters {
+  SourcePhoneNumber?: string;
+  DestinationPhoneNumber?: string;
+  FlowId?: string;
+}
+export const VoiceCallEntryPointParameters = S.suspend(() =>
+  S.Struct({
+    SourcePhoneNumber: S.optional(S.String),
+    DestinationPhoneNumber: S.optional(S.String),
+    FlowId: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "VoiceCallEntryPointParameters",
+}) as any as S.Schema<VoiceCallEntryPointParameters>;
+export interface TestCaseEntryPoint {
+  Type?: TestCaseEntryPointType;
+  VoiceCallEntryPointParameters?: VoiceCallEntryPointParameters;
+}
+export const TestCaseEntryPoint = S.suspend(() =>
+  S.Struct({
+    Type: S.optional(TestCaseEntryPointType),
+    VoiceCallEntryPointParameters: S.optional(VoiceCallEntryPointParameters),
+  }),
+).annotate({
+  identifier: "TestCaseEntryPoint",
+}) as any as S.Schema<TestCaseEntryPoint>;
+export type TestCaseStatus = "PUBLISHED" | "SAVED" | (string & {});
+export const TestCaseStatus = S.String;
+export interface CreateTestCaseRequest {
+  InstanceId: string;
+  Name: string;
+  Description?: string;
+  Content: string;
+  EntryPoint?: TestCaseEntryPoint;
+  InitializationData?: string;
+  Status?: TestCaseStatus;
+  TestCaseId?: string;
+  Tags?: { [key: string]: string | undefined };
+  LastModifiedTime?: Date;
+  LastModifiedRegion?: string;
+}
+export const CreateTestCaseRequest = S.suspend(() =>
+  S.Struct({
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    Name: S.String,
+    Description: S.optional(S.String),
+    Content: S.String,
+    EntryPoint: S.optional(TestCaseEntryPoint),
+    InitializationData: S.optional(S.String),
+    Status: S.optional(TestCaseStatus),
+    TestCaseId: S.optional(S.String).pipe(T.HttpHeader("x-amz-resource-id")),
+    Tags: S.optional(TagMap),
+    LastModifiedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("http-date")),
+    ).pipe(T.HttpHeader("x-amz-last-modified-time")),
+    LastModifiedRegion: S.optional(S.String).pipe(
+      T.HttpHeader("x-amz-last-modified-region"),
+    ),
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/test-cases/{InstanceId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "CreateTestCaseRequest",
+}) as any as S.Schema<CreateTestCaseRequest>;
+export interface CreateTestCaseResponse {
+  TestCaseId?: string;
+  TestCaseArn?: string;
+}
+export const CreateTestCaseResponse = S.suspend(() =>
+  S.Struct({
+    TestCaseId: S.optional(S.String),
+    TestCaseArn: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "CreateTestCaseResponse",
+}) as any as S.Schema<CreateTestCaseResponse>;
 export interface CreateTrafficDistributionGroupRequest {
   Name: string;
   Description?: string;
@@ -5085,18 +5386,18 @@ export const UserIdentityInfo = S.suspend(() =>
 export type PhoneType = "SOFT_PHONE" | "DESK_PHONE" | (string & {});
 export const PhoneType = S.String;
 export interface UserPhoneConfig {
-  PhoneType: PhoneType;
+  PhoneType?: PhoneType;
   AutoAccept?: boolean;
   AfterContactWorkTimeLimit?: number;
-  DeskPhoneNumber?: string;
+  DeskPhoneNumber?: string | redacted.Redacted<string>;
   PersistentConnection?: boolean;
 }
 export const UserPhoneConfig = S.suspend(() =>
   S.Struct({
-    PhoneType: PhoneType,
+    PhoneType: S.optional(PhoneType),
     AutoAccept: S.optional(S.Boolean),
     AfterContactWorkTimeLimit: S.optional(S.Number),
-    DeskPhoneNumber: S.optional(S.String),
+    DeskPhoneNumber: S.optional(SensitiveString),
     PersistentConnection: S.optional(S.Boolean),
   }),
 ).annotate({
@@ -5104,16 +5405,109 @@ export const UserPhoneConfig = S.suspend(() =>
 }) as any as S.Schema<UserPhoneConfig>;
 export type SecurityProfileIds = string[];
 export const SecurityProfileIds = S.Array(S.String);
+export interface AutoAcceptConfig {
+  Channel: Channel;
+  AutoAccept: boolean;
+  AgentFirstCallbackAutoAccept?: boolean;
+}
+export const AutoAcceptConfig = S.suspend(() =>
+  S.Struct({
+    Channel: Channel,
+    AutoAccept: S.Boolean,
+    AgentFirstCallbackAutoAccept: S.optional(S.Boolean),
+  }),
+).annotate({
+  identifier: "AutoAcceptConfig",
+}) as any as S.Schema<AutoAcceptConfig>;
+export type AutoAcceptConfigs = AutoAcceptConfig[];
+export const AutoAcceptConfigs = S.Array(AutoAcceptConfig);
+export interface AfterContactWorkConfig {
+  AfterContactWorkTimeLimit?: number;
+}
+export const AfterContactWorkConfig = S.suspend(() =>
+  S.Struct({ AfterContactWorkTimeLimit: S.optional(S.Number) }),
+).annotate({
+  identifier: "AfterContactWorkConfig",
+}) as any as S.Schema<AfterContactWorkConfig>;
+export interface AfterContactWorkConfigPerChannel {
+  Channel: Channel;
+  AfterContactWorkConfig: AfterContactWorkConfig;
+  AgentFirstCallbackAfterContactWorkConfig?: AfterContactWorkConfig;
+}
+export const AfterContactWorkConfigPerChannel = S.suspend(() =>
+  S.Struct({
+    Channel: Channel,
+    AfterContactWorkConfig: AfterContactWorkConfig,
+    AgentFirstCallbackAfterContactWorkConfig: S.optional(
+      AfterContactWorkConfig,
+    ),
+  }),
+).annotate({
+  identifier: "AfterContactWorkConfigPerChannel",
+}) as any as S.Schema<AfterContactWorkConfigPerChannel>;
+export type AfterContactWorkConfigs = AfterContactWorkConfigPerChannel[];
+export const AfterContactWorkConfigs = S.Array(
+  AfterContactWorkConfigPerChannel,
+);
+export interface PhoneNumberConfig {
+  Channel: Channel;
+  PhoneType: PhoneType;
+  PhoneNumber?: string | redacted.Redacted<string>;
+}
+export const PhoneNumberConfig = S.suspend(() =>
+  S.Struct({
+    Channel: Channel,
+    PhoneType: PhoneType,
+    PhoneNumber: S.optional(SensitiveString),
+  }),
+).annotate({
+  identifier: "PhoneNumberConfig",
+}) as any as S.Schema<PhoneNumberConfig>;
+export type PhoneNumberConfigs = PhoneNumberConfig[];
+export const PhoneNumberConfigs = S.Array(PhoneNumberConfig);
+export interface PersistentConnectionConfig {
+  Channel: Channel;
+  PersistentConnection: boolean;
+}
+export const PersistentConnectionConfig = S.suspend(() =>
+  S.Struct({ Channel: Channel, PersistentConnection: S.Boolean }),
+).annotate({
+  identifier: "PersistentConnectionConfig",
+}) as any as S.Schema<PersistentConnectionConfig>;
+export type PersistentConnectionConfigs = PersistentConnectionConfig[];
+export const PersistentConnectionConfigs = S.Array(PersistentConnectionConfig);
+export type VoiceEnhancementMode =
+  | "VOICE_ISOLATION"
+  | "NOISE_SUPPRESSION"
+  | "NONE"
+  | (string & {});
+export const VoiceEnhancementMode = S.String;
+export interface VoiceEnhancementConfig {
+  Channel: Channel;
+  VoiceEnhancementMode: VoiceEnhancementMode;
+}
+export const VoiceEnhancementConfig = S.suspend(() =>
+  S.Struct({ Channel: Channel, VoiceEnhancementMode: VoiceEnhancementMode }),
+).annotate({
+  identifier: "VoiceEnhancementConfig",
+}) as any as S.Schema<VoiceEnhancementConfig>;
+export type VoiceEnhancementConfigs = VoiceEnhancementConfig[];
+export const VoiceEnhancementConfigs = S.Array(VoiceEnhancementConfig);
 export interface CreateUserRequest {
   Username: string;
   Password?: string | redacted.Redacted<string>;
   IdentityInfo?: UserIdentityInfo;
-  PhoneConfig: UserPhoneConfig;
+  PhoneConfig?: UserPhoneConfig;
   DirectoryUserId?: string;
   SecurityProfileIds: string[];
   RoutingProfileId: string;
   HierarchyGroupId?: string;
   InstanceId: string;
+  AutoAcceptConfigs?: AutoAcceptConfig[];
+  AfterContactWorkConfigs?: AfterContactWorkConfigPerChannel[];
+  PhoneNumberConfigs?: PhoneNumberConfig[];
+  PersistentConnectionConfigs?: PersistentConnectionConfig[];
+  VoiceEnhancementConfigs?: VoiceEnhancementConfig[];
   Tags?: { [key: string]: string | undefined };
 }
 export const CreateUserRequest = S.suspend(() =>
@@ -5121,12 +5515,17 @@ export const CreateUserRequest = S.suspend(() =>
     Username: S.String,
     Password: S.optional(SensitiveString),
     IdentityInfo: S.optional(UserIdentityInfo),
-    PhoneConfig: UserPhoneConfig,
+    PhoneConfig: S.optional(UserPhoneConfig),
     DirectoryUserId: S.optional(S.String),
     SecurityProfileIds: SecurityProfileIds,
     RoutingProfileId: S.String,
     HierarchyGroupId: S.optional(S.String),
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    AutoAcceptConfigs: S.optional(AutoAcceptConfigs),
+    AfterContactWorkConfigs: S.optional(AfterContactWorkConfigs),
+    PhoneNumberConfigs: S.optional(PhoneNumberConfigs),
+    PersistentConnectionConfigs: S.optional(PersistentConnectionConfigs),
+    VoiceEnhancementConfigs: S.optional(VoiceEnhancementConfigs),
     Tags: S.optional(TagMap),
   }).pipe(
     T.all(
@@ -6104,6 +6503,36 @@ export const DeleteIntegrationAssociationResponse = S.suspend(() =>
 ).annotate({
   identifier: "DeleteIntegrationAssociationResponse",
 }) as any as S.Schema<DeleteIntegrationAssociationResponse>;
+export interface DeleteNotificationRequest {
+  InstanceId: string;
+  NotificationId: string;
+}
+export const DeleteNotificationRequest = S.suspend(() =>
+  S.Struct({
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    NotificationId: S.String.pipe(T.HttpLabel("NotificationId")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/notifications/{InstanceId}/{NotificationId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeleteNotificationRequest",
+}) as any as S.Schema<DeleteNotificationRequest>;
+export interface DeleteNotificationResponse {}
+export const DeleteNotificationResponse = S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "DeleteNotificationResponse",
+}) as any as S.Schema<DeleteNotificationResponse>;
 export interface DeletePredefinedAttributeRequest {
   InstanceId: string;
   Name: string;
@@ -6361,6 +6790,34 @@ export const DeleteTaskTemplateResponse = S.suspend(() =>
 ).annotate({
   identifier: "DeleteTaskTemplateResponse",
 }) as any as S.Schema<DeleteTaskTemplateResponse>;
+export interface DeleteTestCaseRequest {
+  InstanceId: string;
+  TestCaseId: string;
+}
+export const DeleteTestCaseRequest = S.suspend(() =>
+  S.Struct({
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    TestCaseId: S.String.pipe(T.HttpLabel("TestCaseId")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/test-cases/{InstanceId}/{TestCaseId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeleteTestCaseRequest",
+}) as any as S.Schema<DeleteTestCaseRequest>;
+export interface DeleteTestCaseResponse {}
+export const DeleteTestCaseResponse = S.suspend(() => S.Struct({})).annotate({
+  identifier: "DeleteTestCaseResponse",
+}) as any as S.Schema<DeleteTestCaseResponse>;
 export interface DeleteTrafficDistributionGroupRequest {
   TrafficDistributionGroupId: string;
 }
@@ -7631,6 +8088,41 @@ export const EvaluationAcknowledgement = S.suspend(() =>
 ).annotate({
   identifier: "EvaluationAcknowledgement",
 }) as any as S.Schema<EvaluationAcknowledgement>;
+export interface EvaluationReviewRequestComment {
+  Comment?: string;
+  CreatedTime?: Date;
+  CreatedBy?: string;
+}
+export const EvaluationReviewRequestComment = S.suspend(() =>
+  S.Struct({
+    Comment: S.optional(S.String),
+    CreatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    CreatedBy: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "EvaluationReviewRequestComment",
+}) as any as S.Schema<EvaluationReviewRequestComment>;
+export type EvaluationReviewRequestCommentList =
+  EvaluationReviewRequestComment[];
+export const EvaluationReviewRequestCommentList = S.Array(
+  EvaluationReviewRequestComment,
+);
+export interface EvaluationReviewMetadata {
+  ReviewId?: string;
+  CreatedTime: Date;
+  CreatedBy: string;
+  ReviewRequestComments: EvaluationReviewRequestComment[];
+}
+export const EvaluationReviewMetadata = S.suspend(() =>
+  S.Struct({
+    ReviewId: S.optional(S.String),
+    CreatedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    CreatedBy: S.String,
+    ReviewRequestComments: EvaluationReviewRequestCommentList,
+  }),
+).annotate({
+  identifier: "EvaluationReviewMetadata",
+}) as any as S.Schema<EvaluationReviewMetadata>;
 export type ContactParticipantRole =
   | "AGENT"
   | "SYSTEM"
@@ -7657,6 +8149,7 @@ export interface EvaluationMetadata {
   Score?: EvaluationScore;
   AutoEvaluation?: AutoEvaluationDetails;
   Acknowledgement?: EvaluationAcknowledgement;
+  Review?: EvaluationReviewMetadata;
   ContactParticipant?: EvaluationContactParticipant;
   SamplingJobId?: string;
 }
@@ -7669,6 +8162,7 @@ export const EvaluationMetadata = S.suspend(() =>
     Score: S.optional(EvaluationScore),
     AutoEvaluation: S.optional(AutoEvaluationDetails),
     Acknowledgement: S.optional(EvaluationAcknowledgement),
+    Review: S.optional(EvaluationReviewMetadata),
     ContactParticipant: S.optional(EvaluationContactParticipant),
     SamplingJobId: S.optional(S.String),
   }),
@@ -7875,7 +8369,12 @@ export const EvaluationNotesMap = S.Record(
   S.String,
   EvaluationNote.pipe(S.optional),
 );
-export type EvaluationStatus = "DRAFT" | "SUBMITTED" | (string & {});
+export type EvaluationStatus =
+  | "DRAFT"
+  | "SUBMITTED"
+  | "REVIEW_REQUESTED"
+  | "UNDER_REVIEW"
+  | (string & {});
 export const EvaluationStatus = S.String;
 export type EvaluationScoresMap = {
   [key: string]: EvaluationScore | undefined;
@@ -7925,6 +8424,7 @@ export interface EvaluationFormContent {
   AutoEvaluationConfiguration?: EvaluationFormAutoEvaluationConfiguration;
   TargetConfiguration?: EvaluationFormTargetConfiguration;
   LanguageConfiguration?: EvaluationFormLanguageConfiguration;
+  ReviewConfiguration?: EvaluationReviewConfiguration;
 }
 export const EvaluationFormContent = S.suspend(() =>
   S.Struct({
@@ -7940,6 +8440,7 @@ export const EvaluationFormContent = S.suspend(() =>
     ),
     TargetConfiguration: S.optional(EvaluationFormTargetConfiguration),
     LanguageConfiguration: S.optional(EvaluationFormLanguageConfiguration),
+    ReviewConfiguration: S.optional(EvaluationReviewConfiguration),
   }),
 ).annotate({
   identifier: "EvaluationFormContent",
@@ -8381,6 +8882,7 @@ export interface EvaluationForm {
   LastModifiedTime: Date;
   LastModifiedBy: string;
   AutoEvaluationConfiguration?: EvaluationFormAutoEvaluationConfiguration;
+  ReviewConfiguration?: EvaluationReviewConfiguration;
   Tags?: { [key: string]: string | undefined };
   TargetConfiguration?: EvaluationFormTargetConfiguration;
   LanguageConfiguration?: EvaluationFormLanguageConfiguration;
@@ -8403,6 +8905,7 @@ export const EvaluationForm = S.suspend(() =>
     AutoEvaluationConfiguration: S.optional(
       EvaluationFormAutoEvaluationConfiguration,
     ),
+    ReviewConfiguration: S.optional(EvaluationReviewConfiguration),
     Tags: S.optional(TagMap),
     TargetConfiguration: S.optional(EvaluationFormTargetConfiguration),
     LanguageConfiguration: S.optional(EvaluationFormLanguageConfiguration),
@@ -8440,6 +8943,18 @@ export const DescribeHoursOfOperationRequest = S.suspend(() =>
 ).annotate({
   identifier: "DescribeHoursOfOperationRequest",
 }) as any as S.Schema<DescribeHoursOfOperationRequest>;
+export interface HoursOfOperationsIdentifier {
+  Name: string;
+  Id: string;
+  Arn?: string;
+}
+export const HoursOfOperationsIdentifier = S.suspend(() =>
+  S.Struct({ Name: S.String, Id: S.String, Arn: S.optional(S.String) }),
+).annotate({
+  identifier: "HoursOfOperationsIdentifier",
+}) as any as S.Schema<HoursOfOperationsIdentifier>;
+export type ParentHoursOfOperationsList = HoursOfOperationsIdentifier[];
+export const ParentHoursOfOperationsList = S.Array(HoursOfOperationsIdentifier);
 export interface HoursOfOperation {
   HoursOfOperationId?: string;
   HoursOfOperationArn?: string;
@@ -8447,6 +8962,7 @@ export interface HoursOfOperation {
   Description?: string;
   TimeZone?: string;
   Config?: HoursOfOperationConfig[];
+  ParentHoursOfOperations?: HoursOfOperationsIdentifier[];
   Tags?: { [key: string]: string | undefined };
   LastModifiedTime?: Date;
   LastModifiedRegion?: string;
@@ -8459,6 +8975,7 @@ export const HoursOfOperation = S.suspend(() =>
     Description: S.optional(S.String),
     TimeZone: S.optional(S.String),
     Config: S.optional(HoursOfOperationConfigList),
+    ParentHoursOfOperations: S.optional(ParentHoursOfOperationsList),
     Tags: S.optional(TagMap),
     LastModifiedTime: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -8513,6 +9030,8 @@ export interface HoursOfOperationOverride {
   Config?: HoursOfOperationOverrideConfig[];
   EffectiveFrom?: string;
   EffectiveTill?: string;
+  RecurrenceConfig?: RecurrenceConfig;
+  OverrideType?: OverrideType;
 }
 export const HoursOfOperationOverride = S.suspend(() =>
   S.Struct({
@@ -8524,6 +9043,8 @@ export const HoursOfOperationOverride = S.suspend(() =>
     Config: S.optional(HoursOfOperationOverrideConfigList),
     EffectiveFrom: S.optional(S.String),
     EffectiveTill: S.optional(S.String),
+    RecurrenceConfig: S.optional(RecurrenceConfig),
+    OverrideType: S.optional(OverrideType),
   }),
 ).annotate({
   identifier: "HoursOfOperationOverride",
@@ -8740,6 +9261,66 @@ export const DescribeInstanceStorageConfigResponse = S.suspend(() =>
 ).annotate({
   identifier: "DescribeInstanceStorageConfigResponse",
 }) as any as S.Schema<DescribeInstanceStorageConfigResponse>;
+export interface DescribeNotificationRequest {
+  InstanceId: string;
+  NotificationId: string;
+}
+export const DescribeNotificationRequest = S.suspend(() =>
+  S.Struct({
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    NotificationId: S.String.pipe(T.HttpLabel("NotificationId")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/notifications/{InstanceId}/{NotificationId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DescribeNotificationRequest",
+}) as any as S.Schema<DescribeNotificationRequest>;
+export type NotificationPriority = "URGENT" | "HIGH" | "LOW" | (string & {});
+export const NotificationPriority = S.String;
+export interface Notification {
+  Content?: { [key: string]: string | undefined };
+  Id: string;
+  Arn: string;
+  Priority?: NotificationPriority;
+  Recipients?: string[];
+  LastModifiedTime: Date;
+  CreatedAt?: Date;
+  ExpiresAt?: Date;
+  LastModifiedRegion?: string;
+  Tags?: { [key: string]: string | undefined };
+}
+export const Notification = S.suspend(() =>
+  S.Struct({
+    Content: S.optional(NotificationContent),
+    Id: S.String,
+    Arn: S.String,
+    Priority: S.optional(NotificationPriority),
+    Recipients: S.optional(RecipientList),
+    LastModifiedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    ExpiresAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    LastModifiedRegion: S.optional(S.String),
+    Tags: S.optional(TagMap),
+  }),
+).annotate({ identifier: "Notification" }) as any as S.Schema<Notification>;
+export interface DescribeNotificationResponse {
+  Notification: Notification;
+}
+export const DescribeNotificationResponse = S.suspend(() =>
+  S.Struct({ Notification: Notification }),
+).annotate({
+  identifier: "DescribeNotificationResponse",
+}) as any as S.Schema<DescribeNotificationResponse>;
 export interface DescribePhoneNumberRequest {
   PhoneNumberId: string;
 }
@@ -9504,6 +10085,69 @@ export const DescribeSecurityProfileResponse = S.suspend(() =>
 ).annotate({
   identifier: "DescribeSecurityProfileResponse",
 }) as any as S.Schema<DescribeSecurityProfileResponse>;
+export interface DescribeTestCaseRequest {
+  InstanceId: string;
+  TestCaseId: string;
+  Status?: TestCaseStatus;
+}
+export const DescribeTestCaseRequest = S.suspend(() =>
+  S.Struct({
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    TestCaseId: S.String.pipe(T.HttpLabel("TestCaseId")),
+    Status: S.optional(TestCaseStatus).pipe(T.HttpQuery("status")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/test-cases/{InstanceId}/{TestCaseId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DescribeTestCaseRequest",
+}) as any as S.Schema<DescribeTestCaseRequest>;
+export interface TestCase {
+  Arn?: string;
+  Id?: string;
+  Name?: string;
+  Content?: string;
+  EntryPoint?: TestCaseEntryPoint;
+  InitializationData?: string;
+  Description?: string;
+  Status?: TestCaseStatus;
+  LastModifiedTime?: Date;
+  LastModifiedRegion?: string;
+  Tags?: { [key: string]: string | undefined };
+  TestCaseSha256?: string;
+}
+export const TestCase = S.suspend(() =>
+  S.Struct({
+    Arn: S.optional(S.String),
+    Id: S.optional(S.String),
+    Name: S.optional(S.String),
+    Content: S.optional(S.String),
+    EntryPoint: S.optional(TestCaseEntryPoint),
+    InitializationData: S.optional(S.String),
+    Description: S.optional(S.String),
+    Status: S.optional(TestCaseStatus),
+    LastModifiedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    LastModifiedRegion: S.optional(S.String),
+    Tags: S.optional(TagMap),
+    TestCaseSha256: S.optional(S.String),
+  }),
+).annotate({ identifier: "TestCase" }) as any as S.Schema<TestCase>;
+export interface DescribeTestCaseResponse {
+  TestCase?: TestCase;
+}
+export const DescribeTestCaseResponse = S.suspend(() =>
+  S.Struct({ TestCase: S.optional(TestCase) }),
+).annotate({
+  identifier: "DescribeTestCaseResponse",
+}) as any as S.Schema<DescribeTestCaseResponse>;
 export interface DescribeTrafficDistributionGroupRequest {
   TrafficDistributionGroupId: string;
 }
@@ -9601,6 +10245,11 @@ export interface User {
   RoutingProfileId?: string;
   HierarchyGroupId?: string;
   Tags?: { [key: string]: string | undefined };
+  AutoAcceptConfigs?: AutoAcceptConfig[];
+  AfterContactWorkConfigs?: AfterContactWorkConfigPerChannel[];
+  PhoneNumberConfigs?: PhoneNumberConfig[];
+  PersistentConnectionConfigs?: PersistentConnectionConfig[];
+  VoiceEnhancementConfigs?: VoiceEnhancementConfig[];
   LastModifiedTime?: Date;
   LastModifiedRegion?: string;
 }
@@ -9616,6 +10265,11 @@ export const User = S.suspend(() =>
     RoutingProfileId: S.optional(S.String),
     HierarchyGroupId: S.optional(S.String),
     Tags: S.optional(TagMap),
+    AutoAcceptConfigs: S.optional(AutoAcceptConfigs),
+    AfterContactWorkConfigs: S.optional(AfterContactWorkConfigs),
+    PhoneNumberConfigs: S.optional(PhoneNumberConfigs),
+    PersistentConnectionConfigs: S.optional(PersistentConnectionConfigs),
+    VoiceEnhancementConfigs: S.optional(VoiceEnhancementConfigs),
     LastModifiedTime: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
@@ -10082,6 +10736,40 @@ export interface DisassociateFlowResponse {}
 export const DisassociateFlowResponse = S.suspend(() => S.Struct({})).annotate({
   identifier: "DisassociateFlowResponse",
 }) as any as S.Schema<DisassociateFlowResponse>;
+export type ParentHoursOfOperationIdList = string[];
+export const ParentHoursOfOperationIdList = S.Array(S.String);
+export interface DisassociateHoursOfOperationsRequest {
+  InstanceId: string;
+  HoursOfOperationId: string;
+  ParentHoursOfOperationIds: string[];
+}
+export const DisassociateHoursOfOperationsRequest = S.suspend(() =>
+  S.Struct({
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    HoursOfOperationId: S.String.pipe(T.HttpLabel("HoursOfOperationId")),
+    ParentHoursOfOperationIds: ParentHoursOfOperationIdList,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/hours-of-operations/{InstanceId}/{HoursOfOperationId}/disassociate-hours",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DisassociateHoursOfOperationsRequest",
+}) as any as S.Schema<DisassociateHoursOfOperationsRequest>;
+export interface DisassociateHoursOfOperationsResponse {}
+export const DisassociateHoursOfOperationsResponse = S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "DisassociateHoursOfOperationsResponse",
+}) as any as S.Schema<DisassociateHoursOfOperationsResponse>;
 export interface DisassociateInstanceStorageConfigRequest {
   InstanceId: string;
   AssociationId: string;
@@ -10689,7 +11377,10 @@ export const GetContactAttributesResponse = S.suspend(() =>
 ).annotate({
   identifier: "GetContactAttributesResponse",
 }) as any as S.Schema<GetContactAttributesResponse>;
-export type ContactMetricName = "POSITION_IN_QUEUE" | (string & {});
+export type ContactMetricName =
+  | "ESTIMATED_WAIT_TIME"
+  | "POSITION_IN_QUEUE"
+  | (string & {});
 export const ContactMetricName = S.String;
 export interface ContactMetricInfo {
   Name: ContactMetricName;
@@ -10811,6 +11502,7 @@ export type CurrentMetricName =
   | "AGENTS_ON_CONTACT"
   | "SLOTS_ACTIVE"
   | "SLOTS_AVAILABLE"
+  | "ESTIMATED_WAIT_TIME"
   | (string & {});
 export const CurrentMetricName = S.String;
 export type Unit = "SECONDS" | "COUNT" | "PERCENT" | (string & {});
@@ -11211,13 +11903,47 @@ export type EffectiveHoursOfOperationList = EffectiveHoursOfOperations[];
 export const EffectiveHoursOfOperationList = S.Array(
   EffectiveHoursOfOperations,
 );
+export type OperationalStatus = "OPEN" | "CLOSED" | (string & {});
+export const OperationalStatus = S.String;
+export interface OverrideHour {
+  Start?: OverrideTimeSlice;
+  End?: OverrideTimeSlice;
+  OverrideName?: string;
+  OperationalStatus?: OperationalStatus;
+}
+export const OverrideHour = S.suspend(() =>
+  S.Struct({
+    Start: S.optional(OverrideTimeSlice),
+    End: S.optional(OverrideTimeSlice),
+    OverrideName: S.optional(S.String),
+    OperationalStatus: S.optional(OperationalStatus),
+  }),
+).annotate({ identifier: "OverrideHour" }) as any as S.Schema<OverrideHour>;
+export type OverrideHours = OverrideHour[];
+export const OverrideHours = S.Array(OverrideHour);
+export interface EffectiveOverrideHours {
+  Date?: string;
+  OverrideHours?: OverrideHour[];
+}
+export const EffectiveOverrideHours = S.suspend(() =>
+  S.Struct({
+    Date: S.optional(S.String),
+    OverrideHours: S.optional(OverrideHours),
+  }),
+).annotate({
+  identifier: "EffectiveOverrideHours",
+}) as any as S.Schema<EffectiveOverrideHours>;
+export type EffectiveOverrideHoursList = EffectiveOverrideHours[];
+export const EffectiveOverrideHoursList = S.Array(EffectiveOverrideHours);
 export interface GetEffectiveHoursOfOperationsResponse {
   EffectiveHoursOfOperationList?: EffectiveHoursOfOperations[];
+  EffectiveOverrideHoursList?: EffectiveOverrideHours[];
   TimeZone?: string;
 }
 export const GetEffectiveHoursOfOperationsResponse = S.suspend(() =>
   S.Struct({
     EffectiveHoursOfOperationList: S.optional(EffectiveHoursOfOperationList),
+    EffectiveOverrideHoursList: S.optional(EffectiveOverrideHoursList),
     TimeZone: S.optional(S.String),
   }),
 ).annotate({
@@ -11729,6 +12455,70 @@ export const GetTaskTemplateResponse = S.suspend(() =>
 ).annotate({
   identifier: "GetTaskTemplateResponse",
 }) as any as S.Schema<GetTaskTemplateResponse>;
+export interface GetTestCaseExecutionSummaryRequest {
+  InstanceId: string;
+  TestCaseId: string;
+  TestCaseExecutionId: string;
+}
+export const GetTestCaseExecutionSummaryRequest = S.suspend(() =>
+  S.Struct({
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    TestCaseId: S.String.pipe(T.HttpLabel("TestCaseId")),
+    TestCaseExecutionId: S.String.pipe(T.HttpLabel("TestCaseExecutionId")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/test-cases/{InstanceId}/{TestCaseId}/{TestCaseExecutionId}/summary",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetTestCaseExecutionSummaryRequest",
+}) as any as S.Schema<GetTestCaseExecutionSummaryRequest>;
+export type TestCaseExecutionStatus =
+  | "INITIATED"
+  | "PASSED"
+  | "FAILED"
+  | "IN_PROGRESS"
+  | "STOPPED"
+  | (string & {});
+export const TestCaseExecutionStatus = S.String;
+export interface ObservationSummary {
+  TotalObservations?: number;
+  ObservationsPassed?: number;
+  ObservationsFailed?: number;
+}
+export const ObservationSummary = S.suspend(() =>
+  S.Struct({
+    TotalObservations: S.optional(S.Number),
+    ObservationsPassed: S.optional(S.Number),
+    ObservationsFailed: S.optional(S.Number),
+  }),
+).annotate({
+  identifier: "ObservationSummary",
+}) as any as S.Schema<ObservationSummary>;
+export interface GetTestCaseExecutionSummaryResponse {
+  StartTime?: Date;
+  EndTime?: Date;
+  Status?: TestCaseExecutionStatus;
+  ObservationSummary?: ObservationSummary;
+}
+export const GetTestCaseExecutionSummaryResponse = S.suspend(() =>
+  S.Struct({
+    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    Status: S.optional(TestCaseExecutionStatus),
+    ObservationSummary: S.optional(ObservationSummary),
+  }),
+).annotate({
+  identifier: "GetTestCaseExecutionSummaryResponse",
+}) as any as S.Schema<GetTestCaseExecutionSummaryResponse>;
 export interface GetTrafficDistributionRequest {
   Id: string;
 }
@@ -12254,6 +13044,54 @@ export const ListBotsResponse = S.suspend(() =>
 ).annotate({
   identifier: "ListBotsResponse",
 }) as any as S.Schema<ListBotsResponse>;
+export interface ListChildHoursOfOperationsRequest {
+  InstanceId: string;
+  HoursOfOperationId: string;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListChildHoursOfOperationsRequest = S.suspend(() =>
+  S.Struct({
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    HoursOfOperationId: S.String.pipe(T.HttpLabel("HoursOfOperationId")),
+    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/hours-of-operations/{InstanceId}/{HoursOfOperationId}/hours",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListChildHoursOfOperationsRequest",
+}) as any as S.Schema<ListChildHoursOfOperationsRequest>;
+export type ChildHoursOfOperationsList = HoursOfOperationsIdentifier[];
+export const ChildHoursOfOperationsList = S.Array(HoursOfOperationsIdentifier);
+export interface ListChildHoursOfOperationsResponse {
+  NextToken?: string;
+  ChildHoursOfOperationsSummaryList?: HoursOfOperationsIdentifier[];
+  LastModifiedTime?: Date;
+  LastModifiedRegion?: string;
+}
+export const ListChildHoursOfOperationsResponse = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    ChildHoursOfOperationsSummaryList: S.optional(ChildHoursOfOperationsList),
+    LastModifiedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    LastModifiedRegion: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ListChildHoursOfOperationsResponse",
+}) as any as S.Schema<ListChildHoursOfOperationsResponse>;
 export interface ListContactEvaluationsRequest {
   InstanceId: string;
   ContactId: string;
@@ -13782,6 +14620,43 @@ export const ListLexBotsResponse = S.suspend(() =>
 ).annotate({
   identifier: "ListLexBotsResponse",
 }) as any as S.Schema<ListLexBotsResponse>;
+export interface ListNotificationsRequest {
+  InstanceId: string;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListNotificationsRequest = S.suspend(() =>
+  S.Struct({
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/notifications/{InstanceId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListNotificationsRequest",
+}) as any as S.Schema<ListNotificationsRequest>;
+export type NotificationSummaryList = Notification[];
+export const NotificationSummaryList = S.Array(Notification);
+export interface ListNotificationsResponse {
+  NextToken?: string;
+  NotificationSummaryList: Notification[];
+}
+export const ListNotificationsResponse = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    NotificationSummaryList: NotificationSummaryList,
+  }),
+).annotate({
+  identifier: "ListNotificationsResponse",
+}) as any as S.Schema<ListNotificationsResponse>;
 export type PhoneNumberTypes = PhoneNumberType[];
 export const PhoneNumberTypes = S.Array(PhoneNumberType);
 export type PhoneNumberCountryCodes = PhoneNumberCountryCode[];
@@ -15212,6 +16087,205 @@ export const ListTaskTemplatesResponse = S.suspend(() =>
 ).annotate({
   identifier: "ListTaskTemplatesResponse",
 }) as any as S.Schema<ListTaskTemplatesResponse>;
+export interface ListTestCaseExecutionRecordsRequest {
+  InstanceId: string;
+  TestCaseId: string;
+  TestCaseExecutionId: string;
+  Status?: TestCaseExecutionStatus;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListTestCaseExecutionRecordsRequest = S.suspend(() =>
+  S.Struct({
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    TestCaseId: S.String.pipe(T.HttpLabel("TestCaseId")),
+    TestCaseExecutionId: S.String.pipe(T.HttpLabel("TestCaseExecutionId")),
+    Status: S.optional(TestCaseExecutionStatus).pipe(T.HttpQuery("status")),
+    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/test-cases/{InstanceId}/{TestCaseId}/{TestCaseExecutionId}/records",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListTestCaseExecutionRecordsRequest",
+}) as any as S.Schema<ListTestCaseExecutionRecordsRequest>;
+export type ExecutionRecordStatus =
+  | "PASSED"
+  | "FAILED"
+  | "IN_PROGRESS"
+  | "STOPPED"
+  | (string & {});
+export const ExecutionRecordStatus = S.String;
+export interface ExecutionRecord {
+  ObservationId?: string;
+  Status?: ExecutionRecordStatus;
+  Timestamp?: Date;
+  Record?: string;
+}
+export const ExecutionRecord = S.suspend(() =>
+  S.Struct({
+    ObservationId: S.optional(S.String),
+    Status: S.optional(ExecutionRecordStatus),
+    Timestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    Record: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ExecutionRecord",
+}) as any as S.Schema<ExecutionRecord>;
+export type ExecutionRecordList = ExecutionRecord[];
+export const ExecutionRecordList = S.Array(ExecutionRecord);
+export interface ListTestCaseExecutionRecordsResponse {
+  ExecutionRecords?: ExecutionRecord[];
+  NextToken?: string;
+}
+export const ListTestCaseExecutionRecordsResponse = S.suspend(() =>
+  S.Struct({
+    ExecutionRecords: S.optional(ExecutionRecordList),
+    NextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ListTestCaseExecutionRecordsResponse",
+}) as any as S.Schema<ListTestCaseExecutionRecordsResponse>;
+export interface ListTestCaseExecutionsRequest {
+  InstanceId: string;
+  TestCaseId?: string;
+  TestCaseName?: string;
+  StartTime?: Date;
+  EndTime?: Date;
+  Status?: TestCaseExecutionStatus;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListTestCaseExecutionsRequest = S.suspend(() =>
+  S.Struct({
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    TestCaseId: S.optional(S.String).pipe(T.HttpQuery("testCaseId")),
+    TestCaseName: S.optional(S.String).pipe(T.HttpQuery("testCaseName")),
+    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
+      T.HttpQuery("startTime"),
+    ),
+    EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
+      T.HttpQuery("endTime"),
+    ),
+    Status: S.optional(TestCaseExecutionStatus).pipe(T.HttpQuery("status")),
+    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/test-case-executions/{InstanceId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListTestCaseExecutionsRequest",
+}) as any as S.Schema<ListTestCaseExecutionsRequest>;
+export interface TestCaseExecution {
+  StartTime?: Date;
+  EndTime?: Date;
+  TestCaseExecutionId?: string;
+  TestCaseId?: string;
+  TestCaseExecutionStatus?: TestCaseExecutionStatus;
+  Tags?: { [key: string]: string | undefined };
+}
+export const TestCaseExecution = S.suspend(() =>
+  S.Struct({
+    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    TestCaseExecutionId: S.optional(S.String),
+    TestCaseId: S.optional(S.String),
+    TestCaseExecutionStatus: S.optional(TestCaseExecutionStatus),
+    Tags: S.optional(TagMap),
+  }),
+).annotate({
+  identifier: "TestCaseExecution",
+}) as any as S.Schema<TestCaseExecution>;
+export type TestCaseExecutionList = TestCaseExecution[];
+export const TestCaseExecutionList = S.Array(TestCaseExecution);
+export interface ListTestCaseExecutionsResponse {
+  TestCaseExecutions?: TestCaseExecution[];
+  NextToken?: string;
+}
+export const ListTestCaseExecutionsResponse = S.suspend(() =>
+  S.Struct({
+    TestCaseExecutions: S.optional(TestCaseExecutionList),
+    NextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ListTestCaseExecutionsResponse",
+}) as any as S.Schema<ListTestCaseExecutionsResponse>;
+export interface ListTestCasesRequest {
+  InstanceId: string;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListTestCasesRequest = S.suspend(() =>
+  S.Struct({
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/test-cases-summary/{InstanceId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListTestCasesRequest",
+}) as any as S.Schema<ListTestCasesRequest>;
+export interface TestCaseSummary {
+  Id?: string;
+  Arn?: string;
+  Name?: string;
+  Status?: TestCaseStatus;
+  LastModifiedTime?: Date;
+  LastModifiedRegion?: string;
+}
+export const TestCaseSummary = S.suspend(() =>
+  S.Struct({
+    Id: S.optional(S.String),
+    Arn: S.optional(S.String),
+    Name: S.optional(S.String),
+    Status: S.optional(TestCaseStatus),
+    LastModifiedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    LastModifiedRegion: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "TestCaseSummary",
+}) as any as S.Schema<TestCaseSummary>;
+export type TestCaseSummaryList = TestCaseSummary[];
+export const TestCaseSummaryList = S.Array(TestCaseSummary);
+export interface ListTestCasesResponse {
+  TestCaseSummaryList?: TestCaseSummary[];
+  NextToken?: string;
+}
+export const ListTestCasesResponse = S.suspend(() =>
+  S.Struct({
+    TestCaseSummaryList: S.optional(TestCaseSummaryList),
+    NextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ListTestCasesResponse",
+}) as any as S.Schema<ListTestCasesResponse>;
 export interface ListTrafficDistributionGroupsRequest {
   MaxResults?: number;
   NextToken?: string;
@@ -15425,6 +16499,82 @@ export const ListUserHierarchyGroupsResponse = S.suspend(() =>
 ).annotate({
   identifier: "ListUserHierarchyGroupsResponse",
 }) as any as S.Schema<ListUserHierarchyGroupsResponse>;
+export interface ListUserNotificationsRequest {
+  InstanceId: string;
+  NextToken?: string;
+  MaxResults?: number;
+  UserId: string;
+}
+export const ListUserNotificationsRequest = S.suspend(() =>
+  S.Struct({
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+    UserId: S.String.pipe(T.HttpLabel("UserId")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/users/{InstanceId}/{UserId}/notifications",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListUserNotificationsRequest",
+}) as any as S.Schema<ListUserNotificationsRequest>;
+export type NotificationStatus = "READ" | "UNREAD" | "HIDDEN" | (string & {});
+export const NotificationStatus = S.String;
+export type NotificationSource =
+  | "CUSTOMER"
+  | "RULES"
+  | "SYSTEM"
+  | (string & {});
+export const NotificationSource = S.String;
+export interface UserNotificationSummary {
+  NotificationId?: string;
+  NotificationStatus?: NotificationStatus;
+  InstanceId?: string;
+  RecipientId?: string;
+  Content?: { [key: string]: string | undefined };
+  Priority?: NotificationPriority;
+  Source?: NotificationSource;
+  CreatedAt?: Date;
+  ExpiresAt?: Date;
+}
+export const UserNotificationSummary = S.suspend(() =>
+  S.Struct({
+    NotificationId: S.optional(S.String),
+    NotificationStatus: S.optional(NotificationStatus),
+    InstanceId: S.optional(S.String),
+    RecipientId: S.optional(S.String),
+    Content: S.optional(NotificationContent),
+    Priority: S.optional(NotificationPriority),
+    Source: S.optional(NotificationSource),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    ExpiresAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotate({
+  identifier: "UserNotificationSummary",
+}) as any as S.Schema<UserNotificationSummary>;
+export type UserNotificationSummaryList = UserNotificationSummary[];
+export const UserNotificationSummaryList = S.Array(UserNotificationSummary);
+export interface ListUserNotificationsResponse {
+  UserNotifications?: UserNotificationSummary[];
+  NextToken?: string;
+}
+export const ListUserNotificationsResponse = S.suspend(() =>
+  S.Struct({
+    UserNotifications: S.optional(UserNotificationSummaryList),
+    NextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ListUserNotificationsResponse",
+}) as any as S.Schema<ListUserNotificationsResponse>;
 export interface ListUserProficienciesRequest {
   InstanceId: string;
   UserId: string;
@@ -16949,6 +18099,7 @@ export interface SearchCriteria {
   SearchableContactAttributes?: SearchableContactAttributes;
   SearchableSegmentAttributes?: SearchableSegmentAttributes;
   ActiveRegions?: string[];
+  ContactTags?: ControlPlaneTagFilter;
 }
 export const SearchCriteria = S.suspend(() =>
   S.Struct({
@@ -16964,6 +18115,7 @@ export const SearchCriteria = S.suspend(() =>
     SearchableContactAttributes: S.optional(SearchableContactAttributes),
     SearchableSegmentAttributes: S.optional(SearchableSegmentAttributes),
     ActiveRegions: S.optional(ActiveRegionList),
+    ContactTags: S.optional(ControlPlaneTagFilter),
   }),
 ).annotate({ identifier: "SearchCriteria" }) as any as S.Schema<SearchCriteria>;
 export type SortableFieldName =
@@ -17076,6 +18228,7 @@ export interface ContactSearchSummary {
   };
   Name?: string | redacted.Redacted<string>;
   RoutingCriteria?: RoutingCriteria;
+  Tags?: { [key: string]: string | undefined };
   GlobalResiliencyMetadata?: GlobalResiliencyMetadata;
 }
 export const ContactSearchSummary = S.suspend(() =>
@@ -17100,6 +18253,7 @@ export const ContactSearchSummary = S.suspend(() =>
     SegmentAttributes: S.optional(ContactSearchSummarySegmentAttributes),
     Name: S.optional(SensitiveString),
     RoutingCriteria: S.optional(RoutingCriteria),
+    Tags: S.optional(ContactTagMap),
     GlobalResiliencyMetadata: S.optional(GlobalResiliencyMetadata),
   }),
 ).annotate({
@@ -17606,6 +18760,117 @@ export const SearchHoursOfOperationsResponse = S.suspend(() =>
 ).annotate({
   identifier: "SearchHoursOfOperationsResponse",
 }) as any as S.Schema<SearchHoursOfOperationsResponse>;
+export interface NotificationSearchFilter {
+  AttributeFilter?: ControlPlaneAttributeFilter;
+}
+export const NotificationSearchFilter = S.suspend(() =>
+  S.Struct({ AttributeFilter: S.optional(ControlPlaneAttributeFilter) }),
+).annotate({
+  identifier: "NotificationSearchFilter",
+}) as any as S.Schema<NotificationSearchFilter>;
+export type NotificationSearchConditionList = NotificationSearchCriteria[];
+export const NotificationSearchConditionList = S.Array(
+  S.suspend(
+    (): S.Schema<NotificationSearchCriteria> => NotificationSearchCriteria,
+  ).annotate({ identifier: "NotificationSearchCriteria" }),
+) as any as S.Schema<NotificationSearchConditionList>;
+export interface NotificationSearchCriteria {
+  OrConditions?: NotificationSearchCriteria[];
+  AndConditions?: NotificationSearchCriteria[];
+  StringCondition?: StringCondition;
+}
+export const NotificationSearchCriteria = S.suspend(() =>
+  S.Struct({
+    OrConditions: S.optional(
+      S.suspend(() => NotificationSearchConditionList).annotate({
+        identifier: "NotificationSearchConditionList",
+      }),
+    ),
+    AndConditions: S.optional(
+      S.suspend(() => NotificationSearchConditionList).annotate({
+        identifier: "NotificationSearchConditionList",
+      }),
+    ),
+    StringCondition: S.optional(StringCondition),
+  }),
+).annotate({
+  identifier: "NotificationSearchCriteria",
+}) as any as S.Schema<NotificationSearchCriteria>;
+export interface SearchNotificationsRequest {
+  InstanceId: string;
+  NextToken?: string;
+  MaxResults?: number;
+  SearchFilter?: NotificationSearchFilter;
+  SearchCriteria?: NotificationSearchCriteria;
+}
+export const SearchNotificationsRequest = S.suspend(() =>
+  S.Struct({
+    InstanceId: S.String,
+    NextToken: S.optional(S.String),
+    MaxResults: S.optional(S.Number),
+    SearchFilter: S.optional(NotificationSearchFilter),
+    SearchCriteria: S.optional(NotificationSearchCriteria),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/search-notifications" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "SearchNotificationsRequest",
+}) as any as S.Schema<SearchNotificationsRequest>;
+export interface NotificationSearchSummary {
+  Id?: string;
+  Arn?: string;
+  InstanceId?: string;
+  Content?: { [key: string]: string | undefined };
+  Priority?: NotificationPriority;
+  Recipients?: string[];
+  CreatedAt?: Date;
+  ExpiresAt?: Date;
+  LastModifiedRegion?: string;
+  LastModifiedTime?: Date;
+  Tags?: { [key: string]: string | undefined };
+}
+export const NotificationSearchSummary = S.suspend(() =>
+  S.Struct({
+    Id: S.optional(S.String),
+    Arn: S.optional(S.String),
+    InstanceId: S.optional(S.String),
+    Content: S.optional(NotificationContent),
+    Priority: S.optional(NotificationPriority),
+    Recipients: S.optional(RecipientList),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    ExpiresAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    LastModifiedRegion: S.optional(S.String),
+    LastModifiedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    Tags: S.optional(TagMap),
+  }),
+).annotate({
+  identifier: "NotificationSearchSummary",
+}) as any as S.Schema<NotificationSearchSummary>;
+export type NotificationSearchSummaryList = NotificationSearchSummary[];
+export const NotificationSearchSummaryList = S.Array(NotificationSearchSummary);
+export interface SearchNotificationsResponse {
+  Notifications?: NotificationSearchSummary[];
+  NextToken?: string;
+  ApproximateTotalCount?: number;
+}
+export const SearchNotificationsResponse = S.suspend(() =>
+  S.Struct({
+    Notifications: S.optional(NotificationSearchSummaryList),
+    NextToken: S.optional(S.String),
+    ApproximateTotalCount: S.optional(S.Number),
+  }),
+).annotate({
+  identifier: "SearchNotificationsResponse",
+}) as any as S.Schema<SearchNotificationsResponse>;
 export type PredefinedAttributeSearchConditionList =
   PredefinedAttributeSearchCriteria[];
 export const PredefinedAttributeSearchConditionList = S.Array(
@@ -18172,6 +19437,87 @@ export const SearchSecurityProfilesResponse = S.suspend(() =>
 ).annotate({
   identifier: "SearchSecurityProfilesResponse",
 }) as any as S.Schema<SearchSecurityProfilesResponse>;
+export interface TestCaseSearchFilter {
+  TagFilter?: ControlPlaneTagFilter;
+}
+export const TestCaseSearchFilter = S.suspend(() =>
+  S.Struct({ TagFilter: S.optional(ControlPlaneTagFilter) }),
+).annotate({
+  identifier: "TestCaseSearchFilter",
+}) as any as S.Schema<TestCaseSearchFilter>;
+export type TestCaseSearchConditionList = TestCaseSearchCriteria[];
+export const TestCaseSearchConditionList = S.Array(
+  S.suspend(
+    (): S.Schema<TestCaseSearchCriteria> => TestCaseSearchCriteria,
+  ).annotate({ identifier: "TestCaseSearchCriteria" }),
+) as any as S.Schema<TestCaseSearchConditionList>;
+export interface TestCaseSearchCriteria {
+  OrConditions?: TestCaseSearchCriteria[];
+  AndConditions?: TestCaseSearchCriteria[];
+  StringCondition?: StringCondition;
+  StatusCondition?: TestCaseStatus;
+}
+export const TestCaseSearchCriteria = S.suspend(() =>
+  S.Struct({
+    OrConditions: S.optional(
+      S.suspend(() => TestCaseSearchConditionList).annotate({
+        identifier: "TestCaseSearchConditionList",
+      }),
+    ),
+    AndConditions: S.optional(
+      S.suspend(() => TestCaseSearchConditionList).annotate({
+        identifier: "TestCaseSearchConditionList",
+      }),
+    ),
+    StringCondition: S.optional(StringCondition),
+    StatusCondition: S.optional(TestCaseStatus),
+  }),
+).annotate({
+  identifier: "TestCaseSearchCriteria",
+}) as any as S.Schema<TestCaseSearchCriteria>;
+export interface SearchTestCasesRequest {
+  InstanceId: string;
+  NextToken?: string;
+  MaxResults?: number;
+  SearchFilter?: TestCaseSearchFilter;
+  SearchCriteria?: TestCaseSearchCriteria;
+}
+export const SearchTestCasesRequest = S.suspend(() =>
+  S.Struct({
+    InstanceId: S.String,
+    NextToken: S.optional(S.String),
+    MaxResults: S.optional(S.Number),
+    SearchFilter: S.optional(TestCaseSearchFilter),
+    SearchCriteria: S.optional(TestCaseSearchCriteria),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/search-test-cases" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "SearchTestCasesRequest",
+}) as any as S.Schema<SearchTestCasesRequest>;
+export type TestCaseSearchSummaryList = TestCase[];
+export const TestCaseSearchSummaryList = S.Array(TestCase);
+export interface SearchTestCasesResponse {
+  TestCases?: TestCase[];
+  NextToken?: string;
+  ApproximateTotalCount?: number;
+}
+export const SearchTestCasesResponse = S.suspend(() =>
+  S.Struct({
+    TestCases: S.optional(TestCaseSearchSummaryList),
+    NextToken: S.optional(S.String),
+    ApproximateTotalCount: S.optional(S.Number),
+  }),
+).annotate({
+  identifier: "SearchTestCasesResponse",
+}) as any as S.Schema<SearchTestCasesResponse>;
 export interface UserHierarchyGroupSearchFilter {
   AttributeFilter?: ControlPlaneAttributeFilter;
 }
@@ -18418,6 +19764,11 @@ export interface UserSearchSummary {
   SecurityProfileIds?: string[];
   Tags?: { [key: string]: string | undefined };
   Username?: string;
+  AutoAcceptConfigs?: AutoAcceptConfig[];
+  AfterContactWorkConfigs?: AfterContactWorkConfigPerChannel[];
+  PhoneNumberConfigs?: PhoneNumberConfig[];
+  PersistentConnectionConfigs?: PersistentConnectionConfig[];
+  VoiceEnhancementConfigs?: VoiceEnhancementConfig[];
 }
 export const UserSearchSummary = S.suspend(() =>
   S.Struct({
@@ -18431,6 +19782,11 @@ export const UserSearchSummary = S.suspend(() =>
     SecurityProfileIds: S.optional(SecurityProfileIds),
     Tags: S.optional(TagMap),
     Username: S.optional(S.String),
+    AutoAcceptConfigs: S.optional(AutoAcceptConfigs),
+    AfterContactWorkConfigs: S.optional(AfterContactWorkConfigs),
+    PhoneNumberConfigs: S.optional(PhoneNumberConfigs),
+    PersistentConnectionConfigs: S.optional(PersistentConnectionConfigs),
+    VoiceEnhancementConfigs: S.optional(VoiceEnhancementConfigs),
   }),
 ).annotate({
   identifier: "UserSearchSummary",
@@ -19665,6 +21021,15 @@ export const StartScreenSharingResponse = S.suspend(() =>
 ).annotate({
   identifier: "StartScreenSharingResponse",
 }) as any as S.Schema<StartScreenSharingResponse>;
+export interface TaskAttachment {
+  FileName: string;
+  S3Url: string;
+}
+export const TaskAttachment = S.suspend(() =>
+  S.Struct({ FileName: S.String, S3Url: S.String }),
+).annotate({ identifier: "TaskAttachment" }) as any as S.Schema<TaskAttachment>;
+export type TaskAttachments = TaskAttachment[];
+export const TaskAttachments = S.Array(TaskAttachment);
 export interface StartTaskContactRequest {
   InstanceId: string;
   PreviousContactId?: string;
@@ -19679,6 +21044,7 @@ export interface StartTaskContactRequest {
   QuickConnectId?: string;
   RelatedContactId?: string;
   SegmentAttributes?: { [key: string]: SegmentAttributeValue | undefined };
+  Attachments?: TaskAttachment[];
 }
 export const StartTaskContactRequest = S.suspend(() =>
   S.Struct({
@@ -19695,6 +21061,7 @@ export const StartTaskContactRequest = S.suspend(() =>
     QuickConnectId: S.optional(S.String),
     RelatedContactId: S.optional(S.String),
     SegmentAttributes: S.optional(SegmentAttributes),
+    Attachments: S.optional(TaskAttachments),
   }).pipe(
     T.all(
       T.Http({ method: "PUT", uri: "/contact/task" }),
@@ -19716,6 +21083,46 @@ export const StartTaskContactResponse = S.suspend(() =>
 ).annotate({
   identifier: "StartTaskContactResponse",
 }) as any as S.Schema<StartTaskContactResponse>;
+export interface StartTestCaseExecutionRequest {
+  InstanceId: string;
+  TestCaseId: string;
+  ClientToken?: string;
+}
+export const StartTestCaseExecutionRequest = S.suspend(() =>
+  S.Struct({
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    TestCaseId: S.String.pipe(T.HttpLabel("TestCaseId")),
+    ClientToken: S.optional(S.String),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/test-cases/{InstanceId}/{TestCaseId}/start-execution",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "StartTestCaseExecutionRequest",
+}) as any as S.Schema<StartTestCaseExecutionRequest>;
+export interface StartTestCaseExecutionResponse {
+  TestCaseExecutionId?: string;
+  TestCaseId?: string;
+  Status?: TestCaseExecutionStatus;
+}
+export const StartTestCaseExecutionResponse = S.suspend(() =>
+  S.Struct({
+    TestCaseExecutionId: S.optional(S.String),
+    TestCaseId: S.optional(S.String),
+    Status: S.optional(TestCaseExecutionStatus),
+  }),
+).annotate({
+  identifier: "StartTestCaseExecutionResponse",
+}) as any as S.Schema<StartTestCaseExecutionResponse>;
 export interface AllowedCapabilities {
   Customer?: ParticipantCapabilities;
   Agent?: ParticipantCapabilities;
@@ -19964,6 +21371,40 @@ export const StopContactStreamingResponse = S.suspend(() =>
 ).annotate({
   identifier: "StopContactStreamingResponse",
 }) as any as S.Schema<StopContactStreamingResponse>;
+export interface StopTestCaseExecutionRequest {
+  InstanceId: string;
+  TestCaseExecutionId: string;
+  TestCaseId: string;
+  ClientToken?: string;
+}
+export const StopTestCaseExecutionRequest = S.suspend(() =>
+  S.Struct({
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    TestCaseExecutionId: S.String.pipe(T.HttpLabel("TestCaseExecutionId")),
+    TestCaseId: S.String.pipe(T.HttpLabel("TestCaseId")),
+    ClientToken: S.optional(S.String),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/test-cases/{InstanceId}/{TestCaseId}/{TestCaseExecutionId}/stop-execution",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "StopTestCaseExecutionRequest",
+}) as any as S.Schema<StopTestCaseExecutionRequest>;
+export interface StopTestCaseExecutionResponse {}
+export const StopTestCaseExecutionResponse = S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "StopTestCaseExecutionResponse",
+}) as any as S.Schema<StopTestCaseExecutionResponse>;
 export interface EvaluationAnswerInput {
   Value?: EvaluationAnswerData;
 }
@@ -20884,6 +22325,7 @@ export interface UpdateEvaluationFormRequest {
   Items: EvaluationFormItem[];
   ScoringStrategy?: EvaluationFormScoringStrategy;
   AutoEvaluationConfiguration?: EvaluationFormAutoEvaluationConfiguration;
+  ReviewConfiguration?: EvaluationReviewConfiguration;
   AsDraft?: boolean;
   ClientToken?: string;
   TargetConfiguration?: EvaluationFormTargetConfiguration;
@@ -20902,6 +22344,7 @@ export const UpdateEvaluationFormRequest = S.suspend(() =>
     AutoEvaluationConfiguration: S.optional(
       EvaluationFormAutoEvaluationConfiguration,
     ),
+    ReviewConfiguration: S.optional(EvaluationReviewConfiguration),
     AsDraft: S.optional(S.Boolean),
     ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
     TargetConfiguration: S.optional(EvaluationFormTargetConfiguration),
@@ -20983,6 +22426,8 @@ export interface UpdateHoursOfOperationOverrideRequest {
   Config?: HoursOfOperationOverrideConfig[];
   EffectiveFrom?: string;
   EffectiveTill?: string;
+  RecurrenceConfig?: RecurrenceConfig;
+  OverrideType?: OverrideType;
 }
 export const UpdateHoursOfOperationOverrideRequest = S.suspend(() =>
   S.Struct({
@@ -20996,6 +22441,8 @@ export const UpdateHoursOfOperationOverrideRequest = S.suspend(() =>
     Config: S.optional(HoursOfOperationOverrideConfigList),
     EffectiveFrom: S.optional(S.String),
     EffectiveTill: S.optional(S.String),
+    RecurrenceConfig: S.optional(RecurrenceConfig),
+    OverrideType: S.optional(OverrideType),
   }).pipe(
     T.all(
       T.Http({
@@ -21088,6 +22535,38 @@ export const UpdateInstanceStorageConfigResponse = S.suspend(() =>
 ).annotate({
   identifier: "UpdateInstanceStorageConfigResponse",
 }) as any as S.Schema<UpdateInstanceStorageConfigResponse>;
+export interface UpdateNotificationContentRequest {
+  InstanceId: string;
+  NotificationId: string;
+  Content: { [key: string]: string | undefined };
+}
+export const UpdateNotificationContentRequest = S.suspend(() =>
+  S.Struct({
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    NotificationId: S.String.pipe(T.HttpLabel("NotificationId")),
+    Content: NotificationContent,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/notifications/{InstanceId}/{NotificationId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "UpdateNotificationContentRequest",
+}) as any as S.Schema<UpdateNotificationContentRequest>;
+export interface UpdateNotificationContentResponse {}
+export const UpdateNotificationContentResponse = S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "UpdateNotificationContentResponse",
+}) as any as S.Schema<UpdateNotificationContentResponse>;
 export interface UpdateParticipantAuthenticationRequest {
   State: string;
   InstanceId: string;
@@ -21922,6 +23401,51 @@ export const UpdateTaskTemplateResponse = S.suspend(() =>
 ).annotate({
   identifier: "UpdateTaskTemplateResponse",
 }) as any as S.Schema<UpdateTaskTemplateResponse>;
+export interface UpdateTestCaseRequest {
+  InstanceId: string;
+  TestCaseId: string;
+  Content?: string;
+  EntryPoint?: TestCaseEntryPoint;
+  InitializationData?: string;
+  Name?: string;
+  Description?: string;
+  Status?: TestCaseStatus;
+  LastModifiedTime?: Date;
+  LastModifiedRegion?: string;
+}
+export const UpdateTestCaseRequest = S.suspend(() =>
+  S.Struct({
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    TestCaseId: S.String.pipe(T.HttpLabel("TestCaseId")),
+    Content: S.optional(S.String),
+    EntryPoint: S.optional(TestCaseEntryPoint),
+    InitializationData: S.optional(S.String),
+    Name: S.optional(S.String),
+    Description: S.optional(S.String),
+    Status: S.optional(TestCaseStatus),
+    LastModifiedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("http-date")),
+    ).pipe(T.HttpHeader("x-amz-last-modified-time")),
+    LastModifiedRegion: S.optional(S.String).pipe(
+      T.HttpHeader("x-amz-last-modified-region"),
+    ),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/test-cases/{InstanceId}/{TestCaseId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "UpdateTestCaseRequest",
+}) as any as S.Schema<UpdateTestCaseRequest>;
+export interface UpdateTestCaseResponse {}
+export const UpdateTestCaseResponse = S.suspend(() => S.Struct({})).annotate({
+  identifier: "UpdateTestCaseResponse",
+}) as any as S.Schema<UpdateTestCaseResponse>;
 export interface UpdateTrafficDistributionRequest {
   Id: string;
   TelephonyConfig?: TelephonyConfig;
@@ -21953,6 +23477,41 @@ export const UpdateTrafficDistributionResponse = S.suspend(() =>
 ).annotate({
   identifier: "UpdateTrafficDistributionResponse",
 }) as any as S.Schema<UpdateTrafficDistributionResponse>;
+export interface UpdateUserConfigRequest {
+  AutoAcceptConfigs?: AutoAcceptConfig[];
+  AfterContactWorkConfigs?: AfterContactWorkConfigPerChannel[];
+  PhoneNumberConfigs?: PhoneNumberConfig[];
+  PersistentConnectionConfigs?: PersistentConnectionConfig[];
+  VoiceEnhancementConfigs?: VoiceEnhancementConfig[];
+  UserId: string;
+  InstanceId: string;
+}
+export const UpdateUserConfigRequest = S.suspend(() =>
+  S.Struct({
+    AutoAcceptConfigs: S.optional(AutoAcceptConfigs),
+    AfterContactWorkConfigs: S.optional(AfterContactWorkConfigs),
+    PhoneNumberConfigs: S.optional(PhoneNumberConfigs),
+    PersistentConnectionConfigs: S.optional(PersistentConnectionConfigs),
+    VoiceEnhancementConfigs: S.optional(VoiceEnhancementConfigs),
+    UserId: S.String.pipe(T.HttpLabel("UserId")),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/users/{InstanceId}/{UserId}/config" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "UpdateUserConfigRequest",
+}) as any as S.Schema<UpdateUserConfigRequest>;
+export interface UpdateUserConfigResponse {}
+export const UpdateUserConfigResponse = S.suspend(() => S.Struct({})).annotate({
+  identifier: "UpdateUserConfigResponse",
+}) as any as S.Schema<UpdateUserConfigResponse>;
 export interface UpdateUserHierarchyRequest {
   HierarchyGroupId?: string;
   UserId: string;
@@ -22099,6 +23658,48 @@ export const UpdateUserIdentityInfoResponse = S.suspend(() =>
 ).annotate({
   identifier: "UpdateUserIdentityInfoResponse",
 }) as any as S.Schema<UpdateUserIdentityInfoResponse>;
+export interface UpdateUserNotificationStatusRequest {
+  InstanceId: string;
+  NotificationId: string;
+  UserId: string;
+  Status: NotificationStatus;
+  LastModifiedTime?: Date;
+  LastModifiedRegion?: string;
+}
+export const UpdateUserNotificationStatusRequest = S.suspend(() =>
+  S.Struct({
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    NotificationId: S.String.pipe(T.HttpLabel("NotificationId")),
+    UserId: S.String.pipe(T.HttpLabel("UserId")),
+    Status: NotificationStatus,
+    LastModifiedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("http-date")),
+    ).pipe(T.HttpHeader("x-amz-last-modified-time")),
+    LastModifiedRegion: S.optional(S.String).pipe(
+      T.HttpHeader("x-amz-last-modified-region"),
+    ),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/users/{InstanceId}/{UserId}/notifications/{NotificationId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "UpdateUserNotificationStatusRequest",
+}) as any as S.Schema<UpdateUserNotificationStatusRequest>;
+export interface UpdateUserNotificationStatusResponse {}
+export const UpdateUserNotificationStatusResponse = S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "UpdateUserNotificationStatusResponse",
+}) as any as S.Schema<UpdateUserNotificationStatusResponse>;
 export interface UpdateUserPhoneConfigRequest {
   PhoneConfig: UserPhoneConfig;
   UserId: string;
@@ -22509,6 +24110,10 @@ export class PropertyValidationException extends S.TaggedErrorClass<PropertyVali
     PropertyList: S.optional(PropertyValidationExceptionPropertyList),
   },
 ).pipe(C.withBadRequestError) {}
+export class InvalidTestCaseException extends S.TaggedErrorClass<InvalidTestCaseException>()(
+  "InvalidTestCaseException",
+  { Problems: S.optional(Problems) },
+).pipe(C.withBadRequestError) {}
 export class ResourceNotReadyException extends S.TaggedErrorClass<ResourceNotReadyException>()(
   "ResourceNotReadyException",
   { Message: S.optional(S.String) },
@@ -22871,6 +24476,35 @@ export const associateFlow: (
     InvalidParameterException,
     InvalidRequestException,
     ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Associates a set of hours of operations with another hours of operation. Refer to Administrator Guide here for more information on inheriting overrides from parent hours of operation(s).
+ */
+export const associateHoursOfOperations: (
+  input: AssociateHoursOfOperationsRequest,
+) => effect.Effect<
+  AssociateHoursOfOperationsResponse,
+  | ConditionalOperationFailedException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateHoursOfOperationsRequest,
+  output: AssociateHoursOfOperationsResponse,
+  errors: [
+    ConditionalOperationFailedException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
     ThrottlingException,
   ],
 }));
@@ -23934,6 +25568,7 @@ export const createHoursOfOperation: (
   | InvalidRequestException
   | LimitExceededException
   | ResourceNotFoundException
+  | ServiceQuotaExceededException
   | ThrottlingException
   | CommonErrors,
   Creds | Region | HttpClient.HttpClient
@@ -23947,6 +25582,7 @@ export const createHoursOfOperation: (
     InvalidRequestException,
     LimitExceededException,
     ResourceNotFoundException,
+    ServiceQuotaExceededException,
     ThrottlingException,
   ],
 }));
@@ -24035,6 +25671,35 @@ export const createIntegrationAssociation: (
   errors: [
     DuplicateResourceException,
     InternalServiceException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Creates a new notification to be delivered to specified recipients. Notifications can include localized content with links, and an optional expiration time. Recipients can be specified as individual user ARNs or instance ARNs to target all users in an instance.
+ */
+export const createNotification: (
+  input: CreateNotificationRequest,
+) => effect.Effect<
+  CreateNotificationResponse,
+  | AccessDeniedException
+  | DuplicateResourceException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateNotificationRequest,
+  output: CreateNotificationResponse,
+  errors: [
+    AccessDeniedException,
+    DuplicateResourceException,
+    InternalServiceException,
+    InvalidParameterException,
     InvalidRequestException,
     ResourceNotFoundException,
     ThrottlingException,
@@ -24396,6 +26061,43 @@ export const createTaskTemplate: (
   ],
 }));
 /**
+ * Creates a test case with its content and metadata for the specified Amazon Connect instance.
+ */
+export const createTestCase: (
+  input: CreateTestCaseRequest,
+) => effect.Effect<
+  CreateTestCaseResponse,
+  | AccessDeniedException
+  | DuplicateResourceException
+  | IdempotencyException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | InvalidTestCaseException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateTestCaseRequest,
+  output: CreateTestCaseResponse,
+  errors: [
+    AccessDeniedException,
+    DuplicateResourceException,
+    IdempotencyException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    InvalidTestCaseException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+  ],
+}));
+/**
  * Creates a traffic distribution group given an Amazon Connect instance that has been replicated.
  *
  * The `SignInConfig` distribution is available only on a
@@ -24467,6 +26169,18 @@ export const createUseCase: (
  * Certain UserIdentityInfo parameters are required in some situations. For example, `Email`,
  * `FirstName` and `LastName` are required if you are using Amazon Connect or SAML for
  * identity management.
+ *
+ * Fields in `PhoneConfig` cannot be set simultaneously with their corresponding channel-specific configuration parameters. Specifically:
+ *
+ * - `PhoneConfig.AutoAccept` conflicts with `AutoAcceptConfigs`
+ *
+ * - `PhoneConfig.AfterContactWorkTimeLimit` conflicts with `AfterContactWorkConfigs`
+ *
+ * - `PhoneConfig.PhoneType` and `PhoneConfig.PhoneNumber` conflict with `PhoneNumberConfigs`
+ *
+ * - `PhoneConfig.PersistentConnection` conflicts with `PersistentConnectionConfigs`
+ *
+ * We recommend using channel-specific parameters such as `AutoAcceptConfigs`, `AfterContactWorkConfigs`, `PhoneNumberConfigs`, `PersistentConnectionConfigs`, and `VoiceEnhancementConfigs` for per-channel configuration.
  *
  * For information about how to create users using the Amazon Connect admin website, see Add Users in the Amazon Connect
  * Administrator Guide.
@@ -25140,6 +26854,33 @@ export const deleteIntegrationAssociation: (
   ],
 }));
 /**
+ * Deletes a notification. Once deleted, the notification is no longer visible to all users and cannot be managed through the Admin Website or APIs.
+ */
+export const deleteNotification: (
+  input: DeleteNotificationRequest,
+) => effect.Effect<
+  DeleteNotificationResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteNotificationRequest,
+  output: DeleteNotificationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
  * Deletes a predefined attribute from the specified Amazon Connect instance.
  */
 export const deletePredefinedAttribute: (
@@ -25377,6 +27118,33 @@ export const deleteTaskTemplate: (
   input: DeleteTaskTemplateRequest,
   output: DeleteTaskTemplateResponse,
   errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Deletes the test case that has already been created for the specified Amazon Connect instance.
+ */
+export const deleteTestCase: (
+  input: DeleteTestCaseRequest,
+) => effect.Effect<
+  DeleteTestCaseResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteTestCaseRequest,
+  output: DeleteTestCaseResponse,
+  errors: [
+    AccessDeniedException,
     InternalServiceException,
     InvalidParameterException,
     InvalidRequestException,
@@ -26137,6 +27905,33 @@ export const describeInstanceStorageConfig: (
   ],
 }));
 /**
+ * Retrieves detailed information about a specific notification, including its content, priority, recipients, and metadata.
+ */
+export const describeNotification: (
+  input: DescribeNotificationRequest,
+) => effect.Effect<
+  DescribeNotificationResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeNotificationRequest,
+  output: DescribeNotificationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
  * Gets details and status of a phone number that’s claimed to your Amazon Connect instance or traffic distribution group.
  *
  * If the number is claimed to a traffic distribution group, and you are calling in the Amazon Web Services Region where the traffic distribution group was
@@ -26356,6 +28151,33 @@ export const describeSecurityProfile: (
   input: DescribeSecurityProfileRequest,
   output: DescribeSecurityProfileResponse,
   errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Describes the specified test case and allows you to get the content and metadata of the test case for the specified Amazon Connect instance.
+ */
+export const describeTestCase: (
+  input: DescribeTestCaseRequest,
+) => effect.Effect<
+  DescribeTestCaseResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeTestCaseRequest,
+  output: DescribeTestCaseResponse,
+  errors: [
+    AccessDeniedException,
     InternalServiceException,
     InvalidParameterException,
     InvalidRequestException,
@@ -26732,6 +28554,33 @@ export const disassociateFlow: (
   output: DisassociateFlowResponse,
   errors: [
     AccessDeniedException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Disassociates a set of hours of operations with another hours of operation. Refer to Administrator Guide here for more information on inheriting overrides from parent hours of operation(s).
+ */
+export const disassociateHoursOfOperations: (
+  input: DisassociateHoursOfOperationsRequest,
+) => effect.Effect<
+  DisassociateHoursOfOperationsResponse,
+  | ConditionalOperationFailedException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateHoursOfOperationsRequest,
+  output: DisassociateHoursOfOperationsResponse,
+  errors: [
+    ConditionalOperationFailedException,
     InternalServiceException,
     InvalidParameterException,
     InvalidRequestException,
@@ -27181,24 +29030,23 @@ export const getContactAttributes: (
   ],
 }));
 /**
- * Retrieves the position of the contact in the queue.
+ * Retrieves contact metric data for a specified contact.
  *
  * **Use cases**
  *
- * Following are common uses cases for position in queue:
+ * Following are common use cases for position in queue and estimated wait time:
  *
- * - Understand the expected wait experience of a contact.
+ * - Customer-Facing Wait Time Announcements - Display or announce the estimated wait time and position in queue to customers before or during their queue experience.
  *
- * - Inform customers of their position in queue and potentially offer a callback.
+ * - Callback Offerings - Offer customers a callback option when the estimated wait time or position in queue exceeds a defined threshold.
  *
- * - Make data-driven routing decisions between primary and alternative queues.
+ * - Queue Routing Decisions - Route incoming contacts to less congested queues by comparing estimated wait time and position in queue across multiple queues.
  *
- * - Enhance queue visibility and leverage agent proficiencies to streamline contact routing.
+ * - Self-Service Deflection - Redirect customers to self-service options like chatbots or FAQs when estimated wait time is high or position in queue is unfavorable.
  *
  * **Important things to know**
  *
- * - The only way to retrieve the position of the contact in queue is by using this API. You can't retrieve the
- * position by using flows and attributes.
+ * - Metrics are only available while the contact is actively in queue.
  *
  * - For more information, see the Position in queue metric in the *Amazon Connect Administrator Guide*.
  *
@@ -27652,6 +29500,33 @@ export const getTaskTemplate: (
   ],
 }));
 /**
+ * Retrieves an overview of a test execution that includes the status of the execution, start and end time, and observation summary.
+ */
+export const getTestCaseExecutionSummary: (
+  input: GetTestCaseExecutionSummaryRequest,
+) => effect.Effect<
+  GetTestCaseExecutionSummaryResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetTestCaseExecutionSummaryRequest,
+  output: GetTestCaseExecutionSummaryResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
  * Retrieves the current traffic distribution for a given traffic distribution group.
  */
 export const getTrafficDistribution: (
@@ -28050,6 +29925,66 @@ export const listBots: {
     inputToken: "NextToken",
     outputToken: "NextToken",
     items: "LexBots",
+    pageSize: "MaxResults",
+  } as const,
+}));
+/**
+ * Provides information about the child hours of operations for the specified parent hours of operation.
+ *
+ * For more information about child hours of operations, see Link overrides from different hours of operation in the
+ * * Administrator Guide*.
+ */
+export const listChildHoursOfOperations: {
+  (
+    input: ListChildHoursOfOperationsRequest,
+  ): effect.Effect<
+    ListChildHoursOfOperationsResponse,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | CommonErrors,
+    Creds | Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListChildHoursOfOperationsRequest,
+  ) => stream.Stream<
+    ListChildHoursOfOperationsResponse,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | CommonErrors,
+    Creds | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListChildHoursOfOperationsRequest,
+  ) => stream.Stream<
+    HoursOfOperationsIdentifier,
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | CommonErrors,
+    Creds | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListChildHoursOfOperationsRequest,
+  output: ListChildHoursOfOperationsResponse,
+  errors: [
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ChildHoursOfOperationsSummaryList",
     pageSize: "MaxResults",
   } as const,
 }));
@@ -29448,6 +31383,33 @@ export const listLexBots: {
   } as const,
 }));
 /**
+ * Retrieves a paginated list of all notifications in the Amazon Connect instance.
+ */
+export const listNotifications: (
+  input: ListNotificationsRequest,
+) => effect.Effect<
+  ListNotificationsResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListNotificationsRequest,
+  output: ListNotificationsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
  * Provides information about the phone numbers for the specified Amazon Connect instance.
  *
  * For more information about phone numbers, see Set Up Phone Numbers for Your Contact
@@ -30579,6 +32541,121 @@ export const listTaskTemplates: {
   } as const,
 }));
 /**
+ * Lists detailed steps of test case execution that includes all observations along with actions taken and data associated in the specified Amazon Connect instance.
+ */
+export const listTestCaseExecutionRecords: (
+  input: ListTestCaseExecutionRecordsRequest,
+) => effect.Effect<
+  ListTestCaseExecutionRecordsResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTestCaseExecutionRecordsRequest,
+  output: ListTestCaseExecutionRecordsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Lists all test case executions and allows filtering by test case id, test case name, start time, end time or status of the execution for the specified Amazon Connect instance.
+ */
+export const listTestCaseExecutions: (
+  input: ListTestCaseExecutionsRequest,
+) => effect.Effect<
+  ListTestCaseExecutionsResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTestCaseExecutionsRequest,
+  output: ListTestCaseExecutionsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Lists the test cases present in the specific Amazon Connect instance.
+ */
+export const listTestCases: {
+  (
+    input: ListTestCasesRequest,
+  ): effect.Effect<
+    ListTestCasesResponse,
+    | AccessDeniedException
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | CommonErrors,
+    Creds | Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListTestCasesRequest,
+  ) => stream.Stream<
+    ListTestCasesResponse,
+    | AccessDeniedException
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | CommonErrors,
+    Creds | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListTestCasesRequest,
+  ) => stream.Stream<
+    TestCaseSummary,
+    | AccessDeniedException
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | CommonErrors,
+    Creds | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListTestCasesRequest,
+  output: ListTestCasesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "TestCaseSummaryList",
+    pageSize: "MaxResults",
+  } as const,
+}));
+/**
  * Lists traffic distribution groups.
  */
 export const listTrafficDistributionGroups: {
@@ -30799,6 +32876,33 @@ export const listUserHierarchyGroups: {
     items: "UserHierarchyGroupSummaryList",
     pageSize: "MaxResults",
   } as const,
+}));
+/**
+ * Retrieves a paginated list of notifications for a specific user, including the notification status for that user.
+ */
+export const listUserNotifications: (
+  input: ListUserNotificationsRequest,
+) => effect.Effect<
+  ListUserNotificationsResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListUserNotificationsRequest,
+  output: ListUserNotificationsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
 }));
 /**
  * Lists proficiencies associated with a user.
@@ -31993,6 +34097,33 @@ export const searchHoursOfOperations: {
   } as const,
 }));
 /**
+ * Searches for notifications based on specified criteria and filters. Returns a paginated list of notifications matching the search parameters, ordered by descending creation time. Supports filtering by content and tags.
+ */
+export const searchNotifications: (
+  input: SearchNotificationsRequest,
+) => effect.Effect<
+  SearchNotificationsResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SearchNotificationsRequest,
+  output: SearchNotificationsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
  * Searches predefined attributes that meet certain criteria. A *predefined attribute* is made
  * up of a name and a value. You can use predefined attributes for:
  *
@@ -32412,6 +34543,67 @@ export const searchSecurityProfiles: {
     inputToken: "NextToken",
     outputToken: "NextToken",
     items: "SecurityProfiles",
+    pageSize: "MaxResults",
+  } as const,
+}));
+/**
+ * Searches for test cases in the specified Amazon Connect instance, with optional filtering.
+ */
+export const searchTestCases: {
+  (
+    input: SearchTestCasesRequest,
+  ): effect.Effect<
+    SearchTestCasesResponse,
+    | AccessDeniedException
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | CommonErrors,
+    Creds | Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: SearchTestCasesRequest,
+  ) => stream.Stream<
+    SearchTestCasesResponse,
+    | AccessDeniedException
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | CommonErrors,
+    Creds | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: SearchTestCasesRequest,
+  ) => stream.Stream<
+    TestCase,
+    | AccessDeniedException
+    | InternalServiceException
+    | InvalidParameterException
+    | InvalidRequestException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | CommonErrors,
+    Creds | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: SearchTestCasesRequest,
+  output: SearchTestCasesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "TestCases",
     pageSize: "MaxResults",
   } as const,
 }));
@@ -33300,6 +35492,35 @@ export const startTaskContact: (
   ],
 }));
 /**
+ * Starts executing a published test case.
+ */
+export const startTestCaseExecution: (
+  input: StartTestCaseExecutionRequest,
+) => effect.Effect<
+  StartTestCaseExecutionResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartTestCaseExecutionRequest,
+  output: StartTestCaseExecutionResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+  ],
+}));
+/**
  * Places an inbound in-app, web, or video call to a contact, and then initiates the flow. It performs the actions
  * in the flow that are specified (in ContactFlowId) and present in the Amazon Connect instance (specified as
  * InstanceId).
@@ -33443,6 +35664,33 @@ export const stopContactStreaming: (
     InvalidParameterException,
     InvalidRequestException,
     ResourceNotFoundException,
+  ],
+}));
+/**
+ * Stops a running test execution.
+ */
+export const stopTestCaseExecution: (
+  input: StopTestCaseExecutionRequest,
+) => effect.Effect<
+  StopTestCaseExecutionResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StopTestCaseExecutionRequest,
+  output: StopTestCaseExecutionResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
   ],
 }));
 /**
@@ -34337,6 +36585,33 @@ export const updateInstanceStorageConfig: (
   ],
 }));
 /**
+ * Updates the localized content of an existing notification. This operation applies to all users for whom the notification was sent.
+ */
+export const updateNotificationContent: (
+  input: UpdateNotificationContentRequest,
+) => effect.Effect<
+  UpdateNotificationContentResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateNotificationContentRequest,
+  output: UpdateNotificationContentResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
  * Instructs Amazon Connect to resume the authentication process. The subsequent actions depend on the request
  * body contents:
  *
@@ -34984,6 +37259,37 @@ export const updateTaskTemplate: (
   ],
 }));
 /**
+ * Updates any of the metadata for a test case, such as the name, description, and status or content of an existing test case. This API doesn't allow customers to update the tags of the test case resource for the specified Amazon Connect instance.
+ */
+export const updateTestCase: (
+  input: UpdateTestCaseRequest,
+) => effect.Effect<
+  UpdateTestCaseResponse,
+  | AccessDeniedException
+  | DuplicateResourceException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | InvalidTestCaseException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateTestCaseRequest,
+  output: UpdateTestCaseResponse,
+  errors: [
+    AccessDeniedException,
+    DuplicateResourceException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    InvalidTestCaseException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
  * Updates the traffic distribution for a given traffic distribution group.
  *
  * When you shift telephony traffic, also shift agents and/or agent sign-ins to ensure they can handle the calls
@@ -35021,6 +37327,35 @@ export const updateTrafficDistribution: (
     InternalServiceException,
     InvalidRequestException,
     ResourceConflictException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Updates the configuration settings for the specified user, including per-channel auto-accept and after contact work (ACW) timeout settings.
+ *
+ * This operation replaces the UpdateUserPhoneConfig API. While UpdateUserPhoneConfig applies the same ACW timeout to all channels, UpdateUserConfig allows you to set different auto-accept and ACW timeout values for each channel type.
+ */
+export const updateUserConfig: (
+  input: UpdateUserConfigRequest,
+) => effect.Effect<
+  UpdateUserConfigResponse,
+  | ConditionalOperationFailedException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateUserConfigRequest,
+  output: UpdateUserConfigResponse,
+  errors: [
+    ConditionalOperationFailedException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
     ResourceNotFoundException,
     ThrottlingException,
   ],
@@ -35136,7 +37471,36 @@ export const updateUserIdentityInfo: (
   ],
 }));
 /**
+ * Updates the status of a notification for a specific user, such as marking it as read or hidden. Users can only update notification status for notifications that have been sent to them. READ status deprioritizes the notification and greys it out, while HIDDEN status removes it from the notification widget.
+ */
+export const updateUserNotificationStatus: (
+  input: UpdateUserNotificationStatusRequest,
+) => effect.Effect<
+  UpdateUserNotificationStatusResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateUserNotificationStatusRequest,
+  output: UpdateUserNotificationStatusResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidParameterException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+/**
  * Updates the phone configuration settings for the specified user.
+ *
+ * We recommend using the UpdateUserConfig API, which supports additional functionality that is not available in the UpdateUserPhoneConfig API, such as voice enhancement settings and per-channel configuration for auto-accept and After Contact Work (ACW) timeouts. In comparison, the UpdateUserPhoneConfig API will always set the same ACW timeouts to all channels the user handles.
  */
 export const updateUserPhoneConfig: (
   input: UpdateUserPhoneConfigRequest,

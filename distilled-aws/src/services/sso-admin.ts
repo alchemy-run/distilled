@@ -91,16 +91,17 @@ const rules = T.EndpointResolver((p, _) => {
 
 //# Newtypes
 export type InstanceArn = string;
-export type PermissionSetArn = string;
-export type ManagedPolicyName = string;
-export type ManagedPolicyPath = string;
+export type RegionName = string;
 export type AccessDeniedExceptionMessage = string;
 export type ConflictExceptionMessage = string;
 export type InternalFailureMessage = string;
-export type ResourceNotFoundMessage = string;
 export type ServiceQuotaExceededMessage = string;
 export type ThrottlingExceptionMessage = string;
 export type ValidationExceptionMessage = string;
+export type PermissionSetArn = string;
+export type ManagedPolicyName = string;
+export type ManagedPolicyPath = string;
+export type ResourceNotFoundMessage = string;
 export type ManagedPolicyArn = string;
 export type TargetId = string;
 export type PrincipalId = string;
@@ -133,6 +134,7 @@ export type ResourceServerScope = string;
 export type Id = string;
 export type KmsKeyArn = string;
 export type InstanceAccessControlAttributeConfigurationStatusReason = string;
+export type IsPrimaryRegion = boolean;
 export type AssignmentRequired = boolean;
 export type PermissionSetPolicyDocument = string;
 export type MaxResults = number;
@@ -145,6 +147,41 @@ export type URI = string;
 export type TokenIssuerAudience = string;
 
 //# Schemas
+export interface AddRegionRequest {
+  InstanceArn: string;
+  RegionName: string;
+}
+export const AddRegionRequest = S.suspend(() =>
+  S.Struct({ InstanceArn: S.String, RegionName: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "AddRegionRequest",
+}) as any as S.Schema<AddRegionRequest>;
+export type RegionStatus = "ACTIVE" | "ADDING" | "REMOVING" | (string & {});
+export const RegionStatus = S.String;
+export interface AddRegionResponse {
+  Status?: RegionStatus;
+}
+export const AddRegionResponse = S.suspend(() =>
+  S.Struct({ Status: S.optional(RegionStatus) }),
+).annotate({
+  identifier: "AddRegionResponse",
+}) as any as S.Schema<AddRegionResponse>;
+export type AccessDeniedExceptionReason =
+  | "KMS_AccessDeniedException"
+  | (string & {});
+export const AccessDeniedExceptionReason = S.String;
+export type ThrottlingExceptionReason =
+  | "KMS_ThrottlingException"
+  | (string & {});
+export const ThrottlingExceptionReason = S.String;
+export type ValidationExceptionReason =
+  | "KMS_InvalidKeyUsageException"
+  | "KMS_InvalidStateException"
+  | "KMS_DisabledException"
+  | (string & {});
+export const ValidationExceptionReason = S.String;
 export interface CustomerManagedPolicyReference {
   Name: string;
   Path?: string;
@@ -176,24 +213,10 @@ export const AttachCustomerManagedPolicyReferenceToPermissionSetResponse =
   S.suspend(() => S.Struct({})).annotate({
     identifier: "AttachCustomerManagedPolicyReferenceToPermissionSetResponse",
   }) as any as S.Schema<AttachCustomerManagedPolicyReferenceToPermissionSetResponse>;
-export type AccessDeniedExceptionReason =
-  | "KMS_AccessDeniedException"
-  | (string & {});
-export const AccessDeniedExceptionReason = S.String;
 export type ResourceNotFoundExceptionReason =
   | "KMS_NotFoundException"
   | (string & {});
 export const ResourceNotFoundExceptionReason = S.String;
-export type ThrottlingExceptionReason =
-  | "KMS_ThrottlingException"
-  | (string & {});
-export const ThrottlingExceptionReason = S.String;
-export type ValidationExceptionReason =
-  | "KMS_InvalidKeyUsageException"
-  | "KMS_InvalidStateException"
-  | "KMS_DisabledException"
-  | (string & {});
-export const ValidationExceptionReason = S.String;
 export interface AttachManagedPolicyToPermissionSetRequest {
   InstanceArn: string;
   PermissionSetArn: string;
@@ -791,6 +814,7 @@ export interface DescribeApplicationResponse {
   PortalOptions?: PortalOptions;
   Description?: string;
   CreatedDate?: Date;
+  CreatedFrom?: string;
 }
 export const DescribeApplicationResponse = S.suspend(() =>
   S.Struct({
@@ -803,6 +827,7 @@ export const DescribeApplicationResponse = S.suspend(() =>
     PortalOptions: S.optional(PortalOptions),
     Description: S.optional(S.String),
     CreatedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    CreatedFrom: S.optional(S.String),
   }),
 ).annotate({
   identifier: "DescribeApplicationResponse",
@@ -1071,6 +1096,33 @@ export const DescribePermissionSetProvisioningStatusResponse = S.suspend(() =>
 ).annotate({
   identifier: "DescribePermissionSetProvisioningStatusResponse",
 }) as any as S.Schema<DescribePermissionSetProvisioningStatusResponse>;
+export interface DescribeRegionRequest {
+  InstanceArn: string;
+  RegionName: string;
+}
+export const DescribeRegionRequest = S.suspend(() =>
+  S.Struct({ InstanceArn: S.String, RegionName: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "DescribeRegionRequest",
+}) as any as S.Schema<DescribeRegionRequest>;
+export interface DescribeRegionResponse {
+  RegionName?: string;
+  Status?: RegionStatus;
+  AddedDate?: Date;
+  IsPrimaryRegion?: boolean;
+}
+export const DescribeRegionResponse = S.suspend(() =>
+  S.Struct({
+    RegionName: S.optional(S.String),
+    Status: S.optional(RegionStatus),
+    AddedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    IsPrimaryRegion: S.optional(S.Boolean),
+  }),
+).annotate({
+  identifier: "DescribeRegionResponse",
+}) as any as S.Schema<DescribeRegionResponse>;
 export interface DescribeTrustedTokenIssuerRequest {
   TrustedTokenIssuerArn: string;
 }
@@ -1669,6 +1721,7 @@ export interface Application {
   PortalOptions?: PortalOptions;
   Description?: string;
   CreatedDate?: Date;
+  CreatedFrom?: string;
 }
 export const Application = S.suspend(() =>
   S.Struct({
@@ -1681,6 +1734,7 @@ export const Application = S.suspend(() =>
     PortalOptions: S.optional(PortalOptions),
     Description: S.optional(S.String),
     CreatedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    CreatedFrom: S.optional(S.String),
   }),
 ).annotate({ identifier: "Application" }) as any as S.Schema<Application>;
 export type ApplicationList = Application[];
@@ -1940,6 +1994,50 @@ export const ListPermissionSetsProvisionedToAccountResponse = S.suspend(() =>
 ).annotate({
   identifier: "ListPermissionSetsProvisionedToAccountResponse",
 }) as any as S.Schema<ListPermissionSetsProvisionedToAccountResponse>;
+export interface ListRegionsRequest {
+  InstanceArn: string;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListRegionsRequest = S.suspend(() =>
+  S.Struct({
+    InstanceArn: S.String,
+    MaxResults: S.optional(S.Number),
+    NextToken: S.optional(S.String),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "ListRegionsRequest",
+}) as any as S.Schema<ListRegionsRequest>;
+export interface RegionMetadata {
+  RegionName?: string;
+  Status?: RegionStatus;
+  AddedDate?: Date;
+  IsPrimaryRegion?: boolean;
+}
+export const RegionMetadata = S.suspend(() =>
+  S.Struct({
+    RegionName: S.optional(S.String),
+    Status: S.optional(RegionStatus),
+    AddedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    IsPrimaryRegion: S.optional(S.Boolean),
+  }),
+).annotate({ identifier: "RegionMetadata" }) as any as S.Schema<RegionMetadata>;
+export type RegionMetadataList = RegionMetadata[];
+export const RegionMetadataList = S.Array(RegionMetadata);
+export interface ListRegionsResponse {
+  Regions?: RegionMetadata[];
+  NextToken?: string;
+}
+export const ListRegionsResponse = S.suspend(() =>
+  S.Struct({
+    Regions: S.optional(RegionMetadataList),
+    NextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ListRegionsResponse",
+}) as any as S.Schema<ListRegionsResponse>;
 export interface ListTagsForResourceRequest {
   InstanceArn?: string;
   ResourceArn: string;
@@ -2127,6 +2225,25 @@ export const PutPermissionsBoundaryToPermissionSetResponse = S.suspend(() =>
 ).annotate({
   identifier: "PutPermissionsBoundaryToPermissionSetResponse",
 }) as any as S.Schema<PutPermissionsBoundaryToPermissionSetResponse>;
+export interface RemoveRegionRequest {
+  InstanceArn: string;
+  RegionName: string;
+}
+export const RemoveRegionRequest = S.suspend(() =>
+  S.Struct({ InstanceArn: S.String, RegionName: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "RemoveRegionRequest",
+}) as any as S.Schema<RemoveRegionRequest>;
+export interface RemoveRegionResponse {
+  Status?: RegionStatus;
+}
+export const RemoveRegionResponse = S.suspend(() =>
+  S.Struct({ Status: S.optional(RegionStatus) }),
+).annotate({
+  identifier: "RemoveRegionResponse",
+}) as any as S.Schema<RemoveRegionResponse>;
 export interface TagResourceRequest {
   InstanceArn?: string;
   ResourceArn: string;
@@ -2713,13 +2830,6 @@ export class InternalServerException extends S.TaggedErrorClass<InternalServerEx
   "InternalServerException",
   { Message: S.optional(S.String) },
 ).pipe(C.withServerError) {}
-export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFoundException>()(
-  "ResourceNotFoundException",
-  {
-    Message: S.optional(S.String),
-    Reason: S.optional(ResourceNotFoundExceptionReason),
-  },
-).pipe(C.withBadRequestError) {}
 export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
   { Message: S.optional(S.String) },
@@ -2738,8 +2848,52 @@ export class ValidationException extends S.TaggedErrorClass<ValidationException>
     Reason: S.optional(ValidationExceptionReason),
   },
 ).pipe(C.withBadRequestError) {}
+export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFoundException>()(
+  "ResourceNotFoundException",
+  {
+    Message: S.optional(S.String),
+    Reason: S.optional(ResourceNotFoundExceptionReason),
+  },
+).pipe(C.withBadRequestError) {}
 
 //# Operations
+/**
+ * Adds a Region to an IAM Identity Center instance. This operation initiates an asynchronous workflow to replicate the IAM Identity Center instance to the target Region. The Region status is set to ADDING at first and changes to ACTIVE when the workflow completes.
+ *
+ * To use this operation, your IAM Identity Center instance and the target Region must meet the requirements described in the IAM Identity Center User Guide.
+ *
+ * The following actions are related to `AddRegion`:
+ *
+ * - RemoveRegion
+ *
+ * - DescribeRegion
+ *
+ * - ListRegions
+ */
+export const addRegion: (
+  input: AddRegionRequest,
+) => effect.Effect<
+  AddRegionResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AddRegionRequest,
+  output: AddRegionResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Attaches the specified customer managed policy to the specified PermissionSet.
  */
@@ -3483,6 +3637,39 @@ export const describePermissionSetProvisioningStatus: (
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribePermissionSetProvisioningStatusRequest,
   output: DescribePermissionSetProvisioningStatusResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Retrieves details about a specific Region enabled in an IAM Identity Center instance. Details include the Region name, current status (ACTIVE, ADDING, or REMOVING), the date when the Region was added, and whether it is the primary Region. The request must be made from one of the enabled Regions of the IAM Identity Center instance.
+ *
+ * The following actions are related to `DescribeRegion`:
+ *
+ * - AddRegion
+ *
+ * - RemoveRegion
+ *
+ * - ListRegions
+ */
+export const describeRegion: (
+  input: DescribeRegionRequest,
+) => effect.Effect<
+  DescribeRegionResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeRegionRequest,
+  output: DescribeRegionResponse,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4516,6 +4703,67 @@ export const listPermissionSetsProvisionedToAccount: {
   } as const,
 }));
 /**
+ * Lists all enabled Regions of an IAM Identity Center instance, including those that are being added or removed. This operation returns Regions with ACTIVE, ADDING, or REMOVING status.
+ *
+ * The following actions are related to `ListRegions`:
+ *
+ * - AddRegion
+ *
+ * - RemoveRegion
+ *
+ * - DescribeRegion
+ */
+export const listRegions: {
+  (
+    input: ListRegionsRequest,
+  ): effect.Effect<
+    ListRegionsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListRegionsRequest,
+  ) => stream.Stream<
+    ListRegionsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListRegionsRequest,
+  ) => stream.Stream<
+    RegionMetadata,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListRegionsRequest,
+  output: ListRegionsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Regions",
+    pageSize: "MaxResults",
+  } as const,
+}));
+/**
  * Lists the tags that are attached to a specified resource.
  */
 export const listTagsForResource: {
@@ -4756,6 +5004,41 @@ export const putPermissionsBoundaryToPermissionSet: (
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutPermissionsBoundaryToPermissionSetRequest,
   output: PutPermissionsBoundaryToPermissionSetResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Removes an additional Region from an IAM Identity Center instance. This operation initiates an asynchronous workflow to clean up IAM Identity Center resources in the specified additional Region. The Region status is set to REMOVING and the Region record is deleted when the workflow completes. The request must be made from the primary Region. The target Region cannot be the primary Region, and no other add or remove Region workflows can be in progress.
+ *
+ * The following actions are related to `RemoveRegion`:
+ *
+ * - AddRegion
+ *
+ * - DescribeRegion
+ *
+ * - ListRegions
+ */
+export const removeRegion: (
+  input: RemoveRegionRequest,
+) => effect.Effect<
+  RemoveRegionResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RemoveRegionRequest,
+  output: RemoveRegionResponse,
   errors: [
     AccessDeniedException,
     ConflictException,

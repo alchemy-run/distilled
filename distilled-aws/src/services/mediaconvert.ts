@@ -200,16 +200,16 @@ export type __integerMin64000Max640000 = number;
 export type __integerMin1Max31 = number;
 export type __integerMin48000Max48000 = number;
 export type __integerMin16Max24 = number;
+export type __integerMin0Max64 = number;
 export type __integerMin8000Max192000 = number;
 export type __integerMin384000Max1024000 = number;
 export type __doubleMinNegative6Max3 = number;
 export type __doubleMinNegative60MaxNegative1 = number;
 export type __integerMin32000Max3024000 = number;
 export type __doubleMinNegative60Max3 = number;
-export type __integerMin1Max8 = number;
 export type __integerMin22050Max192000 = number;
 export type __integerMin32000Max384000 = number;
-export type __integerMin1Max2 = number;
+export type __integerMin0Max2 = number;
 export type __integerMin16000Max320000 = number;
 export type __integerMin22050Max48000 = number;
 export type __integerMin0Max9 = number;
@@ -3312,6 +3312,7 @@ export type AacCodingMode =
   | "CODING_MODE_1_1"
   | "CODING_MODE_2_0"
   | "CODING_MODE_5_1"
+  | "CODING_MODE_AUTO"
   | (string & {});
 export const AacCodingMode = S.String;
 export type AacLoudnessMeasurementMode = "PROGRAM" | "ANCHOR" | (string & {});
@@ -3392,6 +3393,7 @@ export type Ac3CodingMode =
   | "CODING_MODE_1_1"
   | "CODING_MODE_2_0"
   | "CODING_MODE_3_2_LFE"
+  | "CODING_MODE_AUTO"
   | (string & {});
 export const Ac3CodingMode = S.String;
 export type Ac3DynamicRangeCompressionLine =
@@ -3639,6 +3641,7 @@ export type Eac3CodingMode =
   | "CODING_MODE_1_0"
   | "CODING_MODE_2_0"
   | "CODING_MODE_3_2"
+  | "CODING_MODE_AUTO"
   | (string & {});
 export const Eac3CodingMode = S.String;
 export type Eac3DcFilter = "ENABLED" | "DISABLED" | (string & {});
@@ -5199,6 +5202,8 @@ export type MxfProfile =
   | "XDCAM_RDD9"
   | (string & {});
 export const MxfProfile = S.String;
+export type MxfUncompressedAudioWrapping = "AUTO" | "AES3" | (string & {});
+export const MxfUncompressedAudioWrapping = S.String;
 export type MxfXavcDurationMode =
   | "ALLOW_ANY_DURATION"
   | "DROP_FRAMES_FOR_COMPLIANCE"
@@ -5224,17 +5229,20 @@ export const MxfXavcProfileSettings = S.suspend(() =>
 export interface MxfSettings {
   AfdSignaling?: MxfAfdSignaling;
   Profile?: MxfProfile;
+  UncompressedAudioWrapping?: MxfUncompressedAudioWrapping;
   XavcProfileSettings?: MxfXavcProfileSettings;
 }
 export const MxfSettings = S.suspend(() =>
   S.Struct({
     AfdSignaling: S.optional(MxfAfdSignaling),
     Profile: S.optional(MxfProfile),
+    UncompressedAudioWrapping: S.optional(MxfUncompressedAudioWrapping),
     XavcProfileSettings: S.optional(MxfXavcProfileSettings),
   }).pipe(
     S.encodeKeys({
       AfdSignaling: "afdSignaling",
       Profile: "profile",
+      UncompressedAudioWrapping: "uncompressedAudioWrapping",
       XavcProfileSettings: "xavcProfileSettings",
     }),
   ),
@@ -7330,6 +7338,11 @@ export const Deinterlacer = S.suspend(() =>
     S.encodeKeys({ Algorithm: "algorithm", Control: "control", Mode: "mode" }),
   ),
 ).annotate({ identifier: "Deinterlacer" }) as any as S.Schema<Deinterlacer>;
+export type DolbyVisionCompatibility =
+  | "DUPLICATE_STREAM"
+  | "SUPPLEMENTAL_CODECS"
+  | (string & {});
+export const DolbyVisionCompatibility = S.String;
 export interface DolbyVisionLevel6Metadata {
   MaxCll?: number;
   MaxFall?: number;
@@ -7353,6 +7366,7 @@ export const DolbyVisionMapping = S.String;
 export type DolbyVisionProfile = "PROFILE_5" | "PROFILE_8_1" | (string & {});
 export const DolbyVisionProfile = S.String;
 export interface DolbyVision {
+  Compatibility?: DolbyVisionCompatibility;
   L6Metadata?: DolbyVisionLevel6Metadata;
   L6Mode?: DolbyVisionLevel6Mode;
   Mapping?: DolbyVisionMapping;
@@ -7360,12 +7374,14 @@ export interface DolbyVision {
 }
 export const DolbyVision = S.suspend(() =>
   S.Struct({
+    Compatibility: S.optional(DolbyVisionCompatibility),
     L6Metadata: S.optional(DolbyVisionLevel6Metadata),
     L6Mode: S.optional(DolbyVisionLevel6Mode),
     Mapping: S.optional(DolbyVisionMapping),
     Profile: S.optional(DolbyVisionProfile),
   }).pipe(
     S.encodeKeys({
+      Compatibility: "compatibility",
       L6Metadata: "l6Metadata",
       L6Mode: "l6Mode",
       Mapping: "mapping",
@@ -9401,6 +9417,7 @@ export type Format =
   | "matroska"
   | "webm"
   | "mxf"
+  | "wave"
   | (string & {});
 export const Format = S.String;
 export interface FrameRate {

@@ -159,12 +159,21 @@ export const EncryptionConfiguration = S.suspend(() =>
 ).annotate({
   identifier: "EncryptionConfiguration",
 }) as any as S.Schema<EncryptionConfiguration>;
+export interface OutputConfiguration {
+  s3Uri: string;
+}
+export const OutputConfiguration = S.suspend(() =>
+  S.Struct({ s3Uri: S.String }),
+).annotate({
+  identifier: "OutputConfiguration",
+}) as any as S.Schema<OutputConfiguration>;
 export interface InvokeDataAutomationRequest {
   inputConfiguration: SyncInputConfiguration;
   dataAutomationConfiguration?: DataAutomationConfiguration;
   blueprints?: Blueprint[];
   dataAutomationProfileArn: string;
   encryptionConfiguration?: EncryptionConfiguration;
+  outputConfiguration?: OutputConfiguration;
 }
 export const InvokeDataAutomationRequest = S.suspend(() =>
   S.Struct({
@@ -173,6 +182,7 @@ export const InvokeDataAutomationRequest = S.suspend(() =>
     blueprints: S.optional(BlueprintList),
     dataAutomationProfileArn: S.String,
     encryptionConfiguration: S.optional(EncryptionConfiguration),
+    outputConfiguration: S.optional(OutputConfiguration),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -203,13 +213,15 @@ export const OutputSegment = S.suspend(() =>
 export type OutputSegmentList = OutputSegment[];
 export const OutputSegmentList = S.Array(OutputSegment);
 export interface InvokeDataAutomationResponse {
+  outputConfiguration?: OutputConfiguration;
   semanticModality: SemanticModality;
-  outputSegments: OutputSegment[];
+  outputSegments?: OutputSegment[];
 }
 export const InvokeDataAutomationResponse = S.suspend(() =>
   S.Struct({
+    outputConfiguration: S.optional(OutputConfiguration),
     semanticModality: SemanticModality,
-    outputSegments: OutputSegmentList,
+    outputSegments: S.optional(OutputSegmentList),
   }),
 ).annotate({
   identifier: "InvokeDataAutomationResponse",
@@ -314,14 +326,6 @@ export const InputConfiguration = S.suspend(() =>
 ).annotate({
   identifier: "InputConfiguration",
 }) as any as S.Schema<InputConfiguration>;
-export interface OutputConfiguration {
-  s3Uri: string;
-}
-export const OutputConfiguration = S.suspend(() =>
-  S.Struct({ s3Uri: S.String }),
-).annotate({
-  identifier: "OutputConfiguration",
-}) as any as S.Schema<OutputConfiguration>;
 export interface EventBridgeConfiguration {
   eventBridgeEnabled: boolean;
 }

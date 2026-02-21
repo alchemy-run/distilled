@@ -83,8 +83,9 @@ export type PlacementGroupId = string;
 export type HostId = string;
 export type SecurityGroupName = string;
 export type UserData = string | redacted.Redacted<string>;
-export type MaxResults = number;
+export type ListInstanceTypesMaxResults = number;
 export type NextToken = string | redacted.Redacted<string>;
+export type MaxResults = number;
 export type RegionName = string;
 
 //# Schemas
@@ -695,16 +696,28 @@ export const ManagedInstanceRequest = S.suspend(() =>
 ).annotate({
   identifier: "ManagedInstanceRequest",
 }) as any as S.Schema<ManagedInstanceRequest>;
+export type BillingMode = "MONTHLY" | "HOURLY" | (string & {});
+export const BillingMode = S.String;
+export interface BillingConfiguration {
+  BillingMode: BillingMode;
+}
+export const BillingConfiguration = S.suspend(() =>
+  S.Struct({ BillingMode: BillingMode }),
+).annotate({
+  identifier: "BillingConfiguration",
+}) as any as S.Schema<BillingConfiguration>;
 export interface CreateWorkspaceInstanceRequest {
   ClientToken?: string | redacted.Redacted<string>;
   Tags?: Tag[];
   ManagedInstance: ManagedInstanceRequest;
+  BillingConfiguration?: BillingConfiguration;
 }
 export const CreateWorkspaceInstanceRequest = S.suspend(() =>
   S.Struct({
     ClientToken: S.optional(SensitiveString).pipe(T.IdempotencyToken()),
     Tags: S.optional(TagList),
     ManagedInstance: ManagedInstanceRequest,
+    BillingConfiguration: S.optional(BillingConfiguration),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -838,6 +851,7 @@ export interface GetWorkspaceInstanceResponse {
   ProvisionState?: ProvisionStateEnum;
   WorkspaceInstanceId?: string;
   EC2ManagedInstance?: EC2ManagedInstance;
+  BillingConfiguration?: BillingConfiguration;
 }
 export const GetWorkspaceInstanceResponse = S.suspend(() =>
   S.Struct({
@@ -846,29 +860,85 @@ export const GetWorkspaceInstanceResponse = S.suspend(() =>
     ProvisionState: S.optional(ProvisionStateEnum),
     WorkspaceInstanceId: S.optional(S.String),
     EC2ManagedInstance: S.optional(EC2ManagedInstance),
+    BillingConfiguration: S.optional(BillingConfiguration),
   }),
 ).annotate({
   identifier: "GetWorkspaceInstanceResponse",
 }) as any as S.Schema<GetWorkspaceInstanceResponse>;
+export type PlatformTypeEnum =
+  | "Windows"
+  | "Windows BYOL"
+  | "Linux/UNIX"
+  | "Ubuntu Pro Linux"
+  | "Red Hat Enterprise Linux"
+  | "Red Hat BYOL Linux"
+  | "SUSE Linux"
+  | (string & {});
+export const PlatformTypeEnum = S.String;
+export type InstanceConfigurationTenancyEnum =
+  | "SHARED"
+  | "DEDICATED"
+  | (string & {});
+export const InstanceConfigurationTenancyEnum = S.String;
+export interface InstanceConfigurationFilter {
+  BillingMode: BillingMode;
+  PlatformType: PlatformTypeEnum;
+  Tenancy: InstanceConfigurationTenancyEnum;
+}
+export const InstanceConfigurationFilter = S.suspend(() =>
+  S.Struct({
+    BillingMode: BillingMode,
+    PlatformType: PlatformTypeEnum,
+    Tenancy: InstanceConfigurationTenancyEnum,
+  }),
+).annotate({
+  identifier: "InstanceConfigurationFilter",
+}) as any as S.Schema<InstanceConfigurationFilter>;
 export interface ListInstanceTypesRequest {
   MaxResults?: number;
   NextToken?: string | redacted.Redacted<string>;
+  InstanceConfigurationFilter?: InstanceConfigurationFilter;
 }
 export const ListInstanceTypesRequest = S.suspend(() =>
   S.Struct({
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(SensitiveString),
+    InstanceConfigurationFilter: S.optional(InstanceConfigurationFilter),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListInstanceTypesRequest",
 }) as any as S.Schema<ListInstanceTypesRequest>;
+export interface SupportedInstanceConfiguration {
+  BillingMode?: BillingMode;
+  PlatformType?: PlatformTypeEnum;
+  Tenancy?: InstanceConfigurationTenancyEnum;
+}
+export const SupportedInstanceConfiguration = S.suspend(() =>
+  S.Struct({
+    BillingMode: S.optional(BillingMode),
+    PlatformType: S.optional(PlatformTypeEnum),
+    Tenancy: S.optional(InstanceConfigurationTenancyEnum),
+  }),
+).annotate({
+  identifier: "SupportedInstanceConfiguration",
+}) as any as S.Schema<SupportedInstanceConfiguration>;
+export type SupportedInstanceConfigurations = SupportedInstanceConfiguration[];
+export const SupportedInstanceConfigurations = S.Array(
+  SupportedInstanceConfiguration,
+);
 export interface InstanceTypeInfo {
   InstanceType?: string;
+  SupportedInstanceConfigurations?: SupportedInstanceConfiguration[];
 }
 export const InstanceTypeInfo = S.suspend(() =>
-  S.Struct({ InstanceType: S.optional(S.String) }),
+  S.Struct({
+    InstanceType: S.optional(S.String),
+    SupportedInstanceConfigurations: S.optional(
+      SupportedInstanceConfigurations,
+    ),
+  }),
 ).annotate({
   identifier: "InstanceTypeInfo",
 }) as any as S.Schema<InstanceTypeInfo>;
@@ -1175,6 +1245,8 @@ export const deleteVolume: (
 }));
 /**
  * Deletes the specified WorkSpace
+ *
+ * Usage of this API will result in deletion of the resource in question.
  */
 export const deleteWorkspaceInstance: (
   input: DeleteWorkspaceInstanceRequest,

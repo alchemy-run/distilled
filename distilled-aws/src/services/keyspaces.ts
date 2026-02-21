@@ -115,6 +115,7 @@ export type TypeName = string;
 export type KeyspaceStatus = string;
 export type TablesReplicationProgress = string;
 export type TableStatus = string;
+export type WarmThroughputStatus = string;
 export type StreamArn = string;
 export type TypeStatus = string;
 export type Depth = number;
@@ -360,6 +361,18 @@ export const CdcSpecification = S.suspend(() =>
 ).annotate({
   identifier: "CdcSpecification",
 }) as any as S.Schema<CdcSpecification>;
+export interface WarmThroughputSpecification {
+  readUnitsPerSecond?: number;
+  writeUnitsPerSecond?: number;
+}
+export const WarmThroughputSpecification = S.suspend(() =>
+  S.Struct({
+    readUnitsPerSecond: S.optional(S.Number),
+    writeUnitsPerSecond: S.optional(S.Number),
+  }),
+).annotate({
+  identifier: "WarmThroughputSpecification",
+}) as any as S.Schema<WarmThroughputSpecification>;
 export interface CreateTableRequest {
   keyspaceName: string;
   tableName: string;
@@ -375,6 +388,7 @@ export interface CreateTableRequest {
   autoScalingSpecification?: AutoScalingSpecification;
   replicaSpecifications?: ReplicaSpecification[];
   cdcSpecification?: CdcSpecification;
+  warmThroughputSpecification?: WarmThroughputSpecification;
 }
 export const CreateTableRequest = S.suspend(() =>
   S.Struct({
@@ -392,6 +406,7 @@ export const CreateTableRequest = S.suspend(() =>
     autoScalingSpecification: S.optional(AutoScalingSpecification),
     replicaSpecifications: S.optional(ReplicaSpecificationList),
     cdcSpecification: S.optional(CdcSpecification),
+    warmThroughputSpecification: S.optional(WarmThroughputSpecification),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -578,16 +593,32 @@ export const PointInTimeRecoverySummary = S.suspend(() =>
 ).annotate({
   identifier: "PointInTimeRecoverySummary",
 }) as any as S.Schema<PointInTimeRecoverySummary>;
+export interface WarmThroughputSpecificationSummary {
+  readUnitsPerSecond: number;
+  writeUnitsPerSecond: number;
+  status: string;
+}
+export const WarmThroughputSpecificationSummary = S.suspend(() =>
+  S.Struct({
+    readUnitsPerSecond: S.Number,
+    writeUnitsPerSecond: S.Number,
+    status: S.String,
+  }),
+).annotate({
+  identifier: "WarmThroughputSpecificationSummary",
+}) as any as S.Schema<WarmThroughputSpecificationSummary>;
 export interface ReplicaSpecificationSummary {
   region?: string;
   status?: string;
   capacitySpecification?: CapacitySpecificationSummary;
+  warmThroughputSpecification?: WarmThroughputSpecificationSummary;
 }
 export const ReplicaSpecificationSummary = S.suspend(() =>
   S.Struct({
     region: S.optional(S.String),
     status: S.optional(S.String),
     capacitySpecification: S.optional(CapacitySpecificationSummary),
+    warmThroughputSpecification: S.optional(WarmThroughputSpecificationSummary),
   }),
 ).annotate({
   identifier: "ReplicaSpecificationSummary",
@@ -622,6 +653,7 @@ export interface GetTableResponse {
   replicaSpecifications?: ReplicaSpecificationSummary[];
   latestStreamArn?: string;
   cdcSpecification?: CdcSpecificationSummary;
+  warmThroughputSpecification?: WarmThroughputSpecificationSummary;
 }
 export const GetTableResponse = S.suspend(() =>
   S.Struct({
@@ -643,6 +675,7 @@ export const GetTableResponse = S.suspend(() =>
     replicaSpecifications: S.optional(ReplicaSpecificationSummaryList),
     latestStreamArn: S.optional(S.String),
     cdcSpecification: S.optional(CdcSpecificationSummary),
+    warmThroughputSpecification: S.optional(WarmThroughputSpecificationSummary),
   }),
 ).annotate({
   identifier: "GetTableResponse",
@@ -976,6 +1009,7 @@ export interface UpdateTableRequest {
   autoScalingSpecification?: AutoScalingSpecification;
   replicaSpecifications?: ReplicaSpecification[];
   cdcSpecification?: CdcSpecification;
+  warmThroughputSpecification?: WarmThroughputSpecification;
 }
 export const UpdateTableRequest = S.suspend(() =>
   S.Struct({
@@ -991,6 +1025,7 @@ export const UpdateTableRequest = S.suspend(() =>
     autoScalingSpecification: S.optional(AutoScalingSpecification),
     replicaSpecifications: S.optional(ReplicaSpecificationList),
     cdcSpecification: S.optional(CdcSpecification),
+    warmThroughputSpecification: S.optional(WarmThroughputSpecification),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),

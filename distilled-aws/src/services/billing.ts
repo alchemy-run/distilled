@@ -131,6 +131,7 @@ export type BillingViewName = string | redacted.Redacted<string>;
 export type BillingViewDescription = string | redacted.Redacted<string>;
 export type Value = string;
 export type TagKey = string;
+export type CostCategoryName = string;
 export type ClientToken = string;
 export type ResourceTagKey = string;
 export type ResourceTagValue = string;
@@ -201,6 +202,15 @@ export interface TagValues {
 export const TagValues = S.suspend(() =>
   S.Struct({ key: S.String, values: Values }),
 ).annotate({ identifier: "TagValues" }) as any as S.Schema<TagValues>;
+export interface CostCategoryValues {
+  key: string;
+  values: string[];
+}
+export const CostCategoryValues = S.suspend(() =>
+  S.Struct({ key: S.String, values: Values }),
+).annotate({
+  identifier: "CostCategoryValues",
+}) as any as S.Schema<CostCategoryValues>;
 export interface TimeRange {
   beginDateInclusive?: Date;
   endDateInclusive?: Date;
@@ -218,12 +228,14 @@ export const TimeRange = S.suspend(() =>
 export interface Expression {
   dimensions?: DimensionValues;
   tags?: TagValues;
+  costCategories?: CostCategoryValues;
   timeRange?: TimeRange;
 }
 export const Expression = S.suspend(() =>
   S.Struct({
     dimensions: S.optional(DimensionValues),
     tags: S.optional(TagValues),
+    costCategories: S.optional(CostCategoryValues),
     timeRange: S.optional(TimeRange),
   }),
 ).annotate({ identifier: "Expression" }) as any as S.Schema<Expression>;

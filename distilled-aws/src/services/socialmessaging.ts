@@ -87,15 +87,33 @@ const rules = T.EndpointResolver((p, _) => {
 });
 
 //# Newtypes
-export type MetaTemplateDefinition = Uint8Array;
+export type Arn = string;
+export type ErrorMessage = string;
+export type AssociateInProgressToken = string | redacted.Redacted<string>;
+export type WhatsAppPhoneNumber = string;
+export type TwoFactorPin = string | redacted.Redacted<string>;
+export type IsoCountryCode = string;
 export type LinkedWhatsAppBusinessAccountId = string;
+export type WhatsAppBusinessAccountId = string;
+export type EventDestinationArn = string;
+export type RoleArn = string;
+export type WhatsAppBusinessAccountName = string;
+export type LinkedWhatsAppPhoneNumberArn = string;
+export type PhoneNumber = string;
+export type WhatsAppPhoneNumberId = string;
+export type WhatsAppPhoneNumberName = string;
+export type WhatsAppDisplayPhoneNumber = string;
+export type WhatsAppPhoneNumberQualityRating = string;
+export type LinkedWhatsAppBusinessAccountArn = string;
+export type WhatsAppBusinessAccountLinkDate = Date;
+export type NextToken = string;
+export type MaxResults = number;
+export type MetaTemplateDefinition = Uint8Array;
 export type MetaTemplateId = string;
 export type MetaTemplateCategory = string;
-export type ErrorMessage = string;
 export type MetaTemplateName = string;
 export type MetaTemplateLanguage = string;
 export type ButtonType = string;
-export type PhoneNumber = string;
 export type OtpType = string;
 export type ZeroTapTermsAccepted = boolean;
 export type AddContactNumber = boolean;
@@ -105,9 +123,6 @@ export type AddTrackPackageLink = boolean;
 export type CodeExpirationMinutes = number;
 export type DeleteAllLanguages = boolean;
 export type MetaTemplate = string;
-export type Arn = string;
-export type NextToken = string;
-export type MaxResults = number;
 export type MetaTemplateStatus = string;
 export type MetaTemplateQualityScore = string;
 export type MetaTemplateTopic = string;
@@ -117,256 +132,13 @@ export type MetaTemplateHeader = string;
 export type MetaTemplateBody = string;
 export type MetaText = string;
 export type MetaUrl = string;
+export type MetaParameterFormat = string;
 export type MetaTemplateComponents = Uint8Array;
-export type AssociateInProgressToken = string | redacted.Redacted<string>;
-export type WhatsAppPhoneNumber = string;
-export type TwoFactorPin = string | redacted.Redacted<string>;
-export type IsoCountryCode = string;
-export type WhatsAppBusinessAccountId = string;
-export type EventDestinationArn = string;
-export type RoleArn = string;
-export type WhatsAppBusinessAccountName = string;
-export type LinkedWhatsAppPhoneNumberArn = string;
-export type WhatsAppPhoneNumberId = string;
-export type WhatsAppPhoneNumberName = string;
-export type WhatsAppDisplayPhoneNumber = string;
-export type WhatsAppPhoneNumberQualityRating = string;
-export type LinkedWhatsAppBusinessAccountArn = string;
-export type WhatsAppBusinessAccountLinkDate = Date;
+export type MetaTemplateCtaLinkTrackingOptedOut = boolean;
 export type WhatsAppMediaId = string;
 export type WhatsAppMessageBlob = Uint8Array | redacted.Redacted<Uint8Array>;
 
 //# Schemas
-export interface CreateWhatsAppMessageTemplateInput {
-  templateDefinition: Uint8Array;
-  id: string;
-}
-export const CreateWhatsAppMessageTemplateInput = S.suspend(() =>
-  S.Struct({ templateDefinition: T.Blob, id: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/v1/whatsapp/template/put" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateWhatsAppMessageTemplateInput",
-}) as any as S.Schema<CreateWhatsAppMessageTemplateInput>;
-export interface CreateWhatsAppMessageTemplateOutput {
-  metaTemplateId?: string;
-  templateStatus?: string;
-  category?: string;
-}
-export const CreateWhatsAppMessageTemplateOutput = S.suspend(() =>
-  S.Struct({
-    metaTemplateId: S.optional(S.String),
-    templateStatus: S.optional(S.String),
-    category: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CreateWhatsAppMessageTemplateOutput",
-}) as any as S.Schema<CreateWhatsAppMessageTemplateOutput>;
-export type MetaUrlWithSuffixExample = { [key: string]: string | undefined };
-export const MetaUrlWithSuffixExample = S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
-export type SupportedApp = { [key: string]: string | undefined };
-export const SupportedApp = S.Record(S.String, S.String.pipe(S.optional));
-export type SupportedApps = { [key: string]: string | undefined }[];
-export const SupportedApps = S.Array(SupportedApp);
-export interface LibraryTemplateButtonInput {
-  type?: string;
-  phoneNumber?: string;
-  url?: { [key: string]: string | undefined };
-  otpType?: string;
-  zeroTapTermsAccepted?: boolean;
-  supportedApps?: { [key: string]: string | undefined }[];
-}
-export const LibraryTemplateButtonInput = S.suspend(() =>
-  S.Struct({
-    type: S.optional(S.String),
-    phoneNumber: S.optional(S.String),
-    url: S.optional(MetaUrlWithSuffixExample),
-    otpType: S.optional(S.String),
-    zeroTapTermsAccepted: S.optional(S.Boolean),
-    supportedApps: S.optional(SupportedApps),
-  }),
-).annotate({
-  identifier: "LibraryTemplateButtonInput",
-}) as any as S.Schema<LibraryTemplateButtonInput>;
-export type MetaLibraryTemplateButtonInputs = LibraryTemplateButtonInput[];
-export const MetaLibraryTemplateButtonInputs = S.Array(
-  LibraryTemplateButtonInput,
-);
-export interface LibraryTemplateBodyInputs {
-  addContactNumber?: boolean;
-  addLearnMoreLink?: boolean;
-  addSecurityRecommendation?: boolean;
-  addTrackPackageLink?: boolean;
-  codeExpirationMinutes?: number;
-}
-export const LibraryTemplateBodyInputs = S.suspend(() =>
-  S.Struct({
-    addContactNumber: S.optional(S.Boolean),
-    addLearnMoreLink: S.optional(S.Boolean),
-    addSecurityRecommendation: S.optional(S.Boolean),
-    addTrackPackageLink: S.optional(S.Boolean),
-    codeExpirationMinutes: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "LibraryTemplateBodyInputs",
-}) as any as S.Schema<LibraryTemplateBodyInputs>;
-export interface MetaLibraryTemplate {
-  templateName: string;
-  libraryTemplateName: string;
-  templateCategory: string;
-  templateLanguage: string;
-  libraryTemplateButtonInputs?: LibraryTemplateButtonInput[];
-  libraryTemplateBodyInputs?: LibraryTemplateBodyInputs;
-}
-export const MetaLibraryTemplate = S.suspend(() =>
-  S.Struct({
-    templateName: S.String,
-    libraryTemplateName: S.String,
-    templateCategory: S.String,
-    templateLanguage: S.String,
-    libraryTemplateButtonInputs: S.optional(MetaLibraryTemplateButtonInputs),
-    libraryTemplateBodyInputs: S.optional(LibraryTemplateBodyInputs),
-  }),
-).annotate({
-  identifier: "MetaLibraryTemplate",
-}) as any as S.Schema<MetaLibraryTemplate>;
-export interface CreateWhatsAppMessageTemplateFromLibraryInput {
-  metaLibraryTemplate: MetaLibraryTemplate;
-  id: string;
-}
-export const CreateWhatsAppMessageTemplateFromLibraryInput = S.suspend(() =>
-  S.Struct({ metaLibraryTemplate: MetaLibraryTemplate, id: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/v1/whatsapp/template/create" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateWhatsAppMessageTemplateFromLibraryInput",
-}) as any as S.Schema<CreateWhatsAppMessageTemplateFromLibraryInput>;
-export interface CreateWhatsAppMessageTemplateFromLibraryOutput {
-  metaTemplateId?: string;
-  templateStatus?: string;
-  category?: string;
-}
-export const CreateWhatsAppMessageTemplateFromLibraryOutput = S.suspend(() =>
-  S.Struct({
-    metaTemplateId: S.optional(S.String),
-    templateStatus: S.optional(S.String),
-    category: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CreateWhatsAppMessageTemplateFromLibraryOutput",
-}) as any as S.Schema<CreateWhatsAppMessageTemplateFromLibraryOutput>;
-export interface S3File {
-  bucketName: string;
-  key: string;
-}
-export const S3File = S.suspend(() =>
-  S.Struct({ bucketName: S.String, key: S.String }),
-).annotate({ identifier: "S3File" }) as any as S.Schema<S3File>;
-export interface CreateWhatsAppMessageTemplateMediaInput {
-  id: string;
-  sourceS3File?: S3File;
-}
-export const CreateWhatsAppMessageTemplateMediaInput = S.suspend(() =>
-  S.Struct({ id: S.String, sourceS3File: S.optional(S3File) }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/v1/whatsapp/template/media" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateWhatsAppMessageTemplateMediaInput",
-}) as any as S.Schema<CreateWhatsAppMessageTemplateMediaInput>;
-export interface CreateWhatsAppMessageTemplateMediaOutput {
-  metaHeaderHandle?: string;
-}
-export const CreateWhatsAppMessageTemplateMediaOutput = S.suspend(() =>
-  S.Struct({ metaHeaderHandle: S.optional(S.String) }),
-).annotate({
-  identifier: "CreateWhatsAppMessageTemplateMediaOutput",
-}) as any as S.Schema<CreateWhatsAppMessageTemplateMediaOutput>;
-export interface DeleteWhatsAppMessageTemplateInput {
-  metaTemplateId?: string;
-  deleteAllLanguages?: boolean;
-  id: string;
-  templateName: string;
-}
-export const DeleteWhatsAppMessageTemplateInput = S.suspend(() =>
-  S.Struct({
-    metaTemplateId: S.optional(S.String).pipe(T.HttpQuery("metaTemplateId")),
-    deleteAllLanguages: S.optional(S.Boolean).pipe(
-      T.HttpQuery("deleteAllTemplates"),
-    ),
-    id: S.String.pipe(T.HttpQuery("id")),
-    templateName: S.String.pipe(T.HttpQuery("templateName")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/v1/whatsapp/template" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteWhatsAppMessageTemplateInput",
-}) as any as S.Schema<DeleteWhatsAppMessageTemplateInput>;
-export interface DeleteWhatsAppMessageTemplateOutput {}
-export const DeleteWhatsAppMessageTemplateOutput = S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteWhatsAppMessageTemplateOutput",
-}) as any as S.Schema<DeleteWhatsAppMessageTemplateOutput>;
-export interface GetWhatsAppMessageTemplateInput {
-  metaTemplateId: string;
-  id: string;
-}
-export const GetWhatsAppMessageTemplateInput = S.suspend(() =>
-  S.Struct({
-    metaTemplateId: S.String.pipe(T.HttpQuery("metaTemplateId")),
-    id: S.String.pipe(T.HttpQuery("id")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/v1/whatsapp/template" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetWhatsAppMessageTemplateInput",
-}) as any as S.Schema<GetWhatsAppMessageTemplateInput>;
-export interface GetWhatsAppMessageTemplateOutput {
-  template?: string;
-}
-export const GetWhatsAppMessageTemplateOutput = S.suspend(() =>
-  S.Struct({ template: S.optional(S.String) }),
-).annotate({
-  identifier: "GetWhatsAppMessageTemplateOutput",
-}) as any as S.Schema<GetWhatsAppMessageTemplateOutput>;
 export interface ListTagsForResourceInput {
   resourceArn: string;
 }
@@ -402,158 +174,6 @@ export const ListTagsForResourceOutput = S.suspend(() =>
 ).annotate({
   identifier: "ListTagsForResourceOutput",
 }) as any as S.Schema<ListTagsForResourceOutput>;
-export interface ListWhatsAppMessageTemplatesInput {
-  id: string;
-  nextToken?: string;
-  maxResults?: number;
-}
-export const ListWhatsAppMessageTemplatesInput = S.suspend(() =>
-  S.Struct({
-    id: S.String.pipe(T.HttpQuery("id")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/v1/whatsapp/template/list" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListWhatsAppMessageTemplatesInput",
-}) as any as S.Schema<ListWhatsAppMessageTemplatesInput>;
-export interface TemplateSummary {
-  templateName?: string;
-  metaTemplateId?: string;
-  templateStatus?: string;
-  templateQualityScore?: string;
-  templateLanguage?: string;
-  templateCategory?: string;
-}
-export const TemplateSummary = S.suspend(() =>
-  S.Struct({
-    templateName: S.optional(S.String),
-    metaTemplateId: S.optional(S.String),
-    templateStatus: S.optional(S.String),
-    templateQualityScore: S.optional(S.String),
-    templateLanguage: S.optional(S.String),
-    templateCategory: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "TemplateSummary",
-}) as any as S.Schema<TemplateSummary>;
-export type TemplateSummaryList = TemplateSummary[];
-export const TemplateSummaryList = S.Array(TemplateSummary);
-export interface ListWhatsAppMessageTemplatesOutput {
-  templates?: TemplateSummary[];
-  nextToken?: string;
-}
-export const ListWhatsAppMessageTemplatesOutput = S.suspend(() =>
-  S.Struct({
-    templates: S.optional(TemplateSummaryList),
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListWhatsAppMessageTemplatesOutput",
-}) as any as S.Schema<ListWhatsAppMessageTemplatesOutput>;
-export type Filter = { [key: string]: string | undefined };
-export const Filter = S.Record(S.String, S.String.pipe(S.optional));
-export interface ListWhatsAppTemplateLibraryInput {
-  nextToken?: string;
-  maxResults?: number;
-  id: string;
-  filters?: { [key: string]: string | undefined };
-}
-export const ListWhatsAppTemplateLibraryInput = S.suspend(() =>
-  S.Struct({
-    nextToken: S.optional(S.String),
-    maxResults: S.optional(S.Number),
-    id: S.String.pipe(T.HttpQuery("id")),
-    filters: S.optional(Filter),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/v1/whatsapp/template/library" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListWhatsAppTemplateLibraryInput",
-}) as any as S.Schema<ListWhatsAppTemplateLibraryInput>;
-export type MetaIndustries = string[];
-export const MetaIndustries = S.Array(S.String);
-export interface LibraryTemplateButtonList {
-  type?: string;
-  text?: string;
-  phoneNumber?: string;
-  url?: string;
-  otpType?: string;
-  zeroTapTermsAccepted?: boolean;
-  supportedApps?: { [key: string]: string | undefined }[];
-}
-export const LibraryTemplateButtonList = S.suspend(() =>
-  S.Struct({
-    type: S.optional(S.String),
-    text: S.optional(S.String),
-    phoneNumber: S.optional(S.String),
-    url: S.optional(S.String),
-    otpType: S.optional(S.String),
-    zeroTapTermsAccepted: S.optional(S.Boolean),
-    supportedApps: S.optional(SupportedApps),
-  }),
-).annotate({
-  identifier: "LibraryTemplateButtonList",
-}) as any as S.Schema<LibraryTemplateButtonList>;
-export type MetaLibraryTemplateButtonList = LibraryTemplateButtonList[];
-export const MetaLibraryTemplateButtonList = S.Array(LibraryTemplateButtonList);
-export interface MetaLibraryTemplateDefinition {
-  templateName?: string;
-  templateLanguage?: string;
-  templateCategory?: string;
-  templateTopic?: string;
-  templateUseCase?: string;
-  templateIndustry?: string[];
-  templateHeader?: string;
-  templateBody?: string;
-  templateButtons?: LibraryTemplateButtonList[];
-  templateId?: string;
-}
-export const MetaLibraryTemplateDefinition = S.suspend(() =>
-  S.Struct({
-    templateName: S.optional(S.String),
-    templateLanguage: S.optional(S.String),
-    templateCategory: S.optional(S.String),
-    templateTopic: S.optional(S.String),
-    templateUseCase: S.optional(S.String),
-    templateIndustry: S.optional(MetaIndustries),
-    templateHeader: S.optional(S.String),
-    templateBody: S.optional(S.String),
-    templateButtons: S.optional(MetaLibraryTemplateButtonList),
-    templateId: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "MetaLibraryTemplateDefinition",
-}) as any as S.Schema<MetaLibraryTemplateDefinition>;
-export type MetaLibraryTemplatesList = MetaLibraryTemplateDefinition[];
-export const MetaLibraryTemplatesList = S.Array(MetaLibraryTemplateDefinition);
-export interface ListWhatsAppTemplateLibraryOutput {
-  metaLibraryTemplates?: MetaLibraryTemplateDefinition[];
-  nextToken?: string;
-}
-export const ListWhatsAppTemplateLibraryOutput = S.suspend(() =>
-  S.Struct({
-    metaLibraryTemplates: S.optional(MetaLibraryTemplatesList),
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListWhatsAppTemplateLibraryOutput",
-}) as any as S.Schema<ListWhatsAppTemplateLibraryOutput>;
 export interface TagResourceInput {
   resourceArn: string;
   tags: Tag[];
@@ -608,37 +228,6 @@ export const UntagResourceOutput = S.suspend(() =>
 ).annotate({
   identifier: "UntagResourceOutput",
 }) as any as S.Schema<UntagResourceOutput>;
-export interface UpdateWhatsAppMessageTemplateInput {
-  id: string;
-  metaTemplateId: string;
-  templateCategory?: string;
-  templateComponents?: Uint8Array;
-}
-export const UpdateWhatsAppMessageTemplateInput = S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    metaTemplateId: S.String,
-    templateCategory: S.optional(S.String),
-    templateComponents: S.optional(T.Blob),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/v1/whatsapp/template" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateWhatsAppMessageTemplateInput",
-}) as any as S.Schema<UpdateWhatsAppMessageTemplateInput>;
-export interface UpdateWhatsAppMessageTemplateOutput {}
-export const UpdateWhatsAppMessageTemplateOutput = S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "UpdateWhatsAppMessageTemplateOutput",
-}) as any as S.Schema<UpdateWhatsAppMessageTemplateOutput>;
 export interface WhatsAppSignupCallback {
   accessToken: string;
   callbackUrl?: string;
@@ -973,6 +562,392 @@ export const ListLinkedWhatsAppBusinessAccountsOutput = S.suspend(() =>
 ).annotate({
   identifier: "ListLinkedWhatsAppBusinessAccountsOutput",
 }) as any as S.Schema<ListLinkedWhatsAppBusinessAccountsOutput>;
+export interface CreateWhatsAppMessageTemplateInput {
+  templateDefinition: Uint8Array;
+  id: string;
+}
+export const CreateWhatsAppMessageTemplateInput = S.suspend(() =>
+  S.Struct({ templateDefinition: T.Blob, id: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/v1/whatsapp/template/put" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "CreateWhatsAppMessageTemplateInput",
+}) as any as S.Schema<CreateWhatsAppMessageTemplateInput>;
+export interface CreateWhatsAppMessageTemplateOutput {
+  metaTemplateId?: string;
+  templateStatus?: string;
+  category?: string;
+}
+export const CreateWhatsAppMessageTemplateOutput = S.suspend(() =>
+  S.Struct({
+    metaTemplateId: S.optional(S.String),
+    templateStatus: S.optional(S.String),
+    category: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "CreateWhatsAppMessageTemplateOutput",
+}) as any as S.Schema<CreateWhatsAppMessageTemplateOutput>;
+export type MetaUrlWithSuffixExample = { [key: string]: string | undefined };
+export const MetaUrlWithSuffixExample = S.Record(
+  S.String,
+  S.String.pipe(S.optional),
+);
+export type SupportedApp = { [key: string]: string | undefined };
+export const SupportedApp = S.Record(S.String, S.String.pipe(S.optional));
+export type SupportedApps = { [key: string]: string | undefined }[];
+export const SupportedApps = S.Array(SupportedApp);
+export interface LibraryTemplateButtonInput {
+  type?: string;
+  phoneNumber?: string;
+  url?: { [key: string]: string | undefined };
+  otpType?: string;
+  zeroTapTermsAccepted?: boolean;
+  supportedApps?: { [key: string]: string | undefined }[];
+}
+export const LibraryTemplateButtonInput = S.suspend(() =>
+  S.Struct({
+    type: S.optional(S.String),
+    phoneNumber: S.optional(S.String),
+    url: S.optional(MetaUrlWithSuffixExample),
+    otpType: S.optional(S.String),
+    zeroTapTermsAccepted: S.optional(S.Boolean),
+    supportedApps: S.optional(SupportedApps),
+  }),
+).annotate({
+  identifier: "LibraryTemplateButtonInput",
+}) as any as S.Schema<LibraryTemplateButtonInput>;
+export type MetaLibraryTemplateButtonInputs = LibraryTemplateButtonInput[];
+export const MetaLibraryTemplateButtonInputs = S.Array(
+  LibraryTemplateButtonInput,
+);
+export interface LibraryTemplateBodyInputs {
+  addContactNumber?: boolean;
+  addLearnMoreLink?: boolean;
+  addSecurityRecommendation?: boolean;
+  addTrackPackageLink?: boolean;
+  codeExpirationMinutes?: number;
+}
+export const LibraryTemplateBodyInputs = S.suspend(() =>
+  S.Struct({
+    addContactNumber: S.optional(S.Boolean),
+    addLearnMoreLink: S.optional(S.Boolean),
+    addSecurityRecommendation: S.optional(S.Boolean),
+    addTrackPackageLink: S.optional(S.Boolean),
+    codeExpirationMinutes: S.optional(S.Number),
+  }),
+).annotate({
+  identifier: "LibraryTemplateBodyInputs",
+}) as any as S.Schema<LibraryTemplateBodyInputs>;
+export interface MetaLibraryTemplate {
+  templateName: string;
+  libraryTemplateName: string;
+  templateCategory: string;
+  templateLanguage: string;
+  libraryTemplateButtonInputs?: LibraryTemplateButtonInput[];
+  libraryTemplateBodyInputs?: LibraryTemplateBodyInputs;
+}
+export const MetaLibraryTemplate = S.suspend(() =>
+  S.Struct({
+    templateName: S.String,
+    libraryTemplateName: S.String,
+    templateCategory: S.String,
+    templateLanguage: S.String,
+    libraryTemplateButtonInputs: S.optional(MetaLibraryTemplateButtonInputs),
+    libraryTemplateBodyInputs: S.optional(LibraryTemplateBodyInputs),
+  }),
+).annotate({
+  identifier: "MetaLibraryTemplate",
+}) as any as S.Schema<MetaLibraryTemplate>;
+export interface CreateWhatsAppMessageTemplateFromLibraryInput {
+  metaLibraryTemplate: MetaLibraryTemplate;
+  id: string;
+}
+export const CreateWhatsAppMessageTemplateFromLibraryInput = S.suspend(() =>
+  S.Struct({ metaLibraryTemplate: MetaLibraryTemplate, id: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/v1/whatsapp/template/create" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "CreateWhatsAppMessageTemplateFromLibraryInput",
+}) as any as S.Schema<CreateWhatsAppMessageTemplateFromLibraryInput>;
+export interface CreateWhatsAppMessageTemplateFromLibraryOutput {
+  metaTemplateId?: string;
+  templateStatus?: string;
+  category?: string;
+}
+export const CreateWhatsAppMessageTemplateFromLibraryOutput = S.suspend(() =>
+  S.Struct({
+    metaTemplateId: S.optional(S.String),
+    templateStatus: S.optional(S.String),
+    category: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "CreateWhatsAppMessageTemplateFromLibraryOutput",
+}) as any as S.Schema<CreateWhatsAppMessageTemplateFromLibraryOutput>;
+export interface S3File {
+  bucketName: string;
+  key: string;
+}
+export const S3File = S.suspend(() =>
+  S.Struct({ bucketName: S.String, key: S.String }),
+).annotate({ identifier: "S3File" }) as any as S.Schema<S3File>;
+export interface CreateWhatsAppMessageTemplateMediaInput {
+  id: string;
+  sourceS3File?: S3File;
+}
+export const CreateWhatsAppMessageTemplateMediaInput = S.suspend(() =>
+  S.Struct({ id: S.String, sourceS3File: S.optional(S3File) }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/v1/whatsapp/template/media" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "CreateWhatsAppMessageTemplateMediaInput",
+}) as any as S.Schema<CreateWhatsAppMessageTemplateMediaInput>;
+export interface CreateWhatsAppMessageTemplateMediaOutput {
+  metaHeaderHandle?: string;
+}
+export const CreateWhatsAppMessageTemplateMediaOutput = S.suspend(() =>
+  S.Struct({ metaHeaderHandle: S.optional(S.String) }),
+).annotate({
+  identifier: "CreateWhatsAppMessageTemplateMediaOutput",
+}) as any as S.Schema<CreateWhatsAppMessageTemplateMediaOutput>;
+export interface DeleteWhatsAppMessageTemplateInput {
+  metaTemplateId?: string;
+  deleteAllLanguages?: boolean;
+  id: string;
+  templateName: string;
+}
+export const DeleteWhatsAppMessageTemplateInput = S.suspend(() =>
+  S.Struct({
+    metaTemplateId: S.optional(S.String).pipe(T.HttpQuery("metaTemplateId")),
+    deleteAllLanguages: S.optional(S.Boolean).pipe(
+      T.HttpQuery("deleteAllTemplates"),
+    ),
+    id: S.String.pipe(T.HttpQuery("id")),
+    templateName: S.String.pipe(T.HttpQuery("templateName")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/v1/whatsapp/template" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeleteWhatsAppMessageTemplateInput",
+}) as any as S.Schema<DeleteWhatsAppMessageTemplateInput>;
+export interface DeleteWhatsAppMessageTemplateOutput {}
+export const DeleteWhatsAppMessageTemplateOutput = S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "DeleteWhatsAppMessageTemplateOutput",
+}) as any as S.Schema<DeleteWhatsAppMessageTemplateOutput>;
+export interface GetWhatsAppMessageTemplateInput {
+  metaTemplateId: string;
+  id: string;
+}
+export const GetWhatsAppMessageTemplateInput = S.suspend(() =>
+  S.Struct({
+    metaTemplateId: S.String.pipe(T.HttpQuery("metaTemplateId")),
+    id: S.String.pipe(T.HttpQuery("id")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/v1/whatsapp/template" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetWhatsAppMessageTemplateInput",
+}) as any as S.Schema<GetWhatsAppMessageTemplateInput>;
+export interface GetWhatsAppMessageTemplateOutput {
+  template?: string;
+}
+export const GetWhatsAppMessageTemplateOutput = S.suspend(() =>
+  S.Struct({ template: S.optional(S.String) }),
+).annotate({
+  identifier: "GetWhatsAppMessageTemplateOutput",
+}) as any as S.Schema<GetWhatsAppMessageTemplateOutput>;
+export interface ListWhatsAppMessageTemplatesInput {
+  id: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListWhatsAppMessageTemplatesInput = S.suspend(() =>
+  S.Struct({
+    id: S.String.pipe(T.HttpQuery("id")),
+    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/v1/whatsapp/template/list" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListWhatsAppMessageTemplatesInput",
+}) as any as S.Schema<ListWhatsAppMessageTemplatesInput>;
+export interface TemplateSummary {
+  templateName?: string;
+  metaTemplateId?: string;
+  templateStatus?: string;
+  templateQualityScore?: string;
+  templateLanguage?: string;
+  templateCategory?: string;
+}
+export const TemplateSummary = S.suspend(() =>
+  S.Struct({
+    templateName: S.optional(S.String),
+    metaTemplateId: S.optional(S.String),
+    templateStatus: S.optional(S.String),
+    templateQualityScore: S.optional(S.String),
+    templateLanguage: S.optional(S.String),
+    templateCategory: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "TemplateSummary",
+}) as any as S.Schema<TemplateSummary>;
+export type TemplateSummaryList = TemplateSummary[];
+export const TemplateSummaryList = S.Array(TemplateSummary);
+export interface ListWhatsAppMessageTemplatesOutput {
+  templates?: TemplateSummary[];
+  nextToken?: string;
+}
+export const ListWhatsAppMessageTemplatesOutput = S.suspend(() =>
+  S.Struct({
+    templates: S.optional(TemplateSummaryList),
+    nextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ListWhatsAppMessageTemplatesOutput",
+}) as any as S.Schema<ListWhatsAppMessageTemplatesOutput>;
+export type Filter = { [key: string]: string | undefined };
+export const Filter = S.Record(S.String, S.String.pipe(S.optional));
+export interface ListWhatsAppTemplateLibraryInput {
+  nextToken?: string;
+  maxResults?: number;
+  id: string;
+  filters?: { [key: string]: string | undefined };
+}
+export const ListWhatsAppTemplateLibraryInput = S.suspend(() =>
+  S.Struct({
+    nextToken: S.optional(S.String),
+    maxResults: S.optional(S.Number),
+    id: S.String.pipe(T.HttpQuery("id")),
+    filters: S.optional(Filter),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/v1/whatsapp/template/library" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListWhatsAppTemplateLibraryInput",
+}) as any as S.Schema<ListWhatsAppTemplateLibraryInput>;
+export type MetaIndustries = string[];
+export const MetaIndustries = S.Array(S.String);
+export interface LibraryTemplateButtonList {
+  type?: string;
+  text?: string;
+  phoneNumber?: string;
+  url?: string;
+  otpType?: string;
+  zeroTapTermsAccepted?: boolean;
+  supportedApps?: { [key: string]: string | undefined }[];
+}
+export const LibraryTemplateButtonList = S.suspend(() =>
+  S.Struct({
+    type: S.optional(S.String),
+    text: S.optional(S.String),
+    phoneNumber: S.optional(S.String),
+    url: S.optional(S.String),
+    otpType: S.optional(S.String),
+    zeroTapTermsAccepted: S.optional(S.Boolean),
+    supportedApps: S.optional(SupportedApps),
+  }),
+).annotate({
+  identifier: "LibraryTemplateButtonList",
+}) as any as S.Schema<LibraryTemplateButtonList>;
+export type MetaLibraryTemplateButtonList = LibraryTemplateButtonList[];
+export const MetaLibraryTemplateButtonList = S.Array(LibraryTemplateButtonList);
+export type MetaTemplateBodyExampleParams = string[];
+export const MetaTemplateBodyExampleParams = S.Array(S.String);
+export interface MetaLibraryTemplateDefinition {
+  templateName?: string;
+  templateLanguage?: string;
+  templateCategory?: string;
+  templateTopic?: string;
+  templateUseCase?: string;
+  templateIndustry?: string[];
+  templateHeader?: string;
+  templateBody?: string;
+  templateButtons?: LibraryTemplateButtonList[];
+  templateId?: string;
+  templateBodyExampleParams?: string[];
+}
+export const MetaLibraryTemplateDefinition = S.suspend(() =>
+  S.Struct({
+    templateName: S.optional(S.String),
+    templateLanguage: S.optional(S.String),
+    templateCategory: S.optional(S.String),
+    templateTopic: S.optional(S.String),
+    templateUseCase: S.optional(S.String),
+    templateIndustry: S.optional(MetaIndustries),
+    templateHeader: S.optional(S.String),
+    templateBody: S.optional(S.String),
+    templateButtons: S.optional(MetaLibraryTemplateButtonList),
+    templateId: S.optional(S.String),
+    templateBodyExampleParams: S.optional(MetaTemplateBodyExampleParams),
+  }),
+).annotate({
+  identifier: "MetaLibraryTemplateDefinition",
+}) as any as S.Schema<MetaLibraryTemplateDefinition>;
+export type MetaLibraryTemplatesList = MetaLibraryTemplateDefinition[];
+export const MetaLibraryTemplatesList = S.Array(MetaLibraryTemplateDefinition);
+export interface ListWhatsAppTemplateLibraryOutput {
+  metaLibraryTemplates?: MetaLibraryTemplateDefinition[];
+  nextToken?: string;
+}
+export const ListWhatsAppTemplateLibraryOutput = S.suspend(() =>
+  S.Struct({
+    metaLibraryTemplates: S.optional(MetaLibraryTemplatesList),
+    nextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ListWhatsAppTemplateLibraryOutput",
+}) as any as S.Schema<ListWhatsAppTemplateLibraryOutput>;
 export interface PutWhatsAppBusinessAccountEventDestinationsInput {
   id: string;
   eventDestinations: WhatsAppBusinessAccountEventDestination[];
@@ -1000,6 +975,41 @@ export const PutWhatsAppBusinessAccountEventDestinationsOutput = S.suspend(() =>
 ).annotate({
   identifier: "PutWhatsAppBusinessAccountEventDestinationsOutput",
 }) as any as S.Schema<PutWhatsAppBusinessAccountEventDestinationsOutput>;
+export interface UpdateWhatsAppMessageTemplateInput {
+  id: string;
+  metaTemplateId: string;
+  parameterFormat?: string;
+  templateCategory?: string;
+  templateComponents?: Uint8Array;
+  ctaUrlLinkTrackingOptedOut?: boolean;
+}
+export const UpdateWhatsAppMessageTemplateInput = S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    metaTemplateId: S.String,
+    parameterFormat: S.optional(S.String),
+    templateCategory: S.optional(S.String),
+    templateComponents: S.optional(T.Blob),
+    ctaUrlLinkTrackingOptedOut: S.optional(S.Boolean),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/v1/whatsapp/template" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "UpdateWhatsAppMessageTemplateInput",
+}) as any as S.Schema<UpdateWhatsAppMessageTemplateInput>;
+export interface UpdateWhatsAppMessageTemplateOutput {}
+export const UpdateWhatsAppMessageTemplateOutput = S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "UpdateWhatsAppMessageTemplateOutput",
+}) as any as S.Schema<UpdateWhatsAppMessageTemplateOutput>;
 export interface GetLinkedWhatsAppBusinessAccountPhoneNumberInput {
   id: string;
 }
@@ -1169,11 +1179,6 @@ export const SendWhatsAppMessageOutput = S.suspend(() =>
 }) as any as S.Schema<SendWhatsAppMessageOutput>;
 
 //# Errors
-export class DependencyException extends S.TaggedErrorClass<DependencyException>()(
-  "DependencyException",
-  { message: S.optional(S.String) },
-  T.Retryable(),
-).pipe(C.withServerError, C.withRetryableError) {}
 export class InternalServiceException extends S.TaggedErrorClass<InternalServiceException>()(
   "InternalServiceException",
   { message: S.optional(S.String) },
@@ -1183,17 +1188,22 @@ export class InvalidParametersException extends S.TaggedErrorClass<InvalidParame
   "InvalidParametersException",
   { message: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
-export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFoundException>()(
-  "ResourceNotFoundException",
-  { message: S.optional(S.String) },
-).pipe(C.withBadRequestError) {}
 export class ThrottledRequestException extends S.TaggedErrorClass<ThrottledRequestException>()(
   "ThrottledRequestException",
   { message: S.optional(S.String) },
   T.Retryable(),
 ).pipe(C.withThrottlingError, C.withRetryableError) {}
+export class DependencyException extends S.TaggedErrorClass<DependencyException>()(
+  "DependencyException",
+  { message: S.optional(S.String) },
+  T.Retryable(),
+).pipe(C.withServerError, C.withRetryableError) {}
 export class LimitExceededException extends S.TaggedErrorClass<LimitExceededException>()(
   "LimitExceededException",
+  { message: S.optional(S.String) },
+).pipe(C.withBadRequestError) {}
+export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFoundException>()(
+  "ResourceNotFoundException",
   { message: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
 export class AccessDeniedByMetaException extends S.TaggedErrorClass<AccessDeniedByMetaException>()(
@@ -1202,131 +1212,6 @@ export class AccessDeniedByMetaException extends S.TaggedErrorClass<AccessDenied
 ).pipe(C.withAuthError) {}
 
 //# Operations
-/**
- * Creates a new WhatsApp message template from a custom definition.
- */
-export const createWhatsAppMessageTemplate: (
-  input: CreateWhatsAppMessageTemplateInput,
-) => effect.Effect<
-  CreateWhatsAppMessageTemplateOutput,
-  | DependencyException
-  | InternalServiceException
-  | InvalidParametersException
-  | ResourceNotFoundException
-  | ThrottledRequestException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateWhatsAppMessageTemplateInput,
-  output: CreateWhatsAppMessageTemplateOutput,
-  errors: [
-    DependencyException,
-    InternalServiceException,
-    InvalidParametersException,
-    ResourceNotFoundException,
-    ThrottledRequestException,
-  ],
-}));
-/**
- * Creates a new WhatsApp message template using a template from Meta's template library.
- */
-export const createWhatsAppMessageTemplateFromLibrary: (
-  input: CreateWhatsAppMessageTemplateFromLibraryInput,
-) => effect.Effect<
-  CreateWhatsAppMessageTemplateFromLibraryOutput,
-  | DependencyException
-  | InternalServiceException
-  | InvalidParametersException
-  | ResourceNotFoundException
-  | ThrottledRequestException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateWhatsAppMessageTemplateFromLibraryInput,
-  output: CreateWhatsAppMessageTemplateFromLibraryOutput,
-  errors: [
-    DependencyException,
-    InternalServiceException,
-    InvalidParametersException,
-    ResourceNotFoundException,
-    ThrottledRequestException,
-  ],
-}));
-/**
- * Uploads media for use in a WhatsApp message template.
- */
-export const createWhatsAppMessageTemplateMedia: (
-  input: CreateWhatsAppMessageTemplateMediaInput,
-) => effect.Effect<
-  CreateWhatsAppMessageTemplateMediaOutput,
-  | DependencyException
-  | InternalServiceException
-  | InvalidParametersException
-  | ResourceNotFoundException
-  | ThrottledRequestException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateWhatsAppMessageTemplateMediaInput,
-  output: CreateWhatsAppMessageTemplateMediaOutput,
-  errors: [
-    DependencyException,
-    InternalServiceException,
-    InvalidParametersException,
-    ResourceNotFoundException,
-    ThrottledRequestException,
-  ],
-}));
-/**
- * Deletes a WhatsApp message template.
- */
-export const deleteWhatsAppMessageTemplate: (
-  input: DeleteWhatsAppMessageTemplateInput,
-) => effect.Effect<
-  DeleteWhatsAppMessageTemplateOutput,
-  | DependencyException
-  | InternalServiceException
-  | InvalidParametersException
-  | ResourceNotFoundException
-  | ThrottledRequestException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteWhatsAppMessageTemplateInput,
-  output: DeleteWhatsAppMessageTemplateOutput,
-  errors: [
-    DependencyException,
-    InternalServiceException,
-    InvalidParametersException,
-    ResourceNotFoundException,
-    ThrottledRequestException,
-  ],
-}));
-/**
- * Retrieves a specific WhatsApp message template.
- */
-export const getWhatsAppMessageTemplate: (
-  input: GetWhatsAppMessageTemplateInput,
-) => effect.Effect<
-  GetWhatsAppMessageTemplateOutput,
-  | DependencyException
-  | InternalServiceException
-  | InvalidParametersException
-  | ResourceNotFoundException
-  | ThrottledRequestException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetWhatsAppMessageTemplateInput,
-  output: GetWhatsAppMessageTemplateOutput,
-  errors: [
-    DependencyException,
-    InternalServiceException,
-    InvalidParametersException,
-    ResourceNotFoundException,
-    ThrottledRequestException,
-  ],
-}));
 /**
  * List all tags associated with a resource, such as a phone number or WABA.
  */
@@ -1347,120 +1232,6 @@ export const listTagsForResource: (
     InvalidParametersException,
     ThrottledRequestException,
   ],
-}));
-/**
- * Lists WhatsApp message templates for a specific WhatsApp Business Account.
- */
-export const listWhatsAppMessageTemplates: {
-  (
-    input: ListWhatsAppMessageTemplatesInput,
-  ): effect.Effect<
-    ListWhatsAppMessageTemplatesOutput,
-    | DependencyException
-    | InternalServiceException
-    | InvalidParametersException
-    | ResourceNotFoundException
-    | ThrottledRequestException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  pages: (
-    input: ListWhatsAppMessageTemplatesInput,
-  ) => stream.Stream<
-    ListWhatsAppMessageTemplatesOutput,
-    | DependencyException
-    | InternalServiceException
-    | InvalidParametersException
-    | ResourceNotFoundException
-    | ThrottledRequestException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  items: (
-    input: ListWhatsAppMessageTemplatesInput,
-  ) => stream.Stream<
-    TemplateSummary,
-    | DependencyException
-    | InternalServiceException
-    | InvalidParametersException
-    | ResourceNotFoundException
-    | ThrottledRequestException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
-  input: ListWhatsAppMessageTemplatesInput,
-  output: ListWhatsAppMessageTemplatesOutput,
-  errors: [
-    DependencyException,
-    InternalServiceException,
-    InvalidParametersException,
-    ResourceNotFoundException,
-    ThrottledRequestException,
-  ],
-  pagination: {
-    inputToken: "nextToken",
-    outputToken: "nextToken",
-    items: "templates",
-    pageSize: "maxResults",
-  } as const,
-}));
-/**
- * Lists templates available in Meta's template library for WhatsApp messaging.
- */
-export const listWhatsAppTemplateLibrary: {
-  (
-    input: ListWhatsAppTemplateLibraryInput,
-  ): effect.Effect<
-    ListWhatsAppTemplateLibraryOutput,
-    | DependencyException
-    | InternalServiceException
-    | InvalidParametersException
-    | ResourceNotFoundException
-    | ThrottledRequestException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  pages: (
-    input: ListWhatsAppTemplateLibraryInput,
-  ) => stream.Stream<
-    ListWhatsAppTemplateLibraryOutput,
-    | DependencyException
-    | InternalServiceException
-    | InvalidParametersException
-    | ResourceNotFoundException
-    | ThrottledRequestException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  items: (
-    input: ListWhatsAppTemplateLibraryInput,
-  ) => stream.Stream<
-    MetaLibraryTemplateDefinition,
-    | DependencyException
-    | InternalServiceException
-    | InvalidParametersException
-    | ResourceNotFoundException
-    | ThrottledRequestException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
-  input: ListWhatsAppTemplateLibraryInput,
-  output: ListWhatsAppTemplateLibraryOutput,
-  errors: [
-    DependencyException,
-    InternalServiceException,
-    InvalidParametersException,
-    ResourceNotFoundException,
-    ThrottledRequestException,
-  ],
-  pagination: {
-    inputToken: "nextToken",
-    outputToken: "nextToken",
-    items: "metaLibraryTemplates",
-    pageSize: "maxResults",
-  } as const,
 }));
 /**
  * Adds or overwrites only the specified tags for the specified resource. When you specify
@@ -1502,31 +1273,6 @@ export const untagResource: (
   errors: [
     InternalServiceException,
     InvalidParametersException,
-    ThrottledRequestException,
-  ],
-}));
-/**
- * Updates an existing WhatsApp message template.
- */
-export const updateWhatsAppMessageTemplate: (
-  input: UpdateWhatsAppMessageTemplateInput,
-) => effect.Effect<
-  UpdateWhatsAppMessageTemplateOutput,
-  | DependencyException
-  | InternalServiceException
-  | InvalidParametersException
-  | ResourceNotFoundException
-  | ThrottledRequestException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateWhatsAppMessageTemplateInput,
-  output: UpdateWhatsAppMessageTemplateOutput,
-  errors: [
-    DependencyException,
-    InternalServiceException,
-    InvalidParametersException,
-    ResourceNotFoundException,
     ThrottledRequestException,
   ],
 }));
@@ -1655,6 +1401,247 @@ export const listLinkedWhatsAppBusinessAccounts: {
   } as const,
 }));
 /**
+ * Creates a new WhatsApp message template from a custom definition.
+ *
+ * Amazon Web Services End User Messaging Social does not store any WhatsApp message template content.
+ */
+export const createWhatsAppMessageTemplate: (
+  input: CreateWhatsAppMessageTemplateInput,
+) => effect.Effect<
+  CreateWhatsAppMessageTemplateOutput,
+  | DependencyException
+  | InternalServiceException
+  | InvalidParametersException
+  | ResourceNotFoundException
+  | ThrottledRequestException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateWhatsAppMessageTemplateInput,
+  output: CreateWhatsAppMessageTemplateOutput,
+  errors: [
+    DependencyException,
+    InternalServiceException,
+    InvalidParametersException,
+    ResourceNotFoundException,
+    ThrottledRequestException,
+  ],
+}));
+/**
+ * Creates a new WhatsApp message template using a template from Meta's template library.
+ */
+export const createWhatsAppMessageTemplateFromLibrary: (
+  input: CreateWhatsAppMessageTemplateFromLibraryInput,
+) => effect.Effect<
+  CreateWhatsAppMessageTemplateFromLibraryOutput,
+  | DependencyException
+  | InternalServiceException
+  | InvalidParametersException
+  | ResourceNotFoundException
+  | ThrottledRequestException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateWhatsAppMessageTemplateFromLibraryInput,
+  output: CreateWhatsAppMessageTemplateFromLibraryOutput,
+  errors: [
+    DependencyException,
+    InternalServiceException,
+    InvalidParametersException,
+    ResourceNotFoundException,
+    ThrottledRequestException,
+  ],
+}));
+/**
+ * Uploads media for use in a WhatsApp message template.
+ */
+export const createWhatsAppMessageTemplateMedia: (
+  input: CreateWhatsAppMessageTemplateMediaInput,
+) => effect.Effect<
+  CreateWhatsAppMessageTemplateMediaOutput,
+  | DependencyException
+  | InternalServiceException
+  | InvalidParametersException
+  | ResourceNotFoundException
+  | ThrottledRequestException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateWhatsAppMessageTemplateMediaInput,
+  output: CreateWhatsAppMessageTemplateMediaOutput,
+  errors: [
+    DependencyException,
+    InternalServiceException,
+    InvalidParametersException,
+    ResourceNotFoundException,
+    ThrottledRequestException,
+  ],
+}));
+/**
+ * Deletes a WhatsApp message template.
+ */
+export const deleteWhatsAppMessageTemplate: (
+  input: DeleteWhatsAppMessageTemplateInput,
+) => effect.Effect<
+  DeleteWhatsAppMessageTemplateOutput,
+  | DependencyException
+  | InternalServiceException
+  | InvalidParametersException
+  | ResourceNotFoundException
+  | ThrottledRequestException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteWhatsAppMessageTemplateInput,
+  output: DeleteWhatsAppMessageTemplateOutput,
+  errors: [
+    DependencyException,
+    InternalServiceException,
+    InvalidParametersException,
+    ResourceNotFoundException,
+    ThrottledRequestException,
+  ],
+}));
+/**
+ * Retrieves a specific WhatsApp message template.
+ */
+export const getWhatsAppMessageTemplate: (
+  input: GetWhatsAppMessageTemplateInput,
+) => effect.Effect<
+  GetWhatsAppMessageTemplateOutput,
+  | DependencyException
+  | InternalServiceException
+  | InvalidParametersException
+  | ResourceNotFoundException
+  | ThrottledRequestException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetWhatsAppMessageTemplateInput,
+  output: GetWhatsAppMessageTemplateOutput,
+  errors: [
+    DependencyException,
+    InternalServiceException,
+    InvalidParametersException,
+    ResourceNotFoundException,
+    ThrottledRequestException,
+  ],
+}));
+/**
+ * Lists WhatsApp message templates for a specific WhatsApp Business Account.
+ */
+export const listWhatsAppMessageTemplates: {
+  (
+    input: ListWhatsAppMessageTemplatesInput,
+  ): effect.Effect<
+    ListWhatsAppMessageTemplatesOutput,
+    | DependencyException
+    | InternalServiceException
+    | InvalidParametersException
+    | ResourceNotFoundException
+    | ThrottledRequestException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListWhatsAppMessageTemplatesInput,
+  ) => stream.Stream<
+    ListWhatsAppMessageTemplatesOutput,
+    | DependencyException
+    | InternalServiceException
+    | InvalidParametersException
+    | ResourceNotFoundException
+    | ThrottledRequestException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListWhatsAppMessageTemplatesInput,
+  ) => stream.Stream<
+    TemplateSummary,
+    | DependencyException
+    | InternalServiceException
+    | InvalidParametersException
+    | ResourceNotFoundException
+    | ThrottledRequestException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListWhatsAppMessageTemplatesInput,
+  output: ListWhatsAppMessageTemplatesOutput,
+  errors: [
+    DependencyException,
+    InternalServiceException,
+    InvalidParametersException,
+    ResourceNotFoundException,
+    ThrottledRequestException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "templates",
+    pageSize: "maxResults",
+  } as const,
+}));
+/**
+ * Lists templates available in Meta's template library for WhatsApp messaging.
+ */
+export const listWhatsAppTemplateLibrary: {
+  (
+    input: ListWhatsAppTemplateLibraryInput,
+  ): effect.Effect<
+    ListWhatsAppTemplateLibraryOutput,
+    | DependencyException
+    | InternalServiceException
+    | InvalidParametersException
+    | ResourceNotFoundException
+    | ThrottledRequestException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListWhatsAppTemplateLibraryInput,
+  ) => stream.Stream<
+    ListWhatsAppTemplateLibraryOutput,
+    | DependencyException
+    | InternalServiceException
+    | InvalidParametersException
+    | ResourceNotFoundException
+    | ThrottledRequestException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListWhatsAppTemplateLibraryInput,
+  ) => stream.Stream<
+    MetaLibraryTemplateDefinition,
+    | DependencyException
+    | InternalServiceException
+    | InvalidParametersException
+    | ResourceNotFoundException
+    | ThrottledRequestException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListWhatsAppTemplateLibraryInput,
+  output: ListWhatsAppTemplateLibraryOutput,
+  errors: [
+    DependencyException,
+    InternalServiceException,
+    InvalidParametersException,
+    ResourceNotFoundException,
+    ThrottledRequestException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "metaLibraryTemplates",
+    pageSize: "maxResults",
+  } as const,
+}));
+/**
  * Add an event destination to log event data from WhatsApp for a WhatsApp Business Account (WABA). A WABA can only have one event destination at a time. All resources associated with the WABA use the same event destination.
  */
 export const putWhatsAppBusinessAccountEventDestinations: (
@@ -1676,8 +1663,32 @@ export const putWhatsAppBusinessAccountEventDestinations: (
   ],
 }));
 /**
- * Use your WhatsApp phone number id to get the WABA account id and phone number
- * details.
+ * Updates an existing WhatsApp message template.
+ */
+export const updateWhatsAppMessageTemplate: (
+  input: UpdateWhatsAppMessageTemplateInput,
+) => effect.Effect<
+  UpdateWhatsAppMessageTemplateOutput,
+  | DependencyException
+  | InternalServiceException
+  | InvalidParametersException
+  | ResourceNotFoundException
+  | ThrottledRequestException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateWhatsAppMessageTemplateInput,
+  output: UpdateWhatsAppMessageTemplateOutput,
+  errors: [
+    DependencyException,
+    InternalServiceException,
+    InvalidParametersException,
+    ResourceNotFoundException,
+    ThrottledRequestException,
+  ],
+}));
+/**
+ * Retrieve the WABA account id and phone number details of a WhatsApp business account phone number.
  */
 export const getLinkedWhatsAppBusinessAccountPhoneNumber: (
   input: GetLinkedWhatsAppBusinessAccountPhoneNumberInput,

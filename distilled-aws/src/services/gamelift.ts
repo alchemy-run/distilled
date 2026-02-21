@@ -184,6 +184,7 @@ export type RuleSetBody = string;
 export type PlayerData = string;
 export type PlayerSessionId = string;
 export type ZipBlob = Uint8Array;
+export type NodeJsVersion = string;
 export type GameSessionQueueNameOrArn = string;
 export type CustomLocationNameOrArnModel = string;
 export type MatchmakingConfigurationName = string;
@@ -193,6 +194,7 @@ export type ComputeArn = string;
 export type GameLiftServiceSdkEndpointOutput = string;
 export type GameLiftAgentEndpointOutput = string;
 export type InstanceId = string;
+export type ScaleInAfterInactivityMinutes = number;
 export type FleetBinaryArn = string;
 export type MinimumHealthyPercentage = number;
 export type EventCount = number;
@@ -2717,6 +2719,7 @@ export interface CreateScriptInput {
   StorageLocation?: S3Location;
   ZipFile?: Uint8Array;
   Tags?: Tag[];
+  NodeJsVersion?: string;
 }
 export const CreateScriptInput = S.suspend(() =>
   S.Struct({
@@ -2725,6 +2728,7 @@ export const CreateScriptInput = S.suspend(() =>
     StorageLocation: S.optional(S3Location),
     ZipFile: S.optional(T.Blob),
     Tags: S.optional(TagList),
+    NodeJsVersion: S.optional(S.String),
   }).pipe(
     T.all(
       ns,
@@ -2747,6 +2751,7 @@ export interface Script {
   SizeOnDisk?: number;
   CreationTime?: Date;
   StorageLocation?: S3Location;
+  NodeJsVersion?: string;
 }
 export const Script = S.suspend(() =>
   S.Struct({
@@ -2757,6 +2762,7 @@ export const Script = S.suspend(() =>
     SizeOnDisk: S.optional(S.Number),
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     StorageLocation: S.optional(S3Location),
+    NodeJsVersion: S.optional(S.String),
   }),
 ).annotate({ identifier: "Script" }) as any as S.Schema<Script>;
 export interface CreateScriptOutput {
@@ -3718,6 +3724,23 @@ export const GameServerContainerGroupCounts = S.suspend(() =>
 ).annotate({
   identifier: "GameServerContainerGroupCounts",
 }) as any as S.Schema<GameServerContainerGroupCounts>;
+export type ZeroCapacityStrategy =
+  | "MANUAL"
+  | "SCALE_TO_AND_FROM_ZERO"
+  | (string & {});
+export const ZeroCapacityStrategy = S.String;
+export interface ManagedCapacityConfiguration {
+  ZeroCapacityStrategy?: ZeroCapacityStrategy;
+  ScaleInAfterInactivityMinutes?: number;
+}
+export const ManagedCapacityConfiguration = S.suspend(() =>
+  S.Struct({
+    ZeroCapacityStrategy: S.optional(ZeroCapacityStrategy),
+    ScaleInAfterInactivityMinutes: S.optional(S.Number),
+  }),
+).annotate({
+  identifier: "ManagedCapacityConfiguration",
+}) as any as S.Schema<ManagedCapacityConfiguration>;
 export interface FleetCapacity {
   FleetId?: string;
   FleetArn?: string;
@@ -3725,6 +3748,7 @@ export interface FleetCapacity {
   InstanceCounts?: EC2InstanceCounts;
   Location?: string;
   GameServerContainerGroupCounts?: GameServerContainerGroupCounts;
+  ManagedCapacityConfiguration?: ManagedCapacityConfiguration;
 }
 export const FleetCapacity = S.suspend(() =>
   S.Struct({
@@ -3734,6 +3758,7 @@ export const FleetCapacity = S.suspend(() =>
     InstanceCounts: S.optional(EC2InstanceCounts),
     Location: S.optional(S.String),
     GameServerContainerGroupCounts: S.optional(GameServerContainerGroupCounts),
+    ManagedCapacityConfiguration: S.optional(ManagedCapacityConfiguration),
   }),
 ).annotate({ identifier: "FleetCapacity" }) as any as S.Schema<FleetCapacity>;
 export type FleetCapacityList = FleetCapacity[];
@@ -6967,6 +6992,7 @@ export interface UpdateFleetCapacityInput {
   MinSize?: number;
   MaxSize?: number;
   Location?: string;
+  ManagedCapacityConfiguration?: ManagedCapacityConfiguration;
 }
 export const UpdateFleetCapacityInput = S.suspend(() =>
   S.Struct({
@@ -6975,6 +7001,7 @@ export const UpdateFleetCapacityInput = S.suspend(() =>
     MinSize: S.optional(S.Number),
     MaxSize: S.optional(S.Number),
     Location: S.optional(S.String),
+    ManagedCapacityConfiguration: S.optional(ManagedCapacityConfiguration),
   }).pipe(
     T.all(
       ns,
@@ -6993,12 +7020,14 @@ export interface UpdateFleetCapacityOutput {
   FleetId?: string;
   FleetArn?: string;
   Location?: string;
+  ManagedCapacityConfiguration?: ManagedCapacityConfiguration;
 }
 export const UpdateFleetCapacityOutput = S.suspend(() =>
   S.Struct({
     FleetId: S.optional(S.String),
     FleetArn: S.optional(S.String),
     Location: S.optional(S.String),
+    ManagedCapacityConfiguration: S.optional(ManagedCapacityConfiguration),
   }).pipe(ns),
 ).annotate({
   identifier: "UpdateFleetCapacityOutput",
@@ -12538,6 +12567,8 @@ export const resumeGameServerGroup: (
  *
  * For examples of searching game sessions, see the ones below, and also see Search game sessions by game property.
  *
+ * Avoid using periods (".") in property keys if you plan to search for game sessions by properties. Property keys containing periods cannot be searched and will be filtered out from search results due to search index limitations.
+ *
  * - **maximumSessions** -- Maximum number of player
  * sessions allowed for a game session.
  *
@@ -13474,8 +13505,6 @@ export const updateFleetAttributes: (
  * based on its configuration. For fleets with multiple locations, use this operation to
  * manage capacity settings in each location individually.
  *
- * Use this operation to set these fleet capacity properties:
- *
  * - Minimum/maximum size: Set hard limits on the number of Amazon EC2 instances allowed. If Amazon GameLift Servers receives a
  * request--either through manual update or automatic scaling--it won't change the capacity
  * to a value outside of this range.
@@ -13501,6 +13530,19 @@ export const updateFleetAttributes: (
  * capacity is different than the new desired capacity or outside the new limits. In this
  * scenario, Amazon GameLift Servers automatically initiates steps to add or remove instances in the fleet
  * location. You can track a fleet's current capacity by calling DescribeFleetCapacity or DescribeFleetLocationCapacity.
+ *
+ * Use ManagedCapacityConfiguration with the "SCALE_TO_AND_FROM_ZERO" ZeroCapacityStrategy to enable Amazon
+ * GameLift Servers to fully manage the MinSize value, switching between 0 and 1 based on game session
+ * activity. This is ideal for eliminating compute costs during periods of no game activity.
+ * It is particularly beneficial during development when you're away from your desk, iterating on builds
+ * for extended periods, in production environments serving low-traffic locations, or for games with long,
+ * predictable downtime windows. By automatically managing capacity between 0 and 1 instances, you avoid paying
+ * for idle instances while maintaining the ability to serve game sessions when demand arrives. Note that while
+ * scale-out is triggered immediately upon receiving a game session request, actual game session availability
+ * depends on your server process startup time, so this approach works best with multi-location Fleets where
+ * cold-start latency is tolerable. With a "MANUAL" ZeroCapacityStrategy Amazon GameLift Servers will not
+ * modify Fleet MinSize values automatically and will not scale out from zero instances in response to game
+ * sessions. This is configurable per-location.
  *
  * **Learn more**
  *

@@ -848,12 +848,12 @@ export const EmailGenerativeAnswerChunkDataDetails = S.suspend(() =>
   identifier: "EmailGenerativeAnswerChunkDataDetails",
 }) as any as S.Schema<EmailGenerativeAnswerChunkDataDetails>;
 export interface CaseSummarizationChunkDataDetails {
-  completion?: string;
+  completion?: string | redacted.Redacted<string>;
   nextChunkToken?: string;
 }
 export const CaseSummarizationChunkDataDetails = S.suspend(() =>
   S.Struct({
-    completion: S.optional(S.String),
+    completion: S.optional(SensitiveString),
     nextChunkToken: S.optional(S.String),
   }),
 ).annotate({
@@ -1813,14 +1813,14 @@ export interface UpdateAssistantAIAgentRequest {
   assistantId: string;
   aiAgentType: string;
   configuration: AIAgentConfigurationData;
-  orchestratorConfigurationList?: OrchestratorConfigurationEntry[];
+  orchestratorUseCase?: string;
 }
 export const UpdateAssistantAIAgentRequest = S.suspend(() =>
   S.Struct({
     assistantId: S.String.pipe(T.HttpLabel("assistantId")),
     aiAgentType: S.String,
     configuration: AIAgentConfigurationData,
-    orchestratorConfigurationList: S.optional(OrchestratorConfigurationList),
+    orchestratorUseCase: S.optional(S.String),
   }).pipe(
     T.all(
       T.Http({
@@ -2106,9 +2106,9 @@ export const UserInteractionConfiguration = S.suspend(() =>
 export interface ToolConfiguration {
   toolName: string;
   toolType: string;
-  title?: string;
+  title?: string | redacted.Redacted<string>;
   toolId?: string;
-  description?: string;
+  description?: string | redacted.Redacted<string>;
   instruction?: ToolInstruction;
   overrideInputValues?: ToolOverrideInputValue[];
   outputFilters?: ToolOutputFilter[];
@@ -2121,9 +2121,9 @@ export const ToolConfiguration = S.suspend(() =>
   S.Struct({
     toolName: S.String,
     toolType: S.String,
-    title: S.optional(S.String),
+    title: S.optional(SensitiveString),
     toolId: S.optional(S.String),
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     instruction: S.optional(ToolInstruction),
     overrideInputValues: S.optional(ToolOverrideInputValueList),
     outputFilters: S.optional(ToolOutputFilterList),
@@ -3271,13 +3271,13 @@ export const AIPromptTemplateConfiguration = S.Union([
       TextFullAIPromptEditTemplateConfiguration,
   }),
 ]);
-export interface TextAIPromptInferenceConfiguration {
+export interface AIPromptInferenceConfiguration {
   temperature?: number;
   topP?: number;
   topK?: number;
   maxTokensToSample?: number;
 }
-export const TextAIPromptInferenceConfiguration = S.suspend(() =>
+export const AIPromptInferenceConfiguration = S.suspend(() =>
   S.Struct({
     temperature: S.optional(S.Number),
     topP: S.optional(S.Number),
@@ -3285,16 +3285,8 @@ export const TextAIPromptInferenceConfiguration = S.suspend(() =>
     maxTokensToSample: S.optional(S.Number),
   }),
 ).annotate({
-  identifier: "TextAIPromptInferenceConfiguration",
-}) as any as S.Schema<TextAIPromptInferenceConfiguration>;
-export type AIPromptInferenceConfiguration = {
-  textAIPromptInferenceConfiguration: TextAIPromptInferenceConfiguration;
-};
-export const AIPromptInferenceConfiguration = S.Union([
-  S.Struct({
-    textAIPromptInferenceConfiguration: TextAIPromptInferenceConfiguration,
-  }),
-]);
+  identifier: "AIPromptInferenceConfiguration",
+}) as any as S.Schema<AIPromptInferenceConfiguration>;
 export interface CreateAIPromptRequest {
   clientToken?: string;
   assistantId: string;

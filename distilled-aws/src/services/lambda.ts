@@ -2324,7 +2324,11 @@ export const DocumentDBEventSourceConfig = S.suspend(() =>
 ).annotate({
   identifier: "DocumentDBEventSourceConfig",
 }) as any as S.Schema<DocumentDBEventSourceConfig>;
-export type EventSourceMappingMetric = "EventCount" | (string & {});
+export type EventSourceMappingMetric =
+  | "EventCount"
+  | "ErrorCount"
+  | "KafkaMetrics"
+  | (string & {});
 export const EventSourceMappingMetric = S.String;
 export type EventSourceMappingMetricList = EventSourceMappingMetric[];
 export const EventSourceMappingMetricList = S.Array(EventSourceMappingMetric);
@@ -2336,6 +2340,20 @@ export const EventSourceMappingMetricsConfig = S.suspend(() =>
 ).annotate({
   identifier: "EventSourceMappingMetricsConfig",
 }) as any as S.Schema<EventSourceMappingMetricsConfig>;
+export type EventSourceMappingSystemLogLevel =
+  | "DEBUG"
+  | "INFO"
+  | "WARN"
+  | (string & {});
+export const EventSourceMappingSystemLogLevel = S.String;
+export interface EventSourceMappingLoggingConfig {
+  SystemLogLevel?: EventSourceMappingSystemLogLevel;
+}
+export const EventSourceMappingLoggingConfig = S.suspend(() =>
+  S.Struct({ SystemLogLevel: S.optional(EventSourceMappingSystemLogLevel) }),
+).annotate({
+  identifier: "EventSourceMappingLoggingConfig",
+}) as any as S.Schema<EventSourceMappingLoggingConfig>;
 export interface ProvisionedPollerConfig {
   MinimumPollers?: number;
   MaximumPollers?: number;
@@ -2377,6 +2395,7 @@ export interface CreateEventSourceMappingRequest {
   DocumentDBEventSourceConfig?: DocumentDBEventSourceConfig;
   KMSKeyArn?: string;
   MetricsConfig?: EventSourceMappingMetricsConfig;
+  LoggingConfig?: EventSourceMappingLoggingConfig;
   ProvisionedPollerConfig?: ProvisionedPollerConfig;
 }
 export const CreateEventSourceMappingRequest = S.suspend(() =>
@@ -2413,6 +2432,7 @@ export const CreateEventSourceMappingRequest = S.suspend(() =>
     DocumentDBEventSourceConfig: S.optional(DocumentDBEventSourceConfig),
     KMSKeyArn: S.optional(S.String),
     MetricsConfig: S.optional(EventSourceMappingMetricsConfig),
+    LoggingConfig: S.optional(EventSourceMappingLoggingConfig),
     ProvisionedPollerConfig: S.optional(ProvisionedPollerConfig),
   }).pipe(
     T.all(
@@ -2468,6 +2488,7 @@ export interface EventSourceMappingConfiguration {
   FilterCriteriaError?: FilterCriteriaError;
   EventSourceMappingArn?: string;
   MetricsConfig?: EventSourceMappingMetricsConfig;
+  LoggingConfig?: EventSourceMappingLoggingConfig;
   ProvisionedPollerConfig?: ProvisionedPollerConfig;
 }
 export const EventSourceMappingConfiguration = S.suspend(() =>
@@ -2509,6 +2530,7 @@ export const EventSourceMappingConfiguration = S.suspend(() =>
     FilterCriteriaError: S.optional(FilterCriteriaError),
     EventSourceMappingArn: S.optional(S.String),
     MetricsConfig: S.optional(EventSourceMappingMetricsConfig),
+    LoggingConfig: S.optional(EventSourceMappingLoggingConfig),
     ProvisionedPollerConfig: S.optional(ProvisionedPollerConfig),
   }),
 ).annotate({
@@ -2555,6 +2577,7 @@ export interface UpdateEventSourceMappingRequest {
   DocumentDBEventSourceConfig?: DocumentDBEventSourceConfig;
   KMSKeyArn?: string;
   MetricsConfig?: EventSourceMappingMetricsConfig;
+  LoggingConfig?: EventSourceMappingLoggingConfig;
   ProvisionedPollerConfig?: ProvisionedPollerConfig;
 }
 export const UpdateEventSourceMappingRequest = S.suspend(() =>
@@ -2583,6 +2606,7 @@ export const UpdateEventSourceMappingRequest = S.suspend(() =>
     DocumentDBEventSourceConfig: S.optional(DocumentDBEventSourceConfig),
     KMSKeyArn: S.optional(S.String),
     MetricsConfig: S.optional(EventSourceMappingMetricsConfig),
+    LoggingConfig: S.optional(EventSourceMappingLoggingConfig),
     ProvisionedPollerConfig: S.optional(ProvisionedPollerConfig),
   }).pipe(
     T.all(

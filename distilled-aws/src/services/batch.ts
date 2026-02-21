@@ -2178,12 +2178,14 @@ export const ArrayJobStatusSummary = S.Record(
 );
 export interface ArrayPropertiesDetail {
   statusSummary?: { [key: string]: number | undefined };
+  statusSummaryLastUpdatedAt?: number;
   size?: number;
   index?: number;
 }
 export const ArrayPropertiesDetail = S.suspend(() =>
   S.Struct({
     statusSummary: S.optional(ArrayJobStatusSummary),
+    statusSummaryLastUpdatedAt: S.optional(S.Number),
     size: S.optional(S.Number),
     index: S.optional(S.Number),
   }),
@@ -2838,6 +2840,22 @@ export const ServiceJobAttemptDetail = S.suspend(() =>
 }) as any as S.Schema<ServiceJobAttemptDetail>;
 export type ServiceJobAttemptDetails = ServiceJobAttemptDetail[];
 export const ServiceJobAttemptDetails = S.Array(ServiceJobAttemptDetail);
+export interface ServiceJobCapacityUsageDetail {
+  capacityUnit?: string;
+  quantity?: number;
+}
+export const ServiceJobCapacityUsageDetail = S.suspend(() =>
+  S.Struct({
+    capacityUnit: S.optional(S.String),
+    quantity: S.optional(S.Number),
+  }),
+).annotate({
+  identifier: "ServiceJobCapacityUsageDetail",
+}) as any as S.Schema<ServiceJobCapacityUsageDetail>;
+export type ServiceJobCapacityUsageDetailList = ServiceJobCapacityUsageDetail[];
+export const ServiceJobCapacityUsageDetailList = S.Array(
+  ServiceJobCapacityUsageDetail,
+);
 export interface LatestServiceJobAttempt {
   serviceResourceId?: ServiceResourceId;
 }
@@ -2902,6 +2920,7 @@ export interface DescribeServiceJobResponse {
       value: string;
     };
   })[];
+  capacityUsage?: ServiceJobCapacityUsageDetail[];
   createdAt?: number;
   isTerminated?: boolean;
   jobArn?: string;
@@ -2915,6 +2934,7 @@ export interface DescribeServiceJobResponse {
     };
   };
   retryStrategy?: ServiceJobRetryStrategy & { attempts: number };
+  scheduledAt?: number;
   schedulingPriority?: number;
   serviceRequestPayload?: string;
   serviceJobType: ServiceJobType;
@@ -2929,6 +2949,7 @@ export interface DescribeServiceJobResponse {
 export const DescribeServiceJobResponse = S.suspend(() =>
   S.Struct({
     attempts: S.optional(ServiceJobAttemptDetails),
+    capacityUsage: S.optional(ServiceJobCapacityUsageDetailList),
     createdAt: S.optional(S.Number),
     isTerminated: S.optional(S.Boolean),
     jobArn: S.optional(S.String),
@@ -2937,6 +2958,7 @@ export const DescribeServiceJobResponse = S.suspend(() =>
     jobQueue: S.optional(S.String),
     latestAttempt: S.optional(LatestServiceJobAttempt),
     retryStrategy: S.optional(ServiceJobRetryStrategy),
+    scheduledAt: S.optional(S.Number),
     schedulingPriority: S.optional(S.Number),
     serviceRequestPayload: S.optional(S.String),
     serviceJobType: S.optional(ServiceJobType),
@@ -2995,11 +3017,87 @@ export const FrontOfQueueDetail = S.suspend(() =>
 ).annotate({
   identifier: "FrontOfQueueDetail",
 }) as any as S.Schema<FrontOfQueueDetail>;
+export interface QueueSnapshotCapacityUsage {
+  capacityUnit?: string;
+  quantity?: number;
+}
+export const QueueSnapshotCapacityUsage = S.suspend(() =>
+  S.Struct({
+    capacityUnit: S.optional(S.String),
+    quantity: S.optional(S.Number),
+  }),
+).annotate({
+  identifier: "QueueSnapshotCapacityUsage",
+}) as any as S.Schema<QueueSnapshotCapacityUsage>;
+export type QueueSnapshotCapacityUsageList = QueueSnapshotCapacityUsage[];
+export const QueueSnapshotCapacityUsageList = S.Array(
+  QueueSnapshotCapacityUsage,
+);
+export interface FairshareCapacityUsage {
+  capacityUnit?: string;
+  quantity?: number;
+}
+export const FairshareCapacityUsage = S.suspend(() =>
+  S.Struct({
+    capacityUnit: S.optional(S.String),
+    quantity: S.optional(S.Number),
+  }),
+).annotate({
+  identifier: "FairshareCapacityUsage",
+}) as any as S.Schema<FairshareCapacityUsage>;
+export type FairshareCapacityUsageList = FairshareCapacityUsage[];
+export const FairshareCapacityUsageList = S.Array(FairshareCapacityUsage);
+export interface FairshareCapacityUtilization {
+  shareIdentifier?: string;
+  capacityUsage?: FairshareCapacityUsage[];
+}
+export const FairshareCapacityUtilization = S.suspend(() =>
+  S.Struct({
+    shareIdentifier: S.optional(S.String),
+    capacityUsage: S.optional(FairshareCapacityUsageList),
+  }),
+).annotate({
+  identifier: "FairshareCapacityUtilization",
+}) as any as S.Schema<FairshareCapacityUtilization>;
+export type FairshareCapacityUtilizationList = FairshareCapacityUtilization[];
+export const FairshareCapacityUtilizationList = S.Array(
+  FairshareCapacityUtilization,
+);
+export interface FairshareUtilizationDetail {
+  activeShareCount?: number;
+  topCapacityUtilization?: FairshareCapacityUtilization[];
+}
+export const FairshareUtilizationDetail = S.suspend(() =>
+  S.Struct({
+    activeShareCount: S.optional(S.Number),
+    topCapacityUtilization: S.optional(FairshareCapacityUtilizationList),
+  }),
+).annotate({
+  identifier: "FairshareUtilizationDetail",
+}) as any as S.Schema<FairshareUtilizationDetail>;
+export interface QueueSnapshotUtilizationDetail {
+  totalCapacityUsage?: QueueSnapshotCapacityUsage[];
+  fairshareUtilization?: FairshareUtilizationDetail;
+  lastUpdatedAt?: number;
+}
+export const QueueSnapshotUtilizationDetail = S.suspend(() =>
+  S.Struct({
+    totalCapacityUsage: S.optional(QueueSnapshotCapacityUsageList),
+    fairshareUtilization: S.optional(FairshareUtilizationDetail),
+    lastUpdatedAt: S.optional(S.Number),
+  }),
+).annotate({
+  identifier: "QueueSnapshotUtilizationDetail",
+}) as any as S.Schema<QueueSnapshotUtilizationDetail>;
 export interface GetJobQueueSnapshotResponse {
   frontOfQueue?: FrontOfQueueDetail;
+  queueUtilization?: QueueSnapshotUtilizationDetail;
 }
 export const GetJobQueueSnapshotResponse = S.suspend(() =>
-  S.Struct({ frontOfQueue: S.optional(FrontOfQueueDetail) }).pipe(ns),
+  S.Struct({
+    frontOfQueue: S.optional(FrontOfQueueDetail),
+    queueUtilization: S.optional(QueueSnapshotUtilizationDetail),
+  }).pipe(ns),
 ).annotate({
   identifier: "GetJobQueueSnapshotResponse",
 }) as any as S.Schema<GetJobQueueSnapshotResponse>;
@@ -3105,6 +3203,20 @@ export const ListJobsRequest = S.suspend(() =>
 ).annotate({
   identifier: "ListJobsRequest",
 }) as any as S.Schema<ListJobsRequest>;
+export interface JobCapacityUsageSummary {
+  capacityUnit?: string;
+  quantity?: number;
+}
+export const JobCapacityUsageSummary = S.suspend(() =>
+  S.Struct({
+    capacityUnit: S.optional(S.String),
+    quantity: S.optional(S.Number),
+  }),
+).annotate({
+  identifier: "JobCapacityUsageSummary",
+}) as any as S.Schema<JobCapacityUsageSummary>;
+export type JobCapacityUsageSummaryList = JobCapacityUsageSummary[];
+export const JobCapacityUsageSummaryList = S.Array(JobCapacityUsageSummary);
 export interface ContainerSummary {
   exitCode?: number;
   reason?: string;
@@ -3117,9 +3229,16 @@ export const ContainerSummary = S.suspend(() =>
 export interface ArrayPropertiesSummary {
   size?: number;
   index?: number;
+  statusSummary?: { [key: string]: number | undefined };
+  statusSummaryLastUpdatedAt?: number;
 }
 export const ArrayPropertiesSummary = S.suspend(() =>
-  S.Struct({ size: S.optional(S.Number), index: S.optional(S.Number) }),
+  S.Struct({
+    size: S.optional(S.Number),
+    index: S.optional(S.Number),
+    statusSummary: S.optional(ArrayJobStatusSummary),
+    statusSummaryLastUpdatedAt: S.optional(S.Number),
+  }),
 ).annotate({
   identifier: "ArrayPropertiesSummary",
 }) as any as S.Schema<ArrayPropertiesSummary>;
@@ -3141,7 +3260,10 @@ export interface JobSummary {
   jobArn?: string;
   jobId?: string;
   jobName?: string;
+  capacityUsage?: JobCapacityUsageSummary[];
   createdAt?: number;
+  scheduledAt?: number;
+  shareIdentifier?: string;
   status?: JobStatus;
   statusReason?: string;
   startedAt?: number;
@@ -3156,7 +3278,10 @@ export const JobSummary = S.suspend(() =>
     jobArn: S.optional(S.String),
     jobId: S.optional(S.String),
     jobName: S.optional(S.String),
+    capacityUsage: S.optional(JobCapacityUsageSummaryList),
     createdAt: S.optional(S.Number),
+    scheduledAt: S.optional(S.Number),
+    shareIdentifier: S.optional(S.String),
     status: S.optional(JobStatus),
     statusReason: S.optional(S.String),
     startedAt: S.optional(S.Number),
@@ -3338,12 +3463,31 @@ export const ListServiceJobsRequest = S.suspend(() =>
 ).annotate({
   identifier: "ListServiceJobsRequest",
 }) as any as S.Schema<ListServiceJobsRequest>;
+export interface ServiceJobCapacityUsageSummary {
+  capacityUnit?: string;
+  quantity?: number;
+}
+export const ServiceJobCapacityUsageSummary = S.suspend(() =>
+  S.Struct({
+    capacityUnit: S.optional(S.String),
+    quantity: S.optional(S.Number),
+  }),
+).annotate({
+  identifier: "ServiceJobCapacityUsageSummary",
+}) as any as S.Schema<ServiceJobCapacityUsageSummary>;
+export type ServiceJobCapacityUsageSummaryList =
+  ServiceJobCapacityUsageSummary[];
+export const ServiceJobCapacityUsageSummaryList = S.Array(
+  ServiceJobCapacityUsageSummary,
+);
 export interface ServiceJobSummary {
   latestAttempt?: LatestServiceJobAttempt;
+  capacityUsage?: ServiceJobCapacityUsageSummary[];
   createdAt?: number;
   jobArn?: string;
   jobId?: string;
   jobName?: string;
+  scheduledAt?: number;
   serviceJobType?: ServiceJobType;
   shareIdentifier?: string;
   status?: ServiceJobStatus;
@@ -3354,10 +3498,12 @@ export interface ServiceJobSummary {
 export const ServiceJobSummary = S.suspend(() =>
   S.Struct({
     latestAttempt: S.optional(LatestServiceJobAttempt),
+    capacityUsage: S.optional(ServiceJobCapacityUsageSummaryList),
     createdAt: S.optional(S.Number),
     jobArn: S.optional(S.String),
     jobId: S.optional(S.String),
     jobName: S.optional(S.String),
+    scheduledAt: S.optional(S.Number),
     serviceJobType: S.optional(ServiceJobType),
     shareIdentifier: S.optional(S.String),
     status: S.optional(ServiceJobStatus),
@@ -4537,7 +4683,8 @@ export const describeServiceJob: (
   errors: [ClientException, ServerException],
 }));
 /**
- * Provides a list of the first 100 `RUNNABLE` jobs associated to a single job queue.
+ * Provides a list of the first 100 `RUNNABLE` jobs associated to a single job
+ * queue and includes capacity utilization, including total usage and breakdown by share for fairshare scheduling job queues.
  */
 export const getJobQueueSnapshot: (
   input: GetJobQueueSnapshotRequest,
@@ -4596,9 +4743,6 @@ export const listConsumableResources: {
  * - A multi-node parallel job ID to return a list of nodes for that job
  *
  * - An array job ID to return a list of the children for that job
- *
- * You can filter the results by job status with the `jobStatus` parameter. If you
- * don't specify a status, only `RUNNING` jobs are returned.
  */
 export const listJobs: {
   (

@@ -1185,6 +1185,12 @@ export const TableClassSummary = S.suspend(() =>
 ).annotate({
   identifier: "TableClassSummary",
 }) as any as S.Schema<TableClassSummary>;
+export type GlobalTableSettingsReplicationMode =
+  | "ENABLED"
+  | "DISABLED"
+  | "ENABLED_WITH_OVERRIDES"
+  | (string & {});
+export const GlobalTableSettingsReplicationMode = S.String;
 export interface ReplicaDescription {
   RegionName?: string;
   ReplicaStatus?: ReplicaStatus;
@@ -1197,6 +1203,7 @@ export interface ReplicaDescription {
   GlobalSecondaryIndexes?: ReplicaGlobalSecondaryIndexDescription[];
   ReplicaInaccessibleDateTime?: Date;
   ReplicaTableClassSummary?: TableClassSummary;
+  GlobalTableSettingsReplicationMode?: GlobalTableSettingsReplicationMode;
 }
 export const ReplicaDescription = S.suspend(() =>
   S.Struct({
@@ -1215,6 +1222,9 @@ export const ReplicaDescription = S.suspend(() =>
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
     ReplicaTableClassSummary: S.optional(TableClassSummary),
+    GlobalTableSettingsReplicationMode: S.optional(
+      GlobalTableSettingsReplicationMode,
+    ),
   }),
 ).annotate({
   identifier: "ReplicaDescription",
@@ -1414,9 +1424,9 @@ export const Tag = S.suspend(() =>
 export type TagList = Tag[];
 export const TagList = S.Array(Tag);
 export interface CreateTableInput {
-  AttributeDefinitions: AttributeDefinition[];
+  AttributeDefinitions?: AttributeDefinition[];
   TableName: string;
-  KeySchema: KeySchemaElement[];
+  KeySchema?: KeySchemaElement[];
   LocalSecondaryIndexes?: LocalSecondaryIndex[];
   GlobalSecondaryIndexes?: GlobalSecondaryIndex[];
   BillingMode?: BillingMode;
@@ -1429,12 +1439,14 @@ export interface CreateTableInput {
   WarmThroughput?: WarmThroughput;
   ResourcePolicy?: string;
   OnDemandThroughput?: OnDemandThroughput;
+  GlobalTableSourceArn?: string;
+  GlobalTableSettingsReplicationMode?: GlobalTableSettingsReplicationMode;
 }
 export const CreateTableInput = S.suspend(() =>
   S.Struct({
-    AttributeDefinitions: AttributeDefinitions,
+    AttributeDefinitions: S.optional(AttributeDefinitions),
     TableName: S.String.pipe(T.ContextParam("ResourceArn")),
-    KeySchema: KeySchema,
+    KeySchema: S.optional(KeySchema),
     LocalSecondaryIndexes: S.optional(LocalSecondaryIndexList),
     GlobalSecondaryIndexes: S.optional(GlobalSecondaryIndexList),
     BillingMode: S.optional(BillingMode),
@@ -1447,6 +1459,10 @@ export const CreateTableInput = S.suspend(() =>
     WarmThroughput: S.optional(WarmThroughput),
     ResourcePolicy: S.optional(S.String),
     OnDemandThroughput: S.optional(OnDemandThroughput),
+    GlobalTableSourceArn: S.optional(S.String),
+    GlobalTableSettingsReplicationMode: S.optional(
+      GlobalTableSettingsReplicationMode,
+    ),
   }).pipe(
     T.all(
       ns,
@@ -1651,6 +1667,7 @@ export interface TableDescription {
   GlobalTableVersion?: string;
   Replicas?: ReplicaDescription[];
   GlobalTableWitnesses?: GlobalTableWitnessDescription[];
+  GlobalTableSettingsReplicationMode?: GlobalTableSettingsReplicationMode;
   RestoreSummary?: RestoreSummary;
   SSEDescription?: SSEDescription;
   ArchivalSummary?: ArchivalSummary;
@@ -1683,6 +1700,9 @@ export const TableDescription = S.suspend(() =>
     GlobalTableVersion: S.optional(S.String),
     Replicas: S.optional(ReplicaDescriptionList),
     GlobalTableWitnesses: S.optional(GlobalTableWitnessDescriptionList),
+    GlobalTableSettingsReplicationMode: S.optional(
+      GlobalTableSettingsReplicationMode,
+    ),
     RestoreSummary: S.optional(RestoreSummary),
     SSEDescription: S.optional(SSEDescription),
     ArchivalSummary: S.optional(ArchivalSummary),

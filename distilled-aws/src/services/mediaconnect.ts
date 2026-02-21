@@ -1973,6 +1973,16 @@ export const SetGatewayBridgeSourceRequest = S.suspend(() =>
 ).annotate({
   identifier: "SetGatewayBridgeSourceRequest",
 }) as any as S.Schema<SetGatewayBridgeSourceRequest>;
+export interface NdiSourceSettings {
+  SourceName?: string;
+}
+export const NdiSourceSettings = S.suspend(() =>
+  S.Struct({ SourceName: S.optional(S.String) }).pipe(
+    S.encodeKeys({ SourceName: "sourceName" }),
+  ),
+).annotate({
+  identifier: "NdiSourceSettings",
+}) as any as S.Schema<NdiSourceSettings>;
 export interface SetSourceRequest {
   Decryption?: Encryption;
   Description?: string;
@@ -1993,6 +2003,7 @@ export interface SetSourceRequest {
   VpcInterfaceName?: string;
   WhitelistCidr?: string;
   GatewayBridgeSource?: SetGatewayBridgeSourceRequest;
+  NdiSourceSettings?: NdiSourceSettings;
   SourceTags?: { [key: string]: string | undefined };
   RouterIntegrationState?: State;
   RouterIntegrationTransitDecryption?: FlowTransitEncryption;
@@ -2020,6 +2031,7 @@ export const SetSourceRequest = S.suspend(() =>
     VpcInterfaceName: S.optional(S.String),
     WhitelistCidr: S.optional(S.String),
     GatewayBridgeSource: S.optional(SetGatewayBridgeSourceRequest),
+    NdiSourceSettings: S.optional(NdiSourceSettings),
     SourceTags: S.optional(__mapOfString),
     RouterIntegrationState: S.optional(State),
     RouterIntegrationTransitDecryption: S.optional(FlowTransitEncryption),
@@ -2044,6 +2056,7 @@ export const SetSourceRequest = S.suspend(() =>
       VpcInterfaceName: "vpcInterfaceName",
       WhitelistCidr: "whitelistCidr",
       GatewayBridgeSource: "gatewayBridgeSource",
+      NdiSourceSettings: "ndiSourceSettings",
       SourceTags: "sourceTags",
       RouterIntegrationState: "routerIntegrationState",
       RouterIntegrationTransitDecryption: "routerIntegrationTransitDecryption",
@@ -2206,7 +2219,7 @@ export const MonitoringConfig = S.suspend(() =>
 ).annotate({
   identifier: "MonitoringConfig",
 }) as any as S.Schema<MonitoringConfig>;
-export type FlowSize = "MEDIUM" | "LARGE" | (string & {});
+export type FlowSize = "MEDIUM" | "LARGE" | "LARGE_4X" | (string & {});
 export const FlowSize = S.String;
 export type NdiState = "ENABLED" | "DISABLED" | (string & {});
 export const NdiState = S.String;
@@ -2252,6 +2265,26 @@ export const NdiConfig = S.suspend(() =>
     }),
   ),
 ).annotate({ identifier: "NdiConfig" }) as any as S.Schema<NdiConfig>;
+export type EncodingProfile =
+  | "DISTRIBUTION_H264_DEFAULT"
+  | "CONTRIBUTION_H264_DEFAULT"
+  | (string & {});
+export const EncodingProfile = S.String;
+export interface EncodingConfig {
+  EncodingProfile?: EncodingProfile;
+  VideoMaxBitrate?: number;
+}
+export const EncodingConfig = S.suspend(() =>
+  S.Struct({
+    EncodingProfile: S.optional(EncodingProfile),
+    VideoMaxBitrate: S.optional(S.Number),
+  }).pipe(
+    S.encodeKeys({
+      EncodingProfile: "encodingProfile",
+      VideoMaxBitrate: "videoMaxBitrate",
+    }),
+  ),
+).annotate({ identifier: "EncodingConfig" }) as any as S.Schema<EncodingConfig>;
 export interface CreateFlowRequest {
   AvailabilityZone?: string;
   Entitlements?: GrantEntitlementRequest[];
@@ -2266,6 +2299,7 @@ export interface CreateFlowRequest {
   SourceMonitoringConfig?: MonitoringConfig;
   FlowSize?: FlowSize;
   NdiConfig?: NdiConfig;
+  EncodingConfig?: EncodingConfig;
   FlowTags?: { [key: string]: string | undefined };
 }
 export const CreateFlowRequest = S.suspend(() =>
@@ -2283,6 +2317,7 @@ export const CreateFlowRequest = S.suspend(() =>
     SourceMonitoringConfig: S.optional(MonitoringConfig),
     FlowSize: S.optional(FlowSize),
     NdiConfig: S.optional(NdiConfig),
+    EncodingConfig: S.optional(EncodingConfig),
     FlowTags: S.optional(__mapOfString),
   })
     .pipe(
@@ -2300,6 +2335,7 @@ export const CreateFlowRequest = S.suspend(() =>
         SourceMonitoringConfig: "sourceMonitoringConfig",
         FlowSize: "flowSize",
         NdiConfig: "ndiConfig",
+        EncodingConfig: "encodingConfig",
         FlowTags: "flowTags",
       }),
     )
@@ -2518,6 +2554,7 @@ export interface Transport {
   StreamId?: string;
   NdiSpeedHqQuality?: number;
   NdiProgramName?: string;
+  NdiSourceSettings?: NdiSourceSettings;
 }
 export const Transport = S.suspend(() =>
   S.Struct({
@@ -2536,6 +2573,7 @@ export const Transport = S.suspend(() =>
     StreamId: S.optional(S.String),
     NdiSpeedHqQuality: S.optional(S.Number),
     NdiProgramName: S.optional(S.String),
+    NdiSourceSettings: S.optional(NdiSourceSettings),
   }).pipe(
     S.encodeKeys({
       CidrAllowList: "cidrAllowList",
@@ -2553,6 +2591,7 @@ export const Transport = S.suspend(() =>
       StreamId: "streamId",
       NdiSpeedHqQuality: "ndiSpeedHqQuality",
       NdiProgramName: "ndiProgramName",
+      NdiSourceSettings: "ndiSourceSettings",
     }),
   ),
 ).annotate({ identifier: "Transport" }) as any as S.Schema<Transport>;
@@ -2843,6 +2882,7 @@ export interface Flow {
   SourceMonitoringConfig?: MonitoringConfig;
   FlowSize?: FlowSize;
   NdiConfig?: NdiConfig;
+  EncodingConfig?: EncodingConfig;
 }
 export const Flow = S.suspend(() =>
   S.Struct({
@@ -2863,6 +2903,7 @@ export const Flow = S.suspend(() =>
     SourceMonitoringConfig: S.optional(MonitoringConfig),
     FlowSize: S.optional(FlowSize),
     NdiConfig: S.optional(NdiConfig),
+    EncodingConfig: S.optional(EncodingConfig),
   }).pipe(
     S.encodeKeys({
       AvailabilityZone: "availabilityZone",
@@ -2882,6 +2923,7 @@ export const Flow = S.suspend(() =>
       SourceMonitoringConfig: "sourceMonitoringConfig",
       FlowSize: "flowSize",
       NdiConfig: "ndiConfig",
+      EncodingConfig: "encodingConfig",
     }),
   ),
 ).annotate({ identifier: "Flow" }) as any as S.Schema<Flow>;
@@ -3124,6 +3166,7 @@ export interface UpdateFlowRequest {
   SourceMonitoringConfig?: MonitoringConfig;
   NdiConfig?: NdiConfig;
   FlowSize?: FlowSize;
+  EncodingConfig?: EncodingConfig;
 }
 export const UpdateFlowRequest = S.suspend(() =>
   S.Struct({
@@ -3133,6 +3176,7 @@ export const UpdateFlowRequest = S.suspend(() =>
     SourceMonitoringConfig: S.optional(MonitoringConfig),
     NdiConfig: S.optional(NdiConfig),
     FlowSize: S.optional(FlowSize),
+    EncodingConfig: S.optional(EncodingConfig),
   })
     .pipe(
       S.encodeKeys({
@@ -3141,6 +3185,7 @@ export const UpdateFlowRequest = S.suspend(() =>
         SourceMonitoringConfig: "sourceMonitoringConfig",
         NdiConfig: "ndiConfig",
         FlowSize: "flowSize",
+        EncodingConfig: "encodingConfig",
       }),
     )
     .pipe(
@@ -3643,6 +3688,84 @@ export const TransportMediaInfo = S.suspend(() =>
 ).annotate({
   identifier: "TransportMediaInfo",
 }) as any as S.Schema<TransportMediaInfo>;
+export interface NdiSourceInfo {
+  SourceName?: string;
+}
+export const NdiSourceInfo = S.suspend(() =>
+  S.Struct({ SourceName: S.optional(S.String) }).pipe(
+    S.encodeKeys({ SourceName: "sourceName" }),
+  ),
+).annotate({ identifier: "NdiSourceInfo" }) as any as S.Schema<NdiSourceInfo>;
+export type __listOfNdiSourceInfo = NdiSourceInfo[];
+export const __listOfNdiSourceInfo = S.Array(NdiSourceInfo);
+export interface NdiMediaStreamInfo {
+  StreamType?: string;
+  Codec?: string;
+  StreamId?: number;
+  ScanMode?: ScanMode;
+  FrameResolution?: FrameResolution;
+  FrameRate?: string;
+  Channels?: number;
+  SampleRate?: number;
+}
+export const NdiMediaStreamInfo = S.suspend(() =>
+  S.Struct({
+    StreamType: S.optional(S.String),
+    Codec: S.optional(S.String),
+    StreamId: S.optional(S.Number),
+    ScanMode: S.optional(ScanMode),
+    FrameResolution: S.optional(FrameResolution),
+    FrameRate: S.optional(S.String),
+    Channels: S.optional(S.Number),
+    SampleRate: S.optional(S.Number),
+  }).pipe(
+    S.encodeKeys({
+      StreamType: "streamType",
+      Codec: "codec",
+      StreamId: "streamId",
+      ScanMode: "scanMode",
+      FrameResolution: "frameResolution",
+      FrameRate: "frameRate",
+      Channels: "channels",
+      SampleRate: "sampleRate",
+    }),
+  ),
+).annotate({
+  identifier: "NdiMediaStreamInfo",
+}) as any as S.Schema<NdiMediaStreamInfo>;
+export type __listOfNdiMediaStreamInfo = NdiMediaStreamInfo[];
+export const __listOfNdiMediaStreamInfo = S.Array(NdiMediaStreamInfo);
+export interface NdiMediaInfo {
+  Streams?: NdiMediaStreamInfo[];
+}
+export const NdiMediaInfo = S.suspend(() =>
+  S.Struct({ Streams: S.optional(__listOfNdiMediaStreamInfo) }).pipe(
+    S.encodeKeys({ Streams: "streams" }),
+  ),
+).annotate({ identifier: "NdiMediaInfo" }) as any as S.Schema<NdiMediaInfo>;
+export interface NdiSourceMetadataInfo {
+  ActiveSource?: NdiSourceInfo;
+  DiscoveredSources?: NdiSourceInfo[];
+  MediaInfo?: NdiMediaInfo;
+  Messages?: MessageDetail[];
+}
+export const NdiSourceMetadataInfo = S.suspend(() =>
+  S.Struct({
+    ActiveSource: S.optional(NdiSourceInfo),
+    DiscoveredSources: S.optional(__listOfNdiSourceInfo),
+    MediaInfo: S.optional(NdiMediaInfo),
+    Messages: S.optional(__listOfMessageDetail),
+  }).pipe(
+    S.encodeKeys({
+      ActiveSource: "activeSource",
+      DiscoveredSources: "discoveredSources",
+      MediaInfo: "mediaInfo",
+      Messages: "messages",
+    }),
+  ),
+).annotate({
+  identifier: "NdiSourceMetadataInfo",
+}) as any as S.Schema<NdiSourceMetadataInfo>;
 export interface DescribeFlowSourceMetadataResponse {
   FlowArn?: string;
   Messages?: (MessageDetail & { Code: string; Message: string })[];
@@ -3662,6 +3785,22 @@ export interface DescribeFlowSourceMetadataResponse {
       })[];
     })[];
   };
+  NdiInfo?: NdiSourceMetadataInfo & {
+    DiscoveredSources: (NdiSourceInfo & { SourceName: string })[];
+    MediaInfo: NdiMediaInfo & {
+      Streams: (NdiMediaStreamInfo & {
+        StreamType: string;
+        Codec: string;
+        StreamId: number;
+        FrameResolution: FrameResolution & {
+          FrameHeight: number;
+          FrameWidth: number;
+        };
+      })[];
+    };
+    Messages: (MessageDetail & { Code: string; Message: string })[];
+    ActiveSource: NdiSourceInfo & { SourceName: string };
+  };
 }
 export const DescribeFlowSourceMetadataResponse = S.suspend(() =>
   S.Struct({
@@ -3671,12 +3810,14 @@ export const DescribeFlowSourceMetadataResponse = S.suspend(() =>
       T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
     TransportMediaInfo: S.optional(TransportMediaInfo),
+    NdiInfo: S.optional(NdiSourceMetadataInfo),
   }).pipe(
     S.encodeKeys({
       FlowArn: "flowArn",
       Messages: "messages",
       Timestamp: "timestamp",
       TransportMediaInfo: "transportMediaInfo",
+      NdiInfo: "ndiInfo",
     }),
   ),
 ).annotate({
@@ -4346,6 +4487,7 @@ export interface UpdateFlowSourceRequest {
   VpcInterfaceName?: string;
   WhitelistCidr?: string;
   GatewayBridgeSource?: UpdateGatewayBridgeSourceRequest;
+  NdiSourceSettings?: NdiSourceSettings;
   RouterIntegrationState?: State;
   RouterIntegrationTransitDecryption?: FlowTransitEncryption;
 }
@@ -4373,6 +4515,7 @@ export const UpdateFlowSourceRequest = S.suspend(() =>
     VpcInterfaceName: S.optional(S.String),
     WhitelistCidr: S.optional(S.String),
     GatewayBridgeSource: S.optional(UpdateGatewayBridgeSourceRequest),
+    NdiSourceSettings: S.optional(NdiSourceSettings),
     RouterIntegrationState: S.optional(State),
     RouterIntegrationTransitDecryption: S.optional(FlowTransitEncryption),
   })
@@ -4396,6 +4539,7 @@ export const UpdateFlowSourceRequest = S.suspend(() =>
         VpcInterfaceName: "vpcInterfaceName",
         WhitelistCidr: "whitelistCidr",
         GatewayBridgeSource: "gatewayBridgeSource",
+        NdiSourceSettings: "ndiSourceSettings",
         RouterIntegrationState: "routerIntegrationState",
         RouterIntegrationTransitDecryption:
           "routerIntegrationTransitDecryption",
@@ -8507,6 +8651,20 @@ export const describeFlow: (
 }));
 /**
  * Updates an existing flow.
+ *
+ * Because `UpdateFlowSources` and `UpdateFlow` are separate operations, you can't change both the source type AND the flow size in a single request.
+ *
+ * - If you have a `MEDIUM` flow and you want to change the flow source to NDI®:
+ *
+ * - First, use the `UpdateFlow` operation to upgrade the flow size to `LARGE`.
+ *
+ * - After that, you can then use the `UpdateFlowSource` operation to configure the NDI source.
+ *
+ * - If you're switching from an NDI source to a transport stream (TS) source and want to downgrade the flow size:
+ *
+ * - First, use the `UpdateFlowSource` operation to change the flow source type.
+ *
+ * - After that, you can then use the `UpdateFlow` operation to downgrade the flow size to `MEDIUM`.
  */
 export const updateFlow: (
   input: UpdateFlowRequest,
@@ -9077,6 +9235,20 @@ export const updateFlowOutput: (
 }));
 /**
  * Updates the source of a flow.
+ *
+ * Because `UpdateFlowSources` and `UpdateFlow` are separate operations, you can't change both the source type AND the flow size in a single request.
+ *
+ * - If you have a `MEDIUM` flow and you want to change the flow source to NDI®:
+ *
+ * - First, use the `UpdateFlow` operation to upgrade the flow size to `LARGE`.
+ *
+ * - After that, you can then use the `UpdateFlowSource` operation to configure the NDI source.
+ *
+ * - If you're switching from an NDI source to a transport stream (TS) source and want to downgrade the flow size:
+ *
+ * - First, use the `UpdateFlowSource` operation to change the flow source type.
+ *
+ * - After that, you can then use the `UpdateFlow` operation to downgrade the flow size to `MEDIUM`.
  */
 export const updateFlowSource: (
   input: UpdateFlowSourceRequest,

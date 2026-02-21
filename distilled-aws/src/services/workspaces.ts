@@ -768,6 +768,18 @@ export type Compute =
   | "GRAPHICSPRO"
   | "GRAPHICS_G4DN"
   | "GRAPHICSPRO_G4DN"
+  | "GRAPHICS_G6_XLARGE"
+  | "GRAPHICS_G6_2XLARGE"
+  | "GRAPHICS_G6_4XLARGE"
+  | "GRAPHICS_G6_8XLARGE"
+  | "GRAPHICS_G6_16XLARGE"
+  | "GRAPHICS_GR6_4XLARGE"
+  | "GRAPHICS_GR6_8XLARGE"
+  | "GRAPHICS_G6F_LARGE"
+  | "GRAPHICS_G6F_XLARGE"
+  | "GRAPHICS_G6F_2XLARGE"
+  | "GRAPHICS_G6F_4XLARGE"
+  | "GRAPHICS_GR6F_4XLARGE"
   | (string & {});
 export const Compute = S.String;
 export interface ComputeType {
@@ -3806,7 +3818,11 @@ export const ImportClientBrandingResult = S.suspend(() =>
 ).annotate({
   identifier: "ImportClientBrandingResult",
 }) as any as S.Schema<ImportClientBrandingResult>;
-export type ImageComputeType = "BASE" | "GRAPHICS_G4DN" | (string & {});
+export type ImageComputeType =
+  | "BASE"
+  | "GRAPHICS_G4DN"
+  | "GRAPHICS_G6"
+  | (string & {});
 export const ImageComputeType = S.String;
 export type CustomImageProtocol = "PCOIP" | "DCV" | "BYOP" | (string & {});
 export const CustomImageProtocol = S.String;

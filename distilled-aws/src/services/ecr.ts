@@ -4954,6 +4954,8 @@ export const initiateLayerUpload: (
 }));
 /**
  * Lists the artifacts associated with a specified subject image.
+ *
+ * The IAM principal invoking this operation must have the `ecr:BatchGetImage` permission.
  */
 export const listImageReferrers: (
   input: ListImageReferrersRequest,

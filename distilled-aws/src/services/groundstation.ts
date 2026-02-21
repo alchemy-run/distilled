@@ -104,6 +104,7 @@ export type ConfigArn = string;
 export type BucketArn = string;
 export type RoleArn = string;
 export type S3KeyPrefix = string;
+export type KinesisDataStreamArn = string;
 export type PaginationMaxResults = number;
 export type PaginationToken = string;
 export type MissionProfileArn = string;
@@ -606,6 +607,35 @@ export const S3RecordingConfig = S.suspend(() =>
 ).annotate({
   identifier: "S3RecordingConfig",
 }) as any as S.Schema<S3RecordingConfig>;
+export type TelemetrySinkType = "KINESIS_DATA_STREAM" | (string & {});
+export const TelemetrySinkType = S.String;
+export interface KinesisDataStreamData {
+  kinesisRoleArn: string;
+  kinesisDataStreamArn: string;
+}
+export const KinesisDataStreamData = S.suspend(() =>
+  S.Struct({ kinesisRoleArn: S.String, kinesisDataStreamArn: S.String }),
+).annotate({
+  identifier: "KinesisDataStreamData",
+}) as any as S.Schema<KinesisDataStreamData>;
+export type TelemetrySinkData = {
+  kinesisDataStreamData: KinesisDataStreamData;
+};
+export const TelemetrySinkData = S.Union([
+  S.Struct({ kinesisDataStreamData: KinesisDataStreamData }),
+]);
+export interface TelemetrySinkConfig {
+  telemetrySinkType: TelemetrySinkType;
+  telemetrySinkData: TelemetrySinkData;
+}
+export const TelemetrySinkConfig = S.suspend(() =>
+  S.Struct({
+    telemetrySinkType: TelemetrySinkType,
+    telemetrySinkData: TelemetrySinkData,
+  }),
+).annotate({
+  identifier: "TelemetrySinkConfig",
+}) as any as S.Schema<TelemetrySinkConfig>;
 export type ConfigTypeData =
   | {
       antennaDownlinkConfig: AntennaDownlinkConfig;
@@ -615,6 +645,7 @@ export type ConfigTypeData =
       antennaUplinkConfig?: never;
       uplinkEchoConfig?: never;
       s3RecordingConfig?: never;
+      telemetrySinkConfig?: never;
     }
   | {
       antennaDownlinkConfig?: never;
@@ -624,6 +655,7 @@ export type ConfigTypeData =
       antennaUplinkConfig?: never;
       uplinkEchoConfig?: never;
       s3RecordingConfig?: never;
+      telemetrySinkConfig?: never;
     }
   | {
       antennaDownlinkConfig?: never;
@@ -633,6 +665,7 @@ export type ConfigTypeData =
       antennaUplinkConfig?: never;
       uplinkEchoConfig?: never;
       s3RecordingConfig?: never;
+      telemetrySinkConfig?: never;
     }
   | {
       antennaDownlinkConfig?: never;
@@ -642,6 +675,7 @@ export type ConfigTypeData =
       antennaUplinkConfig?: never;
       uplinkEchoConfig?: never;
       s3RecordingConfig?: never;
+      telemetrySinkConfig?: never;
     }
   | {
       antennaDownlinkConfig?: never;
@@ -651,6 +685,7 @@ export type ConfigTypeData =
       antennaUplinkConfig: AntennaUplinkConfig;
       uplinkEchoConfig?: never;
       s3RecordingConfig?: never;
+      telemetrySinkConfig?: never;
     }
   | {
       antennaDownlinkConfig?: never;
@@ -660,6 +695,7 @@ export type ConfigTypeData =
       antennaUplinkConfig?: never;
       uplinkEchoConfig: UplinkEchoConfig;
       s3RecordingConfig?: never;
+      telemetrySinkConfig?: never;
     }
   | {
       antennaDownlinkConfig?: never;
@@ -669,6 +705,17 @@ export type ConfigTypeData =
       antennaUplinkConfig?: never;
       uplinkEchoConfig?: never;
       s3RecordingConfig: S3RecordingConfig;
+      telemetrySinkConfig?: never;
+    }
+  | {
+      antennaDownlinkConfig?: never;
+      trackingConfig?: never;
+      dataflowEndpointConfig?: never;
+      antennaDownlinkDemodDecodeConfig?: never;
+      antennaUplinkConfig?: never;
+      uplinkEchoConfig?: never;
+      s3RecordingConfig?: never;
+      telemetrySinkConfig: TelemetrySinkConfig;
     };
 export const ConfigTypeData = S.Union([
   S.Struct({ antennaDownlinkConfig: AntennaDownlinkConfig }),
@@ -680,6 +727,7 @@ export const ConfigTypeData = S.Union([
   S.Struct({ antennaUplinkConfig: AntennaUplinkConfig }),
   S.Struct({ uplinkEchoConfig: UplinkEchoConfig }),
   S.Struct({ s3RecordingConfig: S3RecordingConfig }),
+  S.Struct({ telemetrySinkConfig: TelemetrySinkConfig }),
 ]);
 export interface CreateConfigRequest {
   name: string;
@@ -712,6 +760,7 @@ export type ConfigCapabilityType =
   | "antenna-uplink"
   | "uplink-echo"
   | "s3-recording"
+  | "telemetry-sink"
   | (string & {});
 export const ConfigCapabilityType = S.String;
 export interface ConfigIdResponse {
@@ -2153,6 +2202,7 @@ export interface CreateMissionProfileRequest {
   minimumViableContactDurationSeconds: number;
   dataflowEdges: string[][];
   trackingConfigArn: string;
+  telemetrySinkConfigArn?: string;
   tags?: { [key: string]: string | undefined };
   streamsKmsKey?: KmsKey;
   streamsKmsRole?: string;
@@ -2165,6 +2215,7 @@ export const CreateMissionProfileRequest = S.suspend(() =>
     minimumViableContactDurationSeconds: S.Number,
     dataflowEdges: DataflowEdgeList,
     trackingConfigArn: S.String,
+    telemetrySinkConfigArn: S.optional(S.String),
     tags: S.optional(TagsMap),
     streamsKmsKey: S.optional(KmsKey),
     streamsKmsRole: S.optional(S.String),
@@ -2218,6 +2269,7 @@ export interface GetMissionProfileResponse {
   minimumViableContactDurationSeconds?: number;
   dataflowEdges?: string[][];
   trackingConfigArn?: string;
+  telemetrySinkConfigArn?: string;
   tags?: { [key: string]: string | undefined };
   streamsKmsKey?: KmsKey;
   streamsKmsRole?: string;
@@ -2233,6 +2285,7 @@ export const GetMissionProfileResponse = S.suspend(() =>
     minimumViableContactDurationSeconds: S.optional(S.Number),
     dataflowEdges: S.optional(DataflowEdgeList),
     trackingConfigArn: S.optional(S.String),
+    telemetrySinkConfigArn: S.optional(S.String),
     tags: S.optional(TagsMap),
     streamsKmsKey: S.optional(KmsKey),
     streamsKmsRole: S.optional(S.String),
@@ -2248,6 +2301,7 @@ export interface UpdateMissionProfileRequest {
   minimumViableContactDurationSeconds?: number;
   dataflowEdges?: string[][];
   trackingConfigArn?: string;
+  telemetrySinkConfigArn?: string;
   streamsKmsKey?: KmsKey;
   streamsKmsRole?: string;
 }
@@ -2260,6 +2314,7 @@ export const UpdateMissionProfileRequest = S.suspend(() =>
     minimumViableContactDurationSeconds: S.optional(S.Number),
     dataflowEdges: S.optional(DataflowEdgeList),
     trackingConfigArn: S.optional(S.String),
+    telemetrySinkConfigArn: S.optional(S.String),
     streamsKmsKey: S.optional(KmsKey),
     streamsKmsRole: S.optional(S.String),
   }).pipe(
@@ -2846,7 +2901,13 @@ export const describeContact: (
   ],
 }));
 /**
- * Cancels a contact with a specified contact ID.
+ * Cancels or stops a contact with a specified contact ID based on its position in the contact lifecycle.
+ *
+ * For contacts that:
+ *
+ * - Have yet to start, the contact will be cancelled.
+ *
+ * - Have started but have yet to finish, the contact will be stopped.
  */
 export const cancelContact: (
   input: CancelContactRequest,
@@ -2869,7 +2930,7 @@ export const cancelContact: (
 /**
  * Returns a list of contacts.
  *
- * If `statusList` contains AVAILABLE, the request must include `groundStation`, `missionprofileArn`, and `satelliteArn`.
+ * If `statusList` contains AVAILABLE, the request must include ` groundStation`, `missionprofileArn`, and `satelliteArn`.
  */
 export const listContacts: {
   (
@@ -2918,11 +2979,11 @@ export const listContacts: {
   } as const,
 }));
 /**
- * Creates a `DataflowEndpoint` group containing the specified list of `DataflowEndpoint` objects.
+ * Creates a `DataflowEndpoint` group containing the specified list of ` DataflowEndpoint` objects.
  *
- * The `name` field in each endpoint is used in your mission profile `DataflowEndpointConfig` to specify which endpoints to use during a contact.
+ * The `name` field in each endpoint is used in your mission profile ` DataflowEndpointConfig` to specify which endpoints to use during a contact.
  *
- * When a contact uses multiple `DataflowEndpointConfig` objects, each `Config` must match a `DataflowEndpoint` in the same group.
+ * When a contact uses multiple `DataflowEndpointConfig` objects, each ` Config` must match a `DataflowEndpoint` in the same group.
  */
 export const createDataflowEndpointGroup: (
   input: CreateDataflowEndpointGroupRequest,
@@ -3034,11 +3095,11 @@ export const listDataflowEndpointGroups: {
   } as const,
 }));
 /**
- * Creates a `DataflowEndpointGroupV2` containing the specified list of `DataflowEndpoint` objects.
+ * Creates a `DataflowEndpoint` group containing the specified list of Ground Station Agent based endpoints.
  *
- * The `name` field in each endpoint is used in your mission profile `DataflowEndpointConfig` to specify which endpoints to use during a contact.
+ * The `name` field in each endpoint is used in your mission profile ` DataflowEndpointConfig` to specify which endpoints to use during a contact.
  *
- * When a contact uses multiple `DataflowEndpointConfig` objects, each `Config` must match a `DataflowEndpoint` in the same group.
+ * When a contact uses multiple `DataflowEndpointConfig` objects, each ` Config` must match a `DataflowEndpoint` in the same group.
  */
 export const createDataflowEndpointGroupV2: (
   input: CreateDataflowEndpointGroupV2Request,

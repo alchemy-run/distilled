@@ -1363,12 +1363,18 @@ export const PutTableReplicationResponse = S.suspend(() =>
 export type OpenTableFormat = "ICEBERG" | (string & {});
 export const OpenTableFormat = S.String;
 export interface SchemaField {
+  id?: number;
   name: string;
   type: string;
   required?: boolean;
 }
 export const SchemaField = S.suspend(() =>
-  S.Struct({ name: S.String, type: S.String, required: S.optional(S.Boolean) }),
+  S.Struct({
+    id: S.optional(S.Number),
+    name: S.String,
+    type: S.String,
+    required: S.optional(S.Boolean),
+  }),
 ).annotate({ identifier: "SchemaField" }) as any as S.Schema<SchemaField>;
 export type SchemaFieldList = SchemaField[];
 export const SchemaFieldList = S.Array(SchemaField);
@@ -1378,14 +1384,84 @@ export interface IcebergSchema {
 export const IcebergSchema = S.suspend(() =>
   S.Struct({ fields: SchemaFieldList }),
 ).annotate({ identifier: "IcebergSchema" }) as any as S.Schema<IcebergSchema>;
+export interface IcebergPartitionField {
+  sourceId: number;
+  transform: string;
+  name: string;
+  fieldId?: number;
+}
+export const IcebergPartitionField = S.suspend(() =>
+  S.Struct({
+    sourceId: S.Number,
+    transform: S.String,
+    name: S.String,
+    fieldId: S.optional(S.Number),
+  }).pipe(S.encodeKeys({ sourceId: "source-id", fieldId: "field-id" })),
+).annotate({
+  identifier: "IcebergPartitionField",
+}) as any as S.Schema<IcebergPartitionField>;
+export type IcebergPartitionFieldList = IcebergPartitionField[];
+export const IcebergPartitionFieldList = S.Array(IcebergPartitionField);
+export interface IcebergPartitionSpec {
+  fields: IcebergPartitionField[];
+  specId?: number;
+}
+export const IcebergPartitionSpec = S.suspend(() =>
+  S.Struct({
+    fields: IcebergPartitionFieldList,
+    specId: S.optional(S.Number),
+  }).pipe(S.encodeKeys({ specId: "spec-id" })),
+).annotate({
+  identifier: "IcebergPartitionSpec",
+}) as any as S.Schema<IcebergPartitionSpec>;
+export type IcebergSortDirection = "asc" | "desc" | (string & {});
+export const IcebergSortDirection = S.String;
+export type IcebergNullOrder = "nulls-first" | "nulls-last" | (string & {});
+export const IcebergNullOrder = S.String;
+export interface IcebergSortField {
+  sourceId: number;
+  transform: string;
+  direction: IcebergSortDirection;
+  nullOrder: IcebergNullOrder;
+}
+export const IcebergSortField = S.suspend(() =>
+  S.Struct({
+    sourceId: S.Number,
+    transform: S.String,
+    direction: IcebergSortDirection,
+    nullOrder: IcebergNullOrder,
+  }).pipe(S.encodeKeys({ sourceId: "source-id", nullOrder: "null-order" })),
+).annotate({
+  identifier: "IcebergSortField",
+}) as any as S.Schema<IcebergSortField>;
+export type IcebergSortFieldList = IcebergSortField[];
+export const IcebergSortFieldList = S.Array(IcebergSortField);
+export interface IcebergSortOrder {
+  orderId: number;
+  fields: IcebergSortField[];
+}
+export const IcebergSortOrder = S.suspend(() =>
+  S.Struct({ orderId: S.Number, fields: IcebergSortFieldList }).pipe(
+    S.encodeKeys({ orderId: "order-id" }),
+  ),
+).annotate({
+  identifier: "IcebergSortOrder",
+}) as any as S.Schema<IcebergSortOrder>;
 export type TableProperties = { [key: string]: string | undefined };
 export const TableProperties = S.Record(S.String, S.String.pipe(S.optional));
 export interface IcebergMetadata {
   schema: IcebergSchema;
+  partitionSpec?: IcebergPartitionSpec;
+  writeOrder?: IcebergSortOrder;
   properties?: { [key: string]: string | undefined };
 }
 export const IcebergMetadata = S.suspend(() =>
-  S.Struct({ schema: IcebergSchema, properties: S.optional(TableProperties) }),
+  S.Struct({
+    schema: IcebergSchema,
+    partitionSpec: S.optional(IcebergPartitionSpec),
+    writeOrder: S.optional(IcebergSortOrder),
+    properties: S.optional(TableProperties),
+  }),
 ).annotate({
   identifier: "IcebergMetadata",
 }) as any as S.Schema<IcebergMetadata>;

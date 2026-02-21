@@ -97,6 +97,7 @@ export type UpdatedAt = Date;
 export type UpdatedBy = string;
 export type AggregationId = string;
 export type MaxResults = number;
+export type NextToken = string;
 export type JobId = string;
 export type JobName = string;
 export type UserId = string;
@@ -124,9 +125,12 @@ export type TotalResults = number;
 export type StepId = string;
 export type StepName = string;
 export type StepParameterName = string;
+export type DefaultTaskCount = number;
+export type TargetRuntimeSeconds = number;
 export type CombinationExpression = string;
 export type TaskId = string;
 export type TaskRetryCount = number;
+export type SessionActionId = string;
 export type WorkerId = string;
 export type IpV4Address = string;
 export type IpV6Address = string;
@@ -170,7 +174,6 @@ export type S3BucketName = string;
 export type S3Prefix = string;
 export type Document = unknown;
 export type SessionId = string;
-export type SessionActionId = string;
 export type ProcessExitCode = number;
 export type SessionActionProgressMessage = string | redacted.Redacted<string>;
 export type SessionActionProgressPercent = number;
@@ -180,6 +183,7 @@ export type EnvironmentTemplate = string | redacted.Redacted<string>;
 export type QueueEnvironmentId = string;
 export type EnvironmentName = string;
 export type JobTemplate = string | redacted.Redacted<string>;
+export type JobDescriptionOverride = string | redacted.Redacted<string>;
 export type JobDescription = string | redacted.Redacted<string>;
 export type S3Key = string;
 export type MinOneMaxInteger = number;
@@ -800,6 +804,8 @@ export type ComparisonOperator =
   | "GREATER_THAN"
   | "LESS_THAN_EQUAL_TO"
   | "LESS_THAN"
+  | "ANY_EQUALS"
+  | "ALL_NOT_EQUALS"
   | (string & {});
 export const ComparisonOperator = S.String;
 export interface DateTimeFilterExpression {
@@ -850,12 +856,29 @@ export const StringFilterExpression = S.suspend(() =>
 ).annotate({
   identifier: "StringFilterExpression",
 }) as any as S.Schema<StringFilterExpression>;
+export type StringFilterList = string[];
+export const StringFilterList = S.Array(S.String);
+export interface StringListFilterExpression {
+  name: string;
+  operator: ComparisonOperator;
+  values: string[];
+}
+export const StringListFilterExpression = S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    operator: ComparisonOperator,
+    values: StringFilterList,
+  }),
+).annotate({
+  identifier: "StringListFilterExpression",
+}) as any as S.Schema<StringListFilterExpression>;
 export type SearchFilterExpression =
   | {
       dateTimeFilter: DateTimeFilterExpression;
       parameterFilter?: never;
       searchTermFilter?: never;
       stringFilter?: never;
+      stringListFilter?: never;
       groupFilter?: never;
     }
   | {
@@ -863,6 +886,7 @@ export type SearchFilterExpression =
       parameterFilter: ParameterFilterExpression;
       searchTermFilter?: never;
       stringFilter?: never;
+      stringListFilter?: never;
       groupFilter?: never;
     }
   | {
@@ -870,6 +894,7 @@ export type SearchFilterExpression =
       parameterFilter?: never;
       searchTermFilter: SearchTermFilterExpression;
       stringFilter?: never;
+      stringListFilter?: never;
       groupFilter?: never;
     }
   | {
@@ -877,6 +902,7 @@ export type SearchFilterExpression =
       parameterFilter?: never;
       searchTermFilter?: never;
       stringFilter: StringFilterExpression;
+      stringListFilter?: never;
       groupFilter?: never;
     }
   | {
@@ -884,6 +910,15 @@ export type SearchFilterExpression =
       parameterFilter?: never;
       searchTermFilter?: never;
       stringFilter?: never;
+      stringListFilter: StringListFilterExpression;
+      groupFilter?: never;
+    }
+  | {
+      dateTimeFilter?: never;
+      parameterFilter?: never;
+      searchTermFilter?: never;
+      stringFilter?: never;
+      stringListFilter?: never;
       groupFilter: SearchGroupedFilterExpressions;
     };
 export const SearchFilterExpression = S.Union([
@@ -891,6 +926,7 @@ export const SearchFilterExpression = S.Union([
   S.Struct({ parameterFilter: ParameterFilterExpression }),
   S.Struct({ searchTermFilter: SearchTermFilterExpression }),
   S.Struct({ stringFilter: StringFilterExpression }),
+  S.Struct({ stringListFilter: StringListFilterExpression }),
   S.Struct({
     groupFilter: S.suspend(
       (): S.Schema<SearchGroupedFilterExpressions> =>
@@ -1178,12 +1214,33 @@ export type StepParameterType =
   | "CHUNK_INT"
   | (string & {});
 export const StepParameterType = S.String;
+export type RangeConstraint = "CONTIGUOUS" | "NONCONTIGUOUS" | (string & {});
+export const RangeConstraint = S.String;
+export interface StepParameterChunks {
+  defaultTaskCount: number;
+  targetRuntimeSeconds?: number;
+  rangeConstraint: RangeConstraint;
+}
+export const StepParameterChunks = S.suspend(() =>
+  S.Struct({
+    defaultTaskCount: S.Number,
+    targetRuntimeSeconds: S.optional(S.Number),
+    rangeConstraint: RangeConstraint,
+  }),
+).annotate({
+  identifier: "StepParameterChunks",
+}) as any as S.Schema<StepParameterChunks>;
 export interface StepParameter {
   name: string;
   type: StepParameterType;
+  chunks?: StepParameterChunks;
 }
 export const StepParameter = S.suspend(() =>
-  S.Struct({ name: S.String, type: StepParameterType }),
+  S.Struct({
+    name: S.String,
+    type: StepParameterType,
+    chunks: S.optional(StepParameterChunks),
+  }),
 ).annotate({ identifier: "StepParameter" }) as any as S.Schema<StepParameter>;
 export type StepParameterList = StepParameter[];
 export const StepParameterList = S.Array(StepParameter);
@@ -1365,6 +1422,7 @@ export interface TaskSearchSummary {
   endedAt?: Date;
   updatedAt?: Date;
   updatedBy?: string;
+  latestSessionActionId?: string;
 }
 export const TaskSearchSummary = S.suspend(() =>
   S.Struct({
@@ -1384,6 +1442,7 @@ export const TaskSearchSummary = S.suspend(() =>
       T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
     updatedBy: S.optional(S.String),
+    latestSessionActionId: S.optional(S.String),
   }),
 ).annotate({
   identifier: "TaskSearchSummary",
@@ -1787,7 +1846,7 @@ export interface GetFarmResponse {
   farmId: string;
   displayName: string;
   description?: string | redacted.Redacted<string>;
-  kmsKeyArn: string;
+  kmsKeyArn?: string;
   createdAt: Date;
   createdBy: string;
   updatedAt?: Date;
@@ -1798,7 +1857,7 @@ export const GetFarmResponse = S.suspend(() =>
     farmId: S.String,
     displayName: S.String,
     description: S.optional(SensitiveString),
-    kmsKeyArn: S.String,
+    kmsKeyArn: S.optional(S.String),
     createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     createdBy: S.String,
     updatedAt: S.optional(
@@ -2544,6 +2603,7 @@ export interface CreateBudgetRequest {
   approximateDollarLimit: number;
   actions: BudgetActionToAdd[];
   schedule: BudgetSchedule;
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateBudgetRequest = S.suspend(() =>
   S.Struct({
@@ -2558,6 +2618,7 @@ export const CreateBudgetRequest = S.suspend(() =>
     approximateDollarLimit: S.Number,
     actions: BudgetActionsToAdd,
     schedule: BudgetSchedule,
+    tags: S.optional(Tags),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/2023-10-12/farms/{farmId}/budgets" }),
@@ -5455,6 +5516,9 @@ export interface CreateJobRequest {
   maxRetriesPerTask?: number;
   maxWorkerCount?: number;
   sourceJobId?: string;
+  nameOverride?: string;
+  descriptionOverride?: string | redacted.Redacted<string>;
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateJobRequest = S.suspend(() =>
   S.Struct({
@@ -5475,6 +5539,9 @@ export const CreateJobRequest = S.suspend(() =>
     maxRetriesPerTask: S.optional(S.Number),
     maxWorkerCount: S.optional(S.Number),
     sourceJobId: S.optional(S.String),
+    nameOverride: S.optional(S.String),
+    descriptionOverride: S.optional(SensitiveString),
+    tags: S.optional(Tags),
   }).pipe(
     T.all(
       T.Http({
@@ -5589,6 +5656,8 @@ export interface UpdateJobRequest {
   maxRetriesPerTask?: number;
   lifecycleStatus?: UpdateJobLifecycleStatus;
   maxWorkerCount?: number;
+  name?: string;
+  description?: string | redacted.Redacted<string>;
   farmId: string;
   queueId: string;
   jobId: string;
@@ -5605,6 +5674,8 @@ export const UpdateJobRequest = S.suspend(() =>
     maxRetriesPerTask: S.optional(S.Number),
     lifecycleStatus: S.optional(UpdateJobLifecycleStatus),
     maxWorkerCount: S.optional(S.Number),
+    name: S.optional(S.String),
+    description: S.optional(SensitiveString),
     farmId: S.String.pipe(T.HttpLabel("farmId")),
     queueId: S.String.pipe(T.HttpLabel("queueId")),
     jobId: S.String.pipe(T.HttpLabel("jobId")),
@@ -7147,34 +7218,6 @@ export const ListLicenseEndpointsResponse = S.suspend(() =>
 ).annotate({
   identifier: "ListLicenseEndpointsResponse",
 }) as any as S.Schema<ListLicenseEndpointsResponse>;
-export interface PutMeteredProductRequest {
-  licenseEndpointId: string;
-  productId: string;
-}
-export const PutMeteredProductRequest = S.suspend(() =>
-  S.Struct({
-    licenseEndpointId: S.String.pipe(T.HttpLabel("licenseEndpointId")),
-    productId: S.String.pipe(T.HttpLabel("productId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/2023-10-12/license-endpoints/{licenseEndpointId}/metered-products/{productId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "PutMeteredProductRequest",
-}) as any as S.Schema<PutMeteredProductRequest>;
-export interface PutMeteredProductResponse {}
-export const PutMeteredProductResponse = S.suspend(() => S.Struct({})).annotate(
-  { identifier: "PutMeteredProductResponse" },
-) as any as S.Schema<PutMeteredProductResponse>;
 export interface DeleteMeteredProductRequest {
   licenseEndpointId: string;
   productId: string;
@@ -7243,6 +7286,34 @@ export const ListMeteredProductsResponse = S.suspend(() =>
 ).annotate({
   identifier: "ListMeteredProductsResponse",
 }) as any as S.Schema<ListMeteredProductsResponse>;
+export interface PutMeteredProductRequest {
+  licenseEndpointId: string;
+  productId: string;
+}
+export const PutMeteredProductRequest = S.suspend(() =>
+  S.Struct({
+    licenseEndpointId: S.String.pipe(T.HttpLabel("licenseEndpointId")),
+    productId: S.String.pipe(T.HttpLabel("productId")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/2023-10-12/license-endpoints/{licenseEndpointId}/metered-products/{productId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "PutMeteredProductRequest",
+}) as any as S.Schema<PutMeteredProductRequest>;
+export interface PutMeteredProductResponse {}
+export const PutMeteredProductResponse = S.suspend(() => S.Struct({})).annotate(
+  { identifier: "PutMeteredProductResponse" },
+) as any as S.Schema<PutMeteredProductResponse>;
 export interface CreateMonitorRequest {
   clientToken?: string;
   displayName: string;
@@ -7538,10 +7609,7 @@ export const createQueueFleetAssociation: (
   ],
 }));
 /**
- * Associates a limit with a particular queue. After the limit is associated, all workers
- * for jobs that specify the limit associated with the queue are subject to the limit. You
- * can't associate two limits with the same `amountRequirementName` to the same
- * queue.
+ * Associates a limit with a particular queue. After the limit is associated, all workers for jobs that specify the limit associated with the queue are subject to the limit. You can't associate two limits with the same `amountRequirementName` to the same queue.
  */
 export const createQueueLimitAssociation: (
   input: CreateQueueLimitAssociationRequest,
@@ -7593,12 +7661,7 @@ export const deleteQueueFleetAssociation: (
   ],
 }));
 /**
- * Removes the association between a queue and a limit. You must use the
- * `UpdateQueueLimitAssociation` operation to set the status to
- * `STOP_LIMIT_USAGE_AND_COMPLETE_TASKS` or
- * `STOP_LIMIT_USAGE_AND_CANCEL_TASKS`. The status does not change immediately.
- * Use the `GetQueueLimitAssociation` operation to see if the status changed to
- * `STOPPED` before deleting the association.
+ * Removes the association between a queue and a limit. You must use the `UpdateQueueLimitAssociation` operation to set the status to `STOP_LIMIT_USAGE_AND_COMPLETE_TASKS` or `STOP_LIMIT_USAGE_AND_CANCEL_TASKS`. The status does not change immediately. Use the `GetQueueLimitAssociation` operation to see if the status changed to `STOPPED` before deleting the association.
  */
 export const deleteQueueLimitAssociation: (
   input: DeleteQueueLimitAssociationRequest,
@@ -7675,10 +7738,7 @@ export const getQueueLimitAssociation: (
   ],
 }));
 /**
- * Gets a set of statistics for queues or farms. Before you can call the
- * `GetSessionStatisticsAggregation` operation, you must first call the
- * `StartSessionsStatisticsAggregation` operation. Statistics are available for
- * 1 hour after you call the `StartSessionsStatisticsAggregation` operation.
+ * Gets a set of statistics for queues or farms. Before you can call the `GetSessionStatisticsAggregation` operation, you must first call the `StartSessionsStatisticsAggregation` operation. Statistics are available for 1 hour after you call the `StartSessionsStatisticsAggregation` operation.
  */
 export const getSessionsStatisticsAggregation: {
   (
@@ -8002,13 +8062,7 @@ export const searchWorkers: (
   ],
 }));
 /**
- * Starts an asynchronous request for getting aggregated statistics about queues and farms.
- * Get the statistics using the `GetSessionsStatisticsAggregation` operation. You
- * can only have one running aggregation for your Deadline Cloud farm. Call the
- * `GetSessionsStatisticsAggregation` operation and check the
- * `status` field to see if an aggregation is running. Statistics are available
- * for 1 hour after you call the `StartSessionsStatisticsAggregation`
- * operation.
+ * Starts an asynchronous request for getting aggregated statistics about queues and farms. Get the statistics using the `GetSessionsStatisticsAggregation` operation. You can only have one running aggregation for your Deadline Cloud farm. Call the `GetSessionsStatisticsAggregation` operation and check the `status` field to see if an aggregation is running. Statistics are available for 1 hour after you call the `StartSessionsStatisticsAggregation` operation.
  */
 export const startSessionsStatisticsAggregation: (
   input: StartSessionsStatisticsAggregationRequest,
@@ -8112,9 +8166,7 @@ export const updateQueueFleetAssociation: (
   ],
 }));
 /**
- * Updates the status of the queue. If you set the status to one of the
- * `STOP_LIMIT_USAGE*` values, there will be a delay before the status
- * transitions to the `STOPPED` state.
+ * Updates the status of the queue. If you set the status to one of the `STOP_LIMIT_USAGE*` values, there will be a delay before the status transitions to the `STOPPED` state.
  */
 export const updateQueueLimitAssociation: (
   input: UpdateQueueLimitAssociationRequest,
@@ -8139,10 +8191,7 @@ export const updateQueueLimitAssociation: (
   ],
 }));
 /**
- * Creates a farm to allow space for queues and fleets. Farms are the space where the
- * components of your renders gather and are pieced together in the cloud. Farms contain
- * budgets and allow you to enforce permissions. Deadline Cloud farms are a useful container for
- * large projects.
+ * Creates a farm to allow space for queues and fleets. Farms are the space where the components of your renders gather and are pieced together in the cloud. Farms contain budgets and allow you to enforce permissions. Deadline Cloud farms are a useful container for large projects.
  */
 export const createFarm: (
   input: CreateFarmRequest,
@@ -8324,12 +8373,9 @@ export const associateMemberToFarm: (
   ],
 }));
 /**
- * Creates a limit that manages the distribution of shared resources, such as floating
- * licenses. A limit can throttle work assignments, help manage workloads, and track current
- * usage. Before you use a limit, you must associate the limit with one or more queues.
+ * Creates a limit that manages the distribution of shared resources, such as floating licenses. A limit can throttle work assignments, help manage workloads, and track current usage. Before you use a limit, you must associate the limit with one or more queues.
  *
- * You must add the `amountRequirementName` to a step in a job template to
- * declare the limit requirement.
+ * You must add the `amountRequirementName` to a step in a job template to declare the limit requirement.
  */
 export const createLimit: (
   input: CreateLimitRequest,
@@ -8356,8 +8402,7 @@ export const createLimit: (
   ],
 }));
 /**
- * Creates a storage profile that specifies the operating system, file type, and file
- * location of resources used on a farm.
+ * Creates a storage profile that specifies the operating system, file type, and file location of resources used on a farm.
  */
 export const createStorageProfile: (
   input: CreateStorageProfileRequest,
@@ -8384,9 +8429,7 @@ export const createStorageProfile: (
   ],
 }));
 /**
- * Removes a limit from the specified farm. Before you delete a limit you must use the
- * `DeleteQueueLimitAssociation` operation to remove the association with any
- * queues.
+ * Removes a limit from the specified farm. Before you delete a limit you must use the `DeleteQueueLimitAssociation` operation to remove the association with any queues.
  */
 export const deleteLimit: (
   input: DeleteLimitRequest,
@@ -8887,9 +8930,7 @@ export const listBudgets: {
   } as const,
 }));
 /**
- * Creates a fleet. Fleets gather information relating to compute, or capacity, for renders
- * within your farms. You can choose to manage your own capacity or opt to have fleets fully
- * managed by Deadline Cloud.
+ * Creates a fleet. Fleets gather information relating to compute, or capacity, for renders within your farms. You can choose to manage your own capacity or opt to have fleets fully managed by Deadline Cloud.
  */
 export const createFleet: (
   input: CreateFleetRequest,
@@ -9079,8 +9120,7 @@ export const associateMemberToFleet: (
   ],
 }));
 /**
- * Get Amazon Web Services credentials from the fleet role. The IAM permissions of the credentials are
- * scoped down to have read-only access.
+ * Get Amazon Web Services credentials from the fleet role. The IAM permissions of the credentials are scoped down to have read-only access.
  */
 export const assumeFleetRoleForRead: (
   input: AssumeFleetRoleForReadRequest,
@@ -9189,18 +9229,9 @@ export const listFleetMembers: {
   } as const,
 }));
 /**
- * Creates a worker. A worker tells your instance how much processing power (vCPU), and
- * memory (GiB) you’ll need to assemble the digital assets held within a particular instance.
- * You can specify certain instance types to use, or let the worker know which instances types
- * to exclude.
+ * Creates a worker. A worker tells your instance how much processing power (vCPU), and memory (GiB) you’ll need to assemble the digital assets held within a particular instance. You can specify certain instance types to use, or let the worker know which instances types to exclude.
  *
- * Deadline Cloud limits the number of workers to less than or equal to the fleet's
- * maximum worker count. The service maintains eventual consistency for the worker count. If
- * you make multiple rapid calls to `CreateWorker` before the field updates, you
- * might exceed your fleet's maximum worker count. For example, if your
- * `maxWorkerCount` is 10 and you currently have 9 workers, making two quick
- * `CreateWorker` calls might successfully create 2 workers instead of 1,
- * resulting in 11 total workers.
+ * Deadline Cloud limits the number of workers to less than or equal to the fleet's maximum worker count. The service maintains eventual consistency for the worker count. If you make multiple rapid calls to `CreateWorker` before the field updates, you might exceed your fleet's maximum worker count. For example, if your `maxWorkerCount` is 10 and you currently have 9 workers, making two quick `CreateWorker` calls might successfully create 2 workers instead of 1, resulting in 11 total workers.
  */
 export const createWorker: (
   input: CreateWorkerRequest,
@@ -9526,8 +9557,7 @@ export const updateWorkerSchedule: (
   ],
 }));
 /**
- * Creates a queue to coordinate the order in which jobs run on a farm. A queue can also
- * specify where to pull resources and indicate where to output completed jobs.
+ * Creates a queue to coordinate the order in which jobs run on a farm. A queue can also specify where to pull resources and indicate where to output completed jobs.
  */
 export const createQueue: (
   input: CreateQueueRequest,
@@ -9606,8 +9636,7 @@ export const updateQueue: (
 /**
  * Deletes a queue.
  *
- * You can't recover the jobs in a queue if you delete the queue. Deleting the queue
- * also deletes the jobs in that queue.
+ * You can't recover the jobs in a queue if you delete the queue. Deleting the queue also deletes the jobs in that queue.
  */
 export const deleteQueue: (
   input: DeleteQueueRequest,
@@ -9718,8 +9747,7 @@ export const associateMemberToQueue: (
   ],
 }));
 /**
- * Gets Amazon Web Services credentials from the queue role. The IAM permissions of the credentials are
- * scoped down to have read-only access.
+ * Gets Amazon Web Services credentials from the queue role. The IAM permissions of the credentials are scoped down to have read-only access.
  */
 export const assumeQueueRoleForRead: (
   input: AssumeQueueRoleForReadRequest,
@@ -10092,9 +10120,7 @@ export const updateQueueEnvironment: (
   ],
 }));
 /**
- * Creates a job. A job is a set of instructions that Deadline Cloud uses to schedule
- * and run work on available workers. For more information, see Deadline Cloud
- * jobs.
+ * Creates a job. A job is a set of instructions that Deadline Cloud uses to schedule and run work on available workers. For more information, see Deadline Cloud jobs.
  */
 export const createJob: (
   input: CreateJobRequest,
@@ -10148,11 +10174,9 @@ export const getJob: (
 /**
  * Updates a job.
  *
- * When you change the status of the job to `ARCHIVED`, the job can't be
- * scheduled or archived.
+ * When you change the status of the job to `ARCHIVED`, the job can't be scheduled or archived.
  *
- * An archived jobs and its steps and tasks are deleted after 120 days. The job can't be
- * recovered.
+ * An archived jobs and its steps and tasks are deleted after 120 days. The job can't be recovered.
  */
 export const updateJob: (
   input: UpdateJobRequest,
@@ -10950,8 +10974,7 @@ export const updateTask: (
   ],
 }));
 /**
- * Creates a license endpoint to integrate your various licensed software used for
- * rendering on Deadline Cloud.
+ * Creates a license endpoint to integrate your various licensed software used for rendering on Deadline Cloud.
  */
 export const createLicenseEndpoint: (
   input: CreateLicenseEndpointRequest,
@@ -11087,31 +11110,6 @@ export const listLicenseEndpoints: {
   } as const,
 }));
 /**
- * Adds a metered product.
- */
-export const putMeteredProduct: (
-  input: PutMeteredProductRequest,
-) => effect.Effect<
-  PutMeteredProductResponse,
-  | AccessDeniedException
-  | InternalServerErrorException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PutMeteredProductRequest,
-  output: PutMeteredProductResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerErrorException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
  * Deletes a metered product.
  */
 export const deleteMeteredProduct: (
@@ -11194,9 +11192,32 @@ export const listMeteredProducts: {
   } as const,
 }));
 /**
- * Creates an Amazon Web Services Deadline Cloud monitor that you can use to view your farms, queues, and
- * fleets. After you submit a job, you can track the progress of the tasks and steps that make
- * up the job, and then download the job's results.
+ * Adds a metered product.
+ */
+export const putMeteredProduct: (
+  input: PutMeteredProductRequest,
+) => effect.Effect<
+  PutMeteredProductResponse,
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutMeteredProductRequest,
+  output: PutMeteredProductResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerErrorException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Creates an Amazon Web Services Deadline Cloud monitor that you can use to view your farms, queues, and fleets. After you submit a job, you can track the progress of the tasks and steps that make up the job, and then download the job's results.
  */
 export const createMonitor: (
   input: CreateMonitorRequest,
@@ -11246,8 +11267,7 @@ export const getMonitor: (
   ],
 }));
 /**
- * Modifies the settings for a Deadline Cloud monitor. You can modify one or all of the settings
- * when you call `UpdateMonitor`.
+ * Modifies the settings for a Deadline Cloud monitor. You can modify one or all of the settings when you call `UpdateMonitor`.
  */
 export const updateMonitor: (
   input: UpdateMonitorRequest,
@@ -11272,8 +11292,7 @@ export const updateMonitor: (
   ],
 }));
 /**
- * Removes a Deadline Cloud monitor. After you delete a monitor, you can create a new one and
- * attach farms to the monitor.
+ * Removes a Deadline Cloud monitor. After you delete a monitor, you can create a new one and attach farms to the monitor.
  */
 export const deleteMonitor: (
   input: DeleteMonitorRequest,

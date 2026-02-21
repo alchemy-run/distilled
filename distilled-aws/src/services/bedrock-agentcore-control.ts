@@ -126,8 +126,12 @@ export type CredentialProviderName = string;
 export type ApiKeyType = string | redacted.Redacted<string>;
 export type SecretArn = string;
 export type ApiKeyCredentialProviderArnType = string;
-export type SandboxName = string;
+export type BrowserProfileName = string;
+export type BrowserProfileId = string;
+export type BrowserProfileArn = string;
+export type BrowserSessionId = string;
 export type BrowserId = string;
+export type SandboxName = string;
 export type BrowserArn = string;
 export type CodeInterpreterId = string;
 export type CodeInterpreterArn = string;
@@ -1463,6 +1467,210 @@ export const ListApiKeyCredentialProvidersResponse = S.suspend(() =>
 ).annotate({
   identifier: "ListApiKeyCredentialProvidersResponse",
 }) as any as S.Schema<ListApiKeyCredentialProvidersResponse>;
+export interface CreateBrowserProfileRequest {
+  name: string;
+  description?: string | redacted.Redacted<string>;
+  clientToken?: string;
+  tags?: { [key: string]: string | undefined };
+}
+export const CreateBrowserProfileRequest = S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    description: S.optional(SensitiveString),
+    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+    tags: S.optional(TagsMap),
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/browser-profiles" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "CreateBrowserProfileRequest",
+}) as any as S.Schema<CreateBrowserProfileRequest>;
+export type BrowserProfileStatus =
+  | "READY"
+  | "DELETING"
+  | "DELETED"
+  | "SAVING"
+  | (string & {});
+export const BrowserProfileStatus = S.String;
+export interface CreateBrowserProfileResponse {
+  profileId: string;
+  profileArn: string;
+  createdAt: Date;
+  status: BrowserProfileStatus;
+}
+export const CreateBrowserProfileResponse = S.suspend(() =>
+  S.Struct({
+    profileId: S.String,
+    profileArn: S.String,
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    status: BrowserProfileStatus,
+  }),
+).annotate({
+  identifier: "CreateBrowserProfileResponse",
+}) as any as S.Schema<CreateBrowserProfileResponse>;
+export interface GetBrowserProfileRequest {
+  profileId: string;
+}
+export const GetBrowserProfileRequest = S.suspend(() =>
+  S.Struct({ profileId: S.String.pipe(T.HttpLabel("profileId")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/browser-profiles/{profileId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetBrowserProfileRequest",
+}) as any as S.Schema<GetBrowserProfileRequest>;
+export interface GetBrowserProfileResponse {
+  profileId: string;
+  profileArn: string;
+  name: string;
+  description?: string | redacted.Redacted<string>;
+  status: BrowserProfileStatus;
+  createdAt: Date;
+  lastUpdatedAt: Date;
+  lastSavedAt?: Date;
+  lastSavedBrowserSessionId?: string;
+  lastSavedBrowserId?: string;
+}
+export const GetBrowserProfileResponse = S.suspend(() =>
+  S.Struct({
+    profileId: S.String,
+    profileArn: S.String,
+    name: S.String,
+    description: S.optional(SensitiveString),
+    status: BrowserProfileStatus,
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    lastUpdatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    lastSavedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    lastSavedBrowserSessionId: S.optional(S.String),
+    lastSavedBrowserId: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GetBrowserProfileResponse",
+}) as any as S.Schema<GetBrowserProfileResponse>;
+export interface DeleteBrowserProfileRequest {
+  profileId: string;
+  clientToken?: string;
+}
+export const DeleteBrowserProfileRequest = S.suspend(() =>
+  S.Struct({
+    profileId: S.String.pipe(T.HttpLabel("profileId")),
+    clientToken: S.optional(S.String).pipe(
+      T.HttpQuery("clientToken"),
+      T.IdempotencyToken(),
+    ),
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/browser-profiles/{profileId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeleteBrowserProfileRequest",
+}) as any as S.Schema<DeleteBrowserProfileRequest>;
+export interface DeleteBrowserProfileResponse {
+  profileId: string;
+  profileArn: string;
+  status: BrowserProfileStatus;
+  lastUpdatedAt: Date;
+  lastSavedAt?: Date;
+}
+export const DeleteBrowserProfileResponse = S.suspend(() =>
+  S.Struct({
+    profileId: S.String,
+    profileArn: S.String,
+    status: BrowserProfileStatus,
+    lastUpdatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    lastSavedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+  }),
+).annotate({
+  identifier: "DeleteBrowserProfileResponse",
+}) as any as S.Schema<DeleteBrowserProfileResponse>;
+export interface ListBrowserProfilesRequest {
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListBrowserProfilesRequest = S.suspend(() =>
+  S.Struct({
+    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/browser-profiles" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListBrowserProfilesRequest",
+}) as any as S.Schema<ListBrowserProfilesRequest>;
+export interface BrowserProfileSummary {
+  profileId: string;
+  profileArn: string;
+  name: string;
+  description?: string | redacted.Redacted<string>;
+  status: BrowserProfileStatus;
+  createdAt: Date;
+  lastUpdatedAt: Date;
+  lastSavedAt?: Date;
+  lastSavedBrowserSessionId?: string;
+  lastSavedBrowserId?: string;
+}
+export const BrowserProfileSummary = S.suspend(() =>
+  S.Struct({
+    profileId: S.String,
+    profileArn: S.String,
+    name: S.String,
+    description: S.optional(SensitiveString),
+    status: BrowserProfileStatus,
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    lastUpdatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    lastSavedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    lastSavedBrowserSessionId: S.optional(S.String),
+    lastSavedBrowserId: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "BrowserProfileSummary",
+}) as any as S.Schema<BrowserProfileSummary>;
+export type BrowserProfileSummaries = BrowserProfileSummary[];
+export const BrowserProfileSummaries = S.Array(BrowserProfileSummary);
+export interface ListBrowserProfilesResponse {
+  profileSummaries: BrowserProfileSummary[];
+  nextToken?: string;
+}
+export const ListBrowserProfilesResponse = S.suspend(() =>
+  S.Struct({
+    profileSummaries: BrowserProfileSummaries,
+    nextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ListBrowserProfilesResponse",
+}) as any as S.Schema<ListBrowserProfilesResponse>;
 export type BrowserNetworkMode = "PUBLIC" | "VPC" | (string & {});
 export const BrowserNetworkMode = S.String;
 export interface BrowserNetworkConfiguration {
@@ -2026,6 +2234,7 @@ export interface CreateEvaluatorRequest {
   description?: string | redacted.Redacted<string>;
   evaluatorConfig: EvaluatorConfig;
   level: EvaluatorLevel;
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateEvaluatorRequest = S.suspend(() =>
   S.Struct({
@@ -2034,6 +2243,7 @@ export const CreateEvaluatorRequest = S.suspend(() =>
     description: S.optional(SensitiveString),
     evaluatorConfig: EvaluatorConfig,
     level: EvaluatorLevel,
+    tags: S.optional(TagsMap),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/evaluators/create" }),
@@ -5268,6 +5478,7 @@ export interface CreateOnlineEvaluationConfigRequest {
   evaluators: EvaluatorReference[];
   evaluationExecutionRoleArn: string;
   enableOnCreate: boolean;
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateOnlineEvaluationConfigRequest = S.suspend(() =>
   S.Struct({
@@ -5279,6 +5490,7 @@ export const CreateOnlineEvaluationConfigRequest = S.suspend(() =>
     evaluators: EvaluatorList,
     evaluationExecutionRoleArn: S.String,
     enableOnCreate: S.Boolean,
+    tags: S.optional(TagsMap),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/online-evaluation-configs/create" }),
@@ -6726,7 +6938,7 @@ export const getTokenVault: (
 /**
  * Lists the tags associated with the specified resource.
  *
- * This feature is currently available only for AgentCore Runtime, Browser, Code Interpreter tool, and Gateway.
+ * This feature is currently available only for AgentCore Runtime, Browser, Browser Profile, Code Interpreter tool, and Gateway.
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
@@ -6809,7 +7021,7 @@ export const setTokenVaultCMK: (
 /**
  * Associates the specified tags to a resource with the specified resourceArn. If existing tags on a resource are not specified in the request parameters, they are not changed. When a resource is deleted, the tags associated with that resource are also deleted.
  *
- * This feature is currently available only for AgentCore Runtime, Browser, Code Interpreter tool, and Gateway.
+ * This feature is currently available only for AgentCore Runtime, Browser, Browser Profile, Code Interpreter tool, and Gateway.
  */
 export const tagResource: (
   input: TagResourceRequest,
@@ -6838,7 +7050,7 @@ export const tagResource: (
 /**
  * Removes the specified tags from the specified resource.
  *
- * This feature is currently available only for AgentCore Runtime, Browser, Code Interpreter tool, and Gateway.
+ * This feature is currently available only for AgentCore Runtime, Browser, Browser Profile, Code Interpreter tool, and Gateway.
  */
 export const untagResource: (
   input: UntagResourceRequest,
@@ -7425,6 +7637,138 @@ export const listApiKeyCredentialProviders: {
     inputToken: "nextToken",
     outputToken: "nextToken",
     items: "credentialProviders",
+    pageSize: "maxResults",
+  } as const,
+}));
+/**
+ * Creates a browser profile in Amazon Bedrock AgentCore. A browser profile stores persistent browser data such as cookies, local storage, session storage, and browsing history that can be saved from browser sessions and reused in subsequent sessions.
+ */
+export const createBrowserProfile: (
+  input: CreateBrowserProfileRequest,
+) => effect.Effect<
+  CreateBrowserProfileResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateBrowserProfileRequest,
+  output: CreateBrowserProfileResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Gets information about a browser profile.
+ */
+export const getBrowserProfile: (
+  input: GetBrowserProfileRequest,
+) => effect.Effect<
+  GetBrowserProfileResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetBrowserProfileRequest,
+  output: GetBrowserProfileResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Deletes a browser profile.
+ */
+export const deleteBrowserProfile: (
+  input: DeleteBrowserProfileRequest,
+) => effect.Effect<
+  DeleteBrowserProfileResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteBrowserProfileRequest,
+  output: DeleteBrowserProfileResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Lists all browser profiles in your account.
+ */
+export const listBrowserProfiles: {
+  (
+    input: ListBrowserProfilesRequest,
+  ): effect.Effect<
+    ListBrowserProfilesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListBrowserProfilesRequest,
+  ) => stream.Stream<
+    ListBrowserProfilesResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListBrowserProfilesRequest,
+  ) => stream.Stream<
+    BrowserProfileSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListBrowserProfilesRequest,
+  output: ListBrowserProfilesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "profileSummaries",
     pageSize: "maxResults",
   } as const,
 }));

@@ -223,6 +223,9 @@ export type ClusterInstanceCount = number;
 export type ClusterLifeCycleConfigFileName = string;
 export type ClusterThreadsPerCore = number;
 export type ClusterEbsVolumeSizeInGB = number;
+export type ClusterDnsName = string;
+export type ClusterMountName = string;
+export type ClusterFsxMountPath = string;
 export type CronScheduleExpression = string;
 export type NodeUnavailabilityValue = number;
 export type WaitTimeIntervalInSeconds = number;
@@ -232,6 +235,7 @@ export type ClusterKubernetesLabelKey = string;
 export type ClusterKubernetesLabelValue = string;
 export type ClusterKubernetesTaintKey = string;
 export type ClusterKubernetesTaintValue = string;
+export type ClusterPartitionName = string;
 export type FSxLustreSizeInGiB = number;
 export type FSxLustrePerUnitStorageThroughput = number;
 export type EksClusterArn = string;
@@ -2317,6 +2321,12 @@ export type TrainingInstanceType =
   | "ml.p6e-gb200.36xlarge"
   | "ml.p5.4xlarge"
   | "ml.p6-b300.48xlarge"
+  | "ml.g7e.2xlarge"
+  | "ml.g7e.4xlarge"
+  | "ml.g7e.8xlarge"
+  | "ml.g7e.12xlarge"
+  | "ml.g7e.24xlarge"
+  | "ml.g7e.48xlarge"
   | (string & {});
 export const TrainingInstanceType = S.String;
 export type TrainingInstanceTypes = TrainingInstanceType[];
@@ -3959,11 +3969,49 @@ export const ClusterEbsVolumeConfig = S.suspend(() =>
 ).annotate({
   identifier: "ClusterEbsVolumeConfig",
 }) as any as S.Schema<ClusterEbsVolumeConfig>;
-export type ClusterInstanceStorageConfig = {
-  EbsVolumeConfig: ClusterEbsVolumeConfig;
-};
+export interface ClusterFsxLustreConfig {
+  DnsName: string;
+  MountName: string;
+  MountPath?: string;
+}
+export const ClusterFsxLustreConfig = S.suspend(() =>
+  S.Struct({
+    DnsName: S.String,
+    MountName: S.String,
+    MountPath: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ClusterFsxLustreConfig",
+}) as any as S.Schema<ClusterFsxLustreConfig>;
+export interface ClusterFsxOpenZfsConfig {
+  DnsName: string;
+  MountPath?: string;
+}
+export const ClusterFsxOpenZfsConfig = S.suspend(() =>
+  S.Struct({ DnsName: S.String, MountPath: S.optional(S.String) }),
+).annotate({
+  identifier: "ClusterFsxOpenZfsConfig",
+}) as any as S.Schema<ClusterFsxOpenZfsConfig>;
+export type ClusterInstanceStorageConfig =
+  | {
+      EbsVolumeConfig: ClusterEbsVolumeConfig;
+      FsxLustreConfig?: never;
+      FsxOpenZfsConfig?: never;
+    }
+  | {
+      EbsVolumeConfig?: never;
+      FsxLustreConfig: ClusterFsxLustreConfig;
+      FsxOpenZfsConfig?: never;
+    }
+  | {
+      EbsVolumeConfig?: never;
+      FsxLustreConfig?: never;
+      FsxOpenZfsConfig: ClusterFsxOpenZfsConfig;
+    };
 export const ClusterInstanceStorageConfig = S.Union([
   S.Struct({ EbsVolumeConfig: ClusterEbsVolumeConfig }),
+  S.Struct({ FsxLustreConfig: ClusterFsxLustreConfig }),
+  S.Struct({ FsxOpenZfsConfig: ClusterFsxOpenZfsConfig }),
 ]);
 export type ClusterInstanceStorageConfigs = ClusterInstanceStorageConfig[];
 export const ClusterInstanceStorageConfigs = S.Array(
@@ -4078,6 +4126,26 @@ export const ClusterKubernetesConfig = S.suspend(() =>
 ).annotate({
   identifier: "ClusterKubernetesConfig",
 }) as any as S.Schema<ClusterKubernetesConfig>;
+export type ClusterSlurmNodeType =
+  | "Controller"
+  | "Login"
+  | "Compute"
+  | (string & {});
+export const ClusterSlurmNodeType = S.String;
+export type ClusterPartitionNames = string[];
+export const ClusterPartitionNames = S.Array(S.String);
+export interface ClusterSlurmConfig {
+  NodeType: ClusterSlurmNodeType;
+  PartitionNames?: string[];
+}
+export const ClusterSlurmConfig = S.suspend(() =>
+  S.Struct({
+    NodeType: ClusterSlurmNodeType,
+    PartitionNames: S.optional(ClusterPartitionNames),
+  }),
+).annotate({
+  identifier: "ClusterSlurmConfig",
+}) as any as S.Schema<ClusterSlurmConfig>;
 export interface ClusterSpotOptions {}
 export const ClusterSpotOptions = S.suspend(() => S.Struct({})).annotate({
   identifier: "ClusterSpotOptions",
@@ -4113,6 +4181,7 @@ export interface ClusterInstanceGroupSpecification {
   ScheduledUpdateConfig?: ScheduledUpdateConfig;
   ImageId?: string;
   KubernetesConfig?: ClusterKubernetesConfig;
+  SlurmConfig?: ClusterSlurmConfig;
   CapacityRequirements?: ClusterCapacityRequirements;
 }
 export const ClusterInstanceGroupSpecification = S.suspend(() =>
@@ -4131,6 +4200,7 @@ export const ClusterInstanceGroupSpecification = S.suspend(() =>
     ScheduledUpdateConfig: S.optional(ScheduledUpdateConfig),
     ImageId: S.optional(S.String),
     KubernetesConfig: S.optional(ClusterKubernetesConfig),
+    SlurmConfig: S.optional(ClusterSlurmConfig),
     CapacityRequirements: S.optional(ClusterCapacityRequirements),
   }),
 ).annotate({
@@ -4204,11 +4274,29 @@ export const ClusterOrchestratorEksConfig = S.suspend(() =>
 ).annotate({
   identifier: "ClusterOrchestratorEksConfig",
 }) as any as S.Schema<ClusterOrchestratorEksConfig>;
+export type ClusterSlurmConfigStrategy =
+  | "Overwrite"
+  | "Managed"
+  | "Merge"
+  | (string & {});
+export const ClusterSlurmConfigStrategy = S.String;
+export interface ClusterOrchestratorSlurmConfig {
+  SlurmConfigStrategy?: ClusterSlurmConfigStrategy;
+}
+export const ClusterOrchestratorSlurmConfig = S.suspend(() =>
+  S.Struct({ SlurmConfigStrategy: S.optional(ClusterSlurmConfigStrategy) }),
+).annotate({
+  identifier: "ClusterOrchestratorSlurmConfig",
+}) as any as S.Schema<ClusterOrchestratorSlurmConfig>;
 export interface ClusterOrchestrator {
   Eks?: ClusterOrchestratorEksConfig;
+  Slurm?: ClusterOrchestratorSlurmConfig;
 }
 export const ClusterOrchestrator = S.suspend(() =>
-  S.Struct({ Eks: S.optional(ClusterOrchestratorEksConfig) }),
+  S.Struct({
+    Eks: S.optional(ClusterOrchestratorEksConfig),
+    Slurm: S.optional(ClusterOrchestratorSlurmConfig),
+  }),
 ).annotate({
   identifier: "ClusterOrchestrator",
 }) as any as S.Schema<ClusterOrchestrator>;
@@ -4307,14 +4395,18 @@ export type PriorityClassList = PriorityClass[];
 export const PriorityClassList = S.Array(PriorityClass);
 export type FairShare = "Enabled" | "Disabled" | (string & {});
 export const FairShare = S.String;
+export type IdleResourceSharing = "Enabled" | "Disabled" | (string & {});
+export const IdleResourceSharing = S.String;
 export interface SchedulerConfig {
   PriorityClasses?: PriorityClass[];
   FairShare?: FairShare;
+  IdleResourceSharing?: IdleResourceSharing;
 }
 export const SchedulerConfig = S.suspend(() =>
   S.Struct({
     PriorityClasses: S.optional(PriorityClassList),
     FairShare: S.optional(FairShare),
+    IdleResourceSharing: S.optional(IdleResourceSharing),
   }),
 ).annotate({
   identifier: "SchedulerConfig",
@@ -4640,14 +4732,20 @@ export type ResourceSharingStrategy =
   | "LendAndBorrow"
   | (string & {});
 export const ResourceSharingStrategy = S.String;
+export type AbsoluteBorrowLimitResourceList = ComputeQuotaResourceConfig[];
+export const AbsoluteBorrowLimitResourceList = S.Array(
+  ComputeQuotaResourceConfig,
+);
 export interface ResourceSharingConfig {
   Strategy?: ResourceSharingStrategy;
   BorrowLimit?: number;
+  AbsoluteBorrowLimits?: ComputeQuotaResourceConfig[];
 }
 export const ResourceSharingConfig = S.suspend(() =>
   S.Struct({
     Strategy: S.optional(ResourceSharingStrategy),
     BorrowLimit: S.optional(S.Number),
+    AbsoluteBorrowLimits: S.optional(AbsoluteBorrowLimitResourceList),
   }),
 ).annotate({
   identifier: "ResourceSharingConfig",
@@ -5110,6 +5208,12 @@ export type ProcessingInstanceType =
   | "ml.r7i.24xlarge"
   | "ml.r7i.48xlarge"
   | "ml.p5.4xlarge"
+  | "ml.g7e.2xlarge"
+  | "ml.g7e.4xlarge"
+  | "ml.g7e.8xlarge"
+  | "ml.g7e.12xlarge"
+  | "ml.g7e.24xlarge"
+  | "ml.g7e.48xlarge"
   | (string & {});
 export const ProcessingInstanceType = S.String;
 export interface MonitoringClusterConfig {
@@ -14734,6 +14838,18 @@ export type SoftwareUpdateStatus =
   | "RollbackComplete"
   | (string & {});
 export const SoftwareUpdateStatus = S.String;
+export interface ClusterSlurmConfigDetails {
+  NodeType: ClusterSlurmNodeType;
+  PartitionNames?: string[];
+}
+export const ClusterSlurmConfigDetails = S.suspend(() =>
+  S.Struct({
+    NodeType: ClusterSlurmNodeType,
+    PartitionNames: S.optional(ClusterPartitionNames),
+  }),
+).annotate({
+  identifier: "ClusterSlurmConfigDetails",
+}) as any as S.Schema<ClusterSlurmConfigDetails>;
 export interface ClusterInstanceGroupDetails {
   CurrentCount?: number;
   TargetCount?: number;
@@ -14758,6 +14874,7 @@ export interface ClusterInstanceGroupDetails {
   TargetStateCount?: number;
   SoftwareUpdateStatus?: SoftwareUpdateStatus;
   ActiveSoftwareUpdateConfig?: DeploymentConfiguration;
+  SlurmConfig?: ClusterSlurmConfigDetails;
 }
 export const ClusterInstanceGroupDetails = S.suspend(() =>
   S.Struct({
@@ -14784,6 +14901,7 @@ export const ClusterInstanceGroupDetails = S.suspend(() =>
     TargetStateCount: S.optional(S.Number),
     SoftwareUpdateStatus: S.optional(SoftwareUpdateStatus),
     ActiveSoftwareUpdateConfig: S.optional(DeploymentConfiguration),
+    SlurmConfig: S.optional(ClusterSlurmConfigDetails),
   }),
 ).annotate({
   identifier: "ClusterInstanceGroupDetails",
@@ -15227,9 +15345,10 @@ export const ClusterInstancePlacement = S.suspend(() =>
 }) as any as S.Schema<ClusterInstancePlacement>;
 export interface UltraServerInfo {
   Id?: string;
+  Type?: string;
 }
 export const UltraServerInfo = S.suspend(() =>
-  S.Struct({ Id: S.optional(S.String) }),
+  S.Struct({ Id: S.optional(S.String), Type: S.optional(S.String) }),
 ).annotate({
   identifier: "UltraServerInfo",
 }) as any as S.Schema<UltraServerInfo>;
@@ -15358,6 +15477,19 @@ export type SchedulerResourceStatus =
   | "Deleted"
   | (string & {});
 export const SchedulerResourceStatus = S.String;
+export type SchedulerConfigComponent =
+  | "PriorityClasses"
+  | "FairShare"
+  | "IdleResourceSharing"
+  | (string & {});
+export const SchedulerConfigComponent = S.String;
+export type StatusDetailsMap = {
+  [key in SchedulerConfigComponent]?: SchedulerResourceStatus;
+};
+export const StatusDetailsMap = S.Record(
+  SchedulerConfigComponent,
+  SchedulerResourceStatus.pipe(S.optional),
+);
 export interface DescribeClusterSchedulerConfigResponse {
   ClusterSchedulerConfigArn: string;
   ClusterSchedulerConfigId: string;
@@ -15365,6 +15497,7 @@ export interface DescribeClusterSchedulerConfigResponse {
   ClusterSchedulerConfigVersion: number;
   Status: SchedulerResourceStatus;
   FailureReason?: string;
+  StatusDetails?: { [key: string]: SchedulerResourceStatus | undefined };
   ClusterArn?: string;
   SchedulerConfig?: SchedulerConfig & {
     PriorityClasses: (PriorityClass & {
@@ -15386,6 +15519,7 @@ export const DescribeClusterSchedulerConfigResponse = S.suspend(() =>
     ClusterSchedulerConfigVersion: S.optional(S.Number),
     Status: S.optional(SchedulerResourceStatus),
     FailureReason: S.optional(S.String),
+    StatusDetails: S.optional(StatusDetailsMap),
     ClusterArn: S.optional(S.String),
     SchedulerConfig: S.optional(SchedulerConfig),
     Description: S.optional(S.String),
@@ -15584,6 +15718,13 @@ export interface DescribeComputeQuotaResponse {
     })[];
     ResourceSharingConfig: ResourceSharingConfig & {
       Strategy: ResourceSharingStrategy;
+      AbsoluteBorrowLimits: (ComputeQuotaResourceConfig & {
+        InstanceType: ClusterInstanceType;
+        AcceleratorPartition: AcceleratorPartitionConfig & {
+          Type: MIGProfileType;
+          Count: number;
+        };
+      })[];
     };
   };
   ComputeQuotaTarget: ComputeQuotaTarget & {
@@ -23631,6 +23772,13 @@ export interface ListComputeQuotasResponse {
       })[];
       ResourceSharingConfig: ResourceSharingConfig & {
         Strategy: ResourceSharingStrategy;
+        AbsoluteBorrowLimits: (ComputeQuotaResourceConfig & {
+          InstanceType: ClusterInstanceType;
+          AcceleratorPartition: AcceleratorPartitionConfig & {
+            Type: MIGProfileType;
+            Count: number;
+          };
+        })[];
       };
     };
   })[];
@@ -33031,6 +33179,7 @@ export interface UpdateClusterRequest {
   NodeProvisioningMode?: ClusterNodeProvisioningMode;
   ClusterRole?: string;
   AutoScaling?: ClusterAutoScalingConfig;
+  Orchestrator?: ClusterOrchestrator;
 }
 export const UpdateClusterRequest = S.suspend(() =>
   S.Struct({
@@ -33045,6 +33194,7 @@ export const UpdateClusterRequest = S.suspend(() =>
     NodeProvisioningMode: S.optional(ClusterNodeProvisioningMode),
     ClusterRole: S.optional(S.String),
     AutoScaling: S.optional(ClusterAutoScalingConfig),
+    Orchestrator: S.optional(ClusterOrchestrator),
   }).pipe(
     T.all(
       ns,
@@ -35897,6 +36047,8 @@ export const createNotebookInstance: (
  * Lifecycle configuration scripts cannot run for longer than 5 minutes. If a script runs for longer than 5 minutes, it fails and the notebook instance is not created or started.
  *
  * For information about notebook instance lifestyle configurations, see Step 2.1: (Optional) Customize a Notebook Instance.
+ *
+ * Lifecycle configuration scripts execute with root access and the notebook instance's IAM execution role privileges. Grant this permission only to trusted principals. See Customize a Notebook Instance Using a Lifecycle Configuration Script for security best practices.
  */
 export const createNotebookInstanceLifecycleConfig: (
   input: CreateNotebookInstanceLifecycleConfigInput,
@@ -42323,6 +42475,8 @@ export const updateMonitoringSchedule: (
 }));
 /**
  * Updates a notebook instance. NotebookInstance updates include upgrading or downgrading the ML compute instance used for your notebook instance to accommodate changes in your workload requirements.
+ *
+ * This API can attach lifecycle configurations to notebook instances. Lifecycle configuration scripts execute with root access and the notebook instance's IAM execution role privileges. Principals with this permission and access to lifecycle configurations can execute code with the execution role's credentials. See Customize a Notebook Instance Using a Lifecycle Configuration Script for security best practices.
  */
 export const updateNotebookInstance: (
   input: UpdateNotebookInstanceInput,
@@ -42337,6 +42491,8 @@ export const updateNotebookInstance: (
 }));
 /**
  * Updates a notebook instance lifecycle configuration created with the CreateNotebookInstanceLifecycleConfig API.
+ *
+ * Updates to lifecycle configurations affect all notebook instances using that configuration upon their next start. Lifecycle configuration scripts execute with root access and the notebook instance's IAM execution role privileges. Grant this permission only to trusted principals. See Customize a Notebook Instance Using a Lifecycle Configuration Script for security best practices.
  */
 export const updateNotebookInstanceLifecycleConfig: (
   input: UpdateNotebookInstanceLifecycleConfigInput,

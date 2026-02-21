@@ -1155,6 +1155,8 @@ export interface BudgetPerformanceHistory {
   TimeUnit?: TimeUnit;
   BillingViewArn?: string;
   BudgetedAndActualAmountsList?: BudgetedAndActualAmounts[];
+  FilterExpression?: Expression;
+  Metrics?: Metric[];
 }
 export const BudgetPerformanceHistory = S.suspend(() =>
   S.Struct({
@@ -1165,6 +1167,8 @@ export const BudgetPerformanceHistory = S.suspend(() =>
     TimeUnit: S.optional(TimeUnit),
     BillingViewArn: S.optional(S.String),
     BudgetedAndActualAmountsList: S.optional(BudgetedAndActualAmountsList),
+    FilterExpression: S.optional(Expression),
+    Metrics: S.optional(Metrics),
   }),
 ).annotate({
   identifier: "BudgetPerformanceHistory",

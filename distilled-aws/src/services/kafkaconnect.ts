@@ -146,6 +146,7 @@ export interface AutoScaling {
   minWorkerCount: number;
   scaleInPolicy?: ScaleInPolicy;
   scaleOutPolicy?: ScaleOutPolicy;
+  maxAutoscalingTaskCount?: number;
 }
 export const AutoScaling = S.suspend(() =>
   S.Struct({
@@ -154,6 +155,7 @@ export const AutoScaling = S.suspend(() =>
     minWorkerCount: S.Number,
     scaleInPolicy: S.optional(ScaleInPolicy),
     scaleOutPolicy: S.optional(ScaleOutPolicy),
+    maxAutoscalingTaskCount: S.optional(S.Number),
   }),
 ).annotate({ identifier: "AutoScaling" }) as any as S.Schema<AutoScaling>;
 export interface ProvisionedCapacity {
@@ -621,6 +623,7 @@ export interface AutoScalingDescription {
   minWorkerCount?: number;
   scaleInPolicy?: ScaleInPolicyDescription;
   scaleOutPolicy?: ScaleOutPolicyDescription;
+  maxAutoscalingTaskCount?: number;
 }
 export const AutoScalingDescription = S.suspend(() =>
   S.Struct({
@@ -629,6 +632,7 @@ export const AutoScalingDescription = S.suspend(() =>
     minWorkerCount: S.optional(S.Number),
     scaleInPolicy: S.optional(ScaleInPolicyDescription),
     scaleOutPolicy: S.optional(ScaleOutPolicyDescription),
+    maxAutoscalingTaskCount: S.optional(S.Number),
   }),
 ).annotate({
   identifier: "AutoScalingDescription",
@@ -1452,6 +1456,7 @@ export interface AutoScalingUpdate {
   minWorkerCount: number;
   scaleInPolicy: ScaleInPolicyUpdate;
   scaleOutPolicy: ScaleOutPolicyUpdate;
+  maxAutoscalingTaskCount?: number;
 }
 export const AutoScalingUpdate = S.suspend(() =>
   S.Struct({
@@ -1460,6 +1465,7 @@ export const AutoScalingUpdate = S.suspend(() =>
     minWorkerCount: S.Number,
     scaleInPolicy: ScaleInPolicyUpdate,
     scaleOutPolicy: ScaleOutPolicyUpdate,
+    maxAutoscalingTaskCount: S.optional(S.Number),
   }),
 ).annotate({
   identifier: "AutoScalingUpdate",

@@ -96,6 +96,7 @@ export type NextToken = string;
 export type CertificateAuthorityArn = string;
 export type AzureApplicationId = string;
 export type AzureDomain = string;
+export type VpcEndpointId = string;
 
 //# Schemas
 export interface ListTagsForResourceRequest {
@@ -390,6 +391,7 @@ export const MobileDeviceManagement = S.Union([
 export interface CreateConnectorRequest {
   CertificateAuthorityArn: string;
   MobileDeviceManagement?: MobileDeviceManagement;
+  VpcEndpointId?: string;
   ClientToken?: string;
   Tags?: { [key: string]: string | undefined };
 }
@@ -397,6 +399,7 @@ export const CreateConnectorRequest = S.suspend(() =>
   S.Struct({
     CertificateAuthorityArn: S.String,
     MobileDeviceManagement: S.optional(MobileDeviceManagement),
+    VpcEndpointId: S.optional(S.String),
     ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
     Tags: S.optional(Tags),
   }).pipe(
@@ -465,6 +468,8 @@ export type ConnectorStatusReason =
   | "PRIVATECA_ACCESS_DENIED"
   | "PRIVATECA_INVALID_STATE"
   | "PRIVATECA_RESOURCE_NOT_FOUND"
+  | "VPC_ENDPOINT_RESOURCE_NOT_FOUND"
+  | "VPC_ENDPOINT_DNS_ENTRIES_NOT_FOUND"
   | (string & {});
 export const ConnectorStatusReason = S.String;
 export interface Connector {
@@ -629,11 +634,7 @@ export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuo
 
 //# Operations
 /**
- * Retrieves the tags associated with the specified resource. Tags are key-value pairs that
- * you can use to categorize and manage your resources, for purposes like billing. For
- * example, you might set the tag key to "customer" and the value to the customer name or ID.
- * You can specify one or more tags to add to each Amazon Web Services resource, up to 50 tags for a
- * resource.
+ * Retrieves the tags associated with the specified resource. Tags are key-value pairs that you can use to categorize and manage your resources, for purposes like billing. For example, you might set the tag key to "customer" and the value to the customer name or ID. You can specify one or more tags to add to each Amazon Web Services resource, up to 50 tags for a resource.
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,

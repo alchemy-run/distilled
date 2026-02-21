@@ -137,6 +137,8 @@ export type CallbackToken = string;
 export type MaxItems = number;
 export type ListingId = string;
 export type OutputFileName = string;
+export type CustomHttpHeaderKeyType = string | redacted.Redacted<string>;
+export type CustomHttpHeaderValueType = string | redacted.Redacted<string>;
 export type DeleteId = string;
 export type MoveId = string;
 export type Status = string;
@@ -155,7 +157,7 @@ export type PrivateKeyType = string | redacted.Redacted<string>;
 export type CertDate = Date;
 export type CertificateId = string;
 export type CertSerial = string;
-export type MessageSubject = string;
+export type MessageSubject = string | redacted.Redacted<string>;
 export type As2ConnectorSecretId = string;
 export type SecretId = string;
 export type SftpConnectorTrustedHostKey = string;
@@ -1006,12 +1008,27 @@ export const StartDirectoryListingResponse = S.suspend(() =>
 }) as any as S.Schema<StartDirectoryListingResponse>;
 export type FilePaths = string[];
 export const FilePaths = S.Array(S.String);
+export interface CustomHttpHeader {
+  Key?: string | redacted.Redacted<string>;
+  Value?: string | redacted.Redacted<string>;
+}
+export const CustomHttpHeader = S.suspend(() =>
+  S.Struct({
+    Key: S.optional(SensitiveString),
+    Value: S.optional(SensitiveString),
+  }),
+).annotate({
+  identifier: "CustomHttpHeader",
+}) as any as S.Schema<CustomHttpHeader>;
+export type CustomHttpHeaders = CustomHttpHeader[];
+export const CustomHttpHeaders = S.Array(CustomHttpHeader);
 export interface StartFileTransferRequest {
   ConnectorId: string;
   SendFilePaths?: string[];
   RetrieveFilePaths?: string[];
   LocalDirectoryPath?: string;
   RemoteDirectoryPath?: string;
+  CustomHttpHeaders?: CustomHttpHeader[];
 }
 export const StartFileTransferRequest = S.suspend(() =>
   S.Struct({
@@ -1020,6 +1037,7 @@ export const StartFileTransferRequest = S.suspend(() =>
     RetrieveFilePaths: S.optional(FilePaths),
     LocalDirectoryPath: S.optional(S.String),
     RemoteDirectoryPath: S.optional(S.String),
+    CustomHttpHeaders: S.optional(CustomHttpHeaders),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -1728,14 +1746,28 @@ export type MdnSigningAlg =
   | "DEFAULT"
   | (string & {});
 export const MdnSigningAlg = S.String;
-export type MdnResponse = "SYNC" | "NONE" | (string & {});
+export type MdnResponse = "SYNC" | "NONE" | "ASYNC" | (string & {});
 export const MdnResponse = S.String;
 export type PreserveContentType = "ENABLED" | "DISABLED" | (string & {});
 export const PreserveContentType = S.String;
+export type As2AsyncMdnServerIds = string[];
+export const As2AsyncMdnServerIds = S.Array(S.String);
+export interface As2AsyncMdnConnectorConfig {
+  Url?: string;
+  ServerIds?: string[];
+}
+export const As2AsyncMdnConnectorConfig = S.suspend(() =>
+  S.Struct({
+    Url: S.optional(S.String),
+    ServerIds: S.optional(As2AsyncMdnServerIds),
+  }),
+).annotate({
+  identifier: "As2AsyncMdnConnectorConfig",
+}) as any as S.Schema<As2AsyncMdnConnectorConfig>;
 export interface As2ConnectorConfig {
   LocalProfileId?: string;
   PartnerProfileId?: string;
-  MessageSubject?: string;
+  MessageSubject?: string | redacted.Redacted<string>;
   Compression?: CompressionEnum;
   EncryptionAlgorithm?: EncryptionAlg;
   SigningAlgorithm?: SigningAlg;
@@ -1743,12 +1775,13 @@ export interface As2ConnectorConfig {
   MdnResponse?: MdnResponse;
   BasicAuthSecretId?: string;
   PreserveContentType?: PreserveContentType;
+  AsyncMdnConfig?: As2AsyncMdnConnectorConfig;
 }
 export const As2ConnectorConfig = S.suspend(() =>
   S.Struct({
     LocalProfileId: S.optional(S.String),
     PartnerProfileId: S.optional(S.String),
-    MessageSubject: S.optional(S.String),
+    MessageSubject: S.optional(SensitiveString),
     Compression: S.optional(CompressionEnum),
     EncryptionAlgorithm: S.optional(EncryptionAlg),
     SigningAlgorithm: S.optional(SigningAlg),
@@ -1756,6 +1789,7 @@ export const As2ConnectorConfig = S.suspend(() =>
     MdnResponse: S.optional(MdnResponse),
     BasicAuthSecretId: S.optional(S.String),
     PreserveContentType: S.optional(PreserveContentType),
+    AsyncMdnConfig: S.optional(As2AsyncMdnConnectorConfig),
   }),
 ).annotate({
   identifier: "As2ConnectorConfig",

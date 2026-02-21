@@ -115,6 +115,7 @@ export type URI = string;
 export type ETagString = string;
 export type RAMResourceShareArn = string;
 export type LastModifiedTimestamp = Date;
+export type AccountIdString = string;
 export type IdentityString = string;
 export type KeyString = string;
 export type ParametersMapValue = string;
@@ -130,9 +131,9 @@ export type BooleanNullable = boolean;
 export type TokenString = string;
 export type PartitionValueString = string;
 export type ObjectSize = number;
-export type ValueString = string;
 export type AuditContextString = string;
 export type PathString = string;
+export type ValueString = string;
 export type HashString = string;
 export type NullableString = string;
 export type ContextKey = string;
@@ -1094,6 +1095,12 @@ export const DescribeResourceRequest = S.suspend(() =>
 ).annotate({
   identifier: "DescribeResourceRequest",
 }) as any as S.Schema<DescribeResourceRequest>;
+export type VerificationStatus =
+  | "VERIFIED"
+  | "VERIFICATION_FAILED"
+  | "NOT_VERIFIED"
+  | (string & {});
+export const VerificationStatus = S.String;
 export interface ResourceInfo {
   ResourceArn?: string;
   RoleArn?: string;
@@ -1101,6 +1108,8 @@ export interface ResourceInfo {
   WithFederation?: boolean;
   HybridAccessEnabled?: boolean;
   WithPrivilegedAccess?: boolean;
+  VerificationStatus?: VerificationStatus;
+  ExpectedResourceOwnerAccount?: string;
 }
 export const ResourceInfo = S.suspend(() =>
   S.Struct({
@@ -1110,6 +1119,8 @@ export const ResourceInfo = S.suspend(() =>
     WithFederation: S.optional(S.Boolean),
     HybridAccessEnabled: S.optional(S.Boolean),
     WithPrivilegedAccess: S.optional(S.Boolean),
+    VerificationStatus: S.optional(VerificationStatus),
+    ExpectedResourceOwnerAccount: S.optional(S.String),
   }),
 ).annotate({ identifier: "ResourceInfo" }) as any as S.Schema<ResourceInfo>;
 export interface DescribeResourceResponse {
@@ -1672,6 +1683,71 @@ export const GetTableObjectsResponse = S.suspend(() =>
 ).annotate({
   identifier: "GetTableObjectsResponse",
 }) as any as S.Schema<GetTableObjectsResponse>;
+export interface AuditContext {
+  AdditionalAuditContext?: string;
+}
+export const AuditContext = S.suspend(() =>
+  S.Struct({ AdditionalAuditContext: S.optional(S.String) }),
+).annotate({ identifier: "AuditContext" }) as any as S.Schema<AuditContext>;
+export type PathStringList = string[];
+export const PathStringList = S.Array(S.String);
+export type CredentialsScope = "READ" | "READWRITE" | (string & {});
+export const CredentialsScope = S.String;
+export interface GetTemporaryDataLocationCredentialsRequest {
+  DurationSeconds?: number;
+  AuditContext?: AuditContext;
+  DataLocations?: string[];
+  CredentialsScope?: CredentialsScope;
+}
+export const GetTemporaryDataLocationCredentialsRequest = S.suspend(() =>
+  S.Struct({
+    DurationSeconds: S.optional(S.Number),
+    AuditContext: S.optional(AuditContext),
+    DataLocations: S.optional(PathStringList),
+    CredentialsScope: S.optional(CredentialsScope),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/GetTemporaryDataLocationCredentials" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetTemporaryDataLocationCredentialsRequest",
+}) as any as S.Schema<GetTemporaryDataLocationCredentialsRequest>;
+export interface TemporaryCredentials {
+  AccessKeyId?: string;
+  SecretAccessKey?: string;
+  SessionToken?: string;
+  Expiration?: Date;
+}
+export const TemporaryCredentials = S.suspend(() =>
+  S.Struct({
+    AccessKeyId: S.optional(S.String),
+    SecretAccessKey: S.optional(S.String),
+    SessionToken: S.optional(S.String),
+    Expiration: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotate({
+  identifier: "TemporaryCredentials",
+}) as any as S.Schema<TemporaryCredentials>;
+export interface GetTemporaryDataLocationCredentialsResponse {
+  Credentials?: TemporaryCredentials;
+  AccessibleDataLocations?: string[];
+  CredentialsScope?: CredentialsScope;
+}
+export const GetTemporaryDataLocationCredentialsResponse = S.suspend(() =>
+  S.Struct({
+    Credentials: S.optional(TemporaryCredentials),
+    AccessibleDataLocations: S.optional(PathStringList),
+    CredentialsScope: S.optional(CredentialsScope),
+  }),
+).annotate({
+  identifier: "GetTemporaryDataLocationCredentialsResponse",
+}) as any as S.Schema<GetTemporaryDataLocationCredentialsResponse>;
 export type ValueStringList = string[];
 export const ValueStringList = S.Array(S.String);
 export interface PartitionValueList {
@@ -1682,12 +1758,6 @@ export const PartitionValueList = S.suspend(() =>
 ).annotate({
   identifier: "PartitionValueList",
 }) as any as S.Schema<PartitionValueList>;
-export interface AuditContext {
-  AdditionalAuditContext?: string;
-}
-export const AuditContext = S.suspend(() =>
-  S.Struct({ AdditionalAuditContext: S.optional(S.String) }),
-).annotate({ identifier: "AuditContext" }) as any as S.Schema<AuditContext>;
 export type PermissionType =
   | "COLUMN_PERMISSION"
   | "CELL_FILTER_PERMISSION"
@@ -1796,8 +1866,6 @@ export const GetTemporaryGlueTableCredentialsRequest = S.suspend(() =>
 ).annotate({
   identifier: "GetTemporaryGlueTableCredentialsRequest",
 }) as any as S.Schema<GetTemporaryGlueTableCredentialsRequest>;
-export type PathStringList = string[];
-export const PathStringList = S.Array(S.String);
 export interface GetTemporaryGlueTableCredentialsResponse {
   AccessKeyId?: string;
   SecretAccessKey?: string;
@@ -2399,6 +2467,7 @@ export interface RegisterResourceRequest {
   WithFederation?: boolean;
   HybridAccessEnabled?: boolean;
   WithPrivilegedAccess?: boolean;
+  ExpectedResourceOwnerAccount?: string;
 }
 export const RegisterResourceRequest = S.suspend(() =>
   S.Struct({
@@ -2408,6 +2477,7 @@ export const RegisterResourceRequest = S.suspend(() =>
     WithFederation: S.optional(S.Boolean),
     HybridAccessEnabled: S.optional(S.Boolean),
     WithPrivilegedAccess: S.optional(S.Boolean),
+    ExpectedResourceOwnerAccount: S.optional(S.String),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/RegisterResource" }),
@@ -2794,6 +2864,7 @@ export interface UpdateResourceRequest {
   ResourceArn: string;
   WithFederation?: boolean;
   HybridAccessEnabled?: boolean;
+  ExpectedResourceOwnerAccount?: string;
 }
 export const UpdateResourceRequest = S.suspend(() =>
   S.Struct({
@@ -2801,6 +2872,7 @@ export const UpdateResourceRequest = S.suspend(() =>
     ResourceArn: S.String,
     WithFederation: S.optional(S.Boolean),
     HybridAccessEnabled: S.optional(S.Boolean),
+    ExpectedResourceOwnerAccount: S.optional(S.String),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/UpdateResource" }),
@@ -2998,6 +3070,10 @@ export class ThrottledException extends S.TaggedErrorClass<ThrottledException>()
 ).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class GlueEncryptionException extends S.TaggedErrorClass<GlueEncryptionException>()(
   "GlueEncryptionException",
+  { Message: S.optional(S.String) },
+) {}
+export class ConflictException extends S.TaggedErrorClass<ConflictException>()(
+  "ConflictException",
   { Message: S.optional(S.String) },
 ) {}
 export class PermissionTypeMismatchException extends S.TaggedErrorClass<PermissionTypeMismatchException>()(
@@ -3915,6 +3991,52 @@ export const getTableObjects: {
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+}));
+/**
+ * Allows a user or application in a secure environment to access data in a specific Amazon S3 location registered with Lake Formation by providing temporary scoped credentials that are limited to the requested data location and
+ * the caller's authorized access level.
+ *
+ * The API operation returns an error in the following scenarios:
+ *
+ * - The data location is not registered with Lake Formation.
+ *
+ * - No Glue table is associated with the data location.
+ *
+ * - The caller doesn't have required permissions on the associated table. The caller must have
+ * `SELECT` or `SUPER` permissions on the associated table, and
+ * credential vending for full table access must be enabled in the data lake settings.
+ *
+ * For more information, see Application integration for full table access.
+ *
+ * - The data location is in a different Amazon Web Services Region. Lake Formation doesn't
+ * support cross-Region access when vending credentials for a data location. Lake Formation only supports Amazon S3 paths registered within the same Region as the API
+ * call.
+ */
+export const getTemporaryDataLocationCredentials: (
+  input: GetTemporaryDataLocationCredentialsRequest,
+) => effect.Effect<
+  GetTemporaryDataLocationCredentialsResponse,
+  | AccessDeniedException
+  | ConflictException
+  | EntityNotFoundException
+  | GlueEncryptionException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetTemporaryDataLocationCredentialsRequest,
+  output: GetTemporaryDataLocationCredentialsResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    EntityNotFoundException,
+    GlueEncryptionException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+  ],
 }));
 /**
  * This API is identical to `GetTemporaryTableCredentials` except that this is used when the target Data Catalog resource is of type Partition. Lake Formation restricts the permission of the vended credentials with the same scope down policy which restricts access to a single Amazon S3 prefix.

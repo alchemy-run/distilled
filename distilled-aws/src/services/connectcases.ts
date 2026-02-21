@@ -94,6 +94,8 @@ export type TemplateId = string;
 export type FieldId = string;
 export type UserArn = string;
 export type CustomEntity = string | redacted.Redacted<string>;
+export type MutableTagKey = string;
+export type TagValueString = string;
 export type CaseId = string;
 export type CaseArn = string;
 export type NextToken = string;
@@ -104,7 +106,9 @@ export type AuditEventDateTime = Date;
 export type AuditEventFieldId = string;
 export type IamPrincipalArn = string;
 export type ContactArn = string;
+export type SearchTagKey = string;
 export type Order = string;
+export type TotalCount = number;
 export type CommentBody = string;
 export type CommentBodyTextType = string;
 export type FileArn = string;
@@ -147,6 +151,7 @@ export type LayoutArn = string;
 export type TemplateName = string;
 export type TemplateDescription = string;
 export type TemplateStatus = string;
+export type TagPropagationResourceType = string;
 export type TemplateArn = string;
 
 //# Schemas
@@ -291,12 +296,15 @@ export const UserUnion = S.Union([
   S.Struct({ userArn: S.String }),
   S.Struct({ customEntity: SensitiveString }),
 ]);
+export type MutableTags = { [key: string]: string | undefined };
+export const MutableTags = S.Record(S.String, S.String.pipe(S.optional));
 export interface CreateCaseRequest {
   domainId: string;
   templateId: string;
   fields: FieldValue[];
   clientToken?: string;
   performedBy?: UserUnion;
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateCaseRequest = S.suspend(() =>
   S.Struct({
@@ -305,6 +313,7 @@ export const CreateCaseRequest = S.suspend(() =>
     fields: FieldValueList,
     clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
     performedBy: S.optional(UserUnion),
+    tags: S.optional(MutableTags),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/domains/{domainId}/cases" }),
@@ -658,20 +667,61 @@ export const FieldFilter = S.Union([
   S.Struct({ lessThan: FieldValue }),
   S.Struct({ lessThanOrEqualTo: FieldValue }),
 ]);
+export interface TagValue {
+  key?: string;
+  value?: string;
+}
+export const TagValue = S.suspend(() =>
+  S.Struct({ key: S.optional(S.String), value: S.optional(S.String) }),
+).annotate({ identifier: "TagValue" }) as any as S.Schema<TagValue>;
+export type TagFilter = { equalTo: TagValue };
+export const TagFilter = S.Union([S.Struct({ equalTo: TagValue })]);
 export type CaseFilterList = CaseFilter[];
 export const CaseFilterList = S.Array(
   S.suspend(() => CaseFilter).annotate({ identifier: "CaseFilter" }),
 ) as any as S.Schema<CaseFilterList>;
 export type CaseFilter =
-  | { field: FieldFilter; not?: never; andAll?: never; orAll?: never }
-  | { field?: never; not: CaseFilter; andAll?: never; orAll?: never }
-  | { field?: never; not?: never; andAll: CaseFilter[]; orAll?: never }
-  | { field?: never; not?: never; andAll?: never; orAll: CaseFilter[] };
+  | {
+      field: FieldFilter;
+      not?: never;
+      tag?: never;
+      andAll?: never;
+      orAll?: never;
+    }
+  | {
+      field?: never;
+      not: CaseFilter;
+      tag?: never;
+      andAll?: never;
+      orAll?: never;
+    }
+  | {
+      field?: never;
+      not?: never;
+      tag: TagFilter;
+      andAll?: never;
+      orAll?: never;
+    }
+  | {
+      field?: never;
+      not?: never;
+      tag?: never;
+      andAll: CaseFilter[];
+      orAll?: never;
+    }
+  | {
+      field?: never;
+      not?: never;
+      tag?: never;
+      andAll?: never;
+      orAll: CaseFilter[];
+    };
 export const CaseFilter = S.Union([
   S.Struct({ field: FieldFilter }),
   S.Struct({
     not: S.suspend(() => CaseFilter).annotate({ identifier: "CaseFilter" }),
   }),
+  S.Struct({ tag: TagFilter }),
   S.Struct({
     andAll: S.suspend(() => CaseFilterList).annotate({
       identifier: "CaseFilterList",
@@ -746,11 +796,13 @@ export const SearchCasesResponseItemList = S.Array(
 export interface SearchCasesResponse {
   nextToken?: string;
   cases: SearchCasesResponseItem[];
+  totalCount?: number;
 }
 export const SearchCasesResponse = S.suspend(() =>
   S.Struct({
     nextToken: S.optional(S.String),
     cases: SearchCasesResponseItemList,
+    totalCount: S.optional(S.Number),
   }),
 ).annotate({
   identifier: "SearchCasesResponse",
@@ -1912,11 +1964,20 @@ export const SearchAllRelatedItemsResponse = S.suspend(() =>
 ).annotate({
   identifier: "SearchAllRelatedItemsResponse",
 }) as any as S.Schema<SearchAllRelatedItemsResponse>;
+export interface TextAttributes {
+  isMultiline: boolean;
+}
+export const TextAttributes = S.suspend(() =>
+  S.Struct({ isMultiline: S.Boolean }),
+).annotate({ identifier: "TextAttributes" }) as any as S.Schema<TextAttributes>;
+export type FieldAttributes = { text: TextAttributes };
+export const FieldAttributes = S.Union([S.Struct({ text: TextAttributes })]);
 export interface CreateFieldRequest {
   domainId: string;
   name: string;
   type: string;
   description?: string;
+  attributes?: FieldAttributes;
 }
 export const CreateFieldRequest = S.suspend(() =>
   S.Struct({
@@ -1924,6 +1985,7 @@ export const CreateFieldRequest = S.suspend(() =>
     name: S.String,
     type: S.String,
     description: S.optional(S.String),
+    attributes: S.optional(FieldAttributes),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/domains/{domainId}/fields" }),
@@ -1951,6 +2013,7 @@ export interface UpdateFieldRequest {
   fieldId: string;
   name?: string;
   description?: string;
+  attributes?: FieldAttributes;
 }
 export const UpdateFieldRequest = S.suspend(() =>
   S.Struct({
@@ -1958,6 +2021,7 @@ export const UpdateFieldRequest = S.suspend(() =>
     fieldId: S.String.pipe(T.HttpLabel("fieldId")),
     name: S.optional(S.String),
     description: S.optional(S.String),
+    attributes: S.optional(FieldAttributes),
   }).pipe(
     T.all(
       T.Http({ method: "PUT", uri: "/domains/{domainId}/fields/{fieldId}" }),
@@ -2029,6 +2093,7 @@ export interface FieldSummary {
   name: string;
   type: string;
   namespace: string;
+  attributes?: FieldAttributes;
 }
 export const FieldSummary = S.suspend(() =>
   S.Struct({
@@ -2037,6 +2102,7 @@ export const FieldSummary = S.suspend(() =>
     name: S.String,
     type: S.String,
     namespace: S.String,
+    attributes: S.optional(FieldAttributes),
   }),
 ).annotate({ identifier: "FieldSummary" }) as any as S.Schema<FieldSummary>;
 export type FieldSummaryList = FieldSummary[];
@@ -2181,6 +2247,7 @@ export interface GetFieldResponse {
   deleted?: boolean;
   createdTime?: Date;
   lastModifiedTime?: Date;
+  attributes?: FieldAttributes;
 }
 export const GetFieldResponse = S.suspend(() =>
   S.Struct({
@@ -2198,6 +2265,7 @@ export const GetFieldResponse = S.suspend(() =>
     lastModifiedTime: S.optional(
       T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
+    attributes: S.optional(FieldAttributes),
   }),
 ).annotate({
   identifier: "GetFieldResponse",
@@ -2469,6 +2537,19 @@ export const TemplateRule = S.suspend(() =>
 ).annotate({ identifier: "TemplateRule" }) as any as S.Schema<TemplateRule>;
 export type TemplateCaseRuleList = TemplateRule[];
 export const TemplateCaseRuleList = S.Array(TemplateRule);
+export interface TagPropagationConfiguration {
+  resourceType: string;
+  tagMap: { [key: string]: string | undefined };
+}
+export const TagPropagationConfiguration = S.suspend(() =>
+  S.Struct({ resourceType: S.String, tagMap: MutableTags }),
+).annotate({
+  identifier: "TagPropagationConfiguration",
+}) as any as S.Schema<TagPropagationConfiguration>;
+export type TagPropagationConfigurationList = TagPropagationConfiguration[];
+export const TagPropagationConfigurationList = S.Array(
+  TagPropagationConfiguration,
+);
 export interface CreateTemplateRequest {
   domainId: string;
   name: string;
@@ -2477,6 +2558,7 @@ export interface CreateTemplateRequest {
   requiredFields?: RequiredField[];
   status?: string;
   rules?: TemplateRule[];
+  tagPropagationConfigurations?: TagPropagationConfiguration[];
 }
 export const CreateTemplateRequest = S.suspend(() =>
   S.Struct({
@@ -2487,6 +2569,7 @@ export const CreateTemplateRequest = S.suspend(() =>
     requiredFields: S.optional(RequiredFieldList),
     status: S.optional(S.String),
     rules: S.optional(TemplateCaseRuleList),
+    tagPropagationConfigurations: S.optional(TagPropagationConfigurationList),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/domains/{domainId}/templates" }),
@@ -2546,6 +2629,7 @@ export interface GetTemplateResponse {
   createdTime?: Date;
   lastModifiedTime?: Date;
   rules?: TemplateRule[];
+  tagPropagationConfigurations?: TagPropagationConfiguration[];
 }
 export const GetTemplateResponse = S.suspend(() =>
   S.Struct({
@@ -2565,6 +2649,7 @@ export const GetTemplateResponse = S.suspend(() =>
       T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
     rules: S.optional(TemplateCaseRuleList),
+    tagPropagationConfigurations: S.optional(TagPropagationConfigurationList),
   }),
 ).annotate({
   identifier: "GetTemplateResponse",
@@ -2578,6 +2663,7 @@ export interface UpdateTemplateRequest {
   requiredFields?: RequiredField[];
   status?: string;
   rules?: TemplateRule[];
+  tagPropagationConfigurations?: TagPropagationConfiguration[];
 }
 export const UpdateTemplateRequest = S.suspend(() =>
   S.Struct({
@@ -2589,6 +2675,7 @@ export const UpdateTemplateRequest = S.suspend(() =>
     requiredFields: S.optional(RequiredFieldList),
     status: S.optional(S.String),
     rules: S.optional(TemplateCaseRuleList),
+    tagPropagationConfigurations: S.optional(TagPropagationConfigurationList),
   }).pipe(
     T.all(
       T.Http({
@@ -2669,6 +2756,7 @@ export interface TemplateSummary {
   templateArn: string;
   name: string;
   status: string;
+  tagPropagationConfigurations?: TagPropagationConfiguration[];
 }
 export const TemplateSummary = S.suspend(() =>
   S.Struct({
@@ -2676,6 +2764,7 @@ export const TemplateSummary = S.suspend(() =>
     templateArn: S.String,
     name: S.String,
     status: S.String,
+    tagPropagationConfigurations: S.optional(TagPropagationConfigurationList),
   }),
 ).annotate({
   identifier: "TemplateSummary",
@@ -2807,6 +2896,8 @@ export const untagResource: (
  * If you provide a value for `PerformedBy.UserArn` you must also have connect:DescribeUser permission on the User ARN resource that you provide
  *
  * Creates a case in the specified Cases domain. Case system and custom fields are taken as an array id/value pairs with a declared data types.
+ *
+ * When creating a case from a template that has tag propagation configurations, the specified tags are automatically applied to the case.
  *
  * The following fields are required when creating a case:
  *

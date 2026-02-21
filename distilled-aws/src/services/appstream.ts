@@ -563,6 +563,7 @@ export interface CreateAppBlockBuilderRequest {
   EnableDefaultInternetAccess?: boolean;
   IamRoleArn?: string;
   AccessEndpoints?: AccessEndpoint[];
+  DisableIMDSV1?: boolean;
 }
 export const CreateAppBlockBuilderRequest = S.suspend(() =>
   S.Struct({
@@ -576,6 +577,7 @@ export const CreateAppBlockBuilderRequest = S.suspend(() =>
     EnableDefaultInternetAccess: S.optional(S.Boolean),
     IamRoleArn: S.optional(S.String),
     AccessEndpoints: S.optional(AccessEndpointList),
+    DisableIMDSV1: S.optional(S.Boolean),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -668,6 +670,7 @@ export interface AppBlockBuilder {
   AppBlockBuilderErrors?: ResourceError[];
   StateChangeReason?: AppBlockBuilderStateChangeReason;
   AccessEndpoints?: AccessEndpoint[];
+  DisableIMDSV1?: boolean;
 }
 export const AppBlockBuilder = S.suspend(() =>
   S.Struct({
@@ -685,6 +688,7 @@ export const AppBlockBuilder = S.suspend(() =>
     AppBlockBuilderErrors: S.optional(ResourceErrors),
     StateChangeReason: S.optional(AppBlockBuilderStateChangeReason),
     AccessEndpoints: S.optional(AccessEndpointList),
+    DisableIMDSV1: S.optional(S.Boolean),
   }),
 ).annotate({
   identifier: "AppBlockBuilder",
@@ -1102,6 +1106,7 @@ export interface CreateFleetRequest {
   SessionScriptS3Location?: S3Location;
   MaxSessionsPerInstance?: number;
   RootVolumeConfig?: VolumeConfig;
+  DisableIMDSV1?: boolean;
 }
 export const CreateFleetRequest = S.suspend(() =>
   S.Struct({
@@ -1128,6 +1133,7 @@ export const CreateFleetRequest = S.suspend(() =>
     SessionScriptS3Location: S.optional(S3Location),
     MaxSessionsPerInstance: S.optional(S.Number),
     RootVolumeConfig: S.optional(VolumeConfig),
+    DisableIMDSV1: S.optional(S.Boolean),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -1204,6 +1210,7 @@ export interface Fleet {
   SessionScriptS3Location?: S3Location;
   MaxSessionsPerInstance?: number;
   RootVolumeConfig?: VolumeConfig;
+  DisableIMDSV1?: boolean;
 }
 export const Fleet = S.suspend(() =>
   S.Struct({
@@ -1233,6 +1240,7 @@ export const Fleet = S.suspend(() =>
     SessionScriptS3Location: S.optional(S3Location),
     MaxSessionsPerInstance: S.optional(S.Number),
     RootVolumeConfig: S.optional(VolumeConfig),
+    DisableIMDSV1: S.optional(S.Boolean),
   }),
 ).annotate({ identifier: "Fleet" }) as any as S.Schema<Fleet>;
 export interface CreateFleetResult {
@@ -1267,6 +1275,7 @@ export interface CreateImageBuilderRequest {
   RootVolumeConfig?: VolumeConfig;
   SoftwaresToInstall?: string[];
   SoftwaresToUninstall?: string[];
+  DisableIMDSV1?: boolean;
 }
 export const CreateImageBuilderRequest = S.suspend(() =>
   S.Struct({
@@ -1286,6 +1295,7 @@ export const CreateImageBuilderRequest = S.suspend(() =>
     RootVolumeConfig: S.optional(VolumeConfig),
     SoftwaresToInstall: S.optional(StringList),
     SoftwaresToUninstall: S.optional(StringList),
+    DisableIMDSV1: S.optional(S.Boolean),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -1363,6 +1373,7 @@ export interface ImageBuilder {
   AccessEndpoints?: AccessEndpoint[];
   RootVolumeConfig?: VolumeConfig;
   LatestAppstreamAgentVersion?: LatestAppstreamAgentVersion;
+  DisableIMDSV1?: boolean;
 }
 export const ImageBuilder = S.suspend(() =>
   S.Struct({
@@ -1386,6 +1397,7 @@ export const ImageBuilder = S.suspend(() =>
     AccessEndpoints: S.optional(AccessEndpointList),
     RootVolumeConfig: S.optional(VolumeConfig),
     LatestAppstreamAgentVersion: S.optional(LatestAppstreamAgentVersion),
+    DisableIMDSV1: S.optional(S.Boolean),
   }),
 ).annotate({ identifier: "ImageBuilder" }) as any as S.Schema<ImageBuilder>;
 export interface CreateImageBuilderResult {
@@ -3558,6 +3570,7 @@ export interface UpdateAppBlockBuilderRequest {
   IamRoleArn?: string;
   AccessEndpoints?: AccessEndpoint[];
   AttributesToDelete?: AppBlockBuilderAttribute[];
+  DisableIMDSV1?: boolean;
 }
 export const UpdateAppBlockBuilderRequest = S.suspend(() =>
   S.Struct({
@@ -3571,6 +3584,7 @@ export const UpdateAppBlockBuilderRequest = S.suspend(() =>
     IamRoleArn: S.optional(S.String),
     AccessEndpoints: S.optional(AccessEndpointList),
     AttributesToDelete: S.optional(AppBlockBuilderAttributes),
+    DisableIMDSV1: S.optional(S.Boolean),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -3742,6 +3756,7 @@ export interface UpdateFleetRequest {
   SessionScriptS3Location?: S3Location;
   MaxSessionsPerInstance?: number;
   RootVolumeConfig?: VolumeConfig;
+  DisableIMDSV1?: boolean;
 }
 export const UpdateFleetRequest = S.suspend(() =>
   S.Struct({
@@ -3768,6 +3783,7 @@ export const UpdateFleetRequest = S.suspend(() =>
     SessionScriptS3Location: S.optional(S3Location),
     MaxSessionsPerInstance: S.optional(S.Number),
     RootVolumeConfig: S.optional(VolumeConfig),
+    DisableIMDSV1: S.optional(S.Boolean),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),

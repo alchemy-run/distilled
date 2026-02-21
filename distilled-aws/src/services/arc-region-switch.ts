@@ -2226,9 +2226,9 @@ export const listRoute53HealthChecksInRegion: {
   } as const,
 }));
 /**
- * Starts the execution of a Region switch plan. You can execute a plan in either PRACTICE or RECOVERY mode.
+ * Starts the execution of a Region switch plan. You can execute a plan in either `graceful` or `ungraceful` mode.
  *
- * In PRACTICE mode, the execution simulates the steps without making actual changes to your application's traffic routing. In RECOVERY mode, the execution performs actual changes to shift traffic between Regions.
+ * Specifing `ungraceful` mode either changes the behavior of the execution blocks in a workflow or skips specific execution blocks.
  */
 export const startPlanExecution: (
   input: StartPlanExecutionRequest,

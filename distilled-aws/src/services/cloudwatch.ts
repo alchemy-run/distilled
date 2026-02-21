@@ -746,7 +746,11 @@ export type ComparisonOperator =
   | "GreaterThanUpperThreshold"
   | (string & {});
 export const ComparisonOperator = S.String;
-export type EvaluationState = "PARTIAL_DATA" | (string & {});
+export type EvaluationState =
+  | "PARTIAL_DATA"
+  | "EVALUATION_FAILURE"
+  | "EVALUATION_ERROR"
+  | (string & {});
 export const EvaluationState = S.String;
 export interface MetricAlarm {
   AlarmName?: string;

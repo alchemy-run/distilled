@@ -2672,7 +2672,7 @@ export const updateGraph: (
   ],
 }));
 /**
- * Create a private graph endpoint to allow private access from to the graph from within a VPC. You can attach security groups to the private graph endpoint.
+ * Create a private graph endpoint to allow private access to the graph from within a VPC. You can attach security groups to the private graph endpoint.
  *
  * VPC endpoint charges apply.
  */
@@ -2829,7 +2829,7 @@ export const createGraphSnapshot: (
   ],
 }));
 /**
- * Deletes the specifed graph snapshot.
+ * Deletes the specified graph snapshot.
  */
 export const deleteGraphSnapshot: (
   input: DeleteGraphSnapshotInput,

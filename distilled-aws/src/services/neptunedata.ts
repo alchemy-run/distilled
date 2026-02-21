@@ -1818,6 +1818,7 @@ export interface StartLoaderJobInput {
   queueRequest?: boolean;
   dependencies?: string[];
   userProvidedEdgeIds?: boolean;
+  edgeOnlyLoad?: boolean;
 }
 export const StartLoaderJobInput = S.suspend(() =>
   S.Struct({
@@ -1833,6 +1834,7 @@ export const StartLoaderJobInput = S.suspend(() =>
     queueRequest: S.optional(S.Boolean),
     dependencies: S.optional(StringList),
     userProvidedEdgeIds: S.optional(S.Boolean),
+    edgeOnlyLoad: S.optional(S.Boolean),
   })
     .pipe(S.encodeKeys({ s3BucketRegion: "region" }))
     .pipe(

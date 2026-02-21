@@ -451,6 +451,14 @@ export const OriginSslProtocols = S.suspend(() =>
 }) as any as S.Schema<OriginSslProtocols>;
 export type IpAddressType = "ipv4" | "ipv6" | "dualstack" | (string & {});
 export const IpAddressType = S.String;
+export interface OriginMtlsConfig {
+  ClientCertificateArn: string;
+}
+export const OriginMtlsConfig = S.suspend(() =>
+  S.Struct({ ClientCertificateArn: S.String }),
+).annotate({
+  identifier: "OriginMtlsConfig",
+}) as any as S.Schema<OriginMtlsConfig>;
 export interface CustomOriginConfig {
   HTTPPort: number;
   HTTPSPort: number;
@@ -459,6 +467,7 @@ export interface CustomOriginConfig {
   OriginReadTimeout?: number;
   OriginKeepaliveTimeout?: number;
   IpAddressType?: IpAddressType;
+  OriginMtlsConfig?: OriginMtlsConfig;
 }
 export const CustomOriginConfig = S.suspend(() =>
   S.Struct({
@@ -469,6 +478,7 @@ export const CustomOriginConfig = S.suspend(() =>
     OriginReadTimeout: S.optional(S.Number),
     OriginKeepaliveTimeout: S.optional(S.Number),
     IpAddressType: S.optional(IpAddressType),
+    OriginMtlsConfig: S.optional(OriginMtlsConfig),
   }),
 ).annotate({
   identifier: "CustomOriginConfig",

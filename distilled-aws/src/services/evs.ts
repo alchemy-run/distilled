@@ -112,9 +112,65 @@ export type AllocationId = string;
 export type VlanId = number;
 export type AssociationId = string;
 export type IpAddress = string;
+export type EsxVersion = string;
 export type NetworkInterfaceId = string;
 
 //# Schemas
+export interface GetVersionsRequest {}
+export const GetVersionsRequest = S.suspend(() =>
+  S.Struct({}).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "GetVersionsRequest",
+}) as any as S.Schema<GetVersionsRequest>;
+export type VcfVersion = "VCF-5.2.1" | "VCF-5.2.2" | (string & {});
+export const VcfVersion = S.String;
+export type InstanceType = "i4i.metal" | (string & {});
+export const InstanceType = S.String;
+export type InstanceTypeList = InstanceType[];
+export const InstanceTypeList = S.Array(InstanceType);
+export interface VcfVersionInfo {
+  vcfVersion: VcfVersion;
+  status: string;
+  defaultEsxVersion: string;
+  instanceTypes: InstanceType[];
+}
+export const VcfVersionInfo = S.suspend(() =>
+  S.Struct({
+    vcfVersion: VcfVersion,
+    status: S.String,
+    defaultEsxVersion: S.String,
+    instanceTypes: InstanceTypeList,
+  }),
+).annotate({ identifier: "VcfVersionInfo" }) as any as S.Schema<VcfVersionInfo>;
+export type VcfVersionList = VcfVersionInfo[];
+export const VcfVersionList = S.Array(VcfVersionInfo);
+export type EsxVersionList = string[];
+export const EsxVersionList = S.Array(S.String);
+export interface InstanceTypeEsxVersionsInfo {
+  instanceType: InstanceType;
+  esxVersions: string[];
+}
+export const InstanceTypeEsxVersionsInfo = S.suspend(() =>
+  S.Struct({ instanceType: InstanceType, esxVersions: EsxVersionList }),
+).annotate({
+  identifier: "InstanceTypeEsxVersionsInfo",
+}) as any as S.Schema<InstanceTypeEsxVersionsInfo>;
+export type InstanceTypeEsxVersionsList = InstanceTypeEsxVersionsInfo[];
+export const InstanceTypeEsxVersionsList = S.Array(InstanceTypeEsxVersionsInfo);
+export interface GetVersionsResponse {
+  vcfVersions: VcfVersionInfo[];
+  instanceTypeEsxVersions: InstanceTypeEsxVersionsInfo[];
+}
+export const GetVersionsResponse = S.suspend(() =>
+  S.Struct({
+    vcfVersions: VcfVersionList,
+    instanceTypeEsxVersions: InstanceTypeEsxVersionsList,
+  }),
+).annotate({
+  identifier: "GetVersionsResponse",
+}) as any as S.Schema<GetVersionsResponse>;
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
@@ -179,8 +235,6 @@ export const ServiceAccessSecurityGroups = S.suspend(() =>
 ).annotate({
   identifier: "ServiceAccessSecurityGroups",
 }) as any as S.Schema<ServiceAccessSecurityGroups>;
-export type VcfVersion = "VCF-5.2.1" | (string & {});
-export const VcfVersion = S.String;
 export interface LicenseInfo {
   solutionKey: string;
   vsanKey: string;
@@ -228,8 +282,6 @@ export const InitialVlans = S.suspend(() =>
     hcxNetworkAclId: S.optional(S.String),
   }),
 ).annotate({ identifier: "InitialVlans" }) as any as S.Schema<InitialVlans>;
-export type InstanceType = "i4i.metal" | (string & {});
-export const InstanceType = S.String;
 export interface HostInfoForCreate {
   hostName: string;
   keyName: string;
@@ -613,12 +665,14 @@ export interface CreateEnvironmentHostRequest {
   clientToken?: string;
   environmentId: string;
   host: HostInfoForCreate;
+  esxVersion?: string;
 }
 export const CreateEnvironmentHostRequest = S.suspend(() =>
   S.Struct({
     clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
     environmentId: S.String,
     host: HostInfoForCreate,
+    esxVersion: S.optional(S.String),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -803,6 +857,19 @@ export const ListEnvironmentVlansResponse = S.suspend(() =>
 }) as any as S.Schema<ListEnvironmentVlansResponse>;
 
 //# Errors
+export class InternalServerException extends S.TaggedErrorClass<InternalServerException>()(
+  "InternalServerException",
+  { message: S.String },
+  T.Retryable(),
+).pipe(C.withServerError, C.withRetryableError) {}
+export class ThrottlingException extends S.TaggedErrorClass<ThrottlingException>()(
+  "ThrottlingException",
+  {
+    message: S.String,
+    retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
+  },
+  T.Retryable(),
+).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { message: S.String, resourceId: S.String, resourceType: S.String },
@@ -827,16 +894,22 @@ export class ValidationException extends S.TaggedErrorClass<ValidationException>
     fieldList: S.optional(ValidationExceptionFieldList),
   },
 ).pipe(C.withBadRequestError) {}
-export class ThrottlingException extends S.TaggedErrorClass<ThrottlingException>()(
-  "ThrottlingException",
-  {
-    message: S.String,
-    retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
-  },
-  T.Retryable(),
-).pipe(C.withThrottlingError, C.withRetryableError) {}
 
 //# Operations
+/**
+ * Returns information about VCF versions, ESX versions and EC2 instance types provided by Amazon EVS. For each VCF version, the response also includes the default ESX version and provided EC2 instance types.
+ */
+export const getVersions: (
+  input: GetVersionsRequest,
+) => effect.Effect<
+  GetVersionsResponse,
+  InternalServerException | ThrottlingException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetVersionsRequest,
+  output: GetVersionsResponse,
+  errors: [InternalServerException, ThrottlingException],
+}));
 /**
  * Lists the tags for an Amazon EVS resource.
  */
@@ -894,6 +967,8 @@ export const untagResource: (
  * During environment creation, Amazon EVS performs validations on DNS settings, provisions VLAN subnets and hosts, and deploys the supplied version of VCF.
  *
  * It can take several hours to create an environment. After the deployment completes, you can configure VCF in the vSphere user interface according to your needs.
+ *
+ * When creating a new environment, the default ESX version for the selected VCF version will be used, you cannot choose a specific ESX version in `CreateEnvironment` action. When a host has been added with a specific ESX version, it can only be upgraded using vCenter Lifecycle Manager.
  *
  * You cannot use the `dedicatedHostId` and `placementGroupId` parameters together in the same `CreateEnvironment` action. This results in a `ValidationException` response.
  */
@@ -994,13 +1069,15 @@ export const associateEipToVlan: (
   errors: [ResourceNotFoundException, ThrottlingException, ValidationException],
 }));
 /**
- * Creates an ESXi host and adds it to an Amazon EVS environment. Amazon EVS supports 4-16 hosts per environment.
+ * Creates an ESX host and adds it to an Amazon EVS environment. Amazon EVS supports 4-16 hosts per environment.
  *
  * This action can only be used after the Amazon EVS environment is deployed.
  *
- * You can use the `dedicatedHostId` parameter to specify an Amazon EC2 Dedicated Host for ESXi host creation.
+ * You can use the `dedicatedHostId` parameter to specify an Amazon EC2 Dedicated Host for ESX host creation.
  *
  * You can use the `placementGroupId` parameter to specify a cluster or partition placement group to launch EC2 instances into.
+ *
+ * If you don't specify an ESX version when adding hosts using `CreateEnvironmentHost` action, Amazon EVS automatically uses the default ESX version associated with your environment's VCF version. To find the default ESX version for a particular VCF version, use the `GetVersions` action.
  *
  * You cannot use the `dedicatedHostId` and `placementGroupId` parameters together in the same `CreateEnvironmentHost` action. This results in a `ValidationException` response.
  */

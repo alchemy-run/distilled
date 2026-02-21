@@ -93,6 +93,12 @@ export type CollectionStatus = string;
 export type CollectionType = string;
 export type StandbyReplicas = string;
 export type ServerlessVectorAccelerationStatus = string;
+export type CollectionGroupName = string;
+export type CollectionGroupId = string;
+export type TagKey = string;
+export type TagValue = string;
+export type CollectionGroupIndexingCapacityValue = number;
+export type CollectionGroupSearchCapacityValue = number;
 export type LifecyclePolicyType = string;
 export type ResourceName = string;
 export type Resource = string;
@@ -112,8 +118,6 @@ export type SecurityPolicyType = string;
 export type IndexingCapacityValue = number;
 export type SearchCapacityValue = number;
 export type Arn = string;
-export type TagKey = string;
-export type TagValue = string;
 export type AccessPolicyType = string;
 export type IndexName = string;
 export type IndexSchema = unknown;
@@ -185,6 +189,7 @@ export interface CollectionDetail {
   fipsEndpoints?: FipsEndpoints;
   failureCode?: string;
   failureMessage?: string;
+  collectionGroupName?: string;
 }
 export const CollectionDetail = S.suspend(() =>
   S.Struct({
@@ -204,6 +209,7 @@ export const CollectionDetail = S.suspend(() =>
     fipsEndpoints: S.optional(FipsEndpoints),
     failureCode: S.optional(S.String),
     failureMessage: S.optional(S.String),
+    collectionGroupName: S.optional(S.String),
   }),
 ).annotate({
   identifier: "CollectionDetail",
@@ -240,6 +246,107 @@ export const BatchGetCollectionResponse = S.suspend(() =>
 ).annotate({
   identifier: "BatchGetCollectionResponse",
 }) as any as S.Schema<BatchGetCollectionResponse>;
+export type CollectionGroupIds = string[];
+export const CollectionGroupIds = S.Array(S.String);
+export type CollectionGroupNames = string[];
+export const CollectionGroupNames = S.Array(S.String);
+export interface BatchGetCollectionGroupRequest {
+  ids?: string[];
+  names?: string[];
+}
+export const BatchGetCollectionGroupRequest = S.suspend(() =>
+  S.Struct({
+    ids: S.optional(CollectionGroupIds),
+    names: S.optional(CollectionGroupNames),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "BatchGetCollectionGroupRequest",
+}) as any as S.Schema<BatchGetCollectionGroupRequest>;
+export interface Tag {
+  key: string;
+  value: string;
+}
+export const Tag = S.suspend(() =>
+  S.Struct({ key: S.String, value: S.String }),
+).annotate({ identifier: "Tag" }) as any as S.Schema<Tag>;
+export type Tags = Tag[];
+export const Tags = S.Array(Tag);
+export interface CollectionGroupCapacityLimits {
+  maxIndexingCapacityInOCU?: number;
+  maxSearchCapacityInOCU?: number;
+  minIndexingCapacityInOCU?: number;
+  minSearchCapacityInOCU?: number;
+}
+export const CollectionGroupCapacityLimits = S.suspend(() =>
+  S.Struct({
+    maxIndexingCapacityInOCU: S.optional(S.Number),
+    maxSearchCapacityInOCU: S.optional(S.Number),
+    minIndexingCapacityInOCU: S.optional(S.Number),
+    minSearchCapacityInOCU: S.optional(S.Number),
+  }),
+).annotate({
+  identifier: "CollectionGroupCapacityLimits",
+}) as any as S.Schema<CollectionGroupCapacityLimits>;
+export interface CollectionGroupDetail {
+  id?: string;
+  arn?: string;
+  name?: string;
+  standbyReplicas?: string;
+  description?: string;
+  tags?: Tag[];
+  createdDate?: number;
+  capacityLimits?: CollectionGroupCapacityLimits;
+  numberOfCollections?: number;
+}
+export const CollectionGroupDetail = S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    arn: S.optional(S.String),
+    name: S.optional(S.String),
+    standbyReplicas: S.optional(S.String),
+    description: S.optional(S.String),
+    tags: S.optional(Tags),
+    createdDate: S.optional(S.Number),
+    capacityLimits: S.optional(CollectionGroupCapacityLimits),
+    numberOfCollections: S.optional(S.Number),
+  }),
+).annotate({
+  identifier: "CollectionGroupDetail",
+}) as any as S.Schema<CollectionGroupDetail>;
+export type CollectionGroupDetails = CollectionGroupDetail[];
+export const CollectionGroupDetails = S.Array(CollectionGroupDetail);
+export interface CollectionGroupErrorDetail {
+  id?: string;
+  name?: string;
+  errorMessage?: string;
+  errorCode?: string;
+}
+export const CollectionGroupErrorDetail = S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    name: S.optional(S.String),
+    errorMessage: S.optional(S.String),
+    errorCode: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "CollectionGroupErrorDetail",
+}) as any as S.Schema<CollectionGroupErrorDetail>;
+export type CollectionGroupErrorDetails = CollectionGroupErrorDetail[];
+export const CollectionGroupErrorDetails = S.Array(CollectionGroupErrorDetail);
+export interface BatchGetCollectionGroupResponse {
+  collectionGroupDetails?: CollectionGroupDetail[];
+  collectionGroupErrorDetails?: CollectionGroupErrorDetail[];
+}
+export const BatchGetCollectionGroupResponse = S.suspend(() =>
+  S.Struct({
+    collectionGroupDetails: S.optional(CollectionGroupDetails),
+    collectionGroupErrorDetails: S.optional(CollectionGroupErrorDetails),
+  }),
+).annotate({
+  identifier: "BatchGetCollectionGroupResponse",
+}) as any as S.Schema<BatchGetCollectionGroupResponse>;
 export interface LifecyclePolicyResourceIdentifier {
   type: string;
   resource: string;
@@ -656,15 +763,6 @@ export const ListTagsForResourceRequest = S.suspend(() =>
 ).annotate({
   identifier: "ListTagsForResourceRequest",
 }) as any as S.Schema<ListTagsForResourceRequest>;
-export interface Tag {
-  key: string;
-  value: string;
-}
-export const Tag = S.suspend(() =>
-  S.Struct({ key: S.String, value: S.String }),
-).annotate({ identifier: "Tag" }) as any as S.Schema<Tag>;
-export type Tags = Tag[];
-export const Tags = S.Array(Tag);
 export interface ListTagsForResourceResponse {
   tags?: Tag[];
 }
@@ -948,6 +1046,18 @@ export const ListAccessPoliciesResponse = S.suspend(() =>
 ).annotate({
   identifier: "ListAccessPoliciesResponse",
 }) as any as S.Schema<ListAccessPoliciesResponse>;
+export interface EncryptionConfig {
+  aWSOwnedKey?: boolean;
+  kmsKeyArn?: string;
+}
+export const EncryptionConfig = S.suspend(() =>
+  S.Struct({
+    aWSOwnedKey: S.optional(S.Boolean),
+    kmsKeyArn: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "EncryptionConfig",
+}) as any as S.Schema<EncryptionConfig>;
 export interface CreateCollectionRequest {
   name: string;
   type?: string;
@@ -955,6 +1065,8 @@ export interface CreateCollectionRequest {
   tags?: Tag[];
   standbyReplicas?: string;
   vectorOptions?: VectorOptions;
+  collectionGroupName?: string;
+  encryptionConfig?: EncryptionConfig;
   clientToken?: string;
 }
 export const CreateCollectionRequest = S.suspend(() =>
@@ -965,6 +1077,8 @@ export const CreateCollectionRequest = S.suspend(() =>
     tags: S.optional(Tags),
     standbyReplicas: S.optional(S.String),
     vectorOptions: S.optional(VectorOptions),
+    collectionGroupName: S.optional(S.String),
+    encryptionConfig: S.optional(EncryptionConfig),
     clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
@@ -984,6 +1098,7 @@ export interface CreateCollectionDetail {
   vectorOptions?: VectorOptions;
   createdDate?: number;
   lastModifiedDate?: number;
+  collectionGroupName?: string;
 }
 export const CreateCollectionDetail = S.suspend(() =>
   S.Struct({
@@ -998,6 +1113,7 @@ export const CreateCollectionDetail = S.suspend(() =>
     vectorOptions: S.optional(VectorOptions),
     createdDate: S.optional(S.Number),
     lastModifiedDate: S.optional(S.Number),
+    collectionGroupName: S.optional(S.String),
   }),
 ).annotate({
   identifier: "CreateCollectionDetail",
@@ -1097,9 +1213,14 @@ export const DeleteCollectionResponse = S.suspend(() =>
 export interface CollectionFilters {
   name?: string;
   status?: string;
+  collectionGroupName?: string;
 }
 export const CollectionFilters = S.suspend(() =>
-  S.Struct({ name: S.optional(S.String), status: S.optional(S.String) }),
+  S.Struct({
+    name: S.optional(S.String),
+    status: S.optional(S.String),
+    collectionGroupName: S.optional(S.String),
+  }),
 ).annotate({
   identifier: "CollectionFilters",
 }) as any as S.Schema<CollectionFilters>;
@@ -1124,6 +1245,8 @@ export interface CollectionSummary {
   name?: string;
   status?: string;
   arn?: string;
+  kmsKeyArn?: string;
+  collectionGroupName?: string;
 }
 export const CollectionSummary = S.suspend(() =>
   S.Struct({
@@ -1131,6 +1254,8 @@ export const CollectionSummary = S.suspend(() =>
     name: S.optional(S.String),
     status: S.optional(S.String),
     arn: S.optional(S.String),
+    kmsKeyArn: S.optional(S.String),
+    collectionGroupName: S.optional(S.String),
   }),
 ).annotate({
   identifier: "CollectionSummary",
@@ -1149,6 +1274,180 @@ export const ListCollectionsResponse = S.suspend(() =>
 ).annotate({
   identifier: "ListCollectionsResponse",
 }) as any as S.Schema<ListCollectionsResponse>;
+export interface CreateCollectionGroupRequest {
+  name: string;
+  standbyReplicas: string;
+  description?: string;
+  tags?: Tag[];
+  capacityLimits?: CollectionGroupCapacityLimits;
+  clientToken?: string;
+}
+export const CreateCollectionGroupRequest = S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    standbyReplicas: S.String,
+    description: S.optional(S.String),
+    tags: S.optional(Tags),
+    capacityLimits: S.optional(CollectionGroupCapacityLimits),
+    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "CreateCollectionGroupRequest",
+}) as any as S.Schema<CreateCollectionGroupRequest>;
+export interface CreateCollectionGroupDetail {
+  id?: string;
+  arn?: string;
+  name?: string;
+  standbyReplicas?: string;
+  description?: string;
+  tags?: Tag[];
+  createdDate?: number;
+  capacityLimits?: CollectionGroupCapacityLimits;
+}
+export const CreateCollectionGroupDetail = S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    arn: S.optional(S.String),
+    name: S.optional(S.String),
+    standbyReplicas: S.optional(S.String),
+    description: S.optional(S.String),
+    tags: S.optional(Tags),
+    createdDate: S.optional(S.Number),
+    capacityLimits: S.optional(CollectionGroupCapacityLimits),
+  }),
+).annotate({
+  identifier: "CreateCollectionGroupDetail",
+}) as any as S.Schema<CreateCollectionGroupDetail>;
+export interface CreateCollectionGroupResponse {
+  createCollectionGroupDetail?: CreateCollectionGroupDetail;
+}
+export const CreateCollectionGroupResponse = S.suspend(() =>
+  S.Struct({
+    createCollectionGroupDetail: S.optional(CreateCollectionGroupDetail),
+  }),
+).annotate({
+  identifier: "CreateCollectionGroupResponse",
+}) as any as S.Schema<CreateCollectionGroupResponse>;
+export interface UpdateCollectionGroupRequest {
+  id: string;
+  description?: string;
+  capacityLimits?: CollectionGroupCapacityLimits;
+  clientToken?: string;
+}
+export const UpdateCollectionGroupRequest = S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    description: S.optional(S.String),
+    capacityLimits: S.optional(CollectionGroupCapacityLimits),
+    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "UpdateCollectionGroupRequest",
+}) as any as S.Schema<UpdateCollectionGroupRequest>;
+export interface UpdateCollectionGroupDetail {
+  id?: string;
+  arn?: string;
+  name?: string;
+  description?: string;
+  capacityLimits?: CollectionGroupCapacityLimits;
+  createdDate?: number;
+  lastModifiedDate?: number;
+}
+export const UpdateCollectionGroupDetail = S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    arn: S.optional(S.String),
+    name: S.optional(S.String),
+    description: S.optional(S.String),
+    capacityLimits: S.optional(CollectionGroupCapacityLimits),
+    createdDate: S.optional(S.Number),
+    lastModifiedDate: S.optional(S.Number),
+  }),
+).annotate({
+  identifier: "UpdateCollectionGroupDetail",
+}) as any as S.Schema<UpdateCollectionGroupDetail>;
+export interface UpdateCollectionGroupResponse {
+  updateCollectionGroupDetail?: UpdateCollectionGroupDetail;
+}
+export const UpdateCollectionGroupResponse = S.suspend(() =>
+  S.Struct({
+    updateCollectionGroupDetail: S.optional(UpdateCollectionGroupDetail),
+  }),
+).annotate({
+  identifier: "UpdateCollectionGroupResponse",
+}) as any as S.Schema<UpdateCollectionGroupResponse>;
+export interface DeleteCollectionGroupRequest {
+  id: string;
+  clientToken?: string;
+}
+export const DeleteCollectionGroupRequest = S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "DeleteCollectionGroupRequest",
+}) as any as S.Schema<DeleteCollectionGroupRequest>;
+export interface DeleteCollectionGroupResponse {}
+export const DeleteCollectionGroupResponse = S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "DeleteCollectionGroupResponse",
+}) as any as S.Schema<DeleteCollectionGroupResponse>;
+export interface ListCollectionGroupsRequest {
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListCollectionGroupsRequest = S.suspend(() =>
+  S.Struct({
+    nextToken: S.optional(S.String),
+    maxResults: S.optional(S.Number),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "ListCollectionGroupsRequest",
+}) as any as S.Schema<ListCollectionGroupsRequest>;
+export interface CollectionGroupSummary {
+  id?: string;
+  arn?: string;
+  name?: string;
+  numberOfCollections?: number;
+  createdDate?: number;
+  capacityLimits?: CollectionGroupCapacityLimits;
+}
+export const CollectionGroupSummary = S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    arn: S.optional(S.String),
+    name: S.optional(S.String),
+    numberOfCollections: S.optional(S.Number),
+    createdDate: S.optional(S.Number),
+    capacityLimits: S.optional(CollectionGroupCapacityLimits),
+  }),
+).annotate({
+  identifier: "CollectionGroupSummary",
+}) as any as S.Schema<CollectionGroupSummary>;
+export type CollectionGroupSummaries = CollectionGroupSummary[];
+export const CollectionGroupSummaries = S.Array(CollectionGroupSummary);
+export interface ListCollectionGroupsResponse {
+  collectionGroupSummaries?: CollectionGroupSummary[];
+  nextToken?: string;
+}
+export const ListCollectionGroupsResponse = S.suspend(() =>
+  S.Struct({
+    collectionGroupSummaries: S.optional(CollectionGroupSummaries),
+    nextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ListCollectionGroupsResponse",
+}) as any as S.Schema<ListCollectionGroupsResponse>;
 export interface CreateIndexRequest {
   id: string;
   indexName: string;
@@ -1887,6 +2186,20 @@ export const batchGetCollection: (
   errors: [InternalServerException, ValidationException],
 }));
 /**
+ * Returns attributes for one or more collection groups, including capacity limits and the number of collections in each group. For more information, see Creating and managing Amazon OpenSearch Serverless collections.
+ */
+export const batchGetCollectionGroup: (
+  input: BatchGetCollectionGroupRequest,
+) => effect.Effect<
+  BatchGetCollectionGroupResponse,
+  InternalServerException | ValidationException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: BatchGetCollectionGroupRequest,
+  output: BatchGetCollectionGroupResponse,
+  errors: [InternalServerException, ValidationException],
+}));
+/**
  * Returns a list of successful and failed retrievals for the OpenSearch Serverless indexes. For more information, see Viewing data lifecycle policies.
  */
 export const batchGetEffectiveLifecyclePolicy: (
@@ -2325,6 +2638,108 @@ export const listCollections: {
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListCollectionsRequest,
   output: ListCollectionsResponse,
+  errors: [InternalServerException, ValidationException],
+  pagination: { inputToken: "nextToken", outputToken: "nextToken" } as const,
+}));
+/**
+ * Creates a collection group within OpenSearch Serverless. Collection groups let you manage OpenSearch Compute Units (OCUs) at a group level, with multiple collections sharing the group's capacity limits.
+ *
+ * For more information, see Managing collection groups.
+ */
+export const createCollectionGroup: (
+  input: CreateCollectionGroupRequest,
+) => effect.Effect<
+  CreateCollectionGroupResponse,
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateCollectionGroupRequest,
+  output: CreateCollectionGroupResponse,
+  errors: [
+    ConflictException,
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ValidationException,
+  ],
+}));
+/**
+ * Updates the description and capacity limits of a collection group.
+ */
+export const updateCollectionGroup: (
+  input: UpdateCollectionGroupRequest,
+) => effect.Effect<
+  UpdateCollectionGroupResponse,
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateCollectionGroupRequest,
+  output: UpdateCollectionGroupResponse,
+  errors: [
+    ConflictException,
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ValidationException,
+  ],
+}));
+/**
+ * Deletes a collection group. You can only delete empty collection groups that contain no collections. For more information, see Creating and managing Amazon OpenSearch Serverless collections.
+ */
+export const deleteCollectionGroup: (
+  input: DeleteCollectionGroupRequest,
+) => effect.Effect<
+  DeleteCollectionGroupResponse,
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteCollectionGroupRequest,
+  output: DeleteCollectionGroupResponse,
+  errors: [
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Returns a list of collection groups. For more information, see Creating and managing Amazon OpenSearch Serverless collections.
+ */
+export const listCollectionGroups: {
+  (
+    input: ListCollectionGroupsRequest,
+  ): effect.Effect<
+    ListCollectionGroupsResponse,
+    InternalServerException | ValidationException | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListCollectionGroupsRequest,
+  ) => stream.Stream<
+    ListCollectionGroupsResponse,
+    InternalServerException | ValidationException | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListCollectionGroupsRequest,
+  ) => stream.Stream<
+    unknown,
+    InternalServerException | ValidationException | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListCollectionGroupsRequest,
+  output: ListCollectionGroupsResponse,
   errors: [InternalServerException, ValidationException],
   pagination: { inputToken: "nextToken", outputToken: "nextToken" } as const,
 }));

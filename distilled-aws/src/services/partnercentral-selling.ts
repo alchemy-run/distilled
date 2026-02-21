@@ -2585,6 +2585,7 @@ export type OpportunitySortName =
   | "LastModifiedDate"
   | "Identifier"
   | "CustomerCompanyName"
+  | "CreatedDate"
   | (string & {});
 export const OpportunitySortName = S.String;
 export interface OpportunitySort {
@@ -2620,6 +2621,22 @@ export type FilterLifeCycleReviewStatus = ReviewStatus[];
 export const FilterLifeCycleReviewStatus = S.Array(ReviewStatus);
 export type StringList = string[];
 export const StringList = S.Array(S.String);
+export interface CreatedDateFilter {
+  AfterCreatedDate?: Date;
+  BeforeCreatedDate?: Date;
+}
+export const CreatedDateFilter = S.suspend(() =>
+  S.Struct({
+    AfterCreatedDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    BeforeCreatedDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+  }),
+).annotate({
+  identifier: "CreatedDateFilter",
+}) as any as S.Schema<CreatedDateFilter>;
 export interface ListOpportunitiesRequest {
   Catalog: string;
   MaxResults?: number;
@@ -2630,6 +2647,7 @@ export interface ListOpportunitiesRequest {
   LifeCycleStage?: Stage[];
   LifeCycleReviewStatus?: ReviewStatus[];
   CustomerCompanyName?: string[];
+  CreatedDate?: CreatedDateFilter;
 }
 export const ListOpportunitiesRequest = S.suspend(() =>
   S.Struct({
@@ -2642,6 +2660,7 @@ export const ListOpportunitiesRequest = S.suspend(() =>
     LifeCycleStage: S.optional(FilterLifeCycleStage),
     LifeCycleReviewStatus: S.optional(FilterLifeCycleReviewStatus),
     CustomerCompanyName: S.optional(StringList),
+    CreatedDate: S.optional(CreatedDateFilter),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/ListOpportunities" }),
@@ -3482,11 +3501,48 @@ export const OpportunitySummaryView = S.suspend(() =>
 ).annotate({
   identifier: "OpportunitySummaryView",
 }) as any as S.Schema<OpportunitySummaryView>;
-export type ResourceSnapshotPayload = {
-  OpportunitySummary: OpportunitySummaryView;
-};
+export interface AwsOpportunitySummaryFullView {
+  RelatedOpportunityId?: string;
+  Origin?: OpportunityOrigin;
+  InvolvementType?: SalesInvolvementType;
+  Visibility?: Visibility;
+  LifeCycle?: AwsOpportunityLifeCycle;
+  OpportunityTeam?: AwsTeamMember[];
+  Insights?: AwsOpportunityInsights;
+  InvolvementTypeChangeReason?: InvolvementTypeChangeReason;
+  RelatedEntityIds?: AwsOpportunityRelatedEntities;
+  Customer?: AwsOpportunityCustomer;
+  Project?: AwsOpportunityProject;
+}
+export const AwsOpportunitySummaryFullView = S.suspend(() =>
+  S.Struct({
+    RelatedOpportunityId: S.optional(S.String),
+    Origin: S.optional(OpportunityOrigin),
+    InvolvementType: S.optional(SalesInvolvementType),
+    Visibility: S.optional(Visibility),
+    LifeCycle: S.optional(AwsOpportunityLifeCycle),
+    OpportunityTeam: S.optional(AwsOpportunityTeamMembersList),
+    Insights: S.optional(AwsOpportunityInsights),
+    InvolvementTypeChangeReason: S.optional(InvolvementTypeChangeReason),
+    RelatedEntityIds: S.optional(AwsOpportunityRelatedEntities),
+    Customer: S.optional(AwsOpportunityCustomer),
+    Project: S.optional(AwsOpportunityProject),
+  }),
+).annotate({
+  identifier: "AwsOpportunitySummaryFullView",
+}) as any as S.Schema<AwsOpportunitySummaryFullView>;
+export type ResourceSnapshotPayload =
+  | {
+      OpportunitySummary: OpportunitySummaryView;
+      AwsOpportunitySummaryFullView?: never;
+    }
+  | {
+      OpportunitySummary?: never;
+      AwsOpportunitySummaryFullView: AwsOpportunitySummaryFullView;
+    };
 export const ResourceSnapshotPayload = S.Union([
   S.Struct({ OpportunitySummary: OpportunitySummaryView }),
+  S.Struct({ AwsOpportunitySummaryFullView: AwsOpportunitySummaryFullView }),
 ]);
 export interface GetResourceSnapshotResponse {
   Catalog: string;
@@ -3499,6 +3555,7 @@ export interface GetResourceSnapshotResponse {
   ResourceSnapshotTemplateName?: string;
   Revision?: number;
   Payload?: ResourceSnapshotPayload;
+  TargetMemberAccounts?: string | redacted.Redacted<string>[];
 }
 export const GetResourceSnapshotResponse = S.suspend(() =>
   S.Struct({
@@ -3514,6 +3571,7 @@ export const GetResourceSnapshotResponse = S.suspend(() =>
     ResourceSnapshotTemplateName: S.optional(S.String),
     Revision: S.optional(S.Number),
     Payload: S.optional(ResourceSnapshotPayload),
+    TargetMemberAccounts: S.optional(AwsAccountIdOrAliasList),
   }),
 ).annotate({
   identifier: "GetResourceSnapshotResponse",

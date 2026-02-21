@@ -95,12 +95,15 @@ export type DeploymentName = string;
 export type KeyString = string;
 export type ValueString = string;
 export type DeploymentId = string;
+export type WorkloadVersionName = string;
+export type DeploymentPatternVersionName = string;
+export type DeploymentFilterValue = string;
 export type MaxDeploymentResults = number;
 export type NextToken = string;
 export type MaxDeploymentEventResults = number;
 export type MaxWorkloadResults = number;
-export type WorkloadVersionName = string;
 export type MaxWorkloadDeploymentPatternResults = number;
+export type DeploymentPatternVersionFilterValue = string;
 
 //# Schemas
 export interface ListTagsForResourceInput {
@@ -251,6 +254,11 @@ export type DeploymentStatus =
   | "FAILED"
   | "IN_PROGRESS"
   | "VALIDATING"
+  | "UPDATE_IN_PROGRESS"
+  | "UPDATE_COMPLETED"
+  | "UPDATE_FAILED"
+  | "UPDATE_ROLLBACK_COMPLETED"
+  | "UPDATE_ROLLBACK_FAILED"
   | (string & {});
 export const DeploymentStatus = S.String;
 export interface DeploymentData {
@@ -260,6 +268,7 @@ export interface DeploymentData {
   patternName?: string;
   status?: DeploymentStatus;
   createdAt?: Date;
+  modifiedAt?: Date;
   specifications?: { [key: string]: string | undefined };
   resourceGroup?: string;
   deletedAt?: Date;
@@ -274,6 +283,7 @@ export const DeploymentData = S.suspend(() =>
     patternName: S.optional(S.String),
     status: S.optional(DeploymentStatus),
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    modifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     specifications: S.optional(DeploymentSpecifications),
     resourceGroup: S.optional(S.String),
     deletedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -289,6 +299,65 @@ export const GetDeploymentOutput = S.suspend(() =>
 ).annotate({
   identifier: "GetDeploymentOutput",
 }) as any as S.Schema<GetDeploymentOutput>;
+export interface UpdateDeploymentInput {
+  deploymentId: string;
+  specifications: { [key: string]: string | undefined };
+  workloadVersionName?: string;
+  deploymentPatternVersionName?: string;
+  dryRun?: boolean;
+  force?: boolean;
+}
+export const UpdateDeploymentInput = S.suspend(() =>
+  S.Struct({
+    deploymentId: S.String,
+    specifications: DeploymentSpecifications,
+    workloadVersionName: S.optional(S.String),
+    deploymentPatternVersionName: S.optional(S.String),
+    dryRun: S.optional(S.Boolean),
+    force: S.optional(S.Boolean),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/updateDeployment" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "UpdateDeploymentInput",
+}) as any as S.Schema<UpdateDeploymentInput>;
+export interface DeploymentDataSummary {
+  name?: string;
+  id?: string;
+  workloadName?: string;
+  patternName?: string;
+  status?: DeploymentStatus;
+  createdAt?: Date;
+  modifiedAt?: Date;
+}
+export const DeploymentDataSummary = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    id: S.optional(S.String),
+    workloadName: S.optional(S.String),
+    patternName: S.optional(S.String),
+    status: S.optional(DeploymentStatus),
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    modifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotate({
+  identifier: "DeploymentDataSummary",
+}) as any as S.Schema<DeploymentDataSummary>;
+export interface UpdateDeploymentOutput {
+  deployment?: DeploymentDataSummary;
+}
+export const UpdateDeploymentOutput = S.suspend(() =>
+  S.Struct({ deployment: S.optional(DeploymentDataSummary) }),
+).annotate({
+  identifier: "UpdateDeploymentOutput",
+}) as any as S.Schema<UpdateDeploymentOutput>;
 export interface DeleteDeploymentInput {
   deploymentId: string;
 }
@@ -362,26 +431,6 @@ export const ListDeploymentsInput = S.suspend(() =>
 ).annotate({
   identifier: "ListDeploymentsInput",
 }) as any as S.Schema<ListDeploymentsInput>;
-export interface DeploymentDataSummary {
-  name?: string;
-  id?: string;
-  workloadName?: string;
-  patternName?: string;
-  status?: DeploymentStatus;
-  createdAt?: Date;
-}
-export const DeploymentDataSummary = S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    id: S.optional(S.String),
-    workloadName: S.optional(S.String),
-    patternName: S.optional(S.String),
-    status: S.optional(DeploymentStatus),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }),
-).annotate({
-  identifier: "DeploymentDataSummary",
-}) as any as S.Schema<DeploymentDataSummary>;
 export type DeploymentDataSummaryList = DeploymentDataSummary[];
 export const DeploymentDataSummaryList = S.Array(DeploymentDataSummary);
 export interface ListDeploymentsOutput {
@@ -491,20 +540,20 @@ export const WorkloadStatus = S.String;
 export interface WorkloadData {
   workloadName?: string;
   displayName?: string;
+  status?: WorkloadStatus;
   description?: string;
   documentationUrl?: string;
   iconUrl?: string;
-  status?: WorkloadStatus;
   statusMessage?: string;
 }
 export const WorkloadData = S.suspend(() =>
   S.Struct({
     workloadName: S.optional(S.String),
     displayName: S.optional(S.String),
+    status: S.optional(WorkloadStatus),
     description: S.optional(S.String),
     documentationUrl: S.optional(S.String),
     iconUrl: S.optional(S.String),
-    status: S.optional(WorkloadStatus),
     statusMessage: S.optional(S.String),
   }),
 ).annotate({ identifier: "WorkloadData" }) as any as S.Schema<WorkloadData>;
@@ -540,11 +589,13 @@ export const ListWorkloadsInput = S.suspend(() =>
 export interface WorkloadDataSummary {
   workloadName?: string;
   displayName?: string;
+  status?: WorkloadStatus;
 }
 export const WorkloadDataSummary = S.suspend(() =>
   S.Struct({
     workloadName: S.optional(S.String),
     displayName: S.optional(S.String),
+    status: S.optional(WorkloadStatus),
   }),
 ).annotate({
   identifier: "WorkloadDataSummary",
@@ -634,6 +685,7 @@ export interface WorkloadDeploymentPatternData {
   workloadName?: string;
   deploymentPatternName?: string;
   workloadVersionName?: string;
+  deploymentPatternVersionName?: string;
   displayName?: string;
   description?: string;
   status?: WorkloadDeploymentPatternStatus;
@@ -645,6 +697,7 @@ export const WorkloadDeploymentPatternData = S.suspend(() =>
     workloadName: S.optional(S.String),
     deploymentPatternName: S.optional(S.String),
     workloadVersionName: S.optional(S.String),
+    deploymentPatternVersionName: S.optional(S.String),
     displayName: S.optional(S.String),
     description: S.optional(S.String),
     status: S.optional(WorkloadDeploymentPatternStatus),
@@ -691,6 +744,7 @@ export interface WorkloadDeploymentPatternDataSummary {
   workloadName?: string;
   deploymentPatternName?: string;
   workloadVersionName?: string;
+  deploymentPatternVersionName?: string;
   displayName?: string;
   description?: string;
   status?: WorkloadDeploymentPatternStatus;
@@ -701,6 +755,7 @@ export const WorkloadDeploymentPatternDataSummary = S.suspend(() =>
     workloadName: S.optional(S.String),
     deploymentPatternName: S.optional(S.String),
     workloadVersionName: S.optional(S.String),
+    deploymentPatternVersionName: S.optional(S.String),
     displayName: S.optional(S.String),
     description: S.optional(S.String),
     status: S.optional(WorkloadDeploymentPatternStatus),
@@ -728,6 +783,123 @@ export const ListWorkloadDeploymentPatternsOutput = S.suspend(() =>
 ).annotate({
   identifier: "ListWorkloadDeploymentPatternsOutput",
 }) as any as S.Schema<ListWorkloadDeploymentPatternsOutput>;
+export interface GetDeploymentPatternVersionInput {
+  workloadName: string;
+  deploymentPatternName: string;
+  deploymentPatternVersionName: string;
+}
+export const GetDeploymentPatternVersionInput = S.suspend(() =>
+  S.Struct({
+    workloadName: S.String,
+    deploymentPatternName: S.String,
+    deploymentPatternVersionName: S.String,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/getDeploymentPatternVersion" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetDeploymentPatternVersionInput",
+}) as any as S.Schema<GetDeploymentPatternVersionInput>;
+export interface DeploymentPatternVersionDataSummary {
+  deploymentPatternVersionName?: string;
+  description?: string;
+  documentationUrl?: string;
+  workloadName?: string;
+  deploymentPatternName?: string;
+}
+export const DeploymentPatternVersionDataSummary = S.suspend(() =>
+  S.Struct({
+    deploymentPatternVersionName: S.optional(S.String),
+    description: S.optional(S.String),
+    documentationUrl: S.optional(S.String),
+    workloadName: S.optional(S.String),
+    deploymentPatternName: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "DeploymentPatternVersionDataSummary",
+}) as any as S.Schema<DeploymentPatternVersionDataSummary>;
+export interface GetDeploymentPatternVersionOutput {
+  deploymentPatternVersion?: DeploymentPatternVersionDataSummary;
+}
+export const GetDeploymentPatternVersionOutput = S.suspend(() =>
+  S.Struct({
+    deploymentPatternVersion: S.optional(DeploymentPatternVersionDataSummary),
+  }),
+).annotate({
+  identifier: "GetDeploymentPatternVersionOutput",
+}) as any as S.Schema<GetDeploymentPatternVersionOutput>;
+export type DeploymentPatternVersionFilterKey =
+  | "updateFromVersion"
+  | (string & {});
+export const DeploymentPatternVersionFilterKey = S.String;
+export type DeploymentPatternVersionFilterValues = string[];
+export const DeploymentPatternVersionFilterValues = S.Array(S.String);
+export interface DeploymentPatternVersionFilter {
+  name: DeploymentPatternVersionFilterKey;
+  values: string[];
+}
+export const DeploymentPatternVersionFilter = S.suspend(() =>
+  S.Struct({
+    name: DeploymentPatternVersionFilterKey,
+    values: DeploymentPatternVersionFilterValues,
+  }),
+).annotate({
+  identifier: "DeploymentPatternVersionFilter",
+}) as any as S.Schema<DeploymentPatternVersionFilter>;
+export type FilterList = DeploymentPatternVersionFilter[];
+export const FilterList = S.Array(DeploymentPatternVersionFilter);
+export interface ListDeploymentPatternVersionsInput {
+  workloadName: string;
+  deploymentPatternName: string;
+  maxResults?: number;
+  nextToken?: string;
+  filters?: DeploymentPatternVersionFilter[];
+}
+export const ListDeploymentPatternVersionsInput = S.suspend(() =>
+  S.Struct({
+    workloadName: S.String,
+    deploymentPatternName: S.String,
+    maxResults: S.optional(S.Number),
+    nextToken: S.optional(S.String),
+    filters: S.optional(FilterList),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/listDeploymentPatternVersions" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListDeploymentPatternVersionsInput",
+}) as any as S.Schema<ListDeploymentPatternVersionsInput>;
+export type DeploymentPatternVersionDataSummaryList =
+  DeploymentPatternVersionDataSummary[];
+export const DeploymentPatternVersionDataSummaryList = S.Array(
+  DeploymentPatternVersionDataSummary,
+);
+export interface ListDeploymentPatternVersionsOutput {
+  deploymentPatternVersions?: DeploymentPatternVersionDataSummary[];
+  nextToken?: string;
+}
+export const ListDeploymentPatternVersionsOutput = S.suspend(() =>
+  S.Struct({
+    deploymentPatternVersions: S.optional(
+      DeploymentPatternVersionDataSummaryList,
+    ),
+    nextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ListDeploymentPatternVersionsOutput",
+}) as any as S.Schema<ListDeploymentPatternVersionsOutput>;
 
 //# Errors
 export class InternalServerException extends S.TaggedErrorClass<InternalServerException>()(
@@ -812,9 +984,7 @@ export const untagResource: (
   ],
 }));
 /**
- * Creates a deployment for the given workload. Deployments created by this operation are
- * not available in the Launch Wizard console to use the `Clone deployment` action
- * on.
+ * Creates a deployment for the given workload. Deployments created by this operation are not available in the Launch Wizard console to use the `Clone deployment` action on.
  */
 export const createDeployment: (
   input: CreateDeploymentInput,
@@ -853,6 +1023,29 @@ export const getDeployment: (
   output: GetDeploymentOutput,
   errors: [
     InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Updates a deployment.
+ */
+export const updateDeployment: (
+  input: UpdateDeploymentInput,
+) => effect.Effect<
+  UpdateDeploymentOutput,
+  | InternalServerException
+  | ResourceLimitException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateDeploymentInput,
+  output: UpdateDeploymentOutput,
+  errors: [
+    InternalServerException,
+    ResourceLimitException,
     ResourceNotFoundException,
     ValidationException,
   ],
@@ -1023,10 +1216,7 @@ export const listWorkloads: {
   } as const,
 }));
 /**
- * Returns details for a given workload and deployment pattern, including the available
- * specifications. You can use the ListWorkloads
- * operation to discover the available workload names and the ListWorkloadDeploymentPatterns operation to discover the available deployment
- * pattern names of a given workload.
+ * Returns details for a given workload and deployment pattern, including the available specifications. You can use the ListWorkloads operation to discover the available workload names and the ListWorkloadDeploymentPatterns operation to discover the available deployment pattern names of a given workload.
  */
 export const getWorkloadDeploymentPattern: (
   input: GetWorkloadDeploymentPatternInput,
@@ -1092,6 +1282,69 @@ export const listWorkloadDeploymentPatterns: {
     inputToken: "nextToken",
     outputToken: "nextToken",
     items: "workloadDeploymentPatterns",
+    pageSize: "maxResults",
+  } as const,
+}));
+/**
+ * Returns information about a deployment pattern version.
+ */
+export const getDeploymentPatternVersion: (
+  input: GetDeploymentPatternVersionInput,
+) => effect.Effect<
+  GetDeploymentPatternVersionOutput,
+  InternalServerException | ResourceNotFoundException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetDeploymentPatternVersionInput,
+  output: GetDeploymentPatternVersionOutput,
+  errors: [InternalServerException, ResourceNotFoundException],
+}));
+/**
+ * Lists the deployment pattern versions.
+ */
+export const listDeploymentPatternVersions: {
+  (
+    input: ListDeploymentPatternVersionsInput,
+  ): effect.Effect<
+    ListDeploymentPatternVersionsOutput,
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListDeploymentPatternVersionsInput,
+  ) => stream.Stream<
+    ListDeploymentPatternVersionsOutput,
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDeploymentPatternVersionsInput,
+  ) => stream.Stream<
+    DeploymentPatternVersionDataSummary,
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListDeploymentPatternVersionsInput,
+  output: ListDeploymentPatternVersionsOutput,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "deploymentPatternVersions",
     pageSize: "maxResults",
   } as const,
 }));

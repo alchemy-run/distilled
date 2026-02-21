@@ -1464,11 +1464,14 @@ export const GuardrailConverseContentBlock = S.Union([
 ]);
 export type CachePointType = "default" | (string & {});
 export const CachePointType = S.String;
+export type CacheTTL = "5m" | "1h" | (string & {});
+export const CacheTTL = S.String;
 export interface CachePointBlock {
   type: CachePointType;
+  ttl?: CacheTTL;
 }
 export const CachePointBlock = S.suspend(() =>
-  S.Struct({ type: CachePointType }),
+  S.Struct({ type: CachePointType, ttl: S.optional(CacheTTL) }),
 ).annotate({
   identifier: "CachePointBlock",
 }) as any as S.Schema<CachePointBlock>;
@@ -1863,12 +1866,14 @@ export interface ToolSpecification {
   name: string;
   description?: string;
   inputSchema: ToolInputSchema;
+  strict?: boolean;
 }
 export const ToolSpecification = S.suspend(() =>
   S.Struct({
     name: S.String,
     description: S.optional(S.String),
     inputSchema: ToolInputSchema,
+    strict: S.optional(S.Boolean),
   }),
 ).annotate({
   identifier: "ToolSpecification",
@@ -1980,6 +1985,39 @@ export interface ServiceTier {
 export const ServiceTier = S.suspend(() =>
   S.Struct({ type: ServiceTierType }),
 ).annotate({ identifier: "ServiceTier" }) as any as S.Schema<ServiceTier>;
+export type OutputFormatType = "json_schema" | (string & {});
+export const OutputFormatType = S.String;
+export interface JsonSchemaDefinition {
+  schema: string;
+  name?: string;
+  description?: string;
+}
+export const JsonSchemaDefinition = S.suspend(() =>
+  S.Struct({
+    schema: S.String,
+    name: S.optional(S.String),
+    description: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "JsonSchemaDefinition",
+}) as any as S.Schema<JsonSchemaDefinition>;
+export type OutputFormatStructure = { jsonSchema: JsonSchemaDefinition };
+export const OutputFormatStructure = S.Union([
+  S.Struct({ jsonSchema: JsonSchemaDefinition }),
+]);
+export interface OutputFormat {
+  type: OutputFormatType;
+  structure: OutputFormatStructure;
+}
+export const OutputFormat = S.suspend(() =>
+  S.Struct({ type: OutputFormatType, structure: OutputFormatStructure }),
+).annotate({ identifier: "OutputFormat" }) as any as S.Schema<OutputFormat>;
+export interface OutputConfig {
+  textFormat?: OutputFormat;
+}
+export const OutputConfig = S.suspend(() =>
+  S.Struct({ textFormat: S.optional(OutputFormat) }),
+).annotate({ identifier: "OutputConfig" }) as any as S.Schema<OutputConfig>;
 export interface ConverseRequest {
   modelId: string;
   messages?: Message[];
@@ -1993,6 +2031,7 @@ export interface ConverseRequest {
   requestMetadata?: { [key: string]: string | undefined };
   performanceConfig?: PerformanceConfiguration;
   serviceTier?: ServiceTier;
+  outputConfig?: OutputConfig;
 }
 export const ConverseRequest = S.suspend(() =>
   S.Struct({
@@ -2010,6 +2049,7 @@ export const ConverseRequest = S.suspend(() =>
     requestMetadata: S.optional(RequestMetadata),
     performanceConfig: S.optional(PerformanceConfiguration),
     serviceTier: S.optional(ServiceTier),
+    outputConfig: S.optional(OutputConfig),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/model/{modelId}/converse" }),
@@ -2037,12 +2077,22 @@ export type StopReason =
   | "model_context_window_exceeded"
   | (string & {});
 export const StopReason = S.String;
+export interface CacheDetail {
+  ttl: CacheTTL;
+  inputTokens: number;
+}
+export const CacheDetail = S.suspend(() =>
+  S.Struct({ ttl: CacheTTL, inputTokens: S.Number }),
+).annotate({ identifier: "CacheDetail" }) as any as S.Schema<CacheDetail>;
+export type CacheDetailsList = CacheDetail[];
+export const CacheDetailsList = S.Array(CacheDetail);
 export interface TokenUsage {
   inputTokens: number;
   outputTokens: number;
   totalTokens: number;
   cacheReadInputTokens?: number;
   cacheWriteInputTokens?: number;
+  cacheDetails?: CacheDetail[];
 }
 export const TokenUsage = S.suspend(() =>
   S.Struct({
@@ -2051,6 +2101,7 @@ export const TokenUsage = S.suspend(() =>
     totalTokens: S.Number,
     cacheReadInputTokens: S.optional(S.Number),
     cacheWriteInputTokens: S.optional(S.Number),
+    cacheDetails: S.optional(CacheDetailsList),
   }),
 ).annotate({ identifier: "TokenUsage" }) as any as S.Schema<TokenUsage>;
 export interface ConverseMetrics {
@@ -2166,6 +2217,7 @@ export interface ConverseStreamRequest {
   requestMetadata?: { [key: string]: string | undefined };
   performanceConfig?: PerformanceConfiguration;
   serviceTier?: ServiceTier;
+  outputConfig?: OutputConfig;
 }
 export const ConverseStreamRequest = S.suspend(() =>
   S.Struct({
@@ -2183,6 +2235,7 @@ export const ConverseStreamRequest = S.suspend(() =>
     requestMetadata: S.optional(RequestMetadata),
     performanceConfig: S.optional(PerformanceConfiguration),
     serviceTier: S.optional(ServiceTier),
+    outputConfig: S.optional(OutputConfig),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/model/{modelId}/converse-stream" }),

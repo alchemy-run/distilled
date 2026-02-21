@@ -161,13 +161,15 @@ export type AthenaWorkGroup = string;
 export type AthenaOutputLocation = string;
 export type AthenaDatabaseName = string;
 export type AthenaTableName = string;
+export type AthenaCatalogName = string;
 export type IdMappingTableInputReferenceArn = string;
 export type KMSKeyArn = string;
 export type IdMappingTableArn = string;
-export type ResultFormat = string;
 export type KeyPrefix = string;
 export type MembershipStatus = string;
 export type ProtectedJobIdentifier = string;
+export type JobParameterName = string;
+export type JobParameterValue = string;
 export type ProtectedQueryIdentifier = string;
 export type ProtectedQueryStatus = string;
 export type DifferentialPrivacyAggregationExpression = string;
@@ -4055,6 +4057,7 @@ export interface AthenaTableReference {
   outputLocation?: string;
   databaseName: string;
   tableName: string;
+  catalogName?: string;
 }
 export const AthenaTableReference = S.suspend(() =>
   S.Struct({
@@ -4063,6 +4066,7 @@ export const AthenaTableReference = S.suspend(() =>
     outputLocation: S.optional(S.String),
     databaseName: S.String,
     tableName: S.String,
+    catalogName: S.optional(S.String),
   }),
 ).annotate({
   identifier: "AthenaTableReference",
@@ -5062,15 +5066,17 @@ export type MembershipQueryLogStatus = "ENABLED" | "DISABLED" | (string & {});
 export const MembershipQueryLogStatus = S.String;
 export type MembershipJobLogStatus = "ENABLED" | "DISABLED" | (string & {});
 export const MembershipJobLogStatus = S.String;
+export type ResultFormat = "CSV" | "PARQUET" | (string & {});
+export const ResultFormat = S.String;
 export interface ProtectedQueryS3OutputConfiguration {
-  resultFormat: string;
+  resultFormat: ResultFormat;
   bucket: string;
   keyPrefix?: string;
   singleFileOutput?: boolean;
 }
 export const ProtectedQueryS3OutputConfiguration = S.suspend(() =>
   S.Struct({
-    resultFormat: S.String,
+    resultFormat: ResultFormat,
     bucket: S.String,
     keyPrefix: S.optional(S.String),
     singleFileOutput: S.optional(S.Boolean),
@@ -5470,11 +5476,17 @@ export const GetProtectedJobInput = S.suspend(() =>
 ).annotate({
   identifier: "GetProtectedJobInput",
 }) as any as S.Schema<GetProtectedJobInput>;
+export type JobParameterMap = { [key: string]: string | undefined };
+export const JobParameterMap = S.Record(S.String, S.String.pipe(S.optional));
 export interface ProtectedJobParameters {
   analysisTemplateArn: string;
+  parameters?: { [key: string]: string | undefined };
 }
 export const ProtectedJobParameters = S.suspend(() =>
-  S.Struct({ analysisTemplateArn: S.String }),
+  S.Struct({
+    analysisTemplateArn: S.String,
+    parameters: S.optional(JobParameterMap),
+  }),
 ).annotate({
   identifier: "ProtectedJobParameters",
 }) as any as S.Schema<ProtectedJobParameters>;

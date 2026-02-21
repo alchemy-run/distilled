@@ -98,6 +98,7 @@ export type __stringMax2048 = string;
 export type __integerMin0Max7 = number;
 export type __integerMin0Max100 = number;
 export type __stringMin1 = string;
+export type __integerMin1Max65535 = number;
 export type __doubleMinNegative59Max0 = number;
 export type __stringMin2Max2 = string;
 export type __stringMin1Max7 = string;
@@ -1422,21 +1423,29 @@ export type __listOfOutputDestinationSettings = OutputDestinationSettings[];
 export const __listOfOutputDestinationSettings = S.Array(
   OutputDestinationSettings,
 );
+export type ConnectionMode = "CALLER" | "LISTENER" | (string & {});
+export const ConnectionMode = S.String;
 export interface SrtOutputDestinationSettings {
   EncryptionPassphraseSecretArn?: string;
   StreamId?: string;
   Url?: string;
+  ConnectionMode?: ConnectionMode;
+  ListenerPort?: number;
 }
 export const SrtOutputDestinationSettings = S.suspend(() =>
   S.Struct({
     EncryptionPassphraseSecretArn: S.optional(S.String),
     StreamId: S.optional(S.String),
     Url: S.optional(S.String),
+    ConnectionMode: S.optional(ConnectionMode),
+    ListenerPort: S.optional(S.Number),
   }).pipe(
     S.encodeKeys({
       EncryptionPassphraseSecretArn: "encryptionPassphraseSecretArn",
       StreamId: "streamId",
       Url: "url",
+      ConnectionMode: "connectionMode",
+      ListenerPort: "listenerPort",
     }),
   ),
 ).annotate({
@@ -2865,26 +2874,46 @@ export type PipelineLockingMethod =
 export const PipelineLockingMethod = S.String;
 export interface PipelineLockingSettings {
   PipelineLockingMethod?: PipelineLockingMethod;
+  CustomEpoch?: string;
 }
 export const PipelineLockingSettings = S.suspend(() =>
-  S.Struct({ PipelineLockingMethod: S.optional(PipelineLockingMethod) }).pipe(
-    S.encodeKeys({ PipelineLockingMethod: "pipelineLockingMethod" }),
+  S.Struct({
+    PipelineLockingMethod: S.optional(PipelineLockingMethod),
+    CustomEpoch: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      PipelineLockingMethod: "pipelineLockingMethod",
+      CustomEpoch: "customEpoch",
+    }),
   ),
 ).annotate({
   identifier: "PipelineLockingSettings",
 }) as any as S.Schema<PipelineLockingSettings>;
+export interface DisabledLockingSettings {
+  CustomEpoch?: string;
+}
+export const DisabledLockingSettings = S.suspend(() =>
+  S.Struct({ CustomEpoch: S.optional(S.String) }).pipe(
+    S.encodeKeys({ CustomEpoch: "customEpoch" }),
+  ),
+).annotate({
+  identifier: "DisabledLockingSettings",
+}) as any as S.Schema<DisabledLockingSettings>;
 export interface OutputLockingSettings {
   EpochLockingSettings?: EpochLockingSettings;
   PipelineLockingSettings?: PipelineLockingSettings;
+  DisabledLockingSettings?: DisabledLockingSettings;
 }
 export const OutputLockingSettings = S.suspend(() =>
   S.Struct({
     EpochLockingSettings: S.optional(EpochLockingSettings),
     PipelineLockingSettings: S.optional(PipelineLockingSettings),
+    DisabledLockingSettings: S.optional(DisabledLockingSettings),
   }).pipe(
     S.encodeKeys({
       EpochLockingSettings: "epochLockingSettings",
       PipelineLockingSettings: "pipelineLockingSettings",
+      DisabledLockingSettings: "disabledLockingSettings",
     }),
   ),
 ).annotate({
@@ -5729,6 +5758,13 @@ export type Av1SpatialAq = "DISABLED" | "ENABLED" | (string & {});
 export const Av1SpatialAq = S.String;
 export type Av1TemporalAq = "DISABLED" | "ENABLED" | (string & {});
 export const Av1TemporalAq = S.String;
+export type Av1TimecodeInsertionBehavior =
+  | "DISABLED"
+  | "METADATA_OBU"
+  | (string & {});
+export const Av1TimecodeInsertionBehavior = S.String;
+export type Av1BitDepth = "DEPTH_10" | "DEPTH_8" | (string & {});
+export const Av1BitDepth = S.String;
 export interface Av1Settings {
   AfdSignaling?: AfdSignaling;
   BufSize?: number;
@@ -5752,6 +5788,8 @@ export interface Av1Settings {
   MinBitrate?: number;
   SpatialAq?: Av1SpatialAq;
   TemporalAq?: Av1TemporalAq;
+  TimecodeInsertion?: Av1TimecodeInsertionBehavior;
+  BitDepth?: Av1BitDepth;
 }
 export const Av1Settings = S.suspend(() =>
   S.Struct({
@@ -5777,6 +5815,8 @@ export const Av1Settings = S.suspend(() =>
     MinBitrate: S.optional(S.Number),
     SpatialAq: S.optional(Av1SpatialAq),
     TemporalAq: S.optional(Av1TemporalAq),
+    TimecodeInsertion: S.optional(Av1TimecodeInsertionBehavior),
+    BitDepth: S.optional(Av1BitDepth),
   }).pipe(
     S.encodeKeys({
       AfdSignaling: "afdSignaling",
@@ -5801,6 +5841,8 @@ export const Av1Settings = S.suspend(() =>
       MinBitrate: "minBitrate",
       SpatialAq: "spatialAq",
       TemporalAq: "temporalAq",
+      TimecodeInsertion: "timecodeInsertion",
+      BitDepth: "bitDepth",
     }),
   ),
 ).annotate({ identifier: "Av1Settings" }) as any as S.Schema<Av1Settings>;
@@ -6801,6 +6843,7 @@ export interface CreateChannelRequest {
   ChannelEngineVersion?: ChannelEngineVersionRequest;
   DryRun?: boolean;
   LinkedChannelSettings?: LinkedChannelSettings;
+  ChannelSecurityGroups?: string[];
 }
 export const CreateChannelRequest = S.suspend(() =>
   S.Struct({
@@ -6822,6 +6865,7 @@ export const CreateChannelRequest = S.suspend(() =>
     ChannelEngineVersion: S.optional(ChannelEngineVersionRequest),
     DryRun: S.optional(S.Boolean),
     LinkedChannelSettings: S.optional(LinkedChannelSettings),
+    ChannelSecurityGroups: S.optional(__listOf__string),
   })
     .pipe(
       S.encodeKeys({
@@ -6843,6 +6887,7 @@ export const CreateChannelRequest = S.suspend(() =>
         ChannelEngineVersion: "channelEngineVersion",
         DryRun: "dryRun",
         LinkedChannelSettings: "linkedChannelSettings",
+        ChannelSecurityGroups: "channelSecurityGroups",
       }),
     )
     .pipe(
@@ -7065,6 +7110,7 @@ export interface Channel {
   AnywhereSettings?: DescribeAnywhereSettings;
   ChannelEngineVersion?: ChannelEngineVersionResponse;
   LinkedChannelSettings?: DescribeLinkedChannelSettings;
+  ChannelSecurityGroups?: string[];
 }
 export const Channel = S.suspend(() =>
   S.Struct({
@@ -7089,6 +7135,7 @@ export const Channel = S.suspend(() =>
     AnywhereSettings: S.optional(DescribeAnywhereSettings),
     ChannelEngineVersion: S.optional(ChannelEngineVersionResponse),
     LinkedChannelSettings: S.optional(DescribeLinkedChannelSettings),
+    ChannelSecurityGroups: S.optional(__listOf__string),
   }).pipe(
     S.encodeKeys({
       Arn: "arn",
@@ -7112,6 +7159,7 @@ export const Channel = S.suspend(() =>
       AnywhereSettings: "anywhereSettings",
       ChannelEngineVersion: "channelEngineVersion",
       LinkedChannelSettings: "linkedChannelSettings",
+      ChannelSecurityGroups: "channelSecurityGroups",
     }),
   ),
 ).annotate({ identifier: "Channel" }) as any as S.Schema<Channel>;
@@ -8165,6 +8213,7 @@ export type InputType =
   | "SMPTE_2110_RECEIVER_GROUP"
   | "SDI"
   | "MEDIACONNECT_ROUTER"
+  | "SRT_LISTENER"
   | (string & {});
 export const InputType = S.String;
 export interface InputVpcRequest {
@@ -8231,13 +8280,57 @@ export const SrtCallerSourceRequest = S.suspend(() =>
 }) as any as S.Schema<SrtCallerSourceRequest>;
 export type __listOfSrtCallerSourceRequest = SrtCallerSourceRequest[];
 export const __listOfSrtCallerSourceRequest = S.Array(SrtCallerSourceRequest);
+export interface SrtListenerDecryptionRequest {
+  Algorithm?: Algorithm;
+  PassphraseSecretArn?: string;
+}
+export const SrtListenerDecryptionRequest = S.suspend(() =>
+  S.Struct({
+    Algorithm: S.optional(Algorithm),
+    PassphraseSecretArn: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      Algorithm: "algorithm",
+      PassphraseSecretArn: "passphraseSecretArn",
+    }),
+  ),
+).annotate({
+  identifier: "SrtListenerDecryptionRequest",
+}) as any as S.Schema<SrtListenerDecryptionRequest>;
+export interface SrtListenerSettingsRequest {
+  Decryption?: SrtListenerDecryptionRequest;
+  MinimumLatency?: number;
+  StreamId?: string;
+}
+export const SrtListenerSettingsRequest = S.suspend(() =>
+  S.Struct({
+    Decryption: S.optional(SrtListenerDecryptionRequest),
+    MinimumLatency: S.optional(S.Number),
+    StreamId: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      Decryption: "decryption",
+      MinimumLatency: "minimumLatency",
+      StreamId: "streamId",
+    }),
+  ),
+).annotate({
+  identifier: "SrtListenerSettingsRequest",
+}) as any as S.Schema<SrtListenerSettingsRequest>;
 export interface SrtSettingsRequest {
   SrtCallerSources?: SrtCallerSourceRequest[];
+  SrtListenerSettings?: SrtListenerSettingsRequest;
 }
 export const SrtSettingsRequest = S.suspend(() =>
   S.Struct({
     SrtCallerSources: S.optional(__listOfSrtCallerSourceRequest),
-  }).pipe(S.encodeKeys({ SrtCallerSources: "srtCallerSources" })),
+    SrtListenerSettings: S.optional(SrtListenerSettingsRequest),
+  }).pipe(
+    S.encodeKeys({
+      SrtCallerSources: "srtCallerSources",
+      SrtListenerSettings: "srtListenerSettings",
+    }),
+  ),
 ).annotate({
   identifier: "SrtSettingsRequest",
 }) as any as S.Schema<SrtSettingsRequest>;
@@ -8587,12 +8680,56 @@ export const SrtCallerSource = S.suspend(() =>
 }) as any as S.Schema<SrtCallerSource>;
 export type __listOfSrtCallerSource = SrtCallerSource[];
 export const __listOfSrtCallerSource = S.Array(SrtCallerSource);
+export interface SrtListenerDecryption {
+  Algorithm?: Algorithm;
+  PassphraseSecretArn?: string;
+}
+export const SrtListenerDecryption = S.suspend(() =>
+  S.Struct({
+    Algorithm: S.optional(Algorithm),
+    PassphraseSecretArn: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      Algorithm: "algorithm",
+      PassphraseSecretArn: "passphraseSecretArn",
+    }),
+  ),
+).annotate({
+  identifier: "SrtListenerDecryption",
+}) as any as S.Schema<SrtListenerDecryption>;
+export interface SrtListenerSettings {
+  Decryption?: SrtListenerDecryption;
+  MinimumLatency?: number;
+  StreamId?: string;
+}
+export const SrtListenerSettings = S.suspend(() =>
+  S.Struct({
+    Decryption: S.optional(SrtListenerDecryption),
+    MinimumLatency: S.optional(S.Number),
+    StreamId: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      Decryption: "decryption",
+      MinimumLatency: "minimumLatency",
+      StreamId: "streamId",
+    }),
+  ),
+).annotate({
+  identifier: "SrtListenerSettings",
+}) as any as S.Schema<SrtListenerSettings>;
 export interface SrtSettings {
   SrtCallerSources?: SrtCallerSource[];
+  SrtListenerSettings?: SrtListenerSettings;
 }
 export const SrtSettings = S.suspend(() =>
-  S.Struct({ SrtCallerSources: S.optional(__listOfSrtCallerSource) }).pipe(
-    S.encodeKeys({ SrtCallerSources: "srtCallerSources" }),
+  S.Struct({
+    SrtCallerSources: S.optional(__listOfSrtCallerSource),
+    SrtListenerSettings: S.optional(SrtListenerSettings),
+  }).pipe(
+    S.encodeKeys({
+      SrtCallerSources: "srtCallerSources",
+      SrtListenerSettings: "srtListenerSettings",
+    }),
   ),
 ).annotate({ identifier: "SrtSettings" }) as any as S.Schema<SrtSettings>;
 export interface MulticastSource {
@@ -8734,6 +8871,14 @@ export const Input = S.suspend(() =>
 ).annotate({ identifier: "Input" }) as any as S.Schema<Input>;
 export interface CreateInputResponse {
   Input?: Input & {
+    SrtSettings: SrtSettings & {
+      SrtListenerSettings: SrtListenerSettings & {
+        Decryption: SrtListenerDecryption & {
+          Algorithm: Algorithm;
+          PassphraseSecretArn: string;
+        };
+      };
+    };
     MulticastSettings: MulticastSettings & {
       Sources: (MulticastSource & { Url: string })[];
     };
@@ -8801,6 +8946,7 @@ export interface InputSecurityGroup {
   State?: InputSecurityGroupState;
   Tags?: { [key: string]: string | undefined };
   WhitelistRules?: InputWhitelistRule[];
+  Channels?: string[];
 }
 export const InputSecurityGroup = S.suspend(() =>
   S.Struct({
@@ -8810,6 +8956,7 @@ export const InputSecurityGroup = S.suspend(() =>
     State: S.optional(InputSecurityGroupState),
     Tags: S.optional(Tags),
     WhitelistRules: S.optional(__listOfInputWhitelistRule),
+    Channels: S.optional(__listOf__string),
   }).pipe(
     S.encodeKeys({
       Arn: "arn",
@@ -8818,6 +8965,7 @@ export const InputSecurityGroup = S.suspend(() =>
       State: "state",
       Tags: "tags",
       WhitelistRules: "whitelistRules",
+      Channels: "channels",
     }),
   ),
 ).annotate({
@@ -9431,17 +9579,20 @@ export interface NodeInterfaceMapping {
   LogicalInterfaceName?: string;
   NetworkInterfaceMode?: NetworkInterfaceMode;
   PhysicalInterfaceName?: string;
+  PhysicalInterfaceIpAddresses?: string[];
 }
 export const NodeInterfaceMapping = S.suspend(() =>
   S.Struct({
     LogicalInterfaceName: S.optional(S.String),
     NetworkInterfaceMode: S.optional(NetworkInterfaceMode),
     PhysicalInterfaceName: S.optional(S.String),
+    PhysicalInterfaceIpAddresses: S.optional(__listOf__string),
   }).pipe(
     S.encodeKeys({
       LogicalInterfaceName: "logicalInterfaceName",
       NetworkInterfaceMode: "networkInterfaceMode",
       PhysicalInterfaceName: "physicalInterfaceName",
+      PhysicalInterfaceIpAddresses: "physicalInterfaceIpAddresses",
     }),
   ),
 ).annotate({
@@ -9609,6 +9760,14 @@ export const CreatePartnerInputRequest = S.suspend(() =>
 }) as any as S.Schema<CreatePartnerInputRequest>;
 export interface CreatePartnerInputResponse {
   Input?: Input & {
+    SrtSettings: SrtSettings & {
+      SrtListenerSettings: SrtListenerSettings & {
+        Decryption: SrtListenerDecryption & {
+          Algorithm: Algorithm;
+          PassphraseSecretArn: string;
+        };
+      };
+    };
     MulticastSettings: MulticastSettings & {
       Sources: (MulticastSource & { Url: string })[];
     };
@@ -10282,6 +10441,7 @@ export interface DeleteChannelResponse {
   AnywhereSettings?: DescribeAnywhereSettings;
   ChannelEngineVersion?: ChannelEngineVersionResponse;
   LinkedChannelSettings?: DescribeLinkedChannelSettings;
+  ChannelSecurityGroups?: string[];
 }
 export const DeleteChannelResponse = S.suspend(() =>
   S.Struct({
@@ -10306,6 +10466,7 @@ export const DeleteChannelResponse = S.suspend(() =>
     AnywhereSettings: S.optional(DescribeAnywhereSettings),
     ChannelEngineVersion: S.optional(ChannelEngineVersionResponse),
     LinkedChannelSettings: S.optional(DescribeLinkedChannelSettings),
+    ChannelSecurityGroups: S.optional(__listOf__string),
   }).pipe(
     S.encodeKeys({
       Arn: "arn",
@@ -10329,6 +10490,7 @@ export const DeleteChannelResponse = S.suspend(() =>
       AnywhereSettings: "anywhereSettings",
       ChannelEngineVersion: "channelEngineVersion",
       LinkedChannelSettings: "linkedChannelSettings",
+      ChannelSecurityGroups: "channelSecurityGroups",
     }),
   ),
 ).annotate({
@@ -11454,6 +11616,7 @@ export interface DescribeChannelResponse {
   AnywhereSettings?: DescribeAnywhereSettings;
   ChannelEngineVersion?: ChannelEngineVersionResponse;
   LinkedChannelSettings?: DescribeLinkedChannelSettings;
+  ChannelSecurityGroups?: string[];
 }
 export const DescribeChannelResponse = S.suspend(() =>
   S.Struct({
@@ -11478,6 +11641,7 @@ export const DescribeChannelResponse = S.suspend(() =>
     AnywhereSettings: S.optional(DescribeAnywhereSettings),
     ChannelEngineVersion: S.optional(ChannelEngineVersionResponse),
     LinkedChannelSettings: S.optional(DescribeLinkedChannelSettings),
+    ChannelSecurityGroups: S.optional(__listOf__string),
   }).pipe(
     S.encodeKeys({
       Arn: "arn",
@@ -11501,6 +11665,7 @@ export const DescribeChannelResponse = S.suspend(() =>
       AnywhereSettings: "anywhereSettings",
       ChannelEngineVersion: "channelEngineVersion",
       LinkedChannelSettings: "linkedChannelSettings",
+      ChannelSecurityGroups: "channelSecurityGroups",
     }),
   ),
 ).annotate({
@@ -11650,7 +11815,14 @@ export interface DescribeInputResponse {
   State?: InputState;
   Tags?: { [key: string]: string | undefined };
   Type?: InputType;
-  SrtSettings?: SrtSettings;
+  SrtSettings?: SrtSettings & {
+    SrtListenerSettings: SrtListenerSettings & {
+      Decryption: SrtListenerDecryption & {
+        Algorithm: Algorithm;
+        PassphraseSecretArn: string;
+      };
+    };
+  };
   InputNetworkLocation?: InputNetworkLocation;
   MulticastSettings?: MulticastSettings & {
     Sources: (MulticastSource & { Url: string })[];
@@ -12067,6 +12239,7 @@ export interface DescribeInputSecurityGroupResponse {
   State?: InputSecurityGroupState;
   Tags?: { [key: string]: string | undefined };
   WhitelistRules?: InputWhitelistRule[];
+  Channels?: string[];
 }
 export const DescribeInputSecurityGroupResponse = S.suspend(() =>
   S.Struct({
@@ -12076,6 +12249,7 @@ export const DescribeInputSecurityGroupResponse = S.suspend(() =>
     State: S.optional(InputSecurityGroupState),
     Tags: S.optional(Tags),
     WhitelistRules: S.optional(__listOfInputWhitelistRule),
+    Channels: S.optional(__listOf__string),
   }).pipe(
     S.encodeKeys({
       Arn: "arn",
@@ -12084,6 +12258,7 @@ export const DescribeInputSecurityGroupResponse = S.suspend(() =>
       State: "state",
       Tags: "tags",
       WhitelistRules: "whitelistRules",
+      Channels: "channels",
     }),
   ),
 ).annotate({
@@ -13266,6 +13441,7 @@ export interface ChannelSummary {
   ChannelEngineVersion?: ChannelEngineVersionResponse;
   UsedChannelEngineVersions?: ChannelEngineVersionResponse[];
   LinkedChannelSettings?: DescribeLinkedChannelSettings;
+  ChannelSecurityGroups?: string[];
 }
 export const ChannelSummary = S.suspend(() =>
   S.Struct({
@@ -13289,6 +13465,7 @@ export const ChannelSummary = S.suspend(() =>
     ChannelEngineVersion: S.optional(ChannelEngineVersionResponse),
     UsedChannelEngineVersions: S.optional(__listOfChannelEngineVersionResponse),
     LinkedChannelSettings: S.optional(DescribeLinkedChannelSettings),
+    ChannelSecurityGroups: S.optional(__listOf__string),
   }).pipe(
     S.encodeKeys({
       Arn: "arn",
@@ -13311,6 +13488,7 @@ export const ChannelSummary = S.suspend(() =>
       ChannelEngineVersion: "channelEngineVersion",
       UsedChannelEngineVersions: "usedChannelEngineVersions",
       LinkedChannelSettings: "linkedChannelSettings",
+      ChannelSecurityGroups: "channelSecurityGroups",
     }),
   ),
 ).annotate({ identifier: "ChannelSummary" }) as any as S.Schema<ChannelSummary>;
@@ -14143,6 +14321,14 @@ export type __listOfInput = Input[];
 export const __listOfInput = S.Array(Input);
 export interface ListInputsResponse {
   Inputs?: (Input & {
+    SrtSettings: SrtSettings & {
+      SrtListenerSettings: SrtListenerSettings & {
+        Decryption: SrtListenerDecryption & {
+          Algorithm: Algorithm;
+          PassphraseSecretArn: string;
+        };
+      };
+    };
     MulticastSettings: MulticastSettings & {
       Sources: (MulticastSource & { Url: string })[];
     };
@@ -15424,6 +15610,7 @@ export interface RestartChannelPipelinesResponse {
   AnywhereSettings?: DescribeAnywhereSettings;
   ChannelEngineVersion?: ChannelEngineVersionResponse;
   LinkedChannelSettings?: DescribeLinkedChannelSettings;
+  ChannelSecurityGroups?: string[];
 }
 export const RestartChannelPipelinesResponse = S.suspend(() =>
   S.Struct({
@@ -15449,6 +15636,7 @@ export const RestartChannelPipelinesResponse = S.suspend(() =>
     AnywhereSettings: S.optional(DescribeAnywhereSettings),
     ChannelEngineVersion: S.optional(ChannelEngineVersionResponse),
     LinkedChannelSettings: S.optional(DescribeLinkedChannelSettings),
+    ChannelSecurityGroups: S.optional(__listOf__string),
   }).pipe(
     S.encodeKeys({
       Arn: "arn",
@@ -15473,6 +15661,7 @@ export const RestartChannelPipelinesResponse = S.suspend(() =>
       AnywhereSettings: "anywhereSettings",
       ChannelEngineVersion: "channelEngineVersion",
       LinkedChannelSettings: "linkedChannelSettings",
+      ChannelSecurityGroups: "channelSecurityGroups",
     }),
   ),
 ).annotate({
@@ -15776,6 +15965,7 @@ export interface StartChannelResponse {
   AnywhereSettings?: DescribeAnywhereSettings;
   ChannelEngineVersion?: ChannelEngineVersionResponse;
   LinkedChannelSettings?: DescribeLinkedChannelSettings;
+  ChannelSecurityGroups?: string[];
 }
 export const StartChannelResponse = S.suspend(() =>
   S.Struct({
@@ -15800,6 +15990,7 @@ export const StartChannelResponse = S.suspend(() =>
     AnywhereSettings: S.optional(DescribeAnywhereSettings),
     ChannelEngineVersion: S.optional(ChannelEngineVersionResponse),
     LinkedChannelSettings: S.optional(DescribeLinkedChannelSettings),
+    ChannelSecurityGroups: S.optional(__listOf__string),
   }).pipe(
     S.encodeKeys({
       Arn: "arn",
@@ -15823,6 +16014,7 @@ export const StartChannelResponse = S.suspend(() =>
       AnywhereSettings: "anywhereSettings",
       ChannelEngineVersion: "channelEngineVersion",
       LinkedChannelSettings: "linkedChannelSettings",
+      ChannelSecurityGroups: "channelSecurityGroups",
     }),
   ),
 ).annotate({
@@ -16637,6 +16829,7 @@ export interface StopChannelResponse {
   AnywhereSettings?: DescribeAnywhereSettings;
   ChannelEngineVersion?: ChannelEngineVersionResponse;
   LinkedChannelSettings?: DescribeLinkedChannelSettings;
+  ChannelSecurityGroups?: string[];
 }
 export const StopChannelResponse = S.suspend(() =>
   S.Struct({
@@ -16661,6 +16854,7 @@ export const StopChannelResponse = S.suspend(() =>
     AnywhereSettings: S.optional(DescribeAnywhereSettings),
     ChannelEngineVersion: S.optional(ChannelEngineVersionResponse),
     LinkedChannelSettings: S.optional(DescribeLinkedChannelSettings),
+    ChannelSecurityGroups: S.optional(__listOf__string),
   }).pipe(
     S.encodeKeys({
       Arn: "arn",
@@ -16684,6 +16878,7 @@ export const StopChannelResponse = S.suspend(() =>
       AnywhereSettings: "anywhereSettings",
       ChannelEngineVersion: "channelEngineVersion",
       LinkedChannelSettings: "linkedChannelSettings",
+      ChannelSecurityGroups: "channelSecurityGroups",
     }),
   ),
 ).annotate({
@@ -16880,6 +17075,7 @@ export interface UpdateChannelRequest {
   DryRun?: boolean;
   AnywhereSettings?: AnywhereSettings;
   LinkedChannelSettings?: LinkedChannelSettings;
+  ChannelSecurityGroups?: string[];
 }
 export const UpdateChannelRequest = S.suspend(() =>
   S.Struct({
@@ -16897,6 +17093,7 @@ export const UpdateChannelRequest = S.suspend(() =>
     DryRun: S.optional(S.Boolean),
     AnywhereSettings: S.optional(AnywhereSettings),
     LinkedChannelSettings: S.optional(LinkedChannelSettings),
+    ChannelSecurityGroups: S.optional(__listOf__string),
   })
     .pipe(
       S.encodeKeys({
@@ -16913,6 +17110,7 @@ export const UpdateChannelRequest = S.suspend(() =>
         DryRun: "dryRun",
         AnywhereSettings: "anywhereSettings",
         LinkedChannelSettings: "linkedChannelSettings",
+        ChannelSecurityGroups: "channelSecurityGroups",
       }),
     )
     .pipe(
@@ -18123,6 +18321,14 @@ export const UpdateInputRequest = S.suspend(() =>
 }) as any as S.Schema<UpdateInputRequest>;
 export interface UpdateInputResponse {
   Input?: Input & {
+    SrtSettings: SrtSettings & {
+      SrtListenerSettings: SrtListenerSettings & {
+        Decryption: SrtListenerDecryption & {
+          Algorithm: Algorithm;
+          PassphraseSecretArn: string;
+        };
+      };
+    };
     MulticastSettings: MulticastSettings & {
       Sources: (MulticastSource & { Url: string })[];
     };

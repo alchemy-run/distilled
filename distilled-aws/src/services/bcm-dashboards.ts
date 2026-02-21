@@ -68,6 +68,7 @@ const rules = T.EndpointResolver((p, _) => {
 //# Newtypes
 export type DashboardName = string;
 export type Description = string;
+export type WidgetId = string;
 export type WidgetTitle = string;
 export type WidgetWidth = number;
 export type WidgetHeight = number;
@@ -410,6 +411,7 @@ export const WidgetConfig = S.suspend(() =>
 export type WidgetConfigList = WidgetConfig[];
 export const WidgetConfigList = S.Array(WidgetConfig);
 export interface Widget {
+  id?: string;
   title: string;
   description?: string;
   width?: number;
@@ -419,6 +421,7 @@ export interface Widget {
 }
 export const Widget = S.suspend(() =>
   S.Struct({
+    id: S.optional(S.String),
     title: S.String,
     description: S.optional(S.String),
     width: S.optional(S.Number),

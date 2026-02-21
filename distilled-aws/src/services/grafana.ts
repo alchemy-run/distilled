@@ -122,6 +122,7 @@ export type SecurityGroupId = string;
 export type SubnetId = string;
 export type PrefixListId = string;
 export type VpceId = string;
+export type KmsKeyId = string;
 export type UserType = string;
 export type SsoId = string;
 export type Role = string;
@@ -632,6 +633,7 @@ export interface WorkspaceDescription {
   vpcConfiguration?: VpcConfiguration;
   networkAccessControl?: NetworkAccessConfiguration;
   grafanaToken?: string;
+  kmsKeyId?: string;
 }
 export const WorkspaceDescription = S.suspend(() =>
   S.Struct({
@@ -664,6 +666,7 @@ export const WorkspaceDescription = S.suspend(() =>
     vpcConfiguration: S.optional(VpcConfiguration),
     networkAccessControl: S.optional(NetworkAccessConfiguration),
     grafanaToken: S.optional(S.String),
+    kmsKeyId: S.optional(S.String),
   }),
 ).annotate({
   identifier: "WorkspaceDescription",
@@ -1127,6 +1130,7 @@ export interface CreateWorkspaceRequest {
   configuration?: string;
   networkAccessControl?: NetworkAccessConfiguration;
   grafanaVersion?: string;
+  kmsKeyId?: string;
 }
 export const CreateWorkspaceRequest = S.suspend(() =>
   S.Struct({
@@ -1147,6 +1151,7 @@ export const CreateWorkspaceRequest = S.suspend(() =>
     configuration: S.optional(S.String),
     networkAccessControl: S.optional(NetworkAccessConfiguration),
     grafanaVersion: S.optional(S.String),
+    kmsKeyId: S.optional(S.String),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/workspaces" }),
@@ -1392,10 +1397,7 @@ export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuo
 
 //# Operations
 /**
- * The `ListTagsForResource` operation returns the tags that are associated
- * with the Amazon Managed Service for Grafana resource specified by the
- * `resourceArn`. Currently, the only resource that can be tagged is a
- * workspace.
+ * The `ListTagsForResource` operation returns the tags that are associated with the Amazon Managed Service for Grafana resource specified by the `resourceArn`. Currently, the only resource that can be tagged is a workspace.
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
@@ -1420,9 +1422,7 @@ export const listTagsForResource: (
   ],
 }));
 /**
- * Lists available versions of Grafana. These are available when calling
- * `CreateWorkspace`. Optionally, include a workspace to list the versions
- * to which it can be upgraded.
+ * Lists available versions of Grafana. These are available when calling `CreateWorkspace`. Optionally, include a workspace to list the versions to which it can be upgraded.
  */
 export const listVersions: {
   (
@@ -1479,13 +1479,9 @@ export const listVersions: {
   } as const,
 }));
 /**
- * The `TagResource` operation associates tags with an Amazon Managed Grafana
- * resource. Currently, the only resource that can be tagged is workspaces.
+ * The `TagResource` operation associates tags with an Amazon Managed Grafana resource. Currently, the only resource that can be tagged is workspaces.
  *
- * If you specify a new tag key for the resource, this tag is appended to the list of
- * tags associated with the resource. If you specify a tag key that is already associated
- * with the resource, the new tag value that you specify replaces the previous value for
- * that tag.
+ * If you specify a new tag key for the resource, this tag is appended to the list of tags associated with the resource. If you specify a tag key that is already associated with the resource, the new tag value that you specify replaces the previous value for that tag.
  */
 export const tagResource: (
   input: TagResourceRequest,
@@ -1510,8 +1506,7 @@ export const tagResource: (
   ],
 }));
 /**
- * The `UntagResource` operation removes the association of the tag with the
- * Amazon Managed Grafana resource.
+ * The `UntagResource` operation removes the association of the tag with the Amazon Managed Grafana resource.
  */
 export const untagResource: (
   input: UntagResourceRequest,
@@ -1536,12 +1531,9 @@ export const untagResource: (
   ],
 }));
 /**
- * Creates a Grafana API key for the workspace. This key can be used to authenticate
- * requests sent to the workspace's HTTP API. See https://docs.aws.amazon.com/grafana/latest/userguide/Using-Grafana-APIs.html
- * for available APIs and example requests.
+ * Creates a Grafana API key for the workspace. This key can be used to authenticate requests sent to the workspace's HTTP API. See https://docs.aws.amazon.com/grafana/latest/userguide/Using-Grafana-APIs.html for available APIs and example requests.
  *
- * In workspaces compatible with Grafana version 9 or above, use workspace service
- * accounts instead of API keys. API keys will be removed in a future release.
+ * In workspaces compatible with Grafana version 9 or above, use workspace service accounts instead of API keys. API keys will be removed in a future release.
  */
 export const createWorkspaceApiKey: (
   input: CreateWorkspaceApiKeyRequest,
@@ -1572,8 +1564,7 @@ export const createWorkspaceApiKey: (
 /**
  * Deletes a Grafana API key for the workspace.
  *
- * In workspaces compatible with Grafana version 9 or above, use workspace service
- * accounts instead of API keys. API keys will be removed in a future release.
+ * In workspaces compatible with Grafana version 9 or above, use workspace service accounts instead of API keys. API keys will be removed in a future release.
  */
 export const deleteWorkspaceApiKey: (
   input: DeleteWorkspaceApiKeyRequest,
@@ -1600,8 +1591,7 @@ export const deleteWorkspaceApiKey: (
   ],
 }));
 /**
- * Displays information about the authentication methods used in one Amazon Managed Grafana
- * workspace.
+ * Displays information about the authentication methods used in one Amazon Managed Grafana workspace.
  */
 export const describeWorkspaceAuthentication: (
   input: DescribeWorkspaceAuthenticationRequest,
@@ -1628,13 +1618,9 @@ export const describeWorkspaceAuthentication: (
   ],
 }));
 /**
- * Use this operation to define the identity provider (IdP) that this workspace
- * authenticates users from, using SAML. You can also map SAML assertion attributes to
- * workspace user information and define which groups in the assertion attribute are to
- * have the `Admin` and `Editor` roles in the workspace.
+ * Use this operation to define the identity provider (IdP) that this workspace authenticates users from, using SAML. You can also map SAML assertion attributes to workspace user information and define which groups in the assertion attribute are to have the `Admin` and `Editor` roles in the workspace.
  *
- * Changes to the authentication method for a workspace may take a few minutes to
- * take effect.
+ * Changes to the authentication method for a workspace may take a few minutes to take effect.
  */
 export const updateWorkspaceAuthentication: (
   input: UpdateWorkspaceAuthenticationRequest,
@@ -1711,11 +1697,7 @@ export const updateWorkspaceConfiguration: (
   ],
 }));
 /**
- * Assigns a Grafana Enterprise license to a workspace. To upgrade, you must use
- * `ENTERPRISE` for the `licenseType`, and pass in a valid
- * Grafana Labs token for the `grafanaToken`. Upgrading to Grafana Enterprise
- * incurs additional fees. For more information, see Upgrade a
- * workspace to Grafana Enterprise.
+ * Assigns a Grafana Enterprise license to a workspace. To upgrade, you must use `ENTERPRISE` for the `licenseType`, and pass in a valid Grafana Labs token for the `grafanaToken`. Upgrading to Grafana Enterprise incurs additional fees. For more information, see Upgrade a workspace to Grafana Enterprise.
  */
 export const associateLicense: (
   input: AssociateLicenseRequest,
@@ -1765,12 +1747,7 @@ export const disassociateLicense: (
   ],
 }));
 /**
- * Lists the users and groups who have the Grafana `Admin` and
- * `Editor` roles in this workspace. If you use this operation without
- * specifying `userId` or `groupId`, the operation returns the roles
- * of all users and groups. If you specify a `userId` or a `groupId`,
- * only the roles for that user or group are returned. If you do this, you can specify only
- * one `userId` or one `groupId`.
+ * Lists the users and groups who have the Grafana `Admin` and `Editor` roles in this workspace. If you use this operation without specifying `userId` or `groupId`, the operation returns the roles of all users and groups. If you specify a `userId` or a `groupId`, only the roles for that user or group are returned. If you do this, you can specify only one `userId` or one `groupId`.
  */
 export const listPermissions: {
   (
@@ -1827,8 +1804,7 @@ export const listPermissions: {
   } as const,
 }));
 /**
- * Updates which users in a workspace have the Grafana `Admin` or
- * `Editor` roles.
+ * Updates which users in a workspace have the Grafana `Admin` or `Editor` roles.
  */
 export const updatePermissions: (
   input: UpdatePermissionsRequest,
@@ -1853,20 +1829,13 @@ export const updatePermissions: (
   ],
 }));
 /**
- * Creates a service account for the workspace. A service account can be used to call
- * Grafana HTTP APIs, and run automated workloads. After creating the service account with
- * the correct `GrafanaRole` for your use case, use
- * `CreateWorkspaceServiceAccountToken` to create a token that can be used to
- * authenticate and authorize Grafana HTTP API calls.
+ * Creates a service account for the workspace. A service account can be used to call Grafana HTTP APIs, and run automated workloads. After creating the service account with the correct `GrafanaRole` for your use case, use `CreateWorkspaceServiceAccountToken` to create a token that can be used to authenticate and authorize Grafana HTTP API calls.
  *
- * You can only create service accounts for workspaces that are compatible with Grafana
- * version 9 and above.
+ * You can only create service accounts for workspaces that are compatible with Grafana version 9 and above.
  *
- * For more information about service accounts, see Service accounts in
- * the *Amazon Managed Grafana User Guide*.
+ * For more information about service accounts, see Service accounts in the *Amazon Managed Grafana User Guide*.
  *
- * For more information about the Grafana HTTP APIs, see Using Grafana HTTP
- * APIs in the *Amazon Managed Grafana User Guide*.
+ * For more information about the Grafana HTTP APIs, see Using Grafana HTTP APIs in the *Amazon Managed Grafana User Guide*.
  */
 export const createWorkspaceServiceAccount: (
   input: CreateWorkspaceServiceAccountRequest,
@@ -1897,12 +1866,9 @@ export const createWorkspaceServiceAccount: (
 /**
  * Deletes a workspace service account from the workspace.
  *
- * This will delete any tokens created for the service account, as well. If the tokens
- * are currently in use, the will fail to authenticate / authorize after they are
- * deleted.
+ * This will delete any tokens created for the service account, as well. If the tokens are currently in use, the will fail to authenticate / authorize after they are deleted.
  *
- * Service accounts are only available for workspaces that are compatible with Grafana
- * version 9 and above.
+ * Service accounts are only available for workspaces that are compatible with Grafana version 9 and above.
  */
 export const deleteWorkspaceServiceAccount: (
   input: DeleteWorkspaceServiceAccountRequest,
@@ -1931,8 +1897,7 @@ export const deleteWorkspaceServiceAccount: (
 /**
  * Returns a list of service accounts for a workspace.
  *
- * Service accounts are only available for workspaces that are compatible with Grafana
- * version 9 and above.
+ * Service accounts are only available for workspaces that are compatible with Grafana version 9 and above.
  */
 export const listWorkspaceServiceAccounts: {
   (
@@ -1993,20 +1958,13 @@ export const listWorkspaceServiceAccounts: {
   } as const,
 }));
 /**
- * Creates a token that can be used to authenticate and authorize Grafana HTTP API
- * operations for the given workspace service
- * account. The service account acts as a user for the API operations, and
- * defines the permissions that are used by the API.
+ * Creates a token that can be used to authenticate and authorize Grafana HTTP API operations for the given workspace service account. The service account acts as a user for the API operations, and defines the permissions that are used by the API.
  *
- * When you create the service account token, you will receive a key that is used
- * when calling Grafana APIs. Do not lose this key, as it will not be retrievable
- * again.
+ * When you create the service account token, you will receive a key that is used when calling Grafana APIs. Do not lose this key, as it will not be retrievable again.
  *
- * If you do lose the key, you can delete the token and recreate it to receive a
- * new key. This will disable the initial key.
+ * If you do lose the key, you can delete the token and recreate it to receive a new key. This will disable the initial key.
  *
- * Service accounts are only available for workspaces that are compatible with Grafana
- * version 9 and above.
+ * Service accounts are only available for workspaces that are compatible with Grafana version 9 and above.
  */
 export const createWorkspaceServiceAccountToken: (
   input: CreateWorkspaceServiceAccountTokenRequest,
@@ -2037,12 +1995,9 @@ export const createWorkspaceServiceAccountToken: (
 /**
  * Deletes a token for the workspace service account.
  *
- * This will disable the key associated with the token. If any automation is currently
- * using the key, it will no longer be authenticated or authorized to perform actions with
- * the Grafana HTTP APIs.
+ * This will disable the key associated with the token. If any automation is currently using the key, it will no longer be authenticated or authorized to perform actions with the Grafana HTTP APIs.
  *
- * Service accounts are only available for workspaces that are compatible with Grafana
- * version 9 and above.
+ * Service accounts are only available for workspaces that are compatible with Grafana version 9 and above.
  */
 export const deleteWorkspaceServiceAccountToken: (
   input: DeleteWorkspaceServiceAccountTokenRequest,
@@ -2071,11 +2026,9 @@ export const deleteWorkspaceServiceAccountToken: (
 /**
  * Returns a list of tokens for a workspace service account.
  *
- * This does not return the key for each token. You cannot access keys after they
- * are created. To create a new key, delete the token and recreate it.
+ * This does not return the key for each token. You cannot access keys after they are created. To create a new key, delete the token and recreate it.
  *
- * Service accounts are only available for workspaces that are compatible with Grafana
- * version 9 and above.
+ * Service accounts are only available for workspaces that are compatible with Grafana version 9 and above.
  */
 export const listWorkspaceServiceAccountTokens: {
   (
@@ -2136,12 +2089,9 @@ export const listWorkspaceServiceAccountTokens: {
   } as const,
 }));
 /**
- * Creates a *workspace*. In a workspace, you can create Grafana
- * dashboards and visualizations to analyze your metrics, logs, and traces. You don't have
- * to build, package, or deploy any hardware to run the Grafana server.
+ * Creates a *workspace*. In a workspace, you can create Grafana dashboards and visualizations to analyze your metrics, logs, and traces. You don't have to build, package, or deploy any hardware to run the Grafana server.
  *
- * Don't use `CreateWorkspace` to modify an existing workspace. Instead, use
- * UpdateWorkspace.
+ * Don't use `CreateWorkspace` to modify an existing workspace. Instead, use UpdateWorkspace.
  */
 export const createWorkspace: (
   input: CreateWorkspaceRequest,
@@ -2193,14 +2143,11 @@ export const describeWorkspace: (
   ],
 }));
 /**
- * Modifies an existing Amazon Managed Grafana workspace. If you use this operation and omit
- * any optional parameters, the existing values of those parameters are not changed.
+ * Modifies an existing Amazon Managed Grafana workspace. If you use this operation and omit any optional parameters, the existing values of those parameters are not changed.
  *
- * To modify the user authentication methods that the workspace uses, such as SAML or
- * IAM Identity Center, use UpdateWorkspaceAuthentication.
+ * To modify the user authentication methods that the workspace uses, such as SAML or IAM Identity Center, use UpdateWorkspaceAuthentication.
  *
- * To modify which users in the workspace have the `Admin` and
- * `Editor` Grafana roles, use UpdatePermissions.
+ * To modify which users in the workspace have the `Admin` and `Editor` Grafana roles, use UpdatePermissions.
  */
 export const updateWorkspace: (
   input: UpdateWorkspaceRequest,
@@ -2254,8 +2201,7 @@ export const deleteWorkspace: (
   ],
 }));
 /**
- * Returns a list of Amazon Managed Grafana workspaces in the account, with some information
- * about each workspace. For more complete information about one workspace, use DescribeWorkspace.
+ * Returns a list of Amazon Managed Grafana workspaces in the account, with some information about each workspace. For more complete information about one workspace, use DescribeWorkspace.
  */
 export const listWorkspaces: {
   (

@@ -6142,6 +6142,7 @@ export type ScanStatusReason =
   | "UNSUPPORTED_AMI"
   | "UNSUPPORTED_SNAPSHOT"
   | "UNSUPPORTED_COMPOSITE_RECOVERY_POINT"
+  | "ALL_FILES_SKIPPED_OR_FAILED"
   | (string & {});
 export const ScanStatusReason = S.String;
 export interface EbsSnapshot {

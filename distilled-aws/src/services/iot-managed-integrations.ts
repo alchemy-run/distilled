@@ -63,13 +63,13 @@ export type TagKey = string;
 export type TagValue = string;
 export type ConnectorId = string;
 export type ThirdPartyUserId = string | redacted.Redacted<string>;
-export type ConnectorEventOperationVersion = string | redacted.Redacted<string>;
+export type ConnectorEventOperationVersion = string;
 export type ConnectorEventStatusCode = number;
 export type ConnectorEventMessage = string | redacted.Redacted<string>;
 export type DeviceDiscoveryId = string;
 export type ConnectorDeviceId = string | redacted.Redacted<string>;
 export type TraceId = string;
-export type ConnectorDeviceName = string | redacted.Redacted<string>;
+export type ConnectorDeviceName = string;
 export type CapabilityReportVersion = string;
 export type NodeId = string;
 export type EndpointId = string;
@@ -96,7 +96,8 @@ export type ClientToken = string;
 export type ConnectorDestinationId = string;
 export type AccountAssociationName = string;
 export type AccountAssociationDescription = string;
-export type OAuthAuthorizationUrl = string | redacted.Redacted<string>;
+export type AuthMaterialName = string;
+export type OAuthAuthorizationUrlOutput = string | redacted.Redacted<string>;
 export type AccountAssociationId = string;
 export type AccountAssociationArn = string;
 export type AccountAssociationErrorMessage = string;
@@ -149,6 +150,9 @@ export type ActionReference = string;
 export type ActionTraceId = string;
 export type CapabilityProperties = unknown;
 export type Owner = string | redacted.Redacted<string>;
+export type EnableAsProvisioner = boolean;
+export type EnableAsProvisionee = boolean;
+export type TimeoutInMinutes = number;
 export type SerialNumber = string | redacted.Redacted<string>;
 export type Name = string;
 export type PropertyName = string;
@@ -201,10 +205,10 @@ export type QueuedAt = Date;
 export type RetryAttempt = number;
 export type StartedAt = Date;
 export type CaCertificate = string | redacted.Redacted<string>;
+export type ClaimCertificate = string | redacted.Redacted<string>;
 export type ProvisioningProfileName = string;
 export type ProvisioningProfileArn = string;
 export type ProvisioningProfileId = string;
-export type ClaimCertificate = string | redacted.Redacted<string>;
 export type ClaimCertificatePrivateKey = string | redacted.Redacted<string>;
 export type LocalStoreLocation = string;
 export type LocalStoreFileRotationMaxFiles = number;
@@ -428,7 +432,7 @@ export type CapabilitySchemas = CapabilitySchemaItem[];
 export const CapabilitySchemas = S.Array(CapabilitySchemaItem);
 export interface Device {
   ConnectorDeviceId: string | redacted.Redacted<string>;
-  ConnectorDeviceName?: string | redacted.Redacted<string>;
+  ConnectorDeviceName?: string;
   CapabilityReport: MatterCapabilityReport;
   CapabilitySchemas?: CapabilitySchemaItem[];
   DeviceMetadata?: any;
@@ -436,7 +440,7 @@ export interface Device {
 export const Device = S.suspend(() =>
   S.Struct({
     ConnectorDeviceId: SensitiveString,
-    ConnectorDeviceName: S.optional(SensitiveString),
+    ConnectorDeviceName: S.optional(S.String),
     CapabilityReport: MatterCapabilityReport,
     CapabilitySchemas: S.optional(CapabilitySchemas),
     DeviceMetadata: S.optional(S.Any),
@@ -475,7 +479,7 @@ export interface SendConnectorEventRequest {
   ConnectorId: string;
   UserId?: string | redacted.Redacted<string>;
   Operation: ConnectorEventOperation;
-  OperationVersion?: string | redacted.Redacted<string>;
+  OperationVersion?: string;
   StatusCode?: number;
   Message?: string | redacted.Redacted<string>;
   DeviceDiscoveryId?: string;
@@ -489,7 +493,7 @@ export const SendConnectorEventRequest = S.suspend(() =>
     ConnectorId: S.String.pipe(T.HttpLabel("ConnectorId")),
     UserId: S.optional(SensitiveString),
     Operation: ConnectorEventOperation,
-    OperationVersion: S.optional(SensitiveString),
+    OperationVersion: S.optional(S.String),
     StatusCode: S.optional(S.Number),
     Message: S.optional(SensitiveString),
     DeviceDiscoveryId: S.optional(S.String),
@@ -570,12 +574,21 @@ export interface UntagResourceResponse {}
 export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
+export interface GeneralAuthorizationName {
+  AuthMaterialName?: string;
+}
+export const GeneralAuthorizationName = S.suspend(() =>
+  S.Struct({ AuthMaterialName: S.optional(S.String) }),
+).annotate({
+  identifier: "GeneralAuthorizationName",
+}) as any as S.Schema<GeneralAuthorizationName>;
 export interface CreateAccountAssociationRequest {
   ClientToken?: string;
   ConnectorDestinationId: string;
   Name?: string;
   Description?: string;
   Tags?: { [key: string]: string | undefined };
+  GeneralAuthorization?: GeneralAuthorizationName;
 }
 export const CreateAccountAssociationRequest = S.suspend(() =>
   S.Struct({
@@ -584,6 +597,7 @@ export const CreateAccountAssociationRequest = S.suspend(() =>
     Name: S.optional(S.String),
     Description: S.optional(S.String),
     Tags: S.optional(TagsMap),
+    GeneralAuthorization: S.optional(GeneralAuthorizationName),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/account-associations" }),
@@ -653,6 +667,7 @@ export interface GetAccountAssociationResponse {
   Arn?: string;
   OAuthAuthorizationUrl: string | redacted.Redacted<string>;
   Tags?: { [key: string]: string | undefined };
+  GeneralAuthorization?: GeneralAuthorizationName;
 }
 export const GetAccountAssociationResponse = S.suspend(() =>
   S.Struct({
@@ -665,6 +680,7 @@ export const GetAccountAssociationResponse = S.suspend(() =>
     Arn: S.optional(S.String),
     OAuthAuthorizationUrl: SensitiveString,
     Tags: S.optional(TagsMap),
+    GeneralAuthorization: S.optional(GeneralAuthorizationName),
   }),
 ).annotate({
   identifier: "GetAccountAssociationResponse",
@@ -1054,12 +1070,6 @@ export const OAuthConfig = S.suspend(() =>
     proactiveRefreshTokenRenewal: S.optional(ProactiveRefreshTokenRenewal),
   }),
 ).annotate({ identifier: "OAuthConfig" }) as any as S.Schema<OAuthConfig>;
-export interface AuthConfig {
-  oAuth?: OAuthConfig;
-}
-export const AuthConfig = S.suspend(() =>
-  S.Struct({ oAuth: S.optional(OAuthConfig) }),
-).annotate({ identifier: "AuthConfig" }) as any as S.Schema<AuthConfig>;
 export interface SecretsManager {
   arn: string;
   versionId: string;
@@ -1067,13 +1077,32 @@ export interface SecretsManager {
 export const SecretsManager = S.suspend(() =>
   S.Struct({ arn: S.String, versionId: S.String }),
 ).annotate({ identifier: "SecretsManager" }) as any as S.Schema<SecretsManager>;
+export interface AuthMaterial {
+  SecretsManager: SecretsManager;
+  AuthMaterialName: string;
+}
+export const AuthMaterial = S.suspend(() =>
+  S.Struct({ SecretsManager: SecretsManager, AuthMaterialName: S.String }),
+).annotate({ identifier: "AuthMaterial" }) as any as S.Schema<AuthMaterial>;
+export type AuthMaterials = AuthMaterial[];
+export const AuthMaterials = S.Array(AuthMaterial);
+export interface AuthConfig {
+  oAuth?: OAuthConfig;
+  GeneralAuthorization?: AuthMaterial[];
+}
+export const AuthConfig = S.suspend(() =>
+  S.Struct({
+    oAuth: S.optional(OAuthConfig),
+    GeneralAuthorization: S.optional(AuthMaterials),
+  }),
+).annotate({ identifier: "AuthConfig" }) as any as S.Schema<AuthConfig>;
 export interface CreateConnectorDestinationRequest {
   Name?: string;
   Description?: string;
   CloudConnectorId: string;
-  AuthType: AuthType;
+  AuthType?: AuthType;
   AuthConfig: AuthConfig;
-  SecretsManager: SecretsManager;
+  SecretsManager?: SecretsManager;
   ClientToken?: string;
 }
 export const CreateConnectorDestinationRequest = S.suspend(() =>
@@ -1081,9 +1110,9 @@ export const CreateConnectorDestinationRequest = S.suspend(() =>
     Name: S.optional(S.String),
     Description: S.optional(S.String),
     CloudConnectorId: S.String,
-    AuthType: AuthType,
+    AuthType: S.optional(AuthType),
     AuthConfig: AuthConfig,
-    SecretsManager: SecretsManager,
+    SecretsManager: S.optional(SecretsManager),
     ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
   }).pipe(
     T.all(
@@ -1157,11 +1186,27 @@ export const OAuthUpdate = S.suspend(() =>
     proactiveRefreshTokenRenewal: S.optional(ProactiveRefreshTokenRenewal),
   }),
 ).annotate({ identifier: "OAuthUpdate" }) as any as S.Schema<OAuthUpdate>;
+export interface GeneralAuthorizationUpdate {
+  AuthMaterialsToAdd?: AuthMaterial[];
+  AuthMaterialsToUpdate?: AuthMaterial[];
+}
+export const GeneralAuthorizationUpdate = S.suspend(() =>
+  S.Struct({
+    AuthMaterialsToAdd: S.optional(AuthMaterials),
+    AuthMaterialsToUpdate: S.optional(AuthMaterials),
+  }),
+).annotate({
+  identifier: "GeneralAuthorizationUpdate",
+}) as any as S.Schema<GeneralAuthorizationUpdate>;
 export interface AuthConfigUpdate {
   oAuthUpdate?: OAuthUpdate;
+  GeneralAuthorizationUpdate?: GeneralAuthorizationUpdate;
 }
 export const AuthConfigUpdate = S.suspend(() =>
-  S.Struct({ oAuthUpdate: S.optional(OAuthUpdate) }),
+  S.Struct({
+    oAuthUpdate: S.optional(OAuthUpdate),
+    GeneralAuthorizationUpdate: S.optional(GeneralAuthorizationUpdate),
+  }),
 ).annotate({
   identifier: "AuthConfigUpdate",
 }) as any as S.Schema<AuthConfigUpdate>;
@@ -1618,6 +1663,7 @@ export type DiscoveryType =
   | "ZIGBEE"
   | "CLOUD"
   | "CUSTOM"
+  | "CONTROLLER_CAPABILITY_REDISCOVERY"
   | (string & {});
 export const DiscoveryType = S.String;
 export type CustomProtocolDetail = { [key: string]: string | undefined };
@@ -1627,6 +1673,10 @@ export const CustomProtocolDetail = S.Record(
 );
 export type DiscoveryAuthMaterialType = "ZWAVE_INSTALL_CODE" | (string & {});
 export const DiscoveryAuthMaterialType = S.String;
+export type ConnectorDeviceIdList = string | redacted.Redacted<string>[];
+export const ConnectorDeviceIdList = S.Array(SensitiveString);
+export type ProtocolType = "ZWAVE" | "ZIGBEE" | "CUSTOM" | (string & {});
+export const ProtocolType = S.String;
 export interface StartDeviceDiscoveryRequest {
   DiscoveryType: DiscoveryType;
   CustomProtocolDetail?: { [key: string]: string | undefined };
@@ -1637,6 +1687,9 @@ export interface StartDeviceDiscoveryRequest {
   AuthenticationMaterialType?: DiscoveryAuthMaterialType;
   ClientToken?: string;
   Tags?: { [key: string]: string | undefined };
+  ConnectorDeviceIdList?: string | redacted.Redacted<string>[];
+  Protocol?: ProtocolType;
+  EndDeviceIdentifier?: string;
 }
 export const StartDeviceDiscoveryRequest = S.suspend(() =>
   S.Struct({
@@ -1649,6 +1702,9 @@ export const StartDeviceDiscoveryRequest = S.suspend(() =>
     AuthenticationMaterialType: S.optional(DiscoveryAuthMaterialType),
     ClientToken: S.optional(S.String),
     Tags: S.optional(TagsMap),
+    ConnectorDeviceIdList: S.optional(ConnectorDeviceIdList),
+    Protocol: S.optional(ProtocolType),
+    EndDeviceIdentifier: S.optional(S.String),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/device-discoveries" }),
@@ -1817,7 +1873,7 @@ export type DiscoveryModification =
 export const DiscoveryModification = S.String;
 export interface DiscoveredDeviceSummary {
   ConnectorDeviceId?: string | redacted.Redacted<string>;
-  ConnectorDeviceName?: string | redacted.Redacted<string>;
+  ConnectorDeviceName?: string;
   DeviceTypes?: string[];
   ManagedThingId?: string;
   Modification?: DiscoveryModification;
@@ -1829,7 +1885,7 @@ export interface DiscoveredDeviceSummary {
 export const DiscoveredDeviceSummary = S.suspend(() =>
   S.Struct({
     ConnectorDeviceId: S.optional(SensitiveString),
-    ConnectorDeviceName: S.optional(SensitiveString),
+    ConnectorDeviceName: S.optional(S.String),
     DeviceTypes: S.optional(DeviceTypeList),
     ManagedThingId: S.optional(S.String),
     Modification: S.optional(DiscoveryModification),
@@ -2226,14 +2282,21 @@ export const ListManagedThingAccountAssociationsRequest = S.suspend(() =>
 ).annotate({
   identifier: "ListManagedThingAccountAssociationsRequest",
 }) as any as S.Schema<ListManagedThingAccountAssociationsRequest>;
+export type ManagedThingAssociationStatus =
+  | "PRE_ASSOCIATED"
+  | "ASSOCIATED"
+  | (string & {});
+export const ManagedThingAssociationStatus = S.String;
 export interface ManagedThingAssociation {
   ManagedThingId?: string;
   AccountAssociationId?: string;
+  ManagedThingAssociationStatus?: ManagedThingAssociationStatus;
 }
 export const ManagedThingAssociation = S.suspend(() =>
   S.Struct({
     ManagedThingId: S.optional(S.String),
     AccountAssociationId: S.optional(S.String),
+    ManagedThingAssociationStatus: S.optional(ManagedThingAssociationStatus),
   }),
 ).annotate({
   identifier: "ManagedThingAssociation",
@@ -2380,8 +2443,23 @@ export type AuthMaterialType =
   | "ZWAVE_QR_BAR_CODE"
   | "ZIGBEE_QR_BAR_CODE"
   | "DISCOVERED_DEVICE"
+  | "PRE_ONBOARDED_CLOUD"
   | (string & {});
 export const AuthMaterialType = S.String;
+export interface WiFiSimpleSetupConfiguration {
+  EnableAsProvisioner?: boolean;
+  EnableAsProvisionee?: boolean;
+  TimeoutInMinutes?: number;
+}
+export const WiFiSimpleSetupConfiguration = S.suspend(() =>
+  S.Struct({
+    EnableAsProvisioner: S.optional(S.Boolean),
+    EnableAsProvisionee: S.optional(S.Boolean),
+    TimeoutInMinutes: S.optional(S.Number),
+  }),
+).annotate({
+  identifier: "WiFiSimpleSetupConfiguration",
+}) as any as S.Schema<WiFiSimpleSetupConfiguration>;
 export type CapabilityReportProperties = string[];
 export const CapabilityReportProperties = S.Array(S.String);
 export type CapabilityReportActions = string[];
@@ -2448,6 +2526,7 @@ export interface CreateManagedThingRequest {
   CredentialLockerId?: string;
   AuthenticationMaterial: string | redacted.Redacted<string>;
   AuthenticationMaterialType: AuthMaterialType;
+  WiFiSimpleSetupConfiguration?: WiFiSimpleSetupConfiguration;
   SerialNumber?: string | redacted.Redacted<string>;
   Brand?: string | redacted.Redacted<string>;
   Model?: string | redacted.Redacted<string>;
@@ -2467,6 +2546,7 @@ export const CreateManagedThingRequest = S.suspend(() =>
     CredentialLockerId: S.optional(S.String),
     AuthenticationMaterial: SensitiveString,
     AuthenticationMaterialType: AuthMaterialType,
+    WiFiSimpleSetupConfiguration: S.optional(WiFiSimpleSetupConfiguration),
     SerialNumber: S.optional(SensitiveString),
     Brand: S.optional(SensitiveString),
     Model: S.optional(SensitiveString),
@@ -2565,6 +2645,7 @@ export interface GetManagedThingResponse {
   HubNetworkMode?: HubNetworkMode;
   MetaData?: { [key: string]: string | undefined };
   Tags?: { [key: string]: string | undefined };
+  WiFiSimpleSetupConfiguration?: WiFiSimpleSetupConfiguration;
 }
 export const GetManagedThingResponse = S.suspend(() =>
   S.Struct({
@@ -2594,6 +2675,7 @@ export const GetManagedThingResponse = S.suspend(() =>
     HubNetworkMode: S.optional(HubNetworkMode),
     MetaData: S.optional(MetaData),
     Tags: S.optional(TagsMap),
+    WiFiSimpleSetupConfiguration: S.optional(WiFiSimpleSetupConfiguration),
   }),
 ).annotate({
   identifier: "GetManagedThingResponse",
@@ -2603,6 +2685,7 @@ export interface UpdateManagedThingRequest {
   Owner?: string | redacted.Redacted<string>;
   CredentialLockerId?: string;
   SerialNumber?: string | redacted.Redacted<string>;
+  WiFiSimpleSetupConfiguration?: WiFiSimpleSetupConfiguration;
   Brand?: string | redacted.Redacted<string>;
   Model?: string | redacted.Redacted<string>;
   Name?: string;
@@ -2619,6 +2702,7 @@ export const UpdateManagedThingRequest = S.suspend(() =>
     Owner: S.optional(SensitiveString),
     CredentialLockerId: S.optional(S.String),
     SerialNumber: S.optional(SensitiveString),
+    WiFiSimpleSetupConfiguration: S.optional(WiFiSimpleSetupConfiguration),
     Brand: S.optional(SensitiveString),
     Model: S.optional(SensitiveString),
     Name: S.optional(S.String),
@@ -3058,6 +3142,7 @@ export type EventType =
   | "DEVICE_LIFE_CYCLE"
   | "DEVICE_STATE"
   | "DEVICE_OTA"
+  | "DEVICE_WSS"
   | "CONNECTOR_ASSOCIATION"
   | "ACCOUNT_ASSOCIATION"
   | "CONNECTOR_ERROR_REPORT"
@@ -3889,6 +3974,7 @@ export const ProvisioningType = S.String;
 export interface CreateProvisioningProfileRequest {
   ProvisioningType: ProvisioningType;
   CaCertificate?: string | redacted.Redacted<string>;
+  ClaimCertificate?: string | redacted.Redacted<string>;
   Name?: string;
   ClientToken?: string;
   Tags?: { [key: string]: string | undefined };
@@ -3897,6 +3983,7 @@ export const CreateProvisioningProfileRequest = S.suspend(() =>
   S.Struct({
     ProvisioningType: ProvisioningType,
     CaCertificate: S.optional(SensitiveString),
+    ClaimCertificate: S.optional(SensitiveString),
     Name: S.optional(S.String),
     ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
     Tags: S.optional(TagsMap),
@@ -4369,7 +4456,7 @@ export const getCustomEndpoint: (
   ],
 }));
 /**
- * List tags for the specified resource.
+ * Lists the tags for a specified resource.
  */
 export const listTagsForResource: (
   input: ListTagsForResourceRequest,
@@ -4448,7 +4535,7 @@ export const sendConnectorEvent: (
   ],
 }));
 /**
- * Add tags for the specified resource.
+ * Adds tags to a specified resource.
  */
 export const tagResource: (
   input: TagResourceRequest,
@@ -4473,7 +4560,7 @@ export const tagResource: (
   ],
 }));
 /**
- * Remove tags for the specified resource.
+ * Removes tags from a specified resource.
  */
 export const untagResource: (
   input: UntagResourceRequest,
@@ -4678,6 +4765,7 @@ export const startAccountAssociationRefresh: (
 ) => effect.Effect<
   StartAccountAssociationRefreshResponse,
   | AccessDeniedException
+  | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ServiceUnavailableException
@@ -4690,6 +4778,7 @@ export const startAccountAssociationRefresh: (
   output: StartAccountAssociationRefreshResponse,
   errors: [
     AccessDeniedException,
+    ConflictException,
     InternalServerException,
     ResourceNotFoundException,
     ServiceUnavailableException,
@@ -5771,6 +5860,7 @@ export const deregisterAccountAssociation: (
 ) => effect.Effect<
   DeregisterAccountAssociationResponse,
   | AccessDeniedException
+  | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
@@ -5782,6 +5872,7 @@ export const deregisterAccountAssociation: (
   output: DeregisterAccountAssociationResponse,
   errors: [
     AccessDeniedException,
+    ConflictException,
     InternalServerException,
     ResourceNotFoundException,
     ThrottlingException,
@@ -6969,7 +7060,7 @@ export const getRuntimeLogConfiguration: (
   ],
 }));
 /**
- * Set the runtime log configuration for a specific managed thing or for all managed things as a group.
+ * Set the runtime log configuration for a specific managed thing.
  */
 export const putRuntimeLogConfiguration: (
   input: PutRuntimeLogConfigurationRequest,

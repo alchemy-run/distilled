@@ -2313,6 +2313,20 @@ export const CustomEmailLambdaVersionConfigType = S.suspend(() =>
 ).annotate({
   identifier: "CustomEmailLambdaVersionConfigType",
 }) as any as S.Schema<CustomEmailLambdaVersionConfigType>;
+export type InboundFederationLambdaVersionType = "V1_0" | (string & {});
+export const InboundFederationLambdaVersionType = S.String;
+export interface InboundFederationLambdaType {
+  LambdaVersion: InboundFederationLambdaVersionType;
+  LambdaArn: string;
+}
+export const InboundFederationLambdaType = S.suspend(() =>
+  S.Struct({
+    LambdaVersion: InboundFederationLambdaVersionType,
+    LambdaArn: S.String,
+  }),
+).annotate({
+  identifier: "InboundFederationLambdaType",
+}) as any as S.Schema<InboundFederationLambdaType>;
 export interface LambdaConfigType {
   PreSignUp?: string;
   CustomMessage?: string;
@@ -2328,6 +2342,7 @@ export interface LambdaConfigType {
   CustomSMSSender?: CustomSMSLambdaVersionConfigType;
   CustomEmailSender?: CustomEmailLambdaVersionConfigType;
   KMSKeyID?: string;
+  InboundFederation?: InboundFederationLambdaType;
 }
 export const LambdaConfigType = S.suspend(() =>
   S.Struct({
@@ -2345,6 +2360,7 @@ export const LambdaConfigType = S.suspend(() =>
     CustomSMSSender: S.optional(CustomSMSLambdaVersionConfigType),
     CustomEmailSender: S.optional(CustomEmailLambdaVersionConfigType),
     KMSKeyID: S.optional(S.String),
+    InboundFederation: S.optional(InboundFederationLambdaType),
   }),
 ).annotate({
   identifier: "LambdaConfigType",
@@ -8686,7 +8702,7 @@ export const deleteUserAttributes: (
  *
  * When you delete a user pool, it's no longer visible or operational in your Amazon Web Services account. Amazon Cognito retains deleted user pools in an inactive state for 14
  * days, then begins a cleanup process that fully removes them from Amazon Web Services systems. In case
- * of accidental deletion, contact Amazon Web ServicesSupport within 14 days for restoration
+ * of accidental deletion, contact Amazon Web Services Support within 14 days for restoration
  * assistance.
  *
  * Amazon Cognito begins full deletion of all resources from deleted user pools after 14 days. In

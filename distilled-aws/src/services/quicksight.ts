@@ -8997,14 +8997,40 @@ export const FreeFormLayoutCanvasSizeOptions = S.suspend(() =>
 ).annotate({
   identifier: "FreeFormLayoutCanvasSizeOptions",
 }) as any as S.Schema<FreeFormLayoutCanvasSizeOptions>;
+export type SheetLayoutGroupMemberType = "ELEMENT" | "GROUP" | (string & {});
+export const SheetLayoutGroupMemberType = S.String;
+export interface SheetLayoutGroupMember {
+  Id: string;
+  Type: SheetLayoutGroupMemberType;
+}
+export const SheetLayoutGroupMember = S.suspend(() =>
+  S.Struct({ Id: S.String, Type: SheetLayoutGroupMemberType }),
+).annotate({
+  identifier: "SheetLayoutGroupMember",
+}) as any as S.Schema<SheetLayoutGroupMember>;
+export type SheetLayoutGroupMemberList = SheetLayoutGroupMember[];
+export const SheetLayoutGroupMemberList = S.Array(SheetLayoutGroupMember);
+export interface SheetLayoutGroup {
+  Id: string;
+  Members: SheetLayoutGroupMember[];
+}
+export const SheetLayoutGroup = S.suspend(() =>
+  S.Struct({ Id: S.String, Members: SheetLayoutGroupMemberList }),
+).annotate({
+  identifier: "SheetLayoutGroup",
+}) as any as S.Schema<SheetLayoutGroup>;
+export type SheetLayoutGroupList = SheetLayoutGroup[];
+export const SheetLayoutGroupList = S.Array(SheetLayoutGroup);
 export interface FreeFormLayoutConfiguration {
   Elements: FreeFormLayoutElement[];
   CanvasSizeOptions?: FreeFormLayoutCanvasSizeOptions;
+  Groups?: SheetLayoutGroup[];
 }
 export const FreeFormLayoutConfiguration = S.suspend(() =>
   S.Struct({
     Elements: FreeFromLayoutElementList,
     CanvasSizeOptions: S.optional(FreeFormLayoutCanvasSizeOptions),
+    Groups: S.optional(SheetLayoutGroupList),
   }),
 ).annotate({
   identifier: "FreeFormLayoutConfiguration",
@@ -10845,6 +10871,178 @@ export interface Capabilities {
   UseAgentWebSearch?: CapabilityState;
   KnowledgeBase?: CapabilityState;
   Action?: CapabilityState;
+  GenericHTTPAction?: CapabilityState;
+  CreateAndUpdateGenericHTTPAction?: CapabilityState;
+  ShareGenericHTTPAction?: CapabilityState;
+  UseGenericHTTPAction?: CapabilityState;
+  AsanaAction?: CapabilityState;
+  CreateAndUpdateAsanaAction?: CapabilityState;
+  ShareAsanaAction?: CapabilityState;
+  UseAsanaAction?: CapabilityState;
+  SlackAction?: CapabilityState;
+  CreateAndUpdateSlackAction?: CapabilityState;
+  ShareSlackAction?: CapabilityState;
+  UseSlackAction?: CapabilityState;
+  ServiceNowAction?: CapabilityState;
+  CreateAndUpdateServiceNowAction?: CapabilityState;
+  ShareServiceNowAction?: CapabilityState;
+  UseServiceNowAction?: CapabilityState;
+  SalesforceAction?: CapabilityState;
+  CreateAndUpdateSalesforceAction?: CapabilityState;
+  ShareSalesforceAction?: CapabilityState;
+  UseSalesforceAction?: CapabilityState;
+  MSExchangeAction?: CapabilityState;
+  CreateAndUpdateMSExchangeAction?: CapabilityState;
+  ShareMSExchangeAction?: CapabilityState;
+  UseMSExchangeAction?: CapabilityState;
+  PagerDutyAction?: CapabilityState;
+  CreateAndUpdatePagerDutyAction?: CapabilityState;
+  SharePagerDutyAction?: CapabilityState;
+  UsePagerDutyAction?: CapabilityState;
+  JiraAction?: CapabilityState;
+  CreateAndUpdateJiraAction?: CapabilityState;
+  ShareJiraAction?: CapabilityState;
+  UseJiraAction?: CapabilityState;
+  ConfluenceAction?: CapabilityState;
+  CreateAndUpdateConfluenceAction?: CapabilityState;
+  ShareConfluenceAction?: CapabilityState;
+  UseConfluenceAction?: CapabilityState;
+  OneDriveAction?: CapabilityState;
+  CreateAndUpdateOneDriveAction?: CapabilityState;
+  ShareOneDriveAction?: CapabilityState;
+  UseOneDriveAction?: CapabilityState;
+  SharePointAction?: CapabilityState;
+  CreateAndUpdateSharePointAction?: CapabilityState;
+  ShareSharePointAction?: CapabilityState;
+  UseSharePointAction?: CapabilityState;
+  MSTeamsAction?: CapabilityState;
+  CreateAndUpdateMSTeamsAction?: CapabilityState;
+  ShareMSTeamsAction?: CapabilityState;
+  UseMSTeamsAction?: CapabilityState;
+  GoogleCalendarAction?: CapabilityState;
+  CreateAndUpdateGoogleCalendarAction?: CapabilityState;
+  ShareGoogleCalendarAction?: CapabilityState;
+  UseGoogleCalendarAction?: CapabilityState;
+  ZendeskAction?: CapabilityState;
+  CreateAndUpdateZendeskAction?: CapabilityState;
+  ShareZendeskAction?: CapabilityState;
+  UseZendeskAction?: CapabilityState;
+  SmartsheetAction?: CapabilityState;
+  CreateAndUpdateSmartsheetAction?: CapabilityState;
+  ShareSmartsheetAction?: CapabilityState;
+  UseSmartsheetAction?: CapabilityState;
+  SAPBusinessPartnerAction?: CapabilityState;
+  CreateAndUpdateSAPBusinessPartnerAction?: CapabilityState;
+  ShareSAPBusinessPartnerAction?: CapabilityState;
+  UseSAPBusinessPartnerAction?: CapabilityState;
+  SAPProductMasterDataAction?: CapabilityState;
+  CreateAndUpdateSAPProductMasterDataAction?: CapabilityState;
+  ShareSAPProductMasterDataAction?: CapabilityState;
+  UseSAPProductMasterDataAction?: CapabilityState;
+  SAPPhysicalInventoryAction?: CapabilityState;
+  CreateAndUpdateSAPPhysicalInventoryAction?: CapabilityState;
+  ShareSAPPhysicalInventoryAction?: CapabilityState;
+  UseSAPPhysicalInventoryAction?: CapabilityState;
+  SAPBillOfMaterialAction?: CapabilityState;
+  CreateAndUpdateSAPBillOfMaterialAction?: CapabilityState;
+  ShareSAPBillOfMaterialAction?: CapabilityState;
+  UseSAPBillOfMaterialAction?: CapabilityState;
+  SAPMaterialStockAction?: CapabilityState;
+  CreateAndUpdateSAPMaterialStockAction?: CapabilityState;
+  ShareSAPMaterialStockAction?: CapabilityState;
+  UseSAPMaterialStockAction?: CapabilityState;
+  FactSetAction?: CapabilityState;
+  CreateAndUpdateFactSetAction?: CapabilityState;
+  ShareFactSetAction?: CapabilityState;
+  UseFactSetAction?: CapabilityState;
+  AmazonSThreeAction?: CapabilityState;
+  CreateAndUpdateAmazonSThreeAction?: CapabilityState;
+  ShareAmazonSThreeAction?: CapabilityState;
+  UseAmazonSThreeAction?: CapabilityState;
+  TextractAction?: CapabilityState;
+  CreateAndUpdateTextractAction?: CapabilityState;
+  ShareTextractAction?: CapabilityState;
+  UseTextractAction?: CapabilityState;
+  ComprehendAction?: CapabilityState;
+  CreateAndUpdateComprehendAction?: CapabilityState;
+  ShareComprehendAction?: CapabilityState;
+  UseComprehendAction?: CapabilityState;
+  ComprehendMedicalAction?: CapabilityState;
+  CreateAndUpdateComprehendMedicalAction?: CapabilityState;
+  ShareComprehendMedicalAction?: CapabilityState;
+  UseComprehendMedicalAction?: CapabilityState;
+  AmazonBedrockARSAction?: CapabilityState;
+  CreateAndUpdateAmazonBedrockARSAction?: CapabilityState;
+  ShareAmazonBedrockARSAction?: CapabilityState;
+  UseAmazonBedrockARSAction?: CapabilityState;
+  AmazonBedrockFSAction?: CapabilityState;
+  CreateAndUpdateAmazonBedrockFSAction?: CapabilityState;
+  ShareAmazonBedrockFSAction?: CapabilityState;
+  UseAmazonBedrockFSAction?: CapabilityState;
+  AmazonBedrockKRSAction?: CapabilityState;
+  CreateAndUpdateAmazonBedrockKRSAction?: CapabilityState;
+  ShareAmazonBedrockKRSAction?: CapabilityState;
+  UseAmazonBedrockKRSAction?: CapabilityState;
+  MCPAction?: CapabilityState;
+  CreateAndUpdateMCPAction?: CapabilityState;
+  ShareMCPAction?: CapabilityState;
+  UseMCPAction?: CapabilityState;
+  OpenAPIAction?: CapabilityState;
+  CreateAndUpdateOpenAPIAction?: CapabilityState;
+  ShareOpenAPIAction?: CapabilityState;
+  UseOpenAPIAction?: CapabilityState;
+  SandPGMIAction?: CapabilityState;
+  CreateAndUpdateSandPGMIAction?: CapabilityState;
+  ShareSandPGMIAction?: CapabilityState;
+  UseSandPGMIAction?: CapabilityState;
+  SandPGlobalEnergyAction?: CapabilityState;
+  CreateAndUpdateSandPGlobalEnergyAction?: CapabilityState;
+  ShareSandPGlobalEnergyAction?: CapabilityState;
+  UseSandPGlobalEnergyAction?: CapabilityState;
+  BambooHRAction?: CapabilityState;
+  CreateAndUpdateBambooHRAction?: CapabilityState;
+  ShareBambooHRAction?: CapabilityState;
+  UseBambooHRAction?: CapabilityState;
+  BoxAgentAction?: CapabilityState;
+  CreateAndUpdateBoxAgentAction?: CapabilityState;
+  ShareBoxAgentAction?: CapabilityState;
+  UseBoxAgentAction?: CapabilityState;
+  CanvaAgentAction?: CapabilityState;
+  CreateAndUpdateCanvaAgentAction?: CapabilityState;
+  ShareCanvaAgentAction?: CapabilityState;
+  UseCanvaAgentAction?: CapabilityState;
+  GithubAction?: CapabilityState;
+  CreateAndUpdateGithubAction?: CapabilityState;
+  ShareGithubAction?: CapabilityState;
+  UseGithubAction?: CapabilityState;
+  NotionAction?: CapabilityState;
+  CreateAndUpdateNotionAction?: CapabilityState;
+  ShareNotionAction?: CapabilityState;
+  UseNotionAction?: CapabilityState;
+  LinearAction?: CapabilityState;
+  CreateAndUpdateLinearAction?: CapabilityState;
+  ShareLinearAction?: CapabilityState;
+  UseLinearAction?: CapabilityState;
+  HuggingFaceAction?: CapabilityState;
+  CreateAndUpdateHuggingFaceAction?: CapabilityState;
+  ShareHuggingFaceAction?: CapabilityState;
+  UseHuggingFaceAction?: CapabilityState;
+  MondayAction?: CapabilityState;
+  CreateAndUpdateMondayAction?: CapabilityState;
+  ShareMondayAction?: CapabilityState;
+  UseMondayAction?: CapabilityState;
+  HubspotAction?: CapabilityState;
+  CreateAndUpdateHubspotAction?: CapabilityState;
+  ShareHubspotAction?: CapabilityState;
+  UseHubspotAction?: CapabilityState;
+  IntercomAction?: CapabilityState;
+  CreateAndUpdateIntercomAction?: CapabilityState;
+  ShareIntercomAction?: CapabilityState;
+  UseIntercomAction?: CapabilityState;
+  NewRelicAction?: CapabilityState;
+  CreateAndUpdateNewRelicAction?: CapabilityState;
+  ShareNewRelicAction?: CapabilityState;
+  UseNewRelicAction?: CapabilityState;
   Space?: CapabilityState;
   ChatAgent?: CapabilityState;
   CreateChatAgents?: CapabilityState;
@@ -10886,6 +11084,178 @@ export const Capabilities = S.suspend(() =>
     UseAgentWebSearch: S.optional(CapabilityState),
     KnowledgeBase: S.optional(CapabilityState),
     Action: S.optional(CapabilityState),
+    GenericHTTPAction: S.optional(CapabilityState),
+    CreateAndUpdateGenericHTTPAction: S.optional(CapabilityState),
+    ShareGenericHTTPAction: S.optional(CapabilityState),
+    UseGenericHTTPAction: S.optional(CapabilityState),
+    AsanaAction: S.optional(CapabilityState),
+    CreateAndUpdateAsanaAction: S.optional(CapabilityState),
+    ShareAsanaAction: S.optional(CapabilityState),
+    UseAsanaAction: S.optional(CapabilityState),
+    SlackAction: S.optional(CapabilityState),
+    CreateAndUpdateSlackAction: S.optional(CapabilityState),
+    ShareSlackAction: S.optional(CapabilityState),
+    UseSlackAction: S.optional(CapabilityState),
+    ServiceNowAction: S.optional(CapabilityState),
+    CreateAndUpdateServiceNowAction: S.optional(CapabilityState),
+    ShareServiceNowAction: S.optional(CapabilityState),
+    UseServiceNowAction: S.optional(CapabilityState),
+    SalesforceAction: S.optional(CapabilityState),
+    CreateAndUpdateSalesforceAction: S.optional(CapabilityState),
+    ShareSalesforceAction: S.optional(CapabilityState),
+    UseSalesforceAction: S.optional(CapabilityState),
+    MSExchangeAction: S.optional(CapabilityState),
+    CreateAndUpdateMSExchangeAction: S.optional(CapabilityState),
+    ShareMSExchangeAction: S.optional(CapabilityState),
+    UseMSExchangeAction: S.optional(CapabilityState),
+    PagerDutyAction: S.optional(CapabilityState),
+    CreateAndUpdatePagerDutyAction: S.optional(CapabilityState),
+    SharePagerDutyAction: S.optional(CapabilityState),
+    UsePagerDutyAction: S.optional(CapabilityState),
+    JiraAction: S.optional(CapabilityState),
+    CreateAndUpdateJiraAction: S.optional(CapabilityState),
+    ShareJiraAction: S.optional(CapabilityState),
+    UseJiraAction: S.optional(CapabilityState),
+    ConfluenceAction: S.optional(CapabilityState),
+    CreateAndUpdateConfluenceAction: S.optional(CapabilityState),
+    ShareConfluenceAction: S.optional(CapabilityState),
+    UseConfluenceAction: S.optional(CapabilityState),
+    OneDriveAction: S.optional(CapabilityState),
+    CreateAndUpdateOneDriveAction: S.optional(CapabilityState),
+    ShareOneDriveAction: S.optional(CapabilityState),
+    UseOneDriveAction: S.optional(CapabilityState),
+    SharePointAction: S.optional(CapabilityState),
+    CreateAndUpdateSharePointAction: S.optional(CapabilityState),
+    ShareSharePointAction: S.optional(CapabilityState),
+    UseSharePointAction: S.optional(CapabilityState),
+    MSTeamsAction: S.optional(CapabilityState),
+    CreateAndUpdateMSTeamsAction: S.optional(CapabilityState),
+    ShareMSTeamsAction: S.optional(CapabilityState),
+    UseMSTeamsAction: S.optional(CapabilityState),
+    GoogleCalendarAction: S.optional(CapabilityState),
+    CreateAndUpdateGoogleCalendarAction: S.optional(CapabilityState),
+    ShareGoogleCalendarAction: S.optional(CapabilityState),
+    UseGoogleCalendarAction: S.optional(CapabilityState),
+    ZendeskAction: S.optional(CapabilityState),
+    CreateAndUpdateZendeskAction: S.optional(CapabilityState),
+    ShareZendeskAction: S.optional(CapabilityState),
+    UseZendeskAction: S.optional(CapabilityState),
+    SmartsheetAction: S.optional(CapabilityState),
+    CreateAndUpdateSmartsheetAction: S.optional(CapabilityState),
+    ShareSmartsheetAction: S.optional(CapabilityState),
+    UseSmartsheetAction: S.optional(CapabilityState),
+    SAPBusinessPartnerAction: S.optional(CapabilityState),
+    CreateAndUpdateSAPBusinessPartnerAction: S.optional(CapabilityState),
+    ShareSAPBusinessPartnerAction: S.optional(CapabilityState),
+    UseSAPBusinessPartnerAction: S.optional(CapabilityState),
+    SAPProductMasterDataAction: S.optional(CapabilityState),
+    CreateAndUpdateSAPProductMasterDataAction: S.optional(CapabilityState),
+    ShareSAPProductMasterDataAction: S.optional(CapabilityState),
+    UseSAPProductMasterDataAction: S.optional(CapabilityState),
+    SAPPhysicalInventoryAction: S.optional(CapabilityState),
+    CreateAndUpdateSAPPhysicalInventoryAction: S.optional(CapabilityState),
+    ShareSAPPhysicalInventoryAction: S.optional(CapabilityState),
+    UseSAPPhysicalInventoryAction: S.optional(CapabilityState),
+    SAPBillOfMaterialAction: S.optional(CapabilityState),
+    CreateAndUpdateSAPBillOfMaterialAction: S.optional(CapabilityState),
+    ShareSAPBillOfMaterialAction: S.optional(CapabilityState),
+    UseSAPBillOfMaterialAction: S.optional(CapabilityState),
+    SAPMaterialStockAction: S.optional(CapabilityState),
+    CreateAndUpdateSAPMaterialStockAction: S.optional(CapabilityState),
+    ShareSAPMaterialStockAction: S.optional(CapabilityState),
+    UseSAPMaterialStockAction: S.optional(CapabilityState),
+    FactSetAction: S.optional(CapabilityState),
+    CreateAndUpdateFactSetAction: S.optional(CapabilityState),
+    ShareFactSetAction: S.optional(CapabilityState),
+    UseFactSetAction: S.optional(CapabilityState),
+    AmazonSThreeAction: S.optional(CapabilityState),
+    CreateAndUpdateAmazonSThreeAction: S.optional(CapabilityState),
+    ShareAmazonSThreeAction: S.optional(CapabilityState),
+    UseAmazonSThreeAction: S.optional(CapabilityState),
+    TextractAction: S.optional(CapabilityState),
+    CreateAndUpdateTextractAction: S.optional(CapabilityState),
+    ShareTextractAction: S.optional(CapabilityState),
+    UseTextractAction: S.optional(CapabilityState),
+    ComprehendAction: S.optional(CapabilityState),
+    CreateAndUpdateComprehendAction: S.optional(CapabilityState),
+    ShareComprehendAction: S.optional(CapabilityState),
+    UseComprehendAction: S.optional(CapabilityState),
+    ComprehendMedicalAction: S.optional(CapabilityState),
+    CreateAndUpdateComprehendMedicalAction: S.optional(CapabilityState),
+    ShareComprehendMedicalAction: S.optional(CapabilityState),
+    UseComprehendMedicalAction: S.optional(CapabilityState),
+    AmazonBedrockARSAction: S.optional(CapabilityState),
+    CreateAndUpdateAmazonBedrockARSAction: S.optional(CapabilityState),
+    ShareAmazonBedrockARSAction: S.optional(CapabilityState),
+    UseAmazonBedrockARSAction: S.optional(CapabilityState),
+    AmazonBedrockFSAction: S.optional(CapabilityState),
+    CreateAndUpdateAmazonBedrockFSAction: S.optional(CapabilityState),
+    ShareAmazonBedrockFSAction: S.optional(CapabilityState),
+    UseAmazonBedrockFSAction: S.optional(CapabilityState),
+    AmazonBedrockKRSAction: S.optional(CapabilityState),
+    CreateAndUpdateAmazonBedrockKRSAction: S.optional(CapabilityState),
+    ShareAmazonBedrockKRSAction: S.optional(CapabilityState),
+    UseAmazonBedrockKRSAction: S.optional(CapabilityState),
+    MCPAction: S.optional(CapabilityState),
+    CreateAndUpdateMCPAction: S.optional(CapabilityState),
+    ShareMCPAction: S.optional(CapabilityState),
+    UseMCPAction: S.optional(CapabilityState),
+    OpenAPIAction: S.optional(CapabilityState),
+    CreateAndUpdateOpenAPIAction: S.optional(CapabilityState),
+    ShareOpenAPIAction: S.optional(CapabilityState),
+    UseOpenAPIAction: S.optional(CapabilityState),
+    SandPGMIAction: S.optional(CapabilityState),
+    CreateAndUpdateSandPGMIAction: S.optional(CapabilityState),
+    ShareSandPGMIAction: S.optional(CapabilityState),
+    UseSandPGMIAction: S.optional(CapabilityState),
+    SandPGlobalEnergyAction: S.optional(CapabilityState),
+    CreateAndUpdateSandPGlobalEnergyAction: S.optional(CapabilityState),
+    ShareSandPGlobalEnergyAction: S.optional(CapabilityState),
+    UseSandPGlobalEnergyAction: S.optional(CapabilityState),
+    BambooHRAction: S.optional(CapabilityState),
+    CreateAndUpdateBambooHRAction: S.optional(CapabilityState),
+    ShareBambooHRAction: S.optional(CapabilityState),
+    UseBambooHRAction: S.optional(CapabilityState),
+    BoxAgentAction: S.optional(CapabilityState),
+    CreateAndUpdateBoxAgentAction: S.optional(CapabilityState),
+    ShareBoxAgentAction: S.optional(CapabilityState),
+    UseBoxAgentAction: S.optional(CapabilityState),
+    CanvaAgentAction: S.optional(CapabilityState),
+    CreateAndUpdateCanvaAgentAction: S.optional(CapabilityState),
+    ShareCanvaAgentAction: S.optional(CapabilityState),
+    UseCanvaAgentAction: S.optional(CapabilityState),
+    GithubAction: S.optional(CapabilityState),
+    CreateAndUpdateGithubAction: S.optional(CapabilityState),
+    ShareGithubAction: S.optional(CapabilityState),
+    UseGithubAction: S.optional(CapabilityState),
+    NotionAction: S.optional(CapabilityState),
+    CreateAndUpdateNotionAction: S.optional(CapabilityState),
+    ShareNotionAction: S.optional(CapabilityState),
+    UseNotionAction: S.optional(CapabilityState),
+    LinearAction: S.optional(CapabilityState),
+    CreateAndUpdateLinearAction: S.optional(CapabilityState),
+    ShareLinearAction: S.optional(CapabilityState),
+    UseLinearAction: S.optional(CapabilityState),
+    HuggingFaceAction: S.optional(CapabilityState),
+    CreateAndUpdateHuggingFaceAction: S.optional(CapabilityState),
+    ShareHuggingFaceAction: S.optional(CapabilityState),
+    UseHuggingFaceAction: S.optional(CapabilityState),
+    MondayAction: S.optional(CapabilityState),
+    CreateAndUpdateMondayAction: S.optional(CapabilityState),
+    ShareMondayAction: S.optional(CapabilityState),
+    UseMondayAction: S.optional(CapabilityState),
+    HubspotAction: S.optional(CapabilityState),
+    CreateAndUpdateHubspotAction: S.optional(CapabilityState),
+    ShareHubspotAction: S.optional(CapabilityState),
+    UseHubspotAction: S.optional(CapabilityState),
+    IntercomAction: S.optional(CapabilityState),
+    CreateAndUpdateIntercomAction: S.optional(CapabilityState),
+    ShareIntercomAction: S.optional(CapabilityState),
+    UseIntercomAction: S.optional(CapabilityState),
+    NewRelicAction: S.optional(CapabilityState),
+    CreateAndUpdateNewRelicAction: S.optional(CapabilityState),
+    ShareNewRelicAction: S.optional(CapabilityState),
+    UseNewRelicAction: S.optional(CapabilityState),
     Space: S.optional(CapabilityState),
     ChatAgent: S.optional(CapabilityState),
     CreateChatAgents: S.optional(CapabilityState),
@@ -22409,8 +22779,8 @@ export const ThresholdAlertsConfigurations = S.suspend(() =>
 }) as any as S.Schema<ThresholdAlertsConfigurations>;
 export interface RegisteredUserDashboardFeatureConfigurations {
   StatePersistence?: StatePersistenceConfigurations;
-  SharedView?: SharedViewConfigurations;
   Bookmarks?: BookmarksConfigurations;
+  SharedView?: SharedViewConfigurations;
   AmazonQInQuickSight?: AmazonQInQuickSightDashboardConfigurations;
   Schedules?: SchedulesConfigurations;
   RecentSnapshots?: RecentSnapshotsConfigurations;
@@ -22419,8 +22789,8 @@ export interface RegisteredUserDashboardFeatureConfigurations {
 export const RegisteredUserDashboardFeatureConfigurations = S.suspend(() =>
   S.Struct({
     StatePersistence: S.optional(StatePersistenceConfigurations),
-    SharedView: S.optional(SharedViewConfigurations),
     Bookmarks: S.optional(BookmarksConfigurations),
+    SharedView: S.optional(SharedViewConfigurations),
     AmazonQInQuickSight: S.optional(AmazonQInQuickSightDashboardConfigurations),
     Schedules: S.optional(SchedulesConfigurations),
     RecentSnapshots: S.optional(RecentSnapshotsConfigurations),
@@ -32559,6 +32929,18 @@ export const getFlowPermissions: (
  *
  * This API supports Quick Sight native users, IAM federated users, and Active Directory users. For Quick Sight users authenticated by Amazon Web Services Identity Center, see Identity Center documentation on identity-enhanced IAM role sessions.
  *
+ * **Supported Regions**
+ *
+ * The GetIdentityContext API works only in regions that support at least one of these identity types:
+ *
+ * - Amazon Quick Sight native identity
+ *
+ * - IAM federated identity
+ *
+ * - Active Directory
+ *
+ * To use this API successfully, call it in the same region where your user's identity resides. For example, if your user's identity is in us-east-1, make the API call in us-east-1. For more information about managing identities in Amazon Quick Sight, see Identity and access management in Amazon Quick Sight in the Amazon Quick Sight User Guide.
+ *
  * **Getting Identity-Enhanced Credentials**
  *
  * To obtain identity-enhanced credentials, follow these steps:
@@ -35472,11 +35854,13 @@ export const startAssetBundleImportJob: (
 /**
  * Starts an asynchronous job that generates a snapshot of a dashboard's output. You can request one or several of the following format configurations in each API call.
  *
- * - 1 Paginated PDF
+ * - 1 PDF
  *
  * - 1 Excel workbook that includes up to 5 table or pivot table visuals
  *
  * - 5 CSVs from table or pivot table visuals
+ *
+ * Exporting CSV, Excel, or Pixel Perfect PDF reports requires Pixel Perfect Report Add-on.
  *
  * The status of a submitted job can be polled with the `DescribeDashboardSnapshotJob` API. When you call the `DescribeDashboardSnapshotJob` API, check the `JobStatus` field in the response. Once the job reaches a `COMPLETED` or `FAILED` status, use the `DescribeDashboardSnapshotJobResult` API to obtain the URLs for the generated files. If the job fails, the `DescribeDashboardSnapshotJobResult` API returns detailed information about the error that occurred.
  *

@@ -87,13 +87,14 @@ const rules = T.EndpointResolver((p, _) => {
 });
 
 //# Newtypes
+export type ViewName = string;
 export type AWSServiceAccessStatus = string;
 export type IndexType = string;
 export type IndexState = string;
 export type OperationStatus = string;
+export type ServiceViewName = string;
 export type AccountId = string;
 export type QueryString = string | redacted.Redacted<string>;
-export type ViewName = string;
 
 //# Schemas
 export type ViewArnList = string[];
@@ -133,6 +134,7 @@ export const SearchFilter = S.suspend(() =>
 ).annotate({ identifier: "SearchFilter" }) as any as S.Schema<SearchFilter>;
 export interface View {
   ViewArn?: string;
+  ViewName?: string;
   Owner?: string;
   LastUpdatedAt?: Date;
   Scope?: string;
@@ -142,6 +144,7 @@ export interface View {
 export const View = S.suspend(() =>
   S.Struct({
     ViewArn: S.optional(S.String),
+    ViewName: S.optional(S.String),
     Owner: S.optional(S.String),
     LastUpdatedAt: S.optional(
       T.DateFromString.pipe(T.TimestampFormat("date-time")),
@@ -524,6 +527,7 @@ export const GetServiceViewInput = S.suspend(() =>
 }) as any as S.Schema<GetServiceViewInput>;
 export interface ServiceView {
   ServiceViewArn: string;
+  ServiceViewName?: string;
   Filters?: SearchFilter;
   IncludedProperties?: IncludedProperty[];
   StreamingAccessForService?: string;
@@ -532,6 +536,7 @@ export interface ServiceView {
 export const ServiceView = S.suspend(() =>
   S.Struct({
     ServiceViewArn: S.String,
+    ServiceViewName: S.optional(S.String),
     Filters: S.optional(SearchFilter),
     IncludedProperties: S.optional(IncludedPropertyList),
     StreamingAccessForService: S.optional(S.String),

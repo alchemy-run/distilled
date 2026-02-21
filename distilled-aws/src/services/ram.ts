@@ -128,6 +128,7 @@ export const ResourceShareInvitationStatus = S.String;
 export type ResourceShareAssociationType =
   | "PRINCIPAL"
   | "RESOURCE"
+  | "SOURCE"
   | (string & {});
 export const ResourceShareAssociationType = S.String;
 export type ResourceShareAssociationStatus =
@@ -136,6 +137,9 @@ export type ResourceShareAssociationStatus =
   | "FAILED"
   | "DISASSOCIATING"
   | "DISASSOCIATED"
+  | "SUSPENDED"
+  | "SUSPENDING"
+  | "RESTORING"
   | (string & {});
 export const ResourceShareAssociationStatus = S.String;
 export interface ResourceShareAssociation {
@@ -1512,6 +1516,77 @@ export const ListResourceTypesResponse = S.suspend(() =>
 ).annotate({
   identifier: "ListResourceTypesResponse",
 }) as any as S.Schema<ListResourceTypesResponse>;
+export interface ListSourceAssociationsRequest {
+  resourceShareArns?: string[];
+  sourceId?: string;
+  sourceType?: string;
+  associationStatus?: ResourceShareAssociationStatus;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListSourceAssociationsRequest = S.suspend(() =>
+  S.Struct({
+    resourceShareArns: S.optional(ResourceShareArnList),
+    sourceId: S.optional(S.String),
+    sourceType: S.optional(S.String),
+    associationStatus: S.optional(ResourceShareAssociationStatus),
+    nextToken: S.optional(S.String),
+    maxResults: S.optional(S.Number),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/listsourceassociations" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListSourceAssociationsRequest",
+}) as any as S.Schema<ListSourceAssociationsRequest>;
+export interface AssociatedSource {
+  resourceShareArn?: string;
+  sourceId?: string;
+  sourceType?: string;
+  status?: string;
+  lastUpdatedTime?: Date;
+  creationTime?: Date;
+  statusMessage?: string;
+}
+export const AssociatedSource = S.suspend(() =>
+  S.Struct({
+    resourceShareArn: S.optional(S.String),
+    sourceId: S.optional(S.String),
+    sourceType: S.optional(S.String),
+    status: S.optional(S.String),
+    lastUpdatedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    creationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    statusMessage: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "AssociatedSource",
+}) as any as S.Schema<AssociatedSource>;
+export type AssociatedSourceList = AssociatedSource[];
+export const AssociatedSourceList = S.Array(
+  AssociatedSource.pipe(T.XmlName("item")).annotate({
+    identifier: "AssociatedSource",
+  }),
+);
+export interface ListSourceAssociationsResponse {
+  sourceAssociations?: AssociatedSource[];
+  nextToken?: string;
+}
+export const ListSourceAssociationsResponse = S.suspend(() =>
+  S.Struct({
+    sourceAssociations: S.optional(AssociatedSourceList),
+    nextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ListSourceAssociationsResponse",
+}) as any as S.Schema<ListSourceAssociationsResponse>;
 export interface PromotePermissionCreatedFromPolicyRequest {
   permissionArn: string;
   name: string;
@@ -2001,7 +2076,7 @@ export const acceptResourceShareInvitation: (
   ],
 }));
 /**
- * Adds the specified list of principals and list of resources to a resource share. Principals that
+ * Adds the specified list of principals, resources, and source constraints to a resource share. Principals that
  * already have access to this resource share immediately receive access to the added resources.
  * Newly added principals immediately receive access to the resources shared in this resource share.
  */
@@ -2150,8 +2225,8 @@ export const createPermissionVersion: (
 }));
 /**
  * Creates a resource share. You can provide a list of the Amazon Resource Names (ARNs) for the resources that you
- * want to share, a list of principals you want to share the resources with, and the
- * permissions to grant those principals.
+ * want to share, a list of principals you want to share the resources with, the
+ * permissions to grant those principals, and optionally source constraints to enhance security for service principal sharing.
  *
  * Sharing a resource makes it available for use by principals outside of the
  * Amazon Web Services account that created the resource. Sharing doesn't change any permissions or
@@ -2172,6 +2247,7 @@ export const createResourceShare: (
   | ServiceUnavailableException
   | TagLimitExceededException
   | TagPolicyViolationException
+  | ThrottlingException
   | UnknownResourceException
   | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2190,6 +2266,7 @@ export const createResourceShare: (
     ServiceUnavailableException,
     TagLimitExceededException,
     TagPolicyViolationException,
+    ThrottlingException,
     UnknownResourceException,
   ],
 }));
@@ -2277,6 +2354,7 @@ export const deleteResourceShare: (
   | OperationNotPermittedException
   | ServerInternalException
   | ServiceUnavailableException
+  | ThrottlingException
   | UnknownResourceException
   | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2292,11 +2370,12 @@ export const deleteResourceShare: (
     OperationNotPermittedException,
     ServerInternalException,
     ServiceUnavailableException,
+    ThrottlingException,
     UnknownResourceException,
   ],
 }));
 /**
- * Removes the specified principals or resources from participating in the specified
+ * Removes the specified principals, resources, or source constraints from participating in the specified
  * resource share.
  */
 export const disassociateResourceShare: (
@@ -2312,6 +2391,7 @@ export const disassociateResourceShare: (
   | ResourceShareLimitExceededException
   | ServerInternalException
   | ServiceUnavailableException
+  | ThrottlingException
   | UnknownResourceException
   | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2328,6 +2408,7 @@ export const disassociateResourceShare: (
     ResourceShareLimitExceededException,
     ServerInternalException,
     ServiceUnavailableException,
+    ThrottlingException,
     UnknownResourceException,
   ],
 }));
@@ -2425,6 +2506,12 @@ export const getPermission: (
 /**
  * Retrieves the resource policies for the specified resources that you own and have
  * shared.
+ *
+ * Always check the `NextToken` response parameter for a `null` value
+ * when calling a paginated operation. These operations can occasionally return an empty set of results even when there are more
+ * results available. The `NextToken` response parameter value is `null`
+ * *only*
+ * when there are no more results to display.
  */
 export const getResourcePolicies: {
   (
@@ -2486,6 +2573,12 @@ export const getResourcePolicies: {
 /**
  * Retrieves the lists of resources and principals that associated for resource shares that you
  * own.
+ *
+ * Always check the `NextToken` response parameter for a `null` value
+ * when calling a paginated operation. These operations can occasionally return an empty set of results even when there are more
+ * results available. The `NextToken` response parameter value is `null`
+ * *only*
+ * when there are no more results to display.
  */
 export const getResourceShareAssociations: {
   (
@@ -2550,6 +2643,12 @@ export const getResourceShareAssociations: {
 }));
 /**
  * Retrieves details about invitations that you have received for resource shares.
+ *
+ * Always check the `NextToken` response parameter for a `null` value
+ * when calling a paginated operation. These operations can occasionally return an empty set of results even when there are more
+ * results available. The `NextToken` response parameter value is `null`
+ * *only*
+ * when there are no more results to display.
  */
 export const getResourceShareInvitations: {
   (
@@ -2618,6 +2717,12 @@ export const getResourceShareInvitations: {
 }));
 /**
  * Retrieves details about the resource shares that you own or that are shared with you.
+ *
+ * Always check the `NextToken` response parameter for a `null` value
+ * when calling a paginated operation. These operations can occasionally return an empty set of results even when there are more
+ * results available. The `NextToken` response parameter value is `null`
+ * *only*
+ * when there are no more results to display.
  */
 export const getResourceShares: {
   (
@@ -2680,6 +2785,12 @@ export const getResourceShares: {
  * Lists the resources in a resource share that is shared with you but for which the invitation is
  * still `PENDING`. That means that you haven't accepted or rejected the
  * invitation and the invitation hasn't expired.
+ *
+ * Always check the `NextToken` response parameter for a `null` value
+ * when calling a paginated operation. These operations can occasionally return an empty set of results even when there are more
+ * results available. The `NextToken` response parameter value is `null`
+ * *only*
+ * when there are no more results to display.
  */
 export const listPendingInvitationResources: {
   (
@@ -2754,6 +2865,12 @@ export const listPendingInvitationResources: {
  * Lists information about the managed permission and its associations to any resource shares that use
  * this managed permission. This lets you see which resource shares use which versions of the specified
  * managed permission.
+ *
+ * Always check the `NextToken` response parameter for a `null` value
+ * when calling a paginated operation. These operations can occasionally return an empty set of results even when there are more
+ * results available. The `NextToken` response parameter value is `null`
+ * *only*
+ * when there are no more results to display.
  */
 export const listPermissionAssociations: {
   (
@@ -2811,6 +2928,12 @@ export const listPermissionAssociations: {
 /**
  * Retrieves a list of available RAM permissions that you can use for the supported
  * resource types.
+ *
+ * Always check the `NextToken` response parameter for a `null` value
+ * when calling a paginated operation. These operations can occasionally return an empty set of results even when there are more
+ * results available. The `NextToken` response parameter value is `null`
+ * *only*
+ * when there are no more results to display.
  */
 export const listPermissions: {
   (
@@ -2867,6 +2990,12 @@ export const listPermissions: {
 }));
 /**
  * Lists the available versions of the specified RAM permission.
+ *
+ * Always check the `NextToken` response parameter for a `null` value
+ * when calling a paginated operation. These operations can occasionally return an empty set of results even when there are more
+ * results available. The `NextToken` response parameter value is `null`
+ * *only*
+ * when there are no more results to display.
  */
 export const listPermissionVersions: {
   (
@@ -2932,6 +3061,12 @@ export const listPermissionVersions: {
 /**
  * Lists the principals that you are sharing resources with or that are sharing resources
  * with you.
+ *
+ * Always check the `NextToken` response parameter for a `null` value
+ * when calling a paginated operation. These operations can occasionally return an empty set of results even when there are more
+ * results available. The `NextToken` response parameter value is `null`
+ * *only*
+ * when there are no more results to display.
  */
 export const listPrincipals: {
   (
@@ -2993,6 +3128,12 @@ export const listPrincipals: {
 /**
  * Retrieves the current status of the asynchronous tasks performed by RAM when you
  * perform the ReplacePermissionAssociationsWork operation.
+ *
+ * Always check the `NextToken` response parameter for a `null` value
+ * when calling a paginated operation. These operations can occasionally return an empty set of results even when there are more
+ * results available. The `NextToken` response parameter value is `null`
+ * *only*
+ * when there are no more results to display.
  */
 export const listReplacePermissionAssociationsWork: {
   (
@@ -3046,6 +3187,12 @@ export const listReplacePermissionAssociationsWork: {
 /**
  * Lists the resources that you added to a resource share or the resources that are shared with
  * you.
+ *
+ * Always check the `NextToken` response parameter for a `null` value
+ * when calling a paginated operation. These operations can occasionally return an empty set of results even when there are more
+ * results available. The `NextToken` response parameter value is `null`
+ * *only*
+ * when there are no more results to display.
  */
 export const listResources: {
   (
@@ -3110,6 +3257,12 @@ export const listResources: {
 }));
 /**
  * Lists the RAM permissions that are associated with a resource share.
+ *
+ * Always check the `NextToken` response parameter for a `null` value
+ * when calling a paginated operation. These operations can occasionally return an empty set of results even when there are more
+ * results available. The `NextToken` response parameter value is `null`
+ * *only*
+ * when there are no more results to display.
  */
 export const listResourceSharePermissions: {
   (
@@ -3225,6 +3378,69 @@ export const listResourceTypes: {
   } as const,
 }));
 /**
+ * Lists source associations for resource shares. Source associations control which sources can be used with service principals in resource shares. This operation provides visibility into source associations for resource share owners.
+ *
+ * You can filter the results by resource share Amazon Resource Name (ARN), source ID, source type, or association status. We recommend using pagination to ensure that the operation returns quickly and successfully.
+ */
+export const listSourceAssociations: {
+  (
+    input: ListSourceAssociationsRequest,
+  ): effect.Effect<
+    ListSourceAssociationsResponse,
+    | InvalidNextTokenException
+    | InvalidParameterException
+    | MalformedArnException
+    | ServerInternalException
+    | ServiceUnavailableException
+    | UnknownResourceException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListSourceAssociationsRequest,
+  ) => stream.Stream<
+    ListSourceAssociationsResponse,
+    | InvalidNextTokenException
+    | InvalidParameterException
+    | MalformedArnException
+    | ServerInternalException
+    | ServiceUnavailableException
+    | UnknownResourceException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListSourceAssociationsRequest,
+  ) => stream.Stream<
+    AssociatedSource,
+    | InvalidNextTokenException
+    | InvalidParameterException
+    | MalformedArnException
+    | ServerInternalException
+    | ServiceUnavailableException
+    | UnknownResourceException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListSourceAssociationsRequest,
+  output: ListSourceAssociationsResponse,
+  errors: [
+    InvalidNextTokenException,
+    InvalidParameterException,
+    MalformedArnException,
+    ServerInternalException,
+    ServiceUnavailableException,
+    UnknownResourceException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "sourceAssociations",
+    pageSize: "maxResults",
+  } as const,
+}));
+/**
  * When you attach a resource-based policy to a resource, RAM automatically creates
  * a resource share of `featureSet`=`CREATED_FROM_POLICY` with a managed permission that
  * has the same IAM permissions as the original resource-based policy. However, this type
@@ -3258,6 +3474,7 @@ export const promotePermissionCreatedFromPolicy: (
 ) => effect.Effect<
   PromotePermissionCreatedFromPolicyResponse,
   | InvalidParameterException
+  | InvalidPolicyException
   | MalformedArnException
   | MissingRequiredParameterException
   | OperationNotPermittedException
@@ -3271,6 +3488,7 @@ export const promotePermissionCreatedFromPolicy: (
   output: PromotePermissionCreatedFromPolicyResponse,
   errors: [
     InvalidParameterException,
+    InvalidPolicyException,
     MalformedArnException,
     MissingRequiredParameterException,
     OperationNotPermittedException,

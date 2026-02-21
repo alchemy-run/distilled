@@ -962,6 +962,7 @@ export interface CreateClusterMessage {
   MultiAZ?: boolean;
   RedshiftIdcApplicationArn?: string;
   CatalogName?: string;
+  ExtraComputeForAutomaticOptimization?: boolean;
 }
 export const CreateClusterMessage = S.suspend(() =>
   S.Struct({
@@ -1005,6 +1006,7 @@ export const CreateClusterMessage = S.suspend(() =>
     MultiAZ: S.optional(S.Boolean),
     RedshiftIdcApplicationArn: S.optional(S.String),
     CatalogName: S.optional(S.String),
+    ExtraComputeForAutomaticOptimization: S.optional(S.Boolean),
   }).pipe(
     T.all(
       ns,
@@ -1445,6 +1447,7 @@ export interface Cluster {
   MultiAZSecondary?: SecondaryClusterInfo;
   LakehouseRegistrationStatus?: string;
   CatalogArn?: string;
+  ExtraComputeForAutomaticOptimization?: string;
 }
 export const Cluster = S.suspend(() =>
   S.Struct({
@@ -1518,6 +1521,7 @@ export const Cluster = S.suspend(() =>
     MultiAZSecondary: S.optional(SecondaryClusterInfo),
     LakehouseRegistrationStatus: S.optional(S.String),
     CatalogArn: S.optional(S.String),
+    ExtraComputeForAutomaticOptimization: S.optional(S.String),
   }),
 ).annotate({ identifier: "Cluster" }) as any as S.Schema<Cluster>;
 export interface CreateClusterResult {
@@ -2610,6 +2614,7 @@ export type UsageLimitFeatureType =
   | "spectrum"
   | "concurrency-scaling"
   | "cross-region-datasharing"
+  | "extra-compute-for-automatic-optimization"
   | (string & {});
 export const UsageLimitFeatureType = S.String;
 export type UsageLimitLimitType = "time" | "data-scanned" | (string & {});
@@ -6201,6 +6206,7 @@ export interface ModifyClusterMessage {
   MasterPasswordSecretKmsKeyId?: string;
   IpAddressType?: string;
   MultiAZ?: boolean;
+  ExtraComputeForAutomaticOptimization?: boolean;
 }
 export const ModifyClusterMessage = S.suspend(() =>
   S.Struct({
@@ -6233,6 +6239,7 @@ export const ModifyClusterMessage = S.suspend(() =>
     MasterPasswordSecretKmsKeyId: S.optional(S.String),
     IpAddressType: S.optional(S.String),
     MultiAZ: S.optional(S.Boolean),
+    ExtraComputeForAutomaticOptimization: S.optional(S.Boolean),
   }).pipe(
     T.all(
       ns,

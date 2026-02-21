@@ -92,6 +92,9 @@ export type TagKey = string;
 export type TagValue = string;
 export type IdempotencyToken = string;
 export type PolicyStoreDescription = string | redacted.Redacted<string>;
+export type KmsKey = string;
+export type EncryptionContextKey = string;
+export type EncryptionContextValue = string;
 export type PolicyStoreId = string;
 export type ResourceArn = string;
 export type TimestampFormat = Date;
@@ -202,11 +205,30 @@ export const ValidationSettings = S.suspend(() =>
 }) as any as S.Schema<ValidationSettings>;
 export type DeletionProtection = "ENABLED" | "DISABLED" | (string & {});
 export const DeletionProtection = S.String;
+export type EncryptionContext = { [key: string]: string | undefined };
+export const EncryptionContext = S.Record(S.String, S.String.pipe(S.optional));
+export interface KmsEncryptionSettings {
+  key: string;
+  encryptionContext?: { [key: string]: string | undefined };
+}
+export const KmsEncryptionSettings = S.suspend(() =>
+  S.Struct({ key: S.String, encryptionContext: S.optional(EncryptionContext) }),
+).annotate({
+  identifier: "KmsEncryptionSettings",
+}) as any as S.Schema<KmsEncryptionSettings>;
+export type EncryptionSettings =
+  | { kmsEncryptionSettings: KmsEncryptionSettings; default?: never }
+  | { kmsEncryptionSettings?: never; default: Record<string, never> };
+export const EncryptionSettings = S.Union([
+  S.Struct({ kmsEncryptionSettings: KmsEncryptionSettings }),
+  S.Struct({ default: S.Struct({}) }),
+]);
 export interface CreatePolicyStoreInput {
   clientToken?: string;
   validationSettings: ValidationSettings;
   description?: string | redacted.Redacted<string>;
   deletionProtection?: DeletionProtection;
+  encryptionSettings?: EncryptionSettings;
   tags?: { [key: string]: string | undefined };
 }
 export const CreatePolicyStoreInput = S.suspend(() =>
@@ -215,6 +237,7 @@ export const CreatePolicyStoreInput = S.suspend(() =>
     validationSettings: ValidationSettings,
     description: S.optional(SensitiveString),
     deletionProtection: S.optional(DeletionProtection),
+    encryptionSettings: S.optional(EncryptionSettings),
     tags: S.optional(TagMap),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
@@ -260,6 +283,22 @@ export const GetPolicyStoreInput = S.suspend(() =>
 ).annotate({
   identifier: "GetPolicyStoreInput",
 }) as any as S.Schema<GetPolicyStoreInput>;
+export interface KmsEncryptionState {
+  key: string;
+  encryptionContext: { [key: string]: string | undefined };
+}
+export const KmsEncryptionState = S.suspend(() =>
+  S.Struct({ key: S.String, encryptionContext: EncryptionContext }),
+).annotate({
+  identifier: "KmsEncryptionState",
+}) as any as S.Schema<KmsEncryptionState>;
+export type EncryptionState =
+  | { kmsEncryptionState: KmsEncryptionState; default?: never }
+  | { kmsEncryptionState?: never; default: Record<string, never> };
+export const EncryptionState = S.Union([
+  S.Struct({ kmsEncryptionState: KmsEncryptionState }),
+  S.Struct({ default: S.Struct({}) }),
+]);
 export type CedarVersion = "CEDAR_2" | "CEDAR_4" | (string & {});
 export const CedarVersion = S.String;
 export interface GetPolicyStoreOutput {
@@ -270,6 +309,7 @@ export interface GetPolicyStoreOutput {
   lastUpdatedDate: Date;
   description?: string | redacted.Redacted<string>;
   deletionProtection?: DeletionProtection;
+  encryptionState?: EncryptionState;
   cedarVersion?: CedarVersion;
   tags?: { [key: string]: string | undefined };
 }
@@ -282,6 +322,7 @@ export const GetPolicyStoreOutput = S.suspend(() =>
     lastUpdatedDate: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     description: S.optional(SensitiveString),
     deletionProtection: S.optional(DeletionProtection),
+    encryptionState: S.optional(EncryptionState),
     cedarVersion: S.optional(CedarVersion),
     tags: S.optional(TagMap),
   }),
@@ -1916,13 +1957,13 @@ export const UpdatePolicyDefinition = S.Union([
 export interface UpdatePolicyInput {
   policyStoreId: string;
   policyId: string;
-  definition: UpdatePolicyDefinition;
+  definition?: UpdatePolicyDefinition;
 }
 export const UpdatePolicyInput = S.suspend(() =>
   S.Struct({
     policyStoreId: S.String,
     policyId: S.String,
-    definition: UpdatePolicyDefinition,
+    definition: S.optional(UpdatePolicyDefinition),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),

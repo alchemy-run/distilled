@@ -635,24 +635,30 @@ export const RecipientInfo = S.suspend(() =>
     AttestationDocument: S.optional(T.Blob),
   }),
 ).annotate({ identifier: "RecipientInfo" }) as any as S.Schema<RecipientInfo>;
+export type DryRunModifierType = "IGNORE_CIPHERTEXT" | (string & {});
+export const DryRunModifierType = S.String;
+export type DryRunModifierList = DryRunModifierType[];
+export const DryRunModifierList = S.Array(DryRunModifierType);
 export interface DecryptRequest {
-  CiphertextBlob: Uint8Array;
+  CiphertextBlob?: Uint8Array;
   EncryptionContext?: { [key: string]: string | undefined };
   GrantTokens?: string[];
   KeyId?: string;
   EncryptionAlgorithm?: EncryptionAlgorithmSpec;
   Recipient?: RecipientInfo;
   DryRun?: boolean;
+  DryRunModifiers?: DryRunModifierType[];
 }
 export const DecryptRequest = S.suspend(() =>
   S.Struct({
-    CiphertextBlob: T.Blob,
+    CiphertextBlob: S.optional(T.Blob),
     EncryptionContext: S.optional(EncryptionContextType),
     GrantTokens: S.optional(GrantTokenList),
     KeyId: S.optional(S.String),
     EncryptionAlgorithm: S.optional(EncryptionAlgorithmSpec),
     Recipient: S.optional(RecipientInfo),
     DryRun: S.optional(S.Boolean),
+    DryRunModifiers: S.optional(DryRunModifierList),
   }).pipe(
     T.all(
       ns,
@@ -2014,7 +2020,7 @@ export const PutKeyPolicyResponse = S.suspend(() =>
   identifier: "PutKeyPolicyResponse",
 }) as any as S.Schema<PutKeyPolicyResponse>;
 export interface ReEncryptRequest {
-  CiphertextBlob: Uint8Array;
+  CiphertextBlob?: Uint8Array;
   SourceEncryptionContext?: { [key: string]: string | undefined };
   SourceKeyId?: string;
   DestinationKeyId: string;
@@ -2023,10 +2029,11 @@ export interface ReEncryptRequest {
   DestinationEncryptionAlgorithm?: EncryptionAlgorithmSpec;
   GrantTokens?: string[];
   DryRun?: boolean;
+  DryRunModifiers?: DryRunModifierType[];
 }
 export const ReEncryptRequest = S.suspend(() =>
   S.Struct({
-    CiphertextBlob: T.Blob,
+    CiphertextBlob: S.optional(T.Blob),
     SourceEncryptionContext: S.optional(EncryptionContextType),
     SourceKeyId: S.optional(S.String),
     DestinationKeyId: S.String,
@@ -2035,6 +2042,7 @@ export const ReEncryptRequest = S.suspend(() =>
     DestinationEncryptionAlgorithm: S.optional(EncryptionAlgorithmSpec),
     GrantTokens: S.optional(GrantTokenList),
     DryRun: S.optional(S.Boolean),
+    DryRunModifiers: S.optional(DryRunModifierList),
   }).pipe(
     T.all(
       ns,
@@ -3344,8 +3352,6 @@ export const createGrant: (
  *
  * ### Multi-Region primary keys
  *
- * ### Imported key material
- *
  * To create a multi-Region *primary key* in the local Amazon Web Services Region,
  * use the `MultiRegion` parameter with a value of `True`. To create
  * a multi-Region *replica key*, that is, a KMS key with the same key ID
@@ -3362,6 +3368,8 @@ export const createGrant: (
  * interoperable KMS keys in different Amazon Web Services Regions. Because these KMS keys have the same key ID, key
  * material, and other metadata, you can use them interchangeably to encrypt data in one Amazon Web Services Region and decrypt
  * it in a different Amazon Web Services Region without re-encrypting the data or making a cross-Region call. For more information about multi-Region keys, see Multi-Region keys in KMS in the *Key Management Service Developer Guide*.
+ *
+ * ### Imported key material
  *
  * To import your own key material into a KMS key, begin by creating a KMS key with no
  * key material. To do this, use the `Origin` parameter of
@@ -6386,7 +6394,7 @@ export const revokeGrant: (
  * 2024, and you perform an on-demand rotation on April 10, 2024, the key will automatically
  * rotate, as scheduled, on April 14, 2024 and every 730 days thereafter.
  *
- * You can perform on-demand key rotation a maximum of 10
+ * You can perform on-demand key rotation a maximum of 25
  * times per KMS key. You can use the KMS console to view the number of
  * remaining on-demand rotations available for a KMS key.
  *
