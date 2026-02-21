@@ -1,6 +1,6 @@
 {
   "name": "distilled-aws",
-  "version": "0.0.22",
+  "version": "0.0.24",
   "files": [
     "lib",
     "src"
@@ -60,7 +60,7 @@
   },
   "scripts": {
     "clean:aws": "DISTILLED_AWS_DEBUG=1 bun run scripts/topology-clean.ts",
-    "build:clean": "bun run install:clean && bun run build",
+    "build:clean": "bun run install:clean && bun setup && bun run build",
     "bump": "bun run ./scripts/bump.ts",
     "build": "bun generate && bun oxfmt ./src/services/* && tsgo -b",
     "bundle:report": "bun run scripts/bundle-size-report.ts",
