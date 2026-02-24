@@ -1,4 +1,4 @@
-import { Effect, Option, Schema, Stream } from "effect";
+import { Effect, Schema, Stream } from "effect";
 
 /**
  * Pagination trait for PlanetScale APIs.
@@ -47,9 +47,7 @@ export const getPath = (obj: unknown, path: string): unknown => {
 /**
  * Schema for a paginated response from PlanetScale APIs.
  */
-export const PaginatedResponse = <A, I, R>(
-  itemSchema: Schema.Schema<A, I, R>,
-) =>
+export const PaginatedResponse = <A>(itemSchema: Schema.Schema<A>) =>
   Schema.Struct({
     current_page: Schema.Number,
     next_page: Schema.NullOr(Schema.Number),
@@ -99,7 +97,7 @@ export const paginatePages = <
   const unfoldFn = (state: State) =>
     Effect.gen(function* () {
       if (state.done) {
-        return Option.none();
+        return undefined;
       }
 
       // Build the request with the page number
@@ -123,10 +121,10 @@ export const paginatePages = <
         done: nextPage === null || nextPage === undefined,
       };
 
-      return Option.some([response, nextState] as const);
+      return [response, nextState] as const;
     });
 
-  return Stream.unfoldEffect({ page: 1, done: false } as State, unfoldFn);
+  return Stream.unfold({ page: 1, done: false } as State, unfoldFn);
 };
 
 /**

@@ -1,7 +1,12 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
-import { AlreadyExists, IdempotencyError, InvalidRequest, NotFound } from "../errors";
+import {
+  AlreadyExists,
+  IdempotencyError,
+  InvalidRequest,
+  NotFound,
+} from "../errors";
 
 // Input Schema
 export const UpdateEvmSmartAccountInput = Schema.Struct({
@@ -19,7 +24,8 @@ export const UpdateEvmSmartAccountOutput = Schema.Struct({
   createdAt: Schema.optional(Schema.String),
   updatedAt: Schema.optional(Schema.String),
 });
-export type UpdateEvmSmartAccountOutput = typeof UpdateEvmSmartAccountOutput.Type;
+export type UpdateEvmSmartAccountOutput =
+  typeof UpdateEvmSmartAccountOutput.Type;
 
 // The operation
 /**
@@ -29,8 +35,10 @@ export type UpdateEvmSmartAccountOutput = typeof UpdateEvmSmartAccountOutput.Typ
  *
  * @param address - The 0x-prefixed address of the EVM smart account. The address does not need to be checksummed.
  */
-export const updateEvmSmartAccount = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  inputSchema: UpdateEvmSmartAccountInput,
-  outputSchema: UpdateEvmSmartAccountOutput,
-  errors: [AlreadyExists, IdempotencyError, InvalidRequest, NotFound],
-}));
+export const updateEvmSmartAccount = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    inputSchema: UpdateEvmSmartAccountInput,
+    outputSchema: UpdateEvmSmartAccountOutput,
+    errors: [AlreadyExists, IdempotencyError, InvalidRequest, NotFound],
+  }),
+);

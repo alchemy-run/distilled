@@ -14,26 +14,26 @@ import { hasIdempotencyToken } from "../traits.ts";
  * Find property names that have the @idempotencyToken annotation.
  * This is done once at request builder creation time.
  */
-export const findIdempotencyTokenProps = (
-  schema: S.Schema.AnyNoContext,
-): string[] => {
+export const findIdempotencyTokenProps = (schema: S.Top): string[] => {
   const ast = schema.ast;
 
-  // Only process struct schemas (structures)
-  if (ast._tag !== "TypeLiteral" && ast._tag !== "Suspend") {
-    return [];
+  // Unwrap Suspend if needed
+  const unwrapped = ast._tag === "Suspend" ? ast.thunk() : ast;
+
+  // For Declaration (S.Class), get the Objects from encoding chain
+  let resolved = unwrapped;
+  if (resolved._tag === "Declaration" && resolved.encoding?.length) {
+    resolved = resolved.encoding[0].to;
   }
 
-  // Unwrap Suspend if needed
-  const unwrapped = ast._tag === "Suspend" ? ast.f() : ast;
-  if (unwrapped._tag !== "TypeLiteral") {
+  if (resolved._tag !== "Objects") {
     return [];
   }
 
   const props: string[] = [];
 
   // Check each property signature for idempotencyToken annotation
-  for (const prop of unwrapped.propertySignatures) {
+  for (const prop of resolved.propertySignatures) {
     const propName = prop.name;
     if (typeof propName !== "string") continue;
 

@@ -7,7 +7,7 @@
 
 import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
-import type { HttpClient } from "@effect/platform";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
@@ -80,17 +80,17 @@ export type GetBotManagementResponse =
       suppressSessionScore?: boolean;
     };
 
-export const GetBotManagementResponse = Schema.Union(
+export const GetBotManagementResponse = Schema.Union([
   Schema.Struct({
     zoneId: Schema.String.pipe(T.JsonName("zone_id")),
     aiBotsProtection: Schema.optional(
-      Schema.Literal("block", "disabled", "only_on_ad_pages"),
+      Schema.Literals(["block", "disabled", "only_on_ad_pages"]),
     ).pipe(T.JsonName("ai_bots_protection")),
-    cfRobotsVariant: Schema.optional(Schema.Literal("off", "policy_only")).pipe(
+    cfRobotsVariant: Schema.optional(Schema.Literals(["off", "policy_only"])).pipe(
       T.JsonName("cf_robots_variant"),
     ),
     crawlerProtection: Schema.optional(
-      Schema.Literal("enabled", "disabled"),
+      Schema.Literals(["enabled", "disabled"]),
     ).pipe(T.JsonName("crawler_protection")),
     enableJs: Schema.optional(Schema.Boolean).pipe(T.JsonName("enable_js")),
     fightMode: Schema.optional(Schema.Boolean).pipe(T.JsonName("fight_mode")),
@@ -101,13 +101,13 @@ export const GetBotManagementResponse = Schema.Union(
   Schema.Struct({
     zoneId: Schema.String.pipe(T.JsonName("zone_id")),
     aiBotsProtection: Schema.optional(
-      Schema.Literal("block", "disabled", "only_on_ad_pages"),
+      Schema.Literals(["block", "disabled", "only_on_ad_pages"]),
     ).pipe(T.JsonName("ai_bots_protection")),
-    cfRobotsVariant: Schema.optional(Schema.Literal("off", "policy_only")).pipe(
+    cfRobotsVariant: Schema.optional(Schema.Literals(["off", "policy_only"])).pipe(
       T.JsonName("cf_robots_variant"),
     ),
     crawlerProtection: Schema.optional(
-      Schema.Literal("enabled", "disabled"),
+      Schema.Literals(["enabled", "disabled"]),
     ).pipe(T.JsonName("crawler_protection")),
     enableJs: Schema.optional(Schema.Boolean).pipe(T.JsonName("enable_js")),
     isRobotsTxtManaged: Schema.optional(Schema.Boolean).pipe(
@@ -117,25 +117,25 @@ export const GetBotManagementResponse = Schema.Union(
       T.JsonName("optimize_wordpress"),
     ),
     sbfmDefinitelyAutomated: Schema.optional(
-      Schema.Literal("allow", "block", "managed_challenge"),
+      Schema.Literals(["allow", "block", "managed_challenge"]),
     ).pipe(T.JsonName("sbfm_definitely_automated")),
     sbfmStaticResourceProtection: Schema.optional(Schema.Boolean).pipe(
       T.JsonName("sbfm_static_resource_protection"),
     ),
-    sbfmVerifiedBots: Schema.optional(Schema.Literal("allow", "block")).pipe(
+    sbfmVerifiedBots: Schema.optional(Schema.Literals(["allow", "block"])).pipe(
       T.JsonName("sbfm_verified_bots"),
     ),
   }),
   Schema.Struct({
     zoneId: Schema.String.pipe(T.JsonName("zone_id")),
     aiBotsProtection: Schema.optional(
-      Schema.Literal("block", "disabled", "only_on_ad_pages"),
+      Schema.Literals(["block", "disabled", "only_on_ad_pages"]),
     ).pipe(T.JsonName("ai_bots_protection")),
-    cfRobotsVariant: Schema.optional(Schema.Literal("off", "policy_only")).pipe(
+    cfRobotsVariant: Schema.optional(Schema.Literals(["off", "policy_only"])).pipe(
       T.JsonName("cf_robots_variant"),
     ),
     crawlerProtection: Schema.optional(
-      Schema.Literal("enabled", "disabled"),
+      Schema.Literals(["enabled", "disabled"]),
     ).pipe(T.JsonName("crawler_protection")),
     enableJs: Schema.optional(Schema.Boolean).pipe(T.JsonName("enable_js")),
     isRobotsTxtManaged: Schema.optional(Schema.Boolean).pipe(
@@ -145,22 +145,22 @@ export const GetBotManagementResponse = Schema.Union(
       T.JsonName("optimize_wordpress"),
     ),
     sbfmDefinitelyAutomated: Schema.optional(
-      Schema.Literal("allow", "block", "managed_challenge"),
+      Schema.Literals(["allow", "block", "managed_challenge"]),
     ).pipe(T.JsonName("sbfm_definitely_automated")),
     sbfmLikelyAutomated: Schema.optional(
-      Schema.Literal("allow", "block", "managed_challenge"),
+      Schema.Literals(["allow", "block", "managed_challenge"]),
     ).pipe(T.JsonName("sbfm_likely_automated")),
     sbfmStaticResourceProtection: Schema.optional(Schema.Boolean).pipe(
       T.JsonName("sbfm_static_resource_protection"),
     ),
-    sbfmVerifiedBots: Schema.optional(Schema.Literal("allow", "block")).pipe(
+    sbfmVerifiedBots: Schema.optional(Schema.Literals(["allow", "block"])).pipe(
       T.JsonName("sbfm_verified_bots"),
     ),
   }),
   Schema.Struct({
     zoneId: Schema.String.pipe(T.JsonName("zone_id")),
     aiBotsProtection: Schema.optional(
-      Schema.Literal("block", "disabled", "only_on_ad_pages"),
+      Schema.Literals(["block", "disabled", "only_on_ad_pages"]),
     ).pipe(T.JsonName("ai_bots_protection")),
     autoUpdateModel: Schema.optional(Schema.Boolean).pipe(
       T.JsonName("auto_update_model"),
@@ -168,11 +168,11 @@ export const GetBotManagementResponse = Schema.Union(
     bmCookieEnabled: Schema.optional(Schema.Boolean).pipe(
       T.JsonName("bm_cookie_enabled"),
     ),
-    cfRobotsVariant: Schema.optional(Schema.Literal("off", "policy_only")).pipe(
+    cfRobotsVariant: Schema.optional(Schema.Literals(["off", "policy_only"])).pipe(
       T.JsonName("cf_robots_variant"),
     ),
     crawlerProtection: Schema.optional(
-      Schema.Literal("enabled", "disabled"),
+      Schema.Literals(["enabled", "disabled"]),
     ).pipe(T.JsonName("crawler_protection")),
     enableJs: Schema.optional(Schema.Boolean).pipe(T.JsonName("enable_js")),
     isRobotsTxtManaged: Schema.optional(Schema.Boolean).pipe(
@@ -182,7 +182,7 @@ export const GetBotManagementResponse = Schema.Union(
       T.JsonName("suppress_session_score"),
     ),
   }),
-) as unknown as Schema.Schema<GetBotManagementResponse>;
+]) as unknown as Schema.Schema<GetBotManagementResponse>;
 
 export const getBotManagement: (
   input: GetBotManagementRequest,
@@ -249,17 +249,17 @@ export type PutBotManagementResponse =
       suppressSessionScore?: boolean;
     };
 
-export const PutBotManagementResponse = Schema.Union(
+export const PutBotManagementResponse = Schema.Union([
   Schema.Struct({
     zoneId: Schema.String.pipe(T.JsonName("zone_id")),
     aiBotsProtection: Schema.optional(
-      Schema.Literal("block", "disabled", "only_on_ad_pages"),
+      Schema.Literals(["block", "disabled", "only_on_ad_pages"]),
     ).pipe(T.JsonName("ai_bots_protection")),
-    cfRobotsVariant: Schema.optional(Schema.Literal("off", "policy_only")).pipe(
+    cfRobotsVariant: Schema.optional(Schema.Literals(["off", "policy_only"])).pipe(
       T.JsonName("cf_robots_variant"),
     ),
     crawlerProtection: Schema.optional(
-      Schema.Literal("enabled", "disabled"),
+      Schema.Literals(["enabled", "disabled"]),
     ).pipe(T.JsonName("crawler_protection")),
     enableJs: Schema.optional(Schema.Boolean).pipe(T.JsonName("enable_js")),
     fightMode: Schema.optional(Schema.Boolean).pipe(T.JsonName("fight_mode")),
@@ -270,13 +270,13 @@ export const PutBotManagementResponse = Schema.Union(
   Schema.Struct({
     zoneId: Schema.String.pipe(T.JsonName("zone_id")),
     aiBotsProtection: Schema.optional(
-      Schema.Literal("block", "disabled", "only_on_ad_pages"),
+      Schema.Literals(["block", "disabled", "only_on_ad_pages"]),
     ).pipe(T.JsonName("ai_bots_protection")),
-    cfRobotsVariant: Schema.optional(Schema.Literal("off", "policy_only")).pipe(
+    cfRobotsVariant: Schema.optional(Schema.Literals(["off", "policy_only"])).pipe(
       T.JsonName("cf_robots_variant"),
     ),
     crawlerProtection: Schema.optional(
-      Schema.Literal("enabled", "disabled"),
+      Schema.Literals(["enabled", "disabled"]),
     ).pipe(T.JsonName("crawler_protection")),
     enableJs: Schema.optional(Schema.Boolean).pipe(T.JsonName("enable_js")),
     isRobotsTxtManaged: Schema.optional(Schema.Boolean).pipe(
@@ -286,25 +286,25 @@ export const PutBotManagementResponse = Schema.Union(
       T.JsonName("optimize_wordpress"),
     ),
     sbfmDefinitelyAutomated: Schema.optional(
-      Schema.Literal("allow", "block", "managed_challenge"),
+      Schema.Literals(["allow", "block", "managed_challenge"]),
     ).pipe(T.JsonName("sbfm_definitely_automated")),
     sbfmStaticResourceProtection: Schema.optional(Schema.Boolean).pipe(
       T.JsonName("sbfm_static_resource_protection"),
     ),
-    sbfmVerifiedBots: Schema.optional(Schema.Literal("allow", "block")).pipe(
+    sbfmVerifiedBots: Schema.optional(Schema.Literals(["allow", "block"])).pipe(
       T.JsonName("sbfm_verified_bots"),
     ),
   }),
   Schema.Struct({
     zoneId: Schema.String.pipe(T.JsonName("zone_id")),
     aiBotsProtection: Schema.optional(
-      Schema.Literal("block", "disabled", "only_on_ad_pages"),
+      Schema.Literals(["block", "disabled", "only_on_ad_pages"]),
     ).pipe(T.JsonName("ai_bots_protection")),
-    cfRobotsVariant: Schema.optional(Schema.Literal("off", "policy_only")).pipe(
+    cfRobotsVariant: Schema.optional(Schema.Literals(["off", "policy_only"])).pipe(
       T.JsonName("cf_robots_variant"),
     ),
     crawlerProtection: Schema.optional(
-      Schema.Literal("enabled", "disabled"),
+      Schema.Literals(["enabled", "disabled"]),
     ).pipe(T.JsonName("crawler_protection")),
     enableJs: Schema.optional(Schema.Boolean).pipe(T.JsonName("enable_js")),
     isRobotsTxtManaged: Schema.optional(Schema.Boolean).pipe(
@@ -314,22 +314,22 @@ export const PutBotManagementResponse = Schema.Union(
       T.JsonName("optimize_wordpress"),
     ),
     sbfmDefinitelyAutomated: Schema.optional(
-      Schema.Literal("allow", "block", "managed_challenge"),
+      Schema.Literals(["allow", "block", "managed_challenge"]),
     ).pipe(T.JsonName("sbfm_definitely_automated")),
     sbfmLikelyAutomated: Schema.optional(
-      Schema.Literal("allow", "block", "managed_challenge"),
+      Schema.Literals(["allow", "block", "managed_challenge"]),
     ).pipe(T.JsonName("sbfm_likely_automated")),
     sbfmStaticResourceProtection: Schema.optional(Schema.Boolean).pipe(
       T.JsonName("sbfm_static_resource_protection"),
     ),
-    sbfmVerifiedBots: Schema.optional(Schema.Literal("allow", "block")).pipe(
+    sbfmVerifiedBots: Schema.optional(Schema.Literals(["allow", "block"])).pipe(
       T.JsonName("sbfm_verified_bots"),
     ),
   }),
   Schema.Struct({
     zoneId: Schema.String.pipe(T.JsonName("zone_id")),
     aiBotsProtection: Schema.optional(
-      Schema.Literal("block", "disabled", "only_on_ad_pages"),
+      Schema.Literals(["block", "disabled", "only_on_ad_pages"]),
     ).pipe(T.JsonName("ai_bots_protection")),
     autoUpdateModel: Schema.optional(Schema.Boolean).pipe(
       T.JsonName("auto_update_model"),
@@ -337,11 +337,11 @@ export const PutBotManagementResponse = Schema.Union(
     bmCookieEnabled: Schema.optional(Schema.Boolean).pipe(
       T.JsonName("bm_cookie_enabled"),
     ),
-    cfRobotsVariant: Schema.optional(Schema.Literal("off", "policy_only")).pipe(
+    cfRobotsVariant: Schema.optional(Schema.Literals(["off", "policy_only"])).pipe(
       T.JsonName("cf_robots_variant"),
     ),
     crawlerProtection: Schema.optional(
-      Schema.Literal("enabled", "disabled"),
+      Schema.Literals(["enabled", "disabled"]),
     ).pipe(T.JsonName("crawler_protection")),
     enableJs: Schema.optional(Schema.Boolean).pipe(T.JsonName("enable_js")),
     isRobotsTxtManaged: Schema.optional(Schema.Boolean).pipe(
@@ -351,7 +351,7 @@ export const PutBotManagementResponse = Schema.Union(
       T.JsonName("suppress_session_score"),
     ),
   }),
-) as unknown as Schema.Schema<PutBotManagementResponse>;
+]) as unknown as Schema.Schema<PutBotManagementResponse>;
 
 export const putBotManagement: (
   input: PutBotManagementRequest,

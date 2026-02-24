@@ -39,7 +39,7 @@ const MIN_CHUNK_SIZE = 8 * 1024;
  * @returns Effect that produces the request with checksum header added
  */
 export const applyHttpChecksum = (
-  schema: S.Schema.AnyNoContext,
+  schema: S.Top,
   request: ProtocolRequest,
 ): Effect.Effect<ProtocolRequest> =>
   Effect.gen(function* () {

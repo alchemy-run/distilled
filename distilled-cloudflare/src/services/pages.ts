@@ -7,7 +7,7 @@
 
 import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
-import type { HttpClient } from "@effect/platform";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
@@ -286,27 +286,27 @@ export interface GetProjectResponse {
 
 export const GetProjectResponse = Schema.Struct({
   id: Schema.String,
-  canonicalDeployment: Schema.Union(
+  canonicalDeployment: Schema.Union([
     Schema.Struct({
       id: Schema.String,
-      aliases: Schema.Union(Schema.Array(Schema.String), Schema.Null),
+      aliases: Schema.Union([Schema.Array(Schema.String), Schema.Null]),
       buildConfig: Schema.Struct({
-        webAnalyticsTag: Schema.Union(Schema.String, Schema.Null).pipe(
+        webAnalyticsTag: Schema.Union([Schema.String, Schema.Null]).pipe(
           T.JsonName("web_analytics_tag"),
         ),
-        webAnalyticsToken: Schema.Union(Schema.String, Schema.Null).pipe(
+        webAnalyticsToken: Schema.Union([Schema.String, Schema.Null]).pipe(
           T.JsonName("web_analytics_token"),
         ),
         buildCaching: Schema.optional(
-          Schema.Union(Schema.Boolean, Schema.Null),
+          Schema.Union([Schema.Boolean, Schema.Null]),
         ).pipe(T.JsonName("build_caching")),
         buildCommand: Schema.optional(
-          Schema.Union(Schema.String, Schema.Null),
+          Schema.Union([Schema.String, Schema.Null]),
         ).pipe(T.JsonName("build_command")),
         destinationDir: Schema.optional(
-          Schema.Union(Schema.String, Schema.Null),
+          Schema.Union([Schema.String, Schema.Null]),
         ).pipe(T.JsonName("destination_dir")),
-        rootDir: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
+        rootDir: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
           T.JsonName("root_dir"),
         ),
       }).pipe(T.JsonName("build_config")),
@@ -318,12 +318,12 @@ export const GetProjectResponse = Schema.Struct({
           commitHash: Schema.String.pipe(T.JsonName("commit_hash")),
           commitMessage: Schema.String.pipe(T.JsonName("commit_message")),
         }),
-        type: Schema.Literal("github:push", "ad_hoc", "deploy_hook"),
+        type: Schema.Literals(["github:push", "ad_hoc", "deploy_hook"]),
       }).pipe(T.JsonName("deployment_trigger")),
-      envVars: Schema.Union(Schema.Struct({}), Schema.Null).pipe(
+      envVars: Schema.Union([Schema.Struct({}), Schema.Null]).pipe(
         T.JsonName("env_vars"),
       ),
-      environment: Schema.Literal("preview", "production"),
+      environment: Schema.Literals(["preview", "production"]),
       isSkipped: Schema.Boolean.pipe(T.JsonName("is_skipped")),
       latestStage: Schema.Unknown.pipe(T.JsonName("latest_stage")),
       modifiedOn: Schema.String.pipe(T.JsonName("modified_on")),
@@ -353,7 +353,7 @@ export const GetProjectResponse = Schema.Struct({
             Schema.Array(Schema.String),
           ).pipe(T.JsonName("preview_branch_includes")),
           previewDeploymentSetting: Schema.optional(
-            Schema.Literal("all", "none", "custom"),
+            Schema.Literals(["all", "none", "custom"]),
           ).pipe(T.JsonName("preview_deployment_setting")),
           productionBranch: Schema.optional(Schema.String).pipe(
             T.JsonName("production_branch"),
@@ -366,16 +366,16 @@ export const GetProjectResponse = Schema.Struct({
             T.JsonName("repo_name"),
           ),
         }),
-        type: Schema.Literal("github", "gitlab"),
+        type: Schema.Literals(["github", "gitlab"]),
       }),
       stages: Schema.Array(Schema.Unknown),
       url: Schema.String,
       usesFunctions: Schema.optional(
-        Schema.Union(Schema.Boolean, Schema.Null),
+        Schema.Union([Schema.Boolean, Schema.Null]),
       ).pipe(T.JsonName("uses_functions")),
     }),
     Schema.Null,
-  ).pipe(T.JsonName("canonical_deployment")),
+  ]).pipe(T.JsonName("canonical_deployment")),
   createdOn: Schema.String.pipe(T.JsonName("created_on")),
   deploymentConfigs: Schema.Struct({
     preview: Schema.Struct({
@@ -433,7 +433,7 @@ export const GetProjectResponse = Schema.Struct({
       ),
       services: Schema.optional(Schema.Struct({})),
       usageModel: Schema.optional(
-        Schema.Literal("standard", "bundled", "unbound"),
+        Schema.Literals(["standard", "bundled", "unbound"]),
       ).pipe(T.JsonName("usage_model")),
       vectorizeBindings: Schema.optional(Schema.Struct({})).pipe(
         T.JsonName("vectorize_bindings"),
@@ -497,7 +497,7 @@ export const GetProjectResponse = Schema.Struct({
       ),
       services: Schema.optional(Schema.Struct({})),
       usageModel: Schema.optional(
-        Schema.Literal("standard", "bundled", "unbound"),
+        Schema.Literals(["standard", "bundled", "unbound"]),
       ).pipe(T.JsonName("usage_model")),
       vectorizeBindings: Schema.optional(Schema.Struct({})).pipe(
         T.JsonName("vectorize_bindings"),
@@ -509,27 +509,27 @@ export const GetProjectResponse = Schema.Struct({
   }).pipe(T.JsonName("deployment_configs")),
   framework: Schema.String,
   frameworkVersion: Schema.String.pipe(T.JsonName("framework_version")),
-  latestDeployment: Schema.Union(
+  latestDeployment: Schema.Union([
     Schema.Struct({
       id: Schema.String,
-      aliases: Schema.Union(Schema.Array(Schema.String), Schema.Null),
+      aliases: Schema.Union([Schema.Array(Schema.String), Schema.Null]),
       buildConfig: Schema.Struct({
-        webAnalyticsTag: Schema.Union(Schema.String, Schema.Null).pipe(
+        webAnalyticsTag: Schema.Union([Schema.String, Schema.Null]).pipe(
           T.JsonName("web_analytics_tag"),
         ),
-        webAnalyticsToken: Schema.Union(Schema.String, Schema.Null).pipe(
+        webAnalyticsToken: Schema.Union([Schema.String, Schema.Null]).pipe(
           T.JsonName("web_analytics_token"),
         ),
         buildCaching: Schema.optional(
-          Schema.Union(Schema.Boolean, Schema.Null),
+          Schema.Union([Schema.Boolean, Schema.Null]),
         ).pipe(T.JsonName("build_caching")),
         buildCommand: Schema.optional(
-          Schema.Union(Schema.String, Schema.Null),
+          Schema.Union([Schema.String, Schema.Null]),
         ).pipe(T.JsonName("build_command")),
         destinationDir: Schema.optional(
-          Schema.Union(Schema.String, Schema.Null),
+          Schema.Union([Schema.String, Schema.Null]),
         ).pipe(T.JsonName("destination_dir")),
-        rootDir: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
+        rootDir: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
           T.JsonName("root_dir"),
         ),
       }).pipe(T.JsonName("build_config")),
@@ -541,12 +541,12 @@ export const GetProjectResponse = Schema.Struct({
           commitHash: Schema.String.pipe(T.JsonName("commit_hash")),
           commitMessage: Schema.String.pipe(T.JsonName("commit_message")),
         }),
-        type: Schema.Literal("github:push", "ad_hoc", "deploy_hook"),
+        type: Schema.Literals(["github:push", "ad_hoc", "deploy_hook"]),
       }).pipe(T.JsonName("deployment_trigger")),
-      envVars: Schema.Union(Schema.Struct({}), Schema.Null).pipe(
+      envVars: Schema.Union([Schema.Struct({}), Schema.Null]).pipe(
         T.JsonName("env_vars"),
       ),
-      environment: Schema.Literal("preview", "production"),
+      environment: Schema.Literals(["preview", "production"]),
       isSkipped: Schema.Boolean.pipe(T.JsonName("is_skipped")),
       latestStage: Schema.Unknown.pipe(T.JsonName("latest_stage")),
       modifiedOn: Schema.String.pipe(T.JsonName("modified_on")),
@@ -576,7 +576,7 @@ export const GetProjectResponse = Schema.Struct({
             Schema.Array(Schema.String),
           ).pipe(T.JsonName("preview_branch_includes")),
           previewDeploymentSetting: Schema.optional(
-            Schema.Literal("all", "none", "custom"),
+            Schema.Literals(["all", "none", "custom"]),
           ).pipe(T.JsonName("preview_deployment_setting")),
           productionBranch: Schema.optional(Schema.String).pipe(
             T.JsonName("production_branch"),
@@ -589,43 +589,43 @@ export const GetProjectResponse = Schema.Struct({
             T.JsonName("repo_name"),
           ),
         }),
-        type: Schema.Literal("github", "gitlab"),
+        type: Schema.Literals(["github", "gitlab"]),
       }),
       stages: Schema.Array(Schema.Unknown),
       url: Schema.String,
       usesFunctions: Schema.optional(
-        Schema.Union(Schema.Boolean, Schema.Null),
+        Schema.Union([Schema.Boolean, Schema.Null]),
       ).pipe(T.JsonName("uses_functions")),
     }),
     Schema.Null,
-  ).pipe(T.JsonName("latest_deployment")),
+  ]).pipe(T.JsonName("latest_deployment")),
   name: Schema.String,
   previewScriptName: Schema.String.pipe(T.JsonName("preview_script_name")),
   productionBranch: Schema.String.pipe(T.JsonName("production_branch")),
   productionScriptName: Schema.String.pipe(
     T.JsonName("production_script_name"),
   ),
-  usesFunctions: Schema.Union(Schema.Boolean, Schema.Null).pipe(
+  usesFunctions: Schema.Union([Schema.Boolean, Schema.Null]).pipe(
     T.JsonName("uses_functions"),
   ),
   buildConfig: Schema.optional(
     Schema.Struct({
-      webAnalyticsTag: Schema.Union(Schema.String, Schema.Null).pipe(
+      webAnalyticsTag: Schema.Union([Schema.String, Schema.Null]).pipe(
         T.JsonName("web_analytics_tag"),
       ),
-      webAnalyticsToken: Schema.Union(Schema.String, Schema.Null).pipe(
+      webAnalyticsToken: Schema.Union([Schema.String, Schema.Null]).pipe(
         T.JsonName("web_analytics_token"),
       ),
       buildCaching: Schema.optional(
-        Schema.Union(Schema.Boolean, Schema.Null),
+        Schema.Union([Schema.Boolean, Schema.Null]),
       ).pipe(T.JsonName("build_caching")),
       buildCommand: Schema.optional(
-        Schema.Union(Schema.String, Schema.Null),
+        Schema.Union([Schema.String, Schema.Null]),
       ).pipe(T.JsonName("build_command")),
       destinationDir: Schema.optional(
-        Schema.Union(Schema.String, Schema.Null),
+        Schema.Union([Schema.String, Schema.Null]),
       ).pipe(T.JsonName("destination_dir")),
-      rootDir: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
+      rootDir: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
         T.JsonName("root_dir"),
       ),
     }),
@@ -655,7 +655,7 @@ export const GetProjectResponse = Schema.Struct({
           Schema.Array(Schema.String),
         ).pipe(T.JsonName("preview_branch_includes")),
         previewDeploymentSetting: Schema.optional(
-          Schema.Literal("all", "none", "custom"),
+          Schema.Literals(["all", "none", "custom"]),
         ).pipe(T.JsonName("preview_deployment_setting")),
         productionBranch: Schema.optional(Schema.String).pipe(
           T.JsonName("production_branch"),
@@ -666,7 +666,7 @@ export const GetProjectResponse = Schema.Struct({
         repoId: Schema.optional(Schema.String).pipe(T.JsonName("repo_id")),
         repoName: Schema.optional(Schema.String).pipe(T.JsonName("repo_name")),
       }),
-      type: Schema.Literal("github", "gitlab"),
+      type: Schema.Literals(["github", "gitlab"]),
     }),
   ),
   subdomain: Schema.optional(Schema.String),
@@ -789,10 +789,10 @@ export const CreateProjectRequest = Schema.Struct({
       ),
       rootDir: Schema.optional(Schema.String).pipe(T.JsonName("root_dir")),
       webAnalyticsTag: Schema.optional(
-        Schema.Union(Schema.String, Schema.Null),
+        Schema.Union([Schema.String, Schema.Null]),
       ).pipe(T.JsonName("web_analytics_tag")),
       webAnalyticsToken: Schema.optional(
-        Schema.Union(Schema.String, Schema.Null),
+        Schema.Union([Schema.String, Schema.Null]),
       ).pipe(T.JsonName("web_analytics_token")),
     }),
   ).pipe(T.JsonName("build_config")),
@@ -858,7 +858,7 @@ export const CreateProjectRequest = Schema.Struct({
           ),
           services: Schema.optional(Schema.Struct({})),
           usageModel: Schema.optional(
-            Schema.Literal("standard", "bundled", "unbound"),
+            Schema.Literals(["standard", "bundled", "unbound"]),
           ).pipe(T.JsonName("usage_model")),
           vectorizeBindings: Schema.optional(Schema.Struct({})).pipe(
             T.JsonName("vectorize_bindings"),
@@ -928,7 +928,7 @@ export const CreateProjectRequest = Schema.Struct({
           ),
           services: Schema.optional(Schema.Struct({})),
           usageModel: Schema.optional(
-            Schema.Literal("standard", "bundled", "unbound"),
+            Schema.Literals(["standard", "bundled", "unbound"]),
           ).pipe(T.JsonName("usage_model")),
           vectorizeBindings: Schema.optional(Schema.Struct({})).pipe(
             T.JsonName("vectorize_bindings"),
@@ -964,7 +964,7 @@ export const CreateProjectRequest = Schema.Struct({
           Schema.Array(Schema.String),
         ).pipe(T.JsonName("preview_branch_includes")),
         previewDeploymentSetting: Schema.optional(
-          Schema.Literal("all", "none", "custom"),
+          Schema.Literals(["all", "none", "custom"]),
         ).pipe(T.JsonName("preview_deployment_setting")),
         productionBranch: Schema.optional(Schema.String).pipe(
           T.JsonName("production_branch"),
@@ -975,7 +975,7 @@ export const CreateProjectRequest = Schema.Struct({
         repoId: Schema.optional(Schema.String).pipe(T.JsonName("repo_id")),
         repoName: Schema.optional(Schema.String).pipe(T.JsonName("repo_name")),
       }),
-      type: Schema.Literal("github", "gitlab"),
+      type: Schema.Literals(["github", "gitlab"]),
     }),
   ),
 }).pipe(
@@ -1192,27 +1192,27 @@ export interface CreateProjectResponse {
 
 export const CreateProjectResponse = Schema.Struct({
   id: Schema.String,
-  canonicalDeployment: Schema.Union(
+  canonicalDeployment: Schema.Union([
     Schema.Struct({
       id: Schema.String,
-      aliases: Schema.Union(Schema.Array(Schema.String), Schema.Null),
+      aliases: Schema.Union([Schema.Array(Schema.String), Schema.Null]),
       buildConfig: Schema.Struct({
-        webAnalyticsTag: Schema.Union(Schema.String, Schema.Null).pipe(
+        webAnalyticsTag: Schema.Union([Schema.String, Schema.Null]).pipe(
           T.JsonName("web_analytics_tag"),
         ),
-        webAnalyticsToken: Schema.Union(Schema.String, Schema.Null).pipe(
+        webAnalyticsToken: Schema.Union([Schema.String, Schema.Null]).pipe(
           T.JsonName("web_analytics_token"),
         ),
         buildCaching: Schema.optional(
-          Schema.Union(Schema.Boolean, Schema.Null),
+          Schema.Union([Schema.Boolean, Schema.Null]),
         ).pipe(T.JsonName("build_caching")),
         buildCommand: Schema.optional(
-          Schema.Union(Schema.String, Schema.Null),
+          Schema.Union([Schema.String, Schema.Null]),
         ).pipe(T.JsonName("build_command")),
         destinationDir: Schema.optional(
-          Schema.Union(Schema.String, Schema.Null),
+          Schema.Union([Schema.String, Schema.Null]),
         ).pipe(T.JsonName("destination_dir")),
-        rootDir: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
+        rootDir: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
           T.JsonName("root_dir"),
         ),
       }).pipe(T.JsonName("build_config")),
@@ -1224,12 +1224,12 @@ export const CreateProjectResponse = Schema.Struct({
           commitHash: Schema.String.pipe(T.JsonName("commit_hash")),
           commitMessage: Schema.String.pipe(T.JsonName("commit_message")),
         }),
-        type: Schema.Literal("github:push", "ad_hoc", "deploy_hook"),
+        type: Schema.Literals(["github:push", "ad_hoc", "deploy_hook"]),
       }).pipe(T.JsonName("deployment_trigger")),
-      envVars: Schema.Union(Schema.Struct({}), Schema.Null).pipe(
+      envVars: Schema.Union([Schema.Struct({}), Schema.Null]).pipe(
         T.JsonName("env_vars"),
       ),
-      environment: Schema.Literal("preview", "production"),
+      environment: Schema.Literals(["preview", "production"]),
       isSkipped: Schema.Boolean.pipe(T.JsonName("is_skipped")),
       latestStage: Schema.Unknown.pipe(T.JsonName("latest_stage")),
       modifiedOn: Schema.String.pipe(T.JsonName("modified_on")),
@@ -1259,7 +1259,7 @@ export const CreateProjectResponse = Schema.Struct({
             Schema.Array(Schema.String),
           ).pipe(T.JsonName("preview_branch_includes")),
           previewDeploymentSetting: Schema.optional(
-            Schema.Literal("all", "none", "custom"),
+            Schema.Literals(["all", "none", "custom"]),
           ).pipe(T.JsonName("preview_deployment_setting")),
           productionBranch: Schema.optional(Schema.String).pipe(
             T.JsonName("production_branch"),
@@ -1272,16 +1272,16 @@ export const CreateProjectResponse = Schema.Struct({
             T.JsonName("repo_name"),
           ),
         }),
-        type: Schema.Literal("github", "gitlab"),
+        type: Schema.Literals(["github", "gitlab"]),
       }),
       stages: Schema.Array(Schema.Unknown),
       url: Schema.String,
       usesFunctions: Schema.optional(
-        Schema.Union(Schema.Boolean, Schema.Null),
+        Schema.Union([Schema.Boolean, Schema.Null]),
       ).pipe(T.JsonName("uses_functions")),
     }),
     Schema.Null,
-  ).pipe(T.JsonName("canonical_deployment")),
+  ]).pipe(T.JsonName("canonical_deployment")),
   createdOn: Schema.String.pipe(T.JsonName("created_on")),
   deploymentConfigs: Schema.Struct({
     preview: Schema.Struct({
@@ -1339,7 +1339,7 @@ export const CreateProjectResponse = Schema.Struct({
       ),
       services: Schema.optional(Schema.Struct({})),
       usageModel: Schema.optional(
-        Schema.Literal("standard", "bundled", "unbound"),
+        Schema.Literals(["standard", "bundled", "unbound"]),
       ).pipe(T.JsonName("usage_model")),
       vectorizeBindings: Schema.optional(Schema.Struct({})).pipe(
         T.JsonName("vectorize_bindings"),
@@ -1403,7 +1403,7 @@ export const CreateProjectResponse = Schema.Struct({
       ),
       services: Schema.optional(Schema.Struct({})),
       usageModel: Schema.optional(
-        Schema.Literal("standard", "bundled", "unbound"),
+        Schema.Literals(["standard", "bundled", "unbound"]),
       ).pipe(T.JsonName("usage_model")),
       vectorizeBindings: Schema.optional(Schema.Struct({})).pipe(
         T.JsonName("vectorize_bindings"),
@@ -1415,27 +1415,27 @@ export const CreateProjectResponse = Schema.Struct({
   }).pipe(T.JsonName("deployment_configs")),
   framework: Schema.String,
   frameworkVersion: Schema.String.pipe(T.JsonName("framework_version")),
-  latestDeployment: Schema.Union(
+  latestDeployment: Schema.Union([
     Schema.Struct({
       id: Schema.String,
-      aliases: Schema.Union(Schema.Array(Schema.String), Schema.Null),
+      aliases: Schema.Union([Schema.Array(Schema.String), Schema.Null]),
       buildConfig: Schema.Struct({
-        webAnalyticsTag: Schema.Union(Schema.String, Schema.Null).pipe(
+        webAnalyticsTag: Schema.Union([Schema.String, Schema.Null]).pipe(
           T.JsonName("web_analytics_tag"),
         ),
-        webAnalyticsToken: Schema.Union(Schema.String, Schema.Null).pipe(
+        webAnalyticsToken: Schema.Union([Schema.String, Schema.Null]).pipe(
           T.JsonName("web_analytics_token"),
         ),
         buildCaching: Schema.optional(
-          Schema.Union(Schema.Boolean, Schema.Null),
+          Schema.Union([Schema.Boolean, Schema.Null]),
         ).pipe(T.JsonName("build_caching")),
         buildCommand: Schema.optional(
-          Schema.Union(Schema.String, Schema.Null),
+          Schema.Union([Schema.String, Schema.Null]),
         ).pipe(T.JsonName("build_command")),
         destinationDir: Schema.optional(
-          Schema.Union(Schema.String, Schema.Null),
+          Schema.Union([Schema.String, Schema.Null]),
         ).pipe(T.JsonName("destination_dir")),
-        rootDir: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
+        rootDir: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
           T.JsonName("root_dir"),
         ),
       }).pipe(T.JsonName("build_config")),
@@ -1447,12 +1447,12 @@ export const CreateProjectResponse = Schema.Struct({
           commitHash: Schema.String.pipe(T.JsonName("commit_hash")),
           commitMessage: Schema.String.pipe(T.JsonName("commit_message")),
         }),
-        type: Schema.Literal("github:push", "ad_hoc", "deploy_hook"),
+        type: Schema.Literals(["github:push", "ad_hoc", "deploy_hook"]),
       }).pipe(T.JsonName("deployment_trigger")),
-      envVars: Schema.Union(Schema.Struct({}), Schema.Null).pipe(
+      envVars: Schema.Union([Schema.Struct({}), Schema.Null]).pipe(
         T.JsonName("env_vars"),
       ),
-      environment: Schema.Literal("preview", "production"),
+      environment: Schema.Literals(["preview", "production"]),
       isSkipped: Schema.Boolean.pipe(T.JsonName("is_skipped")),
       latestStage: Schema.Unknown.pipe(T.JsonName("latest_stage")),
       modifiedOn: Schema.String.pipe(T.JsonName("modified_on")),
@@ -1482,7 +1482,7 @@ export const CreateProjectResponse = Schema.Struct({
             Schema.Array(Schema.String),
           ).pipe(T.JsonName("preview_branch_includes")),
           previewDeploymentSetting: Schema.optional(
-            Schema.Literal("all", "none", "custom"),
+            Schema.Literals(["all", "none", "custom"]),
           ).pipe(T.JsonName("preview_deployment_setting")),
           productionBranch: Schema.optional(Schema.String).pipe(
             T.JsonName("production_branch"),
@@ -1495,43 +1495,43 @@ export const CreateProjectResponse = Schema.Struct({
             T.JsonName("repo_name"),
           ),
         }),
-        type: Schema.Literal("github", "gitlab"),
+        type: Schema.Literals(["github", "gitlab"]),
       }),
       stages: Schema.Array(Schema.Unknown),
       url: Schema.String,
       usesFunctions: Schema.optional(
-        Schema.Union(Schema.Boolean, Schema.Null),
+        Schema.Union([Schema.Boolean, Schema.Null]),
       ).pipe(T.JsonName("uses_functions")),
     }),
     Schema.Null,
-  ).pipe(T.JsonName("latest_deployment")),
+  ]).pipe(T.JsonName("latest_deployment")),
   name: Schema.String,
   previewScriptName: Schema.String.pipe(T.JsonName("preview_script_name")),
   productionBranch: Schema.String.pipe(T.JsonName("production_branch")),
   productionScriptName: Schema.String.pipe(
     T.JsonName("production_script_name"),
   ),
-  usesFunctions: Schema.Union(Schema.Boolean, Schema.Null).pipe(
+  usesFunctions: Schema.Union([Schema.Boolean, Schema.Null]).pipe(
     T.JsonName("uses_functions"),
   ),
   buildConfig: Schema.optional(
     Schema.Struct({
-      webAnalyticsTag: Schema.Union(Schema.String, Schema.Null).pipe(
+      webAnalyticsTag: Schema.Union([Schema.String, Schema.Null]).pipe(
         T.JsonName("web_analytics_tag"),
       ),
-      webAnalyticsToken: Schema.Union(Schema.String, Schema.Null).pipe(
+      webAnalyticsToken: Schema.Union([Schema.String, Schema.Null]).pipe(
         T.JsonName("web_analytics_token"),
       ),
       buildCaching: Schema.optional(
-        Schema.Union(Schema.Boolean, Schema.Null),
+        Schema.Union([Schema.Boolean, Schema.Null]),
       ).pipe(T.JsonName("build_caching")),
       buildCommand: Schema.optional(
-        Schema.Union(Schema.String, Schema.Null),
+        Schema.Union([Schema.String, Schema.Null]),
       ).pipe(T.JsonName("build_command")),
       destinationDir: Schema.optional(
-        Schema.Union(Schema.String, Schema.Null),
+        Schema.Union([Schema.String, Schema.Null]),
       ).pipe(T.JsonName("destination_dir")),
-      rootDir: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
+      rootDir: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
         T.JsonName("root_dir"),
       ),
     }),
@@ -1561,7 +1561,7 @@ export const CreateProjectResponse = Schema.Struct({
           Schema.Array(Schema.String),
         ).pipe(T.JsonName("preview_branch_includes")),
         previewDeploymentSetting: Schema.optional(
-          Schema.Literal("all", "none", "custom"),
+          Schema.Literals(["all", "none", "custom"]),
         ).pipe(T.JsonName("preview_deployment_setting")),
         productionBranch: Schema.optional(Schema.String).pipe(
           T.JsonName("production_branch"),
@@ -1572,7 +1572,7 @@ export const CreateProjectResponse = Schema.Struct({
         repoId: Schema.optional(Schema.String).pipe(T.JsonName("repo_id")),
         repoName: Schema.optional(Schema.String).pipe(T.JsonName("repo_name")),
       }),
-      type: Schema.Literal("github", "gitlab"),
+      type: Schema.Literals(["github", "gitlab"]),
     }),
   ),
   subdomain: Schema.optional(Schema.String),
@@ -1695,10 +1695,10 @@ export const PatchProjectRequest = Schema.Struct({
       ),
       rootDir: Schema.optional(Schema.String).pipe(T.JsonName("root_dir")),
       webAnalyticsTag: Schema.optional(
-        Schema.Union(Schema.String, Schema.Null),
+        Schema.Union([Schema.String, Schema.Null]),
       ).pipe(T.JsonName("web_analytics_tag")),
       webAnalyticsToken: Schema.optional(
-        Schema.Union(Schema.String, Schema.Null),
+        Schema.Union([Schema.String, Schema.Null]),
       ).pipe(T.JsonName("web_analytics_token")),
     }),
   ).pipe(T.JsonName("build_config")),
@@ -1764,7 +1764,7 @@ export const PatchProjectRequest = Schema.Struct({
           ),
           services: Schema.optional(Schema.Struct({})),
           usageModel: Schema.optional(
-            Schema.Literal("standard", "bundled", "unbound"),
+            Schema.Literals(["standard", "bundled", "unbound"]),
           ).pipe(T.JsonName("usage_model")),
           vectorizeBindings: Schema.optional(Schema.Struct({})).pipe(
             T.JsonName("vectorize_bindings"),
@@ -1834,7 +1834,7 @@ export const PatchProjectRequest = Schema.Struct({
           ),
           services: Schema.optional(Schema.Struct({})),
           usageModel: Schema.optional(
-            Schema.Literal("standard", "bundled", "unbound"),
+            Schema.Literals(["standard", "bundled", "unbound"]),
           ).pipe(T.JsonName("usage_model")),
           vectorizeBindings: Schema.optional(Schema.Struct({})).pipe(
             T.JsonName("vectorize_bindings"),
@@ -1874,7 +1874,7 @@ export const PatchProjectRequest = Schema.Struct({
           Schema.Array(Schema.String),
         ).pipe(T.JsonName("preview_branch_includes")),
         previewDeploymentSetting: Schema.optional(
-          Schema.Literal("all", "none", "custom"),
+          Schema.Literals(["all", "none", "custom"]),
         ).pipe(T.JsonName("preview_deployment_setting")),
         productionBranch: Schema.optional(Schema.String).pipe(
           T.JsonName("production_branch"),
@@ -1885,7 +1885,7 @@ export const PatchProjectRequest = Schema.Struct({
         repoId: Schema.optional(Schema.String).pipe(T.JsonName("repo_id")),
         repoName: Schema.optional(Schema.String).pipe(T.JsonName("repo_name")),
       }),
-      type: Schema.Literal("github", "gitlab"),
+      type: Schema.Literals(["github", "gitlab"]),
     }),
   ),
 }).pipe(
@@ -2105,27 +2105,27 @@ export interface PatchProjectResponse {
 
 export const PatchProjectResponse = Schema.Struct({
   id: Schema.String,
-  canonicalDeployment: Schema.Union(
+  canonicalDeployment: Schema.Union([
     Schema.Struct({
       id: Schema.String,
-      aliases: Schema.Union(Schema.Array(Schema.String), Schema.Null),
+      aliases: Schema.Union([Schema.Array(Schema.String), Schema.Null]),
       buildConfig: Schema.Struct({
-        webAnalyticsTag: Schema.Union(Schema.String, Schema.Null).pipe(
+        webAnalyticsTag: Schema.Union([Schema.String, Schema.Null]).pipe(
           T.JsonName("web_analytics_tag"),
         ),
-        webAnalyticsToken: Schema.Union(Schema.String, Schema.Null).pipe(
+        webAnalyticsToken: Schema.Union([Schema.String, Schema.Null]).pipe(
           T.JsonName("web_analytics_token"),
         ),
         buildCaching: Schema.optional(
-          Schema.Union(Schema.Boolean, Schema.Null),
+          Schema.Union([Schema.Boolean, Schema.Null]),
         ).pipe(T.JsonName("build_caching")),
         buildCommand: Schema.optional(
-          Schema.Union(Schema.String, Schema.Null),
+          Schema.Union([Schema.String, Schema.Null]),
         ).pipe(T.JsonName("build_command")),
         destinationDir: Schema.optional(
-          Schema.Union(Schema.String, Schema.Null),
+          Schema.Union([Schema.String, Schema.Null]),
         ).pipe(T.JsonName("destination_dir")),
-        rootDir: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
+        rootDir: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
           T.JsonName("root_dir"),
         ),
       }).pipe(T.JsonName("build_config")),
@@ -2137,12 +2137,12 @@ export const PatchProjectResponse = Schema.Struct({
           commitHash: Schema.String.pipe(T.JsonName("commit_hash")),
           commitMessage: Schema.String.pipe(T.JsonName("commit_message")),
         }),
-        type: Schema.Literal("github:push", "ad_hoc", "deploy_hook"),
+        type: Schema.Literals(["github:push", "ad_hoc", "deploy_hook"]),
       }).pipe(T.JsonName("deployment_trigger")),
-      envVars: Schema.Union(Schema.Struct({}), Schema.Null).pipe(
+      envVars: Schema.Union([Schema.Struct({}), Schema.Null]).pipe(
         T.JsonName("env_vars"),
       ),
-      environment: Schema.Literal("preview", "production"),
+      environment: Schema.Literals(["preview", "production"]),
       isSkipped: Schema.Boolean.pipe(T.JsonName("is_skipped")),
       latestStage: Schema.Unknown.pipe(T.JsonName("latest_stage")),
       modifiedOn: Schema.String.pipe(T.JsonName("modified_on")),
@@ -2172,7 +2172,7 @@ export const PatchProjectResponse = Schema.Struct({
             Schema.Array(Schema.String),
           ).pipe(T.JsonName("preview_branch_includes")),
           previewDeploymentSetting: Schema.optional(
-            Schema.Literal("all", "none", "custom"),
+            Schema.Literals(["all", "none", "custom"]),
           ).pipe(T.JsonName("preview_deployment_setting")),
           productionBranch: Schema.optional(Schema.String).pipe(
             T.JsonName("production_branch"),
@@ -2185,16 +2185,16 @@ export const PatchProjectResponse = Schema.Struct({
             T.JsonName("repo_name"),
           ),
         }),
-        type: Schema.Literal("github", "gitlab"),
+        type: Schema.Literals(["github", "gitlab"]),
       }),
       stages: Schema.Array(Schema.Unknown),
       url: Schema.String,
       usesFunctions: Schema.optional(
-        Schema.Union(Schema.Boolean, Schema.Null),
+        Schema.Union([Schema.Boolean, Schema.Null]),
       ).pipe(T.JsonName("uses_functions")),
     }),
     Schema.Null,
-  ).pipe(T.JsonName("canonical_deployment")),
+  ]).pipe(T.JsonName("canonical_deployment")),
   createdOn: Schema.String.pipe(T.JsonName("created_on")),
   deploymentConfigs: Schema.Struct({
     preview: Schema.Struct({
@@ -2252,7 +2252,7 @@ export const PatchProjectResponse = Schema.Struct({
       ),
       services: Schema.optional(Schema.Struct({})),
       usageModel: Schema.optional(
-        Schema.Literal("standard", "bundled", "unbound"),
+        Schema.Literals(["standard", "bundled", "unbound"]),
       ).pipe(T.JsonName("usage_model")),
       vectorizeBindings: Schema.optional(Schema.Struct({})).pipe(
         T.JsonName("vectorize_bindings"),
@@ -2316,7 +2316,7 @@ export const PatchProjectResponse = Schema.Struct({
       ),
       services: Schema.optional(Schema.Struct({})),
       usageModel: Schema.optional(
-        Schema.Literal("standard", "bundled", "unbound"),
+        Schema.Literals(["standard", "bundled", "unbound"]),
       ).pipe(T.JsonName("usage_model")),
       vectorizeBindings: Schema.optional(Schema.Struct({})).pipe(
         T.JsonName("vectorize_bindings"),
@@ -2328,27 +2328,27 @@ export const PatchProjectResponse = Schema.Struct({
   }).pipe(T.JsonName("deployment_configs")),
   framework: Schema.String,
   frameworkVersion: Schema.String.pipe(T.JsonName("framework_version")),
-  latestDeployment: Schema.Union(
+  latestDeployment: Schema.Union([
     Schema.Struct({
       id: Schema.String,
-      aliases: Schema.Union(Schema.Array(Schema.String), Schema.Null),
+      aliases: Schema.Union([Schema.Array(Schema.String), Schema.Null]),
       buildConfig: Schema.Struct({
-        webAnalyticsTag: Schema.Union(Schema.String, Schema.Null).pipe(
+        webAnalyticsTag: Schema.Union([Schema.String, Schema.Null]).pipe(
           T.JsonName("web_analytics_tag"),
         ),
-        webAnalyticsToken: Schema.Union(Schema.String, Schema.Null).pipe(
+        webAnalyticsToken: Schema.Union([Schema.String, Schema.Null]).pipe(
           T.JsonName("web_analytics_token"),
         ),
         buildCaching: Schema.optional(
-          Schema.Union(Schema.Boolean, Schema.Null),
+          Schema.Union([Schema.Boolean, Schema.Null]),
         ).pipe(T.JsonName("build_caching")),
         buildCommand: Schema.optional(
-          Schema.Union(Schema.String, Schema.Null),
+          Schema.Union([Schema.String, Schema.Null]),
         ).pipe(T.JsonName("build_command")),
         destinationDir: Schema.optional(
-          Schema.Union(Schema.String, Schema.Null),
+          Schema.Union([Schema.String, Schema.Null]),
         ).pipe(T.JsonName("destination_dir")),
-        rootDir: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
+        rootDir: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
           T.JsonName("root_dir"),
         ),
       }).pipe(T.JsonName("build_config")),
@@ -2360,12 +2360,12 @@ export const PatchProjectResponse = Schema.Struct({
           commitHash: Schema.String.pipe(T.JsonName("commit_hash")),
           commitMessage: Schema.String.pipe(T.JsonName("commit_message")),
         }),
-        type: Schema.Literal("github:push", "ad_hoc", "deploy_hook"),
+        type: Schema.Literals(["github:push", "ad_hoc", "deploy_hook"]),
       }).pipe(T.JsonName("deployment_trigger")),
-      envVars: Schema.Union(Schema.Struct({}), Schema.Null).pipe(
+      envVars: Schema.Union([Schema.Struct({}), Schema.Null]).pipe(
         T.JsonName("env_vars"),
       ),
-      environment: Schema.Literal("preview", "production"),
+      environment: Schema.Literals(["preview", "production"]),
       isSkipped: Schema.Boolean.pipe(T.JsonName("is_skipped")),
       latestStage: Schema.Unknown.pipe(T.JsonName("latest_stage")),
       modifiedOn: Schema.String.pipe(T.JsonName("modified_on")),
@@ -2395,7 +2395,7 @@ export const PatchProjectResponse = Schema.Struct({
             Schema.Array(Schema.String),
           ).pipe(T.JsonName("preview_branch_includes")),
           previewDeploymentSetting: Schema.optional(
-            Schema.Literal("all", "none", "custom"),
+            Schema.Literals(["all", "none", "custom"]),
           ).pipe(T.JsonName("preview_deployment_setting")),
           productionBranch: Schema.optional(Schema.String).pipe(
             T.JsonName("production_branch"),
@@ -2408,43 +2408,43 @@ export const PatchProjectResponse = Schema.Struct({
             T.JsonName("repo_name"),
           ),
         }),
-        type: Schema.Literal("github", "gitlab"),
+        type: Schema.Literals(["github", "gitlab"]),
       }),
       stages: Schema.Array(Schema.Unknown),
       url: Schema.String,
       usesFunctions: Schema.optional(
-        Schema.Union(Schema.Boolean, Schema.Null),
+        Schema.Union([Schema.Boolean, Schema.Null]),
       ).pipe(T.JsonName("uses_functions")),
     }),
     Schema.Null,
-  ).pipe(T.JsonName("latest_deployment")),
+  ]).pipe(T.JsonName("latest_deployment")),
   name: Schema.String,
   previewScriptName: Schema.String.pipe(T.JsonName("preview_script_name")),
   productionBranch: Schema.String.pipe(T.JsonName("production_branch")),
   productionScriptName: Schema.String.pipe(
     T.JsonName("production_script_name"),
   ),
-  usesFunctions: Schema.Union(Schema.Boolean, Schema.Null).pipe(
+  usesFunctions: Schema.Union([Schema.Boolean, Schema.Null]).pipe(
     T.JsonName("uses_functions"),
   ),
   buildConfig: Schema.optional(
     Schema.Struct({
-      webAnalyticsTag: Schema.Union(Schema.String, Schema.Null).pipe(
+      webAnalyticsTag: Schema.Union([Schema.String, Schema.Null]).pipe(
         T.JsonName("web_analytics_tag"),
       ),
-      webAnalyticsToken: Schema.Union(Schema.String, Schema.Null).pipe(
+      webAnalyticsToken: Schema.Union([Schema.String, Schema.Null]).pipe(
         T.JsonName("web_analytics_token"),
       ),
       buildCaching: Schema.optional(
-        Schema.Union(Schema.Boolean, Schema.Null),
+        Schema.Union([Schema.Boolean, Schema.Null]),
       ).pipe(T.JsonName("build_caching")),
       buildCommand: Schema.optional(
-        Schema.Union(Schema.String, Schema.Null),
+        Schema.Union([Schema.String, Schema.Null]),
       ).pipe(T.JsonName("build_command")),
       destinationDir: Schema.optional(
-        Schema.Union(Schema.String, Schema.Null),
+        Schema.Union([Schema.String, Schema.Null]),
       ).pipe(T.JsonName("destination_dir")),
-      rootDir: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
+      rootDir: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
         T.JsonName("root_dir"),
       ),
     }),
@@ -2474,7 +2474,7 @@ export const PatchProjectResponse = Schema.Struct({
           Schema.Array(Schema.String),
         ).pipe(T.JsonName("preview_branch_includes")),
         previewDeploymentSetting: Schema.optional(
-          Schema.Literal("all", "none", "custom"),
+          Schema.Literals(["all", "none", "custom"]),
         ).pipe(T.JsonName("preview_deployment_setting")),
         productionBranch: Schema.optional(Schema.String).pipe(
           T.JsonName("production_branch"),
@@ -2485,7 +2485,7 @@ export const PatchProjectResponse = Schema.Struct({
         repoId: Schema.optional(Schema.String).pipe(T.JsonName("repo_id")),
         repoName: Schema.optional(Schema.String).pipe(T.JsonName("repo_name")),
       }),
-      type: Schema.Literal("github", "gitlab"),
+      type: Schema.Literals(["github", "gitlab"]),
     }),
   ),
   subdomain: Schema.optional(Schema.String),
@@ -2629,24 +2629,24 @@ export interface GetProjectDeploymentResponse {
 
 export const GetProjectDeploymentResponse = Schema.Struct({
   id: Schema.String,
-  aliases: Schema.Union(Schema.Array(Schema.String), Schema.Null),
+  aliases: Schema.Union([Schema.Array(Schema.String), Schema.Null]),
   buildConfig: Schema.Struct({
-    webAnalyticsTag: Schema.Union(Schema.String, Schema.Null).pipe(
+    webAnalyticsTag: Schema.Union([Schema.String, Schema.Null]).pipe(
       T.JsonName("web_analytics_tag"),
     ),
-    webAnalyticsToken: Schema.Union(Schema.String, Schema.Null).pipe(
+    webAnalyticsToken: Schema.Union([Schema.String, Schema.Null]).pipe(
       T.JsonName("web_analytics_token"),
     ),
     buildCaching: Schema.optional(
-      Schema.Union(Schema.Boolean, Schema.Null),
+      Schema.Union([Schema.Boolean, Schema.Null]),
     ).pipe(T.JsonName("build_caching")),
     buildCommand: Schema.optional(
-      Schema.Union(Schema.String, Schema.Null),
+      Schema.Union([Schema.String, Schema.Null]),
     ).pipe(T.JsonName("build_command")),
     destinationDir: Schema.optional(
-      Schema.Union(Schema.String, Schema.Null),
+      Schema.Union([Schema.String, Schema.Null]),
     ).pipe(T.JsonName("destination_dir")),
-    rootDir: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
+    rootDir: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
       T.JsonName("root_dir"),
     ),
   }).pipe(T.JsonName("build_config")),
@@ -2658,12 +2658,12 @@ export const GetProjectDeploymentResponse = Schema.Struct({
       commitHash: Schema.String.pipe(T.JsonName("commit_hash")),
       commitMessage: Schema.String.pipe(T.JsonName("commit_message")),
     }),
-    type: Schema.Literal("github:push", "ad_hoc", "deploy_hook"),
+    type: Schema.Literals(["github:push", "ad_hoc", "deploy_hook"]),
   }).pipe(T.JsonName("deployment_trigger")),
-  envVars: Schema.Union(Schema.Struct({}), Schema.Null).pipe(
+  envVars: Schema.Union([Schema.Struct({}), Schema.Null]).pipe(
     T.JsonName("env_vars"),
   ),
-  environment: Schema.Literal("preview", "production"),
+  environment: Schema.Literals(["preview", "production"]),
   isSkipped: Schema.Boolean.pipe(T.JsonName("is_skipped")),
   latestStage: Schema.Unknown.pipe(T.JsonName("latest_stage")),
   modifiedOn: Schema.String.pipe(T.JsonName("modified_on")),
@@ -2690,7 +2690,7 @@ export const GetProjectDeploymentResponse = Schema.Struct({
       previewBranchIncludes: Schema.Array(Schema.String).pipe(
         T.JsonName("preview_branch_includes"),
       ),
-      previewDeploymentSetting: Schema.Literal("all", "none", "custom").pipe(
+      previewDeploymentSetting: Schema.Literals(["all", "none", "custom"]).pipe(
         T.JsonName("preview_deployment_setting"),
       ),
       productionBranch: Schema.String.pipe(T.JsonName("production_branch")),
@@ -2700,12 +2700,12 @@ export const GetProjectDeploymentResponse = Schema.Struct({
       repoId: Schema.String.pipe(T.JsonName("repo_id")),
       repoName: Schema.String.pipe(T.JsonName("repo_name")),
     }),
-    type: Schema.Literal("github", "gitlab"),
+    type: Schema.Literals(["github", "gitlab"]),
   }),
   stages: Schema.Array(Schema.Unknown),
   url: Schema.String,
   usesFunctions: Schema.optional(
-    Schema.Union(Schema.Boolean, Schema.Null),
+    Schema.Union([Schema.Boolean, Schema.Null]),
   ).pipe(T.JsonName("uses_functions")),
 }) as unknown as Schema.Schema<GetProjectDeploymentResponse>;
 
@@ -2772,7 +2772,7 @@ export const CreateProjectDeploymentRequest = Schema.Struct({
     UploadableSchema.pipe(T.HttpFormDataFile()),
   ).pipe(T.JsonName("'_worker.js'")),
   branch: Schema.optional(Schema.String),
-  commitDirty: Schema.optional(Schema.Literal(true, false)).pipe(
+  commitDirty: Schema.optional(Schema.Literals([true, false])).pipe(
     T.JsonName("commit_dirty"),
   ),
   commitHash: Schema.optional(Schema.String).pipe(T.JsonName("commit_hash")),
@@ -2868,24 +2868,24 @@ export interface CreateProjectDeploymentResponse {
 
 export const CreateProjectDeploymentResponse = Schema.Struct({
   id: Schema.String,
-  aliases: Schema.Union(Schema.Array(Schema.String), Schema.Null),
+  aliases: Schema.Union([Schema.Array(Schema.String), Schema.Null]),
   buildConfig: Schema.Struct({
-    webAnalyticsTag: Schema.Union(Schema.String, Schema.Null).pipe(
+    webAnalyticsTag: Schema.Union([Schema.String, Schema.Null]).pipe(
       T.JsonName("web_analytics_tag"),
     ),
-    webAnalyticsToken: Schema.Union(Schema.String, Schema.Null).pipe(
+    webAnalyticsToken: Schema.Union([Schema.String, Schema.Null]).pipe(
       T.JsonName("web_analytics_token"),
     ),
     buildCaching: Schema.optional(
-      Schema.Union(Schema.Boolean, Schema.Null),
+      Schema.Union([Schema.Boolean, Schema.Null]),
     ).pipe(T.JsonName("build_caching")),
     buildCommand: Schema.optional(
-      Schema.Union(Schema.String, Schema.Null),
+      Schema.Union([Schema.String, Schema.Null]),
     ).pipe(T.JsonName("build_command")),
     destinationDir: Schema.optional(
-      Schema.Union(Schema.String, Schema.Null),
+      Schema.Union([Schema.String, Schema.Null]),
     ).pipe(T.JsonName("destination_dir")),
-    rootDir: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
+    rootDir: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
       T.JsonName("root_dir"),
     ),
   }).pipe(T.JsonName("build_config")),
@@ -2897,12 +2897,12 @@ export const CreateProjectDeploymentResponse = Schema.Struct({
       commitHash: Schema.String.pipe(T.JsonName("commit_hash")),
       commitMessage: Schema.String.pipe(T.JsonName("commit_message")),
     }),
-    type: Schema.Literal("github:push", "ad_hoc", "deploy_hook"),
+    type: Schema.Literals(["github:push", "ad_hoc", "deploy_hook"]),
   }).pipe(T.JsonName("deployment_trigger")),
-  envVars: Schema.Union(Schema.Struct({}), Schema.Null).pipe(
+  envVars: Schema.Union([Schema.Struct({}), Schema.Null]).pipe(
     T.JsonName("env_vars"),
   ),
-  environment: Schema.Literal("preview", "production"),
+  environment: Schema.Literals(["preview", "production"]),
   isSkipped: Schema.Boolean.pipe(T.JsonName("is_skipped")),
   latestStage: Schema.Unknown.pipe(T.JsonName("latest_stage")),
   modifiedOn: Schema.String.pipe(T.JsonName("modified_on")),
@@ -2929,7 +2929,7 @@ export const CreateProjectDeploymentResponse = Schema.Struct({
       previewBranchIncludes: Schema.Array(Schema.String).pipe(
         T.JsonName("preview_branch_includes"),
       ),
-      previewDeploymentSetting: Schema.Literal("all", "none", "custom").pipe(
+      previewDeploymentSetting: Schema.Literals(["all", "none", "custom"]).pipe(
         T.JsonName("preview_deployment_setting"),
       ),
       productionBranch: Schema.String.pipe(T.JsonName("production_branch")),
@@ -2939,12 +2939,12 @@ export const CreateProjectDeploymentResponse = Schema.Struct({
       repoId: Schema.String.pipe(T.JsonName("repo_id")),
       repoName: Schema.String.pipe(T.JsonName("repo_name")),
     }),
-    type: Schema.Literal("github", "gitlab"),
+    type: Schema.Literals(["github", "gitlab"]),
   }),
   stages: Schema.Array(Schema.Unknown),
   url: Schema.String,
   usesFunctions: Schema.optional(
-    Schema.Union(Schema.Boolean, Schema.Null),
+    Schema.Union([Schema.Boolean, Schema.Null]),
   ).pipe(T.JsonName("uses_functions")),
 }) as unknown as Schema.Schema<CreateProjectDeploymentResponse>;
 
@@ -3084,24 +3084,24 @@ export interface RetryProjectDeploymentResponse {
 
 export const RetryProjectDeploymentResponse = Schema.Struct({
   id: Schema.String,
-  aliases: Schema.Union(Schema.Array(Schema.String), Schema.Null),
+  aliases: Schema.Union([Schema.Array(Schema.String), Schema.Null]),
   buildConfig: Schema.Struct({
-    webAnalyticsTag: Schema.Union(Schema.String, Schema.Null).pipe(
+    webAnalyticsTag: Schema.Union([Schema.String, Schema.Null]).pipe(
       T.JsonName("web_analytics_tag"),
     ),
-    webAnalyticsToken: Schema.Union(Schema.String, Schema.Null).pipe(
+    webAnalyticsToken: Schema.Union([Schema.String, Schema.Null]).pipe(
       T.JsonName("web_analytics_token"),
     ),
     buildCaching: Schema.optional(
-      Schema.Union(Schema.Boolean, Schema.Null),
+      Schema.Union([Schema.Boolean, Schema.Null]),
     ).pipe(T.JsonName("build_caching")),
     buildCommand: Schema.optional(
-      Schema.Union(Schema.String, Schema.Null),
+      Schema.Union([Schema.String, Schema.Null]),
     ).pipe(T.JsonName("build_command")),
     destinationDir: Schema.optional(
-      Schema.Union(Schema.String, Schema.Null),
+      Schema.Union([Schema.String, Schema.Null]),
     ).pipe(T.JsonName("destination_dir")),
-    rootDir: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
+    rootDir: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
       T.JsonName("root_dir"),
     ),
   }).pipe(T.JsonName("build_config")),
@@ -3113,12 +3113,12 @@ export const RetryProjectDeploymentResponse = Schema.Struct({
       commitHash: Schema.String.pipe(T.JsonName("commit_hash")),
       commitMessage: Schema.String.pipe(T.JsonName("commit_message")),
     }),
-    type: Schema.Literal("github:push", "ad_hoc", "deploy_hook"),
+    type: Schema.Literals(["github:push", "ad_hoc", "deploy_hook"]),
   }).pipe(T.JsonName("deployment_trigger")),
-  envVars: Schema.Union(Schema.Struct({}), Schema.Null).pipe(
+  envVars: Schema.Union([Schema.Struct({}), Schema.Null]).pipe(
     T.JsonName("env_vars"),
   ),
-  environment: Schema.Literal("preview", "production"),
+  environment: Schema.Literals(["preview", "production"]),
   isSkipped: Schema.Boolean.pipe(T.JsonName("is_skipped")),
   latestStage: Schema.Unknown.pipe(T.JsonName("latest_stage")),
   modifiedOn: Schema.String.pipe(T.JsonName("modified_on")),
@@ -3145,7 +3145,7 @@ export const RetryProjectDeploymentResponse = Schema.Struct({
       previewBranchIncludes: Schema.Array(Schema.String).pipe(
         T.JsonName("preview_branch_includes"),
       ),
-      previewDeploymentSetting: Schema.Literal("all", "none", "custom").pipe(
+      previewDeploymentSetting: Schema.Literals(["all", "none", "custom"]).pipe(
         T.JsonName("preview_deployment_setting"),
       ),
       productionBranch: Schema.String.pipe(T.JsonName("production_branch")),
@@ -3155,12 +3155,12 @@ export const RetryProjectDeploymentResponse = Schema.Struct({
       repoId: Schema.String.pipe(T.JsonName("repo_id")),
       repoName: Schema.String.pipe(T.JsonName("repo_name")),
     }),
-    type: Schema.Literal("github", "gitlab"),
+    type: Schema.Literals(["github", "gitlab"]),
   }),
   stages: Schema.Array(Schema.Unknown),
   url: Schema.String,
   usesFunctions: Schema.optional(
-    Schema.Union(Schema.Boolean, Schema.Null),
+    Schema.Union([Schema.Boolean, Schema.Null]),
   ).pipe(T.JsonName("uses_functions")),
 }) as unknown as Schema.Schema<RetryProjectDeploymentResponse>;
 
@@ -3265,24 +3265,24 @@ export interface RollbackProjectDeploymentResponse {
 
 export const RollbackProjectDeploymentResponse = Schema.Struct({
   id: Schema.String,
-  aliases: Schema.Union(Schema.Array(Schema.String), Schema.Null),
+  aliases: Schema.Union([Schema.Array(Schema.String), Schema.Null]),
   buildConfig: Schema.Struct({
-    webAnalyticsTag: Schema.Union(Schema.String, Schema.Null).pipe(
+    webAnalyticsTag: Schema.Union([Schema.String, Schema.Null]).pipe(
       T.JsonName("web_analytics_tag"),
     ),
-    webAnalyticsToken: Schema.Union(Schema.String, Schema.Null).pipe(
+    webAnalyticsToken: Schema.Union([Schema.String, Schema.Null]).pipe(
       T.JsonName("web_analytics_token"),
     ),
     buildCaching: Schema.optional(
-      Schema.Union(Schema.Boolean, Schema.Null),
+      Schema.Union([Schema.Boolean, Schema.Null]),
     ).pipe(T.JsonName("build_caching")),
     buildCommand: Schema.optional(
-      Schema.Union(Schema.String, Schema.Null),
+      Schema.Union([Schema.String, Schema.Null]),
     ).pipe(T.JsonName("build_command")),
     destinationDir: Schema.optional(
-      Schema.Union(Schema.String, Schema.Null),
+      Schema.Union([Schema.String, Schema.Null]),
     ).pipe(T.JsonName("destination_dir")),
-    rootDir: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
+    rootDir: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
       T.JsonName("root_dir"),
     ),
   }).pipe(T.JsonName("build_config")),
@@ -3294,12 +3294,12 @@ export const RollbackProjectDeploymentResponse = Schema.Struct({
       commitHash: Schema.String.pipe(T.JsonName("commit_hash")),
       commitMessage: Schema.String.pipe(T.JsonName("commit_message")),
     }),
-    type: Schema.Literal("github:push", "ad_hoc", "deploy_hook"),
+    type: Schema.Literals(["github:push", "ad_hoc", "deploy_hook"]),
   }).pipe(T.JsonName("deployment_trigger")),
-  envVars: Schema.Union(Schema.Struct({}), Schema.Null).pipe(
+  envVars: Schema.Union([Schema.Struct({}), Schema.Null]).pipe(
     T.JsonName("env_vars"),
   ),
-  environment: Schema.Literal("preview", "production"),
+  environment: Schema.Literals(["preview", "production"]),
   isSkipped: Schema.Boolean.pipe(T.JsonName("is_skipped")),
   latestStage: Schema.Unknown.pipe(T.JsonName("latest_stage")),
   modifiedOn: Schema.String.pipe(T.JsonName("modified_on")),
@@ -3326,7 +3326,7 @@ export const RollbackProjectDeploymentResponse = Schema.Struct({
       previewBranchIncludes: Schema.Array(Schema.String).pipe(
         T.JsonName("preview_branch_includes"),
       ),
-      previewDeploymentSetting: Schema.Literal("all", "none", "custom").pipe(
+      previewDeploymentSetting: Schema.Literals(["all", "none", "custom"]).pipe(
         T.JsonName("preview_deployment_setting"),
       ),
       productionBranch: Schema.String.pipe(T.JsonName("production_branch")),
@@ -3336,12 +3336,12 @@ export const RollbackProjectDeploymentResponse = Schema.Struct({
       repoId: Schema.String.pipe(T.JsonName("repo_id")),
       repoName: Schema.String.pipe(T.JsonName("repo_name")),
     }),
-    type: Schema.Literal("github", "gitlab"),
+    type: Schema.Literals(["github", "gitlab"]),
   }),
   stages: Schema.Array(Schema.Unknown),
   url: Schema.String,
   usesFunctions: Schema.optional(
-    Schema.Union(Schema.Boolean, Schema.Null),
+    Schema.Union([Schema.Boolean, Schema.Null]),
   ).pipe(T.JsonName("uses_functions")),
 }) as unknown as Schema.Schema<RollbackProjectDeploymentResponse>;
 
@@ -3462,29 +3462,29 @@ export interface GetProjectDomainResponse {
 
 export const GetProjectDomainResponse = Schema.Struct({
   id: Schema.String,
-  certificateAuthority: Schema.Literal("google", "lets_encrypt").pipe(
+  certificateAuthority: Schema.Literals(["google", "lets_encrypt"]).pipe(
     T.JsonName("certificate_authority"),
   ),
   createdOn: Schema.String.pipe(T.JsonName("created_on")),
   domainId: Schema.String.pipe(T.JsonName("domain_id")),
   name: Schema.String,
-  status: Schema.Literal(
+  status: Schema.Literals([
     "initializing",
     "pending",
     "active",
     "deactivated",
     "blocked",
     "error",
-  ),
+  ]),
   validationData: Schema.Struct({
-    method: Schema.Literal("http", "txt"),
-    status: Schema.Literal(
+    method: Schema.Literals(["http", "txt"]),
+    status: Schema.Literals([
       "initializing",
       "pending",
       "active",
       "deactivated",
       "error",
-    ),
+    ]),
     errorMessage: Schema.optional(Schema.String).pipe(
       T.JsonName("error_message"),
     ),
@@ -3492,13 +3492,13 @@ export const GetProjectDomainResponse = Schema.Struct({
     txtValue: Schema.optional(Schema.String).pipe(T.JsonName("txt_value")),
   }).pipe(T.JsonName("validation_data")),
   verificationData: Schema.Struct({
-    status: Schema.Literal(
+    status: Schema.Literals([
       "pending",
       "active",
       "deactivated",
       "blocked",
       "error",
-    ),
+    ]),
     errorMessage: Schema.optional(Schema.String).pipe(
       T.JsonName("error_message"),
     ),
@@ -3567,29 +3567,29 @@ export interface CreateProjectDomainResponse {
 
 export const CreateProjectDomainResponse = Schema.Struct({
   id: Schema.String,
-  certificateAuthority: Schema.Literal("google", "lets_encrypt").pipe(
+  certificateAuthority: Schema.Literals(["google", "lets_encrypt"]).pipe(
     T.JsonName("certificate_authority"),
   ),
   createdOn: Schema.String.pipe(T.JsonName("created_on")),
   domainId: Schema.String.pipe(T.JsonName("domain_id")),
   name: Schema.String,
-  status: Schema.Literal(
+  status: Schema.Literals([
     "initializing",
     "pending",
     "active",
     "deactivated",
     "blocked",
     "error",
-  ),
+  ]),
   validationData: Schema.Struct({
-    method: Schema.Literal("http", "txt"),
-    status: Schema.Literal(
+    method: Schema.Literals(["http", "txt"]),
+    status: Schema.Literals([
       "initializing",
       "pending",
       "active",
       "deactivated",
       "error",
-    ),
+    ]),
     errorMessage: Schema.optional(Schema.String).pipe(
       T.JsonName("error_message"),
     ),
@@ -3597,13 +3597,13 @@ export const CreateProjectDomainResponse = Schema.Struct({
     txtValue: Schema.optional(Schema.String).pipe(T.JsonName("txt_value")),
   }).pipe(T.JsonName("validation_data")),
   verificationData: Schema.Struct({
-    status: Schema.Literal(
+    status: Schema.Literals([
       "pending",
       "active",
       "deactivated",
       "blocked",
       "error",
-    ),
+    ]),
     errorMessage: Schema.optional(Schema.String).pipe(
       T.JsonName("error_message"),
     ),
@@ -3671,29 +3671,29 @@ export interface PatchProjectDomainResponse {
 
 export const PatchProjectDomainResponse = Schema.Struct({
   id: Schema.String,
-  certificateAuthority: Schema.Literal("google", "lets_encrypt").pipe(
+  certificateAuthority: Schema.Literals(["google", "lets_encrypt"]).pipe(
     T.JsonName("certificate_authority"),
   ),
   createdOn: Schema.String.pipe(T.JsonName("created_on")),
   domainId: Schema.String.pipe(T.JsonName("domain_id")),
   name: Schema.String,
-  status: Schema.Literal(
+  status: Schema.Literals([
     "initializing",
     "pending",
     "active",
     "deactivated",
     "blocked",
     "error",
-  ),
+  ]),
   validationData: Schema.Struct({
-    method: Schema.Literal("http", "txt"),
-    status: Schema.Literal(
+    method: Schema.Literals(["http", "txt"]),
+    status: Schema.Literals([
       "initializing",
       "pending",
       "active",
       "deactivated",
       "error",
-    ),
+    ]),
     errorMessage: Schema.optional(Schema.String).pipe(
       T.JsonName("error_message"),
     ),
@@ -3701,13 +3701,13 @@ export const PatchProjectDomainResponse = Schema.Struct({
     txtValue: Schema.optional(Schema.String).pipe(T.JsonName("txt_value")),
   }).pipe(T.JsonName("validation_data")),
   verificationData: Schema.Struct({
-    status: Schema.Literal(
+    status: Schema.Literals([
       "pending",
       "active",
       "deactivated",
       "blocked",
       "error",
-    ),
+    ]),
     errorMessage: Schema.optional(Schema.String).pipe(
       T.JsonName("error_message"),
     ),

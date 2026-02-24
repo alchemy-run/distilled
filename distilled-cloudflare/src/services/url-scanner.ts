@@ -7,7 +7,7 @@
 
 import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
-import type { HttpClient } from "@effect/platform";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
@@ -1168,7 +1168,7 @@ export const CreateScanRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   url: Schema.String,
   country: Schema.optional(
-    Schema.Literal(
+    Schema.Literals([
       "AF",
       "AL",
       "DZ",
@@ -1364,15 +1364,15 @@ export const CreateScanRequest = Schema.Struct({
       "YE",
       "ZM",
       "ZW",
-    ),
+    ]),
   ),
   customagent: Schema.optional(Schema.String),
   customHeaders: Schema.optional(Schema.Struct({})),
   referer: Schema.optional(Schema.String),
   screenshotsResolutions: Schema.optional(
-    Schema.Array(Schema.Literal("desktop", "mobile", "tablet")),
+    Schema.Array(Schema.Literals(["desktop", "mobile", "tablet"])),
   ),
-  visibility: Schema.optional(Schema.Literal("Public", "Unlisted")),
+  visibility: Schema.optional(Schema.Literals(["Public", "Unlisted"])),
 }).pipe(
   T.Http({ method: "POST", path: "/accounts/{account_id}/urlscanner/v2/scan" }),
 ) as unknown as Schema.Schema<CreateScanRequest>;
@@ -1398,7 +1398,7 @@ export const CreateScanResponse = Schema.Struct({
   result: Schema.String,
   url: Schema.String,
   uuid: Schema.String,
-  visibility: Schema.Literal("public", "unlisted"),
+  visibility: Schema.Literals(["public", "unlisted"]),
   options: Schema.optional(
     Schema.Struct({
       useragent: Schema.optional(Schema.String),
@@ -1442,9 +1442,9 @@ export const BulkCreateScansRequest = Schema.Struct({
         customHeaders: Schema.optional(Schema.Struct({})),
         referer: Schema.optional(Schema.String),
         screenshotsResolutions: Schema.optional(
-          Schema.Array(Schema.Literal("desktop", "mobile", "tablet")),
+          Schema.Array(Schema.Literals(["desktop", "mobile", "tablet"])),
         ),
-        visibility: Schema.optional(Schema.Literal("Public", "Unlisted")),
+        visibility: Schema.optional(Schema.Literals(["Public", "Unlisted"])),
       }),
     ),
   ).pipe(T.HttpBody()),
@@ -1467,7 +1467,7 @@ export const BulkCreateScansResponse = Schema.Array(
     result: Schema.String,
     url: Schema.String,
     uuid: Schema.String,
-    visibility: Schema.Literal("public", "unlisted"),
+    visibility: Schema.Literals(["public", "unlisted"]),
     options: Schema.optional(
       Schema.Struct({
         useragent: Schema.optional(Schema.String),
@@ -1678,7 +1678,7 @@ export const ScreenshotScanRequest = Schema.Struct({
   scanId: Schema.String.pipe(T.HttpPath("scanId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   resolution: Schema.optional(
-    Schema.Literal("desktop", "mobile", "tablet"),
+    Schema.Literals(["desktop", "mobile", "tablet"]),
   ).pipe(T.HttpQuery("resolution")),
 }).pipe(
   T.Http({

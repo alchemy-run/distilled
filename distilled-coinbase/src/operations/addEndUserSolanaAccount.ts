@@ -1,13 +1,22 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
-import { IdempotencyError, InvalidRequest, NotFound, PaymentMethodRequired } from "../errors";
+import {
+  IdempotencyError,
+  InvalidRequest,
+  NotFound,
+  PaymentMethodRequired,
+} from "../errors";
 
 // Input Schema
 export const AddEndUserSolanaAccountInput = Schema.Struct({
   userId: Schema.String.pipe(T.PathParam()),
-}).pipe(T.Http({ method: "POST", path: "/v2/end-users/{userId}/solana" }), T.WalletAuth());
-export type AddEndUserSolanaAccountInput = typeof AddEndUserSolanaAccountInput.Type;
+}).pipe(
+  T.Http({ method: "POST", path: "/v2/end-users/{userId}/solana" }),
+  T.WalletAuth(),
+);
+export type AddEndUserSolanaAccountInput =
+  typeof AddEndUserSolanaAccountInput.Type;
 
 // Output Schema
 export const AddEndUserSolanaAccountOutput = Schema.Struct({
@@ -16,7 +25,8 @@ export const AddEndUserSolanaAccountOutput = Schema.Struct({
     createdAt: Schema.String,
   }),
 });
-export type AddEndUserSolanaAccountOutput = typeof AddEndUserSolanaAccountOutput.Type;
+export type AddEndUserSolanaAccountOutput =
+  typeof AddEndUserSolanaAccountOutput.Type;
 
 // The operation
 /**
@@ -27,9 +37,11 @@ export type AddEndUserSolanaAccountOutput = typeof AddEndUserSolanaAccountOutput
  *
  * @param userId - The ID of the end user to add the account to.
  */
-export const addEndUserSolanaAccount = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  inputSchema: AddEndUserSolanaAccountInput,
-  outputSchema: AddEndUserSolanaAccountOutput,
-  errors: [IdempotencyError, InvalidRequest, NotFound, PaymentMethodRequired],
-  walletAuth: true,
-}));
+export const addEndUserSolanaAccount = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    inputSchema: AddEndUserSolanaAccountInput,
+    outputSchema: AddEndUserSolanaAccountOutput,
+    errors: [IdempotencyError, InvalidRequest, NotFound, PaymentMethodRequired],
+    walletAuth: true,
+  }),
+);

@@ -113,7 +113,7 @@ if (!isLocalStack) {
           }),
         ).pipe(
           Effect.timeout("30 seconds"),
-          Effect.catchAll((err) =>
+          Effect.catch((err) =>
             Effect.logWarning(`Transcript stream error: ${err}`),
           ),
         );
@@ -178,7 +178,7 @@ if (!isLocalStack) {
           }),
         ).pipe(
           Effect.timeout("60 seconds"),
-          Effect.catchAll(() => Effect.void),
+          Effect.catch(() => Effect.void),
         );
       }
     }),

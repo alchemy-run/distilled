@@ -7,7 +7,7 @@
 
 import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
-import type { HttpClient } from "@effect/platform";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
@@ -131,10 +131,10 @@ export interface GetPhasResponse {
 
 export const GetPhasResponse = Schema.Struct({
   id: Schema.String,
-  kind: Schema.Literal("zone", "managed", "custom", "root"),
+  kind: Schema.Literals(["zone", "managed", "custom", "root"]),
   lastUpdated: Schema.String.pipe(T.JsonName("last_updated")),
   name: Schema.String,
-  phase: Schema.Literal(
+  phase: Schema.Literals([
     "ddos_l4",
     "ddos_l7",
     "http_config_settings",
@@ -158,9 +158,9 @@ export const GetPhasResponse = Schema.Struct({
     "magic_transit_ids_managed",
     "magic_transit_managed",
     "magic_transit_ratelimit",
-  ),
+  ]),
   rules: Schema.Array(
-    Schema.Union(
+    Schema.Union([
       Schema.Unknown,
       Schema.Struct({
         lastUpdated: Schema.String.pipe(T.JsonName("last_updated")),
@@ -260,7 +260,7 @@ export const GetPhasResponse = Schema.Struct({
         ),
         ref: Schema.optional(Schema.String),
       }),
-    ),
+    ]),
   ),
   version: Schema.String,
   description: Schema.optional(Schema.String),
@@ -348,7 +348,7 @@ export const PutPhasRequest = Schema.Struct({
   name: Schema.optional(Schema.String),
   rules: Schema.optional(
     Schema.Array(
-      Schema.Union(
+      Schema.Union([
         Schema.Unknown,
         Schema.Struct({
           id: Schema.optional(Schema.String),
@@ -442,7 +442,7 @@ export const PutPhasRequest = Schema.Struct({
           ),
           ref: Schema.optional(Schema.String),
         }),
-      ),
+      ]),
     ),
   ),
 }).pipe(
@@ -552,10 +552,10 @@ export interface PutPhasResponse {
 
 export const PutPhasResponse = Schema.Struct({
   id: Schema.String,
-  kind: Schema.Literal("zone", "managed", "custom", "root"),
+  kind: Schema.Literals(["zone", "managed", "custom", "root"]),
   lastUpdated: Schema.String.pipe(T.JsonName("last_updated")),
   name: Schema.String,
-  phase: Schema.Literal(
+  phase: Schema.Literals([
     "ddos_l4",
     "ddos_l7",
     "http_config_settings",
@@ -579,9 +579,9 @@ export const PutPhasResponse = Schema.Struct({
     "magic_transit_ids_managed",
     "magic_transit_managed",
     "magic_transit_ratelimit",
-  ),
+  ]),
   rules: Schema.Array(
-    Schema.Union(
+    Schema.Union([
       Schema.Unknown,
       Schema.Struct({
         lastUpdated: Schema.String.pipe(T.JsonName("last_updated")),
@@ -681,7 +681,7 @@ export const PutPhasResponse = Schema.Struct({
         ),
         ref: Schema.optional(Schema.String),
       }),
-    ),
+    ]),
   ),
   version: Schema.String,
   description: Schema.optional(Schema.String),
@@ -816,10 +816,10 @@ export interface GetPhasVersionResponse {
 
 export const GetPhasVersionResponse = Schema.Struct({
   id: Schema.String,
-  kind: Schema.Literal("zone", "managed", "custom", "root"),
+  kind: Schema.Literals(["zone", "managed", "custom", "root"]),
   lastUpdated: Schema.String.pipe(T.JsonName("last_updated")),
   name: Schema.String,
-  phase: Schema.Literal(
+  phase: Schema.Literals([
     "ddos_l4",
     "ddos_l7",
     "http_config_settings",
@@ -843,9 +843,9 @@ export const GetPhasVersionResponse = Schema.Struct({
     "magic_transit_ids_managed",
     "magic_transit_managed",
     "magic_transit_ratelimit",
-  ),
+  ]),
   rules: Schema.Array(
-    Schema.Union(
+    Schema.Union([
       Schema.Unknown,
       Schema.Struct({
         lastUpdated: Schema.String.pipe(T.JsonName("last_updated")),
@@ -945,7 +945,7 @@ export const GetPhasVersionResponse = Schema.Struct({
         ),
         ref: Schema.optional(Schema.String),
       }),
-    ),
+    ]),
   ),
   version: Schema.String,
   description: Schema.optional(Schema.String),
@@ -1736,10 +1736,10 @@ export interface CreateRuleResponse {
 
 export const CreateRuleResponse = Schema.Struct({
   id: Schema.String,
-  kind: Schema.Literal("zone", "managed", "custom", "root"),
+  kind: Schema.Literals(["zone", "managed", "custom", "root"]),
   lastUpdated: Schema.String.pipe(T.JsonName("last_updated")),
   name: Schema.String,
-  phase: Schema.Literal(
+  phase: Schema.Literals([
     "ddos_l4",
     "ddos_l7",
     "http_config_settings",
@@ -1763,9 +1763,9 @@ export const CreateRuleResponse = Schema.Struct({
     "magic_transit_ids_managed",
     "magic_transit_managed",
     "magic_transit_ratelimit",
-  ),
+  ]),
   rules: Schema.Array(
-    Schema.Union(
+    Schema.Union([
       Schema.Struct({
         accountId: Schema.optional(Schema.String).pipe(
           T.JsonName("account_id"),
@@ -1803,7 +1803,7 @@ export const CreateRuleResponse = Schema.Struct({
           }),
         ),
         position: Schema.optional(
-          Schema.Union(
+          Schema.Union([
             Schema.Struct({
               before: Schema.optional(Schema.String),
             }),
@@ -1813,7 +1813,7 @@ export const CreateRuleResponse = Schema.Struct({
             Schema.Struct({
               index: Schema.optional(Schema.Number),
             }),
-          ),
+          ]),
         ),
         ratelimit: Schema.optional(
           Schema.Struct({
@@ -1900,14 +1900,14 @@ export const CreateRuleResponse = Schema.Struct({
             algorithms: Schema.Array(
               Schema.Struct({
                 name: Schema.optional(
-                  Schema.Literal(
+                  Schema.Literals([
                     "none",
                     "auto",
                     "default",
                     "gzip",
                     "brotli",
                     "zstd",
-                  ),
+                  ]),
                 ),
               }),
             ),
@@ -1987,7 +1987,7 @@ export const CreateRuleResponse = Schema.Struct({
           }),
         ),
         position: Schema.optional(
-          Schema.Union(
+          Schema.Union([
             Schema.Struct({
               before: Schema.optional(Schema.String),
             }),
@@ -1997,7 +1997,7 @@ export const CreateRuleResponse = Schema.Struct({
             Schema.Struct({
               index: Schema.optional(Schema.Number),
             }),
-          ),
+          ]),
         ),
         ratelimit: Schema.optional(
           Schema.Struct({
@@ -2050,7 +2050,7 @@ export const CreateRuleResponse = Schema.Struct({
                       action: Schema.optional(Schema.String),
                       enabled: Schema.optional(Schema.Boolean),
                       sensitivityLevel: Schema.optional(
-                        Schema.Literal("default", "medium", "low", "eoff"),
+                        Schema.Literals(["default", "medium", "low", "eoff"]),
                       ).pipe(T.JsonName("sensitivity_level")),
                     }),
                   ),
@@ -2066,13 +2066,13 @@ export const CreateRuleResponse = Schema.Struct({
                         T.JsonName("score_threshold"),
                       ),
                       sensitivityLevel: Schema.optional(
-                        Schema.Literal("default", "medium", "low", "eoff"),
+                        Schema.Literals(["default", "medium", "low", "eoff"]),
                       ).pipe(T.JsonName("sensitivity_level")),
                     }),
                   ),
                 ),
                 sensitivityLevel: Schema.optional(
-                  Schema.Literal("default", "medium", "low", "eoff"),
+                  Schema.Literals(["default", "medium", "low", "eoff"]),
                 ).pipe(T.JsonName("sensitivity_level")),
               }),
             ),
@@ -2097,7 +2097,7 @@ export const CreateRuleResponse = Schema.Struct({
           }),
         ),
         position: Schema.optional(
-          Schema.Union(
+          Schema.Union([
             Schema.Struct({
               before: Schema.optional(Schema.String),
             }),
@@ -2107,7 +2107,7 @@ export const CreateRuleResponse = Schema.Struct({
             Schema.Struct({
               index: Schema.optional(Schema.Number),
             }),
-          ),
+          ]),
         ),
         ratelimit: Schema.optional(
           Schema.Struct({
@@ -2164,7 +2164,7 @@ export const CreateRuleResponse = Schema.Struct({
           }),
         ),
         position: Schema.optional(
-          Schema.Union(
+          Schema.Union([
             Schema.Struct({
               before: Schema.optional(Schema.String),
             }),
@@ -2174,7 +2174,7 @@ export const CreateRuleResponse = Schema.Struct({
             Schema.Struct({
               index: Schema.optional(Schema.Number),
             }),
-          ),
+          ]),
         ),
         ratelimit: Schema.optional(
           Schema.Struct({
@@ -2280,7 +2280,7 @@ export const CreateRuleResponse = Schema.Struct({
           }),
         ),
         position: Schema.optional(
-          Schema.Union(
+          Schema.Union([
             Schema.Struct({
               before: Schema.optional(Schema.String),
             }),
@@ -2290,7 +2290,7 @@ export const CreateRuleResponse = Schema.Struct({
             Schema.Struct({
               index: Schema.optional(Schema.Number),
             }),
-          ),
+          ]),
         ),
         ratelimit: Schema.optional(
           Schema.Struct({
@@ -2389,7 +2389,7 @@ export const CreateRuleResponse = Schema.Struct({
           }),
         ),
         position: Schema.optional(
-          Schema.Union(
+          Schema.Union([
             Schema.Struct({
               before: Schema.optional(Schema.String),
             }),
@@ -2399,7 +2399,7 @@ export const CreateRuleResponse = Schema.Struct({
             Schema.Struct({
               index: Schema.optional(Schema.Number),
             }),
-          ),
+          ]),
         ),
         ratelimit: Schema.optional(
           Schema.Struct({
@@ -2456,7 +2456,7 @@ export const CreateRuleResponse = Schema.Struct({
           }),
         ),
         position: Schema.optional(
-          Schema.Union(
+          Schema.Union([
             Schema.Struct({
               before: Schema.optional(Schema.String),
             }),
@@ -2466,7 +2466,7 @@ export const CreateRuleResponse = Schema.Struct({
             Schema.Struct({
               index: Schema.optional(Schema.Number),
             }),
-          ),
+          ]),
         ),
         ratelimit: Schema.optional(
           Schema.Struct({
@@ -2519,7 +2519,7 @@ export const CreateRuleResponse = Schema.Struct({
                   T.JsonName("preserve_query_string"),
                 ),
                 statusCode: Schema.optional(
-                  Schema.Literal("301", "302", "303", "307", "308"),
+                  Schema.Literals(["301", "302", "303", "307", "308"]),
                 ).pipe(T.JsonName("status_code")),
               }),
             ).pipe(T.JsonName("from_value")),
@@ -2544,7 +2544,7 @@ export const CreateRuleResponse = Schema.Struct({
           }),
         ),
         position: Schema.optional(
-          Schema.Union(
+          Schema.Union([
             Schema.Struct({
               before: Schema.optional(Schema.String),
             }),
@@ -2554,7 +2554,7 @@ export const CreateRuleResponse = Schema.Struct({
             Schema.Struct({
               index: Schema.optional(Schema.Number),
             }),
-          ),
+          ]),
         ),
         ratelimit: Schema.optional(
           Schema.Struct({
@@ -2593,7 +2593,7 @@ export const CreateRuleResponse = Schema.Struct({
           Schema.Struct({
             headers: Schema.optional(Schema.Struct({})),
             uri: Schema.optional(
-              Schema.Union(
+              Schema.Union([
                 Schema.Struct({
                   path: Schema.Struct({
                     expression: Schema.optional(Schema.String),
@@ -2606,7 +2606,7 @@ export const CreateRuleResponse = Schema.Struct({
                     value: Schema.optional(Schema.String),
                   }),
                 }),
-              ),
+              ]),
             ),
           }),
         ).pipe(T.JsonName("action_parameters")),
@@ -2629,7 +2629,7 @@ export const CreateRuleResponse = Schema.Struct({
           }),
         ),
         position: Schema.optional(
-          Schema.Union(
+          Schema.Union([
             Schema.Struct({
               before: Schema.optional(Schema.String),
             }),
@@ -2639,7 +2639,7 @@ export const CreateRuleResponse = Schema.Struct({
             Schema.Struct({
               index: Schema.optional(Schema.Number),
             }),
-          ),
+          ]),
         ),
         ratelimit: Schema.optional(
           Schema.Struct({
@@ -2711,7 +2711,7 @@ export const CreateRuleResponse = Schema.Struct({
           }),
         ),
         position: Schema.optional(
-          Schema.Union(
+          Schema.Union([
             Schema.Struct({
               before: Schema.optional(Schema.String),
             }),
@@ -2721,7 +2721,7 @@ export const CreateRuleResponse = Schema.Struct({
             Schema.Struct({
               index: Schema.optional(Schema.Number),
             }),
-          ),
+          ]),
         ),
         ratelimit: Schema.optional(
           Schema.Struct({
@@ -2780,7 +2780,7 @@ export const CreateRuleResponse = Schema.Struct({
           }),
         ),
         position: Schema.optional(
-          Schema.Union(
+          Schema.Union([
             Schema.Struct({
               before: Schema.optional(Schema.String),
             }),
@@ -2790,7 +2790,7 @@ export const CreateRuleResponse = Schema.Struct({
             Schema.Struct({
               index: Schema.optional(Schema.Number),
             }),
-          ),
+          ]),
         ),
         ratelimit: Schema.optional(
           Schema.Struct({
@@ -2826,16 +2826,16 @@ export const CreateRuleResponse = Schema.Struct({
         id: Schema.optional(Schema.String),
         action: Schema.optional(Schema.Literal("serve_error")),
         actionParameters: Schema.optional(
-          Schema.Union(
+          Schema.Union([
             Schema.Struct({
               content: Schema.String,
               contentType: Schema.optional(
-                Schema.Literal(
+                Schema.Literals([
                   "application/json",
                   "text/html",
                   "text/plain",
                   "text/xml",
-                ),
+                ]),
               ).pipe(T.JsonName("content_type")),
               statusCode: Schema.optional(Schema.Number).pipe(
                 T.JsonName("status_code"),
@@ -2844,18 +2844,18 @@ export const CreateRuleResponse = Schema.Struct({
             Schema.Struct({
               assetName: Schema.String.pipe(T.JsonName("asset_name")),
               contentType: Schema.optional(
-                Schema.Literal(
+                Schema.Literals([
                   "application/json",
                   "text/html",
                   "text/plain",
                   "text/xml",
-                ),
+                ]),
               ).pipe(T.JsonName("content_type")),
               statusCode: Schema.optional(Schema.Number).pipe(
                 T.JsonName("status_code"),
               ),
             }),
-          ),
+          ]),
         ).pipe(T.JsonName("action_parameters")),
         description: Schema.optional(Schema.String),
         enabled: Schema.optional(Schema.Boolean),
@@ -2876,7 +2876,7 @@ export const CreateRuleResponse = Schema.Struct({
           }),
         ),
         position: Schema.optional(
-          Schema.Union(
+          Schema.Union([
             Schema.Struct({
               before: Schema.optional(Schema.String),
             }),
@@ -2886,7 +2886,7 @@ export const CreateRuleResponse = Schema.Struct({
             Schema.Struct({
               index: Schema.optional(Schema.Number),
             }),
-          ),
+          ]),
         ),
         ratelimit: Schema.optional(
           Schema.Struct({
@@ -2928,12 +2928,12 @@ export const CreateRuleResponse = Schema.Struct({
             ).pipe(T.JsonName("additional_cacheable_ports")),
             browserTtl: Schema.optional(
               Schema.Struct({
-                mode: Schema.Literal(
+                mode: Schema.Literals([
                   "respect_origin",
                   "bypass_by_default",
                   "override_origin",
                   "bypass",
-                ),
+                ]),
                 default: Schema.optional(Schema.Number),
               }),
             ).pipe(T.JsonName("browser_ttl")),
@@ -3015,11 +3015,11 @@ export const CreateRuleResponse = Schema.Struct({
             ).pipe(T.JsonName("cache_reserve")),
             edgeTtl: Schema.optional(
               Schema.Struct({
-                mode: Schema.Literal(
+                mode: Schema.Literals([
                   "respect_origin",
                   "bypass_by_default",
                   "override_origin",
-                ),
+                ]),
                 default: Schema.optional(Schema.Number),
                 statusCodeTtl: Schema.optional(
                   Schema.Array(
@@ -3079,7 +3079,7 @@ export const CreateRuleResponse = Schema.Struct({
           }),
         ),
         position: Schema.optional(
-          Schema.Union(
+          Schema.Union([
             Schema.Struct({
               before: Schema.optional(Schema.String),
             }),
@@ -3089,7 +3089,7 @@ export const CreateRuleResponse = Schema.Struct({
             Schema.Struct({
               index: Schema.optional(Schema.Number),
             }),
-          ),
+          ]),
         ),
         ratelimit: Schema.optional(
           Schema.Struct({
@@ -3159,38 +3159,38 @@ export const CreateRuleResponse = Schema.Struct({
               T.JsonName("opportunistic_encryption"),
             ),
             polish: Schema.optional(
-              Schema.Literal("off", "lossless", "lossy", "webp"),
+              Schema.Literals(["off", "lossless", "lossy", "webp"]),
             ),
             requestBodyBuffering: Schema.optional(
-              Schema.Literal("none", "standard", "full"),
+              Schema.Literals(["none", "standard", "full"]),
             ).pipe(T.JsonName("request_body_buffering")),
             responseBodyBuffering: Schema.optional(
-              Schema.Literal("none", "standard"),
+              Schema.Literals(["none", "standard"]),
             ).pipe(T.JsonName("response_body_buffering")),
             rocketLoader: Schema.optional(Schema.Boolean).pipe(
               T.JsonName("rocket_loader"),
             ),
             securityLevel: Schema.optional(
-              Schema.Literal(
+              Schema.Literals([
                 "off",
                 "essentially_off",
                 "low",
                 "medium",
                 "high",
                 "under_attack",
-              ),
+              ]),
             ).pipe(T.JsonName("security_level")),
             serverSideExcludes: Schema.optional(Schema.Boolean).pipe(
               T.JsonName("server_side_excludes"),
             ),
             ssl: Schema.optional(
-              Schema.Literal(
+              Schema.Literals([
                 "off",
                 "flexible",
                 "full",
                 "strict",
                 "origin_pull",
-              ),
+              ]),
             ),
             sxg: Schema.optional(Schema.Boolean),
           }),
@@ -3252,7 +3252,7 @@ export const CreateRuleResponse = Schema.Struct({
             phase: Schema.optional(Schema.Literal("current")),
             phases: Schema.optional(
               Schema.Array(
-                Schema.Literal(
+                Schema.Literals([
                   "ddos_l4",
                   "ddos_l7",
                   "http_config_settings",
@@ -3276,12 +3276,12 @@ export const CreateRuleResponse = Schema.Struct({
                   "magic_transit_ids_managed",
                   "magic_transit_managed",
                   "magic_transit_ratelimit",
-                ),
+                ]),
               ),
             ),
             products: Schema.optional(
               Schema.Array(
-                Schema.Literal(
+                Schema.Literals([
                   "bic",
                   "hot",
                   "rateLimit",
@@ -3289,7 +3289,7 @@ export const CreateRuleResponse = Schema.Struct({
                   "uaBlock",
                   "waf",
                   "zoneLockdown",
-                ),
+                ]),
               ),
             ),
             rules: Schema.optional(Schema.Struct({})),
@@ -3316,7 +3316,7 @@ export const CreateRuleResponse = Schema.Struct({
           }),
         ),
         position: Schema.optional(
-          Schema.Union(
+          Schema.Union([
             Schema.Struct({
               before: Schema.optional(Schema.String),
             }),
@@ -3326,7 +3326,7 @@ export const CreateRuleResponse = Schema.Struct({
             Schema.Struct({
               index: Schema.optional(Schema.Number),
             }),
-          ),
+          ]),
         ),
         ratelimit: Schema.optional(
           Schema.Struct({
@@ -3354,7 +3354,7 @@ export const CreateRuleResponse = Schema.Struct({
         ),
         ref: Schema.optional(Schema.String),
       }),
-    ),
+    ]),
   ),
   version: Schema.String,
   description: Schema.optional(Schema.String),
@@ -4143,10 +4143,10 @@ export interface PatchRuleResponse {
 
 export const PatchRuleResponse = Schema.Struct({
   id: Schema.String,
-  kind: Schema.Literal("zone", "managed", "custom", "root"),
+  kind: Schema.Literals(["zone", "managed", "custom", "root"]),
   lastUpdated: Schema.String.pipe(T.JsonName("last_updated")),
   name: Schema.String,
-  phase: Schema.Literal(
+  phase: Schema.Literals([
     "ddos_l4",
     "ddos_l7",
     "http_config_settings",
@@ -4170,9 +4170,9 @@ export const PatchRuleResponse = Schema.Struct({
     "magic_transit_ids_managed",
     "magic_transit_managed",
     "magic_transit_ratelimit",
-  ),
+  ]),
   rules: Schema.Array(
-    Schema.Union(
+    Schema.Union([
       Schema.Struct({
         accountId: Schema.optional(Schema.String).pipe(
           T.JsonName("account_id"),
@@ -4210,7 +4210,7 @@ export const PatchRuleResponse = Schema.Struct({
           }),
         ),
         position: Schema.optional(
-          Schema.Union(
+          Schema.Union([
             Schema.Struct({
               before: Schema.optional(Schema.String),
             }),
@@ -4220,7 +4220,7 @@ export const PatchRuleResponse = Schema.Struct({
             Schema.Struct({
               index: Schema.optional(Schema.Number),
             }),
-          ),
+          ]),
         ),
         ratelimit: Schema.optional(
           Schema.Struct({
@@ -4307,14 +4307,14 @@ export const PatchRuleResponse = Schema.Struct({
             algorithms: Schema.Array(
               Schema.Struct({
                 name: Schema.optional(
-                  Schema.Literal(
+                  Schema.Literals([
                     "none",
                     "auto",
                     "default",
                     "gzip",
                     "brotli",
                     "zstd",
-                  ),
+                  ]),
                 ),
               }),
             ),
@@ -4394,7 +4394,7 @@ export const PatchRuleResponse = Schema.Struct({
           }),
         ),
         position: Schema.optional(
-          Schema.Union(
+          Schema.Union([
             Schema.Struct({
               before: Schema.optional(Schema.String),
             }),
@@ -4404,7 +4404,7 @@ export const PatchRuleResponse = Schema.Struct({
             Schema.Struct({
               index: Schema.optional(Schema.Number),
             }),
-          ),
+          ]),
         ),
         ratelimit: Schema.optional(
           Schema.Struct({
@@ -4457,7 +4457,7 @@ export const PatchRuleResponse = Schema.Struct({
                       action: Schema.optional(Schema.String),
                       enabled: Schema.optional(Schema.Boolean),
                       sensitivityLevel: Schema.optional(
-                        Schema.Literal("default", "medium", "low", "eoff"),
+                        Schema.Literals(["default", "medium", "low", "eoff"]),
                       ).pipe(T.JsonName("sensitivity_level")),
                     }),
                   ),
@@ -4473,13 +4473,13 @@ export const PatchRuleResponse = Schema.Struct({
                         T.JsonName("score_threshold"),
                       ),
                       sensitivityLevel: Schema.optional(
-                        Schema.Literal("default", "medium", "low", "eoff"),
+                        Schema.Literals(["default", "medium", "low", "eoff"]),
                       ).pipe(T.JsonName("sensitivity_level")),
                     }),
                   ),
                 ),
                 sensitivityLevel: Schema.optional(
-                  Schema.Literal("default", "medium", "low", "eoff"),
+                  Schema.Literals(["default", "medium", "low", "eoff"]),
                 ).pipe(T.JsonName("sensitivity_level")),
               }),
             ),
@@ -4504,7 +4504,7 @@ export const PatchRuleResponse = Schema.Struct({
           }),
         ),
         position: Schema.optional(
-          Schema.Union(
+          Schema.Union([
             Schema.Struct({
               before: Schema.optional(Schema.String),
             }),
@@ -4514,7 +4514,7 @@ export const PatchRuleResponse = Schema.Struct({
             Schema.Struct({
               index: Schema.optional(Schema.Number),
             }),
-          ),
+          ]),
         ),
         ratelimit: Schema.optional(
           Schema.Struct({
@@ -4571,7 +4571,7 @@ export const PatchRuleResponse = Schema.Struct({
           }),
         ),
         position: Schema.optional(
-          Schema.Union(
+          Schema.Union([
             Schema.Struct({
               before: Schema.optional(Schema.String),
             }),
@@ -4581,7 +4581,7 @@ export const PatchRuleResponse = Schema.Struct({
             Schema.Struct({
               index: Schema.optional(Schema.Number),
             }),
-          ),
+          ]),
         ),
         ratelimit: Schema.optional(
           Schema.Struct({
@@ -4687,7 +4687,7 @@ export const PatchRuleResponse = Schema.Struct({
           }),
         ),
         position: Schema.optional(
-          Schema.Union(
+          Schema.Union([
             Schema.Struct({
               before: Schema.optional(Schema.String),
             }),
@@ -4697,7 +4697,7 @@ export const PatchRuleResponse = Schema.Struct({
             Schema.Struct({
               index: Schema.optional(Schema.Number),
             }),
-          ),
+          ]),
         ),
         ratelimit: Schema.optional(
           Schema.Struct({
@@ -4796,7 +4796,7 @@ export const PatchRuleResponse = Schema.Struct({
           }),
         ),
         position: Schema.optional(
-          Schema.Union(
+          Schema.Union([
             Schema.Struct({
               before: Schema.optional(Schema.String),
             }),
@@ -4806,7 +4806,7 @@ export const PatchRuleResponse = Schema.Struct({
             Schema.Struct({
               index: Schema.optional(Schema.Number),
             }),
-          ),
+          ]),
         ),
         ratelimit: Schema.optional(
           Schema.Struct({
@@ -4863,7 +4863,7 @@ export const PatchRuleResponse = Schema.Struct({
           }),
         ),
         position: Schema.optional(
-          Schema.Union(
+          Schema.Union([
             Schema.Struct({
               before: Schema.optional(Schema.String),
             }),
@@ -4873,7 +4873,7 @@ export const PatchRuleResponse = Schema.Struct({
             Schema.Struct({
               index: Schema.optional(Schema.Number),
             }),
-          ),
+          ]),
         ),
         ratelimit: Schema.optional(
           Schema.Struct({
@@ -4926,7 +4926,7 @@ export const PatchRuleResponse = Schema.Struct({
                   T.JsonName("preserve_query_string"),
                 ),
                 statusCode: Schema.optional(
-                  Schema.Literal("301", "302", "303", "307", "308"),
+                  Schema.Literals(["301", "302", "303", "307", "308"]),
                 ).pipe(T.JsonName("status_code")),
               }),
             ).pipe(T.JsonName("from_value")),
@@ -4951,7 +4951,7 @@ export const PatchRuleResponse = Schema.Struct({
           }),
         ),
         position: Schema.optional(
-          Schema.Union(
+          Schema.Union([
             Schema.Struct({
               before: Schema.optional(Schema.String),
             }),
@@ -4961,7 +4961,7 @@ export const PatchRuleResponse = Schema.Struct({
             Schema.Struct({
               index: Schema.optional(Schema.Number),
             }),
-          ),
+          ]),
         ),
         ratelimit: Schema.optional(
           Schema.Struct({
@@ -5000,7 +5000,7 @@ export const PatchRuleResponse = Schema.Struct({
           Schema.Struct({
             headers: Schema.optional(Schema.Struct({})),
             uri: Schema.optional(
-              Schema.Union(
+              Schema.Union([
                 Schema.Struct({
                   path: Schema.Struct({
                     expression: Schema.optional(Schema.String),
@@ -5013,7 +5013,7 @@ export const PatchRuleResponse = Schema.Struct({
                     value: Schema.optional(Schema.String),
                   }),
                 }),
-              ),
+              ]),
             ),
           }),
         ).pipe(T.JsonName("action_parameters")),
@@ -5036,7 +5036,7 @@ export const PatchRuleResponse = Schema.Struct({
           }),
         ),
         position: Schema.optional(
-          Schema.Union(
+          Schema.Union([
             Schema.Struct({
               before: Schema.optional(Schema.String),
             }),
@@ -5046,7 +5046,7 @@ export const PatchRuleResponse = Schema.Struct({
             Schema.Struct({
               index: Schema.optional(Schema.Number),
             }),
-          ),
+          ]),
         ),
         ratelimit: Schema.optional(
           Schema.Struct({
@@ -5118,7 +5118,7 @@ export const PatchRuleResponse = Schema.Struct({
           }),
         ),
         position: Schema.optional(
-          Schema.Union(
+          Schema.Union([
             Schema.Struct({
               before: Schema.optional(Schema.String),
             }),
@@ -5128,7 +5128,7 @@ export const PatchRuleResponse = Schema.Struct({
             Schema.Struct({
               index: Schema.optional(Schema.Number),
             }),
-          ),
+          ]),
         ),
         ratelimit: Schema.optional(
           Schema.Struct({
@@ -5187,7 +5187,7 @@ export const PatchRuleResponse = Schema.Struct({
           }),
         ),
         position: Schema.optional(
-          Schema.Union(
+          Schema.Union([
             Schema.Struct({
               before: Schema.optional(Schema.String),
             }),
@@ -5197,7 +5197,7 @@ export const PatchRuleResponse = Schema.Struct({
             Schema.Struct({
               index: Schema.optional(Schema.Number),
             }),
-          ),
+          ]),
         ),
         ratelimit: Schema.optional(
           Schema.Struct({
@@ -5233,16 +5233,16 @@ export const PatchRuleResponse = Schema.Struct({
         id: Schema.optional(Schema.String),
         action: Schema.optional(Schema.Literal("serve_error")),
         actionParameters: Schema.optional(
-          Schema.Union(
+          Schema.Union([
             Schema.Struct({
               content: Schema.String,
               contentType: Schema.optional(
-                Schema.Literal(
+                Schema.Literals([
                   "application/json",
                   "text/html",
                   "text/plain",
                   "text/xml",
-                ),
+                ]),
               ).pipe(T.JsonName("content_type")),
               statusCode: Schema.optional(Schema.Number).pipe(
                 T.JsonName("status_code"),
@@ -5251,18 +5251,18 @@ export const PatchRuleResponse = Schema.Struct({
             Schema.Struct({
               assetName: Schema.String.pipe(T.JsonName("asset_name")),
               contentType: Schema.optional(
-                Schema.Literal(
+                Schema.Literals([
                   "application/json",
                   "text/html",
                   "text/plain",
                   "text/xml",
-                ),
+                ]),
               ).pipe(T.JsonName("content_type")),
               statusCode: Schema.optional(Schema.Number).pipe(
                 T.JsonName("status_code"),
               ),
             }),
-          ),
+          ]),
         ).pipe(T.JsonName("action_parameters")),
         description: Schema.optional(Schema.String),
         enabled: Schema.optional(Schema.Boolean),
@@ -5283,7 +5283,7 @@ export const PatchRuleResponse = Schema.Struct({
           }),
         ),
         position: Schema.optional(
-          Schema.Union(
+          Schema.Union([
             Schema.Struct({
               before: Schema.optional(Schema.String),
             }),
@@ -5293,7 +5293,7 @@ export const PatchRuleResponse = Schema.Struct({
             Schema.Struct({
               index: Schema.optional(Schema.Number),
             }),
-          ),
+          ]),
         ),
         ratelimit: Schema.optional(
           Schema.Struct({
@@ -5335,12 +5335,12 @@ export const PatchRuleResponse = Schema.Struct({
             ).pipe(T.JsonName("additional_cacheable_ports")),
             browserTtl: Schema.optional(
               Schema.Struct({
-                mode: Schema.Literal(
+                mode: Schema.Literals([
                   "respect_origin",
                   "bypass_by_default",
                   "override_origin",
                   "bypass",
-                ),
+                ]),
                 default: Schema.optional(Schema.Number),
               }),
             ).pipe(T.JsonName("browser_ttl")),
@@ -5422,11 +5422,11 @@ export const PatchRuleResponse = Schema.Struct({
             ).pipe(T.JsonName("cache_reserve")),
             edgeTtl: Schema.optional(
               Schema.Struct({
-                mode: Schema.Literal(
+                mode: Schema.Literals([
                   "respect_origin",
                   "bypass_by_default",
                   "override_origin",
-                ),
+                ]),
                 default: Schema.optional(Schema.Number),
                 statusCodeTtl: Schema.optional(
                   Schema.Array(
@@ -5486,7 +5486,7 @@ export const PatchRuleResponse = Schema.Struct({
           }),
         ),
         position: Schema.optional(
-          Schema.Union(
+          Schema.Union([
             Schema.Struct({
               before: Schema.optional(Schema.String),
             }),
@@ -5496,7 +5496,7 @@ export const PatchRuleResponse = Schema.Struct({
             Schema.Struct({
               index: Schema.optional(Schema.Number),
             }),
-          ),
+          ]),
         ),
         ratelimit: Schema.optional(
           Schema.Struct({
@@ -5566,38 +5566,38 @@ export const PatchRuleResponse = Schema.Struct({
               T.JsonName("opportunistic_encryption"),
             ),
             polish: Schema.optional(
-              Schema.Literal("off", "lossless", "lossy", "webp"),
+              Schema.Literals(["off", "lossless", "lossy", "webp"]),
             ),
             requestBodyBuffering: Schema.optional(
-              Schema.Literal("none", "standard", "full"),
+              Schema.Literals(["none", "standard", "full"]),
             ).pipe(T.JsonName("request_body_buffering")),
             responseBodyBuffering: Schema.optional(
-              Schema.Literal("none", "standard"),
+              Schema.Literals(["none", "standard"]),
             ).pipe(T.JsonName("response_body_buffering")),
             rocketLoader: Schema.optional(Schema.Boolean).pipe(
               T.JsonName("rocket_loader"),
             ),
             securityLevel: Schema.optional(
-              Schema.Literal(
+              Schema.Literals([
                 "off",
                 "essentially_off",
                 "low",
                 "medium",
                 "high",
                 "under_attack",
-              ),
+              ]),
             ).pipe(T.JsonName("security_level")),
             serverSideExcludes: Schema.optional(Schema.Boolean).pipe(
               T.JsonName("server_side_excludes"),
             ),
             ssl: Schema.optional(
-              Schema.Literal(
+              Schema.Literals([
                 "off",
                 "flexible",
                 "full",
                 "strict",
                 "origin_pull",
-              ),
+              ]),
             ),
             sxg: Schema.optional(Schema.Boolean),
           }),
@@ -5659,7 +5659,7 @@ export const PatchRuleResponse = Schema.Struct({
             phase: Schema.optional(Schema.Literal("current")),
             phases: Schema.optional(
               Schema.Array(
-                Schema.Literal(
+                Schema.Literals([
                   "ddos_l4",
                   "ddos_l7",
                   "http_config_settings",
@@ -5683,12 +5683,12 @@ export const PatchRuleResponse = Schema.Struct({
                   "magic_transit_ids_managed",
                   "magic_transit_managed",
                   "magic_transit_ratelimit",
-                ),
+                ]),
               ),
             ),
             products: Schema.optional(
               Schema.Array(
-                Schema.Literal(
+                Schema.Literals([
                   "bic",
                   "hot",
                   "rateLimit",
@@ -5696,7 +5696,7 @@ export const PatchRuleResponse = Schema.Struct({
                   "uaBlock",
                   "waf",
                   "zoneLockdown",
-                ),
+                ]),
               ),
             ),
             rules: Schema.optional(Schema.Struct({})),
@@ -5723,7 +5723,7 @@ export const PatchRuleResponse = Schema.Struct({
           }),
         ),
         position: Schema.optional(
-          Schema.Union(
+          Schema.Union([
             Schema.Struct({
               before: Schema.optional(Schema.String),
             }),
@@ -5733,7 +5733,7 @@ export const PatchRuleResponse = Schema.Struct({
             Schema.Struct({
               index: Schema.optional(Schema.Number),
             }),
-          ),
+          ]),
         ),
         ratelimit: Schema.optional(
           Schema.Struct({
@@ -5761,7 +5761,7 @@ export const PatchRuleResponse = Schema.Struct({
         ),
         ref: Schema.optional(Schema.String),
       }),
-    ),
+    ]),
   ),
   version: Schema.String,
   description: Schema.optional(Schema.String),
@@ -6550,10 +6550,10 @@ export interface DeleteRuleResponse {
 
 export const DeleteRuleResponse = Schema.Struct({
   id: Schema.String,
-  kind: Schema.Literal("zone", "managed", "custom", "root"),
+  kind: Schema.Literals(["zone", "managed", "custom", "root"]),
   lastUpdated: Schema.String.pipe(T.JsonName("last_updated")),
   name: Schema.String,
-  phase: Schema.Literal(
+  phase: Schema.Literals([
     "ddos_l4",
     "ddos_l7",
     "http_config_settings",
@@ -6577,9 +6577,9 @@ export const DeleteRuleResponse = Schema.Struct({
     "magic_transit_ids_managed",
     "magic_transit_managed",
     "magic_transit_ratelimit",
-  ),
+  ]),
   rules: Schema.Array(
-    Schema.Union(
+    Schema.Union([
       Schema.Struct({
         accountId: Schema.optional(Schema.String).pipe(
           T.JsonName("account_id"),
@@ -6617,7 +6617,7 @@ export const DeleteRuleResponse = Schema.Struct({
           }),
         ),
         position: Schema.optional(
-          Schema.Union(
+          Schema.Union([
             Schema.Struct({
               before: Schema.optional(Schema.String),
             }),
@@ -6627,7 +6627,7 @@ export const DeleteRuleResponse = Schema.Struct({
             Schema.Struct({
               index: Schema.optional(Schema.Number),
             }),
-          ),
+          ]),
         ),
         ratelimit: Schema.optional(
           Schema.Struct({
@@ -6714,14 +6714,14 @@ export const DeleteRuleResponse = Schema.Struct({
             algorithms: Schema.Array(
               Schema.Struct({
                 name: Schema.optional(
-                  Schema.Literal(
+                  Schema.Literals([
                     "none",
                     "auto",
                     "default",
                     "gzip",
                     "brotli",
                     "zstd",
-                  ),
+                  ]),
                 ),
               }),
             ),
@@ -6801,7 +6801,7 @@ export const DeleteRuleResponse = Schema.Struct({
           }),
         ),
         position: Schema.optional(
-          Schema.Union(
+          Schema.Union([
             Schema.Struct({
               before: Schema.optional(Schema.String),
             }),
@@ -6811,7 +6811,7 @@ export const DeleteRuleResponse = Schema.Struct({
             Schema.Struct({
               index: Schema.optional(Schema.Number),
             }),
-          ),
+          ]),
         ),
         ratelimit: Schema.optional(
           Schema.Struct({
@@ -6864,7 +6864,7 @@ export const DeleteRuleResponse = Schema.Struct({
                       action: Schema.optional(Schema.String),
                       enabled: Schema.optional(Schema.Boolean),
                       sensitivityLevel: Schema.optional(
-                        Schema.Literal("default", "medium", "low", "eoff"),
+                        Schema.Literals(["default", "medium", "low", "eoff"]),
                       ).pipe(T.JsonName("sensitivity_level")),
                     }),
                   ),
@@ -6880,13 +6880,13 @@ export const DeleteRuleResponse = Schema.Struct({
                         T.JsonName("score_threshold"),
                       ),
                       sensitivityLevel: Schema.optional(
-                        Schema.Literal("default", "medium", "low", "eoff"),
+                        Schema.Literals(["default", "medium", "low", "eoff"]),
                       ).pipe(T.JsonName("sensitivity_level")),
                     }),
                   ),
                 ),
                 sensitivityLevel: Schema.optional(
-                  Schema.Literal("default", "medium", "low", "eoff"),
+                  Schema.Literals(["default", "medium", "low", "eoff"]),
                 ).pipe(T.JsonName("sensitivity_level")),
               }),
             ),
@@ -6911,7 +6911,7 @@ export const DeleteRuleResponse = Schema.Struct({
           }),
         ),
         position: Schema.optional(
-          Schema.Union(
+          Schema.Union([
             Schema.Struct({
               before: Schema.optional(Schema.String),
             }),
@@ -6921,7 +6921,7 @@ export const DeleteRuleResponse = Schema.Struct({
             Schema.Struct({
               index: Schema.optional(Schema.Number),
             }),
-          ),
+          ]),
         ),
         ratelimit: Schema.optional(
           Schema.Struct({
@@ -6978,7 +6978,7 @@ export const DeleteRuleResponse = Schema.Struct({
           }),
         ),
         position: Schema.optional(
-          Schema.Union(
+          Schema.Union([
             Schema.Struct({
               before: Schema.optional(Schema.String),
             }),
@@ -6988,7 +6988,7 @@ export const DeleteRuleResponse = Schema.Struct({
             Schema.Struct({
               index: Schema.optional(Schema.Number),
             }),
-          ),
+          ]),
         ),
         ratelimit: Schema.optional(
           Schema.Struct({
@@ -7094,7 +7094,7 @@ export const DeleteRuleResponse = Schema.Struct({
           }),
         ),
         position: Schema.optional(
-          Schema.Union(
+          Schema.Union([
             Schema.Struct({
               before: Schema.optional(Schema.String),
             }),
@@ -7104,7 +7104,7 @@ export const DeleteRuleResponse = Schema.Struct({
             Schema.Struct({
               index: Schema.optional(Schema.Number),
             }),
-          ),
+          ]),
         ),
         ratelimit: Schema.optional(
           Schema.Struct({
@@ -7203,7 +7203,7 @@ export const DeleteRuleResponse = Schema.Struct({
           }),
         ),
         position: Schema.optional(
-          Schema.Union(
+          Schema.Union([
             Schema.Struct({
               before: Schema.optional(Schema.String),
             }),
@@ -7213,7 +7213,7 @@ export const DeleteRuleResponse = Schema.Struct({
             Schema.Struct({
               index: Schema.optional(Schema.Number),
             }),
-          ),
+          ]),
         ),
         ratelimit: Schema.optional(
           Schema.Struct({
@@ -7270,7 +7270,7 @@ export const DeleteRuleResponse = Schema.Struct({
           }),
         ),
         position: Schema.optional(
-          Schema.Union(
+          Schema.Union([
             Schema.Struct({
               before: Schema.optional(Schema.String),
             }),
@@ -7280,7 +7280,7 @@ export const DeleteRuleResponse = Schema.Struct({
             Schema.Struct({
               index: Schema.optional(Schema.Number),
             }),
-          ),
+          ]),
         ),
         ratelimit: Schema.optional(
           Schema.Struct({
@@ -7333,7 +7333,7 @@ export const DeleteRuleResponse = Schema.Struct({
                   T.JsonName("preserve_query_string"),
                 ),
                 statusCode: Schema.optional(
-                  Schema.Literal("301", "302", "303", "307", "308"),
+                  Schema.Literals(["301", "302", "303", "307", "308"]),
                 ).pipe(T.JsonName("status_code")),
               }),
             ).pipe(T.JsonName("from_value")),
@@ -7358,7 +7358,7 @@ export const DeleteRuleResponse = Schema.Struct({
           }),
         ),
         position: Schema.optional(
-          Schema.Union(
+          Schema.Union([
             Schema.Struct({
               before: Schema.optional(Schema.String),
             }),
@@ -7368,7 +7368,7 @@ export const DeleteRuleResponse = Schema.Struct({
             Schema.Struct({
               index: Schema.optional(Schema.Number),
             }),
-          ),
+          ]),
         ),
         ratelimit: Schema.optional(
           Schema.Struct({
@@ -7407,7 +7407,7 @@ export const DeleteRuleResponse = Schema.Struct({
           Schema.Struct({
             headers: Schema.optional(Schema.Struct({})),
             uri: Schema.optional(
-              Schema.Union(
+              Schema.Union([
                 Schema.Struct({
                   path: Schema.Struct({
                     expression: Schema.optional(Schema.String),
@@ -7420,7 +7420,7 @@ export const DeleteRuleResponse = Schema.Struct({
                     value: Schema.optional(Schema.String),
                   }),
                 }),
-              ),
+              ]),
             ),
           }),
         ).pipe(T.JsonName("action_parameters")),
@@ -7443,7 +7443,7 @@ export const DeleteRuleResponse = Schema.Struct({
           }),
         ),
         position: Schema.optional(
-          Schema.Union(
+          Schema.Union([
             Schema.Struct({
               before: Schema.optional(Schema.String),
             }),
@@ -7453,7 +7453,7 @@ export const DeleteRuleResponse = Schema.Struct({
             Schema.Struct({
               index: Schema.optional(Schema.Number),
             }),
-          ),
+          ]),
         ),
         ratelimit: Schema.optional(
           Schema.Struct({
@@ -7525,7 +7525,7 @@ export const DeleteRuleResponse = Schema.Struct({
           }),
         ),
         position: Schema.optional(
-          Schema.Union(
+          Schema.Union([
             Schema.Struct({
               before: Schema.optional(Schema.String),
             }),
@@ -7535,7 +7535,7 @@ export const DeleteRuleResponse = Schema.Struct({
             Schema.Struct({
               index: Schema.optional(Schema.Number),
             }),
-          ),
+          ]),
         ),
         ratelimit: Schema.optional(
           Schema.Struct({
@@ -7594,7 +7594,7 @@ export const DeleteRuleResponse = Schema.Struct({
           }),
         ),
         position: Schema.optional(
-          Schema.Union(
+          Schema.Union([
             Schema.Struct({
               before: Schema.optional(Schema.String),
             }),
@@ -7604,7 +7604,7 @@ export const DeleteRuleResponse = Schema.Struct({
             Schema.Struct({
               index: Schema.optional(Schema.Number),
             }),
-          ),
+          ]),
         ),
         ratelimit: Schema.optional(
           Schema.Struct({
@@ -7640,16 +7640,16 @@ export const DeleteRuleResponse = Schema.Struct({
         id: Schema.optional(Schema.String),
         action: Schema.optional(Schema.Literal("serve_error")),
         actionParameters: Schema.optional(
-          Schema.Union(
+          Schema.Union([
             Schema.Struct({
               content: Schema.String,
               contentType: Schema.optional(
-                Schema.Literal(
+                Schema.Literals([
                   "application/json",
                   "text/html",
                   "text/plain",
                   "text/xml",
-                ),
+                ]),
               ).pipe(T.JsonName("content_type")),
               statusCode: Schema.optional(Schema.Number).pipe(
                 T.JsonName("status_code"),
@@ -7658,18 +7658,18 @@ export const DeleteRuleResponse = Schema.Struct({
             Schema.Struct({
               assetName: Schema.String.pipe(T.JsonName("asset_name")),
               contentType: Schema.optional(
-                Schema.Literal(
+                Schema.Literals([
                   "application/json",
                   "text/html",
                   "text/plain",
                   "text/xml",
-                ),
+                ]),
               ).pipe(T.JsonName("content_type")),
               statusCode: Schema.optional(Schema.Number).pipe(
                 T.JsonName("status_code"),
               ),
             }),
-          ),
+          ]),
         ).pipe(T.JsonName("action_parameters")),
         description: Schema.optional(Schema.String),
         enabled: Schema.optional(Schema.Boolean),
@@ -7690,7 +7690,7 @@ export const DeleteRuleResponse = Schema.Struct({
           }),
         ),
         position: Schema.optional(
-          Schema.Union(
+          Schema.Union([
             Schema.Struct({
               before: Schema.optional(Schema.String),
             }),
@@ -7700,7 +7700,7 @@ export const DeleteRuleResponse = Schema.Struct({
             Schema.Struct({
               index: Schema.optional(Schema.Number),
             }),
-          ),
+          ]),
         ),
         ratelimit: Schema.optional(
           Schema.Struct({
@@ -7742,12 +7742,12 @@ export const DeleteRuleResponse = Schema.Struct({
             ).pipe(T.JsonName("additional_cacheable_ports")),
             browserTtl: Schema.optional(
               Schema.Struct({
-                mode: Schema.Literal(
+                mode: Schema.Literals([
                   "respect_origin",
                   "bypass_by_default",
                   "override_origin",
                   "bypass",
-                ),
+                ]),
                 default: Schema.optional(Schema.Number),
               }),
             ).pipe(T.JsonName("browser_ttl")),
@@ -7829,11 +7829,11 @@ export const DeleteRuleResponse = Schema.Struct({
             ).pipe(T.JsonName("cache_reserve")),
             edgeTtl: Schema.optional(
               Schema.Struct({
-                mode: Schema.Literal(
+                mode: Schema.Literals([
                   "respect_origin",
                   "bypass_by_default",
                   "override_origin",
-                ),
+                ]),
                 default: Schema.optional(Schema.Number),
                 statusCodeTtl: Schema.optional(
                   Schema.Array(
@@ -7893,7 +7893,7 @@ export const DeleteRuleResponse = Schema.Struct({
           }),
         ),
         position: Schema.optional(
-          Schema.Union(
+          Schema.Union([
             Schema.Struct({
               before: Schema.optional(Schema.String),
             }),
@@ -7903,7 +7903,7 @@ export const DeleteRuleResponse = Schema.Struct({
             Schema.Struct({
               index: Schema.optional(Schema.Number),
             }),
-          ),
+          ]),
         ),
         ratelimit: Schema.optional(
           Schema.Struct({
@@ -7973,38 +7973,38 @@ export const DeleteRuleResponse = Schema.Struct({
               T.JsonName("opportunistic_encryption"),
             ),
             polish: Schema.optional(
-              Schema.Literal("off", "lossless", "lossy", "webp"),
+              Schema.Literals(["off", "lossless", "lossy", "webp"]),
             ),
             requestBodyBuffering: Schema.optional(
-              Schema.Literal("none", "standard", "full"),
+              Schema.Literals(["none", "standard", "full"]),
             ).pipe(T.JsonName("request_body_buffering")),
             responseBodyBuffering: Schema.optional(
-              Schema.Literal("none", "standard"),
+              Schema.Literals(["none", "standard"]),
             ).pipe(T.JsonName("response_body_buffering")),
             rocketLoader: Schema.optional(Schema.Boolean).pipe(
               T.JsonName("rocket_loader"),
             ),
             securityLevel: Schema.optional(
-              Schema.Literal(
+              Schema.Literals([
                 "off",
                 "essentially_off",
                 "low",
                 "medium",
                 "high",
                 "under_attack",
-              ),
+              ]),
             ).pipe(T.JsonName("security_level")),
             serverSideExcludes: Schema.optional(Schema.Boolean).pipe(
               T.JsonName("server_side_excludes"),
             ),
             ssl: Schema.optional(
-              Schema.Literal(
+              Schema.Literals([
                 "off",
                 "flexible",
                 "full",
                 "strict",
                 "origin_pull",
-              ),
+              ]),
             ),
             sxg: Schema.optional(Schema.Boolean),
           }),
@@ -8066,7 +8066,7 @@ export const DeleteRuleResponse = Schema.Struct({
             phase: Schema.optional(Schema.Literal("current")),
             phases: Schema.optional(
               Schema.Array(
-                Schema.Literal(
+                Schema.Literals([
                   "ddos_l4",
                   "ddos_l7",
                   "http_config_settings",
@@ -8090,12 +8090,12 @@ export const DeleteRuleResponse = Schema.Struct({
                   "magic_transit_ids_managed",
                   "magic_transit_managed",
                   "magic_transit_ratelimit",
-                ),
+                ]),
               ),
             ),
             products: Schema.optional(
               Schema.Array(
-                Schema.Literal(
+                Schema.Literals([
                   "bic",
                   "hot",
                   "rateLimit",
@@ -8103,7 +8103,7 @@ export const DeleteRuleResponse = Schema.Struct({
                   "uaBlock",
                   "waf",
                   "zoneLockdown",
-                ),
+                ]),
               ),
             ),
             rules: Schema.optional(Schema.Struct({})),
@@ -8130,7 +8130,7 @@ export const DeleteRuleResponse = Schema.Struct({
           }),
         ),
         position: Schema.optional(
-          Schema.Union(
+          Schema.Union([
             Schema.Struct({
               before: Schema.optional(Schema.String),
             }),
@@ -8140,7 +8140,7 @@ export const DeleteRuleResponse = Schema.Struct({
             Schema.Struct({
               index: Schema.optional(Schema.Number),
             }),
-          ),
+          ]),
         ),
         ratelimit: Schema.optional(
           Schema.Struct({
@@ -8168,7 +8168,7 @@ export const DeleteRuleResponse = Schema.Struct({
         ),
         ref: Schema.optional(Schema.String),
       }),
-    ),
+    ]),
   ),
   version: Schema.String,
   description: Schema.optional(Schema.String),
@@ -8303,10 +8303,10 @@ export interface GetRulesetResponse {
 
 export const GetRulesetResponse = Schema.Struct({
   id: Schema.String,
-  kind: Schema.Literal("zone", "managed", "custom", "root"),
+  kind: Schema.Literals(["zone", "managed", "custom", "root"]),
   lastUpdated: Schema.String.pipe(T.JsonName("last_updated")),
   name: Schema.String,
-  phase: Schema.Literal(
+  phase: Schema.Literals([
     "ddos_l4",
     "ddos_l7",
     "http_config_settings",
@@ -8330,9 +8330,9 @@ export const GetRulesetResponse = Schema.Struct({
     "magic_transit_ids_managed",
     "magic_transit_managed",
     "magic_transit_ratelimit",
-  ),
+  ]),
   rules: Schema.Array(
-    Schema.Union(
+    Schema.Union([
       Schema.Unknown,
       Schema.Struct({
         lastUpdated: Schema.String.pipe(T.JsonName("last_updated")),
@@ -8432,7 +8432,7 @@ export const GetRulesetResponse = Schema.Struct({
         ),
         ref: Schema.optional(Schema.String),
       }),
-    ),
+    ]),
   ),
   version: Schema.String,
   description: Schema.optional(Schema.String),
@@ -8543,9 +8543,9 @@ export interface CreateRulesetRequest {
 export const CreateRulesetRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  kind: Schema.Literal("zone", "managed", "custom", "root"),
+  kind: Schema.Literals(["zone", "managed", "custom", "root"]),
   name: Schema.String,
-  phase: Schema.Literal(
+  phase: Schema.Literals([
     "ddos_l4",
     "ddos_l7",
     "http_config_settings",
@@ -8569,11 +8569,11 @@ export const CreateRulesetRequest = Schema.Struct({
     "magic_transit_ids_managed",
     "magic_transit_managed",
     "magic_transit_ratelimit",
-  ),
+  ]),
   description: Schema.optional(Schema.String),
   rules: Schema.optional(
     Schema.Array(
-      Schema.Union(
+      Schema.Union([
         Schema.Unknown,
         Schema.Struct({
           id: Schema.optional(Schema.String),
@@ -8667,7 +8667,7 @@ export const CreateRulesetRequest = Schema.Struct({
           ),
           ref: Schema.optional(Schema.String),
         }),
-      ),
+      ]),
     ),
   ),
 }).pipe(
@@ -8777,10 +8777,10 @@ export interface CreateRulesetResponse {
 
 export const CreateRulesetResponse = Schema.Struct({
   id: Schema.String,
-  kind: Schema.Literal("zone", "managed", "custom", "root"),
+  kind: Schema.Literals(["zone", "managed", "custom", "root"]),
   lastUpdated: Schema.String.pipe(T.JsonName("last_updated")),
   name: Schema.String,
-  phase: Schema.Literal(
+  phase: Schema.Literals([
     "ddos_l4",
     "ddos_l7",
     "http_config_settings",
@@ -8804,9 +8804,9 @@ export const CreateRulesetResponse = Schema.Struct({
     "magic_transit_ids_managed",
     "magic_transit_managed",
     "magic_transit_ratelimit",
-  ),
+  ]),
   rules: Schema.Array(
-    Schema.Union(
+    Schema.Union([
       Schema.Unknown,
       Schema.Struct({
         lastUpdated: Schema.String.pipe(T.JsonName("last_updated")),
@@ -8906,7 +8906,7 @@ export const CreateRulesetResponse = Schema.Struct({
         ),
         ref: Schema.optional(Schema.String),
       }),
-    ),
+    ]),
   ),
   version: Schema.String,
   description: Schema.optional(Schema.String),
@@ -9020,10 +9020,10 @@ export const UpdateRulesetRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
   description: Schema.optional(Schema.String),
-  kind: Schema.optional(Schema.Literal("zone", "managed", "custom", "root")),
+  kind: Schema.optional(Schema.Literals(["zone", "managed", "custom", "root"])),
   name: Schema.optional(Schema.String),
   phase: Schema.optional(
-    Schema.Literal(
+    Schema.Literals([
       "ddos_l4",
       "ddos_l7",
       "http_config_settings",
@@ -9047,11 +9047,11 @@ export const UpdateRulesetRequest = Schema.Struct({
       "magic_transit_ids_managed",
       "magic_transit_managed",
       "magic_transit_ratelimit",
-    ),
+    ]),
   ),
   rules: Schema.optional(
     Schema.Array(
-      Schema.Union(
+      Schema.Union([
         Schema.Unknown,
         Schema.Struct({
           id: Schema.optional(Schema.String),
@@ -9145,7 +9145,7 @@ export const UpdateRulesetRequest = Schema.Struct({
           ),
           ref: Schema.optional(Schema.String),
         }),
-      ),
+      ]),
     ),
   ),
 }).pipe(
@@ -9255,10 +9255,10 @@ export interface UpdateRulesetResponse {
 
 export const UpdateRulesetResponse = Schema.Struct({
   id: Schema.String,
-  kind: Schema.Literal("zone", "managed", "custom", "root"),
+  kind: Schema.Literals(["zone", "managed", "custom", "root"]),
   lastUpdated: Schema.String.pipe(T.JsonName("last_updated")),
   name: Schema.String,
-  phase: Schema.Literal(
+  phase: Schema.Literals([
     "ddos_l4",
     "ddos_l7",
     "http_config_settings",
@@ -9282,9 +9282,9 @@ export const UpdateRulesetResponse = Schema.Struct({
     "magic_transit_ids_managed",
     "magic_transit_managed",
     "magic_transit_ratelimit",
-  ),
+  ]),
   rules: Schema.Array(
-    Schema.Union(
+    Schema.Union([
       Schema.Unknown,
       Schema.Struct({
         lastUpdated: Schema.String.pipe(T.JsonName("last_updated")),
@@ -9384,7 +9384,7 @@ export const UpdateRulesetResponse = Schema.Struct({
         ),
         ref: Schema.optional(Schema.String),
       }),
-    ),
+    ]),
   ),
   version: Schema.String,
   description: Schema.optional(Schema.String),
@@ -9551,10 +9551,10 @@ export interface GetVersionResponse {
 
 export const GetVersionResponse = Schema.Struct({
   id: Schema.String,
-  kind: Schema.Literal("zone", "managed", "custom", "root"),
+  kind: Schema.Literals(["zone", "managed", "custom", "root"]),
   lastUpdated: Schema.String.pipe(T.JsonName("last_updated")),
   name: Schema.String,
-  phase: Schema.Literal(
+  phase: Schema.Literals([
     "ddos_l4",
     "ddos_l7",
     "http_config_settings",
@@ -9578,9 +9578,9 @@ export const GetVersionResponse = Schema.Struct({
     "magic_transit_ids_managed",
     "magic_transit_managed",
     "magic_transit_ratelimit",
-  ),
+  ]),
   rules: Schema.Array(
-    Schema.Union(
+    Schema.Union([
       Schema.Unknown,
       Schema.Struct({
         lastUpdated: Schema.String.pipe(T.JsonName("last_updated")),
@@ -9680,7 +9680,7 @@ export const GetVersionResponse = Schema.Struct({
         ),
         ref: Schema.optional(Schema.String),
       }),
-    ),
+    ]),
   ),
   version: Schema.String,
   description: Schema.optional(Schema.String),

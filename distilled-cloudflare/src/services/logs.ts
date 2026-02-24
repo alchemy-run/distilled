@@ -7,7 +7,7 @@
 
 import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
-import type { HttpClient } from "@effect/platform";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
@@ -237,7 +237,7 @@ export const GetRayidRequest = Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
   fields: Schema.optional(Schema.String).pipe(T.HttpQuery("fields")),
   timestamps: Schema.optional(
-    Schema.Literal("unix", "unixnano", "rfc3339"),
+    Schema.Literals(["unix", "unixnano", "rfc3339"]),
   ).pipe(T.HttpQuery("timestamps")),
 }).pipe(
   T.Http({ method: "GET", path: "/zones/{zone_id}/logs/rayids/{RayID}" }),
@@ -283,15 +283,15 @@ export interface GetReceivedRequest {
 
 export const GetReceivedRequest = Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  end: Schema.Union(Schema.String, Schema.Number).pipe(T.HttpQuery("end")),
+  end: Schema.Union([Schema.String, Schema.Number]).pipe(T.HttpQuery("end")),
   count: Schema.optional(Schema.Number).pipe(T.HttpQuery("count")),
   fields: Schema.optional(Schema.String).pipe(T.HttpQuery("fields")),
   sample: Schema.optional(Schema.Number).pipe(T.HttpQuery("sample")),
-  start: Schema.optional(Schema.Union(Schema.String, Schema.Number)).pipe(
+  start: Schema.optional(Schema.Union([Schema.String, Schema.Number])).pipe(
     T.HttpQuery("start"),
   ),
   timestamps: Schema.optional(
-    Schema.Literal("unix", "unixnano", "rfc3339"),
+    Schema.Literals(["unix", "unixnano", "rfc3339"]),
   ).pipe(T.HttpQuery("timestamps")),
 }).pipe(
   T.Http({ method: "GET", path: "/zones/{zone_id}/logs/received" }),

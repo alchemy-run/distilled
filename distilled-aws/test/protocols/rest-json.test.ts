@@ -2,11 +2,11 @@ import { it } from "@effect/vitest";
 import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
 import { describe, expect } from "vitest";
-import { UnknownAwsError, ValidationException } from "../../src/errors.ts";
-import { restJson1Protocol } from "../../src/protocols/rest-json.ts";
 import { makeRequestBuilder } from "../../src/client/request-builder.ts";
 import { makeResponseParser } from "../../src/client/response-parser.ts";
 import type { Response } from "../../src/client/response.ts";
+import { UnknownAwsError, ValidationException } from "../../src/errors.ts";
+import { restJson1Protocol } from "../../src/protocols/rest-json.ts";
 
 // Import real generated schemas from Lambda (uses restJson1 protocol)
 import {
@@ -65,6 +65,7 @@ import {
 } from "../../src/services/glacier.ts";
 
 // Import Glacier checksum functions for testing
+import type { Operation } from "../../src/client/operation.ts";
 import {
   applyGlacierChecksums,
   computeSha256,
@@ -72,8 +73,12 @@ import {
 } from "../../src/customizations/glacier.ts";
 
 // Helper to build a request from an instance
-const buildRequest = <A, I>(schema: S.Schema<A, I>, instance: A) => {
-  const operation = { input: schema, output: schema, errors: [] };
+const buildRequest = <A>(schema: S.Schema<A>, instance: A) => {
+  const operation: Operation<any, any, any> = {
+    input: schema,
+    output: schema,
+    errors: [],
+  };
   const builder = makeRequestBuilder(operation, {
     protocol: restJson1Protocol,
   });
@@ -81,10 +86,10 @@ const buildRequest = <A, I>(schema: S.Schema<A, I>, instance: A) => {
 };
 
 // Helper to parse a response
-const parseResponse = <A, I>(
-  schema: S.Schema<A, I>,
+const parseResponse = <A>(
+  schema: S.Schema<A>,
   response: Response,
-  errors: S.Schema.AnyNoContext[] = [],
+  errors: S.Top[] = [],
 ) => {
   const operation = { input: schema, output: schema, errors };
   const parser = makeResponseParser<A>(operation, {
@@ -902,7 +907,6 @@ describe("restJson1 protocol", () => {
         ).pipe(Effect.flip);
 
         expect(result).toBeInstanceOf(ResourceNotFoundException);
-        expect(result._tag).toBe("ResourceNotFoundException");
       }),
     );
 

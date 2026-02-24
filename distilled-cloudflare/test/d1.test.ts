@@ -36,7 +36,7 @@ const withDatabase = <A, E, R>(
         D1.deleteDatabase({
           accountId: accountId(),
           databaseId,
-        }).pipe(Effect.catchAll(() => Effect.void)),
+        }).pipe(Effect.catch(() => Effect.void)),
       ),
     );
   });
@@ -69,7 +69,7 @@ describe("D1", () => {
         yield* D1.deleteDatabase({
           accountId: accountId(),
           databaseId,
-        }).pipe(Effect.catchAll(() => Effect.void));
+        }).pipe(Effect.catch(() => Effect.void));
       }));
 
     test("happy path - creates a D1 database with primary location hint", () =>
@@ -90,7 +90,7 @@ describe("D1", () => {
         yield* D1.deleteDatabase({
           accountId: accountId(),
           databaseId,
-        }).pipe(Effect.catchAll(() => Effect.void));
+        }).pipe(Effect.catch(() => Effect.void));
       }));
 
     test("error - InvalidObjectIdentifier for invalid accountId", () =>

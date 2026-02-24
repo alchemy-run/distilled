@@ -7,7 +7,7 @@
 
 import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
-import type { HttpClient } from "@effect/platform";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
@@ -22,64 +22,65 @@ import {
 // Errors
 // =============================================================================
 
-export class FiltersRequired extends Schema.TaggedError<FiltersRequired>()(
+export class FiltersRequired extends Schema.TaggedErrorClass<FiltersRequired>()(
   "FiltersRequired",
   { code: Schema.Number, message: Schema.String },
-).pipe(T.HttpErrorMatchers([{ code: 17103 }])) {}
+) {}
+T.applyErrorMatchers(FiltersRequired, [{ code: 17103 }]);
 
-export class InternalServerError extends Schema.TaggedError<InternalServerError>()(
+export class InternalServerError extends Schema.TaggedErrorClass<InternalServerError>()(
   "InternalServerError",
   { code: Schema.Number, message: Schema.String },
-).pipe(T.HttpErrorMatchers([{ code: 15000 }])) {}
+) {}
+T.applyErrorMatchers(InternalServerError, [{ code: 15000 }]);
 
-export class InvalidAlertType extends Schema.TaggedError<InvalidAlertType>()(
+export class InvalidAlertType extends Schema.TaggedErrorClass<InvalidAlertType>()(
   "InvalidAlertType",
   { code: Schema.Number, message: Schema.String },
-).pipe(T.HttpErrorMatchers([{ code: 17004 }])) {}
+) {}
+T.applyErrorMatchers(InvalidAlertType, [{ code: 17004 }]);
 
-export class InvalidRoute extends Schema.TaggedError<InvalidRoute>()(
+export class InvalidRoute extends Schema.TaggedErrorClass<InvalidRoute>()(
   "InvalidRoute",
   { code: Schema.Number, message: Schema.String },
-).pipe(T.HttpErrorMatchers([{ code: 7003 }])) {}
+) {}
+T.applyErrorMatchers(InvalidRoute, [{ code: 7003 }]);
 
-export class InvalidWebhookId extends Schema.TaggedError<InvalidWebhookId>()(
+export class InvalidWebhookId extends Schema.TaggedErrorClass<InvalidWebhookId>()(
   "InvalidWebhookId",
   { code: Schema.Number, message: Schema.String },
-).pipe(
-  T.HttpErrorMatchers([
-    { code: 0, message: { includes: "invalid Webhook ID" } },
-  ]),
 ) {}
+T.applyErrorMatchers(InvalidWebhookId, [
+    { code: 0, message: { includes: "invalid Webhook ID" } },
+  ]);
 
-export class MechanismRequired extends Schema.TaggedError<MechanismRequired>()(
+export class MechanismRequired extends Schema.TaggedErrorClass<MechanismRequired>()(
   "MechanismRequired",
   { code: Schema.Number, message: Schema.String },
-).pipe(T.HttpErrorMatchers([{ code: 17102 }])) {}
+) {}
+T.applyErrorMatchers(MechanismRequired, [{ code: 17102 }]);
 
-export class PolicyNotFound extends Schema.TaggedError<PolicyNotFound>()(
+export class PolicyNotFound extends Schema.TaggedErrorClass<PolicyNotFound>()(
   "PolicyNotFound",
   { code: Schema.Number, message: Schema.String },
-).pipe(
-  T.HttpErrorMatchers([{ code: 0, message: { includes: "Policy not found" } }]),
 ) {}
+T.applyErrorMatchers(PolicyNotFound, [{ code: 0, message: { includes: "Policy not found" } }]);
 
-export class WebhookNotFound extends Schema.TaggedError<WebhookNotFound>()(
+export class WebhookNotFound extends Schema.TaggedErrorClass<WebhookNotFound>()(
   "WebhookNotFound",
   { code: Schema.Number, message: Schema.String },
-).pipe(
-  T.HttpErrorMatchers([
-    { code: 0, message: { includes: "Webhook not found" } },
-  ]),
 ) {}
+T.applyErrorMatchers(WebhookNotFound, [
+    { code: 0, message: { includes: "Webhook not found" } },
+  ]);
 
-export class WebhookTestFailed extends Schema.TaggedError<WebhookTestFailed>()(
+export class WebhookTestFailed extends Schema.TaggedErrorClass<WebhookTestFailed>()(
   "WebhookTestFailed",
   { code: Schema.Number, message: Schema.String },
-).pipe(
-  T.HttpErrorMatchers([
-    { code: 0, message: { includes: "Webhook test failed" } },
-  ]),
 ) {}
+T.applyErrorMatchers(WebhookTestFailed, [
+    { code: 0, message: { includes: "Webhook test failed" } },
+  ]);
 
 // =============================================================================
 // AvailableAlert
@@ -330,7 +331,7 @@ export const GetDestinationWebhookResponse = Schema.Struct({
   lastSuccess: Schema.optional(Schema.String).pipe(T.JsonName("last_success")),
   name: Schema.optional(Schema.String),
   type: Schema.optional(
-    Schema.Literal(
+    Schema.Literals([
       "datadog",
       "discord",
       "feishu",
@@ -339,7 +340,7 @@ export const GetDestinationWebhookResponse = Schema.Struct({
       "opsgenie",
       "slack",
       "splunk",
-    ),
+    ]),
   ),
   url: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<GetDestinationWebhookResponse>;
@@ -665,7 +666,7 @@ export const GetPolicyResponse = Schema.Struct({
     T.JsonName("alert_interval"),
   ),
   alertType: Schema.optional(
-    Schema.Literal(
+    Schema.Literals([
       "abuse_report_alert",
       "access_custom_certificate_expiration_type",
       "advanced_ddos_attack_l4_alert",
@@ -734,7 +735,7 @@ export const GetPolicyResponse = Schema.Struct({
       "universal_ssl_event_type",
       "web_analytics_metrics_update",
       "zone_aop_custom_certificate_expiration_type",
-    ),
+    ]),
   ).pipe(T.JsonName("alert_type")),
   created: Schema.optional(Schema.String),
   description: Schema.optional(Schema.String),
@@ -777,12 +778,12 @@ export const GetPolicyResponse = Schema.Struct({
       ),
       incidentImpact: Schema.optional(
         Schema.Array(
-          Schema.Literal(
+          Schema.Literals([
             "INCIDENT_IMPACT_NONE",
             "INCIDENT_IMPACT_MINOR",
             "INCIDENT_IMPACT_MAJOR",
             "INCIDENT_IMPACT_CRITICAL",
-          ),
+          ]),
         ),
       ).pipe(T.JsonName("incident_impact")),
       inputId: Schema.optional(Schema.Array(Schema.String)).pipe(
@@ -1034,7 +1035,7 @@ export interface CreatePolicyRequest {
 
 export const CreatePolicyRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  alertType: Schema.Literal(
+  alertType: Schema.Literals([
     "abuse_report_alert",
     "access_custom_certificate_expiration_type",
     "advanced_ddos_attack_l4_alert",
@@ -1103,7 +1104,7 @@ export const CreatePolicyRequest = Schema.Struct({
     "universal_ssl_event_type",
     "web_analytics_metrics_update",
     "zone_aop_custom_certificate_expiration_type",
-  ).pipe(T.JsonName("alert_type")),
+  ]).pipe(T.JsonName("alert_type")),
   enabled: Schema.Boolean,
   mechanisms: Schema.Struct({
     email: Schema.optional(
@@ -1171,12 +1172,12 @@ export const CreatePolicyRequest = Schema.Struct({
       ),
       incidentImpact: Schema.optional(
         Schema.Array(
-          Schema.Literal(
+          Schema.Literals([
             "INCIDENT_IMPACT_NONE",
             "INCIDENT_IMPACT_MINOR",
             "INCIDENT_IMPACT_MAJOR",
             "INCIDENT_IMPACT_CRITICAL",
-          ),
+          ]),
         ),
       ).pipe(T.JsonName("incident_impact")),
       inputId: Schema.optional(Schema.Array(Schema.String)).pipe(
@@ -1421,7 +1422,7 @@ export const UpdatePolicyRequest = Schema.Struct({
     T.JsonName("alert_interval"),
   ),
   alertType: Schema.optional(
-    Schema.Literal(
+    Schema.Literals([
       "abuse_report_alert",
       "access_custom_certificate_expiration_type",
       "advanced_ddos_attack_l4_alert",
@@ -1490,7 +1491,7 @@ export const UpdatePolicyRequest = Schema.Struct({
       "universal_ssl_event_type",
       "web_analytics_metrics_update",
       "zone_aop_custom_certificate_expiration_type",
-    ),
+    ]),
   ).pipe(T.JsonName("alert_type")),
   description: Schema.optional(Schema.String),
   enabled: Schema.optional(Schema.Boolean),
@@ -1532,12 +1533,12 @@ export const UpdatePolicyRequest = Schema.Struct({
       ),
       incidentImpact: Schema.optional(
         Schema.Array(
-          Schema.Literal(
+          Schema.Literals([
             "INCIDENT_IMPACT_NONE",
             "INCIDENT_IMPACT_MINOR",
             "INCIDENT_IMPACT_MAJOR",
             "INCIDENT_IMPACT_CRITICAL",
-          ),
+          ]),
         ),
       ).pipe(T.JsonName("incident_impact")),
       inputId: Schema.optional(Schema.Array(Schema.String)).pipe(

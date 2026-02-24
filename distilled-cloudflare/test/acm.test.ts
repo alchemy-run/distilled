@@ -92,7 +92,7 @@ describe("ACM", () => {
           yield* ACM.createTotalTl({
             zoneId: acmZoneId(),
             enabled: false,
-          }).pipe(Effect.catchAll(() => Effect.void));
+          }).pipe(Effect.catch(() => Effect.void));
 
           const result = yield* ACM.createTotalTl({
             zoneId: acmZoneId(),
@@ -116,7 +116,7 @@ describe("ACM", () => {
             ACM.createTotalTl({
               zoneId: acmZoneId(),
               enabled: false,
-            }).pipe(Effect.catchAll(() => Effect.void)),
+            }).pipe(Effect.catch(() => Effect.void)),
           ),
         ));
 
@@ -127,7 +127,7 @@ describe("ACM", () => {
           yield* ACM.createTotalTl({
             zoneId: acmZoneId(),
             enabled: true,
-          }).pipe(Effect.catchAll(() => Effect.void));
+          }).pipe(Effect.catch(() => Effect.void));
 
           const result = yield* ACM.createTotalTl({
             zoneId: acmZoneId(),
@@ -141,7 +141,7 @@ describe("ACM", () => {
         }).pipe(
           // If the entire flow gets NoStateChange, TLS is already disabled
           // which satisfies the test goal
-          Effect.catchAll((e) =>
+          Effect.catch((e) =>
             "_tag" in e && e._tag === "NoStateChange"
               ? Effect.void
               : Effect.fail(e),
@@ -154,7 +154,7 @@ describe("ACM", () => {
           yield* ACM.createTotalTl({
             zoneId: acmZoneId(),
             enabled: false,
-          }).pipe(Effect.catchAll(() => Effect.void));
+          }).pipe(Effect.catch(() => Effect.void));
 
           const result = yield* ACM.createTotalTl({
             zoneId: acmZoneId(),
@@ -176,7 +176,7 @@ describe("ACM", () => {
             ACM.createTotalTl({
               zoneId: acmZoneId(),
               enabled: false,
-            }).pipe(Effect.catchAll(() => Effect.void)),
+            }).pipe(Effect.catch(() => Effect.void)),
           ),
         ));
     } else {

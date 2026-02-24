@@ -22,7 +22,7 @@ bun add distilled-planetscale effect @effect/platform
 
 ```typescript
 import { Effect, Layer } from "effect";
-import { FetchHttpClient } from "@effect/platform";
+import * as FetchHttpClient from "effect/unstable/http/FetchHttpClient";
 import * as ps from "distilled-planetscale";
 
 const program = Effect.gen(function* () {
@@ -90,7 +90,7 @@ PLANETSCALE_ORGANIZATION=my-org-name
 Requires an HTTP client from `@effect/platform`:
 
 ```typescript
-import { FetchHttpClient } from "@effect/platform";
+import * as FetchHttpClient from "effect/unstable/http/FetchHttpClient";
 // or for Node.js
 import { NodeHttpClient } from "@effect/platform-node";
 
@@ -105,7 +105,7 @@ Effect.provide(NodeHttpClient.layer);
 
 ```typescript
 import { Console, Effect, Layer } from "effect";
-import { FetchHttpClient } from "@effect/platform";
+import * as FetchHttpClient from "effect/unstable/http/FetchHttpClient";
 import * as ps from "distilled-planetscale";
 
 const program = Effect.gen(function* () {
@@ -153,7 +153,7 @@ program.pipe(Effect.provide(PlanetScaleLive), Effect.runPromise);
 
 ```typescript
 import { Console, Effect, Layer } from "effect";
-import { FetchHttpClient } from "@effect/platform";
+import * as FetchHttpClient from "effect/unstable/http/FetchHttpClient";
 import * as ps from "distilled-planetscale";
 
 const program = Effect.gen(function* () {
@@ -210,7 +210,7 @@ program.pipe(Effect.provide(PlanetScaleLive), Effect.runPromise);
 
 ```typescript
 import { Console, Effect, Layer } from "effect";
-import { FetchHttpClient } from "@effect/platform";
+import * as FetchHttpClient from "effect/unstable/http/FetchHttpClient";
 import * as ps from "distilled-planetscale";
 
 const program = Effect.gen(function* () {
@@ -263,7 +263,7 @@ program.pipe(Effect.provide(PlanetScaleLive), Effect.runPromise);
 
 ```typescript
 import { Console, Effect, Layer } from "effect";
-import { FetchHttpClient } from "@effect/platform";
+import * as FetchHttpClient from "effect/unstable/http/FetchHttpClient";
 import * as ps from "distilled-planetscale";
 
 const program = Effect.gen(function* () {
@@ -496,7 +496,7 @@ export const ListDatabasesInput = Schema.Struct({
   q: Schema.optional(Schema.String),
   page: Schema.optional(Schema.Number),
   per_page: Schema.optional(Schema.Number),
-}).annotations({
+}).annotate({
   [ApiMethod]: "GET",
   [ApiPath]: (input) => `/organizations/${input.organization}/databases`,
   [ApiPathParams]: ["organization"] as const,
@@ -506,7 +506,7 @@ export const ListDatabasesInput = Schema.Struct({
 Error schemas use the `ApiErrorCode` annotation:
 
 ```typescript
-export class ListDatabasesNotfound extends Schema.TaggedError<ListDatabasesNotfound>()(
+export class ListDatabasesNotfound extends Schema.TaggedErrorClass<ListDatabasesNotfound>()(
   "ListDatabasesNotfound",
   {
     organization: Schema.String,

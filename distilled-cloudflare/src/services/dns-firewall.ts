@@ -7,7 +7,7 @@
 
 import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
-import type { HttpClient } from "@effect/platform";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
@@ -122,7 +122,7 @@ export const GetAnalyticReportBytimeRequest = Schema.Struct({
   since: Schema.optional(Schema.String).pipe(T.HttpQuery("since")),
   sort: Schema.optional(Schema.String).pipe(T.HttpQuery("sort")),
   timeDelta: Schema.optional(
-    Schema.Literal(
+    Schema.Literals([
       "all",
       "auto",
       "year",
@@ -133,7 +133,7 @@ export const GetAnalyticReportBytimeRequest = Schema.Struct({
       "hour",
       "dekaminute",
       "minute",
-    ),
+    ]),
   ).pipe(T.HttpQuery("time_delta")),
   until: Schema.optional(Schema.String).pipe(T.HttpQuery("until")),
 }).pipe(
@@ -223,14 +223,14 @@ export const GetDnsFirewallResponse = Schema.Struct({
   minimumCacheTtl: Schema.Number.pipe(T.JsonName("minimum_cache_ttl")),
   modifiedOn: Schema.String.pipe(T.JsonName("modified_on")),
   name: Schema.String,
-  negativeCacheTtl: Schema.Union(Schema.Number, Schema.Null).pipe(
+  negativeCacheTtl: Schema.Union([Schema.Number, Schema.Null]).pipe(
     T.JsonName("negative_cache_ttl"),
   ),
-  ratelimit: Schema.Union(Schema.Number, Schema.Null),
+  ratelimit: Schema.Union([Schema.Number, Schema.Null]),
   retries: Schema.Number,
   upstreamIps: Schema.Array(Schema.String).pipe(T.JsonName("upstream_ips")),
   attackMitigation: Schema.optional(
-    Schema.Union(
+    Schema.Union([
       Schema.Struct({
         enabled: Schema.optional(Schema.Boolean),
         onlyWhenUpstreamUnhealthy: Schema.optional(Schema.Boolean).pipe(
@@ -238,7 +238,7 @@ export const GetDnsFirewallResponse = Schema.Struct({
         ),
       }),
       Schema.Null,
-    ),
+    ]),
   ).pipe(T.JsonName("attack_mitigation")),
 }) as unknown as Schema.Schema<GetDnsFirewallResponse>;
 
@@ -287,7 +287,7 @@ export const CreateDnsFirewallRequest = Schema.Struct({
   name: Schema.String,
   upstreamIps: Schema.Array(Schema.String).pipe(T.JsonName("upstream_ips")),
   attackMitigation: Schema.optional(
-    Schema.Union(
+    Schema.Union([
       Schema.Struct({
         enabled: Schema.optional(Schema.Boolean),
         onlyWhenUpstreamUnhealthy: Schema.optional(Schema.Boolean).pipe(
@@ -295,7 +295,7 @@ export const CreateDnsFirewallRequest = Schema.Struct({
         ),
       }),
       Schema.Null,
-    ),
+    ]),
   ).pipe(T.JsonName("attack_mitigation")),
   deprecateAnyRequests: Schema.optional(Schema.Boolean).pipe(
     T.JsonName("deprecate_any_requests"),
@@ -308,9 +308,9 @@ export const CreateDnsFirewallRequest = Schema.Struct({
     T.JsonName("minimum_cache_ttl"),
   ),
   negativeCacheTtl: Schema.optional(
-    Schema.Union(Schema.Number, Schema.Null),
+    Schema.Union([Schema.Number, Schema.Null]),
   ).pipe(T.JsonName("negative_cache_ttl")),
-  ratelimit: Schema.optional(Schema.Union(Schema.Number, Schema.Null)),
+  ratelimit: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
   retries: Schema.optional(Schema.Number),
 }).pipe(
   T.Http({ method: "POST", path: "/accounts/{account_id}/dns_firewall" }),
@@ -359,14 +359,14 @@ export const CreateDnsFirewallResponse = Schema.Struct({
   minimumCacheTtl: Schema.Number.pipe(T.JsonName("minimum_cache_ttl")),
   modifiedOn: Schema.String.pipe(T.JsonName("modified_on")),
   name: Schema.String,
-  negativeCacheTtl: Schema.Union(Schema.Number, Schema.Null).pipe(
+  negativeCacheTtl: Schema.Union([Schema.Number, Schema.Null]).pipe(
     T.JsonName("negative_cache_ttl"),
   ),
-  ratelimit: Schema.Union(Schema.Number, Schema.Null),
+  ratelimit: Schema.Union([Schema.Number, Schema.Null]),
   retries: Schema.Number,
   upstreamIps: Schema.Array(Schema.String).pipe(T.JsonName("upstream_ips")),
   attackMitigation: Schema.optional(
-    Schema.Union(
+    Schema.Union([
       Schema.Struct({
         enabled: Schema.optional(Schema.Boolean),
         onlyWhenUpstreamUnhealthy: Schema.optional(Schema.Boolean).pipe(
@@ -374,7 +374,7 @@ export const CreateDnsFirewallResponse = Schema.Struct({
         ),
       }),
       Schema.Null,
-    ),
+    ]),
   ).pipe(T.JsonName("attack_mitigation")),
 }) as unknown as Schema.Schema<CreateDnsFirewallResponse>;
 
@@ -423,7 +423,7 @@ export const PatchDnsFirewallRequest = Schema.Struct({
   dnsFirewallId: Schema.String.pipe(T.HttpPath("dnsFirewallId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   attackMitigation: Schema.optional(
-    Schema.Union(
+    Schema.Union([
       Schema.Struct({
         enabled: Schema.optional(Schema.Boolean),
         onlyWhenUpstreamUnhealthy: Schema.optional(Schema.Boolean).pipe(
@@ -431,7 +431,7 @@ export const PatchDnsFirewallRequest = Schema.Struct({
         ),
       }),
       Schema.Null,
-    ),
+    ]),
   ).pipe(T.JsonName("attack_mitigation")),
   deprecateAnyRequests: Schema.optional(Schema.Boolean).pipe(
     T.JsonName("deprecate_any_requests"),
@@ -445,9 +445,9 @@ export const PatchDnsFirewallRequest = Schema.Struct({
   ),
   name: Schema.optional(Schema.String),
   negativeCacheTtl: Schema.optional(
-    Schema.Union(Schema.Number, Schema.Null),
+    Schema.Union([Schema.Number, Schema.Null]),
   ).pipe(T.JsonName("negative_cache_ttl")),
-  ratelimit: Schema.optional(Schema.Union(Schema.Number, Schema.Null)),
+  ratelimit: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
   retries: Schema.optional(Schema.Number),
   upstreamIps: Schema.optional(Schema.Array(Schema.String)).pipe(
     T.JsonName("upstream_ips"),
@@ -502,14 +502,14 @@ export const PatchDnsFirewallResponse = Schema.Struct({
   minimumCacheTtl: Schema.Number.pipe(T.JsonName("minimum_cache_ttl")),
   modifiedOn: Schema.String.pipe(T.JsonName("modified_on")),
   name: Schema.String,
-  negativeCacheTtl: Schema.Union(Schema.Number, Schema.Null).pipe(
+  negativeCacheTtl: Schema.Union([Schema.Number, Schema.Null]).pipe(
     T.JsonName("negative_cache_ttl"),
   ),
-  ratelimit: Schema.Union(Schema.Number, Schema.Null),
+  ratelimit: Schema.Union([Schema.Number, Schema.Null]),
   retries: Schema.Number,
   upstreamIps: Schema.Array(Schema.String).pipe(T.JsonName("upstream_ips")),
   attackMitigation: Schema.optional(
-    Schema.Union(
+    Schema.Union([
       Schema.Struct({
         enabled: Schema.optional(Schema.Boolean),
         onlyWhenUpstreamUnhealthy: Schema.optional(Schema.Boolean).pipe(
@@ -517,7 +517,7 @@ export const PatchDnsFirewallResponse = Schema.Struct({
         ),
       }),
       Schema.Null,
-    ),
+    ]),
   ).pipe(T.JsonName("attack_mitigation")),
 }) as unknown as Schema.Schema<PatchDnsFirewallResponse>;
 

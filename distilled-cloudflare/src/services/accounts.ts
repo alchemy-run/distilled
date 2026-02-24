@@ -7,7 +7,7 @@
 
 import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
-import type { HttpClient } from "@effect/platform";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
@@ -22,79 +22,83 @@ import {
 // Errors
 // =============================================================================
 
-export class AccountCreationForbidden extends Schema.TaggedError<AccountCreationForbidden>()(
+export class AccountCreationForbidden extends Schema.TaggedErrorClass<AccountCreationForbidden>()(
   "AccountCreationForbidden",
   { code: Schema.Number, message: Schema.String },
-).pipe(T.HttpErrorMatchers([{ code: 1002 }])) {}
+) {}
+T.applyErrorMatchers(AccountCreationForbidden, [{ code: 1002 }]);
 
-export class AccountNameTooLong extends Schema.TaggedError<AccountNameTooLong>()(
+export class AccountNameTooLong extends Schema.TaggedErrorClass<AccountNameTooLong>()(
   "AccountNameTooLong",
   { code: Schema.Number, message: Schema.String },
-).pipe(
-  T.HttpErrorMatchers([{ code: 1001, message: { includes: "too long" } }]),
 ) {}
+T.applyErrorMatchers(AccountNameTooLong, [{ code: 1001, message: { includes: "too long" } }]);
 
-export class EndpointNotFound extends Schema.TaggedError<EndpointNotFound>()(
+export class EndpointNotFound extends Schema.TaggedErrorClass<EndpointNotFound>()(
   "EndpointNotFound",
   { code: Schema.Number, message: Schema.String },
-).pipe(T.HttpErrorMatchers([{ code: 1199 }])) {}
+) {}
+T.applyErrorMatchers(EndpointNotFound, [{ code: 1199 }]);
 
-export class InvalidAccountName extends Schema.TaggedError<InvalidAccountName>()(
+export class InvalidAccountName extends Schema.TaggedErrorClass<InvalidAccountName>()(
   "InvalidAccountName",
   { code: Schema.Number, message: Schema.String },
-).pipe(
-  T.HttpErrorMatchers([
-    { code: 1001, message: { includes: "invalid character" } },
-  ]),
 ) {}
+T.applyErrorMatchers(InvalidAccountName, [
+    { code: 1001, message: { includes: "invalid character" } },
+  ]);
 
-export class InvalidRoute extends Schema.TaggedError<InvalidRoute>()(
+export class InvalidRoute extends Schema.TaggedErrorClass<InvalidRoute>()(
   "InvalidRoute",
   { code: Schema.Number, message: Schema.String },
-).pipe(T.HttpErrorMatchers([{ code: 7003 }])) {}
+) {}
+T.applyErrorMatchers(InvalidRoute, [{ code: 7003 }]);
 
-export class InvalidTokenName extends Schema.TaggedError<InvalidTokenName>()(
+export class InvalidTokenName extends Schema.TaggedErrorClass<InvalidTokenName>()(
   "InvalidTokenName",
   { code: Schema.Number, message: Schema.String },
-).pipe(
-  T.HttpErrorMatchers([
-    { code: 400, message: { includes: "name must have a length" } },
-  ]),
 ) {}
+T.applyErrorMatchers(InvalidTokenName, [
+    { code: 400, message: { includes: "name must have a length" } },
+  ]);
 
-export class JsonDecodeFailure extends Schema.TaggedError<JsonDecodeFailure>()(
+export class JsonDecodeFailure extends Schema.TaggedErrorClass<JsonDecodeFailure>()(
   "JsonDecodeFailure",
   { code: Schema.Number, message: Schema.String },
-).pipe(T.HttpErrorMatchers([{ code: 1198 }])) {}
+) {}
+T.applyErrorMatchers(JsonDecodeFailure, [{ code: 1198 }]);
 
-export class MemberNotFound extends Schema.TaggedError<MemberNotFound>()(
+export class MemberNotFound extends Schema.TaggedErrorClass<MemberNotFound>()(
   "MemberNotFound",
   { code: Schema.Number, message: Schema.String },
-).pipe(T.HttpErrorMatchers([{ code: 1003 }])) {}
+) {}
+T.applyErrorMatchers(MemberNotFound, [{ code: 1003 }]);
 
-export class MethodNotAllowed extends Schema.TaggedError<MethodNotAllowed>()(
+export class MethodNotAllowed extends Schema.TaggedErrorClass<MethodNotAllowed>()(
   "MethodNotAllowed",
   { code: Schema.Number, message: Schema.String },
-).pipe(T.HttpErrorMatchers([{ code: 7001 }])) {}
+) {}
+T.applyErrorMatchers(MethodNotAllowed, [{ code: 7001 }]);
 
-export class MissingAuthenticationToken extends Schema.TaggedError<MissingAuthenticationToken>()(
+export class MissingAuthenticationToken extends Schema.TaggedErrorClass<MissingAuthenticationToken>()(
   "MissingAuthenticationToken",
   { code: Schema.Number, message: Schema.String },
-).pipe(T.HttpErrorMatchers([{ code: 1001 }])) {}
+) {}
+T.applyErrorMatchers(MissingAuthenticationToken, [{ code: 1001 }]);
 
-export class MissingName extends Schema.TaggedError<MissingName>()(
+export class MissingName extends Schema.TaggedErrorClass<MissingName>()(
   "MissingName",
   { code: Schema.Number, message: Schema.String },
-).pipe(T.HttpErrorMatchers([{ code: 1001 }])) {}
+) {}
+T.applyErrorMatchers(MissingName, [{ code: 1001 }]);
 
-export class UpdateAccountTypeNotSupported extends Schema.TaggedError<UpdateAccountTypeNotSupported>()(
+export class UpdateAccountTypeNotSupported extends Schema.TaggedErrorClass<UpdateAccountTypeNotSupported>()(
   "UpdateAccountTypeNotSupported",
   { code: Schema.Number, message: Schema.String },
-).pipe(
-  T.HttpErrorMatchers([
-    { code: 1001, message: { includes: "account type is not supported" } },
-  ]),
 ) {}
+T.applyErrorMatchers(UpdateAccountTypeNotSupported, [
+    { code: 1001, message: { includes: "account type is not supported" } },
+  ]);
 
 // =============================================================================
 // Account
@@ -131,7 +135,7 @@ export interface GetAccountResponse {
 export const GetAccountResponse = Schema.Struct({
   id: Schema.String,
   name: Schema.String,
-  type: Schema.Literal("standard", "enterprise"),
+  type: Schema.Literals(["standard", "enterprise"]),
   createdOn: Schema.optional(Schema.String).pipe(T.JsonName("created_on")),
   managedBy: Schema.optional(
     Schema.Struct({
@@ -146,10 +150,10 @@ export const GetAccountResponse = Schema.Struct({
   settings: Schema.optional(
     Schema.Struct({
       abuseContactEmail: Schema.optional(
-        Schema.Union(Schema.String, Schema.Null),
+        Schema.Union([Schema.String, Schema.Null]),
       ).pipe(T.JsonName("abuse_contact_email")),
       enforceTwofactor: Schema.optional(
-        Schema.Union(Schema.Boolean, Schema.Null),
+        Schema.Union([Schema.Boolean, Schema.Null]),
       ).pipe(T.JsonName("enforce_twofactor")),
     }),
   ),
@@ -177,7 +181,7 @@ export interface CreateAccountRequest {
 
 export const CreateAccountRequest = Schema.Struct({
   name: Schema.String,
-  type: Schema.optional(Schema.Literal("standard", "enterprise")),
+  type: Schema.optional(Schema.Literals(["standard", "enterprise"])),
   unit: Schema.optional(
     Schema.Struct({
       id: Schema.optional(Schema.String),
@@ -204,7 +208,7 @@ export interface CreateAccountResponse {
 export const CreateAccountResponse = Schema.Struct({
   id: Schema.String,
   name: Schema.String,
-  type: Schema.Literal("standard", "enterprise"),
+  type: Schema.Literals(["standard", "enterprise"]),
   createdOn: Schema.optional(Schema.String).pipe(T.JsonName("created_on")),
   managedBy: Schema.optional(
     Schema.Struct({
@@ -259,7 +263,7 @@ export const UpdateAccountRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   id: Schema.String,
   name: Schema.String,
-  type: Schema.optional(Schema.Literal("standard", "enterprise")),
+  type: Schema.optional(Schema.Literals(["standard", "enterprise"])),
   managedBy: Schema.optional(Schema.Unknown).pipe(T.JsonName("managed_by")),
   settings: Schema.optional(
     Schema.Struct({
@@ -295,7 +299,7 @@ export interface UpdateAccountResponse {
 export const UpdateAccountResponse = Schema.Struct({
   id: Schema.String,
   name: Schema.String,
-  type: Schema.Literal("standard", "enterprise"),
+  type: Schema.Literals(["standard", "enterprise"]),
   createdOn: Schema.optional(Schema.String).pipe(T.JsonName("created_on")),
   managedBy: Schema.optional(
     Schema.Struct({
@@ -310,10 +314,10 @@ export const UpdateAccountResponse = Schema.Struct({
   settings: Schema.optional(
     Schema.Struct({
       abuseContactEmail: Schema.optional(
-        Schema.Union(Schema.String, Schema.Null),
+        Schema.Union([Schema.String, Schema.Null]),
       ).pipe(T.JsonName("abuse_contact_email")),
       enforceTwofactor: Schema.optional(
-        Schema.Union(Schema.Boolean, Schema.Null),
+        Schema.Union([Schema.Boolean, Schema.Null]),
       ).pipe(T.JsonName("enforce_twofactor")),
     }),
   ),
@@ -545,7 +549,7 @@ export interface CreateSubscriptionRequest {
 export const CreateSubscriptionRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   frequency: Schema.optional(
-    Schema.Literal("weekly", "monthly", "quarterly", "yearly"),
+    Schema.Literals(["weekly", "monthly", "quarterly", "yearly"]),
   ),
   ratePlan: Schema.optional(Schema.Unknown).pipe(T.JsonName("rate_plan")),
 }).pipe(
@@ -585,7 +589,7 @@ export const UpdateSubscriptionRequest = Schema.Struct({
   ),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   frequency: Schema.optional(
-    Schema.Literal("weekly", "monthly", "quarterly", "yearly"),
+    Schema.Literals(["weekly", "monthly", "quarterly", "yearly"]),
   ),
   ratePlan: Schema.optional(Schema.Unknown).pipe(T.JsonName("rate_plan")),
 }).pipe(
@@ -762,20 +766,20 @@ export const CreateTokenResponse = Schema.Struct({
       ).pipe(T.JsonName("request_ip")),
     }),
   ),
-  expiresOn: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
+  expiresOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
     T.JsonName("expires_on"),
   ),
   issuedOn: Schema.optional(Schema.String).pipe(T.JsonName("issued_on")),
-  lastUsedOn: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
+  lastUsedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
     T.JsonName("last_used_on"),
   ),
   modifiedOn: Schema.optional(Schema.String).pipe(T.JsonName("modified_on")),
   name: Schema.optional(Schema.String),
-  notBefore: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
+  notBefore: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
     T.JsonName("not_before"),
   ),
   policies: Schema.optional(Schema.Array(Schema.Unknown)),
-  status: Schema.optional(Schema.Literal("active", "disabled", "expired")),
+  status: Schema.optional(Schema.Literals(["active", "disabled", "expired"])),
   value: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<CreateTokenResponse>;
 
@@ -828,7 +832,7 @@ export const UpdateTokenRequest = Schema.Struct({
   ),
   expiresOn: Schema.optional(Schema.String).pipe(T.JsonName("expires_on")),
   notBefore: Schema.optional(Schema.String).pipe(T.JsonName("not_before")),
-  status: Schema.optional(Schema.Literal("active", "disabled", "expired")),
+  status: Schema.optional(Schema.Literals(["active", "disabled", "expired"])),
 }).pipe(
   T.Http({ method: "PUT", path: "/accounts/{account_id}/tokens/{tokenId}" }),
 ) as unknown as Schema.Schema<UpdateTokenRequest>;
@@ -908,7 +912,7 @@ export interface VerifyTokenResponse {
 
 export const VerifyTokenResponse = Schema.Struct({
   id: Schema.String,
-  status: Schema.Literal("active", "disabled", "expired"),
+  status: Schema.Literals(["active", "disabled", "expired"]),
   expiresOn: Schema.optional(Schema.String).pipe(T.JsonName("expires_on")),
   notBefore: Schema.optional(Schema.String).pipe(T.JsonName("not_before")),
 }) as unknown as Schema.Schema<VerifyTokenResponse>;
@@ -966,12 +970,12 @@ export const GetTokenPermissionGroupResponse = Schema.Array(
     name: Schema.optional(Schema.String),
     scopes: Schema.optional(
       Schema.Array(
-        Schema.Literal(
+        Schema.Literals([
           "com.cloudflare.api.account",
           "com.cloudflare.api.account.zone",
           "com.cloudflare.api.user",
           "com.cloudflare.edge.r2.bucket",
-        ),
+        ]),
       ),
     ),
   }),

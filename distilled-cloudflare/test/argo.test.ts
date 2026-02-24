@@ -38,7 +38,7 @@ describe("Argo", () => {
           }
         }).pipe(
           // Smart Routing requires Argo subscription; token may not have access
-          Effect.catchAll((e) =>
+          Effect.catch((e) =>
             "_tag" in e && e._tag === "NotAuthorized"
               ? Effect.void
               : Effect.fail(e),
@@ -55,7 +55,7 @@ describe("Argo", () => {
             expect(["NotAuthorized"]).toContain(e._tag),
           ),
           // If the operation succeeds (no error), that's fine too
-          Effect.catchAll(() => Effect.void),
+          Effect.catch(() => Effect.void),
         ));
     }
 
@@ -107,7 +107,7 @@ describe("Argo", () => {
           });
         }).pipe(
           // Smart Routing requires Argo subscription; token may not have access
-          Effect.catchAll((e) =>
+          Effect.catch((e) =>
             "_tag" in e && e._tag === "NotAuthorized"
               ? Effect.void
               : Effect.fail(e),

@@ -7,7 +7,7 @@
 
 import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
-import type { HttpClient } from "@effect/platform";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
@@ -384,7 +384,7 @@ export interface DiscoverAllCloudIntegrationResponse {
 export const DiscoverAllCloudIntegrationResponse = Schema.Struct({
   errors: Schema.Array(
     Schema.Struct({
-      code: Schema.Literal(
+      code: Schema.Literals([
         "1001",
         "1002",
         "1003",
@@ -540,7 +540,7 @@ export const DiscoverAllCloudIntegrationResponse = Schema.Struct({
         "103006",
         "103007",
         "103008",
-      ),
+      ]),
       message: Schema.String,
       documentationUrl: Schema.optional(Schema.String).pipe(
         T.JsonName("documentation_url"),
@@ -570,7 +570,7 @@ export const DiscoverAllCloudIntegrationResponse = Schema.Struct({
   ),
   messages: Schema.Array(
     Schema.Struct({
-      code: Schema.Literal(
+      code: Schema.Literals([
         "1001",
         "1002",
         "1003",
@@ -726,7 +726,7 @@ export const DiscoverAllCloudIntegrationResponse = Schema.Struct({
         "103006",
         "103007",
         "103008",
-      ),
+      ]),
       message: Schema.String,
       documentationUrl: Schema.optional(Schema.String).pipe(
         T.JsonName("documentation_url"),
@@ -807,13 +807,13 @@ export const GetCatalogSyncResponse = Schema.Struct({
   id: Schema.String,
   description: Schema.String,
   destinationId: Schema.String.pipe(T.JsonName("destination_id")),
-  destinationType: Schema.Literal("NONE", "ZERO_TRUST_LIST").pipe(
+  destinationType: Schema.Literals(["NONE", "ZERO_TRUST_LIST"]).pipe(
     T.JsonName("destination_type"),
   ),
   lastUserUpdateAt: Schema.String.pipe(T.JsonName("last_user_update_at")),
   name: Schema.String,
   policy: Schema.String,
-  updateMode: Schema.Literal("AUTO", "MANUAL").pipe(T.JsonName("update_mode")),
+  updateMode: Schema.Literals(["AUTO", "MANUAL"]).pipe(T.JsonName("update_mode")),
   errors: Schema.optional(Schema.Struct({})),
   includesDiscoveriesUntil: Schema.optional(Schema.String).pipe(
     T.JsonName("includes_discoveries_until"),
@@ -858,11 +858,11 @@ export interface CreateCatalogSyncRequest {
 export const CreateCatalogSyncRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   forwarded: Schema.optional(Schema.String).pipe(T.HttpHeader("forwarded")),
-  destinationType: Schema.Literal("NONE", "ZERO_TRUST_LIST").pipe(
+  destinationType: Schema.Literals(["NONE", "ZERO_TRUST_LIST"]).pipe(
     T.JsonName("destination_type"),
   ),
   name: Schema.String,
-  updateMode: Schema.Literal("AUTO", "MANUAL").pipe(T.JsonName("update_mode")),
+  updateMode: Schema.Literals(["AUTO", "MANUAL"]).pipe(T.JsonName("update_mode")),
   description: Schema.optional(Schema.String),
   policy: Schema.optional(Schema.String),
 }).pipe(
@@ -891,13 +891,13 @@ export const CreateCatalogSyncResponse = Schema.Struct({
   id: Schema.String,
   description: Schema.String,
   destinationId: Schema.String.pipe(T.JsonName("destination_id")),
-  destinationType: Schema.Literal("NONE", "ZERO_TRUST_LIST").pipe(
+  destinationType: Schema.Literals(["NONE", "ZERO_TRUST_LIST"]).pipe(
     T.JsonName("destination_type"),
   ),
   lastUserUpdateAt: Schema.String.pipe(T.JsonName("last_user_update_at")),
   name: Schema.String,
   policy: Schema.String,
-  updateMode: Schema.Literal("AUTO", "MANUAL").pipe(T.JsonName("update_mode")),
+  updateMode: Schema.Literals(["AUTO", "MANUAL"]).pipe(T.JsonName("update_mode")),
   errors: Schema.optional(Schema.Struct({})),
   includesDiscoveriesUntil: Schema.optional(Schema.String).pipe(
     T.JsonName("includes_discoveries_until"),
@@ -942,7 +942,7 @@ export const UpdateCatalogSyncRequest = Schema.Struct({
   description: Schema.optional(Schema.String),
   name: Schema.optional(Schema.String),
   policy: Schema.optional(Schema.String),
-  updateMode: Schema.optional(Schema.Literal("AUTO", "MANUAL")).pipe(
+  updateMode: Schema.optional(Schema.Literals(["AUTO", "MANUAL"])).pipe(
     T.JsonName("update_mode"),
   ),
 }).pipe(
@@ -971,13 +971,13 @@ export const UpdateCatalogSyncResponse = Schema.Struct({
   id: Schema.String,
   description: Schema.String,
   destinationId: Schema.String.pipe(T.JsonName("destination_id")),
-  destinationType: Schema.Literal("NONE", "ZERO_TRUST_LIST").pipe(
+  destinationType: Schema.Literals(["NONE", "ZERO_TRUST_LIST"]).pipe(
     T.JsonName("destination_type"),
   ),
   lastUserUpdateAt: Schema.String.pipe(T.JsonName("last_user_update_at")),
   name: Schema.String,
   policy: Schema.String,
-  updateMode: Schema.Literal("AUTO", "MANUAL").pipe(T.JsonName("update_mode")),
+  updateMode: Schema.Literals(["AUTO", "MANUAL"]).pipe(T.JsonName("update_mode")),
   errors: Schema.optional(Schema.Struct({})),
   includesDiscoveriesUntil: Schema.optional(Schema.String).pipe(
     T.JsonName("includes_discoveries_until"),
@@ -1022,7 +1022,7 @@ export const PatchCatalogSyncRequest = Schema.Struct({
   description: Schema.optional(Schema.String),
   name: Schema.optional(Schema.String),
   policy: Schema.optional(Schema.String),
-  updateMode: Schema.optional(Schema.Literal("AUTO", "MANUAL")).pipe(
+  updateMode: Schema.optional(Schema.Literals(["AUTO", "MANUAL"])).pipe(
     T.JsonName("update_mode"),
   ),
 }).pipe(
@@ -1051,13 +1051,13 @@ export const PatchCatalogSyncResponse = Schema.Struct({
   id: Schema.String,
   description: Schema.String,
   destinationId: Schema.String.pipe(T.JsonName("destination_id")),
-  destinationType: Schema.Literal("NONE", "ZERO_TRUST_LIST").pipe(
+  destinationType: Schema.Literals(["NONE", "ZERO_TRUST_LIST"]).pipe(
     T.JsonName("destination_type"),
   ),
   lastUserUpdateAt: Schema.String.pipe(T.JsonName("last_user_update_at")),
   name: Schema.String,
   policy: Schema.String,
-  updateMode: Schema.Literal("AUTO", "MANUAL").pipe(T.JsonName("update_mode")),
+  updateMode: Schema.Literals(["AUTO", "MANUAL"]).pipe(T.JsonName("update_mode")),
   errors: Schema.optional(Schema.Struct({})),
   includesDiscoveriesUntil: Schema.optional(Schema.String).pipe(
     T.JsonName("includes_discoveries_until"),
@@ -1228,28 +1228,28 @@ export interface GetCloudIntegrationResponse {
 
 export const GetCloudIntegrationResponse = Schema.Struct({
   id: Schema.String,
-  cloudType: Schema.Literal("AWS", "AZURE", "GOOGLE", "CLOUDFLARE").pipe(
+  cloudType: Schema.Literals(["AWS", "AZURE", "GOOGLE", "CLOUDFLARE"]).pipe(
     T.JsonName("cloud_type"),
   ),
   friendlyName: Schema.String.pipe(T.JsonName("friendly_name")),
   lastUpdated: Schema.String.pipe(T.JsonName("last_updated")),
-  lifecycleState: Schema.Literal("ACTIVE", "PENDING_SETUP", "RETIRED").pipe(
+  lifecycleState: Schema.Literals(["ACTIVE", "PENDING_SETUP", "RETIRED"]).pipe(
     T.JsonName("lifecycle_state"),
   ),
-  state: Schema.Literal(
+  state: Schema.Literals([
     "UNSPECIFIED",
     "PENDING",
     "DISCOVERING",
     "FAILED",
     "SUCCEEDED",
-  ),
-  stateV2: Schema.Literal(
+  ]),
+  stateV2: Schema.Literals([
     "UNSPECIFIED",
     "PENDING",
     "DISCOVERING",
     "FAILED",
     "SUCCEEDED",
-  ).pipe(T.JsonName("state_v2")),
+  ]).pipe(T.JsonName("state_v2")),
   awsArn: Schema.optional(Schema.String).pipe(T.JsonName("aws_arn")),
   azureSubscriptionId: Schema.optional(Schema.String).pipe(
     T.JsonName("azure_subscription_id"),
@@ -1276,20 +1276,20 @@ export const GetCloudIntegrationResponse = Schema.Struct({
         total: Schema.Number,
         unit: Schema.String,
       }).pipe(T.JsonName("discovery_progress_v2")),
-      lastDiscoveryStatus: Schema.Literal(
+      lastDiscoveryStatus: Schema.Literals([
         "UNSPECIFIED",
         "PENDING",
         "DISCOVERING",
         "FAILED",
         "SUCCEEDED",
-      ).pipe(T.JsonName("last_discovery_status")),
-      lastDiscoveryStatusV2: Schema.Literal(
+      ]).pipe(T.JsonName("last_discovery_status")),
+      lastDiscoveryStatusV2: Schema.Literals([
         "UNSPECIFIED",
         "PENDING",
         "DISCOVERING",
         "FAILED",
         "SUCCEEDED",
-      ).pipe(T.JsonName("last_discovery_status_v2")),
+      ]).pipe(T.JsonName("last_discovery_status_v2")),
       regions: Schema.Array(Schema.String),
       credentialsGoodSince: Schema.optional(Schema.String).pipe(
         T.JsonName("credentials_good_since"),
@@ -1364,7 +1364,7 @@ export interface CreateCloudIntegrationRequest {
 export const CreateCloudIntegrationRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   forwarded: Schema.optional(Schema.String).pipe(T.HttpHeader("forwarded")),
-  cloudType: Schema.Literal("AWS", "AZURE", "GOOGLE", "CLOUDFLARE").pipe(
+  cloudType: Schema.Literals(["AWS", "AZURE", "GOOGLE", "CLOUDFLARE"]).pipe(
     T.JsonName("cloud_type"),
   ),
   friendlyName: Schema.String.pipe(T.JsonName("friendly_name")),
@@ -1426,28 +1426,28 @@ export interface CreateCloudIntegrationResponse {
 
 export const CreateCloudIntegrationResponse = Schema.Struct({
   id: Schema.String,
-  cloudType: Schema.Literal("AWS", "AZURE", "GOOGLE", "CLOUDFLARE").pipe(
+  cloudType: Schema.Literals(["AWS", "AZURE", "GOOGLE", "CLOUDFLARE"]).pipe(
     T.JsonName("cloud_type"),
   ),
   friendlyName: Schema.String.pipe(T.JsonName("friendly_name")),
   lastUpdated: Schema.String.pipe(T.JsonName("last_updated")),
-  lifecycleState: Schema.Literal("ACTIVE", "PENDING_SETUP", "RETIRED").pipe(
+  lifecycleState: Schema.Literals(["ACTIVE", "PENDING_SETUP", "RETIRED"]).pipe(
     T.JsonName("lifecycle_state"),
   ),
-  state: Schema.Literal(
+  state: Schema.Literals([
     "UNSPECIFIED",
     "PENDING",
     "DISCOVERING",
     "FAILED",
     "SUCCEEDED",
-  ),
-  stateV2: Schema.Literal(
+  ]),
+  stateV2: Schema.Literals([
     "UNSPECIFIED",
     "PENDING",
     "DISCOVERING",
     "FAILED",
     "SUCCEEDED",
-  ).pipe(T.JsonName("state_v2")),
+  ]).pipe(T.JsonName("state_v2")),
   awsArn: Schema.optional(Schema.String).pipe(T.JsonName("aws_arn")),
   azureSubscriptionId: Schema.optional(Schema.String).pipe(
     T.JsonName("azure_subscription_id"),
@@ -1474,20 +1474,20 @@ export const CreateCloudIntegrationResponse = Schema.Struct({
         total: Schema.Number,
         unit: Schema.String,
       }).pipe(T.JsonName("discovery_progress_v2")),
-      lastDiscoveryStatus: Schema.Literal(
+      lastDiscoveryStatus: Schema.Literals([
         "UNSPECIFIED",
         "PENDING",
         "DISCOVERING",
         "FAILED",
         "SUCCEEDED",
-      ).pipe(T.JsonName("last_discovery_status")),
-      lastDiscoveryStatusV2: Schema.Literal(
+      ]).pipe(T.JsonName("last_discovery_status")),
+      lastDiscoveryStatusV2: Schema.Literals([
         "UNSPECIFIED",
         "PENDING",
         "DISCOVERING",
         "FAILED",
         "SUCCEEDED",
-      ).pipe(T.JsonName("last_discovery_status_v2")),
+      ]).pipe(T.JsonName("last_discovery_status_v2")),
       regions: Schema.Array(Schema.String),
       credentialsGoodSince: Schema.optional(Schema.String).pipe(
         T.JsonName("credentials_good_since"),
@@ -1643,28 +1643,28 @@ export interface UpdateCloudIntegrationResponse {
 
 export const UpdateCloudIntegrationResponse = Schema.Struct({
   id: Schema.String,
-  cloudType: Schema.Literal("AWS", "AZURE", "GOOGLE", "CLOUDFLARE").pipe(
+  cloudType: Schema.Literals(["AWS", "AZURE", "GOOGLE", "CLOUDFLARE"]).pipe(
     T.JsonName("cloud_type"),
   ),
   friendlyName: Schema.String.pipe(T.JsonName("friendly_name")),
   lastUpdated: Schema.String.pipe(T.JsonName("last_updated")),
-  lifecycleState: Schema.Literal("ACTIVE", "PENDING_SETUP", "RETIRED").pipe(
+  lifecycleState: Schema.Literals(["ACTIVE", "PENDING_SETUP", "RETIRED"]).pipe(
     T.JsonName("lifecycle_state"),
   ),
-  state: Schema.Literal(
+  state: Schema.Literals([
     "UNSPECIFIED",
     "PENDING",
     "DISCOVERING",
     "FAILED",
     "SUCCEEDED",
-  ),
-  stateV2: Schema.Literal(
+  ]),
+  stateV2: Schema.Literals([
     "UNSPECIFIED",
     "PENDING",
     "DISCOVERING",
     "FAILED",
     "SUCCEEDED",
-  ).pipe(T.JsonName("state_v2")),
+  ]).pipe(T.JsonName("state_v2")),
   awsArn: Schema.optional(Schema.String).pipe(T.JsonName("aws_arn")),
   azureSubscriptionId: Schema.optional(Schema.String).pipe(
     T.JsonName("azure_subscription_id"),
@@ -1691,20 +1691,20 @@ export const UpdateCloudIntegrationResponse = Schema.Struct({
         total: Schema.Number,
         unit: Schema.String,
       }).pipe(T.JsonName("discovery_progress_v2")),
-      lastDiscoveryStatus: Schema.Literal(
+      lastDiscoveryStatus: Schema.Literals([
         "UNSPECIFIED",
         "PENDING",
         "DISCOVERING",
         "FAILED",
         "SUCCEEDED",
-      ).pipe(T.JsonName("last_discovery_status")),
-      lastDiscoveryStatusV2: Schema.Literal(
+      ]).pipe(T.JsonName("last_discovery_status")),
+      lastDiscoveryStatusV2: Schema.Literals([
         "UNSPECIFIED",
         "PENDING",
         "DISCOVERING",
         "FAILED",
         "SUCCEEDED",
-      ).pipe(T.JsonName("last_discovery_status_v2")),
+      ]).pipe(T.JsonName("last_discovery_status_v2")),
       regions: Schema.Array(Schema.String),
       credentialsGoodSince: Schema.optional(Schema.String).pipe(
         T.JsonName("credentials_good_since"),
@@ -1860,28 +1860,28 @@ export interface PatchCloudIntegrationResponse {
 
 export const PatchCloudIntegrationResponse = Schema.Struct({
   id: Schema.String,
-  cloudType: Schema.Literal("AWS", "AZURE", "GOOGLE", "CLOUDFLARE").pipe(
+  cloudType: Schema.Literals(["AWS", "AZURE", "GOOGLE", "CLOUDFLARE"]).pipe(
     T.JsonName("cloud_type"),
   ),
   friendlyName: Schema.String.pipe(T.JsonName("friendly_name")),
   lastUpdated: Schema.String.pipe(T.JsonName("last_updated")),
-  lifecycleState: Schema.Literal("ACTIVE", "PENDING_SETUP", "RETIRED").pipe(
+  lifecycleState: Schema.Literals(["ACTIVE", "PENDING_SETUP", "RETIRED"]).pipe(
     T.JsonName("lifecycle_state"),
   ),
-  state: Schema.Literal(
+  state: Schema.Literals([
     "UNSPECIFIED",
     "PENDING",
     "DISCOVERING",
     "FAILED",
     "SUCCEEDED",
-  ),
-  stateV2: Schema.Literal(
+  ]),
+  stateV2: Schema.Literals([
     "UNSPECIFIED",
     "PENDING",
     "DISCOVERING",
     "FAILED",
     "SUCCEEDED",
-  ).pipe(T.JsonName("state_v2")),
+  ]).pipe(T.JsonName("state_v2")),
   awsArn: Schema.optional(Schema.String).pipe(T.JsonName("aws_arn")),
   azureSubscriptionId: Schema.optional(Schema.String).pipe(
     T.JsonName("azure_subscription_id"),
@@ -1908,20 +1908,20 @@ export const PatchCloudIntegrationResponse = Schema.Struct({
         total: Schema.Number,
         unit: Schema.String,
       }).pipe(T.JsonName("discovery_progress_v2")),
-      lastDiscoveryStatus: Schema.Literal(
+      lastDiscoveryStatus: Schema.Literals([
         "UNSPECIFIED",
         "PENDING",
         "DISCOVERING",
         "FAILED",
         "SUCCEEDED",
-      ).pipe(T.JsonName("last_discovery_status")),
-      lastDiscoveryStatusV2: Schema.Literal(
+      ]).pipe(T.JsonName("last_discovery_status")),
+      lastDiscoveryStatusV2: Schema.Literals([
         "UNSPECIFIED",
         "PENDING",
         "DISCOVERING",
         "FAILED",
         "SUCCEEDED",
-      ).pipe(T.JsonName("last_discovery_status_v2")),
+      ]).pipe(T.JsonName("last_discovery_status_v2")),
       regions: Schema.Array(Schema.String),
       credentialsGoodSince: Schema.optional(Schema.String).pipe(
         T.JsonName("credentials_good_since"),
@@ -2383,7 +2383,7 @@ export interface DiscoverCloudIntegrationResponse {
 export const DiscoverCloudIntegrationResponse = Schema.Struct({
   errors: Schema.Array(
     Schema.Struct({
-      code: Schema.Literal(
+      code: Schema.Literals([
         "1001",
         "1002",
         "1003",
@@ -2539,7 +2539,7 @@ export const DiscoverCloudIntegrationResponse = Schema.Struct({
         "103006",
         "103007",
         "103008",
-      ),
+      ]),
       message: Schema.String,
       documentationUrl: Schema.optional(Schema.String).pipe(
         T.JsonName("documentation_url"),
@@ -2569,7 +2569,7 @@ export const DiscoverCloudIntegrationResponse = Schema.Struct({
   ),
   messages: Schema.Array(
     Schema.Struct({
-      code: Schema.Literal(
+      code: Schema.Literals([
         "1001",
         "1002",
         "1003",
@@ -2725,7 +2725,7 @@ export const DiscoverCloudIntegrationResponse = Schema.Struct({
         "103006",
         "103007",
         "103008",
-      ),
+      ]),
       message: Schema.String,
       documentationUrl: Schema.optional(Schema.String).pipe(
         T.JsonName("documentation_url"),
@@ -2944,7 +2944,7 @@ export interface GetOnRampResponse {
 
 export const GetOnRampResponse = Schema.Struct({
   id: Schema.String,
-  cloudType: Schema.Literal("AWS", "AZURE", "GOOGLE").pipe(
+  cloudType: Schema.Literals(["AWS", "AZURE", "GOOGLE"]).pipe(
     T.JsonName("cloud_type"),
   ),
   dynamicRouting: Schema.Boolean.pipe(T.JsonName("dynamic_routing")),
@@ -2955,7 +2955,7 @@ export const GetOnRampResponse = Schema.Struct({
     T.JsonName("install_routes_in_magic_wan"),
   ),
   name: Schema.String,
-  type: Schema.Literal("OnrampTypeSingle", "OnrampTypeHub"),
+  type: Schema.Literals(["OnrampTypeSingle", "OnrampTypeHub"]),
   updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
   attachedHubs: Schema.optional(Schema.Array(Schema.String)).pipe(
     T.JsonName("attached_hubs"),
@@ -3016,24 +3016,24 @@ export const GetOnRampResponse = Schema.Struct({
             T.JsonName("proposed_monthly_cost"),
           ),
         }).pipe(T.JsonName("monthly_cost_estimate_diff")),
-        plannedAction: Schema.Literal(
+        plannedAction: Schema.Literals([
           "no_op",
           "create",
           "update",
           "replace",
           "destroy",
-        ).pipe(T.JsonName("planned_action")),
+        ]).pipe(T.JsonName("planned_action")),
         resource: Schema.Struct({
           id: Schema.String,
-          cloudType: Schema.Literal(
+          cloudType: Schema.Literals([
             "AWS",
             "AZURE",
             "GOOGLE",
             "CLOUDFLARE",
-          ).pipe(T.JsonName("cloud_type")),
+          ]).pipe(T.JsonName("cloud_type")),
           detail: Schema.String,
           name: Schema.String,
-          resourceType: Schema.Literal(
+          resourceType: Schema.Literals([
             "aws_customer_gateway",
             "aws_egress_only_internet_gateway",
             "aws_internet_gateway",
@@ -3091,7 +3091,7 @@ export const GetOnRampResponse = Schema.Struct({
             "google_compute_network_firewall_policy_rule",
             "cloudflare_static_route",
             "cloudflare_ipsec_tunnel",
-          ).pipe(T.JsonName("resource_type")),
+          ]).pipe(T.JsonName("resource_type")),
           title: Schema.String,
         }),
       }),
@@ -3119,7 +3119,7 @@ export const GetOnRampResponse = Schema.Struct({
         done: Schema.Number,
         total: Schema.Number,
       }).pipe(T.JsonName("apply_progress")),
-      lifecycleState: Schema.Literal(
+      lifecycleState: Schema.Literals([
         "OnrampNeedsApply",
         "OnrampPendingPlan",
         "OnrampPlanning",
@@ -3132,7 +3132,7 @@ export const GetOnRampResponse = Schema.Struct({
         "OnrampPendingDestroy",
         "OnrampDestroying",
         "OnrampDestroyFailed",
-      ).pipe(T.JsonName("lifecycle_state")),
+      ]).pipe(T.JsonName("lifecycle_state")),
       planProgress: Schema.Struct({
         done: Schema.Number,
         total: Schema.Number,
@@ -3205,7 +3205,7 @@ export interface CreateOnRampRequest {
 export const CreateOnRampRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   forwarded: Schema.optional(Schema.String).pipe(T.HttpHeader("forwarded")),
-  cloudType: Schema.Literal("AWS", "AZURE", "GOOGLE").pipe(
+  cloudType: Schema.Literals(["AWS", "AZURE", "GOOGLE"]).pipe(
     T.JsonName("cloud_type"),
   ),
   dynamicRouting: Schema.Boolean.pipe(T.JsonName("dynamic_routing")),
@@ -3216,7 +3216,7 @@ export const CreateOnRampRequest = Schema.Struct({
     T.JsonName("install_routes_in_magic_wan"),
   ),
   name: Schema.String,
-  type: Schema.Literal("OnrampTypeSingle", "OnrampTypeHub"),
+  type: Schema.Literals(["OnrampTypeSingle", "OnrampTypeHub"]),
   adoptedHubId: Schema.optional(Schema.String).pipe(
     T.JsonName("adopted_hub_id"),
   ),
@@ -3386,7 +3386,7 @@ export interface CreateOnRampResponse {
 
 export const CreateOnRampResponse = Schema.Struct({
   id: Schema.String,
-  cloudType: Schema.Literal("AWS", "AZURE", "GOOGLE").pipe(
+  cloudType: Schema.Literals(["AWS", "AZURE", "GOOGLE"]).pipe(
     T.JsonName("cloud_type"),
   ),
   dynamicRouting: Schema.Boolean.pipe(T.JsonName("dynamic_routing")),
@@ -3397,7 +3397,7 @@ export const CreateOnRampResponse = Schema.Struct({
     T.JsonName("install_routes_in_magic_wan"),
   ),
   name: Schema.String,
-  type: Schema.Literal("OnrampTypeSingle", "OnrampTypeHub"),
+  type: Schema.Literals(["OnrampTypeSingle", "OnrampTypeHub"]),
   updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
   attachedHubs: Schema.optional(Schema.Array(Schema.String)).pipe(
     T.JsonName("attached_hubs"),
@@ -3458,24 +3458,24 @@ export const CreateOnRampResponse = Schema.Struct({
             T.JsonName("proposed_monthly_cost"),
           ),
         }).pipe(T.JsonName("monthly_cost_estimate_diff")),
-        plannedAction: Schema.Literal(
+        plannedAction: Schema.Literals([
           "no_op",
           "create",
           "update",
           "replace",
           "destroy",
-        ).pipe(T.JsonName("planned_action")),
+        ]).pipe(T.JsonName("planned_action")),
         resource: Schema.Struct({
           id: Schema.String,
-          cloudType: Schema.Literal(
+          cloudType: Schema.Literals([
             "AWS",
             "AZURE",
             "GOOGLE",
             "CLOUDFLARE",
-          ).pipe(T.JsonName("cloud_type")),
+          ]).pipe(T.JsonName("cloud_type")),
           detail: Schema.String,
           name: Schema.String,
-          resourceType: Schema.Literal(
+          resourceType: Schema.Literals([
             "aws_customer_gateway",
             "aws_egress_only_internet_gateway",
             "aws_internet_gateway",
@@ -3533,7 +3533,7 @@ export const CreateOnRampResponse = Schema.Struct({
             "google_compute_network_firewall_policy_rule",
             "cloudflare_static_route",
             "cloudflare_ipsec_tunnel",
-          ).pipe(T.JsonName("resource_type")),
+          ]).pipe(T.JsonName("resource_type")),
           title: Schema.String,
         }),
       }),
@@ -3561,7 +3561,7 @@ export const CreateOnRampResponse = Schema.Struct({
         done: Schema.Number,
         total: Schema.Number,
       }).pipe(T.JsonName("apply_progress")),
-      lifecycleState: Schema.Literal(
+      lifecycleState: Schema.Literals([
         "OnrampNeedsApply",
         "OnrampPendingPlan",
         "OnrampPlanning",
@@ -3574,7 +3574,7 @@ export const CreateOnRampResponse = Schema.Struct({
         "OnrampPendingDestroy",
         "OnrampDestroying",
         "OnrampDestroyFailed",
-      ).pipe(T.JsonName("lifecycle_state")),
+      ]).pipe(T.JsonName("lifecycle_state")),
       planProgress: Schema.Struct({
         done: Schema.Number,
         total: Schema.Number,
@@ -3800,7 +3800,7 @@ export interface UpdateOnRampResponse {
 
 export const UpdateOnRampResponse = Schema.Struct({
   id: Schema.String,
-  cloudType: Schema.Literal("AWS", "AZURE", "GOOGLE").pipe(
+  cloudType: Schema.Literals(["AWS", "AZURE", "GOOGLE"]).pipe(
     T.JsonName("cloud_type"),
   ),
   dynamicRouting: Schema.Boolean.pipe(T.JsonName("dynamic_routing")),
@@ -3811,7 +3811,7 @@ export const UpdateOnRampResponse = Schema.Struct({
     T.JsonName("install_routes_in_magic_wan"),
   ),
   name: Schema.String,
-  type: Schema.Literal("OnrampTypeSingle", "OnrampTypeHub"),
+  type: Schema.Literals(["OnrampTypeSingle", "OnrampTypeHub"]),
   updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
   attachedHubs: Schema.optional(Schema.Array(Schema.String)).pipe(
     T.JsonName("attached_hubs"),
@@ -3872,24 +3872,24 @@ export const UpdateOnRampResponse = Schema.Struct({
             T.JsonName("proposed_monthly_cost"),
           ),
         }).pipe(T.JsonName("monthly_cost_estimate_diff")),
-        plannedAction: Schema.Literal(
+        plannedAction: Schema.Literals([
           "no_op",
           "create",
           "update",
           "replace",
           "destroy",
-        ).pipe(T.JsonName("planned_action")),
+        ]).pipe(T.JsonName("planned_action")),
         resource: Schema.Struct({
           id: Schema.String,
-          cloudType: Schema.Literal(
+          cloudType: Schema.Literals([
             "AWS",
             "AZURE",
             "GOOGLE",
             "CLOUDFLARE",
-          ).pipe(T.JsonName("cloud_type")),
+          ]).pipe(T.JsonName("cloud_type")),
           detail: Schema.String,
           name: Schema.String,
-          resourceType: Schema.Literal(
+          resourceType: Schema.Literals([
             "aws_customer_gateway",
             "aws_egress_only_internet_gateway",
             "aws_internet_gateway",
@@ -3947,7 +3947,7 @@ export const UpdateOnRampResponse = Schema.Struct({
             "google_compute_network_firewall_policy_rule",
             "cloudflare_static_route",
             "cloudflare_ipsec_tunnel",
-          ).pipe(T.JsonName("resource_type")),
+          ]).pipe(T.JsonName("resource_type")),
           title: Schema.String,
         }),
       }),
@@ -3975,7 +3975,7 @@ export const UpdateOnRampResponse = Schema.Struct({
         done: Schema.Number,
         total: Schema.Number,
       }).pipe(T.JsonName("apply_progress")),
-      lifecycleState: Schema.Literal(
+      lifecycleState: Schema.Literals([
         "OnrampNeedsApply",
         "OnrampPendingPlan",
         "OnrampPlanning",
@@ -3988,7 +3988,7 @@ export const UpdateOnRampResponse = Schema.Struct({
         "OnrampPendingDestroy",
         "OnrampDestroying",
         "OnrampDestroyFailed",
-      ).pipe(T.JsonName("lifecycle_state")),
+      ]).pipe(T.JsonName("lifecycle_state")),
       planProgress: Schema.Struct({
         done: Schema.Number,
         total: Schema.Number,
@@ -4214,7 +4214,7 @@ export interface PatchOnRampResponse {
 
 export const PatchOnRampResponse = Schema.Struct({
   id: Schema.String,
-  cloudType: Schema.Literal("AWS", "AZURE", "GOOGLE").pipe(
+  cloudType: Schema.Literals(["AWS", "AZURE", "GOOGLE"]).pipe(
     T.JsonName("cloud_type"),
   ),
   dynamicRouting: Schema.Boolean.pipe(T.JsonName("dynamic_routing")),
@@ -4225,7 +4225,7 @@ export const PatchOnRampResponse = Schema.Struct({
     T.JsonName("install_routes_in_magic_wan"),
   ),
   name: Schema.String,
-  type: Schema.Literal("OnrampTypeSingle", "OnrampTypeHub"),
+  type: Schema.Literals(["OnrampTypeSingle", "OnrampTypeHub"]),
   updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
   attachedHubs: Schema.optional(Schema.Array(Schema.String)).pipe(
     T.JsonName("attached_hubs"),
@@ -4286,24 +4286,24 @@ export const PatchOnRampResponse = Schema.Struct({
             T.JsonName("proposed_monthly_cost"),
           ),
         }).pipe(T.JsonName("monthly_cost_estimate_diff")),
-        plannedAction: Schema.Literal(
+        plannedAction: Schema.Literals([
           "no_op",
           "create",
           "update",
           "replace",
           "destroy",
-        ).pipe(T.JsonName("planned_action")),
+        ]).pipe(T.JsonName("planned_action")),
         resource: Schema.Struct({
           id: Schema.String,
-          cloudType: Schema.Literal(
+          cloudType: Schema.Literals([
             "AWS",
             "AZURE",
             "GOOGLE",
             "CLOUDFLARE",
-          ).pipe(T.JsonName("cloud_type")),
+          ]).pipe(T.JsonName("cloud_type")),
           detail: Schema.String,
           name: Schema.String,
-          resourceType: Schema.Literal(
+          resourceType: Schema.Literals([
             "aws_customer_gateway",
             "aws_egress_only_internet_gateway",
             "aws_internet_gateway",
@@ -4361,7 +4361,7 @@ export const PatchOnRampResponse = Schema.Struct({
             "google_compute_network_firewall_policy_rule",
             "cloudflare_static_route",
             "cloudflare_ipsec_tunnel",
-          ).pipe(T.JsonName("resource_type")),
+          ]).pipe(T.JsonName("resource_type")),
           title: Schema.String,
         }),
       }),
@@ -4389,7 +4389,7 @@ export const PatchOnRampResponse = Schema.Struct({
         done: Schema.Number,
         total: Schema.Number,
       }).pipe(T.JsonName("apply_progress")),
-      lifecycleState: Schema.Literal(
+      lifecycleState: Schema.Literals([
         "OnrampNeedsApply",
         "OnrampPendingPlan",
         "OnrampPlanning",
@@ -4402,7 +4402,7 @@ export const PatchOnRampResponse = Schema.Struct({
         "OnrampPendingDestroy",
         "OnrampDestroying",
         "OnrampDestroyFailed",
-      ).pipe(T.JsonName("lifecycle_state")),
+      ]).pipe(T.JsonName("lifecycle_state")),
       planProgress: Schema.Struct({
         done: Schema.Number,
         total: Schema.Number,
@@ -4839,7 +4839,7 @@ export interface ApplyOnRampResponse {
 export const ApplyOnRampResponse = Schema.Struct({
   errors: Schema.Array(
     Schema.Struct({
-      code: Schema.Literal(
+      code: Schema.Literals([
         "1001",
         "1002",
         "1003",
@@ -4995,7 +4995,7 @@ export const ApplyOnRampResponse = Schema.Struct({
         "103006",
         "103007",
         "103008",
-      ),
+      ]),
       message: Schema.String,
       documentationUrl: Schema.optional(Schema.String).pipe(
         T.JsonName("documentation_url"),
@@ -5025,7 +5025,7 @@ export const ApplyOnRampResponse = Schema.Struct({
   ),
   messages: Schema.Array(
     Schema.Struct({
-      code: Schema.Literal(
+      code: Schema.Literals([
         "1001",
         "1002",
         "1003",
@@ -5181,7 +5181,7 @@ export const ApplyOnRampResponse = Schema.Struct({
         "103006",
         "103007",
         "103008",
-      ),
+      ]),
       message: Schema.String,
       documentationUrl: Schema.optional(Schema.String).pipe(
         T.JsonName("documentation_url"),
@@ -5620,7 +5620,7 @@ export interface PlanOnRampResponse {
 export const PlanOnRampResponse = Schema.Struct({
   errors: Schema.Array(
     Schema.Struct({
-      code: Schema.Literal(
+      code: Schema.Literals([
         "1001",
         "1002",
         "1003",
@@ -5776,7 +5776,7 @@ export const PlanOnRampResponse = Schema.Struct({
         "103006",
         "103007",
         "103008",
-      ),
+      ]),
       message: Schema.String,
       documentationUrl: Schema.optional(Schema.String).pipe(
         T.JsonName("documentation_url"),
@@ -5806,7 +5806,7 @@ export const PlanOnRampResponse = Schema.Struct({
   ),
   messages: Schema.Array(
     Schema.Struct({
-      code: Schema.Literal(
+      code: Schema.Literals([
         "1001",
         "1002",
         "1003",
@@ -5962,7 +5962,7 @@ export const PlanOnRampResponse = Schema.Struct({
         "103006",
         "103007",
         "103008",
-      ),
+      ]),
       message: Schema.String,
       documentationUrl: Schema.optional(Schema.String).pipe(
         T.JsonName("documentation_url"),
@@ -6472,7 +6472,7 @@ export interface GetResourceResponse {
 export const GetResourceResponse = Schema.Struct({
   id: Schema.String,
   accountId: Schema.String.pipe(T.JsonName("account_id")),
-  cloudType: Schema.Literal("AWS", "AZURE", "GOOGLE", "CLOUDFLARE").pipe(
+  cloudType: Schema.Literals(["AWS", "AZURE", "GOOGLE", "CLOUDFLARE"]).pipe(
     T.JsonName("cloud_type"),
   ),
   config: Schema.Struct({}),
@@ -6489,7 +6489,7 @@ export const GetResourceResponse = Schema.Struct({
   providerNamesById: Schema.Struct({}).pipe(T.JsonName("provider_names_by_id")),
   region: Schema.String,
   resourceGroup: Schema.String.pipe(T.JsonName("resource_group")),
-  resourceType: Schema.Literal(
+  resourceType: Schema.Literals([
     "aws_customer_gateway",
     "aws_egress_only_internet_gateway",
     "aws_internet_gateway",
@@ -6547,7 +6547,7 @@ export const GetResourceResponse = Schema.Struct({
     "google_compute_network_firewall_policy_rule",
     "cloudflare_static_route",
     "cloudflare_ipsec_tunnel",
-  ).pipe(T.JsonName("resource_type")),
+  ]).pipe(T.JsonName("resource_type")),
   sections: Schema.Array(
     Schema.Struct({
       hiddenItems: Schema.Array(
@@ -6555,7 +6555,7 @@ export const GetResourceResponse = Schema.Struct({
           helpText: Schema.optional(Schema.String),
           name: Schema.optional(Schema.String),
           value: Schema.optional(
-            Schema.Union(
+            Schema.Union([
               Schema.Struct({
                 itemType: Schema.String.pipe(T.JsonName("item_type")),
                 string: Schema.String,
@@ -6582,15 +6582,15 @@ export const GetResourceResponse = Schema.Struct({
                 itemType: Schema.String.pipe(T.JsonName("item_type")),
                 resourcePreview: Schema.Struct({
                   id: Schema.String,
-                  cloudType: Schema.Literal(
+                  cloudType: Schema.Literals([
                     "AWS",
                     "AZURE",
                     "GOOGLE",
                     "CLOUDFLARE",
-                  ).pipe(T.JsonName("cloud_type")),
+                  ]).pipe(T.JsonName("cloud_type")),
                   detail: Schema.String,
                   name: Schema.String,
-                  resourceType: Schema.Literal(
+                  resourceType: Schema.Literals([
                     "aws_customer_gateway",
                     "aws_egress_only_internet_gateway",
                     "aws_internet_gateway",
@@ -6648,14 +6648,14 @@ export const GetResourceResponse = Schema.Struct({
                     "google_compute_network_firewall_policy_rule",
                     "cloudflare_static_route",
                     "cloudflare_ipsec_tunnel",
-                  ).pipe(T.JsonName("resource_type")),
+                  ]).pipe(T.JsonName("resource_type")),
                   title: Schema.String,
                 }).pipe(T.JsonName("resource_preview")),
               }),
               Schema.Struct({
                 itemType: Schema.String.pipe(T.JsonName("item_type")),
                 list: Schema.Array(
-                  Schema.Union(
+                  Schema.Union([
                     Schema.Struct({
                       itemType: Schema.String.pipe(T.JsonName("item_type")),
                       string: Schema.String,
@@ -6664,15 +6664,15 @@ export const GetResourceResponse = Schema.Struct({
                       itemType: Schema.String.pipe(T.JsonName("item_type")),
                       resourcePreview: Schema.Struct({
                         id: Schema.String,
-                        cloudType: Schema.Literal(
+                        cloudType: Schema.Literals([
                           "AWS",
                           "AZURE",
                           "GOOGLE",
                           "CLOUDFLARE",
-                        ).pipe(T.JsonName("cloud_type")),
+                        ]).pipe(T.JsonName("cloud_type")),
                         detail: Schema.String,
                         name: Schema.String,
-                        resourceType: Schema.Literal(
+                        resourceType: Schema.Literals([
                           "aws_customer_gateway",
                           "aws_egress_only_internet_gateway",
                           "aws_internet_gateway",
@@ -6730,14 +6730,14 @@ export const GetResourceResponse = Schema.Struct({
                           "google_compute_network_firewall_policy_rule",
                           "cloudflare_static_route",
                           "cloudflare_ipsec_tunnel",
-                        ).pipe(T.JsonName("resource_type")),
+                        ]).pipe(T.JsonName("resource_type")),
                         title: Schema.String,
                       }).pipe(T.JsonName("resource_preview")),
                     }),
-                  ),
+                  ]),
                 ),
               }),
-            ),
+            ]),
           ),
         }),
       ).pipe(T.JsonName("hidden_items")),
@@ -6747,7 +6747,7 @@ export const GetResourceResponse = Schema.Struct({
           helpText: Schema.optional(Schema.String),
           name: Schema.optional(Schema.String),
           value: Schema.optional(
-            Schema.Union(
+            Schema.Union([
               Schema.Struct({
                 itemType: Schema.String.pipe(T.JsonName("item_type")),
                 string: Schema.String,
@@ -6774,15 +6774,15 @@ export const GetResourceResponse = Schema.Struct({
                 itemType: Schema.String.pipe(T.JsonName("item_type")),
                 resourcePreview: Schema.Struct({
                   id: Schema.String,
-                  cloudType: Schema.Literal(
+                  cloudType: Schema.Literals([
                     "AWS",
                     "AZURE",
                     "GOOGLE",
                     "CLOUDFLARE",
-                  ).pipe(T.JsonName("cloud_type")),
+                  ]).pipe(T.JsonName("cloud_type")),
                   detail: Schema.String,
                   name: Schema.String,
-                  resourceType: Schema.Literal(
+                  resourceType: Schema.Literals([
                     "aws_customer_gateway",
                     "aws_egress_only_internet_gateway",
                     "aws_internet_gateway",
@@ -6840,14 +6840,14 @@ export const GetResourceResponse = Schema.Struct({
                     "google_compute_network_firewall_policy_rule",
                     "cloudflare_static_route",
                     "cloudflare_ipsec_tunnel",
-                  ).pipe(T.JsonName("resource_type")),
+                  ]).pipe(T.JsonName("resource_type")),
                   title: Schema.String,
                 }).pipe(T.JsonName("resource_preview")),
               }),
               Schema.Struct({
                 itemType: Schema.String.pipe(T.JsonName("item_type")),
                 list: Schema.Array(
-                  Schema.Union(
+                  Schema.Union([
                     Schema.Struct({
                       itemType: Schema.String.pipe(T.JsonName("item_type")),
                       string: Schema.String,
@@ -6856,15 +6856,15 @@ export const GetResourceResponse = Schema.Struct({
                       itemType: Schema.String.pipe(T.JsonName("item_type")),
                       resourcePreview: Schema.Struct({
                         id: Schema.String,
-                        cloudType: Schema.Literal(
+                        cloudType: Schema.Literals([
                           "AWS",
                           "AZURE",
                           "GOOGLE",
                           "CLOUDFLARE",
-                        ).pipe(T.JsonName("cloud_type")),
+                        ]).pipe(T.JsonName("cloud_type")),
                         detail: Schema.String,
                         name: Schema.String,
-                        resourceType: Schema.Literal(
+                        resourceType: Schema.Literals([
                           "aws_customer_gateway",
                           "aws_egress_only_internet_gateway",
                           "aws_internet_gateway",
@@ -6922,14 +6922,14 @@ export const GetResourceResponse = Schema.Struct({
                           "google_compute_network_firewall_policy_rule",
                           "cloudflare_static_route",
                           "cloudflare_ipsec_tunnel",
-                        ).pipe(T.JsonName("resource_type")),
+                        ]).pipe(T.JsonName("resource_type")),
                         title: Schema.String,
                       }).pipe(T.JsonName("resource_preview")),
                     }),
-                  ),
+                  ]),
                 ),
               }),
-            ),
+            ]),
           ),
         }),
       ).pipe(T.JsonName("visible_items")),
@@ -7060,7 +7060,7 @@ export const ExportResourceRequest = Schema.Struct({
   ),
   resourceType: Schema.optional(
     Schema.Array(
-      Schema.Literal(
+      Schema.Literals([
         "aws_customer_gateway",
         "aws_egress_only_internet_gateway",
         "aws_internet_gateway",
@@ -7118,7 +7118,7 @@ export const ExportResourceRequest = Schema.Struct({
         "google_compute_network_firewall_policy_rule",
         "cloudflare_static_route",
         "cloudflare_ipsec_tunnel",
-      ),
+      ]),
     ),
   ).pipe(T.HttpQuery("resource_type")),
   search: Schema.optional(Schema.Array(Schema.String)).pipe(
@@ -7178,7 +7178,7 @@ export type InitialSetupCloudIntegrationResponse =
     }
   | { integrationIdentityTag: string; itemType: string; tagCliCommand: string };
 
-export const InitialSetupCloudIntegrationResponse = Schema.Union(
+export const InitialSetupCloudIntegrationResponse = Schema.Union([
   Schema.Struct({
     awsTrustPolicy: Schema.String.pipe(T.JsonName("aws_trust_policy")),
     itemType: Schema.String.pipe(T.JsonName("item_type")),
@@ -7198,7 +7198,7 @@ export const InitialSetupCloudIntegrationResponse = Schema.Union(
     itemType: Schema.String.pipe(T.JsonName("item_type")),
     tagCliCommand: Schema.String.pipe(T.JsonName("tag_cli_command")),
   }),
-) as unknown as Schema.Schema<InitialSetupCloudIntegrationResponse>;
+]) as unknown as Schema.Schema<InitialSetupCloudIntegrationResponse>;
 
 export const initialSetupCloudIntegration: (
   input: InitialSetupCloudIntegrationRequest,

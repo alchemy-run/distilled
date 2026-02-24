@@ -155,7 +155,7 @@ describe("oauth", () => {
         Effect.gen(function* () {
           // First list applications to get a valid application ID
           const apps = yield* listOauthApplications({ organization }).pipe(
-            Effect.catchAll((e) => Effect.succeed({ error: e })),
+            Effect.catch((e) => Effect.succeed({ error: e })),
           );
 
           if ("error" in apps) {
@@ -172,7 +172,7 @@ describe("oauth", () => {
             application_id: appId,
           }).pipe(
             Effect.map((data) => ({ skipped: false as const, data })),
-            Effect.catchAll((error) =>
+            Effect.catch((error) =>
               Effect.succeed({ skipped: false as const, error }),
             ),
           );
@@ -247,7 +247,7 @@ describe("oauth", () => {
         Effect.gen(function* () {
           // First list applications to get a valid application ID
           const apps = yield* listOauthApplications({ organization }).pipe(
-            Effect.catchAll((e) => Effect.succeed({ error: e })),
+            Effect.catch((e) => Effect.succeed({ error: e })),
           );
 
           if ("error" in apps) {
@@ -264,7 +264,7 @@ describe("oauth", () => {
             application_id: appId,
           }).pipe(
             Effect.map((data) => ({ skipped: false as const, data })),
-            Effect.catchAll((error) =>
+            Effect.catch((error) =>
               Effect.succeed({ skipped: false as const, error }),
             ),
           );
@@ -290,7 +290,7 @@ describe("oauth", () => {
         Effect.gen(function* () {
           // First list applications to get a valid application ID
           const apps = yield* listOauthApplications({ organization }).pipe(
-            Effect.catchAll((e) => Effect.succeed({ error: e })),
+            Effect.catch((e) => Effect.succeed({ error: e })),
           );
 
           if ("error" in apps) {
@@ -309,7 +309,7 @@ describe("oauth", () => {
             per_page: 10,
           }).pipe(
             Effect.map((data) => ({ skipped: false as const, data })),
-            Effect.catchAll((error) =>
+            Effect.catch((error) =>
               Effect.succeed({ skipped: false as const, error }),
             ),
           );
@@ -376,7 +376,7 @@ describe("oauth", () => {
         Effect.gen(function* () {
           // First list applications to get a valid application ID
           const apps = yield* listOauthApplications({ organization }).pipe(
-            Effect.catchAll((e) => Effect.succeed({ error: e })),
+            Effect.catch((e) => Effect.succeed({ error: e })),
           );
 
           if ("error" in apps) {
@@ -393,7 +393,7 @@ describe("oauth", () => {
           const tokens = yield* listOauthTokens({
             organization,
             application_id: appId,
-          }).pipe(Effect.catchAll((e) => Effect.succeed({ error: e })));
+          }).pipe(Effect.catch((e) => Effect.succeed({ error: e })));
 
           if ("error" in tokens) {
             return { skipped: true as const, reason: "list tokens failed" };
@@ -410,7 +410,7 @@ describe("oauth", () => {
             token_id: tokenId,
           }).pipe(
             Effect.map((data) => ({ skipped: false as const, data })),
-            Effect.catchAll((error) =>
+            Effect.catch((error) =>
               Effect.succeed({ skipped: false as const, error }),
             ),
           );
@@ -442,7 +442,7 @@ describe("oauth", () => {
         Effect.gen(function* () {
           // First list applications to get a valid application ID
           const apps = yield* listOauthApplications({ organization }).pipe(
-            Effect.catchAll((e) => Effect.succeed({ error: e })),
+            Effect.catch((e) => Effect.succeed({ error: e })),
           );
 
           if ("error" in apps) {
@@ -533,7 +533,7 @@ describe("oauth", () => {
         Effect.gen(function* () {
           // First list applications to get a valid application ID
           const apps = yield* listOauthApplications({ organization }).pipe(
-            Effect.catchAll((e) => Effect.succeed({ error: e })),
+            Effect.catch((e) => Effect.succeed({ error: e })),
           );
 
           if ("error" in apps) {
@@ -582,7 +582,7 @@ describe("oauth", () => {
         Effect.gen(function* () {
           // First list applications to get a valid application ID
           const apps = yield* listOauthApplications({ organization }).pipe(
-            Effect.catchAll((e) => Effect.succeed({ error: e })),
+            Effect.catch((e) => Effect.succeed({ error: e })),
           );
 
           if ("error" in apps) {
@@ -684,7 +684,7 @@ describe("oauth", () => {
         Effect.gen(function* () {
           // First list applications to get a valid application ID
           const apps = yield* listOauthApplications({ organization }).pipe(
-            Effect.catchAll((e) => Effect.succeed({ error: e })),
+            Effect.catch((e) => Effect.succeed({ error: e })),
           );
 
           if ("error" in apps) {

@@ -1,4 +1,4 @@
-import { HttpClient } from "@effect/platform";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as effect from "effect/Effect";
 import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
@@ -90,10 +90,10 @@ const rules = T.EndpointResolver((p, _) => {
 export type InstanceId = string;
 export type SerialPort = number;
 export type SSHPublicKey = string;
-export type InstanceOSUser = string;
-export type AvailabilityZone = string;
 export type RequestId = string;
 export type Success = boolean;
+export type InstanceOSUser = string;
+export type AvailabilityZone = string;
 
 //# Schemas
 export interface SendSerialConsoleSSHPublicKeyRequest {
@@ -109,9 +109,18 @@ export const SendSerialConsoleSSHPublicKeyRequest = S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotations({
+).annotate({
   identifier: "SendSerialConsoleSSHPublicKeyRequest",
 }) as any as S.Schema<SendSerialConsoleSSHPublicKeyRequest>;
+export interface SendSerialConsoleSSHPublicKeyResponse {
+  RequestId?: string;
+  Success?: boolean;
+}
+export const SendSerialConsoleSSHPublicKeyResponse = S.suspend(() =>
+  S.Struct({ RequestId: S.optional(S.String), Success: S.optional(S.Boolean) }),
+).annotate({
+  identifier: "SendSerialConsoleSSHPublicKeyResponse",
+}) as any as S.Schema<SendSerialConsoleSSHPublicKeyResponse>;
 export interface SendSSHPublicKeyRequest {
   InstanceId: string;
   InstanceOSUser: string;
@@ -127,65 +136,51 @@ export const SendSSHPublicKeyRequest = S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotations({
+).annotate({
   identifier: "SendSSHPublicKeyRequest",
 }) as any as S.Schema<SendSSHPublicKeyRequest>;
-export interface SendSerialConsoleSSHPublicKeyResponse {
-  RequestId?: string;
-  Success?: boolean;
-}
-export const SendSerialConsoleSSHPublicKeyResponse = S.suspend(() =>
-  S.Struct({ RequestId: S.optional(S.String), Success: S.optional(S.Boolean) }),
-).annotations({
-  identifier: "SendSerialConsoleSSHPublicKeyResponse",
-}) as any as S.Schema<SendSerialConsoleSSHPublicKeyResponse>;
 export interface SendSSHPublicKeyResponse {
   RequestId?: string;
   Success?: boolean;
 }
 export const SendSSHPublicKeyResponse = S.suspend(() =>
   S.Struct({ RequestId: S.optional(S.String), Success: S.optional(S.Boolean) }),
-).annotations({
+).annotate({
   identifier: "SendSSHPublicKeyResponse",
 }) as any as S.Schema<SendSSHPublicKeyResponse>;
 
 //# Errors
-export class AuthException extends S.TaggedError<AuthException>()(
+export class AuthException extends S.TaggedErrorClass<AuthException>()(
   "AuthException",
   { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "Forbidden", httpResponseCode: 403 }),
 ).pipe(C.withAuthError) {}
-export class EC2InstanceNotFoundException extends S.TaggedError<EC2InstanceNotFoundException>()(
+export class EC2InstanceNotFoundException extends S.TaggedErrorClass<EC2InstanceNotFoundException>()(
   "EC2InstanceNotFoundException",
   { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "EC2InstanceNotFound", httpResponseCode: 404 }),
 ).pipe(C.withBadRequestError) {}
-export class EC2InstanceStateInvalidException extends S.TaggedError<EC2InstanceStateInvalidException>()(
+export class EC2InstanceStateInvalidException extends S.TaggedErrorClass<EC2InstanceStateInvalidException>()(
   "EC2InstanceStateInvalidException",
   { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "EC2InstanceStateInvalid", httpResponseCode: 400 }),
 ).pipe(C.withBadRequestError) {}
-export class EC2InstanceTypeInvalidException extends S.TaggedError<EC2InstanceTypeInvalidException>()(
+export class EC2InstanceTypeInvalidException extends S.TaggedErrorClass<EC2InstanceTypeInvalidException>()(
   "EC2InstanceTypeInvalidException",
   { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "EC2InstanceTypeInvalid", httpResponseCode: 400 }),
 ).pipe(C.withBadRequestError) {}
-export class EC2InstanceUnavailableException extends S.TaggedError<EC2InstanceUnavailableException>()(
+export class EC2InstanceUnavailableException extends S.TaggedErrorClass<EC2InstanceUnavailableException>()(
   "EC2InstanceUnavailableException",
   { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "EC2InstanceUnavailable", httpResponseCode: 503 }),
 ).pipe(C.withServerError) {}
-export class InvalidArgsException extends S.TaggedError<InvalidArgsException>()(
+export class InvalidArgsException extends S.TaggedErrorClass<InvalidArgsException>()(
   "InvalidArgsException",
   { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "InvalidArguments", httpResponseCode: 400 }),
 ).pipe(C.withBadRequestError) {}
-export class ServiceException extends S.TaggedError<ServiceException>()(
-  "ServiceException",
-  { Message: S.optional(S.String) },
-  T.AwsQueryError({ code: "InternalServerError", httpResponseCode: 500 }),
-).pipe(C.withServerError) {}
-export class SerialConsoleAccessDisabledException extends S.TaggedError<SerialConsoleAccessDisabledException>()(
+export class SerialConsoleAccessDisabledException extends S.TaggedErrorClass<SerialConsoleAccessDisabledException>()(
   "SerialConsoleAccessDisabledException",
   { Message: S.optional(S.String) },
   T.AwsQueryError({
@@ -193,12 +188,7 @@ export class SerialConsoleAccessDisabledException extends S.TaggedError<SerialCo
     httpResponseCode: 403,
   }),
 ).pipe(C.withAuthError) {}
-export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
-  "ThrottlingException",
-  { Message: S.optional(S.String) },
-  T.AwsQueryError({ code: "TooManyRequests", httpResponseCode: 429 }),
-).pipe(C.withThrottlingError) {}
-export class SerialConsoleSessionLimitExceededException extends S.TaggedError<SerialConsoleSessionLimitExceededException>()(
+export class SerialConsoleSessionLimitExceededException extends S.TaggedErrorClass<SerialConsoleSessionLimitExceededException>()(
   "SerialConsoleSessionLimitExceededException",
   { Message: S.optional(S.String) },
   T.AwsQueryError({
@@ -206,7 +196,7 @@ export class SerialConsoleSessionLimitExceededException extends S.TaggedError<Se
     httpResponseCode: 400,
   }),
 ).pipe(C.withBadRequestError) {}
-export class SerialConsoleSessionUnavailableException extends S.TaggedError<SerialConsoleSessionUnavailableException>()(
+export class SerialConsoleSessionUnavailableException extends S.TaggedErrorClass<SerialConsoleSessionUnavailableException>()(
   "SerialConsoleSessionUnavailableException",
   { Message: S.optional(S.String) },
   T.AwsQueryError({
@@ -214,7 +204,7 @@ export class SerialConsoleSessionUnavailableException extends S.TaggedError<Seri
     httpResponseCode: 500,
   }),
 ).pipe(C.withServerError) {}
-export class SerialConsoleSessionUnsupportedException extends S.TaggedError<SerialConsoleSessionUnsupportedException>()(
+export class SerialConsoleSessionUnsupportedException extends S.TaggedErrorClass<SerialConsoleSessionUnsupportedException>()(
   "SerialConsoleSessionUnsupportedException",
   { Message: S.optional(S.String) },
   T.AwsQueryError({
@@ -222,40 +212,18 @@ export class SerialConsoleSessionUnsupportedException extends S.TaggedError<Seri
     httpResponseCode: 400,
   }),
 ).pipe(C.withBadRequestError) {}
+export class ServiceException extends S.TaggedErrorClass<ServiceException>()(
+  "ServiceException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "InternalServerError", httpResponseCode: 500 }),
+).pipe(C.withServerError) {}
+export class ThrottlingException extends S.TaggedErrorClass<ThrottlingException>()(
+  "ThrottlingException",
+  { Message: S.optional(S.String) },
+  T.AwsQueryError({ code: "TooManyRequests", httpResponseCode: 429 }),
+).pipe(C.withThrottlingError) {}
 
 //# Operations
-/**
- * Pushes an SSH public key to the specified EC2 instance for use by the specified user.
- * The key remains for 60 seconds. For more information, see Connect to
- * your Linux instance using EC2 Instance Connect in the Amazon EC2
- * User Guide.
- */
-export const sendSSHPublicKey: (
-  input: SendSSHPublicKeyRequest,
-) => effect.Effect<
-  SendSSHPublicKeyResponse,
-  | AuthException
-  | EC2InstanceNotFoundException
-  | EC2InstanceStateInvalidException
-  | EC2InstanceUnavailableException
-  | InvalidArgsException
-  | ServiceException
-  | ThrottlingException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: SendSSHPublicKeyRequest,
-  output: SendSSHPublicKeyResponse,
-  errors: [
-    AuthException,
-    EC2InstanceNotFoundException,
-    EC2InstanceStateInvalidException,
-    EC2InstanceUnavailableException,
-    InvalidArgsException,
-    ServiceException,
-    ThrottlingException,
-  ],
-}));
 /**
  * Pushes an SSH public key to the specified EC2 instance. The key remains for 60
  * seconds, which gives you 60 seconds to establish a serial console connection to the
@@ -294,6 +262,38 @@ export const sendSerialConsoleSSHPublicKey: (
     SerialConsoleSessionLimitExceededException,
     SerialConsoleSessionUnavailableException,
     SerialConsoleSessionUnsupportedException,
+    ServiceException,
+    ThrottlingException,
+  ],
+}));
+/**
+ * Pushes an SSH public key to the specified EC2 instance for use by the specified user.
+ * The key remains for 60 seconds. For more information, see Connect to
+ * your Linux instance using EC2 Instance Connect in the Amazon EC2
+ * User Guide.
+ */
+export const sendSSHPublicKey: (
+  input: SendSSHPublicKeyRequest,
+) => effect.Effect<
+  SendSSHPublicKeyResponse,
+  | AuthException
+  | EC2InstanceNotFoundException
+  | EC2InstanceStateInvalidException
+  | EC2InstanceUnavailableException
+  | InvalidArgsException
+  | ServiceException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SendSSHPublicKeyRequest,
+  output: SendSSHPublicKeyResponse,
+  errors: [
+    AuthException,
+    EC2InstanceNotFoundException,
+    EC2InstanceStateInvalidException,
+    EC2InstanceUnavailableException,
+    InvalidArgsException,
     ServiceException,
     ThrottlingException,
   ],

@@ -7,7 +7,7 @@
 
 import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
-import type { HttpClient } from "@effect/platform";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
@@ -93,7 +93,7 @@ export const GetActiveLivestreamsForLivestreamIdLivestreamResponse =
               T.JsonName("playback_url"),
             ),
             status: Schema.optional(
-              Schema.Literal("LIVE", "IDLE", "ERRORED", "INVOKED"),
+              Schema.Literals(["LIVE", "IDLE", "ERRORED", "INVOKED"]),
             ),
             streamKey: Schema.optional(Schema.String).pipe(
               T.JsonName("stream_key"),
@@ -203,35 +203,35 @@ export interface GetActiveRecordingsRecordingResponse {
 export const GetActiveRecordingsRecordingResponse = Schema.Struct({
   data: Schema.Struct({
     id: Schema.String,
-    audioDownloadUrl: Schema.Union(Schema.String, Schema.Null).pipe(
+    audioDownloadUrl: Schema.Union([Schema.String, Schema.Null]).pipe(
       T.JsonName("audio_download_url"),
     ),
-    downloadUrl: Schema.Union(Schema.String, Schema.Null).pipe(
+    downloadUrl: Schema.Union([Schema.String, Schema.Null]).pipe(
       T.JsonName("download_url"),
     ),
-    downloadUrlExpiry: Schema.Union(Schema.String, Schema.Null).pipe(
+    downloadUrlExpiry: Schema.Union([Schema.String, Schema.Null]).pipe(
       T.JsonName("download_url_expiry"),
     ),
-    fileSize: Schema.Union(Schema.Number, Schema.Null).pipe(
+    fileSize: Schema.Union([Schema.Number, Schema.Null]).pipe(
       T.JsonName("file_size"),
     ),
     invokedTime: Schema.String.pipe(T.JsonName("invoked_time")),
     outputFileName: Schema.String.pipe(T.JsonName("output_file_name")),
-    sessionId: Schema.Union(Schema.String, Schema.Null).pipe(
+    sessionId: Schema.Union([Schema.String, Schema.Null]).pipe(
       T.JsonName("session_id"),
     ),
-    startedTime: Schema.Union(Schema.String, Schema.Null).pipe(
+    startedTime: Schema.Union([Schema.String, Schema.Null]).pipe(
       T.JsonName("started_time"),
     ),
-    status: Schema.Literal(
+    status: Schema.Literals([
       "INVOKED",
       "RECORDING",
       "UPLOADING",
       "UPLOADED",
       "ERRORED",
       "PAUSED",
-    ),
-    stoppedTime: Schema.Union(Schema.String, Schema.Null).pipe(
+    ]),
+    stoppedTime: Schema.Union([Schema.String, Schema.Null]).pipe(
       T.JsonName("stopped_time"),
     ),
     recordingDuration: Schema.optional(Schema.Number).pipe(
@@ -312,8 +312,8 @@ export const GetActiveSessionActiveSessionResponse = Schema.Struct({
       minutesConsumed: Schema.Number.pipe(T.JsonName("minutes_consumed")),
       organizationId: Schema.String.pipe(T.JsonName("organization_id")),
       startedAt: Schema.String.pipe(T.JsonName("started_at")),
-      status: Schema.Literal("LIVE", "ENDED"),
-      type: Schema.Literal("meeting", "livestream", "participant"),
+      status: Schema.Literals(["LIVE", "ENDED"]),
+      type: Schema.Literals(["meeting", "livestream", "participant"]),
       updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
       breakoutRooms: Schema.optional(Schema.Array(Schema.Unknown)).pipe(
         T.JsonName("breakout_rooms"),
@@ -370,12 +370,12 @@ export const GetAllLivestreamsLivestreamRequest = Schema.Struct({
   ),
   pageNo: Schema.optional(Schema.Number).pipe(T.HttpQuery("page_no")),
   perPage: Schema.optional(Schema.Number).pipe(T.HttpQuery("per_page")),
-  sortOrder: Schema.optional(Schema.Literal("ASC", "DSC")).pipe(
+  sortOrder: Schema.optional(Schema.Literals(["ASC", "DSC"])).pipe(
     T.HttpQuery("sort_order"),
   ),
   startTime: Schema.optional(Schema.String).pipe(T.HttpQuery("start_time")),
   status: Schema.optional(
-    Schema.Literal("LIVE", "IDLE", "ERRORED", "INVOKED"),
+    Schema.Literals(["LIVE", "IDLE", "ERRORED", "INVOKED"]),
   ).pipe(T.HttpQuery("status")),
 }).pipe(
   T.Http({
@@ -429,7 +429,7 @@ export const GetAllLivestreamsLivestreamResponse = Schema.Struct({
         T.JsonName("playback_url"),
       ),
       status: Schema.optional(
-        Schema.Literal("LIVE", "IDLE", "ERRORED", "INVOKED"),
+        Schema.Literals(["LIVE", "IDLE", "ERRORED", "INVOKED"]),
       ),
       streamKey: Schema.optional(Schema.String).pipe(T.JsonName("stream_key")),
       updatedAt: Schema.optional(Schema.String).pipe(T.JsonName("updated_at")),
@@ -611,7 +611,7 @@ export interface CreateIndependentLivestreamLivestreamRequest {
 export const CreateIndependentLivestreamLivestreamRequest = Schema.Struct({
   appId: Schema.String.pipe(T.HttpPath("appId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  name: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
+  name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   T.Http({
     method: "POST",
@@ -641,7 +641,7 @@ export const CreateIndependentLivestreamLivestreamResponse = Schema.Struct({
       ingestServer: Schema.optional(Schema.String).pipe(
         T.JsonName("ingest_server"),
       ),
-      meetingId: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
+      meetingId: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
         T.JsonName("meeting_id"),
       ),
       name: Schema.optional(Schema.String),
@@ -649,7 +649,7 @@ export const CreateIndependentLivestreamLivestreamResponse = Schema.Struct({
         T.JsonName("playback_url"),
       ),
       status: Schema.optional(
-        Schema.Literal("LIVE", "IDLE", "ERRORED", "INVOKED"),
+        Schema.Literals(["LIVE", "IDLE", "ERRORED", "INVOKED"]),
       ),
       streamKey: Schema.optional(Schema.String).pipe(T.JsonName("stream_key")),
     }),
@@ -750,7 +750,7 @@ export const StartLivestreamingAMeetingLivestreamRequest = Schema.Struct({
   appId: Schema.String.pipe(T.HttpPath("appId")),
   meetingId: Schema.String.pipe(T.HttpPath("meetingId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  name: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
+  name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   videoConfig: Schema.optional(
     Schema.Struct({
       height: Schema.optional(Schema.Number),
@@ -786,7 +786,7 @@ export const StartLivestreamingAMeetingLivestreamResponse = Schema.Struct({
         T.JsonName("playback_url"),
       ),
       status: Schema.optional(
-        Schema.Literal("LIVE", "IDLE", "ERRORED", "INVOKED"),
+        Schema.Literals(["LIVE", "IDLE", "ERRORED", "INVOKED"]),
       ),
       streamKey: Schema.optional(Schema.String).pipe(T.JsonName("stream_key")),
     }),
@@ -1016,7 +1016,7 @@ export const GetLivestreamSessionForLivestreamIdLivestreamResponse =
               T.JsonName("playback_url"),
             ),
             status: Schema.optional(
-              Schema.Literal("LIVE", "IDLE", "ERRORED", "INVOKED"),
+              Schema.Literals(["LIVE", "IDLE", "ERRORED", "INVOKED"]),
             ),
             streamKey: Schema.optional(Schema.String).pipe(
               T.JsonName("stream_key"),
@@ -1158,7 +1158,7 @@ export const GetMeetingResponse = Schema.Struct({
       sessionKeepAliveTimeInSecs: Schema.optional(Schema.Number).pipe(
         T.JsonName("session_keep_alive_time_in_secs"),
       ),
-      status: Schema.optional(Schema.Literal("ACTIVE", "INACTIVE")),
+      status: Schema.optional(Schema.Literals(["ACTIVE", "INACTIVE"])),
       summarizeOnEnd: Schema.optional(Schema.Boolean).pipe(
         T.JsonName("summarize_on_end"),
       ),
@@ -1280,7 +1280,7 @@ export const CreateMeetingRequest = Schema.Struct({
       summarization: Schema.optional(
         Schema.Struct({
           summaryType: Schema.optional(
-            Schema.Literal(
+            Schema.Literals([
               "general",
               "team_meeting",
               "sales_call",
@@ -1290,10 +1290,10 @@ export const CreateMeetingRequest = Schema.Struct({
               "one_on_one_meeting",
               "lecture",
               "code_review",
-            ),
+            ]),
           ).pipe(T.JsonName("summary_type")),
           textFormat: Schema.optional(
-            Schema.Literal("plain_text", "markdown"),
+            Schema.Literals(["plain_text", "markdown"]),
           ).pipe(T.JsonName("text_format")),
           wordLimit: Schema.optional(Schema.Number).pipe(
             T.JsonName("word_limit"),
@@ -1304,7 +1304,7 @@ export const CreateMeetingRequest = Schema.Struct({
         Schema.Struct({
           keywords: Schema.optional(Schema.Array(Schema.String)),
           language: Schema.optional(
-            Schema.Literal(
+            Schema.Literals([
               "en-US",
               "en-IN",
               "de",
@@ -1315,7 +1315,7 @@ export const CreateMeetingRequest = Schema.Struct({
               "el",
               "fr",
               "nl",
-            ),
+            ]),
           ),
           profanityFilter: Schema.optional(Schema.Boolean).pipe(
             T.JsonName("profanity_filter"),
@@ -1325,18 +1325,18 @@ export const CreateMeetingRequest = Schema.Struct({
     }),
   ).pipe(T.JsonName("ai_config")),
   liveStreamOnStart: Schema.optional(
-    Schema.Union(Schema.Boolean, Schema.Null),
+    Schema.Union([Schema.Boolean, Schema.Null]),
   ).pipe(T.JsonName("live_stream_on_start")),
   persistChat: Schema.optional(Schema.Boolean).pipe(T.JsonName("persist_chat")),
   recordOnStart: Schema.optional(
-    Schema.Union(Schema.Boolean, Schema.Null),
+    Schema.Union([Schema.Boolean, Schema.Null]),
   ).pipe(T.JsonName("record_on_start")),
   recordingConfig: Schema.optional(
     Schema.Struct({
       audioConfig: Schema.optional(
         Schema.Struct({
-          channel: Schema.optional(Schema.Literal("mono", "stereo")),
-          codec: Schema.optional(Schema.Literal("MP3", "AAC")),
+          channel: Schema.optional(Schema.Literals(["mono", "stereo"])),
+          codec: Schema.optional(Schema.Literals(["MP3", "AAC"])),
           exportFile: Schema.optional(Schema.Boolean).pipe(
             T.JsonName("export_file"),
           ),
@@ -1359,13 +1359,13 @@ export const CreateMeetingRequest = Schema.Struct({
         }),
       ).pipe(T.JsonName("realtimekit_bucket_config")),
       storageConfig: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
-            type: Schema.Literal("aws", "azure", "digitalocean", "gcs", "sftp"),
+            type: Schema.Literals(["aws", "azure", "digitalocean", "gcs", "sftp"]),
             accessKey: Schema.optional(Schema.String).pipe(
               T.JsonName("access_key"),
             ),
-            authMethod: Schema.optional(Schema.Literal("KEY", "PASSWORD")).pipe(
+            authMethod: Schema.optional(Schema.Literals(["KEY", "PASSWORD"])).pipe(
               T.JsonName("auth_method"),
             ),
             bucket: Schema.optional(Schema.String),
@@ -1381,11 +1381,11 @@ export const CreateMeetingRequest = Schema.Struct({
             username: Schema.optional(Schema.String),
           }),
           Schema.Null,
-        ),
+        ]),
       ).pipe(T.JsonName("storage_config")),
       videoConfig: Schema.optional(
         Schema.Struct({
-          codec: Schema.optional(Schema.Literal("H264", "VP8")),
+          codec: Schema.optional(Schema.Literals(["H264", "VP8"])),
           exportFile: Schema.optional(Schema.Boolean).pipe(
             T.JsonName("export_file"),
           ),
@@ -1393,12 +1393,12 @@ export const CreateMeetingRequest = Schema.Struct({
           watermark: Schema.optional(
             Schema.Struct({
               position: Schema.optional(
-                Schema.Literal(
+                Schema.Literals([
                   "left top",
                   "right top",
                   "left bottom",
                   "right bottom",
-                ),
+                ]),
               ),
               size: Schema.optional(
                 Schema.Struct({
@@ -1420,7 +1420,7 @@ export const CreateMeetingRequest = Schema.Struct({
   summarizeOnEnd: Schema.optional(Schema.Boolean).pipe(
     T.JsonName("summarize_on_end"),
   ),
-  title: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
+  title: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   T.Http({
     method: "POST",
@@ -1525,7 +1525,7 @@ export const CreateMeetingResponse = Schema.Struct({
           summarization: Schema.optional(
             Schema.Struct({
               summaryType: Schema.optional(
-                Schema.Literal(
+                Schema.Literals([
                   "general",
                   "team_meeting",
                   "sales_call",
@@ -1535,10 +1535,10 @@ export const CreateMeetingResponse = Schema.Struct({
                   "one_on_one_meeting",
                   "lecture",
                   "code_review",
-                ),
+                ]),
               ).pipe(T.JsonName("summary_type")),
               textFormat: Schema.optional(
-                Schema.Literal("plain_text", "markdown"),
+                Schema.Literals(["plain_text", "markdown"]),
               ).pipe(T.JsonName("text_format")),
               wordLimit: Schema.optional(Schema.Number).pipe(
                 T.JsonName("word_limit"),
@@ -1549,7 +1549,7 @@ export const CreateMeetingResponse = Schema.Struct({
             Schema.Struct({
               keywords: Schema.optional(Schema.Array(Schema.String)),
               language: Schema.optional(
-                Schema.Literal(
+                Schema.Literals([
                   "en-US",
                   "en-IN",
                   "de",
@@ -1560,7 +1560,7 @@ export const CreateMeetingResponse = Schema.Struct({
                   "el",
                   "fr",
                   "nl",
-                ),
+                ]),
               ),
               profanityFilter: Schema.optional(Schema.Boolean).pipe(
                 T.JsonName("profanity_filter"),
@@ -1582,8 +1582,8 @@ export const CreateMeetingResponse = Schema.Struct({
         Schema.Struct({
           audioConfig: Schema.optional(
             Schema.Struct({
-              channel: Schema.optional(Schema.Literal("mono", "stereo")),
-              codec: Schema.optional(Schema.Literal("MP3", "AAC")),
+              channel: Schema.optional(Schema.Literals(["mono", "stereo"])),
+              codec: Schema.optional(Schema.Literals(["MP3", "AAC"])),
               exportFile: Schema.optional(Schema.Boolean).pipe(
                 T.JsonName("export_file"),
               ),
@@ -1608,20 +1608,20 @@ export const CreateMeetingResponse = Schema.Struct({
             }),
           ).pipe(T.JsonName("realtimekit_bucket_config")),
           storageConfig: Schema.optional(
-            Schema.Union(
+            Schema.Union([
               Schema.Struct({
-                type: Schema.Literal(
+                type: Schema.Literals([
                   "aws",
                   "azure",
                   "digitalocean",
                   "gcs",
                   "sftp",
-                ),
+                ]),
                 accessKey: Schema.optional(Schema.String).pipe(
                   T.JsonName("access_key"),
                 ),
                 authMethod: Schema.optional(
-                  Schema.Literal("KEY", "PASSWORD"),
+                  Schema.Literals(["KEY", "PASSWORD"]),
                 ).pipe(T.JsonName("auth_method")),
                 bucket: Schema.optional(Schema.String),
                 host: Schema.optional(Schema.String),
@@ -1636,11 +1636,11 @@ export const CreateMeetingResponse = Schema.Struct({
                 username: Schema.optional(Schema.String),
               }),
               Schema.Null,
-            ),
+            ]),
           ).pipe(T.JsonName("storage_config")),
           videoConfig: Schema.optional(
             Schema.Struct({
-              codec: Schema.optional(Schema.Literal("H264", "VP8")),
+              codec: Schema.optional(Schema.Literals(["H264", "VP8"])),
               exportFile: Schema.optional(Schema.Boolean).pipe(
                 T.JsonName("export_file"),
               ),
@@ -1648,12 +1648,12 @@ export const CreateMeetingResponse = Schema.Struct({
               watermark: Schema.optional(
                 Schema.Struct({
                   position: Schema.optional(
-                    Schema.Literal(
+                    Schema.Literals([
                       "left top",
                       "right top",
                       "left bottom",
                       "right bottom",
-                    ),
+                    ]),
                   ),
                   size: Schema.optional(
                     Schema.Struct({
@@ -1672,7 +1672,7 @@ export const CreateMeetingResponse = Schema.Struct({
       sessionKeepAliveTimeInSecs: Schema.optional(Schema.Number).pipe(
         T.JsonName("session_keep_alive_time_in_secs"),
       ),
-      status: Schema.optional(Schema.Literal("ACTIVE", "INACTIVE")),
+      status: Schema.optional(Schema.Literals(["ACTIVE", "INACTIVE"])),
       summarizeOnEnd: Schema.optional(Schema.Boolean).pipe(
         T.JsonName("summarize_on_end"),
       ),
@@ -1741,12 +1741,12 @@ export const GetMeetingActiveLivestreamsLivestreamResponse = Schema.Struct({
         T.JsonName("ingest_server"),
       ),
       meetingId: Schema.optional(Schema.String).pipe(T.JsonName("meeting_id")),
-      name: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
+      name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
       playbackUrl: Schema.optional(Schema.String).pipe(
         T.JsonName("playback_url"),
       ),
       status: Schema.optional(
-        Schema.Literal("LIVE", "IDLE", "ERRORED", "INVOKED"),
+        Schema.Literals(["LIVE", "IDLE", "ERRORED", "INVOKED"]),
       ),
       streamKey: Schema.optional(Schema.String).pipe(T.JsonName("stream_key")),
       updatedAt: Schema.optional(Schema.String).pipe(T.JsonName("updated_at")),
@@ -1889,7 +1889,7 @@ export const GetMeetingByIdMeetingResponse = Schema.Struct({
           summarization: Schema.optional(
             Schema.Struct({
               summaryType: Schema.optional(
-                Schema.Literal(
+                Schema.Literals([
                   "general",
                   "team_meeting",
                   "sales_call",
@@ -1899,10 +1899,10 @@ export const GetMeetingByIdMeetingResponse = Schema.Struct({
                   "one_on_one_meeting",
                   "lecture",
                   "code_review",
-                ),
+                ]),
               ).pipe(T.JsonName("summary_type")),
               textFormat: Schema.optional(
-                Schema.Literal("plain_text", "markdown"),
+                Schema.Literals(["plain_text", "markdown"]),
               ).pipe(T.JsonName("text_format")),
               wordLimit: Schema.optional(Schema.Number).pipe(
                 T.JsonName("word_limit"),
@@ -1913,7 +1913,7 @@ export const GetMeetingByIdMeetingResponse = Schema.Struct({
             Schema.Struct({
               keywords: Schema.optional(Schema.Array(Schema.String)),
               language: Schema.optional(
-                Schema.Literal(
+                Schema.Literals([
                   "en-US",
                   "en-IN",
                   "de",
@@ -1924,7 +1924,7 @@ export const GetMeetingByIdMeetingResponse = Schema.Struct({
                   "el",
                   "fr",
                   "nl",
-                ),
+                ]),
               ),
               profanityFilter: Schema.optional(Schema.Boolean).pipe(
                 T.JsonName("profanity_filter"),
@@ -1946,8 +1946,8 @@ export const GetMeetingByIdMeetingResponse = Schema.Struct({
         Schema.Struct({
           audioConfig: Schema.optional(
             Schema.Struct({
-              channel: Schema.optional(Schema.Literal("mono", "stereo")),
-              codec: Schema.optional(Schema.Literal("MP3", "AAC")),
+              channel: Schema.optional(Schema.Literals(["mono", "stereo"])),
+              codec: Schema.optional(Schema.Literals(["MP3", "AAC"])),
               exportFile: Schema.optional(Schema.Boolean).pipe(
                 T.JsonName("export_file"),
               ),
@@ -1972,20 +1972,20 @@ export const GetMeetingByIdMeetingResponse = Schema.Struct({
             }),
           ).pipe(T.JsonName("realtimekit_bucket_config")),
           storageConfig: Schema.optional(
-            Schema.Union(
+            Schema.Union([
               Schema.Struct({
-                type: Schema.Literal(
+                type: Schema.Literals([
                   "aws",
                   "azure",
                   "digitalocean",
                   "gcs",
                   "sftp",
-                ),
+                ]),
                 accessKey: Schema.optional(Schema.String).pipe(
                   T.JsonName("access_key"),
                 ),
                 authMethod: Schema.optional(
-                  Schema.Literal("KEY", "PASSWORD"),
+                  Schema.Literals(["KEY", "PASSWORD"]),
                 ).pipe(T.JsonName("auth_method")),
                 bucket: Schema.optional(Schema.String),
                 host: Schema.optional(Schema.String),
@@ -2000,11 +2000,11 @@ export const GetMeetingByIdMeetingResponse = Schema.Struct({
                 username: Schema.optional(Schema.String),
               }),
               Schema.Null,
-            ),
+            ]),
           ).pipe(T.JsonName("storage_config")),
           videoConfig: Schema.optional(
             Schema.Struct({
-              codec: Schema.optional(Schema.Literal("H264", "VP8")),
+              codec: Schema.optional(Schema.Literals(["H264", "VP8"])),
               exportFile: Schema.optional(Schema.Boolean).pipe(
                 T.JsonName("export_file"),
               ),
@@ -2012,12 +2012,12 @@ export const GetMeetingByIdMeetingResponse = Schema.Struct({
               watermark: Schema.optional(
                 Schema.Struct({
                   position: Schema.optional(
-                    Schema.Literal(
+                    Schema.Literals([
                       "left top",
                       "right top",
                       "left bottom",
                       "right bottom",
-                    ),
+                    ]),
                   ),
                   size: Schema.optional(
                     Schema.Struct({
@@ -2036,7 +2036,7 @@ export const GetMeetingByIdMeetingResponse = Schema.Struct({
       sessionKeepAliveTimeInSecs: Schema.optional(Schema.Number).pipe(
         T.JsonName("session_keep_alive_time_in_secs"),
       ),
-      status: Schema.optional(Schema.Literal("ACTIVE", "INACTIVE")),
+      status: Schema.optional(Schema.Literals(["ACTIVE", "INACTIVE"])),
       summarizeOnEnd: Schema.optional(Schema.Boolean).pipe(
         T.JsonName("summarize_on_end"),
       ),
@@ -2119,7 +2119,7 @@ export const UpdateMeetingByIdMeetingRequest = Schema.Struct({
       summarization: Schema.optional(
         Schema.Struct({
           summaryType: Schema.optional(
-            Schema.Literal(
+            Schema.Literals([
               "general",
               "team_meeting",
               "sales_call",
@@ -2129,10 +2129,10 @@ export const UpdateMeetingByIdMeetingRequest = Schema.Struct({
               "one_on_one_meeting",
               "lecture",
               "code_review",
-            ),
+            ]),
           ).pipe(T.JsonName("summary_type")),
           textFormat: Schema.optional(
-            Schema.Literal("plain_text", "markdown"),
+            Schema.Literals(["plain_text", "markdown"]),
           ).pipe(T.JsonName("text_format")),
           wordLimit: Schema.optional(Schema.Number).pipe(
             T.JsonName("word_limit"),
@@ -2143,7 +2143,7 @@ export const UpdateMeetingByIdMeetingRequest = Schema.Struct({
         Schema.Struct({
           keywords: Schema.optional(Schema.Array(Schema.String)),
           language: Schema.optional(
-            Schema.Literal(
+            Schema.Literals([
               "en-US",
               "en-IN",
               "de",
@@ -2154,7 +2154,7 @@ export const UpdateMeetingByIdMeetingRequest = Schema.Struct({
               "el",
               "fr",
               "nl",
-            ),
+            ]),
           ),
           profanityFilter: Schema.optional(Schema.Boolean).pipe(
             T.JsonName("profanity_filter"),
@@ -2173,7 +2173,7 @@ export const UpdateMeetingByIdMeetingRequest = Schema.Struct({
   sessionKeepAliveTimeInSecs: Schema.optional(Schema.Number).pipe(
     T.JsonName("session_keep_alive_time_in_secs"),
   ),
-  status: Schema.optional(Schema.Literal("ACTIVE", "INACTIVE")),
+  status: Schema.optional(Schema.Literals(["ACTIVE", "INACTIVE"])),
   summarizeOnEnd: Schema.optional(Schema.Boolean).pipe(
     T.JsonName("summarize_on_end"),
   ),
@@ -2282,7 +2282,7 @@ export const UpdateMeetingByIdMeetingResponse = Schema.Struct({
           summarization: Schema.optional(
             Schema.Struct({
               summaryType: Schema.optional(
-                Schema.Literal(
+                Schema.Literals([
                   "general",
                   "team_meeting",
                   "sales_call",
@@ -2292,10 +2292,10 @@ export const UpdateMeetingByIdMeetingResponse = Schema.Struct({
                   "one_on_one_meeting",
                   "lecture",
                   "code_review",
-                ),
+                ]),
               ).pipe(T.JsonName("summary_type")),
               textFormat: Schema.optional(
-                Schema.Literal("plain_text", "markdown"),
+                Schema.Literals(["plain_text", "markdown"]),
               ).pipe(T.JsonName("text_format")),
               wordLimit: Schema.optional(Schema.Number).pipe(
                 T.JsonName("word_limit"),
@@ -2306,7 +2306,7 @@ export const UpdateMeetingByIdMeetingResponse = Schema.Struct({
             Schema.Struct({
               keywords: Schema.optional(Schema.Array(Schema.String)),
               language: Schema.optional(
-                Schema.Literal(
+                Schema.Literals([
                   "en-US",
                   "en-IN",
                   "de",
@@ -2317,7 +2317,7 @@ export const UpdateMeetingByIdMeetingResponse = Schema.Struct({
                   "el",
                   "fr",
                   "nl",
-                ),
+                ]),
               ),
               profanityFilter: Schema.optional(Schema.Boolean).pipe(
                 T.JsonName("profanity_filter"),
@@ -2339,8 +2339,8 @@ export const UpdateMeetingByIdMeetingResponse = Schema.Struct({
         Schema.Struct({
           audioConfig: Schema.optional(
             Schema.Struct({
-              channel: Schema.optional(Schema.Literal("mono", "stereo")),
-              codec: Schema.optional(Schema.Literal("MP3", "AAC")),
+              channel: Schema.optional(Schema.Literals(["mono", "stereo"])),
+              codec: Schema.optional(Schema.Literals(["MP3", "AAC"])),
               exportFile: Schema.optional(Schema.Boolean).pipe(
                 T.JsonName("export_file"),
               ),
@@ -2365,20 +2365,20 @@ export const UpdateMeetingByIdMeetingResponse = Schema.Struct({
             }),
           ).pipe(T.JsonName("realtimekit_bucket_config")),
           storageConfig: Schema.optional(
-            Schema.Union(
+            Schema.Union([
               Schema.Struct({
-                type: Schema.Literal(
+                type: Schema.Literals([
                   "aws",
                   "azure",
                   "digitalocean",
                   "gcs",
                   "sftp",
-                ),
+                ]),
                 accessKey: Schema.optional(Schema.String).pipe(
                   T.JsonName("access_key"),
                 ),
                 authMethod: Schema.optional(
-                  Schema.Literal("KEY", "PASSWORD"),
+                  Schema.Literals(["KEY", "PASSWORD"]),
                 ).pipe(T.JsonName("auth_method")),
                 bucket: Schema.optional(Schema.String),
                 host: Schema.optional(Schema.String),
@@ -2393,11 +2393,11 @@ export const UpdateMeetingByIdMeetingResponse = Schema.Struct({
                 username: Schema.optional(Schema.String),
               }),
               Schema.Null,
-            ),
+            ]),
           ).pipe(T.JsonName("storage_config")),
           videoConfig: Schema.optional(
             Schema.Struct({
-              codec: Schema.optional(Schema.Literal("H264", "VP8")),
+              codec: Schema.optional(Schema.Literals(["H264", "VP8"])),
               exportFile: Schema.optional(Schema.Boolean).pipe(
                 T.JsonName("export_file"),
               ),
@@ -2405,12 +2405,12 @@ export const UpdateMeetingByIdMeetingResponse = Schema.Struct({
               watermark: Schema.optional(
                 Schema.Struct({
                   position: Schema.optional(
-                    Schema.Literal(
+                    Schema.Literals([
                       "left top",
                       "right top",
                       "left bottom",
                       "right bottom",
-                    ),
+                    ]),
                   ),
                   size: Schema.optional(
                     Schema.Struct({
@@ -2429,7 +2429,7 @@ export const UpdateMeetingByIdMeetingResponse = Schema.Struct({
       sessionKeepAliveTimeInSecs: Schema.optional(Schema.Number).pipe(
         T.JsonName("session_keep_alive_time_in_secs"),
       ),
-      status: Schema.optional(Schema.Literal("ACTIVE", "INACTIVE")),
+      status: Schema.optional(Schema.Literals(["ACTIVE", "INACTIVE"])),
       summarizeOnEnd: Schema.optional(Schema.Boolean).pipe(
         T.JsonName("summarize_on_end"),
       ),
@@ -2547,7 +2547,7 @@ export const ReplaceMeetingByIdMeetingRequest = Schema.Struct({
       summarization: Schema.optional(
         Schema.Struct({
           summaryType: Schema.optional(
-            Schema.Literal(
+            Schema.Literals([
               "general",
               "team_meeting",
               "sales_call",
@@ -2557,10 +2557,10 @@ export const ReplaceMeetingByIdMeetingRequest = Schema.Struct({
               "one_on_one_meeting",
               "lecture",
               "code_review",
-            ),
+            ]),
           ).pipe(T.JsonName("summary_type")),
           textFormat: Schema.optional(
-            Schema.Literal("plain_text", "markdown"),
+            Schema.Literals(["plain_text", "markdown"]),
           ).pipe(T.JsonName("text_format")),
           wordLimit: Schema.optional(Schema.Number).pipe(
             T.JsonName("word_limit"),
@@ -2571,7 +2571,7 @@ export const ReplaceMeetingByIdMeetingRequest = Schema.Struct({
         Schema.Struct({
           keywords: Schema.optional(Schema.Array(Schema.String)),
           language: Schema.optional(
-            Schema.Literal(
+            Schema.Literals([
               "en-US",
               "en-IN",
               "de",
@@ -2582,7 +2582,7 @@ export const ReplaceMeetingByIdMeetingRequest = Schema.Struct({
               "el",
               "fr",
               "nl",
-            ),
+            ]),
           ),
           profanityFilter: Schema.optional(Schema.Boolean).pipe(
             T.JsonName("profanity_filter"),
@@ -2592,18 +2592,18 @@ export const ReplaceMeetingByIdMeetingRequest = Schema.Struct({
     }),
   ).pipe(T.JsonName("ai_config")),
   liveStreamOnStart: Schema.optional(
-    Schema.Union(Schema.Boolean, Schema.Null),
+    Schema.Union([Schema.Boolean, Schema.Null]),
   ).pipe(T.JsonName("live_stream_on_start")),
   persistChat: Schema.optional(Schema.Boolean).pipe(T.JsonName("persist_chat")),
   recordOnStart: Schema.optional(
-    Schema.Union(Schema.Boolean, Schema.Null),
+    Schema.Union([Schema.Boolean, Schema.Null]),
   ).pipe(T.JsonName("record_on_start")),
   recordingConfig: Schema.optional(
     Schema.Struct({
       audioConfig: Schema.optional(
         Schema.Struct({
-          channel: Schema.optional(Schema.Literal("mono", "stereo")),
-          codec: Schema.optional(Schema.Literal("MP3", "AAC")),
+          channel: Schema.optional(Schema.Literals(["mono", "stereo"])),
+          codec: Schema.optional(Schema.Literals(["MP3", "AAC"])),
           exportFile: Schema.optional(Schema.Boolean).pipe(
             T.JsonName("export_file"),
           ),
@@ -2626,13 +2626,13 @@ export const ReplaceMeetingByIdMeetingRequest = Schema.Struct({
         }),
       ).pipe(T.JsonName("realtimekit_bucket_config")),
       storageConfig: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
-            type: Schema.Literal("aws", "azure", "digitalocean", "gcs", "sftp"),
+            type: Schema.Literals(["aws", "azure", "digitalocean", "gcs", "sftp"]),
             accessKey: Schema.optional(Schema.String).pipe(
               T.JsonName("access_key"),
             ),
-            authMethod: Schema.optional(Schema.Literal("KEY", "PASSWORD")).pipe(
+            authMethod: Schema.optional(Schema.Literals(["KEY", "PASSWORD"])).pipe(
               T.JsonName("auth_method"),
             ),
             bucket: Schema.optional(Schema.String),
@@ -2648,11 +2648,11 @@ export const ReplaceMeetingByIdMeetingRequest = Schema.Struct({
             username: Schema.optional(Schema.String),
           }),
           Schema.Null,
-        ),
+        ]),
       ).pipe(T.JsonName("storage_config")),
       videoConfig: Schema.optional(
         Schema.Struct({
-          codec: Schema.optional(Schema.Literal("H264", "VP8")),
+          codec: Schema.optional(Schema.Literals(["H264", "VP8"])),
           exportFile: Schema.optional(Schema.Boolean).pipe(
             T.JsonName("export_file"),
           ),
@@ -2660,12 +2660,12 @@ export const ReplaceMeetingByIdMeetingRequest = Schema.Struct({
           watermark: Schema.optional(
             Schema.Struct({
               position: Schema.optional(
-                Schema.Literal(
+                Schema.Literals([
                   "left top",
                   "right top",
                   "left bottom",
                   "right bottom",
-                ),
+                ]),
               ),
               size: Schema.optional(
                 Schema.Struct({
@@ -2687,7 +2687,7 @@ export const ReplaceMeetingByIdMeetingRequest = Schema.Struct({
   summarizeOnEnd: Schema.optional(Schema.Boolean).pipe(
     T.JsonName("summarize_on_end"),
   ),
-  title: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
+  title: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   T.Http({
     method: "PUT",
@@ -2792,7 +2792,7 @@ export const ReplaceMeetingByIdMeetingResponse = Schema.Struct({
           summarization: Schema.optional(
             Schema.Struct({
               summaryType: Schema.optional(
-                Schema.Literal(
+                Schema.Literals([
                   "general",
                   "team_meeting",
                   "sales_call",
@@ -2802,10 +2802,10 @@ export const ReplaceMeetingByIdMeetingResponse = Schema.Struct({
                   "one_on_one_meeting",
                   "lecture",
                   "code_review",
-                ),
+                ]),
               ).pipe(T.JsonName("summary_type")),
               textFormat: Schema.optional(
-                Schema.Literal("plain_text", "markdown"),
+                Schema.Literals(["plain_text", "markdown"]),
               ).pipe(T.JsonName("text_format")),
               wordLimit: Schema.optional(Schema.Number).pipe(
                 T.JsonName("word_limit"),
@@ -2816,7 +2816,7 @@ export const ReplaceMeetingByIdMeetingResponse = Schema.Struct({
             Schema.Struct({
               keywords: Schema.optional(Schema.Array(Schema.String)),
               language: Schema.optional(
-                Schema.Literal(
+                Schema.Literals([
                   "en-US",
                   "en-IN",
                   "de",
@@ -2827,7 +2827,7 @@ export const ReplaceMeetingByIdMeetingResponse = Schema.Struct({
                   "el",
                   "fr",
                   "nl",
-                ),
+                ]),
               ),
               profanityFilter: Schema.optional(Schema.Boolean).pipe(
                 T.JsonName("profanity_filter"),
@@ -2849,8 +2849,8 @@ export const ReplaceMeetingByIdMeetingResponse = Schema.Struct({
         Schema.Struct({
           audioConfig: Schema.optional(
             Schema.Struct({
-              channel: Schema.optional(Schema.Literal("mono", "stereo")),
-              codec: Schema.optional(Schema.Literal("MP3", "AAC")),
+              channel: Schema.optional(Schema.Literals(["mono", "stereo"])),
+              codec: Schema.optional(Schema.Literals(["MP3", "AAC"])),
               exportFile: Schema.optional(Schema.Boolean).pipe(
                 T.JsonName("export_file"),
               ),
@@ -2875,20 +2875,20 @@ export const ReplaceMeetingByIdMeetingResponse = Schema.Struct({
             }),
           ).pipe(T.JsonName("realtimekit_bucket_config")),
           storageConfig: Schema.optional(
-            Schema.Union(
+            Schema.Union([
               Schema.Struct({
-                type: Schema.Literal(
+                type: Schema.Literals([
                   "aws",
                   "azure",
                   "digitalocean",
                   "gcs",
                   "sftp",
-                ),
+                ]),
                 accessKey: Schema.optional(Schema.String).pipe(
                   T.JsonName("access_key"),
                 ),
                 authMethod: Schema.optional(
-                  Schema.Literal("KEY", "PASSWORD"),
+                  Schema.Literals(["KEY", "PASSWORD"]),
                 ).pipe(T.JsonName("auth_method")),
                 bucket: Schema.optional(Schema.String),
                 host: Schema.optional(Schema.String),
@@ -2903,11 +2903,11 @@ export const ReplaceMeetingByIdMeetingResponse = Schema.Struct({
                 username: Schema.optional(Schema.String),
               }),
               Schema.Null,
-            ),
+            ]),
           ).pipe(T.JsonName("storage_config")),
           videoConfig: Schema.optional(
             Schema.Struct({
-              codec: Schema.optional(Schema.Literal("H264", "VP8")),
+              codec: Schema.optional(Schema.Literals(["H264", "VP8"])),
               exportFile: Schema.optional(Schema.Boolean).pipe(
                 T.JsonName("export_file"),
               ),
@@ -2915,12 +2915,12 @@ export const ReplaceMeetingByIdMeetingResponse = Schema.Struct({
               watermark: Schema.optional(
                 Schema.Struct({
                   position: Schema.optional(
-                    Schema.Literal(
+                    Schema.Literals([
                       "left top",
                       "right top",
                       "left bottom",
                       "right bottom",
-                    ),
+                    ]),
                   ),
                   size: Schema.optional(
                     Schema.Struct({
@@ -2939,7 +2939,7 @@ export const ReplaceMeetingByIdMeetingResponse = Schema.Struct({
       sessionKeepAliveTimeInSecs: Schema.optional(Schema.Number).pipe(
         T.JsonName("session_keep_alive_time_in_secs"),
       ),
-      status: Schema.optional(Schema.Literal("ACTIVE", "INACTIVE")),
+      status: Schema.optional(Schema.Literals(["ACTIVE", "INACTIVE"])),
       summarizeOnEnd: Schema.optional(Schema.Boolean).pipe(
         T.JsonName("summarize_on_end"),
       ),
@@ -3008,8 +3008,8 @@ export const GetMeetingParticipantMeetingResponse = Schema.Struct({
     ),
     presetName: Schema.String.pipe(T.JsonName("preset_name")),
     updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
-    name: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
-    picture: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
+    name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    picture: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }),
   success: Schema.Boolean,
 }) as unknown as Schema.Schema<GetMeetingParticipantMeetingResponse>;
@@ -3136,8 +3136,8 @@ export const GetMeetingParticipantsMeetingResponse = Schema.Struct({
       ),
       presetName: Schema.String.pipe(T.JsonName("preset_name")),
       updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
-      name: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
-      picture: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
+      name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      picture: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     }),
   ),
   paging: Schema.Struct({
@@ -3242,35 +3242,35 @@ export const GetOneRecordingRecordingResponse = Schema.Struct({
   data: Schema.optional(
     Schema.Struct({
       id: Schema.String,
-      audioDownloadUrl: Schema.Union(Schema.String, Schema.Null).pipe(
+      audioDownloadUrl: Schema.Union([Schema.String, Schema.Null]).pipe(
         T.JsonName("audio_download_url"),
       ),
-      downloadUrl: Schema.Union(Schema.String, Schema.Null).pipe(
+      downloadUrl: Schema.Union([Schema.String, Schema.Null]).pipe(
         T.JsonName("download_url"),
       ),
-      downloadUrlExpiry: Schema.Union(Schema.String, Schema.Null).pipe(
+      downloadUrlExpiry: Schema.Union([Schema.String, Schema.Null]).pipe(
         T.JsonName("download_url_expiry"),
       ),
-      fileSize: Schema.Union(Schema.Number, Schema.Null).pipe(
+      fileSize: Schema.Union([Schema.Number, Schema.Null]).pipe(
         T.JsonName("file_size"),
       ),
       invokedTime: Schema.String.pipe(T.JsonName("invoked_time")),
       outputFileName: Schema.String.pipe(T.JsonName("output_file_name")),
-      sessionId: Schema.Union(Schema.String, Schema.Null).pipe(
+      sessionId: Schema.Union([Schema.String, Schema.Null]).pipe(
         T.JsonName("session_id"),
       ),
-      startedTime: Schema.Union(Schema.String, Schema.Null).pipe(
+      startedTime: Schema.Union([Schema.String, Schema.Null]).pipe(
         T.JsonName("started_time"),
       ),
-      status: Schema.Literal(
+      status: Schema.Literals([
         "INVOKED",
         "RECORDING",
         "UPLOADING",
         "UPLOADED",
         "ERRORED",
         "PAUSED",
-      ),
-      stoppedTime: Schema.Union(Schema.String, Schema.Null).pipe(
+      ]),
+      stoppedTime: Schema.Union([Schema.String, Schema.Null]).pipe(
         T.JsonName("stopped_time"),
       ),
       recordingDuration: Schema.optional(Schema.Number).pipe(
@@ -3281,12 +3281,12 @@ export const GetOneRecordingRecordingResponse = Schema.Struct({
           caller: Schema.optional(
             Schema.Struct({
               name: Schema.optional(Schema.String),
-              type: Schema.optional(Schema.Literal("ORGANIZATION", "USER")),
+              type: Schema.optional(Schema.Literals(["ORGANIZATION", "USER"])),
               user_Id: Schema.optional(Schema.String),
             }),
           ),
           reason: Schema.optional(
-            Schema.Literal("API_CALL", "RECORD_ON_START"),
+            Schema.Literals(["API_CALL", "RECORD_ON_START"]),
           ),
         }),
       ).pipe(T.JsonName("start_reason")),
@@ -3295,20 +3295,20 @@ export const GetOneRecordingRecordingResponse = Schema.Struct({
           caller: Schema.optional(
             Schema.Struct({
               name: Schema.optional(Schema.String),
-              type: Schema.optional(Schema.Literal("ORGANIZATION", "USER")),
+              type: Schema.optional(Schema.Literals(["ORGANIZATION", "USER"])),
               user_Id: Schema.optional(Schema.String),
             }),
           ),
           reason: Schema.optional(
-            Schema.Literal("API_CALL", "INTERNAL_ERROR", "ALL_PEERS_LEFT"),
+            Schema.Literals(["API_CALL", "INTERNAL_ERROR", "ALL_PEERS_LEFT"]),
           ),
         }),
       ).pipe(T.JsonName("stop_reason")),
       storageConfig: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
-            type: Schema.Literal("aws", "azure", "digitalocean", "gcs", "sftp"),
-            authMethod: Schema.optional(Schema.Literal("KEY", "PASSWORD")).pipe(
+            type: Schema.Literals(["aws", "azure", "digitalocean", "gcs", "sftp"]),
+            authMethod: Schema.optional(Schema.Literals(["KEY", "PASSWORD"])).pipe(
               T.JsonName("auth_method"),
             ),
             bucket: Schema.optional(Schema.String),
@@ -3324,7 +3324,7 @@ export const GetOneRecordingRecordingResponse = Schema.Struct({
             username: Schema.optional(Schema.String),
           }),
           Schema.Null,
-        ),
+        ]),
       ).pipe(T.JsonName("storage_config")),
     }),
   ),
@@ -3597,13 +3597,13 @@ export const GetParticipantDataFromPeerIdSessionRequest = Schema.Struct({
   peerId: Schema.String.pipe(T.HttpPath("peerId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   filters: Schema.optional(
-    Schema.Literal(
+    Schema.Literals([
       "device_info",
       "ip_information",
       "precall_network_information",
       "events",
       "quality_stats",
-    ),
+    ]),
   ).pipe(T.HttpQuery("filters")),
 }).pipe(
   T.Http({
@@ -3701,8 +3701,8 @@ export const AddParticipantMeetingRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   customParticipantId: Schema.String.pipe(T.JsonName("custom_participant_id")),
   presetName: Schema.String.pipe(T.JsonName("preset_name")),
-  name: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
-  picture: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
+  name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  picture: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   T.Http({
     method: "POST",
@@ -3738,8 +3738,8 @@ export const AddParticipantMeetingResponse = Schema.Struct({
       ),
       presetName: Schema.String.pipe(T.JsonName("preset_name")),
       updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
-      name: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
-      picture: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
+      name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      picture: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     }),
   ),
 }) as unknown as Schema.Schema<AddParticipantMeetingResponse>;
@@ -3775,9 +3775,9 @@ export const EditParticipantMeetingRequest = Schema.Struct({
   meetingId: Schema.String.pipe(T.HttpPath("meetingId")),
   participantId: Schema.String.pipe(T.HttpPath("participantId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  name: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
-  picture: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
-  presetName: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
+  name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  picture: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  presetName: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
     T.JsonName("preset_name"),
   ),
 }).pipe(
@@ -3815,8 +3815,8 @@ export const EditParticipantMeetingResponse = Schema.Struct({
       ),
       presetName: Schema.String.pipe(T.JsonName("preset_name")),
       updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
-      name: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
-      picture: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
+      name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      picture: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     }),
   ),
 }) as unknown as Schema.Schema<EditParticipantMeetingResponse>;
@@ -4247,19 +4247,19 @@ export const CreatePresetRequest = Schema.Struct({
       screenshare: Schema.optional(
         Schema.Struct({
           canProduce: Schema.optional(
-            Schema.Literal("ALLOWED", "NOT_ALLOWED", "CAN_REQUEST"),
+            Schema.Literals(["ALLOWED", "NOT_ALLOWED", "CAN_REQUEST"]),
           ).pipe(T.JsonName("can_produce")),
         }),
       ),
       video: Schema.optional(
         Schema.Struct({
           canProduce: Schema.optional(
-            Schema.Literal("ALLOWED", "NOT_ALLOWED", "CAN_REQUEST"),
+            Schema.Literals(["ALLOWED", "NOT_ALLOWED", "CAN_REQUEST"]),
           ).pipe(T.JsonName("can_produce")),
         }),
       ),
     }),
-    viewType: Schema.Literal("GROUP_CALL", "WEBINAR", "AUDIO_ROOM").pipe(
+    viewType: Schema.Literals(["GROUP_CALL", "WEBINAR", "AUDIO_ROOM"]).pipe(
       T.JsonName("view_type"),
     ),
   }),
@@ -4376,21 +4376,21 @@ export const CreatePresetRequest = Schema.Struct({
         audio: Schema.optional(
           Schema.Struct({
             canProduce: Schema.optional(
-              Schema.Literal("ALLOWED", "NOT_ALLOWED", "CAN_REQUEST"),
+              Schema.Literals(["ALLOWED", "NOT_ALLOWED", "CAN_REQUEST"]),
             ).pipe(T.JsonName("can_produce")),
           }),
         ),
         screenshare: Schema.optional(
           Schema.Struct({
             canProduce: Schema.optional(
-              Schema.Literal("ALLOWED", "NOT_ALLOWED", "CAN_REQUEST"),
+              Schema.Literals(["ALLOWED", "NOT_ALLOWED", "CAN_REQUEST"]),
             ).pipe(T.JsonName("can_produce")),
           }),
         ),
         video: Schema.optional(
           Schema.Struct({
             canProduce: Schema.optional(
-              Schema.Literal("ALLOWED", "NOT_ALLOWED", "CAN_REQUEST"),
+              Schema.Literals(["ALLOWED", "NOT_ALLOWED", "CAN_REQUEST"]),
             ).pipe(T.JsonName("can_produce")),
           }),
         ),
@@ -4403,17 +4403,17 @@ export const CreatePresetRequest = Schema.Struct({
         ),
         canStart: Schema.optional(Schema.Boolean).pipe(T.JsonName("can_start")),
         config: Schema.optional(
-          Schema.Union(
+          Schema.Union([
             Schema.String,
             Schema.Struct({
               accessControl: Schema.optional(
-                Schema.Literal("FULL_ACCESS", "VIEW_ONLY"),
+                Schema.Literals(["FULL_ACCESS", "VIEW_ONLY"]),
               ).pipe(T.JsonName("access_control")),
               handlesViewOnly: Schema.optional(Schema.Boolean).pipe(
                 T.JsonName("handles_view_only"),
               ),
             }),
-          ),
+          ]),
         ),
       }),
       polls: Schema.Struct({
@@ -4423,17 +4423,17 @@ export const CreatePresetRequest = Schema.Struct({
         canView: Schema.optional(Schema.Boolean).pipe(T.JsonName("can_view")),
         canVote: Schema.optional(Schema.Boolean).pipe(T.JsonName("can_vote")),
       }),
-      recorderType: Schema.Literal("RECORDER", "LIVESTREAMER", "NONE").pipe(
+      recorderType: Schema.Literals(["RECORDER", "LIVESTREAMER", "NONE"]).pipe(
         T.JsonName("recorder_type"),
       ),
       showParticipantList: Schema.Boolean.pipe(
         T.JsonName("show_participant_list"),
       ),
-      waitingRoomType: Schema.Literal(
+      waitingRoomType: Schema.Literals([
         "SKIP",
         "ON_PRIVILEGED_USER_ENTRY",
         "SKIP_ON_ACCEPT",
-      ).pipe(T.JsonName("waiting_room_type")),
+      ]).pipe(T.JsonName("waiting_room_type")),
       isRecorder: Schema.optional(Schema.Boolean).pipe(
         T.JsonName("is_recorder"),
       ),
@@ -4566,19 +4566,19 @@ export const CreatePresetResponse = Schema.Struct({
         screenshare: Schema.optional(
           Schema.Struct({
             canProduce: Schema.optional(
-              Schema.Literal("ALLOWED", "NOT_ALLOWED", "CAN_REQUEST"),
+              Schema.Literals(["ALLOWED", "NOT_ALLOWED", "CAN_REQUEST"]),
             ).pipe(T.JsonName("can_produce")),
           }),
         ),
         video: Schema.optional(
           Schema.Struct({
             canProduce: Schema.optional(
-              Schema.Literal("ALLOWED", "NOT_ALLOWED", "CAN_REQUEST"),
+              Schema.Literals(["ALLOWED", "NOT_ALLOWED", "CAN_REQUEST"]),
             ).pipe(T.JsonName("can_produce")),
           }),
         ),
       }),
-      viewType: Schema.Literal("GROUP_CALL", "WEBINAR", "AUDIO_ROOM").pipe(
+      viewType: Schema.Literals(["GROUP_CALL", "WEBINAR", "AUDIO_ROOM"]).pipe(
         T.JsonName("view_type"),
       ),
     }),
@@ -4701,21 +4701,21 @@ export const CreatePresetResponse = Schema.Struct({
           audio: Schema.optional(
             Schema.Struct({
               canProduce: Schema.optional(
-                Schema.Literal("ALLOWED", "NOT_ALLOWED", "CAN_REQUEST"),
+                Schema.Literals(["ALLOWED", "NOT_ALLOWED", "CAN_REQUEST"]),
               ).pipe(T.JsonName("can_produce")),
             }),
           ),
           screenshare: Schema.optional(
             Schema.Struct({
               canProduce: Schema.optional(
-                Schema.Literal("ALLOWED", "NOT_ALLOWED", "CAN_REQUEST"),
+                Schema.Literals(["ALLOWED", "NOT_ALLOWED", "CAN_REQUEST"]),
               ).pipe(T.JsonName("can_produce")),
             }),
           ),
           video: Schema.optional(
             Schema.Struct({
               canProduce: Schema.optional(
-                Schema.Literal("ALLOWED", "NOT_ALLOWED", "CAN_REQUEST"),
+                Schema.Literals(["ALLOWED", "NOT_ALLOWED", "CAN_REQUEST"]),
               ).pipe(T.JsonName("can_produce")),
             }),
           ),
@@ -4732,17 +4732,17 @@ export const CreatePresetResponse = Schema.Struct({
             T.JsonName("can_start"),
           ),
           config: Schema.optional(
-            Schema.Union(
+            Schema.Union([
               Schema.String,
               Schema.Struct({
                 accessControl: Schema.optional(
-                  Schema.Literal("FULL_ACCESS", "VIEW_ONLY"),
+                  Schema.Literals(["FULL_ACCESS", "VIEW_ONLY"]),
                 ).pipe(T.JsonName("access_control")),
                 handlesViewOnly: Schema.optional(Schema.Boolean).pipe(
                   T.JsonName("handles_view_only"),
                 ),
               }),
-            ),
+            ]),
           ),
         }),
         polls: Schema.Struct({
@@ -4752,17 +4752,17 @@ export const CreatePresetResponse = Schema.Struct({
           canView: Schema.optional(Schema.Boolean).pipe(T.JsonName("can_view")),
           canVote: Schema.optional(Schema.Boolean).pipe(T.JsonName("can_vote")),
         }),
-        recorderType: Schema.Literal("RECORDER", "LIVESTREAMER", "NONE").pipe(
+        recorderType: Schema.Literals(["RECORDER", "LIVESTREAMER", "NONE"]).pipe(
           T.JsonName("recorder_type"),
         ),
         showParticipantList: Schema.Boolean.pipe(
           T.JsonName("show_participant_list"),
         ),
-        waitingRoomType: Schema.Literal(
+        waitingRoomType: Schema.Literals([
           "SKIP",
           "ON_PRIVILEGED_USER_ENTRY",
           "SKIP_ON_ACCEPT",
-        ).pipe(T.JsonName("waiting_room_type")),
+        ]).pipe(T.JsonName("waiting_room_type")),
         isRecorder: Schema.optional(Schema.Boolean).pipe(
           T.JsonName("is_recorder"),
         ),
@@ -4907,21 +4907,21 @@ export const PatchPresetRequest = Schema.Struct({
           screenshare: Schema.optional(
             Schema.Struct({
               canProduce: Schema.optional(
-                Schema.Literal("ALLOWED", "NOT_ALLOWED", "CAN_REQUEST"),
+                Schema.Literals(["ALLOWED", "NOT_ALLOWED", "CAN_REQUEST"]),
               ).pipe(T.JsonName("can_produce")),
             }),
           ),
           video: Schema.optional(
             Schema.Struct({
               canProduce: Schema.optional(
-                Schema.Literal("ALLOWED", "NOT_ALLOWED", "CAN_REQUEST"),
+                Schema.Literals(["ALLOWED", "NOT_ALLOWED", "CAN_REQUEST"]),
               ).pipe(T.JsonName("can_produce")),
             }),
           ),
         }),
       ),
       viewType: Schema.optional(
-        Schema.Literal("GROUP_CALL", "WEBINAR", "AUDIO_ROOM"),
+        Schema.Literals(["GROUP_CALL", "WEBINAR", "AUDIO_ROOM"]),
       ).pipe(T.JsonName("view_type")),
     }),
   ),
@@ -5008,21 +5008,21 @@ export const PatchPresetRequest = Schema.Struct({
           audio: Schema.optional(
             Schema.Struct({
               canProduce: Schema.optional(
-                Schema.Literal("ALLOWED", "NOT_ALLOWED", "CAN_REQUEST"),
+                Schema.Literals(["ALLOWED", "NOT_ALLOWED", "CAN_REQUEST"]),
               ).pipe(T.JsonName("can_produce")),
             }),
           ),
           screenshare: Schema.optional(
             Schema.Struct({
               canProduce: Schema.optional(
-                Schema.Literal("ALLOWED", "NOT_ALLOWED", "CAN_REQUEST"),
+                Schema.Literals(["ALLOWED", "NOT_ALLOWED", "CAN_REQUEST"]),
               ).pipe(T.JsonName("can_produce")),
             }),
           ),
           video: Schema.optional(
             Schema.Struct({
               canProduce: Schema.optional(
-                Schema.Literal("ALLOWED", "NOT_ALLOWED", "CAN_REQUEST"),
+                Schema.Literals(["ALLOWED", "NOT_ALLOWED", "CAN_REQUEST"]),
               ).pipe(T.JsonName("can_produce")),
             }),
           ),
@@ -5043,17 +5043,17 @@ export const PatchPresetRequest = Schema.Struct({
             T.JsonName("can_start"),
           ),
           config: Schema.optional(
-            Schema.Union(
+            Schema.Union([
               Schema.String,
               Schema.Struct({
                 accessControl: Schema.optional(
-                  Schema.Literal("FULL_ACCESS", "VIEW_ONLY"),
+                  Schema.Literals(["FULL_ACCESS", "VIEW_ONLY"]),
                 ).pipe(T.JsonName("access_control")),
                 handlesViewOnly: Schema.optional(Schema.Boolean).pipe(
                   T.JsonName("handles_view_only"),
                 ),
               }),
-            ),
+            ]),
           ),
         }),
       ),
@@ -5067,13 +5067,13 @@ export const PatchPresetRequest = Schema.Struct({
         }),
       ),
       recorderType: Schema.optional(
-        Schema.Literal("RECORDER", "LIVESTREAMER", "NONE"),
+        Schema.Literals(["RECORDER", "LIVESTREAMER", "NONE"]),
       ).pipe(T.JsonName("recorder_type")),
       showParticipantList: Schema.optional(Schema.Boolean).pipe(
         T.JsonName("show_participant_list"),
       ),
       waitingRoomType: Schema.optional(
-        Schema.Literal("SKIP", "ON_PRIVILEGED_USER_ENTRY", "SKIP_ON_ACCEPT"),
+        Schema.Literals(["SKIP", "ON_PRIVILEGED_USER_ENTRY", "SKIP_ON_ACCEPT"]),
       ).pipe(T.JsonName("waiting_room_type")),
     }),
   ),
@@ -5258,19 +5258,19 @@ export const PatchPresetResponse = Schema.Struct({
         screenshare: Schema.optional(
           Schema.Struct({
             canProduce: Schema.optional(
-              Schema.Literal("ALLOWED", "NOT_ALLOWED", "CAN_REQUEST"),
+              Schema.Literals(["ALLOWED", "NOT_ALLOWED", "CAN_REQUEST"]),
             ).pipe(T.JsonName("can_produce")),
           }),
         ),
         video: Schema.optional(
           Schema.Struct({
             canProduce: Schema.optional(
-              Schema.Literal("ALLOWED", "NOT_ALLOWED", "CAN_REQUEST"),
+              Schema.Literals(["ALLOWED", "NOT_ALLOWED", "CAN_REQUEST"]),
             ).pipe(T.JsonName("can_produce")),
           }),
         ),
       }),
-      viewType: Schema.Literal("GROUP_CALL", "WEBINAR", "AUDIO_ROOM").pipe(
+      viewType: Schema.Literals(["GROUP_CALL", "WEBINAR", "AUDIO_ROOM"]).pipe(
         T.JsonName("view_type"),
       ),
     }),
@@ -5393,21 +5393,21 @@ export const PatchPresetResponse = Schema.Struct({
           audio: Schema.optional(
             Schema.Struct({
               canProduce: Schema.optional(
-                Schema.Literal("ALLOWED", "NOT_ALLOWED", "CAN_REQUEST"),
+                Schema.Literals(["ALLOWED", "NOT_ALLOWED", "CAN_REQUEST"]),
               ).pipe(T.JsonName("can_produce")),
             }),
           ),
           screenshare: Schema.optional(
             Schema.Struct({
               canProduce: Schema.optional(
-                Schema.Literal("ALLOWED", "NOT_ALLOWED", "CAN_REQUEST"),
+                Schema.Literals(["ALLOWED", "NOT_ALLOWED", "CAN_REQUEST"]),
               ).pipe(T.JsonName("can_produce")),
             }),
           ),
           video: Schema.optional(
             Schema.Struct({
               canProduce: Schema.optional(
-                Schema.Literal("ALLOWED", "NOT_ALLOWED", "CAN_REQUEST"),
+                Schema.Literals(["ALLOWED", "NOT_ALLOWED", "CAN_REQUEST"]),
               ).pipe(T.JsonName("can_produce")),
             }),
           ),
@@ -5424,17 +5424,17 @@ export const PatchPresetResponse = Schema.Struct({
             T.JsonName("can_start"),
           ),
           config: Schema.optional(
-            Schema.Union(
+            Schema.Union([
               Schema.String,
               Schema.Struct({
                 accessControl: Schema.optional(
-                  Schema.Literal("FULL_ACCESS", "VIEW_ONLY"),
+                  Schema.Literals(["FULL_ACCESS", "VIEW_ONLY"]),
                 ).pipe(T.JsonName("access_control")),
                 handlesViewOnly: Schema.optional(Schema.Boolean).pipe(
                   T.JsonName("handles_view_only"),
                 ),
               }),
-            ),
+            ]),
           ),
         }),
         polls: Schema.Struct({
@@ -5444,17 +5444,17 @@ export const PatchPresetResponse = Schema.Struct({
           canView: Schema.optional(Schema.Boolean).pipe(T.JsonName("can_view")),
           canVote: Schema.optional(Schema.Boolean).pipe(T.JsonName("can_vote")),
         }),
-        recorderType: Schema.Literal("RECORDER", "LIVESTREAMER", "NONE").pipe(
+        recorderType: Schema.Literals(["RECORDER", "LIVESTREAMER", "NONE"]).pipe(
           T.JsonName("recorder_type"),
         ),
         showParticipantList: Schema.Boolean.pipe(
           T.JsonName("show_participant_list"),
         ),
-        waitingRoomType: Schema.Literal(
+        waitingRoomType: Schema.Literals([
           "SKIP",
           "ON_PRIVILEGED_USER_ENTRY",
           "SKIP_ON_ACCEPT",
-        ).pipe(T.JsonName("waiting_room_type")),
+        ]).pipe(T.JsonName("waiting_room_type")),
         isRecorder: Schema.optional(Schema.Boolean).pipe(
           T.JsonName("is_recorder"),
         ),
@@ -5614,19 +5614,19 @@ export const DeletePresetResponse = Schema.Struct({
         screenshare: Schema.optional(
           Schema.Struct({
             canProduce: Schema.optional(
-              Schema.Literal("ALLOWED", "NOT_ALLOWED", "CAN_REQUEST"),
+              Schema.Literals(["ALLOWED", "NOT_ALLOWED", "CAN_REQUEST"]),
             ).pipe(T.JsonName("can_produce")),
           }),
         ),
         video: Schema.optional(
           Schema.Struct({
             canProduce: Schema.optional(
-              Schema.Literal("ALLOWED", "NOT_ALLOWED", "CAN_REQUEST"),
+              Schema.Literals(["ALLOWED", "NOT_ALLOWED", "CAN_REQUEST"]),
             ).pipe(T.JsonName("can_produce")),
           }),
         ),
       }),
-      viewType: Schema.Literal("GROUP_CALL", "WEBINAR", "AUDIO_ROOM").pipe(
+      viewType: Schema.Literals(["GROUP_CALL", "WEBINAR", "AUDIO_ROOM"]).pipe(
         T.JsonName("view_type"),
       ),
     }),
@@ -5749,21 +5749,21 @@ export const DeletePresetResponse = Schema.Struct({
           audio: Schema.optional(
             Schema.Struct({
               canProduce: Schema.optional(
-                Schema.Literal("ALLOWED", "NOT_ALLOWED", "CAN_REQUEST"),
+                Schema.Literals(["ALLOWED", "NOT_ALLOWED", "CAN_REQUEST"]),
               ).pipe(T.JsonName("can_produce")),
             }),
           ),
           screenshare: Schema.optional(
             Schema.Struct({
               canProduce: Schema.optional(
-                Schema.Literal("ALLOWED", "NOT_ALLOWED", "CAN_REQUEST"),
+                Schema.Literals(["ALLOWED", "NOT_ALLOWED", "CAN_REQUEST"]),
               ).pipe(T.JsonName("can_produce")),
             }),
           ),
           video: Schema.optional(
             Schema.Struct({
               canProduce: Schema.optional(
-                Schema.Literal("ALLOWED", "NOT_ALLOWED", "CAN_REQUEST"),
+                Schema.Literals(["ALLOWED", "NOT_ALLOWED", "CAN_REQUEST"]),
               ).pipe(T.JsonName("can_produce")),
             }),
           ),
@@ -5780,17 +5780,17 @@ export const DeletePresetResponse = Schema.Struct({
             T.JsonName("can_start"),
           ),
           config: Schema.optional(
-            Schema.Union(
+            Schema.Union([
               Schema.String,
               Schema.Struct({
                 accessControl: Schema.optional(
-                  Schema.Literal("FULL_ACCESS", "VIEW_ONLY"),
+                  Schema.Literals(["FULL_ACCESS", "VIEW_ONLY"]),
                 ).pipe(T.JsonName("access_control")),
                 handlesViewOnly: Schema.optional(Schema.Boolean).pipe(
                   T.JsonName("handles_view_only"),
                 ),
               }),
-            ),
+            ]),
           ),
         }),
         polls: Schema.Struct({
@@ -5800,17 +5800,17 @@ export const DeletePresetResponse = Schema.Struct({
           canView: Schema.optional(Schema.Boolean).pipe(T.JsonName("can_view")),
           canVote: Schema.optional(Schema.Boolean).pipe(T.JsonName("can_vote")),
         }),
-        recorderType: Schema.Literal("RECORDER", "LIVESTREAMER", "NONE").pipe(
+        recorderType: Schema.Literals(["RECORDER", "LIVESTREAMER", "NONE"]).pipe(
           T.JsonName("recorder_type"),
         ),
         showParticipantList: Schema.Boolean.pipe(
           T.JsonName("show_participant_list"),
         ),
-        waitingRoomType: Schema.Literal(
+        waitingRoomType: Schema.Literals([
           "SKIP",
           "ON_PRIVILEGED_USER_ENTRY",
           "SKIP_ON_ACCEPT",
-        ).pipe(T.JsonName("waiting_room_type")),
+        ]).pipe(T.JsonName("waiting_room_type")),
         isRecorder: Schema.optional(Schema.Boolean).pipe(
           T.JsonName("is_recorder"),
         ),
@@ -5974,19 +5974,19 @@ export const GetPresetByIdPresetResponse = Schema.Struct({
         screenshare: Schema.optional(
           Schema.Struct({
             canProduce: Schema.optional(
-              Schema.Literal("ALLOWED", "NOT_ALLOWED", "CAN_REQUEST"),
+              Schema.Literals(["ALLOWED", "NOT_ALLOWED", "CAN_REQUEST"]),
             ).pipe(T.JsonName("can_produce")),
           }),
         ),
         video: Schema.optional(
           Schema.Struct({
             canProduce: Schema.optional(
-              Schema.Literal("ALLOWED", "NOT_ALLOWED", "CAN_REQUEST"),
+              Schema.Literals(["ALLOWED", "NOT_ALLOWED", "CAN_REQUEST"]),
             ).pipe(T.JsonName("can_produce")),
           }),
         ),
       }),
-      viewType: Schema.Literal("GROUP_CALL", "WEBINAR", "AUDIO_ROOM").pipe(
+      viewType: Schema.Literals(["GROUP_CALL", "WEBINAR", "AUDIO_ROOM"]).pipe(
         T.JsonName("view_type"),
       ),
     }),
@@ -6109,21 +6109,21 @@ export const GetPresetByIdPresetResponse = Schema.Struct({
           audio: Schema.optional(
             Schema.Struct({
               canProduce: Schema.optional(
-                Schema.Literal("ALLOWED", "NOT_ALLOWED", "CAN_REQUEST"),
+                Schema.Literals(["ALLOWED", "NOT_ALLOWED", "CAN_REQUEST"]),
               ).pipe(T.JsonName("can_produce")),
             }),
           ),
           screenshare: Schema.optional(
             Schema.Struct({
               canProduce: Schema.optional(
-                Schema.Literal("ALLOWED", "NOT_ALLOWED", "CAN_REQUEST"),
+                Schema.Literals(["ALLOWED", "NOT_ALLOWED", "CAN_REQUEST"]),
               ).pipe(T.JsonName("can_produce")),
             }),
           ),
           video: Schema.optional(
             Schema.Struct({
               canProduce: Schema.optional(
-                Schema.Literal("ALLOWED", "NOT_ALLOWED", "CAN_REQUEST"),
+                Schema.Literals(["ALLOWED", "NOT_ALLOWED", "CAN_REQUEST"]),
               ).pipe(T.JsonName("can_produce")),
             }),
           ),
@@ -6140,17 +6140,17 @@ export const GetPresetByIdPresetResponse = Schema.Struct({
             T.JsonName("can_start"),
           ),
           config: Schema.optional(
-            Schema.Union(
+            Schema.Union([
               Schema.String,
               Schema.Struct({
                 accessControl: Schema.optional(
-                  Schema.Literal("FULL_ACCESS", "VIEW_ONLY"),
+                  Schema.Literals(["FULL_ACCESS", "VIEW_ONLY"]),
                 ).pipe(T.JsonName("access_control")),
                 handlesViewOnly: Schema.optional(Schema.Boolean).pipe(
                   T.JsonName("handles_view_only"),
                 ),
               }),
-            ),
+            ]),
           ),
         }),
         polls: Schema.Struct({
@@ -6160,17 +6160,17 @@ export const GetPresetByIdPresetResponse = Schema.Struct({
           canView: Schema.optional(Schema.Boolean).pipe(T.JsonName("can_view")),
           canVote: Schema.optional(Schema.Boolean).pipe(T.JsonName("can_vote")),
         }),
-        recorderType: Schema.Literal("RECORDER", "LIVESTREAMER", "NONE").pipe(
+        recorderType: Schema.Literals(["RECORDER", "LIVESTREAMER", "NONE"]).pipe(
           T.JsonName("recorder_type"),
         ),
         showParticipantList: Schema.Boolean.pipe(
           T.JsonName("show_participant_list"),
         ),
-        waitingRoomType: Schema.Literal(
+        waitingRoomType: Schema.Literals([
           "SKIP",
           "ON_PRIVILEGED_USER_ENTRY",
           "SKIP_ON_ACCEPT",
-        ).pipe(T.JsonName("waiting_room_type")),
+        ]).pipe(T.JsonName("waiting_room_type")),
         isRecorder: Schema.optional(Schema.Boolean).pipe(
           T.JsonName("is_recorder"),
         ),
@@ -6234,13 +6234,13 @@ export const GetRecordingsRecordingRequest = Schema.Struct({
   sortBy: Schema.optional(Schema.Literal("invokedTime")).pipe(
     T.HttpQuery("sort_by"),
   ),
-  sortOrder: Schema.optional(Schema.Literal("ASC", "DESC")).pipe(
+  sortOrder: Schema.optional(Schema.Literals(["ASC", "DESC"])).pipe(
     T.HttpQuery("sort_order"),
   ),
   startTime: Schema.optional(Schema.String).pipe(T.HttpQuery("start_time")),
   status: Schema.optional(
     Schema.Array(
-      Schema.Literal("INVOKED", "RECORDING", "UPLOADING", "UPLOADED"),
+      Schema.Literals(["INVOKED", "RECORDING", "UPLOADING", "UPLOADED"]),
     ),
   ).pipe(T.HttpQuery("status")),
 }).pipe(
@@ -6304,35 +6304,35 @@ export const GetRecordingsRecordingResponse = Schema.Struct({
   data: Schema.Array(
     Schema.Struct({
       id: Schema.String,
-      audioDownloadUrl: Schema.Union(Schema.String, Schema.Null).pipe(
+      audioDownloadUrl: Schema.Union([Schema.String, Schema.Null]).pipe(
         T.JsonName("audio_download_url"),
       ),
-      downloadUrl: Schema.Union(Schema.String, Schema.Null).pipe(
+      downloadUrl: Schema.Union([Schema.String, Schema.Null]).pipe(
         T.JsonName("download_url"),
       ),
-      downloadUrlExpiry: Schema.Union(Schema.String, Schema.Null).pipe(
+      downloadUrlExpiry: Schema.Union([Schema.String, Schema.Null]).pipe(
         T.JsonName("download_url_expiry"),
       ),
-      fileSize: Schema.Union(Schema.Number, Schema.Null).pipe(
+      fileSize: Schema.Union([Schema.Number, Schema.Null]).pipe(
         T.JsonName("file_size"),
       ),
       invokedTime: Schema.String.pipe(T.JsonName("invoked_time")),
       outputFileName: Schema.String.pipe(T.JsonName("output_file_name")),
-      sessionId: Schema.Union(Schema.String, Schema.Null).pipe(
+      sessionId: Schema.Union([Schema.String, Schema.Null]).pipe(
         T.JsonName("session_id"),
       ),
-      startedTime: Schema.Union(Schema.String, Schema.Null).pipe(
+      startedTime: Schema.Union([Schema.String, Schema.Null]).pipe(
         T.JsonName("started_time"),
       ),
-      status: Schema.Literal(
+      status: Schema.Literals([
         "INVOKED",
         "RECORDING",
         "UPLOADING",
         "UPLOADED",
         "ERRORED",
         "PAUSED",
-      ),
-      stoppedTime: Schema.Union(Schema.String, Schema.Null).pipe(
+      ]),
+      stoppedTime: Schema.Union([Schema.String, Schema.Null]).pipe(
         T.JsonName("stopped_time"),
       ),
       meeting: Schema.optional(
@@ -6352,7 +6352,7 @@ export const GetRecordingsRecordingResponse = Schema.Struct({
           sessionKeepAliveTimeInSecs: Schema.optional(Schema.Number).pipe(
             T.JsonName("session_keep_alive_time_in_secs"),
           ),
-          status: Schema.optional(Schema.Literal("ACTIVE", "INACTIVE")),
+          status: Schema.optional(Schema.Literals(["ACTIVE", "INACTIVE"])),
           summarizeOnEnd: Schema.optional(Schema.Boolean).pipe(
             T.JsonName("summarize_on_end"),
           ),
@@ -6363,10 +6363,10 @@ export const GetRecordingsRecordingResponse = Schema.Struct({
         T.JsonName("recording_duration"),
       ),
       storageConfig: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
-            type: Schema.Literal("aws", "azure", "digitalocean", "gcs", "sftp"),
-            authMethod: Schema.optional(Schema.Literal("KEY", "PASSWORD")).pipe(
+            type: Schema.Literals(["aws", "azure", "digitalocean", "gcs", "sftp"]),
+            authMethod: Schema.optional(Schema.Literals(["KEY", "PASSWORD"])).pipe(
               T.JsonName("auth_method"),
             ),
             bucket: Schema.optional(Schema.String),
@@ -6382,7 +6382,7 @@ export const GetRecordingsRecordingResponse = Schema.Struct({
             username: Schema.optional(Schema.String),
           }),
           Schema.Null,
-        ),
+        ]),
       ).pipe(T.JsonName("storage_config")),
     }),
   ),
@@ -6469,8 +6469,8 @@ export const StartRecordingsRecordingRequest = Schema.Struct({
   ),
   audioConfig: Schema.optional(
     Schema.Struct({
-      channel: Schema.optional(Schema.Literal("mono", "stereo")),
-      codec: Schema.optional(Schema.Literal("MP3", "AAC")),
+      channel: Schema.optional(Schema.Literals(["mono", "stereo"])),
+      codec: Schema.optional(Schema.Literals(["MP3", "AAC"])),
       exportFile: Schema.optional(Schema.Boolean).pipe(
         T.JsonName("export_file"),
       ),
@@ -6497,13 +6497,13 @@ export const StartRecordingsRecordingRequest = Schema.Struct({
     }),
   ).pipe(T.JsonName("rtmp_out_config")),
   storageConfig: Schema.optional(
-    Schema.Union(
+    Schema.Union([
       Schema.Struct({
-        type: Schema.Literal("aws", "azure", "digitalocean", "gcs", "sftp"),
+        type: Schema.Literals(["aws", "azure", "digitalocean", "gcs", "sftp"]),
         accessKey: Schema.optional(Schema.String).pipe(
           T.JsonName("access_key"),
         ),
-        authMethod: Schema.optional(Schema.Literal("KEY", "PASSWORD")).pipe(
+        authMethod: Schema.optional(Schema.Literals(["KEY", "PASSWORD"])).pipe(
           T.JsonName("auth_method"),
         ),
         bucket: Schema.optional(Schema.String),
@@ -6519,12 +6519,12 @@ export const StartRecordingsRecordingRequest = Schema.Struct({
         username: Schema.optional(Schema.String),
       }),
       Schema.Null,
-    ),
+    ]),
   ).pipe(T.JsonName("storage_config")),
   url: Schema.optional(Schema.String),
   videoConfig: Schema.optional(
     Schema.Struct({
-      codec: Schema.optional(Schema.Literal("H264", "VP8")),
+      codec: Schema.optional(Schema.Literals(["H264", "VP8"])),
       exportFile: Schema.optional(Schema.Boolean).pipe(
         T.JsonName("export_file"),
       ),
@@ -6532,12 +6532,12 @@ export const StartRecordingsRecordingRequest = Schema.Struct({
       watermark: Schema.optional(
         Schema.Struct({
           position: Schema.optional(
-            Schema.Literal(
+            Schema.Literals([
               "left top",
               "right top",
               "left bottom",
               "right bottom",
-            ),
+            ]),
           ),
           size: Schema.optional(
             Schema.Struct({
@@ -6618,35 +6618,35 @@ export const StartRecordingsRecordingResponse = Schema.Struct({
   data: Schema.optional(
     Schema.Struct({
       id: Schema.String,
-      audioDownloadUrl: Schema.Union(Schema.String, Schema.Null).pipe(
+      audioDownloadUrl: Schema.Union([Schema.String, Schema.Null]).pipe(
         T.JsonName("audio_download_url"),
       ),
-      downloadUrl: Schema.Union(Schema.String, Schema.Null).pipe(
+      downloadUrl: Schema.Union([Schema.String, Schema.Null]).pipe(
         T.JsonName("download_url"),
       ),
-      downloadUrlExpiry: Schema.Union(Schema.String, Schema.Null).pipe(
+      downloadUrlExpiry: Schema.Union([Schema.String, Schema.Null]).pipe(
         T.JsonName("download_url_expiry"),
       ),
-      fileSize: Schema.Union(Schema.Number, Schema.Null).pipe(
+      fileSize: Schema.Union([Schema.Number, Schema.Null]).pipe(
         T.JsonName("file_size"),
       ),
       invokedTime: Schema.String.pipe(T.JsonName("invoked_time")),
       outputFileName: Schema.String.pipe(T.JsonName("output_file_name")),
-      sessionId: Schema.Union(Schema.String, Schema.Null).pipe(
+      sessionId: Schema.Union([Schema.String, Schema.Null]).pipe(
         T.JsonName("session_id"),
       ),
-      startedTime: Schema.Union(Schema.String, Schema.Null).pipe(
+      startedTime: Schema.Union([Schema.String, Schema.Null]).pipe(
         T.JsonName("started_time"),
       ),
-      status: Schema.Literal(
+      status: Schema.Literals([
         "INVOKED",
         "RECORDING",
         "UPLOADING",
         "UPLOADED",
         "ERRORED",
         "PAUSED",
-      ),
-      stoppedTime: Schema.Union(Schema.String, Schema.Null).pipe(
+      ]),
+      stoppedTime: Schema.Union([Schema.String, Schema.Null]).pipe(
         T.JsonName("stopped_time"),
       ),
       recordingDuration: Schema.optional(Schema.Number).pipe(
@@ -6657,12 +6657,12 @@ export const StartRecordingsRecordingResponse = Schema.Struct({
           caller: Schema.optional(
             Schema.Struct({
               name: Schema.optional(Schema.String),
-              type: Schema.optional(Schema.Literal("ORGANIZATION", "USER")),
+              type: Schema.optional(Schema.Literals(["ORGANIZATION", "USER"])),
               user_Id: Schema.optional(Schema.String),
             }),
           ),
           reason: Schema.optional(
-            Schema.Literal("API_CALL", "RECORD_ON_START"),
+            Schema.Literals(["API_CALL", "RECORD_ON_START"]),
           ),
         }),
       ).pipe(T.JsonName("start_reason")),
@@ -6671,20 +6671,20 @@ export const StartRecordingsRecordingResponse = Schema.Struct({
           caller: Schema.optional(
             Schema.Struct({
               name: Schema.optional(Schema.String),
-              type: Schema.optional(Schema.Literal("ORGANIZATION", "USER")),
+              type: Schema.optional(Schema.Literals(["ORGANIZATION", "USER"])),
               user_Id: Schema.optional(Schema.String),
             }),
           ),
           reason: Schema.optional(
-            Schema.Literal("API_CALL", "INTERNAL_ERROR", "ALL_PEERS_LEFT"),
+            Schema.Literals(["API_CALL", "INTERNAL_ERROR", "ALL_PEERS_LEFT"]),
           ),
         }),
       ).pipe(T.JsonName("stop_reason")),
       storageConfig: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
-            type: Schema.Literal("aws", "azure", "digitalocean", "gcs", "sftp"),
-            authMethod: Schema.optional(Schema.Literal("KEY", "PASSWORD")).pipe(
+            type: Schema.Literals(["aws", "azure", "digitalocean", "gcs", "sftp"]),
+            authMethod: Schema.optional(Schema.Literals(["KEY", "PASSWORD"])).pipe(
               T.JsonName("auth_method"),
             ),
             bucket: Schema.optional(Schema.String),
@@ -6700,7 +6700,7 @@ export const StartRecordingsRecordingResponse = Schema.Struct({
             username: Schema.optional(Schema.String),
           }),
           Schema.Null,
-        ),
+        ]),
       ).pipe(T.JsonName("storage_config")),
     }),
   ),
@@ -6735,7 +6735,7 @@ export const PauseResumeStopRecordingRecordingRequest = Schema.Struct({
   appId: Schema.String.pipe(T.HttpPath("appId")),
   recordingId: Schema.String.pipe(T.HttpPath("recordingId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  action: Schema.Literal("stop", "pause", "resume"),
+  action: Schema.Literals(["stop", "pause", "resume"]),
 }).pipe(
   T.Http({
     method: "PUT",
@@ -6803,35 +6803,35 @@ export const PauseResumeStopRecordingRecordingResponse = Schema.Struct({
   data: Schema.optional(
     Schema.Struct({
       id: Schema.String,
-      audioDownloadUrl: Schema.Union(Schema.String, Schema.Null).pipe(
+      audioDownloadUrl: Schema.Union([Schema.String, Schema.Null]).pipe(
         T.JsonName("audio_download_url"),
       ),
-      downloadUrl: Schema.Union(Schema.String, Schema.Null).pipe(
+      downloadUrl: Schema.Union([Schema.String, Schema.Null]).pipe(
         T.JsonName("download_url"),
       ),
-      downloadUrlExpiry: Schema.Union(Schema.String, Schema.Null).pipe(
+      downloadUrlExpiry: Schema.Union([Schema.String, Schema.Null]).pipe(
         T.JsonName("download_url_expiry"),
       ),
-      fileSize: Schema.Union(Schema.Number, Schema.Null).pipe(
+      fileSize: Schema.Union([Schema.Number, Schema.Null]).pipe(
         T.JsonName("file_size"),
       ),
       invokedTime: Schema.String.pipe(T.JsonName("invoked_time")),
       outputFileName: Schema.String.pipe(T.JsonName("output_file_name")),
-      sessionId: Schema.Union(Schema.String, Schema.Null).pipe(
+      sessionId: Schema.Union([Schema.String, Schema.Null]).pipe(
         T.JsonName("session_id"),
       ),
-      startedTime: Schema.Union(Schema.String, Schema.Null).pipe(
+      startedTime: Schema.Union([Schema.String, Schema.Null]).pipe(
         T.JsonName("started_time"),
       ),
-      status: Schema.Literal(
+      status: Schema.Literals([
         "INVOKED",
         "RECORDING",
         "UPLOADING",
         "UPLOADED",
         "ERRORED",
         "PAUSED",
-      ),
-      stoppedTime: Schema.Union(Schema.String, Schema.Null).pipe(
+      ]),
+      stoppedTime: Schema.Union([Schema.String, Schema.Null]).pipe(
         T.JsonName("stopped_time"),
       ),
       recordingDuration: Schema.optional(Schema.Number).pipe(
@@ -6842,12 +6842,12 @@ export const PauseResumeStopRecordingRecordingResponse = Schema.Struct({
           caller: Schema.optional(
             Schema.Struct({
               name: Schema.optional(Schema.String),
-              type: Schema.optional(Schema.Literal("ORGANIZATION", "USER")),
+              type: Schema.optional(Schema.Literals(["ORGANIZATION", "USER"])),
               user_Id: Schema.optional(Schema.String),
             }),
           ),
           reason: Schema.optional(
-            Schema.Literal("API_CALL", "RECORD_ON_START"),
+            Schema.Literals(["API_CALL", "RECORD_ON_START"]),
           ),
         }),
       ).pipe(T.JsonName("start_reason")),
@@ -6856,20 +6856,20 @@ export const PauseResumeStopRecordingRecordingResponse = Schema.Struct({
           caller: Schema.optional(
             Schema.Struct({
               name: Schema.optional(Schema.String),
-              type: Schema.optional(Schema.Literal("ORGANIZATION", "USER")),
+              type: Schema.optional(Schema.Literals(["ORGANIZATION", "USER"])),
               user_Id: Schema.optional(Schema.String),
             }),
           ),
           reason: Schema.optional(
-            Schema.Literal("API_CALL", "INTERNAL_ERROR", "ALL_PEERS_LEFT"),
+            Schema.Literals(["API_CALL", "INTERNAL_ERROR", "ALL_PEERS_LEFT"]),
           ),
         }),
       ).pipe(T.JsonName("stop_reason")),
       storageConfig: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
-            type: Schema.Literal("aws", "azure", "digitalocean", "gcs", "sftp"),
-            authMethod: Schema.optional(Schema.Literal("KEY", "PASSWORD")).pipe(
+            type: Schema.Literals(["aws", "azure", "digitalocean", "gcs", "sftp"]),
+            authMethod: Schema.optional(Schema.Literals(["KEY", "PASSWORD"])).pipe(
               T.JsonName("auth_method"),
             ),
             bucket: Schema.optional(Schema.String),
@@ -6885,7 +6885,7 @@ export const PauseResumeStopRecordingRecordingResponse = Schema.Struct({
             username: Schema.optional(Schema.String),
           }),
           Schema.Null,
-        ),
+        ]),
       ).pipe(T.JsonName("storage_config")),
     }),
   ),
@@ -7022,8 +7022,8 @@ export const GetSessionDetailsSessionResponse = Schema.Struct({
           minutesConsumed: Schema.Number.pipe(T.JsonName("minutes_consumed")),
           organizationId: Schema.String.pipe(T.JsonName("organization_id")),
           startedAt: Schema.String.pipe(T.JsonName("started_at")),
-          status: Schema.Literal("LIVE", "ENDED"),
-          type: Schema.Literal("meeting", "livestream", "participant"),
+          status: Schema.Literals(["LIVE", "ENDED"]),
+          type: Schema.Literals(["meeting", "livestream", "participant"]),
           updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
           breakoutRooms: Schema.optional(Schema.Array(Schema.Unknown)).pipe(
             T.JsonName("breakout_rooms"),
@@ -7076,13 +7076,13 @@ export const GetSessionParticipantDetailsSessionRequest = Schema.Struct({
   participantId: Schema.String.pipe(T.HttpPath("participantId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   filters: Schema.optional(
-    Schema.Literal(
+    Schema.Literals([
       "device_info",
       "ip_information",
       "precall_network_information",
       "events",
       "quality_stats",
-    ),
+    ]),
   ).pipe(T.HttpQuery("filters")),
   includePeerEvents: Schema.optional(Schema.Boolean).pipe(
     T.HttpQuery("include_peer_events"),
@@ -7193,13 +7193,13 @@ export const GetSessionParticipantsSessionRequest = Schema.Struct({
   pageNo: Schema.optional(Schema.Number).pipe(T.HttpQuery("page_no")),
   perPage: Schema.optional(Schema.Number).pipe(T.HttpQuery("per_page")),
   search: Schema.optional(Schema.String).pipe(T.HttpQuery("search")),
-  sortBy: Schema.optional(Schema.Literal("joinedAt", "duration")).pipe(
+  sortBy: Schema.optional(Schema.Literals(["joinedAt", "duration"])).pipe(
     T.HttpQuery("sort_by"),
   ),
-  sortOrder: Schema.optional(Schema.Literal("ASC", "DESC")).pipe(
+  sortOrder: Schema.optional(Schema.Literals(["ASC", "DESC"])).pipe(
     T.HttpQuery("sort_order"),
   ),
-  view: Schema.optional(Schema.Literal("raw", "consolidated")).pipe(
+  view: Schema.optional(Schema.Literals(["raw", "consolidated"])).pipe(
     T.HttpQuery("view"),
   ),
 }).pipe(
@@ -7318,14 +7318,14 @@ export const GetSessionsSessionRequest = Schema.Struct({
   ),
   perPage: Schema.optional(Schema.Number).pipe(T.HttpQuery("per_page")),
   search: Schema.optional(Schema.String).pipe(T.HttpQuery("search")),
-  sortBy: Schema.optional(Schema.Literal("minutesConsumed", "createdAt")).pipe(
+  sortBy: Schema.optional(Schema.Literals(["minutesConsumed", "createdAt"])).pipe(
     T.HttpQuery("sort_by"),
   ),
-  sortOrder: Schema.optional(Schema.Literal("ASC", "DESC")).pipe(
+  sortOrder: Schema.optional(Schema.Literals(["ASC", "DESC"])).pipe(
     T.HttpQuery("sort_order"),
   ),
   startTime: Schema.optional(Schema.String).pipe(T.HttpQuery("start_time")),
-  status: Schema.optional(Schema.Literal("LIVE", "ENDED")).pipe(
+  status: Schema.optional(Schema.Literals(["LIVE", "ENDED"])).pipe(
     T.HttpQuery("status"),
   ),
 }).pipe(
@@ -7379,8 +7379,8 @@ export const GetSessionsSessionResponse = Schema.Struct({
             minutesConsumed: Schema.Number.pipe(T.JsonName("minutes_consumed")),
             organizationId: Schema.String.pipe(T.JsonName("organization_id")),
             startedAt: Schema.String.pipe(T.JsonName("started_at")),
-            status: Schema.Literal("LIVE", "ENDED"),
-            type: Schema.Literal("meeting", "livestream", "participant"),
+            status: Schema.Literals(["LIVE", "ENDED"]),
+            type: Schema.Literals(["meeting", "livestream", "participant"]),
             updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
             breakoutRooms: Schema.optional(Schema.Array(Schema.Unknown)).pipe(
               T.JsonName("breakout_rooms"),
@@ -7657,7 +7657,7 @@ export const GetWebhookByIdWebhookResponse = Schema.Struct({
     createdAt: Schema.String.pipe(T.JsonName("created_at")),
     enabled: Schema.Boolean,
     events: Schema.Array(
-      Schema.Literal(
+      Schema.Literals([
         "meeting.started",
         "meeting.ended",
         "meeting.participantJoined",
@@ -7667,7 +7667,7 @@ export const GetWebhookByIdWebhookResponse = Schema.Struct({
         "livestreaming.statusUpdate",
         "meeting.transcript",
         "meeting.summary",
-      ),
+      ]),
     ),
     name: Schema.String,
     updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
@@ -7738,7 +7738,7 @@ export const GetWebhooksWebhookResponse = Schema.Struct({
       createdAt: Schema.String.pipe(T.JsonName("created_at")),
       enabled: Schema.Boolean,
       events: Schema.Array(
-        Schema.Literal(
+        Schema.Literals([
           "meeting.started",
           "meeting.ended",
           "meeting.participantJoined",
@@ -7748,7 +7748,7 @@ export const GetWebhooksWebhookResponse = Schema.Struct({
           "livestreaming.statusUpdate",
           "meeting.transcript",
           "meeting.summary",
-        ),
+        ]),
       ),
       name: Schema.String,
       updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
@@ -7802,7 +7802,7 @@ export const CreateWebhookWebhookRequest = Schema.Struct({
   appId: Schema.String.pipe(T.HttpPath("appId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   events: Schema.Array(
-    Schema.Literal(
+    Schema.Literals([
       "meeting.started",
       "meeting.ended",
       "meeting.participantJoined",
@@ -7812,7 +7812,7 @@ export const CreateWebhookWebhookRequest = Schema.Struct({
       "livestreaming.statusUpdate",
       "meeting.transcript",
       "meeting.summary",
-    ),
+    ]),
   ),
   name: Schema.String,
   url: Schema.String,
@@ -7853,7 +7853,7 @@ export const CreateWebhookWebhookResponse = Schema.Struct({
     createdAt: Schema.String.pipe(T.JsonName("created_at")),
     enabled: Schema.Boolean,
     events: Schema.Array(
-      Schema.Literal(
+      Schema.Literals([
         "meeting.started",
         "meeting.ended",
         "meeting.participantJoined",
@@ -7863,7 +7863,7 @@ export const CreateWebhookWebhookResponse = Schema.Struct({
         "livestreaming.statusUpdate",
         "meeting.transcript",
         "meeting.summary",
-      ),
+      ]),
     ),
     name: Schema.String,
     updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
@@ -7931,7 +7931,7 @@ export const DeleteWebhookWebhookResponse = Schema.Struct({
     createdAt: Schema.String.pipe(T.JsonName("created_at")),
     enabled: Schema.Boolean,
     events: Schema.Array(
-      Schema.Literal(
+      Schema.Literals([
         "meeting.started",
         "meeting.ended",
         "meeting.participantJoined",
@@ -7941,7 +7941,7 @@ export const DeleteWebhookWebhookResponse = Schema.Struct({
         "livestreaming.statusUpdate",
         "meeting.transcript",
         "meeting.summary",
-      ),
+      ]),
     ),
     name: Schema.String,
     updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
@@ -7994,7 +7994,7 @@ export const EditWebhookWebhookRequest = Schema.Struct({
   enabled: Schema.optional(Schema.Boolean),
   events: Schema.optional(
     Schema.Array(
-      Schema.Literal(
+      Schema.Literals([
         "meeting.started",
         "meeting.ended",
         "meeting.participantJoined",
@@ -8004,7 +8004,7 @@ export const EditWebhookWebhookRequest = Schema.Struct({
         "meeting.chatSynced",
         "meeting.transcript",
         "meeting.summary",
-      ),
+      ]),
     ),
   ),
   name: Schema.optional(Schema.String),
@@ -8045,7 +8045,7 @@ export const EditWebhookWebhookResponse = Schema.Struct({
     createdAt: Schema.String.pipe(T.JsonName("created_at")),
     enabled: Schema.Boolean,
     events: Schema.Array(
-      Schema.Literal(
+      Schema.Literals([
         "meeting.started",
         "meeting.ended",
         "meeting.participantJoined",
@@ -8055,7 +8055,7 @@ export const EditWebhookWebhookResponse = Schema.Struct({
         "livestreaming.statusUpdate",
         "meeting.transcript",
         "meeting.summary",
-      ),
+      ]),
     ),
     name: Schema.String,
     updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
@@ -8106,7 +8106,7 @@ export const ReplaceWebhookWebhookRequest = Schema.Struct({
   webhookId: Schema.String.pipe(T.HttpPath("webhookId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   events: Schema.Array(
-    Schema.Literal(
+    Schema.Literals([
       "meeting.started",
       "meeting.ended",
       "meeting.participantJoined",
@@ -8116,7 +8116,7 @@ export const ReplaceWebhookWebhookRequest = Schema.Struct({
       "livestreaming.statusUpdate",
       "meeting.transcript",
       "meeting.summary",
-    ),
+    ]),
   ),
   name: Schema.String,
   url: Schema.String,
@@ -8157,7 +8157,7 @@ export const ReplaceWebhookWebhookResponse = Schema.Struct({
     createdAt: Schema.String.pipe(T.JsonName("created_at")),
     enabled: Schema.Boolean,
     events: Schema.Array(
-      Schema.Literal(
+      Schema.Literals([
         "meeting.started",
         "meeting.ended",
         "meeting.participantJoined",
@@ -8167,7 +8167,7 @@ export const ReplaceWebhookWebhookResponse = Schema.Struct({
         "livestreaming.statusUpdate",
         "meeting.transcript",
         "meeting.summary",
-      ),
+      ]),
     ),
     name: Schema.String,
     updatedAt: Schema.String.pipe(T.JsonName("updated_at")),

@@ -7,7 +7,7 @@
 
 import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
-import type { HttpClient } from "@effect/platform";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
@@ -22,55 +22,62 @@ import {
 // Errors
 // =============================================================================
 
-export class InvalidExpirationTtl extends Schema.TaggedError<InvalidExpirationTtl>()(
+export class InvalidExpirationTtl extends Schema.TaggedErrorClass<InvalidExpirationTtl>()(
   "InvalidExpirationTtl",
   { code: Schema.Number, message: Schema.String },
-).pipe(T.HttpErrorMatchers([{ code: 10034 }])) {}
+) {}
+T.applyErrorMatchers(InvalidExpirationTtl, [{ code: 10034 }]);
 
-export class InvalidObjectIdentifier extends Schema.TaggedError<InvalidObjectIdentifier>()(
+export class InvalidObjectIdentifier extends Schema.TaggedErrorClass<InvalidObjectIdentifier>()(
   "InvalidObjectIdentifier",
   { code: Schema.Number, message: Schema.String },
-).pipe(T.HttpErrorMatchers([{ code: 7003 }])) {}
+) {}
+T.applyErrorMatchers(InvalidObjectIdentifier, [{ code: 7003 }]);
 
-export class InvalidRequestBody extends Schema.TaggedError<InvalidRequestBody>()(
+export class InvalidRequestBody extends Schema.TaggedErrorClass<InvalidRequestBody>()(
   "InvalidRequestBody",
   { code: Schema.Number, message: Schema.String },
-).pipe(T.HttpErrorMatchers([{ code: 10012 }])) {}
+) {}
+T.applyErrorMatchers(InvalidRequestBody, [{ code: 10012 }]);
 
-export class KeyNotFound extends Schema.TaggedError<KeyNotFound>()(
+export class KeyNotFound extends Schema.TaggedErrorClass<KeyNotFound>()(
   "KeyNotFound",
   { code: Schema.Number, message: Schema.String },
-).pipe(T.HttpErrorMatchers([{ code: 10009 }])) {}
+) {}
+T.applyErrorMatchers(KeyNotFound, [{ code: 10009 }]);
 
-export class MethodNotAllowed extends Schema.TaggedError<MethodNotAllowed>()(
+export class MethodNotAllowed extends Schema.TaggedErrorClass<MethodNotAllowed>()(
   "MethodNotAllowed",
   { code: Schema.Number, message: Schema.String },
-).pipe(
-  T.HttpErrorMatchers([
+) {}
+T.applyErrorMatchers(MethodNotAllowed, [
     { code: 10405, message: { includes: "not allowed" } },
     { code: 10000, message: { includes: "not allowed" } },
-  ]),
-) {}
+  ]);
 
-export class MinimumKeysRequired extends Schema.TaggedError<MinimumKeysRequired>()(
+export class MinimumKeysRequired extends Schema.TaggedErrorClass<MinimumKeysRequired>()(
   "MinimumKeysRequired",
   { code: Schema.Number, message: Schema.String },
-).pipe(T.HttpErrorMatchers([{ code: 10029 }])) {}
+) {}
+T.applyErrorMatchers(MinimumKeysRequired, [{ code: 10029 }]);
 
-export class NamespaceNotFound extends Schema.TaggedError<NamespaceNotFound>()(
+export class NamespaceNotFound extends Schema.TaggedErrorClass<NamespaceNotFound>()(
   "NamespaceNotFound",
   { code: Schema.Number, message: Schema.String },
-).pipe(T.HttpErrorMatchers([{ code: 10013 }])) {}
+) {}
+T.applyErrorMatchers(NamespaceNotFound, [{ code: 10013 }]);
 
-export class NamespaceTitleAlreadyExists extends Schema.TaggedError<NamespaceTitleAlreadyExists>()(
+export class NamespaceTitleAlreadyExists extends Schema.TaggedErrorClass<NamespaceTitleAlreadyExists>()(
   "NamespaceTitleAlreadyExists",
   { code: Schema.Number, message: Schema.String },
-).pipe(T.HttpErrorMatchers([{ code: 10014 }])) {}
+) {}
+T.applyErrorMatchers(NamespaceTitleAlreadyExists, [{ code: 10014 }]);
 
-export class TitleRequired extends Schema.TaggedError<TitleRequired>()(
+export class TitleRequired extends Schema.TaggedErrorClass<TitleRequired>()(
   "TitleRequired",
   { code: Schema.Number, message: Schema.String },
-).pipe(T.HttpErrorMatchers([{ code: 10019 }])) {}
+) {}
+T.applyErrorMatchers(TitleRequired, [{ code: 10019 }]);
 
 // =============================================================================
 // Namespace
@@ -277,7 +284,7 @@ export const BulkGetNamespacesRequest = Schema.Struct({
   namespaceId: Schema.String.pipe(T.HttpPath("namespaceId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   keys: Schema.Array(Schema.String),
-  type: Schema.optional(Schema.Literal("text", "json")),
+  type: Schema.optional(Schema.Literals(["text", "json"])),
   withMetadata: Schema.optional(Schema.Boolean),
 }).pipe(
   T.Http({
@@ -383,7 +390,7 @@ export const BulkGetNamespaceKeysRequest = Schema.Struct({
   namespaceId: Schema.String.pipe(T.HttpPath("namespaceId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   keys: Schema.Array(Schema.String),
-  type: Schema.optional(Schema.Literal("text", "json")),
+  type: Schema.optional(Schema.Literals(["text", "json"])),
   withMetadata: Schema.optional(Schema.Boolean),
 }).pipe(
   T.Http({

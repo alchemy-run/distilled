@@ -74,7 +74,7 @@ export const restJson1Protocol: Protocol = (
   const outputAst = outputSchema.ast;
 
   // Pre-compute encoder (done once at init)
-  const encodeInput = Schema.encode(inputSchema);
+  const encodeInput = Schema.encodeEffect(inputSchema);
 
   // Check for service-specific customizations (done once at init)
   const serviceInfo = getAwsApiService(inputAst);
@@ -147,7 +147,9 @@ export const restJson1Protocol: Protocol = (
 
   return {
     serializeRequest: Effect.fn(function* (input: unknown) {
-      const encoded = yield* encodeInput(input);
+      const encoded = yield* encodeInput(input).pipe(
+        Effect.mapError((err) => new ParseError({ message: err.message })),
+      );
 
       // Start without Content-Type - we'll set it based on the body type
       // unless user explicitly provides one via httpHeader binding
@@ -365,7 +367,7 @@ export const restJson1Protocol: Protocol = (
 /** Check if AST represents a raw payload type (string, blob, stream) */
 function isRawPayload(ast: AST.AST): boolean {
   if (isStreamingType(ast)) return true;
-  if (ast._tag === "StringKeyword") return true;
+  if (ast._tag === "String") return true;
   if (AST.isUnion(ast)) return ast.types.some(isRawPayload);
   return false;
 }

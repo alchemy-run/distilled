@@ -15,74 +15,106 @@ export type ListProjectsInput = typeof ListProjectsInput.Type;
 
 // Output Schema
 export const ListProjectsOutput = Schema.Struct({
-  projects: Schema.Array(Schema.Struct({
-    id: Schema.String,
-    platform_id: Schema.String,
-    region_id: Schema.String,
-    name: Schema.String,
-    provisioner: Schema.String,
-    default_endpoint_settings: Schema.optional(Schema.Struct({
-      pg_settings: Schema.optional(Schema.Record({ key: Schema.String, value: Schema.String })),
-      pgbouncer_settings: Schema.optional(Schema.Record({ key: Schema.String, value: Schema.String })),
-      autoscaling_limit_min_cu: Schema.optional(Schema.Number),
-      autoscaling_limit_max_cu: Schema.optional(Schema.Number),
-      suspend_timeout_seconds: Schema.optional(Schema.Number),
-    })),
-    settings: Schema.optional(Schema.Struct({
-      quota: Schema.optional(Schema.Struct({
-        active_time_seconds: Schema.optional(Schema.Number),
-        compute_time_seconds: Schema.optional(Schema.Number),
-        written_data_bytes: Schema.optional(Schema.Number),
-        data_transfer_bytes: Schema.optional(Schema.Number),
-        logical_size_bytes: Schema.optional(Schema.Number),
-      })),
-      allowed_ips: Schema.optional(Schema.Struct({
-        ips: Schema.optional(Schema.Array(Schema.String)),
-        protected_branches_only: Schema.optional(Schema.Boolean),
-      })),
-      enable_logical_replication: Schema.optional(Schema.Boolean),
-      maintenance_window: Schema.optional(Schema.Struct({
-        weekdays: Schema.Array(Schema.Number),
-        start_time: Schema.String,
-        end_time: Schema.String,
-      })),
-      block_public_connections: Schema.optional(Schema.Boolean),
-      block_vpc_connections: Schema.optional(Schema.Boolean),
-      audit_log_level: Schema.optional(Schema.Literal("base", "extended", "full")),
-      hipaa: Schema.optional(Schema.Boolean),
-      preload_libraries: Schema.optional(Schema.Struct({
-        use_defaults: Schema.optional(Schema.Boolean),
-        enabled_libraries: Schema.optional(Schema.Array(Schema.String)),
-      })),
-    })),
-    pg_version: Schema.Number,
-    proxy_host: Schema.String,
-    branch_logical_size_limit: Schema.Number,
-    branch_logical_size_limit_bytes: Schema.Number,
-    store_passwords: Schema.Boolean,
-    active_time: Schema.Number,
-    cpu_used_sec: Schema.Number,
-    maintenance_starts_at: Schema.optional(Schema.String),
-    creation_source: Schema.String,
-    created_at: Schema.String,
-    updated_at: Schema.String,
-    synthetic_storage_size: Schema.optional(Schema.Number),
-    quota_reset_at: Schema.optional(Schema.String),
-    owner_id: Schema.String,
-    compute_last_active_at: Schema.optional(Schema.String),
-    org_id: Schema.optional(Schema.String),
-    org_name: Schema.optional(Schema.String),
-    history_retention_seconds: Schema.optional(Schema.Number),
-    hipaa_enabled_at: Schema.optional(Schema.String),
-    deleted_at: Schema.optional(Schema.String),
-    recoverable_until: Schema.optional(Schema.String),
-  })),
+  projects: Schema.Array(
+    Schema.Struct({
+      id: Schema.String,
+      platform_id: Schema.String,
+      region_id: Schema.String,
+      name: Schema.String,
+      provisioner: Schema.String,
+      default_endpoint_settings: Schema.optional(
+        Schema.Struct({
+          pg_settings: Schema.optional(
+            Schema.Record(Schema.String, Schema.String),
+          ),
+          pgbouncer_settings: Schema.optional(
+            Schema.Record(Schema.String, Schema.String),
+          ),
+          autoscaling_limit_min_cu: Schema.optional(Schema.Number),
+          autoscaling_limit_max_cu: Schema.optional(Schema.Number),
+          suspend_timeout_seconds: Schema.optional(Schema.Number),
+        }),
+      ),
+      settings: Schema.optional(
+        Schema.Struct({
+          quota: Schema.optional(
+            Schema.Struct({
+              active_time_seconds: Schema.optional(Schema.Number),
+              compute_time_seconds: Schema.optional(Schema.Number),
+              written_data_bytes: Schema.optional(Schema.Number),
+              data_transfer_bytes: Schema.optional(Schema.Number),
+              logical_size_bytes: Schema.optional(Schema.Number),
+            }),
+          ),
+          allowed_ips: Schema.optional(
+            Schema.Struct({
+              ips: Schema.optional(Schema.Array(Schema.String)),
+              protected_branches_only: Schema.optional(Schema.Boolean),
+            }),
+          ),
+          enable_logical_replication: Schema.optional(Schema.Boolean),
+          maintenance_window: Schema.optional(
+            Schema.Struct({
+              weekdays: Schema.Array(Schema.Number),
+              start_time: Schema.String,
+              end_time: Schema.String,
+            }),
+          ),
+          block_public_connections: Schema.optional(Schema.Boolean),
+          block_vpc_connections: Schema.optional(Schema.Boolean),
+          audit_log_level: Schema.optional(
+            Schema.Literals(["base", "extended", "full"]),
+          ),
+          hipaa: Schema.optional(Schema.Boolean),
+          preload_libraries: Schema.optional(
+            Schema.Struct({
+              use_defaults: Schema.optional(Schema.Boolean),
+              enabled_libraries: Schema.optional(Schema.Array(Schema.String)),
+            }),
+          ),
+        }),
+      ),
+      pg_version: Schema.Number,
+      proxy_host: Schema.String,
+      branch_logical_size_limit: Schema.Number,
+      branch_logical_size_limit_bytes: Schema.Number,
+      store_passwords: Schema.Boolean,
+      active_time: Schema.Number,
+      cpu_used_sec: Schema.Number,
+      maintenance_starts_at: Schema.optional(Schema.String),
+      creation_source: Schema.String,
+      created_at: Schema.String,
+      updated_at: Schema.String,
+      synthetic_storage_size: Schema.optional(Schema.Number),
+      quota_reset_at: Schema.optional(Schema.String),
+      owner_id: Schema.String,
+      compute_last_active_at: Schema.optional(Schema.String),
+      org_id: Schema.optional(Schema.String),
+      org_name: Schema.optional(Schema.String),
+      history_retention_seconds: Schema.optional(Schema.Number),
+      hipaa_enabled_at: Schema.optional(Schema.String),
+      deleted_at: Schema.optional(Schema.String),
+      recoverable_until: Schema.optional(Schema.String),
+    }),
+  ),
   unavailable_project_ids: Schema.optional(Schema.Array(Schema.String)),
-  pagination: Schema.optional(Schema.Struct({
-    cursor: Schema.String,
-  })),
-  applications: Schema.Record({ key: Schema.String, value: Schema.Array(Schema.Literal("vercel", "github", "datadog", "opentelemetry")) }),
-  integrations: Schema.Record({ key: Schema.String, value: Schema.Array(Schema.Literal("vercel", "github", "datadog", "opentelemetry")) }),
+  pagination: Schema.optional(
+    Schema.Struct({
+      cursor: Schema.String,
+    }),
+  ),
+  applications: Schema.Record(
+    Schema.String,
+    Schema.Array(
+      Schema.Literals(["vercel", "github", "datadog", "opentelemetry"]),
+    ),
+  ),
+  integrations: Schema.Record(
+    Schema.String,
+    Schema.Array(
+      Schema.Literals(["vercel", "github", "datadog", "opentelemetry"]),
+    ),
+  ),
 });
 export type ListProjectsOutput = typeof ListProjectsOutput.Type;
 

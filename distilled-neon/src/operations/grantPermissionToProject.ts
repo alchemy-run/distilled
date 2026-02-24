@@ -7,7 +7,8 @@ export const GrantPermissionToProjectInput = Schema.Struct({
   project_id: Schema.String.pipe(T.PathParam()),
   email: Schema.String,
 }).pipe(T.Http({ method: "POST", path: "/projects/{project_id}/permissions" }));
-export type GrantPermissionToProjectInput = typeof GrantPermissionToProjectInput.Type;
+export type GrantPermissionToProjectInput =
+  typeof GrantPermissionToProjectInput.Type;
 
 // Output Schema
 export const GrantPermissionToProjectOutput = Schema.Struct({
@@ -16,7 +17,8 @@ export const GrantPermissionToProjectOutput = Schema.Struct({
   granted_at: Schema.String,
   revoked_at: Schema.optional(Schema.String),
 });
-export type GrantPermissionToProjectOutput = typeof GrantPermissionToProjectOutput.Type;
+export type GrantPermissionToProjectOutput =
+  typeof GrantPermissionToProjectOutput.Type;
 
 // The operation
 /**
@@ -24,7 +26,9 @@ export type GrantPermissionToProjectOutput = typeof GrantPermissionToProjectOutp
  *
  * Grants project access to the account associated with the specified email address
  */
-export const grantPermissionToProject = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  inputSchema: GrantPermissionToProjectInput,
-  outputSchema: GrantPermissionToProjectOutput,
-}));
+export const grantPermissionToProject = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    inputSchema: GrantPermissionToProjectInput,
+    outputSchema: GrantPermissionToProjectOutput,
+  }),
+);

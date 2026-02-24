@@ -191,7 +191,7 @@ describe("ApiGateway", () => {
           ApiGateway.deleteOperation({
             operationId,
             zoneId: zoneId(),
-          }).pipe(Effect.catchAll(() => Effect.void)),
+          }).pipe(Effect.catch(() => Effect.void)),
         ),
       ));
 
@@ -237,7 +237,7 @@ describe("ApiGateway", () => {
               ? ApiGateway.deleteOperation({
                   operationId,
                   zoneId: zoneId(),
-                }).pipe(Effect.catchAll(() => Effect.void))
+                }).pipe(Effect.catch(() => Effect.void))
               : Effect.void,
           ),
         ),

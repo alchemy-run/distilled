@@ -7,7 +7,7 @@
 
 import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
-import type { HttpClient } from "@effect/platform";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
@@ -22,35 +22,41 @@ import {
 // Errors
 // =============================================================================
 
-export class InvalidCredential extends Schema.TaggedError<InvalidCredential>()(
+export class InvalidCredential extends Schema.TaggedErrorClass<InvalidCredential>()(
   "InvalidCredential",
   { code: Schema.Number, message: Schema.String },
-).pipe(T.HttpErrorMatchers([{ code: 30004 }])) {}
+) {}
+T.applyErrorMatchers(InvalidCredential, [{ code: 30004 }]);
 
-export class InvalidRoute extends Schema.TaggedError<InvalidRoute>()(
+export class InvalidRoute extends Schema.TaggedErrorClass<InvalidRoute>()(
   "InvalidRoute",
   { code: Schema.Number, message: Schema.String },
-).pipe(T.HttpErrorMatchers([{ code: 7003 }])) {}
+) {}
+T.applyErrorMatchers(InvalidRoute, [{ code: 7003 }]);
 
-export class NoSuchBucket extends Schema.TaggedError<NoSuchBucket>()(
+export class NoSuchBucket extends Schema.TaggedErrorClass<NoSuchBucket>()(
   "NoSuchBucket",
   { code: Schema.Number, message: Schema.String },
-).pipe(T.HttpErrorMatchers([{ code: 10006 }])) {}
+) {}
+T.applyErrorMatchers(NoSuchBucket, [{ code: 10006 }]);
 
-export class TableNotFound extends Schema.TaggedError<TableNotFound>()(
+export class TableNotFound extends Schema.TaggedErrorClass<TableNotFound>()(
   "TableNotFound",
   { code: Schema.Number, message: Schema.String },
-).pipe(T.HttpErrorMatchers([{ code: 10001 }, { code: 40403 }])) {}
+) {}
+T.applyErrorMatchers(TableNotFound, [{ code: 10001 }, { code: 40403 }]);
 
-export class WarehouseInactive extends Schema.TaggedError<WarehouseInactive>()(
+export class WarehouseInactive extends Schema.TaggedErrorClass<WarehouseInactive>()(
   "WarehouseInactive",
   { code: Schema.Number, message: Schema.String },
-).pipe(T.HttpErrorMatchers([{ code: 40402 }])) {}
+) {}
+T.applyErrorMatchers(WarehouseInactive, [{ code: 40402 }]);
 
-export class WarehouseNotFound extends Schema.TaggedError<WarehouseNotFound>()(
+export class WarehouseNotFound extends Schema.TaggedErrorClass<WarehouseNotFound>()(
   "WarehouseNotFound",
   { code: Schema.Number, message: Schema.String },
-).pipe(T.HttpErrorMatchers([{ code: 40401 }])) {}
+) {}
+T.applyErrorMatchers(WarehouseNotFound, [{ code: 40401 }]);
 
 // =============================================================================
 // Credential
@@ -130,14 +136,14 @@ export interface GetMaintenanceConfigResponse {
 }
 
 export const GetMaintenanceConfigResponse = Schema.Struct({
-  credentialStatus: Schema.Literal("present", "absent").pipe(
+  credentialStatus: Schema.Literals(["present", "absent"]).pipe(
     T.JsonName("credential_status"),
   ),
   maintenanceConfig: Schema.Struct({
     compaction: Schema.optional(
       Schema.Struct({
-        state: Schema.Literal("enabled", "disabled"),
-        targetSizeMb: Schema.Literal("64", "128", "256", "512").pipe(
+        state: Schema.Literals(["enabled", "disabled"]),
+        targetSizeMb: Schema.Literals(["64", "128", "256", "512"]).pipe(
           T.JsonName("target_size_mb"),
         ),
       }),
@@ -148,7 +154,7 @@ export const GetMaintenanceConfigResponse = Schema.Struct({
         minSnapshotsToKeep: Schema.Number.pipe(
           T.JsonName("min_snapshots_to_keep"),
         ),
-        state: Schema.Literal("enabled", "disabled"),
+        state: Schema.Literals(["enabled", "disabled"]),
       }),
     ).pipe(T.JsonName("snapshot_expiration")),
   }).pipe(T.JsonName("maintenance_config")),
@@ -188,9 +194,9 @@ export const UpdateMaintenanceConfigRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   compaction: Schema.optional(
     Schema.Struct({
-      state: Schema.optional(Schema.Literal("enabled", "disabled")),
+      state: Schema.optional(Schema.Literals(["enabled", "disabled"])),
       targetSizeMb: Schema.optional(
-        Schema.Literal("64", "128", "256", "512"),
+        Schema.Literals(["64", "128", "256", "512"]),
       ).pipe(T.JsonName("target_size_mb")),
     }),
   ),
@@ -202,7 +208,7 @@ export const UpdateMaintenanceConfigRequest = Schema.Struct({
       minSnapshotsToKeep: Schema.optional(Schema.Number).pipe(
         T.JsonName("min_snapshots_to_keep"),
       ),
-      state: Schema.optional(Schema.Literal("enabled", "disabled")),
+      state: Schema.optional(Schema.Literals(["enabled", "disabled"])),
     }),
   ).pipe(T.JsonName("snapshot_expiration")),
 }).pipe(
@@ -229,8 +235,8 @@ export interface UpdateMaintenanceConfigResponse {
 export const UpdateMaintenanceConfigResponse = Schema.Struct({
   compaction: Schema.optional(
     Schema.Struct({
-      state: Schema.Literal("enabled", "disabled"),
-      targetSizeMb: Schema.Literal("64", "128", "256", "512").pipe(
+      state: Schema.Literals(["enabled", "disabled"]),
+      targetSizeMb: Schema.Literals(["64", "128", "256", "512"]).pipe(
         T.JsonName("target_size_mb"),
       ),
     }),
@@ -241,7 +247,7 @@ export const UpdateMaintenanceConfigResponse = Schema.Struct({
       minSnapshotsToKeep: Schema.Number.pipe(
         T.JsonName("min_snapshots_to_keep"),
       ),
-      state: Schema.Literal("enabled", "disabled"),
+      state: Schema.Literals(["enabled", "disabled"]),
     }),
   ).pipe(T.JsonName("snapshot_expiration")),
 }) as unknown as Schema.Schema<UpdateMaintenanceConfigResponse>;
@@ -318,26 +324,26 @@ export interface ListNamespacesResponse {
 export const ListNamespacesResponse = Schema.Struct({
   namespaces: Schema.Array(Schema.Array(Schema.String)),
   details: Schema.optional(
-    Schema.Union(
+    Schema.Union([
       Schema.Array(
         Schema.Struct({
           namespace: Schema.Array(Schema.String),
           namespaceUuid: Schema.String.pipe(T.JsonName("namespace_uuid")),
           createdAt: Schema.optional(
-            Schema.Union(Schema.String, Schema.Null),
+            Schema.Union([Schema.String, Schema.Null]),
           ).pipe(T.JsonName("created_at")),
           updatedAt: Schema.optional(
-            Schema.Union(Schema.String, Schema.Null),
+            Schema.Union([Schema.String, Schema.Null]),
           ).pipe(T.JsonName("updated_at")),
         }),
       ),
       Schema.Null,
-    ),
+    ]),
   ),
   namespaceUuids: Schema.optional(
-    Schema.Union(Schema.Array(Schema.String), Schema.Null),
+    Schema.Union([Schema.Array(Schema.String), Schema.Null]),
   ).pipe(T.JsonName("namespace_uuids")),
-  nextPageToken: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
+  nextPageToken: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
     T.JsonName("next_page_token"),
   ),
 }) as unknown as Schema.Schema<ListNamespacesResponse>;
@@ -420,7 +426,7 @@ export const ListNamespaceTablesResponse = Schema.Struct({
     }),
   ),
   details: Schema.optional(
-    Schema.Union(
+    Schema.Union([
       Schema.Array(
         Schema.Struct({
           identifier: Schema.Struct({
@@ -429,25 +435,25 @@ export const ListNamespaceTablesResponse = Schema.Struct({
           }),
           tableUuid: Schema.String.pipe(T.JsonName("table_uuid")),
           createdAt: Schema.optional(
-            Schema.Union(Schema.String, Schema.Null),
+            Schema.Union([Schema.String, Schema.Null]),
           ).pipe(T.JsonName("created_at")),
-          location: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
+          location: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
           metadataLocation: Schema.optional(
-            Schema.Union(Schema.String, Schema.Null),
+            Schema.Union([Schema.String, Schema.Null]),
           ).pipe(T.JsonName("metadata_location")),
           updatedAt: Schema.optional(
-            Schema.Union(Schema.String, Schema.Null),
+            Schema.Union([Schema.String, Schema.Null]),
           ).pipe(T.JsonName("updated_at")),
         }),
       ),
       Schema.Null,
-    ),
+    ]),
   ),
-  nextPageToken: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
+  nextPageToken: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
     T.JsonName("next_page_token"),
   ),
   tableUuids: Schema.optional(
-    Schema.Union(Schema.Array(Schema.String), Schema.Null),
+    Schema.Union([Schema.Array(Schema.String), Schema.Null]),
   ).pipe(T.JsonName("table_uuids")),
 }) as unknown as Schema.Schema<ListNamespaceTablesResponse>;
 
@@ -506,8 +512,8 @@ export const GetNamespaceTableMaintenanceConfigResponse = Schema.Struct({
   maintenanceConfig: Schema.Struct({
     compaction: Schema.optional(
       Schema.Struct({
-        state: Schema.Literal("enabled", "disabled"),
-        targetSizeMb: Schema.Literal("64", "128", "256", "512").pipe(
+        state: Schema.Literals(["enabled", "disabled"]),
+        targetSizeMb: Schema.Literals(["64", "128", "256", "512"]).pipe(
           T.JsonName("target_size_mb"),
         ),
       }),
@@ -518,7 +524,7 @@ export const GetNamespaceTableMaintenanceConfigResponse = Schema.Struct({
         minSnapshotsToKeep: Schema.Number.pipe(
           T.JsonName("min_snapshots_to_keep"),
         ),
-        state: Schema.Literal("enabled", "disabled"),
+        state: Schema.Literals(["enabled", "disabled"]),
       }),
     ).pipe(T.JsonName("snapshot_expiration")),
   }).pipe(T.JsonName("maintenance_config")),
@@ -562,9 +568,9 @@ export const UpdateNamespaceTableMaintenanceConfigRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   compaction: Schema.optional(
     Schema.Struct({
-      state: Schema.optional(Schema.Literal("enabled", "disabled")),
+      state: Schema.optional(Schema.Literals(["enabled", "disabled"])),
       targetSizeMb: Schema.optional(
-        Schema.Literal("64", "128", "256", "512"),
+        Schema.Literals(["64", "128", "256", "512"]),
       ).pipe(T.JsonName("target_size_mb")),
     }),
   ),
@@ -576,7 +582,7 @@ export const UpdateNamespaceTableMaintenanceConfigRequest = Schema.Struct({
       minSnapshotsToKeep: Schema.optional(Schema.Number).pipe(
         T.JsonName("min_snapshots_to_keep"),
       ),
-      state: Schema.optional(Schema.Literal("enabled", "disabled")),
+      state: Schema.optional(Schema.Literals(["enabled", "disabled"])),
     }),
   ).pipe(T.JsonName("snapshot_expiration")),
 }).pipe(
@@ -603,8 +609,8 @@ export interface UpdateNamespaceTableMaintenanceConfigResponse {
 export const UpdateNamespaceTableMaintenanceConfigResponse = Schema.Struct({
   compaction: Schema.optional(
     Schema.Struct({
-      state: Schema.Literal("enabled", "disabled"),
-      targetSizeMb: Schema.Literal("64", "128", "256", "512").pipe(
+      state: Schema.Literals(["enabled", "disabled"]),
+      targetSizeMb: Schema.Literals(["64", "128", "256", "512"]).pipe(
         T.JsonName("target_size_mb"),
       ),
     }),
@@ -615,7 +621,7 @@ export const UpdateNamespaceTableMaintenanceConfigResponse = Schema.Struct({
       minSnapshotsToKeep: Schema.Number.pipe(
         T.JsonName("min_snapshots_to_keep"),
       ),
-      state: Schema.Literal("enabled", "disabled"),
+      state: Schema.Literals(["enabled", "disabled"]),
     }),
   ).pipe(T.JsonName("snapshot_expiration")),
 }) as unknown as Schema.Schema<UpdateNamespaceTableMaintenanceConfigResponse>;
@@ -681,21 +687,21 @@ export const GetR2DataCatalogResponse = Schema.Struct({
   id: Schema.String,
   bucket: Schema.String,
   name: Schema.String,
-  status: Schema.Literal("active", "inactive"),
+  status: Schema.Literals(["active", "inactive"]),
   credentialStatus: Schema.optional(
-    Schema.Union(
+    Schema.Union([
       Schema.Literal("present"),
       Schema.Literal("absent"),
       Schema.Null,
-    ),
+    ]),
   ).pipe(T.JsonName("credential_status")),
   maintenanceConfig: Schema.optional(
-    Schema.Union(
+    Schema.Union([
       Schema.Struct({
         compaction: Schema.optional(
           Schema.Struct({
-            state: Schema.Literal("enabled", "disabled"),
-            targetSizeMb: Schema.Literal("64", "128", "256", "512").pipe(
+            state: Schema.Literals(["enabled", "disabled"]),
+            targetSizeMb: Schema.Literals(["64", "128", "256", "512"]).pipe(
               T.JsonName("target_size_mb"),
             ),
           }),
@@ -706,12 +712,12 @@ export const GetR2DataCatalogResponse = Schema.Struct({
             minSnapshotsToKeep: Schema.Number.pipe(
               T.JsonName("min_snapshots_to_keep"),
             ),
-            state: Schema.Literal("enabled", "disabled"),
+            state: Schema.Literals(["enabled", "disabled"]),
           }),
         ).pipe(T.JsonName("snapshot_expiration")),
       }),
       Schema.Null,
-    ),
+    ]),
   ).pipe(T.JsonName("maintenance_config")),
 }) as unknown as Schema.Schema<GetR2DataCatalogResponse>;
 
@@ -766,21 +772,21 @@ export const ListR2DataCatalogsResponse = Schema.Struct({
       id: Schema.String,
       bucket: Schema.String,
       name: Schema.String,
-      status: Schema.Literal("active", "inactive"),
+      status: Schema.Literals(["active", "inactive"]),
       credentialStatus: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Literal("present"),
           Schema.Literal("absent"),
           Schema.Null,
-        ),
+        ]),
       ).pipe(T.JsonName("credential_status")),
       maintenanceConfig: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
             compaction: Schema.optional(
               Schema.Struct({
-                state: Schema.Literal("enabled", "disabled"),
-                targetSizeMb: Schema.Literal("64", "128", "256", "512").pipe(
+                state: Schema.Literals(["enabled", "disabled"]),
+                targetSizeMb: Schema.Literals(["64", "128", "256", "512"]).pipe(
                   T.JsonName("target_size_mb"),
                 ),
               }),
@@ -793,12 +799,12 @@ export const ListR2DataCatalogsResponse = Schema.Struct({
                 minSnapshotsToKeep: Schema.Number.pipe(
                   T.JsonName("min_snapshots_to_keep"),
                 ),
-                state: Schema.Literal("enabled", "disabled"),
+                state: Schema.Literals(["enabled", "disabled"]),
               }),
             ).pipe(T.JsonName("snapshot_expiration")),
           }),
           Schema.Null,
-        ),
+        ]),
       ).pipe(T.JsonName("maintenance_config")),
     }),
   ),

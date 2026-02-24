@@ -41,7 +41,7 @@ const withAddressMap = <A, E, R>(
         Addressing.deleteAddressMap({
           accountId: accountId(),
           addressMapId,
-        }).pipe(Effect.catchAll(() => Effect.void)),
+        }).pipe(Effect.catch(() => Effect.void)),
       ),
     );
   });

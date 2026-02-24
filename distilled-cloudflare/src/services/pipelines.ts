@@ -7,7 +7,7 @@
 
 import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
-import type { HttpClient } from "@effect/platform";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
@@ -81,7 +81,7 @@ export const GetPipelineResponse = Schema.Struct({
       maxRows: Schema.optional(Schema.Number).pipe(T.JsonName("max_rows")),
     }),
     compression: Schema.Struct({
-      type: Schema.optional(Schema.Literal("none", "gzip", "deflate")),
+      type: Schema.optional(Schema.Literals(["none", "gzip", "deflate"])),
     }),
     format: Schema.Literal("json"),
     path: Schema.Struct({
@@ -95,7 +95,7 @@ export const GetPipelineResponse = Schema.Struct({
   endpoint: Schema.String,
   name: Schema.String,
   source: Schema.Array(
-    Schema.Union(
+    Schema.Union([
       Schema.Struct({
         format: Schema.Literal("json"),
         type: Schema.String,
@@ -110,7 +110,7 @@ export const GetPipelineResponse = Schema.Struct({
         format: Schema.Literal("json"),
         type: Schema.String,
       }),
-    ),
+    ]),
   ),
   version: Schema.Number,
 }) as unknown as Schema.Schema<GetPipelineResponse>;
@@ -206,7 +206,7 @@ export const ListPipelinesResponse = Schema.Struct({
           maxRows: Schema.optional(Schema.Number).pipe(T.JsonName("max_rows")),
         }),
         compression: Schema.Struct({
-          type: Schema.optional(Schema.Literal("none", "gzip", "deflate")),
+          type: Schema.optional(Schema.Literals(["none", "gzip", "deflate"])),
         }),
         format: Schema.Literal("json"),
         path: Schema.Struct({
@@ -220,7 +220,7 @@ export const ListPipelinesResponse = Schema.Struct({
       endpoint: Schema.String,
       name: Schema.String,
       source: Schema.Array(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
             format: Schema.Literal("json"),
             type: Schema.String,
@@ -235,7 +235,7 @@ export const ListPipelinesResponse = Schema.Struct({
             format: Schema.Literal("json"),
             type: Schema.String,
           }),
-        ),
+        ]),
       ),
       version: Schema.Number,
     }),
@@ -301,7 +301,7 @@ export const CreatePipelineRequest = Schema.Struct({
       maxRows: Schema.optional(Schema.Number).pipe(T.JsonName("max_rows")),
     }),
     compression: Schema.Struct({
-      type: Schema.optional(Schema.Literal("none", "gzip", "deflate")),
+      type: Schema.optional(Schema.Literals(["none", "gzip", "deflate"])),
     }),
     credentials: Schema.Struct({
       accessKeyId: Schema.String.pipe(T.JsonName("access_key_id")),
@@ -319,7 +319,7 @@ export const CreatePipelineRequest = Schema.Struct({
   }),
   name: Schema.String,
   source: Schema.Array(
-    Schema.Union(
+    Schema.Union([
       Schema.Struct({
         format: Schema.Literal("json"),
         type: Schema.String,
@@ -334,7 +334,7 @@ export const CreatePipelineRequest = Schema.Struct({
         format: Schema.Literal("json"),
         type: Schema.String,
       }),
-    ),
+    ]),
   ),
 }).pipe(
   T.Http({ method: "POST", path: "/accounts/{account_id}/pipelines" }),
@@ -383,7 +383,7 @@ export const CreatePipelineResponse = Schema.Struct({
       maxRows: Schema.optional(Schema.Number).pipe(T.JsonName("max_rows")),
     }),
     compression: Schema.Struct({
-      type: Schema.optional(Schema.Literal("none", "gzip", "deflate")),
+      type: Schema.optional(Schema.Literals(["none", "gzip", "deflate"])),
     }),
     format: Schema.Literal("json"),
     path: Schema.Struct({
@@ -397,7 +397,7 @@ export const CreatePipelineResponse = Schema.Struct({
   endpoint: Schema.String,
   name: Schema.String,
   source: Schema.Array(
-    Schema.Union(
+    Schema.Union([
       Schema.Struct({
         format: Schema.Literal("json"),
         type: Schema.String,
@@ -412,7 +412,7 @@ export const CreatePipelineResponse = Schema.Struct({
         format: Schema.Literal("json"),
         type: Schema.String,
       }),
-    ),
+    ]),
   ),
   version: Schema.Number,
 }) as unknown as Schema.Schema<CreatePipelineResponse>;
@@ -477,7 +477,7 @@ export const UpdatePipelineRequest = Schema.Struct({
       maxRows: Schema.optional(Schema.Number).pipe(T.JsonName("max_rows")),
     }),
     compression: Schema.Struct({
-      type: Schema.optional(Schema.Literal("none", "gzip", "deflate")),
+      type: Schema.optional(Schema.Literals(["none", "gzip", "deflate"])),
     }),
     format: Schema.Literal("json"),
     path: Schema.Struct({
@@ -497,7 +497,7 @@ export const UpdatePipelineRequest = Schema.Struct({
   }),
   name: Schema.String,
   source: Schema.Array(
-    Schema.Union(
+    Schema.Union([
       Schema.Struct({
         format: Schema.Literal("json"),
         type: Schema.String,
@@ -512,7 +512,7 @@ export const UpdatePipelineRequest = Schema.Struct({
         format: Schema.Literal("json"),
         type: Schema.String,
       }),
-    ),
+    ]),
   ),
 }).pipe(
   T.Http({
@@ -564,7 +564,7 @@ export const UpdatePipelineResponse = Schema.Struct({
       maxRows: Schema.optional(Schema.Number).pipe(T.JsonName("max_rows")),
     }),
     compression: Schema.Struct({
-      type: Schema.optional(Schema.Literal("none", "gzip", "deflate")),
+      type: Schema.optional(Schema.Literals(["none", "gzip", "deflate"])),
     }),
     format: Schema.Literal("json"),
     path: Schema.Struct({
@@ -578,7 +578,7 @@ export const UpdatePipelineResponse = Schema.Struct({
   endpoint: Schema.String,
   name: Schema.String,
   source: Schema.Array(
-    Schema.Union(
+    Schema.Union([
       Schema.Struct({
         format: Schema.Literal("json"),
         type: Schema.String,
@@ -593,7 +593,7 @@ export const UpdatePipelineResponse = Schema.Struct({
         format: Schema.Literal("json"),
         type: Schema.String,
       }),
-    ),
+    ]),
   ),
   version: Schema.Number,
 }) as unknown as Schema.Schema<UpdatePipelineResponse>;
@@ -804,9 +804,9 @@ export const GetSinkResponse = Schema.Struct({
   createdAt: Schema.String.pipe(T.JsonName("created_at")),
   modifiedAt: Schema.String.pipe(T.JsonName("modified_at")),
   name: Schema.String,
-  type: Schema.Literal("r2", "r2_data_catalog"),
+  type: Schema.Literals(["r2", "r2_data_catalog"]),
   config: Schema.optional(
-    Schema.Union(
+    Schema.Union([
       Schema.Struct({
         accountId: Schema.String.pipe(T.JsonName("account_id")),
         bucket: Schema.String,
@@ -818,7 +818,7 @@ export const GetSinkResponse = Schema.Struct({
           Schema.Struct({
             prefix: Schema.optional(Schema.String),
             strategy: Schema.optional(
-              Schema.Literal("serial", "uuid", "uuid_v7", "ulid"),
+              Schema.Literals(["serial", "uuid", "uuid_v7", "ulid"]),
             ),
             suffix: Schema.optional(Schema.String),
           }),
@@ -866,40 +866,40 @@ export const GetSinkResponse = Schema.Struct({
           }),
         ).pipe(T.JsonName("rolling_policy")),
       }),
-    ),
+    ]),
   ),
   format: Schema.optional(
-    Schema.Union(
+    Schema.Union([
       Schema.Struct({
         type: Schema.Literal("json"),
         decimalEncoding: Schema.optional(
-          Schema.Literal("number", "string", "bytes"),
+          Schema.Literals(["number", "string", "bytes"]),
         ).pipe(T.JsonName("decimal_encoding")),
         timestampFormat: Schema.optional(
-          Schema.Literal("rfc3339", "unix_millis"),
+          Schema.Literals(["rfc3339", "unix_millis"]),
         ).pipe(T.JsonName("timestamp_format")),
         unstructured: Schema.optional(Schema.Boolean),
       }),
       Schema.Struct({
         type: Schema.Literal("parquet"),
         compression: Schema.optional(
-          Schema.Literal("uncompressed", "snappy", "gzip", "zstd", "lz4"),
+          Schema.Literals(["uncompressed", "snappy", "gzip", "zstd", "lz4"]),
         ),
         rowGroupBytes: Schema.optional(
-          Schema.Union(Schema.Number, Schema.Null),
+          Schema.Union([Schema.Number, Schema.Null]),
         ).pipe(T.JsonName("row_group_bytes")),
       }),
-    ),
+    ]),
   ),
   schema: Schema.optional(
     Schema.Struct({
       fields: Schema.optional(
         Schema.Array(
-          Schema.Union(
+          Schema.Union([
             Schema.Struct({
               type: Schema.Literal("int32"),
               metadataKey: Schema.optional(
-                Schema.Union(Schema.String, Schema.Null),
+                Schema.Union([Schema.String, Schema.Null]),
               ).pipe(T.JsonName("metadata_key")),
               name: Schema.optional(Schema.String),
               required: Schema.optional(Schema.Boolean),
@@ -910,7 +910,7 @@ export const GetSinkResponse = Schema.Struct({
             Schema.Struct({
               type: Schema.Literal("int64"),
               metadataKey: Schema.optional(
-                Schema.Union(Schema.String, Schema.Null),
+                Schema.Union([Schema.String, Schema.Null]),
               ).pipe(T.JsonName("metadata_key")),
               name: Schema.optional(Schema.String),
               required: Schema.optional(Schema.Boolean),
@@ -921,7 +921,7 @@ export const GetSinkResponse = Schema.Struct({
             Schema.Struct({
               type: Schema.Literal("float32"),
               metadataKey: Schema.optional(
-                Schema.Union(Schema.String, Schema.Null),
+                Schema.Union([Schema.String, Schema.Null]),
               ).pipe(T.JsonName("metadata_key")),
               name: Schema.optional(Schema.String),
               required: Schema.optional(Schema.Boolean),
@@ -932,7 +932,7 @@ export const GetSinkResponse = Schema.Struct({
             Schema.Struct({
               type: Schema.Literal("float64"),
               metadataKey: Schema.optional(
-                Schema.Union(Schema.String, Schema.Null),
+                Schema.Union([Schema.String, Schema.Null]),
               ).pipe(T.JsonName("metadata_key")),
               name: Schema.optional(Schema.String),
               required: Schema.optional(Schema.Boolean),
@@ -943,7 +943,7 @@ export const GetSinkResponse = Schema.Struct({
             Schema.Struct({
               type: Schema.Literal("bool"),
               metadataKey: Schema.optional(
-                Schema.Union(Schema.String, Schema.Null),
+                Schema.Union([Schema.String, Schema.Null]),
               ).pipe(T.JsonName("metadata_key")),
               name: Schema.optional(Schema.String),
               required: Schema.optional(Schema.Boolean),
@@ -954,7 +954,7 @@ export const GetSinkResponse = Schema.Struct({
             Schema.Struct({
               type: Schema.Literal("string"),
               metadataKey: Schema.optional(
-                Schema.Union(Schema.String, Schema.Null),
+                Schema.Union([Schema.String, Schema.Null]),
               ).pipe(T.JsonName("metadata_key")),
               name: Schema.optional(Schema.String),
               required: Schema.optional(Schema.Boolean),
@@ -965,7 +965,7 @@ export const GetSinkResponse = Schema.Struct({
             Schema.Struct({
               type: Schema.Literal("binary"),
               metadataKey: Schema.optional(
-                Schema.Union(Schema.String, Schema.Null),
+                Schema.Union([Schema.String, Schema.Null]),
               ).pipe(T.JsonName("metadata_key")),
               name: Schema.optional(Schema.String),
               required: Schema.optional(Schema.Boolean),
@@ -976,7 +976,7 @@ export const GetSinkResponse = Schema.Struct({
             Schema.Struct({
               type: Schema.Literal("timestamp"),
               metadataKey: Schema.optional(
-                Schema.Union(Schema.String, Schema.Null),
+                Schema.Union([Schema.String, Schema.Null]),
               ).pipe(T.JsonName("metadata_key")),
               name: Schema.optional(Schema.String),
               required: Schema.optional(Schema.Boolean),
@@ -984,52 +984,52 @@ export const GetSinkResponse = Schema.Struct({
                 T.JsonName("sql_name"),
               ),
               unit: Schema.optional(
-                Schema.Literal(
+                Schema.Literals([
                   "second",
                   "millisecond",
                   "microsecond",
                   "nanosecond",
-                ),
+                ]),
               ),
             }),
             Schema.Struct({
               type: Schema.Literal("json"),
               decimalEncoding: Schema.optional(
-                Schema.Literal("number", "string", "bytes"),
+                Schema.Literals(["number", "string", "bytes"]),
               ).pipe(T.JsonName("decimal_encoding")),
               timestampFormat: Schema.optional(
-                Schema.Literal("rfc3339", "unix_millis"),
+                Schema.Literals(["rfc3339", "unix_millis"]),
               ).pipe(T.JsonName("timestamp_format")),
               unstructured: Schema.optional(Schema.Boolean),
             }),
             Schema.Unknown,
-          ),
+          ]),
         ),
       ),
       format: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
             type: Schema.Literal("json"),
             decimalEncoding: Schema.optional(
-              Schema.Literal("number", "string", "bytes"),
+              Schema.Literals(["number", "string", "bytes"]),
             ).pipe(T.JsonName("decimal_encoding")),
             timestampFormat: Schema.optional(
-              Schema.Literal("rfc3339", "unix_millis"),
+              Schema.Literals(["rfc3339", "unix_millis"]),
             ).pipe(T.JsonName("timestamp_format")),
             unstructured: Schema.optional(Schema.Boolean),
           }),
           Schema.Struct({
             type: Schema.Literal("parquet"),
             compression: Schema.optional(
-              Schema.Literal("uncompressed", "snappy", "gzip", "zstd", "lz4"),
+              Schema.Literals(["uncompressed", "snappy", "gzip", "zstd", "lz4"]),
             ),
             rowGroupBytes: Schema.optional(
-              Schema.Union(Schema.Number, Schema.Null),
+              Schema.Union([Schema.Number, Schema.Null]),
             ).pipe(T.JsonName("row_group_bytes")),
           }),
-        ),
+        ]),
       ),
-      inferred: Schema.optional(Schema.Union(Schema.Boolean, Schema.Null)),
+      inferred: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
     }),
   ),
 }) as unknown as Schema.Schema<GetSinkResponse>;
@@ -1185,9 +1185,9 @@ export interface CreateSinkRequest {
 export const CreateSinkRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   name: Schema.String,
-  type: Schema.Literal("r2", "r2_data_catalog"),
+  type: Schema.Literals(["r2", "r2_data_catalog"]),
   config: Schema.optional(
-    Schema.Union(
+    Schema.Union([
       Schema.Struct({
         accountId: Schema.String.pipe(T.JsonName("account_id")),
         bucket: Schema.String,
@@ -1199,7 +1199,7 @@ export const CreateSinkRequest = Schema.Struct({
           Schema.Struct({
             prefix: Schema.optional(Schema.String),
             strategy: Schema.optional(
-              Schema.Literal("serial", "uuid", "uuid_v7", "ulid"),
+              Schema.Literals(["serial", "uuid", "uuid_v7", "ulid"]),
             ),
             suffix: Schema.optional(Schema.String),
           }),
@@ -1247,40 +1247,40 @@ export const CreateSinkRequest = Schema.Struct({
           }),
         ).pipe(T.JsonName("rolling_policy")),
       }),
-    ),
+    ]),
   ),
   format: Schema.optional(
-    Schema.Union(
+    Schema.Union([
       Schema.Struct({
         type: Schema.Literal("json"),
         decimalEncoding: Schema.optional(
-          Schema.Literal("number", "string", "bytes"),
+          Schema.Literals(["number", "string", "bytes"]),
         ).pipe(T.JsonName("decimal_encoding")),
         timestampFormat: Schema.optional(
-          Schema.Literal("rfc3339", "unix_millis"),
+          Schema.Literals(["rfc3339", "unix_millis"]),
         ).pipe(T.JsonName("timestamp_format")),
         unstructured: Schema.optional(Schema.Boolean),
       }),
       Schema.Struct({
         type: Schema.Literal("parquet"),
         compression: Schema.optional(
-          Schema.Literal("uncompressed", "snappy", "gzip", "zstd", "lz4"),
+          Schema.Literals(["uncompressed", "snappy", "gzip", "zstd", "lz4"]),
         ),
         rowGroupBytes: Schema.optional(
-          Schema.Union(Schema.Number, Schema.Null),
+          Schema.Union([Schema.Number, Schema.Null]),
         ).pipe(T.JsonName("row_group_bytes")),
       }),
-    ),
+    ]),
   ),
   schema: Schema.optional(
     Schema.Struct({
       fields: Schema.optional(
         Schema.Array(
-          Schema.Union(
+          Schema.Union([
             Schema.Struct({
               type: Schema.Literal("int32"),
               metadataKey: Schema.optional(
-                Schema.Union(Schema.String, Schema.Null),
+                Schema.Union([Schema.String, Schema.Null]),
               ).pipe(T.JsonName("metadata_key")),
               name: Schema.optional(Schema.String),
               required: Schema.optional(Schema.Boolean),
@@ -1291,7 +1291,7 @@ export const CreateSinkRequest = Schema.Struct({
             Schema.Struct({
               type: Schema.Literal("int64"),
               metadataKey: Schema.optional(
-                Schema.Union(Schema.String, Schema.Null),
+                Schema.Union([Schema.String, Schema.Null]),
               ).pipe(T.JsonName("metadata_key")),
               name: Schema.optional(Schema.String),
               required: Schema.optional(Schema.Boolean),
@@ -1302,7 +1302,7 @@ export const CreateSinkRequest = Schema.Struct({
             Schema.Struct({
               type: Schema.Literal("float32"),
               metadataKey: Schema.optional(
-                Schema.Union(Schema.String, Schema.Null),
+                Schema.Union([Schema.String, Schema.Null]),
               ).pipe(T.JsonName("metadata_key")),
               name: Schema.optional(Schema.String),
               required: Schema.optional(Schema.Boolean),
@@ -1313,7 +1313,7 @@ export const CreateSinkRequest = Schema.Struct({
             Schema.Struct({
               type: Schema.Literal("float64"),
               metadataKey: Schema.optional(
-                Schema.Union(Schema.String, Schema.Null),
+                Schema.Union([Schema.String, Schema.Null]),
               ).pipe(T.JsonName("metadata_key")),
               name: Schema.optional(Schema.String),
               required: Schema.optional(Schema.Boolean),
@@ -1324,7 +1324,7 @@ export const CreateSinkRequest = Schema.Struct({
             Schema.Struct({
               type: Schema.Literal("bool"),
               metadataKey: Schema.optional(
-                Schema.Union(Schema.String, Schema.Null),
+                Schema.Union([Schema.String, Schema.Null]),
               ).pipe(T.JsonName("metadata_key")),
               name: Schema.optional(Schema.String),
               required: Schema.optional(Schema.Boolean),
@@ -1335,7 +1335,7 @@ export const CreateSinkRequest = Schema.Struct({
             Schema.Struct({
               type: Schema.Literal("string"),
               metadataKey: Schema.optional(
-                Schema.Union(Schema.String, Schema.Null),
+                Schema.Union([Schema.String, Schema.Null]),
               ).pipe(T.JsonName("metadata_key")),
               name: Schema.optional(Schema.String),
               required: Schema.optional(Schema.Boolean),
@@ -1346,7 +1346,7 @@ export const CreateSinkRequest = Schema.Struct({
             Schema.Struct({
               type: Schema.Literal("binary"),
               metadataKey: Schema.optional(
-                Schema.Union(Schema.String, Schema.Null),
+                Schema.Union([Schema.String, Schema.Null]),
               ).pipe(T.JsonName("metadata_key")),
               name: Schema.optional(Schema.String),
               required: Schema.optional(Schema.Boolean),
@@ -1357,7 +1357,7 @@ export const CreateSinkRequest = Schema.Struct({
             Schema.Struct({
               type: Schema.Literal("timestamp"),
               metadataKey: Schema.optional(
-                Schema.Union(Schema.String, Schema.Null),
+                Schema.Union([Schema.String, Schema.Null]),
               ).pipe(T.JsonName("metadata_key")),
               name: Schema.optional(Schema.String),
               required: Schema.optional(Schema.Boolean),
@@ -1365,52 +1365,52 @@ export const CreateSinkRequest = Schema.Struct({
                 T.JsonName("sql_name"),
               ),
               unit: Schema.optional(
-                Schema.Literal(
+                Schema.Literals([
                   "second",
                   "millisecond",
                   "microsecond",
                   "nanosecond",
-                ),
+                ]),
               ),
             }),
             Schema.Struct({
               type: Schema.Literal("json"),
               decimalEncoding: Schema.optional(
-                Schema.Literal("number", "string", "bytes"),
+                Schema.Literals(["number", "string", "bytes"]),
               ).pipe(T.JsonName("decimal_encoding")),
               timestampFormat: Schema.optional(
-                Schema.Literal("rfc3339", "unix_millis"),
+                Schema.Literals(["rfc3339", "unix_millis"]),
               ).pipe(T.JsonName("timestamp_format")),
               unstructured: Schema.optional(Schema.Boolean),
             }),
             Schema.Unknown,
-          ),
+          ]),
         ),
       ),
       format: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
             type: Schema.Literal("json"),
             decimalEncoding: Schema.optional(
-              Schema.Literal("number", "string", "bytes"),
+              Schema.Literals(["number", "string", "bytes"]),
             ).pipe(T.JsonName("decimal_encoding")),
             timestampFormat: Schema.optional(
-              Schema.Literal("rfc3339", "unix_millis"),
+              Schema.Literals(["rfc3339", "unix_millis"]),
             ).pipe(T.JsonName("timestamp_format")),
             unstructured: Schema.optional(Schema.Boolean),
           }),
           Schema.Struct({
             type: Schema.Literal("parquet"),
             compression: Schema.optional(
-              Schema.Literal("uncompressed", "snappy", "gzip", "zstd", "lz4"),
+              Schema.Literals(["uncompressed", "snappy", "gzip", "zstd", "lz4"]),
             ),
             rowGroupBytes: Schema.optional(
-              Schema.Union(Schema.Number, Schema.Null),
+              Schema.Union([Schema.Number, Schema.Null]),
             ).pipe(T.JsonName("row_group_bytes")),
           }),
-        ),
+        ]),
       ),
-      inferred: Schema.optional(Schema.Union(Schema.Boolean, Schema.Null)),
+      inferred: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
     }),
   ),
 }).pipe(
@@ -1558,9 +1558,9 @@ export const CreateSinkResponse = Schema.Struct({
   createdAt: Schema.String.pipe(T.JsonName("created_at")),
   modifiedAt: Schema.String.pipe(T.JsonName("modified_at")),
   name: Schema.String,
-  type: Schema.Literal("r2", "r2_data_catalog"),
+  type: Schema.Literals(["r2", "r2_data_catalog"]),
   config: Schema.optional(
-    Schema.Union(
+    Schema.Union([
       Schema.Struct({
         accountId: Schema.String.pipe(T.JsonName("account_id")),
         bucket: Schema.String,
@@ -1572,7 +1572,7 @@ export const CreateSinkResponse = Schema.Struct({
           Schema.Struct({
             prefix: Schema.optional(Schema.String),
             strategy: Schema.optional(
-              Schema.Literal("serial", "uuid", "uuid_v7", "ulid"),
+              Schema.Literals(["serial", "uuid", "uuid_v7", "ulid"]),
             ),
             suffix: Schema.optional(Schema.String),
           }),
@@ -1620,40 +1620,40 @@ export const CreateSinkResponse = Schema.Struct({
           }),
         ).pipe(T.JsonName("rolling_policy")),
       }),
-    ),
+    ]),
   ),
   format: Schema.optional(
-    Schema.Union(
+    Schema.Union([
       Schema.Struct({
         type: Schema.Literal("json"),
         decimalEncoding: Schema.optional(
-          Schema.Literal("number", "string", "bytes"),
+          Schema.Literals(["number", "string", "bytes"]),
         ).pipe(T.JsonName("decimal_encoding")),
         timestampFormat: Schema.optional(
-          Schema.Literal("rfc3339", "unix_millis"),
+          Schema.Literals(["rfc3339", "unix_millis"]),
         ).pipe(T.JsonName("timestamp_format")),
         unstructured: Schema.optional(Schema.Boolean),
       }),
       Schema.Struct({
         type: Schema.Literal("parquet"),
         compression: Schema.optional(
-          Schema.Literal("uncompressed", "snappy", "gzip", "zstd", "lz4"),
+          Schema.Literals(["uncompressed", "snappy", "gzip", "zstd", "lz4"]),
         ),
         rowGroupBytes: Schema.optional(
-          Schema.Union(Schema.Number, Schema.Null),
+          Schema.Union([Schema.Number, Schema.Null]),
         ).pipe(T.JsonName("row_group_bytes")),
       }),
-    ),
+    ]),
   ),
   schema: Schema.optional(
     Schema.Struct({
       fields: Schema.optional(
         Schema.Array(
-          Schema.Union(
+          Schema.Union([
             Schema.Struct({
               type: Schema.Literal("int32"),
               metadataKey: Schema.optional(
-                Schema.Union(Schema.String, Schema.Null),
+                Schema.Union([Schema.String, Schema.Null]),
               ).pipe(T.JsonName("metadata_key")),
               name: Schema.optional(Schema.String),
               required: Schema.optional(Schema.Boolean),
@@ -1664,7 +1664,7 @@ export const CreateSinkResponse = Schema.Struct({
             Schema.Struct({
               type: Schema.Literal("int64"),
               metadataKey: Schema.optional(
-                Schema.Union(Schema.String, Schema.Null),
+                Schema.Union([Schema.String, Schema.Null]),
               ).pipe(T.JsonName("metadata_key")),
               name: Schema.optional(Schema.String),
               required: Schema.optional(Schema.Boolean),
@@ -1675,7 +1675,7 @@ export const CreateSinkResponse = Schema.Struct({
             Schema.Struct({
               type: Schema.Literal("float32"),
               metadataKey: Schema.optional(
-                Schema.Union(Schema.String, Schema.Null),
+                Schema.Union([Schema.String, Schema.Null]),
               ).pipe(T.JsonName("metadata_key")),
               name: Schema.optional(Schema.String),
               required: Schema.optional(Schema.Boolean),
@@ -1686,7 +1686,7 @@ export const CreateSinkResponse = Schema.Struct({
             Schema.Struct({
               type: Schema.Literal("float64"),
               metadataKey: Schema.optional(
-                Schema.Union(Schema.String, Schema.Null),
+                Schema.Union([Schema.String, Schema.Null]),
               ).pipe(T.JsonName("metadata_key")),
               name: Schema.optional(Schema.String),
               required: Schema.optional(Schema.Boolean),
@@ -1697,7 +1697,7 @@ export const CreateSinkResponse = Schema.Struct({
             Schema.Struct({
               type: Schema.Literal("bool"),
               metadataKey: Schema.optional(
-                Schema.Union(Schema.String, Schema.Null),
+                Schema.Union([Schema.String, Schema.Null]),
               ).pipe(T.JsonName("metadata_key")),
               name: Schema.optional(Schema.String),
               required: Schema.optional(Schema.Boolean),
@@ -1708,7 +1708,7 @@ export const CreateSinkResponse = Schema.Struct({
             Schema.Struct({
               type: Schema.Literal("string"),
               metadataKey: Schema.optional(
-                Schema.Union(Schema.String, Schema.Null),
+                Schema.Union([Schema.String, Schema.Null]),
               ).pipe(T.JsonName("metadata_key")),
               name: Schema.optional(Schema.String),
               required: Schema.optional(Schema.Boolean),
@@ -1719,7 +1719,7 @@ export const CreateSinkResponse = Schema.Struct({
             Schema.Struct({
               type: Schema.Literal("binary"),
               metadataKey: Schema.optional(
-                Schema.Union(Schema.String, Schema.Null),
+                Schema.Union([Schema.String, Schema.Null]),
               ).pipe(T.JsonName("metadata_key")),
               name: Schema.optional(Schema.String),
               required: Schema.optional(Schema.Boolean),
@@ -1730,7 +1730,7 @@ export const CreateSinkResponse = Schema.Struct({
             Schema.Struct({
               type: Schema.Literal("timestamp"),
               metadataKey: Schema.optional(
-                Schema.Union(Schema.String, Schema.Null),
+                Schema.Union([Schema.String, Schema.Null]),
               ).pipe(T.JsonName("metadata_key")),
               name: Schema.optional(Schema.String),
               required: Schema.optional(Schema.Boolean),
@@ -1738,52 +1738,52 @@ export const CreateSinkResponse = Schema.Struct({
                 T.JsonName("sql_name"),
               ),
               unit: Schema.optional(
-                Schema.Literal(
+                Schema.Literals([
                   "second",
                   "millisecond",
                   "microsecond",
                   "nanosecond",
-                ),
+                ]),
               ),
             }),
             Schema.Struct({
               type: Schema.Literal("json"),
               decimalEncoding: Schema.optional(
-                Schema.Literal("number", "string", "bytes"),
+                Schema.Literals(["number", "string", "bytes"]),
               ).pipe(T.JsonName("decimal_encoding")),
               timestampFormat: Schema.optional(
-                Schema.Literal("rfc3339", "unix_millis"),
+                Schema.Literals(["rfc3339", "unix_millis"]),
               ).pipe(T.JsonName("timestamp_format")),
               unstructured: Schema.optional(Schema.Boolean),
             }),
             Schema.Unknown,
-          ),
+          ]),
         ),
       ),
       format: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
             type: Schema.Literal("json"),
             decimalEncoding: Schema.optional(
-              Schema.Literal("number", "string", "bytes"),
+              Schema.Literals(["number", "string", "bytes"]),
             ).pipe(T.JsonName("decimal_encoding")),
             timestampFormat: Schema.optional(
-              Schema.Literal("rfc3339", "unix_millis"),
+              Schema.Literals(["rfc3339", "unix_millis"]),
             ).pipe(T.JsonName("timestamp_format")),
             unstructured: Schema.optional(Schema.Boolean),
           }),
           Schema.Struct({
             type: Schema.Literal("parquet"),
             compression: Schema.optional(
-              Schema.Literal("uncompressed", "snappy", "gzip", "zstd", "lz4"),
+              Schema.Literals(["uncompressed", "snappy", "gzip", "zstd", "lz4"]),
             ),
             rowGroupBytes: Schema.optional(
-              Schema.Union(Schema.Number, Schema.Null),
+              Schema.Union([Schema.Number, Schema.Null]),
             ).pipe(T.JsonName("row_group_bytes")),
           }),
-        ),
+        ]),
       ),
-      inferred: Schema.optional(Schema.Union(Schema.Boolean, Schema.Null)),
+      inferred: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
     }),
   ),
 }) as unknown as Schema.Schema<CreateSinkResponse>;
@@ -2066,37 +2066,37 @@ export const GetStreamResponse = Schema.Struct({
   }).pipe(T.JsonName("worker_binding")),
   endpoint: Schema.optional(Schema.String),
   format: Schema.optional(
-    Schema.Union(
+    Schema.Union([
       Schema.Struct({
         type: Schema.Literal("json"),
         decimalEncoding: Schema.optional(
-          Schema.Literal("number", "string", "bytes"),
+          Schema.Literals(["number", "string", "bytes"]),
         ).pipe(T.JsonName("decimal_encoding")),
         timestampFormat: Schema.optional(
-          Schema.Literal("rfc3339", "unix_millis"),
+          Schema.Literals(["rfc3339", "unix_millis"]),
         ).pipe(T.JsonName("timestamp_format")),
         unstructured: Schema.optional(Schema.Boolean),
       }),
       Schema.Struct({
         type: Schema.Literal("parquet"),
         compression: Schema.optional(
-          Schema.Literal("uncompressed", "snappy", "gzip", "zstd", "lz4"),
+          Schema.Literals(["uncompressed", "snappy", "gzip", "zstd", "lz4"]),
         ),
         rowGroupBytes: Schema.optional(
-          Schema.Union(Schema.Number, Schema.Null),
+          Schema.Union([Schema.Number, Schema.Null]),
         ).pipe(T.JsonName("row_group_bytes")),
       }),
-    ),
+    ]),
   ),
   schema: Schema.optional(
     Schema.Struct({
       fields: Schema.optional(
         Schema.Array(
-          Schema.Union(
+          Schema.Union([
             Schema.Struct({
               type: Schema.Literal("int32"),
               metadataKey: Schema.optional(
-                Schema.Union(Schema.String, Schema.Null),
+                Schema.Union([Schema.String, Schema.Null]),
               ).pipe(T.JsonName("metadata_key")),
               name: Schema.optional(Schema.String),
               required: Schema.optional(Schema.Boolean),
@@ -2107,7 +2107,7 @@ export const GetStreamResponse = Schema.Struct({
             Schema.Struct({
               type: Schema.Literal("int64"),
               metadataKey: Schema.optional(
-                Schema.Union(Schema.String, Schema.Null),
+                Schema.Union([Schema.String, Schema.Null]),
               ).pipe(T.JsonName("metadata_key")),
               name: Schema.optional(Schema.String),
               required: Schema.optional(Schema.Boolean),
@@ -2118,7 +2118,7 @@ export const GetStreamResponse = Schema.Struct({
             Schema.Struct({
               type: Schema.Literal("float32"),
               metadataKey: Schema.optional(
-                Schema.Union(Schema.String, Schema.Null),
+                Schema.Union([Schema.String, Schema.Null]),
               ).pipe(T.JsonName("metadata_key")),
               name: Schema.optional(Schema.String),
               required: Schema.optional(Schema.Boolean),
@@ -2129,7 +2129,7 @@ export const GetStreamResponse = Schema.Struct({
             Schema.Struct({
               type: Schema.Literal("float64"),
               metadataKey: Schema.optional(
-                Schema.Union(Schema.String, Schema.Null),
+                Schema.Union([Schema.String, Schema.Null]),
               ).pipe(T.JsonName("metadata_key")),
               name: Schema.optional(Schema.String),
               required: Schema.optional(Schema.Boolean),
@@ -2140,7 +2140,7 @@ export const GetStreamResponse = Schema.Struct({
             Schema.Struct({
               type: Schema.Literal("bool"),
               metadataKey: Schema.optional(
-                Schema.Union(Schema.String, Schema.Null),
+                Schema.Union([Schema.String, Schema.Null]),
               ).pipe(T.JsonName("metadata_key")),
               name: Schema.optional(Schema.String),
               required: Schema.optional(Schema.Boolean),
@@ -2151,7 +2151,7 @@ export const GetStreamResponse = Schema.Struct({
             Schema.Struct({
               type: Schema.Literal("string"),
               metadataKey: Schema.optional(
-                Schema.Union(Schema.String, Schema.Null),
+                Schema.Union([Schema.String, Schema.Null]),
               ).pipe(T.JsonName("metadata_key")),
               name: Schema.optional(Schema.String),
               required: Schema.optional(Schema.Boolean),
@@ -2162,7 +2162,7 @@ export const GetStreamResponse = Schema.Struct({
             Schema.Struct({
               type: Schema.Literal("binary"),
               metadataKey: Schema.optional(
-                Schema.Union(Schema.String, Schema.Null),
+                Schema.Union([Schema.String, Schema.Null]),
               ).pipe(T.JsonName("metadata_key")),
               name: Schema.optional(Schema.String),
               required: Schema.optional(Schema.Boolean),
@@ -2173,7 +2173,7 @@ export const GetStreamResponse = Schema.Struct({
             Schema.Struct({
               type: Schema.Literal("timestamp"),
               metadataKey: Schema.optional(
-                Schema.Union(Schema.String, Schema.Null),
+                Schema.Union([Schema.String, Schema.Null]),
               ).pipe(T.JsonName("metadata_key")),
               name: Schema.optional(Schema.String),
               required: Schema.optional(Schema.Boolean),
@@ -2181,52 +2181,52 @@ export const GetStreamResponse = Schema.Struct({
                 T.JsonName("sql_name"),
               ),
               unit: Schema.optional(
-                Schema.Literal(
+                Schema.Literals([
                   "second",
                   "millisecond",
                   "microsecond",
                   "nanosecond",
-                ),
+                ]),
               ),
             }),
             Schema.Struct({
               type: Schema.Literal("json"),
               decimalEncoding: Schema.optional(
-                Schema.Literal("number", "string", "bytes"),
+                Schema.Literals(["number", "string", "bytes"]),
               ).pipe(T.JsonName("decimal_encoding")),
               timestampFormat: Schema.optional(
-                Schema.Literal("rfc3339", "unix_millis"),
+                Schema.Literals(["rfc3339", "unix_millis"]),
               ).pipe(T.JsonName("timestamp_format")),
               unstructured: Schema.optional(Schema.Boolean),
             }),
             Schema.Unknown,
-          ),
+          ]),
         ),
       ),
       format: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
             type: Schema.Literal("json"),
             decimalEncoding: Schema.optional(
-              Schema.Literal("number", "string", "bytes"),
+              Schema.Literals(["number", "string", "bytes"]),
             ).pipe(T.JsonName("decimal_encoding")),
             timestampFormat: Schema.optional(
-              Schema.Literal("rfc3339", "unix_millis"),
+              Schema.Literals(["rfc3339", "unix_millis"]),
             ).pipe(T.JsonName("timestamp_format")),
             unstructured: Schema.optional(Schema.Boolean),
           }),
           Schema.Struct({
             type: Schema.Literal("parquet"),
             compression: Schema.optional(
-              Schema.Literal("uncompressed", "snappy", "gzip", "zstd", "lz4"),
+              Schema.Literals(["uncompressed", "snappy", "gzip", "zstd", "lz4"]),
             ),
             rowGroupBytes: Schema.optional(
-              Schema.Union(Schema.Number, Schema.Null),
+              Schema.Union([Schema.Number, Schema.Null]),
             ).pipe(T.JsonName("row_group_bytes")),
           }),
-        ),
+        ]),
       ),
-      inferred: Schema.optional(Schema.Union(Schema.Boolean, Schema.Null)),
+      inferred: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
     }),
   ),
 }) as unknown as Schema.Schema<GetStreamResponse>;
@@ -2357,27 +2357,27 @@ export const CreateStreamRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   name: Schema.String,
   format: Schema.optional(
-    Schema.Union(
+    Schema.Union([
       Schema.Struct({
         type: Schema.Literal("json"),
         decimalEncoding: Schema.optional(
-          Schema.Literal("number", "string", "bytes"),
+          Schema.Literals(["number", "string", "bytes"]),
         ).pipe(T.JsonName("decimal_encoding")),
         timestampFormat: Schema.optional(
-          Schema.Literal("rfc3339", "unix_millis"),
+          Schema.Literals(["rfc3339", "unix_millis"]),
         ).pipe(T.JsonName("timestamp_format")),
         unstructured: Schema.optional(Schema.Boolean),
       }),
       Schema.Struct({
         type: Schema.Literal("parquet"),
         compression: Schema.optional(
-          Schema.Literal("uncompressed", "snappy", "gzip", "zstd", "lz4"),
+          Schema.Literals(["uncompressed", "snappy", "gzip", "zstd", "lz4"]),
         ),
         rowGroupBytes: Schema.optional(
-          Schema.Union(Schema.Number, Schema.Null),
+          Schema.Union([Schema.Number, Schema.Null]),
         ).pipe(T.JsonName("row_group_bytes")),
       }),
-    ),
+    ]),
   ),
   http: Schema.optional(
     Schema.Struct({
@@ -2394,11 +2394,11 @@ export const CreateStreamRequest = Schema.Struct({
     Schema.Struct({
       fields: Schema.optional(
         Schema.Array(
-          Schema.Union(
+          Schema.Union([
             Schema.Struct({
               type: Schema.Literal("int32"),
               metadataKey: Schema.optional(
-                Schema.Union(Schema.String, Schema.Null),
+                Schema.Union([Schema.String, Schema.Null]),
               ).pipe(T.JsonName("metadata_key")),
               name: Schema.optional(Schema.String),
               required: Schema.optional(Schema.Boolean),
@@ -2409,7 +2409,7 @@ export const CreateStreamRequest = Schema.Struct({
             Schema.Struct({
               type: Schema.Literal("int64"),
               metadataKey: Schema.optional(
-                Schema.Union(Schema.String, Schema.Null),
+                Schema.Union([Schema.String, Schema.Null]),
               ).pipe(T.JsonName("metadata_key")),
               name: Schema.optional(Schema.String),
               required: Schema.optional(Schema.Boolean),
@@ -2420,7 +2420,7 @@ export const CreateStreamRequest = Schema.Struct({
             Schema.Struct({
               type: Schema.Literal("float32"),
               metadataKey: Schema.optional(
-                Schema.Union(Schema.String, Schema.Null),
+                Schema.Union([Schema.String, Schema.Null]),
               ).pipe(T.JsonName("metadata_key")),
               name: Schema.optional(Schema.String),
               required: Schema.optional(Schema.Boolean),
@@ -2431,7 +2431,7 @@ export const CreateStreamRequest = Schema.Struct({
             Schema.Struct({
               type: Schema.Literal("float64"),
               metadataKey: Schema.optional(
-                Schema.Union(Schema.String, Schema.Null),
+                Schema.Union([Schema.String, Schema.Null]),
               ).pipe(T.JsonName("metadata_key")),
               name: Schema.optional(Schema.String),
               required: Schema.optional(Schema.Boolean),
@@ -2442,7 +2442,7 @@ export const CreateStreamRequest = Schema.Struct({
             Schema.Struct({
               type: Schema.Literal("bool"),
               metadataKey: Schema.optional(
-                Schema.Union(Schema.String, Schema.Null),
+                Schema.Union([Schema.String, Schema.Null]),
               ).pipe(T.JsonName("metadata_key")),
               name: Schema.optional(Schema.String),
               required: Schema.optional(Schema.Boolean),
@@ -2453,7 +2453,7 @@ export const CreateStreamRequest = Schema.Struct({
             Schema.Struct({
               type: Schema.Literal("string"),
               metadataKey: Schema.optional(
-                Schema.Union(Schema.String, Schema.Null),
+                Schema.Union([Schema.String, Schema.Null]),
               ).pipe(T.JsonName("metadata_key")),
               name: Schema.optional(Schema.String),
               required: Schema.optional(Schema.Boolean),
@@ -2464,7 +2464,7 @@ export const CreateStreamRequest = Schema.Struct({
             Schema.Struct({
               type: Schema.Literal("binary"),
               metadataKey: Schema.optional(
-                Schema.Union(Schema.String, Schema.Null),
+                Schema.Union([Schema.String, Schema.Null]),
               ).pipe(T.JsonName("metadata_key")),
               name: Schema.optional(Schema.String),
               required: Schema.optional(Schema.Boolean),
@@ -2475,7 +2475,7 @@ export const CreateStreamRequest = Schema.Struct({
             Schema.Struct({
               type: Schema.Literal("timestamp"),
               metadataKey: Schema.optional(
-                Schema.Union(Schema.String, Schema.Null),
+                Schema.Union([Schema.String, Schema.Null]),
               ).pipe(T.JsonName("metadata_key")),
               name: Schema.optional(Schema.String),
               required: Schema.optional(Schema.Boolean),
@@ -2483,52 +2483,52 @@ export const CreateStreamRequest = Schema.Struct({
                 T.JsonName("sql_name"),
               ),
               unit: Schema.optional(
-                Schema.Literal(
+                Schema.Literals([
                   "second",
                   "millisecond",
                   "microsecond",
                   "nanosecond",
-                ),
+                ]),
               ),
             }),
             Schema.Struct({
               type: Schema.Literal("json"),
               decimalEncoding: Schema.optional(
-                Schema.Literal("number", "string", "bytes"),
+                Schema.Literals(["number", "string", "bytes"]),
               ).pipe(T.JsonName("decimal_encoding")),
               timestampFormat: Schema.optional(
-                Schema.Literal("rfc3339", "unix_millis"),
+                Schema.Literals(["rfc3339", "unix_millis"]),
               ).pipe(T.JsonName("timestamp_format")),
               unstructured: Schema.optional(Schema.Boolean),
             }),
             Schema.Unknown,
-          ),
+          ]),
         ),
       ),
       format: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
             type: Schema.Literal("json"),
             decimalEncoding: Schema.optional(
-              Schema.Literal("number", "string", "bytes"),
+              Schema.Literals(["number", "string", "bytes"]),
             ).pipe(T.JsonName("decimal_encoding")),
             timestampFormat: Schema.optional(
-              Schema.Literal("rfc3339", "unix_millis"),
+              Schema.Literals(["rfc3339", "unix_millis"]),
             ).pipe(T.JsonName("timestamp_format")),
             unstructured: Schema.optional(Schema.Boolean),
           }),
           Schema.Struct({
             type: Schema.Literal("parquet"),
             compression: Schema.optional(
-              Schema.Literal("uncompressed", "snappy", "gzip", "zstd", "lz4"),
+              Schema.Literals(["uncompressed", "snappy", "gzip", "zstd", "lz4"]),
             ),
             rowGroupBytes: Schema.optional(
-              Schema.Union(Schema.Number, Schema.Null),
+              Schema.Union([Schema.Number, Schema.Null]),
             ).pipe(T.JsonName("row_group_bytes")),
           }),
-        ),
+        ]),
       ),
-      inferred: Schema.optional(Schema.Union(Schema.Boolean, Schema.Null)),
+      inferred: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
     }),
   ),
   workerBinding: Schema.optional(
@@ -2675,37 +2675,37 @@ export const CreateStreamResponse = Schema.Struct({
   }).pipe(T.JsonName("worker_binding")),
   endpoint: Schema.optional(Schema.String),
   format: Schema.optional(
-    Schema.Union(
+    Schema.Union([
       Schema.Struct({
         type: Schema.Literal("json"),
         decimalEncoding: Schema.optional(
-          Schema.Literal("number", "string", "bytes"),
+          Schema.Literals(["number", "string", "bytes"]),
         ).pipe(T.JsonName("decimal_encoding")),
         timestampFormat: Schema.optional(
-          Schema.Literal("rfc3339", "unix_millis"),
+          Schema.Literals(["rfc3339", "unix_millis"]),
         ).pipe(T.JsonName("timestamp_format")),
         unstructured: Schema.optional(Schema.Boolean),
       }),
       Schema.Struct({
         type: Schema.Literal("parquet"),
         compression: Schema.optional(
-          Schema.Literal("uncompressed", "snappy", "gzip", "zstd", "lz4"),
+          Schema.Literals(["uncompressed", "snappy", "gzip", "zstd", "lz4"]),
         ),
         rowGroupBytes: Schema.optional(
-          Schema.Union(Schema.Number, Schema.Null),
+          Schema.Union([Schema.Number, Schema.Null]),
         ).pipe(T.JsonName("row_group_bytes")),
       }),
-    ),
+    ]),
   ),
   schema: Schema.optional(
     Schema.Struct({
       fields: Schema.optional(
         Schema.Array(
-          Schema.Union(
+          Schema.Union([
             Schema.Struct({
               type: Schema.Literal("int32"),
               metadataKey: Schema.optional(
-                Schema.Union(Schema.String, Schema.Null),
+                Schema.Union([Schema.String, Schema.Null]),
               ).pipe(T.JsonName("metadata_key")),
               name: Schema.optional(Schema.String),
               required: Schema.optional(Schema.Boolean),
@@ -2716,7 +2716,7 @@ export const CreateStreamResponse = Schema.Struct({
             Schema.Struct({
               type: Schema.Literal("int64"),
               metadataKey: Schema.optional(
-                Schema.Union(Schema.String, Schema.Null),
+                Schema.Union([Schema.String, Schema.Null]),
               ).pipe(T.JsonName("metadata_key")),
               name: Schema.optional(Schema.String),
               required: Schema.optional(Schema.Boolean),
@@ -2727,7 +2727,7 @@ export const CreateStreamResponse = Schema.Struct({
             Schema.Struct({
               type: Schema.Literal("float32"),
               metadataKey: Schema.optional(
-                Schema.Union(Schema.String, Schema.Null),
+                Schema.Union([Schema.String, Schema.Null]),
               ).pipe(T.JsonName("metadata_key")),
               name: Schema.optional(Schema.String),
               required: Schema.optional(Schema.Boolean),
@@ -2738,7 +2738,7 @@ export const CreateStreamResponse = Schema.Struct({
             Schema.Struct({
               type: Schema.Literal("float64"),
               metadataKey: Schema.optional(
-                Schema.Union(Schema.String, Schema.Null),
+                Schema.Union([Schema.String, Schema.Null]),
               ).pipe(T.JsonName("metadata_key")),
               name: Schema.optional(Schema.String),
               required: Schema.optional(Schema.Boolean),
@@ -2749,7 +2749,7 @@ export const CreateStreamResponse = Schema.Struct({
             Schema.Struct({
               type: Schema.Literal("bool"),
               metadataKey: Schema.optional(
-                Schema.Union(Schema.String, Schema.Null),
+                Schema.Union([Schema.String, Schema.Null]),
               ).pipe(T.JsonName("metadata_key")),
               name: Schema.optional(Schema.String),
               required: Schema.optional(Schema.Boolean),
@@ -2760,7 +2760,7 @@ export const CreateStreamResponse = Schema.Struct({
             Schema.Struct({
               type: Schema.Literal("string"),
               metadataKey: Schema.optional(
-                Schema.Union(Schema.String, Schema.Null),
+                Schema.Union([Schema.String, Schema.Null]),
               ).pipe(T.JsonName("metadata_key")),
               name: Schema.optional(Schema.String),
               required: Schema.optional(Schema.Boolean),
@@ -2771,7 +2771,7 @@ export const CreateStreamResponse = Schema.Struct({
             Schema.Struct({
               type: Schema.Literal("binary"),
               metadataKey: Schema.optional(
-                Schema.Union(Schema.String, Schema.Null),
+                Schema.Union([Schema.String, Schema.Null]),
               ).pipe(T.JsonName("metadata_key")),
               name: Schema.optional(Schema.String),
               required: Schema.optional(Schema.Boolean),
@@ -2782,7 +2782,7 @@ export const CreateStreamResponse = Schema.Struct({
             Schema.Struct({
               type: Schema.Literal("timestamp"),
               metadataKey: Schema.optional(
-                Schema.Union(Schema.String, Schema.Null),
+                Schema.Union([Schema.String, Schema.Null]),
               ).pipe(T.JsonName("metadata_key")),
               name: Schema.optional(Schema.String),
               required: Schema.optional(Schema.Boolean),
@@ -2790,52 +2790,52 @@ export const CreateStreamResponse = Schema.Struct({
                 T.JsonName("sql_name"),
               ),
               unit: Schema.optional(
-                Schema.Literal(
+                Schema.Literals([
                   "second",
                   "millisecond",
                   "microsecond",
                   "nanosecond",
-                ),
+                ]),
               ),
             }),
             Schema.Struct({
               type: Schema.Literal("json"),
               decimalEncoding: Schema.optional(
-                Schema.Literal("number", "string", "bytes"),
+                Schema.Literals(["number", "string", "bytes"]),
               ).pipe(T.JsonName("decimal_encoding")),
               timestampFormat: Schema.optional(
-                Schema.Literal("rfc3339", "unix_millis"),
+                Schema.Literals(["rfc3339", "unix_millis"]),
               ).pipe(T.JsonName("timestamp_format")),
               unstructured: Schema.optional(Schema.Boolean),
             }),
             Schema.Unknown,
-          ),
+          ]),
         ),
       ),
       format: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
             type: Schema.Literal("json"),
             decimalEncoding: Schema.optional(
-              Schema.Literal("number", "string", "bytes"),
+              Schema.Literals(["number", "string", "bytes"]),
             ).pipe(T.JsonName("decimal_encoding")),
             timestampFormat: Schema.optional(
-              Schema.Literal("rfc3339", "unix_millis"),
+              Schema.Literals(["rfc3339", "unix_millis"]),
             ).pipe(T.JsonName("timestamp_format")),
             unstructured: Schema.optional(Schema.Boolean),
           }),
           Schema.Struct({
             type: Schema.Literal("parquet"),
             compression: Schema.optional(
-              Schema.Literal("uncompressed", "snappy", "gzip", "zstd", "lz4"),
+              Schema.Literals(["uncompressed", "snappy", "gzip", "zstd", "lz4"]),
             ),
             rowGroupBytes: Schema.optional(
-              Schema.Union(Schema.Number, Schema.Null),
+              Schema.Union([Schema.Number, Schema.Null]),
             ).pipe(T.JsonName("row_group_bytes")),
           }),
-        ),
+        ]),
       ),
-      inferred: Schema.optional(Schema.Union(Schema.Boolean, Schema.Null)),
+      inferred: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
     }),
   ),
 }) as unknown as Schema.Schema<CreateStreamResponse>;
@@ -2943,27 +2943,27 @@ export const PatchStreamResponse = Schema.Struct({
   }).pipe(T.JsonName("worker_binding")),
   endpoint: Schema.optional(Schema.String),
   format: Schema.optional(
-    Schema.Union(
+    Schema.Union([
       Schema.Struct({
         type: Schema.Literal("json"),
         decimalEncoding: Schema.optional(
-          Schema.Literal("number", "string", "bytes"),
+          Schema.Literals(["number", "string", "bytes"]),
         ).pipe(T.JsonName("decimal_encoding")),
         timestampFormat: Schema.optional(
-          Schema.Literal("rfc3339", "unix_millis"),
+          Schema.Literals(["rfc3339", "unix_millis"]),
         ).pipe(T.JsonName("timestamp_format")),
         unstructured: Schema.optional(Schema.Boolean),
       }),
       Schema.Struct({
         type: Schema.Literal("parquet"),
         compression: Schema.optional(
-          Schema.Literal("uncompressed", "snappy", "gzip", "zstd", "lz4"),
+          Schema.Literals(["uncompressed", "snappy", "gzip", "zstd", "lz4"]),
         ),
         rowGroupBytes: Schema.optional(
-          Schema.Union(Schema.Number, Schema.Null),
+          Schema.Union([Schema.Number, Schema.Null]),
         ).pipe(T.JsonName("row_group_bytes")),
       }),
-    ),
+    ]),
   ),
 }) as unknown as Schema.Schema<PatchStreamResponse>;
 
@@ -3068,7 +3068,7 @@ export const GetV1PipelineResponse = Schema.Struct({
       id: Schema.String,
       latest: Schema.Number,
       name: Schema.String,
-      type: Schema.Literal("stream", "sink"),
+      type: Schema.Literals(["stream", "sink"]),
       version: Schema.Number,
     }),
   ),

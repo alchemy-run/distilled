@@ -7,7 +7,7 @@
 
 import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
-import type { HttpClient } from "@effect/platform";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
@@ -96,13 +96,13 @@ export interface CreateConfigRequest {
 export const CreateConfigRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   name: Schema.String,
-  origin: Schema.Union(
+  origin: Schema.Union([
     Schema.Struct({
       database: Schema.String,
       host: Schema.String,
       password: Schema.String,
       port: Schema.Number,
-      scheme: Schema.Literal("postgres", "postgresql", "mysql"),
+      scheme: Schema.Literals(["postgres", "postgresql", "mysql"]),
       user: Schema.String,
     }),
     Schema.Struct({
@@ -113,12 +113,12 @@ export const CreateConfigRequest = Schema.Struct({
       database: Schema.String,
       host: Schema.String,
       password: Schema.String,
-      scheme: Schema.Literal("postgres", "postgresql", "mysql"),
+      scheme: Schema.Literals(["postgres", "postgresql", "mysql"]),
       user: Schema.String,
     }),
-  ),
+  ]),
   caching: Schema.optional(
-    Schema.Union(
+    Schema.Union([
       Schema.Struct({
         disabled: Schema.optional(Schema.Boolean),
       }),
@@ -129,7 +129,7 @@ export const CreateConfigRequest = Schema.Struct({
           T.JsonName("stale_while_revalidate"),
         ),
       }),
-    ),
+    ]),
   ),
   mtls: Schema.optional(
     Schema.Struct({
@@ -209,13 +209,13 @@ export const UpdateConfigRequest = Schema.Struct({
   hyperdriveId: Schema.String.pipe(T.HttpPath("hyperdriveId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   name: Schema.String,
-  origin: Schema.Union(
+  origin: Schema.Union([
     Schema.Struct({
       database: Schema.String,
       host: Schema.String,
       password: Schema.String,
       port: Schema.Number,
-      scheme: Schema.Literal("postgres", "postgresql", "mysql"),
+      scheme: Schema.Literals(["postgres", "postgresql", "mysql"]),
       user: Schema.String,
     }),
     Schema.Struct({
@@ -226,12 +226,12 @@ export const UpdateConfigRequest = Schema.Struct({
       database: Schema.String,
       host: Schema.String,
       password: Schema.String,
-      scheme: Schema.Literal("postgres", "postgresql", "mysql"),
+      scheme: Schema.Literals(["postgres", "postgresql", "mysql"]),
       user: Schema.String,
     }),
-  ),
+  ]),
   caching: Schema.optional(
-    Schema.Union(
+    Schema.Union([
       Schema.Struct({
         disabled: Schema.optional(Schema.Boolean),
       }),
@@ -242,7 +242,7 @@ export const UpdateConfigRequest = Schema.Struct({
           T.JsonName("stale_while_revalidate"),
         ),
       }),
-    ),
+    ]),
   ),
   mtls: Schema.optional(
     Schema.Struct({
@@ -316,7 +316,7 @@ export const PatchConfigRequest = Schema.Struct({
   hyperdriveId: Schema.String.pipe(T.HttpPath("hyperdriveId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   caching: Schema.optional(
-    Schema.Union(
+    Schema.Union([
       Schema.Struct({
         disabled: Schema.optional(Schema.Boolean),
       }),
@@ -327,7 +327,7 @@ export const PatchConfigRequest = Schema.Struct({
           T.JsonName("stale_while_revalidate"),
         ),
       }),
-    ),
+    ]),
   ),
   mtls: Schema.optional(
     Schema.Struct({
@@ -342,12 +342,12 @@ export const PatchConfigRequest = Schema.Struct({
   ),
   name: Schema.optional(Schema.String),
   origin: Schema.optional(
-    Schema.Union(
+    Schema.Union([
       Schema.Struct({
         database: Schema.optional(Schema.String),
         password: Schema.optional(Schema.String),
         scheme: Schema.optional(
-          Schema.Literal("postgres", "postgresql", "mysql"),
+          Schema.Literals(["postgres", "postgresql", "mysql"]),
         ),
         user: Schema.optional(Schema.String),
       }),
@@ -362,7 +362,7 @@ export const PatchConfigRequest = Schema.Struct({
         ),
         host: Schema.String,
       }),
-    ),
+    ]),
   ),
   originConnectionLimit: Schema.optional(Schema.Number).pipe(
     T.JsonName("origin_connection_limit"),

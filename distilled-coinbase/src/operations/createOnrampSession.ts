@@ -11,7 +11,16 @@ export const CreateOnrampSessionInput = Schema.Struct({
   paymentAmount: Schema.optional(Schema.String),
   purchaseAmount: Schema.optional(Schema.String),
   paymentCurrency: Schema.optional(Schema.String),
-  paymentMethod: Schema.optional(Schema.Literal("CARD", "ACH", "APPLE_PAY", "PAYPAL", "FIAT_WALLET", "CRYPTO_WALLET")),
+  paymentMethod: Schema.optional(
+    Schema.Literals([
+      "CARD",
+      "ACH",
+      "APPLE_PAY",
+      "PAYPAL",
+      "FIAT_WALLET",
+      "CRYPTO_WALLET",
+    ]),
+  ),
   country: Schema.optional(Schema.String),
   subdivision: Schema.optional(Schema.String),
   redirectUrl: Schema.optional(Schema.String),
@@ -25,20 +34,24 @@ export const CreateOnrampSessionOutput = Schema.Struct({
   session: Schema.Struct({
     onrampUrl: Schema.String,
   }),
-  quote: Schema.optional(Schema.Struct({
-    paymentTotal: Schema.String,
-    paymentSubtotal: Schema.String,
-    paymentCurrency: Schema.String,
-    purchaseAmount: Schema.String,
-    purchaseCurrency: Schema.String,
-    destinationNetwork: Schema.String,
-    fees: Schema.Array(Schema.Struct({
-      type: Schema.Literal("FEE_TYPE_NETWORK", "FEE_TYPE_EXCHANGE"),
-      amount: Schema.String,
-      currency: Schema.String,
-    })),
-    exchangeRate: Schema.String,
-  })),
+  quote: Schema.optional(
+    Schema.Struct({
+      paymentTotal: Schema.String,
+      paymentSubtotal: Schema.String,
+      paymentCurrency: Schema.String,
+      purchaseAmount: Schema.String,
+      purchaseCurrency: Schema.String,
+      destinationNetwork: Schema.String,
+      fees: Schema.Array(
+        Schema.Struct({
+          type: Schema.Literals(["FEE_TYPE_NETWORK", "FEE_TYPE_EXCHANGE"]),
+          amount: Schema.String,
+          currency: Schema.String,
+        }),
+      ),
+      exchangeRate: Schema.String,
+    }),
+  ),
 });
 export type CreateOnrampSessionOutput = typeof CreateOnrampSessionOutput.Type;
 

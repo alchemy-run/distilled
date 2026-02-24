@@ -7,7 +7,7 @@
 
 import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
-import type { HttpClient } from "@effect/platform";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
@@ -22,45 +22,53 @@ import {
 // Errors
 // =============================================================================
 
-export class DatabaseNotFound extends Schema.TaggedError<DatabaseNotFound>()(
+export class DatabaseNotFound extends Schema.TaggedErrorClass<DatabaseNotFound>()(
   "DatabaseNotFound",
   { code: Schema.Number, message: Schema.String },
-).pipe(T.HttpErrorMatchers([{ code: 7404 }])) {}
+) {}
+T.applyErrorMatchers(DatabaseNotFound, [{ code: 7404 }]);
 
-export class InternalError extends Schema.TaggedError<InternalError>()(
+export class InternalError extends Schema.TaggedErrorClass<InternalError>()(
   "InternalError",
   { code: Schema.Number, message: Schema.String },
-).pipe(T.HttpErrorMatchers([{ code: 7500 }])) {}
+) {}
+T.applyErrorMatchers(InternalError, [{ code: 7500 }]);
 
-export class InvalidObjectIdentifier extends Schema.TaggedError<InvalidObjectIdentifier>()(
+export class InvalidObjectIdentifier extends Schema.TaggedErrorClass<InvalidObjectIdentifier>()(
   "InvalidObjectIdentifier",
   { code: Schema.Number, message: Schema.String },
-).pipe(T.HttpErrorMatchers([{ code: 7003 }])) {}
+) {}
+T.applyErrorMatchers(InvalidObjectIdentifier, [{ code: 7003 }]);
 
-export class InvalidProperty extends Schema.TaggedError<InvalidProperty>()(
+export class InvalidProperty extends Schema.TaggedErrorClass<InvalidProperty>()(
   "InvalidProperty",
   { code: Schema.Number, message: Schema.String },
-).pipe(T.HttpErrorMatchers([{ code: 7400 }])) {}
+) {}
+T.applyErrorMatchers(InvalidProperty, [{ code: 7400 }]);
 
-export class InvalidRequest extends Schema.TaggedError<InvalidRequest>()(
+export class InvalidRequest extends Schema.TaggedErrorClass<InvalidRequest>()(
   "InvalidRequest",
   { code: Schema.Number, message: Schema.String },
-).pipe(T.HttpErrorMatchers([{ code: 7400 }])) {}
+) {}
+T.applyErrorMatchers(InvalidRequest, [{ code: 7400 }]);
 
-export class NoHistoryAvailable extends Schema.TaggedError<NoHistoryAvailable>()(
+export class NoHistoryAvailable extends Schema.TaggedErrorClass<NoHistoryAvailable>()(
   "NoHistoryAvailable",
   { code: Schema.Number, message: Schema.String },
-).pipe(T.HttpErrorMatchers([{ code: 7500 }])) {}
+) {}
+T.applyErrorMatchers(NoHistoryAvailable, [{ code: 7500 }]);
 
-export class TimestampTooOld extends Schema.TaggedError<TimestampTooOld>()(
+export class TimestampTooOld extends Schema.TaggedErrorClass<TimestampTooOld>()(
   "TimestampTooOld",
   { code: Schema.Number, message: Schema.String },
-).pipe(T.HttpErrorMatchers([{ code: 7400 }])) {}
+) {}
+T.applyErrorMatchers(TimestampTooOld, [{ code: 7400 }]);
 
-export class UnknownError extends Schema.TaggedError<UnknownError>()(
+export class UnknownError extends Schema.TaggedErrorClass<UnknownError>()(
   "UnknownError",
   { code: Schema.Number, message: Schema.String },
-).pipe(T.HttpErrorMatchers([{ code: 0 }])) {}
+) {}
+T.applyErrorMatchers(UnknownError, [{ code: 0 }]);
 
 // =============================================================================
 // BookmarkDatabaseTimeTravel
@@ -119,6 +127,46 @@ export const getBookmarkDatabaseTimeTravel: (
 // Database
 // =============================================================================
 
+export interface ListDatabasesRequest {
+  /** Path param: Account identifier tag. */
+  accountId: string;
+  /** Query param: Database name to search for. */
+  name?: string;
+  /** Query param: Page number of results. */
+  page?: number;
+  /** Query param: Number of results per page. */
+  perPage?: number;
+}
+
+export const ListDatabasesRequest = Schema.Struct({
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+  name: Schema.optional(Schema.String).pipe(T.HttpQuery("name")),
+  page: Schema.optional(Schema.Number).pipe(T.HttpQuery("page")),
+  perPage: Schema.optional(Schema.Number).pipe(T.HttpQuery("per_page")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/d1/database",
+  }),
+) as unknown as Schema.Schema<ListDatabasesRequest>;
+
+export type ListDatabasesResponse = unknown;
+
+export const ListDatabasesResponse =
+  Schema.Unknown as unknown as Schema.Schema<ListDatabasesResponse>;
+
+export const listDatabases: (
+  input: ListDatabasesRequest,
+) => Effect.Effect<
+  ListDatabasesResponse,
+  CommonErrors | InvalidObjectIdentifier,
+  ApiToken | HttpClient.HttpClient
+> = API.make(() => ({
+  input: ListDatabasesRequest,
+  output: ListDatabasesResponse,
+  errors: [InvalidObjectIdentifier],
+}));
+
 export interface GetDatabaseRequest {
   databaseId: string;
   /** Account identifier tag. */
@@ -166,9 +214,9 @@ export interface CreateDatabaseRequest {
 export const CreateDatabaseRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   name: Schema.String,
-  jurisdiction: Schema.optional(Schema.Literal("eu", "fedramp")),
+  jurisdiction: Schema.optional(Schema.Literals(["eu", "fedramp"])),
   primaryLocationHint: Schema.optional(
-    Schema.Literal("wnam", "enam", "weur", "eeur", "apac", "oc"),
+    Schema.Literals(["wnam", "enam", "weur", "eeur", "apac", "oc"]),
   ).pipe(T.JsonName("primary_location_hint")),
 }).pipe(
   T.Http({ method: "POST", path: "/accounts/{account_id}/d1/database" }),
@@ -203,7 +251,7 @@ export const UpdateDatabaseRequest = Schema.Struct({
   databaseId: Schema.String.pipe(T.HttpPath("databaseId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   readReplication: Schema.Struct({
-    mode: Schema.Literal("auto", "disabled"),
+    mode: Schema.Literals(["auto", "disabled"]),
   }).pipe(T.JsonName("read_replication")),
 }).pipe(
   T.Http({
@@ -242,7 +290,7 @@ export const PatchDatabaseRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   readReplication: Schema.optional(
     Schema.Struct({
-      mode: Schema.Literal("auto", "disabled"),
+      mode: Schema.Literals(["auto", "disabled"]),
     }),
   ).pipe(T.JsonName("read_replication")),
 }).pipe(
@@ -359,7 +407,7 @@ export const ExportDatabaseResponse = Schema.Struct({
       signedUrl: Schema.optional(Schema.String).pipe(T.JsonName("signed_url")),
     }),
   ),
-  status: Schema.optional(Schema.Literal("complete", "error")),
+  status: Schema.optional(Schema.Literals(["complete", "error"])),
   success: Schema.optional(Schema.Boolean),
   type: Schema.optional(Schema.Literal("export")),
 }) as unknown as Schema.Schema<ExportDatabaseResponse>;
@@ -456,7 +504,7 @@ export const ImportDatabaseResponse = Schema.Struct({
             T.JsonName("served_by_primary"),
           ),
           servedByRegion: Schema.optional(
-            Schema.Literal("WNAM", "ENAM", "WEUR", "EEUR", "APAC", "OC"),
+            Schema.Literals(["WNAM", "ENAM", "WEUR", "EEUR", "APAC", "OC"]),
           ).pipe(T.JsonName("served_by_region")),
           sizeAfter: Schema.optional(Schema.Number).pipe(
             T.JsonName("size_after"),
@@ -475,7 +523,7 @@ export const ImportDatabaseResponse = Schema.Struct({
       ),
     }),
   ),
-  status: Schema.optional(Schema.Literal("complete", "error")),
+  status: Schema.optional(Schema.Literals(["complete", "error"])),
   success: Schema.optional(Schema.Boolean),
   type: Schema.optional(Schema.Literal("import")),
   uploadUrl: Schema.optional(Schema.String).pipe(T.JsonName("upload_url")),

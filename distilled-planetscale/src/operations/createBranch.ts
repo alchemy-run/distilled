@@ -12,7 +12,7 @@ export const CreateBranchInput = Schema.Struct({
   backup_id: Schema.optional(Schema.String),
   region: Schema.optional(Schema.String),
   restore_point: Schema.optional(Schema.String),
-  seed_data: Schema.optional(Schema.Literal("last_successful_backup")),
+  seed_data: Schema.optional(Schema.Literals(["last_successful_backup"])),
   cluster_size: Schema.optional(Schema.String),
   major_version: Schema.optional(Schema.String),
 }).pipe(
@@ -32,16 +32,16 @@ export const CreateBranchOutput = Schema.Struct({
   deleted_at: Schema.NullOr(Schema.String),
   restore_checklist_completed_at: Schema.NullOr(Schema.String),
   schema_last_updated_at: Schema.String,
-  kind: Schema.Literal("mysql", "postgresql"),
+  kind: Schema.Literals(["mysql", "postgresql"]),
   mysql_address: Schema.String,
   mysql_edge_address: Schema.String,
-  state: Schema.Literal(
+  state: Schema.Literals([
     "pending",
     "sleep_in_progress",
     "sleeping",
     "awakening",
     "ready",
-  ),
+  ]),
   direct_vtgate: Schema.Boolean,
   vtgate_size: Schema.String,
   vtgate_count: Schema.Number,

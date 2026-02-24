@@ -10,6 +10,7 @@
 import { it } from "@effect/vitest";
 import { Effect, Stream } from "effect";
 import { describe, expect } from "vitest";
+import type { Operation } from "../src/client/operation.ts";
 import { makeRequestBuilder } from "../src/client/request-builder.ts";
 import {
   decodeMessage,
@@ -48,7 +49,7 @@ describe("Bi-directional Event Stream Request Building", () => {
     () =>
       Effect.gen(function* () {
         // Create the request builder for StartStreamTranscription
-        const operation = {
+        const operation: Operation<any, any, any> = {
           input: StartStreamTranscriptionRequest,
           output: StartStreamTranscriptionRequest, // Doesn't matter for request building
           errors: [],
@@ -115,7 +116,7 @@ describe("Bi-directional Event Stream Request Building", () => {
 
   it.effect("should handle ConfigurationEvent with JSON payload", () =>
     Effect.gen(function* () {
-      const operation = {
+      const operation: Operation<any, any, any> = {
         input: StartStreamTranscriptionRequest,
         output: StartStreamTranscriptionRequest,
         errors: [],
@@ -166,7 +167,7 @@ describe("Bi-directional Event Stream Request Building", () => {
 
   it.effect("should stream multiple events in order", () =>
     Effect.gen(function* () {
-      const operation = {
+      const operation: Operation<any, any, any> = {
         input: StartStreamTranscriptionRequest,
         output: StartStreamTranscriptionRequest,
         errors: [],

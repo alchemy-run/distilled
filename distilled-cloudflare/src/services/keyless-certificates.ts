@@ -7,7 +7,7 @@
 
 import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
-import type { HttpClient } from "@effect/platform";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
@@ -70,7 +70,7 @@ export const GetKeylessCertificateResponse = Schema.Struct({
   name: Schema.String,
   permissions: Schema.Array(Schema.String),
   port: Schema.Number,
-  status: Schema.Literal("active", "deleted"),
+  status: Schema.Literals(["active", "deleted"]),
   tunnel: Schema.optional(
     Schema.Struct({
       privateIp: Schema.String.pipe(T.JsonName("private_ip")),
@@ -114,7 +114,7 @@ export const CreateKeylessCertificateRequest = Schema.Struct({
   host: Schema.String,
   port: Schema.Number,
   bundleMethod: Schema.optional(
-    Schema.Literal("ubiquitous", "optimal", "force"),
+    Schema.Literals(["ubiquitous", "optimal", "force"]),
   ).pipe(T.JsonName("bundle_method")),
   name: Schema.optional(Schema.String),
   tunnel: Schema.optional(
@@ -159,7 +159,7 @@ export const CreateKeylessCertificateResponse = Schema.Struct({
   name: Schema.String,
   permissions: Schema.Array(Schema.String),
   port: Schema.Number,
-  status: Schema.Literal("active", "deleted"),
+  status: Schema.Literals(["active", "deleted"]),
   tunnel: Schema.optional(
     Schema.Struct({
       privateIp: Schema.String.pipe(T.JsonName("private_ip")),
@@ -248,7 +248,7 @@ export const PatchKeylessCertificateResponse = Schema.Struct({
   name: Schema.String,
   permissions: Schema.Array(Schema.String),
   port: Schema.Number,
-  status: Schema.Literal("active", "deleted"),
+  status: Schema.Literals(["active", "deleted"]),
   tunnel: Schema.optional(
     Schema.Struct({
       privateIp: Schema.String.pipe(T.JsonName("private_ip")),

@@ -29,7 +29,7 @@ const withBucket = <A, E, R>(
     yield* R2.deleteBucket({
       accountId: accountId(),
       bucketName: name,
-    }).pipe(Effect.catchAll(() => Effect.void));
+    }).pipe(Effect.catch(() => Effect.void));
 
     // Create the bucket
     yield* R2.createBucket({
@@ -44,12 +44,12 @@ const withBucket = <A, E, R>(
           accountId: accountId(),
           bucketName: name,
         }).pipe(
-          Effect.catchAll(() => Effect.void),
+          Effect.catch(() => Effect.void),
           Effect.andThen(
             R2.deleteBucket({
               accountId: accountId(),
               bucketName: name,
-            }).pipe(Effect.catchAll(() => Effect.void)),
+            }).pipe(Effect.catch(() => Effect.void)),
           ),
         ),
       ),
@@ -162,7 +162,7 @@ describe("R2DataCatalog", () => {
         yield* R2DataCatalog.disableR2DataCatalog({
           accountId: accountId(),
           bucketName: "distilled-cf-nonexistent-bucket-xyz-999",
-        }).pipe(Effect.catchAll(() => Effect.void));
+        }).pipe(Effect.catch(() => Effect.void));
       }));
 
     test("error - InvalidRoute for invalid accountId", () =>
@@ -218,7 +218,7 @@ describe("R2DataCatalog", () => {
         yield* R2DataCatalog.enableR2DataCatalog({
           accountId: accountId(),
           bucketName: "distilled-cf-nonexistent-bucket-xyz-999",
-        }).pipe(Effect.catchAll(() => Effect.void));
+        }).pipe(Effect.catch(() => Effect.void));
 
         const result = yield* R2DataCatalog.getR2DataCatalog({
           accountId: accountId(),
@@ -232,7 +232,7 @@ describe("R2DataCatalog", () => {
         yield* R2DataCatalog.disableR2DataCatalog({
           accountId: accountId(),
           bucketName: "distilled-cf-nonexistent-bucket-xyz-999",
-        }).pipe(Effect.catchAll(() => Effect.void));
+        }).pipe(Effect.catch(() => Effect.void));
       }));
 
     test("error - InvalidRoute for invalid accountId", () =>

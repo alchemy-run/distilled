@@ -1,4 +1,4 @@
-import { HttpClient } from "@effect/platform";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as effect from "effect/Effect";
 import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
@@ -89,767 +89,61 @@ const rules = T.EndpointResolver((p, _) => {
 
 //# Newtypes
 export type ChannelName = string;
+export type MessageTtlSeconds = number;
+export type TagKey = string;
+export type TagValue = string;
+export type ResourceARN = string;
+export type ErrorMessage = string;
 export type DeviceName = string;
 export type StreamName = string;
 export type MediaType = string;
 export type KmsKeyId = string;
 export type DataRetentionInHours = number;
-export type ResourceARN = string;
 export type Version = string;
-export type MappedResourceConfigurationListLimit = number;
-export type NextToken = string;
-export type HubDeviceArn = string;
-export type ListEdgeAgentConfigurationsInputLimit = number;
-export type ListStreamsInputLimit = number;
-export type TagKey = string;
-export type DataRetentionChangeInHours = number;
-export type MessageTtlSeconds = number;
-export type TagValue = string;
-export type SamplingInterval = number;
-export type WidthPixels = number;
-export type HeightPixels = number;
-export type ErrorMessage = string;
 export type FailedStatusDetails = string;
-export type DataEndpoint = string;
-export type EdgeRetentionInHours = number;
-export type DeleteAfterUpload = boolean;
-export type DestinationUri = string;
-export type DestinationRegion = string;
-export type FormatConfigValue = string;
-export type Type = string;
+export type HubDeviceArn = string;
 export type MediaUriSecretArn = string | redacted.Redacted<string>;
 export type ScheduleExpression = string;
 export type DurationInSeconds = number;
+export type EdgeRetentionInHours = number;
 export type MaxLocalMediaSizeInMB = number;
+export type DeleteAfterUpload = boolean;
 export type JobStatusDetails = string;
+export type DestinationUri = string;
+export type DestinationRegion = string;
+export type SamplingInterval = number;
+export type FormatConfigValue = string;
+export type WidthPixels = number;
+export type HeightPixels = number;
+export type MappedResourceConfigurationListLimit = number;
+export type NextToken = string;
+export type Type = string;
+export type DataEndpoint = string;
 export type ResourceEndpoint = string;
+export type ListEdgeAgentConfigurationsInputLimit = number;
+export type ListStreamsInputLimit = number;
+export type DataRetentionChangeInHours = number;
 
 //# Schemas
 export type ChannelType = "SINGLE_MASTER" | "FULL_MESH" | (string & {});
 export const ChannelType = S.String;
-export type APIName =
-  | "PUT_MEDIA"
-  | "GET_MEDIA"
-  | "LIST_FRAGMENTS"
-  | "GET_MEDIA_FOR_FRAGMENT_LIST"
-  | "GET_HLS_STREAMING_SESSION_URL"
-  | "GET_DASH_STREAMING_SESSION_URL"
-  | "GET_CLIP"
-  | "GET_IMAGES"
-  | (string & {});
-export const APIName = S.String;
+export interface SingleMasterConfiguration {
+  MessageTtlSeconds?: number;
+}
+export const SingleMasterConfiguration = S.suspend(() =>
+  S.Struct({ MessageTtlSeconds: S.optional(S.Number) }),
+).annotate({
+  identifier: "SingleMasterConfiguration",
+}) as any as S.Schema<SingleMasterConfiguration>;
 export interface Tag {
   Key: string;
   Value: string;
 }
 export const Tag = S.suspend(() =>
   S.Struct({ Key: S.String, Value: S.String }),
-).annotations({ identifier: "Tag" }) as any as S.Schema<Tag>;
-export type TagList = Tag[];
-export const TagList = S.Array(Tag);
-export type TagKeyList = string[];
-export const TagKeyList = S.Array(S.String);
-export type UpdateDataRetentionOperation =
-  | "INCREASE_DATA_RETENTION"
-  | "DECREASE_DATA_RETENTION"
-  | (string & {});
-export const UpdateDataRetentionOperation = S.String;
-export interface DeleteEdgeConfigurationInput {
-  StreamName?: string;
-  StreamARN?: string;
-}
-export const DeleteEdgeConfigurationInput = S.suspend(() =>
-  S.Struct({
-    StreamName: S.optional(S.String),
-    StreamARN: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/deleteEdgeConfiguration" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DeleteEdgeConfigurationInput",
-}) as any as S.Schema<DeleteEdgeConfigurationInput>;
-export interface DeleteEdgeConfigurationOutput {}
-export const DeleteEdgeConfigurationOutput = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotations({
-  identifier: "DeleteEdgeConfigurationOutput",
-}) as any as S.Schema<DeleteEdgeConfigurationOutput>;
-export interface DeleteSignalingChannelInput {
-  ChannelARN: string;
-  CurrentVersion?: string;
-}
-export const DeleteSignalingChannelInput = S.suspend(() =>
-  S.Struct({ ChannelARN: S.String, CurrentVersion: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/deleteSignalingChannel" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DeleteSignalingChannelInput",
-}) as any as S.Schema<DeleteSignalingChannelInput>;
-export interface DeleteSignalingChannelOutput {}
-export const DeleteSignalingChannelOutput = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotations({
-  identifier: "DeleteSignalingChannelOutput",
-}) as any as S.Schema<DeleteSignalingChannelOutput>;
-export interface DeleteStreamInput {
-  StreamARN: string;
-  CurrentVersion?: string;
-}
-export const DeleteStreamInput = S.suspend(() =>
-  S.Struct({ StreamARN: S.String, CurrentVersion: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/deleteStream" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DeleteStreamInput",
-}) as any as S.Schema<DeleteStreamInput>;
-export interface DeleteStreamOutput {}
-export const DeleteStreamOutput = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotations({
-  identifier: "DeleteStreamOutput",
-}) as any as S.Schema<DeleteStreamOutput>;
-export interface DescribeEdgeConfigurationInput {
-  StreamName?: string;
-  StreamARN?: string;
-}
-export const DescribeEdgeConfigurationInput = S.suspend(() =>
-  S.Struct({
-    StreamName: S.optional(S.String),
-    StreamARN: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/describeEdgeConfiguration" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DescribeEdgeConfigurationInput",
-}) as any as S.Schema<DescribeEdgeConfigurationInput>;
-export interface DescribeImageGenerationConfigurationInput {
-  StreamName?: string;
-  StreamARN?: string;
-}
-export const DescribeImageGenerationConfigurationInput = S.suspend(() =>
-  S.Struct({
-    StreamName: S.optional(S.String),
-    StreamARN: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/describeImageGenerationConfiguration" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DescribeImageGenerationConfigurationInput",
-}) as any as S.Schema<DescribeImageGenerationConfigurationInput>;
-export interface DescribeMappedResourceConfigurationInput {
-  StreamName?: string;
-  StreamARN?: string;
-  MaxResults?: number;
-  NextToken?: string;
-}
-export const DescribeMappedResourceConfigurationInput = S.suspend(() =>
-  S.Struct({
-    StreamName: S.optional(S.String),
-    StreamARN: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/describeMappedResourceConfiguration" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DescribeMappedResourceConfigurationInput",
-}) as any as S.Schema<DescribeMappedResourceConfigurationInput>;
-export interface DescribeMediaStorageConfigurationInput {
-  ChannelName?: string;
-  ChannelARN?: string;
-}
-export const DescribeMediaStorageConfigurationInput = S.suspend(() =>
-  S.Struct({
-    ChannelName: S.optional(S.String),
-    ChannelARN: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/describeMediaStorageConfiguration" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DescribeMediaStorageConfigurationInput",
-}) as any as S.Schema<DescribeMediaStorageConfigurationInput>;
-export interface DescribeNotificationConfigurationInput {
-  StreamName?: string;
-  StreamARN?: string;
-}
-export const DescribeNotificationConfigurationInput = S.suspend(() =>
-  S.Struct({
-    StreamName: S.optional(S.String),
-    StreamARN: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/describeNotificationConfiguration" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DescribeNotificationConfigurationInput",
-}) as any as S.Schema<DescribeNotificationConfigurationInput>;
-export interface DescribeSignalingChannelInput {
-  ChannelName?: string;
-  ChannelARN?: string;
-}
-export const DescribeSignalingChannelInput = S.suspend(() =>
-  S.Struct({
-    ChannelName: S.optional(S.String),
-    ChannelARN: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/describeSignalingChannel" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DescribeSignalingChannelInput",
-}) as any as S.Schema<DescribeSignalingChannelInput>;
-export interface DescribeStreamInput {
-  StreamName?: string;
-  StreamARN?: string;
-}
-export const DescribeStreamInput = S.suspend(() =>
-  S.Struct({
-    StreamName: S.optional(S.String),
-    StreamARN: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/describeStream" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DescribeStreamInput",
-}) as any as S.Schema<DescribeStreamInput>;
-export interface DescribeStreamStorageConfigurationInput {
-  StreamName?: string;
-  StreamARN?: string;
-}
-export const DescribeStreamStorageConfigurationInput = S.suspend(() =>
-  S.Struct({
-    StreamName: S.optional(S.String),
-    StreamARN: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/describeStreamStorageConfiguration" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DescribeStreamStorageConfigurationInput",
-}) as any as S.Schema<DescribeStreamStorageConfigurationInput>;
-export interface GetDataEndpointInput {
-  StreamName?: string;
-  StreamARN?: string;
-  APIName: APIName;
-}
-export const GetDataEndpointInput = S.suspend(() =>
-  S.Struct({
-    StreamName: S.optional(S.String),
-    StreamARN: S.optional(S.String),
-    APIName: APIName,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/getDataEndpoint" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "GetDataEndpointInput",
-}) as any as S.Schema<GetDataEndpointInput>;
-export interface ListEdgeAgentConfigurationsInput {
-  HubDeviceArn: string;
-  MaxResults?: number;
-  NextToken?: string;
-}
-export const ListEdgeAgentConfigurationsInput = S.suspend(() =>
-  S.Struct({
-    HubDeviceArn: S.String,
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/listEdgeAgentConfigurations" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListEdgeAgentConfigurationsInput",
-}) as any as S.Schema<ListEdgeAgentConfigurationsInput>;
-export interface ListTagsForResourceInput {
-  NextToken?: string;
-  ResourceARN: string;
-}
-export const ListTagsForResourceInput = S.suspend(() =>
-  S.Struct({ NextToken: S.optional(S.String), ResourceARN: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/ListTagsForResource" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListTagsForResourceInput",
-}) as any as S.Schema<ListTagsForResourceInput>;
-export interface ListTagsForStreamInput {
-  NextToken?: string;
-  StreamARN?: string;
-  StreamName?: string;
-}
-export const ListTagsForStreamInput = S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    StreamARN: S.optional(S.String),
-    StreamName: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/listTagsForStream" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListTagsForStreamInput",
-}) as any as S.Schema<ListTagsForStreamInput>;
-export interface TagResourceInput {
-  ResourceARN: string;
-  Tags: Tag[];
-}
-export const TagResourceInput = S.suspend(() =>
-  S.Struct({ ResourceARN: S.String, Tags: TagList }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/TagResource" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "TagResourceInput",
-}) as any as S.Schema<TagResourceInput>;
-export interface TagResourceOutput {}
-export const TagResourceOutput = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotations({
-  identifier: "TagResourceOutput",
-}) as any as S.Schema<TagResourceOutput>;
-export type ResourceTags = { [key: string]: string | undefined };
-export const ResourceTags = S.Record({
-  key: S.String,
-  value: S.UndefinedOr(S.String),
-});
-export interface TagStreamInput {
-  StreamARN?: string;
-  StreamName?: string;
-  Tags: { [key: string]: string | undefined };
-}
-export const TagStreamInput = S.suspend(() =>
-  S.Struct({
-    StreamARN: S.optional(S.String),
-    StreamName: S.optional(S.String),
-    Tags: ResourceTags,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/tagStream" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "TagStreamInput",
-}) as any as S.Schema<TagStreamInput>;
-export interface TagStreamOutput {}
-export const TagStreamOutput = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotations({
-  identifier: "TagStreamOutput",
-}) as any as S.Schema<TagStreamOutput>;
-export interface UntagResourceInput {
-  ResourceARN: string;
-  TagKeyList: string[];
-}
-export const UntagResourceInput = S.suspend(() =>
-  S.Struct({ ResourceARN: S.String, TagKeyList: TagKeyList }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/UntagResource" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "UntagResourceInput",
-}) as any as S.Schema<UntagResourceInput>;
-export interface UntagResourceOutput {}
-export const UntagResourceOutput = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotations({
-  identifier: "UntagResourceOutput",
-}) as any as S.Schema<UntagResourceOutput>;
-export interface UntagStreamInput {
-  StreamARN?: string;
-  StreamName?: string;
-  TagKeyList: string[];
-}
-export const UntagStreamInput = S.suspend(() =>
-  S.Struct({
-    StreamARN: S.optional(S.String),
-    StreamName: S.optional(S.String),
-    TagKeyList: TagKeyList,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/untagStream" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "UntagStreamInput",
-}) as any as S.Schema<UntagStreamInput>;
-export interface UntagStreamOutput {}
-export const UntagStreamOutput = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotations({
-  identifier: "UntagStreamOutput",
-}) as any as S.Schema<UntagStreamOutput>;
-export interface UpdateDataRetentionInput {
-  StreamName?: string;
-  StreamARN?: string;
-  CurrentVersion: string;
-  Operation: UpdateDataRetentionOperation;
-  DataRetentionChangeInHours: number;
-}
-export const UpdateDataRetentionInput = S.suspend(() =>
-  S.Struct({
-    StreamName: S.optional(S.String),
-    StreamARN: S.optional(S.String),
-    CurrentVersion: S.String,
-    Operation: UpdateDataRetentionOperation,
-    DataRetentionChangeInHours: S.Number,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/updateDataRetention" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "UpdateDataRetentionInput",
-}) as any as S.Schema<UpdateDataRetentionInput>;
-export interface UpdateDataRetentionOutput {}
-export const UpdateDataRetentionOutput = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotations({
-  identifier: "UpdateDataRetentionOutput",
-}) as any as S.Schema<UpdateDataRetentionOutput>;
-export interface SingleMasterConfiguration {
-  MessageTtlSeconds?: number;
-}
-export const SingleMasterConfiguration = S.suspend(() =>
-  S.Struct({ MessageTtlSeconds: S.optional(S.Number) }),
-).annotations({
-  identifier: "SingleMasterConfiguration",
-}) as any as S.Schema<SingleMasterConfiguration>;
-export interface UpdateSignalingChannelInput {
-  ChannelARN: string;
-  CurrentVersion: string;
-  SingleMasterConfiguration?: SingleMasterConfiguration;
-}
-export const UpdateSignalingChannelInput = S.suspend(() =>
-  S.Struct({
-    ChannelARN: S.String,
-    CurrentVersion: S.String,
-    SingleMasterConfiguration: S.optional(SingleMasterConfiguration),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/updateSignalingChannel" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "UpdateSignalingChannelInput",
-}) as any as S.Schema<UpdateSignalingChannelInput>;
-export interface UpdateSignalingChannelOutput {}
-export const UpdateSignalingChannelOutput = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotations({
-  identifier: "UpdateSignalingChannelOutput",
-}) as any as S.Schema<UpdateSignalingChannelOutput>;
-export interface UpdateStreamInput {
-  StreamName?: string;
-  StreamARN?: string;
-  CurrentVersion: string;
-  DeviceName?: string;
-  MediaType?: string;
-}
-export const UpdateStreamInput = S.suspend(() =>
-  S.Struct({
-    StreamName: S.optional(S.String),
-    StreamARN: S.optional(S.String),
-    CurrentVersion: S.String,
-    DeviceName: S.optional(S.String),
-    MediaType: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/updateStream" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "UpdateStreamInput",
-}) as any as S.Schema<UpdateStreamInput>;
-export interface UpdateStreamOutput {}
-export const UpdateStreamOutput = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotations({
-  identifier: "UpdateStreamOutput",
-}) as any as S.Schema<UpdateStreamOutput>;
-export type DefaultStorageTier = "HOT" | "WARM" | (string & {});
-export const DefaultStorageTier = S.String;
-export interface StreamStorageConfiguration {
-  DefaultStorageTier: DefaultStorageTier;
-}
-export const StreamStorageConfiguration = S.suspend(() =>
-  S.Struct({ DefaultStorageTier: DefaultStorageTier }),
-).annotations({
-  identifier: "StreamStorageConfiguration",
-}) as any as S.Schema<StreamStorageConfiguration>;
-export interface UpdateStreamStorageConfigurationInput {
-  StreamName?: string;
-  StreamARN?: string;
-  CurrentVersion: string;
-  StreamStorageConfiguration: StreamStorageConfiguration;
-}
-export const UpdateStreamStorageConfigurationInput = S.suspend(() =>
-  S.Struct({
-    StreamName: S.optional(S.String),
-    StreamARN: S.optional(S.String),
-    CurrentVersion: S.String,
-    StreamStorageConfiguration: StreamStorageConfiguration,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/updateStreamStorageConfiguration" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "UpdateStreamStorageConfigurationInput",
-}) as any as S.Schema<UpdateStreamStorageConfigurationInput>;
-export interface UpdateStreamStorageConfigurationOutput {}
-export const UpdateStreamStorageConfigurationOutput = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotations({
-  identifier: "UpdateStreamStorageConfigurationOutput",
-}) as any as S.Schema<UpdateStreamStorageConfigurationOutput>;
-export type ChannelProtocol = "WSS" | "HTTPS" | "WEBRTC" | (string & {});
-export const ChannelProtocol = S.String;
-export type ListOfProtocols = ChannelProtocol[];
-export const ListOfProtocols = S.Array(ChannelProtocol);
-export type ChannelRole = "MASTER" | "VIEWER" | (string & {});
-export const ChannelRole = S.String;
-export type ComparisonOperator = "BEGINS_WITH" | (string & {});
-export const ComparisonOperator = S.String;
-export type ConfigurationStatus = "ENABLED" | "DISABLED" | (string & {});
-export const ConfigurationStatus = S.String;
-export type ImageSelectorType =
-  | "SERVER_TIMESTAMP"
-  | "PRODUCER_TIMESTAMP"
-  | (string & {});
-export const ImageSelectorType = S.String;
-export type Format = "JPEG" | "PNG" | (string & {});
-export const Format = S.String;
-export type MediaStorageConfigurationStatus =
-  | "ENABLED"
-  | "DISABLED"
-  | (string & {});
-export const MediaStorageConfigurationStatus = S.String;
+).annotate({ identifier: "Tag" }) as any as S.Schema<Tag>;
 export type TagOnCreateList = Tag[];
 export const TagOnCreateList = S.Array(Tag);
-export type SyncStatus =
-  | "SYNCING"
-  | "ACKNOWLEDGED"
-  | "IN_SYNC"
-  | "SYNC_FAILED"
-  | "DELETING"
-  | "DELETE_FAILED"
-  | "DELETING_ACKNOWLEDGED"
-  | (string & {});
-export const SyncStatus = S.String;
-export interface SingleMasterChannelEndpointConfiguration {
-  Protocols?: ChannelProtocol[];
-  Role?: ChannelRole;
-}
-export const SingleMasterChannelEndpointConfiguration = S.suspend(() =>
-  S.Struct({
-    Protocols: S.optional(ListOfProtocols),
-    Role: S.optional(ChannelRole),
-  }),
-).annotations({
-  identifier: "SingleMasterChannelEndpointConfiguration",
-}) as any as S.Schema<SingleMasterChannelEndpointConfiguration>;
-export interface ChannelNameCondition {
-  ComparisonOperator?: ComparisonOperator;
-  ComparisonValue?: string;
-}
-export const ChannelNameCondition = S.suspend(() =>
-  S.Struct({
-    ComparisonOperator: S.optional(ComparisonOperator),
-    ComparisonValue: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "ChannelNameCondition",
-}) as any as S.Schema<ChannelNameCondition>;
-export interface StreamNameCondition {
-  ComparisonOperator?: ComparisonOperator;
-  ComparisonValue?: string;
-}
-export const StreamNameCondition = S.suspend(() =>
-  S.Struct({
-    ComparisonOperator: S.optional(ComparisonOperator),
-    ComparisonValue: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "StreamNameCondition",
-}) as any as S.Schema<StreamNameCondition>;
-export interface MediaStorageConfiguration {
-  StreamARN?: string;
-  Status: MediaStorageConfigurationStatus;
-}
-export const MediaStorageConfiguration = S.suspend(() =>
-  S.Struct({
-    StreamARN: S.optional(S.String),
-    Status: MediaStorageConfigurationStatus,
-  }),
-).annotations({
-  identifier: "MediaStorageConfiguration",
-}) as any as S.Schema<MediaStorageConfiguration>;
-export type FormatConfigKey = "JPEGQuality" | (string & {});
-export const FormatConfigKey = S.String;
 export interface CreateSignalingChannelInput {
   ChannelName: string;
   ChannelType?: ChannelType;
@@ -873,9 +167,29 @@ export const CreateSignalingChannelInput = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "CreateSignalingChannelInput",
 }) as any as S.Schema<CreateSignalingChannelInput>;
+export interface CreateSignalingChannelOutput {
+  ChannelARN?: string;
+}
+export const CreateSignalingChannelOutput = S.suspend(() =>
+  S.Struct({ ChannelARN: S.optional(S.String) }).pipe(ns),
+).annotate({
+  identifier: "CreateSignalingChannelOutput",
+}) as any as S.Schema<CreateSignalingChannelOutput>;
+export type ResourceTags = { [key: string]: string | undefined };
+export const ResourceTags = S.Record(S.String, S.String.pipe(S.optional));
+export type DefaultStorageTier = "HOT" | "WARM" | (string & {});
+export const DefaultStorageTier = S.String;
+export interface StreamStorageConfiguration {
+  DefaultStorageTier: DefaultStorageTier;
+}
+export const StreamStorageConfiguration = S.suspend(() =>
+  S.Struct({ DefaultStorageTier: DefaultStorageTier }),
+).annotate({
+  identifier: "StreamStorageConfiguration",
+}) as any as S.Schema<StreamStorageConfiguration>;
 export interface CreateStreamInput {
   DeviceName?: string;
   StreamName: string;
@@ -905,132 +219,29 @@ export const CreateStreamInput = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "CreateStreamInput",
 }) as any as S.Schema<CreateStreamInput>;
-export interface ImageGenerationDestinationConfig {
-  Uri: string;
-  DestinationRegion: string;
+export interface CreateStreamOutput {
+  StreamARN?: string;
 }
-export const ImageGenerationDestinationConfig = S.suspend(() =>
-  S.Struct({ Uri: S.String, DestinationRegion: S.String }),
-).annotations({
-  identifier: "ImageGenerationDestinationConfig",
-}) as any as S.Schema<ImageGenerationDestinationConfig>;
-export type FormatConfig = { [key in FormatConfigKey]?: string };
-export const FormatConfig = S.partial(
-  S.Record({ key: FormatConfigKey, value: S.UndefinedOr(S.String) }),
-);
-export interface ImageGenerationConfiguration {
-  Status: ConfigurationStatus;
-  ImageSelectorType: ImageSelectorType;
-  DestinationConfig: ImageGenerationDestinationConfig;
-  SamplingInterval: number;
-  Format: Format;
-  FormatConfig?: { [key: string]: string | undefined };
-  WidthPixels?: number;
-  HeightPixels?: number;
-}
-export const ImageGenerationConfiguration = S.suspend(() =>
-  S.Struct({
-    Status: ConfigurationStatus,
-    ImageSelectorType: ImageSelectorType,
-    DestinationConfig: ImageGenerationDestinationConfig,
-    SamplingInterval: S.Number,
-    Format: Format,
-    FormatConfig: S.optional(FormatConfig),
-    WidthPixels: S.optional(S.Number),
-    HeightPixels: S.optional(S.Number),
-  }),
-).annotations({
-  identifier: "ImageGenerationConfiguration",
-}) as any as S.Schema<ImageGenerationConfiguration>;
-export interface DescribeImageGenerationConfigurationOutput {
-  ImageGenerationConfiguration?: ImageGenerationConfiguration;
-}
-export const DescribeImageGenerationConfigurationOutput = S.suspend(() =>
-  S.Struct({
-    ImageGenerationConfiguration: S.optional(ImageGenerationConfiguration),
-  }).pipe(ns),
-).annotations({
-  identifier: "DescribeImageGenerationConfigurationOutput",
-}) as any as S.Schema<DescribeImageGenerationConfigurationOutput>;
-export interface DescribeMediaStorageConfigurationOutput {
-  MediaStorageConfiguration?: MediaStorageConfiguration;
-}
-export const DescribeMediaStorageConfigurationOutput = S.suspend(() =>
-  S.Struct({
-    MediaStorageConfiguration: S.optional(MediaStorageConfiguration),
-  }).pipe(ns),
-).annotations({
-  identifier: "DescribeMediaStorageConfigurationOutput",
-}) as any as S.Schema<DescribeMediaStorageConfigurationOutput>;
-export interface NotificationDestinationConfig {
-  Uri: string;
-}
-export const NotificationDestinationConfig = S.suspend(() =>
-  S.Struct({ Uri: S.String }),
-).annotations({
-  identifier: "NotificationDestinationConfig",
-}) as any as S.Schema<NotificationDestinationConfig>;
-export interface NotificationConfiguration {
-  Status: ConfigurationStatus;
-  DestinationConfig: NotificationDestinationConfig;
-}
-export const NotificationConfiguration = S.suspend(() =>
-  S.Struct({
-    Status: ConfigurationStatus,
-    DestinationConfig: NotificationDestinationConfig,
-  }),
-).annotations({
-  identifier: "NotificationConfiguration",
-}) as any as S.Schema<NotificationConfiguration>;
-export interface DescribeNotificationConfigurationOutput {
-  NotificationConfiguration?: NotificationConfiguration;
-}
-export const DescribeNotificationConfigurationOutput = S.suspend(() =>
-  S.Struct({
-    NotificationConfiguration: S.optional(NotificationConfiguration),
-  }).pipe(ns),
-).annotations({
-  identifier: "DescribeNotificationConfigurationOutput",
-}) as any as S.Schema<DescribeNotificationConfigurationOutput>;
-export interface DescribeStreamStorageConfigurationOutput {
+export const CreateStreamOutput = S.suspend(() =>
+  S.Struct({ StreamARN: S.optional(S.String) }).pipe(ns),
+).annotate({
+  identifier: "CreateStreamOutput",
+}) as any as S.Schema<CreateStreamOutput>;
+export interface DeleteEdgeConfigurationInput {
   StreamName?: string;
   StreamARN?: string;
-  StreamStorageConfiguration?: StreamStorageConfiguration;
 }
-export const DescribeStreamStorageConfigurationOutput = S.suspend(() =>
+export const DeleteEdgeConfigurationInput = S.suspend(() =>
   S.Struct({
     StreamName: S.optional(S.String),
     StreamARN: S.optional(S.String),
-    StreamStorageConfiguration: S.optional(StreamStorageConfiguration),
-  }).pipe(ns),
-).annotations({
-  identifier: "DescribeStreamStorageConfigurationOutput",
-}) as any as S.Schema<DescribeStreamStorageConfigurationOutput>;
-export interface GetDataEndpointOutput {
-  DataEndpoint?: string;
-}
-export const GetDataEndpointOutput = S.suspend(() =>
-  S.Struct({ DataEndpoint: S.optional(S.String) }).pipe(ns),
-).annotations({
-  identifier: "GetDataEndpointOutput",
-}) as any as S.Schema<GetDataEndpointOutput>;
-export interface GetSignalingChannelEndpointInput {
-  ChannelARN: string;
-  SingleMasterChannelEndpointConfiguration?: SingleMasterChannelEndpointConfiguration;
-}
-export const GetSignalingChannelEndpointInput = S.suspend(() =>
-  S.Struct({
-    ChannelARN: S.String,
-    SingleMasterChannelEndpointConfiguration: S.optional(
-      SingleMasterChannelEndpointConfiguration,
-    ),
   }).pipe(
     T.all(
       ns,
-      T.Http({ method: "POST", uri: "/getSignalingChannelEndpoint" }),
+      T.Http({ method: "POST", uri: "/deleteEdgeConfiguration" }),
       svc,
       auth,
       proto,
@@ -1038,207 +249,115 @@ export const GetSignalingChannelEndpointInput = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
-  identifier: "GetSignalingChannelEndpointInput",
-}) as any as S.Schema<GetSignalingChannelEndpointInput>;
-export interface ListSignalingChannelsInput {
-  MaxResults?: number;
-  NextToken?: string;
-  ChannelNameCondition?: ChannelNameCondition;
-}
-export const ListSignalingChannelsInput = S.suspend(() =>
-  S.Struct({
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-    ChannelNameCondition: S.optional(ChannelNameCondition),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/listSignalingChannels" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListSignalingChannelsInput",
-}) as any as S.Schema<ListSignalingChannelsInput>;
-export interface ListStreamsInput {
-  MaxResults?: number;
-  NextToken?: string;
-  StreamNameCondition?: StreamNameCondition;
-}
-export const ListStreamsInput = S.suspend(() =>
-  S.Struct({
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-    StreamNameCondition: S.optional(StreamNameCondition),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/listStreams" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListStreamsInput",
-}) as any as S.Schema<ListStreamsInput>;
-export interface ListTagsForResourceOutput {
-  NextToken?: string;
-  Tags?: { [key: string]: string | undefined };
-}
-export const ListTagsForResourceOutput = S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    Tags: S.optional(ResourceTags),
-  }).pipe(ns),
-).annotations({
-  identifier: "ListTagsForResourceOutput",
-}) as any as S.Schema<ListTagsForResourceOutput>;
-export interface ListTagsForStreamOutput {
-  NextToken?: string;
-  Tags?: { [key: string]: string | undefined };
-}
-export const ListTagsForStreamOutput = S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    Tags: S.optional(ResourceTags),
-  }).pipe(ns),
-).annotations({
-  identifier: "ListTagsForStreamOutput",
-}) as any as S.Schema<ListTagsForStreamOutput>;
-export interface UpdateMediaStorageConfigurationInput {
-  ChannelARN: string;
-  MediaStorageConfiguration: MediaStorageConfiguration;
-}
-export const UpdateMediaStorageConfigurationInput = S.suspend(() =>
-  S.Struct({
-    ChannelARN: S.String,
-    MediaStorageConfiguration: MediaStorageConfiguration,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/updateMediaStorageConfiguration" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "UpdateMediaStorageConfigurationInput",
-}) as any as S.Schema<UpdateMediaStorageConfigurationInput>;
-export interface UpdateMediaStorageConfigurationOutput {}
-export const UpdateMediaStorageConfigurationOutput = S.suspend(() =>
+).annotate({
+  identifier: "DeleteEdgeConfigurationInput",
+}) as any as S.Schema<DeleteEdgeConfigurationInput>;
+export interface DeleteEdgeConfigurationOutput {}
+export const DeleteEdgeConfigurationOutput = S.suspend(() =>
   S.Struct({}).pipe(ns),
-).annotations({
-  identifier: "UpdateMediaStorageConfigurationOutput",
-}) as any as S.Schema<UpdateMediaStorageConfigurationOutput>;
-export type Status =
-  | "CREATING"
-  | "ACTIVE"
-  | "UPDATING"
+).annotate({
+  identifier: "DeleteEdgeConfigurationOutput",
+}) as any as S.Schema<DeleteEdgeConfigurationOutput>;
+export interface DeleteSignalingChannelInput {
+  ChannelARN: string;
+  CurrentVersion?: string;
+}
+export const DeleteSignalingChannelInput = S.suspend(() =>
+  S.Struct({ ChannelARN: S.String, CurrentVersion: S.optional(S.String) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/deleteSignalingChannel" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeleteSignalingChannelInput",
+}) as any as S.Schema<DeleteSignalingChannelInput>;
+export interface DeleteSignalingChannelOutput {}
+export const DeleteSignalingChannelOutput = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "DeleteSignalingChannelOutput",
+}) as any as S.Schema<DeleteSignalingChannelOutput>;
+export interface DeleteStreamInput {
+  StreamARN: string;
+  CurrentVersion?: string;
+}
+export const DeleteStreamInput = S.suspend(() =>
+  S.Struct({ StreamARN: S.String, CurrentVersion: S.optional(S.String) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/deleteStream" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeleteStreamInput",
+}) as any as S.Schema<DeleteStreamInput>;
+export interface DeleteStreamOutput {}
+export const DeleteStreamOutput = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "DeleteStreamOutput",
+}) as any as S.Schema<DeleteStreamOutput>;
+export interface DescribeEdgeConfigurationInput {
+  StreamName?: string;
+  StreamARN?: string;
+}
+export const DescribeEdgeConfigurationInput = S.suspend(() =>
+  S.Struct({
+    StreamName: S.optional(S.String),
+    StreamARN: S.optional(S.String),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/describeEdgeConfiguration" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DescribeEdgeConfigurationInput",
+}) as any as S.Schema<DescribeEdgeConfigurationInput>;
+export type SyncStatus =
+  | "SYNCING"
+  | "ACKNOWLEDGED"
+  | "IN_SYNC"
+  | "SYNC_FAILED"
   | "DELETING"
+  | "DELETE_FAILED"
+  | "DELETING_ACKNOWLEDGED"
   | (string & {});
-export const Status = S.String;
-export interface ScheduleConfig {
-  ScheduleExpression: string;
-  DurationInSeconds: number;
-}
-export const ScheduleConfig = S.suspend(() =>
-  S.Struct({ ScheduleExpression: S.String, DurationInSeconds: S.Number }),
-).annotations({
-  identifier: "ScheduleConfig",
-}) as any as S.Schema<ScheduleConfig>;
-export interface UploaderConfig {
-  ScheduleConfig: ScheduleConfig;
-}
-export const UploaderConfig = S.suspend(() =>
-  S.Struct({ ScheduleConfig: ScheduleConfig }),
-).annotations({
-  identifier: "UploaderConfig",
-}) as any as S.Schema<UploaderConfig>;
+export const SyncStatus = S.String;
 export type MediaUriType = "RTSP_URI" | "FILE_URI" | (string & {});
 export const MediaUriType = S.String;
-export type StrategyOnFullSize =
-  | "DELETE_OLDEST_MEDIA"
-  | "DENY_NEW_MEDIA"
-  | (string & {});
-export const StrategyOnFullSize = S.String;
-export interface MappedResourceConfigurationListItem {
-  Type?: string;
-  ARN?: string;
-}
-export const MappedResourceConfigurationListItem = S.suspend(() =>
-  S.Struct({ Type: S.optional(S.String), ARN: S.optional(S.String) }),
-).annotations({
-  identifier: "MappedResourceConfigurationListItem",
-}) as any as S.Schema<MappedResourceConfigurationListItem>;
-export type MappedResourceConfigurationList =
-  MappedResourceConfigurationListItem[];
-export const MappedResourceConfigurationList = S.Array(
-  MappedResourceConfigurationListItem,
-);
-export interface ChannelInfo {
-  ChannelName?: string;
-  ChannelARN?: string;
-  ChannelType?: ChannelType;
-  ChannelStatus?: Status;
-  CreationTime?: Date;
-  SingleMasterConfiguration?: SingleMasterConfiguration;
-  Version?: string;
-}
-export const ChannelInfo = S.suspend(() =>
-  S.Struct({
-    ChannelName: S.optional(S.String),
-    ChannelARN: S.optional(S.String),
-    ChannelType: S.optional(ChannelType),
-    ChannelStatus: S.optional(Status),
-    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    SingleMasterConfiguration: S.optional(SingleMasterConfiguration),
-    Version: S.optional(S.String),
-  }),
-).annotations({ identifier: "ChannelInfo" }) as any as S.Schema<ChannelInfo>;
-export interface StreamInfo {
-  DeviceName?: string;
-  StreamName?: string;
-  StreamARN?: string;
-  MediaType?: string;
-  KmsKeyId?: string;
-  Version?: string;
-  Status?: Status;
-  CreationTime?: Date;
-  DataRetentionInHours?: number;
-}
-export const StreamInfo = S.suspend(() =>
-  S.Struct({
-    DeviceName: S.optional(S.String),
-    StreamName: S.optional(S.String),
-    StreamARN: S.optional(S.String),
-    MediaType: S.optional(S.String),
-    KmsKeyId: S.optional(S.String),
-    Version: S.optional(S.String),
-    Status: S.optional(Status),
-    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    DataRetentionInHours: S.optional(S.Number),
-  }),
-).annotations({ identifier: "StreamInfo" }) as any as S.Schema<StreamInfo>;
 export interface MediaSourceConfig {
   MediaUriSecretArn: string | redacted.Redacted<string>;
   MediaUriType: MediaUriType;
 }
 export const MediaSourceConfig = S.suspend(() =>
   S.Struct({ MediaUriSecretArn: SensitiveString, MediaUriType: MediaUriType }),
-).annotations({
+).annotate({
   identifier: "MediaSourceConfig",
 }) as any as S.Schema<MediaSourceConfig>;
+export interface ScheduleConfig {
+  ScheduleExpression: string;
+  DurationInSeconds: number;
+}
+export const ScheduleConfig = S.suspend(() =>
+  S.Struct({ ScheduleExpression: S.String, DurationInSeconds: S.Number }),
+).annotate({ identifier: "ScheduleConfig" }) as any as S.Schema<ScheduleConfig>;
 export interface RecorderConfig {
   MediaSourceConfig: MediaSourceConfig;
   ScheduleConfig?: ScheduleConfig;
@@ -1248,9 +367,18 @@ export const RecorderConfig = S.suspend(() =>
     MediaSourceConfig: MediaSourceConfig,
     ScheduleConfig: S.optional(ScheduleConfig),
   }),
-).annotations({
-  identifier: "RecorderConfig",
-}) as any as S.Schema<RecorderConfig>;
+).annotate({ identifier: "RecorderConfig" }) as any as S.Schema<RecorderConfig>;
+export interface UploaderConfig {
+  ScheduleConfig: ScheduleConfig;
+}
+export const UploaderConfig = S.suspend(() =>
+  S.Struct({ ScheduleConfig: ScheduleConfig }),
+).annotate({ identifier: "UploaderConfig" }) as any as S.Schema<UploaderConfig>;
+export type StrategyOnFullSize =
+  | "DELETE_OLDEST_MEDIA"
+  | "DENY_NEW_MEDIA"
+  | (string & {});
+export const StrategyOnFullSize = S.String;
 export interface LocalSizeConfig {
   MaxLocalMediaSizeInMB?: number;
   StrategyOnFullSize?: StrategyOnFullSize;
@@ -1260,7 +388,7 @@ export const LocalSizeConfig = S.suspend(() =>
     MaxLocalMediaSizeInMB: S.optional(S.Number),
     StrategyOnFullSize: S.optional(StrategyOnFullSize),
   }),
-).annotations({
+).annotate({
   identifier: "LocalSizeConfig",
 }) as any as S.Schema<LocalSizeConfig>;
 export interface DeletionConfig {
@@ -1274,9 +402,7 @@ export const DeletionConfig = S.suspend(() =>
     LocalSizeConfig: S.optional(LocalSizeConfig),
     DeleteAfterUpload: S.optional(S.Boolean),
   }),
-).annotations({
-  identifier: "DeletionConfig",
-}) as any as S.Schema<DeletionConfig>;
+).annotate({ identifier: "DeletionConfig" }) as any as S.Schema<DeletionConfig>;
 export interface EdgeConfig {
   HubDeviceArn: string;
   RecorderConfig: RecorderConfig;
@@ -1290,194 +416,13 @@ export const EdgeConfig = S.suspend(() =>
     UploaderConfig: S.optional(UploaderConfig),
     DeletionConfig: S.optional(DeletionConfig),
   }),
-).annotations({ identifier: "EdgeConfig" }) as any as S.Schema<EdgeConfig>;
-export interface ListEdgeAgentConfigurationsEdgeConfig {
-  StreamName?: string;
-  StreamARN?: string;
-  CreationTime?: Date;
-  LastUpdatedTime?: Date;
-  SyncStatus?: SyncStatus;
-  FailedStatusDetails?: string;
-  EdgeConfig?: EdgeConfig;
-}
-export const ListEdgeAgentConfigurationsEdgeConfig = S.suspend(() =>
-  S.Struct({
-    StreamName: S.optional(S.String),
-    StreamARN: S.optional(S.String),
-    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    LastUpdatedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    SyncStatus: S.optional(SyncStatus),
-    FailedStatusDetails: S.optional(S.String),
-    EdgeConfig: S.optional(EdgeConfig),
-  }),
-).annotations({
-  identifier: "ListEdgeAgentConfigurationsEdgeConfig",
-}) as any as S.Schema<ListEdgeAgentConfigurationsEdgeConfig>;
-export type ListEdgeAgentConfigurationsEdgeConfigList =
-  ListEdgeAgentConfigurationsEdgeConfig[];
-export const ListEdgeAgentConfigurationsEdgeConfigList = S.Array(
-  ListEdgeAgentConfigurationsEdgeConfig,
-);
-export type ChannelInfoList = ChannelInfo[];
-export const ChannelInfoList = S.Array(ChannelInfo);
-export type StreamInfoList = StreamInfo[];
-export const StreamInfoList = S.Array(StreamInfo);
+).annotate({ identifier: "EdgeConfig" }) as any as S.Schema<EdgeConfig>;
 export type RecorderStatus =
   | "SUCCESS"
   | "USER_ERROR"
   | "SYSTEM_ERROR"
   | (string & {});
 export const RecorderStatus = S.String;
-export type UploaderStatus =
-  | "SUCCESS"
-  | "USER_ERROR"
-  | "SYSTEM_ERROR"
-  | (string & {});
-export const UploaderStatus = S.String;
-export interface CreateSignalingChannelOutput {
-  ChannelARN?: string;
-}
-export const CreateSignalingChannelOutput = S.suspend(() =>
-  S.Struct({ ChannelARN: S.optional(S.String) }).pipe(ns),
-).annotations({
-  identifier: "CreateSignalingChannelOutput",
-}) as any as S.Schema<CreateSignalingChannelOutput>;
-export interface CreateStreamOutput {
-  StreamARN?: string;
-}
-export const CreateStreamOutput = S.suspend(() =>
-  S.Struct({ StreamARN: S.optional(S.String) }).pipe(ns),
-).annotations({
-  identifier: "CreateStreamOutput",
-}) as any as S.Schema<CreateStreamOutput>;
-export interface DescribeMappedResourceConfigurationOutput {
-  MappedResourceConfigurationList?: MappedResourceConfigurationListItem[];
-  NextToken?: string;
-}
-export const DescribeMappedResourceConfigurationOutput = S.suspend(() =>
-  S.Struct({
-    MappedResourceConfigurationList: S.optional(
-      MappedResourceConfigurationList,
-    ),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotations({
-  identifier: "DescribeMappedResourceConfigurationOutput",
-}) as any as S.Schema<DescribeMappedResourceConfigurationOutput>;
-export interface DescribeSignalingChannelOutput {
-  ChannelInfo?: ChannelInfo;
-}
-export const DescribeSignalingChannelOutput = S.suspend(() =>
-  S.Struct({ ChannelInfo: S.optional(ChannelInfo) }).pipe(ns),
-).annotations({
-  identifier: "DescribeSignalingChannelOutput",
-}) as any as S.Schema<DescribeSignalingChannelOutput>;
-export interface DescribeStreamOutput {
-  StreamInfo?: StreamInfo;
-}
-export const DescribeStreamOutput = S.suspend(() =>
-  S.Struct({ StreamInfo: S.optional(StreamInfo) }).pipe(ns),
-).annotations({
-  identifier: "DescribeStreamOutput",
-}) as any as S.Schema<DescribeStreamOutput>;
-export interface ListEdgeAgentConfigurationsOutput {
-  EdgeConfigs?: ListEdgeAgentConfigurationsEdgeConfig[];
-  NextToken?: string;
-}
-export const ListEdgeAgentConfigurationsOutput = S.suspend(() =>
-  S.Struct({
-    EdgeConfigs: S.optional(ListEdgeAgentConfigurationsEdgeConfigList),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotations({
-  identifier: "ListEdgeAgentConfigurationsOutput",
-}) as any as S.Schema<ListEdgeAgentConfigurationsOutput>;
-export interface ListSignalingChannelsOutput {
-  ChannelInfoList?: ChannelInfo[];
-  NextToken?: string;
-}
-export const ListSignalingChannelsOutput = S.suspend(() =>
-  S.Struct({
-    ChannelInfoList: S.optional(ChannelInfoList),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotations({
-  identifier: "ListSignalingChannelsOutput",
-}) as any as S.Schema<ListSignalingChannelsOutput>;
-export interface ListStreamsOutput {
-  StreamInfoList?: StreamInfo[];
-  NextToken?: string;
-}
-export const ListStreamsOutput = S.suspend(() =>
-  S.Struct({
-    StreamInfoList: S.optional(StreamInfoList),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotations({
-  identifier: "ListStreamsOutput",
-}) as any as S.Schema<ListStreamsOutput>;
-export interface UpdateImageGenerationConfigurationInput {
-  StreamName?: string;
-  StreamARN?: string;
-  ImageGenerationConfiguration?: ImageGenerationConfiguration;
-}
-export const UpdateImageGenerationConfigurationInput = S.suspend(() =>
-  S.Struct({
-    StreamName: S.optional(S.String),
-    StreamARN: S.optional(S.String),
-    ImageGenerationConfiguration: S.optional(ImageGenerationConfiguration),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/updateImageGenerationConfiguration" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "UpdateImageGenerationConfigurationInput",
-}) as any as S.Schema<UpdateImageGenerationConfigurationInput>;
-export interface UpdateImageGenerationConfigurationOutput {}
-export const UpdateImageGenerationConfigurationOutput = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotations({
-  identifier: "UpdateImageGenerationConfigurationOutput",
-}) as any as S.Schema<UpdateImageGenerationConfigurationOutput>;
-export interface UpdateNotificationConfigurationInput {
-  StreamName?: string;
-  StreamARN?: string;
-  NotificationConfiguration?: NotificationConfiguration;
-}
-export const UpdateNotificationConfigurationInput = S.suspend(() =>
-  S.Struct({
-    StreamName: S.optional(S.String),
-    StreamARN: S.optional(S.String),
-    NotificationConfiguration: S.optional(NotificationConfiguration),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/updateNotificationConfiguration" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "UpdateNotificationConfigurationInput",
-}) as any as S.Schema<UpdateNotificationConfigurationInput>;
-export interface UpdateNotificationConfigurationOutput {}
-export const UpdateNotificationConfigurationOutput = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotations({
-  identifier: "UpdateNotificationConfigurationOutput",
-}) as any as S.Schema<UpdateNotificationConfigurationOutput>;
 export interface LastRecorderStatus {
   JobStatusDetails?: string;
   LastCollectedTime?: Date;
@@ -1495,9 +440,15 @@ export const LastRecorderStatus = S.suspend(() =>
     ),
     RecorderStatus: S.optional(RecorderStatus),
   }),
-).annotations({
+).annotate({
   identifier: "LastRecorderStatus",
 }) as any as S.Schema<LastRecorderStatus>;
+export type UploaderStatus =
+  | "SUCCESS"
+  | "USER_ERROR"
+  | "SYSTEM_ERROR"
+  | (string & {});
+export const UploaderStatus = S.String;
 export interface LastUploaderStatus {
   JobStatusDetails?: string;
   LastCollectedTime?: Date;
@@ -1515,7 +466,7 @@ export const LastUploaderStatus = S.suspend(() =>
     ),
     UploaderStatus: S.optional(UploaderStatus),
   }),
-).annotations({
+).annotate({
   identifier: "LastUploaderStatus",
 }) as any as S.Schema<LastUploaderStatus>;
 export interface EdgeAgentStatus {
@@ -1527,23 +478,9 @@ export const EdgeAgentStatus = S.suspend(() =>
     LastRecorderStatus: S.optional(LastRecorderStatus),
     LastUploaderStatus: S.optional(LastUploaderStatus),
   }),
-).annotations({
+).annotate({
   identifier: "EdgeAgentStatus",
 }) as any as S.Schema<EdgeAgentStatus>;
-export interface ResourceEndpointListItem {
-  Protocol?: ChannelProtocol;
-  ResourceEndpoint?: string;
-}
-export const ResourceEndpointListItem = S.suspend(() =>
-  S.Struct({
-    Protocol: S.optional(ChannelProtocol),
-    ResourceEndpoint: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "ResourceEndpointListItem",
-}) as any as S.Schema<ResourceEndpointListItem>;
-export type ResourceEndpointList = ResourceEndpointListItem[];
-export const ResourceEndpointList = S.Array(ResourceEndpointListItem);
 export interface DescribeEdgeConfigurationOutput {
   StreamName?: string;
   StreamARN?: string;
@@ -1567,17 +504,733 @@ export const DescribeEdgeConfigurationOutput = S.suspend(() =>
     EdgeConfig: S.optional(EdgeConfig),
     EdgeAgentStatus: S.optional(EdgeAgentStatus),
   }).pipe(ns),
-).annotations({
+).annotate({
   identifier: "DescribeEdgeConfigurationOutput",
 }) as any as S.Schema<DescribeEdgeConfigurationOutput>;
+export interface DescribeImageGenerationConfigurationInput {
+  StreamName?: string;
+  StreamARN?: string;
+}
+export const DescribeImageGenerationConfigurationInput = S.suspend(() =>
+  S.Struct({
+    StreamName: S.optional(S.String),
+    StreamARN: S.optional(S.String),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/describeImageGenerationConfiguration" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DescribeImageGenerationConfigurationInput",
+}) as any as S.Schema<DescribeImageGenerationConfigurationInput>;
+export type ConfigurationStatus = "ENABLED" | "DISABLED" | (string & {});
+export const ConfigurationStatus = S.String;
+export type ImageSelectorType =
+  | "SERVER_TIMESTAMP"
+  | "PRODUCER_TIMESTAMP"
+  | (string & {});
+export const ImageSelectorType = S.String;
+export interface ImageGenerationDestinationConfig {
+  Uri: string;
+  DestinationRegion: string;
+}
+export const ImageGenerationDestinationConfig = S.suspend(() =>
+  S.Struct({ Uri: S.String, DestinationRegion: S.String }),
+).annotate({
+  identifier: "ImageGenerationDestinationConfig",
+}) as any as S.Schema<ImageGenerationDestinationConfig>;
+export type Format = "JPEG" | "PNG" | (string & {});
+export const Format = S.String;
+export type FormatConfigKey = "JPEGQuality" | (string & {});
+export const FormatConfigKey = S.String;
+export type FormatConfig = { [key in FormatConfigKey]?: string };
+export const FormatConfig = S.Record(
+  FormatConfigKey,
+  S.String.pipe(S.optional),
+);
+export interface ImageGenerationConfiguration {
+  Status: ConfigurationStatus;
+  ImageSelectorType: ImageSelectorType;
+  DestinationConfig: ImageGenerationDestinationConfig;
+  SamplingInterval: number;
+  Format: Format;
+  FormatConfig?: { [key: string]: string | undefined };
+  WidthPixels?: number;
+  HeightPixels?: number;
+}
+export const ImageGenerationConfiguration = S.suspend(() =>
+  S.Struct({
+    Status: ConfigurationStatus,
+    ImageSelectorType: ImageSelectorType,
+    DestinationConfig: ImageGenerationDestinationConfig,
+    SamplingInterval: S.Number,
+    Format: Format,
+    FormatConfig: S.optional(FormatConfig),
+    WidthPixels: S.optional(S.Number),
+    HeightPixels: S.optional(S.Number),
+  }),
+).annotate({
+  identifier: "ImageGenerationConfiguration",
+}) as any as S.Schema<ImageGenerationConfiguration>;
+export interface DescribeImageGenerationConfigurationOutput {
+  ImageGenerationConfiguration?: ImageGenerationConfiguration;
+}
+export const DescribeImageGenerationConfigurationOutput = S.suspend(() =>
+  S.Struct({
+    ImageGenerationConfiguration: S.optional(ImageGenerationConfiguration),
+  }).pipe(ns),
+).annotate({
+  identifier: "DescribeImageGenerationConfigurationOutput",
+}) as any as S.Schema<DescribeImageGenerationConfigurationOutput>;
+export interface DescribeMappedResourceConfigurationInput {
+  StreamName?: string;
+  StreamARN?: string;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const DescribeMappedResourceConfigurationInput = S.suspend(() =>
+  S.Struct({
+    StreamName: S.optional(S.String),
+    StreamARN: S.optional(S.String),
+    MaxResults: S.optional(S.Number),
+    NextToken: S.optional(S.String),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/describeMappedResourceConfiguration" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DescribeMappedResourceConfigurationInput",
+}) as any as S.Schema<DescribeMappedResourceConfigurationInput>;
+export interface MappedResourceConfigurationListItem {
+  Type?: string;
+  ARN?: string;
+}
+export const MappedResourceConfigurationListItem = S.suspend(() =>
+  S.Struct({ Type: S.optional(S.String), ARN: S.optional(S.String) }),
+).annotate({
+  identifier: "MappedResourceConfigurationListItem",
+}) as any as S.Schema<MappedResourceConfigurationListItem>;
+export type MappedResourceConfigurationList =
+  MappedResourceConfigurationListItem[];
+export const MappedResourceConfigurationList = S.Array(
+  MappedResourceConfigurationListItem,
+);
+export interface DescribeMappedResourceConfigurationOutput {
+  MappedResourceConfigurationList?: MappedResourceConfigurationListItem[];
+  NextToken?: string;
+}
+export const DescribeMappedResourceConfigurationOutput = S.suspend(() =>
+  S.Struct({
+    MappedResourceConfigurationList: S.optional(
+      MappedResourceConfigurationList,
+    ),
+    NextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotate({
+  identifier: "DescribeMappedResourceConfigurationOutput",
+}) as any as S.Schema<DescribeMappedResourceConfigurationOutput>;
+export interface DescribeMediaStorageConfigurationInput {
+  ChannelName?: string;
+  ChannelARN?: string;
+}
+export const DescribeMediaStorageConfigurationInput = S.suspend(() =>
+  S.Struct({
+    ChannelName: S.optional(S.String),
+    ChannelARN: S.optional(S.String),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/describeMediaStorageConfiguration" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DescribeMediaStorageConfigurationInput",
+}) as any as S.Schema<DescribeMediaStorageConfigurationInput>;
+export type MediaStorageConfigurationStatus =
+  | "ENABLED"
+  | "DISABLED"
+  | (string & {});
+export const MediaStorageConfigurationStatus = S.String;
+export interface MediaStorageConfiguration {
+  StreamARN?: string;
+  Status: MediaStorageConfigurationStatus;
+}
+export const MediaStorageConfiguration = S.suspend(() =>
+  S.Struct({
+    StreamARN: S.optional(S.String),
+    Status: MediaStorageConfigurationStatus,
+  }),
+).annotate({
+  identifier: "MediaStorageConfiguration",
+}) as any as S.Schema<MediaStorageConfiguration>;
+export interface DescribeMediaStorageConfigurationOutput {
+  MediaStorageConfiguration?: MediaStorageConfiguration;
+}
+export const DescribeMediaStorageConfigurationOutput = S.suspend(() =>
+  S.Struct({
+    MediaStorageConfiguration: S.optional(MediaStorageConfiguration),
+  }).pipe(ns),
+).annotate({
+  identifier: "DescribeMediaStorageConfigurationOutput",
+}) as any as S.Schema<DescribeMediaStorageConfigurationOutput>;
+export interface DescribeNotificationConfigurationInput {
+  StreamName?: string;
+  StreamARN?: string;
+}
+export const DescribeNotificationConfigurationInput = S.suspend(() =>
+  S.Struct({
+    StreamName: S.optional(S.String),
+    StreamARN: S.optional(S.String),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/describeNotificationConfiguration" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DescribeNotificationConfigurationInput",
+}) as any as S.Schema<DescribeNotificationConfigurationInput>;
+export interface NotificationDestinationConfig {
+  Uri: string;
+}
+export const NotificationDestinationConfig = S.suspend(() =>
+  S.Struct({ Uri: S.String }),
+).annotate({
+  identifier: "NotificationDestinationConfig",
+}) as any as S.Schema<NotificationDestinationConfig>;
+export interface NotificationConfiguration {
+  Status: ConfigurationStatus;
+  DestinationConfig: NotificationDestinationConfig;
+}
+export const NotificationConfiguration = S.suspend(() =>
+  S.Struct({
+    Status: ConfigurationStatus,
+    DestinationConfig: NotificationDestinationConfig,
+  }),
+).annotate({
+  identifier: "NotificationConfiguration",
+}) as any as S.Schema<NotificationConfiguration>;
+export interface DescribeNotificationConfigurationOutput {
+  NotificationConfiguration?: NotificationConfiguration;
+}
+export const DescribeNotificationConfigurationOutput = S.suspend(() =>
+  S.Struct({
+    NotificationConfiguration: S.optional(NotificationConfiguration),
+  }).pipe(ns),
+).annotate({
+  identifier: "DescribeNotificationConfigurationOutput",
+}) as any as S.Schema<DescribeNotificationConfigurationOutput>;
+export interface DescribeSignalingChannelInput {
+  ChannelName?: string;
+  ChannelARN?: string;
+}
+export const DescribeSignalingChannelInput = S.suspend(() =>
+  S.Struct({
+    ChannelName: S.optional(S.String),
+    ChannelARN: S.optional(S.String),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/describeSignalingChannel" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DescribeSignalingChannelInput",
+}) as any as S.Schema<DescribeSignalingChannelInput>;
+export type Status =
+  | "CREATING"
+  | "ACTIVE"
+  | "UPDATING"
+  | "DELETING"
+  | (string & {});
+export const Status = S.String;
+export interface ChannelInfo {
+  ChannelName?: string;
+  ChannelARN?: string;
+  ChannelType?: ChannelType;
+  ChannelStatus?: Status;
+  CreationTime?: Date;
+  SingleMasterConfiguration?: SingleMasterConfiguration;
+  Version?: string;
+}
+export const ChannelInfo = S.suspend(() =>
+  S.Struct({
+    ChannelName: S.optional(S.String),
+    ChannelARN: S.optional(S.String),
+    ChannelType: S.optional(ChannelType),
+    ChannelStatus: S.optional(Status),
+    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    SingleMasterConfiguration: S.optional(SingleMasterConfiguration),
+    Version: S.optional(S.String),
+  }),
+).annotate({ identifier: "ChannelInfo" }) as any as S.Schema<ChannelInfo>;
+export interface DescribeSignalingChannelOutput {
+  ChannelInfo?: ChannelInfo;
+}
+export const DescribeSignalingChannelOutput = S.suspend(() =>
+  S.Struct({ ChannelInfo: S.optional(ChannelInfo) }).pipe(ns),
+).annotate({
+  identifier: "DescribeSignalingChannelOutput",
+}) as any as S.Schema<DescribeSignalingChannelOutput>;
+export interface DescribeStreamInput {
+  StreamName?: string;
+  StreamARN?: string;
+}
+export const DescribeStreamInput = S.suspend(() =>
+  S.Struct({
+    StreamName: S.optional(S.String),
+    StreamARN: S.optional(S.String),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/describeStream" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DescribeStreamInput",
+}) as any as S.Schema<DescribeStreamInput>;
+export interface StreamInfo {
+  DeviceName?: string;
+  StreamName?: string;
+  StreamARN?: string;
+  MediaType?: string;
+  KmsKeyId?: string;
+  Version?: string;
+  Status?: Status;
+  CreationTime?: Date;
+  DataRetentionInHours?: number;
+}
+export const StreamInfo = S.suspend(() =>
+  S.Struct({
+    DeviceName: S.optional(S.String),
+    StreamName: S.optional(S.String),
+    StreamARN: S.optional(S.String),
+    MediaType: S.optional(S.String),
+    KmsKeyId: S.optional(S.String),
+    Version: S.optional(S.String),
+    Status: S.optional(Status),
+    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    DataRetentionInHours: S.optional(S.Number),
+  }),
+).annotate({ identifier: "StreamInfo" }) as any as S.Schema<StreamInfo>;
+export interface DescribeStreamOutput {
+  StreamInfo?: StreamInfo;
+}
+export const DescribeStreamOutput = S.suspend(() =>
+  S.Struct({ StreamInfo: S.optional(StreamInfo) }).pipe(ns),
+).annotate({
+  identifier: "DescribeStreamOutput",
+}) as any as S.Schema<DescribeStreamOutput>;
+export interface DescribeStreamStorageConfigurationInput {
+  StreamName?: string;
+  StreamARN?: string;
+}
+export const DescribeStreamStorageConfigurationInput = S.suspend(() =>
+  S.Struct({
+    StreamName: S.optional(S.String),
+    StreamARN: S.optional(S.String),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/describeStreamStorageConfiguration" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DescribeStreamStorageConfigurationInput",
+}) as any as S.Schema<DescribeStreamStorageConfigurationInput>;
+export interface DescribeStreamStorageConfigurationOutput {
+  StreamName?: string;
+  StreamARN?: string;
+  StreamStorageConfiguration?: StreamStorageConfiguration;
+}
+export const DescribeStreamStorageConfigurationOutput = S.suspend(() =>
+  S.Struct({
+    StreamName: S.optional(S.String),
+    StreamARN: S.optional(S.String),
+    StreamStorageConfiguration: S.optional(StreamStorageConfiguration),
+  }).pipe(ns),
+).annotate({
+  identifier: "DescribeStreamStorageConfigurationOutput",
+}) as any as S.Schema<DescribeStreamStorageConfigurationOutput>;
+export type APIName =
+  | "PUT_MEDIA"
+  | "GET_MEDIA"
+  | "LIST_FRAGMENTS"
+  | "GET_MEDIA_FOR_FRAGMENT_LIST"
+  | "GET_HLS_STREAMING_SESSION_URL"
+  | "GET_DASH_STREAMING_SESSION_URL"
+  | "GET_CLIP"
+  | "GET_IMAGES"
+  | (string & {});
+export const APIName = S.String;
+export interface GetDataEndpointInput {
+  StreamName?: string;
+  StreamARN?: string;
+  APIName: APIName;
+}
+export const GetDataEndpointInput = S.suspend(() =>
+  S.Struct({
+    StreamName: S.optional(S.String),
+    StreamARN: S.optional(S.String),
+    APIName: APIName,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/getDataEndpoint" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetDataEndpointInput",
+}) as any as S.Schema<GetDataEndpointInput>;
+export interface GetDataEndpointOutput {
+  DataEndpoint?: string;
+}
+export const GetDataEndpointOutput = S.suspend(() =>
+  S.Struct({ DataEndpoint: S.optional(S.String) }).pipe(ns),
+).annotate({
+  identifier: "GetDataEndpointOutput",
+}) as any as S.Schema<GetDataEndpointOutput>;
+export type ChannelProtocol = "WSS" | "HTTPS" | "WEBRTC" | (string & {});
+export const ChannelProtocol = S.String;
+export type ListOfProtocols = ChannelProtocol[];
+export const ListOfProtocols = S.Array(ChannelProtocol);
+export type ChannelRole = "MASTER" | "VIEWER" | (string & {});
+export const ChannelRole = S.String;
+export interface SingleMasterChannelEndpointConfiguration {
+  Protocols?: ChannelProtocol[];
+  Role?: ChannelRole;
+}
+export const SingleMasterChannelEndpointConfiguration = S.suspend(() =>
+  S.Struct({
+    Protocols: S.optional(ListOfProtocols),
+    Role: S.optional(ChannelRole),
+  }),
+).annotate({
+  identifier: "SingleMasterChannelEndpointConfiguration",
+}) as any as S.Schema<SingleMasterChannelEndpointConfiguration>;
+export interface GetSignalingChannelEndpointInput {
+  ChannelARN: string;
+  SingleMasterChannelEndpointConfiguration?: SingleMasterChannelEndpointConfiguration;
+}
+export const GetSignalingChannelEndpointInput = S.suspend(() =>
+  S.Struct({
+    ChannelARN: S.String,
+    SingleMasterChannelEndpointConfiguration: S.optional(
+      SingleMasterChannelEndpointConfiguration,
+    ),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/getSignalingChannelEndpoint" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetSignalingChannelEndpointInput",
+}) as any as S.Schema<GetSignalingChannelEndpointInput>;
+export interface ResourceEndpointListItem {
+  Protocol?: ChannelProtocol;
+  ResourceEndpoint?: string;
+}
+export const ResourceEndpointListItem = S.suspend(() =>
+  S.Struct({
+    Protocol: S.optional(ChannelProtocol),
+    ResourceEndpoint: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ResourceEndpointListItem",
+}) as any as S.Schema<ResourceEndpointListItem>;
+export type ResourceEndpointList = ResourceEndpointListItem[];
+export const ResourceEndpointList = S.Array(ResourceEndpointListItem);
 export interface GetSignalingChannelEndpointOutput {
   ResourceEndpointList?: ResourceEndpointListItem[];
 }
 export const GetSignalingChannelEndpointOutput = S.suspend(() =>
   S.Struct({ ResourceEndpointList: S.optional(ResourceEndpointList) }).pipe(ns),
-).annotations({
+).annotate({
   identifier: "GetSignalingChannelEndpointOutput",
 }) as any as S.Schema<GetSignalingChannelEndpointOutput>;
+export interface ListEdgeAgentConfigurationsInput {
+  HubDeviceArn: string;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListEdgeAgentConfigurationsInput = S.suspend(() =>
+  S.Struct({
+    HubDeviceArn: S.String,
+    MaxResults: S.optional(S.Number),
+    NextToken: S.optional(S.String),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/listEdgeAgentConfigurations" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListEdgeAgentConfigurationsInput",
+}) as any as S.Schema<ListEdgeAgentConfigurationsInput>;
+export interface ListEdgeAgentConfigurationsEdgeConfig {
+  StreamName?: string;
+  StreamARN?: string;
+  CreationTime?: Date;
+  LastUpdatedTime?: Date;
+  SyncStatus?: SyncStatus;
+  FailedStatusDetails?: string;
+  EdgeConfig?: EdgeConfig;
+}
+export const ListEdgeAgentConfigurationsEdgeConfig = S.suspend(() =>
+  S.Struct({
+    StreamName: S.optional(S.String),
+    StreamARN: S.optional(S.String),
+    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    LastUpdatedTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    SyncStatus: S.optional(SyncStatus),
+    FailedStatusDetails: S.optional(S.String),
+    EdgeConfig: S.optional(EdgeConfig),
+  }),
+).annotate({
+  identifier: "ListEdgeAgentConfigurationsEdgeConfig",
+}) as any as S.Schema<ListEdgeAgentConfigurationsEdgeConfig>;
+export type ListEdgeAgentConfigurationsEdgeConfigList =
+  ListEdgeAgentConfigurationsEdgeConfig[];
+export const ListEdgeAgentConfigurationsEdgeConfigList = S.Array(
+  ListEdgeAgentConfigurationsEdgeConfig,
+);
+export interface ListEdgeAgentConfigurationsOutput {
+  EdgeConfigs?: ListEdgeAgentConfigurationsEdgeConfig[];
+  NextToken?: string;
+}
+export const ListEdgeAgentConfigurationsOutput = S.suspend(() =>
+  S.Struct({
+    EdgeConfigs: S.optional(ListEdgeAgentConfigurationsEdgeConfigList),
+    NextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotate({
+  identifier: "ListEdgeAgentConfigurationsOutput",
+}) as any as S.Schema<ListEdgeAgentConfigurationsOutput>;
+export type ComparisonOperator = "BEGINS_WITH" | (string & {});
+export const ComparisonOperator = S.String;
+export interface ChannelNameCondition {
+  ComparisonOperator?: ComparisonOperator;
+  ComparisonValue?: string;
+}
+export const ChannelNameCondition = S.suspend(() =>
+  S.Struct({
+    ComparisonOperator: S.optional(ComparisonOperator),
+    ComparisonValue: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ChannelNameCondition",
+}) as any as S.Schema<ChannelNameCondition>;
+export interface ListSignalingChannelsInput {
+  MaxResults?: number;
+  NextToken?: string;
+  ChannelNameCondition?: ChannelNameCondition;
+}
+export const ListSignalingChannelsInput = S.suspend(() =>
+  S.Struct({
+    MaxResults: S.optional(S.Number),
+    NextToken: S.optional(S.String),
+    ChannelNameCondition: S.optional(ChannelNameCondition),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/listSignalingChannels" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListSignalingChannelsInput",
+}) as any as S.Schema<ListSignalingChannelsInput>;
+export type ChannelInfoList = ChannelInfo[];
+export const ChannelInfoList = S.Array(ChannelInfo);
+export interface ListSignalingChannelsOutput {
+  ChannelInfoList?: ChannelInfo[];
+  NextToken?: string;
+}
+export const ListSignalingChannelsOutput = S.suspend(() =>
+  S.Struct({
+    ChannelInfoList: S.optional(ChannelInfoList),
+    NextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotate({
+  identifier: "ListSignalingChannelsOutput",
+}) as any as S.Schema<ListSignalingChannelsOutput>;
+export interface StreamNameCondition {
+  ComparisonOperator?: ComparisonOperator;
+  ComparisonValue?: string;
+}
+export const StreamNameCondition = S.suspend(() =>
+  S.Struct({
+    ComparisonOperator: S.optional(ComparisonOperator),
+    ComparisonValue: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "StreamNameCondition",
+}) as any as S.Schema<StreamNameCondition>;
+export interface ListStreamsInput {
+  MaxResults?: number;
+  NextToken?: string;
+  StreamNameCondition?: StreamNameCondition;
+}
+export const ListStreamsInput = S.suspend(() =>
+  S.Struct({
+    MaxResults: S.optional(S.Number),
+    NextToken: S.optional(S.String),
+    StreamNameCondition: S.optional(StreamNameCondition),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/listStreams" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListStreamsInput",
+}) as any as S.Schema<ListStreamsInput>;
+export type StreamInfoList = StreamInfo[];
+export const StreamInfoList = S.Array(StreamInfo);
+export interface ListStreamsOutput {
+  StreamInfoList?: StreamInfo[];
+  NextToken?: string;
+}
+export const ListStreamsOutput = S.suspend(() =>
+  S.Struct({
+    StreamInfoList: S.optional(StreamInfoList),
+    NextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotate({
+  identifier: "ListStreamsOutput",
+}) as any as S.Schema<ListStreamsOutput>;
+export interface ListTagsForResourceInput {
+  NextToken?: string;
+  ResourceARN: string;
+}
+export const ListTagsForResourceInput = S.suspend(() =>
+  S.Struct({ NextToken: S.optional(S.String), ResourceARN: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/ListTagsForResource" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListTagsForResourceInput",
+}) as any as S.Schema<ListTagsForResourceInput>;
+export interface ListTagsForResourceOutput {
+  NextToken?: string;
+  Tags?: { [key: string]: string | undefined };
+}
+export const ListTagsForResourceOutput = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    Tags: S.optional(ResourceTags),
+  }).pipe(ns),
+).annotate({
+  identifier: "ListTagsForResourceOutput",
+}) as any as S.Schema<ListTagsForResourceOutput>;
+export interface ListTagsForStreamInput {
+  NextToken?: string;
+  StreamARN?: string;
+  StreamName?: string;
+}
+export const ListTagsForStreamInput = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    StreamARN: S.optional(S.String),
+    StreamName: S.optional(S.String),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/listTagsForStream" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListTagsForStreamInput",
+}) as any as S.Schema<ListTagsForStreamInput>;
+export interface ListTagsForStreamOutput {
+  NextToken?: string;
+  Tags?: { [key: string]: string | undefined };
+}
+export const ListTagsForStreamOutput = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    Tags: S.optional(ResourceTags),
+  }).pipe(ns),
+).annotate({
+  identifier: "ListTagsForStreamOutput",
+}) as any as S.Schema<ListTagsForStreamOutput>;
 export interface StartEdgeConfigurationUpdateInput {
   StreamName?: string;
   StreamARN?: string;
@@ -1599,7 +1252,7 @@ export const StartEdgeConfigurationUpdateInput = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "StartEdgeConfigurationUpdateInput",
 }) as any as S.Schema<StartEdgeConfigurationUpdateInput>;
 export interface StartEdgeConfigurationUpdateOutput {
@@ -1623,73 +1276,921 @@ export const StartEdgeConfigurationUpdateOutput = S.suspend(() =>
     FailedStatusDetails: S.optional(S.String),
     EdgeConfig: S.optional(EdgeConfig),
   }).pipe(ns),
-).annotations({
+).annotate({
   identifier: "StartEdgeConfigurationUpdateOutput",
 }) as any as S.Schema<StartEdgeConfigurationUpdateOutput>;
+export type TagList = Tag[];
+export const TagList = S.Array(Tag);
+export interface TagResourceInput {
+  ResourceARN: string;
+  Tags: Tag[];
+}
+export const TagResourceInput = S.suspend(() =>
+  S.Struct({ ResourceARN: S.String, Tags: TagList }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/TagResource" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "TagResourceInput",
+}) as any as S.Schema<TagResourceInput>;
+export interface TagResourceOutput {}
+export const TagResourceOutput = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "TagResourceOutput",
+}) as any as S.Schema<TagResourceOutput>;
+export interface TagStreamInput {
+  StreamARN?: string;
+  StreamName?: string;
+  Tags: { [key: string]: string | undefined };
+}
+export const TagStreamInput = S.suspend(() =>
+  S.Struct({
+    StreamARN: S.optional(S.String),
+    StreamName: S.optional(S.String),
+    Tags: ResourceTags,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/tagStream" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({ identifier: "TagStreamInput" }) as any as S.Schema<TagStreamInput>;
+export interface TagStreamOutput {}
+export const TagStreamOutput = S.suspend(() => S.Struct({}).pipe(ns)).annotate({
+  identifier: "TagStreamOutput",
+}) as any as S.Schema<TagStreamOutput>;
+export type TagKeyList = string[];
+export const TagKeyList = S.Array(S.String);
+export interface UntagResourceInput {
+  ResourceARN: string;
+  TagKeyList: string[];
+}
+export const UntagResourceInput = S.suspend(() =>
+  S.Struct({ ResourceARN: S.String, TagKeyList: TagKeyList }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/UntagResource" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "UntagResourceInput",
+}) as any as S.Schema<UntagResourceInput>;
+export interface UntagResourceOutput {}
+export const UntagResourceOutput = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "UntagResourceOutput",
+}) as any as S.Schema<UntagResourceOutput>;
+export interface UntagStreamInput {
+  StreamARN?: string;
+  StreamName?: string;
+  TagKeyList: string[];
+}
+export const UntagStreamInput = S.suspend(() =>
+  S.Struct({
+    StreamARN: S.optional(S.String),
+    StreamName: S.optional(S.String),
+    TagKeyList: TagKeyList,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/untagStream" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "UntagStreamInput",
+}) as any as S.Schema<UntagStreamInput>;
+export interface UntagStreamOutput {}
+export const UntagStreamOutput = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "UntagStreamOutput",
+}) as any as S.Schema<UntagStreamOutput>;
+export type UpdateDataRetentionOperation =
+  | "INCREASE_DATA_RETENTION"
+  | "DECREASE_DATA_RETENTION"
+  | (string & {});
+export const UpdateDataRetentionOperation = S.String;
+export interface UpdateDataRetentionInput {
+  StreamName?: string;
+  StreamARN?: string;
+  CurrentVersion: string;
+  Operation: UpdateDataRetentionOperation;
+  DataRetentionChangeInHours: number;
+}
+export const UpdateDataRetentionInput = S.suspend(() =>
+  S.Struct({
+    StreamName: S.optional(S.String),
+    StreamARN: S.optional(S.String),
+    CurrentVersion: S.String,
+    Operation: UpdateDataRetentionOperation,
+    DataRetentionChangeInHours: S.Number,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/updateDataRetention" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "UpdateDataRetentionInput",
+}) as any as S.Schema<UpdateDataRetentionInput>;
+export interface UpdateDataRetentionOutput {}
+export const UpdateDataRetentionOutput = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "UpdateDataRetentionOutput",
+}) as any as S.Schema<UpdateDataRetentionOutput>;
+export interface UpdateImageGenerationConfigurationInput {
+  StreamName?: string;
+  StreamARN?: string;
+  ImageGenerationConfiguration?: ImageGenerationConfiguration;
+}
+export const UpdateImageGenerationConfigurationInput = S.suspend(() =>
+  S.Struct({
+    StreamName: S.optional(S.String),
+    StreamARN: S.optional(S.String),
+    ImageGenerationConfiguration: S.optional(ImageGenerationConfiguration),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/updateImageGenerationConfiguration" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "UpdateImageGenerationConfigurationInput",
+}) as any as S.Schema<UpdateImageGenerationConfigurationInput>;
+export interface UpdateImageGenerationConfigurationOutput {}
+export const UpdateImageGenerationConfigurationOutput = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "UpdateImageGenerationConfigurationOutput",
+}) as any as S.Schema<UpdateImageGenerationConfigurationOutput>;
+export interface UpdateMediaStorageConfigurationInput {
+  ChannelARN: string;
+  MediaStorageConfiguration: MediaStorageConfiguration;
+}
+export const UpdateMediaStorageConfigurationInput = S.suspend(() =>
+  S.Struct({
+    ChannelARN: S.String,
+    MediaStorageConfiguration: MediaStorageConfiguration,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/updateMediaStorageConfiguration" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "UpdateMediaStorageConfigurationInput",
+}) as any as S.Schema<UpdateMediaStorageConfigurationInput>;
+export interface UpdateMediaStorageConfigurationOutput {}
+export const UpdateMediaStorageConfigurationOutput = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "UpdateMediaStorageConfigurationOutput",
+}) as any as S.Schema<UpdateMediaStorageConfigurationOutput>;
+export interface UpdateNotificationConfigurationInput {
+  StreamName?: string;
+  StreamARN?: string;
+  NotificationConfiguration?: NotificationConfiguration;
+}
+export const UpdateNotificationConfigurationInput = S.suspend(() =>
+  S.Struct({
+    StreamName: S.optional(S.String),
+    StreamARN: S.optional(S.String),
+    NotificationConfiguration: S.optional(NotificationConfiguration),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/updateNotificationConfiguration" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "UpdateNotificationConfigurationInput",
+}) as any as S.Schema<UpdateNotificationConfigurationInput>;
+export interface UpdateNotificationConfigurationOutput {}
+export const UpdateNotificationConfigurationOutput = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "UpdateNotificationConfigurationOutput",
+}) as any as S.Schema<UpdateNotificationConfigurationOutput>;
+export interface UpdateSignalingChannelInput {
+  ChannelARN: string;
+  CurrentVersion: string;
+  SingleMasterConfiguration?: SingleMasterConfiguration;
+}
+export const UpdateSignalingChannelInput = S.suspend(() =>
+  S.Struct({
+    ChannelARN: S.String,
+    CurrentVersion: S.String,
+    SingleMasterConfiguration: S.optional(SingleMasterConfiguration),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/updateSignalingChannel" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "UpdateSignalingChannelInput",
+}) as any as S.Schema<UpdateSignalingChannelInput>;
+export interface UpdateSignalingChannelOutput {}
+export const UpdateSignalingChannelOutput = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "UpdateSignalingChannelOutput",
+}) as any as S.Schema<UpdateSignalingChannelOutput>;
+export interface UpdateStreamInput {
+  StreamName?: string;
+  StreamARN?: string;
+  CurrentVersion: string;
+  DeviceName?: string;
+  MediaType?: string;
+}
+export const UpdateStreamInput = S.suspend(() =>
+  S.Struct({
+    StreamName: S.optional(S.String),
+    StreamARN: S.optional(S.String),
+    CurrentVersion: S.String,
+    DeviceName: S.optional(S.String),
+    MediaType: S.optional(S.String),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/updateStream" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "UpdateStreamInput",
+}) as any as S.Schema<UpdateStreamInput>;
+export interface UpdateStreamOutput {}
+export const UpdateStreamOutput = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "UpdateStreamOutput",
+}) as any as S.Schema<UpdateStreamOutput>;
+export interface UpdateStreamStorageConfigurationInput {
+  StreamName?: string;
+  StreamARN?: string;
+  CurrentVersion: string;
+  StreamStorageConfiguration: StreamStorageConfiguration;
+}
+export const UpdateStreamStorageConfigurationInput = S.suspend(() =>
+  S.Struct({
+    StreamName: S.optional(S.String),
+    StreamARN: S.optional(S.String),
+    CurrentVersion: S.String,
+    StreamStorageConfiguration: StreamStorageConfiguration,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/updateStreamStorageConfiguration" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "UpdateStreamStorageConfigurationInput",
+}) as any as S.Schema<UpdateStreamStorageConfigurationInput>;
+export interface UpdateStreamStorageConfigurationOutput {}
+export const UpdateStreamStorageConfigurationOutput = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "UpdateStreamStorageConfigurationOutput",
+}) as any as S.Schema<UpdateStreamStorageConfigurationOutput>;
 
 //# Errors
-export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
+export class AccessDeniedException extends S.TaggedErrorClass<AccessDeniedException>()(
   "AccessDeniedException",
   { Message: S.optional(S.String) },
 ).pipe(C.withAuthError) {}
-export class ClientLimitExceededException extends S.TaggedError<ClientLimitExceededException>()(
-  "ClientLimitExceededException",
-  { Message: S.optional(S.String) },
-).pipe(C.withBadRequestError) {}
-export class InvalidArgumentException extends S.TaggedError<InvalidArgumentException>()(
-  "InvalidArgumentException",
-  { Message: S.optional(S.String) },
-).pipe(C.withBadRequestError) {}
-export class AccountChannelLimitExceededException extends S.TaggedError<AccountChannelLimitExceededException>()(
+export class AccountChannelLimitExceededException extends S.TaggedErrorClass<AccountChannelLimitExceededException>()(
   "AccountChannelLimitExceededException",
   { Message: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
-export class AccountStreamLimitExceededException extends S.TaggedError<AccountStreamLimitExceededException>()(
-  "AccountStreamLimitExceededException",
+export class ClientLimitExceededException extends S.TaggedErrorClass<ClientLimitExceededException>()(
+  "ClientLimitExceededException",
   { Message: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
-export class NotAuthorizedException extends S.TaggedError<NotAuthorizedException>()(
-  "NotAuthorizedException",
-  { Message: S.optional(S.String) },
-).pipe(C.withAuthError) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
-  "ResourceNotFoundException",
+export class InvalidArgumentException extends S.TaggedErrorClass<InvalidArgumentException>()(
+  "InvalidArgumentException",
   { Message: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
-export class NoDataRetentionException extends S.TaggedError<NoDataRetentionException>()(
-  "NoDataRetentionException",
-  { Message: S.optional(S.String) },
-).pipe(C.withBadRequestError) {}
-export class InvalidResourceFormatException extends S.TaggedError<InvalidResourceFormatException>()(
-  "InvalidResourceFormatException",
-  { Message: S.optional(S.String) },
-).pipe(C.withBadRequestError) {}
-export class ResourceInUseException extends S.TaggedError<ResourceInUseException>()(
+export class ResourceInUseException extends S.TaggedErrorClass<ResourceInUseException>()(
   "ResourceInUseException",
   { Message: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
-export class DeviceStreamLimitExceededException extends S.TaggedError<DeviceStreamLimitExceededException>()(
-  "DeviceStreamLimitExceededException",
-  { Message: S.optional(S.String) },
-).pipe(C.withBadRequestError) {}
-export class VersionMismatchException extends S.TaggedError<VersionMismatchException>()(
-  "VersionMismatchException",
-  { Message: S.optional(S.String) },
-).pipe(C.withBadRequestError) {}
-export class TagsPerResourceExceededLimitException extends S.TaggedError<TagsPerResourceExceededLimitException>()(
+export class TagsPerResourceExceededLimitException extends S.TaggedErrorClass<TagsPerResourceExceededLimitException>()(
   "TagsPerResourceExceededLimitException",
   { Message: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
-export class StreamEdgeConfigurationNotFoundException extends S.TaggedError<StreamEdgeConfigurationNotFoundException>()(
+export class AccountStreamLimitExceededException extends S.TaggedErrorClass<AccountStreamLimitExceededException>()(
+  "AccountStreamLimitExceededException",
+  { Message: S.optional(S.String) },
+).pipe(C.withBadRequestError) {}
+export class DeviceStreamLimitExceededException extends S.TaggedErrorClass<DeviceStreamLimitExceededException>()(
+  "DeviceStreamLimitExceededException",
+  { Message: S.optional(S.String) },
+).pipe(C.withBadRequestError) {}
+export class InvalidDeviceException extends S.TaggedErrorClass<InvalidDeviceException>()(
+  "InvalidDeviceException",
+  { Message: S.optional(S.String) },
+).pipe(C.withBadRequestError) {}
+export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFoundException>()(
+  "ResourceNotFoundException",
+  { Message: S.optional(S.String) },
+).pipe(C.withBadRequestError) {}
+export class StreamEdgeConfigurationNotFoundException extends S.TaggedErrorClass<StreamEdgeConfigurationNotFoundException>()(
   "StreamEdgeConfigurationNotFoundException",
   { Message: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
-export class InvalidDeviceException extends S.TaggedError<InvalidDeviceException>()(
-  "InvalidDeviceException",
+export class VersionMismatchException extends S.TaggedErrorClass<VersionMismatchException>()(
+  "VersionMismatchException",
+  { Message: S.optional(S.String) },
+).pipe(C.withBadRequestError) {}
+export class NotAuthorizedException extends S.TaggedErrorClass<NotAuthorizedException>()(
+  "NotAuthorizedException",
+  { Message: S.optional(S.String) },
+).pipe(C.withAuthError) {}
+export class InvalidResourceFormatException extends S.TaggedErrorClass<InvalidResourceFormatException>()(
+  "InvalidResourceFormatException",
+  { Message: S.optional(S.String) },
+).pipe(C.withBadRequestError) {}
+export class NoDataRetentionException extends S.TaggedErrorClass<NoDataRetentionException>()(
+  "NoDataRetentionException",
   { Message: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
+/**
+ * Creates a signaling channel.
+ *
+ * `CreateSignalingChannel` is an asynchronous operation.
+ */
+export const createSignalingChannel: (
+  input: CreateSignalingChannelInput,
+) => effect.Effect<
+  CreateSignalingChannelOutput,
+  | AccessDeniedException
+  | AccountChannelLimitExceededException
+  | ClientLimitExceededException
+  | InvalidArgumentException
+  | ResourceInUseException
+  | TagsPerResourceExceededLimitException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateSignalingChannelInput,
+  output: CreateSignalingChannelOutput,
+  errors: [
+    AccessDeniedException,
+    AccountChannelLimitExceededException,
+    ClientLimitExceededException,
+    InvalidArgumentException,
+    ResourceInUseException,
+    TagsPerResourceExceededLimitException,
+  ],
+}));
+/**
+ * Creates a new Kinesis video stream.
+ *
+ * When you create a new stream, Kinesis Video Streams assigns it a version number.
+ * When you change the stream's metadata, Kinesis Video Streams updates the version.
+ *
+ * `CreateStream` is an asynchronous operation.
+ *
+ * For information about how the service works, see How it Works.
+ *
+ * You must have permissions for the `KinesisVideo:CreateStream`
+ * action.
+ */
+export const createStream: (
+  input: CreateStreamInput,
+) => effect.Effect<
+  CreateStreamOutput,
+  | AccountStreamLimitExceededException
+  | ClientLimitExceededException
+  | DeviceStreamLimitExceededException
+  | InvalidArgumentException
+  | InvalidDeviceException
+  | ResourceInUseException
+  | TagsPerResourceExceededLimitException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateStreamInput,
+  output: CreateStreamOutput,
+  errors: [
+    AccountStreamLimitExceededException,
+    ClientLimitExceededException,
+    DeviceStreamLimitExceededException,
+    InvalidArgumentException,
+    InvalidDeviceException,
+    ResourceInUseException,
+    TagsPerResourceExceededLimitException,
+  ],
+}));
+/**
+ * An asynchronous API that deletes a stream’s existing edge configuration, as well as the corresponding media from the Edge Agent.
+ *
+ * When you invoke this API, the sync status is set to `DELETING`. A deletion process starts, in which active edge jobs are stopped and all media is deleted from the edge device. The time to delete varies, depending on the total amount of stored media. If the deletion process fails, the sync status changes to `DELETE_FAILED`. You will need to re-try the deletion.
+ *
+ * When the deletion process has completed successfully, the edge configuration is no longer accessible.
+ */
+export const deleteEdgeConfiguration: (
+  input: DeleteEdgeConfigurationInput,
+) => effect.Effect<
+  DeleteEdgeConfigurationOutput,
+  | AccessDeniedException
+  | ClientLimitExceededException
+  | InvalidArgumentException
+  | ResourceNotFoundException
+  | StreamEdgeConfigurationNotFoundException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteEdgeConfigurationInput,
+  output: DeleteEdgeConfigurationOutput,
+  errors: [
+    AccessDeniedException,
+    ClientLimitExceededException,
+    InvalidArgumentException,
+    ResourceNotFoundException,
+    StreamEdgeConfigurationNotFoundException,
+  ],
+}));
+/**
+ * Deletes a specified signaling channel. `DeleteSignalingChannel` is an
+ * asynchronous operation. If you don't specify the channel's current version, the most
+ * recent version is deleted.
+ */
+export const deleteSignalingChannel: (
+  input: DeleteSignalingChannelInput,
+) => effect.Effect<
+  DeleteSignalingChannelOutput,
+  | AccessDeniedException
+  | ClientLimitExceededException
+  | InvalidArgumentException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | VersionMismatchException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteSignalingChannelInput,
+  output: DeleteSignalingChannelOutput,
+  errors: [
+    AccessDeniedException,
+    ClientLimitExceededException,
+    InvalidArgumentException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+    VersionMismatchException,
+  ],
+}));
+/**
+ * Deletes a Kinesis video stream and the data contained in the stream.
+ *
+ * This method marks the stream for deletion, and makes the data in the stream
+ * inaccessible immediately.
+ *
+ * To ensure that you have the latest version of the stream before deleting it, you
+ * can specify the stream version. Kinesis Video Streams assigns a version to each stream.
+ * When you update a stream, Kinesis Video Streams assigns a new version number. To get the
+ * latest stream version, use the `DescribeStream` API.
+ *
+ * This operation requires permission for the `KinesisVideo:DeleteStream`
+ * action.
+ */
+export const deleteStream: (
+  input: DeleteStreamInput,
+) => effect.Effect<
+  DeleteStreamOutput,
+  | ClientLimitExceededException
+  | InvalidArgumentException
+  | NotAuthorizedException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | VersionMismatchException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteStreamInput,
+  output: DeleteStreamOutput,
+  errors: [
+    ClientLimitExceededException,
+    InvalidArgumentException,
+    NotAuthorizedException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+    VersionMismatchException,
+  ],
+}));
+/**
+ * Describes a stream’s edge configuration that was set using the
+ * `StartEdgeConfigurationUpdate` API and the latest status of the edge
+ * agent's recorder and uploader jobs. Use this API to get the status of the configuration
+ * to determine if the configuration is in sync with the Edge Agent. Use this API to
+ * evaluate the health of the Edge Agent.
+ */
+export const describeEdgeConfiguration: (
+  input: DescribeEdgeConfigurationInput,
+) => effect.Effect<
+  DescribeEdgeConfigurationOutput,
+  | AccessDeniedException
+  | ClientLimitExceededException
+  | InvalidArgumentException
+  | ResourceNotFoundException
+  | StreamEdgeConfigurationNotFoundException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeEdgeConfigurationInput,
+  output: DescribeEdgeConfigurationOutput,
+  errors: [
+    AccessDeniedException,
+    ClientLimitExceededException,
+    InvalidArgumentException,
+    ResourceNotFoundException,
+    StreamEdgeConfigurationNotFoundException,
+  ],
+}));
+/**
+ * Gets the `ImageGenerationConfiguration` for a given Kinesis video stream.
+ */
+export const describeImageGenerationConfiguration: (
+  input: DescribeImageGenerationConfigurationInput,
+) => effect.Effect<
+  DescribeImageGenerationConfigurationOutput,
+  | AccessDeniedException
+  | ClientLimitExceededException
+  | InvalidArgumentException
+  | ResourceNotFoundException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeImageGenerationConfigurationInput,
+  output: DescribeImageGenerationConfigurationOutput,
+  errors: [
+    AccessDeniedException,
+    ClientLimitExceededException,
+    InvalidArgumentException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Returns the most current information about the stream. The `streamName`
+ * or `streamARN` should be provided in the input.
+ */
+export const describeMappedResourceConfiguration: {
+  (
+    input: DescribeMappedResourceConfigurationInput,
+  ): effect.Effect<
+    DescribeMappedResourceConfigurationOutput,
+    | AccessDeniedException
+    | ClientLimitExceededException
+    | InvalidArgumentException
+    | ResourceNotFoundException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: DescribeMappedResourceConfigurationInput,
+  ) => stream.Stream<
+    DescribeMappedResourceConfigurationOutput,
+    | AccessDeniedException
+    | ClientLimitExceededException
+    | InvalidArgumentException
+    | ResourceNotFoundException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeMappedResourceConfigurationInput,
+  ) => stream.Stream<
+    MappedResourceConfigurationListItem,
+    | AccessDeniedException
+    | ClientLimitExceededException
+    | InvalidArgumentException
+    | ResourceNotFoundException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeMappedResourceConfigurationInput,
+  output: DescribeMappedResourceConfigurationOutput,
+  errors: [
+    AccessDeniedException,
+    ClientLimitExceededException,
+    InvalidArgumentException,
+    ResourceNotFoundException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "MappedResourceConfigurationList",
+    pageSize: "MaxResults",
+  } as const,
+}));
+/**
+ * Returns the most current information about the channel. Specify the `ChannelName`
+ * or `ChannelARN` in the input.
+ */
+export const describeMediaStorageConfiguration: (
+  input: DescribeMediaStorageConfigurationInput,
+) => effect.Effect<
+  DescribeMediaStorageConfigurationOutput,
+  | AccessDeniedException
+  | ClientLimitExceededException
+  | InvalidArgumentException
+  | ResourceNotFoundException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeMediaStorageConfigurationInput,
+  output: DescribeMediaStorageConfigurationOutput,
+  errors: [
+    AccessDeniedException,
+    ClientLimitExceededException,
+    InvalidArgumentException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Gets the `NotificationConfiguration` for a given Kinesis video stream.
+ */
+export const describeNotificationConfiguration: (
+  input: DescribeNotificationConfigurationInput,
+) => effect.Effect<
+  DescribeNotificationConfigurationOutput,
+  | AccessDeniedException
+  | ClientLimitExceededException
+  | InvalidArgumentException
+  | ResourceNotFoundException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeNotificationConfigurationInput,
+  output: DescribeNotificationConfigurationOutput,
+  errors: [
+    AccessDeniedException,
+    ClientLimitExceededException,
+    InvalidArgumentException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Returns the most current information about the signaling channel. You must specify
+ * either the name or the Amazon Resource Name (ARN) of the channel that you want to
+ * describe.
+ */
+export const describeSignalingChannel: (
+  input: DescribeSignalingChannelInput,
+) => effect.Effect<
+  DescribeSignalingChannelOutput,
+  | AccessDeniedException
+  | ClientLimitExceededException
+  | InvalidArgumentException
+  | ResourceNotFoundException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeSignalingChannelInput,
+  output: DescribeSignalingChannelOutput,
+  errors: [
+    AccessDeniedException,
+    ClientLimitExceededException,
+    InvalidArgumentException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Returns the most current information about the specified stream. You must specify
+ * either the `StreamName` or the `StreamARN`.
+ */
+export const describeStream: (
+  input: DescribeStreamInput,
+) => effect.Effect<
+  DescribeStreamOutput,
+  | ClientLimitExceededException
+  | InvalidArgumentException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeStreamInput,
+  output: DescribeStreamOutput,
+  errors: [
+    ClientLimitExceededException,
+    InvalidArgumentException,
+    NotAuthorizedException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Retrieves the current storage configuration for the specified Kinesis video stream.
+ *
+ * In the request, you must specify either the `StreamName` or the `StreamARN`.
+ *
+ * You must have permissions for the `KinesisVideo:DescribeStreamStorageConfiguration` action.
+ */
+export const describeStreamStorageConfiguration: (
+  input: DescribeStreamStorageConfigurationInput,
+) => effect.Effect<
+  DescribeStreamStorageConfigurationOutput,
+  | AccessDeniedException
+  | ClientLimitExceededException
+  | InvalidArgumentException
+  | ResourceNotFoundException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeStreamStorageConfigurationInput,
+  output: DescribeStreamStorageConfigurationOutput,
+  errors: [
+    AccessDeniedException,
+    ClientLimitExceededException,
+    InvalidArgumentException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Gets an endpoint for a specified stream for either reading or writing. Use this
+ * endpoint in your application to read from the specified stream (using the
+ * `GetMedia` or `GetMediaForFragmentList` operations) or write
+ * to it (using the `PutMedia` operation).
+ *
+ * The returned endpoint does not have the API name appended. The client needs to
+ * add the API name to the returned endpoint.
+ *
+ * In the request, specify the stream either by `StreamName` or
+ * `StreamARN`.
+ */
+export const getDataEndpoint: (
+  input: GetDataEndpointInput,
+) => effect.Effect<
+  GetDataEndpointOutput,
+  | ClientLimitExceededException
+  | InvalidArgumentException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetDataEndpointInput,
+  output: GetDataEndpointOutput,
+  errors: [
+    ClientLimitExceededException,
+    InvalidArgumentException,
+    NotAuthorizedException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Provides an endpoint for the specified signaling channel to send and receive messages.
+ * This API uses the `SingleMasterChannelEndpointConfiguration` input parameter,
+ * which consists of the `Protocols` and `Role` properties.
+ *
+ * `Protocols` is used to determine the communication mechanism. For example,
+ * if you specify `WSS` as the protocol, this API produces a secure websocket
+ * endpoint. If you specify `HTTPS` as the protocol, this API generates an HTTPS
+ * endpoint. If you specify `WEBRTC` as the protocol, but the signaling channel isn't
+ * configured for ingestion, you will receive the error
+ * `InvalidArgumentException`.
+ *
+ * `Role` determines the messaging permissions. A `MASTER` role
+ * results in this API generating an endpoint that a client can use to communicate with any
+ * of the viewers on the channel. A `VIEWER` role results in this API generating
+ * an endpoint that a client can use to communicate only with a `MASTER`.
+ */
+export const getSignalingChannelEndpoint: (
+  input: GetSignalingChannelEndpointInput,
+) => effect.Effect<
+  GetSignalingChannelEndpointOutput,
+  | AccessDeniedException
+  | ClientLimitExceededException
+  | InvalidArgumentException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetSignalingChannelEndpointInput,
+  output: GetSignalingChannelEndpointOutput,
+  errors: [
+    AccessDeniedException,
+    ClientLimitExceededException,
+    InvalidArgumentException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Returns an array of edge configurations associated with the specified Edge Agent.
+ *
+ * In the request, you must specify the Edge Agent `HubDeviceArn`.
+ */
+export const listEdgeAgentConfigurations: {
+  (
+    input: ListEdgeAgentConfigurationsInput,
+  ): effect.Effect<
+    ListEdgeAgentConfigurationsOutput,
+    | ClientLimitExceededException
+    | InvalidArgumentException
+    | NotAuthorizedException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListEdgeAgentConfigurationsInput,
+  ) => stream.Stream<
+    ListEdgeAgentConfigurationsOutput,
+    | ClientLimitExceededException
+    | InvalidArgumentException
+    | NotAuthorizedException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListEdgeAgentConfigurationsInput,
+  ) => stream.Stream<
+    ListEdgeAgentConfigurationsEdgeConfig,
+    | ClientLimitExceededException
+    | InvalidArgumentException
+    | NotAuthorizedException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListEdgeAgentConfigurationsInput,
+  output: ListEdgeAgentConfigurationsOutput,
+  errors: [
+    ClientLimitExceededException,
+    InvalidArgumentException,
+    NotAuthorizedException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "EdgeConfigs",
+    pageSize: "MaxResults",
+  } as const,
+}));
 /**
  * Returns an array of `ChannelInfo` objects. Each object describes a
  * signaling channel. To retrieve only those channels that satisfy a specific condition,
@@ -1780,58 +2281,27 @@ export const listStreams: {
   } as const,
 }));
 /**
- * Returns the most current information about the stream. The `streamName`
- * or `streamARN` should be provided in the input.
+ * Returns a list of tags associated with the specified signaling channel.
  */
-export const describeMappedResourceConfiguration: {
-  (
-    input: DescribeMappedResourceConfigurationInput,
-  ): effect.Effect<
-    DescribeMappedResourceConfigurationOutput,
-    | AccessDeniedException
-    | ClientLimitExceededException
-    | InvalidArgumentException
-    | ResourceNotFoundException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  pages: (
-    input: DescribeMappedResourceConfigurationInput,
-  ) => stream.Stream<
-    DescribeMappedResourceConfigurationOutput,
-    | AccessDeniedException
-    | ClientLimitExceededException
-    | InvalidArgumentException
-    | ResourceNotFoundException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  items: (
-    input: DescribeMappedResourceConfigurationInput,
-  ) => stream.Stream<
-    MappedResourceConfigurationListItem,
-    | AccessDeniedException
-    | ClientLimitExceededException
-    | InvalidArgumentException
-    | ResourceNotFoundException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
-  input: DescribeMappedResourceConfigurationInput,
-  output: DescribeMappedResourceConfigurationOutput,
+export const listTagsForResource: (
+  input: ListTagsForResourceInput,
+) => effect.Effect<
+  ListTagsForResourceOutput,
+  | AccessDeniedException
+  | ClientLimitExceededException
+  | InvalidArgumentException
+  | ResourceNotFoundException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceInput,
+  output: ListTagsForResourceOutput,
   errors: [
     AccessDeniedException,
     ClientLimitExceededException,
     InvalidArgumentException,
     ResourceNotFoundException,
   ],
-  pagination: {
-    inputToken: "NextToken",
-    outputToken: "NextToken",
-    items: "MappedResourceConfigurationList",
-    pageSize: "MaxResults",
-  } as const,
 }));
 /**
  * Returns a list of tags associated with the specified stream.
@@ -1862,255 +2332,114 @@ export const listTagsForStream: (
   ],
 }));
 /**
- * Returns the most current information about the specified stream. You must specify
- * either the `StreamName` or the `StreamARN`.
+ * An asynchronous API that updates a stream’s existing edge configuration.
+ * The Kinesis Video Stream will sync the stream’s edge configuration with the Edge Agent IoT Greengrass
+ * component that runs on an IoT Hub Device, setup at your premise. The time to sync can vary
+ * and depends on the connectivity of the Hub Device.
+ * The `SyncStatus` will be updated as the edge configuration is acknowledged,
+ * and synced with the Edge Agent.
+ *
+ * If this API is invoked for the first time, a new edge configuration will be created for the stream,
+ * and the sync status will be set to `SYNCING`. You will have to wait for the sync status
+ * to reach a terminal state such as: `IN_SYNC`, or `SYNC_FAILED`, before using this API again.
+ * If you invoke this API during the syncing process, a `ResourceInUseException` will be thrown.
+ * The connectivity of the stream’s edge configuration and the Edge Agent will be retried for 15 minutes. After 15 minutes,
+ * the status will transition into the `SYNC_FAILED` state.
+ *
+ * To move an edge configuration from one device to another, use DeleteEdgeConfiguration to delete
+ * the current edge configuration. You can then invoke StartEdgeConfigurationUpdate with an updated Hub Device ARN.
  */
-export const describeStream: (
-  input: DescribeStreamInput,
+export const startEdgeConfigurationUpdate: (
+  input: StartEdgeConfigurationUpdateInput,
 ) => effect.Effect<
-  DescribeStreamOutput,
+  StartEdgeConfigurationUpdateOutput,
+  | AccessDeniedException
   | ClientLimitExceededException
   | InvalidArgumentException
-  | NotAuthorizedException
+  | NoDataRetentionException
+  | ResourceInUseException
   | ResourceNotFoundException
   | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeStreamInput,
-  output: DescribeStreamOutput,
+  input: StartEdgeConfigurationUpdateInput,
+  output: StartEdgeConfigurationUpdateOutput,
   errors: [
+    AccessDeniedException,
     ClientLimitExceededException,
     InvalidArgumentException,
-    NotAuthorizedException,
+    NoDataRetentionException,
+    ResourceInUseException,
     ResourceNotFoundException,
   ],
 }));
 /**
- * Returns an array of edge configurations associated with the specified Edge Agent.
- *
- * In the request, you must specify the Edge Agent `HubDeviceArn`.
+ * Adds one or more tags to a signaling channel. A *tag* is a
+ * key-value pair (the value is optional) that you can define and assign to Amazon Web Services resources.
+ * If you specify a tag that already exists, the tag value is replaced with the value that
+ * you specify in the request. For more information, see Using Cost Allocation
+ * Tags in the Billing and Cost Management and Cost Management User
+ * Guide.
  */
-export const listEdgeAgentConfigurations: {
-  (
-    input: ListEdgeAgentConfigurationsInput,
-  ): effect.Effect<
-    ListEdgeAgentConfigurationsOutput,
-    | ClientLimitExceededException
-    | InvalidArgumentException
-    | NotAuthorizedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  pages: (
-    input: ListEdgeAgentConfigurationsInput,
-  ) => stream.Stream<
-    ListEdgeAgentConfigurationsOutput,
-    | ClientLimitExceededException
-    | InvalidArgumentException
-    | NotAuthorizedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  items: (
-    input: ListEdgeAgentConfigurationsInput,
-  ) => stream.Stream<
-    ListEdgeAgentConfigurationsEdgeConfig,
-    | ClientLimitExceededException
-    | InvalidArgumentException
-    | NotAuthorizedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
-  input: ListEdgeAgentConfigurationsInput,
-  output: ListEdgeAgentConfigurationsOutput,
+export const tagResource: (
+  input: TagResourceInput,
+) => effect.Effect<
+  TagResourceOutput,
+  | AccessDeniedException
+  | ClientLimitExceededException
+  | InvalidArgumentException
+  | ResourceNotFoundException
+  | TagsPerResourceExceededLimitException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceInput,
+  output: TagResourceOutput,
   errors: [
+    AccessDeniedException,
     ClientLimitExceededException,
     InvalidArgumentException,
-    NotAuthorizedException,
+    ResourceNotFoundException,
+    TagsPerResourceExceededLimitException,
   ],
-  pagination: {
-    inputToken: "NextToken",
-    outputToken: "NextToken",
-    items: "EdgeConfigs",
-    pageSize: "MaxResults",
-  } as const,
 }));
 /**
- * Gets an endpoint for a specified stream for either reading or writing. Use this
- * endpoint in your application to read from the specified stream (using the
- * `GetMedia` or `GetMediaForFragmentList` operations) or write
- * to it (using the `PutMedia` operation).
+ * Adds one or more tags to a stream. A *tag* is a key-value pair
+ * (the value is optional) that you can define and assign to Amazon Web Services resources. If you specify
+ * a tag that already exists, the tag value is replaced with the value that you specify in
+ * the request. For more information, see Using Cost Allocation
+ * Tags in the *Billing and Cost Management and Cost Management User Guide*.
  *
- * The returned endpoint does not have the API name appended. The client needs to
- * add the API name to the returned endpoint.
- *
- * In the request, specify the stream either by `StreamName` or
+ * You must provide either the `StreamName` or the
  * `StreamARN`.
+ *
+ * This operation requires permission for the `KinesisVideo:TagStream`
+ * action.
+ *
+ * A Kinesis video stream can support up to 50 tags.
  */
-export const getDataEndpoint: (
-  input: GetDataEndpointInput,
+export const tagStream: (
+  input: TagStreamInput,
 ) => effect.Effect<
-  GetDataEndpointOutput,
+  TagStreamOutput,
   | ClientLimitExceededException
   | InvalidArgumentException
+  | InvalidResourceFormatException
   | NotAuthorizedException
   | ResourceNotFoundException
+  | TagsPerResourceExceededLimitException
   | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetDataEndpointInput,
-  output: GetDataEndpointOutput,
+  input: TagStreamInput,
+  output: TagStreamOutput,
   errors: [
     ClientLimitExceededException,
     InvalidArgumentException,
+    InvalidResourceFormatException,
     NotAuthorizedException,
     ResourceNotFoundException,
-  ],
-}));
-/**
- * Returns the most current information about the signaling channel. You must specify
- * either the name or the Amazon Resource Name (ARN) of the channel that you want to
- * describe.
- */
-export const describeSignalingChannel: (
-  input: DescribeSignalingChannelInput,
-) => effect.Effect<
-  DescribeSignalingChannelOutput,
-  | AccessDeniedException
-  | ClientLimitExceededException
-  | InvalidArgumentException
-  | ResourceNotFoundException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeSignalingChannelInput,
-  output: DescribeSignalingChannelOutput,
-  errors: [
-    AccessDeniedException,
-    ClientLimitExceededException,
-    InvalidArgumentException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Gets the `ImageGenerationConfiguration` for a given Kinesis video stream.
- */
-export const describeImageGenerationConfiguration: (
-  input: DescribeImageGenerationConfigurationInput,
-) => effect.Effect<
-  DescribeImageGenerationConfigurationOutput,
-  | AccessDeniedException
-  | ClientLimitExceededException
-  | InvalidArgumentException
-  | ResourceNotFoundException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeImageGenerationConfigurationInput,
-  output: DescribeImageGenerationConfigurationOutput,
-  errors: [
-    AccessDeniedException,
-    ClientLimitExceededException,
-    InvalidArgumentException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Returns the most current information about the channel. Specify the `ChannelName`
- * or `ChannelARN` in the input.
- */
-export const describeMediaStorageConfiguration: (
-  input: DescribeMediaStorageConfigurationInput,
-) => effect.Effect<
-  DescribeMediaStorageConfigurationOutput,
-  | AccessDeniedException
-  | ClientLimitExceededException
-  | InvalidArgumentException
-  | ResourceNotFoundException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeMediaStorageConfigurationInput,
-  output: DescribeMediaStorageConfigurationOutput,
-  errors: [
-    AccessDeniedException,
-    ClientLimitExceededException,
-    InvalidArgumentException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Gets the `NotificationConfiguration` for a given Kinesis video stream.
- */
-export const describeNotificationConfiguration: (
-  input: DescribeNotificationConfigurationInput,
-) => effect.Effect<
-  DescribeNotificationConfigurationOutput,
-  | AccessDeniedException
-  | ClientLimitExceededException
-  | InvalidArgumentException
-  | ResourceNotFoundException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeNotificationConfigurationInput,
-  output: DescribeNotificationConfigurationOutput,
-  errors: [
-    AccessDeniedException,
-    ClientLimitExceededException,
-    InvalidArgumentException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Retrieves the current storage configuration for the specified Kinesis video stream.
- *
- * In the request, you must specify either the `StreamName` or the `StreamARN`.
- *
- * You must have permissions for the `KinesisVideo:DescribeStreamStorageConfiguration` action.
- */
-export const describeStreamStorageConfiguration: (
-  input: DescribeStreamStorageConfigurationInput,
-) => effect.Effect<
-  DescribeStreamStorageConfigurationOutput,
-  | AccessDeniedException
-  | ClientLimitExceededException
-  | InvalidArgumentException
-  | ResourceNotFoundException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeStreamStorageConfigurationInput,
-  output: DescribeStreamStorageConfigurationOutput,
-  errors: [
-    AccessDeniedException,
-    ClientLimitExceededException,
-    InvalidArgumentException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Returns a list of tags associated with the specified signaling channel.
- */
-export const listTagsForResource: (
-  input: ListTagsForResourceInput,
-) => effect.Effect<
-  ListTagsForResourceOutput,
-  | AccessDeniedException
-  | ClientLimitExceededException
-  | InvalidArgumentException
-  | ResourceNotFoundException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceInput,
-  output: ListTagsForResourceOutput,
-  errors: [
-    AccessDeniedException,
-    ClientLimitExceededException,
-    InvalidArgumentException,
-    ResourceNotFoundException,
+    TagsPerResourceExceededLimitException,
   ],
 }));
 /**
@@ -2139,12 +2468,88 @@ export const untagResource: (
   ],
 }));
 /**
- * Updates the notification information for a stream.
+ * Removes one or more tags from a stream. In the request, specify only a tag key or
+ * keys; don't specify the value. If you specify a tag key that does not exist, it's
+ * ignored.
+ *
+ * In the request, you must provide the `StreamName` or
+ * `StreamARN`.
  */
-export const updateNotificationConfiguration: (
-  input: UpdateNotificationConfigurationInput,
+export const untagStream: (
+  input: UntagStreamInput,
 ) => effect.Effect<
-  UpdateNotificationConfigurationOutput,
+  UntagStreamOutput,
+  | ClientLimitExceededException
+  | InvalidArgumentException
+  | InvalidResourceFormatException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagStreamInput,
+  output: UntagStreamOutput,
+  errors: [
+    ClientLimitExceededException,
+    InvalidArgumentException,
+    InvalidResourceFormatException,
+    NotAuthorizedException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Increases or decreases the stream's data retention period by the value that you
+ * specify. To indicate whether you want to increase or decrease the data retention period,
+ * specify the `Operation` parameter in the request body. In the request, you
+ * must specify either the `StreamName` or the `StreamARN`.
+ *
+ * This operation requires permission for the
+ * `KinesisVideo:UpdateDataRetention` action.
+ *
+ * Changing the data retention period affects the data in the stream as
+ * follows:
+ *
+ * - If the data retention period is increased, existing data is retained for
+ * the new retention period. For example, if the data retention period is increased
+ * from one hour to seven hours, all existing data is retained for seven
+ * hours.
+ *
+ * - If the data retention period is decreased, existing data is retained for
+ * the new retention period. For example, if the data retention period is decreased
+ * from seven hours to one hour, all existing data is retained for one hour, and
+ * any data older than one hour is deleted immediately.
+ */
+export const updateDataRetention: (
+  input: UpdateDataRetentionInput,
+) => effect.Effect<
+  UpdateDataRetentionOutput,
+  | ClientLimitExceededException
+  | InvalidArgumentException
+  | NotAuthorizedException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | VersionMismatchException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateDataRetentionInput,
+  output: UpdateDataRetentionOutput,
+  errors: [
+    ClientLimitExceededException,
+    InvalidArgumentException,
+    NotAuthorizedException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+    VersionMismatchException,
+  ],
+}));
+/**
+ * Updates the `StreamInfo` and `ImageProcessingConfiguration` fields.
+ */
+export const updateImageGenerationConfiguration: (
+  input: UpdateImageGenerationConfigurationInput,
+) => effect.Effect<
+  UpdateImageGenerationConfigurationOutput,
   | AccessDeniedException
   | ClientLimitExceededException
   | InvalidArgumentException
@@ -2154,8 +2559,8 @@ export const updateNotificationConfiguration: (
   | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateNotificationConfigurationInput,
-  output: UpdateNotificationConfigurationOutput,
+  input: UpdateImageGenerationConfigurationInput,
+  output: UpdateImageGenerationConfigurationOutput,
   errors: [
     AccessDeniedException,
     ClientLimitExceededException,
@@ -2206,81 +2611,12 @@ export const updateMediaStorageConfiguration: (
   ],
 }));
 /**
- * Removes one or more tags from a stream. In the request, specify only a tag key or
- * keys; don't specify the value. If you specify a tag key that does not exist, it's
- * ignored.
- *
- * In the request, you must provide the `StreamName` or
- * `StreamARN`.
+ * Updates the notification information for a stream.
  */
-export const untagStream: (
-  input: UntagStreamInput,
+export const updateNotificationConfiguration: (
+  input: UpdateNotificationConfigurationInput,
 ) => effect.Effect<
-  UntagStreamOutput,
-  | ClientLimitExceededException
-  | InvalidArgumentException
-  | InvalidResourceFormatException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagStreamInput,
-  output: UntagStreamOutput,
-  errors: [
-    ClientLimitExceededException,
-    InvalidArgumentException,
-    InvalidResourceFormatException,
-    NotAuthorizedException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Provides an endpoint for the specified signaling channel to send and receive messages.
- * This API uses the `SingleMasterChannelEndpointConfiguration` input parameter,
- * which consists of the `Protocols` and `Role` properties.
- *
- * `Protocols` is used to determine the communication mechanism. For example,
- * if you specify `WSS` as the protocol, this API produces a secure websocket
- * endpoint. If you specify `HTTPS` as the protocol, this API generates an HTTPS
- * endpoint. If you specify `WEBRTC` as the protocol, but the signaling channel isn't
- * configured for ingestion, you will receive the error
- * `InvalidArgumentException`.
- *
- * `Role` determines the messaging permissions. A `MASTER` role
- * results in this API generating an endpoint that a client can use to communicate with any
- * of the viewers on the channel. A `VIEWER` role results in this API generating
- * an endpoint that a client can use to communicate only with a `MASTER`.
- */
-export const getSignalingChannelEndpoint: (
-  input: GetSignalingChannelEndpointInput,
-) => effect.Effect<
-  GetSignalingChannelEndpointOutput,
-  | AccessDeniedException
-  | ClientLimitExceededException
-  | InvalidArgumentException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetSignalingChannelEndpointInput,
-  output: GetSignalingChannelEndpointOutput,
-  errors: [
-    AccessDeniedException,
-    ClientLimitExceededException,
-    InvalidArgumentException,
-    ResourceInUseException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Updates the `StreamInfo` and `ImageProcessingConfiguration` fields.
- */
-export const updateImageGenerationConfiguration: (
-  input: UpdateImageGenerationConfigurationInput,
-) => effect.Effect<
-  UpdateImageGenerationConfigurationOutput,
+  UpdateNotificationConfigurationOutput,
   | AccessDeniedException
   | ClientLimitExceededException
   | InvalidArgumentException
@@ -2290,8 +2626,8 @@ export const updateImageGenerationConfiguration: (
   | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateImageGenerationConfigurationInput,
-  output: UpdateImageGenerationConfigurationOutput,
+  input: UpdateNotificationConfigurationInput,
+  output: UpdateNotificationConfigurationOutput,
   errors: [
     AccessDeniedException,
     ClientLimitExceededException,
@@ -2302,56 +2638,18 @@ export const updateImageGenerationConfiguration: (
   ],
 }));
 /**
- * An asynchronous API that updates a stream’s existing edge configuration.
- * The Kinesis Video Stream will sync the stream’s edge configuration with the Edge Agent IoT Greengrass
- * component that runs on an IoT Hub Device, setup at your premise. The time to sync can vary
- * and depends on the connectivity of the Hub Device.
- * The `SyncStatus` will be updated as the edge configuration is acknowledged,
- * and synced with the Edge Agent.
+ * Updates the existing signaling channel. This is an asynchronous operation and takes
+ * time to complete.
  *
- * If this API is invoked for the first time, a new edge configuration will be created for the stream,
- * and the sync status will be set to `SYNCING`. You will have to wait for the sync status
- * to reach a terminal state such as: `IN_SYNC`, or `SYNC_FAILED`, before using this API again.
- * If you invoke this API during the syncing process, a `ResourceInUseException` will be thrown.
- * The connectivity of the stream’s edge configuration and the Edge Agent will be retried for 15 minutes. After 15 minutes,
- * the status will transition into the `SYNC_FAILED` state.
- *
- * To move an edge configuration from one device to another, use DeleteEdgeConfiguration to delete
- * the current edge configuration. You can then invoke StartEdgeConfigurationUpdate with an updated Hub Device ARN.
+ * If the `MessageTtlSeconds` value is updated (either increased or reduced),
+ * it only applies to new messages sent via this channel after it's been updated. Existing
+ * messages are still expired as per the previous `MessageTtlSeconds`
+ * value.
  */
-export const startEdgeConfigurationUpdate: (
-  input: StartEdgeConfigurationUpdateInput,
+export const updateSignalingChannel: (
+  input: UpdateSignalingChannelInput,
 ) => effect.Effect<
-  StartEdgeConfigurationUpdateOutput,
-  | AccessDeniedException
-  | ClientLimitExceededException
-  | InvalidArgumentException
-  | NoDataRetentionException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StartEdgeConfigurationUpdateInput,
-  output: StartEdgeConfigurationUpdateOutput,
-  errors: [
-    AccessDeniedException,
-    ClientLimitExceededException,
-    InvalidArgumentException,
-    NoDataRetentionException,
-    ResourceInUseException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Deletes a specified signaling channel. `DeleteSignalingChannel` is an
- * asynchronous operation. If you don't specify the channel's current version, the most
- * recent version is deleted.
- */
-export const deleteSignalingChannel: (
-  input: DeleteSignalingChannelInput,
-) => effect.Effect<
-  DeleteSignalingChannelOutput,
+  UpdateSignalingChannelOutput,
   | AccessDeniedException
   | ClientLimitExceededException
   | InvalidArgumentException
@@ -2361,117 +2659,12 @@ export const deleteSignalingChannel: (
   | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteSignalingChannelInput,
-  output: DeleteSignalingChannelOutput,
+  input: UpdateSignalingChannelInput,
+  output: UpdateSignalingChannelOutput,
   errors: [
     AccessDeniedException,
     ClientLimitExceededException,
     InvalidArgumentException,
-    ResourceInUseException,
-    ResourceNotFoundException,
-    VersionMismatchException,
-  ],
-}));
-/**
- * Adds one or more tags to a signaling channel. A *tag* is a
- * key-value pair (the value is optional) that you can define and assign to Amazon Web Services resources.
- * If you specify a tag that already exists, the tag value is replaced with the value that
- * you specify in the request. For more information, see Using Cost Allocation
- * Tags in the Billing and Cost Management and Cost Management User
- * Guide.
- */
-export const tagResource: (
-  input: TagResourceInput,
-) => effect.Effect<
-  TagResourceOutput,
-  | AccessDeniedException
-  | ClientLimitExceededException
-  | InvalidArgumentException
-  | ResourceNotFoundException
-  | TagsPerResourceExceededLimitException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceInput,
-  output: TagResourceOutput,
-  errors: [
-    AccessDeniedException,
-    ClientLimitExceededException,
-    InvalidArgumentException,
-    ResourceNotFoundException,
-    TagsPerResourceExceededLimitException,
-  ],
-}));
-/**
- * An asynchronous API that deletes a stream’s existing edge configuration, as well as the corresponding media from the Edge Agent.
- *
- * When you invoke this API, the sync status is set to `DELETING`. A deletion process starts, in which active edge jobs are stopped and all media is deleted from the edge device. The time to delete varies, depending on the total amount of stored media. If the deletion process fails, the sync status changes to `DELETE_FAILED`. You will need to re-try the deletion.
- *
- * When the deletion process has completed successfully, the edge configuration is no longer accessible.
- */
-export const deleteEdgeConfiguration: (
-  input: DeleteEdgeConfigurationInput,
-) => effect.Effect<
-  DeleteEdgeConfigurationOutput,
-  | AccessDeniedException
-  | ClientLimitExceededException
-  | InvalidArgumentException
-  | ResourceNotFoundException
-  | StreamEdgeConfigurationNotFoundException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteEdgeConfigurationInput,
-  output: DeleteEdgeConfigurationOutput,
-  errors: [
-    AccessDeniedException,
-    ClientLimitExceededException,
-    InvalidArgumentException,
-    ResourceNotFoundException,
-    StreamEdgeConfigurationNotFoundException,
-  ],
-}));
-/**
- * Increases or decreases the stream's data retention period by the value that you
- * specify. To indicate whether you want to increase or decrease the data retention period,
- * specify the `Operation` parameter in the request body. In the request, you
- * must specify either the `StreamName` or the `StreamARN`.
- *
- * This operation requires permission for the
- * `KinesisVideo:UpdateDataRetention` action.
- *
- * Changing the data retention period affects the data in the stream as
- * follows:
- *
- * - If the data retention period is increased, existing data is retained for
- * the new retention period. For example, if the data retention period is increased
- * from one hour to seven hours, all existing data is retained for seven
- * hours.
- *
- * - If the data retention period is decreased, existing data is retained for
- * the new retention period. For example, if the data retention period is decreased
- * from seven hours to one hour, all existing data is retained for one hour, and
- * any data older than one hour is deleted immediately.
- */
-export const updateDataRetention: (
-  input: UpdateDataRetentionInput,
-) => effect.Effect<
-  UpdateDataRetentionOutput,
-  | ClientLimitExceededException
-  | InvalidArgumentException
-  | NotAuthorizedException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | VersionMismatchException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateDataRetentionInput,
-  output: UpdateDataRetentionOutput,
-  errors: [
-    ClientLimitExceededException,
-    InvalidArgumentException,
-    NotAuthorizedException,
     ResourceInUseException,
     ResourceNotFoundException,
     VersionMismatchException,
@@ -2516,39 +2709,6 @@ export const updateStream: (
   ],
 }));
 /**
- * Updates the existing signaling channel. This is an asynchronous operation and takes
- * time to complete.
- *
- * If the `MessageTtlSeconds` value is updated (either increased or reduced),
- * it only applies to new messages sent via this channel after it's been updated. Existing
- * messages are still expired as per the previous `MessageTtlSeconds`
- * value.
- */
-export const updateSignalingChannel: (
-  input: UpdateSignalingChannelInput,
-) => effect.Effect<
-  UpdateSignalingChannelOutput,
-  | AccessDeniedException
-  | ClientLimitExceededException
-  | InvalidArgumentException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | VersionMismatchException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateSignalingChannelInput,
-  output: UpdateSignalingChannelOutput,
-  errors: [
-    AccessDeniedException,
-    ClientLimitExceededException,
-    InvalidArgumentException,
-    ResourceInUseException,
-    ResourceNotFoundException,
-    VersionMismatchException,
-  ],
-}));
-/**
  * Updates the storage configuration for an existing Kinesis video stream.
  *
  * This operation allows you to modify the storage tier settings for a stream, enabling you to optimize storage costs and performance based on your access patterns.
@@ -2579,179 +2739,5 @@ export const updateStreamStorageConfiguration: (
     ResourceInUseException,
     ResourceNotFoundException,
     VersionMismatchException,
-  ],
-}));
-/**
- * Deletes a Kinesis video stream and the data contained in the stream.
- *
- * This method marks the stream for deletion, and makes the data in the stream
- * inaccessible immediately.
- *
- * To ensure that you have the latest version of the stream before deleting it, you
- * can specify the stream version. Kinesis Video Streams assigns a version to each stream.
- * When you update a stream, Kinesis Video Streams assigns a new version number. To get the
- * latest stream version, use the `DescribeStream` API.
- *
- * This operation requires permission for the `KinesisVideo:DeleteStream`
- * action.
- */
-export const deleteStream: (
-  input: DeleteStreamInput,
-) => effect.Effect<
-  DeleteStreamOutput,
-  | ClientLimitExceededException
-  | InvalidArgumentException
-  | NotAuthorizedException
-  | ResourceInUseException
-  | ResourceNotFoundException
-  | VersionMismatchException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteStreamInput,
-  output: DeleteStreamOutput,
-  errors: [
-    ClientLimitExceededException,
-    InvalidArgumentException,
-    NotAuthorizedException,
-    ResourceInUseException,
-    ResourceNotFoundException,
-    VersionMismatchException,
-  ],
-}));
-/**
- * Adds one or more tags to a stream. A *tag* is a key-value pair
- * (the value is optional) that you can define and assign to Amazon Web Services resources. If you specify
- * a tag that already exists, the tag value is replaced with the value that you specify in
- * the request. For more information, see Using Cost Allocation
- * Tags in the *Billing and Cost Management and Cost Management User Guide*.
- *
- * You must provide either the `StreamName` or the
- * `StreamARN`.
- *
- * This operation requires permission for the `KinesisVideo:TagStream`
- * action.
- *
- * A Kinesis video stream can support up to 50 tags.
- */
-export const tagStream: (
-  input: TagStreamInput,
-) => effect.Effect<
-  TagStreamOutput,
-  | ClientLimitExceededException
-  | InvalidArgumentException
-  | InvalidResourceFormatException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | TagsPerResourceExceededLimitException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagStreamInput,
-  output: TagStreamOutput,
-  errors: [
-    ClientLimitExceededException,
-    InvalidArgumentException,
-    InvalidResourceFormatException,
-    NotAuthorizedException,
-    ResourceNotFoundException,
-    TagsPerResourceExceededLimitException,
-  ],
-}));
-/**
- * Creates a signaling channel.
- *
- * `CreateSignalingChannel` is an asynchronous operation.
- */
-export const createSignalingChannel: (
-  input: CreateSignalingChannelInput,
-) => effect.Effect<
-  CreateSignalingChannelOutput,
-  | AccessDeniedException
-  | AccountChannelLimitExceededException
-  | ClientLimitExceededException
-  | InvalidArgumentException
-  | ResourceInUseException
-  | TagsPerResourceExceededLimitException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateSignalingChannelInput,
-  output: CreateSignalingChannelOutput,
-  errors: [
-    AccessDeniedException,
-    AccountChannelLimitExceededException,
-    ClientLimitExceededException,
-    InvalidArgumentException,
-    ResourceInUseException,
-    TagsPerResourceExceededLimitException,
-  ],
-}));
-/**
- * Describes a stream’s edge configuration that was set using the
- * `StartEdgeConfigurationUpdate` API and the latest status of the edge
- * agent's recorder and uploader jobs. Use this API to get the status of the configuration
- * to determine if the configuration is in sync with the Edge Agent. Use this API to
- * evaluate the health of the Edge Agent.
- */
-export const describeEdgeConfiguration: (
-  input: DescribeEdgeConfigurationInput,
-) => effect.Effect<
-  DescribeEdgeConfigurationOutput,
-  | AccessDeniedException
-  | ClientLimitExceededException
-  | InvalidArgumentException
-  | ResourceNotFoundException
-  | StreamEdgeConfigurationNotFoundException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeEdgeConfigurationInput,
-  output: DescribeEdgeConfigurationOutput,
-  errors: [
-    AccessDeniedException,
-    ClientLimitExceededException,
-    InvalidArgumentException,
-    ResourceNotFoundException,
-    StreamEdgeConfigurationNotFoundException,
-  ],
-}));
-/**
- * Creates a new Kinesis video stream.
- *
- * When you create a new stream, Kinesis Video Streams assigns it a version number.
- * When you change the stream's metadata, Kinesis Video Streams updates the version.
- *
- * `CreateStream` is an asynchronous operation.
- *
- * For information about how the service works, see How it Works.
- *
- * You must have permissions for the `KinesisVideo:CreateStream`
- * action.
- */
-export const createStream: (
-  input: CreateStreamInput,
-) => effect.Effect<
-  CreateStreamOutput,
-  | AccountStreamLimitExceededException
-  | ClientLimitExceededException
-  | DeviceStreamLimitExceededException
-  | InvalidArgumentException
-  | InvalidDeviceException
-  | ResourceInUseException
-  | TagsPerResourceExceededLimitException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateStreamInput,
-  output: CreateStreamOutput,
-  errors: [
-    AccountStreamLimitExceededException,
-    ClientLimitExceededException,
-    DeviceStreamLimitExceededException,
-    InvalidArgumentException,
-    InvalidDeviceException,
-    ResourceInUseException,
-    TagsPerResourceExceededLimitException,
   ],
 }));

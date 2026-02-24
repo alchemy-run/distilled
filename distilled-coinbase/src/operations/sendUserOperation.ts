@@ -1,38 +1,74 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
-import { Forbidden, InvalidSignature, NotFound, PaymentMethodRequired } from "../errors";
+import {
+  Forbidden,
+  InvalidSignature,
+  NotFound,
+  PaymentMethodRequired,
+} from "../errors";
 
 // Input Schema
 export const SendUserOperationInput = Schema.Struct({
   address: Schema.String.pipe(T.PathParam()),
   userOpHash: Schema.String.pipe(T.PathParam()),
   signature: Schema.String,
-}).pipe(T.Http({ method: "POST", path: "/v2/evm/smart-accounts/{address}/user-operations/{userOpHash}/send" }));
+}).pipe(
+  T.Http({
+    method: "POST",
+    path: "/v2/evm/smart-accounts/{address}/user-operations/{userOpHash}/send",
+  }),
+);
 export type SendUserOperationInput = typeof SendUserOperationInput.Type;
 
 // Output Schema
 export const SendUserOperationOutput = Schema.Struct({
-  network: Schema.Literal("base-sepolia", "base", "arbitrum", "optimism", "zora", "polygon", "bnb", "avalanche", "ethereum", "ethereum-sepolia"),
+  network: Schema.Literals([
+    "base-sepolia",
+    "base",
+    "arbitrum",
+    "optimism",
+    "zora",
+    "polygon",
+    "bnb",
+    "avalanche",
+    "ethereum",
+    "ethereum-sepolia",
+  ]),
   userOpHash: Schema.String,
-  calls: Schema.Array(Schema.Struct({
-    to: Schema.String,
-    value: Schema.String,
-    data: Schema.String,
-    overrideGasLimit: Schema.optional(Schema.String),
-  })),
-  status: Schema.Literal("pending", "signed", "broadcast", "complete", "dropped", "failed"),
-  transactionHash: Schema.optional(Schema.String),
-  receipts: Schema.optional(Schema.Array(Schema.Struct({
-    revert: Schema.optional(Schema.Struct({
+  calls: Schema.Array(
+    Schema.Struct({
+      to: Schema.String,
+      value: Schema.String,
       data: Schema.String,
-      message: Schema.String,
-    })),
-    transactionHash: Schema.optional(Schema.String),
-    blockHash: Schema.optional(Schema.String),
-    blockNumber: Schema.optional(Schema.Number),
-    gasUsed: Schema.optional(Schema.String),
-  }))),
+      overrideGasLimit: Schema.optional(Schema.String),
+    }),
+  ),
+  status: Schema.Literals([
+    "pending",
+    "signed",
+    "broadcast",
+    "complete",
+    "dropped",
+    "failed",
+  ]),
+  transactionHash: Schema.optional(Schema.String),
+  receipts: Schema.optional(
+    Schema.Array(
+      Schema.Struct({
+        revert: Schema.optional(
+          Schema.Struct({
+            data: Schema.String,
+            message: Schema.String,
+          }),
+        ),
+        transactionHash: Schema.optional(Schema.String),
+        blockHash: Schema.optional(Schema.String),
+        blockNumber: Schema.optional(Schema.Number),
+        gasUsed: Schema.optional(Schema.String),
+      }),
+    ),
+  ),
 });
 export type SendUserOperationOutput = typeof SendUserOperationOutput.Type;
 

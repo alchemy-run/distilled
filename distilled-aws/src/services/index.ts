@@ -361,6 +361,7 @@ export * as Ses from "./ses.ts";
 export * as Sesv2 from "./sesv2.ts";
 export * as Sfn from "./sfn.ts";
 export * as Shield from "./shield.ts";
+export * as SignerData from "./signer-data.ts";
 export * as Signer from "./signer.ts";
 export * as Signin from "./signin.ts";
 export * as Simspaceweaver from "./simspaceweaver.ts";

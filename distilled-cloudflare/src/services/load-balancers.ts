@@ -7,7 +7,7 @@
 
 import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
-import type { HttpClient } from "@effect/platform";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
@@ -161,9 +161,9 @@ export const GetLoadBalancerResponse = Schema.Struct({
   ),
   locationStrategy: Schema.optional(
     Schema.Struct({
-      mode: Schema.optional(Schema.Literal("pop", "resolver_ip")),
+      mode: Schema.optional(Schema.Literals(["pop", "resolver_ip"])),
       preferEcs: Schema.optional(
-        Schema.Literal("always", "never", "proximity", "geo"),
+        Schema.Literals(["always", "never", "proximity", "geo"]),
       ).pipe(T.JsonName("prefer_ecs")),
     }),
   ).pipe(T.JsonName("location_strategy")),
@@ -232,7 +232,7 @@ export const GetLoadBalancerResponse = Schema.Struct({
               T.JsonName("region_pools"),
             ),
             sessionAffinity: Schema.optional(
-              Schema.Literal("none", "cookie", "ip_cookie", "header"),
+              Schema.Literals(["none", "cookie", "ip_cookie", "header"]),
             ).pipe(T.JsonName("session_affinity")),
             sessionAffinityAttributes: Schema.optional(Schema.Unknown).pipe(
               T.JsonName("session_affinity_attributes"),
@@ -241,7 +241,7 @@ export const GetLoadBalancerResponse = Schema.Struct({
               T.JsonName("session_affinity_ttl"),
             ),
             steeringPolicy: Schema.optional(
-              Schema.Literal(
+              Schema.Literals([
                 "",
                 "off",
                 "geo",
@@ -250,7 +250,7 @@ export const GetLoadBalancerResponse = Schema.Struct({
                 "proximity",
                 "least_outstanding_requests",
                 "least_connections",
-              ),
+              ]),
             ).pipe(T.JsonName("steering_policy")),
             ttl: Schema.optional(Schema.Number),
           }),
@@ -261,7 +261,7 @@ export const GetLoadBalancerResponse = Schema.Struct({
     ),
   ),
   sessionAffinity: Schema.optional(
-    Schema.Literal("none", "cookie", "ip_cookie", "header"),
+    Schema.Literals(["none", "cookie", "ip_cookie", "header"]),
   ).pipe(T.JsonName("session_affinity")),
   sessionAffinityAttributes: Schema.optional(
     Schema.Struct({
@@ -273,11 +273,11 @@ export const GetLoadBalancerResponse = Schema.Struct({
         T.JsonName("require_all_headers"),
       ),
       samesite: Schema.optional(
-        Schema.Literal("Auto", "Lax", "None", "Strict"),
+        Schema.Literals(["Auto", "Lax", "None", "Strict"]),
       ),
-      secure: Schema.optional(Schema.Literal("Auto", "Always", "Never")),
+      secure: Schema.optional(Schema.Literals(["Auto", "Always", "Never"])),
       zeroDowntimeFailover: Schema.optional(
-        Schema.Literal("none", "temporary", "sticky"),
+        Schema.Literals(["none", "temporary", "sticky"]),
       ).pipe(T.JsonName("zero_downtime_failover")),
     }),
   ).pipe(T.JsonName("session_affinity_attributes")),
@@ -285,7 +285,7 @@ export const GetLoadBalancerResponse = Schema.Struct({
     T.JsonName("session_affinity_ttl"),
   ),
   steeringPolicy: Schema.optional(
-    Schema.Literal(
+    Schema.Literals([
       "",
       "off",
       "geo",
@@ -294,7 +294,7 @@ export const GetLoadBalancerResponse = Schema.Struct({
       "proximity",
       "least_outstanding_requests",
       "least_connections",
-    ),
+    ]),
   ).pipe(T.JsonName("steering_policy")),
   ttl: Schema.optional(Schema.Number),
   zoneName: Schema.optional(Schema.String).pipe(T.JsonName("zone_name")),
@@ -427,9 +427,9 @@ export const CreateLoadBalancerRequest = Schema.Struct({
   description: Schema.optional(Schema.String),
   locationStrategy: Schema.optional(
     Schema.Struct({
-      mode: Schema.optional(Schema.Literal("pop", "resolver_ip")),
+      mode: Schema.optional(Schema.Literals(["pop", "resolver_ip"])),
       preferEcs: Schema.optional(
-        Schema.Literal("always", "never", "proximity", "geo"),
+        Schema.Literals(["always", "never", "proximity", "geo"]),
       ).pipe(T.JsonName("prefer_ecs")),
     }),
   ).pipe(T.JsonName("location_strategy")),
@@ -496,7 +496,7 @@ export const CreateLoadBalancerRequest = Schema.Struct({
               T.JsonName("region_pools"),
             ),
             sessionAffinity: Schema.optional(
-              Schema.Literal("none", "cookie", "ip_cookie", "header"),
+              Schema.Literals(["none", "cookie", "ip_cookie", "header"]),
             ).pipe(T.JsonName("session_affinity")),
             sessionAffinityAttributes: Schema.optional(Schema.Unknown).pipe(
               T.JsonName("session_affinity_attributes"),
@@ -505,7 +505,7 @@ export const CreateLoadBalancerRequest = Schema.Struct({
               T.JsonName("session_affinity_ttl"),
             ),
             steeringPolicy: Schema.optional(
-              Schema.Literal(
+              Schema.Literals([
                 "",
                 "off",
                 "geo",
@@ -514,7 +514,7 @@ export const CreateLoadBalancerRequest = Schema.Struct({
                 "proximity",
                 "least_outstanding_requests",
                 "least_connections",
-              ),
+              ]),
             ).pipe(T.JsonName("steering_policy")),
             ttl: Schema.optional(Schema.Number),
           }),
@@ -525,7 +525,7 @@ export const CreateLoadBalancerRequest = Schema.Struct({
     ),
   ),
   sessionAffinity: Schema.optional(
-    Schema.Literal("none", "cookie", "ip_cookie", "header"),
+    Schema.Literals(["none", "cookie", "ip_cookie", "header"]),
   ).pipe(T.JsonName("session_affinity")),
   sessionAffinityAttributes: Schema.optional(
     Schema.Struct({
@@ -537,11 +537,11 @@ export const CreateLoadBalancerRequest = Schema.Struct({
         T.JsonName("require_all_headers"),
       ),
       samesite: Schema.optional(
-        Schema.Literal("Auto", "Lax", "None", "Strict"),
+        Schema.Literals(["Auto", "Lax", "None", "Strict"]),
       ),
-      secure: Schema.optional(Schema.Literal("Auto", "Always", "Never")),
+      secure: Schema.optional(Schema.Literals(["Auto", "Always", "Never"])),
       zeroDowntimeFailover: Schema.optional(
-        Schema.Literal("none", "temporary", "sticky"),
+        Schema.Literals(["none", "temporary", "sticky"]),
       ).pipe(T.JsonName("zero_downtime_failover")),
     }),
   ).pipe(T.JsonName("session_affinity_attributes")),
@@ -549,7 +549,7 @@ export const CreateLoadBalancerRequest = Schema.Struct({
     T.JsonName("session_affinity_ttl"),
   ),
   steeringPolicy: Schema.optional(
-    Schema.Literal(
+    Schema.Literals([
       "",
       "off",
       "geo",
@@ -558,7 +558,7 @@ export const CreateLoadBalancerRequest = Schema.Struct({
       "proximity",
       "least_outstanding_requests",
       "least_connections",
-    ),
+    ]),
   ).pipe(T.JsonName("steering_policy")),
   ttl: Schema.optional(Schema.Number),
 }).pipe(
@@ -689,9 +689,9 @@ export const CreateLoadBalancerResponse = Schema.Struct({
   ),
   locationStrategy: Schema.optional(
     Schema.Struct({
-      mode: Schema.optional(Schema.Literal("pop", "resolver_ip")),
+      mode: Schema.optional(Schema.Literals(["pop", "resolver_ip"])),
       preferEcs: Schema.optional(
-        Schema.Literal("always", "never", "proximity", "geo"),
+        Schema.Literals(["always", "never", "proximity", "geo"]),
       ).pipe(T.JsonName("prefer_ecs")),
     }),
   ).pipe(T.JsonName("location_strategy")),
@@ -760,7 +760,7 @@ export const CreateLoadBalancerResponse = Schema.Struct({
               T.JsonName("region_pools"),
             ),
             sessionAffinity: Schema.optional(
-              Schema.Literal("none", "cookie", "ip_cookie", "header"),
+              Schema.Literals(["none", "cookie", "ip_cookie", "header"]),
             ).pipe(T.JsonName("session_affinity")),
             sessionAffinityAttributes: Schema.optional(Schema.Unknown).pipe(
               T.JsonName("session_affinity_attributes"),
@@ -769,7 +769,7 @@ export const CreateLoadBalancerResponse = Schema.Struct({
               T.JsonName("session_affinity_ttl"),
             ),
             steeringPolicy: Schema.optional(
-              Schema.Literal(
+              Schema.Literals([
                 "",
                 "off",
                 "geo",
@@ -778,7 +778,7 @@ export const CreateLoadBalancerResponse = Schema.Struct({
                 "proximity",
                 "least_outstanding_requests",
                 "least_connections",
-              ),
+              ]),
             ).pipe(T.JsonName("steering_policy")),
             ttl: Schema.optional(Schema.Number),
           }),
@@ -789,7 +789,7 @@ export const CreateLoadBalancerResponse = Schema.Struct({
     ),
   ),
   sessionAffinity: Schema.optional(
-    Schema.Literal("none", "cookie", "ip_cookie", "header"),
+    Schema.Literals(["none", "cookie", "ip_cookie", "header"]),
   ).pipe(T.JsonName("session_affinity")),
   sessionAffinityAttributes: Schema.optional(
     Schema.Struct({
@@ -801,11 +801,11 @@ export const CreateLoadBalancerResponse = Schema.Struct({
         T.JsonName("require_all_headers"),
       ),
       samesite: Schema.optional(
-        Schema.Literal("Auto", "Lax", "None", "Strict"),
+        Schema.Literals(["Auto", "Lax", "None", "Strict"]),
       ),
-      secure: Schema.optional(Schema.Literal("Auto", "Always", "Never")),
+      secure: Schema.optional(Schema.Literals(["Auto", "Always", "Never"])),
       zeroDowntimeFailover: Schema.optional(
-        Schema.Literal("none", "temporary", "sticky"),
+        Schema.Literals(["none", "temporary", "sticky"]),
       ).pipe(T.JsonName("zero_downtime_failover")),
     }),
   ).pipe(T.JsonName("session_affinity_attributes")),
@@ -813,7 +813,7 @@ export const CreateLoadBalancerResponse = Schema.Struct({
     T.JsonName("session_affinity_ttl"),
   ),
   steeringPolicy: Schema.optional(
-    Schema.Literal(
+    Schema.Literals([
       "",
       "off",
       "geo",
@@ -822,7 +822,7 @@ export const CreateLoadBalancerResponse = Schema.Struct({
       "proximity",
       "least_outstanding_requests",
       "least_connections",
-    ),
+    ]),
   ).pipe(T.JsonName("steering_policy")),
   ttl: Schema.optional(Schema.Number),
   zoneName: Schema.optional(Schema.String).pipe(T.JsonName("zone_name")),
@@ -960,9 +960,9 @@ export const UpdateLoadBalancerRequest = Schema.Struct({
   enabled: Schema.optional(Schema.Boolean),
   locationStrategy: Schema.optional(
     Schema.Struct({
-      mode: Schema.optional(Schema.Literal("pop", "resolver_ip")),
+      mode: Schema.optional(Schema.Literals(["pop", "resolver_ip"])),
       preferEcs: Schema.optional(
-        Schema.Literal("always", "never", "proximity", "geo"),
+        Schema.Literals(["always", "never", "proximity", "geo"]),
       ).pipe(T.JsonName("prefer_ecs")),
     }),
   ).pipe(T.JsonName("location_strategy")),
@@ -1029,7 +1029,7 @@ export const UpdateLoadBalancerRequest = Schema.Struct({
               T.JsonName("region_pools"),
             ),
             sessionAffinity: Schema.optional(
-              Schema.Literal("none", "cookie", "ip_cookie", "header"),
+              Schema.Literals(["none", "cookie", "ip_cookie", "header"]),
             ).pipe(T.JsonName("session_affinity")),
             sessionAffinityAttributes: Schema.optional(Schema.Unknown).pipe(
               T.JsonName("session_affinity_attributes"),
@@ -1038,7 +1038,7 @@ export const UpdateLoadBalancerRequest = Schema.Struct({
               T.JsonName("session_affinity_ttl"),
             ),
             steeringPolicy: Schema.optional(
-              Schema.Literal(
+              Schema.Literals([
                 "",
                 "off",
                 "geo",
@@ -1047,7 +1047,7 @@ export const UpdateLoadBalancerRequest = Schema.Struct({
                 "proximity",
                 "least_outstanding_requests",
                 "least_connections",
-              ),
+              ]),
             ).pipe(T.JsonName("steering_policy")),
             ttl: Schema.optional(Schema.Number),
           }),
@@ -1058,7 +1058,7 @@ export const UpdateLoadBalancerRequest = Schema.Struct({
     ),
   ),
   sessionAffinity: Schema.optional(
-    Schema.Literal("none", "cookie", "ip_cookie", "header"),
+    Schema.Literals(["none", "cookie", "ip_cookie", "header"]),
   ).pipe(T.JsonName("session_affinity")),
   sessionAffinityAttributes: Schema.optional(
     Schema.Struct({
@@ -1070,11 +1070,11 @@ export const UpdateLoadBalancerRequest = Schema.Struct({
         T.JsonName("require_all_headers"),
       ),
       samesite: Schema.optional(
-        Schema.Literal("Auto", "Lax", "None", "Strict"),
+        Schema.Literals(["Auto", "Lax", "None", "Strict"]),
       ),
-      secure: Schema.optional(Schema.Literal("Auto", "Always", "Never")),
+      secure: Schema.optional(Schema.Literals(["Auto", "Always", "Never"])),
       zeroDowntimeFailover: Schema.optional(
-        Schema.Literal("none", "temporary", "sticky"),
+        Schema.Literals(["none", "temporary", "sticky"]),
       ).pipe(T.JsonName("zero_downtime_failover")),
     }),
   ).pipe(T.JsonName("session_affinity_attributes")),
@@ -1082,7 +1082,7 @@ export const UpdateLoadBalancerRequest = Schema.Struct({
     T.JsonName("session_affinity_ttl"),
   ),
   steeringPolicy: Schema.optional(
-    Schema.Literal(
+    Schema.Literals([
       "",
       "off",
       "geo",
@@ -1091,7 +1091,7 @@ export const UpdateLoadBalancerRequest = Schema.Struct({
       "proximity",
       "least_outstanding_requests",
       "least_connections",
-    ),
+    ]),
   ).pipe(T.JsonName("steering_policy")),
   ttl: Schema.optional(Schema.Number),
 }).pipe(
@@ -1225,9 +1225,9 @@ export const UpdateLoadBalancerResponse = Schema.Struct({
   ),
   locationStrategy: Schema.optional(
     Schema.Struct({
-      mode: Schema.optional(Schema.Literal("pop", "resolver_ip")),
+      mode: Schema.optional(Schema.Literals(["pop", "resolver_ip"])),
       preferEcs: Schema.optional(
-        Schema.Literal("always", "never", "proximity", "geo"),
+        Schema.Literals(["always", "never", "proximity", "geo"]),
       ).pipe(T.JsonName("prefer_ecs")),
     }),
   ).pipe(T.JsonName("location_strategy")),
@@ -1296,7 +1296,7 @@ export const UpdateLoadBalancerResponse = Schema.Struct({
               T.JsonName("region_pools"),
             ),
             sessionAffinity: Schema.optional(
-              Schema.Literal("none", "cookie", "ip_cookie", "header"),
+              Schema.Literals(["none", "cookie", "ip_cookie", "header"]),
             ).pipe(T.JsonName("session_affinity")),
             sessionAffinityAttributes: Schema.optional(Schema.Unknown).pipe(
               T.JsonName("session_affinity_attributes"),
@@ -1305,7 +1305,7 @@ export const UpdateLoadBalancerResponse = Schema.Struct({
               T.JsonName("session_affinity_ttl"),
             ),
             steeringPolicy: Schema.optional(
-              Schema.Literal(
+              Schema.Literals([
                 "",
                 "off",
                 "geo",
@@ -1314,7 +1314,7 @@ export const UpdateLoadBalancerResponse = Schema.Struct({
                 "proximity",
                 "least_outstanding_requests",
                 "least_connections",
-              ),
+              ]),
             ).pipe(T.JsonName("steering_policy")),
             ttl: Schema.optional(Schema.Number),
           }),
@@ -1325,7 +1325,7 @@ export const UpdateLoadBalancerResponse = Schema.Struct({
     ),
   ),
   sessionAffinity: Schema.optional(
-    Schema.Literal("none", "cookie", "ip_cookie", "header"),
+    Schema.Literals(["none", "cookie", "ip_cookie", "header"]),
   ).pipe(T.JsonName("session_affinity")),
   sessionAffinityAttributes: Schema.optional(
     Schema.Struct({
@@ -1337,11 +1337,11 @@ export const UpdateLoadBalancerResponse = Schema.Struct({
         T.JsonName("require_all_headers"),
       ),
       samesite: Schema.optional(
-        Schema.Literal("Auto", "Lax", "None", "Strict"),
+        Schema.Literals(["Auto", "Lax", "None", "Strict"]),
       ),
-      secure: Schema.optional(Schema.Literal("Auto", "Always", "Never")),
+      secure: Schema.optional(Schema.Literals(["Auto", "Always", "Never"])),
       zeroDowntimeFailover: Schema.optional(
-        Schema.Literal("none", "temporary", "sticky"),
+        Schema.Literals(["none", "temporary", "sticky"]),
       ).pipe(T.JsonName("zero_downtime_failover")),
     }),
   ).pipe(T.JsonName("session_affinity_attributes")),
@@ -1349,7 +1349,7 @@ export const UpdateLoadBalancerResponse = Schema.Struct({
     T.JsonName("session_affinity_ttl"),
   ),
   steeringPolicy: Schema.optional(
-    Schema.Literal(
+    Schema.Literals([
       "",
       "off",
       "geo",
@@ -1358,7 +1358,7 @@ export const UpdateLoadBalancerResponse = Schema.Struct({
       "proximity",
       "least_outstanding_requests",
       "least_connections",
-    ),
+    ]),
   ).pipe(T.JsonName("steering_policy")),
   ttl: Schema.optional(Schema.Number),
   zoneName: Schema.optional(Schema.String).pipe(T.JsonName("zone_name")),
@@ -1497,9 +1497,9 @@ export const PatchLoadBalancerRequest = Schema.Struct({
   ),
   locationStrategy: Schema.optional(
     Schema.Struct({
-      mode: Schema.optional(Schema.Literal("pop", "resolver_ip")),
+      mode: Schema.optional(Schema.Literals(["pop", "resolver_ip"])),
       preferEcs: Schema.optional(
-        Schema.Literal("always", "never", "proximity", "geo"),
+        Schema.Literals(["always", "never", "proximity", "geo"]),
       ).pipe(T.JsonName("prefer_ecs")),
     }),
   ).pipe(T.JsonName("location_strategy")),
@@ -1566,7 +1566,7 @@ export const PatchLoadBalancerRequest = Schema.Struct({
               T.JsonName("region_pools"),
             ),
             sessionAffinity: Schema.optional(
-              Schema.Literal("none", "cookie", "ip_cookie", "header"),
+              Schema.Literals(["none", "cookie", "ip_cookie", "header"]),
             ).pipe(T.JsonName("session_affinity")),
             sessionAffinityAttributes: Schema.optional(Schema.Unknown).pipe(
               T.JsonName("session_affinity_attributes"),
@@ -1575,7 +1575,7 @@ export const PatchLoadBalancerRequest = Schema.Struct({
               T.JsonName("session_affinity_ttl"),
             ),
             steeringPolicy: Schema.optional(
-              Schema.Literal(
+              Schema.Literals([
                 "",
                 "off",
                 "geo",
@@ -1584,7 +1584,7 @@ export const PatchLoadBalancerRequest = Schema.Struct({
                 "proximity",
                 "least_outstanding_requests",
                 "least_connections",
-              ),
+              ]),
             ).pipe(T.JsonName("steering_policy")),
             ttl: Schema.optional(Schema.Number),
           }),
@@ -1595,7 +1595,7 @@ export const PatchLoadBalancerRequest = Schema.Struct({
     ),
   ),
   sessionAffinity: Schema.optional(
-    Schema.Literal("none", "cookie", "ip_cookie", "header"),
+    Schema.Literals(["none", "cookie", "ip_cookie", "header"]),
   ).pipe(T.JsonName("session_affinity")),
   sessionAffinityAttributes: Schema.optional(
     Schema.Struct({
@@ -1607,11 +1607,11 @@ export const PatchLoadBalancerRequest = Schema.Struct({
         T.JsonName("require_all_headers"),
       ),
       samesite: Schema.optional(
-        Schema.Literal("Auto", "Lax", "None", "Strict"),
+        Schema.Literals(["Auto", "Lax", "None", "Strict"]),
       ),
-      secure: Schema.optional(Schema.Literal("Auto", "Always", "Never")),
+      secure: Schema.optional(Schema.Literals(["Auto", "Always", "Never"])),
       zeroDowntimeFailover: Schema.optional(
-        Schema.Literal("none", "temporary", "sticky"),
+        Schema.Literals(["none", "temporary", "sticky"]),
       ).pipe(T.JsonName("zero_downtime_failover")),
     }),
   ).pipe(T.JsonName("session_affinity_attributes")),
@@ -1619,7 +1619,7 @@ export const PatchLoadBalancerRequest = Schema.Struct({
     T.JsonName("session_affinity_ttl"),
   ),
   steeringPolicy: Schema.optional(
-    Schema.Literal(
+    Schema.Literals([
       "",
       "off",
       "geo",
@@ -1628,7 +1628,7 @@ export const PatchLoadBalancerRequest = Schema.Struct({
       "proximity",
       "least_outstanding_requests",
       "least_connections",
-    ),
+    ]),
   ).pipe(T.JsonName("steering_policy")),
   ttl: Schema.optional(Schema.Number),
 }).pipe(
@@ -1762,9 +1762,9 @@ export const PatchLoadBalancerResponse = Schema.Struct({
   ),
   locationStrategy: Schema.optional(
     Schema.Struct({
-      mode: Schema.optional(Schema.Literal("pop", "resolver_ip")),
+      mode: Schema.optional(Schema.Literals(["pop", "resolver_ip"])),
       preferEcs: Schema.optional(
-        Schema.Literal("always", "never", "proximity", "geo"),
+        Schema.Literals(["always", "never", "proximity", "geo"]),
       ).pipe(T.JsonName("prefer_ecs")),
     }),
   ).pipe(T.JsonName("location_strategy")),
@@ -1833,7 +1833,7 @@ export const PatchLoadBalancerResponse = Schema.Struct({
               T.JsonName("region_pools"),
             ),
             sessionAffinity: Schema.optional(
-              Schema.Literal("none", "cookie", "ip_cookie", "header"),
+              Schema.Literals(["none", "cookie", "ip_cookie", "header"]),
             ).pipe(T.JsonName("session_affinity")),
             sessionAffinityAttributes: Schema.optional(Schema.Unknown).pipe(
               T.JsonName("session_affinity_attributes"),
@@ -1842,7 +1842,7 @@ export const PatchLoadBalancerResponse = Schema.Struct({
               T.JsonName("session_affinity_ttl"),
             ),
             steeringPolicy: Schema.optional(
-              Schema.Literal(
+              Schema.Literals([
                 "",
                 "off",
                 "geo",
@@ -1851,7 +1851,7 @@ export const PatchLoadBalancerResponse = Schema.Struct({
                 "proximity",
                 "least_outstanding_requests",
                 "least_connections",
-              ),
+              ]),
             ).pipe(T.JsonName("steering_policy")),
             ttl: Schema.optional(Schema.Number),
           }),
@@ -1862,7 +1862,7 @@ export const PatchLoadBalancerResponse = Schema.Struct({
     ),
   ),
   sessionAffinity: Schema.optional(
-    Schema.Literal("none", "cookie", "ip_cookie", "header"),
+    Schema.Literals(["none", "cookie", "ip_cookie", "header"]),
   ).pipe(T.JsonName("session_affinity")),
   sessionAffinityAttributes: Schema.optional(
     Schema.Struct({
@@ -1874,11 +1874,11 @@ export const PatchLoadBalancerResponse = Schema.Struct({
         T.JsonName("require_all_headers"),
       ),
       samesite: Schema.optional(
-        Schema.Literal("Auto", "Lax", "None", "Strict"),
+        Schema.Literals(["Auto", "Lax", "None", "Strict"]),
       ),
-      secure: Schema.optional(Schema.Literal("Auto", "Always", "Never")),
+      secure: Schema.optional(Schema.Literals(["Auto", "Always", "Never"])),
       zeroDowntimeFailover: Schema.optional(
-        Schema.Literal("none", "temporary", "sticky"),
+        Schema.Literals(["none", "temporary", "sticky"]),
       ).pipe(T.JsonName("zero_downtime_failover")),
     }),
   ).pipe(T.JsonName("session_affinity_attributes")),
@@ -1886,7 +1886,7 @@ export const PatchLoadBalancerResponse = Schema.Struct({
     T.JsonName("session_affinity_ttl"),
   ),
   steeringPolicy: Schema.optional(
-    Schema.Literal(
+    Schema.Literals([
       "",
       "off",
       "geo",
@@ -1895,7 +1895,7 @@ export const PatchLoadBalancerResponse = Schema.Struct({
       "proximity",
       "least_outstanding_requests",
       "least_connections",
-    ),
+    ]),
   ).pipe(T.JsonName("steering_policy")),
   ttl: Schema.optional(Schema.Number),
   zoneName: Schema.optional(Schema.String).pipe(T.JsonName("zone_name")),
@@ -2033,12 +2033,12 @@ export const GetMonitorResponse = Schema.Struct({
   method: Schema.optional(Schema.String),
   modifiedOn: Schema.optional(Schema.String).pipe(T.JsonName("modified_on")),
   path: Schema.optional(Schema.String),
-  port: Schema.optional(Schema.Union(Schema.Number, Schema.Null)),
+  port: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
   probeZone: Schema.optional(Schema.String).pipe(T.JsonName("probe_zone")),
   retries: Schema.optional(Schema.Number),
   timeout: Schema.optional(Schema.Number),
   type: Schema.optional(
-    Schema.Literal("http", "https", "tcp", "udp_icmp", "icmp_ping", "smtp"),
+    Schema.Literals(["http", "https", "tcp", "udp_icmp", "icmp_ping", "smtp"]),
   ),
 }) as unknown as Schema.Schema<GetMonitorResponse>;
 
@@ -2116,12 +2116,12 @@ export const CreateMonitorRequest = Schema.Struct({
   interval: Schema.optional(Schema.Number),
   method: Schema.optional(Schema.String),
   path: Schema.optional(Schema.String),
-  port: Schema.optional(Schema.Union(Schema.Number, Schema.Null)),
+  port: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
   probeZone: Schema.optional(Schema.String).pipe(T.JsonName("probe_zone")),
   retries: Schema.optional(Schema.Number),
   timeout: Schema.optional(Schema.Number),
   type: Schema.optional(
-    Schema.Literal("http", "https", "tcp", "udp_icmp", "icmp_ping", "smtp"),
+    Schema.Literals(["http", "https", "tcp", "udp_icmp", "icmp_ping", "smtp"]),
   ),
 }).pipe(
   T.Http({
@@ -2195,12 +2195,12 @@ export const CreateMonitorResponse = Schema.Struct({
   method: Schema.optional(Schema.String),
   modifiedOn: Schema.optional(Schema.String).pipe(T.JsonName("modified_on")),
   path: Schema.optional(Schema.String),
-  port: Schema.optional(Schema.Union(Schema.Number, Schema.Null)),
+  port: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
   probeZone: Schema.optional(Schema.String).pipe(T.JsonName("probe_zone")),
   retries: Schema.optional(Schema.Number),
   timeout: Schema.optional(Schema.Number),
   type: Schema.optional(
-    Schema.Literal("http", "https", "tcp", "udp_icmp", "icmp_ping", "smtp"),
+    Schema.Literals(["http", "https", "tcp", "udp_icmp", "icmp_ping", "smtp"]),
   ),
 }) as unknown as Schema.Schema<CreateMonitorResponse>;
 
@@ -2280,12 +2280,12 @@ export const UpdateMonitorRequest = Schema.Struct({
   interval: Schema.optional(Schema.Number),
   method: Schema.optional(Schema.String),
   path: Schema.optional(Schema.String),
-  port: Schema.optional(Schema.Union(Schema.Number, Schema.Null)),
+  port: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
   probeZone: Schema.optional(Schema.String).pipe(T.JsonName("probe_zone")),
   retries: Schema.optional(Schema.Number),
   timeout: Schema.optional(Schema.Number),
   type: Schema.optional(
-    Schema.Literal("http", "https", "tcp", "udp_icmp", "icmp_ping", "smtp"),
+    Schema.Literals(["http", "https", "tcp", "udp_icmp", "icmp_ping", "smtp"]),
   ),
 }).pipe(
   T.Http({
@@ -2359,12 +2359,12 @@ export const UpdateMonitorResponse = Schema.Struct({
   method: Schema.optional(Schema.String),
   modifiedOn: Schema.optional(Schema.String).pipe(T.JsonName("modified_on")),
   path: Schema.optional(Schema.String),
-  port: Schema.optional(Schema.Union(Schema.Number, Schema.Null)),
+  port: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
   probeZone: Schema.optional(Schema.String).pipe(T.JsonName("probe_zone")),
   retries: Schema.optional(Schema.Number),
   timeout: Schema.optional(Schema.Number),
   type: Schema.optional(
-    Schema.Literal("http", "https", "tcp", "udp_icmp", "icmp_ping", "smtp"),
+    Schema.Literals(["http", "https", "tcp", "udp_icmp", "icmp_ping", "smtp"]),
   ),
 }) as unknown as Schema.Schema<UpdateMonitorResponse>;
 
@@ -2444,12 +2444,12 @@ export const PatchMonitorRequest = Schema.Struct({
   interval: Schema.optional(Schema.Number),
   method: Schema.optional(Schema.String),
   path: Schema.optional(Schema.String),
-  port: Schema.optional(Schema.Union(Schema.Number, Schema.Null)),
+  port: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
   probeZone: Schema.optional(Schema.String).pipe(T.JsonName("probe_zone")),
   retries: Schema.optional(Schema.Number),
   timeout: Schema.optional(Schema.Number),
   type: Schema.optional(
-    Schema.Literal("http", "https", "tcp", "udp_icmp", "icmp_ping", "smtp"),
+    Schema.Literals(["http", "https", "tcp", "udp_icmp", "icmp_ping", "smtp"]),
   ),
 }).pipe(
   T.Http({
@@ -2523,12 +2523,12 @@ export const PatchMonitorResponse = Schema.Struct({
   method: Schema.optional(Schema.String),
   modifiedOn: Schema.optional(Schema.String).pipe(T.JsonName("modified_on")),
   path: Schema.optional(Schema.String),
-  port: Schema.optional(Schema.Union(Schema.Number, Schema.Null)),
+  port: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
   probeZone: Schema.optional(Schema.String).pipe(T.JsonName("probe_zone")),
   retries: Schema.optional(Schema.Number),
   timeout: Schema.optional(Schema.Number),
   type: Schema.optional(
-    Schema.Literal("http", "https", "tcp", "udp_icmp", "icmp_ping", "smtp"),
+    Schema.Literals(["http", "https", "tcp", "udp_icmp", "icmp_ping", "smtp"]),
   ),
 }) as unknown as Schema.Schema<PatchMonitorResponse>;
 
@@ -3038,12 +3038,12 @@ export const CreateMonitorPreviewRequest = Schema.Struct({
   interval: Schema.optional(Schema.Number),
   method: Schema.optional(Schema.String),
   path: Schema.optional(Schema.String),
-  port: Schema.optional(Schema.Union(Schema.Number, Schema.Null)),
+  port: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
   probeZone: Schema.optional(Schema.String).pipe(T.JsonName("probe_zone")),
   retries: Schema.optional(Schema.Number),
   timeout: Schema.optional(Schema.Number),
   type: Schema.optional(
-    Schema.Literal("http", "https", "tcp", "udp_icmp", "icmp_ping", "smtp"),
+    Schema.Literals(["http", "https", "tcp", "udp_icmp", "icmp_ping", "smtp"]),
   ),
 }).pipe(
   T.Http({
@@ -3153,9 +3153,9 @@ export interface GetPoolResponse {
 export const GetPoolResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
   checkRegions: Schema.optional(
-    Schema.Union(
+    Schema.Union([
       Schema.Array(
-        Schema.Literal(
+        Schema.Literals([
           "WNAM",
           "ENAM",
           "WEU",
@@ -3170,17 +3170,17 @@ export const GetPoolResponse = Schema.Struct({
           "NEAS",
           "ALL_REGIONS",
           "SAS",
-        ),
+        ]),
       ),
       Schema.Null,
-    ),
+    ]),
   ).pipe(T.JsonName("check_regions")),
   createdOn: Schema.optional(Schema.String).pipe(T.JsonName("created_on")),
   description: Schema.optional(Schema.String),
   disabledAt: Schema.optional(Schema.String).pipe(T.JsonName("disabled_at")),
   enabled: Schema.optional(Schema.Boolean),
   latitude: Schema.optional(Schema.Number),
-  loadShedding: Schema.optional(Schema.Union(Schema.Unknown, Schema.Null)).pipe(
+  loadShedding: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])).pipe(
     T.JsonName("load_shedding"),
   ),
   longitude: Schema.optional(Schema.Number),
@@ -3198,10 +3198,10 @@ export const GetPoolResponse = Schema.Struct({
     T.JsonName("notification_email"),
   ),
   notificationFilter: Schema.optional(
-    Schema.Union(Schema.Unknown, Schema.Null),
+    Schema.Union([Schema.Unknown, Schema.Null]),
   ).pipe(T.JsonName("notification_filter")),
   originSteering: Schema.optional(
-    Schema.Union(Schema.Unknown, Schema.Null),
+    Schema.Union([Schema.Unknown, Schema.Null]),
   ).pipe(T.JsonName("origin_steering")),
   origins: Schema.optional(Schema.Array(Schema.Unknown)),
 }) as unknown as Schema.Schema<GetPoolResponse>;
@@ -3256,7 +3256,7 @@ export const CreatePoolRequest = Schema.Struct({
   description: Schema.optional(Schema.String),
   enabled: Schema.optional(Schema.Boolean),
   latitude: Schema.optional(Schema.Number),
-  loadShedding: Schema.optional(Schema.Union(Schema.Unknown, Schema.Null)).pipe(
+  loadShedding: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])).pipe(
     T.JsonName("load_shedding"),
   ),
   longitude: Schema.optional(Schema.Number),
@@ -3271,10 +3271,10 @@ export const CreatePoolRequest = Schema.Struct({
     T.JsonName("notification_email"),
   ),
   notificationFilter: Schema.optional(
-    Schema.Union(Schema.Unknown, Schema.Null),
+    Schema.Union([Schema.Unknown, Schema.Null]),
   ).pipe(T.JsonName("notification_filter")),
   originSteering: Schema.optional(
-    Schema.Union(Schema.Unknown, Schema.Null),
+    Schema.Union([Schema.Unknown, Schema.Null]),
   ).pipe(T.JsonName("origin_steering")),
 }).pipe(
   T.Http({
@@ -3341,9 +3341,9 @@ export interface CreatePoolResponse {
 export const CreatePoolResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
   checkRegions: Schema.optional(
-    Schema.Union(
+    Schema.Union([
       Schema.Array(
-        Schema.Literal(
+        Schema.Literals([
           "WNAM",
           "ENAM",
           "WEU",
@@ -3358,17 +3358,17 @@ export const CreatePoolResponse = Schema.Struct({
           "NEAS",
           "ALL_REGIONS",
           "SAS",
-        ),
+        ]),
       ),
       Schema.Null,
-    ),
+    ]),
   ).pipe(T.JsonName("check_regions")),
   createdOn: Schema.optional(Schema.String).pipe(T.JsonName("created_on")),
   description: Schema.optional(Schema.String),
   disabledAt: Schema.optional(Schema.String).pipe(T.JsonName("disabled_at")),
   enabled: Schema.optional(Schema.Boolean),
   latitude: Schema.optional(Schema.Number),
-  loadShedding: Schema.optional(Schema.Union(Schema.Unknown, Schema.Null)).pipe(
+  loadShedding: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])).pipe(
     T.JsonName("load_shedding"),
   ),
   longitude: Schema.optional(Schema.Number),
@@ -3386,10 +3386,10 @@ export const CreatePoolResponse = Schema.Struct({
     T.JsonName("notification_email"),
   ),
   notificationFilter: Schema.optional(
-    Schema.Union(Schema.Unknown, Schema.Null),
+    Schema.Union([Schema.Unknown, Schema.Null]),
   ).pipe(T.JsonName("notification_filter")),
   originSteering: Schema.optional(
-    Schema.Union(Schema.Unknown, Schema.Null),
+    Schema.Union([Schema.Unknown, Schema.Null]),
   ).pipe(T.JsonName("origin_steering")),
   origins: Schema.optional(Schema.Array(Schema.Unknown)),
 }) as unknown as Schema.Schema<CreatePoolResponse>;
@@ -3463,9 +3463,9 @@ export const UpdatePoolRequest = Schema.Struct({
   name: Schema.String,
   origins: Schema.Array(Schema.Unknown),
   checkRegions: Schema.optional(
-    Schema.Union(
+    Schema.Union([
       Schema.Array(
-        Schema.Literal(
+        Schema.Literals([
           "WNAM",
           "ENAM",
           "WEU",
@@ -3480,15 +3480,15 @@ export const UpdatePoolRequest = Schema.Struct({
           "NEAS",
           "ALL_REGIONS",
           "SAS",
-        ),
+        ]),
       ),
       Schema.Null,
-    ),
+    ]),
   ).pipe(T.JsonName("check_regions")),
   description: Schema.optional(Schema.String),
   enabled: Schema.optional(Schema.Boolean),
   latitude: Schema.optional(Schema.Number),
-  loadShedding: Schema.optional(Schema.Union(Schema.Unknown, Schema.Null)).pipe(
+  loadShedding: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])).pipe(
     T.JsonName("load_shedding"),
   ),
   longitude: Schema.optional(Schema.Number),
@@ -3503,10 +3503,10 @@ export const UpdatePoolRequest = Schema.Struct({
     T.JsonName("notification_email"),
   ),
   notificationFilter: Schema.optional(
-    Schema.Union(Schema.Unknown, Schema.Null),
+    Schema.Union([Schema.Unknown, Schema.Null]),
   ).pipe(T.JsonName("notification_filter")),
   originSteering: Schema.optional(
-    Schema.Union(Schema.Unknown, Schema.Null),
+    Schema.Union([Schema.Unknown, Schema.Null]),
   ).pipe(T.JsonName("origin_steering")),
 }).pipe(
   T.Http({
@@ -3573,9 +3573,9 @@ export interface UpdatePoolResponse {
 export const UpdatePoolResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
   checkRegions: Schema.optional(
-    Schema.Union(
+    Schema.Union([
       Schema.Array(
-        Schema.Literal(
+        Schema.Literals([
           "WNAM",
           "ENAM",
           "WEU",
@@ -3590,17 +3590,17 @@ export const UpdatePoolResponse = Schema.Struct({
           "NEAS",
           "ALL_REGIONS",
           "SAS",
-        ),
+        ]),
       ),
       Schema.Null,
-    ),
+    ]),
   ).pipe(T.JsonName("check_regions")),
   createdOn: Schema.optional(Schema.String).pipe(T.JsonName("created_on")),
   description: Schema.optional(Schema.String),
   disabledAt: Schema.optional(Schema.String).pipe(T.JsonName("disabled_at")),
   enabled: Schema.optional(Schema.Boolean),
   latitude: Schema.optional(Schema.Number),
-  loadShedding: Schema.optional(Schema.Union(Schema.Unknown, Schema.Null)).pipe(
+  loadShedding: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])).pipe(
     T.JsonName("load_shedding"),
   ),
   longitude: Schema.optional(Schema.Number),
@@ -3618,10 +3618,10 @@ export const UpdatePoolResponse = Schema.Struct({
     T.JsonName("notification_email"),
   ),
   notificationFilter: Schema.optional(
-    Schema.Union(Schema.Unknown, Schema.Null),
+    Schema.Union([Schema.Unknown, Schema.Null]),
   ).pipe(T.JsonName("notification_filter")),
   originSteering: Schema.optional(
-    Schema.Union(Schema.Unknown, Schema.Null),
+    Schema.Union([Schema.Unknown, Schema.Null]),
   ).pipe(T.JsonName("origin_steering")),
   origins: Schema.optional(Schema.Array(Schema.Unknown)),
 }) as unknown as Schema.Schema<UpdatePoolResponse>;
@@ -3693,9 +3693,9 @@ export const PatchPoolRequest = Schema.Struct({
   poolId: Schema.String.pipe(T.HttpPath("poolId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   checkRegions: Schema.optional(
-    Schema.Union(
+    Schema.Union([
       Schema.Array(
-        Schema.Literal(
+        Schema.Literals([
           "WNAM",
           "ENAM",
           "WEU",
@@ -3710,15 +3710,15 @@ export const PatchPoolRequest = Schema.Struct({
           "NEAS",
           "ALL_REGIONS",
           "SAS",
-        ),
+        ]),
       ),
       Schema.Null,
-    ),
+    ]),
   ).pipe(T.JsonName("check_regions")),
   description: Schema.optional(Schema.String),
   enabled: Schema.optional(Schema.Boolean),
   latitude: Schema.optional(Schema.Number),
-  loadShedding: Schema.optional(Schema.Union(Schema.Unknown, Schema.Null)).pipe(
+  loadShedding: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])).pipe(
     T.JsonName("load_shedding"),
   ),
   longitude: Schema.optional(Schema.Number),
@@ -3734,10 +3734,10 @@ export const PatchPoolRequest = Schema.Struct({
     T.JsonName("notification_email"),
   ),
   notificationFilter: Schema.optional(
-    Schema.Union(Schema.Unknown, Schema.Null),
+    Schema.Union([Schema.Unknown, Schema.Null]),
   ).pipe(T.JsonName("notification_filter")),
   originSteering: Schema.optional(
-    Schema.Union(Schema.Unknown, Schema.Null),
+    Schema.Union([Schema.Unknown, Schema.Null]),
   ).pipe(T.JsonName("origin_steering")),
   origins: Schema.optional(Schema.Array(Schema.Unknown)),
 }).pipe(
@@ -3805,9 +3805,9 @@ export interface PatchPoolResponse {
 export const PatchPoolResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
   checkRegions: Schema.optional(
-    Schema.Union(
+    Schema.Union([
       Schema.Array(
-        Schema.Literal(
+        Schema.Literals([
           "WNAM",
           "ENAM",
           "WEU",
@@ -3822,17 +3822,17 @@ export const PatchPoolResponse = Schema.Struct({
           "NEAS",
           "ALL_REGIONS",
           "SAS",
-        ),
+        ]),
       ),
       Schema.Null,
-    ),
+    ]),
   ).pipe(T.JsonName("check_regions")),
   createdOn: Schema.optional(Schema.String).pipe(T.JsonName("created_on")),
   description: Schema.optional(Schema.String),
   disabledAt: Schema.optional(Schema.String).pipe(T.JsonName("disabled_at")),
   enabled: Schema.optional(Schema.Boolean),
   latitude: Schema.optional(Schema.Number),
-  loadShedding: Schema.optional(Schema.Union(Schema.Unknown, Schema.Null)).pipe(
+  loadShedding: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])).pipe(
     T.JsonName("load_shedding"),
   ),
   longitude: Schema.optional(Schema.Number),
@@ -3850,10 +3850,10 @@ export const PatchPoolResponse = Schema.Struct({
     T.JsonName("notification_email"),
   ),
   notificationFilter: Schema.optional(
-    Schema.Union(Schema.Unknown, Schema.Null),
+    Schema.Union([Schema.Unknown, Schema.Null]),
   ).pipe(T.JsonName("notification_filter")),
   originSteering: Schema.optional(
-    Schema.Union(Schema.Unknown, Schema.Null),
+    Schema.Union([Schema.Unknown, Schema.Null]),
   ).pipe(T.JsonName("origin_steering")),
   origins: Schema.optional(Schema.Array(Schema.Unknown)),
 }) as unknown as Schema.Schema<PatchPoolResponse>;
@@ -4046,12 +4046,12 @@ export const CreatePoolHealthRequest = Schema.Struct({
   interval: Schema.optional(Schema.Number),
   method: Schema.optional(Schema.String),
   path: Schema.optional(Schema.String),
-  port: Schema.optional(Schema.Union(Schema.Number, Schema.Null)),
+  port: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
   probeZone: Schema.optional(Schema.String).pipe(T.JsonName("probe_zone")),
   retries: Schema.optional(Schema.Number),
   timeout: Schema.optional(Schema.Number),
   type: Schema.optional(
-    Schema.Literal("http", "https", "tcp", "udp_icmp", "icmp_ping", "smtp"),
+    Schema.Literals(["http", "https", "tcp", "udp_icmp", "icmp_ping", "smtp"]),
   ),
 }).pipe(
   T.Http({
@@ -4145,7 +4145,7 @@ export interface GetRegionRequest {
 }
 
 export const GetRegionRequest = Schema.Struct({
-  regionId: Schema.Literal(
+  regionId: Schema.Literals([
     "WNAM",
     "ENAM",
     "WEU",
@@ -4159,7 +4159,7 @@ export const GetRegionRequest = Schema.Struct({
     "SAS",
     "SEAS",
     "NEAS",
-  ).pipe(T.HttpPath("regionId")),
+  ]).pipe(T.HttpPath("regionId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
   T.Http({
@@ -4170,10 +4170,10 @@ export const GetRegionRequest = Schema.Struct({
 
 export type GetRegionResponse = string | null;
 
-export const GetRegionResponse = Schema.Union(
+export const GetRegionResponse = Schema.Union([
   Schema.String,
   Schema.Null,
-) as unknown as Schema.Schema<GetRegionResponse>;
+]) as unknown as Schema.Schema<GetRegionResponse>;
 
 export const getRegion: (
   input: GetRegionRequest,
@@ -4218,10 +4218,10 @@ export const ListRegionsRequest = Schema.Struct({
 
 export type ListRegionsResponse = string | null;
 
-export const ListRegionsResponse = Schema.Union(
+export const ListRegionsResponse = Schema.Union([
   Schema.String,
   Schema.Null,
-) as unknown as Schema.Schema<ListRegionsResponse>;
+]) as unknown as Schema.Schema<ListRegionsResponse>;
 
 export const listRegions: (
   input: ListRegionsRequest,

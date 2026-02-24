@@ -7,7 +7,7 @@
 
 import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
-import type { HttpClient } from "@effect/platform";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
@@ -385,44 +385,44 @@ export interface GetRuleResponse {
 }
 
 export const GetRuleResponse = Schema.Struct({
-  automaticAdvertisement: Schema.Union(Schema.Boolean, Schema.Null).pipe(
+  automaticAdvertisement: Schema.Union([Schema.Boolean, Schema.Null]).pipe(
     T.JsonName("automatic_advertisement"),
   ),
   name: Schema.String,
   prefixes: Schema.Array(Schema.String),
-  type: Schema.Literal("threshold", "zscore", "advanced_ddos"),
+  type: Schema.Literals(["threshold", "zscore", "advanced_ddos"]),
   id: Schema.optional(Schema.String),
   bandwidthThreshold: Schema.optional(Schema.Number).pipe(
     T.JsonName("bandwidth_threshold"),
   ),
   duration: Schema.optional(
-    Schema.Literal("1m", "5m", "10m", "15m", "20m", "30m", "45m", "60m"),
+    Schema.Literals(["1m", "5m", "10m", "15m", "20m", "30m", "45m", "60m"]),
   ),
   packetThreshold: Schema.optional(Schema.Number).pipe(
     T.JsonName("packet_threshold"),
   ),
   prefixMatch: Schema.optional(
-    Schema.Union(
+    Schema.Union([
       Schema.Literal("exact"),
       Schema.Literal("subnet"),
       Schema.Literal("supernet"),
       Schema.Null,
-    ),
+    ]),
   ).pipe(T.JsonName("prefix_match")),
   zscoreSensitivity: Schema.optional(
-    Schema.Union(
+    Schema.Union([
       Schema.Literal("low"),
       Schema.Literal("medium"),
       Schema.Literal("high"),
       Schema.Null,
-    ),
+    ]),
   ).pipe(T.JsonName("zscore_sensitivity")),
   zscoreTarget: Schema.optional(
-    Schema.Union(
+    Schema.Union([
       Schema.Literal("bits"),
       Schema.Literal("packets"),
       Schema.Null,
-    ),
+    ]),
   ).pipe(T.JsonName("zscore_target")),
 }) as unknown as Schema.Schema<GetRuleResponse>;
 
@@ -457,7 +457,7 @@ export interface CreateRuleRequest {
 
 export const CreateRuleRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  duration: Schema.Literal(
+  duration: Schema.Literals([
     "1m",
     "5m",
     "10m",
@@ -466,10 +466,10 @@ export const CreateRuleRequest = Schema.Struct({
     "30m",
     "45m",
     "60m",
-  ),
+  ]),
   name: Schema.String,
   automaticAdvertisement: Schema.optional(
-    Schema.Union(Schema.Boolean, Schema.Null),
+    Schema.Union([Schema.Boolean, Schema.Null]),
   ).pipe(T.JsonName("automatic_advertisement")),
   bandwidth: Schema.optional(Schema.Number),
   packetThreshold: Schema.optional(Schema.Number).pipe(
@@ -505,44 +505,44 @@ export interface CreateRuleResponse {
 }
 
 export const CreateRuleResponse = Schema.Struct({
-  automaticAdvertisement: Schema.Union(Schema.Boolean, Schema.Null).pipe(
+  automaticAdvertisement: Schema.Union([Schema.Boolean, Schema.Null]).pipe(
     T.JsonName("automatic_advertisement"),
   ),
   name: Schema.String,
   prefixes: Schema.Array(Schema.String),
-  type: Schema.Literal("threshold", "zscore", "advanced_ddos"),
+  type: Schema.Literals(["threshold", "zscore", "advanced_ddos"]),
   id: Schema.optional(Schema.String),
   bandwidthThreshold: Schema.optional(Schema.Number).pipe(
     T.JsonName("bandwidth_threshold"),
   ),
   duration: Schema.optional(
-    Schema.Literal("1m", "5m", "10m", "15m", "20m", "30m", "45m", "60m"),
+    Schema.Literals(["1m", "5m", "10m", "15m", "20m", "30m", "45m", "60m"]),
   ),
   packetThreshold: Schema.optional(Schema.Number).pipe(
     T.JsonName("packet_threshold"),
   ),
   prefixMatch: Schema.optional(
-    Schema.Union(
+    Schema.Union([
       Schema.Literal("exact"),
       Schema.Literal("subnet"),
       Schema.Literal("supernet"),
       Schema.Null,
-    ),
+    ]),
   ).pipe(T.JsonName("prefix_match")),
   zscoreSensitivity: Schema.optional(
-    Schema.Union(
+    Schema.Union([
       Schema.Literal("low"),
       Schema.Literal("medium"),
       Schema.Literal("high"),
       Schema.Null,
-    ),
+    ]),
   ).pipe(T.JsonName("zscore_sensitivity")),
   zscoreTarget: Schema.optional(
-    Schema.Union(
+    Schema.Union([
       Schema.Literal("bits"),
       Schema.Literal("packets"),
       Schema.Null,
-    ),
+    ]),
   ).pipe(T.JsonName("zscore_target")),
 }) as unknown as Schema.Schema<CreateRuleResponse>;
 
@@ -579,7 +579,7 @@ export interface UpdateRuleRequest {
 
 export const UpdateRuleRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  duration: Schema.Literal(
+  duration: Schema.Literals([
     "1m",
     "5m",
     "10m",
@@ -588,11 +588,11 @@ export const UpdateRuleRequest = Schema.Struct({
     "30m",
     "45m",
     "60m",
-  ),
+  ]),
   name: Schema.String,
   id: Schema.optional(Schema.String),
   automaticAdvertisement: Schema.optional(
-    Schema.Union(Schema.Boolean, Schema.Null),
+    Schema.Union([Schema.Boolean, Schema.Null]),
   ).pipe(T.JsonName("automatic_advertisement")),
   bandwidth: Schema.optional(Schema.Number),
   packetThreshold: Schema.optional(Schema.Number).pipe(
@@ -628,44 +628,44 @@ export interface UpdateRuleResponse {
 }
 
 export const UpdateRuleResponse = Schema.Struct({
-  automaticAdvertisement: Schema.Union(Schema.Boolean, Schema.Null).pipe(
+  automaticAdvertisement: Schema.Union([Schema.Boolean, Schema.Null]).pipe(
     T.JsonName("automatic_advertisement"),
   ),
   name: Schema.String,
   prefixes: Schema.Array(Schema.String),
-  type: Schema.Literal("threshold", "zscore", "advanced_ddos"),
+  type: Schema.Literals(["threshold", "zscore", "advanced_ddos"]),
   id: Schema.optional(Schema.String),
   bandwidthThreshold: Schema.optional(Schema.Number).pipe(
     T.JsonName("bandwidth_threshold"),
   ),
   duration: Schema.optional(
-    Schema.Literal("1m", "5m", "10m", "15m", "20m", "30m", "45m", "60m"),
+    Schema.Literals(["1m", "5m", "10m", "15m", "20m", "30m", "45m", "60m"]),
   ),
   packetThreshold: Schema.optional(Schema.Number).pipe(
     T.JsonName("packet_threshold"),
   ),
   prefixMatch: Schema.optional(
-    Schema.Union(
+    Schema.Union([
       Schema.Literal("exact"),
       Schema.Literal("subnet"),
       Schema.Literal("supernet"),
       Schema.Null,
-    ),
+    ]),
   ).pipe(T.JsonName("prefix_match")),
   zscoreSensitivity: Schema.optional(
-    Schema.Union(
+    Schema.Union([
       Schema.Literal("low"),
       Schema.Literal("medium"),
       Schema.Literal("high"),
       Schema.Null,
-    ),
+    ]),
   ).pipe(T.JsonName("zscore_sensitivity")),
   zscoreTarget: Schema.optional(
-    Schema.Union(
+    Schema.Union([
       Schema.Literal("bits"),
       Schema.Literal("packets"),
       Schema.Null,
-    ),
+    ]),
   ).pipe(T.JsonName("zscore_target")),
 }) as unknown as Schema.Schema<UpdateRuleResponse>;
 
@@ -703,11 +703,11 @@ export const PatchRuleRequest = Schema.Struct({
   ruleId: Schema.String.pipe(T.HttpPath("ruleId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   automaticAdvertisement: Schema.optional(
-    Schema.Union(Schema.Boolean, Schema.Null),
+    Schema.Union([Schema.Boolean, Schema.Null]),
   ).pipe(T.JsonName("automatic_advertisement")),
   bandwidth: Schema.optional(Schema.Number),
   duration: Schema.optional(
-    Schema.Literal("1m", "5m", "10m", "15m", "20m", "30m", "45m", "60m"),
+    Schema.Literals(["1m", "5m", "10m", "15m", "20m", "30m", "45m", "60m"]),
   ),
   name: Schema.optional(Schema.String),
   packetThreshold: Schema.optional(Schema.Number).pipe(
@@ -746,44 +746,44 @@ export interface PatchRuleResponse {
 }
 
 export const PatchRuleResponse = Schema.Struct({
-  automaticAdvertisement: Schema.Union(Schema.Boolean, Schema.Null).pipe(
+  automaticAdvertisement: Schema.Union([Schema.Boolean, Schema.Null]).pipe(
     T.JsonName("automatic_advertisement"),
   ),
   name: Schema.String,
   prefixes: Schema.Array(Schema.String),
-  type: Schema.Literal("threshold", "zscore", "advanced_ddos"),
+  type: Schema.Literals(["threshold", "zscore", "advanced_ddos"]),
   id: Schema.optional(Schema.String),
   bandwidthThreshold: Schema.optional(Schema.Number).pipe(
     T.JsonName("bandwidth_threshold"),
   ),
   duration: Schema.optional(
-    Schema.Literal("1m", "5m", "10m", "15m", "20m", "30m", "45m", "60m"),
+    Schema.Literals(["1m", "5m", "10m", "15m", "20m", "30m", "45m", "60m"]),
   ),
   packetThreshold: Schema.optional(Schema.Number).pipe(
     T.JsonName("packet_threshold"),
   ),
   prefixMatch: Schema.optional(
-    Schema.Union(
+    Schema.Union([
       Schema.Literal("exact"),
       Schema.Literal("subnet"),
       Schema.Literal("supernet"),
       Schema.Null,
-    ),
+    ]),
   ).pipe(T.JsonName("prefix_match")),
   zscoreSensitivity: Schema.optional(
-    Schema.Union(
+    Schema.Union([
       Schema.Literal("low"),
       Schema.Literal("medium"),
       Schema.Literal("high"),
       Schema.Null,
-    ),
+    ]),
   ).pipe(T.JsonName("zscore_sensitivity")),
   zscoreTarget: Schema.optional(
-    Schema.Union(
+    Schema.Union([
       Schema.Literal("bits"),
       Schema.Literal("packets"),
       Schema.Null,
-    ),
+    ]),
   ).pipe(T.JsonName("zscore_target")),
 }) as unknown as Schema.Schema<PatchRuleResponse>;
 
@@ -839,44 +839,44 @@ export interface DeleteRuleResponse {
 }
 
 export const DeleteRuleResponse = Schema.Struct({
-  automaticAdvertisement: Schema.Union(Schema.Boolean, Schema.Null).pipe(
+  automaticAdvertisement: Schema.Union([Schema.Boolean, Schema.Null]).pipe(
     T.JsonName("automatic_advertisement"),
   ),
   name: Schema.String,
   prefixes: Schema.Array(Schema.String),
-  type: Schema.Literal("threshold", "zscore", "advanced_ddos"),
+  type: Schema.Literals(["threshold", "zscore", "advanced_ddos"]),
   id: Schema.optional(Schema.String),
   bandwidthThreshold: Schema.optional(Schema.Number).pipe(
     T.JsonName("bandwidth_threshold"),
   ),
   duration: Schema.optional(
-    Schema.Literal("1m", "5m", "10m", "15m", "20m", "30m", "45m", "60m"),
+    Schema.Literals(["1m", "5m", "10m", "15m", "20m", "30m", "45m", "60m"]),
   ),
   packetThreshold: Schema.optional(Schema.Number).pipe(
     T.JsonName("packet_threshold"),
   ),
   prefixMatch: Schema.optional(
-    Schema.Union(
+    Schema.Union([
       Schema.Literal("exact"),
       Schema.Literal("subnet"),
       Schema.Literal("supernet"),
       Schema.Null,
-    ),
+    ]),
   ).pipe(T.JsonName("prefix_match")),
   zscoreSensitivity: Schema.optional(
-    Schema.Union(
+    Schema.Union([
       Schema.Literal("low"),
       Schema.Literal("medium"),
       Schema.Literal("high"),
       Schema.Null,
-    ),
+    ]),
   ).pipe(T.JsonName("zscore_sensitivity")),
   zscoreTarget: Schema.optional(
-    Schema.Union(
+    Schema.Union([
       Schema.Literal("bits"),
       Schema.Literal("packets"),
       Schema.Null,
-    ),
+    ]),
   ).pipe(T.JsonName("zscore_target")),
 }) as unknown as Schema.Schema<DeleteRuleResponse>;
 
@@ -921,7 +921,7 @@ export interface PatchRuleAdvertisementResponse {
 }
 
 export const PatchRuleAdvertisementResponse = Schema.Struct({
-  automaticAdvertisement: Schema.Union(Schema.Boolean, Schema.Null).pipe(
+  automaticAdvertisement: Schema.Union([Schema.Boolean, Schema.Null]).pipe(
     T.JsonName("automatic_advertisement"),
   ),
 }) as unknown as Schema.Schema<PatchRuleAdvertisementResponse>;

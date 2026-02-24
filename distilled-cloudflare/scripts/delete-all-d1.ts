@@ -8,9 +8,12 @@
  *   bun scripts/delete-all-d1.ts --confirm --force # Skip interactive prompt
  */
 
-import { FetchHttpClient, HttpClient, HttpClientRequest } from "@effect/platform";
-import { NodeContext, NodeRuntime } from "@effect/platform-node";
-import { Console, Effect, Layer, Logger, LogLevel, Redacted } from "effect";
+import { NodeRuntime, NodeServices } from "@effect/platform-node";
+import { Console, Effect, Layer, Logger, Redacted } from "effect";
+import { MinimumLogLevel } from "effect/References";
+import * as FetchHttpClient from "effect/unstable/http/FetchHttpClient";
+import * as HttpClient from "effect/unstable/http/HttpClient";
+import * as HttpClientRequest from "effect/unstable/http/HttpClientRequest";
 import * as Auth from "../src/auth.ts";
 import { deleteDatabase } from "../src/services/d1.ts";
 import * as Retry from "../src/retry.ts";
@@ -125,7 +128,7 @@ const getAccountId = (): string => {
  * Prompt the user for confirmation on stdin.
  */
 const promptConfirm = (message: string) =>
-  Effect.async<boolean>((resume) => {
+  Effect.callback<boolean>((resume) => {
     process.stdout.write(`${message} [y/N] `);
     process.stdin.setEncoding("utf8");
     process.stdin.resume();
@@ -192,7 +195,7 @@ const program = Effect.gen(function* () {
           }),
         ),
         Effect.tap(() => Console.log(`  ✓ Deleted: ${db.name} (${db.uuid})`)),
-        Effect.catchAll((error) =>
+        Effect.catch((error: any) =>
           Effect.gen(function* () {
             failed++;
             yield* Console.error(
@@ -214,16 +217,17 @@ const program = Effect.gen(function* () {
 // ---------------------------------------------------------------------------
 
 const MainLayer = Layer.mergeAll(
-  NodeContext.layer,
+  NodeServices.layer,
   FetchHttpClient.layer,
-  Logger.pretty,
+  Logger.layer([Logger.consolePretty()]),
   Auth.fromEnv(),
 );
 
 program.pipe(
   Retry.transient,
-  Logger.withMinimumLogLevel(
-    process.env.DEBUG ? LogLevel.Debug : LogLevel.Info,
+  Effect.provideService(
+    MinimumLogLevel,
+    process.env.DEBUG ? "Debug" : "Info",
   ),
   Effect.provide(MainLayer),
   NodeRuntime.runMain,

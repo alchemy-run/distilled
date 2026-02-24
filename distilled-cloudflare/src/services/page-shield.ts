@@ -7,7 +7,7 @@
 
 import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
-import type { HttpClient } from "@effect/platform";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
@@ -141,7 +141,7 @@ export const GetCookyResponse = Schema.Struct({
   host: Schema.String,
   lastSeenAt: Schema.String.pipe(T.JsonName("last_seen_at")),
   name: Schema.String,
-  type: Schema.Literal("first_party", "unknown"),
+  type: Schema.Literals(["first_party", "unknown"]),
   domainAttribute: Schema.optional(Schema.String).pipe(
     T.JsonName("domain_attribute"),
   ),
@@ -161,7 +161,7 @@ export const GetCookyResponse = Schema.Struct({
     T.JsonName("path_attribute"),
   ),
   sameSiteAttribute: Schema.optional(
-    Schema.Literal("lax", "strict", "none"),
+    Schema.Literals(["lax", "strict", "none"]),
   ).pipe(T.JsonName("same_site_attribute")),
   secureAttribute: Schema.optional(Schema.Boolean).pipe(
     T.JsonName("secure_attribute"),
@@ -324,7 +324,7 @@ export interface GetPolicyResponse {
 
 export const GetPolicyResponse = Schema.Struct({
   id: Schema.String,
-  action: Schema.Literal("allow", "log"),
+  action: Schema.Literals(["allow", "log"]),
   description: Schema.String,
   enabled: Schema.Boolean,
   expression: Schema.String,
@@ -360,7 +360,7 @@ export interface CreatePolicyRequest {
 
 export const CreatePolicyRequest = Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  action: Schema.Literal("allow", "log"),
+  action: Schema.Literals(["allow", "log"]),
   description: Schema.String,
   enabled: Schema.Boolean,
   expression: Schema.String,
@@ -386,7 +386,7 @@ export interface CreatePolicyResponse {
 
 export const CreatePolicyResponse = Schema.Struct({
   id: Schema.String,
-  action: Schema.Literal("allow", "log"),
+  action: Schema.Literals(["allow", "log"]),
   description: Schema.String,
   enabled: Schema.Boolean,
   expression: Schema.String,
@@ -424,7 +424,7 @@ export interface UpdatePolicyRequest {
 export const UpdatePolicyRequest = Schema.Struct({
   policyId: Schema.String.pipe(T.HttpPath("policyId")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  action: Schema.optional(Schema.Literal("allow", "log")),
+  action: Schema.optional(Schema.Literals(["allow", "log"])),
   description: Schema.optional(Schema.String),
   enabled: Schema.optional(Schema.Boolean),
   expression: Schema.optional(Schema.String),
@@ -453,7 +453,7 @@ export interface UpdatePolicyResponse {
 
 export const UpdatePolicyResponse = Schema.Struct({
   id: Schema.String,
-  action: Schema.Literal("allow", "log"),
+  action: Schema.Literals(["allow", "log"]),
   description: Schema.String,
   enabled: Schema.Boolean,
   expression: Schema.String,
@@ -581,25 +581,25 @@ export const GetScriptResponse = Schema.Struct({
     T.JsonName("url_contains_cdn_cgi_path"),
   ),
   cryptominingScore: Schema.optional(
-    Schema.Union(Schema.Number, Schema.Null),
+    Schema.Union([Schema.Number, Schema.Null]),
   ).pipe(T.JsonName("cryptomining_score")),
-  dataflowScore: Schema.optional(Schema.Union(Schema.Number, Schema.Null)).pipe(
+  dataflowScore: Schema.optional(Schema.Union([Schema.Number, Schema.Null])).pipe(
     T.JsonName("dataflow_score"),
   ),
   domainReportedMalicious: Schema.optional(Schema.Boolean).pipe(
     T.JsonName("domain_reported_malicious"),
   ),
-  fetchedAt: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
+  fetchedAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
     T.JsonName("fetched_at"),
   ),
   firstPageUrl: Schema.optional(Schema.String).pipe(
     T.JsonName("first_page_url"),
   ),
-  hash: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
+  hash: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   jsIntegrityScore: Schema.optional(
-    Schema.Union(Schema.Number, Schema.Null),
+    Schema.Union([Schema.Number, Schema.Null]),
   ).pipe(T.JsonName("js_integrity_score")),
-  magecartScore: Schema.optional(Schema.Union(Schema.Number, Schema.Null)).pipe(
+  magecartScore: Schema.optional(Schema.Union([Schema.Number, Schema.Null])).pipe(
     T.JsonName("magecart_score"),
   ),
   maliciousDomainCategories: Schema.optional(Schema.Array(Schema.String)).pipe(
@@ -608,11 +608,11 @@ export const GetScriptResponse = Schema.Struct({
   maliciousUrlCategories: Schema.optional(Schema.Array(Schema.String)).pipe(
     T.JsonName("malicious_url_categories"),
   ),
-  malwareScore: Schema.optional(Schema.Union(Schema.Number, Schema.Null)).pipe(
+  malwareScore: Schema.optional(Schema.Union([Schema.Number, Schema.Null])).pipe(
     T.JsonName("malware_score"),
   ),
   obfuscationScore: Schema.optional(
-    Schema.Union(Schema.Number, Schema.Null),
+    Schema.Union([Schema.Number, Schema.Null]),
   ).pipe(T.JsonName("obfuscation_score")),
   pageUrls: Schema.optional(Schema.Array(Schema.String)).pipe(
     T.JsonName("page_urls"),
@@ -621,35 +621,35 @@ export const GetScriptResponse = Schema.Struct({
     T.JsonName("url_reported_malicious"),
   ),
   versions: Schema.optional(
-    Schema.Union(
+    Schema.Union([
       Schema.Array(
         Schema.Struct({
           cryptominingScore: Schema.optional(
-            Schema.Union(Schema.Number, Schema.Null),
+            Schema.Union([Schema.Number, Schema.Null]),
           ).pipe(T.JsonName("cryptomining_score")),
           dataflowScore: Schema.optional(
-            Schema.Union(Schema.Number, Schema.Null),
+            Schema.Union([Schema.Number, Schema.Null]),
           ).pipe(T.JsonName("dataflow_score")),
           fetchedAt: Schema.optional(
-            Schema.Union(Schema.String, Schema.Null),
+            Schema.Union([Schema.String, Schema.Null]),
           ).pipe(T.JsonName("fetched_at")),
-          hash: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
+          hash: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
           jsIntegrityScore: Schema.optional(
-            Schema.Union(Schema.Number, Schema.Null),
+            Schema.Union([Schema.Number, Schema.Null]),
           ).pipe(T.JsonName("js_integrity_score")),
           magecartScore: Schema.optional(
-            Schema.Union(Schema.Number, Schema.Null),
+            Schema.Union([Schema.Number, Schema.Null]),
           ).pipe(T.JsonName("magecart_score")),
           malwareScore: Schema.optional(
-            Schema.Union(Schema.Number, Schema.Null),
+            Schema.Union([Schema.Number, Schema.Null]),
           ).pipe(T.JsonName("malware_score")),
           obfuscationScore: Schema.optional(
-            Schema.Union(Schema.Number, Schema.Null),
+            Schema.Union([Schema.Number, Schema.Null]),
           ).pipe(T.JsonName("obfuscation_score")),
         }),
       ),
       Schema.Null,
-    ),
+    ]),
   ),
 }) as unknown as Schema.Schema<GetScriptResponse>;
 

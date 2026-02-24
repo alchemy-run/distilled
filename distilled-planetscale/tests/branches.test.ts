@@ -7,8 +7,8 @@ import { deleteBranch } from "../src/operations/deleteBranch";
 import { demoteBranch } from "../src/operations/demoteBranch";
 import { getBranch } from "../src/operations/getBranch";
 import { getBranchSchema } from "../src/operations/getBranchSchema";
-import { listBranches } from "../src/operations/listBranches";
 import { lintBranchSchema } from "../src/operations/lintBranchSchema";
+import { listBranches } from "../src/operations/listBranches";
 import { promoteBranch } from "../src/operations/promoteBranch";
 import { updateBranchClusterConfig } from "../src/operations/updateBranchClusterConfig";
 import {
@@ -50,7 +50,7 @@ const waitForBranchReady = (
       ),
     ),
     {
-      schedule: Schedule.intersect(
+      schedule: Schedule.both(
         Schedule.recurs(120),
         Schedule.spaced("5 seconds"),
       ),

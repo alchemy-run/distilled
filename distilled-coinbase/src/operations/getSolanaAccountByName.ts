@@ -7,7 +7,8 @@ import { InvalidRequest, NotFound } from "../errors";
 export const GetSolanaAccountByNameInput = Schema.Struct({
   name: Schema.String.pipe(T.PathParam()),
 }).pipe(T.Http({ method: "GET", path: "/v2/solana/accounts/by-name/{name}" }));
-export type GetSolanaAccountByNameInput = typeof GetSolanaAccountByNameInput.Type;
+export type GetSolanaAccountByNameInput =
+  typeof GetSolanaAccountByNameInput.Type;
 
 // Output Schema
 export const GetSolanaAccountByNameOutput = Schema.Struct({
@@ -17,7 +18,8 @@ export const GetSolanaAccountByNameOutput = Schema.Struct({
   createdAt: Schema.optional(Schema.String),
   updatedAt: Schema.optional(Schema.String),
 });
-export type GetSolanaAccountByNameOutput = typeof GetSolanaAccountByNameOutput.Type;
+export type GetSolanaAccountByNameOutput =
+  typeof GetSolanaAccountByNameOutput.Type;
 
 // The operation
 /**
@@ -27,8 +29,10 @@ export type GetSolanaAccountByNameOutput = typeof GetSolanaAccountByNameOutput.T
  *
  * @param name - The name of the Solana account.
  */
-export const getSolanaAccountByName = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  inputSchema: GetSolanaAccountByNameInput,
-  outputSchema: GetSolanaAccountByNameOutput,
-  errors: [InvalidRequest, NotFound],
-}));
+export const getSolanaAccountByName = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    inputSchema: GetSolanaAccountByNameInput,
+    outputSchema: GetSolanaAccountByNameOutput,
+    errors: [InvalidRequest, NotFound],
+  }),
+);

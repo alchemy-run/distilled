@@ -7,7 +7,7 @@
 
 import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
-import type { HttpClient } from "@effect/platform";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
@@ -159,10 +159,10 @@ export const DeleteSnippetRequest = Schema.Struct({
 
 export type DeleteSnippetResponse = string | null;
 
-export const DeleteSnippetResponse = Schema.Union(
+export const DeleteSnippetResponse = Schema.Union([
   Schema.String,
   Schema.Null,
-) as unknown as Schema.Schema<DeleteSnippetResponse>;
+]) as unknown as Schema.Schema<DeleteSnippetResponse>;
 
 export const deleteSnippet: (
   input: DeleteSnippetRequest,

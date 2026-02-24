@@ -1,18 +1,17 @@
 import * as Config from "effect/Config";
-import * as Context from "effect/Context";
 import * as Layer from "effect/Layer";
+import * as ServiceMap from "effect/ServiceMap";
 
-export class Region extends Context.Tag("distilled-aws/Region")<
-  Region,
-  RegionName
->() {}
+export class Region extends ServiceMap.Service<Region, RegionName>()(
+  "distilled-aws/Region",
+) {}
 
 export const fromEnv = () =>
   Layer.effect(
     Region,
-    Config.string("AWS_REGION").pipe(
-      Config.orElse(() => Config.string("AWS_DEFAULT_REGION")),
-    ),
+    Config.string("AWS_REGION")
+      .pipe(Config.orElse(() => Config.string("AWS_DEFAULT_REGION")))
+      .asEffect(),
   );
 
 export type RegionName =

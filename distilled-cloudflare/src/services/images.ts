@@ -7,7 +7,7 @@
 
 import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
-import type { HttpClient } from "@effect/platform";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
@@ -55,7 +55,7 @@ export interface GetV1Response {
 
 export const GetV1Response = Schema.Struct({
   id: Schema.optional(Schema.String),
-  creator: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
+  creator: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   filename: Schema.optional(Schema.String),
   meta: Schema.optional(Schema.Unknown),
   requireSignedURLs: Schema.optional(Schema.Boolean),
@@ -127,7 +127,7 @@ export interface CreateV1Response {
 
 export const CreateV1Response = Schema.Struct({
   id: Schema.optional(Schema.String),
-  creator: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
+  creator: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   filename: Schema.optional(Schema.String),
   meta: Schema.optional(Schema.Unknown),
   requireSignedURLs: Schema.optional(Schema.Boolean),
@@ -191,7 +191,7 @@ export interface PatchV1Response {
 
 export const PatchV1Response = Schema.Struct({
   id: Schema.optional(Schema.String),
-  creator: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
+  creator: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   filename: Schema.optional(Schema.String),
   meta: Schema.optional(Schema.Unknown),
   requireSignedURLs: Schema.optional(Schema.Boolean),
@@ -487,9 +487,9 @@ export const GetV1VariantResponse = Schema.Struct({
     Schema.Struct({
       id: Schema.String,
       options: Schema.Struct({
-        fit: Schema.Literal("scale-down", "contain", "cover", "crop", "pad"),
+        fit: Schema.Literals(["scale-down", "contain", "cover", "crop", "pad"]),
         height: Schema.Number,
-        metadata: Schema.Literal("keep", "copyright", "none"),
+        metadata: Schema.Literals(["keep", "copyright", "none"]),
         width: Schema.Number,
       }),
       neverRequireSignedURLs: Schema.optional(Schema.Boolean),
@@ -536,9 +536,9 @@ export interface ListV1VariantsResponse {
 export const ListV1VariantsResponse = Schema.Struct({
   id: Schema.String,
   options: Schema.Struct({
-    fit: Schema.Literal("scale-down", "contain", "cover", "crop", "pad"),
+    fit: Schema.Literals(["scale-down", "contain", "cover", "crop", "pad"]),
     height: Schema.Number,
-    metadata: Schema.Literal("keep", "copyright", "none"),
+    metadata: Schema.Literals(["keep", "copyright", "none"]),
     width: Schema.Number,
   }),
   neverRequireSignedURLs: Schema.optional(Schema.Boolean),
@@ -576,9 +576,9 @@ export const CreateV1VariantRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   id: Schema.String,
   options: Schema.Struct({
-    fit: Schema.Literal("scale-down", "contain", "cover", "crop", "pad"),
+    fit: Schema.Literals(["scale-down", "contain", "cover", "crop", "pad"]),
     height: Schema.Number,
-    metadata: Schema.Literal("keep", "copyright", "none"),
+    metadata: Schema.Literals(["keep", "copyright", "none"]),
     width: Schema.Number,
   }),
   neverRequireSignedURLs: Schema.optional(Schema.Boolean),
@@ -604,9 +604,9 @@ export const CreateV1VariantResponse = Schema.Struct({
     Schema.Struct({
       id: Schema.String,
       options: Schema.Struct({
-        fit: Schema.Literal("scale-down", "contain", "cover", "crop", "pad"),
+        fit: Schema.Literals(["scale-down", "contain", "cover", "crop", "pad"]),
         height: Schema.Number,
-        metadata: Schema.Literal("keep", "copyright", "none"),
+        metadata: Schema.Literals(["keep", "copyright", "none"]),
         width: Schema.Number,
       }),
       neverRequireSignedURLs: Schema.optional(Schema.Boolean),
@@ -645,9 +645,9 @@ export const PatchV1VariantRequest = Schema.Struct({
   variantId: Schema.String.pipe(T.HttpPath("variantId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   options: Schema.Struct({
-    fit: Schema.Literal("scale-down", "contain", "cover", "crop", "pad"),
+    fit: Schema.Literals(["scale-down", "contain", "cover", "crop", "pad"]),
     height: Schema.Number,
-    metadata: Schema.Literal("keep", "copyright", "none"),
+    metadata: Schema.Literals(["keep", "copyright", "none"]),
     width: Schema.Number,
   }),
   neverRequireSignedURLs: Schema.optional(Schema.Boolean),
@@ -676,9 +676,9 @@ export const PatchV1VariantResponse = Schema.Struct({
     Schema.Struct({
       id: Schema.String,
       options: Schema.Struct({
-        fit: Schema.Literal("scale-down", "contain", "cover", "crop", "pad"),
+        fit: Schema.Literals(["scale-down", "contain", "cover", "crop", "pad"]),
         height: Schema.Number,
-        metadata: Schema.Literal("keep", "copyright", "none"),
+        metadata: Schema.Literals(["keep", "copyright", "none"]),
         width: Schema.Number,
       }),
       neverRequireSignedURLs: Schema.optional(Schema.Boolean),
@@ -751,13 +751,13 @@ export interface ListV2sRequest {
 export const ListV2sRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   continuationToken: Schema.optional(
-    Schema.Union(Schema.String, Schema.Null),
+    Schema.Union([Schema.String, Schema.Null]),
   ).pipe(T.HttpQuery("continuation_token")),
-  creator: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
+  creator: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
     T.HttpQuery("creator"),
   ),
   perPage: Schema.optional(Schema.Number).pipe(T.HttpQuery("per_page")),
-  sortOrder: Schema.optional(Schema.Literal("asc", "desc")).pipe(
+  sortOrder: Schema.optional(Schema.Literals(["asc", "desc"])).pipe(
     T.HttpQuery("sort_order"),
   ),
 }).pipe(
@@ -772,7 +772,7 @@ export interface ListV2sResponse {
 
 export const ListV2sResponse = Schema.Struct({
   continuationToken: Schema.optional(
-    Schema.Union(Schema.String, Schema.Null),
+    Schema.Union([Schema.String, Schema.Null]),
   ).pipe(T.JsonName("continuation_token")),
   images: Schema.optional(Schema.Array(Schema.Unknown)),
 }) as unknown as Schema.Schema<ListV2sResponse>;

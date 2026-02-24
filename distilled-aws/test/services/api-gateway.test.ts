@@ -44,7 +44,7 @@ const findRestApiById = (id: string) =>
       if (found) return found;
       position = response.position;
     } while (position);
-    return yield* Effect.fail(new NotFoundException());
+    return yield* Effect.fail(new NotFoundException({}));
   });
 
 // Find and delete any existing REST API with the given name

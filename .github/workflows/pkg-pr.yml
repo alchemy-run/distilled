@@ -31,7 +31,7 @@ jobs:
   pkg-pr-aws:
     needs: detect-changes
     if: needs.detect-changes.outputs.aws == 'true'
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22-large
     steps:
       - uses: actions/checkout@v4
       - uses: oven-sh/setup-bun@v2

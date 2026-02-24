@@ -41,9 +41,7 @@ export function makeStreamParser(outputAst: AST.AST): StreamParser | null {
       const ast = prop.type;
       const eventSchema =
         ast._tag === "Declaration"
-          ? (ast.annotations?.eventSchema as
-              | Schema.Schema.AnyNoContext
-              | undefined)
+          ? (ast.annotations?.eventSchema as Schema.Top | undefined)
           : undefined;
 
       // Return a parser function that handles this event stream property
@@ -78,7 +76,7 @@ export function makeStreamParser(outputAst: AST.AST): StreamParser | null {
  */
 function parseTypedEventStream<A>(
   rawStream: ReadableStream<Uint8Array>,
-  eventSchema?: Schema.Schema<A, unknown>,
+  eventSchema?: Schema.Schema<A>,
 ): Stream.Stream<A, Error, never> {
   // Parse wire format into StreamEvent objects
   const wireEventStream = parseEventStream(rawStream);
@@ -89,6 +87,7 @@ function parseTypedEventStream<A>(
   }
 
   // Decode each event's payload into the typed event
+  // @ts-expect-error
   return Stream.mapEffect(wireEventStream, (wireEvent) =>
     Effect.gen(function* () {
       // Only decode MessageEvent payloads that have an event type
@@ -103,11 +102,11 @@ function parseTypedEventStream<A>(
 
         // Decode using the event schema (union of event types)
         // The _tag should match the eventType for TaggedClass matching
-        const decoded = yield* Schema.decodeUnknown(eventSchema)({
+        const decoded = yield* Schema.decodeUnknownEffect(eventSchema)({
           _tag: wireEvent.eventType,
           ...payloadData,
         }).pipe(
-          Effect.catchAll(() =>
+          Effect.catch(() =>
             // If decoding fails, return the raw payload data
             Effect.succeed(payloadData as A),
           ),

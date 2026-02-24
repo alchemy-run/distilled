@@ -7,7 +7,7 @@
 
 import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
-import type { HttpClient } from "@effect/platform";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
@@ -262,11 +262,11 @@ export interface GetSettingResponse {
 }
 
 export const GetSettingResponse = Schema.Struct({
-  validationDefaultMitigationAction: Schema.Literal(
+  validationDefaultMitigationAction: Schema.Literals([
     "none",
     "log",
     "block",
-  ).pipe(T.JsonName("validation_default_mitigation_action")),
+  ]).pipe(T.JsonName("validation_default_mitigation_action")),
   validationOverrideMitigationAction: Schema.optional(
     Schema.Literal("none"),
   ).pipe(T.JsonName("validation_override_mitigation_action")),
@@ -295,13 +295,13 @@ export interface PutSettingRequest {
 
 export const PutSettingRequest = Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  validationDefaultMitigationAction: Schema.Literal(
+  validationDefaultMitigationAction: Schema.Literals([
     "none",
     "log",
     "block",
-  ).pipe(T.JsonName("validation_default_mitigation_action")),
+  ]).pipe(T.JsonName("validation_default_mitigation_action")),
   validationOverrideMitigationAction: Schema.optional(
-    Schema.Union(Schema.Literal("none"), Schema.Null),
+    Schema.Union([Schema.Literal("none"), Schema.Null]),
   ).pipe(T.JsonName("validation_override_mitigation_action")),
 }).pipe(
   T.Http({
@@ -318,11 +318,11 @@ export interface PutSettingResponse {
 }
 
 export const PutSettingResponse = Schema.Struct({
-  validationDefaultMitigationAction: Schema.Literal(
+  validationDefaultMitigationAction: Schema.Literals([
     "none",
     "log",
     "block",
-  ).pipe(T.JsonName("validation_default_mitigation_action")),
+  ]).pipe(T.JsonName("validation_default_mitigation_action")),
   validationOverrideMitigationAction: Schema.optional(
     Schema.Literal("none"),
   ).pipe(T.JsonName("validation_override_mitigation_action")),
@@ -352,10 +352,10 @@ export interface PatchSettingRequest {
 export const PatchSettingRequest = Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
   validationDefaultMitigationAction: Schema.optional(
-    Schema.Literal("none", "log", "block"),
+    Schema.Literals(["none", "log", "block"]),
   ).pipe(T.JsonName("validation_default_mitigation_action")),
   validationOverrideMitigationAction: Schema.optional(
-    Schema.Union(Schema.Literal("none"), Schema.Null),
+    Schema.Union([Schema.Literal("none"), Schema.Null]),
   ).pipe(T.JsonName("validation_override_mitigation_action")),
 }).pipe(
   T.Http({
@@ -372,11 +372,11 @@ export interface PatchSettingResponse {
 }
 
 export const PatchSettingResponse = Schema.Struct({
-  validationDefaultMitigationAction: Schema.Literal(
+  validationDefaultMitigationAction: Schema.Literals([
     "none",
     "log",
     "block",
-  ).pipe(T.JsonName("validation_default_mitigation_action")),
+  ]).pipe(T.JsonName("validation_default_mitigation_action")),
   validationOverrideMitigationAction: Schema.optional(
     Schema.Literal("none"),
   ).pipe(T.JsonName("validation_override_mitigation_action")),
@@ -422,7 +422,7 @@ export interface GetSettingOperationResponse {
 }
 
 export const GetSettingOperationResponse = Schema.Struct({
-  mitigationAction: Schema.Literal("log", "block", "none").pipe(
+  mitigationAction: Schema.Literals(["log", "block", "none"]).pipe(
     T.JsonName("mitigation_action"),
   ),
   operationId: Schema.String.pipe(T.JsonName("operation_id")),
@@ -451,12 +451,12 @@ export interface PutSettingOperationRequest {
 export const PutSettingOperationRequest = Schema.Struct({
   operationId: Schema.String.pipe(T.HttpPath("operationId")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  mitigationAction: Schema.Union(
+  mitigationAction: Schema.Union([
     Schema.Literal("log"),
     Schema.Literal("block"),
     Schema.Literal("none"),
     Schema.Null,
-  ).pipe(T.JsonName("mitigation_action")),
+  ]).pipe(T.JsonName("mitigation_action")),
 }).pipe(
   T.Http({
     method: "PUT",
@@ -472,7 +472,7 @@ export interface PutSettingOperationResponse {
 }
 
 export const PutSettingOperationResponse = Schema.Struct({
-  mitigationAction: Schema.Literal("log", "block", "none").pipe(
+  mitigationAction: Schema.Literals(["log", "block", "none"]).pipe(
     T.JsonName("mitigation_action"),
   ),
   operationId: Schema.String.pipe(T.JsonName("operation_id")),

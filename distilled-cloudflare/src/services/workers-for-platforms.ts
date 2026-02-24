@@ -7,7 +7,7 @@
 
 import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
-import type { HttpClient } from "@effect/platform";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
@@ -391,18 +391,18 @@ export const PutDispatchNamespaceScriptRequest = Schema.Struct({
               T.JsonName("_redirects"),
             ),
             htmlHandling: Schema.optional(
-              Schema.Literal(
+              Schema.Literals([
                 "auto-trailing-slash",
                 "force-trailing-slash",
                 "drop-trailing-slash",
                 "none",
-              ),
+              ]),
             ).pipe(T.JsonName("html_handling")),
             notFoundHandling: Schema.optional(
-              Schema.Literal("none", "404-page", "single-page-application"),
+              Schema.Literals(["none", "404-page", "single-page-application"]),
             ).pipe(T.JsonName("not_found_handling")),
             runWorkerFirst: Schema.optional(
-              Schema.Union(Schema.Array(Schema.String), Schema.Boolean),
+              Schema.Union([Schema.Array(Schema.String), Schema.Boolean]),
             ).pipe(T.JsonName("run_worker_first")),
             serveDirectly: Schema.optional(Schema.Boolean).pipe(
               T.JsonName("serve_directly"),
@@ -414,7 +414,7 @@ export const PutDispatchNamespaceScriptRequest = Schema.Struct({
     ),
     bindings: Schema.optional(
       Schema.Array(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
             name: Schema.String,
             type: Schema.Literal("ai"),
@@ -525,7 +525,7 @@ export const PutDispatchNamespaceScriptRequest = Schema.Struct({
             bucketName: Schema.String.pipe(T.JsonName("bucket_name")),
             name: Schema.String,
             type: Schema.Literal("r2_bucket"),
-            jurisdiction: Schema.optional(Schema.Literal("eu", "fedramp")),
+            jurisdiction: Schema.optional(Schema.Literals(["eu", "fedramp"])),
           }),
           Schema.Struct({
             name: Schema.String,
@@ -573,11 +573,11 @@ export const PutDispatchNamespaceScriptRequest = Schema.Struct({
           }),
           Schema.Struct({
             algorithm: Schema.Unknown,
-            format: Schema.Literal("raw", "pkcs8", "spki", "jwk"),
+            format: Schema.Literals(["raw", "pkcs8", "spki", "jwk"]),
             name: Schema.String,
             type: Schema.Literal("secret_key"),
             usages: Schema.Array(
-              Schema.Literal(
+              Schema.Literals([
                 "encrypt",
                 "decrypt",
                 "sign",
@@ -586,7 +586,7 @@ export const PutDispatchNamespaceScriptRequest = Schema.Struct({
                 "deriveBits",
                 "wrapKey",
                 "unwrapKey",
-              ),
+              ]),
             ),
             keyBase64: Schema.optional(Schema.String).pipe(
               T.JsonName("key_base64"),
@@ -609,7 +609,7 @@ export const PutDispatchNamespaceScriptRequest = Schema.Struct({
             part: Schema.String,
             type: Schema.Literal("wasm_module"),
           }),
-        ),
+        ]),
       ),
     ),
     bodyPart: Schema.optional(Schema.String).pipe(T.JsonName("body_part")),
@@ -631,23 +631,23 @@ export const PutDispatchNamespaceScriptRequest = Schema.Struct({
     logpush: Schema.optional(Schema.Boolean),
     mainModule: Schema.optional(Schema.String).pipe(T.JsonName("main_module")),
     migrations: Schema.optional(
-      Schema.Union(
+      Schema.Union([
         Schema.Unknown,
         Schema.Struct({
           newTag: Schema.optional(Schema.String).pipe(T.JsonName("new_tag")),
           oldTag: Schema.optional(Schema.String).pipe(T.JsonName("old_tag")),
           steps: Schema.optional(Schema.Array(Schema.Unknown)),
         }),
-      ),
+      ]),
     ),
     observability: Schema.optional(
       Schema.Struct({
         enabled: Schema.Boolean,
         headSamplingRate: Schema.optional(
-          Schema.Union(Schema.Number, Schema.Null),
+          Schema.Union([Schema.Number, Schema.Null]),
         ).pipe(T.JsonName("head_sampling_rate")),
         logs: Schema.optional(
-          Schema.Union(
+          Schema.Union([
             Schema.Struct({
               enabled: Schema.Boolean,
               invocationLogs: Schema.Boolean.pipe(
@@ -655,17 +655,17 @@ export const PutDispatchNamespaceScriptRequest = Schema.Struct({
               ),
               destinations: Schema.optional(Schema.Array(Schema.String)),
               headSamplingRate: Schema.optional(
-                Schema.Union(Schema.Number, Schema.Null),
+                Schema.Union([Schema.Number, Schema.Null]),
               ).pipe(T.JsonName("head_sampling_rate")),
               persist: Schema.optional(Schema.Boolean),
             }),
             Schema.Null,
-          ),
+          ]),
         ),
       }),
     ),
     placement: Schema.optional(
-      Schema.Union(
+      Schema.Union([
         Schema.Struct({
           mode: Schema.Literal("smart"),
         }),
@@ -678,14 +678,14 @@ export const PutDispatchNamespaceScriptRequest = Schema.Struct({
         Schema.Struct({
           host: Schema.String,
         }),
-      ),
+      ]),
     ),
     tags: Schema.optional(Schema.Array(Schema.String)),
     tailConsumers: Schema.optional(
-      Schema.Union(Schema.Array(Schema.Unknown), Schema.Null),
+      Schema.Union([Schema.Array(Schema.Unknown), Schema.Null]),
     ).pipe(T.JsonName("tail_consumers")),
     usageModel: Schema.optional(
-      Schema.Literal("standard", "bundled", "unbound"),
+      Schema.Literals(["standard", "bundled", "unbound"]),
     ).pipe(T.JsonName("usage_model")),
   }),
   files: Schema.optional(
@@ -827,37 +827,37 @@ export const PutDispatchNamespaceScriptResponse = Schema.Struct({
     Schema.Struct({
       enabled: Schema.Boolean,
       headSamplingRate: Schema.optional(
-        Schema.Union(Schema.Number, Schema.Null),
+        Schema.Union([Schema.Number, Schema.Null]),
       ).pipe(T.JsonName("head_sampling_rate")),
       logs: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
             enabled: Schema.Boolean,
             invocationLogs: Schema.Boolean.pipe(T.JsonName("invocation_logs")),
             destinations: Schema.optional(Schema.Array(Schema.String)),
             headSamplingRate: Schema.optional(
-              Schema.Union(Schema.Number, Schema.Null),
+              Schema.Union([Schema.Number, Schema.Null]),
             ).pipe(T.JsonName("head_sampling_rate")),
             persist: Schema.optional(Schema.Boolean),
           }),
           Schema.Null,
-        ),
+        ]),
       ),
     }),
   ),
   placement: Schema.optional(
-    Schema.Union(
+    Schema.Union([
       Schema.Struct({
         mode: Schema.Literal("smart"),
         lastAnalyzedAt: Schema.optional(Schema.String).pipe(
           T.JsonName("last_analyzed_at"),
         ),
         status: Schema.optional(
-          Schema.Literal(
+          Schema.Literals([
             "SUCCESS",
             "UNSUPPORTED_APPLICATION",
             "INSUFFICIENT_INVOCATIONS",
-          ),
+          ]),
         ),
       }),
       Schema.Struct({
@@ -866,11 +866,11 @@ export const PutDispatchNamespaceScriptResponse = Schema.Struct({
           T.JsonName("last_analyzed_at"),
         ),
         status: Schema.optional(
-          Schema.Literal(
+          Schema.Literals([
             "SUCCESS",
             "UNSUPPORTED_APPLICATION",
             "INSUFFICIENT_INVOCATIONS",
-          ),
+          ]),
         ),
       }),
       Schema.Struct({
@@ -879,11 +879,11 @@ export const PutDispatchNamespaceScriptResponse = Schema.Struct({
           T.JsonName("last_analyzed_at"),
         ),
         status: Schema.optional(
-          Schema.Literal(
+          Schema.Literals([
             "SUCCESS",
             "UNSUPPORTED_APPLICATION",
             "INSUFFICIENT_INVOCATIONS",
-          ),
+          ]),
         ),
       }),
       Schema.Struct({
@@ -892,32 +892,32 @@ export const PutDispatchNamespaceScriptResponse = Schema.Struct({
           T.JsonName("last_analyzed_at"),
         ),
         status: Schema.optional(
-          Schema.Literal(
+          Schema.Literals([
             "SUCCESS",
             "UNSUPPORTED_APPLICATION",
             "INSUFFICIENT_INVOCATIONS",
-          ),
+          ]),
         ),
       }),
-    ),
+    ]),
   ),
   placementMode: Schema.optional(Schema.Literal("smart")).pipe(
     T.JsonName("placement_mode"),
   ),
   placementStatus: Schema.optional(
-    Schema.Literal(
+    Schema.Literals([
       "SUCCESS",
       "UNSUPPORTED_APPLICATION",
       "INSUFFICIENT_INVOCATIONS",
-    ),
+    ]),
   ).pipe(T.JsonName("placement_status")),
   tag: Schema.optional(Schema.String),
-  tags: Schema.optional(Schema.Union(Schema.Array(Schema.String), Schema.Null)),
+  tags: Schema.optional(Schema.Union([Schema.Array(Schema.String), Schema.Null])),
   tailConsumers: Schema.optional(
-    Schema.Union(Schema.Array(Schema.Unknown), Schema.Null),
+    Schema.Union([Schema.Array(Schema.Unknown), Schema.Null]),
   ).pipe(T.JsonName("tail_consumers")),
   usageModel: Schema.optional(
-    Schema.Literal("standard", "bundled", "unbound"),
+    Schema.Literals(["standard", "bundled", "unbound"]),
   ).pipe(T.JsonName("usage_model")),
 }) as unknown as Schema.Schema<PutDispatchNamespaceScriptResponse>;
 
@@ -1159,18 +1159,18 @@ export type GetDispatchNamespaceScriptSecretResponse =
       )[];
     };
 
-export const GetDispatchNamespaceScriptSecretResponse = Schema.Union(
+export const GetDispatchNamespaceScriptSecretResponse = Schema.Union([
   Schema.Struct({
     name: Schema.String,
     type: Schema.Literal("secret_text"),
   }),
   Schema.Struct({
     algorithm: Schema.Unknown,
-    format: Schema.Literal("raw", "pkcs8", "spki", "jwk"),
+    format: Schema.Literals(["raw", "pkcs8", "spki", "jwk"]),
     name: Schema.String,
     type: Schema.Literal("secret_key"),
     usages: Schema.Array(
-      Schema.Literal(
+      Schema.Literals([
         "encrypt",
         "decrypt",
         "sign",
@@ -1179,10 +1179,10 @@ export const GetDispatchNamespaceScriptSecretResponse = Schema.Union(
         "deriveBits",
         "wrapKey",
         "unwrapKey",
-      ),
+      ]),
     ),
   }),
-) as unknown as Schema.Schema<GetDispatchNamespaceScriptSecretResponse>;
+]) as unknown as Schema.Schema<GetDispatchNamespaceScriptSecretResponse>;
 
 export const getDispatchNamespaceScriptSecret: (
   input: GetDispatchNamespaceScriptSecretRequest,
@@ -1230,18 +1230,18 @@ export type PutDispatchNamespaceScriptSecretResponse =
       )[];
     };
 
-export const PutDispatchNamespaceScriptSecretResponse = Schema.Union(
+export const PutDispatchNamespaceScriptSecretResponse = Schema.Union([
   Schema.Struct({
     name: Schema.String,
     type: Schema.Literal("secret_text"),
   }),
   Schema.Struct({
     algorithm: Schema.Unknown,
-    format: Schema.Literal("raw", "pkcs8", "spki", "jwk"),
+    format: Schema.Literals(["raw", "pkcs8", "spki", "jwk"]),
     name: Schema.String,
     type: Schema.Literal("secret_key"),
     usages: Schema.Array(
-      Schema.Literal(
+      Schema.Literals([
         "encrypt",
         "decrypt",
         "sign",
@@ -1250,10 +1250,10 @@ export const PutDispatchNamespaceScriptSecretResponse = Schema.Union(
         "deriveBits",
         "wrapKey",
         "unwrapKey",
-      ),
+      ]),
     ),
   }),
-) as unknown as Schema.Schema<PutDispatchNamespaceScriptSecretResponse>;
+]) as unknown as Schema.Schema<PutDispatchNamespaceScriptSecretResponse>;
 
 export const putDispatchNamespaceScriptSecret: (
   input: PutDispatchNamespaceScriptSecretRequest,
@@ -1450,7 +1450,7 @@ export interface GetDispatchNamespaceScriptSettingResponse {
 export const GetDispatchNamespaceScriptSettingResponse = Schema.Struct({
   bindings: Schema.optional(
     Schema.Array(
-      Schema.Union(
+      Schema.Union([
         Schema.Struct({
           name: Schema.String,
           type: Schema.Literal("ai"),
@@ -1559,7 +1559,7 @@ export const GetDispatchNamespaceScriptSettingResponse = Schema.Struct({
           bucketName: Schema.String.pipe(T.JsonName("bucket_name")),
           name: Schema.String,
           type: Schema.Literal("r2_bucket"),
-          jurisdiction: Schema.optional(Schema.Literal("eu", "fedramp")),
+          jurisdiction: Schema.optional(Schema.Literals(["eu", "fedramp"])),
         }),
         Schema.Struct({
           name: Schema.String,
@@ -1606,11 +1606,11 @@ export const GetDispatchNamespaceScriptSettingResponse = Schema.Struct({
         }),
         Schema.Struct({
           algorithm: Schema.Unknown,
-          format: Schema.Literal("raw", "pkcs8", "spki", "jwk"),
+          format: Schema.Literals(["raw", "pkcs8", "spki", "jwk"]),
           name: Schema.String,
           type: Schema.Literal("secret_key"),
           usages: Schema.Array(
-            Schema.Literal(
+            Schema.Literals([
               "encrypt",
               "decrypt",
               "sign",
@@ -1619,7 +1619,7 @@ export const GetDispatchNamespaceScriptSettingResponse = Schema.Struct({
               "deriveBits",
               "wrapKey",
               "unwrapKey",
-            ),
+            ]),
           ),
         }),
         Schema.Struct({
@@ -1638,7 +1638,7 @@ export const GetDispatchNamespaceScriptSettingResponse = Schema.Struct({
           part: Schema.String,
           type: Schema.Literal("wasm_module"),
         }),
-      ),
+      ]),
     ),
   ),
   compatibilityDate: Schema.optional(Schema.String).pipe(
@@ -1657,26 +1657,26 @@ export const GetDispatchNamespaceScriptSettingResponse = Schema.Struct({
     Schema.Struct({
       enabled: Schema.Boolean,
       headSamplingRate: Schema.optional(
-        Schema.Union(Schema.Number, Schema.Null),
+        Schema.Union([Schema.Number, Schema.Null]),
       ).pipe(T.JsonName("head_sampling_rate")),
       logs: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
             enabled: Schema.Boolean,
             invocationLogs: Schema.Boolean.pipe(T.JsonName("invocation_logs")),
             destinations: Schema.optional(Schema.Array(Schema.String)),
             headSamplingRate: Schema.optional(
-              Schema.Union(Schema.Number, Schema.Null),
+              Schema.Union([Schema.Number, Schema.Null]),
             ).pipe(T.JsonName("head_sampling_rate")),
             persist: Schema.optional(Schema.Boolean),
           }),
           Schema.Null,
-        ),
+        ]),
       ),
     }),
   ),
   placement: Schema.optional(
-    Schema.Union(
+    Schema.Union([
       Schema.Struct({
         mode: Schema.Literal("smart"),
       }),
@@ -1689,14 +1689,14 @@ export const GetDispatchNamespaceScriptSettingResponse = Schema.Struct({
       Schema.Struct({
         host: Schema.String,
       }),
-    ),
+    ]),
   ),
-  tags: Schema.optional(Schema.Union(Schema.Array(Schema.String), Schema.Null)),
+  tags: Schema.optional(Schema.Union([Schema.Array(Schema.String), Schema.Null])),
   tailConsumers: Schema.optional(
-    Schema.Union(Schema.Array(Schema.Unknown), Schema.Null),
+    Schema.Union([Schema.Array(Schema.Unknown), Schema.Null]),
   ).pipe(T.JsonName("tail_consumers")),
   usageModel: Schema.optional(
-    Schema.Literal("standard", "bundled", "unbound"),
+    Schema.Literals(["standard", "bundled", "unbound"]),
   ).pipe(T.JsonName("usage_model")),
 }) as unknown as Schema.Schema<GetDispatchNamespaceScriptSettingResponse>;
 
@@ -1840,7 +1840,7 @@ export const PatchDispatchNamespaceScriptSettingRequest = Schema.Struct({
     Schema.Struct({
       bindings: Schema.optional(
         Schema.Array(
-          Schema.Union(
+          Schema.Union([
             Schema.Struct({
               name: Schema.String,
               type: Schema.Literal("ai"),
@@ -1951,7 +1951,7 @@ export const PatchDispatchNamespaceScriptSettingRequest = Schema.Struct({
               bucketName: Schema.String.pipe(T.JsonName("bucket_name")),
               name: Schema.String,
               type: Schema.Literal("r2_bucket"),
-              jurisdiction: Schema.optional(Schema.Literal("eu", "fedramp")),
+              jurisdiction: Schema.optional(Schema.Literals(["eu", "fedramp"])),
             }),
             Schema.Struct({
               name: Schema.String,
@@ -1999,11 +1999,11 @@ export const PatchDispatchNamespaceScriptSettingRequest = Schema.Struct({
             }),
             Schema.Struct({
               algorithm: Schema.Unknown,
-              format: Schema.Literal("raw", "pkcs8", "spki", "jwk"),
+              format: Schema.Literals(["raw", "pkcs8", "spki", "jwk"]),
               name: Schema.String,
               type: Schema.Literal("secret_key"),
               usages: Schema.Array(
-                Schema.Literal(
+                Schema.Literals([
                   "encrypt",
                   "decrypt",
                   "sign",
@@ -2012,7 +2012,7 @@ export const PatchDispatchNamespaceScriptSettingRequest = Schema.Struct({
                   "deriveBits",
                   "wrapKey",
                   "unwrapKey",
-                ),
+                ]),
               ),
               keyBase64: Schema.optional(Schema.String).pipe(
                 T.JsonName("key_base64"),
@@ -2037,7 +2037,7 @@ export const PatchDispatchNamespaceScriptSettingRequest = Schema.Struct({
               part: Schema.String,
               type: Schema.Literal("wasm_module"),
             }),
-          ),
+          ]),
         ),
       ),
       compatibilityDate: Schema.optional(Schema.String).pipe(
@@ -2053,23 +2053,23 @@ export const PatchDispatchNamespaceScriptSettingRequest = Schema.Struct({
       ),
       logpush: Schema.optional(Schema.Boolean),
       migrations: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Unknown,
           Schema.Struct({
             newTag: Schema.optional(Schema.String).pipe(T.JsonName("new_tag")),
             oldTag: Schema.optional(Schema.String).pipe(T.JsonName("old_tag")),
             steps: Schema.optional(Schema.Array(Schema.Unknown)),
           }),
-        ),
+        ]),
       ),
       observability: Schema.optional(
         Schema.Struct({
           enabled: Schema.Boolean,
           headSamplingRate: Schema.optional(
-            Schema.Union(Schema.Number, Schema.Null),
+            Schema.Union([Schema.Number, Schema.Null]),
           ).pipe(T.JsonName("head_sampling_rate")),
           logs: Schema.optional(
-            Schema.Union(
+            Schema.Union([
               Schema.Struct({
                 enabled: Schema.Boolean,
                 invocationLogs: Schema.Boolean.pipe(
@@ -2077,17 +2077,17 @@ export const PatchDispatchNamespaceScriptSettingRequest = Schema.Struct({
                 ),
                 destinations: Schema.optional(Schema.Array(Schema.String)),
                 headSamplingRate: Schema.optional(
-                  Schema.Union(Schema.Number, Schema.Null),
+                  Schema.Union([Schema.Number, Schema.Null]),
                 ).pipe(T.JsonName("head_sampling_rate")),
                 persist: Schema.optional(Schema.Boolean),
               }),
               Schema.Null,
-            ),
+            ]),
           ),
         }),
       ),
       placement: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
             mode: Schema.Literal("smart"),
           }),
@@ -2100,16 +2100,16 @@ export const PatchDispatchNamespaceScriptSettingRequest = Schema.Struct({
           Schema.Struct({
             host: Schema.String,
           }),
-        ),
+        ]),
       ),
       tags: Schema.optional(
-        Schema.Union(Schema.Array(Schema.String), Schema.Null),
+        Schema.Union([Schema.Array(Schema.String), Schema.Null]),
       ),
       tailConsumers: Schema.optional(
-        Schema.Union(Schema.Array(Schema.Unknown), Schema.Null),
+        Schema.Union([Schema.Array(Schema.Unknown), Schema.Null]),
       ).pipe(T.JsonName("tail_consumers")),
       usageModel: Schema.optional(
-        Schema.Literal("standard", "bundled", "unbound"),
+        Schema.Literals(["standard", "bundled", "unbound"]),
       ).pipe(T.JsonName("usage_model")),
     }),
   ),
@@ -2241,7 +2241,7 @@ export interface PatchDispatchNamespaceScriptSettingResponse {
 export const PatchDispatchNamespaceScriptSettingResponse = Schema.Struct({
   bindings: Schema.optional(
     Schema.Array(
-      Schema.Union(
+      Schema.Union([
         Schema.Struct({
           name: Schema.String,
           type: Schema.Literal("ai"),
@@ -2350,7 +2350,7 @@ export const PatchDispatchNamespaceScriptSettingResponse = Schema.Struct({
           bucketName: Schema.String.pipe(T.JsonName("bucket_name")),
           name: Schema.String,
           type: Schema.Literal("r2_bucket"),
-          jurisdiction: Schema.optional(Schema.Literal("eu", "fedramp")),
+          jurisdiction: Schema.optional(Schema.Literals(["eu", "fedramp"])),
         }),
         Schema.Struct({
           name: Schema.String,
@@ -2397,11 +2397,11 @@ export const PatchDispatchNamespaceScriptSettingResponse = Schema.Struct({
         }),
         Schema.Struct({
           algorithm: Schema.Unknown,
-          format: Schema.Literal("raw", "pkcs8", "spki", "jwk"),
+          format: Schema.Literals(["raw", "pkcs8", "spki", "jwk"]),
           name: Schema.String,
           type: Schema.Literal("secret_key"),
           usages: Schema.Array(
-            Schema.Literal(
+            Schema.Literals([
               "encrypt",
               "decrypt",
               "sign",
@@ -2410,7 +2410,7 @@ export const PatchDispatchNamespaceScriptSettingResponse = Schema.Struct({
               "deriveBits",
               "wrapKey",
               "unwrapKey",
-            ),
+            ]),
           ),
         }),
         Schema.Struct({
@@ -2429,7 +2429,7 @@ export const PatchDispatchNamespaceScriptSettingResponse = Schema.Struct({
           part: Schema.String,
           type: Schema.Literal("wasm_module"),
         }),
-      ),
+      ]),
     ),
   ),
   compatibilityDate: Schema.optional(Schema.String).pipe(
@@ -2448,26 +2448,26 @@ export const PatchDispatchNamespaceScriptSettingResponse = Schema.Struct({
     Schema.Struct({
       enabled: Schema.Boolean,
       headSamplingRate: Schema.optional(
-        Schema.Union(Schema.Number, Schema.Null),
+        Schema.Union([Schema.Number, Schema.Null]),
       ).pipe(T.JsonName("head_sampling_rate")),
       logs: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
             enabled: Schema.Boolean,
             invocationLogs: Schema.Boolean.pipe(T.JsonName("invocation_logs")),
             destinations: Schema.optional(Schema.Array(Schema.String)),
             headSamplingRate: Schema.optional(
-              Schema.Union(Schema.Number, Schema.Null),
+              Schema.Union([Schema.Number, Schema.Null]),
             ).pipe(T.JsonName("head_sampling_rate")),
             persist: Schema.optional(Schema.Boolean),
           }),
           Schema.Null,
-        ),
+        ]),
       ),
     }),
   ),
   placement: Schema.optional(
-    Schema.Union(
+    Schema.Union([
       Schema.Struct({
         mode: Schema.Literal("smart"),
       }),
@@ -2480,14 +2480,14 @@ export const PatchDispatchNamespaceScriptSettingResponse = Schema.Struct({
       Schema.Struct({
         host: Schema.String,
       }),
-    ),
+    ]),
   ),
-  tags: Schema.optional(Schema.Union(Schema.Array(Schema.String), Schema.Null)),
+  tags: Schema.optional(Schema.Union([Schema.Array(Schema.String), Schema.Null])),
   tailConsumers: Schema.optional(
-    Schema.Union(Schema.Array(Schema.Unknown), Schema.Null),
+    Schema.Union([Schema.Array(Schema.Unknown), Schema.Null]),
   ).pipe(T.JsonName("tail_consumers")),
   usageModel: Schema.optional(
-    Schema.Literal("standard", "bundled", "unbound"),
+    Schema.Literals(["standard", "bundled", "unbound"]),
   ).pipe(T.JsonName("usage_model")),
 }) as unknown as Schema.Schema<PatchDispatchNamespaceScriptSettingResponse>;
 

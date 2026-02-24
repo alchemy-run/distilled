@@ -7,7 +7,7 @@
 
 import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
-import type { HttpClient } from "@effect/platform";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
@@ -157,7 +157,7 @@ export const GetAnalyticReportBytimeRequest = Schema.Struct({
   since: Schema.optional(Schema.String).pipe(T.HttpQuery("since")),
   sort: Schema.optional(Schema.String).pipe(T.HttpQuery("sort")),
   timeDelta: Schema.optional(
-    Schema.Literal(
+    Schema.Literals([
       "all",
       "auto",
       "year",
@@ -168,7 +168,7 @@ export const GetAnalyticReportBytimeRequest = Schema.Struct({
       "hour",
       "dekaminute",
       "minute",
-    ),
+    ]),
   ).pipe(T.HttpQuery("time_delta")),
   until: Schema.optional(Schema.String).pipe(T.HttpQuery("until")),
 }).pipe(
@@ -230,7 +230,7 @@ export const GetAnalyticReportBytimeResponse = Schema.Struct({
     limit: Schema.Number,
     metrics: Schema.Array(Schema.String),
     since: Schema.String,
-    timeDelta: Schema.Literal(
+    timeDelta: Schema.Literals([
       "all",
       "auto",
       "year",
@@ -241,7 +241,7 @@ export const GetAnalyticReportBytimeResponse = Schema.Struct({
       "hour",
       "dekaminute",
       "minute",
-    ).pipe(T.JsonName("time_delta")),
+    ]).pipe(T.JsonName("time_delta")),
     until: Schema.String,
     filters: Schema.optional(Schema.String),
     sort: Schema.optional(Schema.Array(Schema.String)),
@@ -312,12 +312,12 @@ export interface GetDnssecResponse {
 }
 
 export const GetDnssecResponse = Schema.Struct({
-  algorithm: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
-  digest: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
+  algorithm: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  digest: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   digestAlgorithm: Schema.optional(
-    Schema.Union(Schema.String, Schema.Null),
+    Schema.Union([Schema.String, Schema.Null]),
   ).pipe(T.JsonName("digest_algorithm")),
-  digestType: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
+  digestType: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
     T.JsonName("digest_type"),
   ),
   dnssecMultiSigner: Schema.optional(Schema.Boolean).pipe(
@@ -329,28 +329,28 @@ export const GetDnssecResponse = Schema.Struct({
   dnssecUseNsec3: Schema.optional(Schema.Boolean).pipe(
     T.JsonName("dnssec_use_nsec3"),
   ),
-  ds: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
-  flags: Schema.optional(Schema.Union(Schema.Number, Schema.Null)),
-  keyTag: Schema.optional(Schema.Union(Schema.Number, Schema.Null)).pipe(
+  ds: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  flags: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  keyTag: Schema.optional(Schema.Union([Schema.Number, Schema.Null])).pipe(
     T.JsonName("key_tag"),
   ),
-  keyType: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
+  keyType: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
     T.JsonName("key_type"),
   ),
-  modifiedOn: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
+  modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
     T.JsonName("modified_on"),
   ),
-  publicKey: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
+  publicKey: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
     T.JsonName("public_key"),
   ),
   status: Schema.optional(
-    Schema.Literal(
+    Schema.Literals([
       "active",
       "pending",
       "disabled",
       "pending-disabled",
       "error",
-    ),
+    ]),
   ),
 }) as unknown as Schema.Schema<GetDnssecResponse>;
 
@@ -390,7 +390,7 @@ export const PatchDnssecRequest = Schema.Struct({
   dnssecUseNsec3: Schema.optional(Schema.Boolean).pipe(
     T.JsonName("dnssec_use_nsec3"),
   ),
-  status: Schema.optional(Schema.Literal("active", "disabled")),
+  status: Schema.optional(Schema.Literals(["active", "disabled"])),
 }).pipe(
   T.Http({ method: "PATCH", path: "/zones/{zone_id}/dnssec" }),
 ) as unknown as Schema.Schema<PatchDnssecRequest>;
@@ -427,12 +427,12 @@ export interface PatchDnssecResponse {
 }
 
 export const PatchDnssecResponse = Schema.Struct({
-  algorithm: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
-  digest: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
+  algorithm: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  digest: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   digestAlgorithm: Schema.optional(
-    Schema.Union(Schema.String, Schema.Null),
+    Schema.Union([Schema.String, Schema.Null]),
   ).pipe(T.JsonName("digest_algorithm")),
-  digestType: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
+  digestType: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
     T.JsonName("digest_type"),
   ),
   dnssecMultiSigner: Schema.optional(Schema.Boolean).pipe(
@@ -444,28 +444,28 @@ export const PatchDnssecResponse = Schema.Struct({
   dnssecUseNsec3: Schema.optional(Schema.Boolean).pipe(
     T.JsonName("dnssec_use_nsec3"),
   ),
-  ds: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
-  flags: Schema.optional(Schema.Union(Schema.Number, Schema.Null)),
-  keyTag: Schema.optional(Schema.Union(Schema.Number, Schema.Null)).pipe(
+  ds: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  flags: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  keyTag: Schema.optional(Schema.Union([Schema.Number, Schema.Null])).pipe(
     T.JsonName("key_tag"),
   ),
-  keyType: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
+  keyType: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
     T.JsonName("key_type"),
   ),
-  modifiedOn: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
+  modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
     T.JsonName("modified_on"),
   ),
-  publicKey: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
+  publicKey: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
     T.JsonName("public_key"),
   ),
   status: Schema.optional(
-    Schema.Literal(
+    Schema.Literals([
       "active",
       "pending",
       "disabled",
       "pending-disabled",
       "error",
-    ),
+    ]),
   ),
 }) as unknown as Schema.Schema<PatchDnssecResponse>;
 
@@ -592,7 +592,7 @@ export type GetRecordResponse =
       tagsModifiedOn?: string;
     };
 
-export const GetRecordResponse = Schema.Union(
+export const GetRecordResponse = Schema.Union([
   Schema.Struct({
     id: Schema.String,
     createdOn: Schema.String.pipe(T.JsonName("created_on")),
@@ -630,7 +630,7 @@ export const GetRecordResponse = Schema.Union(
       T.JsonName("tags_modified_on"),
     ),
   }),
-) as unknown as Schema.Schema<GetRecordResponse>;
+]) as unknown as Schema.Schema<GetRecordResponse>;
 
 export const getRecord: (
   input: GetRecordRequest,
@@ -678,7 +678,7 @@ export type CreateRecordResponse =
       tagsModifiedOn?: string;
     };
 
-export const CreateRecordResponse = Schema.Union(
+export const CreateRecordResponse = Schema.Union([
   Schema.Struct({
     id: Schema.String,
     createdOn: Schema.String.pipe(T.JsonName("created_on")),
@@ -716,7 +716,7 @@ export const CreateRecordResponse = Schema.Union(
       T.JsonName("tags_modified_on"),
     ),
   }),
-) as unknown as Schema.Schema<CreateRecordResponse>;
+]) as unknown as Schema.Schema<CreateRecordResponse>;
 
 export const createRecord: (
   input: CreateRecordRequest,
@@ -768,7 +768,7 @@ export type UpdateRecordResponse =
       tagsModifiedOn?: string;
     };
 
-export const UpdateRecordResponse = Schema.Union(
+export const UpdateRecordResponse = Schema.Union([
   Schema.Struct({
     id: Schema.String,
     createdOn: Schema.String.pipe(T.JsonName("created_on")),
@@ -806,7 +806,7 @@ export const UpdateRecordResponse = Schema.Union(
       T.JsonName("tags_modified_on"),
     ),
   }),
-) as unknown as Schema.Schema<UpdateRecordResponse>;
+]) as unknown as Schema.Schema<UpdateRecordResponse>;
 
 export const updateRecord: (
   input: UpdateRecordRequest,
@@ -861,7 +861,7 @@ export type PatchRecordResponse =
       tagsModifiedOn?: string;
     };
 
-export const PatchRecordResponse = Schema.Union(
+export const PatchRecordResponse = Schema.Union([
   Schema.Struct({
     id: Schema.String,
     createdOn: Schema.String.pipe(T.JsonName("created_on")),
@@ -899,7 +899,7 @@ export const PatchRecordResponse = Schema.Union(
       T.JsonName("tags_modified_on"),
     ),
   }),
-) as unknown as Schema.Schema<PatchRecordResponse>;
+]) as unknown as Schema.Schema<PatchRecordResponse>;
 
 export const patchRecord: (
   input: PatchRecordRequest,
@@ -1817,7 +1817,7 @@ export const BatchRecordRequest = Schema.Struct({
   ),
   patches: Schema.optional(
     Schema.Array(
-      Schema.Union(
+      Schema.Union([
         Schema.Struct({
           zoneId: Schema.String.pipe(T.JsonName("zone_id")),
           name: Schema.String,
@@ -2135,7 +2135,7 @@ export const BatchRecordRequest = Schema.Struct({
               latDegrees: Schema.optional(Schema.Number).pipe(
                 T.JsonName("lat_degrees"),
               ),
-              latDirection: Schema.optional(Schema.Literal("N", "S")).pipe(
+              latDirection: Schema.optional(Schema.Literals(["N", "S"])).pipe(
                 T.JsonName("lat_direction"),
               ),
               latMinutes: Schema.optional(Schema.Number).pipe(
@@ -2147,7 +2147,7 @@ export const BatchRecordRequest = Schema.Struct({
               longDegrees: Schema.optional(Schema.Number).pipe(
                 T.JsonName("long_degrees"),
               ),
-              longDirection: Schema.optional(Schema.Literal("E", "W")).pipe(
+              longDirection: Schema.optional(Schema.Literals(["E", "W"])).pipe(
                 T.JsonName("long_direction"),
               ),
               longMinutes: Schema.optional(Schema.Number).pipe(
@@ -2370,12 +2370,12 @@ export const BatchRecordRequest = Schema.Struct({
           ),
           tags: Schema.optional(Schema.Array(Schema.String)),
         }),
-      ),
+      ]),
     ),
   ),
   posts: Schema.optional(
     Schema.Array(
-      Schema.Union(
+      Schema.Union([
         Schema.Struct({
           name: Schema.String,
           ttl: Schema.Number,
@@ -2679,7 +2679,7 @@ export const BatchRecordRequest = Schema.Struct({
               latDegrees: Schema.optional(Schema.Number).pipe(
                 T.JsonName("lat_degrees"),
               ),
-              latDirection: Schema.optional(Schema.Literal("N", "S")).pipe(
+              latDirection: Schema.optional(Schema.Literals(["N", "S"])).pipe(
                 T.JsonName("lat_direction"),
               ),
               latMinutes: Schema.optional(Schema.Number).pipe(
@@ -2691,7 +2691,7 @@ export const BatchRecordRequest = Schema.Struct({
               longDegrees: Schema.optional(Schema.Number).pipe(
                 T.JsonName("long_degrees"),
               ),
-              longDirection: Schema.optional(Schema.Literal("E", "W")).pipe(
+              longDirection: Schema.optional(Schema.Literals(["E", "W"])).pipe(
                 T.JsonName("long_direction"),
               ),
               longMinutes: Schema.optional(Schema.Number).pipe(
@@ -2907,12 +2907,12 @@ export const BatchRecordRequest = Schema.Struct({
           ),
           tags: Schema.optional(Schema.Array(Schema.String)),
         }),
-      ),
+      ]),
     ),
   ),
   puts: Schema.optional(
     Schema.Array(
-      Schema.Union(
+      Schema.Union([
         Schema.Struct({
           zoneId: Schema.String.pipe(T.JsonName("zone_id")),
           name: Schema.String,
@@ -3230,7 +3230,7 @@ export const BatchRecordRequest = Schema.Struct({
               latDegrees: Schema.optional(Schema.Number).pipe(
                 T.JsonName("lat_degrees"),
               ),
-              latDirection: Schema.optional(Schema.Literal("N", "S")).pipe(
+              latDirection: Schema.optional(Schema.Literals(["N", "S"])).pipe(
                 T.JsonName("lat_direction"),
               ),
               latMinutes: Schema.optional(Schema.Number).pipe(
@@ -3242,7 +3242,7 @@ export const BatchRecordRequest = Schema.Struct({
               longDegrees: Schema.optional(Schema.Number).pipe(
                 T.JsonName("long_degrees"),
               ),
-              longDirection: Schema.optional(Schema.Literal("E", "W")).pipe(
+              longDirection: Schema.optional(Schema.Literals(["E", "W"])).pipe(
                 T.JsonName("long_direction"),
               ),
               longMinutes: Schema.optional(Schema.Number).pipe(
@@ -3465,7 +3465,7 @@ export const BatchRecordRequest = Schema.Struct({
           ),
           tags: Schema.optional(Schema.Array(Schema.String)),
         }),
-      ),
+      ]),
     ),
   ),
 }).pipe(
@@ -3590,7 +3590,7 @@ export interface BatchRecordResponse {
 export const BatchRecordResponse = Schema.Struct({
   deletes: Schema.optional(
     Schema.Array(
-      Schema.Union(
+      Schema.Union([
         Schema.Struct({
           id: Schema.String,
           createdOn: Schema.String.pipe(T.JsonName("created_on")),
@@ -3632,12 +3632,12 @@ export const BatchRecordResponse = Schema.Struct({
             T.JsonName("tags_modified_on"),
           ),
         }),
-      ),
+      ]),
     ),
   ),
   patches: Schema.optional(
     Schema.Array(
-      Schema.Union(
+      Schema.Union([
         Schema.Struct({
           id: Schema.String,
           createdOn: Schema.String.pipe(T.JsonName("created_on")),
@@ -3679,12 +3679,12 @@ export const BatchRecordResponse = Schema.Struct({
             T.JsonName("tags_modified_on"),
           ),
         }),
-      ),
+      ]),
     ),
   ),
   posts: Schema.optional(
     Schema.Array(
-      Schema.Union(
+      Schema.Union([
         Schema.Struct({
           id: Schema.String,
           createdOn: Schema.String.pipe(T.JsonName("created_on")),
@@ -3726,12 +3726,12 @@ export const BatchRecordResponse = Schema.Struct({
             T.JsonName("tags_modified_on"),
           ),
         }),
-      ),
+      ]),
     ),
   ),
   puts: Schema.optional(
     Schema.Array(
-      Schema.Union(
+      Schema.Union([
         Schema.Struct({
           id: Schema.String,
           createdOn: Schema.String.pipe(T.JsonName("created_on")),
@@ -3773,7 +3773,7 @@ export const BatchRecordResponse = Schema.Struct({
             T.JsonName("tags_modified_on"),
           ),
         }),
-      ),
+      ]),
     ),
   ),
 }) as unknown as Schema.Schema<BatchRecordResponse>;
@@ -4185,7 +4185,7 @@ export const ScanReviewRecordRequest = Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
   accepts: Schema.optional(
     Schema.Array(
-      Schema.Union(
+      Schema.Union([
         Schema.Struct({
           name: Schema.String,
           ttl: Schema.Number,
@@ -4489,7 +4489,7 @@ export const ScanReviewRecordRequest = Schema.Struct({
               latDegrees: Schema.optional(Schema.Number).pipe(
                 T.JsonName("lat_degrees"),
               ),
-              latDirection: Schema.optional(Schema.Literal("N", "S")).pipe(
+              latDirection: Schema.optional(Schema.Literals(["N", "S"])).pipe(
                 T.JsonName("lat_direction"),
               ),
               latMinutes: Schema.optional(Schema.Number).pipe(
@@ -4501,7 +4501,7 @@ export const ScanReviewRecordRequest = Schema.Struct({
               longDegrees: Schema.optional(Schema.Number).pipe(
                 T.JsonName("long_degrees"),
               ),
-              longDirection: Schema.optional(Schema.Literal("E", "W")).pipe(
+              longDirection: Schema.optional(Schema.Literals(["E", "W"])).pipe(
                 T.JsonName("long_direction"),
               ),
               longMinutes: Schema.optional(Schema.Number).pipe(
@@ -4717,7 +4717,7 @@ export const ScanReviewRecordRequest = Schema.Struct({
           ),
           tags: Schema.optional(Schema.Array(Schema.String)),
         }),
-      ),
+      ]),
     ),
   ),
   rejects: Schema.optional(
@@ -4766,7 +4766,7 @@ export interface ScanReviewRecordResponse {
 export const ScanReviewRecordResponse = Schema.Struct({
   accepts: Schema.optional(
     Schema.Array(
-      Schema.Union(
+      Schema.Union([
         Schema.Struct({
           id: Schema.String,
           createdOn: Schema.String.pipe(T.JsonName("created_on")),
@@ -4808,7 +4808,7 @@ export const ScanReviewRecordResponse = Schema.Struct({
             T.JsonName("tags_modified_on"),
           ),
         }),
-      ),
+      ]),
     ),
   ),
   rejects: Schema.optional(Schema.Array(Schema.String)),
@@ -4881,12 +4881,12 @@ export const GetSettingAccountResponse = Schema.Struct({
     multiProvider: Schema.Boolean.pipe(T.JsonName("multi_provider")),
     nameservers: Schema.Struct({
       type: Schema.optional(
-        Schema.Literal(
+        Schema.Literals([
           "cloudflare.standard",
           "cloudflare.standard.random",
           "custom.account",
           "custom.tenant",
-        ),
+        ]),
       ),
     }),
     nsTtl: Schema.Number.pipe(T.JsonName("ns_ttl")),
@@ -4894,13 +4894,13 @@ export const GetSettingAccountResponse = Schema.Struct({
     soa: Schema.Struct({
       expire: Schema.optional(Schema.Number),
       minTtl: Schema.optional(Schema.Number).pipe(T.JsonName("min_ttl")),
-      mname: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
+      mname: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
       refresh: Schema.optional(Schema.Number),
       retry: Schema.optional(Schema.Number),
       rname: Schema.optional(Schema.String),
       ttl: Schema.optional(Schema.Number),
     }),
-    zoneMode: Schema.Literal("standard", "cdn_only", "dns_only").pipe(
+    zoneMode: Schema.Literals(["standard", "cdn_only", "dns_only"]).pipe(
       T.JsonName("zone_mode"),
     ),
   }).pipe(T.JsonName("zone_defaults")),
@@ -4972,12 +4972,12 @@ export const PatchSettingAccountRequest = Schema.Struct({
       nameservers: Schema.optional(
         Schema.Struct({
           type: Schema.optional(
-            Schema.Literal(
+            Schema.Literals([
               "cloudflare.standard",
               "cloudflare.standard.random",
               "custom.account",
               "custom.tenant",
-            ),
+            ]),
           ),
         }),
       ),
@@ -4989,7 +4989,7 @@ export const PatchSettingAccountRequest = Schema.Struct({
         Schema.Struct({
           expire: Schema.optional(Schema.Number),
           minTtl: Schema.optional(Schema.Number).pipe(T.JsonName("min_ttl")),
-          mname: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
+          mname: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
           refresh: Schema.optional(Schema.Number),
           retry: Schema.optional(Schema.Number),
           rname: Schema.optional(Schema.String),
@@ -4997,7 +4997,7 @@ export const PatchSettingAccountRequest = Schema.Struct({
         }),
       ),
       zoneMode: Schema.optional(
-        Schema.Literal("standard", "cdn_only", "dns_only"),
+        Schema.Literals(["standard", "cdn_only", "dns_only"]),
       ).pipe(T.JsonName("zone_mode")),
     }),
   ).pipe(T.JsonName("zone_defaults")),
@@ -5045,12 +5045,12 @@ export const PatchSettingAccountResponse = Schema.Struct({
     multiProvider: Schema.Boolean.pipe(T.JsonName("multi_provider")),
     nameservers: Schema.Struct({
       type: Schema.optional(
-        Schema.Literal(
+        Schema.Literals([
           "cloudflare.standard",
           "cloudflare.standard.random",
           "custom.account",
           "custom.tenant",
-        ),
+        ]),
       ),
     }),
     nsTtl: Schema.Number.pipe(T.JsonName("ns_ttl")),
@@ -5058,13 +5058,13 @@ export const PatchSettingAccountResponse = Schema.Struct({
     soa: Schema.Struct({
       expire: Schema.optional(Schema.Number),
       minTtl: Schema.optional(Schema.Number).pipe(T.JsonName("min_ttl")),
-      mname: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
+      mname: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
       refresh: Schema.optional(Schema.Number),
       retry: Schema.optional(Schema.Number),
       rname: Schema.optional(Schema.String),
       ttl: Schema.optional(Schema.Number),
     }),
-    zoneMode: Schema.Literal("standard", "cdn_only", "dns_only").pipe(
+    zoneMode: Schema.Literals(["standard", "cdn_only", "dns_only"]).pipe(
       T.JsonName("zone_mode"),
     ),
   }).pipe(T.JsonName("zone_defaults")),
@@ -5338,12 +5338,12 @@ export const GetSettingZoneResponse = Schema.Struct({
   }).pipe(T.JsonName("internal_dns")),
   multiProvider: Schema.Boolean.pipe(T.JsonName("multi_provider")),
   nameservers: Schema.Struct({
-    type: Schema.Literal(
+    type: Schema.Literals([
       "cloudflare.standard",
       "custom.account",
       "custom.tenant",
       "custom.zone",
-    ),
+    ]),
     nsSet: Schema.optional(Schema.Number).pipe(T.JsonName("ns_set")),
   }),
   nsTtl: Schema.Number.pipe(T.JsonName("ns_ttl")),
@@ -5351,13 +5351,13 @@ export const GetSettingZoneResponse = Schema.Struct({
   soa: Schema.Struct({
     expire: Schema.optional(Schema.Number),
     minTtl: Schema.optional(Schema.Number).pipe(T.JsonName("min_ttl")),
-    mname: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
+    mname: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     refresh: Schema.optional(Schema.Number),
     retry: Schema.optional(Schema.Number),
     rname: Schema.optional(Schema.String),
     ttl: Schema.optional(Schema.Number),
   }),
-  zoneMode: Schema.Literal("standard", "cdn_only", "dns_only").pipe(
+  zoneMode: Schema.Literals(["standard", "cdn_only", "dns_only"]).pipe(
     T.JsonName("zone_mode"),
   ),
 }) as unknown as Schema.Schema<GetSettingZoneResponse>;
@@ -5434,12 +5434,12 @@ export const PatchSettingZoneRequest = Schema.Struct({
     Schema.Struct({
       nsSet: Schema.optional(Schema.Number).pipe(T.JsonName("ns_set")),
       type: Schema.optional(
-        Schema.Literal(
+        Schema.Literals([
           "cloudflare.standard",
           "custom.account",
           "custom.tenant",
           "custom.zone",
-        ),
+        ]),
       ),
     }),
   ),
@@ -5451,7 +5451,7 @@ export const PatchSettingZoneRequest = Schema.Struct({
     Schema.Struct({
       expire: Schema.optional(Schema.Number),
       minTtl: Schema.optional(Schema.Number).pipe(T.JsonName("min_ttl")),
-      mname: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
+      mname: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
       refresh: Schema.optional(Schema.Number),
       retry: Schema.optional(Schema.Number),
       rname: Schema.optional(Schema.String),
@@ -5459,7 +5459,7 @@ export const PatchSettingZoneRequest = Schema.Struct({
     }),
   ),
   zoneMode: Schema.optional(
-    Schema.Literal("standard", "cdn_only", "dns_only"),
+    Schema.Literals(["standard", "cdn_only", "dns_only"]),
   ).pipe(T.JsonName("zone_mode")),
 }).pipe(
   T.Http({ method: "PATCH", path: "/zones/{zone_id}/dns_settings" }),
@@ -5511,12 +5511,12 @@ export const PatchSettingZoneResponse = Schema.Struct({
   }).pipe(T.JsonName("internal_dns")),
   multiProvider: Schema.Boolean.pipe(T.JsonName("multi_provider")),
   nameservers: Schema.Struct({
-    type: Schema.Literal(
+    type: Schema.Literals([
       "cloudflare.standard",
       "custom.account",
       "custom.tenant",
       "custom.zone",
-    ),
+    ]),
     nsSet: Schema.optional(Schema.Number).pipe(T.JsonName("ns_set")),
   }),
   nsTtl: Schema.Number.pipe(T.JsonName("ns_ttl")),
@@ -5524,13 +5524,13 @@ export const PatchSettingZoneResponse = Schema.Struct({
   soa: Schema.Struct({
     expire: Schema.optional(Schema.Number),
     minTtl: Schema.optional(Schema.Number).pipe(T.JsonName("min_ttl")),
-    mname: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
+    mname: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     refresh: Schema.optional(Schema.Number),
     retry: Schema.optional(Schema.Number),
     rname: Schema.optional(Schema.String),
     ttl: Schema.optional(Schema.Number),
   }),
-  zoneMode: Schema.Literal("standard", "cdn_only", "dns_only").pipe(
+  zoneMode: Schema.Literals(["standard", "cdn_only", "dns_only"]).pipe(
     T.JsonName("zone_mode"),
   ),
 }) as unknown as Schema.Schema<PatchSettingZoneResponse>;

@@ -7,7 +7,7 @@
 
 import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
-import type { HttpClient } from "@effect/platform";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
@@ -1040,7 +1040,7 @@ export interface GetConnectorEventResponse {
 }
 
 export const GetConnectorEventResponse = Schema.Struct({
-  e: Schema.Union(
+  e: Schema.Union([
     Schema.Struct({
       k: Schema.Literal("Init"),
     }),
@@ -1090,7 +1090,7 @@ export const GetConnectorEventResponse = Schema.Struct({
     Schema.Struct({
       k: Schema.Literal("ConfigureCloudflaredTunnel"),
     }),
-  ),
+  ]),
   n: Schema.Number,
   t: Schema.Number,
 }) as unknown as Schema.Schema<GetConnectorEventResponse>;
@@ -1218,7 +1218,7 @@ export const ListConnectorEventLatestsResponse = Schema.Struct({
   count: Schema.Number,
   items: Schema.Array(
     Schema.Struct({
-      e: Schema.Union(
+      e: Schema.Union([
         Schema.Struct({
           k: Schema.Literal("Init"),
         }),
@@ -1268,7 +1268,7 @@ export const ListConnectorEventLatestsResponse = Schema.Struct({
         Schema.Struct({
           k: Schema.Literal("ConfigureCloudflaredTunnel"),
         }),
-      ),
+      ]),
       n: Schema.Number,
       t: Schema.Number,
     }),
@@ -3528,7 +3528,7 @@ export const GetGreTunnelResponse = Schema.Struct({
       ),
       bgpStatus: Schema.optional(
         Schema.Struct({
-          state: Schema.Literal("BGP_DOWN", "BGP_UP", "BGP_ESTABLISHING"),
+          state: Schema.Literals(["BGP_DOWN", "BGP_UP", "BGP_ESTABLISHING"]),
           tcpEstablished: Schema.Boolean.pipe(T.JsonName("tcp_established")),
           updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
           bgpState: Schema.optional(Schema.String).pipe(
@@ -3553,19 +3553,19 @@ export const GetGreTunnelResponse = Schema.Struct({
       healthCheck: Schema.optional(
         Schema.Struct({
           direction: Schema.optional(
-            Schema.Literal("unidirectional", "bidirectional"),
+            Schema.Literals(["unidirectional", "bidirectional"]),
           ),
           enabled: Schema.optional(Schema.Boolean),
-          rate: Schema.optional(Schema.Literal("low", "mid", "high")),
+          rate: Schema.optional(Schema.Literals(["low", "mid", "high"])),
           target: Schema.optional(
-            Schema.Union(
+            Schema.Union([
               Schema.Struct({
                 saved: Schema.optional(Schema.String),
               }),
               Schema.String,
-            ),
+            ]),
           ),
-          type: Schema.optional(Schema.Literal("reply", "request")),
+          type: Schema.optional(Schema.Literals(["reply", "request"])),
         }),
       ).pipe(T.JsonName("health_check")),
       interfaceAddress6: Schema.optional(Schema.String).pipe(
@@ -3670,7 +3670,7 @@ export const ListGreTunnelsResponse = Schema.Struct({
         ),
         bgpStatus: Schema.optional(
           Schema.Struct({
-            state: Schema.Literal("BGP_DOWN", "BGP_UP", "BGP_ESTABLISHING"),
+            state: Schema.Literals(["BGP_DOWN", "BGP_UP", "BGP_ESTABLISHING"]),
             tcpEstablished: Schema.Boolean.pipe(T.JsonName("tcp_established")),
             updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
             bgpState: Schema.optional(Schema.String).pipe(
@@ -3697,19 +3697,19 @@ export const ListGreTunnelsResponse = Schema.Struct({
         healthCheck: Schema.optional(
           Schema.Struct({
             direction: Schema.optional(
-              Schema.Literal("unidirectional", "bidirectional"),
+              Schema.Literals(["unidirectional", "bidirectional"]),
             ),
             enabled: Schema.optional(Schema.Boolean),
-            rate: Schema.optional(Schema.Literal("low", "mid", "high")),
+            rate: Schema.optional(Schema.Literals(["low", "mid", "high"])),
             target: Schema.optional(
-              Schema.Union(
+              Schema.Union([
                 Schema.Struct({
                   saved: Schema.optional(Schema.String),
                 }),
                 Schema.String,
-              ),
+              ]),
             ),
-            type: Schema.optional(Schema.Literal("reply", "request")),
+            type: Schema.optional(Schema.Literals(["reply", "request"])),
           }),
         ).pipe(T.JsonName("health_check")),
         interfaceAddress6: Schema.optional(Schema.String).pipe(
@@ -3799,19 +3799,19 @@ export const CreateGreTunnelRequest = Schema.Struct({
   healthCheck: Schema.optional(
     Schema.Struct({
       direction: Schema.optional(
-        Schema.Literal("unidirectional", "bidirectional"),
+        Schema.Literals(["unidirectional", "bidirectional"]),
       ),
       enabled: Schema.optional(Schema.Boolean),
-      rate: Schema.optional(Schema.Literal("low", "mid", "high")),
+      rate: Schema.optional(Schema.Literals(["low", "mid", "high"])),
       target: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
             saved: Schema.optional(Schema.String),
           }),
           Schema.String,
-        ),
+        ]),
       ),
-      type: Schema.optional(Schema.Literal("reply", "request")),
+      type: Schema.optional(Schema.Literals(["reply", "request"])),
     }),
   ).pipe(T.JsonName("health_check")),
   interfaceAddress6: Schema.optional(Schema.String).pipe(
@@ -3890,7 +3890,7 @@ export const CreateGreTunnelResponse = Schema.Struct({
   ),
   bgpStatus: Schema.optional(
     Schema.Struct({
-      state: Schema.Literal("BGP_DOWN", "BGP_UP", "BGP_ESTABLISHING"),
+      state: Schema.Literals(["BGP_DOWN", "BGP_UP", "BGP_ESTABLISHING"]),
       tcpEstablished: Schema.Boolean.pipe(T.JsonName("tcp_established")),
       updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
       bgpState: Schema.optional(Schema.String).pipe(T.JsonName("bgp_state")),
@@ -3913,19 +3913,19 @@ export const CreateGreTunnelResponse = Schema.Struct({
   healthCheck: Schema.optional(
     Schema.Struct({
       direction: Schema.optional(
-        Schema.Literal("unidirectional", "bidirectional"),
+        Schema.Literals(["unidirectional", "bidirectional"]),
       ),
       enabled: Schema.optional(Schema.Boolean),
-      rate: Schema.optional(Schema.Literal("low", "mid", "high")),
+      rate: Schema.optional(Schema.Literals(["low", "mid", "high"])),
       target: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
             saved: Schema.optional(Schema.String),
           }),
           Schema.String,
-        ),
+        ]),
       ),
-      type: Schema.optional(Schema.Literal("reply", "request")),
+      type: Schema.optional(Schema.Literals(["reply", "request"])),
     }),
   ).pipe(T.JsonName("health_check")),
   interfaceAddress6: Schema.optional(Schema.String).pipe(
@@ -4001,19 +4001,19 @@ export const UpdateGreTunnelRequest = Schema.Struct({
   healthCheck: Schema.optional(
     Schema.Struct({
       direction: Schema.optional(
-        Schema.Literal("unidirectional", "bidirectional"),
+        Schema.Literals(["unidirectional", "bidirectional"]),
       ),
       enabled: Schema.optional(Schema.Boolean),
-      rate: Schema.optional(Schema.Literal("low", "mid", "high")),
+      rate: Schema.optional(Schema.Literals(["low", "mid", "high"])),
       target: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
             saved: Schema.optional(Schema.String),
           }),
           Schema.String,
-        ),
+        ]),
       ),
-      type: Schema.optional(Schema.Literal("reply", "request")),
+      type: Schema.optional(Schema.Literals(["reply", "request"])),
     }),
   ).pipe(T.JsonName("health_check")),
   interfaceAddress6: Schema.optional(Schema.String).pipe(
@@ -4091,7 +4091,7 @@ export const UpdateGreTunnelResponse = Schema.Struct({
       ),
       bgpStatus: Schema.optional(
         Schema.Struct({
-          state: Schema.Literal("BGP_DOWN", "BGP_UP", "BGP_ESTABLISHING"),
+          state: Schema.Literals(["BGP_DOWN", "BGP_UP", "BGP_ESTABLISHING"]),
           tcpEstablished: Schema.Boolean.pipe(T.JsonName("tcp_established")),
           updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
           bgpState: Schema.optional(Schema.String).pipe(
@@ -4116,19 +4116,19 @@ export const UpdateGreTunnelResponse = Schema.Struct({
       healthCheck: Schema.optional(
         Schema.Struct({
           direction: Schema.optional(
-            Schema.Literal("unidirectional", "bidirectional"),
+            Schema.Literals(["unidirectional", "bidirectional"]),
           ),
           enabled: Schema.optional(Schema.Boolean),
-          rate: Schema.optional(Schema.Literal("low", "mid", "high")),
+          rate: Schema.optional(Schema.Literals(["low", "mid", "high"])),
           target: Schema.optional(
-            Schema.Union(
+            Schema.Union([
               Schema.Struct({
                 saved: Schema.optional(Schema.String),
               }),
               Schema.String,
-            ),
+            ]),
           ),
-          type: Schema.optional(Schema.Literal("reply", "request")),
+          type: Schema.optional(Schema.Literals(["reply", "request"])),
         }),
       ).pipe(T.JsonName("health_check")),
       interfaceAddress6: Schema.optional(Schema.String).pipe(
@@ -4239,7 +4239,7 @@ export const DeleteGreTunnelResponse = Schema.Struct({
       ),
       bgpStatus: Schema.optional(
         Schema.Struct({
-          state: Schema.Literal("BGP_DOWN", "BGP_UP", "BGP_ESTABLISHING"),
+          state: Schema.Literals(["BGP_DOWN", "BGP_UP", "BGP_ESTABLISHING"]),
           tcpEstablished: Schema.Boolean.pipe(T.JsonName("tcp_established")),
           updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
           bgpState: Schema.optional(Schema.String).pipe(
@@ -4264,19 +4264,19 @@ export const DeleteGreTunnelResponse = Schema.Struct({
       healthCheck: Schema.optional(
         Schema.Struct({
           direction: Schema.optional(
-            Schema.Literal("unidirectional", "bidirectional"),
+            Schema.Literals(["unidirectional", "bidirectional"]),
           ),
           enabled: Schema.optional(Schema.Boolean),
-          rate: Schema.optional(Schema.Literal("low", "mid", "high")),
+          rate: Schema.optional(Schema.Literals(["low", "mid", "high"])),
           target: Schema.optional(
-            Schema.Union(
+            Schema.Union([
               Schema.Struct({
                 saved: Schema.optional(Schema.String),
               }),
               Schema.String,
-            ),
+            ]),
           ),
-          type: Schema.optional(Schema.Literal("reply", "request")),
+          type: Schema.optional(Schema.Literals(["reply", "request"])),
         }),
       ).pipe(T.JsonName("health_check")),
       interfaceAddress6: Schema.optional(Schema.String).pipe(
@@ -4389,7 +4389,7 @@ export const GetIpsecTunnelResponse = Schema.Struct({
       ),
       bgpStatus: Schema.optional(
         Schema.Struct({
-          state: Schema.Literal("BGP_DOWN", "BGP_UP", "BGP_ESTABLISHING"),
+          state: Schema.Literals(["BGP_DOWN", "BGP_UP", "BGP_ESTABLISHING"]),
           tcpEstablished: Schema.Boolean.pipe(T.JsonName("tcp_established")),
           updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
           bgpState: Schema.optional(Schema.String).pipe(
@@ -4422,19 +4422,19 @@ export const GetIpsecTunnelResponse = Schema.Struct({
       healthCheck: Schema.optional(
         Schema.Struct({
           direction: Schema.optional(
-            Schema.Literal("unidirectional", "bidirectional"),
+            Schema.Literals(["unidirectional", "bidirectional"]),
           ),
           enabled: Schema.optional(Schema.Boolean),
-          rate: Schema.optional(Schema.Literal("low", "mid", "high")),
+          rate: Schema.optional(Schema.Literals(["low", "mid", "high"])),
           target: Schema.optional(
-            Schema.Union(
+            Schema.Union([
               Schema.Struct({
                 saved: Schema.optional(Schema.String),
               }),
               Schema.String,
-            ),
+            ]),
           ),
-          type: Schema.optional(Schema.Literal("reply", "request")),
+          type: Schema.optional(Schema.Literals(["reply", "request"])),
         }),
       ).pipe(T.JsonName("health_check")),
       interfaceAddress6: Schema.optional(Schema.String).pipe(
@@ -4545,7 +4545,7 @@ export const ListIpsecTunnelsResponse = Schema.Struct({
         ),
         bgpStatus: Schema.optional(
           Schema.Struct({
-            state: Schema.Literal("BGP_DOWN", "BGP_UP", "BGP_ESTABLISHING"),
+            state: Schema.Literals(["BGP_DOWN", "BGP_UP", "BGP_ESTABLISHING"]),
             tcpEstablished: Schema.Boolean.pipe(T.JsonName("tcp_established")),
             updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
             bgpState: Schema.optional(Schema.String).pipe(
@@ -4580,19 +4580,19 @@ export const ListIpsecTunnelsResponse = Schema.Struct({
         healthCheck: Schema.optional(
           Schema.Struct({
             direction: Schema.optional(
-              Schema.Literal("unidirectional", "bidirectional"),
+              Schema.Literals(["unidirectional", "bidirectional"]),
             ),
             enabled: Schema.optional(Schema.Boolean),
-            rate: Schema.optional(Schema.Literal("low", "mid", "high")),
+            rate: Schema.optional(Schema.Literals(["low", "mid", "high"])),
             target: Schema.optional(
-              Schema.Union(
+              Schema.Union([
                 Schema.Struct({
                   saved: Schema.optional(Schema.String),
                 }),
                 Schema.String,
-              ),
+              ]),
             ),
-            type: Schema.optional(Schema.Literal("reply", "request")),
+            type: Schema.optional(Schema.Literals(["reply", "request"])),
           }),
         ).pipe(T.JsonName("health_check")),
         interfaceAddress6: Schema.optional(Schema.String).pipe(
@@ -4693,19 +4693,19 @@ export const CreateIpsecTunnelRequest = Schema.Struct({
   healthCheck: Schema.optional(
     Schema.Struct({
       direction: Schema.optional(
-        Schema.Literal("unidirectional", "bidirectional"),
+        Schema.Literals(["unidirectional", "bidirectional"]),
       ),
       enabled: Schema.optional(Schema.Boolean),
-      rate: Schema.optional(Schema.Literal("low", "mid", "high")),
+      rate: Schema.optional(Schema.Literals(["low", "mid", "high"])),
       target: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
             saved: Schema.optional(Schema.String),
           }),
           Schema.String,
-        ),
+        ]),
       ),
-      type: Schema.optional(Schema.Literal("reply", "request")),
+      type: Schema.optional(Schema.Literals(["reply", "request"])),
     }),
   ).pipe(T.JsonName("health_check")),
   interfaceAddress6: Schema.optional(Schema.String).pipe(
@@ -4792,7 +4792,7 @@ export const CreateIpsecTunnelResponse = Schema.Struct({
   ),
   bgpStatus: Schema.optional(
     Schema.Struct({
-      state: Schema.Literal("BGP_DOWN", "BGP_UP", "BGP_ESTABLISHING"),
+      state: Schema.Literals(["BGP_DOWN", "BGP_UP", "BGP_ESTABLISHING"]),
       tcpEstablished: Schema.Boolean.pipe(T.JsonName("tcp_established")),
       updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
       bgpState: Schema.optional(Schema.String).pipe(T.JsonName("bgp_state")),
@@ -4823,19 +4823,19 @@ export const CreateIpsecTunnelResponse = Schema.Struct({
   healthCheck: Schema.optional(
     Schema.Struct({
       direction: Schema.optional(
-        Schema.Literal("unidirectional", "bidirectional"),
+        Schema.Literals(["unidirectional", "bidirectional"]),
       ),
       enabled: Schema.optional(Schema.Boolean),
-      rate: Schema.optional(Schema.Literal("low", "mid", "high")),
+      rate: Schema.optional(Schema.Literals(["low", "mid", "high"])),
       target: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
             saved: Schema.optional(Schema.String),
           }),
           Schema.String,
-        ),
+        ]),
       ),
-      type: Schema.optional(Schema.Literal("reply", "request")),
+      type: Schema.optional(Schema.Literals(["reply", "request"])),
     }),
   ).pipe(T.JsonName("health_check")),
   interfaceAddress6: Schema.optional(Schema.String).pipe(
@@ -4937,19 +4937,19 @@ export const UpdateIpsecTunnelRequest = Schema.Struct({
   healthCheck: Schema.optional(
     Schema.Struct({
       direction: Schema.optional(
-        Schema.Literal("unidirectional", "bidirectional"),
+        Schema.Literals(["unidirectional", "bidirectional"]),
       ),
       enabled: Schema.optional(Schema.Boolean),
-      rate: Schema.optional(Schema.Literal("low", "mid", "high")),
+      rate: Schema.optional(Schema.Literals(["low", "mid", "high"])),
       target: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
             saved: Schema.optional(Schema.String),
           }),
           Schema.String,
-        ),
+        ]),
       ),
-      type: Schema.optional(Schema.Literal("reply", "request")),
+      type: Schema.optional(Schema.Literals(["reply", "request"])),
     }),
   ).pipe(T.JsonName("health_check")),
   interfaceAddress6: Schema.optional(Schema.String).pipe(
@@ -5029,7 +5029,7 @@ export const UpdateIpsecTunnelResponse = Schema.Struct({
       ),
       bgpStatus: Schema.optional(
         Schema.Struct({
-          state: Schema.Literal("BGP_DOWN", "BGP_UP", "BGP_ESTABLISHING"),
+          state: Schema.Literals(["BGP_DOWN", "BGP_UP", "BGP_ESTABLISHING"]),
           tcpEstablished: Schema.Boolean.pipe(T.JsonName("tcp_established")),
           updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
           bgpState: Schema.optional(Schema.String).pipe(
@@ -5062,19 +5062,19 @@ export const UpdateIpsecTunnelResponse = Schema.Struct({
       healthCheck: Schema.optional(
         Schema.Struct({
           direction: Schema.optional(
-            Schema.Literal("unidirectional", "bidirectional"),
+            Schema.Literals(["unidirectional", "bidirectional"]),
           ),
           enabled: Schema.optional(Schema.Boolean),
-          rate: Schema.optional(Schema.Literal("low", "mid", "high")),
+          rate: Schema.optional(Schema.Literals(["low", "mid", "high"])),
           target: Schema.optional(
-            Schema.Union(
+            Schema.Union([
               Schema.Struct({
                 saved: Schema.optional(Schema.String),
               }),
               Schema.String,
-            ),
+            ]),
           ),
-          type: Schema.optional(Schema.Literal("reply", "request")),
+          type: Schema.optional(Schema.Literals(["reply", "request"])),
         }),
       ).pipe(T.JsonName("health_check")),
       interfaceAddress6: Schema.optional(Schema.String).pipe(
@@ -5189,7 +5189,7 @@ export const DeleteIpsecTunnelResponse = Schema.Struct({
       ),
       bgpStatus: Schema.optional(
         Schema.Struct({
-          state: Schema.Literal("BGP_DOWN", "BGP_UP", "BGP_ESTABLISHING"),
+          state: Schema.Literals(["BGP_DOWN", "BGP_UP", "BGP_ESTABLISHING"]),
           tcpEstablished: Schema.Boolean.pipe(T.JsonName("tcp_established")),
           updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
           bgpState: Schema.optional(Schema.String).pipe(
@@ -5222,19 +5222,19 @@ export const DeleteIpsecTunnelResponse = Schema.Struct({
       healthCheck: Schema.optional(
         Schema.Struct({
           direction: Schema.optional(
-            Schema.Literal("unidirectional", "bidirectional"),
+            Schema.Literals(["unidirectional", "bidirectional"]),
           ),
           enabled: Schema.optional(Schema.Boolean),
-          rate: Schema.optional(Schema.Literal("low", "mid", "high")),
+          rate: Schema.optional(Schema.Literals(["low", "mid", "high"])),
           target: Schema.optional(
-            Schema.Union(
+            Schema.Union([
               Schema.Struct({
                 saved: Schema.optional(Schema.String),
               }),
               Schema.String,
-            ),
+            ]),
           ),
-          type: Schema.optional(Schema.Literal("reply", "request")),
+          type: Schema.optional(Schema.Literals(["reply", "request"])),
         }),
       ).pipe(T.JsonName("health_check")),
       interfaceAddress6: Schema.optional(Schema.String).pipe(
@@ -5331,7 +5331,7 @@ export type GetPcapResponse =
       type?: "simple" | "full";
     };
 
-export const GetPcapResponse = Schema.Union(
+export const GetPcapResponse = Schema.Union([
   Schema.Struct({
     id: Schema.optional(Schema.String),
     filterV1: Schema.optional(
@@ -5353,7 +5353,7 @@ export const GetPcapResponse = Schema.Union(
     ).pipe(T.JsonName("filter_v1")),
     offsetTime: Schema.optional(Schema.String).pipe(T.JsonName("offset_time")),
     status: Schema.optional(
-      Schema.Literal(
+      Schema.Literals([
         "unknown",
         "success",
         "pending",
@@ -5362,12 +5362,12 @@ export const GetPcapResponse = Schema.Union(
         "conversion_running",
         "complete",
         "failed",
-      ),
+      ]),
     ),
     submitted: Schema.optional(Schema.String),
     system: Schema.optional(Schema.Literal("magic-transit")),
     timeLimit: Schema.optional(Schema.Number).pipe(T.JsonName("time_limit")),
-    type: Schema.optional(Schema.Literal("simple", "full")),
+    type: Schema.optional(Schema.Literals(["simple", "full"])),
   }),
   Schema.Struct({
     id: Schema.optional(Schema.String),
@@ -5384,7 +5384,7 @@ export const GetPcapResponse = Schema.Union(
       T.JsonName("packets_captured"),
     ),
     status: Schema.optional(
-      Schema.Literal(
+      Schema.Literals([
         "unknown",
         "success",
         "pending",
@@ -5393,7 +5393,7 @@ export const GetPcapResponse = Schema.Union(
         "conversion_running",
         "complete",
         "failed",
-      ),
+      ]),
     ),
     stopRequested: Schema.optional(Schema.String).pipe(
       T.JsonName("stop_requested"),
@@ -5401,9 +5401,9 @@ export const GetPcapResponse = Schema.Union(
     submitted: Schema.optional(Schema.String),
     system: Schema.optional(Schema.Literal("magic-transit")),
     timeLimit: Schema.optional(Schema.Number).pipe(T.JsonName("time_limit")),
-    type: Schema.optional(Schema.Literal("simple", "full")),
+    type: Schema.optional(Schema.Literals(["simple", "full"])),
   }),
-) as unknown as Schema.Schema<GetPcapResponse>;
+]) as unknown as Schema.Schema<GetPcapResponse>;
 
 export const getPcap: (
   input: GetPcapRequest,
@@ -5472,7 +5472,7 @@ export type CreatePcapResponse =
       type?: "simple" | "full";
     };
 
-export const CreatePcapResponse = Schema.Union(
+export const CreatePcapResponse = Schema.Union([
   Schema.Struct({
     id: Schema.optional(Schema.String),
     filterV1: Schema.optional(
@@ -5494,7 +5494,7 @@ export const CreatePcapResponse = Schema.Union(
     ).pipe(T.JsonName("filter_v1")),
     offsetTime: Schema.optional(Schema.String).pipe(T.JsonName("offset_time")),
     status: Schema.optional(
-      Schema.Literal(
+      Schema.Literals([
         "unknown",
         "success",
         "pending",
@@ -5503,12 +5503,12 @@ export const CreatePcapResponse = Schema.Union(
         "conversion_running",
         "complete",
         "failed",
-      ),
+      ]),
     ),
     submitted: Schema.optional(Schema.String),
     system: Schema.optional(Schema.Literal("magic-transit")),
     timeLimit: Schema.optional(Schema.Number).pipe(T.JsonName("time_limit")),
-    type: Schema.optional(Schema.Literal("simple", "full")),
+    type: Schema.optional(Schema.Literals(["simple", "full"])),
   }),
   Schema.Struct({
     id: Schema.optional(Schema.String),
@@ -5525,7 +5525,7 @@ export const CreatePcapResponse = Schema.Union(
       T.JsonName("packets_captured"),
     ),
     status: Schema.optional(
-      Schema.Literal(
+      Schema.Literals([
         "unknown",
         "success",
         "pending",
@@ -5534,7 +5534,7 @@ export const CreatePcapResponse = Schema.Union(
         "conversion_running",
         "complete",
         "failed",
-      ),
+      ]),
     ),
     stopRequested: Schema.optional(Schema.String).pipe(
       T.JsonName("stop_requested"),
@@ -5542,9 +5542,9 @@ export const CreatePcapResponse = Schema.Union(
     submitted: Schema.optional(Schema.String),
     system: Schema.optional(Schema.Literal("magic-transit")),
     timeLimit: Schema.optional(Schema.Number).pipe(T.JsonName("time_limit")),
-    type: Schema.optional(Schema.Literal("simple", "full")),
+    type: Schema.optional(Schema.Literals(["simple", "full"])),
   }),
-) as unknown as Schema.Schema<CreatePcapResponse>;
+]) as unknown as Schema.Schema<CreatePcapResponse>;
 
 export const createPcap: (
   input: CreatePcapRequest,
@@ -5662,7 +5662,7 @@ export const CreatePcapOwnershipResponse = Schema.Struct({
   id: Schema.String,
   destinationConf: Schema.String.pipe(T.JsonName("destination_conf")),
   filename: Schema.String,
-  status: Schema.Literal("pending", "success", "failed"),
+  status: Schema.Literals(["pending", "success", "failed"]),
   submitted: Schema.String,
   validated: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<CreatePcapOwnershipResponse>;
@@ -5751,7 +5751,7 @@ export const ValidatePcapOwnershipResponse = Schema.Struct({
   id: Schema.String,
   destinationConf: Schema.String.pipe(T.JsonName("destination_conf")),
   filename: Schema.String,
-  status: Schema.Literal("pending", "success", "failed"),
+  status: Schema.Literals(["pending", "success", "failed"]),
   submitted: Schema.String,
   validated: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<ValidatePcapOwnershipResponse>;
@@ -5951,7 +5951,7 @@ export const BulkPutGreTunnelsResponse = Schema.Struct({
         ),
         bgpStatus: Schema.optional(
           Schema.Struct({
-            state: Schema.Literal("BGP_DOWN", "BGP_UP", "BGP_ESTABLISHING"),
+            state: Schema.Literals(["BGP_DOWN", "BGP_UP", "BGP_ESTABLISHING"]),
             tcpEstablished: Schema.Boolean.pipe(T.JsonName("tcp_established")),
             updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
             bgpState: Schema.optional(Schema.String).pipe(
@@ -5978,19 +5978,19 @@ export const BulkPutGreTunnelsResponse = Schema.Struct({
         healthCheck: Schema.optional(
           Schema.Struct({
             direction: Schema.optional(
-              Schema.Literal("unidirectional", "bidirectional"),
+              Schema.Literals(["unidirectional", "bidirectional"]),
             ),
             enabled: Schema.optional(Schema.Boolean),
-            rate: Schema.optional(Schema.Literal("low", "mid", "high")),
+            rate: Schema.optional(Schema.Literals(["low", "mid", "high"])),
             target: Schema.optional(
-              Schema.Union(
+              Schema.Union([
                 Schema.Struct({
                   saved: Schema.optional(Schema.String),
                 }),
                 Schema.String,
-              ),
+              ]),
             ),
-            type: Schema.optional(Schema.Literal("reply", "request")),
+            type: Schema.optional(Schema.Literals(["reply", "request"])),
           }),
         ).pipe(T.JsonName("health_check")),
         interfaceAddress6: Schema.optional(Schema.String).pipe(
@@ -6107,7 +6107,7 @@ export const BulkPutIpsecTunnelsResponse = Schema.Struct({
         ),
         bgpStatus: Schema.optional(
           Schema.Struct({
-            state: Schema.Literal("BGP_DOWN", "BGP_UP", "BGP_ESTABLISHING"),
+            state: Schema.Literals(["BGP_DOWN", "BGP_UP", "BGP_ESTABLISHING"]),
             tcpEstablished: Schema.Boolean.pipe(T.JsonName("tcp_established")),
             updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
             bgpState: Schema.optional(Schema.String).pipe(
@@ -6142,19 +6142,19 @@ export const BulkPutIpsecTunnelsResponse = Schema.Struct({
         healthCheck: Schema.optional(
           Schema.Struct({
             direction: Schema.optional(
-              Schema.Literal("unidirectional", "bidirectional"),
+              Schema.Literals(["unidirectional", "bidirectional"]),
             ),
             enabled: Schema.optional(Schema.Boolean),
-            rate: Schema.optional(Schema.Literal("low", "mid", "high")),
+            rate: Schema.optional(Schema.Literals(["low", "mid", "high"])),
             target: Schema.optional(
-              Schema.Union(
+              Schema.Union([
                 Schema.Struct({
                   saved: Schema.optional(Schema.String),
                 }),
                 Schema.String,
-              ),
+              ]),
             ),
-            type: Schema.optional(Schema.Literal("reply", "request")),
+            type: Schema.optional(Schema.Literals(["reply", "request"])),
           }),
         ).pipe(T.JsonName("health_check")),
         interfaceAddress6: Schema.optional(Schema.String).pipe(
@@ -7157,7 +7157,7 @@ export const GetSiteAclResponse = Schema.Struct({
   ),
   name: Schema.optional(Schema.String),
   protocols: Schema.optional(
-    Schema.Array(Schema.Literal("tcp", "udp", "icmp")),
+    Schema.Array(Schema.Literals(["tcp", "udp", "icmp"])),
   ),
   unidirectional: Schema.optional(Schema.Boolean),
 }) as unknown as Schema.Schema<GetSiteAclResponse>;
@@ -7233,7 +7233,7 @@ export const CreateSiteAclRequest = Schema.Struct({
     T.JsonName("forward_locally"),
   ),
   protocols: Schema.optional(
-    Schema.Array(Schema.Literal("tcp", "udp", "icmp")),
+    Schema.Array(Schema.Literals(["tcp", "udp", "icmp"])),
   ),
   unidirectional: Schema.optional(Schema.Boolean),
 }).pipe(
@@ -7301,7 +7301,7 @@ export const CreateSiteAclResponse = Schema.Struct({
   ),
   name: Schema.optional(Schema.String),
   protocols: Schema.optional(
-    Schema.Array(Schema.Literal("tcp", "udp", "icmp")),
+    Schema.Array(Schema.Literals(["tcp", "udp", "icmp"])),
   ),
   unidirectional: Schema.optional(Schema.Boolean),
 }) as unknown as Schema.Schema<CreateSiteAclResponse>;
@@ -7383,7 +7383,7 @@ export const UpdateSiteAclRequest = Schema.Struct({
   ),
   name: Schema.optional(Schema.String),
   protocols: Schema.optional(
-    Schema.Array(Schema.Literal("tcp", "udp", "icmp")),
+    Schema.Array(Schema.Literals(["tcp", "udp", "icmp"])),
   ),
   unidirectional: Schema.optional(Schema.Boolean),
 }).pipe(
@@ -7451,7 +7451,7 @@ export const UpdateSiteAclResponse = Schema.Struct({
   ),
   name: Schema.optional(Schema.String),
   protocols: Schema.optional(
-    Schema.Array(Schema.Literal("tcp", "udp", "icmp")),
+    Schema.Array(Schema.Literals(["tcp", "udp", "icmp"])),
   ),
   unidirectional: Schema.optional(Schema.Boolean),
 }) as unknown as Schema.Schema<UpdateSiteAclResponse>;
@@ -7533,7 +7533,7 @@ export const PatchSiteAclRequest = Schema.Struct({
   ),
   name: Schema.optional(Schema.String),
   protocols: Schema.optional(
-    Schema.Array(Schema.Literal("tcp", "udp", "icmp")),
+    Schema.Array(Schema.Literals(["tcp", "udp", "icmp"])),
   ),
   unidirectional: Schema.optional(Schema.Boolean),
 }).pipe(
@@ -7601,7 +7601,7 @@ export const PatchSiteAclResponse = Schema.Struct({
   ),
   name: Schema.optional(Schema.String),
   protocols: Schema.optional(
-    Schema.Array(Schema.Literal("tcp", "udp", "icmp")),
+    Schema.Array(Schema.Literals(["tcp", "udp", "icmp"])),
   ),
   unidirectional: Schema.optional(Schema.Boolean),
 }) as unknown as Schema.Schema<PatchSiteAclResponse>;
@@ -7694,7 +7694,7 @@ export const DeleteSiteAclResponse = Schema.Struct({
   ),
   name: Schema.optional(Schema.String),
   protocols: Schema.optional(
-    Schema.Array(Schema.Literal("tcp", "udp", "icmp")),
+    Schema.Array(Schema.Literals(["tcp", "udp", "icmp"])),
   ),
   unidirectional: Schema.optional(Schema.Boolean),
 }) as unknown as Schema.Schema<DeleteSiteAclResponse>;
@@ -8452,7 +8452,7 @@ export interface GetSiteWanResponse {
 
 export const GetSiteWanResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
-  healthCheckRate: Schema.optional(Schema.Literal("low", "mid", "high")).pipe(
+  healthCheckRate: Schema.optional(Schema.Literals(["low", "mid", "high"])).pipe(
     T.JsonName("health_check_rate"),
   ),
   name: Schema.optional(Schema.String),
@@ -8551,7 +8551,7 @@ export interface PutSiteWanResponse {
 
 export const PutSiteWanResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
-  healthCheckRate: Schema.optional(Schema.Literal("low", "mid", "high")).pipe(
+  healthCheckRate: Schema.optional(Schema.Literals(["low", "mid", "high"])).pipe(
     T.JsonName("health_check_rate"),
   ),
   name: Schema.optional(Schema.String),
@@ -8650,7 +8650,7 @@ export interface PatchSiteWanResponse {
 
 export const PatchSiteWanResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
-  healthCheckRate: Schema.optional(Schema.Literal("low", "mid", "high")).pipe(
+  healthCheckRate: Schema.optional(Schema.Literals(["low", "mid", "high"])).pipe(
     T.JsonName("health_check_rate"),
   ),
   name: Schema.optional(Schema.String),
@@ -8722,7 +8722,7 @@ export interface DeleteSiteWanResponse {
 
 export const DeleteSiteWanResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
-  healthCheckRate: Schema.optional(Schema.Literal("low", "mid", "high")).pipe(
+  healthCheckRate: Schema.optional(Schema.Literals(["low", "mid", "high"])).pipe(
     T.JsonName("health_check_rate"),
   ),
   name: Schema.optional(Schema.String),

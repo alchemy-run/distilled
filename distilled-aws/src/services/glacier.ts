@@ -1,4 +1,4 @@
-import { HttpClient } from "@effect/platform";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as effect from "effect/Effect";
 import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
@@ -94,8 +94,6 @@ export type Size = number;
 export type Httpstatus = number;
 
 //# Schemas
-export type TagKeyList = string[];
-export const TagKeyList = S.Array(S.String);
 export interface AbortMultipartUploadInput {
   accountId: string;
   vaultName: string;
@@ -120,13 +118,13 @@ export const AbortMultipartUploadInput = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "AbortMultipartUploadInput",
 }) as any as S.Schema<AbortMultipartUploadInput>;
 export interface AbortMultipartUploadResponse {}
 export const AbortMultipartUploadResponse = S.suspend(() =>
   S.Struct({}).pipe(ns),
-).annotations({
+).annotate({
   identifier: "AbortMultipartUploadResponse",
 }) as any as S.Schema<AbortMultipartUploadResponse>;
 export interface AbortVaultLockInput {
@@ -151,15 +149,50 @@ export const AbortVaultLockInput = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "AbortVaultLockInput",
 }) as any as S.Schema<AbortVaultLockInput>;
 export interface AbortVaultLockResponse {}
 export const AbortVaultLockResponse = S.suspend(() =>
   S.Struct({}).pipe(ns),
-).annotations({
+).annotate({
   identifier: "AbortVaultLockResponse",
 }) as any as S.Schema<AbortVaultLockResponse>;
+export type TagMap = { [key: string]: string | undefined };
+export const TagMap = S.Record(S.String, S.String.pipe(S.optional));
+export interface AddTagsToVaultInput {
+  accountId: string;
+  vaultName: string;
+  Tags?: { [key: string]: string | undefined };
+}
+export const AddTagsToVaultInput = S.suspend(() =>
+  S.Struct({
+    accountId: S.String.pipe(T.HttpLabel("accountId")),
+    vaultName: S.String.pipe(T.HttpLabel("vaultName")),
+    Tags: S.optional(TagMap),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({
+        method: "POST",
+        uri: "/{accountId}/vaults/{vaultName}/tags?operation=add",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "AddTagsToVaultInput",
+}) as any as S.Schema<AddTagsToVaultInput>;
+export interface AddTagsToVaultResponse {}
+export const AddTagsToVaultResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "AddTagsToVaultResponse",
+}) as any as S.Schema<AddTagsToVaultResponse>;
 export interface CompleteMultipartUploadInput {
   accountId: string;
   vaultName: string;
@@ -188,9 +221,23 @@ export const CompleteMultipartUploadInput = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "CompleteMultipartUploadInput",
 }) as any as S.Schema<CompleteMultipartUploadInput>;
+export interface ArchiveCreationOutput {
+  location?: string;
+  checksum?: string;
+  archiveId?: string;
+}
+export const ArchiveCreationOutput = S.suspend(() =>
+  S.Struct({
+    location: S.optional(S.String).pipe(T.HttpHeader("Location")),
+    checksum: S.optional(S.String).pipe(T.HttpHeader("x-amz-sha256-tree-hash")),
+    archiveId: S.optional(S.String).pipe(T.HttpHeader("x-amz-archive-id")),
+  }).pipe(ns),
+).annotate({
+  identifier: "ArchiveCreationOutput",
+}) as any as S.Schema<ArchiveCreationOutput>;
 export interface CompleteVaultLockInput {
   accountId: string;
   vaultName: string;
@@ -215,13 +262,13 @@ export const CompleteVaultLockInput = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "CompleteVaultLockInput",
 }) as any as S.Schema<CompleteVaultLockInput>;
 export interface CompleteVaultLockResponse {}
 export const CompleteVaultLockResponse = S.suspend(() =>
   S.Struct({}).pipe(ns),
-).annotations({
+).annotate({
   identifier: "CompleteVaultLockResponse",
 }) as any as S.Schema<CompleteVaultLockResponse>;
 export interface CreateVaultInput {
@@ -243,9 +290,19 @@ export const CreateVaultInput = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "CreateVaultInput",
 }) as any as S.Schema<CreateVaultInput>;
+export interface CreateVaultOutput {
+  location?: string;
+}
+export const CreateVaultOutput = S.suspend(() =>
+  S.Struct({
+    location: S.optional(S.String).pipe(T.HttpHeader("Location")),
+  }).pipe(ns),
+).annotate({
+  identifier: "CreateVaultOutput",
+}) as any as S.Schema<CreateVaultOutput>;
 export interface DeleteArchiveInput {
   accountId: string;
   vaultName: string;
@@ -270,13 +327,13 @@ export const DeleteArchiveInput = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "DeleteArchiveInput",
 }) as any as S.Schema<DeleteArchiveInput>;
 export interface DeleteArchiveResponse {}
 export const DeleteArchiveResponse = S.suspend(() =>
   S.Struct({}).pipe(ns),
-).annotations({
+).annotate({
   identifier: "DeleteArchiveResponse",
 }) as any as S.Schema<DeleteArchiveResponse>;
 export interface DeleteVaultInput {
@@ -298,13 +355,13 @@ export const DeleteVaultInput = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "DeleteVaultInput",
 }) as any as S.Schema<DeleteVaultInput>;
 export interface DeleteVaultResponse {}
 export const DeleteVaultResponse = S.suspend(() =>
   S.Struct({}).pipe(ns),
-).annotations({
+).annotate({
   identifier: "DeleteVaultResponse",
 }) as any as S.Schema<DeleteVaultResponse>;
 export interface DeleteVaultAccessPolicyInput {
@@ -329,13 +386,13 @@ export const DeleteVaultAccessPolicyInput = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "DeleteVaultAccessPolicyInput",
 }) as any as S.Schema<DeleteVaultAccessPolicyInput>;
 export interface DeleteVaultAccessPolicyResponse {}
 export const DeleteVaultAccessPolicyResponse = S.suspend(() =>
   S.Struct({}).pipe(ns),
-).annotations({
+).annotate({
   identifier: "DeleteVaultAccessPolicyResponse",
 }) as any as S.Schema<DeleteVaultAccessPolicyResponse>;
 export interface DeleteVaultNotificationsInput {
@@ -360,13 +417,13 @@ export const DeleteVaultNotificationsInput = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "DeleteVaultNotificationsInput",
 }) as any as S.Schema<DeleteVaultNotificationsInput>;
 export interface DeleteVaultNotificationsResponse {}
 export const DeleteVaultNotificationsResponse = S.suspend(() =>
   S.Struct({}).pipe(ns),
-).annotations({
+).annotate({
   identifier: "DeleteVaultNotificationsResponse",
 }) as any as S.Schema<DeleteVaultNotificationsResponse>;
 export interface DescribeJobInput {
@@ -393,462 +450,9 @@ export const DescribeJobInput = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "DescribeJobInput",
 }) as any as S.Schema<DescribeJobInput>;
-export interface DescribeVaultInput {
-  accountId: string;
-  vaultName: string;
-}
-export const DescribeVaultInput = S.suspend(() =>
-  S.Struct({
-    accountId: S.String.pipe(T.HttpLabel("accountId")),
-    vaultName: S.String.pipe(T.HttpLabel("vaultName")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/{accountId}/vaults/{vaultName}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DescribeVaultInput",
-}) as any as S.Schema<DescribeVaultInput>;
-export interface GetDataRetrievalPolicyInput {
-  accountId: string;
-}
-export const GetDataRetrievalPolicyInput = S.suspend(() =>
-  S.Struct({ accountId: S.String.pipe(T.HttpLabel("accountId")) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/{accountId}/policies/data-retrieval" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "GetDataRetrievalPolicyInput",
-}) as any as S.Schema<GetDataRetrievalPolicyInput>;
-export interface GetJobOutputInput {
-  accountId: string;
-  vaultName: string;
-  jobId: string;
-  range?: string;
-}
-export const GetJobOutputInput = S.suspend(() =>
-  S.Struct({
-    accountId: S.String.pipe(T.HttpLabel("accountId")),
-    vaultName: S.String.pipe(T.HttpLabel("vaultName")),
-    jobId: S.String.pipe(T.HttpLabel("jobId")),
-    range: S.optional(S.String).pipe(T.HttpHeader("Range")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "GET",
-        uri: "/{accountId}/vaults/{vaultName}/jobs/{jobId}/output",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "GetJobOutputInput",
-}) as any as S.Schema<GetJobOutputInput>;
-export interface GetVaultAccessPolicyInput {
-  accountId: string;
-  vaultName: string;
-}
-export const GetVaultAccessPolicyInput = S.suspend(() =>
-  S.Struct({
-    accountId: S.String.pipe(T.HttpLabel("accountId")),
-    vaultName: S.String.pipe(T.HttpLabel("vaultName")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "GET",
-        uri: "/{accountId}/vaults/{vaultName}/access-policy",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "GetVaultAccessPolicyInput",
-}) as any as S.Schema<GetVaultAccessPolicyInput>;
-export interface GetVaultLockInput {
-  accountId: string;
-  vaultName: string;
-}
-export const GetVaultLockInput = S.suspend(() =>
-  S.Struct({
-    accountId: S.String.pipe(T.HttpLabel("accountId")),
-    vaultName: S.String.pipe(T.HttpLabel("vaultName")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "GET",
-        uri: "/{accountId}/vaults/{vaultName}/lock-policy",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "GetVaultLockInput",
-}) as any as S.Schema<GetVaultLockInput>;
-export interface GetVaultNotificationsInput {
-  accountId: string;
-  vaultName: string;
-}
-export const GetVaultNotificationsInput = S.suspend(() =>
-  S.Struct({
-    accountId: S.String.pipe(T.HttpLabel("accountId")),
-    vaultName: S.String.pipe(T.HttpLabel("vaultName")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "GET",
-        uri: "/{accountId}/vaults/{vaultName}/notification-configuration",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "GetVaultNotificationsInput",
-}) as any as S.Schema<GetVaultNotificationsInput>;
-export interface InitiateMultipartUploadInput {
-  accountId: string;
-  vaultName: string;
-  archiveDescription?: string;
-  partSize?: string;
-}
-export const InitiateMultipartUploadInput = S.suspend(() =>
-  S.Struct({
-    accountId: S.String.pipe(T.HttpLabel("accountId")),
-    vaultName: S.String.pipe(T.HttpLabel("vaultName")),
-    archiveDescription: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-archive-description"),
-    ),
-    partSize: S.optional(S.String).pipe(T.HttpHeader("x-amz-part-size")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "POST",
-        uri: "/{accountId}/vaults/{vaultName}/multipart-uploads",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "InitiateMultipartUploadInput",
-}) as any as S.Schema<InitiateMultipartUploadInput>;
-export interface ListJobsInput {
-  accountId: string;
-  vaultName: string;
-  limit?: number;
-  marker?: string;
-  statuscode?: string;
-  completed?: string;
-}
-export const ListJobsInput = S.suspend(() =>
-  S.Struct({
-    accountId: S.String.pipe(T.HttpLabel("accountId")),
-    vaultName: S.String.pipe(T.HttpLabel("vaultName")),
-    limit: S.optional(S.Number).pipe(T.HttpQuery("limit")),
-    marker: S.optional(S.String).pipe(T.HttpQuery("marker")),
-    statuscode: S.optional(S.String).pipe(T.HttpQuery("statuscode")),
-    completed: S.optional(S.String).pipe(T.HttpQuery("completed")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/{accountId}/vaults/{vaultName}/jobs" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListJobsInput",
-}) as any as S.Schema<ListJobsInput>;
-export interface ListMultipartUploadsInput {
-  accountId: string;
-  vaultName: string;
-  limit?: number;
-  marker?: string;
-}
-export const ListMultipartUploadsInput = S.suspend(() =>
-  S.Struct({
-    accountId: S.String.pipe(T.HttpLabel("accountId")),
-    vaultName: S.String.pipe(T.HttpLabel("vaultName")),
-    limit: S.optional(S.Number).pipe(T.HttpQuery("limit")),
-    marker: S.optional(S.String).pipe(T.HttpQuery("marker")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "GET",
-        uri: "/{accountId}/vaults/{vaultName}/multipart-uploads",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListMultipartUploadsInput",
-}) as any as S.Schema<ListMultipartUploadsInput>;
-export interface ListPartsInput {
-  accountId: string;
-  vaultName: string;
-  uploadId: string;
-  marker?: string;
-  limit?: number;
-}
-export const ListPartsInput = S.suspend(() =>
-  S.Struct({
-    accountId: S.String.pipe(T.HttpLabel("accountId")),
-    vaultName: S.String.pipe(T.HttpLabel("vaultName")),
-    uploadId: S.String.pipe(T.HttpLabel("uploadId")),
-    marker: S.optional(S.String).pipe(T.HttpQuery("marker")),
-    limit: S.optional(S.Number).pipe(T.HttpQuery("limit")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "GET",
-        uri: "/{accountId}/vaults/{vaultName}/multipart-uploads/{uploadId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListPartsInput",
-}) as any as S.Schema<ListPartsInput>;
-export interface ListProvisionedCapacityInput {
-  accountId: string;
-}
-export const ListProvisionedCapacityInput = S.suspend(() =>
-  S.Struct({ accountId: S.String.pipe(T.HttpLabel("accountId")) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/{accountId}/provisioned-capacity" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListProvisionedCapacityInput",
-}) as any as S.Schema<ListProvisionedCapacityInput>;
-export interface ListTagsForVaultInput {
-  accountId: string;
-  vaultName: string;
-}
-export const ListTagsForVaultInput = S.suspend(() =>
-  S.Struct({
-    accountId: S.String.pipe(T.HttpLabel("accountId")),
-    vaultName: S.String.pipe(T.HttpLabel("vaultName")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/{accountId}/vaults/{vaultName}/tags" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListTagsForVaultInput",
-}) as any as S.Schema<ListTagsForVaultInput>;
-export interface ListVaultsInput {
-  accountId: string;
-  marker?: string;
-  limit?: number;
-}
-export const ListVaultsInput = S.suspend(() =>
-  S.Struct({
-    accountId: S.String.pipe(T.HttpLabel("accountId")),
-    marker: S.optional(S.String).pipe(T.HttpQuery("marker")),
-    limit: S.optional(S.Number).pipe(T.HttpQuery("limit")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/{accountId}/vaults" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListVaultsInput",
-}) as any as S.Schema<ListVaultsInput>;
-export interface PurchaseProvisionedCapacityInput {
-  accountId: string;
-}
-export const PurchaseProvisionedCapacityInput = S.suspend(() =>
-  S.Struct({ accountId: S.String.pipe(T.HttpLabel("accountId")) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/{accountId}/provisioned-capacity" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "PurchaseProvisionedCapacityInput",
-}) as any as S.Schema<PurchaseProvisionedCapacityInput>;
-export interface RemoveTagsFromVaultInput {
-  accountId: string;
-  vaultName: string;
-  TagKeys?: string[];
-}
-export const RemoveTagsFromVaultInput = S.suspend(() =>
-  S.Struct({
-    accountId: S.String.pipe(T.HttpLabel("accountId")),
-    vaultName: S.String.pipe(T.HttpLabel("vaultName")),
-    TagKeys: S.optional(TagKeyList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "POST",
-        uri: "/{accountId}/vaults/{vaultName}/tags?operation=remove",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "RemoveTagsFromVaultInput",
-}) as any as S.Schema<RemoveTagsFromVaultInput>;
-export interface RemoveTagsFromVaultResponse {}
-export const RemoveTagsFromVaultResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotations({
-  identifier: "RemoveTagsFromVaultResponse",
-}) as any as S.Schema<RemoveTagsFromVaultResponse>;
-export interface UploadArchiveInput {
-  vaultName: string;
-  accountId: string;
-  archiveDescription?: string;
-  checksum?: string;
-  body?: T.StreamingInputBody;
-}
-export const UploadArchiveInput = S.suspend(() =>
-  S.Struct({
-    vaultName: S.String.pipe(T.HttpLabel("vaultName")),
-    accountId: S.String.pipe(T.HttpLabel("accountId")),
-    archiveDescription: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-archive-description"),
-    ),
-    checksum: S.optional(S.String).pipe(T.HttpHeader("x-amz-sha256-tree-hash")),
-    body: S.optional(T.StreamingInput).pipe(T.HttpPayload()),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "POST",
-        uri: "/{accountId}/vaults/{vaultName}/archives",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "UploadArchiveInput",
-}) as any as S.Schema<UploadArchiveInput>;
-export interface UploadMultipartPartInput {
-  accountId: string;
-  vaultName: string;
-  uploadId: string;
-  checksum?: string;
-  range?: string;
-  body?: T.StreamingInputBody;
-}
-export const UploadMultipartPartInput = S.suspend(() =>
-  S.Struct({
-    accountId: S.String.pipe(T.HttpLabel("accountId")),
-    vaultName: S.String.pipe(T.HttpLabel("vaultName")),
-    uploadId: S.String.pipe(T.HttpLabel("uploadId")),
-    checksum: S.optional(S.String).pipe(T.HttpHeader("x-amz-sha256-tree-hash")),
-    range: S.optional(S.String).pipe(T.HttpHeader("Content-Range")),
-    body: S.optional(T.StreamingInput).pipe(T.HttpPayload()),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "PUT",
-        uri: "/{accountId}/vaults/{vaultName}/multipart-uploads/{uploadId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "UploadMultipartPartInput",
-}) as any as S.Schema<UploadMultipartPartInput>;
-export type NotificationEventList = string[];
-export const NotificationEventList = S.Array(S.String);
-export type TagMap = { [key: string]: string | undefined };
-export const TagMap = S.Record({
-  key: S.String,
-  value: S.UndefinedOr(S.String),
-});
 export type ActionCode =
   | "ArchiveRetrieval"
   | "InventoryRetrieval"
@@ -857,14 +461,6 @@ export type ActionCode =
 export const ActionCode = S.String;
 export type StatusCode = "InProgress" | "Succeeded" | "Failed" | (string & {});
 export const StatusCode = S.String;
-export interface VaultLockPolicy {
-  Policy?: string;
-}
-export const VaultLockPolicy = S.suspend(() =>
-  S.Struct({ Policy: S.optional(S.String) }),
-).annotations({
-  identifier: "VaultLockPolicy",
-}) as any as S.Schema<VaultLockPolicy>;
 export interface InventoryRetrievalJobDescription {
   Format?: string;
   StartDate?: string;
@@ -880,7 +476,7 @@ export const InventoryRetrievalJobDescription = S.suspend(() =>
     Limit: S.optional(S.String),
     Marker: S.optional(S.String),
   }),
-).annotations({
+).annotate({
   identifier: "InventoryRetrievalJobDescription",
 }) as any as S.Schema<InventoryRetrievalJobDescription>;
 export type FileHeaderInfo = "USE" | "IGNORE" | "NONE" | (string & {});
@@ -902,13 +498,13 @@ export const CSVInput = S.suspend(() =>
     FieldDelimiter: S.optional(S.String),
     QuoteCharacter: S.optional(S.String),
   }),
-).annotations({ identifier: "CSVInput" }) as any as S.Schema<CSVInput>;
+).annotate({ identifier: "CSVInput" }) as any as S.Schema<CSVInput>;
 export interface InputSerialization {
   csv?: CSVInput;
 }
 export const InputSerialization = S.suspend(() =>
   S.Struct({ csv: S.optional(CSVInput) }),
-).annotations({
+).annotate({
   identifier: "InputSerialization",
 }) as any as S.Schema<InputSerialization>;
 export type ExpressionType = "SQL" | (string & {});
@@ -930,13 +526,13 @@ export const CSVOutput = S.suspend(() =>
     FieldDelimiter: S.optional(S.String),
     QuoteCharacter: S.optional(S.String),
   }),
-).annotations({ identifier: "CSVOutput" }) as any as S.Schema<CSVOutput>;
+).annotate({ identifier: "CSVOutput" }) as any as S.Schema<CSVOutput>;
 export interface OutputSerialization {
   csv?: CSVOutput;
 }
 export const OutputSerialization = S.suspend(() =>
   S.Struct({ csv: S.optional(CSVOutput) }),
-).annotations({
+).annotate({
   identifier: "OutputSerialization",
 }) as any as S.Schema<OutputSerialization>;
 export interface SelectParameters {
@@ -952,7 +548,7 @@ export const SelectParameters = S.suspend(() =>
     Expression: S.optional(S.String),
     OutputSerialization: S.optional(OutputSerialization),
   }),
-).annotations({
+).annotate({
   identifier: "SelectParameters",
 }) as any as S.Schema<SelectParameters>;
 export type EncryptionType = "aws:kms" | "AES256" | (string & {});
@@ -968,7 +564,7 @@ export const Encryption = S.suspend(() =>
     KMSKeyId: S.optional(S.String),
     KMSContext: S.optional(S.String),
   }),
-).annotations({ identifier: "Encryption" }) as any as S.Schema<Encryption>;
+).annotate({ identifier: "Encryption" }) as any as S.Schema<Encryption>;
 export type CannedACL =
   | "private"
   | "public-read"
@@ -1000,7 +596,7 @@ export const Grantee = S.suspend(() =>
     ID: S.optional(S.String),
     EmailAddress: S.optional(S.String),
   }),
-).annotations({ identifier: "Grantee" }) as any as S.Schema<Grantee>;
+).annotate({ identifier: "Grantee" }) as any as S.Schema<Grantee>;
 export type Permission =
   | "FULL_CONTROL"
   | "WRITE"
@@ -1018,14 +614,11 @@ export const Grant = S.suspend(() =>
     Grantee: S.optional(Grantee),
     Permission: S.optional(Permission),
   }),
-).annotations({ identifier: "Grant" }) as any as S.Schema<Grant>;
+).annotate({ identifier: "Grant" }) as any as S.Schema<Grant>;
 export type AccessControlPolicyList = Grant[];
 export const AccessControlPolicyList = S.Array(Grant);
 export type Hashmap = { [key: string]: string | undefined };
-export const Hashmap = S.Record({
-  key: S.String,
-  value: S.UndefinedOr(S.String),
-});
+export const Hashmap = S.Record(S.String, S.String.pipe(S.optional));
 export type StorageClass =
   | "STANDARD"
   | "REDUCED_REDUNDANCY"
@@ -1053,15 +646,13 @@ export const S3Location = S.suspend(() =>
     UserMetadata: S.optional(Hashmap),
     StorageClass: S.optional(StorageClass),
   }),
-).annotations({ identifier: "S3Location" }) as any as S.Schema<S3Location>;
+).annotate({ identifier: "S3Location" }) as any as S.Schema<S3Location>;
 export interface OutputLocation {
   S3?: S3Location;
 }
 export const OutputLocation = S.suspend(() =>
   S.Struct({ S3: S.optional(S3Location) }),
-).annotations({
-  identifier: "OutputLocation",
-}) as any as S.Schema<OutputLocation>;
+).annotate({ identifier: "OutputLocation" }) as any as S.Schema<OutputLocation>;
 export interface GlacierJobDescription {
   JobId?: string;
   JobDescription?: string;
@@ -1109,11 +700,31 @@ export const GlacierJobDescription = S.suspend(() =>
     SelectParameters: S.optional(SelectParameters),
     OutputLocation: S.optional(OutputLocation),
   }).pipe(ns),
-).annotations({
+).annotate({
   identifier: "GlacierJobDescription",
 }) as any as S.Schema<GlacierJobDescription>;
-export type JobList = GlacierJobDescription[];
-export const JobList = S.Array(GlacierJobDescription);
+export interface DescribeVaultInput {
+  accountId: string;
+  vaultName: string;
+}
+export const DescribeVaultInput = S.suspend(() =>
+  S.Struct({
+    accountId: S.String.pipe(T.HttpLabel("accountId")),
+    vaultName: S.String.pipe(T.HttpLabel("vaultName")),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "GET", uri: "/{accountId}/vaults/{vaultName}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DescribeVaultInput",
+}) as any as S.Schema<DescribeVaultInput>;
 export interface DescribeVaultOutput {
   VaultARN?: string;
   VaultName?: string;
@@ -1131,48 +742,17 @@ export const DescribeVaultOutput = S.suspend(() =>
     NumberOfArchives: S.optional(S.Number),
     SizeInBytes: S.optional(S.Number),
   }).pipe(ns),
-).annotations({
+).annotate({
   identifier: "DescribeVaultOutput",
 }) as any as S.Schema<DescribeVaultOutput>;
-export type VaultList = DescribeVaultOutput[];
-export const VaultList = S.Array(DescribeVaultOutput);
-export interface VaultAccessPolicy {
-  Policy?: string;
-}
-export const VaultAccessPolicy = S.suspend(() =>
-  S.Struct({ Policy: S.optional(S.String) }),
-).annotations({
-  identifier: "VaultAccessPolicy",
-}) as any as S.Schema<VaultAccessPolicy>;
-export interface VaultNotificationConfig {
-  SNSTopic?: string;
-  Events?: string[];
-}
-export const VaultNotificationConfig = S.suspend(() =>
-  S.Struct({
-    SNSTopic: S.optional(S.String),
-    Events: S.optional(NotificationEventList),
-  }),
-).annotations({
-  identifier: "VaultNotificationConfig",
-}) as any as S.Schema<VaultNotificationConfig>;
-export interface AddTagsToVaultInput {
+export interface GetDataRetrievalPolicyInput {
   accountId: string;
-  vaultName: string;
-  Tags?: { [key: string]: string | undefined };
 }
-export const AddTagsToVaultInput = S.suspend(() =>
-  S.Struct({
-    accountId: S.String.pipe(T.HttpLabel("accountId")),
-    vaultName: S.String.pipe(T.HttpLabel("vaultName")),
-    Tags: S.optional(TagMap),
-  }).pipe(
+export const GetDataRetrievalPolicyInput = S.suspend(() =>
+  S.Struct({ accountId: S.String.pipe(T.HttpLabel("accountId")) }).pipe(
     T.all(
       ns,
-      T.Http({
-        method: "POST",
-        uri: "/{accountId}/vaults/{vaultName}/tags?operation=add",
-      }),
+      T.Http({ method: "GET", uri: "/{accountId}/policies/data-retrieval" }),
       svc,
       auth,
       proto,
@@ -1180,39 +760,9 @@ export const AddTagsToVaultInput = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
-  identifier: "AddTagsToVaultInput",
-}) as any as S.Schema<AddTagsToVaultInput>;
-export interface AddTagsToVaultResponse {}
-export const AddTagsToVaultResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotations({
-  identifier: "AddTagsToVaultResponse",
-}) as any as S.Schema<AddTagsToVaultResponse>;
-export interface ArchiveCreationOutput {
-  location?: string;
-  checksum?: string;
-  archiveId?: string;
-}
-export const ArchiveCreationOutput = S.suspend(() =>
-  S.Struct({
-    location: S.optional(S.String).pipe(T.HttpHeader("Location")),
-    checksum: S.optional(S.String).pipe(T.HttpHeader("x-amz-sha256-tree-hash")),
-    archiveId: S.optional(S.String).pipe(T.HttpHeader("x-amz-archive-id")),
-  }).pipe(ns),
-).annotations({
-  identifier: "ArchiveCreationOutput",
-}) as any as S.Schema<ArchiveCreationOutput>;
-export interface CreateVaultOutput {
-  location?: string;
-}
-export const CreateVaultOutput = S.suspend(() =>
-  S.Struct({
-    location: S.optional(S.String).pipe(T.HttpHeader("Location")),
-  }).pipe(ns),
-).annotations({
-  identifier: "CreateVaultOutput",
-}) as any as S.Schema<CreateVaultOutput>;
+).annotate({
+  identifier: "GetDataRetrievalPolicyInput",
+}) as any as S.Schema<GetDataRetrievalPolicyInput>;
 export interface DataRetrievalRule {
   Strategy?: string;
   BytesPerHour?: number;
@@ -1222,7 +772,7 @@ export const DataRetrievalRule = S.suspend(() =>
     Strategy: S.optional(S.String),
     BytesPerHour: S.optional(S.Number),
   }),
-).annotations({
+).annotate({
   identifier: "DataRetrievalRule",
 }) as any as S.Schema<DataRetrievalRule>;
 export type DataRetrievalRulesList = DataRetrievalRule[];
@@ -1232,7 +782,7 @@ export interface DataRetrievalPolicy {
 }
 export const DataRetrievalPolicy = S.suspend(() =>
   S.Struct({ Rules: S.optional(DataRetrievalRulesList) }),
-).annotations({
+).annotate({
   identifier: "DataRetrievalPolicy",
 }) as any as S.Schema<DataRetrievalPolicy>;
 export interface GetDataRetrievalPolicyOutput {
@@ -1240,9 +790,38 @@ export interface GetDataRetrievalPolicyOutput {
 }
 export const GetDataRetrievalPolicyOutput = S.suspend(() =>
   S.Struct({ Policy: S.optional(DataRetrievalPolicy) }).pipe(ns),
-).annotations({
+).annotate({
   identifier: "GetDataRetrievalPolicyOutput",
 }) as any as S.Schema<GetDataRetrievalPolicyOutput>;
+export interface GetJobOutputInput {
+  accountId: string;
+  vaultName: string;
+  jobId: string;
+  range?: string;
+}
+export const GetJobOutputInput = S.suspend(() =>
+  S.Struct({
+    accountId: S.String.pipe(T.HttpLabel("accountId")),
+    vaultName: S.String.pipe(T.HttpLabel("vaultName")),
+    jobId: S.String.pipe(T.HttpLabel("jobId")),
+    range: S.optional(S.String).pipe(T.HttpHeader("Range")),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({
+        method: "GET",
+        uri: "/{accountId}/vaults/{vaultName}/jobs/{jobId}/output",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetJobOutputInput",
+}) as any as S.Schema<GetJobOutputInput>;
 export interface GetJobOutputOutput {
   body?: T.StreamingOutputBody;
   checksum?: string;
@@ -1264,9 +843,42 @@ export const GetJobOutputOutput = S.suspend(() =>
       T.HttpHeader("x-amz-archive-description"),
     ),
   }).pipe(ns),
-).annotations({
+).annotate({
   identifier: "GetJobOutputOutput",
 }) as any as S.Schema<GetJobOutputOutput>;
+export interface GetVaultAccessPolicyInput {
+  accountId: string;
+  vaultName: string;
+}
+export const GetVaultAccessPolicyInput = S.suspend(() =>
+  S.Struct({
+    accountId: S.String.pipe(T.HttpLabel("accountId")),
+    vaultName: S.String.pipe(T.HttpLabel("vaultName")),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({
+        method: "GET",
+        uri: "/{accountId}/vaults/{vaultName}/access-policy",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetVaultAccessPolicyInput",
+}) as any as S.Schema<GetVaultAccessPolicyInput>;
+export interface VaultAccessPolicy {
+  Policy?: string;
+}
+export const VaultAccessPolicy = S.suspend(() =>
+  S.Struct({ Policy: S.optional(S.String) }),
+).annotate({
+  identifier: "VaultAccessPolicy",
+}) as any as S.Schema<VaultAccessPolicy>;
 export interface GetVaultAccessPolicyOutput {
   policy?: VaultAccessPolicy;
 }
@@ -1274,11 +886,36 @@ export const GetVaultAccessPolicyOutput = S.suspend(() =>
   S.Struct({
     policy: S.optional(VaultAccessPolicy)
       .pipe(T.HttpPayload())
-      .annotations({ identifier: "VaultAccessPolicy" }),
+      .annotate({ identifier: "VaultAccessPolicy" }),
   }).pipe(ns),
-).annotations({
+).annotate({
   identifier: "GetVaultAccessPolicyOutput",
 }) as any as S.Schema<GetVaultAccessPolicyOutput>;
+export interface GetVaultLockInput {
+  accountId: string;
+  vaultName: string;
+}
+export const GetVaultLockInput = S.suspend(() =>
+  S.Struct({
+    accountId: S.String.pipe(T.HttpLabel("accountId")),
+    vaultName: S.String.pipe(T.HttpLabel("vaultName")),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({
+        method: "GET",
+        uri: "/{accountId}/vaults/{vaultName}/lock-policy",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetVaultLockInput",
+}) as any as S.Schema<GetVaultLockInput>;
 export interface GetVaultLockOutput {
   Policy?: string;
   State?: string;
@@ -1292,157 +929,22 @@ export const GetVaultLockOutput = S.suspend(() =>
     ExpirationDate: S.optional(S.String),
     CreationDate: S.optional(S.String),
   }).pipe(ns),
-).annotations({
+).annotate({
   identifier: "GetVaultLockOutput",
 }) as any as S.Schema<GetVaultLockOutput>;
-export interface GetVaultNotificationsOutput {
-  vaultNotificationConfig?: VaultNotificationConfig;
-}
-export const GetVaultNotificationsOutput = S.suspend(() =>
-  S.Struct({
-    vaultNotificationConfig: S.optional(VaultNotificationConfig)
-      .pipe(T.HttpPayload())
-      .annotations({ identifier: "VaultNotificationConfig" }),
-  }).pipe(ns),
-).annotations({
-  identifier: "GetVaultNotificationsOutput",
-}) as any as S.Schema<GetVaultNotificationsOutput>;
-export interface InitiateMultipartUploadOutput {
-  location?: string;
-  uploadId?: string;
-}
-export const InitiateMultipartUploadOutput = S.suspend(() =>
-  S.Struct({
-    location: S.optional(S.String).pipe(T.HttpHeader("Location")),
-    uploadId: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-multipart-upload-id"),
-    ),
-  }).pipe(ns),
-).annotations({
-  identifier: "InitiateMultipartUploadOutput",
-}) as any as S.Schema<InitiateMultipartUploadOutput>;
-export interface InitiateVaultLockInput {
+export interface GetVaultNotificationsInput {
   accountId: string;
   vaultName: string;
-  policy?: VaultLockPolicy;
 }
-export const InitiateVaultLockInput = S.suspend(() =>
+export const GetVaultNotificationsInput = S.suspend(() =>
   S.Struct({
     accountId: S.String.pipe(T.HttpLabel("accountId")),
     vaultName: S.String.pipe(T.HttpLabel("vaultName")),
-    policy: S.optional(VaultLockPolicy)
-      .pipe(T.HttpPayload())
-      .annotations({ identifier: "VaultLockPolicy" }),
   }).pipe(
     T.all(
       ns,
       T.Http({
-        method: "POST",
-        uri: "/{accountId}/vaults/{vaultName}/lock-policy",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "InitiateVaultLockInput",
-}) as any as S.Schema<InitiateVaultLockInput>;
-export interface ListJobsOutput {
-  JobList?: GlacierJobDescription[];
-  Marker?: string;
-}
-export const ListJobsOutput = S.suspend(() =>
-  S.Struct({ JobList: S.optional(JobList), Marker: S.optional(S.String) }).pipe(
-    ns,
-  ),
-).annotations({
-  identifier: "ListJobsOutput",
-}) as any as S.Schema<ListJobsOutput>;
-export interface ListTagsForVaultOutput {
-  Tags?: { [key: string]: string | undefined };
-}
-export const ListTagsForVaultOutput = S.suspend(() =>
-  S.Struct({ Tags: S.optional(TagMap) }).pipe(ns),
-).annotations({
-  identifier: "ListTagsForVaultOutput",
-}) as any as S.Schema<ListTagsForVaultOutput>;
-export interface ListVaultsOutput {
-  VaultList?: DescribeVaultOutput[];
-  Marker?: string;
-}
-export const ListVaultsOutput = S.suspend(() =>
-  S.Struct({
-    VaultList: S.optional(VaultList),
-    Marker: S.optional(S.String),
-  }).pipe(ns),
-).annotations({
-  identifier: "ListVaultsOutput",
-}) as any as S.Schema<ListVaultsOutput>;
-export interface PurchaseProvisionedCapacityOutput {
-  capacityId?: string;
-}
-export const PurchaseProvisionedCapacityOutput = S.suspend(() =>
-  S.Struct({
-    capacityId: S.optional(S.String).pipe(T.HttpHeader("x-amz-capacity-id")),
-  }).pipe(ns),
-).annotations({
-  identifier: "PurchaseProvisionedCapacityOutput",
-}) as any as S.Schema<PurchaseProvisionedCapacityOutput>;
-export interface SetVaultAccessPolicyInput {
-  accountId: string;
-  vaultName: string;
-  policy?: VaultAccessPolicy;
-}
-export const SetVaultAccessPolicyInput = S.suspend(() =>
-  S.Struct({
-    accountId: S.String.pipe(T.HttpLabel("accountId")),
-    vaultName: S.String.pipe(T.HttpLabel("vaultName")),
-    policy: S.optional(VaultAccessPolicy)
-      .pipe(T.HttpPayload())
-      .annotations({ identifier: "VaultAccessPolicy" }),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "PUT",
-        uri: "/{accountId}/vaults/{vaultName}/access-policy",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "SetVaultAccessPolicyInput",
-}) as any as S.Schema<SetVaultAccessPolicyInput>;
-export interface SetVaultAccessPolicyResponse {}
-export const SetVaultAccessPolicyResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotations({
-  identifier: "SetVaultAccessPolicyResponse",
-}) as any as S.Schema<SetVaultAccessPolicyResponse>;
-export interface SetVaultNotificationsInput {
-  accountId: string;
-  vaultName: string;
-  vaultNotificationConfig?: VaultNotificationConfig;
-}
-export const SetVaultNotificationsInput = S.suspend(() =>
-  S.Struct({
-    accountId: S.String.pipe(T.HttpLabel("accountId")),
-    vaultName: S.String.pipe(T.HttpLabel("vaultName")),
-    vaultNotificationConfig: S.optional(VaultNotificationConfig)
-      .pipe(T.HttpPayload())
-      .annotations({ identifier: "VaultNotificationConfig" }),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "PUT",
+        method: "GET",
         uri: "/{accountId}/vaults/{vaultName}/notification-configuration",
       }),
       svc,
@@ -1452,25 +954,35 @@ export const SetVaultNotificationsInput = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
-  identifier: "SetVaultNotificationsInput",
-}) as any as S.Schema<SetVaultNotificationsInput>;
-export interface SetVaultNotificationsResponse {}
-export const SetVaultNotificationsResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotations({
-  identifier: "SetVaultNotificationsResponse",
-}) as any as S.Schema<SetVaultNotificationsResponse>;
-export interface UploadMultipartPartOutput {
-  checksum?: string;
+).annotate({
+  identifier: "GetVaultNotificationsInput",
+}) as any as S.Schema<GetVaultNotificationsInput>;
+export type NotificationEventList = string[];
+export const NotificationEventList = S.Array(S.String);
+export interface VaultNotificationConfig {
+  SNSTopic?: string;
+  Events?: string[];
 }
-export const UploadMultipartPartOutput = S.suspend(() =>
+export const VaultNotificationConfig = S.suspend(() =>
   S.Struct({
-    checksum: S.optional(S.String).pipe(T.HttpHeader("x-amz-sha256-tree-hash")),
+    SNSTopic: S.optional(S.String),
+    Events: S.optional(NotificationEventList),
+  }),
+).annotate({
+  identifier: "VaultNotificationConfig",
+}) as any as S.Schema<VaultNotificationConfig>;
+export interface GetVaultNotificationsOutput {
+  vaultNotificationConfig?: VaultNotificationConfig;
+}
+export const GetVaultNotificationsOutput = S.suspend(() =>
+  S.Struct({
+    vaultNotificationConfig: S.optional(VaultNotificationConfig)
+      .pipe(T.HttpPayload())
+      .annotate({ identifier: "VaultNotificationConfig" }),
   }).pipe(ns),
-).annotations({
-  identifier: "UploadMultipartPartOutput",
-}) as any as S.Schema<UploadMultipartPartOutput>;
+).annotate({
+  identifier: "GetVaultNotificationsOutput",
+}) as any as S.Schema<GetVaultNotificationsOutput>;
 export interface InventoryRetrievalJobInput {
   StartDate?: string;
   EndDate?: string;
@@ -1484,141 +996,9 @@ export const InventoryRetrievalJobInput = S.suspend(() =>
     Limit: S.optional(S.String),
     Marker: S.optional(S.String),
   }),
-).annotations({
+).annotate({
   identifier: "InventoryRetrievalJobInput",
 }) as any as S.Schema<InventoryRetrievalJobInput>;
-export interface UploadListElement {
-  MultipartUploadId?: string;
-  VaultARN?: string;
-  ArchiveDescription?: string;
-  PartSizeInBytes?: number;
-  CreationDate?: string;
-}
-export const UploadListElement = S.suspend(() =>
-  S.Struct({
-    MultipartUploadId: S.optional(S.String),
-    VaultARN: S.optional(S.String),
-    ArchiveDescription: S.optional(S.String),
-    PartSizeInBytes: S.optional(S.Number),
-    CreationDate: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "UploadListElement",
-}) as any as S.Schema<UploadListElement>;
-export type UploadsList = UploadListElement[];
-export const UploadsList = S.Array(UploadListElement);
-export interface PartListElement {
-  RangeInBytes?: string;
-  SHA256TreeHash?: string;
-}
-export const PartListElement = S.suspend(() =>
-  S.Struct({
-    RangeInBytes: S.optional(S.String),
-    SHA256TreeHash: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "PartListElement",
-}) as any as S.Schema<PartListElement>;
-export type PartList = PartListElement[];
-export const PartList = S.Array(PartListElement);
-export interface ProvisionedCapacityDescription {
-  CapacityId?: string;
-  StartDate?: string;
-  ExpirationDate?: string;
-}
-export const ProvisionedCapacityDescription = S.suspend(() =>
-  S.Struct({
-    CapacityId: S.optional(S.String),
-    StartDate: S.optional(S.String),
-    ExpirationDate: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "ProvisionedCapacityDescription",
-}) as any as S.Schema<ProvisionedCapacityDescription>;
-export type ProvisionedCapacityList = ProvisionedCapacityDescription[];
-export const ProvisionedCapacityList = S.Array(ProvisionedCapacityDescription);
-export interface InitiateVaultLockOutput {
-  lockId?: string;
-}
-export const InitiateVaultLockOutput = S.suspend(() =>
-  S.Struct({
-    lockId: S.optional(S.String).pipe(T.HttpHeader("x-amz-lock-id")),
-  }).pipe(ns),
-).annotations({
-  identifier: "InitiateVaultLockOutput",
-}) as any as S.Schema<InitiateVaultLockOutput>;
-export interface ListMultipartUploadsOutput {
-  UploadsList?: UploadListElement[];
-  Marker?: string;
-}
-export const ListMultipartUploadsOutput = S.suspend(() =>
-  S.Struct({
-    UploadsList: S.optional(UploadsList),
-    Marker: S.optional(S.String),
-  }).pipe(ns),
-).annotations({
-  identifier: "ListMultipartUploadsOutput",
-}) as any as S.Schema<ListMultipartUploadsOutput>;
-export interface ListPartsOutput {
-  MultipartUploadId?: string;
-  VaultARN?: string;
-  ArchiveDescription?: string;
-  PartSizeInBytes?: number;
-  CreationDate?: string;
-  Parts?: PartListElement[];
-  Marker?: string;
-}
-export const ListPartsOutput = S.suspend(() =>
-  S.Struct({
-    MultipartUploadId: S.optional(S.String),
-    VaultARN: S.optional(S.String),
-    ArchiveDescription: S.optional(S.String),
-    PartSizeInBytes: S.optional(S.Number),
-    CreationDate: S.optional(S.String),
-    Parts: S.optional(PartList),
-    Marker: S.optional(S.String),
-  }).pipe(ns),
-).annotations({
-  identifier: "ListPartsOutput",
-}) as any as S.Schema<ListPartsOutput>;
-export interface ListProvisionedCapacityOutput {
-  ProvisionedCapacityList?: ProvisionedCapacityDescription[];
-}
-export const ListProvisionedCapacityOutput = S.suspend(() =>
-  S.Struct({
-    ProvisionedCapacityList: S.optional(ProvisionedCapacityList),
-  }).pipe(ns),
-).annotations({
-  identifier: "ListProvisionedCapacityOutput",
-}) as any as S.Schema<ListProvisionedCapacityOutput>;
-export interface SetDataRetrievalPolicyInput {
-  accountId: string;
-  Policy?: DataRetrievalPolicy;
-}
-export const SetDataRetrievalPolicyInput = S.suspend(() =>
-  S.Struct({
-    accountId: S.String.pipe(T.HttpLabel("accountId")),
-    Policy: S.optional(DataRetrievalPolicy),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "PUT", uri: "/{accountId}/policies/data-retrieval" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "SetDataRetrievalPolicyInput",
-}) as any as S.Schema<SetDataRetrievalPolicyInput>;
-export interface SetDataRetrievalPolicyResponse {}
-export const SetDataRetrievalPolicyResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotations({
-  identifier: "SetDataRetrievalPolicyResponse",
-}) as any as S.Schema<SetDataRetrievalPolicyResponse>;
 export interface JobParameters {
   Format?: string;
   Type?: string;
@@ -1644,9 +1024,7 @@ export const JobParameters = S.suspend(() =>
     SelectParameters: S.optional(SelectParameters),
     OutputLocation: S.optional(OutputLocation),
   }),
-).annotations({
-  identifier: "JobParameters",
-}) as any as S.Schema<JobParameters>;
+).annotate({ identifier: "JobParameters" }) as any as S.Schema<JobParameters>;
 export interface InitiateJobInput {
   accountId: string;
   vaultName: string;
@@ -1658,7 +1036,7 @@ export const InitiateJobInput = S.suspend(() =>
     vaultName: S.String.pipe(T.HttpLabel("vaultName")),
     jobParameters: S.optional(JobParameters)
       .pipe(T.HttpPayload())
-      .annotations({ identifier: "JobParameters" }),
+      .annotate({ identifier: "JobParameters" }),
   }).pipe(
     T.all(
       ns,
@@ -1670,7 +1048,7 @@ export const InitiateJobInput = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "InitiateJobInput",
 }) as any as S.Schema<InitiateJobInput>;
 export interface InitiateJobOutput {
@@ -1686,12 +1064,618 @@ export const InitiateJobOutput = S.suspend(() =>
       T.HttpHeader("x-amz-job-output-path"),
     ),
   }).pipe(ns),
-).annotations({
+).annotate({
   identifier: "InitiateJobOutput",
 }) as any as S.Schema<InitiateJobOutput>;
+export interface InitiateMultipartUploadInput {
+  accountId: string;
+  vaultName: string;
+  archiveDescription?: string;
+  partSize?: string;
+}
+export const InitiateMultipartUploadInput = S.suspend(() =>
+  S.Struct({
+    accountId: S.String.pipe(T.HttpLabel("accountId")),
+    vaultName: S.String.pipe(T.HttpLabel("vaultName")),
+    archiveDescription: S.optional(S.String).pipe(
+      T.HttpHeader("x-amz-archive-description"),
+    ),
+    partSize: S.optional(S.String).pipe(T.HttpHeader("x-amz-part-size")),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({
+        method: "POST",
+        uri: "/{accountId}/vaults/{vaultName}/multipart-uploads",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "InitiateMultipartUploadInput",
+}) as any as S.Schema<InitiateMultipartUploadInput>;
+export interface InitiateMultipartUploadOutput {
+  location?: string;
+  uploadId?: string;
+}
+export const InitiateMultipartUploadOutput = S.suspend(() =>
+  S.Struct({
+    location: S.optional(S.String).pipe(T.HttpHeader("Location")),
+    uploadId: S.optional(S.String).pipe(
+      T.HttpHeader("x-amz-multipart-upload-id"),
+    ),
+  }).pipe(ns),
+).annotate({
+  identifier: "InitiateMultipartUploadOutput",
+}) as any as S.Schema<InitiateMultipartUploadOutput>;
+export interface VaultLockPolicy {
+  Policy?: string;
+}
+export const VaultLockPolicy = S.suspend(() =>
+  S.Struct({ Policy: S.optional(S.String) }),
+).annotate({
+  identifier: "VaultLockPolicy",
+}) as any as S.Schema<VaultLockPolicy>;
+export interface InitiateVaultLockInput {
+  accountId: string;
+  vaultName: string;
+  policy?: VaultLockPolicy;
+}
+export const InitiateVaultLockInput = S.suspend(() =>
+  S.Struct({
+    accountId: S.String.pipe(T.HttpLabel("accountId")),
+    vaultName: S.String.pipe(T.HttpLabel("vaultName")),
+    policy: S.optional(VaultLockPolicy)
+      .pipe(T.HttpPayload())
+      .annotate({ identifier: "VaultLockPolicy" }),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({
+        method: "POST",
+        uri: "/{accountId}/vaults/{vaultName}/lock-policy",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "InitiateVaultLockInput",
+}) as any as S.Schema<InitiateVaultLockInput>;
+export interface InitiateVaultLockOutput {
+  lockId?: string;
+}
+export const InitiateVaultLockOutput = S.suspend(() =>
+  S.Struct({
+    lockId: S.optional(S.String).pipe(T.HttpHeader("x-amz-lock-id")),
+  }).pipe(ns),
+).annotate({
+  identifier: "InitiateVaultLockOutput",
+}) as any as S.Schema<InitiateVaultLockOutput>;
+export interface ListJobsInput {
+  accountId: string;
+  vaultName: string;
+  limit?: number;
+  marker?: string;
+  statuscode?: string;
+  completed?: string;
+}
+export const ListJobsInput = S.suspend(() =>
+  S.Struct({
+    accountId: S.String.pipe(T.HttpLabel("accountId")),
+    vaultName: S.String.pipe(T.HttpLabel("vaultName")),
+    limit: S.optional(S.Number).pipe(T.HttpQuery("limit")),
+    marker: S.optional(S.String).pipe(T.HttpQuery("marker")),
+    statuscode: S.optional(S.String).pipe(T.HttpQuery("statuscode")),
+    completed: S.optional(S.String).pipe(T.HttpQuery("completed")),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "GET", uri: "/{accountId}/vaults/{vaultName}/jobs" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({ identifier: "ListJobsInput" }) as any as S.Schema<ListJobsInput>;
+export type JobList = GlacierJobDescription[];
+export const JobList = S.Array(GlacierJobDescription);
+export interface ListJobsOutput {
+  JobList?: GlacierJobDescription[];
+  Marker?: string;
+}
+export const ListJobsOutput = S.suspend(() =>
+  S.Struct({ JobList: S.optional(JobList), Marker: S.optional(S.String) }).pipe(
+    ns,
+  ),
+).annotate({ identifier: "ListJobsOutput" }) as any as S.Schema<ListJobsOutput>;
+export interface ListMultipartUploadsInput {
+  accountId: string;
+  vaultName: string;
+  limit?: number;
+  marker?: string;
+}
+export const ListMultipartUploadsInput = S.suspend(() =>
+  S.Struct({
+    accountId: S.String.pipe(T.HttpLabel("accountId")),
+    vaultName: S.String.pipe(T.HttpLabel("vaultName")),
+    limit: S.optional(S.Number).pipe(T.HttpQuery("limit")),
+    marker: S.optional(S.String).pipe(T.HttpQuery("marker")),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({
+        method: "GET",
+        uri: "/{accountId}/vaults/{vaultName}/multipart-uploads",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListMultipartUploadsInput",
+}) as any as S.Schema<ListMultipartUploadsInput>;
+export interface UploadListElement {
+  MultipartUploadId?: string;
+  VaultARN?: string;
+  ArchiveDescription?: string;
+  PartSizeInBytes?: number;
+  CreationDate?: string;
+}
+export const UploadListElement = S.suspend(() =>
+  S.Struct({
+    MultipartUploadId: S.optional(S.String),
+    VaultARN: S.optional(S.String),
+    ArchiveDescription: S.optional(S.String),
+    PartSizeInBytes: S.optional(S.Number),
+    CreationDate: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "UploadListElement",
+}) as any as S.Schema<UploadListElement>;
+export type UploadsList = UploadListElement[];
+export const UploadsList = S.Array(UploadListElement);
+export interface ListMultipartUploadsOutput {
+  UploadsList?: UploadListElement[];
+  Marker?: string;
+}
+export const ListMultipartUploadsOutput = S.suspend(() =>
+  S.Struct({
+    UploadsList: S.optional(UploadsList),
+    Marker: S.optional(S.String),
+  }).pipe(ns),
+).annotate({
+  identifier: "ListMultipartUploadsOutput",
+}) as any as S.Schema<ListMultipartUploadsOutput>;
+export interface ListPartsInput {
+  accountId: string;
+  vaultName: string;
+  uploadId: string;
+  marker?: string;
+  limit?: number;
+}
+export const ListPartsInput = S.suspend(() =>
+  S.Struct({
+    accountId: S.String.pipe(T.HttpLabel("accountId")),
+    vaultName: S.String.pipe(T.HttpLabel("vaultName")),
+    uploadId: S.String.pipe(T.HttpLabel("uploadId")),
+    marker: S.optional(S.String).pipe(T.HttpQuery("marker")),
+    limit: S.optional(S.Number).pipe(T.HttpQuery("limit")),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({
+        method: "GET",
+        uri: "/{accountId}/vaults/{vaultName}/multipart-uploads/{uploadId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({ identifier: "ListPartsInput" }) as any as S.Schema<ListPartsInput>;
+export interface PartListElement {
+  RangeInBytes?: string;
+  SHA256TreeHash?: string;
+}
+export const PartListElement = S.suspend(() =>
+  S.Struct({
+    RangeInBytes: S.optional(S.String),
+    SHA256TreeHash: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "PartListElement",
+}) as any as S.Schema<PartListElement>;
+export type PartList = PartListElement[];
+export const PartList = S.Array(PartListElement);
+export interface ListPartsOutput {
+  MultipartUploadId?: string;
+  VaultARN?: string;
+  ArchiveDescription?: string;
+  PartSizeInBytes?: number;
+  CreationDate?: string;
+  Parts?: PartListElement[];
+  Marker?: string;
+}
+export const ListPartsOutput = S.suspend(() =>
+  S.Struct({
+    MultipartUploadId: S.optional(S.String),
+    VaultARN: S.optional(S.String),
+    ArchiveDescription: S.optional(S.String),
+    PartSizeInBytes: S.optional(S.Number),
+    CreationDate: S.optional(S.String),
+    Parts: S.optional(PartList),
+    Marker: S.optional(S.String),
+  }).pipe(ns),
+).annotate({
+  identifier: "ListPartsOutput",
+}) as any as S.Schema<ListPartsOutput>;
+export interface ListProvisionedCapacityInput {
+  accountId: string;
+}
+export const ListProvisionedCapacityInput = S.suspend(() =>
+  S.Struct({ accountId: S.String.pipe(T.HttpLabel("accountId")) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "GET", uri: "/{accountId}/provisioned-capacity" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListProvisionedCapacityInput",
+}) as any as S.Schema<ListProvisionedCapacityInput>;
+export interface ProvisionedCapacityDescription {
+  CapacityId?: string;
+  StartDate?: string;
+  ExpirationDate?: string;
+}
+export const ProvisionedCapacityDescription = S.suspend(() =>
+  S.Struct({
+    CapacityId: S.optional(S.String),
+    StartDate: S.optional(S.String),
+    ExpirationDate: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ProvisionedCapacityDescription",
+}) as any as S.Schema<ProvisionedCapacityDescription>;
+export type ProvisionedCapacityList = ProvisionedCapacityDescription[];
+export const ProvisionedCapacityList = S.Array(ProvisionedCapacityDescription);
+export interface ListProvisionedCapacityOutput {
+  ProvisionedCapacityList?: ProvisionedCapacityDescription[];
+}
+export const ListProvisionedCapacityOutput = S.suspend(() =>
+  S.Struct({
+    ProvisionedCapacityList: S.optional(ProvisionedCapacityList),
+  }).pipe(ns),
+).annotate({
+  identifier: "ListProvisionedCapacityOutput",
+}) as any as S.Schema<ListProvisionedCapacityOutput>;
+export interface ListTagsForVaultInput {
+  accountId: string;
+  vaultName: string;
+}
+export const ListTagsForVaultInput = S.suspend(() =>
+  S.Struct({
+    accountId: S.String.pipe(T.HttpLabel("accountId")),
+    vaultName: S.String.pipe(T.HttpLabel("vaultName")),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "GET", uri: "/{accountId}/vaults/{vaultName}/tags" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListTagsForVaultInput",
+}) as any as S.Schema<ListTagsForVaultInput>;
+export interface ListTagsForVaultOutput {
+  Tags?: { [key: string]: string | undefined };
+}
+export const ListTagsForVaultOutput = S.suspend(() =>
+  S.Struct({ Tags: S.optional(TagMap) }).pipe(ns),
+).annotate({
+  identifier: "ListTagsForVaultOutput",
+}) as any as S.Schema<ListTagsForVaultOutput>;
+export interface ListVaultsInput {
+  accountId: string;
+  marker?: string;
+  limit?: number;
+}
+export const ListVaultsInput = S.suspend(() =>
+  S.Struct({
+    accountId: S.String.pipe(T.HttpLabel("accountId")),
+    marker: S.optional(S.String).pipe(T.HttpQuery("marker")),
+    limit: S.optional(S.Number).pipe(T.HttpQuery("limit")),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "GET", uri: "/{accountId}/vaults" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListVaultsInput",
+}) as any as S.Schema<ListVaultsInput>;
+export type VaultList = DescribeVaultOutput[];
+export const VaultList = S.Array(DescribeVaultOutput);
+export interface ListVaultsOutput {
+  VaultList?: DescribeVaultOutput[];
+  Marker?: string;
+}
+export const ListVaultsOutput = S.suspend(() =>
+  S.Struct({
+    VaultList: S.optional(VaultList),
+    Marker: S.optional(S.String),
+  }).pipe(ns),
+).annotate({
+  identifier: "ListVaultsOutput",
+}) as any as S.Schema<ListVaultsOutput>;
+export interface PurchaseProvisionedCapacityInput {
+  accountId: string;
+}
+export const PurchaseProvisionedCapacityInput = S.suspend(() =>
+  S.Struct({ accountId: S.String.pipe(T.HttpLabel("accountId")) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/{accountId}/provisioned-capacity" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "PurchaseProvisionedCapacityInput",
+}) as any as S.Schema<PurchaseProvisionedCapacityInput>;
+export interface PurchaseProvisionedCapacityOutput {
+  capacityId?: string;
+}
+export const PurchaseProvisionedCapacityOutput = S.suspend(() =>
+  S.Struct({
+    capacityId: S.optional(S.String).pipe(T.HttpHeader("x-amz-capacity-id")),
+  }).pipe(ns),
+).annotate({
+  identifier: "PurchaseProvisionedCapacityOutput",
+}) as any as S.Schema<PurchaseProvisionedCapacityOutput>;
+export type TagKeyList = string[];
+export const TagKeyList = S.Array(S.String);
+export interface RemoveTagsFromVaultInput {
+  accountId: string;
+  vaultName: string;
+  TagKeys?: string[];
+}
+export const RemoveTagsFromVaultInput = S.suspend(() =>
+  S.Struct({
+    accountId: S.String.pipe(T.HttpLabel("accountId")),
+    vaultName: S.String.pipe(T.HttpLabel("vaultName")),
+    TagKeys: S.optional(TagKeyList),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({
+        method: "POST",
+        uri: "/{accountId}/vaults/{vaultName}/tags?operation=remove",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "RemoveTagsFromVaultInput",
+}) as any as S.Schema<RemoveTagsFromVaultInput>;
+export interface RemoveTagsFromVaultResponse {}
+export const RemoveTagsFromVaultResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "RemoveTagsFromVaultResponse",
+}) as any as S.Schema<RemoveTagsFromVaultResponse>;
+export interface SetDataRetrievalPolicyInput {
+  accountId: string;
+  Policy?: DataRetrievalPolicy;
+}
+export const SetDataRetrievalPolicyInput = S.suspend(() =>
+  S.Struct({
+    accountId: S.String.pipe(T.HttpLabel("accountId")),
+    Policy: S.optional(DataRetrievalPolicy),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "PUT", uri: "/{accountId}/policies/data-retrieval" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "SetDataRetrievalPolicyInput",
+}) as any as S.Schema<SetDataRetrievalPolicyInput>;
+export interface SetDataRetrievalPolicyResponse {}
+export const SetDataRetrievalPolicyResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "SetDataRetrievalPolicyResponse",
+}) as any as S.Schema<SetDataRetrievalPolicyResponse>;
+export interface SetVaultAccessPolicyInput {
+  accountId: string;
+  vaultName: string;
+  policy?: VaultAccessPolicy;
+}
+export const SetVaultAccessPolicyInput = S.suspend(() =>
+  S.Struct({
+    accountId: S.String.pipe(T.HttpLabel("accountId")),
+    vaultName: S.String.pipe(T.HttpLabel("vaultName")),
+    policy: S.optional(VaultAccessPolicy)
+      .pipe(T.HttpPayload())
+      .annotate({ identifier: "VaultAccessPolicy" }),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({
+        method: "PUT",
+        uri: "/{accountId}/vaults/{vaultName}/access-policy",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "SetVaultAccessPolicyInput",
+}) as any as S.Schema<SetVaultAccessPolicyInput>;
+export interface SetVaultAccessPolicyResponse {}
+export const SetVaultAccessPolicyResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "SetVaultAccessPolicyResponse",
+}) as any as S.Schema<SetVaultAccessPolicyResponse>;
+export interface SetVaultNotificationsInput {
+  accountId: string;
+  vaultName: string;
+  vaultNotificationConfig?: VaultNotificationConfig;
+}
+export const SetVaultNotificationsInput = S.suspend(() =>
+  S.Struct({
+    accountId: S.String.pipe(T.HttpLabel("accountId")),
+    vaultName: S.String.pipe(T.HttpLabel("vaultName")),
+    vaultNotificationConfig: S.optional(VaultNotificationConfig)
+      .pipe(T.HttpPayload())
+      .annotate({ identifier: "VaultNotificationConfig" }),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({
+        method: "PUT",
+        uri: "/{accountId}/vaults/{vaultName}/notification-configuration",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "SetVaultNotificationsInput",
+}) as any as S.Schema<SetVaultNotificationsInput>;
+export interface SetVaultNotificationsResponse {}
+export const SetVaultNotificationsResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "SetVaultNotificationsResponse",
+}) as any as S.Schema<SetVaultNotificationsResponse>;
+export interface UploadArchiveInput {
+  vaultName: string;
+  accountId: string;
+  archiveDescription?: string;
+  checksum?: string;
+  body?: T.StreamingInputBody;
+}
+export const UploadArchiveInput = S.suspend(() =>
+  S.Struct({
+    vaultName: S.String.pipe(T.HttpLabel("vaultName")),
+    accountId: S.String.pipe(T.HttpLabel("accountId")),
+    archiveDescription: S.optional(S.String).pipe(
+      T.HttpHeader("x-amz-archive-description"),
+    ),
+    checksum: S.optional(S.String).pipe(T.HttpHeader("x-amz-sha256-tree-hash")),
+    body: S.optional(T.StreamingInput).pipe(T.HttpPayload()),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({
+        method: "POST",
+        uri: "/{accountId}/vaults/{vaultName}/archives",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "UploadArchiveInput",
+}) as any as S.Schema<UploadArchiveInput>;
+export interface UploadMultipartPartInput {
+  accountId: string;
+  vaultName: string;
+  uploadId: string;
+  checksum?: string;
+  range?: string;
+  body?: T.StreamingInputBody;
+}
+export const UploadMultipartPartInput = S.suspend(() =>
+  S.Struct({
+    accountId: S.String.pipe(T.HttpLabel("accountId")),
+    vaultName: S.String.pipe(T.HttpLabel("vaultName")),
+    uploadId: S.String.pipe(T.HttpLabel("uploadId")),
+    checksum: S.optional(S.String).pipe(T.HttpHeader("x-amz-sha256-tree-hash")),
+    range: S.optional(S.String).pipe(T.HttpHeader("Content-Range")),
+    body: S.optional(T.StreamingInput).pipe(T.HttpPayload()),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({
+        method: "PUT",
+        uri: "/{accountId}/vaults/{vaultName}/multipart-uploads/{uploadId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "UploadMultipartPartInput",
+}) as any as S.Schema<UploadMultipartPartInput>;
+export interface UploadMultipartPartOutput {
+  checksum?: string;
+}
+export const UploadMultipartPartOutput = S.suspend(() =>
+  S.Struct({
+    checksum: S.optional(S.String).pipe(T.HttpHeader("x-amz-sha256-tree-hash")),
+  }).pipe(ns),
+).annotate({
+  identifier: "UploadMultipartPartOutput",
+}) as any as S.Schema<UploadMultipartPartOutput>;
 
 //# Errors
-export class InvalidParameterValueException extends S.TaggedError<InvalidParameterValueException>()(
+export class InvalidParameterValueException extends S.TaggedErrorClass<InvalidParameterValueException>()(
   "InvalidParameterValueException",
   {
     type: S.optional(S.String),
@@ -1699,7 +1683,7 @@ export class InvalidParameterValueException extends S.TaggedError<InvalidParamet
     message: S.optional(S.String),
   },
 ).pipe(C.withBadRequestError) {}
-export class MissingParameterValueException extends S.TaggedError<MissingParameterValueException>()(
+export class MissingParameterValueException extends S.TaggedErrorClass<MissingParameterValueException>()(
   "MissingParameterValueException",
   {
     type: S.optional(S.String),
@@ -1707,15 +1691,7 @@ export class MissingParameterValueException extends S.TaggedError<MissingParamet
     message: S.optional(S.String),
   },
 ).pipe(C.withBadRequestError) {}
-export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
-  "LimitExceededException",
-  {
-    type: S.optional(S.String),
-    code: S.optional(S.String),
-    message: S.optional(S.String),
-  },
-).pipe(C.withBadRequestError) {}
-export class NoLongerSupportedException extends S.TaggedError<NoLongerSupportedException>()(
+export class NoLongerSupportedException extends S.TaggedErrorClass<NoLongerSupportedException>()(
   "NoLongerSupportedException",
   {
     type: S.optional(S.String),
@@ -1723,7 +1699,7 @@ export class NoLongerSupportedException extends S.TaggedError<NoLongerSupportedE
     message: S.optional(S.String),
   },
 ).pipe(C.withBadRequestError) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   {
     type: S.optional(S.String),
@@ -1731,7 +1707,7 @@ export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundExc
     message: S.optional(S.String),
   },
 ).pipe(C.withBadRequestError) {}
-export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailableException>()(
+export class ServiceUnavailableException extends S.TaggedErrorClass<ServiceUnavailableException>()(
   "ServiceUnavailableException",
   {
     type: S.optional(S.String),
@@ -1739,15 +1715,15 @@ export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailabl
     message: S.optional(S.String),
   },
 ).pipe(C.withServerError) {}
-export class RequestTimeoutException extends S.TaggedError<RequestTimeoutException>()(
-  "RequestTimeoutException",
+export class LimitExceededException extends S.TaggedErrorClass<LimitExceededException>()(
+  "LimitExceededException",
   {
     type: S.optional(S.String),
     code: S.optional(S.String),
     message: S.optional(S.String),
   },
-).pipe(C.withTimeoutError) {}
-export class InsufficientCapacityException extends S.TaggedError<InsufficientCapacityException>()(
+).pipe(C.withBadRequestError) {}
+export class InsufficientCapacityException extends S.TaggedErrorClass<InsufficientCapacityException>()(
   "InsufficientCapacityException",
   {
     type: S.optional(S.String),
@@ -1755,7 +1731,7 @@ export class InsufficientCapacityException extends S.TaggedError<InsufficientCap
     message: S.optional(S.String),
   },
 ).pipe(C.withBadRequestError) {}
-export class PolicyEnforcedException extends S.TaggedError<PolicyEnforcedException>()(
+export class PolicyEnforcedException extends S.TaggedErrorClass<PolicyEnforcedException>()(
   "PolicyEnforcedException",
   {
     type: S.optional(S.String),
@@ -1763,65 +1739,25 @@ export class PolicyEnforcedException extends S.TaggedError<PolicyEnforcedExcepti
     message: S.optional(S.String),
   },
 ).pipe(C.withBadRequestError) {}
+export class RequestTimeoutException extends S.TaggedErrorClass<RequestTimeoutException>()(
+  "RequestTimeoutException",
+  {
+    type: S.optional(S.String),
+    code: S.optional(S.String),
+    message: S.optional(S.String),
+  },
+).pipe(C.withTimeoutError) {}
 
 //# Operations
 /**
- * This operation lists the provisioned capacity units for the specified AWS
- * account.
- */
-export const listProvisionedCapacity: (
-  input: ListProvisionedCapacityInput,
-) => effect.Effect<
-  ListProvisionedCapacityOutput,
-  | InvalidParameterValueException
-  | MissingParameterValueException
-  | NoLongerSupportedException
-  | ServiceUnavailableException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListProvisionedCapacityInput,
-  output: ListProvisionedCapacityOutput,
-  errors: [
-    InvalidParameterValueException,
-    MissingParameterValueException,
-    NoLongerSupportedException,
-    ServiceUnavailableException,
-  ],
-}));
-/**
- * This operation uploads a part of an archive. You can upload archive parts in any
- * order. You can also upload them in parallel. You can upload up to 10,000 parts for a
- * multipart upload.
+ * This operation aborts a multipart upload identified by the upload ID.
  *
- * Amazon Glacier rejects your upload part request if any of the following conditions is
- * true:
+ * After the Abort Multipart Upload request succeeds, you cannot upload any more parts
+ * to the multipart upload or complete the multipart upload. Aborting a completed upload
+ * fails. However, aborting an already-aborted upload will succeed, for a short time. For more
+ * information about uploading a part and completing a multipart upload, see UploadMultipartPart and CompleteMultipartUpload.
  *
- * - **SHA256 tree hash does not match**To ensure that part
- * data is not corrupted in transmission, you compute a SHA256 tree hash of the part and
- * include it in your request. Upon receiving the part data, Amazon Glacier also
- * computes a SHA256 tree hash. If these hash values don't match, the operation fails.
- * For information about computing a SHA256 tree hash, see Computing
- * Checksums.
- *
- * - **Part size does not match**The size of each part except
- * the last must match the size specified in the corresponding InitiateMultipartUpload request. The size of the last part must be the
- * same size as, or smaller than, the specified size.
- *
- * If you upload a part whose size is smaller than the part size you specified
- * in your initiate multipart upload request and that part is not the last part, then
- * the upload part request will succeed. However, the subsequent Complete Multipart
- * Upload request will fail.
- *
- * - **Range does not align**The byte range value in the
- * request does not align with the part size specified in the corresponding initiate
- * request. For example, if you specify a part size of 4194304 bytes (4 MB), then 0 to
- * 4194303 bytes (4 MB - 1) and 4194304 (4 MB) to 8388607 (8 MB - 1) are valid part
- * ranges. However, if you set a range value of 2 MB to 6 MB, the range does not align
- * with the part size and the upload will fail.
- *
- * This operation is idempotent. If you upload the same part multiple times, the data
- * included in the most recent request overwrites the previously uploaded data.
+ * This operation is idempotent.
  *
  * An AWS account has full permission to perform all operations (actions). However, AWS
  * Identity and Access Management (IAM) users don't have any permissions by default. You must
@@ -1829,30 +1765,68 @@ export const listProvisionedCapacity: (
  * Access Control Using
  * AWS Identity and Access Management (IAM).
  *
- * For conceptual information and underlying REST API, see Uploading Large Archives in
- * Parts (Multipart Upload) and Upload Part in the
- * *Amazon Glacier Developer Guide*.
+ * For conceptual information and underlying REST API, see Working with Archives in
+ * Amazon Glacier and Abort Multipart
+ * Upload in the *Amazon Glacier Developer Guide*.
  */
-export const uploadMultipartPart: (
-  input: UploadMultipartPartInput,
+export const abortMultipartUpload: (
+  input: AbortMultipartUploadInput,
 ) => effect.Effect<
-  UploadMultipartPartOutput,
+  AbortMultipartUploadResponse,
   | InvalidParameterValueException
   | MissingParameterValueException
   | NoLongerSupportedException
-  | RequestTimeoutException
   | ResourceNotFoundException
   | ServiceUnavailableException
   | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UploadMultipartPartInput,
-  output: UploadMultipartPartOutput,
+  input: AbortMultipartUploadInput,
+  output: AbortMultipartUploadResponse,
   errors: [
     InvalidParameterValueException,
     MissingParameterValueException,
     NoLongerSupportedException,
-    RequestTimeoutException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+  ],
+}));
+/**
+ * This operation aborts the vault locking process if the vault lock is not in the
+ * `Locked` state. If the vault lock is in the `Locked` state when
+ * this operation is requested, the operation returns an `AccessDeniedException`
+ * error. Aborting the vault locking process removes the vault lock policy from the specified
+ * vault.
+ *
+ * A vault lock is put into the `InProgress` state by calling InitiateVaultLock. A vault lock is put into the `Locked` state by
+ * calling CompleteVaultLock. You can get the state of a vault lock by
+ * calling GetVaultLock. For more information about the vault locking
+ * process, see Amazon Glacier Vault Lock. For more information about vault lock policies, see
+ * Amazon
+ * Glacier Access Control with Vault Lock Policies.
+ *
+ * This operation is idempotent. You can successfully invoke this operation multiple
+ * times, if the vault lock is in the `InProgress` state or if there is no policy
+ * associated with the vault.
+ */
+export const abortVaultLock: (
+  input: AbortVaultLockInput,
+) => effect.Effect<
+  AbortVaultLockResponse,
+  | InvalidParameterValueException
+  | MissingParameterValueException
+  | NoLongerSupportedException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AbortVaultLockInput,
+  output: AbortVaultLockResponse,
+  errors: [
+    InvalidParameterValueException,
+    MissingParameterValueException,
+    NoLongerSupportedException,
     ResourceNotFoundException,
     ServiceUnavailableException,
   ],
@@ -1887,269 +1861,6 @@ export const addTagsToVault: (
     ResourceNotFoundException,
     ServiceUnavailableException,
   ],
-}));
-/**
- * This operation returns information about a job you previously initiated, including
- * the job initiation date, the user who initiated the job, the job status code/message and
- * the Amazon SNS topic to notify after Amazon Glacier (Glacier) completes the job. For more information
- * about initiating a job, see InitiateJob.
- *
- * This operation enables you to check the status of your job. However, it is
- * strongly recommended that you set up an Amazon SNS topic and specify it in your initiate
- * job request so that Glacier can notify the topic after it completes the
- * job.
- *
- * A job ID will not expire for at least 24 hours after Glacier completes the
- * job.
- *
- * An AWS account has full permission to perform all operations (actions). However, AWS
- * Identity and Access Management (IAM) users don't have any permissions by default. You must
- * grant them explicit permission to perform specific actions. For more information, see
- * Access Control Using
- * AWS Identity and Access Management (IAM).
- *
- * For more information about using this operation,
- * see the documentation for the underlying REST API Describe Job
- * in the *Amazon Glacier Developer Guide*.
- */
-export const describeJob: (
-  input: DescribeJobInput,
-) => effect.Effect<
-  GlacierJobDescription,
-  | InvalidParameterValueException
-  | MissingParameterValueException
-  | NoLongerSupportedException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeJobInput,
-  output: GlacierJobDescription,
-  errors: [
-    InvalidParameterValueException,
-    MissingParameterValueException,
-    NoLongerSupportedException,
-    ResourceNotFoundException,
-    ServiceUnavailableException,
-  ],
-}));
-/**
- * This operation initiates the vault locking process by doing the following:
- *
- * - Installing a vault lock policy on the specified vault.
- *
- * - Setting the lock state of vault lock to `InProgress`.
- *
- * - Returning a lock ID, which is used to complete the vault locking
- * process.
- *
- * You can set one vault lock policy for each vault and this policy can be up to 20 KB
- * in size. For more information about vault lock policies, see Amazon Glacier Access Control with
- * Vault Lock Policies.
- *
- * You must complete the vault locking process within 24 hours after the vault lock
- * enters the `InProgress` state. After the 24 hour window ends, the lock ID
- * expires, the vault automatically exits the `InProgress` state, and the vault
- * lock policy is removed from the vault. You call CompleteVaultLock to
- * complete the vault locking process by setting the state of the vault lock to
- * `Locked`.
- *
- * After a vault lock is in the `Locked` state, you cannot initiate a new
- * vault lock for the vault.
- *
- * You can abort the vault locking process by calling AbortVaultLock.
- * You can get the state of the vault lock by calling GetVaultLock. For more
- * information about the vault locking process, Amazon Glacier Vault
- * Lock.
- *
- * If this operation is called when the vault lock is in the `InProgress`
- * state, the operation returns an `AccessDeniedException` error. When the vault
- * lock is in the `InProgress` state you must call AbortVaultLock
- * before you can initiate a new vault lock policy.
- */
-export const initiateVaultLock: (
-  input: InitiateVaultLockInput,
-) => effect.Effect<
-  InitiateVaultLockOutput,
-  | InvalidParameterValueException
-  | MissingParameterValueException
-  | NoLongerSupportedException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: InitiateVaultLockInput,
-  output: InitiateVaultLockOutput,
-  errors: [
-    InvalidParameterValueException,
-    MissingParameterValueException,
-    NoLongerSupportedException,
-    ResourceNotFoundException,
-    ServiceUnavailableException,
-  ],
-}));
-/**
- * This operation lists in-progress multipart uploads for the specified vault. An
- * in-progress multipart upload is a multipart upload that has been initiated by an InitiateMultipartUpload request, but has not yet been completed or aborted.
- * The list returned in the List Multipart Upload response has no guaranteed order.
- *
- * The List Multipart Uploads operation supports pagination. By default, this operation
- * returns up to 50 multipart uploads in the response. You should always check the response
- * for a `marker` at which to continue the list; if there are no more items the
- * `marker` is `null`. To return a list of multipart uploads that
- * begins at a specific upload, set the `marker` request parameter to the value you
- * obtained from a previous List Multipart Upload request. You can also limit the number of
- * uploads returned in the response by specifying the `limit` parameter in the
- * request.
- *
- * Note the difference between this operation and listing parts (ListParts). The List Multipart Uploads operation lists all multipart uploads
- * for a vault and does not require a multipart upload ID. The List Parts operation requires a
- * multipart upload ID since parts are associated with a single upload.
- *
- * An AWS account has full permission to perform all operations (actions). However, AWS
- * Identity and Access Management (IAM) users don't have any permissions by default. You must
- * grant them explicit permission to perform specific actions. For more information, see
- * Access Control Using
- * AWS Identity and Access Management (IAM).
- *
- * For conceptual information and the underlying REST API, see Working
- * with Archives in Amazon Glacier and List Multipart Uploads
- * in the *Amazon Glacier Developer Guide*.
- */
-export const listMultipartUploads: {
-  (
-    input: ListMultipartUploadsInput,
-  ): effect.Effect<
-    ListMultipartUploadsOutput,
-    | InvalidParameterValueException
-    | MissingParameterValueException
-    | NoLongerSupportedException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  pages: (
-    input: ListMultipartUploadsInput,
-  ) => stream.Stream<
-    ListMultipartUploadsOutput,
-    | InvalidParameterValueException
-    | MissingParameterValueException
-    | NoLongerSupportedException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  items: (
-    input: ListMultipartUploadsInput,
-  ) => stream.Stream<
-    UploadListElement,
-    | InvalidParameterValueException
-    | MissingParameterValueException
-    | NoLongerSupportedException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
-  input: ListMultipartUploadsInput,
-  output: ListMultipartUploadsOutput,
-  errors: [
-    InvalidParameterValueException,
-    MissingParameterValueException,
-    NoLongerSupportedException,
-    ResourceNotFoundException,
-    ServiceUnavailableException,
-  ],
-  pagination: {
-    inputToken: "marker",
-    outputToken: "Marker",
-    items: "UploadsList",
-    pageSize: "limit",
-  } as const,
-}));
-/**
- * This operation lists the parts of an archive that have been uploaded in a specific
- * multipart upload. You can make this request at any time during an in-progress multipart
- * upload before you complete the upload (see CompleteMultipartUpload. List
- * Parts returns an error for completed uploads. The list returned in the List Parts response
- * is sorted by part range.
- *
- * The List Parts operation supports pagination. By default, this operation returns up
- * to 50 uploaded parts in the response. You should always check the response for a
- * `marker` at which to continue the list; if there are no more items the
- * `marker` is `null`. To return a list of parts that begins at a
- * specific part, set the `marker` request parameter to the value you obtained from
- * a previous List Parts request. You can also limit the number of parts returned in the
- * response by specifying the `limit` parameter in the request.
- *
- * An AWS account has full permission to perform all operations (actions). However, AWS
- * Identity and Access Management (IAM) users don't have any permissions by default. You must
- * grant them explicit permission to perform specific actions. For more information, see
- * Access Control Using
- * AWS Identity and Access Management (IAM).
- *
- * For conceptual information and the underlying REST API, see Working
- * with Archives in Amazon Glacier and List Parts in the
- * *Amazon Glacier Developer Guide*.
- */
-export const listParts: {
-  (
-    input: ListPartsInput,
-  ): effect.Effect<
-    ListPartsOutput,
-    | InvalidParameterValueException
-    | MissingParameterValueException
-    | NoLongerSupportedException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  pages: (
-    input: ListPartsInput,
-  ) => stream.Stream<
-    ListPartsOutput,
-    | InvalidParameterValueException
-    | MissingParameterValueException
-    | NoLongerSupportedException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  items: (
-    input: ListPartsInput,
-  ) => stream.Stream<
-    PartListElement,
-    | InvalidParameterValueException
-    | MissingParameterValueException
-    | NoLongerSupportedException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
-  input: ListPartsInput,
-  output: ListPartsOutput,
-  errors: [
-    InvalidParameterValueException,
-    MissingParameterValueException,
-    NoLongerSupportedException,
-    ResourceNotFoundException,
-    ServiceUnavailableException,
-  ],
-  pagination: {
-    inputToken: "marker",
-    outputToken: "Marker",
-    items: "Parts",
-    pageSize: "limit",
-  } as const,
 }));
 /**
  * You call this operation to inform Amazon Glacier (Glacier) that all the archive parts have been
@@ -2215,6 +1926,301 @@ export const completeMultipartUpload: (
   ],
 }));
 /**
+ * This operation completes the vault locking process by transitioning the vault lock
+ * from the `InProgress` state to the `Locked` state, which causes the
+ * vault lock policy to become unchangeable. A vault lock is put into the
+ * `InProgress` state by calling InitiateVaultLock. You can
+ * obtain the state of the vault lock by calling GetVaultLock. For more
+ * information about the vault locking process, Amazon Glacier Vault Lock.
+ *
+ * This operation is idempotent. This request is always successful if the vault lock is
+ * in the `Locked` state and the provided lock ID matches the lock ID originally
+ * used to lock the vault.
+ *
+ * If an invalid lock ID is passed in the request when the vault lock is in the
+ * `Locked` state, the operation returns an `AccessDeniedException`
+ * error. If an invalid lock ID is passed in the request when the vault lock is in the
+ * `InProgress` state, the operation throws an `InvalidParameter`
+ * error.
+ */
+export const completeVaultLock: (
+  input: CompleteVaultLockInput,
+) => effect.Effect<
+  CompleteVaultLockResponse,
+  | InvalidParameterValueException
+  | MissingParameterValueException
+  | NoLongerSupportedException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CompleteVaultLockInput,
+  output: CompleteVaultLockResponse,
+  errors: [
+    InvalidParameterValueException,
+    MissingParameterValueException,
+    NoLongerSupportedException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+  ],
+}));
+/**
+ * This operation creates a new vault with the specified name. The name of the vault
+ * must be unique within a region for an AWS account. You can create up to 1,000 vaults per
+ * account. If you need to create more vaults, contact Amazon Glacier.
+ *
+ * You must use the following guidelines when naming a vault.
+ *
+ * - Names can be between 1 and 255 characters long.
+ *
+ * - Allowed characters are a-z, A-Z, 0-9, '_' (underscore), '-' (hyphen), and '.'
+ * (period).
+ *
+ * This operation is idempotent.
+ *
+ * An AWS account has full permission to perform all operations (actions). However, AWS
+ * Identity and Access Management (IAM) users don't have any permissions by default. You must
+ * grant them explicit permission to perform specific actions. For more information, see
+ * Access Control Using
+ * AWS Identity and Access Management (IAM).
+ *
+ * For conceptual information and underlying REST API, see Creating a Vault in Amazon
+ * Glacier and Create Vault in the
+ * *Amazon Glacier Developer Guide*.
+ */
+export const createVault: (
+  input: CreateVaultInput,
+) => effect.Effect<
+  CreateVaultOutput,
+  | InvalidParameterValueException
+  | LimitExceededException
+  | MissingParameterValueException
+  | NoLongerSupportedException
+  | ServiceUnavailableException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateVaultInput,
+  output: CreateVaultOutput,
+  errors: [
+    InvalidParameterValueException,
+    LimitExceededException,
+    MissingParameterValueException,
+    NoLongerSupportedException,
+    ServiceUnavailableException,
+  ],
+}));
+/**
+ * This operation deletes an archive from a vault. Subsequent requests to initiate a
+ * retrieval of this archive will fail. Archive retrievals that are in progress for this
+ * archive ID may or may not succeed according to the following scenarios:
+ *
+ * - If the archive retrieval job is actively preparing the data for download when
+ * Amazon Glacier receives the delete archive request, the archival retrieval operation
+ * might fail.
+ *
+ * - If the archive retrieval job has successfully prepared the archive for download
+ * when Amazon Glacier receives the delete archive request, you will be able to download
+ * the output.
+ *
+ * This operation is idempotent. Attempting to delete an already-deleted archive does
+ * not result in an error.
+ *
+ * An AWS account has full permission to perform all operations (actions). However, AWS
+ * Identity and Access Management (IAM) users don't have any permissions by default. You must
+ * grant them explicit permission to perform specific actions. For more information, see
+ * Access Control Using
+ * AWS Identity and Access Management (IAM).
+ *
+ * For conceptual information and underlying REST API, see Deleting an Archive in Amazon
+ * Glacier and Delete Archive in the
+ * *Amazon Glacier Developer Guide*.
+ */
+export const deleteArchive: (
+  input: DeleteArchiveInput,
+) => effect.Effect<
+  DeleteArchiveResponse,
+  | InvalidParameterValueException
+  | MissingParameterValueException
+  | NoLongerSupportedException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteArchiveInput,
+  output: DeleteArchiveResponse,
+  errors: [
+    InvalidParameterValueException,
+    MissingParameterValueException,
+    NoLongerSupportedException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+  ],
+}));
+/**
+ * This operation deletes a vault. Amazon Glacier will delete a vault only if there are
+ * no archives in the vault as of the last inventory and there have been no writes to the
+ * vault since the last inventory. If either of these conditions is not satisfied, the vault
+ * deletion fails (that is, the vault is not removed) and Amazon Glacier returns an error. You
+ * can use DescribeVault to return the number of archives in a vault, and
+ * you can use Initiate a Job (POST
+ * jobs) to initiate a new inventory retrieval for a vault. The inventory contains
+ * the archive IDs you use to delete archives using Delete Archive (DELETE
+ * archive).
+ *
+ * This operation is idempotent.
+ *
+ * An AWS account has full permission to perform all operations (actions). However, AWS
+ * Identity and Access Management (IAM) users don't have any permissions by default. You must
+ * grant them explicit permission to perform specific actions. For more information, see
+ * Access Control Using
+ * AWS Identity and Access Management (IAM).
+ *
+ * For conceptual information and underlying REST API, see Deleting a Vault in Amazon
+ * Glacier and Delete Vault in the
+ * *Amazon Glacier Developer Guide*.
+ */
+export const deleteVault: (
+  input: DeleteVaultInput,
+) => effect.Effect<
+  DeleteVaultResponse,
+  | InvalidParameterValueException
+  | MissingParameterValueException
+  | NoLongerSupportedException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteVaultInput,
+  output: DeleteVaultResponse,
+  errors: [
+    InvalidParameterValueException,
+    MissingParameterValueException,
+    NoLongerSupportedException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+  ],
+}));
+/**
+ * This operation deletes the access policy associated with the specified vault. The
+ * operation is eventually consistent; that is, it might take some time for Amazon Glacier to
+ * completely remove the access policy, and you might still see the effect of the policy for a
+ * short time after you send the delete request.
+ *
+ * This operation is idempotent. You can invoke delete multiple times, even if there is
+ * no policy associated with the vault. For more information about vault access policies, see
+ * Amazon Glacier Access Control with Vault Access Policies.
+ */
+export const deleteVaultAccessPolicy: (
+  input: DeleteVaultAccessPolicyInput,
+) => effect.Effect<
+  DeleteVaultAccessPolicyResponse,
+  | InvalidParameterValueException
+  | MissingParameterValueException
+  | NoLongerSupportedException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteVaultAccessPolicyInput,
+  output: DeleteVaultAccessPolicyResponse,
+  errors: [
+    InvalidParameterValueException,
+    MissingParameterValueException,
+    NoLongerSupportedException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+  ],
+}));
+/**
+ * This operation deletes the notification configuration set for a vault. The operation
+ * is eventually consistent; that is, it might take some time for Amazon Glacier to completely
+ * disable the notifications and you might still receive some notifications for a short time
+ * after you send the delete request.
+ *
+ * An AWS account has full permission to perform all operations (actions). However, AWS
+ * Identity and Access Management (IAM) users don't have any permissions by default. You must
+ * grant them explicit permission to perform specific actions. For more information, see
+ * Access
+ * Control Using AWS Identity and Access Management (IAM).
+ *
+ * For conceptual information and underlying REST API, see Configuring Vault
+ * Notifications in Amazon Glacier and Delete Vault
+ * Notification Configuration in the Amazon Glacier Developer Guide.
+ */
+export const deleteVaultNotifications: (
+  input: DeleteVaultNotificationsInput,
+) => effect.Effect<
+  DeleteVaultNotificationsResponse,
+  | InvalidParameterValueException
+  | MissingParameterValueException
+  | NoLongerSupportedException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteVaultNotificationsInput,
+  output: DeleteVaultNotificationsResponse,
+  errors: [
+    InvalidParameterValueException,
+    MissingParameterValueException,
+    NoLongerSupportedException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+  ],
+}));
+/**
+ * This operation returns information about a job you previously initiated, including
+ * the job initiation date, the user who initiated the job, the job status code/message and
+ * the Amazon SNS topic to notify after Amazon Glacier (Glacier) completes the job. For more information
+ * about initiating a job, see InitiateJob.
+ *
+ * This operation enables you to check the status of your job. However, it is
+ * strongly recommended that you set up an Amazon SNS topic and specify it in your initiate
+ * job request so that Glacier can notify the topic after it completes the
+ * job.
+ *
+ * A job ID will not expire for at least 24 hours after Glacier completes the
+ * job.
+ *
+ * An AWS account has full permission to perform all operations (actions). However, AWS
+ * Identity and Access Management (IAM) users don't have any permissions by default. You must
+ * grant them explicit permission to perform specific actions. For more information, see
+ * Access Control Using
+ * AWS Identity and Access Management (IAM).
+ *
+ * For more information about using this operation,
+ * see the documentation for the underlying REST API Describe Job
+ * in the *Amazon Glacier Developer Guide*.
+ */
+export const describeJob: (
+  input: DescribeJobInput,
+) => effect.Effect<
+  GlacierJobDescription,
+  | InvalidParameterValueException
+  | MissingParameterValueException
+  | NoLongerSupportedException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeJobInput,
+  output: GlacierJobDescription,
+  errors: [
+    InvalidParameterValueException,
+    MissingParameterValueException,
+    NoLongerSupportedException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+  ],
+}));
+/**
  * This operation returns information about a vault, including the vault's Amazon
  * Resource Name (ARN), the date the vault was created, the number of archives it contains,
  * and the total size of all the archives in the vault. The number of archives and their total
@@ -2254,6 +2260,31 @@ export const describeVault: (
     MissingParameterValueException,
     NoLongerSupportedException,
     ResourceNotFoundException,
+    ServiceUnavailableException,
+  ],
+}));
+/**
+ * This operation returns the current data retrieval policy for the account and region
+ * specified in the GET request. For more information about data retrieval policies, see
+ * Amazon Glacier Data Retrieval Policies.
+ */
+export const getDataRetrievalPolicy: (
+  input: GetDataRetrievalPolicyInput,
+) => effect.Effect<
+  GetDataRetrievalPolicyOutput,
+  | InvalidParameterValueException
+  | MissingParameterValueException
+  | NoLongerSupportedException
+  | ServiceUnavailableException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetDataRetrievalPolicyInput,
+  output: GetDataRetrievalPolicyOutput,
+  errors: [
+    InvalidParameterValueException,
+    MissingParameterValueException,
+    NoLongerSupportedException,
     ServiceUnavailableException,
   ],
 }));
@@ -2440,6 +2471,38 @@ export const getVaultNotifications: (
   ],
 }));
 /**
+ * This operation initiates a job of the specified type, which can be a select, an archival retrieval,
+ * or a vault retrieval. For more information about using this operation,
+ * see the documentation for the underlying REST API Initiate
+ * a Job.
+ */
+export const initiateJob: (
+  input: InitiateJobInput,
+) => effect.Effect<
+  InitiateJobOutput,
+  | InsufficientCapacityException
+  | InvalidParameterValueException
+  | MissingParameterValueException
+  | NoLongerSupportedException
+  | PolicyEnforcedException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: InitiateJobInput,
+  output: InitiateJobOutput,
+  errors: [
+    InsufficientCapacityException,
+    InvalidParameterValueException,
+    MissingParameterValueException,
+    NoLongerSupportedException,
+    PolicyEnforcedException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+  ],
+}));
+/**
  * This operation initiates a multipart upload. Amazon Glacier creates a multipart
  * upload resource and returns its ID in the response. The multipart upload ID is used in
  * subsequent requests to upload parts of an archive (see UploadMultipartPart).
@@ -2488,6 +2551,62 @@ export const initiateMultipartUpload: (
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: InitiateMultipartUploadInput,
   output: InitiateMultipartUploadOutput,
+  errors: [
+    InvalidParameterValueException,
+    MissingParameterValueException,
+    NoLongerSupportedException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+  ],
+}));
+/**
+ * This operation initiates the vault locking process by doing the following:
+ *
+ * - Installing a vault lock policy on the specified vault.
+ *
+ * - Setting the lock state of vault lock to `InProgress`.
+ *
+ * - Returning a lock ID, which is used to complete the vault locking
+ * process.
+ *
+ * You can set one vault lock policy for each vault and this policy can be up to 20 KB
+ * in size. For more information about vault lock policies, see Amazon Glacier Access Control with
+ * Vault Lock Policies.
+ *
+ * You must complete the vault locking process within 24 hours after the vault lock
+ * enters the `InProgress` state. After the 24 hour window ends, the lock ID
+ * expires, the vault automatically exits the `InProgress` state, and the vault
+ * lock policy is removed from the vault. You call CompleteVaultLock to
+ * complete the vault locking process by setting the state of the vault lock to
+ * `Locked`.
+ *
+ * After a vault lock is in the `Locked` state, you cannot initiate a new
+ * vault lock for the vault.
+ *
+ * You can abort the vault locking process by calling AbortVaultLock.
+ * You can get the state of the vault lock by calling GetVaultLock. For more
+ * information about the vault locking process, Amazon Glacier Vault
+ * Lock.
+ *
+ * If this operation is called when the vault lock is in the `InProgress`
+ * state, the operation returns an `AccessDeniedException` error. When the vault
+ * lock is in the `InProgress` state you must call AbortVaultLock
+ * before you can initiate a new vault lock policy.
+ */
+export const initiateVaultLock: (
+  input: InitiateVaultLockInput,
+) => effect.Effect<
+  InitiateVaultLockOutput,
+  | InvalidParameterValueException
+  | MissingParameterValueException
+  | NoLongerSupportedException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: InitiateVaultLockInput,
+  output: InitiateVaultLockOutput,
   errors: [
     InvalidParameterValueException,
     MissingParameterValueException,
@@ -2585,6 +2704,191 @@ export const listJobs: {
     items: "JobList",
     pageSize: "limit",
   } as const,
+}));
+/**
+ * This operation lists in-progress multipart uploads for the specified vault. An
+ * in-progress multipart upload is a multipart upload that has been initiated by an InitiateMultipartUpload request, but has not yet been completed or aborted.
+ * The list returned in the List Multipart Upload response has no guaranteed order.
+ *
+ * The List Multipart Uploads operation supports pagination. By default, this operation
+ * returns up to 50 multipart uploads in the response. You should always check the response
+ * for a `marker` at which to continue the list; if there are no more items the
+ * `marker` is `null`. To return a list of multipart uploads that
+ * begins at a specific upload, set the `marker` request parameter to the value you
+ * obtained from a previous List Multipart Upload request. You can also limit the number of
+ * uploads returned in the response by specifying the `limit` parameter in the
+ * request.
+ *
+ * Note the difference between this operation and listing parts (ListParts). The List Multipart Uploads operation lists all multipart uploads
+ * for a vault and does not require a multipart upload ID. The List Parts operation requires a
+ * multipart upload ID since parts are associated with a single upload.
+ *
+ * An AWS account has full permission to perform all operations (actions). However, AWS
+ * Identity and Access Management (IAM) users don't have any permissions by default. You must
+ * grant them explicit permission to perform specific actions. For more information, see
+ * Access Control Using
+ * AWS Identity and Access Management (IAM).
+ *
+ * For conceptual information and the underlying REST API, see Working
+ * with Archives in Amazon Glacier and List Multipart Uploads
+ * in the *Amazon Glacier Developer Guide*.
+ */
+export const listMultipartUploads: {
+  (
+    input: ListMultipartUploadsInput,
+  ): effect.Effect<
+    ListMultipartUploadsOutput,
+    | InvalidParameterValueException
+    | MissingParameterValueException
+    | NoLongerSupportedException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListMultipartUploadsInput,
+  ) => stream.Stream<
+    ListMultipartUploadsOutput,
+    | InvalidParameterValueException
+    | MissingParameterValueException
+    | NoLongerSupportedException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListMultipartUploadsInput,
+  ) => stream.Stream<
+    UploadListElement,
+    | InvalidParameterValueException
+    | MissingParameterValueException
+    | NoLongerSupportedException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListMultipartUploadsInput,
+  output: ListMultipartUploadsOutput,
+  errors: [
+    InvalidParameterValueException,
+    MissingParameterValueException,
+    NoLongerSupportedException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+  ],
+  pagination: {
+    inputToken: "marker",
+    outputToken: "Marker",
+    items: "UploadsList",
+    pageSize: "limit",
+  } as const,
+}));
+/**
+ * This operation lists the parts of an archive that have been uploaded in a specific
+ * multipart upload. You can make this request at any time during an in-progress multipart
+ * upload before you complete the upload (see CompleteMultipartUpload. List
+ * Parts returns an error for completed uploads. The list returned in the List Parts response
+ * is sorted by part range.
+ *
+ * The List Parts operation supports pagination. By default, this operation returns up
+ * to 50 uploaded parts in the response. You should always check the response for a
+ * `marker` at which to continue the list; if there are no more items the
+ * `marker` is `null`. To return a list of parts that begins at a
+ * specific part, set the `marker` request parameter to the value you obtained from
+ * a previous List Parts request. You can also limit the number of parts returned in the
+ * response by specifying the `limit` parameter in the request.
+ *
+ * An AWS account has full permission to perform all operations (actions). However, AWS
+ * Identity and Access Management (IAM) users don't have any permissions by default. You must
+ * grant them explicit permission to perform specific actions. For more information, see
+ * Access Control Using
+ * AWS Identity and Access Management (IAM).
+ *
+ * For conceptual information and the underlying REST API, see Working
+ * with Archives in Amazon Glacier and List Parts in the
+ * *Amazon Glacier Developer Guide*.
+ */
+export const listParts: {
+  (
+    input: ListPartsInput,
+  ): effect.Effect<
+    ListPartsOutput,
+    | InvalidParameterValueException
+    | MissingParameterValueException
+    | NoLongerSupportedException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListPartsInput,
+  ) => stream.Stream<
+    ListPartsOutput,
+    | InvalidParameterValueException
+    | MissingParameterValueException
+    | NoLongerSupportedException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListPartsInput,
+  ) => stream.Stream<
+    PartListElement,
+    | InvalidParameterValueException
+    | MissingParameterValueException
+    | NoLongerSupportedException
+    | ResourceNotFoundException
+    | ServiceUnavailableException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListPartsInput,
+  output: ListPartsOutput,
+  errors: [
+    InvalidParameterValueException,
+    MissingParameterValueException,
+    NoLongerSupportedException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+  ],
+  pagination: {
+    inputToken: "marker",
+    outputToken: "Marker",
+    items: "Parts",
+    pageSize: "limit",
+  } as const,
+}));
+/**
+ * This operation lists the provisioned capacity units for the specified AWS
+ * account.
+ */
+export const listProvisionedCapacity: (
+  input: ListProvisionedCapacityInput,
+) => effect.Effect<
+  ListProvisionedCapacityOutput,
+  | InvalidParameterValueException
+  | MissingParameterValueException
+  | NoLongerSupportedException
+  | ServiceUnavailableException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListProvisionedCapacityInput,
+  output: ListProvisionedCapacityOutput,
+  errors: [
+    InvalidParameterValueException,
+    MissingParameterValueException,
+    NoLongerSupportedException,
+    ServiceUnavailableException,
+  ],
 }));
 /**
  * This operation lists all the tags attached to a vault. The operation returns an empty
@@ -2690,6 +2994,88 @@ export const listVaults: {
   } as const,
 }));
 /**
+ * This operation purchases a provisioned capacity unit for an AWS account.
+ */
+export const purchaseProvisionedCapacity: (
+  input: PurchaseProvisionedCapacityInput,
+) => effect.Effect<
+  PurchaseProvisionedCapacityOutput,
+  | InvalidParameterValueException
+  | LimitExceededException
+  | MissingParameterValueException
+  | NoLongerSupportedException
+  | ServiceUnavailableException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PurchaseProvisionedCapacityInput,
+  output: PurchaseProvisionedCapacityOutput,
+  errors: [
+    InvalidParameterValueException,
+    LimitExceededException,
+    MissingParameterValueException,
+    NoLongerSupportedException,
+    ServiceUnavailableException,
+  ],
+}));
+/**
+ * This operation removes one or more tags from the set of tags attached to a vault. For
+ * more information about tags, see Tagging Amazon Glacier Resources.
+ * This operation is idempotent. The operation will be successful, even if there are no tags
+ * attached to the vault.
+ */
+export const removeTagsFromVault: (
+  input: RemoveTagsFromVaultInput,
+) => effect.Effect<
+  RemoveTagsFromVaultResponse,
+  | InvalidParameterValueException
+  | MissingParameterValueException
+  | NoLongerSupportedException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RemoveTagsFromVaultInput,
+  output: RemoveTagsFromVaultResponse,
+  errors: [
+    InvalidParameterValueException,
+    MissingParameterValueException,
+    NoLongerSupportedException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+  ],
+}));
+/**
+ * This operation sets and then enacts a data retrieval policy in the region specified
+ * in the PUT request. You can set one policy per region for an AWS account. The policy is
+ * enacted within a few minutes of a successful PUT operation.
+ *
+ * The set policy operation does not affect retrieval jobs that were in progress before
+ * the policy was enacted. For more information about data retrieval policies, see Amazon
+ * Glacier Data Retrieval Policies.
+ */
+export const setDataRetrievalPolicy: (
+  input: SetDataRetrievalPolicyInput,
+) => effect.Effect<
+  SetDataRetrievalPolicyResponse,
+  | InvalidParameterValueException
+  | MissingParameterValueException
+  | NoLongerSupportedException
+  | ServiceUnavailableException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SetDataRetrievalPolicyInput,
+  output: SetDataRetrievalPolicyResponse,
+  errors: [
+    InvalidParameterValueException,
+    MissingParameterValueException,
+    NoLongerSupportedException,
+    ServiceUnavailableException,
+  ],
+}));
+/**
  * This operation configures an access policy for a vault and will overwrite an existing
  * policy. To configure a vault access policy, send a PUT request to the
  * `access-policy` subresource of the vault. An access policy is specific to a
@@ -2775,444 +3161,6 @@ export const setVaultNotifications: (
   ],
 }));
 /**
- * This operation aborts the vault locking process if the vault lock is not in the
- * `Locked` state. If the vault lock is in the `Locked` state when
- * this operation is requested, the operation returns an `AccessDeniedException`
- * error. Aborting the vault locking process removes the vault lock policy from the specified
- * vault.
- *
- * A vault lock is put into the `InProgress` state by calling InitiateVaultLock. A vault lock is put into the `Locked` state by
- * calling CompleteVaultLock. You can get the state of a vault lock by
- * calling GetVaultLock. For more information about the vault locking
- * process, see Amazon Glacier Vault Lock. For more information about vault lock policies, see
- * Amazon
- * Glacier Access Control with Vault Lock Policies.
- *
- * This operation is idempotent. You can successfully invoke this operation multiple
- * times, if the vault lock is in the `InProgress` state or if there is no policy
- * associated with the vault.
- */
-export const abortVaultLock: (
-  input: AbortVaultLockInput,
-) => effect.Effect<
-  AbortVaultLockResponse,
-  | InvalidParameterValueException
-  | MissingParameterValueException
-  | NoLongerSupportedException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: AbortVaultLockInput,
-  output: AbortVaultLockResponse,
-  errors: [
-    InvalidParameterValueException,
-    MissingParameterValueException,
-    NoLongerSupportedException,
-    ResourceNotFoundException,
-    ServiceUnavailableException,
-  ],
-}));
-/**
- * This operation completes the vault locking process by transitioning the vault lock
- * from the `InProgress` state to the `Locked` state, which causes the
- * vault lock policy to become unchangeable. A vault lock is put into the
- * `InProgress` state by calling InitiateVaultLock. You can
- * obtain the state of the vault lock by calling GetVaultLock. For more
- * information about the vault locking process, Amazon Glacier Vault Lock.
- *
- * This operation is idempotent. This request is always successful if the vault lock is
- * in the `Locked` state and the provided lock ID matches the lock ID originally
- * used to lock the vault.
- *
- * If an invalid lock ID is passed in the request when the vault lock is in the
- * `Locked` state, the operation returns an `AccessDeniedException`
- * error. If an invalid lock ID is passed in the request when the vault lock is in the
- * `InProgress` state, the operation throws an `InvalidParameter`
- * error.
- */
-export const completeVaultLock: (
-  input: CompleteVaultLockInput,
-) => effect.Effect<
-  CompleteVaultLockResponse,
-  | InvalidParameterValueException
-  | MissingParameterValueException
-  | NoLongerSupportedException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CompleteVaultLockInput,
-  output: CompleteVaultLockResponse,
-  errors: [
-    InvalidParameterValueException,
-    MissingParameterValueException,
-    NoLongerSupportedException,
-    ResourceNotFoundException,
-    ServiceUnavailableException,
-  ],
-}));
-/**
- * This operation deletes an archive from a vault. Subsequent requests to initiate a
- * retrieval of this archive will fail. Archive retrievals that are in progress for this
- * archive ID may or may not succeed according to the following scenarios:
- *
- * - If the archive retrieval job is actively preparing the data for download when
- * Amazon Glacier receives the delete archive request, the archival retrieval operation
- * might fail.
- *
- * - If the archive retrieval job has successfully prepared the archive for download
- * when Amazon Glacier receives the delete archive request, you will be able to download
- * the output.
- *
- * This operation is idempotent. Attempting to delete an already-deleted archive does
- * not result in an error.
- *
- * An AWS account has full permission to perform all operations (actions). However, AWS
- * Identity and Access Management (IAM) users don't have any permissions by default. You must
- * grant them explicit permission to perform specific actions. For more information, see
- * Access Control Using
- * AWS Identity and Access Management (IAM).
- *
- * For conceptual information and underlying REST API, see Deleting an Archive in Amazon
- * Glacier and Delete Archive in the
- * *Amazon Glacier Developer Guide*.
- */
-export const deleteArchive: (
-  input: DeleteArchiveInput,
-) => effect.Effect<
-  DeleteArchiveResponse,
-  | InvalidParameterValueException
-  | MissingParameterValueException
-  | NoLongerSupportedException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteArchiveInput,
-  output: DeleteArchiveResponse,
-  errors: [
-    InvalidParameterValueException,
-    MissingParameterValueException,
-    NoLongerSupportedException,
-    ResourceNotFoundException,
-    ServiceUnavailableException,
-  ],
-}));
-/**
- * This operation deletes a vault. Amazon Glacier will delete a vault only if there are
- * no archives in the vault as of the last inventory and there have been no writes to the
- * vault since the last inventory. If either of these conditions is not satisfied, the vault
- * deletion fails (that is, the vault is not removed) and Amazon Glacier returns an error. You
- * can use DescribeVault to return the number of archives in a vault, and
- * you can use Initiate a Job (POST
- * jobs) to initiate a new inventory retrieval for a vault. The inventory contains
- * the archive IDs you use to delete archives using Delete Archive (DELETE
- * archive).
- *
- * This operation is idempotent.
- *
- * An AWS account has full permission to perform all operations (actions). However, AWS
- * Identity and Access Management (IAM) users don't have any permissions by default. You must
- * grant them explicit permission to perform specific actions. For more information, see
- * Access Control Using
- * AWS Identity and Access Management (IAM).
- *
- * For conceptual information and underlying REST API, see Deleting a Vault in Amazon
- * Glacier and Delete Vault in the
- * *Amazon Glacier Developer Guide*.
- */
-export const deleteVault: (
-  input: DeleteVaultInput,
-) => effect.Effect<
-  DeleteVaultResponse,
-  | InvalidParameterValueException
-  | MissingParameterValueException
-  | NoLongerSupportedException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteVaultInput,
-  output: DeleteVaultResponse,
-  errors: [
-    InvalidParameterValueException,
-    MissingParameterValueException,
-    NoLongerSupportedException,
-    ResourceNotFoundException,
-    ServiceUnavailableException,
-  ],
-}));
-/**
- * This operation deletes the access policy associated with the specified vault. The
- * operation is eventually consistent; that is, it might take some time for Amazon Glacier to
- * completely remove the access policy, and you might still see the effect of the policy for a
- * short time after you send the delete request.
- *
- * This operation is idempotent. You can invoke delete multiple times, even if there is
- * no policy associated with the vault. For more information about vault access policies, see
- * Amazon Glacier Access Control with Vault Access Policies.
- */
-export const deleteVaultAccessPolicy: (
-  input: DeleteVaultAccessPolicyInput,
-) => effect.Effect<
-  DeleteVaultAccessPolicyResponse,
-  | InvalidParameterValueException
-  | MissingParameterValueException
-  | NoLongerSupportedException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteVaultAccessPolicyInput,
-  output: DeleteVaultAccessPolicyResponse,
-  errors: [
-    InvalidParameterValueException,
-    MissingParameterValueException,
-    NoLongerSupportedException,
-    ResourceNotFoundException,
-    ServiceUnavailableException,
-  ],
-}));
-/**
- * This operation deletes the notification configuration set for a vault. The operation
- * is eventually consistent; that is, it might take some time for Amazon Glacier to completely
- * disable the notifications and you might still receive some notifications for a short time
- * after you send the delete request.
- *
- * An AWS account has full permission to perform all operations (actions). However, AWS
- * Identity and Access Management (IAM) users don't have any permissions by default. You must
- * grant them explicit permission to perform specific actions. For more information, see
- * Access
- * Control Using AWS Identity and Access Management (IAM).
- *
- * For conceptual information and underlying REST API, see Configuring Vault
- * Notifications in Amazon Glacier and Delete Vault
- * Notification Configuration in the Amazon Glacier Developer Guide.
- */
-export const deleteVaultNotifications: (
-  input: DeleteVaultNotificationsInput,
-) => effect.Effect<
-  DeleteVaultNotificationsResponse,
-  | InvalidParameterValueException
-  | MissingParameterValueException
-  | NoLongerSupportedException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteVaultNotificationsInput,
-  output: DeleteVaultNotificationsResponse,
-  errors: [
-    InvalidParameterValueException,
-    MissingParameterValueException,
-    NoLongerSupportedException,
-    ResourceNotFoundException,
-    ServiceUnavailableException,
-  ],
-}));
-/**
- * This operation removes one or more tags from the set of tags attached to a vault. For
- * more information about tags, see Tagging Amazon Glacier Resources.
- * This operation is idempotent. The operation will be successful, even if there are no tags
- * attached to the vault.
- */
-export const removeTagsFromVault: (
-  input: RemoveTagsFromVaultInput,
-) => effect.Effect<
-  RemoveTagsFromVaultResponse,
-  | InvalidParameterValueException
-  | MissingParameterValueException
-  | NoLongerSupportedException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: RemoveTagsFromVaultInput,
-  output: RemoveTagsFromVaultResponse,
-  errors: [
-    InvalidParameterValueException,
-    MissingParameterValueException,
-    NoLongerSupportedException,
-    ResourceNotFoundException,
-    ServiceUnavailableException,
-  ],
-}));
-/**
- * This operation sets and then enacts a data retrieval policy in the region specified
- * in the PUT request. You can set one policy per region for an AWS account. The policy is
- * enacted within a few minutes of a successful PUT operation.
- *
- * The set policy operation does not affect retrieval jobs that were in progress before
- * the policy was enacted. For more information about data retrieval policies, see Amazon
- * Glacier Data Retrieval Policies.
- */
-export const setDataRetrievalPolicy: (
-  input: SetDataRetrievalPolicyInput,
-) => effect.Effect<
-  SetDataRetrievalPolicyResponse,
-  | InvalidParameterValueException
-  | MissingParameterValueException
-  | NoLongerSupportedException
-  | ServiceUnavailableException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: SetDataRetrievalPolicyInput,
-  output: SetDataRetrievalPolicyResponse,
-  errors: [
-    InvalidParameterValueException,
-    MissingParameterValueException,
-    NoLongerSupportedException,
-    ServiceUnavailableException,
-  ],
-}));
-/**
- * This operation returns the current data retrieval policy for the account and region
- * specified in the GET request. For more information about data retrieval policies, see
- * Amazon Glacier Data Retrieval Policies.
- */
-export const getDataRetrievalPolicy: (
-  input: GetDataRetrievalPolicyInput,
-) => effect.Effect<
-  GetDataRetrievalPolicyOutput,
-  | InvalidParameterValueException
-  | MissingParameterValueException
-  | NoLongerSupportedException
-  | ServiceUnavailableException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetDataRetrievalPolicyInput,
-  output: GetDataRetrievalPolicyOutput,
-  errors: [
-    InvalidParameterValueException,
-    MissingParameterValueException,
-    NoLongerSupportedException,
-    ServiceUnavailableException,
-  ],
-}));
-/**
- * This operation creates a new vault with the specified name. The name of the vault
- * must be unique within a region for an AWS account. You can create up to 1,000 vaults per
- * account. If you need to create more vaults, contact Amazon Glacier.
- *
- * You must use the following guidelines when naming a vault.
- *
- * - Names can be between 1 and 255 characters long.
- *
- * - Allowed characters are a-z, A-Z, 0-9, '_' (underscore), '-' (hyphen), and '.'
- * (period).
- *
- * This operation is idempotent.
- *
- * An AWS account has full permission to perform all operations (actions). However, AWS
- * Identity and Access Management (IAM) users don't have any permissions by default. You must
- * grant them explicit permission to perform specific actions. For more information, see
- * Access Control Using
- * AWS Identity and Access Management (IAM).
- *
- * For conceptual information and underlying REST API, see Creating a Vault in Amazon
- * Glacier and Create Vault in the
- * *Amazon Glacier Developer Guide*.
- */
-export const createVault: (
-  input: CreateVaultInput,
-) => effect.Effect<
-  CreateVaultOutput,
-  | InvalidParameterValueException
-  | LimitExceededException
-  | MissingParameterValueException
-  | NoLongerSupportedException
-  | ServiceUnavailableException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateVaultInput,
-  output: CreateVaultOutput,
-  errors: [
-    InvalidParameterValueException,
-    LimitExceededException,
-    MissingParameterValueException,
-    NoLongerSupportedException,
-    ServiceUnavailableException,
-  ],
-}));
-/**
- * This operation purchases a provisioned capacity unit for an AWS account.
- */
-export const purchaseProvisionedCapacity: (
-  input: PurchaseProvisionedCapacityInput,
-) => effect.Effect<
-  PurchaseProvisionedCapacityOutput,
-  | InvalidParameterValueException
-  | LimitExceededException
-  | MissingParameterValueException
-  | NoLongerSupportedException
-  | ServiceUnavailableException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PurchaseProvisionedCapacityInput,
-  output: PurchaseProvisionedCapacityOutput,
-  errors: [
-    InvalidParameterValueException,
-    LimitExceededException,
-    MissingParameterValueException,
-    NoLongerSupportedException,
-    ServiceUnavailableException,
-  ],
-}));
-/**
- * This operation aborts a multipart upload identified by the upload ID.
- *
- * After the Abort Multipart Upload request succeeds, you cannot upload any more parts
- * to the multipart upload or complete the multipart upload. Aborting a completed upload
- * fails. However, aborting an already-aborted upload will succeed, for a short time. For more
- * information about uploading a part and completing a multipart upload, see UploadMultipartPart and CompleteMultipartUpload.
- *
- * This operation is idempotent.
- *
- * An AWS account has full permission to perform all operations (actions). However, AWS
- * Identity and Access Management (IAM) users don't have any permissions by default. You must
- * grant them explicit permission to perform specific actions. For more information, see
- * Access Control Using
- * AWS Identity and Access Management (IAM).
- *
- * For conceptual information and underlying REST API, see Working with Archives in
- * Amazon Glacier and Abort Multipart
- * Upload in the *Amazon Glacier Developer Guide*.
- */
-export const abortMultipartUpload: (
-  input: AbortMultipartUploadInput,
-) => effect.Effect<
-  AbortMultipartUploadResponse,
-  | InvalidParameterValueException
-  | MissingParameterValueException
-  | NoLongerSupportedException
-  | ResourceNotFoundException
-  | ServiceUnavailableException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: AbortMultipartUploadInput,
-  output: AbortMultipartUploadResponse,
-  errors: [
-    InvalidParameterValueException,
-    MissingParameterValueException,
-    NoLongerSupportedException,
-    ResourceNotFoundException,
-    ServiceUnavailableException,
-  ],
-}));
-/**
  * This operation adds an archive to a vault. This is a synchronous operation, and for a
  * successful upload, your data is durably persisted. Amazon Glacier returns the archive ID in
  * the `x-amz-archive-id` header of the response.
@@ -3272,33 +3220,69 @@ export const uploadArchive: (
   ],
 }));
 /**
- * This operation initiates a job of the specified type, which can be a select, an archival retrieval,
- * or a vault retrieval. For more information about using this operation,
- * see the documentation for the underlying REST API Initiate
- * a Job.
+ * This operation uploads a part of an archive. You can upload archive parts in any
+ * order. You can also upload them in parallel. You can upload up to 10,000 parts for a
+ * multipart upload.
+ *
+ * Amazon Glacier rejects your upload part request if any of the following conditions is
+ * true:
+ *
+ * - **SHA256 tree hash does not match**To ensure that part
+ * data is not corrupted in transmission, you compute a SHA256 tree hash of the part and
+ * include it in your request. Upon receiving the part data, Amazon Glacier also
+ * computes a SHA256 tree hash. If these hash values don't match, the operation fails.
+ * For information about computing a SHA256 tree hash, see Computing
+ * Checksums.
+ *
+ * - **Part size does not match**The size of each part except
+ * the last must match the size specified in the corresponding InitiateMultipartUpload request. The size of the last part must be the
+ * same size as, or smaller than, the specified size.
+ *
+ * If you upload a part whose size is smaller than the part size you specified
+ * in your initiate multipart upload request and that part is not the last part, then
+ * the upload part request will succeed. However, the subsequent Complete Multipart
+ * Upload request will fail.
+ *
+ * - **Range does not align**The byte range value in the
+ * request does not align with the part size specified in the corresponding initiate
+ * request. For example, if you specify a part size of 4194304 bytes (4 MB), then 0 to
+ * 4194303 bytes (4 MB - 1) and 4194304 (4 MB) to 8388607 (8 MB - 1) are valid part
+ * ranges. However, if you set a range value of 2 MB to 6 MB, the range does not align
+ * with the part size and the upload will fail.
+ *
+ * This operation is idempotent. If you upload the same part multiple times, the data
+ * included in the most recent request overwrites the previously uploaded data.
+ *
+ * An AWS account has full permission to perform all operations (actions). However, AWS
+ * Identity and Access Management (IAM) users don't have any permissions by default. You must
+ * grant them explicit permission to perform specific actions. For more information, see
+ * Access Control Using
+ * AWS Identity and Access Management (IAM).
+ *
+ * For conceptual information and underlying REST API, see Uploading Large Archives in
+ * Parts (Multipart Upload) and Upload Part in the
+ * *Amazon Glacier Developer Guide*.
  */
-export const initiateJob: (
-  input: InitiateJobInput,
+export const uploadMultipartPart: (
+  input: UploadMultipartPartInput,
 ) => effect.Effect<
-  InitiateJobOutput,
-  | InsufficientCapacityException
+  UploadMultipartPartOutput,
   | InvalidParameterValueException
   | MissingParameterValueException
   | NoLongerSupportedException
-  | PolicyEnforcedException
+  | RequestTimeoutException
   | ResourceNotFoundException
   | ServiceUnavailableException
   | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: InitiateJobInput,
-  output: InitiateJobOutput,
+  input: UploadMultipartPartInput,
+  output: UploadMultipartPartOutput,
   errors: [
-    InsufficientCapacityException,
     InvalidParameterValueException,
     MissingParameterValueException,
     NoLongerSupportedException,
-    PolicyEnforcedException,
+    RequestTimeoutException,
     ResourceNotFoundException,
     ServiceUnavailableException,
   ],

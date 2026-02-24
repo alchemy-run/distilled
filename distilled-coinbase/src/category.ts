@@ -202,9 +202,7 @@ export const isRetryable = (error: unknown): boolean => {
 /**
  * Get retryable info from an error, if present.
  */
-export const getRetryableInfo = (
-  error: unknown,
-): RetryableInfo | undefined => {
+export const getRetryableInfo = (error: unknown): RetryableInfo | undefined => {
   if (Predicate.isObject(error) && Predicate.hasProperty(retryableKey)(error)) {
     return (error as any)[retryableKey] as RetryableInfo;
   }

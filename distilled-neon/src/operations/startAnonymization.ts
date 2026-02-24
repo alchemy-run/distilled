@@ -6,7 +6,12 @@ import * as T from "../traits";
 export const StartAnonymizationInput = Schema.Struct({
   project_id: Schema.String.pipe(T.PathParam()),
   branch_id: Schema.String.pipe(T.PathParam()),
-}).pipe(T.Http({ method: "POST", path: "/projects/{project_id}/branches/{branch_id}/anonymize" }));
+}).pipe(
+  T.Http({
+    method: "POST",
+    path: "/projects/{project_id}/branches/{branch_id}/anonymize",
+  }),
+);
 export type StartAnonymizationInput = typeof StartAnonymizationInput.Type;
 
 // Output Schema
@@ -18,13 +23,15 @@ export const StartAnonymizationOutput = Schema.Struct({
   created_at: Schema.String,
   updated_at: Schema.String,
   failed_at: Schema.optional(Schema.String),
-  last_run: Schema.optional(Schema.Struct({
-    started_at: Schema.optional(Schema.String),
-    completed_at: Schema.optional(Schema.String),
-    triggered_by: Schema.optional(Schema.String),
-    triggered_by_username: Schema.optional(Schema.String),
-    masked_columns: Schema.optional(Schema.Number),
-  })),
+  last_run: Schema.optional(
+    Schema.Struct({
+      started_at: Schema.optional(Schema.String),
+      completed_at: Schema.optional(Schema.String),
+      triggered_by: Schema.optional(Schema.String),
+      triggered_by_username: Schema.optional(Schema.String),
+      masked_columns: Schema.optional(Schema.Number),
+    }),
+  ),
 });
 export type StartAnonymizationOutput = typeof StartAnonymizationOutput.Type;
 

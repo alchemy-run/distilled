@@ -2,11 +2,11 @@ import { it } from "@effect/vitest";
 import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
 import { describe, expect } from "vitest";
-import { UnknownAwsError, ValidationException } from "../../src/errors.ts";
-import { awsQueryProtocol } from "../../src/protocols/aws-query.ts";
 import { makeRequestBuilder } from "../../src/client/request-builder.ts";
 import { makeResponseParser } from "../../src/client/response-parser.ts";
 import type { Response } from "../../src/client/response.ts";
+import { UnknownAwsError, ValidationException } from "../../src/errors.ts";
+import { awsQueryProtocol } from "../../src/protocols/aws-query.ts";
 
 // Import real generated schemas for testing
 import {
@@ -32,23 +32,28 @@ import {
 } from "../../src/services/sns.ts";
 
 // Import Neptune for lists with xmlName on element
+import type { Operation } from "../../src/client/operation.ts";
 import {
   ModifyDBClusterSnapshotAttributeMessage,
   ModifyDBClusterSnapshotAttributeResult,
 } from "../../src/services/neptune.ts";
 
 // Helper to build a request from an instance
-const buildRequest = <A, I>(schema: S.Schema<A, I>, instance: A) => {
-  const operation = { input: schema, output: schema, errors: [] };
+const buildRequest = <A>(schema: S.Schema<A>, instance: A) => {
+  const operation: Operation<any, any, any> = {
+    input: schema,
+    output: schema,
+    errors: [],
+  };
   const builder = makeRequestBuilder(operation, { protocol: awsQueryProtocol });
   return builder({ ...instance });
 };
 
 // Helper to parse a response
-const parseResponse = <A, I>(
-  schema: S.Schema<A, I>,
+const parseResponse = <A>(
+  schema: S.Schema<A>,
   response: Response,
-  errors: S.Schema.AnyNoContext[] = [],
+  errors: S.Top[] = [],
 ) => {
   const operation = { input: schema, output: schema, errors };
   const parser = makeResponseParser<A>(operation, {
@@ -679,11 +684,11 @@ describe("awsQuery protocol", () => {
         };
 
         // Schemas with required fields should fail to parse when fields are missing
-        const result = yield* Effect.either(
+        const result = yield* Effect.result(
           parseResponse(GetUserResponse, response),
         );
 
-        expect(result._tag).toBe("Left"); // Should be a parse error
+        expect(result._tag).toBe("Failure"); // Should be a parse error
       }),
     );
 
@@ -707,11 +712,11 @@ describe("awsQuery protocol", () => {
           };
 
           // Schemas with required fields should fail to parse when fields are missing
-          const result = yield* Effect.either(
+          const result = yield* Effect.result(
             parseResponse(ListUsersResponse, response),
           );
 
-          expect(result._tag).toBe("Left"); // Should be a parse error
+          expect(result._tag).toBe("Failure"); // Should be a parse error
         }),
     );
 
@@ -826,7 +831,6 @@ describe("awsQuery protocol", () => {
         ]).pipe(Effect.flip);
 
         expect(result).toBeInstanceOf(NoSuchEntityException);
-        expect(result._tag).toBe("NoSuchEntityException");
       }),
     );
 

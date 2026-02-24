@@ -38,11 +38,18 @@ jobs:
     needs: detect-changes
     if: needs.detect-changes.outputs.aws == 'true'
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
     steps:
       - uses: actions/checkout@v4
       - uses: oven-sh/setup-bun@v2
         with:
           bun-version: latest
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::084828582823:role/alchemy-github-oidc-role
+          aws-region: us-west-2
       - run: bun install
       - run: bun run setup --http
         working-directory: distilled-aws
@@ -50,10 +57,6 @@ jobs:
         working-directory: distilled-aws
       - run: bun run test
         working-directory: distilled-aws
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_SESSION_TOKEN: ${{ secrets.AWS_SESSION_TOKEN }}
 
   ci-cloudflare:
     needs: detect-changes

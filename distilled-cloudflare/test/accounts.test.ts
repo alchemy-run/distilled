@@ -600,7 +600,7 @@ describe("Accounts", () => {
               ? Accounts.deleteToken({
                   accountId: accountId(),
                   tokenId: token.id,
-                }).pipe(Effect.catchAll(() => Effect.void))
+                }).pipe(Effect.catch(() => Effect.void))
               : Effect.void,
           ),
         );

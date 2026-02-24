@@ -7,7 +7,7 @@
 
 import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
-import type { HttpClient } from "@effect/platform";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
@@ -22,45 +22,53 @@ import {
 // Errors
 // =============================================================================
 
-export class BucketAlreadyExists extends Schema.TaggedError<BucketAlreadyExists>()(
+export class BucketAlreadyExists extends Schema.TaggedErrorClass<BucketAlreadyExists>()(
   "BucketAlreadyExists",
   { code: Schema.Number, message: Schema.String },
-).pipe(T.HttpErrorMatchers([{ code: 10004 }])) {}
+) {}
+T.applyErrorMatchers(BucketAlreadyExists, [{ code: 10004 }]);
 
-export class BucketNotFound extends Schema.TaggedError<BucketNotFound>()(
+export class BucketNotFound extends Schema.TaggedErrorClass<BucketNotFound>()(
   "BucketNotFound",
   { code: Schema.Number, message: Schema.String },
-).pipe(T.HttpErrorMatchers([{ code: 10085 }])) {}
+) {}
+T.applyErrorMatchers(BucketNotFound, [{ code: 10085 }]);
 
-export class InvalidBucketName extends Schema.TaggedError<InvalidBucketName>()(
+export class InvalidBucketName extends Schema.TaggedErrorClass<InvalidBucketName>()(
   "InvalidBucketName",
   { code: Schema.Number, message: Schema.String },
-).pipe(T.HttpErrorMatchers([{ code: 10005 }])) {}
+) {}
+T.applyErrorMatchers(InvalidBucketName, [{ code: 10005 }]);
 
-export class InvalidRoute extends Schema.TaggedError<InvalidRoute>()(
+export class InvalidRoute extends Schema.TaggedErrorClass<InvalidRoute>()(
   "InvalidRoute",
   { code: Schema.Number, message: Schema.String },
-).pipe(T.HttpErrorMatchers([{ code: 7003 }])) {}
+) {}
+T.applyErrorMatchers(InvalidRoute, [{ code: 7003 }]);
 
-export class NoCorsConfiguration extends Schema.TaggedError<NoCorsConfiguration>()(
+export class NoCorsConfiguration extends Schema.TaggedErrorClass<NoCorsConfiguration>()(
   "NoCorsConfiguration",
   { code: Schema.Number, message: Schema.String },
-).pipe(T.HttpErrorMatchers([{ code: 10059 }])) {}
+) {}
+T.applyErrorMatchers(NoCorsConfiguration, [{ code: 10059 }]);
 
-export class NoEventNotificationConfig extends Schema.TaggedError<NoEventNotificationConfig>()(
+export class NoEventNotificationConfig extends Schema.TaggedErrorClass<NoEventNotificationConfig>()(
   "NoEventNotificationConfig",
   { code: Schema.Number, message: Schema.String },
-).pipe(T.HttpErrorMatchers([{ code: 11015 }])) {}
+) {}
+T.applyErrorMatchers(NoEventNotificationConfig, [{ code: 11015 }]);
 
-export class NoRoute extends Schema.TaggedError<NoRoute>()("NoRoute", {
+export class NoRoute extends Schema.TaggedErrorClass<NoRoute>()("NoRoute", {
   code: Schema.Number,
   message: Schema.String,
-}).pipe(T.HttpErrorMatchers([{ code: 10015 }])) {}
+}) {}
+T.applyErrorMatchers(NoRoute, [{ code: 10015 }]);
 
-export class NoSuchBucket extends Schema.TaggedError<NoSuchBucket>()(
+export class NoSuchBucket extends Schema.TaggedErrorClass<NoSuchBucket>()(
   "NoSuchBucket",
   { code: Schema.Number, message: Schema.String },
-).pipe(T.HttpErrorMatchers([{ code: 10006 }])) {}
+) {}
+T.applyErrorMatchers(NoSuchBucket, [{ code: 10006 }]);
 
 // =============================================================================
 // AllSuperSlurperJob
@@ -112,7 +120,7 @@ export const GetBucketRequest = Schema.Struct({
   bucketName: Schema.String.pipe(T.HttpPath("bucketName")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   jurisdiction: Schema.optional(
-    Schema.Literal("default", "eu", "fedramp"),
+    Schema.Literals(["default", "eu", "fedramp"]),
   ).pipe(T.HttpHeader("cf-r2-jurisdiction")),
 }).pipe(
   T.Http({
@@ -150,9 +158,9 @@ export const GetBucketResponse = Schema.Struct({
   creationDate: Schema.optional(Schema.String).pipe(
     T.JsonName("creation_date"),
   ),
-  jurisdiction: Schema.optional(Schema.Literal("default", "eu", "fedramp")),
+  jurisdiction: Schema.optional(Schema.Literals(["default", "eu", "fedramp"])),
   location: Schema.optional(
-    Schema.Literal(
+    Schema.Literals([
       "apac",
       "eeur",
       "enam",
@@ -165,11 +173,11 @@ export const GetBucketResponse = Schema.Struct({
       "WEUR",
       "WNAM",
       "OC",
-    ),
+    ]),
   ),
   name: Schema.optional(Schema.String),
   storageClass: Schema.optional(
-    Schema.Literal("Standard", "InfrequentAccess"),
+    Schema.Literals(["Standard", "InfrequentAccess"]),
   ).pipe(T.JsonName("storage_class")),
 }) as unknown as Schema.Schema<GetBucketResponse>;
 
@@ -207,7 +215,7 @@ export interface ListBucketsRequest {
 export const ListBucketsRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   cursor: Schema.optional(Schema.String).pipe(T.HttpQuery("cursor")),
-  direction: Schema.optional(Schema.Literal("asc", "desc")).pipe(
+  direction: Schema.optional(Schema.Literals(["asc", "desc"])).pipe(
     T.HttpQuery("direction"),
   ),
   nameContains: Schema.optional(Schema.String).pipe(
@@ -217,7 +225,7 @@ export const ListBucketsRequest = Schema.Struct({
   perPage: Schema.optional(Schema.Number).pipe(T.HttpQuery("per_page")),
   startAfter: Schema.optional(Schema.String).pipe(T.HttpQuery("start_after")),
   jurisdiction: Schema.optional(
-    Schema.Literal("default", "eu", "fedramp"),
+    Schema.Literals(["default", "eu", "fedramp"]),
   ).pipe(T.HttpHeader("cf-r2-jurisdiction")),
 }).pipe(
   T.Http({ method: "GET", path: "/accounts/{account_id}/r2/buckets" }),
@@ -253,10 +261,10 @@ export const ListBucketsResponse = Schema.Struct({
           T.JsonName("creation_date"),
         ),
         jurisdiction: Schema.optional(
-          Schema.Literal("default", "eu", "fedramp"),
+          Schema.Literals(["default", "eu", "fedramp"]),
         ),
         location: Schema.optional(
-          Schema.Literal(
+          Schema.Literals([
             "apac",
             "eeur",
             "enam",
@@ -269,11 +277,11 @@ export const ListBucketsResponse = Schema.Struct({
             "WEUR",
             "WNAM",
             "OC",
-          ),
+          ]),
         ),
         name: Schema.optional(Schema.String),
         storageClass: Schema.optional(
-          Schema.Literal("Standard", "InfrequentAccess"),
+          Schema.Literals(["Standard", "InfrequentAccess"]),
         ).pipe(T.JsonName("storage_class")),
       }),
     ),
@@ -308,13 +316,13 @@ export interface CreateBucketRequest {
 export const CreateBucketRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   jurisdiction: Schema.optional(
-    Schema.Literal("default", "eu", "fedramp"),
+    Schema.Literals(["default", "eu", "fedramp"]),
   ).pipe(T.HttpHeader("cf-r2-jurisdiction")),
   name: Schema.String,
   locationHint: Schema.optional(
-    Schema.Literal("apac", "eeur", "enam", "weur", "wnam", "oc"),
+    Schema.Literals(["apac", "eeur", "enam", "weur", "wnam", "oc"]),
   ),
-  storageClass: Schema.optional(Schema.Literal("Standard", "InfrequentAccess")),
+  storageClass: Schema.optional(Schema.Literals(["Standard", "InfrequentAccess"])),
 }).pipe(
   T.Http({ method: "POST", path: "/accounts/{account_id}/r2/buckets" }),
 ) as unknown as Schema.Schema<CreateBucketRequest>;
@@ -348,9 +356,9 @@ export const CreateBucketResponse = Schema.Struct({
   creationDate: Schema.optional(Schema.String).pipe(
     T.JsonName("creation_date"),
   ),
-  jurisdiction: Schema.optional(Schema.Literal("default", "eu", "fedramp")),
+  jurisdiction: Schema.optional(Schema.Literals(["default", "eu", "fedramp"])),
   location: Schema.optional(
-    Schema.Literal(
+    Schema.Literals([
       "apac",
       "eeur",
       "enam",
@@ -363,11 +371,11 @@ export const CreateBucketResponse = Schema.Struct({
       "WEUR",
       "WNAM",
       "OC",
-    ),
+    ]),
   ),
   name: Schema.optional(Schema.String),
   storageClass: Schema.optional(
-    Schema.Literal("Standard", "InfrequentAccess"),
+    Schema.Literals(["Standard", "InfrequentAccess"]),
   ).pipe(T.JsonName("storage_class")),
 }) as unknown as Schema.Schema<CreateBucketResponse>;
 
@@ -396,11 +404,11 @@ export interface PatchBucketRequest {
 export const PatchBucketRequest = Schema.Struct({
   bucketName: Schema.String.pipe(T.HttpPath("bucketName")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  storageClass: Schema.Literal("Standard", "InfrequentAccess").pipe(
+  storageClass: Schema.Literals(["Standard", "InfrequentAccess"]).pipe(
     T.HttpHeader("cf-r2-storage-class"),
   ),
   jurisdiction: Schema.optional(
-    Schema.Literal("default", "eu", "fedramp"),
+    Schema.Literals(["default", "eu", "fedramp"]),
   ).pipe(T.HttpHeader("cf-r2-jurisdiction")),
 }).pipe(
   T.Http({
@@ -438,9 +446,9 @@ export const PatchBucketResponse = Schema.Struct({
   creationDate: Schema.optional(Schema.String).pipe(
     T.JsonName("creation_date"),
   ),
-  jurisdiction: Schema.optional(Schema.Literal("default", "eu", "fedramp")),
+  jurisdiction: Schema.optional(Schema.Literals(["default", "eu", "fedramp"])),
   location: Schema.optional(
-    Schema.Literal(
+    Schema.Literals([
       "apac",
       "eeur",
       "enam",
@@ -453,11 +461,11 @@ export const PatchBucketResponse = Schema.Struct({
       "WEUR",
       "WNAM",
       "OC",
-    ),
+    ]),
   ),
   name: Schema.optional(Schema.String),
   storageClass: Schema.optional(
-    Schema.Literal("Standard", "InfrequentAccess"),
+    Schema.Literals(["Standard", "InfrequentAccess"]),
   ).pipe(T.JsonName("storage_class")),
 }) as unknown as Schema.Schema<PatchBucketResponse>;
 
@@ -485,7 +493,7 @@ export const DeleteBucketRequest = Schema.Struct({
   bucketName: Schema.String.pipe(T.HttpPath("bucketName")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   jurisdiction: Schema.optional(
-    Schema.Literal("default", "eu", "fedramp"),
+    Schema.Literals(["default", "eu", "fedramp"]),
   ).pipe(T.HttpHeader("cf-r2-jurisdiction")),
 }).pipe(
   T.Http({
@@ -527,7 +535,7 @@ export const GetBucketCorsRequest = Schema.Struct({
   bucketName: Schema.String.pipe(T.HttpPath("bucketName")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   jurisdiction: Schema.optional(
-    Schema.Literal("default", "eu", "fedramp"),
+    Schema.Literals(["default", "eu", "fedramp"]),
   ).pipe(T.HttpHeader("cf-r2-jurisdiction")),
 }).pipe(
   T.Http({
@@ -555,7 +563,7 @@ export const GetBucketCorsResponse = Schema.Struct({
       Schema.Struct({
         allowed: Schema.Struct({
           methods: Schema.Array(
-            Schema.Literal("GET", "PUT", "POST", "DELETE", "HEAD"),
+            Schema.Literals(["GET", "PUT", "POST", "DELETE", "HEAD"]),
           ),
           origins: Schema.Array(Schema.String),
           headers: Schema.optional(Schema.Array(Schema.String)),
@@ -603,14 +611,14 @@ export const PutBucketCorsRequest = Schema.Struct({
   bucketName: Schema.String.pipe(T.HttpPath("bucketName")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   jurisdiction: Schema.optional(
-    Schema.Literal("default", "eu", "fedramp"),
+    Schema.Literals(["default", "eu", "fedramp"]),
   ).pipe(T.HttpHeader("cf-r2-jurisdiction")),
   rules: Schema.optional(
     Schema.Array(
       Schema.Struct({
         allowed: Schema.Struct({
           methods: Schema.Array(
-            Schema.Literal("GET", "PUT", "POST", "DELETE", "HEAD"),
+            Schema.Literals(["GET", "PUT", "POST", "DELETE", "HEAD"]),
           ),
           origins: Schema.Array(Schema.String),
           headers: Schema.optional(Schema.Array(Schema.String)),
@@ -657,7 +665,7 @@ export const DeleteBucketCorsRequest = Schema.Struct({
   bucketName: Schema.String.pipe(T.HttpPath("bucketName")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   jurisdiction: Schema.optional(
-    Schema.Literal("default", "eu", "fedramp"),
+    Schema.Literals(["default", "eu", "fedramp"]),
   ).pipe(T.HttpHeader("cf-r2-jurisdiction")),
 }).pipe(
   T.Http({
@@ -701,7 +709,7 @@ export const GetBucketDomainCustomRequest = Schema.Struct({
   domain: Schema.String.pipe(T.HttpPath("domain")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   jurisdiction: Schema.optional(
-    Schema.Literal("default", "eu", "fedramp"),
+    Schema.Literals(["default", "eu", "fedramp"]),
   ).pipe(T.HttpHeader("cf-r2-jurisdiction")),
 }).pipe(
   T.Http({
@@ -745,25 +753,25 @@ export const GetBucketDomainCustomResponse = Schema.Struct({
   domain: Schema.String,
   enabled: Schema.Boolean,
   status: Schema.Struct({
-    ownership: Schema.Literal(
+    ownership: Schema.Literals([
       "pending",
       "active",
       "deactivated",
       "blocked",
       "error",
       "unknown",
-    ),
-    ssl: Schema.Literal(
+    ]),
+    ssl: Schema.Literals([
       "initializing",
       "pending",
       "active",
       "deactivated",
       "error",
       "unknown",
-    ),
+    ]),
   }),
   ciphers: Schema.optional(Schema.Array(Schema.String)),
-  minTLS: Schema.optional(Schema.Literal("1.0", "1.1", "1.2", "1.3")),
+  minTLS: Schema.optional(Schema.Literals(["1.0", "1.1", "1.2", "1.3"])),
   zoneId: Schema.optional(Schema.String),
   zoneName: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<GetBucketDomainCustomResponse>;
@@ -792,7 +800,7 @@ export const ListBucketDomainCustomsRequest = Schema.Struct({
   bucketName: Schema.String.pipe(T.HttpPath("bucketName")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   jurisdiction: Schema.optional(
-    Schema.Literal("default", "eu", "fedramp"),
+    Schema.Literals(["default", "eu", "fedramp"]),
   ).pipe(T.HttpHeader("cf-r2-jurisdiction")),
 }).pipe(
   T.Http({
@@ -834,25 +842,25 @@ export const ListBucketDomainCustomsResponse = Schema.Struct({
       domain: Schema.String,
       enabled: Schema.Boolean,
       status: Schema.Struct({
-        ownership: Schema.Literal(
+        ownership: Schema.Literals([
           "pending",
           "active",
           "deactivated",
           "blocked",
           "error",
           "unknown",
-        ),
-        ssl: Schema.Literal(
+        ]),
+        ssl: Schema.Literals([
           "initializing",
           "pending",
           "active",
           "deactivated",
           "error",
           "unknown",
-        ),
+        ]),
       }),
       ciphers: Schema.optional(Schema.Array(Schema.String)),
-      minTLS: Schema.optional(Schema.Literal("1.0", "1.1", "1.2", "1.3")),
+      minTLS: Schema.optional(Schema.Literals(["1.0", "1.1", "1.2", "1.3"])),
       zoneId: Schema.optional(Schema.String),
       zoneName: Schema.optional(Schema.String),
     }),
@@ -893,13 +901,13 @@ export const CreateBucketDomainCustomRequest = Schema.Struct({
   bucketName: Schema.String.pipe(T.HttpPath("bucketName")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   jurisdiction: Schema.optional(
-    Schema.Literal("default", "eu", "fedramp"),
+    Schema.Literals(["default", "eu", "fedramp"]),
   ).pipe(T.HttpHeader("cf-r2-jurisdiction")),
   domain: Schema.String,
   enabled: Schema.Boolean,
   zoneId: Schema.String,
   ciphers: Schema.optional(Schema.Array(Schema.String)),
-  minTLS: Schema.optional(Schema.Literal("1.0", "1.1", "1.2", "1.3")),
+  minTLS: Schema.optional(Schema.Literals(["1.0", "1.1", "1.2", "1.3"])),
 }).pipe(
   T.Http({
     method: "POST",
@@ -922,7 +930,7 @@ export const CreateBucketDomainCustomResponse = Schema.Struct({
   domain: Schema.String,
   enabled: Schema.Boolean,
   ciphers: Schema.optional(Schema.Array(Schema.String)),
-  minTLS: Schema.optional(Schema.Literal("1.0", "1.1", "1.2", "1.3")),
+  minTLS: Schema.optional(Schema.Literals(["1.0", "1.1", "1.2", "1.3"])),
 }) as unknown as Schema.Schema<CreateBucketDomainCustomResponse>;
 
 export const createBucketDomainCustom: (
@@ -957,11 +965,11 @@ export const UpdateBucketDomainCustomRequest = Schema.Struct({
   domain: Schema.String.pipe(T.HttpPath("domain")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   jurisdiction: Schema.optional(
-    Schema.Literal("default", "eu", "fedramp"),
+    Schema.Literals(["default", "eu", "fedramp"]),
   ).pipe(T.HttpHeader("cf-r2-jurisdiction")),
   ciphers: Schema.optional(Schema.Array(Schema.String)),
   enabled: Schema.optional(Schema.Boolean),
-  minTLS: Schema.optional(Schema.Literal("1.0", "1.1", "1.2", "1.3")),
+  minTLS: Schema.optional(Schema.Literals(["1.0", "1.1", "1.2", "1.3"])),
 }).pipe(
   T.Http({
     method: "PUT",
@@ -984,7 +992,7 @@ export const UpdateBucketDomainCustomResponse = Schema.Struct({
   domain: Schema.String,
   ciphers: Schema.optional(Schema.Array(Schema.String)),
   enabled: Schema.optional(Schema.Boolean),
-  minTLS: Schema.optional(Schema.Literal("1.0", "1.1", "1.2", "1.3")),
+  minTLS: Schema.optional(Schema.Literals(["1.0", "1.1", "1.2", "1.3"])),
 }) as unknown as Schema.Schema<UpdateBucketDomainCustomResponse>;
 
 export const updateBucketDomainCustom: (
@@ -1013,7 +1021,7 @@ export const DeleteBucketDomainCustomRequest = Schema.Struct({
   domain: Schema.String.pipe(T.HttpPath("domain")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   jurisdiction: Schema.optional(
-    Schema.Literal("default", "eu", "fedramp"),
+    Schema.Literals(["default", "eu", "fedramp"]),
   ).pipe(T.HttpHeader("cf-r2-jurisdiction")),
 }).pipe(
   T.Http({
@@ -1059,7 +1067,7 @@ export const ListBucketDomainManagedsRequest = Schema.Struct({
   bucketName: Schema.String.pipe(T.HttpPath("bucketName")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   jurisdiction: Schema.optional(
-    Schema.Literal("default", "eu", "fedramp"),
+    Schema.Literals(["default", "eu", "fedramp"]),
   ).pipe(T.HttpHeader("cf-r2-jurisdiction")),
 }).pipe(
   T.Http({
@@ -1109,7 +1117,7 @@ export const PutBucketDomainManagedRequest = Schema.Struct({
   bucketName: Schema.String.pipe(T.HttpPath("bucketName")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   jurisdiction: Schema.optional(
-    Schema.Literal("default", "eu", "fedramp"),
+    Schema.Literals(["default", "eu", "fedramp"]),
   ).pipe(T.HttpHeader("cf-r2-jurisdiction")),
   enabled: Schema.Boolean,
 }).pipe(
@@ -1164,7 +1172,7 @@ export const GetBucketEventNotificationRequest = Schema.Struct({
   queueId: Schema.String.pipe(T.HttpPath("queueId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   jurisdiction: Schema.optional(
-    Schema.Literal("default", "eu", "fedramp"),
+    Schema.Literals(["default", "eu", "fedramp"]),
   ).pipe(T.HttpHeader("cf-r2-jurisdiction")),
 }).pipe(
   T.Http({
@@ -1201,13 +1209,13 @@ export const GetBucketEventNotificationResponse = Schema.Struct({
     Schema.Array(
       Schema.Struct({
         actions: Schema.Array(
-          Schema.Literal(
+          Schema.Literals([
             "PutObject",
             "CopyObject",
             "DeleteObject",
             "CompleteMultipartUpload",
             "LifecycleDeletion",
-          ),
+          ]),
         ),
         createdAt: Schema.optional(Schema.String),
         description: Schema.optional(Schema.String),
@@ -1243,7 +1251,7 @@ export const ListBucketEventNotificationsRequest = Schema.Struct({
   bucketName: Schema.String.pipe(T.HttpPath("bucketName")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   jurisdiction: Schema.optional(
-    Schema.Literal("default", "eu", "fedramp"),
+    Schema.Literals(["default", "eu", "fedramp"]),
   ).pipe(T.HttpHeader("cf-r2-jurisdiction")),
 }).pipe(
   T.Http({
@@ -1287,13 +1295,13 @@ export const ListBucketEventNotificationsResponse = Schema.Struct({
           Schema.Array(
             Schema.Struct({
               actions: Schema.Array(
-                Schema.Literal(
+                Schema.Literals([
                   "PutObject",
                   "CopyObject",
                   "DeleteObject",
                   "CompleteMultipartUpload",
                   "LifecycleDeletion",
-                ),
+                ]),
               ),
               createdAt: Schema.optional(Schema.String),
               description: Schema.optional(Schema.String),
@@ -1356,18 +1364,18 @@ export const PutBucketEventNotificationRequest = Schema.Struct({
   queueId: Schema.String.pipe(T.HttpPath("queueId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   jurisdiction: Schema.optional(
-    Schema.Literal("default", "eu", "fedramp"),
+    Schema.Literals(["default", "eu", "fedramp"]),
   ).pipe(T.HttpHeader("cf-r2-jurisdiction")),
   rules: Schema.Array(
     Schema.Struct({
       actions: Schema.Array(
-        Schema.Literal(
+        Schema.Literals([
           "PutObject",
           "CopyObject",
           "DeleteObject",
           "CompleteMultipartUpload",
           "LifecycleDeletion",
-        ),
+        ]),
       ),
       description: Schema.optional(Schema.String),
       prefix: Schema.optional(Schema.String),
@@ -1412,7 +1420,7 @@ export const DeleteBucketEventNotificationRequest = Schema.Struct({
   queueId: Schema.String.pipe(T.HttpPath("queueId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   jurisdiction: Schema.optional(
-    Schema.Literal("default", "eu", "fedramp"),
+    Schema.Literals(["default", "eu", "fedramp"]),
   ).pipe(T.HttpHeader("cf-r2-jurisdiction")),
 }).pipe(
   T.Http({
@@ -1454,7 +1462,7 @@ export const GetBucketLifecycleRequest = Schema.Struct({
   bucketName: Schema.String.pipe(T.HttpPath("bucketName")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   jurisdiction: Schema.optional(
-    Schema.Literal("default", "eu", "fedramp"),
+    Schema.Literals(["default", "eu", "fedramp"]),
   ).pipe(T.HttpHeader("cf-r2-jurisdiction")),
 }).pipe(
   T.Http({
@@ -1507,7 +1515,7 @@ export const GetBucketLifecycleResponse = Schema.Struct({
         deleteObjectsTransition: Schema.optional(
           Schema.Struct({
             condition: Schema.optional(
-              Schema.Union(
+              Schema.Union([
                 Schema.Struct({
                   maxAge: Schema.Number,
                   type: Schema.Literal("Age"),
@@ -1516,14 +1524,14 @@ export const GetBucketLifecycleResponse = Schema.Struct({
                   date: Schema.String,
                   type: Schema.Literal("Date"),
                 }),
-              ),
+              ]),
             ),
           }),
         ),
         storageClassTransitions: Schema.optional(
           Schema.Array(
             Schema.Struct({
-              condition: Schema.Union(
+              condition: Schema.Union([
                 Schema.Struct({
                   maxAge: Schema.Number,
                   type: Schema.Literal("Age"),
@@ -1532,7 +1540,7 @@ export const GetBucketLifecycleResponse = Schema.Struct({
                   date: Schema.String,
                   type: Schema.Literal("Date"),
                 }),
-              ),
+              ]),
               storageClass: Schema.Literal("InfrequentAccess"),
             }),
           ),
@@ -1586,7 +1594,7 @@ export const PutBucketLifecycleRequest = Schema.Struct({
   bucketName: Schema.String.pipe(T.HttpPath("bucketName")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   jurisdiction: Schema.optional(
-    Schema.Literal("default", "eu", "fedramp"),
+    Schema.Literals(["default", "eu", "fedramp"]),
   ).pipe(T.HttpHeader("cf-r2-jurisdiction")),
   rules: Schema.optional(
     Schema.Array(
@@ -1609,7 +1617,7 @@ export const PutBucketLifecycleRequest = Schema.Struct({
         deleteObjectsTransition: Schema.optional(
           Schema.Struct({
             condition: Schema.optional(
-              Schema.Union(
+              Schema.Union([
                 Schema.Struct({
                   maxAge: Schema.Number,
                   type: Schema.Literal("Age"),
@@ -1618,14 +1626,14 @@ export const PutBucketLifecycleRequest = Schema.Struct({
                   date: Schema.String,
                   type: Schema.Literal("Date"),
                 }),
-              ),
+              ]),
             ),
           }),
         ),
         storageClassTransitions: Schema.optional(
           Schema.Array(
             Schema.Struct({
-              condition: Schema.Union(
+              condition: Schema.Union([
                 Schema.Struct({
                   maxAge: Schema.Number,
                   type: Schema.Literal("Age"),
@@ -1634,7 +1642,7 @@ export const PutBucketLifecycleRequest = Schema.Struct({
                   date: Schema.String,
                   type: Schema.Literal("Date"),
                 }),
-              ),
+              ]),
               storageClass: Schema.Literal("InfrequentAccess"),
             }),
           ),
@@ -1682,7 +1690,7 @@ export const GetBucketLockRequest = Schema.Struct({
   bucketName: Schema.String.pipe(T.HttpPath("bucketName")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   jurisdiction: Schema.optional(
-    Schema.Literal("default", "eu", "fedramp"),
+    Schema.Literals(["default", "eu", "fedramp"]),
   ).pipe(T.HttpHeader("cf-r2-jurisdiction")),
 }).pipe(
   T.Http({
@@ -1708,7 +1716,7 @@ export const GetBucketLockResponse = Schema.Struct({
     Schema.Array(
       Schema.Struct({
         id: Schema.String,
-        condition: Schema.Union(
+        condition: Schema.Union([
           Schema.Struct({
             maxAgeSeconds: Schema.Number,
             type: Schema.Literal("Age"),
@@ -1720,7 +1728,7 @@ export const GetBucketLockResponse = Schema.Struct({
           Schema.Struct({
             type: Schema.Literal("Indefinite"),
           }),
-        ),
+        ]),
         enabled: Schema.Boolean,
         prefix: Schema.optional(Schema.String),
       }),
@@ -1762,13 +1770,13 @@ export const PutBucketLockRequest = Schema.Struct({
   bucketName: Schema.String.pipe(T.HttpPath("bucketName")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   jurisdiction: Schema.optional(
-    Schema.Literal("default", "eu", "fedramp"),
+    Schema.Literals(["default", "eu", "fedramp"]),
   ).pipe(T.HttpHeader("cf-r2-jurisdiction")),
   rules: Schema.optional(
     Schema.Array(
       Schema.Struct({
         id: Schema.String,
-        condition: Schema.Union(
+        condition: Schema.Union([
           Schema.Struct({
             maxAgeSeconds: Schema.Number,
             type: Schema.Literal("Age"),
@@ -1780,7 +1788,7 @@ export const PutBucketLockRequest = Schema.Struct({
           Schema.Struct({
             type: Schema.Literal("Indefinite"),
           }),
-        ),
+        ]),
         enabled: Schema.Boolean,
         prefix: Schema.optional(Schema.String),
       }),
@@ -1921,7 +1929,7 @@ export const GetBucketSippyRequest = Schema.Struct({
   bucketName: Schema.String.pipe(T.HttpPath("bucketName")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   jurisdiction: Schema.optional(
-    Schema.Literal("default", "eu", "fedramp"),
+    Schema.Literals(["default", "eu", "fedramp"]),
   ).pipe(T.HttpHeader("cf-r2-jurisdiction")),
 }).pipe(
   T.Http({
@@ -1961,10 +1969,10 @@ export const GetBucketSippyResponse = Schema.Struct({
   enabled: Schema.optional(Schema.Boolean),
   source: Schema.optional(
     Schema.Struct({
-      bucket: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
-      bucketUrl: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
-      provider: Schema.optional(Schema.Literal("aws", "gcs", "s3")),
-      region: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
+      bucket: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      bucketUrl: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      provider: Schema.optional(Schema.Literals(["aws", "gcs", "s3"])),
+      region: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     }),
   ),
 }) as unknown as Schema.Schema<GetBucketSippyResponse>;
@@ -2025,10 +2033,10 @@ export const PutBucketSippyResponse = Schema.Struct({
   enabled: Schema.optional(Schema.Boolean),
   source: Schema.optional(
     Schema.Struct({
-      bucket: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
-      bucketUrl: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
-      provider: Schema.optional(Schema.Literal("aws", "gcs", "s3")),
-      region: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
+      bucket: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      bucketUrl: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      provider: Schema.optional(Schema.Literals(["aws", "gcs", "s3"])),
+      region: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     }),
   ),
 }) as unknown as Schema.Schema<PutBucketSippyResponse>;
@@ -2057,7 +2065,7 @@ export const DeleteBucketSippyRequest = Schema.Struct({
   bucketName: Schema.String.pipe(T.HttpPath("bucketName")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   jurisdiction: Schema.optional(
-    Schema.Literal("default", "eu", "fedramp"),
+    Schema.Literals(["default", "eu", "fedramp"]),
   ).pipe(T.HttpHeader("cf-r2-jurisdiction")),
 }).pipe(
   T.Http({
@@ -2106,7 +2114,7 @@ export interface SourceSuperSlurperConnectivityPrecheckResponse {
 }
 
 export const SourceSuperSlurperConnectivityPrecheckResponse = Schema.Struct({
-  connectivityStatus: Schema.optional(Schema.Literal("success", "error")),
+  connectivityStatus: Schema.optional(Schema.Literals(["success", "error"])),
 }) as unknown as Schema.Schema<SourceSuperSlurperConnectivityPrecheckResponse>;
 
 export const sourceSuperSlurperConnectivityPrecheck: (
@@ -2142,7 +2150,7 @@ export const TargetSuperSlurperConnectivityPrecheckRequest = Schema.Struct({
     secretAccessKey: Schema.String,
   }),
   vendor: Schema.Literal("r2"),
-  jurisdiction: Schema.optional(Schema.Literal("default", "eu", "fedramp")),
+  jurisdiction: Schema.optional(Schema.Literals(["default", "eu", "fedramp"])),
 }).pipe(
   T.Http({
     method: "PUT",
@@ -2155,7 +2163,7 @@ export interface TargetSuperSlurperConnectivityPrecheckResponse {
 }
 
 export const TargetSuperSlurperConnectivityPrecheckResponse = Schema.Struct({
-  connectivityStatus: Schema.optional(Schema.Literal("success", "error")),
+  connectivityStatus: Schema.optional(Schema.Literals(["success", "error"])),
 }) as unknown as Schema.Schema<TargetSuperSlurperConnectivityPrecheckResponse>;
 
 export const targetSuperSlurperConnectivityPrecheck: (
@@ -2226,47 +2234,47 @@ export interface GetSuperSlurperJobResponse {
 export const GetSuperSlurperJobResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
   createdAt: Schema.optional(Schema.String),
-  finishedAt: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
+  finishedAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   overwrite: Schema.optional(Schema.Boolean),
   source: Schema.optional(
-    Schema.Union(
+    Schema.Union([
       Schema.Struct({
         bucket: Schema.optional(Schema.String),
-        endpoint: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
+        endpoint: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
         keys: Schema.optional(
-          Schema.Union(Schema.Array(Schema.String), Schema.Null),
+          Schema.Union([Schema.Array(Schema.String), Schema.Null]),
         ),
-        pathPrefix: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
+        pathPrefix: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
         vendor: Schema.optional(Schema.Literal("s3")),
       }),
       Schema.Struct({
         bucket: Schema.optional(Schema.String),
         keys: Schema.optional(
-          Schema.Union(Schema.Array(Schema.String), Schema.Null),
+          Schema.Union([Schema.Array(Schema.String), Schema.Null]),
         ),
-        pathPrefix: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
+        pathPrefix: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
         vendor: Schema.optional(Schema.Literal("gcs")),
       }),
       Schema.Struct({
         bucket: Schema.optional(Schema.String),
         jurisdiction: Schema.optional(
-          Schema.Literal("default", "eu", "fedramp"),
+          Schema.Literals(["default", "eu", "fedramp"]),
         ),
         keys: Schema.optional(
-          Schema.Union(Schema.Array(Schema.String), Schema.Null),
+          Schema.Union([Schema.Array(Schema.String), Schema.Null]),
         ),
-        pathPrefix: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
+        pathPrefix: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
         vendor: Schema.optional(Schema.Literal("r2")),
       }),
-    ),
+    ]),
   ),
   status: Schema.optional(
-    Schema.Literal("running", "paused", "aborted", "completed"),
+    Schema.Literals(["running", "paused", "aborted", "completed"]),
   ),
   target: Schema.optional(
     Schema.Struct({
       bucket: Schema.optional(Schema.String),
-      jurisdiction: Schema.optional(Schema.Literal("default", "eu", "fedramp")),
+      jurisdiction: Schema.optional(Schema.Literals(["default", "eu", "fedramp"])),
       vendor: Schema.optional(Schema.Literal("r2")),
     }),
   ),
@@ -2325,7 +2333,7 @@ export const CreateSuperSlurperJobRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   overwrite: Schema.optional(Schema.Boolean),
   source: Schema.optional(
-    Schema.Union(
+    Schema.Union([
       Schema.Struct({
         bucket: Schema.String,
         secret: Schema.Struct({
@@ -2333,9 +2341,9 @@ export const CreateSuperSlurperJobRequest = Schema.Struct({
           secretAccessKey: Schema.String,
         }),
         vendor: Schema.Literal("s3"),
-        endpoint: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
-        pathPrefix: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
-        region: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
+        endpoint: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        pathPrefix: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        region: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
       }),
       Schema.Struct({
         bucket: Schema.String,
@@ -2344,7 +2352,7 @@ export const CreateSuperSlurperJobRequest = Schema.Struct({
           privateKey: Schema.String,
         }),
         vendor: Schema.Literal("gcs"),
-        pathPrefix: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
+        pathPrefix: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
       }),
       Schema.Struct({
         bucket: Schema.String,
@@ -2354,11 +2362,11 @@ export const CreateSuperSlurperJobRequest = Schema.Struct({
         }),
         vendor: Schema.Literal("r2"),
         jurisdiction: Schema.optional(
-          Schema.Literal("default", "eu", "fedramp"),
+          Schema.Literals(["default", "eu", "fedramp"]),
         ),
-        pathPrefix: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
+        pathPrefix: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
       }),
-    ),
+    ]),
   ),
   target: Schema.optional(
     Schema.Struct({
@@ -2368,7 +2376,7 @@ export const CreateSuperSlurperJobRequest = Schema.Struct({
         secretAccessKey: Schema.String,
       }),
       vendor: Schema.Literal("r2"),
-      jurisdiction: Schema.optional(Schema.Literal("default", "eu", "fedramp")),
+      jurisdiction: Schema.optional(Schema.Literals(["default", "eu", "fedramp"])),
     }),
   ),
 }).pipe(
@@ -2491,7 +2499,7 @@ export const ProgressSuperSlurperJobResponse = Schema.Struct({
   objects: Schema.optional(Schema.Number),
   skippedObjects: Schema.optional(Schema.Number),
   status: Schema.optional(
-    Schema.Literal("running", "paused", "aborted", "completed"),
+    Schema.Literals(["running", "paused", "aborted", "completed"]),
   ),
   transferredObjects: Schema.optional(Schema.Number),
 }) as unknown as Schema.Schema<ProgressSuperSlurperJobResponse>;
@@ -2569,12 +2577,12 @@ export const CreateTemporaryCredentialRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   bucket: Schema.String,
   parentAccessKeyId: Schema.String,
-  permission: Schema.Literal(
+  permission: Schema.Literals([
     "admin-read-write",
     "admin-read-only",
     "object-read-write",
     "object-read-only",
-  ),
+  ]),
   ttlSeconds: Schema.Number,
   objects: Schema.optional(Schema.Array(Schema.String)),
   prefixes: Schema.optional(Schema.Array(Schema.String)),

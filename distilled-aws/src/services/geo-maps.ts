@@ -1,4 +1,4 @@
-import { HttpClient } from "@effect/platform";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as effect from "effect/Effect";
 import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
@@ -176,20 +176,17 @@ export type DistanceMeters = number;
 export type ScaleBarUnit = string;
 export type StaticMapStyle = string;
 export type SensitiveFloat = number;
+export type ValidationExceptionReason = string;
 export type Terrain = string;
 export type ContourDensity = string;
 export type Traffic = string;
 export type TravelMode = string;
+export type Buildings = string;
 export type TileAdditionalFeature = string;
 export type Tileset = string;
 export type SensitiveString = string | redacted.Redacted<string>;
-export type ValidationExceptionReason = string;
 
 //# Schemas
-export type TravelModeList = string[];
-export const TravelModeList = S.Array(S.String);
-export type TileAdditionalFeatureList = string[];
-export const TileAdditionalFeatureList = S.Array(S.String);
 export interface GetGlyphsRequest {
   FontStack: string;
   FontUnicodeRange: string;
@@ -208,9 +205,25 @@ export const GetGlyphsRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "GetGlyphsRequest",
 }) as any as S.Schema<GetGlyphsRequest>;
+export interface GetGlyphsResponse {
+  Blob?: Uint8Array;
+  ContentType?: string;
+  CacheControl?: string;
+  ETag?: string;
+}
+export const GetGlyphsResponse = S.suspend(() =>
+  S.Struct({
+    Blob: S.optional(T.Blob).pipe(T.HttpPayload()),
+    ContentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
+    CacheControl: S.optional(S.String).pipe(T.HttpHeader("Cache-Control")),
+    ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
+  }),
+).annotate({
+  identifier: "GetGlyphsResponse",
+}) as any as S.Schema<GetGlyphsResponse>;
 export interface GetSpritesRequest {
   FileName: string;
   Style: string;
@@ -236,9 +249,25 @@ export const GetSpritesRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "GetSpritesRequest",
 }) as any as S.Schema<GetSpritesRequest>;
+export interface GetSpritesResponse {
+  Blob?: Uint8Array;
+  ContentType?: string;
+  CacheControl?: string;
+  ETag?: string;
+}
+export const GetSpritesResponse = S.suspend(() =>
+  S.Struct({
+    Blob: S.optional(T.Blob).pipe(T.HttpPayload()),
+    ContentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
+    CacheControl: S.optional(S.String).pipe(T.HttpHeader("Cache-Control")),
+    ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
+  }),
+).annotate({
+  identifier: "GetSpritesResponse",
+}) as any as S.Schema<GetSpritesResponse>;
 export interface GetStaticMapRequest {
   BoundingBox?: string | redacted.Redacted<string>;
   BoundedPositions?: string | redacted.Redacted<string>;
@@ -301,9 +330,42 @@ export const GetStaticMapRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "GetStaticMapRequest",
 }) as any as S.Schema<GetStaticMapRequest>;
+export interface GetStaticMapResponse {
+  Blob?: Uint8Array;
+  ContentType?: string;
+  CacheControl?: string;
+  ETag?: string;
+  PricingBucket: string;
+}
+export const GetStaticMapResponse = S.suspend(() =>
+  S.Struct({
+    Blob: S.optional(T.Blob).pipe(T.HttpPayload()),
+    ContentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
+    CacheControl: S.optional(S.String).pipe(T.HttpHeader("Cache-Control")),
+    ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
+    PricingBucket: S.String.pipe(T.HttpHeader("x-amz-geo-pricing-bucket")),
+  }),
+).annotate({
+  identifier: "GetStaticMapResponse",
+}) as any as S.Schema<GetStaticMapResponse>;
+export interface ValidationExceptionField {
+  Name: string;
+  Message: string;
+}
+export const ValidationExceptionField = S.suspend(() =>
+  S.Struct({ Name: S.String, Message: S.String }).pipe(
+    S.encodeKeys({ Name: "name", Message: "message" }),
+  ),
+).annotate({
+  identifier: "ValidationExceptionField",
+}) as any as S.Schema<ValidationExceptionField>;
+export type ValidationExceptionFieldList = ValidationExceptionField[];
+export const ValidationExceptionFieldList = S.Array(ValidationExceptionField);
+export type TravelModeList = string[];
+export const TravelModeList = S.Array(S.String);
 export interface GetStyleDescriptorRequest {
   Style: string;
   ColorScheme?: string;
@@ -312,6 +374,7 @@ export interface GetStyleDescriptorRequest {
   ContourDensity?: string;
   Traffic?: string;
   TravelModes?: string[];
+  Buildings?: string;
   Key?: string | redacted.Redacted<string>;
 }
 export const GetStyleDescriptorRequest = S.suspend(() =>
@@ -325,6 +388,7 @@ export const GetStyleDescriptorRequest = S.suspend(() =>
     ContourDensity: S.optional(S.String).pipe(T.HttpQuery("contour-density")),
     Traffic: S.optional(S.String).pipe(T.HttpQuery("traffic")),
     TravelModes: S.optional(TravelModeList).pipe(T.HttpQuery("travel-modes")),
+    Buildings: S.optional(S.String).pipe(T.HttpQuery("buildings")),
     Key: S.optional(SensitiveString).pipe(T.HttpQuery("key")),
   }).pipe(
     T.all(
@@ -336,9 +400,27 @@ export const GetStyleDescriptorRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "GetStyleDescriptorRequest",
 }) as any as S.Schema<GetStyleDescriptorRequest>;
+export interface GetStyleDescriptorResponse {
+  Blob?: Uint8Array;
+  ContentType?: string;
+  CacheControl?: string;
+  ETag?: string;
+}
+export const GetStyleDescriptorResponse = S.suspend(() =>
+  S.Struct({
+    Blob: S.optional(T.Blob).pipe(T.HttpPayload()),
+    ContentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
+    CacheControl: S.optional(S.String).pipe(T.HttpHeader("Cache-Control")),
+    ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
+  }),
+).annotate({
+  identifier: "GetStyleDescriptorResponse",
+}) as any as S.Schema<GetStyleDescriptorResponse>;
+export type TileAdditionalFeatureList = string[];
+export const TileAdditionalFeatureList = S.Array(S.String);
 export interface GetTileRequest {
   AdditionalFeatures?: string[];
   Tileset: string;
@@ -367,75 +449,7 @@ export const GetTileRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
-  identifier: "GetTileRequest",
-}) as any as S.Schema<GetTileRequest>;
-export interface GetGlyphsResponse {
-  Blob?: Uint8Array;
-  ContentType?: string;
-  CacheControl?: string;
-  ETag?: string;
-}
-export const GetGlyphsResponse = S.suspend(() =>
-  S.Struct({
-    Blob: S.optional(T.Blob).pipe(T.HttpPayload()),
-    ContentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
-    CacheControl: S.optional(S.String).pipe(T.HttpHeader("Cache-Control")),
-    ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
-  }),
-).annotations({
-  identifier: "GetGlyphsResponse",
-}) as any as S.Schema<GetGlyphsResponse>;
-export interface GetSpritesResponse {
-  Blob?: Uint8Array;
-  ContentType?: string;
-  CacheControl?: string;
-  ETag?: string;
-}
-export const GetSpritesResponse = S.suspend(() =>
-  S.Struct({
-    Blob: S.optional(T.Blob).pipe(T.HttpPayload()),
-    ContentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
-    CacheControl: S.optional(S.String).pipe(T.HttpHeader("Cache-Control")),
-    ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
-  }),
-).annotations({
-  identifier: "GetSpritesResponse",
-}) as any as S.Schema<GetSpritesResponse>;
-export interface GetStaticMapResponse {
-  Blob?: Uint8Array;
-  ContentType?: string;
-  CacheControl?: string;
-  ETag?: string;
-  PricingBucket: string;
-}
-export const GetStaticMapResponse = S.suspend(() =>
-  S.Struct({
-    Blob: S.optional(T.Blob).pipe(T.HttpPayload()),
-    ContentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
-    CacheControl: S.optional(S.String).pipe(T.HttpHeader("Cache-Control")),
-    ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
-    PricingBucket: S.String.pipe(T.HttpHeader("x-amz-geo-pricing-bucket")),
-  }),
-).annotations({
-  identifier: "GetStaticMapResponse",
-}) as any as S.Schema<GetStaticMapResponse>;
-export interface GetStyleDescriptorResponse {
-  Blob?: Uint8Array;
-  ContentType?: string;
-  CacheControl?: string;
-  ETag?: string;
-}
-export const GetStyleDescriptorResponse = S.suspend(() =>
-  S.Struct({
-    Blob: S.optional(T.Blob).pipe(T.HttpPayload()),
-    ContentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
-    CacheControl: S.optional(S.String).pipe(T.HttpHeader("Cache-Control")),
-    ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
-  }),
-).annotations({
-  identifier: "GetStyleDescriptorResponse",
-}) as any as S.Schema<GetStyleDescriptorResponse>;
+).annotate({ identifier: "GetTileRequest" }) as any as S.Schema<GetTileRequest>;
 export interface GetTileResponse {
   Blob?: Uint8Array;
   ContentType?: string;
@@ -451,50 +465,36 @@ export const GetTileResponse = S.suspend(() =>
     ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
     PricingBucket: S.String.pipe(T.HttpHeader("x-amz-geo-pricing-bucket")),
   }),
-).annotations({
+).annotate({
   identifier: "GetTileResponse",
 }) as any as S.Schema<GetTileResponse>;
-export interface ValidationExceptionField {
-  Name: string;
-  Message: string;
-}
-export const ValidationExceptionField = S.suspend(() =>
-  S.Struct({
-    Name: S.String.pipe(T.JsonName("name")),
-    Message: S.String.pipe(T.JsonName("message")),
-  }),
-).annotations({
-  identifier: "ValidationExceptionField",
-}) as any as S.Schema<ValidationExceptionField>;
-export type ValidationExceptionFieldList = ValidationExceptionField[];
-export const ValidationExceptionFieldList = S.Array(ValidationExceptionField);
 
 //# Errors
-export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
+export class AccessDeniedException extends S.TaggedErrorClass<AccessDeniedException>()(
   "AccessDeniedException",
-  { Message: S.String.pipe(T.JsonName("message")) },
+  { Message: S.String },
 ).pipe(C.withAuthError) {}
-export class InternalServerException extends S.TaggedError<InternalServerException>()(
+export class InternalServerException extends S.TaggedErrorClass<InternalServerException>()(
   "InternalServerException",
-  { Message: S.String.pipe(T.JsonName("message")) },
+  { Message: S.String },
   T.Retryable(),
 ).pipe(C.withServerError, C.withRetryableError) {}
-export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
+export class ThrottlingException extends S.TaggedErrorClass<ThrottlingException>()(
   "ThrottlingException",
-  { Message: S.String.pipe(T.JsonName("message")) },
+  { Message: S.String },
   T.Retryable(),
 ).pipe(C.withThrottlingError, C.withRetryableError) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
-  "ResourceNotFoundException",
-  { Message: S.String.pipe(T.JsonName("message")) },
-).pipe(C.withBadRequestError) {}
-export class ValidationException extends S.TaggedError<ValidationException>()(
+export class ValidationException extends S.TaggedErrorClass<ValidationException>()(
   "ValidationException",
   {
-    Message: S.String.pipe(T.JsonName("message")),
-    Reason: S.String.pipe(T.JsonName("reason")),
-    FieldList: ValidationExceptionFieldList.pipe(T.JsonName("fieldList")),
+    Message: S.String,
+    Reason: S.String,
+    FieldList: ValidationExceptionFieldList,
   },
+).pipe(C.withBadRequestError) {}
+export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFoundException>()(
+  "ResourceNotFoundException",
+  { Message: S.String },
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
@@ -531,22 +531,6 @@ export const getSprites: (
   errors: [],
 }));
 /**
- * `GetStyleDescriptor` returns information about the style.
- *
- * For more information, see Style dynamic maps in the *Amazon Location Service Developer Guide*.
- */
-export const getStyleDescriptor: (
-  input: GetStyleDescriptorRequest,
-) => effect.Effect<
-  GetStyleDescriptorResponse,
-  CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetStyleDescriptorRequest,
-  output: GetStyleDescriptorResponse,
-  errors: [],
-}));
-/**
  * `GetStaticMap` provides high-quality static map images with customizable options. You can modify the map's appearance and overlay additional information. It's an ideal solution for applications requiring tailored static map snapshots.
  *
  * For more information, see the following topics in the *Amazon Location Service Developer Guide*:
@@ -576,6 +560,22 @@ export const getStaticMap: (
     ThrottlingException,
     ValidationException,
   ],
+}));
+/**
+ * `GetStyleDescriptor` returns information about the style.
+ *
+ * For more information, see Style dynamic maps in the *Amazon Location Service Developer Guide*.
+ */
+export const getStyleDescriptor: (
+  input: GetStyleDescriptorRequest,
+) => effect.Effect<
+  GetStyleDescriptorResponse,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetStyleDescriptorRequest,
+  output: GetStyleDescriptorResponse,
+  errors: [],
 }));
 /**
  * `GetTile` returns a tile. Map tiles are used by clients to render a map. they're addressed using a grid arrangement with an X coordinate, Y coordinate, and Z (zoom) level.

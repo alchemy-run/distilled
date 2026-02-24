@@ -1,4 +1,4 @@
-import { HttpClient } from "@effect/platform";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as effect from "effect/Effect";
 import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
@@ -111,7 +111,7 @@ export const GetBuyerDashboardInput = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "GetBuyerDashboardInput",
 }) as any as S.Schema<GetBuyerDashboardInput>;
 export interface GetBuyerDashboardOutput {
@@ -125,24 +125,24 @@ export const GetBuyerDashboardOutput = S.suspend(() =>
     dashboardIdentifier: S.String,
     embeddingDomains: EmbeddingDomains,
   }),
-).annotations({
+).annotate({
   identifier: "GetBuyerDashboardOutput",
 }) as any as S.Schema<GetBuyerDashboardOutput>;
 
 //# Errors
-export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
+export class AccessDeniedException extends S.TaggedErrorClass<AccessDeniedException>()(
   "AccessDeniedException",
   { message: S.optional(S.String) },
 ).pipe(C.withAuthError) {}
-export class BadRequestException extends S.TaggedError<BadRequestException>()(
+export class BadRequestException extends S.TaggedErrorClass<BadRequestException>()(
   "BadRequestException",
   { message: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
-export class InternalServerException extends S.TaggedError<InternalServerException>()(
+export class InternalServerException extends S.TaggedErrorClass<InternalServerException>()(
   "InternalServerException",
   { message: S.optional(S.String) },
 ).pipe(C.withServerError) {}
-export class UnauthorizedException extends S.TaggedError<UnauthorizedException>()(
+export class UnauthorizedException extends S.TaggedErrorClass<UnauthorizedException>()(
   "UnauthorizedException",
   { message: S.optional(S.String) },
 ).pipe(C.withAuthError) {}

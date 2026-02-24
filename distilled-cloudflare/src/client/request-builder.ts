@@ -27,7 +27,7 @@ export interface ProtocolRequest {
  * annotations (path, query, header, body).
  */
 export const buildRequest = <I>(
-  inputSchema: Schema.Schema<I, unknown>,
+  inputSchema: Schema.Schema<I>,
   payload: I,
 ): ProtocolRequest => {
   const ast = inputSchema.ast;
@@ -44,10 +44,10 @@ export const buildRequest = <I>(
   let body: unknown = undefined;
   let contentType: string | undefined = undefined;
 
-  // Encode the payload through the schema to get wire-format keys.
-  // This handles all fromKey/JsonName transformations (camelCase → snake_case)
-  // for nested body objects automatically.
-  const encodedPayload = Schema.encodeSync(inputSchema)(payload);
+  // Encode the payload through the schema.
+  // Note: In Effect v4, per-property key renaming (fromKey) was removed.
+  // Body key remapping is handled via T.JsonName annotations below.
+  const encodedPayload = Schema.encodeSync(inputSchema as any)(payload);
   const encodedRecord = encodedPayload as Record<string, unknown>;
 
   // Get struct properties from the encoded (wire) side of the AST.
@@ -89,26 +89,31 @@ export const buildRequest = <I>(
 
     // Check for body
     if (T.hasHttpBody(prop)) {
-      body = value;
+      // Check if this is FormData
+      if (T.hasHttpFormData(prop)) {
+        body = value;
+        contentType = "multipart/form-data";
+      } else {
+        // Recursively remap camelCase keys to wire-format (snake_case) using JsonName annotations
+        body = remapKeysForEncode(value, prop.type);
+      }
       // Check for custom content type on the body
       const propContentType = T.getHttpContentType(prop);
       if (propContentType) {
         contentType = propContentType;
       }
-      // Check if this is FormData
-      if (T.hasHttpFormData(prop)) {
-        contentType = "multipart/form-data";
-      }
       continue;
     }
 
     // Default: add to body if it's an object property with no annotation.
-    // The value is already in wire format (snake_case keys) from encoding.
+    // Use JsonName annotation for wire-format key if present (camelCase → snake_case).
+    const wireName = T.getJsonName(prop) ?? name;
     if (body === undefined) {
       body = {};
     }
     if (typeof body === "object" && body !== null) {
-      (body as Record<string, unknown>)[name] = value;
+      // Recursively remap nested object keys to wire-format
+      (body as Record<string, unknown>)[wireName] = remapKeysForEncode(value, prop.type);
     }
   }
 
@@ -131,21 +136,85 @@ export const buildRequest = <I>(
 };
 
 /**
+ * Recursively remap keys from schema format (camelCase) to wire format (snake_case)
+ * using JsonName annotations in the schema AST.
+ *
+ * This is the inverse of remapKeysForDecode in response-parser.ts.
+ */
+function remapKeysForEncode(data: unknown, ast: AST.AST): unknown {
+  if (data === null || data === undefined || typeof data !== "object") {
+    return data;
+  }
+
+  // Follow encoding chain
+  if (ast.encoding && ast.encoding.length > 0) {
+    return remapKeysForEncode(data, ast.encoding[0].to);
+  }
+
+  // Unwrap Suspend
+  if (ast._tag === "Suspend") {
+    return remapKeysForEncode(data, ast.thunk());
+  }
+
+  // Handle arrays
+  if (Array.isArray(data)) {
+    if (ast._tag === "Arrays" && ast.rest.length > 0) {
+      return data.map((item) => remapKeysForEncode(item, ast.rest[0]));
+    }
+    return data;
+  }
+
+  // Handle objects (struct schemas)
+  if (ast._tag === "Objects") {
+    const record = data as Record<string, unknown>;
+    const result: Record<string, unknown> = {};
+
+    for (const prop of ast.propertySignatures) {
+      const schemaName = String(prop.name);
+      const wireName = T.getJsonName(prop) ?? schemaName;
+      const value = record[schemaName];
+
+      if (value !== undefined) {
+        result[wireName] = remapKeysForEncode(value, prop.type);
+      }
+    }
+
+    return result;
+  }
+
+  // Handle Union types - recurse through to find Objects/Arrays member
+  if (ast._tag === "Union") {
+    for (const member of ast.types) {
+      if (
+        member._tag === "Objects" ||
+        member._tag === "Union" ||
+        member._tag === "Arrays" ||
+        (member.encoding && member.encoding.length > 0)
+      ) {
+        return remapKeysForEncode(data, member);
+      }
+    }
+  }
+
+  return data;
+}
+
+/**
  * Extract property signatures from an AST, handling transformations and suspends.
  */
 function getStructProperties(ast: AST.AST): AST.PropertySignature[] {
-  // Unwrap transformations (S.Class creates these)
-  if (ast._tag === "Transformation") {
-    return getStructProperties(ast.from);
+  // v4: Follow encoding chain instead of Transformation
+  if (ast.encoding && ast.encoding.length > 0) {
+    return getStructProperties(ast.encoding[0].to);
   }
 
   // Unwrap suspends
   if (ast._tag === "Suspend") {
-    return getStructProperties(ast.f());
+    return getStructProperties(ast.thunk());
   }
 
-  // Get properties from TypeLiteral
-  if (ast._tag === "TypeLiteral") {
+  // Get properties from Objects (v4 renamed from TypeLiteral)
+  if (ast._tag === "Objects") {
     return [...ast.propertySignatures];
   }
 

@@ -7,7 +7,7 @@
 
 import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
-import type { HttpClient } from "@effect/platform";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
@@ -22,20 +22,23 @@ import {
 // Errors
 // =============================================================================
 
-export class AdvancedCertificateManagerRequired extends Schema.TaggedError<AdvancedCertificateManagerRequired>()(
+export class AdvancedCertificateManagerRequired extends Schema.TaggedErrorClass<AdvancedCertificateManagerRequired>()(
   "AdvancedCertificateManagerRequired",
   { code: Schema.Number, message: Schema.String },
-).pipe(T.HttpErrorMatchers([{ code: 1450 }])) {}
+) {}
+T.applyErrorMatchers(AdvancedCertificateManagerRequired, [{ code: 1450 }]);
 
-export class InvalidObjectIdentifier extends Schema.TaggedError<InvalidObjectIdentifier>()(
+export class InvalidObjectIdentifier extends Schema.TaggedErrorClass<InvalidObjectIdentifier>()(
   "InvalidObjectIdentifier",
   { code: Schema.Number, message: Schema.String },
-).pipe(T.HttpErrorMatchers([{ code: 7003 }])) {}
+) {}
+T.applyErrorMatchers(InvalidObjectIdentifier, [{ code: 7003 }]);
 
-export class NoStateChange extends Schema.TaggedError<NoStateChange>()(
+export class NoStateChange extends Schema.TaggedErrorClass<NoStateChange>()(
   "NoStateChange",
   { code: Schema.Number, message: Schema.String },
-).pipe(T.HttpErrorMatchers([{ code: 1467 }])) {}
+) {}
+T.applyErrorMatchers(NoStateChange, [{ code: 1467 }]);
 
 // =============================================================================
 // TotalTl
@@ -63,7 +66,7 @@ export interface GetTotalTlResponse {
 
 export const GetTotalTlResponse = Schema.Struct({
   certificateAuthority: Schema.optional(
-    Schema.Literal("google", "lets_encrypt", "ssl_com"),
+    Schema.Literals(["google", "lets_encrypt", "ssl_com"]),
   ).pipe(T.JsonName("certificate_authority")),
   enabled: Schema.optional(Schema.Boolean),
   validityPeriod: Schema.optional(Schema.Number).pipe(
@@ -96,7 +99,7 @@ export const CreateTotalTlRequest = Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
   enabled: Schema.Boolean,
   certificateAuthority: Schema.optional(
-    Schema.Literal("google", "lets_encrypt", "ssl_com"),
+    Schema.Literals(["google", "lets_encrypt", "ssl_com"]),
   ).pipe(T.JsonName("certificate_authority")),
 }).pipe(
   T.Http({ method: "POST", path: "/zones/{zone_id}/acm/total_tls" }),
@@ -113,7 +116,7 @@ export interface CreateTotalTlResponse {
 
 export const CreateTotalTlResponse = Schema.Struct({
   certificateAuthority: Schema.optional(
-    Schema.Literal("google", "lets_encrypt", "ssl_com"),
+    Schema.Literals(["google", "lets_encrypt", "ssl_com"]),
   ).pipe(T.JsonName("certificate_authority")),
   enabled: Schema.optional(Schema.Boolean),
   validityPeriod: Schema.optional(Schema.Number).pipe(

@@ -7,7 +7,7 @@
 
 import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
-import type { HttpClient } from "@effect/platform";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
@@ -22,145 +22,140 @@ import {
 // Errors
 // =============================================================================
 
-export class AddressMapNotFound extends Schema.TaggedError<AddressMapNotFound>()(
+export class AddressMapNotFound extends Schema.TaggedErrorClass<AddressMapNotFound>()(
   "AddressMapNotFound",
   { code: Schema.Number, message: Schema.String },
-).pipe(
-  T.HttpErrorMatchers([
+) {}
+T.applyErrorMatchers(AddressMapNotFound, [
     { code: 1000 },
     { code: 1000, message: { includes: "not_found" } },
-  ]),
-) {}
+  ]);
 
-export class BgpPrefixNotFound extends Schema.TaggedError<BgpPrefixNotFound>()(
+export class BgpPrefixNotFound extends Schema.TaggedErrorClass<BgpPrefixNotFound>()(
   "BgpPrefixNotFound",
   { code: Schema.Number, message: Schema.String },
-).pipe(T.HttpErrorMatchers([{ code: 1002 }])) {}
+) {}
+T.applyErrorMatchers(BgpPrefixNotFound, [{ code: 1002 }]);
 
-export class BindingNotFound extends Schema.TaggedError<BindingNotFound>()(
+export class BindingNotFound extends Schema.TaggedErrorClass<BindingNotFound>()(
   "BindingNotFound",
   { code: Schema.Number, message: Schema.String },
-).pipe(T.HttpErrorMatchers([{ code: 1002 }])) {}
+) {}
+T.applyErrorMatchers(BindingNotFound, [{ code: 1002 }]);
 
-export class DelegationNotFound extends Schema.TaggedError<DelegationNotFound>()(
+export class DelegationNotFound extends Schema.TaggedErrorClass<DelegationNotFound>()(
   "DelegationNotFound",
   { code: Schema.Number, message: Schema.String },
-).pipe(T.HttpErrorMatchers([{ code: 1000 }])) {}
+) {}
+T.applyErrorMatchers(DelegationNotFound, [{ code: 1000 }]);
 
-export class FeatureNotEnabled extends Schema.TaggedError<FeatureNotEnabled>()(
+export class FeatureNotEnabled extends Schema.TaggedErrorClass<FeatureNotEnabled>()(
   "FeatureNotEnabled",
   { code: Schema.Number, message: Schema.String },
-).pipe(
-  T.HttpErrorMatchers([
-    { code: 1002, message: { includes: "address_maps_not_enabled" } },
-  ]),
 ) {}
+T.applyErrorMatchers(FeatureNotEnabled, [
+    { code: 1002, message: { includes: "address_maps_not_enabled" } },
+  ]);
 
-export class InvalidAccountId extends Schema.TaggedError<InvalidAccountId>()(
+export class InvalidAccountId extends Schema.TaggedErrorClass<InvalidAccountId>()(
   "InvalidAccountId",
   { code: Schema.Number, message: Schema.String },
-).pipe(
-  T.HttpErrorMatchers([
-    { code: 7003, message: { includes: "Could not route" } },
-  ]),
 ) {}
+T.applyErrorMatchers(InvalidAccountId, [
+    { code: 7003, message: { includes: "Could not route" } },
+  ]);
 
-export class InvalidHostname extends Schema.TaggedError<InvalidHostname>()(
+export class InvalidHostname extends Schema.TaggedErrorClass<InvalidHostname>()(
   "InvalidHostname",
   { code: Schema.Number, message: Schema.String },
-).pipe(
-  T.HttpErrorMatchers([{ code: 1002, message: { includes: "forbidden" } }]),
 ) {}
+T.applyErrorMatchers(InvalidHostname, [{ code: 1002, message: { includes: "forbidden" } }]);
 
-export class InvalidLoaForm extends Schema.TaggedError<InvalidLoaForm>()(
+export class InvalidLoaForm extends Schema.TaggedErrorClass<InvalidLoaForm>()(
   "InvalidLoaForm",
   { code: Schema.Number, message: Schema.String },
-).pipe(
-  T.HttpErrorMatchers([
-    { code: 1001, message: { includes: "invalid_loa_form" } },
-  ]),
 ) {}
+T.applyErrorMatchers(InvalidLoaForm, [
+    { code: 1001, message: { includes: "invalid_loa_form" } },
+  ]);
 
-export class InvalidNetworkCidr extends Schema.TaggedError<InvalidNetworkCidr>()(
+export class InvalidNetworkCidr extends Schema.TaggedErrorClass<InvalidNetworkCidr>()(
   "InvalidNetworkCidr",
   { code: Schema.Number, message: Schema.String },
-).pipe(
-  T.HttpErrorMatchers([
-    { code: 1001, message: { includes: "invalid_network_cidr" } },
-  ]),
 ) {}
+T.applyErrorMatchers(InvalidNetworkCidr, [
+    { code: 1001, message: { includes: "invalid_network_cidr" } },
+  ]);
 
-export class InvalidZoneId extends Schema.TaggedError<InvalidZoneId>()(
+export class InvalidZoneId extends Schema.TaggedErrorClass<InvalidZoneId>()(
   "InvalidZoneId",
   { code: Schema.Number, message: Schema.String },
-).pipe(
-  T.HttpErrorMatchers([
-    { code: 7003, message: { includes: "Could not route" } },
-  ]),
 ) {}
+T.applyErrorMatchers(InvalidZoneId, [
+    { code: 7003, message: { includes: "Could not route" } },
+  ]);
 
-export class IrrEntryNotFound extends Schema.TaggedError<IrrEntryNotFound>()(
+export class IrrEntryNotFound extends Schema.TaggedErrorClass<IrrEntryNotFound>()(
   "IrrEntryNotFound",
   { code: Schema.Number, message: Schema.String },
-).pipe(
-  T.HttpErrorMatchers([
-    { code: 1003, message: { includes: "irr_entry_not_found" } },
-  ]),
 ) {}
+T.applyErrorMatchers(IrrEntryNotFound, [
+    { code: 1003, message: { includes: "irr_entry_not_found" } },
+  ]);
 
-export class LoaDocumentNotFound extends Schema.TaggedError<LoaDocumentNotFound>()(
+export class LoaDocumentNotFound extends Schema.TaggedErrorClass<LoaDocumentNotFound>()(
   "LoaDocumentNotFound",
   { code: Schema.Number, message: Schema.String },
-).pipe(T.HttpErrorMatchers([{ code: 1000 }])) {}
+) {}
+T.applyErrorMatchers(LoaDocumentNotFound, [{ code: 1000 }]);
 
-export class MethodNotAllowed extends Schema.TaggedError<MethodNotAllowed>()(
+export class MethodNotAllowed extends Schema.TaggedErrorClass<MethodNotAllowed>()(
   "MethodNotAllowed",
   { code: Schema.Number, message: Schema.String },
-).pipe(
-  T.HttpErrorMatchers([
+) {}
+T.applyErrorMatchers(MethodNotAllowed, [
     { code: 10405, message: { includes: "not allowed" } },
     { code: 10000, message: { includes: "not allowed" } },
-  ]),
-) {}
+  ]);
 
-export class MissingAccountId extends Schema.TaggedError<MissingAccountId>()(
+export class MissingAccountId extends Schema.TaggedErrorClass<MissingAccountId>()(
   "MissingAccountId",
   { code: Schema.Number, message: Schema.String },
-).pipe(T.HttpErrorMatchers([{ code: 1001 }])) {}
+) {}
+T.applyErrorMatchers(MissingAccountId, [{ code: 1001 }]);
 
-export class NonexistentAccountPrefix extends Schema.TaggedError<NonexistentAccountPrefix>()(
+export class NonexistentAccountPrefix extends Schema.TaggedErrorClass<NonexistentAccountPrefix>()(
   "NonexistentAccountPrefix",
   { code: Schema.Number, message: Schema.String },
-).pipe(T.HttpErrorMatchers([{ code: 1003 }])) {}
+) {}
+T.applyErrorMatchers(NonexistentAccountPrefix, [{ code: 1003 }]);
 
-export class PrefixNotFound extends Schema.TaggedError<PrefixNotFound>()(
+export class PrefixNotFound extends Schema.TaggedErrorClass<PrefixNotFound>()(
   "PrefixNotFound",
   { code: Schema.Number, message: Schema.String },
-).pipe(
-  T.HttpErrorMatchers([
+) {}
+T.applyErrorMatchers(PrefixNotFound, [
     { code: 1000 },
     { code: 1000, message: { includes: "not_found" } },
-  ]),
-) {}
+  ]);
 
-export class RegionalHostnameEmpty extends Schema.TaggedError<RegionalHostnameEmpty>()(
+export class RegionalHostnameEmpty extends Schema.TaggedErrorClass<RegionalHostnameEmpty>()(
   "RegionalHostnameEmpty",
   { code: Schema.Number, message: Schema.String },
-).pipe(
-  T.HttpErrorMatchers([{ code: 1000, message: { includes: "not_found" } }]),
 ) {}
+T.applyErrorMatchers(RegionalHostnameEmpty, [{ code: 1000, message: { includes: "not_found" } }]);
 
-export class RegionalHostnameNotFound extends Schema.TaggedError<RegionalHostnameNotFound>()(
+export class RegionalHostnameNotFound extends Schema.TaggedErrorClass<RegionalHostnameNotFound>()(
   "RegionalHostnameNotFound",
   { code: Schema.Number, message: Schema.String },
-).pipe(
-  T.HttpErrorMatchers([{ code: 1002, message: { includes: "forbidden" } }]),
 ) {}
+T.applyErrorMatchers(RegionalHostnameNotFound, [{ code: 1002, message: { includes: "forbidden" } }]);
 
-export class UnsupportedBindingConfiguration extends Schema.TaggedError<UnsupportedBindingConfiguration>()(
+export class UnsupportedBindingConfiguration extends Schema.TaggedErrorClass<UnsupportedBindingConfiguration>()(
   "UnsupportedBindingConfiguration",
   { code: Schema.Number, message: Schema.String },
-).pipe(T.HttpErrorMatchers([{ code: 1003 }])) {}
+) {}
+T.applyErrorMatchers(UnsupportedBindingConfiguration, [{ code: 1003 }]);
 
 // =============================================================================
 // AddressMap
@@ -215,11 +210,11 @@ export const GetAddressMapResponse = Schema.Struct({
     T.JsonName("can_modify_ips"),
   ),
   createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
-  defaultSni: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
+  defaultSni: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
     T.JsonName("default_sni"),
   ),
-  description: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
-  enabled: Schema.optional(Schema.Union(Schema.Boolean, Schema.Null)),
+  description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
   ips: Schema.optional(Schema.Unknown),
   memberships: Schema.optional(
     Schema.Array(
@@ -231,7 +226,7 @@ export const GetAddressMapResponse = Schema.Struct({
           T.JsonName("created_at"),
         ),
         identifier: Schema.optional(Schema.String),
-        kind: Schema.optional(Schema.Literal("zone", "account")),
+        kind: Schema.optional(Schema.Literals(["zone", "account"])),
       }),
     ),
   ),
@@ -265,14 +260,14 @@ export interface CreateAddressMapRequest {
 
 export const CreateAddressMapRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  description: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
-  enabled: Schema.optional(Schema.Union(Schema.Boolean, Schema.Null)),
+  description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
   ips: Schema.optional(Schema.Array(Schema.String)),
   memberships: Schema.optional(
     Schema.Array(
       Schema.Struct({
         identifier: Schema.optional(Schema.String),
-        kind: Schema.optional(Schema.Literal("zone", "account")),
+        kind: Schema.optional(Schema.Literals(["zone", "account"])),
       }),
     ),
   ),
@@ -316,11 +311,11 @@ export const CreateAddressMapResponse = Schema.Struct({
     T.JsonName("can_modify_ips"),
   ),
   createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
-  defaultSni: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
+  defaultSni: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
     T.JsonName("default_sni"),
   ),
-  description: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
-  enabled: Schema.optional(Schema.Union(Schema.Boolean, Schema.Null)),
+  description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
   ips: Schema.optional(Schema.Unknown),
   memberships: Schema.optional(
     Schema.Array(
@@ -332,7 +327,7 @@ export const CreateAddressMapResponse = Schema.Struct({
           T.JsonName("created_at"),
         ),
         identifier: Schema.optional(Schema.String),
-        kind: Schema.optional(Schema.Literal("zone", "account")),
+        kind: Schema.optional(Schema.Literals(["zone", "account"])),
       }),
     ),
   ),
@@ -366,11 +361,11 @@ export interface PatchAddressMapRequest {
 export const PatchAddressMapRequest = Schema.Struct({
   addressMapId: Schema.String.pipe(T.HttpPath("addressMapId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  defaultSni: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
+  defaultSni: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
     T.JsonName("default_sni"),
   ),
-  description: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
-  enabled: Schema.optional(Schema.Union(Schema.Boolean, Schema.Null)),
+  description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
 }).pipe(
   T.Http({
     method: "PATCH",
@@ -402,11 +397,11 @@ export const PatchAddressMapResponse = Schema.Struct({
     T.JsonName("can_modify_ips"),
   ),
   createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
-  defaultSni: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
+  defaultSni: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
     T.JsonName("default_sni"),
   ),
-  description: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
-  enabled: Schema.optional(Schema.Union(Schema.Boolean, Schema.Null)),
+  description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
   modifiedAt: Schema.optional(Schema.String).pipe(T.JsonName("modified_at")),
 }) as unknown as Schema.Schema<PatchAddressMapResponse>;
 
@@ -1142,7 +1137,7 @@ export interface GetLoaDocumentRequest {
 }
 
 export const GetLoaDocumentRequest = Schema.Struct({
-  loaDocumentId: Schema.Union(Schema.String, Schema.Null).pipe(
+  loaDocumentId: Schema.Union([Schema.String, Schema.Null]).pipe(
     T.HttpPath("loaDocumentId"),
   ),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
@@ -1206,7 +1201,7 @@ export interface CreateLoaDocumentResponse {
 }
 
 export const CreateLoaDocumentResponse = Schema.Struct({
-  id: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   accountId: Schema.optional(Schema.String).pipe(T.JsonName("account_id")),
   autoGenerated: Schema.optional(Schema.Boolean).pipe(
     T.JsonName("auto_generated"),
@@ -1215,7 +1210,7 @@ export const CreateLoaDocumentResponse = Schema.Struct({
   filename: Schema.optional(Schema.String),
   sizeBytes: Schema.optional(Schema.Number).pipe(T.JsonName("size_bytes")),
   verified: Schema.optional(Schema.Boolean),
-  verifiedAt: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
+  verifiedAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
     T.JsonName("verified_at"),
   ),
 }) as unknown as Schema.Schema<CreateLoaDocumentResponse>;
@@ -1292,9 +1287,9 @@ export interface GetPrefixResponse {
 export const GetPrefixResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
   accountId: Schema.optional(Schema.String).pipe(T.JsonName("account_id")),
-  advertised: Schema.optional(Schema.Union(Schema.Boolean, Schema.Null)),
+  advertised: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
   advertisedModifiedAt: Schema.optional(
-    Schema.Union(Schema.String, Schema.Null),
+    Schema.Union([Schema.String, Schema.Null]),
   ).pipe(T.JsonName("advertised_modified_at")),
   approved: Schema.optional(Schema.String),
   asn: Schema.optional(Schema.Number),
@@ -1307,7 +1302,7 @@ export const GetPrefixResponse = Schema.Struct({
   irrValidationState: Schema.optional(Schema.String).pipe(
     T.JsonName("irr_validation_state"),
   ),
-  loaDocumentId: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
+  loaDocumentId: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
     T.JsonName("loa_document_id"),
   ),
   modifiedAt: Schema.optional(Schema.String).pipe(T.JsonName("modified_at")),
@@ -1363,7 +1358,7 @@ export const CreatePrefixRequest = Schema.Struct({
     T.JsonName("delegate_loa_creation"),
   ),
   description: Schema.optional(Schema.String),
-  loaDocumentId: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
+  loaDocumentId: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
     T.JsonName("loa_document_id"),
   ),
 }).pipe(
@@ -1413,9 +1408,9 @@ export interface CreatePrefixResponse {
 export const CreatePrefixResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
   accountId: Schema.optional(Schema.String).pipe(T.JsonName("account_id")),
-  advertised: Schema.optional(Schema.Union(Schema.Boolean, Schema.Null)),
+  advertised: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
   advertisedModifiedAt: Schema.optional(
-    Schema.Union(Schema.String, Schema.Null),
+    Schema.Union([Schema.String, Schema.Null]),
   ).pipe(T.JsonName("advertised_modified_at")),
   approved: Schema.optional(Schema.String),
   asn: Schema.optional(Schema.Number),
@@ -1428,7 +1423,7 @@ export const CreatePrefixResponse = Schema.Struct({
   irrValidationState: Schema.optional(Schema.String).pipe(
     T.JsonName("irr_validation_state"),
   ),
-  loaDocumentId: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
+  loaDocumentId: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
     T.JsonName("loa_document_id"),
   ),
   modifiedAt: Schema.optional(Schema.String).pipe(T.JsonName("modified_at")),
@@ -1520,9 +1515,9 @@ export interface PatchPrefixResponse {
 export const PatchPrefixResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
   accountId: Schema.optional(Schema.String).pipe(T.JsonName("account_id")),
-  advertised: Schema.optional(Schema.Union(Schema.Boolean, Schema.Null)),
+  advertised: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
   advertisedModifiedAt: Schema.optional(
-    Schema.Union(Schema.String, Schema.Null),
+    Schema.Union([Schema.String, Schema.Null]),
   ).pipe(T.JsonName("advertised_modified_at")),
   approved: Schema.optional(Schema.String),
   asn: Schema.optional(Schema.Number),
@@ -1535,7 +1530,7 @@ export const PatchPrefixResponse = Schema.Struct({
   irrValidationState: Schema.optional(Schema.String).pipe(
     T.JsonName("irr_validation_state"),
   ),
-  loaDocumentId: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
+  loaDocumentId: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
     T.JsonName("loa_document_id"),
   ),
   modifiedAt: Schema.optional(Schema.String).pipe(T.JsonName("modified_at")),
@@ -1675,7 +1670,7 @@ export interface GetPrefixAdvertisementStatusResponse {
 export const GetPrefixAdvertisementStatusResponse = Schema.Struct({
   advertised: Schema.optional(Schema.Boolean),
   advertisedModifiedAt: Schema.optional(
-    Schema.Union(Schema.String, Schema.Null),
+    Schema.Union([Schema.String, Schema.Null]),
   ).pipe(T.JsonName("advertised_modified_at")),
 }) as unknown as Schema.Schema<GetPrefixAdvertisementStatusResponse>;
 
@@ -1720,7 +1715,7 @@ export interface PatchPrefixAdvertisementStatusResponse {
 export const PatchPrefixAdvertisementStatusResponse = Schema.Struct({
   advertised: Schema.optional(Schema.Boolean),
   advertisedModifiedAt: Schema.optional(
-    Schema.Union(Schema.String, Schema.Null),
+    Schema.Union([Schema.String, Schema.Null]),
   ).pipe(T.JsonName("advertised_modified_at")),
 }) as unknown as Schema.Schema<PatchPrefixAdvertisementStatusResponse>;
 
@@ -1782,7 +1777,7 @@ export interface GetPrefixBgpPrefixResponse {
 
 export const GetPrefixBgpPrefixResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
-  asn: Schema.optional(Schema.Union(Schema.Number, Schema.Null)),
+  asn: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
   asnPrependCount: Schema.optional(Schema.Number).pipe(
     T.JsonName("asn_prepend_count"),
   ),
@@ -1793,7 +1788,7 @@ export const GetPrefixBgpPrefixResponse = Schema.Struct({
     Schema.Struct({
       enabled: Schema.optional(Schema.Boolean),
       modifiedAt: Schema.optional(
-        Schema.Union(Schema.String, Schema.Null),
+        Schema.Union([Schema.String, Schema.Null]),
       ).pipe(T.JsonName("modified_at")),
     }),
   ).pipe(T.JsonName("bgp_signal_opts")),
@@ -1802,9 +1797,9 @@ export const GetPrefixBgpPrefixResponse = Schema.Struct({
   modifiedAt: Schema.optional(Schema.String).pipe(T.JsonName("modified_at")),
   onDemand: Schema.optional(
     Schema.Struct({
-      advertised: Schema.optional(Schema.Union(Schema.Boolean, Schema.Null)),
+      advertised: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
       advertisedModifiedAt: Schema.optional(
-        Schema.Union(Schema.String, Schema.Null),
+        Schema.Union([Schema.String, Schema.Null]),
       ).pipe(T.JsonName("advertised_modified_at")),
       onDemandEnabled: Schema.optional(Schema.Boolean).pipe(
         T.JsonName("on_demand_enabled"),
@@ -1871,7 +1866,7 @@ export interface CreatePrefixBgpPrefixResponse {
 
 export const CreatePrefixBgpPrefixResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
-  asn: Schema.optional(Schema.Union(Schema.Number, Schema.Null)),
+  asn: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
   asnPrependCount: Schema.optional(Schema.Number).pipe(
     T.JsonName("asn_prepend_count"),
   ),
@@ -1882,7 +1877,7 @@ export const CreatePrefixBgpPrefixResponse = Schema.Struct({
     Schema.Struct({
       enabled: Schema.optional(Schema.Boolean),
       modifiedAt: Schema.optional(
-        Schema.Union(Schema.String, Schema.Null),
+        Schema.Union([Schema.String, Schema.Null]),
       ).pipe(T.JsonName("modified_at")),
     }),
   ).pipe(T.JsonName("bgp_signal_opts")),
@@ -1891,9 +1886,9 @@ export const CreatePrefixBgpPrefixResponse = Schema.Struct({
   modifiedAt: Schema.optional(Schema.String).pipe(T.JsonName("modified_at")),
   onDemand: Schema.optional(
     Schema.Struct({
-      advertised: Schema.optional(Schema.Union(Schema.Boolean, Schema.Null)),
+      advertised: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
       advertisedModifiedAt: Schema.optional(
-        Schema.Union(Schema.String, Schema.Null),
+        Schema.Union([Schema.String, Schema.Null]),
       ).pipe(T.JsonName("advertised_modified_at")),
       onDemandEnabled: Schema.optional(Schema.Boolean).pipe(
         T.JsonName("on_demand_enabled"),
@@ -1979,7 +1974,7 @@ export interface PatchPrefixBgpPrefixResponse {
 
 export const PatchPrefixBgpPrefixResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
-  asn: Schema.optional(Schema.Union(Schema.Number, Schema.Null)),
+  asn: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
   asnPrependCount: Schema.optional(Schema.Number).pipe(
     T.JsonName("asn_prepend_count"),
   ),
@@ -1990,7 +1985,7 @@ export const PatchPrefixBgpPrefixResponse = Schema.Struct({
     Schema.Struct({
       enabled: Schema.optional(Schema.Boolean),
       modifiedAt: Schema.optional(
-        Schema.Union(Schema.String, Schema.Null),
+        Schema.Union([Schema.String, Schema.Null]),
       ).pipe(T.JsonName("modified_at")),
     }),
   ).pipe(T.JsonName("bgp_signal_opts")),
@@ -1999,9 +1994,9 @@ export const PatchPrefixBgpPrefixResponse = Schema.Struct({
   modifiedAt: Schema.optional(Schema.String).pipe(T.JsonName("modified_at")),
   onDemand: Schema.optional(
     Schema.Struct({
-      advertised: Schema.optional(Schema.Union(Schema.Boolean, Schema.Null)),
+      advertised: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
       advertisedModifiedAt: Schema.optional(
-        Schema.Union(Schema.String, Schema.Null),
+        Schema.Union([Schema.String, Schema.Null]),
       ).pipe(T.JsonName("advertised_modified_at")),
       onDemandEnabled: Schema.optional(Schema.Boolean).pipe(
         T.JsonName("on_demand_enabled"),
@@ -2168,7 +2163,7 @@ export const GetPrefixServiceBindingResponse = Schema.Struct({
   cidr: Schema.optional(Schema.String),
   provisioning: Schema.optional(
     Schema.Struct({
-      state: Schema.optional(Schema.Literal("provisioning", "active")),
+      state: Schema.optional(Schema.Literals(["provisioning", "active"])),
     }),
   ),
   serviceId: Schema.optional(Schema.String).pipe(T.JsonName("service_id")),
@@ -2227,7 +2222,7 @@ export const CreatePrefixServiceBindingResponse = Schema.Struct({
   cidr: Schema.optional(Schema.String),
   provisioning: Schema.optional(
     Schema.Struct({
-      state: Schema.optional(Schema.Literal("provisioning", "active")),
+      state: Schema.optional(Schema.Literals(["provisioning", "active"])),
     }),
   ),
   serviceId: Schema.optional(Schema.String).pipe(T.JsonName("service_id")),

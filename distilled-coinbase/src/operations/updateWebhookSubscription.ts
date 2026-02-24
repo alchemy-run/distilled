@@ -11,12 +11,18 @@ export const UpdateWebhookSubscriptionInput = Schema.Struct({
   isEnabled: Schema.Boolean,
   target: Schema.Struct({
     url: Schema.String,
-    headers: Schema.optional(Schema.Record({ key: Schema.String, value: Schema.String })),
+    headers: Schema.optional(Schema.Record(Schema.String, Schema.String)),
   }),
-  metadata: Schema.optional(Schema.Record({ key: Schema.String, value: Schema.String })),
-  labels: Schema.optional(Schema.Record({ key: Schema.String, value: Schema.String })),
-}).pipe(T.Http({ method: "PUT", path: "/v2/data/webhooks/subscriptions/{subscriptionId}" }));
-export type UpdateWebhookSubscriptionInput = typeof UpdateWebhookSubscriptionInput.Type;
+  metadata: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+  labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+}).pipe(
+  T.Http({
+    method: "PUT",
+    path: "/v2/data/webhooks/subscriptions/{subscriptionId}",
+  }),
+);
+export type UpdateWebhookSubscriptionInput =
+  typeof UpdateWebhookSubscriptionInput.Type;
 
 // Output Schema
 export const UpdateWebhookSubscriptionOutput = Schema.Struct({
@@ -24,18 +30,21 @@ export const UpdateWebhookSubscriptionOutput = Schema.Struct({
   description: Schema.optional(Schema.String),
   eventTypes: Schema.Array(Schema.String),
   isEnabled: Schema.Boolean,
-  metadata: Schema.optional(Schema.Struct({
-    secret: Schema.optional(Schema.String),
-  })),
+  metadata: Schema.optional(
+    Schema.Struct({
+      secret: Schema.optional(Schema.String),
+    }),
+  ),
   secret: Schema.String,
   subscriptionId: Schema.String,
   target: Schema.Struct({
     url: Schema.String,
-    headers: Schema.optional(Schema.Record({ key: Schema.String, value: Schema.String })),
+    headers: Schema.optional(Schema.Record(Schema.String, Schema.String)),
   }),
-  labels: Schema.optional(Schema.Record({ key: Schema.String, value: Schema.String })),
+  labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
 });
-export type UpdateWebhookSubscriptionOutput = typeof UpdateWebhookSubscriptionOutput.Type;
+export type UpdateWebhookSubscriptionOutput =
+  typeof UpdateWebhookSubscriptionOutput.Type;
 
 // The operation
 /**
@@ -52,8 +61,10 @@ export type UpdateWebhookSubscriptionOutput = typeof UpdateWebhookSubscriptionOu
  *
  * @param subscriptionId - Unique identifier for the webhook subscription.
  */
-export const updateWebhookSubscription = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  inputSchema: UpdateWebhookSubscriptionInput,
-  outputSchema: UpdateWebhookSubscriptionOutput,
-  errors: [InvalidRequest, NotFound],
-}));
+export const updateWebhookSubscription = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    inputSchema: UpdateWebhookSubscriptionInput,
+    outputSchema: UpdateWebhookSubscriptionOutput,
+    errors: [InvalidRequest, NotFound],
+  }),
+);

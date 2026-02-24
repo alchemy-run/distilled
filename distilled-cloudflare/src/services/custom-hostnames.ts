@@ -7,7 +7,7 @@
 
 import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
-import type { HttpClient } from "@effect/platform";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
@@ -147,10 +147,10 @@ export const PutCertificatePackCertificateResponse = Schema.Struct({
   ssl: Schema.Struct({
     id: Schema.optional(Schema.String),
     bundleMethod: Schema.optional(
-      Schema.Literal("ubiquitous", "optimal", "force"),
+      Schema.Literals(["ubiquitous", "optimal", "force"]),
     ).pipe(T.JsonName("bundle_method")),
     certificateAuthority: Schema.optional(
-      Schema.Literal("google", "lets_encrypt", "ssl_com", "digicert"),
+      Schema.Literals(["google", "lets_encrypt", "ssl_com", "digicert"]),
     ).pipe(T.JsonName("certificate_authority")),
     customCertificate: Schema.optional(Schema.String).pipe(
       T.JsonName("custom_certificate"),
@@ -162,26 +162,26 @@ export const PutCertificatePackCertificateResponse = Schema.Struct({
     expiresOn: Schema.optional(Schema.String).pipe(T.JsonName("expires_on")),
     hosts: Schema.optional(Schema.Array(Schema.String)),
     issuer: Schema.optional(Schema.String),
-    method: Schema.optional(Schema.Literal("http", "txt", "email")),
+    method: Schema.optional(Schema.Literals(["http", "txt", "email"])),
     serialNumber: Schema.optional(Schema.String).pipe(
       T.JsonName("serial_number"),
     ),
     settings: Schema.optional(
       Schema.Struct({
         ciphers: Schema.optional(Schema.Array(Schema.String)),
-        earlyHints: Schema.optional(Schema.Literal("on", "off")).pipe(
+        earlyHints: Schema.optional(Schema.Literals(["on", "off"])).pipe(
           T.JsonName("early_hints"),
         ),
-        http2: Schema.optional(Schema.Literal("on", "off")),
+        http2: Schema.optional(Schema.Literals(["on", "off"])),
         minTlsVersion: Schema.optional(
-          Schema.Literal("1.0", "1.1", "1.2", "1.3"),
+          Schema.Literals(["1.0", "1.1", "1.2", "1.3"]),
         ).pipe(T.JsonName("min_tls_version")),
-        tls_1_3: Schema.optional(Schema.Literal("on", "off")),
+        tls_1_3: Schema.optional(Schema.Literals(["on", "off"])),
       }),
     ),
     signature: Schema.optional(Schema.String),
     status: Schema.optional(
-      Schema.Literal(
+      Schema.Literals([
         "initializing",
         "pending_validation",
         "deleted",
@@ -203,7 +203,7 @@ export const PutCertificatePackCertificateResponse = Schema.Struct({
         "inactive",
         "backup_issued",
         "holding_deployment",
-      ),
+      ]),
     ),
     type: Schema.optional(Schema.Literal("dv")),
     uploadedOn: Schema.optional(Schema.String).pipe(T.JsonName("uploaded_on")),
@@ -255,7 +255,7 @@ export const PutCertificatePackCertificateResponse = Schema.Struct({
     }),
   ).pipe(T.JsonName("ownership_verification_http")),
   status: Schema.optional(
-    Schema.Literal(
+    Schema.Literals([
       "active",
       "pending",
       "active_redeploying",
@@ -272,7 +272,7 @@ export const PutCertificatePackCertificateResponse = Schema.Struct({
       "test_failed",
       "provisioned",
       "blocked",
-    ),
+    ]),
   ),
   verificationErrors: Schema.optional(Schema.Array(Schema.String)).pipe(
     T.JsonName("verification_errors"),
@@ -451,10 +451,10 @@ export const GetCustomHostnameResponse = Schema.Struct({
   ssl: Schema.Struct({
     id: Schema.optional(Schema.String),
     bundleMethod: Schema.optional(
-      Schema.Literal("ubiquitous", "optimal", "force"),
+      Schema.Literals(["ubiquitous", "optimal", "force"]),
     ).pipe(T.JsonName("bundle_method")),
     certificateAuthority: Schema.optional(
-      Schema.Literal("google", "lets_encrypt", "ssl_com", "digicert"),
+      Schema.Literals(["google", "lets_encrypt", "ssl_com", "digicert"]),
     ).pipe(T.JsonName("certificate_authority")),
     customCertificate: Schema.optional(Schema.String).pipe(
       T.JsonName("custom_certificate"),
@@ -466,26 +466,26 @@ export const GetCustomHostnameResponse = Schema.Struct({
     expiresOn: Schema.optional(Schema.String).pipe(T.JsonName("expires_on")),
     hosts: Schema.optional(Schema.Array(Schema.String)),
     issuer: Schema.optional(Schema.String),
-    method: Schema.optional(Schema.Literal("http", "txt", "email")),
+    method: Schema.optional(Schema.Literals(["http", "txt", "email"])),
     serialNumber: Schema.optional(Schema.String).pipe(
       T.JsonName("serial_number"),
     ),
     settings: Schema.optional(
       Schema.Struct({
         ciphers: Schema.optional(Schema.Array(Schema.String)),
-        earlyHints: Schema.optional(Schema.Literal("on", "off")).pipe(
+        earlyHints: Schema.optional(Schema.Literals(["on", "off"])).pipe(
           T.JsonName("early_hints"),
         ),
-        http2: Schema.optional(Schema.Literal("on", "off")),
+        http2: Schema.optional(Schema.Literals(["on", "off"])),
         minTlsVersion: Schema.optional(
-          Schema.Literal("1.0", "1.1", "1.2", "1.3"),
+          Schema.Literals(["1.0", "1.1", "1.2", "1.3"]),
         ).pipe(T.JsonName("min_tls_version")),
-        tls_1_3: Schema.optional(Schema.Literal("on", "off")),
+        tls_1_3: Schema.optional(Schema.Literals(["on", "off"])),
       }),
     ),
     signature: Schema.optional(Schema.String),
     status: Schema.optional(
-      Schema.Literal(
+      Schema.Literals([
         "initializing",
         "pending_validation",
         "deleted",
@@ -507,7 +507,7 @@ export const GetCustomHostnameResponse = Schema.Struct({
         "inactive",
         "backup_issued",
         "holding_deployment",
-      ),
+      ]),
     ),
     type: Schema.optional(Schema.Literal("dv")),
     uploadedOn: Schema.optional(Schema.String).pipe(T.JsonName("uploaded_on")),
@@ -559,7 +559,7 @@ export const GetCustomHostnameResponse = Schema.Struct({
     }),
   ).pipe(T.JsonName("ownership_verification_http")),
   status: Schema.optional(
-    Schema.Literal(
+    Schema.Literals([
       "active",
       "pending",
       "active_redeploying",
@@ -576,7 +576,7 @@ export const GetCustomHostnameResponse = Schema.Struct({
       "test_failed",
       "provisioned",
       "blocked",
-    ),
+    ]),
   ),
   verificationErrors: Schema.optional(Schema.Array(Schema.String)).pipe(
     T.JsonName("verification_errors"),
@@ -632,10 +632,10 @@ export const CreateCustomHostnameRequest = Schema.Struct({
   ssl: Schema.optional(
     Schema.Struct({
       bundleMethod: Schema.optional(
-        Schema.Literal("ubiquitous", "optimal", "force"),
+        Schema.Literals(["ubiquitous", "optimal", "force"]),
       ).pipe(T.JsonName("bundle_method")),
       certificateAuthority: Schema.optional(
-        Schema.Literal("google", "lets_encrypt", "ssl_com", "digicert"),
+        Schema.Literals(["google", "lets_encrypt", "ssl_com", "digicert"]),
       ).pipe(T.JsonName("certificate_authority")),
       cloudflareBranding: Schema.optional(Schema.Boolean).pipe(
         T.JsonName("cloudflare_branding"),
@@ -654,18 +654,18 @@ export const CreateCustomHostnameRequest = Schema.Struct({
         T.JsonName("custom_certificate"),
       ),
       customKey: Schema.optional(Schema.String).pipe(T.JsonName("custom_key")),
-      method: Schema.optional(Schema.Literal("http", "txt", "email")),
+      method: Schema.optional(Schema.Literals(["http", "txt", "email"])),
       settings: Schema.optional(
         Schema.Struct({
           ciphers: Schema.optional(Schema.Array(Schema.String)),
-          earlyHints: Schema.optional(Schema.Literal("on", "off")).pipe(
+          earlyHints: Schema.optional(Schema.Literals(["on", "off"])).pipe(
             T.JsonName("early_hints"),
           ),
-          http2: Schema.optional(Schema.Literal("on", "off")),
+          http2: Schema.optional(Schema.Literals(["on", "off"])),
           minTlsVersion: Schema.optional(
-            Schema.Literal("1.0", "1.1", "1.2", "1.3"),
+            Schema.Literals(["1.0", "1.1", "1.2", "1.3"]),
           ).pipe(T.JsonName("min_tls_version")),
-          tls_1_3: Schema.optional(Schema.Literal("on", "off")),
+          tls_1_3: Schema.optional(Schema.Literals(["on", "off"])),
         }),
       ),
       type: Schema.optional(Schema.Literal("dv")),
@@ -775,10 +775,10 @@ export const CreateCustomHostnameResponse = Schema.Struct({
   ssl: Schema.Struct({
     id: Schema.optional(Schema.String),
     bundleMethod: Schema.optional(
-      Schema.Literal("ubiquitous", "optimal", "force"),
+      Schema.Literals(["ubiquitous", "optimal", "force"]),
     ).pipe(T.JsonName("bundle_method")),
     certificateAuthority: Schema.optional(
-      Schema.Literal("google", "lets_encrypt", "ssl_com", "digicert"),
+      Schema.Literals(["google", "lets_encrypt", "ssl_com", "digicert"]),
     ).pipe(T.JsonName("certificate_authority")),
     customCertificate: Schema.optional(Schema.String).pipe(
       T.JsonName("custom_certificate"),
@@ -790,26 +790,26 @@ export const CreateCustomHostnameResponse = Schema.Struct({
     expiresOn: Schema.optional(Schema.String).pipe(T.JsonName("expires_on")),
     hosts: Schema.optional(Schema.Array(Schema.String)),
     issuer: Schema.optional(Schema.String),
-    method: Schema.optional(Schema.Literal("http", "txt", "email")),
+    method: Schema.optional(Schema.Literals(["http", "txt", "email"])),
     serialNumber: Schema.optional(Schema.String).pipe(
       T.JsonName("serial_number"),
     ),
     settings: Schema.optional(
       Schema.Struct({
         ciphers: Schema.optional(Schema.Array(Schema.String)),
-        earlyHints: Schema.optional(Schema.Literal("on", "off")).pipe(
+        earlyHints: Schema.optional(Schema.Literals(["on", "off"])).pipe(
           T.JsonName("early_hints"),
         ),
-        http2: Schema.optional(Schema.Literal("on", "off")),
+        http2: Schema.optional(Schema.Literals(["on", "off"])),
         minTlsVersion: Schema.optional(
-          Schema.Literal("1.0", "1.1", "1.2", "1.3"),
+          Schema.Literals(["1.0", "1.1", "1.2", "1.3"]),
         ).pipe(T.JsonName("min_tls_version")),
-        tls_1_3: Schema.optional(Schema.Literal("on", "off")),
+        tls_1_3: Schema.optional(Schema.Literals(["on", "off"])),
       }),
     ),
     signature: Schema.optional(Schema.String),
     status: Schema.optional(
-      Schema.Literal(
+      Schema.Literals([
         "initializing",
         "pending_validation",
         "deleted",
@@ -831,7 +831,7 @@ export const CreateCustomHostnameResponse = Schema.Struct({
         "inactive",
         "backup_issued",
         "holding_deployment",
-      ),
+      ]),
     ),
     type: Schema.optional(Schema.Literal("dv")),
     uploadedOn: Schema.optional(Schema.String).pipe(T.JsonName("uploaded_on")),
@@ -883,7 +883,7 @@ export const CreateCustomHostnameResponse = Schema.Struct({
     }),
   ).pipe(T.JsonName("ownership_verification_http")),
   status: Schema.optional(
-    Schema.Literal(
+    Schema.Literals([
       "active",
       "pending",
       "active_redeploying",
@@ -900,7 +900,7 @@ export const CreateCustomHostnameResponse = Schema.Struct({
       "test_failed",
       "provisioned",
       "blocked",
-    ),
+    ]),
   ),
   verificationErrors: Schema.optional(Schema.Array(Schema.String)).pipe(
     T.JsonName("verification_errors"),
@@ -965,10 +965,10 @@ export const PatchCustomHostnameRequest = Schema.Struct({
   ssl: Schema.optional(
     Schema.Struct({
       bundleMethod: Schema.optional(
-        Schema.Literal("ubiquitous", "optimal", "force"),
+        Schema.Literals(["ubiquitous", "optimal", "force"]),
       ).pipe(T.JsonName("bundle_method")),
       certificateAuthority: Schema.optional(
-        Schema.Literal("google", "lets_encrypt", "ssl_com", "digicert"),
+        Schema.Literals(["google", "lets_encrypt", "ssl_com", "digicert"]),
       ).pipe(T.JsonName("certificate_authority")),
       cloudflareBranding: Schema.optional(Schema.Boolean).pipe(
         T.JsonName("cloudflare_branding"),
@@ -987,18 +987,18 @@ export const PatchCustomHostnameRequest = Schema.Struct({
         T.JsonName("custom_certificate"),
       ),
       customKey: Schema.optional(Schema.String).pipe(T.JsonName("custom_key")),
-      method: Schema.optional(Schema.Literal("http", "txt", "email")),
+      method: Schema.optional(Schema.Literals(["http", "txt", "email"])),
       settings: Schema.optional(
         Schema.Struct({
           ciphers: Schema.optional(Schema.Array(Schema.String)),
-          earlyHints: Schema.optional(Schema.Literal("on", "off")).pipe(
+          earlyHints: Schema.optional(Schema.Literals(["on", "off"])).pipe(
             T.JsonName("early_hints"),
           ),
-          http2: Schema.optional(Schema.Literal("on", "off")),
+          http2: Schema.optional(Schema.Literals(["on", "off"])),
           minTlsVersion: Schema.optional(
-            Schema.Literal("1.0", "1.1", "1.2", "1.3"),
+            Schema.Literals(["1.0", "1.1", "1.2", "1.3"]),
           ).pipe(T.JsonName("min_tls_version")),
-          tls_1_3: Schema.optional(Schema.Literal("on", "off")),
+          tls_1_3: Schema.optional(Schema.Literals(["on", "off"])),
         }),
       ),
       type: Schema.optional(Schema.Literal("dv")),
@@ -1111,10 +1111,10 @@ export const PatchCustomHostnameResponse = Schema.Struct({
   ssl: Schema.Struct({
     id: Schema.optional(Schema.String),
     bundleMethod: Schema.optional(
-      Schema.Literal("ubiquitous", "optimal", "force"),
+      Schema.Literals(["ubiquitous", "optimal", "force"]),
     ).pipe(T.JsonName("bundle_method")),
     certificateAuthority: Schema.optional(
-      Schema.Literal("google", "lets_encrypt", "ssl_com", "digicert"),
+      Schema.Literals(["google", "lets_encrypt", "ssl_com", "digicert"]),
     ).pipe(T.JsonName("certificate_authority")),
     customCertificate: Schema.optional(Schema.String).pipe(
       T.JsonName("custom_certificate"),
@@ -1126,26 +1126,26 @@ export const PatchCustomHostnameResponse = Schema.Struct({
     expiresOn: Schema.optional(Schema.String).pipe(T.JsonName("expires_on")),
     hosts: Schema.optional(Schema.Array(Schema.String)),
     issuer: Schema.optional(Schema.String),
-    method: Schema.optional(Schema.Literal("http", "txt", "email")),
+    method: Schema.optional(Schema.Literals(["http", "txt", "email"])),
     serialNumber: Schema.optional(Schema.String).pipe(
       T.JsonName("serial_number"),
     ),
     settings: Schema.optional(
       Schema.Struct({
         ciphers: Schema.optional(Schema.Array(Schema.String)),
-        earlyHints: Schema.optional(Schema.Literal("on", "off")).pipe(
+        earlyHints: Schema.optional(Schema.Literals(["on", "off"])).pipe(
           T.JsonName("early_hints"),
         ),
-        http2: Schema.optional(Schema.Literal("on", "off")),
+        http2: Schema.optional(Schema.Literals(["on", "off"])),
         minTlsVersion: Schema.optional(
-          Schema.Literal("1.0", "1.1", "1.2", "1.3"),
+          Schema.Literals(["1.0", "1.1", "1.2", "1.3"]),
         ).pipe(T.JsonName("min_tls_version")),
-        tls_1_3: Schema.optional(Schema.Literal("on", "off")),
+        tls_1_3: Schema.optional(Schema.Literals(["on", "off"])),
       }),
     ),
     signature: Schema.optional(Schema.String),
     status: Schema.optional(
-      Schema.Literal(
+      Schema.Literals([
         "initializing",
         "pending_validation",
         "deleted",
@@ -1167,7 +1167,7 @@ export const PatchCustomHostnameResponse = Schema.Struct({
         "inactive",
         "backup_issued",
         "holding_deployment",
-      ),
+      ]),
     ),
     type: Schema.optional(Schema.Literal("dv")),
     uploadedOn: Schema.optional(Schema.String).pipe(T.JsonName("uploaded_on")),
@@ -1219,7 +1219,7 @@ export const PatchCustomHostnameResponse = Schema.Struct({
     }),
   ).pipe(T.JsonName("ownership_verification_http")),
   status: Schema.optional(
-    Schema.Literal(
+    Schema.Literals([
       "active",
       "pending",
       "active_redeploying",
@@ -1236,7 +1236,7 @@ export const PatchCustomHostnameResponse = Schema.Struct({
       "test_failed",
       "provisioned",
       "blocked",
-    ),
+    ]),
   ),
   verificationErrors: Schema.optional(Schema.Array(Schema.String)).pipe(
     T.JsonName("verification_errors"),
@@ -1334,14 +1334,14 @@ export const GetFallbackOriginResponse = Schema.Struct({
   errors: Schema.optional(Schema.Array(Schema.String)),
   origin: Schema.optional(Schema.String),
   status: Schema.optional(
-    Schema.Literal(
+    Schema.Literals([
       "initializing",
       "pending_deployment",
       "pending_deletion",
       "active",
       "deployment_timed_out",
       "deletion_timed_out",
-    ),
+    ]),
   ),
   updatedAt: Schema.optional(Schema.String).pipe(T.JsonName("updated_at")),
 }) as unknown as Schema.Schema<GetFallbackOriginResponse>;
@@ -1399,14 +1399,14 @@ export const PutFallbackOriginResponse = Schema.Struct({
   errors: Schema.optional(Schema.Array(Schema.String)),
   origin: Schema.optional(Schema.String),
   status: Schema.optional(
-    Schema.Literal(
+    Schema.Literals([
       "initializing",
       "pending_deployment",
       "pending_deletion",
       "active",
       "deployment_timed_out",
       "deletion_timed_out",
-    ),
+    ]),
   ),
   updatedAt: Schema.optional(Schema.String).pipe(T.JsonName("updated_at")),
 }) as unknown as Schema.Schema<PutFallbackOriginResponse>;
@@ -1461,14 +1461,14 @@ export const DeleteFallbackOriginResponse = Schema.Struct({
   errors: Schema.optional(Schema.Array(Schema.String)),
   origin: Schema.optional(Schema.String),
   status: Schema.optional(
-    Schema.Literal(
+    Schema.Literals([
       "initializing",
       "pending_deployment",
       "pending_deletion",
       "active",
       "deployment_timed_out",
       "deletion_timed_out",
-    ),
+    ]),
   ),
   updatedAt: Schema.optional(Schema.String).pipe(T.JsonName("updated_at")),
 }) as unknown as Schema.Schema<DeleteFallbackOriginResponse>;

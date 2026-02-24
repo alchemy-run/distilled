@@ -19,7 +19,7 @@ npm install distilled-cloudflare effect @effect/platform
 
 ```typescript
 import { Effect, Layer } from "effect";
-import { FetchHttpClient } from "@effect/platform";
+import * as FetchHttpClient from "effect/unstable/http/FetchHttpClient";
 import * as R2 from "distilled-cloudflare/r2";
 import { Auth } from "distilled-cloudflare";
 

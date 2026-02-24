@@ -20,11 +20,16 @@ describe("updateWebhookSubscription", () => {
         const updated = yield* updateWebhookSubscription({
           subscriptionId: created.subscriptionId,
           description: "distilled coinbase webhook updated",
-          eventTypes: ["onramp.transaction.created", "onramp.transaction.success"],
+          eventTypes: [
+            "onramp.transaction.created",
+            "onramp.transaction.success",
+          ],
           isEnabled: false,
           target: { url: "https://example.com/webhook-updated" },
         });
-        yield* deleteWebhookSubscription({ subscriptionId: created.subscriptionId }).pipe(Effect.ignore);
+        yield* deleteWebhookSubscription({
+          subscriptionId: created.subscriptionId,
+        }).pipe(Effect.ignore);
         return { created, updated };
       }).pipe(
         Effect.matchEffect({
@@ -34,9 +39,15 @@ describe("updateWebhookSubscription", () => {
       ),
     );
     if ("data" in result) {
-      expect(result.data.updated.subscriptionId).toBe(result.data.created.subscriptionId);
-      expect(result.data.updated.target.url).toBe("https://example.com/webhook-updated");
-      expect(result.data.updated.eventTypes).toContain("onramp.transaction.success");
+      expect(result.data.updated.subscriptionId).toBe(
+        result.data.created.subscriptionId,
+      );
+      expect(result.data.updated.target.url).toBe(
+        "https://example.com/webhook-updated",
+      );
+      expect(result.data.updated.eventTypes).toContain(
+        "onramp.transaction.success",
+      );
     } else {
       expect(typeof (result.error as any)._tag).toBe("string");
     }
@@ -51,7 +62,9 @@ describe("updateWebhookSubscription", () => {
         target: { url: "https://example.com/webhook" },
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(["NotFound", "RateLimitExceeded"]).toContain(e._tag)),
+        Effect.map((e) =>
+          expect(["NotFound", "RateLimitExceeded"]).toContain(e._tag),
+        ),
       ),
     );
   });

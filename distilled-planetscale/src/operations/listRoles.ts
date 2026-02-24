@@ -46,7 +46,7 @@ export const ListRolesOutput = Schema.Struct({
       default: Schema.Boolean,
       ttl: Schema.Number,
       inherited_roles: Schema.Array(
-        Schema.Literal(
+        Schema.Literals([
           "pscale_managed",
           "pg_checkpoint",
           "pg_create_subscription",
@@ -60,7 +60,7 @@ export const ListRolesOutput = Schema.Struct({
           "pg_use_reserved_connections",
           "pg_write_all_data",
           "postgres",
-        ),
+        ]),
       ),
       branch: Schema.Struct({
         id: Schema.String,

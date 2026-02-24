@@ -1,4 +1,4 @@
-import { HttpClient } from "@effect/platform";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as effect from "effect/Effect";
 import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
@@ -89,33 +89,31 @@ const rules = T.EndpointResolver((p, _) => {
 //# Newtypes
 export type SimSpaceWeaverArn = string;
 export type TagKey = string;
+export type TagValue = string;
+export type NonEmptyString = string;
 export type ClientToken = string | redacted.Redacted<string>;
 export type SimSpaceWeaverResourceName = string;
 export type Description = string;
 export type RoleArn = string;
-export type TimeToLiveString = string;
-export type PositiveInteger = number;
-export type OptionalString = string;
-export type SimSpaceWeaverLongResourceName = string;
-export type TagValue = string;
 export type BucketName = string;
 export type ObjectKey = string;
-export type ObjectKeyPrefix = string;
-export type NonEmptyString = string;
+export type TimeToLiveString = string;
 export type UUID = string;
 export type SimulationStatus = string;
 export type SimulationTargetStatus = string;
-export type SimulationAppStatus = string;
-export type SimulationAppTargetStatus = string;
+export type OptionalString = string;
+export type LogGroupArn = string;
 export type LifecycleManagementStrategy = string;
 export type ClockStatus = string;
 export type ClockTargetStatus = string;
+export type PositiveInteger = number;
+export type ObjectKeyPrefix = string;
+export type SimSpaceWeaverLongResourceName = string;
+export type SimulationAppStatus = string;
+export type SimulationAppTargetStatus = string;
 export type PortNumber = number;
-export type LogGroupArn = string;
 
 //# Schemas
-export type TagKeyList = string[];
-export const TagKeyList = S.Array(S.String);
 export interface ListTagsForResourceInput {
   ResourceArn: string;
 }
@@ -130,289 +128,17 @@ export const ListTagsForResourceInput = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "ListTagsForResourceInput",
 }) as any as S.Schema<ListTagsForResourceInput>;
-export interface UntagResourceInput {
-  ResourceArn: string;
-  TagKeys: string[];
-}
-export const UntagResourceInput = S.suspend(() =>
-  S.Struct({
-    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
-    TagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/tags/{ResourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "UntagResourceInput",
-}) as any as S.Schema<UntagResourceInput>;
-export interface UntagResourceOutput {}
-export const UntagResourceOutput = S.suspend(() => S.Struct({})).annotations({
-  identifier: "UntagResourceOutput",
-}) as any as S.Schema<UntagResourceOutput>;
-export interface DescribeSimulationInput {
-  Simulation: string;
-}
-export const DescribeSimulationInput = S.suspend(() =>
-  S.Struct({ Simulation: S.String.pipe(T.HttpQuery("simulation")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/describesimulation" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DescribeSimulationInput",
-}) as any as S.Schema<DescribeSimulationInput>;
-export interface StopSimulationInput {
-  Simulation: string;
-}
-export const StopSimulationInput = S.suspend(() =>
-  S.Struct({ Simulation: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/stopsimulation" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "StopSimulationInput",
-}) as any as S.Schema<StopSimulationInput>;
-export interface StopSimulationOutput {}
-export const StopSimulationOutput = S.suspend(() => S.Struct({})).annotations({
-  identifier: "StopSimulationOutput",
-}) as any as S.Schema<StopSimulationOutput>;
-export interface DeleteSimulationInput {
-  Simulation: string;
-}
-export const DeleteSimulationInput = S.suspend(() =>
-  S.Struct({ Simulation: S.String.pipe(T.HttpQuery("simulation")) }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/deletesimulation" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DeleteSimulationInput",
-}) as any as S.Schema<DeleteSimulationInput>;
-export interface DeleteSimulationOutput {}
-export const DeleteSimulationOutput = S.suspend(() => S.Struct({})).annotations(
-  { identifier: "DeleteSimulationOutput" },
-) as any as S.Schema<DeleteSimulationOutput>;
-export interface ListSimulationsInput {
-  MaxResults?: number;
-  NextToken?: string;
-}
-export const ListSimulationsInput = S.suspend(() =>
-  S.Struct({
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/listsimulations" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListSimulationsInput",
-}) as any as S.Schema<ListSimulationsInput>;
-export interface DeleteAppInput {
-  Simulation: string;
-  Domain: string;
-  App: string;
-}
-export const DeleteAppInput = S.suspend(() =>
-  S.Struct({
-    Simulation: S.String.pipe(T.HttpQuery("simulation")),
-    Domain: S.String.pipe(T.HttpQuery("domain")),
-    App: S.String.pipe(T.HttpQuery("app")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/deleteapp" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DeleteAppInput",
-}) as any as S.Schema<DeleteAppInput>;
-export interface DeleteAppOutput {}
-export const DeleteAppOutput = S.suspend(() => S.Struct({})).annotations({
-  identifier: "DeleteAppOutput",
-}) as any as S.Schema<DeleteAppOutput>;
-export interface DescribeAppInput {
-  Simulation: string;
-  Domain: string;
-  App: string;
-}
-export const DescribeAppInput = S.suspend(() =>
-  S.Struct({
-    Simulation: S.String.pipe(T.HttpQuery("simulation")),
-    Domain: S.String.pipe(T.HttpQuery("domain")),
-    App: S.String.pipe(T.HttpQuery("app")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/describeapp" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DescribeAppInput",
-}) as any as S.Schema<DescribeAppInput>;
-export interface ListAppsInput {
-  Simulation: string;
-  Domain?: string;
-  MaxResults?: number;
-  NextToken?: string;
-}
-export const ListAppsInput = S.suspend(() =>
-  S.Struct({
-    Simulation: S.String.pipe(T.HttpQuery("simulation")),
-    Domain: S.optional(S.String).pipe(T.HttpQuery("domain")),
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/listapps" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListAppsInput",
-}) as any as S.Schema<ListAppsInput>;
-export interface StartClockInput {
-  Simulation: string;
-}
-export const StartClockInput = S.suspend(() =>
-  S.Struct({ Simulation: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/startclock" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "StartClockInput",
-}) as any as S.Schema<StartClockInput>;
-export interface StartClockOutput {}
-export const StartClockOutput = S.suspend(() => S.Struct({})).annotations({
-  identifier: "StartClockOutput",
-}) as any as S.Schema<StartClockOutput>;
-export interface StopAppInput {
-  Simulation: string;
-  Domain: string;
-  App: string;
-}
-export const StopAppInput = S.suspend(() =>
-  S.Struct({ Simulation: S.String, Domain: S.String, App: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/stopapp" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({ identifier: "StopAppInput" }) as any as S.Schema<StopAppInput>;
-export interface StopAppOutput {}
-export const StopAppOutput = S.suspend(() => S.Struct({})).annotations({
-  identifier: "StopAppOutput",
-}) as any as S.Schema<StopAppOutput>;
-export interface StopClockInput {
-  Simulation: string;
-}
-export const StopClockInput = S.suspend(() =>
-  S.Struct({ Simulation: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/stopclock" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "StopClockInput",
-}) as any as S.Schema<StopClockInput>;
-export interface StopClockOutput {}
-export const StopClockOutput = S.suspend(() => S.Struct({})).annotations({
-  identifier: "StopClockOutput",
-}) as any as S.Schema<StopClockOutput>;
-export type LaunchCommandList = string[];
-export const LaunchCommandList = S.Array(S.String);
 export type TagMap = { [key: string]: string | undefined };
-export const TagMap = S.Record({
-  key: S.String,
-  value: S.UndefinedOr(S.String),
-});
-export interface S3Location {
-  BucketName: string;
-  ObjectKey: string;
-}
-export const S3Location = S.suspend(() =>
-  S.Struct({ BucketName: S.String, ObjectKey: S.String }),
-).annotations({ identifier: "S3Location" }) as any as S.Schema<S3Location>;
-export interface S3Destination {
-  BucketName: string;
-  ObjectKeyPrefix?: string;
-}
-export const S3Destination = S.suspend(() =>
-  S.Struct({ BucketName: S.String, ObjectKeyPrefix: S.optional(S.String) }),
-).annotations({
-  identifier: "S3Destination",
-}) as any as S.Schema<S3Destination>;
-export interface LaunchOverrides {
-  LaunchCommands?: string[];
-}
-export const LaunchOverrides = S.suspend(() =>
-  S.Struct({ LaunchCommands: S.optional(LaunchCommandList) }),
-).annotations({
-  identifier: "LaunchOverrides",
-}) as any as S.Schema<LaunchOverrides>;
+export const TagMap = S.Record(S.String, S.String.pipe(S.optional));
 export interface ListTagsForResourceOutput {
   Tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceOutput = S.suspend(() =>
   S.Struct({ Tags: S.optional(TagMap) }),
-).annotations({
+).annotate({
   identifier: "ListTagsForResourceOutput",
 }) as any as S.Schema<ListTagsForResourceOutput>;
 export interface TagResourceInput {
@@ -433,13 +159,47 @@ export const TagResourceInput = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "TagResourceInput",
 }) as any as S.Schema<TagResourceInput>;
 export interface TagResourceOutput {}
-export const TagResourceOutput = S.suspend(() => S.Struct({})).annotations({
+export const TagResourceOutput = S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceOutput",
 }) as any as S.Schema<TagResourceOutput>;
+export type TagKeyList = string[];
+export const TagKeyList = S.Array(S.String);
+export interface UntagResourceInput {
+  ResourceArn: string;
+  TagKeys: string[];
+}
+export const UntagResourceInput = S.suspend(() =>
+  S.Struct({
+    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
+    TagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/tags/{ResourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "UntagResourceInput",
+}) as any as S.Schema<UntagResourceInput>;
+export interface UntagResourceOutput {}
+export const UntagResourceOutput = S.suspend(() => S.Struct({})).annotate({
+  identifier: "UntagResourceOutput",
+}) as any as S.Schema<UntagResourceOutput>;
+export interface S3Location {
+  BucketName: string;
+  ObjectKey: string;
+}
+export const S3Location = S.suspend(() =>
+  S.Struct({ BucketName: S.String, ObjectKey: S.String }),
+).annotate({ identifier: "S3Location" }) as any as S.Schema<S3Location>;
 export interface StartSimulationInput {
   ClientToken?: string | redacted.Redacted<string>;
   Name: string;
@@ -470,100 +230,9 @@ export const StartSimulationInput = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "StartSimulationInput",
 }) as any as S.Schema<StartSimulationInput>;
-export interface CreateSnapshotInput {
-  Simulation: string;
-  Destination: S3Destination;
-}
-export const CreateSnapshotInput = S.suspend(() =>
-  S.Struct({ Simulation: S.String, Destination: S3Destination }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/createsnapshot" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "CreateSnapshotInput",
-}) as any as S.Schema<CreateSnapshotInput>;
-export interface CreateSnapshotOutput {}
-export const CreateSnapshotOutput = S.suspend(() => S.Struct({})).annotations({
-  identifier: "CreateSnapshotOutput",
-}) as any as S.Schema<CreateSnapshotOutput>;
-export interface StartAppInput {
-  ClientToken?: string | redacted.Redacted<string>;
-  Simulation: string;
-  Domain: string;
-  Name: string;
-  Description?: string;
-  LaunchOverrides?: LaunchOverrides;
-}
-export const StartAppInput = S.suspend(() =>
-  S.Struct({
-    ClientToken: S.optional(SensitiveString).pipe(T.IdempotencyToken()),
-    Simulation: S.String,
-    Domain: S.String,
-    Name: S.String,
-    Description: S.optional(S.String),
-    LaunchOverrides: S.optional(LaunchOverrides),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/startapp" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "StartAppInput",
-}) as any as S.Schema<StartAppInput>;
-export interface SimulationMetadata {
-  Name?: string;
-  Arn?: string;
-  CreationTime?: Date;
-  Status?: string;
-  TargetStatus?: string;
-}
-export const SimulationMetadata = S.suspend(() =>
-  S.Struct({
-    Name: S.optional(S.String),
-    Arn: S.optional(S.String),
-    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    Status: S.optional(S.String),
-    TargetStatus: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "SimulationMetadata",
-}) as any as S.Schema<SimulationMetadata>;
-export type SimulationList = SimulationMetadata[];
-export const SimulationList = S.Array(SimulationMetadata);
-export interface SimulationAppMetadata {
-  Name?: string;
-  Simulation?: string;
-  Domain?: string;
-  Status?: string;
-  TargetStatus?: string;
-}
-export const SimulationAppMetadata = S.suspend(() =>
-  S.Struct({
-    Name: S.optional(S.String),
-    Simulation: S.optional(S.String),
-    Domain: S.optional(S.String),
-    Status: S.optional(S.String),
-    TargetStatus: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "SimulationAppMetadata",
-}) as any as S.Schema<SimulationAppMetadata>;
-export type SimulationAppList = SimulationAppMetadata[];
-export const SimulationAppList = S.Array(SimulationAppMetadata);
 export interface StartSimulationOutput {
   Arn?: string;
   ExecutionId?: string;
@@ -575,54 +244,57 @@ export const StartSimulationOutput = S.suspend(() =>
     ExecutionId: S.optional(S.String),
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
-).annotations({
+).annotate({
   identifier: "StartSimulationOutput",
 }) as any as S.Schema<StartSimulationOutput>;
-export interface ListSimulationsOutput {
-  Simulations?: SimulationMetadata[];
-  NextToken?: string;
+export interface DescribeSimulationInput {
+  Simulation: string;
 }
-export const ListSimulationsOutput = S.suspend(() =>
-  S.Struct({
-    Simulations: S.optional(SimulationList),
-    NextToken: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "ListSimulationsOutput",
-}) as any as S.Schema<ListSimulationsOutput>;
-export interface ListAppsOutput {
-  Apps?: SimulationAppMetadata[];
-  NextToken?: string;
+export const DescribeSimulationInput = S.suspend(() =>
+  S.Struct({ Simulation: S.String.pipe(T.HttpQuery("simulation")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/describesimulation" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DescribeSimulationInput",
+}) as any as S.Schema<DescribeSimulationInput>;
+export interface CloudWatchLogsLogGroup {
+  LogGroupArn?: string;
 }
-export const ListAppsOutput = S.suspend(() =>
-  S.Struct({
-    Apps: S.optional(SimulationAppList),
-    NextToken: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "ListAppsOutput",
-}) as any as S.Schema<ListAppsOutput>;
-export interface StartAppOutput {
-  Name?: string;
-  Domain?: string;
-  Simulation?: string;
+export const CloudWatchLogsLogGroup = S.suspend(() =>
+  S.Struct({ LogGroupArn: S.optional(S.String) }),
+).annotate({
+  identifier: "CloudWatchLogsLogGroup",
+}) as any as S.Schema<CloudWatchLogsLogGroup>;
+export interface LogDestination {
+  CloudWatchLogsLogGroup?: CloudWatchLogsLogGroup;
 }
-export const StartAppOutput = S.suspend(() =>
-  S.Struct({
-    Name: S.optional(S.String),
-    Domain: S.optional(S.String),
-    Simulation: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "StartAppOutput",
-}) as any as S.Schema<StartAppOutput>;
+export const LogDestination = S.suspend(() =>
+  S.Struct({ CloudWatchLogsLogGroup: S.optional(CloudWatchLogsLogGroup) }),
+).annotate({ identifier: "LogDestination" }) as any as S.Schema<LogDestination>;
+export type LogDestinations = LogDestination[];
+export const LogDestinations = S.Array(LogDestination);
+export interface LoggingConfiguration {
+  Destinations?: LogDestination[];
+}
+export const LoggingConfiguration = S.suspend(() =>
+  S.Struct({ Destinations: S.optional(LogDestinations) }),
+).annotate({
+  identifier: "LoggingConfiguration",
+}) as any as S.Schema<LoggingConfiguration>;
 export interface Domain {
   Name?: string;
   Lifecycle?: string;
 }
 export const Domain = S.suspend(() =>
   S.Struct({ Name: S.optional(S.String), Lifecycle: S.optional(S.String) }),
-).annotations({ identifier: "Domain" }) as any as S.Schema<Domain>;
+).annotate({ identifier: "Domain" }) as any as S.Schema<Domain>;
 export type DomainList = Domain[];
 export const DomainList = S.Array(Domain);
 export interface SimulationClock {
@@ -634,22 +306,11 @@ export const SimulationClock = S.suspend(() =>
     Status: S.optional(S.String),
     TargetStatus: S.optional(S.String),
   }),
-).annotations({
+).annotate({
   identifier: "SimulationClock",
 }) as any as S.Schema<SimulationClock>;
 export type SimulationClockList = SimulationClock[];
 export const SimulationClockList = S.Array(SimulationClock);
-export interface SimulationAppPortMapping {
-  Declared?: number;
-  Actual?: number;
-}
-export const SimulationAppPortMapping = S.suspend(() =>
-  S.Struct({ Declared: S.optional(S.Number), Actual: S.optional(S.Number) }),
-).annotations({
-  identifier: "SimulationAppPortMapping",
-}) as any as S.Schema<SimulationAppPortMapping>;
-export type AppPortMappings = SimulationAppPortMapping[];
-export const AppPortMappings = S.Array(SimulationAppPortMapping);
 export interface LiveSimulationState {
   Domains?: Domain[];
   Clocks?: SimulationClock[];
@@ -659,71 +320,9 @@ export const LiveSimulationState = S.suspend(() =>
     Domains: S.optional(DomainList),
     Clocks: S.optional(SimulationClockList),
   }),
-).annotations({
+).annotate({
   identifier: "LiveSimulationState",
 }) as any as S.Schema<LiveSimulationState>;
-export interface SimulationAppEndpointInfo {
-  Address?: string;
-  IngressPortMappings?: SimulationAppPortMapping[];
-}
-export const SimulationAppEndpointInfo = S.suspend(() =>
-  S.Struct({
-    Address: S.optional(S.String),
-    IngressPortMappings: S.optional(AppPortMappings),
-  }),
-).annotations({
-  identifier: "SimulationAppEndpointInfo",
-}) as any as S.Schema<SimulationAppEndpointInfo>;
-export interface CloudWatchLogsLogGroup {
-  LogGroupArn?: string;
-}
-export const CloudWatchLogsLogGroup = S.suspend(() =>
-  S.Struct({ LogGroupArn: S.optional(S.String) }),
-).annotations({
-  identifier: "CloudWatchLogsLogGroup",
-}) as any as S.Schema<CloudWatchLogsLogGroup>;
-export interface DescribeAppOutput {
-  Name?: string;
-  Simulation?: string;
-  Domain?: string;
-  Status?: string;
-  TargetStatus?: string;
-  LaunchOverrides?: LaunchOverrides;
-  Description?: string;
-  EndpointInfo?: SimulationAppEndpointInfo;
-}
-export const DescribeAppOutput = S.suspend(() =>
-  S.Struct({
-    Name: S.optional(S.String),
-    Simulation: S.optional(S.String),
-    Domain: S.optional(S.String),
-    Status: S.optional(S.String),
-    TargetStatus: S.optional(S.String),
-    LaunchOverrides: S.optional(LaunchOverrides),
-    Description: S.optional(S.String),
-    EndpointInfo: S.optional(SimulationAppEndpointInfo),
-  }),
-).annotations({
-  identifier: "DescribeAppOutput",
-}) as any as S.Schema<DescribeAppOutput>;
-export interface LogDestination {
-  CloudWatchLogsLogGroup?: CloudWatchLogsLogGroup;
-}
-export const LogDestination = S.suspend(() =>
-  S.Struct({ CloudWatchLogsLogGroup: S.optional(CloudWatchLogsLogGroup) }),
-).annotations({
-  identifier: "LogDestination",
-}) as any as S.Schema<LogDestination>;
-export type LogDestinations = LogDestination[];
-export const LogDestinations = S.Array(LogDestination);
-export interface LoggingConfiguration {
-  Destinations?: LogDestination[];
-}
-export const LoggingConfiguration = S.suspend(() =>
-  S.Struct({ Destinations: S.optional(LogDestinations) }),
-).annotations({
-  identifier: "LoggingConfiguration",
-}) as any as S.Schema<LoggingConfiguration>;
 export interface DescribeSimulationOutput {
   Name?: string;
   ExecutionId?: string;
@@ -759,54 +358,435 @@ export const DescribeSimulationOutput = S.suspend(() =>
     SnapshotS3Location: S.optional(S3Location),
     StartError: S.optional(S.String),
   }),
-).annotations({
+).annotate({
   identifier: "DescribeSimulationOutput",
 }) as any as S.Schema<DescribeSimulationOutput>;
+export interface StopSimulationInput {
+  Simulation: string;
+}
+export const StopSimulationInput = S.suspend(() =>
+  S.Struct({ Simulation: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/stopsimulation" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "StopSimulationInput",
+}) as any as S.Schema<StopSimulationInput>;
+export interface StopSimulationOutput {}
+export const StopSimulationOutput = S.suspend(() => S.Struct({})).annotate({
+  identifier: "StopSimulationOutput",
+}) as any as S.Schema<StopSimulationOutput>;
+export interface DeleteSimulationInput {
+  Simulation: string;
+}
+export const DeleteSimulationInput = S.suspend(() =>
+  S.Struct({ Simulation: S.String.pipe(T.HttpQuery("simulation")) }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/deletesimulation" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeleteSimulationInput",
+}) as any as S.Schema<DeleteSimulationInput>;
+export interface DeleteSimulationOutput {}
+export const DeleteSimulationOutput = S.suspend(() => S.Struct({})).annotate({
+  identifier: "DeleteSimulationOutput",
+}) as any as S.Schema<DeleteSimulationOutput>;
+export interface ListSimulationsInput {
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListSimulationsInput = S.suspend(() =>
+  S.Struct({
+    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/listsimulations" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListSimulationsInput",
+}) as any as S.Schema<ListSimulationsInput>;
+export interface SimulationMetadata {
+  Name?: string;
+  Arn?: string;
+  CreationTime?: Date;
+  Status?: string;
+  TargetStatus?: string;
+}
+export const SimulationMetadata = S.suspend(() =>
+  S.Struct({
+    Name: S.optional(S.String),
+    Arn: S.optional(S.String),
+    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    Status: S.optional(S.String),
+    TargetStatus: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "SimulationMetadata",
+}) as any as S.Schema<SimulationMetadata>;
+export type SimulationList = SimulationMetadata[];
+export const SimulationList = S.Array(SimulationMetadata);
+export interface ListSimulationsOutput {
+  Simulations?: SimulationMetadata[];
+  NextToken?: string;
+}
+export const ListSimulationsOutput = S.suspend(() =>
+  S.Struct({
+    Simulations: S.optional(SimulationList),
+    NextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ListSimulationsOutput",
+}) as any as S.Schema<ListSimulationsOutput>;
+export interface S3Destination {
+  BucketName: string;
+  ObjectKeyPrefix?: string;
+}
+export const S3Destination = S.suspend(() =>
+  S.Struct({ BucketName: S.String, ObjectKeyPrefix: S.optional(S.String) }),
+).annotate({ identifier: "S3Destination" }) as any as S.Schema<S3Destination>;
+export interface CreateSnapshotInput {
+  Simulation: string;
+  Destination: S3Destination;
+}
+export const CreateSnapshotInput = S.suspend(() =>
+  S.Struct({ Simulation: S.String, Destination: S3Destination }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/createsnapshot" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "CreateSnapshotInput",
+}) as any as S.Schema<CreateSnapshotInput>;
+export interface CreateSnapshotOutput {}
+export const CreateSnapshotOutput = S.suspend(() => S.Struct({})).annotate({
+  identifier: "CreateSnapshotOutput",
+}) as any as S.Schema<CreateSnapshotOutput>;
+export interface DeleteAppInput {
+  Simulation: string;
+  Domain: string;
+  App: string;
+}
+export const DeleteAppInput = S.suspend(() =>
+  S.Struct({
+    Simulation: S.String.pipe(T.HttpQuery("simulation")),
+    Domain: S.String.pipe(T.HttpQuery("domain")),
+    App: S.String.pipe(T.HttpQuery("app")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/deleteapp" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({ identifier: "DeleteAppInput" }) as any as S.Schema<DeleteAppInput>;
+export interface DeleteAppOutput {}
+export const DeleteAppOutput = S.suspend(() => S.Struct({})).annotate({
+  identifier: "DeleteAppOutput",
+}) as any as S.Schema<DeleteAppOutput>;
+export interface DescribeAppInput {
+  Simulation: string;
+  Domain: string;
+  App: string;
+}
+export const DescribeAppInput = S.suspend(() =>
+  S.Struct({
+    Simulation: S.String.pipe(T.HttpQuery("simulation")),
+    Domain: S.String.pipe(T.HttpQuery("domain")),
+    App: S.String.pipe(T.HttpQuery("app")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/describeapp" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DescribeAppInput",
+}) as any as S.Schema<DescribeAppInput>;
+export type LaunchCommandList = string[];
+export const LaunchCommandList = S.Array(S.String);
+export interface LaunchOverrides {
+  LaunchCommands?: string[];
+}
+export const LaunchOverrides = S.suspend(() =>
+  S.Struct({ LaunchCommands: S.optional(LaunchCommandList) }),
+).annotate({
+  identifier: "LaunchOverrides",
+}) as any as S.Schema<LaunchOverrides>;
+export interface SimulationAppPortMapping {
+  Declared?: number;
+  Actual?: number;
+}
+export const SimulationAppPortMapping = S.suspend(() =>
+  S.Struct({ Declared: S.optional(S.Number), Actual: S.optional(S.Number) }),
+).annotate({
+  identifier: "SimulationAppPortMapping",
+}) as any as S.Schema<SimulationAppPortMapping>;
+export type AppPortMappings = SimulationAppPortMapping[];
+export const AppPortMappings = S.Array(SimulationAppPortMapping);
+export interface SimulationAppEndpointInfo {
+  Address?: string;
+  IngressPortMappings?: SimulationAppPortMapping[];
+}
+export const SimulationAppEndpointInfo = S.suspend(() =>
+  S.Struct({
+    Address: S.optional(S.String),
+    IngressPortMappings: S.optional(AppPortMappings),
+  }),
+).annotate({
+  identifier: "SimulationAppEndpointInfo",
+}) as any as S.Schema<SimulationAppEndpointInfo>;
+export interface DescribeAppOutput {
+  Name?: string;
+  Simulation?: string;
+  Domain?: string;
+  Status?: string;
+  TargetStatus?: string;
+  LaunchOverrides?: LaunchOverrides;
+  Description?: string;
+  EndpointInfo?: SimulationAppEndpointInfo;
+}
+export const DescribeAppOutput = S.suspend(() =>
+  S.Struct({
+    Name: S.optional(S.String),
+    Simulation: S.optional(S.String),
+    Domain: S.optional(S.String),
+    Status: S.optional(S.String),
+    TargetStatus: S.optional(S.String),
+    LaunchOverrides: S.optional(LaunchOverrides),
+    Description: S.optional(S.String),
+    EndpointInfo: S.optional(SimulationAppEndpointInfo),
+  }),
+).annotate({
+  identifier: "DescribeAppOutput",
+}) as any as S.Schema<DescribeAppOutput>;
+export interface ListAppsInput {
+  Simulation: string;
+  Domain?: string;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListAppsInput = S.suspend(() =>
+  S.Struct({
+    Simulation: S.String.pipe(T.HttpQuery("simulation")),
+    Domain: S.optional(S.String).pipe(T.HttpQuery("domain")),
+    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/listapps" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({ identifier: "ListAppsInput" }) as any as S.Schema<ListAppsInput>;
+export interface SimulationAppMetadata {
+  Name?: string;
+  Simulation?: string;
+  Domain?: string;
+  Status?: string;
+  TargetStatus?: string;
+}
+export const SimulationAppMetadata = S.suspend(() =>
+  S.Struct({
+    Name: S.optional(S.String),
+    Simulation: S.optional(S.String),
+    Domain: S.optional(S.String),
+    Status: S.optional(S.String),
+    TargetStatus: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "SimulationAppMetadata",
+}) as any as S.Schema<SimulationAppMetadata>;
+export type SimulationAppList = SimulationAppMetadata[];
+export const SimulationAppList = S.Array(SimulationAppMetadata);
+export interface ListAppsOutput {
+  Apps?: SimulationAppMetadata[];
+  NextToken?: string;
+}
+export const ListAppsOutput = S.suspend(() =>
+  S.Struct({
+    Apps: S.optional(SimulationAppList),
+    NextToken: S.optional(S.String),
+  }),
+).annotate({ identifier: "ListAppsOutput" }) as any as S.Schema<ListAppsOutput>;
+export interface StartAppInput {
+  ClientToken?: string | redacted.Redacted<string>;
+  Simulation: string;
+  Domain: string;
+  Name: string;
+  Description?: string;
+  LaunchOverrides?: LaunchOverrides;
+}
+export const StartAppInput = S.suspend(() =>
+  S.Struct({
+    ClientToken: S.optional(SensitiveString).pipe(T.IdempotencyToken()),
+    Simulation: S.String,
+    Domain: S.String,
+    Name: S.String,
+    Description: S.optional(S.String),
+    LaunchOverrides: S.optional(LaunchOverrides),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/startapp" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({ identifier: "StartAppInput" }) as any as S.Schema<StartAppInput>;
+export interface StartAppOutput {
+  Name?: string;
+  Domain?: string;
+  Simulation?: string;
+}
+export const StartAppOutput = S.suspend(() =>
+  S.Struct({
+    Name: S.optional(S.String),
+    Domain: S.optional(S.String),
+    Simulation: S.optional(S.String),
+  }),
+).annotate({ identifier: "StartAppOutput" }) as any as S.Schema<StartAppOutput>;
+export interface StartClockInput {
+  Simulation: string;
+}
+export const StartClockInput = S.suspend(() =>
+  S.Struct({ Simulation: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/startclock" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "StartClockInput",
+}) as any as S.Schema<StartClockInput>;
+export interface StartClockOutput {}
+export const StartClockOutput = S.suspend(() => S.Struct({})).annotate({
+  identifier: "StartClockOutput",
+}) as any as S.Schema<StartClockOutput>;
+export interface StopAppInput {
+  Simulation: string;
+  Domain: string;
+  App: string;
+}
+export const StopAppInput = S.suspend(() =>
+  S.Struct({ Simulation: S.String, Domain: S.String, App: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/stopapp" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({ identifier: "StopAppInput" }) as any as S.Schema<StopAppInput>;
+export interface StopAppOutput {}
+export const StopAppOutput = S.suspend(() => S.Struct({})).annotate({
+  identifier: "StopAppOutput",
+}) as any as S.Schema<StopAppOutput>;
+export interface StopClockInput {
+  Simulation: string;
+}
+export const StopClockInput = S.suspend(() =>
+  S.Struct({ Simulation: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/stopclock" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({ identifier: "StopClockInput" }) as any as S.Schema<StopClockInput>;
+export interface StopClockOutput {}
+export const StopClockOutput = S.suspend(() => S.Struct({})).annotate({
+  identifier: "StopClockOutput",
+}) as any as S.Schema<StopClockOutput>;
 
 //# Errors
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { Message: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
-export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
-  "AccessDeniedException",
-  { Message: S.optional(S.String) },
-).pipe(C.withAuthError) {}
-export class ValidationException extends S.TaggedError<ValidationException>()(
+export class ValidationException extends S.TaggedErrorClass<ValidationException>()(
   "ValidationException",
   { Message: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
-export class ConflictException extends S.TaggedError<ConflictException>()(
-  "ConflictException",
-  { Message: S.optional(S.String) },
-).pipe(C.withConflictError) {}
-export class TooManyTagsException extends S.TaggedError<TooManyTagsException>()(
+export class TooManyTagsException extends S.TaggedErrorClass<TooManyTagsException>()(
   "TooManyTagsException",
   { Message: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
-export class InternalServerException extends S.TaggedError<InternalServerException>()(
+export class AccessDeniedException extends S.TaggedErrorClass<AccessDeniedException>()(
+  "AccessDeniedException",
+  { Message: S.optional(S.String) },
+).pipe(C.withAuthError) {}
+export class ConflictException extends S.TaggedErrorClass<ConflictException>()(
+  "ConflictException",
+  { Message: S.optional(S.String) },
+).pipe(C.withConflictError) {}
+export class InternalServerException extends S.TaggedErrorClass<InternalServerException>()(
   "InternalServerException",
   { Message: S.optional(S.String) },
 ).pipe(C.withServerError) {}
-export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
+export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
   { Message: S.optional(S.String) },
 ).pipe(C.withQuotaError) {}
 
 //# Operations
 /**
- * Removes tags from a SimSpace Weaver resource. For more information about tags, see Tagging Amazon Web Services resources in the
- * *Amazon Web Services General Reference*.
+ * Lists all tags on a SimSpace Weaver resource.
  */
-export const untagResource: (
-  input: UntagResourceInput,
+export const listTagsForResource: (
+  input: ListTagsForResourceInput,
 ) => effect.Effect<
-  UntagResourceOutput,
+  ListTagsForResourceOutput,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceInput,
-  output: UntagResourceOutput,
+  input: ListTagsForResourceInput,
+  output: ListTagsForResourceOutput,
   errors: [ResourceNotFoundException, ValidationException],
 }));
 /**
@@ -832,18 +812,72 @@ export const tagResource: (
   ],
 }));
 /**
- * Lists all tags on a SimSpace Weaver resource.
+ * Removes tags from a SimSpace Weaver resource. For more information about tags, see Tagging Amazon Web Services resources in the
+ * *Amazon Web Services General Reference*.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceInput,
+export const untagResource: (
+  input: UntagResourceInput,
 ) => effect.Effect<
-  ListTagsForResourceOutput,
+  UntagResourceOutput,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceInput,
-  output: ListTagsForResourceOutput,
+  input: UntagResourceInput,
+  output: UntagResourceOutput,
   errors: [ResourceNotFoundException, ValidationException],
+}));
+/**
+ * Starts a simulation with the given name. You must choose to start your
+ * simulation from a schema or from a snapshot.
+ * For more information about the schema, see the schema reference
+ * in the *SimSpace Weaver User Guide*.
+ * For more information about snapshots, see Snapshots
+ * in the *SimSpace Weaver User Guide*.
+ */
+export const startSimulation: (
+  input: StartSimulationInput,
+) => effect.Effect<
+  StartSimulationOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartSimulationInput,
+  output: StartSimulationOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ValidationException,
+  ],
+}));
+/**
+ * Returns the current state of the given simulation.
+ */
+export const describeSimulation: (
+  input: DescribeSimulationInput,
+) => effect.Effect<
+  DescribeSimulationOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeSimulationInput,
+  output: DescribeSimulationOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
 }));
 /**
  * Stops the given simulation.
@@ -874,23 +908,28 @@ export const stopSimulation: (
   ],
 }));
 /**
- * Returns the state of the given custom app.
+ * Deletes all SimSpace Weaver resources assigned to the given simulation.
+ *
+ * Your simulation uses resources in other Amazon Web Services. This API operation doesn't delete
+ * resources in other Amazon Web Services.
  */
-export const describeApp: (
-  input: DescribeAppInput,
+export const deleteSimulation: (
+  input: DeleteSimulationInput,
 ) => effect.Effect<
-  DescribeAppOutput,
+  DeleteSimulationOutput,
   | AccessDeniedException
+  | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ValidationException
   | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeAppInput,
-  output: DescribeAppOutput,
+  input: DeleteSimulationInput,
+  output: DeleteSimulationOutput,
   errors: [
     AccessDeniedException,
+    ConflictException,
     InternalServerException,
     ResourceNotFoundException,
     ValidationException,
@@ -934,58 +973,6 @@ export const listSimulations: {
   input: ListSimulationsInput,
   output: ListSimulationsOutput,
   errors: [AccessDeniedException, InternalServerException, ValidationException],
-  pagination: {
-    inputToken: "NextToken",
-    outputToken: "NextToken",
-    pageSize: "MaxResults",
-  } as const,
-}));
-/**
- * Lists all custom apps or service apps for the given simulation and domain.
- */
-export const listApps: {
-  (
-    input: ListAppsInput,
-  ): effect.Effect<
-    ListAppsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  pages: (
-    input: ListAppsInput,
-  ) => stream.Stream<
-    ListAppsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  items: (
-    input: ListAppsInput,
-  ) => stream.Stream<
-    unknown,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
-  input: ListAppsInput,
-  output: ListAppsOutput,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
   pagination: {
     inputToken: "NextToken",
     outputToken: "NextToken",
@@ -1059,34 +1046,6 @@ export const createSnapshot: (
   ],
 }));
 /**
- * Deletes all SimSpace Weaver resources assigned to the given simulation.
- *
- * Your simulation uses resources in other Amazon Web Services. This API operation doesn't delete
- * resources in other Amazon Web Services.
- */
-export const deleteSimulation: (
-  input: DeleteSimulationInput,
-) => effect.Effect<
-  DeleteSimulationOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteSimulationInput,
-  output: DeleteSimulationOutput,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
  * Deletes the instance of the given custom app.
  */
 export const deleteApp: (
@@ -1108,6 +1067,106 @@ export const deleteApp: (
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Returns the state of the given custom app.
+ */
+export const describeApp: (
+  input: DescribeAppInput,
+) => effect.Effect<
+  DescribeAppOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeAppInput,
+  output: DescribeAppOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Lists all custom apps or service apps for the given simulation and domain.
+ */
+export const listApps: {
+  (
+    input: ListAppsInput,
+  ): effect.Effect<
+    ListAppsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAppsInput,
+  ) => stream.Stream<
+    ListAppsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAppsInput,
+  ) => stream.Stream<
+    unknown,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAppsInput,
+  output: ListAppsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
+/**
+ * Starts a custom app with the configuration specified in the simulation schema.
+ */
+export const startApp: (
+  input: StartAppInput,
+) => effect.Effect<
+  StartAppOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartAppInput,
+  output: StartAppOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ServiceQuotaExceededException,
     ValidationException,
   ],
 }));
@@ -1183,84 +1242,6 @@ export const stopClock: (
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Returns the current state of the given simulation.
- */
-export const describeSimulation: (
-  input: DescribeSimulationInput,
-) => effect.Effect<
-  DescribeSimulationOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeSimulationInput,
-  output: DescribeSimulationOutput,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Starts a custom app with the configuration specified in the simulation schema.
- */
-export const startApp: (
-  input: StartAppInput,
-) => effect.Effect<
-  StartAppOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ServiceQuotaExceededException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StartAppInput,
-  output: StartAppOutput,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ServiceQuotaExceededException,
-    ValidationException,
-  ],
-}));
-/**
- * Starts a simulation with the given name. You must choose to start your
- * simulation from a schema or from a snapshot.
- * For more information about the schema, see the schema reference
- * in the *SimSpace Weaver User Guide*.
- * For more information about snapshots, see Snapshots
- * in the *SimSpace Weaver User Guide*.
- */
-export const startSimulation: (
-  input: StartSimulationInput,
-) => effect.Effect<
-  StartSimulationOutput,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | ServiceQuotaExceededException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StartSimulationInput,
-  output: StartSimulationOutput,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ServiceQuotaExceededException,
     ValidationException,
   ],
 }));

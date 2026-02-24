@@ -1,4 +1,4 @@
-import { HttpClient } from "@effect/platform";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as effect from "effect/Effect";
 import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
@@ -121,54 +121,28 @@ const rules = T.EndpointResolver((p, _) => {
 });
 
 //# Newtypes
-export type ProductCode = string;
+export type CustomerIdentifier = string;
 export type UsageDimension = string;
 export type UsageQuantity = number;
+export type AllocatedUsageQuantity = number;
+export type TagKey = string;
+export type TagValue = string;
+export type CustomerAWSAccountId = string;
+export type ProductCode = string;
+export type ErrorMessage = string;
 export type ClientToken = string;
 export type VersionInteger = number;
 export type Nonce = string;
 export type NonEmptyString = string;
-export type CustomerIdentifier = string;
-export type CustomerAWSAccountId = string;
-export type AllocatedUsageQuantity = number;
-export type TagKey = string;
-export type TagValue = string;
-export type ErrorMessage = string;
 
 //# Schemas
-export interface RegisterUsageRequest {
-  ProductCode: string;
-  PublicKeyVersion: number;
-  Nonce?: string;
-}
-export const RegisterUsageRequest = S.suspend(() =>
-  S.Struct({
-    ProductCode: S.String,
-    PublicKeyVersion: S.Number,
-    Nonce: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotations({
-  identifier: "RegisterUsageRequest",
-}) as any as S.Schema<RegisterUsageRequest>;
-export interface ResolveCustomerRequest {
-  RegistrationToken: string;
-}
-export const ResolveCustomerRequest = S.suspend(() =>
-  S.Struct({ RegistrationToken: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotations({
-  identifier: "ResolveCustomerRequest",
-}) as any as S.Schema<ResolveCustomerRequest>;
 export interface Tag {
   Key: string;
   Value: string;
 }
 export const Tag = S.suspend(() =>
   S.Struct({ Key: S.String, Value: S.String }),
-).annotations({ identifier: "Tag" }) as any as S.Schema<Tag>;
+).annotate({ identifier: "Tag" }) as any as S.Schema<Tag>;
 export type TagList = Tag[];
 export const TagList = S.Array(Tag);
 export interface UsageAllocation {
@@ -177,7 +151,7 @@ export interface UsageAllocation {
 }
 export const UsageAllocation = S.suspend(() =>
   S.Struct({ AllocatedUsageQuantity: S.Number, Tags: S.optional(TagList) }),
-).annotations({
+).annotate({
   identifier: "UsageAllocation",
 }) as any as S.Schema<UsageAllocation>;
 export type UsageAllocations = UsageAllocation[];
@@ -199,7 +173,7 @@ export const UsageRecord = S.suspend(() =>
     UsageAllocations: S.optional(UsageAllocations),
     CustomerAWSAccountId: S.optional(S.String),
   }),
-).annotations({ identifier: "UsageRecord" }) as any as S.Schema<UsageRecord>;
+).annotate({ identifier: "UsageRecord" }) as any as S.Schema<UsageRecord>;
 export type UsageRecordList = UsageRecord[];
 export const UsageRecordList = S.Array(UsageRecord);
 export interface BatchMeterUsageRequest {
@@ -210,37 +184,43 @@ export const BatchMeterUsageRequest = S.suspend(() =>
   S.Struct({ UsageRecords: UsageRecordList, ProductCode: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotations({
+).annotate({
   identifier: "BatchMeterUsageRequest",
 }) as any as S.Schema<BatchMeterUsageRequest>;
-export interface RegisterUsageResult {
-  PublicKeyRotationTimestamp?: Date;
-  Signature?: string;
+export type UsageRecordResultStatus =
+  | "Success"
+  | "CustomerNotSubscribed"
+  | "DuplicateRecord"
+  | (string & {});
+export const UsageRecordResultStatus = S.String;
+export interface UsageRecordResult {
+  UsageRecord?: UsageRecord;
+  MeteringRecordId?: string;
+  Status?: UsageRecordResultStatus;
 }
-export const RegisterUsageResult = S.suspend(() =>
+export const UsageRecordResult = S.suspend(() =>
   S.Struct({
-    PublicKeyRotationTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    Signature: S.optional(S.String),
+    UsageRecord: S.optional(UsageRecord),
+    MeteringRecordId: S.optional(S.String),
+    Status: S.optional(UsageRecordResultStatus),
   }),
-).annotations({
-  identifier: "RegisterUsageResult",
-}) as any as S.Schema<RegisterUsageResult>;
-export interface ResolveCustomerResult {
-  CustomerIdentifier?: string;
-  ProductCode?: string;
-  CustomerAWSAccountId?: string;
+).annotate({
+  identifier: "UsageRecordResult",
+}) as any as S.Schema<UsageRecordResult>;
+export type UsageRecordResultList = UsageRecordResult[];
+export const UsageRecordResultList = S.Array(UsageRecordResult);
+export interface BatchMeterUsageResult {
+  Results?: UsageRecordResult[];
+  UnprocessedRecords?: UsageRecord[];
 }
-export const ResolveCustomerResult = S.suspend(() =>
+export const BatchMeterUsageResult = S.suspend(() =>
   S.Struct({
-    CustomerIdentifier: S.optional(S.String),
-    ProductCode: S.optional(S.String),
-    CustomerAWSAccountId: S.optional(S.String),
+    Results: S.optional(UsageRecordResultList),
+    UnprocessedRecords: S.optional(UsageRecordList),
   }),
-).annotations({
-  identifier: "ResolveCustomerResult",
-}) as any as S.Schema<ResolveCustomerResult>;
+).annotate({
+  identifier: "BatchMeterUsageResult",
+}) as any as S.Schema<BatchMeterUsageResult>;
 export interface MeterUsageRequest {
   ProductCode: string;
   Timestamp: Date;
@@ -262,165 +242,282 @@ export const MeterUsageRequest = S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotations({
+).annotate({
   identifier: "MeterUsageRequest",
 }) as any as S.Schema<MeterUsageRequest>;
-export type UsageRecordResultStatus =
-  | "Success"
-  | "CustomerNotSubscribed"
-  | "DuplicateRecord"
-  | (string & {});
-export const UsageRecordResultStatus = S.String;
-export interface UsageRecordResult {
-  UsageRecord?: UsageRecord;
-  MeteringRecordId?: string;
-  Status?: UsageRecordResultStatus;
-}
-export const UsageRecordResult = S.suspend(() =>
-  S.Struct({
-    UsageRecord: S.optional(UsageRecord),
-    MeteringRecordId: S.optional(S.String),
-    Status: S.optional(UsageRecordResultStatus),
-  }),
-).annotations({
-  identifier: "UsageRecordResult",
-}) as any as S.Schema<UsageRecordResult>;
-export type UsageRecordResultList = UsageRecordResult[];
-export const UsageRecordResultList = S.Array(UsageRecordResult);
-export interface BatchMeterUsageResult {
-  Results?: UsageRecordResult[];
-  UnprocessedRecords?: UsageRecord[];
-}
-export const BatchMeterUsageResult = S.suspend(() =>
-  S.Struct({
-    Results: S.optional(UsageRecordResultList),
-    UnprocessedRecords: S.optional(UsageRecordList),
-  }),
-).annotations({
-  identifier: "BatchMeterUsageResult",
-}) as any as S.Schema<BatchMeterUsageResult>;
 export interface MeterUsageResult {
   MeteringRecordId?: string;
 }
 export const MeterUsageResult = S.suspend(() =>
   S.Struct({ MeteringRecordId: S.optional(S.String) }),
-).annotations({
+).annotate({
   identifier: "MeterUsageResult",
 }) as any as S.Schema<MeterUsageResult>;
+export interface RegisterUsageRequest {
+  ProductCode: string;
+  PublicKeyVersion: number;
+  Nonce?: string;
+}
+export const RegisterUsageRequest = S.suspend(() =>
+  S.Struct({
+    ProductCode: S.String,
+    PublicKeyVersion: S.Number,
+    Nonce: S.optional(S.String),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "RegisterUsageRequest",
+}) as any as S.Schema<RegisterUsageRequest>;
+export interface RegisterUsageResult {
+  PublicKeyRotationTimestamp?: Date;
+  Signature?: string;
+}
+export const RegisterUsageResult = S.suspend(() =>
+  S.Struct({
+    PublicKeyRotationTimestamp: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    Signature: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "RegisterUsageResult",
+}) as any as S.Schema<RegisterUsageResult>;
+export interface ResolveCustomerRequest {
+  RegistrationToken: string;
+}
+export const ResolveCustomerRequest = S.suspend(() =>
+  S.Struct({ RegistrationToken: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "ResolveCustomerRequest",
+}) as any as S.Schema<ResolveCustomerRequest>;
+export interface ResolveCustomerResult {
+  CustomerIdentifier?: string;
+  ProductCode?: string;
+  CustomerAWSAccountId?: string;
+}
+export const ResolveCustomerResult = S.suspend(() =>
+  S.Struct({
+    CustomerIdentifier: S.optional(S.String),
+    ProductCode: S.optional(S.String),
+    CustomerAWSAccountId: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ResolveCustomerResult",
+}) as any as S.Schema<ResolveCustomerResult>;
 
 //# Errors
-export class CustomerNotEntitledException extends S.TaggedError<CustomerNotEntitledException>()(
-  "CustomerNotEntitledException",
-  { message: S.optional(S.String) },
-) {}
-export class DisabledApiException extends S.TaggedError<DisabledApiException>()(
+export class DisabledApiException extends S.TaggedErrorClass<DisabledApiException>()(
   "DisabledApiException",
   { message: S.optional(S.String) },
 ) {}
-export class ExpiredTokenException extends S.TaggedError<ExpiredTokenException>()(
-  "ExpiredTokenException",
-  { message: S.optional(S.String) },
-) {}
-export class InternalServiceErrorException extends S.TaggedError<InternalServiceErrorException>()(
+export class InternalServiceErrorException extends S.TaggedErrorClass<InternalServiceErrorException>()(
   "InternalServiceErrorException",
   { message: S.optional(S.String) },
 ) {}
-export class DuplicateRequestException extends S.TaggedError<DuplicateRequestException>()(
-  "DuplicateRequestException",
-  { message: S.optional(S.String) },
-) {}
-export class InvalidProductCodeException extends S.TaggedError<InvalidProductCodeException>()(
-  "InvalidProductCodeException",
-  { message: S.optional(S.String) },
-) {}
-export class InvalidCustomerIdentifierException extends S.TaggedError<InvalidCustomerIdentifierException>()(
+export class InvalidCustomerIdentifierException extends S.TaggedErrorClass<InvalidCustomerIdentifierException>()(
   "InvalidCustomerIdentifierException",
   { message: S.optional(S.String) },
 ) {}
-export class InvalidTokenException extends S.TaggedError<InvalidTokenException>()(
-  "InvalidTokenException",
+export class InvalidProductCodeException extends S.TaggedErrorClass<InvalidProductCodeException>()(
+  "InvalidProductCodeException",
   { message: S.optional(S.String) },
 ) {}
-export class IdempotencyConflictException extends S.TaggedError<IdempotencyConflictException>()(
-  "IdempotencyConflictException",
-  { message: S.optional(S.String) },
-).pipe(C.withConflictError) {}
-export class InvalidPublicKeyVersionException extends S.TaggedError<InvalidPublicKeyVersionException>()(
-  "InvalidPublicKeyVersionException",
-  { message: S.optional(S.String) },
-) {}
-export class InvalidTagException extends S.TaggedError<InvalidTagException>()(
+export class InvalidTagException extends S.TaggedErrorClass<InvalidTagException>()(
   "InvalidTagException",
   { message: S.optional(S.String) },
 ) {}
-export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
-  "ThrottlingException",
-  { message: S.optional(S.String) },
-) {}
-export class InvalidEndpointRegionException extends S.TaggedError<InvalidEndpointRegionException>()(
-  "InvalidEndpointRegionException",
-  { message: S.optional(S.String) },
-) {}
-export class InvalidRegionException extends S.TaggedError<InvalidRegionException>()(
-  "InvalidRegionException",
-  { message: S.optional(S.String) },
-) {}
-export class InvalidUsageAllocationsException extends S.TaggedError<InvalidUsageAllocationsException>()(
+export class InvalidUsageAllocationsException extends S.TaggedErrorClass<InvalidUsageAllocationsException>()(
   "InvalidUsageAllocationsException",
   { message: S.optional(S.String) },
 ) {}
-export class PlatformNotSupportedException extends S.TaggedError<PlatformNotSupportedException>()(
-  "PlatformNotSupportedException",
-  { message: S.optional(S.String) },
-) {}
-export class InvalidUsageDimensionException extends S.TaggedError<InvalidUsageDimensionException>()(
+export class InvalidUsageDimensionException extends S.TaggedErrorClass<InvalidUsageDimensionException>()(
   "InvalidUsageDimensionException",
   { message: S.optional(S.String) },
 ) {}
-export class TimestampOutOfBoundsException extends S.TaggedError<TimestampOutOfBoundsException>()(
+export class ThrottlingException extends S.TaggedErrorClass<ThrottlingException>()(
+  "ThrottlingException",
+  { message: S.optional(S.String) },
+) {}
+export class TimestampOutOfBoundsException extends S.TaggedErrorClass<TimestampOutOfBoundsException>()(
   "TimestampOutOfBoundsException",
+  { message: S.optional(S.String) },
+) {}
+export class CustomerNotEntitledException extends S.TaggedErrorClass<CustomerNotEntitledException>()(
+  "CustomerNotEntitledException",
+  { message: S.optional(S.String) },
+) {}
+export class DuplicateRequestException extends S.TaggedErrorClass<DuplicateRequestException>()(
+  "DuplicateRequestException",
+  { message: S.optional(S.String) },
+) {}
+export class IdempotencyConflictException extends S.TaggedErrorClass<IdempotencyConflictException>()(
+  "IdempotencyConflictException",
+  { message: S.optional(S.String) },
+).pipe(C.withConflictError) {}
+export class InvalidEndpointRegionException extends S.TaggedErrorClass<InvalidEndpointRegionException>()(
+  "InvalidEndpointRegionException",
+  { message: S.optional(S.String) },
+) {}
+export class InvalidPublicKeyVersionException extends S.TaggedErrorClass<InvalidPublicKeyVersionException>()(
+  "InvalidPublicKeyVersionException",
+  { message: S.optional(S.String) },
+) {}
+export class InvalidRegionException extends S.TaggedErrorClass<InvalidRegionException>()(
+  "InvalidRegionException",
+  { message: S.optional(S.String) },
+) {}
+export class PlatformNotSupportedException extends S.TaggedErrorClass<PlatformNotSupportedException>()(
+  "PlatformNotSupportedException",
+  { message: S.optional(S.String) },
+) {}
+export class ExpiredTokenException extends S.TaggedErrorClass<ExpiredTokenException>()(
+  "ExpiredTokenException",
+  { message: S.optional(S.String) },
+) {}
+export class InvalidTokenException extends S.TaggedErrorClass<InvalidTokenException>()(
+  "InvalidTokenException",
   { message: S.optional(S.String) },
 ) {}
 
 //# Operations
 /**
- * `ResolveCustomer` is called by a SaaS application during the registration
- * process. When a buyer visits your website during the registration process, the buyer
- * submits a registration token through their browser. The registration token is resolved
- * through this API to obtain a `CustomerIdentifier` along with the
- * `CustomerAWSAccountId` and `ProductCode`.
+ * The `CustomerIdentifier` and `CustomerAWSAccountID` are mutually exclusive parameters. You must use one or the other, but not both in the same API request.
+ * For new implementations, we recommend using the `CustomerAWSAccountID`. Your current integration will continue to work. When updating your implementation, consider migrating to `CustomerAWSAccountID` for improved integration.
  *
- * To successfully resolve the token, the API must be called from the account that was used to publish the SaaS
- * application. For an example of using `ResolveCustomer`, see ResolveCustomer code example in the Amazon Web Services Marketplace Seller
+ * To post metering records for customers, SaaS applications call
+ * `BatchMeterUsage`, which is used for metering SaaS flexible
+ * consumption pricing (FCP). Identical requests are idempotent and can be
+ * retried with the same records or a subset of records. Each
+ * `BatchMeterUsage` request is for only one product. If you
+ * want to meter usage for multiple products, you must make multiple
+ * `BatchMeterUsage` calls.
+ *
+ * Usage records should be submitted in quick succession following a
+ * recorded event. Usage records aren't accepted 6 hours or more after an
+ * event.
+ *
+ * `BatchMeterUsage` can process up to 25
+ * `UsageRecords` at a time, and each request must be less than
+ * 1 MB in size. Optionally, you can have multiple usage allocations for
+ * usage data that's split into buckets according to predefined tags.
+ *
+ * `BatchMeterUsage` returns a list of
+ * `UsageRecordResult` objects, which have each
+ * `UsageRecord`. It also returns a list of
+ * `UnprocessedRecords`, which indicate errors on the service
+ * side that should be retried.
+ *
+ * For Amazon Web Services Regions that support `BatchMeterUsage`, see BatchMeterUsage Region support.
+ *
+ * For an example of `BatchMeterUsage`, see BatchMeterUsage code example in the Amazon Web Services Marketplace Seller
  * Guide.
- *
- * Permission is required for this operation. Your IAM role or user performing this
- * operation requires a policy to allow the `aws-marketplace:ResolveCustomer`
- * action. For more information, see Actions, resources, and condition keys for Amazon Web Services Marketplace Metering Service in
- * the *Service Authorization Reference*.
- *
- * For Amazon Web Services Regions that support `ResolveCustomer`, see ResolveCustomer Region support.
  */
-export const resolveCustomer: (
-  input: ResolveCustomerRequest,
+export const batchMeterUsage: (
+  input: BatchMeterUsageRequest,
 ) => effect.Effect<
-  ResolveCustomerResult,
+  BatchMeterUsageResult,
   | DisabledApiException
-  | ExpiredTokenException
   | InternalServiceErrorException
-  | InvalidTokenException
+  | InvalidCustomerIdentifierException
+  | InvalidProductCodeException
+  | InvalidTagException
+  | InvalidUsageAllocationsException
+  | InvalidUsageDimensionException
   | ThrottlingException
+  | TimestampOutOfBoundsException
   | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ResolveCustomerRequest,
-  output: ResolveCustomerResult,
+  input: BatchMeterUsageRequest,
+  output: BatchMeterUsageResult,
   errors: [
     DisabledApiException,
-    ExpiredTokenException,
     InternalServiceErrorException,
-    InvalidTokenException,
+    InvalidCustomerIdentifierException,
+    InvalidProductCodeException,
+    InvalidTagException,
+    InvalidUsageAllocationsException,
+    InvalidUsageDimensionException,
     ThrottlingException,
+    TimestampOutOfBoundsException,
+  ],
+}));
+/**
+ * As a seller, your software hosted in the buyer's Amazon Web Services account uses this API action to emit metering records directly to Amazon Web Services Marketplace.
+ * You must use the following buyer Amazon Web Services account credentials to sign the API request.
+ *
+ * - For **Amazon EC2** deployments, your software must use the
+ * IAM role for Amazon EC2
+ * to sign the API call for `MeterUsage` API operation.
+ *
+ * - For **Amazon EKS** deployments, your software must use
+ * IAM roles for service accounts (IRSA)
+ * to sign the API call for the `MeterUsage` API operation. Using
+ * EKS Pod Identity, the node role, or long-term access keys is not supported.
+ *
+ * - For **Amazon ECS** deployments, your software must use
+ * Amazon ECS task IAM
+ * role to sign the API call for the `MeterUsage` API operation. Using the node role or long-term access keys are not supported.
+ *
+ * - For **Amazon Bedrock AgentCore Runtime** deployments, your software must use the
+ * AgentCore Runtime execution role
+ * to sign the API call for the `MeterUsage` API operation. Long-term access keys are not supported.
+ *
+ * The handling of `MeterUsage` requests varies between Amazon Bedrock AgentCore Runtime and non-Amazon Bedrock AgentCore deployments.
+ *
+ * - For **non-Amazon Bedrock AgentCore Runtime** deployments, you can only report usage once per hour for each dimension.
+ * For AMI-based products, this is per dimension and per EC2 instance. For container products, this is per dimension and per ECS task or EKS pod. You can't modify values
+ * after they're recorded. If you report usage before a current hour ends, you will be unable to report additional usage until the next hour begins.
+ * The `Timestamp` request parameter is rounded down to the hour and used to enforce this once-per-hour rule for idempotency.
+ * For requests that are identical after the `Timestamp` is rounded down, the API is idempotent and returns the metering record ID.
+ *
+ * - For **Amazon Bedrock AgentCore Runtime** deployments, you can report usage multiple times per hour for the same dimension.
+ * You do not need to aggregate metering records by the hour. You must include an idempotency token in the `ClientToken` request parameter. If using an Amazon
+ * SDK or the Amazon Web Services CLI, you must use the latest version which automatically includes an idempotency token in the `ClientToken` request parameter so that the request is processed successfully.
+ * The `Timestamp` request parameter is not rounded down to the hour and is not used for duplicate validation. Requests with duplicate `Timestamps` are aggregated as long as the
+ * `ClientToken` is unique.
+ *
+ * If you submit records more than six hours after events occur, the records won't be accepted. The timestamp in your request determines when an event is recorded.
+ *
+ * You can optionally include multiple usage allocations, to provide customers with usage data split into buckets by tags that you define or allow the customer to define.
+ *
+ * For Amazon Web Services Regions that support `MeterUsage`, see MeterUsage Region support for Amazon EC2 and MeterUsage Region support for Amazon ECS and Amazon EKS.
+ */
+export const meterUsage: (
+  input: MeterUsageRequest,
+) => effect.Effect<
+  MeterUsageResult,
+  | CustomerNotEntitledException
+  | DuplicateRequestException
+  | IdempotencyConflictException
+  | InternalServiceErrorException
+  | InvalidEndpointRegionException
+  | InvalidProductCodeException
+  | InvalidTagException
+  | InvalidUsageAllocationsException
+  | InvalidUsageDimensionException
+  | ThrottlingException
+  | TimestampOutOfBoundsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: MeterUsageRequest,
+  output: MeterUsageResult,
+  errors: [
+    CustomerNotEntitledException,
+    DuplicateRequestException,
+    IdempotencyConflictException,
+    InternalServiceErrorException,
+    InvalidEndpointRegionException,
+    InvalidProductCodeException,
+    InvalidTagException,
+    InvalidUsageAllocationsException,
+    InvalidUsageDimensionException,
+    ThrottlingException,
+    TimestampOutOfBoundsException,
   ],
 }));
 /**
@@ -493,122 +590,42 @@ export const registerUsage: (
   ],
 }));
 /**
- * The `CustomerIdentifier` parameter is scheduled for deprecation on March 31, 2026. Use `CustomerAWSAccountID` instead.
+ * `ResolveCustomer` is called by a SaaS application during the registration
+ * process. When a buyer visits your website during the registration process, the buyer
+ * submits a registration token through their browser. The registration token is resolved
+ * through this API to obtain a `CustomerIdentifier` along with the
+ * `CustomerAWSAccountId` and `ProductCode`.
  *
- * These parameters are mutually exclusive. You can't specify both `CustomerIdentifier` and `CustomerAWSAccountID` in the same request.
- *
- * To post metering records for customers, SaaS applications call
- * `BatchMeterUsage`, which is used for metering SaaS flexible
- * consumption pricing (FCP). Identical requests are idempotent and can be
- * retried with the same records or a subset of records. Each
- * `BatchMeterUsage` request is for only one product. If you
- * want to meter usage for multiple products, you must make multiple
- * `BatchMeterUsage` calls.
- *
- * Usage records should be submitted in quick succession following a
- * recorded event. Usage records aren't accepted 6 hours or more after an
- * event.
- *
- * `BatchMeterUsage` can process up to 25
- * `UsageRecords` at a time, and each request must be less than
- * 1 MB in size. Optionally, you can have multiple usage allocations for
- * usage data that's split into buckets according to predefined tags.
- *
- * `BatchMeterUsage` returns a list of
- * `UsageRecordResult` objects, which have each
- * `UsageRecord`. It also returns a list of
- * `UnprocessedRecords`, which indicate errors on the service
- * side that should be retried.
- *
- * For Amazon Web Services Regions that support `BatchMeterUsage`, see BatchMeterUsage Region support.
- *
- * For an example of `BatchMeterUsage`, see BatchMeterUsage code example in the Amazon Web Services Marketplace Seller
+ * To successfully resolve the token, the API must be called from the account that was used to publish the SaaS
+ * application. For an example of using `ResolveCustomer`, see ResolveCustomer code example in the Amazon Web Services Marketplace Seller
  * Guide.
+ *
+ * Permission is required for this operation. Your IAM role or user performing this
+ * operation requires a policy to allow the `aws-marketplace:ResolveCustomer`
+ * action. For more information, see Actions, resources, and condition keys for Amazon Web Services Marketplace Metering Service in
+ * the *Service Authorization Reference*.
+ *
+ * For Amazon Web Services Regions that support `ResolveCustomer`, see ResolveCustomer Region support.
  */
-export const batchMeterUsage: (
-  input: BatchMeterUsageRequest,
+export const resolveCustomer: (
+  input: ResolveCustomerRequest,
 ) => effect.Effect<
-  BatchMeterUsageResult,
+  ResolveCustomerResult,
   | DisabledApiException
+  | ExpiredTokenException
   | InternalServiceErrorException
-  | InvalidCustomerIdentifierException
-  | InvalidProductCodeException
-  | InvalidTagException
-  | InvalidUsageAllocationsException
-  | InvalidUsageDimensionException
+  | InvalidTokenException
   | ThrottlingException
-  | TimestampOutOfBoundsException
   | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: BatchMeterUsageRequest,
-  output: BatchMeterUsageResult,
+  input: ResolveCustomerRequest,
+  output: ResolveCustomerResult,
   errors: [
     DisabledApiException,
+    ExpiredTokenException,
     InternalServiceErrorException,
-    InvalidCustomerIdentifierException,
-    InvalidProductCodeException,
-    InvalidTagException,
-    InvalidUsageAllocationsException,
-    InvalidUsageDimensionException,
+    InvalidTokenException,
     ThrottlingException,
-    TimestampOutOfBoundsException,
-  ],
-}));
-/**
- * API to emit metering records. For identical requests, the API is
- * idempotent and returns the metering record ID. This is used for metering
- * flexible consumption pricing (FCP) Amazon Machine Images (AMI) and
- * container products.
- *
- * `MeterUsage` is authenticated on the buyer's Amazon Web Services account using
- * credentials from the Amazon EC2 instance, Amazon ECS task, or Amazon EKS pod.
- *
- * `MeterUsage` can optionally include multiple usage allocations, to provide
- * customers with usage data split into buckets by tags that you define (or allow the
- * customer to define).
- *
- * Submit usage records to report events from the previous hour. If you submit records that
- * are greater than six hours after events occur, the records won’t be accepted. The timestamp
- * in your request determines when an event is recorded. You can only report usage once per hour
- * for each dimension. For AMI-based products, this is per dimension and per EC2 instance. For
- * container products, this is per dimension and per ECS task or EKS pod. You can’t modify values
- * after they’re recorded. If you report usage before the current hour ends, you will be unable to
- * report additional usage until the next hour begins.
- *
- * For Amazon Web Services Regions that support `MeterUsage`, see MeterUsage Region support for Amazon EC2 and MeterUsage Region support for Amazon ECS and Amazon EKS.
- */
-export const meterUsage: (
-  input: MeterUsageRequest,
-) => effect.Effect<
-  MeterUsageResult,
-  | CustomerNotEntitledException
-  | DuplicateRequestException
-  | IdempotencyConflictException
-  | InternalServiceErrorException
-  | InvalidEndpointRegionException
-  | InvalidProductCodeException
-  | InvalidTagException
-  | InvalidUsageAllocationsException
-  | InvalidUsageDimensionException
-  | ThrottlingException
-  | TimestampOutOfBoundsException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: MeterUsageRequest,
-  output: MeterUsageResult,
-  errors: [
-    CustomerNotEntitledException,
-    DuplicateRequestException,
-    IdempotencyConflictException,
-    InternalServiceErrorException,
-    InvalidEndpointRegionException,
-    InvalidProductCodeException,
-    InvalidTagException,
-    InvalidUsageAllocationsException,
-    InvalidUsageDimensionException,
-    ThrottlingException,
-    TimestampOutOfBoundsException,
   ],
 }));

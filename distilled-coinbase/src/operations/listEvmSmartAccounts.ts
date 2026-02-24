@@ -12,14 +12,16 @@ export type ListEvmSmartAccountsInput = typeof ListEvmSmartAccountsInput.Type;
 
 // Output Schema
 export const ListEvmSmartAccountsOutput = Schema.Struct({
-  accounts: Schema.Array(Schema.Struct({
-    address: Schema.String,
-    owners: Schema.Array(Schema.String),
-    name: Schema.optional(Schema.String),
-    policies: Schema.optional(Schema.Array(Schema.String)),
-    createdAt: Schema.optional(Schema.String),
-    updatedAt: Schema.optional(Schema.String),
-  })),
+  accounts: Schema.Array(
+    Schema.Struct({
+      address: Schema.String,
+      owners: Schema.Array(Schema.String),
+      name: Schema.optional(Schema.String),
+      policies: Schema.optional(Schema.Array(Schema.String)),
+      createdAt: Schema.optional(Schema.String),
+      updatedAt: Schema.optional(Schema.String),
+    }),
+  ),
   nextPageToken: Schema.optional(Schema.String),
 });
 export type ListEvmSmartAccountsOutput = typeof ListEvmSmartAccountsOutput.Type;
@@ -34,8 +36,10 @@ export type ListEvmSmartAccountsOutput = typeof ListEvmSmartAccountsOutput.Type;
  * @param pageSize - The number of resources to return per page.
  * @param pageToken - The token for the next page of resources, if any.
  */
-export const listEvmSmartAccounts = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  inputSchema: ListEvmSmartAccountsInput,
-  outputSchema: ListEvmSmartAccountsOutput,
-  errors: [InvalidRequest],
-}));
+export const listEvmSmartAccounts = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    inputSchema: ListEvmSmartAccountsInput,
+    outputSchema: ListEvmSmartAccountsOutput,
+    errors: [InvalidRequest],
+  }),
+);

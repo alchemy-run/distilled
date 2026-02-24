@@ -7,7 +7,7 @@
 
 import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
-import type { HttpClient } from "@effect/platform";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
@@ -81,16 +81,16 @@ export const GetConfigurationResponse = Schema.Struct({
   createdAt: Schema.String.pipe(T.JsonName("created_at")),
   credentials: Schema.Struct({
     keys: Schema.Array(
-      Schema.Union(
+      Schema.Union([
         Schema.Struct({
-          alg: Schema.Literal(
+          alg: Schema.Literals([
             "RS256",
             "RS384",
             "RS512",
             "PS256",
             "PS384",
             "PS512",
-          ),
+          ]),
           e: Schema.String,
           kid: Schema.String,
           kty: Schema.Literal("RSA"),
@@ -112,7 +112,7 @@ export const GetConfigurationResponse = Schema.Struct({
           x: Schema.String,
           y: Schema.String,
         }),
-      ),
+      ]),
     ),
   }),
   description: Schema.String,
@@ -179,16 +179,16 @@ export const CreateConfigurationRequest = Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
   credentials: Schema.Struct({
     keys: Schema.Array(
-      Schema.Union(
+      Schema.Union([
         Schema.Struct({
-          alg: Schema.Literal(
+          alg: Schema.Literals([
             "RS256",
             "RS384",
             "RS512",
             "PS256",
             "PS384",
             "PS512",
-          ),
+          ]),
           e: Schema.String,
           kid: Schema.String,
           kty: Schema.Literal("RSA"),
@@ -210,7 +210,7 @@ export const CreateConfigurationRequest = Schema.Struct({
           x: Schema.String,
           y: Schema.String,
         }),
-      ),
+      ]),
     ),
   }),
   description: Schema.String,
@@ -264,16 +264,16 @@ export const CreateConfigurationResponse = Schema.Struct({
   createdAt: Schema.String.pipe(T.JsonName("created_at")),
   credentials: Schema.Struct({
     keys: Schema.Array(
-      Schema.Union(
+      Schema.Union([
         Schema.Struct({
-          alg: Schema.Literal(
+          alg: Schema.Literals([
             "RS256",
             "RS384",
             "RS512",
             "PS256",
             "PS384",
             "PS512",
-          ),
+          ]),
           e: Schema.String,
           kid: Schema.String,
           kty: Schema.Literal("RSA"),
@@ -295,7 +295,7 @@ export const CreateConfigurationResponse = Schema.Struct({
           x: Schema.String,
           y: Schema.String,
         }),
-      ),
+      ]),
     ),
   }),
   description: Schema.String,
@@ -447,16 +447,16 @@ export const PutConfigurationCredentialRequest = Schema.Struct({
   configId: Schema.String.pipe(T.HttpPath("configId")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
   keys: Schema.Array(
-    Schema.Union(
+    Schema.Union([
       Schema.Struct({
-        alg: Schema.Literal(
+        alg: Schema.Literals([
           "RS256",
           "RS384",
           "RS512",
           "PS256",
           "PS384",
           "PS512",
-        ),
+        ]),
         e: Schema.String,
         kid: Schema.String,
         kty: Schema.Literal("RSA"),
@@ -478,7 +478,7 @@ export const PutConfigurationCredentialRequest = Schema.Struct({
         x: Schema.String,
         y: Schema.String,
       }),
-    ),
+    ]),
   ),
 }).pipe(
   T.Http({
@@ -522,16 +522,16 @@ export interface PutConfigurationCredentialResponse {
 export const PutConfigurationCredentialResponse = Schema.Struct({
   errors: Schema.Unknown,
   keys: Schema.Array(
-    Schema.Union(
+    Schema.Union([
       Schema.Struct({
-        alg: Schema.Literal(
+        alg: Schema.Literals([
           "RS256",
           "RS384",
           "RS512",
           "PS256",
           "PS384",
           "PS512",
-        ),
+        ]),
         e: Schema.String,
         kid: Schema.String,
         kty: Schema.Literal("RSA"),
@@ -553,7 +553,7 @@ export const PutConfigurationCredentialResponse = Schema.Struct({
         x: Schema.String,
         y: Schema.String,
       }),
-    ),
+    ]),
   ),
   messages: Schema.Unknown,
   success: Schema.Literal(true),
@@ -614,13 +614,13 @@ export interface GetRuleResponse {
 }
 
 export const GetRuleResponse = Schema.Struct({
-  action: Schema.Literal("log", "block"),
+  action: Schema.Literals(["log", "block"]),
   description: Schema.String,
   enabled: Schema.Boolean,
   expression: Schema.String,
   selector: Schema.Struct({
     exclude: Schema.optional(
-      Schema.Union(
+      Schema.Union([
         Schema.Array(
           Schema.Struct({
             operationIds: Schema.optional(Schema.Array(Schema.String)).pipe(
@@ -629,17 +629,17 @@ export const GetRuleResponse = Schema.Struct({
           }),
         ),
         Schema.Null,
-      ),
+      ]),
     ),
     include: Schema.optional(
-      Schema.Union(
+      Schema.Union([
         Schema.Array(
           Schema.Struct({
             host: Schema.optional(Schema.Array(Schema.String)),
           }),
         ),
         Schema.Null,
-      ),
+      ]),
     ),
   }),
   title: Schema.String,
@@ -682,13 +682,13 @@ export interface CreateRuleRequest {
 
 export const CreateRuleRequest = Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  action: Schema.Literal("log", "block"),
+  action: Schema.Literals(["log", "block"]),
   description: Schema.String,
   enabled: Schema.Boolean,
   expression: Schema.String,
   selector: Schema.Struct({
     exclude: Schema.optional(
-      Schema.Union(
+      Schema.Union([
         Schema.Array(
           Schema.Struct({
             operationIds: Schema.optional(Schema.Array(Schema.String)).pipe(
@@ -697,17 +697,17 @@ export const CreateRuleRequest = Schema.Struct({
           }),
         ),
         Schema.Null,
-      ),
+      ]),
     ),
     include: Schema.optional(
-      Schema.Union(
+      Schema.Union([
         Schema.Array(
           Schema.Struct({
             host: Schema.optional(Schema.Array(Schema.String)),
           }),
         ),
         Schema.Null,
-      ),
+      ]),
     ),
   }),
   title: Schema.String,
@@ -738,13 +738,13 @@ export interface CreateRuleResponse {
 }
 
 export const CreateRuleResponse = Schema.Struct({
-  action: Schema.Literal("log", "block"),
+  action: Schema.Literals(["log", "block"]),
   description: Schema.String,
   enabled: Schema.Boolean,
   expression: Schema.String,
   selector: Schema.Struct({
     exclude: Schema.optional(
-      Schema.Union(
+      Schema.Union([
         Schema.Array(
           Schema.Struct({
             operationIds: Schema.optional(Schema.Array(Schema.String)).pipe(
@@ -753,17 +753,17 @@ export const CreateRuleResponse = Schema.Struct({
           }),
         ),
         Schema.Null,
-      ),
+      ]),
     ),
     include: Schema.optional(
-      Schema.Union(
+      Schema.Union([
         Schema.Array(
           Schema.Struct({
             host: Schema.optional(Schema.Array(Schema.String)),
           }),
         ),
         Schema.Null,
-      ),
+      ]),
     ),
   }),
   title: Schema.String,
@@ -810,12 +810,12 @@ export interface PatchRuleRequest {
 export const PatchRuleRequest = Schema.Struct({
   ruleId: Schema.String.pipe(T.HttpPath("ruleId")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  action: Schema.optional(Schema.Literal("log", "block")),
+  action: Schema.optional(Schema.Literals(["log", "block"])),
   description: Schema.optional(Schema.String),
   enabled: Schema.optional(Schema.Boolean),
   expression: Schema.optional(Schema.String),
   position: Schema.optional(
-    Schema.Union(
+    Schema.Union([
       Schema.Struct({
         index: Schema.Number,
       }),
@@ -825,12 +825,12 @@ export const PatchRuleRequest = Schema.Struct({
       Schema.Struct({
         after: Schema.optional(Schema.String),
       }),
-    ),
+    ]),
   ),
   selector: Schema.optional(
     Schema.Struct({
       exclude: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Array(
             Schema.Struct({
               operationIds: Schema.optional(Schema.Array(Schema.String)).pipe(
@@ -839,17 +839,17 @@ export const PatchRuleRequest = Schema.Struct({
             }),
           ),
           Schema.Null,
-        ),
+        ]),
       ),
       include: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Array(
             Schema.Struct({
               host: Schema.optional(Schema.Array(Schema.String)),
             }),
           ),
           Schema.Null,
-        ),
+        ]),
       ),
     }),
   ),
@@ -884,13 +884,13 @@ export interface PatchRuleResponse {
 }
 
 export const PatchRuleResponse = Schema.Struct({
-  action: Schema.Literal("log", "block"),
+  action: Schema.Literals(["log", "block"]),
   description: Schema.String,
   enabled: Schema.Boolean,
   expression: Schema.String,
   selector: Schema.Struct({
     exclude: Schema.optional(
-      Schema.Union(
+      Schema.Union([
         Schema.Array(
           Schema.Struct({
             operationIds: Schema.optional(Schema.Array(Schema.String)).pipe(
@@ -899,17 +899,17 @@ export const PatchRuleResponse = Schema.Struct({
           }),
         ),
         Schema.Null,
-      ),
+      ]),
     ),
     include: Schema.optional(
-      Schema.Union(
+      Schema.Union([
         Schema.Array(
           Schema.Struct({
             host: Schema.optional(Schema.Array(Schema.String)),
           }),
         ),
         Schema.Null,
-      ),
+      ]),
     ),
   }),
   title: Schema.String,

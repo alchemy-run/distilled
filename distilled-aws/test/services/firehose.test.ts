@@ -198,7 +198,7 @@ const cleanupBucket = (bucket: string) =>
   Effect.gen(function* () {
     const exists = yield* headBucket({ Bucket: bucket }).pipe(
       Effect.map(() => true),
-      Effect.catchAll(() => Effect.succeed(false)),
+      Effect.catch(() => Effect.succeed(false)),
     );
 
     if (!exists) return;
@@ -229,8 +229,8 @@ const waitForStreamActive = (streamName: string) =>
       while: (err) =>
         err instanceof NotReady && err.status !== "DELETING_FAILED",
       schedule: Schedule.exponential("1 second", 1.5).pipe(
-        Schedule.union(Schedule.spaced("10 seconds")),
-        Schedule.intersect(Schedule.recurs(60)),
+        Schedule.either(Schedule.spaced("10 seconds")),
+        Schedule.both(Schedule.recurs(60)),
       ),
     }),
     Effect.mapError(() => new StreamNotActive()),
@@ -249,8 +249,8 @@ const waitForStreamDeleted = (streamName: string) =>
     Effect.retry({
       while: (err) => err instanceof StillExists,
       schedule: Schedule.exponential("1 second", 1.5).pipe(
-        Schedule.union(Schedule.spaced("10 seconds")),
-        Schedule.intersect(Schedule.recurs(60)),
+        Schedule.either(Schedule.spaced("10 seconds")),
+        Schedule.both(Schedule.recurs(60)),
       ),
     }),
     Effect.mapError(() => new StreamNotDeleted()),
@@ -322,7 +322,7 @@ const withDeliveryStream = <A, E, R>(
           err._tag === "InvalidArgumentException" &&
           err.message?.includes("role"),
         schedule: Schedule.spaced("5 seconds").pipe(
-          Schedule.intersect(Schedule.recurs(6)),
+          Schedule.both(Schedule.recurs(6)),
         ),
       }),
     );

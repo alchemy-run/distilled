@@ -1,4 +1,4 @@
-import { HttpClient } from "@effect/platform";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as effect from "effect/Effect";
 import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
@@ -111,7 +111,7 @@ export const ScanSbomRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "ScanSbomRequest",
 }) as any as S.Schema<ScanSbomRequest>;
 export interface ScanSbomResponse {
@@ -119,7 +119,7 @@ export interface ScanSbomResponse {
 }
 export const ScanSbomResponse = S.suspend(() =>
   S.Struct({ sbom: S.optional(S.Any) }),
-).annotations({
+).annotate({
   identifier: "ScanSbomResponse",
 }) as any as S.Schema<ScanSbomResponse>;
 export type InternalServerExceptionReason =
@@ -141,18 +141,18 @@ export interface ValidationExceptionField {
 }
 export const ValidationExceptionField = S.suspend(() =>
   S.Struct({ name: S.String, message: S.String }),
-).annotations({
+).annotate({
   identifier: "ValidationExceptionField",
 }) as any as S.Schema<ValidationExceptionField>;
 export type ValidationExceptionFields = ValidationExceptionField[];
 export const ValidationExceptionFields = S.Array(ValidationExceptionField);
 
 //# Errors
-export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
+export class AccessDeniedException extends S.TaggedErrorClass<AccessDeniedException>()(
   "AccessDeniedException",
   { message: S.String },
 ).pipe(C.withAuthError) {}
-export class InternalServerException extends S.TaggedError<InternalServerException>()(
+export class InternalServerException extends S.TaggedErrorClass<InternalServerException>()(
   "InternalServerException",
   {
     message: S.String,
@@ -161,7 +161,7 @@ export class InternalServerException extends S.TaggedError<InternalServerExcepti
   },
   T.Retryable(),
 ).pipe(C.withServerError, C.withRetryableError) {}
-export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
+export class ThrottlingException extends S.TaggedErrorClass<ThrottlingException>()(
   "ThrottlingException",
   {
     message: S.String,
@@ -169,7 +169,7 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   },
   T.Retryable({ throttling: true }),
 ).pipe(C.withThrottlingError, C.withRetryableError) {}
-export class ValidationException extends S.TaggedError<ValidationException>()(
+export class ValidationException extends S.TaggedErrorClass<ValidationException>()(
   "ValidationException",
   {
     message: S.String,

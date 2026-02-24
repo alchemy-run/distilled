@@ -7,7 +7,7 @@
 
 import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
-import type { HttpClient } from "@effect/platform";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
@@ -60,7 +60,7 @@ export interface PatchAudioTrackResponse {
 export const PatchAudioTrackResponse = Schema.Struct({
   default: Schema.optional(Schema.Boolean),
   label: Schema.optional(Schema.String),
-  status: Schema.optional(Schema.Literal("queued", "ready", "error")),
+  status: Schema.optional(Schema.Literals(["queued", "ready", "error"])),
   uid: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<PatchAudioTrackResponse>;
 
@@ -147,7 +147,7 @@ export interface CopyAudioTrackResponse {
 export const CopyAudioTrackResponse = Schema.Struct({
   default: Schema.optional(Schema.Boolean),
   label: Schema.optional(Schema.String),
-  status: Schema.optional(Schema.Literal("queued", "ready", "error")),
+  status: Schema.optional(Schema.Literals(["queued", "ready", "error"])),
   uid: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<CopyAudioTrackResponse>;
 
@@ -452,7 +452,7 @@ export const CreateClipResponse = Schema.Struct({
   requireSignedURLs: Schema.optional(Schema.Boolean),
   startTimeSeconds: Schema.optional(Schema.Number),
   status: Schema.optional(
-    Schema.Literal(
+    Schema.Literals([
       "pendingupload",
       "downloading",
       "queued",
@@ -460,7 +460,7 @@ export const CreateClipResponse = Schema.Struct({
       "ready",
       "error",
       "live-inprogress",
-    ),
+    ]),
   ),
   thumbnailTimestampPct: Schema.optional(Schema.Number),
   watermark: Schema.optional(
@@ -669,14 +669,14 @@ export const GetDownloadResponse = Schema.Struct({
   audio: Schema.optional(
     Schema.Struct({
       percentComplete: Schema.optional(Schema.Number),
-      status: Schema.optional(Schema.Literal("ready", "inprogress", "error")),
+      status: Schema.optional(Schema.Literals(["ready", "inprogress", "error"])),
       url: Schema.optional(Schema.String),
     }),
   ),
   default: Schema.optional(
     Schema.Struct({
       percentComplete: Schema.optional(Schema.Number),
-      status: Schema.optional(Schema.Literal("ready", "inprogress", "error")),
+      status: Schema.optional(Schema.Literals(["ready", "inprogress", "error"])),
       url: Schema.optional(Schema.String),
     }),
   ),
@@ -724,7 +724,7 @@ export interface CreateDownloadResponse {
 
 export const CreateDownloadResponse = Schema.Struct({
   percentComplete: Schema.optional(Schema.Number),
-  status: Schema.optional(Schema.Literal("ready", "inprogress", "error")),
+  status: Schema.optional(Schema.Literals(["ready", "inprogress", "error"])),
   url: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<CreateDownloadResponse>;
 
@@ -1030,7 +1030,7 @@ export const CreateLiveInputRequest = Schema.Struct({
     Schema.Struct({
       allowedOrigins: Schema.optional(Schema.Array(Schema.String)),
       hideLiveViewerCount: Schema.optional(Schema.Boolean),
-      mode: Schema.optional(Schema.Literal("off", "automatic")),
+      mode: Schema.optional(Schema.Literals(["off", "automatic"])),
       requireSignedURLs: Schema.optional(Schema.Boolean),
       timeoutSeconds: Schema.optional(Schema.Number),
     }),
@@ -1102,7 +1102,7 @@ export const UpdateLiveInputRequest = Schema.Struct({
     Schema.Struct({
       allowedOrigins: Schema.optional(Schema.Array(Schema.String)),
       hideLiveViewerCount: Schema.optional(Schema.Boolean),
-      mode: Schema.optional(Schema.Literal("off", "automatic")),
+      mode: Schema.optional(Schema.Literals(["off", "automatic"])),
       requireSignedURLs: Schema.optional(Schema.Boolean),
       timeoutSeconds: Schema.optional(Schema.Number),
     }),
@@ -1433,7 +1433,7 @@ export const GetStreamResponse = Schema.Struct({
       errorReasonText: Schema.optional(Schema.String),
       pctComplete: Schema.optional(Schema.String),
       state: Schema.optional(
-        Schema.Literal(
+        Schema.Literals([
           "pendingupload",
           "downloading",
           "queued",
@@ -1441,7 +1441,7 @@ export const GetStreamResponse = Schema.Struct({
           "ready",
           "error",
           "live-inprogress",
-        ),
+        ]),
       ),
     }),
   ),
@@ -1681,7 +1681,7 @@ export const EditStreamResponse = Schema.Struct({
       errorReasonText: Schema.optional(Schema.String),
       pctComplete: Schema.optional(Schema.String),
       state: Schema.optional(
-        Schema.Literal(
+        Schema.Literals([
           "pendingupload",
           "downloading",
           "queued",
@@ -1689,7 +1689,7 @@ export const EditStreamResponse = Schema.Struct({
           "ready",
           "error",
           "live-inprogress",
-        ),
+        ]),
       ),
     }),
   ),
@@ -1747,11 +1747,11 @@ export const CreateTokenRequest = Schema.Struct({
   accessRules: Schema.optional(
     Schema.Array(
       Schema.Struct({
-        action: Schema.optional(Schema.Literal("allow", "block")),
+        action: Schema.optional(Schema.Literals(["allow", "block"])),
         country: Schema.optional(Schema.Array(Schema.String)),
         ip: Schema.optional(Schema.Array(Schema.String)),
         type: Schema.optional(
-          Schema.Literal("any", "ip.src", "ip.geoip.country"),
+          Schema.Literals(["any", "ip.src", "ip.geoip.country"]),
         ),
       }),
     ),

@@ -7,7 +7,7 @@
 
 import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
-import type { HttpClient } from "@effect/platform";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
@@ -23,25 +23,29 @@ import { UploadableSchema } from "../schemas.ts";
 // Errors
 // =============================================================================
 
-export class AccountNotFound extends Schema.TaggedError<AccountNotFound>()(
+export class AccountNotFound extends Schema.TaggedErrorClass<AccountNotFound>()(
   "AccountNotFound",
   { code: Schema.Number, message: Schema.String },
-).pipe(T.HttpErrorMatchers([{ code: 7003 }])) {}
+) {}
+T.applyErrorMatchers(AccountNotFound, [{ code: 7003 }]);
 
-export class ModelNotFound extends Schema.TaggedError<ModelNotFound>()(
+export class ModelNotFound extends Schema.TaggedErrorClass<ModelNotFound>()(
   "ModelNotFound",
   { code: Schema.Number, message: Schema.String },
-).pipe(T.HttpErrorMatchers([{ code: 7003 }])) {}
+) {}
+T.applyErrorMatchers(ModelNotFound, [{ code: 7003 }]);
 
-export class ModelNotSupported extends Schema.TaggedError<ModelNotSupported>()(
+export class ModelNotSupported extends Schema.TaggedErrorClass<ModelNotSupported>()(
   "ModelNotSupported",
   { code: Schema.Number, message: Schema.String },
-).pipe(T.HttpErrorMatchers([{ code: 1000 }])) {}
+) {}
+T.applyErrorMatchers(ModelNotSupported, [{ code: 1000 }]);
 
-export class ModelSchemaNotFound extends Schema.TaggedError<ModelSchemaNotFound>()(
+export class ModelSchemaNotFound extends Schema.TaggedErrorClass<ModelSchemaNotFound>()(
   "ModelSchemaNotFound",
   { code: Schema.Number, message: Schema.String },
-).pipe(T.HttpErrorMatchers([{ code: 6002 }])) {}
+) {}
+T.applyErrorMatchers(ModelSchemaNotFound, [{ code: 6002 }]);
 
 // =============================================================================
 // Ai
@@ -87,7 +91,7 @@ export type RunAiResponse =
   | { summary?: string }
   | { description?: string };
 
-export const RunAiResponse = Schema.Union(
+export const RunAiResponse = Schema.Union([
   Schema.Array(
     Schema.Struct({
       label: Schema.optional(Schema.String),
@@ -165,7 +169,7 @@ export const RunAiResponse = Schema.Union(
   Schema.Struct({
     description: Schema.optional(Schema.String),
   }),
-) as unknown as Schema.Schema<RunAiResponse>;
+]) as unknown as Schema.Schema<RunAiResponse>;
 
 export const runAi: (
   input: RunAiRequest,

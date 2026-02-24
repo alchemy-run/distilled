@@ -7,7 +7,7 @@
 
 import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
-import type { HttpClient } from "@effect/platform";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
@@ -79,7 +79,7 @@ export const GetMembershipResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
   account: Schema.optional(Schema.Unknown),
   apiAccessEnabled: Schema.optional(
-    Schema.Union(Schema.Boolean, Schema.Null),
+    Schema.Union([Schema.Boolean, Schema.Null]),
   ).pipe(T.JsonName("api_access_enabled")),
   permissions: Schema.optional(
     Schema.Struct({
@@ -107,7 +107,7 @@ export const GetMembershipResponse = Schema.Struct({
     Schema.Array(
       Schema.Struct({
         id: Schema.optional(Schema.String),
-        access: Schema.optional(Schema.Literal("allow", "deny")),
+        access: Schema.optional(Schema.Literals(["allow", "deny"])),
         permissionGroups: Schema.optional(
           Schema.Array(
             Schema.Struct({
@@ -150,7 +150,7 @@ export const GetMembershipResponse = Schema.Struct({
     ),
   ),
   roles: Schema.optional(Schema.Array(Schema.String)),
-  status: Schema.optional(Schema.Literal("accepted", "pending", "rejected")),
+  status: Schema.optional(Schema.Literals(["accepted", "pending", "rejected"])),
 }) as unknown as Schema.Schema<GetMembershipResponse>;
 
 export const getMembership: (
@@ -173,7 +173,7 @@ export interface PutMembershipRequest {
 
 export const PutMembershipRequest = Schema.Struct({
   membershipId: Schema.String.pipe(T.HttpPath("membershipId")),
-  status: Schema.Literal("accepted", "rejected"),
+  status: Schema.Literals(["accepted", "rejected"]),
 }).pipe(
   T.Http({ method: "PUT", path: "/memberships/{membershipId}" }),
 ) as unknown as Schema.Schema<PutMembershipRequest>;
@@ -225,7 +225,7 @@ export const PutMembershipResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
   account: Schema.optional(Schema.Unknown),
   apiAccessEnabled: Schema.optional(
-    Schema.Union(Schema.Boolean, Schema.Null),
+    Schema.Union([Schema.Boolean, Schema.Null]),
   ).pipe(T.JsonName("api_access_enabled")),
   permissions: Schema.optional(
     Schema.Struct({
@@ -253,7 +253,7 @@ export const PutMembershipResponse = Schema.Struct({
     Schema.Array(
       Schema.Struct({
         id: Schema.optional(Schema.String),
-        access: Schema.optional(Schema.Literal("allow", "deny")),
+        access: Schema.optional(Schema.Literals(["allow", "deny"])),
         permissionGroups: Schema.optional(
           Schema.Array(
             Schema.Struct({
@@ -296,7 +296,7 @@ export const PutMembershipResponse = Schema.Struct({
     ),
   ),
   roles: Schema.optional(Schema.Array(Schema.String)),
-  status: Schema.optional(Schema.Literal("accepted", "pending", "rejected")),
+  status: Schema.optional(Schema.Literals(["accepted", "pending", "rejected"])),
 }) as unknown as Schema.Schema<PutMembershipResponse>;
 
 export const putMembership: (

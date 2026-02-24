@@ -6,7 +6,12 @@ import * as T from "../traits";
 export const GetProjectEndpointInput = Schema.Struct({
   project_id: Schema.String.pipe(T.PathParam()),
   endpoint_id: Schema.String.pipe(T.PathParam()),
-}).pipe(T.Http({ method: "GET", path: "/projects/{project_id}/endpoints/{endpoint_id}" }));
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/projects/{project_id}/endpoints/{endpoint_id}",
+  }),
+);
 export type GetProjectEndpointInput = typeof GetProjectEndpointInput.Type;
 
 // Output Schema
@@ -20,19 +25,23 @@ export const GetProjectEndpointOutput = Schema.Struct({
     autoscaling_limit_min_cu: Schema.Number,
     autoscaling_limit_max_cu: Schema.Number,
     region_id: Schema.String,
-    type: Schema.Literal("read_only", "read_write"),
-    current_state: Schema.Literal("init", "active", "idle"),
-    pending_state: Schema.optional(Schema.Literal("init", "active", "idle")),
+    type: Schema.Literals(["read_only", "read_write"]),
+    current_state: Schema.Literals(["init", "active", "idle"]),
+    pending_state: Schema.optional(Schema.Literals(["init", "active", "idle"])),
     settings: Schema.Struct({
-      pg_settings: Schema.optional(Schema.Record({ key: Schema.String, value: Schema.String })),
-      pgbouncer_settings: Schema.optional(Schema.Record({ key: Schema.String, value: Schema.String })),
-      preload_libraries: Schema.optional(Schema.Struct({
-        use_defaults: Schema.optional(Schema.Boolean),
-        enabled_libraries: Schema.optional(Schema.Array(Schema.String)),
-      })),
+      pg_settings: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+      pgbouncer_settings: Schema.optional(
+        Schema.Record(Schema.String, Schema.String),
+      ),
+      preload_libraries: Schema.optional(
+        Schema.Struct({
+          use_defaults: Schema.optional(Schema.Boolean),
+          enabled_libraries: Schema.optional(Schema.Array(Schema.String)),
+        }),
+      ),
     }),
     pooler_enabled: Schema.Boolean,
-    pooler_mode: Schema.Literal("transaction"),
+    pooler_mode: Schema.Literals(["transaction"]),
     disabled: Schema.Boolean,
     passwordless_access: Schema.Boolean,
     last_active: Schema.optional(Schema.String),

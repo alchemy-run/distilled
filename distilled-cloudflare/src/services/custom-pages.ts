@@ -7,7 +7,7 @@
 
 import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
-import type { HttpClient } from "@effect/platform";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
@@ -37,7 +37,7 @@ export interface GetCustomPageRequest {
 }
 
 export const GetCustomPageRequest = Schema.Struct({
-  identifier: Schema.Literal(
+  identifier: Schema.Literals([
     "1000_errors",
     "500_errors",
     "basic_challenge",
@@ -48,7 +48,7 @@ export const GetCustomPageRequest = Schema.Struct({
     "under_attack",
     "waf_block",
     "waf_challenge",
-  ).pipe(T.HttpPath("identifier")),
+  ]).pipe(T.HttpPath("identifier")),
 }).pipe(
   T.Http({
     method: "GET",
@@ -80,7 +80,7 @@ export const GetCustomPageResponse = Schema.Struct({
   requiredTokens: Schema.optional(Schema.Array(Schema.String)).pipe(
     T.JsonName("required_tokens"),
   ),
-  state: Schema.optional(Schema.Literal("default", "customized")),
+  state: Schema.optional(Schema.Literals(["default", "customized"])),
   url: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<GetCustomPageResponse>;
 
@@ -119,7 +119,7 @@ export interface PutCustomPageRequest {
 }
 
 export const PutCustomPageRequest = Schema.Struct({
-  identifier: Schema.Literal(
+  identifier: Schema.Literals([
     "1000_errors",
     "500_errors",
     "basic_challenge",
@@ -130,10 +130,10 @@ export const PutCustomPageRequest = Schema.Struct({
     "under_attack",
     "waf_block",
     "waf_challenge",
-  ).pipe(T.HttpPath("identifier")),
+  ]).pipe(T.HttpPath("identifier")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  state: Schema.Literal("default", "customized"),
+  state: Schema.Literals(["default", "customized"]),
   url: Schema.String,
 }).pipe(
   T.Http({
@@ -166,7 +166,7 @@ export const PutCustomPageResponse = Schema.Struct({
   requiredTokens: Schema.optional(Schema.Array(Schema.String)).pipe(
     T.JsonName("required_tokens"),
   ),
-  state: Schema.optional(Schema.Literal("default", "customized")),
+  state: Schema.optional(Schema.Literals(["default", "customized"])),
   url: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<PutCustomPageResponse>;
 

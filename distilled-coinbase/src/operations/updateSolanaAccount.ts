@@ -1,7 +1,12 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
-import { AlreadyExists, IdempotencyError, InvalidRequest, NotFound } from "../errors";
+import {
+  AlreadyExists,
+  IdempotencyError,
+  InvalidRequest,
+  NotFound,
+} from "../errors";
 
 // Input Schema
 export const UpdateSolanaAccountInput = Schema.Struct({

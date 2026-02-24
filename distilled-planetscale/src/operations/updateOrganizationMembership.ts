@@ -43,7 +43,7 @@ export const UpdateOrganizationMembershipOutput = Schema.Struct({
     directory_managed: Schema.optional(Schema.Boolean),
     email_verified: Schema.optional(Schema.Boolean),
   }),
-  role: Schema.Literal("member", "admin"),
+  role: Schema.Literals(["member", "admin"]),
   created_at: Schema.String,
   updated_at: Schema.String,
 });

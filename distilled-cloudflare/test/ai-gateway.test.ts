@@ -40,7 +40,7 @@ const withGateway = <A, E, R>(
     yield* AiGateway.deleteAiGateway({
       accountId: accountId(),
       id: name,
-    }).pipe(Effect.catchAll(() => Effect.void));
+    }).pipe(Effect.catch(() => Effect.void));
 
     // Create gateway
     yield* AiGateway.createAiGateway(defaultGatewayParams(name));
@@ -51,7 +51,7 @@ const withGateway = <A, E, R>(
         AiGateway.deleteAiGateway({
           accountId: accountId(),
           id: name,
-        }).pipe(Effect.catchAll(() => Effect.void)),
+        }).pipe(Effect.catch(() => Effect.void)),
       ),
     );
   });
@@ -73,7 +73,7 @@ describe("AiGateway", () => {
         yield* AiGateway.deleteAiGateway({
           accountId: accountId(),
           id: name,
-        }).pipe(Effect.catchAll(() => Effect.void));
+        }).pipe(Effect.catch(() => Effect.void));
 
         const result = yield* AiGateway.createAiGateway(
           defaultGatewayParams(name),
@@ -88,7 +88,7 @@ describe("AiGateway", () => {
         yield* AiGateway.deleteAiGateway({
           accountId: accountId(),
           id: name,
-        }).pipe(Effect.catchAll(() => Effect.void));
+        }).pipe(Effect.catch(() => Effect.void));
       }));
 
     test("error - GatewayAlreadyExists for duplicate gateway", () =>
@@ -182,7 +182,7 @@ describe("AiGateway", () => {
         yield* AiGateway.deleteAiGateway({
           accountId: accountId(),
           id: name,
-        }).pipe(Effect.catchAll(() => Effect.void));
+        }).pipe(Effect.catch(() => Effect.void));
 
         yield* AiGateway.createAiGateway(defaultGatewayParams(name));
 

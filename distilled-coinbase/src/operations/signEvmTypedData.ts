@@ -1,7 +1,12 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
-import { IdempotencyError, InvalidRequest, NotFound, PaymentMethodRequired } from "../errors";
+import {
+  IdempotencyError,
+  InvalidRequest,
+  NotFound,
+  PaymentMethodRequired,
+} from "../errors";
 
 // Input Schema
 export const SignEvmTypedDataInput = Schema.Struct({
@@ -16,7 +21,13 @@ export const SignEvmTypedDataInput = Schema.Struct({
   types: Schema.Unknown,
   primaryType: Schema.String,
   message: Schema.Unknown,
-}).pipe(T.Http({ method: "POST", path: "/v2/evm/accounts/{address}/sign/typed-data" }), T.WalletAuth());
+}).pipe(
+  T.Http({
+    method: "POST",
+    path: "/v2/evm/accounts/{address}/sign/typed-data",
+  }),
+  T.WalletAuth(),
+);
 export type SignEvmTypedDataInput = typeof SignEvmTypedDataInput.Type;
 
 // Output Schema

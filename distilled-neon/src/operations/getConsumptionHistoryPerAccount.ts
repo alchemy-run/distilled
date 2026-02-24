@@ -11,29 +11,35 @@ export const GetConsumptionHistoryPerAccountInput = Schema.Struct({
   include_v1_metrics: Schema.optional(Schema.Boolean),
   metrics: Schema.optional(Schema.String),
 }).pipe(T.Http({ method: "GET", path: "/consumption_history/account" }));
-export type GetConsumptionHistoryPerAccountInput = typeof GetConsumptionHistoryPerAccountInput.Type;
+export type GetConsumptionHistoryPerAccountInput =
+  typeof GetConsumptionHistoryPerAccountInput.Type;
 
 // Output Schema
 export const GetConsumptionHistoryPerAccountOutput = Schema.Struct({
-  periods: Schema.Array(Schema.Struct({
-    period_id: Schema.String,
-    period_plan: Schema.String,
-    period_start: Schema.String,
-    period_end: Schema.optional(Schema.String),
-    consumption: Schema.Array(Schema.Struct({
-      timeframe_start: Schema.String,
-      timeframe_end: Schema.String,
-      active_time_seconds: Schema.Number,
-      compute_time_seconds: Schema.Number,
-      written_data_bytes: Schema.Number,
-      synthetic_storage_size_bytes: Schema.Number,
-      data_storage_bytes_hour: Schema.optional(Schema.Number),
-      logical_size_bytes: Schema.optional(Schema.Number),
-      logical_size_bytes_hour: Schema.optional(Schema.Number),
-    })),
-  })),
+  periods: Schema.Array(
+    Schema.Struct({
+      period_id: Schema.String,
+      period_plan: Schema.String,
+      period_start: Schema.String,
+      period_end: Schema.optional(Schema.String),
+      consumption: Schema.Array(
+        Schema.Struct({
+          timeframe_start: Schema.String,
+          timeframe_end: Schema.String,
+          active_time_seconds: Schema.Number,
+          compute_time_seconds: Schema.Number,
+          written_data_bytes: Schema.Number,
+          synthetic_storage_size_bytes: Schema.Number,
+          data_storage_bytes_hour: Schema.optional(Schema.Number),
+          logical_size_bytes: Schema.optional(Schema.Number),
+          logical_size_bytes_hour: Schema.optional(Schema.Number),
+        }),
+      ),
+    }),
+  ),
 });
-export type GetConsumptionHistoryPerAccountOutput = typeof GetConsumptionHistoryPerAccountOutput.Type;
+export type GetConsumptionHistoryPerAccountOutput =
+  typeof GetConsumptionHistoryPerAccountOutput.Type;
 
 // The operation
 /**
@@ -88,7 +94,8 @@ A list of metrics can be specified as an array of parameter values or as a comma
 - As a comma-separated list in a single parameter value: `metrics=cpu_seconds,ram_bytes`
 
  */
-export const getConsumptionHistoryPerAccount = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  inputSchema: GetConsumptionHistoryPerAccountInput,
-  outputSchema: GetConsumptionHistoryPerAccountOutput,
-}));
+export const getConsumptionHistoryPerAccount =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    inputSchema: GetConsumptionHistoryPerAccountInput,
+    outputSchema: GetConsumptionHistoryPerAccountOutput,
+  }));

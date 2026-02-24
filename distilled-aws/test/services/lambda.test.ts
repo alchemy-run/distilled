@@ -34,7 +34,7 @@ import {
 } from "../../src/services/sqs.ts";
 import { beforeAll, test } from "../test.ts";
 
-const retrySchedule = Schedule.intersect(
+const retrySchedule = Schedule.both(
   Schedule.recurs(10),
   Schedule.spaced("1 second"),
 );
@@ -148,7 +148,7 @@ const withFunction = <A, E, R>(
       Effect.retry({
         while: (err) =>
           "_tag" in err && err._tag === "InvalidParameterValueException",
-        schedule: Schedule.intersect(
+        schedule: Schedule.both(
           Schedule.recurs(20),
           Schedule.spaced("3 seconds"),
         ),
@@ -188,7 +188,7 @@ const withQueue = <A, E, R>(
     const queueResult = yield* createQueue({ QueueName: queueName }).pipe(
       Effect.retry({
         while: (err) => "_tag" in err && err._tag === "QueueDeletedRecently",
-        schedule: Schedule.intersect(
+        schedule: Schedule.both(
           Schedule.recurs(30),
           Schedule.spaced("2 seconds"),
         ),
@@ -237,7 +237,7 @@ const withEventSourceMapping = <A, E, R>(
           (err._tag === "InvalidParameterValueException" ||
             err._tag === "ResourceConflictException" ||
             err._tag === "ResourceInUseException"),
-        schedule: Schedule.intersect(
+        schedule: Schedule.both(
           Schedule.recurs(10),
           Schedule.spaced("3 seconds"),
         ),
@@ -258,7 +258,7 @@ const withEventSourceMapping = <A, E, R>(
                     Effect.retry({
                       while: (err) =>
                         "_tag" in err && err._tag === "ResourceInUseException",
-                      schedule: Schedule.intersect(
+                      schedule: Schedule.both(
                         Schedule.recurs(10),
                         Schedule.spaced("2 seconds"),
                       ),
@@ -560,7 +560,7 @@ test(
         FunctionName: func.FunctionName,
       }).pipe(
         Effect.map(() => true),
-        Effect.catchAll(() => Effect.succeed(false)),
+        Effect.catch(() => Effect.succeed(false)),
       );
       expect(exists).toEqual(false);
     }),
@@ -609,7 +609,7 @@ test(
               Effect.retry({
                 while: (err) =>
                   "_tag" in err && err._tag === "ResourceInUseException",
-                schedule: Schedule.intersect(
+                schedule: Schedule.both(
                   Schedule.recurs(10),
                   Schedule.spaced("2 seconds"),
                 ),
@@ -622,7 +622,7 @@ test(
                 UUID: mapping.UUID,
               }).pipe(
                 Effect.map(() => true),
-                Effect.catchAll(() => Effect.succeed(false)),
+                Effect.catch(() => Effect.succeed(false)),
               );
               if (stillExists) {
                 return yield* Effect.fail("still exists" as const);
@@ -630,7 +630,7 @@ test(
             }).pipe(
               Effect.retry({
                 while: (err) => err === "still exists",
-                schedule: Schedule.intersect(
+                schedule: Schedule.both(
                   Schedule.recurs(10),
                   Schedule.spaced("2 seconds"),
                 ),

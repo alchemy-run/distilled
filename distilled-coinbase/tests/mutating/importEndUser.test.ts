@@ -8,10 +8,12 @@ describe("importEndUser", () => {
     await runEffect(
       importEndUser({
         userId: "test-user-id",
-        authenticationMethods: [{
-          type: "email" as const,
-          email: "test@example.com",
-        }],
+        authenticationMethods: [
+          {
+            type: "email" as const,
+            email: "test@example.com",
+          },
+        ],
         encryptedPrivateKey: "invalid-key",
         keyType: "evm",
       }).pipe(

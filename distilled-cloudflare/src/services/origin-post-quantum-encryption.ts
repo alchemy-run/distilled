@@ -7,7 +7,7 @@
 
 import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
-import type { HttpClient } from "@effect/platform";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
@@ -50,8 +50,8 @@ export interface GetOriginPostQuantumEncryptionResponse {
 export const GetOriginPostQuantumEncryptionResponse = Schema.Struct({
   id: Schema.Literal("origin_pqe"),
   editable: Schema.Boolean,
-  value: Schema.Literal("preferred", "supported", "off"),
-  modifiedOn: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
+  value: Schema.Literals(["preferred", "supported", "off"]),
+  modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
     T.JsonName("modified_on"),
   ),
 }) as unknown as Schema.Schema<GetOriginPostQuantumEncryptionResponse>;
@@ -77,7 +77,7 @@ export interface PutOriginPostQuantumEncryptionRequest {
 
 export const PutOriginPostQuantumEncryptionRequest = Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  value: Schema.Literal("preferred", "supported", "off"),
+  value: Schema.Literals(["preferred", "supported", "off"]),
 }).pipe(
   T.Http({
     method: "PUT",
@@ -99,8 +99,8 @@ export interface PutOriginPostQuantumEncryptionResponse {
 export const PutOriginPostQuantumEncryptionResponse = Schema.Struct({
   id: Schema.Literal("origin_pqe"),
   editable: Schema.Boolean,
-  value: Schema.Literal("preferred", "supported", "off"),
-  modifiedOn: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
+  value: Schema.Literals(["preferred", "supported", "off"]),
+  modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
     T.JsonName("modified_on"),
   ),
 }) as unknown as Schema.Schema<PutOriginPostQuantumEncryptionResponse>;

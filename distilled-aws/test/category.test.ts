@@ -4,52 +4,52 @@ import * as S from "effect/Schema";
 import * as Category from "../src/category.ts";
 
 // Test error classes with different categories
-class TestBadRequestError extends S.TaggedError<TestBadRequestError>()(
+class TestBadRequestError extends S.TaggedErrorClass<TestBadRequestError>()(
   "TestBadRequestError",
   { message: S.String },
 ).pipe(Category.withBadRequestError) {}
 
-class TestAuthError extends S.TaggedError<TestAuthError>()(
+class TestAuthError extends S.TaggedErrorClass<TestAuthError>()(
   "TestAuthError",
   {},
 ).pipe(Category.withAuthError) {}
 
-class TestServerError extends S.TaggedError<TestServerError>()(
+class TestServerError extends S.TaggedErrorClass<TestServerError>()(
   "TestServerError",
   {},
 ).pipe(Category.withServerError, Category.withRetryableError) {}
 
-class TestThrottlingError extends S.TaggedError<TestThrottlingError>()(
+class TestThrottlingError extends S.TaggedErrorClass<TestThrottlingError>()(
   "TestThrottlingError",
   { retryAfterSeconds: S.optional(S.Number) },
 ).pipe(Category.withThrottlingError) {}
 
-class TestConflictError extends S.TaggedError<TestConflictError>()(
+class TestConflictError extends S.TaggedErrorClass<TestConflictError>()(
   "TestConflictError",
   {},
 ).pipe(Category.withConflictError) {}
 
-class TestQuotaError extends S.TaggedError<TestQuotaError>()(
+class TestQuotaError extends S.TaggedErrorClass<TestQuotaError>()(
   "TestQuotaError",
   {},
 ).pipe(Category.withQuotaError) {}
 
-class TestTimeoutError extends S.TaggedError<TestTimeoutError>()(
+class TestTimeoutError extends S.TaggedErrorClass<TestTimeoutError>()(
   "TestTimeoutError",
   {},
 ).pipe(Category.withTimeoutError) {}
 
-class TestNetworkError extends S.TaggedError<TestNetworkError>()(
+class TestNetworkError extends S.TaggedErrorClass<TestNetworkError>()(
   "TestNetworkError",
   {},
 ).pipe(Category.withNetworkError) {}
 
-class TestAbortedError extends S.TaggedError<TestAbortedError>()(
+class TestAbortedError extends S.TaggedErrorClass<TestAbortedError>()(
   "TestAbortedError",
   {},
 ).pipe(Category.withAbortedError) {}
 
-class UncategorizedError extends S.TaggedError<UncategorizedError>()(
+class UncategorizedError extends S.TaggedErrorClass<UncategorizedError>()(
   "UncategorizedError",
   {},
 ) {}
@@ -67,7 +67,7 @@ describe("Category", () => {
     });
 
     it("returns false for uncategorized errors", () => {
-      const error = new UncategorizedError();
+      const error = new UncategorizedError({});
       expect(Category.hasCategory(error, Category.BadRequestError)).toBe(false);
     });
 
@@ -82,7 +82,7 @@ describe("Category", () => {
     });
 
     it("handles errors with multiple categories", () => {
-      const error = new TestServerError();
+      const error = new TestServerError({});
       expect(Category.hasCategory(error, Category.ServerError)).toBe(true);
       expect(Category.hasCategory(error, Category.RetryableError)).toBe(true);
       expect(Category.hasCategory(error, Category.AuthError)).toBe(false);
@@ -96,56 +96,56 @@ describe("Category", () => {
           new TestBadRequestError({ message: "test" }),
         ),
       ).toBe(true);
-      expect(Category.isBadRequestError(new TestAuthError())).toBe(false);
+      expect(Category.isBadRequestError(new TestAuthError({}))).toBe(false);
     });
 
     it("isAuthError", () => {
-      expect(Category.isAuthError(new TestAuthError())).toBe(true);
+      expect(Category.isAuthError(new TestAuthError({}))).toBe(true);
       expect(
         Category.isAuthError(new TestBadRequestError({ message: "test" })),
       ).toBe(false);
     });
 
     it("isServerError", () => {
-      expect(Category.isServerError(new TestServerError())).toBe(true);
-      expect(Category.isServerError(new TestAuthError())).toBe(false);
+      expect(Category.isServerError(new TestServerError({}))).toBe(true);
+      expect(Category.isServerError(new TestAuthError({}))).toBe(false);
     });
 
     it("isThrottlingError", () => {
       expect(Category.isThrottlingError(new TestThrottlingError({}))).toBe(
         true,
       );
-      expect(Category.isThrottlingError(new TestAuthError())).toBe(false);
+      expect(Category.isThrottlingError(new TestAuthError({}))).toBe(false);
     });
 
     it("isConflictError", () => {
-      expect(Category.isConflictError(new TestConflictError())).toBe(true);
-      expect(Category.isConflictError(new TestAuthError())).toBe(false);
+      expect(Category.isConflictError(new TestConflictError({}))).toBe(true);
+      expect(Category.isConflictError(new TestAuthError({}))).toBe(false);
     });
 
     it("isQuotaError", () => {
-      expect(Category.isQuotaError(new TestQuotaError())).toBe(true);
-      expect(Category.isQuotaError(new TestAuthError())).toBe(false);
+      expect(Category.isQuotaError(new TestQuotaError({}))).toBe(true);
+      expect(Category.isQuotaError(new TestAuthError({}))).toBe(false);
     });
 
     it("isTimeoutError", () => {
-      expect(Category.isTimeoutError(new TestTimeoutError())).toBe(true);
-      expect(Category.isTimeoutError(new TestAuthError())).toBe(false);
+      expect(Category.isTimeoutError(new TestTimeoutError({}))).toBe(true);
+      expect(Category.isTimeoutError(new TestAuthError({}))).toBe(false);
     });
 
     it("isNetworkError", () => {
-      expect(Category.isNetworkError(new TestNetworkError())).toBe(true);
-      expect(Category.isNetworkError(new TestAuthError())).toBe(false);
+      expect(Category.isNetworkError(new TestNetworkError({}))).toBe(true);
+      expect(Category.isNetworkError(new TestAuthError({}))).toBe(false);
     });
 
     it("isAbortedError", () => {
-      expect(Category.isAbortedError(new TestAbortedError())).toBe(true);
-      expect(Category.isAbortedError(new TestAuthError())).toBe(false);
+      expect(Category.isAbortedError(new TestAbortedError({}))).toBe(true);
+      expect(Category.isAbortedError(new TestAuthError({}))).toBe(false);
     });
 
     it("isRetryableError", () => {
-      expect(Category.isRetryableError(new TestServerError())).toBe(true);
-      expect(Category.isRetryableError(new TestAuthError())).toBe(false);
+      expect(Category.isRetryableError(new TestServerError({}))).toBe(true);
+      expect(Category.isRetryableError(new TestAuthError({}))).toBe(false);
     });
   });
 
@@ -161,9 +161,9 @@ describe("Category", () => {
 
     it.effect("catchBadRequestError does not catch other errors", () =>
       Effect.gen(function* () {
-        const result = yield* Effect.fail(new TestAuthError()).pipe(
+        const result = yield* Effect.fail(new TestAuthError({})).pipe(
           Category.catchBadRequestError(() => Effect.succeed("caught")),
-          Effect.catchAll(() => Effect.succeed("not caught")),
+          Effect.catch(() => Effect.succeed("not caught")),
         );
         expect(result).toBe("not caught");
       }),
@@ -171,7 +171,7 @@ describe("Category", () => {
 
     it.effect("catchAuthError catches auth errors", () =>
       Effect.gen(function* () {
-        const result = yield* Effect.fail(new TestAuthError()).pipe(
+        const result = yield* Effect.fail(new TestAuthError({})).pipe(
           Category.catchAuthError(() => Effect.succeed("caught")),
         );
         expect(result).toBe("caught");
@@ -180,7 +180,7 @@ describe("Category", () => {
 
     it.effect("catchServerError catches server errors", () =>
       Effect.gen(function* () {
-        const result = yield* Effect.fail(new TestServerError()).pipe(
+        const result = yield* Effect.fail(new TestServerError({})).pipe(
           Category.catchServerError(() => Effect.succeed("caught")),
         );
         expect(result).toBe("caught");
@@ -198,7 +198,7 @@ describe("Category", () => {
 
     it.effect("catchConflictError catches conflict errors", () =>
       Effect.gen(function* () {
-        const result = yield* Effect.fail(new TestConflictError()).pipe(
+        const result = yield* Effect.fail(new TestConflictError({})).pipe(
           Category.catchConflictError(() => Effect.succeed("caught")),
         );
         expect(result).toBe("caught");
@@ -207,7 +207,7 @@ describe("Category", () => {
 
     it.effect("catchQuotaError catches quota errors", () =>
       Effect.gen(function* () {
-        const result = yield* Effect.fail(new TestQuotaError()).pipe(
+        const result = yield* Effect.fail(new TestQuotaError({})).pipe(
           Category.catchQuotaError(() => Effect.succeed("caught")),
         );
         expect(result).toBe("caught");
@@ -216,7 +216,7 @@ describe("Category", () => {
 
     it.effect("catchTimeoutError catches timeout errors", () =>
       Effect.gen(function* () {
-        const result = yield* Effect.fail(new TestTimeoutError()).pipe(
+        const result = yield* Effect.fail(new TestTimeoutError({})).pipe(
           Category.catchTimeoutError(() => Effect.succeed("caught")),
         );
         expect(result).toBe("caught");
@@ -225,7 +225,7 @@ describe("Category", () => {
 
     it.effect("catchNetworkError catches network errors", () =>
       Effect.gen(function* () {
-        const result = yield* Effect.fail(new TestNetworkError()).pipe(
+        const result = yield* Effect.fail(new TestNetworkError({})).pipe(
           Category.catchNetworkError(() => Effect.succeed("caught")),
         );
         expect(result).toBe("caught");
@@ -234,7 +234,7 @@ describe("Category", () => {
 
     it.effect("catchAbortedError catches aborted errors", () =>
       Effect.gen(function* () {
-        const result = yield* Effect.fail(new TestAbortedError()).pipe(
+        const result = yield* Effect.fail(new TestAbortedError({})).pipe(
           Category.catchAbortedError(() => Effect.succeed("caught")),
         );
         expect(result).toBe("caught");
@@ -243,7 +243,7 @@ describe("Category", () => {
 
     it.effect("catchRetryableError catches retryable errors", () =>
       Effect.gen(function* () {
-        const result = yield* Effect.fail(new TestServerError()).pipe(
+        const result = yield* Effect.fail(new TestServerError({})).pipe(
           Category.catchRetryableError(() => Effect.succeed("caught")),
         );
         expect(result).toBe("caught");
@@ -279,7 +279,7 @@ describe("Category", () => {
     it.effect("catches errors matching any of multiple categories", () =>
       Effect.gen(function* () {
         // TestServerError has both serverError and retryableError
-        const result = yield* Effect.fail(new TestServerError()).pipe(
+        const result = yield* Effect.fail(new TestServerError({})).pipe(
           Category.catchErrors(
             Category.ServerError,
             Category.RetryableError,
@@ -292,7 +292,7 @@ describe("Category", () => {
 
     it.effect("catches auth error when listing multiple categories", () =>
       Effect.gen(function* () {
-        const result = yield* Effect.fail(new TestAuthError()).pipe(
+        const result = yield* Effect.fail(new TestAuthError({})).pipe(
           Category.catchErrors(
             Category.BadRequestError,
             Category.AuthError,
@@ -305,13 +305,13 @@ describe("Category", () => {
 
     it.effect("does not catch errors not in category list", () =>
       Effect.gen(function* () {
-        const result = yield* Effect.fail(new TestAuthError()).pipe(
+        const result = yield* Effect.fail(new TestAuthError({})).pipe(
           Category.catchErrors(
             Category.BadRequestError,
             Category.ServerError,
             () => Effect.succeed("caught"),
           ),
-          Effect.catchAll(() => Effect.succeed("not caught")),
+          Effect.catch(() => Effect.succeed("not caught")),
         );
         expect(result).toBe("not caught");
       }),
@@ -332,7 +332,7 @@ describe("Category", () => {
 
     it.effect("catches multiple categories using string literals", () =>
       Effect.gen(function* () {
-        const result = yield* Effect.fail(new TestAuthError()).pipe(
+        const result = yield* Effect.fail(new TestAuthError({})).pipe(
           Category.catchErrors("BadRequestError", "AuthError", () =>
             Effect.succeed("caught"),
           ),
@@ -359,7 +359,7 @@ describe("Category", () => {
 
   describe("isTransientError", () => {
     it("returns true for retryable errors", () => {
-      expect(Category.isTransientError(new TestServerError())).toBe(true);
+      expect(Category.isTransientError(new TestServerError({}))).toBe(true);
     });
 
     it("returns true for throttling errors", () => {
@@ -367,11 +367,11 @@ describe("Category", () => {
     });
 
     it("returns true for network errors", () => {
-      expect(Category.isTransientError(new TestNetworkError())).toBe(true);
+      expect(Category.isTransientError(new TestNetworkError({}))).toBe(true);
     });
 
     it("returns false for auth errors", () => {
-      expect(Category.isTransientError(new TestAuthError())).toBe(false);
+      expect(Category.isTransientError(new TestAuthError({}))).toBe(false);
     });
 
     it("returns false for bad request errors", () => {
@@ -388,11 +388,11 @@ describe("Category", () => {
         const result = yield* Effect.sync(() => {
           attempts++;
           if (attempts < 3) {
-            throw new TestServerError();
+            throw new TestServerError({});
           }
           return "success";
         }).pipe(
-          Effect.catchAllDefect((e) =>
+          Effect.catchDefect((e) =>
             e instanceof TestServerError ? Effect.fail(e) : Effect.die(e),
           ),
           Effect.retry({

@@ -7,7 +7,7 @@
 
 import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
-import type { HttpClient } from "@effect/platform";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
@@ -159,26 +159,26 @@ export const ClassAttackSurfaceReportIssueRequest = Schema.Struct({
   ),
   issueType: Schema.optional(
     Schema.Array(
-      Schema.Literal(
+      Schema.Literals([
         "compliance_violation",
         "email_security",
         "exposed_infrastructure",
         "insecure_configuration",
         "weak_authentication",
         "configuration_suggestion",
-      ),
+      ]),
     ),
   ).pipe(T.HttpQuery("issue_type")),
   "issueType~neq": Schema.optional(
     Schema.Array(
-      Schema.Literal(
+      Schema.Literals([
         "compliance_violation",
         "email_security",
         "exposed_infrastructure",
         "insecure_configuration",
         "weak_authentication",
         "configuration_suggestion",
-      ),
+      ]),
     ),
   ).pipe(T.HttpQuery("'issue_type~neq'")),
   product: Schema.optional(Schema.Array(Schema.String)).pipe(
@@ -188,10 +188,10 @@ export const ClassAttackSurfaceReportIssueRequest = Schema.Struct({
     T.HttpQuery("'product~neq'"),
   ),
   severity: Schema.optional(
-    Schema.Array(Schema.Literal("low", "moderate", "critical")),
+    Schema.Array(Schema.Literals(["low", "moderate", "critical"])),
   ).pipe(T.HttpQuery("severity")),
   "severity~neq": Schema.optional(
-    Schema.Array(Schema.Literal("low", "moderate", "critical")),
+    Schema.Array(Schema.Literals(["low", "moderate", "critical"])),
   ).pipe(T.HttpQuery("'severity~neq'")),
   subject: Schema.optional(Schema.Array(Schema.String)).pipe(
     T.HttpQuery("subject"),
@@ -362,26 +362,26 @@ export const SeverityAttackSurfaceReportIssueRequest = Schema.Struct({
   ),
   issueType: Schema.optional(
     Schema.Array(
-      Schema.Literal(
+      Schema.Literals([
         "compliance_violation",
         "email_security",
         "exposed_infrastructure",
         "insecure_configuration",
         "weak_authentication",
         "configuration_suggestion",
-      ),
+      ]),
     ),
   ).pipe(T.HttpQuery("issue_type")),
   "issueType~neq": Schema.optional(
     Schema.Array(
-      Schema.Literal(
+      Schema.Literals([
         "compliance_violation",
         "email_security",
         "exposed_infrastructure",
         "insecure_configuration",
         "weak_authentication",
         "configuration_suggestion",
-      ),
+      ]),
     ),
   ).pipe(T.HttpQuery("'issue_type~neq'")),
   product: Schema.optional(Schema.Array(Schema.String)).pipe(
@@ -391,10 +391,10 @@ export const SeverityAttackSurfaceReportIssueRequest = Schema.Struct({
     T.HttpQuery("'product~neq'"),
   ),
   severity: Schema.optional(
-    Schema.Array(Schema.Literal("low", "moderate", "critical")),
+    Schema.Array(Schema.Literals(["low", "moderate", "critical"])),
   ).pipe(T.HttpQuery("severity")),
   "severity~neq": Schema.optional(
-    Schema.Array(Schema.Literal("low", "moderate", "critical")),
+    Schema.Array(Schema.Literals(["low", "moderate", "critical"])),
   ).pipe(T.HttpQuery("'severity~neq'")),
   subject: Schema.optional(Schema.Array(Schema.String)).pipe(
     T.HttpQuery("subject"),
@@ -485,26 +485,26 @@ export const TypeAttackSurfaceReportIssueRequest = Schema.Struct({
   ),
   issueType: Schema.optional(
     Schema.Array(
-      Schema.Literal(
+      Schema.Literals([
         "compliance_violation",
         "email_security",
         "exposed_infrastructure",
         "insecure_configuration",
         "weak_authentication",
         "configuration_suggestion",
-      ),
+      ]),
     ),
   ).pipe(T.HttpQuery("issue_type")),
   "issueType~neq": Schema.optional(
     Schema.Array(
-      Schema.Literal(
+      Schema.Literals([
         "compliance_violation",
         "email_security",
         "exposed_infrastructure",
         "insecure_configuration",
         "weak_authentication",
         "configuration_suggestion",
-      ),
+      ]),
     ),
   ).pipe(T.HttpQuery("'issue_type~neq'")),
   product: Schema.optional(Schema.Array(Schema.String)).pipe(
@@ -514,10 +514,10 @@ export const TypeAttackSurfaceReportIssueRequest = Schema.Struct({
     T.HttpQuery("'product~neq'"),
   ),
   severity: Schema.optional(
-    Schema.Array(Schema.Literal("low", "moderate", "critical")),
+    Schema.Array(Schema.Literals(["low", "moderate", "critical"])),
   ).pipe(T.HttpQuery("severity")),
   "severity~neq": Schema.optional(
-    Schema.Array(Schema.Literal("low", "moderate", "critical")),
+    Schema.Array(Schema.Literals(["low", "moderate", "critical"])),
   ).pipe(T.HttpQuery("'severity~neq'")),
   subject: Schema.optional(Schema.Array(Schema.String)).pipe(
     T.HttpQuery("subject"),
@@ -948,14 +948,14 @@ export const GetIndicatorFeedResponse = Schema.Struct({
   ),
   isPublic: Schema.optional(Schema.Boolean).pipe(T.JsonName("is_public")),
   latestUploadStatus: Schema.optional(
-    Schema.Literal(
+    Schema.Literals([
       "Mirroring",
       "Unifying",
       "Loading",
       "Provisioning",
       "Complete",
       "Error",
-    ),
+    ]),
   ).pipe(T.JsonName("latest_upload_status")),
   modifiedOn: Schema.optional(Schema.String).pipe(T.JsonName("modified_on")),
   name: Schema.optional(Schema.String),
@@ -1384,7 +1384,7 @@ export const GetIpResponse = Schema.Array(
         country: Schema.optional(Schema.String),
         description: Schema.optional(Schema.String),
         type: Schema.optional(
-          Schema.Literal("hosting_provider", "isp", "organization"),
+          Schema.Literals(["hosting_provider", "isp", "organization"]),
         ),
         value: Schema.optional(Schema.String),
       }),
@@ -1448,9 +1448,9 @@ export const CreateMiscategorizationRequest = Schema.Struct({
     T.JsonName("content_removes"),
   ),
   indicatorType: Schema.optional(
-    Schema.Literal("domain", "ipv4", "ipv6", "url"),
+    Schema.Literals(["domain", "ipv4", "ipv6", "url"]),
   ).pipe(T.JsonName("indicator_type")),
-  ip: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
+  ip: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   securityAdds: Schema.optional(Schema.Array(Schema.Number)).pipe(
     T.JsonName("security_adds"),
   ),

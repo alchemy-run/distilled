@@ -1,4 +1,4 @@
-import { HttpClient } from "@effect/platform";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as effect from "effect/Effect";
 import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
@@ -89,25 +89,23 @@ const rules = T.EndpointResolver((p, _) => {
 
 //# Newtypes
 export type IdentityPoolId = string;
+export type ExceptionMessage = string;
 export type IdentityId = string;
 export type DatasetName = string;
-export type IntegerString = number;
-export type SyncSessionToken = string;
-export type PushToken = string;
-export type DeviceId = string;
-export type ClientContext = string;
 export type CognitoEventType = string;
 export type LambdaFunctionArn = string;
 export type ApplicationArn = string;
 export type AssumeRoleArn = string;
 export type StreamName = string;
+export type IntegerString = number;
+export type SyncSessionToken = string;
 export type RecordKey = string;
 export type RecordValue = string;
-export type ExceptionMessage = string;
+export type PushToken = string;
+export type DeviceId = string;
+export type ClientContext = string;
 
 //# Schemas
-export type Platform = "APNS" | "APNS_SANDBOX" | "GCM" | "ADM" | (string & {});
-export const Platform = S.String;
 export interface BulkPublishRequest {
   IdentityPoolId: string;
 }
@@ -128,9 +126,17 @@ export const BulkPublishRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "BulkPublishRequest",
 }) as any as S.Schema<BulkPublishRequest>;
+export interface BulkPublishResponse {
+  IdentityPoolId?: string;
+}
+export const BulkPublishResponse = S.suspend(() =>
+  S.Struct({ IdentityPoolId: S.optional(S.String) }).pipe(ns),
+).annotate({
+  identifier: "BulkPublishResponse",
+}) as any as S.Schema<BulkPublishResponse>;
 export interface DeleteDatasetRequest {
   IdentityPoolId: string;
   IdentityId: string;
@@ -155,9 +161,39 @@ export const DeleteDatasetRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "DeleteDatasetRequest",
 }) as any as S.Schema<DeleteDatasetRequest>;
+export interface Dataset {
+  IdentityId?: string;
+  DatasetName?: string;
+  CreationDate?: Date;
+  LastModifiedDate?: Date;
+  LastModifiedBy?: string;
+  DataStorage?: number;
+  NumRecords?: number;
+}
+export const Dataset = S.suspend(() =>
+  S.Struct({
+    IdentityId: S.optional(S.String),
+    DatasetName: S.optional(S.String),
+    CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    LastModifiedDate: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    LastModifiedBy: S.optional(S.String),
+    DataStorage: S.optional(S.Number),
+    NumRecords: S.optional(S.Number),
+  }),
+).annotate({ identifier: "Dataset" }) as any as S.Schema<Dataset>;
+export interface DeleteDatasetResponse {
+  Dataset?: Dataset;
+}
+export const DeleteDatasetResponse = S.suspend(() =>
+  S.Struct({ Dataset: S.optional(Dataset) }).pipe(ns),
+).annotate({
+  identifier: "DeleteDatasetResponse",
+}) as any as S.Schema<DeleteDatasetResponse>;
 export interface DescribeDatasetRequest {
   IdentityPoolId: string;
   IdentityId: string;
@@ -182,9 +218,17 @@ export const DescribeDatasetRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "DescribeDatasetRequest",
 }) as any as S.Schema<DescribeDatasetRequest>;
+export interface DescribeDatasetResponse {
+  Dataset?: Dataset;
+}
+export const DescribeDatasetResponse = S.suspend(() =>
+  S.Struct({ Dataset: S.optional(Dataset) }).pipe(ns),
+).annotate({
+  identifier: "DescribeDatasetResponse",
+}) as any as S.Schema<DescribeDatasetResponse>;
 export interface DescribeIdentityPoolUsageRequest {
   IdentityPoolId: string;
 }
@@ -202,9 +246,35 @@ export const DescribeIdentityPoolUsageRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "DescribeIdentityPoolUsageRequest",
 }) as any as S.Schema<DescribeIdentityPoolUsageRequest>;
+export interface IdentityPoolUsage {
+  IdentityPoolId?: string;
+  SyncSessionsCount?: number;
+  DataStorage?: number;
+  LastModifiedDate?: Date;
+}
+export const IdentityPoolUsage = S.suspend(() =>
+  S.Struct({
+    IdentityPoolId: S.optional(S.String),
+    SyncSessionsCount: S.optional(S.Number),
+    DataStorage: S.optional(S.Number),
+    LastModifiedDate: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }),
+).annotate({
+  identifier: "IdentityPoolUsage",
+}) as any as S.Schema<IdentityPoolUsage>;
+export interface DescribeIdentityPoolUsageResponse {
+  IdentityPoolUsage?: IdentityPoolUsage;
+}
+export const DescribeIdentityPoolUsageResponse = S.suspend(() =>
+  S.Struct({ IdentityPoolUsage: S.optional(IdentityPoolUsage) }).pipe(ns),
+).annotate({
+  identifier: "DescribeIdentityPoolUsageResponse",
+}) as any as S.Schema<DescribeIdentityPoolUsageResponse>;
 export interface DescribeIdentityUsageRequest {
   IdentityPoolId: string;
   IdentityId: string;
@@ -227,9 +297,35 @@ export const DescribeIdentityUsageRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "DescribeIdentityUsageRequest",
 }) as any as S.Schema<DescribeIdentityUsageRequest>;
+export interface IdentityUsage {
+  IdentityId?: string;
+  IdentityPoolId?: string;
+  LastModifiedDate?: Date;
+  DatasetCount?: number;
+  DataStorage?: number;
+}
+export const IdentityUsage = S.suspend(() =>
+  S.Struct({
+    IdentityId: S.optional(S.String),
+    IdentityPoolId: S.optional(S.String),
+    LastModifiedDate: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    DatasetCount: S.optional(S.Number),
+    DataStorage: S.optional(S.Number),
+  }),
+).annotate({ identifier: "IdentityUsage" }) as any as S.Schema<IdentityUsage>;
+export interface DescribeIdentityUsageResponse {
+  IdentityUsage?: IdentityUsage;
+}
+export const DescribeIdentityUsageResponse = S.suspend(() =>
+  S.Struct({ IdentityUsage: S.optional(IdentityUsage) }).pipe(ns),
+).annotate({
+  identifier: "DescribeIdentityUsageResponse",
+}) as any as S.Schema<DescribeIdentityUsageResponse>;
 export interface GetBulkPublishDetailsRequest {
   IdentityPoolId: string;
 }
@@ -250,9 +346,38 @@ export const GetBulkPublishDetailsRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "GetBulkPublishDetailsRequest",
 }) as any as S.Schema<GetBulkPublishDetailsRequest>;
+export type BulkPublishStatus =
+  | "NOT_STARTED"
+  | "IN_PROGRESS"
+  | "FAILED"
+  | "SUCCEEDED"
+  | (string & {});
+export const BulkPublishStatus = S.String;
+export interface GetBulkPublishDetailsResponse {
+  IdentityPoolId?: string;
+  BulkPublishStartTime?: Date;
+  BulkPublishCompleteTime?: Date;
+  BulkPublishStatus?: BulkPublishStatus;
+  FailureMessage?: string;
+}
+export const GetBulkPublishDetailsResponse = S.suspend(() =>
+  S.Struct({
+    IdentityPoolId: S.optional(S.String),
+    BulkPublishStartTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    BulkPublishCompleteTime: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    BulkPublishStatus: S.optional(BulkPublishStatus),
+    FailureMessage: S.optional(S.String),
+  }).pipe(ns),
+).annotate({
+  identifier: "GetBulkPublishDetailsResponse",
+}) as any as S.Schema<GetBulkPublishDetailsResponse>;
 export interface GetCognitoEventsRequest {
   IdentityPoolId: string;
 }
@@ -270,9 +395,19 @@ export const GetCognitoEventsRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "GetCognitoEventsRequest",
 }) as any as S.Schema<GetCognitoEventsRequest>;
+export type Events = { [key: string]: string | undefined };
+export const Events = S.Record(S.String, S.String.pipe(S.optional));
+export interface GetCognitoEventsResponse {
+  Events?: { [key: string]: string | undefined };
+}
+export const GetCognitoEventsResponse = S.suspend(() =>
+  S.Struct({ Events: S.optional(Events) }).pipe(ns),
+).annotate({
+  identifier: "GetCognitoEventsResponse",
+}) as any as S.Schema<GetCognitoEventsResponse>;
 export interface GetIdentityPoolConfigurationRequest {
   IdentityPoolId: string;
 }
@@ -293,9 +428,49 @@ export const GetIdentityPoolConfigurationRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "GetIdentityPoolConfigurationRequest",
 }) as any as S.Schema<GetIdentityPoolConfigurationRequest>;
+export type ApplicationArnList = string[];
+export const ApplicationArnList = S.Array(S.String);
+export interface PushSync {
+  ApplicationArns?: string[];
+  RoleArn?: string;
+}
+export const PushSync = S.suspend(() =>
+  S.Struct({
+    ApplicationArns: S.optional(ApplicationArnList),
+    RoleArn: S.optional(S.String),
+  }),
+).annotate({ identifier: "PushSync" }) as any as S.Schema<PushSync>;
+export type StreamingStatus = "ENABLED" | "DISABLED" | (string & {});
+export const StreamingStatus = S.String;
+export interface CognitoStreams {
+  StreamName?: string;
+  RoleArn?: string;
+  StreamingStatus?: StreamingStatus;
+}
+export const CognitoStreams = S.suspend(() =>
+  S.Struct({
+    StreamName: S.optional(S.String),
+    RoleArn: S.optional(S.String),
+    StreamingStatus: S.optional(StreamingStatus),
+  }),
+).annotate({ identifier: "CognitoStreams" }) as any as S.Schema<CognitoStreams>;
+export interface GetIdentityPoolConfigurationResponse {
+  IdentityPoolId?: string;
+  PushSync?: PushSync;
+  CognitoStreams?: CognitoStreams;
+}
+export const GetIdentityPoolConfigurationResponse = S.suspend(() =>
+  S.Struct({
+    IdentityPoolId: S.optional(S.String),
+    PushSync: S.optional(PushSync),
+    CognitoStreams: S.optional(CognitoStreams),
+  }).pipe(ns),
+).annotate({
+  identifier: "GetIdentityPoolConfigurationResponse",
+}) as any as S.Schema<GetIdentityPoolConfigurationResponse>;
 export interface ListDatasetsRequest {
   IdentityPoolId: string;
   IdentityId: string;
@@ -322,9 +497,25 @@ export const ListDatasetsRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "ListDatasetsRequest",
 }) as any as S.Schema<ListDatasetsRequest>;
+export type DatasetList = Dataset[];
+export const DatasetList = S.Array(Dataset);
+export interface ListDatasetsResponse {
+  Datasets?: Dataset[];
+  Count?: number;
+  NextToken?: string;
+}
+export const ListDatasetsResponse = S.suspend(() =>
+  S.Struct({
+    Datasets: S.optional(DatasetList),
+    Count: S.optional(S.Number),
+    NextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotate({
+  identifier: "ListDatasetsResponse",
+}) as any as S.Schema<ListDatasetsResponse>;
 export interface ListIdentityPoolUsageRequest {
   NextToken?: string;
   MaxResults?: number;
@@ -344,9 +535,27 @@ export const ListIdentityPoolUsageRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "ListIdentityPoolUsageRequest",
 }) as any as S.Schema<ListIdentityPoolUsageRequest>;
+export type IdentityPoolUsageList = IdentityPoolUsage[];
+export const IdentityPoolUsageList = S.Array(IdentityPoolUsage);
+export interface ListIdentityPoolUsageResponse {
+  IdentityPoolUsages?: IdentityPoolUsage[];
+  MaxResults?: number;
+  Count?: number;
+  NextToken?: string;
+}
+export const ListIdentityPoolUsageResponse = S.suspend(() =>
+  S.Struct({
+    IdentityPoolUsages: S.optional(IdentityPoolUsageList),
+    MaxResults: S.optional(S.Number),
+    Count: S.optional(S.Number),
+    NextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotate({
+  identifier: "ListIdentityPoolUsageResponse",
+}) as any as S.Schema<ListIdentityPoolUsageResponse>;
 export interface ListRecordsRequest {
   IdentityPoolId: string;
   IdentityId: string;
@@ -381,9 +590,63 @@ export const ListRecordsRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "ListRecordsRequest",
 }) as any as S.Schema<ListRecordsRequest>;
+export interface Record {
+  Key?: string;
+  Value?: string;
+  SyncCount?: number;
+  LastModifiedDate?: Date;
+  LastModifiedBy?: string;
+  DeviceLastModifiedDate?: Date;
+}
+export const Record = S.suspend(() =>
+  S.Struct({
+    Key: S.optional(S.String),
+    Value: S.optional(S.String),
+    SyncCount: S.optional(S.Number),
+    LastModifiedDate: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    LastModifiedBy: S.optional(S.String),
+    DeviceLastModifiedDate: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }),
+).annotate({ identifier: "Record" }) as any as S.Schema<Record>;
+export type RecordList = Record[];
+export const RecordList = S.Array(Record);
+export type MergedDatasetNameList = string[];
+export const MergedDatasetNameList = S.Array(S.String);
+export interface ListRecordsResponse {
+  Records?: Record[];
+  NextToken?: string;
+  Count?: number;
+  DatasetSyncCount?: number;
+  LastModifiedBy?: string;
+  MergedDatasetNames?: string[];
+  DatasetExists?: boolean;
+  DatasetDeletedAfterRequestedSyncCount?: boolean;
+  SyncSessionToken?: string;
+}
+export const ListRecordsResponse = S.suspend(() =>
+  S.Struct({
+    Records: S.optional(RecordList),
+    NextToken: S.optional(S.String),
+    Count: S.optional(S.Number),
+    DatasetSyncCount: S.optional(S.Number),
+    LastModifiedBy: S.optional(S.String),
+    MergedDatasetNames: S.optional(MergedDatasetNameList),
+    DatasetExists: S.optional(S.Boolean),
+    DatasetDeletedAfterRequestedSyncCount: S.optional(S.Boolean),
+    SyncSessionToken: S.optional(S.String),
+  }).pipe(ns),
+).annotate({
+  identifier: "ListRecordsResponse",
+}) as any as S.Schema<ListRecordsResponse>;
+export type Platform = "APNS" | "APNS_SANDBOX" | "GCM" | "ADM" | (string & {});
+export const Platform = S.String;
 export interface RegisterDeviceRequest {
   IdentityPoolId: string;
   IdentityId: string;
@@ -410,9 +673,86 @@ export const RegisterDeviceRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "RegisterDeviceRequest",
 }) as any as S.Schema<RegisterDeviceRequest>;
+export interface RegisterDeviceResponse {
+  DeviceId?: string;
+}
+export const RegisterDeviceResponse = S.suspend(() =>
+  S.Struct({ DeviceId: S.optional(S.String) }).pipe(ns),
+).annotate({
+  identifier: "RegisterDeviceResponse",
+}) as any as S.Schema<RegisterDeviceResponse>;
+export interface SetCognitoEventsRequest {
+  IdentityPoolId: string;
+  Events: { [key: string]: string | undefined };
+}
+export const SetCognitoEventsRequest = S.suspend(() =>
+  S.Struct({
+    IdentityPoolId: S.String.pipe(T.HttpLabel("IdentityPoolId")),
+    Events: Events,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/identitypools/{IdentityPoolId}/events" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "SetCognitoEventsRequest",
+}) as any as S.Schema<SetCognitoEventsRequest>;
+export interface SetCognitoEventsResponse {}
+export const SetCognitoEventsResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "SetCognitoEventsResponse",
+}) as any as S.Schema<SetCognitoEventsResponse>;
+export interface SetIdentityPoolConfigurationRequest {
+  IdentityPoolId: string;
+  PushSync?: PushSync;
+  CognitoStreams?: CognitoStreams;
+}
+export const SetIdentityPoolConfigurationRequest = S.suspend(() =>
+  S.Struct({
+    IdentityPoolId: S.String.pipe(T.HttpLabel("IdentityPoolId")),
+    PushSync: S.optional(PushSync),
+    CognitoStreams: S.optional(CognitoStreams),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({
+        method: "POST",
+        uri: "/identitypools/{IdentityPoolId}/configuration",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "SetIdentityPoolConfigurationRequest",
+}) as any as S.Schema<SetIdentityPoolConfigurationRequest>;
+export interface SetIdentityPoolConfigurationResponse {
+  IdentityPoolId?: string;
+  PushSync?: PushSync;
+  CognitoStreams?: CognitoStreams;
+}
+export const SetIdentityPoolConfigurationResponse = S.suspend(() =>
+  S.Struct({
+    IdentityPoolId: S.optional(S.String),
+    PushSync: S.optional(PushSync),
+    CognitoStreams: S.optional(CognitoStreams),
+  }).pipe(ns),
+).annotate({
+  identifier: "SetIdentityPoolConfigurationResponse",
+}) as any as S.Schema<SetIdentityPoolConfigurationResponse>;
 export interface SubscribeToDatasetRequest {
   IdentityPoolId: string;
   IdentityId: string;
@@ -439,13 +779,13 @@ export const SubscribeToDatasetRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "SubscribeToDatasetRequest",
 }) as any as S.Schema<SubscribeToDatasetRequest>;
 export interface SubscribeToDatasetResponse {}
 export const SubscribeToDatasetResponse = S.suspend(() =>
   S.Struct({}).pipe(ns),
-).annotations({
+).annotate({
   identifier: "SubscribeToDatasetResponse",
 }) as any as S.Schema<SubscribeToDatasetResponse>;
 export interface UnsubscribeFromDatasetRequest {
@@ -474,103 +814,17 @@ export const UnsubscribeFromDatasetRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "UnsubscribeFromDatasetRequest",
 }) as any as S.Schema<UnsubscribeFromDatasetRequest>;
 export interface UnsubscribeFromDatasetResponse {}
 export const UnsubscribeFromDatasetResponse = S.suspend(() =>
   S.Struct({}).pipe(ns),
-).annotations({
+).annotate({
   identifier: "UnsubscribeFromDatasetResponse",
 }) as any as S.Schema<UnsubscribeFromDatasetResponse>;
-export type ApplicationArnList = string[];
-export const ApplicationArnList = S.Array(S.String);
-export type StreamingStatus = "ENABLED" | "DISABLED" | (string & {});
-export const StreamingStatus = S.String;
 export type Operation = "replace" | "remove" | (string & {});
 export const Operation = S.String;
-export type BulkPublishStatus =
-  | "NOT_STARTED"
-  | "IN_PROGRESS"
-  | "FAILED"
-  | "SUCCEEDED"
-  | (string & {});
-export const BulkPublishStatus = S.String;
-export interface Dataset {
-  IdentityId?: string;
-  DatasetName?: string;
-  CreationDate?: Date;
-  LastModifiedDate?: Date;
-  LastModifiedBy?: string;
-  DataStorage?: number;
-  NumRecords?: number;
-}
-export const Dataset = S.suspend(() =>
-  S.Struct({
-    IdentityId: S.optional(S.String),
-    DatasetName: S.optional(S.String),
-    CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    LastModifiedDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    LastModifiedBy: S.optional(S.String),
-    DataStorage: S.optional(S.Number),
-    NumRecords: S.optional(S.Number),
-  }),
-).annotations({ identifier: "Dataset" }) as any as S.Schema<Dataset>;
-export type DatasetList = Dataset[];
-export const DatasetList = S.Array(Dataset);
-export interface IdentityPoolUsage {
-  IdentityPoolId?: string;
-  SyncSessionsCount?: number;
-  DataStorage?: number;
-  LastModifiedDate?: Date;
-}
-export const IdentityPoolUsage = S.suspend(() =>
-  S.Struct({
-    IdentityPoolId: S.optional(S.String),
-    SyncSessionsCount: S.optional(S.Number),
-    DataStorage: S.optional(S.Number),
-    LastModifiedDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-  }),
-).annotations({
-  identifier: "IdentityPoolUsage",
-}) as any as S.Schema<IdentityPoolUsage>;
-export type IdentityPoolUsageList = IdentityPoolUsage[];
-export const IdentityPoolUsageList = S.Array(IdentityPoolUsage);
-export type MergedDatasetNameList = string[];
-export const MergedDatasetNameList = S.Array(S.String);
-export type Events = { [key: string]: string | undefined };
-export const Events = S.Record({
-  key: S.String,
-  value: S.UndefinedOr(S.String),
-});
-export interface PushSync {
-  ApplicationArns?: string[];
-  RoleArn?: string;
-}
-export const PushSync = S.suspend(() =>
-  S.Struct({
-    ApplicationArns: S.optional(ApplicationArnList),
-    RoleArn: S.optional(S.String),
-  }),
-).annotations({ identifier: "PushSync" }) as any as S.Schema<PushSync>;
-export interface CognitoStreams {
-  StreamName?: string;
-  RoleArn?: string;
-  StreamingStatus?: StreamingStatus;
-}
-export const CognitoStreams = S.suspend(() =>
-  S.Struct({
-    StreamName: S.optional(S.String),
-    RoleArn: S.optional(S.String),
-    StreamingStatus: S.optional(StreamingStatus),
-  }),
-).annotations({
-  identifier: "CognitoStreams",
-}) as any as S.Schema<CognitoStreams>;
 export interface RecordPatch {
   Op: Operation;
   Key: string;
@@ -588,162 +842,9 @@ export const RecordPatch = S.suspend(() =>
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
   }),
-).annotations({ identifier: "RecordPatch" }) as any as S.Schema<RecordPatch>;
+).annotate({ identifier: "RecordPatch" }) as any as S.Schema<RecordPatch>;
 export type RecordPatchList = RecordPatch[];
 export const RecordPatchList = S.Array(RecordPatch);
-export interface BulkPublishResponse {
-  IdentityPoolId?: string;
-}
-export const BulkPublishResponse = S.suspend(() =>
-  S.Struct({ IdentityPoolId: S.optional(S.String) }).pipe(ns),
-).annotations({
-  identifier: "BulkPublishResponse",
-}) as any as S.Schema<BulkPublishResponse>;
-export interface DescribeDatasetResponse {
-  Dataset?: Dataset;
-}
-export const DescribeDatasetResponse = S.suspend(() =>
-  S.Struct({ Dataset: S.optional(Dataset) }).pipe(ns),
-).annotations({
-  identifier: "DescribeDatasetResponse",
-}) as any as S.Schema<DescribeDatasetResponse>;
-export interface GetBulkPublishDetailsResponse {
-  IdentityPoolId?: string;
-  BulkPublishStartTime?: Date;
-  BulkPublishCompleteTime?: Date;
-  BulkPublishStatus?: BulkPublishStatus;
-  FailureMessage?: string;
-}
-export const GetBulkPublishDetailsResponse = S.suspend(() =>
-  S.Struct({
-    IdentityPoolId: S.optional(S.String),
-    BulkPublishStartTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    BulkPublishCompleteTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    BulkPublishStatus: S.optional(BulkPublishStatus),
-    FailureMessage: S.optional(S.String),
-  }).pipe(ns),
-).annotations({
-  identifier: "GetBulkPublishDetailsResponse",
-}) as any as S.Schema<GetBulkPublishDetailsResponse>;
-export interface GetCognitoEventsResponse {
-  Events?: { [key: string]: string | undefined };
-}
-export const GetCognitoEventsResponse = S.suspend(() =>
-  S.Struct({ Events: S.optional(Events) }).pipe(ns),
-).annotations({
-  identifier: "GetCognitoEventsResponse",
-}) as any as S.Schema<GetCognitoEventsResponse>;
-export interface GetIdentityPoolConfigurationResponse {
-  IdentityPoolId?: string;
-  PushSync?: PushSync;
-  CognitoStreams?: CognitoStreams;
-}
-export const GetIdentityPoolConfigurationResponse = S.suspend(() =>
-  S.Struct({
-    IdentityPoolId: S.optional(S.String),
-    PushSync: S.optional(PushSync),
-    CognitoStreams: S.optional(CognitoStreams),
-  }).pipe(ns),
-).annotations({
-  identifier: "GetIdentityPoolConfigurationResponse",
-}) as any as S.Schema<GetIdentityPoolConfigurationResponse>;
-export interface ListDatasetsResponse {
-  Datasets?: Dataset[];
-  Count?: number;
-  NextToken?: string;
-}
-export const ListDatasetsResponse = S.suspend(() =>
-  S.Struct({
-    Datasets: S.optional(DatasetList),
-    Count: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotations({
-  identifier: "ListDatasetsResponse",
-}) as any as S.Schema<ListDatasetsResponse>;
-export interface ListIdentityPoolUsageResponse {
-  IdentityPoolUsages?: IdentityPoolUsage[];
-  MaxResults?: number;
-  Count?: number;
-  NextToken?: string;
-}
-export const ListIdentityPoolUsageResponse = S.suspend(() =>
-  S.Struct({
-    IdentityPoolUsages: S.optional(IdentityPoolUsageList),
-    MaxResults: S.optional(S.Number),
-    Count: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotations({
-  identifier: "ListIdentityPoolUsageResponse",
-}) as any as S.Schema<ListIdentityPoolUsageResponse>;
-export interface RegisterDeviceResponse {
-  DeviceId?: string;
-}
-export const RegisterDeviceResponse = S.suspend(() =>
-  S.Struct({ DeviceId: S.optional(S.String) }).pipe(ns),
-).annotations({
-  identifier: "RegisterDeviceResponse",
-}) as any as S.Schema<RegisterDeviceResponse>;
-export interface SetCognitoEventsRequest {
-  IdentityPoolId: string;
-  Events: { [key: string]: string | undefined };
-}
-export const SetCognitoEventsRequest = S.suspend(() =>
-  S.Struct({
-    IdentityPoolId: S.String.pipe(T.HttpLabel("IdentityPoolId")),
-    Events: Events,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/identitypools/{IdentityPoolId}/events" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "SetCognitoEventsRequest",
-}) as any as S.Schema<SetCognitoEventsRequest>;
-export interface SetCognitoEventsResponse {}
-export const SetCognitoEventsResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotations({
-  identifier: "SetCognitoEventsResponse",
-}) as any as S.Schema<SetCognitoEventsResponse>;
-export interface SetIdentityPoolConfigurationRequest {
-  IdentityPoolId: string;
-  PushSync?: PushSync;
-  CognitoStreams?: CognitoStreams;
-}
-export const SetIdentityPoolConfigurationRequest = S.suspend(() =>
-  S.Struct({
-    IdentityPoolId: S.String.pipe(T.HttpLabel("IdentityPoolId")),
-    PushSync: S.optional(PushSync),
-    CognitoStreams: S.optional(CognitoStreams),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "POST",
-        uri: "/identitypools/{IdentityPoolId}/configuration",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "SetIdentityPoolConfigurationRequest",
-}) as any as S.Schema<SetIdentityPoolConfigurationRequest>;
 export interface UpdateRecordsRequest {
   IdentityPoolId: string;
   IdentityId: string;
@@ -778,158 +879,70 @@ export const UpdateRecordsRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "UpdateRecordsRequest",
 }) as any as S.Schema<UpdateRecordsRequest>;
-export interface IdentityUsage {
-  IdentityId?: string;
-  IdentityPoolId?: string;
-  LastModifiedDate?: Date;
-  DatasetCount?: number;
-  DataStorage?: number;
-}
-export const IdentityUsage = S.suspend(() =>
-  S.Struct({
-    IdentityId: S.optional(S.String),
-    IdentityPoolId: S.optional(S.String),
-    LastModifiedDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    DatasetCount: S.optional(S.Number),
-    DataStorage: S.optional(S.Number),
-  }),
-).annotations({
-  identifier: "IdentityUsage",
-}) as any as S.Schema<IdentityUsage>;
-export interface Record {
-  Key?: string;
-  Value?: string;
-  SyncCount?: number;
-  LastModifiedDate?: Date;
-  LastModifiedBy?: string;
-  DeviceLastModifiedDate?: Date;
-}
-export const Record = S.suspend(() =>
-  S.Struct({
-    Key: S.optional(S.String),
-    Value: S.optional(S.String),
-    SyncCount: S.optional(S.Number),
-    LastModifiedDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    LastModifiedBy: S.optional(S.String),
-    DeviceLastModifiedDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-  }),
-).annotations({ identifier: "Record" }) as any as S.Schema<Record>;
-export type RecordList = Record[];
-export const RecordList = S.Array(Record);
-export interface DeleteDatasetResponse {
-  Dataset?: Dataset;
-}
-export const DeleteDatasetResponse = S.suspend(() =>
-  S.Struct({ Dataset: S.optional(Dataset) }).pipe(ns),
-).annotations({
-  identifier: "DeleteDatasetResponse",
-}) as any as S.Schema<DeleteDatasetResponse>;
-export interface DescribeIdentityPoolUsageResponse {
-  IdentityPoolUsage?: IdentityPoolUsage;
-}
-export const DescribeIdentityPoolUsageResponse = S.suspend(() =>
-  S.Struct({ IdentityPoolUsage: S.optional(IdentityPoolUsage) }).pipe(ns),
-).annotations({
-  identifier: "DescribeIdentityPoolUsageResponse",
-}) as any as S.Schema<DescribeIdentityPoolUsageResponse>;
-export interface DescribeIdentityUsageResponse {
-  IdentityUsage?: IdentityUsage;
-}
-export const DescribeIdentityUsageResponse = S.suspend(() =>
-  S.Struct({ IdentityUsage: S.optional(IdentityUsage) }).pipe(ns),
-).annotations({
-  identifier: "DescribeIdentityUsageResponse",
-}) as any as S.Schema<DescribeIdentityUsageResponse>;
-export interface ListRecordsResponse {
-  Records?: Record[];
-  NextToken?: string;
-  Count?: number;
-  DatasetSyncCount?: number;
-  LastModifiedBy?: string;
-  MergedDatasetNames?: string[];
-  DatasetExists?: boolean;
-  DatasetDeletedAfterRequestedSyncCount?: boolean;
-  SyncSessionToken?: string;
-}
-export const ListRecordsResponse = S.suspend(() =>
-  S.Struct({
-    Records: S.optional(RecordList),
-    NextToken: S.optional(S.String),
-    Count: S.optional(S.Number),
-    DatasetSyncCount: S.optional(S.Number),
-    LastModifiedBy: S.optional(S.String),
-    MergedDatasetNames: S.optional(MergedDatasetNameList),
-    DatasetExists: S.optional(S.Boolean),
-    DatasetDeletedAfterRequestedSyncCount: S.optional(S.Boolean),
-    SyncSessionToken: S.optional(S.String),
-  }).pipe(ns),
-).annotations({
-  identifier: "ListRecordsResponse",
-}) as any as S.Schema<ListRecordsResponse>;
-export interface SetIdentityPoolConfigurationResponse {
-  IdentityPoolId?: string;
-  PushSync?: PushSync;
-  CognitoStreams?: CognitoStreams;
-}
-export const SetIdentityPoolConfigurationResponse = S.suspend(() =>
-  S.Struct({
-    IdentityPoolId: S.optional(S.String),
-    PushSync: S.optional(PushSync),
-    CognitoStreams: S.optional(CognitoStreams),
-  }).pipe(ns),
-).annotations({
-  identifier: "SetIdentityPoolConfigurationResponse",
-}) as any as S.Schema<SetIdentityPoolConfigurationResponse>;
 export interface UpdateRecordsResponse {
   Records?: Record[];
 }
 export const UpdateRecordsResponse = S.suspend(() =>
   S.Struct({ Records: S.optional(RecordList) }).pipe(ns),
-).annotations({
+).annotate({
   identifier: "UpdateRecordsResponse",
 }) as any as S.Schema<UpdateRecordsResponse>;
 
 //# Errors
-export class InternalErrorException extends S.TaggedError<InternalErrorException>()(
-  "InternalErrorException",
-  { message: S.String },
-  T.AwsQueryError({ code: "InternalError", httpResponseCode: 500 }),
-).pipe(C.withServerError) {}
-export class AlreadyStreamedException extends S.TaggedError<AlreadyStreamedException>()(
+export class AlreadyStreamedException extends S.TaggedErrorClass<AlreadyStreamedException>()(
   "AlreadyStreamedException",
   { message: S.String },
   T.AwsQueryError({ code: "AlreadyStreamed", httpResponseCode: 400 }),
 ).pipe(C.withBadRequestError) {}
-export class InvalidConfigurationException extends S.TaggedError<InvalidConfigurationException>()(
-  "InvalidConfigurationException",
-  { message: S.String },
-  T.AwsQueryError({ code: "InvalidConfiguration", httpResponseCode: 400 }),
-).pipe(C.withBadRequestError) {}
-export class InvalidParameterException extends S.TaggedError<InvalidParameterException>()(
-  "InvalidParameterException",
-  { message: S.String },
-  T.AwsQueryError({ code: "InvalidParameter", httpResponseCode: 400 }),
-).pipe(C.withBadRequestError) {}
-export class DuplicateRequestException extends S.TaggedError<DuplicateRequestException>()(
+export class DuplicateRequestException extends S.TaggedErrorClass<DuplicateRequestException>()(
   "DuplicateRequestException",
   { message: S.String },
   T.AwsQueryError({ code: "DuplicateRequest", httpResponseCode: 400 }),
 ).pipe(C.withBadRequestError) {}
-export class ConcurrentModificationException extends S.TaggedError<ConcurrentModificationException>()(
+export class InternalErrorException extends S.TaggedErrorClass<InternalErrorException>()(
+  "InternalErrorException",
+  { message: S.String },
+  T.AwsQueryError({ code: "InternalError", httpResponseCode: 500 }),
+).pipe(C.withServerError) {}
+export class InvalidParameterException extends S.TaggedErrorClass<InvalidParameterException>()(
+  "InvalidParameterException",
+  { message: S.String },
+  T.AwsQueryError({ code: "InvalidParameter", httpResponseCode: 400 }),
+).pipe(C.withBadRequestError) {}
+export class NotAuthorizedException extends S.TaggedErrorClass<NotAuthorizedException>()(
+  "NotAuthorizedException",
+  { message: S.String },
+  T.AwsQueryError({ code: "NotAuthorizedError", httpResponseCode: 403 }),
+).pipe(C.withAuthError) {}
+export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFoundException>()(
+  "ResourceNotFoundException",
+  { message: S.String },
+  T.AwsQueryError({ code: "ResourceNotFound", httpResponseCode: 404 }),
+).pipe(C.withBadRequestError) {}
+export class ResourceConflictException extends S.TaggedErrorClass<ResourceConflictException>()(
+  "ResourceConflictException",
+  { message: S.String },
+  T.AwsQueryError({ code: "ResourceConflict", httpResponseCode: 409 }),
+).pipe(C.withConflictError) {}
+export class TooManyRequestsException extends S.TaggedErrorClass<TooManyRequestsException>()(
+  "TooManyRequestsException",
+  { message: S.String },
+  T.AwsQueryError({ code: "TooManyRequests", httpResponseCode: 429 }),
+).pipe(C.withThrottlingError) {}
+export class InvalidConfigurationException extends S.TaggedErrorClass<InvalidConfigurationException>()(
+  "InvalidConfigurationException",
+  { message: S.String },
+  T.AwsQueryError({ code: "InvalidConfiguration", httpResponseCode: 400 }),
+).pipe(C.withBadRequestError) {}
+export class ConcurrentModificationException extends S.TaggedErrorClass<ConcurrentModificationException>()(
   "ConcurrentModificationException",
   { message: S.String },
   T.AwsQueryError({ code: "ConcurrentModification", httpResponseCode: 400 }),
 ).pipe(C.withBadRequestError) {}
-export class InvalidLambdaFunctionOutputException extends S.TaggedError<InvalidLambdaFunctionOutputException>()(
+export class InvalidLambdaFunctionOutputException extends S.TaggedErrorClass<InvalidLambdaFunctionOutputException>()(
   "InvalidLambdaFunctionOutputException",
   { message: S.String },
   T.AwsQueryError({
@@ -937,32 +950,12 @@ export class InvalidLambdaFunctionOutputException extends S.TaggedError<InvalidL
     httpResponseCode: 400,
   }),
 ).pipe(C.withBadRequestError) {}
-export class NotAuthorizedException extends S.TaggedError<NotAuthorizedException>()(
-  "NotAuthorizedException",
-  { message: S.String },
-  T.AwsQueryError({ code: "NotAuthorizedError", httpResponseCode: 403 }),
-).pipe(C.withAuthError) {}
-export class LambdaThrottledException extends S.TaggedError<LambdaThrottledException>()(
+export class LambdaThrottledException extends S.TaggedErrorClass<LambdaThrottledException>()(
   "LambdaThrottledException",
   { message: S.String },
   T.AwsQueryError({ code: "LambdaThrottled", httpResponseCode: 429 }),
 ).pipe(C.withThrottlingError) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
-  "ResourceNotFoundException",
-  { message: S.String },
-  T.AwsQueryError({ code: "ResourceNotFound", httpResponseCode: 404 }),
-).pipe(C.withBadRequestError) {}
-export class TooManyRequestsException extends S.TaggedError<TooManyRequestsException>()(
-  "TooManyRequestsException",
-  { message: S.String },
-  T.AwsQueryError({ code: "TooManyRequests", httpResponseCode: 429 }),
-).pipe(C.withThrottlingError) {}
-export class ResourceConflictException extends S.TaggedError<ResourceConflictException>()(
-  "ResourceConflictException",
-  { message: S.String },
-  T.AwsQueryError({ code: "ResourceConflict", httpResponseCode: 409 }),
-).pipe(C.withConflictError) {}
-export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
+export class LimitExceededException extends S.TaggedErrorClass<LimitExceededException>()(
   "LimitExceededException",
   { message: S.String },
   T.AwsQueryError({ code: "LimitExceeded", httpResponseCode: 400 }),
@@ -970,80 +963,32 @@ export class LimitExceededException extends S.TaggedError<LimitExceededException
 
 //# Operations
 /**
- * Lists datasets for an identity. With Amazon Cognito Sync, each identity has access only to
- * its own data. Thus, the credentials used to make this API call need to have access to the
- * identity data.
+ * Initiates a bulk publish of all existing datasets for an Identity Pool to the configured stream. Customers are limited to one successful bulk publish per 24 hours. Bulk publish is an asynchronous request, customers can see the status of the request via the GetBulkPublishDetails operation.
  *
- * ListDatasets can be called with temporary user credentials provided by Cognito
- * Identity or with developer credentials. You should use the Cognito Identity credentials to
- * make this API call.
- *
- * ListDatasets
- * The following examples have been edited for readability.
- *
- * POST / HTTP/1.1
- * CONTENT-TYPE: application/json
- * X-AMZN-REQUESTID: 15225768-209f-4078-aaed-7494ace9f2db
- * X-AMZ-TARGET: com.amazonaws.cognito.sync.model.AWSCognitoSyncService.ListDatasets
- * HOST: cognito-sync.us-east-1.amazonaws.com:443
- * X-AMZ-DATE: 20141111T215640Z
- * AUTHORIZATION: AWS4-HMAC-SHA256 Credential=, SignedHeaders=content-type;host;x-amz-date;x-amz-target;x-amzn-requestid, Signature=
- *
- * {
- * "Operation": "com.amazonaws.cognito.sync.model#ListDatasets",
- * "Service": "com.amazonaws.cognito.sync.model#AWSCognitoSyncService",
- * "Input":
- * {
- * "IdentityPoolId": "IDENTITY_POOL_ID",
- * "IdentityId": "IDENTITY_ID",
- * "MaxResults": "3"
- * }
- * }
- *
- * 1.1 200 OK
- * x-amzn-requestid: 15225768-209f-4078-aaed-7494ace9f2db, 15225768-209f-4078-aaed-7494ace9f2db
- * content-type: application/json
- * content-length: 355
- * date: Tue, 11 Nov 2014 21:56:40 GMT
- *
- * {
- * "Output":
- * {
- * "__type": "com.amazonaws.cognito.sync.model#ListDatasetsResponse",
- * "Count": 1,
- * "Datasets": [
- * {
- * "CreationDate": 1.412974057151E9,
- * "DataStorage": 16,
- * "DatasetName": "my_list",
- * "IdentityId": "IDENTITY_ID",
- * "LastModifiedBy": "123456789012",
- * "LastModifiedDate": 1.412974057244E9,
- * "NumRecords": 1
- * }],
- * "NextToken": null
- * },
- * "Version": "1.0"
- * }
+ * This API can only be called with developer credentials. You cannot call this API with the temporary user credentials provided by Cognito Identity.
  */
-export const listDatasets: (
-  input: ListDatasetsRequest,
+export const bulkPublish: (
+  input: BulkPublishRequest,
 ) => effect.Effect<
-  ListDatasetsResponse,
+  BulkPublishResponse,
+  | AlreadyStreamedException
+  | DuplicateRequestException
   | InternalErrorException
   | InvalidParameterException
   | NotAuthorizedException
-  | TooManyRequestsException
+  | ResourceNotFoundException
   | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListDatasetsRequest,
-  output: ListDatasetsResponse,
+  input: BulkPublishRequest,
+  output: BulkPublishResponse,
   errors: [
+    AlreadyStreamedException,
+    DuplicateRequestException,
     InternalErrorException,
     InvalidParameterException,
     NotAuthorizedException,
-    TooManyRequestsException,
+    ResourceNotFoundException,
   ],
 }));
 /**
@@ -1079,175 +1024,16 @@ export const deleteDataset: (
   ],
 }));
 /**
- * Unsubscribes from receiving notifications when a dataset is modified by another device.
+ * Gets meta data about a dataset by identity and dataset name. With Amazon Cognito Sync, each
+ * identity has access only to its own data. Thus, the credentials used to make this API call
+ * need to have access to the identity data.
  *
- * This API can only be called with temporary credentials provided by Cognito Identity. You cannot call this API with developer credentials.
- *
- * UnsubscribeFromDataset
- * The following examples have been edited for readability.
- *
- * POST / HTTP/1.1
- * CONTENT-TYPE: application/json
- * X-AMZ-REQUESTSUPERTRACE: true
- * X-AMZN-REQUESTID: 676896d6-14ca-45b1-8029-6d36b10a077e
- * X-AMZ-TARGET: com.amazonaws.cognito.sync.model.AWSCognitoSyncService.UnsubscribeFromDataset
- * HOST: cognito-sync.us-east-1.amazonaws.com
- * X-AMZ-DATE: 20141004T195446Z
- * X-AMZ-SECURITY-TOKEN:
- * AUTHORIZATION: AWS4-HMAC-SHA256 Credential=, SignedHeaders=content-type;content-length;host;x-amz-date;x-amz-target, Signature=
- *
- * {
- * "Operation": "com.amazonaws.cognito.sync.model#UnsubscribeFromDataset",
- * "Service": "com.amazonaws.cognito.sync.model#AWSCognitoSyncService",
- * "Input":
- * {
- * "IdentityPoolId": "ID_POOL_ID",
- * "IdentityId": "IDENTITY_ID",
- * "DatasetName": "Rufus",
- * "DeviceId": "5cd28fbe-dd83-47ab-9f83-19093a5fb014"
- * }
- * }
- *
- * 1.1 200 OK
- * x-amzn-requestid: 676896d6-14ca-45b1-8029-6d36b10a077e
- * date: Sat, 04 Oct 2014 19:54:46 GMT
- * content-type: application/json
- * content-length: 103
- *
- * {
- * "Output":
- * {
- * "__type": "com.amazonaws.cognito.sync.model#UnsubscribeFromDatasetResponse"
- * },
- * "Version": "1.0"
- * }
+ * This API can be called with temporary user credentials provided by Cognito Identity or with developer credentials. You should use Cognito Identity credentials to make this API call.
  */
-export const unsubscribeFromDataset: (
-  input: UnsubscribeFromDatasetRequest,
+export const describeDataset: (
+  input: DescribeDatasetRequest,
 ) => effect.Effect<
-  UnsubscribeFromDatasetResponse,
-  | InternalErrorException
-  | InvalidConfigurationException
-  | InvalidParameterException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UnsubscribeFromDatasetRequest,
-  output: UnsubscribeFromDatasetResponse,
-  errors: [
-    InternalErrorException,
-    InvalidConfigurationException,
-    InvalidParameterException,
-    NotAuthorizedException,
-    ResourceNotFoundException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Registers a device to receive push sync notifications.
- *
- * This API can only be called with temporary credentials provided by Cognito Identity. You cannot call this API with developer credentials.
- *
- * RegisterDevice
- * The following examples have been edited for readability.
- *
- * POST / HTTP/1.1
- * CONTENT-TYPE: application/json
- * X-AMZN-REQUESTID: 368f9200-3eca-449e-93b3-7b9c08d8e185
- * X-AMZ-TARGET: com.amazonaws.cognito.sync.model.AWSCognitoSyncService.RegisterDevice
- * HOST: cognito-sync.us-east-1.amazonaws.com
- * X-AMZ-DATE: 20141004T194643Z
- * X-AMZ-SECURITY-TOKEN:
- * AUTHORIZATION: AWS4-HMAC-SHA256 Credential=, SignedHeaders=content-type;content-length;host;x-amz-date;x-amz-target, Signature=
- *
- * {
- * "Operation": "com.amazonaws.cognito.sync.model#RegisterDevice",
- * "Service": "com.amazonaws.cognito.sync.model#AWSCognitoSyncService",
- * "Input":
- * {
- * "IdentityPoolId": "ID_POOL_ID",
- * "IdentityId": "IDENTITY_ID",
- * "Platform": "GCM",
- * "Token": "PUSH_TOKEN"
- * }
- * }
- *
- * 1.1 200 OK
- * x-amzn-requestid: 368f9200-3eca-449e-93b3-7b9c08d8e185
- * date: Sat, 04 Oct 2014 19:46:44 GMT
- * content-type: application/json
- * content-length: 145
- *
- * {
- * "Output":
- * {
- * "__type": "com.amazonaws.cognito.sync.model#RegisterDeviceResponse",
- * "DeviceId": "5cd28fbe-dd83-47ab-9f83-19093a5fb014"
- * },
- * "Version": "1.0"
- * }
- */
-export const registerDevice: (
-  input: RegisterDeviceRequest,
-) => effect.Effect<
-  RegisterDeviceResponse,
-  | InternalErrorException
-  | InvalidConfigurationException
-  | InvalidParameterException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: RegisterDeviceRequest,
-  output: RegisterDeviceResponse,
-  errors: [
-    InternalErrorException,
-    InvalidConfigurationException,
-    InvalidParameterException,
-    NotAuthorizedException,
-    ResourceNotFoundException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Get the status of the last BulkPublish operation for an identity pool.
- *
- * This API can only be called with developer credentials. You cannot call this API with the temporary user credentials provided by Cognito Identity.
- */
-export const getBulkPublishDetails: (
-  input: GetBulkPublishDetailsRequest,
-) => effect.Effect<
-  GetBulkPublishDetailsResponse,
-  | InternalErrorException
-  | InvalidParameterException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetBulkPublishDetailsRequest,
-  output: GetBulkPublishDetailsResponse,
-  errors: [
-    InternalErrorException,
-    InvalidParameterException,
-    NotAuthorizedException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Gets the events and the corresponding Lambda functions associated with an identity pool.
- *
- * This API can only be called with developer credentials. You cannot call this API with the temporary user credentials provided by Cognito Identity.
- */
-export const getCognitoEvents: (
-  input: GetCognitoEventsRequest,
-) => effect.Effect<
-  GetCognitoEventsResponse,
+  DescribeDatasetResponse,
   | InternalErrorException
   | InvalidParameterException
   | NotAuthorizedException
@@ -1256,102 +1042,8 @@ export const getCognitoEvents: (
   | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetCognitoEventsRequest,
-  output: GetCognitoEventsResponse,
-  errors: [
-    InternalErrorException,
-    InvalidParameterException,
-    NotAuthorizedException,
-    ResourceNotFoundException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Gets the configuration settings of an identity pool.
- *
- * This API can only be called with developer credentials. You cannot call this API with the temporary user credentials provided by Cognito Identity.
- *
- * GetIdentityPoolConfiguration
- * The following examples have been edited for readability.
- *
- * POST / HTTP/1.1
- * CONTENT-TYPE: application/json
- * X-AMZN-REQUESTID: b1cfdd4b-f620-4fe4-be0f-02024a1d33da
- * X-AMZ-TARGET: com.amazonaws.cognito.sync.model.AWSCognitoSyncService.GetIdentityPoolConfiguration
- * HOST: cognito-sync.us-east-1.amazonaws.com
- * X-AMZ-DATE: 20141004T195722Z
- * AUTHORIZATION: AWS4-HMAC-SHA256 Credential=, SignedHeaders=content-type;content-length;host;x-amz-date;x-amz-target, Signature=
- *
- * {
- * "Operation": "com.amazonaws.cognito.sync.model#GetIdentityPoolConfiguration",
- * "Service": "com.amazonaws.cognito.sync.model#AWSCognitoSyncService",
- * "Input":
- * {
- * "IdentityPoolId": "ID_POOL_ID"
- * }
- * }
- *
- * 1.1 200 OK
- * x-amzn-requestid: b1cfdd4b-f620-4fe4-be0f-02024a1d33da
- * date: Sat, 04 Oct 2014 19:57:22 GMT
- * content-type: application/json
- * content-length: 332
- *
- * {
- * "Output":
- * {
- * "__type": "com.amazonaws.cognito.sync.model#GetIdentityPoolConfigurationResponse",
- * "IdentityPoolId": "ID_POOL_ID",
- * "PushSync":
- * {
- * "ApplicationArns": ["PLATFORMARN1", "PLATFORMARN2"],
- * "RoleArn": "ROLEARN"
- * }
- * },
- * "Version": "1.0"
- * }
- */
-export const getIdentityPoolConfiguration: (
-  input: GetIdentityPoolConfigurationRequest,
-) => effect.Effect<
-  GetIdentityPoolConfigurationResponse,
-  | InternalErrorException
-  | InvalidParameterException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetIdentityPoolConfigurationRequest,
-  output: GetIdentityPoolConfigurationResponse,
-  errors: [
-    InternalErrorException,
-    InvalidParameterException,
-    NotAuthorizedException,
-    ResourceNotFoundException,
-    TooManyRequestsException,
-  ],
-}));
-/**
- * Sets the AWS Lambda function for a given event type for an identity pool. This request only updates the key/value pair specified. Other key/values pairs are not updated. To remove a key value pair, pass a empty value for the particular key.
- *
- * This API can only be called with developer credentials. You cannot call this API with the temporary user credentials provided by Cognito Identity.
- */
-export const setCognitoEvents: (
-  input: SetCognitoEventsRequest,
-) => effect.Effect<
-  SetCognitoEventsResponse,
-  | InternalErrorException
-  | InvalidParameterException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | TooManyRequestsException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: SetCognitoEventsRequest,
-  output: SetCognitoEventsResponse,
+  input: DescribeDatasetRequest,
+  output: DescribeDatasetResponse,
   errors: [
     InternalErrorException,
     InvalidParameterException,
@@ -1499,54 +1191,40 @@ export const describeIdentityUsage: (
   ],
 }));
 /**
- * Subscribes to receive notifications when a dataset is modified by another device.
+ * Get the status of the last BulkPublish operation for an identity pool.
  *
- * This API can only be called with temporary credentials provided by Cognito Identity. You cannot call this API with developer credentials.
- *
- * SubscribeToDataset
- * The following examples have been edited for readability.
- *
- * POST / HTTP/1.1
- * CONTENT-TYPE: application/json
- * X-AMZN-REQUESTID: 8b9932b7-201d-4418-a960-0a470e11de9f
- * X-AMZ-TARGET: com.amazonaws.cognito.sync.model.AWSCognitoSyncService.SubscribeToDataset
- * HOST: cognito-sync.us-east-1.amazonaws.com
- * X-AMZ-DATE: 20141004T195350Z
- * X-AMZ-SECURITY-TOKEN:
- * AUTHORIZATION: AWS4-HMAC-SHA256 Credential=, SignedHeaders=content-type;content-length;host;x-amz-date;x-amz-target, Signature=
- *
- * {
- * "Operation": "com.amazonaws.cognito.sync.model#SubscribeToDataset",
- * "Service": "com.amazonaws.cognito.sync.model#AWSCognitoSyncService",
- * "Input":
- * {
- * "IdentityPoolId": "ID_POOL_ID",
- * "IdentityId": "IDENTITY_ID",
- * "DatasetName": "Rufus",
- * "DeviceId": "5cd28fbe-dd83-47ab-9f83-19093a5fb014"
- * }
- * }
- *
- * 1.1 200 OK
- * x-amzn-requestid: 8b9932b7-201d-4418-a960-0a470e11de9f
- * date: Sat, 04 Oct 2014 19:53:50 GMT
- * content-type: application/json
- * content-length: 99
- *
- * {
- * "Output":
- * {
- * "__type": "com.amazonaws.cognito.sync.model#SubscribeToDatasetResponse"
- * },
- * "Version": "1.0"
- * }
+ * This API can only be called with developer credentials. You cannot call this API with the temporary user credentials provided by Cognito Identity.
  */
-export const subscribeToDataset: (
-  input: SubscribeToDatasetRequest,
+export const getBulkPublishDetails: (
+  input: GetBulkPublishDetailsRequest,
 ) => effect.Effect<
-  SubscribeToDatasetResponse,
+  GetBulkPublishDetailsResponse,
   | InternalErrorException
-  | InvalidConfigurationException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetBulkPublishDetailsRequest,
+  output: GetBulkPublishDetailsResponse,
+  errors: [
+    InternalErrorException,
+    InvalidParameterException,
+    NotAuthorizedException,
+    ResourceNotFoundException,
+  ],
+}));
+/**
+ * Gets the events and the corresponding Lambda functions associated with an identity pool.
+ *
+ * This API can only be called with developer credentials. You cannot call this API with the temporary user credentials provided by Cognito Identity.
+ */
+export const getCognitoEvents: (
+  input: GetCognitoEventsRequest,
+) => effect.Effect<
+  GetCognitoEventsResponse,
+  | InternalErrorException
   | InvalidParameterException
   | NotAuthorizedException
   | ResourceNotFoundException
@@ -1554,11 +1232,10 @@ export const subscribeToDataset: (
   | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: SubscribeToDatasetRequest,
-  output: SubscribeToDatasetResponse,
+  input: GetCognitoEventsRequest,
+  output: GetCognitoEventsResponse,
   errors: [
     InternalErrorException,
-    InvalidConfigurationException,
     InvalidParameterException,
     NotAuthorizedException,
     ResourceNotFoundException,
@@ -1566,74 +1243,40 @@ export const subscribeToDataset: (
   ],
 }));
 /**
- * Initiates a bulk publish of all existing datasets for an Identity Pool to the configured stream. Customers are limited to one successful bulk publish per 24 hours. Bulk publish is an asynchronous request, customers can see the status of the request via the GetBulkPublishDetails operation.
- *
- * This API can only be called with developer credentials. You cannot call this API with the temporary user credentials provided by Cognito Identity.
- */
-export const bulkPublish: (
-  input: BulkPublishRequest,
-) => effect.Effect<
-  BulkPublishResponse,
-  | AlreadyStreamedException
-  | DuplicateRequestException
-  | InternalErrorException
-  | InvalidParameterException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: BulkPublishRequest,
-  output: BulkPublishResponse,
-  errors: [
-    AlreadyStreamedException,
-    DuplicateRequestException,
-    InternalErrorException,
-    InvalidParameterException,
-    NotAuthorizedException,
-    ResourceNotFoundException,
-  ],
-}));
-/**
- * Sets the necessary configuration for push sync.
+ * Gets the configuration settings of an identity pool.
  *
  * This API can only be called with developer credentials. You cannot call this API with the temporary user credentials provided by Cognito Identity.
  *
- * SetIdentityPoolConfiguration
+ * GetIdentityPoolConfiguration
  * The following examples have been edited for readability.
  *
  * POST / HTTP/1.1
  * CONTENT-TYPE: application/json
- * X-AMZN-REQUESTID: a46db021-f5dd-45d6-af5b-7069fa4a211b
- * X-AMZ-TARGET: com.amazonaws.cognito.sync.model.AWSCognitoSyncService.SetIdentityPoolConfiguration
+ * X-AMZN-REQUESTID: b1cfdd4b-f620-4fe4-be0f-02024a1d33da
+ * X-AMZ-TARGET: com.amazonaws.cognito.sync.model.AWSCognitoSyncService.GetIdentityPoolConfiguration
  * HOST: cognito-sync.us-east-1.amazonaws.com
- * X-AMZ-DATE: 20141004T200006Z
+ * X-AMZ-DATE: 20141004T195722Z
  * AUTHORIZATION: AWS4-HMAC-SHA256 Credential=, SignedHeaders=content-type;content-length;host;x-amz-date;x-amz-target, Signature=
  *
  * {
- * "Operation": "com.amazonaws.cognito.sync.model#SetIdentityPoolConfiguration",
+ * "Operation": "com.amazonaws.cognito.sync.model#GetIdentityPoolConfiguration",
  * "Service": "com.amazonaws.cognito.sync.model#AWSCognitoSyncService",
  * "Input":
  * {
- * "IdentityPoolId": "ID_POOL_ID",
- * "PushSync":
- * {
- * "ApplicationArns": ["PLATFORMARN1", "PLATFORMARN2"],
- * "RoleArn": "ROLEARN"
- * }
+ * "IdentityPoolId": "ID_POOL_ID"
  * }
  * }
  *
  * 1.1 200 OK
- * x-amzn-requestid: a46db021-f5dd-45d6-af5b-7069fa4a211b
- * date: Sat, 04 Oct 2014 20:00:06 GMT
+ * x-amzn-requestid: b1cfdd4b-f620-4fe4-be0f-02024a1d33da
+ * date: Sat, 04 Oct 2014 19:57:22 GMT
  * content-type: application/json
  * content-length: 332
  *
  * {
  * "Output":
  * {
- * "__type": "com.amazonaws.cognito.sync.model#SetIdentityPoolConfigurationResponse",
+ * "__type": "com.amazonaws.cognito.sync.model#GetIdentityPoolConfigurationResponse",
  * "IdentityPoolId": "ID_POOL_ID",
  * "PushSync":
  * {
@@ -1644,11 +1287,10 @@ export const bulkPublish: (
  * "Version": "1.0"
  * }
  */
-export const setIdentityPoolConfiguration: (
-  input: SetIdentityPoolConfigurationRequest,
+export const getIdentityPoolConfiguration: (
+  input: GetIdentityPoolConfigurationRequest,
 ) => effect.Effect<
-  SetIdentityPoolConfigurationResponse,
-  | ConcurrentModificationException
+  GetIdentityPoolConfigurationResponse,
   | InternalErrorException
   | InvalidParameterException
   | NotAuthorizedException
@@ -1657,14 +1299,90 @@ export const setIdentityPoolConfiguration: (
   | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: SetIdentityPoolConfigurationRequest,
-  output: SetIdentityPoolConfigurationResponse,
+  input: GetIdentityPoolConfigurationRequest,
+  output: GetIdentityPoolConfigurationResponse,
   errors: [
-    ConcurrentModificationException,
     InternalErrorException,
     InvalidParameterException,
     NotAuthorizedException,
     ResourceNotFoundException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Lists datasets for an identity. With Amazon Cognito Sync, each identity has access only to
+ * its own data. Thus, the credentials used to make this API call need to have access to the
+ * identity data.
+ *
+ * ListDatasets can be called with temporary user credentials provided by Cognito
+ * Identity or with developer credentials. You should use the Cognito Identity credentials to
+ * make this API call.
+ *
+ * ListDatasets
+ * The following examples have been edited for readability.
+ *
+ * POST / HTTP/1.1
+ * CONTENT-TYPE: application/json
+ * X-AMZN-REQUESTID: 15225768-209f-4078-aaed-7494ace9f2db
+ * X-AMZ-TARGET: com.amazonaws.cognito.sync.model.AWSCognitoSyncService.ListDatasets
+ * HOST: cognito-sync.us-east-1.amazonaws.com:443
+ * X-AMZ-DATE: 20141111T215640Z
+ * AUTHORIZATION: AWS4-HMAC-SHA256 Credential=, SignedHeaders=content-type;host;x-amz-date;x-amz-target;x-amzn-requestid, Signature=
+ *
+ * {
+ * "Operation": "com.amazonaws.cognito.sync.model#ListDatasets",
+ * "Service": "com.amazonaws.cognito.sync.model#AWSCognitoSyncService",
+ * "Input":
+ * {
+ * "IdentityPoolId": "IDENTITY_POOL_ID",
+ * "IdentityId": "IDENTITY_ID",
+ * "MaxResults": "3"
+ * }
+ * }
+ *
+ * 1.1 200 OK
+ * x-amzn-requestid: 15225768-209f-4078-aaed-7494ace9f2db, 15225768-209f-4078-aaed-7494ace9f2db
+ * content-type: application/json
+ * content-length: 355
+ * date: Tue, 11 Nov 2014 21:56:40 GMT
+ *
+ * {
+ * "Output":
+ * {
+ * "__type": "com.amazonaws.cognito.sync.model#ListDatasetsResponse",
+ * "Count": 1,
+ * "Datasets": [
+ * {
+ * "CreationDate": 1.412974057151E9,
+ * "DataStorage": 16,
+ * "DatasetName": "my_list",
+ * "IdentityId": "IDENTITY_ID",
+ * "LastModifiedBy": "123456789012",
+ * "LastModifiedDate": 1.412974057244E9,
+ * "NumRecords": 1
+ * }],
+ * "NextToken": null
+ * },
+ * "Version": "1.0"
+ * }
+ */
+export const listDatasets: (
+  input: ListDatasetsRequest,
+) => effect.Effect<
+  ListDatasetsResponse,
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListDatasetsRequest,
+  output: ListDatasetsResponse,
+  errors: [
+    InternalErrorException,
+    InvalidParameterException,
+    NotAuthorizedException,
     TooManyRequestsException,
   ],
 }));
@@ -1820,16 +1538,82 @@ export const listRecords: (
   ],
 }));
 /**
- * Gets meta data about a dataset by identity and dataset name. With Amazon Cognito Sync, each
- * identity has access only to its own data. Thus, the credentials used to make this API call
- * need to have access to the identity data.
+ * Registers a device to receive push sync notifications.
  *
- * This API can be called with temporary user credentials provided by Cognito Identity or with developer credentials. You should use Cognito Identity credentials to make this API call.
+ * This API can only be called with temporary credentials provided by Cognito Identity. You cannot call this API with developer credentials.
+ *
+ * RegisterDevice
+ * The following examples have been edited for readability.
+ *
+ * POST / HTTP/1.1
+ * CONTENT-TYPE: application/json
+ * X-AMZN-REQUESTID: 368f9200-3eca-449e-93b3-7b9c08d8e185
+ * X-AMZ-TARGET: com.amazonaws.cognito.sync.model.AWSCognitoSyncService.RegisterDevice
+ * HOST: cognito-sync.us-east-1.amazonaws.com
+ * X-AMZ-DATE: 20141004T194643Z
+ * X-AMZ-SECURITY-TOKEN:
+ * AUTHORIZATION: AWS4-HMAC-SHA256 Credential=, SignedHeaders=content-type;content-length;host;x-amz-date;x-amz-target, Signature=
+ *
+ * {
+ * "Operation": "com.amazonaws.cognito.sync.model#RegisterDevice",
+ * "Service": "com.amazonaws.cognito.sync.model#AWSCognitoSyncService",
+ * "Input":
+ * {
+ * "IdentityPoolId": "ID_POOL_ID",
+ * "IdentityId": "IDENTITY_ID",
+ * "Platform": "GCM",
+ * "Token": "PUSH_TOKEN"
+ * }
+ * }
+ *
+ * 1.1 200 OK
+ * x-amzn-requestid: 368f9200-3eca-449e-93b3-7b9c08d8e185
+ * date: Sat, 04 Oct 2014 19:46:44 GMT
+ * content-type: application/json
+ * content-length: 145
+ *
+ * {
+ * "Output":
+ * {
+ * "__type": "com.amazonaws.cognito.sync.model#RegisterDeviceResponse",
+ * "DeviceId": "5cd28fbe-dd83-47ab-9f83-19093a5fb014"
+ * },
+ * "Version": "1.0"
+ * }
  */
-export const describeDataset: (
-  input: DescribeDatasetRequest,
+export const registerDevice: (
+  input: RegisterDeviceRequest,
 ) => effect.Effect<
-  DescribeDatasetResponse,
+  RegisterDeviceResponse,
+  | InternalErrorException
+  | InvalidConfigurationException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RegisterDeviceRequest,
+  output: RegisterDeviceResponse,
+  errors: [
+    InternalErrorException,
+    InvalidConfigurationException,
+    InvalidParameterException,
+    NotAuthorizedException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Sets the AWS Lambda function for a given event type for an identity pool. This request only updates the key/value pair specified. Other key/values pairs are not updated. To remove a key value pair, pass a empty value for the particular key.
+ *
+ * This API can only be called with developer credentials. You cannot call this API with the temporary user credentials provided by Cognito Identity.
+ */
+export const setCognitoEvents: (
+  input: SetCognitoEventsRequest,
+) => effect.Effect<
+  SetCognitoEventsResponse,
   | InternalErrorException
   | InvalidParameterException
   | NotAuthorizedException
@@ -1838,10 +1622,219 @@ export const describeDataset: (
   | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeDatasetRequest,
-  output: DescribeDatasetResponse,
+  input: SetCognitoEventsRequest,
+  output: SetCognitoEventsResponse,
   errors: [
     InternalErrorException,
+    InvalidParameterException,
+    NotAuthorizedException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Sets the necessary configuration for push sync.
+ *
+ * This API can only be called with developer credentials. You cannot call this API with the temporary user credentials provided by Cognito Identity.
+ *
+ * SetIdentityPoolConfiguration
+ * The following examples have been edited for readability.
+ *
+ * POST / HTTP/1.1
+ * CONTENT-TYPE: application/json
+ * X-AMZN-REQUESTID: a46db021-f5dd-45d6-af5b-7069fa4a211b
+ * X-AMZ-TARGET: com.amazonaws.cognito.sync.model.AWSCognitoSyncService.SetIdentityPoolConfiguration
+ * HOST: cognito-sync.us-east-1.amazonaws.com
+ * X-AMZ-DATE: 20141004T200006Z
+ * AUTHORIZATION: AWS4-HMAC-SHA256 Credential=, SignedHeaders=content-type;content-length;host;x-amz-date;x-amz-target, Signature=
+ *
+ * {
+ * "Operation": "com.amazonaws.cognito.sync.model#SetIdentityPoolConfiguration",
+ * "Service": "com.amazonaws.cognito.sync.model#AWSCognitoSyncService",
+ * "Input":
+ * {
+ * "IdentityPoolId": "ID_POOL_ID",
+ * "PushSync":
+ * {
+ * "ApplicationArns": ["PLATFORMARN1", "PLATFORMARN2"],
+ * "RoleArn": "ROLEARN"
+ * }
+ * }
+ * }
+ *
+ * 1.1 200 OK
+ * x-amzn-requestid: a46db021-f5dd-45d6-af5b-7069fa4a211b
+ * date: Sat, 04 Oct 2014 20:00:06 GMT
+ * content-type: application/json
+ * content-length: 332
+ *
+ * {
+ * "Output":
+ * {
+ * "__type": "com.amazonaws.cognito.sync.model#SetIdentityPoolConfigurationResponse",
+ * "IdentityPoolId": "ID_POOL_ID",
+ * "PushSync":
+ * {
+ * "ApplicationArns": ["PLATFORMARN1", "PLATFORMARN2"],
+ * "RoleArn": "ROLEARN"
+ * }
+ * },
+ * "Version": "1.0"
+ * }
+ */
+export const setIdentityPoolConfiguration: (
+  input: SetIdentityPoolConfigurationRequest,
+) => effect.Effect<
+  SetIdentityPoolConfigurationResponse,
+  | ConcurrentModificationException
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SetIdentityPoolConfigurationRequest,
+  output: SetIdentityPoolConfigurationResponse,
+  errors: [
+    ConcurrentModificationException,
+    InternalErrorException,
+    InvalidParameterException,
+    NotAuthorizedException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Subscribes to receive notifications when a dataset is modified by another device.
+ *
+ * This API can only be called with temporary credentials provided by Cognito Identity. You cannot call this API with developer credentials.
+ *
+ * SubscribeToDataset
+ * The following examples have been edited for readability.
+ *
+ * POST / HTTP/1.1
+ * CONTENT-TYPE: application/json
+ * X-AMZN-REQUESTID: 8b9932b7-201d-4418-a960-0a470e11de9f
+ * X-AMZ-TARGET: com.amazonaws.cognito.sync.model.AWSCognitoSyncService.SubscribeToDataset
+ * HOST: cognito-sync.us-east-1.amazonaws.com
+ * X-AMZ-DATE: 20141004T195350Z
+ * X-AMZ-SECURITY-TOKEN:
+ * AUTHORIZATION: AWS4-HMAC-SHA256 Credential=, SignedHeaders=content-type;content-length;host;x-amz-date;x-amz-target, Signature=
+ *
+ * {
+ * "Operation": "com.amazonaws.cognito.sync.model#SubscribeToDataset",
+ * "Service": "com.amazonaws.cognito.sync.model#AWSCognitoSyncService",
+ * "Input":
+ * {
+ * "IdentityPoolId": "ID_POOL_ID",
+ * "IdentityId": "IDENTITY_ID",
+ * "DatasetName": "Rufus",
+ * "DeviceId": "5cd28fbe-dd83-47ab-9f83-19093a5fb014"
+ * }
+ * }
+ *
+ * 1.1 200 OK
+ * x-amzn-requestid: 8b9932b7-201d-4418-a960-0a470e11de9f
+ * date: Sat, 04 Oct 2014 19:53:50 GMT
+ * content-type: application/json
+ * content-length: 99
+ *
+ * {
+ * "Output":
+ * {
+ * "__type": "com.amazonaws.cognito.sync.model#SubscribeToDatasetResponse"
+ * },
+ * "Version": "1.0"
+ * }
+ */
+export const subscribeToDataset: (
+  input: SubscribeToDatasetRequest,
+) => effect.Effect<
+  SubscribeToDatasetResponse,
+  | InternalErrorException
+  | InvalidConfigurationException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SubscribeToDatasetRequest,
+  output: SubscribeToDatasetResponse,
+  errors: [
+    InternalErrorException,
+    InvalidConfigurationException,
+    InvalidParameterException,
+    NotAuthorizedException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+  ],
+}));
+/**
+ * Unsubscribes from receiving notifications when a dataset is modified by another device.
+ *
+ * This API can only be called with temporary credentials provided by Cognito Identity. You cannot call this API with developer credentials.
+ *
+ * UnsubscribeFromDataset
+ * The following examples have been edited for readability.
+ *
+ * POST / HTTP/1.1
+ * CONTENT-TYPE: application/json
+ * X-AMZ-REQUESTSUPERTRACE: true
+ * X-AMZN-REQUESTID: 676896d6-14ca-45b1-8029-6d36b10a077e
+ * X-AMZ-TARGET: com.amazonaws.cognito.sync.model.AWSCognitoSyncService.UnsubscribeFromDataset
+ * HOST: cognito-sync.us-east-1.amazonaws.com
+ * X-AMZ-DATE: 20141004T195446Z
+ * X-AMZ-SECURITY-TOKEN:
+ * AUTHORIZATION: AWS4-HMAC-SHA256 Credential=, SignedHeaders=content-type;content-length;host;x-amz-date;x-amz-target, Signature=
+ *
+ * {
+ * "Operation": "com.amazonaws.cognito.sync.model#UnsubscribeFromDataset",
+ * "Service": "com.amazonaws.cognito.sync.model#AWSCognitoSyncService",
+ * "Input":
+ * {
+ * "IdentityPoolId": "ID_POOL_ID",
+ * "IdentityId": "IDENTITY_ID",
+ * "DatasetName": "Rufus",
+ * "DeviceId": "5cd28fbe-dd83-47ab-9f83-19093a5fb014"
+ * }
+ * }
+ *
+ * 1.1 200 OK
+ * x-amzn-requestid: 676896d6-14ca-45b1-8029-6d36b10a077e
+ * date: Sat, 04 Oct 2014 19:54:46 GMT
+ * content-type: application/json
+ * content-length: 103
+ *
+ * {
+ * "Output":
+ * {
+ * "__type": "com.amazonaws.cognito.sync.model#UnsubscribeFromDatasetResponse"
+ * },
+ * "Version": "1.0"
+ * }
+ */
+export const unsubscribeFromDataset: (
+  input: UnsubscribeFromDatasetRequest,
+) => effect.Effect<
+  UnsubscribeFromDatasetResponse,
+  | InternalErrorException
+  | InvalidConfigurationException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UnsubscribeFromDatasetRequest,
+  output: UnsubscribeFromDatasetResponse,
+  errors: [
+    InternalErrorException,
+    InvalidConfigurationException,
     InvalidParameterException,
     NotAuthorizedException,
     ResourceNotFoundException,

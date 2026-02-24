@@ -1,78 +1,112 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
-import { AlreadyExists, IdempotencyError, InvalidRequest, PaymentMethodRequired } from "../errors";
+import {
+  AlreadyExists,
+  IdempotencyError,
+  InvalidRequest,
+  PaymentMethodRequired,
+} from "../errors";
 
 // Input Schema
 export const ImportEndUserInput = Schema.Struct({
   userId: Schema.String,
-  authenticationMethods: Schema.Array(Schema.Union(Schema.Struct({
-    type: Schema.Literal("email"),
-    email: Schema.String,
-  }), Schema.Struct({
-    type: Schema.Literal("sms"),
-    phoneNumber: Schema.String,
-  }), Schema.Struct({
-    type: Schema.Literal("jwt"),
-    kid: Schema.String,
-    sub: Schema.String,
-  }), Schema.Struct({
-    type: Schema.Literal("google", "apple", "x"),
-    sub: Schema.String,
-    email: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-    username: Schema.optional(Schema.String),
-  }))),
+  authenticationMethods: Schema.Array(
+    Schema.Union([
+      Schema.Struct({
+        type: Schema.Literals(["email"]),
+        email: Schema.String,
+      }),
+      Schema.Struct({
+        type: Schema.Literals(["sms"]),
+        phoneNumber: Schema.String,
+      }),
+      Schema.Struct({
+        type: Schema.Literals(["jwt"]),
+        kid: Schema.String,
+        sub: Schema.String,
+      }),
+      Schema.Struct({
+        type: Schema.Literals(["google", "apple", "x"]),
+        sub: Schema.String,
+        email: Schema.optional(Schema.String),
+        name: Schema.optional(Schema.String),
+        username: Schema.optional(Schema.String),
+      }),
+    ]),
+  ),
   encryptedPrivateKey: Schema.String,
-  keyType: Schema.Literal("evm", "solana"),
-}).pipe(T.Http({ method: "POST", path: "/v2/end-users/import" }), T.WalletAuth());
+  keyType: Schema.Literals(["evm", "solana"]),
+}).pipe(
+  T.Http({ method: "POST", path: "/v2/end-users/import" }),
+  T.WalletAuth(),
+);
 export type ImportEndUserInput = typeof ImportEndUserInput.Type;
 
 // Output Schema
 export const ImportEndUserOutput = Schema.Struct({
   userId: Schema.String,
-  authenticationMethods: Schema.Array(Schema.Union(Schema.Struct({
-    type: Schema.Literal("email"),
-    email: Schema.String,
-  }), Schema.Struct({
-    type: Schema.Literal("sms"),
-    phoneNumber: Schema.String,
-  }), Schema.Struct({
-    type: Schema.Literal("jwt"),
-    kid: Schema.String,
-    sub: Schema.String,
-  }), Schema.Struct({
-    type: Schema.Literal("google", "apple", "x"),
-    sub: Schema.String,
-    email: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-    username: Schema.optional(Schema.String),
-  }))),
-  mfaMethods: Schema.optional(Schema.Struct({
-    enrollmentPromptedAt: Schema.optional(Schema.String),
-    totp: Schema.optional(Schema.Struct({
-      enrolledAt: Schema.String,
-    })),
-    sms: Schema.optional(Schema.Struct({
-      enrolledAt: Schema.String,
-    })),
-  })),
+  authenticationMethods: Schema.Array(
+    Schema.Union([
+      Schema.Struct({
+        type: Schema.Literals(["email"]),
+        email: Schema.String,
+      }),
+      Schema.Struct({
+        type: Schema.Literals(["sms"]),
+        phoneNumber: Schema.String,
+      }),
+      Schema.Struct({
+        type: Schema.Literals(["jwt"]),
+        kid: Schema.String,
+        sub: Schema.String,
+      }),
+      Schema.Struct({
+        type: Schema.Literals(["google", "apple", "x"]),
+        sub: Schema.String,
+        email: Schema.optional(Schema.String),
+        name: Schema.optional(Schema.String),
+        username: Schema.optional(Schema.String),
+      }),
+    ]),
+  ),
+  mfaMethods: Schema.optional(
+    Schema.Struct({
+      enrollmentPromptedAt: Schema.optional(Schema.String),
+      totp: Schema.optional(
+        Schema.Struct({
+          enrolledAt: Schema.String,
+        }),
+      ),
+      sms: Schema.optional(
+        Schema.Struct({
+          enrolledAt: Schema.String,
+        }),
+      ),
+    }),
+  ),
   evmAccounts: Schema.Array(Schema.String),
-  evmAccountObjects: Schema.Array(Schema.Struct({
-    address: Schema.String,
-    createdAt: Schema.String,
-  })),
+  evmAccountObjects: Schema.Array(
+    Schema.Struct({
+      address: Schema.String,
+      createdAt: Schema.String,
+    }),
+  ),
   evmSmartAccounts: Schema.Array(Schema.String),
-  evmSmartAccountObjects: Schema.Array(Schema.Struct({
-    address: Schema.String,
-    ownerAddresses: Schema.Array(Schema.String),
-    createdAt: Schema.String,
-  })),
+  evmSmartAccountObjects: Schema.Array(
+    Schema.Struct({
+      address: Schema.String,
+      ownerAddresses: Schema.Array(Schema.String),
+      createdAt: Schema.String,
+    }),
+  ),
   solanaAccounts: Schema.Array(Schema.String),
-  solanaAccountObjects: Schema.Array(Schema.Struct({
-    address: Schema.String,
-    createdAt: Schema.String,
-  })),
+  solanaAccountObjects: Schema.Array(
+    Schema.Struct({
+      address: Schema.String,
+      createdAt: Schema.String,
+    }),
+  ),
   createdAt: Schema.String,
 });
 export type ImportEndUserOutput = typeof ImportEndUserOutput.Type;
@@ -87,6 +121,11 @@ export type ImportEndUserOutput = typeof ImportEndUserOutput.Type;
 export const importEndUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   inputSchema: ImportEndUserInput,
   outputSchema: ImportEndUserOutput,
-  errors: [AlreadyExists, IdempotencyError, InvalidRequest, PaymentMethodRequired],
+  errors: [
+    AlreadyExists,
+    IdempotencyError,
+    InvalidRequest,
+    PaymentMethodRequired,
+  ],
   walletAuth: true,
 }));

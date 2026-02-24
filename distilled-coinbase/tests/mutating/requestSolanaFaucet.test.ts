@@ -11,8 +11,13 @@ describe("requestSolanaFaucet", () => {
       Effect.gen(function* () {
         const accounts = yield* listSolanaAccounts({});
         if (accounts.accounts.length === 0) {
-          const created = yield* createSolanaAccount({ name: "distilled coinbase sol faucet test" });
-          return yield* requestSolanaFaucet({ address: created.address, token: "sol" }).pipe(
+          const created = yield* createSolanaAccount({
+            name: "distilled coinbase sol faucet test",
+          });
+          return yield* requestSolanaFaucet({
+            address: created.address,
+            token: "sol",
+          }).pipe(
             Effect.matchEffect({
               onFailure: (e) => Effect.succeed({ error: e }),
               onSuccess: (data) => Effect.succeed({ data }),

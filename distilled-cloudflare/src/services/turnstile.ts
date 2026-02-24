@@ -7,7 +7,7 @@
 
 import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
-import type { HttpClient } from "@effect/platform";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
@@ -71,20 +71,20 @@ export interface RotateSecretWidgetResponse {
 
 export const RotateSecretWidgetResponse = Schema.Struct({
   botFightMode: Schema.Boolean.pipe(T.JsonName("bot_fight_mode")),
-  clearanceLevel: Schema.Literal(
+  clearanceLevel: Schema.Literals([
     "no_clearance",
     "jschallenge",
     "managed",
     "interactive",
-  ).pipe(T.JsonName("clearance_level")),
+  ]).pipe(T.JsonName("clearance_level")),
   createdOn: Schema.String.pipe(T.JsonName("created_on")),
   domains: Schema.Array(Schema.String),
   ephemeralId: Schema.Boolean.pipe(T.JsonName("ephemeral_id")),
-  mode: Schema.Literal("non-interactive", "invisible", "managed"),
+  mode: Schema.Literals(["non-interactive", "invisible", "managed"]),
   modifiedOn: Schema.String.pipe(T.JsonName("modified_on")),
   name: Schema.String,
   offlabel: Schema.Boolean,
-  region: Schema.Literal("world", "china"),
+  region: Schema.Literals(["world", "china"]),
   secret: Schema.String,
   sitekey: Schema.String,
 }) as unknown as Schema.Schema<RotateSecretWidgetResponse>;
@@ -149,20 +149,20 @@ export interface GetWidgetResponse {
 
 export const GetWidgetResponse = Schema.Struct({
   botFightMode: Schema.Boolean.pipe(T.JsonName("bot_fight_mode")),
-  clearanceLevel: Schema.Literal(
+  clearanceLevel: Schema.Literals([
     "no_clearance",
     "jschallenge",
     "managed",
     "interactive",
-  ).pipe(T.JsonName("clearance_level")),
+  ]).pipe(T.JsonName("clearance_level")),
   createdOn: Schema.String.pipe(T.JsonName("created_on")),
   domains: Schema.Array(Schema.String),
   ephemeralId: Schema.Boolean.pipe(T.JsonName("ephemeral_id")),
-  mode: Schema.Literal("non-interactive", "invisible", "managed"),
+  mode: Schema.Literals(["non-interactive", "invisible", "managed"]),
   modifiedOn: Schema.String.pipe(T.JsonName("modified_on")),
   name: Schema.String,
   offlabel: Schema.Boolean,
-  region: Schema.Literal("world", "china"),
+  region: Schema.Literals(["world", "china"]),
   secret: Schema.String,
   sitekey: Schema.String,
 }) as unknown as Schema.Schema<GetWidgetResponse>;
@@ -210,26 +210,26 @@ export interface CreateWidgetRequest {
 
 export const CreateWidgetRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  direction: Schema.optional(Schema.Literal("asc", "desc")).pipe(
+  direction: Schema.optional(Schema.Literals(["asc", "desc"])).pipe(
     T.HttpQuery("direction"),
   ),
   order: Schema.optional(
-    Schema.Literal("id", "sitekey", "name", "created_on", "modified_on"),
+    Schema.Literals(["id", "sitekey", "name", "created_on", "modified_on"]),
   ).pipe(T.HttpQuery("order")),
   page: Schema.optional(Schema.Number).pipe(T.HttpQuery("page")),
   perPage: Schema.optional(Schema.Number).pipe(T.HttpQuery("per_page")),
   domains: Schema.Array(Schema.String),
-  mode: Schema.Literal("non-interactive", "invisible", "managed"),
+  mode: Schema.Literals(["non-interactive", "invisible", "managed"]),
   name: Schema.String,
   botFightMode: Schema.optional(Schema.Boolean).pipe(
     T.JsonName("bot_fight_mode"),
   ),
   clearanceLevel: Schema.optional(
-    Schema.Literal("no_clearance", "jschallenge", "managed", "interactive"),
+    Schema.Literals(["no_clearance", "jschallenge", "managed", "interactive"]),
   ).pipe(T.JsonName("clearance_level")),
   ephemeralId: Schema.optional(Schema.Boolean).pipe(T.JsonName("ephemeral_id")),
   offlabel: Schema.optional(Schema.Boolean),
-  region: Schema.optional(Schema.Literal("world", "china")),
+  region: Schema.optional(Schema.Literals(["world", "china"])),
 }).pipe(
   T.Http({ method: "POST", path: "/accounts/{account_id}/challenges/widgets" }),
 ) as unknown as Schema.Schema<CreateWidgetRequest>;
@@ -262,20 +262,20 @@ export interface CreateWidgetResponse {
 
 export const CreateWidgetResponse = Schema.Struct({
   botFightMode: Schema.Boolean.pipe(T.JsonName("bot_fight_mode")),
-  clearanceLevel: Schema.Literal(
+  clearanceLevel: Schema.Literals([
     "no_clearance",
     "jschallenge",
     "managed",
     "interactive",
-  ).pipe(T.JsonName("clearance_level")),
+  ]).pipe(T.JsonName("clearance_level")),
   createdOn: Schema.String.pipe(T.JsonName("created_on")),
   domains: Schema.Array(Schema.String),
   ephemeralId: Schema.Boolean.pipe(T.JsonName("ephemeral_id")),
-  mode: Schema.Literal("non-interactive", "invisible", "managed"),
+  mode: Schema.Literals(["non-interactive", "invisible", "managed"]),
   modifiedOn: Schema.String.pipe(T.JsonName("modified_on")),
   name: Schema.String,
   offlabel: Schema.Boolean,
-  region: Schema.Literal("world", "china"),
+  region: Schema.Literals(["world", "china"]),
   secret: Schema.String,
   sitekey: Schema.String,
 }) as unknown as Schema.Schema<CreateWidgetResponse>;
@@ -318,17 +318,17 @@ export const UpdateWidgetRequest = Schema.Struct({
   sitekey: Schema.String.pipe(T.HttpPath("sitekey")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   domains: Schema.Array(Schema.String),
-  mode: Schema.Literal("non-interactive", "invisible", "managed"),
+  mode: Schema.Literals(["non-interactive", "invisible", "managed"]),
   name: Schema.String,
   botFightMode: Schema.optional(Schema.Boolean).pipe(
     T.JsonName("bot_fight_mode"),
   ),
   clearanceLevel: Schema.optional(
-    Schema.Literal("no_clearance", "jschallenge", "managed", "interactive"),
+    Schema.Literals(["no_clearance", "jschallenge", "managed", "interactive"]),
   ).pipe(T.JsonName("clearance_level")),
   ephemeralId: Schema.optional(Schema.Boolean).pipe(T.JsonName("ephemeral_id")),
   offlabel: Schema.optional(Schema.Boolean),
-  region: Schema.optional(Schema.Literal("world", "china")),
+  region: Schema.optional(Schema.Literals(["world", "china"])),
 }).pipe(
   T.Http({
     method: "PUT",
@@ -364,20 +364,20 @@ export interface UpdateWidgetResponse {
 
 export const UpdateWidgetResponse = Schema.Struct({
   botFightMode: Schema.Boolean.pipe(T.JsonName("bot_fight_mode")),
-  clearanceLevel: Schema.Literal(
+  clearanceLevel: Schema.Literals([
     "no_clearance",
     "jschallenge",
     "managed",
     "interactive",
-  ).pipe(T.JsonName("clearance_level")),
+  ]).pipe(T.JsonName("clearance_level")),
   createdOn: Schema.String.pipe(T.JsonName("created_on")),
   domains: Schema.Array(Schema.String),
   ephemeralId: Schema.Boolean.pipe(T.JsonName("ephemeral_id")),
-  mode: Schema.Literal("non-interactive", "invisible", "managed"),
+  mode: Schema.Literals(["non-interactive", "invisible", "managed"]),
   modifiedOn: Schema.String.pipe(T.JsonName("modified_on")),
   name: Schema.String,
   offlabel: Schema.Boolean,
-  region: Schema.Literal("world", "china"),
+  region: Schema.Literals(["world", "china"]),
   secret: Schema.String,
   sitekey: Schema.String,
 }) as unknown as Schema.Schema<UpdateWidgetResponse>;
@@ -438,20 +438,20 @@ export interface DeleteWidgetResponse {
 
 export const DeleteWidgetResponse = Schema.Struct({
   botFightMode: Schema.Boolean.pipe(T.JsonName("bot_fight_mode")),
-  clearanceLevel: Schema.Literal(
+  clearanceLevel: Schema.Literals([
     "no_clearance",
     "jschallenge",
     "managed",
     "interactive",
-  ).pipe(T.JsonName("clearance_level")),
+  ]).pipe(T.JsonName("clearance_level")),
   createdOn: Schema.String.pipe(T.JsonName("created_on")),
   domains: Schema.Array(Schema.String),
   ephemeralId: Schema.Boolean.pipe(T.JsonName("ephemeral_id")),
-  mode: Schema.Literal("non-interactive", "invisible", "managed"),
+  mode: Schema.Literals(["non-interactive", "invisible", "managed"]),
   modifiedOn: Schema.String.pipe(T.JsonName("modified_on")),
   name: Schema.String,
   offlabel: Schema.Boolean,
-  region: Schema.Literal("world", "china"),
+  region: Schema.Literals(["world", "china"]),
   secret: Schema.String,
   sitekey: Schema.String,
 }) as unknown as Schema.Schema<DeleteWidgetResponse>;

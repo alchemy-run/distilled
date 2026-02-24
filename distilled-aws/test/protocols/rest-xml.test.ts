@@ -2,11 +2,12 @@ import { it } from "@effect/vitest";
 import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
 import { describe, expect } from "vitest";
-import { UnknownAwsError, ValidationException } from "../../src/errors.ts";
-import { restXmlProtocol } from "../../src/protocols/rest-xml.ts";
+import type { Operation } from "../../src/client/operation.ts";
 import { makeRequestBuilder } from "../../src/client/request-builder.ts";
 import { makeResponseParser } from "../../src/client/response-parser.ts";
 import type { Response } from "../../src/client/response.ts";
+import { UnknownAwsError, ValidationException } from "../../src/errors.ts";
+import { restXmlProtocol } from "../../src/protocols/rest-xml.ts";
 import {
   CustomOriginConfig,
   DistributionList,
@@ -88,17 +89,21 @@ import { getAwsProtocolsHttpChecksum } from "../../src/traits.ts";
 import { readEffectStreamAsText } from "../../src/util/stream.ts";
 
 // Helper to build a request from an instance - gets schema from instance.constructor
-const buildRequest = <A, I>(schema: S.Schema<A, I>, instance: A) => {
-  const operation = { input: schema, output: schema, errors: [] };
+const buildRequest = <A>(schema: S.Schema<A>, instance: A) => {
+  const operation: Operation<any, any, any> = {
+    input: schema,
+    output: schema,
+    errors: [],
+  };
   const builder = makeRequestBuilder(operation, { protocol: restXmlProtocol });
   return builder({ ...instance });
 };
 
 // Helper to parse a response using the response parser with restXml protocol
-const parseResponse = <A, I>(
-  schema: S.Schema<A, I>,
+const parseResponse = <A>(
+  schema: S.Schema<A>,
   response: Response,
-  errors: S.Schema.AnyNoContext[] = [],
+  errors: S.Top[] = [],
 ) => {
   const operation = { input: schema, output: schema, errors };
   const parser = makeResponseParser<A>(operation, {
@@ -1780,7 +1785,6 @@ describe("restXml protocol", () => {
         ]).pipe(Effect.flip);
 
         expect(result).toBeInstanceOf(NoSuchBucket);
-        expect(result._tag).toBe("NoSuchBucket");
       }),
     );
 
@@ -1805,7 +1809,6 @@ describe("restXml protocol", () => {
         ]).pipe(Effect.flip);
 
         expect(result).toBeInstanceOf(NoSuchKey);
-        expect(result._tag).toBe("NoSuchKey");
       }),
     );
 

@@ -43,7 +43,7 @@ const withPolicy = <A, E, R>(
         Alerting.deletePolicy({
           accountId: accountId(),
           policyId,
-        }).pipe(Effect.catchAll(() => Effect.void)),
+        }).pipe(Effect.catch(() => Effect.void)),
       ),
     );
   });
@@ -213,7 +213,7 @@ describe("Alerting", () => {
           yield* Alerting.deletePolicy({
             accountId: accountId(),
             policyId: result.id,
-          }).pipe(Effect.catchAll(() => Effect.void));
+          }).pipe(Effect.catch(() => Effect.void));
         }
       }));
 

@@ -1,4 +1,4 @@
-import { HttpClient } from "@effect/platform";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as effect from "effect/Effect";
 import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
@@ -107,59 +107,47 @@ const rules = T.EndpointResolver((p, _) => {
 
 //# Newtypes
 export type DomainName = string;
-export type PageToken = string;
-export type PageSize = number;
-export type ReverseOrder = boolean;
+export type WorkflowId = string;
 export type Name = string;
-export type Arn = string;
-export type Identity = string;
-export type StartAtPreviousStartedEvent = boolean;
-export type TaskToken = string;
-export type LimitedData = string;
+export type VersionOptional = string;
+export type Tag = string;
+export type Count = number;
+export type Truncated = boolean;
+export type ErrorMessage = string;
 export type Version = string;
 export type Description = string;
 export type DurationInSecondsOptional = string;
 export type TaskPriority = string;
+export type Arn = string;
 export type DurationInDays = string;
-export type WorkflowId = string;
-export type WorkflowRunIdOptional = string;
-export type Data = string;
-export type FailureReason = string;
-export type SignalName = string;
-export type Tag = string;
-export type TerminateReason = string;
-export type ResourceTagKey = string;
-export type VersionOptional = string;
 export type WorkflowRunId = string;
-export type ResourceTagValue = string;
-export type Count = number;
-export type Truncated = boolean;
-export type ErrorMessage = string;
-export type ActivityId = string;
-export type EventId = number;
 export type Canceled = boolean;
+export type DurationInSeconds = string;
+export type OpenDecisionTasksCount = number;
+export type Data = string;
+export type PageToken = string;
+export type PageSize = number;
+export type ReverseOrder = boolean;
+export type EventId = number;
+export type WorkflowRunIdOptional = string;
+export type FailureReason = string;
+export type TerminateReason = string;
+export type Identity = string;
+export type ActivityId = string;
+export type LimitedData = string;
+export type SignalName = string;
 export type MarkerName = string;
 export type TimerId = string;
-export type DurationInSeconds = string;
 export type FunctionId = string;
 export type FunctionName = string;
 export type FunctionInput = string;
 export type CauseMessage = string;
-export type OpenDecisionTasksCount = number;
+export type ResourceTagKey = string;
+export type ResourceTagValue = string;
+export type TaskToken = string;
+export type StartAtPreviousStartedEvent = boolean;
 
 //# Schemas
-export type RegistrationStatus = "REGISTERED" | "DEPRECATED" | (string & {});
-export const RegistrationStatus = S.String;
-export type ChildPolicy =
-  | "TERMINATE"
-  | "REQUEST_CANCEL"
-  | "ABANDON"
-  | (string & {});
-export const ChildPolicy = S.String;
-export type TagList = string[];
-export const TagList = S.Array(S.String);
-export type ResourceTagKeyList = string[];
-export const ResourceTagKeyList = S.Array(S.String);
 export interface ExecutionTimeFilter {
   oldestDate: Date;
   latestDate?: Date;
@@ -169,296 +157,32 @@ export const ExecutionTimeFilter = S.suspend(() =>
     oldestDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     latestDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
-).annotations({
+).annotate({
   identifier: "ExecutionTimeFilter",
 }) as any as S.Schema<ExecutionTimeFilter>;
+export interface WorkflowExecutionFilter {
+  workflowId: string;
+}
+export const WorkflowExecutionFilter = S.suspend(() =>
+  S.Struct({ workflowId: S.String }),
+).annotate({
+  identifier: "WorkflowExecutionFilter",
+}) as any as S.Schema<WorkflowExecutionFilter>;
 export interface WorkflowTypeFilter {
   name: string;
   version?: string;
 }
 export const WorkflowTypeFilter = S.suspend(() =>
   S.Struct({ name: S.String, version: S.optional(S.String) }),
-).annotations({
+).annotate({
   identifier: "WorkflowTypeFilter",
 }) as any as S.Schema<WorkflowTypeFilter>;
 export interface TagFilter {
   tag: string;
 }
-export const TagFilter = S.suspend(() =>
-  S.Struct({ tag: S.String }),
-).annotations({ identifier: "TagFilter" }) as any as S.Schema<TagFilter>;
-export interface WorkflowExecutionFilter {
-  workflowId: string;
-}
-export const WorkflowExecutionFilter = S.suspend(() =>
-  S.Struct({ workflowId: S.String }),
-).annotations({
-  identifier: "WorkflowExecutionFilter",
-}) as any as S.Schema<WorkflowExecutionFilter>;
-export interface CountOpenWorkflowExecutionsInput {
-  domain: string;
-  startTimeFilter: ExecutionTimeFilter;
-  typeFilter?: WorkflowTypeFilter;
-  tagFilter?: TagFilter;
-  executionFilter?: WorkflowExecutionFilter;
-}
-export const CountOpenWorkflowExecutionsInput = S.suspend(() =>
-  S.Struct({
-    domain: S.String,
-    startTimeFilter: ExecutionTimeFilter,
-    typeFilter: S.optional(WorkflowTypeFilter),
-    tagFilter: S.optional(TagFilter),
-    executionFilter: S.optional(WorkflowExecutionFilter),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "CountOpenWorkflowExecutionsInput",
-}) as any as S.Schema<CountOpenWorkflowExecutionsInput>;
-export interface TaskList {
-  name: string;
-}
-export const TaskList = S.suspend(() =>
-  S.Struct({ name: S.String }),
-).annotations({ identifier: "TaskList" }) as any as S.Schema<TaskList>;
-export interface CountPendingDecisionTasksInput {
-  domain: string;
-  taskList: TaskList;
-}
-export const CountPendingDecisionTasksInput = S.suspend(() =>
-  S.Struct({ domain: S.String, taskList: TaskList }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "CountPendingDecisionTasksInput",
-}) as any as S.Schema<CountPendingDecisionTasksInput>;
-export interface ActivityType {
-  name: string;
-  version: string;
-}
-export const ActivityType = S.suspend(() =>
-  S.Struct({ name: S.String, version: S.String }),
-).annotations({ identifier: "ActivityType" }) as any as S.Schema<ActivityType>;
-export interface DeprecateActivityTypeInput {
-  domain: string;
-  activityType: ActivityType;
-}
-export const DeprecateActivityTypeInput = S.suspend(() =>
-  S.Struct({ domain: S.String, activityType: ActivityType }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DeprecateActivityTypeInput",
-}) as any as S.Schema<DeprecateActivityTypeInput>;
-export interface DeprecateActivityTypeResponse {}
-export const DeprecateActivityTypeResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotations({
-  identifier: "DeprecateActivityTypeResponse",
-}) as any as S.Schema<DeprecateActivityTypeResponse>;
-export interface DeprecateDomainInput {
-  name: string;
-}
-export const DeprecateDomainInput = S.suspend(() =>
-  S.Struct({ name: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DeprecateDomainInput",
-}) as any as S.Schema<DeprecateDomainInput>;
-export interface DeprecateDomainResponse {}
-export const DeprecateDomainResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotations({
-  identifier: "DeprecateDomainResponse",
-}) as any as S.Schema<DeprecateDomainResponse>;
-export interface WorkflowType {
-  name: string;
-  version: string;
-}
-export const WorkflowType = S.suspend(() =>
-  S.Struct({ name: S.String, version: S.String }),
-).annotations({ identifier: "WorkflowType" }) as any as S.Schema<WorkflowType>;
-export interface DeprecateWorkflowTypeInput {
-  domain: string;
-  workflowType: WorkflowType;
-}
-export const DeprecateWorkflowTypeInput = S.suspend(() =>
-  S.Struct({ domain: S.String, workflowType: WorkflowType }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DeprecateWorkflowTypeInput",
-}) as any as S.Schema<DeprecateWorkflowTypeInput>;
-export interface DeprecateWorkflowTypeResponse {}
-export const DeprecateWorkflowTypeResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotations({
-  identifier: "DeprecateWorkflowTypeResponse",
-}) as any as S.Schema<DeprecateWorkflowTypeResponse>;
-export interface DescribeActivityTypeInput {
-  domain: string;
-  activityType: ActivityType;
-}
-export const DescribeActivityTypeInput = S.suspend(() =>
-  S.Struct({ domain: S.String, activityType: ActivityType }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DescribeActivityTypeInput",
-}) as any as S.Schema<DescribeActivityTypeInput>;
-export interface DescribeDomainInput {
-  name: string;
-}
-export const DescribeDomainInput = S.suspend(() =>
-  S.Struct({ name: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DescribeDomainInput",
-}) as any as S.Schema<DescribeDomainInput>;
-export interface DescribeWorkflowTypeInput {
-  domain: string;
-  workflowType: WorkflowType;
-}
-export const DescribeWorkflowTypeInput = S.suspend(() =>
-  S.Struct({ domain: S.String, workflowType: WorkflowType }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DescribeWorkflowTypeInput",
-}) as any as S.Schema<DescribeWorkflowTypeInput>;
-export interface WorkflowExecution {
-  workflowId: string;
-  runId: string;
-}
-export const WorkflowExecution = S.suspend(() =>
-  S.Struct({ workflowId: S.String, runId: S.String }),
-).annotations({
-  identifier: "WorkflowExecution",
-}) as any as S.Schema<WorkflowExecution>;
-export interface GetWorkflowExecutionHistoryInput {
-  domain: string;
-  execution: WorkflowExecution;
-  nextPageToken?: string;
-  maximumPageSize?: number;
-  reverseOrder?: boolean;
-}
-export const GetWorkflowExecutionHistoryInput = S.suspend(() =>
-  S.Struct({
-    domain: S.String,
-    execution: WorkflowExecution,
-    nextPageToken: S.optional(S.String),
-    maximumPageSize: S.optional(S.Number),
-    reverseOrder: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "GetWorkflowExecutionHistoryInput",
-}) as any as S.Schema<GetWorkflowExecutionHistoryInput>;
-export interface ListActivityTypesInput {
-  domain: string;
-  name?: string;
-  registrationStatus: RegistrationStatus;
-  nextPageToken?: string;
-  maximumPageSize?: number;
-  reverseOrder?: boolean;
-}
-export const ListActivityTypesInput = S.suspend(() =>
-  S.Struct({
-    domain: S.String,
-    name: S.optional(S.String),
-    registrationStatus: RegistrationStatus,
-    nextPageToken: S.optional(S.String),
-    maximumPageSize: S.optional(S.Number),
-    reverseOrder: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListActivityTypesInput",
-}) as any as S.Schema<ListActivityTypesInput>;
+export const TagFilter = S.suspend(() => S.Struct({ tag: S.String })).annotate({
+  identifier: "TagFilter",
+}) as any as S.Schema<TagFilter>;
 export type CloseStatus =
   | "COMPLETED"
   | "FAILED"
@@ -473,747 +197,9 @@ export interface CloseStatusFilter {
 }
 export const CloseStatusFilter = S.suspend(() =>
   S.Struct({ status: CloseStatus }),
-).annotations({
+).annotate({
   identifier: "CloseStatusFilter",
 }) as any as S.Schema<CloseStatusFilter>;
-export interface ListClosedWorkflowExecutionsInput {
-  domain: string;
-  startTimeFilter?: ExecutionTimeFilter;
-  closeTimeFilter?: ExecutionTimeFilter;
-  executionFilter?: WorkflowExecutionFilter;
-  closeStatusFilter?: CloseStatusFilter;
-  typeFilter?: WorkflowTypeFilter;
-  tagFilter?: TagFilter;
-  nextPageToken?: string;
-  maximumPageSize?: number;
-  reverseOrder?: boolean;
-}
-export const ListClosedWorkflowExecutionsInput = S.suspend(() =>
-  S.Struct({
-    domain: S.String,
-    startTimeFilter: S.optional(ExecutionTimeFilter),
-    closeTimeFilter: S.optional(ExecutionTimeFilter),
-    executionFilter: S.optional(WorkflowExecutionFilter),
-    closeStatusFilter: S.optional(CloseStatusFilter),
-    typeFilter: S.optional(WorkflowTypeFilter),
-    tagFilter: S.optional(TagFilter),
-    nextPageToken: S.optional(S.String),
-    maximumPageSize: S.optional(S.Number),
-    reverseOrder: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListClosedWorkflowExecutionsInput",
-}) as any as S.Schema<ListClosedWorkflowExecutionsInput>;
-export interface ListDomainsInput {
-  nextPageToken?: string;
-  registrationStatus: RegistrationStatus;
-  maximumPageSize?: number;
-  reverseOrder?: boolean;
-}
-export const ListDomainsInput = S.suspend(() =>
-  S.Struct({
-    nextPageToken: S.optional(S.String),
-    registrationStatus: RegistrationStatus,
-    maximumPageSize: S.optional(S.Number),
-    reverseOrder: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListDomainsInput",
-}) as any as S.Schema<ListDomainsInput>;
-export interface ListOpenWorkflowExecutionsInput {
-  domain: string;
-  startTimeFilter: ExecutionTimeFilter;
-  typeFilter?: WorkflowTypeFilter;
-  tagFilter?: TagFilter;
-  nextPageToken?: string;
-  maximumPageSize?: number;
-  reverseOrder?: boolean;
-  executionFilter?: WorkflowExecutionFilter;
-}
-export const ListOpenWorkflowExecutionsInput = S.suspend(() =>
-  S.Struct({
-    domain: S.String,
-    startTimeFilter: ExecutionTimeFilter,
-    typeFilter: S.optional(WorkflowTypeFilter),
-    tagFilter: S.optional(TagFilter),
-    nextPageToken: S.optional(S.String),
-    maximumPageSize: S.optional(S.Number),
-    reverseOrder: S.optional(S.Boolean),
-    executionFilter: S.optional(WorkflowExecutionFilter),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListOpenWorkflowExecutionsInput",
-}) as any as S.Schema<ListOpenWorkflowExecutionsInput>;
-export interface ListTagsForResourceInput {
-  resourceArn: string;
-}
-export const ListTagsForResourceInput = S.suspend(() =>
-  S.Struct({ resourceArn: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListTagsForResourceInput",
-}) as any as S.Schema<ListTagsForResourceInput>;
-export interface ListWorkflowTypesInput {
-  domain: string;
-  name?: string;
-  registrationStatus: RegistrationStatus;
-  nextPageToken?: string;
-  maximumPageSize?: number;
-  reverseOrder?: boolean;
-}
-export const ListWorkflowTypesInput = S.suspend(() =>
-  S.Struct({
-    domain: S.String,
-    name: S.optional(S.String),
-    registrationStatus: RegistrationStatus,
-    nextPageToken: S.optional(S.String),
-    maximumPageSize: S.optional(S.Number),
-    reverseOrder: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListWorkflowTypesInput",
-}) as any as S.Schema<ListWorkflowTypesInput>;
-export interface PollForActivityTaskInput {
-  domain: string;
-  taskList: TaskList;
-  identity?: string;
-}
-export const PollForActivityTaskInput = S.suspend(() =>
-  S.Struct({
-    domain: S.String,
-    taskList: TaskList,
-    identity: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "PollForActivityTaskInput",
-}) as any as S.Schema<PollForActivityTaskInput>;
-export interface PollForDecisionTaskInput {
-  domain: string;
-  taskList: TaskList;
-  identity?: string;
-  nextPageToken?: string;
-  maximumPageSize?: number;
-  reverseOrder?: boolean;
-  startAtPreviousStartedEvent?: boolean;
-}
-export const PollForDecisionTaskInput = S.suspend(() =>
-  S.Struct({
-    domain: S.String,
-    taskList: TaskList,
-    identity: S.optional(S.String),
-    nextPageToken: S.optional(S.String),
-    maximumPageSize: S.optional(S.Number),
-    reverseOrder: S.optional(S.Boolean),
-    startAtPreviousStartedEvent: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "PollForDecisionTaskInput",
-}) as any as S.Schema<PollForDecisionTaskInput>;
-export interface RecordActivityTaskHeartbeatInput {
-  taskToken: string;
-  details?: string;
-}
-export const RecordActivityTaskHeartbeatInput = S.suspend(() =>
-  S.Struct({ taskToken: S.String, details: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "RecordActivityTaskHeartbeatInput",
-}) as any as S.Schema<RecordActivityTaskHeartbeatInput>;
-export interface RegisterActivityTypeInput {
-  domain: string;
-  name: string;
-  version: string;
-  description?: string;
-  defaultTaskStartToCloseTimeout?: string;
-  defaultTaskHeartbeatTimeout?: string;
-  defaultTaskList?: TaskList;
-  defaultTaskPriority?: string;
-  defaultTaskScheduleToStartTimeout?: string;
-  defaultTaskScheduleToCloseTimeout?: string;
-}
-export const RegisterActivityTypeInput = S.suspend(() =>
-  S.Struct({
-    domain: S.String,
-    name: S.String,
-    version: S.String,
-    description: S.optional(S.String),
-    defaultTaskStartToCloseTimeout: S.optional(S.String),
-    defaultTaskHeartbeatTimeout: S.optional(S.String),
-    defaultTaskList: S.optional(TaskList),
-    defaultTaskPriority: S.optional(S.String),
-    defaultTaskScheduleToStartTimeout: S.optional(S.String),
-    defaultTaskScheduleToCloseTimeout: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "RegisterActivityTypeInput",
-}) as any as S.Schema<RegisterActivityTypeInput>;
-export interface RegisterActivityTypeResponse {}
-export const RegisterActivityTypeResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotations({
-  identifier: "RegisterActivityTypeResponse",
-}) as any as S.Schema<RegisterActivityTypeResponse>;
-export interface RegisterWorkflowTypeInput {
-  domain: string;
-  name: string;
-  version: string;
-  description?: string;
-  defaultTaskStartToCloseTimeout?: string;
-  defaultExecutionStartToCloseTimeout?: string;
-  defaultTaskList?: TaskList;
-  defaultTaskPriority?: string;
-  defaultChildPolicy?: ChildPolicy;
-  defaultLambdaRole?: string;
-}
-export const RegisterWorkflowTypeInput = S.suspend(() =>
-  S.Struct({
-    domain: S.String,
-    name: S.String,
-    version: S.String,
-    description: S.optional(S.String),
-    defaultTaskStartToCloseTimeout: S.optional(S.String),
-    defaultExecutionStartToCloseTimeout: S.optional(S.String),
-    defaultTaskList: S.optional(TaskList),
-    defaultTaskPriority: S.optional(S.String),
-    defaultChildPolicy: S.optional(ChildPolicy),
-    defaultLambdaRole: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "RegisterWorkflowTypeInput",
-}) as any as S.Schema<RegisterWorkflowTypeInput>;
-export interface RegisterWorkflowTypeResponse {}
-export const RegisterWorkflowTypeResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotations({
-  identifier: "RegisterWorkflowTypeResponse",
-}) as any as S.Schema<RegisterWorkflowTypeResponse>;
-export interface RequestCancelWorkflowExecutionInput {
-  domain: string;
-  workflowId: string;
-  runId?: string;
-}
-export const RequestCancelWorkflowExecutionInput = S.suspend(() =>
-  S.Struct({
-    domain: S.String,
-    workflowId: S.String,
-    runId: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "RequestCancelWorkflowExecutionInput",
-}) as any as S.Schema<RequestCancelWorkflowExecutionInput>;
-export interface RequestCancelWorkflowExecutionResponse {}
-export const RequestCancelWorkflowExecutionResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotations({
-  identifier: "RequestCancelWorkflowExecutionResponse",
-}) as any as S.Schema<RequestCancelWorkflowExecutionResponse>;
-export interface RespondActivityTaskCanceledInput {
-  taskToken: string;
-  details?: string;
-}
-export const RespondActivityTaskCanceledInput = S.suspend(() =>
-  S.Struct({ taskToken: S.String, details: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "RespondActivityTaskCanceledInput",
-}) as any as S.Schema<RespondActivityTaskCanceledInput>;
-export interface RespondActivityTaskCanceledResponse {}
-export const RespondActivityTaskCanceledResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotations({
-  identifier: "RespondActivityTaskCanceledResponse",
-}) as any as S.Schema<RespondActivityTaskCanceledResponse>;
-export interface RespondActivityTaskCompletedInput {
-  taskToken: string;
-  result?: string;
-}
-export const RespondActivityTaskCompletedInput = S.suspend(() =>
-  S.Struct({ taskToken: S.String, result: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "RespondActivityTaskCompletedInput",
-}) as any as S.Schema<RespondActivityTaskCompletedInput>;
-export interface RespondActivityTaskCompletedResponse {}
-export const RespondActivityTaskCompletedResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotations({
-  identifier: "RespondActivityTaskCompletedResponse",
-}) as any as S.Schema<RespondActivityTaskCompletedResponse>;
-export interface RespondActivityTaskFailedInput {
-  taskToken: string;
-  reason?: string;
-  details?: string;
-}
-export const RespondActivityTaskFailedInput = S.suspend(() =>
-  S.Struct({
-    taskToken: S.String,
-    reason: S.optional(S.String),
-    details: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "RespondActivityTaskFailedInput",
-}) as any as S.Schema<RespondActivityTaskFailedInput>;
-export interface RespondActivityTaskFailedResponse {}
-export const RespondActivityTaskFailedResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotations({
-  identifier: "RespondActivityTaskFailedResponse",
-}) as any as S.Schema<RespondActivityTaskFailedResponse>;
-export interface SignalWorkflowExecutionInput {
-  domain: string;
-  workflowId: string;
-  runId?: string;
-  signalName: string;
-  input?: string;
-}
-export const SignalWorkflowExecutionInput = S.suspend(() =>
-  S.Struct({
-    domain: S.String,
-    workflowId: S.String,
-    runId: S.optional(S.String),
-    signalName: S.String,
-    input: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "SignalWorkflowExecutionInput",
-}) as any as S.Schema<SignalWorkflowExecutionInput>;
-export interface SignalWorkflowExecutionResponse {}
-export const SignalWorkflowExecutionResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotations({
-  identifier: "SignalWorkflowExecutionResponse",
-}) as any as S.Schema<SignalWorkflowExecutionResponse>;
-export interface StartWorkflowExecutionInput {
-  domain: string;
-  workflowId: string;
-  workflowType: WorkflowType;
-  taskList?: TaskList;
-  taskPriority?: string;
-  input?: string;
-  executionStartToCloseTimeout?: string;
-  tagList?: string[];
-  taskStartToCloseTimeout?: string;
-  childPolicy?: ChildPolicy;
-  lambdaRole?: string;
-}
-export const StartWorkflowExecutionInput = S.suspend(() =>
-  S.Struct({
-    domain: S.String,
-    workflowId: S.String,
-    workflowType: WorkflowType,
-    taskList: S.optional(TaskList),
-    taskPriority: S.optional(S.String),
-    input: S.optional(S.String),
-    executionStartToCloseTimeout: S.optional(S.String),
-    tagList: S.optional(TagList),
-    taskStartToCloseTimeout: S.optional(S.String),
-    childPolicy: S.optional(ChildPolicy),
-    lambdaRole: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "StartWorkflowExecutionInput",
-}) as any as S.Schema<StartWorkflowExecutionInput>;
-export interface ResourceTag {
-  key: string;
-  value?: string;
-}
-export const ResourceTag = S.suspend(() =>
-  S.Struct({ key: S.String, value: S.optional(S.String) }),
-).annotations({ identifier: "ResourceTag" }) as any as S.Schema<ResourceTag>;
-export type ResourceTagList = ResourceTag[];
-export const ResourceTagList = S.Array(ResourceTag);
-export interface TagResourceInput {
-  resourceArn: string;
-  tags: ResourceTag[];
-}
-export const TagResourceInput = S.suspend(() =>
-  S.Struct({ resourceArn: S.String, tags: ResourceTagList }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "TagResourceInput",
-}) as any as S.Schema<TagResourceInput>;
-export interface TagResourceResponse {}
-export const TagResourceResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotations({
-  identifier: "TagResourceResponse",
-}) as any as S.Schema<TagResourceResponse>;
-export interface TerminateWorkflowExecutionInput {
-  domain: string;
-  workflowId: string;
-  runId?: string;
-  reason?: string;
-  details?: string;
-  childPolicy?: ChildPolicy;
-}
-export const TerminateWorkflowExecutionInput = S.suspend(() =>
-  S.Struct({
-    domain: S.String,
-    workflowId: S.String,
-    runId: S.optional(S.String),
-    reason: S.optional(S.String),
-    details: S.optional(S.String),
-    childPolicy: S.optional(ChildPolicy),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "TerminateWorkflowExecutionInput",
-}) as any as S.Schema<TerminateWorkflowExecutionInput>;
-export interface TerminateWorkflowExecutionResponse {}
-export const TerminateWorkflowExecutionResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotations({
-  identifier: "TerminateWorkflowExecutionResponse",
-}) as any as S.Schema<TerminateWorkflowExecutionResponse>;
-export interface UndeprecateActivityTypeInput {
-  domain: string;
-  activityType: ActivityType;
-}
-export const UndeprecateActivityTypeInput = S.suspend(() =>
-  S.Struct({ domain: S.String, activityType: ActivityType }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "UndeprecateActivityTypeInput",
-}) as any as S.Schema<UndeprecateActivityTypeInput>;
-export interface UndeprecateActivityTypeResponse {}
-export const UndeprecateActivityTypeResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotations({
-  identifier: "UndeprecateActivityTypeResponse",
-}) as any as S.Schema<UndeprecateActivityTypeResponse>;
-export interface UndeprecateDomainInput {
-  name: string;
-}
-export const UndeprecateDomainInput = S.suspend(() =>
-  S.Struct({ name: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "UndeprecateDomainInput",
-}) as any as S.Schema<UndeprecateDomainInput>;
-export interface UndeprecateDomainResponse {}
-export const UndeprecateDomainResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotations({
-  identifier: "UndeprecateDomainResponse",
-}) as any as S.Schema<UndeprecateDomainResponse>;
-export interface UndeprecateWorkflowTypeInput {
-  domain: string;
-  workflowType: WorkflowType;
-}
-export const UndeprecateWorkflowTypeInput = S.suspend(() =>
-  S.Struct({ domain: S.String, workflowType: WorkflowType }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "UndeprecateWorkflowTypeInput",
-}) as any as S.Schema<UndeprecateWorkflowTypeInput>;
-export interface UndeprecateWorkflowTypeResponse {}
-export const UndeprecateWorkflowTypeResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotations({
-  identifier: "UndeprecateWorkflowTypeResponse",
-}) as any as S.Schema<UndeprecateWorkflowTypeResponse>;
-export interface UntagResourceInput {
-  resourceArn: string;
-  tagKeys: string[];
-}
-export const UntagResourceInput = S.suspend(() =>
-  S.Struct({ resourceArn: S.String, tagKeys: ResourceTagKeyList }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "UntagResourceInput",
-}) as any as S.Schema<UntagResourceInput>;
-export interface UntagResourceResponse {}
-export const UntagResourceResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotations({
-  identifier: "UntagResourceResponse",
-}) as any as S.Schema<UntagResourceResponse>;
-export type DecisionType =
-  | "ScheduleActivityTask"
-  | "RequestCancelActivityTask"
-  | "CompleteWorkflowExecution"
-  | "FailWorkflowExecution"
-  | "CancelWorkflowExecution"
-  | "ContinueAsNewWorkflowExecution"
-  | "RecordMarker"
-  | "StartTimer"
-  | "CancelTimer"
-  | "SignalExternalWorkflowExecution"
-  | "RequestCancelExternalWorkflowExecution"
-  | "StartChildWorkflowExecution"
-  | "ScheduleLambdaFunction"
-  | (string & {});
-export const DecisionType = S.String;
-export interface ActivityTypeInfo {
-  activityType: ActivityType;
-  status: RegistrationStatus;
-  description?: string;
-  creationDate: Date;
-  deprecationDate?: Date;
-}
-export const ActivityTypeInfo = S.suspend(() =>
-  S.Struct({
-    activityType: ActivityType,
-    status: RegistrationStatus,
-    description: S.optional(S.String),
-    creationDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    deprecationDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-  }),
-).annotations({
-  identifier: "ActivityTypeInfo",
-}) as any as S.Schema<ActivityTypeInfo>;
-export type ActivityTypeInfoList = ActivityTypeInfo[];
-export const ActivityTypeInfoList = S.Array(ActivityTypeInfo);
-export interface DomainInfo {
-  name: string;
-  status: RegistrationStatus;
-  description?: string;
-  arn?: string;
-}
-export const DomainInfo = S.suspend(() =>
-  S.Struct({
-    name: S.String,
-    status: RegistrationStatus,
-    description: S.optional(S.String),
-    arn: S.optional(S.String),
-  }),
-).annotations({ identifier: "DomainInfo" }) as any as S.Schema<DomainInfo>;
-export type DomainInfoList = DomainInfo[];
-export const DomainInfoList = S.Array(DomainInfo);
-export interface WorkflowTypeInfo {
-  workflowType: WorkflowType;
-  status: RegistrationStatus;
-  description?: string;
-  creationDate: Date;
-  deprecationDate?: Date;
-}
-export const WorkflowTypeInfo = S.suspend(() =>
-  S.Struct({
-    workflowType: WorkflowType,
-    status: RegistrationStatus,
-    description: S.optional(S.String),
-    creationDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    deprecationDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-  }),
-).annotations({
-  identifier: "WorkflowTypeInfo",
-}) as any as S.Schema<WorkflowTypeInfo>;
-export type WorkflowTypeInfoList = WorkflowTypeInfo[];
-export const WorkflowTypeInfoList = S.Array(WorkflowTypeInfo);
 export interface CountClosedWorkflowExecutionsInput {
   domain: string;
   startTimeFilter?: ExecutionTimeFilter;
@@ -1243,7 +229,7 @@ export const CountClosedWorkflowExecutionsInput = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "CountClosedWorkflowExecutionsInput",
 }) as any as S.Schema<CountClosedWorkflowExecutionsInput>;
 export interface WorkflowExecutionCount {
@@ -1252,9 +238,43 @@ export interface WorkflowExecutionCount {
 }
 export const WorkflowExecutionCount = S.suspend(() =>
   S.Struct({ count: S.Number, truncated: S.optional(S.Boolean) }).pipe(ns),
-).annotations({
+).annotate({
   identifier: "WorkflowExecutionCount",
 }) as any as S.Schema<WorkflowExecutionCount>;
+export interface CountOpenWorkflowExecutionsInput {
+  domain: string;
+  startTimeFilter: ExecutionTimeFilter;
+  typeFilter?: WorkflowTypeFilter;
+  tagFilter?: TagFilter;
+  executionFilter?: WorkflowExecutionFilter;
+}
+export const CountOpenWorkflowExecutionsInput = S.suspend(() =>
+  S.Struct({
+    domain: S.String,
+    startTimeFilter: ExecutionTimeFilter,
+    typeFilter: S.optional(WorkflowTypeFilter),
+    tagFilter: S.optional(TagFilter),
+    executionFilter: S.optional(WorkflowExecutionFilter),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "CountOpenWorkflowExecutionsInput",
+}) as any as S.Schema<CountOpenWorkflowExecutionsInput>;
+export interface TaskList {
+  name: string;
+}
+export const TaskList = S.suspend(() => S.Struct({ name: S.String })).annotate({
+  identifier: "TaskList",
+}) as any as S.Schema<TaskList>;
 export interface CountPendingActivityTasksInput {
   domain: string;
   taskList: TaskList;
@@ -1271,7 +291,7 @@ export const CountPendingActivityTasksInput = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "CountPendingActivityTasksInput",
 }) as any as S.Schema<CountPendingActivityTasksInput>;
 export interface PendingTaskCount {
@@ -1280,9 +300,35 @@ export interface PendingTaskCount {
 }
 export const PendingTaskCount = S.suspend(() =>
   S.Struct({ count: S.Number, truncated: S.optional(S.Boolean) }).pipe(ns),
-).annotations({
+).annotate({
   identifier: "PendingTaskCount",
 }) as any as S.Schema<PendingTaskCount>;
+export interface CountPendingDecisionTasksInput {
+  domain: string;
+  taskList: TaskList;
+}
+export const CountPendingDecisionTasksInput = S.suspend(() =>
+  S.Struct({ domain: S.String, taskList: TaskList }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "CountPendingDecisionTasksInput",
+}) as any as S.Schema<CountPendingDecisionTasksInput>;
+export interface ActivityType {
+  name: string;
+  version: string;
+}
+export const ActivityType = S.suspend(() =>
+  S.Struct({ name: S.String, version: S.String }),
+).annotate({ identifier: "ActivityType" }) as any as S.Schema<ActivityType>;
 export interface DeleteActivityTypeInput {
   domain: string;
   activityType: ActivityType;
@@ -1299,15 +345,22 @@ export const DeleteActivityTypeInput = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "DeleteActivityTypeInput",
 }) as any as S.Schema<DeleteActivityTypeInput>;
 export interface DeleteActivityTypeResponse {}
 export const DeleteActivityTypeResponse = S.suspend(() =>
   S.Struct({}).pipe(ns),
-).annotations({
+).annotate({
   identifier: "DeleteActivityTypeResponse",
 }) as any as S.Schema<DeleteActivityTypeResponse>;
+export interface WorkflowType {
+  name: string;
+  version: string;
+}
+export const WorkflowType = S.suspend(() =>
+  S.Struct({ name: S.String, version: S.String }),
+).annotate({ identifier: "WorkflowType" }) as any as S.Schema<WorkflowType>;
 export interface DeleteWorkflowTypeInput {
   domain: string;
   workflowType: WorkflowType;
@@ -1324,15 +377,220 @@ export const DeleteWorkflowTypeInput = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "DeleteWorkflowTypeInput",
 }) as any as S.Schema<DeleteWorkflowTypeInput>;
 export interface DeleteWorkflowTypeResponse {}
 export const DeleteWorkflowTypeResponse = S.suspend(() =>
   S.Struct({}).pipe(ns),
-).annotations({
+).annotate({
   identifier: "DeleteWorkflowTypeResponse",
 }) as any as S.Schema<DeleteWorkflowTypeResponse>;
+export interface DeprecateActivityTypeInput {
+  domain: string;
+  activityType: ActivityType;
+}
+export const DeprecateActivityTypeInput = S.suspend(() =>
+  S.Struct({ domain: S.String, activityType: ActivityType }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeprecateActivityTypeInput",
+}) as any as S.Schema<DeprecateActivityTypeInput>;
+export interface DeprecateActivityTypeResponse {}
+export const DeprecateActivityTypeResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "DeprecateActivityTypeResponse",
+}) as any as S.Schema<DeprecateActivityTypeResponse>;
+export interface DeprecateDomainInput {
+  name: string;
+}
+export const DeprecateDomainInput = S.suspend(() =>
+  S.Struct({ name: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeprecateDomainInput",
+}) as any as S.Schema<DeprecateDomainInput>;
+export interface DeprecateDomainResponse {}
+export const DeprecateDomainResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "DeprecateDomainResponse",
+}) as any as S.Schema<DeprecateDomainResponse>;
+export interface DeprecateWorkflowTypeInput {
+  domain: string;
+  workflowType: WorkflowType;
+}
+export const DeprecateWorkflowTypeInput = S.suspend(() =>
+  S.Struct({ domain: S.String, workflowType: WorkflowType }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeprecateWorkflowTypeInput",
+}) as any as S.Schema<DeprecateWorkflowTypeInput>;
+export interface DeprecateWorkflowTypeResponse {}
+export const DeprecateWorkflowTypeResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "DeprecateWorkflowTypeResponse",
+}) as any as S.Schema<DeprecateWorkflowTypeResponse>;
+export interface DescribeActivityTypeInput {
+  domain: string;
+  activityType: ActivityType;
+}
+export const DescribeActivityTypeInput = S.suspend(() =>
+  S.Struct({ domain: S.String, activityType: ActivityType }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DescribeActivityTypeInput",
+}) as any as S.Schema<DescribeActivityTypeInput>;
+export type RegistrationStatus = "REGISTERED" | "DEPRECATED" | (string & {});
+export const RegistrationStatus = S.String;
+export interface ActivityTypeInfo {
+  activityType: ActivityType;
+  status: RegistrationStatus;
+  description?: string;
+  creationDate: Date;
+  deprecationDate?: Date;
+}
+export const ActivityTypeInfo = S.suspend(() =>
+  S.Struct({
+    activityType: ActivityType,
+    status: RegistrationStatus,
+    description: S.optional(S.String),
+    creationDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    deprecationDate: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }),
+).annotate({
+  identifier: "ActivityTypeInfo",
+}) as any as S.Schema<ActivityTypeInfo>;
+export interface ActivityTypeConfiguration {
+  defaultTaskStartToCloseTimeout?: string;
+  defaultTaskHeartbeatTimeout?: string;
+  defaultTaskList?: TaskList;
+  defaultTaskPriority?: string;
+  defaultTaskScheduleToStartTimeout?: string;
+  defaultTaskScheduleToCloseTimeout?: string;
+}
+export const ActivityTypeConfiguration = S.suspend(() =>
+  S.Struct({
+    defaultTaskStartToCloseTimeout: S.optional(S.String),
+    defaultTaskHeartbeatTimeout: S.optional(S.String),
+    defaultTaskList: S.optional(TaskList),
+    defaultTaskPriority: S.optional(S.String),
+    defaultTaskScheduleToStartTimeout: S.optional(S.String),
+    defaultTaskScheduleToCloseTimeout: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ActivityTypeConfiguration",
+}) as any as S.Schema<ActivityTypeConfiguration>;
+export interface ActivityTypeDetail {
+  typeInfo: ActivityTypeInfo;
+  configuration: ActivityTypeConfiguration;
+}
+export const ActivityTypeDetail = S.suspend(() =>
+  S.Struct({
+    typeInfo: ActivityTypeInfo,
+    configuration: ActivityTypeConfiguration,
+  }).pipe(ns),
+).annotate({
+  identifier: "ActivityTypeDetail",
+}) as any as S.Schema<ActivityTypeDetail>;
+export interface DescribeDomainInput {
+  name: string;
+}
+export const DescribeDomainInput = S.suspend(() =>
+  S.Struct({ name: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DescribeDomainInput",
+}) as any as S.Schema<DescribeDomainInput>;
+export interface DomainInfo {
+  name: string;
+  status: RegistrationStatus;
+  description?: string;
+  arn?: string;
+}
+export const DomainInfo = S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    status: RegistrationStatus,
+    description: S.optional(S.String),
+    arn: S.optional(S.String),
+  }),
+).annotate({ identifier: "DomainInfo" }) as any as S.Schema<DomainInfo>;
+export interface DomainConfiguration {
+  workflowExecutionRetentionPeriodInDays: string;
+}
+export const DomainConfiguration = S.suspend(() =>
+  S.Struct({ workflowExecutionRetentionPeriodInDays: S.String }),
+).annotate({
+  identifier: "DomainConfiguration",
+}) as any as S.Schema<DomainConfiguration>;
+export interface DomainDetail {
+  domainInfo: DomainInfo;
+  configuration: DomainConfiguration;
+}
+export const DomainDetail = S.suspend(() =>
+  S.Struct({ domainInfo: DomainInfo, configuration: DomainConfiguration }).pipe(
+    ns,
+  ),
+).annotate({ identifier: "DomainDetail" }) as any as S.Schema<DomainDetail>;
+export interface WorkflowExecution {
+  workflowId: string;
+  runId: string;
+}
+export const WorkflowExecution = S.suspend(() =>
+  S.Struct({ workflowId: S.String, runId: S.String }),
+).annotate({
+  identifier: "WorkflowExecution",
+}) as any as S.Schema<WorkflowExecution>;
 export interface DescribeWorkflowExecutionInput {
   domain: string;
   execution: WorkflowExecution;
@@ -1349,69 +607,202 @@ export const DescribeWorkflowExecutionInput = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "DescribeWorkflowExecutionInput",
 }) as any as S.Schema<DescribeWorkflowExecutionInput>;
-export interface ActivityTypeInfos {
-  typeInfos: ActivityTypeInfo[];
+export type ExecutionStatus = "OPEN" | "CLOSED" | (string & {});
+export const ExecutionStatus = S.String;
+export type TagList = string[];
+export const TagList = S.Array(S.String);
+export interface WorkflowExecutionInfo {
+  execution: WorkflowExecution;
+  workflowType: WorkflowType;
+  startTimestamp: Date;
+  closeTimestamp?: Date;
+  executionStatus: ExecutionStatus;
+  closeStatus?: CloseStatus;
+  parent?: WorkflowExecution;
+  tagList?: string[];
+  cancelRequested?: boolean;
+}
+export const WorkflowExecutionInfo = S.suspend(() =>
+  S.Struct({
+    execution: WorkflowExecution,
+    workflowType: WorkflowType,
+    startTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    closeTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    executionStatus: ExecutionStatus,
+    closeStatus: S.optional(CloseStatus),
+    parent: S.optional(WorkflowExecution),
+    tagList: S.optional(TagList),
+    cancelRequested: S.optional(S.Boolean),
+  }),
+).annotate({
+  identifier: "WorkflowExecutionInfo",
+}) as any as S.Schema<WorkflowExecutionInfo>;
+export type ChildPolicy =
+  | "TERMINATE"
+  | "REQUEST_CANCEL"
+  | "ABANDON"
+  | (string & {});
+export const ChildPolicy = S.String;
+export interface WorkflowExecutionConfiguration {
+  taskStartToCloseTimeout: string;
+  executionStartToCloseTimeout: string;
+  taskList: TaskList;
+  taskPriority?: string;
+  childPolicy: ChildPolicy;
+  lambdaRole?: string;
+}
+export const WorkflowExecutionConfiguration = S.suspend(() =>
+  S.Struct({
+    taskStartToCloseTimeout: S.String,
+    executionStartToCloseTimeout: S.String,
+    taskList: TaskList,
+    taskPriority: S.optional(S.String),
+    childPolicy: ChildPolicy,
+    lambdaRole: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "WorkflowExecutionConfiguration",
+}) as any as S.Schema<WorkflowExecutionConfiguration>;
+export interface WorkflowExecutionOpenCounts {
+  openActivityTasks: number;
+  openDecisionTasks: number;
+  openTimers: number;
+  openChildWorkflowExecutions: number;
+  openLambdaFunctions?: number;
+}
+export const WorkflowExecutionOpenCounts = S.suspend(() =>
+  S.Struct({
+    openActivityTasks: S.Number,
+    openDecisionTasks: S.Number,
+    openTimers: S.Number,
+    openChildWorkflowExecutions: S.Number,
+    openLambdaFunctions: S.optional(S.Number),
+  }),
+).annotate({
+  identifier: "WorkflowExecutionOpenCounts",
+}) as any as S.Schema<WorkflowExecutionOpenCounts>;
+export interface WorkflowExecutionDetail {
+  executionInfo: WorkflowExecutionInfo;
+  executionConfiguration: WorkflowExecutionConfiguration;
+  openCounts: WorkflowExecutionOpenCounts;
+  latestActivityTaskTimestamp?: Date;
+  latestExecutionContext?: string;
+}
+export const WorkflowExecutionDetail = S.suspend(() =>
+  S.Struct({
+    executionInfo: WorkflowExecutionInfo,
+    executionConfiguration: WorkflowExecutionConfiguration,
+    openCounts: WorkflowExecutionOpenCounts,
+    latestActivityTaskTimestamp: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    latestExecutionContext: S.optional(S.String),
+  }).pipe(ns),
+).annotate({
+  identifier: "WorkflowExecutionDetail",
+}) as any as S.Schema<WorkflowExecutionDetail>;
+export interface DescribeWorkflowTypeInput {
+  domain: string;
+  workflowType: WorkflowType;
+}
+export const DescribeWorkflowTypeInput = S.suspend(() =>
+  S.Struct({ domain: S.String, workflowType: WorkflowType }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DescribeWorkflowTypeInput",
+}) as any as S.Schema<DescribeWorkflowTypeInput>;
+export interface WorkflowTypeInfo {
+  workflowType: WorkflowType;
+  status: RegistrationStatus;
+  description?: string;
+  creationDate: Date;
+  deprecationDate?: Date;
+}
+export const WorkflowTypeInfo = S.suspend(() =>
+  S.Struct({
+    workflowType: WorkflowType,
+    status: RegistrationStatus,
+    description: S.optional(S.String),
+    creationDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    deprecationDate: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }),
+).annotate({
+  identifier: "WorkflowTypeInfo",
+}) as any as S.Schema<WorkflowTypeInfo>;
+export interface WorkflowTypeConfiguration {
+  defaultTaskStartToCloseTimeout?: string;
+  defaultExecutionStartToCloseTimeout?: string;
+  defaultTaskList?: TaskList;
+  defaultTaskPriority?: string;
+  defaultChildPolicy?: ChildPolicy;
+  defaultLambdaRole?: string;
+}
+export const WorkflowTypeConfiguration = S.suspend(() =>
+  S.Struct({
+    defaultTaskStartToCloseTimeout: S.optional(S.String),
+    defaultExecutionStartToCloseTimeout: S.optional(S.String),
+    defaultTaskList: S.optional(TaskList),
+    defaultTaskPriority: S.optional(S.String),
+    defaultChildPolicy: S.optional(ChildPolicy),
+    defaultLambdaRole: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "WorkflowTypeConfiguration",
+}) as any as S.Schema<WorkflowTypeConfiguration>;
+export interface WorkflowTypeDetail {
+  typeInfo: WorkflowTypeInfo;
+  configuration: WorkflowTypeConfiguration;
+}
+export const WorkflowTypeDetail = S.suspend(() =>
+  S.Struct({
+    typeInfo: WorkflowTypeInfo,
+    configuration: WorkflowTypeConfiguration,
+  }).pipe(ns),
+).annotate({
+  identifier: "WorkflowTypeDetail",
+}) as any as S.Schema<WorkflowTypeDetail>;
+export interface GetWorkflowExecutionHistoryInput {
+  domain: string;
+  execution: WorkflowExecution;
   nextPageToken?: string;
+  maximumPageSize?: number;
+  reverseOrder?: boolean;
 }
-export const ActivityTypeInfos = S.suspend(() =>
+export const GetWorkflowExecutionHistoryInput = S.suspend(() =>
   S.Struct({
-    typeInfos: ActivityTypeInfoList,
+    domain: S.String,
+    execution: WorkflowExecution,
     nextPageToken: S.optional(S.String),
-  }).pipe(ns),
-).annotations({
-  identifier: "ActivityTypeInfos",
-}) as any as S.Schema<ActivityTypeInfos>;
-export interface DomainInfos {
-  domainInfos: DomainInfo[];
-  nextPageToken?: string;
-}
-export const DomainInfos = S.suspend(() =>
-  S.Struct({
-    domainInfos: DomainInfoList,
-    nextPageToken: S.optional(S.String),
-  }).pipe(ns),
-).annotations({ identifier: "DomainInfos" }) as any as S.Schema<DomainInfos>;
-export interface ListTagsForResourceOutput {
-  tags?: ResourceTag[];
-}
-export const ListTagsForResourceOutput = S.suspend(() =>
-  S.Struct({ tags: S.optional(ResourceTagList) }).pipe(ns),
-).annotations({
-  identifier: "ListTagsForResourceOutput",
-}) as any as S.Schema<ListTagsForResourceOutput>;
-export interface WorkflowTypeInfos {
-  typeInfos: WorkflowTypeInfo[];
-  nextPageToken?: string;
-}
-export const WorkflowTypeInfos = S.suspend(() =>
-  S.Struct({
-    typeInfos: WorkflowTypeInfoList,
-    nextPageToken: S.optional(S.String),
-  }).pipe(ns),
-).annotations({
-  identifier: "WorkflowTypeInfos",
-}) as any as S.Schema<WorkflowTypeInfos>;
-export interface ActivityTask {
-  taskToken: string;
-  activityId: string;
-  startedEventId: number;
-  workflowExecution: WorkflowExecution;
-  activityType: ActivityType;
-  input?: string;
-}
-export const ActivityTask = S.suspend(() =>
-  S.Struct({
-    taskToken: S.String,
-    activityId: S.String,
-    startedEventId: S.Number,
-    workflowExecution: WorkflowExecution,
-    activityType: ActivityType,
-    input: S.optional(S.String),
-  }).pipe(ns),
-).annotations({ identifier: "ActivityTask" }) as any as S.Schema<ActivityTask>;
+    maximumPageSize: S.optional(S.Number),
+    reverseOrder: S.optional(S.Boolean),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetWorkflowExecutionHistoryInput",
+}) as any as S.Schema<GetWorkflowExecutionHistoryInput>;
 export type EventType =
   | "WorkflowExecutionStarted"
   | "WorkflowExecutionCancelRequested"
@@ -1498,7 +889,7 @@ export const WorkflowExecutionStartedEventAttributes = S.suspend(() =>
     parentInitiatedEventId: S.optional(S.Number),
     lambdaRole: S.optional(S.String),
   }),
-).annotations({
+).annotate({
   identifier: "WorkflowExecutionStartedEventAttributes",
 }) as any as S.Schema<WorkflowExecutionStartedEventAttributes>;
 export interface WorkflowExecutionCompletedEventAttributes {
@@ -1510,7 +901,7 @@ export const WorkflowExecutionCompletedEventAttributes = S.suspend(() =>
     result: S.optional(S.String),
     decisionTaskCompletedEventId: S.Number,
   }),
-).annotations({
+).annotate({
   identifier: "WorkflowExecutionCompletedEventAttributes",
 }) as any as S.Schema<WorkflowExecutionCompletedEventAttributes>;
 export type CompleteWorkflowExecutionFailedCause =
@@ -1527,7 +918,7 @@ export const CompleteWorkflowExecutionFailedEventAttributes = S.suspend(() =>
     cause: CompleteWorkflowExecutionFailedCause,
     decisionTaskCompletedEventId: S.Number,
   }),
-).annotations({
+).annotate({
   identifier: "CompleteWorkflowExecutionFailedEventAttributes",
 }) as any as S.Schema<CompleteWorkflowExecutionFailedEventAttributes>;
 export interface WorkflowExecutionFailedEventAttributes {
@@ -1541,7 +932,7 @@ export const WorkflowExecutionFailedEventAttributes = S.suspend(() =>
     details: S.optional(S.String),
     decisionTaskCompletedEventId: S.Number,
   }),
-).annotations({
+).annotate({
   identifier: "WorkflowExecutionFailedEventAttributes",
 }) as any as S.Schema<WorkflowExecutionFailedEventAttributes>;
 export type FailWorkflowExecutionFailedCause =
@@ -1558,7 +949,7 @@ export const FailWorkflowExecutionFailedEventAttributes = S.suspend(() =>
     cause: FailWorkflowExecutionFailedCause,
     decisionTaskCompletedEventId: S.Number,
   }),
-).annotations({
+).annotate({
   identifier: "FailWorkflowExecutionFailedEventAttributes",
 }) as any as S.Schema<FailWorkflowExecutionFailedEventAttributes>;
 export type WorkflowExecutionTimeoutType = "START_TO_CLOSE" | (string & {});
@@ -1572,7 +963,7 @@ export const WorkflowExecutionTimedOutEventAttributes = S.suspend(() =>
     timeoutType: WorkflowExecutionTimeoutType,
     childPolicy: ChildPolicy,
   }),
-).annotations({
+).annotate({
   identifier: "WorkflowExecutionTimedOutEventAttributes",
 }) as any as S.Schema<WorkflowExecutionTimedOutEventAttributes>;
 export interface WorkflowExecutionCanceledEventAttributes {
@@ -1584,7 +975,7 @@ export const WorkflowExecutionCanceledEventAttributes = S.suspend(() =>
     details: S.optional(S.String),
     decisionTaskCompletedEventId: S.Number,
   }),
-).annotations({
+).annotate({
   identifier: "WorkflowExecutionCanceledEventAttributes",
 }) as any as S.Schema<WorkflowExecutionCanceledEventAttributes>;
 export type CancelWorkflowExecutionFailedCause =
@@ -1601,7 +992,7 @@ export const CancelWorkflowExecutionFailedEventAttributes = S.suspend(() =>
     cause: CancelWorkflowExecutionFailedCause,
     decisionTaskCompletedEventId: S.Number,
   }),
-).annotations({
+).annotate({
   identifier: "CancelWorkflowExecutionFailedEventAttributes",
 }) as any as S.Schema<CancelWorkflowExecutionFailedEventAttributes>;
 export interface WorkflowExecutionContinuedAsNewEventAttributes {
@@ -1631,7 +1022,7 @@ export const WorkflowExecutionContinuedAsNewEventAttributes = S.suspend(() =>
     workflowType: WorkflowType,
     lambdaRole: S.optional(S.String),
   }),
-).annotations({
+).annotate({
   identifier: "WorkflowExecutionContinuedAsNewEventAttributes",
 }) as any as S.Schema<WorkflowExecutionContinuedAsNewEventAttributes>;
 export type ContinueAsNewWorkflowExecutionFailedCause =
@@ -1656,7 +1047,7 @@ export const ContinueAsNewWorkflowExecutionFailedEventAttributes = S.suspend(
       cause: ContinueAsNewWorkflowExecutionFailedCause,
       decisionTaskCompletedEventId: S.Number,
     }),
-).annotations({
+).annotate({
   identifier: "ContinueAsNewWorkflowExecutionFailedEventAttributes",
 }) as any as S.Schema<ContinueAsNewWorkflowExecutionFailedEventAttributes>;
 export type WorkflowExecutionTerminatedCause =
@@ -1678,7 +1069,7 @@ export const WorkflowExecutionTerminatedEventAttributes = S.suspend(() =>
     childPolicy: ChildPolicy,
     cause: S.optional(WorkflowExecutionTerminatedCause),
   }),
-).annotations({
+).annotate({
   identifier: "WorkflowExecutionTerminatedEventAttributes",
 }) as any as S.Schema<WorkflowExecutionTerminatedEventAttributes>;
 export type WorkflowExecutionCancelRequestedCause =
@@ -1696,7 +1087,7 @@ export const WorkflowExecutionCancelRequestedEventAttributes = S.suspend(() =>
     externalInitiatedEventId: S.optional(S.Number),
     cause: S.optional(WorkflowExecutionCancelRequestedCause),
   }),
-).annotations({
+).annotate({
   identifier: "WorkflowExecutionCancelRequestedEventAttributes",
 }) as any as S.Schema<WorkflowExecutionCancelRequestedEventAttributes>;
 export interface DecisionTaskScheduledEventAttributes {
@@ -1712,7 +1103,7 @@ export const DecisionTaskScheduledEventAttributes = S.suspend(() =>
     startToCloseTimeout: S.optional(S.String),
     scheduleToStartTimeout: S.optional(S.String),
   }),
-).annotations({
+).annotate({
   identifier: "DecisionTaskScheduledEventAttributes",
 }) as any as S.Schema<DecisionTaskScheduledEventAttributes>;
 export interface DecisionTaskStartedEventAttributes {
@@ -1721,7 +1112,7 @@ export interface DecisionTaskStartedEventAttributes {
 }
 export const DecisionTaskStartedEventAttributes = S.suspend(() =>
   S.Struct({ identity: S.optional(S.String), scheduledEventId: S.Number }),
-).annotations({
+).annotate({
   identifier: "DecisionTaskStartedEventAttributes",
 }) as any as S.Schema<DecisionTaskStartedEventAttributes>;
 export interface DecisionTaskCompletedEventAttributes {
@@ -1739,7 +1130,7 @@ export const DecisionTaskCompletedEventAttributes = S.suspend(() =>
     taskList: S.optional(TaskList),
     taskListScheduleToStartTimeout: S.optional(S.String),
   }),
-).annotations({
+).annotate({
   identifier: "DecisionTaskCompletedEventAttributes",
 }) as any as S.Schema<DecisionTaskCompletedEventAttributes>;
 export type DecisionTaskTimeoutType =
@@ -1758,7 +1149,7 @@ export const DecisionTaskTimedOutEventAttributes = S.suspend(() =>
     scheduledEventId: S.Number,
     startedEventId: S.Number,
   }),
-).annotations({
+).annotate({
   identifier: "DecisionTaskTimedOutEventAttributes",
 }) as any as S.Schema<DecisionTaskTimedOutEventAttributes>;
 export interface ActivityTaskScheduledEventAttributes {
@@ -1788,7 +1179,7 @@ export const ActivityTaskScheduledEventAttributes = S.suspend(() =>
     decisionTaskCompletedEventId: S.Number,
     heartbeatTimeout: S.optional(S.String),
   }),
-).annotations({
+).annotate({
   identifier: "ActivityTaskScheduledEventAttributes",
 }) as any as S.Schema<ActivityTaskScheduledEventAttributes>;
 export interface ActivityTaskStartedEventAttributes {
@@ -1797,7 +1188,7 @@ export interface ActivityTaskStartedEventAttributes {
 }
 export const ActivityTaskStartedEventAttributes = S.suspend(() =>
   S.Struct({ identity: S.optional(S.String), scheduledEventId: S.Number }),
-).annotations({
+).annotate({
   identifier: "ActivityTaskStartedEventAttributes",
 }) as any as S.Schema<ActivityTaskStartedEventAttributes>;
 export interface ActivityTaskCompletedEventAttributes {
@@ -1811,7 +1202,7 @@ export const ActivityTaskCompletedEventAttributes = S.suspend(() =>
     scheduledEventId: S.Number,
     startedEventId: S.Number,
   }),
-).annotations({
+).annotate({
   identifier: "ActivityTaskCompletedEventAttributes",
 }) as any as S.Schema<ActivityTaskCompletedEventAttributes>;
 export interface ActivityTaskFailedEventAttributes {
@@ -1827,7 +1218,7 @@ export const ActivityTaskFailedEventAttributes = S.suspend(() =>
     scheduledEventId: S.Number,
     startedEventId: S.Number,
   }),
-).annotations({
+).annotate({
   identifier: "ActivityTaskFailedEventAttributes",
 }) as any as S.Schema<ActivityTaskFailedEventAttributes>;
 export type ActivityTaskTimeoutType =
@@ -1850,7 +1241,7 @@ export const ActivityTaskTimedOutEventAttributes = S.suspend(() =>
     startedEventId: S.Number,
     details: S.optional(S.String),
   }),
-).annotations({
+).annotate({
   identifier: "ActivityTaskTimedOutEventAttributes",
 }) as any as S.Schema<ActivityTaskTimedOutEventAttributes>;
 export interface ActivityTaskCanceledEventAttributes {
@@ -1866,7 +1257,7 @@ export const ActivityTaskCanceledEventAttributes = S.suspend(() =>
     startedEventId: S.Number,
     latestCancelRequestedEventId: S.optional(S.Number),
   }),
-).annotations({
+).annotate({
   identifier: "ActivityTaskCanceledEventAttributes",
 }) as any as S.Schema<ActivityTaskCanceledEventAttributes>;
 export interface ActivityTaskCancelRequestedEventAttributes {
@@ -1875,7 +1266,7 @@ export interface ActivityTaskCancelRequestedEventAttributes {
 }
 export const ActivityTaskCancelRequestedEventAttributes = S.suspend(() =>
   S.Struct({ decisionTaskCompletedEventId: S.Number, activityId: S.String }),
-).annotations({
+).annotate({
   identifier: "ActivityTaskCancelRequestedEventAttributes",
 }) as any as S.Schema<ActivityTaskCancelRequestedEventAttributes>;
 export interface WorkflowExecutionSignaledEventAttributes {
@@ -1891,7 +1282,7 @@ export const WorkflowExecutionSignaledEventAttributes = S.suspend(() =>
     externalWorkflowExecution: S.optional(WorkflowExecution),
     externalInitiatedEventId: S.optional(S.Number),
   }),
-).annotations({
+).annotate({
   identifier: "WorkflowExecutionSignaledEventAttributes",
 }) as any as S.Schema<WorkflowExecutionSignaledEventAttributes>;
 export interface MarkerRecordedEventAttributes {
@@ -1905,7 +1296,7 @@ export const MarkerRecordedEventAttributes = S.suspend(() =>
     details: S.optional(S.String),
     decisionTaskCompletedEventId: S.Number,
   }),
-).annotations({
+).annotate({
   identifier: "MarkerRecordedEventAttributes",
 }) as any as S.Schema<MarkerRecordedEventAttributes>;
 export type RecordMarkerFailedCause = "OPERATION_NOT_PERMITTED" | (string & {});
@@ -1921,7 +1312,7 @@ export const RecordMarkerFailedEventAttributes = S.suspend(() =>
     cause: RecordMarkerFailedCause,
     decisionTaskCompletedEventId: S.Number,
   }),
-).annotations({
+).annotate({
   identifier: "RecordMarkerFailedEventAttributes",
 }) as any as S.Schema<RecordMarkerFailedEventAttributes>;
 export interface TimerStartedEventAttributes {
@@ -1937,7 +1328,7 @@ export const TimerStartedEventAttributes = S.suspend(() =>
     startToFireTimeout: S.String,
     decisionTaskCompletedEventId: S.Number,
   }),
-).annotations({
+).annotate({
   identifier: "TimerStartedEventAttributes",
 }) as any as S.Schema<TimerStartedEventAttributes>;
 export interface TimerFiredEventAttributes {
@@ -1946,7 +1337,7 @@ export interface TimerFiredEventAttributes {
 }
 export const TimerFiredEventAttributes = S.suspend(() =>
   S.Struct({ timerId: S.String, startedEventId: S.Number }),
-).annotations({
+).annotate({
   identifier: "TimerFiredEventAttributes",
 }) as any as S.Schema<TimerFiredEventAttributes>;
 export interface TimerCanceledEventAttributes {
@@ -1960,7 +1351,7 @@ export const TimerCanceledEventAttributes = S.suspend(() =>
     startedEventId: S.Number,
     decisionTaskCompletedEventId: S.Number,
   }),
-).annotations({
+).annotate({
   identifier: "TimerCanceledEventAttributes",
 }) as any as S.Schema<TimerCanceledEventAttributes>;
 export interface StartChildWorkflowExecutionInitiatedEventAttributes {
@@ -1993,7 +1384,7 @@ export const StartChildWorkflowExecutionInitiatedEventAttributes = S.suspend(
       tagList: S.optional(TagList),
       lambdaRole: S.optional(S.String),
     }),
-).annotations({
+).annotate({
   identifier: "StartChildWorkflowExecutionInitiatedEventAttributes",
 }) as any as S.Schema<StartChildWorkflowExecutionInitiatedEventAttributes>;
 export interface ChildWorkflowExecutionStartedEventAttributes {
@@ -2007,7 +1398,7 @@ export const ChildWorkflowExecutionStartedEventAttributes = S.suspend(() =>
     workflowType: WorkflowType,
     initiatedEventId: S.Number,
   }),
-).annotations({
+).annotate({
   identifier: "ChildWorkflowExecutionStartedEventAttributes",
 }) as any as S.Schema<ChildWorkflowExecutionStartedEventAttributes>;
 export interface ChildWorkflowExecutionCompletedEventAttributes {
@@ -2025,7 +1416,7 @@ export const ChildWorkflowExecutionCompletedEventAttributes = S.suspend(() =>
     initiatedEventId: S.Number,
     startedEventId: S.Number,
   }),
-).annotations({
+).annotate({
   identifier: "ChildWorkflowExecutionCompletedEventAttributes",
 }) as any as S.Schema<ChildWorkflowExecutionCompletedEventAttributes>;
 export interface ChildWorkflowExecutionFailedEventAttributes {
@@ -2045,7 +1436,7 @@ export const ChildWorkflowExecutionFailedEventAttributes = S.suspend(() =>
     initiatedEventId: S.Number,
     startedEventId: S.Number,
   }),
-).annotations({
+).annotate({
   identifier: "ChildWorkflowExecutionFailedEventAttributes",
 }) as any as S.Schema<ChildWorkflowExecutionFailedEventAttributes>;
 export interface ChildWorkflowExecutionTimedOutEventAttributes {
@@ -2063,7 +1454,7 @@ export const ChildWorkflowExecutionTimedOutEventAttributes = S.suspend(() =>
     initiatedEventId: S.Number,
     startedEventId: S.Number,
   }),
-).annotations({
+).annotate({
   identifier: "ChildWorkflowExecutionTimedOutEventAttributes",
 }) as any as S.Schema<ChildWorkflowExecutionTimedOutEventAttributes>;
 export interface ChildWorkflowExecutionCanceledEventAttributes {
@@ -2081,7 +1472,7 @@ export const ChildWorkflowExecutionCanceledEventAttributes = S.suspend(() =>
     initiatedEventId: S.Number,
     startedEventId: S.Number,
   }),
-).annotations({
+).annotate({
   identifier: "ChildWorkflowExecutionCanceledEventAttributes",
 }) as any as S.Schema<ChildWorkflowExecutionCanceledEventAttributes>;
 export interface ChildWorkflowExecutionTerminatedEventAttributes {
@@ -2097,7 +1488,7 @@ export const ChildWorkflowExecutionTerminatedEventAttributes = S.suspend(() =>
     initiatedEventId: S.Number,
     startedEventId: S.Number,
   }),
-).annotations({
+).annotate({
   identifier: "ChildWorkflowExecutionTerminatedEventAttributes",
 }) as any as S.Schema<ChildWorkflowExecutionTerminatedEventAttributes>;
 export interface SignalExternalWorkflowExecutionInitiatedEventAttributes {
@@ -2118,7 +1509,7 @@ export const SignalExternalWorkflowExecutionInitiatedEventAttributes =
       decisionTaskCompletedEventId: S.Number,
       control: S.optional(S.String),
     }),
-  ).annotations({
+  ).annotate({
     identifier: "SignalExternalWorkflowExecutionInitiatedEventAttributes",
   }) as any as S.Schema<SignalExternalWorkflowExecutionInitiatedEventAttributes>;
 export interface ExternalWorkflowExecutionSignaledEventAttributes {
@@ -2130,7 +1521,7 @@ export const ExternalWorkflowExecutionSignaledEventAttributes = S.suspend(() =>
     workflowExecution: WorkflowExecution,
     initiatedEventId: S.Number,
   }),
-).annotations({
+).annotate({
   identifier: "ExternalWorkflowExecutionSignaledEventAttributes",
 }) as any as S.Schema<ExternalWorkflowExecutionSignaledEventAttributes>;
 export type SignalExternalWorkflowExecutionFailedCause =
@@ -2157,7 +1548,7 @@ export const SignalExternalWorkflowExecutionFailedEventAttributes = S.suspend(
       decisionTaskCompletedEventId: S.Number,
       control: S.optional(S.String),
     }),
-).annotations({
+).annotate({
   identifier: "SignalExternalWorkflowExecutionFailedEventAttributes",
 }) as any as S.Schema<SignalExternalWorkflowExecutionFailedEventAttributes>;
 export interface ExternalWorkflowExecutionCancelRequestedEventAttributes {
@@ -2170,7 +1561,7 @@ export const ExternalWorkflowExecutionCancelRequestedEventAttributes =
       workflowExecution: WorkflowExecution,
       initiatedEventId: S.Number,
     }),
-  ).annotations({
+  ).annotate({
     identifier: "ExternalWorkflowExecutionCancelRequestedEventAttributes",
   }) as any as S.Schema<ExternalWorkflowExecutionCancelRequestedEventAttributes>;
 export interface RequestCancelExternalWorkflowExecutionInitiatedEventAttributes {
@@ -2187,7 +1578,7 @@ export const RequestCancelExternalWorkflowExecutionInitiatedEventAttributes =
       decisionTaskCompletedEventId: S.Number,
       control: S.optional(S.String),
     }),
-  ).annotations({
+  ).annotate({
     identifier:
       "RequestCancelExternalWorkflowExecutionInitiatedEventAttributes",
   }) as any as S.Schema<RequestCancelExternalWorkflowExecutionInitiatedEventAttributes>;
@@ -2215,7 +1606,7 @@ export const RequestCancelExternalWorkflowExecutionFailedEventAttributes =
       decisionTaskCompletedEventId: S.Number,
       control: S.optional(S.String),
     }),
-  ).annotations({
+  ).annotate({
     identifier: "RequestCancelExternalWorkflowExecutionFailedEventAttributes",
   }) as any as S.Schema<RequestCancelExternalWorkflowExecutionFailedEventAttributes>;
 export type ScheduleActivityTaskFailedCause =
@@ -2245,7 +1636,7 @@ export const ScheduleActivityTaskFailedEventAttributes = S.suspend(() =>
     cause: ScheduleActivityTaskFailedCause,
     decisionTaskCompletedEventId: S.Number,
   }),
-).annotations({
+).annotate({
   identifier: "ScheduleActivityTaskFailedEventAttributes",
 }) as any as S.Schema<ScheduleActivityTaskFailedEventAttributes>;
 export type RequestCancelActivityTaskFailedCause =
@@ -2264,7 +1655,7 @@ export const RequestCancelActivityTaskFailedEventAttributes = S.suspend(() =>
     cause: RequestCancelActivityTaskFailedCause,
     decisionTaskCompletedEventId: S.Number,
   }),
-).annotations({
+).annotate({
   identifier: "RequestCancelActivityTaskFailedEventAttributes",
 }) as any as S.Schema<RequestCancelActivityTaskFailedEventAttributes>;
 export type StartTimerFailedCause =
@@ -2285,7 +1676,7 @@ export const StartTimerFailedEventAttributes = S.suspend(() =>
     cause: StartTimerFailedCause,
     decisionTaskCompletedEventId: S.Number,
   }),
-).annotations({
+).annotate({
   identifier: "StartTimerFailedEventAttributes",
 }) as any as S.Schema<StartTimerFailedEventAttributes>;
 export type CancelTimerFailedCause =
@@ -2304,7 +1695,7 @@ export const CancelTimerFailedEventAttributes = S.suspend(() =>
     cause: CancelTimerFailedCause,
     decisionTaskCompletedEventId: S.Number,
   }),
-).annotations({
+).annotate({
   identifier: "CancelTimerFailedEventAttributes",
 }) as any as S.Schema<CancelTimerFailedEventAttributes>;
 export type StartChildWorkflowExecutionFailedCause =
@@ -2338,7 +1729,7 @@ export const StartChildWorkflowExecutionFailedEventAttributes = S.suspend(() =>
     decisionTaskCompletedEventId: S.Number,
     control: S.optional(S.String),
   }),
-).annotations({
+).annotate({
   identifier: "StartChildWorkflowExecutionFailedEventAttributes",
 }) as any as S.Schema<StartChildWorkflowExecutionFailedEventAttributes>;
 export interface LambdaFunctionScheduledEventAttributes {
@@ -2358,7 +1749,7 @@ export const LambdaFunctionScheduledEventAttributes = S.suspend(() =>
     startToCloseTimeout: S.optional(S.String),
     decisionTaskCompletedEventId: S.Number,
   }),
-).annotations({
+).annotate({
   identifier: "LambdaFunctionScheduledEventAttributes",
 }) as any as S.Schema<LambdaFunctionScheduledEventAttributes>;
 export interface LambdaFunctionStartedEventAttributes {
@@ -2366,7 +1757,7 @@ export interface LambdaFunctionStartedEventAttributes {
 }
 export const LambdaFunctionStartedEventAttributes = S.suspend(() =>
   S.Struct({ scheduledEventId: S.Number }),
-).annotations({
+).annotate({
   identifier: "LambdaFunctionStartedEventAttributes",
 }) as any as S.Schema<LambdaFunctionStartedEventAttributes>;
 export interface LambdaFunctionCompletedEventAttributes {
@@ -2380,7 +1771,7 @@ export const LambdaFunctionCompletedEventAttributes = S.suspend(() =>
     startedEventId: S.Number,
     result: S.optional(S.String),
   }),
-).annotations({
+).annotate({
   identifier: "LambdaFunctionCompletedEventAttributes",
 }) as any as S.Schema<LambdaFunctionCompletedEventAttributes>;
 export interface LambdaFunctionFailedEventAttributes {
@@ -2396,7 +1787,7 @@ export const LambdaFunctionFailedEventAttributes = S.suspend(() =>
     reason: S.optional(S.String),
     details: S.optional(S.String),
   }),
-).annotations({
+).annotate({
   identifier: "LambdaFunctionFailedEventAttributes",
 }) as any as S.Schema<LambdaFunctionFailedEventAttributes>;
 export type LambdaFunctionTimeoutType = "START_TO_CLOSE" | (string & {});
@@ -2412,7 +1803,7 @@ export const LambdaFunctionTimedOutEventAttributes = S.suspend(() =>
     startedEventId: S.Number,
     timeoutType: S.optional(LambdaFunctionTimeoutType),
   }),
-).annotations({
+).annotate({
   identifier: "LambdaFunctionTimedOutEventAttributes",
 }) as any as S.Schema<LambdaFunctionTimedOutEventAttributes>;
 export type ScheduleLambdaFunctionFailedCause =
@@ -2435,7 +1826,7 @@ export const ScheduleLambdaFunctionFailedEventAttributes = S.suspend(() =>
     cause: ScheduleLambdaFunctionFailedCause,
     decisionTaskCompletedEventId: S.Number,
   }),
-).annotations({
+).annotate({
   identifier: "ScheduleLambdaFunctionFailedEventAttributes",
 }) as any as S.Schema<ScheduleLambdaFunctionFailedEventAttributes>;
 export type StartLambdaFunctionFailedCause =
@@ -2453,7 +1844,7 @@ export const StartLambdaFunctionFailedEventAttributes = S.suspend(() =>
     cause: S.optional(StartLambdaFunctionFailedCause),
     message: S.optional(S.String),
   }),
-).annotations({
+).annotate({
   identifier: "StartLambdaFunctionFailedEventAttributes",
 }) as any as S.Schema<StartLambdaFunctionFailedEventAttributes>;
 export interface HistoryEvent {
@@ -2675,9 +2066,340 @@ export const HistoryEvent = S.suspend(() =>
       StartLambdaFunctionFailedEventAttributes,
     ),
   }),
-).annotations({ identifier: "HistoryEvent" }) as any as S.Schema<HistoryEvent>;
+).annotate({ identifier: "HistoryEvent" }) as any as S.Schema<HistoryEvent>;
 export type HistoryEventList = HistoryEvent[];
 export const HistoryEventList = S.Array(HistoryEvent);
+export interface History {
+  events: HistoryEvent[];
+  nextPageToken?: string;
+}
+export const History = S.suspend(() =>
+  S.Struct({
+    events: HistoryEventList,
+    nextPageToken: S.optional(S.String),
+  }).pipe(ns),
+).annotate({ identifier: "History" }) as any as S.Schema<History>;
+export interface ListActivityTypesInput {
+  domain: string;
+  name?: string;
+  registrationStatus: RegistrationStatus;
+  nextPageToken?: string;
+  maximumPageSize?: number;
+  reverseOrder?: boolean;
+}
+export const ListActivityTypesInput = S.suspend(() =>
+  S.Struct({
+    domain: S.String,
+    name: S.optional(S.String),
+    registrationStatus: RegistrationStatus,
+    nextPageToken: S.optional(S.String),
+    maximumPageSize: S.optional(S.Number),
+    reverseOrder: S.optional(S.Boolean),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListActivityTypesInput",
+}) as any as S.Schema<ListActivityTypesInput>;
+export type ActivityTypeInfoList = ActivityTypeInfo[];
+export const ActivityTypeInfoList = S.Array(ActivityTypeInfo);
+export interface ActivityTypeInfos {
+  typeInfos: ActivityTypeInfo[];
+  nextPageToken?: string;
+}
+export const ActivityTypeInfos = S.suspend(() =>
+  S.Struct({
+    typeInfos: ActivityTypeInfoList,
+    nextPageToken: S.optional(S.String),
+  }).pipe(ns),
+).annotate({
+  identifier: "ActivityTypeInfos",
+}) as any as S.Schema<ActivityTypeInfos>;
+export interface ListClosedWorkflowExecutionsInput {
+  domain: string;
+  startTimeFilter?: ExecutionTimeFilter;
+  closeTimeFilter?: ExecutionTimeFilter;
+  executionFilter?: WorkflowExecutionFilter;
+  closeStatusFilter?: CloseStatusFilter;
+  typeFilter?: WorkflowTypeFilter;
+  tagFilter?: TagFilter;
+  nextPageToken?: string;
+  maximumPageSize?: number;
+  reverseOrder?: boolean;
+}
+export const ListClosedWorkflowExecutionsInput = S.suspend(() =>
+  S.Struct({
+    domain: S.String,
+    startTimeFilter: S.optional(ExecutionTimeFilter),
+    closeTimeFilter: S.optional(ExecutionTimeFilter),
+    executionFilter: S.optional(WorkflowExecutionFilter),
+    closeStatusFilter: S.optional(CloseStatusFilter),
+    typeFilter: S.optional(WorkflowTypeFilter),
+    tagFilter: S.optional(TagFilter),
+    nextPageToken: S.optional(S.String),
+    maximumPageSize: S.optional(S.Number),
+    reverseOrder: S.optional(S.Boolean),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListClosedWorkflowExecutionsInput",
+}) as any as S.Schema<ListClosedWorkflowExecutionsInput>;
+export type WorkflowExecutionInfoList = WorkflowExecutionInfo[];
+export const WorkflowExecutionInfoList = S.Array(WorkflowExecutionInfo);
+export interface WorkflowExecutionInfos {
+  executionInfos: WorkflowExecutionInfo[];
+  nextPageToken?: string;
+}
+export const WorkflowExecutionInfos = S.suspend(() =>
+  S.Struct({
+    executionInfos: WorkflowExecutionInfoList,
+    nextPageToken: S.optional(S.String),
+  }).pipe(ns),
+).annotate({
+  identifier: "WorkflowExecutionInfos",
+}) as any as S.Schema<WorkflowExecutionInfos>;
+export interface ListDomainsInput {
+  nextPageToken?: string;
+  registrationStatus: RegistrationStatus;
+  maximumPageSize?: number;
+  reverseOrder?: boolean;
+}
+export const ListDomainsInput = S.suspend(() =>
+  S.Struct({
+    nextPageToken: S.optional(S.String),
+    registrationStatus: RegistrationStatus,
+    maximumPageSize: S.optional(S.Number),
+    reverseOrder: S.optional(S.Boolean),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListDomainsInput",
+}) as any as S.Schema<ListDomainsInput>;
+export type DomainInfoList = DomainInfo[];
+export const DomainInfoList = S.Array(DomainInfo);
+export interface DomainInfos {
+  domainInfos: DomainInfo[];
+  nextPageToken?: string;
+}
+export const DomainInfos = S.suspend(() =>
+  S.Struct({
+    domainInfos: DomainInfoList,
+    nextPageToken: S.optional(S.String),
+  }).pipe(ns),
+).annotate({ identifier: "DomainInfos" }) as any as S.Schema<DomainInfos>;
+export interface ListOpenWorkflowExecutionsInput {
+  domain: string;
+  startTimeFilter: ExecutionTimeFilter;
+  typeFilter?: WorkflowTypeFilter;
+  tagFilter?: TagFilter;
+  nextPageToken?: string;
+  maximumPageSize?: number;
+  reverseOrder?: boolean;
+  executionFilter?: WorkflowExecutionFilter;
+}
+export const ListOpenWorkflowExecutionsInput = S.suspend(() =>
+  S.Struct({
+    domain: S.String,
+    startTimeFilter: ExecutionTimeFilter,
+    typeFilter: S.optional(WorkflowTypeFilter),
+    tagFilter: S.optional(TagFilter),
+    nextPageToken: S.optional(S.String),
+    maximumPageSize: S.optional(S.Number),
+    reverseOrder: S.optional(S.Boolean),
+    executionFilter: S.optional(WorkflowExecutionFilter),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListOpenWorkflowExecutionsInput",
+}) as any as S.Schema<ListOpenWorkflowExecutionsInput>;
+export interface ListTagsForResourceInput {
+  resourceArn: string;
+}
+export const ListTagsForResourceInput = S.suspend(() =>
+  S.Struct({ resourceArn: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListTagsForResourceInput",
+}) as any as S.Schema<ListTagsForResourceInput>;
+export interface ResourceTag {
+  key: string;
+  value?: string;
+}
+export const ResourceTag = S.suspend(() =>
+  S.Struct({ key: S.String, value: S.optional(S.String) }),
+).annotate({ identifier: "ResourceTag" }) as any as S.Schema<ResourceTag>;
+export type ResourceTagList = ResourceTag[];
+export const ResourceTagList = S.Array(ResourceTag);
+export interface ListTagsForResourceOutput {
+  tags?: ResourceTag[];
+}
+export const ListTagsForResourceOutput = S.suspend(() =>
+  S.Struct({ tags: S.optional(ResourceTagList) }).pipe(ns),
+).annotate({
+  identifier: "ListTagsForResourceOutput",
+}) as any as S.Schema<ListTagsForResourceOutput>;
+export interface ListWorkflowTypesInput {
+  domain: string;
+  name?: string;
+  registrationStatus: RegistrationStatus;
+  nextPageToken?: string;
+  maximumPageSize?: number;
+  reverseOrder?: boolean;
+}
+export const ListWorkflowTypesInput = S.suspend(() =>
+  S.Struct({
+    domain: S.String,
+    name: S.optional(S.String),
+    registrationStatus: RegistrationStatus,
+    nextPageToken: S.optional(S.String),
+    maximumPageSize: S.optional(S.Number),
+    reverseOrder: S.optional(S.Boolean),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListWorkflowTypesInput",
+}) as any as S.Schema<ListWorkflowTypesInput>;
+export type WorkflowTypeInfoList = WorkflowTypeInfo[];
+export const WorkflowTypeInfoList = S.Array(WorkflowTypeInfo);
+export interface WorkflowTypeInfos {
+  typeInfos: WorkflowTypeInfo[];
+  nextPageToken?: string;
+}
+export const WorkflowTypeInfos = S.suspend(() =>
+  S.Struct({
+    typeInfos: WorkflowTypeInfoList,
+    nextPageToken: S.optional(S.String),
+  }).pipe(ns),
+).annotate({
+  identifier: "WorkflowTypeInfos",
+}) as any as S.Schema<WorkflowTypeInfos>;
+export interface PollForActivityTaskInput {
+  domain: string;
+  taskList: TaskList;
+  identity?: string;
+}
+export const PollForActivityTaskInput = S.suspend(() =>
+  S.Struct({
+    domain: S.String,
+    taskList: TaskList,
+    identity: S.optional(S.String),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "PollForActivityTaskInput",
+}) as any as S.Schema<PollForActivityTaskInput>;
+export interface ActivityTask {
+  taskToken: string;
+  activityId: string;
+  startedEventId: number;
+  workflowExecution: WorkflowExecution;
+  activityType: ActivityType;
+  input?: string;
+}
+export const ActivityTask = S.suspend(() =>
+  S.Struct({
+    taskToken: S.String,
+    activityId: S.String,
+    startedEventId: S.Number,
+    workflowExecution: WorkflowExecution,
+    activityType: ActivityType,
+    input: S.optional(S.String),
+  }).pipe(ns),
+).annotate({ identifier: "ActivityTask" }) as any as S.Schema<ActivityTask>;
+export interface PollForDecisionTaskInput {
+  domain: string;
+  taskList: TaskList;
+  identity?: string;
+  nextPageToken?: string;
+  maximumPageSize?: number;
+  reverseOrder?: boolean;
+  startAtPreviousStartedEvent?: boolean;
+}
+export const PollForDecisionTaskInput = S.suspend(() =>
+  S.Struct({
+    domain: S.String,
+    taskList: TaskList,
+    identity: S.optional(S.String),
+    nextPageToken: S.optional(S.String),
+    maximumPageSize: S.optional(S.Number),
+    reverseOrder: S.optional(S.Boolean),
+    startAtPreviousStartedEvent: S.optional(S.Boolean),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "PollForDecisionTaskInput",
+}) as any as S.Schema<PollForDecisionTaskInput>;
 export interface DecisionTask {
   taskToken: string;
   startedEventId: number;
@@ -2697,15 +2419,78 @@ export const DecisionTask = S.suspend(() =>
     nextPageToken: S.optional(S.String),
     previousStartedEventId: S.optional(S.Number),
   }).pipe(ns),
-).annotations({ identifier: "DecisionTask" }) as any as S.Schema<DecisionTask>;
+).annotate({ identifier: "DecisionTask" }) as any as S.Schema<DecisionTask>;
+export interface RecordActivityTaskHeartbeatInput {
+  taskToken: string;
+  details?: string;
+}
+export const RecordActivityTaskHeartbeatInput = S.suspend(() =>
+  S.Struct({ taskToken: S.String, details: S.optional(S.String) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "RecordActivityTaskHeartbeatInput",
+}) as any as S.Schema<RecordActivityTaskHeartbeatInput>;
 export interface ActivityTaskStatus {
   cancelRequested: boolean;
 }
 export const ActivityTaskStatus = S.suspend(() =>
   S.Struct({ cancelRequested: S.Boolean }).pipe(ns),
-).annotations({
+).annotate({
   identifier: "ActivityTaskStatus",
 }) as any as S.Schema<ActivityTaskStatus>;
+export interface RegisterActivityTypeInput {
+  domain: string;
+  name: string;
+  version: string;
+  description?: string;
+  defaultTaskStartToCloseTimeout?: string;
+  defaultTaskHeartbeatTimeout?: string;
+  defaultTaskList?: TaskList;
+  defaultTaskPriority?: string;
+  defaultTaskScheduleToStartTimeout?: string;
+  defaultTaskScheduleToCloseTimeout?: string;
+}
+export const RegisterActivityTypeInput = S.suspend(() =>
+  S.Struct({
+    domain: S.String,
+    name: S.String,
+    version: S.String,
+    description: S.optional(S.String),
+    defaultTaskStartToCloseTimeout: S.optional(S.String),
+    defaultTaskHeartbeatTimeout: S.optional(S.String),
+    defaultTaskList: S.optional(TaskList),
+    defaultTaskPriority: S.optional(S.String),
+    defaultTaskScheduleToStartTimeout: S.optional(S.String),
+    defaultTaskScheduleToCloseTimeout: S.optional(S.String),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "RegisterActivityTypeInput",
+}) as any as S.Schema<RegisterActivityTypeInput>;
+export interface RegisterActivityTypeResponse {}
+export const RegisterActivityTypeResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "RegisterActivityTypeResponse",
+}) as any as S.Schema<RegisterActivityTypeResponse>;
 export interface RegisterDomainInput {
   name: string;
   description?: string;
@@ -2729,23 +2514,185 @@ export const RegisterDomainInput = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "RegisterDomainInput",
 }) as any as S.Schema<RegisterDomainInput>;
 export interface RegisterDomainResponse {}
 export const RegisterDomainResponse = S.suspend(() =>
   S.Struct({}).pipe(ns),
-).annotations({
+).annotate({
   identifier: "RegisterDomainResponse",
 }) as any as S.Schema<RegisterDomainResponse>;
-export interface Run {
+export interface RegisterWorkflowTypeInput {
+  domain: string;
+  name: string;
+  version: string;
+  description?: string;
+  defaultTaskStartToCloseTimeout?: string;
+  defaultExecutionStartToCloseTimeout?: string;
+  defaultTaskList?: TaskList;
+  defaultTaskPriority?: string;
+  defaultChildPolicy?: ChildPolicy;
+  defaultLambdaRole?: string;
+}
+export const RegisterWorkflowTypeInput = S.suspend(() =>
+  S.Struct({
+    domain: S.String,
+    name: S.String,
+    version: S.String,
+    description: S.optional(S.String),
+    defaultTaskStartToCloseTimeout: S.optional(S.String),
+    defaultExecutionStartToCloseTimeout: S.optional(S.String),
+    defaultTaskList: S.optional(TaskList),
+    defaultTaskPriority: S.optional(S.String),
+    defaultChildPolicy: S.optional(ChildPolicy),
+    defaultLambdaRole: S.optional(S.String),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "RegisterWorkflowTypeInput",
+}) as any as S.Schema<RegisterWorkflowTypeInput>;
+export interface RegisterWorkflowTypeResponse {}
+export const RegisterWorkflowTypeResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "RegisterWorkflowTypeResponse",
+}) as any as S.Schema<RegisterWorkflowTypeResponse>;
+export interface RequestCancelWorkflowExecutionInput {
+  domain: string;
+  workflowId: string;
   runId?: string;
 }
-export const Run = S.suspend(() =>
-  S.Struct({ runId: S.optional(S.String) }).pipe(ns),
-).annotations({ identifier: "Run" }) as any as S.Schema<Run>;
-export type ExecutionStatus = "OPEN" | "CLOSED" | (string & {});
-export const ExecutionStatus = S.String;
+export const RequestCancelWorkflowExecutionInput = S.suspend(() =>
+  S.Struct({
+    domain: S.String,
+    workflowId: S.String,
+    runId: S.optional(S.String),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "RequestCancelWorkflowExecutionInput",
+}) as any as S.Schema<RequestCancelWorkflowExecutionInput>;
+export interface RequestCancelWorkflowExecutionResponse {}
+export const RequestCancelWorkflowExecutionResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "RequestCancelWorkflowExecutionResponse",
+}) as any as S.Schema<RequestCancelWorkflowExecutionResponse>;
+export interface RespondActivityTaskCanceledInput {
+  taskToken: string;
+  details?: string;
+}
+export const RespondActivityTaskCanceledInput = S.suspend(() =>
+  S.Struct({ taskToken: S.String, details: S.optional(S.String) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "RespondActivityTaskCanceledInput",
+}) as any as S.Schema<RespondActivityTaskCanceledInput>;
+export interface RespondActivityTaskCanceledResponse {}
+export const RespondActivityTaskCanceledResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "RespondActivityTaskCanceledResponse",
+}) as any as S.Schema<RespondActivityTaskCanceledResponse>;
+export interface RespondActivityTaskCompletedInput {
+  taskToken: string;
+  result?: string;
+}
+export const RespondActivityTaskCompletedInput = S.suspend(() =>
+  S.Struct({ taskToken: S.String, result: S.optional(S.String) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "RespondActivityTaskCompletedInput",
+}) as any as S.Schema<RespondActivityTaskCompletedInput>;
+export interface RespondActivityTaskCompletedResponse {}
+export const RespondActivityTaskCompletedResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "RespondActivityTaskCompletedResponse",
+}) as any as S.Schema<RespondActivityTaskCompletedResponse>;
+export interface RespondActivityTaskFailedInput {
+  taskToken: string;
+  reason?: string;
+  details?: string;
+}
+export const RespondActivityTaskFailedInput = S.suspend(() =>
+  S.Struct({
+    taskToken: S.String,
+    reason: S.optional(S.String),
+    details: S.optional(S.String),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "RespondActivityTaskFailedInput",
+}) as any as S.Schema<RespondActivityTaskFailedInput>;
+export interface RespondActivityTaskFailedResponse {}
+export const RespondActivityTaskFailedResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "RespondActivityTaskFailedResponse",
+}) as any as S.Schema<RespondActivityTaskFailedResponse>;
+export type DecisionType =
+  | "ScheduleActivityTask"
+  | "RequestCancelActivityTask"
+  | "CompleteWorkflowExecution"
+  | "FailWorkflowExecution"
+  | "CancelWorkflowExecution"
+  | "ContinueAsNewWorkflowExecution"
+  | "RecordMarker"
+  | "StartTimer"
+  | "CancelTimer"
+  | "SignalExternalWorkflowExecution"
+  | "RequestCancelExternalWorkflowExecution"
+  | "StartChildWorkflowExecution"
+  | "ScheduleLambdaFunction"
+  | (string & {});
+export const DecisionType = S.String;
 export interface ScheduleActivityTaskDecisionAttributes {
   activityType: ActivityType;
   activityId: string;
@@ -2771,7 +2718,7 @@ export const ScheduleActivityTaskDecisionAttributes = S.suspend(() =>
     startToCloseTimeout: S.optional(S.String),
     heartbeatTimeout: S.optional(S.String),
   }),
-).annotations({
+).annotate({
   identifier: "ScheduleActivityTaskDecisionAttributes",
 }) as any as S.Schema<ScheduleActivityTaskDecisionAttributes>;
 export interface RequestCancelActivityTaskDecisionAttributes {
@@ -2779,7 +2726,7 @@ export interface RequestCancelActivityTaskDecisionAttributes {
 }
 export const RequestCancelActivityTaskDecisionAttributes = S.suspend(() =>
   S.Struct({ activityId: S.String }),
-).annotations({
+).annotate({
   identifier: "RequestCancelActivityTaskDecisionAttributes",
 }) as any as S.Schema<RequestCancelActivityTaskDecisionAttributes>;
 export interface CompleteWorkflowExecutionDecisionAttributes {
@@ -2787,7 +2734,7 @@ export interface CompleteWorkflowExecutionDecisionAttributes {
 }
 export const CompleteWorkflowExecutionDecisionAttributes = S.suspend(() =>
   S.Struct({ result: S.optional(S.String) }),
-).annotations({
+).annotate({
   identifier: "CompleteWorkflowExecutionDecisionAttributes",
 }) as any as S.Schema<CompleteWorkflowExecutionDecisionAttributes>;
 export interface FailWorkflowExecutionDecisionAttributes {
@@ -2796,7 +2743,7 @@ export interface FailWorkflowExecutionDecisionAttributes {
 }
 export const FailWorkflowExecutionDecisionAttributes = S.suspend(() =>
   S.Struct({ reason: S.optional(S.String), details: S.optional(S.String) }),
-).annotations({
+).annotate({
   identifier: "FailWorkflowExecutionDecisionAttributes",
 }) as any as S.Schema<FailWorkflowExecutionDecisionAttributes>;
 export interface CancelWorkflowExecutionDecisionAttributes {
@@ -2804,7 +2751,7 @@ export interface CancelWorkflowExecutionDecisionAttributes {
 }
 export const CancelWorkflowExecutionDecisionAttributes = S.suspend(() =>
   S.Struct({ details: S.optional(S.String) }),
-).annotations({
+).annotate({
   identifier: "CancelWorkflowExecutionDecisionAttributes",
 }) as any as S.Schema<CancelWorkflowExecutionDecisionAttributes>;
 export interface ContinueAsNewWorkflowExecutionDecisionAttributes {
@@ -2830,7 +2777,7 @@ export const ContinueAsNewWorkflowExecutionDecisionAttributes = S.suspend(() =>
     workflowTypeVersion: S.optional(S.String),
     lambdaRole: S.optional(S.String),
   }),
-).annotations({
+).annotate({
   identifier: "ContinueAsNewWorkflowExecutionDecisionAttributes",
 }) as any as S.Schema<ContinueAsNewWorkflowExecutionDecisionAttributes>;
 export interface RecordMarkerDecisionAttributes {
@@ -2839,7 +2786,7 @@ export interface RecordMarkerDecisionAttributes {
 }
 export const RecordMarkerDecisionAttributes = S.suspend(() =>
   S.Struct({ markerName: S.String, details: S.optional(S.String) }),
-).annotations({
+).annotate({
   identifier: "RecordMarkerDecisionAttributes",
 }) as any as S.Schema<RecordMarkerDecisionAttributes>;
 export interface StartTimerDecisionAttributes {
@@ -2853,7 +2800,7 @@ export const StartTimerDecisionAttributes = S.suspend(() =>
     control: S.optional(S.String),
     startToFireTimeout: S.String,
   }),
-).annotations({
+).annotate({
   identifier: "StartTimerDecisionAttributes",
 }) as any as S.Schema<StartTimerDecisionAttributes>;
 export interface CancelTimerDecisionAttributes {
@@ -2861,7 +2808,7 @@ export interface CancelTimerDecisionAttributes {
 }
 export const CancelTimerDecisionAttributes = S.suspend(() =>
   S.Struct({ timerId: S.String }),
-).annotations({
+).annotate({
   identifier: "CancelTimerDecisionAttributes",
 }) as any as S.Schema<CancelTimerDecisionAttributes>;
 export interface SignalExternalWorkflowExecutionDecisionAttributes {
@@ -2879,7 +2826,7 @@ export const SignalExternalWorkflowExecutionDecisionAttributes = S.suspend(() =>
     input: S.optional(S.String),
     control: S.optional(S.String),
   }),
-).annotations({
+).annotate({
   identifier: "SignalExternalWorkflowExecutionDecisionAttributes",
 }) as any as S.Schema<SignalExternalWorkflowExecutionDecisionAttributes>;
 export interface RequestCancelExternalWorkflowExecutionDecisionAttributes {
@@ -2894,7 +2841,7 @@ export const RequestCancelExternalWorkflowExecutionDecisionAttributes =
       runId: S.optional(S.String),
       control: S.optional(S.String),
     }),
-  ).annotations({
+  ).annotate({
     identifier: "RequestCancelExternalWorkflowExecutionDecisionAttributes",
   }) as any as S.Schema<RequestCancelExternalWorkflowExecutionDecisionAttributes>;
 export interface StartChildWorkflowExecutionDecisionAttributes {
@@ -2924,7 +2871,7 @@ export const StartChildWorkflowExecutionDecisionAttributes = S.suspend(() =>
     tagList: S.optional(TagList),
     lambdaRole: S.optional(S.String),
   }),
-).annotations({
+).annotate({
   identifier: "StartChildWorkflowExecutionDecisionAttributes",
 }) as any as S.Schema<StartChildWorkflowExecutionDecisionAttributes>;
 export interface ScheduleLambdaFunctionDecisionAttributes {
@@ -2942,85 +2889,9 @@ export const ScheduleLambdaFunctionDecisionAttributes = S.suspend(() =>
     input: S.optional(S.String),
     startToCloseTimeout: S.optional(S.String),
   }),
-).annotations({
+).annotate({
   identifier: "ScheduleLambdaFunctionDecisionAttributes",
 }) as any as S.Schema<ScheduleLambdaFunctionDecisionAttributes>;
-export interface ActivityTypeConfiguration {
-  defaultTaskStartToCloseTimeout?: string;
-  defaultTaskHeartbeatTimeout?: string;
-  defaultTaskList?: TaskList;
-  defaultTaskPriority?: string;
-  defaultTaskScheduleToStartTimeout?: string;
-  defaultTaskScheduleToCloseTimeout?: string;
-}
-export const ActivityTypeConfiguration = S.suspend(() =>
-  S.Struct({
-    defaultTaskStartToCloseTimeout: S.optional(S.String),
-    defaultTaskHeartbeatTimeout: S.optional(S.String),
-    defaultTaskList: S.optional(TaskList),
-    defaultTaskPriority: S.optional(S.String),
-    defaultTaskScheduleToStartTimeout: S.optional(S.String),
-    defaultTaskScheduleToCloseTimeout: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "ActivityTypeConfiguration",
-}) as any as S.Schema<ActivityTypeConfiguration>;
-export interface DomainConfiguration {
-  workflowExecutionRetentionPeriodInDays: string;
-}
-export const DomainConfiguration = S.suspend(() =>
-  S.Struct({ workflowExecutionRetentionPeriodInDays: S.String }),
-).annotations({
-  identifier: "DomainConfiguration",
-}) as any as S.Schema<DomainConfiguration>;
-export interface WorkflowTypeConfiguration {
-  defaultTaskStartToCloseTimeout?: string;
-  defaultExecutionStartToCloseTimeout?: string;
-  defaultTaskList?: TaskList;
-  defaultTaskPriority?: string;
-  defaultChildPolicy?: ChildPolicy;
-  defaultLambdaRole?: string;
-}
-export const WorkflowTypeConfiguration = S.suspend(() =>
-  S.Struct({
-    defaultTaskStartToCloseTimeout: S.optional(S.String),
-    defaultExecutionStartToCloseTimeout: S.optional(S.String),
-    defaultTaskList: S.optional(TaskList),
-    defaultTaskPriority: S.optional(S.String),
-    defaultChildPolicy: S.optional(ChildPolicy),
-    defaultLambdaRole: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "WorkflowTypeConfiguration",
-}) as any as S.Schema<WorkflowTypeConfiguration>;
-export interface WorkflowExecutionInfo {
-  execution: WorkflowExecution;
-  workflowType: WorkflowType;
-  startTimestamp: Date;
-  closeTimestamp?: Date;
-  executionStatus: ExecutionStatus;
-  closeStatus?: CloseStatus;
-  parent?: WorkflowExecution;
-  tagList?: string[];
-  cancelRequested?: boolean;
-}
-export const WorkflowExecutionInfo = S.suspend(() =>
-  S.Struct({
-    execution: WorkflowExecution,
-    workflowType: WorkflowType,
-    startTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    closeTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    executionStatus: ExecutionStatus,
-    closeStatus: S.optional(CloseStatus),
-    parent: S.optional(WorkflowExecution),
-    tagList: S.optional(TagList),
-    cancelRequested: S.optional(S.Boolean),
-  }),
-).annotations({
-  identifier: "WorkflowExecutionInfo",
-}) as any as S.Schema<WorkflowExecutionInfo>;
-export type WorkflowExecutionInfoList = WorkflowExecutionInfo[];
-export const WorkflowExecutionInfoList = S.Array(WorkflowExecutionInfo);
 export interface Decision {
   decisionType: DecisionType;
   scheduleActivityTaskDecisionAttributes?: ScheduleActivityTaskDecisionAttributes;
@@ -3074,54 +2945,9 @@ export const Decision = S.suspend(() =>
       ScheduleLambdaFunctionDecisionAttributes,
     ),
   }),
-).annotations({ identifier: "Decision" }) as any as S.Schema<Decision>;
+).annotate({ identifier: "Decision" }) as any as S.Schema<Decision>;
 export type DecisionList = Decision[];
 export const DecisionList = S.Array(Decision);
-export interface ActivityTypeDetail {
-  typeInfo: ActivityTypeInfo;
-  configuration: ActivityTypeConfiguration;
-}
-export const ActivityTypeDetail = S.suspend(() =>
-  S.Struct({
-    typeInfo: ActivityTypeInfo,
-    configuration: ActivityTypeConfiguration,
-  }).pipe(ns),
-).annotations({
-  identifier: "ActivityTypeDetail",
-}) as any as S.Schema<ActivityTypeDetail>;
-export interface DomainDetail {
-  domainInfo: DomainInfo;
-  configuration: DomainConfiguration;
-}
-export const DomainDetail = S.suspend(() =>
-  S.Struct({ domainInfo: DomainInfo, configuration: DomainConfiguration }).pipe(
-    ns,
-  ),
-).annotations({ identifier: "DomainDetail" }) as any as S.Schema<DomainDetail>;
-export interface WorkflowTypeDetail {
-  typeInfo: WorkflowTypeInfo;
-  configuration: WorkflowTypeConfiguration;
-}
-export const WorkflowTypeDetail = S.suspend(() =>
-  S.Struct({
-    typeInfo: WorkflowTypeInfo,
-    configuration: WorkflowTypeConfiguration,
-  }).pipe(ns),
-).annotations({
-  identifier: "WorkflowTypeDetail",
-}) as any as S.Schema<WorkflowTypeDetail>;
-export interface WorkflowExecutionInfos {
-  executionInfos: WorkflowExecutionInfo[];
-  nextPageToken?: string;
-}
-export const WorkflowExecutionInfos = S.suspend(() =>
-  S.Struct({
-    executionInfos: WorkflowExecutionInfoList,
-    nextPageToken: S.optional(S.String),
-  }).pipe(ns),
-).annotations({
-  identifier: "WorkflowExecutionInfos",
-}) as any as S.Schema<WorkflowExecutionInfos>;
 export interface RespondDecisionTaskCompletedInput {
   taskToken: string;
   decisions?: Decision[];
@@ -3147,135 +2973,308 @@ export const RespondDecisionTaskCompletedInput = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "RespondDecisionTaskCompletedInput",
 }) as any as S.Schema<RespondDecisionTaskCompletedInput>;
 export interface RespondDecisionTaskCompletedResponse {}
 export const RespondDecisionTaskCompletedResponse = S.suspend(() =>
   S.Struct({}).pipe(ns),
-).annotations({
+).annotate({
   identifier: "RespondDecisionTaskCompletedResponse",
 }) as any as S.Schema<RespondDecisionTaskCompletedResponse>;
-export interface WorkflowExecutionConfiguration {
-  taskStartToCloseTimeout: string;
-  executionStartToCloseTimeout: string;
-  taskList: TaskList;
+export interface SignalWorkflowExecutionInput {
+  domain: string;
+  workflowId: string;
+  runId?: string;
+  signalName: string;
+  input?: string;
+}
+export const SignalWorkflowExecutionInput = S.suspend(() =>
+  S.Struct({
+    domain: S.String,
+    workflowId: S.String,
+    runId: S.optional(S.String),
+    signalName: S.String,
+    input: S.optional(S.String),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "SignalWorkflowExecutionInput",
+}) as any as S.Schema<SignalWorkflowExecutionInput>;
+export interface SignalWorkflowExecutionResponse {}
+export const SignalWorkflowExecutionResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "SignalWorkflowExecutionResponse",
+}) as any as S.Schema<SignalWorkflowExecutionResponse>;
+export interface StartWorkflowExecutionInput {
+  domain: string;
+  workflowId: string;
+  workflowType: WorkflowType;
+  taskList?: TaskList;
   taskPriority?: string;
-  childPolicy: ChildPolicy;
+  input?: string;
+  executionStartToCloseTimeout?: string;
+  tagList?: string[];
+  taskStartToCloseTimeout?: string;
+  childPolicy?: ChildPolicy;
   lambdaRole?: string;
 }
-export const WorkflowExecutionConfiguration = S.suspend(() =>
+export const StartWorkflowExecutionInput = S.suspend(() =>
   S.Struct({
-    taskStartToCloseTimeout: S.String,
-    executionStartToCloseTimeout: S.String,
-    taskList: TaskList,
+    domain: S.String,
+    workflowId: S.String,
+    workflowType: WorkflowType,
+    taskList: S.optional(TaskList),
     taskPriority: S.optional(S.String),
-    childPolicy: ChildPolicy,
+    input: S.optional(S.String),
+    executionStartToCloseTimeout: S.optional(S.String),
+    tagList: S.optional(TagList),
+    taskStartToCloseTimeout: S.optional(S.String),
+    childPolicy: S.optional(ChildPolicy),
     lambdaRole: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "WorkflowExecutionConfiguration",
-}) as any as S.Schema<WorkflowExecutionConfiguration>;
-export interface WorkflowExecutionOpenCounts {
-  openActivityTasks: number;
-  openDecisionTasks: number;
-  openTimers: number;
-  openChildWorkflowExecutions: number;
-  openLambdaFunctions?: number;
-}
-export const WorkflowExecutionOpenCounts = S.suspend(() =>
-  S.Struct({
-    openActivityTasks: S.Number,
-    openDecisionTasks: S.Number,
-    openTimers: S.Number,
-    openChildWorkflowExecutions: S.Number,
-    openLambdaFunctions: S.optional(S.Number),
-  }),
-).annotations({
-  identifier: "WorkflowExecutionOpenCounts",
-}) as any as S.Schema<WorkflowExecutionOpenCounts>;
-export interface WorkflowExecutionDetail {
-  executionInfo: WorkflowExecutionInfo;
-  executionConfiguration: WorkflowExecutionConfiguration;
-  openCounts: WorkflowExecutionOpenCounts;
-  latestActivityTaskTimestamp?: Date;
-  latestExecutionContext?: string;
-}
-export const WorkflowExecutionDetail = S.suspend(() =>
-  S.Struct({
-    executionInfo: WorkflowExecutionInfo,
-    executionConfiguration: WorkflowExecutionConfiguration,
-    openCounts: WorkflowExecutionOpenCounts,
-    latestActivityTaskTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
-    latestExecutionContext: S.optional(S.String),
-  }).pipe(ns),
-).annotations({
-  identifier: "WorkflowExecutionDetail",
-}) as any as S.Schema<WorkflowExecutionDetail>;
-export interface History {
-  events: HistoryEvent[];
-  nextPageToken?: string;
+  ),
+).annotate({
+  identifier: "StartWorkflowExecutionInput",
+}) as any as S.Schema<StartWorkflowExecutionInput>;
+export interface Run {
+  runId?: string;
 }
-export const History = S.suspend(() =>
+export const Run = S.suspend(() =>
+  S.Struct({ runId: S.optional(S.String) }).pipe(ns),
+).annotate({ identifier: "Run" }) as any as S.Schema<Run>;
+export interface TagResourceInput {
+  resourceArn: string;
+  tags: ResourceTag[];
+}
+export const TagResourceInput = S.suspend(() =>
+  S.Struct({ resourceArn: S.String, tags: ResourceTagList }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "TagResourceInput",
+}) as any as S.Schema<TagResourceInput>;
+export interface TagResourceResponse {}
+export const TagResourceResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "TagResourceResponse",
+}) as any as S.Schema<TagResourceResponse>;
+export interface TerminateWorkflowExecutionInput {
+  domain: string;
+  workflowId: string;
+  runId?: string;
+  reason?: string;
+  details?: string;
+  childPolicy?: ChildPolicy;
+}
+export const TerminateWorkflowExecutionInput = S.suspend(() =>
   S.Struct({
-    events: HistoryEventList,
-    nextPageToken: S.optional(S.String),
-  }).pipe(ns),
-).annotations({ identifier: "History" }) as any as S.Schema<History>;
+    domain: S.String,
+    workflowId: S.String,
+    runId: S.optional(S.String),
+    reason: S.optional(S.String),
+    details: S.optional(S.String),
+    childPolicy: S.optional(ChildPolicy),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "TerminateWorkflowExecutionInput",
+}) as any as S.Schema<TerminateWorkflowExecutionInput>;
+export interface TerminateWorkflowExecutionResponse {}
+export const TerminateWorkflowExecutionResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "TerminateWorkflowExecutionResponse",
+}) as any as S.Schema<TerminateWorkflowExecutionResponse>;
+export interface UndeprecateActivityTypeInput {
+  domain: string;
+  activityType: ActivityType;
+}
+export const UndeprecateActivityTypeInput = S.suspend(() =>
+  S.Struct({ domain: S.String, activityType: ActivityType }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "UndeprecateActivityTypeInput",
+}) as any as S.Schema<UndeprecateActivityTypeInput>;
+export interface UndeprecateActivityTypeResponse {}
+export const UndeprecateActivityTypeResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "UndeprecateActivityTypeResponse",
+}) as any as S.Schema<UndeprecateActivityTypeResponse>;
+export interface UndeprecateDomainInput {
+  name: string;
+}
+export const UndeprecateDomainInput = S.suspend(() =>
+  S.Struct({ name: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "UndeprecateDomainInput",
+}) as any as S.Schema<UndeprecateDomainInput>;
+export interface UndeprecateDomainResponse {}
+export const UndeprecateDomainResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "UndeprecateDomainResponse",
+}) as any as S.Schema<UndeprecateDomainResponse>;
+export interface UndeprecateWorkflowTypeInput {
+  domain: string;
+  workflowType: WorkflowType;
+}
+export const UndeprecateWorkflowTypeInput = S.suspend(() =>
+  S.Struct({ domain: S.String, workflowType: WorkflowType }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "UndeprecateWorkflowTypeInput",
+}) as any as S.Schema<UndeprecateWorkflowTypeInput>;
+export interface UndeprecateWorkflowTypeResponse {}
+export const UndeprecateWorkflowTypeResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "UndeprecateWorkflowTypeResponse",
+}) as any as S.Schema<UndeprecateWorkflowTypeResponse>;
+export type ResourceTagKeyList = string[];
+export const ResourceTagKeyList = S.Array(S.String);
+export interface UntagResourceInput {
+  resourceArn: string;
+  tagKeys: string[];
+}
+export const UntagResourceInput = S.suspend(() =>
+  S.Struct({ resourceArn: S.String, tagKeys: ResourceTagKeyList }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "UntagResourceInput",
+}) as any as S.Schema<UntagResourceInput>;
+export interface UntagResourceResponse {}
+export const UntagResourceResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "UntagResourceResponse",
+}) as any as S.Schema<UntagResourceResponse>;
 
 //# Errors
-export class OperationNotPermittedFault extends S.TaggedError<OperationNotPermittedFault>()(
+export class OperationNotPermittedFault extends S.TaggedErrorClass<OperationNotPermittedFault>()(
   "OperationNotPermittedFault",
   { message: S.optional(S.String) },
 ) {}
-export class DomainDeprecatedFault extends S.TaggedError<DomainDeprecatedFault>()(
-  "DomainDeprecatedFault",
-  { message: S.optional(S.String) },
-) {}
-export class LimitExceededFault extends S.TaggedError<LimitExceededFault>()(
-  "LimitExceededFault",
-  { message: S.optional(S.String) },
-) {}
-export class DomainAlreadyExistsFault extends S.TaggedError<DomainAlreadyExistsFault>()(
-  "DomainAlreadyExistsFault",
-  { message: S.optional(S.String) },
-).pipe(C.withAlreadyExistsError) {}
-export class TypeDeprecatedFault extends S.TaggedError<TypeDeprecatedFault>()(
-  "TypeDeprecatedFault",
-  { message: S.optional(S.String) },
-) {}
-export class UnknownResourceFault extends S.TaggedError<UnknownResourceFault>()(
+export class UnknownResourceFault extends S.TaggedErrorClass<UnknownResourceFault>()(
   "UnknownResourceFault",
   { message: S.optional(S.String) },
 ) {}
-export class TypeAlreadyExistsFault extends S.TaggedError<TypeAlreadyExistsFault>()(
-  "TypeAlreadyExistsFault",
-  { message: S.optional(S.String) },
-).pipe(C.withAlreadyExistsError) {}
-export class DefaultUndefinedFault extends S.TaggedError<DefaultUndefinedFault>()(
-  "DefaultUndefinedFault",
-  { message: S.optional(S.String) },
-) {}
-export class TypeNotDeprecatedFault extends S.TaggedError<TypeNotDeprecatedFault>()(
+export class TypeNotDeprecatedFault extends S.TaggedErrorClass<TypeNotDeprecatedFault>()(
   "TypeNotDeprecatedFault",
   { message: S.optional(S.String) },
 ) {}
-export class TooManyTagsFault extends S.TaggedError<TooManyTagsFault>()(
+export class TypeDeprecatedFault extends S.TaggedErrorClass<TypeDeprecatedFault>()(
+  "TypeDeprecatedFault",
+  { message: S.optional(S.String) },
+) {}
+export class DomainDeprecatedFault extends S.TaggedErrorClass<DomainDeprecatedFault>()(
+  "DomainDeprecatedFault",
+  { message: S.optional(S.String) },
+) {}
+export class LimitExceededFault extends S.TaggedErrorClass<LimitExceededFault>()(
+  "LimitExceededFault",
+  { message: S.optional(S.String) },
+) {}
+export class TypeAlreadyExistsFault extends S.TaggedErrorClass<TypeAlreadyExistsFault>()(
+  "TypeAlreadyExistsFault",
+  { message: S.optional(S.String) },
+).pipe(C.withAlreadyExistsError) {}
+export class DomainAlreadyExistsFault extends S.TaggedErrorClass<DomainAlreadyExistsFault>()(
+  "DomainAlreadyExistsFault",
+  { message: S.optional(S.String) },
+).pipe(C.withAlreadyExistsError) {}
+export class TooManyTagsFault extends S.TaggedErrorClass<TooManyTagsFault>()(
   "TooManyTagsFault",
   { message: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
-export class WorkflowExecutionAlreadyStartedFault extends S.TaggedError<WorkflowExecutionAlreadyStartedFault>()(
+export class DefaultUndefinedFault extends S.TaggedErrorClass<DefaultUndefinedFault>()(
+  "DefaultUndefinedFault",
+  { message: S.optional(S.String) },
+) {}
+export class WorkflowExecutionAlreadyStartedFault extends S.TaggedErrorClass<WorkflowExecutionAlreadyStartedFault>()(
   "WorkflowExecutionAlreadyStartedFault",
   { message: S.optional(S.String) },
 ) {}
 
 //# Operations
 /**
- * Returns the list of domains registered in the account. The results may be split into
- * multiple pages. To retrieve subsequent pages, make the call again using the nextPageToken
- * returned by the initial call.
+ * Returns the number of closed workflow executions within the given domain that meet the
+ * specified filtering criteria.
  *
  * This operation is eventually consistent. The results are best effort and may not
  * exactly reflect recent updates and changes.
@@ -3286,14 +3285,22 @@ export class WorkflowExecutionAlreadyStartedFault extends S.TaggedError<Workflow
  * follows:
  *
  * - Use a `Resource` element with the domain name to limit the action to
- * only specified domains. The element must be set to
- * `arn:aws:swf::AccountID:domain/*`, where *AccountID* is
- * the account ID, with no dashes.
+ * only specified domains.
  *
  * - Use an `Action` element to allow or deny permission to call this
  * action.
  *
- * - You cannot use an IAM policy to constrain this action's parameters.
+ * - Constrain the following parameters by using a `Condition` element with
+ * the appropriate keys.
+ *
+ * - `tagFilter.tag`: String constraint. The key is
+ * `swf:tagFilter.tag`.
+ *
+ * - `typeFilter.name`: String constraint. The key is
+ * `swf:typeFilter.name`.
+ *
+ * - `typeFilter.version`: String constraint. The key is
+ * `swf:typeFilter.version`.
  *
  * If the caller doesn't have sufficient permissions to invoke the action, or the
  * parameter values fall outside the specified constraints, the action fails. The associated
@@ -3301,38 +3308,287 @@ export class WorkflowExecutionAlreadyStartedFault extends S.TaggedError<Workflow
  * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
  * Workflows in the *Amazon SWF Developer Guide*.
  */
-export const listDomains: {
-  (
-    input: ListDomainsInput,
-  ): effect.Effect<
-    DomainInfos,
-    OperationNotPermittedFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  pages: (
-    input: ListDomainsInput,
-  ) => stream.Stream<
-    DomainInfos,
-    OperationNotPermittedFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  items: (
-    input: ListDomainsInput,
-  ) => stream.Stream<
-    DomainInfo,
-    OperationNotPermittedFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
-  input: ListDomainsInput,
-  output: DomainInfos,
-  errors: [OperationNotPermittedFault],
-  pagination: {
-    inputToken: "nextPageToken",
-    outputToken: "nextPageToken",
-    items: "domainInfos",
-    pageSize: "maximumPageSize",
-  } as const,
+export const countClosedWorkflowExecutions: (
+  input: CountClosedWorkflowExecutionsInput,
+) => effect.Effect<
+  WorkflowExecutionCount,
+  OperationNotPermittedFault | UnknownResourceFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CountClosedWorkflowExecutionsInput,
+  output: WorkflowExecutionCount,
+  errors: [OperationNotPermittedFault, UnknownResourceFault],
+}));
+/**
+ * Returns the number of open workflow executions within the given domain that meet the
+ * specified filtering criteria.
+ *
+ * This operation is eventually consistent. The results are best effort and may not
+ * exactly reflect recent updates and changes.
+ *
+ * **Access Control**
+ *
+ * You can use IAM policies to control this action's access to Amazon SWF resources as
+ * follows:
+ *
+ * - Use a `Resource` element with the domain name to limit the action to
+ * only specified domains.
+ *
+ * - Use an `Action` element to allow or deny permission to call this
+ * action.
+ *
+ * - Constrain the following parameters by using a `Condition` element with
+ * the appropriate keys.
+ *
+ * - `tagFilter.tag`: String constraint. The key is
+ * `swf:tagFilter.tag`.
+ *
+ * - `typeFilter.name`: String constraint. The key is
+ * `swf:typeFilter.name`.
+ *
+ * - `typeFilter.version`: String constraint. The key is
+ * `swf:typeFilter.version`.
+ *
+ * If the caller doesn't have sufficient permissions to invoke the action, or the
+ * parameter values fall outside the specified constraints, the action fails. The associated
+ * event attribute's `cause` parameter is set to `OPERATION_NOT_PERMITTED`.
+ * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
+ * Workflows in the *Amazon SWF Developer Guide*.
+ */
+export const countOpenWorkflowExecutions: (
+  input: CountOpenWorkflowExecutionsInput,
+) => effect.Effect<
+  WorkflowExecutionCount,
+  OperationNotPermittedFault | UnknownResourceFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CountOpenWorkflowExecutionsInput,
+  output: WorkflowExecutionCount,
+  errors: [OperationNotPermittedFault, UnknownResourceFault],
+}));
+/**
+ * Returns the estimated number of activity tasks in the specified task list. The count
+ * returned is an approximation and isn't guaranteed to be exact. If you specify a task list that
+ * no activity task was ever scheduled in then `0` is returned.
+ *
+ * **Access Control**
+ *
+ * You can use IAM policies to control this action's access to Amazon SWF resources as
+ * follows:
+ *
+ * - Use a `Resource` element with the domain name to limit the action to
+ * only specified domains.
+ *
+ * - Use an `Action` element to allow or deny permission to call this
+ * action.
+ *
+ * - Constrain the `taskList.name` parameter by using a
+ * `Condition` element with the `swf:taskList.name` key to allow the
+ * action to access only certain task lists.
+ *
+ * If the caller doesn't have sufficient permissions to invoke the action, or the
+ * parameter values fall outside the specified constraints, the action fails. The associated
+ * event attribute's `cause` parameter is set to `OPERATION_NOT_PERMITTED`.
+ * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
+ * Workflows in the *Amazon SWF Developer Guide*.
+ */
+export const countPendingActivityTasks: (
+  input: CountPendingActivityTasksInput,
+) => effect.Effect<
+  PendingTaskCount,
+  OperationNotPermittedFault | UnknownResourceFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CountPendingActivityTasksInput,
+  output: PendingTaskCount,
+  errors: [OperationNotPermittedFault, UnknownResourceFault],
+}));
+/**
+ * Returns the estimated number of decision tasks in the specified task list. The count
+ * returned is an approximation and isn't guaranteed to be exact. If you specify a task list that
+ * no decision task was ever scheduled in then `0` is returned.
+ *
+ * **Access Control**
+ *
+ * You can use IAM policies to control this action's access to Amazon SWF resources as
+ * follows:
+ *
+ * - Use a `Resource` element with the domain name to limit the action to
+ * only specified domains.
+ *
+ * - Use an `Action` element to allow or deny permission to call this
+ * action.
+ *
+ * - Constrain the `taskList.name` parameter by using a
+ * `Condition` element with the `swf:taskList.name` key to allow the
+ * action to access only certain task lists.
+ *
+ * If the caller doesn't have sufficient permissions to invoke the action, or the
+ * parameter values fall outside the specified constraints, the action fails. The associated
+ * event attribute's `cause` parameter is set to `OPERATION_NOT_PERMITTED`.
+ * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
+ * Workflows in the *Amazon SWF Developer Guide*.
+ */
+export const countPendingDecisionTasks: (
+  input: CountPendingDecisionTasksInput,
+) => effect.Effect<
+  PendingTaskCount,
+  OperationNotPermittedFault | UnknownResourceFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CountPendingDecisionTasksInput,
+  output: PendingTaskCount,
+  errors: [OperationNotPermittedFault, UnknownResourceFault],
+}));
+/**
+ * Deletes the specified *activity type*.
+ *
+ * Note: Prior to deletion, activity types must first be **deprecated**.
+ *
+ * After an activity type has been deleted, you cannot schedule new activities of that type. Activities that started before the type was deleted will continue to run.
+ *
+ * **Access Control**
+ *
+ * You can use IAM policies to control this action's access to Amazon SWF resources as follows:
+ *
+ * - Use a `Resource` element with the domain name to limit the action to
+ * only specified domains.
+ *
+ * - Use an `Action` element to allow or deny permission to call this
+ * action.
+ *
+ * - Constrain the following parameters by using a `Condition` element with
+ * the appropriate keys.
+ *
+ * - `activityType.name`: String constraint. The key is
+ * `swf:activityType.name`.
+ *
+ * - `activityType.version`: String constraint. The key is
+ * `swf:activityType.version`.
+ *
+ * If the caller doesn't have sufficient permissions to invoke the action, or the
+ * parameter values fall outside the specified constraints, the action fails. The associated
+ * event attribute's `cause` parameter is set to `OPERATION_NOT_PERMITTED`.
+ * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
+ * Workflows in the *Amazon SWF Developer Guide*.
+ */
+export const deleteActivityType: (
+  input: DeleteActivityTypeInput,
+) => effect.Effect<
+  DeleteActivityTypeResponse,
+  | OperationNotPermittedFault
+  | TypeNotDeprecatedFault
+  | UnknownResourceFault
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteActivityTypeInput,
+  output: DeleteActivityTypeResponse,
+  errors: [
+    OperationNotPermittedFault,
+    TypeNotDeprecatedFault,
+    UnknownResourceFault,
+  ],
+}));
+/**
+ * Deletes the specified *workflow type*.
+ *
+ * Note: Prior to deletion, workflow types must first be **deprecated**.
+ *
+ * After a workflow type has been deleted, you cannot create new executions of that type. Executions that
+ * started before the type was deleted will continue to run.
+ *
+ * **Access Control**
+ *
+ * You can use IAM policies to control this action's access to Amazon SWF resources as follows:
+ *
+ * - Use a `Resource` element with the domain name to limit the action to
+ * only specified domains.
+ *
+ * - Use an `Action` element to allow or deny permission to call this
+ * action.
+ *
+ * - Constrain the following parameters by using a `Condition` element with
+ * the appropriate keys.
+ *
+ * - `workflowType.name`: String constraint. The key is
+ * `swf:workflowType.name`.
+ *
+ * - `workflowType.version`: String constraint. The key is
+ * `swf:workflowType.version`.
+ *
+ * If the caller doesn't have sufficient permissions to invoke the action, or the
+ * parameter values fall outside the specified constraints, the action fails. The associated
+ * event attribute's `cause` parameter is set to `OPERATION_NOT_PERMITTED`.
+ * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
+ * Workflows in the *Amazon SWF Developer Guide*.
+ */
+export const deleteWorkflowType: (
+  input: DeleteWorkflowTypeInput,
+) => effect.Effect<
+  DeleteWorkflowTypeResponse,
+  | OperationNotPermittedFault
+  | TypeNotDeprecatedFault
+  | UnknownResourceFault
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteWorkflowTypeInput,
+  output: DeleteWorkflowTypeResponse,
+  errors: [
+    OperationNotPermittedFault,
+    TypeNotDeprecatedFault,
+    UnknownResourceFault,
+  ],
+}));
+/**
+ * Deprecates the specified *activity type*. After an activity type has
+ * been deprecated, you cannot create new tasks of that activity type. Tasks of this type that
+ * were scheduled before the type was deprecated continue to run.
+ *
+ * **Access Control**
+ *
+ * You can use IAM policies to control this action's access to Amazon SWF resources as
+ * follows:
+ *
+ * - Use a `Resource` element with the domain name to limit the action to
+ * only specified domains.
+ *
+ * - Use an `Action` element to allow or deny permission to call this
+ * action.
+ *
+ * - Constrain the following parameters by using a `Condition` element with
+ * the appropriate keys.
+ *
+ * - `activityType.name`: String constraint. The key is
+ * `swf:activityType.name`.
+ *
+ * - `activityType.version`: String constraint. The key is
+ * `swf:activityType.version`.
+ *
+ * If the caller doesn't have sufficient permissions to invoke the action, or the
+ * parameter values fall outside the specified constraints, the action fails. The associated
+ * event attribute's `cause` parameter is set to `OPERATION_NOT_PERMITTED`.
+ * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
+ * Workflows in the *Amazon SWF Developer Guide*.
+ */
+export const deprecateActivityType: (
+  input: DeprecateActivityTypeInput,
+) => effect.Effect<
+  DeprecateActivityTypeResponse,
+  | OperationNotPermittedFault
+  | TypeDeprecatedFault
+  | UnknownResourceFault
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeprecateActivityTypeInput,
+  output: DeprecateActivityTypeResponse,
+  errors: [
+    OperationNotPermittedFault,
+    TypeDeprecatedFault,
+    UnknownResourceFault,
+  ],
 }));
 /**
  * Deprecates the specified domain. After a domain has been deprecated it cannot be used
@@ -3378,6 +3634,59 @@ export const deprecateDomain: (
   errors: [
     DomainDeprecatedFault,
     OperationNotPermittedFault,
+    UnknownResourceFault,
+  ],
+}));
+/**
+ * Deprecates the specified *workflow type*. After a workflow type has
+ * been deprecated, you cannot create new executions of that type. Executions that were started
+ * before the type was deprecated continues to run. A deprecated workflow type may still be used
+ * when calling visibility actions.
+ *
+ * This operation is eventually consistent. The results are best effort and may not
+ * exactly reflect recent updates and changes.
+ *
+ * **Access Control**
+ *
+ * You can use IAM policies to control this action's access to Amazon SWF resources as
+ * follows:
+ *
+ * - Use a `Resource` element with the domain name to limit the action to
+ * only specified domains.
+ *
+ * - Use an `Action` element to allow or deny permission to call this
+ * action.
+ *
+ * - Constrain the following parameters by using a `Condition` element with
+ * the appropriate keys.
+ *
+ * - `workflowType.name`: String constraint. The key is
+ * `swf:workflowType.name`.
+ *
+ * - `workflowType.version`: String constraint. The key is
+ * `swf:workflowType.version`.
+ *
+ * If the caller doesn't have sufficient permissions to invoke the action, or the
+ * parameter values fall outside the specified constraints, the action fails. The associated
+ * event attribute's `cause` parameter is set to `OPERATION_NOT_PERMITTED`.
+ * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
+ * Workflows in the *Amazon SWF Developer Guide*.
+ */
+export const deprecateWorkflowType: (
+  input: DeprecateWorkflowTypeInput,
+) => effect.Effect<
+  DeprecateWorkflowTypeResponse,
+  | OperationNotPermittedFault
+  | TypeDeprecatedFault
+  | UnknownResourceFault
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeprecateWorkflowTypeInput,
+  output: DeprecateWorkflowTypeResponse,
+  errors: [
+    OperationNotPermittedFault,
+    TypeDeprecatedFault,
     UnknownResourceFault,
   ],
 }));
@@ -3458,6 +3767,43 @@ export const describeDomain: (
   errors: [OperationNotPermittedFault, UnknownResourceFault],
 }));
 /**
+ * Returns information about the specified workflow execution including its type and some
+ * statistics.
+ *
+ * This operation is eventually consistent. The results are best effort and may not
+ * exactly reflect recent updates and changes.
+ *
+ * **Access Control**
+ *
+ * You can use IAM policies to control this action's access to Amazon SWF resources as
+ * follows:
+ *
+ * - Use a `Resource` element with the domain name to limit the action to
+ * only specified domains.
+ *
+ * - Use an `Action` element to allow or deny permission to call this
+ * action.
+ *
+ * - You cannot use an IAM policy to constrain this action's parameters.
+ *
+ * If the caller doesn't have sufficient permissions to invoke the action, or the
+ * parameter values fall outside the specified constraints, the action fails. The associated
+ * event attribute's `cause` parameter is set to `OPERATION_NOT_PERMITTED`.
+ * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
+ * Workflows in the *Amazon SWF Developer Guide*.
+ */
+export const describeWorkflowExecution: (
+  input: DescribeWorkflowExecutionInput,
+) => effect.Effect<
+  WorkflowExecutionDetail,
+  OperationNotPermittedFault | UnknownResourceFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeWorkflowExecutionInput,
+  output: WorkflowExecutionDetail,
+  errors: [OperationNotPermittedFault, UnknownResourceFault],
+}));
+/**
  * Returns information about the specified *workflow type*. This
  * includes configuration settings specified when the type was registered and other information
  * such as creation date, current status, etc.
@@ -3498,6 +3844,125 @@ export const describeWorkflowType: (
   input: DescribeWorkflowTypeInput,
   output: WorkflowTypeDetail,
   errors: [OperationNotPermittedFault, UnknownResourceFault],
+}));
+/**
+ * Returns the history of the specified workflow execution. The results may be split into
+ * multiple pages. To retrieve subsequent pages, make the call again using the
+ * `nextPageToken` returned by the initial call.
+ *
+ * This operation is eventually consistent. The results are best effort and may not
+ * exactly reflect recent updates and changes.
+ *
+ * **Access Control**
+ *
+ * You can use IAM policies to control this action's access to Amazon SWF resources as
+ * follows:
+ *
+ * - Use a `Resource` element with the domain name to limit the action to
+ * only specified domains.
+ *
+ * - Use an `Action` element to allow or deny permission to call this
+ * action.
+ *
+ * - You cannot use an IAM policy to constrain this action's parameters.
+ *
+ * If the caller doesn't have sufficient permissions to invoke the action, or the
+ * parameter values fall outside the specified constraints, the action fails. The associated
+ * event attribute's `cause` parameter is set to `OPERATION_NOT_PERMITTED`.
+ * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
+ * Workflows in the *Amazon SWF Developer Guide*.
+ */
+export const getWorkflowExecutionHistory: {
+  (
+    input: GetWorkflowExecutionHistoryInput,
+  ): effect.Effect<
+    History,
+    OperationNotPermittedFault | UnknownResourceFault | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: GetWorkflowExecutionHistoryInput,
+  ) => stream.Stream<
+    History,
+    OperationNotPermittedFault | UnknownResourceFault | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetWorkflowExecutionHistoryInput,
+  ) => stream.Stream<
+    HistoryEvent,
+    OperationNotPermittedFault | UnknownResourceFault | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: GetWorkflowExecutionHistoryInput,
+  output: History,
+  errors: [OperationNotPermittedFault, UnknownResourceFault],
+  pagination: {
+    inputToken: "nextPageToken",
+    outputToken: "nextPageToken",
+    items: "events",
+    pageSize: "maximumPageSize",
+  } as const,
+}));
+/**
+ * Returns information about all activities registered in the specified domain that match
+ * the specified name and registration status. The result includes information like creation
+ * date, current status of the activity, etc. The results may be split into multiple pages. To
+ * retrieve subsequent pages, make the call again using the `nextPageToken` returned
+ * by the initial call.
+ *
+ * **Access Control**
+ *
+ * You can use IAM policies to control this action's access to Amazon SWF resources as
+ * follows:
+ *
+ * - Use a `Resource` element with the domain name to limit the action to
+ * only specified domains.
+ *
+ * - Use an `Action` element to allow or deny permission to call this
+ * action.
+ *
+ * - You cannot use an IAM policy to constrain this action's parameters.
+ *
+ * If the caller doesn't have sufficient permissions to invoke the action, or the
+ * parameter values fall outside the specified constraints, the action fails. The associated
+ * event attribute's `cause` parameter is set to `OPERATION_NOT_PERMITTED`.
+ * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
+ * Workflows in the *Amazon SWF Developer Guide*.
+ */
+export const listActivityTypes: {
+  (
+    input: ListActivityTypesInput,
+  ): effect.Effect<
+    ActivityTypeInfos,
+    OperationNotPermittedFault | UnknownResourceFault | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListActivityTypesInput,
+  ) => stream.Stream<
+    ActivityTypeInfos,
+    OperationNotPermittedFault | UnknownResourceFault | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListActivityTypesInput,
+  ) => stream.Stream<
+    ActivityTypeInfo,
+    OperationNotPermittedFault | UnknownResourceFault | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListActivityTypesInput,
+  output: ActivityTypeInfos,
+  errors: [OperationNotPermittedFault, UnknownResourceFault],
+  pagination: {
+    inputToken: "nextPageToken",
+    outputToken: "nextPageToken",
+    items: "typeInfos",
+    pageSize: "maximumPageSize",
+  } as const,
 }));
 /**
  * Returns a list of closed workflow executions in the specified domain that meet the
@@ -3570,147 +4035,9 @@ export const listClosedWorkflowExecutions: {
   } as const,
 }));
 /**
- * Registers a new *activity type* along with its configuration
- * settings in the specified domain.
- *
- * A `TypeAlreadyExists` fault is returned if the type already exists in the
- * domain. You cannot change any configuration settings of the type after its registration, and
- * it must be registered as a new version.
- *
- * **Access Control**
- *
- * You can use IAM policies to control this action's access to Amazon SWF resources as
- * follows:
- *
- * - Use a `Resource` element with the domain name to limit the action to
- * only specified domains.
- *
- * - Use an `Action` element to allow or deny permission to call this
- * action.
- *
- * - Constrain the following parameters by using a `Condition` element with
- * the appropriate keys.
- *
- * - `defaultTaskList.name`: String constraint. The key is
- * `swf:defaultTaskList.name`.
- *
- * - `name`: String constraint. The key is `swf:name`.
- *
- * - `version`: String constraint. The key is
- * `swf:version`.
- *
- * If the caller doesn't have sufficient permissions to invoke the action, or the
- * parameter values fall outside the specified constraints, the action fails. The associated
- * event attribute's `cause` parameter is set to `OPERATION_NOT_PERMITTED`.
- * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
- * Workflows in the *Amazon SWF Developer Guide*.
- */
-export const registerActivityType: (
-  input: RegisterActivityTypeInput,
-) => effect.Effect<
-  RegisterActivityTypeResponse,
-  | LimitExceededFault
-  | OperationNotPermittedFault
-  | TypeAlreadyExistsFault
-  | UnknownResourceFault
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: RegisterActivityTypeInput,
-  output: RegisterActivityTypeResponse,
-  errors: [
-    LimitExceededFault,
-    OperationNotPermittedFault,
-    TypeAlreadyExistsFault,
-    UnknownResourceFault,
-  ],
-}));
-/**
- * Used by deciders to tell the service that the DecisionTask identified
- * by the `taskToken` has successfully completed. The `decisions` argument
- * specifies the list of decisions made while processing the task.
- *
- * A `DecisionTaskCompleted` event is added to the workflow history. The
- * `executionContext` specified is attached to the event in the workflow execution
- * history.
- *
- * **Access Control**
- *
- * If an IAM policy grants permission to use `RespondDecisionTaskCompleted`, it
- * can express permissions for the list of decisions in the `decisions` parameter.
- * Each of the decisions has one or more parameters, much like a regular API call. To allow for
- * policies to be as readable as possible, you can express permissions on decisions as if they
- * were actual API calls, including applying conditions to some parameters. For more information,
- * see Using
- * IAM to Manage Access to Amazon SWF Workflows in the
- * *Amazon SWF Developer Guide*.
- */
-export const respondDecisionTaskCompleted: (
-  input: RespondDecisionTaskCompletedInput,
-) => effect.Effect<
-  RespondDecisionTaskCompletedResponse,
-  OperationNotPermittedFault | UnknownResourceFault | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: RespondDecisionTaskCompletedInput,
-  output: RespondDecisionTaskCompletedResponse,
-  errors: [OperationNotPermittedFault, UnknownResourceFault],
-}));
-/**
- * Deletes the specified *activity type*.
- *
- * Note: Prior to deletion, activity types must first be **deprecated**.
- *
- * After an activity type has been deleted, you cannot schedule new activities of that type. Activities that started before the type was deleted will continue to run.
- *
- * **Access Control**
- *
- * You can use IAM policies to control this action's access to Amazon SWF resources as follows:
- *
- * - Use a `Resource` element with the domain name to limit the action to
- * only specified domains.
- *
- * - Use an `Action` element to allow or deny permission to call this
- * action.
- *
- * - Constrain the following parameters by using a `Condition` element with
- * the appropriate keys.
- *
- * - `activityType.name`: String constraint. The key is
- * `swf:activityType.name`.
- *
- * - `activityType.version`: String constraint. The key is
- * `swf:activityType.version`.
- *
- * If the caller doesn't have sufficient permissions to invoke the action, or the
- * parameter values fall outside the specified constraints, the action fails. The associated
- * event attribute's `cause` parameter is set to `OPERATION_NOT_PERMITTED`.
- * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
- * Workflows in the *Amazon SWF Developer Guide*.
- */
-export const deleteActivityType: (
-  input: DeleteActivityTypeInput,
-) => effect.Effect<
-  DeleteActivityTypeResponse,
-  | OperationNotPermittedFault
-  | TypeNotDeprecatedFault
-  | UnknownResourceFault
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteActivityTypeInput,
-  output: DeleteActivityTypeResponse,
-  errors: [
-    OperationNotPermittedFault,
-    TypeNotDeprecatedFault,
-    UnknownResourceFault,
-  ],
-}));
-/**
- * Deprecates the specified *workflow type*. After a workflow type has
- * been deprecated, you cannot create new executions of that type. Executions that were started
- * before the type was deprecated continues to run. A deprecated workflow type may still be used
- * when calling visibility actions.
+ * Returns the list of domains registered in the account. The results may be split into
+ * multiple pages. To retrieve subsequent pages, make the call again using the nextPageToken
+ * returned by the initial call.
  *
  * This operation is eventually consistent. The results are best effort and may not
  * exactly reflect recent updates and changes.
@@ -3721,58 +4048,9 @@ export const deleteActivityType: (
  * follows:
  *
  * - Use a `Resource` element with the domain name to limit the action to
- * only specified domains.
- *
- * - Use an `Action` element to allow or deny permission to call this
- * action.
- *
- * - Constrain the following parameters by using a `Condition` element with
- * the appropriate keys.
- *
- * - `workflowType.name`: String constraint. The key is
- * `swf:workflowType.name`.
- *
- * - `workflowType.version`: String constraint. The key is
- * `swf:workflowType.version`.
- *
- * If the caller doesn't have sufficient permissions to invoke the action, or the
- * parameter values fall outside the specified constraints, the action fails. The associated
- * event attribute's `cause` parameter is set to `OPERATION_NOT_PERMITTED`.
- * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
- * Workflows in the *Amazon SWF Developer Guide*.
- */
-export const deprecateWorkflowType: (
-  input: DeprecateWorkflowTypeInput,
-) => effect.Effect<
-  DeprecateWorkflowTypeResponse,
-  | OperationNotPermittedFault
-  | TypeDeprecatedFault
-  | UnknownResourceFault
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeprecateWorkflowTypeInput,
-  output: DeprecateWorkflowTypeResponse,
-  errors: [
-    OperationNotPermittedFault,
-    TypeDeprecatedFault,
-    UnknownResourceFault,
-  ],
-}));
-/**
- * Returns information about all activities registered in the specified domain that match
- * the specified name and registration status. The result includes information like creation
- * date, current status of the activity, etc. The results may be split into multiple pages. To
- * retrieve subsequent pages, make the call again using the `nextPageToken` returned
- * by the initial call.
- *
- * **Access Control**
- *
- * You can use IAM policies to control this action's access to Amazon SWF resources as
- * follows:
- *
- * - Use a `Resource` element with the domain name to limit the action to
- * only specified domains.
+ * only specified domains. The element must be set to
+ * `arn:aws:swf::AccountID:domain/*`, where *AccountID* is
+ * the account ID, with no dashes.
  *
  * - Use an `Action` element to allow or deny permission to call this
  * action.
@@ -3785,194 +4063,38 @@ export const deprecateWorkflowType: (
  * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
  * Workflows in the *Amazon SWF Developer Guide*.
  */
-export const listActivityTypes: {
+export const listDomains: {
   (
-    input: ListActivityTypesInput,
+    input: ListDomainsInput,
   ): effect.Effect<
-    ActivityTypeInfos,
-    OperationNotPermittedFault | UnknownResourceFault | CommonErrors,
+    DomainInfos,
+    OperationNotPermittedFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   pages: (
-    input: ListActivityTypesInput,
+    input: ListDomainsInput,
   ) => stream.Stream<
-    ActivityTypeInfos,
-    OperationNotPermittedFault | UnknownResourceFault | CommonErrors,
+    DomainInfos,
+    OperationNotPermittedFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
   items: (
-    input: ListActivityTypesInput,
+    input: ListDomainsInput,
   ) => stream.Stream<
-    ActivityTypeInfo,
-    OperationNotPermittedFault | UnknownResourceFault | CommonErrors,
+    DomainInfo,
+    OperationNotPermittedFault | CommonErrors,
     Credentials | Region | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
-  input: ListActivityTypesInput,
-  output: ActivityTypeInfos,
-  errors: [OperationNotPermittedFault, UnknownResourceFault],
+  input: ListDomainsInput,
+  output: DomainInfos,
+  errors: [OperationNotPermittedFault],
   pagination: {
     inputToken: "nextPageToken",
     outputToken: "nextPageToken",
-    items: "typeInfos",
+    items: "domainInfos",
     pageSize: "maximumPageSize",
   } as const,
-}));
-/**
- * Returns information about workflow types in the specified domain. The results may be
- * split into multiple pages that can be retrieved by making the call repeatedly.
- *
- * **Access Control**
- *
- * You can use IAM policies to control this action's access to Amazon SWF resources as
- * follows:
- *
- * - Use a `Resource` element with the domain name to limit the action to
- * only specified domains.
- *
- * - Use an `Action` element to allow or deny permission to call this
- * action.
- *
- * - You cannot use an IAM policy to constrain this action's parameters.
- *
- * If the caller doesn't have sufficient permissions to invoke the action, or the
- * parameter values fall outside the specified constraints, the action fails. The associated
- * event attribute's `cause` parameter is set to `OPERATION_NOT_PERMITTED`.
- * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
- * Workflows in the *Amazon SWF Developer Guide*.
- */
-export const listWorkflowTypes: {
-  (
-    input: ListWorkflowTypesInput,
-  ): effect.Effect<
-    WorkflowTypeInfos,
-    OperationNotPermittedFault | UnknownResourceFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  pages: (
-    input: ListWorkflowTypesInput,
-  ) => stream.Stream<
-    WorkflowTypeInfos,
-    OperationNotPermittedFault | UnknownResourceFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  items: (
-    input: ListWorkflowTypesInput,
-  ) => stream.Stream<
-    WorkflowTypeInfo,
-    OperationNotPermittedFault | UnknownResourceFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
-  input: ListWorkflowTypesInput,
-  output: WorkflowTypeInfos,
-  errors: [OperationNotPermittedFault, UnknownResourceFault],
-  pagination: {
-    inputToken: "nextPageToken",
-    outputToken: "nextPageToken",
-    items: "typeInfos",
-    pageSize: "maximumPageSize",
-  } as const,
-}));
-/**
- * Used by activity workers to report to the service that the ActivityTask represented by the specified `taskToken` is still making progress. The worker
- * can also specify details of the progress, for example percent complete, using the
- * `details` parameter. This action can also be used by the worker as a mechanism to
- * check if cancellation is being requested for the activity task. If a cancellation is being
- * attempted for the specified task, then the boolean `cancelRequested` flag returned
- * by the service is set to `true`.
- *
- * This action resets the `taskHeartbeatTimeout` clock. The
- * `taskHeartbeatTimeout` is specified in RegisterActivityType.
- *
- * This action doesn't in itself create an event in the workflow execution history.
- * However, if the task times out, the workflow execution history contains a
- * `ActivityTaskTimedOut` event that contains the information from the last
- * heartbeat generated by the activity worker.
- *
- * The `taskStartToCloseTimeout` of an activity type is the maximum duration
- * of an activity task, regardless of the number of RecordActivityTaskHeartbeat requests received. The `taskStartToCloseTimeout` is also specified in RegisterActivityType.
- *
- * This operation is only useful for long-lived activities to report liveliness of the
- * task and to determine if a cancellation is being attempted.
- *
- * If the `cancelRequested` flag returns `true`, a cancellation is
- * being attempted. If the worker can cancel the activity, it should respond with RespondActivityTaskCanceled. Otherwise, it should ignore the cancellation
- * request.
- *
- * **Access Control**
- *
- * You can use IAM policies to control this action's access to Amazon SWF resources as
- * follows:
- *
- * - Use a `Resource` element with the domain name to limit the action to
- * only specified domains.
- *
- * - Use an `Action` element to allow or deny permission to call this
- * action.
- *
- * - You cannot use an IAM policy to constrain this action's parameters.
- *
- * If the caller doesn't have sufficient permissions to invoke the action, or the
- * parameter values fall outside the specified constraints, the action fails. The associated
- * event attribute's `cause` parameter is set to `OPERATION_NOT_PERMITTED`.
- * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
- * Workflows in the *Amazon SWF Developer Guide*.
- */
-export const recordActivityTaskHeartbeat: (
-  input: RecordActivityTaskHeartbeatInput,
-) => effect.Effect<
-  ActivityTaskStatus,
-  OperationNotPermittedFault | UnknownResourceFault | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: RecordActivityTaskHeartbeatInput,
-  output: ActivityTaskStatus,
-  errors: [OperationNotPermittedFault, UnknownResourceFault],
-}));
-/**
- * Undeprecates a previously deprecated domain. After a domain has been undeprecated it can be used
- * to create new workflow executions or register new types.
- *
- * This operation is eventually consistent. The results are best effort and may not
- * exactly reflect recent updates and changes.
- *
- * **Access Control**
- *
- * You can use IAM policies to control this action's access to Amazon SWF resources as
- * follows:
- *
- * - Use a `Resource` element with the domain name to limit the action to
- * only specified domains.
- *
- * - Use an `Action` element to allow or deny permission to call this
- * action.
- *
- * - You cannot use an IAM policy to constrain this action's parameters.
- *
- * If the caller doesn't have sufficient permissions to invoke the action, or the
- * parameter values fall outside the specified constraints, the action fails. The associated
- * event attribute's `cause` parameter is set to `OPERATION_NOT_PERMITTED`.
- * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
- * Workflows in the *Amazon SWF Developer Guide*.
- */
-export const undeprecateDomain: (
-  input: UndeprecateDomainInput,
-) => effect.Effect<
-  UndeprecateDomainResponse,
-  | DomainAlreadyExistsFault
-  | OperationNotPermittedFault
-  | UnknownResourceFault
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UndeprecateDomainInput,
-  output: UndeprecateDomainResponse,
-  errors: [
-    DomainAlreadyExistsFault,
-    OperationNotPermittedFault,
-    UnknownResourceFault,
-  ],
 }));
 /**
  * Returns a list of open workflow executions in the specified domain that meet the
@@ -4043,6 +4165,437 @@ export const listOpenWorkflowExecutions: {
     items: "executionInfos",
     pageSize: "maximumPageSize",
   } as const,
+}));
+/**
+ * List tags for a given domain.
+ */
+export const listTagsForResource: (
+  input: ListTagsForResourceInput,
+) => effect.Effect<
+  ListTagsForResourceOutput,
+  | LimitExceededFault
+  | OperationNotPermittedFault
+  | UnknownResourceFault
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceInput,
+  output: ListTagsForResourceOutput,
+  errors: [
+    LimitExceededFault,
+    OperationNotPermittedFault,
+    UnknownResourceFault,
+  ],
+}));
+/**
+ * Returns information about workflow types in the specified domain. The results may be
+ * split into multiple pages that can be retrieved by making the call repeatedly.
+ *
+ * **Access Control**
+ *
+ * You can use IAM policies to control this action's access to Amazon SWF resources as
+ * follows:
+ *
+ * - Use a `Resource` element with the domain name to limit the action to
+ * only specified domains.
+ *
+ * - Use an `Action` element to allow or deny permission to call this
+ * action.
+ *
+ * - You cannot use an IAM policy to constrain this action's parameters.
+ *
+ * If the caller doesn't have sufficient permissions to invoke the action, or the
+ * parameter values fall outside the specified constraints, the action fails. The associated
+ * event attribute's `cause` parameter is set to `OPERATION_NOT_PERMITTED`.
+ * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
+ * Workflows in the *Amazon SWF Developer Guide*.
+ */
+export const listWorkflowTypes: {
+  (
+    input: ListWorkflowTypesInput,
+  ): effect.Effect<
+    WorkflowTypeInfos,
+    OperationNotPermittedFault | UnknownResourceFault | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListWorkflowTypesInput,
+  ) => stream.Stream<
+    WorkflowTypeInfos,
+    OperationNotPermittedFault | UnknownResourceFault | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListWorkflowTypesInput,
+  ) => stream.Stream<
+    WorkflowTypeInfo,
+    OperationNotPermittedFault | UnknownResourceFault | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListWorkflowTypesInput,
+  output: WorkflowTypeInfos,
+  errors: [OperationNotPermittedFault, UnknownResourceFault],
+  pagination: {
+    inputToken: "nextPageToken",
+    outputToken: "nextPageToken",
+    items: "typeInfos",
+    pageSize: "maximumPageSize",
+  } as const,
+}));
+/**
+ * Used by workers to get an ActivityTask from the specified activity
+ * `taskList`. This initiates a long poll, where the service holds the HTTP
+ * connection open and responds as soon as a task becomes available. The maximum time the service
+ * holds on to the request before responding is 60 seconds. If no task is available within 60
+ * seconds, the poll returns an empty result. An empty result, in this context, means that an
+ * ActivityTask is returned, but that the value of taskToken is an empty string. If a task is
+ * returned, the worker should use its type to identify and process it correctly.
+ *
+ * Workers should set their client side socket timeout to at least 70 seconds (10
+ * seconds higher than the maximum time service may hold the poll request).
+ *
+ * **Access Control**
+ *
+ * You can use IAM policies to control this action's access to Amazon SWF resources as
+ * follows:
+ *
+ * - Use a `Resource` element with the domain name to limit the action to
+ * only specified domains.
+ *
+ * - Use an `Action` element to allow or deny permission to call this
+ * action.
+ *
+ * - Constrain the `taskList.name` parameter by using a
+ * `Condition` element with the `swf:taskList.name` key to allow the
+ * action to access only certain task lists.
+ *
+ * If the caller doesn't have sufficient permissions to invoke the action, or the
+ * parameter values fall outside the specified constraints, the action fails. The associated
+ * event attribute's `cause` parameter is set to `OPERATION_NOT_PERMITTED`.
+ * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
+ * Workflows in the *Amazon SWF Developer Guide*.
+ */
+export const pollForActivityTask: (
+  input: PollForActivityTaskInput,
+) => effect.Effect<
+  ActivityTask,
+  | LimitExceededFault
+  | OperationNotPermittedFault
+  | UnknownResourceFault
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PollForActivityTaskInput,
+  output: ActivityTask,
+  errors: [
+    LimitExceededFault,
+    OperationNotPermittedFault,
+    UnknownResourceFault,
+  ],
+}));
+/**
+ * Used by deciders to get a DecisionTask from the specified decision
+ * `taskList`. A decision task may be returned for any open workflow execution that
+ * is using the specified task list. The task includes a paginated view of the history of the
+ * workflow execution. The decider should use the workflow type and the history to determine how
+ * to properly handle the task.
+ *
+ * This action initiates a long poll, where the service holds the HTTP connection open and
+ * responds as soon a task becomes available. If no decision task is available in the specified
+ * task list before the timeout of 60 seconds expires, an empty result is returned. An empty
+ * result, in this context, means that a DecisionTask is returned, but that the value of
+ * taskToken is an empty string.
+ *
+ * Deciders should set their client side socket timeout to at least 70 seconds (10
+ * seconds higher than the timeout).
+ *
+ * Because the number of workflow history events for a single workflow execution might
+ * be very large, the result returned might be split up across a number of pages. To retrieve
+ * subsequent pages, make additional calls to `PollForDecisionTask` using the
+ * `nextPageToken` returned by the initial call. Note that you do
+ * *not* call `GetWorkflowExecutionHistory` with this
+ * `nextPageToken`. Instead, call `PollForDecisionTask`
+ * again.
+ *
+ * **Access Control**
+ *
+ * You can use IAM policies to control this action's access to Amazon SWF resources as
+ * follows:
+ *
+ * - Use a `Resource` element with the domain name to limit the action to
+ * only specified domains.
+ *
+ * - Use an `Action` element to allow or deny permission to call this
+ * action.
+ *
+ * - Constrain the `taskList.name` parameter by using a
+ * `Condition` element with the `swf:taskList.name` key to allow the
+ * action to access only certain task lists.
+ *
+ * If the caller doesn't have sufficient permissions to invoke the action, or the
+ * parameter values fall outside the specified constraints, the action fails. The associated
+ * event attribute's `cause` parameter is set to `OPERATION_NOT_PERMITTED`.
+ * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
+ * Workflows in the *Amazon SWF Developer Guide*.
+ */
+export const pollForDecisionTask: {
+  (
+    input: PollForDecisionTaskInput,
+  ): effect.Effect<
+    DecisionTask,
+    | LimitExceededFault
+    | OperationNotPermittedFault
+    | UnknownResourceFault
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: PollForDecisionTaskInput,
+  ) => stream.Stream<
+    DecisionTask,
+    | LimitExceededFault
+    | OperationNotPermittedFault
+    | UnknownResourceFault
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: PollForDecisionTaskInput,
+  ) => stream.Stream<
+    HistoryEvent,
+    | LimitExceededFault
+    | OperationNotPermittedFault
+    | UnknownResourceFault
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: PollForDecisionTaskInput,
+  output: DecisionTask,
+  errors: [
+    LimitExceededFault,
+    OperationNotPermittedFault,
+    UnknownResourceFault,
+  ],
+  pagination: {
+    inputToken: "nextPageToken",
+    outputToken: "nextPageToken",
+    items: "events",
+    pageSize: "maximumPageSize",
+  } as const,
+}));
+/**
+ * Used by activity workers to report to the service that the ActivityTask represented by the specified `taskToken` is still making progress. The worker
+ * can also specify details of the progress, for example percent complete, using the
+ * `details` parameter. This action can also be used by the worker as a mechanism to
+ * check if cancellation is being requested for the activity task. If a cancellation is being
+ * attempted for the specified task, then the boolean `cancelRequested` flag returned
+ * by the service is set to `true`.
+ *
+ * This action resets the `taskHeartbeatTimeout` clock. The
+ * `taskHeartbeatTimeout` is specified in RegisterActivityType.
+ *
+ * This action doesn't in itself create an event in the workflow execution history.
+ * However, if the task times out, the workflow execution history contains a
+ * `ActivityTaskTimedOut` event that contains the information from the last
+ * heartbeat generated by the activity worker.
+ *
+ * The `taskStartToCloseTimeout` of an activity type is the maximum duration
+ * of an activity task, regardless of the number of RecordActivityTaskHeartbeat requests received. The `taskStartToCloseTimeout` is also specified in RegisterActivityType.
+ *
+ * This operation is only useful for long-lived activities to report liveliness of the
+ * task and to determine if a cancellation is being attempted.
+ *
+ * If the `cancelRequested` flag returns `true`, a cancellation is
+ * being attempted. If the worker can cancel the activity, it should respond with RespondActivityTaskCanceled. Otherwise, it should ignore the cancellation
+ * request.
+ *
+ * **Access Control**
+ *
+ * You can use IAM policies to control this action's access to Amazon SWF resources as
+ * follows:
+ *
+ * - Use a `Resource` element with the domain name to limit the action to
+ * only specified domains.
+ *
+ * - Use an `Action` element to allow or deny permission to call this
+ * action.
+ *
+ * - You cannot use an IAM policy to constrain this action's parameters.
+ *
+ * If the caller doesn't have sufficient permissions to invoke the action, or the
+ * parameter values fall outside the specified constraints, the action fails. The associated
+ * event attribute's `cause` parameter is set to `OPERATION_NOT_PERMITTED`.
+ * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
+ * Workflows in the *Amazon SWF Developer Guide*.
+ */
+export const recordActivityTaskHeartbeat: (
+  input: RecordActivityTaskHeartbeatInput,
+) => effect.Effect<
+  ActivityTaskStatus,
+  OperationNotPermittedFault | UnknownResourceFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RecordActivityTaskHeartbeatInput,
+  output: ActivityTaskStatus,
+  errors: [OperationNotPermittedFault, UnknownResourceFault],
+}));
+/**
+ * Registers a new *activity type* along with its configuration
+ * settings in the specified domain.
+ *
+ * A `TypeAlreadyExists` fault is returned if the type already exists in the
+ * domain. You cannot change any configuration settings of the type after its registration, and
+ * it must be registered as a new version.
+ *
+ * **Access Control**
+ *
+ * You can use IAM policies to control this action's access to Amazon SWF resources as
+ * follows:
+ *
+ * - Use a `Resource` element with the domain name to limit the action to
+ * only specified domains.
+ *
+ * - Use an `Action` element to allow or deny permission to call this
+ * action.
+ *
+ * - Constrain the following parameters by using a `Condition` element with
+ * the appropriate keys.
+ *
+ * - `defaultTaskList.name`: String constraint. The key is
+ * `swf:defaultTaskList.name`.
+ *
+ * - `name`: String constraint. The key is `swf:name`.
+ *
+ * - `version`: String constraint. The key is
+ * `swf:version`.
+ *
+ * If the caller doesn't have sufficient permissions to invoke the action, or the
+ * parameter values fall outside the specified constraints, the action fails. The associated
+ * event attribute's `cause` parameter is set to `OPERATION_NOT_PERMITTED`.
+ * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
+ * Workflows in the *Amazon SWF Developer Guide*.
+ */
+export const registerActivityType: (
+  input: RegisterActivityTypeInput,
+) => effect.Effect<
+  RegisterActivityTypeResponse,
+  | LimitExceededFault
+  | OperationNotPermittedFault
+  | TypeAlreadyExistsFault
+  | UnknownResourceFault
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RegisterActivityTypeInput,
+  output: RegisterActivityTypeResponse,
+  errors: [
+    LimitExceededFault,
+    OperationNotPermittedFault,
+    TypeAlreadyExistsFault,
+    UnknownResourceFault,
+  ],
+}));
+/**
+ * Registers a new domain.
+ *
+ * **Access Control**
+ *
+ * You can use IAM policies to control this action's access to Amazon SWF resources as
+ * follows:
+ *
+ * - You cannot use an IAM policy to control domain access for this action. The name of
+ * the domain being registered is available as the resource of this action.
+ *
+ * - Use an `Action` element to allow or deny permission to call this
+ * action.
+ *
+ * - You cannot use an IAM policy to constrain this action's parameters.
+ *
+ * If the caller doesn't have sufficient permissions to invoke the action, or the
+ * parameter values fall outside the specified constraints, the action fails. The associated
+ * event attribute's `cause` parameter is set to `OPERATION_NOT_PERMITTED`.
+ * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
+ * Workflows in the *Amazon SWF Developer Guide*.
+ */
+export const registerDomain: (
+  input: RegisterDomainInput,
+) => effect.Effect<
+  RegisterDomainResponse,
+  | DomainAlreadyExistsFault
+  | LimitExceededFault
+  | OperationNotPermittedFault
+  | TooManyTagsFault
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RegisterDomainInput,
+  output: RegisterDomainResponse,
+  errors: [
+    DomainAlreadyExistsFault,
+    LimitExceededFault,
+    OperationNotPermittedFault,
+    TooManyTagsFault,
+  ],
+}));
+/**
+ * Registers a new *workflow type* and its configuration settings in
+ * the specified domain.
+ *
+ * The retention period for the workflow history is set by the RegisterDomain action.
+ *
+ * If the type already exists, then a `TypeAlreadyExists` fault is returned.
+ * You cannot change the configuration settings of a workflow type once it is registered and it
+ * must be registered as a new version.
+ *
+ * **Access Control**
+ *
+ * You can use IAM policies to control this action's access to Amazon SWF resources as
+ * follows:
+ *
+ * - Use a `Resource` element with the domain name to limit the action to
+ * only specified domains.
+ *
+ * - Use an `Action` element to allow or deny permission to call this
+ * action.
+ *
+ * - Constrain the following parameters by using a `Condition` element with
+ * the appropriate keys.
+ *
+ * - `defaultTaskList.name`: String constraint. The key is
+ * `swf:defaultTaskList.name`.
+ *
+ * - `name`: String constraint. The key is `swf:name`.
+ *
+ * - `version`: String constraint. The key is
+ * `swf:version`.
+ *
+ * If the caller doesn't have sufficient permissions to invoke the action, or the
+ * parameter values fall outside the specified constraints, the action fails. The associated
+ * event attribute's `cause` parameter is set to `OPERATION_NOT_PERMITTED`.
+ * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
+ * Workflows in the *Amazon SWF Developer Guide*.
+ */
+export const registerWorkflowType: (
+  input: RegisterWorkflowTypeInput,
+) => effect.Effect<
+  RegisterWorkflowTypeResponse,
+  | LimitExceededFault
+  | OperationNotPermittedFault
+  | TypeAlreadyExistsFault
+  | UnknownResourceFault
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RegisterWorkflowTypeInput,
+  output: RegisterWorkflowTypeResponse,
+  errors: [
+    LimitExceededFault,
+    OperationNotPermittedFault,
+    TypeAlreadyExistsFault,
+    UnknownResourceFault,
+  ],
 }));
 /**
  * Records a `WorkflowExecutionCancelRequested` event in the currently running
@@ -4224,6 +4777,37 @@ export const respondActivityTaskFailed: (
   errors: [OperationNotPermittedFault, UnknownResourceFault],
 }));
 /**
+ * Used by deciders to tell the service that the DecisionTask identified
+ * by the `taskToken` has successfully completed. The `decisions` argument
+ * specifies the list of decisions made while processing the task.
+ *
+ * A `DecisionTaskCompleted` event is added to the workflow history. The
+ * `executionContext` specified is attached to the event in the workflow execution
+ * history.
+ *
+ * **Access Control**
+ *
+ * If an IAM policy grants permission to use `RespondDecisionTaskCompleted`, it
+ * can express permissions for the list of decisions in the `decisions` parameter.
+ * Each of the decisions has one or more parameters, much like a regular API call. To allow for
+ * policies to be as readable as possible, you can express permissions on decisions as if they
+ * were actual API calls, including applying conditions to some parameters. For more information,
+ * see Using
+ * IAM to Manage Access to Amazon SWF Workflows in the
+ * *Amazon SWF Developer Guide*.
+ */
+export const respondDecisionTaskCompleted: (
+  input: RespondDecisionTaskCompletedInput,
+) => effect.Effect<
+  RespondDecisionTaskCompletedResponse,
+  OperationNotPermittedFault | UnknownResourceFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RespondDecisionTaskCompletedInput,
+  output: RespondDecisionTaskCompletedResponse,
+  errors: [OperationNotPermittedFault, UnknownResourceFault],
+}));
+/**
  * Records a `WorkflowExecutionSignaled` event in the workflow execution
  * history and creates a decision task for the workflow execution identified by the given domain,
  * workflowId and runId. The event is recorded with the specified user defined signalName and
@@ -4265,828 +4849,6 @@ export const signalWorkflowExecution: (
   input: SignalWorkflowExecutionInput,
   output: SignalWorkflowExecutionResponse,
   errors: [OperationNotPermittedFault, UnknownResourceFault],
-}));
-/**
- * Records a `WorkflowExecutionTerminated` event and forces closure of the
- * workflow execution identified by the given domain, runId, and workflowId. The child policy,
- * registered with the workflow type or specified when starting this execution, is applied to any
- * open child workflow executions of this workflow execution.
- *
- * If the identified workflow execution was in progress, it is terminated
- * immediately.
- *
- * If a runId isn't specified, then the `WorkflowExecutionTerminated` event
- * is recorded in the history of the current open workflow with the matching workflowId in the
- * domain.
- *
- * You should consider using RequestCancelWorkflowExecution action
- * instead because it allows the workflow to gracefully close while TerminateWorkflowExecution doesn't.
- *
- * **Access Control**
- *
- * You can use IAM policies to control this action's access to Amazon SWF resources as
- * follows:
- *
- * - Use a `Resource` element with the domain name to limit the action to
- * only specified domains.
- *
- * - Use an `Action` element to allow or deny permission to call this
- * action.
- *
- * - You cannot use an IAM policy to constrain this action's parameters.
- *
- * If the caller doesn't have sufficient permissions to invoke the action, or the
- * parameter values fall outside the specified constraints, the action fails. The associated
- * event attribute's `cause` parameter is set to `OPERATION_NOT_PERMITTED`.
- * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
- * Workflows in the *Amazon SWF Developer Guide*.
- */
-export const terminateWorkflowExecution: (
-  input: TerminateWorkflowExecutionInput,
-) => effect.Effect<
-  TerminateWorkflowExecutionResponse,
-  OperationNotPermittedFault | UnknownResourceFault | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TerminateWorkflowExecutionInput,
-  output: TerminateWorkflowExecutionResponse,
-  errors: [OperationNotPermittedFault, UnknownResourceFault],
-}));
-/**
- * Returns the number of closed workflow executions within the given domain that meet the
- * specified filtering criteria.
- *
- * This operation is eventually consistent. The results are best effort and may not
- * exactly reflect recent updates and changes.
- *
- * **Access Control**
- *
- * You can use IAM policies to control this action's access to Amazon SWF resources as
- * follows:
- *
- * - Use a `Resource` element with the domain name to limit the action to
- * only specified domains.
- *
- * - Use an `Action` element to allow or deny permission to call this
- * action.
- *
- * - Constrain the following parameters by using a `Condition` element with
- * the appropriate keys.
- *
- * - `tagFilter.tag`: String constraint. The key is
- * `swf:tagFilter.tag`.
- *
- * - `typeFilter.name`: String constraint. The key is
- * `swf:typeFilter.name`.
- *
- * - `typeFilter.version`: String constraint. The key is
- * `swf:typeFilter.version`.
- *
- * If the caller doesn't have sufficient permissions to invoke the action, or the
- * parameter values fall outside the specified constraints, the action fails. The associated
- * event attribute's `cause` parameter is set to `OPERATION_NOT_PERMITTED`.
- * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
- * Workflows in the *Amazon SWF Developer Guide*.
- */
-export const countClosedWorkflowExecutions: (
-  input: CountClosedWorkflowExecutionsInput,
-) => effect.Effect<
-  WorkflowExecutionCount,
-  OperationNotPermittedFault | UnknownResourceFault | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CountClosedWorkflowExecutionsInput,
-  output: WorkflowExecutionCount,
-  errors: [OperationNotPermittedFault, UnknownResourceFault],
-}));
-/**
- * Returns the number of open workflow executions within the given domain that meet the
- * specified filtering criteria.
- *
- * This operation is eventually consistent. The results are best effort and may not
- * exactly reflect recent updates and changes.
- *
- * **Access Control**
- *
- * You can use IAM policies to control this action's access to Amazon SWF resources as
- * follows:
- *
- * - Use a `Resource` element with the domain name to limit the action to
- * only specified domains.
- *
- * - Use an `Action` element to allow or deny permission to call this
- * action.
- *
- * - Constrain the following parameters by using a `Condition` element with
- * the appropriate keys.
- *
- * - `tagFilter.tag`: String constraint. The key is
- * `swf:tagFilter.tag`.
- *
- * - `typeFilter.name`: String constraint. The key is
- * `swf:typeFilter.name`.
- *
- * - `typeFilter.version`: String constraint. The key is
- * `swf:typeFilter.version`.
- *
- * If the caller doesn't have sufficient permissions to invoke the action, or the
- * parameter values fall outside the specified constraints, the action fails. The associated
- * event attribute's `cause` parameter is set to `OPERATION_NOT_PERMITTED`.
- * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
- * Workflows in the *Amazon SWF Developer Guide*.
- */
-export const countOpenWorkflowExecutions: (
-  input: CountOpenWorkflowExecutionsInput,
-) => effect.Effect<
-  WorkflowExecutionCount,
-  OperationNotPermittedFault | UnknownResourceFault | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CountOpenWorkflowExecutionsInput,
-  output: WorkflowExecutionCount,
-  errors: [OperationNotPermittedFault, UnknownResourceFault],
-}));
-/**
- * Returns the estimated number of activity tasks in the specified task list. The count
- * returned is an approximation and isn't guaranteed to be exact. If you specify a task list that
- * no activity task was ever scheduled in then `0` is returned.
- *
- * **Access Control**
- *
- * You can use IAM policies to control this action's access to Amazon SWF resources as
- * follows:
- *
- * - Use a `Resource` element with the domain name to limit the action to
- * only specified domains.
- *
- * - Use an `Action` element to allow or deny permission to call this
- * action.
- *
- * - Constrain the `taskList.name` parameter by using a
- * `Condition` element with the `swf:taskList.name` key to allow the
- * action to access only certain task lists.
- *
- * If the caller doesn't have sufficient permissions to invoke the action, or the
- * parameter values fall outside the specified constraints, the action fails. The associated
- * event attribute's `cause` parameter is set to `OPERATION_NOT_PERMITTED`.
- * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
- * Workflows in the *Amazon SWF Developer Guide*.
- */
-export const countPendingActivityTasks: (
-  input: CountPendingActivityTasksInput,
-) => effect.Effect<
-  PendingTaskCount,
-  OperationNotPermittedFault | UnknownResourceFault | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CountPendingActivityTasksInput,
-  output: PendingTaskCount,
-  errors: [OperationNotPermittedFault, UnknownResourceFault],
-}));
-/**
- * Returns the estimated number of decision tasks in the specified task list. The count
- * returned is an approximation and isn't guaranteed to be exact. If you specify a task list that
- * no decision task was ever scheduled in then `0` is returned.
- *
- * **Access Control**
- *
- * You can use IAM policies to control this action's access to Amazon SWF resources as
- * follows:
- *
- * - Use a `Resource` element with the domain name to limit the action to
- * only specified domains.
- *
- * - Use an `Action` element to allow or deny permission to call this
- * action.
- *
- * - Constrain the `taskList.name` parameter by using a
- * `Condition` element with the `swf:taskList.name` key to allow the
- * action to access only certain task lists.
- *
- * If the caller doesn't have sufficient permissions to invoke the action, or the
- * parameter values fall outside the specified constraints, the action fails. The associated
- * event attribute's `cause` parameter is set to `OPERATION_NOT_PERMITTED`.
- * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
- * Workflows in the *Amazon SWF Developer Guide*.
- */
-export const countPendingDecisionTasks: (
-  input: CountPendingDecisionTasksInput,
-) => effect.Effect<
-  PendingTaskCount,
-  OperationNotPermittedFault | UnknownResourceFault | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CountPendingDecisionTasksInput,
-  output: PendingTaskCount,
-  errors: [OperationNotPermittedFault, UnknownResourceFault],
-}));
-/**
- * Remove a tag from a Amazon SWF domain.
- */
-export const untagResource: (
-  input: UntagResourceInput,
-) => effect.Effect<
-  UntagResourceResponse,
-  | LimitExceededFault
-  | OperationNotPermittedFault
-  | UnknownResourceFault
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceInput,
-  output: UntagResourceResponse,
-  errors: [
-    LimitExceededFault,
-    OperationNotPermittedFault,
-    UnknownResourceFault,
-  ],
-}));
-/**
- * List tags for a given domain.
- */
-export const listTagsForResource: (
-  input: ListTagsForResourceInput,
-) => effect.Effect<
-  ListTagsForResourceOutput,
-  | LimitExceededFault
-  | OperationNotPermittedFault
-  | UnknownResourceFault
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceInput,
-  output: ListTagsForResourceOutput,
-  errors: [
-    LimitExceededFault,
-    OperationNotPermittedFault,
-    UnknownResourceFault,
-  ],
-}));
-/**
- * Used by workers to get an ActivityTask from the specified activity
- * `taskList`. This initiates a long poll, where the service holds the HTTP
- * connection open and responds as soon as a task becomes available. The maximum time the service
- * holds on to the request before responding is 60 seconds. If no task is available within 60
- * seconds, the poll returns an empty result. An empty result, in this context, means that an
- * ActivityTask is returned, but that the value of taskToken is an empty string. If a task is
- * returned, the worker should use its type to identify and process it correctly.
- *
- * Workers should set their client side socket timeout to at least 70 seconds (10
- * seconds higher than the maximum time service may hold the poll request).
- *
- * **Access Control**
- *
- * You can use IAM policies to control this action's access to Amazon SWF resources as
- * follows:
- *
- * - Use a `Resource` element with the domain name to limit the action to
- * only specified domains.
- *
- * - Use an `Action` element to allow or deny permission to call this
- * action.
- *
- * - Constrain the `taskList.name` parameter by using a
- * `Condition` element with the `swf:taskList.name` key to allow the
- * action to access only certain task lists.
- *
- * If the caller doesn't have sufficient permissions to invoke the action, or the
- * parameter values fall outside the specified constraints, the action fails. The associated
- * event attribute's `cause` parameter is set to `OPERATION_NOT_PERMITTED`.
- * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
- * Workflows in the *Amazon SWF Developer Guide*.
- */
-export const pollForActivityTask: (
-  input: PollForActivityTaskInput,
-) => effect.Effect<
-  ActivityTask,
-  | LimitExceededFault
-  | OperationNotPermittedFault
-  | UnknownResourceFault
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PollForActivityTaskInput,
-  output: ActivityTask,
-  errors: [
-    LimitExceededFault,
-    OperationNotPermittedFault,
-    UnknownResourceFault,
-  ],
-}));
-/**
- * Used by deciders to get a DecisionTask from the specified decision
- * `taskList`. A decision task may be returned for any open workflow execution that
- * is using the specified task list. The task includes a paginated view of the history of the
- * workflow execution. The decider should use the workflow type and the history to determine how
- * to properly handle the task.
- *
- * This action initiates a long poll, where the service holds the HTTP connection open and
- * responds as soon a task becomes available. If no decision task is available in the specified
- * task list before the timeout of 60 seconds expires, an empty result is returned. An empty
- * result, in this context, means that a DecisionTask is returned, but that the value of
- * taskToken is an empty string.
- *
- * Deciders should set their client side socket timeout to at least 70 seconds (10
- * seconds higher than the timeout).
- *
- * Because the number of workflow history events for a single workflow execution might
- * be very large, the result returned might be split up across a number of pages. To retrieve
- * subsequent pages, make additional calls to `PollForDecisionTask` using the
- * `nextPageToken` returned by the initial call. Note that you do
- * *not* call `GetWorkflowExecutionHistory` with this
- * `nextPageToken`. Instead, call `PollForDecisionTask`
- * again.
- *
- * **Access Control**
- *
- * You can use IAM policies to control this action's access to Amazon SWF resources as
- * follows:
- *
- * - Use a `Resource` element with the domain name to limit the action to
- * only specified domains.
- *
- * - Use an `Action` element to allow or deny permission to call this
- * action.
- *
- * - Constrain the `taskList.name` parameter by using a
- * `Condition` element with the `swf:taskList.name` key to allow the
- * action to access only certain task lists.
- *
- * If the caller doesn't have sufficient permissions to invoke the action, or the
- * parameter values fall outside the specified constraints, the action fails. The associated
- * event attribute's `cause` parameter is set to `OPERATION_NOT_PERMITTED`.
- * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
- * Workflows in the *Amazon SWF Developer Guide*.
- */
-export const pollForDecisionTask: {
-  (
-    input: PollForDecisionTaskInput,
-  ): effect.Effect<
-    DecisionTask,
-    | LimitExceededFault
-    | OperationNotPermittedFault
-    | UnknownResourceFault
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  pages: (
-    input: PollForDecisionTaskInput,
-  ) => stream.Stream<
-    DecisionTask,
-    | LimitExceededFault
-    | OperationNotPermittedFault
-    | UnknownResourceFault
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  items: (
-    input: PollForDecisionTaskInput,
-  ) => stream.Stream<
-    HistoryEvent,
-    | LimitExceededFault
-    | OperationNotPermittedFault
-    | UnknownResourceFault
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
-  input: PollForDecisionTaskInput,
-  output: DecisionTask,
-  errors: [
-    LimitExceededFault,
-    OperationNotPermittedFault,
-    UnknownResourceFault,
-  ],
-  pagination: {
-    inputToken: "nextPageToken",
-    outputToken: "nextPageToken",
-    items: "events",
-    pageSize: "maximumPageSize",
-  } as const,
-}));
-/**
- * Deprecates the specified *activity type*. After an activity type has
- * been deprecated, you cannot create new tasks of that activity type. Tasks of this type that
- * were scheduled before the type was deprecated continue to run.
- *
- * **Access Control**
- *
- * You can use IAM policies to control this action's access to Amazon SWF resources as
- * follows:
- *
- * - Use a `Resource` element with the domain name to limit the action to
- * only specified domains.
- *
- * - Use an `Action` element to allow or deny permission to call this
- * action.
- *
- * - Constrain the following parameters by using a `Condition` element with
- * the appropriate keys.
- *
- * - `activityType.name`: String constraint. The key is
- * `swf:activityType.name`.
- *
- * - `activityType.version`: String constraint. The key is
- * `swf:activityType.version`.
- *
- * If the caller doesn't have sufficient permissions to invoke the action, or the
- * parameter values fall outside the specified constraints, the action fails. The associated
- * event attribute's `cause` parameter is set to `OPERATION_NOT_PERMITTED`.
- * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
- * Workflows in the *Amazon SWF Developer Guide*.
- */
-export const deprecateActivityType: (
-  input: DeprecateActivityTypeInput,
-) => effect.Effect<
-  DeprecateActivityTypeResponse,
-  | OperationNotPermittedFault
-  | TypeDeprecatedFault
-  | UnknownResourceFault
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeprecateActivityTypeInput,
-  output: DeprecateActivityTypeResponse,
-  errors: [
-    OperationNotPermittedFault,
-    TypeDeprecatedFault,
-    UnknownResourceFault,
-  ],
-}));
-/**
- * Add a tag to a Amazon SWF domain.
- *
- * Amazon SWF supports a maximum of 50 tags per resource.
- */
-export const tagResource: (
-  input: TagResourceInput,
-) => effect.Effect<
-  TagResourceResponse,
-  | LimitExceededFault
-  | OperationNotPermittedFault
-  | TooManyTagsFault
-  | UnknownResourceFault
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceInput,
-  output: TagResourceResponse,
-  errors: [
-    LimitExceededFault,
-    OperationNotPermittedFault,
-    TooManyTagsFault,
-    UnknownResourceFault,
-  ],
-}));
-/**
- * Undeprecates a previously deprecated *activity type*. After an activity type has
- * been undeprecated, you can create new tasks of that activity type.
- *
- * This operation is eventually consistent. The results are best effort and may not
- * exactly reflect recent updates and changes.
- *
- * **Access Control**
- *
- * You can use IAM policies to control this action's access to Amazon SWF resources as
- * follows:
- *
- * - Use a `Resource` element with the domain name to limit the action to
- * only specified domains.
- *
- * - Use an `Action` element to allow or deny permission to call this
- * action.
- *
- * - Constrain the following parameters by using a `Condition` element with
- * the appropriate keys.
- *
- * - `activityType.name`: String constraint. The key is
- * `swf:activityType.name`.
- *
- * - `activityType.version`: String constraint. The key is
- * `swf:activityType.version`.
- *
- * If the caller doesn't have sufficient permissions to invoke the action, or the
- * parameter values fall outside the specified constraints, the action fails. The associated
- * event attribute's `cause` parameter is set to `OPERATION_NOT_PERMITTED`.
- * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
- * Workflows in the *Amazon SWF Developer Guide*.
- */
-export const undeprecateActivityType: (
-  input: UndeprecateActivityTypeInput,
-) => effect.Effect<
-  UndeprecateActivityTypeResponse,
-  | OperationNotPermittedFault
-  | TypeAlreadyExistsFault
-  | UnknownResourceFault
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UndeprecateActivityTypeInput,
-  output: UndeprecateActivityTypeResponse,
-  errors: [
-    OperationNotPermittedFault,
-    TypeAlreadyExistsFault,
-    UnknownResourceFault,
-  ],
-}));
-/**
- * Undeprecates a previously deprecated *workflow type*. After a workflow type has
- * been undeprecated, you can create new executions of that type.
- *
- * This operation is eventually consistent. The results are best effort and may not
- * exactly reflect recent updates and changes.
- *
- * **Access Control**
- *
- * You can use IAM policies to control this action's access to Amazon SWF resources as
- * follows:
- *
- * - Use a `Resource` element with the domain name to limit the action to
- * only specified domains.
- *
- * - Use an `Action` element to allow or deny permission to call this
- * action.
- *
- * - Constrain the following parameters by using a `Condition` element with
- * the appropriate keys.
- *
- * - `workflowType.name`: String constraint. The key is
- * `swf:workflowType.name`.
- *
- * - `workflowType.version`: String constraint. The key is
- * `swf:workflowType.version`.
- *
- * If the caller doesn't have sufficient permissions to invoke the action, or the
- * parameter values fall outside the specified constraints, the action fails. The associated
- * event attribute's `cause` parameter is set to `OPERATION_NOT_PERMITTED`.
- * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
- * Workflows in the *Amazon SWF Developer Guide*.
- */
-export const undeprecateWorkflowType: (
-  input: UndeprecateWorkflowTypeInput,
-) => effect.Effect<
-  UndeprecateWorkflowTypeResponse,
-  | OperationNotPermittedFault
-  | TypeAlreadyExistsFault
-  | UnknownResourceFault
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UndeprecateWorkflowTypeInput,
-  output: UndeprecateWorkflowTypeResponse,
-  errors: [
-    OperationNotPermittedFault,
-    TypeAlreadyExistsFault,
-    UnknownResourceFault,
-  ],
-}));
-/**
- * Registers a new *workflow type* and its configuration settings in
- * the specified domain.
- *
- * The retention period for the workflow history is set by the RegisterDomain action.
- *
- * If the type already exists, then a `TypeAlreadyExists` fault is returned.
- * You cannot change the configuration settings of a workflow type once it is registered and it
- * must be registered as a new version.
- *
- * **Access Control**
- *
- * You can use IAM policies to control this action's access to Amazon SWF resources as
- * follows:
- *
- * - Use a `Resource` element with the domain name to limit the action to
- * only specified domains.
- *
- * - Use an `Action` element to allow or deny permission to call this
- * action.
- *
- * - Constrain the following parameters by using a `Condition` element with
- * the appropriate keys.
- *
- * - `defaultTaskList.name`: String constraint. The key is
- * `swf:defaultTaskList.name`.
- *
- * - `name`: String constraint. The key is `swf:name`.
- *
- * - `version`: String constraint. The key is
- * `swf:version`.
- *
- * If the caller doesn't have sufficient permissions to invoke the action, or the
- * parameter values fall outside the specified constraints, the action fails. The associated
- * event attribute's `cause` parameter is set to `OPERATION_NOT_PERMITTED`.
- * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
- * Workflows in the *Amazon SWF Developer Guide*.
- */
-export const registerWorkflowType: (
-  input: RegisterWorkflowTypeInput,
-) => effect.Effect<
-  RegisterWorkflowTypeResponse,
-  | LimitExceededFault
-  | OperationNotPermittedFault
-  | TypeAlreadyExistsFault
-  | UnknownResourceFault
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: RegisterWorkflowTypeInput,
-  output: RegisterWorkflowTypeResponse,
-  errors: [
-    LimitExceededFault,
-    OperationNotPermittedFault,
-    TypeAlreadyExistsFault,
-    UnknownResourceFault,
-  ],
-}));
-/**
- * Deletes the specified *workflow type*.
- *
- * Note: Prior to deletion, workflow types must first be **deprecated**.
- *
- * After a workflow type has been deleted, you cannot create new executions of that type. Executions that
- * started before the type was deleted will continue to run.
- *
- * **Access Control**
- *
- * You can use IAM policies to control this action's access to Amazon SWF resources as follows:
- *
- * - Use a `Resource` element with the domain name to limit the action to
- * only specified domains.
- *
- * - Use an `Action` element to allow or deny permission to call this
- * action.
- *
- * - Constrain the following parameters by using a `Condition` element with
- * the appropriate keys.
- *
- * - `workflowType.name`: String constraint. The key is
- * `swf:workflowType.name`.
- *
- * - `workflowType.version`: String constraint. The key is
- * `swf:workflowType.version`.
- *
- * If the caller doesn't have sufficient permissions to invoke the action, or the
- * parameter values fall outside the specified constraints, the action fails. The associated
- * event attribute's `cause` parameter is set to `OPERATION_NOT_PERMITTED`.
- * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
- * Workflows in the *Amazon SWF Developer Guide*.
- */
-export const deleteWorkflowType: (
-  input: DeleteWorkflowTypeInput,
-) => effect.Effect<
-  DeleteWorkflowTypeResponse,
-  | OperationNotPermittedFault
-  | TypeNotDeprecatedFault
-  | UnknownResourceFault
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteWorkflowTypeInput,
-  output: DeleteWorkflowTypeResponse,
-  errors: [
-    OperationNotPermittedFault,
-    TypeNotDeprecatedFault,
-    UnknownResourceFault,
-  ],
-}));
-/**
- * Registers a new domain.
- *
- * **Access Control**
- *
- * You can use IAM policies to control this action's access to Amazon SWF resources as
- * follows:
- *
- * - You cannot use an IAM policy to control domain access for this action. The name of
- * the domain being registered is available as the resource of this action.
- *
- * - Use an `Action` element to allow or deny permission to call this
- * action.
- *
- * - You cannot use an IAM policy to constrain this action's parameters.
- *
- * If the caller doesn't have sufficient permissions to invoke the action, or the
- * parameter values fall outside the specified constraints, the action fails. The associated
- * event attribute's `cause` parameter is set to `OPERATION_NOT_PERMITTED`.
- * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
- * Workflows in the *Amazon SWF Developer Guide*.
- */
-export const registerDomain: (
-  input: RegisterDomainInput,
-) => effect.Effect<
-  RegisterDomainResponse,
-  | DomainAlreadyExistsFault
-  | LimitExceededFault
-  | OperationNotPermittedFault
-  | TooManyTagsFault
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: RegisterDomainInput,
-  output: RegisterDomainResponse,
-  errors: [
-    DomainAlreadyExistsFault,
-    LimitExceededFault,
-    OperationNotPermittedFault,
-    TooManyTagsFault,
-  ],
-}));
-/**
- * Returns information about the specified workflow execution including its type and some
- * statistics.
- *
- * This operation is eventually consistent. The results are best effort and may not
- * exactly reflect recent updates and changes.
- *
- * **Access Control**
- *
- * You can use IAM policies to control this action's access to Amazon SWF resources as
- * follows:
- *
- * - Use a `Resource` element with the domain name to limit the action to
- * only specified domains.
- *
- * - Use an `Action` element to allow or deny permission to call this
- * action.
- *
- * - You cannot use an IAM policy to constrain this action's parameters.
- *
- * If the caller doesn't have sufficient permissions to invoke the action, or the
- * parameter values fall outside the specified constraints, the action fails. The associated
- * event attribute's `cause` parameter is set to `OPERATION_NOT_PERMITTED`.
- * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
- * Workflows in the *Amazon SWF Developer Guide*.
- */
-export const describeWorkflowExecution: (
-  input: DescribeWorkflowExecutionInput,
-) => effect.Effect<
-  WorkflowExecutionDetail,
-  OperationNotPermittedFault | UnknownResourceFault | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeWorkflowExecutionInput,
-  output: WorkflowExecutionDetail,
-  errors: [OperationNotPermittedFault, UnknownResourceFault],
-}));
-/**
- * Returns the history of the specified workflow execution. The results may be split into
- * multiple pages. To retrieve subsequent pages, make the call again using the
- * `nextPageToken` returned by the initial call.
- *
- * This operation is eventually consistent. The results are best effort and may not
- * exactly reflect recent updates and changes.
- *
- * **Access Control**
- *
- * You can use IAM policies to control this action's access to Amazon SWF resources as
- * follows:
- *
- * - Use a `Resource` element with the domain name to limit the action to
- * only specified domains.
- *
- * - Use an `Action` element to allow or deny permission to call this
- * action.
- *
- * - You cannot use an IAM policy to constrain this action's parameters.
- *
- * If the caller doesn't have sufficient permissions to invoke the action, or the
- * parameter values fall outside the specified constraints, the action fails. The associated
- * event attribute's `cause` parameter is set to `OPERATION_NOT_PERMITTED`.
- * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
- * Workflows in the *Amazon SWF Developer Guide*.
- */
-export const getWorkflowExecutionHistory: {
-  (
-    input: GetWorkflowExecutionHistoryInput,
-  ): effect.Effect<
-    History,
-    OperationNotPermittedFault | UnknownResourceFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  pages: (
-    input: GetWorkflowExecutionHistoryInput,
-  ) => stream.Stream<
-    History,
-    OperationNotPermittedFault | UnknownResourceFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  items: (
-    input: GetWorkflowExecutionHistoryInput,
-  ) => stream.Stream<
-    HistoryEvent,
-    OperationNotPermittedFault | UnknownResourceFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
-  input: GetWorkflowExecutionHistoryInput,
-  output: History,
-  errors: [OperationNotPermittedFault, UnknownResourceFault],
-  pagination: {
-    inputToken: "nextPageToken",
-    outputToken: "nextPageToken",
-    items: "events",
-    pageSize: "maximumPageSize",
-  } as const,
 }));
 /**
  * Starts an execution of the workflow type in the specified domain using the provided
@@ -5155,5 +4917,243 @@ export const startWorkflowExecution: (
     TypeDeprecatedFault,
     UnknownResourceFault,
     WorkflowExecutionAlreadyStartedFault,
+  ],
+}));
+/**
+ * Add a tag to a Amazon SWF domain.
+ *
+ * Amazon SWF supports a maximum of 50 tags per resource.
+ */
+export const tagResource: (
+  input: TagResourceInput,
+) => effect.Effect<
+  TagResourceResponse,
+  | LimitExceededFault
+  | OperationNotPermittedFault
+  | TooManyTagsFault
+  | UnknownResourceFault
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceInput,
+  output: TagResourceResponse,
+  errors: [
+    LimitExceededFault,
+    OperationNotPermittedFault,
+    TooManyTagsFault,
+    UnknownResourceFault,
+  ],
+}));
+/**
+ * Records a `WorkflowExecutionTerminated` event and forces closure of the
+ * workflow execution identified by the given domain, runId, and workflowId. The child policy,
+ * registered with the workflow type or specified when starting this execution, is applied to any
+ * open child workflow executions of this workflow execution.
+ *
+ * If the identified workflow execution was in progress, it is terminated
+ * immediately.
+ *
+ * If a runId isn't specified, then the `WorkflowExecutionTerminated` event
+ * is recorded in the history of the current open workflow with the matching workflowId in the
+ * domain.
+ *
+ * You should consider using RequestCancelWorkflowExecution action
+ * instead because it allows the workflow to gracefully close while TerminateWorkflowExecution doesn't.
+ *
+ * **Access Control**
+ *
+ * You can use IAM policies to control this action's access to Amazon SWF resources as
+ * follows:
+ *
+ * - Use a `Resource` element with the domain name to limit the action to
+ * only specified domains.
+ *
+ * - Use an `Action` element to allow or deny permission to call this
+ * action.
+ *
+ * - You cannot use an IAM policy to constrain this action's parameters.
+ *
+ * If the caller doesn't have sufficient permissions to invoke the action, or the
+ * parameter values fall outside the specified constraints, the action fails. The associated
+ * event attribute's `cause` parameter is set to `OPERATION_NOT_PERMITTED`.
+ * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
+ * Workflows in the *Amazon SWF Developer Guide*.
+ */
+export const terminateWorkflowExecution: (
+  input: TerminateWorkflowExecutionInput,
+) => effect.Effect<
+  TerminateWorkflowExecutionResponse,
+  OperationNotPermittedFault | UnknownResourceFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TerminateWorkflowExecutionInput,
+  output: TerminateWorkflowExecutionResponse,
+  errors: [OperationNotPermittedFault, UnknownResourceFault],
+}));
+/**
+ * Undeprecates a previously deprecated *activity type*. After an activity type has
+ * been undeprecated, you can create new tasks of that activity type.
+ *
+ * This operation is eventually consistent. The results are best effort and may not
+ * exactly reflect recent updates and changes.
+ *
+ * **Access Control**
+ *
+ * You can use IAM policies to control this action's access to Amazon SWF resources as
+ * follows:
+ *
+ * - Use a `Resource` element with the domain name to limit the action to
+ * only specified domains.
+ *
+ * - Use an `Action` element to allow or deny permission to call this
+ * action.
+ *
+ * - Constrain the following parameters by using a `Condition` element with
+ * the appropriate keys.
+ *
+ * - `activityType.name`: String constraint. The key is
+ * `swf:activityType.name`.
+ *
+ * - `activityType.version`: String constraint. The key is
+ * `swf:activityType.version`.
+ *
+ * If the caller doesn't have sufficient permissions to invoke the action, or the
+ * parameter values fall outside the specified constraints, the action fails. The associated
+ * event attribute's `cause` parameter is set to `OPERATION_NOT_PERMITTED`.
+ * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
+ * Workflows in the *Amazon SWF Developer Guide*.
+ */
+export const undeprecateActivityType: (
+  input: UndeprecateActivityTypeInput,
+) => effect.Effect<
+  UndeprecateActivityTypeResponse,
+  | OperationNotPermittedFault
+  | TypeAlreadyExistsFault
+  | UnknownResourceFault
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UndeprecateActivityTypeInput,
+  output: UndeprecateActivityTypeResponse,
+  errors: [
+    OperationNotPermittedFault,
+    TypeAlreadyExistsFault,
+    UnknownResourceFault,
+  ],
+}));
+/**
+ * Undeprecates a previously deprecated domain. After a domain has been undeprecated it can be used
+ * to create new workflow executions or register new types.
+ *
+ * This operation is eventually consistent. The results are best effort and may not
+ * exactly reflect recent updates and changes.
+ *
+ * **Access Control**
+ *
+ * You can use IAM policies to control this action's access to Amazon SWF resources as
+ * follows:
+ *
+ * - Use a `Resource` element with the domain name to limit the action to
+ * only specified domains.
+ *
+ * - Use an `Action` element to allow or deny permission to call this
+ * action.
+ *
+ * - You cannot use an IAM policy to constrain this action's parameters.
+ *
+ * If the caller doesn't have sufficient permissions to invoke the action, or the
+ * parameter values fall outside the specified constraints, the action fails. The associated
+ * event attribute's `cause` parameter is set to `OPERATION_NOT_PERMITTED`.
+ * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
+ * Workflows in the *Amazon SWF Developer Guide*.
+ */
+export const undeprecateDomain: (
+  input: UndeprecateDomainInput,
+) => effect.Effect<
+  UndeprecateDomainResponse,
+  | DomainAlreadyExistsFault
+  | OperationNotPermittedFault
+  | UnknownResourceFault
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UndeprecateDomainInput,
+  output: UndeprecateDomainResponse,
+  errors: [
+    DomainAlreadyExistsFault,
+    OperationNotPermittedFault,
+    UnknownResourceFault,
+  ],
+}));
+/**
+ * Undeprecates a previously deprecated *workflow type*. After a workflow type has
+ * been undeprecated, you can create new executions of that type.
+ *
+ * This operation is eventually consistent. The results are best effort and may not
+ * exactly reflect recent updates and changes.
+ *
+ * **Access Control**
+ *
+ * You can use IAM policies to control this action's access to Amazon SWF resources as
+ * follows:
+ *
+ * - Use a `Resource` element with the domain name to limit the action to
+ * only specified domains.
+ *
+ * - Use an `Action` element to allow or deny permission to call this
+ * action.
+ *
+ * - Constrain the following parameters by using a `Condition` element with
+ * the appropriate keys.
+ *
+ * - `workflowType.name`: String constraint. The key is
+ * `swf:workflowType.name`.
+ *
+ * - `workflowType.version`: String constraint. The key is
+ * `swf:workflowType.version`.
+ *
+ * If the caller doesn't have sufficient permissions to invoke the action, or the
+ * parameter values fall outside the specified constraints, the action fails. The associated
+ * event attribute's `cause` parameter is set to `OPERATION_NOT_PERMITTED`.
+ * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
+ * Workflows in the *Amazon SWF Developer Guide*.
+ */
+export const undeprecateWorkflowType: (
+  input: UndeprecateWorkflowTypeInput,
+) => effect.Effect<
+  UndeprecateWorkflowTypeResponse,
+  | OperationNotPermittedFault
+  | TypeAlreadyExistsFault
+  | UnknownResourceFault
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UndeprecateWorkflowTypeInput,
+  output: UndeprecateWorkflowTypeResponse,
+  errors: [
+    OperationNotPermittedFault,
+    TypeAlreadyExistsFault,
+    UnknownResourceFault,
+  ],
+}));
+/**
+ * Remove a tag from a Amazon SWF domain.
+ */
+export const untagResource: (
+  input: UntagResourceInput,
+) => effect.Effect<
+  UntagResourceResponse,
+  | LimitExceededFault
+  | OperationNotPermittedFault
+  | UnknownResourceFault
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceInput,
+  output: UntagResourceResponse,
+  errors: [
+    LimitExceededFault,
+    OperationNotPermittedFault,
+    UnknownResourceFault,
   ],
 }));

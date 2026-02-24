@@ -17,7 +17,7 @@ import type * as AST from "effect/SchemaAST";
 const annotationMetaSymbol = Symbol.for("distilled-cloudflare/annotation-meta");
 
 type Annotatable = {
-  annotations(annotations: Record<symbol, unknown>): Annotatable;
+  annotate(annotations: Record<symbol, unknown>): Annotatable;
 };
 
 export interface Annotation {
@@ -28,7 +28,7 @@ export interface Annotation {
 
 function makeAnnotation<T>(sym: symbol, value: T): Annotation {
   const fn = <A extends Annotatable>(schema: A): A =>
-    schema.annotations({ [sym]: value }) as A;
+    schema.annotate({ [sym]: value }) as A;
 
   Object.defineProperty(fn, annotationMetaSymbol, {
     value: [{ symbol: sym, value }],
@@ -58,8 +58,7 @@ export function all(...annotations: Annotation[]): Annotation {
     }
   }
 
-  const fn = <A extends Annotatable>(schema: A): A =>
-    schema.annotations(raw) as A;
+  const fn = <A extends Annotatable>(schema: A): A => schema.annotate(raw) as A;
 
   Object.defineProperty(fn, annotationMetaSymbol, {
     value: entries,
@@ -100,53 +99,6 @@ export const HttpHeader = (name: string) =>
 export const httpBodySymbol = Symbol.for("distilled-cloudflare/http-body");
 export const HttpBody = () => makeAnnotation(httpBodySymbol, true);
 
-/** Wire name for property serialization (when TS name differs from API name) */
-export const jsonNameSymbol = Symbol.for("distilled-cloudflare/json-name");
-
-/** Symbol used to detect PropertySignature types */
-const propertySignatureSymbol = Symbol.for("effect/PropertySignature");
-
-/**
- * JsonName trait - uses Effect Schema's fromKey for automatic key renaming.
- *
- * When applied to a PropertySignature (from Schema.optional), pipes Schema.fromKey.
- * When applied to a Schema, wraps in Schema.propertySignature and pipes Schema.fromKey.
- *
- * This allows Effect Schema's encode/decode to handle key renaming automatically.
- */
-export const JsonName = (name: string) => {
-  return <A>(schema: A): A => {
-    // Check if it's a PropertySignature (has the symbol)
-    if (
-      schema !== null &&
-      typeof schema === "object" &&
-      propertySignatureSymbol in schema
-    ) {
-      // It's already a PropertySignature - pipe fromKey onto it
-      return (schema as any).pipe(Schema.fromKey(name)) as A;
-    }
-
-    // It's a Schema - wrap in propertySignature and apply fromKey
-    if (Schema.isSchema(schema)) {
-      return Schema.propertySignature(schema as Schema.Schema.Any).pipe(
-        Schema.fromKey(name),
-      ) as A;
-    }
-
-    // Fallback: just add annotation (shouldn't happen in practice)
-    if (
-      schema !== null &&
-      typeof schema === "object" &&
-      "annotations" in schema &&
-      typeof (schema as any).annotations === "function"
-    ) {
-      return (schema as any).annotations({ [jsonNameSymbol]: name }) as A;
-    }
-
-    return schema;
-  };
-};
-
 /** Content type for the request body */
 export const httpContentTypeSymbol = Symbol.for(
   "distilled-cloudflare/http-content-type",
@@ -179,6 +131,21 @@ export const HttpFormDataFile = () =>
 /** Check if property is a file upload */
 export const hasHttpFormDataFile = (prop: AST.PropertySignature): boolean =>
   hasPropAnnotation(prop, httpFormDataFileSymbol);
+
+/**
+ * JsonName trait - maps a camelCase property name to its wire-format (snake_case) name.
+ *
+ * In Effect v4, Schema.fromKey was removed. Instead, we store the wire name as
+ * an annotation and the request builder handles key remapping manually.
+ */
+export const httpJsonNameSymbol = Symbol.for(
+  "distilled-cloudflare/http-json-name",
+);
+export const JsonName = (name: string) =>
+  makeAnnotation(httpJsonNameSymbol, name);
+
+export const getJsonName = (prop: AST.PropertySignature): string | undefined =>
+  getPropAnnotation<string>(prop, httpJsonNameSymbol);
 
 /** HTTP response status code binding */
 export const httpStatusSymbol = Symbol.for("distilled-cloudflare/http-status");
@@ -244,15 +211,15 @@ export const getAnnotation = <T>(
   ast: AST.AST,
   symbol: symbol,
 ): T | undefined => {
-  return ast.annotations?.[symbol] as T | undefined;
+  const annotations = ast.annotations as Record<symbol, unknown> | undefined;
+  return annotations?.[symbol] as T | undefined;
 };
 
 export const getPropAnnotation = <T>(
   prop: AST.PropertySignature,
   symbol: symbol,
 ): T | undefined => {
-  const propAnnot = prop.annotations?.[symbol] as T | undefined;
-  if (propAnnot !== undefined) return propAnnot;
+  // v4: PropertySignatures don't have direct annotations - check on type
   return getAnnotationUnwrap(prop.type, symbol);
 };
 
@@ -260,30 +227,29 @@ export const hasPropAnnotation = (
   prop: AST.PropertySignature,
   symbol: symbol,
 ): boolean => {
-  if (prop.annotations?.[symbol] !== undefined) return true;
+  // v4: PropertySignatures don't have direct annotations - check on type
   return hasAnnotation(prop.type, symbol);
 };
 
 export const hasAnnotation = (ast: AST.AST, symbol: symbol): boolean => {
-  if (ast.annotations?.[symbol] !== undefined) return true;
+  const annotations = ast.annotations as Record<symbol, unknown> | undefined;
+  if (annotations?.[symbol] !== undefined) return true;
 
   if (ast._tag === "Suspend") {
-    return hasAnnotation(ast.f(), symbol);
+    return hasAnnotation(ast.thunk(), symbol);
   }
 
   if (ast._tag === "Union") {
     const nonNullishTypes = ast.types.filter(
       (t: AST.AST) =>
-        t._tag !== "UndefinedKeyword" &&
-        !(t._tag === "Literal" && t.literal === null),
+        t._tag !== "Undefined" && !(t._tag === "Literal" && t.literal === null),
     );
     return nonNullishTypes.some((t: AST.AST) => hasAnnotation(t, symbol));
   }
 
-  if (ast._tag === "Transformation") {
-    if (ast.annotations?.[symbol] !== undefined) return true;
-    if (ast.to?.annotations?.[symbol] !== undefined) return true;
-    return hasAnnotation(ast.from, symbol);
+  // v4: Follow encoding chain instead of Transformation
+  if (ast.encoding && ast.encoding.length > 0) {
+    return hasAnnotation(ast.encoding[0].to, symbol);
   }
 
   return false;
@@ -293,25 +259,23 @@ export const getAnnotationUnwrap = <T>(
   ast: AST.AST,
   symbol: symbol,
 ): T | undefined => {
-  const direct = ast.annotations?.[symbol] as T | undefined;
+  const annotations = ast.annotations as Record<symbol, unknown> | undefined;
+  const direct = annotations?.[symbol] as T | undefined;
   if (direct !== undefined) return direct;
 
   if (ast._tag === "Suspend") {
-    return getAnnotationUnwrap(ast.f(), symbol);
+    return getAnnotationUnwrap(ast.thunk(), symbol);
   }
 
-  if (ast._tag === "Transformation") {
-    const toValue = ast.to?.annotations?.[symbol] as T | undefined;
-    if (toValue !== undefined) return toValue;
-    const fromValue = ast.from?.annotations?.[symbol] as T | undefined;
-    if (fromValue !== undefined) return fromValue;
+  // v4: Follow encoding chain instead of Transformation
+  if (ast.encoding && ast.encoding.length > 0) {
+    return getAnnotationUnwrap(ast.encoding[0].to, symbol);
   }
 
   if (ast._tag === "Union") {
     const nonNullishTypes = ast.types.filter(
       (t) =>
-        t._tag !== "UndefinedKeyword" &&
-        !(t._tag === "Literal" && t.literal === null),
+        t._tag !== "Undefined" && !(t._tag === "Literal" && t.literal === null),
     );
     if (nonNullishTypes.length === 1) {
       return getAnnotationUnwrap(nonNullishTypes[0]!, symbol);
@@ -368,7 +332,8 @@ export const streamingSymbol = Symbol.for("distilled-cloudflare/streaming");
 export const Streaming = () => makeAnnotation(streamingSymbol, true);
 
 export const isStreamingType = (ast: AST.AST): boolean => {
-  if (ast.annotations?.[streamingSymbol]) return true;
+  const annotations = ast.annotations as Record<symbol, unknown> | undefined;
+  if (annotations?.[streamingSymbol]) return true;
   if (ast._tag === "Union") {
     return ast.types.some((t) => isStreamingType(t));
   }
@@ -427,7 +392,7 @@ export interface ErrorMatcherAnnotation {
  *
  * @example
  * ```typescript
- * export class NoSuchBucket extends Schema.TaggedError<NoSuchBucket>()(
+ * export class NoSuchBucket extends Schema.TaggedErrorClass<NoSuchBucket>()(
  *   "NoSuchBucket",
  *   { code: Schema.Number, message: Schema.String }
  * ).pipe(T.HttpErrorMatchers([
@@ -438,6 +403,19 @@ export interface ErrorMatcherAnnotation {
  */
 export const HttpErrorMatchers = (matchers: ErrorMatcherAnnotation[]) =>
   makeAnnotation(httpErrorMatchersSymbol, matchers);
+
+/**
+ * Apply error matchers directly to a class's AST annotations.
+ * Used for TaggedErrorClass in Effect v4 where .pipe() on a class
+ * returns a schema (not a class), breaking `extends ... .pipe(...)`.
+ */
+export const applyErrorMatchers = (
+  cls: { ast: AST.AST },
+  matchers: ErrorMatcherAnnotation[],
+): void => {
+  const annotations = cls.ast.annotations as Record<symbol, unknown>;
+  annotations[httpErrorMatchersSymbol] = matchers;
+};
 
 // =============================================================================
 // Error Trait Helpers

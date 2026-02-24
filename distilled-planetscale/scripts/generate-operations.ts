@@ -1,3 +1,4 @@
+import { execSync } from "child_process";
 import * as fs from "fs";
 import * as path from "path";
 import { applyAllPatches } from "./apply-patches";
@@ -144,10 +145,10 @@ function openApiTypeToEffectSchema(
     );
   }
 
-  // Handle enum
+  // Handle enum - v4 uses Schema.Literals([...]) for multiple values
   if (prop.enum && prop.enum.length > 0) {
     const literals = prop.enum.map((v) => `"${v}"`).join(", ");
-    const baseSchema = `Schema.Literal(${literals})`;
+    const baseSchema = `Schema.Literals([${literals}])`;
     return prop["x-nullable"] ? `Schema.NullOr(${baseSchema})` : baseSchema;
   }
 
@@ -376,7 +377,7 @@ function generateInputSchema(
   // Path parameters (always required) - with T.PathParam() trait
   for (const param of pathParams) {
     const baseSchema = param.enum
-      ? `Schema.Literal(${param.enum.map((v) => `"${v}"`).join(", ")})`
+      ? `Schema.Literals([${param.enum.map((v) => `"${v}"`).join(", ")}])`
       : param.type === "integer"
         ? "Schema.Number"
         : "Schema.String";
@@ -391,7 +392,7 @@ function generateInputSchema(
         : param.type === "boolean"
           ? "Schema.Boolean"
           : param.enum
-            ? `Schema.Literal(${param.enum.map((v) => `"${v}"`).join(", ")})`
+            ? `Schema.Literals([${param.enum.map((v) => `"${v}"`).join(", ")}])`
             : "Schema.String";
 
     if (!param.required) {
@@ -709,6 +710,11 @@ async function main() {
   console.log(`Written: src/operations/index.ts`);
 
   console.log(`\nGenerated ${operations.length} operations.`);
+
+  // Format generated files
+  console.log("Formatting generated files...");
+  execSync("bun format", { stdio: "inherit" });
+
   console.log("Done!");
 }
 

@@ -6,7 +6,9 @@ import * as T from "../traits";
 export const CountProjectBranchesInput = Schema.Struct({
   project_id: Schema.String.pipe(T.PathParam()),
   search: Schema.optional(Schema.String),
-}).pipe(T.Http({ method: "GET", path: "/projects/{project_id}/branches/count" }));
+}).pipe(
+  T.Http({ method: "GET", path: "/projects/{project_id}/branches/count" }),
+);
 export type CountProjectBranchesInput = typeof CountProjectBranchesInput.Type;
 
 // Output Schema
@@ -25,7 +27,9 @@ export type CountProjectBranchesOutput = typeof CountProjectBranchesOutput.Type;
  * @param project_id - The Neon project ID
  * @param search - Count branches matching the `name` in search query
  */
-export const countProjectBranches = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  inputSchema: CountProjectBranchesInput,
-  outputSchema: CountProjectBranchesOutput,
-}));
+export const countProjectBranches = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    inputSchema: CountProjectBranchesInput,
+    outputSchema: CountProjectBranchesOutput,
+  }),
+);

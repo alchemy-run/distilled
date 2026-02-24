@@ -7,7 +7,7 @@
 
 import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
-import type { HttpClient } from "@effect/platform";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
@@ -71,12 +71,12 @@ export interface GetRecipientResponse {
 export const GetRecipientResponse = Schema.Struct({
   id: Schema.String,
   accountId: Schema.String.pipe(T.JsonName("account_id")),
-  associationStatus: Schema.Literal(
+  associationStatus: Schema.Literals([
     "associating",
     "associated",
     "disassociating",
     "disassociated",
-  ).pipe(T.JsonName("association_status")),
+  ]).pipe(T.JsonName("association_status")),
   created: Schema.String,
   modified: Schema.String,
   resources: Schema.optional(
@@ -155,12 +155,12 @@ export interface CreateRecipientResponse {
 export const CreateRecipientResponse = Schema.Struct({
   id: Schema.String,
   accountId: Schema.String.pipe(T.JsonName("account_id")),
-  associationStatus: Schema.Literal(
+  associationStatus: Schema.Literals([
     "associating",
     "associated",
     "disassociating",
     "disassociated",
-  ).pipe(T.JsonName("association_status")),
+  ]).pipe(T.JsonName("association_status")),
   created: Schema.String,
   modified: Schema.String,
   resources: Schema.optional(
@@ -231,12 +231,12 @@ export interface DeleteRecipientResponse {
 export const DeleteRecipientResponse = Schema.Struct({
   id: Schema.String,
   accountId: Schema.String.pipe(T.JsonName("account_id")),
-  associationStatus: Schema.Literal(
+  associationStatus: Schema.Literals([
     "associating",
     "associated",
     "disassociating",
     "disassociated",
-  ).pipe(T.JsonName("association_status")),
+  ]).pipe(T.JsonName("association_status")),
   created: Schema.String,
   modified: Schema.String,
   resources: Schema.optional(
@@ -319,16 +319,16 @@ export const GetResourceResponse = Schema.Struct({
   modified: Schema.String,
   resourceAccountId: Schema.String.pipe(T.JsonName("resource_account_id")),
   resourceId: Schema.String.pipe(T.JsonName("resource_id")),
-  resourceType: Schema.Literal(
+  resourceType: Schema.Literals([
     "custom-ruleset",
     "widget",
     "gateway-policy",
     "gateway-destination-ip",
     "gateway-block-page-settings",
     "gateway-extended-email-matching",
-  ).pipe(T.JsonName("resource_type")),
+  ]).pipe(T.JsonName("resource_type")),
   resourceVersion: Schema.Number.pipe(T.JsonName("resource_version")),
-  status: Schema.Literal("active", "deleting", "deleted"),
+  status: Schema.Literals(["active", "deleting", "deleted"]),
 }) as unknown as Schema.Schema<GetResourceResponse>;
 
 export const getResource: (
@@ -369,14 +369,14 @@ export const CreateResourceRequest = Schema.Struct({
   meta: Schema.Unknown,
   resourceAccountId: Schema.String.pipe(T.JsonName("resource_account_id")),
   resourceId: Schema.String.pipe(T.JsonName("resource_id")),
-  resourceType: Schema.Literal(
+  resourceType: Schema.Literals([
     "custom-ruleset",
     "widget",
     "gateway-policy",
     "gateway-destination-ip",
     "gateway-block-page-settings",
     "gateway-extended-email-matching",
-  ).pipe(T.JsonName("resource_type")),
+  ]).pipe(T.JsonName("resource_type")),
 }).pipe(
   T.Http({
     method: "POST",
@@ -418,16 +418,16 @@ export const CreateResourceResponse = Schema.Struct({
   modified: Schema.String,
   resourceAccountId: Schema.String.pipe(T.JsonName("resource_account_id")),
   resourceId: Schema.String.pipe(T.JsonName("resource_id")),
-  resourceType: Schema.Literal(
+  resourceType: Schema.Literals([
     "custom-ruleset",
     "widget",
     "gateway-policy",
     "gateway-destination-ip",
     "gateway-block-page-settings",
     "gateway-extended-email-matching",
-  ).pipe(T.JsonName("resource_type")),
+  ]).pipe(T.JsonName("resource_type")),
   resourceVersion: Schema.Number.pipe(T.JsonName("resource_version")),
-  status: Schema.Literal("active", "deleting", "deleted"),
+  status: Schema.Literals(["active", "deleting", "deleted"]),
 }) as unknown as Schema.Schema<CreateResourceResponse>;
 
 export const createResource: (
@@ -497,16 +497,16 @@ export const UpdateResourceResponse = Schema.Struct({
   modified: Schema.String,
   resourceAccountId: Schema.String.pipe(T.JsonName("resource_account_id")),
   resourceId: Schema.String.pipe(T.JsonName("resource_id")),
-  resourceType: Schema.Literal(
+  resourceType: Schema.Literals([
     "custom-ruleset",
     "widget",
     "gateway-policy",
     "gateway-destination-ip",
     "gateway-block-page-settings",
     "gateway-extended-email-matching",
-  ).pipe(T.JsonName("resource_type")),
+  ]).pipe(T.JsonName("resource_type")),
   resourceVersion: Schema.Number.pipe(T.JsonName("resource_version")),
-  status: Schema.Literal("active", "deleting", "deleted"),
+  status: Schema.Literals(["active", "deleting", "deleted"]),
 }) as unknown as Schema.Schema<UpdateResourceResponse>;
 
 export const updateResource: (
@@ -573,16 +573,16 @@ export const DeleteResourceResponse = Schema.Struct({
   modified: Schema.String,
   resourceAccountId: Schema.String.pipe(T.JsonName("resource_account_id")),
   resourceId: Schema.String.pipe(T.JsonName("resource_id")),
-  resourceType: Schema.Literal(
+  resourceType: Schema.Literals([
     "custom-ruleset",
     "widget",
     "gateway-policy",
     "gateway-destination-ip",
     "gateway-block-page-settings",
     "gateway-extended-email-matching",
-  ).pipe(T.JsonName("resource_type")),
+  ]).pipe(T.JsonName("resource_type")),
   resourceVersion: Schema.Number.pipe(T.JsonName("resource_version")),
-  status: Schema.Literal("active", "deleting", "deleted"),
+  status: Schema.Literals(["active", "deleting", "deleted"]),
 }) as unknown as Schema.Schema<DeleteResourceResponse>;
 
 export const deleteResource: (
@@ -678,8 +678,8 @@ export const GetResourceSharingResponse = Schema.Struct({
   modified: Schema.String,
   name: Schema.String,
   organizationId: Schema.String.pipe(T.JsonName("organization_id")),
-  status: Schema.Literal("active", "deleting", "deleted"),
-  targetType: Schema.Literal("account", "organization").pipe(
+  status: Schema.Literals(["active", "deleting", "deleted"]),
+  targetType: Schema.Literals(["account", "organization"]).pipe(
     T.JsonName("target_type"),
   ),
   associatedRecipientCount: Schema.optional(Schema.Number).pipe(
@@ -694,7 +694,7 @@ export const GetResourceSharingResponse = Schema.Struct({
   disassociatingRecipientCount: Schema.optional(Schema.Number).pipe(
     T.JsonName("disassociating_recipient_count"),
   ),
-  kind: Schema.optional(Schema.Literal("sent", "received")),
+  kind: Schema.optional(Schema.Literals(["sent", "received"])),
   resources: Schema.optional(
     Schema.Array(
       Schema.Struct({
@@ -706,16 +706,16 @@ export const GetResourceSharingResponse = Schema.Struct({
           T.JsonName("resource_account_id"),
         ),
         resourceId: Schema.String.pipe(T.JsonName("resource_id")),
-        resourceType: Schema.Literal(
+        resourceType: Schema.Literals([
           "custom-ruleset",
           "widget",
           "gateway-policy",
           "gateway-destination-ip",
           "gateway-block-page-settings",
           "gateway-extended-email-matching",
-        ).pipe(T.JsonName("resource_type")),
+        ]).pipe(T.JsonName("resource_type")),
         resourceVersion: Schema.Number.pipe(T.JsonName("resource_version")),
-        status: Schema.Literal("active", "deleting", "deleted"),
+        status: Schema.Literals(["active", "deleting", "deleted"]),
       }),
     ),
   ),
@@ -771,14 +771,14 @@ export const CreateResourceSharingRequest = Schema.Struct({
       meta: Schema.Unknown,
       resourceAccountId: Schema.String.pipe(T.JsonName("resource_account_id")),
       resourceId: Schema.String.pipe(T.JsonName("resource_id")),
-      resourceType: Schema.Literal(
+      resourceType: Schema.Literals([
         "custom-ruleset",
         "widget",
         "gateway-policy",
         "gateway-destination-ip",
         "gateway-block-page-settings",
         "gateway-extended-email-matching",
-      ).pipe(T.JsonName("resource_type")),
+      ]).pipe(T.JsonName("resource_type")),
     }),
   ),
 }).pipe(
@@ -839,8 +839,8 @@ export const CreateResourceSharingResponse = Schema.Struct({
   modified: Schema.String,
   name: Schema.String,
   organizationId: Schema.String.pipe(T.JsonName("organization_id")),
-  status: Schema.Literal("active", "deleting", "deleted"),
-  targetType: Schema.Literal("account", "organization").pipe(
+  status: Schema.Literals(["active", "deleting", "deleted"]),
+  targetType: Schema.Literals(["account", "organization"]).pipe(
     T.JsonName("target_type"),
   ),
   associatedRecipientCount: Schema.optional(Schema.Number).pipe(
@@ -855,7 +855,7 @@ export const CreateResourceSharingResponse = Schema.Struct({
   disassociatingRecipientCount: Schema.optional(Schema.Number).pipe(
     T.JsonName("disassociating_recipient_count"),
   ),
-  kind: Schema.optional(Schema.Literal("sent", "received")),
+  kind: Schema.optional(Schema.Literals(["sent", "received"])),
   resources: Schema.optional(
     Schema.Array(
       Schema.Struct({
@@ -867,16 +867,16 @@ export const CreateResourceSharingResponse = Schema.Struct({
           T.JsonName("resource_account_id"),
         ),
         resourceId: Schema.String.pipe(T.JsonName("resource_id")),
-        resourceType: Schema.Literal(
+        resourceType: Schema.Literals([
           "custom-ruleset",
           "widget",
           "gateway-policy",
           "gateway-destination-ip",
           "gateway-block-page-settings",
           "gateway-extended-email-matching",
-        ).pipe(T.JsonName("resource_type")),
+        ]).pipe(T.JsonName("resource_type")),
         resourceVersion: Schema.Number.pipe(T.JsonName("resource_version")),
-        status: Schema.Literal("active", "deleting", "deleted"),
+        status: Schema.Literals(["active", "deleting", "deleted"]),
       }),
     ),
   ),
@@ -964,8 +964,8 @@ export const UpdateResourceSharingResponse = Schema.Struct({
   modified: Schema.String,
   name: Schema.String,
   organizationId: Schema.String.pipe(T.JsonName("organization_id")),
-  status: Schema.Literal("active", "deleting", "deleted"),
-  targetType: Schema.Literal("account", "organization").pipe(
+  status: Schema.Literals(["active", "deleting", "deleted"]),
+  targetType: Schema.Literals(["account", "organization"]).pipe(
     T.JsonName("target_type"),
   ),
   associatedRecipientCount: Schema.optional(Schema.Number).pipe(
@@ -980,7 +980,7 @@ export const UpdateResourceSharingResponse = Schema.Struct({
   disassociatingRecipientCount: Schema.optional(Schema.Number).pipe(
     T.JsonName("disassociating_recipient_count"),
   ),
-  kind: Schema.optional(Schema.Literal("sent", "received")),
+  kind: Schema.optional(Schema.Literals(["sent", "received"])),
   resources: Schema.optional(
     Schema.Array(
       Schema.Struct({
@@ -992,16 +992,16 @@ export const UpdateResourceSharingResponse = Schema.Struct({
           T.JsonName("resource_account_id"),
         ),
         resourceId: Schema.String.pipe(T.JsonName("resource_id")),
-        resourceType: Schema.Literal(
+        resourceType: Schema.Literals([
           "custom-ruleset",
           "widget",
           "gateway-policy",
           "gateway-destination-ip",
           "gateway-block-page-settings",
           "gateway-extended-email-matching",
-        ).pipe(T.JsonName("resource_type")),
+        ]).pipe(T.JsonName("resource_type")),
         resourceVersion: Schema.Number.pipe(T.JsonName("resource_version")),
-        status: Schema.Literal("active", "deleting", "deleted"),
+        status: Schema.Literals(["active", "deleting", "deleted"]),
       }),
     ),
   ),
@@ -1086,8 +1086,8 @@ export const DeleteResourceSharingResponse = Schema.Struct({
   modified: Schema.String,
   name: Schema.String,
   organizationId: Schema.String.pipe(T.JsonName("organization_id")),
-  status: Schema.Literal("active", "deleting", "deleted"),
-  targetType: Schema.Literal("account", "organization").pipe(
+  status: Schema.Literals(["active", "deleting", "deleted"]),
+  targetType: Schema.Literals(["account", "organization"]).pipe(
     T.JsonName("target_type"),
   ),
   associatedRecipientCount: Schema.optional(Schema.Number).pipe(
@@ -1102,7 +1102,7 @@ export const DeleteResourceSharingResponse = Schema.Struct({
   disassociatingRecipientCount: Schema.optional(Schema.Number).pipe(
     T.JsonName("disassociating_recipient_count"),
   ),
-  kind: Schema.optional(Schema.Literal("sent", "received")),
+  kind: Schema.optional(Schema.Literals(["sent", "received"])),
   resources: Schema.optional(
     Schema.Array(
       Schema.Struct({
@@ -1114,16 +1114,16 @@ export const DeleteResourceSharingResponse = Schema.Struct({
           T.JsonName("resource_account_id"),
         ),
         resourceId: Schema.String.pipe(T.JsonName("resource_id")),
-        resourceType: Schema.Literal(
+        resourceType: Schema.Literals([
           "custom-ruleset",
           "widget",
           "gateway-policy",
           "gateway-destination-ip",
           "gateway-block-page-settings",
           "gateway-extended-email-matching",
-        ).pipe(T.JsonName("resource_type")),
+        ]).pipe(T.JsonName("resource_type")),
         resourceVersion: Schema.Number.pipe(T.JsonName("resource_version")),
-        status: Schema.Literal("active", "deleting", "deleted"),
+        status: Schema.Literals(["active", "deleting", "deleted"]),
       }),
     ),
   ),

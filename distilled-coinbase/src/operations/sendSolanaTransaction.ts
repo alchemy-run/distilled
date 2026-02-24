@@ -1,20 +1,30 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
-import { Forbidden, IdempotencyError, MalformedTransaction, NotFound, PaymentMethodRequired } from "../errors";
+import {
+  Forbidden,
+  IdempotencyError,
+  MalformedTransaction,
+  NotFound,
+  PaymentMethodRequired,
+} from "../errors";
 
 // Input Schema
 export const SendSolanaTransactionInput = Schema.Struct({
-  network: Schema.Literal("solana", "solana-devnet"),
+  network: Schema.Literals(["solana", "solana-devnet"]),
   transaction: Schema.String,
-}).pipe(T.Http({ method: "POST", path: "/v2/solana/accounts/send/transaction" }), T.WalletAuth());
+}).pipe(
+  T.Http({ method: "POST", path: "/v2/solana/accounts/send/transaction" }),
+  T.WalletAuth(),
+);
 export type SendSolanaTransactionInput = typeof SendSolanaTransactionInput.Type;
 
 // Output Schema
 export const SendSolanaTransactionOutput = Schema.Struct({
   transactionSignature: Schema.String,
 });
-export type SendSolanaTransactionOutput = typeof SendSolanaTransactionOutput.Type;
+export type SendSolanaTransactionOutput =
+  typeof SendSolanaTransactionOutput.Type;
 
 // The operation
 /**
@@ -34,9 +44,17 @@ export type SendSolanaTransactionOutput = typeof SendSolanaTransactionOutput.Typ
  * * `solana-devnet` - Solana Devnet
  * The developer is responsible for ensuring that the unsigned transaction is valid, as the API will not validate the transaction.
  */
-export const sendSolanaTransaction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  inputSchema: SendSolanaTransactionInput,
-  outputSchema: SendSolanaTransactionOutput,
-  errors: [Forbidden, IdempotencyError, MalformedTransaction, NotFound, PaymentMethodRequired],
-  walletAuth: true,
-}));
+export const sendSolanaTransaction = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    inputSchema: SendSolanaTransactionInput,
+    outputSchema: SendSolanaTransactionOutput,
+    errors: [
+      Forbidden,
+      IdempotencyError,
+      MalformedTransaction,
+      NotFound,
+      PaymentMethodRequired,
+    ],
+    walletAuth: true,
+  }),
+);

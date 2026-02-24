@@ -1,4 +1,4 @@
-import { HttpClient } from "@effect/platform";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as effect from "effect/Effect";
 import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
@@ -96,9 +96,9 @@ export type ParticipantId = string;
 export type ParticipantRole = string;
 export type TranscriptContent = string;
 export type OffsetMillis = number;
+export type CharacterOffset = number;
 export type CategoryName = string;
 export type PostContactSummaryContent = string;
-export type CharacterOffset = number;
 export type Message = string;
 
 //# Schemas
@@ -127,7 +127,7 @@ export const ListRealtimeContactAnalysisSegmentsRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "ListRealtimeContactAnalysisSegmentsRequest",
 }) as any as S.Schema<ListRealtimeContactAnalysisSegmentsRequest>;
 export type SentimentValue =
@@ -136,32 +136,6 @@ export type SentimentValue =
   | "NEGATIVE"
   | (string & {});
 export const SentimentValue = S.String;
-export type MatchedCategories = string[];
-export const MatchedCategories = S.Array(S.String);
-export type PostContactSummaryStatus = "FAILED" | "COMPLETED" | (string & {});
-export const PostContactSummaryStatus = S.String;
-export type PostContactSummaryFailureCode =
-  | "QUOTA_EXCEEDED"
-  | "INSUFFICIENT_CONVERSATION_CONTENT"
-  | "FAILED_SAFETY_GUIDELINES"
-  | "INVALID_ANALYSIS_CONFIGURATION"
-  | "INTERNAL_ERROR"
-  | (string & {});
-export const PostContactSummaryFailureCode = S.String;
-export interface PostContactSummary {
-  Content?: string;
-  Status?: PostContactSummaryStatus;
-  FailureCode?: PostContactSummaryFailureCode;
-}
-export const PostContactSummary = S.suspend(() =>
-  S.Struct({
-    Content: S.optional(S.String),
-    Status: S.optional(PostContactSummaryStatus),
-    FailureCode: S.optional(PostContactSummaryFailureCode),
-  }),
-).annotations({
-  identifier: "PostContactSummary",
-}) as any as S.Schema<PostContactSummary>;
 export interface CharacterOffsets {
   BeginOffsetChar?: number;
   EndOffsetChar?: number;
@@ -171,7 +145,7 @@ export const CharacterOffsets = S.suspend(() =>
     BeginOffsetChar: S.optional(S.Number),
     EndOffsetChar: S.optional(S.Number),
   }),
-).annotations({
+).annotate({
   identifier: "CharacterOffsets",
 }) as any as S.Schema<CharacterOffsets>;
 export interface IssueDetected {
@@ -179,25 +153,9 @@ export interface IssueDetected {
 }
 export const IssueDetected = S.suspend(() =>
   S.Struct({ CharacterOffsets: S.optional(CharacterOffsets) }),
-).annotations({
-  identifier: "IssueDetected",
-}) as any as S.Schema<IssueDetected>;
+).annotate({ identifier: "IssueDetected" }) as any as S.Schema<IssueDetected>;
 export type IssuesDetected = IssueDetected[];
 export const IssuesDetected = S.Array(IssueDetected);
-export interface PointOfInterest {
-  BeginOffsetMillis?: number;
-  EndOffsetMillis?: number;
-}
-export const PointOfInterest = S.suspend(() =>
-  S.Struct({
-    BeginOffsetMillis: S.optional(S.Number),
-    EndOffsetMillis: S.optional(S.Number),
-  }),
-).annotations({
-  identifier: "PointOfInterest",
-}) as any as S.Schema<PointOfInterest>;
-export type PointsOfInterest = PointOfInterest[];
-export const PointsOfInterest = S.Array(PointOfInterest);
 export interface Transcript {
   Id?: string;
   ParticipantId?: string;
@@ -219,20 +177,36 @@ export const Transcript = S.suspend(() =>
     Sentiment: S.optional(SentimentValue),
     IssuesDetected: S.optional(IssuesDetected),
   }),
-).annotations({ identifier: "Transcript" }) as any as S.Schema<Transcript>;
+).annotate({ identifier: "Transcript" }) as any as S.Schema<Transcript>;
+export type MatchedCategories = string[];
+export const MatchedCategories = S.Array(S.String);
+export interface PointOfInterest {
+  BeginOffsetMillis?: number;
+  EndOffsetMillis?: number;
+}
+export const PointOfInterest = S.suspend(() =>
+  S.Struct({
+    BeginOffsetMillis: S.optional(S.Number),
+    EndOffsetMillis: S.optional(S.Number),
+  }),
+).annotate({
+  identifier: "PointOfInterest",
+}) as any as S.Schema<PointOfInterest>;
+export type PointsOfInterest = PointOfInterest[];
+export const PointsOfInterest = S.Array(PointOfInterest);
 export interface CategoryDetails {
   PointsOfInterest?: PointOfInterest[];
 }
 export const CategoryDetails = S.suspend(() =>
   S.Struct({ PointsOfInterest: S.optional(PointsOfInterest) }),
-).annotations({
+).annotate({
   identifier: "CategoryDetails",
 }) as any as S.Schema<CategoryDetails>;
 export type MatchedDetails = { [key: string]: CategoryDetails | undefined };
-export const MatchedDetails = S.Record({
-  key: S.String,
-  value: S.UndefinedOr(CategoryDetails),
-});
+export const MatchedDetails = S.Record(
+  S.String,
+  CategoryDetails.pipe(S.optional),
+);
 export interface Categories {
   MatchedCategories?: string[];
   MatchedDetails?: { [key: string]: CategoryDetails | undefined };
@@ -242,7 +216,31 @@ export const Categories = S.suspend(() =>
     MatchedCategories: S.optional(MatchedCategories),
     MatchedDetails: S.optional(MatchedDetails),
   }),
-).annotations({ identifier: "Categories" }) as any as S.Schema<Categories>;
+).annotate({ identifier: "Categories" }) as any as S.Schema<Categories>;
+export type PostContactSummaryStatus = "FAILED" | "COMPLETED" | (string & {});
+export const PostContactSummaryStatus = S.String;
+export type PostContactSummaryFailureCode =
+  | "QUOTA_EXCEEDED"
+  | "INSUFFICIENT_CONVERSATION_CONTENT"
+  | "FAILED_SAFETY_GUIDELINES"
+  | "INVALID_ANALYSIS_CONFIGURATION"
+  | "INTERNAL_ERROR"
+  | (string & {});
+export const PostContactSummaryFailureCode = S.String;
+export interface PostContactSummary {
+  Content?: string;
+  Status?: PostContactSummaryStatus;
+  FailureCode?: PostContactSummaryFailureCode;
+}
+export const PostContactSummary = S.suspend(() =>
+  S.Struct({
+    Content: S.optional(S.String),
+    Status: S.optional(PostContactSummaryStatus),
+    FailureCode: S.optional(PostContactSummaryFailureCode),
+  }),
+).annotate({
+  identifier: "PostContactSummary",
+}) as any as S.Schema<PostContactSummary>;
 export interface RealtimeContactAnalysisSegment {
   Transcript?: Transcript;
   Categories?: Categories;
@@ -254,7 +252,7 @@ export const RealtimeContactAnalysisSegment = S.suspend(() =>
     Categories: S.optional(Categories),
     PostContactSummary: S.optional(PostContactSummary),
   }),
-).annotations({
+).annotate({
   identifier: "RealtimeContactAnalysisSegment",
 }) as any as S.Schema<RealtimeContactAnalysisSegment>;
 export type RealtimeContactAnalysisSegments = RealtimeContactAnalysisSegment[];
@@ -301,28 +299,28 @@ export const ListRealtimeContactAnalysisSegmentsResponse = S.suspend(() =>
     Segments: S.optional(RealtimeContactAnalysisSegments),
     NextToken: S.optional(S.String),
   }),
-).annotations({
+).annotate({
   identifier: "ListRealtimeContactAnalysisSegmentsResponse",
 }) as any as S.Schema<ListRealtimeContactAnalysisSegmentsResponse>;
 
 //# Errors
-export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
+export class AccessDeniedException extends S.TaggedErrorClass<AccessDeniedException>()(
   "AccessDeniedException",
   { Message: S.optional(S.String) },
 ).pipe(C.withAuthError) {}
-export class InternalServiceException extends S.TaggedError<InternalServiceException>()(
+export class InternalServiceException extends S.TaggedErrorClass<InternalServiceException>()(
   "InternalServiceException",
   { Message: S.optional(S.String) },
 ).pipe(C.withServerError) {}
-export class InvalidRequestException extends S.TaggedError<InvalidRequestException>()(
+export class InvalidRequestException extends S.TaggedErrorClass<InvalidRequestException>()(
   "InvalidRequestException",
   { Message: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { Message: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
-export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
+export class ThrottlingException extends S.TaggedErrorClass<ThrottlingException>()(
   "ThrottlingException",
   { Message: S.optional(S.String) },
 ).pipe(C.withThrottlingError) {}

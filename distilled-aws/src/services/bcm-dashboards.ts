@@ -1,4 +1,4 @@
-import { HttpClient } from "@effect/platform";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as effect from "effect/Effect";
 import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
@@ -68,111 +68,17 @@ const rules = T.EndpointResolver((p, _) => {
 //# Newtypes
 export type DashboardName = string;
 export type Description = string;
-export type DashboardArn = string;
-export type MaxResults = number;
-export type NextPageToken = string;
-export type ResourceTagKey = string;
+export type WidgetId = string;
 export type WidgetTitle = string;
 export type WidgetWidth = number;
 export type WidgetHeight = number;
+export type ResourceTagKey = string;
 export type ResourceTagValue = string;
+export type DashboardArn = string;
+export type MaxResults = number;
+export type NextPageToken = string;
 
 //# Schemas
-export type ResourceTagKeyList = string[];
-export const ResourceTagKeyList = S.Array(S.String);
-export interface DeleteDashboardRequest {
-  arn: string;
-}
-export const DeleteDashboardRequest = S.suspend(() =>
-  S.Struct({ arn: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotations({
-  identifier: "DeleteDashboardRequest",
-}) as any as S.Schema<DeleteDashboardRequest>;
-export interface GetDashboardRequest {
-  arn: string;
-}
-export const GetDashboardRequest = S.suspend(() =>
-  S.Struct({ arn: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotations({
-  identifier: "GetDashboardRequest",
-}) as any as S.Schema<GetDashboardRequest>;
-export interface GetResourcePolicyRequest {
-  resourceArn: string;
-}
-export const GetResourcePolicyRequest = S.suspend(() =>
-  S.Struct({ resourceArn: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotations({
-  identifier: "GetResourcePolicyRequest",
-}) as any as S.Schema<GetResourcePolicyRequest>;
-export interface ListDashboardsRequest {
-  maxResults?: number;
-  nextToken?: string;
-}
-export const ListDashboardsRequest = S.suspend(() =>
-  S.Struct({
-    maxResults: S.optional(S.Number),
-    nextToken: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotations({
-  identifier: "ListDashboardsRequest",
-}) as any as S.Schema<ListDashboardsRequest>;
-export interface ListTagsForResourceRequest {
-  resourceArn: string;
-}
-export const ListTagsForResourceRequest = S.suspend(() =>
-  S.Struct({ resourceArn: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotations({
-  identifier: "ListTagsForResourceRequest",
-}) as any as S.Schema<ListTagsForResourceRequest>;
-export interface ResourceTag {
-  key: string;
-  value: string;
-}
-export const ResourceTag = S.suspend(() =>
-  S.Struct({ key: S.String, value: S.String }),
-).annotations({ identifier: "ResourceTag" }) as any as S.Schema<ResourceTag>;
-export type ResourceTagList = ResourceTag[];
-export const ResourceTagList = S.Array(ResourceTag);
-export interface TagResourceRequest {
-  resourceArn: string;
-  resourceTags: ResourceTag[];
-}
-export const TagResourceRequest = S.suspend(() =>
-  S.Struct({ resourceArn: S.String, resourceTags: ResourceTagList }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotations({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
-export interface TagResourceResponse {}
-export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
-  identifier: "TagResourceResponse",
-}) as any as S.Schema<TagResourceResponse>;
-export interface UntagResourceRequest {
-  resourceArn: string;
-  resourceTagKeys: string[];
-}
-export const UntagResourceRequest = S.suspend(() =>
-  S.Struct({ resourceArn: S.String, resourceTagKeys: ResourceTagKeyList }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotations({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
-export interface UntagResourceResponse {}
-export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
-  identifier: "UntagResourceResponse",
-}) as any as S.Schema<UntagResourceResponse>;
 export type MetricName =
   | "AmortizedCost"
   | "BlendedCost"
@@ -197,18 +103,14 @@ export interface DateTimeValue {
 }
 export const DateTimeValue = S.suspend(() =>
   S.Struct({ type: DateTimeType, value: S.String }),
-).annotations({
-  identifier: "DateTimeValue",
-}) as any as S.Schema<DateTimeValue>;
+).annotate({ identifier: "DateTimeValue" }) as any as S.Schema<DateTimeValue>;
 export interface DateTimeRange {
   startTime: DateTimeValue;
   endTime: DateTimeValue;
 }
 export const DateTimeRange = S.suspend(() =>
   S.Struct({ startTime: DateTimeValue, endTime: DateTimeValue }),
-).annotations({
-  identifier: "DateTimeRange",
-}) as any as S.Schema<DateTimeRange>;
+).annotate({ identifier: "DateTimeRange" }) as any as S.Schema<DateTimeRange>;
 export type Granularity = "HOURLY" | "DAILY" | "MONTHLY" | (string & {});
 export const Granularity = S.String;
 export type GroupDefinitionType =
@@ -223,11 +125,17 @@ export interface GroupDefinition {
 }
 export const GroupDefinition = S.suspend(() =>
   S.Struct({ key: S.String, type: S.optional(GroupDefinitionType) }),
-).annotations({
+).annotate({
   identifier: "GroupDefinition",
 }) as any as S.Schema<GroupDefinition>;
 export type GroupDefinitions = GroupDefinition[];
 export const GroupDefinitions = S.Array(GroupDefinition);
+export type Expressions = Expression[];
+export const Expressions = S.Array(
+  S.suspend((): S.Schema<Expression> => Expression).annotate({
+    identifier: "Expression",
+  }),
+) as any as S.Schema<Expressions>;
 export type Dimension =
   | "AZ"
   | "INSTANCE_TYPE"
@@ -283,7 +191,7 @@ export const DimensionValues = S.suspend(() =>
     values: StringList,
     matchOptions: S.optional(MatchOptions),
   }),
-).annotations({
+).annotate({
   identifier: "DimensionValues",
 }) as any as S.Schema<DimensionValues>;
 export interface TagValues {
@@ -297,7 +205,7 @@ export const TagValues = S.suspend(() =>
     values: S.optional(StringList),
     matchOptions: S.optional(MatchOptions),
   }),
-).annotations({ identifier: "TagValues" }) as any as S.Schema<TagValues>;
+).annotate({ identifier: "TagValues" }) as any as S.Schema<TagValues>;
 export interface CostCategoryValues {
   key?: string;
   values?: string[];
@@ -309,7 +217,7 @@ export const CostCategoryValues = S.suspend(() =>
     values: S.optional(StringList),
     matchOptions: S.optional(MatchOptions),
   }),
-).annotations({
+).annotate({
   identifier: "CostCategoryValues",
 }) as any as S.Schema<CostCategoryValues>;
 export interface Expression {
@@ -323,13 +231,13 @@ export interface Expression {
 export const Expression = S.suspend(() =>
   S.Struct({
     or: S.optional(
-      S.suspend(() => Expressions).annotations({ identifier: "Expressions" }),
+      S.suspend(() => Expressions).annotate({ identifier: "Expressions" }),
     ),
     and: S.optional(
-      S.suspend(() => Expressions).annotations({ identifier: "Expressions" }),
+      S.suspend(() => Expressions).annotate({ identifier: "Expressions" }),
     ),
     not: S.optional(
-      S.suspend((): S.Schema<Expression, any> => Expression).annotations({
+      S.suspend((): S.Schema<Expression> => Expression).annotate({
         identifier: "Expression",
       }),
     ),
@@ -337,7 +245,7 @@ export const Expression = S.suspend(() =>
     tags: S.optional(TagValues),
     costCategories: S.optional(CostCategoryValues),
   }),
-).annotations({ identifier: "Expression" }) as any as S.Schema<Expression>;
+).annotate({ identifier: "Expression" }) as any as S.Schema<Expression>;
 export interface CostAndUsageQuery {
   metrics: MetricName[];
   timeRange: DateTimeRange;
@@ -353,7 +261,7 @@ export const CostAndUsageQuery = S.suspend(() =>
     groupBy: S.optional(GroupDefinitions),
     filter: S.optional(Expression),
   }),
-).annotations({
+).annotate({
   identifier: "CostAndUsageQuery",
 }) as any as S.Schema<CostAndUsageQuery>;
 export interface SavingsPlansCoverageQuery {
@@ -371,7 +279,7 @@ export const SavingsPlansCoverageQuery = S.suspend(() =>
     groupBy: S.optional(GroupDefinitions),
     filter: S.optional(Expression),
   }),
-).annotations({
+).annotate({
   identifier: "SavingsPlansCoverageQuery",
 }) as any as S.Schema<SavingsPlansCoverageQuery>;
 export interface SavingsPlansUtilizationQuery {
@@ -385,7 +293,7 @@ export const SavingsPlansUtilizationQuery = S.suspend(() =>
     granularity: S.optional(Granularity),
     filter: S.optional(Expression),
   }),
-).annotations({
+).annotate({
   identifier: "SavingsPlansUtilizationQuery",
 }) as any as S.Schema<SavingsPlansUtilizationQuery>;
 export interface ReservationCoverageQuery {
@@ -403,7 +311,7 @@ export const ReservationCoverageQuery = S.suspend(() =>
     filter: S.optional(Expression),
     metrics: S.optional(MetricNames),
   }),
-).annotations({
+).annotate({
   identifier: "ReservationCoverageQuery",
 }) as any as S.Schema<ReservationCoverageQuery>;
 export interface ReservationUtilizationQuery {
@@ -419,7 +327,7 @@ export const ReservationUtilizationQuery = S.suspend(() =>
     granularity: S.optional(Granularity),
     filter: S.optional(Expression),
   }),
-).annotations({
+).annotate({
   identifier: "ReservationUtilizationQuery",
 }) as any as S.Schema<ReservationUtilizationQuery>;
 export type QueryParameters =
@@ -458,13 +366,13 @@ export type QueryParameters =
       reservationCoverage?: never;
       reservationUtilization: ReservationUtilizationQuery;
     };
-export const QueryParameters = S.Union(
+export const QueryParameters = S.Union([
   S.Struct({ costAndUsage: CostAndUsageQuery }),
   S.Struct({ savingsPlansCoverage: SavingsPlansCoverageQuery }),
   S.Struct({ savingsPlansUtilization: SavingsPlansUtilizationQuery }),
   S.Struct({ reservationCoverage: ReservationCoverageQuery }),
   S.Struct({ reservationUtilization: ReservationUtilizationQuery }),
-);
+]);
 export type VisualType = "LINE" | "BAR" | "STACK" | (string & {});
 export const VisualType = S.String;
 export interface GraphDisplayConfig {
@@ -472,39 +380,38 @@ export interface GraphDisplayConfig {
 }
 export const GraphDisplayConfig = S.suspend(() =>
   S.Struct({ visualType: VisualType }),
-).annotations({
+).annotate({
   identifier: "GraphDisplayConfig",
 }) as any as S.Schema<GraphDisplayConfig>;
 export type GraphDisplayConfigMap = {
   [key: string]: GraphDisplayConfig | undefined;
 };
-export const GraphDisplayConfigMap = S.Record({
-  key: S.String,
-  value: S.UndefinedOr(GraphDisplayConfig),
-});
+export const GraphDisplayConfigMap = S.Record(
+  S.String,
+  GraphDisplayConfig.pipe(S.optional),
+);
 export interface TableDisplayConfigStruct {}
-export const TableDisplayConfigStruct = S.suspend(() =>
-  S.Struct({}),
-).annotations({
+export const TableDisplayConfigStruct = S.suspend(() => S.Struct({})).annotate({
   identifier: "TableDisplayConfigStruct",
 }) as any as S.Schema<TableDisplayConfigStruct>;
 export type DisplayConfig =
   | { graph: { [key: string]: GraphDisplayConfig | undefined }; table?: never }
   | { graph?: never; table: TableDisplayConfigStruct };
-export const DisplayConfig = S.Union(
+export const DisplayConfig = S.Union([
   S.Struct({ graph: GraphDisplayConfigMap }),
   S.Struct({ table: TableDisplayConfigStruct }),
-);
+]);
 export interface WidgetConfig {
   queryParameters: QueryParameters;
   displayConfig: DisplayConfig;
 }
 export const WidgetConfig = S.suspend(() =>
   S.Struct({ queryParameters: QueryParameters, displayConfig: DisplayConfig }),
-).annotations({ identifier: "WidgetConfig" }) as any as S.Schema<WidgetConfig>;
+).annotate({ identifier: "WidgetConfig" }) as any as S.Schema<WidgetConfig>;
 export type WidgetConfigList = WidgetConfig[];
 export const WidgetConfigList = S.Array(WidgetConfig);
 export interface Widget {
+  id?: string;
   title: string;
   description?: string;
   width?: number;
@@ -514,6 +421,7 @@ export interface Widget {
 }
 export const Widget = S.suspend(() =>
   S.Struct({
+    id: S.optional(S.String),
     title: S.String,
     description: S.optional(S.String),
     width: S.optional(S.Number),
@@ -521,37 +429,74 @@ export const Widget = S.suspend(() =>
     horizontalOffset: S.optional(S.Number),
     configs: WidgetConfigList,
   }),
-).annotations({ identifier: "Widget" }) as any as S.Schema<Widget>;
+).annotate({ identifier: "Widget" }) as any as S.Schema<Widget>;
 export type WidgetList = Widget[];
 export const WidgetList = S.Array(Widget);
-export interface UpdateDashboardRequest {
-  arn: string;
-  name?: string;
-  description?: string;
-  widgets?: Widget[];
+export interface ResourceTag {
+  key: string;
+  value: string;
 }
-export const UpdateDashboardRequest = S.suspend(() =>
+export const ResourceTag = S.suspend(() =>
+  S.Struct({ key: S.String, value: S.String }),
+).annotate({ identifier: "ResourceTag" }) as any as S.Schema<ResourceTag>;
+export type ResourceTagList = ResourceTag[];
+export const ResourceTagList = S.Array(ResourceTag);
+export interface CreateDashboardRequest {
+  name: string;
+  description?: string;
+  widgets: Widget[];
+  resourceTags?: ResourceTag[];
+}
+export const CreateDashboardRequest = S.suspend(() =>
   S.Struct({
-    arn: S.String,
-    name: S.optional(S.String),
+    name: S.String,
     description: S.optional(S.String),
-    widgets: S.optional(WidgetList),
+    widgets: WidgetList,
+    resourceTags: S.optional(ResourceTagList),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotations({
-  identifier: "UpdateDashboardRequest",
-}) as any as S.Schema<UpdateDashboardRequest>;
-export type DashboardType = "CUSTOM" | (string & {});
-export const DashboardType = S.String;
+).annotate({
+  identifier: "CreateDashboardRequest",
+}) as any as S.Schema<CreateDashboardRequest>;
+export interface CreateDashboardResponse {
+  arn: string;
+}
+export const CreateDashboardResponse = S.suspend(() =>
+  S.Struct({ arn: S.String }),
+).annotate({
+  identifier: "CreateDashboardResponse",
+}) as any as S.Schema<CreateDashboardResponse>;
+export interface DeleteDashboardRequest {
+  arn: string;
+}
+export const DeleteDashboardRequest = S.suspend(() =>
+  S.Struct({ arn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "DeleteDashboardRequest",
+}) as any as S.Schema<DeleteDashboardRequest>;
 export interface DeleteDashboardResponse {
   arn: string;
 }
 export const DeleteDashboardResponse = S.suspend(() =>
   S.Struct({ arn: S.String }),
-).annotations({
+).annotate({
   identifier: "DeleteDashboardResponse",
 }) as any as S.Schema<DeleteDashboardResponse>;
+export interface GetDashboardRequest {
+  arn: string;
+}
+export const GetDashboardRequest = S.suspend(() =>
+  S.Struct({ arn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "GetDashboardRequest",
+}) as any as S.Schema<GetDashboardRequest>;
+export type DashboardType = "CUSTOM" | (string & {});
+export const DashboardType = S.String;
 export interface GetDashboardResponse {
   arn: string;
   name: string;
@@ -571,34 +516,42 @@ export const GetDashboardResponse = S.suspend(() =>
     createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
   }),
-).annotations({
+).annotate({
   identifier: "GetDashboardResponse",
 }) as any as S.Schema<GetDashboardResponse>;
+export interface GetResourcePolicyRequest {
+  resourceArn: string;
+}
+export const GetResourcePolicyRequest = S.suspend(() =>
+  S.Struct({ resourceArn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "GetResourcePolicyRequest",
+}) as any as S.Schema<GetResourcePolicyRequest>;
 export interface GetResourcePolicyResponse {
   resourceArn: string;
   policyDocument: string;
 }
 export const GetResourcePolicyResponse = S.suspend(() =>
   S.Struct({ resourceArn: S.String, policyDocument: S.String }),
-).annotations({
+).annotate({
   identifier: "GetResourcePolicyResponse",
 }) as any as S.Schema<GetResourcePolicyResponse>;
-export interface ListTagsForResourceResponse {
-  resourceTags?: ResourceTag[];
+export interface ListDashboardsRequest {
+  maxResults?: number;
+  nextToken?: string;
 }
-export const ListTagsForResourceResponse = S.suspend(() =>
-  S.Struct({ resourceTags: S.optional(ResourceTagList) }),
-).annotations({
-  identifier: "ListTagsForResourceResponse",
-}) as any as S.Schema<ListTagsForResourceResponse>;
-export interface UpdateDashboardResponse {
-  arn: string;
-}
-export const UpdateDashboardResponse = S.suspend(() =>
-  S.Struct({ arn: S.String }),
-).annotations({
-  identifier: "UpdateDashboardResponse",
-}) as any as S.Schema<UpdateDashboardResponse>;
+export const ListDashboardsRequest = S.suspend(() =>
+  S.Struct({
+    maxResults: S.optional(S.Number),
+    nextToken: S.optional(S.String),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "ListDashboardsRequest",
+}) as any as S.Schema<ListDashboardsRequest>;
 export interface DashboardReference {
   arn: string;
   name: string;
@@ -616,7 +569,7 @@ export const DashboardReference = S.suspend(() =>
     createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
   }),
-).annotations({
+).annotate({
   identifier: "DashboardReference",
 }) as any as S.Schema<DashboardReference>;
 export type DashboardReferenceList = DashboardReference[];
@@ -630,69 +583,138 @@ export const ListDashboardsResponse = S.suspend(() =>
     dashboards: DashboardReferenceList,
     nextToken: S.optional(S.String),
   }),
-).annotations({
+).annotate({
   identifier: "ListDashboardsResponse",
 }) as any as S.Schema<ListDashboardsResponse>;
-export type Expressions = Expression[];
-export const Expressions = S.Array(
-  S.suspend((): S.Schema<Expression, any> => Expression).annotations({
-    identifier: "Expression",
-  }),
-) as any as S.Schema<Expressions>;
-export interface CreateDashboardRequest {
-  name: string;
-  description?: string;
-  widgets: Widget[];
+export interface ListTagsForResourceRequest {
+  resourceArn: string;
+}
+export const ListTagsForResourceRequest = S.suspend(() =>
+  S.Struct({ resourceArn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "ListTagsForResourceRequest",
+}) as any as S.Schema<ListTagsForResourceRequest>;
+export interface ListTagsForResourceResponse {
   resourceTags?: ResourceTag[];
 }
-export const CreateDashboardRequest = S.suspend(() =>
+export const ListTagsForResourceResponse = S.suspend(() =>
+  S.Struct({ resourceTags: S.optional(ResourceTagList) }),
+).annotate({
+  identifier: "ListTagsForResourceResponse",
+}) as any as S.Schema<ListTagsForResourceResponse>;
+export interface TagResourceRequest {
+  resourceArn: string;
+  resourceTags: ResourceTag[];
+}
+export const TagResourceRequest = S.suspend(() =>
+  S.Struct({ resourceArn: S.String, resourceTags: ResourceTagList }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "TagResourceRequest",
+}) as any as S.Schema<TagResourceRequest>;
+export interface TagResourceResponse {}
+export const TagResourceResponse = S.suspend(() => S.Struct({})).annotate({
+  identifier: "TagResourceResponse",
+}) as any as S.Schema<TagResourceResponse>;
+export type ResourceTagKeyList = string[];
+export const ResourceTagKeyList = S.Array(S.String);
+export interface UntagResourceRequest {
+  resourceArn: string;
+  resourceTagKeys: string[];
+}
+export const UntagResourceRequest = S.suspend(() =>
+  S.Struct({ resourceArn: S.String, resourceTagKeys: ResourceTagKeyList }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "UntagResourceRequest",
+}) as any as S.Schema<UntagResourceRequest>;
+export interface UntagResourceResponse {}
+export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotate({
+  identifier: "UntagResourceResponse",
+}) as any as S.Schema<UntagResourceResponse>;
+export interface UpdateDashboardRequest {
+  arn: string;
+  name?: string;
+  description?: string;
+  widgets?: Widget[];
+}
+export const UpdateDashboardRequest = S.suspend(() =>
   S.Struct({
-    name: S.String,
+    arn: S.String,
+    name: S.optional(S.String),
     description: S.optional(S.String),
-    widgets: WidgetList,
-    resourceTags: S.optional(ResourceTagList),
+    widgets: S.optional(WidgetList),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotations({
-  identifier: "CreateDashboardRequest",
-}) as any as S.Schema<CreateDashboardRequest>;
-export interface CreateDashboardResponse {
+).annotate({
+  identifier: "UpdateDashboardRequest",
+}) as any as S.Schema<UpdateDashboardRequest>;
+export interface UpdateDashboardResponse {
   arn: string;
 }
-export const CreateDashboardResponse = S.suspend(() =>
+export const UpdateDashboardResponse = S.suspend(() =>
   S.Struct({ arn: S.String }),
-).annotations({
-  identifier: "CreateDashboardResponse",
-}) as any as S.Schema<CreateDashboardResponse>;
+).annotate({
+  identifier: "UpdateDashboardResponse",
+}) as any as S.Schema<UpdateDashboardResponse>;
 
 //# Errors
-export class InternalServerException extends S.TaggedError<InternalServerException>()(
-  "InternalServerException",
-  { message: S.String },
-).pipe(C.withServerError) {}
-export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
+export class AccessDeniedException extends S.TaggedErrorClass<AccessDeniedException>()(
   "AccessDeniedException",
   { message: S.String },
 ).pipe(C.withAuthError) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
-  "ResourceNotFoundException",
+export class InternalServerException extends S.TaggedErrorClass<InternalServerException>()(
+  "InternalServerException",
   { message: S.String },
-).pipe(C.withBadRequestError) {}
-export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
-  "ThrottlingException",
-  { message: S.String },
-).pipe(C.withThrottlingError) {}
-export class ValidationException extends S.TaggedError<ValidationException>()(
-  "ValidationException",
-  { message: S.String },
-).pipe(C.withBadRequestError) {}
-export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
+).pipe(C.withServerError) {}
+export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
   { message: S.String },
 ).pipe(C.withQuotaError) {}
+export class ThrottlingException extends S.TaggedErrorClass<ThrottlingException>()(
+  "ThrottlingException",
+  { message: S.String },
+).pipe(C.withThrottlingError) {}
+export class ValidationException extends S.TaggedErrorClass<ValidationException>()(
+  "ValidationException",
+  { message: S.String },
+).pipe(C.withBadRequestError) {}
+export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFoundException>()(
+  "ResourceNotFoundException",
+  { message: S.String },
+).pipe(C.withBadRequestError) {}
 
 //# Operations
+/**
+ * Creates a new dashboard that can contain multiple widgets displaying cost and usage data. You can add custom widgets or use predefined widgets, arranging them in your preferred layout.
+ */
+export const createDashboard: (
+  input: CreateDashboardRequest,
+) => effect.Effect<
+  CreateDashboardResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateDashboardRequest,
+  output: CreateDashboardResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Deletes a specified dashboard. This action cannot be undone.
  */
@@ -712,6 +734,56 @@ export const deleteDashboard: (
   errors: [
     AccessDeniedException,
     InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Retrieves the configuration and metadata of a specified dashboard, including its widgets and layout settings.
+ */
+export const getDashboard: (
+  input: GetDashboardRequest,
+) => effect.Effect<
+  GetDashboardResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetDashboardRequest,
+  output: GetDashboardResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Retrieves the resource-based policy attached to a dashboard, showing sharing configurations and permissions.
+ */
+export const getResourcePolicy: (
+  input: GetResourcePolicyRequest,
+) => effect.Effect<
+  GetResourcePolicyResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetResourcePolicyRequest,
+  output: GetResourcePolicyResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
   ],
@@ -770,6 +842,29 @@ export const listDashboards: {
   } as const,
 }));
 /**
+ * Returns a list of all tags associated with a specified dashboard resource.
+ */
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => effect.Effect<
+  ListTagsForResourceResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
  * Adds or updates tags for a specified dashboard resource.
  */
 export const tagResource: (
@@ -786,81 +881,6 @@ export const tagResource: (
   input: TagResourceRequest,
   output: TagResourceResponse,
   errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Retrieves the configuration and metadata of a specified dashboard, including its widgets and layout settings.
- */
-export const getDashboard: (
-  input: GetDashboardRequest,
-) => effect.Effect<
-  GetDashboardResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetDashboardRequest,
-  output: GetDashboardResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Retrieves the resource-based policy attached to a dashboard, showing sharing configurations and permissions.
- */
-export const getResourcePolicy: (
-  input: GetResourcePolicyRequest,
-) => effect.Effect<
-  GetResourcePolicyResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetResourcePolicyRequest,
-  output: GetResourcePolicyResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Updates an existing dashboard's properties, including its name, description, and widget configurations.
- */
-export const updateDashboard: (
-  input: UpdateDashboardRequest,
-) => effect.Effect<
-  UpdateDashboardResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateDashboardRequest,
-  output: UpdateDashboardResponse,
-  errors: [
-    AccessDeniedException,
     InternalServerException,
     ResourceNotFoundException,
     ThrottlingException,
@@ -891,12 +911,13 @@ export const untagResource: (
   ],
 }));
 /**
- * Returns a list of all tags associated with a specified dashboard resource.
+ * Updates an existing dashboard's properties, including its name, description, and widget configurations.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
+export const updateDashboard: (
+  input: UpdateDashboardRequest,
 ) => effect.Effect<
-  ListTagsForResourceResponse,
+  UpdateDashboardResponse,
+  | AccessDeniedException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
@@ -904,36 +925,12 @@ export const listTagsForResource: (
   | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Creates a new dashboard that can contain multiple widgets displaying cost and usage data. You can add custom widgets or use predefined widgets, arranging them in your preferred layout.
- */
-export const createDashboard: (
-  input: CreateDashboardRequest,
-) => effect.Effect<
-  CreateDashboardResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateDashboardRequest,
-  output: CreateDashboardResponse,
+  input: UpdateDashboardRequest,
+  output: UpdateDashboardResponse,
   errors: [
     AccessDeniedException,
     InternalServerException,
-    ServiceQuotaExceededException,
+    ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
   ],

@@ -1,30 +1,3 @@
-import * as Context from "effect/Context";
-import * as Data from "effect/Data";
-import * as Effect from "effect/Effect";
-import * as Layer from "effect/Layer";
-
-export * as AWSTypes from "@aws-sdk/types";
-
-export interface AwsCredentials {
-  readonly accessKeyId: string;
-  readonly secretAccessKey: string;
-  readonly sessionToken?: string;
-}
-
-// export const NodeProviderChainCredentialsLive = Layer.effect(
-//   Credentials,
-//   Effect.sync(() => {
-//     const provider = fromNodeProviderChain();
-//     return {
-//       getCredentials: () =>
-//         Effect.tryPromise({
-//           try: () => provider(),
-//           catch: () => new AwsCredentialProviderError(),
-//         }),
-//     };
-//   }),
-// );
-
 import {
   fromContainerMetadata as _fromContainerMetadata,
   fromEnv as _fromEnv,
@@ -34,21 +7,32 @@ import {
   fromProcess as _fromProcess,
   fromTokenFile as _fromTokenFile,
 } from "@aws-sdk/credential-providers";
-
-import { FileSystem, HttpClient } from "@effect/platform";
 import * as ini from "@smithy/shared-ini-file-loader";
 import {
   type AwsCredentialIdentity,
   type AwsCredentialIdentityProvider,
 } from "@smithy/types";
 import * as Console from "effect/Console";
+import * as Data from "effect/Data";
+import * as Effect from "effect/Effect";
+import * as FileSystem from "effect/FileSystem";
+import * as Layer from "effect/Layer";
 import * as Option from "effect/Option";
 import * as Redacted from "effect/Redacted";
+import * as ServiceMap from "effect/ServiceMap";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import { createHash } from "node:crypto";
 import * as path from "node:path";
 import { parseIni, parseSSOSessionData } from "./util/parse-ini.ts";
+export * as AWSTypes from "@aws-sdk/types";
 
-export class Credentials extends Context.Tag("AWS::Credentials")<
+export interface AwsCredentials {
+  readonly accessKeyId: string;
+  readonly secretAccessKey: string;
+  readonly sessionToken?: string;
+}
+
+export class Credentials extends ServiceMap.Service<
   Credentials,
   {
     accessKeyId: Redacted.Redacted<string>;
@@ -56,7 +40,7 @@ export class Credentials extends Context.Tag("AWS::Credentials")<
     sessionToken: Redacted.Redacted<string> | undefined;
     expiration?: number;
   }
->() {}
+>()("AWS::Credentials") {}
 
 export const mock = Layer.succeed(Credentials, {
   accessKeyId: Redacted.make("test"),
@@ -170,14 +154,12 @@ const EXPIRE_WINDOW_MS = 5 * 60 * 1000;
 
 const REFRESH_MESSAGE = `To refresh this SSO session run 'aws sso login' with the corresponding profile.`;
 
-export class SsoRegion extends Context.Tag("AWS::SsoRegion")<
-  SsoRegion,
-  string
->() {}
-export class SsoStartUrl extends Context.Tag("AWS::SsoStartUrl")<
-  SsoStartUrl,
-  string
->() {}
+export class SsoRegion extends ServiceMap.Service<SsoRegion, string>()(
+  "AWS::SsoRegion",
+) {}
+export class SsoStartUrl extends ServiceMap.Service<SsoStartUrl, string>()(
+  "AWS::SsoStartUrl",
+) {}
 
 export class ProfileNotFound extends Data.TaggedError(
   "Alchemy::AWS::ProfileNotFound",
@@ -319,7 +301,7 @@ export const loadSSOCredentials = Effect.fn(function* (profileName: string) {
 
     const cachedCreds = yield* fs.readFileString(cachedCredsFilePath).pipe(
       Effect.map((text) => JSON.parse(text)),
-      Effect.catchAll(() => Effect.void),
+      Effect.catch(() => Effect.void),
     );
 
     const isExpired = (expiry: number | string | undefined) => {
@@ -342,7 +324,7 @@ export const loadSSOCredentials = Effect.fn(function* (profileName: string) {
 
     const ssoToken = yield* fs.readFileString(ssoTokenFilepath).pipe(
       Effect.map((text) => JSON.parse(text) as SSOToken),
-      Effect.catchAll(() =>
+      Effect.catch(() =>
         Effect.fail(
           new InvalidSSOToken({
             message: `The SSO session token associated with profile=${profileName} was not found or is invalid. ${REFRESH_MESSAGE}`,

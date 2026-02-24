@@ -1,4 +1,4 @@
-import { HttpClient } from "@effect/platform";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as effect from "effect/Effect";
 import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
@@ -92,35 +92,35 @@ export type StatementId = string;
 export type StatementAction = string;
 export type StatementPrincipal = string;
 export type StatementCondition = string;
+export type PolicyToken = string;
+export type PolicyDocument = string;
+export type ErrorMessage = string;
 export type EntityName = string;
 export type HeaderSafeUniqueId = string;
 export type Description = string;
-export type IdMappingRoleArn = string;
-export type RoleArn = string;
-export type EntityNameOrIdMappingWorkflowArn = string;
-export type JobId = string;
-export type EntityNameOrIdNamespaceArn = string;
-export type ProviderServiceArn = string;
-export type NextToken = string;
-export type PolicyToken = string;
-export type PolicyDocument = string;
-export type TagKey = string;
 export type InputSourceARN = string;
 export type KMSArn = string;
 export type S3Path = string;
-export type TagValue = string;
-export type OptionalS3Path = string;
 export type AttributeName = string;
-export type UniqueId = string;
+export type ProviderServiceArn = string;
+export type IdMappingRoleArn = string;
+export type TagKey = string;
+export type TagValue = string;
 export type IdMappingWorkflowArn = string;
+export type RoleArn = string;
 export type IdNamespaceArn = string;
-export type MatchingWorkflowArn = string;
-export type ProviderServiceDisplayName = string;
-export type SchemaMappingArn = string;
-export type ErrorMessage = string;
+export type OptionalS3Path = string;
 export type CustomerProfilesDomainArn = string;
 export type CustomerProfilesObjectTypeArn = string;
+export type MatchingWorkflowArn = string;
+export type SchemaMappingArn = string;
+export type UniqueId = string;
+export type EntityNameOrIdMappingWorkflowArn = string;
+export type JobId = string;
+export type EntityNameOrIdNamespaceArn = string;
+export type ProviderServiceDisplayName = string;
 export type AwsAccountId = string;
+export type NextToken = string;
 
 //# Schemas
 export type StatementEffect = "Allow" | "Deny" | (string & {});
@@ -129,20 +129,6 @@ export type StatementActionList = string[];
 export const StatementActionList = S.Array(S.String);
 export type StatementPrincipalList = string[];
 export const StatementPrincipalList = S.Array(S.String);
-export type UniqueIdList = string[];
-export const UniqueIdList = S.Array(S.String);
-export type IdNamespaceType = "SOURCE" | "TARGET" | (string & {});
-export const IdNamespaceType = S.String;
-export type ProcessingType =
-  | "CONSISTENT"
-  | "EVENTUAL"
-  | "EVENTUAL_NO_LOOKUP"
-  | (string & {});
-export const ProcessingType = S.String;
-export type JobType = "BATCH" | "INCREMENTAL" | "DELETE_ONLY" | (string & {});
-export const JobType = S.String;
-export type TagKeyList = string[];
-export const TagKeyList = S.Array(S.String);
 export interface AddPolicyStatementInput {
   arn: string;
   statementId: string;
@@ -169,9 +155,21 @@ export const AddPolicyStatementInput = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "AddPolicyStatementInput",
 }) as any as S.Schema<AddPolicyStatementInput>;
+export interface AddPolicyStatementOutput {
+  arn: string;
+  token: string;
+  policy?: string;
+}
+export const AddPolicyStatementOutput = S.suspend(() =>
+  S.Struct({ arn: S.String, token: S.String, policy: S.optional(S.String) }),
+).annotate({
+  identifier: "AddPolicyStatementOutput",
+}) as any as S.Schema<AddPolicyStatementOutput>;
+export type UniqueIdList = string[];
+export const UniqueIdList = S.Array(S.String);
 export interface BatchDeleteUniqueIdInput {
   workflowName: string;
   inputSource?: string;
@@ -195,524 +193,57 @@ export const BatchDeleteUniqueIdInput = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "BatchDeleteUniqueIdInput",
 }) as any as S.Schema<BatchDeleteUniqueIdInput>;
-export interface DeleteIdMappingWorkflowInput {
-  workflowName: string;
+export type DeleteUniqueIdStatus = "COMPLETED" | "ACCEPTED" | (string & {});
+export const DeleteUniqueIdStatus = S.String;
+export type DeleteUniqueIdErrorType =
+  | "SERVICE_ERROR"
+  | "VALIDATION_ERROR"
+  | (string & {});
+export const DeleteUniqueIdErrorType = S.String;
+export interface DeleteUniqueIdError {
+  uniqueId: string;
+  errorType: DeleteUniqueIdErrorType;
 }
-export const DeleteIdMappingWorkflowInput = S.suspend(() =>
-  S.Struct({ workflowName: S.String.pipe(T.HttpLabel("workflowName")) }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/idmappingworkflows/{workflowName}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DeleteIdMappingWorkflowInput",
-}) as any as S.Schema<DeleteIdMappingWorkflowInput>;
-export interface DeleteIdNamespaceInput {
-  idNamespaceName: string;
+export const DeleteUniqueIdError = S.suspend(() =>
+  S.Struct({ uniqueId: S.String, errorType: DeleteUniqueIdErrorType }),
+).annotate({
+  identifier: "DeleteUniqueIdError",
+}) as any as S.Schema<DeleteUniqueIdError>;
+export type DeleteUniqueIdErrorsList = DeleteUniqueIdError[];
+export const DeleteUniqueIdErrorsList = S.Array(DeleteUniqueIdError);
+export interface DeletedUniqueId {
+  uniqueId: string;
 }
-export const DeleteIdNamespaceInput = S.suspend(() =>
+export const DeletedUniqueId = S.suspend(() =>
+  S.Struct({ uniqueId: S.String }),
+).annotate({
+  identifier: "DeletedUniqueId",
+}) as any as S.Schema<DeletedUniqueId>;
+export type DeletedUniqueIdList = DeletedUniqueId[];
+export const DeletedUniqueIdList = S.Array(DeletedUniqueId);
+export type DisconnectedUniqueIdsList = string[];
+export const DisconnectedUniqueIdsList = S.Array(S.String);
+export interface BatchDeleteUniqueIdOutput {
+  status: DeleteUniqueIdStatus;
+  errors: DeleteUniqueIdError[];
+  deleted: DeletedUniqueId[];
+  disconnectedUniqueIds: string[];
+}
+export const BatchDeleteUniqueIdOutput = S.suspend(() =>
   S.Struct({
-    idNamespaceName: S.String.pipe(T.HttpLabel("idNamespaceName")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/idnamespaces/{idNamespaceName}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DeleteIdNamespaceInput",
-}) as any as S.Schema<DeleteIdNamespaceInput>;
-export interface DeleteMatchingWorkflowInput {
-  workflowName: string;
-}
-export const DeleteMatchingWorkflowInput = S.suspend(() =>
-  S.Struct({ workflowName: S.String.pipe(T.HttpLabel("workflowName")) }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/matchingworkflows/{workflowName}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DeleteMatchingWorkflowInput",
-}) as any as S.Schema<DeleteMatchingWorkflowInput>;
-export interface DeletePolicyStatementInput {
-  arn: string;
-  statementId: string;
-}
-export const DeletePolicyStatementInput = S.suspend(() =>
-  S.Struct({
-    arn: S.String.pipe(T.HttpLabel("arn")),
-    statementId: S.String.pipe(T.HttpLabel("statementId")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/policies/{arn}/{statementId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DeletePolicyStatementInput",
-}) as any as S.Schema<DeletePolicyStatementInput>;
-export interface DeleteSchemaMappingInput {
-  schemaName: string;
-}
-export const DeleteSchemaMappingInput = S.suspend(() =>
-  S.Struct({ schemaName: S.String.pipe(T.HttpLabel("schemaName")) }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/schemas/{schemaName}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DeleteSchemaMappingInput",
-}) as any as S.Schema<DeleteSchemaMappingInput>;
-export interface GetIdMappingJobInput {
-  workflowName: string;
-  jobId: string;
-}
-export const GetIdMappingJobInput = S.suspend(() =>
-  S.Struct({
-    workflowName: S.String.pipe(T.HttpLabel("workflowName")),
-    jobId: S.String.pipe(T.HttpLabel("jobId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/idmappingworkflows/{workflowName}/jobs/{jobId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "GetIdMappingJobInput",
-}) as any as S.Schema<GetIdMappingJobInput>;
-export interface GetIdMappingWorkflowInput {
-  workflowName: string;
-}
-export const GetIdMappingWorkflowInput = S.suspend(() =>
-  S.Struct({ workflowName: S.String.pipe(T.HttpLabel("workflowName")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/idmappingworkflows/{workflowName}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "GetIdMappingWorkflowInput",
-}) as any as S.Schema<GetIdMappingWorkflowInput>;
-export interface GetIdNamespaceInput {
-  idNamespaceName: string;
-}
-export const GetIdNamespaceInput = S.suspend(() =>
-  S.Struct({
-    idNamespaceName: S.String.pipe(T.HttpLabel("idNamespaceName")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/idnamespaces/{idNamespaceName}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "GetIdNamespaceInput",
-}) as any as S.Schema<GetIdNamespaceInput>;
-export interface GetMatchingJobInput {
-  workflowName: string;
-  jobId: string;
-}
-export const GetMatchingJobInput = S.suspend(() =>
-  S.Struct({
-    workflowName: S.String.pipe(T.HttpLabel("workflowName")),
-    jobId: S.String.pipe(T.HttpLabel("jobId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/matchingworkflows/{workflowName}/jobs/{jobId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "GetMatchingJobInput",
-}) as any as S.Schema<GetMatchingJobInput>;
-export interface GetMatchingWorkflowInput {
-  workflowName: string;
-}
-export const GetMatchingWorkflowInput = S.suspend(() =>
-  S.Struct({ workflowName: S.String.pipe(T.HttpLabel("workflowName")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/matchingworkflows/{workflowName}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "GetMatchingWorkflowInput",
-}) as any as S.Schema<GetMatchingWorkflowInput>;
-export interface GetPolicyInput {
-  arn: string;
-}
-export const GetPolicyInput = S.suspend(() =>
-  S.Struct({ arn: S.String.pipe(T.HttpLabel("arn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/policies/{arn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "GetPolicyInput",
-}) as any as S.Schema<GetPolicyInput>;
-export interface GetProviderServiceInput {
-  providerName: string;
-  providerServiceName: string;
-}
-export const GetProviderServiceInput = S.suspend(() =>
-  S.Struct({
-    providerName: S.String.pipe(T.HttpLabel("providerName")),
-    providerServiceName: S.String.pipe(T.HttpLabel("providerServiceName")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/providerservices/{providerName}/{providerServiceName}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "GetProviderServiceInput",
-}) as any as S.Schema<GetProviderServiceInput>;
-export interface GetSchemaMappingInput {
-  schemaName: string;
-}
-export const GetSchemaMappingInput = S.suspend(() =>
-  S.Struct({ schemaName: S.String.pipe(T.HttpLabel("schemaName")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/schemas/{schemaName}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "GetSchemaMappingInput",
-}) as any as S.Schema<GetSchemaMappingInput>;
-export interface ListIdMappingJobsInput {
-  workflowName: string;
-  nextToken?: string;
-  maxResults?: number;
-}
-export const ListIdMappingJobsInput = S.suspend(() =>
-  S.Struct({
-    workflowName: S.String.pipe(T.HttpLabel("workflowName")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/idmappingworkflows/{workflowName}/jobs" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListIdMappingJobsInput",
-}) as any as S.Schema<ListIdMappingJobsInput>;
-export interface ListIdMappingWorkflowsInput {
-  nextToken?: string;
-  maxResults?: number;
-}
-export const ListIdMappingWorkflowsInput = S.suspend(() =>
-  S.Struct({
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/idmappingworkflows" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListIdMappingWorkflowsInput",
-}) as any as S.Schema<ListIdMappingWorkflowsInput>;
-export interface ListIdNamespacesInput {
-  nextToken?: string;
-  maxResults?: number;
-}
-export const ListIdNamespacesInput = S.suspend(() =>
-  S.Struct({
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/idnamespaces" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListIdNamespacesInput",
-}) as any as S.Schema<ListIdNamespacesInput>;
-export interface ListMatchingJobsInput {
-  workflowName: string;
-  nextToken?: string;
-  maxResults?: number;
-}
-export const ListMatchingJobsInput = S.suspend(() =>
-  S.Struct({
-    workflowName: S.String.pipe(T.HttpLabel("workflowName")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/matchingworkflows/{workflowName}/jobs" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListMatchingJobsInput",
-}) as any as S.Schema<ListMatchingJobsInput>;
-export interface ListMatchingWorkflowsInput {
-  nextToken?: string;
-  maxResults?: number;
-}
-export const ListMatchingWorkflowsInput = S.suspend(() =>
-  S.Struct({
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/matchingworkflows" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListMatchingWorkflowsInput",
-}) as any as S.Schema<ListMatchingWorkflowsInput>;
-export interface ListProviderServicesInput {
-  nextToken?: string;
-  maxResults?: number;
-  providerName?: string;
-}
-export const ListProviderServicesInput = S.suspend(() =>
-  S.Struct({
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    providerName: S.optional(S.String).pipe(T.HttpQuery("providerName")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/providerservices" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListProviderServicesInput",
-}) as any as S.Schema<ListProviderServicesInput>;
-export interface ListSchemaMappingsInput {
-  nextToken?: string;
-  maxResults?: number;
-}
-export const ListSchemaMappingsInput = S.suspend(() =>
-  S.Struct({
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/schemas" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListSchemaMappingsInput",
-}) as any as S.Schema<ListSchemaMappingsInput>;
-export interface ListTagsForResourceInput {
-  resourceArn: string;
-}
-export const ListTagsForResourceInput = S.suspend(() =>
-  S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListTagsForResourceInput",
-}) as any as S.Schema<ListTagsForResourceInput>;
-export interface PutPolicyInput {
-  arn: string;
-  token?: string;
-  policy: string;
-}
-export const PutPolicyInput = S.suspend(() =>
-  S.Struct({
-    arn: S.String.pipe(T.HttpLabel("arn")),
-    token: S.optional(S.String),
-    policy: S.String,
-  }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/policies/{arn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "PutPolicyInput",
-}) as any as S.Schema<PutPolicyInput>;
-export interface StartMatchingJobInput {
-  workflowName: string;
-}
-export const StartMatchingJobInput = S.suspend(() =>
-  S.Struct({ workflowName: S.String.pipe(T.HttpLabel("workflowName")) }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/matchingworkflows/{workflowName}/jobs" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "StartMatchingJobInput",
-}) as any as S.Schema<StartMatchingJobInput>;
-export type TagMap = { [key: string]: string | undefined };
-export const TagMap = S.Record({
-  key: S.String,
-  value: S.UndefinedOr(S.String),
-});
-export interface TagResourceInput {
-  resourceArn: string;
-  tags: { [key: string]: string | undefined };
-}
-export const TagResourceInput = S.suspend(() =>
-  S.Struct({
-    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-    tags: TagMap,
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "TagResourceInput",
-}) as any as S.Schema<TagResourceInput>;
-export interface TagResourceOutput {}
-export const TagResourceOutput = S.suspend(() => S.Struct({})).annotations({
-  identifier: "TagResourceOutput",
-}) as any as S.Schema<TagResourceOutput>;
-export interface UntagResourceInput {
-  resourceArn: string;
-  tagKeys: string[];
-}
-export const UntagResourceInput = S.suspend(() =>
-  S.Struct({
-    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-    tagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "UntagResourceInput",
-}) as any as S.Schema<UntagResourceInput>;
-export interface UntagResourceOutput {}
-export const UntagResourceOutput = S.suspend(() => S.Struct({})).annotations({
-  identifier: "UntagResourceOutput",
-}) as any as S.Schema<UntagResourceOutput>;
+    status: DeleteUniqueIdStatus,
+    errors: DeleteUniqueIdErrorsList,
+    deleted: DeletedUniqueIdList,
+    disconnectedUniqueIds: DisconnectedUniqueIdsList,
+  }),
+).annotate({
+  identifier: "BatchDeleteUniqueIdOutput",
+}) as any as S.Schema<BatchDeleteUniqueIdOutput>;
+export type IdNamespaceType = "SOURCE" | "TARGET" | (string & {});
+export const IdNamespaceType = S.String;
 export interface IdMappingWorkflowInputSource {
   inputSourceARN: string;
   schemaName?: string;
@@ -724,7 +255,7 @@ export const IdMappingWorkflowInputSource = S.suspend(() =>
     schemaName: S.optional(S.String),
     type: S.optional(IdNamespaceType),
   }),
-).annotations({
+).annotate({
   identifier: "IdMappingWorkflowInputSource",
 }) as any as S.Schema<IdMappingWorkflowInputSource>;
 export type IdMappingWorkflowInputSourceConfig = IdMappingWorkflowInputSource[];
@@ -737,7 +268,7 @@ export interface IdMappingWorkflowOutputSource {
 }
 export const IdMappingWorkflowOutputSource = S.suspend(() =>
   S.Struct({ KMSArn: S.optional(S.String), outputS3Path: S.String }),
-).annotations({
+).annotate({
   identifier: "IdMappingWorkflowOutputSource",
 }) as any as S.Schema<IdMappingWorkflowOutputSource>;
 export type IdMappingWorkflowOutputSourceConfig =
@@ -755,7 +286,7 @@ export interface Rule {
 }
 export const Rule = S.suspend(() =>
   S.Struct({ ruleName: S.String, matchingKeys: MatchingKeys }),
-).annotations({ identifier: "Rule" }) as any as S.Schema<Rule>;
+).annotate({ identifier: "Rule" }) as any as S.Schema<Rule>;
 export type RuleList = Rule[];
 export const RuleList = S.Array(Rule);
 export type IdMappingWorkflowRuleDefinitionType =
@@ -786,7 +317,7 @@ export const IdMappingRuleBasedProperties = S.suspend(() =>
     attributeMatchingModel: AttributeMatchingModel,
     recordMatchingModel: RecordMatchingModel,
   }),
-).annotations({
+).annotate({
   identifier: "IdMappingRuleBasedProperties",
 }) as any as S.Schema<IdMappingRuleBasedProperties>;
 export interface IntermediateSourceConfiguration {
@@ -794,7 +325,7 @@ export interface IntermediateSourceConfiguration {
 }
 export const IntermediateSourceConfiguration = S.suspend(() =>
   S.Struct({ intermediateS3Path: S.String }),
-).annotations({
+).annotate({
   identifier: "IntermediateSourceConfiguration",
 }) as any as S.Schema<IntermediateSourceConfiguration>;
 export interface ProviderProperties {
@@ -810,7 +341,7 @@ export const ProviderProperties = S.suspend(() =>
       IntermediateSourceConfiguration,
     ),
   }),
-).annotations({
+).annotate({
   identifier: "ProviderProperties",
 }) as any as S.Schema<ProviderProperties>;
 export interface IdMappingTechniques {
@@ -824,7 +355,7 @@ export const IdMappingTechniques = S.suspend(() =>
     ruleBasedProperties: S.optional(IdMappingRuleBasedProperties),
     providerProperties: S.optional(ProviderProperties),
   }),
-).annotations({
+).annotate({
   identifier: "IdMappingTechniques",
 }) as any as S.Schema<IdMappingTechniques>;
 export type IdMappingIncrementalRunType = "ON_DEMAND" | (string & {});
@@ -834,10 +365,12 @@ export interface IdMappingIncrementalRunConfig {
 }
 export const IdMappingIncrementalRunConfig = S.suspend(() =>
   S.Struct({ incrementalRunType: S.optional(IdMappingIncrementalRunType) }),
-).annotations({
+).annotate({
   identifier: "IdMappingIncrementalRunConfig",
 }) as any as S.Schema<IdMappingIncrementalRunConfig>;
-export interface UpdateIdMappingWorkflowInput {
+export type TagMap = { [key: string]: string | undefined };
+export const TagMap = S.Record(S.String, S.String.pipe(S.optional));
+export interface CreateIdMappingWorkflowInput {
   workflowName: string;
   description?: string;
   inputSourceConfig: IdMappingWorkflowInputSource[];
@@ -845,19 +378,21 @@ export interface UpdateIdMappingWorkflowInput {
   idMappingTechniques: IdMappingTechniques;
   incrementalRunConfig?: IdMappingIncrementalRunConfig;
   roleArn?: string;
+  tags?: { [key: string]: string | undefined };
 }
-export const UpdateIdMappingWorkflowInput = S.suspend(() =>
+export const CreateIdMappingWorkflowInput = S.suspend(() =>
   S.Struct({
-    workflowName: S.String.pipe(T.HttpLabel("workflowName")),
+    workflowName: S.String,
     description: S.optional(S.String),
     inputSourceConfig: IdMappingWorkflowInputSourceConfig,
     outputSourceConfig: S.optional(IdMappingWorkflowOutputSourceConfig),
     idMappingTechniques: IdMappingTechniques,
     incrementalRunConfig: S.optional(IdMappingIncrementalRunConfig),
     roleArn: S.optional(S.String),
+    tags: S.optional(TagMap),
   }).pipe(
     T.all(
-      T.Http({ method: "PUT", uri: "/idmappingworkflows/{workflowName}" }),
+      T.Http({ method: "POST", uri: "/idmappingworkflows" }),
       svc,
       auth,
       proto,
@@ -865,16 +400,40 @@ export const UpdateIdMappingWorkflowInput = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
-  identifier: "UpdateIdMappingWorkflowInput",
-}) as any as S.Schema<UpdateIdMappingWorkflowInput>;
+).annotate({
+  identifier: "CreateIdMappingWorkflowInput",
+}) as any as S.Schema<CreateIdMappingWorkflowInput>;
+export interface CreateIdMappingWorkflowOutput {
+  workflowName: string;
+  workflowArn: string;
+  description?: string;
+  inputSourceConfig: IdMappingWorkflowInputSource[];
+  outputSourceConfig?: IdMappingWorkflowOutputSource[];
+  idMappingTechniques: IdMappingTechniques;
+  incrementalRunConfig?: IdMappingIncrementalRunConfig;
+  roleArn?: string;
+}
+export const CreateIdMappingWorkflowOutput = S.suspend(() =>
+  S.Struct({
+    workflowName: S.String,
+    workflowArn: S.String,
+    description: S.optional(S.String),
+    inputSourceConfig: IdMappingWorkflowInputSourceConfig,
+    outputSourceConfig: S.optional(IdMappingWorkflowOutputSourceConfig),
+    idMappingTechniques: IdMappingTechniques,
+    incrementalRunConfig: S.optional(IdMappingIncrementalRunConfig),
+    roleArn: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "CreateIdMappingWorkflowOutput",
+}) as any as S.Schema<CreateIdMappingWorkflowOutput>;
 export interface IdNamespaceInputSource {
   inputSourceARN: string;
   schemaName?: string;
 }
 export const IdNamespaceInputSource = S.suspend(() =>
   S.Struct({ inputSourceARN: S.String, schemaName: S.optional(S.String) }),
-).annotations({
+).annotate({
   identifier: "IdNamespaceInputSource",
 }) as any as S.Schema<IdNamespaceInputSource>;
 export type IdNamespaceInputSourceConfig = IdNamespaceInputSource[];
@@ -899,7 +458,7 @@ export const NamespaceRuleBasedProperties = S.suspend(() =>
     attributeMatchingModel: S.optional(AttributeMatchingModel),
     recordMatchingModels: S.optional(RecordMatchingModelList),
   }),
-).annotations({
+).annotate({
   identifier: "NamespaceRuleBasedProperties",
 }) as any as S.Schema<NamespaceRuleBasedProperties>;
 export interface NamespaceProviderProperties {
@@ -911,7 +470,7 @@ export const NamespaceProviderProperties = S.suspend(() =>
     providerServiceArn: S.String,
     providerConfiguration: S.optional(S.Any),
   }),
-).annotations({
+).annotate({
   identifier: "NamespaceProviderProperties",
 }) as any as S.Schema<NamespaceProviderProperties>;
 export interface IdNamespaceIdMappingWorkflowProperties {
@@ -925,7 +484,7 @@ export const IdNamespaceIdMappingWorkflowProperties = S.suspend(() =>
     ruleBasedProperties: S.optional(NamespaceRuleBasedProperties),
     providerProperties: S.optional(NamespaceProviderProperties),
   }),
-).annotations({
+).annotate({
   identifier: "IdNamespaceIdMappingWorkflowProperties",
 }) as any as S.Schema<IdNamespaceIdMappingWorkflowProperties>;
 export type IdNamespaceIdMappingWorkflowPropertiesList =
@@ -933,25 +492,29 @@ export type IdNamespaceIdMappingWorkflowPropertiesList =
 export const IdNamespaceIdMappingWorkflowPropertiesList = S.Array(
   IdNamespaceIdMappingWorkflowProperties,
 );
-export interface UpdateIdNamespaceInput {
+export interface CreateIdNamespaceInput {
   idNamespaceName: string;
   description?: string;
   inputSourceConfig?: IdNamespaceInputSource[];
   idMappingWorkflowProperties?: IdNamespaceIdMappingWorkflowProperties[];
+  type: IdNamespaceType;
   roleArn?: string;
+  tags?: { [key: string]: string | undefined };
 }
-export const UpdateIdNamespaceInput = S.suspend(() =>
+export const CreateIdNamespaceInput = S.suspend(() =>
   S.Struct({
-    idNamespaceName: S.String.pipe(T.HttpLabel("idNamespaceName")),
+    idNamespaceName: S.String,
     description: S.optional(S.String),
     inputSourceConfig: S.optional(IdNamespaceInputSourceConfig),
     idMappingWorkflowProperties: S.optional(
       IdNamespaceIdMappingWorkflowPropertiesList,
     ),
+    type: IdNamespaceType,
     roleArn: S.optional(S.String),
+    tags: S.optional(TagMap),
   }).pipe(
     T.all(
-      T.Http({ method: "PUT", uri: "/idnamespaces/{idNamespaceName}" }),
+      T.Http({ method: "POST", uri: "/idnamespaces" }),
       svc,
       auth,
       proto,
@@ -959,9 +522,39 @@ export const UpdateIdNamespaceInput = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
-  identifier: "UpdateIdNamespaceInput",
-}) as any as S.Schema<UpdateIdNamespaceInput>;
+).annotate({
+  identifier: "CreateIdNamespaceInput",
+}) as any as S.Schema<CreateIdNamespaceInput>;
+export interface CreateIdNamespaceOutput {
+  idNamespaceName: string;
+  idNamespaceArn: string;
+  description?: string;
+  inputSourceConfig?: IdNamespaceInputSource[];
+  idMappingWorkflowProperties?: IdNamespaceIdMappingWorkflowProperties[];
+  type: IdNamespaceType;
+  roleArn?: string;
+  createdAt: Date;
+  updatedAt: Date;
+  tags?: { [key: string]: string | undefined };
+}
+export const CreateIdNamespaceOutput = S.suspend(() =>
+  S.Struct({
+    idNamespaceName: S.String,
+    idNamespaceArn: S.String,
+    description: S.optional(S.String),
+    inputSourceConfig: S.optional(IdNamespaceInputSourceConfig),
+    idMappingWorkflowProperties: S.optional(
+      IdNamespaceIdMappingWorkflowPropertiesList,
+    ),
+    type: IdNamespaceType,
+    roleArn: S.optional(S.String),
+    createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    tags: S.optional(TagMap),
+  }),
+).annotate({
+  identifier: "CreateIdNamespaceOutput",
+}) as any as S.Schema<CreateIdNamespaceOutput>;
 export interface InputSource {
   inputSourceARN: string;
   schemaName: string;
@@ -973,7 +566,7 @@ export const InputSource = S.suspend(() =>
     schemaName: S.String,
     applyNormalization: S.optional(S.Boolean),
   }),
-).annotations({ identifier: "InputSource" }) as any as S.Schema<InputSource>;
+).annotate({ identifier: "InputSource" }) as any as S.Schema<InputSource>;
 export type InputSourceConfig = InputSource[];
 export const InputSourceConfig = S.Array(InputSource);
 export interface OutputAttribute {
@@ -982,7 +575,7 @@ export interface OutputAttribute {
 }
 export const OutputAttribute = S.suspend(() =>
   S.Struct({ name: S.String, hashed: S.optional(S.Boolean) }),
-).annotations({
+).annotate({
   identifier: "OutputAttribute",
 }) as any as S.Schema<OutputAttribute>;
 export type OutputAttributes = OutputAttribute[];
@@ -993,7 +586,7 @@ export interface CustomerProfilesIntegrationConfig {
 }
 export const CustomerProfilesIntegrationConfig = S.suspend(() =>
   S.Struct({ domainArn: S.String, objectTypeArn: S.String }),
-).annotations({
+).annotate({
   identifier: "CustomerProfilesIntegrationConfig",
 }) as any as S.Schema<CustomerProfilesIntegrationConfig>;
 export interface OutputSource {
@@ -1013,7 +606,7 @@ export const OutputSource = S.suspend(() =>
       CustomerProfilesIntegrationConfig,
     ),
   }),
-).annotations({ identifier: "OutputSource" }) as any as S.Schema<OutputSource>;
+).annotate({ identifier: "OutputSource" }) as any as S.Schema<OutputSource>;
 export type OutputSourceConfig = OutputSource[];
 export const OutputSourceConfig = S.Array(OutputSource);
 export type ResolutionType =
@@ -1035,7 +628,7 @@ export const RuleBasedProperties = S.suspend(() =>
     attributeMatchingModel: AttributeMatchingModel,
     matchPurpose: S.optional(MatchPurpose),
   }),
-).annotations({
+).annotate({
   identifier: "RuleBasedProperties",
 }) as any as S.Schema<RuleBasedProperties>;
 export interface RuleCondition {
@@ -1044,9 +637,7 @@ export interface RuleCondition {
 }
 export const RuleCondition = S.suspend(() =>
   S.Struct({ ruleName: S.String, condition: S.String }),
-).annotations({
-  identifier: "RuleCondition",
-}) as any as S.Schema<RuleCondition>;
+).annotate({ identifier: "RuleCondition" }) as any as S.Schema<RuleCondition>;
 export type RuleConditionList = RuleCondition[];
 export const RuleConditionList = S.Array(RuleCondition);
 export interface RuleConditionProperties {
@@ -1054,7 +645,7 @@ export interface RuleConditionProperties {
 }
 export const RuleConditionProperties = S.suspend(() =>
   S.Struct({ rules: RuleConditionList }),
-).annotations({
+).annotate({
   identifier: "RuleConditionProperties",
 }) as any as S.Schema<RuleConditionProperties>;
 export interface ResolutionTechniques {
@@ -1070,7 +661,7 @@ export const ResolutionTechniques = S.suspend(() =>
     ruleConditionProperties: S.optional(RuleConditionProperties),
     providerProperties: S.optional(ProviderProperties),
   }),
-).annotations({
+).annotate({
   identifier: "ResolutionTechniques",
 }) as any as S.Schema<ResolutionTechniques>;
 export type IncrementalRunType = "IMMEDIATE" | (string & {});
@@ -1080,10 +671,10 @@ export interface IncrementalRunConfig {
 }
 export const IncrementalRunConfig = S.suspend(() =>
   S.Struct({ incrementalRunType: S.optional(IncrementalRunType) }),
-).annotations({
+).annotate({
   identifier: "IncrementalRunConfig",
 }) as any as S.Schema<IncrementalRunConfig>;
-export interface UpdateMatchingWorkflowInput {
+export interface CreateMatchingWorkflowInput {
   workflowName: string;
   description?: string;
   inputSourceConfig: InputSource[];
@@ -1091,19 +682,21 @@ export interface UpdateMatchingWorkflowInput {
   resolutionTechniques: ResolutionTechniques;
   incrementalRunConfig?: IncrementalRunConfig;
   roleArn: string;
+  tags?: { [key: string]: string | undefined };
 }
-export const UpdateMatchingWorkflowInput = S.suspend(() =>
+export const CreateMatchingWorkflowInput = S.suspend(() =>
   S.Struct({
-    workflowName: S.String.pipe(T.HttpLabel("workflowName")),
+    workflowName: S.String,
     description: S.optional(S.String),
     inputSourceConfig: InputSourceConfig,
     outputSourceConfig: OutputSourceConfig,
     resolutionTechniques: ResolutionTechniques,
     incrementalRunConfig: S.optional(IncrementalRunConfig),
     roleArn: S.String,
+    tags: S.optional(TagMap),
   }).pipe(
     T.all(
-      T.Http({ method: "PUT", uri: "/matchingworkflows/{workflowName}" }),
+      T.Http({ method: "POST", uri: "/matchingworkflows" }),
       svc,
       auth,
       proto,
@@ -1111,9 +704,33 @@ export const UpdateMatchingWorkflowInput = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
-  identifier: "UpdateMatchingWorkflowInput",
-}) as any as S.Schema<UpdateMatchingWorkflowInput>;
+).annotate({
+  identifier: "CreateMatchingWorkflowInput",
+}) as any as S.Schema<CreateMatchingWorkflowInput>;
+export interface CreateMatchingWorkflowOutput {
+  workflowName: string;
+  workflowArn: string;
+  description?: string;
+  inputSourceConfig: InputSource[];
+  outputSourceConfig: OutputSource[];
+  resolutionTechniques: ResolutionTechniques;
+  incrementalRunConfig?: IncrementalRunConfig;
+  roleArn: string;
+}
+export const CreateMatchingWorkflowOutput = S.suspend(() =>
+  S.Struct({
+    workflowName: S.String,
+    workflowArn: S.String,
+    description: S.optional(S.String),
+    inputSourceConfig: InputSourceConfig,
+    outputSourceConfig: OutputSourceConfig,
+    resolutionTechniques: ResolutionTechniques,
+    incrementalRunConfig: S.optional(IncrementalRunConfig),
+    roleArn: S.String,
+  }),
+).annotate({
+  identifier: "CreateMatchingWorkflowOutput",
+}) as any as S.Schema<CreateMatchingWorkflowOutput>;
 export type SchemaAttributeType =
   | "NAME"
   | "NAME_FIRST"
@@ -1157,78 +774,11 @@ export const SchemaInputAttribute = S.suspend(() =>
     subType: S.optional(S.String),
     hashed: S.optional(S.Boolean),
   }),
-).annotations({
+).annotate({
   identifier: "SchemaInputAttribute",
 }) as any as S.Schema<SchemaInputAttribute>;
 export type SchemaInputAttributes = SchemaInputAttribute[];
 export const SchemaInputAttributes = S.Array(SchemaInputAttribute);
-export interface UpdateSchemaMappingInput {
-  schemaName: string;
-  description?: string;
-  mappedInputFields: SchemaInputAttribute[];
-}
-export const UpdateSchemaMappingInput = S.suspend(() =>
-  S.Struct({
-    schemaName: S.String.pipe(T.HttpLabel("schemaName")),
-    description: S.optional(S.String),
-    mappedInputFields: SchemaInputAttributes,
-  }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/schemas/{schemaName}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "UpdateSchemaMappingInput",
-}) as any as S.Schema<UpdateSchemaMappingInput>;
-export type DeleteUniqueIdStatus = "COMPLETED" | "ACCEPTED" | (string & {});
-export const DeleteUniqueIdStatus = S.String;
-export type DisconnectedUniqueIdsList = string[];
-export const DisconnectedUniqueIdsList = S.Array(S.String);
-export type JobStatus =
-  | "RUNNING"
-  | "SUCCEEDED"
-  | "FAILED"
-  | "QUEUED"
-  | (string & {});
-export const JobStatus = S.String;
-export type RecordAttributeMap = { [key: string]: string | undefined };
-export const RecordAttributeMap = S.Record({
-  key: S.String,
-  value: S.UndefinedOr(S.String),
-});
-export type ServiceType = "ASSIGNMENT" | "ID_MAPPING" | (string & {});
-export const ServiceType = S.String;
-export interface IdMappingJobOutputSource {
-  roleArn: string;
-  outputS3Path: string;
-  KMSArn?: string;
-}
-export const IdMappingJobOutputSource = S.suspend(() =>
-  S.Struct({
-    roleArn: S.String,
-    outputS3Path: S.String,
-    KMSArn: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "IdMappingJobOutputSource",
-}) as any as S.Schema<IdMappingJobOutputSource>;
-export type IdMappingJobOutputSourceConfig = IdMappingJobOutputSource[];
-export const IdMappingJobOutputSourceConfig = S.Array(IdMappingJobOutputSource);
-export interface AddPolicyStatementOutput {
-  arn: string;
-  token: string;
-  policy?: string;
-}
-export const AddPolicyStatementOutput = S.suspend(() =>
-  S.Struct({ arn: S.String, token: S.String, policy: S.optional(S.String) }),
-).annotations({
-  identifier: "AddPolicyStatementOutput",
-}) as any as S.Schema<AddPolicyStatementOutput>;
 export interface CreateSchemaMappingInput {
   schemaName: string;
   description?: string;
@@ -1251,33 +801,123 @@ export const CreateSchemaMappingInput = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "CreateSchemaMappingInput",
 }) as any as S.Schema<CreateSchemaMappingInput>;
+export interface CreateSchemaMappingOutput {
+  schemaName: string;
+  schemaArn: string;
+  description: string;
+  mappedInputFields: SchemaInputAttribute[];
+}
+export const CreateSchemaMappingOutput = S.suspend(() =>
+  S.Struct({
+    schemaName: S.String,
+    schemaArn: S.String,
+    description: S.String,
+    mappedInputFields: SchemaInputAttributes,
+  }),
+).annotate({
+  identifier: "CreateSchemaMappingOutput",
+}) as any as S.Schema<CreateSchemaMappingOutput>;
+export interface DeleteIdMappingWorkflowInput {
+  workflowName: string;
+}
+export const DeleteIdMappingWorkflowInput = S.suspend(() =>
+  S.Struct({ workflowName: S.String.pipe(T.HttpLabel("workflowName")) }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/idmappingworkflows/{workflowName}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeleteIdMappingWorkflowInput",
+}) as any as S.Schema<DeleteIdMappingWorkflowInput>;
 export interface DeleteIdMappingWorkflowOutput {
   message: string;
 }
 export const DeleteIdMappingWorkflowOutput = S.suspend(() =>
   S.Struct({ message: S.String }),
-).annotations({
+).annotate({
   identifier: "DeleteIdMappingWorkflowOutput",
 }) as any as S.Schema<DeleteIdMappingWorkflowOutput>;
+export interface DeleteIdNamespaceInput {
+  idNamespaceName: string;
+}
+export const DeleteIdNamespaceInput = S.suspend(() =>
+  S.Struct({
+    idNamespaceName: S.String.pipe(T.HttpLabel("idNamespaceName")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/idnamespaces/{idNamespaceName}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeleteIdNamespaceInput",
+}) as any as S.Schema<DeleteIdNamespaceInput>;
 export interface DeleteIdNamespaceOutput {
   message: string;
 }
 export const DeleteIdNamespaceOutput = S.suspend(() =>
   S.Struct({ message: S.String }),
-).annotations({
+).annotate({
   identifier: "DeleteIdNamespaceOutput",
 }) as any as S.Schema<DeleteIdNamespaceOutput>;
+export interface DeleteMatchingWorkflowInput {
+  workflowName: string;
+}
+export const DeleteMatchingWorkflowInput = S.suspend(() =>
+  S.Struct({ workflowName: S.String.pipe(T.HttpLabel("workflowName")) }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/matchingworkflows/{workflowName}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeleteMatchingWorkflowInput",
+}) as any as S.Schema<DeleteMatchingWorkflowInput>;
 export interface DeleteMatchingWorkflowOutput {
   message: string;
 }
 export const DeleteMatchingWorkflowOutput = S.suspend(() =>
   S.Struct({ message: S.String }),
-).annotations({
+).annotate({
   identifier: "DeleteMatchingWorkflowOutput",
 }) as any as S.Schema<DeleteMatchingWorkflowOutput>;
+export interface DeletePolicyStatementInput {
+  arn: string;
+  statementId: string;
+}
+export const DeletePolicyStatementInput = S.suspend(() =>
+  S.Struct({
+    arn: S.String.pipe(T.HttpLabel("arn")),
+    statementId: S.String.pipe(T.HttpLabel("statementId")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/policies/{arn}/{statementId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeletePolicyStatementInput",
+}) as any as S.Schema<DeletePolicyStatementInput>;
 export interface DeletePolicyStatementOutput {
   arn: string;
   token: string;
@@ -1285,373 +925,39 @@ export interface DeletePolicyStatementOutput {
 }
 export const DeletePolicyStatementOutput = S.suspend(() =>
   S.Struct({ arn: S.String, token: S.String, policy: S.optional(S.String) }),
-).annotations({
+).annotate({
   identifier: "DeletePolicyStatementOutput",
 }) as any as S.Schema<DeletePolicyStatementOutput>;
+export interface DeleteSchemaMappingInput {
+  schemaName: string;
+}
+export const DeleteSchemaMappingInput = S.suspend(() =>
+  S.Struct({ schemaName: S.String.pipe(T.HttpLabel("schemaName")) }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/schemas/{schemaName}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeleteSchemaMappingInput",
+}) as any as S.Schema<DeleteSchemaMappingInput>;
 export interface DeleteSchemaMappingOutput {
   message: string;
 }
 export const DeleteSchemaMappingOutput = S.suspend(() =>
   S.Struct({ message: S.String }),
-).annotations({
+).annotate({
   identifier: "DeleteSchemaMappingOutput",
 }) as any as S.Schema<DeleteSchemaMappingOutput>;
-export interface GetIdMappingWorkflowOutput {
-  workflowName: string;
-  workflowArn: string;
-  description?: string;
-  inputSourceConfig: IdMappingWorkflowInputSource[];
-  outputSourceConfig?: IdMappingWorkflowOutputSource[];
-  idMappingTechniques: IdMappingTechniques;
-  createdAt: Date;
-  updatedAt: Date;
-  incrementalRunConfig?: IdMappingIncrementalRunConfig;
-  roleArn?: string;
-  tags?: { [key: string]: string | undefined };
-}
-export const GetIdMappingWorkflowOutput = S.suspend(() =>
-  S.Struct({
-    workflowName: S.String,
-    workflowArn: S.String,
-    description: S.optional(S.String),
-    inputSourceConfig: IdMappingWorkflowInputSourceConfig,
-    outputSourceConfig: S.optional(IdMappingWorkflowOutputSourceConfig),
-    idMappingTechniques: IdMappingTechniques,
-    createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    incrementalRunConfig: S.optional(IdMappingIncrementalRunConfig),
-    roleArn: S.optional(S.String),
-    tags: S.optional(TagMap),
-  }),
-).annotations({
-  identifier: "GetIdMappingWorkflowOutput",
-}) as any as S.Schema<GetIdMappingWorkflowOutput>;
-export interface GetIdNamespaceOutput {
-  idNamespaceName: string;
-  idNamespaceArn: string;
-  description?: string;
-  inputSourceConfig?: IdNamespaceInputSource[];
-  idMappingWorkflowProperties?: IdNamespaceIdMappingWorkflowProperties[];
-  type: IdNamespaceType;
-  roleArn?: string;
-  createdAt: Date;
-  updatedAt: Date;
-  tags?: { [key: string]: string | undefined };
-}
-export const GetIdNamespaceOutput = S.suspend(() =>
-  S.Struct({
-    idNamespaceName: S.String,
-    idNamespaceArn: S.String,
-    description: S.optional(S.String),
-    inputSourceConfig: S.optional(IdNamespaceInputSourceConfig),
-    idMappingWorkflowProperties: S.optional(
-      IdNamespaceIdMappingWorkflowPropertiesList,
-    ),
-    type: IdNamespaceType,
-    roleArn: S.optional(S.String),
-    createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    tags: S.optional(TagMap),
-  }),
-).annotations({
-  identifier: "GetIdNamespaceOutput",
-}) as any as S.Schema<GetIdNamespaceOutput>;
-export interface GetMatchIdInput {
-  workflowName: string;
-  record: { [key: string]: string | undefined };
-  applyNormalization?: boolean;
-}
-export const GetMatchIdInput = S.suspend(() =>
-  S.Struct({
-    workflowName: S.String.pipe(T.HttpLabel("workflowName")),
-    record: RecordAttributeMap,
-    applyNormalization: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/matchingworkflows/{workflowName}/matches",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "GetMatchIdInput",
-}) as any as S.Schema<GetMatchIdInput>;
-export interface GetMatchingWorkflowOutput {
-  workflowName: string;
-  workflowArn: string;
-  description?: string;
-  inputSourceConfig: InputSource[];
-  outputSourceConfig: OutputSource[];
-  resolutionTechniques: ResolutionTechniques;
-  createdAt: Date;
-  updatedAt: Date;
-  incrementalRunConfig?: IncrementalRunConfig;
-  roleArn: string;
-  tags?: { [key: string]: string | undefined };
-}
-export const GetMatchingWorkflowOutput = S.suspend(() =>
-  S.Struct({
-    workflowName: S.String,
-    workflowArn: S.String,
-    description: S.optional(S.String),
-    inputSourceConfig: InputSourceConfig,
-    outputSourceConfig: OutputSourceConfig,
-    resolutionTechniques: ResolutionTechniques,
-    createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    incrementalRunConfig: S.optional(IncrementalRunConfig),
-    roleArn: S.String,
-    tags: S.optional(TagMap),
-  }),
-).annotations({
-  identifier: "GetMatchingWorkflowOutput",
-}) as any as S.Schema<GetMatchingWorkflowOutput>;
-export interface GetPolicyOutput {
-  arn: string;
-  token: string;
-  policy?: string;
-}
-export const GetPolicyOutput = S.suspend(() =>
-  S.Struct({ arn: S.String, token: S.String, policy: S.optional(S.String) }),
-).annotations({
-  identifier: "GetPolicyOutput",
-}) as any as S.Schema<GetPolicyOutput>;
-export interface GetSchemaMappingOutput {
-  schemaName: string;
-  schemaArn: string;
-  description?: string;
-  mappedInputFields: SchemaInputAttribute[];
-  createdAt: Date;
-  updatedAt: Date;
-  tags?: { [key: string]: string | undefined };
-  hasWorkflows: boolean;
-}
-export const GetSchemaMappingOutput = S.suspend(() =>
-  S.Struct({
-    schemaName: S.String,
-    schemaArn: S.String,
-    description: S.optional(S.String),
-    mappedInputFields: SchemaInputAttributes,
-    createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    tags: S.optional(TagMap),
-    hasWorkflows: S.Boolean,
-  }),
-).annotations({
-  identifier: "GetSchemaMappingOutput",
-}) as any as S.Schema<GetSchemaMappingOutput>;
-export interface JobSummary {
-  jobId: string;
-  status: JobStatus;
-  startTime: Date;
-  endTime?: Date;
-}
-export const JobSummary = S.suspend(() =>
-  S.Struct({
-    jobId: S.String,
-    status: JobStatus,
-    startTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }),
-).annotations({ identifier: "JobSummary" }) as any as S.Schema<JobSummary>;
-export type JobList = JobSummary[];
-export const JobList = S.Array(JobSummary);
-export interface ListMatchingJobsOutput {
-  jobs?: JobSummary[];
-  nextToken?: string;
-}
-export const ListMatchingJobsOutput = S.suspend(() =>
-  S.Struct({ jobs: S.optional(JobList), nextToken: S.optional(S.String) }),
-).annotations({
-  identifier: "ListMatchingJobsOutput",
-}) as any as S.Schema<ListMatchingJobsOutput>;
-export interface ListTagsForResourceOutput {
-  tags: { [key: string]: string | undefined };
-}
-export const ListTagsForResourceOutput = S.suspend(() =>
-  S.Struct({ tags: TagMap }),
-).annotations({
-  identifier: "ListTagsForResourceOutput",
-}) as any as S.Schema<ListTagsForResourceOutput>;
-export interface PutPolicyOutput {
-  arn: string;
-  token: string;
-  policy?: string;
-}
-export const PutPolicyOutput = S.suspend(() =>
-  S.Struct({ arn: S.String, token: S.String, policy: S.optional(S.String) }),
-).annotations({
-  identifier: "PutPolicyOutput",
-}) as any as S.Schema<PutPolicyOutput>;
-export interface StartIdMappingJobInput {
-  workflowName: string;
-  outputSourceConfig?: IdMappingJobOutputSource[];
-  jobType?: JobType;
-}
-export const StartIdMappingJobInput = S.suspend(() =>
-  S.Struct({
-    workflowName: S.String.pipe(T.HttpLabel("workflowName")),
-    outputSourceConfig: S.optional(IdMappingJobOutputSourceConfig),
-    jobType: S.optional(JobType),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/idmappingworkflows/{workflowName}/jobs",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "StartIdMappingJobInput",
-}) as any as S.Schema<StartIdMappingJobInput>;
-export interface StartMatchingJobOutput {
-  jobId: string;
-}
-export const StartMatchingJobOutput = S.suspend(() =>
-  S.Struct({ jobId: S.String }),
-).annotations({
-  identifier: "StartMatchingJobOutput",
-}) as any as S.Schema<StartMatchingJobOutput>;
-export interface UpdateIdMappingWorkflowOutput {
-  workflowName: string;
-  workflowArn: string;
-  description?: string;
-  inputSourceConfig: IdMappingWorkflowInputSource[];
-  outputSourceConfig?: IdMappingWorkflowOutputSource[];
-  idMappingTechniques: IdMappingTechniques;
-  incrementalRunConfig?: IdMappingIncrementalRunConfig;
-  roleArn?: string;
-}
-export const UpdateIdMappingWorkflowOutput = S.suspend(() =>
-  S.Struct({
-    workflowName: S.String,
-    workflowArn: S.String,
-    description: S.optional(S.String),
-    inputSourceConfig: IdMappingWorkflowInputSourceConfig,
-    outputSourceConfig: S.optional(IdMappingWorkflowOutputSourceConfig),
-    idMappingTechniques: IdMappingTechniques,
-    incrementalRunConfig: S.optional(IdMappingIncrementalRunConfig),
-    roleArn: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "UpdateIdMappingWorkflowOutput",
-}) as any as S.Schema<UpdateIdMappingWorkflowOutput>;
-export interface UpdateIdNamespaceOutput {
-  idNamespaceName: string;
-  idNamespaceArn: string;
-  description?: string;
-  inputSourceConfig?: IdNamespaceInputSource[];
-  idMappingWorkflowProperties?: IdNamespaceIdMappingWorkflowProperties[];
-  type: IdNamespaceType;
-  roleArn?: string;
-  createdAt: Date;
-  updatedAt: Date;
-}
-export const UpdateIdNamespaceOutput = S.suspend(() =>
-  S.Struct({
-    idNamespaceName: S.String,
-    idNamespaceArn: S.String,
-    description: S.optional(S.String),
-    inputSourceConfig: S.optional(IdNamespaceInputSourceConfig),
-    idMappingWorkflowProperties: S.optional(
-      IdNamespaceIdMappingWorkflowPropertiesList,
-    ),
-    type: IdNamespaceType,
-    roleArn: S.optional(S.String),
-    createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  }),
-).annotations({
-  identifier: "UpdateIdNamespaceOutput",
-}) as any as S.Schema<UpdateIdNamespaceOutput>;
-export interface UpdateMatchingWorkflowOutput {
-  workflowName: string;
-  description?: string;
-  inputSourceConfig: InputSource[];
-  outputSourceConfig: OutputSource[];
-  resolutionTechniques: ResolutionTechniques;
-  incrementalRunConfig?: IncrementalRunConfig;
-  roleArn: string;
-}
-export const UpdateMatchingWorkflowOutput = S.suspend(() =>
-  S.Struct({
-    workflowName: S.String,
-    description: S.optional(S.String),
-    inputSourceConfig: InputSourceConfig,
-    outputSourceConfig: OutputSourceConfig,
-    resolutionTechniques: ResolutionTechniques,
-    incrementalRunConfig: S.optional(IncrementalRunConfig),
-    roleArn: S.String,
-  }),
-).annotations({
-  identifier: "UpdateMatchingWorkflowOutput",
-}) as any as S.Schema<UpdateMatchingWorkflowOutput>;
-export interface UpdateSchemaMappingOutput {
-  schemaName: string;
-  schemaArn: string;
-  description?: string;
-  mappedInputFields: SchemaInputAttribute[];
-}
-export const UpdateSchemaMappingOutput = S.suspend(() =>
-  S.Struct({
-    schemaName: S.String,
-    schemaArn: S.String,
-    description: S.optional(S.String),
-    mappedInputFields: SchemaInputAttributes,
-  }),
-).annotations({
-  identifier: "UpdateSchemaMappingOutput",
-}) as any as S.Schema<UpdateSchemaMappingOutput>;
-export type DeleteUniqueIdErrorType =
-  | "SERVICE_ERROR"
-  | "VALIDATION_ERROR"
-  | (string & {});
-export const DeleteUniqueIdErrorType = S.String;
 export type RecordAttributeMapString255 = { [key: string]: string | undefined };
-export const RecordAttributeMapString255 = S.Record({
-  key: S.String,
-  value: S.UndefinedOr(S.String),
-});
-export type AwsAccountIdList = string[];
-export const AwsAccountIdList = S.Array(S.String);
-export type RequiredBucketActionsList = string[];
-export const RequiredBucketActionsList = S.Array(S.String);
-export type SchemaList = string[];
-export const SchemaList = S.Array(S.String);
-export type Schemas = string[][];
-export const Schemas = S.Array(SchemaList);
-export interface DeleteUniqueIdError {
-  uniqueId: string;
-  errorType: DeleteUniqueIdErrorType;
-}
-export const DeleteUniqueIdError = S.suspend(() =>
-  S.Struct({ uniqueId: S.String, errorType: DeleteUniqueIdErrorType }),
-).annotations({
-  identifier: "DeleteUniqueIdError",
-}) as any as S.Schema<DeleteUniqueIdError>;
-export type DeleteUniqueIdErrorsList = DeleteUniqueIdError[];
-export const DeleteUniqueIdErrorsList = S.Array(DeleteUniqueIdError);
-export interface DeletedUniqueId {
-  uniqueId: string;
-}
-export const DeletedUniqueId = S.suspend(() =>
-  S.Struct({ uniqueId: S.String }),
-).annotations({
-  identifier: "DeletedUniqueId",
-}) as any as S.Schema<DeletedUniqueId>;
-export type DeletedUniqueIdList = DeletedUniqueId[];
-export const DeletedUniqueIdList = S.Array(DeletedUniqueId);
+export const RecordAttributeMapString255 = S.Record(
+  S.String,
+  S.String.pipe(S.optional),
+);
 export interface Record {
   inputSourceARN: string;
   uniqueId: string;
@@ -1663,9 +969,118 @@ export const Record = S.suspend(() =>
     uniqueId: S.String,
     recordAttributeMap: RecordAttributeMapString255,
   }),
-).annotations({ identifier: "Record" }) as any as S.Schema<Record>;
+).annotate({ identifier: "Record" }) as any as S.Schema<Record>;
 export type RecordList = Record[];
 export const RecordList = S.Array(Record);
+export type ProcessingType =
+  | "CONSISTENT"
+  | "EVENTUAL"
+  | "EVENTUAL_NO_LOOKUP"
+  | (string & {});
+export const ProcessingType = S.String;
+export interface GenerateMatchIdInput {
+  workflowName: string;
+  records: Record[];
+  processingType?: ProcessingType;
+}
+export const GenerateMatchIdInput = S.suspend(() =>
+  S.Struct({
+    workflowName: S.String.pipe(T.HttpLabel("workflowName")),
+    records: RecordList,
+    processingType: S.optional(ProcessingType),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/matchingworkflows/{workflowName}/generateMatches",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GenerateMatchIdInput",
+}) as any as S.Schema<GenerateMatchIdInput>;
+export interface MatchedRecord {
+  inputSourceARN: string;
+  recordId: string;
+}
+export const MatchedRecord = S.suspend(() =>
+  S.Struct({ inputSourceARN: S.String, recordId: S.String }),
+).annotate({ identifier: "MatchedRecord" }) as any as S.Schema<MatchedRecord>;
+export type MatchedRecordsList = MatchedRecord[];
+export const MatchedRecordsList = S.Array(MatchedRecord);
+export interface MatchGroup {
+  records: MatchedRecord[];
+  matchId: string;
+  matchRule: string;
+}
+export const MatchGroup = S.suspend(() =>
+  S.Struct({
+    records: MatchedRecordsList,
+    matchId: S.String,
+    matchRule: S.String,
+  }),
+).annotate({ identifier: "MatchGroup" }) as any as S.Schema<MatchGroup>;
+export type MatchGroupsList = MatchGroup[];
+export const MatchGroupsList = S.Array(MatchGroup);
+export interface FailedRecord {
+  inputSourceARN: string;
+  uniqueId: string;
+  errorMessage: string;
+}
+export const FailedRecord = S.suspend(() =>
+  S.Struct({
+    inputSourceARN: S.String,
+    uniqueId: S.String,
+    errorMessage: S.String,
+  }),
+).annotate({ identifier: "FailedRecord" }) as any as S.Schema<FailedRecord>;
+export type FailedRecordsList = FailedRecord[];
+export const FailedRecordsList = S.Array(FailedRecord);
+export interface GenerateMatchIdOutput {
+  matchGroups: MatchGroup[];
+  failedRecords: FailedRecord[];
+}
+export const GenerateMatchIdOutput = S.suspend(() =>
+  S.Struct({ matchGroups: MatchGroupsList, failedRecords: FailedRecordsList }),
+).annotate({
+  identifier: "GenerateMatchIdOutput",
+}) as any as S.Schema<GenerateMatchIdOutput>;
+export interface GetIdMappingJobInput {
+  workflowName: string;
+  jobId: string;
+}
+export const GetIdMappingJobInput = S.suspend(() =>
+  S.Struct({
+    workflowName: S.String.pipe(T.HttpLabel("workflowName")),
+    jobId: S.String.pipe(T.HttpLabel("jobId")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/idmappingworkflows/{workflowName}/jobs/{jobId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetIdMappingJobInput",
+}) as any as S.Schema<GetIdMappingJobInput>;
+export type JobStatus =
+  | "RUNNING"
+  | "SUCCEEDED"
+  | "FAILED"
+  | "QUEUED"
+  | (string & {});
+export const JobStatus = S.String;
 export interface IdMappingJobMetrics {
   inputRecords?: number;
   totalRecordsProcessed?: number;
@@ -1701,7 +1116,7 @@ export const IdMappingJobMetrics = S.suspend(() =>
     mappedSourceRecordsRemoved: S.optional(S.Number),
     mappedTargetRecordsRemoved: S.optional(S.Number),
   }),
-).annotations({
+).annotate({
   identifier: "IdMappingJobMetrics",
 }) as any as S.Schema<IdMappingJobMetrics>;
 export interface ErrorDetails {
@@ -1709,234 +1124,25 @@ export interface ErrorDetails {
 }
 export const ErrorDetails = S.suspend(() =>
   S.Struct({ errorMessage: S.optional(S.String) }),
-).annotations({ identifier: "ErrorDetails" }) as any as S.Schema<ErrorDetails>;
-export interface JobMetrics {
-  inputRecords?: number;
-  totalRecordsProcessed?: number;
-  recordsNotProcessed?: number;
-  deleteRecordsProcessed?: number;
-  matchIDs?: number;
-}
-export const JobMetrics = S.suspend(() =>
-  S.Struct({
-    inputRecords: S.optional(S.Number),
-    totalRecordsProcessed: S.optional(S.Number),
-    recordsNotProcessed: S.optional(S.Number),
-    deleteRecordsProcessed: S.optional(S.Number),
-    matchIDs: S.optional(S.Number),
-  }),
-).annotations({ identifier: "JobMetrics" }) as any as S.Schema<JobMetrics>;
-export interface JobOutputSource {
+).annotate({ identifier: "ErrorDetails" }) as any as S.Schema<ErrorDetails>;
+export interface IdMappingJobOutputSource {
   roleArn: string;
   outputS3Path: string;
   KMSArn?: string;
 }
-export const JobOutputSource = S.suspend(() =>
+export const IdMappingJobOutputSource = S.suspend(() =>
   S.Struct({
     roleArn: S.String,
     outputS3Path: S.String,
     KMSArn: S.optional(S.String),
   }),
-).annotations({
-  identifier: "JobOutputSource",
-}) as any as S.Schema<JobOutputSource>;
-export type JobOutputSourceConfig = JobOutputSource[];
-export const JobOutputSourceConfig = S.Array(JobOutputSource);
-export interface ProviderIdNameSpaceConfiguration {
-  description?: string;
-  providerTargetConfigurationDefinition?: any;
-  providerSourceConfigurationDefinition?: any;
-}
-export const ProviderIdNameSpaceConfiguration = S.suspend(() =>
-  S.Struct({
-    description: S.optional(S.String),
-    providerTargetConfigurationDefinition: S.optional(S.Any),
-    providerSourceConfigurationDefinition: S.optional(S.Any),
-  }),
-).annotations({
-  identifier: "ProviderIdNameSpaceConfiguration",
-}) as any as S.Schema<ProviderIdNameSpaceConfiguration>;
-export interface ProviderIntermediateDataAccessConfiguration {
-  awsAccountIds?: string[];
-  requiredBucketActions?: string[];
-}
-export const ProviderIntermediateDataAccessConfiguration = S.suspend(() =>
-  S.Struct({
-    awsAccountIds: S.optional(AwsAccountIdList),
-    requiredBucketActions: S.optional(RequiredBucketActionsList),
-  }),
-).annotations({
-  identifier: "ProviderIntermediateDataAccessConfiguration",
-}) as any as S.Schema<ProviderIntermediateDataAccessConfiguration>;
-export interface IdMappingWorkflowSummary {
-  workflowName: string;
-  workflowArn: string;
-  createdAt: Date;
-  updatedAt: Date;
-}
-export const IdMappingWorkflowSummary = S.suspend(() =>
-  S.Struct({
-    workflowName: S.String,
-    workflowArn: S.String,
-    createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  }),
-).annotations({
-  identifier: "IdMappingWorkflowSummary",
-}) as any as S.Schema<IdMappingWorkflowSummary>;
-export type IdMappingWorkflowList = IdMappingWorkflowSummary[];
-export const IdMappingWorkflowList = S.Array(IdMappingWorkflowSummary);
-export interface MatchingWorkflowSummary {
-  workflowName: string;
-  workflowArn: string;
-  createdAt: Date;
-  updatedAt: Date;
-  resolutionType: ResolutionType;
-}
-export const MatchingWorkflowSummary = S.suspend(() =>
-  S.Struct({
-    workflowName: S.String,
-    workflowArn: S.String,
-    createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    resolutionType: ResolutionType,
-  }),
-).annotations({
-  identifier: "MatchingWorkflowSummary",
-}) as any as S.Schema<MatchingWorkflowSummary>;
-export type MatchingWorkflowList = MatchingWorkflowSummary[];
-export const MatchingWorkflowList = S.Array(MatchingWorkflowSummary);
-export interface ProviderServiceSummary {
-  providerServiceArn: string;
-  providerName: string;
-  providerServiceDisplayName: string;
-  providerServiceName: string;
-  providerServiceType: ServiceType;
-}
-export const ProviderServiceSummary = S.suspend(() =>
-  S.Struct({
-    providerServiceArn: S.String,
-    providerName: S.String,
-    providerServiceDisplayName: S.String,
-    providerServiceName: S.String,
-    providerServiceType: ServiceType,
-  }),
-).annotations({
-  identifier: "ProviderServiceSummary",
-}) as any as S.Schema<ProviderServiceSummary>;
-export type ProviderServiceList = ProviderServiceSummary[];
-export const ProviderServiceList = S.Array(ProviderServiceSummary);
-export interface SchemaMappingSummary {
-  schemaName: string;
-  schemaArn: string;
-  createdAt: Date;
-  updatedAt: Date;
-  hasWorkflows: boolean;
-}
-export const SchemaMappingSummary = S.suspend(() =>
-  S.Struct({
-    schemaName: S.String,
-    schemaArn: S.String,
-    createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    hasWorkflows: S.Boolean,
-  }),
-).annotations({
-  identifier: "SchemaMappingSummary",
-}) as any as S.Schema<SchemaMappingSummary>;
-export type SchemaMappingList = SchemaMappingSummary[];
-export const SchemaMappingList = S.Array(SchemaMappingSummary);
-export interface BatchDeleteUniqueIdOutput {
-  status: DeleteUniqueIdStatus;
-  errors: DeleteUniqueIdError[];
-  deleted: DeletedUniqueId[];
-  disconnectedUniqueIds: string[];
-}
-export const BatchDeleteUniqueIdOutput = S.suspend(() =>
-  S.Struct({
-    status: DeleteUniqueIdStatus,
-    errors: DeleteUniqueIdErrorsList,
-    deleted: DeletedUniqueIdList,
-    disconnectedUniqueIds: DisconnectedUniqueIdsList,
-  }),
-).annotations({
-  identifier: "BatchDeleteUniqueIdOutput",
-}) as any as S.Schema<BatchDeleteUniqueIdOutput>;
-export interface CreateIdNamespaceInput {
-  idNamespaceName: string;
-  description?: string;
-  inputSourceConfig?: IdNamespaceInputSource[];
-  idMappingWorkflowProperties?: IdNamespaceIdMappingWorkflowProperties[];
-  type: IdNamespaceType;
-  roleArn?: string;
-  tags?: { [key: string]: string | undefined };
-}
-export const CreateIdNamespaceInput = S.suspend(() =>
-  S.Struct({
-    idNamespaceName: S.String,
-    description: S.optional(S.String),
-    inputSourceConfig: S.optional(IdNamespaceInputSourceConfig),
-    idMappingWorkflowProperties: S.optional(
-      IdNamespaceIdMappingWorkflowPropertiesList,
-    ),
-    type: IdNamespaceType,
-    roleArn: S.optional(S.String),
-    tags: S.optional(TagMap),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/idnamespaces" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "CreateIdNamespaceInput",
-}) as any as S.Schema<CreateIdNamespaceInput>;
-export interface CreateSchemaMappingOutput {
-  schemaName: string;
-  schemaArn: string;
-  description: string;
-  mappedInputFields: SchemaInputAttribute[];
-}
-export const CreateSchemaMappingOutput = S.suspend(() =>
-  S.Struct({
-    schemaName: S.String,
-    schemaArn: S.String,
-    description: S.String,
-    mappedInputFields: SchemaInputAttributes,
-  }),
-).annotations({
-  identifier: "CreateSchemaMappingOutput",
-}) as any as S.Schema<CreateSchemaMappingOutput>;
-export interface GenerateMatchIdInput {
-  workflowName: string;
-  records: Record[];
-  processingType?: ProcessingType;
-}
-export const GenerateMatchIdInput = S.suspend(() =>
-  S.Struct({
-    workflowName: S.String.pipe(T.HttpLabel("workflowName")),
-    records: RecordList,
-    processingType: S.optional(ProcessingType),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/matchingworkflows/{workflowName}/generateMatches",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "GenerateMatchIdInput",
-}) as any as S.Schema<GenerateMatchIdInput>;
+).annotate({
+  identifier: "IdMappingJobOutputSource",
+}) as any as S.Schema<IdMappingJobOutputSource>;
+export type IdMappingJobOutputSourceConfig = IdMappingJobOutputSource[];
+export const IdMappingJobOutputSourceConfig = S.Array(IdMappingJobOutputSource);
+export type JobType = "BATCH" | "INCREMENTAL" | "DELETE_ONLY" | (string & {});
+export const JobType = S.String;
 export interface GetIdMappingJobOutput {
   jobId: string;
   status: JobStatus;
@@ -1958,18 +1164,198 @@ export const GetIdMappingJobOutput = S.suspend(() =>
     outputSourceConfig: S.optional(IdMappingJobOutputSourceConfig),
     jobType: S.optional(JobType),
   }),
-).annotations({
+).annotate({
   identifier: "GetIdMappingJobOutput",
 }) as any as S.Schema<GetIdMappingJobOutput>;
+export interface GetIdMappingWorkflowInput {
+  workflowName: string;
+}
+export const GetIdMappingWorkflowInput = S.suspend(() =>
+  S.Struct({ workflowName: S.String.pipe(T.HttpLabel("workflowName")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/idmappingworkflows/{workflowName}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetIdMappingWorkflowInput",
+}) as any as S.Schema<GetIdMappingWorkflowInput>;
+export interface GetIdMappingWorkflowOutput {
+  workflowName: string;
+  workflowArn: string;
+  description?: string;
+  inputSourceConfig: IdMappingWorkflowInputSource[];
+  outputSourceConfig?: IdMappingWorkflowOutputSource[];
+  idMappingTechniques: IdMappingTechniques;
+  createdAt: Date;
+  updatedAt: Date;
+  incrementalRunConfig?: IdMappingIncrementalRunConfig;
+  roleArn?: string;
+  tags?: { [key: string]: string | undefined };
+}
+export const GetIdMappingWorkflowOutput = S.suspend(() =>
+  S.Struct({
+    workflowName: S.String,
+    workflowArn: S.String,
+    description: S.optional(S.String),
+    inputSourceConfig: IdMappingWorkflowInputSourceConfig,
+    outputSourceConfig: S.optional(IdMappingWorkflowOutputSourceConfig),
+    idMappingTechniques: IdMappingTechniques,
+    createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    incrementalRunConfig: S.optional(IdMappingIncrementalRunConfig),
+    roleArn: S.optional(S.String),
+    tags: S.optional(TagMap),
+  }),
+).annotate({
+  identifier: "GetIdMappingWorkflowOutput",
+}) as any as S.Schema<GetIdMappingWorkflowOutput>;
+export interface GetIdNamespaceInput {
+  idNamespaceName: string;
+}
+export const GetIdNamespaceInput = S.suspend(() =>
+  S.Struct({
+    idNamespaceName: S.String.pipe(T.HttpLabel("idNamespaceName")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/idnamespaces/{idNamespaceName}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetIdNamespaceInput",
+}) as any as S.Schema<GetIdNamespaceInput>;
+export interface GetIdNamespaceOutput {
+  idNamespaceName: string;
+  idNamespaceArn: string;
+  description?: string;
+  inputSourceConfig?: IdNamespaceInputSource[];
+  idMappingWorkflowProperties?: IdNamespaceIdMappingWorkflowProperties[];
+  type: IdNamespaceType;
+  roleArn?: string;
+  createdAt: Date;
+  updatedAt: Date;
+  tags?: { [key: string]: string | undefined };
+}
+export const GetIdNamespaceOutput = S.suspend(() =>
+  S.Struct({
+    idNamespaceName: S.String,
+    idNamespaceArn: S.String,
+    description: S.optional(S.String),
+    inputSourceConfig: S.optional(IdNamespaceInputSourceConfig),
+    idMappingWorkflowProperties: S.optional(
+      IdNamespaceIdMappingWorkflowPropertiesList,
+    ),
+    type: IdNamespaceType,
+    roleArn: S.optional(S.String),
+    createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    tags: S.optional(TagMap),
+  }),
+).annotate({
+  identifier: "GetIdNamespaceOutput",
+}) as any as S.Schema<GetIdNamespaceOutput>;
+export type RecordAttributeMap = { [key: string]: string | undefined };
+export const RecordAttributeMap = S.Record(S.String, S.String.pipe(S.optional));
+export interface GetMatchIdInput {
+  workflowName: string;
+  record: { [key: string]: string | undefined };
+  applyNormalization?: boolean;
+}
+export const GetMatchIdInput = S.suspend(() =>
+  S.Struct({
+    workflowName: S.String.pipe(T.HttpLabel("workflowName")),
+    record: RecordAttributeMap,
+    applyNormalization: S.optional(S.Boolean),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/matchingworkflows/{workflowName}/matches",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetMatchIdInput",
+}) as any as S.Schema<GetMatchIdInput>;
 export interface GetMatchIdOutput {
   matchId?: string;
   matchRule?: string;
 }
 export const GetMatchIdOutput = S.suspend(() =>
   S.Struct({ matchId: S.optional(S.String), matchRule: S.optional(S.String) }),
-).annotations({
+).annotate({
   identifier: "GetMatchIdOutput",
 }) as any as S.Schema<GetMatchIdOutput>;
+export interface GetMatchingJobInput {
+  workflowName: string;
+  jobId: string;
+}
+export const GetMatchingJobInput = S.suspend(() =>
+  S.Struct({
+    workflowName: S.String.pipe(T.HttpLabel("workflowName")),
+    jobId: S.String.pipe(T.HttpLabel("jobId")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/matchingworkflows/{workflowName}/jobs/{jobId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetMatchingJobInput",
+}) as any as S.Schema<GetMatchingJobInput>;
+export interface JobMetrics {
+  inputRecords?: number;
+  totalRecordsProcessed?: number;
+  recordsNotProcessed?: number;
+  deleteRecordsProcessed?: number;
+  matchIDs?: number;
+}
+export const JobMetrics = S.suspend(() =>
+  S.Struct({
+    inputRecords: S.optional(S.Number),
+    totalRecordsProcessed: S.optional(S.Number),
+    recordsNotProcessed: S.optional(S.Number),
+    deleteRecordsProcessed: S.optional(S.Number),
+    matchIDs: S.optional(S.Number),
+  }),
+).annotate({ identifier: "JobMetrics" }) as any as S.Schema<JobMetrics>;
+export interface JobOutputSource {
+  roleArn: string;
+  outputS3Path: string;
+  KMSArn?: string;
+}
+export const JobOutputSource = S.suspend(() =>
+  S.Struct({
+    roleArn: S.String,
+    outputS3Path: S.String,
+    KMSArn: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "JobOutputSource",
+}) as any as S.Schema<JobOutputSource>;
+export type JobOutputSourceConfig = JobOutputSource[];
+export const JobOutputSourceConfig = S.Array(JobOutputSource);
 export interface GetMatchingJobOutput {
   jobId: string;
   status: JobStatus;
@@ -1989,80 +1375,121 @@ export const GetMatchingJobOutput = S.suspend(() =>
     errorDetails: S.optional(ErrorDetails),
     outputSourceConfig: S.optional(JobOutputSourceConfig),
   }),
-).annotations({
+).annotate({
   identifier: "GetMatchingJobOutput",
 }) as any as S.Schema<GetMatchingJobOutput>;
-export interface ListIdMappingJobsOutput {
-  jobs?: JobSummary[];
-  nextToken?: string;
+export interface GetMatchingWorkflowInput {
+  workflowName: string;
 }
-export const ListIdMappingJobsOutput = S.suspend(() =>
-  S.Struct({ jobs: S.optional(JobList), nextToken: S.optional(S.String) }),
-).annotations({
-  identifier: "ListIdMappingJobsOutput",
-}) as any as S.Schema<ListIdMappingJobsOutput>;
-export interface ListIdMappingWorkflowsOutput {
-  workflowSummaries?: IdMappingWorkflowSummary[];
-  nextToken?: string;
+export const GetMatchingWorkflowInput = S.suspend(() =>
+  S.Struct({ workflowName: S.String.pipe(T.HttpLabel("workflowName")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/matchingworkflows/{workflowName}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetMatchingWorkflowInput",
+}) as any as S.Schema<GetMatchingWorkflowInput>;
+export interface GetMatchingWorkflowOutput {
+  workflowName: string;
+  workflowArn: string;
+  description?: string;
+  inputSourceConfig: InputSource[];
+  outputSourceConfig: OutputSource[];
+  resolutionTechniques: ResolutionTechniques;
+  createdAt: Date;
+  updatedAt: Date;
+  incrementalRunConfig?: IncrementalRunConfig;
+  roleArn: string;
+  tags?: { [key: string]: string | undefined };
 }
-export const ListIdMappingWorkflowsOutput = S.suspend(() =>
+export const GetMatchingWorkflowOutput = S.suspend(() =>
   S.Struct({
-    workflowSummaries: S.optional(IdMappingWorkflowList),
-    nextToken: S.optional(S.String),
+    workflowName: S.String,
+    workflowArn: S.String,
+    description: S.optional(S.String),
+    inputSourceConfig: InputSourceConfig,
+    outputSourceConfig: OutputSourceConfig,
+    resolutionTechniques: ResolutionTechniques,
+    createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    incrementalRunConfig: S.optional(IncrementalRunConfig),
+    roleArn: S.String,
+    tags: S.optional(TagMap),
   }),
-).annotations({
-  identifier: "ListIdMappingWorkflowsOutput",
-}) as any as S.Schema<ListIdMappingWorkflowsOutput>;
-export interface ListMatchingWorkflowsOutput {
-  workflowSummaries?: MatchingWorkflowSummary[];
-  nextToken?: string;
+).annotate({
+  identifier: "GetMatchingWorkflowOutput",
+}) as any as S.Schema<GetMatchingWorkflowOutput>;
+export interface GetPolicyInput {
+  arn: string;
 }
-export const ListMatchingWorkflowsOutput = S.suspend(() =>
-  S.Struct({
-    workflowSummaries: S.optional(MatchingWorkflowList),
-    nextToken: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "ListMatchingWorkflowsOutput",
-}) as any as S.Schema<ListMatchingWorkflowsOutput>;
-export interface ListProviderServicesOutput {
-  providerServiceSummaries?: ProviderServiceSummary[];
-  nextToken?: string;
+export const GetPolicyInput = S.suspend(() =>
+  S.Struct({ arn: S.String.pipe(T.HttpLabel("arn")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/policies/{arn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({ identifier: "GetPolicyInput" }) as any as S.Schema<GetPolicyInput>;
+export interface GetPolicyOutput {
+  arn: string;
+  token: string;
+  policy?: string;
 }
-export const ListProviderServicesOutput = S.suspend(() =>
-  S.Struct({
-    providerServiceSummaries: S.optional(ProviderServiceList),
-    nextToken: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "ListProviderServicesOutput",
-}) as any as S.Schema<ListProviderServicesOutput>;
-export interface ListSchemaMappingsOutput {
-  schemaList?: SchemaMappingSummary[];
-  nextToken?: string;
+export const GetPolicyOutput = S.suspend(() =>
+  S.Struct({ arn: S.String, token: S.String, policy: S.optional(S.String) }),
+).annotate({
+  identifier: "GetPolicyOutput",
+}) as any as S.Schema<GetPolicyOutput>;
+export interface GetProviderServiceInput {
+  providerName: string;
+  providerServiceName: string;
 }
-export const ListSchemaMappingsOutput = S.suspend(() =>
+export const GetProviderServiceInput = S.suspend(() =>
   S.Struct({
-    schemaList: S.optional(SchemaMappingList),
-    nextToken: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "ListSchemaMappingsOutput",
-}) as any as S.Schema<ListSchemaMappingsOutput>;
-export interface StartIdMappingJobOutput {
-  jobId: string;
-  outputSourceConfig?: IdMappingJobOutputSource[];
-  jobType?: JobType;
+    providerName: S.String.pipe(T.HttpLabel("providerName")),
+    providerServiceName: S.String.pipe(T.HttpLabel("providerServiceName")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/providerservices/{providerName}/{providerServiceName}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetProviderServiceInput",
+}) as any as S.Schema<GetProviderServiceInput>;
+export type ServiceType = "ASSIGNMENT" | "ID_MAPPING" | (string & {});
+export const ServiceType = S.String;
+export interface ProviderIdNameSpaceConfiguration {
+  description?: string;
+  providerTargetConfigurationDefinition?: any;
+  providerSourceConfigurationDefinition?: any;
 }
-export const StartIdMappingJobOutput = S.suspend(() =>
+export const ProviderIdNameSpaceConfiguration = S.suspend(() =>
   S.Struct({
-    jobId: S.String,
-    outputSourceConfig: S.optional(IdMappingJobOutputSourceConfig),
-    jobType: S.optional(JobType),
+    description: S.optional(S.String),
+    providerTargetConfigurationDefinition: S.optional(S.Any),
+    providerSourceConfigurationDefinition: S.optional(S.Any),
   }),
-).annotations({
-  identifier: "StartIdMappingJobOutput",
-}) as any as S.Schema<StartIdMappingJobOutput>;
+).annotate({
+  identifier: "ProviderIdNameSpaceConfiguration",
+}) as any as S.Schema<ProviderIdNameSpaceConfiguration>;
 export interface ProviderMarketplaceConfiguration {
   dataSetId: string;
   revisionId: string;
@@ -2076,9 +1503,35 @@ export const ProviderMarketplaceConfiguration = S.suspend(() =>
     assetId: S.String,
     listingId: S.String,
   }),
-).annotations({
+).annotate({
   identifier: "ProviderMarketplaceConfiguration",
 }) as any as S.Schema<ProviderMarketplaceConfiguration>;
+export type ProviderEndpointConfiguration = {
+  marketplaceConfiguration: ProviderMarketplaceConfiguration;
+};
+export const ProviderEndpointConfiguration = S.Union([
+  S.Struct({ marketplaceConfiguration: ProviderMarketplaceConfiguration }),
+]);
+export type AwsAccountIdList = string[];
+export const AwsAccountIdList = S.Array(S.String);
+export type RequiredBucketActionsList = string[];
+export const RequiredBucketActionsList = S.Array(S.String);
+export interface ProviderIntermediateDataAccessConfiguration {
+  awsAccountIds?: string[];
+  requiredBucketActions?: string[];
+}
+export const ProviderIntermediateDataAccessConfiguration = S.suspend(() =>
+  S.Struct({
+    awsAccountIds: S.optional(AwsAccountIdList),
+    requiredBucketActions: S.optional(RequiredBucketActionsList),
+  }),
+).annotate({
+  identifier: "ProviderIntermediateDataAccessConfiguration",
+}) as any as S.Schema<ProviderIntermediateDataAccessConfiguration>;
+export type SchemaList = string[];
+export const SchemaList = S.Array(S.String);
+export type Schemas = string[][];
+export const Schemas = S.Array(SchemaList);
 export interface ProviderSchemaAttribute {
   fieldName: string;
   type: SchemaAttributeType;
@@ -2092,30 +1545,11 @@ export const ProviderSchemaAttribute = S.suspend(() =>
     subType: S.optional(S.String),
     hashing: S.optional(S.Boolean),
   }),
-).annotations({
+).annotate({
   identifier: "ProviderSchemaAttribute",
 }) as any as S.Schema<ProviderSchemaAttribute>;
 export type ProviderSchemaAttributes = ProviderSchemaAttribute[];
 export const ProviderSchemaAttributes = S.Array(ProviderSchemaAttribute);
-export interface IdNamespaceIdMappingWorkflowMetadata {
-  idMappingType: IdMappingType;
-}
-export const IdNamespaceIdMappingWorkflowMetadata = S.suspend(() =>
-  S.Struct({ idMappingType: IdMappingType }),
-).annotations({
-  identifier: "IdNamespaceIdMappingWorkflowMetadata",
-}) as any as S.Schema<IdNamespaceIdMappingWorkflowMetadata>;
-export type IdNamespaceIdMappingWorkflowMetadataList =
-  IdNamespaceIdMappingWorkflowMetadata[];
-export const IdNamespaceIdMappingWorkflowMetadataList = S.Array(
-  IdNamespaceIdMappingWorkflowMetadata,
-);
-export type ProviderEndpointConfiguration = {
-  marketplaceConfiguration: ProviderMarketplaceConfiguration;
-};
-export const ProviderEndpointConfiguration = S.Union(
-  S.Struct({ marketplaceConfiguration: ProviderMarketplaceConfiguration }),
-);
 export interface ProviderComponentSchema {
   schemas?: string[][];
   providerSchemaAttributes?: ProviderSchemaAttribute[];
@@ -2125,131 +1559,9 @@ export const ProviderComponentSchema = S.suspend(() =>
     schemas: S.optional(Schemas),
     providerSchemaAttributes: S.optional(ProviderSchemaAttributes),
   }),
-).annotations({
+).annotate({
   identifier: "ProviderComponentSchema",
 }) as any as S.Schema<ProviderComponentSchema>;
-export interface IdNamespaceSummary {
-  idNamespaceName: string;
-  idNamespaceArn: string;
-  description?: string;
-  idMappingWorkflowProperties?: IdNamespaceIdMappingWorkflowMetadata[];
-  type: IdNamespaceType;
-  createdAt: Date;
-  updatedAt: Date;
-}
-export const IdNamespaceSummary = S.suspend(() =>
-  S.Struct({
-    idNamespaceName: S.String,
-    idNamespaceArn: S.String,
-    description: S.optional(S.String),
-    idMappingWorkflowProperties: S.optional(
-      IdNamespaceIdMappingWorkflowMetadataList,
-    ),
-    type: IdNamespaceType,
-    createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  }),
-).annotations({
-  identifier: "IdNamespaceSummary",
-}) as any as S.Schema<IdNamespaceSummary>;
-export type IdNamespaceList = IdNamespaceSummary[];
-export const IdNamespaceList = S.Array(IdNamespaceSummary);
-export interface CreateIdMappingWorkflowInput {
-  workflowName: string;
-  description?: string;
-  inputSourceConfig: IdMappingWorkflowInputSource[];
-  outputSourceConfig?: IdMappingWorkflowOutputSource[];
-  idMappingTechniques: IdMappingTechniques;
-  incrementalRunConfig?: IdMappingIncrementalRunConfig;
-  roleArn?: string;
-  tags?: { [key: string]: string | undefined };
-}
-export const CreateIdMappingWorkflowInput = S.suspend(() =>
-  S.Struct({
-    workflowName: S.String,
-    description: S.optional(S.String),
-    inputSourceConfig: IdMappingWorkflowInputSourceConfig,
-    outputSourceConfig: S.optional(IdMappingWorkflowOutputSourceConfig),
-    idMappingTechniques: IdMappingTechniques,
-    incrementalRunConfig: S.optional(IdMappingIncrementalRunConfig),
-    roleArn: S.optional(S.String),
-    tags: S.optional(TagMap),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/idmappingworkflows" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "CreateIdMappingWorkflowInput",
-}) as any as S.Schema<CreateIdMappingWorkflowInput>;
-export interface CreateIdNamespaceOutput {
-  idNamespaceName: string;
-  idNamespaceArn: string;
-  description?: string;
-  inputSourceConfig?: IdNamespaceInputSource[];
-  idMappingWorkflowProperties?: IdNamespaceIdMappingWorkflowProperties[];
-  type: IdNamespaceType;
-  roleArn?: string;
-  createdAt: Date;
-  updatedAt: Date;
-  tags?: { [key: string]: string | undefined };
-}
-export const CreateIdNamespaceOutput = S.suspend(() =>
-  S.Struct({
-    idNamespaceName: S.String,
-    idNamespaceArn: S.String,
-    description: S.optional(S.String),
-    inputSourceConfig: S.optional(IdNamespaceInputSourceConfig),
-    idMappingWorkflowProperties: S.optional(
-      IdNamespaceIdMappingWorkflowPropertiesList,
-    ),
-    type: IdNamespaceType,
-    roleArn: S.optional(S.String),
-    createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    tags: S.optional(TagMap),
-  }),
-).annotations({
-  identifier: "CreateIdNamespaceOutput",
-}) as any as S.Schema<CreateIdNamespaceOutput>;
-export interface CreateMatchingWorkflowInput {
-  workflowName: string;
-  description?: string;
-  inputSourceConfig: InputSource[];
-  outputSourceConfig: OutputSource[];
-  resolutionTechniques: ResolutionTechniques;
-  incrementalRunConfig?: IncrementalRunConfig;
-  roleArn: string;
-  tags?: { [key: string]: string | undefined };
-}
-export const CreateMatchingWorkflowInput = S.suspend(() =>
-  S.Struct({
-    workflowName: S.String,
-    description: S.optional(S.String),
-    inputSourceConfig: InputSourceConfig,
-    outputSourceConfig: OutputSourceConfig,
-    resolutionTechniques: ResolutionTechniques,
-    incrementalRunConfig: S.optional(IncrementalRunConfig),
-    roleArn: S.String,
-    tags: S.optional(TagMap),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/matchingworkflows" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "CreateMatchingWorkflowInput",
-}) as any as S.Schema<CreateMatchingWorkflowInput>;
 export interface GetProviderServiceOutput {
   providerName: string;
   providerServiceName: string;
@@ -2285,9 +1597,209 @@ export const GetProviderServiceOutput = S.suspend(() =>
     ),
     providerComponentSchema: S.optional(ProviderComponentSchema),
   }),
-).annotations({
+).annotate({
   identifier: "GetProviderServiceOutput",
 }) as any as S.Schema<GetProviderServiceOutput>;
+export interface GetSchemaMappingInput {
+  schemaName: string;
+}
+export const GetSchemaMappingInput = S.suspend(() =>
+  S.Struct({ schemaName: S.String.pipe(T.HttpLabel("schemaName")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/schemas/{schemaName}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetSchemaMappingInput",
+}) as any as S.Schema<GetSchemaMappingInput>;
+export interface GetSchemaMappingOutput {
+  schemaName: string;
+  schemaArn: string;
+  description?: string;
+  mappedInputFields: SchemaInputAttribute[];
+  createdAt: Date;
+  updatedAt: Date;
+  tags?: { [key: string]: string | undefined };
+  hasWorkflows: boolean;
+}
+export const GetSchemaMappingOutput = S.suspend(() =>
+  S.Struct({
+    schemaName: S.String,
+    schemaArn: S.String,
+    description: S.optional(S.String),
+    mappedInputFields: SchemaInputAttributes,
+    createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    tags: S.optional(TagMap),
+    hasWorkflows: S.Boolean,
+  }),
+).annotate({
+  identifier: "GetSchemaMappingOutput",
+}) as any as S.Schema<GetSchemaMappingOutput>;
+export interface ListIdMappingJobsInput {
+  workflowName: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListIdMappingJobsInput = S.suspend(() =>
+  S.Struct({
+    workflowName: S.String.pipe(T.HttpLabel("workflowName")),
+    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/idmappingworkflows/{workflowName}/jobs" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListIdMappingJobsInput",
+}) as any as S.Schema<ListIdMappingJobsInput>;
+export interface JobSummary {
+  jobId: string;
+  status: JobStatus;
+  startTime: Date;
+  endTime?: Date;
+}
+export const JobSummary = S.suspend(() =>
+  S.Struct({
+    jobId: S.String,
+    status: JobStatus,
+    startTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotate({ identifier: "JobSummary" }) as any as S.Schema<JobSummary>;
+export type JobList = JobSummary[];
+export const JobList = S.Array(JobSummary);
+export interface ListIdMappingJobsOutput {
+  jobs?: JobSummary[];
+  nextToken?: string;
+}
+export const ListIdMappingJobsOutput = S.suspend(() =>
+  S.Struct({ jobs: S.optional(JobList), nextToken: S.optional(S.String) }),
+).annotate({
+  identifier: "ListIdMappingJobsOutput",
+}) as any as S.Schema<ListIdMappingJobsOutput>;
+export interface ListIdMappingWorkflowsInput {
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListIdMappingWorkflowsInput = S.suspend(() =>
+  S.Struct({
+    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/idmappingworkflows" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListIdMappingWorkflowsInput",
+}) as any as S.Schema<ListIdMappingWorkflowsInput>;
+export interface IdMappingWorkflowSummary {
+  workflowName: string;
+  workflowArn: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+export const IdMappingWorkflowSummary = S.suspend(() =>
+  S.Struct({
+    workflowName: S.String,
+    workflowArn: S.String,
+    createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  }),
+).annotate({
+  identifier: "IdMappingWorkflowSummary",
+}) as any as S.Schema<IdMappingWorkflowSummary>;
+export type IdMappingWorkflowList = IdMappingWorkflowSummary[];
+export const IdMappingWorkflowList = S.Array(IdMappingWorkflowSummary);
+export interface ListIdMappingWorkflowsOutput {
+  workflowSummaries?: IdMappingWorkflowSummary[];
+  nextToken?: string;
+}
+export const ListIdMappingWorkflowsOutput = S.suspend(() =>
+  S.Struct({
+    workflowSummaries: S.optional(IdMappingWorkflowList),
+    nextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ListIdMappingWorkflowsOutput",
+}) as any as S.Schema<ListIdMappingWorkflowsOutput>;
+export interface ListIdNamespacesInput {
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListIdNamespacesInput = S.suspend(() =>
+  S.Struct({
+    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/idnamespaces" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListIdNamespacesInput",
+}) as any as S.Schema<ListIdNamespacesInput>;
+export interface IdNamespaceIdMappingWorkflowMetadata {
+  idMappingType: IdMappingType;
+}
+export const IdNamespaceIdMappingWorkflowMetadata = S.suspend(() =>
+  S.Struct({ idMappingType: IdMappingType }),
+).annotate({
+  identifier: "IdNamespaceIdMappingWorkflowMetadata",
+}) as any as S.Schema<IdNamespaceIdMappingWorkflowMetadata>;
+export type IdNamespaceIdMappingWorkflowMetadataList =
+  IdNamespaceIdMappingWorkflowMetadata[];
+export const IdNamespaceIdMappingWorkflowMetadataList = S.Array(
+  IdNamespaceIdMappingWorkflowMetadata,
+);
+export interface IdNamespaceSummary {
+  idNamespaceName: string;
+  idNamespaceArn: string;
+  description?: string;
+  idMappingWorkflowProperties?: IdNamespaceIdMappingWorkflowMetadata[];
+  type: IdNamespaceType;
+  createdAt: Date;
+  updatedAt: Date;
+}
+export const IdNamespaceSummary = S.suspend(() =>
+  S.Struct({
+    idNamespaceName: S.String,
+    idNamespaceArn: S.String,
+    description: S.optional(S.String),
+    idMappingWorkflowProperties: S.optional(
+      IdNamespaceIdMappingWorkflowMetadataList,
+    ),
+    type: IdNamespaceType,
+    createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  }),
+).annotate({
+  identifier: "IdNamespaceSummary",
+}) as any as S.Schema<IdNamespaceSummary>;
+export type IdNamespaceList = IdNamespaceSummary[];
+export const IdNamespaceList = S.Array(IdNamespaceSummary);
 export interface ListIdNamespacesOutput {
   idNamespaceSummaries?: IdNamespaceSummary[];
   nextToken?: string;
@@ -2297,24 +1809,407 @@ export const ListIdNamespacesOutput = S.suspend(() =>
     idNamespaceSummaries: S.optional(IdNamespaceList),
     nextToken: S.optional(S.String),
   }),
-).annotations({
+).annotate({
   identifier: "ListIdNamespacesOutput",
 }) as any as S.Schema<ListIdNamespacesOutput>;
-export interface FailedRecord {
-  inputSourceARN: string;
-  uniqueId: string;
-  errorMessage: string;
+export interface ListMatchingJobsInput {
+  workflowName: string;
+  nextToken?: string;
+  maxResults?: number;
 }
-export const FailedRecord = S.suspend(() =>
+export const ListMatchingJobsInput = S.suspend(() =>
   S.Struct({
-    inputSourceARN: S.String,
-    uniqueId: S.String,
-    errorMessage: S.String,
+    workflowName: S.String.pipe(T.HttpLabel("workflowName")),
+    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/matchingworkflows/{workflowName}/jobs" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListMatchingJobsInput",
+}) as any as S.Schema<ListMatchingJobsInput>;
+export interface ListMatchingJobsOutput {
+  jobs?: JobSummary[];
+  nextToken?: string;
+}
+export const ListMatchingJobsOutput = S.suspend(() =>
+  S.Struct({ jobs: S.optional(JobList), nextToken: S.optional(S.String) }),
+).annotate({
+  identifier: "ListMatchingJobsOutput",
+}) as any as S.Schema<ListMatchingJobsOutput>;
+export interface ListMatchingWorkflowsInput {
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListMatchingWorkflowsInput = S.suspend(() =>
+  S.Struct({
+    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/matchingworkflows" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListMatchingWorkflowsInput",
+}) as any as S.Schema<ListMatchingWorkflowsInput>;
+export interface MatchingWorkflowSummary {
+  workflowName: string;
+  workflowArn: string;
+  createdAt: Date;
+  updatedAt: Date;
+  resolutionType: ResolutionType;
+}
+export const MatchingWorkflowSummary = S.suspend(() =>
+  S.Struct({
+    workflowName: S.String,
+    workflowArn: S.String,
+    createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    resolutionType: ResolutionType,
   }),
-).annotations({ identifier: "FailedRecord" }) as any as S.Schema<FailedRecord>;
-export type FailedRecordsList = FailedRecord[];
-export const FailedRecordsList = S.Array(FailedRecord);
-export interface CreateIdMappingWorkflowOutput {
+).annotate({
+  identifier: "MatchingWorkflowSummary",
+}) as any as S.Schema<MatchingWorkflowSummary>;
+export type MatchingWorkflowList = MatchingWorkflowSummary[];
+export const MatchingWorkflowList = S.Array(MatchingWorkflowSummary);
+export interface ListMatchingWorkflowsOutput {
+  workflowSummaries?: MatchingWorkflowSummary[];
+  nextToken?: string;
+}
+export const ListMatchingWorkflowsOutput = S.suspend(() =>
+  S.Struct({
+    workflowSummaries: S.optional(MatchingWorkflowList),
+    nextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ListMatchingWorkflowsOutput",
+}) as any as S.Schema<ListMatchingWorkflowsOutput>;
+export interface ListProviderServicesInput {
+  nextToken?: string;
+  maxResults?: number;
+  providerName?: string;
+}
+export const ListProviderServicesInput = S.suspend(() =>
+  S.Struct({
+    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+    providerName: S.optional(S.String).pipe(T.HttpQuery("providerName")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/providerservices" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListProviderServicesInput",
+}) as any as S.Schema<ListProviderServicesInput>;
+export interface ProviderServiceSummary {
+  providerServiceArn: string;
+  providerName: string;
+  providerServiceDisplayName: string;
+  providerServiceName: string;
+  providerServiceType: ServiceType;
+}
+export const ProviderServiceSummary = S.suspend(() =>
+  S.Struct({
+    providerServiceArn: S.String,
+    providerName: S.String,
+    providerServiceDisplayName: S.String,
+    providerServiceName: S.String,
+    providerServiceType: ServiceType,
+  }),
+).annotate({
+  identifier: "ProviderServiceSummary",
+}) as any as S.Schema<ProviderServiceSummary>;
+export type ProviderServiceList = ProviderServiceSummary[];
+export const ProviderServiceList = S.Array(ProviderServiceSummary);
+export interface ListProviderServicesOutput {
+  providerServiceSummaries?: ProviderServiceSummary[];
+  nextToken?: string;
+}
+export const ListProviderServicesOutput = S.suspend(() =>
+  S.Struct({
+    providerServiceSummaries: S.optional(ProviderServiceList),
+    nextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ListProviderServicesOutput",
+}) as any as S.Schema<ListProviderServicesOutput>;
+export interface ListSchemaMappingsInput {
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListSchemaMappingsInput = S.suspend(() =>
+  S.Struct({
+    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/schemas" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListSchemaMappingsInput",
+}) as any as S.Schema<ListSchemaMappingsInput>;
+export interface SchemaMappingSummary {
+  schemaName: string;
+  schemaArn: string;
+  createdAt: Date;
+  updatedAt: Date;
+  hasWorkflows: boolean;
+}
+export const SchemaMappingSummary = S.suspend(() =>
+  S.Struct({
+    schemaName: S.String,
+    schemaArn: S.String,
+    createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    hasWorkflows: S.Boolean,
+  }),
+).annotate({
+  identifier: "SchemaMappingSummary",
+}) as any as S.Schema<SchemaMappingSummary>;
+export type SchemaMappingList = SchemaMappingSummary[];
+export const SchemaMappingList = S.Array(SchemaMappingSummary);
+export interface ListSchemaMappingsOutput {
+  schemaList?: SchemaMappingSummary[];
+  nextToken?: string;
+}
+export const ListSchemaMappingsOutput = S.suspend(() =>
+  S.Struct({
+    schemaList: S.optional(SchemaMappingList),
+    nextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ListSchemaMappingsOutput",
+}) as any as S.Schema<ListSchemaMappingsOutput>;
+export interface ListTagsForResourceInput {
+  resourceArn: string;
+}
+export const ListTagsForResourceInput = S.suspend(() =>
+  S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListTagsForResourceInput",
+}) as any as S.Schema<ListTagsForResourceInput>;
+export interface ListTagsForResourceOutput {
+  tags: { [key: string]: string | undefined };
+}
+export const ListTagsForResourceOutput = S.suspend(() =>
+  S.Struct({ tags: TagMap }),
+).annotate({
+  identifier: "ListTagsForResourceOutput",
+}) as any as S.Schema<ListTagsForResourceOutput>;
+export interface PutPolicyInput {
+  arn: string;
+  token?: string;
+  policy: string;
+}
+export const PutPolicyInput = S.suspend(() =>
+  S.Struct({
+    arn: S.String.pipe(T.HttpLabel("arn")),
+    token: S.optional(S.String),
+    policy: S.String,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/policies/{arn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({ identifier: "PutPolicyInput" }) as any as S.Schema<PutPolicyInput>;
+export interface PutPolicyOutput {
+  arn: string;
+  token: string;
+  policy?: string;
+}
+export const PutPolicyOutput = S.suspend(() =>
+  S.Struct({ arn: S.String, token: S.String, policy: S.optional(S.String) }),
+).annotate({
+  identifier: "PutPolicyOutput",
+}) as any as S.Schema<PutPolicyOutput>;
+export interface StartIdMappingJobInput {
+  workflowName: string;
+  outputSourceConfig?: IdMappingJobOutputSource[];
+  jobType?: JobType;
+}
+export const StartIdMappingJobInput = S.suspend(() =>
+  S.Struct({
+    workflowName: S.String.pipe(T.HttpLabel("workflowName")),
+    outputSourceConfig: S.optional(IdMappingJobOutputSourceConfig),
+    jobType: S.optional(JobType),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/idmappingworkflows/{workflowName}/jobs",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "StartIdMappingJobInput",
+}) as any as S.Schema<StartIdMappingJobInput>;
+export interface StartIdMappingJobOutput {
+  jobId: string;
+  outputSourceConfig?: IdMappingJobOutputSource[];
+  jobType?: JobType;
+}
+export const StartIdMappingJobOutput = S.suspend(() =>
+  S.Struct({
+    jobId: S.String,
+    outputSourceConfig: S.optional(IdMappingJobOutputSourceConfig),
+    jobType: S.optional(JobType),
+  }),
+).annotate({
+  identifier: "StartIdMappingJobOutput",
+}) as any as S.Schema<StartIdMappingJobOutput>;
+export interface StartMatchingJobInput {
+  workflowName: string;
+}
+export const StartMatchingJobInput = S.suspend(() =>
+  S.Struct({ workflowName: S.String.pipe(T.HttpLabel("workflowName")) }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/matchingworkflows/{workflowName}/jobs" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "StartMatchingJobInput",
+}) as any as S.Schema<StartMatchingJobInput>;
+export interface StartMatchingJobOutput {
+  jobId: string;
+}
+export const StartMatchingJobOutput = S.suspend(() =>
+  S.Struct({ jobId: S.String }),
+).annotate({
+  identifier: "StartMatchingJobOutput",
+}) as any as S.Schema<StartMatchingJobOutput>;
+export interface TagResourceInput {
+  resourceArn: string;
+  tags: { [key: string]: string | undefined };
+}
+export const TagResourceInput = S.suspend(() =>
+  S.Struct({
+    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
+    tags: TagMap,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "TagResourceInput",
+}) as any as S.Schema<TagResourceInput>;
+export interface TagResourceOutput {}
+export const TagResourceOutput = S.suspend(() => S.Struct({})).annotate({
+  identifier: "TagResourceOutput",
+}) as any as S.Schema<TagResourceOutput>;
+export type TagKeyList = string[];
+export const TagKeyList = S.Array(S.String);
+export interface UntagResourceInput {
+  resourceArn: string;
+  tagKeys: string[];
+}
+export const UntagResourceInput = S.suspend(() =>
+  S.Struct({
+    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
+    tagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "UntagResourceInput",
+}) as any as S.Schema<UntagResourceInput>;
+export interface UntagResourceOutput {}
+export const UntagResourceOutput = S.suspend(() => S.Struct({})).annotate({
+  identifier: "UntagResourceOutput",
+}) as any as S.Schema<UntagResourceOutput>;
+export interface UpdateIdMappingWorkflowInput {
+  workflowName: string;
+  description?: string;
+  inputSourceConfig: IdMappingWorkflowInputSource[];
+  outputSourceConfig?: IdMappingWorkflowOutputSource[];
+  idMappingTechniques: IdMappingTechniques;
+  incrementalRunConfig?: IdMappingIncrementalRunConfig;
+  roleArn?: string;
+}
+export const UpdateIdMappingWorkflowInput = S.suspend(() =>
+  S.Struct({
+    workflowName: S.String.pipe(T.HttpLabel("workflowName")),
+    description: S.optional(S.String),
+    inputSourceConfig: IdMappingWorkflowInputSourceConfig,
+    outputSourceConfig: S.optional(IdMappingWorkflowOutputSourceConfig),
+    idMappingTechniques: IdMappingTechniques,
+    incrementalRunConfig: S.optional(IdMappingIncrementalRunConfig),
+    roleArn: S.optional(S.String),
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/idmappingworkflows/{workflowName}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "UpdateIdMappingWorkflowInput",
+}) as any as S.Schema<UpdateIdMappingWorkflowInput>;
+export interface UpdateIdMappingWorkflowOutput {
   workflowName: string;
   workflowArn: string;
   description?: string;
@@ -2324,7 +2219,7 @@ export interface CreateIdMappingWorkflowOutput {
   incrementalRunConfig?: IdMappingIncrementalRunConfig;
   roleArn?: string;
 }
-export const CreateIdMappingWorkflowOutput = S.suspend(() =>
+export const UpdateIdMappingWorkflowOutput = S.suspend(() =>
   S.Struct({
     workflowName: S.String,
     workflowArn: S.String,
@@ -2335,12 +2230,68 @@ export const CreateIdMappingWorkflowOutput = S.suspend(() =>
     incrementalRunConfig: S.optional(IdMappingIncrementalRunConfig),
     roleArn: S.optional(S.String),
   }),
-).annotations({
-  identifier: "CreateIdMappingWorkflowOutput",
-}) as any as S.Schema<CreateIdMappingWorkflowOutput>;
-export interface CreateMatchingWorkflowOutput {
+).annotate({
+  identifier: "UpdateIdMappingWorkflowOutput",
+}) as any as S.Schema<UpdateIdMappingWorkflowOutput>;
+export interface UpdateIdNamespaceInput {
+  idNamespaceName: string;
+  description?: string;
+  inputSourceConfig?: IdNamespaceInputSource[];
+  idMappingWorkflowProperties?: IdNamespaceIdMappingWorkflowProperties[];
+  roleArn?: string;
+}
+export const UpdateIdNamespaceInput = S.suspend(() =>
+  S.Struct({
+    idNamespaceName: S.String.pipe(T.HttpLabel("idNamespaceName")),
+    description: S.optional(S.String),
+    inputSourceConfig: S.optional(IdNamespaceInputSourceConfig),
+    idMappingWorkflowProperties: S.optional(
+      IdNamespaceIdMappingWorkflowPropertiesList,
+    ),
+    roleArn: S.optional(S.String),
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/idnamespaces/{idNamespaceName}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "UpdateIdNamespaceInput",
+}) as any as S.Schema<UpdateIdNamespaceInput>;
+export interface UpdateIdNamespaceOutput {
+  idNamespaceName: string;
+  idNamespaceArn: string;
+  description?: string;
+  inputSourceConfig?: IdNamespaceInputSource[];
+  idMappingWorkflowProperties?: IdNamespaceIdMappingWorkflowProperties[];
+  type: IdNamespaceType;
+  roleArn?: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+export const UpdateIdNamespaceOutput = S.suspend(() =>
+  S.Struct({
+    idNamespaceName: S.String,
+    idNamespaceArn: S.String,
+    description: S.optional(S.String),
+    inputSourceConfig: S.optional(IdNamespaceInputSourceConfig),
+    idMappingWorkflowProperties: S.optional(
+      IdNamespaceIdMappingWorkflowPropertiesList,
+    ),
+    type: IdNamespaceType,
+    roleArn: S.optional(S.String),
+    createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  }),
+).annotate({
+  identifier: "UpdateIdNamespaceOutput",
+}) as any as S.Schema<UpdateIdNamespaceOutput>;
+export interface UpdateMatchingWorkflowInput {
   workflowName: string;
-  workflowArn: string;
   description?: string;
   inputSourceConfig: InputSource[];
   outputSourceConfig: OutputSource[];
@@ -2348,10 +2299,40 @@ export interface CreateMatchingWorkflowOutput {
   incrementalRunConfig?: IncrementalRunConfig;
   roleArn: string;
 }
-export const CreateMatchingWorkflowOutput = S.suspend(() =>
+export const UpdateMatchingWorkflowInput = S.suspend(() =>
+  S.Struct({
+    workflowName: S.String.pipe(T.HttpLabel("workflowName")),
+    description: S.optional(S.String),
+    inputSourceConfig: InputSourceConfig,
+    outputSourceConfig: OutputSourceConfig,
+    resolutionTechniques: ResolutionTechniques,
+    incrementalRunConfig: S.optional(IncrementalRunConfig),
+    roleArn: S.String,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/matchingworkflows/{workflowName}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "UpdateMatchingWorkflowInput",
+}) as any as S.Schema<UpdateMatchingWorkflowInput>;
+export interface UpdateMatchingWorkflowOutput {
+  workflowName: string;
+  description?: string;
+  inputSourceConfig: InputSource[];
+  outputSourceConfig: OutputSource[];
+  resolutionTechniques: ResolutionTechniques;
+  incrementalRunConfig?: IncrementalRunConfig;
+  roleArn: string;
+}
+export const UpdateMatchingWorkflowOutput = S.suspend(() =>
   S.Struct({
     workflowName: S.String,
-    workflowArn: S.String,
     description: S.optional(S.String),
     inputSourceConfig: InputSourceConfig,
     outputSourceConfig: OutputSourceConfig,
@@ -2359,72 +2340,77 @@ export const CreateMatchingWorkflowOutput = S.suspend(() =>
     incrementalRunConfig: S.optional(IncrementalRunConfig),
     roleArn: S.String,
   }),
-).annotations({
-  identifier: "CreateMatchingWorkflowOutput",
-}) as any as S.Schema<CreateMatchingWorkflowOutput>;
-export interface MatchedRecord {
-  inputSourceARN: string;
-  recordId: string;
+).annotate({
+  identifier: "UpdateMatchingWorkflowOutput",
+}) as any as S.Schema<UpdateMatchingWorkflowOutput>;
+export interface UpdateSchemaMappingInput {
+  schemaName: string;
+  description?: string;
+  mappedInputFields: SchemaInputAttribute[];
 }
-export const MatchedRecord = S.suspend(() =>
-  S.Struct({ inputSourceARN: S.String, recordId: S.String }),
-).annotations({
-  identifier: "MatchedRecord",
-}) as any as S.Schema<MatchedRecord>;
-export type MatchedRecordsList = MatchedRecord[];
-export const MatchedRecordsList = S.Array(MatchedRecord);
-export interface MatchGroup {
-  records: MatchedRecord[];
-  matchId: string;
-  matchRule: string;
-}
-export const MatchGroup = S.suspend(() =>
+export const UpdateSchemaMappingInput = S.suspend(() =>
   S.Struct({
-    records: MatchedRecordsList,
-    matchId: S.String,
-    matchRule: S.String,
-  }),
-).annotations({ identifier: "MatchGroup" }) as any as S.Schema<MatchGroup>;
-export type MatchGroupsList = MatchGroup[];
-export const MatchGroupsList = S.Array(MatchGroup);
-export interface GenerateMatchIdOutput {
-  matchGroups: MatchGroup[];
-  failedRecords: FailedRecord[];
+    schemaName: S.String.pipe(T.HttpLabel("schemaName")),
+    description: S.optional(S.String),
+    mappedInputFields: SchemaInputAttributes,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/schemas/{schemaName}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "UpdateSchemaMappingInput",
+}) as any as S.Schema<UpdateSchemaMappingInput>;
+export interface UpdateSchemaMappingOutput {
+  schemaName: string;
+  schemaArn: string;
+  description?: string;
+  mappedInputFields: SchemaInputAttribute[];
 }
-export const GenerateMatchIdOutput = S.suspend(() =>
-  S.Struct({ matchGroups: MatchGroupsList, failedRecords: FailedRecordsList }),
-).annotations({
-  identifier: "GenerateMatchIdOutput",
-}) as any as S.Schema<GenerateMatchIdOutput>;
+export const UpdateSchemaMappingOutput = S.suspend(() =>
+  S.Struct({
+    schemaName: S.String,
+    schemaArn: S.String,
+    description: S.optional(S.String),
+    mappedInputFields: SchemaInputAttributes,
+  }),
+).annotate({
+  identifier: "UpdateSchemaMappingOutput",
+}) as any as S.Schema<UpdateSchemaMappingOutput>;
 
 //# Errors
-export class InternalServerException extends S.TaggedError<InternalServerException>()(
+export class AccessDeniedException extends S.TaggedErrorClass<AccessDeniedException>()(
+  "AccessDeniedException",
+  { message: S.optional(S.String) },
+).pipe(C.withAuthError) {}
+export class ConflictException extends S.TaggedErrorClass<ConflictException>()(
+  "ConflictException",
+  { message: S.optional(S.String) },
+).pipe(C.withBadRequestError) {}
+export class InternalServerException extends S.TaggedErrorClass<InternalServerException>()(
   "InternalServerException",
   { message: S.optional(S.String) },
   T.Retryable(),
 ).pipe(C.withServerError, C.withRetryableError) {}
-export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
-  "AccessDeniedException",
-  { message: S.optional(S.String) },
-).pipe(C.withAuthError) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { message: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
-export class ConflictException extends S.TaggedError<ConflictException>()(
-  "ConflictException",
-  { message: S.optional(S.String) },
-).pipe(C.withBadRequestError) {}
-export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
+export class ThrottlingException extends S.TaggedErrorClass<ThrottlingException>()(
   "ThrottlingException",
   { message: S.optional(S.String) },
   T.Retryable({ throttling: true }),
 ).pipe(C.withThrottlingError, C.withRetryableError) {}
-export class ValidationException extends S.TaggedError<ValidationException>()(
+export class ValidationException extends S.TaggedErrorClass<ValidationException>()(
   "ValidationException",
   { message: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
-export class ExceedsLimitException extends S.TaggedError<ExceedsLimitException>()(
+export class ExceedsLimitException extends S.TaggedErrorClass<ExceedsLimitException>()(
   "ExceedsLimitException",
   {
     message: S.optional(S.String),
@@ -2435,37 +2421,162 @@ export class ExceedsLimitException extends S.TaggedError<ExceedsLimitException>(
 
 //# Operations
 /**
- * Removes one or more tags from the specified Entity Resolution resource. In Entity Resolution, `SchemaMapping`, and `MatchingWorkflow` can be tagged.
+ * Adds a policy statement object. To retrieve a list of existing policy statements, use the `GetPolicy` API.
  */
-export const untagResource: (
-  input: UntagResourceInput,
+export const addPolicyStatement: (
+  input: AddPolicyStatementInput,
 ) => effect.Effect<
-  UntagResourceOutput,
-  InternalServerException | ResourceNotFoundException | CommonErrors,
+  AddPolicyStatementOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceInput,
-  output: UntagResourceOutput,
-  errors: [InternalServerException, ResourceNotFoundException],
+  input: AddPolicyStatementInput,
+  output: AddPolicyStatementOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
 }));
 /**
- * Assigns one or more tags (key-value pairs) to the specified Entity Resolution resource. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. In Entity Resolution, `SchemaMapping` and `MatchingWorkflow` can be tagged. Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as strings of characters. You can use the `TagResource` action with a resource that already has tags. If you specify a new tag key, this tag is appended to the list of tags associated with the resource. If you specify a tag key that is already associated with the resource, the new tag value that you specify replaces the previous value for that tag.
+ * Deletes multiple unique IDs in a matching workflow.
  */
-export const tagResource: (
-  input: TagResourceInput,
+export const batchDeleteUniqueId: (
+  input: BatchDeleteUniqueIdInput,
 ) => effect.Effect<
-  TagResourceOutput,
+  BatchDeleteUniqueIdOutput,
   | InternalServerException
   | ResourceNotFoundException
   | ValidationException
   | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceInput,
-  output: TagResourceOutput,
+  input: BatchDeleteUniqueIdInput,
+  output: BatchDeleteUniqueIdOutput,
   errors: [
     InternalServerException,
     ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Creates an `IdMappingWorkflow` object which stores the configuration of the data processing job to be run. Each `IdMappingWorkflow` must have a unique workflow name. To modify an existing workflow, use the UpdateIdMappingWorkflow API.
+ *
+ * Incremental processing is not supported for ID mapping workflows.
+ */
+export const createIdMappingWorkflow: (
+  input: CreateIdMappingWorkflowInput,
+) => effect.Effect<
+  CreateIdMappingWorkflowOutput,
+  | AccessDeniedException
+  | ConflictException
+  | ExceedsLimitException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateIdMappingWorkflowInput,
+  output: CreateIdMappingWorkflowOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    ExceedsLimitException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Creates an ID namespace object which will help customers provide metadata explaining their dataset and how to use it. Each ID namespace must have a unique name. To modify an existing ID namespace, use the UpdateIdNamespace API.
+ */
+export const createIdNamespace: (
+  input: CreateIdNamespaceInput,
+) => effect.Effect<
+  CreateIdNamespaceOutput,
+  | AccessDeniedException
+  | ConflictException
+  | ExceedsLimitException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateIdNamespaceInput,
+  output: CreateIdNamespaceOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    ExceedsLimitException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Creates a matching workflow that defines the configuration for a data processing job. The workflow name must be unique. To modify an existing workflow, use `UpdateMatchingWorkflow`.
+ *
+ * For workflows where `resolutionType` is `ML_MATCHING` or `PROVIDER`, incremental processing is not supported.
+ */
+export const createMatchingWorkflow: (
+  input: CreateMatchingWorkflowInput,
+) => effect.Effect<
+  CreateMatchingWorkflowOutput,
+  | AccessDeniedException
+  | ConflictException
+  | ExceedsLimitException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateMatchingWorkflowInput,
+  output: CreateMatchingWorkflowOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    ExceedsLimitException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Creates a schema mapping, which defines the schema of the input customer records table. The `SchemaMapping` also provides Entity Resolution with some metadata about the table, such as the attribute types of the columns and which columns to match on.
+ */
+export const createSchemaMapping: (
+  input: CreateSchemaMappingInput,
+) => effect.Effect<
+  CreateSchemaMappingOutput,
+  | AccessDeniedException
+  | ConflictException
+  | ExceedsLimitException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateSchemaMappingInput,
+  output: CreateSchemaMappingOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    ExceedsLimitException,
+    InternalServerException,
+    ThrottlingException,
     ValidationException,
   ],
 }));
@@ -2489,6 +2600,29 @@ export const deleteIdMappingWorkflow: (
   errors: [
     AccessDeniedException,
     ConflictException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Deletes the `IdNamespace` with a given name.
+ */
+export const deleteIdNamespace: (
+  input: DeleteIdNamespaceInput,
+) => effect.Effect<
+  DeleteIdNamespaceOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteIdNamespaceInput,
+  output: DeleteIdNamespaceOutput,
+  errors: [
+    AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
@@ -2572,14 +2706,15 @@ export const deleteSchemaMapping: (
   ],
 }));
 /**
- * Updates the resource-based policy.
+ * Generates or retrieves Match IDs for records using a rule-based matching workflow. When you call this operation, it processes your records against the workflow's matching rules to identify potential matches. For existing records, it retrieves their Match IDs and associated rules. For records without matches, it generates new Match IDs. The operation saves results to Amazon S3.
+ *
+ * The processing type (`processingType`) you choose affects both the accuracy and response time of the operation. Additional charges apply for each API call, whether made through the Entity Resolution console or directly via the API. The rule-based matching workflow must exist and be active before calling this operation.
  */
-export const putPolicy: (
-  input: PutPolicyInput,
+export const generateMatchId: (
+  input: GenerateMatchIdInput,
 ) => effect.Effect<
-  PutPolicyOutput,
+  GenerateMatchIdOutput,
   | AccessDeniedException
-  | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
@@ -2587,11 +2722,10 @@ export const putPolicy: (
   | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PutPolicyInput,
-  output: PutPolicyOutput,
+  input: GenerateMatchIdInput,
+  output: GenerateMatchIdOutput,
   errors: [
     AccessDeniedException,
-    ConflictException,
     InternalServerException,
     ResourceNotFoundException,
     ThrottlingException,
@@ -2599,16 +2733,13 @@ export const putPolicy: (
   ],
 }));
 /**
- * Updates a schema mapping.
- *
- * A schema is immutable if it is being used by a workflow. Therefore, you can't update a schema mapping if it's associated with a workflow.
+ * Returns the status, metrics, and errors (if there are any) that are associated with a job.
  */
-export const updateSchemaMapping: (
-  input: UpdateSchemaMappingInput,
+export const getIdMappingJob: (
+  input: GetIdMappingJobInput,
 ) => effect.Effect<
-  UpdateSchemaMappingOutput,
+  GetIdMappingJobOutput,
   | AccessDeniedException
-  | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
@@ -2616,16 +2747,437 @@ export const updateSchemaMapping: (
   | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateSchemaMappingInput,
-  output: UpdateSchemaMappingOutput,
+  input: GetIdMappingJobInput,
+  output: GetIdMappingJobOutput,
   errors: [
     AccessDeniedException,
-    ConflictException,
     InternalServerException,
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
   ],
+}));
+/**
+ * Returns the `IdMappingWorkflow` with a given name, if it exists.
+ */
+export const getIdMappingWorkflow: (
+  input: GetIdMappingWorkflowInput,
+) => effect.Effect<
+  GetIdMappingWorkflowOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetIdMappingWorkflowInput,
+  output: GetIdMappingWorkflowOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Returns the `IdNamespace` with a given name, if it exists.
+ */
+export const getIdNamespace: (
+  input: GetIdNamespaceInput,
+) => effect.Effect<
+  GetIdNamespaceOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetIdNamespaceInput,
+  output: GetIdNamespaceOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Returns the corresponding Match ID of a customer record if the record has been processed in a rule-based matching workflow.
+ *
+ * You can call this API as a dry run of an incremental load on the rule-based matching workflow.
+ */
+export const getMatchId: (
+  input: GetMatchIdInput,
+) => effect.Effect<
+  GetMatchIdOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetMatchIdInput,
+  output: GetMatchIdOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Returns the status, metrics, and errors (if there are any) that are associated with a job.
+ */
+export const getMatchingJob: (
+  input: GetMatchingJobInput,
+) => effect.Effect<
+  GetMatchingJobOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetMatchingJobInput,
+  output: GetMatchingJobOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Returns the `MatchingWorkflow` with a given name, if it exists.
+ */
+export const getMatchingWorkflow: (
+  input: GetMatchingWorkflowInput,
+) => effect.Effect<
+  GetMatchingWorkflowOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetMatchingWorkflowInput,
+  output: GetMatchingWorkflowOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Returns the resource-based policy.
+ */
+export const getPolicy: (
+  input: GetPolicyInput,
+) => effect.Effect<
+  GetPolicyOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetPolicyInput,
+  output: GetPolicyOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Returns the `ProviderService` of a given name.
+ */
+export const getProviderService: (
+  input: GetProviderServiceInput,
+) => effect.Effect<
+  GetProviderServiceOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetProviderServiceInput,
+  output: GetProviderServiceOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Returns the SchemaMapping of a given name.
+ */
+export const getSchemaMapping: (
+  input: GetSchemaMappingInput,
+) => effect.Effect<
+  GetSchemaMappingOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetSchemaMappingInput,
+  output: GetSchemaMappingOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Lists all ID mapping jobs for a given workflow.
+ */
+export const listIdMappingJobs: {
+  (
+    input: ListIdMappingJobsInput,
+  ): effect.Effect<
+    ListIdMappingJobsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListIdMappingJobsInput,
+  ) => stream.Stream<
+    ListIdMappingJobsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListIdMappingJobsInput,
+  ) => stream.Stream<
+    JobSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListIdMappingJobsInput,
+  output: ListIdMappingJobsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "jobs",
+    pageSize: "maxResults",
+  } as const,
+}));
+/**
+ * Returns a list of all the `IdMappingWorkflows` that have been created for an Amazon Web Services account.
+ */
+export const listIdMappingWorkflows: {
+  (
+    input: ListIdMappingWorkflowsInput,
+  ): effect.Effect<
+    ListIdMappingWorkflowsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListIdMappingWorkflowsInput,
+  ) => stream.Stream<
+    ListIdMappingWorkflowsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListIdMappingWorkflowsInput,
+  ) => stream.Stream<
+    IdMappingWorkflowSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListIdMappingWorkflowsInput,
+  output: ListIdMappingWorkflowsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "workflowSummaries",
+    pageSize: "maxResults",
+  } as const,
+}));
+/**
+ * Returns a list of all ID namespaces.
+ */
+export const listIdNamespaces: {
+  (
+    input: ListIdNamespacesInput,
+  ): effect.Effect<
+    ListIdNamespacesOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListIdNamespacesInput,
+  ) => stream.Stream<
+    ListIdNamespacesOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListIdNamespacesInput,
+  ) => stream.Stream<
+    IdNamespaceSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ThrottlingException
+    | ValidationException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListIdNamespacesInput,
+  output: ListIdNamespacesOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "idNamespaceSummaries",
+    pageSize: "maxResults",
+  } as const,
+}));
+/**
+ * Lists all jobs for a given workflow.
+ */
+export const listMatchingJobs: {
+  (
+    input: ListMatchingJobsInput,
+  ): effect.Effect<
+    ListMatchingJobsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListMatchingJobsInput,
+  ) => stream.Stream<
+    ListMatchingJobsOutput,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListMatchingJobsInput,
+  ) => stream.Stream<
+    JobSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | ResourceNotFoundException
+    | ThrottlingException
+    | ValidationException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListMatchingJobsInput,
+  output: ListMatchingJobsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "jobs",
+    pageSize: "maxResults",
+  } as const,
 }));
 /**
  * Returns a list of all the `MatchingWorkflows` that have been created for an Amazon Web Services account.
@@ -2787,36 +3339,35 @@ export const listSchemaMappings: {
   } as const,
 }));
 /**
- * Deletes the `IdNamespace` with a given name.
+ * Displays the tags associated with an Entity Resolution resource. In Entity Resolution, `SchemaMapping`, and `MatchingWorkflow` can be tagged.
  */
-export const deleteIdNamespace: (
-  input: DeleteIdNamespaceInput,
+export const listTagsForResource: (
+  input: ListTagsForResourceInput,
 ) => effect.Effect<
-  DeleteIdNamespaceOutput,
-  | AccessDeniedException
+  ListTagsForResourceOutput,
   | InternalServerException
-  | ThrottlingException
+  | ResourceNotFoundException
   | ValidationException
   | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteIdNamespaceInput,
-  output: DeleteIdNamespaceOutput,
+  input: ListTagsForResourceInput,
+  output: ListTagsForResourceOutput,
   errors: [
-    AccessDeniedException,
     InternalServerException,
-    ThrottlingException,
+    ResourceNotFoundException,
     ValidationException,
   ],
 }));
 /**
- * Returns the `IdMappingWorkflow` with a given name, if it exists.
+ * Updates the resource-based policy.
  */
-export const getIdMappingWorkflow: (
-  input: GetIdMappingWorkflowInput,
+export const putPolicy: (
+  input: PutPolicyInput,
 ) => effect.Effect<
-  GetIdMappingWorkflowOutput,
+  PutPolicyOutput,
   | AccessDeniedException
+  | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
@@ -2824,10 +3375,11 @@ export const getIdMappingWorkflow: (
   | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetIdMappingWorkflowInput,
-  output: GetIdMappingWorkflowOutput,
+  input: PutPolicyInput,
+  output: PutPolicyOutput,
   errors: [
     AccessDeniedException,
+    ConflictException,
     InternalServerException,
     ResourceNotFoundException,
     ThrottlingException,
@@ -2835,13 +3387,15 @@ export const getIdMappingWorkflow: (
   ],
 }));
 /**
- * Returns the `IdNamespace` with a given name, if it exists.
+ * Starts the `IdMappingJob` of a workflow. The workflow must have previously been created using the `CreateIdMappingWorkflow` endpoint.
  */
-export const getIdNamespace: (
-  input: GetIdNamespaceInput,
+export const startIdMappingJob: (
+  input: StartIdMappingJobInput,
 ) => effect.Effect<
-  GetIdNamespaceOutput,
+  StartIdMappingJobOutput,
   | AccessDeniedException
+  | ConflictException
+  | ExceedsLimitException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
@@ -2849,10 +3403,12 @@ export const getIdNamespace: (
   | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetIdNamespaceInput,
-  output: GetIdNamespaceOutput,
+  input: StartIdMappingJobInput,
+  output: StartIdMappingJobOutput,
   errors: [
     AccessDeniedException,
+    ConflictException,
+    ExceedsLimitException,
     InternalServerException,
     ResourceNotFoundException,
     ThrottlingException,
@@ -2860,13 +3416,15 @@ export const getIdNamespace: (
   ],
 }));
 /**
- * Returns the `MatchingWorkflow` with a given name, if it exists.
+ * Starts the `MatchingJob` of a workflow. The workflow must have previously been created using the `CreateMatchingWorkflow` endpoint.
  */
-export const getMatchingWorkflow: (
-  input: GetMatchingWorkflowInput,
+export const startMatchingJob: (
+  input: StartMatchingJobInput,
 ) => effect.Effect<
-  GetMatchingWorkflowOutput,
+  StartMatchingJobOutput,
   | AccessDeniedException
+  | ConflictException
+  | ExceedsLimitException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
@@ -2874,10 +3432,12 @@ export const getMatchingWorkflow: (
   | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetMatchingWorkflowInput,
-  output: GetMatchingWorkflowOutput,
+  input: StartMatchingJobInput,
+  output: StartMatchingJobOutput,
   errors: [
     AccessDeniedException,
+    ConflictException,
+    ExceedsLimitException,
     InternalServerException,
     ResourceNotFoundException,
     ThrottlingException,
@@ -2885,111 +3445,39 @@ export const getMatchingWorkflow: (
   ],
 }));
 /**
- * Returns the resource-based policy.
+ * Assigns one or more tags (key-value pairs) to the specified Entity Resolution resource. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. In Entity Resolution, `SchemaMapping` and `MatchingWorkflow` can be tagged. Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as strings of characters. You can use the `TagResource` action with a resource that already has tags. If you specify a new tag key, this tag is appended to the list of tags associated with the resource. If you specify a tag key that is already associated with the resource, the new tag value that you specify replaces the previous value for that tag.
  */
-export const getPolicy: (
-  input: GetPolicyInput,
+export const tagResource: (
+  input: TagResourceInput,
 ) => effect.Effect<
-  GetPolicyOutput,
-  | AccessDeniedException
+  TagResourceOutput,
   | InternalServerException
   | ResourceNotFoundException
-  | ThrottlingException
   | ValidationException
   | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetPolicyInput,
-  output: GetPolicyOutput,
+  input: TagResourceInput,
+  output: TagResourceOutput,
   errors: [
-    AccessDeniedException,
     InternalServerException,
     ResourceNotFoundException,
-    ThrottlingException,
     ValidationException,
   ],
 }));
 /**
- * Returns the SchemaMapping of a given name.
+ * Removes one or more tags from the specified Entity Resolution resource. In Entity Resolution, `SchemaMapping`, and `MatchingWorkflow` can be tagged.
  */
-export const getSchemaMapping: (
-  input: GetSchemaMappingInput,
+export const untagResource: (
+  input: UntagResourceInput,
 ) => effect.Effect<
-  GetSchemaMappingOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
+  UntagResourceOutput,
+  InternalServerException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetSchemaMappingInput,
-  output: GetSchemaMappingOutput,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Lists all jobs for a given workflow.
- */
-export const listMatchingJobs: {
-  (
-    input: ListMatchingJobsInput,
-  ): effect.Effect<
-    ListMatchingJobsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  pages: (
-    input: ListMatchingJobsInput,
-  ) => stream.Stream<
-    ListMatchingJobsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  items: (
-    input: ListMatchingJobsInput,
-  ) => stream.Stream<
-    JobSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
-  input: ListMatchingJobsInput,
-  output: ListMatchingJobsOutput,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-  pagination: {
-    inputToken: "nextToken",
-    outputToken: "nextToken",
-    items: "jobs",
-    pageSize: "maxResults",
-  } as const,
+  input: UntagResourceInput,
+  output: UntagResourceOutput,
+  errors: [InternalServerException, ResourceNotFoundException],
 }));
 /**
  * Updates an existing `IdMappingWorkflow`. This method is identical to CreateIdMappingWorkflow, except it uses an HTTP `PUT` request instead of a `POST` request, and the `IdMappingWorkflow` must already exist for the method to succeed.
@@ -3071,146 +3559,14 @@ export const updateMatchingWorkflow: (
   ],
 }));
 /**
- * Returns the status, metrics, and errors (if there are any) that are associated with a job.
- */
-export const getIdMappingJob: (
-  input: GetIdMappingJobInput,
-) => effect.Effect<
-  GetIdMappingJobOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetIdMappingJobInput,
-  output: GetIdMappingJobOutput,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Returns the corresponding Match ID of a customer record if the record has been processed in a rule-based matching workflow.
+ * Updates a schema mapping.
  *
- * You can call this API as a dry run of an incremental load on the rule-based matching workflow.
+ * A schema is immutable if it is being used by a workflow. Therefore, you can't update a schema mapping if it's associated with a workflow.
  */
-export const getMatchId: (
-  input: GetMatchIdInput,
+export const updateSchemaMapping: (
+  input: UpdateSchemaMappingInput,
 ) => effect.Effect<
-  GetMatchIdOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetMatchIdInput,
-  output: GetMatchIdOutput,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Returns the status, metrics, and errors (if there are any) that are associated with a job.
- */
-export const getMatchingJob: (
-  input: GetMatchingJobInput,
-) => effect.Effect<
-  GetMatchingJobOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetMatchingJobInput,
-  output: GetMatchingJobOutput,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Lists all ID mapping jobs for a given workflow.
- */
-export const listIdMappingJobs: {
-  (
-    input: ListIdMappingJobsInput,
-  ): effect.Effect<
-    ListIdMappingJobsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  pages: (
-    input: ListIdMappingJobsInput,
-  ) => stream.Stream<
-    ListIdMappingJobsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  items: (
-    input: ListIdMappingJobsInput,
-  ) => stream.Stream<
-    JobSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
-  input: ListIdMappingJobsInput,
-  output: ListIdMappingJobsOutput,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-  pagination: {
-    inputToken: "nextToken",
-    outputToken: "nextToken",
-    items: "jobs",
-    pageSize: "maxResults",
-  } as const,
-}));
-/**
- * Adds a policy statement object. To retrieve a list of existing policy statements, use the `GetPolicy` API.
- */
-export const addPolicyStatement: (
-  input: AddPolicyStatementInput,
-) => effect.Effect<
-  AddPolicyStatementOutput,
+  UpdateSchemaMappingOutput,
   | AccessDeniedException
   | ConflictException
   | InternalServerException
@@ -3220,381 +3576,11 @@ export const addPolicyStatement: (
   | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: AddPolicyStatementInput,
-  output: AddPolicyStatementOutput,
+  input: UpdateSchemaMappingInput,
+  output: UpdateSchemaMappingOutput,
   errors: [
     AccessDeniedException,
     ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Returns the `ProviderService` of a given name.
- */
-export const getProviderService: (
-  input: GetProviderServiceInput,
-) => effect.Effect<
-  GetProviderServiceOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetProviderServiceInput,
-  output: GetProviderServiceOutput,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Displays the tags associated with an Entity Resolution resource. In Entity Resolution, `SchemaMapping`, and `MatchingWorkflow` can be tagged.
- */
-export const listTagsForResource: (
-  input: ListTagsForResourceInput,
-) => effect.Effect<
-  ListTagsForResourceOutput,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceInput,
-  output: ListTagsForResourceOutput,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Deletes multiple unique IDs in a matching workflow.
- */
-export const batchDeleteUniqueId: (
-  input: BatchDeleteUniqueIdInput,
-) => effect.Effect<
-  BatchDeleteUniqueIdOutput,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: BatchDeleteUniqueIdInput,
-  output: BatchDeleteUniqueIdOutput,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Returns a list of all the `IdMappingWorkflows` that have been created for an Amazon Web Services account.
- */
-export const listIdMappingWorkflows: {
-  (
-    input: ListIdMappingWorkflowsInput,
-  ): effect.Effect<
-    ListIdMappingWorkflowsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  pages: (
-    input: ListIdMappingWorkflowsInput,
-  ) => stream.Stream<
-    ListIdMappingWorkflowsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  items: (
-    input: ListIdMappingWorkflowsInput,
-  ) => stream.Stream<
-    IdMappingWorkflowSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
-  input: ListIdMappingWorkflowsInput,
-  output: ListIdMappingWorkflowsOutput,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ThrottlingException,
-    ValidationException,
-  ],
-  pagination: {
-    inputToken: "nextToken",
-    outputToken: "nextToken",
-    items: "workflowSummaries",
-    pageSize: "maxResults",
-  } as const,
-}));
-/**
- * Returns a list of all ID namespaces.
- */
-export const listIdNamespaces: {
-  (
-    input: ListIdNamespacesInput,
-  ): effect.Effect<
-    ListIdNamespacesOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  pages: (
-    input: ListIdNamespacesInput,
-  ) => stream.Stream<
-    ListIdNamespacesOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  items: (
-    input: ListIdNamespacesInput,
-  ) => stream.Stream<
-    IdNamespaceSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
-  input: ListIdNamespacesInput,
-  output: ListIdNamespacesOutput,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ThrottlingException,
-    ValidationException,
-  ],
-  pagination: {
-    inputToken: "nextToken",
-    outputToken: "nextToken",
-    items: "idNamespaceSummaries",
-    pageSize: "maxResults",
-  } as const,
-}));
-/**
- * Creates an ID namespace object which will help customers provide metadata explaining their dataset and how to use it. Each ID namespace must have a unique name. To modify an existing ID namespace, use the UpdateIdNamespace API.
- */
-export const createIdNamespace: (
-  input: CreateIdNamespaceInput,
-) => effect.Effect<
-  CreateIdNamespaceOutput,
-  | AccessDeniedException
-  | ConflictException
-  | ExceedsLimitException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateIdNamespaceInput,
-  output: CreateIdNamespaceOutput,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    ExceedsLimitException,
-    InternalServerException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Creates a matching workflow that defines the configuration for a data processing job. The workflow name must be unique. To modify an existing workflow, use `UpdateMatchingWorkflow`.
- *
- * For workflows where `resolutionType` is `ML_MATCHING` or `PROVIDER`, incremental processing is not supported.
- */
-export const createMatchingWorkflow: (
-  input: CreateMatchingWorkflowInput,
-) => effect.Effect<
-  CreateMatchingWorkflowOutput,
-  | AccessDeniedException
-  | ConflictException
-  | ExceedsLimitException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateMatchingWorkflowInput,
-  output: CreateMatchingWorkflowOutput,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    ExceedsLimitException,
-    InternalServerException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Creates a schema mapping, which defines the schema of the input customer records table. The `SchemaMapping` also provides Entity Resolution with some metadata about the table, such as the attribute types of the columns and which columns to match on.
- */
-export const createSchemaMapping: (
-  input: CreateSchemaMappingInput,
-) => effect.Effect<
-  CreateSchemaMappingOutput,
-  | AccessDeniedException
-  | ConflictException
-  | ExceedsLimitException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateSchemaMappingInput,
-  output: CreateSchemaMappingOutput,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    ExceedsLimitException,
-    InternalServerException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Starts the `IdMappingJob` of a workflow. The workflow must have previously been created using the `CreateIdMappingWorkflow` endpoint.
- */
-export const startIdMappingJob: (
-  input: StartIdMappingJobInput,
-) => effect.Effect<
-  StartIdMappingJobOutput,
-  | AccessDeniedException
-  | ConflictException
-  | ExceedsLimitException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StartIdMappingJobInput,
-  output: StartIdMappingJobOutput,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    ExceedsLimitException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Starts the `MatchingJob` of a workflow. The workflow must have previously been created using the `CreateMatchingWorkflow` endpoint.
- */
-export const startMatchingJob: (
-  input: StartMatchingJobInput,
-) => effect.Effect<
-  StartMatchingJobOutput,
-  | AccessDeniedException
-  | ConflictException
-  | ExceedsLimitException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StartMatchingJobInput,
-  output: StartMatchingJobOutput,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    ExceedsLimitException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Creates an `IdMappingWorkflow` object which stores the configuration of the data processing job to be run. Each `IdMappingWorkflow` must have a unique workflow name. To modify an existing workflow, use the UpdateIdMappingWorkflow API.
- *
- * Incremental processing is not supported for ID mapping workflows.
- */
-export const createIdMappingWorkflow: (
-  input: CreateIdMappingWorkflowInput,
-) => effect.Effect<
-  CreateIdMappingWorkflowOutput,
-  | AccessDeniedException
-  | ConflictException
-  | ExceedsLimitException
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateIdMappingWorkflowInput,
-  output: CreateIdMappingWorkflowOutput,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    ExceedsLimitException,
-    InternalServerException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Generates or retrieves Match IDs for records using a rule-based matching workflow. When you call this operation, it processes your records against the workflow's matching rules to identify potential matches. For existing records, it retrieves their Match IDs and associated rules. For records without matches, it generates new Match IDs. The operation saves results to Amazon S3.
- *
- * The processing type (`processingType`) you choose affects both the accuracy and response time of the operation. Additional charges apply for each API call, whether made through the Entity Resolution console or directly via the API. The rule-based matching workflow must exist and be active before calling this operation.
- */
-export const generateMatchId: (
-  input: GenerateMatchIdInput,
-) => effect.Effect<
-  GenerateMatchIdOutput,
-  | AccessDeniedException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GenerateMatchIdInput,
-  output: GenerateMatchIdOutput,
-  errors: [
-    AccessDeniedException,
     InternalServerException,
     ResourceNotFoundException,
     ThrottlingException,

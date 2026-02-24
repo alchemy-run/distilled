@@ -77,10 +77,10 @@ const cleanupTokenByName = (tokenName: string) =>
         yield* AISearch.deleteToken({
           accountId: accountId(),
           id: token.id,
-        }).pipe(Effect.catchAll(() => Effect.void));
+        }).pipe(Effect.catch(() => Effect.void));
       }
     }
-  }).pipe(Effect.catchAll(() => Effect.void));
+  }).pipe(Effect.catch(() => Effect.void));
 
 /**
  * Create an AI Search token, run `fn`, then delete the token.
@@ -108,7 +108,7 @@ const withToken = <A, E, R>(
         AISearch.deleteToken({
           accountId: accountId(),
           id: tokenId,
-        }).pipe(Effect.catchAll(() => Effect.void)),
+        }).pipe(Effect.catch(() => Effect.void)),
       ),
     );
   });
@@ -129,12 +129,12 @@ const withInstance = <A, E, R>(
     yield* AISearch.deleteInstance({
       accountId: accountId(),
       id: resourceName(name),
-    }).pipe(Effect.catchAll(() => Effect.void));
+    }).pipe(Effect.catch(() => Effect.void));
     yield* cleanupTokenByName(tokenName);
     yield* R2.deleteBucket({
       accountId: accountId(),
       bucketName,
-    }).pipe(Effect.catchAll(() => Effect.void));
+    }).pipe(Effect.catch(() => Effect.void));
 
     // Create R2 bucket
     yield* R2.createBucket({
@@ -167,15 +167,15 @@ const withInstance = <A, E, R>(
           yield* AISearch.deleteInstance({
             accountId: accountId(),
             id: instanceId,
-          }).pipe(Effect.catchAll(() => Effect.void));
+          }).pipe(Effect.catch(() => Effect.void));
           yield* AISearch.deleteToken({
             accountId: accountId(),
             id: token.id,
-          }).pipe(Effect.catchAll(() => Effect.void));
+          }).pipe(Effect.catch(() => Effect.void));
           yield* R2.deleteBucket({
             accountId: accountId(),
             bucketName,
-          }).pipe(Effect.catchAll(() => Effect.void));
+          }).pipe(Effect.catch(() => Effect.void));
         }),
       ),
     );
@@ -258,7 +258,7 @@ describe("AISearch", () => {
         yield* AISearch.deleteToken({
           accountId: accountId(),
           id: token.id,
-        }).pipe(Effect.catchAll(() => Effect.void));
+        }).pipe(Effect.catch(() => Effect.void));
       }));
   });
 
@@ -353,12 +353,12 @@ describe("AISearch", () => {
         yield* AISearch.deleteInstance({
           accountId: accountId(),
           id: name,
-        }).pipe(Effect.catchAll(() => Effect.void));
+        }).pipe(Effect.catch(() => Effect.void));
         yield* cleanupTokenByName(tokenName);
         yield* R2.deleteBucket({
           accountId: accountId(),
           bucketName,
-        }).pipe(Effect.catchAll(() => Effect.void));
+        }).pipe(Effect.catch(() => Effect.void));
 
         // Create R2 bucket
         yield* R2.createBucket({
@@ -392,15 +392,15 @@ describe("AISearch", () => {
         yield* AISearch.deleteInstance({
           accountId: accountId(),
           id: name,
-        }).pipe(Effect.catchAll(() => Effect.void));
+        }).pipe(Effect.catch(() => Effect.void));
         yield* AISearch.deleteToken({
           accountId: accountId(),
           id: token.id,
-        }).pipe(Effect.catchAll(() => Effect.void));
+        }).pipe(Effect.catch(() => Effect.void));
         yield* R2.deleteBucket({
           accountId: accountId(),
           bucketName,
-        }).pipe(Effect.catchAll(() => Effect.void));
+        }).pipe(Effect.catch(() => Effect.void));
       }));
   });
 
@@ -461,12 +461,12 @@ describe("AISearch", () => {
         yield* AISearch.deleteInstance({
           accountId: accountId(),
           id: name,
-        }).pipe(Effect.catchAll(() => Effect.void));
+        }).pipe(Effect.catch(() => Effect.void));
         yield* cleanupTokenByName(tokenName);
         yield* R2.deleteBucket({
           accountId: accountId(),
           bucketName,
-        }).pipe(Effect.catchAll(() => Effect.void));
+        }).pipe(Effect.catch(() => Effect.void));
 
         // Create R2 bucket
         yield* R2.createBucket({
@@ -503,11 +503,11 @@ describe("AISearch", () => {
         yield* AISearch.deleteToken({
           accountId: accountId(),
           id: token.id,
-        }).pipe(Effect.catchAll(() => Effect.void));
+        }).pipe(Effect.catch(() => Effect.void));
         yield* R2.deleteBucket({
           accountId: accountId(),
           bucketName,
-        }).pipe(Effect.catchAll(() => Effect.void));
+        }).pipe(Effect.catch(() => Effect.void));
       }));
 
     test("error - ValidationError for instance id too long", () =>
@@ -676,7 +676,7 @@ describe("AISearch", () => {
                 e._tag === "UnableToConnect" ||
                 e._tag === "SyncInCooldown",
               schedule: Schedule.recurs(10).pipe(
-                Schedule.addDelay(() => "3 seconds"),
+                Schedule.addDelay(() => Effect.succeed("3 seconds")),
               ),
             }),
           );

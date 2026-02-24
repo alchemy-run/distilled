@@ -10,10 +10,9 @@
  *   bun scripts/generate-tests.ts -s r2 --repair-only     # Repair only for specific service(s)
  */
 
-import { Command as CliCommand, Options } from "@effect/cli";
-import { Command, FileSystem } from "@effect/platform";
-import { NodeContext, NodeRuntime } from "@effect/platform-node";
-import { Console, Effect, Logger, LogLevel, Schema } from "effect";
+import { NodeRuntime, NodeServices } from "@effect/platform-node";
+import { Console, Effect, FileSystem, Schema } from "effect";
+import * as ChildProcess from "effect/unstable/process/ChildProcess";
 import * as path from "node:path";
 import * as url from "node:url";
 import { startVitest } from "vitest/node";
@@ -25,9 +24,34 @@ const SERVICES_PATH = "./src/services";
 const TESTS_PATH = "./test";
 const PATCHES_PATH = "./patch";
 
-class VitestError extends Schema.TaggedError<VitestError>()("VitestError", {
+class VitestError extends Schema.TaggedErrorClass<VitestError>()("VitestError", {
   cause: Schema.Unknown,
 }) {}
+
+// Parse CLI args manually (Effect 4 removed @effect/cli)
+const parseArgs = (): {
+  service: string | undefined;
+  showChat: boolean;
+  repairOnly: boolean;
+} => {
+  const args = process.argv.slice(2);
+  let service: string | undefined;
+  let showChat = false;
+  let repairOnly = false;
+
+  for (let i = 0; i < args.length; i++) {
+    if ((args[i] === "--service" || args[i] === "-s") && args[i + 1]) {
+      service = args[i + 1];
+      i++;
+    } else if (args[i] === "--show-chat") {
+      showChat = true;
+    } else if (args[i] === "--repair-only") {
+      repairOnly = true;
+    }
+  }
+
+  return { service, showChat, repairOnly };
+};
 
 /**
  * List all service files in the services directory.
@@ -50,111 +74,10 @@ const filterServices = (services: string[], filter: string): string[] => {
   return services.filter((s) => allowed.has(s.toLowerCase()));
 };
 
-// CLI Options
-const serviceOption = Options.text("service").pipe(
-  Options.withAlias("s"),
-  Options.withDescription(
-    "Comma-separated list of services to process (e.g., r2,workers,queues)",
-  ),
-  Options.optional,
-);
-
-const showChatOption = Options.boolean("show-chat").pipe(
-  Options.withDescription("Stream opencode output directly to the terminal"),
-  Options.withDefault(false),
-);
-
-const repairOnlyOption = Options.boolean("repair-only").pipe(
-  Options.withDescription(
-    "Skip generation and testing, only run post-generation steps (e.g. repairTests)",
-  ),
-  Options.withDefault(false),
-);
-
-const command = CliCommand.make(
-  "generate-tests",
-  {
-    service: serviceOption,
-    showChat: showChatOption,
-    repairOnly: repairOnlyOption,
-  },
-  ({ service, showChat, repairOnly }) =>
-    Effect.gen(function* () {
-      let services = yield* listServices;
-
-      if (service._tag === "Some") {
-        services = filterServices(services, service.value);
-        if (services.length === 0) {
-          yield* Console.error(
-            `No matching services found for: ${service.value}`,
-          );
-          return;
-        }
-        yield* Console.log(
-          `Filtering to ${services.length} service(s): ${services.join(", ")}`,
-        );
-      } else {
-        yield* Console.log(`Found ${services.length} services`);
-      }
-
-      if (!repairOnly) {
-        const fs = yield* FileSystem.FileSystem;
-
-        yield* Effect.forEach(
-          services,
-          Effect.fn(function* (svc) {
-            yield* Console.log(`[${svc}] Generating tests`);
-            yield* generateTests(svc, showChat);
-            yield* Console.log(`[${svc}] Running tests`);
-            const testResults = yield* runVitest(svc);
-            const outPath = path.join(
-              PROJECT_ROOT,
-              TESTS_PATH,
-              `${svc}-test-errors.temp.json`,
-            );
-            yield* fs.writeFileString(
-              outPath,
-              JSON.stringify(testResults, null, 2) + "\n",
-            );
-            yield* Console.log(`[${svc}] Wrote test results to ${outPath}`);
-            yield* Console.log(`[${svc}] Updating errors`);
-            yield* updateErrors(svc, showChat);
-            yield* Console.log(`[${svc}] Removing temp test results`);
-            yield* fs.remove(outPath);
-          }),
-          {
-            concurrency: "unbounded",
-          },
-        );
-
-        yield* generateSdk();
-      } else {
-        yield* Console.log("Skipping generation and testing (--repair-only)");
-      }
-
-      yield* Effect.forEach(
-        services,
-        Effect.fn(function* (svc) {
-          yield* repairTests(svc, showChat);
-        }),
-        {
-          concurrency: "unbounded",
-        },
-      );
-    }),
-);
-
 const generateSdk = Effect.fn(function* () {
-  const cmd = Command.make("bun", "run", "generate").pipe(
-    Command.stdin("inherit"),
-    Command.workingDirectory(PROJECT_ROOT),
-  );
-
-  yield* cmd.pipe(
-    Command.stdout("inherit"),
-    Command.stderr("inherit"),
-    Command.exitCode,
-  );
+  yield* ChildProcess.make("bun", ["run", "generate"], {
+    cwd: PROJECT_ROOT,
+  }).pipe(ChildProcess.string());
 });
 
 const generateTests = Effect.fn(function* (svc: string, showChat: boolean) {
@@ -193,23 +116,15 @@ const generateTests = Effect.fn(function* (svc: string, showChat: boolean) {
     DONOTRUNTHENEWLYCREATEDTESTS.
     MAKE SURE TO WRITE HAPPY PATH TESTS FOR EVERY OPERATION.
   `;
-  const cmd = Command.make(
+
+  const result = yield* ChildProcess.make(
     "opencode",
-    "run",
-    "--model",
-    "anthropic/claude-opus-4-6",
-    prompt,
-  ).pipe(Command.stdin("inherit"), Command.workingDirectory(PROJECT_ROOT));
+    ["run", "--model", "anthropic/claude-opus-4-6", prompt],
+    { cwd: PROJECT_ROOT },
+  ).pipe(ChildProcess.string());
 
   if (showChat) {
-    yield* cmd.pipe(
-      Command.stdout("inherit"),
-      Command.stderr("inherit"),
-      Command.exitCode,
-    );
-  } else {
-    const output = yield* cmd.pipe(Command.string);
-    yield* Console.log(output);
+    yield* Console.log(result);
   }
 });
 
@@ -248,23 +163,15 @@ const updateErrors = Effect.fn(function* (svc: string, showChat: boolean) {
 
     Only create patch files for operations that had at least one failed test.
     DO NOT MODIFY ANY EXISTING FILES IN src.`;
-  const cmd = Command.make(
+
+  const result = yield* ChildProcess.make(
     "opencode",
-    "run",
-    "--model",
-    "anthropic/claude-sonnet-4-6",
-    prompt,
-  ).pipe(Command.stdin("inherit"), Command.workingDirectory(PROJECT_ROOT));
+    ["run", "--model", "anthropic/claude-sonnet-4-6", prompt],
+    { cwd: PROJECT_ROOT },
+  ).pipe(ChildProcess.string());
 
   if (showChat) {
-    yield* cmd.pipe(
-      Command.stdout("inherit"),
-      Command.stderr("inherit"),
-      Command.exitCode,
-    );
-  } else {
-    const output = yield* cmd.pipe(Command.string);
-    yield* Console.log(output);
+    yield* Console.log(result);
   }
 });
 
@@ -279,25 +186,15 @@ const repairTests = Effect.fn(function* (svc: string, showChat: boolean) {
     DO NOT REMOVE HAPPY PATH TESTS
     if the test is broken write patch files and run \`bun generate --service ${svc}\` to regenerate the sdk with new errors.
     `;
-  const cmd = Command.make(
+
+  const result = yield* ChildProcess.make(
     "opencode",
-    "run",
-    "--model",
-    "anthropic/claude-opus-4-6",
-    // "--model",
-    // "anthropic/claude-haiku-4-5",
-    prompt,
-  ).pipe(Command.stdin("inherit"), Command.workingDirectory(PROJECT_ROOT));
+    ["run", "--model", "anthropic/claude-opus-4-6", prompt],
+    { cwd: PROJECT_ROOT },
+  ).pipe(ChildProcess.string());
 
   if (showChat) {
-    yield* cmd.pipe(
-      Command.stdout("inherit"),
-      Command.stderr("inherit"),
-      Command.exitCode,
-    );
-  } else {
-    const output = yield* cmd.pipe(Command.string);
-    yield* Console.log(output);
+    yield* Console.log(result);
   }
 });
 
@@ -383,14 +280,70 @@ const runVitest = Effect.fn(function* (svc: string) {
   return results;
 });
 
-// Run the command
-const cli = CliCommand.run(command, {
-  name: "generate-tests",
-  version: "1.0.0",
+const main = Effect.gen(function* () {
+  const { service, showChat, repairOnly } = parseArgs();
+  let services = yield* listServices;
+
+  if (service) {
+    services = filterServices(services, service);
+    if (services.length === 0) {
+      yield* Console.error(`No matching services found for: ${service}`);
+      return;
+    }
+    yield* Console.log(
+      `Filtering to ${services.length} service(s): ${services.join(", ")}`,
+    );
+  } else {
+    yield* Console.log(`Found ${services.length} services`);
+  }
+
+  if (!repairOnly) {
+    const fs = yield* FileSystem.FileSystem;
+
+    yield* Effect.forEach(
+      services,
+      Effect.fn(function* (svc) {
+        yield* Console.log(`[${svc}] Generating tests`);
+        yield* generateTests(svc, showChat);
+        yield* Console.log(`[${svc}] Running tests`);
+        const testResults = yield* runVitest(svc);
+        const outPath = path.join(
+          PROJECT_ROOT,
+          TESTS_PATH,
+          `${svc}-test-errors.temp.json`,
+        );
+        yield* fs.writeFileString(
+          outPath,
+          JSON.stringify(testResults, null, 2) + "\n",
+        );
+        yield* Console.log(`[${svc}] Wrote test results to ${outPath}`);
+        yield* Console.log(`[${svc}] Updating errors`);
+        yield* updateErrors(svc, showChat);
+        yield* Console.log(`[${svc}] Removing temp test results`);
+        yield* fs.remove(outPath);
+      }),
+      {
+        concurrency: "unbounded",
+      },
+    );
+
+    yield* generateSdk();
+  } else {
+    yield* Console.log("Skipping generation and testing (--repair-only)");
+  }
+
+  yield* Effect.forEach(
+    services,
+    Effect.fn(function* (svc) {
+      yield* repairTests(svc, showChat);
+    }),
+    {
+      concurrency: "unbounded",
+    },
+  );
 });
 
-Effect.suspend(() => cli(process.argv)).pipe(
-  Effect.provide(NodeContext.layer),
-  Logger.withMinimumLogLevel(LogLevel.Info),
+main.pipe(
+  Effect.provide(NodeServices.layer),
   NodeRuntime.runMain,
 );

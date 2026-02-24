@@ -28,7 +28,7 @@ export const LintBranchSchemaOutput = Schema.Struct({
   data: Schema.Array(
     Schema.Struct({
       lint_error: Schema.String,
-      subject_type: Schema.Literal("table", "vschema", "routing_rules"),
+      subject_type: Schema.Literals(["table", "vschema", "routing_rules"]),
       keyspace_name: Schema.String,
       table_name: Schema.String,
       error_description: Schema.String,

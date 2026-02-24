@@ -1,4 +1,4 @@
-import { HttpClient } from "@effect/platform";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as effect from "effect/Effect";
 import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
@@ -89,67 +89,42 @@ const rules = T.EndpointResolver((p, _) => {
 //# Newtypes
 export type ResourceId = string;
 export type Name = string;
+export type TagKey = string;
+export type TagValue = string;
+export type AccountId = string;
+export type Rfc3339Timestamp = Date;
+export type ExceptionMessage = string;
 export type Arn = string;
 export type ResourceProperties = string;
 export type CreatorRequestId = string;
 export type MaxResults = number;
 export type NextToken = string;
-export type TagKey = string;
-export type TagValue = string;
-export type ExceptionMessage = string;
-export type AccountId = string;
-export type Rfc3339Timestamp = Date;
 
 //# Schemas
-export type TagKeyList = string[];
-export const TagKeyList = S.Array(S.String);
-export interface AssociateResourceToProfileRequest {
-  ProfileId: string;
-  ResourceArn: string;
-  Name: string;
-  ResourceProperties?: string;
-}
-export const AssociateResourceToProfileRequest = S.suspend(() =>
-  S.Struct({
-    ProfileId: S.String,
-    ResourceArn: S.String,
-    Name: S.String,
-    ResourceProperties: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/profileresourceassociation" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "AssociateResourceToProfileRequest",
-}) as any as S.Schema<AssociateResourceToProfileRequest>;
 export interface Tag {
   Key: string;
   Value: string;
 }
 export const Tag = S.suspend(() =>
   S.Struct({ Key: S.String, Value: S.String }),
-).annotations({ identifier: "Tag" }) as any as S.Schema<Tag>;
+).annotate({ identifier: "Tag" }) as any as S.Schema<Tag>;
 export type TagList = Tag[];
 export const TagList = S.Array(Tag);
-export interface CreateProfileRequest {
+export interface AssociateProfileRequest {
+  ProfileId: string;
+  ResourceId: string;
   Name: string;
-  ClientToken: string;
   Tags?: Tag[];
 }
-export const CreateProfileRequest = S.suspend(() =>
+export const AssociateProfileRequest = S.suspend(() =>
   S.Struct({
+    ProfileId: S.String,
+    ResourceId: S.String,
     Name: S.String,
-    ClientToken: S.String.pipe(T.IdempotencyToken()),
     Tags: S.optional(TagList),
   }).pipe(
     T.all(
-      T.Http({ method: "POST", uri: "/profile" }),
+      T.Http({ method: "POST", uri: "/profileassociation" }),
       svc,
       auth,
       proto,
@@ -157,281 +132,9 @@ export const CreateProfileRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
-  identifier: "CreateProfileRequest",
-}) as any as S.Schema<CreateProfileRequest>;
-export interface DeleteProfileRequest {
-  ProfileId: string;
-}
-export const DeleteProfileRequest = S.suspend(() =>
-  S.Struct({ ProfileId: S.String.pipe(T.HttpLabel("ProfileId")) }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/profile/{ProfileId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DeleteProfileRequest",
-}) as any as S.Schema<DeleteProfileRequest>;
-export interface DisassociateProfileRequest {
-  ProfileId: string;
-  ResourceId: string;
-}
-export const DisassociateProfileRequest = S.suspend(() =>
-  S.Struct({
-    ProfileId: S.String.pipe(T.HttpLabel("ProfileId")),
-    ResourceId: S.String.pipe(T.HttpLabel("ResourceId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/profileassociation/Profileid/{ProfileId}/resourceid/{ResourceId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DisassociateProfileRequest",
-}) as any as S.Schema<DisassociateProfileRequest>;
-export interface DisassociateResourceFromProfileRequest {
-  ProfileId: string;
-  ResourceArn: string;
-}
-export const DisassociateResourceFromProfileRequest = S.suspend(() =>
-  S.Struct({
-    ProfileId: S.String.pipe(T.HttpLabel("ProfileId")),
-    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/profileresourceassociation/profileid/{ProfileId}/resourcearn/{ResourceArn}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DisassociateResourceFromProfileRequest",
-}) as any as S.Schema<DisassociateResourceFromProfileRequest>;
-export interface GetProfileRequest {
-  ProfileId: string;
-}
-export const GetProfileRequest = S.suspend(() =>
-  S.Struct({ ProfileId: S.String.pipe(T.HttpLabel("ProfileId")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/profile/{ProfileId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "GetProfileRequest",
-}) as any as S.Schema<GetProfileRequest>;
-export interface GetProfileAssociationRequest {
-  ProfileAssociationId: string;
-}
-export const GetProfileAssociationRequest = S.suspend(() =>
-  S.Struct({
-    ProfileAssociationId: S.String.pipe(T.HttpLabel("ProfileAssociationId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/profileassociation/{ProfileAssociationId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "GetProfileAssociationRequest",
-}) as any as S.Schema<GetProfileAssociationRequest>;
-export interface GetProfileResourceAssociationRequest {
-  ProfileResourceAssociationId: string;
-}
-export const GetProfileResourceAssociationRequest = S.suspend(() =>
-  S.Struct({
-    ProfileResourceAssociationId: S.String.pipe(
-      T.HttpLabel("ProfileResourceAssociationId"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/profileresourceassociation/{ProfileResourceAssociationId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "GetProfileResourceAssociationRequest",
-}) as any as S.Schema<GetProfileResourceAssociationRequest>;
-export interface ListProfileAssociationsRequest {
-  ResourceId?: string;
-  ProfileId?: string;
-  MaxResults?: number;
-  NextToken?: string;
-}
-export const ListProfileAssociationsRequest = S.suspend(() =>
-  S.Struct({
-    ResourceId: S.optional(S.String).pipe(T.HttpQuery("resourceId")),
-    ProfileId: S.optional(S.String).pipe(T.HttpQuery("profileId")),
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/profileassociations" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListProfileAssociationsRequest",
-}) as any as S.Schema<ListProfileAssociationsRequest>;
-export interface ListProfileResourceAssociationsRequest {
-  ProfileId: string;
-  ResourceType?: string;
-  MaxResults?: number;
-  NextToken?: string;
-}
-export const ListProfileResourceAssociationsRequest = S.suspend(() =>
-  S.Struct({
-    ProfileId: S.String.pipe(T.HttpLabel("ProfileId")),
-    ResourceType: S.optional(S.String).pipe(T.HttpQuery("resourceType")),
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/profileresourceassociations/profileid/{ProfileId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListProfileResourceAssociationsRequest",
-}) as any as S.Schema<ListProfileResourceAssociationsRequest>;
-export interface ListProfilesRequest {
-  MaxResults?: number;
-  NextToken?: string;
-}
-export const ListProfilesRequest = S.suspend(() =>
-  S.Struct({
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/profiles" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListProfilesRequest",
-}) as any as S.Schema<ListProfilesRequest>;
-export interface ListTagsForResourceRequest {
-  ResourceArn: string;
-}
-export const ListTagsForResourceRequest = S.suspend(() =>
-  S.Struct({ ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListTagsForResourceRequest",
-}) as any as S.Schema<ListTagsForResourceRequest>;
-export interface UntagResourceRequest {
-  ResourceArn: string;
-  TagKeys: string[];
-}
-export const UntagResourceRequest = S.suspend(() =>
-  S.Struct({
-    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
-    TagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/tags/{ResourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
-export interface UntagResourceResponse {}
-export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
-  identifier: "UntagResourceResponse",
-}) as any as S.Schema<UntagResourceResponse>;
-export interface UpdateProfileResourceAssociationRequest {
-  ProfileResourceAssociationId: string;
-  Name?: string;
-  ResourceProperties?: string;
-}
-export const UpdateProfileResourceAssociationRequest = S.suspend(() =>
-  S.Struct({
-    ProfileResourceAssociationId: S.String.pipe(
-      T.HttpLabel("ProfileResourceAssociationId"),
-    ),
-    Name: S.optional(S.String),
-    ResourceProperties: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PATCH",
-        uri: "/profileresourceassociation/{ProfileResourceAssociationId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "UpdateProfileResourceAssociationRequest",
-}) as any as S.Schema<UpdateProfileResourceAssociationRequest>;
+).annotate({
+  identifier: "AssociateProfileRequest",
+}) as any as S.Schema<AssociateProfileRequest>;
 export type ProfileStatus =
   | "COMPLETE"
   | "DELETING"
@@ -466,11 +169,42 @@ export const ProfileAssociation = S.suspend(() =>
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
   }),
-).annotations({
+).annotate({
   identifier: "ProfileAssociation",
 }) as any as S.Schema<ProfileAssociation>;
-export type ProfileAssociations = ProfileAssociation[];
-export const ProfileAssociations = S.Array(ProfileAssociation);
+export interface AssociateProfileResponse {
+  ProfileAssociation?: ProfileAssociation;
+}
+export const AssociateProfileResponse = S.suspend(() =>
+  S.Struct({ ProfileAssociation: S.optional(ProfileAssociation) }),
+).annotate({
+  identifier: "AssociateProfileResponse",
+}) as any as S.Schema<AssociateProfileResponse>;
+export interface AssociateResourceToProfileRequest {
+  ProfileId: string;
+  ResourceArn: string;
+  Name: string;
+  ResourceProperties?: string;
+}
+export const AssociateResourceToProfileRequest = S.suspend(() =>
+  S.Struct({
+    ProfileId: S.String,
+    ResourceArn: S.String,
+    Name: S.String,
+    ResourceProperties: S.optional(S.String),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/profileresourceassociation" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "AssociateResourceToProfileRequest",
+}) as any as S.Schema<AssociateResourceToProfileRequest>;
 export interface ProfileResourceAssociation {
   Id?: string;
   Name?: string;
@@ -500,31 +234,32 @@ export const ProfileResourceAssociation = S.suspend(() =>
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
   }),
-).annotations({
+).annotate({
   identifier: "ProfileResourceAssociation",
 }) as any as S.Schema<ProfileResourceAssociation>;
-export type ProfileResourceAssociations = ProfileResourceAssociation[];
-export const ProfileResourceAssociations = S.Array(ProfileResourceAssociation);
-export type TagMap = { [key: string]: string | undefined };
-export const TagMap = S.Record({
-  key: S.String,
-  value: S.UndefinedOr(S.String),
-});
-export interface AssociateProfileRequest {
-  ProfileId: string;
-  ResourceId: string;
+export interface AssociateResourceToProfileResponse {
+  ProfileResourceAssociation?: ProfileResourceAssociation;
+}
+export const AssociateResourceToProfileResponse = S.suspend(() =>
+  S.Struct({
+    ProfileResourceAssociation: S.optional(ProfileResourceAssociation),
+  }),
+).annotate({
+  identifier: "AssociateResourceToProfileResponse",
+}) as any as S.Schema<AssociateResourceToProfileResponse>;
+export interface CreateProfileRequest {
   Name: string;
+  ClientToken: string;
   Tags?: Tag[];
 }
-export const AssociateProfileRequest = S.suspend(() =>
+export const CreateProfileRequest = S.suspend(() =>
   S.Struct({
-    ProfileId: S.String,
-    ResourceId: S.String,
     Name: S.String,
+    ClientToken: S.String.pipe(T.IdempotencyToken()),
     Tags: S.optional(TagList),
   }).pipe(
     T.all(
-      T.Http({ method: "POST", uri: "/profileassociation" }),
+      T.Http({ method: "POST", uri: "/profile" }),
       svc,
       auth,
       proto,
@@ -532,9 +267,9 @@ export const AssociateProfileRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
-  identifier: "AssociateProfileRequest",
-}) as any as S.Schema<AssociateProfileRequest>;
+).annotate({
+  identifier: "CreateProfileRequest",
+}) as any as S.Schema<CreateProfileRequest>;
 export type ShareStatus =
   | "NOT_SHARED"
   | "SHARED_WITH_ME"
@@ -568,15 +303,96 @@ export const Profile = S.suspend(() =>
     ),
     ClientToken: S.optional(S.String),
   }),
-).annotations({ identifier: "Profile" }) as any as S.Schema<Profile>;
+).annotate({ identifier: "Profile" }) as any as S.Schema<Profile>;
+export interface CreateProfileResponse {
+  Profile?: Profile;
+}
+export const CreateProfileResponse = S.suspend(() =>
+  S.Struct({ Profile: S.optional(Profile) }),
+).annotate({
+  identifier: "CreateProfileResponse",
+}) as any as S.Schema<CreateProfileResponse>;
+export interface DeleteProfileRequest {
+  ProfileId: string;
+}
+export const DeleteProfileRequest = S.suspend(() =>
+  S.Struct({ ProfileId: S.String.pipe(T.HttpLabel("ProfileId")) }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/profile/{ProfileId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeleteProfileRequest",
+}) as any as S.Schema<DeleteProfileRequest>;
 export interface DeleteProfileResponse {
   Profile?: Profile;
 }
 export const DeleteProfileResponse = S.suspend(() =>
   S.Struct({ Profile: S.optional(Profile) }),
-).annotations({
+).annotate({
   identifier: "DeleteProfileResponse",
 }) as any as S.Schema<DeleteProfileResponse>;
+export interface DisassociateProfileRequest {
+  ProfileId: string;
+  ResourceId: string;
+}
+export const DisassociateProfileRequest = S.suspend(() =>
+  S.Struct({
+    ProfileId: S.String.pipe(T.HttpLabel("ProfileId")),
+    ResourceId: S.String.pipe(T.HttpLabel("ResourceId")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/profileassociation/Profileid/{ProfileId}/resourceid/{ResourceId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DisassociateProfileRequest",
+}) as any as S.Schema<DisassociateProfileRequest>;
+export interface DisassociateProfileResponse {
+  ProfileAssociation?: ProfileAssociation;
+}
+export const DisassociateProfileResponse = S.suspend(() =>
+  S.Struct({ ProfileAssociation: S.optional(ProfileAssociation) }),
+).annotate({
+  identifier: "DisassociateProfileResponse",
+}) as any as S.Schema<DisassociateProfileResponse>;
+export interface DisassociateResourceFromProfileRequest {
+  ProfileId: string;
+  ResourceArn: string;
+}
+export const DisassociateResourceFromProfileRequest = S.suspend(() =>
+  S.Struct({
+    ProfileId: S.String.pipe(T.HttpLabel("ProfileId")),
+    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/profileresourceassociation/profileid/{ProfileId}/resourcearn/{ResourceArn}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DisassociateResourceFromProfileRequest",
+}) as any as S.Schema<DisassociateResourceFromProfileRequest>;
 export interface DisassociateResourceFromProfileResponse {
   ProfileResourceAssociation?: ProfileResourceAssociation;
 }
@@ -584,25 +400,88 @@ export const DisassociateResourceFromProfileResponse = S.suspend(() =>
   S.Struct({
     ProfileResourceAssociation: S.optional(ProfileResourceAssociation),
   }),
-).annotations({
+).annotate({
   identifier: "DisassociateResourceFromProfileResponse",
 }) as any as S.Schema<DisassociateResourceFromProfileResponse>;
+export interface GetProfileRequest {
+  ProfileId: string;
+}
+export const GetProfileRequest = S.suspend(() =>
+  S.Struct({ ProfileId: S.String.pipe(T.HttpLabel("ProfileId")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/profile/{ProfileId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetProfileRequest",
+}) as any as S.Schema<GetProfileRequest>;
 export interface GetProfileResponse {
   Profile?: Profile;
 }
 export const GetProfileResponse = S.suspend(() =>
   S.Struct({ Profile: S.optional(Profile) }),
-).annotations({
+).annotate({
   identifier: "GetProfileResponse",
 }) as any as S.Schema<GetProfileResponse>;
+export interface GetProfileAssociationRequest {
+  ProfileAssociationId: string;
+}
+export const GetProfileAssociationRequest = S.suspend(() =>
+  S.Struct({
+    ProfileAssociationId: S.String.pipe(T.HttpLabel("ProfileAssociationId")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/profileassociation/{ProfileAssociationId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetProfileAssociationRequest",
+}) as any as S.Schema<GetProfileAssociationRequest>;
 export interface GetProfileAssociationResponse {
   ProfileAssociation?: ProfileAssociation;
 }
 export const GetProfileAssociationResponse = S.suspend(() =>
   S.Struct({ ProfileAssociation: S.optional(ProfileAssociation) }),
-).annotations({
+).annotate({
   identifier: "GetProfileAssociationResponse",
 }) as any as S.Schema<GetProfileAssociationResponse>;
+export interface GetProfileResourceAssociationRequest {
+  ProfileResourceAssociationId: string;
+}
+export const GetProfileResourceAssociationRequest = S.suspend(() =>
+  S.Struct({
+    ProfileResourceAssociationId: S.String.pipe(
+      T.HttpLabel("ProfileResourceAssociationId"),
+    ),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/profileresourceassociation/{ProfileResourceAssociationId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetProfileResourceAssociationRequest",
+}) as any as S.Schema<GetProfileResourceAssociationRequest>;
 export interface GetProfileResourceAssociationResponse {
   ProfileResourceAssociation?: ProfileResourceAssociation;
 }
@@ -610,9 +489,36 @@ export const GetProfileResourceAssociationResponse = S.suspend(() =>
   S.Struct({
     ProfileResourceAssociation: S.optional(ProfileResourceAssociation),
   }),
-).annotations({
+).annotate({
   identifier: "GetProfileResourceAssociationResponse",
 }) as any as S.Schema<GetProfileResourceAssociationResponse>;
+export interface ListProfileAssociationsRequest {
+  ResourceId?: string;
+  ProfileId?: string;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListProfileAssociationsRequest = S.suspend(() =>
+  S.Struct({
+    ResourceId: S.optional(S.String).pipe(T.HttpQuery("resourceId")),
+    ProfileId: S.optional(S.String).pipe(T.HttpQuery("profileId")),
+    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/profileassociations" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListProfileAssociationsRequest",
+}) as any as S.Schema<ListProfileAssociationsRequest>;
+export type ProfileAssociations = ProfileAssociation[];
+export const ProfileAssociations = S.Array(ProfileAssociation);
 export interface ListProfileAssociationsResponse {
   ProfileAssociations?: ProfileAssociation[];
   NextToken?: string;
@@ -622,9 +528,39 @@ export const ListProfileAssociationsResponse = S.suspend(() =>
     ProfileAssociations: S.optional(ProfileAssociations),
     NextToken: S.optional(S.String),
   }),
-).annotations({
+).annotate({
   identifier: "ListProfileAssociationsResponse",
 }) as any as S.Schema<ListProfileAssociationsResponse>;
+export interface ListProfileResourceAssociationsRequest {
+  ProfileId: string;
+  ResourceType?: string;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListProfileResourceAssociationsRequest = S.suspend(() =>
+  S.Struct({
+    ProfileId: S.String.pipe(T.HttpLabel("ProfileId")),
+    ResourceType: S.optional(S.String).pipe(T.HttpQuery("resourceType")),
+    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/profileresourceassociations/profileid/{ProfileId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListProfileResourceAssociationsRequest",
+}) as any as S.Schema<ListProfileResourceAssociationsRequest>;
+export type ProfileResourceAssociations = ProfileResourceAssociation[];
+export const ProfileResourceAssociations = S.Array(ProfileResourceAssociation);
 export interface ListProfileResourceAssociationsResponse {
   ProfileResourceAssociations?: ProfileResourceAssociation[];
   NextToken?: string;
@@ -634,15 +570,83 @@ export const ListProfileResourceAssociationsResponse = S.suspend(() =>
     ProfileResourceAssociations: S.optional(ProfileResourceAssociations),
     NextToken: S.optional(S.String),
   }),
-).annotations({
+).annotate({
   identifier: "ListProfileResourceAssociationsResponse",
 }) as any as S.Schema<ListProfileResourceAssociationsResponse>;
+export interface ListProfilesRequest {
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListProfilesRequest = S.suspend(() =>
+  S.Struct({
+    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/profiles" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListProfilesRequest",
+}) as any as S.Schema<ListProfilesRequest>;
+export interface ProfileSummary {
+  Id?: string;
+  Arn?: string;
+  Name?: string;
+  ShareStatus?: ShareStatus;
+}
+export const ProfileSummary = S.suspend(() =>
+  S.Struct({
+    Id: S.optional(S.String),
+    Arn: S.optional(S.String),
+    Name: S.optional(S.String),
+    ShareStatus: S.optional(ShareStatus),
+  }),
+).annotate({ identifier: "ProfileSummary" }) as any as S.Schema<ProfileSummary>;
+export type ProfileSummaryList = ProfileSummary[];
+export const ProfileSummaryList = S.Array(ProfileSummary);
+export interface ListProfilesResponse {
+  ProfileSummaries?: ProfileSummary[];
+  NextToken?: string;
+}
+export const ListProfilesResponse = S.suspend(() =>
+  S.Struct({
+    ProfileSummaries: S.optional(ProfileSummaryList),
+    NextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ListProfilesResponse",
+}) as any as S.Schema<ListProfilesResponse>;
+export interface ListTagsForResourceRequest {
+  ResourceArn: string;
+}
+export const ListTagsForResourceRequest = S.suspend(() =>
+  S.Struct({ ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListTagsForResourceRequest",
+}) as any as S.Schema<ListTagsForResourceRequest>;
+export type TagMap = { [key: string]: string | undefined };
+export const TagMap = S.Record(S.String, S.String.pipe(S.optional));
 export interface ListTagsForResourceResponse {
   Tags: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ Tags: TagMap }),
-).annotations({
+).annotate({
   identifier: "ListTagsForResourceResponse",
 }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface TagResourceRequest {
@@ -663,13 +667,68 @@ export const TagResourceRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "TagResourceRequest",
 }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+export const TagResourceResponse = S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
+export type TagKeyList = string[];
+export const TagKeyList = S.Array(S.String);
+export interface UntagResourceRequest {
+  ResourceArn: string;
+  TagKeys: string[];
+}
+export const UntagResourceRequest = S.suspend(() =>
+  S.Struct({
+    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
+    TagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/tags/{ResourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "UntagResourceRequest",
+}) as any as S.Schema<UntagResourceRequest>;
+export interface UntagResourceResponse {}
+export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotate({
+  identifier: "UntagResourceResponse",
+}) as any as S.Schema<UntagResourceResponse>;
+export interface UpdateProfileResourceAssociationRequest {
+  ProfileResourceAssociationId: string;
+  Name?: string;
+  ResourceProperties?: string;
+}
+export const UpdateProfileResourceAssociationRequest = S.suspend(() =>
+  S.Struct({
+    ProfileResourceAssociationId: S.String.pipe(
+      T.HttpLabel("ProfileResourceAssociationId"),
+    ),
+    Name: S.optional(S.String),
+    ResourceProperties: S.optional(S.String),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PATCH",
+        uri: "/profileresourceassociation/{ProfileResourceAssociationId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "UpdateProfileResourceAssociationRequest",
+}) as any as S.Schema<UpdateProfileResourceAssociationRequest>;
 export interface UpdateProfileResourceAssociationResponse {
   ProfileResourceAssociation?: ProfileResourceAssociation;
 }
@@ -677,117 +736,224 @@ export const UpdateProfileResourceAssociationResponse = S.suspend(() =>
   S.Struct({
     ProfileResourceAssociation: S.optional(ProfileResourceAssociation),
   }),
-).annotations({
+).annotate({
   identifier: "UpdateProfileResourceAssociationResponse",
 }) as any as S.Schema<UpdateProfileResourceAssociationResponse>;
-export interface ProfileSummary {
-  Id?: string;
-  Arn?: string;
-  Name?: string;
-  ShareStatus?: ShareStatus;
-}
-export const ProfileSummary = S.suspend(() =>
-  S.Struct({
-    Id: S.optional(S.String),
-    Arn: S.optional(S.String),
-    Name: S.optional(S.String),
-    ShareStatus: S.optional(ShareStatus),
-  }),
-).annotations({
-  identifier: "ProfileSummary",
-}) as any as S.Schema<ProfileSummary>;
-export type ProfileSummaryList = ProfileSummary[];
-export const ProfileSummaryList = S.Array(ProfileSummary);
-export interface AssociateProfileResponse {
-  ProfileAssociation?: ProfileAssociation;
-}
-export const AssociateProfileResponse = S.suspend(() =>
-  S.Struct({ ProfileAssociation: S.optional(ProfileAssociation) }),
-).annotations({
-  identifier: "AssociateProfileResponse",
-}) as any as S.Schema<AssociateProfileResponse>;
-export interface AssociateResourceToProfileResponse {
-  ProfileResourceAssociation?: ProfileResourceAssociation;
-}
-export const AssociateResourceToProfileResponse = S.suspend(() =>
-  S.Struct({
-    ProfileResourceAssociation: S.optional(ProfileResourceAssociation),
-  }),
-).annotations({
-  identifier: "AssociateResourceToProfileResponse",
-}) as any as S.Schema<AssociateResourceToProfileResponse>;
-export interface CreateProfileResponse {
-  Profile?: Profile;
-}
-export const CreateProfileResponse = S.suspend(() =>
-  S.Struct({ Profile: S.optional(Profile) }),
-).annotations({
-  identifier: "CreateProfileResponse",
-}) as any as S.Schema<CreateProfileResponse>;
-export interface DisassociateProfileResponse {
-  ProfileAssociation?: ProfileAssociation;
-}
-export const DisassociateProfileResponse = S.suspend(() =>
-  S.Struct({ ProfileAssociation: S.optional(ProfileAssociation) }),
-).annotations({
-  identifier: "DisassociateProfileResponse",
-}) as any as S.Schema<DisassociateProfileResponse>;
-export interface ListProfilesResponse {
-  ProfileSummaries?: ProfileSummary[];
-  NextToken?: string;
-}
-export const ListProfilesResponse = S.suspend(() =>
-  S.Struct({
-    ProfileSummaries: S.optional(ProfileSummaryList),
-    NextToken: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "ListProfilesResponse",
-}) as any as S.Schema<ListProfilesResponse>;
 
 //# Errors
-export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
+export class AccessDeniedException extends S.TaggedErrorClass<AccessDeniedException>()(
   "AccessDeniedException",
   { Message: S.optional(S.String) },
 ).pipe(C.withAuthError) {}
-export class ConflictException extends S.TaggedError<ConflictException>()(
+export class ConflictException extends S.TaggedErrorClass<ConflictException>()(
   "ConflictException",
   { Message: S.optional(S.String) },
 ) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
-  "ResourceNotFoundException",
-  { Message: S.optional(S.String), ResourceType: S.optional(S.String) },
-) {}
-export class InvalidParameterException extends S.TaggedError<InvalidParameterException>()(
+export class InvalidParameterException extends S.TaggedErrorClass<InvalidParameterException>()(
   "InvalidParameterException",
   { Message: S.String, FieldName: S.optional(S.String) },
 ) {}
-export class InvalidNextTokenException extends S.TaggedError<InvalidNextTokenException>()(
-  "InvalidNextTokenException",
-  { Message: S.optional(S.String) },
-) {}
-export class InternalServiceErrorException extends S.TaggedError<InternalServiceErrorException>()(
-  "InternalServiceErrorException",
-  { Message: S.optional(S.String) },
-) {}
-export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
-  "ThrottlingException",
-  { Message: S.optional(S.String) },
-) {}
-export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
+export class LimitExceededException extends S.TaggedErrorClass<LimitExceededException>()(
   "LimitExceededException",
   { Message: S.optional(S.String), ResourceType: S.optional(S.String) },
 ) {}
-export class ValidationException extends S.TaggedError<ValidationException>()(
-  "ValidationException",
-  { Message: S.optional(S.String) },
-) {}
-export class ResourceExistsException extends S.TaggedError<ResourceExistsException>()(
+export class ResourceExistsException extends S.TaggedErrorClass<ResourceExistsException>()(
   "ResourceExistsException",
   { Message: S.optional(S.String), ResourceType: S.optional(S.String) },
 ) {}
+export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFoundException>()(
+  "ResourceNotFoundException",
+  { Message: S.optional(S.String), ResourceType: S.optional(S.String) },
+) {}
+export class ThrottlingException extends S.TaggedErrorClass<ThrottlingException>()(
+  "ThrottlingException",
+  { Message: S.optional(S.String) },
+) {}
+export class ValidationException extends S.TaggedErrorClass<ValidationException>()(
+  "ValidationException",
+  { Message: S.optional(S.String) },
+) {}
+export class InternalServiceErrorException extends S.TaggedErrorClass<InternalServiceErrorException>()(
+  "InternalServiceErrorException",
+  { Message: S.optional(S.String) },
+) {}
+export class InvalidNextTokenException extends S.TaggedErrorClass<InvalidNextTokenException>()(
+  "InvalidNextTokenException",
+  { Message: S.optional(S.String) },
+) {}
 
 //# Operations
+/**
+ * Associates a Route 53 Profiles profile with a VPC. A VPC can have only one Profile associated with it, but a Profile can be associated with 1000 of VPCs (and you can request a higher quota).
+ * For more information, see https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DNSLimitations.html#limits-api-entities.
+ */
+export const associateProfile: (
+  input: AssociateProfileRequest,
+) => effect.Effect<
+  AssociateProfileResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InvalidParameterException
+  | LimitExceededException
+  | ResourceExistsException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateProfileRequest,
+  output: AssociateProfileResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InvalidParameterException,
+    LimitExceededException,
+    ResourceExistsException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Associates a DNS reource configuration to a Route 53 Profile.
+ */
+export const associateResourceToProfile: (
+  input: AssociateResourceToProfileRequest,
+) => effect.Effect<
+  AssociateResourceToProfileResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServiceErrorException
+  | InvalidParameterException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AssociateResourceToProfileRequest,
+  output: AssociateResourceToProfileResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServiceErrorException,
+    InvalidParameterException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Creates an empty Route 53 Profile.
+ */
+export const createProfile: (
+  input: CreateProfileRequest,
+) => effect.Effect<
+  CreateProfileResponse,
+  | AccessDeniedException
+  | InvalidParameterException
+  | LimitExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateProfileRequest,
+  output: CreateProfileResponse,
+  errors: [
+    AccessDeniedException,
+    InvalidParameterException,
+    LimitExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Deletes the specified Route 53 Profile. Before you can delete a profile, you must first disassociate it from all VPCs.
+ */
+export const deleteProfile: (
+  input: DeleteProfileRequest,
+) => effect.Effect<
+  DeleteProfileResponse,
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteProfileRequest,
+  output: DeleteProfileResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Dissociates a specified Route 53 Profile from the specified VPC.
+ */
+export const disassociateProfile: (
+  input: DisassociateProfileRequest,
+) => effect.Effect<
+  DisassociateProfileResponse,
+  | AccessDeniedException
+  | InvalidParameterException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateProfileRequest,
+  output: DisassociateProfileResponse,
+  errors: [
+    AccessDeniedException,
+    InvalidParameterException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Dissoaciated a specified resource, from the Route 53 Profile.
+ */
+export const disassociateResourceFromProfile: (
+  input: DisassociateResourceFromProfileRequest,
+) => effect.Effect<
+  DisassociateResourceFromProfileResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServiceErrorException
+  | InvalidParameterException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateResourceFromProfileRequest,
+  output: DisassociateResourceFromProfileResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServiceErrorException,
+    InvalidParameterException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 /**
  * Returns information about a specified Route 53 Profile, such as whether whether the Profile is shared, and the current status of the Profile.
  */
@@ -812,31 +978,23 @@ export const getProfile: (
   ],
 }));
 /**
- * Updates the specified Route 53 Profile resourse association.
+ * Retrieves a Route 53 Profile association for a VPC. A VPC can have only one Profile association, but a Profile can be associated with up to 5000 VPCs.
  */
-export const updateProfileResourceAssociation: (
-  input: UpdateProfileResourceAssociationRequest,
+export const getProfileAssociation: (
+  input: GetProfileAssociationRequest,
 ) => effect.Effect<
-  UpdateProfileResourceAssociationResponse,
+  GetProfileAssociationResponse,
   | AccessDeniedException
-  | ConflictException
-  | InternalServiceErrorException
-  | InvalidParameterException
-  | LimitExceededException
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
   | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateProfileResourceAssociationRequest,
-  output: UpdateProfileResourceAssociationResponse,
+  input: GetProfileAssociationRequest,
+  output: GetProfileAssociationResponse,
   errors: [
     AccessDeniedException,
-    ConflictException,
-    InternalServiceErrorException,
-    InvalidParameterException,
-    LimitExceededException,
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
@@ -990,127 +1148,6 @@ export const listProfileResourceAssociations: {
   } as const,
 }));
 /**
- * Deletes the specified Route 53 Profile. Before you can delete a profile, you must first disassociate it from all VPCs.
- */
-export const deleteProfile: (
-  input: DeleteProfileRequest,
-) => effect.Effect<
-  DeleteProfileResponse,
-  | AccessDeniedException
-  | ConflictException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteProfileRequest,
-  output: DeleteProfileResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Lists the tags that you associated with the specified resource.
- */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
-  ListTagsForResourceResponse,
-  | AccessDeniedException
-  | ConflictException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Retrieves a Route 53 Profile association for a VPC. A VPC can have only one Profile association, but a Profile can be associated with up to 5000 VPCs.
- */
-export const getProfileAssociation: (
-  input: GetProfileAssociationRequest,
-) => effect.Effect<
-  GetProfileAssociationResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetProfileAssociationRequest,
-  output: GetProfileAssociationResponse,
-  errors: [
-    AccessDeniedException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Adds one or more tags to a specified resource.
- */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
-  TagResourceResponse,
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
-  errors: [
-    AccessDeniedException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Removes one or more tags from a specified resource.
- */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
-  UntagResourceResponse,
-  | AccessDeniedException
-  | ConflictException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
  * Lists all the Route 53 Profiles associated with your Amazon Web Services account.
  */
 export const listProfiles: {
@@ -1168,12 +1205,85 @@ export const listProfiles: {
   } as const,
 }));
 /**
- * Dissoaciated a specified resource, from the Route 53 Profile.
+ * Lists the tags that you associated with the specified resource.
  */
-export const disassociateResourceFromProfile: (
-  input: DisassociateResourceFromProfileRequest,
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
 ) => effect.Effect<
-  DisassociateResourceFromProfileResponse,
+  ListTagsForResourceResponse,
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Adds one or more tags to a specified resource.
+ */
+export const tagResource: (
+  input: TagResourceRequest,
+) => effect.Effect<
+  TagResourceResponse,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResponse,
+  errors: [
+    AccessDeniedException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Removes one or more tags from a specified resource.
+ */
+export const untagResource: (
+  input: UntagResourceRequest,
+) => effect.Effect<
+  UntagResourceResponse,
+  | AccessDeniedException
+  | ConflictException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Updates the specified Route 53 Profile resourse association.
+ */
+export const updateProfileResourceAssociation: (
+  input: UpdateProfileResourceAssociationRequest,
+) => effect.Effect<
+  UpdateProfileResourceAssociationResponse,
   | AccessDeniedException
   | ConflictException
   | InternalServiceErrorException
@@ -1185,129 +1295,14 @@ export const disassociateResourceFromProfile: (
   | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DisassociateResourceFromProfileRequest,
-  output: DisassociateResourceFromProfileResponse,
+  input: UpdateProfileResourceAssociationRequest,
+  output: UpdateProfileResourceAssociationResponse,
   errors: [
     AccessDeniedException,
     ConflictException,
     InternalServiceErrorException,
     InvalidParameterException,
     LimitExceededException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Associates a DNS reource configuration to a Route 53 Profile.
- */
-export const associateResourceToProfile: (
-  input: AssociateResourceToProfileRequest,
-) => effect.Effect<
-  AssociateResourceToProfileResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServiceErrorException
-  | InvalidParameterException
-  | LimitExceededException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: AssociateResourceToProfileRequest,
-  output: AssociateResourceToProfileResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServiceErrorException,
-    InvalidParameterException,
-    LimitExceededException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Creates an empty Route 53 Profile.
- */
-export const createProfile: (
-  input: CreateProfileRequest,
-) => effect.Effect<
-  CreateProfileResponse,
-  | AccessDeniedException
-  | InvalidParameterException
-  | LimitExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateProfileRequest,
-  output: CreateProfileResponse,
-  errors: [
-    AccessDeniedException,
-    InvalidParameterException,
-    LimitExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Dissociates a specified Route 53 Profile from the specified VPC.
- */
-export const disassociateProfile: (
-  input: DisassociateProfileRequest,
-) => effect.Effect<
-  DisassociateProfileResponse,
-  | AccessDeniedException
-  | InvalidParameterException
-  | LimitExceededException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DisassociateProfileRequest,
-  output: DisassociateProfileResponse,
-  errors: [
-    AccessDeniedException,
-    InvalidParameterException,
-    LimitExceededException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Associates a Route 53 Profiles profile with a VPC. A VPC can have only one Profile associated with it, but a Profile can be associated with 1000 of VPCs (and you can request a higher quota).
- * For more information, see https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DNSLimitations.html#limits-api-entities.
- */
-export const associateProfile: (
-  input: AssociateProfileRequest,
-) => effect.Effect<
-  AssociateProfileResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InvalidParameterException
-  | LimitExceededException
-  | ResourceExistsException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: AssociateProfileRequest,
-  output: AssociateProfileResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InvalidParameterException,
-    LimitExceededException,
-    ResourceExistsException,
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,

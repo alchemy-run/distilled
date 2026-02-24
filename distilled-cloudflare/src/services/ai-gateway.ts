@@ -7,7 +7,7 @@
 
 import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
-import type { HttpClient } from "@effect/platform";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
@@ -22,15 +22,17 @@ import {
 // Errors
 // =============================================================================
 
-export class GatewayAlreadyExists extends Schema.TaggedError<GatewayAlreadyExists>()(
+export class GatewayAlreadyExists extends Schema.TaggedErrorClass<GatewayAlreadyExists>()(
   "GatewayAlreadyExists",
   { code: Schema.Number, message: Schema.String },
-).pipe(T.HttpErrorMatchers([{ code: 7001 }])) {}
+) {}
+T.applyErrorMatchers(GatewayAlreadyExists, [{ code: 7001 }]);
 
-export class GatewayNotFound extends Schema.TaggedError<GatewayNotFound>()(
+export class GatewayNotFound extends Schema.TaggedErrorClass<GatewayNotFound>()(
   "GatewayNotFound",
   { code: Schema.Number, message: Schema.String },
-).pipe(T.HttpErrorMatchers([{ code: 7002 }])) {}
+) {}
+T.applyErrorMatchers(GatewayNotFound, [{ code: 7002 }]);
 
 // =============================================================================
 // AiGateway
@@ -98,27 +100,27 @@ export const GetAiGatewayResponse = Schema.Struct({
   cacheInvalidateOnUpdate: Schema.Boolean.pipe(
     T.JsonName("cache_invalidate_on_update"),
   ),
-  cacheTtl: Schema.Union(Schema.Number, Schema.Null).pipe(
+  cacheTtl: Schema.Union([Schema.Number, Schema.Null]).pipe(
     T.JsonName("cache_ttl"),
   ),
   collectLogs: Schema.Boolean.pipe(T.JsonName("collect_logs")),
   createdAt: Schema.String.pipe(T.JsonName("created_at")),
   internalId: Schema.optional(Schema.String).pipe(T.JsonName("internal_id")),
   modifiedAt: Schema.String.pipe(T.JsonName("modified_at")),
-  rateLimitingInterval: Schema.Union(Schema.Number, Schema.Null).pipe(
+  rateLimitingInterval: Schema.Union([Schema.Number, Schema.Null]).pipe(
     T.JsonName("rate_limiting_interval"),
   ),
-  rateLimitingLimit: Schema.Union(Schema.Number, Schema.Null).pipe(
+  rateLimitingLimit: Schema.Union([Schema.Number, Schema.Null]).pipe(
     T.JsonName("rate_limiting_limit"),
   ),
-  rateLimitingTechnique: Schema.Literal("fixed", "sliding").pipe(
+  rateLimitingTechnique: Schema.Literals(["fixed", "sliding"]).pipe(
     T.JsonName("rate_limiting_technique"),
   ),
   authentication: Schema.optional(Schema.Boolean),
   dlp: Schema.optional(
-    Schema.Union(
+    Schema.Union([
       Schema.Struct({
-        action: Schema.Literal("BLOCK", "FLAG"),
+        action: Schema.Literals(["BLOCK", "FLAG"]),
         enabled: Schema.Boolean,
         profiles: Schema.Array(Schema.String),
       }),
@@ -127,32 +129,32 @@ export const GetAiGatewayResponse = Schema.Struct({
         policies: Schema.Array(
           Schema.Struct({
             id: Schema.String,
-            action: Schema.Literal("FLAG", "BLOCK"),
-            check: Schema.Array(Schema.Literal("REQUEST", "RESPONSE")),
+            action: Schema.Literals(["FLAG", "BLOCK"]),
+            check: Schema.Array(Schema.Literals(["REQUEST", "RESPONSE"])),
             enabled: Schema.Boolean,
             profiles: Schema.Array(Schema.String),
           }),
         ),
       }),
-    ),
+    ]),
   ),
   isDefault: Schema.optional(Schema.Boolean).pipe(T.JsonName("is_default")),
-  logManagement: Schema.optional(Schema.Union(Schema.Number, Schema.Null)).pipe(
+  logManagement: Schema.optional(Schema.Union([Schema.Number, Schema.Null])).pipe(
     T.JsonName("log_management"),
   ),
   logManagementStrategy: Schema.optional(
-    Schema.Union(
+    Schema.Union([
       Schema.Literal("STOP_INSERTING"),
       Schema.Literal("DELETE_OLDEST"),
       Schema.Null,
-    ),
+    ]),
   ).pipe(T.JsonName("log_management_strategy")),
   logpush: Schema.optional(Schema.Boolean),
   logpushPublicKey: Schema.optional(
-    Schema.Union(Schema.String, Schema.Null),
+    Schema.Union([Schema.String, Schema.Null]),
   ).pipe(T.JsonName("logpush_public_key")),
   otel: Schema.optional(
-    Schema.Union(
+    Schema.Union([
       Schema.Array(
         Schema.Struct({
           authorization: Schema.String,
@@ -161,13 +163,13 @@ export const GetAiGatewayResponse = Schema.Struct({
         }),
       ),
       Schema.Null,
-    ),
+    ]),
   ),
-  storeId: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
+  storeId: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
     T.JsonName("store_id"),
   ),
   stripe: Schema.optional(
-    Schema.Union(
+    Schema.Union([
       Schema.Struct({
         authorization: Schema.String,
         usageEvents: Schema.Array(
@@ -177,7 +179,7 @@ export const GetAiGatewayResponse = Schema.Struct({
         ).pipe(T.JsonName("usage_events")),
       }),
       Schema.Null,
-    ),
+    ]),
   ),
   zdr: Schema.optional(Schema.Boolean),
 }) as unknown as Schema.Schema<GetAiGatewayResponse>;
@@ -233,34 +235,34 @@ export const CreateAiGatewayRequest = Schema.Struct({
   cacheInvalidateOnUpdate: Schema.Boolean.pipe(
     T.JsonName("cache_invalidate_on_update"),
   ),
-  cacheTtl: Schema.Union(Schema.Number, Schema.Null).pipe(
+  cacheTtl: Schema.Union([Schema.Number, Schema.Null]).pipe(
     T.JsonName("cache_ttl"),
   ),
   collectLogs: Schema.Boolean.pipe(T.JsonName("collect_logs")),
-  rateLimitingInterval: Schema.Union(Schema.Number, Schema.Null).pipe(
+  rateLimitingInterval: Schema.Union([Schema.Number, Schema.Null]).pipe(
     T.JsonName("rate_limiting_interval"),
   ),
-  rateLimitingLimit: Schema.Union(Schema.Number, Schema.Null).pipe(
+  rateLimitingLimit: Schema.Union([Schema.Number, Schema.Null]).pipe(
     T.JsonName("rate_limiting_limit"),
   ),
-  rateLimitingTechnique: Schema.Literal("fixed", "sliding").pipe(
+  rateLimitingTechnique: Schema.Literals(["fixed", "sliding"]).pipe(
     T.JsonName("rate_limiting_technique"),
   ),
   authentication: Schema.optional(Schema.Boolean),
   isDefault: Schema.optional(Schema.Boolean).pipe(T.JsonName("is_default")),
-  logManagement: Schema.optional(Schema.Union(Schema.Number, Schema.Null)).pipe(
+  logManagement: Schema.optional(Schema.Union([Schema.Number, Schema.Null])).pipe(
     T.JsonName("log_management"),
   ),
   logManagementStrategy: Schema.optional(
-    Schema.Union(
+    Schema.Union([
       Schema.Literal("STOP_INSERTING"),
       Schema.Literal("DELETE_OLDEST"),
       Schema.Null,
-    ),
+    ]),
   ).pipe(T.JsonName("log_management_strategy")),
   logpush: Schema.optional(Schema.Boolean),
   logpushPublicKey: Schema.optional(
-    Schema.Union(Schema.String, Schema.Null),
+    Schema.Union([Schema.String, Schema.Null]),
   ).pipe(T.JsonName("logpush_public_key")),
   zdr: Schema.optional(Schema.Boolean),
 }).pipe(
@@ -317,27 +319,27 @@ export const CreateAiGatewayResponse = Schema.Struct({
   cacheInvalidateOnUpdate: Schema.Boolean.pipe(
     T.JsonName("cache_invalidate_on_update"),
   ),
-  cacheTtl: Schema.Union(Schema.Number, Schema.Null).pipe(
+  cacheTtl: Schema.Union([Schema.Number, Schema.Null]).pipe(
     T.JsonName("cache_ttl"),
   ),
   collectLogs: Schema.Boolean.pipe(T.JsonName("collect_logs")),
   createdAt: Schema.String.pipe(T.JsonName("created_at")),
   internalId: Schema.optional(Schema.String).pipe(T.JsonName("internal_id")),
   modifiedAt: Schema.String.pipe(T.JsonName("modified_at")),
-  rateLimitingInterval: Schema.Union(Schema.Number, Schema.Null).pipe(
+  rateLimitingInterval: Schema.Union([Schema.Number, Schema.Null]).pipe(
     T.JsonName("rate_limiting_interval"),
   ),
-  rateLimitingLimit: Schema.Union(Schema.Number, Schema.Null).pipe(
+  rateLimitingLimit: Schema.Union([Schema.Number, Schema.Null]).pipe(
     T.JsonName("rate_limiting_limit"),
   ),
-  rateLimitingTechnique: Schema.Literal("fixed", "sliding").pipe(
+  rateLimitingTechnique: Schema.Literals(["fixed", "sliding"]).pipe(
     T.JsonName("rate_limiting_technique"),
   ),
   authentication: Schema.optional(Schema.Boolean),
   dlp: Schema.optional(
-    Schema.Union(
+    Schema.Union([
       Schema.Struct({
-        action: Schema.Literal("BLOCK", "FLAG"),
+        action: Schema.Literals(["BLOCK", "FLAG"]),
         enabled: Schema.Boolean,
         profiles: Schema.Array(Schema.String),
       }),
@@ -346,32 +348,32 @@ export const CreateAiGatewayResponse = Schema.Struct({
         policies: Schema.Array(
           Schema.Struct({
             id: Schema.String,
-            action: Schema.Literal("FLAG", "BLOCK"),
-            check: Schema.Array(Schema.Literal("REQUEST", "RESPONSE")),
+            action: Schema.Literals(["FLAG", "BLOCK"]),
+            check: Schema.Array(Schema.Literals(["REQUEST", "RESPONSE"])),
             enabled: Schema.Boolean,
             profiles: Schema.Array(Schema.String),
           }),
         ),
       }),
-    ),
+    ]),
   ),
   isDefault: Schema.optional(Schema.Boolean).pipe(T.JsonName("is_default")),
-  logManagement: Schema.optional(Schema.Union(Schema.Number, Schema.Null)).pipe(
+  logManagement: Schema.optional(Schema.Union([Schema.Number, Schema.Null])).pipe(
     T.JsonName("log_management"),
   ),
   logManagementStrategy: Schema.optional(
-    Schema.Union(
+    Schema.Union([
       Schema.Literal("STOP_INSERTING"),
       Schema.Literal("DELETE_OLDEST"),
       Schema.Null,
-    ),
+    ]),
   ).pipe(T.JsonName("log_management_strategy")),
   logpush: Schema.optional(Schema.Boolean),
   logpushPublicKey: Schema.optional(
-    Schema.Union(Schema.String, Schema.Null),
+    Schema.Union([Schema.String, Schema.Null]),
   ).pipe(T.JsonName("logpush_public_key")),
   otel: Schema.optional(
-    Schema.Union(
+    Schema.Union([
       Schema.Array(
         Schema.Struct({
           authorization: Schema.String,
@@ -380,13 +382,13 @@ export const CreateAiGatewayResponse = Schema.Struct({
         }),
       ),
       Schema.Null,
-    ),
+    ]),
   ),
-  storeId: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
+  storeId: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
     T.JsonName("store_id"),
   ),
   stripe: Schema.optional(
-    Schema.Union(
+    Schema.Union([
       Schema.Struct({
         authorization: Schema.String,
         usageEvents: Schema.Array(
@@ -396,7 +398,7 @@ export const CreateAiGatewayResponse = Schema.Struct({
         ).pipe(T.JsonName("usage_events")),
       }),
       Schema.Null,
-    ),
+    ]),
   ),
   zdr: Schema.optional(Schema.Boolean),
 }) as unknown as Schema.Schema<CreateAiGatewayResponse>;
@@ -472,24 +474,24 @@ export const UpdateAiGatewayRequest = Schema.Struct({
   cacheInvalidateOnUpdate: Schema.Boolean.pipe(
     T.JsonName("cache_invalidate_on_update"),
   ),
-  cacheTtl: Schema.Union(Schema.Number, Schema.Null).pipe(
+  cacheTtl: Schema.Union([Schema.Number, Schema.Null]).pipe(
     T.JsonName("cache_ttl"),
   ),
   collectLogs: Schema.Boolean.pipe(T.JsonName("collect_logs")),
-  rateLimitingInterval: Schema.Union(Schema.Number, Schema.Null).pipe(
+  rateLimitingInterval: Schema.Union([Schema.Number, Schema.Null]).pipe(
     T.JsonName("rate_limiting_interval"),
   ),
-  rateLimitingLimit: Schema.Union(Schema.Number, Schema.Null).pipe(
+  rateLimitingLimit: Schema.Union([Schema.Number, Schema.Null]).pipe(
     T.JsonName("rate_limiting_limit"),
   ),
-  rateLimitingTechnique: Schema.Literal("fixed", "sliding").pipe(
+  rateLimitingTechnique: Schema.Literals(["fixed", "sliding"]).pipe(
     T.JsonName("rate_limiting_technique"),
   ),
   authentication: Schema.optional(Schema.Boolean),
   dlp: Schema.optional(
-    Schema.Union(
+    Schema.Union([
       Schema.Struct({
-        action: Schema.Literal("BLOCK", "FLAG"),
+        action: Schema.Literals(["BLOCK", "FLAG"]),
         enabled: Schema.Boolean,
         profiles: Schema.Array(Schema.String),
       }),
@@ -498,32 +500,32 @@ export const UpdateAiGatewayRequest = Schema.Struct({
         policies: Schema.Array(
           Schema.Struct({
             id: Schema.String,
-            action: Schema.Literal("FLAG", "BLOCK"),
-            check: Schema.Array(Schema.Literal("REQUEST", "RESPONSE")),
+            action: Schema.Literals(["FLAG", "BLOCK"]),
+            check: Schema.Array(Schema.Literals(["REQUEST", "RESPONSE"])),
             enabled: Schema.Boolean,
             profiles: Schema.Array(Schema.String),
           }),
         ),
       }),
-    ),
+    ]),
   ),
   isDefault: Schema.optional(Schema.Boolean).pipe(T.JsonName("is_default")),
-  logManagement: Schema.optional(Schema.Union(Schema.Number, Schema.Null)).pipe(
+  logManagement: Schema.optional(Schema.Union([Schema.Number, Schema.Null])).pipe(
     T.JsonName("log_management"),
   ),
   logManagementStrategy: Schema.optional(
-    Schema.Union(
+    Schema.Union([
       Schema.Literal("STOP_INSERTING"),
       Schema.Literal("DELETE_OLDEST"),
       Schema.Null,
-    ),
+    ]),
   ).pipe(T.JsonName("log_management_strategy")),
   logpush: Schema.optional(Schema.Boolean),
   logpushPublicKey: Schema.optional(
-    Schema.Union(Schema.String, Schema.Null),
+    Schema.Union([Schema.String, Schema.Null]),
   ).pipe(T.JsonName("logpush_public_key")),
   otel: Schema.optional(
-    Schema.Union(
+    Schema.Union([
       Schema.Array(
         Schema.Struct({
           authorization: Schema.String,
@@ -532,13 +534,13 @@ export const UpdateAiGatewayRequest = Schema.Struct({
         }),
       ),
       Schema.Null,
-    ),
+    ]),
   ),
-  storeId: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
+  storeId: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
     T.JsonName("store_id"),
   ),
   stripe: Schema.optional(
-    Schema.Union(
+    Schema.Union([
       Schema.Struct({
         authorization: Schema.String,
         usageEvents: Schema.Array(
@@ -548,7 +550,7 @@ export const UpdateAiGatewayRequest = Schema.Struct({
         ).pipe(T.JsonName("usage_events")),
       }),
       Schema.Null,
-    ),
+    ]),
   ),
   zdr: Schema.optional(Schema.Boolean),
 }).pipe(
@@ -605,27 +607,27 @@ export const UpdateAiGatewayResponse = Schema.Struct({
   cacheInvalidateOnUpdate: Schema.Boolean.pipe(
     T.JsonName("cache_invalidate_on_update"),
   ),
-  cacheTtl: Schema.Union(Schema.Number, Schema.Null).pipe(
+  cacheTtl: Schema.Union([Schema.Number, Schema.Null]).pipe(
     T.JsonName("cache_ttl"),
   ),
   collectLogs: Schema.Boolean.pipe(T.JsonName("collect_logs")),
   createdAt: Schema.String.pipe(T.JsonName("created_at")),
   internalId: Schema.optional(Schema.String).pipe(T.JsonName("internal_id")),
   modifiedAt: Schema.String.pipe(T.JsonName("modified_at")),
-  rateLimitingInterval: Schema.Union(Schema.Number, Schema.Null).pipe(
+  rateLimitingInterval: Schema.Union([Schema.Number, Schema.Null]).pipe(
     T.JsonName("rate_limiting_interval"),
   ),
-  rateLimitingLimit: Schema.Union(Schema.Number, Schema.Null).pipe(
+  rateLimitingLimit: Schema.Union([Schema.Number, Schema.Null]).pipe(
     T.JsonName("rate_limiting_limit"),
   ),
-  rateLimitingTechnique: Schema.Literal("fixed", "sliding").pipe(
+  rateLimitingTechnique: Schema.Literals(["fixed", "sliding"]).pipe(
     T.JsonName("rate_limiting_technique"),
   ),
   authentication: Schema.optional(Schema.Boolean),
   dlp: Schema.optional(
-    Schema.Union(
+    Schema.Union([
       Schema.Struct({
-        action: Schema.Literal("BLOCK", "FLAG"),
+        action: Schema.Literals(["BLOCK", "FLAG"]),
         enabled: Schema.Boolean,
         profiles: Schema.Array(Schema.String),
       }),
@@ -634,32 +636,32 @@ export const UpdateAiGatewayResponse = Schema.Struct({
         policies: Schema.Array(
           Schema.Struct({
             id: Schema.String,
-            action: Schema.Literal("FLAG", "BLOCK"),
-            check: Schema.Array(Schema.Literal("REQUEST", "RESPONSE")),
+            action: Schema.Literals(["FLAG", "BLOCK"]),
+            check: Schema.Array(Schema.Literals(["REQUEST", "RESPONSE"])),
             enabled: Schema.Boolean,
             profiles: Schema.Array(Schema.String),
           }),
         ),
       }),
-    ),
+    ]),
   ),
   isDefault: Schema.optional(Schema.Boolean).pipe(T.JsonName("is_default")),
-  logManagement: Schema.optional(Schema.Union(Schema.Number, Schema.Null)).pipe(
+  logManagement: Schema.optional(Schema.Union([Schema.Number, Schema.Null])).pipe(
     T.JsonName("log_management"),
   ),
   logManagementStrategy: Schema.optional(
-    Schema.Union(
+    Schema.Union([
       Schema.Literal("STOP_INSERTING"),
       Schema.Literal("DELETE_OLDEST"),
       Schema.Null,
-    ),
+    ]),
   ).pipe(T.JsonName("log_management_strategy")),
   logpush: Schema.optional(Schema.Boolean),
   logpushPublicKey: Schema.optional(
-    Schema.Union(Schema.String, Schema.Null),
+    Schema.Union([Schema.String, Schema.Null]),
   ).pipe(T.JsonName("logpush_public_key")),
   otel: Schema.optional(
-    Schema.Union(
+    Schema.Union([
       Schema.Array(
         Schema.Struct({
           authorization: Schema.String,
@@ -668,13 +670,13 @@ export const UpdateAiGatewayResponse = Schema.Struct({
         }),
       ),
       Schema.Null,
-    ),
+    ]),
   ),
-  storeId: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
+  storeId: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
     T.JsonName("store_id"),
   ),
   stripe: Schema.optional(
-    Schema.Union(
+    Schema.Union([
       Schema.Struct({
         authorization: Schema.String,
         usageEvents: Schema.Array(
@@ -684,7 +686,7 @@ export const UpdateAiGatewayResponse = Schema.Struct({
         ).pipe(T.JsonName("usage_events")),
       }),
       Schema.Null,
-    ),
+    ]),
   ),
   zdr: Schema.optional(Schema.Boolean),
 }) as unknown as Schema.Schema<UpdateAiGatewayResponse>;
@@ -763,27 +765,27 @@ export const DeleteAiGatewayResponse = Schema.Struct({
   cacheInvalidateOnUpdate: Schema.Boolean.pipe(
     T.JsonName("cache_invalidate_on_update"),
   ),
-  cacheTtl: Schema.Union(Schema.Number, Schema.Null).pipe(
+  cacheTtl: Schema.Union([Schema.Number, Schema.Null]).pipe(
     T.JsonName("cache_ttl"),
   ),
   collectLogs: Schema.Boolean.pipe(T.JsonName("collect_logs")),
   createdAt: Schema.String.pipe(T.JsonName("created_at")),
   internalId: Schema.optional(Schema.String).pipe(T.JsonName("internal_id")),
   modifiedAt: Schema.String.pipe(T.JsonName("modified_at")),
-  rateLimitingInterval: Schema.Union(Schema.Number, Schema.Null).pipe(
+  rateLimitingInterval: Schema.Union([Schema.Number, Schema.Null]).pipe(
     T.JsonName("rate_limiting_interval"),
   ),
-  rateLimitingLimit: Schema.Union(Schema.Number, Schema.Null).pipe(
+  rateLimitingLimit: Schema.Union([Schema.Number, Schema.Null]).pipe(
     T.JsonName("rate_limiting_limit"),
   ),
-  rateLimitingTechnique: Schema.Literal("fixed", "sliding").pipe(
+  rateLimitingTechnique: Schema.Literals(["fixed", "sliding"]).pipe(
     T.JsonName("rate_limiting_technique"),
   ),
   authentication: Schema.optional(Schema.Boolean),
   dlp: Schema.optional(
-    Schema.Union(
+    Schema.Union([
       Schema.Struct({
-        action: Schema.Literal("BLOCK", "FLAG"),
+        action: Schema.Literals(["BLOCK", "FLAG"]),
         enabled: Schema.Boolean,
         profiles: Schema.Array(Schema.String),
       }),
@@ -792,32 +794,32 @@ export const DeleteAiGatewayResponse = Schema.Struct({
         policies: Schema.Array(
           Schema.Struct({
             id: Schema.String,
-            action: Schema.Literal("FLAG", "BLOCK"),
-            check: Schema.Array(Schema.Literal("REQUEST", "RESPONSE")),
+            action: Schema.Literals(["FLAG", "BLOCK"]),
+            check: Schema.Array(Schema.Literals(["REQUEST", "RESPONSE"])),
             enabled: Schema.Boolean,
             profiles: Schema.Array(Schema.String),
           }),
         ),
       }),
-    ),
+    ]),
   ),
   isDefault: Schema.optional(Schema.Boolean).pipe(T.JsonName("is_default")),
-  logManagement: Schema.optional(Schema.Union(Schema.Number, Schema.Null)).pipe(
+  logManagement: Schema.optional(Schema.Union([Schema.Number, Schema.Null])).pipe(
     T.JsonName("log_management"),
   ),
   logManagementStrategy: Schema.optional(
-    Schema.Union(
+    Schema.Union([
       Schema.Literal("STOP_INSERTING"),
       Schema.Literal("DELETE_OLDEST"),
       Schema.Null,
-    ),
+    ]),
   ).pipe(T.JsonName("log_management_strategy")),
   logpush: Schema.optional(Schema.Boolean),
   logpushPublicKey: Schema.optional(
-    Schema.Union(Schema.String, Schema.Null),
+    Schema.Union([Schema.String, Schema.Null]),
   ).pipe(T.JsonName("logpush_public_key")),
   otel: Schema.optional(
-    Schema.Union(
+    Schema.Union([
       Schema.Array(
         Schema.Struct({
           authorization: Schema.String,
@@ -826,13 +828,13 @@ export const DeleteAiGatewayResponse = Schema.Struct({
         }),
       ),
       Schema.Null,
-    ),
+    ]),
   ),
-  storeId: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
+  storeId: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
     T.JsonName("store_id"),
   ),
   stripe: Schema.optional(
-    Schema.Union(
+    Schema.Union([
       Schema.Struct({
         authorization: Schema.String,
         usageEvents: Schema.Array(
@@ -842,7 +844,7 @@ export const DeleteAiGatewayResponse = Schema.Struct({
         ).pipe(T.JsonName("usage_events")),
       }),
       Schema.Null,
-    ),
+    ]),
   ),
   zdr: Schema.optional(Schema.Boolean),
 }) as unknown as Schema.Schema<DeleteAiGatewayResponse>;
@@ -918,7 +920,7 @@ export const GetDatasetResponse = Schema.Struct({
   enable: Schema.Boolean,
   filters: Schema.Array(
     Schema.Struct({
-      key: Schema.Literal(
+      key: Schema.Literals([
         "created_at",
         "request_content_type",
         "response_content_type",
@@ -932,10 +934,10 @@ export const GetDatasetResponse = Schema.Struct({
         "tokens_out",
         "duration",
         "feedback",
-      ),
-      operator: Schema.Literal("eq", "contains", "lt", "gt"),
+      ]),
+      operator: Schema.Literals(["eq", "contains", "lt", "gt"]),
       value: Schema.Array(
-        Schema.Union(Schema.String, Schema.Number, Schema.Boolean),
+        Schema.Union([Schema.String, Schema.Number, Schema.Boolean]),
       ),
     }),
   ),
@@ -991,7 +993,7 @@ export const CreateDatasetRequest = Schema.Struct({
   enable: Schema.Boolean,
   filters: Schema.Array(
     Schema.Struct({
-      key: Schema.Literal(
+      key: Schema.Literals([
         "created_at",
         "request_content_type",
         "response_content_type",
@@ -1005,10 +1007,10 @@ export const CreateDatasetRequest = Schema.Struct({
         "tokens_out",
         "duration",
         "feedback",
-      ),
-      operator: Schema.Literal("eq", "contains", "lt", "gt"),
+      ]),
+      operator: Schema.Literals(["eq", "contains", "lt", "gt"]),
       value: Schema.Array(
-        Schema.Union(Schema.String, Schema.Number, Schema.Boolean),
+        Schema.Union([Schema.String, Schema.Number, Schema.Boolean]),
       ),
     }),
   ),
@@ -1058,7 +1060,7 @@ export const CreateDatasetResponse = Schema.Struct({
   enable: Schema.Boolean,
   filters: Schema.Array(
     Schema.Struct({
-      key: Schema.Literal(
+      key: Schema.Literals([
         "created_at",
         "request_content_type",
         "response_content_type",
@@ -1072,10 +1074,10 @@ export const CreateDatasetResponse = Schema.Struct({
         "tokens_out",
         "duration",
         "feedback",
-      ),
-      operator: Schema.Literal("eq", "contains", "lt", "gt"),
+      ]),
+      operator: Schema.Literals(["eq", "contains", "lt", "gt"]),
       value: Schema.Array(
-        Schema.Union(Schema.String, Schema.Number, Schema.Boolean),
+        Schema.Union([Schema.String, Schema.Number, Schema.Boolean]),
       ),
     }),
   ),
@@ -1133,7 +1135,7 @@ export const UpdateDatasetRequest = Schema.Struct({
   enable: Schema.Boolean,
   filters: Schema.Array(
     Schema.Struct({
-      key: Schema.Literal(
+      key: Schema.Literals([
         "created_at",
         "request_content_type",
         "response_content_type",
@@ -1147,10 +1149,10 @@ export const UpdateDatasetRequest = Schema.Struct({
         "tokens_out",
         "duration",
         "feedback",
-      ),
-      operator: Schema.Literal("eq", "contains", "lt", "gt"),
+      ]),
+      operator: Schema.Literals(["eq", "contains", "lt", "gt"]),
       value: Schema.Array(
-        Schema.Union(Schema.String, Schema.Number, Schema.Boolean),
+        Schema.Union([Schema.String, Schema.Number, Schema.Boolean]),
       ),
     }),
   ),
@@ -1200,7 +1202,7 @@ export const UpdateDatasetResponse = Schema.Struct({
   enable: Schema.Boolean,
   filters: Schema.Array(
     Schema.Struct({
-      key: Schema.Literal(
+      key: Schema.Literals([
         "created_at",
         "request_content_type",
         "response_content_type",
@@ -1214,10 +1216,10 @@ export const UpdateDatasetResponse = Schema.Struct({
         "tokens_out",
         "duration",
         "feedback",
-      ),
-      operator: Schema.Literal("eq", "contains", "lt", "gt"),
+      ]),
+      operator: Schema.Literals(["eq", "contains", "lt", "gt"]),
       value: Schema.Array(
-        Schema.Union(Schema.String, Schema.Number, Schema.Boolean),
+        Schema.Union([Schema.String, Schema.Number, Schema.Boolean]),
       ),
     }),
   ),
@@ -1293,7 +1295,7 @@ export const DeleteDatasetResponse = Schema.Struct({
   enable: Schema.Boolean,
   filters: Schema.Array(
     Schema.Struct({
-      key: Schema.Literal(
+      key: Schema.Literals([
         "created_at",
         "request_content_type",
         "response_content_type",
@@ -1307,10 +1309,10 @@ export const DeleteDatasetResponse = Schema.Struct({
         "tokens_out",
         "duration",
         "feedback",
-      ),
-      operator: Schema.Literal("eq", "contains", "lt", "gt"),
+      ]),
+      operator: Schema.Literals(["eq", "contains", "lt", "gt"]),
       value: Schema.Array(
-        Schema.Union(Schema.String, Schema.Number, Schema.Boolean),
+        Schema.Union([Schema.String, Schema.Number, Schema.Boolean]),
       ),
     }),
   ),
@@ -1418,7 +1420,7 @@ export const GetEvaluationResponse = Schema.Struct({
       enable: Schema.Boolean,
       filters: Schema.Array(
         Schema.Struct({
-          key: Schema.Literal(
+          key: Schema.Literals([
             "created_at",
             "request_content_type",
             "response_content_type",
@@ -1432,10 +1434,10 @@ export const GetEvaluationResponse = Schema.Struct({
             "tokens_out",
             "duration",
             "feedback",
-          ),
-          operator: Schema.Literal("eq", "contains", "lt", "gt"),
+          ]),
+          operator: Schema.Literals(["eq", "contains", "lt", "gt"]),
           value: Schema.Array(
-            Schema.Union(Schema.String, Schema.Number, Schema.Boolean),
+            Schema.Union([Schema.String, Schema.Number, Schema.Boolean]),
           ),
         }),
       ),
@@ -1569,7 +1571,7 @@ export const CreateEvaluationResponse = Schema.Struct({
       enable: Schema.Boolean,
       filters: Schema.Array(
         Schema.Struct({
-          key: Schema.Literal(
+          key: Schema.Literals([
             "created_at",
             "request_content_type",
             "response_content_type",
@@ -1583,10 +1585,10 @@ export const CreateEvaluationResponse = Schema.Struct({
             "tokens_out",
             "duration",
             "feedback",
-          ),
-          operator: Schema.Literal("eq", "contains", "lt", "gt"),
+          ]),
+          operator: Schema.Literals(["eq", "contains", "lt", "gt"]),
           value: Schema.Array(
-            Schema.Union(Schema.String, Schema.Number, Schema.Boolean),
+            Schema.Union([Schema.String, Schema.Number, Schema.Boolean]),
           ),
         }),
       ),
@@ -1710,7 +1712,7 @@ export const DeleteEvaluationResponse = Schema.Struct({
       enable: Schema.Boolean,
       filters: Schema.Array(
         Schema.Struct({
-          key: Schema.Literal(
+          key: Schema.Literals([
             "created_at",
             "request_content_type",
             "response_content_type",
@@ -1724,10 +1726,10 @@ export const DeleteEvaluationResponse = Schema.Struct({
             "tokens_out",
             "duration",
             "feedback",
-          ),
-          operator: Schema.Literal("eq", "contains", "lt", "gt"),
+          ]),
+          operator: Schema.Literals(["eq", "contains", "lt", "gt"]),
           value: Schema.Array(
-            Schema.Union(Schema.String, Schema.Number, Schema.Boolean),
+            Schema.Union([Schema.String, Schema.Number, Schema.Boolean]),
           ),
         }),
       ),
@@ -1826,10 +1828,10 @@ export const GetLogResponse = Schema.Struct({
   path: Schema.String,
   provider: Schema.String,
   success: Schema.Boolean,
-  tokensIn: Schema.Union(Schema.Number, Schema.Null).pipe(
+  tokensIn: Schema.Union([Schema.Number, Schema.Null]).pipe(
     T.JsonName("tokens_in"),
   ),
-  tokensOut: Schema.Union(Schema.Number, Schema.Null).pipe(
+  tokensOut: Schema.Union([Schema.Number, Schema.Null]).pipe(
     T.JsonName("tokens_out"),
   ),
   cost: Schema.optional(Schema.Number),
@@ -1890,9 +1892,9 @@ export const PatchLogRequest = Schema.Struct({
   gatewayId: Schema.String.pipe(T.HttpPath("gatewayId")),
   id: Schema.String.pipe(T.HttpPath("id")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  feedback: Schema.optional(Schema.Union(Schema.Number, Schema.Null)),
-  metadata: Schema.optional(Schema.Union(Schema.Struct({}), Schema.Null)),
-  score: Schema.optional(Schema.Union(Schema.Number, Schema.Null)),
+  feedback: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  metadata: Schema.optional(Schema.Union([Schema.Struct({}), Schema.Null])),
+  score: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
 }).pipe(
   T.Http({
     method: "PATCH",
@@ -1977,7 +1979,7 @@ export const DeleteLogRequest = Schema.Struct({
   filters: Schema.optional(
     Schema.Array(
       Schema.Struct({
-        key: Schema.Literal(
+        key: Schema.Literals([
           "id",
           "created_at",
           "request_content_type",
@@ -2003,22 +2005,22 @@ export const DeleteLogRequest = Schema.Struct({
           "wholesale",
           "compatibilityMode",
           "dlp_action",
-        ),
-        operator: Schema.Literal("eq", "neq", "contains", "lt", "gt"),
+        ]),
+        operator: Schema.Literals(["eq", "neq", "contains", "lt", "gt"]),
         value: Schema.Array(
-          Schema.Union(
+          Schema.Union([
             Schema.String,
             Schema.Null,
             Schema.Number,
             Schema.Boolean,
-          ),
+          ]),
         ),
       }),
     ),
   ).pipe(T.HttpQuery("filters")),
   limit: Schema.optional(Schema.Number).pipe(T.HttpQuery("limit")),
   orderBy: Schema.optional(
-    Schema.Literal(
+    Schema.Literals([
       "created_at",
       "provider",
       "model",
@@ -2030,9 +2032,9 @@ export const DeleteLogRequest = Schema.Struct({
       "tokens_out",
       "duration",
       "feedback",
-    ),
+    ]),
   ).pipe(T.HttpQuery("order_by")),
-  orderByDirection: Schema.optional(Schema.Literal("asc", "desc")).pipe(
+  orderByDirection: Schema.optional(Schema.Literals(["asc", "desc"])).pipe(
     T.HttpQuery("order_by_direction"),
   ),
 }).pipe(

@@ -62,7 +62,7 @@ export const ListDatabasesOutput = Schema.Struct({
       }),
       html_url: Schema.String,
       name: Schema.String,
-      state: Schema.Literal(
+      state: Schema.Literals([
         "pending",
         "importing",
         "sleep_in_progress",
@@ -70,7 +70,7 @@ export const ListDatabasesOutput = Schema.Struct({
         "awakening",
         "import_ready",
         "ready",
-      ),
+      ]),
       sharded: Schema.optional(Schema.Boolean),
       default_branch_shard_count: Schema.optional(Schema.Number),
       default_branch_read_only_regions_count: Schema.optional(Schema.Number),
@@ -92,7 +92,7 @@ export const ListDatabasesOutput = Schema.Struct({
       created_at: Schema.String,
       updated_at: Schema.String,
       schema_last_updated_at: Schema.optional(Schema.String),
-      kind: Schema.Literal("mysql", "postgresql"),
+      kind: Schema.Literals(["mysql", "postgresql"]),
     }),
   ),
 });

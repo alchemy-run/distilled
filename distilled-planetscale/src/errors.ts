@@ -14,7 +14,7 @@ import * as Category from "./category";
 /**
  * Base error for general PlanetScale errors.
  */
-export class PlanetScaleError extends Schema.TaggedError<PlanetScaleError>()(
+export class PlanetScaleError extends Schema.TaggedErrorClass<PlanetScaleError>()(
   "PlanetScaleError",
   {
     message: Schema.String,
@@ -25,7 +25,7 @@ export class PlanetScaleError extends Schema.TaggedError<PlanetScaleError>()(
 /**
  * Configuration error - missing or invalid configuration.
  */
-export class ConfigError extends Schema.TaggedError<ConfigError>()(
+export class ConfigError extends Schema.TaggedErrorClass<ConfigError>()(
   "ConfigError",
   {
     message: Schema.String,
@@ -40,7 +40,7 @@ export class ConfigError extends Schema.TaggedError<ConfigError>()(
  * Unauthorized - Authentication failure (401).
  * The API token is missing, invalid, or expired.
  */
-export class Unauthorized extends Schema.TaggedError<Unauthorized>()(
+export class Unauthorized extends Schema.TaggedErrorClass<Unauthorized>()(
   "Unauthorized",
   {
     message: Schema.String,
@@ -51,15 +51,18 @@ export class Unauthorized extends Schema.TaggedError<Unauthorized>()(
  * Forbidden - Access denied (403).
  * The authenticated user doesn't have permission for this operation.
  */
-export class Forbidden extends Schema.TaggedError<Forbidden>()("Forbidden", {
-  message: Schema.String,
-}).pipe(Category.withAuthError) {}
+export class Forbidden extends Schema.TaggedErrorClass<Forbidden>()(
+  "Forbidden",
+  {
+    message: Schema.String,
+  },
+).pipe(Category.withAuthError) {}
 
 /**
  * NotFound - Resource not found (404).
  * The requested resource (organization, database, branch, etc.) doesn't exist.
  */
-export class NotFound extends Schema.TaggedError<NotFound>()("NotFound", {
+export class NotFound extends Schema.TaggedErrorClass<NotFound>()("NotFound", {
   message: Schema.String,
 }).pipe(Category.withNotFoundError) {}
 
@@ -67,7 +70,7 @@ export class NotFound extends Schema.TaggedError<NotFound>()("NotFound", {
  * Conflict - Resource conflict (409).
  * The operation conflicts with the current state of the resource.
  */
-export class Conflict extends Schema.TaggedError<Conflict>()("Conflict", {
+export class Conflict extends Schema.TaggedErrorClass<Conflict>()("Conflict", {
   message: Schema.String,
 }).pipe(Category.withConflictError) {}
 
@@ -75,7 +78,7 @@ export class Conflict extends Schema.TaggedError<Conflict>()("Conflict", {
  * UnprocessableEntity - Validation error (422).
  * The request was well-formed but contains semantic errors.
  */
-export class UnprocessableEntity extends Schema.TaggedError<UnprocessableEntity>()(
+export class UnprocessableEntity extends Schema.TaggedErrorClass<UnprocessableEntity>()(
   "UnprocessableEntity",
   {
     message: Schema.String,
@@ -86,16 +89,19 @@ export class UnprocessableEntity extends Schema.TaggedError<UnprocessableEntity>
  * BadRequest - Invalid request (400).
  * The request was malformed or contains invalid parameters.
  */
-export class BadRequest extends Schema.TaggedError<BadRequest>()("BadRequest", {
-  message: Schema.String,
-}).pipe(Category.withBadRequestError) {}
+export class BadRequest extends Schema.TaggedErrorClass<BadRequest>()(
+  "BadRequest",
+  {
+    message: Schema.String,
+  },
+).pipe(Category.withBadRequestError) {}
 
 /**
  * TooManyRequests - Rate limited (429).
  * Too many requests have been made in a given time period.
  * Marked as retryable with throttling backoff.
  */
-export class TooManyRequests extends Schema.TaggedError<TooManyRequests>()(
+export class TooManyRequests extends Schema.TaggedErrorClass<TooManyRequests>()(
   "TooManyRequests",
   {
     message: Schema.String,
@@ -110,7 +116,7 @@ export class TooManyRequests extends Schema.TaggedError<TooManyRequests>()(
  * An unexpected error occurred on the PlanetScale server.
  * Marked as retryable.
  */
-export class InternalServerError extends Schema.TaggedError<InternalServerError>()(
+export class InternalServerError extends Schema.TaggedErrorClass<InternalServerError>()(
   "InternalServerError",
   {
     message: Schema.String,
@@ -122,7 +128,7 @@ export class InternalServerError extends Schema.TaggedError<InternalServerError>
  * The PlanetScale service is temporarily unavailable.
  * Marked as retryable.
  */
-export class ServiceUnavailable extends Schema.TaggedError<ServiceUnavailable>()(
+export class ServiceUnavailable extends Schema.TaggedErrorClass<ServiceUnavailable>()(
   "ServiceUnavailable",
   {
     message: Schema.String,

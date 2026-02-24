@@ -5,7 +5,7 @@ import { Forbidden, InvalidRequest } from "../errors";
 
 // Input Schema
 export const GetEvmSwapPriceInput = Schema.Struct({
-  network: Schema.Literal("base", "ethereum", "arbitrum", "optimism"),
+  network: Schema.Literals(["base", "ethereum", "arbitrum", "optimism"]),
   toToken: Schema.String,
   fromToken: Schema.String,
   fromAmount: Schema.String,
@@ -17,41 +17,48 @@ export const GetEvmSwapPriceInput = Schema.Struct({
 export type GetEvmSwapPriceInput = typeof GetEvmSwapPriceInput.Type;
 
 // Output Schema
-export const GetEvmSwapPriceOutput = Schema.Union(Schema.Struct({
-  blockNumber: Schema.String,
-  toAmount: Schema.String,
-  toToken: Schema.String,
-  fees: Schema.Struct({
-    gasFee: Schema.Struct({
-      amount: Schema.String,
-      token: Schema.String,
+export const GetEvmSwapPriceOutput = Schema.Union([
+  Schema.Struct({
+    blockNumber: Schema.String,
+    toAmount: Schema.String,
+    toToken: Schema.String,
+    fees: Schema.Struct({
+      gasFee: Schema.Struct({
+        amount: Schema.String,
+        token: Schema.String,
+      }),
+      protocolFee: Schema.Struct({
+        amount: Schema.String,
+        token: Schema.String,
+      }),
     }),
-    protocolFee: Schema.Struct({
-      amount: Schema.String,
-      token: Schema.String,
+    issues: Schema.Struct({
+      allowance: Schema.NullOr(
+        Schema.Struct({
+          currentAllowance: Schema.String,
+          spender: Schema.String,
+        }),
+      ),
+      balance: Schema.NullOr(
+        Schema.Struct({
+          token: Schema.String,
+          currentBalance: Schema.String,
+          requiredBalance: Schema.String,
+        }),
+      ),
+      simulationIncomplete: Schema.Boolean,
     }),
+    liquidityAvailable: Schema.Literals([true]),
+    minToAmount: Schema.String,
+    fromAmount: Schema.String,
+    fromToken: Schema.String,
+    gas: Schema.NullOr(Schema.String),
+    gasPrice: Schema.String,
   }),
-  issues: Schema.Struct({
-    allowance: Schema.NullOr(Schema.Struct({
-      currentAllowance: Schema.String,
-      spender: Schema.String,
-    })),
-    balance: Schema.NullOr(Schema.Struct({
-      token: Schema.String,
-      currentBalance: Schema.String,
-      requiredBalance: Schema.String,
-    })),
-    simulationIncomplete: Schema.Boolean,
+  Schema.Struct({
+    liquidityAvailable: Schema.Literals([false]),
   }),
-  liquidityAvailable: Schema.Literal(true),
-  minToAmount: Schema.String,
-  fromAmount: Schema.String,
-  fromToken: Schema.String,
-  gas: Schema.NullOr(Schema.String),
-  gasPrice: Schema.String,
-}), Schema.Struct({
-  liquidityAvailable: Schema.Literal(false),
-}));
+]);
 export type GetEvmSwapPriceOutput = typeof GetEvmSwapPriceOutput.Type;
 
 // The operation

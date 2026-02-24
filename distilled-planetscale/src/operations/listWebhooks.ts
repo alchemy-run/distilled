@@ -36,7 +36,7 @@ export const ListWebhooksOutput = Schema.Struct({
       created_at: Schema.String,
       updated_at: Schema.String,
       events: Schema.Array(
-        Schema.Literal(
+        Schema.Literals([
           "branch.ready",
           "branch.anomaly",
           "branch.primary_promoted",
@@ -55,7 +55,7 @@ export const ListWebhooksOutput = Schema.Struct({
           "deploy_request.schema_applied",
           "keyspace.storage",
           "webhook.test",
-        ),
+        ]),
       ),
     }),
   ),

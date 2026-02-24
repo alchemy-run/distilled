@@ -31,7 +31,7 @@ const findNamespaceByTitle = (title: string): Effect.Effect<string | undefined, 
       return ns?.id as string | undefined;
     },
     catch: () => undefined,
-  }).pipe(Effect.catchAll(() => Effect.succeed(undefined)));
+  }).pipe(Effect.catch(() => Effect.succeed(undefined)));
 
 /**
  * Create a KV namespace, run `fn`, then delete the namespace.
@@ -50,7 +50,7 @@ const withNamespace = <A, E, R>(
       yield* KV.deleteNamespace({
         accountId: accountId(),
         namespaceId: existingId,
-      }).pipe(Effect.catchAll(() => Effect.void));
+      }).pipe(Effect.catch(() => Effect.void));
     }
 
     // Create namespace
@@ -70,7 +70,7 @@ const withNamespace = <A, E, R>(
         KV.deleteNamespace({
           accountId: accountId(),
           namespaceId: ns.id,
-        }).pipe(Effect.catchAll(() => Effect.void)),
+        }).pipe(Effect.catch(() => Effect.void)),
       ),
     );
   });
@@ -123,7 +123,7 @@ describe("KV", () => {
         yield* KV.deleteNamespace({
           accountId: accountId(),
           namespaceId: ns.id,
-        }).pipe(Effect.catchAll(() => Effect.void));
+        }).pipe(Effect.catch(() => Effect.void));
       }));
 
     test("error - TitleRequired for empty title string", () =>
@@ -286,11 +286,11 @@ describe("KV", () => {
               yield* KV.deleteNamespace({
                 accountId: accountId(),
                 namespaceId: ns1.id,
-              }).pipe(Effect.catchAll(() => Effect.void));
+              }).pipe(Effect.catch(() => Effect.void));
               yield* KV.deleteNamespace({
                 accountId: accountId(),
                 namespaceId: ns2.id,
-              }).pipe(Effect.catchAll(() => Effect.void));
+              }).pipe(Effect.catch(() => Effect.void));
             }),
           ),
         );

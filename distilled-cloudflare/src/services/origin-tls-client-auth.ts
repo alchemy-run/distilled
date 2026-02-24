@@ -7,7 +7,7 @@
 
 import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
-import type { HttpClient } from "@effect/platform";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
@@ -86,7 +86,7 @@ export interface GetHostnameResponse {
 export const GetHostnameResponse = Schema.Struct({
   certId: Schema.optional(Schema.String).pipe(T.JsonName("cert_id")),
   certStatus: Schema.optional(
-    Schema.Literal(
+    Schema.Literals([
       "initializing",
       "pending_deployment",
       "pending_deletion",
@@ -94,7 +94,7 @@ export const GetHostnameResponse = Schema.Struct({
       "deleted",
       "deployment_timed_out",
       "deletion_timed_out",
-    ),
+    ]),
   ).pipe(T.JsonName("cert_status")),
   certUpdatedAt: Schema.optional(Schema.String).pipe(
     T.JsonName("cert_updated_at"),
@@ -104,7 +104,7 @@ export const GetHostnameResponse = Schema.Struct({
   ),
   certificate: Schema.optional(Schema.String),
   createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
-  enabled: Schema.optional(Schema.Union(Schema.Boolean, Schema.Null)),
+  enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
   expiresOn: Schema.optional(Schema.String).pipe(T.JsonName("expires_on")),
   hostname: Schema.optional(Schema.String),
   issuer: Schema.optional(Schema.String),
@@ -113,7 +113,7 @@ export const GetHostnameResponse = Schema.Struct({
   ),
   signature: Schema.optional(Schema.String),
   status: Schema.optional(
-    Schema.Literal(
+    Schema.Literals([
       "initializing",
       "pending_deployment",
       "pending_deletion",
@@ -121,7 +121,7 @@ export const GetHostnameResponse = Schema.Struct({
       "deleted",
       "deployment_timed_out",
       "deletion_timed_out",
-    ),
+    ]),
   ),
   updatedAt: Schema.optional(Schema.String).pipe(T.JsonName("updated_at")),
 }) as unknown as Schema.Schema<GetHostnameResponse>;
@@ -194,7 +194,7 @@ export const GetHostnameCertificateResponse = Schema.Struct({
   ),
   signature: Schema.optional(Schema.String),
   status: Schema.optional(
-    Schema.Literal(
+    Schema.Literals([
       "initializing",
       "pending_deployment",
       "pending_deletion",
@@ -202,7 +202,7 @@ export const GetHostnameCertificateResponse = Schema.Struct({
       "deleted",
       "deployment_timed_out",
       "deletion_timed_out",
-    ),
+    ]),
   ),
   uploadedOn: Schema.optional(Schema.String).pipe(T.JsonName("uploaded_on")),
 }) as unknown as Schema.Schema<GetHostnameCertificateResponse>;
@@ -275,7 +275,7 @@ export const CreateHostnameCertificateResponse = Schema.Struct({
   ),
   signature: Schema.optional(Schema.String),
   status: Schema.optional(
-    Schema.Literal(
+    Schema.Literals([
       "initializing",
       "pending_deployment",
       "pending_deletion",
@@ -283,7 +283,7 @@ export const CreateHostnameCertificateResponse = Schema.Struct({
       "deleted",
       "deployment_timed_out",
       "deletion_timed_out",
-    ),
+    ]),
   ),
   uploadedOn: Schema.optional(Schema.String).pipe(T.JsonName("uploaded_on")),
 }) as unknown as Schema.Schema<CreateHostnameCertificateResponse>;
@@ -352,7 +352,7 @@ export const DeleteHostnameCertificateResponse = Schema.Struct({
   ),
   signature: Schema.optional(Schema.String),
   status: Schema.optional(
-    Schema.Literal(
+    Schema.Literals([
       "initializing",
       "pending_deployment",
       "pending_deletion",
@@ -360,7 +360,7 @@ export const DeleteHostnameCertificateResponse = Schema.Struct({
       "deleted",
       "deployment_timed_out",
       "deletion_timed_out",
-    ),
+    ]),
   ),
   uploadedOn: Schema.optional(Schema.String).pipe(T.JsonName("uploaded_on")),
 }) as unknown as Schema.Schema<DeleteHostnameCertificateResponse>;

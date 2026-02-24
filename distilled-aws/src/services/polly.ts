@@ -1,4 +1,4 @@
-import { HttpClient } from "@effect/platform";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as effect from "effect/Effect";
 import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
@@ -86,30 +86,54 @@ const rules = T.EndpointResolver((p, _) => {
 
 //# Newtypes
 export type LexiconName = string;
+export type ErrorMessage = string;
 export type IncludeAdditionalLanguageCodes = boolean;
 export type NextToken = string;
-export type TaskId = string;
-export type MaxResults = number;
-export type LexiconContent = string | redacted.Redacted<string>;
-export type OutputS3BucketName = string;
-export type OutputS3KeyPrefix = string;
-export type SampleRate = string;
-export type SnsTopicArn = string;
-export type Text = string;
-export type ErrorMessage = string;
-export type ContentType = string;
-export type RequestCharacters = number;
 export type LanguageName = string;
 export type VoiceName = string;
+export type LexiconContent = string | redacted.Redacted<string>;
 export type Alphabet = string;
 export type LastModified = Date;
 export type LexiconArn = string;
 export type LexemesCount = number;
 export type Size = number;
+export type TaskId = string;
 export type TaskStatusReason = string;
 export type OutputUri = string;
+export type RequestCharacters = number;
+export type SnsTopicArn = string;
+export type SampleRate = string;
+export type MaxResults = number;
+export type OutputS3BucketName = string;
+export type OutputS3KeyPrefix = string;
+export type Text = string;
+export type ContentType = string;
 
 //# Schemas
+export interface DeleteLexiconInput {
+  Name: string;
+}
+export const DeleteLexiconInput = S.suspend(() =>
+  S.Struct({ Name: S.String.pipe(T.HttpLabel("Name")) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "DELETE", uri: "/v1/lexicons/{Name}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeleteLexiconInput",
+}) as any as S.Schema<DeleteLexiconInput>;
+export interface DeleteLexiconOutput {}
+export const DeleteLexiconOutput = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "DeleteLexiconOutput",
+}) as any as S.Schema<DeleteLexiconOutput>;
 export type Engine =
   | "standard"
   | "neural"
@@ -162,34 +186,36 @@ export type LanguageCode =
   | "en-SG"
   | (string & {});
 export const LanguageCode = S.String;
-export type TaskStatus =
-  | "scheduled"
-  | "inProgress"
-  | "completed"
-  | "failed"
-  | (string & {});
-export const TaskStatus = S.String;
-export type LexiconNameList = string[];
-export const LexiconNameList = S.Array(S.String);
-export type OutputFormat =
-  | "json"
-  | "mp3"
-  | "ogg_opus"
-  | "ogg_vorbis"
-  | "pcm"
-  | (string & {});
-export const OutputFormat = S.String;
-export type SpeechMarkType =
-  | "sentence"
-  | "ssml"
-  | "viseme"
-  | "word"
-  | (string & {});
-export const SpeechMarkType = S.String;
-export type SpeechMarkTypeList = SpeechMarkType[];
-export const SpeechMarkTypeList = S.Array(SpeechMarkType);
-export type TextType = "ssml" | "text" | (string & {});
-export const TextType = S.String;
+export interface DescribeVoicesInput {
+  Engine?: Engine;
+  LanguageCode?: LanguageCode;
+  IncludeAdditionalLanguageCodes?: boolean;
+  NextToken?: string;
+}
+export const DescribeVoicesInput = S.suspend(() =>
+  S.Struct({
+    Engine: S.optional(Engine).pipe(T.HttpQuery("Engine")),
+    LanguageCode: S.optional(LanguageCode).pipe(T.HttpQuery("LanguageCode")),
+    IncludeAdditionalLanguageCodes: S.optional(S.Boolean).pipe(
+      T.HttpQuery("IncludeAdditionalLanguageCodes"),
+    ),
+    NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "GET", uri: "/v1/voices" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DescribeVoicesInput",
+}) as any as S.Schema<DescribeVoicesInput>;
+export type Gender = "Female" | "Male" | (string & {});
+export const Gender = S.String;
 export type VoiceId =
   | "Aditi"
   | "Amy"
@@ -293,58 +319,44 @@ export type VoiceId =
   | "Jihye"
   | (string & {});
 export const VoiceId = S.String;
-export interface DeleteLexiconInput {
-  Name: string;
-}
-export const DeleteLexiconInput = S.suspend(() =>
-  S.Struct({ Name: S.String.pipe(T.HttpLabel("Name")) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "DELETE", uri: "/v1/lexicons/{Name}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DeleteLexiconInput",
-}) as any as S.Schema<DeleteLexiconInput>;
-export interface DeleteLexiconOutput {}
-export const DeleteLexiconOutput = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotations({
-  identifier: "DeleteLexiconOutput",
-}) as any as S.Schema<DeleteLexiconOutput>;
-export interface DescribeVoicesInput {
-  Engine?: Engine;
+export type LanguageCodeList = LanguageCode[];
+export const LanguageCodeList = S.Array(LanguageCode);
+export type EngineList = Engine[];
+export const EngineList = S.Array(Engine);
+export interface Voice {
+  Gender?: Gender;
+  Id?: VoiceId;
   LanguageCode?: LanguageCode;
-  IncludeAdditionalLanguageCodes?: boolean;
+  LanguageName?: string;
+  Name?: string;
+  AdditionalLanguageCodes?: LanguageCode[];
+  SupportedEngines?: Engine[];
+}
+export const Voice = S.suspend(() =>
+  S.Struct({
+    Gender: S.optional(Gender),
+    Id: S.optional(VoiceId),
+    LanguageCode: S.optional(LanguageCode),
+    LanguageName: S.optional(S.String),
+    Name: S.optional(S.String),
+    AdditionalLanguageCodes: S.optional(LanguageCodeList),
+    SupportedEngines: S.optional(EngineList),
+  }),
+).annotate({ identifier: "Voice" }) as any as S.Schema<Voice>;
+export type VoiceList = Voice[];
+export const VoiceList = S.Array(Voice);
+export interface DescribeVoicesOutput {
+  Voices?: Voice[];
   NextToken?: string;
 }
-export const DescribeVoicesInput = S.suspend(() =>
+export const DescribeVoicesOutput = S.suspend(() =>
   S.Struct({
-    Engine: S.optional(Engine).pipe(T.HttpQuery("Engine")),
-    LanguageCode: S.optional(LanguageCode).pipe(T.HttpQuery("LanguageCode")),
-    IncludeAdditionalLanguageCodes: S.optional(S.Boolean).pipe(
-      T.HttpQuery("IncludeAdditionalLanguageCodes"),
-    ),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/v1/voices" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DescribeVoicesInput",
-}) as any as S.Schema<DescribeVoicesInput>;
+    Voices: S.optional(VoiceList),
+    NextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotate({
+  identifier: "DescribeVoicesOutput",
+}) as any as S.Schema<DescribeVoicesOutput>;
 export interface GetLexiconInput {
   Name: string;
 }
@@ -360,9 +372,51 @@ export const GetLexiconInput = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "GetLexiconInput",
 }) as any as S.Schema<GetLexiconInput>;
+export interface Lexicon {
+  Content?: string | redacted.Redacted<string>;
+  Name?: string;
+}
+export const Lexicon = S.suspend(() =>
+  S.Struct({
+    Content: S.optional(SensitiveString),
+    Name: S.optional(S.String),
+  }),
+).annotate({ identifier: "Lexicon" }) as any as S.Schema<Lexicon>;
+export interface LexiconAttributes {
+  Alphabet?: string;
+  LanguageCode?: LanguageCode;
+  LastModified?: Date;
+  LexiconArn?: string;
+  LexemesCount?: number;
+  Size?: number;
+}
+export const LexiconAttributes = S.suspend(() =>
+  S.Struct({
+    Alphabet: S.optional(S.String),
+    LanguageCode: S.optional(LanguageCode),
+    LastModified: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    LexiconArn: S.optional(S.String),
+    LexemesCount: S.optional(S.Number),
+    Size: S.optional(S.Number),
+  }),
+).annotate({
+  identifier: "LexiconAttributes",
+}) as any as S.Schema<LexiconAttributes>;
+export interface GetLexiconOutput {
+  Lexicon?: Lexicon;
+  LexiconAttributes?: LexiconAttributes;
+}
+export const GetLexiconOutput = S.suspend(() =>
+  S.Struct({
+    Lexicon: S.optional(Lexicon),
+    LexiconAttributes: S.optional(LexiconAttributes),
+  }).pipe(ns),
+).annotate({
+  identifier: "GetLexiconOutput",
+}) as any as S.Schema<GetLexiconOutput>;
 export interface GetSpeechSynthesisTaskInput {
   TaskId: string;
 }
@@ -378,9 +432,81 @@ export const GetSpeechSynthesisTaskInput = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "GetSpeechSynthesisTaskInput",
 }) as any as S.Schema<GetSpeechSynthesisTaskInput>;
+export type TaskStatus =
+  | "scheduled"
+  | "inProgress"
+  | "completed"
+  | "failed"
+  | (string & {});
+export const TaskStatus = S.String;
+export type LexiconNameList = string[];
+export const LexiconNameList = S.Array(S.String);
+export type OutputFormat =
+  | "json"
+  | "mp3"
+  | "ogg_opus"
+  | "ogg_vorbis"
+  | "pcm"
+  | (string & {});
+export const OutputFormat = S.String;
+export type SpeechMarkType =
+  | "sentence"
+  | "ssml"
+  | "viseme"
+  | "word"
+  | (string & {});
+export const SpeechMarkType = S.String;
+export type SpeechMarkTypeList = SpeechMarkType[];
+export const SpeechMarkTypeList = S.Array(SpeechMarkType);
+export type TextType = "ssml" | "text" | (string & {});
+export const TextType = S.String;
+export interface SynthesisTask {
+  Engine?: Engine;
+  TaskId?: string;
+  TaskStatus?: TaskStatus;
+  TaskStatusReason?: string;
+  OutputUri?: string;
+  CreationTime?: Date;
+  RequestCharacters?: number;
+  SnsTopicArn?: string;
+  LexiconNames?: string[];
+  OutputFormat?: OutputFormat;
+  SampleRate?: string;
+  SpeechMarkTypes?: SpeechMarkType[];
+  TextType?: TextType;
+  VoiceId?: VoiceId;
+  LanguageCode?: LanguageCode;
+}
+export const SynthesisTask = S.suspend(() =>
+  S.Struct({
+    Engine: S.optional(Engine),
+    TaskId: S.optional(S.String),
+    TaskStatus: S.optional(TaskStatus),
+    TaskStatusReason: S.optional(S.String),
+    OutputUri: S.optional(S.String),
+    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    RequestCharacters: S.optional(S.Number),
+    SnsTopicArn: S.optional(S.String),
+    LexiconNames: S.optional(LexiconNameList),
+    OutputFormat: S.optional(OutputFormat),
+    SampleRate: S.optional(S.String),
+    SpeechMarkTypes: S.optional(SpeechMarkTypeList),
+    TextType: S.optional(TextType),
+    VoiceId: S.optional(VoiceId),
+    LanguageCode: S.optional(LanguageCode),
+  }),
+).annotate({ identifier: "SynthesisTask" }) as any as S.Schema<SynthesisTask>;
+export interface GetSpeechSynthesisTaskOutput {
+  SynthesisTask?: SynthesisTask;
+}
+export const GetSpeechSynthesisTaskOutput = S.suspend(() =>
+  S.Struct({ SynthesisTask: S.optional(SynthesisTask) }).pipe(ns),
+).annotate({
+  identifier: "GetSpeechSynthesisTaskOutput",
+}) as any as S.Schema<GetSpeechSynthesisTaskOutput>;
 export interface ListLexiconsInput {
   NextToken?: string;
 }
@@ -398,9 +524,35 @@ export const ListLexiconsInput = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "ListLexiconsInput",
 }) as any as S.Schema<ListLexiconsInput>;
+export interface LexiconDescription {
+  Name?: string;
+  Attributes?: LexiconAttributes;
+}
+export const LexiconDescription = S.suspend(() =>
+  S.Struct({
+    Name: S.optional(S.String),
+    Attributes: S.optional(LexiconAttributes),
+  }),
+).annotate({
+  identifier: "LexiconDescription",
+}) as any as S.Schema<LexiconDescription>;
+export type LexiconDescriptionList = LexiconDescription[];
+export const LexiconDescriptionList = S.Array(LexiconDescription);
+export interface ListLexiconsOutput {
+  Lexicons?: LexiconDescription[];
+  NextToken?: string;
+}
+export const ListLexiconsOutput = S.suspend(() =>
+  S.Struct({
+    Lexicons: S.optional(LexiconDescriptionList),
+    NextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotate({
+  identifier: "ListLexiconsOutput",
+}) as any as S.Schema<ListLexiconsOutput>;
 export interface ListSpeechSynthesisTasksInput {
   MaxResults?: number;
   NextToken?: string;
@@ -422,9 +574,23 @@ export const ListSpeechSynthesisTasksInput = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "ListSpeechSynthesisTasksInput",
 }) as any as S.Schema<ListSpeechSynthesisTasksInput>;
+export type SynthesisTasks = SynthesisTask[];
+export const SynthesisTasks = S.Array(SynthesisTask);
+export interface ListSpeechSynthesisTasksOutput {
+  NextToken?: string;
+  SynthesisTasks?: SynthesisTask[];
+}
+export const ListSpeechSynthesisTasksOutput = S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    SynthesisTasks: S.optional(SynthesisTasks),
+  }).pipe(ns),
+).annotate({
+  identifier: "ListSpeechSynthesisTasksOutput",
+}) as any as S.Schema<ListSpeechSynthesisTasksOutput>;
 export interface PutLexiconInput {
   Name: string;
   Content: string | redacted.Redacted<string>;
@@ -444,15 +610,13 @@ export const PutLexiconInput = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "PutLexiconInput",
 }) as any as S.Schema<PutLexiconInput>;
 export interface PutLexiconOutput {}
-export const PutLexiconOutput = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotations({
-  identifier: "PutLexiconOutput",
-}) as any as S.Schema<PutLexiconOutput>;
+export const PutLexiconOutput = S.suspend(() => S.Struct({}).pipe(ns)).annotate(
+  { identifier: "PutLexiconOutput" },
+) as any as S.Schema<PutLexiconOutput>;
 export interface StartSpeechSynthesisTaskInput {
   Engine?: Engine;
   LanguageCode?: LanguageCode;
@@ -492,9 +656,17 @@ export const StartSpeechSynthesisTaskInput = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "StartSpeechSynthesisTaskInput",
 }) as any as S.Schema<StartSpeechSynthesisTaskInput>;
+export interface StartSpeechSynthesisTaskOutput {
+  SynthesisTask?: SynthesisTask;
+}
+export const StartSpeechSynthesisTaskOutput = S.suspend(() =>
+  S.Struct({ SynthesisTask: S.optional(SynthesisTask) }).pipe(ns),
+).annotate({
+  identifier: "StartSpeechSynthesisTaskOutput",
+}) as any as S.Schema<StartSpeechSynthesisTaskOutput>;
 export interface SynthesizeSpeechInput {
   Engine?: Engine;
   LanguageCode?: LanguageCode;
@@ -528,69 +700,9 @@ export const SynthesizeSpeechInput = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "SynthesizeSpeechInput",
 }) as any as S.Schema<SynthesizeSpeechInput>;
-export interface SynthesisTask {
-  Engine?: Engine;
-  TaskId?: string;
-  TaskStatus?: TaskStatus;
-  TaskStatusReason?: string;
-  OutputUri?: string;
-  CreationTime?: Date;
-  RequestCharacters?: number;
-  SnsTopicArn?: string;
-  LexiconNames?: string[];
-  OutputFormat?: OutputFormat;
-  SampleRate?: string;
-  SpeechMarkTypes?: SpeechMarkType[];
-  TextType?: TextType;
-  VoiceId?: VoiceId;
-  LanguageCode?: LanguageCode;
-}
-export const SynthesisTask = S.suspend(() =>
-  S.Struct({
-    Engine: S.optional(Engine),
-    TaskId: S.optional(S.String),
-    TaskStatus: S.optional(TaskStatus),
-    TaskStatusReason: S.optional(S.String),
-    OutputUri: S.optional(S.String),
-    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    RequestCharacters: S.optional(S.Number),
-    SnsTopicArn: S.optional(S.String),
-    LexiconNames: S.optional(LexiconNameList),
-    OutputFormat: S.optional(OutputFormat),
-    SampleRate: S.optional(S.String),
-    SpeechMarkTypes: S.optional(SpeechMarkTypeList),
-    TextType: S.optional(TextType),
-    VoiceId: S.optional(VoiceId),
-    LanguageCode: S.optional(LanguageCode),
-  }),
-).annotations({
-  identifier: "SynthesisTask",
-}) as any as S.Schema<SynthesisTask>;
-export type SynthesisTasks = SynthesisTask[];
-export const SynthesisTasks = S.Array(SynthesisTask);
-export interface ListSpeechSynthesisTasksOutput {
-  NextToken?: string;
-  SynthesisTasks?: SynthesisTask[];
-}
-export const ListSpeechSynthesisTasksOutput = S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    SynthesisTasks: S.optional(SynthesisTasks),
-  }).pipe(ns),
-).annotations({
-  identifier: "ListSpeechSynthesisTasksOutput",
-}) as any as S.Schema<ListSpeechSynthesisTasksOutput>;
-export interface StartSpeechSynthesisTaskOutput {
-  SynthesisTask?: SynthesisTask;
-}
-export const StartSpeechSynthesisTaskOutput = S.suspend(() =>
-  S.Struct({ SynthesisTask: S.optional(SynthesisTask) }).pipe(ns),
-).annotations({
-  identifier: "StartSpeechSynthesisTaskOutput",
-}) as any as S.Schema<StartSpeechSynthesisTaskOutput>;
 export interface SynthesizeSpeechOutput {
   AudioStream?: T.StreamingOutputBody;
   ContentType?: string;
@@ -604,208 +716,92 @@ export const SynthesizeSpeechOutput = S.suspend(() =>
       T.HttpHeader("x-amzn-RequestCharacters"),
     ),
   }).pipe(ns),
-).annotations({
+).annotate({
   identifier: "SynthesizeSpeechOutput",
 }) as any as S.Schema<SynthesizeSpeechOutput>;
-export type Gender = "Female" | "Male" | (string & {});
-export const Gender = S.String;
-export type LanguageCodeList = LanguageCode[];
-export const LanguageCodeList = S.Array(LanguageCode);
-export type EngineList = Engine[];
-export const EngineList = S.Array(Engine);
-export interface Voice {
-  Gender?: Gender;
-  Id?: VoiceId;
-  LanguageCode?: LanguageCode;
-  LanguageName?: string;
-  Name?: string;
-  AdditionalLanguageCodes?: LanguageCode[];
-  SupportedEngines?: Engine[];
-}
-export const Voice = S.suspend(() =>
-  S.Struct({
-    Gender: S.optional(Gender),
-    Id: S.optional(VoiceId),
-    LanguageCode: S.optional(LanguageCode),
-    LanguageName: S.optional(S.String),
-    Name: S.optional(S.String),
-    AdditionalLanguageCodes: S.optional(LanguageCodeList),
-    SupportedEngines: S.optional(EngineList),
-  }),
-).annotations({ identifier: "Voice" }) as any as S.Schema<Voice>;
-export type VoiceList = Voice[];
-export const VoiceList = S.Array(Voice);
-export interface Lexicon {
-  Content?: string | redacted.Redacted<string>;
-  Name?: string;
-}
-export const Lexicon = S.suspend(() =>
-  S.Struct({
-    Content: S.optional(SensitiveString),
-    Name: S.optional(S.String),
-  }),
-).annotations({ identifier: "Lexicon" }) as any as S.Schema<Lexicon>;
-export interface LexiconAttributes {
-  Alphabet?: string;
-  LanguageCode?: LanguageCode;
-  LastModified?: Date;
-  LexiconArn?: string;
-  LexemesCount?: number;
-  Size?: number;
-}
-export const LexiconAttributes = S.suspend(() =>
-  S.Struct({
-    Alphabet: S.optional(S.String),
-    LanguageCode: S.optional(LanguageCode),
-    LastModified: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    LexiconArn: S.optional(S.String),
-    LexemesCount: S.optional(S.Number),
-    Size: S.optional(S.Number),
-  }),
-).annotations({
-  identifier: "LexiconAttributes",
-}) as any as S.Schema<LexiconAttributes>;
-export interface LexiconDescription {
-  Name?: string;
-  Attributes?: LexiconAttributes;
-}
-export const LexiconDescription = S.suspend(() =>
-  S.Struct({
-    Name: S.optional(S.String),
-    Attributes: S.optional(LexiconAttributes),
-  }),
-).annotations({
-  identifier: "LexiconDescription",
-}) as any as S.Schema<LexiconDescription>;
-export type LexiconDescriptionList = LexiconDescription[];
-export const LexiconDescriptionList = S.Array(LexiconDescription);
-export interface DescribeVoicesOutput {
-  Voices?: Voice[];
-  NextToken?: string;
-}
-export const DescribeVoicesOutput = S.suspend(() =>
-  S.Struct({
-    Voices: S.optional(VoiceList),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotations({
-  identifier: "DescribeVoicesOutput",
-}) as any as S.Schema<DescribeVoicesOutput>;
-export interface GetLexiconOutput {
-  Lexicon?: Lexicon;
-  LexiconAttributes?: LexiconAttributes;
-}
-export const GetLexiconOutput = S.suspend(() =>
-  S.Struct({
-    Lexicon: S.optional(Lexicon),
-    LexiconAttributes: S.optional(LexiconAttributes),
-  }).pipe(ns),
-).annotations({
-  identifier: "GetLexiconOutput",
-}) as any as S.Schema<GetLexiconOutput>;
-export interface GetSpeechSynthesisTaskOutput {
-  SynthesisTask?: SynthesisTask;
-}
-export const GetSpeechSynthesisTaskOutput = S.suspend(() =>
-  S.Struct({ SynthesisTask: S.optional(SynthesisTask) }).pipe(ns),
-).annotations({
-  identifier: "GetSpeechSynthesisTaskOutput",
-}) as any as S.Schema<GetSpeechSynthesisTaskOutput>;
-export interface ListLexiconsOutput {
-  Lexicons?: LexiconDescription[];
-  NextToken?: string;
-}
-export const ListLexiconsOutput = S.suspend(() =>
-  S.Struct({
-    Lexicons: S.optional(LexiconDescriptionList),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotations({
-  identifier: "ListLexiconsOutput",
-}) as any as S.Schema<ListLexiconsOutput>;
 
 //# Errors
-export class LexiconNotFoundException extends S.TaggedError<LexiconNotFoundException>()(
+export class LexiconNotFoundException extends S.TaggedErrorClass<LexiconNotFoundException>()(
   "LexiconNotFoundException",
   { message: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
-export class InvalidLexiconException extends S.TaggedError<InvalidLexiconException>()(
-  "InvalidLexiconException",
-  { message: S.optional(S.String) },
-).pipe(C.withBadRequestError) {}
-export class ServiceFailureException extends S.TaggedError<ServiceFailureException>()(
+export class ServiceFailureException extends S.TaggedErrorClass<ServiceFailureException>()(
   "ServiceFailureException",
   { message: S.optional(S.String) },
 ).pipe(C.withServerError) {}
-export class InvalidNextTokenException extends S.TaggedError<InvalidNextTokenException>()(
+export class InvalidNextTokenException extends S.TaggedErrorClass<InvalidNextTokenException>()(
   "InvalidNextTokenException",
   { message: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
-export class LexiconSizeExceededException extends S.TaggedError<LexiconSizeExceededException>()(
-  "LexiconSizeExceededException",
-  { message: S.optional(S.String) },
-).pipe(C.withBadRequestError) {}
-export class EngineNotSupportedException extends S.TaggedError<EngineNotSupportedException>()(
-  "EngineNotSupportedException",
-  { message: S.optional(S.String) },
-).pipe(C.withBadRequestError) {}
-export class InvalidTaskIdException extends S.TaggedError<InvalidTaskIdException>()(
+export class InvalidTaskIdException extends S.TaggedErrorClass<InvalidTaskIdException>()(
   "InvalidTaskIdException",
   { message: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
-export class MaxLexemeLengthExceededException extends S.TaggedError<MaxLexemeLengthExceededException>()(
-  "MaxLexemeLengthExceededException",
-  { message: S.optional(S.String) },
-).pipe(C.withBadRequestError) {}
-export class InvalidS3BucketException extends S.TaggedError<InvalidS3BucketException>()(
-  "InvalidS3BucketException",
-  { message: S.optional(S.String) },
-).pipe(C.withBadRequestError) {}
-export class InvalidSampleRateException extends S.TaggedError<InvalidSampleRateException>()(
-  "InvalidSampleRateException",
-  { message: S.optional(S.String) },
-).pipe(C.withBadRequestError) {}
-export class SynthesisTaskNotFoundException extends S.TaggedError<SynthesisTaskNotFoundException>()(
+export class SynthesisTaskNotFoundException extends S.TaggedErrorClass<SynthesisTaskNotFoundException>()(
   "SynthesisTaskNotFoundException",
   { message: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
-export class MaxLexiconsNumberExceededException extends S.TaggedError<MaxLexiconsNumberExceededException>()(
+export class InvalidLexiconException extends S.TaggedErrorClass<InvalidLexiconException>()(
+  "InvalidLexiconException",
+  { message: S.optional(S.String) },
+).pipe(C.withBadRequestError) {}
+export class LexiconSizeExceededException extends S.TaggedErrorClass<LexiconSizeExceededException>()(
+  "LexiconSizeExceededException",
+  { message: S.optional(S.String) },
+).pipe(C.withBadRequestError) {}
+export class MaxLexemeLengthExceededException extends S.TaggedErrorClass<MaxLexemeLengthExceededException>()(
+  "MaxLexemeLengthExceededException",
+  { message: S.optional(S.String) },
+).pipe(C.withBadRequestError) {}
+export class MaxLexiconsNumberExceededException extends S.TaggedErrorClass<MaxLexiconsNumberExceededException>()(
   "MaxLexiconsNumberExceededException",
   { message: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
-export class InvalidS3KeyException extends S.TaggedError<InvalidS3KeyException>()(
-  "InvalidS3KeyException",
-  { message: S.optional(S.String) },
-).pipe(C.withBadRequestError) {}
-export class InvalidSsmlException extends S.TaggedError<InvalidSsmlException>()(
-  "InvalidSsmlException",
-  { message: S.optional(S.String) },
-).pipe(C.withBadRequestError) {}
-export class UnsupportedPlsAlphabetException extends S.TaggedError<UnsupportedPlsAlphabetException>()(
+export class UnsupportedPlsAlphabetException extends S.TaggedErrorClass<UnsupportedPlsAlphabetException>()(
   "UnsupportedPlsAlphabetException",
   { message: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
-export class InvalidSnsTopicArnException extends S.TaggedError<InvalidSnsTopicArnException>()(
-  "InvalidSnsTopicArnException",
-  { message: S.optional(S.String) },
-).pipe(C.withBadRequestError) {}
-export class LanguageNotSupportedException extends S.TaggedError<LanguageNotSupportedException>()(
-  "LanguageNotSupportedException",
-  { message: S.optional(S.String) },
-).pipe(C.withBadRequestError) {}
-export class UnsupportedPlsLanguageException extends S.TaggedError<UnsupportedPlsLanguageException>()(
+export class UnsupportedPlsLanguageException extends S.TaggedErrorClass<UnsupportedPlsLanguageException>()(
   "UnsupportedPlsLanguageException",
   { message: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
-export class MarksNotSupportedForFormatException extends S.TaggedError<MarksNotSupportedForFormatException>()(
+export class EngineNotSupportedException extends S.TaggedErrorClass<EngineNotSupportedException>()(
+  "EngineNotSupportedException",
+  { message: S.optional(S.String) },
+).pipe(C.withBadRequestError) {}
+export class InvalidS3BucketException extends S.TaggedErrorClass<InvalidS3BucketException>()(
+  "InvalidS3BucketException",
+  { message: S.optional(S.String) },
+).pipe(C.withBadRequestError) {}
+export class InvalidS3KeyException extends S.TaggedErrorClass<InvalidS3KeyException>()(
+  "InvalidS3KeyException",
+  { message: S.optional(S.String) },
+).pipe(C.withBadRequestError) {}
+export class InvalidSampleRateException extends S.TaggedErrorClass<InvalidSampleRateException>()(
+  "InvalidSampleRateException",
+  { message: S.optional(S.String) },
+).pipe(C.withBadRequestError) {}
+export class InvalidSnsTopicArnException extends S.TaggedErrorClass<InvalidSnsTopicArnException>()(
+  "InvalidSnsTopicArnException",
+  { message: S.optional(S.String) },
+).pipe(C.withBadRequestError) {}
+export class InvalidSsmlException extends S.TaggedErrorClass<InvalidSsmlException>()(
+  "InvalidSsmlException",
+  { message: S.optional(S.String) },
+).pipe(C.withBadRequestError) {}
+export class LanguageNotSupportedException extends S.TaggedErrorClass<LanguageNotSupportedException>()(
+  "LanguageNotSupportedException",
+  { message: S.optional(S.String) },
+).pipe(C.withBadRequestError) {}
+export class MarksNotSupportedForFormatException extends S.TaggedErrorClass<MarksNotSupportedForFormatException>()(
   "MarksNotSupportedForFormatException",
   { message: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
-export class SsmlMarksNotSupportedForTextTypeException extends S.TaggedError<SsmlMarksNotSupportedForTextTypeException>()(
+export class SsmlMarksNotSupportedForTextTypeException extends S.TaggedErrorClass<SsmlMarksNotSupportedForTextTypeException>()(
   "SsmlMarksNotSupportedForTextTypeException",
   { message: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
-export class TextLengthExceededException extends S.TaggedError<TextLengthExceededException>()(
+export class TextLengthExceededException extends S.TaggedErrorClass<TextLengthExceededException>()(
   "TextLengthExceededException",
   { message: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
@@ -830,6 +826,39 @@ export const deleteLexicon: (
   errors: [LexiconNotFoundException, ServiceFailureException],
 }));
 /**
+ * Returns the list of voices that are available for use when
+ * requesting speech synthesis. Each voice speaks a specified language, is
+ * either male or female, and is identified by an ID, which is the ASCII
+ * version of the voice name.
+ *
+ * When synthesizing speech ( `SynthesizeSpeech` ), you
+ * provide the voice ID for the voice you want from the list of voices
+ * returned by `DescribeVoices`.
+ *
+ * For example, you want your news reader application to read news in
+ * a specific language, but giving a user the option to choose the voice.
+ * Using the `DescribeVoices` operation you can provide the user
+ * with a list of available voices to select from.
+ *
+ * You can optionally specify a language code to filter the available
+ * voices. For example, if you specify `en-US`, the operation
+ * returns a list of all available US English voices.
+ *
+ * This operation requires permissions to perform the
+ * `polly:DescribeVoices` action.
+ */
+export const describeVoices: (
+  input: DescribeVoicesInput,
+) => effect.Effect<
+  DescribeVoicesOutput,
+  InvalidNextTokenException | ServiceFailureException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DescribeVoicesInput,
+  output: DescribeVoicesOutput,
+  errors: [InvalidNextTokenException, ServiceFailureException],
+}));
+/**
  * Returns the content of the specified pronunciation lexicon stored
  * in an Amazon Web Services Region. For more information, see Managing Lexicons.
  */
@@ -843,6 +872,44 @@ export const getLexicon: (
   input: GetLexiconInput,
   output: GetLexiconOutput,
   errors: [LexiconNotFoundException, ServiceFailureException],
+}));
+/**
+ * Retrieves a specific SpeechSynthesisTask object based on its TaskID.
+ * This object contains information about the given speech synthesis task,
+ * including the status of the task, and a link to the S3 bucket containing
+ * the output of the task.
+ */
+export const getSpeechSynthesisTask: (
+  input: GetSpeechSynthesisTaskInput,
+) => effect.Effect<
+  GetSpeechSynthesisTaskOutput,
+  | InvalidTaskIdException
+  | ServiceFailureException
+  | SynthesisTaskNotFoundException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetSpeechSynthesisTaskInput,
+  output: GetSpeechSynthesisTaskOutput,
+  errors: [
+    InvalidTaskIdException,
+    ServiceFailureException,
+    SynthesisTaskNotFoundException,
+  ],
+}));
+/**
+ * Returns a list of pronunciation lexicons stored in an Amazon Web Services Region. For more information, see Managing Lexicons.
+ */
+export const listLexicons: (
+  input: ListLexiconsInput,
+) => effect.Effect<
+  ListLexiconsOutput,
+  InvalidNextTokenException | ServiceFailureException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListLexiconsInput,
+  output: ListLexiconsOutput,
+  errors: [InvalidNextTokenException, ServiceFailureException],
 }));
 /**
  * Returns a list of SpeechSynthesisTask objects ordered by their
@@ -882,77 +949,6 @@ export const listSpeechSynthesisTasks: {
   } as const,
 }));
 /**
- * Returns the list of voices that are available for use when
- * requesting speech synthesis. Each voice speaks a specified language, is
- * either male or female, and is identified by an ID, which is the ASCII
- * version of the voice name.
- *
- * When synthesizing speech ( `SynthesizeSpeech` ), you
- * provide the voice ID for the voice you want from the list of voices
- * returned by `DescribeVoices`.
- *
- * For example, you want your news reader application to read news in
- * a specific language, but giving a user the option to choose the voice.
- * Using the `DescribeVoices` operation you can provide the user
- * with a list of available voices to select from.
- *
- * You can optionally specify a language code to filter the available
- * voices. For example, if you specify `en-US`, the operation
- * returns a list of all available US English voices.
- *
- * This operation requires permissions to perform the
- * `polly:DescribeVoices` action.
- */
-export const describeVoices: (
-  input: DescribeVoicesInput,
-) => effect.Effect<
-  DescribeVoicesOutput,
-  InvalidNextTokenException | ServiceFailureException | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DescribeVoicesInput,
-  output: DescribeVoicesOutput,
-  errors: [InvalidNextTokenException, ServiceFailureException],
-}));
-/**
- * Returns a list of pronunciation lexicons stored in an Amazon Web Services Region. For more information, see Managing Lexicons.
- */
-export const listLexicons: (
-  input: ListLexiconsInput,
-) => effect.Effect<
-  ListLexiconsOutput,
-  InvalidNextTokenException | ServiceFailureException | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListLexiconsInput,
-  output: ListLexiconsOutput,
-  errors: [InvalidNextTokenException, ServiceFailureException],
-}));
-/**
- * Retrieves a specific SpeechSynthesisTask object based on its TaskID.
- * This object contains information about the given speech synthesis task,
- * including the status of the task, and a link to the S3 bucket containing
- * the output of the task.
- */
-export const getSpeechSynthesisTask: (
-  input: GetSpeechSynthesisTaskInput,
-) => effect.Effect<
-  GetSpeechSynthesisTaskOutput,
-  | InvalidTaskIdException
-  | ServiceFailureException
-  | SynthesisTaskNotFoundException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetSpeechSynthesisTaskInput,
-  output: GetSpeechSynthesisTaskOutput,
-  errors: [
-    InvalidTaskIdException,
-    ServiceFailureException,
-    SynthesisTaskNotFoundException,
-  ],
-}));
-/**
  * Stores a pronunciation lexicon in an Amazon Web Services Region. If
  * a lexicon with the same name already exists in the region, it is
  * overwritten by the new lexicon. Lexicon operations have eventual
@@ -985,43 +981,6 @@ export const putLexicon: (
     ServiceFailureException,
     UnsupportedPlsAlphabetException,
     UnsupportedPlsLanguageException,
-  ],
-}));
-/**
- * Synthesizes UTF-8 input, plain text or SSML, to a stream of bytes.
- * SSML input must be valid, well-formed SSML. Some alphabets might not be
- * available with all the voices (for example, Cyrillic might not be read at
- * all by English voices) unless phoneme mapping is used. For more
- * information, see How it Works.
- */
-export const synthesizeSpeech: (
-  input: SynthesizeSpeechInput,
-) => effect.Effect<
-  SynthesizeSpeechOutput,
-  | EngineNotSupportedException
-  | InvalidSampleRateException
-  | InvalidSsmlException
-  | LanguageNotSupportedException
-  | LexiconNotFoundException
-  | MarksNotSupportedForFormatException
-  | ServiceFailureException
-  | SsmlMarksNotSupportedForTextTypeException
-  | TextLengthExceededException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: SynthesizeSpeechInput,
-  output: SynthesizeSpeechOutput,
-  errors: [
-    EngineNotSupportedException,
-    InvalidSampleRateException,
-    InvalidSsmlException,
-    LanguageNotSupportedException,
-    LexiconNotFoundException,
-    MarksNotSupportedForFormatException,
-    ServiceFailureException,
-    SsmlMarksNotSupportedForTextTypeException,
-    TextLengthExceededException,
   ],
 }));
 /**
@@ -1063,6 +1022,43 @@ export const startSpeechSynthesisTask: (
     InvalidS3KeyException,
     InvalidSampleRateException,
     InvalidSnsTopicArnException,
+    InvalidSsmlException,
+    LanguageNotSupportedException,
+    LexiconNotFoundException,
+    MarksNotSupportedForFormatException,
+    ServiceFailureException,
+    SsmlMarksNotSupportedForTextTypeException,
+    TextLengthExceededException,
+  ],
+}));
+/**
+ * Synthesizes UTF-8 input, plain text or SSML, to a stream of bytes.
+ * SSML input must be valid, well-formed SSML. Some alphabets might not be
+ * available with all the voices (for example, Cyrillic might not be read at
+ * all by English voices) unless phoneme mapping is used. For more
+ * information, see How it Works.
+ */
+export const synthesizeSpeech: (
+  input: SynthesizeSpeechInput,
+) => effect.Effect<
+  SynthesizeSpeechOutput,
+  | EngineNotSupportedException
+  | InvalidSampleRateException
+  | InvalidSsmlException
+  | LanguageNotSupportedException
+  | LexiconNotFoundException
+  | MarksNotSupportedForFormatException
+  | ServiceFailureException
+  | SsmlMarksNotSupportedForTextTypeException
+  | TextLengthExceededException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SynthesizeSpeechInput,
+  output: SynthesizeSpeechOutput,
+  errors: [
+    EngineNotSupportedException,
+    InvalidSampleRateException,
     InvalidSsmlException,
     LanguageNotSupportedException,
     LexiconNotFoundException,

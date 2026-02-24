@@ -7,7 +7,7 @@
 
 import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
-import type { HttpClient } from "@effect/platform";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
@@ -113,7 +113,7 @@ export interface GetAnalyticEventBytimeRequest {
 
 export const GetAnalyticEventBytimeRequest = Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  timeDelta: Schema.Literal(
+  timeDelta: Schema.Literals([
     "year",
     "quarter",
     "month",
@@ -122,14 +122,14 @@ export const GetAnalyticEventBytimeRequest = Schema.Struct({
     "hour",
     "dekaminute",
     "minute",
-  ).pipe(T.HttpQuery("time_delta")),
+  ]).pipe(T.HttpQuery("time_delta")),
   dimensions: Schema.optional(
-    Schema.Array(Schema.Literal("event", "appID", "coloName", "ipVersion")),
+    Schema.Array(Schema.Literals(["event", "appID", "coloName", "ipVersion"])),
   ).pipe(T.HttpQuery("dimensions")),
   filters: Schema.optional(Schema.String).pipe(T.HttpQuery("filters")),
   metrics: Schema.optional(
     Schema.Array(
-      Schema.Literal(
+      Schema.Literals([
         "count",
         "bytesIngress",
         "bytesEgress",
@@ -137,7 +137,7 @@ export const GetAnalyticEventBytimeRequest = Schema.Struct({
         "durationMedian",
         "duration90th",
         "duration99th",
-      ),
+      ]),
     ),
   ).pipe(T.HttpQuery("metrics")),
   since: Schema.optional(Schema.String).pipe(T.HttpQuery("since")),
@@ -189,10 +189,10 @@ export const GetAnalyticEventBytimeResponse = Schema.Struct({
     Schema.Struct({
       dimensions: Schema.optional(Schema.Array(Schema.String)),
       metrics: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Array(Schema.Number),
           Schema.Array(Schema.Array(Schema.Number)),
-        ),
+        ]),
       ),
     }),
   ),
@@ -201,13 +201,13 @@ export const GetAnalyticEventBytimeResponse = Schema.Struct({
   min: Schema.Struct({}),
   query: Schema.Struct({
     dimensions: Schema.optional(
-      Schema.Array(Schema.Literal("event", "appID", "coloName", "ipVersion")),
+      Schema.Array(Schema.Literals(["event", "appID", "coloName", "ipVersion"])),
     ),
     filters: Schema.optional(Schema.String),
     limit: Schema.optional(Schema.Number),
     metrics: Schema.optional(
       Schema.Array(
-        Schema.Literal(
+        Schema.Literals([
           "count",
           "bytesIngress",
           "bytesEgress",
@@ -215,7 +215,7 @@ export const GetAnalyticEventBytimeResponse = Schema.Struct({
           "durationMedian",
           "duration90th",
           "duration99th",
-        ),
+        ]),
       ),
     ),
     since: Schema.optional(Schema.String),
@@ -273,12 +273,12 @@ export interface GetAnalyticEventSummaryRequest {
 export const GetAnalyticEventSummaryRequest = Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
   dimensions: Schema.optional(
-    Schema.Array(Schema.Literal("event", "appID", "coloName", "ipVersion")),
+    Schema.Array(Schema.Literals(["event", "appID", "coloName", "ipVersion"])),
   ).pipe(T.HttpQuery("dimensions")),
   filters: Schema.optional(Schema.String).pipe(T.HttpQuery("filters")),
   metrics: Schema.optional(
     Schema.Array(
-      Schema.Literal(
+      Schema.Literals([
         "count",
         "bytesIngress",
         "bytesEgress",
@@ -286,7 +286,7 @@ export const GetAnalyticEventSummaryRequest = Schema.Struct({
         "durationMedian",
         "duration90th",
         "duration99th",
-      ),
+      ]),
     ),
   ).pipe(T.HttpQuery("metrics")),
   since: Schema.optional(Schema.String).pipe(T.HttpQuery("since")),
@@ -338,10 +338,10 @@ export const GetAnalyticEventSummaryResponse = Schema.Struct({
     Schema.Struct({
       dimensions: Schema.optional(Schema.Array(Schema.String)),
       metrics: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Array(Schema.Number),
           Schema.Array(Schema.Array(Schema.Number)),
-        ),
+        ]),
       ),
     }),
   ),
@@ -350,13 +350,13 @@ export const GetAnalyticEventSummaryResponse = Schema.Struct({
   min: Schema.Struct({}),
   query: Schema.Struct({
     dimensions: Schema.optional(
-      Schema.Array(Schema.Literal("event", "appID", "coloName", "ipVersion")),
+      Schema.Array(Schema.Literals(["event", "appID", "coloName", "ipVersion"])),
     ),
     filters: Schema.optional(Schema.String),
     limit: Schema.optional(Schema.Number),
     metrics: Schema.optional(
       Schema.Array(
-        Schema.Literal(
+        Schema.Literals([
           "count",
           "bytesIngress",
           "bytesEgress",
@@ -364,7 +364,7 @@ export const GetAnalyticEventSummaryResponse = Schema.Struct({
           "durationMedian",
           "duration90th",
           "duration99th",
-        ),
+        ]),
       ),
     ),
     since: Schema.optional(Schema.String),
@@ -433,14 +433,14 @@ export type GetAppResponse =
       originDirect?: string[];
     };
 
-export const GetAppResponse = Schema.Union(
+export const GetAppResponse = Schema.Union([
   Schema.Struct({
     id: Schema.String,
     createdOn: Schema.String.pipe(T.JsonName("created_on")),
     dns: Schema.Unknown,
     modifiedOn: Schema.String.pipe(T.JsonName("modified_on")),
     protocol: Schema.String,
-    trafficType: Schema.Literal("direct", "http", "https").pipe(
+    trafficType: Schema.Literals(["direct", "http", "https"]).pipe(
       T.JsonName("traffic_type"),
     ),
     argoSmartRouting: Schema.optional(Schema.Boolean).pipe(
@@ -453,12 +453,12 @@ export const GetAppResponse = Schema.Union(
     ),
     originDns: Schema.optional(Schema.Unknown).pipe(T.JsonName("origin_dns")),
     originPort: Schema.optional(
-      Schema.Union(Schema.String, Schema.Number),
+      Schema.Union([Schema.String, Schema.Number]),
     ).pipe(T.JsonName("origin_port")),
     proxyProtocol: Schema.optional(
-      Schema.Literal("off", "v1", "v2", "simple"),
+      Schema.Literals(["off", "v1", "v2", "simple"]),
     ).pipe(T.JsonName("proxy_protocol")),
-    tls: Schema.optional(Schema.Literal("off", "flexible", "full", "strict")),
+    tls: Schema.optional(Schema.Literals(["off", "flexible", "full", "strict"])),
   }),
   Schema.Struct({
     id: Schema.String,
@@ -470,7 +470,7 @@ export const GetAppResponse = Schema.Union(
       T.JsonName("origin_direct"),
     ),
   }),
-) as unknown as Schema.Schema<GetAppResponse>;
+]) as unknown as Schema.Schema<GetAppResponse>;
 
 export const getApp: (
   input: GetAppRequest,
@@ -516,14 +516,14 @@ export type CreateAppResponse =
       originDirect?: string[];
     };
 
-export const CreateAppResponse = Schema.Union(
+export const CreateAppResponse = Schema.Union([
   Schema.Struct({
     id: Schema.String,
     createdOn: Schema.String.pipe(T.JsonName("created_on")),
     dns: Schema.Unknown,
     modifiedOn: Schema.String.pipe(T.JsonName("modified_on")),
     protocol: Schema.String,
-    trafficType: Schema.Literal("direct", "http", "https").pipe(
+    trafficType: Schema.Literals(["direct", "http", "https"]).pipe(
       T.JsonName("traffic_type"),
     ),
     argoSmartRouting: Schema.optional(Schema.Boolean).pipe(
@@ -536,12 +536,12 @@ export const CreateAppResponse = Schema.Union(
     ),
     originDns: Schema.optional(Schema.Unknown).pipe(T.JsonName("origin_dns")),
     originPort: Schema.optional(
-      Schema.Union(Schema.String, Schema.Number),
+      Schema.Union([Schema.String, Schema.Number]),
     ).pipe(T.JsonName("origin_port")),
     proxyProtocol: Schema.optional(
-      Schema.Literal("off", "v1", "v2", "simple"),
+      Schema.Literals(["off", "v1", "v2", "simple"]),
     ).pipe(T.JsonName("proxy_protocol")),
-    tls: Schema.optional(Schema.Literal("off", "flexible", "full", "strict")),
+    tls: Schema.optional(Schema.Literals(["off", "flexible", "full", "strict"])),
   }),
   Schema.Struct({
     id: Schema.String,
@@ -553,7 +553,7 @@ export const CreateAppResponse = Schema.Union(
       T.JsonName("origin_direct"),
     ),
   }),
-) as unknown as Schema.Schema<CreateAppResponse>;
+]) as unknown as Schema.Schema<CreateAppResponse>;
 
 export const createApp: (
   input: CreateAppRequest,
@@ -603,14 +603,14 @@ export type UpdateAppResponse =
       originDirect?: string[];
     };
 
-export const UpdateAppResponse = Schema.Union(
+export const UpdateAppResponse = Schema.Union([
   Schema.Struct({
     id: Schema.String,
     createdOn: Schema.String.pipe(T.JsonName("created_on")),
     dns: Schema.Unknown,
     modifiedOn: Schema.String.pipe(T.JsonName("modified_on")),
     protocol: Schema.String,
-    trafficType: Schema.Literal("direct", "http", "https").pipe(
+    trafficType: Schema.Literals(["direct", "http", "https"]).pipe(
       T.JsonName("traffic_type"),
     ),
     argoSmartRouting: Schema.optional(Schema.Boolean).pipe(
@@ -623,12 +623,12 @@ export const UpdateAppResponse = Schema.Union(
     ),
     originDns: Schema.optional(Schema.Unknown).pipe(T.JsonName("origin_dns")),
     originPort: Schema.optional(
-      Schema.Union(Schema.String, Schema.Number),
+      Schema.Union([Schema.String, Schema.Number]),
     ).pipe(T.JsonName("origin_port")),
     proxyProtocol: Schema.optional(
-      Schema.Literal("off", "v1", "v2", "simple"),
+      Schema.Literals(["off", "v1", "v2", "simple"]),
     ).pipe(T.JsonName("proxy_protocol")),
-    tls: Schema.optional(Schema.Literal("off", "flexible", "full", "strict")),
+    tls: Schema.optional(Schema.Literals(["off", "flexible", "full", "strict"])),
   }),
   Schema.Struct({
     id: Schema.String,
@@ -640,7 +640,7 @@ export const UpdateAppResponse = Schema.Union(
       T.JsonName("origin_direct"),
     ),
   }),
-) as unknown as Schema.Schema<UpdateAppResponse>;
+]) as unknown as Schema.Schema<UpdateAppResponse>;
 
 export const updateApp: (
   input: UpdateAppRequest,

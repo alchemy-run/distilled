@@ -7,7 +7,7 @@
 
 import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
-import type { HttpClient } from "@effect/platform";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
@@ -158,7 +158,7 @@ export const GetRequestResponse = Schema.Struct({
   priority: Schema.String,
   request: Schema.String,
   summary: Schema.String,
-  tlp: Schema.Literal("clear", "amber", "amber-strict", "green", "red"),
+  tlp: Schema.Literals(["clear", "amber", "amber-strict", "green", "red"]),
   updated: Schema.String,
   completed: Schema.optional(Schema.String),
   messageTokens: Schema.optional(Schema.Number).pipe(
@@ -166,14 +166,14 @@ export const GetRequestResponse = Schema.Struct({
   ),
   readableId: Schema.optional(Schema.String).pipe(T.JsonName("readable_id")),
   status: Schema.optional(
-    Schema.Literal(
+    Schema.Literals([
       "open",
       "accepted",
       "reported",
       "approved",
       "completed",
       "declined",
-    ),
+    ]),
   ),
   tokens: Schema.optional(Schema.Number),
 }) as unknown as Schema.Schema<GetRequestResponse>;
@@ -212,7 +212,7 @@ export const CreateRequestRequest = Schema.Struct({
   requestType: Schema.optional(Schema.String).pipe(T.JsonName("request_type")),
   summary: Schema.optional(Schema.String),
   tlp: Schema.optional(
-    Schema.Literal("clear", "amber", "amber-strict", "green", "red"),
+    Schema.Literals(["clear", "amber", "amber-strict", "green", "red"]),
   ),
 }).pipe(
   T.Http({
@@ -259,7 +259,7 @@ export const CreateRequestResponse = Schema.Struct({
   priority: Schema.String,
   request: Schema.String,
   summary: Schema.String,
-  tlp: Schema.Literal("clear", "amber", "amber-strict", "green", "red"),
+  tlp: Schema.Literals(["clear", "amber", "amber-strict", "green", "red"]),
   updated: Schema.String,
   completed: Schema.optional(Schema.String),
   messageTokens: Schema.optional(Schema.Number).pipe(
@@ -267,14 +267,14 @@ export const CreateRequestResponse = Schema.Struct({
   ),
   readableId: Schema.optional(Schema.String).pipe(T.JsonName("readable_id")),
   status: Schema.optional(
-    Schema.Literal(
+    Schema.Literals([
       "open",
       "accepted",
       "reported",
       "approved",
       "completed",
       "declined",
-    ),
+    ]),
   ),
   tokens: Schema.optional(Schema.Number),
 }) as unknown as Schema.Schema<CreateRequestResponse>;
@@ -315,7 +315,7 @@ export const UpdateRequestRequest = Schema.Struct({
   requestType: Schema.optional(Schema.String).pipe(T.JsonName("request_type")),
   summary: Schema.optional(Schema.String),
   tlp: Schema.optional(
-    Schema.Literal("clear", "amber", "amber-strict", "green", "red"),
+    Schema.Literals(["clear", "amber", "amber-strict", "green", "red"]),
   ),
 }).pipe(
   T.Http({
@@ -362,7 +362,7 @@ export const UpdateRequestResponse = Schema.Struct({
   priority: Schema.String,
   request: Schema.String,
   summary: Schema.String,
-  tlp: Schema.Literal("clear", "amber", "amber-strict", "green", "red"),
+  tlp: Schema.Literals(["clear", "amber", "amber-strict", "green", "red"]),
   updated: Schema.String,
   completed: Schema.optional(Schema.String),
   messageTokens: Schema.optional(Schema.Number).pipe(
@@ -370,14 +370,14 @@ export const UpdateRequestResponse = Schema.Struct({
   ),
   readableId: Schema.optional(Schema.String).pipe(T.JsonName("readable_id")),
   status: Schema.optional(
-    Schema.Literal(
+    Schema.Literals([
       "open",
       "accepted",
       "reported",
       "approved",
       "completed",
       "declined",
-    ),
+    ]),
   ),
   tokens: Schema.optional(Schema.Number),
 }) as unknown as Schema.Schema<UpdateRequestResponse>;
@@ -500,23 +500,23 @@ export interface ConstantsRequestResponse {
 
 export const ConstantsRequestResponse = Schema.Struct({
   priority: Schema.optional(
-    Schema.Array(Schema.Literal("routine", "high", "urgent")),
+    Schema.Array(Schema.Literals(["routine", "high", "urgent"])),
   ),
   status: Schema.optional(
     Schema.Array(
-      Schema.Literal(
+      Schema.Literals([
         "open",
         "accepted",
         "reported",
         "approved",
         "completed",
         "declined",
-      ),
+      ]),
     ),
   ),
   tlp: Schema.optional(
     Schema.Array(
-      Schema.Literal("clear", "amber", "amber-strict", "green", "red"),
+      Schema.Literals(["clear", "amber", "amber-strict", "green", "red"]),
     ),
   ),
 }) as unknown as Schema.Schema<ConstantsRequestResponse>;
@@ -960,7 +960,7 @@ export const CreateRequestPriorityRequest = Schema.Struct({
   labels: Schema.Array(Schema.String),
   priority: Schema.Number,
   requirement: Schema.String,
-  tlp: Schema.Literal("clear", "amber", "amber-strict", "green", "red"),
+  tlp: Schema.Literals(["clear", "amber", "amber-strict", "green", "red"]),
 }).pipe(
   T.Http({
     method: "POST",
@@ -991,7 +991,7 @@ export const CreateRequestPriorityResponse = Schema.Struct({
   labels: Schema.Array(Schema.String),
   priority: Schema.Number,
   requirement: Schema.String,
-  tlp: Schema.Literal("clear", "amber", "amber-strict", "green", "red"),
+  tlp: Schema.Literals(["clear", "amber", "amber-strict", "green", "red"]),
   updated: Schema.String,
 }) as unknown as Schema.Schema<CreateRequestPriorityResponse>;
 
@@ -1027,7 +1027,7 @@ export const UpdateRequestPriorityRequest = Schema.Struct({
   labels: Schema.Array(Schema.String),
   priority: Schema.Number,
   requirement: Schema.String,
-  tlp: Schema.Literal("clear", "amber", "amber-strict", "green", "red"),
+  tlp: Schema.Literals(["clear", "amber", "amber-strict", "green", "red"]),
 }).pipe(
   T.Http({
     method: "PUT",
@@ -1488,10 +1488,10 @@ export const ListThreatEventsRequest = Schema.Struct({
   forceRefresh: Schema.optional(Schema.Boolean).pipe(
     T.HttpQuery("forceRefresh"),
   ),
-  format: Schema.optional(Schema.Literal("json", "stix2")).pipe(
+  format: Schema.optional(Schema.Literals(["json", "stix2"])).pipe(
     T.HttpQuery("format"),
   ),
-  order: Schema.optional(Schema.Literal("asc", "desc")).pipe(
+  order: Schema.optional(Schema.Literals(["asc", "desc"])).pipe(
     T.HttpQuery("order"),
   ),
   orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
@@ -1502,7 +1502,7 @@ export const ListThreatEventsRequest = Schema.Struct({
       Schema.Struct({
         field: Schema.optional(Schema.String),
         op: Schema.optional(
-          Schema.Literal(
+          Schema.Literals([
             "equals",
             "not",
             "gt",
@@ -1515,14 +1515,14 @@ export const ListThreatEventsRequest = Schema.Struct({
             "endsWith",
             "in",
             "find",
-          ),
+          ]),
         ),
         value: Schema.optional(
-          Schema.Union(
+          Schema.Union([
             Schema.String,
             Schema.Number,
-            Schema.Array(Schema.Union(Schema.String, Schema.Number)),
-          ),
+            Schema.Array(Schema.Union([Schema.String, Schema.Number])),
+          ]),
         ),
       }),
     ),
@@ -1647,12 +1647,12 @@ export const CreateThreatEventRequest = Schema.Struct({
   date: Schema.String,
   event: Schema.String,
   raw: Schema.Struct({
-    data: Schema.Union(Schema.Struct({}), Schema.Null),
+    data: Schema.Union([Schema.Struct({}), Schema.Null]),
     source: Schema.optional(Schema.String),
     tlp: Schema.optional(Schema.String),
   }),
   tlp: Schema.String,
-  attacker: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
+  attacker: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   attackerCountry: Schema.optional(Schema.String),
   datasetId: Schema.optional(Schema.String),
   indicator: Schema.optional(Schema.String),
@@ -1786,7 +1786,7 @@ export interface PatchThreatEventRequest {
 export const PatchThreatEventRequest = Schema.Struct({
   eventId: Schema.String.pipe(T.HttpPath("eventId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  attacker: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
+  attacker: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   attackerCountry: Schema.optional(Schema.String),
   category: Schema.optional(Schema.String),
   createdAt: Schema.optional(Schema.String),
@@ -1798,7 +1798,7 @@ export const PatchThreatEventRequest = Schema.Struct({
   insight: Schema.optional(Schema.String),
   raw: Schema.optional(
     Schema.Struct({
-      data: Schema.optional(Schema.Union(Schema.Struct({}), Schema.Null)),
+      data: Schema.optional(Schema.Union([Schema.Struct({}), Schema.Null])),
       source: Schema.optional(Schema.String),
       tlp: Schema.optional(Schema.String),
     }),
@@ -1958,13 +1958,13 @@ export const BulkCreateThreatEventsRequest = Schema.Struct({
       date: Schema.String,
       event: Schema.String,
       raw: Schema.Struct({
-        data: Schema.Union(Schema.Struct({}), Schema.Null),
+        data: Schema.Union([Schema.Struct({}), Schema.Null]),
         source: Schema.optional(Schema.String),
         tlp: Schema.optional(Schema.String),
       }),
       tlp: Schema.String,
       accountId: Schema.optional(Schema.Number),
-      attacker: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
+      attacker: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
       attackerCountry: Schema.optional(Schema.String),
       datasetId: Schema.optional(Schema.String),
       indicator: Schema.optional(Schema.String),

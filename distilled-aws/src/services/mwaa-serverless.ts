@@ -1,4 +1,4 @@
-import { HttpClient } from "@effect/platform";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as effect from "effect/Effect";
 import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
@@ -56,26 +56,22 @@ const rules = T.EndpointResolver((p, _) => {
 //# Newtypes
 export type TaggableResourceArn = string;
 export type TagKey = string;
+export type TagValue = string;
+export type ErrorMessage = string;
 export type WorkflowArn = string;
 export type IdString = string;
+export type VersionId = string;
+export type TimestampValue = Date;
 export type NameString = string;
 export type IdempotencyTokenString = string;
 export type RoleARN = string;
 export type DescriptionString = string;
-export type WorkflowVersion = string;
-export type VersionId = string;
-export type TagValue = string;
 export type SecurityGroupString = string;
 export type SubnetString = string;
-export type ErrorMessage = string;
-export type TimestampValue = Date;
+export type WorkflowVersion = string;
 export type IsLatestVersion = boolean;
 
 //# Schemas
-export type TagKeys = string[];
-export const TagKeys = S.Array(S.String);
-export type EngineVersion = 1;
-export const EngineVersion = S.Literal(1);
 export interface ListTagsForResourceRequest {
   ResourceArn: string;
 }
@@ -90,9 +86,64 @@ export const ListTagsForResourceRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "ListTagsForResourceRequest",
 }) as any as S.Schema<ListTagsForResourceRequest>;
+export type Tags = { [key: string]: string | undefined };
+export const Tags = S.Record(S.String, S.String.pipe(S.optional));
+export interface ListTagsForResourceResponse {
+  Tags?: { [key: string]: string | undefined };
+}
+export const ListTagsForResourceResponse = S.suspend(() =>
+  S.Struct({ Tags: S.optional(Tags) }),
+).annotate({
+  identifier: "ListTagsForResourceResponse",
+}) as any as S.Schema<ListTagsForResourceResponse>;
+export type ValidationExceptionReason =
+  | "unknownOperation"
+  | "cannotParse"
+  | "fieldValidationFailed"
+  | "other"
+  | (string & {});
+export const ValidationExceptionReason = S.String;
+export interface ValidationExceptionField {
+  Name: string;
+  Message: string;
+}
+export const ValidationExceptionField = S.suspend(() =>
+  S.Struct({ Name: S.String, Message: S.String }),
+).annotate({
+  identifier: "ValidationExceptionField",
+}) as any as S.Schema<ValidationExceptionField>;
+export type ValidationExceptionFields = ValidationExceptionField[];
+export const ValidationExceptionFields = S.Array(ValidationExceptionField);
+export interface TagResourceRequest {
+  ResourceArn: string;
+  Tags: { [key: string]: string | undefined };
+}
+export const TagResourceRequest = S.suspend(() =>
+  S.Struct({
+    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
+    Tags: Tags,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "TagResourceRequest",
+}) as any as S.Schema<TagResourceRequest>;
+export interface TagResourceResponse {}
+export const TagResourceResponse = S.suspend(() => S.Struct({})).annotate({
+  identifier: "TagResourceResponse",
+}) as any as S.Schema<TagResourceResponse>;
+export type TagKeys = string[];
+export const TagKeys = S.Array(S.String);
 export interface UntagResourceRequest {
   ResourceArn: string;
   TagKeys: string[];
@@ -111,11 +162,11 @@ export const UntagResourceRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "UntagResourceRequest",
 }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export interface GetTaskInstanceRequest {
@@ -141,9 +192,70 @@ export const GetTaskInstanceRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "GetTaskInstanceRequest",
 }) as any as S.Schema<GetTaskInstanceRequest>;
+export type TaskInstanceStatus =
+  | "QUEUED"
+  | "FAILED"
+  | "SCHEDULED"
+  | "RUNNING"
+  | "SUCCESS"
+  | "UP_FOR_RESCHEDULE"
+  | "UP_FOR_RETRY"
+  | "UPSTREAM_FAILED"
+  | "REMOVED"
+  | "RESTARTING"
+  | "DEFERRED"
+  | "NONE"
+  | "CANCELLED"
+  | "TIMEOUT"
+  | (string & {});
+export const TaskInstanceStatus = S.String;
+export type GenericMap = { [key: string]: string | undefined };
+export const GenericMap = S.Record(S.String, S.String.pipe(S.optional));
+export interface GetTaskInstanceResponse {
+  WorkflowArn: string;
+  RunId: string;
+  TaskInstanceId: string;
+  WorkflowVersion?: string;
+  Status?: TaskInstanceStatus;
+  DurationInSeconds?: number;
+  OperatorName?: string;
+  ModifiedAt?: Date;
+  EndedAt?: Date;
+  StartedAt?: Date;
+  AttemptNumber?: number;
+  ErrorMessage?: string;
+  TaskId?: string;
+  LogStream?: string;
+  Xcom?: { [key: string]: string | undefined };
+}
+export const GetTaskInstanceResponse = S.suspend(() =>
+  S.Struct({
+    WorkflowArn: S.String,
+    RunId: S.String,
+    TaskInstanceId: S.String,
+    WorkflowVersion: S.optional(S.String),
+    Status: S.optional(TaskInstanceStatus),
+    DurationInSeconds: S.optional(S.Number),
+    OperatorName: S.optional(S.String),
+    ModifiedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    EndedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    StartedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    AttemptNumber: S.optional(S.Number),
+    ErrorMessage: S.optional(S.String),
+    TaskId: S.optional(S.String),
+    LogStream: S.optional(S.String),
+    Xcom: S.optional(GenericMap),
+  }),
+).annotate({
+  identifier: "GetTaskInstanceResponse",
+}) as any as S.Schema<GetTaskInstanceResponse>;
 export interface ListTaskInstancesRequest {
   WorkflowArn: string;
   RunId: string;
@@ -169,30 +281,45 @@ export const ListTaskInstancesRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "ListTaskInstancesRequest",
 }) as any as S.Schema<ListTaskInstancesRequest>;
-export interface GetWorkflowRequest {
-  WorkflowArn: string;
+export interface TaskInstanceSummary {
+  WorkflowArn?: string;
   WorkflowVersion?: string;
+  RunId?: string;
+  TaskInstanceId?: string;
+  Status?: TaskInstanceStatus;
+  DurationInSeconds?: number;
+  OperatorName?: string;
 }
-export const GetWorkflowRequest = S.suspend(() =>
+export const TaskInstanceSummary = S.suspend(() =>
   S.Struct({
-    WorkflowArn: S.String.pipe(T.HttpLabel("WorkflowArn")),
-    WorkflowVersion: S.optional(S.String).pipe(T.HttpQuery("workflowVersion")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/workflows/{WorkflowArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "GetWorkflowRequest",
-}) as any as S.Schema<GetWorkflowRequest>;
+    WorkflowArn: S.optional(S.String),
+    WorkflowVersion: S.optional(S.String),
+    RunId: S.optional(S.String),
+    TaskInstanceId: S.optional(S.String),
+    Status: S.optional(TaskInstanceStatus),
+    DurationInSeconds: S.optional(S.Number),
+    OperatorName: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "TaskInstanceSummary",
+}) as any as S.Schema<TaskInstanceSummary>;
+export type TaskInstanceSummaries = TaskInstanceSummary[];
+export const TaskInstanceSummaries = S.Array(TaskInstanceSummary);
+export interface ListTaskInstancesResponse {
+  TaskInstances?: TaskInstanceSummary[];
+  NextToken?: string;
+}
+export const ListTaskInstancesResponse = S.suspend(() =>
+  S.Struct({
+    TaskInstances: S.optional(TaskInstanceSummaries),
+    NextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ListTaskInstancesResponse",
+}) as any as S.Schema<ListTaskInstancesResponse>;
 export interface DefinitionS3Location {
   Bucket: string;
   ObjectKey: string;
@@ -204,17 +331,33 @@ export const DefinitionS3Location = S.suspend(() =>
     ObjectKey: S.String,
     VersionId: S.optional(S.String),
   }),
-).annotations({
+).annotate({
   identifier: "DefinitionS3Location",
 }) as any as S.Schema<DefinitionS3Location>;
+export type EncryptionType =
+  | "AWS_MANAGED_KEY"
+  | "CUSTOMER_MANAGED_KEY"
+  | (string & {});
+export const EncryptionType = S.String;
+export interface EncryptionConfiguration {
+  Type: EncryptionType;
+  KmsKeyId?: string;
+}
+export const EncryptionConfiguration = S.suspend(() =>
+  S.Struct({ Type: EncryptionType, KmsKeyId: S.optional(S.String) }),
+).annotate({
+  identifier: "EncryptionConfiguration",
+}) as any as S.Schema<EncryptionConfiguration>;
 export interface LoggingConfiguration {
   LogGroupName: string;
 }
 export const LoggingConfiguration = S.suspend(() =>
   S.Struct({ LogGroupName: S.String }),
-).annotations({
+).annotate({
   identifier: "LoggingConfiguration",
 }) as any as S.Schema<LoggingConfiguration>;
+export type EngineVersion = 1;
+export const EngineVersion = S.Literals([1]);
 export type SecurityGroupIds = string[];
 export const SecurityGroupIds = S.Array(S.String);
 export type SubnetIds = string[];
@@ -228,265 +371,9 @@ export const NetworkConfiguration = S.suspend(() =>
     SecurityGroupIds: S.optional(SecurityGroupIds),
     SubnetIds: S.optional(SubnetIds),
   }),
-).annotations({
+).annotate({
   identifier: "NetworkConfiguration",
 }) as any as S.Schema<NetworkConfiguration>;
-export interface UpdateWorkflowRequest {
-  WorkflowArn: string;
-  DefinitionS3Location: DefinitionS3Location;
-  RoleArn: string;
-  Description?: string;
-  LoggingConfiguration?: LoggingConfiguration;
-  EngineVersion?: EngineVersion;
-  NetworkConfiguration?: NetworkConfiguration;
-  TriggerMode?: string;
-}
-export const UpdateWorkflowRequest = S.suspend(() =>
-  S.Struct({
-    WorkflowArn: S.String.pipe(T.HttpLabel("WorkflowArn")),
-    DefinitionS3Location: DefinitionS3Location,
-    RoleArn: S.String,
-    Description: S.optional(S.String),
-    LoggingConfiguration: S.optional(LoggingConfiguration),
-    EngineVersion: S.optional(EngineVersion),
-    NetworkConfiguration: S.optional(NetworkConfiguration),
-    TriggerMode: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/workflows/{WorkflowArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "UpdateWorkflowRequest",
-}) as any as S.Schema<UpdateWorkflowRequest>;
-export interface DeleteWorkflowRequest {
-  WorkflowArn: string;
-  WorkflowVersion?: string;
-}
-export const DeleteWorkflowRequest = S.suspend(() =>
-  S.Struct({
-    WorkflowArn: S.String.pipe(T.HttpLabel("WorkflowArn")),
-    WorkflowVersion: S.optional(S.String).pipe(T.HttpQuery("workflowVersion")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/workflows/{WorkflowArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "DeleteWorkflowRequest",
-}) as any as S.Schema<DeleteWorkflowRequest>;
-export interface ListWorkflowsRequest {
-  MaxResults?: number;
-  NextToken?: string;
-}
-export const ListWorkflowsRequest = S.suspend(() =>
-  S.Struct({
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/workflows" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListWorkflowsRequest",
-}) as any as S.Schema<ListWorkflowsRequest>;
-export interface GetWorkflowRunRequest {
-  WorkflowArn: string;
-  RunId: string;
-}
-export const GetWorkflowRunRequest = S.suspend(() =>
-  S.Struct({
-    WorkflowArn: S.String.pipe(T.HttpLabel("WorkflowArn")),
-    RunId: S.String.pipe(T.HttpLabel("RunId")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/workflows/{WorkflowArn}/runs/{RunId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "GetWorkflowRunRequest",
-}) as any as S.Schema<GetWorkflowRunRequest>;
-export interface StopWorkflowRunRequest {
-  WorkflowArn: string;
-  RunId: string;
-}
-export const StopWorkflowRunRequest = S.suspend(() =>
-  S.Struct({
-    WorkflowArn: S.String.pipe(T.HttpLabel("WorkflowArn")),
-    RunId: S.String.pipe(T.HttpLabel("RunId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/workflows/{WorkflowArn}/runs/{RunId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "StopWorkflowRunRequest",
-}) as any as S.Schema<StopWorkflowRunRequest>;
-export interface ListWorkflowRunsRequest {
-  MaxResults?: number;
-  NextToken?: string;
-  WorkflowArn: string;
-  WorkflowVersion?: string;
-}
-export const ListWorkflowRunsRequest = S.suspend(() =>
-  S.Struct({
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    WorkflowArn: S.String.pipe(T.HttpLabel("WorkflowArn")),
-    WorkflowVersion: S.optional(S.String).pipe(T.HttpQuery("workflowVersion")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/workflows/{WorkflowArn}/runs" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListWorkflowRunsRequest",
-}) as any as S.Schema<ListWorkflowRunsRequest>;
-export interface ListWorkflowVersionsRequest {
-  MaxResults?: number;
-  NextToken?: string;
-  WorkflowArn: string;
-}
-export const ListWorkflowVersionsRequest = S.suspend(() =>
-  S.Struct({
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    WorkflowArn: S.String.pipe(T.HttpLabel("WorkflowArn")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/workflows/{WorkflowArn}/versions" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "ListWorkflowVersionsRequest",
-}) as any as S.Schema<ListWorkflowVersionsRequest>;
-export type EncryptionType =
-  | "AWS_MANAGED_KEY"
-  | "CUSTOMER_MANAGED_KEY"
-  | (string & {});
-export const EncryptionType = S.String;
-export type Tags = { [key: string]: string | undefined };
-export const Tags = S.Record({ key: S.String, value: S.UndefinedOr(S.String) });
-export type TaskInstanceStatus =
-  | "QUEUED"
-  | "FAILED"
-  | "SCHEDULED"
-  | "RUNNING"
-  | "SUCCESS"
-  | "UP_FOR_RESCHEDULE"
-  | "UP_FOR_RETRY"
-  | "UPSTREAM_FAILED"
-  | "REMOVED"
-  | "RESTARTING"
-  | "DEFERRED"
-  | "NONE"
-  | "CANCELLED"
-  | "TIMEOUT"
-  | (string & {});
-export const TaskInstanceStatus = S.String;
-export interface EncryptionConfiguration {
-  Type: EncryptionType;
-  KmsKeyId?: string;
-}
-export const EncryptionConfiguration = S.suspend(() =>
-  S.Struct({ Type: EncryptionType, KmsKeyId: S.optional(S.String) }),
-).annotations({
-  identifier: "EncryptionConfiguration",
-}) as any as S.Schema<EncryptionConfiguration>;
-export type WorkflowStatus = "READY" | "DELETING" | (string & {});
-export const WorkflowStatus = S.String;
-export type WarningMessages = string[];
-export const WarningMessages = S.Array(S.String);
-export type ObjectMap = { [key: string]: any | undefined };
-export const ObjectMap = S.Record({
-  key: S.String,
-  value: S.UndefinedOr(S.Any),
-});
-export type RunType = "ON_DEMAND" | "SCHEDULED" | (string & {});
-export const RunType = S.String;
-export type WorkflowRunStatus =
-  | "STARTING"
-  | "QUEUED"
-  | "RUNNING"
-  | "SUCCESS"
-  | "FAILED"
-  | "TIMEOUT"
-  | "STOPPING"
-  | "STOPPED"
-  | (string & {});
-export const WorkflowRunStatus = S.String;
-export interface ListTagsForResourceResponse {
-  Tags?: { [key: string]: string | undefined };
-}
-export const ListTagsForResourceResponse = S.suspend(() =>
-  S.Struct({ Tags: S.optional(Tags) }),
-).annotations({
-  identifier: "ListTagsForResourceResponse",
-}) as any as S.Schema<ListTagsForResourceResponse>;
-export interface TagResourceRequest {
-  ResourceArn: string;
-  Tags: { [key: string]: string | undefined };
-}
-export const TagResourceRequest = S.suspend(() =>
-  S.Struct({
-    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
-    Tags: Tags,
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
-export interface TagResourceResponse {}
-export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
-  identifier: "TagResourceResponse",
-}) as any as S.Schema<TagResourceResponse>;
 export interface CreateWorkflowRequest {
   Name: string;
   ClientToken?: string;
@@ -523,248 +410,13 @@ export const CreateWorkflowRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "CreateWorkflowRequest",
 }) as any as S.Schema<CreateWorkflowRequest>;
-export interface UpdateWorkflowResponse {
-  WorkflowArn: string;
-  ModifiedAt?: Date;
-  WorkflowVersion?: string;
-  Warnings?: string[];
-}
-export const UpdateWorkflowResponse = S.suspend(() =>
-  S.Struct({
-    WorkflowArn: S.String,
-    ModifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    WorkflowVersion: S.optional(S.String),
-    Warnings: S.optional(WarningMessages),
-  }),
-).annotations({
-  identifier: "UpdateWorkflowResponse",
-}) as any as S.Schema<UpdateWorkflowResponse>;
-export interface DeleteWorkflowResponse {
-  WorkflowArn: string;
-  WorkflowVersion?: string;
-}
-export const DeleteWorkflowResponse = S.suspend(() =>
-  S.Struct({ WorkflowArn: S.String, WorkflowVersion: S.optional(S.String) }),
-).annotations({
-  identifier: "DeleteWorkflowResponse",
-}) as any as S.Schema<DeleteWorkflowResponse>;
-export interface StartWorkflowRunRequest {
-  WorkflowArn: string;
-  ClientToken?: string;
-  OverrideParameters?: { [key: string]: any | undefined };
-  WorkflowVersion?: string;
-}
-export const StartWorkflowRunRequest = S.suspend(() =>
-  S.Struct({
-    WorkflowArn: S.String.pipe(T.HttpLabel("WorkflowArn")),
-    ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    OverrideParameters: S.optional(ObjectMap),
-    WorkflowVersion: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/workflows/{WorkflowArn}/runs" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "StartWorkflowRunRequest",
-}) as any as S.Schema<StartWorkflowRunRequest>;
-export interface StopWorkflowRunResponse {
-  WorkflowArn?: string;
-  WorkflowVersion?: string;
-  RunId?: string;
-  Status?: WorkflowRunStatus;
-}
-export const StopWorkflowRunResponse = S.suspend(() =>
-  S.Struct({
-    WorkflowArn: S.optional(S.String),
-    WorkflowVersion: S.optional(S.String),
-    RunId: S.optional(S.String),
-    Status: S.optional(WorkflowRunStatus),
-  }),
-).annotations({
-  identifier: "StopWorkflowRunResponse",
-}) as any as S.Schema<StopWorkflowRunResponse>;
-export type TaskInstanceIds = string[];
-export const TaskInstanceIds = S.Array(S.String);
-export type GenericMap = { [key: string]: string | undefined };
-export const GenericMap = S.Record({
-  key: S.String,
-  value: S.UndefinedOr(S.String),
-});
-export interface TaskInstanceSummary {
-  WorkflowArn?: string;
-  WorkflowVersion?: string;
-  RunId?: string;
-  TaskInstanceId?: string;
-  Status?: TaskInstanceStatus;
-  DurationInSeconds?: number;
-  OperatorName?: string;
-}
-export const TaskInstanceSummary = S.suspend(() =>
-  S.Struct({
-    WorkflowArn: S.optional(S.String),
-    WorkflowVersion: S.optional(S.String),
-    RunId: S.optional(S.String),
-    TaskInstanceId: S.optional(S.String),
-    Status: S.optional(TaskInstanceStatus),
-    DurationInSeconds: S.optional(S.Number),
-    OperatorName: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "TaskInstanceSummary",
-}) as any as S.Schema<TaskInstanceSummary>;
-export type TaskInstanceSummaries = TaskInstanceSummary[];
-export const TaskInstanceSummaries = S.Array(TaskInstanceSummary);
-export interface ScheduleConfiguration {
-  CronExpression?: string;
-}
-export const ScheduleConfiguration = S.suspend(() =>
-  S.Struct({ CronExpression: S.optional(S.String) }),
-).annotations({
-  identifier: "ScheduleConfiguration",
-}) as any as S.Schema<ScheduleConfiguration>;
-export interface WorkflowSummary {
-  WorkflowArn: string;
-  WorkflowVersion?: string;
-  Name?: string;
-  Description?: string;
-  CreatedAt?: Date;
-  ModifiedAt?: Date;
-  WorkflowStatus?: WorkflowStatus;
-  TriggerMode?: string;
-}
-export const WorkflowSummary = S.suspend(() =>
-  S.Struct({
-    WorkflowArn: S.String,
-    WorkflowVersion: S.optional(S.String),
-    Name: S.optional(S.String),
-    Description: S.optional(S.String),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    ModifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    WorkflowStatus: S.optional(WorkflowStatus),
-    TriggerMode: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "WorkflowSummary",
-}) as any as S.Schema<WorkflowSummary>;
-export type WorkflowSummaries = WorkflowSummary[];
-export const WorkflowSummaries = S.Array(WorkflowSummary);
-export interface WorkflowRunDetail {
-  WorkflowArn?: string;
-  WorkflowVersion?: string;
-  RunId?: string;
-  RunType?: RunType;
-  StartedOn?: Date;
-  CreatedAt?: Date;
-  CompletedOn?: Date;
-  ModifiedAt?: Date;
-  Duration?: number;
-  ErrorMessage?: string;
-  TaskInstances?: string[];
-  RunState?: WorkflowRunStatus;
-}
-export const WorkflowRunDetail = S.suspend(() =>
-  S.Struct({
-    WorkflowArn: S.optional(S.String),
-    WorkflowVersion: S.optional(S.String),
-    RunId: S.optional(S.String),
-    RunType: S.optional(RunType),
-    StartedOn: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    CompletedOn: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    ModifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    Duration: S.optional(S.Number),
-    ErrorMessage: S.optional(S.String),
-    TaskInstances: S.optional(TaskInstanceIds),
-    RunState: S.optional(WorkflowRunStatus),
-  }),
-).annotations({
-  identifier: "WorkflowRunDetail",
-}) as any as S.Schema<WorkflowRunDetail>;
-export interface WorkflowVersionSummary {
-  WorkflowVersion: string;
-  WorkflowArn: string;
-  IsLatestVersion?: boolean;
-  CreatedAt?: Date;
-  ModifiedAt?: Date;
-  DefinitionS3Location?: DefinitionS3Location;
-  ScheduleConfiguration?: ScheduleConfiguration;
-  TriggerMode?: string;
-}
-export const WorkflowVersionSummary = S.suspend(() =>
-  S.Struct({
-    WorkflowVersion: S.String,
-    WorkflowArn: S.String,
-    IsLatestVersion: S.optional(S.Boolean),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    ModifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    DefinitionS3Location: S.optional(DefinitionS3Location),
-    ScheduleConfiguration: S.optional(ScheduleConfiguration),
-    TriggerMode: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "WorkflowVersionSummary",
-}) as any as S.Schema<WorkflowVersionSummary>;
-export type WorkflowVersionSummaries = WorkflowVersionSummary[];
-export const WorkflowVersionSummaries = S.Array(WorkflowVersionSummary);
-export interface GetTaskInstanceResponse {
-  WorkflowArn: string;
-  RunId: string;
-  TaskInstanceId: string;
-  WorkflowVersion?: string;
-  Status?: TaskInstanceStatus;
-  DurationInSeconds?: number;
-  OperatorName?: string;
-  ModifiedAt?: Date;
-  EndedAt?: Date;
-  StartedAt?: Date;
-  AttemptNumber?: number;
-  ErrorMessage?: string;
-  TaskId?: string;
-  LogStream?: string;
-  Xcom?: { [key: string]: string | undefined };
-}
-export const GetTaskInstanceResponse = S.suspend(() =>
-  S.Struct({
-    WorkflowArn: S.String,
-    RunId: S.String,
-    TaskInstanceId: S.String,
-    WorkflowVersion: S.optional(S.String),
-    Status: S.optional(TaskInstanceStatus),
-    DurationInSeconds: S.optional(S.Number),
-    OperatorName: S.optional(S.String),
-    ModifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    EndedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    StartedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    AttemptNumber: S.optional(S.Number),
-    ErrorMessage: S.optional(S.String),
-    TaskId: S.optional(S.String),
-    LogStream: S.optional(S.String),
-    Xcom: S.optional(GenericMap),
-  }),
-).annotations({
-  identifier: "GetTaskInstanceResponse",
-}) as any as S.Schema<GetTaskInstanceResponse>;
-export interface ListTaskInstancesResponse {
-  TaskInstances?: TaskInstanceSummary[];
-  NextToken?: string;
-}
-export const ListTaskInstancesResponse = S.suspend(() =>
-  S.Struct({
-    TaskInstances: S.optional(TaskInstanceSummaries),
-    NextToken: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "ListTaskInstancesResponse",
-}) as any as S.Schema<ListTaskInstancesResponse>;
+export type WorkflowStatus = "READY" | "DELETING" | (string & {});
+export const WorkflowStatus = S.String;
+export type WarningMessages = string[];
+export const WarningMessages = S.Array(S.String);
 export interface CreateWorkflowResponse {
   WorkflowArn: string;
   CreatedAt?: Date;
@@ -777,16 +429,47 @@ export interface CreateWorkflowResponse {
 export const CreateWorkflowResponse = S.suspend(() =>
   S.Struct({
     WorkflowArn: S.String,
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     RevisionId: S.optional(S.String),
     WorkflowStatus: S.optional(WorkflowStatus),
     WorkflowVersion: S.optional(S.String),
     IsLatestVersion: S.optional(S.Boolean),
     Warnings: S.optional(WarningMessages),
   }),
-).annotations({
+).annotate({
   identifier: "CreateWorkflowResponse",
 }) as any as S.Schema<CreateWorkflowResponse>;
+export interface GetWorkflowRequest {
+  WorkflowArn: string;
+  WorkflowVersion?: string;
+}
+export const GetWorkflowRequest = S.suspend(() =>
+  S.Struct({
+    WorkflowArn: S.String.pipe(T.HttpLabel("WorkflowArn")),
+    WorkflowVersion: S.optional(S.String).pipe(T.HttpQuery("workflowVersion")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/workflows/{WorkflowArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetWorkflowRequest",
+}) as any as S.Schema<GetWorkflowRequest>;
+export interface ScheduleConfiguration {
+  CronExpression?: string;
+}
+export const ScheduleConfiguration = S.suspend(() =>
+  S.Struct({ CronExpression: S.optional(S.String) }),
+).annotate({
+  identifier: "ScheduleConfiguration",
+}) as any as S.Schema<ScheduleConfiguration>;
 export interface GetWorkflowResponse {
   WorkflowArn: string;
   WorkflowVersion?: string;
@@ -811,8 +494,12 @@ export const GetWorkflowResponse = S.suspend(() =>
     WorkflowVersion: S.optional(S.String),
     Name: S.optional(S.String),
     Description: S.optional(S.String),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    ModifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    ModifiedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     EncryptionConfiguration: S.optional(EncryptionConfiguration),
     LoggingConfiguration: S.optional(LoggingConfiguration),
     EngineVersion: S.optional(EngineVersion),
@@ -824,18 +511,188 @@ export const GetWorkflowResponse = S.suspend(() =>
     TriggerMode: S.optional(S.String),
     WorkflowDefinition: S.optional(S.String),
   }),
-).annotations({
+).annotate({
   identifier: "GetWorkflowResponse",
 }) as any as S.Schema<GetWorkflowResponse>;
+export interface UpdateWorkflowRequest {
+  WorkflowArn: string;
+  DefinitionS3Location: DefinitionS3Location;
+  RoleArn: string;
+  Description?: string;
+  LoggingConfiguration?: LoggingConfiguration;
+  EngineVersion?: EngineVersion;
+  NetworkConfiguration?: NetworkConfiguration;
+  TriggerMode?: string;
+}
+export const UpdateWorkflowRequest = S.suspend(() =>
+  S.Struct({
+    WorkflowArn: S.String.pipe(T.HttpLabel("WorkflowArn")),
+    DefinitionS3Location: DefinitionS3Location,
+    RoleArn: S.String,
+    Description: S.optional(S.String),
+    LoggingConfiguration: S.optional(LoggingConfiguration),
+    EngineVersion: S.optional(EngineVersion),
+    NetworkConfiguration: S.optional(NetworkConfiguration),
+    TriggerMode: S.optional(S.String),
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/workflows/{WorkflowArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "UpdateWorkflowRequest",
+}) as any as S.Schema<UpdateWorkflowRequest>;
+export interface UpdateWorkflowResponse {
+  WorkflowArn: string;
+  ModifiedAt?: Date;
+  WorkflowVersion?: string;
+  Warnings?: string[];
+}
+export const UpdateWorkflowResponse = S.suspend(() =>
+  S.Struct({
+    WorkflowArn: S.String,
+    ModifiedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    WorkflowVersion: S.optional(S.String),
+    Warnings: S.optional(WarningMessages),
+  }),
+).annotate({
+  identifier: "UpdateWorkflowResponse",
+}) as any as S.Schema<UpdateWorkflowResponse>;
+export interface DeleteWorkflowRequest {
+  WorkflowArn: string;
+  WorkflowVersion?: string;
+}
+export const DeleteWorkflowRequest = S.suspend(() =>
+  S.Struct({
+    WorkflowArn: S.String.pipe(T.HttpLabel("WorkflowArn")),
+    WorkflowVersion: S.optional(S.String).pipe(T.HttpQuery("workflowVersion")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/workflows/{WorkflowArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeleteWorkflowRequest",
+}) as any as S.Schema<DeleteWorkflowRequest>;
+export interface DeleteWorkflowResponse {
+  WorkflowArn: string;
+  WorkflowVersion?: string;
+}
+export const DeleteWorkflowResponse = S.suspend(() =>
+  S.Struct({ WorkflowArn: S.String, WorkflowVersion: S.optional(S.String) }),
+).annotate({
+  identifier: "DeleteWorkflowResponse",
+}) as any as S.Schema<DeleteWorkflowResponse>;
+export interface ListWorkflowsRequest {
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListWorkflowsRequest = S.suspend(() =>
+  S.Struct({
+    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/workflows" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListWorkflowsRequest",
+}) as any as S.Schema<ListWorkflowsRequest>;
+export interface WorkflowSummary {
+  WorkflowArn: string;
+  WorkflowVersion?: string;
+  Name?: string;
+  Description?: string;
+  CreatedAt?: Date;
+  ModifiedAt?: Date;
+  WorkflowStatus?: WorkflowStatus;
+  TriggerMode?: string;
+}
+export const WorkflowSummary = S.suspend(() =>
+  S.Struct({
+    WorkflowArn: S.String,
+    WorkflowVersion: S.optional(S.String),
+    Name: S.optional(S.String),
+    Description: S.optional(S.String),
+    CreatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    ModifiedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    WorkflowStatus: S.optional(WorkflowStatus),
+    TriggerMode: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "WorkflowSummary",
+}) as any as S.Schema<WorkflowSummary>;
+export type WorkflowSummaries = WorkflowSummary[];
+export const WorkflowSummaries = S.Array(WorkflowSummary);
 export interface ListWorkflowsResponse {
   Workflows: WorkflowSummary[];
   NextToken?: string;
 }
 export const ListWorkflowsResponse = S.suspend(() =>
   S.Struct({ Workflows: WorkflowSummaries, NextToken: S.optional(S.String) }),
-).annotations({
+).annotate({
   identifier: "ListWorkflowsResponse",
 }) as any as S.Schema<ListWorkflowsResponse>;
+export type ObjectMap = { [key: string]: any | undefined };
+export const ObjectMap = S.Record(S.String, S.Any.pipe(S.optional));
+export interface StartWorkflowRunRequest {
+  WorkflowArn: string;
+  ClientToken?: string;
+  OverrideParameters?: { [key: string]: any | undefined };
+  WorkflowVersion?: string;
+}
+export const StartWorkflowRunRequest = S.suspend(() =>
+  S.Struct({
+    WorkflowArn: S.String.pipe(T.HttpLabel("WorkflowArn")),
+    ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+    OverrideParameters: S.optional(ObjectMap),
+    WorkflowVersion: S.optional(S.String),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/workflows/{WorkflowArn}/runs" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "StartWorkflowRunRequest",
+}) as any as S.Schema<StartWorkflowRunRequest>;
+export type WorkflowRunStatus =
+  | "STARTING"
+  | "QUEUED"
+  | "RUNNING"
+  | "SUCCESS"
+  | "FAILED"
+  | "TIMEOUT"
+  | "STOPPING"
+  | "STOPPED"
+  | (string & {});
+export const WorkflowRunStatus = S.String;
 export interface StartWorkflowRunResponse {
   RunId?: string;
   Status?: WorkflowRunStatus;
@@ -845,11 +702,78 @@ export const StartWorkflowRunResponse = S.suspend(() =>
   S.Struct({
     RunId: S.optional(S.String),
     Status: S.optional(WorkflowRunStatus),
-    StartedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    StartedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
-).annotations({
+).annotate({
   identifier: "StartWorkflowRunResponse",
 }) as any as S.Schema<StartWorkflowRunResponse>;
+export interface GetWorkflowRunRequest {
+  WorkflowArn: string;
+  RunId: string;
+}
+export const GetWorkflowRunRequest = S.suspend(() =>
+  S.Struct({
+    WorkflowArn: S.String.pipe(T.HttpLabel("WorkflowArn")),
+    RunId: S.String.pipe(T.HttpLabel("RunId")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/workflows/{WorkflowArn}/runs/{RunId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetWorkflowRunRequest",
+}) as any as S.Schema<GetWorkflowRunRequest>;
+export type RunType = "ON_DEMAND" | "SCHEDULED" | (string & {});
+export const RunType = S.String;
+export type TaskInstanceIds = string[];
+export const TaskInstanceIds = S.Array(S.String);
+export interface WorkflowRunDetail {
+  WorkflowArn?: string;
+  WorkflowVersion?: string;
+  RunId?: string;
+  RunType?: RunType;
+  StartedOn?: Date;
+  CreatedAt?: Date;
+  CompletedOn?: Date;
+  ModifiedAt?: Date;
+  Duration?: number;
+  ErrorMessage?: string;
+  TaskInstances?: string[];
+  RunState?: WorkflowRunStatus;
+}
+export const WorkflowRunDetail = S.suspend(() =>
+  S.Struct({
+    WorkflowArn: S.optional(S.String),
+    WorkflowVersion: S.optional(S.String),
+    RunId: S.optional(S.String),
+    RunType: S.optional(RunType),
+    StartedOn: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    CreatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    CompletedOn: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    ModifiedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    Duration: S.optional(S.Number),
+    ErrorMessage: S.optional(S.String),
+    TaskInstances: S.optional(TaskInstanceIds),
+    RunState: S.optional(WorkflowRunStatus),
+  }),
+).annotate({
+  identifier: "WorkflowRunDetail",
+}) as any as S.Schema<WorkflowRunDetail>;
 export interface GetWorkflowRunResponse {
   WorkflowArn?: string;
   WorkflowVersion?: string;
@@ -867,21 +791,74 @@ export const GetWorkflowRunResponse = S.suspend(() =>
     OverrideParameters: S.optional(ObjectMap),
     RunDetail: S.optional(WorkflowRunDetail),
   }),
-).annotations({
+).annotate({
   identifier: "GetWorkflowRunResponse",
 }) as any as S.Schema<GetWorkflowRunResponse>;
-export interface ListWorkflowVersionsResponse {
-  WorkflowVersions?: WorkflowVersionSummary[];
-  NextToken?: string;
+export interface StopWorkflowRunRequest {
+  WorkflowArn: string;
+  RunId: string;
 }
-export const ListWorkflowVersionsResponse = S.suspend(() =>
+export const StopWorkflowRunRequest = S.suspend(() =>
   S.Struct({
-    WorkflowVersions: S.optional(WorkflowVersionSummaries),
-    NextToken: S.optional(S.String),
+    WorkflowArn: S.String.pipe(T.HttpLabel("WorkflowArn")),
+    RunId: S.String.pipe(T.HttpLabel("RunId")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/workflows/{WorkflowArn}/runs/{RunId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "StopWorkflowRunRequest",
+}) as any as S.Schema<StopWorkflowRunRequest>;
+export interface StopWorkflowRunResponse {
+  WorkflowArn?: string;
+  WorkflowVersion?: string;
+  RunId?: string;
+  Status?: WorkflowRunStatus;
+}
+export const StopWorkflowRunResponse = S.suspend(() =>
+  S.Struct({
+    WorkflowArn: S.optional(S.String),
+    WorkflowVersion: S.optional(S.String),
+    RunId: S.optional(S.String),
+    Status: S.optional(WorkflowRunStatus),
   }),
-).annotations({
-  identifier: "ListWorkflowVersionsResponse",
-}) as any as S.Schema<ListWorkflowVersionsResponse>;
+).annotate({
+  identifier: "StopWorkflowRunResponse",
+}) as any as S.Schema<StopWorkflowRunResponse>;
+export interface ListWorkflowRunsRequest {
+  MaxResults?: number;
+  NextToken?: string;
+  WorkflowArn: string;
+  WorkflowVersion?: string;
+}
+export const ListWorkflowRunsRequest = S.suspend(() =>
+  S.Struct({
+    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+    WorkflowArn: S.String.pipe(T.HttpLabel("WorkflowArn")),
+    WorkflowVersion: S.optional(S.String).pipe(T.HttpQuery("workflowVersion")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/workflows/{WorkflowArn}/runs" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListWorkflowRunsRequest",
+}) as any as S.Schema<ListWorkflowRunsRequest>;
 export interface RunDetailSummary {
   Status?: WorkflowRunStatus;
   CreatedOn?: Date;
@@ -891,11 +868,15 @@ export interface RunDetailSummary {
 export const RunDetailSummary = S.suspend(() =>
   S.Struct({
     Status: S.optional(WorkflowRunStatus),
-    CreatedOn: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    StartedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    EndedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreatedOn: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    StartedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    EndedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
-).annotations({
+).annotate({
   identifier: "RunDetailSummary",
 }) as any as S.Schema<RunDetailSummary>;
 export interface WorkflowRunSummary {
@@ -913,7 +894,7 @@ export const WorkflowRunSummary = S.suspend(() =>
     RunType: S.optional(RunType),
     RunDetailSummary: S.optional(RunDetailSummary),
   }),
-).annotations({
+).annotate({
   identifier: "WorkflowRunSummary",
 }) as any as S.Schema<WorkflowRunSummary>;
 export type WorkflowRunSummaries = WorkflowRunSummary[];
@@ -927,34 +908,81 @@ export const ListWorkflowRunsResponse = S.suspend(() =>
     WorkflowRuns: S.optional(WorkflowRunSummaries),
     NextToken: S.optional(S.String),
   }),
-).annotations({
+).annotate({
   identifier: "ListWorkflowRunsResponse",
 }) as any as S.Schema<ListWorkflowRunsResponse>;
-export type ValidationExceptionReason =
-  | "unknownOperation"
-  | "cannotParse"
-  | "fieldValidationFailed"
-  | "other"
-  | (string & {});
-export const ValidationExceptionReason = S.String;
-export interface ValidationExceptionField {
-  Name: string;
-  Message: string;
+export interface ListWorkflowVersionsRequest {
+  MaxResults?: number;
+  NextToken?: string;
+  WorkflowArn: string;
 }
-export const ValidationExceptionField = S.suspend(() =>
-  S.Struct({ Name: S.String, Message: S.String }),
-).annotations({
-  identifier: "ValidationExceptionField",
-}) as any as S.Schema<ValidationExceptionField>;
-export type ValidationExceptionFields = ValidationExceptionField[];
-export const ValidationExceptionFields = S.Array(ValidationExceptionField);
+export const ListWorkflowVersionsRequest = S.suspend(() =>
+  S.Struct({
+    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+    WorkflowArn: S.String.pipe(T.HttpLabel("WorkflowArn")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/workflows/{WorkflowArn}/versions" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListWorkflowVersionsRequest",
+}) as any as S.Schema<ListWorkflowVersionsRequest>;
+export interface WorkflowVersionSummary {
+  WorkflowVersion: string;
+  WorkflowArn: string;
+  IsLatestVersion?: boolean;
+  CreatedAt?: Date;
+  ModifiedAt?: Date;
+  DefinitionS3Location?: DefinitionS3Location;
+  ScheduleConfiguration?: ScheduleConfiguration;
+  TriggerMode?: string;
+}
+export const WorkflowVersionSummary = S.suspend(() =>
+  S.Struct({
+    WorkflowVersion: S.String,
+    WorkflowArn: S.String,
+    IsLatestVersion: S.optional(S.Boolean),
+    CreatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    ModifiedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    DefinitionS3Location: S.optional(DefinitionS3Location),
+    ScheduleConfiguration: S.optional(ScheduleConfiguration),
+    TriggerMode: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "WorkflowVersionSummary",
+}) as any as S.Schema<WorkflowVersionSummary>;
+export type WorkflowVersionSummaries = WorkflowVersionSummary[];
+export const WorkflowVersionSummaries = S.Array(WorkflowVersionSummary);
+export interface ListWorkflowVersionsResponse {
+  WorkflowVersions?: WorkflowVersionSummary[];
+  NextToken?: string;
+}
+export const ListWorkflowVersionsResponse = S.suspend(() =>
+  S.Struct({
+    WorkflowVersions: S.optional(WorkflowVersionSummaries),
+    NextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ListWorkflowVersionsResponse",
+}) as any as S.Schema<ListWorkflowVersionsResponse>;
 
 //# Errors
-export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
+export class AccessDeniedException extends S.TaggedErrorClass<AccessDeniedException>()(
   "AccessDeniedException",
   { Message: S.String },
 ).pipe(C.withAuthError) {}
-export class InternalServerException extends S.TaggedError<InternalServerException>()(
+export class InternalServerException extends S.TaggedErrorClass<InternalServerException>()(
   "InternalServerException",
   {
     Message: S.String,
@@ -962,19 +990,15 @@ export class InternalServerException extends S.TaggedError<InternalServerExcepti
   },
   T.Retryable(),
 ).pipe(C.withServerError, C.withRetryableError) {}
-export class ConflictException extends S.TaggedError<ConflictException>()(
-  "ConflictException",
-  { Message: S.String, ResourceId: S.String, ResourceType: S.String },
-).pipe(C.withConflictError) {}
-export class OperationTimeoutException extends S.TaggedError<OperationTimeoutException>()(
+export class OperationTimeoutException extends S.TaggedErrorClass<OperationTimeoutException>()(
   "OperationTimeoutException",
   { Message: S.optional(S.String) },
 ).pipe(C.withTimeoutError) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { Message: S.String, ResourceId: S.String, ResourceType: S.String },
 ).pipe(C.withBadRequestError) {}
-export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
+export class ThrottlingException extends S.TaggedErrorClass<ThrottlingException>()(
   "ThrottlingException",
   {
     Message: S.String,
@@ -984,7 +1008,19 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   },
   T.Retryable({ throttling: true }),
 ).pipe(C.withThrottlingError, C.withRetryableError) {}
-export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
+export class ValidationException extends S.TaggedErrorClass<ValidationException>()(
+  "ValidationException",
+  {
+    Message: S.String,
+    Reason: ValidationExceptionReason,
+    FieldList: S.optional(ValidationExceptionFields),
+  },
+).pipe(C.withBadRequestError) {}
+export class ConflictException extends S.TaggedErrorClass<ConflictException>()(
+  "ConflictException",
+  { Message: S.String, ResourceId: S.String, ResourceType: S.String },
+).pipe(C.withConflictError) {}
+export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
   {
     Message: S.String,
@@ -994,299 +1030,8 @@ export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExc
     QuotaCode: S.String,
   },
 ).pipe(C.withQuotaError) {}
-export class ValidationException extends S.TaggedError<ValidationException>()(
-  "ValidationException",
-  {
-    Message: S.String,
-    Reason: ValidationExceptionReason,
-    FieldList: S.optional(ValidationExceptionFields),
-  },
-).pipe(C.withBadRequestError) {}
 
 //# Operations
-/**
- * Lists all runs for a specified workflow, with optional pagination and filtering support.
- */
-export const listWorkflowRuns: {
-  (
-    input: ListWorkflowRunsRequest,
-  ): effect.Effect<
-    ListWorkflowRunsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | OperationTimeoutException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  pages: (
-    input: ListWorkflowRunsRequest,
-  ) => stream.Stream<
-    ListWorkflowRunsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | OperationTimeoutException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  items: (
-    input: ListWorkflowRunsRequest,
-  ) => stream.Stream<
-    WorkflowRunSummary,
-    | AccessDeniedException
-    | InternalServerException
-    | OperationTimeoutException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
-  input: ListWorkflowRunsRequest,
-  output: ListWorkflowRunsResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    OperationTimeoutException,
-    ThrottlingException,
-    ValidationException,
-  ],
-  pagination: {
-    inputToken: "NextToken",
-    outputToken: "NextToken",
-    items: "WorkflowRuns",
-    pageSize: "MaxResults",
-  } as const,
-}));
-/**
- * Creates a new workflow in Amazon Managed Workflows for Apache Airflow Serverless. This operation initializes a workflow with the specified configuration including the workflow definition, execution role, and optional settings for encryption, logging, and networking. You must provide the workflow definition as a YAML file stored in Amazon S3 that defines the DAG structure using supported Amazon Web Services operators. Amazon Managed Workflows for Apache Airflow Serverless automatically creates the first version of the workflow and sets up the necessary execution environment with multi-tenant isolation and security controls.
- */
-export const createWorkflow: (
-  input: CreateWorkflowRequest,
-) => effect.Effect<
-  CreateWorkflowResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | OperationTimeoutException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateWorkflowRequest,
-  output: CreateWorkflowResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    OperationTimeoutException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Retrieves detailed information about a specific task instance within a workflow run. Task instances represent individual tasks that are executed as part of a workflow in the Amazon Managed Workflows for Apache Airflow Serverless environment. Each task instance runs in an isolated ECS container with dedicated resources and security boundaries. The service tracks task execution state, retry attempts, and provides detailed timing and error information for troubleshooting and monitoring purposes.
- */
-export const getTaskInstance: (
-  input: GetTaskInstanceRequest,
-) => effect.Effect<
-  GetTaskInstanceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | OperationTimeoutException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetTaskInstanceRequest,
-  output: GetTaskInstanceResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    OperationTimeoutException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Retrieves detailed information about a workflow, including its configuration, status, and metadata.
- */
-export const getWorkflow: (
-  input: GetWorkflowRequest,
-) => effect.Effect<
-  GetWorkflowResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | OperationTimeoutException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetWorkflowRequest,
-  output: GetWorkflowResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    OperationTimeoutException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Updates an existing workflow with new configuration settings. This operation allows you to modify the workflow definition, role, and other settings. When you update a workflow, Amazon Managed Workflows for Apache Airflow Serverless automatically creates a new version with the updated configuration and disables scheduling on all previous versions to ensure only one version is actively scheduled at a time. The update operation maintains workflow history while providing a clean transition to the new configuration.
- */
-export const updateWorkflow: (
-  input: UpdateWorkflowRequest,
-) => effect.Effect<
-  UpdateWorkflowResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | OperationTimeoutException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateWorkflowRequest,
-  output: UpdateWorkflowResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    OperationTimeoutException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Starts a new execution of a workflow. This operation creates a workflow run that executes the tasks that are defined in the workflow. Amazon Managed Workflows for Apache Airflow Serverless schedules the workflow execution across its managed Airflow environment, automatically scaling ECS worker tasks based on the workload. The service handles task isolation, dependency resolution, and provides comprehensive monitoring and logging throughout the execution lifecycle.
- */
-export const startWorkflowRun: (
-  input: StartWorkflowRunRequest,
-) => effect.Effect<
-  StartWorkflowRunResponse,
-  | AccessDeniedException
-  | ConflictException
-  | InternalServerException
-  | OperationTimeoutException
-  | ResourceNotFoundException
-  | ServiceQuotaExceededException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StartWorkflowRunRequest,
-  output: StartWorkflowRunResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    OperationTimeoutException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Retrieves detailed information about a specific workflow run, including its status, execution details, and task instances.
- */
-export const getWorkflowRun: (
-  input: GetWorkflowRunRequest,
-) => effect.Effect<
-  GetWorkflowRunResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | OperationTimeoutException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetWorkflowRunRequest,
-  output: GetWorkflowRunResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    OperationTimeoutException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Deletes a workflow and all its versions. This operation permanently removes the workflow and cannot be undone. Amazon Managed Workflows for Apache Airflow Serverless ensures that all associated resources are properly cleaned up, including stopping any running executions, removing scheduled triggers, and cleaning up execution history. The deletion process respects the multi-tenant isolation boundaries and ensures that no residual data or configurations remain that could affect other customers or workflows.
- */
-export const deleteWorkflow: (
-  input: DeleteWorkflowRequest,
-) => effect.Effect<
-  DeleteWorkflowResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | OperationTimeoutException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteWorkflowRequest,
-  output: DeleteWorkflowResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    OperationTimeoutException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Stops a running workflow execution. This operation terminates all running tasks and prevents new tasks from starting. Amazon Managed Workflows for Apache Airflow Serverless gracefully shuts down the workflow execution by stopping task scheduling and terminating active ECS worker containers. The operation transitions the workflow run to a `STOPPING` state and then to `STOPPED` once all cleanup is complete. In-flight tasks may complete or be terminated depending on their current execution state.
- */
-export const stopWorkflowRun: (
-  input: StopWorkflowRunRequest,
-) => effect.Effect<
-  StopWorkflowRunResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | OperationTimeoutException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: StopWorkflowRunRequest,
-  output: StopWorkflowRunResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    OperationTimeoutException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
 /**
  * Lists all tags that are associated with a specified Amazon Managed Workflows for Apache Airflow Serverless resource.
  */
@@ -1332,6 +1077,60 @@ export const tagResource: (
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    OperationTimeoutException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Removes tags from an Amazon Managed Workflows for Apache Airflow Serverless resource. This operation removes the specified tags from the resource.
+ */
+export const untagResource: (
+  input: UntagResourceRequest,
+) => effect.Effect<
+  UntagResourceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | OperationTimeoutException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    OperationTimeoutException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Retrieves detailed information about a specific task instance within a workflow run. Task instances represent individual tasks that are executed as part of a workflow in the Amazon Managed Workflows for Apache Airflow Serverless environment. Each task instance runs in an isolated ECS container with dedicated resources and security boundaries. The service tracks task execution state, retry attempts, and provides detailed timing and error information for troubleshooting and monitoring purposes.
+ */
+export const getTaskInstance: (
+  input: GetTaskInstanceRequest,
+) => effect.Effect<
+  GetTaskInstanceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | OperationTimeoutException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetTaskInstanceRequest,
+  output: GetTaskInstanceResponse,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1399,6 +1198,120 @@ export const listTaskInstances: {
   } as const,
 }));
 /**
+ * Creates a new workflow in Amazon Managed Workflows for Apache Airflow Serverless. This operation initializes a workflow with the specified configuration including the workflow definition, execution role, and optional settings for encryption, logging, and networking. You must provide the workflow definition as a YAML file stored in Amazon S3 that defines the DAG structure using supported Amazon Web Services operators. Amazon Managed Workflows for Apache Airflow Serverless automatically creates the first version of the workflow and sets up the necessary execution environment with multi-tenant isolation and security controls.
+ */
+export const createWorkflow: (
+  input: CreateWorkflowRequest,
+) => effect.Effect<
+  CreateWorkflowResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | OperationTimeoutException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateWorkflowRequest,
+  output: CreateWorkflowResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    OperationTimeoutException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Retrieves detailed information about a workflow, including its configuration, status, and metadata.
+ */
+export const getWorkflow: (
+  input: GetWorkflowRequest,
+) => effect.Effect<
+  GetWorkflowResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | OperationTimeoutException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetWorkflowRequest,
+  output: GetWorkflowResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    OperationTimeoutException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Updates an existing workflow with new configuration settings. This operation allows you to modify the workflow definition, role, and other settings. When you update a workflow, Amazon Managed Workflows for Apache Airflow Serverless automatically creates a new version with the updated configuration and disables scheduling on all previous versions to ensure only one version is actively scheduled at a time. The update operation maintains workflow history while providing a clean transition to the new configuration.
+ */
+export const updateWorkflow: (
+  input: UpdateWorkflowRequest,
+) => effect.Effect<
+  UpdateWorkflowResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | OperationTimeoutException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateWorkflowRequest,
+  output: UpdateWorkflowResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    OperationTimeoutException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Deletes a workflow and all its versions. This operation permanently removes the workflow and cannot be undone. Amazon Managed Workflows for Apache Airflow Serverless ensures that all associated resources are properly cleaned up, including stopping any running executions, removing scheduled triggers, and cleaning up execution history. The deletion process respects the multi-tenant isolation boundaries and ensures that no residual data or configurations remain that could affect other customers or workflows.
+ */
+export const deleteWorkflow: (
+  input: DeleteWorkflowRequest,
+) => effect.Effect<
+  DeleteWorkflowResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | OperationTimeoutException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteWorkflowRequest,
+  output: DeleteWorkflowResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    OperationTimeoutException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
  * Lists all workflows in your account, with optional pagination support. This operation returns summary information for workflows, showing only the most recently created version of each workflow. Amazon Managed Workflows for Apache Airflow Serverless maintains workflow metadata in a highly available, distributed storage system that enables efficient querying and filtering. The service implements proper access controls to ensure you can only view workflows that you have permissions to access, supporting both individual and team-based workflow management scenarios.
  */
 export const listWorkflows: {
@@ -1452,6 +1365,148 @@ export const listWorkflows: {
     inputToken: "NextToken",
     outputToken: "NextToken",
     items: "Workflows",
+    pageSize: "MaxResults",
+  } as const,
+}));
+/**
+ * Starts a new execution of a workflow. This operation creates a workflow run that executes the tasks that are defined in the workflow. Amazon Managed Workflows for Apache Airflow Serverless schedules the workflow execution across its managed Airflow environment, automatically scaling ECS worker tasks based on the workload. The service handles task isolation, dependency resolution, and provides comprehensive monitoring and logging throughout the execution lifecycle.
+ */
+export const startWorkflowRun: (
+  input: StartWorkflowRunRequest,
+) => effect.Effect<
+  StartWorkflowRunResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | OperationTimeoutException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartWorkflowRunRequest,
+  output: StartWorkflowRunResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    OperationTimeoutException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Retrieves detailed information about a specific workflow run, including its status, execution details, and task instances.
+ */
+export const getWorkflowRun: (
+  input: GetWorkflowRunRequest,
+) => effect.Effect<
+  GetWorkflowRunResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | OperationTimeoutException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetWorkflowRunRequest,
+  output: GetWorkflowRunResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    OperationTimeoutException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Stops a running workflow execution. This operation terminates all running tasks and prevents new tasks from starting. Amazon Managed Workflows for Apache Airflow Serverless gracefully shuts down the workflow execution by stopping task scheduling and terminating active ECS worker containers. The operation transitions the workflow run to a `STOPPING` state and then to `STOPPED` once all cleanup is complete. In-flight tasks may complete or be terminated depending on their current execution state.
+ */
+export const stopWorkflowRun: (
+  input: StopWorkflowRunRequest,
+) => effect.Effect<
+  StopWorkflowRunResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | OperationTimeoutException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StopWorkflowRunRequest,
+  output: StopWorkflowRunResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    OperationTimeoutException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Lists all runs for a specified workflow, with optional pagination and filtering support.
+ */
+export const listWorkflowRuns: {
+  (
+    input: ListWorkflowRunsRequest,
+  ): effect.Effect<
+    ListWorkflowRunsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | OperationTimeoutException
+    | ThrottlingException
+    | ValidationException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListWorkflowRunsRequest,
+  ) => stream.Stream<
+    ListWorkflowRunsResponse,
+    | AccessDeniedException
+    | InternalServerException
+    | OperationTimeoutException
+    | ThrottlingException
+    | ValidationException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListWorkflowRunsRequest,
+  ) => stream.Stream<
+    WorkflowRunSummary,
+    | AccessDeniedException
+    | InternalServerException
+    | OperationTimeoutException
+    | ThrottlingException
+    | ValidationException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListWorkflowRunsRequest,
+  output: ListWorkflowRunsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    OperationTimeoutException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "WorkflowRuns",
     pageSize: "MaxResults",
   } as const,
 }));
@@ -1511,31 +1566,4 @@ export const listWorkflowVersions: {
     items: "WorkflowVersions",
     pageSize: "MaxResults",
   } as const,
-}));
-/**
- * Removes tags from an Amazon Managed Workflows for Apache Airflow Serverless resource. This operation removes the specified tags from the resource.
- */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
-  UntagResourceResponse,
-  | AccessDeniedException
-  | InternalServerException
-  | OperationTimeoutException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    OperationTimeoutException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
 }));

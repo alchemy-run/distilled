@@ -10,7 +10,12 @@ export const RestoreProjectBranchInput = Schema.Struct({
   source_lsn: Schema.optional(Schema.String),
   source_timestamp: Schema.optional(Schema.String),
   preserve_under_name: Schema.optional(Schema.String),
-}).pipe(T.Http({ method: "POST", path: "/projects/{project_id}/branches/{branch_id}/restore" }));
+}).pipe(
+  T.Http({
+    method: "POST",
+    path: "/projects/{project_id}/branches/{branch_id}/restore",
+  }),
+);
 export type RestoreProjectBranchInput = typeof RestoreProjectBranchInput.Type;
 
 // Output Schema
@@ -40,33 +45,79 @@ export const RestoreProjectBranchOutput = Schema.Struct({
     ttl_interval_seconds: Schema.optional(Schema.Number),
     expires_at: Schema.optional(Schema.String),
     last_reset_at: Schema.optional(Schema.String),
-    created_by: Schema.optional(Schema.Struct({
-      name: Schema.optional(Schema.String),
-      image: Schema.optional(Schema.String),
-    })),
+    created_by: Schema.optional(
+      Schema.Struct({
+        name: Schema.optional(Schema.String),
+        image: Schema.optional(Schema.String),
+      }),
+    ),
     init_source: Schema.optional(Schema.String),
     restore_status: Schema.optional(Schema.String),
     restored_from: Schema.optional(Schema.String),
     restored_as: Schema.optional(Schema.String),
-    restricted_actions: Schema.optional(Schema.Array(Schema.Struct({
-      name: Schema.String,
-      reason: Schema.String,
-    }))),
+    restricted_actions: Schema.optional(
+      Schema.Array(
+        Schema.Struct({
+          name: Schema.String,
+          reason: Schema.String,
+        }),
+      ),
+    ),
   }),
-  operations: Schema.Array(Schema.Struct({
-    id: Schema.String,
-    project_id: Schema.String,
-    branch_id: Schema.optional(Schema.String),
-    endpoint_id: Schema.optional(Schema.String),
-    action: Schema.Literal("create_compute", "create_timeline", "start_compute", "suspend_compute", "apply_config", "check_availability", "delete_timeline", "create_branch", "import_data", "tenant_ignore", "tenant_attach", "tenant_detach", "tenant_reattach", "replace_safekeeper", "disable_maintenance", "apply_storage_config", "prepare_secondary_pageserver", "switch_pageserver", "detach_parent_branch", "timeline_archive", "timeline_unarchive", "start_reserved_compute", "sync_dbs_and_roles_from_compute", "apply_schema_from_branch", "timeline_mark_invisible", "prewarm_replica", "promote_replica", "set_storage_non_dirty"),
-    status: Schema.Literal("scheduling", "running", "finished", "failed", "error", "cancelling", "cancelled", "skipped"),
-    error: Schema.optional(Schema.String),
-    failures_count: Schema.Number,
-    retry_at: Schema.optional(Schema.String),
-    created_at: Schema.String,
-    updated_at: Schema.String,
-    total_duration_ms: Schema.Number,
-  })),
+  operations: Schema.Array(
+    Schema.Struct({
+      id: Schema.String,
+      project_id: Schema.String,
+      branch_id: Schema.optional(Schema.String),
+      endpoint_id: Schema.optional(Schema.String),
+      action: Schema.Literals([
+        "create_compute",
+        "create_timeline",
+        "start_compute",
+        "suspend_compute",
+        "apply_config",
+        "check_availability",
+        "delete_timeline",
+        "create_branch",
+        "import_data",
+        "tenant_ignore",
+        "tenant_attach",
+        "tenant_detach",
+        "tenant_reattach",
+        "replace_safekeeper",
+        "disable_maintenance",
+        "apply_storage_config",
+        "prepare_secondary_pageserver",
+        "switch_pageserver",
+        "detach_parent_branch",
+        "timeline_archive",
+        "timeline_unarchive",
+        "start_reserved_compute",
+        "sync_dbs_and_roles_from_compute",
+        "apply_schema_from_branch",
+        "timeline_mark_invisible",
+        "prewarm_replica",
+        "promote_replica",
+        "set_storage_non_dirty",
+      ]),
+      status: Schema.Literals([
+        "scheduling",
+        "running",
+        "finished",
+        "failed",
+        "error",
+        "cancelling",
+        "cancelled",
+        "skipped",
+      ]),
+      error: Schema.optional(Schema.String),
+      failures_count: Schema.Number,
+      retry_at: Schema.optional(Schema.String),
+      created_at: Schema.String,
+      updated_at: Schema.String,
+      total_duration_ms: Schema.Number,
+    }),
+  ),
 });
 export type RestoreProjectBranchOutput = typeof RestoreProjectBranchOutput.Type;
 
@@ -79,7 +130,9 @@ export type RestoreProjectBranchOutput = typeof RestoreProjectBranchOutput.Type;
  * @param project_id - The Neon project ID
  * @param branch_id - The branch ID
  */
-export const restoreProjectBranch = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  inputSchema: RestoreProjectBranchInput,
-  outputSchema: RestoreProjectBranchOutput,
-}));
+export const restoreProjectBranch = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    inputSchema: RestoreProjectBranchInput,
+    outputSchema: RestoreProjectBranchOutput,
+  }),
+);

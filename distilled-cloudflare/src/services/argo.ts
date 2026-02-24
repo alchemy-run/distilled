@@ -7,7 +7,7 @@
 
 import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
-import type { HttpClient } from "@effect/platform";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
@@ -22,15 +22,17 @@ import {
 // Errors
 // =============================================================================
 
-export class InvalidObjectIdentifier extends Schema.TaggedError<InvalidObjectIdentifier>()(
+export class InvalidObjectIdentifier extends Schema.TaggedErrorClass<InvalidObjectIdentifier>()(
   "InvalidObjectIdentifier",
   { code: Schema.Number, message: Schema.String },
-).pipe(T.HttpErrorMatchers([{ code: 7003 }])) {}
+) {}
+T.applyErrorMatchers(InvalidObjectIdentifier, [{ code: 7003 }]);
 
-export class NotAuthorized extends Schema.TaggedError<NotAuthorized>()(
+export class NotAuthorized extends Schema.TaggedErrorClass<NotAuthorized>()(
   "NotAuthorized",
   { code: Schema.Number, message: Schema.String },
-).pipe(T.HttpErrorMatchers([{ code: 1015 }])) {}
+) {}
+T.applyErrorMatchers(NotAuthorized, [{ code: 1015 }]);
 
 // =============================================================================
 // SmartRouting
@@ -61,7 +63,7 @@ export interface GetSmartRoutingResponse {
 export const GetSmartRoutingResponse = Schema.Struct({
   id: Schema.String,
   editable: Schema.Boolean,
-  value: Schema.Literal("on", "off"),
+  value: Schema.Literals(["on", "off"]),
   modifiedOn: Schema.optional(Schema.String).pipe(T.JsonName("modified_on")),
 }) as unknown as Schema.Schema<GetSmartRoutingResponse>;
 
@@ -86,7 +88,7 @@ export interface PatchSmartRoutingRequest {
 
 export const PatchSmartRoutingRequest = Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  value: Schema.Literal("on", "off"),
+  value: Schema.Literals(["on", "off"]),
 }).pipe(
   T.Http({ method: "PATCH", path: "/zones/{zone_id}/argo/smart_routing" }),
 ) as unknown as Schema.Schema<PatchSmartRoutingRequest>;
@@ -105,7 +107,7 @@ export interface PatchSmartRoutingResponse {
 export const PatchSmartRoutingResponse = Schema.Struct({
   id: Schema.String,
   editable: Schema.Boolean,
-  value: Schema.Literal("on", "off"),
+  value: Schema.Literals(["on", "off"]),
   modifiedOn: Schema.optional(Schema.String).pipe(T.JsonName("modified_on")),
 }) as unknown as Schema.Schema<PatchSmartRoutingResponse>;
 
@@ -150,8 +152,8 @@ export interface GetTieredCachingResponse {
 export const GetTieredCachingResponse = Schema.Struct({
   id: Schema.Literal("tiered_caching"),
   editable: Schema.Boolean,
-  value: Schema.Literal("on", "off"),
-  modifiedOn: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
+  value: Schema.Literals(["on", "off"]),
+  modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
     T.JsonName("modified_on"),
   ),
 }) as unknown as Schema.Schema<GetTieredCachingResponse>;
@@ -177,7 +179,7 @@ export interface PatchTieredCachingRequest {
 
 export const PatchTieredCachingRequest = Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  value: Schema.Literal("on", "off"),
+  value: Schema.Literals(["on", "off"]),
 }).pipe(
   T.Http({ method: "PATCH", path: "/zones/{zone_id}/argo/tiered_caching" }),
 ) as unknown as Schema.Schema<PatchTieredCachingRequest>;
@@ -196,8 +198,8 @@ export interface PatchTieredCachingResponse {
 export const PatchTieredCachingResponse = Schema.Struct({
   id: Schema.Literal("tiered_caching"),
   editable: Schema.Boolean,
-  value: Schema.Literal("on", "off"),
-  modifiedOn: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
+  value: Schema.Literals(["on", "off"]),
+  modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
     T.JsonName("modified_on"),
   ),
 }) as unknown as Schema.Schema<PatchTieredCachingResponse>;

@@ -81,11 +81,14 @@ function setValueAtPath(obj: unknown, pointer: string, value: unknown): void {
 
   const lastSegment = segments[segments.length - 1]!;
   if (current === null || typeof current !== "object") {
-    throw new Error(`Cannot set value at path ${pointer}: parent is not an object`);
+    throw new Error(
+      `Cannot set value at path ${pointer}: parent is not an object`,
+    );
   }
 
   if (Array.isArray(current)) {
-    const index = lastSegment === "-" ? current.length : parseInt(lastSegment, 10);
+    const index =
+      lastSegment === "-" ? current.length : parseInt(lastSegment, 10);
     if (lastSegment === "-") {
       current.push(value);
     } else {
@@ -121,7 +124,9 @@ function removeValueAtPath(obj: unknown, pointer: string): void {
 
   const lastSegment = segments[segments.length - 1]!;
   if (current === null || typeof current !== "object") {
-    throw new Error(`Cannot remove at path ${pointer}: parent is not an object`);
+    throw new Error(
+      `Cannot remove at path ${pointer}: parent is not an object`,
+    );
   }
 
   if (Array.isArray(current)) {
@@ -157,7 +162,11 @@ function applyOperation(obj: unknown, operation: JsonPatchOperation): void {
     case "copy": {
       if (!operation.from) throw new Error("copy operation requires 'from'");
       const copyValue = getValueAtPath(obj, operation.from);
-      setValueAtPath(obj, operation.path, JSON.parse(JSON.stringify(copyValue)));
+      setValueAtPath(
+        obj,
+        operation.path,
+        JSON.parse(JSON.stringify(copyValue)),
+      );
       break;
     }
     case "test": {
@@ -194,7 +203,9 @@ export function applyAllPatches(
   const errors: string[] = [];
 
   // Find all .patch.json files
-  const files = fs.readdirSync(specsDir).filter((f) => f.endsWith(".patch.json"));
+  const files = fs
+    .readdirSync(specsDir)
+    .filter((f) => f.endsWith(".patch.json"));
 
   for (const file of files) {
     const filePath = path.join(specsDir, file);
@@ -204,7 +215,9 @@ export function applyAllPatches(
       applyPatch(spec, patchFile.patches);
       applied.push(`${file}: ${patchFile.description}`);
     } catch (error) {
-      errors.push(`${file}: ${error instanceof Error ? error.message : String(error)}`);
+      errors.push(
+        `${file}: ${error instanceof Error ? error.message : String(error)}`,
+      );
     }
   }
 

@@ -41,7 +41,7 @@ interface StreamingPayloadInfo {
  * @param schema - The request schema with streaming annotations
  * @returns A function that applies streaming body handling to requests
  */
-export const makeStreamingBodyMiddleware = (schema: S.Schema.AnyNoContext) => {
+export const makeStreamingBodyMiddleware = (schema: S.Top) => {
   // Pre-compute streaming payload info (done once)
   const info = getStreamingPayloadInfo(schema.ast);
 
@@ -146,7 +146,7 @@ const checkIsEventStream = (ast: AST.AST): boolean => {
   // Handle S.optional() wrapping - check union members
   if (ast._tag === "Union") {
     for (const member of (ast as AST.Union).types) {
-      if (member._tag === "UndefinedKeyword") continue;
+      if (member._tag === "Undefined") continue;
       if (isInputEventStream(member)) return true;
     }
   }
@@ -162,11 +162,11 @@ const checkIsEventStream = (ast: AST.AST): boolean => {
 const getStreamingPayloadInfo = (ast: AST.AST): StreamingPayloadInfo => {
   // For Suspend (S.suspend), unwrap and recurse
   if (ast._tag === "Suspend") {
-    return getStreamingPayloadInfo((ast as AST.Suspend).f());
+    return getStreamingPayloadInfo(ast.thunk());
   }
 
-  // For TypeLiteral (struct), check property signatures
-  if (ast._tag === "TypeLiteral") {
+  // For Objects (struct), check property signatures
+  if (ast._tag === "Objects") {
     for (const prop of ast.propertySignatures) {
       if (hasHttpPayload(prop) && isStreamingType(prop.type)) {
         return {
@@ -178,11 +178,14 @@ const getStreamingPayloadInfo = (ast: AST.AST): StreamingPayloadInfo => {
     }
   }
 
-  // For Transformation (S.Class), check the 'from' side (which has the property signatures)
-  if (ast._tag === "Transformation") {
-    if (ast.from) {
-      return getStreamingPayloadInfo(ast.from);
-    }
+  // For Declaration (S.Class), check via encoding chain
+  if (ast._tag === "Declaration" && ast.encoding?.length) {
+    return getStreamingPayloadInfo(ast.encoding[0].to);
+  }
+
+  // Follow encoding chain for other transformed types
+  if (ast.encoding && ast.encoding.length > 0) {
+    return getStreamingPayloadInfo(ast.encoding[0].to);
   }
 
   return {

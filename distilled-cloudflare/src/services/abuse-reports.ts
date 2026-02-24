@@ -7,7 +7,7 @@
 
 import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
-import type { HttpClient } from "@effect/platform";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
@@ -22,20 +22,23 @@ import {
 // Errors
 // =============================================================================
 
-export class AbuseReportNotFound extends Schema.TaggedError<AbuseReportNotFound>()(
+export class AbuseReportNotFound extends Schema.TaggedErrorClass<AbuseReportNotFound>()(
   "AbuseReportNotFound",
   { code: Schema.Number, message: Schema.String },
-).pipe(T.HttpErrorMatchers([{ code: 0 }])) {}
+) {}
+T.applyErrorMatchers(AbuseReportNotFound, [{ code: 0 }]);
 
-export class InvalidAccountId extends Schema.TaggedError<InvalidAccountId>()(
+export class InvalidAccountId extends Schema.TaggedErrorClass<InvalidAccountId>()(
   "InvalidAccountId",
   { code: Schema.Number, message: Schema.String },
-).pipe(T.HttpErrorMatchers([{ code: 7003 }])) {}
+) {}
+T.applyErrorMatchers(InvalidAccountId, [{ code: 7003 }]);
 
-export class InvalidRequest extends Schema.TaggedError<InvalidRequest>()(
+export class InvalidRequest extends Schema.TaggedErrorClass<InvalidRequest>()(
   "InvalidRequest",
   { code: Schema.Number, message: Schema.String },
-).pipe(T.HttpErrorMatchers([{ code: 7003 }])) {}
+) {}
+T.applyErrorMatchers(InvalidRequest, [{ code: 7003 }]);
 
 // =============================================================================
 // AbuseReport
@@ -112,8 +115,8 @@ export const GetAbuseReportResponse = Schema.Struct({
     inReviewCount: Schema.Number.pipe(T.JsonName("in_review_count")),
     pendingCount: Schema.Number.pipe(T.JsonName("pending_count")),
   }).pipe(T.JsonName("mitigation_summary")),
-  status: Schema.Literal("accepted", "in_review"),
-  type: Schema.Literal(
+  status: Schema.Literals(["accepted", "in_review"]),
+  type: Schema.Literals([
     "PHISH",
     "GEN",
     "THREAT",
@@ -123,7 +126,7 @@ export const GetAbuseReportResponse = Schema.Struct({
     "REG_WHO",
     "NCSEI",
     "NETWORK",
-  ),
+  ]),
   justification: Schema.optional(Schema.String),
   originalWork: Schema.optional(Schema.String).pipe(
     T.JsonName("original_work"),
@@ -194,14 +197,14 @@ export const ListAbuseReportsRequest = Schema.Struct({
   ),
   domain: Schema.optional(Schema.String).pipe(T.HttpQuery("domain")),
   mitigationStatus: Schema.optional(
-    Schema.Literal("pending", "active", "in_review", "cancelled", "removed"),
+    Schema.Literals(["pending", "active", "in_review", "cancelled", "removed"]),
   ).pipe(T.HttpQuery("mitigation_status")),
   sort: Schema.optional(Schema.String).pipe(T.HttpQuery("sort")),
-  status: Schema.optional(Schema.Literal("accepted", "in_review")).pipe(
+  status: Schema.optional(Schema.Literals(["accepted", "in_review"])).pipe(
     T.HttpQuery("status"),
   ),
   type: Schema.optional(
-    Schema.Literal(
+    Schema.Literals([
       "PHISH",
       "GEN",
       "THREAT",
@@ -211,7 +214,7 @@ export const ListAbuseReportsRequest = Schema.Struct({
       "REG_WHO",
       "NCSEI",
       "NETWORK",
-    ),
+    ]),
   ).pipe(T.HttpQuery("type")),
 }).pipe(
   T.Http({ method: "GET", path: "/accounts/{account_id}/abuse-reports" }),
@@ -255,7 +258,7 @@ export interface ListAbuseReportsResponse {
 }
 
 export const ListAbuseReportsResponse = Schema.Struct({
-  reports: Schema.Union(
+  reports: Schema.Union([
     Schema.Array(
       Schema.Struct({
         id: Schema.String,
@@ -272,8 +275,8 @@ export const ListAbuseReportsResponse = Schema.Struct({
           inReviewCount: Schema.Number.pipe(T.JsonName("in_review_count")),
           pendingCount: Schema.Number.pipe(T.JsonName("pending_count")),
         }).pipe(T.JsonName("mitigation_summary")),
-        status: Schema.Literal("accepted", "in_review"),
-        type: Schema.Literal(
+        status: Schema.Literals(["accepted", "in_review"]),
+        type: Schema.Literals([
           "PHISH",
           "GEN",
           "THREAT",
@@ -283,7 +286,7 @@ export const ListAbuseReportsResponse = Schema.Struct({
           "REG_WHO",
           "NCSEI",
           "NETWORK",
-        ),
+        ]),
         justification: Schema.optional(Schema.String),
         originalWork: Schema.optional(Schema.String).pipe(
           T.JsonName("original_work"),
@@ -300,7 +303,7 @@ export const ListAbuseReportsResponse = Schema.Struct({
       }),
     ),
     Schema.Null,
-  ),
+  ]),
 }) as unknown as Schema.Schema<ListAbuseReportsResponse>;
 
 export const listAbuseReports: (
@@ -465,10 +468,10 @@ export const ListMitigationsRequest = Schema.Struct({
     T.HttpQuery("effective_before"),
   ),
   entityType: Schema.optional(
-    Schema.Literal("url_pattern", "account", "zone"),
+    Schema.Literals(["url_pattern", "account", "zone"]),
   ).pipe(T.HttpQuery("entity_type")),
   sort: Schema.optional(
-    Schema.Literal(
+    Schema.Literals([
       "type,asc",
       "type,desc",
       "effective_date,asc",
@@ -477,20 +480,20 @@ export const ListMitigationsRequest = Schema.Struct({
       "status,desc",
       "entity_type,asc",
       "entity_type,desc",
-    ),
+    ]),
   ).pipe(T.HttpQuery("sort")),
   status: Schema.optional(
-    Schema.Literal("pending", "active", "in_review", "cancelled", "removed"),
+    Schema.Literals(["pending", "active", "in_review", "cancelled", "removed"]),
   ).pipe(T.HttpQuery("status")),
   type: Schema.optional(
-    Schema.Literal(
+    Schema.Literals([
       "legal_block",
       "phishing_interstitial",
       "network_block",
       "rate_limit_cache",
       "account_suspend",
       "redirect_video_stream",
-    ),
+    ]),
   ).pipe(T.HttpQuery("type")),
 }).pipe(
   T.Http({
@@ -523,24 +526,24 @@ export const ListMitigationsResponse = Schema.Array(
         id: Schema.String,
         effectiveDate: Schema.String.pipe(T.JsonName("effective_date")),
         entityId: Schema.String.pipe(T.JsonName("entity_id")),
-        entityType: Schema.Literal("url_pattern", "account", "zone").pipe(
+        entityType: Schema.Literals(["url_pattern", "account", "zone"]).pipe(
           T.JsonName("entity_type"),
         ),
-        status: Schema.Literal(
+        status: Schema.Literals([
           "pending",
           "active",
           "in_review",
           "cancelled",
           "removed",
-        ),
-        type: Schema.Literal(
+        ]),
+        type: Schema.Literals([
           "legal_block",
           "phishing_interstitial",
           "network_block",
           "rate_limit_cache",
           "account_suspend",
           "redirect_video_stream",
-        ),
+        ]),
       }),
     ),
   }),
@@ -572,7 +575,7 @@ export const ReviewMitigationRequest = Schema.Struct({
   appeals: Schema.Array(
     Schema.Struct({
       id: Schema.String,
-      reason: Schema.Literal("removed", "misclassified"),
+      reason: Schema.Literals(["removed", "misclassified"]),
     }),
   ),
 }).pipe(
@@ -602,24 +605,24 @@ export const ReviewMitigationResponse = Schema.Array(
     id: Schema.String,
     effectiveDate: Schema.String.pipe(T.JsonName("effective_date")),
     entityId: Schema.String.pipe(T.JsonName("entity_id")),
-    entityType: Schema.Literal("url_pattern", "account", "zone").pipe(
+    entityType: Schema.Literals(["url_pattern", "account", "zone"]).pipe(
       T.JsonName("entity_type"),
     ),
-    status: Schema.Literal(
+    status: Schema.Literals([
       "pending",
       "active",
       "in_review",
       "cancelled",
       "removed",
-    ),
-    type: Schema.Literal(
+    ]),
+    type: Schema.Literals([
       "legal_block",
       "phishing_interstitial",
       "network_block",
       "rate_limit_cache",
       "account_suspend",
       "redirect_video_stream",
-    ),
+    ]),
   }),
 ) as unknown as Schema.Schema<ReviewMitigationResponse>;
 

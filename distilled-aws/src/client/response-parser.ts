@@ -11,8 +11,8 @@
  */
 
 import * as Effect from "effect/Effect";
-import * as ParseResult from "effect/ParseResult";
 import * as Schema from "effect/Schema";
+import * as SchemaIssue from "effect/SchemaIssue";
 import { COMMON_ERRORS, UnknownAwsError } from "../errors.ts";
 import { getAwsQueryError, getHttpHeader, getProtocol } from "../traits.ts";
 import { getIdentifier, getPropertySignatures } from "../util/ast.ts";
@@ -34,7 +34,7 @@ export interface ResponseParserOptions {
 
 export type ResponseParser<A, R> = (
   response: Response,
-) => Effect.Effect<A, ParseResult.ParseError, R>;
+) => Effect.Effect<A, SchemaIssue.Issue, R>;
 
 /**
  * Create a response parser for a given operation.
@@ -46,9 +46,9 @@ export type ResponseParser<A, R> = (
  * @returns A function that parses responses
  */
 export const makeResponseParser = <A>(
-  operation: Operation,
+  operation: Operation<any, any, any>,
   options?: ResponseParserOptions,
-) => {
+): ((response: Response) => Effect.Effect<any, never, never>) => {
   const inputAst = operation.input.ast;
   const outputSchema = operation.output;
   const outputAst = outputSchema.ast;
@@ -65,7 +65,7 @@ export const makeResponseParser = <A>(
   // Pre-create the decoder (done once, unless skipping validation)
   const decode = options?.skipValidation
     ? undefined
-    : Schema.decodeUnknown(outputSchema);
+    : Schema.decodeUnknownEffect(outputSchema);
 
   // Create stream parser if output has event stream member (done once)
   const streamParser = makeStreamParser(outputAst);
@@ -75,9 +75,9 @@ export const makeResponseParser = <A>(
   // 1. Schema identifier (e.g., "EntityAlreadyExistsException")
   // 2. awsQueryError code if present (e.g., "EntityAlreadyExists")
   // 3. Short form without Exception/Error suffix (for services that return short codes)
-  const errorSchemas = new Map<string, Schema.Schema.AnyNoContext>();
+  const errorSchemas = new Map<string, Schema.Top>();
 
-  const registerError = (err: Schema.Schema.AnyNoContext) => {
+  const registerError = (err: Schema.Top) => {
     const tag = getIdentifier(err.ast);
     if (tag) {
       errorSchemas.set(tag, err);
@@ -102,6 +102,7 @@ export const makeResponseParser = <A>(
   }
 
   // Return a function that parses responses
+  // @ts-expect-error
   return Effect.fn(function* (response: Response) {
     // Success path
     if (response.status >= 200 && response.status < 300) {
@@ -146,9 +147,9 @@ export const makeResponseParser = <A>(
       const schemaTag = getIdentifier(errorSchema.ast) ?? errorCode;
       // Add _tag to data for TaggedError decoding
       const dataWithTag = { _tag: schemaTag, ...data };
-      const decoded = yield* Schema.decodeUnknown(errorSchema)(
+      const decoded = yield* Schema.decodeUnknownEffect(errorSchema)(
         dataWithTag,
-      ).pipe(Effect.catchAll(() => Effect.succeed(dataWithTag)));
+      ).pipe(Effect.catch(() => Effect.succeed(dataWithTag)));
       return yield* Effect.fail(decoded);
     }
 

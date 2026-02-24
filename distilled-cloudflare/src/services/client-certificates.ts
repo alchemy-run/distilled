@@ -7,7 +7,7 @@
 
 import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
-import type { HttpClient } from "@effect/platform";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
@@ -106,12 +106,12 @@ export const GetClientCertificateResponse = Schema.Struct({
   ski: Schema.optional(Schema.String),
   state: Schema.optional(Schema.String),
   status: Schema.optional(
-    Schema.Literal(
+    Schema.Literals([
       "active",
       "pending_reactivation",
       "pending_revocation",
       "revoked",
-    ),
+    ]),
   ),
   validityDays: Schema.optional(Schema.Number).pipe(
     T.JsonName("validity_days"),
@@ -215,12 +215,12 @@ export const CreateClientCertificateResponse = Schema.Struct({
   ski: Schema.optional(Schema.String),
   state: Schema.optional(Schema.String),
   status: Schema.optional(
-    Schema.Literal(
+    Schema.Literals([
       "active",
       "pending_reactivation",
       "pending_revocation",
       "revoked",
-    ),
+    ]),
   ),
   validityDays: Schema.optional(Schema.Number).pipe(
     T.JsonName("validity_days"),
@@ -326,12 +326,12 @@ export const PatchClientCertificateResponse = Schema.Struct({
   ski: Schema.optional(Schema.String),
   state: Schema.optional(Schema.String),
   status: Schema.optional(
-    Schema.Literal(
+    Schema.Literals([
       "active",
       "pending_reactivation",
       "pending_revocation",
       "revoked",
-    ),
+    ]),
   ),
   validityDays: Schema.optional(Schema.Number).pipe(
     T.JsonName("validity_days"),
@@ -434,12 +434,12 @@ export const DeleteClientCertificateResponse = Schema.Struct({
   ski: Schema.optional(Schema.String),
   state: Schema.optional(Schema.String),
   status: Schema.optional(
-    Schema.Literal(
+    Schema.Literals([
       "active",
       "pending_reactivation",
       "pending_revocation",
       "revoked",
-    ),
+    ]),
   ),
   validityDays: Schema.optional(Schema.Number).pipe(
     T.JsonName("validity_days"),

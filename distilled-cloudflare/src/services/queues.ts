@@ -7,7 +7,7 @@
 
 import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
-import type { HttpClient } from "@effect/platform";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
@@ -68,7 +68,7 @@ export type GetConsumerResponse =
       type?: "http_pull";
     };
 
-export const GetConsumerResponse = Schema.Union(
+export const GetConsumerResponse = Schema.Union([
   Schema.Struct({
     consumerId: Schema.optional(Schema.String).pipe(T.JsonName("consumer_id")),
     createdOn: Schema.optional(Schema.String).pipe(T.JsonName("created_on")),
@@ -117,7 +117,7 @@ export const GetConsumerResponse = Schema.Union(
     ),
     type: Schema.optional(Schema.Literal("http_pull")),
   }),
-) as unknown as Schema.Schema<GetConsumerResponse>;
+]) as unknown as Schema.Schema<GetConsumerResponse>;
 
 export const getConsumer: (
   input: GetConsumerRequest,
@@ -172,7 +172,7 @@ export type CreateConsumerResponse =
       type?: "http_pull";
     };
 
-export const CreateConsumerResponse = Schema.Union(
+export const CreateConsumerResponse = Schema.Union([
   Schema.Struct({
     consumerId: Schema.optional(Schema.String).pipe(T.JsonName("consumer_id")),
     createdOn: Schema.optional(Schema.String).pipe(T.JsonName("created_on")),
@@ -221,7 +221,7 @@ export const CreateConsumerResponse = Schema.Union(
     ),
     type: Schema.optional(Schema.Literal("http_pull")),
   }),
-) as unknown as Schema.Schema<CreateConsumerResponse>;
+]) as unknown as Schema.Schema<CreateConsumerResponse>;
 
 export const createConsumer: (
   input: CreateConsumerRequest,
@@ -278,7 +278,7 @@ export type UpdateConsumerResponse =
       type?: "http_pull";
     };
 
-export const UpdateConsumerResponse = Schema.Union(
+export const UpdateConsumerResponse = Schema.Union([
   Schema.Struct({
     consumerId: Schema.optional(Schema.String).pipe(T.JsonName("consumer_id")),
     createdOn: Schema.optional(Schema.String).pipe(T.JsonName("created_on")),
@@ -327,7 +327,7 @@ export const UpdateConsumerResponse = Schema.Union(
     ),
     type: Schema.optional(Schema.Literal("http_pull")),
   }),
-) as unknown as Schema.Schema<UpdateConsumerResponse>;
+]) as unknown as Schema.Schema<UpdateConsumerResponse>;
 
 export const updateConsumer: (
   input: UpdateConsumerRequest,
@@ -409,7 +409,7 @@ export const BulkPushMessagesRequest = Schema.Struct({
   ),
   messages: Schema.optional(
     Schema.Array(
-      Schema.Union(
+      Schema.Union([
         Schema.Struct({
           body: Schema.optional(Schema.String),
           contentType: Schema.optional(Schema.Literal("text")).pipe(
@@ -428,7 +428,7 @@ export const BulkPushMessagesRequest = Schema.Struct({
             T.JsonName("delay_seconds"),
           ),
         }),
-      ),
+      ]),
     ),
   ),
 }).pipe(
@@ -760,7 +760,7 @@ export const GetQueueResponse = Schema.Struct({
   modifiedOn: Schema.optional(Schema.String).pipe(T.JsonName("modified_on")),
   producers: Schema.optional(
     Schema.Array(
-      Schema.Union(
+      Schema.Union([
         Schema.Struct({
           script: Schema.optional(Schema.String),
           type: Schema.optional(Schema.Literal("worker")),
@@ -771,7 +771,7 @@ export const GetQueueResponse = Schema.Struct({
           ),
           type: Schema.optional(Schema.Literal("r2_bucket")),
         }),
-      ),
+      ]),
     ),
   ),
   producersTotalCount: Schema.optional(Schema.Number).pipe(
@@ -848,7 +848,7 @@ export const CreateQueueResponse = Schema.Struct({
   modifiedOn: Schema.optional(Schema.String).pipe(T.JsonName("modified_on")),
   producers: Schema.optional(
     Schema.Array(
-      Schema.Union(
+      Schema.Union([
         Schema.Struct({
           script: Schema.optional(Schema.String),
           type: Schema.optional(Schema.Literal("worker")),
@@ -859,7 +859,7 @@ export const CreateQueueResponse = Schema.Struct({
           ),
           type: Schema.optional(Schema.Literal("r2_bucket")),
         }),
-      ),
+      ]),
     ),
   ),
   producersTotalCount: Schema.optional(Schema.Number).pipe(
@@ -957,7 +957,7 @@ export const UpdateQueueResponse = Schema.Struct({
   modifiedOn: Schema.optional(Schema.String).pipe(T.JsonName("modified_on")),
   producers: Schema.optional(
     Schema.Array(
-      Schema.Union(
+      Schema.Union([
         Schema.Struct({
           script: Schema.optional(Schema.String),
           type: Schema.optional(Schema.Literal("worker")),
@@ -968,7 +968,7 @@ export const UpdateQueueResponse = Schema.Struct({
           ),
           type: Schema.optional(Schema.Literal("r2_bucket")),
         }),
-      ),
+      ]),
     ),
   ),
   producersTotalCount: Schema.optional(Schema.Number).pipe(
@@ -1066,7 +1066,7 @@ export const PatchQueueResponse = Schema.Struct({
   modifiedOn: Schema.optional(Schema.String).pipe(T.JsonName("modified_on")),
   producers: Schema.optional(
     Schema.Array(
-      Schema.Union(
+      Schema.Union([
         Schema.Struct({
           script: Schema.optional(Schema.String),
           type: Schema.optional(Schema.Literal("worker")),
@@ -1077,7 +1077,7 @@ export const PatchQueueResponse = Schema.Struct({
           ),
           type: Schema.optional(Schema.Literal("r2_bucket")),
         }),
-      ),
+      ]),
     ),
   ),
   producersTotalCount: Schema.optional(Schema.Number).pipe(
@@ -1208,7 +1208,7 @@ export const GetSubscriptionResponse = Schema.Struct({
   events: Schema.Array(Schema.String),
   modifiedAt: Schema.String.pipe(T.JsonName("modified_at")),
   name: Schema.String,
-  source: Schema.Union(
+  source: Schema.Union([
     Schema.Struct({
       type: Schema.optional(Schema.Literal("images")),
     }),
@@ -1240,7 +1240,7 @@ export const GetSubscriptionResponse = Schema.Struct({
         T.JsonName("workflow_name"),
       ),
     }),
-  ),
+  ]),
 }) as unknown as Schema.Schema<GetSubscriptionResponse>;
 
 export const getSubscription: (
@@ -1290,7 +1290,7 @@ export const CreateSubscriptionRequest = Schema.Struct({
   events: Schema.optional(Schema.Array(Schema.String)),
   name: Schema.optional(Schema.String),
   source: Schema.optional(
-    Schema.Union(
+    Schema.Union([
       Schema.Struct({
         type: Schema.optional(Schema.Literal("images")),
       }),
@@ -1324,7 +1324,7 @@ export const CreateSubscriptionRequest = Schema.Struct({
           T.JsonName("workflow_name"),
         ),
       }),
-    ),
+    ]),
   ),
 }).pipe(
   T.Http({
@@ -1371,7 +1371,7 @@ export const CreateSubscriptionResponse = Schema.Struct({
   events: Schema.Array(Schema.String),
   modifiedAt: Schema.String.pipe(T.JsonName("modified_at")),
   name: Schema.String,
-  source: Schema.Union(
+  source: Schema.Union([
     Schema.Struct({
       type: Schema.optional(Schema.Literal("images")),
     }),
@@ -1403,7 +1403,7 @@ export const CreateSubscriptionResponse = Schema.Struct({
         T.JsonName("workflow_name"),
       ),
     }),
-  ),
+  ]),
 }) as unknown as Schema.Schema<CreateSubscriptionResponse>;
 
 export const createSubscription: (
@@ -1489,7 +1489,7 @@ export const PatchSubscriptionResponse = Schema.Struct({
   events: Schema.Array(Schema.String),
   modifiedAt: Schema.String.pipe(T.JsonName("modified_at")),
   name: Schema.String,
-  source: Schema.Union(
+  source: Schema.Union([
     Schema.Struct({
       type: Schema.optional(Schema.Literal("images")),
     }),
@@ -1521,7 +1521,7 @@ export const PatchSubscriptionResponse = Schema.Struct({
         T.JsonName("workflow_name"),
       ),
     }),
-  ),
+  ]),
 }) as unknown as Schema.Schema<PatchSubscriptionResponse>;
 
 export const patchSubscription: (
@@ -1590,7 +1590,7 @@ export const DeleteSubscriptionResponse = Schema.Struct({
   events: Schema.Array(Schema.String),
   modifiedAt: Schema.String.pipe(T.JsonName("modified_at")),
   name: Schema.String,
-  source: Schema.Union(
+  source: Schema.Union([
     Schema.Struct({
       type: Schema.optional(Schema.Literal("images")),
     }),
@@ -1622,7 +1622,7 @@ export const DeleteSubscriptionResponse = Schema.Struct({
         T.JsonName("workflow_name"),
       ),
     }),
-  ),
+  ]),
 }) as unknown as Schema.Schema<DeleteSubscriptionResponse>;
 
 export const deleteSubscription: (

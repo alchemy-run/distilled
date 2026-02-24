@@ -1,12 +1,20 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
-import { IdempotencyError, InvalidRequest, NotFound, PaymentMethodRequired } from "../errors";
+import {
+  IdempotencyError,
+  InvalidRequest,
+  NotFound,
+  PaymentMethodRequired,
+} from "../errors";
 
 // Input Schema
 export const AddEndUserEvmAccountInput = Schema.Struct({
   userId: Schema.String.pipe(T.PathParam()),
-}).pipe(T.Http({ method: "POST", path: "/v2/end-users/{userId}/evm" }), T.WalletAuth());
+}).pipe(
+  T.Http({ method: "POST", path: "/v2/end-users/{userId}/evm" }),
+  T.WalletAuth(),
+);
 export type AddEndUserEvmAccountInput = typeof AddEndUserEvmAccountInput.Type;
 
 // Output Schema
@@ -27,9 +35,11 @@ export type AddEndUserEvmAccountOutput = typeof AddEndUserEvmAccountOutput.Type;
  *
  * @param userId - The ID of the end user to add the account to.
  */
-export const addEndUserEvmAccount = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  inputSchema: AddEndUserEvmAccountInput,
-  outputSchema: AddEndUserEvmAccountOutput,
-  errors: [IdempotencyError, InvalidRequest, NotFound, PaymentMethodRequired],
-  walletAuth: true,
-}));
+export const addEndUserEvmAccount = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    inputSchema: AddEndUserEvmAccountInput,
+    outputSchema: AddEndUserEvmAccountOutput,
+    errors: [IdempotencyError, InvalidRequest, NotFound, PaymentMethodRequired],
+    walletAuth: true,
+  }),
+);

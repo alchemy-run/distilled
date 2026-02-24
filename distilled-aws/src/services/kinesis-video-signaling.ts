@@ -1,4 +1,4 @@
-import { HttpClient } from "@effect/platform";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as effect from "effect/Effect";
 import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
@@ -90,12 +90,12 @@ const rules = T.EndpointResolver((p, _) => {
 export type ResourceARN = string;
 export type ClientId = string;
 export type Username = string;
-export type MessagePayload = string;
-export type Answer = string;
 export type Uri = string;
 export type Password = string;
 export type Ttl = number;
 export type ErrorMessage = string;
+export type MessagePayload = string;
+export type Answer = string;
 
 //# Schemas
 export type Service = "TURN" | (string & {});
@@ -122,9 +122,35 @@ export const GetIceServerConfigRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "GetIceServerConfigRequest",
 }) as any as S.Schema<GetIceServerConfigRequest>;
+export type Uris = string[];
+export const Uris = S.Array(S.String);
+export interface IceServer {
+  Uris?: string[];
+  Username?: string;
+  Password?: string;
+  Ttl?: number;
+}
+export const IceServer = S.suspend(() =>
+  S.Struct({
+    Uris: S.optional(Uris),
+    Username: S.optional(S.String),
+    Password: S.optional(S.String),
+    Ttl: S.optional(S.Number),
+  }),
+).annotate({ identifier: "IceServer" }) as any as S.Schema<IceServer>;
+export type IceServerList = IceServer[];
+export const IceServerList = S.Array(IceServer);
+export interface GetIceServerConfigResponse {
+  IceServerList?: IceServer[];
+}
+export const GetIceServerConfigResponse = S.suspend(() =>
+  S.Struct({ IceServerList: S.optional(IceServerList) }),
+).annotate({
+  identifier: "GetIceServerConfigResponse",
+}) as any as S.Schema<GetIceServerConfigResponse>;
 export interface SendAlexaOfferToMasterRequest {
   ChannelARN?: string;
   SenderClientId?: string;
@@ -145,7 +171,7 @@ export const SendAlexaOfferToMasterRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "SendAlexaOfferToMasterRequest",
 }) as any as S.Schema<SendAlexaOfferToMasterRequest>;
 export interface SendAlexaOfferToMasterResponse {
@@ -153,91 +179,37 @@ export interface SendAlexaOfferToMasterResponse {
 }
 export const SendAlexaOfferToMasterResponse = S.suspend(() =>
   S.Struct({ Answer: S.optional(S.String) }),
-).annotations({
+).annotate({
   identifier: "SendAlexaOfferToMasterResponse",
 }) as any as S.Schema<SendAlexaOfferToMasterResponse>;
-export type Uris = string[];
-export const Uris = S.Array(S.String);
-export interface IceServer {
-  Uris?: string[];
-  Username?: string;
-  Password?: string;
-  Ttl?: number;
-}
-export const IceServer = S.suspend(() =>
-  S.Struct({
-    Uris: S.optional(Uris),
-    Username: S.optional(S.String),
-    Password: S.optional(S.String),
-    Ttl: S.optional(S.Number),
-  }),
-).annotations({ identifier: "IceServer" }) as any as S.Schema<IceServer>;
-export type IceServerList = IceServer[];
-export const IceServerList = S.Array(IceServer);
-export interface GetIceServerConfigResponse {
-  IceServerList?: IceServer[];
-}
-export const GetIceServerConfigResponse = S.suspend(() =>
-  S.Struct({ IceServerList: S.optional(IceServerList) }),
-).annotations({
-  identifier: "GetIceServerConfigResponse",
-}) as any as S.Schema<GetIceServerConfigResponse>;
 
 //# Errors
-export class ClientLimitExceededException extends S.TaggedError<ClientLimitExceededException>()(
+export class ClientLimitExceededException extends S.TaggedErrorClass<ClientLimitExceededException>()(
   "ClientLimitExceededException",
   { Message: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
-export class InvalidArgumentException extends S.TaggedError<InvalidArgumentException>()(
+export class InvalidArgumentException extends S.TaggedErrorClass<InvalidArgumentException>()(
   "InvalidArgumentException",
   { Message: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
-export class NotAuthorizedException extends S.TaggedError<NotAuthorizedException>()(
-  "NotAuthorizedException",
-  { Message: S.optional(S.String) },
-).pipe(C.withAuthError) {}
-export class InvalidClientException extends S.TaggedError<InvalidClientException>()(
+export class InvalidClientException extends S.TaggedErrorClass<InvalidClientException>()(
   "InvalidClientException",
   { message: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+export class NotAuthorizedException extends S.TaggedErrorClass<NotAuthorizedException>()(
+  "NotAuthorizedException",
+  { Message: S.optional(S.String) },
+).pipe(C.withAuthError) {}
+export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { Message: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
-export class SessionExpiredException extends S.TaggedError<SessionExpiredException>()(
+export class SessionExpiredException extends S.TaggedErrorClass<SessionExpiredException>()(
   "SessionExpiredException",
   { message: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
-/**
- * This API allows you to connect WebRTC-enabled devices with Alexa display devices. When
- * invoked, it sends the Alexa Session Description Protocol (SDP) offer to the master peer.
- * The offer is delivered as soon as the master is connected to the specified signaling
- * channel. This API returns the SDP answer from the connected master. If the master is not
- * connected to the signaling channel, redelivery requests are made until the message
- * expires.
- */
-export const sendAlexaOfferToMaster: (
-  input: SendAlexaOfferToMasterRequest,
-) => effect.Effect<
-  SendAlexaOfferToMasterResponse,
-  | ClientLimitExceededException
-  | InvalidArgumentException
-  | NotAuthorizedException
-  | ResourceNotFoundException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: SendAlexaOfferToMasterRequest,
-  output: SendAlexaOfferToMasterResponse,
-  errors: [
-    ClientLimitExceededException,
-    InvalidArgumentException,
-    NotAuthorizedException,
-    ResourceNotFoundException,
-  ],
-}));
 /**
  * Gets the Interactive Connectivity Establishment (ICE) server configuration
  * information, including URIs, username, and password which can be used to configure the
@@ -278,5 +250,33 @@ export const getIceServerConfig: (
     NotAuthorizedException,
     ResourceNotFoundException,
     SessionExpiredException,
+  ],
+}));
+/**
+ * This API allows you to connect WebRTC-enabled devices with Alexa display devices. When
+ * invoked, it sends the Alexa Session Description Protocol (SDP) offer to the master peer.
+ * The offer is delivered as soon as the master is connected to the specified signaling
+ * channel. This API returns the SDP answer from the connected master. If the master is not
+ * connected to the signaling channel, redelivery requests are made until the message
+ * expires.
+ */
+export const sendAlexaOfferToMaster: (
+  input: SendAlexaOfferToMasterRequest,
+) => effect.Effect<
+  SendAlexaOfferToMasterResponse,
+  | ClientLimitExceededException
+  | InvalidArgumentException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SendAlexaOfferToMasterRequest,
+  output: SendAlexaOfferToMasterResponse,
+  errors: [
+    ClientLimitExceededException,
+    InvalidArgumentException,
+    NotAuthorizedException,
+    ResourceNotFoundException,
   ],
 }));

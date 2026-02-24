@@ -7,7 +7,7 @@
 
 import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
-import type { HttpClient } from "@effect/platform";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
@@ -60,7 +60,7 @@ export interface GetListResponse {
 export const GetListResponse = Schema.Struct({
   id: Schema.String,
   createdOn: Schema.String.pipe(T.JsonName("created_on")),
-  kind: Schema.Literal("ip", "redirect", "hostname", "asn"),
+  kind: Schema.Literals(["ip", "redirect", "hostname", "asn"]),
   modifiedOn: Schema.String.pipe(T.JsonName("modified_on")),
   name: Schema.String,
   numItems: Schema.Number.pipe(T.JsonName("num_items")),
@@ -95,7 +95,7 @@ export interface CreateListRequest {
 
 export const CreateListRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  kind: Schema.Literal("ip", "redirect", "hostname", "asn"),
+  kind: Schema.Literals(["ip", "redirect", "hostname", "asn"]),
   name: Schema.String,
   description: Schema.optional(Schema.String),
 }).pipe(
@@ -124,7 +124,7 @@ export interface CreateListResponse {
 export const CreateListResponse = Schema.Struct({
   id: Schema.String,
   createdOn: Schema.String.pipe(T.JsonName("created_on")),
-  kind: Schema.Literal("ip", "redirect", "hostname", "asn"),
+  kind: Schema.Literals(["ip", "redirect", "hostname", "asn"]),
   modifiedOn: Schema.String.pipe(T.JsonName("modified_on")),
   name: Schema.String,
   numItems: Schema.Number.pipe(T.JsonName("num_items")),
@@ -187,7 +187,7 @@ export interface UpdateListResponse {
 export const UpdateListResponse = Schema.Struct({
   id: Schema.String,
   createdOn: Schema.String.pipe(T.JsonName("created_on")),
-  kind: Schema.Literal("ip", "redirect", "hostname", "asn"),
+  kind: Schema.Literals(["ip", "redirect", "hostname", "asn"]),
   modifiedOn: Schema.String.pipe(T.JsonName("modified_on")),
   name: Schema.String,
   numItems: Schema.Number.pipe(T.JsonName("num_items")),
@@ -271,10 +271,10 @@ export type GetListBulkOperationResponse =
   | { id: string; completed: string; status: "completed" }
   | { id: string; completed: string; error: string; status: "failed" };
 
-export const GetListBulkOperationResponse = Schema.Union(
+export const GetListBulkOperationResponse = Schema.Union([
   Schema.Struct({
     id: Schema.String,
-    status: Schema.Literal("pending", "running"),
+    status: Schema.Literals(["pending", "running"]),
   }),
   Schema.Struct({
     id: Schema.String,
@@ -287,7 +287,7 @@ export const GetListBulkOperationResponse = Schema.Union(
     error: Schema.String,
     status: Schema.Literal("failed"),
   }),
-) as unknown as Schema.Schema<GetListBulkOperationResponse>;
+]) as unknown as Schema.Schema<GetListBulkOperationResponse>;
 
 export const getListBulkOperation: (
   input: GetListBulkOperationRequest,
@@ -353,7 +353,7 @@ export type GetListItemResponse =
       comment?: string;
     };
 
-export const GetListItemResponse = Schema.Union(
+export const GetListItemResponse = Schema.Union([
   Schema.Struct({
     id: Schema.String,
     createdOn: Schema.String.pipe(T.JsonName("created_on")),
@@ -382,7 +382,7 @@ export const GetListItemResponse = Schema.Union(
     modifiedOn: Schema.String.pipe(T.JsonName("modified_on")),
     comment: Schema.optional(Schema.String),
   }),
-) as unknown as Schema.Schema<GetListItemResponse>;
+]) as unknown as Schema.Schema<GetListItemResponse>;
 
 export const getListItem: (
   input: GetListItemRequest,
@@ -413,7 +413,7 @@ export const CreateListItemRequest = Schema.Struct({
   listId: Schema.String.pipe(T.HttpPath("listId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   body: Schema.Array(
-    Schema.Union(
+    Schema.Union([
       Schema.Struct({
         ip: Schema.String,
         comment: Schema.optional(Schema.String),
@@ -430,7 +430,7 @@ export const CreateListItemRequest = Schema.Struct({
         asn: Schema.Number,
         comment: Schema.optional(Schema.String),
       }),
-    ),
+    ]),
   ).pipe(T.HttpBody()),
 }).pipe(
   T.Http({
@@ -477,7 +477,7 @@ export const UpdateListItemRequest = Schema.Struct({
   listId: Schema.String.pipe(T.HttpPath("listId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   body: Schema.Array(
-    Schema.Union(
+    Schema.Union([
       Schema.Struct({
         ip: Schema.String,
         comment: Schema.optional(Schema.String),
@@ -494,7 +494,7 @@ export const UpdateListItemRequest = Schema.Struct({
         asn: Schema.Number,
         comment: Schema.optional(Schema.String),
       }),
-    ),
+    ]),
   ).pipe(T.HttpBody()),
 }).pipe(
   T.Http({

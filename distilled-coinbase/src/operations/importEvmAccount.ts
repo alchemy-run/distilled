@@ -1,14 +1,22 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
-import { AlreadyExists, IdempotencyError, InvalidRequest, PaymentMethodRequired } from "../errors";
+import {
+  AlreadyExists,
+  IdempotencyError,
+  InvalidRequest,
+  PaymentMethodRequired,
+} from "../errors";
 
 // Input Schema
 export const ImportEvmAccountInput = Schema.Struct({
   encryptedPrivateKey: Schema.String,
   name: Schema.optional(Schema.String),
   accountPolicy: Schema.optional(Schema.String),
-}).pipe(T.Http({ method: "POST", path: "/v2/evm/accounts/import" }), T.WalletAuth());
+}).pipe(
+  T.Http({ method: "POST", path: "/v2/evm/accounts/import" }),
+  T.WalletAuth(),
+);
 export type ImportEvmAccountInput = typeof ImportEvmAccountInput.Type;
 
 // Output Schema
@@ -30,6 +38,11 @@ export type ImportEvmAccountOutput = typeof ImportEvmAccountOutput.Type;
 export const importEvmAccount = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   inputSchema: ImportEvmAccountInput,
   outputSchema: ImportEvmAccountOutput,
-  errors: [AlreadyExists, IdempotencyError, InvalidRequest, PaymentMethodRequired],
+  errors: [
+    AlreadyExists,
+    IdempotencyError,
+    InvalidRequest,
+    PaymentMethodRequired,
+  ],
   walletAuth: true,
 }));

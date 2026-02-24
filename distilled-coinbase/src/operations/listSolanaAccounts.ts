@@ -11,13 +11,15 @@ export type ListSolanaAccountsInput = typeof ListSolanaAccountsInput.Type;
 
 // Output Schema
 export const ListSolanaAccountsOutput = Schema.Struct({
-  accounts: Schema.Array(Schema.Struct({
-    address: Schema.String,
-    name: Schema.optional(Schema.String),
-    policies: Schema.optional(Schema.Array(Schema.String)),
-    createdAt: Schema.optional(Schema.String),
-    updatedAt: Schema.optional(Schema.String),
-  })),
+  accounts: Schema.Array(
+    Schema.Struct({
+      address: Schema.String,
+      name: Schema.optional(Schema.String),
+      policies: Schema.optional(Schema.Array(Schema.String)),
+      createdAt: Schema.optional(Schema.String),
+      updatedAt: Schema.optional(Schema.String),
+    }),
+  ),
   nextPageToken: Schema.optional(Schema.String),
 });
 export type ListSolanaAccountsOutput = typeof ListSolanaAccountsOutput.Type;

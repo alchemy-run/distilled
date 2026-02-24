@@ -7,7 +7,7 @@
 
 import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
-import type { HttpClient } from "@effect/platform";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
@@ -32,12 +32,12 @@ export interface PutSettingTlsRequest {
 }
 
 export const PutSettingTlsRequest = Schema.Struct({
-  settingId: Schema.Literal("ciphers", "min_tls_version", "http2").pipe(
+  settingId: Schema.Literals(["ciphers", "min_tls_version", "http2"]).pipe(
     T.HttpPath("settingId"),
   ),
   hostname: Schema.String.pipe(T.HttpPath("hostname")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  value: Schema.Union(Schema.String, Schema.Number, Schema.Unknown),
+  value: Schema.Union([Schema.String, Schema.Number, Schema.Unknown]),
 }).pipe(
   T.Http({
     method: "PUT",
@@ -64,7 +64,7 @@ export const PutSettingTlsResponse = Schema.Struct({
   status: Schema.optional(Schema.String),
   updatedAt: Schema.optional(Schema.String).pipe(T.JsonName("updated_at")),
   value: Schema.optional(
-    Schema.Union(Schema.String, Schema.Number, Schema.Unknown),
+    Schema.Union([Schema.String, Schema.Number, Schema.Unknown]),
   ),
 }) as unknown as Schema.Schema<PutSettingTlsResponse>;
 
@@ -88,7 +88,7 @@ export interface DeleteSettingTlsRequest {
 }
 
 export const DeleteSettingTlsRequest = Schema.Struct({
-  settingId: Schema.Literal("ciphers", "min_tls_version", "http2").pipe(
+  settingId: Schema.Literals(["ciphers", "min_tls_version", "http2"]).pipe(
     T.HttpPath("settingId"),
   ),
   hostname: Schema.String.pipe(T.HttpPath("hostname")),
@@ -119,7 +119,7 @@ export const DeleteSettingTlsResponse = Schema.Struct({
   status: Schema.optional(Schema.String),
   updatedAt: Schema.optional(Schema.String).pipe(T.JsonName("updated_at")),
   value: Schema.optional(
-    Schema.Union(Schema.String, Schema.Number, Schema.Unknown),
+    Schema.Union([Schema.String, Schema.Number, Schema.Unknown]),
   ),
 }) as unknown as Schema.Schema<DeleteSettingTlsResponse>;
 

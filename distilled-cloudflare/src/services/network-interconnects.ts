@@ -7,7 +7,7 @@
 
 import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
-import type { HttpClient } from "@effect/platform";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
@@ -70,7 +70,7 @@ export const GetCniResponse = Schema.Struct({
       extraPrefixes: Schema.Array(Schema.String).pipe(
         T.JsonName("extra_prefixes"),
       ),
-      md5Key: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
+      md5Key: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
         T.JsonName("md5_key"),
       ),
     }),
@@ -104,16 +104,16 @@ export interface ListCnisRequest {
 
 export const ListCnisRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  cursor: Schema.optional(Schema.Union(Schema.Number, Schema.Null)).pipe(
+  cursor: Schema.optional(Schema.Union([Schema.Number, Schema.Null])).pipe(
     T.HttpQuery("cursor"),
   ),
-  limit: Schema.optional(Schema.Union(Schema.Number, Schema.Null)).pipe(
+  limit: Schema.optional(Schema.Union([Schema.Number, Schema.Null])).pipe(
     T.HttpQuery("limit"),
   ),
-  slot: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
+  slot: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
     T.HttpQuery("slot"),
   ),
-  tunnelId: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
+  tunnelId: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
     T.HttpQuery("tunnel_id"),
   ),
 }).pipe(
@@ -157,13 +157,13 @@ export const ListCnisResponse = Schema.Struct({
             T.JsonName("extra_prefixes"),
           ),
           md5Key: Schema.optional(
-            Schema.Union(Schema.String, Schema.Null),
+            Schema.Union([Schema.String, Schema.Null]),
           ).pipe(T.JsonName("md5_key")),
         }),
       ),
     }),
   ),
-  next: Schema.optional(Schema.Union(Schema.Number, Schema.Null)),
+  next: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
 }) as unknown as Schema.Schema<ListCnisResponse>;
 
 export const listCnis: (
@@ -210,7 +210,7 @@ export const CreateCniRequest = Schema.Struct({
       extraPrefixes: Schema.Array(Schema.String).pipe(
         T.JsonName("extra_prefixes"),
       ),
-      md5Key: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
+      md5Key: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
         T.JsonName("md5_key"),
       ),
     }),
@@ -254,7 +254,7 @@ export const CreateCniResponse = Schema.Struct({
       extraPrefixes: Schema.Array(Schema.String).pipe(
         T.JsonName("extra_prefixes"),
       ),
-      md5Key: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
+      md5Key: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
         T.JsonName("md5_key"),
       ),
     }),
@@ -316,7 +316,7 @@ export const UpdateCniRequest = Schema.Struct({
       extraPrefixes: Schema.Array(Schema.String).pipe(
         T.JsonName("extra_prefixes"),
       ),
-      md5Key: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
+      md5Key: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
         T.JsonName("md5_key"),
       ),
     }),
@@ -360,7 +360,7 @@ export const UpdateCniResponse = Schema.Struct({
       extraPrefixes: Schema.Array(Schema.String).pipe(
         T.JsonName("extra_prefixes"),
       ),
-      md5Key: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
+      md5Key: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
         T.JsonName("md5_key"),
       ),
     }),
@@ -461,7 +461,7 @@ export type GetInterconnectResponse =
         | "50G";
     };
 
-export const GetInterconnectResponse = Schema.Union(
+export const GetInterconnectResponse = Schema.Union([
   Schema.Struct({
     account: Schema.String,
     facility: Schema.Struct({
@@ -482,7 +482,7 @@ export const GetInterconnectResponse = Schema.Union(
     type: Schema.String,
     owner: Schema.optional(Schema.String),
     speed: Schema.optional(
-      Schema.Literal(
+      Schema.Literals([
         "50M",
         "100M",
         "200M",
@@ -495,10 +495,10 @@ export const GetInterconnectResponse = Schema.Union(
         "10G",
         "20G",
         "50G",
-      ),
+      ]),
     ),
   }),
-) as unknown as Schema.Schema<GetInterconnectResponse>;
+]) as unknown as Schema.Schema<GetInterconnectResponse>;
 
 export const getInterconnect: (
   input: GetInterconnectRequest,
@@ -527,16 +527,16 @@ export interface ListInterconnectsRequest {
 
 export const ListInterconnectsRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  cursor: Schema.optional(Schema.Union(Schema.Number, Schema.Null)).pipe(
+  cursor: Schema.optional(Schema.Union([Schema.Number, Schema.Null])).pipe(
     T.HttpQuery("cursor"),
   ),
-  limit: Schema.optional(Schema.Union(Schema.Number, Schema.Null)).pipe(
+  limit: Schema.optional(Schema.Union([Schema.Number, Schema.Null])).pipe(
     T.HttpQuery("limit"),
   ),
-  site: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
+  site: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
     T.HttpQuery("site"),
   ),
-  type: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
+  type: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
     T.HttpQuery("type"),
   ),
 }).pipe(
@@ -581,7 +581,7 @@ export interface ListInterconnectsResponse {
 
 export const ListInterconnectsResponse = Schema.Struct({
   items: Schema.Array(
-    Schema.Union(
+    Schema.Union([
       Schema.Struct({
         account: Schema.String,
         facility: Schema.Struct({
@@ -602,7 +602,7 @@ export const ListInterconnectsResponse = Schema.Struct({
         type: Schema.String,
         owner: Schema.optional(Schema.String),
         speed: Schema.optional(
-          Schema.Literal(
+          Schema.Literals([
             "50M",
             "100M",
             "200M",
@@ -615,12 +615,12 @@ export const ListInterconnectsResponse = Schema.Struct({
             "10G",
             "20G",
             "50G",
-          ),
+          ]),
         ),
       }),
-    ),
+    ]),
   ),
-  next: Schema.optional(Schema.Union(Schema.Number, Schema.Null)),
+  next: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
 }) as unknown as Schema.Schema<ListInterconnectsResponse>;
 
 export const listInterconnects: (
@@ -673,7 +673,7 @@ export type CreateInterconnectResponse =
         | "50G";
     };
 
-export const CreateInterconnectResponse = Schema.Union(
+export const CreateInterconnectResponse = Schema.Union([
   Schema.Struct({
     account: Schema.String,
     facility: Schema.Struct({
@@ -694,7 +694,7 @@ export const CreateInterconnectResponse = Schema.Union(
     type: Schema.String,
     owner: Schema.optional(Schema.String),
     speed: Schema.optional(
-      Schema.Literal(
+      Schema.Literals([
         "50M",
         "100M",
         "200M",
@@ -707,10 +707,10 @@ export const CreateInterconnectResponse = Schema.Union(
         "10G",
         "20G",
         "50G",
-      ),
+      ]),
     ),
   }),
-) as unknown as Schema.Schema<CreateInterconnectResponse>;
+]) as unknown as Schema.Schema<CreateInterconnectResponse>;
 
 export const createInterconnect: (
   input: CreateInterconnectRequest,
@@ -779,22 +779,22 @@ export type StatusInterconnectResponse =
   | { state: "Unhealthy"; reason?: string | null }
   | { state: "Healthy" };
 
-export const StatusInterconnectResponse = Schema.Union(
+export const StatusInterconnectResponse = Schema.Union([
   Schema.Struct({
     state: Schema.Literal("Pending"),
   }),
   Schema.Struct({
     state: Schema.Literal("Down"),
-    reason: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
+    reason: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }),
   Schema.Struct({
     state: Schema.Literal("Unhealthy"),
-    reason: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
+    reason: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }),
   Schema.Struct({
     state: Schema.Literal("Healthy"),
   }),
-) as unknown as Schema.Schema<StatusInterconnectResponse>;
+]) as unknown as Schema.Schema<StatusInterconnectResponse>;
 
 export const statusInterconnect: (
   input: StatusInterconnectRequest,
@@ -885,7 +885,7 @@ export interface PutSettingRequest {
 
 export const PutSettingRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  defaultAsn: Schema.optional(Schema.Union(Schema.Number, Schema.Null)).pipe(
+  defaultAsn: Schema.optional(Schema.Union([Schema.Number, Schema.Null])).pipe(
     T.JsonName("default_asn"),
   ),
 }).pipe(
@@ -985,21 +985,21 @@ export interface ListSlotsRequest {
 export const ListSlotsRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   addressContains: Schema.optional(
-    Schema.Union(Schema.String, Schema.Null),
+    Schema.Union([Schema.String, Schema.Null]),
   ).pipe(T.HttpQuery("address_contains")),
-  cursor: Schema.optional(Schema.Union(Schema.Number, Schema.Null)).pipe(
+  cursor: Schema.optional(Schema.Union([Schema.Number, Schema.Null])).pipe(
     T.HttpQuery("cursor"),
   ),
-  limit: Schema.optional(Schema.Union(Schema.Number, Schema.Null)).pipe(
+  limit: Schema.optional(Schema.Union([Schema.Number, Schema.Null])).pipe(
     T.HttpQuery("limit"),
   ),
-  occupied: Schema.optional(Schema.Union(Schema.Boolean, Schema.Null)).pipe(
+  occupied: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])).pipe(
     T.HttpQuery("occupied"),
   ),
-  site: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
+  site: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
     T.HttpQuery("site"),
   ),
-  speed: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
+  speed: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
     T.HttpQuery("speed"),
   ),
 }).pipe(
@@ -1032,7 +1032,7 @@ export const ListSlotsResponse = Schema.Struct({
       account: Schema.optional(Schema.String),
     }),
   ),
-  next: Schema.optional(Schema.Union(Schema.Number, Schema.Null)),
+  next: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
 }) as unknown as Schema.Schema<ListSlotsResponse>;
 
 export const listSlots: (

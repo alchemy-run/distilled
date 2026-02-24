@@ -1,4 +1,4 @@
-import { HttpClient } from "@effect/platform";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as effect from "effect/Effect";
 import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
@@ -94,55 +94,27 @@ const rules = T.EndpointResolver((p, _) => {
 //# Newtypes
 export type ApplicationSpecifier = string;
 export type AttributeGroupSpecifier = string;
-export type ResourceSpecifier = string;
-export type Name = string;
-export type Description = string;
-export type ClientToken = string;
-export type Attributes = string;
-export type NextToken = string;
-export type MaxResults = number;
-export type Arn = string;
-export type TagKey = string;
-export type TagValue = string;
 export type ApplicationArn = string;
 export type AttributeGroupArn = string;
+export type ResourceSpecifier = string;
+export type Arn = string;
+export type Name = string;
+export type Description = string;
+export type TagKey = string;
+export type TagValue = string;
+export type ClientToken = string;
 export type ApplicationId = string;
-export type AssociationCount = number;
+export type Attributes = string;
 export type AttributeGroupId = string;
 export type CreatedBy = string;
-export type TagKeyConfig = string;
+export type AssociationCount = number;
+export type NextToken = string;
+export type MaxResults = number;
 export type ResourcesListItemErrorMessage = string;
 export type ResourceItemType = string;
+export type TagKeyConfig = string;
 
 //# Schemas
-export interface GetConfigurationRequest {}
-export const GetConfigurationRequest = S.suspend(() =>
-  S.Struct({}).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotations({
-  identifier: "GetConfigurationRequest",
-}) as any as S.Schema<GetConfigurationRequest>;
-export type ResourceType = "CFN_STACK" | "RESOURCE_TAG_VALUE" | (string & {});
-export const ResourceType = S.String;
-export type AssociationOption =
-  | "APPLY_APPLICATION_TAG"
-  | "SKIP_APPLICATION_TAG"
-  | (string & {});
-export const AssociationOption = S.String;
-export type Options = AssociationOption[];
-export const Options = S.Array(AssociationOption);
-export type ResourceItemStatus =
-  | "SUCCESS"
-  | "FAILED"
-  | "IN_PROGRESS"
-  | "SKIPPED"
-  | (string & {});
-export const ResourceItemStatus = S.String;
-export type GetAssociatedResourceFilter = ResourceItemStatus[];
-export const GetAssociatedResourceFilter = S.Array(ResourceItemStatus);
-export type TagKeys = string[];
-export const TagKeys = S.Array(S.String);
 export interface AssociateAttributeGroupRequest {
   application: string;
   attributeGroup: string;
@@ -164,9 +136,30 @@ export const AssociateAttributeGroupRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "AssociateAttributeGroupRequest",
 }) as any as S.Schema<AssociateAttributeGroupRequest>;
+export interface AssociateAttributeGroupResponse {
+  applicationArn?: string;
+  attributeGroupArn?: string;
+}
+export const AssociateAttributeGroupResponse = S.suspend(() =>
+  S.Struct({
+    applicationArn: S.optional(S.String),
+    attributeGroupArn: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "AssociateAttributeGroupResponse",
+}) as any as S.Schema<AssociateAttributeGroupResponse>;
+export type ResourceType = "CFN_STACK" | "RESOURCE_TAG_VALUE" | (string & {});
+export const ResourceType = S.String;
+export type AssociationOption =
+  | "APPLY_APPLICATION_TAG"
+  | "SKIP_APPLICATION_TAG"
+  | (string & {});
+export const AssociationOption = S.String;
+export type Options = AssociationOption[];
+export const Options = S.Array(AssociationOption);
 export interface AssociateResourceRequest {
   application: string;
   resourceType: ResourceType;
@@ -192,11 +185,89 @@ export const AssociateResourceRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "AssociateResourceRequest",
 }) as any as S.Schema<AssociateResourceRequest>;
+export interface AssociateResourceResponse {
+  applicationArn?: string;
+  resourceArn?: string;
+  options?: AssociationOption[];
+}
+export const AssociateResourceResponse = S.suspend(() =>
+  S.Struct({
+    applicationArn: S.optional(S.String),
+    resourceArn: S.optional(S.String),
+    options: S.optional(Options),
+  }),
+).annotate({
+  identifier: "AssociateResourceResponse",
+}) as any as S.Schema<AssociateResourceResponse>;
 export type Tags = { [key: string]: string | undefined };
-export const Tags = S.Record({ key: S.String, value: S.UndefinedOr(S.String) });
+export const Tags = S.Record(S.String, S.String.pipe(S.optional));
+export interface CreateApplicationRequest {
+  name: string;
+  description?: string;
+  tags?: { [key: string]: string | undefined };
+  clientToken: string;
+}
+export const CreateApplicationRequest = S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    description: S.optional(S.String),
+    tags: S.optional(Tags),
+    clientToken: S.String.pipe(T.IdempotencyToken()),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/applications" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "CreateApplicationRequest",
+}) as any as S.Schema<CreateApplicationRequest>;
+export type ApplicationTagDefinition = { [key: string]: string | undefined };
+export const ApplicationTagDefinition = S.Record(
+  S.String,
+  S.String.pipe(S.optional),
+);
+export interface Application {
+  id?: string;
+  arn?: string;
+  name?: string;
+  description?: string;
+  creationTime?: Date;
+  lastUpdateTime?: Date;
+  tags?: { [key: string]: string | undefined };
+  applicationTag?: { [key: string]: string | undefined };
+}
+export const Application = S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    arn: S.optional(S.String),
+    name: S.optional(S.String),
+    description: S.optional(S.String),
+    creationTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    lastUpdateTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    tags: S.optional(Tags),
+    applicationTag: S.optional(ApplicationTagDefinition),
+  }),
+).annotate({ identifier: "Application" }) as any as S.Schema<Application>;
+export interface CreateApplicationResponse {
+  application?: Application;
+}
+export const CreateApplicationResponse = S.suspend(() =>
+  S.Struct({ application: S.optional(Application) }),
+).annotate({
+  identifier: "CreateApplicationResponse",
+}) as any as S.Schema<CreateApplicationResponse>;
 export interface CreateAttributeGroupRequest {
   name: string;
   description?: string;
@@ -221,9 +292,41 @@ export const CreateAttributeGroupRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "CreateAttributeGroupRequest",
 }) as any as S.Schema<CreateAttributeGroupRequest>;
+export interface AttributeGroup {
+  id?: string;
+  arn?: string;
+  name?: string;
+  description?: string;
+  creationTime?: Date;
+  lastUpdateTime?: Date;
+  tags?: { [key: string]: string | undefined };
+}
+export const AttributeGroup = S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    arn: S.optional(S.String),
+    name: S.optional(S.String),
+    description: S.optional(S.String),
+    creationTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    lastUpdateTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    tags: S.optional(Tags),
+  }),
+).annotate({ identifier: "AttributeGroup" }) as any as S.Schema<AttributeGroup>;
+export interface CreateAttributeGroupResponse {
+  attributeGroup?: AttributeGroup;
+}
+export const CreateAttributeGroupResponse = S.suspend(() =>
+  S.Struct({ attributeGroup: S.optional(AttributeGroup) }),
+).annotate({
+  identifier: "CreateAttributeGroupResponse",
+}) as any as S.Schema<CreateAttributeGroupResponse>;
 export interface DeleteApplicationRequest {
   application: string;
 }
@@ -238,9 +341,41 @@ export const DeleteApplicationRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "DeleteApplicationRequest",
 }) as any as S.Schema<DeleteApplicationRequest>;
+export interface ApplicationSummary {
+  id?: string;
+  arn?: string;
+  name?: string;
+  description?: string;
+  creationTime?: Date;
+  lastUpdateTime?: Date;
+}
+export const ApplicationSummary = S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    arn: S.optional(S.String),
+    name: S.optional(S.String),
+    description: S.optional(S.String),
+    creationTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    lastUpdateTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+  }),
+).annotate({
+  identifier: "ApplicationSummary",
+}) as any as S.Schema<ApplicationSummary>;
+export interface DeleteApplicationResponse {
+  application?: ApplicationSummary;
+}
+export const DeleteApplicationResponse = S.suspend(() =>
+  S.Struct({ application: S.optional(ApplicationSummary) }),
+).annotate({
+  identifier: "DeleteApplicationResponse",
+}) as any as S.Schema<DeleteApplicationResponse>;
 export interface DeleteAttributeGroupRequest {
   attributeGroup: string;
 }
@@ -257,9 +392,43 @@ export const DeleteAttributeGroupRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "DeleteAttributeGroupRequest",
 }) as any as S.Schema<DeleteAttributeGroupRequest>;
+export interface AttributeGroupSummary {
+  id?: string;
+  arn?: string;
+  name?: string;
+  description?: string;
+  creationTime?: Date;
+  lastUpdateTime?: Date;
+  createdBy?: string;
+}
+export const AttributeGroupSummary = S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    arn: S.optional(S.String),
+    name: S.optional(S.String),
+    description: S.optional(S.String),
+    creationTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    lastUpdateTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    createdBy: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "AttributeGroupSummary",
+}) as any as S.Schema<AttributeGroupSummary>;
+export interface DeleteAttributeGroupResponse {
+  attributeGroup?: AttributeGroupSummary;
+}
+export const DeleteAttributeGroupResponse = S.suspend(() =>
+  S.Struct({ attributeGroup: S.optional(AttributeGroupSummary) }),
+).annotate({
+  identifier: "DeleteAttributeGroupResponse",
+}) as any as S.Schema<DeleteAttributeGroupResponse>;
 export interface DisassociateAttributeGroupRequest {
   application: string;
   attributeGroup: string;
@@ -281,9 +450,21 @@ export const DisassociateAttributeGroupRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "DisassociateAttributeGroupRequest",
 }) as any as S.Schema<DisassociateAttributeGroupRequest>;
+export interface DisassociateAttributeGroupResponse {
+  applicationArn?: string;
+  attributeGroupArn?: string;
+}
+export const DisassociateAttributeGroupResponse = S.suspend(() =>
+  S.Struct({
+    applicationArn: S.optional(S.String),
+    attributeGroupArn: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "DisassociateAttributeGroupResponse",
+}) as any as S.Schema<DisassociateAttributeGroupResponse>;
 export interface DisassociateResourceRequest {
   application: string;
   resourceType: ResourceType;
@@ -307,9 +488,21 @@ export const DisassociateResourceRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "DisassociateResourceRequest",
 }) as any as S.Schema<DisassociateResourceRequest>;
+export interface DisassociateResourceResponse {
+  applicationArn?: string;
+  resourceArn?: string;
+}
+export const DisassociateResourceResponse = S.suspend(() =>
+  S.Struct({
+    applicationArn: S.optional(S.String),
+    resourceArn: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "DisassociateResourceResponse",
+}) as any as S.Schema<DisassociateResourceResponse>;
 export interface GetApplicationRequest {
   application: string;
 }
@@ -324,9 +517,81 @@ export const GetApplicationRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "GetApplicationRequest",
 }) as any as S.Schema<GetApplicationRequest>;
+export type ResourceGroupState =
+  | "CREATING"
+  | "CREATE_COMPLETE"
+  | "CREATE_FAILED"
+  | "UPDATING"
+  | "UPDATE_COMPLETE"
+  | "UPDATE_FAILED"
+  | (string & {});
+export const ResourceGroupState = S.String;
+export interface ResourceGroup {
+  state?: ResourceGroupState;
+  arn?: string;
+  errorMessage?: string;
+}
+export const ResourceGroup = S.suspend(() =>
+  S.Struct({
+    state: S.optional(ResourceGroupState),
+    arn: S.optional(S.String),
+    errorMessage: S.optional(S.String),
+  }),
+).annotate({ identifier: "ResourceGroup" }) as any as S.Schema<ResourceGroup>;
+export interface Integrations {
+  resourceGroup?: ResourceGroup;
+  applicationTagResourceGroup?: ResourceGroup;
+}
+export const Integrations = S.suspend(() =>
+  S.Struct({
+    resourceGroup: S.optional(ResourceGroup),
+    applicationTagResourceGroup: S.optional(ResourceGroup),
+  }),
+).annotate({ identifier: "Integrations" }) as any as S.Schema<Integrations>;
+export interface GetApplicationResponse {
+  id?: string;
+  arn?: string;
+  name?: string;
+  description?: string;
+  creationTime?: Date;
+  lastUpdateTime?: Date;
+  associatedResourceCount?: number;
+  tags?: { [key: string]: string | undefined };
+  integrations?: Integrations;
+  applicationTag?: { [key: string]: string | undefined };
+}
+export const GetApplicationResponse = S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    arn: S.optional(S.String),
+    name: S.optional(S.String),
+    description: S.optional(S.String),
+    creationTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    lastUpdateTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    associatedResourceCount: S.optional(S.Number),
+    tags: S.optional(Tags),
+    integrations: S.optional(Integrations),
+    applicationTag: S.optional(ApplicationTagDefinition),
+  }),
+).annotate({
+  identifier: "GetApplicationResponse",
+}) as any as S.Schema<GetApplicationResponse>;
+export type ResourceItemStatus =
+  | "SUCCESS"
+  | "FAILED"
+  | "IN_PROGRESS"
+  | "SKIPPED"
+  | (string & {});
+export const ResourceItemStatus = S.String;
+export type GetAssociatedResourceFilter = ResourceItemStatus[];
+export const GetAssociatedResourceFilter = S.Array(ResourceItemStatus);
 export interface GetAssociatedResourceRequest {
   application: string;
   resourceType: ResourceType;
@@ -358,9 +623,87 @@ export const GetAssociatedResourceRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "GetAssociatedResourceRequest",
 }) as any as S.Schema<GetAssociatedResourceRequest>;
+export interface ResourceIntegrations {
+  resourceGroup?: ResourceGroup;
+}
+export const ResourceIntegrations = S.suspend(() =>
+  S.Struct({ resourceGroup: S.optional(ResourceGroup) }),
+).annotate({
+  identifier: "ResourceIntegrations",
+}) as any as S.Schema<ResourceIntegrations>;
+export interface Resource {
+  name?: string;
+  arn?: string;
+  associationTime?: Date;
+  integrations?: ResourceIntegrations;
+}
+export const Resource = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    arn: S.optional(S.String),
+    associationTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    integrations: S.optional(ResourceIntegrations),
+  }),
+).annotate({ identifier: "Resource" }) as any as S.Schema<Resource>;
+export type ApplicationTagStatus =
+  | "IN_PROGRESS"
+  | "SUCCESS"
+  | "FAILURE"
+  | (string & {});
+export const ApplicationTagStatus = S.String;
+export interface ResourcesListItem {
+  resourceArn?: string;
+  errorMessage?: string;
+  status?: string;
+  resourceType?: string;
+}
+export const ResourcesListItem = S.suspend(() =>
+  S.Struct({
+    resourceArn: S.optional(S.String),
+    errorMessage: S.optional(S.String),
+    status: S.optional(S.String),
+    resourceType: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ResourcesListItem",
+}) as any as S.Schema<ResourcesListItem>;
+export type ResourcesList = ResourcesListItem[];
+export const ResourcesList = S.Array(ResourcesListItem);
+export interface ApplicationTagResult {
+  applicationTagStatus?: ApplicationTagStatus;
+  errorMessage?: string;
+  resources?: ResourcesListItem[];
+  nextToken?: string;
+}
+export const ApplicationTagResult = S.suspend(() =>
+  S.Struct({
+    applicationTagStatus: S.optional(ApplicationTagStatus),
+    errorMessage: S.optional(S.String),
+    resources: S.optional(ResourcesList),
+    nextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ApplicationTagResult",
+}) as any as S.Schema<ApplicationTagResult>;
+export interface GetAssociatedResourceResponse {
+  resource?: Resource;
+  options?: AssociationOption[];
+  applicationTagResult?: ApplicationTagResult;
+}
+export const GetAssociatedResourceResponse = S.suspend(() =>
+  S.Struct({
+    resource: S.optional(Resource),
+    options: S.optional(Options),
+    applicationTagResult: S.optional(ApplicationTagResult),
+  }),
+).annotate({
+  identifier: "GetAssociatedResourceResponse",
+}) as any as S.Schema<GetAssociatedResourceResponse>;
 export interface GetAttributeGroupRequest {
   attributeGroup: string;
 }
@@ -377,9 +720,71 @@ export const GetAttributeGroupRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "GetAttributeGroupRequest",
 }) as any as S.Schema<GetAttributeGroupRequest>;
+export interface GetAttributeGroupResponse {
+  id?: string;
+  arn?: string;
+  name?: string;
+  description?: string;
+  attributes?: string;
+  creationTime?: Date;
+  lastUpdateTime?: Date;
+  tags?: { [key: string]: string | undefined };
+  createdBy?: string;
+}
+export const GetAttributeGroupResponse = S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    arn: S.optional(S.String),
+    name: S.optional(S.String),
+    description: S.optional(S.String),
+    attributes: S.optional(S.String),
+    creationTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    lastUpdateTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    tags: S.optional(Tags),
+    createdBy: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GetAttributeGroupResponse",
+}) as any as S.Schema<GetAttributeGroupResponse>;
+export interface GetConfigurationRequest {}
+export const GetConfigurationRequest = S.suspend(() =>
+  S.Struct({}).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "GetConfigurationRequest",
+}) as any as S.Schema<GetConfigurationRequest>;
+export interface TagQueryConfiguration {
+  tagKey?: string;
+}
+export const TagQueryConfiguration = S.suspend(() =>
+  S.Struct({ tagKey: S.optional(S.String) }),
+).annotate({
+  identifier: "TagQueryConfiguration",
+}) as any as S.Schema<TagQueryConfiguration>;
+export interface AppRegistryConfiguration {
+  tagQueryConfiguration?: TagQueryConfiguration;
+}
+export const AppRegistryConfiguration = S.suspend(() =>
+  S.Struct({ tagQueryConfiguration: S.optional(TagQueryConfiguration) }),
+).annotate({
+  identifier: "AppRegistryConfiguration",
+}) as any as S.Schema<AppRegistryConfiguration>;
+export interface GetConfigurationResponse {
+  configuration?: AppRegistryConfiguration;
+}
+export const GetConfigurationResponse = S.suspend(() =>
+  S.Struct({ configuration: S.optional(AppRegistryConfiguration) }),
+).annotate({
+  identifier: "GetConfigurationResponse",
+}) as any as S.Schema<GetConfigurationResponse>;
 export interface ListApplicationsRequest {
   nextToken?: string;
   maxResults?: number;
@@ -398,9 +803,23 @@ export const ListApplicationsRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "ListApplicationsRequest",
 }) as any as S.Schema<ListApplicationsRequest>;
+export type ApplicationSummaries = ApplicationSummary[];
+export const ApplicationSummaries = S.Array(ApplicationSummary);
+export interface ListApplicationsResponse {
+  applications?: ApplicationSummary[];
+  nextToken?: string;
+}
+export const ListApplicationsResponse = S.suspend(() =>
+  S.Struct({
+    applications: S.optional(ApplicationSummaries),
+    nextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ListApplicationsResponse",
+}) as any as S.Schema<ListApplicationsResponse>;
 export interface ListAssociatedAttributeGroupsRequest {
   application: string;
   nextToken?: string;
@@ -424,9 +843,23 @@ export const ListAssociatedAttributeGroupsRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "ListAssociatedAttributeGroupsRequest",
 }) as any as S.Schema<ListAssociatedAttributeGroupsRequest>;
+export type AttributeGroupIds = string[];
+export const AttributeGroupIds = S.Array(S.String);
+export interface ListAssociatedAttributeGroupsResponse {
+  attributeGroups?: string[];
+  nextToken?: string;
+}
+export const ListAssociatedAttributeGroupsResponse = S.suspend(() =>
+  S.Struct({
+    attributeGroups: S.optional(AttributeGroupIds),
+    nextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ListAssociatedAttributeGroupsResponse",
+}) as any as S.Schema<ListAssociatedAttributeGroupsResponse>;
 export interface ListAssociatedResourcesRequest {
   application: string;
   nextToken?: string;
@@ -447,9 +880,47 @@ export const ListAssociatedResourcesRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "ListAssociatedResourcesRequest",
 }) as any as S.Schema<ListAssociatedResourcesRequest>;
+export interface ResourceDetails {
+  tagValue?: string;
+}
+export const ResourceDetails = S.suspend(() =>
+  S.Struct({ tagValue: S.optional(S.String) }),
+).annotate({
+  identifier: "ResourceDetails",
+}) as any as S.Schema<ResourceDetails>;
+export interface ResourceInfo {
+  name?: string;
+  arn?: string;
+  resourceType?: ResourceType;
+  resourceDetails?: ResourceDetails;
+  options?: AssociationOption[];
+}
+export const ResourceInfo = S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    arn: S.optional(S.String),
+    resourceType: S.optional(ResourceType),
+    resourceDetails: S.optional(ResourceDetails),
+    options: S.optional(Options),
+  }),
+).annotate({ identifier: "ResourceInfo" }) as any as S.Schema<ResourceInfo>;
+export type Resources = ResourceInfo[];
+export const Resources = S.Array(ResourceInfo);
+export interface ListAssociatedResourcesResponse {
+  resources?: ResourceInfo[];
+  nextToken?: string;
+}
+export const ListAssociatedResourcesResponse = S.suspend(() =>
+  S.Struct({
+    resources: S.optional(Resources),
+    nextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ListAssociatedResourcesResponse",
+}) as any as S.Schema<ListAssociatedResourcesResponse>;
 export interface ListAttributeGroupsRequest {
   nextToken?: string;
   maxResults?: number;
@@ -468,9 +939,23 @@ export const ListAttributeGroupsRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "ListAttributeGroupsRequest",
 }) as any as S.Schema<ListAttributeGroupsRequest>;
+export type AttributeGroupSummaries = AttributeGroupSummary[];
+export const AttributeGroupSummaries = S.Array(AttributeGroupSummary);
+export interface ListAttributeGroupsResponse {
+  attributeGroups?: AttributeGroupSummary[];
+  nextToken?: string;
+}
+export const ListAttributeGroupsResponse = S.suspend(() =>
+  S.Struct({
+    attributeGroups: S.optional(AttributeGroupSummaries),
+    nextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ListAttributeGroupsResponse",
+}) as any as S.Schema<ListAttributeGroupsResponse>;
 export interface ListAttributeGroupsForApplicationRequest {
   application: string;
   nextToken?: string;
@@ -494,9 +979,39 @@ export const ListAttributeGroupsForApplicationRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "ListAttributeGroupsForApplicationRequest",
 }) as any as S.Schema<ListAttributeGroupsForApplicationRequest>;
+export interface AttributeGroupDetails {
+  id?: string;
+  arn?: string;
+  name?: string;
+  createdBy?: string;
+}
+export const AttributeGroupDetails = S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    arn: S.optional(S.String),
+    name: S.optional(S.String),
+    createdBy: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "AttributeGroupDetails",
+}) as any as S.Schema<AttributeGroupDetails>;
+export type AttributeGroupDetailsList = AttributeGroupDetails[];
+export const AttributeGroupDetailsList = S.Array(AttributeGroupDetails);
+export interface ListAttributeGroupsForApplicationResponse {
+  attributeGroupsDetails?: AttributeGroupDetails[];
+  nextToken?: string;
+}
+export const ListAttributeGroupsForApplicationResponse = S.suspend(() =>
+  S.Struct({
+    attributeGroupsDetails: S.optional(AttributeGroupDetailsList),
+    nextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ListAttributeGroupsForApplicationResponse",
+}) as any as S.Schema<ListAttributeGroupsForApplicationResponse>;
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
@@ -511,25 +1026,17 @@ export const ListTagsForResourceRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "ListTagsForResourceRequest",
 }) as any as S.Schema<ListTagsForResourceRequest>;
-export interface TagQueryConfiguration {
-  tagKey?: string;
+export interface ListTagsForResourceResponse {
+  tags?: { [key: string]: string | undefined };
 }
-export const TagQueryConfiguration = S.suspend(() =>
-  S.Struct({ tagKey: S.optional(S.String) }),
-).annotations({
-  identifier: "TagQueryConfiguration",
-}) as any as S.Schema<TagQueryConfiguration>;
-export interface AppRegistryConfiguration {
-  tagQueryConfiguration?: TagQueryConfiguration;
-}
-export const AppRegistryConfiguration = S.suspend(() =>
-  S.Struct({ tagQueryConfiguration: S.optional(TagQueryConfiguration) }),
-).annotations({
-  identifier: "AppRegistryConfiguration",
-}) as any as S.Schema<AppRegistryConfiguration>;
+export const ListTagsForResourceResponse = S.suspend(() =>
+  S.Struct({ tags: S.optional(Tags) }),
+).annotate({
+  identifier: "ListTagsForResourceResponse",
+}) as any as S.Schema<ListTagsForResourceResponse>;
 export interface PutConfigurationRequest {
   configuration: AppRegistryConfiguration;
 }
@@ -544,13 +1051,11 @@ export const PutConfigurationRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "PutConfigurationRequest",
 }) as any as S.Schema<PutConfigurationRequest>;
 export interface PutConfigurationResponse {}
-export const PutConfigurationResponse = S.suspend(() =>
-  S.Struct({}),
-).annotations({
+export const PutConfigurationResponse = S.suspend(() => S.Struct({})).annotate({
   identifier: "PutConfigurationResponse",
 }) as any as S.Schema<PutConfigurationResponse>;
 export interface SyncResourceRequest {
@@ -571,9 +1076,25 @@ export const SyncResourceRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "SyncResourceRequest",
 }) as any as S.Schema<SyncResourceRequest>;
+export type SyncAction = "START_SYNC" | "NO_ACTION" | (string & {});
+export const SyncAction = S.String;
+export interface SyncResourceResponse {
+  applicationArn?: string;
+  resourceArn?: string;
+  actionTaken?: SyncAction;
+}
+export const SyncResourceResponse = S.suspend(() =>
+  S.Struct({
+    applicationArn: S.optional(S.String),
+    resourceArn: S.optional(S.String),
+    actionTaken: S.optional(SyncAction),
+  }),
+).annotate({
+  identifier: "SyncResourceResponse",
+}) as any as S.Schema<SyncResourceResponse>;
 export interface TagResourceRequest {
   resourceArn: string;
   tags: { [key: string]: string | undefined };
@@ -592,13 +1113,15 @@ export const TagResourceRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "TagResourceRequest",
 }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+export const TagResourceResponse = S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
+export type TagKeys = string[];
+export const TagKeys = S.Array(S.String);
 export interface UntagResourceRequest {
   resourceArn: string;
   tagKeys: string[];
@@ -617,11 +1140,11 @@ export const UntagResourceRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "UntagResourceRequest",
 }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
+export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateApplicationRequest {
@@ -644,9 +1167,17 @@ export const UpdateApplicationRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "UpdateApplicationRequest",
 }) as any as S.Schema<UpdateApplicationRequest>;
+export interface UpdateApplicationResponse {
+  application?: Application;
+}
+export const UpdateApplicationResponse = S.suspend(() =>
+  S.Struct({ application: S.optional(Application) }),
+).annotate({
+  identifier: "UpdateApplicationResponse",
+}) as any as S.Schema<UpdateApplicationResponse>;
 export interface UpdateAttributeGroupRequest {
   attributeGroup: string;
   name?: string;
@@ -669,1115 +1200,45 @@ export const UpdateAttributeGroupRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "UpdateAttributeGroupRequest",
 }) as any as S.Schema<UpdateAttributeGroupRequest>;
-export interface ApplicationSummary {
-  id?: string;
-  arn?: string;
-  name?: string;
-  description?: string;
-  creationTime?: Date;
-  lastUpdateTime?: Date;
-}
-export const ApplicationSummary = S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    arn: S.optional(S.String),
-    name: S.optional(S.String),
-    description: S.optional(S.String),
-    creationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    lastUpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-  }),
-).annotations({
-  identifier: "ApplicationSummary",
-}) as any as S.Schema<ApplicationSummary>;
-export type ApplicationSummaries = ApplicationSummary[];
-export const ApplicationSummaries = S.Array(ApplicationSummary);
-export type AttributeGroupIds = string[];
-export const AttributeGroupIds = S.Array(S.String);
-export interface AttributeGroupSummary {
-  id?: string;
-  arn?: string;
-  name?: string;
-  description?: string;
-  creationTime?: Date;
-  lastUpdateTime?: Date;
-  createdBy?: string;
-}
-export const AttributeGroupSummary = S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    arn: S.optional(S.String),
-    name: S.optional(S.String),
-    description: S.optional(S.String),
-    creationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    lastUpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    createdBy: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "AttributeGroupSummary",
-}) as any as S.Schema<AttributeGroupSummary>;
-export type AttributeGroupSummaries = AttributeGroupSummary[];
-export const AttributeGroupSummaries = S.Array(AttributeGroupSummary);
-export type SyncAction = "START_SYNC" | "NO_ACTION" | (string & {});
-export const SyncAction = S.String;
-export interface AssociateAttributeGroupResponse {
-  applicationArn?: string;
-  attributeGroupArn?: string;
-}
-export const AssociateAttributeGroupResponse = S.suspend(() =>
-  S.Struct({
-    applicationArn: S.optional(S.String),
-    attributeGroupArn: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "AssociateAttributeGroupResponse",
-}) as any as S.Schema<AssociateAttributeGroupResponse>;
-export interface AssociateResourceResponse {
-  applicationArn?: string;
-  resourceArn?: string;
-  options?: AssociationOption[];
-}
-export const AssociateResourceResponse = S.suspend(() =>
-  S.Struct({
-    applicationArn: S.optional(S.String),
-    resourceArn: S.optional(S.String),
-    options: S.optional(Options),
-  }),
-).annotations({
-  identifier: "AssociateResourceResponse",
-}) as any as S.Schema<AssociateResourceResponse>;
-export interface CreateApplicationRequest {
-  name: string;
-  description?: string;
-  tags?: { [key: string]: string | undefined };
-  clientToken: string;
-}
-export const CreateApplicationRequest = S.suspend(() =>
-  S.Struct({
-    name: S.String,
-    description: S.optional(S.String),
-    tags: S.optional(Tags),
-    clientToken: S.String.pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/applications" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotations({
-  identifier: "CreateApplicationRequest",
-}) as any as S.Schema<CreateApplicationRequest>;
-export interface DisassociateAttributeGroupResponse {
-  applicationArn?: string;
-  attributeGroupArn?: string;
-}
-export const DisassociateAttributeGroupResponse = S.suspend(() =>
-  S.Struct({
-    applicationArn: S.optional(S.String),
-    attributeGroupArn: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "DisassociateAttributeGroupResponse",
-}) as any as S.Schema<DisassociateAttributeGroupResponse>;
-export interface DisassociateResourceResponse {
-  applicationArn?: string;
-  resourceArn?: string;
-}
-export const DisassociateResourceResponse = S.suspend(() =>
-  S.Struct({
-    applicationArn: S.optional(S.String),
-    resourceArn: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "DisassociateResourceResponse",
-}) as any as S.Schema<DisassociateResourceResponse>;
-export interface GetAttributeGroupResponse {
-  id?: string;
-  arn?: string;
-  name?: string;
-  description?: string;
-  attributes?: string;
-  creationTime?: Date;
-  lastUpdateTime?: Date;
-  tags?: { [key: string]: string | undefined };
-  createdBy?: string;
-}
-export const GetAttributeGroupResponse = S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    arn: S.optional(S.String),
-    name: S.optional(S.String),
-    description: S.optional(S.String),
-    attributes: S.optional(S.String),
-    creationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    lastUpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    tags: S.optional(Tags),
-    createdBy: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "GetAttributeGroupResponse",
-}) as any as S.Schema<GetAttributeGroupResponse>;
-export interface ListApplicationsResponse {
-  applications?: ApplicationSummary[];
-  nextToken?: string;
-}
-export const ListApplicationsResponse = S.suspend(() =>
-  S.Struct({
-    applications: S.optional(ApplicationSummaries),
-    nextToken: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "ListApplicationsResponse",
-}) as any as S.Schema<ListApplicationsResponse>;
-export interface ListAssociatedAttributeGroupsResponse {
-  attributeGroups?: string[];
-  nextToken?: string;
-}
-export const ListAssociatedAttributeGroupsResponse = S.suspend(() =>
-  S.Struct({
-    attributeGroups: S.optional(AttributeGroupIds),
-    nextToken: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "ListAssociatedAttributeGroupsResponse",
-}) as any as S.Schema<ListAssociatedAttributeGroupsResponse>;
-export interface ListAttributeGroupsResponse {
-  attributeGroups?: AttributeGroupSummary[];
-  nextToken?: string;
-}
-export const ListAttributeGroupsResponse = S.suspend(() =>
-  S.Struct({
-    attributeGroups: S.optional(AttributeGroupSummaries),
-    nextToken: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "ListAttributeGroupsResponse",
-}) as any as S.Schema<ListAttributeGroupsResponse>;
-export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string | undefined };
-}
-export const ListTagsForResourceResponse = S.suspend(() =>
-  S.Struct({ tags: S.optional(Tags) }),
-).annotations({
-  identifier: "ListTagsForResourceResponse",
-}) as any as S.Schema<ListTagsForResourceResponse>;
-export interface SyncResourceResponse {
-  applicationArn?: string;
-  resourceArn?: string;
-  actionTaken?: SyncAction;
-}
-export const SyncResourceResponse = S.suspend(() =>
-  S.Struct({
-    applicationArn: S.optional(S.String),
-    resourceArn: S.optional(S.String),
-    actionTaken: S.optional(SyncAction),
-  }),
-).annotations({
-  identifier: "SyncResourceResponse",
-}) as any as S.Schema<SyncResourceResponse>;
-export interface AttributeGroup {
-  id?: string;
-  arn?: string;
-  name?: string;
-  description?: string;
-  creationTime?: Date;
-  lastUpdateTime?: Date;
-  tags?: { [key: string]: string | undefined };
-}
-export const AttributeGroup = S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    arn: S.optional(S.String),
-    name: S.optional(S.String),
-    description: S.optional(S.String),
-    creationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    lastUpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    tags: S.optional(Tags),
-  }),
-).annotations({
-  identifier: "AttributeGroup",
-}) as any as S.Schema<AttributeGroup>;
 export interface UpdateAttributeGroupResponse {
   attributeGroup?: AttributeGroup;
 }
 export const UpdateAttributeGroupResponse = S.suspend(() =>
   S.Struct({ attributeGroup: S.optional(AttributeGroup) }),
-).annotations({
+).annotate({
   identifier: "UpdateAttributeGroupResponse",
 }) as any as S.Schema<UpdateAttributeGroupResponse>;
-export type ApplicationTagStatus =
-  | "IN_PROGRESS"
-  | "SUCCESS"
-  | "FAILURE"
-  | (string & {});
-export const ApplicationTagStatus = S.String;
-export type ApplicationTagDefinition = { [key: string]: string | undefined };
-export const ApplicationTagDefinition = S.Record({
-  key: S.String,
-  value: S.UndefinedOr(S.String),
-});
-export interface AttributeGroupDetails {
-  id?: string;
-  arn?: string;
-  name?: string;
-  createdBy?: string;
-}
-export const AttributeGroupDetails = S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    arn: S.optional(S.String),
-    name: S.optional(S.String),
-    createdBy: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "AttributeGroupDetails",
-}) as any as S.Schema<AttributeGroupDetails>;
-export type AttributeGroupDetailsList = AttributeGroupDetails[];
-export const AttributeGroupDetailsList = S.Array(AttributeGroupDetails);
-export interface Application {
-  id?: string;
-  arn?: string;
-  name?: string;
-  description?: string;
-  creationTime?: Date;
-  lastUpdateTime?: Date;
-  tags?: { [key: string]: string | undefined };
-  applicationTag?: { [key: string]: string | undefined };
-}
-export const Application = S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    arn: S.optional(S.String),
-    name: S.optional(S.String),
-    description: S.optional(S.String),
-    creationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    lastUpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    tags: S.optional(Tags),
-    applicationTag: S.optional(ApplicationTagDefinition),
-  }),
-).annotations({ identifier: "Application" }) as any as S.Schema<Application>;
-export type ResourceGroupState =
-  | "CREATING"
-  | "CREATE_COMPLETE"
-  | "CREATE_FAILED"
-  | "UPDATING"
-  | "UPDATE_COMPLETE"
-  | "UPDATE_FAILED"
-  | (string & {});
-export const ResourceGroupState = S.String;
-export interface CreateApplicationResponse {
-  application?: Application;
-}
-export const CreateApplicationResponse = S.suspend(() =>
-  S.Struct({ application: S.optional(Application) }),
-).annotations({
-  identifier: "CreateApplicationResponse",
-}) as any as S.Schema<CreateApplicationResponse>;
-export interface CreateAttributeGroupResponse {
-  attributeGroup?: AttributeGroup;
-}
-export const CreateAttributeGroupResponse = S.suspend(() =>
-  S.Struct({ attributeGroup: S.optional(AttributeGroup) }),
-).annotations({
-  identifier: "CreateAttributeGroupResponse",
-}) as any as S.Schema<CreateAttributeGroupResponse>;
-export interface DeleteApplicationResponse {
-  application?: ApplicationSummary;
-}
-export const DeleteApplicationResponse = S.suspend(() =>
-  S.Struct({ application: S.optional(ApplicationSummary) }),
-).annotations({
-  identifier: "DeleteApplicationResponse",
-}) as any as S.Schema<DeleteApplicationResponse>;
-export interface DeleteAttributeGroupResponse {
-  attributeGroup?: AttributeGroupSummary;
-}
-export const DeleteAttributeGroupResponse = S.suspend(() =>
-  S.Struct({ attributeGroup: S.optional(AttributeGroupSummary) }),
-).annotations({
-  identifier: "DeleteAttributeGroupResponse",
-}) as any as S.Schema<DeleteAttributeGroupResponse>;
-export interface GetConfigurationResponse {
-  configuration?: AppRegistryConfiguration;
-}
-export const GetConfigurationResponse = S.suspend(() =>
-  S.Struct({ configuration: S.optional(AppRegistryConfiguration) }),
-).annotations({
-  identifier: "GetConfigurationResponse",
-}) as any as S.Schema<GetConfigurationResponse>;
-export interface ListAttributeGroupsForApplicationResponse {
-  attributeGroupsDetails?: AttributeGroupDetails[];
-  nextToken?: string;
-}
-export const ListAttributeGroupsForApplicationResponse = S.suspend(() =>
-  S.Struct({
-    attributeGroupsDetails: S.optional(AttributeGroupDetailsList),
-    nextToken: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "ListAttributeGroupsForApplicationResponse",
-}) as any as S.Schema<ListAttributeGroupsForApplicationResponse>;
-export interface UpdateApplicationResponse {
-  application?: Application;
-}
-export const UpdateApplicationResponse = S.suspend(() =>
-  S.Struct({ application: S.optional(Application) }),
-).annotations({
-  identifier: "UpdateApplicationResponse",
-}) as any as S.Schema<UpdateApplicationResponse>;
-export interface ResourceGroup {
-  state?: ResourceGroupState;
-  arn?: string;
-  errorMessage?: string;
-}
-export const ResourceGroup = S.suspend(() =>
-  S.Struct({
-    state: S.optional(ResourceGroupState),
-    arn: S.optional(S.String),
-    errorMessage: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "ResourceGroup",
-}) as any as S.Schema<ResourceGroup>;
-export interface ResourceIntegrations {
-  resourceGroup?: ResourceGroup;
-}
-export const ResourceIntegrations = S.suspend(() =>
-  S.Struct({ resourceGroup: S.optional(ResourceGroup) }),
-).annotations({
-  identifier: "ResourceIntegrations",
-}) as any as S.Schema<ResourceIntegrations>;
-export interface ResourcesListItem {
-  resourceArn?: string;
-  errorMessage?: string;
-  status?: string;
-  resourceType?: string;
-}
-export const ResourcesListItem = S.suspend(() =>
-  S.Struct({
-    resourceArn: S.optional(S.String),
-    errorMessage: S.optional(S.String),
-    status: S.optional(S.String),
-    resourceType: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "ResourcesListItem",
-}) as any as S.Schema<ResourcesListItem>;
-export type ResourcesList = ResourcesListItem[];
-export const ResourcesList = S.Array(ResourcesListItem);
-export interface ResourceDetails {
-  tagValue?: string;
-}
-export const ResourceDetails = S.suspend(() =>
-  S.Struct({ tagValue: S.optional(S.String) }),
-).annotations({
-  identifier: "ResourceDetails",
-}) as any as S.Schema<ResourceDetails>;
-export interface Integrations {
-  resourceGroup?: ResourceGroup;
-  applicationTagResourceGroup?: ResourceGroup;
-}
-export const Integrations = S.suspend(() =>
-  S.Struct({
-    resourceGroup: S.optional(ResourceGroup),
-    applicationTagResourceGroup: S.optional(ResourceGroup),
-  }),
-).annotations({ identifier: "Integrations" }) as any as S.Schema<Integrations>;
-export interface Resource {
-  name?: string;
-  arn?: string;
-  associationTime?: Date;
-  integrations?: ResourceIntegrations;
-}
-export const Resource = S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    arn: S.optional(S.String),
-    associationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    integrations: S.optional(ResourceIntegrations),
-  }),
-).annotations({ identifier: "Resource" }) as any as S.Schema<Resource>;
-export interface ApplicationTagResult {
-  applicationTagStatus?: ApplicationTagStatus;
-  errorMessage?: string;
-  resources?: ResourcesListItem[];
-  nextToken?: string;
-}
-export const ApplicationTagResult = S.suspend(() =>
-  S.Struct({
-    applicationTagStatus: S.optional(ApplicationTagStatus),
-    errorMessage: S.optional(S.String),
-    resources: S.optional(ResourcesList),
-    nextToken: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "ApplicationTagResult",
-}) as any as S.Schema<ApplicationTagResult>;
-export interface ResourceInfo {
-  name?: string;
-  arn?: string;
-  resourceType?: ResourceType;
-  resourceDetails?: ResourceDetails;
-  options?: AssociationOption[];
-}
-export const ResourceInfo = S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    arn: S.optional(S.String),
-    resourceType: S.optional(ResourceType),
-    resourceDetails: S.optional(ResourceDetails),
-    options: S.optional(Options),
-  }),
-).annotations({ identifier: "ResourceInfo" }) as any as S.Schema<ResourceInfo>;
-export type Resources = ResourceInfo[];
-export const Resources = S.Array(ResourceInfo);
-export interface GetApplicationResponse {
-  id?: string;
-  arn?: string;
-  name?: string;
-  description?: string;
-  creationTime?: Date;
-  lastUpdateTime?: Date;
-  associatedResourceCount?: number;
-  tags?: { [key: string]: string | undefined };
-  integrations?: Integrations;
-  applicationTag?: { [key: string]: string | undefined };
-}
-export const GetApplicationResponse = S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    arn: S.optional(S.String),
-    name: S.optional(S.String),
-    description: S.optional(S.String),
-    creationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    lastUpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    associatedResourceCount: S.optional(S.Number),
-    tags: S.optional(Tags),
-    integrations: S.optional(Integrations),
-    applicationTag: S.optional(ApplicationTagDefinition),
-  }),
-).annotations({
-  identifier: "GetApplicationResponse",
-}) as any as S.Schema<GetApplicationResponse>;
-export interface GetAssociatedResourceResponse {
-  resource?: Resource;
-  options?: AssociationOption[];
-  applicationTagResult?: ApplicationTagResult;
-}
-export const GetAssociatedResourceResponse = S.suspend(() =>
-  S.Struct({
-    resource: S.optional(Resource),
-    options: S.optional(Options),
-    applicationTagResult: S.optional(ApplicationTagResult),
-  }),
-).annotations({
-  identifier: "GetAssociatedResourceResponse",
-}) as any as S.Schema<GetAssociatedResourceResponse>;
-export interface ListAssociatedResourcesResponse {
-  resources?: ResourceInfo[];
-  nextToken?: string;
-}
-export const ListAssociatedResourcesResponse = S.suspend(() =>
-  S.Struct({
-    resources: S.optional(Resources),
-    nextToken: S.optional(S.String),
-  }),
-).annotations({
-  identifier: "ListAssociatedResourcesResponse",
-}) as any as S.Schema<ListAssociatedResourcesResponse>;
 
 //# Errors
-export class ConflictException extends S.TaggedError<ConflictException>()(
+export class ConflictException extends S.TaggedErrorClass<ConflictException>()(
   "ConflictException",
   { message: S.optional(S.String) },
 ).pipe(C.withConflictError) {}
-export class InternalServerException extends S.TaggedError<InternalServerException>()(
+export class InternalServerException extends S.TaggedErrorClass<InternalServerException>()(
   "InternalServerException",
   { message: S.optional(S.String) },
 ).pipe(C.withServerError) {}
-export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
+export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { message: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
-export class ValidationException extends S.TaggedError<ValidationException>()(
-  "ValidationException",
-  { message: S.optional(S.String) },
-).pipe(C.withBadRequestError) {}
-export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
+export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
   { message: S.optional(S.String) },
 ).pipe(C.withQuotaError) {}
-export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
+export class ValidationException extends S.TaggedErrorClass<ValidationException>()(
+  "ValidationException",
+  { message: S.optional(S.String) },
+).pipe(C.withBadRequestError) {}
+export class ThrottlingException extends S.TaggedErrorClass<ThrottlingException>()(
   "ThrottlingException",
   { message: S.String, serviceCode: S.optional(S.String) },
 ).pipe(C.withThrottlingError) {}
 
 //# Operations
-/**
- * Retrieves a `TagKey` configuration
- * from an account.
- */
-export const getConfiguration: (
-  input: GetConfigurationRequest,
-) => effect.Effect<
-  GetConfigurationResponse,
-  InternalServerException | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetConfigurationRequest,
-  output: GetConfigurationResponse,
-  errors: [InternalServerException],
-}));
-/**
- * Retrieves a list of all of your applications. Results are paginated.
- */
-export const listApplications: {
-  (
-    input: ListApplicationsRequest,
-  ): effect.Effect<
-    ListApplicationsResponse,
-    InternalServerException | ValidationException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  pages: (
-    input: ListApplicationsRequest,
-  ) => stream.Stream<
-    ListApplicationsResponse,
-    InternalServerException | ValidationException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  items: (
-    input: ListApplicationsRequest,
-  ) => stream.Stream<
-    ApplicationSummary,
-    InternalServerException | ValidationException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
-  input: ListApplicationsRequest,
-  output: ListApplicationsResponse,
-  errors: [InternalServerException, ValidationException],
-  pagination: {
-    inputToken: "nextToken",
-    outputToken: "nextToken",
-    items: "applications",
-    pageSize: "maxResults",
-  } as const,
-}));
-/**
- * Updates an existing attribute group with new details.
- */
-export const updateAttributeGroup: (
-  input: UpdateAttributeGroupRequest,
-) => effect.Effect<
-  UpdateAttributeGroupResponse,
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateAttributeGroupRequest,
-  output: UpdateAttributeGroupResponse,
-  errors: [
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Retrieves an attribute group
- * by its ARN, ID, or name.
- * The attribute group can be specified
- * by its ARN, ID, or name.
- */
-export const getAttributeGroup: (
-  input: GetAttributeGroupRequest,
-) => effect.Effect<
-  GetAttributeGroupResponse,
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetAttributeGroupRequest,
-  output: GetAttributeGroupResponse,
-  errors: [
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Removes tags from a resource.
- *
- * This operation returns an empty response if the call was successful.
- */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
-  UntagResourceResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Disassociates an attribute group from an application to remove the extra attributes contained in the attribute group from the application's metadata. This operation reverts `AssociateAttributeGroup`.
- */
-export const disassociateAttributeGroup: (
-  input: DisassociateAttributeGroupRequest,
-) => effect.Effect<
-  DisassociateAttributeGroupResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DisassociateAttributeGroupRequest,
-  output: DisassociateAttributeGroupResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Lists all attribute groups that are associated with specified application. Results are paginated.
- */
-export const listAssociatedAttributeGroups: {
-  (
-    input: ListAssociatedAttributeGroupsRequest,
-  ): effect.Effect<
-    ListAssociatedAttributeGroupsResponse,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  pages: (
-    input: ListAssociatedAttributeGroupsRequest,
-  ) => stream.Stream<
-    ListAssociatedAttributeGroupsResponse,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  items: (
-    input: ListAssociatedAttributeGroupsRequest,
-  ) => stream.Stream<
-    AttributeGroupId,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
-  input: ListAssociatedAttributeGroupsRequest,
-  output: ListAssociatedAttributeGroupsResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-  pagination: {
-    inputToken: "nextToken",
-    outputToken: "nextToken",
-    items: "attributeGroups",
-    pageSize: "maxResults",
-  } as const,
-}));
-/**
- * Lists all of the tags on the resource.
- */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
-  ListTagsForResourceResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Deletes an application that is specified either by its application ID, name, or ARN. All associated attribute groups and resources must be disassociated from it before deleting an application.
- */
-export const deleteApplication: (
-  input: DeleteApplicationRequest,
-) => effect.Effect<
-  DeleteApplicationResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteApplicationRequest,
-  output: DeleteApplicationResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Deletes an attribute group, specified either by its attribute group ID, name, or ARN.
- */
-export const deleteAttributeGroup: (
-  input: DeleteAttributeGroupRequest,
-) => effect.Effect<
-  DeleteAttributeGroupResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteAttributeGroupRequest,
-  output: DeleteAttributeGroupResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Lists the details of all attribute groups associated with a specific application. The results display in pages.
- */
-export const listAttributeGroupsForApplication: {
-  (
-    input: ListAttributeGroupsForApplicationRequest,
-  ): effect.Effect<
-    ListAttributeGroupsForApplicationResponse,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  pages: (
-    input: ListAttributeGroupsForApplicationRequest,
-  ) => stream.Stream<
-    ListAttributeGroupsForApplicationResponse,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  items: (
-    input: ListAttributeGroupsForApplicationRequest,
-  ) => stream.Stream<
-    AttributeGroupDetails,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
-  input: ListAttributeGroupsForApplicationRequest,
-  output: ListAttributeGroupsForApplicationResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-  pagination: {
-    inputToken: "nextToken",
-    outputToken: "nextToken",
-    items: "attributeGroupsDetails",
-    pageSize: "maxResults",
-  } as const,
-}));
-/**
- * Lists all attribute groups which you have access to. Results are paginated.
- */
-export const listAttributeGroups: {
-  (
-    input: ListAttributeGroupsRequest,
-  ): effect.Effect<
-    ListAttributeGroupsResponse,
-    InternalServerException | ValidationException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  pages: (
-    input: ListAttributeGroupsRequest,
-  ) => stream.Stream<
-    ListAttributeGroupsResponse,
-    InternalServerException | ValidationException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  items: (
-    input: ListAttributeGroupsRequest,
-  ) => stream.Stream<
-    AttributeGroupSummary,
-    InternalServerException | ValidationException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
-  input: ListAttributeGroupsRequest,
-  output: ListAttributeGroupsResponse,
-  errors: [InternalServerException, ValidationException],
-  pagination: {
-    inputToken: "nextToken",
-    outputToken: "nextToken",
-    items: "attributeGroups",
-    pageSize: "maxResults",
-  } as const,
-}));
-/**
- * Associates a `TagKey` configuration
- * to an account.
- */
-export const putConfiguration: (
-  input: PutConfigurationRequest,
-) => effect.Effect<
-  PutConfigurationResponse,
-  | ConflictException
-  | InternalServerException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PutConfigurationRequest,
-  output: PutConfigurationResponse,
-  errors: [ConflictException, InternalServerException, ValidationException],
-}));
-/**
- * Assigns one or more tags (key-value pairs) to the specified resource.
- *
- * Each tag consists of a key and an optional value. If a tag with the same key is already associated with the resource, this action updates its value.
- *
- * This operation returns an empty response if the call was successful.
- */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
-  TagResourceResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Retrieves metadata information
- * about one
- * of your applications.
- * The application can be specified
- * by its ARN, ID, or name
- * (which is unique
- * within one account
- * in one region
- * at a given point
- * in time).
- * Specify
- * by ARN or ID
- * in automated workflows
- * if you want
- * to make sure
- * that the exact same application is returned or a `ResourceNotFoundException` is thrown,
- * avoiding the ABA addressing problem.
- */
-export const getApplication: (
-  input: GetApplicationRequest,
-) => effect.Effect<
-  GetApplicationResponse,
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetApplicationRequest,
-  output: GetApplicationResponse,
-  errors: [
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Gets the resource associated with the application.
- */
-export const getAssociatedResource: (
-  input: GetAssociatedResourceRequest,
-) => effect.Effect<
-  GetAssociatedResourceResponse,
-  | InternalServerException
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetAssociatedResourceRequest,
-  output: GetAssociatedResourceResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-}));
-/**
- * Lists all
- * of the resources
- * that are associated
- * with the specified application.
- * Results are paginated.
- *
- * If you share an application,
- * and a consumer account associates a tag query
- * to the application,
- * all of the users
- * who can access the application
- * can also view the tag values
- * in all accounts
- * that are associated
- * with it
- * using this API.
- */
-export const listAssociatedResources: {
-  (
-    input: ListAssociatedResourcesRequest,
-  ): effect.Effect<
-    ListAssociatedResourcesResponse,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  pages: (
-    input: ListAssociatedResourcesRequest,
-  ) => stream.Stream<
-    ListAssociatedResourcesResponse,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  items: (
-    input: ListAssociatedResourcesRequest,
-  ) => stream.Stream<
-    ResourceInfo,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
-  input: ListAssociatedResourcesRequest,
-  output: ListAssociatedResourcesResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
-  pagination: {
-    inputToken: "nextToken",
-    outputToken: "nextToken",
-    items: "resources",
-    pageSize: "maxResults",
-  } as const,
-}));
-/**
- * Updates an existing application with new attributes.
- */
-export const updateApplication: (
-  input: UpdateApplicationRequest,
-) => effect.Effect<
-  UpdateApplicationResponse,
-  | ConflictException
-  | InternalServerException
-  | ResourceNotFoundException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateApplicationRequest,
-  output: UpdateApplicationResponse,
-  errors: [
-    ConflictException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
-}));
-/**
- * Creates a new attribute group as a container for user-defined attributes. This feature
- * enables users to have full control over their cloud application's metadata in a rich
- * machine-readable format to facilitate integration with automated workflows and third-party
- * tools.
- */
-export const createAttributeGroup: (
-  input: CreateAttributeGroupRequest,
-) => effect.Effect<
-  CreateAttributeGroupResponse,
-  | ConflictException
-  | InternalServerException
-  | ServiceQuotaExceededException
-  | ValidationException
-  | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateAttributeGroupRequest,
-  output: CreateAttributeGroupResponse,
-  errors: [
-    ConflictException,
-    InternalServerException,
-    ServiceQuotaExceededException,
-    ValidationException,
-  ],
-}));
 /**
  * Associates an attribute group with an application to augment the application's metadata
  * with the group's attributes. This feature enables applications to be described with
@@ -1855,6 +1316,120 @@ export const associateResource: (
   ],
 }));
 /**
+ * Creates a new application that is the top-level node in a hierarchy of related cloud resource abstractions.
+ */
+export const createApplication: (
+  input: CreateApplicationRequest,
+) => effect.Effect<
+  CreateApplicationResponse,
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateApplicationRequest,
+  output: CreateApplicationResponse,
+  errors: [
+    ConflictException,
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Creates a new attribute group as a container for user-defined attributes. This feature
+ * enables users to have full control over their cloud application's metadata in a rich
+ * machine-readable format to facilitate integration with automated workflows and third-party
+ * tools.
+ */
+export const createAttributeGroup: (
+  input: CreateAttributeGroupRequest,
+) => effect.Effect<
+  CreateAttributeGroupResponse,
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateAttributeGroupRequest,
+  output: CreateAttributeGroupResponse,
+  errors: [
+    ConflictException,
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ValidationException,
+  ],
+}));
+/**
+ * Deletes an application that is specified either by its application ID, name, or ARN. All associated attribute groups and resources must be disassociated from it before deleting an application.
+ */
+export const deleteApplication: (
+  input: DeleteApplicationRequest,
+) => effect.Effect<
+  DeleteApplicationResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteApplicationRequest,
+  output: DeleteApplicationResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Deletes an attribute group, specified either by its attribute group ID, name, or ARN.
+ */
+export const deleteAttributeGroup: (
+  input: DeleteAttributeGroupRequest,
+) => effect.Effect<
+  DeleteAttributeGroupResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteAttributeGroupRequest,
+  output: DeleteAttributeGroupResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Disassociates an attribute group from an application to remove the extra attributes contained in the attribute group from the application's metadata. This operation reverts `AssociateAttributeGroup`.
+ */
+export const disassociateAttributeGroup: (
+  input: DisassociateAttributeGroupRequest,
+) => effect.Effect<
+  DisassociateAttributeGroupResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DisassociateAttributeGroupRequest,
+  output: DisassociateAttributeGroupResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
  * Disassociates a resource from application.
  * Both the resource and the application can be specified either by ID or name.
  *
@@ -1899,6 +1474,380 @@ export const disassociateResource: (
   ],
 }));
 /**
+ * Retrieves metadata information
+ * about one
+ * of your applications.
+ * The application can be specified
+ * by its ARN, ID, or name
+ * (which is unique
+ * within one account
+ * in one region
+ * at a given point
+ * in time).
+ * Specify
+ * by ARN or ID
+ * in automated workflows
+ * if you want
+ * to make sure
+ * that the exact same application is returned or a `ResourceNotFoundException` is thrown,
+ * avoiding the ABA addressing problem.
+ */
+export const getApplication: (
+  input: GetApplicationRequest,
+) => effect.Effect<
+  GetApplicationResponse,
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetApplicationRequest,
+  output: GetApplicationResponse,
+  errors: [
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Gets the resource associated with the application.
+ */
+export const getAssociatedResource: (
+  input: GetAssociatedResourceRequest,
+) => effect.Effect<
+  GetAssociatedResourceResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetAssociatedResourceRequest,
+  output: GetAssociatedResourceResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Retrieves an attribute group
+ * by its ARN, ID, or name.
+ * The attribute group can be specified
+ * by its ARN, ID, or name.
+ */
+export const getAttributeGroup: (
+  input: GetAttributeGroupRequest,
+) => effect.Effect<
+  GetAttributeGroupResponse,
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetAttributeGroupRequest,
+  output: GetAttributeGroupResponse,
+  errors: [
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Retrieves a `TagKey` configuration
+ * from an account.
+ */
+export const getConfiguration: (
+  input: GetConfigurationRequest,
+) => effect.Effect<
+  GetConfigurationResponse,
+  InternalServerException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetConfigurationRequest,
+  output: GetConfigurationResponse,
+  errors: [InternalServerException],
+}));
+/**
+ * Retrieves a list of all of your applications. Results are paginated.
+ */
+export const listApplications: {
+  (
+    input: ListApplicationsRequest,
+  ): effect.Effect<
+    ListApplicationsResponse,
+    InternalServerException | ValidationException | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListApplicationsRequest,
+  ) => stream.Stream<
+    ListApplicationsResponse,
+    InternalServerException | ValidationException | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListApplicationsRequest,
+  ) => stream.Stream<
+    ApplicationSummary,
+    InternalServerException | ValidationException | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListApplicationsRequest,
+  output: ListApplicationsResponse,
+  errors: [InternalServerException, ValidationException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "applications",
+    pageSize: "maxResults",
+  } as const,
+}));
+/**
+ * Lists all attribute groups that are associated with specified application. Results are paginated.
+ */
+export const listAssociatedAttributeGroups: {
+  (
+    input: ListAssociatedAttributeGroupsRequest,
+  ): effect.Effect<
+    ListAssociatedAttributeGroupsResponse,
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAssociatedAttributeGroupsRequest,
+  ) => stream.Stream<
+    ListAssociatedAttributeGroupsResponse,
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAssociatedAttributeGroupsRequest,
+  ) => stream.Stream<
+    AttributeGroupId,
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAssociatedAttributeGroupsRequest,
+  output: ListAssociatedAttributeGroupsResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "attributeGroups",
+    pageSize: "maxResults",
+  } as const,
+}));
+/**
+ * Lists all
+ * of the resources
+ * that are associated
+ * with the specified application.
+ * Results are paginated.
+ *
+ * If you share an application,
+ * and a consumer account associates a tag query
+ * to the application,
+ * all of the users
+ * who can access the application
+ * can also view the tag values
+ * in all accounts
+ * that are associated
+ * with it
+ * using this API.
+ */
+export const listAssociatedResources: {
+  (
+    input: ListAssociatedResourcesRequest,
+  ): effect.Effect<
+    ListAssociatedResourcesResponse,
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAssociatedResourcesRequest,
+  ) => stream.Stream<
+    ListAssociatedResourcesResponse,
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAssociatedResourcesRequest,
+  ) => stream.Stream<
+    ResourceInfo,
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAssociatedResourcesRequest,
+  output: ListAssociatedResourcesResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "resources",
+    pageSize: "maxResults",
+  } as const,
+}));
+/**
+ * Lists all attribute groups which you have access to. Results are paginated.
+ */
+export const listAttributeGroups: {
+  (
+    input: ListAttributeGroupsRequest,
+  ): effect.Effect<
+    ListAttributeGroupsResponse,
+    InternalServerException | ValidationException | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAttributeGroupsRequest,
+  ) => stream.Stream<
+    ListAttributeGroupsResponse,
+    InternalServerException | ValidationException | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAttributeGroupsRequest,
+  ) => stream.Stream<
+    AttributeGroupSummary,
+    InternalServerException | ValidationException | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAttributeGroupsRequest,
+  output: ListAttributeGroupsResponse,
+  errors: [InternalServerException, ValidationException],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "attributeGroups",
+    pageSize: "maxResults",
+  } as const,
+}));
+/**
+ * Lists the details of all attribute groups associated with a specific application. The results display in pages.
+ */
+export const listAttributeGroupsForApplication: {
+  (
+    input: ListAttributeGroupsForApplicationRequest,
+  ): effect.Effect<
+    ListAttributeGroupsForApplicationResponse,
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAttributeGroupsForApplicationRequest,
+  ) => stream.Stream<
+    ListAttributeGroupsForApplicationResponse,
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAttributeGroupsForApplicationRequest,
+  ) => stream.Stream<
+    AttributeGroupDetails,
+    | InternalServerException
+    | ResourceNotFoundException
+    | ValidationException
+    | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAttributeGroupsForApplicationRequest,
+  output: ListAttributeGroupsForApplicationResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "attributeGroupsDetails",
+    pageSize: "maxResults",
+  } as const,
+}));
+/**
+ * Lists all of the tags on the resource.
+ */
+export const listTagsForResource: (
+  input: ListTagsForResourceRequest,
+) => effect.Effect<
+  ListTagsForResourceResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListTagsForResourceRequest,
+  output: ListTagsForResourceResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Associates a `TagKey` configuration
+ * to an account.
+ */
+export const putConfiguration: (
+  input: PutConfigurationRequest,
+) => effect.Effect<
+  PutConfigurationResponse,
+  | ConflictException
+  | InternalServerException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutConfigurationRequest,
+  output: PutConfigurationResponse,
+  errors: [ConflictException, InternalServerException, ValidationException],
+}));
+/**
  * Syncs the resource with current AppRegistry records.
  *
  * Specifically, the resource’s AppRegistry system tags sync with its associated application. We remove the resource's AppRegistry system tags if it does not associate with the application. The caller must have permissions to read and update the resource.
@@ -1926,27 +1875,98 @@ export const syncResource: (
   ],
 }));
 /**
- * Creates a new application that is the top-level node in a hierarchy of related cloud resource abstractions.
+ * Assigns one or more tags (key-value pairs) to the specified resource.
+ *
+ * Each tag consists of a key and an optional value. If a tag with the same key is already associated with the resource, this action updates its value.
+ *
+ * This operation returns an empty response if the call was successful.
  */
-export const createApplication: (
-  input: CreateApplicationRequest,
+export const tagResource: (
+  input: TagResourceRequest,
 ) => effect.Effect<
-  CreateApplicationResponse,
+  TagResourceResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TagResourceRequest,
+  output: TagResourceResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Removes tags from a resource.
+ *
+ * This operation returns an empty response if the call was successful.
+ */
+export const untagResource: (
+  input: UntagResourceRequest,
+) => effect.Effect<
+  UntagResourceResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UntagResourceRequest,
+  output: UntagResourceResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+}));
+/**
+ * Updates an existing application with new attributes.
+ */
+export const updateApplication: (
+  input: UpdateApplicationRequest,
+) => effect.Effect<
+  UpdateApplicationResponse,
   | ConflictException
   | InternalServerException
-  | ServiceQuotaExceededException
+  | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
   | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateApplicationRequest,
-  output: CreateApplicationResponse,
+  input: UpdateApplicationRequest,
+  output: UpdateApplicationResponse,
   errors: [
     ConflictException,
     InternalServerException,
-    ServiceQuotaExceededException,
+    ResourceNotFoundException,
     ThrottlingException,
+    ValidationException,
+  ],
+}));
+/**
+ * Updates an existing attribute group with new details.
+ */
+export const updateAttributeGroup: (
+  input: UpdateAttributeGroupRequest,
+) => effect.Effect<
+  UpdateAttributeGroupResponse,
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateAttributeGroupRequest,
+  output: UpdateAttributeGroupResponse,
+  errors: [
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
     ValidationException,
   ],
 }));

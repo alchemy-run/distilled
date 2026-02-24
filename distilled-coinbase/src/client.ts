@@ -1,58 +1,54 @@
-import {
-  HttpBody,
-  HttpClient,
-  HttpClientError,
-  HttpClientRequest,
-} from "@effect/platform";
+import * as HttpBody from "effect/unstable/http/HttpBody";
+import * as HttpClient from "effect/unstable/http/HttpClient";
+import * as HttpClientError from "effect/unstable/http/HttpClientError";
+import * as HttpClientRequest from "effect/unstable/http/HttpClientRequest";
 import * as Effect from "effect/Effect";
-import * as Option from "effect/Option";
 import * as Schema from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as Category from "./category";
 import { Credentials } from "./credentials";
 import {
-  ERROR_CODE_MAP,
-  Unauthorized,
-  Forbidden,
-  NotFound,
-  AlreadyExists,
-  InvalidRequest,
-  InvalidSignature,
-  MalformedTransaction,
-  InvalidSqlQuery,
-  IdempotencyError,
-  PaymentMethodRequired,
-  RateLimitExceeded,
-  FaucetLimitExceeded,
   AccountLimitExceeded,
-  InternalServerError,
+  AlreadyExists,
   BadGateway,
-  ServiceUnavailable,
-  TimedOut,
-  RequestCanceled,
-  PolicyViolation,
-  PolicyInUse,
-  NetworkNotTradable,
+  DocumentVerificationFailed,
+  ERROR_CODE_MAP,
+  FaucetLimitExceeded,
+  Forbidden,
   GuestPermissionDenied,
   GuestRegionForbidden,
-  GuestTransactionLimit,
   GuestTransactionCount,
-  PhoneNumberVerificationExpired,
-  DocumentVerificationFailed,
-  RecipientAllowlistViolation,
-  RecipientAllowlistPending,
-  TravelRulesRecipientViolation,
-  TransferAmountOutOfBounds,
-  TransferRecipientAddressInvalid,
-  TransferQuoteExpired,
+  GuestTransactionLimit,
+  IdempotencyError,
+  InternalServerError,
+  InvalidRequest,
+  InvalidSignature,
+  InvalidSqlQuery,
+  MalformedTransaction,
   MfaAlreadyEnrolled,
-  MfaInvalidCode,
   MfaFlowExpired,
-  MfaRequired,
+  MfaInvalidCode,
   MfaNotEnrolled,
+  MfaRequired,
+  NetworkNotTradable,
+  NotFound,
+  PaymentMethodRequired,
+  PhoneNumberVerificationExpired,
+  PolicyInUse,
+  PolicyViolation,
+  RateLimitExceeded,
+  RecipientAllowlistPending,
+  RecipientAllowlistViolation,
+  RequestCanceled,
+  ServiceUnavailable,
+  TimedOut,
+  TransferAmountOutOfBounds,
+  TransferQuoteExpired,
+  TransferRecipientAddressInvalid,
+  TravelRulesRecipientViolation,
+  Unauthorized,
 } from "./errors";
 import {
-  type PaginatedResponse,
   type PaginatedTrait,
   DefaultPaginationTrait,
   getPath,
@@ -67,8 +63,7 @@ import * as Traits from "./traits";
  * Normalize a PEM string that may contain literal `\n` escape sequences
  * (common when read from .env files) into real newlines.
  */
-const normalizePem = (pem: string): string =>
-  pem.replace(/\\n/g, "\n").trim();
+const normalizePem = (pem: string): string => pem.replace(/\\n/g, "\n").trim();
 
 /**
  * Encode a DER length using ASN.1 BER definite-length encoding.
@@ -99,9 +94,27 @@ const derWrap = (tag: number, payload: Uint8Array): Uint8Array => {
  *   }
  */
 const EC_P256_ALGORITHM_ID = new Uint8Array([
-  0x30, 0x13,
-  0x06, 0x07, 0x2a, 0x86, 0x48, 0xce, 0x3d, 0x02, 0x01, // id-ecPublicKey
-  0x06, 0x08, 0x2a, 0x86, 0x48, 0xce, 0x3d, 0x03, 0x01, 0x07, // prime256v1
+  0x30,
+  0x13,
+  0x06,
+  0x07,
+  0x2a,
+  0x86,
+  0x48,
+  0xce,
+  0x3d,
+  0x02,
+  0x01, // id-ecPublicKey
+  0x06,
+  0x08,
+  0x2a,
+  0x86,
+  0x48,
+  0xce,
+  0x3d,
+  0x03,
+  0x01,
+  0x07, // prime256v1
 ]);
 
 /**
@@ -136,10 +149,11 @@ const ensurePkcs8 = (pem: string): string => {
 
   // Build PKCS#8 PrivateKeyInfo DER
   const version = new Uint8Array([0x02, 0x01, 0x00]); // INTEGER 0
-  const octetString = derWrap(0x04, sec1Der);          // OCTET STRING { SEC1 }
+  const octetString = derWrap(0x04, sec1Der); // OCTET STRING { SEC1 }
 
   // Inner content = version + algorithmId + octetString
-  const innerLen = version.length + EC_P256_ALGORITHM_ID.length + octetString.length;
+  const innerLen =
+    version.length + EC_P256_ALGORITHM_ID.length + octetString.length;
   const inner = new Uint8Array(innerLen);
   inner.set(version, 0);
   inner.set(EC_P256_ALGORITHM_ID, version.length);
@@ -254,7 +268,7 @@ export const ApiErrorCode = Traits.apiErrorCodeSymbol;
 export type HttpMethod = Traits.HttpMethod;
 
 // Generic API Error - uncategorized fallback for unknown API error codes
-export class CoinbaseApiError extends Schema.TaggedError<CoinbaseApiError>()(
+export class CoinbaseApiError extends Schema.TaggedErrorClass<CoinbaseApiError>()(
   "CoinbaseApiError",
   {
     errorType: Schema.optional(Schema.String),
@@ -264,7 +278,7 @@ export class CoinbaseApiError extends Schema.TaggedError<CoinbaseApiError>()(
 ).pipe(Category.withServerError) {}
 
 // Schema parse error wrapper
-export class CoinbaseParseError extends Schema.TaggedError<CoinbaseParseError>()(
+export class CoinbaseParseError extends Schema.TaggedErrorClass<CoinbaseParseError>()(
   "CoinbaseParseError",
   {
     body: Schema.Unknown,
@@ -276,7 +290,10 @@ export class CoinbaseParseError extends Schema.TaggedError<CoinbaseParseError>()
  * Status code to error class fallback map.
  * Used when the response body is not JSON or the errorType is unknown.
  */
-const STATUS_CODE_MAP: Record<number, (typeof ERROR_CODE_MAP)[keyof typeof ERROR_CODE_MAP]> = {
+const STATUS_CODE_MAP: Record<
+  number,
+  (typeof ERROR_CODE_MAP)[keyof typeof ERROR_CODE_MAP]
+> = {
   400: InvalidRequest,
   401: Unauthorized,
   403: Forbidden,
@@ -314,7 +331,9 @@ const matchApiError = (
       const StatusErrorClass = STATUS_CODE_MAP[status];
       if (StatusErrorClass) {
         return Effect.fail(
-          new StatusErrorClass({ message: parsed.errorMessage ?? `HTTP ${status}` }),
+          new StatusErrorClass({
+            message: parsed.errorMessage ?? `HTTP ${status}`,
+          }),
         );
       }
     }
@@ -330,7 +349,8 @@ const matchApiError = (
     if (status !== undefined) {
       const StatusErrorClass = STATUS_CODE_MAP[status];
       if (StatusErrorClass) {
-        const message = typeof errorBody === "string" ? errorBody : `HTTP ${status}`;
+        const message =
+          typeof errorBody === "string" ? errorBody : `HTTP ${status}`;
         return Effect.fail(new StatusErrorClass({ message }));
       }
     }
@@ -413,8 +433,8 @@ export type ClientErrors =
 // ============================================================================
 
 interface OperationConfig<
-  I extends Schema.Schema.Any,
-  O extends Schema.Schema.Any,
+  I extends Schema.Top,
+  O extends Schema.Top,
   E extends readonly ApiErrorClass[] = readonly ApiErrorClass[],
 > {
   inputSchema: I;
@@ -425,8 +445,8 @@ interface OperationConfig<
 }
 
 interface PaginatedOperationConfig<
-  I extends Schema.Schema.Any,
-  O extends Schema.Schema.Any,
+  I extends Schema.Top,
+  O extends Schema.Top,
   E extends readonly ApiErrorClass[] = readonly ApiErrorClass[],
 > extends OperationConfig<I, O, E> {
   pagination?: PaginatedTrait;
@@ -435,8 +455,8 @@ interface PaginatedOperationConfig<
 // API namespace
 export const API = {
   make: <
-    I extends Schema.Schema.Any,
-    O extends Schema.Schema.Any,
+    I extends Schema.Top,
+    O extends Schema.Top,
     const E extends readonly ApiErrorClass[] = readonly [],
   >(
     configFn: () => OperationConfig<I, O, E>,
@@ -457,14 +477,10 @@ export const API = {
       : [];
 
     if (!method) {
-      throw new Error(
-        "Input schema must have Http trait",
-      );
+      throw new Error("Input schema must have Http trait");
     }
     if (!pathTemplate) {
-      throw new Error(
-        "Input schema must have Http trait with path",
-      );
+      throw new Error("Input schema must have Http trait with path");
     }
 
     const buildPathFn = (input: Input) =>
@@ -517,12 +533,8 @@ export const API = {
         const jwtUri = `${method} ${parsedUrl.host}${parsedUrl.pathname}`;
 
         // Generate JWT for API auth
-        const jwt = yield* generateJwt(
-          apiKeyId,
-          apiKeySecret,
-          jwtUri,
-        ).pipe(
-          Effect.catchAll((e) =>
+        const jwt = yield* generateJwt(apiKeyId, apiKeySecret, jwtUri).pipe(
+          Effect.catch((e) =>
             Effect.fail(
               new CoinbaseApiError({
                 errorType: "jwt_signing_failed",
@@ -543,7 +555,7 @@ export const API = {
         // Add wallet auth header if needed
         if (config.walletAuth && walletSecret) {
           const walletJwt = yield* generateWalletJwt(walletSecret).pipe(
-            Effect.catchAll((e) =>
+            Effect.catch((e) =>
               Effect.fail(
                 new CoinbaseApiError({
                   errorType: "wallet_jwt_signing_failed",
@@ -573,16 +585,19 @@ export const API = {
               if (response.status >= 400) {
                 // Try to parse as JSON; fall back to plain text body
                 const errorBody = yield* response.json.pipe(
-                  Effect.catchAll(() =>
+                  Effect.catch(() =>
                     response.text.pipe(
-                      Effect.map((text) => ({ errorType: "unknown", errorMessage: text })),
+                      Effect.map((text) => ({
+                        errorType: "unknown",
+                        errorMessage: text,
+                      })),
                     ),
                   ),
                 );
-                return yield* matchApiError(errorBody, response.status) as Effect.Effect<
-                  never,
-                  Errors
-                >;
+                return yield* matchApiError(
+                  errorBody,
+                  response.status,
+                ) as Effect.Effect<never, Errors>;
               }
 
               // Handle 204 No Content
@@ -591,10 +606,10 @@ export const API = {
               }
 
               const responseBody = yield* response.json;
-              return yield* Schema.decodeUnknown(config.outputSchema)(
+              return yield* Schema.decodeUnknownEffect(config.outputSchema)(
                 responseBody,
               ).pipe(
-                Effect.catchTag("ParseError", (cause) =>
+                Effect.catchTag("SchemaError", (cause) =>
                   Effect.fail(
                     new CoinbaseParseError({ body: responseBody, cause }),
                   ),
@@ -614,8 +629,8 @@ export const API = {
    * Uses cursor-based pagination (pageToken/nextPageToken).
    */
   makePaginated: <
-    I extends Schema.Schema.Any,
-    O extends Schema.Schema.Any,
+    I extends Schema.Top,
+    O extends Schema.Top,
     const E extends readonly ApiErrorClass[] = readonly [],
   >(
     configFn: () => PaginatedOperationConfig<I, O, E>,
@@ -644,7 +659,7 @@ export const API = {
       const unfoldFn = (state: State) =>
         Effect.gen(function* () {
           if (state.done) {
-            return Option.none();
+            return undefined;
           }
 
           const requestPayload = {
@@ -656,20 +671,19 @@ export const API = {
 
           const response = yield* baseFn(requestPayload);
 
-          const nextPageToken = getPath(
-            response,
-            pagination.outputToken,
-          ) as string | undefined;
+          const nextPageToken = getPath(response, pagination.outputToken) as
+            | string
+            | undefined;
 
           const nextState: State = {
             pageToken: nextPageToken,
             done: !nextPageToken || nextPageToken === "",
           };
 
-          return Option.some([response, nextState] as const);
+          return [response, nextState] as const;
         });
 
-      return Stream.unfoldEffect(
+      return Stream.unfold(
         { pageToken: undefined, done: false } as State,
         unfoldFn,
       );
@@ -703,42 +717,42 @@ export const API = {
 
 // Re-export error types for convenience
 export {
-  Unauthorized,
-  Forbidden,
-  NotFound,
-  AlreadyExists,
-  InvalidRequest,
-  InvalidSignature,
-  MalformedTransaction,
-  InvalidSqlQuery,
-  IdempotencyError,
-  PaymentMethodRequired,
-  RateLimitExceeded,
-  FaucetLimitExceeded,
   AccountLimitExceeded,
-  InternalServerError,
+  AlreadyExists,
   BadGateway,
-  ServiceUnavailable,
-  TimedOut,
-  RequestCanceled,
-  PolicyViolation,
-  PolicyInUse,
-  NetworkNotTradable,
+  DocumentVerificationFailed,
+  FaucetLimitExceeded,
+  Forbidden,
   GuestPermissionDenied,
   GuestRegionForbidden,
-  GuestTransactionLimit,
   GuestTransactionCount,
-  PhoneNumberVerificationExpired,
-  DocumentVerificationFailed,
-  RecipientAllowlistViolation,
-  RecipientAllowlistPending,
-  TravelRulesRecipientViolation,
-  TransferAmountOutOfBounds,
-  TransferRecipientAddressInvalid,
-  TransferQuoteExpired,
+  GuestTransactionLimit,
+  IdempotencyError,
+  InternalServerError,
+  InvalidRequest,
+  InvalidSignature,
+  InvalidSqlQuery,
+  MalformedTransaction,
   MfaAlreadyEnrolled,
-  MfaInvalidCode,
   MfaFlowExpired,
-  MfaRequired,
+  MfaInvalidCode,
   MfaNotEnrolled,
+  MfaRequired,
+  NetworkNotTradable,
+  NotFound,
+  PaymentMethodRequired,
+  PhoneNumberVerificationExpired,
+  PolicyInUse,
+  PolicyViolation,
+  RateLimitExceeded,
+  RecipientAllowlistPending,
+  RecipientAllowlistViolation,
+  RequestCanceled,
+  ServiceUnavailable,
+  TimedOut,
+  TransferAmountOutOfBounds,
+  TransferQuoteExpired,
+  TransferRecipientAddressInvalid,
+  TravelRulesRecipientViolation,
+  Unauthorized,
 } from "./errors";

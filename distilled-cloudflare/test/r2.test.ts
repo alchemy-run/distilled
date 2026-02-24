@@ -28,7 +28,7 @@ const withBucket = <A, E, R>(
     yield* R2.deleteBucket({
       accountId: accountId(),
       bucketName: name,
-    }).pipe(Effect.catchAll(() => Effect.void));
+    }).pipe(Effect.catch(() => Effect.void));
 
     // Create bucket
     yield* R2.createBucket({
@@ -42,7 +42,7 @@ const withBucket = <A, E, R>(
         R2.deleteBucket({
           accountId: accountId(),
           bucketName: name,
-        }).pipe(Effect.catchAll(() => Effect.void)),
+        }).pipe(Effect.catch(() => Effect.void)),
       ),
     );
   });
@@ -64,7 +64,7 @@ describe("R2", () => {
         yield* R2.deleteBucket({
           accountId: accountId(),
           bucketName: name,
-        }).pipe(Effect.catchAll(() => Effect.void));
+        }).pipe(Effect.catch(() => Effect.void));
 
         const result = yield* R2.createBucket({
           accountId: accountId(),
@@ -81,7 +81,7 @@ describe("R2", () => {
         yield* R2.deleteBucket({
           accountId: accountId(),
           bucketName: name,
-        }).pipe(Effect.catchAll(() => Effect.void));
+        }).pipe(Effect.catch(() => Effect.void));
       }));
 
     test("happy path - creates a bucket with location hint", () =>
@@ -91,7 +91,7 @@ describe("R2", () => {
         yield* R2.deleteBucket({
           accountId: accountId(),
           bucketName: name,
-        }).pipe(Effect.catchAll(() => Effect.void));
+        }).pipe(Effect.catch(() => Effect.void));
 
         const result = yield* R2.createBucket({
           accountId: accountId(),
@@ -106,7 +106,7 @@ describe("R2", () => {
         yield* R2.deleteBucket({
           accountId: accountId(),
           bucketName: name,
-        }).pipe(Effect.catchAll(() => Effect.void));
+        }).pipe(Effect.catch(() => Effect.void));
       }));
 
     test("happy path - creates a bucket with InfrequentAccess storage class", () =>
@@ -116,7 +116,7 @@ describe("R2", () => {
         yield* R2.deleteBucket({
           accountId: accountId(),
           bucketName: name,
-        }).pipe(Effect.catchAll(() => Effect.void));
+        }).pipe(Effect.catch(() => Effect.void));
 
         const result = yield* R2.createBucket({
           accountId: accountId(),
@@ -131,7 +131,7 @@ describe("R2", () => {
         yield* R2.deleteBucket({
           accountId: accountId(),
           bucketName: name,
-        }).pipe(Effect.catchAll(() => Effect.void));
+        }).pipe(Effect.catch(() => Effect.void));
       }));
 
     test("error - InvalidBucketName for invalid bucket name with uppercase", () =>
@@ -404,7 +404,7 @@ describe("R2", () => {
         yield* R2.deleteBucket({
           accountId: accountId(),
           bucketName: name,
-        }).pipe(Effect.catchAll(() => Effect.void));
+        }).pipe(Effect.catch(() => Effect.void));
 
         yield* R2.createBucket({
           accountId: accountId(),

@@ -7,7 +7,7 @@
 
 import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
-import type { HttpClient } from "@effect/platform";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
@@ -55,12 +55,12 @@ export interface CreateCustomNameserverResponse {
 export const CreateCustomNameserverResponse = Schema.Struct({
   dnsRecords: Schema.Array(
     Schema.Struct({
-      type: Schema.optional(Schema.Literal("A", "AAAA")),
+      type: Schema.optional(Schema.Literals(["A", "AAAA"])),
       value: Schema.optional(Schema.String),
     }),
   ).pipe(T.JsonName("dns_records")),
   nsName: Schema.String.pipe(T.JsonName("ns_name")),
-  status: Schema.Literal("moved", "pending", "verified"),
+  status: Schema.Literals(["moved", "pending", "verified"]),
   zoneTag: Schema.String.pipe(T.JsonName("zone_tag")),
   nsSet: Schema.optional(Schema.Number).pipe(T.JsonName("ns_set")),
 }) as unknown as Schema.Schema<CreateCustomNameserverResponse>;

@@ -7,7 +7,7 @@
 
 import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
-import type { HttpClient } from "@effect/platform";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
@@ -149,7 +149,7 @@ export const GetStoreSecretResponse = Schema.Struct({
   created: Schema.String,
   modified: Schema.String,
   name: Schema.String,
-  status: Schema.Literal("pending", "active", "deleted"),
+  status: Schema.Literals(["pending", "active", "deleted"]),
   storeId: Schema.String.pipe(T.JsonName("store_id")),
   comment: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<GetStoreSecretResponse>;
@@ -211,7 +211,7 @@ export const PatchStoreSecretResponse = Schema.Struct({
   created: Schema.String,
   modified: Schema.String,
   name: Schema.String,
-  status: Schema.Literal("pending", "active", "deleted"),
+  status: Schema.Literals(["pending", "active", "deleted"]),
   storeId: Schema.String.pipe(T.JsonName("store_id")),
   comment: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<PatchStoreSecretResponse>;
@@ -267,7 +267,7 @@ export const DeleteStoreSecretResponse = Schema.Struct({
   created: Schema.String,
   modified: Schema.String,
   name: Schema.String,
-  status: Schema.Literal("pending", "active", "deleted"),
+  status: Schema.Literals(["pending", "active", "deleted"]),
   storeId: Schema.String.pipe(T.JsonName("store_id")),
   comment: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<DeleteStoreSecretResponse>;
@@ -332,7 +332,7 @@ export const DuplicateStoreSecretResponse = Schema.Struct({
   created: Schema.String,
   modified: Schema.String,
   name: Schema.String,
-  status: Schema.Literal("pending", "active", "deleted"),
+  status: Schema.Literals(["pending", "active", "deleted"]),
   storeId: Schema.String.pipe(T.JsonName("store_id")),
   comment: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<DuplicateStoreSecretResponse>;

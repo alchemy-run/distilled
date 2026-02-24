@@ -1,6 +1,8 @@
-import { HttpBody, HttpClient, HttpClientError, HttpClientRequest } from "@effect/platform";
+import * as HttpBody from "effect/unstable/http/HttpBody";
+import * as HttpClient from "effect/unstable/http/HttpClient";
+import * as HttpClientError from "effect/unstable/http/HttpClientError";
+import * as HttpClientRequest from "effect/unstable/http/HttpClientRequest";
 import * as Effect from "effect/Effect";
-import * as Option from "effect/Option";
 import * as Schema from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as Category from "./category";
@@ -47,17 +49,23 @@ export const ApiPathParams = Symbol.for("neon/ApiPathParams");
 export type HttpMethod = Traits.HttpMethod;
 
 // Generic API Error - uncategorized fallback for unknown API error codes
-export class NeonApiError extends Schema.TaggedError<NeonApiError>()("NeonApiError", {
-  code: Schema.optional(Schema.String),
-  message: Schema.optional(Schema.String),
-  body: Schema.Unknown,
-}).pipe(Category.withServerError) {}
+export class NeonApiError extends Schema.TaggedErrorClass<NeonApiError>()(
+  "NeonApiError",
+  {
+    code: Schema.optional(Schema.String),
+    message: Schema.optional(Schema.String),
+    body: Schema.Unknown,
+  },
+).pipe(Category.withServerError) {}
 
 // Schema parse error wrapper
-export class NeonParseError extends Schema.TaggedError<NeonParseError>()("NeonParseError", {
-  body: Schema.Unknown,
-  cause: Schema.Unknown,
-}).pipe(Category.withParseError) {}
+export class NeonParseError extends Schema.TaggedErrorClass<NeonParseError>()(
+  "NeonParseError",
+  {
+    body: Schema.Unknown,
+    cause: Schema.Unknown,
+  },
+).pipe(Category.withParseError) {}
 
 /**
  * Match an API error response to the appropriate error class based on HTTP status.
@@ -68,7 +76,8 @@ const matchApiError = (
   errorBody: unknown,
 ): Effect.Effect<
   never,
-  InstanceType<(typeof HTTP_STATUS_MAP)[keyof typeof HTTP_STATUS_MAP]> | NeonApiError
+  | InstanceType<(typeof HTTP_STATUS_MAP)[keyof typeof HTTP_STATUS_MAP]>
+  | NeonApiError
 > => {
   try {
     const parsed = Schema.decodeUnknownSync(ApiErrorResponse)(errorBody);
@@ -138,8 +147,8 @@ export type ClientErrors =
  * Operation configuration with optional operation-specific errors.
  */
 interface OperationConfig<
-  I extends Schema.Schema.Any,
-  O extends Schema.Schema.Any,
+  I extends Schema.Top,
+  O extends Schema.Top,
   E extends readonly ApiErrorClass[] = readonly ApiErrorClass[],
 > {
   inputSchema: I;
@@ -161,8 +170,8 @@ interface OperationConfig<
  * Paginated operation configuration.
  */
 interface PaginatedOperationConfig<
-  I extends Schema.Schema.Any,
-  O extends Schema.Schema.Any,
+  I extends Schema.Top,
+  O extends Schema.Top,
   E extends readonly ApiErrorClass[] = readonly ApiErrorClass[],
 > extends OperationConfig<I, O, E> {
   /** Pagination trait describing the input/output token fields */
@@ -170,15 +179,21 @@ interface PaginatedOperationConfig<
 }
 
 // Helper to get annotation from schema AST (legacy)
-const getAnnotationLegacy = <T>(schema: Schema.Schema.Any, key: symbol): T | undefined => {
-  return schema.ast.annotations[key] as T | undefined;
+const getAnnotationLegacy = <T>(
+  schema: Schema.Top,
+  key: symbol,
+): T | undefined => {
+  const annotations = schema.ast.annotations as
+    | Record<symbol, unknown>
+    | undefined;
+  return annotations?.[key] as T | undefined;
 };
 
 // API namespace
 export const API = {
   make: <
-    I extends Schema.Schema.Any,
-    O extends Schema.Schema.Any,
+    I extends Schema.Top,
+    O extends Schema.Top,
     const E extends readonly ApiErrorClass[] = readonly [],
   >(
     configFn: () => OperationConfig<I, O, E>,
@@ -194,34 +209,54 @@ export const API = {
     const httpTrait = Traits.getHttpTrait(config.inputSchema.ast);
 
     // Fall back to legacy annotations if no Http trait
-    const legacyMethod = getAnnotationLegacy<HttpMethod>(config.inputSchema, ApiMethod);
-    const legacyPath = getAnnotationLegacy<(input: Input) => string>(config.inputSchema, ApiPath);
+    const legacyMethod = getAnnotationLegacy<HttpMethod>(
+      config.inputSchema,
+      ApiMethod,
+    );
+    const legacyPath = getAnnotationLegacy<(input: Input) => string>(
+      config.inputSchema,
+      ApiPath,
+    );
     const legacyPathParams =
-      getAnnotationLegacy<readonly string[]>(config.inputSchema, ApiPathParams) ?? [];
+      getAnnotationLegacy<readonly string[]>(
+        config.inputSchema,
+        ApiPathParams,
+      ) ?? [];
 
     // Determine method, path template, and path params
     const method = httpTrait?.method ?? legacyMethod;
     const pathTemplate = httpTrait?.path;
-    const pathParams = httpTrait ? Traits.getPathParams(config.inputSchema.ast) : legacyPathParams;
+    const pathParams = httpTrait
+      ? Traits.getPathParams(config.inputSchema.ast)
+      : legacyPathParams;
 
     if (!method) {
-      throw new Error("Input schema must have Http trait or ApiMethod annotation");
+      throw new Error(
+        "Input schema must have Http trait or ApiMethod annotation",
+      );
     }
     if (!pathTemplate && !legacyPath) {
-      throw new Error("Input schema must have Http trait or ApiPath annotation");
+      throw new Error(
+        "Input schema must have Http trait or ApiPath annotation",
+      );
     }
 
     // Build path function - either from template or legacy function
     const buildPathFn = pathTemplate
-      ? (input: Input) => Traits.buildPath(pathTemplate, input as Record<string, unknown>)
+      ? (input: Input) =>
+          Traits.buildPath(pathTemplate, input as Record<string, unknown>)
       : legacyPath!;
 
     // Helper to extract query params (non-path params) for GET requests
-    const getQueryParams = (input: Input): Record<string, string> | undefined => {
+    const getQueryParams = (
+      input: Input,
+    ): Record<string, string> | undefined => {
       if (method !== "GET") return undefined;
       const pathParamSet = new Set(pathParams);
       const query: Record<string, string> = {};
-      for (const [key, value] of Object.entries(input as Record<string, unknown>)) {
+      for (const [key, value] of Object.entries(
+        input as Record<string, unknown>,
+      )) {
         if (!pathParamSet.has(key) && value !== undefined) {
           query[key] = String(value);
         }
@@ -230,11 +265,15 @@ export const API = {
     };
 
     // Helper to extract body params (non-path params) for non-GET requests
-    const getBodyParams = (input: Input): Record<string, unknown> | undefined => {
+    const getBodyParams = (
+      input: Input,
+    ): Record<string, unknown> | undefined => {
       if (method === "GET") return undefined;
       const pathParamSet = new Set(pathParams);
       const body: Record<string, unknown> = {};
-      for (const [key, value] of Object.entries(input as Record<string, unknown>)) {
+      for (const [key, value] of Object.entries(
+        input as Record<string, unknown>,
+      )) {
         if (!pathParamSet.has(key) && value !== undefined) {
           body[key] = value;
         }
@@ -249,7 +288,9 @@ export const API = {
 
         const queryParams = getQueryParams(input);
         const requestBody = getBodyParams(input);
-        let request = HttpClientRequest.make(method)(apiBaseUrl + buildPathFn(input)).pipe(
+        let request = HttpClientRequest.make(method)(
+          apiBaseUrl + buildPathFn(input),
+        ).pipe(
           HttpClientRequest.setHeader("Authorization", `Bearer ${apiKey}`),
           HttpClientRequest.setHeader("Content-Type", "application/json"),
           HttpClientRequest.setHeader("Accept", "application/json"),
@@ -265,7 +306,10 @@ export const API = {
 
         if (response.status >= 400) {
           const errorBody = yield* response.json;
-          return yield* matchApiError(response.status, errorBody) as Effect.Effect<never, Errors>;
+          return yield* matchApiError(
+            response.status,
+            errorBody,
+          ) as Effect.Effect<never, Errors>;
         }
 
         // Handle 204 No Content
@@ -274,8 +318,10 @@ export const API = {
         }
 
         const responseBody = yield* response.json;
-        return yield* Schema.decodeUnknown(config.outputSchema)(responseBody).pipe(
-          Effect.catchTag("ParseError", (cause) =>
+        return yield* Schema.decodeUnknownEffect(config.outputSchema)(
+          responseBody,
+        ).pipe(
+          Effect.catchTag("SchemaError", (cause) =>
             Effect.fail(new NeonParseError({ body: responseBody, cause })),
           ),
         ) as Effect.Effect<Output, Errors>;
@@ -305,8 +351,8 @@ export const API = {
    * ```
    */
   makePaginated: <
-    I extends Schema.Schema.Any,
-    O extends Schema.Schema.Any,
+    I extends Schema.Top,
+    O extends Schema.Top,
     const E extends readonly ApiErrorClass[] = readonly [],
   >(
     configFn: () => PaginatedOperationConfig<I, O, E>,
@@ -328,13 +374,15 @@ export const API = {
     type Errors = InstanceType<E[number]> | DefaultErrors | ClientErrors;
 
     // Stream all pages (full response objects)
-    const pagesFn = (input: Omit<Input, "cursor">): Stream.Stream<Output, Errors, Context> => {
+    const pagesFn = (
+      input: Omit<Input, "cursor">,
+    ): Stream.Stream<Output, Errors, Context> => {
       type State = { cursor: string | undefined; done: boolean };
 
       const unfoldFn = (state: State) =>
         Effect.gen(function* () {
           if (state.done) {
-            return Option.none();
+            return undefined;
           }
 
           // Build the request with the cursor
@@ -347,7 +395,10 @@ export const API = {
           const response = yield* baseFn(requestPayload);
 
           // Extract the next cursor
-          const nextCursor = getPath(response, pagination.outputToken) as string | null | undefined;
+          const nextCursor = getPath(response, pagination.outputToken) as
+            | string
+            | null
+            | undefined;
 
           // Return the full page and next state
           const nextState: State = {
@@ -355,10 +406,13 @@ export const API = {
             done: nextCursor === null || nextCursor === undefined,
           };
 
-          return Option.some([response, nextState] as const);
+          return [response, nextState] as const;
         });
 
-      return Stream.unfoldEffect({ cursor: undefined, done: false } as State, unfoldFn);
+      return Stream.unfold(
+        { cursor: undefined, done: false } as State,
+        unfoldFn,
+      );
     };
 
     // Stream individual items from the paginated field
@@ -371,7 +425,9 @@ export const API = {
     > => {
       return pagesFn(input).pipe(
         Stream.flatMap((page) => {
-          const items = getPath(page, pagination.items) as readonly unknown[] | undefined;
+          const items = getPath(page, pagination.items) as
+            | readonly unknown[]
+            | undefined;
           return Stream.fromIterable(items ?? []);
         }),
       ) as Stream.Stream<
@@ -396,14 +452,14 @@ export const API = {
 
 // Re-export error types for convenience
 export {
-  Unauthorized,
-  Forbidden,
-  NotFound,
-  Conflict,
-  UnprocessableEntity,
   BadRequest,
-  TooManyRequests,
-  Locked,
+  Conflict,
+  Forbidden,
   InternalServerError,
+  Locked,
+  NotFound,
   ServiceUnavailable,
+  TooManyRequests,
+  Unauthorized,
+  UnprocessableEntity,
 } from "./errors";

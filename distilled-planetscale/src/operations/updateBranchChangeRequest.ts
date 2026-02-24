@@ -24,13 +24,13 @@ export type UpdateBranchChangeRequestInput =
 export const UpdateBranchChangeRequestOutput = Schema.Struct({
   id: Schema.String,
   restart: Schema.Array(Schema.Number),
-  state: Schema.Literal(
+  state: Schema.Literals([
     "queued",
     "pending",
     "resizing",
     "canceled",
     "completed",
-  ),
+  ]),
   started_at: Schema.String,
   completed_at: Schema.String,
   created_at: Schema.String,
@@ -54,7 +54,7 @@ export const UpdateBranchChangeRequestOutput = Schema.Struct({
   maximum_storage_bytes: Schema.Number,
   storage_autoscaling: Schema.Boolean,
   storage_shrinking: Schema.Boolean,
-  storage_type: Schema.Literal("gp3", "io2", "pd_ssd"),
+  storage_type: Schema.Literals(["gp3", "io2", "pd_ssd"]),
   storage_iops: Schema.Number,
   storage_throughput_mibs: Schema.Number,
   previous_minimum_storage_bytes: Schema.Number,

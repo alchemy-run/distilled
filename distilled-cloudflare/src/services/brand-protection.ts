@@ -7,7 +7,7 @@
 
 import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
-import type { HttpClient } from "@effect/platform";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
@@ -381,10 +381,10 @@ export const CreateQueryRequest = Schema.Struct({
   id: Schema.optional(Schema.String).pipe(T.HttpQuery("id")),
   queryScan: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("query_scan")),
   queryTag: Schema.optional(Schema.String).pipe(T.HttpQuery("query_tag")),
-  maxTime: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
+  maxTime: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
     T.JsonName("max_time"),
   ),
-  minTime: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
+  minTime: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
     T.JsonName("min_time"),
   ),
   bodyScan: Schema.optional(Schema.Boolean).pipe(T.JsonName("body_scan")),

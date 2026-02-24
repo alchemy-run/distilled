@@ -7,7 +7,7 @@
 
 import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
-import type { HttpClient } from "@effect/platform";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
@@ -597,10 +597,10 @@ export const GetWorkflowRequest = Schema.Struct({
 
 export type GetWorkflowResponse = "realtime" | "preview";
 
-export const GetWorkflowResponse = Schema.Literal(
+export const GetWorkflowResponse = Schema.Literals([
   "realtime",
   "preview",
-) as unknown as Schema.Schema<GetWorkflowResponse>;
+]) as unknown as Schema.Schema<GetWorkflowResponse>;
 
 export const getWorkflow: (
   input: GetWorkflowRequest,
@@ -627,7 +627,7 @@ export interface PutZarazRequest {
 
 export const PutZarazRequest = Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  workflow: Schema.Literal("realtime", "preview"),
+  workflow: Schema.Literals(["realtime", "preview"]),
 }).pipe(
   T.Http({ method: "PUT", path: "/zones/{zone_id}/settings/zaraz/workflow" }),
 ) as unknown as Schema.Schema<PutZarazRequest>;

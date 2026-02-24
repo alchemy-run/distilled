@@ -7,7 +7,7 @@
 
 import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
-import type { HttpClient } from "@effect/platform";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
@@ -367,7 +367,7 @@ export const GetSsoResponse = Schema.Struct({
     Schema.Struct({
       code: Schema.optional(Schema.String),
       status: Schema.optional(
-        Schema.Literal("awaiting", "pending", "failed", "verified"),
+        Schema.Literals(["awaiting", "pending", "failed", "verified"]),
       ),
     }),
   ),
@@ -439,7 +439,7 @@ export const CreateSsoResponse = Schema.Struct({
     Schema.Struct({
       code: Schema.optional(Schema.String),
       status: Schema.optional(
-        Schema.Literal("awaiting", "pending", "failed", "verified"),
+        Schema.Literals(["awaiting", "pending", "failed", "verified"]),
       ),
     }),
   ),
@@ -511,7 +511,7 @@ export const PatchSsoResponse = Schema.Struct({
     Schema.Struct({
       code: Schema.optional(Schema.String),
       status: Schema.optional(
-        Schema.Literal("awaiting", "pending", "failed", "verified"),
+        Schema.Literals(["awaiting", "pending", "failed", "verified"]),
       ),
     }),
   ),
@@ -613,7 +613,7 @@ export const GetUserGroupResponse = Schema.Struct({
     Schema.Array(
       Schema.Struct({
         id: Schema.optional(Schema.String),
-        access: Schema.optional(Schema.Literal("allow", "deny")),
+        access: Schema.optional(Schema.Literals(["allow", "deny"])),
         permissionGroups: Schema.optional(
           Schema.Array(
             Schema.Struct({
@@ -663,7 +663,7 @@ export const CreateUserGroupRequest = Schema.Struct({
   name: Schema.String,
   policies: Schema.Array(
     Schema.Struct({
-      access: Schema.Literal("allow", "deny"),
+      access: Schema.Literals(["allow", "deny"]),
       permissionGroups: Schema.Array(
         Schema.Struct({
           id: Schema.String,
@@ -707,7 +707,7 @@ export const CreateUserGroupResponse = Schema.Struct({
     Schema.Array(
       Schema.Struct({
         id: Schema.optional(Schema.String),
-        access: Schema.optional(Schema.Literal("allow", "deny")),
+        access: Schema.optional(Schema.Literals(["allow", "deny"])),
         permissionGroups: Schema.optional(
           Schema.Array(
             Schema.Struct({
@@ -762,7 +762,7 @@ export const UpdateUserGroupRequest = Schema.Struct({
     Schema.Array(
       Schema.Struct({
         id: Schema.String,
-        access: Schema.Literal("allow", "deny"),
+        access: Schema.Literals(["allow", "deny"]),
         permissionGroups: Schema.Array(
           Schema.Struct({
             id: Schema.String,
@@ -810,7 +810,7 @@ export const UpdateUserGroupResponse = Schema.Struct({
     Schema.Array(
       Schema.Struct({
         id: Schema.optional(Schema.String),
-        access: Schema.optional(Schema.Literal("allow", "deny")),
+        access: Schema.optional(Schema.Literals(["allow", "deny"])),
         permissionGroups: Schema.optional(
           Schema.Array(
             Schema.Struct({
@@ -918,7 +918,7 @@ export interface CreateUserGroupMemberResponse {
 export const CreateUserGroupMemberResponse = Schema.Struct({
   id: Schema.String,
   email: Schema.optional(Schema.String),
-  status: Schema.optional(Schema.Literal("accepted", "pending")),
+  status: Schema.optional(Schema.Literals(["accepted", "pending"])),
 }) as unknown as Schema.Schema<CreateUserGroupMemberResponse>;
 
 export const createUserGroupMember: (
@@ -963,7 +963,7 @@ export interface DeleteUserGroupMemberResponse {
 export const DeleteUserGroupMemberResponse = Schema.Struct({
   id: Schema.String,
   email: Schema.optional(Schema.String),
-  status: Schema.optional(Schema.Literal("accepted", "pending")),
+  status: Schema.optional(Schema.Literals(["accepted", "pending"])),
 }) as unknown as Schema.Schema<DeleteUserGroupMemberResponse>;
 
 export const deleteUserGroupMember: (

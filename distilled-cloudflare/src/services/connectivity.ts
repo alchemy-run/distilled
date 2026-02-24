@@ -7,7 +7,7 @@
 
 import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
-import type { HttpClient } from "@effect/platform";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
@@ -56,7 +56,7 @@ export interface GetDirectoryServiceResponse {
 }
 
 export const GetDirectoryServiceResponse = Schema.Struct({
-  host: Schema.Union(
+  host: Schema.Union([
     Schema.Struct({
       ipv4: Schema.String,
       network: Schema.Struct({
@@ -81,18 +81,18 @@ export const GetDirectoryServiceResponse = Schema.Struct({
       resolverNetwork: Schema.Struct({
         tunnelId: Schema.String.pipe(T.JsonName("tunnel_id")),
         resolverIps: Schema.optional(
-          Schema.Union(Schema.Array(Schema.String), Schema.Null),
+          Schema.Union([Schema.Array(Schema.String), Schema.Null]),
         ).pipe(T.JsonName("resolver_ips")),
       }).pipe(T.JsonName("resolver_network")),
     }),
-  ),
+  ]),
   name: Schema.String,
   type: Schema.Literal("http"),
   createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
-  httpPort: Schema.optional(Schema.Union(Schema.Number, Schema.Null)).pipe(
+  httpPort: Schema.optional(Schema.Union([Schema.Number, Schema.Null])).pipe(
     T.JsonName("http_port"),
   ),
-  httpsPort: Schema.optional(Schema.Union(Schema.Number, Schema.Null)).pipe(
+  httpsPort: Schema.optional(Schema.Union([Schema.Number, Schema.Null])).pipe(
     T.JsonName("https_port"),
   ),
   serviceId: Schema.optional(Schema.String).pipe(T.JsonName("service_id")),
@@ -135,7 +135,7 @@ export interface CreateDirectoryServiceRequest {
 
 export const CreateDirectoryServiceRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  host: Schema.Union(
+  host: Schema.Union([
     Schema.Struct({
       ipv4: Schema.String,
       network: Schema.Struct({
@@ -160,17 +160,17 @@ export const CreateDirectoryServiceRequest = Schema.Struct({
       resolverNetwork: Schema.Struct({
         tunnelId: Schema.String.pipe(T.JsonName("tunnel_id")),
         resolverIps: Schema.optional(
-          Schema.Union(Schema.Array(Schema.String), Schema.Null),
+          Schema.Union([Schema.Array(Schema.String), Schema.Null]),
         ).pipe(T.JsonName("resolver_ips")),
       }).pipe(T.JsonName("resolver_network")),
     }),
-  ),
+  ]),
   name: Schema.String,
   type: Schema.Literal("http"),
-  httpPort: Schema.optional(Schema.Union(Schema.Number, Schema.Null)).pipe(
+  httpPort: Schema.optional(Schema.Union([Schema.Number, Schema.Null])).pipe(
     T.JsonName("http_port"),
   ),
-  httpsPort: Schema.optional(Schema.Union(Schema.Number, Schema.Null)).pipe(
+  httpsPort: Schema.optional(Schema.Union([Schema.Number, Schema.Null])).pipe(
     T.JsonName("https_port"),
   ),
 }).pipe(
@@ -199,7 +199,7 @@ export interface CreateDirectoryServiceResponse {
 }
 
 export const CreateDirectoryServiceResponse = Schema.Struct({
-  host: Schema.Union(
+  host: Schema.Union([
     Schema.Struct({
       ipv4: Schema.String,
       network: Schema.Struct({
@@ -224,18 +224,18 @@ export const CreateDirectoryServiceResponse = Schema.Struct({
       resolverNetwork: Schema.Struct({
         tunnelId: Schema.String.pipe(T.JsonName("tunnel_id")),
         resolverIps: Schema.optional(
-          Schema.Union(Schema.Array(Schema.String), Schema.Null),
+          Schema.Union([Schema.Array(Schema.String), Schema.Null]),
         ).pipe(T.JsonName("resolver_ips")),
       }).pipe(T.JsonName("resolver_network")),
     }),
-  ),
+  ]),
   name: Schema.String,
   type: Schema.Literal("http"),
   createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
-  httpPort: Schema.optional(Schema.Union(Schema.Number, Schema.Null)).pipe(
+  httpPort: Schema.optional(Schema.Union([Schema.Number, Schema.Null])).pipe(
     T.JsonName("http_port"),
   ),
-  httpsPort: Schema.optional(Schema.Union(Schema.Number, Schema.Null)).pipe(
+  httpsPort: Schema.optional(Schema.Union([Schema.Number, Schema.Null])).pipe(
     T.JsonName("https_port"),
   ),
   serviceId: Schema.optional(Schema.String).pipe(T.JsonName("service_id")),
@@ -280,7 +280,7 @@ export interface UpdateDirectoryServiceRequest {
 export const UpdateDirectoryServiceRequest = Schema.Struct({
   serviceId: Schema.String.pipe(T.HttpPath("serviceId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  host: Schema.Union(
+  host: Schema.Union([
     Schema.Struct({
       ipv4: Schema.String,
       network: Schema.Struct({
@@ -305,17 +305,17 @@ export const UpdateDirectoryServiceRequest = Schema.Struct({
       resolverNetwork: Schema.Struct({
         tunnelId: Schema.String.pipe(T.JsonName("tunnel_id")),
         resolverIps: Schema.optional(
-          Schema.Union(Schema.Array(Schema.String), Schema.Null),
+          Schema.Union([Schema.Array(Schema.String), Schema.Null]),
         ).pipe(T.JsonName("resolver_ips")),
       }).pipe(T.JsonName("resolver_network")),
     }),
-  ),
+  ]),
   name: Schema.String,
   type: Schema.Literal("http"),
-  httpPort: Schema.optional(Schema.Union(Schema.Number, Schema.Null)).pipe(
+  httpPort: Schema.optional(Schema.Union([Schema.Number, Schema.Null])).pipe(
     T.JsonName("http_port"),
   ),
-  httpsPort: Schema.optional(Schema.Union(Schema.Number, Schema.Null)).pipe(
+  httpsPort: Schema.optional(Schema.Union([Schema.Number, Schema.Null])).pipe(
     T.JsonName("https_port"),
   ),
 }).pipe(
@@ -344,7 +344,7 @@ export interface UpdateDirectoryServiceResponse {
 }
 
 export const UpdateDirectoryServiceResponse = Schema.Struct({
-  host: Schema.Union(
+  host: Schema.Union([
     Schema.Struct({
       ipv4: Schema.String,
       network: Schema.Struct({
@@ -369,18 +369,18 @@ export const UpdateDirectoryServiceResponse = Schema.Struct({
       resolverNetwork: Schema.Struct({
         tunnelId: Schema.String.pipe(T.JsonName("tunnel_id")),
         resolverIps: Schema.optional(
-          Schema.Union(Schema.Array(Schema.String), Schema.Null),
+          Schema.Union([Schema.Array(Schema.String), Schema.Null]),
         ).pipe(T.JsonName("resolver_ips")),
       }).pipe(T.JsonName("resolver_network")),
     }),
-  ),
+  ]),
   name: Schema.String,
   type: Schema.Literal("http"),
   createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
-  httpPort: Schema.optional(Schema.Union(Schema.Number, Schema.Null)).pipe(
+  httpPort: Schema.optional(Schema.Union([Schema.Number, Schema.Null])).pipe(
     T.JsonName("http_port"),
   ),
-  httpsPort: Schema.optional(Schema.Union(Schema.Number, Schema.Null)).pipe(
+  httpsPort: Schema.optional(Schema.Union([Schema.Number, Schema.Null])).pipe(
     T.JsonName("https_port"),
   ),
   serviceId: Schema.optional(Schema.String).pipe(T.JsonName("service_id")),

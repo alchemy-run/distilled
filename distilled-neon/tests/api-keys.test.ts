@@ -148,7 +148,9 @@ describe("api-keys", () => {
       // Should fail with either NotFound, Forbidden, or NotAllowed
       expect("error" in result).toBe(true);
       if ("error" in result) {
-        expect(isNotFoundOrForbidden(result.error) || isNotAllowed(result.error)).toBe(true);
+        expect(
+          isNotFoundOrForbidden(result.error) || isNotAllowed(result.error),
+        ).toBe(true);
       }
     });
   });

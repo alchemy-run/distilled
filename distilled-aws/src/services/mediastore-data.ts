@@ -1,4 +1,4 @@
-import { HttpClient } from "@effect/platform";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as effect from "effect/Effect";
 import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
@@ -91,25 +91,21 @@ const rules = T.EndpointResolver((p, _) => {
 
 //# Newtypes
 export type PathNaming = string;
+export type ErrorMessage = string;
+export type ETag = string;
+export type ContentType = string;
+export type NonNegativeLong = number;
+export type StringPrimitive = string;
 export type RangePattern = string;
+export type ContentRangePattern = string;
+export type StatusCode = number;
 export type ListPathNaming = string;
 export type ListLimit = number;
 export type PaginationToken = string;
-export type ContentType = string;
-export type StringPrimitive = string;
-export type ErrorMessage = string;
-export type ETag = string;
-export type NonNegativeLong = number;
-export type ContentRangePattern = string;
-export type StatusCode = number;
-export type SHA256Hash = string;
 export type ItemName = string;
+export type SHA256Hash = string;
 
 //# Schemas
-export type StorageClass = "TEMPORAL" | (string & {});
-export const StorageClass = S.String;
-export type UploadAvailability = "STANDARD" | "STREAMING" | (string & {});
-export const UploadAvailability = S.String;
 export interface DeleteObjectRequest {
   Path: string;
 }
@@ -125,13 +121,13 @@ export const DeleteObjectRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "DeleteObjectRequest",
 }) as any as S.Schema<DeleteObjectRequest>;
 export interface DeleteObjectResponse {}
 export const DeleteObjectResponse = S.suspend(() =>
   S.Struct({}).pipe(ns),
-).annotations({
+).annotate({
   identifier: "DeleteObjectResponse",
 }) as any as S.Schema<DeleteObjectResponse>;
 export interface DescribeObjectRequest {
@@ -149,9 +145,29 @@ export const DescribeObjectRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "DescribeObjectRequest",
 }) as any as S.Schema<DescribeObjectRequest>;
+export interface DescribeObjectResponse {
+  ETag?: string;
+  ContentType?: string;
+  ContentLength?: number;
+  CacheControl?: string;
+  LastModified?: Date;
+}
+export const DescribeObjectResponse = S.suspend(() =>
+  S.Struct({
+    ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
+    ContentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
+    ContentLength: S.optional(S.Number).pipe(T.HttpHeader("Content-Length")),
+    CacheControl: S.optional(S.String).pipe(T.HttpHeader("Cache-Control")),
+    LastModified: S.optional(S.Date.pipe(T.TimestampFormat("http-date"))).pipe(
+      T.HttpHeader("Last-Modified"),
+    ),
+  }).pipe(ns),
+).annotate({
+  identifier: "DescribeObjectResponse",
+}) as any as S.Schema<DescribeObjectResponse>;
 export interface GetObjectRequest {
   Path: string;
   Range?: string;
@@ -171,9 +187,35 @@ export const GetObjectRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "GetObjectRequest",
 }) as any as S.Schema<GetObjectRequest>;
+export interface GetObjectResponse {
+  Body?: T.StreamingOutputBody;
+  CacheControl?: string;
+  ContentRange?: string;
+  ContentLength?: number;
+  ContentType?: string;
+  ETag?: string;
+  LastModified?: Date;
+  StatusCode: number;
+}
+export const GetObjectResponse = S.suspend(() =>
+  S.Struct({
+    Body: S.optional(T.StreamingOutput).pipe(T.HttpPayload()),
+    CacheControl: S.optional(S.String).pipe(T.HttpHeader("Cache-Control")),
+    ContentRange: S.optional(S.String).pipe(T.HttpHeader("Content-Range")),
+    ContentLength: S.optional(S.Number).pipe(T.HttpHeader("Content-Length")),
+    ContentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
+    ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
+    LastModified: S.optional(S.Date.pipe(T.TimestampFormat("http-date"))).pipe(
+      T.HttpHeader("Last-Modified"),
+    ),
+    StatusCode: S.Number.pipe(T.HttpResponseCode()),
+  }).pipe(ns),
+).annotate({
+  identifier: "GetObjectResponse",
+}) as any as S.Schema<GetObjectResponse>;
 export interface ListItemsRequest {
   Path?: string;
   MaxResults?: number;
@@ -195,9 +237,47 @@ export const ListItemsRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "ListItemsRequest",
 }) as any as S.Schema<ListItemsRequest>;
+export type ItemType = "OBJECT" | "FOLDER" | (string & {});
+export const ItemType = S.String;
+export interface Item {
+  Name?: string;
+  Type?: ItemType;
+  ETag?: string;
+  LastModified?: Date;
+  ContentType?: string;
+  ContentLength?: number;
+}
+export const Item = S.suspend(() =>
+  S.Struct({
+    Name: S.optional(S.String),
+    Type: S.optional(ItemType),
+    ETag: S.optional(S.String),
+    LastModified: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    ContentType: S.optional(S.String),
+    ContentLength: S.optional(S.Number),
+  }),
+).annotate({ identifier: "Item" }) as any as S.Schema<Item>;
+export type ItemList = Item[];
+export const ItemList = S.Array(Item);
+export interface ListItemsResponse {
+  Items?: Item[];
+  NextToken?: string;
+}
+export const ListItemsResponse = S.suspend(() =>
+  S.Struct({
+    Items: S.optional(ItemList),
+    NextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotate({
+  identifier: "ListItemsResponse",
+}) as any as S.Schema<ListItemsResponse>;
+export type StorageClass = "TEMPORAL" | (string & {});
+export const StorageClass = S.String;
+export type UploadAvailability = "STANDARD" | "STREAMING" | (string & {});
+export const UploadAvailability = S.String;
 export interface PutObjectRequest {
   Body: T.StreamingInputBody;
   Path: string;
@@ -229,55 +309,9 @@ export const PutObjectRequest = S.suspend(() =>
       rules,
     ),
   ),
-).annotations({
+).annotate({
   identifier: "PutObjectRequest",
 }) as any as S.Schema<PutObjectRequest>;
-export interface DescribeObjectResponse {
-  ETag?: string;
-  ContentType?: string;
-  ContentLength?: number;
-  CacheControl?: string;
-  LastModified?: Date;
-}
-export const DescribeObjectResponse = S.suspend(() =>
-  S.Struct({
-    ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
-    ContentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
-    ContentLength: S.optional(S.Number).pipe(T.HttpHeader("Content-Length")),
-    CacheControl: S.optional(S.String).pipe(T.HttpHeader("Cache-Control")),
-    LastModified: S.optional(S.Date.pipe(T.TimestampFormat("http-date"))).pipe(
-      T.HttpHeader("Last-Modified"),
-    ),
-  }).pipe(ns),
-).annotations({
-  identifier: "DescribeObjectResponse",
-}) as any as S.Schema<DescribeObjectResponse>;
-export interface GetObjectResponse {
-  Body?: T.StreamingOutputBody;
-  CacheControl?: string;
-  ContentRange?: string;
-  ContentLength?: number;
-  ContentType?: string;
-  ETag?: string;
-  LastModified?: Date;
-  StatusCode: number;
-}
-export const GetObjectResponse = S.suspend(() =>
-  S.Struct({
-    Body: S.optional(T.StreamingOutput).pipe(T.HttpPayload()),
-    CacheControl: S.optional(S.String).pipe(T.HttpHeader("Cache-Control")),
-    ContentRange: S.optional(S.String).pipe(T.HttpHeader("Content-Range")),
-    ContentLength: S.optional(S.Number).pipe(T.HttpHeader("Content-Length")),
-    ContentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
-    ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
-    LastModified: S.optional(S.Date.pipe(T.TimestampFormat("http-date"))).pipe(
-      T.HttpHeader("Last-Modified"),
-    ),
-    StatusCode: S.Number.pipe(T.HttpResponseCode()),
-  }).pipe(ns),
-).annotations({
-  identifier: "GetObjectResponse",
-}) as any as S.Schema<GetObjectResponse>;
 export interface PutObjectResponse {
   ContentSHA256?: string;
   ETag?: string;
@@ -289,113 +323,29 @@ export const PutObjectResponse = S.suspend(() =>
     ETag: S.optional(S.String),
     StorageClass: S.optional(StorageClass),
   }).pipe(ns),
-).annotations({
+).annotate({
   identifier: "PutObjectResponse",
 }) as any as S.Schema<PutObjectResponse>;
-export type ItemType = "OBJECT" | "FOLDER" | (string & {});
-export const ItemType = S.String;
-export interface Item {
-  Name?: string;
-  Type?: ItemType;
-  ETag?: string;
-  LastModified?: Date;
-  ContentType?: string;
-  ContentLength?: number;
-}
-export const Item = S.suspend(() =>
-  S.Struct({
-    Name: S.optional(S.String),
-    Type: S.optional(ItemType),
-    ETag: S.optional(S.String),
-    LastModified: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    ContentType: S.optional(S.String),
-    ContentLength: S.optional(S.Number),
-  }),
-).annotations({ identifier: "Item" }) as any as S.Schema<Item>;
-export type ItemList = Item[];
-export const ItemList = S.Array(Item);
-export interface ListItemsResponse {
-  Items?: Item[];
-  NextToken?: string;
-}
-export const ListItemsResponse = S.suspend(() =>
-  S.Struct({
-    Items: S.optional(ItemList),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotations({
-  identifier: "ListItemsResponse",
-}) as any as S.Schema<ListItemsResponse>;
 
 //# Errors
-export class ContainerNotFoundException extends S.TaggedError<ContainerNotFoundException>()(
+export class ContainerNotFoundException extends S.TaggedErrorClass<ContainerNotFoundException>()(
   "ContainerNotFoundException",
   { Message: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
-export class InternalServerError extends S.TaggedError<InternalServerError>()(
+export class InternalServerError extends S.TaggedErrorClass<InternalServerError>()(
   "InternalServerError",
   { Message: S.optional(S.String) },
 ) {}
-export class ObjectNotFoundException extends S.TaggedError<ObjectNotFoundException>()(
+export class ObjectNotFoundException extends S.TaggedErrorClass<ObjectNotFoundException>()(
   "ObjectNotFoundException",
   { Message: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
-export class RequestedRangeNotSatisfiableException extends S.TaggedError<RequestedRangeNotSatisfiableException>()(
+export class RequestedRangeNotSatisfiableException extends S.TaggedErrorClass<RequestedRangeNotSatisfiableException>()(
   "RequestedRangeNotSatisfiableException",
   { Message: S.optional(S.String) },
 ) {}
 
 //# Operations
-/**
- * Provides a list of metadata entries about folders and objects in the specified
- * folder.
- */
-export const listItems: {
-  (
-    input: ListItemsRequest,
-  ): effect.Effect<
-    ListItemsResponse,
-    ContainerNotFoundException | InternalServerError | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  pages: (
-    input: ListItemsRequest,
-  ) => stream.Stream<
-    ListItemsResponse,
-    ContainerNotFoundException | InternalServerError | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  items: (
-    input: ListItemsRequest,
-  ) => stream.Stream<
-    unknown,
-    ContainerNotFoundException | InternalServerError | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
-  input: ListItemsRequest,
-  output: ListItemsResponse,
-  errors: [ContainerNotFoundException, InternalServerError],
-  pagination: {
-    inputToken: "NextToken",
-    outputToken: "NextToken",
-    pageSize: "MaxResults",
-  } as const,
-}));
-/**
- * Uploads an object to the specified path. Object sizes are limited to 25 MB for standard upload availability and 10 MB for streaming upload availability.
- */
-export const putObject: (
-  input: PutObjectRequest,
-) => effect.Effect<
-  PutObjectResponse,
-  ContainerNotFoundException | InternalServerError | CommonErrors,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PutObjectRequest,
-  output: PutObjectResponse,
-  errors: [ContainerNotFoundException, InternalServerError],
-}));
 /**
  * Deletes an object at the specified path.
  */
@@ -460,4 +410,54 @@ export const getObject: (
     ObjectNotFoundException,
     RequestedRangeNotSatisfiableException,
   ],
+}));
+/**
+ * Provides a list of metadata entries about folders and objects in the specified
+ * folder.
+ */
+export const listItems: {
+  (
+    input: ListItemsRequest,
+  ): effect.Effect<
+    ListItemsResponse,
+    ContainerNotFoundException | InternalServerError | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListItemsRequest,
+  ) => stream.Stream<
+    ListItemsResponse,
+    ContainerNotFoundException | InternalServerError | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListItemsRequest,
+  ) => stream.Stream<
+    unknown,
+    ContainerNotFoundException | InternalServerError | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListItemsRequest,
+  output: ListItemsResponse,
+  errors: [ContainerNotFoundException, InternalServerError],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    pageSize: "MaxResults",
+  } as const,
+}));
+/**
+ * Uploads an object to the specified path. Object sizes are limited to 25 MB for standard upload availability and 10 MB for streaming upload availability.
+ */
+export const putObject: (
+  input: PutObjectRequest,
+) => effect.Effect<
+  PutObjectResponse,
+  ContainerNotFoundException | InternalServerError | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutObjectRequest,
+  output: PutObjectResponse,
+  errors: [ContainerNotFoundException, InternalServerError],
 }));

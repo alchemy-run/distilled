@@ -5,8 +5,6 @@
  * Handles request building, authentication, response parsing, and retries.
  */
 
-import { HttpBody, HttpClient, HttpClientRequest } from "@effect/platform";
-import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Option from "effect/Option";
 import * as Redacted from "effect/Redacted";
@@ -14,6 +12,9 @@ import * as Ref from "effect/Ref";
 import * as Schema from "effect/Schema";
 import type * as AST from "effect/SchemaAST";
 import * as Stream from "effect/Stream";
+import * as HttpBody from "effect/unstable/http/HttpBody";
+import * as HttpClient from "effect/unstable/http/HttpClient";
+import * as HttpClientRequest from "effect/unstable/http/HttpClientRequest";
 
 import { ApiToken } from "../auth.ts";
 import {
@@ -31,13 +32,13 @@ import { parseResponse } from "./response-parser.ts";
  * Works with both base classes and schemas annotated via .pipe().
  */
 function extractTagFromAst(ast: AST.AST): string | undefined {
-  // Handle Transformation (result of .pipe() on TaggedError)
-  if (ast._tag === "Transformation") {
-    return extractTagFromAst(ast.from);
+  // v4: Follow encoding chain instead of Transformation
+  if (ast.encoding && ast.encoding.length > 0) {
+    return extractTagFromAst(ast.encoding[0].to);
   }
 
-  // Handle TypeLiteral - look for the _tag property
-  if (ast._tag === "TypeLiteral") {
+  // Handle Objects (v4 renamed from TypeLiteral) - look for the _tag property
+  if (ast._tag === "Objects") {
     const tagProp = ast.propertySignatures.find(
       (p: { name: PropertyKey }) => p.name === "_tag",
     );
@@ -59,26 +60,23 @@ const CLOUDFLARE_API_BASE = "https://api.cloudflare.com/client/v4";
  * Operation definition.
  */
 export interface Operation<
-  I extends Schema.Schema.AnyNoContext = Schema.Schema.AnyNoContext,
-  O extends Schema.Schema.AnyNoContext = Schema.Schema.AnyNoContext,
+  I extends Schema.Top = Schema.Top,
+  O extends Schema.Top = Schema.Top,
 > {
   input: I;
   output: O;
-  errors: Schema.Schema.AnyNoContext[];
+  errors: Schema.Top[];
   pagination?: T.PaginationTrait;
 }
 
 /**
  * Create an Effect-returning API function from an operation definition.
  */
-export const make = <
-  I extends Schema.Schema.AnyNoContext,
-  O extends Schema.Schema.AnyNoContext,
->(
+export const make = <I extends Schema.Top, O extends Schema.Top>(
   initOperation: () => {
     input: I;
     output: O;
-    errors: Schema.Schema.AnyNoContext[];
+    errors: Schema.Top[];
     pagination?: T.PaginationTrait;
   },
 ): any => {
@@ -90,7 +88,7 @@ export const make = <
   // Build error schema map from the errors array
   // Each error class has traits (HttpErrorCode, HttpErrorStatus, HttpErrorMessage)
   // that are used by the response parser for matching
-  const errorSchemas = new Map<string, Schema.Schema.AnyNoContext>();
+  const errorSchemas = new Map<string, Schema.Top>();
 
   for (const errorSchema of op.errors) {
     // Extract the _tag literal from the schema AST to get the error name
@@ -106,16 +104,14 @@ export const make = <
   ): Effect.Effect<
     Output,
     UnknownCloudflareError | CloudflareNetworkError | CloudflareHttpError,
-    ApiToken | HttpClient.HttpClient
+    ApiToken | HttpClient.HttpClient | O["DecodingServices"]
   > =>
     Effect.gen(function* () {
       // Get retry policy from context (defaults to the standard policy)
       const lastErrorRef = yield* Ref.make<unknown>(null);
 
       // Check if a custom retry policy was provided in context (without requiring it)
-      const retryPolicyOption = yield* Effect.contextWith(
-        (ctx: Context.Context<never>) => Context.getOption(ctx, Retry),
-      );
+      const retryPolicyOption = yield* Effect.serviceOption(Retry);
 
       // Resolve policy - could be static Options or a Factory function
       const retryPolicy = Option.match(retryPolicyOption, {
@@ -186,7 +182,7 @@ export const make = <
           if (isFormData) {
             // FormData body - use formData body type
             httpRequest = HttpClientRequest.setBody(
-              HttpBody.formData(request.body as FormData),
+              HttpBody.makeFormData(request.body as FormData),
             )(httpRequest);
           } else {
             // Serialize body based on content type
@@ -276,14 +272,11 @@ export const make = <
 /**
  * Create a paginated API function.
  */
-export const makePaginated = <
-  I extends Schema.Schema.AnyNoContext,
-  O extends Schema.Schema.AnyNoContext,
->(
+export const makePaginated = <I extends Schema.Top, O extends Schema.Top>(
   initOperation: () => {
     input: I;
     output: O;
-    errors: Schema.Schema.AnyNoContext[];
+    errors: Schema.Top[];
     pagination: T.PaginationTrait;
   },
 ) => {
