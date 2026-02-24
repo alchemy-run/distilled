@@ -813,7 +813,9 @@ export const GetCatalogSyncResponse = Schema.Struct({
   lastUserUpdateAt: Schema.String.pipe(T.JsonName("last_user_update_at")),
   name: Schema.String,
   policy: Schema.String,
-  updateMode: Schema.Literals(["AUTO", "MANUAL"]).pipe(T.JsonName("update_mode")),
+  updateMode: Schema.Literals(["AUTO", "MANUAL"]).pipe(
+    T.JsonName("update_mode"),
+  ),
   errors: Schema.optional(Schema.Struct({})),
   includesDiscoveriesUntil: Schema.optional(Schema.String).pipe(
     T.JsonName("includes_discoveries_until"),
@@ -862,7 +864,9 @@ export const CreateCatalogSyncRequest = Schema.Struct({
     T.JsonName("destination_type"),
   ),
   name: Schema.String,
-  updateMode: Schema.Literals(["AUTO", "MANUAL"]).pipe(T.JsonName("update_mode")),
+  updateMode: Schema.Literals(["AUTO", "MANUAL"]).pipe(
+    T.JsonName("update_mode"),
+  ),
   description: Schema.optional(Schema.String),
   policy: Schema.optional(Schema.String),
 }).pipe(
@@ -897,7 +901,9 @@ export const CreateCatalogSyncResponse = Schema.Struct({
   lastUserUpdateAt: Schema.String.pipe(T.JsonName("last_user_update_at")),
   name: Schema.String,
   policy: Schema.String,
-  updateMode: Schema.Literals(["AUTO", "MANUAL"]).pipe(T.JsonName("update_mode")),
+  updateMode: Schema.Literals(["AUTO", "MANUAL"]).pipe(
+    T.JsonName("update_mode"),
+  ),
   errors: Schema.optional(Schema.Struct({})),
   includesDiscoveriesUntil: Schema.optional(Schema.String).pipe(
     T.JsonName("includes_discoveries_until"),
@@ -977,7 +983,9 @@ export const UpdateCatalogSyncResponse = Schema.Struct({
   lastUserUpdateAt: Schema.String.pipe(T.JsonName("last_user_update_at")),
   name: Schema.String,
   policy: Schema.String,
-  updateMode: Schema.Literals(["AUTO", "MANUAL"]).pipe(T.JsonName("update_mode")),
+  updateMode: Schema.Literals(["AUTO", "MANUAL"]).pipe(
+    T.JsonName("update_mode"),
+  ),
   errors: Schema.optional(Schema.Struct({})),
   includesDiscoveriesUntil: Schema.optional(Schema.String).pipe(
     T.JsonName("includes_discoveries_until"),
@@ -1057,7 +1065,9 @@ export const PatchCatalogSyncResponse = Schema.Struct({
   lastUserUpdateAt: Schema.String.pipe(T.JsonName("last_user_update_at")),
   name: Schema.String,
   policy: Schema.String,
-  updateMode: Schema.Literals(["AUTO", "MANUAL"]).pipe(T.JsonName("update_mode")),
+  updateMode: Schema.Literals(["AUTO", "MANUAL"]).pipe(
+    T.JsonName("update_mode"),
+  ),
   errors: Schema.optional(Schema.Struct({})),
   includesDiscoveriesUntil: Schema.optional(Schema.String).pipe(
     T.JsonName("includes_discoveries_until"),

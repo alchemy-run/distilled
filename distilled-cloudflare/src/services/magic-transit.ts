@@ -8452,9 +8452,9 @@ export interface GetSiteWanResponse {
 
 export const GetSiteWanResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
-  healthCheckRate: Schema.optional(Schema.Literals(["low", "mid", "high"])).pipe(
-    T.JsonName("health_check_rate"),
-  ),
+  healthCheckRate: Schema.optional(
+    Schema.Literals(["low", "mid", "high"]),
+  ).pipe(T.JsonName("health_check_rate")),
   name: Schema.optional(Schema.String),
   physport: Schema.optional(Schema.Number),
   priority: Schema.optional(Schema.Number),
@@ -8551,9 +8551,9 @@ export interface PutSiteWanResponse {
 
 export const PutSiteWanResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
-  healthCheckRate: Schema.optional(Schema.Literals(["low", "mid", "high"])).pipe(
-    T.JsonName("health_check_rate"),
-  ),
+  healthCheckRate: Schema.optional(
+    Schema.Literals(["low", "mid", "high"]),
+  ).pipe(T.JsonName("health_check_rate")),
   name: Schema.optional(Schema.String),
   physport: Schema.optional(Schema.Number),
   priority: Schema.optional(Schema.Number),
@@ -8650,9 +8650,9 @@ export interface PatchSiteWanResponse {
 
 export const PatchSiteWanResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
-  healthCheckRate: Schema.optional(Schema.Literals(["low", "mid", "high"])).pipe(
-    T.JsonName("health_check_rate"),
-  ),
+  healthCheckRate: Schema.optional(
+    Schema.Literals(["low", "mid", "high"]),
+  ).pipe(T.JsonName("health_check_rate")),
   name: Schema.optional(Schema.String),
   physport: Schema.optional(Schema.Number),
   priority: Schema.optional(Schema.Number),
@@ -8722,9 +8722,9 @@ export interface DeleteSiteWanResponse {
 
 export const DeleteSiteWanResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
-  healthCheckRate: Schema.optional(Schema.Literals(["low", "mid", "high"])).pipe(
-    T.JsonName("health_check_rate"),
-  ),
+  healthCheckRate: Schema.optional(
+    Schema.Literals(["low", "mid", "high"]),
+  ).pipe(T.JsonName("health_check_rate")),
   name: Schema.optional(Schema.String),
   physport: Schema.optional(Schema.Number),
   priority: Schema.optional(Schema.Number),

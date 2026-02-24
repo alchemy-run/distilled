@@ -838,23 +838,23 @@ export const GetSettingResponse = Schema.Union([
     id: Schema.Literal("0rtt"),
     value: Schema.Literals(["on", "off"]),
     editable: Schema.optional(Schema.Literals([true, false])),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-      T.JsonName("modified_on"),
-    ),
+    modifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ).pipe(T.JsonName("modified_on")),
   }),
   Schema.Struct({
     id: Schema.Literal("advanced_ddos"),
     value: Schema.Literals(["on", "off"]),
     editable: Schema.optional(Schema.Literals([true, false])),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-      T.JsonName("modified_on"),
-    ),
+    modifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ).pipe(T.JsonName("modified_on")),
   }),
   Schema.Struct({
     id: Schema.Literal("aegis"),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-      T.JsonName("modified_on"),
-    ),
+    modifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ).pipe(T.JsonName("modified_on")),
     value: Schema.optional(
       Schema.Struct({
         enabled: Schema.optional(Schema.Boolean),
@@ -866,57 +866,57 @@ export const GetSettingResponse = Schema.Union([
     id: Schema.Literal("always_online"),
     value: Schema.Literals(["on", "off"]),
     editable: Schema.optional(Schema.Literals([true, false])),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-      T.JsonName("modified_on"),
-    ),
+    modifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ).pipe(T.JsonName("modified_on")),
   }),
   Schema.Struct({
     id: Schema.Literal("always_use_https"),
     value: Schema.Literals(["on", "off"]),
     editable: Schema.optional(Schema.Literals([true, false])),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-      T.JsonName("modified_on"),
-    ),
+    modifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ).pipe(T.JsonName("modified_on")),
   }),
   Schema.Struct({
     id: Schema.Literal("automatic_https_rewrites"),
     value: Schema.Literals(["on", "off"]),
     editable: Schema.optional(Schema.Literals([true, false])),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-      T.JsonName("modified_on"),
-    ),
+    modifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ).pipe(T.JsonName("modified_on")),
   }),
   Schema.Struct({
     id: Schema.Literal("brotli"),
     value: Schema.Literals(["off", "on"]),
     editable: Schema.optional(Schema.Literals([true, false])),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-      T.JsonName("modified_on"),
-    ),
+    modifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ).pipe(T.JsonName("modified_on")),
   }),
   Schema.Struct({
     id: Schema.Literal("browser_cache_ttl"),
     value: Schema.Number,
     editable: Schema.optional(Schema.Literals([true, false])),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-      T.JsonName("modified_on"),
-    ),
+    modifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ).pipe(T.JsonName("modified_on")),
   }),
   Schema.Struct({
     id: Schema.Literal("browser_check"),
     value: Schema.Literals(["on", "off"]),
     editable: Schema.optional(Schema.Literals([true, false])),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-      T.JsonName("modified_on"),
-    ),
+    modifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ).pipe(T.JsonName("modified_on")),
   }),
   Schema.Struct({
     id: Schema.Literal("cache_level"),
     value: Schema.Literals(["aggressive", "basic", "simplified"]),
     editable: Schema.optional(Schema.Literals([true, false])),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-      T.JsonName("modified_on"),
-    ),
+    modifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ).pipe(T.JsonName("modified_on")),
   }),
   Schema.Struct({
     id: Schema.Literal("challenge_ttl"),
@@ -937,41 +937,41 @@ export const GetSettingResponse = Schema.Union([
       "31536000",
     ]),
     editable: Schema.optional(Schema.Literals([true, false])),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-      T.JsonName("modified_on"),
-    ),
+    modifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ).pipe(T.JsonName("modified_on")),
   }),
   Schema.Struct({
     id: Schema.Literal("china_network_enabled"),
     value: Schema.Literals(["on", "off"]),
     editable: Schema.optional(Schema.Literals([true, false])),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-      T.JsonName("modified_on"),
-    ),
+    modifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ).pipe(T.JsonName("modified_on")),
   }),
   Schema.Struct({
     id: Schema.Literal("ciphers"),
     value: Schema.Array(Schema.String),
     editable: Schema.optional(Schema.Literals([true, false])),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-      T.JsonName("modified_on"),
-    ),
+    modifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ).pipe(T.JsonName("modified_on")),
   }),
   Schema.Struct({
     id: Schema.Literal("cname_flattening"),
     value: Schema.Literals(["flatten_at_root", "flatten_all"]),
     editable: Schema.optional(Schema.Literals([true, false])),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-      T.JsonName("modified_on"),
-    ),
+    modifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ).pipe(T.JsonName("modified_on")),
   }),
   Schema.Struct({
     id: Schema.Literal("development_mode"),
     value: Schema.Literals(["on", "off"]),
     editable: Schema.optional(Schema.Literals([true, false])),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-      T.JsonName("modified_on"),
-    ),
+    modifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ).pipe(T.JsonName("modified_on")),
     timeRemaining: Schema.optional(Schema.Number).pipe(
       T.JsonName("time_remaining"),
     ),
@@ -980,9 +980,9 @@ export const GetSettingResponse = Schema.Union([
     id: Schema.Literal("early_hints"),
     value: Schema.Literals(["on", "off"]),
     editable: Schema.optional(Schema.Literals([true, false])),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-      T.JsonName("modified_on"),
-    ),
+    modifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ).pipe(T.JsonName("modified_on")),
   }),
   Schema.Struct({
     id: Schema.Literal("edge_cache_ttl"),
@@ -1010,73 +1010,73 @@ export const GetSettingResponse = Schema.Union([
       "604800",
     ]),
     editable: Schema.optional(Schema.Literals([true, false])),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-      T.JsonName("modified_on"),
-    ),
+    modifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ).pipe(T.JsonName("modified_on")),
   }),
   Schema.Struct({
     id: Schema.Literal("email_obfuscation"),
     value: Schema.Literals(["on", "off"]),
     editable: Schema.optional(Schema.Literals([true, false])),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-      T.JsonName("modified_on"),
-    ),
+    modifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ).pipe(T.JsonName("modified_on")),
   }),
   Schema.Struct({
     id: Schema.Literal("h2_prioritization"),
     value: Schema.Literals(["on", "off", "custom"]),
     editable: Schema.optional(Schema.Literals([true, false])),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-      T.JsonName("modified_on"),
-    ),
+    modifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ).pipe(T.JsonName("modified_on")),
   }),
   Schema.Struct({
     id: Schema.Literal("hotlink_protection"),
     value: Schema.Literals(["on", "off"]),
     editable: Schema.optional(Schema.Literals([true, false])),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-      T.JsonName("modified_on"),
-    ),
+    modifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ).pipe(T.JsonName("modified_on")),
   }),
   Schema.Struct({
     id: Schema.Literal("http2"),
     value: Schema.Literals(["on", "off"]),
     editable: Schema.optional(Schema.Literals([true, false])),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-      T.JsonName("modified_on"),
-    ),
+    modifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ).pipe(T.JsonName("modified_on")),
   }),
   Schema.Struct({
     id: Schema.Literal("http3"),
     value: Schema.Literals(["on", "off"]),
     editable: Schema.optional(Schema.Literals([true, false])),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-      T.JsonName("modified_on"),
-    ),
+    modifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ).pipe(T.JsonName("modified_on")),
   }),
   Schema.Struct({
     id: Schema.Literal("image_resizing"),
     value: Schema.Literals(["on", "off", "open"]),
     editable: Schema.optional(Schema.Literals([true, false])),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-      T.JsonName("modified_on"),
-    ),
+    modifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ).pipe(T.JsonName("modified_on")),
   }),
   Schema.Struct({
     id: Schema.Literal("ip_geolocation"),
     value: Schema.Literals(["on", "off"]),
     editable: Schema.optional(Schema.Literals([true, false])),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-      T.JsonName("modified_on"),
-    ),
+    modifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ).pipe(T.JsonName("modified_on")),
   }),
   Schema.Struct({
     id: Schema.Literal("ipv6"),
     value: Schema.Literals(["off", "on"]),
     editable: Schema.optional(Schema.Literals([true, false])),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-      T.JsonName("modified_on"),
-    ),
+    modifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ).pipe(T.JsonName("modified_on")),
   }),
   Schema.Struct({
     id: Schema.Literal("max_upload"),
@@ -1101,25 +1101,25 @@ export const GetSettingResponse = Schema.Union([
       "1000",
     ]),
     editable: Schema.optional(Schema.Literals([true, false])),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-      T.JsonName("modified_on"),
-    ),
+    modifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ).pipe(T.JsonName("modified_on")),
   }),
   Schema.Struct({
     id: Schema.Literal("min_tls_version"),
     value: Schema.Literals(["1.0", "1.1", "1.2", "1.3"]),
     editable: Schema.optional(Schema.Literals([true, false])),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-      T.JsonName("modified_on"),
-    ),
+    modifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ).pipe(T.JsonName("modified_on")),
   }),
   Schema.Struct({
     id: Schema.Literal("mirage"),
     value: Schema.Literals(["on", "off"]),
     editable: Schema.optional(Schema.Literals([true, false])),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-      T.JsonName("modified_on"),
-    ),
+    modifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ).pipe(T.JsonName("modified_on")),
   }),
   Schema.Struct({
     id: Schema.Literal("nel"),
@@ -1127,127 +1127,127 @@ export const GetSettingResponse = Schema.Union([
       enabled: Schema.optional(Schema.Boolean),
     }),
     editable: Schema.optional(Schema.Literals([true, false])),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-      T.JsonName("modified_on"),
-    ),
+    modifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ).pipe(T.JsonName("modified_on")),
   }),
   Schema.Struct({
     id: Schema.Literal("opportunistic_encryption"),
     value: Schema.Literals(["on", "off"]),
     editable: Schema.optional(Schema.Literals([true, false])),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-      T.JsonName("modified_on"),
-    ),
+    modifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ).pipe(T.JsonName("modified_on")),
   }),
   Schema.Struct({
     id: Schema.Literal("opportunistic_onion"),
     value: Schema.Literals(["on", "off"]),
     editable: Schema.optional(Schema.Literals([true, false])),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-      T.JsonName("modified_on"),
-    ),
+    modifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ).pipe(T.JsonName("modified_on")),
   }),
   Schema.Struct({
     id: Schema.Literal("orange_to_orange"),
     value: Schema.Literals(["on", "off"]),
     editable: Schema.optional(Schema.Literals([true, false])),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-      T.JsonName("modified_on"),
-    ),
+    modifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ).pipe(T.JsonName("modified_on")),
   }),
   Schema.Struct({
     id: Schema.Literal("origin_error_page_pass_thru"),
     value: Schema.Literals(["on", "off"]),
     editable: Schema.optional(Schema.Literals([true, false])),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-      T.JsonName("modified_on"),
-    ),
+    modifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ).pipe(T.JsonName("modified_on")),
   }),
   Schema.Struct({
     id: Schema.Literal("origin_h2_max_streams"),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-      T.JsonName("modified_on"),
-    ),
+    modifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ).pipe(T.JsonName("modified_on")),
     value: Schema.optional(Schema.Number),
   }),
   Schema.Struct({
     id: Schema.Literal("origin_max_http_version"),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-      T.JsonName("modified_on"),
-    ),
+    modifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ).pipe(T.JsonName("modified_on")),
     value: Schema.optional(Schema.Literals(["2", "1"])),
   }),
   Schema.Struct({
     id: Schema.Literal("polish"),
     value: Schema.Literals(["off", "lossless", "lossy"]),
     editable: Schema.optional(Schema.Literals([true, false])),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-      T.JsonName("modified_on"),
-    ),
+    modifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ).pipe(T.JsonName("modified_on")),
   }),
   Schema.Struct({
     id: Schema.Literal("prefetch_preload"),
     value: Schema.Literals(["on", "off"]),
     editable: Schema.optional(Schema.Literals([true, false])),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-      T.JsonName("modified_on"),
-    ),
+    modifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ).pipe(T.JsonName("modified_on")),
   }),
   Schema.Struct({
     id: Schema.Literal("privacy_pass"),
     value: Schema.Literals(["on", "off"]),
     editable: Schema.optional(Schema.Literals([true, false])),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-      T.JsonName("modified_on"),
-    ),
+    modifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ).pipe(T.JsonName("modified_on")),
   }),
   Schema.Struct({
     id: Schema.Literal("proxy_read_timeout"),
     value: Schema.Number,
     editable: Schema.optional(Schema.Literals([true, false])),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-      T.JsonName("modified_on"),
-    ),
+    modifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ).pipe(T.JsonName("modified_on")),
   }),
   Schema.Struct({
     id: Schema.Literal("pseudo_ipv4"),
     value: Schema.Literals(["off", "add_header", "overwrite_header"]),
     editable: Schema.optional(Schema.Literals([true, false])),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-      T.JsonName("modified_on"),
-    ),
+    modifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ).pipe(T.JsonName("modified_on")),
   }),
   Schema.Struct({
     id: Schema.Literal("replace_insecure_js"),
     value: Schema.Literals(["on", "off"]),
     editable: Schema.optional(Schema.Literals([true, false])),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-      T.JsonName("modified_on"),
-    ),
+    modifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ).pipe(T.JsonName("modified_on")),
   }),
   Schema.Struct({
     id: Schema.Literal("response_buffering"),
     value: Schema.Literals(["on", "off"]),
     editable: Schema.optional(Schema.Literals([true, false])),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-      T.JsonName("modified_on"),
-    ),
+    modifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ).pipe(T.JsonName("modified_on")),
   }),
   Schema.Struct({
     id: Schema.Literal("rocket_loader"),
     value: Schema.Literals(["on", "off"]),
     editable: Schema.optional(Schema.Literals([true, false])),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-      T.JsonName("modified_on"),
-    ),
+    modifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ).pipe(T.JsonName("modified_on")),
   }),
   Schema.Struct({
     id: Schema.Literal("automatic_platform_optimization"),
     value: Schema.Unknown,
     editable: Schema.optional(Schema.Literals([true, false])),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-      T.JsonName("modified_on"),
-    ),
+    modifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ).pipe(T.JsonName("modified_on")),
   }),
   Schema.Struct({
     id: Schema.Literal("security_header"),
@@ -1265,9 +1265,9 @@ export const GetSettingResponse = Schema.Union([
       ).pipe(T.JsonName("strict_transport_security")),
     }),
     editable: Schema.optional(Schema.Literals([true, false])),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-      T.JsonName("modified_on"),
-    ),
+    modifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ).pipe(T.JsonName("modified_on")),
   }),
   Schema.Struct({
     id: Schema.Literal("security_level"),
@@ -1280,41 +1280,41 @@ export const GetSettingResponse = Schema.Union([
       "under_attack",
     ]),
     editable: Schema.optional(Schema.Literals([true, false])),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-      T.JsonName("modified_on"),
-    ),
+    modifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ).pipe(T.JsonName("modified_on")),
   }),
   Schema.Struct({
     id: Schema.Literal("server_side_exclude"),
     value: Schema.Literals(["on", "off"]),
     editable: Schema.optional(Schema.Literals([true, false])),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-      T.JsonName("modified_on"),
-    ),
+    modifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ).pipe(T.JsonName("modified_on")),
   }),
   Schema.Struct({
     id: Schema.Literal("sha1_support"),
     value: Schema.Literals(["off", "on"]),
     editable: Schema.optional(Schema.Literals([true, false])),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-      T.JsonName("modified_on"),
-    ),
+    modifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ).pipe(T.JsonName("modified_on")),
   }),
   Schema.Struct({
     id: Schema.Literal("sort_query_string_for_cache"),
     value: Schema.Literals(["on", "off"]),
     editable: Schema.optional(Schema.Literals([true, false])),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-      T.JsonName("modified_on"),
-    ),
+    modifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ).pipe(T.JsonName("modified_on")),
   }),
   Schema.Struct({
     id: Schema.Literal("ssl"),
     value: Schema.Literals(["off", "flexible", "full", "strict"]),
     editable: Schema.optional(Schema.Literals([true, false])),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-      T.JsonName("modified_on"),
-    ),
+    modifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ).pipe(T.JsonName("modified_on")),
   }),
   Schema.Struct({
     id: Schema.optional(Schema.Literal("ssl_recommender")),
@@ -1324,73 +1324,73 @@ export const GetSettingResponse = Schema.Union([
     id: Schema.Literal("tls_1_2_only"),
     value: Schema.Literals(["off", "on"]),
     editable: Schema.optional(Schema.Literals([true, false])),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-      T.JsonName("modified_on"),
-    ),
+    modifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ).pipe(T.JsonName("modified_on")),
   }),
   Schema.Struct({
     id: Schema.Literal("tls_1_3"),
     value: Schema.Literals(["on", "off", "zrt"]),
     editable: Schema.optional(Schema.Literals([true, false])),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-      T.JsonName("modified_on"),
-    ),
+    modifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ).pipe(T.JsonName("modified_on")),
   }),
   Schema.Struct({
     id: Schema.Literal("tls_client_auth"),
     value: Schema.Literals(["on", "off"]),
     editable: Schema.optional(Schema.Literals([true, false])),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-      T.JsonName("modified_on"),
-    ),
+    modifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ).pipe(T.JsonName("modified_on")),
   }),
   Schema.Struct({
     id: Schema.Literal("transformations"),
     value: Schema.Literals(["on", "off", "open"]),
     editable: Schema.optional(Schema.Literals([true, false])),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-      T.JsonName("modified_on"),
-    ),
+    modifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ).pipe(T.JsonName("modified_on")),
   }),
   Schema.Struct({
     id: Schema.Literal("transformations_allowed_origins"),
     value: Schema.String,
     editable: Schema.optional(Schema.Literals([true, false])),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-      T.JsonName("modified_on"),
-    ),
+    modifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ).pipe(T.JsonName("modified_on")),
   }),
   Schema.Struct({
     id: Schema.Literal("true_client_ip_header"),
     value: Schema.Literals(["on", "off"]),
     editable: Schema.optional(Schema.Literals([true, false])),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-      T.JsonName("modified_on"),
-    ),
+    modifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ).pipe(T.JsonName("modified_on")),
   }),
   Schema.Struct({
     id: Schema.Literal("waf"),
     value: Schema.Literals(["on", "off"]),
     editable: Schema.optional(Schema.Literals([true, false])),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-      T.JsonName("modified_on"),
-    ),
+    modifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ).pipe(T.JsonName("modified_on")),
   }),
   Schema.Struct({
     id: Schema.Literal("webp"),
     value: Schema.Literals(["off", "on"]),
     editable: Schema.optional(Schema.Literals([true, false])),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-      T.JsonName("modified_on"),
-    ),
+    modifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ).pipe(T.JsonName("modified_on")),
   }),
   Schema.Struct({
     id: Schema.Literal("websockets"),
     value: Schema.Literals(["off", "on"]),
     editable: Schema.optional(Schema.Literals([true, false])),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-      T.JsonName("modified_on"),
-    ),
+    modifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ).pipe(T.JsonName("modified_on")),
   }),
 ]) as unknown as Schema.Schema<GetSettingResponse>;
 
@@ -1839,23 +1839,23 @@ export const PatchSettingResponse = Schema.Union([
     id: Schema.Literal("0rtt"),
     value: Schema.Literals(["on", "off"]),
     editable: Schema.optional(Schema.Literals([true, false])),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-      T.JsonName("modified_on"),
-    ),
+    modifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ).pipe(T.JsonName("modified_on")),
   }),
   Schema.Struct({
     id: Schema.Literal("advanced_ddos"),
     value: Schema.Literals(["on", "off"]),
     editable: Schema.optional(Schema.Literals([true, false])),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-      T.JsonName("modified_on"),
-    ),
+    modifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ).pipe(T.JsonName("modified_on")),
   }),
   Schema.Struct({
     id: Schema.Literal("aegis"),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-      T.JsonName("modified_on"),
-    ),
+    modifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ).pipe(T.JsonName("modified_on")),
     value: Schema.optional(
       Schema.Struct({
         enabled: Schema.optional(Schema.Boolean),
@@ -1867,57 +1867,57 @@ export const PatchSettingResponse = Schema.Union([
     id: Schema.Literal("always_online"),
     value: Schema.Literals(["on", "off"]),
     editable: Schema.optional(Schema.Literals([true, false])),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-      T.JsonName("modified_on"),
-    ),
+    modifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ).pipe(T.JsonName("modified_on")),
   }),
   Schema.Struct({
     id: Schema.Literal("always_use_https"),
     value: Schema.Literals(["on", "off"]),
     editable: Schema.optional(Schema.Literals([true, false])),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-      T.JsonName("modified_on"),
-    ),
+    modifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ).pipe(T.JsonName("modified_on")),
   }),
   Schema.Struct({
     id: Schema.Literal("automatic_https_rewrites"),
     value: Schema.Literals(["on", "off"]),
     editable: Schema.optional(Schema.Literals([true, false])),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-      T.JsonName("modified_on"),
-    ),
+    modifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ).pipe(T.JsonName("modified_on")),
   }),
   Schema.Struct({
     id: Schema.Literal("brotli"),
     value: Schema.Literals(["off", "on"]),
     editable: Schema.optional(Schema.Literals([true, false])),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-      T.JsonName("modified_on"),
-    ),
+    modifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ).pipe(T.JsonName("modified_on")),
   }),
   Schema.Struct({
     id: Schema.Literal("browser_cache_ttl"),
     value: Schema.Number,
     editable: Schema.optional(Schema.Literals([true, false])),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-      T.JsonName("modified_on"),
-    ),
+    modifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ).pipe(T.JsonName("modified_on")),
   }),
   Schema.Struct({
     id: Schema.Literal("browser_check"),
     value: Schema.Literals(["on", "off"]),
     editable: Schema.optional(Schema.Literals([true, false])),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-      T.JsonName("modified_on"),
-    ),
+    modifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ).pipe(T.JsonName("modified_on")),
   }),
   Schema.Struct({
     id: Schema.Literal("cache_level"),
     value: Schema.Literals(["aggressive", "basic", "simplified"]),
     editable: Schema.optional(Schema.Literals([true, false])),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-      T.JsonName("modified_on"),
-    ),
+    modifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ).pipe(T.JsonName("modified_on")),
   }),
   Schema.Struct({
     id: Schema.Literal("challenge_ttl"),
@@ -1938,41 +1938,41 @@ export const PatchSettingResponse = Schema.Union([
       "31536000",
     ]),
     editable: Schema.optional(Schema.Literals([true, false])),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-      T.JsonName("modified_on"),
-    ),
+    modifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ).pipe(T.JsonName("modified_on")),
   }),
   Schema.Struct({
     id: Schema.Literal("china_network_enabled"),
     value: Schema.Literals(["on", "off"]),
     editable: Schema.optional(Schema.Literals([true, false])),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-      T.JsonName("modified_on"),
-    ),
+    modifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ).pipe(T.JsonName("modified_on")),
   }),
   Schema.Struct({
     id: Schema.Literal("ciphers"),
     value: Schema.Array(Schema.String),
     editable: Schema.optional(Schema.Literals([true, false])),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-      T.JsonName("modified_on"),
-    ),
+    modifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ).pipe(T.JsonName("modified_on")),
   }),
   Schema.Struct({
     id: Schema.Literal("cname_flattening"),
     value: Schema.Literals(["flatten_at_root", "flatten_all"]),
     editable: Schema.optional(Schema.Literals([true, false])),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-      T.JsonName("modified_on"),
-    ),
+    modifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ).pipe(T.JsonName("modified_on")),
   }),
   Schema.Struct({
     id: Schema.Literal("development_mode"),
     value: Schema.Literals(["on", "off"]),
     editable: Schema.optional(Schema.Literals([true, false])),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-      T.JsonName("modified_on"),
-    ),
+    modifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ).pipe(T.JsonName("modified_on")),
     timeRemaining: Schema.optional(Schema.Number).pipe(
       T.JsonName("time_remaining"),
     ),
@@ -1981,9 +1981,9 @@ export const PatchSettingResponse = Schema.Union([
     id: Schema.Literal("early_hints"),
     value: Schema.Literals(["on", "off"]),
     editable: Schema.optional(Schema.Literals([true, false])),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-      T.JsonName("modified_on"),
-    ),
+    modifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ).pipe(T.JsonName("modified_on")),
   }),
   Schema.Struct({
     id: Schema.Literal("edge_cache_ttl"),
@@ -2011,73 +2011,73 @@ export const PatchSettingResponse = Schema.Union([
       "604800",
     ]),
     editable: Schema.optional(Schema.Literals([true, false])),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-      T.JsonName("modified_on"),
-    ),
+    modifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ).pipe(T.JsonName("modified_on")),
   }),
   Schema.Struct({
     id: Schema.Literal("email_obfuscation"),
     value: Schema.Literals(["on", "off"]),
     editable: Schema.optional(Schema.Literals([true, false])),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-      T.JsonName("modified_on"),
-    ),
+    modifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ).pipe(T.JsonName("modified_on")),
   }),
   Schema.Struct({
     id: Schema.Literal("h2_prioritization"),
     value: Schema.Literals(["on", "off", "custom"]),
     editable: Schema.optional(Schema.Literals([true, false])),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-      T.JsonName("modified_on"),
-    ),
+    modifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ).pipe(T.JsonName("modified_on")),
   }),
   Schema.Struct({
     id: Schema.Literal("hotlink_protection"),
     value: Schema.Literals(["on", "off"]),
     editable: Schema.optional(Schema.Literals([true, false])),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-      T.JsonName("modified_on"),
-    ),
+    modifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ).pipe(T.JsonName("modified_on")),
   }),
   Schema.Struct({
     id: Schema.Literal("http2"),
     value: Schema.Literals(["on", "off"]),
     editable: Schema.optional(Schema.Literals([true, false])),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-      T.JsonName("modified_on"),
-    ),
+    modifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ).pipe(T.JsonName("modified_on")),
   }),
   Schema.Struct({
     id: Schema.Literal("http3"),
     value: Schema.Literals(["on", "off"]),
     editable: Schema.optional(Schema.Literals([true, false])),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-      T.JsonName("modified_on"),
-    ),
+    modifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ).pipe(T.JsonName("modified_on")),
   }),
   Schema.Struct({
     id: Schema.Literal("image_resizing"),
     value: Schema.Literals(["on", "off", "open"]),
     editable: Schema.optional(Schema.Literals([true, false])),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-      T.JsonName("modified_on"),
-    ),
+    modifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ).pipe(T.JsonName("modified_on")),
   }),
   Schema.Struct({
     id: Schema.Literal("ip_geolocation"),
     value: Schema.Literals(["on", "off"]),
     editable: Schema.optional(Schema.Literals([true, false])),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-      T.JsonName("modified_on"),
-    ),
+    modifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ).pipe(T.JsonName("modified_on")),
   }),
   Schema.Struct({
     id: Schema.Literal("ipv6"),
     value: Schema.Literals(["off", "on"]),
     editable: Schema.optional(Schema.Literals([true, false])),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-      T.JsonName("modified_on"),
-    ),
+    modifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ).pipe(T.JsonName("modified_on")),
   }),
   Schema.Struct({
     id: Schema.Literal("max_upload"),
@@ -2102,25 +2102,25 @@ export const PatchSettingResponse = Schema.Union([
       "1000",
     ]),
     editable: Schema.optional(Schema.Literals([true, false])),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-      T.JsonName("modified_on"),
-    ),
+    modifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ).pipe(T.JsonName("modified_on")),
   }),
   Schema.Struct({
     id: Schema.Literal("min_tls_version"),
     value: Schema.Literals(["1.0", "1.1", "1.2", "1.3"]),
     editable: Schema.optional(Schema.Literals([true, false])),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-      T.JsonName("modified_on"),
-    ),
+    modifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ).pipe(T.JsonName("modified_on")),
   }),
   Schema.Struct({
     id: Schema.Literal("mirage"),
     value: Schema.Literals(["on", "off"]),
     editable: Schema.optional(Schema.Literals([true, false])),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-      T.JsonName("modified_on"),
-    ),
+    modifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ).pipe(T.JsonName("modified_on")),
   }),
   Schema.Struct({
     id: Schema.Literal("nel"),
@@ -2128,127 +2128,127 @@ export const PatchSettingResponse = Schema.Union([
       enabled: Schema.optional(Schema.Boolean),
     }),
     editable: Schema.optional(Schema.Literals([true, false])),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-      T.JsonName("modified_on"),
-    ),
+    modifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ).pipe(T.JsonName("modified_on")),
   }),
   Schema.Struct({
     id: Schema.Literal("opportunistic_encryption"),
     value: Schema.Literals(["on", "off"]),
     editable: Schema.optional(Schema.Literals([true, false])),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-      T.JsonName("modified_on"),
-    ),
+    modifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ).pipe(T.JsonName("modified_on")),
   }),
   Schema.Struct({
     id: Schema.Literal("opportunistic_onion"),
     value: Schema.Literals(["on", "off"]),
     editable: Schema.optional(Schema.Literals([true, false])),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-      T.JsonName("modified_on"),
-    ),
+    modifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ).pipe(T.JsonName("modified_on")),
   }),
   Schema.Struct({
     id: Schema.Literal("orange_to_orange"),
     value: Schema.Literals(["on", "off"]),
     editable: Schema.optional(Schema.Literals([true, false])),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-      T.JsonName("modified_on"),
-    ),
+    modifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ).pipe(T.JsonName("modified_on")),
   }),
   Schema.Struct({
     id: Schema.Literal("origin_error_page_pass_thru"),
     value: Schema.Literals(["on", "off"]),
     editable: Schema.optional(Schema.Literals([true, false])),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-      T.JsonName("modified_on"),
-    ),
+    modifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ).pipe(T.JsonName("modified_on")),
   }),
   Schema.Struct({
     id: Schema.Literal("origin_h2_max_streams"),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-      T.JsonName("modified_on"),
-    ),
+    modifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ).pipe(T.JsonName("modified_on")),
     value: Schema.optional(Schema.Number),
   }),
   Schema.Struct({
     id: Schema.Literal("origin_max_http_version"),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-      T.JsonName("modified_on"),
-    ),
+    modifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ).pipe(T.JsonName("modified_on")),
     value: Schema.optional(Schema.Literals(["2", "1"])),
   }),
   Schema.Struct({
     id: Schema.Literal("polish"),
     value: Schema.Literals(["off", "lossless", "lossy"]),
     editable: Schema.optional(Schema.Literals([true, false])),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-      T.JsonName("modified_on"),
-    ),
+    modifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ).pipe(T.JsonName("modified_on")),
   }),
   Schema.Struct({
     id: Schema.Literal("prefetch_preload"),
     value: Schema.Literals(["on", "off"]),
     editable: Schema.optional(Schema.Literals([true, false])),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-      T.JsonName("modified_on"),
-    ),
+    modifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ).pipe(T.JsonName("modified_on")),
   }),
   Schema.Struct({
     id: Schema.Literal("privacy_pass"),
     value: Schema.Literals(["on", "off"]),
     editable: Schema.optional(Schema.Literals([true, false])),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-      T.JsonName("modified_on"),
-    ),
+    modifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ).pipe(T.JsonName("modified_on")),
   }),
   Schema.Struct({
     id: Schema.Literal("proxy_read_timeout"),
     value: Schema.Number,
     editable: Schema.optional(Schema.Literals([true, false])),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-      T.JsonName("modified_on"),
-    ),
+    modifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ).pipe(T.JsonName("modified_on")),
   }),
   Schema.Struct({
     id: Schema.Literal("pseudo_ipv4"),
     value: Schema.Literals(["off", "add_header", "overwrite_header"]),
     editable: Schema.optional(Schema.Literals([true, false])),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-      T.JsonName("modified_on"),
-    ),
+    modifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ).pipe(T.JsonName("modified_on")),
   }),
   Schema.Struct({
     id: Schema.Literal("replace_insecure_js"),
     value: Schema.Literals(["on", "off"]),
     editable: Schema.optional(Schema.Literals([true, false])),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-      T.JsonName("modified_on"),
-    ),
+    modifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ).pipe(T.JsonName("modified_on")),
   }),
   Schema.Struct({
     id: Schema.Literal("response_buffering"),
     value: Schema.Literals(["on", "off"]),
     editable: Schema.optional(Schema.Literals([true, false])),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-      T.JsonName("modified_on"),
-    ),
+    modifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ).pipe(T.JsonName("modified_on")),
   }),
   Schema.Struct({
     id: Schema.Literal("rocket_loader"),
     value: Schema.Literals(["on", "off"]),
     editable: Schema.optional(Schema.Literals([true, false])),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-      T.JsonName("modified_on"),
-    ),
+    modifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ).pipe(T.JsonName("modified_on")),
   }),
   Schema.Struct({
     id: Schema.Literal("automatic_platform_optimization"),
     value: Schema.Unknown,
     editable: Schema.optional(Schema.Literals([true, false])),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-      T.JsonName("modified_on"),
-    ),
+    modifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ).pipe(T.JsonName("modified_on")),
   }),
   Schema.Struct({
     id: Schema.Literal("security_header"),
@@ -2266,9 +2266,9 @@ export const PatchSettingResponse = Schema.Union([
       ).pipe(T.JsonName("strict_transport_security")),
     }),
     editable: Schema.optional(Schema.Literals([true, false])),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-      T.JsonName("modified_on"),
-    ),
+    modifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ).pipe(T.JsonName("modified_on")),
   }),
   Schema.Struct({
     id: Schema.Literal("security_level"),
@@ -2281,41 +2281,41 @@ export const PatchSettingResponse = Schema.Union([
       "under_attack",
     ]),
     editable: Schema.optional(Schema.Literals([true, false])),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-      T.JsonName("modified_on"),
-    ),
+    modifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ).pipe(T.JsonName("modified_on")),
   }),
   Schema.Struct({
     id: Schema.Literal("server_side_exclude"),
     value: Schema.Literals(["on", "off"]),
     editable: Schema.optional(Schema.Literals([true, false])),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-      T.JsonName("modified_on"),
-    ),
+    modifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ).pipe(T.JsonName("modified_on")),
   }),
   Schema.Struct({
     id: Schema.Literal("sha1_support"),
     value: Schema.Literals(["off", "on"]),
     editable: Schema.optional(Schema.Literals([true, false])),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-      T.JsonName("modified_on"),
-    ),
+    modifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ).pipe(T.JsonName("modified_on")),
   }),
   Schema.Struct({
     id: Schema.Literal("sort_query_string_for_cache"),
     value: Schema.Literals(["on", "off"]),
     editable: Schema.optional(Schema.Literals([true, false])),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-      T.JsonName("modified_on"),
-    ),
+    modifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ).pipe(T.JsonName("modified_on")),
   }),
   Schema.Struct({
     id: Schema.Literal("ssl"),
     value: Schema.Literals(["off", "flexible", "full", "strict"]),
     editable: Schema.optional(Schema.Literals([true, false])),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-      T.JsonName("modified_on"),
-    ),
+    modifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ).pipe(T.JsonName("modified_on")),
   }),
   Schema.Struct({
     id: Schema.optional(Schema.Literal("ssl_recommender")),
@@ -2325,73 +2325,73 @@ export const PatchSettingResponse = Schema.Union([
     id: Schema.Literal("tls_1_2_only"),
     value: Schema.Literals(["off", "on"]),
     editable: Schema.optional(Schema.Literals([true, false])),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-      T.JsonName("modified_on"),
-    ),
+    modifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ).pipe(T.JsonName("modified_on")),
   }),
   Schema.Struct({
     id: Schema.Literal("tls_1_3"),
     value: Schema.Literals(["on", "off", "zrt"]),
     editable: Schema.optional(Schema.Literals([true, false])),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-      T.JsonName("modified_on"),
-    ),
+    modifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ).pipe(T.JsonName("modified_on")),
   }),
   Schema.Struct({
     id: Schema.Literal("tls_client_auth"),
     value: Schema.Literals(["on", "off"]),
     editable: Schema.optional(Schema.Literals([true, false])),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-      T.JsonName("modified_on"),
-    ),
+    modifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ).pipe(T.JsonName("modified_on")),
   }),
   Schema.Struct({
     id: Schema.Literal("transformations"),
     value: Schema.Literals(["on", "off", "open"]),
     editable: Schema.optional(Schema.Literals([true, false])),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-      T.JsonName("modified_on"),
-    ),
+    modifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ).pipe(T.JsonName("modified_on")),
   }),
   Schema.Struct({
     id: Schema.Literal("transformations_allowed_origins"),
     value: Schema.String,
     editable: Schema.optional(Schema.Literals([true, false])),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-      T.JsonName("modified_on"),
-    ),
+    modifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ).pipe(T.JsonName("modified_on")),
   }),
   Schema.Struct({
     id: Schema.Literal("true_client_ip_header"),
     value: Schema.Literals(["on", "off"]),
     editable: Schema.optional(Schema.Literals([true, false])),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-      T.JsonName("modified_on"),
-    ),
+    modifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ).pipe(T.JsonName("modified_on")),
   }),
   Schema.Struct({
     id: Schema.Literal("waf"),
     value: Schema.Literals(["on", "off"]),
     editable: Schema.optional(Schema.Literals([true, false])),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-      T.JsonName("modified_on"),
-    ),
+    modifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ).pipe(T.JsonName("modified_on")),
   }),
   Schema.Struct({
     id: Schema.Literal("webp"),
     value: Schema.Literals(["off", "on"]),
     editable: Schema.optional(Schema.Literals([true, false])),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-      T.JsonName("modified_on"),
-    ),
+    modifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ).pipe(T.JsonName("modified_on")),
   }),
   Schema.Struct({
     id: Schema.Literal("websockets"),
     value: Schema.Literals(["off", "on"]),
     editable: Schema.optional(Schema.Literals([true, false])),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-      T.JsonName("modified_on"),
-    ),
+    modifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ).pipe(T.JsonName("modified_on")),
   }),
 ]) as unknown as Schema.Schema<PatchSettingResponse>;
 

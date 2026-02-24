@@ -3458,7 +3458,9 @@ export interface EdnsAs112TopRequest {
 }
 
 export const EdnsAs112TopRequest = Schema.Struct({
-  edns: Schema.Literals(["SUPPORTED", "NOT_SUPPORTED"]).pipe(T.HttpPath("edns")),
+  edns: Schema.Literals(["SUPPORTED", "NOT_SUPPORTED"]).pipe(
+    T.HttpPath("edns"),
+  ),
 }).pipe(
   T.Http({ method: "GET", path: "/radar/as112/top/locations/edns/{edns}" }),
 ) as unknown as Schema.Schema<EdnsAs112TopRequest>;

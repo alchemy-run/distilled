@@ -1098,9 +1098,9 @@ export const CreateInstanceResponse = Schema.Struct({
   hybridSearchEnabled: Schema.optional(Schema.Boolean).pipe(
     T.JsonName("hybrid_search_enabled"),
   ),
-  lastActivity: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-    T.JsonName("last_activity"),
-  ),
+  lastActivity: Schema.optional(
+    Schema.Union([Schema.String, Schema.Null]),
+  ).pipe(T.JsonName("last_activity")),
   maxNumResults: Schema.optional(Schema.Number).pipe(
     T.JsonName("max_num_results"),
   ),
@@ -1966,9 +1966,9 @@ export const UpdateInstanceResponse = Schema.Struct({
   hybridSearchEnabled: Schema.optional(Schema.Boolean).pipe(
     T.JsonName("hybrid_search_enabled"),
   ),
-  lastActivity: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-    T.JsonName("last_activity"),
-  ),
+  lastActivity: Schema.optional(
+    Schema.Union([Schema.String, Schema.Null]),
+  ).pipe(T.JsonName("last_activity")),
   maxNumResults: Schema.optional(Schema.Number).pipe(
     T.JsonName("max_num_results"),
   ),
@@ -2432,9 +2432,9 @@ export const DeleteInstanceResponse = Schema.Struct({
   hybridSearchEnabled: Schema.optional(Schema.Boolean).pipe(
     T.JsonName("hybrid_search_enabled"),
   ),
-  lastActivity: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-    T.JsonName("last_activity"),
-  ),
+  lastActivity: Schema.optional(
+    Schema.Union([Schema.String, Schema.Null]),
+  ).pipe(T.JsonName("last_activity")),
   maxNumResults: Schema.optional(Schema.Number).pipe(
     T.JsonName("max_num_results"),
   ),
@@ -2898,9 +2898,9 @@ export const ReadInstanceResponse = Schema.Struct({
   hybridSearchEnabled: Schema.optional(Schema.Boolean).pipe(
     T.JsonName("hybrid_search_enabled"),
   ),
-  lastActivity: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-    T.JsonName("last_activity"),
-  ),
+  lastActivity: Schema.optional(
+    Schema.Union([Schema.String, Schema.Null]),
+  ).pipe(T.JsonName("last_activity")),
   maxNumResults: Schema.optional(Schema.Number).pipe(
     T.JsonName("max_num_results"),
   ),
@@ -3138,9 +3138,9 @@ export const StatsInstanceResponse = Schema.Struct({
   indexSourceErrors: Schema.optional(Schema.Struct({})).pipe(
     T.JsonName("index_source_errors"),
   ),
-  lastActivity: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-    T.JsonName("last_activity"),
-  ),
+  lastActivity: Schema.optional(
+    Schema.Union([Schema.String, Schema.Null]),
+  ).pipe(T.JsonName("last_activity")),
   queued: Schema.optional(Schema.Number),
   running: Schema.optional(Schema.Number),
   skipped: Schema.optional(Schema.Number),
@@ -3191,7 +3191,13 @@ export interface GetInstanceItemResponse {
 export const GetInstanceItemResponse = Schema.Struct({
   id: Schema.String,
   key: Schema.String,
-  status: Schema.Literals(["queued", "running", "completed", "error", "skipped"]),
+  status: Schema.Literals([
+    "queued",
+    "running",
+    "completed",
+    "error",
+    "skipped",
+  ]),
   error: Schema.optional(Schema.String),
   lastSeenAt: Schema.optional(Schema.String).pipe(T.JsonName("last_seen_at")),
   nextAction: Schema.optional(Schema.String).pipe(T.JsonName("next_action")),

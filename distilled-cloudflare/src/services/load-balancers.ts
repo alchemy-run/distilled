@@ -3180,9 +3180,9 @@ export const GetPoolResponse = Schema.Struct({
   disabledAt: Schema.optional(Schema.String).pipe(T.JsonName("disabled_at")),
   enabled: Schema.optional(Schema.Boolean),
   latitude: Schema.optional(Schema.Number),
-  loadShedding: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])).pipe(
-    T.JsonName("load_shedding"),
-  ),
+  loadShedding: Schema.optional(
+    Schema.Union([Schema.Unknown, Schema.Null]),
+  ).pipe(T.JsonName("load_shedding")),
   longitude: Schema.optional(Schema.Number),
   minimumOrigins: Schema.optional(Schema.Number).pipe(
     T.JsonName("minimum_origins"),
@@ -3256,9 +3256,9 @@ export const CreatePoolRequest = Schema.Struct({
   description: Schema.optional(Schema.String),
   enabled: Schema.optional(Schema.Boolean),
   latitude: Schema.optional(Schema.Number),
-  loadShedding: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])).pipe(
-    T.JsonName("load_shedding"),
-  ),
+  loadShedding: Schema.optional(
+    Schema.Union([Schema.Unknown, Schema.Null]),
+  ).pipe(T.JsonName("load_shedding")),
   longitude: Schema.optional(Schema.Number),
   minimumOrigins: Schema.optional(Schema.Number).pipe(
     T.JsonName("minimum_origins"),
@@ -3368,9 +3368,9 @@ export const CreatePoolResponse = Schema.Struct({
   disabledAt: Schema.optional(Schema.String).pipe(T.JsonName("disabled_at")),
   enabled: Schema.optional(Schema.Boolean),
   latitude: Schema.optional(Schema.Number),
-  loadShedding: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])).pipe(
-    T.JsonName("load_shedding"),
-  ),
+  loadShedding: Schema.optional(
+    Schema.Union([Schema.Unknown, Schema.Null]),
+  ).pipe(T.JsonName("load_shedding")),
   longitude: Schema.optional(Schema.Number),
   minimumOrigins: Schema.optional(Schema.Number).pipe(
     T.JsonName("minimum_origins"),
@@ -3488,9 +3488,9 @@ export const UpdatePoolRequest = Schema.Struct({
   description: Schema.optional(Schema.String),
   enabled: Schema.optional(Schema.Boolean),
   latitude: Schema.optional(Schema.Number),
-  loadShedding: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])).pipe(
-    T.JsonName("load_shedding"),
-  ),
+  loadShedding: Schema.optional(
+    Schema.Union([Schema.Unknown, Schema.Null]),
+  ).pipe(T.JsonName("load_shedding")),
   longitude: Schema.optional(Schema.Number),
   minimumOrigins: Schema.optional(Schema.Number).pipe(
     T.JsonName("minimum_origins"),
@@ -3600,9 +3600,9 @@ export const UpdatePoolResponse = Schema.Struct({
   disabledAt: Schema.optional(Schema.String).pipe(T.JsonName("disabled_at")),
   enabled: Schema.optional(Schema.Boolean),
   latitude: Schema.optional(Schema.Number),
-  loadShedding: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])).pipe(
-    T.JsonName("load_shedding"),
-  ),
+  loadShedding: Schema.optional(
+    Schema.Union([Schema.Unknown, Schema.Null]),
+  ).pipe(T.JsonName("load_shedding")),
   longitude: Schema.optional(Schema.Number),
   minimumOrigins: Schema.optional(Schema.Number).pipe(
     T.JsonName("minimum_origins"),
@@ -3718,9 +3718,9 @@ export const PatchPoolRequest = Schema.Struct({
   description: Schema.optional(Schema.String),
   enabled: Schema.optional(Schema.Boolean),
   latitude: Schema.optional(Schema.Number),
-  loadShedding: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])).pipe(
-    T.JsonName("load_shedding"),
-  ),
+  loadShedding: Schema.optional(
+    Schema.Union([Schema.Unknown, Schema.Null]),
+  ).pipe(T.JsonName("load_shedding")),
   longitude: Schema.optional(Schema.Number),
   minimumOrigins: Schema.optional(Schema.Number).pipe(
     T.JsonName("minimum_origins"),
@@ -3832,9 +3832,9 @@ export const PatchPoolResponse = Schema.Struct({
   disabledAt: Schema.optional(Schema.String).pipe(T.JsonName("disabled_at")),
   enabled: Schema.optional(Schema.Boolean),
   latitude: Schema.optional(Schema.Number),
-  loadShedding: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])).pipe(
-    T.JsonName("load_shedding"),
-  ),
+  loadShedding: Schema.optional(
+    Schema.Union([Schema.Unknown, Schema.Null]),
+  ).pipe(T.JsonName("load_shedding")),
   longitude: Schema.optional(Schema.Number),
   minimumOrigins: Schema.optional(Schema.Number).pipe(
     T.JsonName("minimum_origins"),

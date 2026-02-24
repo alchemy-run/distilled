@@ -583,9 +583,9 @@ export const GetScriptResponse = Schema.Struct({
   cryptominingScore: Schema.optional(
     Schema.Union([Schema.Number, Schema.Null]),
   ).pipe(T.JsonName("cryptomining_score")),
-  dataflowScore: Schema.optional(Schema.Union([Schema.Number, Schema.Null])).pipe(
-    T.JsonName("dataflow_score"),
-  ),
+  dataflowScore: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ).pipe(T.JsonName("dataflow_score")),
   domainReportedMalicious: Schema.optional(Schema.Boolean).pipe(
     T.JsonName("domain_reported_malicious"),
   ),
@@ -599,18 +599,18 @@ export const GetScriptResponse = Schema.Struct({
   jsIntegrityScore: Schema.optional(
     Schema.Union([Schema.Number, Schema.Null]),
   ).pipe(T.JsonName("js_integrity_score")),
-  magecartScore: Schema.optional(Schema.Union([Schema.Number, Schema.Null])).pipe(
-    T.JsonName("magecart_score"),
-  ),
+  magecartScore: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ).pipe(T.JsonName("magecart_score")),
   maliciousDomainCategories: Schema.optional(Schema.Array(Schema.String)).pipe(
     T.JsonName("malicious_domain_categories"),
   ),
   maliciousUrlCategories: Schema.optional(Schema.Array(Schema.String)).pipe(
     T.JsonName("malicious_url_categories"),
   ),
-  malwareScore: Schema.optional(Schema.Union([Schema.Number, Schema.Null])).pipe(
-    T.JsonName("malware_score"),
-  ),
+  malwareScore: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ).pipe(T.JsonName("malware_score")),
   obfuscationScore: Schema.optional(
     Schema.Union([Schema.Number, Schema.Null]),
   ).pipe(T.JsonName("obfuscation_score")),

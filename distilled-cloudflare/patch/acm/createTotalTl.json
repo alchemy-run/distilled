@@ -2,7 +2,8 @@
   "errors": {
     "InvalidObjectIdentifier": [{ "code": 7003 }],
     "AdvancedCertificateManagerRequired": [{ "code": 1450 }],
-    "NoStateChange": [{ "code": 1467 }]
+    "NoStateChange": [{ "code": 1467 }],
+    "PreviousJobInProgress": [{ "code": 1482 }]
   },
   "response": {
     "properties": {

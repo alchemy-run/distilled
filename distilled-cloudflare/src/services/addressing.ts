@@ -27,9 +27,9 @@ export class AddressMapNotFound extends Schema.TaggedErrorClass<AddressMapNotFou
   { code: Schema.Number, message: Schema.String },
 ) {}
 T.applyErrorMatchers(AddressMapNotFound, [
-    { code: 1000 },
-    { code: 1000, message: { includes: "not_found" } },
-  ]);
+  { code: 1000 },
+  { code: 1000, message: { includes: "not_found" } },
+]);
 
 export class BgpPrefixNotFound extends Schema.TaggedErrorClass<BgpPrefixNotFound>()(
   "BgpPrefixNotFound",
@@ -54,54 +54,56 @@ export class FeatureNotEnabled extends Schema.TaggedErrorClass<FeatureNotEnabled
   { code: Schema.Number, message: Schema.String },
 ) {}
 T.applyErrorMatchers(FeatureNotEnabled, [
-    { code: 1002, message: { includes: "address_maps_not_enabled" } },
-  ]);
+  { code: 1002, message: { includes: "address_maps_not_enabled" } },
+]);
 
 export class InvalidAccountId extends Schema.TaggedErrorClass<InvalidAccountId>()(
   "InvalidAccountId",
   { code: Schema.Number, message: Schema.String },
 ) {}
 T.applyErrorMatchers(InvalidAccountId, [
-    { code: 7003, message: { includes: "Could not route" } },
-  ]);
+  { code: 7003, message: { includes: "Could not route" } },
+]);
 
 export class InvalidHostname extends Schema.TaggedErrorClass<InvalidHostname>()(
   "InvalidHostname",
   { code: Schema.Number, message: Schema.String },
 ) {}
-T.applyErrorMatchers(InvalidHostname, [{ code: 1002, message: { includes: "forbidden" } }]);
+T.applyErrorMatchers(InvalidHostname, [
+  { code: 1002, message: { includes: "forbidden" } },
+]);
 
 export class InvalidLoaForm extends Schema.TaggedErrorClass<InvalidLoaForm>()(
   "InvalidLoaForm",
   { code: Schema.Number, message: Schema.String },
 ) {}
 T.applyErrorMatchers(InvalidLoaForm, [
-    { code: 1001, message: { includes: "invalid_loa_form" } },
-  ]);
+  { code: 1001, message: { includes: "invalid_loa_form" } },
+]);
 
 export class InvalidNetworkCidr extends Schema.TaggedErrorClass<InvalidNetworkCidr>()(
   "InvalidNetworkCidr",
   { code: Schema.Number, message: Schema.String },
 ) {}
 T.applyErrorMatchers(InvalidNetworkCidr, [
-    { code: 1001, message: { includes: "invalid_network_cidr" } },
-  ]);
+  { code: 1001, message: { includes: "invalid_network_cidr" } },
+]);
 
 export class InvalidZoneId extends Schema.TaggedErrorClass<InvalidZoneId>()(
   "InvalidZoneId",
   { code: Schema.Number, message: Schema.String },
 ) {}
 T.applyErrorMatchers(InvalidZoneId, [
-    { code: 7003, message: { includes: "Could not route" } },
-  ]);
+  { code: 7003, message: { includes: "Could not route" } },
+]);
 
 export class IrrEntryNotFound extends Schema.TaggedErrorClass<IrrEntryNotFound>()(
   "IrrEntryNotFound",
   { code: Schema.Number, message: Schema.String },
 ) {}
 T.applyErrorMatchers(IrrEntryNotFound, [
-    { code: 1003, message: { includes: "irr_entry_not_found" } },
-  ]);
+  { code: 1003, message: { includes: "irr_entry_not_found" } },
+]);
 
 export class LoaDocumentNotFound extends Schema.TaggedErrorClass<LoaDocumentNotFound>()(
   "LoaDocumentNotFound",
@@ -114,9 +116,9 @@ export class MethodNotAllowed extends Schema.TaggedErrorClass<MethodNotAllowed>(
   { code: Schema.Number, message: Schema.String },
 ) {}
 T.applyErrorMatchers(MethodNotAllowed, [
-    { code: 10405, message: { includes: "not allowed" } },
-    { code: 10000, message: { includes: "not allowed" } },
-  ]);
+  { code: 10405, message: { includes: "not allowed" } },
+  { code: 10000, message: { includes: "not allowed" } },
+]);
 
 export class MissingAccountId extends Schema.TaggedErrorClass<MissingAccountId>()(
   "MissingAccountId",
@@ -135,21 +137,25 @@ export class PrefixNotFound extends Schema.TaggedErrorClass<PrefixNotFound>()(
   { code: Schema.Number, message: Schema.String },
 ) {}
 T.applyErrorMatchers(PrefixNotFound, [
-    { code: 1000 },
-    { code: 1000, message: { includes: "not_found" } },
-  ]);
+  { code: 1000 },
+  { code: 1000, message: { includes: "not_found" } },
+]);
 
 export class RegionalHostnameEmpty extends Schema.TaggedErrorClass<RegionalHostnameEmpty>()(
   "RegionalHostnameEmpty",
   { code: Schema.Number, message: Schema.String },
 ) {}
-T.applyErrorMatchers(RegionalHostnameEmpty, [{ code: 1000, message: { includes: "not_found" } }]);
+T.applyErrorMatchers(RegionalHostnameEmpty, [
+  { code: 1000, message: { includes: "not_found" } },
+]);
 
 export class RegionalHostnameNotFound extends Schema.TaggedErrorClass<RegionalHostnameNotFound>()(
   "RegionalHostnameNotFound",
   { code: Schema.Number, message: Schema.String },
 ) {}
-T.applyErrorMatchers(RegionalHostnameNotFound, [{ code: 1002, message: { includes: "forbidden" } }]);
+T.applyErrorMatchers(RegionalHostnameNotFound, [
+  { code: 1002, message: { includes: "forbidden" } },
+]);
 
 export class UnsupportedBindingConfiguration extends Schema.TaggedErrorClass<UnsupportedBindingConfiguration>()(
   "UnsupportedBindingConfiguration",
@@ -1302,9 +1308,9 @@ export const GetPrefixResponse = Schema.Struct({
   irrValidationState: Schema.optional(Schema.String).pipe(
     T.JsonName("irr_validation_state"),
   ),
-  loaDocumentId: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-    T.JsonName("loa_document_id"),
-  ),
+  loaDocumentId: Schema.optional(
+    Schema.Union([Schema.String, Schema.Null]),
+  ).pipe(T.JsonName("loa_document_id")),
   modifiedAt: Schema.optional(Schema.String).pipe(T.JsonName("modified_at")),
   onDemandEnabled: Schema.optional(Schema.Boolean).pipe(
     T.JsonName("on_demand_enabled"),
@@ -1358,9 +1364,9 @@ export const CreatePrefixRequest = Schema.Struct({
     T.JsonName("delegate_loa_creation"),
   ),
   description: Schema.optional(Schema.String),
-  loaDocumentId: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-    T.JsonName("loa_document_id"),
-  ),
+  loaDocumentId: Schema.optional(
+    Schema.Union([Schema.String, Schema.Null]),
+  ).pipe(T.JsonName("loa_document_id")),
 }).pipe(
   T.Http({
     method: "POST",
@@ -1423,9 +1429,9 @@ export const CreatePrefixResponse = Schema.Struct({
   irrValidationState: Schema.optional(Schema.String).pipe(
     T.JsonName("irr_validation_state"),
   ),
-  loaDocumentId: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-    T.JsonName("loa_document_id"),
-  ),
+  loaDocumentId: Schema.optional(
+    Schema.Union([Schema.String, Schema.Null]),
+  ).pipe(T.JsonName("loa_document_id")),
   modifiedAt: Schema.optional(Schema.String).pipe(T.JsonName("modified_at")),
   onDemandEnabled: Schema.optional(Schema.Boolean).pipe(
     T.JsonName("on_demand_enabled"),
@@ -1530,9 +1536,9 @@ export const PatchPrefixResponse = Schema.Struct({
   irrValidationState: Schema.optional(Schema.String).pipe(
     T.JsonName("irr_validation_state"),
   ),
-  loaDocumentId: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-    T.JsonName("loa_document_id"),
-  ),
+  loaDocumentId: Schema.optional(
+    Schema.Union([Schema.String, Schema.Null]),
+  ).pipe(T.JsonName("loa_document_id")),
   modifiedAt: Schema.optional(Schema.String).pipe(T.JsonName("modified_at")),
   onDemandEnabled: Schema.optional(Schema.Boolean).pipe(
     T.JsonName("on_demand_enabled"),

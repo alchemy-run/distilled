@@ -669,14 +669,18 @@ export const GetDownloadResponse = Schema.Struct({
   audio: Schema.optional(
     Schema.Struct({
       percentComplete: Schema.optional(Schema.Number),
-      status: Schema.optional(Schema.Literals(["ready", "inprogress", "error"])),
+      status: Schema.optional(
+        Schema.Literals(["ready", "inprogress", "error"]),
+      ),
       url: Schema.optional(Schema.String),
     }),
   ),
   default: Schema.optional(
     Schema.Struct({
       percentComplete: Schema.optional(Schema.Number),
-      status: Schema.optional(Schema.Literals(["ready", "inprogress", "error"])),
+      status: Schema.optional(
+        Schema.Literals(["ready", "inprogress", "error"]),
+      ),
       url: Schema.optional(Schema.String),
     }),
   ),

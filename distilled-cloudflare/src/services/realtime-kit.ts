@@ -641,9 +641,9 @@ export const CreateIndependentLivestreamLivestreamResponse = Schema.Struct({
       ingestServer: Schema.optional(Schema.String).pipe(
         T.JsonName("ingest_server"),
       ),
-      meetingId: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-        T.JsonName("meeting_id"),
-      ),
+      meetingId: Schema.optional(
+        Schema.Union([Schema.String, Schema.Null]),
+      ).pipe(T.JsonName("meeting_id")),
       name: Schema.optional(Schema.String),
       playbackUrl: Schema.optional(Schema.String).pipe(
         T.JsonName("playback_url"),
@@ -1361,13 +1361,19 @@ export const CreateMeetingRequest = Schema.Struct({
       storageConfig: Schema.optional(
         Schema.Union([
           Schema.Struct({
-            type: Schema.Literals(["aws", "azure", "digitalocean", "gcs", "sftp"]),
+            type: Schema.Literals([
+              "aws",
+              "azure",
+              "digitalocean",
+              "gcs",
+              "sftp",
+            ]),
             accessKey: Schema.optional(Schema.String).pipe(
               T.JsonName("access_key"),
             ),
-            authMethod: Schema.optional(Schema.Literals(["KEY", "PASSWORD"])).pipe(
-              T.JsonName("auth_method"),
-            ),
+            authMethod: Schema.optional(
+              Schema.Literals(["KEY", "PASSWORD"]),
+            ).pipe(T.JsonName("auth_method")),
             bucket: Schema.optional(Schema.String),
             host: Schema.optional(Schema.String),
             password: Schema.optional(Schema.String),
@@ -2628,13 +2634,19 @@ export const ReplaceMeetingByIdMeetingRequest = Schema.Struct({
       storageConfig: Schema.optional(
         Schema.Union([
           Schema.Struct({
-            type: Schema.Literals(["aws", "azure", "digitalocean", "gcs", "sftp"]),
+            type: Schema.Literals([
+              "aws",
+              "azure",
+              "digitalocean",
+              "gcs",
+              "sftp",
+            ]),
             accessKey: Schema.optional(Schema.String).pipe(
               T.JsonName("access_key"),
             ),
-            authMethod: Schema.optional(Schema.Literals(["KEY", "PASSWORD"])).pipe(
-              T.JsonName("auth_method"),
-            ),
+            authMethod: Schema.optional(
+              Schema.Literals(["KEY", "PASSWORD"]),
+            ).pipe(T.JsonName("auth_method")),
             bucket: Schema.optional(Schema.String),
             host: Schema.optional(Schema.String),
             password: Schema.optional(Schema.String),
@@ -3307,10 +3319,16 @@ export const GetOneRecordingRecordingResponse = Schema.Struct({
       storageConfig: Schema.optional(
         Schema.Union([
           Schema.Struct({
-            type: Schema.Literals(["aws", "azure", "digitalocean", "gcs", "sftp"]),
-            authMethod: Schema.optional(Schema.Literals(["KEY", "PASSWORD"])).pipe(
-              T.JsonName("auth_method"),
-            ),
+            type: Schema.Literals([
+              "aws",
+              "azure",
+              "digitalocean",
+              "gcs",
+              "sftp",
+            ]),
+            authMethod: Schema.optional(
+              Schema.Literals(["KEY", "PASSWORD"]),
+            ).pipe(T.JsonName("auth_method")),
             bucket: Schema.optional(Schema.String),
             host: Schema.optional(Schema.String),
             password: Schema.optional(Schema.String),
@@ -4752,9 +4770,11 @@ export const CreatePresetResponse = Schema.Struct({
           canView: Schema.optional(Schema.Boolean).pipe(T.JsonName("can_view")),
           canVote: Schema.optional(Schema.Boolean).pipe(T.JsonName("can_vote")),
         }),
-        recorderType: Schema.Literals(["RECORDER", "LIVESTREAMER", "NONE"]).pipe(
-          T.JsonName("recorder_type"),
-        ),
+        recorderType: Schema.Literals([
+          "RECORDER",
+          "LIVESTREAMER",
+          "NONE",
+        ]).pipe(T.JsonName("recorder_type")),
         showParticipantList: Schema.Boolean.pipe(
           T.JsonName("show_participant_list"),
         ),
@@ -5444,9 +5464,11 @@ export const PatchPresetResponse = Schema.Struct({
           canView: Schema.optional(Schema.Boolean).pipe(T.JsonName("can_view")),
           canVote: Schema.optional(Schema.Boolean).pipe(T.JsonName("can_vote")),
         }),
-        recorderType: Schema.Literals(["RECORDER", "LIVESTREAMER", "NONE"]).pipe(
-          T.JsonName("recorder_type"),
-        ),
+        recorderType: Schema.Literals([
+          "RECORDER",
+          "LIVESTREAMER",
+          "NONE",
+        ]).pipe(T.JsonName("recorder_type")),
         showParticipantList: Schema.Boolean.pipe(
           T.JsonName("show_participant_list"),
         ),
@@ -5800,9 +5822,11 @@ export const DeletePresetResponse = Schema.Struct({
           canView: Schema.optional(Schema.Boolean).pipe(T.JsonName("can_view")),
           canVote: Schema.optional(Schema.Boolean).pipe(T.JsonName("can_vote")),
         }),
-        recorderType: Schema.Literals(["RECORDER", "LIVESTREAMER", "NONE"]).pipe(
-          T.JsonName("recorder_type"),
-        ),
+        recorderType: Schema.Literals([
+          "RECORDER",
+          "LIVESTREAMER",
+          "NONE",
+        ]).pipe(T.JsonName("recorder_type")),
         showParticipantList: Schema.Boolean.pipe(
           T.JsonName("show_participant_list"),
         ),
@@ -6160,9 +6184,11 @@ export const GetPresetByIdPresetResponse = Schema.Struct({
           canView: Schema.optional(Schema.Boolean).pipe(T.JsonName("can_view")),
           canVote: Schema.optional(Schema.Boolean).pipe(T.JsonName("can_vote")),
         }),
-        recorderType: Schema.Literals(["RECORDER", "LIVESTREAMER", "NONE"]).pipe(
-          T.JsonName("recorder_type"),
-        ),
+        recorderType: Schema.Literals([
+          "RECORDER",
+          "LIVESTREAMER",
+          "NONE",
+        ]).pipe(T.JsonName("recorder_type")),
         showParticipantList: Schema.Boolean.pipe(
           T.JsonName("show_participant_list"),
         ),
@@ -6365,10 +6391,16 @@ export const GetRecordingsRecordingResponse = Schema.Struct({
       storageConfig: Schema.optional(
         Schema.Union([
           Schema.Struct({
-            type: Schema.Literals(["aws", "azure", "digitalocean", "gcs", "sftp"]),
-            authMethod: Schema.optional(Schema.Literals(["KEY", "PASSWORD"])).pipe(
-              T.JsonName("auth_method"),
-            ),
+            type: Schema.Literals([
+              "aws",
+              "azure",
+              "digitalocean",
+              "gcs",
+              "sftp",
+            ]),
+            authMethod: Schema.optional(
+              Schema.Literals(["KEY", "PASSWORD"]),
+            ).pipe(T.JsonName("auth_method")),
             bucket: Schema.optional(Schema.String),
             host: Schema.optional(Schema.String),
             password: Schema.optional(Schema.String),
@@ -6683,10 +6715,16 @@ export const StartRecordingsRecordingResponse = Schema.Struct({
       storageConfig: Schema.optional(
         Schema.Union([
           Schema.Struct({
-            type: Schema.Literals(["aws", "azure", "digitalocean", "gcs", "sftp"]),
-            authMethod: Schema.optional(Schema.Literals(["KEY", "PASSWORD"])).pipe(
-              T.JsonName("auth_method"),
-            ),
+            type: Schema.Literals([
+              "aws",
+              "azure",
+              "digitalocean",
+              "gcs",
+              "sftp",
+            ]),
+            authMethod: Schema.optional(
+              Schema.Literals(["KEY", "PASSWORD"]),
+            ).pipe(T.JsonName("auth_method")),
             bucket: Schema.optional(Schema.String),
             host: Schema.optional(Schema.String),
             password: Schema.optional(Schema.String),
@@ -6868,10 +6906,16 @@ export const PauseResumeStopRecordingRecordingResponse = Schema.Struct({
       storageConfig: Schema.optional(
         Schema.Union([
           Schema.Struct({
-            type: Schema.Literals(["aws", "azure", "digitalocean", "gcs", "sftp"]),
-            authMethod: Schema.optional(Schema.Literals(["KEY", "PASSWORD"])).pipe(
-              T.JsonName("auth_method"),
-            ),
+            type: Schema.Literals([
+              "aws",
+              "azure",
+              "digitalocean",
+              "gcs",
+              "sftp",
+            ]),
+            authMethod: Schema.optional(
+              Schema.Literals(["KEY", "PASSWORD"]),
+            ).pipe(T.JsonName("auth_method")),
             bucket: Schema.optional(Schema.String),
             host: Schema.optional(Schema.String),
             password: Schema.optional(Schema.String),
@@ -7318,9 +7362,9 @@ export const GetSessionsSessionRequest = Schema.Struct({
   ),
   perPage: Schema.optional(Schema.Number).pipe(T.HttpQuery("per_page")),
   search: Schema.optional(Schema.String).pipe(T.HttpQuery("search")),
-  sortBy: Schema.optional(Schema.Literals(["minutesConsumed", "createdAt"])).pipe(
-    T.HttpQuery("sort_by"),
-  ),
+  sortBy: Schema.optional(
+    Schema.Literals(["minutesConsumed", "createdAt"]),
+  ).pipe(T.HttpQuery("sort_by")),
   sortOrder: Schema.optional(Schema.Literals(["ASC", "DESC"])).pipe(
     T.HttpQuery("sort_order"),
   ),

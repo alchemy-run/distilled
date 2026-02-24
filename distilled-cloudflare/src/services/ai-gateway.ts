@@ -139,9 +139,9 @@ export const GetAiGatewayResponse = Schema.Struct({
     ]),
   ),
   isDefault: Schema.optional(Schema.Boolean).pipe(T.JsonName("is_default")),
-  logManagement: Schema.optional(Schema.Union([Schema.Number, Schema.Null])).pipe(
-    T.JsonName("log_management"),
-  ),
+  logManagement: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ).pipe(T.JsonName("log_management")),
   logManagementStrategy: Schema.optional(
     Schema.Union([
       Schema.Literal("STOP_INSERTING"),
@@ -250,9 +250,9 @@ export const CreateAiGatewayRequest = Schema.Struct({
   ),
   authentication: Schema.optional(Schema.Boolean),
   isDefault: Schema.optional(Schema.Boolean).pipe(T.JsonName("is_default")),
-  logManagement: Schema.optional(Schema.Union([Schema.Number, Schema.Null])).pipe(
-    T.JsonName("log_management"),
-  ),
+  logManagement: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ).pipe(T.JsonName("log_management")),
   logManagementStrategy: Schema.optional(
     Schema.Union([
       Schema.Literal("STOP_INSERTING"),
@@ -358,9 +358,9 @@ export const CreateAiGatewayResponse = Schema.Struct({
     ]),
   ),
   isDefault: Schema.optional(Schema.Boolean).pipe(T.JsonName("is_default")),
-  logManagement: Schema.optional(Schema.Union([Schema.Number, Schema.Null])).pipe(
-    T.JsonName("log_management"),
-  ),
+  logManagement: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ).pipe(T.JsonName("log_management")),
   logManagementStrategy: Schema.optional(
     Schema.Union([
       Schema.Literal("STOP_INSERTING"),
@@ -510,9 +510,9 @@ export const UpdateAiGatewayRequest = Schema.Struct({
     ]),
   ),
   isDefault: Schema.optional(Schema.Boolean).pipe(T.JsonName("is_default")),
-  logManagement: Schema.optional(Schema.Union([Schema.Number, Schema.Null])).pipe(
-    T.JsonName("log_management"),
-  ),
+  logManagement: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ).pipe(T.JsonName("log_management")),
   logManagementStrategy: Schema.optional(
     Schema.Union([
       Schema.Literal("STOP_INSERTING"),
@@ -646,9 +646,9 @@ export const UpdateAiGatewayResponse = Schema.Struct({
     ]),
   ),
   isDefault: Schema.optional(Schema.Boolean).pipe(T.JsonName("is_default")),
-  logManagement: Schema.optional(Schema.Union([Schema.Number, Schema.Null])).pipe(
-    T.JsonName("log_management"),
-  ),
+  logManagement: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ).pipe(T.JsonName("log_management")),
   logManagementStrategy: Schema.optional(
     Schema.Union([
       Schema.Literal("STOP_INSERTING"),
@@ -804,9 +804,9 @@ export const DeleteAiGatewayResponse = Schema.Struct({
     ]),
   ),
   isDefault: Schema.optional(Schema.Boolean).pipe(T.JsonName("is_default")),
-  logManagement: Schema.optional(Schema.Union([Schema.Number, Schema.Null])).pipe(
-    T.JsonName("log_management"),
-  ),
+  logManagement: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ).pipe(T.JsonName("log_management")),
   logManagementStrategy: Schema.optional(
     Schema.Union([
       Schema.Literal("STOP_INSERTING"),

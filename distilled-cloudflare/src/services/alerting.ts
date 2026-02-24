@@ -51,8 +51,8 @@ export class InvalidWebhookId extends Schema.TaggedErrorClass<InvalidWebhookId>(
   { code: Schema.Number, message: Schema.String },
 ) {}
 T.applyErrorMatchers(InvalidWebhookId, [
-    { code: 0, message: { includes: "invalid Webhook ID" } },
-  ]);
+  { code: 0, message: { includes: "invalid Webhook ID" } },
+]);
 
 export class MechanismRequired extends Schema.TaggedErrorClass<MechanismRequired>()(
   "MechanismRequired",
@@ -64,23 +64,25 @@ export class PolicyNotFound extends Schema.TaggedErrorClass<PolicyNotFound>()(
   "PolicyNotFound",
   { code: Schema.Number, message: Schema.String },
 ) {}
-T.applyErrorMatchers(PolicyNotFound, [{ code: 0, message: { includes: "Policy not found" } }]);
+T.applyErrorMatchers(PolicyNotFound, [
+  { code: 0, message: { includes: "Policy not found" } },
+]);
 
 export class WebhookNotFound extends Schema.TaggedErrorClass<WebhookNotFound>()(
   "WebhookNotFound",
   { code: Schema.Number, message: Schema.String },
 ) {}
 T.applyErrorMatchers(WebhookNotFound, [
-    { code: 0, message: { includes: "Webhook not found" } },
-  ]);
+  { code: 0, message: { includes: "Webhook not found" } },
+]);
 
 export class WebhookTestFailed extends Schema.TaggedErrorClass<WebhookTestFailed>()(
   "WebhookTestFailed",
   { code: Schema.Number, message: Schema.String },
 ) {}
 T.applyErrorMatchers(WebhookTestFailed, [
-    { code: 0, message: { includes: "Webhook test failed" } },
-  ]);
+  { code: 0, message: { includes: "Webhook test failed" } },
+]);
 
 // =============================================================================
 // AvailableAlert

@@ -353,16 +353,16 @@ export const GetJobResponse = Schema.Struct({
     T.JsonName("destination_conf"),
   ),
   enabled: Schema.optional(Schema.Boolean),
-  errorMessage: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-    T.JsonName("error_message"),
-  ),
+  errorMessage: Schema.optional(
+    Schema.Union([Schema.String, Schema.Null]),
+  ).pipe(T.JsonName("error_message")),
   frequency: Schema.optional(
     Schema.Union([Schema.Literal("high"), Schema.Literal("low"), Schema.Null]),
   ),
   kind: Schema.optional(Schema.Literals(["", "edge"])),
-  lastComplete: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-    T.JsonName("last_complete"),
-  ),
+  lastComplete: Schema.optional(
+    Schema.Union([Schema.String, Schema.Null]),
+  ).pipe(T.JsonName("last_complete")),
   lastError: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
     T.JsonName("last_error"),
   ),
@@ -742,16 +742,16 @@ export const CreateJobResponse = Schema.Struct({
     T.JsonName("destination_conf"),
   ),
   enabled: Schema.optional(Schema.Boolean),
-  errorMessage: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-    T.JsonName("error_message"),
-  ),
+  errorMessage: Schema.optional(
+    Schema.Union([Schema.String, Schema.Null]),
+  ).pipe(T.JsonName("error_message")),
   frequency: Schema.optional(
     Schema.Union([Schema.Literal("high"), Schema.Literal("low"), Schema.Null]),
   ),
   kind: Schema.optional(Schema.Literals(["", "edge"])),
-  lastComplete: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-    T.JsonName("last_complete"),
-  ),
+  lastComplete: Schema.optional(
+    Schema.Union([Schema.String, Schema.Null]),
+  ).pipe(T.JsonName("last_complete")),
   lastError: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
     T.JsonName("last_error"),
   ),
@@ -1067,16 +1067,16 @@ export const UpdateJobResponse = Schema.Struct({
     T.JsonName("destination_conf"),
   ),
   enabled: Schema.optional(Schema.Boolean),
-  errorMessage: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-    T.JsonName("error_message"),
-  ),
+  errorMessage: Schema.optional(
+    Schema.Union([Schema.String, Schema.Null]),
+  ).pipe(T.JsonName("error_message")),
   frequency: Schema.optional(
     Schema.Union([Schema.Literal("high"), Schema.Literal("low"), Schema.Null]),
   ),
   kind: Schema.optional(Schema.Literals(["", "edge"])),
-  lastComplete: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-    T.JsonName("last_complete"),
-  ),
+  lastComplete: Schema.optional(
+    Schema.Union([Schema.String, Schema.Null]),
+  ).pipe(T.JsonName("last_complete")),
   lastError: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
     T.JsonName("last_error"),
   ),

@@ -201,7 +201,9 @@ export const GetAnalyticEventBytimeResponse = Schema.Struct({
   min: Schema.Struct({}),
   query: Schema.Struct({
     dimensions: Schema.optional(
-      Schema.Array(Schema.Literals(["event", "appID", "coloName", "ipVersion"])),
+      Schema.Array(
+        Schema.Literals(["event", "appID", "coloName", "ipVersion"]),
+      ),
     ),
     filters: Schema.optional(Schema.String),
     limit: Schema.optional(Schema.Number),
@@ -350,7 +352,9 @@ export const GetAnalyticEventSummaryResponse = Schema.Struct({
   min: Schema.Struct({}),
   query: Schema.Struct({
     dimensions: Schema.optional(
-      Schema.Array(Schema.Literals(["event", "appID", "coloName", "ipVersion"])),
+      Schema.Array(
+        Schema.Literals(["event", "appID", "coloName", "ipVersion"]),
+      ),
     ),
     filters: Schema.optional(Schema.String),
     limit: Schema.optional(Schema.Number),
@@ -458,7 +462,9 @@ export const GetAppResponse = Schema.Union([
     proxyProtocol: Schema.optional(
       Schema.Literals(["off", "v1", "v2", "simple"]),
     ).pipe(T.JsonName("proxy_protocol")),
-    tls: Schema.optional(Schema.Literals(["off", "flexible", "full", "strict"])),
+    tls: Schema.optional(
+      Schema.Literals(["off", "flexible", "full", "strict"]),
+    ),
   }),
   Schema.Struct({
     id: Schema.String,
@@ -541,7 +547,9 @@ export const CreateAppResponse = Schema.Union([
     proxyProtocol: Schema.optional(
       Schema.Literals(["off", "v1", "v2", "simple"]),
     ).pipe(T.JsonName("proxy_protocol")),
-    tls: Schema.optional(Schema.Literals(["off", "flexible", "full", "strict"])),
+    tls: Schema.optional(
+      Schema.Literals(["off", "flexible", "full", "strict"]),
+    ),
   }),
   Schema.Struct({
     id: Schema.String,
@@ -628,7 +636,9 @@ export const UpdateAppResponse = Schema.Union([
     proxyProtocol: Schema.optional(
       Schema.Literals(["off", "v1", "v2", "simple"]),
     ).pipe(T.JsonName("proxy_protocol")),
-    tls: Schema.optional(Schema.Literals(["off", "flexible", "full", "strict"])),
+    tls: Schema.optional(
+      Schema.Literals(["off", "flexible", "full", "strict"]),
+    ),
   }),
   Schema.Struct({
     id: Schema.String,

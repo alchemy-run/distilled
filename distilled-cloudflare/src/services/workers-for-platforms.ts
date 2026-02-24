@@ -912,7 +912,9 @@ export const PutDispatchNamespaceScriptResponse = Schema.Struct({
     ]),
   ).pipe(T.JsonName("placement_status")),
   tag: Schema.optional(Schema.String),
-  tags: Schema.optional(Schema.Union([Schema.Array(Schema.String), Schema.Null])),
+  tags: Schema.optional(
+    Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+  ),
   tailConsumers: Schema.optional(
     Schema.Union([Schema.Array(Schema.Unknown), Schema.Null]),
   ).pipe(T.JsonName("tail_consumers")),
@@ -1691,7 +1693,9 @@ export const GetDispatchNamespaceScriptSettingResponse = Schema.Struct({
       }),
     ]),
   ),
-  tags: Schema.optional(Schema.Union([Schema.Array(Schema.String), Schema.Null])),
+  tags: Schema.optional(
+    Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+  ),
   tailConsumers: Schema.optional(
     Schema.Union([Schema.Array(Schema.Unknown), Schema.Null]),
   ).pipe(T.JsonName("tail_consumers")),
@@ -2482,7 +2486,9 @@ export const PatchDispatchNamespaceScriptSettingResponse = Schema.Struct({
       }),
     ]),
   ),
-  tags: Schema.optional(Schema.Union([Schema.Array(Schema.String), Schema.Null])),
+  tags: Schema.optional(
+    Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+  ),
   tailConsumers: Schema.optional(
     Schema.Union([Schema.Array(Schema.Unknown), Schema.Null]),
   ).pipe(T.JsonName("tail_consumers")),

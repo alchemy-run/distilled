@@ -247,9 +247,9 @@ export const GetCertificatePackResponse = Schema.Struct({
       }),
     ),
   ).pipe(T.JsonName("validation_records")),
-  validityDays: Schema.optional(Schema.Literals(["14", "30", "90", "365"])).pipe(
-    T.JsonName("validity_days"),
-  ),
+  validityDays: Schema.optional(
+    Schema.Literals(["14", "30", "90", "365"]),
+  ).pipe(T.JsonName("validity_days")),
 }) as unknown as Schema.Schema<GetCertificatePackResponse>;
 
 export const getCertificatePack: (
@@ -475,9 +475,9 @@ export const CreateCertificatePackResponse = Schema.Struct({
       }),
     ),
   ).pipe(T.JsonName("validation_records")),
-  validityDays: Schema.optional(Schema.Literals(["14", "30", "90", "365"])).pipe(
-    T.JsonName("validity_days"),
-  ),
+  validityDays: Schema.optional(
+    Schema.Literals(["14", "30", "90", "365"]),
+  ).pipe(T.JsonName("validity_days")),
 }) as unknown as Schema.Schema<CreateCertificatePackResponse>;
 
 export const createCertificatePack: (
@@ -682,9 +682,9 @@ export const PatchCertificatePackResponse = Schema.Struct({
       }),
     ),
   ).pipe(T.JsonName("validation_records")),
-  validityDays: Schema.optional(Schema.Literals(["14", "30", "90", "365"])).pipe(
-    T.JsonName("validity_days"),
-  ),
+  validityDays: Schema.optional(
+    Schema.Literals(["14", "30", "90", "365"]),
+  ).pipe(T.JsonName("validity_days")),
 }) as unknown as Schema.Schema<PatchCertificatePackResponse>;
 
 export const patchCertificatePack: (
@@ -976,9 +976,9 @@ export const GetVerificationResponse = Schema.Array(
     verificationStatus: Schema.optional(Schema.Boolean).pipe(
       T.JsonName("verification_status"),
     ),
-    verificationType: Schema.optional(Schema.Literals(["cname", "meta tag"])).pipe(
-      T.JsonName("verification_type"),
-    ),
+    verificationType: Schema.optional(
+      Schema.Literals(["cname", "meta tag"]),
+    ).pipe(T.JsonName("verification_type")),
   }),
 ) as unknown as Schema.Schema<GetVerificationResponse>;
 

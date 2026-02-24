@@ -343,9 +343,9 @@ export const ListNamespacesResponse = Schema.Struct({
   namespaceUuids: Schema.optional(
     Schema.Union([Schema.Array(Schema.String), Schema.Null]),
   ).pipe(T.JsonName("namespace_uuids")),
-  nextPageToken: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-    T.JsonName("next_page_token"),
-  ),
+  nextPageToken: Schema.optional(
+    Schema.Union([Schema.String, Schema.Null]),
+  ).pipe(T.JsonName("next_page_token")),
 }) as unknown as Schema.Schema<ListNamespacesResponse>;
 
 export const listNamespaces: (
@@ -449,9 +449,9 @@ export const ListNamespaceTablesResponse = Schema.Struct({
       Schema.Null,
     ]),
   ),
-  nextPageToken: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-    T.JsonName("next_page_token"),
-  ),
+  nextPageToken: Schema.optional(
+    Schema.Union([Schema.String, Schema.Null]),
+  ).pipe(T.JsonName("next_page_token")),
   tableUuids: Schema.optional(
     Schema.Union([Schema.Array(Schema.String), Schema.Null]),
   ).pipe(T.JsonName("table_uuids")),

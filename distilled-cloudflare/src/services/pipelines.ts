@@ -1021,7 +1021,13 @@ export const GetSinkResponse = Schema.Struct({
           Schema.Struct({
             type: Schema.Literal("parquet"),
             compression: Schema.optional(
-              Schema.Literals(["uncompressed", "snappy", "gzip", "zstd", "lz4"]),
+              Schema.Literals([
+                "uncompressed",
+                "snappy",
+                "gzip",
+                "zstd",
+                "lz4",
+              ]),
             ),
             rowGroupBytes: Schema.optional(
               Schema.Union([Schema.Number, Schema.Null]),
@@ -1402,7 +1408,13 @@ export const CreateSinkRequest = Schema.Struct({
           Schema.Struct({
             type: Schema.Literal("parquet"),
             compression: Schema.optional(
-              Schema.Literals(["uncompressed", "snappy", "gzip", "zstd", "lz4"]),
+              Schema.Literals([
+                "uncompressed",
+                "snappy",
+                "gzip",
+                "zstd",
+                "lz4",
+              ]),
             ),
             rowGroupBytes: Schema.optional(
               Schema.Union([Schema.Number, Schema.Null]),
@@ -1775,7 +1787,13 @@ export const CreateSinkResponse = Schema.Struct({
           Schema.Struct({
             type: Schema.Literal("parquet"),
             compression: Schema.optional(
-              Schema.Literals(["uncompressed", "snappy", "gzip", "zstd", "lz4"]),
+              Schema.Literals([
+                "uncompressed",
+                "snappy",
+                "gzip",
+                "zstd",
+                "lz4",
+              ]),
             ),
             rowGroupBytes: Schema.optional(
               Schema.Union([Schema.Number, Schema.Null]),
@@ -2218,7 +2236,13 @@ export const GetStreamResponse = Schema.Struct({
           Schema.Struct({
             type: Schema.Literal("parquet"),
             compression: Schema.optional(
-              Schema.Literals(["uncompressed", "snappy", "gzip", "zstd", "lz4"]),
+              Schema.Literals([
+                "uncompressed",
+                "snappy",
+                "gzip",
+                "zstd",
+                "lz4",
+              ]),
             ),
             rowGroupBytes: Schema.optional(
               Schema.Union([Schema.Number, Schema.Null]),
@@ -2520,7 +2544,13 @@ export const CreateStreamRequest = Schema.Struct({
           Schema.Struct({
             type: Schema.Literal("parquet"),
             compression: Schema.optional(
-              Schema.Literals(["uncompressed", "snappy", "gzip", "zstd", "lz4"]),
+              Schema.Literals([
+                "uncompressed",
+                "snappy",
+                "gzip",
+                "zstd",
+                "lz4",
+              ]),
             ),
             rowGroupBytes: Schema.optional(
               Schema.Union([Schema.Number, Schema.Null]),
@@ -2827,7 +2857,13 @@ export const CreateStreamResponse = Schema.Struct({
           Schema.Struct({
             type: Schema.Literal("parquet"),
             compression: Schema.optional(
-              Schema.Literals(["uncompressed", "snappy", "gzip", "zstd", "lz4"]),
+              Schema.Literals([
+                "uncompressed",
+                "snappy",
+                "gzip",
+                "zstd",
+                "lz4",
+              ]),
             ),
             rowGroupBytes: Schema.optional(
               Schema.Union([Schema.Number, Schema.Null]),

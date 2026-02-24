@@ -337,9 +337,9 @@ export interface InsertIndexRequest {
 export const InsertIndexRequest = Schema.Struct({
   indexName: Schema.String.pipe(T.HttpPath("indexName")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  unparsableBehavior: Schema.optional(Schema.Literals(["error", "discard"])).pipe(
-    T.HttpQuery("'unparsable-behavior'"),
-  ),
+  unparsableBehavior: Schema.optional(
+    Schema.Literals(["error", "discard"]),
+  ).pipe(T.HttpQuery("'unparsable-behavior'")),
   body: UploadableSchema.pipe(T.HttpFormDataFile()).pipe(T.HttpBody()),
 }).pipe(
   T.Http({
@@ -456,9 +456,9 @@ export interface UpsertIndexRequest {
 export const UpsertIndexRequest = Schema.Struct({
   indexName: Schema.String.pipe(T.HttpPath("indexName")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  unparsableBehavior: Schema.optional(Schema.Literals(["error", "discard"])).pipe(
-    T.HttpQuery("'unparsable-behavior'"),
-  ),
+  unparsableBehavior: Schema.optional(
+    Schema.Literals(["error", "discard"]),
+  ).pipe(T.HttpQuery("'unparsable-behavior'")),
   body: UploadableSchema.pipe(T.HttpFormDataFile()).pipe(T.HttpBody()),
 }).pipe(
   T.Http({

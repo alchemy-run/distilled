@@ -2768,7 +2768,14 @@ export const QueryObservabilityTelemetryResponse = Schema.Struct({
           Schema.Array(
             Schema.Struct({
               key: Schema.String,
-              operation: Schema.Literals(["eq", "neq", "gt", "gte", "lt", "lte"]),
+              operation: Schema.Literals([
+                "eq",
+                "neq",
+                "gt",
+                "gte",
+                "lt",
+                "lte",
+              ]),
               value: Schema.Number,
             }),
           ),
@@ -4029,7 +4036,9 @@ export const PutScriptResponse = Schema.Struct({
     ]),
   ).pipe(T.JsonName("placement_status")),
   tag: Schema.optional(Schema.String),
-  tags: Schema.optional(Schema.Union([Schema.Array(Schema.String), Schema.Null])),
+  tags: Schema.optional(
+    Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+  ),
   tailConsumers: Schema.optional(
     Schema.Union([Schema.Array(Schema.Unknown), Schema.Null]),
   ).pipe(T.JsonName("tail_consumers")),
@@ -5074,7 +5083,9 @@ export const GetScriptScriptAndVersionSettingResponse = Schema.Struct({
       }),
     ]),
   ),
-  tags: Schema.optional(Schema.Union([Schema.Array(Schema.String), Schema.Null])),
+  tags: Schema.optional(
+    Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+  ),
   tailConsumers: Schema.optional(
     Schema.Union([Schema.Array(Schema.Unknown), Schema.Null]),
   ).pipe(T.JsonName("tail_consumers")),
@@ -5863,7 +5874,9 @@ export const PatchScriptScriptAndVersionSettingResponse = Schema.Struct({
       }),
     ]),
   ),
-  tags: Schema.optional(Schema.Union([Schema.Array(Schema.String), Schema.Null])),
+  tags: Schema.optional(
+    Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+  ),
   tailConsumers: Schema.optional(
     Schema.Union([Schema.Array(Schema.Unknown), Schema.Null]),
   ).pipe(T.JsonName("tail_consumers")),
@@ -6164,7 +6177,9 @@ export const PatchScriptSettingRequest = Schema.Struct({
       Schema.Null,
     ]),
   ),
-  tags: Schema.optional(Schema.Union([Schema.Array(Schema.String), Schema.Null])),
+  tags: Schema.optional(
+    Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+  ),
   tailConsumers: Schema.optional(
     Schema.Union([Schema.Array(Schema.Unknown), Schema.Null]),
   ).pipe(T.JsonName("tail_consumers")),

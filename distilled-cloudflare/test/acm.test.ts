@@ -172,6 +172,8 @@ describe("ACM", () => {
             );
           }
         }).pipe(
+          // A previous TLS job may still be in progress from an earlier test
+          Effect.catchTag("PreviousJobInProgress", () => Effect.void),
           Effect.ensuring(
             ACM.createTotalTl({
               zoneId: acmZoneId(),

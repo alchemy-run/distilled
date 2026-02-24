@@ -213,9 +213,9 @@ export const GetInvestigateResponse = Schema.Struct({
   edfHash: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
     T.JsonName("edf_hash"),
   ),
-  envelopeFrom: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-    T.JsonName("envelope_from"),
-  ),
+  envelopeFrom: Schema.optional(
+    Schema.Union([Schema.String, Schema.Null]),
+  ).pipe(T.JsonName("envelope_from")),
   envelopeTo: Schema.optional(
     Schema.Union([Schema.Array(Schema.String), Schema.Null]),
   ).pipe(T.JsonName("envelope_to")),
@@ -238,7 +238,9 @@ export const GetInvestigateResponse = Schema.Struct({
     Schema.Union([
       Schema.Array(
         Schema.Struct({
-          attachment: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+          attachment: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
           detail: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
           detection: Schema.optional(
             Schema.Union([
@@ -1022,9 +1024,9 @@ export const PatchSettingAllowPolicyRequest = Schema.Struct({
       Schema.Null,
     ]),
   ).pipe(T.JsonName("pattern_type")),
-  verifySender: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])).pipe(
-    T.JsonName("verify_sender"),
-  ),
+  verifySender: Schema.optional(
+    Schema.Union([Schema.Boolean, Schema.Null]),
+  ).pipe(T.JsonName("verify_sender")),
 }).pipe(
   T.Http({
     method: "PATCH",
@@ -1492,12 +1494,12 @@ export const GetSettingDomainResponse = Schema.Struct({
       Schema.Null,
     ]),
   ).pipe(T.JsonName("inbox_provider")),
-  integrationId: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-    T.JsonName("integration_id"),
-  ),
-  o365TenantId: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-    T.JsonName("o365_tenant_id"),
-  ),
+  integrationId: Schema.optional(
+    Schema.Union([Schema.String, Schema.Null]),
+  ).pipe(T.JsonName("integration_id")),
+  o365TenantId: Schema.optional(
+    Schema.Union([Schema.String, Schema.Null]),
+  ).pipe(T.JsonName("o365_tenant_id")),
   requireTlsInbound: Schema.optional(
     Schema.Union([Schema.Boolean, Schema.Null]),
   ).pipe(T.JsonName("require_tls_inbound")),
@@ -1744,12 +1746,12 @@ export const PatchSettingDomainResponse = Schema.Struct({
       Schema.Null,
     ]),
   ).pipe(T.JsonName("inbox_provider")),
-  integrationId: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-    T.JsonName("integration_id"),
-  ),
-  o365TenantId: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-    T.JsonName("o365_tenant_id"),
-  ),
+  integrationId: Schema.optional(
+    Schema.Union([Schema.String, Schema.Null]),
+  ).pipe(T.JsonName("integration_id")),
+  o365TenantId: Schema.optional(
+    Schema.Union([Schema.String, Schema.Null]),
+  ).pipe(T.JsonName("o365_tenant_id")),
   requireTlsInbound: Schema.optional(
     Schema.Union([Schema.Boolean, Schema.Null]),
   ).pipe(T.JsonName("require_tls_inbound")),
@@ -1970,9 +1972,9 @@ export const PatchSettingImpersonationRegistryRequest = Schema.Struct({
   displayNameId: Schema.Number.pipe(T.HttpPath("displayNameId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   email: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  isEmailRegex: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])).pipe(
-    T.JsonName("is_email_regex"),
-  ),
+  isEmailRegex: Schema.optional(
+    Schema.Union([Schema.Boolean, Schema.Null]),
+  ).pipe(T.JsonName("is_email_regex")),
   name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   T.Http({

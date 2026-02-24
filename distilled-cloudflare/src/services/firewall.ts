@@ -1094,7 +1094,12 @@ export const GetUaRuleResponse = Schema.Struct({
   ),
   description: Schema.optional(Schema.String),
   mode: Schema.optional(
-    Schema.Literals(["block", "challenge", "js_challenge", "managed_challenge"]),
+    Schema.Literals([
+      "block",
+      "challenge",
+      "js_challenge",
+      "managed_challenge",
+    ]),
   ),
   paused: Schema.optional(Schema.Boolean),
 }) as unknown as Schema.Schema<GetUaRuleResponse>;
@@ -1171,7 +1176,12 @@ export const CreateUaRuleResponse = Schema.Struct({
   ),
   description: Schema.optional(Schema.String),
   mode: Schema.optional(
-    Schema.Literals(["block", "challenge", "js_challenge", "managed_challenge"]),
+    Schema.Literals([
+      "block",
+      "challenge",
+      "js_challenge",
+      "managed_challenge",
+    ]),
   ),
   paused: Schema.optional(Schema.Boolean),
 }) as unknown as Schema.Schema<CreateUaRuleResponse>;
@@ -1250,7 +1260,12 @@ export const UpdateUaRuleResponse = Schema.Struct({
   ),
   description: Schema.optional(Schema.String),
   mode: Schema.optional(
-    Schema.Literals(["block", "challenge", "js_challenge", "managed_challenge"]),
+    Schema.Literals([
+      "block",
+      "challenge",
+      "js_challenge",
+      "managed_challenge",
+    ]),
   ),
   paused: Schema.optional(Schema.Boolean),
 }) as unknown as Schema.Schema<UpdateUaRuleResponse>;
@@ -1306,7 +1321,12 @@ export const DeleteUaRuleResponse = Schema.Struct({
   ),
   description: Schema.optional(Schema.String),
   mode: Schema.optional(
-    Schema.Literals(["block", "challenge", "js_challenge", "managed_challenge"]),
+    Schema.Literals([
+      "block",
+      "challenge",
+      "js_challenge",
+      "managed_challenge",
+    ]),
   ),
   paused: Schema.optional(Schema.Boolean),
 }) as unknown as Schema.Schema<DeleteUaRuleResponse>;
@@ -1377,19 +1397,49 @@ export const GetWafOverrideResponse = Schema.Struct({
   rewriteAction: Schema.optional(
     Schema.Struct({
       block: Schema.optional(
-        Schema.Literals(["challenge", "block", "simulate", "disable", "default"]),
+        Schema.Literals([
+          "challenge",
+          "block",
+          "simulate",
+          "disable",
+          "default",
+        ]),
       ),
       challenge: Schema.optional(
-        Schema.Literals(["challenge", "block", "simulate", "disable", "default"]),
+        Schema.Literals([
+          "challenge",
+          "block",
+          "simulate",
+          "disable",
+          "default",
+        ]),
       ),
       default: Schema.optional(
-        Schema.Literals(["challenge", "block", "simulate", "disable", "default"]),
+        Schema.Literals([
+          "challenge",
+          "block",
+          "simulate",
+          "disable",
+          "default",
+        ]),
       ),
       disable: Schema.optional(
-        Schema.Literals(["challenge", "block", "simulate", "disable", "default"]),
+        Schema.Literals([
+          "challenge",
+          "block",
+          "simulate",
+          "disable",
+          "default",
+        ]),
       ),
       simulate: Schema.optional(
-        Schema.Literals(["challenge", "block", "simulate", "disable", "default"]),
+        Schema.Literals([
+          "challenge",
+          "block",
+          "simulate",
+          "disable",
+          "default",
+        ]),
       ),
     }),
   ).pipe(T.JsonName("rewrite_action")),
@@ -1457,19 +1507,49 @@ export const CreateWafOverrideResponse = Schema.Struct({
   rewriteAction: Schema.optional(
     Schema.Struct({
       block: Schema.optional(
-        Schema.Literals(["challenge", "block", "simulate", "disable", "default"]),
+        Schema.Literals([
+          "challenge",
+          "block",
+          "simulate",
+          "disable",
+          "default",
+        ]),
       ),
       challenge: Schema.optional(
-        Schema.Literals(["challenge", "block", "simulate", "disable", "default"]),
+        Schema.Literals([
+          "challenge",
+          "block",
+          "simulate",
+          "disable",
+          "default",
+        ]),
       ),
       default: Schema.optional(
-        Schema.Literals(["challenge", "block", "simulate", "disable", "default"]),
+        Schema.Literals([
+          "challenge",
+          "block",
+          "simulate",
+          "disable",
+          "default",
+        ]),
       ),
       disable: Schema.optional(
-        Schema.Literals(["challenge", "block", "simulate", "disable", "default"]),
+        Schema.Literals([
+          "challenge",
+          "block",
+          "simulate",
+          "disable",
+          "default",
+        ]),
       ),
       simulate: Schema.optional(
-        Schema.Literals(["challenge", "block", "simulate", "disable", "default"]),
+        Schema.Literals([
+          "challenge",
+          "block",
+          "simulate",
+          "disable",
+          "default",
+        ]),
       ),
     }),
   ).pipe(T.JsonName("rewrite_action")),
@@ -1573,19 +1653,49 @@ export const UpdateWafOverrideResponse = Schema.Struct({
   rewriteAction: Schema.optional(
     Schema.Struct({
       block: Schema.optional(
-        Schema.Literals(["challenge", "block", "simulate", "disable", "default"]),
+        Schema.Literals([
+          "challenge",
+          "block",
+          "simulate",
+          "disable",
+          "default",
+        ]),
       ),
       challenge: Schema.optional(
-        Schema.Literals(["challenge", "block", "simulate", "disable", "default"]),
+        Schema.Literals([
+          "challenge",
+          "block",
+          "simulate",
+          "disable",
+          "default",
+        ]),
       ),
       default: Schema.optional(
-        Schema.Literals(["challenge", "block", "simulate", "disable", "default"]),
+        Schema.Literals([
+          "challenge",
+          "block",
+          "simulate",
+          "disable",
+          "default",
+        ]),
       ),
       disable: Schema.optional(
-        Schema.Literals(["challenge", "block", "simulate", "disable", "default"]),
+        Schema.Literals([
+          "challenge",
+          "block",
+          "simulate",
+          "disable",
+          "default",
+        ]),
       ),
       simulate: Schema.optional(
-        Schema.Literals(["challenge", "block", "simulate", "disable", "default"]),
+        Schema.Literals([
+          "challenge",
+          "block",
+          "simulate",
+          "disable",
+          "default",
+        ]),
       ),
     }),
   ).pipe(T.JsonName("rewrite_action")),

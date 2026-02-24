@@ -86,9 +86,9 @@ export const GetBotManagementResponse = Schema.Union([
     aiBotsProtection: Schema.optional(
       Schema.Literals(["block", "disabled", "only_on_ad_pages"]),
     ).pipe(T.JsonName("ai_bots_protection")),
-    cfRobotsVariant: Schema.optional(Schema.Literals(["off", "policy_only"])).pipe(
-      T.JsonName("cf_robots_variant"),
-    ),
+    cfRobotsVariant: Schema.optional(
+      Schema.Literals(["off", "policy_only"]),
+    ).pipe(T.JsonName("cf_robots_variant")),
     crawlerProtection: Schema.optional(
       Schema.Literals(["enabled", "disabled"]),
     ).pipe(T.JsonName("crawler_protection")),
@@ -103,9 +103,9 @@ export const GetBotManagementResponse = Schema.Union([
     aiBotsProtection: Schema.optional(
       Schema.Literals(["block", "disabled", "only_on_ad_pages"]),
     ).pipe(T.JsonName("ai_bots_protection")),
-    cfRobotsVariant: Schema.optional(Schema.Literals(["off", "policy_only"])).pipe(
-      T.JsonName("cf_robots_variant"),
-    ),
+    cfRobotsVariant: Schema.optional(
+      Schema.Literals(["off", "policy_only"]),
+    ).pipe(T.JsonName("cf_robots_variant")),
     crawlerProtection: Schema.optional(
       Schema.Literals(["enabled", "disabled"]),
     ).pipe(T.JsonName("crawler_protection")),
@@ -131,9 +131,9 @@ export const GetBotManagementResponse = Schema.Union([
     aiBotsProtection: Schema.optional(
       Schema.Literals(["block", "disabled", "only_on_ad_pages"]),
     ).pipe(T.JsonName("ai_bots_protection")),
-    cfRobotsVariant: Schema.optional(Schema.Literals(["off", "policy_only"])).pipe(
-      T.JsonName("cf_robots_variant"),
-    ),
+    cfRobotsVariant: Schema.optional(
+      Schema.Literals(["off", "policy_only"]),
+    ).pipe(T.JsonName("cf_robots_variant")),
     crawlerProtection: Schema.optional(
       Schema.Literals(["enabled", "disabled"]),
     ).pipe(T.JsonName("crawler_protection")),
@@ -168,9 +168,9 @@ export const GetBotManagementResponse = Schema.Union([
     bmCookieEnabled: Schema.optional(Schema.Boolean).pipe(
       T.JsonName("bm_cookie_enabled"),
     ),
-    cfRobotsVariant: Schema.optional(Schema.Literals(["off", "policy_only"])).pipe(
-      T.JsonName("cf_robots_variant"),
-    ),
+    cfRobotsVariant: Schema.optional(
+      Schema.Literals(["off", "policy_only"]),
+    ).pipe(T.JsonName("cf_robots_variant")),
     crawlerProtection: Schema.optional(
       Schema.Literals(["enabled", "disabled"]),
     ).pipe(T.JsonName("crawler_protection")),
@@ -255,9 +255,9 @@ export const PutBotManagementResponse = Schema.Union([
     aiBotsProtection: Schema.optional(
       Schema.Literals(["block", "disabled", "only_on_ad_pages"]),
     ).pipe(T.JsonName("ai_bots_protection")),
-    cfRobotsVariant: Schema.optional(Schema.Literals(["off", "policy_only"])).pipe(
-      T.JsonName("cf_robots_variant"),
-    ),
+    cfRobotsVariant: Schema.optional(
+      Schema.Literals(["off", "policy_only"]),
+    ).pipe(T.JsonName("cf_robots_variant")),
     crawlerProtection: Schema.optional(
       Schema.Literals(["enabled", "disabled"]),
     ).pipe(T.JsonName("crawler_protection")),
@@ -272,9 +272,9 @@ export const PutBotManagementResponse = Schema.Union([
     aiBotsProtection: Schema.optional(
       Schema.Literals(["block", "disabled", "only_on_ad_pages"]),
     ).pipe(T.JsonName("ai_bots_protection")),
-    cfRobotsVariant: Schema.optional(Schema.Literals(["off", "policy_only"])).pipe(
-      T.JsonName("cf_robots_variant"),
-    ),
+    cfRobotsVariant: Schema.optional(
+      Schema.Literals(["off", "policy_only"]),
+    ).pipe(T.JsonName("cf_robots_variant")),
     crawlerProtection: Schema.optional(
       Schema.Literals(["enabled", "disabled"]),
     ).pipe(T.JsonName("crawler_protection")),
@@ -300,9 +300,9 @@ export const PutBotManagementResponse = Schema.Union([
     aiBotsProtection: Schema.optional(
       Schema.Literals(["block", "disabled", "only_on_ad_pages"]),
     ).pipe(T.JsonName("ai_bots_protection")),
-    cfRobotsVariant: Schema.optional(Schema.Literals(["off", "policy_only"])).pipe(
-      T.JsonName("cf_robots_variant"),
-    ),
+    cfRobotsVariant: Schema.optional(
+      Schema.Literals(["off", "policy_only"]),
+    ).pipe(T.JsonName("cf_robots_variant")),
     crawlerProtection: Schema.optional(
       Schema.Literals(["enabled", "disabled"]),
     ).pipe(T.JsonName("crawler_protection")),
@@ -337,9 +337,9 @@ export const PutBotManagementResponse = Schema.Union([
     bmCookieEnabled: Schema.optional(Schema.Boolean).pipe(
       T.JsonName("bm_cookie_enabled"),
     ),
-    cfRobotsVariant: Schema.optional(Schema.Literals(["off", "policy_only"])).pipe(
-      T.JsonName("cf_robots_variant"),
-    ),
+    cfRobotsVariant: Schema.optional(
+      Schema.Literals(["off", "policy_only"]),
+    ).pipe(T.JsonName("cf_robots_variant")),
     crawlerProtection: Schema.optional(
       Schema.Literals(["enabled", "disabled"]),
     ).pipe(T.JsonName("crawler_protection")),

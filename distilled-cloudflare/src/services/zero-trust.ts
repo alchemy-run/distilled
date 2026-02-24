@@ -1680,7 +1680,12 @@ export const GetAccessApplicationResponse = Schema.Union([
     policies: Schema.optional(
       Schema.Array(
         Schema.Struct({
-          decision: Schema.Literals(["allow", "bypass", "deny", "non_identity"]),
+          decision: Schema.Literals([
+            "allow",
+            "bypass",
+            "deny",
+            "non_identity",
+          ]),
           include: Schema.Array(Schema.Unknown),
           name: Schema.String,
           connectionRules: Schema.optional(
@@ -2876,7 +2881,12 @@ export const CreateAccessApplicationResponse = Schema.Union([
     policies: Schema.optional(
       Schema.Array(
         Schema.Struct({
-          decision: Schema.Literals(["allow", "bypass", "deny", "non_identity"]),
+          decision: Schema.Literals([
+            "allow",
+            "bypass",
+            "deny",
+            "non_identity",
+          ]),
           include: Schema.Array(Schema.Unknown),
           name: Schema.String,
           connectionRules: Schema.optional(
@@ -4072,7 +4082,12 @@ export const UpdateAccessApplicationResponse = Schema.Union([
     policies: Schema.optional(
       Schema.Array(
         Schema.Struct({
-          decision: Schema.Literals(["allow", "bypass", "deny", "non_identity"]),
+          decision: Schema.Literals([
+            "allow",
+            "bypass",
+            "deny",
+            "non_identity",
+          ]),
           include: Schema.Array(Schema.Unknown),
           name: Schema.String,
           connectionRules: Schema.optional(
@@ -6654,7 +6669,12 @@ export const CreateAccessApplicationPolicyTestRequest = Schema.Struct({
     Schema.Array(
       Schema.Union([
         Schema.Struct({
-          decision: Schema.Literals(["allow", "bypass", "deny", "non_identity"]),
+          decision: Schema.Literals([
+            "allow",
+            "bypass",
+            "deny",
+            "non_identity",
+          ]),
           include: Schema.Array(Schema.Unknown),
           name: Schema.String,
           approvalGroups: Schema.optional(Schema.Array(Schema.Unknown)).pipe(
@@ -9801,9 +9821,9 @@ export const GetDeviceDevices_Response = Schema.Struct({
   ),
   name: Schema.String,
   updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
-  clientVersion: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-    T.JsonName("client_version"),
-  ),
+  clientVersion: Schema.optional(
+    Schema.Union([Schema.String, Schema.Null]),
+  ).pipe(T.JsonName("client_version")),
   deletedAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
     T.JsonName("deleted_at"),
   ),
@@ -9856,9 +9876,9 @@ export const GetDeviceDevices_Response = Schema.Struct({
   publicIp: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
     T.JsonName("public_ip"),
   ),
-  serialNumber: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-    T.JsonName("serial_number"),
-  ),
+  serialNumber: Schema.optional(
+    Schema.Union([Schema.String, Schema.Null]),
+  ).pipe(T.JsonName("serial_number")),
 }) as unknown as Schema.Schema<GetDeviceDevices_Response>;
 
 export const getDeviceDevices_: (
@@ -10549,7 +10569,9 @@ export const GetDeviceFleetStatusResponse = Schema.Struct({
       version: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     }),
   ),
-  handshakeLatencyMs: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  handshakeLatencyMs: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
   ispIpv4: Schema.optional(
     Schema.Struct({
       address: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
@@ -11779,13 +11801,17 @@ export const GetDevicePostureResponse = Schema.Struct({
       Schema.Struct({
         connectionId: Schema.String.pipe(T.JsonName("connection_id")),
         lastSeen: Schema.optional(Schema.String).pipe(T.JsonName("last_seen")),
-        operator: Schema.optional(Schema.Literals(["<", "<=", ">", ">=", "=="])),
+        operator: Schema.optional(
+          Schema.Literals(["<", "<=", ">", ">=", "=="]),
+        ),
         os: Schema.optional(Schema.String),
         overall: Schema.optional(Schema.String),
         sensorConfig: Schema.optional(Schema.String).pipe(
           T.JsonName("sensor_config"),
         ),
-        state: Schema.optional(Schema.Literals(["online", "offline", "unknown"])),
+        state: Schema.optional(
+          Schema.Literals(["online", "offline", "unknown"]),
+        ),
         version: Schema.optional(Schema.String),
         versionOperator: Schema.optional(
           Schema.Literals(["<", "<=", ">", ">=", "=="]),
@@ -11812,7 +11838,9 @@ export const GetDevicePostureResponse = Schema.Struct({
         eidLastSeen: Schema.optional(Schema.String).pipe(
           T.JsonName("eid_last_seen"),
         ),
-        operator: Schema.optional(Schema.Literals(["<", "<=", ">", ">=", "=="])),
+        operator: Schema.optional(
+          Schema.Literals(["<", "<=", ">", ">=", "=="]),
+        ),
         riskLevel: Schema.optional(
           Schema.Literals(["low", "medium", "high", "critical"]),
         ).pipe(T.JsonName("risk_level")),
@@ -11849,7 +11877,9 @@ export const GetDevicePostureResponse = Schema.Struct({
             "db_corruption",
           ]),
         ).pipe(T.JsonName("operational_state")),
-        operator: Schema.optional(Schema.Literals(["<", "<=", ">", ">=", "=="])),
+        operator: Schema.optional(
+          Schema.Literals(["<", "<=", ">", ">=", "=="]),
+        ),
       }),
       Schema.Struct({
         connectionId: Schema.String.pipe(T.JsonName("connection_id")),
@@ -12193,13 +12223,17 @@ export const CreateDevicePostureRequest = Schema.Struct({
       Schema.Struct({
         connectionId: Schema.String.pipe(T.JsonName("connection_id")),
         lastSeen: Schema.optional(Schema.String).pipe(T.JsonName("last_seen")),
-        operator: Schema.optional(Schema.Literals(["<", "<=", ">", ">=", "=="])),
+        operator: Schema.optional(
+          Schema.Literals(["<", "<=", ">", ">=", "=="]),
+        ),
         os: Schema.optional(Schema.String),
         overall: Schema.optional(Schema.String),
         sensorConfig: Schema.optional(Schema.String).pipe(
           T.JsonName("sensor_config"),
         ),
-        state: Schema.optional(Schema.Literals(["online", "offline", "unknown"])),
+        state: Schema.optional(
+          Schema.Literals(["online", "offline", "unknown"]),
+        ),
         version: Schema.optional(Schema.String),
         versionOperator: Schema.optional(
           Schema.Literals(["<", "<=", ">", ">=", "=="]),
@@ -12226,7 +12260,9 @@ export const CreateDevicePostureRequest = Schema.Struct({
         eidLastSeen: Schema.optional(Schema.String).pipe(
           T.JsonName("eid_last_seen"),
         ),
-        operator: Schema.optional(Schema.Literals(["<", "<=", ">", ">=", "=="])),
+        operator: Schema.optional(
+          Schema.Literals(["<", "<=", ">", ">=", "=="]),
+        ),
         riskLevel: Schema.optional(
           Schema.Literals(["low", "medium", "high", "critical"]),
         ).pipe(T.JsonName("risk_level")),
@@ -12263,7 +12299,9 @@ export const CreateDevicePostureRequest = Schema.Struct({
             "db_corruption",
           ]),
         ).pipe(T.JsonName("operational_state")),
-        operator: Schema.optional(Schema.Literals(["<", "<=", ">", ">=", "=="])),
+        operator: Schema.optional(
+          Schema.Literals(["<", "<=", ">", ">=", "=="]),
+        ),
       }),
       Schema.Struct({
         connectionId: Schema.String.pipe(T.JsonName("connection_id")),
@@ -12543,13 +12581,17 @@ export const CreateDevicePostureResponse = Schema.Struct({
       Schema.Struct({
         connectionId: Schema.String.pipe(T.JsonName("connection_id")),
         lastSeen: Schema.optional(Schema.String).pipe(T.JsonName("last_seen")),
-        operator: Schema.optional(Schema.Literals(["<", "<=", ">", ">=", "=="])),
+        operator: Schema.optional(
+          Schema.Literals(["<", "<=", ">", ">=", "=="]),
+        ),
         os: Schema.optional(Schema.String),
         overall: Schema.optional(Schema.String),
         sensorConfig: Schema.optional(Schema.String).pipe(
           T.JsonName("sensor_config"),
         ),
-        state: Schema.optional(Schema.Literals(["online", "offline", "unknown"])),
+        state: Schema.optional(
+          Schema.Literals(["online", "offline", "unknown"]),
+        ),
         version: Schema.optional(Schema.String),
         versionOperator: Schema.optional(
           Schema.Literals(["<", "<=", ">", ">=", "=="]),
@@ -12576,7 +12618,9 @@ export const CreateDevicePostureResponse = Schema.Struct({
         eidLastSeen: Schema.optional(Schema.String).pipe(
           T.JsonName("eid_last_seen"),
         ),
-        operator: Schema.optional(Schema.Literals(["<", "<=", ">", ">=", "=="])),
+        operator: Schema.optional(
+          Schema.Literals(["<", "<=", ">", ">=", "=="]),
+        ),
         riskLevel: Schema.optional(
           Schema.Literals(["low", "medium", "high", "critical"]),
         ).pipe(T.JsonName("risk_level")),
@@ -12613,7 +12657,9 @@ export const CreateDevicePostureResponse = Schema.Struct({
             "db_corruption",
           ]),
         ).pipe(T.JsonName("operational_state")),
-        operator: Schema.optional(Schema.Literals(["<", "<=", ">", ">=", "=="])),
+        operator: Schema.optional(
+          Schema.Literals(["<", "<=", ">", ">=", "=="]),
+        ),
       }),
       Schema.Struct({
         connectionId: Schema.String.pipe(T.JsonName("connection_id")),
@@ -12959,13 +13005,17 @@ export const UpdateDevicePostureRequest = Schema.Struct({
       Schema.Struct({
         connectionId: Schema.String.pipe(T.JsonName("connection_id")),
         lastSeen: Schema.optional(Schema.String).pipe(T.JsonName("last_seen")),
-        operator: Schema.optional(Schema.Literals(["<", "<=", ">", ">=", "=="])),
+        operator: Schema.optional(
+          Schema.Literals(["<", "<=", ">", ">=", "=="]),
+        ),
         os: Schema.optional(Schema.String),
         overall: Schema.optional(Schema.String),
         sensorConfig: Schema.optional(Schema.String).pipe(
           T.JsonName("sensor_config"),
         ),
-        state: Schema.optional(Schema.Literals(["online", "offline", "unknown"])),
+        state: Schema.optional(
+          Schema.Literals(["online", "offline", "unknown"]),
+        ),
         version: Schema.optional(Schema.String),
         versionOperator: Schema.optional(
           Schema.Literals(["<", "<=", ">", ">=", "=="]),
@@ -12992,7 +13042,9 @@ export const UpdateDevicePostureRequest = Schema.Struct({
         eidLastSeen: Schema.optional(Schema.String).pipe(
           T.JsonName("eid_last_seen"),
         ),
-        operator: Schema.optional(Schema.Literals(["<", "<=", ">", ">=", "=="])),
+        operator: Schema.optional(
+          Schema.Literals(["<", "<=", ">", ">=", "=="]),
+        ),
         riskLevel: Schema.optional(
           Schema.Literals(["low", "medium", "high", "critical"]),
         ).pipe(T.JsonName("risk_level")),
@@ -13029,7 +13081,9 @@ export const UpdateDevicePostureRequest = Schema.Struct({
             "db_corruption",
           ]),
         ).pipe(T.JsonName("operational_state")),
-        operator: Schema.optional(Schema.Literals(["<", "<=", ">", ">=", "=="])),
+        operator: Schema.optional(
+          Schema.Literals(["<", "<=", ">", ">=", "=="]),
+        ),
       }),
       Schema.Struct({
         connectionId: Schema.String.pipe(T.JsonName("connection_id")),
@@ -13312,13 +13366,17 @@ export const UpdateDevicePostureResponse = Schema.Struct({
       Schema.Struct({
         connectionId: Schema.String.pipe(T.JsonName("connection_id")),
         lastSeen: Schema.optional(Schema.String).pipe(T.JsonName("last_seen")),
-        operator: Schema.optional(Schema.Literals(["<", "<=", ">", ">=", "=="])),
+        operator: Schema.optional(
+          Schema.Literals(["<", "<=", ">", ">=", "=="]),
+        ),
         os: Schema.optional(Schema.String),
         overall: Schema.optional(Schema.String),
         sensorConfig: Schema.optional(Schema.String).pipe(
           T.JsonName("sensor_config"),
         ),
-        state: Schema.optional(Schema.Literals(["online", "offline", "unknown"])),
+        state: Schema.optional(
+          Schema.Literals(["online", "offline", "unknown"]),
+        ),
         version: Schema.optional(Schema.String),
         versionOperator: Schema.optional(
           Schema.Literals(["<", "<=", ">", ">=", "=="]),
@@ -13345,7 +13403,9 @@ export const UpdateDevicePostureResponse = Schema.Struct({
         eidLastSeen: Schema.optional(Schema.String).pipe(
           T.JsonName("eid_last_seen"),
         ),
-        operator: Schema.optional(Schema.Literals(["<", "<=", ">", ">=", "=="])),
+        operator: Schema.optional(
+          Schema.Literals(["<", "<=", ">", ">=", "=="]),
+        ),
         riskLevel: Schema.optional(
           Schema.Literals(["low", "medium", "high", "critical"]),
         ).pipe(T.JsonName("risk_level")),
@@ -13382,7 +13442,9 @@ export const UpdateDevicePostureResponse = Schema.Struct({
             "db_corruption",
           ]),
         ).pipe(T.JsonName("operational_state")),
-        operator: Schema.optional(Schema.Literals(["<", "<=", ">", ">=", "=="])),
+        operator: Schema.optional(
+          Schema.Literals(["<", "<=", ">", ">=", "=="]),
+        ),
       }),
       Schema.Struct({
         connectionId: Schema.String.pipe(T.JsonName("connection_id")),
@@ -14819,7 +14881,12 @@ export const CreateDexCommandResponse = Schema.Struct({
         args: Schema.optional(Schema.Struct({})),
         deviceId: Schema.optional(Schema.String).pipe(T.JsonName("device_id")),
         status: Schema.optional(
-          Schema.Literals(["PENDING_EXEC", "PENDING_UPLOAD", "SUCCESS", "FAILED"]),
+          Schema.Literals([
+            "PENDING_EXEC",
+            "PENDING_UPLOAD",
+            "SUCCESS",
+            "FAILED",
+          ]),
         ),
         type: Schema.optional(Schema.String),
       }),
@@ -15572,7 +15639,9 @@ export const GetDexTracerouteTestResultNetworkPathResponse = Schema.Struct({
         ]),
       ),
       name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-      packetLossPct: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      packetLossPct: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
       rttMs: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
     }),
   ),
@@ -17183,7 +17252,9 @@ export const GetDlpEntryResponse = Schema.Union([
           T.JsonName("topic_type"),
         ),
         type: Schema.Literal("PromptTopic"),
-        description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        description: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
       }),
     ),
   }),
@@ -17479,7 +17550,9 @@ export const UpdateDlpEntryResponse = Schema.Union([
           T.JsonName("topic_type"),
         ),
         type: Schema.Literal("PromptTopic"),
-        description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        description: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
       }),
     ),
   }),
@@ -17768,7 +17841,9 @@ export const GetDlpEntryCustomResponse = Schema.Union([
           T.JsonName("topic_type"),
         ),
         type: Schema.Literal("PromptTopic"),
-        description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        description: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
       }),
     ),
   }),
@@ -18245,7 +18320,9 @@ export const GetDlpEntryIntegrationResponse = Schema.Union([
           T.JsonName("topic_type"),
         ),
         type: Schema.Literal("PromptTopic"),
-        description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        description: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
       }),
     ),
   }),
@@ -18714,7 +18791,9 @@ export const GetDlpEntryPredefinedResponse = Schema.Union([
           T.JsonName("topic_type"),
         ),
         type: Schema.Literal("PromptTopic"),
-        description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        description: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
       }),
     ),
   }),
@@ -19065,9 +19144,9 @@ export interface ValidateDlpPatternRequest {
 export const ValidateDlpPatternRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   regex: Schema.String,
-  maxMatchBytes: Schema.optional(Schema.Union([Schema.Number, Schema.Null])).pipe(
-    T.JsonName("max_match_bytes"),
-  ),
+  maxMatchBytes: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ).pipe(T.JsonName("max_match_bytes")),
 }).pipe(
   T.Http({
     method: "POST",
@@ -22436,9 +22515,9 @@ export const ResetExpirationGatewayRuleResponse = Schema.Struct({
   ),
   updatedAt: Schema.optional(Schema.String).pipe(T.JsonName("updated_at")),
   version: Schema.optional(Schema.Number),
-  warningStatus: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-    T.JsonName("warning_status"),
-  ),
+  warningStatus: Schema.optional(
+    Schema.Union([Schema.String, Schema.Null]),
+  ).pipe(T.JsonName("warning_status")),
 }) as unknown as Schema.Schema<ResetExpirationGatewayRuleResponse>;
 
 export const resetExpirationGatewayRule: (
@@ -23109,7 +23188,9 @@ export const GetGatewayConfigurationResponse = Schema.Struct({
       activityLog: Schema.optional(
         Schema.Union([
           Schema.Struct({
-            enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+            enabled: Schema.optional(
+              Schema.Union([Schema.Boolean, Schema.Null]),
+            ),
           }),
           Schema.Null,
         ]),
@@ -23151,7 +23232,9 @@ export const GetGatewayConfigurationResponse = Schema.Struct({
             backgroundColor: Schema.optional(Schema.String).pipe(
               T.JsonName("background_color"),
             ),
-            enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+            enabled: Schema.optional(
+              Schema.Union([Schema.Boolean, Schema.Null]),
+            ),
             footerText: Schema.optional(Schema.String).pipe(
               T.JsonName("footer_text"),
             ),
@@ -23186,7 +23269,9 @@ export const GetGatewayConfigurationResponse = Schema.Struct({
             targetUri: Schema.optional(Schema.String).pipe(
               T.JsonName("target_uri"),
             ),
-            version: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+            version: Schema.optional(
+              Schema.Union([Schema.Number, Schema.Null]),
+            ),
           }),
           Schema.Null,
         ]),
@@ -23240,7 +23325,9 @@ export const GetGatewayConfigurationResponse = Schema.Struct({
       extendedEmailMatching: Schema.optional(
         Schema.Union([
           Schema.Struct({
-            enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+            enabled: Schema.optional(
+              Schema.Union([Schema.Boolean, Schema.Null]),
+            ),
             readOnly: Schema.optional(Schema.Boolean).pipe(
               T.JsonName("read_only"),
             ),
@@ -23263,7 +23350,9 @@ export const GetGatewayConfigurationResponse = Schema.Struct({
       hostSelector: Schema.optional(
         Schema.Union([
           Schema.Struct({
-            enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+            enabled: Schema.optional(
+              Schema.Union([Schema.Boolean, Schema.Null]),
+            ),
           }),
           Schema.Null,
         ]),
@@ -23279,7 +23368,9 @@ export const GetGatewayConfigurationResponse = Schema.Struct({
       protocolDetection: Schema.optional(
         Schema.Union([
           Schema.Struct({
-            enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+            enabled: Schema.optional(
+              Schema.Union([Schema.Boolean, Schema.Null]),
+            ),
           }),
           Schema.Null,
         ]),
@@ -23287,7 +23378,9 @@ export const GetGatewayConfigurationResponse = Schema.Struct({
       sandbox: Schema.optional(
         Schema.Union([
           Schema.Struct({
-            enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+            enabled: Schema.optional(
+              Schema.Union([Schema.Boolean, Schema.Null]),
+            ),
             fallbackAction: Schema.optional(
               Schema.Literals(["allow", "block"]),
             ).pipe(T.JsonName("fallback_action")),
@@ -23378,7 +23471,9 @@ export const PutGatewayConfigurationRequest = Schema.Struct({
       activityLog: Schema.optional(
         Schema.Union([
           Schema.Struct({
-            enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+            enabled: Schema.optional(
+              Schema.Union([Schema.Boolean, Schema.Null]),
+            ),
           }),
           Schema.Null,
         ]),
@@ -23420,7 +23515,9 @@ export const PutGatewayConfigurationRequest = Schema.Struct({
             backgroundColor: Schema.optional(Schema.String).pipe(
               T.JsonName("background_color"),
             ),
-            enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+            enabled: Schema.optional(
+              Schema.Union([Schema.Boolean, Schema.Null]),
+            ),
             footerText: Schema.optional(Schema.String).pipe(
               T.JsonName("footer_text"),
             ),
@@ -23496,7 +23593,9 @@ export const PutGatewayConfigurationRequest = Schema.Struct({
       extendedEmailMatching: Schema.optional(
         Schema.Union([
           Schema.Struct({
-            enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+            enabled: Schema.optional(
+              Schema.Union([Schema.Boolean, Schema.Null]),
+            ),
           }),
           Schema.Null,
         ]),
@@ -23512,7 +23611,9 @@ export const PutGatewayConfigurationRequest = Schema.Struct({
       hostSelector: Schema.optional(
         Schema.Union([
           Schema.Struct({
-            enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+            enabled: Schema.optional(
+              Schema.Union([Schema.Boolean, Schema.Null]),
+            ),
           }),
           Schema.Null,
         ]),
@@ -23528,7 +23629,9 @@ export const PutGatewayConfigurationRequest = Schema.Struct({
       protocolDetection: Schema.optional(
         Schema.Union([
           Schema.Struct({
-            enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+            enabled: Schema.optional(
+              Schema.Union([Schema.Boolean, Schema.Null]),
+            ),
           }),
           Schema.Null,
         ]),
@@ -23536,7 +23639,9 @@ export const PutGatewayConfigurationRequest = Schema.Struct({
       sandbox: Schema.optional(
         Schema.Union([
           Schema.Struct({
-            enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+            enabled: Schema.optional(
+              Schema.Union([Schema.Boolean, Schema.Null]),
+            ),
             fallbackAction: Schema.optional(
               Schema.Literals(["allow", "block"]),
             ).pipe(T.JsonName("fallback_action")),
@@ -23632,7 +23737,9 @@ export const PutGatewayConfigurationResponse = Schema.Struct({
       activityLog: Schema.optional(
         Schema.Union([
           Schema.Struct({
-            enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+            enabled: Schema.optional(
+              Schema.Union([Schema.Boolean, Schema.Null]),
+            ),
           }),
           Schema.Null,
         ]),
@@ -23674,7 +23781,9 @@ export const PutGatewayConfigurationResponse = Schema.Struct({
             backgroundColor: Schema.optional(Schema.String).pipe(
               T.JsonName("background_color"),
             ),
-            enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+            enabled: Schema.optional(
+              Schema.Union([Schema.Boolean, Schema.Null]),
+            ),
             footerText: Schema.optional(Schema.String).pipe(
               T.JsonName("footer_text"),
             ),
@@ -23709,7 +23818,9 @@ export const PutGatewayConfigurationResponse = Schema.Struct({
             targetUri: Schema.optional(Schema.String).pipe(
               T.JsonName("target_uri"),
             ),
-            version: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+            version: Schema.optional(
+              Schema.Union([Schema.Number, Schema.Null]),
+            ),
           }),
           Schema.Null,
         ]),
@@ -23763,7 +23874,9 @@ export const PutGatewayConfigurationResponse = Schema.Struct({
       extendedEmailMatching: Schema.optional(
         Schema.Union([
           Schema.Struct({
-            enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+            enabled: Schema.optional(
+              Schema.Union([Schema.Boolean, Schema.Null]),
+            ),
             readOnly: Schema.optional(Schema.Boolean).pipe(
               T.JsonName("read_only"),
             ),
@@ -23786,7 +23899,9 @@ export const PutGatewayConfigurationResponse = Schema.Struct({
       hostSelector: Schema.optional(
         Schema.Union([
           Schema.Struct({
-            enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+            enabled: Schema.optional(
+              Schema.Union([Schema.Boolean, Schema.Null]),
+            ),
           }),
           Schema.Null,
         ]),
@@ -23802,7 +23917,9 @@ export const PutGatewayConfigurationResponse = Schema.Struct({
       protocolDetection: Schema.optional(
         Schema.Union([
           Schema.Struct({
-            enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+            enabled: Schema.optional(
+              Schema.Union([Schema.Boolean, Schema.Null]),
+            ),
           }),
           Schema.Null,
         ]),
@@ -23810,7 +23927,9 @@ export const PutGatewayConfigurationResponse = Schema.Struct({
       sandbox: Schema.optional(
         Schema.Union([
           Schema.Struct({
-            enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+            enabled: Schema.optional(
+              Schema.Union([Schema.Boolean, Schema.Null]),
+            ),
             fallbackAction: Schema.optional(
               Schema.Literals(["allow", "block"]),
             ).pipe(T.JsonName("fallback_action")),
@@ -23901,7 +24020,9 @@ export const PatchGatewayConfigurationRequest = Schema.Struct({
       activityLog: Schema.optional(
         Schema.Union([
           Schema.Struct({
-            enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+            enabled: Schema.optional(
+              Schema.Union([Schema.Boolean, Schema.Null]),
+            ),
           }),
           Schema.Null,
         ]),
@@ -23943,7 +24064,9 @@ export const PatchGatewayConfigurationRequest = Schema.Struct({
             backgroundColor: Schema.optional(Schema.String).pipe(
               T.JsonName("background_color"),
             ),
-            enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+            enabled: Schema.optional(
+              Schema.Union([Schema.Boolean, Schema.Null]),
+            ),
             footerText: Schema.optional(Schema.String).pipe(
               T.JsonName("footer_text"),
             ),
@@ -24019,7 +24142,9 @@ export const PatchGatewayConfigurationRequest = Schema.Struct({
       extendedEmailMatching: Schema.optional(
         Schema.Union([
           Schema.Struct({
-            enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+            enabled: Schema.optional(
+              Schema.Union([Schema.Boolean, Schema.Null]),
+            ),
           }),
           Schema.Null,
         ]),
@@ -24035,7 +24160,9 @@ export const PatchGatewayConfigurationRequest = Schema.Struct({
       hostSelector: Schema.optional(
         Schema.Union([
           Schema.Struct({
-            enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+            enabled: Schema.optional(
+              Schema.Union([Schema.Boolean, Schema.Null]),
+            ),
           }),
           Schema.Null,
         ]),
@@ -24051,7 +24178,9 @@ export const PatchGatewayConfigurationRequest = Schema.Struct({
       protocolDetection: Schema.optional(
         Schema.Union([
           Schema.Struct({
-            enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+            enabled: Schema.optional(
+              Schema.Union([Schema.Boolean, Schema.Null]),
+            ),
           }),
           Schema.Null,
         ]),
@@ -24059,7 +24188,9 @@ export const PatchGatewayConfigurationRequest = Schema.Struct({
       sandbox: Schema.optional(
         Schema.Union([
           Schema.Struct({
-            enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+            enabled: Schema.optional(
+              Schema.Union([Schema.Boolean, Schema.Null]),
+            ),
             fallbackAction: Schema.optional(
               Schema.Literals(["allow", "block"]),
             ).pipe(T.JsonName("fallback_action")),
@@ -24155,7 +24286,9 @@ export const PatchGatewayConfigurationResponse = Schema.Struct({
       activityLog: Schema.optional(
         Schema.Union([
           Schema.Struct({
-            enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+            enabled: Schema.optional(
+              Schema.Union([Schema.Boolean, Schema.Null]),
+            ),
           }),
           Schema.Null,
         ]),
@@ -24197,7 +24330,9 @@ export const PatchGatewayConfigurationResponse = Schema.Struct({
             backgroundColor: Schema.optional(Schema.String).pipe(
               T.JsonName("background_color"),
             ),
-            enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+            enabled: Schema.optional(
+              Schema.Union([Schema.Boolean, Schema.Null]),
+            ),
             footerText: Schema.optional(Schema.String).pipe(
               T.JsonName("footer_text"),
             ),
@@ -24232,7 +24367,9 @@ export const PatchGatewayConfigurationResponse = Schema.Struct({
             targetUri: Schema.optional(Schema.String).pipe(
               T.JsonName("target_uri"),
             ),
-            version: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+            version: Schema.optional(
+              Schema.Union([Schema.Number, Schema.Null]),
+            ),
           }),
           Schema.Null,
         ]),
@@ -24286,7 +24423,9 @@ export const PatchGatewayConfigurationResponse = Schema.Struct({
       extendedEmailMatching: Schema.optional(
         Schema.Union([
           Schema.Struct({
-            enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+            enabled: Schema.optional(
+              Schema.Union([Schema.Boolean, Schema.Null]),
+            ),
             readOnly: Schema.optional(Schema.Boolean).pipe(
               T.JsonName("read_only"),
             ),
@@ -24309,7 +24448,9 @@ export const PatchGatewayConfigurationResponse = Schema.Struct({
       hostSelector: Schema.optional(
         Schema.Union([
           Schema.Struct({
-            enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+            enabled: Schema.optional(
+              Schema.Union([Schema.Boolean, Schema.Null]),
+            ),
           }),
           Schema.Null,
         ]),
@@ -24325,7 +24466,9 @@ export const PatchGatewayConfigurationResponse = Schema.Struct({
       protocolDetection: Schema.optional(
         Schema.Union([
           Schema.Struct({
-            enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+            enabled: Schema.optional(
+              Schema.Union([Schema.Boolean, Schema.Null]),
+            ),
           }),
           Schema.Null,
         ]),
@@ -24333,7 +24476,9 @@ export const PatchGatewayConfigurationResponse = Schema.Struct({
       sandbox: Schema.optional(
         Schema.Union([
           Schema.Struct({
-            enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+            enabled: Schema.optional(
+              Schema.Union([Schema.Boolean, Schema.Null]),
+            ),
             fallbackAction: Schema.optional(
               Schema.Literals(["allow", "block"]),
             ).pipe(T.JsonName("fallback_action")),
@@ -26352,9 +26497,9 @@ export const GetGatewayRuleResponse = Schema.Struct({
   ),
   updatedAt: Schema.optional(Schema.String).pipe(T.JsonName("updated_at")),
   version: Schema.optional(Schema.Number),
-  warningStatus: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-    T.JsonName("warning_status"),
-  ),
+  warningStatus: Schema.optional(
+    Schema.Union([Schema.String, Schema.Null]),
+  ).pipe(T.JsonName("warning_status")),
 }) as unknown as Schema.Schema<GetGatewayRuleResponse>;
 
 export const getGatewayRule: (
@@ -26527,7 +26672,9 @@ export const CreateGatewayRuleRequest = Schema.Struct({
     ]),
   ),
   filters: Schema.optional(
-    Schema.Array(Schema.Literals(["http", "dns", "l4", "egress", "dns_resolver"])),
+    Schema.Array(
+      Schema.Literals(["http", "dns", "l4", "egress", "dns_resolver"]),
+    ),
   ),
   identity: Schema.optional(Schema.String),
   precedence: Schema.optional(Schema.Number),
@@ -27183,9 +27330,9 @@ export const CreateGatewayRuleResponse = Schema.Struct({
   ),
   updatedAt: Schema.optional(Schema.String).pipe(T.JsonName("updated_at")),
   version: Schema.optional(Schema.Number),
-  warningStatus: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-    T.JsonName("warning_status"),
-  ),
+  warningStatus: Schema.optional(
+    Schema.Union([Schema.String, Schema.Null]),
+  ).pipe(T.JsonName("warning_status")),
 }) as unknown as Schema.Schema<CreateGatewayRuleResponse>;
 
 export const createGatewayRule: (
@@ -27360,7 +27507,9 @@ export const UpdateGatewayRuleRequest = Schema.Struct({
     ]),
   ),
   filters: Schema.optional(
-    Schema.Array(Schema.Literals(["http", "dns", "l4", "egress", "dns_resolver"])),
+    Schema.Array(
+      Schema.Literals(["http", "dns", "l4", "egress", "dns_resolver"]),
+    ),
   ),
   identity: Schema.optional(Schema.String),
   precedence: Schema.optional(Schema.Number),
@@ -28019,9 +28168,9 @@ export const UpdateGatewayRuleResponse = Schema.Struct({
   ),
   updatedAt: Schema.optional(Schema.String).pipe(T.JsonName("updated_at")),
   version: Schema.optional(Schema.Number),
-  warningStatus: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-    T.JsonName("warning_status"),
-  ),
+  warningStatus: Schema.optional(
+    Schema.Union([Schema.String, Schema.Null]),
+  ).pipe(T.JsonName("warning_status")),
 }) as unknown as Schema.Schema<UpdateGatewayRuleResponse>;
 
 export const updateGatewayRule: (
@@ -30846,7 +30995,9 @@ export interface PatchNetworkSubnetCloudflareSourceRequest {
 }
 
 export const PatchNetworkSubnetCloudflareSourceRequest = Schema.Struct({
-  addressFamily: Schema.Literals(["v4", "v6"]).pipe(T.HttpPath("addressFamily")),
+  addressFamily: Schema.Literals(["v4", "v6"]).pipe(
+    T.HttpPath("addressFamily"),
+  ),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   comment: Schema.optional(Schema.String),
   name: Schema.optional(Schema.String),
@@ -31808,9 +31959,9 @@ export const GetRiskScoringResponse = Schema.Struct({
     }),
   ),
   name: Schema.String,
-  lastResetTime: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-    T.JsonName("last_reset_time"),
-  ),
+  lastResetTime: Schema.optional(
+    Schema.Union([Schema.String, Schema.Null]),
+  ).pipe(T.JsonName("last_reset_time")),
   riskLevel: Schema.optional(Schema.Literals(["low", "medium", "high"])).pipe(
     T.JsonName("risk_level"),
   ),

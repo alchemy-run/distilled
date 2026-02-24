@@ -306,9 +306,9 @@ export const GetProjectResponse = Schema.Struct({
         destinationDir: Schema.optional(
           Schema.Union([Schema.String, Schema.Null]),
         ).pipe(T.JsonName("destination_dir")),
-        rootDir: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-          T.JsonName("root_dir"),
-        ),
+        rootDir: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ).pipe(T.JsonName("root_dir")),
       }).pipe(T.JsonName("build_config")),
       createdOn: Schema.String.pipe(T.JsonName("created_on")),
       deploymentTrigger: Schema.Struct({
@@ -529,9 +529,9 @@ export const GetProjectResponse = Schema.Struct({
         destinationDir: Schema.optional(
           Schema.Union([Schema.String, Schema.Null]),
         ).pipe(T.JsonName("destination_dir")),
-        rootDir: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-          T.JsonName("root_dir"),
-        ),
+        rootDir: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ).pipe(T.JsonName("root_dir")),
       }).pipe(T.JsonName("build_config")),
       createdOn: Schema.String.pipe(T.JsonName("created_on")),
       deploymentTrigger: Schema.Struct({
@@ -1212,9 +1212,9 @@ export const CreateProjectResponse = Schema.Struct({
         destinationDir: Schema.optional(
           Schema.Union([Schema.String, Schema.Null]),
         ).pipe(T.JsonName("destination_dir")),
-        rootDir: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-          T.JsonName("root_dir"),
-        ),
+        rootDir: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ).pipe(T.JsonName("root_dir")),
       }).pipe(T.JsonName("build_config")),
       createdOn: Schema.String.pipe(T.JsonName("created_on")),
       deploymentTrigger: Schema.Struct({
@@ -1435,9 +1435,9 @@ export const CreateProjectResponse = Schema.Struct({
         destinationDir: Schema.optional(
           Schema.Union([Schema.String, Schema.Null]),
         ).pipe(T.JsonName("destination_dir")),
-        rootDir: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-          T.JsonName("root_dir"),
-        ),
+        rootDir: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ).pipe(T.JsonName("root_dir")),
       }).pipe(T.JsonName("build_config")),
       createdOn: Schema.String.pipe(T.JsonName("created_on")),
       deploymentTrigger: Schema.Struct({
@@ -2125,9 +2125,9 @@ export const PatchProjectResponse = Schema.Struct({
         destinationDir: Schema.optional(
           Schema.Union([Schema.String, Schema.Null]),
         ).pipe(T.JsonName("destination_dir")),
-        rootDir: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-          T.JsonName("root_dir"),
-        ),
+        rootDir: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ).pipe(T.JsonName("root_dir")),
       }).pipe(T.JsonName("build_config")),
       createdOn: Schema.String.pipe(T.JsonName("created_on")),
       deploymentTrigger: Schema.Struct({
@@ -2348,9 +2348,9 @@ export const PatchProjectResponse = Schema.Struct({
         destinationDir: Schema.optional(
           Schema.Union([Schema.String, Schema.Null]),
         ).pipe(T.JsonName("destination_dir")),
-        rootDir: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-          T.JsonName("root_dir"),
-        ),
+        rootDir: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ).pipe(T.JsonName("root_dir")),
       }).pipe(T.JsonName("build_config")),
       createdOn: Schema.String.pipe(T.JsonName("created_on")),
       deploymentTrigger: Schema.Struct({

@@ -322,7 +322,9 @@ export const CreateBucketRequest = Schema.Struct({
   locationHint: Schema.optional(
     Schema.Literals(["apac", "eeur", "enam", "weur", "wnam", "oc"]),
   ),
-  storageClass: Schema.optional(Schema.Literals(["Standard", "InfrequentAccess"])),
+  storageClass: Schema.optional(
+    Schema.Literals(["Standard", "InfrequentAccess"]),
+  ),
 }).pipe(
   T.Http({ method: "POST", path: "/accounts/{account_id}/r2/buckets" }),
 ) as unknown as Schema.Schema<CreateBucketRequest>;
@@ -2274,7 +2276,9 @@ export const GetSuperSlurperJobResponse = Schema.Struct({
   target: Schema.optional(
     Schema.Struct({
       bucket: Schema.optional(Schema.String),
-      jurisdiction: Schema.optional(Schema.Literals(["default", "eu", "fedramp"])),
+      jurisdiction: Schema.optional(
+        Schema.Literals(["default", "eu", "fedramp"]),
+      ),
       vendor: Schema.optional(Schema.Literal("r2")),
     }),
   ),
@@ -2376,7 +2380,9 @@ export const CreateSuperSlurperJobRequest = Schema.Struct({
         secretAccessKey: Schema.String,
       }),
       vendor: Schema.Literal("r2"),
-      jurisdiction: Schema.optional(Schema.Literals(["default", "eu", "fedramp"])),
+      jurisdiction: Schema.optional(
+        Schema.Literals(["default", "eu", "fedramp"]),
+      ),
     }),
   ),
 }).pipe(

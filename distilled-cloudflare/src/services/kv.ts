@@ -51,9 +51,9 @@ export class MethodNotAllowed extends Schema.TaggedErrorClass<MethodNotAllowed>(
   { code: Schema.Number, message: Schema.String },
 ) {}
 T.applyErrorMatchers(MethodNotAllowed, [
-    { code: 10405, message: { includes: "not allowed" } },
-    { code: 10000, message: { includes: "not allowed" } },
-  ]);
+  { code: 10405, message: { includes: "not allowed" } },
+  { code: 10000, message: { includes: "not allowed" } },
+]);
 
 export class MinimumKeysRequired extends Schema.TaggedErrorClass<MinimumKeysRequired>()(
   "MinimumKeysRequired",

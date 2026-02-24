@@ -1328,9 +1328,9 @@ export const GetWaitingRoomResponse = Schema.Struct({
   queueingMethod: Schema.optional(
     Schema.Literals(["fifo", "random", "passthrough", "reject"]),
   ).pipe(T.JsonName("queueing_method")),
-  queueingStatusCode: Schema.optional(Schema.Literals(["200", "202", "429"])).pipe(
-    T.JsonName("queueing_status_code"),
-  ),
+  queueingStatusCode: Schema.optional(
+    Schema.Literals(["200", "202", "429"]),
+  ).pipe(T.JsonName("queueing_status_code")),
   sessionDuration: Schema.optional(Schema.Number).pipe(
     T.JsonName("session_duration"),
   ),
@@ -1540,9 +1540,9 @@ export const CreateWaitingRoomRequest = Schema.Struct({
   queueingMethod: Schema.optional(
     Schema.Literals(["fifo", "random", "passthrough", "reject"]),
   ).pipe(T.JsonName("queueing_method")),
-  queueingStatusCode: Schema.optional(Schema.Literals(["200", "202", "429"])).pipe(
-    T.JsonName("queueing_status_code"),
-  ),
+  queueingStatusCode: Schema.optional(
+    Schema.Literals(["200", "202", "429"]),
+  ).pipe(T.JsonName("queueing_status_code")),
   sessionDuration: Schema.optional(Schema.Number).pipe(
     T.JsonName("session_duration"),
   ),
@@ -1753,9 +1753,9 @@ export const CreateWaitingRoomResponse = Schema.Struct({
   queueingMethod: Schema.optional(
     Schema.Literals(["fifo", "random", "passthrough", "reject"]),
   ).pipe(T.JsonName("queueing_method")),
-  queueingStatusCode: Schema.optional(Schema.Literals(["200", "202", "429"])).pipe(
-    T.JsonName("queueing_status_code"),
-  ),
+  queueingStatusCode: Schema.optional(
+    Schema.Literals(["200", "202", "429"]),
+  ).pipe(T.JsonName("queueing_status_code")),
   sessionDuration: Schema.optional(Schema.Number).pipe(
     T.JsonName("session_duration"),
   ),
@@ -1967,9 +1967,9 @@ export const UpdateWaitingRoomRequest = Schema.Struct({
   queueingMethod: Schema.optional(
     Schema.Literals(["fifo", "random", "passthrough", "reject"]),
   ).pipe(T.JsonName("queueing_method")),
-  queueingStatusCode: Schema.optional(Schema.Literals(["200", "202", "429"])).pipe(
-    T.JsonName("queueing_status_code"),
-  ),
+  queueingStatusCode: Schema.optional(
+    Schema.Literals(["200", "202", "429"]),
+  ).pipe(T.JsonName("queueing_status_code")),
   sessionDuration: Schema.optional(Schema.Number).pipe(
     T.JsonName("session_duration"),
   ),
@@ -2183,9 +2183,9 @@ export const UpdateWaitingRoomResponse = Schema.Struct({
   queueingMethod: Schema.optional(
     Schema.Literals(["fifo", "random", "passthrough", "reject"]),
   ).pipe(T.JsonName("queueing_method")),
-  queueingStatusCode: Schema.optional(Schema.Literals(["200", "202", "429"])).pipe(
-    T.JsonName("queueing_status_code"),
-  ),
+  queueingStatusCode: Schema.optional(
+    Schema.Literals(["200", "202", "429"]),
+  ).pipe(T.JsonName("queueing_status_code")),
   sessionDuration: Schema.optional(Schema.Number).pipe(
     T.JsonName("session_duration"),
   ),
@@ -2397,9 +2397,9 @@ export const PatchWaitingRoomRequest = Schema.Struct({
   queueingMethod: Schema.optional(
     Schema.Literals(["fifo", "random", "passthrough", "reject"]),
   ).pipe(T.JsonName("queueing_method")),
-  queueingStatusCode: Schema.optional(Schema.Literals(["200", "202", "429"])).pipe(
-    T.JsonName("queueing_status_code"),
-  ),
+  queueingStatusCode: Schema.optional(
+    Schema.Literals(["200", "202", "429"]),
+  ).pipe(T.JsonName("queueing_status_code")),
   sessionDuration: Schema.optional(Schema.Number).pipe(
     T.JsonName("session_duration"),
   ),
@@ -2613,9 +2613,9 @@ export const PatchWaitingRoomResponse = Schema.Struct({
   queueingMethod: Schema.optional(
     Schema.Literals(["fifo", "random", "passthrough", "reject"]),
   ).pipe(T.JsonName("queueing_method")),
-  queueingStatusCode: Schema.optional(Schema.Literals(["200", "202", "429"])).pipe(
-    T.JsonName("queueing_status_code"),
-  ),
+  queueingStatusCode: Schema.optional(
+    Schema.Literals(["200", "202", "429"]),
+  ).pipe(T.JsonName("queueing_status_code")),
   sessionDuration: Schema.optional(Schema.Number).pipe(
     T.JsonName("session_duration"),
   ),

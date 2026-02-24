@@ -32,7 +32,9 @@ export class AccountNameTooLong extends Schema.TaggedErrorClass<AccountNameTooLo
   "AccountNameTooLong",
   { code: Schema.Number, message: Schema.String },
 ) {}
-T.applyErrorMatchers(AccountNameTooLong, [{ code: 1001, message: { includes: "too long" } }]);
+T.applyErrorMatchers(AccountNameTooLong, [
+  { code: 1001, message: { includes: "too long" } },
+]);
 
 export class EndpointNotFound extends Schema.TaggedErrorClass<EndpointNotFound>()(
   "EndpointNotFound",
@@ -45,8 +47,8 @@ export class InvalidAccountName extends Schema.TaggedErrorClass<InvalidAccountNa
   { code: Schema.Number, message: Schema.String },
 ) {}
 T.applyErrorMatchers(InvalidAccountName, [
-    { code: 1001, message: { includes: "invalid character" } },
-  ]);
+  { code: 1001, message: { includes: "invalid character" } },
+]);
 
 export class InvalidRoute extends Schema.TaggedErrorClass<InvalidRoute>()(
   "InvalidRoute",
@@ -59,8 +61,8 @@ export class InvalidTokenName extends Schema.TaggedErrorClass<InvalidTokenName>(
   { code: Schema.Number, message: Schema.String },
 ) {}
 T.applyErrorMatchers(InvalidTokenName, [
-    { code: 400, message: { includes: "name must have a length" } },
-  ]);
+  { code: 400, message: { includes: "name must have a length" } },
+]);
 
 export class JsonDecodeFailure extends Schema.TaggedErrorClass<JsonDecodeFailure>()(
   "JsonDecodeFailure",
@@ -97,8 +99,8 @@ export class UpdateAccountTypeNotSupported extends Schema.TaggedErrorClass<Updat
   { code: Schema.Number, message: Schema.String },
 ) {}
 T.applyErrorMatchers(UpdateAccountTypeNotSupported, [
-    { code: 1001, message: { includes: "account type is not supported" } },
-  ]);
+  { code: 1001, message: { includes: "account type is not supported" } },
+]);
 
 // =============================================================================
 // Account
