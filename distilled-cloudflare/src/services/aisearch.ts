@@ -197,7 +197,7 @@ export type ListInstancesResponse = {
         storageType?: "r2";
       };
     };
-  };
+  } | null;
   status?: string;
   summarization?: boolean;
   summarizationModel?:
@@ -413,49 +413,52 @@ export const ListInstancesResponse = Schema.Array(
       T.JsonName("score_threshold"),
     ),
     sourceParams: Schema.optional(
-      Schema.Struct({
-        excludeItems: Schema.optional(Schema.Array(Schema.String)).pipe(
-          T.JsonName("exclude_items"),
-        ),
-        includeItems: Schema.optional(Schema.Array(Schema.String)).pipe(
-          T.JsonName("include_items"),
-        ),
-        prefix: Schema.optional(Schema.String),
-        r2Jurisdiction: Schema.optional(Schema.String).pipe(
-          T.JsonName("r2_jurisdiction"),
-        ),
-        webCrawler: Schema.optional(
-          Schema.Struct({
-            parseOptions: Schema.optional(
-              Schema.Struct({
-                includeHeaders: Schema.optional(Schema.Struct({})).pipe(
-                  T.JsonName("include_headers"),
-                ),
-                includeImages: Schema.optional(Schema.Boolean).pipe(
-                  T.JsonName("include_images"),
-                ),
-                useBrowserRendering: Schema.optional(Schema.Boolean).pipe(
-                  T.JsonName("use_browser_rendering"),
-                ),
-              }),
-            ).pipe(T.JsonName("parse_options")),
-            parseType: Schema.optional(
-              Schema.Literal("sitemap", "feed-rss"),
-            ).pipe(T.JsonName("parse_type")),
-            storeOptions: Schema.optional(
-              Schema.Struct({
-                storageId: Schema.String.pipe(T.JsonName("storage_id")),
-                r2Jurisdiction: Schema.optional(Schema.String).pipe(
-                  T.JsonName("r2_jurisdiction"),
-                ),
-                storageType: Schema.optional(Schema.Literal("r2")).pipe(
-                  T.JsonName("storage_type"),
-                ),
-              }),
-            ).pipe(T.JsonName("store_options")),
-          }),
-        ).pipe(T.JsonName("web_crawler")),
-      }),
+      Schema.Union(
+        Schema.Struct({
+          excludeItems: Schema.optional(Schema.Array(Schema.String)).pipe(
+            T.JsonName("exclude_items"),
+          ),
+          includeItems: Schema.optional(Schema.Array(Schema.String)).pipe(
+            T.JsonName("include_items"),
+          ),
+          prefix: Schema.optional(Schema.String),
+          r2Jurisdiction: Schema.optional(Schema.String).pipe(
+            T.JsonName("r2_jurisdiction"),
+          ),
+          webCrawler: Schema.optional(
+            Schema.Struct({
+              parseOptions: Schema.optional(
+                Schema.Struct({
+                  includeHeaders: Schema.optional(Schema.Struct({})).pipe(
+                    T.JsonName("include_headers"),
+                  ),
+                  includeImages: Schema.optional(Schema.Boolean).pipe(
+                    T.JsonName("include_images"),
+                  ),
+                  useBrowserRendering: Schema.optional(Schema.Boolean).pipe(
+                    T.JsonName("use_browser_rendering"),
+                  ),
+                }),
+              ).pipe(T.JsonName("parse_options")),
+              parseType: Schema.optional(
+                Schema.Literal("sitemap", "feed-rss"),
+              ).pipe(T.JsonName("parse_type")),
+              storeOptions: Schema.optional(
+                Schema.Struct({
+                  storageId: Schema.String.pipe(T.JsonName("storage_id")),
+                  r2Jurisdiction: Schema.optional(Schema.String).pipe(
+                    T.JsonName("r2_jurisdiction"),
+                  ),
+                  storageType: Schema.optional(Schema.Literal("r2")).pipe(
+                    T.JsonName("storage_type"),
+                  ),
+                }),
+              ).pipe(T.JsonName("store_options")),
+            }),
+          ).pipe(T.JsonName("web_crawler")),
+        }),
+        Schema.Null,
+      ),
     ).pipe(T.JsonName("source_params")),
     status: Schema.optional(Schema.String),
     summarization: Schema.optional(Schema.Boolean),
@@ -977,7 +980,7 @@ export interface CreateInstanceResponse {
         storageType?: "r2";
       };
     };
-  };
+  } | null;
   status?: string;
   summarization?: boolean;
   summarizationModel?:
@@ -1190,49 +1193,52 @@ export const CreateInstanceResponse = Schema.Struct({
     T.JsonName("score_threshold"),
   ),
   sourceParams: Schema.optional(
-    Schema.Struct({
-      excludeItems: Schema.optional(Schema.Array(Schema.String)).pipe(
-        T.JsonName("exclude_items"),
-      ),
-      includeItems: Schema.optional(Schema.Array(Schema.String)).pipe(
-        T.JsonName("include_items"),
-      ),
-      prefix: Schema.optional(Schema.String),
-      r2Jurisdiction: Schema.optional(Schema.String).pipe(
-        T.JsonName("r2_jurisdiction"),
-      ),
-      webCrawler: Schema.optional(
-        Schema.Struct({
-          parseOptions: Schema.optional(
-            Schema.Struct({
-              includeHeaders: Schema.optional(Schema.Struct({})).pipe(
-                T.JsonName("include_headers"),
-              ),
-              includeImages: Schema.optional(Schema.Boolean).pipe(
-                T.JsonName("include_images"),
-              ),
-              useBrowserRendering: Schema.optional(Schema.Boolean).pipe(
-                T.JsonName("use_browser_rendering"),
-              ),
-            }),
-          ).pipe(T.JsonName("parse_options")),
-          parseType: Schema.optional(
-            Schema.Literal("sitemap", "feed-rss"),
-          ).pipe(T.JsonName("parse_type")),
-          storeOptions: Schema.optional(
-            Schema.Struct({
-              storageId: Schema.String.pipe(T.JsonName("storage_id")),
-              r2Jurisdiction: Schema.optional(Schema.String).pipe(
-                T.JsonName("r2_jurisdiction"),
-              ),
-              storageType: Schema.optional(Schema.Literal("r2")).pipe(
-                T.JsonName("storage_type"),
-              ),
-            }),
-          ).pipe(T.JsonName("store_options")),
-        }),
-      ).pipe(T.JsonName("web_crawler")),
-    }),
+    Schema.Union(
+      Schema.Struct({
+        excludeItems: Schema.optional(Schema.Array(Schema.String)).pipe(
+          T.JsonName("exclude_items"),
+        ),
+        includeItems: Schema.optional(Schema.Array(Schema.String)).pipe(
+          T.JsonName("include_items"),
+        ),
+        prefix: Schema.optional(Schema.String),
+        r2Jurisdiction: Schema.optional(Schema.String).pipe(
+          T.JsonName("r2_jurisdiction"),
+        ),
+        webCrawler: Schema.optional(
+          Schema.Struct({
+            parseOptions: Schema.optional(
+              Schema.Struct({
+                includeHeaders: Schema.optional(Schema.Struct({})).pipe(
+                  T.JsonName("include_headers"),
+                ),
+                includeImages: Schema.optional(Schema.Boolean).pipe(
+                  T.JsonName("include_images"),
+                ),
+                useBrowserRendering: Schema.optional(Schema.Boolean).pipe(
+                  T.JsonName("use_browser_rendering"),
+                ),
+              }),
+            ).pipe(T.JsonName("parse_options")),
+            parseType: Schema.optional(
+              Schema.Literal("sitemap", "feed-rss"),
+            ).pipe(T.JsonName("parse_type")),
+            storeOptions: Schema.optional(
+              Schema.Struct({
+                storageId: Schema.String.pipe(T.JsonName("storage_id")),
+                r2Jurisdiction: Schema.optional(Schema.String).pipe(
+                  T.JsonName("r2_jurisdiction"),
+                ),
+                storageType: Schema.optional(Schema.Literal("r2")).pipe(
+                  T.JsonName("storage_type"),
+                ),
+              }),
+            ).pipe(T.JsonName("store_options")),
+          }),
+        ).pipe(T.JsonName("web_crawler")),
+      }),
+      Schema.Null,
+    ),
   ).pipe(T.JsonName("source_params")),
   status: Schema.optional(Schema.String),
   summarization: Schema.optional(Schema.Boolean),
@@ -1842,7 +1848,7 @@ export interface UpdateInstanceResponse {
         storageType?: "r2";
       };
     };
-  };
+  } | null;
   status?: string;
   summarization?: boolean;
   summarizationModel?:
@@ -2055,49 +2061,52 @@ export const UpdateInstanceResponse = Schema.Struct({
     T.JsonName("score_threshold"),
   ),
   sourceParams: Schema.optional(
-    Schema.Struct({
-      excludeItems: Schema.optional(Schema.Array(Schema.String)).pipe(
-        T.JsonName("exclude_items"),
-      ),
-      includeItems: Schema.optional(Schema.Array(Schema.String)).pipe(
-        T.JsonName("include_items"),
-      ),
-      prefix: Schema.optional(Schema.String),
-      r2Jurisdiction: Schema.optional(Schema.String).pipe(
-        T.JsonName("r2_jurisdiction"),
-      ),
-      webCrawler: Schema.optional(
-        Schema.Struct({
-          parseOptions: Schema.optional(
-            Schema.Struct({
-              includeHeaders: Schema.optional(Schema.Struct({})).pipe(
-                T.JsonName("include_headers"),
-              ),
-              includeImages: Schema.optional(Schema.Boolean).pipe(
-                T.JsonName("include_images"),
-              ),
-              useBrowserRendering: Schema.optional(Schema.Boolean).pipe(
-                T.JsonName("use_browser_rendering"),
-              ),
-            }),
-          ).pipe(T.JsonName("parse_options")),
-          parseType: Schema.optional(
-            Schema.Literal("sitemap", "feed-rss"),
-          ).pipe(T.JsonName("parse_type")),
-          storeOptions: Schema.optional(
-            Schema.Struct({
-              storageId: Schema.String.pipe(T.JsonName("storage_id")),
-              r2Jurisdiction: Schema.optional(Schema.String).pipe(
-                T.JsonName("r2_jurisdiction"),
-              ),
-              storageType: Schema.optional(Schema.Literal("r2")).pipe(
-                T.JsonName("storage_type"),
-              ),
-            }),
-          ).pipe(T.JsonName("store_options")),
-        }),
-      ).pipe(T.JsonName("web_crawler")),
-    }),
+    Schema.Union(
+      Schema.Struct({
+        excludeItems: Schema.optional(Schema.Array(Schema.String)).pipe(
+          T.JsonName("exclude_items"),
+        ),
+        includeItems: Schema.optional(Schema.Array(Schema.String)).pipe(
+          T.JsonName("include_items"),
+        ),
+        prefix: Schema.optional(Schema.String),
+        r2Jurisdiction: Schema.optional(Schema.String).pipe(
+          T.JsonName("r2_jurisdiction"),
+        ),
+        webCrawler: Schema.optional(
+          Schema.Struct({
+            parseOptions: Schema.optional(
+              Schema.Struct({
+                includeHeaders: Schema.optional(Schema.Struct({})).pipe(
+                  T.JsonName("include_headers"),
+                ),
+                includeImages: Schema.optional(Schema.Boolean).pipe(
+                  T.JsonName("include_images"),
+                ),
+                useBrowserRendering: Schema.optional(Schema.Boolean).pipe(
+                  T.JsonName("use_browser_rendering"),
+                ),
+              }),
+            ).pipe(T.JsonName("parse_options")),
+            parseType: Schema.optional(
+              Schema.Literal("sitemap", "feed-rss"),
+            ).pipe(T.JsonName("parse_type")),
+            storeOptions: Schema.optional(
+              Schema.Struct({
+                storageId: Schema.String.pipe(T.JsonName("storage_id")),
+                r2Jurisdiction: Schema.optional(Schema.String).pipe(
+                  T.JsonName("r2_jurisdiction"),
+                ),
+                storageType: Schema.optional(Schema.Literal("r2")).pipe(
+                  T.JsonName("storage_type"),
+                ),
+              }),
+            ).pipe(T.JsonName("store_options")),
+          }),
+        ).pipe(T.JsonName("web_crawler")),
+      }),
+      Schema.Null,
+    ),
   ).pipe(T.JsonName("source_params")),
   status: Schema.optional(Schema.String),
   summarization: Schema.optional(Schema.Boolean),
@@ -2305,7 +2314,7 @@ export interface DeleteInstanceResponse {
         storageType?: "r2";
       };
     };
-  };
+  } | null;
   status?: string;
   summarization?: boolean;
   summarizationModel?:
@@ -2518,49 +2527,52 @@ export const DeleteInstanceResponse = Schema.Struct({
     T.JsonName("score_threshold"),
   ),
   sourceParams: Schema.optional(
-    Schema.Struct({
-      excludeItems: Schema.optional(Schema.Array(Schema.String)).pipe(
-        T.JsonName("exclude_items"),
-      ),
-      includeItems: Schema.optional(Schema.Array(Schema.String)).pipe(
-        T.JsonName("include_items"),
-      ),
-      prefix: Schema.optional(Schema.String),
-      r2Jurisdiction: Schema.optional(Schema.String).pipe(
-        T.JsonName("r2_jurisdiction"),
-      ),
-      webCrawler: Schema.optional(
-        Schema.Struct({
-          parseOptions: Schema.optional(
-            Schema.Struct({
-              includeHeaders: Schema.optional(Schema.Struct({})).pipe(
-                T.JsonName("include_headers"),
-              ),
-              includeImages: Schema.optional(Schema.Boolean).pipe(
-                T.JsonName("include_images"),
-              ),
-              useBrowserRendering: Schema.optional(Schema.Boolean).pipe(
-                T.JsonName("use_browser_rendering"),
-              ),
-            }),
-          ).pipe(T.JsonName("parse_options")),
-          parseType: Schema.optional(
-            Schema.Literal("sitemap", "feed-rss"),
-          ).pipe(T.JsonName("parse_type")),
-          storeOptions: Schema.optional(
-            Schema.Struct({
-              storageId: Schema.String.pipe(T.JsonName("storage_id")),
-              r2Jurisdiction: Schema.optional(Schema.String).pipe(
-                T.JsonName("r2_jurisdiction"),
-              ),
-              storageType: Schema.optional(Schema.Literal("r2")).pipe(
-                T.JsonName("storage_type"),
-              ),
-            }),
-          ).pipe(T.JsonName("store_options")),
-        }),
-      ).pipe(T.JsonName("web_crawler")),
-    }),
+    Schema.Union(
+      Schema.Struct({
+        excludeItems: Schema.optional(Schema.Array(Schema.String)).pipe(
+          T.JsonName("exclude_items"),
+        ),
+        includeItems: Schema.optional(Schema.Array(Schema.String)).pipe(
+          T.JsonName("include_items"),
+        ),
+        prefix: Schema.optional(Schema.String),
+        r2Jurisdiction: Schema.optional(Schema.String).pipe(
+          T.JsonName("r2_jurisdiction"),
+        ),
+        webCrawler: Schema.optional(
+          Schema.Struct({
+            parseOptions: Schema.optional(
+              Schema.Struct({
+                includeHeaders: Schema.optional(Schema.Struct({})).pipe(
+                  T.JsonName("include_headers"),
+                ),
+                includeImages: Schema.optional(Schema.Boolean).pipe(
+                  T.JsonName("include_images"),
+                ),
+                useBrowserRendering: Schema.optional(Schema.Boolean).pipe(
+                  T.JsonName("use_browser_rendering"),
+                ),
+              }),
+            ).pipe(T.JsonName("parse_options")),
+            parseType: Schema.optional(
+              Schema.Literal("sitemap", "feed-rss"),
+            ).pipe(T.JsonName("parse_type")),
+            storeOptions: Schema.optional(
+              Schema.Struct({
+                storageId: Schema.String.pipe(T.JsonName("storage_id")),
+                r2Jurisdiction: Schema.optional(Schema.String).pipe(
+                  T.JsonName("r2_jurisdiction"),
+                ),
+                storageType: Schema.optional(Schema.Literal("r2")).pipe(
+                  T.JsonName("storage_type"),
+                ),
+              }),
+            ).pipe(T.JsonName("store_options")),
+          }),
+        ).pipe(T.JsonName("web_crawler")),
+      }),
+      Schema.Null,
+    ),
   ).pipe(T.JsonName("source_params")),
   status: Schema.optional(Schema.String),
   summarization: Schema.optional(Schema.Boolean),
@@ -2768,7 +2780,7 @@ export interface ReadInstanceResponse {
         storageType?: "r2";
       };
     };
-  };
+  } | null;
   status?: string;
   summarization?: boolean;
   summarizationModel?:
@@ -2981,49 +2993,52 @@ export const ReadInstanceResponse = Schema.Struct({
     T.JsonName("score_threshold"),
   ),
   sourceParams: Schema.optional(
-    Schema.Struct({
-      excludeItems: Schema.optional(Schema.Array(Schema.String)).pipe(
-        T.JsonName("exclude_items"),
-      ),
-      includeItems: Schema.optional(Schema.Array(Schema.String)).pipe(
-        T.JsonName("include_items"),
-      ),
-      prefix: Schema.optional(Schema.String),
-      r2Jurisdiction: Schema.optional(Schema.String).pipe(
-        T.JsonName("r2_jurisdiction"),
-      ),
-      webCrawler: Schema.optional(
-        Schema.Struct({
-          parseOptions: Schema.optional(
-            Schema.Struct({
-              includeHeaders: Schema.optional(Schema.Struct({})).pipe(
-                T.JsonName("include_headers"),
-              ),
-              includeImages: Schema.optional(Schema.Boolean).pipe(
-                T.JsonName("include_images"),
-              ),
-              useBrowserRendering: Schema.optional(Schema.Boolean).pipe(
-                T.JsonName("use_browser_rendering"),
-              ),
-            }),
-          ).pipe(T.JsonName("parse_options")),
-          parseType: Schema.optional(
-            Schema.Literal("sitemap", "feed-rss"),
-          ).pipe(T.JsonName("parse_type")),
-          storeOptions: Schema.optional(
-            Schema.Struct({
-              storageId: Schema.String.pipe(T.JsonName("storage_id")),
-              r2Jurisdiction: Schema.optional(Schema.String).pipe(
-                T.JsonName("r2_jurisdiction"),
-              ),
-              storageType: Schema.optional(Schema.Literal("r2")).pipe(
-                T.JsonName("storage_type"),
-              ),
-            }),
-          ).pipe(T.JsonName("store_options")),
-        }),
-      ).pipe(T.JsonName("web_crawler")),
-    }),
+    Schema.Union(
+      Schema.Struct({
+        excludeItems: Schema.optional(Schema.Array(Schema.String)).pipe(
+          T.JsonName("exclude_items"),
+        ),
+        includeItems: Schema.optional(Schema.Array(Schema.String)).pipe(
+          T.JsonName("include_items"),
+        ),
+        prefix: Schema.optional(Schema.String),
+        r2Jurisdiction: Schema.optional(Schema.String).pipe(
+          T.JsonName("r2_jurisdiction"),
+        ),
+        webCrawler: Schema.optional(
+          Schema.Struct({
+            parseOptions: Schema.optional(
+              Schema.Struct({
+                includeHeaders: Schema.optional(Schema.Struct({})).pipe(
+                  T.JsonName("include_headers"),
+                ),
+                includeImages: Schema.optional(Schema.Boolean).pipe(
+                  T.JsonName("include_images"),
+                ),
+                useBrowserRendering: Schema.optional(Schema.Boolean).pipe(
+                  T.JsonName("use_browser_rendering"),
+                ),
+              }),
+            ).pipe(T.JsonName("parse_options")),
+            parseType: Schema.optional(
+              Schema.Literal("sitemap", "feed-rss"),
+            ).pipe(T.JsonName("parse_type")),
+            storeOptions: Schema.optional(
+              Schema.Struct({
+                storageId: Schema.String.pipe(T.JsonName("storage_id")),
+                r2Jurisdiction: Schema.optional(Schema.String).pipe(
+                  T.JsonName("r2_jurisdiction"),
+                ),
+                storageType: Schema.optional(Schema.Literal("r2")).pipe(
+                  T.JsonName("storage_type"),
+                ),
+              }),
+            ).pipe(T.JsonName("store_options")),
+          }),
+        ).pipe(T.JsonName("web_crawler")),
+      }),
+      Schema.Null,
+    ),
   ).pipe(T.JsonName("source_params")),
   status: Schema.optional(Schema.String),
   summarization: Schema.optional(Schema.Boolean),

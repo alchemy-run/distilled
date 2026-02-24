@@ -10,6 +10,7 @@
       "account_tag": { "optional": true },
       "internal_id": { "optional": true },
       "vectorize_active_namespace": { "nullable": true },
+      "source_params": { "nullable": true },
       "cache_threshold": { "nullable": true },
       "system_prompt_ai_search": { "nullable": true },
       "system_prompt_index_summarization": { "nullable": true },
