@@ -78,7 +78,7 @@ export interface GetConfigurationResponse {
 
 export const GetConfigurationResponse = Schema.Struct({
   id: Schema.String,
-  createdAt: Schema.String,
+  createdAt: Schema.String.pipe(T.JsonName("created_at")),
   credentials: Schema.Struct({
     keys: Schema.Array(
       Schema.Union([
@@ -116,18 +116,11 @@ export const GetConfigurationResponse = Schema.Struct({
     ),
   }),
   description: Schema.String,
-  lastUpdated: Schema.String,
+  lastUpdated: Schema.String.pipe(T.JsonName("last_updated")),
   title: Schema.String,
-  tokenSources: Schema.Array(Schema.String),
-  tokenType: Schema.Literal("JWT"),
-}).pipe(
-  Schema.encodeKeys({
-    createdAt: "created_at",
-    lastUpdated: "last_updated",
-    tokenSources: "token_sources",
-    tokenType: "token_type",
-  }),
-) as unknown as Schema.Schema<GetConfigurationResponse>;
+  tokenSources: Schema.Array(Schema.String).pipe(T.JsonName("token_sources")),
+  tokenType: Schema.Literal("JWT").pipe(T.JsonName("token_type")),
+}) as unknown as Schema.Schema<GetConfigurationResponse>;
 
 export const getConfiguration: (
   input: GetConfigurationRequest,
@@ -222,10 +215,9 @@ export const CreateConfigurationRequest = Schema.Struct({
   }),
   description: Schema.String,
   title: Schema.String,
-  tokenSources: Schema.Array(Schema.String),
-  tokenType: Schema.Literal("JWT"),
+  tokenSources: Schema.Array(Schema.String).pipe(T.JsonName("token_sources")),
+  tokenType: Schema.Literal("JWT").pipe(T.JsonName("token_type")),
 }).pipe(
-  Schema.encodeKeys({ tokenSources: "token_sources", tokenType: "token_type" }),
   T.Http({ method: "POST", path: "/zones/{zone_id}/token_validation/config" }),
 ) as unknown as Schema.Schema<CreateConfigurationRequest>;
 
@@ -269,7 +261,7 @@ export interface CreateConfigurationResponse {
 
 export const CreateConfigurationResponse = Schema.Struct({
   id: Schema.String,
-  createdAt: Schema.String,
+  createdAt: Schema.String.pipe(T.JsonName("created_at")),
   credentials: Schema.Struct({
     keys: Schema.Array(
       Schema.Union([
@@ -307,18 +299,11 @@ export const CreateConfigurationResponse = Schema.Struct({
     ),
   }),
   description: Schema.String,
-  lastUpdated: Schema.String,
+  lastUpdated: Schema.String.pipe(T.JsonName("last_updated")),
   title: Schema.String,
-  tokenSources: Schema.Array(Schema.String),
-  tokenType: Schema.Literal("JWT"),
-}).pipe(
-  Schema.encodeKeys({
-    createdAt: "created_at",
-    lastUpdated: "last_updated",
-    tokenSources: "token_sources",
-    tokenType: "token_type",
-  }),
-) as unknown as Schema.Schema<CreateConfigurationResponse>;
+  tokenSources: Schema.Array(Schema.String).pipe(T.JsonName("token_sources")),
+  tokenType: Schema.Literal("JWT").pipe(T.JsonName("token_type")),
+}) as unknown as Schema.Schema<CreateConfigurationResponse>;
 
 export const createConfiguration: (
   input: CreateConfigurationRequest,
@@ -349,9 +334,10 @@ export const PatchConfigurationRequest = Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
   description: Schema.optional(Schema.String),
   title: Schema.optional(Schema.String),
-  tokenSources: Schema.optional(Schema.Array(Schema.String)),
+  tokenSources: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.JsonName("token_sources"),
+  ),
 }).pipe(
-  Schema.encodeKeys({ tokenSources: "token_sources" }),
   T.Http({
     method: "PATCH",
     path: "/zones/{zone_id}/token_validation/config/{configId}",
@@ -367,10 +353,10 @@ export interface PatchConfigurationResponse {
 export const PatchConfigurationResponse = Schema.Struct({
   description: Schema.optional(Schema.String),
   title: Schema.optional(Schema.String),
-  tokenSources: Schema.optional(Schema.Array(Schema.String)),
-}).pipe(
-  Schema.encodeKeys({ tokenSources: "token_sources" }),
-) as unknown as Schema.Schema<PatchConfigurationResponse>;
+  tokenSources: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.JsonName("token_sources"),
+  ),
+}) as unknown as Schema.Schema<PatchConfigurationResponse>;
 
 export const patchConfiguration: (
   input: PatchConfigurationRequest,
@@ -637,8 +623,10 @@ export const GetRuleResponse = Schema.Struct({
       Schema.Union([
         Schema.Array(
           Schema.Struct({
-            operationIds: Schema.optional(Schema.Array(Schema.String)),
-          }).pipe(Schema.encodeKeys({ operationIds: "operation_ids" })),
+            operationIds: Schema.optional(Schema.Array(Schema.String)).pipe(
+              T.JsonName("operation_ids"),
+            ),
+          }),
         ),
         Schema.Null,
       ]),
@@ -656,11 +644,9 @@ export const GetRuleResponse = Schema.Struct({
   }),
   title: Schema.String,
   id: Schema.optional(Schema.String),
-  createdAt: Schema.optional(Schema.String),
-  lastUpdated: Schema.optional(Schema.String),
-}).pipe(
-  Schema.encodeKeys({ createdAt: "created_at", lastUpdated: "last_updated" }),
-) as unknown as Schema.Schema<GetRuleResponse>;
+  createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
+  lastUpdated: Schema.optional(Schema.String).pipe(T.JsonName("last_updated")),
+}) as unknown as Schema.Schema<GetRuleResponse>;
 
 export const getRule: (
   input: GetRuleRequest,
@@ -705,8 +691,10 @@ export const CreateRuleRequest = Schema.Struct({
       Schema.Union([
         Schema.Array(
           Schema.Struct({
-            operationIds: Schema.optional(Schema.Array(Schema.String)),
-          }).pipe(Schema.encodeKeys({ operationIds: "operation_ids" })),
+            operationIds: Schema.optional(Schema.Array(Schema.String)).pipe(
+              T.JsonName("operation_ids"),
+            ),
+          }),
         ),
         Schema.Null,
       ]),
@@ -759,8 +747,10 @@ export const CreateRuleResponse = Schema.Struct({
       Schema.Union([
         Schema.Array(
           Schema.Struct({
-            operationIds: Schema.optional(Schema.Array(Schema.String)),
-          }).pipe(Schema.encodeKeys({ operationIds: "operation_ids" })),
+            operationIds: Schema.optional(Schema.Array(Schema.String)).pipe(
+              T.JsonName("operation_ids"),
+            ),
+          }),
         ),
         Schema.Null,
       ]),
@@ -778,11 +768,9 @@ export const CreateRuleResponse = Schema.Struct({
   }),
   title: Schema.String,
   id: Schema.optional(Schema.String),
-  createdAt: Schema.optional(Schema.String),
-  lastUpdated: Schema.optional(Schema.String),
-}).pipe(
-  Schema.encodeKeys({ createdAt: "created_at", lastUpdated: "last_updated" }),
-) as unknown as Schema.Schema<CreateRuleResponse>;
+  createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
+  lastUpdated: Schema.optional(Schema.String).pipe(T.JsonName("last_updated")),
+}) as unknown as Schema.Schema<CreateRuleResponse>;
 
 export const createRule: (
   input: CreateRuleRequest,
@@ -845,8 +833,10 @@ export const PatchRuleRequest = Schema.Struct({
         Schema.Union([
           Schema.Array(
             Schema.Struct({
-              operationIds: Schema.optional(Schema.Array(Schema.String)),
-            }).pipe(Schema.encodeKeys({ operationIds: "operation_ids" })),
+              operationIds: Schema.optional(Schema.Array(Schema.String)).pipe(
+                T.JsonName("operation_ids"),
+              ),
+            }),
           ),
           Schema.Null,
         ]),
@@ -903,8 +893,10 @@ export const PatchRuleResponse = Schema.Struct({
       Schema.Union([
         Schema.Array(
           Schema.Struct({
-            operationIds: Schema.optional(Schema.Array(Schema.String)),
-          }).pipe(Schema.encodeKeys({ operationIds: "operation_ids" })),
+            operationIds: Schema.optional(Schema.Array(Schema.String)).pipe(
+              T.JsonName("operation_ids"),
+            ),
+          }),
         ),
         Schema.Null,
       ]),
@@ -922,11 +914,9 @@ export const PatchRuleResponse = Schema.Struct({
   }),
   title: Schema.String,
   id: Schema.optional(Schema.String),
-  createdAt: Schema.optional(Schema.String),
-  lastUpdated: Schema.optional(Schema.String),
-}).pipe(
-  Schema.encodeKeys({ createdAt: "created_at", lastUpdated: "last_updated" }),
-) as unknown as Schema.Schema<PatchRuleResponse>;
+  createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
+  lastUpdated: Schema.optional(Schema.String).pipe(T.JsonName("last_updated")),
+}) as unknown as Schema.Schema<PatchRuleResponse>;
 
 export const patchRule: (
   input: PatchRuleRequest,

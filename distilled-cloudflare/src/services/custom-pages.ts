@@ -71,21 +71,18 @@ export interface GetCustomPageResponse {
 
 export const GetCustomPageResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
-  createdOn: Schema.optional(Schema.String),
+  createdOn: Schema.optional(Schema.String).pipe(T.JsonName("created_on")),
   description: Schema.optional(Schema.String),
-  modifiedOn: Schema.optional(Schema.String),
-  previewTarget: Schema.optional(Schema.String),
-  requiredTokens: Schema.optional(Schema.Array(Schema.String)),
+  modifiedOn: Schema.optional(Schema.String).pipe(T.JsonName("modified_on")),
+  previewTarget: Schema.optional(Schema.String).pipe(
+    T.JsonName("preview_target"),
+  ),
+  requiredTokens: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.JsonName("required_tokens"),
+  ),
   state: Schema.optional(Schema.Literals(["default", "customized"])),
   url: Schema.optional(Schema.String),
-}).pipe(
-  Schema.encodeKeys({
-    createdOn: "created_on",
-    modifiedOn: "modified_on",
-    previewTarget: "preview_target",
-    requiredTokens: "required_tokens",
-  }),
-) as unknown as Schema.Schema<GetCustomPageResponse>;
+}) as unknown as Schema.Schema<GetCustomPageResponse>;
 
 export const getCustomPage: (
   input: GetCustomPageRequest,
@@ -160,21 +157,18 @@ export interface PutCustomPageResponse {
 
 export const PutCustomPageResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
-  createdOn: Schema.optional(Schema.String),
+  createdOn: Schema.optional(Schema.String).pipe(T.JsonName("created_on")),
   description: Schema.optional(Schema.String),
-  modifiedOn: Schema.optional(Schema.String),
-  previewTarget: Schema.optional(Schema.String),
-  requiredTokens: Schema.optional(Schema.Array(Schema.String)),
+  modifiedOn: Schema.optional(Schema.String).pipe(T.JsonName("modified_on")),
+  previewTarget: Schema.optional(Schema.String).pipe(
+    T.JsonName("preview_target"),
+  ),
+  requiredTokens: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.JsonName("required_tokens"),
+  ),
   state: Schema.optional(Schema.Literals(["default", "customized"])),
   url: Schema.optional(Schema.String),
-}).pipe(
-  Schema.encodeKeys({
-    createdOn: "created_on",
-    modifiedOn: "modified_on",
-    previewTarget: "preview_target",
-    requiredTokens: "required_tokens",
-  }),
-) as unknown as Schema.Schema<PutCustomPageResponse>;
+}) as unknown as Schema.Schema<PutCustomPageResponse>;
 
 export const putCustomPage: (
   input: PutCustomPageRequest,

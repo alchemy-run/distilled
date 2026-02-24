@@ -1,0 +1,6 @@
+{
+  "errors": {
+    "InvalidObjectIdentifier": [{ "code": 7003 }],
+    "NotAuthorized": [{ "code": 1015 }]
+  }
+}

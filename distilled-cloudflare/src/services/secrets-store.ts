@@ -150,11 +150,9 @@ export const GetStoreSecretResponse = Schema.Struct({
   modified: Schema.String,
   name: Schema.String,
   status: Schema.Literals(["pending", "active", "deleted"]),
-  storeId: Schema.String,
+  storeId: Schema.String.pipe(T.JsonName("store_id")),
   comment: Schema.optional(Schema.String),
-}).pipe(
-  Schema.encodeKeys({ storeId: "store_id" }),
-) as unknown as Schema.Schema<GetStoreSecretResponse>;
+}) as unknown as Schema.Schema<GetStoreSecretResponse>;
 
 export const getStoreSecret: (
   input: GetStoreSecretRequest,
@@ -214,11 +212,9 @@ export const PatchStoreSecretResponse = Schema.Struct({
   modified: Schema.String,
   name: Schema.String,
   status: Schema.Literals(["pending", "active", "deleted"]),
-  storeId: Schema.String,
+  storeId: Schema.String.pipe(T.JsonName("store_id")),
   comment: Schema.optional(Schema.String),
-}).pipe(
-  Schema.encodeKeys({ storeId: "store_id" }),
-) as unknown as Schema.Schema<PatchStoreSecretResponse>;
+}) as unknown as Schema.Schema<PatchStoreSecretResponse>;
 
 export const patchStoreSecret: (
   input: PatchStoreSecretRequest,
@@ -272,11 +268,9 @@ export const DeleteStoreSecretResponse = Schema.Struct({
   modified: Schema.String,
   name: Schema.String,
   status: Schema.Literals(["pending", "active", "deleted"]),
-  storeId: Schema.String,
+  storeId: Schema.String.pipe(T.JsonName("store_id")),
   comment: Schema.optional(Schema.String),
-}).pipe(
-  Schema.encodeKeys({ storeId: "store_id" }),
-) as unknown as Schema.Schema<DeleteStoreSecretResponse>;
+}) as unknown as Schema.Schema<DeleteStoreSecretResponse>;
 
 export const deleteStoreSecret: (
   input: DeleteStoreSecretRequest,
@@ -339,11 +333,9 @@ export const DuplicateStoreSecretResponse = Schema.Struct({
   modified: Schema.String,
   name: Schema.String,
   status: Schema.Literals(["pending", "active", "deleted"]),
-  storeId: Schema.String,
+  storeId: Schema.String.pipe(T.JsonName("store_id")),
   comment: Schema.optional(Schema.String),
-}).pipe(
-  Schema.encodeKeys({ storeId: "store_id" }),
-) as unknown as Schema.Schema<DuplicateStoreSecretResponse>;
+}) as unknown as Schema.Schema<DuplicateStoreSecretResponse>;
 
 export const duplicateStoreSecret: (
   input: DuplicateStoreSecretRequest,

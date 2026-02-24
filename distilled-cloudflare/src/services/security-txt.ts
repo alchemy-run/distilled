@@ -135,25 +135,29 @@ export const PutSecurityTXTResponse = Schema.Struct({
     Schema.Struct({
       code: Schema.Number,
       message: Schema.String,
-      documentationUrl: Schema.optional(Schema.String),
+      documentationUrl: Schema.optional(Schema.String).pipe(
+        T.JsonName("documentation_url"),
+      ),
       source: Schema.optional(
         Schema.Struct({
           pointer: Schema.optional(Schema.String),
         }),
       ),
-    }).pipe(Schema.encodeKeys({ documentationUrl: "documentation_url" })),
+    }),
   ),
   messages: Schema.Array(
     Schema.Struct({
       code: Schema.Number,
       message: Schema.String,
-      documentationUrl: Schema.optional(Schema.String),
+      documentationUrl: Schema.optional(Schema.String).pipe(
+        T.JsonName("documentation_url"),
+      ),
       source: Schema.optional(
         Schema.Struct({
           pointer: Schema.optional(Schema.String),
         }),
       ),
-    }).pipe(Schema.encodeKeys({ documentationUrl: "documentation_url" })),
+    }),
   ),
   success: Schema.Literal(true),
 }) as unknown as Schema.Schema<PutSecurityTXTResponse>;
@@ -206,25 +210,29 @@ export const DeleteSecurityTXTResponse = Schema.Struct({
     Schema.Struct({
       code: Schema.Number,
       message: Schema.String,
-      documentationUrl: Schema.optional(Schema.String),
+      documentationUrl: Schema.optional(Schema.String).pipe(
+        T.JsonName("documentation_url"),
+      ),
       source: Schema.optional(
         Schema.Struct({
           pointer: Schema.optional(Schema.String),
         }),
       ),
-    }).pipe(Schema.encodeKeys({ documentationUrl: "documentation_url" })),
+    }),
   ),
   messages: Schema.Array(
     Schema.Struct({
       code: Schema.Number,
       message: Schema.String,
-      documentationUrl: Schema.optional(Schema.String),
+      documentationUrl: Schema.optional(Schema.String).pipe(
+        T.JsonName("documentation_url"),
+      ),
       source: Schema.optional(
         Schema.Struct({
           pointer: Schema.optional(Schema.String),
         }),
       ),
-    }).pipe(Schema.encodeKeys({ documentationUrl: "documentation_url" })),
+    }),
   ),
   success: Schema.Literal(true),
 }) as unknown as Schema.Schema<DeleteSecurityTXTResponse>;

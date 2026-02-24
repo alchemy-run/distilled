@@ -145,14 +145,20 @@ export interface GetInvestigateResponse {
 
 export const GetInvestigateResponse = Schema.Struct({
   id: Schema.String,
-  actionLog: Schema.Unknown,
-  clientRecipients: Schema.Array(Schema.String),
-  detectionReasons: Schema.Array(Schema.String),
-  isPhishSubmission: Schema.Boolean,
-  isQuarantined: Schema.Boolean,
-  postfixId: Schema.String,
+  actionLog: Schema.Unknown.pipe(T.JsonName("action_log")),
+  clientRecipients: Schema.Array(Schema.String).pipe(
+    T.JsonName("client_recipients"),
+  ),
+  detectionReasons: Schema.Array(Schema.String).pipe(
+    T.JsonName("detection_reasons"),
+  ),
+  isPhishSubmission: Schema.Boolean.pipe(T.JsonName("is_phish_submission")),
+  isQuarantined: Schema.Boolean.pipe(T.JsonName("is_quarantined")),
+  postfixId: Schema.String.pipe(T.JsonName("postfix_id")),
   properties: Schema.Struct({
-    allowlistedPattern: Schema.optional(Schema.String),
+    allowlistedPattern: Schema.optional(Schema.String).pipe(
+      T.JsonName("allowlisted_pattern"),
+    ),
     allowlistedPatternType: Schema.optional(
       Schema.Literals([
         "quarantine_release",
@@ -164,9 +170,13 @@ export const GetInvestigateResponse = Schema.Struct({
         "managed_acceptable_sender",
         "outbound_ndr",
       ]),
+    ).pipe(T.JsonName("allowlisted_pattern_type")),
+    blocklistedMessage: Schema.optional(Schema.Boolean).pipe(
+      T.JsonName("blocklisted_message"),
     ),
-    blocklistedMessage: Schema.optional(Schema.Boolean),
-    blocklistedPattern: Schema.optional(Schema.String),
+    blocklistedPattern: Schema.optional(Schema.String).pipe(
+      T.JsonName("blocklisted_pattern"),
+    ),
     whitelistedPatternType: Schema.optional(
       Schema.Literals([
         "quarantine_release",
@@ -178,18 +188,12 @@ export const GetInvestigateResponse = Schema.Struct({
         "managed_acceptable_sender",
         "outbound_ndr",
       ]),
-    ),
-  }).pipe(
-    Schema.encodeKeys({
-      allowlistedPattern: "allowlisted_pattern",
-      allowlistedPatternType: "allowlisted_pattern_type",
-      blocklistedMessage: "blocklisted_message",
-      blocklistedPattern: "blocklisted_pattern",
-      whitelistedPatternType: "whitelisted_pattern_type",
-    }),
-  ),
+    ).pipe(T.JsonName("whitelisted_pattern_type")),
+  }),
   ts: Schema.String,
-  alertId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  alertId: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
+    T.JsonName("alert_id"),
+  ),
   deliveryMode: Schema.optional(
     Schema.Union([
       Schema.Literal("DIRECT"),
@@ -205,12 +209,16 @@ export const GetInvestigateResponse = Schema.Struct({
       Schema.Literal("RETRO_SCAN"),
       Schema.Null,
     ]),
+  ).pipe(T.JsonName("delivery_mode")),
+  edfHash: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
+    T.JsonName("edf_hash"),
   ),
-  edfHash: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  envelopeFrom: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  envelopeFrom: Schema.optional(
+    Schema.Union([Schema.String, Schema.Null]),
+  ).pipe(T.JsonName("envelope_from")),
   envelopeTo: Schema.optional(
     Schema.Union([Schema.Array(Schema.String), Schema.Null]),
-  ),
+  ).pipe(T.JsonName("envelope_to")),
   finalDisposition: Schema.optional(
     Schema.Union([
       Schema.Literal("MALICIOUS"),
@@ -225,7 +233,7 @@ export const GetInvestigateResponse = Schema.Struct({
       Schema.Literal("NONE"),
       Schema.Null,
     ]),
-  ),
+  ).pipe(T.JsonName("final_disposition")),
   findings: Schema.optional(
     Schema.Union([
       Schema.Array(
@@ -261,24 +269,30 @@ export const GetInvestigateResponse = Schema.Struct({
     ]),
   ),
   from: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  fromName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  fromName: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
+    T.JsonName("from_name"),
+  ),
   htmltextStructureHash: Schema.optional(
     Schema.Union([Schema.String, Schema.Null]),
+  ).pipe(T.JsonName("htmltext_structure_hash")),
+  messageId: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
+    T.JsonName("message_id"),
   ),
-  messageId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   postfixIdOutbound: Schema.optional(
     Schema.Union([Schema.String, Schema.Null]),
-  ),
+  ).pipe(T.JsonName("postfix_id_outbound")),
   replyto: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  sentDate: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  sentDate: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
+    T.JsonName("sent_date"),
+  ),
   subject: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   threatCategories: Schema.optional(
     Schema.Union([Schema.Array(Schema.String), Schema.Null]),
-  ),
+  ).pipe(T.JsonName("threat_categories")),
   to: Schema.optional(Schema.Union([Schema.Array(Schema.String), Schema.Null])),
   toName: Schema.optional(
     Schema.Union([Schema.Array(Schema.String), Schema.Null]),
-  ),
+  ).pipe(T.JsonName("to_name")),
   validation: Schema.optional(
     Schema.Union([
       Schema.Struct({
@@ -317,29 +331,7 @@ export const GetInvestigateResponse = Schema.Struct({
       Schema.Null,
     ]),
   ),
-}).pipe(
-  Schema.encodeKeys({
-    actionLog: "action_log",
-    clientRecipients: "client_recipients",
-    detectionReasons: "detection_reasons",
-    isPhishSubmission: "is_phish_submission",
-    isQuarantined: "is_quarantined",
-    postfixId: "postfix_id",
-    alertId: "alert_id",
-    deliveryMode: "delivery_mode",
-    edfHash: "edf_hash",
-    envelopeFrom: "envelope_from",
-    envelopeTo: "envelope_to",
-    finalDisposition: "final_disposition",
-    fromName: "from_name",
-    htmltextStructureHash: "htmltext_structure_hash",
-    messageId: "message_id",
-    postfixIdOutbound: "postfix_id_outbound",
-    sentDate: "sent_date",
-    threatCategories: "threat_categories",
-    toName: "to_name",
-  }),
-) as unknown as Schema.Schema<GetInvestigateResponse>;
+}) as unknown as Schema.Schema<GetInvestigateResponse>;
 
 export const getInvestigate: (
   input: GetInvestigateRequest,
@@ -432,7 +424,9 @@ export const GetInvestigateDetectionResponse = Schema.Struct({
   attachments: Schema.Array(
     Schema.Struct({
       size: Schema.Number,
-      contentType: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      contentType: Schema.optional(
+        Schema.Union([Schema.String, Schema.Null]),
+      ).pipe(T.JsonName("content_type")),
       detection: Schema.optional(
         Schema.Union([
           Schema.Literal("MALICIOUS"),
@@ -450,7 +444,7 @@ export const GetInvestigateDetectionResponse = Schema.Struct({
       ),
       encrypted: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
       name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    }).pipe(Schema.encodeKeys({ contentType: "content_type" })),
+    }),
   ),
   headers: Schema.Array(
     Schema.Struct({
@@ -465,19 +459,23 @@ export const GetInvestigateDetectionResponse = Schema.Struct({
     }),
   ),
   senderInfo: Schema.Struct({
-    asName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    asNumber: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    asName: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
+      T.JsonName("as_name"),
+    ),
+    asNumber: Schema.optional(Schema.Union([Schema.Number, Schema.Null])).pipe(
+      T.JsonName("as_number"),
+    ),
     geo: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     ip: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     pld: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(Schema.encodeKeys({ asName: "as_name", asNumber: "as_number" })),
+  }).pipe(T.JsonName("sender_info")),
   threatCategories: Schema.Array(
     Schema.Struct({
       id: Schema.Number,
       description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
       name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     }),
-  ),
+  ).pipe(T.JsonName("threat_categories")),
   validation: Schema.Struct({
     comment: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     dkim: Schema.optional(
@@ -525,14 +523,8 @@ export const GetInvestigateDetectionResponse = Schema.Struct({
       Schema.Literal("NONE"),
       Schema.Null,
     ]),
-  ),
-}).pipe(
-  Schema.encodeKeys({
-    senderInfo: "sender_info",
-    threatCategories: "threat_categories",
-    finalDisposition: "final_disposition",
-  }),
-) as unknown as Schema.Schema<GetInvestigateDetectionResponse>;
+  ).pipe(T.JsonName("final_disposition")),
+}) as unknown as Schema.Schema<GetInvestigateDetectionResponse>;
 
 export const getInvestigateDetection: (
   input: GetInvestigateDetectionRequest,
@@ -596,9 +588,8 @@ export interface CreateInvestigatePreviewRequest {
 
 export const CreateInvestigatePreviewRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  postfixId: Schema.String,
+  postfixId: Schema.String.pipe(T.JsonName("postfix_id")),
 }).pipe(
-  Schema.encodeKeys({ postfixId: "postfix_id" }),
   T.Http({
     method: "POST",
     path: "/accounts/{account_id}/email-security/investigate/preview",
@@ -699,15 +690,12 @@ export const CreateInvestigateReclassifyRequest = Schema.Struct({
     "SPAM",
     "SPOOF",
     "SUSPICIOUS",
-  ]),
-  emlContent: Schema.optional(Schema.String),
-  escalatedSubmissionId: Schema.optional(Schema.String),
+  ]).pipe(T.JsonName("expected_disposition")),
+  emlContent: Schema.optional(Schema.String).pipe(T.JsonName("eml_content")),
+  escalatedSubmissionId: Schema.optional(Schema.String).pipe(
+    T.JsonName("escalated_submission_id"),
+  ),
 }).pipe(
-  Schema.encodeKeys({
-    expectedDisposition: "expected_disposition",
-    emlContent: "eml_content",
-    escalatedSubmissionId: "escalated_submission_id",
-  }),
   T.Http({
     method: "POST",
     path: "/accounts/{account_id}/email-security/investigate/{postfixId}/reclassify",
@@ -854,34 +842,22 @@ export interface GetSettingAllowPolicyResponse {
 
 export const GetSettingAllowPolicyResponse = Schema.Struct({
   id: Schema.Number,
-  createdAt: Schema.String,
-  isAcceptableSender: Schema.Boolean,
-  isExemptRecipient: Schema.Boolean,
-  isRegex: Schema.Boolean,
-  isTrustedSender: Schema.Boolean,
-  lastModified: Schema.String,
+  createdAt: Schema.String.pipe(T.JsonName("created_at")),
+  isAcceptableSender: Schema.Boolean.pipe(T.JsonName("is_acceptable_sender")),
+  isExemptRecipient: Schema.Boolean.pipe(T.JsonName("is_exempt_recipient")),
+  isRegex: Schema.Boolean.pipe(T.JsonName("is_regex")),
+  isTrustedSender: Schema.Boolean.pipe(T.JsonName("is_trusted_sender")),
+  lastModified: Schema.String.pipe(T.JsonName("last_modified")),
   pattern: Schema.String,
-  patternType: Schema.Literals(["EMAIL", "DOMAIN", "IP", "UNKNOWN"]),
-  verifySender: Schema.Boolean,
+  patternType: Schema.Literals(["EMAIL", "DOMAIN", "IP", "UNKNOWN"]).pipe(
+    T.JsonName("pattern_type"),
+  ),
+  verifySender: Schema.Boolean.pipe(T.JsonName("verify_sender")),
   comments: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  isRecipient: Schema.optional(Schema.Boolean),
-  isSender: Schema.optional(Schema.Boolean),
-  isSpoof: Schema.optional(Schema.Boolean),
-}).pipe(
-  Schema.encodeKeys({
-    createdAt: "created_at",
-    isAcceptableSender: "is_acceptable_sender",
-    isExemptRecipient: "is_exempt_recipient",
-    isRegex: "is_regex",
-    isTrustedSender: "is_trusted_sender",
-    lastModified: "last_modified",
-    patternType: "pattern_type",
-    verifySender: "verify_sender",
-    isRecipient: "is_recipient",
-    isSender: "is_sender",
-    isSpoof: "is_spoof",
-  }),
-) as unknown as Schema.Schema<GetSettingAllowPolicyResponse>;
+  isRecipient: Schema.optional(Schema.Boolean).pipe(T.JsonName("is_recipient")),
+  isSender: Schema.optional(Schema.Boolean).pipe(T.JsonName("is_sender")),
+  isSpoof: Schema.optional(Schema.Boolean).pipe(T.JsonName("is_spoof")),
+}) as unknown as Schema.Schema<GetSettingAllowPolicyResponse>;
 
 export const getSettingAllowPolicy: (
   input: GetSettingAllowPolicyRequest,
@@ -924,29 +900,20 @@ export interface CreateSettingAllowPolicyRequest {
 
 export const CreateSettingAllowPolicyRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  isAcceptableSender: Schema.Boolean,
-  isExemptRecipient: Schema.Boolean,
-  isRegex: Schema.Boolean,
-  isTrustedSender: Schema.Boolean,
+  isAcceptableSender: Schema.Boolean.pipe(T.JsonName("is_acceptable_sender")),
+  isExemptRecipient: Schema.Boolean.pipe(T.JsonName("is_exempt_recipient")),
+  isRegex: Schema.Boolean.pipe(T.JsonName("is_regex")),
+  isTrustedSender: Schema.Boolean.pipe(T.JsonName("is_trusted_sender")),
   pattern: Schema.String,
-  patternType: Schema.Literals(["EMAIL", "DOMAIN", "IP", "UNKNOWN"]),
-  verifySender: Schema.Boolean,
+  patternType: Schema.Literals(["EMAIL", "DOMAIN", "IP", "UNKNOWN"]).pipe(
+    T.JsonName("pattern_type"),
+  ),
+  verifySender: Schema.Boolean.pipe(T.JsonName("verify_sender")),
   comments: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  isRecipient: Schema.optional(Schema.Boolean),
-  isSender: Schema.optional(Schema.Boolean),
-  isSpoof: Schema.optional(Schema.Boolean),
+  isRecipient: Schema.optional(Schema.Boolean).pipe(T.JsonName("is_recipient")),
+  isSender: Schema.optional(Schema.Boolean).pipe(T.JsonName("is_sender")),
+  isSpoof: Schema.optional(Schema.Boolean).pipe(T.JsonName("is_spoof")),
 }).pipe(
-  Schema.encodeKeys({
-    isAcceptableSender: "is_acceptable_sender",
-    isExemptRecipient: "is_exempt_recipient",
-    isRegex: "is_regex",
-    isTrustedSender: "is_trusted_sender",
-    patternType: "pattern_type",
-    verifySender: "verify_sender",
-    isRecipient: "is_recipient",
-    isSender: "is_sender",
-    isSpoof: "is_spoof",
-  }),
   T.Http({
     method: "POST",
     path: "/accounts/{account_id}/email-security/settings/allow_policies",
@@ -980,34 +947,22 @@ export interface CreateSettingAllowPolicyResponse {
 
 export const CreateSettingAllowPolicyResponse = Schema.Struct({
   id: Schema.Number,
-  createdAt: Schema.String,
-  isAcceptableSender: Schema.Boolean,
-  isExemptRecipient: Schema.Boolean,
-  isRegex: Schema.Boolean,
-  isTrustedSender: Schema.Boolean,
-  lastModified: Schema.String,
+  createdAt: Schema.String.pipe(T.JsonName("created_at")),
+  isAcceptableSender: Schema.Boolean.pipe(T.JsonName("is_acceptable_sender")),
+  isExemptRecipient: Schema.Boolean.pipe(T.JsonName("is_exempt_recipient")),
+  isRegex: Schema.Boolean.pipe(T.JsonName("is_regex")),
+  isTrustedSender: Schema.Boolean.pipe(T.JsonName("is_trusted_sender")),
+  lastModified: Schema.String.pipe(T.JsonName("last_modified")),
   pattern: Schema.String,
-  patternType: Schema.Literals(["EMAIL", "DOMAIN", "IP", "UNKNOWN"]),
-  verifySender: Schema.Boolean,
+  patternType: Schema.Literals(["EMAIL", "DOMAIN", "IP", "UNKNOWN"]).pipe(
+    T.JsonName("pattern_type"),
+  ),
+  verifySender: Schema.Boolean.pipe(T.JsonName("verify_sender")),
   comments: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  isRecipient: Schema.optional(Schema.Boolean),
-  isSender: Schema.optional(Schema.Boolean),
-  isSpoof: Schema.optional(Schema.Boolean),
-}).pipe(
-  Schema.encodeKeys({
-    createdAt: "created_at",
-    isAcceptableSender: "is_acceptable_sender",
-    isExemptRecipient: "is_exempt_recipient",
-    isRegex: "is_regex",
-    isTrustedSender: "is_trusted_sender",
-    lastModified: "last_modified",
-    patternType: "pattern_type",
-    verifySender: "verify_sender",
-    isRecipient: "is_recipient",
-    isSender: "is_sender",
-    isSpoof: "is_spoof",
-  }),
-) as unknown as Schema.Schema<CreateSettingAllowPolicyResponse>;
+  isRecipient: Schema.optional(Schema.Boolean).pipe(T.JsonName("is_recipient")),
+  isSender: Schema.optional(Schema.Boolean).pipe(T.JsonName("is_sender")),
+  isSpoof: Schema.optional(Schema.Boolean).pipe(T.JsonName("is_spoof")),
+}) as unknown as Schema.Schema<CreateSettingAllowPolicyResponse>;
 
 export const createSettingAllowPolicy: (
   input: CreateSettingAllowPolicyRequest,
@@ -1049,12 +1004,16 @@ export const PatchSettingAllowPolicyRequest = Schema.Struct({
   comments: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   isAcceptableSender: Schema.optional(
     Schema.Union([Schema.Boolean, Schema.Null]),
-  ),
+  ).pipe(T.JsonName("is_acceptable_sender")),
   isExemptRecipient: Schema.optional(
     Schema.Union([Schema.Boolean, Schema.Null]),
+  ).pipe(T.JsonName("is_exempt_recipient")),
+  isRegex: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])).pipe(
+    T.JsonName("is_regex"),
   ),
-  isRegex: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-  isTrustedSender: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+  isTrustedSender: Schema.optional(
+    Schema.Union([Schema.Boolean, Schema.Null]),
+  ).pipe(T.JsonName("is_trusted_sender")),
   pattern: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   patternType: Schema.optional(
     Schema.Union([
@@ -1064,17 +1023,11 @@ export const PatchSettingAllowPolicyRequest = Schema.Struct({
       Schema.Literal("UNKNOWN"),
       Schema.Null,
     ]),
-  ),
-  verifySender: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+  ).pipe(T.JsonName("pattern_type")),
+  verifySender: Schema.optional(
+    Schema.Union([Schema.Boolean, Schema.Null]),
+  ).pipe(T.JsonName("verify_sender")),
 }).pipe(
-  Schema.encodeKeys({
-    isAcceptableSender: "is_acceptable_sender",
-    isExemptRecipient: "is_exempt_recipient",
-    isRegex: "is_regex",
-    isTrustedSender: "is_trusted_sender",
-    patternType: "pattern_type",
-    verifySender: "verify_sender",
-  }),
   T.Http({
     method: "PATCH",
     path: "/accounts/{account_id}/email-security/settings/allow_policies/{policyId}",
@@ -1108,34 +1061,22 @@ export interface PatchSettingAllowPolicyResponse {
 
 export const PatchSettingAllowPolicyResponse = Schema.Struct({
   id: Schema.Number,
-  createdAt: Schema.String,
-  isAcceptableSender: Schema.Boolean,
-  isExemptRecipient: Schema.Boolean,
-  isRegex: Schema.Boolean,
-  isTrustedSender: Schema.Boolean,
-  lastModified: Schema.String,
+  createdAt: Schema.String.pipe(T.JsonName("created_at")),
+  isAcceptableSender: Schema.Boolean.pipe(T.JsonName("is_acceptable_sender")),
+  isExemptRecipient: Schema.Boolean.pipe(T.JsonName("is_exempt_recipient")),
+  isRegex: Schema.Boolean.pipe(T.JsonName("is_regex")),
+  isTrustedSender: Schema.Boolean.pipe(T.JsonName("is_trusted_sender")),
+  lastModified: Schema.String.pipe(T.JsonName("last_modified")),
   pattern: Schema.String,
-  patternType: Schema.Literals(["EMAIL", "DOMAIN", "IP", "UNKNOWN"]),
-  verifySender: Schema.Boolean,
+  patternType: Schema.Literals(["EMAIL", "DOMAIN", "IP", "UNKNOWN"]).pipe(
+    T.JsonName("pattern_type"),
+  ),
+  verifySender: Schema.Boolean.pipe(T.JsonName("verify_sender")),
   comments: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  isRecipient: Schema.optional(Schema.Boolean),
-  isSender: Schema.optional(Schema.Boolean),
-  isSpoof: Schema.optional(Schema.Boolean),
-}).pipe(
-  Schema.encodeKeys({
-    createdAt: "created_at",
-    isAcceptableSender: "is_acceptable_sender",
-    isExemptRecipient: "is_exempt_recipient",
-    isRegex: "is_regex",
-    isTrustedSender: "is_trusted_sender",
-    lastModified: "last_modified",
-    patternType: "pattern_type",
-    verifySender: "verify_sender",
-    isRecipient: "is_recipient",
-    isSender: "is_sender",
-    isSpoof: "is_spoof",
-  }),
-) as unknown as Schema.Schema<PatchSettingAllowPolicyResponse>;
+  isRecipient: Schema.optional(Schema.Boolean).pipe(T.JsonName("is_recipient")),
+  isSender: Schema.optional(Schema.Boolean).pipe(T.JsonName("is_sender")),
+  isSpoof: Schema.optional(Schema.Boolean).pipe(T.JsonName("is_spoof")),
+}) as unknown as Schema.Schema<PatchSettingAllowPolicyResponse>;
 
 export const patchSettingAllowPolicy: (
   input: PatchSettingAllowPolicyRequest,
@@ -1219,20 +1160,15 @@ export interface GetSettingBlockSenderResponse {
 
 export const GetSettingBlockSenderResponse = Schema.Struct({
   id: Schema.Number,
-  createdAt: Schema.String,
-  isRegex: Schema.Boolean,
-  lastModified: Schema.String,
+  createdAt: Schema.String.pipe(T.JsonName("created_at")),
+  isRegex: Schema.Boolean.pipe(T.JsonName("is_regex")),
+  lastModified: Schema.String.pipe(T.JsonName("last_modified")),
   pattern: Schema.String,
-  patternType: Schema.Literals(["EMAIL", "DOMAIN", "IP", "UNKNOWN"]),
+  patternType: Schema.Literals(["EMAIL", "DOMAIN", "IP", "UNKNOWN"]).pipe(
+    T.JsonName("pattern_type"),
+  ),
   comments: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-}).pipe(
-  Schema.encodeKeys({
-    createdAt: "created_at",
-    isRegex: "is_regex",
-    lastModified: "last_modified",
-    patternType: "pattern_type",
-  }),
-) as unknown as Schema.Schema<GetSettingBlockSenderResponse>;
+}) as unknown as Schema.Schema<GetSettingBlockSenderResponse>;
 
 export const getSettingBlockSender: (
   input: GetSettingBlockSenderRequest,
@@ -1261,12 +1197,13 @@ export interface CreateSettingBlockSenderRequest {
 
 export const CreateSettingBlockSenderRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  isRegex: Schema.Boolean,
+  isRegex: Schema.Boolean.pipe(T.JsonName("is_regex")),
   pattern: Schema.String,
-  patternType: Schema.Literals(["EMAIL", "DOMAIN", "IP", "UNKNOWN"]),
+  patternType: Schema.Literals(["EMAIL", "DOMAIN", "IP", "UNKNOWN"]).pipe(
+    T.JsonName("pattern_type"),
+  ),
   comments: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
-  Schema.encodeKeys({ isRegex: "is_regex", patternType: "pattern_type" }),
   T.Http({
     method: "POST",
     path: "/accounts/{account_id}/email-security/settings/block_senders",
@@ -1286,20 +1223,15 @@ export interface CreateSettingBlockSenderResponse {
 
 export const CreateSettingBlockSenderResponse = Schema.Struct({
   id: Schema.Number,
-  createdAt: Schema.String,
-  isRegex: Schema.Boolean,
-  lastModified: Schema.String,
+  createdAt: Schema.String.pipe(T.JsonName("created_at")),
+  isRegex: Schema.Boolean.pipe(T.JsonName("is_regex")),
+  lastModified: Schema.String.pipe(T.JsonName("last_modified")),
   pattern: Schema.String,
-  patternType: Schema.Literals(["EMAIL", "DOMAIN", "IP", "UNKNOWN"]),
+  patternType: Schema.Literals(["EMAIL", "DOMAIN", "IP", "UNKNOWN"]).pipe(
+    T.JsonName("pattern_type"),
+  ),
   comments: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-}).pipe(
-  Schema.encodeKeys({
-    createdAt: "created_at",
-    isRegex: "is_regex",
-    lastModified: "last_modified",
-    patternType: "pattern_type",
-  }),
-) as unknown as Schema.Schema<CreateSettingBlockSenderResponse>;
+}) as unknown as Schema.Schema<CreateSettingBlockSenderResponse>;
 
 export const createSettingBlockSender: (
   input: CreateSettingBlockSenderRequest,
@@ -1331,7 +1263,9 @@ export const PatchSettingBlockSenderRequest = Schema.Struct({
   patternId: Schema.Number.pipe(T.HttpPath("patternId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   comments: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  isRegex: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+  isRegex: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])).pipe(
+    T.JsonName("is_regex"),
+  ),
   pattern: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   patternType: Schema.optional(
     Schema.Union([
@@ -1341,9 +1275,8 @@ export const PatchSettingBlockSenderRequest = Schema.Struct({
       Schema.Literal("UNKNOWN"),
       Schema.Null,
     ]),
-  ),
+  ).pipe(T.JsonName("pattern_type")),
 }).pipe(
-  Schema.encodeKeys({ isRegex: "is_regex", patternType: "pattern_type" }),
   T.Http({
     method: "PATCH",
     path: "/accounts/{account_id}/email-security/settings/block_senders/{patternId}",
@@ -1363,20 +1296,15 @@ export interface PatchSettingBlockSenderResponse {
 
 export const PatchSettingBlockSenderResponse = Schema.Struct({
   id: Schema.Number,
-  createdAt: Schema.String,
-  isRegex: Schema.Boolean,
-  lastModified: Schema.String,
+  createdAt: Schema.String.pipe(T.JsonName("created_at")),
+  isRegex: Schema.Boolean.pipe(T.JsonName("is_regex")),
+  lastModified: Schema.String.pipe(T.JsonName("last_modified")),
   pattern: Schema.String,
-  patternType: Schema.Literals(["EMAIL", "DOMAIN", "IP", "UNKNOWN"]),
+  patternType: Schema.Literals(["EMAIL", "DOMAIN", "IP", "UNKNOWN"]).pipe(
+    T.JsonName("pattern_type"),
+  ),
   comments: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-}).pipe(
-  Schema.encodeKeys({
-    createdAt: "created_at",
-    isRegex: "is_regex",
-    lastModified: "last_modified",
-    patternType: "pattern_type",
-  }),
-) as unknown as Schema.Schema<PatchSettingBlockSenderResponse>;
+}) as unknown as Schema.Schema<PatchSettingBlockSenderResponse>;
 
 export const patchSettingBlockSender: (
   input: PatchSettingBlockSenderRequest,
@@ -1494,8 +1422,8 @@ export const GetSettingDomainResponse = Schema.Struct({
   id: Schema.Number,
   allowedDeliveryModes: Schema.Array(
     Schema.Literals(["DIRECT", "BCC", "JOURNAL", "API", "RETRO_SCAN"]),
-  ),
-  createdAt: Schema.String,
+  ).pipe(T.JsonName("allowed_delivery_modes")),
+  createdAt: Schema.String.pipe(T.JsonName("created_at")),
   domain: Schema.String,
   dropDispositions: Schema.Array(
     Schema.Literals([
@@ -1510,10 +1438,12 @@ export const GetSettingDomainResponse = Schema.Struct({
       "UNKNOWN",
       "NONE",
     ]),
+  ).pipe(T.JsonName("drop_dispositions")),
+  ipRestrictions: Schema.Array(Schema.String).pipe(
+    T.JsonName("ip_restrictions"),
   ),
-  ipRestrictions: Schema.Array(Schema.String),
-  lastModified: Schema.String,
-  lookbackHops: Schema.Number,
+  lastModified: Schema.String.pipe(T.JsonName("last_modified")),
+  lookbackHops: Schema.Number.pipe(T.JsonName("lookback_hops")),
   regions: Schema.Array(Schema.Literals(["GLOBAL", "AU", "DE", "IN", "US"])),
   transport: Schema.String,
   authorization: Schema.optional(
@@ -1523,8 +1453,8 @@ export const GetSettingDomainResponse = Schema.Struct({
         timestamp: Schema.String,
         statusMessage: Schema.optional(
           Schema.Union([Schema.String, Schema.Null]),
-        ),
-      }).pipe(Schema.encodeKeys({ statusMessage: "status_message" })),
+        ).pipe(T.JsonName("status_message")),
+      }),
       Schema.Null,
     ]),
   ),
@@ -1535,22 +1465,21 @@ export const GetSettingDomainResponse = Schema.Struct({
       Schema.Literal("invalid"),
       Schema.Null,
     ]),
-  ),
+  ).pipe(T.JsonName("dmarc_status")),
   emailsProcessed: Schema.optional(
     Schema.Union([
       Schema.Struct({
         timestamp: Schema.String,
-        totalEmailsProcessed: Schema.Number,
-        totalEmailsProcessedPrevious: Schema.Number,
-      }).pipe(
-        Schema.encodeKeys({
-          totalEmailsProcessed: "total_emails_processed",
-          totalEmailsProcessedPrevious: "total_emails_processed_previous",
-        }),
-      ),
+        totalEmailsProcessed: Schema.Number.pipe(
+          T.JsonName("total_emails_processed"),
+        ),
+        totalEmailsProcessedPrevious: Schema.Number.pipe(
+          T.JsonName("total_emails_processed_previous"),
+        ),
+      }),
       Schema.Null,
     ]),
-  ),
+  ).pipe(T.JsonName("emails_processed")),
   folder: Schema.optional(
     Schema.Union([
       Schema.Literal("AllItems"),
@@ -1564,15 +1493,19 @@ export const GetSettingDomainResponse = Schema.Struct({
       Schema.Literal("Google"),
       Schema.Null,
     ]),
-  ),
-  integrationId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  o365TenantId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  ).pipe(T.JsonName("inbox_provider")),
+  integrationId: Schema.optional(
+    Schema.Union([Schema.String, Schema.Null]),
+  ).pipe(T.JsonName("integration_id")),
+  o365TenantId: Schema.optional(
+    Schema.Union([Schema.String, Schema.Null]),
+  ).pipe(T.JsonName("o365_tenant_id")),
   requireTlsInbound: Schema.optional(
     Schema.Union([Schema.Boolean, Schema.Null]),
-  ),
+  ).pipe(T.JsonName("require_tls_inbound")),
   requireTlsOutbound: Schema.optional(
     Schema.Union([Schema.Boolean, Schema.Null]),
-  ),
+  ).pipe(T.JsonName("require_tls_outbound")),
   spfStatus: Schema.optional(
     Schema.Union([
       Schema.Literal("none"),
@@ -1582,25 +1515,8 @@ export const GetSettingDomainResponse = Schema.Struct({
       Schema.Literal("invalid"),
       Schema.Null,
     ]),
-  ),
-}).pipe(
-  Schema.encodeKeys({
-    allowedDeliveryModes: "allowed_delivery_modes",
-    createdAt: "created_at",
-    dropDispositions: "drop_dispositions",
-    ipRestrictions: "ip_restrictions",
-    lastModified: "last_modified",
-    lookbackHops: "lookback_hops",
-    dmarcStatus: "dmarc_status",
-    emailsProcessed: "emails_processed",
-    inboxProvider: "inbox_provider",
-    integrationId: "integration_id",
-    o365TenantId: "o365_tenant_id",
-    requireTlsInbound: "require_tls_inbound",
-    requireTlsOutbound: "require_tls_outbound",
-    spfStatus: "spf_status",
-  }),
-) as unknown as Schema.Schema<GetSettingDomainResponse>;
+  ).pipe(T.JsonName("spf_status")),
+}) as unknown as Schema.Schema<GetSettingDomainResponse>;
 
 export const getSettingDomain: (
   input: GetSettingDomainRequest,
@@ -1662,12 +1578,14 @@ export interface PatchSettingDomainRequest {
 export const PatchSettingDomainRequest = Schema.Struct({
   domainId: Schema.Number.pipe(T.HttpPath("domainId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  ipRestrictions: Schema.Array(Schema.String),
+  ipRestrictions: Schema.Array(Schema.String).pipe(
+    T.JsonName("ip_restrictions"),
+  ),
   allowedDeliveryModes: Schema.optional(
     Schema.Array(
       Schema.Literals(["DIRECT", "BCC", "JOURNAL", "API", "RETRO_SCAN"]),
     ),
-  ),
+  ).pipe(T.JsonName("allowed_delivery_modes")),
   domain: Schema.optional(Schema.String),
   dropDispositions: Schema.optional(
     Schema.Array(
@@ -1684,26 +1602,25 @@ export const PatchSettingDomainRequest = Schema.Struct({
         "NONE",
       ]),
     ),
-  ),
+  ).pipe(T.JsonName("drop_dispositions")),
   folder: Schema.optional(Schema.Literals(["AllItems", "Inbox"])),
-  integrationId: Schema.optional(Schema.String),
-  lookbackHops: Schema.optional(Schema.Number),
+  integrationId: Schema.optional(Schema.String).pipe(
+    T.JsonName("integration_id"),
+  ),
+  lookbackHops: Schema.optional(Schema.Number).pipe(
+    T.JsonName("lookback_hops"),
+  ),
   regions: Schema.optional(
     Schema.Array(Schema.Literals(["GLOBAL", "AU", "DE", "IN", "US"])),
   ),
-  requireTlsInbound: Schema.optional(Schema.Boolean),
-  requireTlsOutbound: Schema.optional(Schema.Boolean),
+  requireTlsInbound: Schema.optional(Schema.Boolean).pipe(
+    T.JsonName("require_tls_inbound"),
+  ),
+  requireTlsOutbound: Schema.optional(Schema.Boolean).pipe(
+    T.JsonName("require_tls_outbound"),
+  ),
   transport: Schema.optional(Schema.String),
 }).pipe(
-  Schema.encodeKeys({
-    ipRestrictions: "ip_restrictions",
-    allowedDeliveryModes: "allowed_delivery_modes",
-    dropDispositions: "drop_dispositions",
-    integrationId: "integration_id",
-    lookbackHops: "lookback_hops",
-    requireTlsInbound: "require_tls_inbound",
-    requireTlsOutbound: "require_tls_outbound",
-  }),
   T.Http({
     method: "PATCH",
     path: "/accounts/{account_id}/email-security/settings/domains/{domainId}",
@@ -1757,8 +1674,8 @@ export const PatchSettingDomainResponse = Schema.Struct({
   id: Schema.Number,
   allowedDeliveryModes: Schema.Array(
     Schema.Literals(["DIRECT", "BCC", "JOURNAL", "API", "RETRO_SCAN"]),
-  ),
-  createdAt: Schema.String,
+  ).pipe(T.JsonName("allowed_delivery_modes")),
+  createdAt: Schema.String.pipe(T.JsonName("created_at")),
   domain: Schema.String,
   dropDispositions: Schema.Array(
     Schema.Literals([
@@ -1773,10 +1690,12 @@ export const PatchSettingDomainResponse = Schema.Struct({
       "UNKNOWN",
       "NONE",
     ]),
+  ).pipe(T.JsonName("drop_dispositions")),
+  ipRestrictions: Schema.Array(Schema.String).pipe(
+    T.JsonName("ip_restrictions"),
   ),
-  ipRestrictions: Schema.Array(Schema.String),
-  lastModified: Schema.String,
-  lookbackHops: Schema.Number,
+  lastModified: Schema.String.pipe(T.JsonName("last_modified")),
+  lookbackHops: Schema.Number.pipe(T.JsonName("lookback_hops")),
   regions: Schema.Array(Schema.Literals(["GLOBAL", "AU", "DE", "IN", "US"])),
   transport: Schema.String,
   authorization: Schema.optional(
@@ -1786,8 +1705,8 @@ export const PatchSettingDomainResponse = Schema.Struct({
         timestamp: Schema.String,
         statusMessage: Schema.optional(
           Schema.Union([Schema.String, Schema.Null]),
-        ),
-      }).pipe(Schema.encodeKeys({ statusMessage: "status_message" })),
+        ).pipe(T.JsonName("status_message")),
+      }),
       Schema.Null,
     ]),
   ),
@@ -1798,22 +1717,21 @@ export const PatchSettingDomainResponse = Schema.Struct({
       Schema.Literal("invalid"),
       Schema.Null,
     ]),
-  ),
+  ).pipe(T.JsonName("dmarc_status")),
   emailsProcessed: Schema.optional(
     Schema.Union([
       Schema.Struct({
         timestamp: Schema.String,
-        totalEmailsProcessed: Schema.Number,
-        totalEmailsProcessedPrevious: Schema.Number,
-      }).pipe(
-        Schema.encodeKeys({
-          totalEmailsProcessed: "total_emails_processed",
-          totalEmailsProcessedPrevious: "total_emails_processed_previous",
-        }),
-      ),
+        totalEmailsProcessed: Schema.Number.pipe(
+          T.JsonName("total_emails_processed"),
+        ),
+        totalEmailsProcessedPrevious: Schema.Number.pipe(
+          T.JsonName("total_emails_processed_previous"),
+        ),
+      }),
       Schema.Null,
     ]),
-  ),
+  ).pipe(T.JsonName("emails_processed")),
   folder: Schema.optional(
     Schema.Union([
       Schema.Literal("AllItems"),
@@ -1827,15 +1745,19 @@ export const PatchSettingDomainResponse = Schema.Struct({
       Schema.Literal("Google"),
       Schema.Null,
     ]),
-  ),
-  integrationId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  o365TenantId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  ).pipe(T.JsonName("inbox_provider")),
+  integrationId: Schema.optional(
+    Schema.Union([Schema.String, Schema.Null]),
+  ).pipe(T.JsonName("integration_id")),
+  o365TenantId: Schema.optional(
+    Schema.Union([Schema.String, Schema.Null]),
+  ).pipe(T.JsonName("o365_tenant_id")),
   requireTlsInbound: Schema.optional(
     Schema.Union([Schema.Boolean, Schema.Null]),
-  ),
+  ).pipe(T.JsonName("require_tls_inbound")),
   requireTlsOutbound: Schema.optional(
     Schema.Union([Schema.Boolean, Schema.Null]),
-  ),
+  ).pipe(T.JsonName("require_tls_outbound")),
   spfStatus: Schema.optional(
     Schema.Union([
       Schema.Literal("none"),
@@ -1845,25 +1767,8 @@ export const PatchSettingDomainResponse = Schema.Struct({
       Schema.Literal("invalid"),
       Schema.Null,
     ]),
-  ),
-}).pipe(
-  Schema.encodeKeys({
-    allowedDeliveryModes: "allowed_delivery_modes",
-    createdAt: "created_at",
-    dropDispositions: "drop_dispositions",
-    ipRestrictions: "ip_restrictions",
-    lastModified: "last_modified",
-    lookbackHops: "lookback_hops",
-    dmarcStatus: "dmarc_status",
-    emailsProcessed: "emails_processed",
-    inboxProvider: "inbox_provider",
-    integrationId: "integration_id",
-    o365TenantId: "o365_tenant_id",
-    requireTlsInbound: "require_tls_inbound",
-    requireTlsOutbound: "require_tls_outbound",
-    spfStatus: "spf_status",
-  }),
-) as unknown as Schema.Schema<PatchSettingDomainResponse>;
+  ).pipe(T.JsonName("spf_status")),
+}) as unknown as Schema.Schema<PatchSettingDomainResponse>;
 
 export const patchSettingDomain: (
   input: PatchSettingDomainRequest,
@@ -1951,28 +1856,23 @@ export interface GetSettingImpersonationRegistryResponse {
 
 export const GetSettingImpersonationRegistryResponse = Schema.Struct({
   id: Schema.Number,
-  createdAt: Schema.String,
+  createdAt: Schema.String.pipe(T.JsonName("created_at")),
   email: Schema.String,
-  isEmailRegex: Schema.Boolean,
-  lastModified: Schema.String,
+  isEmailRegex: Schema.Boolean.pipe(T.JsonName("is_email_regex")),
+  lastModified: Schema.String.pipe(T.JsonName("last_modified")),
   name: Schema.String,
   comments: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  directoryId: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-  directoryNodeId: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  directoryId: Schema.optional(Schema.Union([Schema.Number, Schema.Null])).pipe(
+    T.JsonName("directory_id"),
+  ),
+  directoryNodeId: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ).pipe(T.JsonName("directory_node_id")),
   externalDirectoryNodeId: Schema.optional(
     Schema.Union([Schema.String, Schema.Null]),
-  ),
+  ).pipe(T.JsonName("external_directory_node_id")),
   provenance: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-}).pipe(
-  Schema.encodeKeys({
-    createdAt: "created_at",
-    isEmailRegex: "is_email_regex",
-    lastModified: "last_modified",
-    directoryId: "directory_id",
-    directoryNodeId: "directory_node_id",
-    externalDirectoryNodeId: "external_directory_node_id",
-  }),
-) as unknown as Schema.Schema<GetSettingImpersonationRegistryResponse>;
+}) as unknown as Schema.Schema<GetSettingImpersonationRegistryResponse>;
 
 export const getSettingImpersonationRegistry: (
   input: GetSettingImpersonationRegistryRequest,
@@ -2000,10 +1900,9 @@ export interface CreateSettingImpersonationRegistryRequest {
 export const CreateSettingImpersonationRegistryRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   email: Schema.String,
-  isEmailRegex: Schema.Boolean,
+  isEmailRegex: Schema.Boolean.pipe(T.JsonName("is_email_regex")),
   name: Schema.String,
 }).pipe(
-  Schema.encodeKeys({ isEmailRegex: "is_email_regex" }),
   T.Http({
     method: "POST",
     path: "/accounts/{account_id}/email-security/settings/impersonation_registry",
@@ -2027,28 +1926,23 @@ export interface CreateSettingImpersonationRegistryResponse {
 
 export const CreateSettingImpersonationRegistryResponse = Schema.Struct({
   id: Schema.Number,
-  createdAt: Schema.String,
+  createdAt: Schema.String.pipe(T.JsonName("created_at")),
   email: Schema.String,
-  isEmailRegex: Schema.Boolean,
-  lastModified: Schema.String,
+  isEmailRegex: Schema.Boolean.pipe(T.JsonName("is_email_regex")),
+  lastModified: Schema.String.pipe(T.JsonName("last_modified")),
   name: Schema.String,
   comments: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  directoryId: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-  directoryNodeId: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  directoryId: Schema.optional(Schema.Union([Schema.Number, Schema.Null])).pipe(
+    T.JsonName("directory_id"),
+  ),
+  directoryNodeId: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ).pipe(T.JsonName("directory_node_id")),
   externalDirectoryNodeId: Schema.optional(
     Schema.Union([Schema.String, Schema.Null]),
-  ),
+  ).pipe(T.JsonName("external_directory_node_id")),
   provenance: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-}).pipe(
-  Schema.encodeKeys({
-    createdAt: "created_at",
-    isEmailRegex: "is_email_regex",
-    lastModified: "last_modified",
-    directoryId: "directory_id",
-    directoryNodeId: "directory_node_id",
-    externalDirectoryNodeId: "external_directory_node_id",
-  }),
-) as unknown as Schema.Schema<CreateSettingImpersonationRegistryResponse>;
+}) as unknown as Schema.Schema<CreateSettingImpersonationRegistryResponse>;
 
 export const createSettingImpersonationRegistry: (
   input: CreateSettingImpersonationRegistryRequest,
@@ -2078,10 +1972,11 @@ export const PatchSettingImpersonationRegistryRequest = Schema.Struct({
   displayNameId: Schema.Number.pipe(T.HttpPath("displayNameId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   email: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  isEmailRegex: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+  isEmailRegex: Schema.optional(
+    Schema.Union([Schema.Boolean, Schema.Null]),
+  ).pipe(T.JsonName("is_email_regex")),
   name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
-  Schema.encodeKeys({ isEmailRegex: "is_email_regex" }),
   T.Http({
     method: "PATCH",
     path: "/accounts/{account_id}/email-security/settings/impersonation_registry/{displayNameId}",
@@ -2105,28 +2000,23 @@ export interface PatchSettingImpersonationRegistryResponse {
 
 export const PatchSettingImpersonationRegistryResponse = Schema.Struct({
   id: Schema.Number,
-  createdAt: Schema.String,
+  createdAt: Schema.String.pipe(T.JsonName("created_at")),
   email: Schema.String,
-  isEmailRegex: Schema.Boolean,
-  lastModified: Schema.String,
+  isEmailRegex: Schema.Boolean.pipe(T.JsonName("is_email_regex")),
+  lastModified: Schema.String.pipe(T.JsonName("last_modified")),
   name: Schema.String,
   comments: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  directoryId: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-  directoryNodeId: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  directoryId: Schema.optional(Schema.Union([Schema.Number, Schema.Null])).pipe(
+    T.JsonName("directory_id"),
+  ),
+  directoryNodeId: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ).pipe(T.JsonName("directory_node_id")),
   externalDirectoryNodeId: Schema.optional(
     Schema.Union([Schema.String, Schema.Null]),
-  ),
+  ).pipe(T.JsonName("external_directory_node_id")),
   provenance: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-}).pipe(
-  Schema.encodeKeys({
-    createdAt: "created_at",
-    isEmailRegex: "is_email_regex",
-    lastModified: "last_modified",
-    directoryId: "directory_id",
-    directoryNodeId: "directory_node_id",
-    externalDirectoryNodeId: "external_directory_node_id",
-  }),
-) as unknown as Schema.Schema<PatchSettingImpersonationRegistryResponse>;
+}) as unknown as Schema.Schema<PatchSettingImpersonationRegistryResponse>;
 
 export const patchSettingImpersonationRegistry: (
   input: PatchSettingImpersonationRegistryRequest,
@@ -2212,22 +2102,14 @@ export interface GetSettingTrustedDomainResponse {
 
 export const GetSettingTrustedDomainResponse = Schema.Struct({
   id: Schema.Number,
-  createdAt: Schema.String,
-  isRecent: Schema.Boolean,
-  isRegex: Schema.Boolean,
-  isSimilarity: Schema.Boolean,
-  lastModified: Schema.String,
+  createdAt: Schema.String.pipe(T.JsonName("created_at")),
+  isRecent: Schema.Boolean.pipe(T.JsonName("is_recent")),
+  isRegex: Schema.Boolean.pipe(T.JsonName("is_regex")),
+  isSimilarity: Schema.Boolean.pipe(T.JsonName("is_similarity")),
+  lastModified: Schema.String.pipe(T.JsonName("last_modified")),
   pattern: Schema.String,
   comments: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-}).pipe(
-  Schema.encodeKeys({
-    createdAt: "created_at",
-    isRecent: "is_recent",
-    isRegex: "is_regex",
-    isSimilarity: "is_similarity",
-    lastModified: "last_modified",
-  }),
-) as unknown as Schema.Schema<GetSettingTrustedDomainResponse>;
+}) as unknown as Schema.Schema<GetSettingTrustedDomainResponse>;
 
 export const getSettingTrustedDomain: (
   input: GetSettingTrustedDomainRequest,
@@ -2275,41 +2157,25 @@ export type CreateSettingTrustedDomainResponse =
 export const CreateSettingTrustedDomainResponse = Schema.Union([
   Schema.Struct({
     id: Schema.Number,
-    createdAt: Schema.String,
-    isRecent: Schema.Boolean,
-    isRegex: Schema.Boolean,
-    isSimilarity: Schema.Boolean,
-    lastModified: Schema.String,
+    createdAt: Schema.String.pipe(T.JsonName("created_at")),
+    isRecent: Schema.Boolean.pipe(T.JsonName("is_recent")),
+    isRegex: Schema.Boolean.pipe(T.JsonName("is_regex")),
+    isSimilarity: Schema.Boolean.pipe(T.JsonName("is_similarity")),
+    lastModified: Schema.String.pipe(T.JsonName("last_modified")),
     pattern: Schema.String,
     comments: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(
-    Schema.encodeKeys({
-      createdAt: "created_at",
-      isRecent: "is_recent",
-      isRegex: "is_regex",
-      isSimilarity: "is_similarity",
-      lastModified: "last_modified",
-    }),
-  ),
+  }),
   Schema.Array(
     Schema.Struct({
       id: Schema.Number,
-      createdAt: Schema.String,
-      isRecent: Schema.Boolean,
-      isRegex: Schema.Boolean,
-      isSimilarity: Schema.Boolean,
-      lastModified: Schema.String,
+      createdAt: Schema.String.pipe(T.JsonName("created_at")),
+      isRecent: Schema.Boolean.pipe(T.JsonName("is_recent")),
+      isRegex: Schema.Boolean.pipe(T.JsonName("is_regex")),
+      isSimilarity: Schema.Boolean.pipe(T.JsonName("is_similarity")),
+      lastModified: Schema.String.pipe(T.JsonName("last_modified")),
       pattern: Schema.String,
       comments: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    }).pipe(
-      Schema.encodeKeys({
-        createdAt: "created_at",
-        isRecent: "is_recent",
-        isRegex: "is_regex",
-        isSimilarity: "is_similarity",
-        lastModified: "last_modified",
-      }),
-    ),
+    }),
   ),
 ]) as unknown as Schema.Schema<CreateSettingTrustedDomainResponse>;
 
@@ -2345,16 +2211,13 @@ export const PatchSettingTrustedDomainRequest = Schema.Struct({
   trustedDomainId: Schema.Number.pipe(T.HttpPath("trustedDomainId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   comments: Schema.optional(Schema.String),
-  isRecent: Schema.optional(Schema.Boolean),
-  isRegex: Schema.optional(Schema.Boolean),
-  isSimilarity: Schema.optional(Schema.Boolean),
+  isRecent: Schema.optional(Schema.Boolean).pipe(T.JsonName("is_recent")),
+  isRegex: Schema.optional(Schema.Boolean).pipe(T.JsonName("is_regex")),
+  isSimilarity: Schema.optional(Schema.Boolean).pipe(
+    T.JsonName("is_similarity"),
+  ),
   pattern: Schema.optional(Schema.String),
 }).pipe(
-  Schema.encodeKeys({
-    isRecent: "is_recent",
-    isRegex: "is_regex",
-    isSimilarity: "is_similarity",
-  }),
   T.Http({
     method: "PATCH",
     path: "/accounts/{account_id}/email-security/settings/trusted_domains/{trustedDomainId}",
@@ -2377,22 +2240,14 @@ export interface PatchSettingTrustedDomainResponse {
 
 export const PatchSettingTrustedDomainResponse = Schema.Struct({
   id: Schema.Number,
-  createdAt: Schema.String,
-  isRecent: Schema.Boolean,
-  isRegex: Schema.Boolean,
-  isSimilarity: Schema.Boolean,
-  lastModified: Schema.String,
+  createdAt: Schema.String.pipe(T.JsonName("created_at")),
+  isRecent: Schema.Boolean.pipe(T.JsonName("is_recent")),
+  isRegex: Schema.Boolean.pipe(T.JsonName("is_regex")),
+  isSimilarity: Schema.Boolean.pipe(T.JsonName("is_similarity")),
+  lastModified: Schema.String.pipe(T.JsonName("last_modified")),
   pattern: Schema.String,
   comments: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-}).pipe(
-  Schema.encodeKeys({
-    createdAt: "created_at",
-    isRecent: "is_recent",
-    isRegex: "is_regex",
-    isSimilarity: "is_similarity",
-    lastModified: "last_modified",
-  }),
-) as unknown as Schema.Schema<PatchSettingTrustedDomainResponse>;
+}) as unknown as Schema.Schema<PatchSettingTrustedDomainResponse>;
 
 export const patchSettingTrustedDomain: (
   input: PatchSettingTrustedDomainRequest,

@@ -773,11 +773,9 @@ export interface ListV2sResponse {
 export const ListV2sResponse = Schema.Struct({
   continuationToken: Schema.optional(
     Schema.Union([Schema.String, Schema.Null]),
-  ),
+  ).pipe(T.JsonName("continuation_token")),
   images: Schema.optional(Schema.Array(Schema.Unknown)),
-}).pipe(
-  Schema.encodeKeys({ continuationToken: "continuation_token" }),
-) as unknown as Schema.Schema<ListV2sResponse>;
+}) as unknown as Schema.Schema<ListV2sResponse>;
 
 export const listV2s: (
   input: ListV2sRequest,

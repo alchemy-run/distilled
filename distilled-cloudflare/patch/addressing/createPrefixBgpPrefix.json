@@ -1,0 +1,13 @@
+{
+  "errors": {
+    "NonexistentAccountPrefix": [
+      { "code": 1003 }
+    ],
+    "InvalidAccountId": [
+      { "code": 7003, "message": { "includes": "Could not route" } }
+    ],
+    "InvalidNetworkCidr": [
+      { "code": 1001, "message": { "includes": "invalid_network_cidr" } }
+    ]
+  }
+}

@@ -70,11 +70,10 @@ export interface PutDomainRequest {
 export const PutDomainRequest = Schema.Struct({
   domainName: Schema.String.pipe(T.HttpPath("domainName")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  autoRenew: Schema.optional(Schema.Boolean),
+  autoRenew: Schema.optional(Schema.Boolean).pipe(T.JsonName("auto_renew")),
   locked: Schema.optional(Schema.Boolean),
   privacy: Schema.optional(Schema.Boolean),
 }).pipe(
-  Schema.encodeKeys({ autoRenew: "auto_renew" }),
   T.Http({
     method: "PUT",
     path: "/accounts/{account_id}/registrar/domains/{domainName}",

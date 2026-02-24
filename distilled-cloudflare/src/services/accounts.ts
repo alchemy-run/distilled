@@ -19,6 +19,90 @@ import {
 } from "../errors.ts";
 
 // =============================================================================
+// Errors
+// =============================================================================
+
+export class AccountCreationForbidden extends Schema.TaggedErrorClass<AccountCreationForbidden>()(
+  "AccountCreationForbidden",
+  { code: Schema.Number, message: Schema.String },
+) {}
+T.applyErrorMatchers(AccountCreationForbidden, [{ code: 1002 }]);
+
+export class AccountNameTooLong extends Schema.TaggedErrorClass<AccountNameTooLong>()(
+  "AccountNameTooLong",
+  { code: Schema.Number, message: Schema.String },
+) {}
+T.applyErrorMatchers(AccountNameTooLong, [
+  { code: 1001, message: { includes: "too long" } },
+]);
+
+export class EndpointNotFound extends Schema.TaggedErrorClass<EndpointNotFound>()(
+  "EndpointNotFound",
+  { code: Schema.Number, message: Schema.String },
+) {}
+T.applyErrorMatchers(EndpointNotFound, [{ code: 1199 }]);
+
+export class InvalidAccountName extends Schema.TaggedErrorClass<InvalidAccountName>()(
+  "InvalidAccountName",
+  { code: Schema.Number, message: Schema.String },
+) {}
+T.applyErrorMatchers(InvalidAccountName, [
+  { code: 1001, message: { includes: "invalid character" } },
+]);
+
+export class InvalidRoute extends Schema.TaggedErrorClass<InvalidRoute>()(
+  "InvalidRoute",
+  { code: Schema.Number, message: Schema.String },
+) {}
+T.applyErrorMatchers(InvalidRoute, [{ code: 7003 }]);
+
+export class InvalidTokenName extends Schema.TaggedErrorClass<InvalidTokenName>()(
+  "InvalidTokenName",
+  { code: Schema.Number, message: Schema.String },
+) {}
+T.applyErrorMatchers(InvalidTokenName, [
+  { code: 400, message: { includes: "name must have a length" } },
+]);
+
+export class JsonDecodeFailure extends Schema.TaggedErrorClass<JsonDecodeFailure>()(
+  "JsonDecodeFailure",
+  { code: Schema.Number, message: Schema.String },
+) {}
+T.applyErrorMatchers(JsonDecodeFailure, [{ code: 1198 }]);
+
+export class MemberNotFound extends Schema.TaggedErrorClass<MemberNotFound>()(
+  "MemberNotFound",
+  { code: Schema.Number, message: Schema.String },
+) {}
+T.applyErrorMatchers(MemberNotFound, [{ code: 1003 }]);
+
+export class MethodNotAllowed extends Schema.TaggedErrorClass<MethodNotAllowed>()(
+  "MethodNotAllowed",
+  { code: Schema.Number, message: Schema.String },
+) {}
+T.applyErrorMatchers(MethodNotAllowed, [{ code: 7001 }]);
+
+export class MissingAuthenticationToken extends Schema.TaggedErrorClass<MissingAuthenticationToken>()(
+  "MissingAuthenticationToken",
+  { code: Schema.Number, message: Schema.String },
+) {}
+T.applyErrorMatchers(MissingAuthenticationToken, [{ code: 1001 }]);
+
+export class MissingName extends Schema.TaggedErrorClass<MissingName>()(
+  "MissingName",
+  { code: Schema.Number, message: Schema.String },
+) {}
+T.applyErrorMatchers(MissingName, [{ code: 1001 }]);
+
+export class UpdateAccountTypeNotSupported extends Schema.TaggedErrorClass<UpdateAccountTypeNotSupported>()(
+  "UpdateAccountTypeNotSupported",
+  { code: Schema.Number, message: Schema.String },
+) {}
+T.applyErrorMatchers(UpdateAccountTypeNotSupported, [
+  { code: 1001, message: { includes: "account type is not supported" } },
+]);
+
+// =============================================================================
 // Account
 // =============================================================================
 
@@ -44,50 +128,49 @@ export interface GetAccountResponse {
   /** Parent container details */
   managedBy?: { parentOrgId?: string; parentOrgName?: string };
   /** Account settings */
-  settings?: { abuseContactEmail?: string; enforceTwofactor?: boolean };
+  settings?: {
+    abuseContactEmail?: string | null;
+    enforceTwofactor?: boolean | null;
+  };
 }
 
 export const GetAccountResponse = Schema.Struct({
   id: Schema.String,
   name: Schema.String,
   type: Schema.Literals(["standard", "enterprise"]),
-  createdOn: Schema.optional(Schema.String),
+  createdOn: Schema.optional(Schema.String).pipe(T.JsonName("created_on")),
   managedBy: Schema.optional(
     Schema.Struct({
-      parentOrgId: Schema.optional(Schema.String),
-      parentOrgName: Schema.optional(Schema.String),
-    }).pipe(
-      Schema.encodeKeys({
-        parentOrgId: "parent_org_id",
-        parentOrgName: "parent_org_name",
-      }),
-    ),
-  ),
+      parentOrgId: Schema.optional(Schema.String).pipe(
+        T.JsonName("parent_org_id"),
+      ),
+      parentOrgName: Schema.optional(Schema.String).pipe(
+        T.JsonName("parent_org_name"),
+      ),
+    }),
+  ).pipe(T.JsonName("managed_by")),
   settings: Schema.optional(
     Schema.Struct({
-      abuseContactEmail: Schema.optional(Schema.String),
-      enforceTwofactor: Schema.optional(Schema.Boolean),
-    }).pipe(
-      Schema.encodeKeys({
-        abuseContactEmail: "abuse_contact_email",
-        enforceTwofactor: "enforce_twofactor",
-      }),
-    ),
+      abuseContactEmail: Schema.optional(
+        Schema.Union([Schema.String, Schema.Null]),
+      ).pipe(T.JsonName("abuse_contact_email")),
+      enforceTwofactor: Schema.optional(
+        Schema.Union([Schema.Boolean, Schema.Null]),
+      ).pipe(T.JsonName("enforce_twofactor")),
+    }),
   ),
-}).pipe(
-  Schema.encodeKeys({ createdOn: "created_on", managedBy: "managed_by" }),
-) as unknown as Schema.Schema<GetAccountResponse>;
+}) as unknown as Schema.Schema<GetAccountResponse>;
 
 export const getAccount: (
   input: GetAccountRequest,
 ) => Effect.Effect<
   GetAccountResponse,
-  CommonErrors,
+  CommonErrors | InvalidRoute,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetAccountRequest,
   output: GetAccountResponse,
-  errors: [],
+  errors: [InvalidRoute],
 }));
 
 export interface CreateAccountRequest {
@@ -128,43 +211,39 @@ export const CreateAccountResponse = Schema.Struct({
   id: Schema.String,
   name: Schema.String,
   type: Schema.Literals(["standard", "enterprise"]),
-  createdOn: Schema.optional(Schema.String),
+  createdOn: Schema.optional(Schema.String).pipe(T.JsonName("created_on")),
   managedBy: Schema.optional(
     Schema.Struct({
-      parentOrgId: Schema.optional(Schema.String),
-      parentOrgName: Schema.optional(Schema.String),
-    }).pipe(
-      Schema.encodeKeys({
-        parentOrgId: "parent_org_id",
-        parentOrgName: "parent_org_name",
-      }),
-    ),
-  ),
+      parentOrgId: Schema.optional(Schema.String).pipe(
+        T.JsonName("parent_org_id"),
+      ),
+      parentOrgName: Schema.optional(Schema.String).pipe(
+        T.JsonName("parent_org_name"),
+      ),
+    }),
+  ).pipe(T.JsonName("managed_by")),
   settings: Schema.optional(
     Schema.Struct({
-      abuseContactEmail: Schema.optional(Schema.String),
-      enforceTwofactor: Schema.optional(Schema.Boolean),
-    }).pipe(
-      Schema.encodeKeys({
-        abuseContactEmail: "abuse_contact_email",
-        enforceTwofactor: "enforce_twofactor",
-      }),
-    ),
+      abuseContactEmail: Schema.optional(Schema.String).pipe(
+        T.JsonName("abuse_contact_email"),
+      ),
+      enforceTwofactor: Schema.optional(Schema.Boolean).pipe(
+        T.JsonName("enforce_twofactor"),
+      ),
+    }),
   ),
-}).pipe(
-  Schema.encodeKeys({ createdOn: "created_on", managedBy: "managed_by" }),
-) as unknown as Schema.Schema<CreateAccountResponse>;
+}) as unknown as Schema.Schema<CreateAccountResponse>;
 
 export const createAccount: (
   input: CreateAccountRequest,
 ) => Effect.Effect<
   CreateAccountResponse,
-  CommonErrors,
+  CommonErrors | AccountCreationForbidden | MissingName,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateAccountRequest,
   output: CreateAccountResponse,
-  errors: [],
+  errors: [AccountCreationForbidden, MissingName],
 }));
 
 export interface UpdateAccountRequest {
@@ -175,7 +254,7 @@ export interface UpdateAccountRequest {
   /** Body param: Account name */
   name: string;
   /** Body param: */
-  type: "standard" | "enterprise";
+  type?: "standard" | "enterprise";
   /** Body param: Parent container details */
   managedBy?: unknown;
   /** Body param: Account settings */
@@ -186,21 +265,19 @@ export const UpdateAccountRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   id: Schema.String,
   name: Schema.String,
-  type: Schema.Literals(["standard", "enterprise"]),
-  managedBy: Schema.optional(Schema.Unknown),
+  type: Schema.optional(Schema.Literals(["standard", "enterprise"])),
+  managedBy: Schema.optional(Schema.Unknown).pipe(T.JsonName("managed_by")),
   settings: Schema.optional(
     Schema.Struct({
-      abuseContactEmail: Schema.optional(Schema.String),
-      enforceTwofactor: Schema.optional(Schema.Boolean),
-    }).pipe(
-      Schema.encodeKeys({
-        abuseContactEmail: "abuse_contact_email",
-        enforceTwofactor: "enforce_twofactor",
-      }),
-    ),
+      abuseContactEmail: Schema.optional(Schema.String).pipe(
+        T.JsonName("abuse_contact_email"),
+      ),
+      enforceTwofactor: Schema.optional(Schema.Boolean).pipe(
+        T.JsonName("enforce_twofactor"),
+      ),
+    }),
   ),
 }).pipe(
-  Schema.encodeKeys({ managedBy: "managed_by" }),
   T.Http({ method: "PUT", path: "/accounts/{account_id}" }),
 ) as unknown as Schema.Schema<UpdateAccountRequest>;
 
@@ -215,50 +292,60 @@ export interface UpdateAccountResponse {
   /** Parent container details */
   managedBy?: { parentOrgId?: string; parentOrgName?: string };
   /** Account settings */
-  settings?: { abuseContactEmail?: string; enforceTwofactor?: boolean };
+  settings?: {
+    abuseContactEmail?: string | null;
+    enforceTwofactor?: boolean | null;
+  };
 }
 
 export const UpdateAccountResponse = Schema.Struct({
   id: Schema.String,
   name: Schema.String,
   type: Schema.Literals(["standard", "enterprise"]),
-  createdOn: Schema.optional(Schema.String),
+  createdOn: Schema.optional(Schema.String).pipe(T.JsonName("created_on")),
   managedBy: Schema.optional(
     Schema.Struct({
-      parentOrgId: Schema.optional(Schema.String),
-      parentOrgName: Schema.optional(Schema.String),
-    }).pipe(
-      Schema.encodeKeys({
-        parentOrgId: "parent_org_id",
-        parentOrgName: "parent_org_name",
-      }),
-    ),
-  ),
+      parentOrgId: Schema.optional(Schema.String).pipe(
+        T.JsonName("parent_org_id"),
+      ),
+      parentOrgName: Schema.optional(Schema.String).pipe(
+        T.JsonName("parent_org_name"),
+      ),
+    }),
+  ).pipe(T.JsonName("managed_by")),
   settings: Schema.optional(
     Schema.Struct({
-      abuseContactEmail: Schema.optional(Schema.String),
-      enforceTwofactor: Schema.optional(Schema.Boolean),
-    }).pipe(
-      Schema.encodeKeys({
-        abuseContactEmail: "abuse_contact_email",
-        enforceTwofactor: "enforce_twofactor",
-      }),
-    ),
+      abuseContactEmail: Schema.optional(
+        Schema.Union([Schema.String, Schema.Null]),
+      ).pipe(T.JsonName("abuse_contact_email")),
+      enforceTwofactor: Schema.optional(
+        Schema.Union([Schema.Boolean, Schema.Null]),
+      ).pipe(T.JsonName("enforce_twofactor")),
+    }),
   ),
-}).pipe(
-  Schema.encodeKeys({ createdOn: "created_on", managedBy: "managed_by" }),
-) as unknown as Schema.Schema<UpdateAccountResponse>;
+}) as unknown as Schema.Schema<UpdateAccountResponse>;
 
 export const updateAccount: (
   input: UpdateAccountRequest,
 ) => Effect.Effect<
   UpdateAccountResponse,
-  CommonErrors,
+  | CommonErrors
+  | InvalidAccountName
+  | AccountNameTooLong
+  | UpdateAccountTypeNotSupported
+  | InvalidRoute
+  | MethodNotAllowed,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: UpdateAccountRequest,
   output: UpdateAccountResponse,
-  errors: [],
+  errors: [
+    InvalidAccountName,
+    AccountNameTooLong,
+    UpdateAccountTypeNotSupported,
+    InvalidRoute,
+    MethodNotAllowed,
+  ],
 }));
 
 export interface DeleteAccountRequest {
@@ -272,21 +359,25 @@ export const DeleteAccountRequest = Schema.Struct({
   T.Http({ method: "DELETE", path: "/accounts/{account_id}" }),
 ) as unknown as Schema.Schema<DeleteAccountRequest>;
 
-export type DeleteAccountResponse = unknown;
+export interface DeleteAccountResponse {
+  /** Identifier */
+  id: string;
+}
 
-export const DeleteAccountResponse =
-  Schema.Unknown as unknown as Schema.Schema<DeleteAccountResponse>;
+export const DeleteAccountResponse = Schema.Struct({
+  id: Schema.String,
+}) as unknown as Schema.Schema<DeleteAccountResponse>;
 
 export const deleteAccount: (
   input: DeleteAccountRequest,
 ) => Effect.Effect<
   DeleteAccountResponse,
-  CommonErrors,
+  CommonErrors | InvalidRoute | MethodNotAllowed,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteAccountRequest,
   output: DeleteAccountResponse,
-  errors: [],
+  errors: [InvalidRoute, MethodNotAllowed],
 }));
 
 // =============================================================================
@@ -315,12 +406,12 @@ export const getMember: (
   input: GetMemberRequest,
 ) => Effect.Effect<
   GetMemberResponse,
-  CommonErrors,
+  CommonErrors | MemberNotFound | InvalidRoute,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetMemberRequest,
   output: GetMemberResponse,
-  errors: [],
+  errors: [MemberNotFound, InvalidRoute],
 }));
 
 export interface CreateMemberRequest {}
@@ -338,12 +429,12 @@ export const createMember: (
   input: CreateMemberRequest,
 ) => Effect.Effect<
   CreateMemberResponse,
-  CommonErrors,
+  CommonErrors | InvalidRoute,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateMemberRequest,
   output: CreateMemberResponse,
-  errors: [],
+  errors: [InvalidRoute],
 }));
 
 export interface UpdateMemberRequest {
@@ -365,12 +456,12 @@ export const updateMember: (
   input: UpdateMemberRequest,
 ) => Effect.Effect<
   UpdateMemberResponse,
-  CommonErrors,
+  CommonErrors | MemberNotFound | InvalidRoute,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: UpdateMemberRequest,
   output: UpdateMemberResponse,
-  errors: [],
+  errors: [MemberNotFound, InvalidRoute],
 }));
 
 export interface DeleteMemberRequest {
@@ -389,21 +480,25 @@ export const DeleteMemberRequest = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<DeleteMemberRequest>;
 
-export type DeleteMemberResponse = unknown;
+export interface DeleteMemberResponse {
+  /** Identifier */
+  id: string;
+}
 
-export const DeleteMemberResponse =
-  Schema.Unknown as unknown as Schema.Schema<DeleteMemberResponse>;
+export const DeleteMemberResponse = Schema.Struct({
+  id: Schema.String,
+}) as unknown as Schema.Schema<DeleteMemberResponse>;
 
 export const deleteMember: (
   input: DeleteMemberRequest,
 ) => Effect.Effect<
   DeleteMemberResponse,
-  CommonErrors,
+  CommonErrors | MemberNotFound | InvalidRoute,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteMemberRequest,
   output: DeleteMemberResponse,
-  errors: [],
+  errors: [MemberNotFound, InvalidRoute],
 }));
 
 // =============================================================================
@@ -432,12 +527,12 @@ export const getRole: (
   input: GetRoleRequest,
 ) => Effect.Effect<
   GetRoleResponse,
-  CommonErrors,
+  CommonErrors | InvalidRoute,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetRoleRequest,
   output: GetRoleResponse,
-  errors: [],
+  errors: [InvalidRoute],
 }));
 
 // =============================================================================
@@ -458,9 +553,8 @@ export const CreateSubscriptionRequest = Schema.Struct({
   frequency: Schema.optional(
     Schema.Literals(["weekly", "monthly", "quarterly", "yearly"]),
   ),
-  ratePlan: Schema.optional(Schema.Unknown),
+  ratePlan: Schema.optional(Schema.Unknown).pipe(T.JsonName("rate_plan")),
 }).pipe(
-  Schema.encodeKeys({ ratePlan: "rate_plan" }),
   T.Http({ method: "POST", path: "/accounts/{account_id}/subscriptions" }),
 ) as unknown as Schema.Schema<CreateSubscriptionRequest>;
 
@@ -473,12 +567,12 @@ export const createSubscription: (
   input: CreateSubscriptionRequest,
 ) => Effect.Effect<
   CreateSubscriptionResponse,
-  CommonErrors,
+  CommonErrors | JsonDecodeFailure | InvalidRoute,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateSubscriptionRequest,
   output: CreateSubscriptionResponse,
-  errors: [],
+  errors: [JsonDecodeFailure, InvalidRoute],
 }));
 
 export interface UpdateSubscriptionRequest {
@@ -499,9 +593,8 @@ export const UpdateSubscriptionRequest = Schema.Struct({
   frequency: Schema.optional(
     Schema.Literals(["weekly", "monthly", "quarterly", "yearly"]),
   ),
-  ratePlan: Schema.optional(Schema.Unknown),
+  ratePlan: Schema.optional(Schema.Unknown).pipe(T.JsonName("rate_plan")),
 }).pipe(
-  Schema.encodeKeys({ ratePlan: "rate_plan" }),
   T.Http({
     method: "PUT",
     path: "/accounts/{account_id}/subscriptions/{subscriptionIdentifier}",
@@ -517,12 +610,12 @@ export const updateSubscription: (
   input: UpdateSubscriptionRequest,
 ) => Effect.Effect<
   UpdateSubscriptionResponse,
-  CommonErrors,
+  CommonErrors | JsonDecodeFailure | InvalidRoute | EndpointNotFound,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: UpdateSubscriptionRequest,
   output: UpdateSubscriptionResponse,
-  errors: [],
+  errors: [JsonDecodeFailure, InvalidRoute, EndpointNotFound],
 }));
 
 export interface DeleteSubscriptionRequest {
@@ -549,21 +642,21 @@ export interface DeleteSubscriptionResponse {
 }
 
 export const DeleteSubscriptionResponse = Schema.Struct({
-  subscriptionId: Schema.optional(Schema.String),
-}).pipe(
-  Schema.encodeKeys({ subscriptionId: "subscription_id" }),
-) as unknown as Schema.Schema<DeleteSubscriptionResponse>;
+  subscriptionId: Schema.optional(Schema.String).pipe(
+    T.JsonName("subscription_id"),
+  ),
+}) as unknown as Schema.Schema<DeleteSubscriptionResponse>;
 
 export const deleteSubscription: (
   input: DeleteSubscriptionRequest,
 ) => Effect.Effect<
   DeleteSubscriptionResponse,
-  CommonErrors,
+  CommonErrors | InvalidRoute | EndpointNotFound,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteSubscriptionRequest,
   output: DeleteSubscriptionResponse,
-  errors: [],
+  errors: [InvalidRoute, EndpointNotFound],
 }));
 
 // =============================================================================
@@ -592,12 +685,12 @@ export const getToken: (
   input: GetTokenRequest,
 ) => Effect.Effect<
   GetTokenResponse,
-  CommonErrors,
+  CommonErrors | InvalidRoute,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetTokenRequest,
   output: GetTokenResponse,
-  errors: [],
+  errors: [InvalidRoute],
 }));
 
 export interface CreateTokenRequest {
@@ -624,15 +717,16 @@ export const CreateTokenRequest = Schema.Struct({
       requestIp: Schema.optional(
         Schema.Struct({
           in: Schema.optional(Schema.Array(Schema.String)),
-          notIn: Schema.optional(Schema.Array(Schema.String)),
-        }).pipe(Schema.encodeKeys({ notIn: "not_in" })),
-      ),
-    }).pipe(Schema.encodeKeys({ requestIp: "request_ip" })),
+          notIn: Schema.optional(Schema.Array(Schema.String)).pipe(
+            T.JsonName("not_in"),
+          ),
+        }),
+      ).pipe(T.JsonName("request_ip")),
+    }),
   ),
-  expiresOn: Schema.optional(Schema.String),
-  notBefore: Schema.optional(Schema.String),
+  expiresOn: Schema.optional(Schema.String).pipe(T.JsonName("expires_on")),
+  notBefore: Schema.optional(Schema.String).pipe(T.JsonName("not_before")),
 }).pipe(
-  Schema.encodeKeys({ expiresOn: "expires_on", notBefore: "not_before" }),
   T.Http({ method: "POST", path: "/accounts/{account_id}/tokens" }),
 ) as unknown as Schema.Schema<CreateTokenRequest>;
 
@@ -641,17 +735,17 @@ export interface CreateTokenResponse {
   id?: string;
   condition?: { requestIp?: { in?: string[]; notIn?: string[] } };
   /** The expiration time on or after which the JWT MUST NOT be accepted for processing. */
-  expiresOn?: string;
+  expiresOn?: string | null;
   /** The time on which the token was created. */
   issuedOn?: string;
   /** Last time the token was used. */
-  lastUsedOn?: string;
+  lastUsedOn?: string | null;
   /** Last time the token was modified. */
   modifiedOn?: string;
   /** Token name. */
   name?: string;
   /** The time before which the token MUST NOT be accepted for processing. */
-  notBefore?: string;
+  notBefore?: string | null;
   /** List of access policies assigned to the token. */
   policies?: unknown[];
   /** Status of the token. */
@@ -667,40 +761,40 @@ export const CreateTokenResponse = Schema.Struct({
       requestIp: Schema.optional(
         Schema.Struct({
           in: Schema.optional(Schema.Array(Schema.String)),
-          notIn: Schema.optional(Schema.Array(Schema.String)),
-        }).pipe(Schema.encodeKeys({ notIn: "not_in" })),
-      ),
-    }).pipe(Schema.encodeKeys({ requestIp: "request_ip" })),
+          notIn: Schema.optional(Schema.Array(Schema.String)).pipe(
+            T.JsonName("not_in"),
+          ),
+        }),
+      ).pipe(T.JsonName("request_ip")),
+    }),
   ),
-  expiresOn: Schema.optional(Schema.String),
-  issuedOn: Schema.optional(Schema.String),
-  lastUsedOn: Schema.optional(Schema.String),
-  modifiedOn: Schema.optional(Schema.String),
+  expiresOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
+    T.JsonName("expires_on"),
+  ),
+  issuedOn: Schema.optional(Schema.String).pipe(T.JsonName("issued_on")),
+  lastUsedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
+    T.JsonName("last_used_on"),
+  ),
+  modifiedOn: Schema.optional(Schema.String).pipe(T.JsonName("modified_on")),
   name: Schema.optional(Schema.String),
-  notBefore: Schema.optional(Schema.String),
+  notBefore: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
+    T.JsonName("not_before"),
+  ),
   policies: Schema.optional(Schema.Array(Schema.Unknown)),
   status: Schema.optional(Schema.Literals(["active", "disabled", "expired"])),
   value: Schema.optional(Schema.String),
-}).pipe(
-  Schema.encodeKeys({
-    expiresOn: "expires_on",
-    issuedOn: "issued_on",
-    lastUsedOn: "last_used_on",
-    modifiedOn: "modified_on",
-    notBefore: "not_before",
-  }),
-) as unknown as Schema.Schema<CreateTokenResponse>;
+}) as unknown as Schema.Schema<CreateTokenResponse>;
 
 export const createToken: (
   input: CreateTokenRequest,
 ) => Effect.Effect<
   CreateTokenResponse,
-  CommonErrors,
+  CommonErrors | InvalidRoute | InvalidTokenName,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateTokenRequest,
   output: CreateTokenResponse,
-  errors: [],
+  errors: [InvalidRoute, InvalidTokenName],
 }));
 
 export interface UpdateTokenRequest {
@@ -731,16 +825,17 @@ export const UpdateTokenRequest = Schema.Struct({
       requestIp: Schema.optional(
         Schema.Struct({
           in: Schema.optional(Schema.Array(Schema.String)),
-          notIn: Schema.optional(Schema.Array(Schema.String)),
-        }).pipe(Schema.encodeKeys({ notIn: "not_in" })),
-      ),
-    }).pipe(Schema.encodeKeys({ requestIp: "request_ip" })),
+          notIn: Schema.optional(Schema.Array(Schema.String)).pipe(
+            T.JsonName("not_in"),
+          ),
+        }),
+      ).pipe(T.JsonName("request_ip")),
+    }),
   ),
-  expiresOn: Schema.optional(Schema.String),
-  notBefore: Schema.optional(Schema.String),
+  expiresOn: Schema.optional(Schema.String).pipe(T.JsonName("expires_on")),
+  notBefore: Schema.optional(Schema.String).pipe(T.JsonName("not_before")),
   status: Schema.optional(Schema.Literals(["active", "disabled", "expired"])),
 }).pipe(
-  Schema.encodeKeys({ expiresOn: "expires_on", notBefore: "not_before" }),
   T.Http({ method: "PUT", path: "/accounts/{account_id}/tokens/{tokenId}" }),
 ) as unknown as Schema.Schema<UpdateTokenRequest>;
 
@@ -753,12 +848,12 @@ export const updateToken: (
   input: UpdateTokenRequest,
 ) => Effect.Effect<
   UpdateTokenResponse,
-  CommonErrors,
+  CommonErrors | InvalidRoute | MethodNotAllowed,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: UpdateTokenRequest,
   output: UpdateTokenResponse,
-  errors: [],
+  errors: [InvalidRoute, MethodNotAllowed],
 }));
 
 export interface DeleteTokenRequest {
@@ -774,21 +869,25 @@ export const DeleteTokenRequest = Schema.Struct({
   T.Http({ method: "DELETE", path: "/accounts/{account_id}/tokens/{tokenId}" }),
 ) as unknown as Schema.Schema<DeleteTokenRequest>;
 
-export type DeleteTokenResponse = unknown;
+export interface DeleteTokenResponse {
+  /** Identifier */
+  id: string;
+}
 
-export const DeleteTokenResponse =
-  Schema.Unknown as unknown as Schema.Schema<DeleteTokenResponse>;
+export const DeleteTokenResponse = Schema.Struct({
+  id: Schema.String,
+}) as unknown as Schema.Schema<DeleteTokenResponse>;
 
 export const deleteToken: (
   input: DeleteTokenRequest,
 ) => Effect.Effect<
   DeleteTokenResponse,
-  CommonErrors,
+  CommonErrors | InvalidRoute | MethodNotAllowed,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteTokenRequest,
   output: DeleteTokenResponse,
-  errors: [],
+  errors: [InvalidRoute, MethodNotAllowed],
 }));
 
 export interface VerifyTokenRequest {
@@ -816,22 +915,20 @@ export interface VerifyTokenResponse {
 export const VerifyTokenResponse = Schema.Struct({
   id: Schema.String,
   status: Schema.Literals(["active", "disabled", "expired"]),
-  expiresOn: Schema.optional(Schema.String),
-  notBefore: Schema.optional(Schema.String),
-}).pipe(
-  Schema.encodeKeys({ expiresOn: "expires_on", notBefore: "not_before" }),
-) as unknown as Schema.Schema<VerifyTokenResponse>;
+  expiresOn: Schema.optional(Schema.String).pipe(T.JsonName("expires_on")),
+  notBefore: Schema.optional(Schema.String).pipe(T.JsonName("not_before")),
+}) as unknown as Schema.Schema<VerifyTokenResponse>;
 
 export const verifyToken: (
   input: VerifyTokenRequest,
 ) => Effect.Effect<
   VerifyTokenResponse,
-  CommonErrors,
+  CommonErrors | MissingAuthenticationToken | InvalidRoute,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: VerifyTokenRequest,
   output: VerifyTokenResponse,
-  errors: [],
+  errors: [MissingAuthenticationToken, InvalidRoute],
 }));
 
 // =============================================================================
@@ -890,12 +987,12 @@ export const getTokenPermissionGroup: (
   input: GetTokenPermissionGroupRequest,
 ) => Effect.Effect<
   GetTokenPermissionGroupResponse,
-  CommonErrors,
+  CommonErrors | InvalidRoute,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetTokenPermissionGroupRequest,
   output: GetTokenPermissionGroupResponse,
-  errors: [],
+  errors: [InvalidRoute],
 }));
 
 // =============================================================================
@@ -913,7 +1010,7 @@ export interface PutTokenValueRequest {
 export const PutTokenValueRequest = Schema.Struct({
   tokenId: Schema.String.pipe(T.HttpPath("tokenId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  body: Schema.Unknown,
+  body: Schema.Unknown.pipe(T.HttpBody()),
 }).pipe(
   T.Http({
     method: "PUT",
@@ -930,10 +1027,10 @@ export const putTokenValue: (
   input: PutTokenValueRequest,
 ) => Effect.Effect<
   PutTokenValueResponse,
-  CommonErrors,
+  CommonErrors | InvalidRoute,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PutTokenValueRequest,
   output: PutTokenValueResponse,
-  errors: [],
+  errors: [InvalidRoute],
 }));

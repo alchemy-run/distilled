@@ -69,11 +69,13 @@ export interface GetCustomCertificateResponse {
 
 export const GetCustomCertificateResponse = Schema.Struct({
   id: Schema.String,
-  bundleMethod: Schema.Literals(["ubiquitous", "optimal", "force"]),
-  expiresOn: Schema.String,
+  bundleMethod: Schema.Literals(["ubiquitous", "optimal", "force"]).pipe(
+    T.JsonName("bundle_method"),
+  ),
+  expiresOn: Schema.String.pipe(T.JsonName("expires_on")),
   hosts: Schema.Array(Schema.String),
   issuer: Schema.String,
-  modifiedOn: Schema.String,
+  modifiedOn: Schema.String.pipe(T.JsonName("modified_on")),
   priority: Schema.Number,
   signature: Schema.String,
   status: Schema.Literals([
@@ -83,26 +85,18 @@ export const GetCustomCertificateResponse = Schema.Struct({
     "pending",
     "initializing",
   ]),
-  uploadedOn: Schema.String,
-  zoneId: Schema.String,
+  uploadedOn: Schema.String.pipe(T.JsonName("uploaded_on")),
+  zoneId: Schema.String.pipe(T.JsonName("zone_id")),
   geoRestrictions: Schema.optional(
     Schema.Struct({
       label: Schema.optional(Schema.Literals(["us", "eu", "highest_security"])),
     }),
+  ).pipe(T.JsonName("geo_restrictions")),
+  keylessServer: Schema.optional(Schema.Unknown).pipe(
+    T.JsonName("keyless_server"),
   ),
-  keylessServer: Schema.optional(Schema.Unknown),
   policy: Schema.optional(Schema.String),
-}).pipe(
-  Schema.encodeKeys({
-    bundleMethod: "bundle_method",
-    expiresOn: "expires_on",
-    modifiedOn: "modified_on",
-    uploadedOn: "uploaded_on",
-    zoneId: "zone_id",
-    geoRestrictions: "geo_restrictions",
-    keylessServer: "keyless_server",
-  }),
-) as unknown as Schema.Schema<GetCustomCertificateResponse>;
+}) as unknown as Schema.Schema<GetCustomCertificateResponse>;
 
 export const getCustomCertificate: (
   input: GetCustomCertificateRequest,
@@ -136,23 +130,18 @@ export interface CreateCustomCertificateRequest {
 export const CreateCustomCertificateRequest = Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
   certificate: Schema.String,
-  privateKey: Schema.String,
+  privateKey: Schema.String.pipe(T.JsonName("private_key")),
   bundleMethod: Schema.optional(
     Schema.Literals(["ubiquitous", "optimal", "force"]),
-  ),
+  ).pipe(T.JsonName("bundle_method")),
   geoRestrictions: Schema.optional(
     Schema.Struct({
       label: Schema.optional(Schema.Literals(["us", "eu", "highest_security"])),
     }),
-  ),
+  ).pipe(T.JsonName("geo_restrictions")),
   policy: Schema.optional(Schema.String),
   type: Schema.optional(Schema.Literals(["legacy_custom", "sni_custom"])),
 }).pipe(
-  Schema.encodeKeys({
-    privateKey: "private_key",
-    bundleMethod: "bundle_method",
-    geoRestrictions: "geo_restrictions",
-  }),
   T.Http({ method: "POST", path: "/zones/{zone_id}/custom_certificates" }),
 ) as unknown as Schema.Schema<CreateCustomCertificateRequest>;
 
@@ -187,11 +176,13 @@ export interface CreateCustomCertificateResponse {
 
 export const CreateCustomCertificateResponse = Schema.Struct({
   id: Schema.String,
-  bundleMethod: Schema.Literals(["ubiquitous", "optimal", "force"]),
-  expiresOn: Schema.String,
+  bundleMethod: Schema.Literals(["ubiquitous", "optimal", "force"]).pipe(
+    T.JsonName("bundle_method"),
+  ),
+  expiresOn: Schema.String.pipe(T.JsonName("expires_on")),
   hosts: Schema.Array(Schema.String),
   issuer: Schema.String,
-  modifiedOn: Schema.String,
+  modifiedOn: Schema.String.pipe(T.JsonName("modified_on")),
   priority: Schema.Number,
   signature: Schema.String,
   status: Schema.Literals([
@@ -201,26 +192,18 @@ export const CreateCustomCertificateResponse = Schema.Struct({
     "pending",
     "initializing",
   ]),
-  uploadedOn: Schema.String,
-  zoneId: Schema.String,
+  uploadedOn: Schema.String.pipe(T.JsonName("uploaded_on")),
+  zoneId: Schema.String.pipe(T.JsonName("zone_id")),
   geoRestrictions: Schema.optional(
     Schema.Struct({
       label: Schema.optional(Schema.Literals(["us", "eu", "highest_security"])),
     }),
+  ).pipe(T.JsonName("geo_restrictions")),
+  keylessServer: Schema.optional(Schema.Unknown).pipe(
+    T.JsonName("keyless_server"),
   ),
-  keylessServer: Schema.optional(Schema.Unknown),
   policy: Schema.optional(Schema.String),
-}).pipe(
-  Schema.encodeKeys({
-    bundleMethod: "bundle_method",
-    expiresOn: "expires_on",
-    modifiedOn: "modified_on",
-    uploadedOn: "uploaded_on",
-    zoneId: "zone_id",
-    geoRestrictions: "geo_restrictions",
-    keylessServer: "keyless_server",
-  }),
-) as unknown as Schema.Schema<CreateCustomCertificateResponse>;
+}) as unknown as Schema.Schema<CreateCustomCertificateResponse>;
 
 export const createCustomCertificate: (
   input: CreateCustomCertificateRequest,
@@ -255,21 +238,16 @@ export const PatchCustomCertificateRequest = Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
   bundleMethod: Schema.optional(
     Schema.Literals(["ubiquitous", "optimal", "force"]),
-  ),
+  ).pipe(T.JsonName("bundle_method")),
   certificate: Schema.optional(Schema.String),
   geoRestrictions: Schema.optional(
     Schema.Struct({
       label: Schema.optional(Schema.Literals(["us", "eu", "highest_security"])),
     }),
-  ),
+  ).pipe(T.JsonName("geo_restrictions")),
   policy: Schema.optional(Schema.String),
-  privateKey: Schema.optional(Schema.String),
+  privateKey: Schema.optional(Schema.String).pipe(T.JsonName("private_key")),
 }).pipe(
-  Schema.encodeKeys({
-    bundleMethod: "bundle_method",
-    geoRestrictions: "geo_restrictions",
-    privateKey: "private_key",
-  }),
   T.Http({
     method: "PATCH",
     path: "/zones/{zone_id}/custom_certificates/{customCertificateId}",
@@ -307,11 +285,13 @@ export interface PatchCustomCertificateResponse {
 
 export const PatchCustomCertificateResponse = Schema.Struct({
   id: Schema.String,
-  bundleMethod: Schema.Literals(["ubiquitous", "optimal", "force"]),
-  expiresOn: Schema.String,
+  bundleMethod: Schema.Literals(["ubiquitous", "optimal", "force"]).pipe(
+    T.JsonName("bundle_method"),
+  ),
+  expiresOn: Schema.String.pipe(T.JsonName("expires_on")),
   hosts: Schema.Array(Schema.String),
   issuer: Schema.String,
-  modifiedOn: Schema.String,
+  modifiedOn: Schema.String.pipe(T.JsonName("modified_on")),
   priority: Schema.Number,
   signature: Schema.String,
   status: Schema.Literals([
@@ -321,26 +301,18 @@ export const PatchCustomCertificateResponse = Schema.Struct({
     "pending",
     "initializing",
   ]),
-  uploadedOn: Schema.String,
-  zoneId: Schema.String,
+  uploadedOn: Schema.String.pipe(T.JsonName("uploaded_on")),
+  zoneId: Schema.String.pipe(T.JsonName("zone_id")),
   geoRestrictions: Schema.optional(
     Schema.Struct({
       label: Schema.optional(Schema.Literals(["us", "eu", "highest_security"])),
     }),
+  ).pipe(T.JsonName("geo_restrictions")),
+  keylessServer: Schema.optional(Schema.Unknown).pipe(
+    T.JsonName("keyless_server"),
   ),
-  keylessServer: Schema.optional(Schema.Unknown),
   policy: Schema.optional(Schema.String),
-}).pipe(
-  Schema.encodeKeys({
-    bundleMethod: "bundle_method",
-    expiresOn: "expires_on",
-    modifiedOn: "modified_on",
-    uploadedOn: "uploaded_on",
-    zoneId: "zone_id",
-    geoRestrictions: "geo_restrictions",
-    keylessServer: "keyless_server",
-  }),
-) as unknown as Schema.Schema<PatchCustomCertificateResponse>;
+}) as unknown as Schema.Schema<PatchCustomCertificateResponse>;
 
 export const patchCustomCertificate: (
   input: PatchCustomCertificateRequest,

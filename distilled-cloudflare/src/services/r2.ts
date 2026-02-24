@@ -22,15 +22,53 @@ import {
 // Errors
 // =============================================================================
 
+export class BucketAlreadyExists extends Schema.TaggedErrorClass<BucketAlreadyExists>()(
+  "BucketAlreadyExists",
+  { code: Schema.Number, message: Schema.String },
+) {}
+T.applyErrorMatchers(BucketAlreadyExists, [{ code: 10004 }]);
+
+export class BucketNotFound extends Schema.TaggedErrorClass<BucketNotFound>()(
+  "BucketNotFound",
+  { code: Schema.Number, message: Schema.String },
+) {}
+T.applyErrorMatchers(BucketNotFound, [{ code: 10085 }]);
+
 export class InvalidBucketName extends Schema.TaggedErrorClass<InvalidBucketName>()(
   "InvalidBucketName",
   { code: Schema.Number, message: Schema.String },
-).pipe(T.HttpErrorMatchers([{ code: 10005 }])) {}
+) {}
+T.applyErrorMatchers(InvalidBucketName, [{ code: 10005 }]);
+
+export class InvalidRoute extends Schema.TaggedErrorClass<InvalidRoute>()(
+  "InvalidRoute",
+  { code: Schema.Number, message: Schema.String },
+) {}
+T.applyErrorMatchers(InvalidRoute, [{ code: 7003 }]);
+
+export class NoCorsConfiguration extends Schema.TaggedErrorClass<NoCorsConfiguration>()(
+  "NoCorsConfiguration",
+  { code: Schema.Number, message: Schema.String },
+) {}
+T.applyErrorMatchers(NoCorsConfiguration, [{ code: 10059 }]);
+
+export class NoEventNotificationConfig extends Schema.TaggedErrorClass<NoEventNotificationConfig>()(
+  "NoEventNotificationConfig",
+  { code: Schema.Number, message: Schema.String },
+) {}
+T.applyErrorMatchers(NoEventNotificationConfig, [{ code: 11015 }]);
+
+export class NoRoute extends Schema.TaggedErrorClass<NoRoute>()("NoRoute", {
+  code: Schema.Number,
+  message: Schema.String,
+}) {}
+T.applyErrorMatchers(NoRoute, [{ code: 10015 }]);
 
 export class NoSuchBucket extends Schema.TaggedErrorClass<NoSuchBucket>()(
   "NoSuchBucket",
   { code: Schema.Number, message: Schema.String },
-).pipe(T.HttpErrorMatchers([{ code: 10006 }])) {}
+) {}
+T.applyErrorMatchers(NoSuchBucket, [{ code: 10006 }]);
 
 // =============================================================================
 // AllSuperSlurperJob
@@ -97,7 +135,19 @@ export interface GetBucketResponse {
   /** Jurisdiction where objects in this bucket are guaranteed to be stored. */
   jurisdiction?: "default" | "eu" | "fedramp";
   /** Location of the bucket. */
-  location?: "apac" | "eeur" | "enam" | "weur" | "wnam" | "oc";
+  location?:
+    | "apac"
+    | "eeur"
+    | "enam"
+    | "weur"
+    | "wnam"
+    | "oc"
+    | "APAC"
+    | "EEUR"
+    | "ENAM"
+    | "WEUR"
+    | "WNAM"
+    | "OC";
   /** Name of the bucket. */
   name?: string;
   /** Storage class for newly uploaded objects, unless specified otherwise. */
@@ -105,32 +155,42 @@ export interface GetBucketResponse {
 }
 
 export const GetBucketResponse = Schema.Struct({
-  creationDate: Schema.optional(Schema.String),
+  creationDate: Schema.optional(Schema.String).pipe(
+    T.JsonName("creation_date"),
+  ),
   jurisdiction: Schema.optional(Schema.Literals(["default", "eu", "fedramp"])),
   location: Schema.optional(
-    Schema.Literals(["apac", "eeur", "enam", "weur", "wnam", "oc"]),
+    Schema.Literals([
+      "apac",
+      "eeur",
+      "enam",
+      "weur",
+      "wnam",
+      "oc",
+      "APAC",
+      "EEUR",
+      "ENAM",
+      "WEUR",
+      "WNAM",
+      "OC",
+    ]),
   ),
   name: Schema.optional(Schema.String),
   storageClass: Schema.optional(
     Schema.Literals(["Standard", "InfrequentAccess"]),
-  ),
-}).pipe(
-  Schema.encodeKeys({
-    creationDate: "creation_date",
-    storageClass: "storage_class",
-  }),
-) as unknown as Schema.Schema<GetBucketResponse>;
+  ).pipe(T.JsonName("storage_class")),
+}) as unknown as Schema.Schema<GetBucketResponse>;
 
 export const getBucket: (
   input: GetBucketRequest,
 ) => Effect.Effect<
   GetBucketResponse,
-  CommonErrors,
+  CommonErrors | NoSuchBucket | InvalidRoute,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetBucketRequest,
   output: GetBucketResponse,
-  errors: [],
+  errors: [NoSuchBucket, InvalidRoute],
 }));
 
 export interface ListBucketsRequest {
@@ -175,7 +235,19 @@ export interface ListBucketsResponse {
   buckets?: {
     creationDate?: string;
     jurisdiction?: "default" | "eu" | "fedramp";
-    location?: "apac" | "eeur" | "enam" | "weur" | "wnam" | "oc";
+    location?:
+      | "apac"
+      | "eeur"
+      | "enam"
+      | "weur"
+      | "wnam"
+      | "oc"
+      | "APAC"
+      | "EEUR"
+      | "ENAM"
+      | "WEUR"
+      | "WNAM"
+      | "OC";
     name?: string;
     storageClass?: "Standard" | "InfrequentAccess";
   }[];
@@ -185,23 +257,33 @@ export const ListBucketsResponse = Schema.Struct({
   buckets: Schema.optional(
     Schema.Array(
       Schema.Struct({
-        creationDate: Schema.optional(Schema.String),
+        creationDate: Schema.optional(Schema.String).pipe(
+          T.JsonName("creation_date"),
+        ),
         jurisdiction: Schema.optional(
           Schema.Literals(["default", "eu", "fedramp"]),
         ),
         location: Schema.optional(
-          Schema.Literals(["apac", "eeur", "enam", "weur", "wnam", "oc"]),
+          Schema.Literals([
+            "apac",
+            "eeur",
+            "enam",
+            "weur",
+            "wnam",
+            "oc",
+            "APAC",
+            "EEUR",
+            "ENAM",
+            "WEUR",
+            "WNAM",
+            "OC",
+          ]),
         ),
         name: Schema.optional(Schema.String),
         storageClass: Schema.optional(
           Schema.Literals(["Standard", "InfrequentAccess"]),
-        ),
-      }).pipe(
-        Schema.encodeKeys({
-          creationDate: "creation_date",
-          storageClass: "storage_class",
-        }),
-      ),
+        ).pipe(T.JsonName("storage_class")),
+      }),
     ),
   ),
 }) as unknown as Schema.Schema<ListBucketsResponse>;
@@ -210,12 +292,12 @@ export const listBuckets: (
   input: ListBucketsRequest,
 ) => Effect.Effect<
   ListBucketsResponse,
-  CommonErrors,
+  CommonErrors | InvalidRoute,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListBucketsRequest,
   output: ListBucketsResponse,
-  errors: [],
+  errors: [InvalidRoute],
 }));
 
 export interface CreateBucketRequest {
@@ -253,7 +335,19 @@ export interface CreateBucketResponse {
   /** Jurisdiction where objects in this bucket are guaranteed to be stored. */
   jurisdiction?: "default" | "eu" | "fedramp";
   /** Location of the bucket. */
-  location?: "apac" | "eeur" | "enam" | "weur" | "wnam" | "oc";
+  location?:
+    | "apac"
+    | "eeur"
+    | "enam"
+    | "weur"
+    | "wnam"
+    | "oc"
+    | "APAC"
+    | "EEUR"
+    | "ENAM"
+    | "WEUR"
+    | "WNAM"
+    | "OC";
   /** Name of the bucket. */
   name?: string;
   /** Storage class for newly uploaded objects, unless specified otherwise. */
@@ -261,32 +355,42 @@ export interface CreateBucketResponse {
 }
 
 export const CreateBucketResponse = Schema.Struct({
-  creationDate: Schema.optional(Schema.String),
+  creationDate: Schema.optional(Schema.String).pipe(
+    T.JsonName("creation_date"),
+  ),
   jurisdiction: Schema.optional(Schema.Literals(["default", "eu", "fedramp"])),
   location: Schema.optional(
-    Schema.Literals(["apac", "eeur", "enam", "weur", "wnam", "oc"]),
+    Schema.Literals([
+      "apac",
+      "eeur",
+      "enam",
+      "weur",
+      "wnam",
+      "oc",
+      "APAC",
+      "EEUR",
+      "ENAM",
+      "WEUR",
+      "WNAM",
+      "OC",
+    ]),
   ),
   name: Schema.optional(Schema.String),
   storageClass: Schema.optional(
     Schema.Literals(["Standard", "InfrequentAccess"]),
-  ),
-}).pipe(
-  Schema.encodeKeys({
-    creationDate: "creation_date",
-    storageClass: "storage_class",
-  }),
-) as unknown as Schema.Schema<CreateBucketResponse>;
+  ).pipe(T.JsonName("storage_class")),
+}) as unknown as Schema.Schema<CreateBucketResponse>;
 
 export const createBucket: (
   input: CreateBucketRequest,
 ) => Effect.Effect<
   CreateBucketResponse,
-  CommonErrors,
+  CommonErrors | InvalidBucketName | BucketAlreadyExists | InvalidRoute,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateBucketRequest,
   output: CreateBucketResponse,
-  errors: [],
+  errors: [InvalidBucketName, BucketAlreadyExists, InvalidRoute],
 }));
 
 export interface PatchBucketRequest {
@@ -321,7 +425,19 @@ export interface PatchBucketResponse {
   /** Jurisdiction where objects in this bucket are guaranteed to be stored. */
   jurisdiction?: "default" | "eu" | "fedramp";
   /** Location of the bucket. */
-  location?: "apac" | "eeur" | "enam" | "weur" | "wnam" | "oc";
+  location?:
+    | "apac"
+    | "eeur"
+    | "enam"
+    | "weur"
+    | "wnam"
+    | "oc"
+    | "APAC"
+    | "EEUR"
+    | "ENAM"
+    | "WEUR"
+    | "WNAM"
+    | "OC";
   /** Name of the bucket. */
   name?: string;
   /** Storage class for newly uploaded objects, unless specified otherwise. */
@@ -329,32 +445,42 @@ export interface PatchBucketResponse {
 }
 
 export const PatchBucketResponse = Schema.Struct({
-  creationDate: Schema.optional(Schema.String),
+  creationDate: Schema.optional(Schema.String).pipe(
+    T.JsonName("creation_date"),
+  ),
   jurisdiction: Schema.optional(Schema.Literals(["default", "eu", "fedramp"])),
   location: Schema.optional(
-    Schema.Literals(["apac", "eeur", "enam", "weur", "wnam", "oc"]),
+    Schema.Literals([
+      "apac",
+      "eeur",
+      "enam",
+      "weur",
+      "wnam",
+      "oc",
+      "APAC",
+      "EEUR",
+      "ENAM",
+      "WEUR",
+      "WNAM",
+      "OC",
+    ]),
   ),
   name: Schema.optional(Schema.String),
   storageClass: Schema.optional(
     Schema.Literals(["Standard", "InfrequentAccess"]),
-  ),
-}).pipe(
-  Schema.encodeKeys({
-    creationDate: "creation_date",
-    storageClass: "storage_class",
-  }),
-) as unknown as Schema.Schema<PatchBucketResponse>;
+  ).pipe(T.JsonName("storage_class")),
+}) as unknown as Schema.Schema<PatchBucketResponse>;
 
 export const patchBucket: (
   input: PatchBucketRequest,
 ) => Effect.Effect<
   PatchBucketResponse,
-  CommonErrors,
+  CommonErrors | NoSuchBucket | InvalidRoute,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PatchBucketRequest,
   output: PatchBucketResponse,
-  errors: [],
+  errors: [NoSuchBucket, InvalidRoute],
 }));
 
 export interface DeleteBucketRequest {
@@ -387,12 +513,12 @@ export const deleteBucket: (
   input: DeleteBucketRequest,
 ) => Effect.Effect<
   DeleteBucketResponse,
-  CommonErrors,
+  CommonErrors | NoSuchBucket | InvalidRoute | NoRoute,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteBucketRequest,
   output: DeleteBucketResponse,
-  errors: [],
+  errors: [NoSuchBucket, InvalidRoute, NoRoute],
 }));
 
 // =============================================================================
@@ -456,12 +582,12 @@ export const getBucketCors: (
   input: GetBucketCorsRequest,
 ) => Effect.Effect<
   GetBucketCorsResponse,
-  CommonErrors,
+  CommonErrors | NoSuchBucket | InvalidRoute | NoCorsConfiguration,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetBucketCorsRequest,
   output: GetBucketCorsResponse,
-  errors: [],
+  errors: [NoSuchBucket, InvalidRoute, NoCorsConfiguration],
 }));
 
 export interface PutBucketCorsRequest {
@@ -521,12 +647,12 @@ export const putBucketCors: (
   input: PutBucketCorsRequest,
 ) => Effect.Effect<
   PutBucketCorsResponse,
-  CommonErrors,
+  CommonErrors | NoSuchBucket | InvalidRoute,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PutBucketCorsRequest,
   output: PutBucketCorsResponse,
-  errors: [],
+  errors: [NoSuchBucket, InvalidRoute],
 }));
 
 export interface DeleteBucketCorsRequest {
@@ -559,12 +685,12 @@ export const deleteBucketCors: (
   input: DeleteBucketCorsRequest,
 ) => Effect.Effect<
   DeleteBucketCorsResponse,
-  CommonErrors,
+  CommonErrors | NoSuchBucket | InvalidRoute,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteBucketCorsRequest,
   output: DeleteBucketCorsResponse,
-  errors: [],
+  errors: [NoSuchBucket, InvalidRoute],
 }));
 
 // =============================================================================
@@ -747,12 +873,12 @@ export const listBucketDomainCustoms: (
   input: ListBucketDomainCustomsRequest,
 ) => Effect.Effect<
   ListBucketDomainCustomsResponse,
-  CommonErrors,
+  CommonErrors | NoSuchBucket | InvalidRoute,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListBucketDomainCustomsRequest,
   output: ListBucketDomainCustomsResponse,
-  errors: [],
+  errors: [NoSuchBucket, InvalidRoute],
 }));
 
 export interface CreateBucketDomainCustomRequest {
@@ -971,12 +1097,12 @@ export const listBucketDomainManageds: (
   input: ListBucketDomainManagedsRequest,
 ) => Effect.Effect<
   ListBucketDomainManagedsResponse,
-  CommonErrors,
+  CommonErrors | NoSuchBucket | InvalidRoute,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListBucketDomainManagedsRequest,
   output: ListBucketDomainManagedsResponse,
-  errors: [],
+  errors: [NoSuchBucket, InvalidRoute],
 }));
 
 export interface PutBucketDomainManagedRequest {
@@ -1022,12 +1148,12 @@ export const putBucketDomainManaged: (
   input: PutBucketDomainManagedRequest,
 ) => Effect.Effect<
   PutBucketDomainManagedResponse,
-  CommonErrors,
+  CommonErrors | NoSuchBucket | InvalidRoute,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PutBucketDomainManagedRequest,
   output: PutBucketDomainManagedResponse,
-  errors: [],
+  errors: [NoSuchBucket, InvalidRoute],
 }));
 
 // =============================================================================
@@ -1196,12 +1322,21 @@ export const listBucketEventNotifications: (
   input: ListBucketEventNotificationsRequest,
 ) => Effect.Effect<
   ListBucketEventNotificationsResponse,
-  CommonErrors,
+  | CommonErrors
+  | NoSuchBucket
+  | InvalidRoute
+  | NoEventNotificationConfig
+  | BucketNotFound,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListBucketEventNotificationsRequest,
   output: ListBucketEventNotificationsResponse,
-  errors: [],
+  errors: [
+    NoSuchBucket,
+    InvalidRoute,
+    NoEventNotificationConfig,
+    BucketNotFound,
+  ],
 }));
 
 export interface PutBucketEventNotificationRequest {
@@ -1341,7 +1476,7 @@ export const GetBucketLifecycleRequest = Schema.Struct({
 export interface GetBucketLifecycleResponse {
   rules?: {
     id: string;
-    conditions: { prefix: string };
+    conditions: { prefix?: string };
     enabled: boolean;
     abortMultipartUploadsTransition?: {
       condition?: { maxAge: number; type: "Age" };
@@ -1366,7 +1501,7 @@ export const GetBucketLifecycleResponse = Schema.Struct({
       Schema.Struct({
         id: Schema.String,
         conditions: Schema.Struct({
-          prefix: Schema.String,
+          prefix: Schema.optional(Schema.String),
         }),
         enabled: Schema.Boolean,
         abortMultipartUploadsTransition: Schema.optional(
@@ -1421,12 +1556,12 @@ export const getBucketLifecycle: (
   input: GetBucketLifecycleRequest,
 ) => Effect.Effect<
   GetBucketLifecycleResponse,
-  CommonErrors,
+  CommonErrors | NoSuchBucket | InvalidRoute,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetBucketLifecycleRequest,
   output: GetBucketLifecycleResponse,
-  errors: [],
+  errors: [NoSuchBucket, InvalidRoute],
 }));
 
 export interface PutBucketLifecycleRequest {
@@ -1533,12 +1668,12 @@ export const putBucketLifecycle: (
   input: PutBucketLifecycleRequest,
 ) => Effect.Effect<
   PutBucketLifecycleResponse,
-  CommonErrors,
+  CommonErrors | NoSuchBucket | InvalidRoute,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PutBucketLifecycleRequest,
   output: PutBucketLifecycleResponse,
-  errors: [],
+  errors: [NoSuchBucket, InvalidRoute],
 }));
 
 // =============================================================================
@@ -1607,12 +1742,12 @@ export const getBucketLock: (
   input: GetBucketLockRequest,
 ) => Effect.Effect<
   GetBucketLockResponse,
-  CommonErrors,
+  CommonErrors | NoSuchBucket | InvalidRoute,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetBucketLockRequest,
   output: GetBucketLockResponse,
-  errors: [],
+  errors: [NoSuchBucket, InvalidRoute],
 }));
 
 export interface PutBucketLockRequest {
@@ -1677,12 +1812,12 @@ export const putBucketLock: (
   input: PutBucketLockRequest,
 ) => Effect.Effect<
   PutBucketLockResponse,
-  CommonErrors,
+  CommonErrors | NoSuchBucket | InvalidRoute,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PutBucketLockRequest,
   output: PutBucketLockResponse,
-  errors: [],
+  errors: [NoSuchBucket, InvalidRoute],
 }));
 
 // =============================================================================
@@ -1772,12 +1907,12 @@ export const listBucketMetrics: (
   input: ListBucketMetricsRequest,
 ) => Effect.Effect<
   ListBucketMetricsResponse,
-  CommonErrors,
+  CommonErrors | InvalidRoute,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListBucketMetricsRequest,
   output: ListBucketMetricsResponse,
-  errors: [],
+  errors: [InvalidRoute],
 }));
 
 // =============================================================================
@@ -1848,12 +1983,12 @@ export const getBucketSippy: (
   input: GetBucketSippyRequest,
 ) => Effect.Effect<
   GetBucketSippyResponse,
-  CommonErrors,
+  CommonErrors | NoSuchBucket | InvalidRoute,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetBucketSippyRequest,
   output: GetBucketSippyResponse,
-  errors: [],
+  errors: [NoSuchBucket, InvalidRoute],
 }));
 
 export interface PutBucketSippyRequest {
@@ -1953,12 +2088,12 @@ export const deleteBucketSippy: (
   input: DeleteBucketSippyRequest,
 ) => Effect.Effect<
   DeleteBucketSippyResponse,
-  CommonErrors,
+  CommonErrors | NoSuchBucket | InvalidRoute,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteBucketSippyRequest,
   output: DeleteBucketSippyResponse,
-  errors: [],
+  errors: [NoSuchBucket, InvalidRoute],
 }));
 
 // =============================================================================

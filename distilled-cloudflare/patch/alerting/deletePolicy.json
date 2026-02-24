@@ -1,0 +1,14 @@
+{
+  "errors": {
+    "InvalidRoute": [{ "code": 7003 }],
+    "PolicyNotFound": [{ "code": 0, "message": { "includes": "Policy not found" } }]
+  },
+  "response": {
+    "properties": {
+      "errors": { "optional": true },
+      "messages": { "optional": true },
+      "success": { "optional": true },
+      "resultInfo": { "optional": true }
+    }
+  }
+}

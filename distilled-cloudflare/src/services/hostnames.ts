@@ -59,16 +59,14 @@ export interface PutSettingTlsResponse {
 }
 
 export const PutSettingTlsResponse = Schema.Struct({
-  createdAt: Schema.optional(Schema.String),
+  createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
   hostname: Schema.optional(Schema.String),
   status: Schema.optional(Schema.String),
-  updatedAt: Schema.optional(Schema.String),
+  updatedAt: Schema.optional(Schema.String).pipe(T.JsonName("updated_at")),
   value: Schema.optional(
     Schema.Union([Schema.String, Schema.Number, Schema.Unknown]),
   ),
-}).pipe(
-  Schema.encodeKeys({ createdAt: "created_at", updatedAt: "updated_at" }),
-) as unknown as Schema.Schema<PutSettingTlsResponse>;
+}) as unknown as Schema.Schema<PutSettingTlsResponse>;
 
 export const putSettingTls: (
   input: PutSettingTlsRequest,
@@ -116,16 +114,14 @@ export interface DeleteSettingTlsResponse {
 }
 
 export const DeleteSettingTlsResponse = Schema.Struct({
-  createdAt: Schema.optional(Schema.String),
+  createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
   hostname: Schema.optional(Schema.String),
   status: Schema.optional(Schema.String),
-  updatedAt: Schema.optional(Schema.String),
+  updatedAt: Schema.optional(Schema.String).pipe(T.JsonName("updated_at")),
   value: Schema.optional(
     Schema.Union([Schema.String, Schema.Number, Schema.Unknown]),
   ),
-}).pipe(
-  Schema.encodeKeys({ createdAt: "created_at", updatedAt: "updated_at" }),
-) as unknown as Schema.Schema<DeleteSettingTlsResponse>;
+}) as unknown as Schema.Schema<DeleteSettingTlsResponse>;
 
 export const deleteSettingTls: (
   input: DeleteSettingTlsRequest,

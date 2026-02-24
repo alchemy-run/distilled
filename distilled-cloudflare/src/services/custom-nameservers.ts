@@ -33,10 +33,9 @@ export interface CreateCustomNameserverRequest {
 
 export const CreateCustomNameserverRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  nsName: Schema.String,
-  nsSet: Schema.optional(Schema.Number),
+  nsName: Schema.String.pipe(T.JsonName("ns_name")),
+  nsSet: Schema.optional(Schema.Number).pipe(T.JsonName("ns_set")),
 }).pipe(
-  Schema.encodeKeys({ nsName: "ns_name", nsSet: "ns_set" }),
   T.Http({ method: "POST", path: "/accounts/{account_id}/custom_ns" }),
 ) as unknown as Schema.Schema<CreateCustomNameserverRequest>;
 
@@ -59,19 +58,12 @@ export const CreateCustomNameserverResponse = Schema.Struct({
       type: Schema.optional(Schema.Literals(["A", "AAAA"])),
       value: Schema.optional(Schema.String),
     }),
-  ),
-  nsName: Schema.String,
+  ).pipe(T.JsonName("dns_records")),
+  nsName: Schema.String.pipe(T.JsonName("ns_name")),
   status: Schema.Literals(["moved", "pending", "verified"]),
-  zoneTag: Schema.String,
-  nsSet: Schema.optional(Schema.Number),
-}).pipe(
-  Schema.encodeKeys({
-    dnsRecords: "dns_records",
-    nsName: "ns_name",
-    zoneTag: "zone_tag",
-    nsSet: "ns_set",
-  }),
-) as unknown as Schema.Schema<CreateCustomNameserverResponse>;
+  zoneTag: Schema.String.pipe(T.JsonName("zone_tag")),
+  nsSet: Schema.optional(Schema.Number).pipe(T.JsonName("ns_set")),
+}) as unknown as Schema.Schema<CreateCustomNameserverResponse>;
 
 export const createCustomNameserver: (
   input: CreateCustomNameserverRequest,

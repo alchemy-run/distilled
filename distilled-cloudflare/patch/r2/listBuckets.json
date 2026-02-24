@@ -1,0 +1,10 @@
+{
+  "errors": {
+    "InvalidRoute": [{ "code": 7003 }]
+  },
+  "response": {
+    "properties": {
+      "buckets[].location": { "addValues": ["APAC", "EEUR", "ENAM", "WEUR", "WNAM", "OC"] }
+    }
+  }
+}

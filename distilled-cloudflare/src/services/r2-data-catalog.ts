@@ -19,6 +19,46 @@ import {
 } from "../errors.ts";
 
 // =============================================================================
+// Errors
+// =============================================================================
+
+export class InvalidCredential extends Schema.TaggedErrorClass<InvalidCredential>()(
+  "InvalidCredential",
+  { code: Schema.Number, message: Schema.String },
+) {}
+T.applyErrorMatchers(InvalidCredential, [{ code: 30004 }]);
+
+export class InvalidRoute extends Schema.TaggedErrorClass<InvalidRoute>()(
+  "InvalidRoute",
+  { code: Schema.Number, message: Schema.String },
+) {}
+T.applyErrorMatchers(InvalidRoute, [{ code: 7003 }]);
+
+export class NoSuchBucket extends Schema.TaggedErrorClass<NoSuchBucket>()(
+  "NoSuchBucket",
+  { code: Schema.Number, message: Schema.String },
+) {}
+T.applyErrorMatchers(NoSuchBucket, [{ code: 10006 }]);
+
+export class TableNotFound extends Schema.TaggedErrorClass<TableNotFound>()(
+  "TableNotFound",
+  { code: Schema.Number, message: Schema.String },
+) {}
+T.applyErrorMatchers(TableNotFound, [{ code: 10001 }, { code: 40403 }]);
+
+export class WarehouseInactive extends Schema.TaggedErrorClass<WarehouseInactive>()(
+  "WarehouseInactive",
+  { code: Schema.Number, message: Schema.String },
+) {}
+T.applyErrorMatchers(WarehouseInactive, [{ code: 40402 }]);
+
+export class WarehouseNotFound extends Schema.TaggedErrorClass<WarehouseNotFound>()(
+  "WarehouseNotFound",
+  { code: Schema.Number, message: Schema.String },
+) {}
+T.applyErrorMatchers(WarehouseNotFound, [{ code: 40401 }]);
+
+// =============================================================================
 // Credential
 // =============================================================================
 
@@ -50,12 +90,12 @@ export const createCredential: (
   input: CreateCredentialRequest,
 ) => Effect.Effect<
   CreateCredentialResponse,
-  CommonErrors,
+  CommonErrors | InvalidRoute | InvalidCredential,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateCredentialRequest,
   output: CreateCredentialResponse,
-  errors: [],
+  errors: [InvalidRoute, InvalidCredential],
 }));
 
 // =============================================================================
@@ -96,44 +136,40 @@ export interface GetMaintenanceConfigResponse {
 }
 
 export const GetMaintenanceConfigResponse = Schema.Struct({
-  credentialStatus: Schema.Literals(["present", "absent"]),
+  credentialStatus: Schema.Literals(["present", "absent"]).pipe(
+    T.JsonName("credential_status"),
+  ),
   maintenanceConfig: Schema.Struct({
     compaction: Schema.optional(
       Schema.Struct({
         state: Schema.Literals(["enabled", "disabled"]),
-        targetSizeMb: Schema.Literals(["64", "128", "256", "512"]),
-      }).pipe(Schema.encodeKeys({ targetSizeMb: "target_size_mb" })),
+        targetSizeMb: Schema.Literals(["64", "128", "256", "512"]).pipe(
+          T.JsonName("target_size_mb"),
+        ),
+      }),
     ),
     snapshotExpiration: Schema.optional(
       Schema.Struct({
-        maxSnapshotAge: Schema.String,
-        minSnapshotsToKeep: Schema.Number,
+        maxSnapshotAge: Schema.String.pipe(T.JsonName("max_snapshot_age")),
+        minSnapshotsToKeep: Schema.Number.pipe(
+          T.JsonName("min_snapshots_to_keep"),
+        ),
         state: Schema.Literals(["enabled", "disabled"]),
-      }).pipe(
-        Schema.encodeKeys({
-          maxSnapshotAge: "max_snapshot_age",
-          minSnapshotsToKeep: "min_snapshots_to_keep",
-        }),
-      ),
-    ),
-  }).pipe(Schema.encodeKeys({ snapshotExpiration: "snapshot_expiration" })),
-}).pipe(
-  Schema.encodeKeys({
-    credentialStatus: "credential_status",
-    maintenanceConfig: "maintenance_config",
-  }),
-) as unknown as Schema.Schema<GetMaintenanceConfigResponse>;
+      }),
+    ).pipe(T.JsonName("snapshot_expiration")),
+  }).pipe(T.JsonName("maintenance_config")),
+}) as unknown as Schema.Schema<GetMaintenanceConfigResponse>;
 
 export const getMaintenanceConfig: (
   input: GetMaintenanceConfigRequest,
 ) => Effect.Effect<
   GetMaintenanceConfigResponse,
-  CommonErrors,
+  CommonErrors | InvalidRoute | WarehouseInactive | WarehouseNotFound,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetMaintenanceConfigRequest,
   output: GetMaintenanceConfigResponse,
-  errors: [],
+  errors: [InvalidRoute, WarehouseInactive, WarehouseNotFound],
 }));
 
 export interface UpdateMaintenanceConfigRequest {
@@ -161,23 +197,21 @@ export const UpdateMaintenanceConfigRequest = Schema.Struct({
       state: Schema.optional(Schema.Literals(["enabled", "disabled"])),
       targetSizeMb: Schema.optional(
         Schema.Literals(["64", "128", "256", "512"]),
-      ),
-    }).pipe(Schema.encodeKeys({ targetSizeMb: "target_size_mb" })),
+      ).pipe(T.JsonName("target_size_mb")),
+    }),
   ),
   snapshotExpiration: Schema.optional(
     Schema.Struct({
-      maxSnapshotAge: Schema.optional(Schema.String),
-      minSnapshotsToKeep: Schema.optional(Schema.Number),
+      maxSnapshotAge: Schema.optional(Schema.String).pipe(
+        T.JsonName("max_snapshot_age"),
+      ),
+      minSnapshotsToKeep: Schema.optional(Schema.Number).pipe(
+        T.JsonName("min_snapshots_to_keep"),
+      ),
       state: Schema.optional(Schema.Literals(["enabled", "disabled"])),
-    }).pipe(
-      Schema.encodeKeys({
-        maxSnapshotAge: "max_snapshot_age",
-        minSnapshotsToKeep: "min_snapshots_to_keep",
-      }),
-    ),
-  ),
+    }),
+  ).pipe(T.JsonName("snapshot_expiration")),
 }).pipe(
-  Schema.encodeKeys({ snapshotExpiration: "snapshot_expiration" }),
   T.Http({
     method: "POST",
     path: "/accounts/{account_id}/r2-catalog/{bucketName}/maintenance-configs",
@@ -202,35 +236,32 @@ export const UpdateMaintenanceConfigResponse = Schema.Struct({
   compaction: Schema.optional(
     Schema.Struct({
       state: Schema.Literals(["enabled", "disabled"]),
-      targetSizeMb: Schema.Literals(["64", "128", "256", "512"]),
-    }).pipe(Schema.encodeKeys({ targetSizeMb: "target_size_mb" })),
+      targetSizeMb: Schema.Literals(["64", "128", "256", "512"]).pipe(
+        T.JsonName("target_size_mb"),
+      ),
+    }),
   ),
   snapshotExpiration: Schema.optional(
     Schema.Struct({
-      maxSnapshotAge: Schema.String,
-      minSnapshotsToKeep: Schema.Number,
+      maxSnapshotAge: Schema.String.pipe(T.JsonName("max_snapshot_age")),
+      minSnapshotsToKeep: Schema.Number.pipe(
+        T.JsonName("min_snapshots_to_keep"),
+      ),
       state: Schema.Literals(["enabled", "disabled"]),
-    }).pipe(
-      Schema.encodeKeys({
-        maxSnapshotAge: "max_snapshot_age",
-        minSnapshotsToKeep: "min_snapshots_to_keep",
-      }),
-    ),
-  ),
-}).pipe(
-  Schema.encodeKeys({ snapshotExpiration: "snapshot_expiration" }),
-) as unknown as Schema.Schema<UpdateMaintenanceConfigResponse>;
+    }),
+  ).pipe(T.JsonName("snapshot_expiration")),
+}) as unknown as Schema.Schema<UpdateMaintenanceConfigResponse>;
 
 export const updateMaintenanceConfig: (
   input: UpdateMaintenanceConfigRequest,
 ) => Effect.Effect<
   UpdateMaintenanceConfigResponse,
-  CommonErrors,
+  CommonErrors | InvalidRoute | WarehouseInactive,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: UpdateMaintenanceConfigRequest,
   output: UpdateMaintenanceConfigResponse,
-  errors: [],
+  errors: [InvalidRoute, WarehouseInactive],
 }));
 
 // =============================================================================
@@ -297,45 +328,36 @@ export const ListNamespacesResponse = Schema.Struct({
       Schema.Array(
         Schema.Struct({
           namespace: Schema.Array(Schema.String),
-          namespaceUuid: Schema.String,
+          namespaceUuid: Schema.String.pipe(T.JsonName("namespace_uuid")),
           createdAt: Schema.optional(
             Schema.Union([Schema.String, Schema.Null]),
-          ),
+          ).pipe(T.JsonName("created_at")),
           updatedAt: Schema.optional(
             Schema.Union([Schema.String, Schema.Null]),
-          ),
-        }).pipe(
-          Schema.encodeKeys({
-            namespaceUuid: "namespace_uuid",
-            createdAt: "created_at",
-            updatedAt: "updated_at",
-          }),
-        ),
+          ).pipe(T.JsonName("updated_at")),
+        }),
       ),
       Schema.Null,
     ]),
   ),
   namespaceUuids: Schema.optional(
     Schema.Union([Schema.Array(Schema.String), Schema.Null]),
-  ),
-  nextPageToken: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-}).pipe(
-  Schema.encodeKeys({
-    namespaceUuids: "namespace_uuids",
-    nextPageToken: "next_page_token",
-  }),
-) as unknown as Schema.Schema<ListNamespacesResponse>;
+  ).pipe(T.JsonName("namespace_uuids")),
+  nextPageToken: Schema.optional(
+    Schema.Union([Schema.String, Schema.Null]),
+  ).pipe(T.JsonName("next_page_token")),
+}) as unknown as Schema.Schema<ListNamespacesResponse>;
 
 export const listNamespaces: (
   input: ListNamespacesRequest,
 ) => Effect.Effect<
   ListNamespacesResponse,
-  CommonErrors,
+  CommonErrors | InvalidRoute | WarehouseInactive | WarehouseNotFound,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListNamespacesRequest,
   output: ListNamespacesResponse,
-  errors: [],
+  errors: [InvalidRoute, WarehouseInactive, WarehouseNotFound],
 }));
 
 // =============================================================================
@@ -411,50 +433,40 @@ export const ListNamespaceTablesResponse = Schema.Struct({
             name: Schema.String,
             namespace: Schema.Array(Schema.String),
           }),
-          tableUuid: Schema.String,
+          tableUuid: Schema.String.pipe(T.JsonName("table_uuid")),
           createdAt: Schema.optional(
             Schema.Union([Schema.String, Schema.Null]),
-          ),
+          ).pipe(T.JsonName("created_at")),
           location: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
           metadataLocation: Schema.optional(
             Schema.Union([Schema.String, Schema.Null]),
-          ),
+          ).pipe(T.JsonName("metadata_location")),
           updatedAt: Schema.optional(
             Schema.Union([Schema.String, Schema.Null]),
-          ),
-        }).pipe(
-          Schema.encodeKeys({
-            tableUuid: "table_uuid",
-            createdAt: "created_at",
-            metadataLocation: "metadata_location",
-            updatedAt: "updated_at",
-          }),
-        ),
+          ).pipe(T.JsonName("updated_at")),
+        }),
       ),
       Schema.Null,
     ]),
   ),
-  nextPageToken: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  nextPageToken: Schema.optional(
+    Schema.Union([Schema.String, Schema.Null]),
+  ).pipe(T.JsonName("next_page_token")),
   tableUuids: Schema.optional(
     Schema.Union([Schema.Array(Schema.String), Schema.Null]),
-  ),
-}).pipe(
-  Schema.encodeKeys({
-    nextPageToken: "next_page_token",
-    tableUuids: "table_uuids",
-  }),
-) as unknown as Schema.Schema<ListNamespaceTablesResponse>;
+  ).pipe(T.JsonName("table_uuids")),
+}) as unknown as Schema.Schema<ListNamespaceTablesResponse>;
 
 export const listNamespaceTables: (
   input: ListNamespaceTablesRequest,
 ) => Effect.Effect<
   ListNamespaceTablesResponse,
-  CommonErrors,
+  CommonErrors | InvalidRoute | WarehouseInactive,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListNamespaceTablesRequest,
   output: ListNamespaceTablesResponse,
-  errors: [],
+  errors: [InvalidRoute, WarehouseInactive],
 }));
 
 // =============================================================================
@@ -501,36 +513,33 @@ export const GetNamespaceTableMaintenanceConfigResponse = Schema.Struct({
     compaction: Schema.optional(
       Schema.Struct({
         state: Schema.Literals(["enabled", "disabled"]),
-        targetSizeMb: Schema.Literals(["64", "128", "256", "512"]),
-      }).pipe(Schema.encodeKeys({ targetSizeMb: "target_size_mb" })),
+        targetSizeMb: Schema.Literals(["64", "128", "256", "512"]).pipe(
+          T.JsonName("target_size_mb"),
+        ),
+      }),
     ),
     snapshotExpiration: Schema.optional(
       Schema.Struct({
-        maxSnapshotAge: Schema.String,
-        minSnapshotsToKeep: Schema.Number,
+        maxSnapshotAge: Schema.String.pipe(T.JsonName("max_snapshot_age")),
+        minSnapshotsToKeep: Schema.Number.pipe(
+          T.JsonName("min_snapshots_to_keep"),
+        ),
         state: Schema.Literals(["enabled", "disabled"]),
-      }).pipe(
-        Schema.encodeKeys({
-          maxSnapshotAge: "max_snapshot_age",
-          minSnapshotsToKeep: "min_snapshots_to_keep",
-        }),
-      ),
-    ),
-  }).pipe(Schema.encodeKeys({ snapshotExpiration: "snapshot_expiration" })),
-}).pipe(
-  Schema.encodeKeys({ maintenanceConfig: "maintenance_config" }),
-) as unknown as Schema.Schema<GetNamespaceTableMaintenanceConfigResponse>;
+      }),
+    ).pipe(T.JsonName("snapshot_expiration")),
+  }).pipe(T.JsonName("maintenance_config")),
+}) as unknown as Schema.Schema<GetNamespaceTableMaintenanceConfigResponse>;
 
 export const getNamespaceTableMaintenanceConfig: (
   input: GetNamespaceTableMaintenanceConfigRequest,
 ) => Effect.Effect<
   GetNamespaceTableMaintenanceConfigResponse,
-  CommonErrors,
+  CommonErrors | TableNotFound | InvalidRoute | WarehouseInactive,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetNamespaceTableMaintenanceConfigRequest,
   output: GetNamespaceTableMaintenanceConfigResponse,
-  errors: [],
+  errors: [TableNotFound, InvalidRoute, WarehouseInactive],
 }));
 
 export interface UpdateNamespaceTableMaintenanceConfigRequest {
@@ -562,23 +571,21 @@ export const UpdateNamespaceTableMaintenanceConfigRequest = Schema.Struct({
       state: Schema.optional(Schema.Literals(["enabled", "disabled"])),
       targetSizeMb: Schema.optional(
         Schema.Literals(["64", "128", "256", "512"]),
-      ),
-    }).pipe(Schema.encodeKeys({ targetSizeMb: "target_size_mb" })),
+      ).pipe(T.JsonName("target_size_mb")),
+    }),
   ),
   snapshotExpiration: Schema.optional(
     Schema.Struct({
-      maxSnapshotAge: Schema.optional(Schema.String),
-      minSnapshotsToKeep: Schema.optional(Schema.Number),
+      maxSnapshotAge: Schema.optional(Schema.String).pipe(
+        T.JsonName("max_snapshot_age"),
+      ),
+      minSnapshotsToKeep: Schema.optional(Schema.Number).pipe(
+        T.JsonName("min_snapshots_to_keep"),
+      ),
       state: Schema.optional(Schema.Literals(["enabled", "disabled"])),
-    }).pipe(
-      Schema.encodeKeys({
-        maxSnapshotAge: "max_snapshot_age",
-        minSnapshotsToKeep: "min_snapshots_to_keep",
-      }),
-    ),
-  ),
+    }),
+  ).pipe(T.JsonName("snapshot_expiration")),
 }).pipe(
-  Schema.encodeKeys({ snapshotExpiration: "snapshot_expiration" }),
   T.Http({
     method: "POST",
     path: "/accounts/{account_id}/r2-catalog/{bucketName}/namespaces/{namespace}/tables/{tableName}/maintenance-configs",
@@ -603,35 +610,32 @@ export const UpdateNamespaceTableMaintenanceConfigResponse = Schema.Struct({
   compaction: Schema.optional(
     Schema.Struct({
       state: Schema.Literals(["enabled", "disabled"]),
-      targetSizeMb: Schema.Literals(["64", "128", "256", "512"]),
-    }).pipe(Schema.encodeKeys({ targetSizeMb: "target_size_mb" })),
+      targetSizeMb: Schema.Literals(["64", "128", "256", "512"]).pipe(
+        T.JsonName("target_size_mb"),
+      ),
+    }),
   ),
   snapshotExpiration: Schema.optional(
     Schema.Struct({
-      maxSnapshotAge: Schema.String,
-      minSnapshotsToKeep: Schema.Number,
+      maxSnapshotAge: Schema.String.pipe(T.JsonName("max_snapshot_age")),
+      minSnapshotsToKeep: Schema.Number.pipe(
+        T.JsonName("min_snapshots_to_keep"),
+      ),
       state: Schema.Literals(["enabled", "disabled"]),
-    }).pipe(
-      Schema.encodeKeys({
-        maxSnapshotAge: "max_snapshot_age",
-        minSnapshotsToKeep: "min_snapshots_to_keep",
-      }),
-    ),
-  ),
-}).pipe(
-  Schema.encodeKeys({ snapshotExpiration: "snapshot_expiration" }),
-) as unknown as Schema.Schema<UpdateNamespaceTableMaintenanceConfigResponse>;
+    }),
+  ).pipe(T.JsonName("snapshot_expiration")),
+}) as unknown as Schema.Schema<UpdateNamespaceTableMaintenanceConfigResponse>;
 
 export const updateNamespaceTableMaintenanceConfig: (
   input: UpdateNamespaceTableMaintenanceConfigRequest,
 ) => Effect.Effect<
   UpdateNamespaceTableMaintenanceConfigResponse,
-  CommonErrors,
+  CommonErrors | TableNotFound | InvalidRoute | WarehouseInactive,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: UpdateNamespaceTableMaintenanceConfigRequest,
   output: UpdateNamespaceTableMaintenanceConfigResponse,
-  errors: [],
+  errors: [TableNotFound, InvalidRoute, WarehouseInactive],
 }));
 
 // =============================================================================
@@ -690,49 +694,43 @@ export const GetR2DataCatalogResponse = Schema.Struct({
       Schema.Literal("absent"),
       Schema.Null,
     ]),
-  ),
+  ).pipe(T.JsonName("credential_status")),
   maintenanceConfig: Schema.optional(
     Schema.Union([
       Schema.Struct({
         compaction: Schema.optional(
           Schema.Struct({
             state: Schema.Literals(["enabled", "disabled"]),
-            targetSizeMb: Schema.Literals(["64", "128", "256", "512"]),
-          }).pipe(Schema.encodeKeys({ targetSizeMb: "target_size_mb" })),
+            targetSizeMb: Schema.Literals(["64", "128", "256", "512"]).pipe(
+              T.JsonName("target_size_mb"),
+            ),
+          }),
         ),
         snapshotExpiration: Schema.optional(
           Schema.Struct({
-            maxSnapshotAge: Schema.String,
-            minSnapshotsToKeep: Schema.Number,
+            maxSnapshotAge: Schema.String.pipe(T.JsonName("max_snapshot_age")),
+            minSnapshotsToKeep: Schema.Number.pipe(
+              T.JsonName("min_snapshots_to_keep"),
+            ),
             state: Schema.Literals(["enabled", "disabled"]),
-          }).pipe(
-            Schema.encodeKeys({
-              maxSnapshotAge: "max_snapshot_age",
-              minSnapshotsToKeep: "min_snapshots_to_keep",
-            }),
-          ),
-        ),
-      }).pipe(Schema.encodeKeys({ snapshotExpiration: "snapshot_expiration" })),
+          }),
+        ).pipe(T.JsonName("snapshot_expiration")),
+      }),
       Schema.Null,
     ]),
-  ),
-}).pipe(
-  Schema.encodeKeys({
-    credentialStatus: "credential_status",
-    maintenanceConfig: "maintenance_config",
-  }),
-) as unknown as Schema.Schema<GetR2DataCatalogResponse>;
+  ).pipe(T.JsonName("maintenance_config")),
+}) as unknown as Schema.Schema<GetR2DataCatalogResponse>;
 
 export const getR2DataCatalog: (
   input: GetR2DataCatalogRequest,
 ) => Effect.Effect<
   GetR2DataCatalogResponse,
-  CommonErrors,
+  CommonErrors | NoSuchBucket | InvalidRoute,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetR2DataCatalogRequest,
   output: GetR2DataCatalogResponse,
-  errors: [],
+  errors: [NoSuchBucket, InvalidRoute],
 }));
 
 export interface ListR2DataCatalogsRequest {
@@ -781,40 +779,34 @@ export const ListR2DataCatalogsResponse = Schema.Struct({
           Schema.Literal("absent"),
           Schema.Null,
         ]),
-      ),
+      ).pipe(T.JsonName("credential_status")),
       maintenanceConfig: Schema.optional(
         Schema.Union([
           Schema.Struct({
             compaction: Schema.optional(
               Schema.Struct({
                 state: Schema.Literals(["enabled", "disabled"]),
-                targetSizeMb: Schema.Literals(["64", "128", "256", "512"]),
-              }).pipe(Schema.encodeKeys({ targetSizeMb: "target_size_mb" })),
+                targetSizeMb: Schema.Literals(["64", "128", "256", "512"]).pipe(
+                  T.JsonName("target_size_mb"),
+                ),
+              }),
             ),
             snapshotExpiration: Schema.optional(
               Schema.Struct({
-                maxSnapshotAge: Schema.String,
-                minSnapshotsToKeep: Schema.Number,
+                maxSnapshotAge: Schema.String.pipe(
+                  T.JsonName("max_snapshot_age"),
+                ),
+                minSnapshotsToKeep: Schema.Number.pipe(
+                  T.JsonName("min_snapshots_to_keep"),
+                ),
                 state: Schema.Literals(["enabled", "disabled"]),
-              }).pipe(
-                Schema.encodeKeys({
-                  maxSnapshotAge: "max_snapshot_age",
-                  minSnapshotsToKeep: "min_snapshots_to_keep",
-                }),
-              ),
-            ),
-          }).pipe(
-            Schema.encodeKeys({ snapshotExpiration: "snapshot_expiration" }),
-          ),
+              }),
+            ).pipe(T.JsonName("snapshot_expiration")),
+          }),
           Schema.Null,
         ]),
-      ),
-    }).pipe(
-      Schema.encodeKeys({
-        credentialStatus: "credential_status",
-        maintenanceConfig: "maintenance_config",
-      }),
-    ),
+      ).pipe(T.JsonName("maintenance_config")),
+    }),
   ),
 }) as unknown as Schema.Schema<ListR2DataCatalogsResponse>;
 
@@ -822,12 +814,12 @@ export const listR2DataCatalogs: (
   input: ListR2DataCatalogsRequest,
 ) => Effect.Effect<
   ListR2DataCatalogsResponse,
-  CommonErrors,
+  CommonErrors | InvalidRoute,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListR2DataCatalogsRequest,
   output: ListR2DataCatalogsResponse,
-  errors: [],
+  errors: [InvalidRoute],
 }));
 
 export interface EnableR2DataCatalogRequest {
@@ -848,13 +840,13 @@ export const EnableR2DataCatalogRequest = Schema.Struct({
 
 export interface EnableR2DataCatalogResponse {
   /** Use this to uniquely identify the activated catalog. */
-  id: string;
+  id?: string;
   /** Specifies the name of the activated catalog. */
   name: string;
 }
 
 export const EnableR2DataCatalogResponse = Schema.Struct({
-  id: Schema.String,
+  id: Schema.optional(Schema.String),
   name: Schema.String,
 }) as unknown as Schema.Schema<EnableR2DataCatalogResponse>;
 
@@ -862,12 +854,12 @@ export const enableR2DataCatalog: (
   input: EnableR2DataCatalogRequest,
 ) => Effect.Effect<
   EnableR2DataCatalogResponse,
-  CommonErrors,
+  CommonErrors | NoSuchBucket | InvalidRoute,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: EnableR2DataCatalogRequest,
   output: EnableR2DataCatalogResponse,
-  errors: [],
+  errors: [NoSuchBucket, InvalidRoute],
 }));
 
 export interface DisableR2DataCatalogRequest {
@@ -895,10 +887,10 @@ export const disableR2DataCatalog: (
   input: DisableR2DataCatalogRequest,
 ) => Effect.Effect<
   DisableR2DataCatalogResponse,
-  CommonErrors,
+  CommonErrors | NoSuchBucket | InvalidRoute,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DisableR2DataCatalogRequest,
   output: DisableR2DataCatalogResponse,
-  errors: [],
+  errors: [NoSuchBucket, InvalidRoute],
 }));

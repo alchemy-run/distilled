@@ -1898,9 +1898,9 @@ export const MatchingAnswerDnsSummaryResponse = Schema.Struct({
     ),
   }),
   summary_0: Schema.Struct({
-    nEGATIVE: Schema.String,
-    pOSITIVE: Schema.String,
-  }).pipe(Schema.encodeKeys({ nEGATIVE: "NEGATIVE", pOSITIVE: "POSITIVE" })),
+    nEGATIVE: Schema.String.pipe(T.JsonName("NEGATIVE")),
+    pOSITIVE: Schema.String.pipe(T.JsonName("POSITIVE")),
+  }),
 }) as unknown as Schema.Schema<MatchingAnswerDnsSummaryResponse>;
 
 export const matchingAnswerDnsSummary: (
@@ -2077,9 +2077,9 @@ export const MatchingAnswerDnsTimeseriesGroupResponse = Schema.Struct({
     ),
   }),
   serie_0: Schema.Struct({
-    nEGATIVE: Schema.Array(Schema.String),
-    pOSITIVE: Schema.Array(Schema.String),
-  }).pipe(Schema.encodeKeys({ nEGATIVE: "NEGATIVE", pOSITIVE: "POSITIVE" })),
+    nEGATIVE: Schema.Array(Schema.String).pipe(T.JsonName("NEGATIVE")),
+    pOSITIVE: Schema.Array(Schema.String).pipe(T.JsonName("POSITIVE")),
+  }),
 }) as unknown as Schema.Schema<MatchingAnswerDnsTimeseriesGroupResponse>;
 
 export const matchingAnswerDnsTimeseriesGroup: (
@@ -2411,14 +2411,9 @@ export const DnssecAs112SummaryResponse = Schema.Struct({
     ),
   }),
   summary_0: Schema.Struct({
-    nOT_SUPPORTED: Schema.String,
-    sUPPORTED: Schema.String,
-  }).pipe(
-    Schema.encodeKeys({
-      nOT_SUPPORTED: "NOT_SUPPORTED",
-      sUPPORTED: "SUPPORTED",
-    }),
-  ),
+    nOT_SUPPORTED: Schema.String.pipe(T.JsonName("NOT_SUPPORTED")),
+    sUPPORTED: Schema.String.pipe(T.JsonName("SUPPORTED")),
+  }),
 }) as unknown as Schema.Schema<DnssecAs112SummaryResponse>;
 
 export const dnssecAs112Summary: (
@@ -2575,14 +2570,9 @@ export const EdnsAs112SummaryResponse = Schema.Struct({
     ),
   }),
   summary_0: Schema.Struct({
-    nOT_SUPPORTED: Schema.String,
-    sUPPORTED: Schema.String,
-  }).pipe(
-    Schema.encodeKeys({
-      nOT_SUPPORTED: "NOT_SUPPORTED",
-      sUPPORTED: "SUPPORTED",
-    }),
-  ),
+    nOT_SUPPORTED: Schema.String.pipe(T.JsonName("NOT_SUPPORTED")),
+    sUPPORTED: Schema.String.pipe(T.JsonName("SUPPORTED")),
+  }),
 }) as unknown as Schema.Schema<EdnsAs112SummaryResponse>;
 
 export const ednsAs112Summary: (
@@ -2739,13 +2729,11 @@ export const ProtocolAs112SummaryResponse = Schema.Struct({
     ),
   }),
   summary_0: Schema.Struct({
-    hTTPS: Schema.String,
-    tCP: Schema.String,
-    tLS: Schema.String,
-    uDP: Schema.String,
-  }).pipe(
-    Schema.encodeKeys({ hTTPS: "HTTPS", tCP: "TCP", tLS: "TLS", uDP: "UDP" }),
-  ),
+    hTTPS: Schema.String.pipe(T.JsonName("HTTPS")),
+    tCP: Schema.String.pipe(T.JsonName("TCP")),
+    tLS: Schema.String.pipe(T.JsonName("TLS")),
+    uDP: Schema.String.pipe(T.JsonName("UDP")),
+  }),
 }) as unknown as Schema.Schema<ProtocolAs112SummaryResponse>;
 
 export const protocolAs112Summary: (
@@ -2919,14 +2907,11 @@ export const DnssecAs112TimeseriesGroupResponse = Schema.Struct({
     ),
   }),
   serie_0: Schema.Struct({
-    nOT_SUPPORTED: Schema.Array(Schema.String),
-    sUPPORTED: Schema.Array(Schema.String),
-  }).pipe(
-    Schema.encodeKeys({
-      nOT_SUPPORTED: "NOT_SUPPORTED",
-      sUPPORTED: "SUPPORTED",
-    }),
-  ),
+    nOT_SUPPORTED: Schema.Array(Schema.String).pipe(
+      T.JsonName("NOT_SUPPORTED"),
+    ),
+    sUPPORTED: Schema.Array(Schema.String).pipe(T.JsonName("SUPPORTED")),
+  }),
 }) as unknown as Schema.Schema<DnssecAs112TimeseriesGroupResponse>;
 
 export const dnssecAs112TimeseriesGroup: (
@@ -3096,14 +3081,11 @@ export const EdnsAs112TimeseriesGroupResponse = Schema.Struct({
     ),
   }),
   serie_0: Schema.Struct({
-    nOT_SUPPORTED: Schema.Array(Schema.String),
-    sUPPORTED: Schema.Array(Schema.String),
-  }).pipe(
-    Schema.encodeKeys({
-      nOT_SUPPORTED: "NOT_SUPPORTED",
-      sUPPORTED: "SUPPORTED",
-    }),
-  ),
+    nOT_SUPPORTED: Schema.Array(Schema.String).pipe(
+      T.JsonName("NOT_SUPPORTED"),
+    ),
+    sUPPORTED: Schema.Array(Schema.String).pipe(T.JsonName("SUPPORTED")),
+  }),
 }) as unknown as Schema.Schema<EdnsAs112TimeseriesGroupResponse>;
 
 export const ednsAs112TimeseriesGroup: (
@@ -3273,13 +3255,11 @@ export const ProtocolAs112TimeseriesGroupResponse = Schema.Struct({
     ),
   }),
   serie_0: Schema.Struct({
-    hTTPS: Schema.Array(Schema.String),
-    tCP: Schema.Array(Schema.String),
-    tLS: Schema.Array(Schema.String),
-    uDP: Schema.Array(Schema.String),
-  }).pipe(
-    Schema.encodeKeys({ hTTPS: "HTTPS", tCP: "TCP", tLS: "TLS", uDP: "UDP" }),
-  ),
+    hTTPS: Schema.Array(Schema.String).pipe(T.JsonName("HTTPS")),
+    tCP: Schema.Array(Schema.String).pipe(T.JsonName("TCP")),
+    tLS: Schema.Array(Schema.String).pipe(T.JsonName("TLS")),
+    uDP: Schema.Array(Schema.String).pipe(T.JsonName("UDP")),
+  }),
 }) as unknown as Schema.Schema<ProtocolAs112TimeseriesGroupResponse>;
 
 export const protocolAs112TimeseriesGroup: (
@@ -4143,14 +4123,9 @@ export const BitrateAttackLayer3SummaryResponse = Schema.Struct({
     _1_GBPS_TO_10_GBPS: Schema.String,
     _10_GBPS_TO_100_GBPS: Schema.String,
     _500_MBPS_TO_1_GBPS: Schema.String,
-    oVER_100_GBPS: Schema.String,
-    uNDER_500_MBPS: Schema.String,
-  }).pipe(
-    Schema.encodeKeys({
-      oVER_100_GBPS: "OVER_100_GBPS",
-      uNDER_500_MBPS: "UNDER_500_MBPS",
-    }),
-  ),
+    oVER_100_GBPS: Schema.String.pipe(T.JsonName("OVER_100_GBPS")),
+    uNDER_500_MBPS: Schema.String.pipe(T.JsonName("UNDER_500_MBPS")),
+  }),
 }) as unknown as Schema.Schema<BitrateAttackLayer3SummaryResponse>;
 
 export const bitrateAttackLayer3Summary: (
@@ -4318,14 +4293,9 @@ export const DurationAttackLayer3SummaryResponse = Schema.Struct({
     _10_MINS_TO_20_MINS: Schema.String,
     _20_MINS_TO_40_MINS: Schema.String,
     _40_MINS_TO_1_HOUR: Schema.String,
-    oVER_3_HOURS: Schema.String,
-    uNDER_10_MINS: Schema.String,
-  }).pipe(
-    Schema.encodeKeys({
-      oVER_3_HOURS: "OVER_3_HOURS",
-      uNDER_10_MINS: "UNDER_10_MINS",
-    }),
-  ),
+    oVER_3_HOURS: Schema.String.pipe(T.JsonName("OVER_3_HOURS")),
+    uNDER_10_MINS: Schema.String.pipe(T.JsonName("UNDER_10_MINS")),
+  }),
 }) as unknown as Schema.Schema<DurationAttackLayer3SummaryResponse>;
 
 export const durationAttackLayer3Summary: (
@@ -4638,13 +4608,11 @@ export const ProtocolAttackLayer3SummaryResponse = Schema.Struct({
     ),
   }),
   summary_0: Schema.Struct({
-    gRE: Schema.String,
-    iCMP: Schema.String,
-    tCP: Schema.String,
-    uDP: Schema.String,
-  }).pipe(
-    Schema.encodeKeys({ gRE: "GRE", iCMP: "ICMP", tCP: "TCP", uDP: "UDP" }),
-  ),
+    gRE: Schema.String.pipe(T.JsonName("GRE")),
+    iCMP: Schema.String.pipe(T.JsonName("ICMP")),
+    tCP: Schema.String.pipe(T.JsonName("TCP")),
+    uDP: Schema.String.pipe(T.JsonName("UDP")),
+  }),
 }) as unknown as Schema.Schema<ProtocolAttackLayer3SummaryResponse>;
 
 export const protocolAttackLayer3Summary: (
@@ -5143,15 +5111,14 @@ export const BitrateAttackLayer3TimeseriesGroupResponse = Schema.Struct({
     _1_GBPS_TO_10_GBPS: Schema.Array(Schema.String),
     _10_GBPS_TO_100_GBPS: Schema.Array(Schema.String),
     _500_MBPS_TO_1_GBPS: Schema.Array(Schema.String),
-    oVER_100_GBPS: Schema.Array(Schema.String),
+    oVER_100_GBPS: Schema.Array(Schema.String).pipe(
+      T.JsonName("OVER_100_GBPS"),
+    ),
     timestamps: Schema.Array(Schema.String),
-    uNDER_500_MBPS: Schema.Array(Schema.String),
-  }).pipe(
-    Schema.encodeKeys({
-      oVER_100_GBPS: "OVER_100_GBPS",
-      uNDER_500_MBPS: "UNDER_500_MBPS",
-    }),
-  ),
+    uNDER_500_MBPS: Schema.Array(Schema.String).pipe(
+      T.JsonName("UNDER_500_MBPS"),
+    ),
+  }),
 }) as unknown as Schema.Schema<BitrateAttackLayer3TimeseriesGroupResponse>;
 
 export const bitrateAttackLayer3TimeseriesGroup: (
@@ -5338,15 +5305,12 @@ export const DurationAttackLayer3TimeseriesGroupResponse = Schema.Struct({
     _10_MINS_TO_20_MINS: Schema.Array(Schema.String),
     _20_MINS_TO_40_MINS: Schema.Array(Schema.String),
     _40_MINS_TO_1_HOUR: Schema.Array(Schema.String),
-    oVER_3_HOURS: Schema.Array(Schema.String),
+    oVER_3_HOURS: Schema.Array(Schema.String).pipe(T.JsonName("OVER_3_HOURS")),
     timestamps: Schema.Array(Schema.String),
-    uNDER_10_MINS: Schema.Array(Schema.String),
-  }).pipe(
-    Schema.encodeKeys({
-      oVER_3_HOURS: "OVER_3_HOURS",
-      uNDER_10_MINS: "UNDER_10_MINS",
-    }),
-  ),
+    uNDER_10_MINS: Schema.Array(Schema.String).pipe(
+      T.JsonName("UNDER_10_MINS"),
+    ),
+  }),
 }) as unknown as Schema.Schema<DurationAttackLayer3TimeseriesGroupResponse>;
 
 export const durationAttackLayer3TimeseriesGroup: (
@@ -5703,14 +5667,12 @@ export const ProtocolAttackLayer3TimeseriesGroupResponse = Schema.Struct({
     ),
   }),
   serie_0: Schema.Struct({
-    gRE: Schema.Array(Schema.String),
-    iCMP: Schema.Array(Schema.String),
-    tCP: Schema.Array(Schema.String),
+    gRE: Schema.Array(Schema.String).pipe(T.JsonName("GRE")),
+    iCMP: Schema.Array(Schema.String).pipe(T.JsonName("ICMP")),
+    tCP: Schema.Array(Schema.String).pipe(T.JsonName("TCP")),
     timestamps: Schema.Array(Schema.String),
-    uDP: Schema.Array(Schema.String),
-  }).pipe(
-    Schema.encodeKeys({ gRE: "GRE", iCMP: "ICMP", tCP: "TCP", uDP: "UDP" }),
-  ),
+    uDP: Schema.Array(Schema.String).pipe(T.JsonName("UDP")),
+  }),
 }) as unknown as Schema.Schema<ProtocolAttackLayer3TimeseriesGroupResponse>;
 
 export const protocolAttackLayer3TimeseriesGroup: (
@@ -8942,14 +8904,9 @@ export const DnssecAwareDnsSummaryResponse = Schema.Struct({
     ),
   }),
   summary_0: Schema.Struct({
-    nOT_SUPPORTED: Schema.String,
-    sUPPORTED: Schema.String,
-  }).pipe(
-    Schema.encodeKeys({
-      nOT_SUPPORTED: "NOT_SUPPORTED",
-      sUPPORTED: "SUPPORTED",
-    }),
-  ),
+    nOT_SUPPORTED: Schema.String.pipe(T.JsonName("NOT_SUPPORTED")),
+    sUPPORTED: Schema.String.pipe(T.JsonName("SUPPORTED")),
+  }),
 }) as unknown as Schema.Schema<DnssecAwareDnsSummaryResponse>;
 
 export const dnssecAwareDnsSummary: (
@@ -9123,14 +9080,11 @@ export const DnssecAwareDnsTimeseriesGroupResponse = Schema.Struct({
     ),
   }),
   serie_0: Schema.Struct({
-    nOT_SUPPORTED: Schema.Array(Schema.String),
-    sUPPORTED: Schema.Array(Schema.String),
-  }).pipe(
-    Schema.encodeKeys({
-      nOT_SUPPORTED: "NOT_SUPPORTED",
-      sUPPORTED: "SUPPORTED",
-    }),
-  ),
+    nOT_SUPPORTED: Schema.Array(Schema.String).pipe(
+      T.JsonName("NOT_SUPPORTED"),
+    ),
+    sUPPORTED: Schema.Array(Schema.String).pipe(T.JsonName("SUPPORTED")),
+  }),
 }) as unknown as Schema.Schema<DnssecAwareDnsTimeseriesGroupResponse>;
 
 export const dnssecAwareDnsTimeseriesGroup: (
@@ -9463,11 +9417,11 @@ export const TimeseriesBgpIpResponse = Schema.Struct({
           delayStr: Schema.String,
           healthy: Schema.Boolean,
           latest: Schema.Struct({
-            entriesCount: Schema.Number,
+            entriesCount: Schema.Number.pipe(T.JsonName("entries_count")),
             path: Schema.String,
             timestamp: Schema.Number,
-          }).pipe(Schema.encodeKeys({ entriesCount: "entries_count" })),
-        }),
+          }),
+        }).pipe(T.JsonName("asn_data")),
         countryData: Schema.Struct({
           delaySecs: Schema.Number,
           delayStr: Schema.String,
@@ -9476,12 +9430,10 @@ export const TimeseriesBgpIpResponse = Schema.Struct({
             count: Schema.Number,
             timestamp: Schema.Number,
           }),
-        }),
+        }).pipe(T.JsonName("country_data")),
         healthy: Schema.Boolean,
         nowTs: Schema.Number,
-      }).pipe(
-        Schema.encodeKeys({ asnData: "asn_data", countryData: "country_data" }),
-      ),
+      }),
     ),
   }),
   serie_0: Schema.Struct({
@@ -9579,29 +9531,18 @@ export interface MoasBgpRouteResponse {
 
 export const MoasBgpRouteResponse = Schema.Struct({
   meta: Schema.Struct({
-    dataTime: Schema.String,
-    queryTime: Schema.String,
-    totalPeers: Schema.Number,
-  }).pipe(
-    Schema.encodeKeys({
-      dataTime: "data_time",
-      queryTime: "query_time",
-      totalPeers: "total_peers",
-    }),
-  ),
+    dataTime: Schema.String.pipe(T.JsonName("data_time")),
+    queryTime: Schema.String.pipe(T.JsonName("query_time")),
+    totalPeers: Schema.Number.pipe(T.JsonName("total_peers")),
+  }),
   moas: Schema.Array(
     Schema.Struct({
       origins: Schema.Array(
         Schema.Struct({
           origin: Schema.Number,
-          peerCount: Schema.Number,
-          rpkiValidation: Schema.String,
-        }).pipe(
-          Schema.encodeKeys({
-            peerCount: "peer_count",
-            rpkiValidation: "rpki_validation",
-          }),
-        ),
+          peerCount: Schema.Number.pipe(T.JsonName("peer_count")),
+          rpkiValidation: Schema.String.pipe(T.JsonName("rpki_validation")),
+        }),
       ),
       prefix: Schema.String,
     }),
@@ -9638,32 +9579,19 @@ export interface Pfx2asBgpRouteResponse {
 
 export const Pfx2asBgpRouteResponse = Schema.Struct({
   meta: Schema.Struct({
-    dataTime: Schema.String,
-    queryTime: Schema.String,
-    totalPeers: Schema.Number,
-  }).pipe(
-    Schema.encodeKeys({
-      dataTime: "data_time",
-      queryTime: "query_time",
-      totalPeers: "total_peers",
-    }),
-  ),
+    dataTime: Schema.String.pipe(T.JsonName("data_time")),
+    queryTime: Schema.String.pipe(T.JsonName("query_time")),
+    totalPeers: Schema.Number.pipe(T.JsonName("total_peers")),
+  }),
   prefixOrigins: Schema.Array(
     Schema.Struct({
       origin: Schema.Number,
-      peerCount: Schema.Number,
+      peerCount: Schema.Number.pipe(T.JsonName("peer_count")),
       prefix: Schema.String,
-      rpkiValidation: Schema.String,
-    }).pipe(
-      Schema.encodeKeys({
-        peerCount: "peer_count",
-        rpkiValidation: "rpki_validation",
-      }),
-    ),
-  ),
-}).pipe(
-  Schema.encodeKeys({ prefixOrigins: "prefix_origins" }),
-) as unknown as Schema.Schema<Pfx2asBgpRouteResponse>;
+      rpkiValidation: Schema.String.pipe(T.JsonName("rpki_validation")),
+    }),
+  ).pipe(T.JsonName("prefix_origins")),
+}) as unknown as Schema.Schema<Pfx2asBgpRouteResponse>;
 
 export const pfx2asBgpRoute: (
   input: Pfx2asBgpRouteRequest,
@@ -9725,74 +9653,45 @@ export const RealtimeBgpRouteResponse = Schema.Struct({
   meta: Schema.Struct({
     asnInfo: Schema.Array(
       Schema.Struct({
-        asName: Schema.String,
+        asName: Schema.String.pipe(T.JsonName("as_name")),
         asn: Schema.Number,
-        countryCode: Schema.String,
-        orgId: Schema.String,
-        orgName: Schema.String,
-      }).pipe(
-        Schema.encodeKeys({
-          asName: "as_name",
-          countryCode: "country_code",
-          orgId: "org_id",
-          orgName: "org_name",
-        }),
-      ),
-    ),
+        countryCode: Schema.String.pipe(T.JsonName("country_code")),
+        orgId: Schema.String.pipe(T.JsonName("org_id")),
+        orgName: Schema.String.pipe(T.JsonName("org_name")),
+      }),
+    ).pipe(T.JsonName("asn_info")),
     collectors: Schema.Array(
       Schema.Struct({
         collector: Schema.String,
-        latestRealtimeTs: Schema.String,
-        latestRibTs: Schema.String,
-        latestUpdatesTs: Schema.String,
-        peersCount: Schema.Number,
-        peersV4Count: Schema.Number,
-        peersV6Count: Schema.Number,
-      }).pipe(
-        Schema.encodeKeys({
-          latestRealtimeTs: "latest_realtime_ts",
-          latestRibTs: "latest_rib_ts",
-          latestUpdatesTs: "latest_updates_ts",
-          peersCount: "peers_count",
-          peersV4Count: "peers_v4_count",
-          peersV6Count: "peers_v6_count",
-        }),
-      ),
+        latestRealtimeTs: Schema.String.pipe(T.JsonName("latest_realtime_ts")),
+        latestRibTs: Schema.String.pipe(T.JsonName("latest_rib_ts")),
+        latestUpdatesTs: Schema.String.pipe(T.JsonName("latest_updates_ts")),
+        peersCount: Schema.Number.pipe(T.JsonName("peers_count")),
+        peersV4Count: Schema.Number.pipe(T.JsonName("peers_v4_count")),
+        peersV6Count: Schema.Number.pipe(T.JsonName("peers_v6_count")),
+      }),
     ),
-    dataTime: Schema.String,
+    dataTime: Schema.String.pipe(T.JsonName("data_time")),
     prefixOrigins: Schema.Array(
       Schema.Struct({
         origin: Schema.Number,
         prefix: Schema.String,
-        rpkiValidation: Schema.String,
-        totalPeers: Schema.Number,
-        totalVisible: Schema.Number,
+        rpkiValidation: Schema.String.pipe(T.JsonName("rpki_validation")),
+        totalPeers: Schema.Number.pipe(T.JsonName("total_peers")),
+        totalVisible: Schema.Number.pipe(T.JsonName("total_visible")),
         visibility: Schema.Number,
-      }).pipe(
-        Schema.encodeKeys({
-          rpkiValidation: "rpki_validation",
-          totalPeers: "total_peers",
-          totalVisible: "total_visible",
-        }),
-      ),
-    ),
-    queryTime: Schema.String,
-  }).pipe(
-    Schema.encodeKeys({
-      asnInfo: "asn_info",
-      dataTime: "data_time",
-      prefixOrigins: "prefix_origins",
-      queryTime: "query_time",
-    }),
-  ),
+      }),
+    ).pipe(T.JsonName("prefix_origins")),
+    queryTime: Schema.String.pipe(T.JsonName("query_time")),
+  }),
   routes: Schema.Array(
     Schema.Struct({
-      asPath: Schema.Array(Schema.Number),
+      asPath: Schema.Array(Schema.Number).pipe(T.JsonName("as_path")),
       collector: Schema.String,
       communities: Schema.Array(Schema.String),
       prefix: Schema.String,
       timestamp: Schema.String,
-    }).pipe(Schema.encodeKeys({ asPath: "as_path" })),
+    }),
   ),
 }) as unknown as Schema.Schema<RealtimeBgpRouteResponse>;
 
@@ -9840,57 +9739,38 @@ export interface StatsBgpRouteResponse {
 
 export const StatsBgpRouteResponse = Schema.Struct({
   meta: Schema.Struct({
-    dataTime: Schema.String,
-    queryTime: Schema.String,
-    totalPeers: Schema.Number,
-  }).pipe(
-    Schema.encodeKeys({
-      dataTime: "data_time",
-      queryTime: "query_time",
-      totalPeers: "total_peers",
-    }),
-  ),
+    dataTime: Schema.String.pipe(T.JsonName("data_time")),
+    queryTime: Schema.String.pipe(T.JsonName("query_time")),
+    totalPeers: Schema.Number.pipe(T.JsonName("total_peers")),
+  }),
   stats: Schema.Struct({
-    distinctOrigins: Schema.Number,
-    distinctOriginsIpv4: Schema.Number,
-    distinctOriginsIpv6: Schema.Number,
-    distinctPrefixes: Schema.Number,
-    distinctPrefixesIpv4: Schema.Number,
-    distinctPrefixesIpv6: Schema.Number,
-    routesInvalid: Schema.Number,
-    routesInvalidIpv4: Schema.Number,
-    routesInvalidIpv6: Schema.Number,
-    routesTotal: Schema.Number,
-    routesTotalIpv4: Schema.Number,
-    routesTotalIpv6: Schema.Number,
-    routesUnknown: Schema.Number,
-    routesUnknownIpv4: Schema.Number,
-    routesUnknownIpv6: Schema.Number,
-    routesValid: Schema.Number,
-    routesValidIpv4: Schema.Number,
-    routesValidIpv6: Schema.Number,
-  }).pipe(
-    Schema.encodeKeys({
-      distinctOrigins: "distinct_origins",
-      distinctOriginsIpv4: "distinct_origins_ipv4",
-      distinctOriginsIpv6: "distinct_origins_ipv6",
-      distinctPrefixes: "distinct_prefixes",
-      distinctPrefixesIpv4: "distinct_prefixes_ipv4",
-      distinctPrefixesIpv6: "distinct_prefixes_ipv6",
-      routesInvalid: "routes_invalid",
-      routesInvalidIpv4: "routes_invalid_ipv4",
-      routesInvalidIpv6: "routes_invalid_ipv6",
-      routesTotal: "routes_total",
-      routesTotalIpv4: "routes_total_ipv4",
-      routesTotalIpv6: "routes_total_ipv6",
-      routesUnknown: "routes_unknown",
-      routesUnknownIpv4: "routes_unknown_ipv4",
-      routesUnknownIpv6: "routes_unknown_ipv6",
-      routesValid: "routes_valid",
-      routesValidIpv4: "routes_valid_ipv4",
-      routesValidIpv6: "routes_valid_ipv6",
-    }),
-  ),
+    distinctOrigins: Schema.Number.pipe(T.JsonName("distinct_origins")),
+    distinctOriginsIpv4: Schema.Number.pipe(
+      T.JsonName("distinct_origins_ipv4"),
+    ),
+    distinctOriginsIpv6: Schema.Number.pipe(
+      T.JsonName("distinct_origins_ipv6"),
+    ),
+    distinctPrefixes: Schema.Number.pipe(T.JsonName("distinct_prefixes")),
+    distinctPrefixesIpv4: Schema.Number.pipe(
+      T.JsonName("distinct_prefixes_ipv4"),
+    ),
+    distinctPrefixesIpv6: Schema.Number.pipe(
+      T.JsonName("distinct_prefixes_ipv6"),
+    ),
+    routesInvalid: Schema.Number.pipe(T.JsonName("routes_invalid")),
+    routesInvalidIpv4: Schema.Number.pipe(T.JsonName("routes_invalid_ipv4")),
+    routesInvalidIpv6: Schema.Number.pipe(T.JsonName("routes_invalid_ipv6")),
+    routesTotal: Schema.Number.pipe(T.JsonName("routes_total")),
+    routesTotalIpv4: Schema.Number.pipe(T.JsonName("routes_total_ipv4")),
+    routesTotalIpv6: Schema.Number.pipe(T.JsonName("routes_total_ipv6")),
+    routesUnknown: Schema.Number.pipe(T.JsonName("routes_unknown")),
+    routesUnknownIpv4: Schema.Number.pipe(T.JsonName("routes_unknown_ipv4")),
+    routesUnknownIpv6: Schema.Number.pipe(T.JsonName("routes_unknown_ipv6")),
+    routesValid: Schema.Number.pipe(T.JsonName("routes_valid")),
+    routesValidIpv4: Schema.Number.pipe(T.JsonName("routes_valid_ipv4")),
+    routesValidIpv6: Schema.Number.pipe(T.JsonName("routes_valid_ipv6")),
+  }),
 }) as unknown as Schema.Schema<StatsBgpRouteResponse>;
 
 export const statsBgpRoute: (
@@ -9976,9 +9856,9 @@ export const GetBgpTopAsResponse = Schema.Struct({
   top_0: Schema.Array(
     Schema.Struct({
       asn: Schema.Number,
-      aSName: Schema.String,
+      aSName: Schema.String.pipe(T.JsonName("ASName")),
       value: Schema.String,
-    }).pipe(Schema.encodeKeys({ aSName: "ASName" })),
+    }),
   ),
 }) as unknown as Schema.Schema<GetBgpTopAsResponse>;
 
@@ -10011,20 +9891,14 @@ export const PrefixesBgpTopAsResponse = Schema.Struct({
       asn: Schema.Number,
       country: Schema.String,
       name: Schema.String,
-      pfxsCount: Schema.Number,
-    }).pipe(Schema.encodeKeys({ pfxsCount: "pfxs_count" })),
-  ),
-  meta: Schema.Struct({
-    dataTime: Schema.String,
-    queryTime: Schema.String,
-    totalPeers: Schema.Number,
-  }).pipe(
-    Schema.encodeKeys({
-      dataTime: "data_time",
-      queryTime: "query_time",
-      totalPeers: "total_peers",
+      pfxsCount: Schema.Number.pipe(T.JsonName("pfxs_count")),
     }),
   ),
+  meta: Schema.Struct({
+    dataTime: Schema.String.pipe(T.JsonName("data_time")),
+    queryTime: Schema.String.pipe(T.JsonName("query_time")),
+    totalPeers: Schema.Number.pipe(T.JsonName("total_peers")),
+  }),
 }) as unknown as Schema.Schema<PrefixesBgpTopAsResponse>;
 
 export const prefixesBgpTopAs: (
@@ -10968,18 +10842,11 @@ export const ThreatCategoryEmailSecuritySummaryResponse = Schema.Struct({
     ),
   }),
   summary_0: Schema.Struct({
-    brandImpersonation: Schema.String,
-    credentialHarvester: Schema.String,
-    identityDeception: Schema.String,
-    link: Schema.String,
-  }).pipe(
-    Schema.encodeKeys({
-      brandImpersonation: "BrandImpersonation",
-      credentialHarvester: "CredentialHarvester",
-      identityDeception: "IdentityDeception",
-      link: "Link",
-    }),
-  ),
+    brandImpersonation: Schema.String.pipe(T.JsonName("BrandImpersonation")),
+    credentialHarvester: Schema.String.pipe(T.JsonName("CredentialHarvester")),
+    identityDeception: Schema.String.pipe(T.JsonName("IdentityDeception")),
+    link: Schema.String.pipe(T.JsonName("Link")),
+  }),
 }) as unknown as Schema.Schema<ThreatCategoryEmailSecuritySummaryResponse>;
 
 export const threatCategoryEmailSecuritySummary: (
@@ -11164,18 +11031,17 @@ export const ThreatCategoryEmailSecurityTimeseriesGroupResponse = Schema.Struct(
       ),
     }),
     serie_0: Schema.Struct({
-      brandImpersonation: Schema.Array(Schema.String),
-      credentialHarvester: Schema.Array(Schema.String),
-      identityDeception: Schema.Array(Schema.String),
-      link: Schema.Array(Schema.String),
-    }).pipe(
-      Schema.encodeKeys({
-        brandImpersonation: "BrandImpersonation",
-        credentialHarvester: "CredentialHarvester",
-        identityDeception: "IdentityDeception",
-        link: "Link",
-      }),
-    ),
+      brandImpersonation: Schema.Array(Schema.String).pipe(
+        T.JsonName("BrandImpersonation"),
+      ),
+      credentialHarvester: Schema.Array(Schema.String).pipe(
+        T.JsonName("CredentialHarvester"),
+      ),
+      identityDeception: Schema.Array(Schema.String).pipe(
+        T.JsonName("IdentityDeception"),
+      ),
+      link: Schema.Array(Schema.String).pipe(T.JsonName("Link")),
+    }),
   },
 ) as unknown as Schema.Schema<ThreatCategoryEmailSecurityTimeseriesGroupResponse>;
 
@@ -12758,41 +12624,29 @@ export const SummaryCtResponse = Schema.Struct({
     }),
     Schema.Struct({
       gt_121d: Schema.String,
-      gt_16dLte_31d: Schema.String,
-      gt_31dLte_91d: Schema.String,
-      gt_3dLte_16d: Schema.String,
-      gt_91dLte_121d: Schema.String,
+      gt_16dLte_31d: Schema.String.pipe(T.JsonName("gt_16d_lte_31d")),
+      gt_31dLte_91d: Schema.String.pipe(T.JsonName("gt_31d_lte_91d")),
+      gt_3dLte_16d: Schema.String.pipe(T.JsonName("gt_3d_lte_16d")),
+      gt_91dLte_121d: Schema.String.pipe(T.JsonName("gt_91d_lte_121d")),
       lte_3d: Schema.String,
-    }).pipe(
-      Schema.encodeKeys({
-        gt_16dLte_31d: "gt_16d_lte_31d",
-        gt_31dLte_91d: "gt_31d_lte_91d",
-        gt_3dLte_16d: "gt_3d_lte_16d",
-        gt_91dLte_121d: "gt_91d_lte_121d",
-      }),
-    ),
+    }),
     Schema.Struct({
-      cERTIFICATE: Schema.String,
-      pRECERTIFICATE: Schema.String,
-    }).pipe(
-      Schema.encodeKeys({
-        cERTIFICATE: "CERTIFICATE",
-        pRECERTIFICATE: "PRECERTIFICATE",
-      }),
-    ),
+      cERTIFICATE: Schema.String.pipe(T.JsonName("CERTIFICATE")),
+      pRECERTIFICATE: Schema.String.pipe(T.JsonName("PRECERTIFICATE")),
+    }),
     Schema.Struct({
-      eXPIRED: Schema.String,
-      vALID: Schema.String,
-    }).pipe(Schema.encodeKeys({ eXPIRED: "EXPIRED", vALID: "VALID" })),
+      eXPIRED: Schema.String.pipe(T.JsonName("EXPIRED")),
+      vALID: Schema.String.pipe(T.JsonName("VALID")),
+    }),
     Schema.Struct({
-      nEGATIVE: Schema.String,
-      pOSITIVE: Schema.String,
-    }).pipe(Schema.encodeKeys({ nEGATIVE: "NEGATIVE", pOSITIVE: "POSITIVE" })),
+      nEGATIVE: Schema.String.pipe(T.JsonName("NEGATIVE")),
+      pOSITIVE: Schema.String.pipe(T.JsonName("POSITIVE")),
+    }),
     Schema.Struct({
-      dSA: Schema.String,
-      eCDSA: Schema.String,
-      rSA: Schema.String,
-    }).pipe(Schema.encodeKeys({ dSA: "DSA", eCDSA: "ECDSA", rSA: "RSA" })),
+      dSA: Schema.String.pipe(T.JsonName("DSA")),
+      eCDSA: Schema.String.pipe(T.JsonName("ECDSA")),
+      rSA: Schema.String.pipe(T.JsonName("RSA")),
+    }),
     Schema.Struct({
       domain: Schema.String,
       extended: Schema.String,
@@ -13830,18 +13684,11 @@ export const DnssecDnsSummaryResponse = Schema.Struct({
     ),
   }),
   summary_0: Schema.Struct({
-    iNSECURE: Schema.String,
-    iNVALID: Schema.String,
-    oTHER: Schema.String,
-    sECURE: Schema.String,
-  }).pipe(
-    Schema.encodeKeys({
-      iNSECURE: "INSECURE",
-      iNVALID: "INVALID",
-      oTHER: "OTHER",
-      sECURE: "SECURE",
-    }),
-  ),
+    iNSECURE: Schema.String.pipe(T.JsonName("INSECURE")),
+    iNVALID: Schema.String.pipe(T.JsonName("INVALID")),
+    oTHER: Schema.String.pipe(T.JsonName("OTHER")),
+    sECURE: Schema.String.pipe(T.JsonName("SECURE")),
+  }),
 }) as unknown as Schema.Schema<DnssecDnsSummaryResponse>;
 
 export const dnssecDnsSummary: (
@@ -13998,13 +13845,11 @@ export const ProtocolDnsSummaryResponse = Schema.Struct({
     ),
   }),
   summary_0: Schema.Struct({
-    hTTPS: Schema.String,
-    tCP: Schema.String,
-    tLS: Schema.String,
-    uDP: Schema.String,
-  }).pipe(
-    Schema.encodeKeys({ hTTPS: "HTTPS", tCP: "TCP", tLS: "TLS", uDP: "UDP" }),
-  ),
+    hTTPS: Schema.String.pipe(T.JsonName("HTTPS")),
+    tCP: Schema.String.pipe(T.JsonName("TCP")),
+    tLS: Schema.String.pipe(T.JsonName("TLS")),
+    uDP: Schema.String.pipe(T.JsonName("UDP")),
+  }),
 }) as unknown as Schema.Schema<ProtocolDnsSummaryResponse>;
 
 export const protocolDnsSummary: (
@@ -14183,18 +14028,11 @@ export const DnssecDnsTimeseriesGroupResponse = Schema.Struct({
     ),
   }),
   serie_0: Schema.Struct({
-    iNSECURE: Schema.Array(Schema.String),
-    iNVALID: Schema.Array(Schema.String),
-    oTHER: Schema.Array(Schema.String),
-    sECURE: Schema.Array(Schema.String),
-  }).pipe(
-    Schema.encodeKeys({
-      iNSECURE: "INSECURE",
-      iNVALID: "INVALID",
-      oTHER: "OTHER",
-      sECURE: "SECURE",
-    }),
-  ),
+    iNSECURE: Schema.Array(Schema.String).pipe(T.JsonName("INSECURE")),
+    iNVALID: Schema.Array(Schema.String).pipe(T.JsonName("INVALID")),
+    oTHER: Schema.Array(Schema.String).pipe(T.JsonName("OTHER")),
+    sECURE: Schema.Array(Schema.String).pipe(T.JsonName("SECURE")),
+  }),
 }) as unknown as Schema.Schema<DnssecDnsTimeseriesGroupResponse>;
 
 export const dnssecDnsTimeseriesGroup: (
@@ -14364,13 +14202,11 @@ export const ProtocolDnsTimeseriesGroupResponse = Schema.Struct({
     ),
   }),
   serie_0: Schema.Struct({
-    hTTPS: Schema.Array(Schema.String),
-    tCP: Schema.Array(Schema.String),
-    tLS: Schema.Array(Schema.String),
-    uDP: Schema.Array(Schema.String),
-  }).pipe(
-    Schema.encodeKeys({ hTTPS: "HTTPS", tCP: "TCP", tLS: "TLS", uDP: "UDP" }),
-  ),
+    hTTPS: Schema.Array(Schema.String).pipe(T.JsonName("HTTPS")),
+    tCP: Schema.Array(Schema.String).pipe(T.JsonName("TCP")),
+    tLS: Schema.Array(Schema.String).pipe(T.JsonName("TLS")),
+    uDP: Schema.Array(Schema.String).pipe(T.JsonName("UDP")),
+  }),
 }) as unknown as Schema.Schema<ProtocolDnsTimeseriesGroupResponse>;
 
 export const protocolDnsTimeseriesGroup: (
@@ -14869,9 +14705,9 @@ export const DnssecE2EDnsSummaryResponse = Schema.Struct({
     ),
   }),
   summary_0: Schema.Struct({
-    nEGATIVE: Schema.String,
-    pOSITIVE: Schema.String,
-  }).pipe(Schema.encodeKeys({ nEGATIVE: "NEGATIVE", pOSITIVE: "POSITIVE" })),
+    nEGATIVE: Schema.String.pipe(T.JsonName("NEGATIVE")),
+    pOSITIVE: Schema.String.pipe(T.JsonName("POSITIVE")),
+  }),
 }) as unknown as Schema.Schema<DnssecE2EDnsSummaryResponse>;
 
 export const dnssecE2EDnsSummary: (
@@ -15045,9 +14881,9 @@ export const DnssecE2EDnsTimeseriesGroupResponse = Schema.Struct({
     ),
   }),
   serie_0: Schema.Struct({
-    nEGATIVE: Schema.Array(Schema.String),
-    pOSITIVE: Schema.Array(Schema.String),
-  }).pipe(Schema.encodeKeys({ nEGATIVE: "NEGATIVE", pOSITIVE: "POSITIVE" })),
+    nEGATIVE: Schema.Array(Schema.String).pipe(T.JsonName("NEGATIVE")),
+    pOSITIVE: Schema.Array(Schema.String).pipe(T.JsonName("POSITIVE")),
+  }),
 }) as unknown as Schema.Schema<DnssecE2EDnsTimeseriesGroupResponse>;
 
 export const dnssecE2EDnsTimeseriesGroup: (
@@ -15676,14 +15512,9 @@ export const EncryptedEmailRoutingSummaryResponse = Schema.Struct({
     ),
   }),
   summary_0: Schema.Struct({
-    eNCRYPTED: Schema.String,
-    nOT_ENCRYPTED: Schema.String,
-  }).pipe(
-    Schema.encodeKeys({
-      eNCRYPTED: "ENCRYPTED",
-      nOT_ENCRYPTED: "NOT_ENCRYPTED",
-    }),
-  ),
+    eNCRYPTED: Schema.String.pipe(T.JsonName("ENCRYPTED")),
+    nOT_ENCRYPTED: Schema.String.pipe(T.JsonName("NOT_ENCRYPTED")),
+  }),
 }) as unknown as Schema.Schema<EncryptedEmailRoutingSummaryResponse>;
 
 export const encryptedEmailRoutingSummary: (
@@ -16531,14 +16362,11 @@ export const EncryptedEmailRoutingTimeseriesGroupResponse = Schema.Struct({
     ),
   }),
   serie_0: Schema.Struct({
-    eNCRYPTED: Schema.Array(Schema.String),
-    nOT_ENCRYPTED: Schema.Array(Schema.String),
-  }).pipe(
-    Schema.encodeKeys({
-      eNCRYPTED: "ENCRYPTED",
-      nOT_ENCRYPTED: "NOT_ENCRYPTED",
-    }),
-  ),
+    eNCRYPTED: Schema.Array(Schema.String).pipe(T.JsonName("ENCRYPTED")),
+    nOT_ENCRYPTED: Schema.Array(Schema.String).pipe(
+      T.JsonName("NOT_ENCRYPTED"),
+    ),
+  }),
 }) as unknown as Schema.Schema<EncryptedEmailRoutingTimeseriesGroupResponse>;
 
 export const encryptedEmailRoutingTimeseriesGroup: (
@@ -17336,14 +17164,9 @@ export const MaliciousEmailSecuritySummaryResponse = Schema.Struct({
     ),
   }),
   summary_0: Schema.Struct({
-    mALICIOUS: Schema.String,
-    nOT_MALICIOUS: Schema.String,
-  }).pipe(
-    Schema.encodeKeys({
-      mALICIOUS: "MALICIOUS",
-      nOT_MALICIOUS: "NOT_MALICIOUS",
-    }),
-  ),
+    mALICIOUS: Schema.String.pipe(T.JsonName("MALICIOUS")),
+    nOT_MALICIOUS: Schema.String.pipe(T.JsonName("NOT_MALICIOUS")),
+  }),
 }) as unknown as Schema.Schema<MaliciousEmailSecuritySummaryResponse>;
 
 export const maliciousEmailSecuritySummary: (
@@ -17500,9 +17323,9 @@ export const SpamEmailSecuritySummaryResponse = Schema.Struct({
     ),
   }),
   summary_0: Schema.Struct({
-    nOT_SPAM: Schema.String,
-    sPAM: Schema.String,
-  }).pipe(Schema.encodeKeys({ nOT_SPAM: "NOT_SPAM", sPAM: "SPAM" })),
+    nOT_SPAM: Schema.String.pipe(T.JsonName("NOT_SPAM")),
+    sPAM: Schema.String.pipe(T.JsonName("SPAM")),
+  }),
 }) as unknown as Schema.Schema<SpamEmailSecuritySummaryResponse>;
 
 export const spamEmailSecuritySummary: (
@@ -17815,9 +17638,9 @@ export const SpoofEmailSecuritySummaryResponse = Schema.Struct({
     ),
   }),
   summary_0: Schema.Struct({
-    nOT_SPOOF: Schema.String,
-    sPOOF: Schema.String,
-  }).pipe(Schema.encodeKeys({ nOT_SPOOF: "NOT_SPOOF", sPOOF: "SPOOF" })),
+    nOT_SPOOF: Schema.String.pipe(T.JsonName("NOT_SPOOF")),
+    sPOOF: Schema.String.pipe(T.JsonName("SPOOF")),
+  }),
 }) as unknown as Schema.Schema<SpoofEmailSecuritySummaryResponse>;
 
 export const spoofEmailSecuritySummary: (
@@ -18512,14 +18335,11 @@ export const MaliciousEmailSecurityTimeseriesGroupResponse = Schema.Struct({
     ),
   }),
   serie_0: Schema.Struct({
-    mALICIOUS: Schema.Array(Schema.String),
-    nOT_MALICIOUS: Schema.Array(Schema.String),
-  }).pipe(
-    Schema.encodeKeys({
-      mALICIOUS: "MALICIOUS",
-      nOT_MALICIOUS: "NOT_MALICIOUS",
-    }),
-  ),
+    mALICIOUS: Schema.Array(Schema.String).pipe(T.JsonName("MALICIOUS")),
+    nOT_MALICIOUS: Schema.Array(Schema.String).pipe(
+      T.JsonName("NOT_MALICIOUS"),
+    ),
+  }),
 }) as unknown as Schema.Schema<MaliciousEmailSecurityTimeseriesGroupResponse>;
 
 export const maliciousEmailSecurityTimeseriesGroup: (
@@ -18692,9 +18512,9 @@ export const SpamEmailSecurityTimeseriesGroupResponse = Schema.Struct({
     ),
   }),
   serie_0: Schema.Struct({
-    nOT_SPAM: Schema.Array(Schema.String),
-    sPAM: Schema.Array(Schema.String),
-  }).pipe(Schema.encodeKeys({ nOT_SPAM: "NOT_SPAM", sPAM: "SPAM" })),
+    nOT_SPAM: Schema.Array(Schema.String).pipe(T.JsonName("NOT_SPAM")),
+    sPAM: Schema.Array(Schema.String).pipe(T.JsonName("SPAM")),
+  }),
 }) as unknown as Schema.Schema<SpamEmailSecurityTimeseriesGroupResponse>;
 
 export const spamEmailSecurityTimeseriesGroup: (
@@ -19039,9 +18859,9 @@ export const SpoofEmailSecurityTimeseriesGroupResponse = Schema.Struct({
     ),
   }),
   serie_0: Schema.Struct({
-    nOT_SPOOF: Schema.Array(Schema.String),
-    sPOOF: Schema.Array(Schema.String),
-  }).pipe(Schema.encodeKeys({ nOT_SPOOF: "NOT_SPOOF", sPOOF: "SPOOF" })),
+    nOT_SPOOF: Schema.Array(Schema.String).pipe(T.JsonName("NOT_SPOOF")),
+    sPOOF: Schema.Array(Schema.String).pipe(T.JsonName("SPOOF")),
+  }),
 }) as unknown as Schema.Schema<SpoofEmailSecurityTimeseriesGroupResponse>;
 
 export const spoofEmailSecurityTimeseriesGroup: (
@@ -20043,33 +19863,20 @@ export interface RelEntityAsnResponse {
 
 export const RelEntityAsnResponse = Schema.Struct({
   meta: Schema.Struct({
-    dataTime: Schema.String,
-    queryTime: Schema.String,
-    totalPeers: Schema.Number,
-  }).pipe(
-    Schema.encodeKeys({
-      dataTime: "data_time",
-      queryTime: "query_time",
-      totalPeers: "total_peers",
-    }),
-  ),
+    dataTime: Schema.String.pipe(T.JsonName("data_time")),
+    queryTime: Schema.String.pipe(T.JsonName("query_time")),
+    totalPeers: Schema.Number.pipe(T.JsonName("total_peers")),
+  }),
   rels: Schema.Array(
     Schema.Struct({
       asn1: Schema.Number,
-      asn1Country: Schema.String,
-      asn1Name: Schema.String,
+      asn1Country: Schema.String.pipe(T.JsonName("asn1_country")),
+      asn1Name: Schema.String.pipe(T.JsonName("asn1_name")),
       asn2: Schema.Number,
-      asn2Country: Schema.String,
-      asn2Name: Schema.String,
+      asn2Country: Schema.String.pipe(T.JsonName("asn2_country")),
+      asn2Name: Schema.String.pipe(T.JsonName("asn2_name")),
       rel: Schema.String,
-    }).pipe(
-      Schema.encodeKeys({
-        asn1Country: "asn1_country",
-        asn1Name: "asn1_name",
-        asn2Country: "asn2_country",
-        asn2Name: "asn2_name",
-      }),
-    ),
+    }),
   ),
 }) as unknown as Schema.Schema<RelEntityAsnResponse>;
 
@@ -21635,41 +21442,39 @@ export const TimeseriesGroupsCtResponse = Schema.Struct({
     }),
     Schema.Struct({
       gt_121d: Schema.Array(Schema.String),
-      gt_16dLte_31d: Schema.Array(Schema.String),
-      gt_31dLte_91d: Schema.Array(Schema.String),
-      gt_3dLte_16d: Schema.Array(Schema.String),
-      gt_91dLte_121d: Schema.Array(Schema.String),
+      gt_16dLte_31d: Schema.Array(Schema.String).pipe(
+        T.JsonName("gt_16d_lte_31d"),
+      ),
+      gt_31dLte_91d: Schema.Array(Schema.String).pipe(
+        T.JsonName("gt_31d_lte_91d"),
+      ),
+      gt_3dLte_16d: Schema.Array(Schema.String).pipe(
+        T.JsonName("gt_3d_lte_16d"),
+      ),
+      gt_91dLte_121d: Schema.Array(Schema.String).pipe(
+        T.JsonName("gt_91d_lte_121d"),
+      ),
       lte_3d: Schema.Array(Schema.String),
-    }).pipe(
-      Schema.encodeKeys({
-        gt_16dLte_31d: "gt_16d_lte_31d",
-        gt_31dLte_91d: "gt_31d_lte_91d",
-        gt_3dLte_16d: "gt_3d_lte_16d",
-        gt_91dLte_121d: "gt_91d_lte_121d",
-      }),
-    ),
+    }),
     Schema.Struct({
-      cERTIFICATE: Schema.Array(Schema.String),
-      pRECERTIFICATE: Schema.Array(Schema.String),
-    }).pipe(
-      Schema.encodeKeys({
-        cERTIFICATE: "CERTIFICATE",
-        pRECERTIFICATE: "PRECERTIFICATE",
-      }),
-    ),
+      cERTIFICATE: Schema.Array(Schema.String).pipe(T.JsonName("CERTIFICATE")),
+      pRECERTIFICATE: Schema.Array(Schema.String).pipe(
+        T.JsonName("PRECERTIFICATE"),
+      ),
+    }),
     Schema.Struct({
-      eXPIRED: Schema.Array(Schema.String),
-      vALID: Schema.Array(Schema.String),
-    }).pipe(Schema.encodeKeys({ eXPIRED: "EXPIRED", vALID: "VALID" })),
+      eXPIRED: Schema.Array(Schema.String).pipe(T.JsonName("EXPIRED")),
+      vALID: Schema.Array(Schema.String).pipe(T.JsonName("VALID")),
+    }),
     Schema.Struct({
-      nEGATIVE: Schema.Array(Schema.String),
-      pOSITIVE: Schema.Array(Schema.String),
-    }).pipe(Schema.encodeKeys({ nEGATIVE: "NEGATIVE", pOSITIVE: "POSITIVE" })),
+      nEGATIVE: Schema.Array(Schema.String).pipe(T.JsonName("NEGATIVE")),
+      pOSITIVE: Schema.Array(Schema.String).pipe(T.JsonName("POSITIVE")),
+    }),
     Schema.Struct({
-      dSA: Schema.Array(Schema.String),
-      eCDSA: Schema.Array(Schema.String),
-      rSA: Schema.Array(Schema.String),
-    }).pipe(Schema.encodeKeys({ dSA: "DSA", eCDSA: "ECDSA", rSA: "RSA" })),
+      dSA: Schema.Array(Schema.String).pipe(T.JsonName("DSA")),
+      eCDSA: Schema.Array(Schema.String).pipe(T.JsonName("ECDSA")),
+      rSA: Schema.Array(Schema.String).pipe(T.JsonName("RSA")),
+    }),
     Schema.Struct({
       domain: Schema.Array(Schema.String),
       extended: Schema.Array(Schema.String),
@@ -22615,21 +22420,13 @@ export const TimeseriesGroupsTcpResetsTimeoutResponse = Schema.Struct({
     ),
   }),
   serie_0: Schema.Struct({
-    laterInFlow: Schema.Array(Schema.String),
-    noMatch: Schema.Array(Schema.String),
-    postAck: Schema.Array(Schema.String),
-    postPsh: Schema.Array(Schema.String),
-    postSyn: Schema.Array(Schema.String),
+    laterInFlow: Schema.Array(Schema.String).pipe(T.JsonName("later_in_flow")),
+    noMatch: Schema.Array(Schema.String).pipe(T.JsonName("no_match")),
+    postAck: Schema.Array(Schema.String).pipe(T.JsonName("post_ack")),
+    postPsh: Schema.Array(Schema.String).pipe(T.JsonName("post_psh")),
+    postSyn: Schema.Array(Schema.String).pipe(T.JsonName("post_syn")),
     timestamps: Schema.Array(Schema.String),
-  }).pipe(
-    Schema.encodeKeys({
-      laterInFlow: "later_in_flow",
-      noMatch: "no_match",
-      postAck: "post_ack",
-      postPsh: "post_psh",
-      postSyn: "post_syn",
-    }),
-  ),
+  }),
 }) as unknown as Schema.Schema<TimeseriesGroupsTcpResetsTimeoutResponse>;
 
 export const timeseriesGroupsTcpResetsTimeout: (
@@ -24536,9 +24333,9 @@ export const CacheHitDnsSummaryResponse = Schema.Struct({
     ),
   }),
   summary_0: Schema.Struct({
-    nEGATIVE: Schema.String,
-    pOSITIVE: Schema.String,
-  }).pipe(Schema.encodeKeys({ nEGATIVE: "NEGATIVE", pOSITIVE: "POSITIVE" })),
+    nEGATIVE: Schema.String.pipe(T.JsonName("NEGATIVE")),
+    pOSITIVE: Schema.String.pipe(T.JsonName("POSITIVE")),
+  }),
 }) as unknown as Schema.Schema<CacheHitDnsSummaryResponse>;
 
 export const cacheHitDnsSummary: (
@@ -24712,9 +24509,9 @@ export const CacheHitDnsTimeseriesGroupResponse = Schema.Struct({
     ),
   }),
   serie_0: Schema.Struct({
-    nEGATIVE: Schema.Array(Schema.String),
-    pOSITIVE: Schema.Array(Schema.String),
-  }).pipe(Schema.encodeKeys({ nEGATIVE: "NEGATIVE", pOSITIVE: "POSITIVE" })),
+    nEGATIVE: Schema.Array(Schema.String).pipe(T.JsonName("NEGATIVE")),
+    pOSITIVE: Schema.Array(Schema.String).pipe(T.JsonName("POSITIVE")),
+  }),
 }) as unknown as Schema.Schema<CacheHitDnsTimeseriesGroupResponse>;
 
 export const cacheHitDnsTimeseriesGroup: (
@@ -28289,9 +28086,9 @@ export const OsHttpSummaryResponse = Schema.Struct({
     ),
   }),
   summary_0: Schema.Struct({
-    aNDROID: Schema.String,
-    iOS: Schema.String,
-  }).pipe(Schema.encodeKeys({ aNDROID: "ANDROID", iOS: "IOS" })),
+    aNDROID: Schema.String.pipe(T.JsonName("ANDROID")),
+    iOS: Schema.String.pipe(T.JsonName("IOS")),
+  }),
 }) as unknown as Schema.Schema<OsHttpSummaryResponse>;
 
 export const osHttpSummary: (
@@ -28969,9 +28766,9 @@ export const CompromisedLeakedCredentialSummaryResponse = Schema.Struct({
     ),
   }),
   summary_0: Schema.Struct({
-    cLEAN: Schema.String,
-    cOMPROMISED: Schema.String,
-  }).pipe(Schema.encodeKeys({ cLEAN: "CLEAN", cOMPROMISED: "COMPROMISED" })),
+    cLEAN: Schema.String.pipe(T.JsonName("CLEAN")),
+    cOMPROMISED: Schema.String.pipe(T.JsonName("COMPROMISED")),
+  }),
 }) as unknown as Schema.Schema<CompromisedLeakedCredentialSummaryResponse>;
 
 export const compromisedLeakedCredentialSummary: (
@@ -29151,10 +28948,10 @@ export const CompromisedLeakedCredentialTimeseriesGroupResponse = Schema.Struct(
       ),
     }),
     serie_0: Schema.Struct({
-      cLEAN: Schema.Array(Schema.String),
-      cOMPROMISED: Schema.Array(Schema.String),
+      cLEAN: Schema.Array(Schema.String).pipe(T.JsonName("CLEAN")),
+      cOMPROMISED: Schema.Array(Schema.String).pipe(T.JsonName("COMPROMISED")),
       timestamps: Schema.Array(Schema.String),
-    }).pipe(Schema.encodeKeys({ cLEAN: "CLEAN", cOMPROMISED: "COMPROMISED" })),
+    }),
   },
 ) as unknown as Schema.Schema<CompromisedLeakedCredentialTimeseriesGroupResponse>;
 
@@ -29656,9 +29453,9 @@ export const SummaryNetflowResponse = Schema.Struct({
     ),
   }),
   summary_0: Schema.Struct({
-    hTTP: Schema.String,
-    oTHER: Schema.String,
-  }).pipe(Schema.encodeKeys({ hTTP: "HTTP", oTHER: "OTHER" })),
+    hTTP: Schema.String.pipe(T.JsonName("HTTP")),
+    oTHER: Schema.String.pipe(T.JsonName("OTHER")),
+  }),
 }) as unknown as Schema.Schema<SummaryNetflowResponse>;
 
 export const summaryNetflow: (
@@ -31924,14 +31721,9 @@ export const PostQuantumHttpSummaryResponse = Schema.Struct({
     ),
   }),
   summary_0: Schema.Struct({
-    nOT_SUPPORTED: Schema.String,
-    sUPPORTED: Schema.String,
-  }).pipe(
-    Schema.encodeKeys({
-      nOT_SUPPORTED: "NOT_SUPPORTED",
-      sUPPORTED: "SUPPORTED",
-    }),
-  ),
+    nOT_SUPPORTED: Schema.String.pipe(T.JsonName("NOT_SUPPORTED")),
+    sUPPORTED: Schema.String.pipe(T.JsonName("SUPPORTED")),
+  }),
 }) as unknown as Schema.Schema<PostQuantumHttpSummaryResponse>;
 
 export const postQuantumHttpSummary: (
@@ -32109,15 +31901,12 @@ export const PostQuantumHttpTimeseriesGroupResponse = Schema.Struct({
     ),
   }),
   serie_0: Schema.Struct({
-    nOT_SUPPORTED: Schema.Array(Schema.String),
-    sUPPORTED: Schema.Array(Schema.String),
+    nOT_SUPPORTED: Schema.Array(Schema.String).pipe(
+      T.JsonName("NOT_SUPPORTED"),
+    ),
+    sUPPORTED: Schema.Array(Schema.String).pipe(T.JsonName("SUPPORTED")),
     timestamps: Schema.Array(Schema.String),
-  }).pipe(
-    Schema.encodeKeys({
-      nOT_SUPPORTED: "NOT_SUPPORTED",
-      sUPPORTED: "SUPPORTED",
-    }),
-  ),
+  }),
 }) as unknown as Schema.Schema<PostQuantumHttpTimeseriesGroupResponse>;
 
 export const postQuantumHttpTimeseriesGroup: (
@@ -32359,8 +32148,8 @@ export const GetRankingDomainResponse = Schema.Struct({
           rank: Schema.Number,
         }),
       ),
-    ),
-  }).pipe(Schema.encodeKeys({ topLocations: "top_locations" })),
+    ).pipe(T.JsonName("top_locations")),
+  }),
   meta: Schema.Struct({
     dateRange: Schema.Array(
       Schema.Struct({
@@ -33248,32 +33037,27 @@ export interface AsSetEntityAsnResponse {
 export const AsSetEntityAsnResponse = Schema.Struct({
   asSets: Schema.Array(
     Schema.Struct({
-      asMembersCount: Schema.Number,
-      asSetMembersCount: Schema.Number,
-      asSetUpstreamsCount: Schema.Number,
-      asnConeSize: Schema.Number,
-      irrSources: Schema.Array(Schema.String),
+      asMembersCount: Schema.Number.pipe(T.JsonName("as_members_count")),
+      asSetMembersCount: Schema.Number.pipe(T.JsonName("as_set_members_count")),
+      asSetUpstreamsCount: Schema.Number.pipe(
+        T.JsonName("as_set_upstreams_count"),
+      ),
+      asnConeSize: Schema.Number.pipe(T.JsonName("asn_cone_size")),
+      irrSources: Schema.Array(Schema.String).pipe(T.JsonName("irr_sources")),
       name: Schema.String,
-      hierarchicalAsn: Schema.optional(Schema.Number),
-      inferredAsn: Schema.optional(Schema.Number),
-      peeringdbAsn: Schema.optional(Schema.Number),
-    }).pipe(
-      Schema.encodeKeys({
-        asMembersCount: "as_members_count",
-        asSetMembersCount: "as_set_members_count",
-        asSetUpstreamsCount: "as_set_upstreams_count",
-        asnConeSize: "asn_cone_size",
-        irrSources: "irr_sources",
-        hierarchicalAsn: "hierarchical_asn",
-        inferredAsn: "inferred_asn",
-        peeringdbAsn: "peeringdb_asn",
-      }),
-    ),
-  ),
+      hierarchicalAsn: Schema.optional(Schema.Number).pipe(
+        T.JsonName("hierarchical_asn"),
+      ),
+      inferredAsn: Schema.optional(Schema.Number).pipe(
+        T.JsonName("inferred_asn"),
+      ),
+      peeringdbAsn: Schema.optional(Schema.Number).pipe(
+        T.JsonName("peeringdb_asn"),
+      ),
+    }),
+  ).pipe(T.JsonName("as_sets")),
   paths: Schema.Array(Schema.Array(Schema.String)),
-}).pipe(
-  Schema.encodeKeys({ asSets: "as_sets" }),
-) as unknown as Schema.Schema<AsSetEntityAsnResponse>;
+}) as unknown as Schema.Schema<AsSetEntityAsnResponse>;
 
 export const asSetEntityAsn: (
   input: AsSetEntityAsnRequest,
@@ -33439,20 +33223,12 @@ export const SummaryTcpResetsTimeoutResponse = Schema.Struct({
     ),
   }),
   summary_0: Schema.Struct({
-    laterInFlow: Schema.String,
-    noMatch: Schema.String,
-    postAck: Schema.String,
-    postPsh: Schema.String,
-    postSyn: Schema.String,
-  }).pipe(
-    Schema.encodeKeys({
-      laterInFlow: "later_in_flow",
-      noMatch: "no_match",
-      postAck: "post_ack",
-      postPsh: "post_psh",
-      postSyn: "post_syn",
-    }),
-  ),
+    laterInFlow: Schema.String.pipe(T.JsonName("later_in_flow")),
+    noMatch: Schema.String.pipe(T.JsonName("no_match")),
+    postAck: Schema.String.pipe(T.JsonName("post_ack")),
+    postPsh: Schema.String.pipe(T.JsonName("post_psh")),
+    postSyn: Schema.String.pipe(T.JsonName("post_syn")),
+  }),
 }) as unknown as Schema.Schema<SummaryTcpResetsTimeoutResponse>;
 
 export const summaryTcpResetsTimeout: (
@@ -33738,22 +33514,14 @@ export const ResponseTTLDnsSummaryResponse = Schema.Struct({
     ),
   }),
   summary_0: Schema.Struct({
-    gt_15mLte_1h: Schema.String,
-    gt_1dLte_1w: Schema.String,
-    gt_1hLte_1d: Schema.String,
-    gt_1mLte_5m: Schema.String,
+    gt_15mLte_1h: Schema.String.pipe(T.JsonName("gt_15m_lte_1h")),
+    gt_1dLte_1w: Schema.String.pipe(T.JsonName("gt_1d_lte_1w")),
+    gt_1hLte_1d: Schema.String.pipe(T.JsonName("gt_1h_lte_1d")),
+    gt_1mLte_5m: Schema.String.pipe(T.JsonName("gt_1m_lte_5m")),
     gt_1w: Schema.String,
-    gt_5mLte_15m: Schema.String,
+    gt_5mLte_15m: Schema.String.pipe(T.JsonName("gt_5m_lte_15m")),
     lte_1m: Schema.String,
-  }).pipe(
-    Schema.encodeKeys({
-      gt_15mLte_1h: "gt_15m_lte_1h",
-      gt_1dLte_1w: "gt_1d_lte_1w",
-      gt_1hLte_1d: "gt_1h_lte_1d",
-      gt_1mLte_5m: "gt_1m_lte_5m",
-      gt_5mLte_15m: "gt_5m_lte_15m",
-    }),
-  ),
+  }),
 }) as unknown as Schema.Schema<ResponseTTLDnsSummaryResponse>;
 
 export const responseTTLDnsSummary: (
@@ -33935,22 +33703,14 @@ export const ResponseTTLDnsTimeseriesGroupResponse = Schema.Struct({
     ),
   }),
   serie_0: Schema.Struct({
-    gt_15mLte_1h: Schema.Array(Schema.String),
-    gt_1dLte_1w: Schema.Array(Schema.String),
-    gt_1hLte_1d: Schema.Array(Schema.String),
-    gt_1mLte_5m: Schema.Array(Schema.String),
+    gt_15mLte_1h: Schema.Array(Schema.String).pipe(T.JsonName("gt_15m_lte_1h")),
+    gt_1dLte_1w: Schema.Array(Schema.String).pipe(T.JsonName("gt_1d_lte_1w")),
+    gt_1hLte_1d: Schema.Array(Schema.String).pipe(T.JsonName("gt_1h_lte_1d")),
+    gt_1mLte_5m: Schema.Array(Schema.String).pipe(T.JsonName("gt_1m_lte_5m")),
     gt_1w: Schema.Array(Schema.String),
-    gt_5mLte_15m: Schema.Array(Schema.String),
+    gt_5mLte_15m: Schema.Array(Schema.String).pipe(T.JsonName("gt_5m_lte_15m")),
     lte_1m: Schema.Array(Schema.String),
-  }).pipe(
-    Schema.encodeKeys({
-      gt_15mLte_1h: "gt_15m_lte_1h",
-      gt_1dLte_1w: "gt_1d_lte_1w",
-      gt_1hLte_1d: "gt_1h_lte_1d",
-      gt_1mLte_5m: "gt_1m_lte_5m",
-      gt_5mLte_15m: "gt_5m_lte_15m",
-    }),
-  ),
+  }),
 }) as unknown as Schema.Schema<ResponseTTLDnsTimeseriesGroupResponse>;
 
 export const responseTTLDnsTimeseriesGroup: (
@@ -37398,9 +37158,9 @@ export const IpVersionAs112SummaryResponse = Schema.Struct({
     ),
   }),
   summary_0: Schema.Struct({
-    iPv4: Schema.String,
-    iPv6: Schema.String,
-  }).pipe(Schema.encodeKeys({ iPv4: "IPv4", iPv6: "IPv6" })),
+    iPv4: Schema.String.pipe(T.JsonName("IPv4")),
+    iPv6: Schema.String.pipe(T.JsonName("IPv6")),
+  }),
 }) as unknown as Schema.Schema<IpVersionAs112SummaryResponse>;
 
 export const ipVersionAs112Summary: (
@@ -37574,9 +37334,9 @@ export const IpVersionAs112TimeseriesGroupResponse = Schema.Struct({
     ),
   }),
   serie_0: Schema.Struct({
-    iPv4: Schema.Array(Schema.String),
-    iPv6: Schema.Array(Schema.String),
-  }).pipe(Schema.encodeKeys({ iPv4: "IPv4", iPv6: "IPv6" })),
+    iPv4: Schema.Array(Schema.String).pipe(T.JsonName("IPv4")),
+    iPv6: Schema.Array(Schema.String).pipe(T.JsonName("IPv6")),
+  }),
 }) as unknown as Schema.Schema<IpVersionAs112TimeseriesGroupResponse>;
 
 export const ipVersionAs112TimeseriesGroup: (
@@ -37917,9 +37677,9 @@ export const IpVersionAttackLayer3SummaryResponse = Schema.Struct({
     ),
   }),
   summary_0: Schema.Struct({
-    iPv4: Schema.String,
-    iPv6: Schema.String,
-  }).pipe(Schema.encodeKeys({ iPv4: "IPv4", iPv6: "IPv6" })),
+    iPv4: Schema.String.pipe(T.JsonName("IPv4")),
+    iPv6: Schema.String.pipe(T.JsonName("IPv6")),
+  }),
 }) as unknown as Schema.Schema<IpVersionAttackLayer3SummaryResponse>;
 
 export const ipVersionAttackLayer3Summary: (
@@ -38098,10 +37858,10 @@ export const IpVersionAttackLayer3TimeseriesGroupResponse = Schema.Struct({
     ),
   }),
   serie_0: Schema.Struct({
-    iPv4: Schema.Array(Schema.String),
-    iPv6: Schema.Array(Schema.String),
+    iPv4: Schema.Array(Schema.String).pipe(T.JsonName("IPv4")),
+    iPv6: Schema.Array(Schema.String).pipe(T.JsonName("IPv6")),
     timestamps: Schema.Array(Schema.String),
-  }).pipe(Schema.encodeKeys({ iPv4: "IPv4", iPv6: "IPv6" })),
+  }),
 }) as unknown as Schema.Schema<IpVersionAttackLayer3TimeseriesGroupResponse>;
 
 export const ipVersionAttackLayer3TimeseriesGroup: (
@@ -38422,9 +38182,9 @@ export const IpVersionAttackLayer7SummaryResponse = Schema.Struct({
     ),
   }),
   summary_0: Schema.Struct({
-    iPv4: Schema.String,
-    iPv6: Schema.String,
-  }).pipe(Schema.encodeKeys({ iPv4: "IPv4", iPv6: "IPv6" })),
+    iPv4: Schema.String.pipe(T.JsonName("IPv4")),
+    iPv6: Schema.String.pipe(T.JsonName("IPv6")),
+  }),
 }) as unknown as Schema.Schema<IpVersionAttackLayer7SummaryResponse>;
 
 export const ipVersionAttackLayer7Summary: (
@@ -38787,10 +38547,10 @@ export const IpVersionAttackLayer7TimeseriesGroupResponse = Schema.Struct({
     ),
   }),
   serie_0: Schema.Struct({
-    iPv4: Schema.Array(Schema.String),
-    iPv6: Schema.Array(Schema.String),
+    iPv4: Schema.Array(Schema.String).pipe(T.JsonName("IPv4")),
+    iPv6: Schema.Array(Schema.String).pipe(T.JsonName("IPv6")),
     timestamps: Schema.Array(Schema.String),
-  }).pipe(Schema.encodeKeys({ iPv4: "IPv4", iPv6: "IPv6" })),
+  }),
 }) as unknown as Schema.Schema<IpVersionAttackLayer7TimeseriesGroupResponse>;
 
 export const ipVersionAttackLayer7TimeseriesGroup: (
@@ -38951,9 +38711,9 @@ export const IpVersionDnsSummaryResponse = Schema.Struct({
     ),
   }),
   summary_0: Schema.Struct({
-    iPv4: Schema.String,
-    iPv6: Schema.String,
-  }).pipe(Schema.encodeKeys({ iPv4: "IPv4", iPv6: "IPv6" })),
+    iPv4: Schema.String.pipe(T.JsonName("IPv4")),
+    iPv6: Schema.String.pipe(T.JsonName("IPv6")),
+  }),
 }) as unknown as Schema.Schema<IpVersionDnsSummaryResponse>;
 
 export const ipVersionDnsSummary: (
@@ -39127,9 +38887,9 @@ export const IpVersionDnsTimeseriesGroupResponse = Schema.Struct({
     ),
   }),
   serie_0: Schema.Struct({
-    iPv4: Schema.Array(Schema.String),
-    iPv6: Schema.Array(Schema.String),
-  }).pipe(Schema.encodeKeys({ iPv4: "IPv4", iPv6: "IPv6" })),
+    iPv4: Schema.Array(Schema.String).pipe(T.JsonName("IPv4")),
+    iPv6: Schema.Array(Schema.String).pipe(T.JsonName("IPv6")),
+  }),
 }) as unknown as Schema.Schema<IpVersionDnsTimeseriesGroupResponse>;
 
 export const ipVersionDnsTimeseriesGroup: (
@@ -39290,9 +39050,9 @@ export const IpVersionEmailRoutingSummaryResponse = Schema.Struct({
     ),
   }),
   summary_0: Schema.Struct({
-    iPv4: Schema.String,
-    iPv6: Schema.String,
-  }).pipe(Schema.encodeKeys({ iPv4: "IPv4", iPv6: "IPv6" })),
+    iPv4: Schema.String.pipe(T.JsonName("IPv4")),
+    iPv6: Schema.String.pipe(T.JsonName("IPv6")),
+  }),
 }) as unknown as Schema.Schema<IpVersionEmailRoutingSummaryResponse>;
 
 export const ipVersionEmailRoutingSummary: (
@@ -39471,9 +39231,9 @@ export const IpVersionEmailRoutingTimeseriesGroupResponse = Schema.Struct({
     ),
   }),
   serie_0: Schema.Struct({
-    iPv4: Schema.Array(Schema.String),
-    iPv6: Schema.Array(Schema.String),
-  }).pipe(Schema.encodeKeys({ iPv4: "IPv4", iPv6: "IPv6" })),
+    iPv4: Schema.Array(Schema.String).pipe(T.JsonName("IPv4")),
+    iPv6: Schema.Array(Schema.String).pipe(T.JsonName("IPv6")),
+  }),
 }) as unknown as Schema.Schema<IpVersionEmailRoutingTimeseriesGroupResponse>;
 
 export const ipVersionEmailRoutingTimeseriesGroup: (
@@ -40152,9 +39912,9 @@ export const IpVersionHttpSummaryResponse = Schema.Struct({
     ),
   }),
   summary_0: Schema.Struct({
-    iPv4: Schema.String,
-    iPv6: Schema.String,
-  }).pipe(Schema.encodeKeys({ iPv4: "IPv4", iPv6: "IPv6" })),
+    iPv4: Schema.String.pipe(T.JsonName("IPv4")),
+    iPv6: Schema.String.pipe(T.JsonName("IPv6")),
+  }),
 }) as unknown as Schema.Schema<IpVersionHttpSummaryResponse>;
 
 export const ipVersionHttpSummary: (
@@ -40675,10 +40435,10 @@ export const IpVersionHttpTimeseriesGroupResponse = Schema.Struct({
     ),
   }),
   serie_0: Schema.Struct({
-    iPv4: Schema.Array(Schema.String),
-    iPv6: Schema.Array(Schema.String),
+    iPv4: Schema.Array(Schema.String).pipe(T.JsonName("IPv4")),
+    iPv6: Schema.Array(Schema.String).pipe(T.JsonName("IPv6")),
     timestamps: Schema.Array(Schema.String),
-  }).pipe(Schema.encodeKeys({ iPv4: "IPv4", iPv6: "IPv6" })),
+  }),
 }) as unknown as Schema.Schema<IpVersionHttpTimeseriesGroupResponse>;
 
 export const ipVersionHttpTimeseriesGroup: (

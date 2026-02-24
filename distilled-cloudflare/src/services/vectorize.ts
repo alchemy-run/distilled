@@ -78,10 +78,14 @@ export const DeleteByIdsIndexRequest = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<DeleteByIdsIndexRequest>;
 
-export type DeleteByIdsIndexResponse = unknown;
+export interface DeleteByIdsIndexResponse {
+  /** The unique identifier for the async mutation operation containing the changeset. */
+  mutationId?: string;
+}
 
-export const DeleteByIdsIndexResponse =
-  Schema.Unknown as unknown as Schema.Schema<DeleteByIdsIndexResponse>;
+export const DeleteByIdsIndexResponse = Schema.Struct({
+  mutationId: Schema.optional(Schema.String),
+}) as unknown as Schema.Schema<DeleteByIdsIndexResponse>;
 
 export const deleteByIdsIndex: (
   input: DeleteByIdsIndexRequest,
@@ -115,10 +119,32 @@ export const GetIndexRequest = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetIndexRequest>;
 
-export type GetIndexResponse = unknown;
+export interface GetIndexResponse {
+  config?: {
+    dimensions: number;
+    metric: "cosine" | "euclidean" | "dot-product";
+  };
+  /** Specifies the timestamp the resource was created as an ISO8601 string. */
+  createdOn?: string;
+  /** Specifies the description of the index. */
+  description?: string;
+  /** Specifies the timestamp the resource was modified as an ISO8601 string. */
+  modifiedOn?: string;
+  name?: string;
+}
 
-export const GetIndexResponse =
-  Schema.Unknown as unknown as Schema.Schema<GetIndexResponse>;
+export const GetIndexResponse = Schema.Struct({
+  config: Schema.optional(
+    Schema.Struct({
+      dimensions: Schema.Number,
+      metric: Schema.Literals(["cosine", "euclidean", "dot-product"]),
+    }),
+  ),
+  createdOn: Schema.optional(Schema.String).pipe(T.JsonName("created_on")),
+  description: Schema.optional(Schema.String),
+  modifiedOn: Schema.optional(Schema.String).pipe(T.JsonName("modified_on")),
+  name: Schema.optional(Schema.String),
+}) as unknown as Schema.Schema<GetIndexResponse>;
 
 export const getIndex: (
   input: GetIndexRequest,
@@ -178,10 +204,32 @@ export const CreateIndexRequest = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<CreateIndexRequest>;
 
-export type CreateIndexResponse = unknown;
+export interface CreateIndexResponse {
+  config?: {
+    dimensions: number;
+    metric: "cosine" | "euclidean" | "dot-product";
+  };
+  /** Specifies the timestamp the resource was created as an ISO8601 string. */
+  createdOn?: string;
+  /** Specifies the description of the index. */
+  description?: string;
+  /** Specifies the timestamp the resource was modified as an ISO8601 string. */
+  modifiedOn?: string;
+  name?: string;
+}
 
-export const CreateIndexResponse =
-  Schema.Unknown as unknown as Schema.Schema<CreateIndexResponse>;
+export const CreateIndexResponse = Schema.Struct({
+  config: Schema.optional(
+    Schema.Struct({
+      dimensions: Schema.Number,
+      metric: Schema.Literals(["cosine", "euclidean", "dot-product"]),
+    }),
+  ),
+  createdOn: Schema.optional(Schema.String).pipe(T.JsonName("created_on")),
+  description: Schema.optional(Schema.String),
+  modifiedOn: Schema.optional(Schema.String).pipe(T.JsonName("modified_on")),
+  name: Schema.optional(Schema.String),
+}) as unknown as Schema.Schema<CreateIndexResponse>;
 
 export const createIndex: (
   input: CreateIndexRequest,
@@ -211,10 +259,10 @@ export const DeleteIndexRequest = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<DeleteIndexRequest>;
 
-export type DeleteIndexResponse = unknown;
+export type DeleteIndexResponse = string;
 
 export const DeleteIndexResponse =
-  Schema.Unknown as unknown as Schema.Schema<DeleteIndexResponse>;
+  Schema.String as unknown as Schema.Schema<DeleteIndexResponse>;
 
 export const deleteIndex: (
   input: DeleteIndexRequest,
@@ -244,10 +292,25 @@ export const InfoIndexRequest = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<InfoIndexRequest>;
 
-export type InfoIndexResponse = unknown;
+export interface InfoIndexResponse {
+  /** Specifies the number of dimensions for the index */
+  dimensions?: number;
+  /** Specifies the timestamp the last mutation batch was processed as an ISO8601 string. */
+  processedUpToDatetime?: string | null;
+  /** The unique identifier for the async mutation operation containing the changeset. */
+  processedUpToMutation?: string;
+  /** Specifies the number of vectors present in the index */
+  vectorCount?: number;
+}
 
-export const InfoIndexResponse =
-  Schema.Unknown as unknown as Schema.Schema<InfoIndexResponse>;
+export const InfoIndexResponse = Schema.Struct({
+  dimensions: Schema.optional(Schema.Number),
+  processedUpToDatetime: Schema.optional(
+    Schema.Union([Schema.String, Schema.Null]),
+  ),
+  processedUpToMutation: Schema.optional(Schema.String),
+  vectorCount: Schema.optional(Schema.Number),
+}) as unknown as Schema.Schema<InfoIndexResponse>;
 
 export const infoIndex: (
   input: InfoIndexRequest,
@@ -277,7 +340,7 @@ export const InsertIndexRequest = Schema.Struct({
   unparsableBehavior: Schema.optional(
     Schema.Literals(["error", "discard"]),
   ).pipe(T.HttpQuery("'unparsable-behavior'")),
-  body: UploadableSchema.pipe(T.HttpFormDataFile()),
+  body: UploadableSchema.pipe(T.HttpFormDataFile()).pipe(T.HttpBody()),
 }).pipe(
   T.Http({
     method: "POST",
@@ -286,10 +349,14 @@ export const InsertIndexRequest = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<InsertIndexRequest>;
 
-export type InsertIndexResponse = unknown;
+export interface InsertIndexResponse {
+  /** The unique identifier for the async mutation operation containing the changeset. */
+  mutationId?: string;
+}
 
-export const InsertIndexResponse =
-  Schema.Unknown as unknown as Schema.Schema<InsertIndexResponse>;
+export const InsertIndexResponse = Schema.Struct({
+  mutationId: Schema.optional(Schema.String),
+}) as unknown as Schema.Schema<InsertIndexResponse>;
 
 export const insertIndex: (
   input: InsertIndexRequest,
@@ -334,10 +401,35 @@ export const QueryIndexRequest = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<QueryIndexRequest>;
 
-export type QueryIndexResponse = unknown;
+export interface QueryIndexResponse {
+  /** Specifies the count of vectors returned by the search */
+  count?: number;
+  /** Array of vectors matched by the search */
+  matches?: {
+    id?: string;
+    metadata?: null;
+    namespace?: string | null;
+    score?: number;
+    values?: number[] | null;
+  }[];
+}
 
-export const QueryIndexResponse =
-  Schema.Unknown as unknown as Schema.Schema<QueryIndexResponse>;
+export const QueryIndexResponse = Schema.Struct({
+  count: Schema.optional(Schema.Number),
+  matches: Schema.optional(
+    Schema.Array(
+      Schema.Struct({
+        id: Schema.optional(Schema.String),
+        metadata: Schema.optional(Schema.Null),
+        namespace: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        score: Schema.optional(Schema.Number),
+        values: Schema.optional(
+          Schema.Union([Schema.Array(Schema.Number), Schema.Null]),
+        ),
+      }),
+    ),
+  ),
+}) as unknown as Schema.Schema<QueryIndexResponse>;
 
 export const queryIndex: (
   input: QueryIndexRequest,
@@ -367,7 +459,7 @@ export const UpsertIndexRequest = Schema.Struct({
   unparsableBehavior: Schema.optional(
     Schema.Literals(["error", "discard"]),
   ).pipe(T.HttpQuery("'unparsable-behavior'")),
-  body: UploadableSchema.pipe(T.HttpFormDataFile()),
+  body: UploadableSchema.pipe(T.HttpFormDataFile()).pipe(T.HttpBody()),
 }).pipe(
   T.Http({
     method: "POST",
@@ -376,10 +468,14 @@ export const UpsertIndexRequest = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<UpsertIndexRequest>;
 
-export type UpsertIndexResponse = unknown;
+export interface UpsertIndexResponse {
+  /** The unique identifier for the async mutation operation containing the changeset. */
+  mutationId?: string;
+}
 
-export const UpsertIndexResponse =
-  Schema.Unknown as unknown as Schema.Schema<UpsertIndexResponse>;
+export const UpsertIndexResponse = Schema.Struct({
+  mutationId: Schema.optional(Schema.String),
+}) as unknown as Schema.Schema<UpsertIndexResponse>;
 
 export const upsertIndex: (
   input: UpsertIndexRequest,
@@ -413,10 +509,26 @@ export const ListIndexMetadataIndexesRequest = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<ListIndexMetadataIndexesRequest>;
 
-export type ListIndexMetadataIndexesResponse = unknown;
+export interface ListIndexMetadataIndexesResponse {
+  /** Array of indexed metadata properties. */
+  metadataIndexes?: {
+    indexType?: "string" | "number" | "boolean";
+    propertyName?: string;
+  }[];
+}
 
-export const ListIndexMetadataIndexesResponse =
-  Schema.Unknown as unknown as Schema.Schema<ListIndexMetadataIndexesResponse>;
+export const ListIndexMetadataIndexesResponse = Schema.Struct({
+  metadataIndexes: Schema.optional(
+    Schema.Array(
+      Schema.Struct({
+        indexType: Schema.optional(
+          Schema.Literals(["string", "number", "boolean"]),
+        ),
+        propertyName: Schema.optional(Schema.String),
+      }),
+    ),
+  ),
+}) as unknown as Schema.Schema<ListIndexMetadataIndexesResponse>;
 
 export const listIndexMetadataIndexes: (
   input: ListIndexMetadataIndexesRequest,
@@ -452,10 +564,14 @@ export const CreateIndexMetadataIndexRequest = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<CreateIndexMetadataIndexRequest>;
 
-export type CreateIndexMetadataIndexResponse = unknown;
+export interface CreateIndexMetadataIndexResponse {
+  /** The unique identifier for the async mutation operation containing the changeset. */
+  mutationId?: string;
+}
 
-export const CreateIndexMetadataIndexResponse =
-  Schema.Unknown as unknown as Schema.Schema<CreateIndexMetadataIndexResponse>;
+export const CreateIndexMetadataIndexResponse = Schema.Struct({
+  mutationId: Schema.optional(Schema.String),
+}) as unknown as Schema.Schema<CreateIndexMetadataIndexResponse>;
 
 export const createIndexMetadataIndex: (
   input: CreateIndexMetadataIndexRequest,
@@ -488,10 +604,14 @@ export const DeleteIndexMetadataIndexRequest = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<DeleteIndexMetadataIndexRequest>;
 
-export type DeleteIndexMetadataIndexResponse = unknown;
+export interface DeleteIndexMetadataIndexResponse {
+  /** The unique identifier for the async mutation operation containing the changeset. */
+  mutationId?: string;
+}
 
-export const DeleteIndexMetadataIndexResponse =
-  Schema.Unknown as unknown as Schema.Schema<DeleteIndexMetadataIndexResponse>;
+export const DeleteIndexMetadataIndexResponse = Schema.Struct({
+  mutationId: Schema.optional(Schema.String),
+}) as unknown as Schema.Schema<DeleteIndexMetadataIndexResponse>;
 
 export const deleteIndexMetadataIndex: (
   input: DeleteIndexMetadataIndexRequest,
@@ -531,10 +651,35 @@ export const ListVectorsIndexRequest = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<ListVectorsIndexRequest>;
 
-export type ListVectorsIndexResponse = unknown;
+export interface ListVectorsIndexResponse {
+  /** Number of vectors returned in this response */
+  count: number;
+  /** Whether there are more vectors available beyond this response */
+  isTruncated: boolean;
+  /** Total number of vectors in the index */
+  totalCount: number;
+  /** Array of vector items */
+  vectors: { id: string }[];
+  /** When the cursor expires as an ISO8601 string */
+  cursorExpirationTimestamp?: string | null;
+  /** Cursor for the next page of results */
+  nextCursor?: string | null;
+}
 
-export const ListVectorsIndexResponse =
-  Schema.Unknown as unknown as Schema.Schema<ListVectorsIndexResponse>;
+export const ListVectorsIndexResponse = Schema.Struct({
+  count: Schema.Number,
+  isTruncated: Schema.Boolean,
+  totalCount: Schema.Number,
+  vectors: Schema.Array(
+    Schema.Struct({
+      id: Schema.String,
+    }),
+  ),
+  cursorExpirationTimestamp: Schema.optional(
+    Schema.Union([Schema.String, Schema.Null]),
+  ),
+  nextCursor: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+}) as unknown as Schema.Schema<ListVectorsIndexResponse>;
 
 export const listVectorsIndex: (
   input: ListVectorsIndexRequest,

@@ -1,0 +1,12 @@
+{
+  "errors": {
+    "GatewayAlreadyExists": [{ "code": 7001 }]
+  },
+  "response": {
+    "properties": {
+      "account_id": { "optional": true },
+      "account_tag": { "optional": true },
+      "internal_id": { "optional": true }
+    }
+  }
+}

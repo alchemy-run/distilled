@@ -19,6 +19,22 @@ import {
 } from "../errors.ts";
 
 // =============================================================================
+// Errors
+// =============================================================================
+
+export class InvalidObjectIdentifier extends Schema.TaggedErrorClass<InvalidObjectIdentifier>()(
+  "InvalidObjectIdentifier",
+  { code: Schema.Number, message: Schema.String },
+) {}
+T.applyErrorMatchers(InvalidObjectIdentifier, [{ code: 7003 }]);
+
+export class NotAuthorized extends Schema.TaggedErrorClass<NotAuthorized>()(
+  "NotAuthorized",
+  { code: Schema.Number, message: Schema.String },
+) {}
+T.applyErrorMatchers(NotAuthorized, [{ code: 1015 }]);
+
+// =============================================================================
 // SmartRouting
 // =============================================================================
 
@@ -48,21 +64,19 @@ export const GetSmartRoutingResponse = Schema.Struct({
   id: Schema.String,
   editable: Schema.Boolean,
   value: Schema.Literals(["on", "off"]),
-  modifiedOn: Schema.optional(Schema.String),
-}).pipe(
-  Schema.encodeKeys({ modifiedOn: "modified_on" }),
-) as unknown as Schema.Schema<GetSmartRoutingResponse>;
+  modifiedOn: Schema.optional(Schema.String).pipe(T.JsonName("modified_on")),
+}) as unknown as Schema.Schema<GetSmartRoutingResponse>;
 
 export const getSmartRouting: (
   input: GetSmartRoutingRequest,
 ) => Effect.Effect<
   GetSmartRoutingResponse,
-  CommonErrors,
+  CommonErrors | InvalidObjectIdentifier | NotAuthorized,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetSmartRoutingRequest,
   output: GetSmartRoutingResponse,
-  errors: [],
+  errors: [InvalidObjectIdentifier, NotAuthorized],
 }));
 
 export interface PatchSmartRoutingRequest {
@@ -94,21 +108,19 @@ export const PatchSmartRoutingResponse = Schema.Struct({
   id: Schema.String,
   editable: Schema.Boolean,
   value: Schema.Literals(["on", "off"]),
-  modifiedOn: Schema.optional(Schema.String),
-}).pipe(
-  Schema.encodeKeys({ modifiedOn: "modified_on" }),
-) as unknown as Schema.Schema<PatchSmartRoutingResponse>;
+  modifiedOn: Schema.optional(Schema.String).pipe(T.JsonName("modified_on")),
+}) as unknown as Schema.Schema<PatchSmartRoutingResponse>;
 
 export const patchSmartRouting: (
   input: PatchSmartRoutingRequest,
 ) => Effect.Effect<
   PatchSmartRoutingResponse,
-  CommonErrors,
+  CommonErrors | InvalidObjectIdentifier | NotAuthorized,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PatchSmartRoutingRequest,
   output: PatchSmartRoutingResponse,
-  errors: [],
+  errors: [InvalidObjectIdentifier, NotAuthorized],
 }));
 
 // =============================================================================
@@ -141,21 +153,21 @@ export const GetTieredCachingResponse = Schema.Struct({
   id: Schema.Literal("tiered_caching"),
   editable: Schema.Boolean,
   value: Schema.Literals(["on", "off"]),
-  modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-}).pipe(
-  Schema.encodeKeys({ modifiedOn: "modified_on" }),
-) as unknown as Schema.Schema<GetTieredCachingResponse>;
+  modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
+    T.JsonName("modified_on"),
+  ),
+}) as unknown as Schema.Schema<GetTieredCachingResponse>;
 
 export const getTieredCaching: (
   input: GetTieredCachingRequest,
 ) => Effect.Effect<
   GetTieredCachingResponse,
-  CommonErrors,
+  CommonErrors | InvalidObjectIdentifier,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetTieredCachingRequest,
   output: GetTieredCachingResponse,
-  errors: [],
+  errors: [InvalidObjectIdentifier],
 }));
 
 export interface PatchTieredCachingRequest {
@@ -187,19 +199,19 @@ export const PatchTieredCachingResponse = Schema.Struct({
   id: Schema.Literal("tiered_caching"),
   editable: Schema.Boolean,
   value: Schema.Literals(["on", "off"]),
-  modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-}).pipe(
-  Schema.encodeKeys({ modifiedOn: "modified_on" }),
-) as unknown as Schema.Schema<PatchTieredCachingResponse>;
+  modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
+    T.JsonName("modified_on"),
+  ),
+}) as unknown as Schema.Schema<PatchTieredCachingResponse>;
 
 export const patchTieredCaching: (
   input: PatchTieredCachingRequest,
 ) => Effect.Effect<
   PatchTieredCachingResponse,
-  CommonErrors,
+  CommonErrors | InvalidObjectIdentifier,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PatchTieredCachingRequest,
   output: PatchTieredCachingResponse,
-  errors: [],
+  errors: [InvalidObjectIdentifier],
 }));

@@ -82,13 +82,11 @@ export interface CreateBinaryStorageResponse {
 }
 
 export const CreateBinaryStorageResponse = Schema.Struct({
-  contentType: Schema.String,
+  contentType: Schema.String.pipe(T.JsonName("content_type")),
   md5: Schema.String,
   sha1: Schema.String,
   sha256: Schema.String,
-}).pipe(
-  Schema.encodeKeys({ contentType: "content_type" }),
-) as unknown as Schema.Schema<CreateBinaryStorageResponse>;
+}) as unknown as Schema.Schema<CreateBinaryStorageResponse>;
 
 export const createBinaryStorage: (
   input: CreateBinaryStorageRequest,
@@ -163,8 +161,10 @@ export const GetRequestResponse = Schema.Struct({
   tlp: Schema.Literals(["clear", "amber", "amber-strict", "green", "red"]),
   updated: Schema.String,
   completed: Schema.optional(Schema.String),
-  messageTokens: Schema.optional(Schema.Number),
-  readableId: Schema.optional(Schema.String),
+  messageTokens: Schema.optional(Schema.Number).pipe(
+    T.JsonName("message_tokens"),
+  ),
+  readableId: Schema.optional(Schema.String).pipe(T.JsonName("readable_id")),
   status: Schema.optional(
     Schema.Literals([
       "open",
@@ -176,12 +176,7 @@ export const GetRequestResponse = Schema.Struct({
     ]),
   ),
   tokens: Schema.optional(Schema.Number),
-}).pipe(
-  Schema.encodeKeys({
-    messageTokens: "message_tokens",
-    readableId: "readable_id",
-  }),
-) as unknown as Schema.Schema<GetRequestResponse>;
+}) as unknown as Schema.Schema<GetRequestResponse>;
 
 export const getRequest: (
   input: GetRequestRequest,
@@ -214,13 +209,12 @@ export const CreateRequestRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   content: Schema.optional(Schema.String),
   priority: Schema.optional(Schema.String),
-  requestType: Schema.optional(Schema.String),
+  requestType: Schema.optional(Schema.String).pipe(T.JsonName("request_type")),
   summary: Schema.optional(Schema.String),
   tlp: Schema.optional(
     Schema.Literals(["clear", "amber", "amber-strict", "green", "red"]),
   ),
 }).pipe(
-  Schema.encodeKeys({ requestType: "request_type" }),
   T.Http({
     method: "POST",
     path: "/accounts/{account_id}/cloudforce-one/requests/new",
@@ -268,8 +262,10 @@ export const CreateRequestResponse = Schema.Struct({
   tlp: Schema.Literals(["clear", "amber", "amber-strict", "green", "red"]),
   updated: Schema.String,
   completed: Schema.optional(Schema.String),
-  messageTokens: Schema.optional(Schema.Number),
-  readableId: Schema.optional(Schema.String),
+  messageTokens: Schema.optional(Schema.Number).pipe(
+    T.JsonName("message_tokens"),
+  ),
+  readableId: Schema.optional(Schema.String).pipe(T.JsonName("readable_id")),
   status: Schema.optional(
     Schema.Literals([
       "open",
@@ -281,12 +277,7 @@ export const CreateRequestResponse = Schema.Struct({
     ]),
   ),
   tokens: Schema.optional(Schema.Number),
-}).pipe(
-  Schema.encodeKeys({
-    messageTokens: "message_tokens",
-    readableId: "readable_id",
-  }),
-) as unknown as Schema.Schema<CreateRequestResponse>;
+}) as unknown as Schema.Schema<CreateRequestResponse>;
 
 export const createRequest: (
   input: CreateRequestRequest,
@@ -321,13 +312,12 @@ export const UpdateRequestRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   content: Schema.optional(Schema.String),
   priority: Schema.optional(Schema.String),
-  requestType: Schema.optional(Schema.String),
+  requestType: Schema.optional(Schema.String).pipe(T.JsonName("request_type")),
   summary: Schema.optional(Schema.String),
   tlp: Schema.optional(
     Schema.Literals(["clear", "amber", "amber-strict", "green", "red"]),
   ),
 }).pipe(
-  Schema.encodeKeys({ requestType: "request_type" }),
   T.Http({
     method: "PUT",
     path: "/accounts/{account_id}/cloudforce-one/requests/{requestId}",
@@ -375,8 +365,10 @@ export const UpdateRequestResponse = Schema.Struct({
   tlp: Schema.Literals(["clear", "amber", "amber-strict", "green", "red"]),
   updated: Schema.String,
   completed: Schema.optional(Schema.String),
-  messageTokens: Schema.optional(Schema.Number),
-  readableId: Schema.optional(Schema.String),
+  messageTokens: Schema.optional(Schema.Number).pipe(
+    T.JsonName("message_tokens"),
+  ),
+  readableId: Schema.optional(Schema.String).pipe(T.JsonName("readable_id")),
   status: Schema.optional(
     Schema.Literals([
       "open",
@@ -388,12 +380,7 @@ export const UpdateRequestResponse = Schema.Struct({
     ]),
   ),
   tokens: Schema.optional(Schema.Number),
-}).pipe(
-  Schema.encodeKeys({
-    messageTokens: "message_tokens",
-    readableId: "readable_id",
-  }),
-) as unknown as Schema.Schema<UpdateRequestResponse>;
+}) as unknown as Schema.Schema<UpdateRequestResponse>;
 
 export const updateRequest: (
   input: UpdateRequestRequest,
@@ -445,25 +432,29 @@ export const DeleteRequestResponse = Schema.Struct({
     Schema.Struct({
       code: Schema.Number,
       message: Schema.String,
-      documentationUrl: Schema.optional(Schema.String),
+      documentationUrl: Schema.optional(Schema.String).pipe(
+        T.JsonName("documentation_url"),
+      ),
       source: Schema.optional(
         Schema.Struct({
           pointer: Schema.optional(Schema.String),
         }),
       ),
-    }).pipe(Schema.encodeKeys({ documentationUrl: "documentation_url" })),
+    }),
   ),
   messages: Schema.Array(
     Schema.Struct({
       code: Schema.Number,
       message: Schema.String,
-      documentationUrl: Schema.optional(Schema.String),
+      documentationUrl: Schema.optional(Schema.String).pipe(
+        T.JsonName("documentation_url"),
+      ),
       source: Schema.optional(
         Schema.Struct({
           pointer: Schema.optional(Schema.String),
         }),
       ),
-    }).pipe(Schema.encodeKeys({ documentationUrl: "documentation_url" })),
+    }),
   ),
   success: Schema.Literal(true),
 }) as unknown as Schema.Schema<DeleteRequestResponse>;
@@ -568,16 +559,15 @@ export interface QuotaRequestResponse {
 }
 
 export const QuotaRequestResponse = Schema.Struct({
-  anniversaryDate: Schema.optional(Schema.String),
-  quarterAnniversaryDate: Schema.optional(Schema.String),
+  anniversaryDate: Schema.optional(Schema.String).pipe(
+    T.JsonName("anniversary_date"),
+  ),
+  quarterAnniversaryDate: Schema.optional(Schema.String).pipe(
+    T.JsonName("quarter_anniversary_date"),
+  ),
   quota: Schema.optional(Schema.Number),
   remaining: Schema.optional(Schema.Number),
-}).pipe(
-  Schema.encodeKeys({
-    anniversaryDate: "anniversary_date",
-    quarterAnniversaryDate: "quarter_anniversary_date",
-  }),
-) as unknown as Schema.Schema<QuotaRequestResponse>;
+}) as unknown as Schema.Schema<QuotaRequestResponse>;
 
 export const quotaRequest: (
   input: QuotaRequestRequest,
@@ -634,10 +624,8 @@ export const PutRequestAssetResponse = Schema.Struct({
   name: Schema.String,
   created: Schema.optional(Schema.String),
   description: Schema.optional(Schema.String),
-  fileType: Schema.optional(Schema.String),
-}).pipe(
-  Schema.encodeKeys({ fileType: "file_type" }),
-) as unknown as Schema.Schema<PutRequestAssetResponse>;
+  fileType: Schema.optional(Schema.String).pipe(T.JsonName("file_type")),
+}) as unknown as Schema.Schema<PutRequestAssetResponse>;
 
 export const putRequestAsset: (
   input: PutRequestAssetRequest,
@@ -691,25 +679,29 @@ export const DeleteRequestAssetResponse = Schema.Struct({
     Schema.Struct({
       code: Schema.Number,
       message: Schema.String,
-      documentationUrl: Schema.optional(Schema.String),
+      documentationUrl: Schema.optional(Schema.String).pipe(
+        T.JsonName("documentation_url"),
+      ),
       source: Schema.optional(
         Schema.Struct({
           pointer: Schema.optional(Schema.String),
         }),
       ),
-    }).pipe(Schema.encodeKeys({ documentationUrl: "documentation_url" })),
+    }),
   ),
   messages: Schema.Array(
     Schema.Struct({
       code: Schema.Number,
       message: Schema.String,
-      documentationUrl: Schema.optional(Schema.String),
+      documentationUrl: Schema.optional(Schema.String).pipe(
+        T.JsonName("documentation_url"),
+      ),
       source: Schema.optional(
         Schema.Struct({
           pointer: Schema.optional(Schema.String),
         }),
       ),
-    }).pipe(Schema.encodeKeys({ documentationUrl: "documentation_url" })),
+    }),
   ),
   success: Schema.Literal(true),
 }) as unknown as Schema.Schema<DeleteRequestAssetResponse>;
@@ -759,15 +751,15 @@ export interface CreateRequestMessageResponse {
 export const CreateRequestMessageResponse = Schema.Struct({
   code: Schema.Number,
   message: Schema.String,
-  documentationUrl: Schema.optional(Schema.String),
+  documentationUrl: Schema.optional(Schema.String).pipe(
+    T.JsonName("documentation_url"),
+  ),
   source: Schema.optional(
     Schema.Struct({
       pointer: Schema.optional(Schema.String),
     }),
   ),
-}).pipe(
-  Schema.encodeKeys({ documentationUrl: "documentation_url" }),
-) as unknown as Schema.Schema<CreateRequestMessageResponse>;
+}) as unknown as Schema.Schema<CreateRequestMessageResponse>;
 
 export const createRequestMessage: (
   input: CreateRequestMessageRequest,
@@ -812,15 +804,15 @@ export interface UpdateRequestMessageResponse {
 export const UpdateRequestMessageResponse = Schema.Struct({
   code: Schema.Number,
   message: Schema.String,
-  documentationUrl: Schema.optional(Schema.String),
+  documentationUrl: Schema.optional(Schema.String).pipe(
+    T.JsonName("documentation_url"),
+  ),
   source: Schema.optional(
     Schema.Struct({
       pointer: Schema.optional(Schema.String),
     }),
   ),
-}).pipe(
-  Schema.encodeKeys({ documentationUrl: "documentation_url" }),
-) as unknown as Schema.Schema<UpdateRequestMessageResponse>;
+}) as unknown as Schema.Schema<UpdateRequestMessageResponse>;
 
 export const updateRequestMessage: (
   input: UpdateRequestMessageRequest,
@@ -874,25 +866,29 @@ export const DeleteRequestMessageResponse = Schema.Struct({
     Schema.Struct({
       code: Schema.Number,
       message: Schema.String,
-      documentationUrl: Schema.optional(Schema.String),
+      documentationUrl: Schema.optional(Schema.String).pipe(
+        T.JsonName("documentation_url"),
+      ),
       source: Schema.optional(
         Schema.Struct({
           pointer: Schema.optional(Schema.String),
         }),
       ),
-    }).pipe(Schema.encodeKeys({ documentationUrl: "documentation_url" })),
+    }),
   ),
   messages: Schema.Array(
     Schema.Struct({
       code: Schema.Number,
       message: Schema.String,
-      documentationUrl: Schema.optional(Schema.String),
+      documentationUrl: Schema.optional(Schema.String).pipe(
+        T.JsonName("documentation_url"),
+      ),
       source: Schema.optional(
         Schema.Struct({
           pointer: Schema.optional(Schema.String),
         }),
       ),
-    }).pipe(Schema.encodeKeys({ documentationUrl: "documentation_url" })),
+    }),
   ),
   success: Schema.Literal(true),
 }) as unknown as Schema.Schema<DeleteRequestMessageResponse>;
@@ -1094,25 +1090,29 @@ export const DeleteRequestPriorityResponse = Schema.Struct({
     Schema.Struct({
       code: Schema.Number,
       message: Schema.String,
-      documentationUrl: Schema.optional(Schema.String),
+      documentationUrl: Schema.optional(Schema.String).pipe(
+        T.JsonName("documentation_url"),
+      ),
       source: Schema.optional(
         Schema.Struct({
           pointer: Schema.optional(Schema.String),
         }),
       ),
-    }).pipe(Schema.encodeKeys({ documentationUrl: "documentation_url" })),
+    }),
   ),
   messages: Schema.Array(
     Schema.Struct({
       code: Schema.Number,
       message: Schema.String,
-      documentationUrl: Schema.optional(Schema.String),
+      documentationUrl: Schema.optional(Schema.String).pipe(
+        T.JsonName("documentation_url"),
+      ),
       source: Schema.optional(
         Schema.Struct({
           pointer: Schema.optional(Schema.String),
         }),
       ),
-    }).pipe(Schema.encodeKeys({ documentationUrl: "documentation_url" })),
+    }),
   ),
   success: Schema.Literal(true),
 }) as unknown as Schema.Schema<DeleteRequestPriorityResponse>;
@@ -1201,13 +1201,11 @@ export interface CreateScanConfigResponse {
 
 export const CreateScanConfigResponse = Schema.Struct({
   id: Schema.String,
-  accountId: Schema.String,
+  accountId: Schema.String.pipe(T.JsonName("account_id")),
   frequency: Schema.Number,
   ips: Schema.Array(Schema.String),
   ports: Schema.Array(Schema.String),
-}).pipe(
-  Schema.encodeKeys({ accountId: "account_id" }),
-) as unknown as Schema.Schema<CreateScanConfigResponse>;
+}) as unknown as Schema.Schema<CreateScanConfigResponse>;
 
 export const createScanConfig: (
   input: CreateScanConfigRequest,
@@ -1260,13 +1258,11 @@ export interface PatchScanConfigResponse {
 
 export const PatchScanConfigResponse = Schema.Struct({
   id: Schema.String,
-  accountId: Schema.String,
+  accountId: Schema.String.pipe(T.JsonName("account_id")),
   frequency: Schema.Number,
   ips: Schema.Array(Schema.String),
   ports: Schema.Array(Schema.String),
-}).pipe(
-  Schema.encodeKeys({ accountId: "account_id" }),
-) as unknown as Schema.Schema<PatchScanConfigResponse>;
+}) as unknown as Schema.Schema<PatchScanConfigResponse>;
 
 export const patchScanConfig: (
   input: PatchScanConfigRequest,

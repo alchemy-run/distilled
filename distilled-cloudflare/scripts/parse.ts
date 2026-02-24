@@ -274,7 +274,10 @@ function getJsDocComment(node: ts.Node): string | undefined {
 }
 
 /**
- * Parse parameter location from JSDoc comment
+ * Parse parameter location from JSDoc comment.
+ * SDK JSDoc format: "Path param: ...", "Body param: ...", "Query param: ...", "Header param: ..."
+ * We match the prefix pattern (word boundary after "param") to avoid false positives
+ * like "body param: ...path parameter templates..." matching as "path".
  */
 function parseParamLocation(
   comment: string | undefined,
@@ -282,10 +285,13 @@ function parseParamLocation(
   if (!comment) return undefined;
 
   const normalized = comment.toLowerCase();
-  if (normalized.includes("path param")) return "path";
-  if (normalized.includes("query param")) return "query";
-  if (normalized.includes("body param")) return "body";
-  if (normalized.includes("header param")) return "header";
+  // Match "Xxx param:" or "Xxx param," at the start (the location prefix pattern)
+  const prefixMatch = normalized.match(
+    /^(path|query|body|header)\s+param\b/,
+  );
+  if (prefixMatch) {
+    return prefixMatch[1] as "path" | "query" | "body" | "header";
+  }
 
   return undefined;
 }
@@ -528,6 +534,12 @@ function extractHttpMethod(
         if (["GET", "POST", "PUT", "PATCH", "DELETE"].includes(methodName)) {
           httpMethod = methodName as typeof httpMethod;
         }
+        // Also handle getAPIList (paginated GET) and postAPIList (paginated POST)
+        if (methodName === "GETAPILIST") {
+          httpMethod = "GET";
+        } else if (methodName === "POSTAPILIST") {
+          httpMethod = "POST";
+        }
       }
     }
 
@@ -548,10 +560,20 @@ function extractUrlTemplate(methodBody: ts.Block): string | undefined {
     if (ts.isCallExpression(node)) {
       const expr = node.expression;
 
-      // Look for this._client.get/post/put/patch/delete calls
+      // Look for this._client.get/post/put/patch/delete/getAPIList/postAPIList calls
       if (ts.isPropertyAccessExpression(expr)) {
         const methodName = expr.name.getText().toLowerCase();
-        if (["get", "post", "put", "patch", "delete"].includes(methodName)) {
+        if (
+          [
+            "get",
+            "post",
+            "put",
+            "patch",
+            "delete",
+            "getapilist",
+            "postapilist",
+          ].includes(methodName)
+        ) {
           // First argument is the URL
           const urlArg = node.arguments[0];
           if (urlArg) {
@@ -706,6 +728,28 @@ function findParamsInterface(
       result = parseInterface(node, checker, registry);
     }
 
+    // Handle type aliases that are unions (e.g., `type FooParams = FooParams.A | FooParams.B`)
+    // Resolve by finding the first variant's interface in the namespace
+    if (
+      !result &&
+      ts.isTypeAliasDeclaration(node) &&
+      node.name.getText() === paramsTypeName &&
+      ts.isUnionTypeNode(node.type)
+    ) {
+      // Get the first variant's type name (e.g., "AbuseReportCreateParams.AbuseReportsDmcaReport")
+      for (const member of node.type.types) {
+        if (ts.isTypeReferenceNode(member)) {
+          const variantName = member.typeName.getText();
+          // Try to find this variant interface in the registry
+          const variantInterface = registry.types.get(variantName);
+          if (variantInterface) {
+            result = variantInterface;
+            return;
+          }
+        }
+      }
+    }
+
     // Also check module declarations (for nested namespaces)
     if (ts.isModuleDeclaration(node)) {
       ts.forEachChild(node, visit);
@@ -793,13 +837,44 @@ function parseMethod(
   }
 
   // Get return type
+  let isPaginated = false;
   const returnType = method.type;
   if (returnType && ts.isTypeReferenceNode(returnType)) {
-    // Extract the inner type from Core.APIPromise<T>
-    if (returnType.typeArguments?.[0]) {
+    const returnTypeName = returnType.typeName.getText();
+
+    // Handle Core.PagePromise<PaginationType, ItemType> — use the item type (2nd arg)
+    if (
+      (returnTypeName === "Core.PagePromise" ||
+        returnTypeName.endsWith(".PagePromise")) &&
+      returnType.typeArguments &&
+      returnType.typeArguments.length >= 2
+    ) {
+      const itemType = returnType.typeArguments[1];
+      if (ts.isTypeReferenceNode(itemType)) {
+        responseTypeName = itemType.typeName.getText();
+        isPaginated = true;
+      }
+    }
+    // Handle Core.APIPromise<T>
+    else if (returnType.typeArguments?.[0]) {
       const innerType = returnType.typeArguments[0];
       if (ts.isTypeReferenceNode(innerType)) {
         responseTypeName = innerType.typeName.getText();
+      } else if (ts.isUnionTypeNode(innerType)) {
+        // Handle Core.APIPromise<T | null> — extract the non-null type reference
+        const nonNullTypes = innerType.types.filter(
+          (t) =>
+            !(
+              ts.isLiteralTypeNode(t) &&
+              t.literal.kind === ts.SyntaxKind.NullKeyword
+            ),
+        );
+        if (
+          nonNullTypes.length === 1 &&
+          ts.isTypeReferenceNode(nonNullTypes[0])
+        ) {
+          responseTypeName = nonNullTypes[0].typeName.getText();
+        }
       }
     }
   }
@@ -866,8 +941,11 @@ function parseMethod(
   }
 
   // Parse response type
+  // For paginated (list) operations, wrap the item type in an array
   const responseType: TypeInfo = responseTypeName
-    ? { kind: "object", name: responseTypeName }
+    ? isPaginated
+      ? { kind: "array", elementType: { kind: "object", name: responseTypeName } }
+      : { kind: "object", name: responseTypeName }
     : { kind: "unknown" };
 
   // Compute derived identifiers

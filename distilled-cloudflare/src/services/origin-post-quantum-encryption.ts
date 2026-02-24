@@ -51,10 +51,10 @@ export const GetOriginPostQuantumEncryptionResponse = Schema.Struct({
   id: Schema.Literal("origin_pqe"),
   editable: Schema.Boolean,
   value: Schema.Literals(["preferred", "supported", "off"]),
-  modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-}).pipe(
-  Schema.encodeKeys({ modifiedOn: "modified_on" }),
-) as unknown as Schema.Schema<GetOriginPostQuantumEncryptionResponse>;
+  modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
+    T.JsonName("modified_on"),
+  ),
+}) as unknown as Schema.Schema<GetOriginPostQuantumEncryptionResponse>;
 
 export const getOriginPostQuantumEncryption: (
   input: GetOriginPostQuantumEncryptionRequest,
@@ -100,10 +100,10 @@ export const PutOriginPostQuantumEncryptionResponse = Schema.Struct({
   id: Schema.Literal("origin_pqe"),
   editable: Schema.Boolean,
   value: Schema.Literals(["preferred", "supported", "off"]),
-  modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-}).pipe(
-  Schema.encodeKeys({ modifiedOn: "modified_on" }),
-) as unknown as Schema.Schema<PutOriginPostQuantumEncryptionResponse>;
+  modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
+    T.JsonName("modified_on"),
+  ),
+}) as unknown as Schema.Schema<PutOriginPostQuantumEncryptionResponse>;
 
 export const putOriginPostQuantumEncryption: (
   input: PutOriginPostQuantumEncryptionRequest,

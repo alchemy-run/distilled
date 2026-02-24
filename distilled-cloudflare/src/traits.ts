@@ -132,6 +132,21 @@ export const HttpFormDataFile = () =>
 export const hasHttpFormDataFile = (prop: AST.PropertySignature): boolean =>
   hasPropAnnotation(prop, httpFormDataFileSymbol);
 
+/**
+ * JsonName trait - maps a camelCase property name to its wire-format (snake_case) name.
+ *
+ * In Effect v4, Schema.fromKey was removed. Instead, we store the wire name as
+ * an annotation and the request builder handles key remapping manually.
+ */
+export const httpJsonNameSymbol = Symbol.for(
+  "distilled-cloudflare/http-json-name",
+);
+export const JsonName = (name: string) =>
+  makeAnnotation(httpJsonNameSymbol, name);
+
+export const getJsonName = (prop: AST.PropertySignature): string | undefined =>
+  getPropAnnotation<string>(prop, httpJsonNameSymbol);
+
 /** HTTP response status code binding */
 export const httpStatusSymbol = Symbol.for("distilled-cloudflare/http-status");
 export const HttpStatus = () => makeAnnotation(httpStatusSymbol, true);
@@ -388,6 +403,19 @@ export interface ErrorMatcherAnnotation {
  */
 export const HttpErrorMatchers = (matchers: ErrorMatcherAnnotation[]) =>
   makeAnnotation(httpErrorMatchersSymbol, matchers);
+
+/**
+ * Apply error matchers directly to a class's AST annotations.
+ * Used for TaggedErrorClass in Effect v4 where .pipe() on a class
+ * returns a schema (not a class), breaking `extends ... .pipe(...)`.
+ */
+export const applyErrorMatchers = (
+  cls: { ast: AST.AST },
+  matchers: ErrorMatcherAnnotation[],
+): void => {
+  const annotations = cls.ast.annotations as Record<symbol, unknown>;
+  annotations[httpErrorMatchersSymbol] = matchers;
+};
 
 // =============================================================================
 // Error Trait Helpers

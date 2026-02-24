@@ -74,16 +74,12 @@ export const GetPipelineResponse = Schema.Struct({
   id: Schema.String,
   destination: Schema.Struct({
     batch: Schema.Struct({
-      maxBytes: Schema.optional(Schema.Number),
-      maxDurationS: Schema.optional(Schema.Number),
-      maxRows: Schema.optional(Schema.Number),
-    }).pipe(
-      Schema.encodeKeys({
-        maxBytes: "max_bytes",
-        maxDurationS: "max_duration_s",
-        maxRows: "max_rows",
-      }),
-    ),
+      maxBytes: Schema.optional(Schema.Number).pipe(T.JsonName("max_bytes")),
+      maxDurationS: Schema.optional(Schema.Number).pipe(
+        T.JsonName("max_duration_s"),
+      ),
+      maxRows: Schema.optional(Schema.Number).pipe(T.JsonName("max_rows")),
+    }),
     compression: Schema.Struct({
       type: Schema.optional(Schema.Literals(["none", "gzip", "deflate"])),
     }),
@@ -193,26 +189,22 @@ export const ListPipelinesResponse = Schema.Struct({
   resultInfo: Schema.Struct({
     count: Schema.Number,
     page: Schema.Number,
-    perPage: Schema.Number,
-    totalCount: Schema.Number,
-  }).pipe(
-    Schema.encodeKeys({ perPage: "per_page", totalCount: "total_count" }),
-  ),
+    perPage: Schema.Number.pipe(T.JsonName("per_page")),
+    totalCount: Schema.Number.pipe(T.JsonName("total_count")),
+  }).pipe(T.JsonName("result_info")),
   results: Schema.Array(
     Schema.Struct({
       id: Schema.String,
       destination: Schema.Struct({
         batch: Schema.Struct({
-          maxBytes: Schema.optional(Schema.Number),
-          maxDurationS: Schema.optional(Schema.Number),
-          maxRows: Schema.optional(Schema.Number),
-        }).pipe(
-          Schema.encodeKeys({
-            maxBytes: "max_bytes",
-            maxDurationS: "max_duration_s",
-            maxRows: "max_rows",
-          }),
-        ),
+          maxBytes: Schema.optional(Schema.Number).pipe(
+            T.JsonName("max_bytes"),
+          ),
+          maxDurationS: Schema.optional(Schema.Number).pipe(
+            T.JsonName("max_duration_s"),
+          ),
+          maxRows: Schema.optional(Schema.Number).pipe(T.JsonName("max_rows")),
+        }),
         compression: Schema.Struct({
           type: Schema.optional(Schema.Literals(["none", "gzip", "deflate"])),
         }),
@@ -249,9 +241,7 @@ export const ListPipelinesResponse = Schema.Struct({
     }),
   ),
   success: Schema.Boolean,
-}).pipe(
-  Schema.encodeKeys({ resultInfo: "result_info" }),
-) as unknown as Schema.Schema<ListPipelinesResponse>;
+}) as unknown as Schema.Schema<ListPipelinesResponse>;
 
 export const listPipelines: (
   input: ListPipelinesRequest,
@@ -304,29 +294,20 @@ export const CreatePipelineRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   destination: Schema.Struct({
     batch: Schema.Struct({
-      maxBytes: Schema.optional(Schema.Number),
-      maxDurationS: Schema.optional(Schema.Number),
-      maxRows: Schema.optional(Schema.Number),
-    }).pipe(
-      Schema.encodeKeys({
-        maxBytes: "max_bytes",
-        maxDurationS: "max_duration_s",
-        maxRows: "max_rows",
-      }),
-    ),
+      maxBytes: Schema.optional(Schema.Number).pipe(T.JsonName("max_bytes")),
+      maxDurationS: Schema.optional(Schema.Number).pipe(
+        T.JsonName("max_duration_s"),
+      ),
+      maxRows: Schema.optional(Schema.Number).pipe(T.JsonName("max_rows")),
+    }),
     compression: Schema.Struct({
       type: Schema.optional(Schema.Literals(["none", "gzip", "deflate"])),
     }),
     credentials: Schema.Struct({
-      accessKeyId: Schema.String,
+      accessKeyId: Schema.String.pipe(T.JsonName("access_key_id")),
       endpoint: Schema.String,
-      secretAccessKey: Schema.String,
-    }).pipe(
-      Schema.encodeKeys({
-        accessKeyId: "access_key_id",
-        secretAccessKey: "secret_access_key",
-      }),
-    ),
+      secretAccessKey: Schema.String.pipe(T.JsonName("secret_access_key")),
+    }),
     format: Schema.Literal("json"),
     path: Schema.Struct({
       bucket: Schema.String,
@@ -395,16 +376,12 @@ export const CreatePipelineResponse = Schema.Struct({
   id: Schema.String,
   destination: Schema.Struct({
     batch: Schema.Struct({
-      maxBytes: Schema.optional(Schema.Number),
-      maxDurationS: Schema.optional(Schema.Number),
-      maxRows: Schema.optional(Schema.Number),
-    }).pipe(
-      Schema.encodeKeys({
-        maxBytes: "max_bytes",
-        maxDurationS: "max_duration_s",
-        maxRows: "max_rows",
-      }),
-    ),
+      maxBytes: Schema.optional(Schema.Number).pipe(T.JsonName("max_bytes")),
+      maxDurationS: Schema.optional(Schema.Number).pipe(
+        T.JsonName("max_duration_s"),
+      ),
+      maxRows: Schema.optional(Schema.Number).pipe(T.JsonName("max_rows")),
+    }),
     compression: Schema.Struct({
       type: Schema.optional(Schema.Literals(["none", "gzip", "deflate"])),
     }),
@@ -493,16 +470,12 @@ export const UpdatePipelineRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   destination: Schema.Struct({
     batch: Schema.Struct({
-      maxBytes: Schema.optional(Schema.Number),
-      maxDurationS: Schema.optional(Schema.Number),
-      maxRows: Schema.optional(Schema.Number),
-    }).pipe(
-      Schema.encodeKeys({
-        maxBytes: "max_bytes",
-        maxDurationS: "max_duration_s",
-        maxRows: "max_rows",
-      }),
-    ),
+      maxBytes: Schema.optional(Schema.Number).pipe(T.JsonName("max_bytes")),
+      maxDurationS: Schema.optional(Schema.Number).pipe(
+        T.JsonName("max_duration_s"),
+      ),
+      maxRows: Schema.optional(Schema.Number).pipe(T.JsonName("max_rows")),
+    }),
     compression: Schema.Struct({
       type: Schema.optional(Schema.Literals(["none", "gzip", "deflate"])),
     }),
@@ -516,15 +489,10 @@ export const UpdatePipelineRequest = Schema.Struct({
     type: Schema.Literal("r2"),
     credentials: Schema.optional(
       Schema.Struct({
-        accessKeyId: Schema.String,
+        accessKeyId: Schema.String.pipe(T.JsonName("access_key_id")),
         endpoint: Schema.String,
-        secretAccessKey: Schema.String,
-      }).pipe(
-        Schema.encodeKeys({
-          accessKeyId: "access_key_id",
-          secretAccessKey: "secret_access_key",
-        }),
-      ),
+        secretAccessKey: Schema.String.pipe(T.JsonName("secret_access_key")),
+      }),
     ),
   }),
   name: Schema.String,
@@ -589,16 +557,12 @@ export const UpdatePipelineResponse = Schema.Struct({
   id: Schema.String,
   destination: Schema.Struct({
     batch: Schema.Struct({
-      maxBytes: Schema.optional(Schema.Number),
-      maxDurationS: Schema.optional(Schema.Number),
-      maxRows: Schema.optional(Schema.Number),
-    }).pipe(
-      Schema.encodeKeys({
-        maxBytes: "max_bytes",
-        maxDurationS: "max_duration_s",
-        maxRows: "max_rows",
-      }),
-    ),
+      maxBytes: Schema.optional(Schema.Number).pipe(T.JsonName("max_bytes")),
+      maxDurationS: Schema.optional(Schema.Number).pipe(
+        T.JsonName("max_duration_s"),
+      ),
+      maxRows: Schema.optional(Schema.Number).pipe(T.JsonName("max_rows")),
+    }),
     compression: Schema.Struct({
       type: Schema.optional(Schema.Literals(["none", "gzip", "deflate"])),
     }),
@@ -837,24 +801,19 @@ export interface GetSinkResponse {
 
 export const GetSinkResponse = Schema.Struct({
   id: Schema.String,
-  createdAt: Schema.String,
-  modifiedAt: Schema.String,
+  createdAt: Schema.String.pipe(T.JsonName("created_at")),
+  modifiedAt: Schema.String.pipe(T.JsonName("modified_at")),
   name: Schema.String,
   type: Schema.Literals(["r2", "r2_data_catalog"]),
   config: Schema.optional(
     Schema.Union([
       Schema.Struct({
-        accountId: Schema.String,
+        accountId: Schema.String.pipe(T.JsonName("account_id")),
         bucket: Schema.String,
         credentials: Schema.Struct({
-          accessKeyId: Schema.String,
-          secretAccessKey: Schema.String,
-        }).pipe(
-          Schema.encodeKeys({
-            accessKeyId: "access_key_id",
-            secretAccessKey: "secret_access_key",
-          }),
-        ),
+          accessKeyId: Schema.String.pipe(T.JsonName("access_key_id")),
+          secretAccessKey: Schema.String.pipe(T.JsonName("secret_access_key")),
+        }),
         fileNaming: Schema.optional(
           Schema.Struct({
             prefix: Schema.optional(Schema.String),
@@ -863,60 +822,50 @@ export const GetSinkResponse = Schema.Struct({
             ),
             suffix: Schema.optional(Schema.String),
           }),
-        ),
+        ).pipe(T.JsonName("file_naming")),
         jurisdiction: Schema.optional(Schema.String),
         partitioning: Schema.optional(
           Schema.Struct({
-            timePattern: Schema.optional(Schema.String),
-          }).pipe(Schema.encodeKeys({ timePattern: "time_pattern" })),
+            timePattern: Schema.optional(Schema.String).pipe(
+              T.JsonName("time_pattern"),
+            ),
+          }),
         ),
         path: Schema.optional(Schema.String),
         rollingPolicy: Schema.optional(
           Schema.Struct({
-            fileSizeBytes: Schema.optional(Schema.Number),
-            inactivitySeconds: Schema.optional(Schema.Number),
-            intervalSeconds: Schema.optional(Schema.Number),
-          }).pipe(
-            Schema.encodeKeys({
-              fileSizeBytes: "file_size_bytes",
-              inactivitySeconds: "inactivity_seconds",
-              intervalSeconds: "interval_seconds",
-            }),
-          ),
-        ),
-      }).pipe(
-        Schema.encodeKeys({
-          accountId: "account_id",
-          fileNaming: "file_naming",
-          rollingPolicy: "rolling_policy",
-        }),
-      ),
+            fileSizeBytes: Schema.optional(Schema.Number).pipe(
+              T.JsonName("file_size_bytes"),
+            ),
+            inactivitySeconds: Schema.optional(Schema.Number).pipe(
+              T.JsonName("inactivity_seconds"),
+            ),
+            intervalSeconds: Schema.optional(Schema.Number).pipe(
+              T.JsonName("interval_seconds"),
+            ),
+          }),
+        ).pipe(T.JsonName("rolling_policy")),
+      }),
       Schema.Struct({
         token: Schema.String,
-        accountId: Schema.String,
+        accountId: Schema.String.pipe(T.JsonName("account_id")),
         bucket: Schema.String,
-        tableName: Schema.String,
+        tableName: Schema.String.pipe(T.JsonName("table_name")),
         namespace: Schema.optional(Schema.String),
         rollingPolicy: Schema.optional(
           Schema.Struct({
-            fileSizeBytes: Schema.optional(Schema.Number),
-            inactivitySeconds: Schema.optional(Schema.Number),
-            intervalSeconds: Schema.optional(Schema.Number),
-          }).pipe(
-            Schema.encodeKeys({
-              fileSizeBytes: "file_size_bytes",
-              inactivitySeconds: "inactivity_seconds",
-              intervalSeconds: "interval_seconds",
-            }),
-          ),
-        ),
-      }).pipe(
-        Schema.encodeKeys({
-          accountId: "account_id",
-          tableName: "table_name",
-          rollingPolicy: "rolling_policy",
-        }),
-      ),
+            fileSizeBytes: Schema.optional(Schema.Number).pipe(
+              T.JsonName("file_size_bytes"),
+            ),
+            inactivitySeconds: Schema.optional(Schema.Number).pipe(
+              T.JsonName("inactivity_seconds"),
+            ),
+            intervalSeconds: Schema.optional(Schema.Number).pipe(
+              T.JsonName("interval_seconds"),
+            ),
+          }),
+        ).pipe(T.JsonName("rolling_policy")),
+      }),
     ]),
   ),
   format: Schema.optional(
@@ -925,17 +874,12 @@ export const GetSinkResponse = Schema.Struct({
         type: Schema.Literal("json"),
         decimalEncoding: Schema.optional(
           Schema.Literals(["number", "string", "bytes"]),
-        ),
+        ).pipe(T.JsonName("decimal_encoding")),
         timestampFormat: Schema.optional(
           Schema.Literals(["rfc3339", "unix_millis"]),
-        ),
+        ).pipe(T.JsonName("timestamp_format")),
         unstructured: Schema.optional(Schema.Boolean),
-      }).pipe(
-        Schema.encodeKeys({
-          decimalEncoding: "decimal_encoding",
-          timestampFormat: "timestamp_format",
-        }),
-      ),
+      }),
       Schema.Struct({
         type: Schema.Literal("parquet"),
         compression: Schema.optional(
@@ -943,8 +887,8 @@ export const GetSinkResponse = Schema.Struct({
         ),
         rowGroupBytes: Schema.optional(
           Schema.Union([Schema.Number, Schema.Null]),
-        ),
-      }).pipe(Schema.encodeKeys({ rowGroupBytes: "row_group_bytes" })),
+        ).pipe(T.JsonName("row_group_bytes")),
+      }),
     ]),
   ),
   schema: Schema.optional(
@@ -956,108 +900,89 @@ export const GetSinkResponse = Schema.Struct({
               type: Schema.Literal("int32"),
               metadataKey: Schema.optional(
                 Schema.Union([Schema.String, Schema.Null]),
-              ),
+              ).pipe(T.JsonName("metadata_key")),
               name: Schema.optional(Schema.String),
               required: Schema.optional(Schema.Boolean),
-              sqlName: Schema.optional(Schema.String),
-            }).pipe(
-              Schema.encodeKeys({
-                metadataKey: "metadata_key",
-                sqlName: "sql_name",
-              }),
-            ),
+              sqlName: Schema.optional(Schema.String).pipe(
+                T.JsonName("sql_name"),
+              ),
+            }),
             Schema.Struct({
               type: Schema.Literal("int64"),
               metadataKey: Schema.optional(
                 Schema.Union([Schema.String, Schema.Null]),
-              ),
+              ).pipe(T.JsonName("metadata_key")),
               name: Schema.optional(Schema.String),
               required: Schema.optional(Schema.Boolean),
-              sqlName: Schema.optional(Schema.String),
-            }).pipe(
-              Schema.encodeKeys({
-                metadataKey: "metadata_key",
-                sqlName: "sql_name",
-              }),
-            ),
+              sqlName: Schema.optional(Schema.String).pipe(
+                T.JsonName("sql_name"),
+              ),
+            }),
             Schema.Struct({
               type: Schema.Literal("float32"),
               metadataKey: Schema.optional(
                 Schema.Union([Schema.String, Schema.Null]),
-              ),
+              ).pipe(T.JsonName("metadata_key")),
               name: Schema.optional(Schema.String),
               required: Schema.optional(Schema.Boolean),
-              sqlName: Schema.optional(Schema.String),
-            }).pipe(
-              Schema.encodeKeys({
-                metadataKey: "metadata_key",
-                sqlName: "sql_name",
-              }),
-            ),
+              sqlName: Schema.optional(Schema.String).pipe(
+                T.JsonName("sql_name"),
+              ),
+            }),
             Schema.Struct({
               type: Schema.Literal("float64"),
               metadataKey: Schema.optional(
                 Schema.Union([Schema.String, Schema.Null]),
-              ),
+              ).pipe(T.JsonName("metadata_key")),
               name: Schema.optional(Schema.String),
               required: Schema.optional(Schema.Boolean),
-              sqlName: Schema.optional(Schema.String),
-            }).pipe(
-              Schema.encodeKeys({
-                metadataKey: "metadata_key",
-                sqlName: "sql_name",
-              }),
-            ),
+              sqlName: Schema.optional(Schema.String).pipe(
+                T.JsonName("sql_name"),
+              ),
+            }),
             Schema.Struct({
               type: Schema.Literal("bool"),
               metadataKey: Schema.optional(
                 Schema.Union([Schema.String, Schema.Null]),
-              ),
+              ).pipe(T.JsonName("metadata_key")),
               name: Schema.optional(Schema.String),
               required: Schema.optional(Schema.Boolean),
-              sqlName: Schema.optional(Schema.String),
-            }).pipe(
-              Schema.encodeKeys({
-                metadataKey: "metadata_key",
-                sqlName: "sql_name",
-              }),
-            ),
+              sqlName: Schema.optional(Schema.String).pipe(
+                T.JsonName("sql_name"),
+              ),
+            }),
             Schema.Struct({
               type: Schema.Literal("string"),
               metadataKey: Schema.optional(
                 Schema.Union([Schema.String, Schema.Null]),
-              ),
+              ).pipe(T.JsonName("metadata_key")),
               name: Schema.optional(Schema.String),
               required: Schema.optional(Schema.Boolean),
-              sqlName: Schema.optional(Schema.String),
-            }).pipe(
-              Schema.encodeKeys({
-                metadataKey: "metadata_key",
-                sqlName: "sql_name",
-              }),
-            ),
+              sqlName: Schema.optional(Schema.String).pipe(
+                T.JsonName("sql_name"),
+              ),
+            }),
             Schema.Struct({
               type: Schema.Literal("binary"),
               metadataKey: Schema.optional(
                 Schema.Union([Schema.String, Schema.Null]),
-              ),
+              ).pipe(T.JsonName("metadata_key")),
               name: Schema.optional(Schema.String),
               required: Schema.optional(Schema.Boolean),
-              sqlName: Schema.optional(Schema.String),
-            }).pipe(
-              Schema.encodeKeys({
-                metadataKey: "metadata_key",
-                sqlName: "sql_name",
-              }),
-            ),
+              sqlName: Schema.optional(Schema.String).pipe(
+                T.JsonName("sql_name"),
+              ),
+            }),
             Schema.Struct({
               type: Schema.Literal("timestamp"),
               metadataKey: Schema.optional(
                 Schema.Union([Schema.String, Schema.Null]),
-              ),
+              ).pipe(T.JsonName("metadata_key")),
               name: Schema.optional(Schema.String),
               required: Schema.optional(Schema.Boolean),
-              sqlName: Schema.optional(Schema.String),
+              sqlName: Schema.optional(Schema.String).pipe(
+                T.JsonName("sql_name"),
+              ),
               unit: Schema.optional(
                 Schema.Literals([
                   "second",
@@ -1066,27 +991,17 @@ export const GetSinkResponse = Schema.Struct({
                   "nanosecond",
                 ]),
               ),
-            }).pipe(
-              Schema.encodeKeys({
-                metadataKey: "metadata_key",
-                sqlName: "sql_name",
-              }),
-            ),
+            }),
             Schema.Struct({
               type: Schema.Literal("json"),
               decimalEncoding: Schema.optional(
                 Schema.Literals(["number", "string", "bytes"]),
-              ),
+              ).pipe(T.JsonName("decimal_encoding")),
               timestampFormat: Schema.optional(
                 Schema.Literals(["rfc3339", "unix_millis"]),
-              ),
+              ).pipe(T.JsonName("timestamp_format")),
               unstructured: Schema.optional(Schema.Boolean),
-            }).pipe(
-              Schema.encodeKeys({
-                decimalEncoding: "decimal_encoding",
-                timestampFormat: "timestamp_format",
-              }),
-            ),
+            }),
             Schema.Unknown,
           ]),
         ),
@@ -1097,17 +1012,12 @@ export const GetSinkResponse = Schema.Struct({
             type: Schema.Literal("json"),
             decimalEncoding: Schema.optional(
               Schema.Literals(["number", "string", "bytes"]),
-            ),
+            ).pipe(T.JsonName("decimal_encoding")),
             timestampFormat: Schema.optional(
               Schema.Literals(["rfc3339", "unix_millis"]),
-            ),
+            ).pipe(T.JsonName("timestamp_format")),
             unstructured: Schema.optional(Schema.Boolean),
-          }).pipe(
-            Schema.encodeKeys({
-              decimalEncoding: "decimal_encoding",
-              timestampFormat: "timestamp_format",
-            }),
-          ),
+          }),
           Schema.Struct({
             type: Schema.Literal("parquet"),
             compression: Schema.optional(
@@ -1121,16 +1031,14 @@ export const GetSinkResponse = Schema.Struct({
             ),
             rowGroupBytes: Schema.optional(
               Schema.Union([Schema.Number, Schema.Null]),
-            ),
-          }).pipe(Schema.encodeKeys({ rowGroupBytes: "row_group_bytes" })),
+            ).pipe(T.JsonName("row_group_bytes")),
+          }),
         ]),
       ),
       inferred: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
     }),
   ),
-}).pipe(
-  Schema.encodeKeys({ createdAt: "created_at", modifiedAt: "modified_at" }),
-) as unknown as Schema.Schema<GetSinkResponse>;
+}) as unknown as Schema.Schema<GetSinkResponse>;
 
 export const getSink: (
   input: GetSinkRequest,
@@ -1287,17 +1195,12 @@ export const CreateSinkRequest = Schema.Struct({
   config: Schema.optional(
     Schema.Union([
       Schema.Struct({
-        accountId: Schema.String,
+        accountId: Schema.String.pipe(T.JsonName("account_id")),
         bucket: Schema.String,
         credentials: Schema.Struct({
-          accessKeyId: Schema.String,
-          secretAccessKey: Schema.String,
-        }).pipe(
-          Schema.encodeKeys({
-            accessKeyId: "access_key_id",
-            secretAccessKey: "secret_access_key",
-          }),
-        ),
+          accessKeyId: Schema.String.pipe(T.JsonName("access_key_id")),
+          secretAccessKey: Schema.String.pipe(T.JsonName("secret_access_key")),
+        }),
         fileNaming: Schema.optional(
           Schema.Struct({
             prefix: Schema.optional(Schema.String),
@@ -1306,60 +1209,50 @@ export const CreateSinkRequest = Schema.Struct({
             ),
             suffix: Schema.optional(Schema.String),
           }),
-        ),
+        ).pipe(T.JsonName("file_naming")),
         jurisdiction: Schema.optional(Schema.String),
         partitioning: Schema.optional(
           Schema.Struct({
-            timePattern: Schema.optional(Schema.String),
-          }).pipe(Schema.encodeKeys({ timePattern: "time_pattern" })),
+            timePattern: Schema.optional(Schema.String).pipe(
+              T.JsonName("time_pattern"),
+            ),
+          }),
         ),
         path: Schema.optional(Schema.String),
         rollingPolicy: Schema.optional(
           Schema.Struct({
-            fileSizeBytes: Schema.optional(Schema.Number),
-            inactivitySeconds: Schema.optional(Schema.Number),
-            intervalSeconds: Schema.optional(Schema.Number),
-          }).pipe(
-            Schema.encodeKeys({
-              fileSizeBytes: "file_size_bytes",
-              inactivitySeconds: "inactivity_seconds",
-              intervalSeconds: "interval_seconds",
-            }),
-          ),
-        ),
-      }).pipe(
-        Schema.encodeKeys({
-          accountId: "account_id",
-          fileNaming: "file_naming",
-          rollingPolicy: "rolling_policy",
-        }),
-      ),
+            fileSizeBytes: Schema.optional(Schema.Number).pipe(
+              T.JsonName("file_size_bytes"),
+            ),
+            inactivitySeconds: Schema.optional(Schema.Number).pipe(
+              T.JsonName("inactivity_seconds"),
+            ),
+            intervalSeconds: Schema.optional(Schema.Number).pipe(
+              T.JsonName("interval_seconds"),
+            ),
+          }),
+        ).pipe(T.JsonName("rolling_policy")),
+      }),
       Schema.Struct({
         token: Schema.String,
-        accountId: Schema.String,
+        accountId: Schema.String.pipe(T.JsonName("account_id")),
         bucket: Schema.String,
-        tableName: Schema.String,
+        tableName: Schema.String.pipe(T.JsonName("table_name")),
         namespace: Schema.optional(Schema.String),
         rollingPolicy: Schema.optional(
           Schema.Struct({
-            fileSizeBytes: Schema.optional(Schema.Number),
-            inactivitySeconds: Schema.optional(Schema.Number),
-            intervalSeconds: Schema.optional(Schema.Number),
-          }).pipe(
-            Schema.encodeKeys({
-              fileSizeBytes: "file_size_bytes",
-              inactivitySeconds: "inactivity_seconds",
-              intervalSeconds: "interval_seconds",
-            }),
-          ),
-        ),
-      }).pipe(
-        Schema.encodeKeys({
-          accountId: "account_id",
-          tableName: "table_name",
-          rollingPolicy: "rolling_policy",
-        }),
-      ),
+            fileSizeBytes: Schema.optional(Schema.Number).pipe(
+              T.JsonName("file_size_bytes"),
+            ),
+            inactivitySeconds: Schema.optional(Schema.Number).pipe(
+              T.JsonName("inactivity_seconds"),
+            ),
+            intervalSeconds: Schema.optional(Schema.Number).pipe(
+              T.JsonName("interval_seconds"),
+            ),
+          }),
+        ).pipe(T.JsonName("rolling_policy")),
+      }),
     ]),
   ),
   format: Schema.optional(
@@ -1368,17 +1261,12 @@ export const CreateSinkRequest = Schema.Struct({
         type: Schema.Literal("json"),
         decimalEncoding: Schema.optional(
           Schema.Literals(["number", "string", "bytes"]),
-        ),
+        ).pipe(T.JsonName("decimal_encoding")),
         timestampFormat: Schema.optional(
           Schema.Literals(["rfc3339", "unix_millis"]),
-        ),
+        ).pipe(T.JsonName("timestamp_format")),
         unstructured: Schema.optional(Schema.Boolean),
-      }).pipe(
-        Schema.encodeKeys({
-          decimalEncoding: "decimal_encoding",
-          timestampFormat: "timestamp_format",
-        }),
-      ),
+      }),
       Schema.Struct({
         type: Schema.Literal("parquet"),
         compression: Schema.optional(
@@ -1386,8 +1274,8 @@ export const CreateSinkRequest = Schema.Struct({
         ),
         rowGroupBytes: Schema.optional(
           Schema.Union([Schema.Number, Schema.Null]),
-        ),
-      }).pipe(Schema.encodeKeys({ rowGroupBytes: "row_group_bytes" })),
+        ).pipe(T.JsonName("row_group_bytes")),
+      }),
     ]),
   ),
   schema: Schema.optional(
@@ -1399,108 +1287,89 @@ export const CreateSinkRequest = Schema.Struct({
               type: Schema.Literal("int32"),
               metadataKey: Schema.optional(
                 Schema.Union([Schema.String, Schema.Null]),
-              ),
+              ).pipe(T.JsonName("metadata_key")),
               name: Schema.optional(Schema.String),
               required: Schema.optional(Schema.Boolean),
-              sqlName: Schema.optional(Schema.String),
-            }).pipe(
-              Schema.encodeKeys({
-                metadataKey: "metadata_key",
-                sqlName: "sql_name",
-              }),
-            ),
+              sqlName: Schema.optional(Schema.String).pipe(
+                T.JsonName("sql_name"),
+              ),
+            }),
             Schema.Struct({
               type: Schema.Literal("int64"),
               metadataKey: Schema.optional(
                 Schema.Union([Schema.String, Schema.Null]),
-              ),
+              ).pipe(T.JsonName("metadata_key")),
               name: Schema.optional(Schema.String),
               required: Schema.optional(Schema.Boolean),
-              sqlName: Schema.optional(Schema.String),
-            }).pipe(
-              Schema.encodeKeys({
-                metadataKey: "metadata_key",
-                sqlName: "sql_name",
-              }),
-            ),
+              sqlName: Schema.optional(Schema.String).pipe(
+                T.JsonName("sql_name"),
+              ),
+            }),
             Schema.Struct({
               type: Schema.Literal("float32"),
               metadataKey: Schema.optional(
                 Schema.Union([Schema.String, Schema.Null]),
-              ),
+              ).pipe(T.JsonName("metadata_key")),
               name: Schema.optional(Schema.String),
               required: Schema.optional(Schema.Boolean),
-              sqlName: Schema.optional(Schema.String),
-            }).pipe(
-              Schema.encodeKeys({
-                metadataKey: "metadata_key",
-                sqlName: "sql_name",
-              }),
-            ),
+              sqlName: Schema.optional(Schema.String).pipe(
+                T.JsonName("sql_name"),
+              ),
+            }),
             Schema.Struct({
               type: Schema.Literal("float64"),
               metadataKey: Schema.optional(
                 Schema.Union([Schema.String, Schema.Null]),
-              ),
+              ).pipe(T.JsonName("metadata_key")),
               name: Schema.optional(Schema.String),
               required: Schema.optional(Schema.Boolean),
-              sqlName: Schema.optional(Schema.String),
-            }).pipe(
-              Schema.encodeKeys({
-                metadataKey: "metadata_key",
-                sqlName: "sql_name",
-              }),
-            ),
+              sqlName: Schema.optional(Schema.String).pipe(
+                T.JsonName("sql_name"),
+              ),
+            }),
             Schema.Struct({
               type: Schema.Literal("bool"),
               metadataKey: Schema.optional(
                 Schema.Union([Schema.String, Schema.Null]),
-              ),
+              ).pipe(T.JsonName("metadata_key")),
               name: Schema.optional(Schema.String),
               required: Schema.optional(Schema.Boolean),
-              sqlName: Schema.optional(Schema.String),
-            }).pipe(
-              Schema.encodeKeys({
-                metadataKey: "metadata_key",
-                sqlName: "sql_name",
-              }),
-            ),
+              sqlName: Schema.optional(Schema.String).pipe(
+                T.JsonName("sql_name"),
+              ),
+            }),
             Schema.Struct({
               type: Schema.Literal("string"),
               metadataKey: Schema.optional(
                 Schema.Union([Schema.String, Schema.Null]),
-              ),
+              ).pipe(T.JsonName("metadata_key")),
               name: Schema.optional(Schema.String),
               required: Schema.optional(Schema.Boolean),
-              sqlName: Schema.optional(Schema.String),
-            }).pipe(
-              Schema.encodeKeys({
-                metadataKey: "metadata_key",
-                sqlName: "sql_name",
-              }),
-            ),
+              sqlName: Schema.optional(Schema.String).pipe(
+                T.JsonName("sql_name"),
+              ),
+            }),
             Schema.Struct({
               type: Schema.Literal("binary"),
               metadataKey: Schema.optional(
                 Schema.Union([Schema.String, Schema.Null]),
-              ),
+              ).pipe(T.JsonName("metadata_key")),
               name: Schema.optional(Schema.String),
               required: Schema.optional(Schema.Boolean),
-              sqlName: Schema.optional(Schema.String),
-            }).pipe(
-              Schema.encodeKeys({
-                metadataKey: "metadata_key",
-                sqlName: "sql_name",
-              }),
-            ),
+              sqlName: Schema.optional(Schema.String).pipe(
+                T.JsonName("sql_name"),
+              ),
+            }),
             Schema.Struct({
               type: Schema.Literal("timestamp"),
               metadataKey: Schema.optional(
                 Schema.Union([Schema.String, Schema.Null]),
-              ),
+              ).pipe(T.JsonName("metadata_key")),
               name: Schema.optional(Schema.String),
               required: Schema.optional(Schema.Boolean),
-              sqlName: Schema.optional(Schema.String),
+              sqlName: Schema.optional(Schema.String).pipe(
+                T.JsonName("sql_name"),
+              ),
               unit: Schema.optional(
                 Schema.Literals([
                   "second",
@@ -1509,27 +1378,17 @@ export const CreateSinkRequest = Schema.Struct({
                   "nanosecond",
                 ]),
               ),
-            }).pipe(
-              Schema.encodeKeys({
-                metadataKey: "metadata_key",
-                sqlName: "sql_name",
-              }),
-            ),
+            }),
             Schema.Struct({
               type: Schema.Literal("json"),
               decimalEncoding: Schema.optional(
                 Schema.Literals(["number", "string", "bytes"]),
-              ),
+              ).pipe(T.JsonName("decimal_encoding")),
               timestampFormat: Schema.optional(
                 Schema.Literals(["rfc3339", "unix_millis"]),
-              ),
+              ).pipe(T.JsonName("timestamp_format")),
               unstructured: Schema.optional(Schema.Boolean),
-            }).pipe(
-              Schema.encodeKeys({
-                decimalEncoding: "decimal_encoding",
-                timestampFormat: "timestamp_format",
-              }),
-            ),
+            }),
             Schema.Unknown,
           ]),
         ),
@@ -1540,17 +1399,12 @@ export const CreateSinkRequest = Schema.Struct({
             type: Schema.Literal("json"),
             decimalEncoding: Schema.optional(
               Schema.Literals(["number", "string", "bytes"]),
-            ),
+            ).pipe(T.JsonName("decimal_encoding")),
             timestampFormat: Schema.optional(
               Schema.Literals(["rfc3339", "unix_millis"]),
-            ),
+            ).pipe(T.JsonName("timestamp_format")),
             unstructured: Schema.optional(Schema.Boolean),
-          }).pipe(
-            Schema.encodeKeys({
-              decimalEncoding: "decimal_encoding",
-              timestampFormat: "timestamp_format",
-            }),
-          ),
+          }),
           Schema.Struct({
             type: Schema.Literal("parquet"),
             compression: Schema.optional(
@@ -1564,8 +1418,8 @@ export const CreateSinkRequest = Schema.Struct({
             ),
             rowGroupBytes: Schema.optional(
               Schema.Union([Schema.Number, Schema.Null]),
-            ),
-          }).pipe(Schema.encodeKeys({ rowGroupBytes: "row_group_bytes" })),
+            ).pipe(T.JsonName("row_group_bytes")),
+          }),
         ]),
       ),
       inferred: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
@@ -1713,24 +1567,19 @@ export interface CreateSinkResponse {
 
 export const CreateSinkResponse = Schema.Struct({
   id: Schema.String,
-  createdAt: Schema.String,
-  modifiedAt: Schema.String,
+  createdAt: Schema.String.pipe(T.JsonName("created_at")),
+  modifiedAt: Schema.String.pipe(T.JsonName("modified_at")),
   name: Schema.String,
   type: Schema.Literals(["r2", "r2_data_catalog"]),
   config: Schema.optional(
     Schema.Union([
       Schema.Struct({
-        accountId: Schema.String,
+        accountId: Schema.String.pipe(T.JsonName("account_id")),
         bucket: Schema.String,
         credentials: Schema.Struct({
-          accessKeyId: Schema.String,
-          secretAccessKey: Schema.String,
-        }).pipe(
-          Schema.encodeKeys({
-            accessKeyId: "access_key_id",
-            secretAccessKey: "secret_access_key",
-          }),
-        ),
+          accessKeyId: Schema.String.pipe(T.JsonName("access_key_id")),
+          secretAccessKey: Schema.String.pipe(T.JsonName("secret_access_key")),
+        }),
         fileNaming: Schema.optional(
           Schema.Struct({
             prefix: Schema.optional(Schema.String),
@@ -1739,60 +1588,50 @@ export const CreateSinkResponse = Schema.Struct({
             ),
             suffix: Schema.optional(Schema.String),
           }),
-        ),
+        ).pipe(T.JsonName("file_naming")),
         jurisdiction: Schema.optional(Schema.String),
         partitioning: Schema.optional(
           Schema.Struct({
-            timePattern: Schema.optional(Schema.String),
-          }).pipe(Schema.encodeKeys({ timePattern: "time_pattern" })),
+            timePattern: Schema.optional(Schema.String).pipe(
+              T.JsonName("time_pattern"),
+            ),
+          }),
         ),
         path: Schema.optional(Schema.String),
         rollingPolicy: Schema.optional(
           Schema.Struct({
-            fileSizeBytes: Schema.optional(Schema.Number),
-            inactivitySeconds: Schema.optional(Schema.Number),
-            intervalSeconds: Schema.optional(Schema.Number),
-          }).pipe(
-            Schema.encodeKeys({
-              fileSizeBytes: "file_size_bytes",
-              inactivitySeconds: "inactivity_seconds",
-              intervalSeconds: "interval_seconds",
-            }),
-          ),
-        ),
-      }).pipe(
-        Schema.encodeKeys({
-          accountId: "account_id",
-          fileNaming: "file_naming",
-          rollingPolicy: "rolling_policy",
-        }),
-      ),
+            fileSizeBytes: Schema.optional(Schema.Number).pipe(
+              T.JsonName("file_size_bytes"),
+            ),
+            inactivitySeconds: Schema.optional(Schema.Number).pipe(
+              T.JsonName("inactivity_seconds"),
+            ),
+            intervalSeconds: Schema.optional(Schema.Number).pipe(
+              T.JsonName("interval_seconds"),
+            ),
+          }),
+        ).pipe(T.JsonName("rolling_policy")),
+      }),
       Schema.Struct({
         token: Schema.String,
-        accountId: Schema.String,
+        accountId: Schema.String.pipe(T.JsonName("account_id")),
         bucket: Schema.String,
-        tableName: Schema.String,
+        tableName: Schema.String.pipe(T.JsonName("table_name")),
         namespace: Schema.optional(Schema.String),
         rollingPolicy: Schema.optional(
           Schema.Struct({
-            fileSizeBytes: Schema.optional(Schema.Number),
-            inactivitySeconds: Schema.optional(Schema.Number),
-            intervalSeconds: Schema.optional(Schema.Number),
-          }).pipe(
-            Schema.encodeKeys({
-              fileSizeBytes: "file_size_bytes",
-              inactivitySeconds: "inactivity_seconds",
-              intervalSeconds: "interval_seconds",
-            }),
-          ),
-        ),
-      }).pipe(
-        Schema.encodeKeys({
-          accountId: "account_id",
-          tableName: "table_name",
-          rollingPolicy: "rolling_policy",
-        }),
-      ),
+            fileSizeBytes: Schema.optional(Schema.Number).pipe(
+              T.JsonName("file_size_bytes"),
+            ),
+            inactivitySeconds: Schema.optional(Schema.Number).pipe(
+              T.JsonName("inactivity_seconds"),
+            ),
+            intervalSeconds: Schema.optional(Schema.Number).pipe(
+              T.JsonName("interval_seconds"),
+            ),
+          }),
+        ).pipe(T.JsonName("rolling_policy")),
+      }),
     ]),
   ),
   format: Schema.optional(
@@ -1801,17 +1640,12 @@ export const CreateSinkResponse = Schema.Struct({
         type: Schema.Literal("json"),
         decimalEncoding: Schema.optional(
           Schema.Literals(["number", "string", "bytes"]),
-        ),
+        ).pipe(T.JsonName("decimal_encoding")),
         timestampFormat: Schema.optional(
           Schema.Literals(["rfc3339", "unix_millis"]),
-        ),
+        ).pipe(T.JsonName("timestamp_format")),
         unstructured: Schema.optional(Schema.Boolean),
-      }).pipe(
-        Schema.encodeKeys({
-          decimalEncoding: "decimal_encoding",
-          timestampFormat: "timestamp_format",
-        }),
-      ),
+      }),
       Schema.Struct({
         type: Schema.Literal("parquet"),
         compression: Schema.optional(
@@ -1819,8 +1653,8 @@ export const CreateSinkResponse = Schema.Struct({
         ),
         rowGroupBytes: Schema.optional(
           Schema.Union([Schema.Number, Schema.Null]),
-        ),
-      }).pipe(Schema.encodeKeys({ rowGroupBytes: "row_group_bytes" })),
+        ).pipe(T.JsonName("row_group_bytes")),
+      }),
     ]),
   ),
   schema: Schema.optional(
@@ -1832,108 +1666,89 @@ export const CreateSinkResponse = Schema.Struct({
               type: Schema.Literal("int32"),
               metadataKey: Schema.optional(
                 Schema.Union([Schema.String, Schema.Null]),
-              ),
+              ).pipe(T.JsonName("metadata_key")),
               name: Schema.optional(Schema.String),
               required: Schema.optional(Schema.Boolean),
-              sqlName: Schema.optional(Schema.String),
-            }).pipe(
-              Schema.encodeKeys({
-                metadataKey: "metadata_key",
-                sqlName: "sql_name",
-              }),
-            ),
+              sqlName: Schema.optional(Schema.String).pipe(
+                T.JsonName("sql_name"),
+              ),
+            }),
             Schema.Struct({
               type: Schema.Literal("int64"),
               metadataKey: Schema.optional(
                 Schema.Union([Schema.String, Schema.Null]),
-              ),
+              ).pipe(T.JsonName("metadata_key")),
               name: Schema.optional(Schema.String),
               required: Schema.optional(Schema.Boolean),
-              sqlName: Schema.optional(Schema.String),
-            }).pipe(
-              Schema.encodeKeys({
-                metadataKey: "metadata_key",
-                sqlName: "sql_name",
-              }),
-            ),
+              sqlName: Schema.optional(Schema.String).pipe(
+                T.JsonName("sql_name"),
+              ),
+            }),
             Schema.Struct({
               type: Schema.Literal("float32"),
               metadataKey: Schema.optional(
                 Schema.Union([Schema.String, Schema.Null]),
-              ),
+              ).pipe(T.JsonName("metadata_key")),
               name: Schema.optional(Schema.String),
               required: Schema.optional(Schema.Boolean),
-              sqlName: Schema.optional(Schema.String),
-            }).pipe(
-              Schema.encodeKeys({
-                metadataKey: "metadata_key",
-                sqlName: "sql_name",
-              }),
-            ),
+              sqlName: Schema.optional(Schema.String).pipe(
+                T.JsonName("sql_name"),
+              ),
+            }),
             Schema.Struct({
               type: Schema.Literal("float64"),
               metadataKey: Schema.optional(
                 Schema.Union([Schema.String, Schema.Null]),
-              ),
+              ).pipe(T.JsonName("metadata_key")),
               name: Schema.optional(Schema.String),
               required: Schema.optional(Schema.Boolean),
-              sqlName: Schema.optional(Schema.String),
-            }).pipe(
-              Schema.encodeKeys({
-                metadataKey: "metadata_key",
-                sqlName: "sql_name",
-              }),
-            ),
+              sqlName: Schema.optional(Schema.String).pipe(
+                T.JsonName("sql_name"),
+              ),
+            }),
             Schema.Struct({
               type: Schema.Literal("bool"),
               metadataKey: Schema.optional(
                 Schema.Union([Schema.String, Schema.Null]),
-              ),
+              ).pipe(T.JsonName("metadata_key")),
               name: Schema.optional(Schema.String),
               required: Schema.optional(Schema.Boolean),
-              sqlName: Schema.optional(Schema.String),
-            }).pipe(
-              Schema.encodeKeys({
-                metadataKey: "metadata_key",
-                sqlName: "sql_name",
-              }),
-            ),
+              sqlName: Schema.optional(Schema.String).pipe(
+                T.JsonName("sql_name"),
+              ),
+            }),
             Schema.Struct({
               type: Schema.Literal("string"),
               metadataKey: Schema.optional(
                 Schema.Union([Schema.String, Schema.Null]),
-              ),
+              ).pipe(T.JsonName("metadata_key")),
               name: Schema.optional(Schema.String),
               required: Schema.optional(Schema.Boolean),
-              sqlName: Schema.optional(Schema.String),
-            }).pipe(
-              Schema.encodeKeys({
-                metadataKey: "metadata_key",
-                sqlName: "sql_name",
-              }),
-            ),
+              sqlName: Schema.optional(Schema.String).pipe(
+                T.JsonName("sql_name"),
+              ),
+            }),
             Schema.Struct({
               type: Schema.Literal("binary"),
               metadataKey: Schema.optional(
                 Schema.Union([Schema.String, Schema.Null]),
-              ),
+              ).pipe(T.JsonName("metadata_key")),
               name: Schema.optional(Schema.String),
               required: Schema.optional(Schema.Boolean),
-              sqlName: Schema.optional(Schema.String),
-            }).pipe(
-              Schema.encodeKeys({
-                metadataKey: "metadata_key",
-                sqlName: "sql_name",
-              }),
-            ),
+              sqlName: Schema.optional(Schema.String).pipe(
+                T.JsonName("sql_name"),
+              ),
+            }),
             Schema.Struct({
               type: Schema.Literal("timestamp"),
               metadataKey: Schema.optional(
                 Schema.Union([Schema.String, Schema.Null]),
-              ),
+              ).pipe(T.JsonName("metadata_key")),
               name: Schema.optional(Schema.String),
               required: Schema.optional(Schema.Boolean),
-              sqlName: Schema.optional(Schema.String),
+              sqlName: Schema.optional(Schema.String).pipe(
+                T.JsonName("sql_name"),
+              ),
               unit: Schema.optional(
                 Schema.Literals([
                   "second",
@@ -1942,27 +1757,17 @@ export const CreateSinkResponse = Schema.Struct({
                   "nanosecond",
                 ]),
               ),
-            }).pipe(
-              Schema.encodeKeys({
-                metadataKey: "metadata_key",
-                sqlName: "sql_name",
-              }),
-            ),
+            }),
             Schema.Struct({
               type: Schema.Literal("json"),
               decimalEncoding: Schema.optional(
                 Schema.Literals(["number", "string", "bytes"]),
-              ),
+              ).pipe(T.JsonName("decimal_encoding")),
               timestampFormat: Schema.optional(
                 Schema.Literals(["rfc3339", "unix_millis"]),
-              ),
+              ).pipe(T.JsonName("timestamp_format")),
               unstructured: Schema.optional(Schema.Boolean),
-            }).pipe(
-              Schema.encodeKeys({
-                decimalEncoding: "decimal_encoding",
-                timestampFormat: "timestamp_format",
-              }),
-            ),
+            }),
             Schema.Unknown,
           ]),
         ),
@@ -1973,17 +1778,12 @@ export const CreateSinkResponse = Schema.Struct({
             type: Schema.Literal("json"),
             decimalEncoding: Schema.optional(
               Schema.Literals(["number", "string", "bytes"]),
-            ),
+            ).pipe(T.JsonName("decimal_encoding")),
             timestampFormat: Schema.optional(
               Schema.Literals(["rfc3339", "unix_millis"]),
-            ),
+            ).pipe(T.JsonName("timestamp_format")),
             unstructured: Schema.optional(Schema.Boolean),
-          }).pipe(
-            Schema.encodeKeys({
-              decimalEncoding: "decimal_encoding",
-              timestampFormat: "timestamp_format",
-            }),
-          ),
+          }),
           Schema.Struct({
             type: Schema.Literal("parquet"),
             compression: Schema.optional(
@@ -1997,16 +1797,14 @@ export const CreateSinkResponse = Schema.Struct({
             ),
             rowGroupBytes: Schema.optional(
               Schema.Union([Schema.Number, Schema.Null]),
-            ),
-          }).pipe(Schema.encodeKeys({ rowGroupBytes: "row_group_bytes" })),
+            ).pipe(T.JsonName("row_group_bytes")),
+          }),
         ]),
       ),
       inferred: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
     }),
   ),
-}).pipe(
-  Schema.encodeKeys({ createdAt: "created_at", modifiedAt: "modified_at" }),
-) as unknown as Schema.Schema<CreateSinkResponse>;
+}) as unknown as Schema.Schema<CreateSinkResponse>;
 
 export const createSink: (
   input: CreateSinkRequest,
@@ -2103,28 +1901,20 @@ export const ValidateSqlPipelineResponse = Schema.Struct({
     Schema.Struct({
       edges: Schema.Array(
         Schema.Struct({
-          destId: Schema.Number,
-          edgeType: Schema.String,
-          keyType: Schema.String,
-          srcId: Schema.Number,
-          valueType: Schema.String,
-        }).pipe(
-          Schema.encodeKeys({
-            destId: "dest_id",
-            edgeType: "edge_type",
-            keyType: "key_type",
-            srcId: "src_id",
-            valueType: "value_type",
-          }),
-        ),
+          destId: Schema.Number.pipe(T.JsonName("dest_id")),
+          edgeType: Schema.String.pipe(T.JsonName("edge_type")),
+          keyType: Schema.String.pipe(T.JsonName("key_type")),
+          srcId: Schema.Number.pipe(T.JsonName("src_id")),
+          valueType: Schema.String.pipe(T.JsonName("value_type")),
+        }),
       ),
       nodes: Schema.Array(
         Schema.Struct({
           description: Schema.String,
-          nodeId: Schema.Number,
+          nodeId: Schema.Number.pipe(T.JsonName("node_id")),
           operator: Schema.String,
           parallelism: Schema.Number,
-        }).pipe(Schema.encodeKeys({ nodeId: "node_id" })),
+        }),
       ),
     }),
   ),
@@ -2276,7 +2066,7 @@ export interface GetStreamResponse {
 
 export const GetStreamResponse = Schema.Struct({
   id: Schema.String,
-  createdAt: Schema.String,
+  createdAt: Schema.String.pipe(T.JsonName("created_at")),
   http: Schema.Struct({
     authentication: Schema.Boolean,
     enabled: Schema.Boolean,
@@ -2286,12 +2076,12 @@ export const GetStreamResponse = Schema.Struct({
       }),
     ),
   }),
-  modifiedAt: Schema.String,
+  modifiedAt: Schema.String.pipe(T.JsonName("modified_at")),
   name: Schema.String,
   version: Schema.Number,
   workerBinding: Schema.Struct({
     enabled: Schema.Boolean,
-  }),
+  }).pipe(T.JsonName("worker_binding")),
   endpoint: Schema.optional(Schema.String),
   format: Schema.optional(
     Schema.Union([
@@ -2299,17 +2089,12 @@ export const GetStreamResponse = Schema.Struct({
         type: Schema.Literal("json"),
         decimalEncoding: Schema.optional(
           Schema.Literals(["number", "string", "bytes"]),
-        ),
+        ).pipe(T.JsonName("decimal_encoding")),
         timestampFormat: Schema.optional(
           Schema.Literals(["rfc3339", "unix_millis"]),
-        ),
+        ).pipe(T.JsonName("timestamp_format")),
         unstructured: Schema.optional(Schema.Boolean),
-      }).pipe(
-        Schema.encodeKeys({
-          decimalEncoding: "decimal_encoding",
-          timestampFormat: "timestamp_format",
-        }),
-      ),
+      }),
       Schema.Struct({
         type: Schema.Literal("parquet"),
         compression: Schema.optional(
@@ -2317,8 +2102,8 @@ export const GetStreamResponse = Schema.Struct({
         ),
         rowGroupBytes: Schema.optional(
           Schema.Union([Schema.Number, Schema.Null]),
-        ),
-      }).pipe(Schema.encodeKeys({ rowGroupBytes: "row_group_bytes" })),
+        ).pipe(T.JsonName("row_group_bytes")),
+      }),
     ]),
   ),
   schema: Schema.optional(
@@ -2330,108 +2115,89 @@ export const GetStreamResponse = Schema.Struct({
               type: Schema.Literal("int32"),
               metadataKey: Schema.optional(
                 Schema.Union([Schema.String, Schema.Null]),
-              ),
+              ).pipe(T.JsonName("metadata_key")),
               name: Schema.optional(Schema.String),
               required: Schema.optional(Schema.Boolean),
-              sqlName: Schema.optional(Schema.String),
-            }).pipe(
-              Schema.encodeKeys({
-                metadataKey: "metadata_key",
-                sqlName: "sql_name",
-              }),
-            ),
+              sqlName: Schema.optional(Schema.String).pipe(
+                T.JsonName("sql_name"),
+              ),
+            }),
             Schema.Struct({
               type: Schema.Literal("int64"),
               metadataKey: Schema.optional(
                 Schema.Union([Schema.String, Schema.Null]),
-              ),
+              ).pipe(T.JsonName("metadata_key")),
               name: Schema.optional(Schema.String),
               required: Schema.optional(Schema.Boolean),
-              sqlName: Schema.optional(Schema.String),
-            }).pipe(
-              Schema.encodeKeys({
-                metadataKey: "metadata_key",
-                sqlName: "sql_name",
-              }),
-            ),
+              sqlName: Schema.optional(Schema.String).pipe(
+                T.JsonName("sql_name"),
+              ),
+            }),
             Schema.Struct({
               type: Schema.Literal("float32"),
               metadataKey: Schema.optional(
                 Schema.Union([Schema.String, Schema.Null]),
-              ),
+              ).pipe(T.JsonName("metadata_key")),
               name: Schema.optional(Schema.String),
               required: Schema.optional(Schema.Boolean),
-              sqlName: Schema.optional(Schema.String),
-            }).pipe(
-              Schema.encodeKeys({
-                metadataKey: "metadata_key",
-                sqlName: "sql_name",
-              }),
-            ),
+              sqlName: Schema.optional(Schema.String).pipe(
+                T.JsonName("sql_name"),
+              ),
+            }),
             Schema.Struct({
               type: Schema.Literal("float64"),
               metadataKey: Schema.optional(
                 Schema.Union([Schema.String, Schema.Null]),
-              ),
+              ).pipe(T.JsonName("metadata_key")),
               name: Schema.optional(Schema.String),
               required: Schema.optional(Schema.Boolean),
-              sqlName: Schema.optional(Schema.String),
-            }).pipe(
-              Schema.encodeKeys({
-                metadataKey: "metadata_key",
-                sqlName: "sql_name",
-              }),
-            ),
+              sqlName: Schema.optional(Schema.String).pipe(
+                T.JsonName("sql_name"),
+              ),
+            }),
             Schema.Struct({
               type: Schema.Literal("bool"),
               metadataKey: Schema.optional(
                 Schema.Union([Schema.String, Schema.Null]),
-              ),
+              ).pipe(T.JsonName("metadata_key")),
               name: Schema.optional(Schema.String),
               required: Schema.optional(Schema.Boolean),
-              sqlName: Schema.optional(Schema.String),
-            }).pipe(
-              Schema.encodeKeys({
-                metadataKey: "metadata_key",
-                sqlName: "sql_name",
-              }),
-            ),
+              sqlName: Schema.optional(Schema.String).pipe(
+                T.JsonName("sql_name"),
+              ),
+            }),
             Schema.Struct({
               type: Schema.Literal("string"),
               metadataKey: Schema.optional(
                 Schema.Union([Schema.String, Schema.Null]),
-              ),
+              ).pipe(T.JsonName("metadata_key")),
               name: Schema.optional(Schema.String),
               required: Schema.optional(Schema.Boolean),
-              sqlName: Schema.optional(Schema.String),
-            }).pipe(
-              Schema.encodeKeys({
-                metadataKey: "metadata_key",
-                sqlName: "sql_name",
-              }),
-            ),
+              sqlName: Schema.optional(Schema.String).pipe(
+                T.JsonName("sql_name"),
+              ),
+            }),
             Schema.Struct({
               type: Schema.Literal("binary"),
               metadataKey: Schema.optional(
                 Schema.Union([Schema.String, Schema.Null]),
-              ),
+              ).pipe(T.JsonName("metadata_key")),
               name: Schema.optional(Schema.String),
               required: Schema.optional(Schema.Boolean),
-              sqlName: Schema.optional(Schema.String),
-            }).pipe(
-              Schema.encodeKeys({
-                metadataKey: "metadata_key",
-                sqlName: "sql_name",
-              }),
-            ),
+              sqlName: Schema.optional(Schema.String).pipe(
+                T.JsonName("sql_name"),
+              ),
+            }),
             Schema.Struct({
               type: Schema.Literal("timestamp"),
               metadataKey: Schema.optional(
                 Schema.Union([Schema.String, Schema.Null]),
-              ),
+              ).pipe(T.JsonName("metadata_key")),
               name: Schema.optional(Schema.String),
               required: Schema.optional(Schema.Boolean),
-              sqlName: Schema.optional(Schema.String),
+              sqlName: Schema.optional(Schema.String).pipe(
+                T.JsonName("sql_name"),
+              ),
               unit: Schema.optional(
                 Schema.Literals([
                   "second",
@@ -2440,27 +2206,17 @@ export const GetStreamResponse = Schema.Struct({
                   "nanosecond",
                 ]),
               ),
-            }).pipe(
-              Schema.encodeKeys({
-                metadataKey: "metadata_key",
-                sqlName: "sql_name",
-              }),
-            ),
+            }),
             Schema.Struct({
               type: Schema.Literal("json"),
               decimalEncoding: Schema.optional(
                 Schema.Literals(["number", "string", "bytes"]),
-              ),
+              ).pipe(T.JsonName("decimal_encoding")),
               timestampFormat: Schema.optional(
                 Schema.Literals(["rfc3339", "unix_millis"]),
-              ),
+              ).pipe(T.JsonName("timestamp_format")),
               unstructured: Schema.optional(Schema.Boolean),
-            }).pipe(
-              Schema.encodeKeys({
-                decimalEncoding: "decimal_encoding",
-                timestampFormat: "timestamp_format",
-              }),
-            ),
+            }),
             Schema.Unknown,
           ]),
         ),
@@ -2471,17 +2227,12 @@ export const GetStreamResponse = Schema.Struct({
             type: Schema.Literal("json"),
             decimalEncoding: Schema.optional(
               Schema.Literals(["number", "string", "bytes"]),
-            ),
+            ).pipe(T.JsonName("decimal_encoding")),
             timestampFormat: Schema.optional(
               Schema.Literals(["rfc3339", "unix_millis"]),
-            ),
+            ).pipe(T.JsonName("timestamp_format")),
             unstructured: Schema.optional(Schema.Boolean),
-          }).pipe(
-            Schema.encodeKeys({
-              decimalEncoding: "decimal_encoding",
-              timestampFormat: "timestamp_format",
-            }),
-          ),
+          }),
           Schema.Struct({
             type: Schema.Literal("parquet"),
             compression: Schema.optional(
@@ -2495,20 +2246,14 @@ export const GetStreamResponse = Schema.Struct({
             ),
             rowGroupBytes: Schema.optional(
               Schema.Union([Schema.Number, Schema.Null]),
-            ),
-          }).pipe(Schema.encodeKeys({ rowGroupBytes: "row_group_bytes" })),
+            ).pipe(T.JsonName("row_group_bytes")),
+          }),
         ]),
       ),
       inferred: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
     }),
   ),
-}).pipe(
-  Schema.encodeKeys({
-    createdAt: "created_at",
-    modifiedAt: "modified_at",
-    workerBinding: "worker_binding",
-  }),
-) as unknown as Schema.Schema<GetStreamResponse>;
+}) as unknown as Schema.Schema<GetStreamResponse>;
 
 export const getStream: (
   input: GetStreamRequest,
@@ -2641,17 +2386,12 @@ export const CreateStreamRequest = Schema.Struct({
         type: Schema.Literal("json"),
         decimalEncoding: Schema.optional(
           Schema.Literals(["number", "string", "bytes"]),
-        ),
+        ).pipe(T.JsonName("decimal_encoding")),
         timestampFormat: Schema.optional(
           Schema.Literals(["rfc3339", "unix_millis"]),
-        ),
+        ).pipe(T.JsonName("timestamp_format")),
         unstructured: Schema.optional(Schema.Boolean),
-      }).pipe(
-        Schema.encodeKeys({
-          decimalEncoding: "decimal_encoding",
-          timestampFormat: "timestamp_format",
-        }),
-      ),
+      }),
       Schema.Struct({
         type: Schema.Literal("parquet"),
         compression: Schema.optional(
@@ -2659,8 +2399,8 @@ export const CreateStreamRequest = Schema.Struct({
         ),
         rowGroupBytes: Schema.optional(
           Schema.Union([Schema.Number, Schema.Null]),
-        ),
-      }).pipe(Schema.encodeKeys({ rowGroupBytes: "row_group_bytes" })),
+        ).pipe(T.JsonName("row_group_bytes")),
+      }),
     ]),
   ),
   http: Schema.optional(
@@ -2683,108 +2423,89 @@ export const CreateStreamRequest = Schema.Struct({
               type: Schema.Literal("int32"),
               metadataKey: Schema.optional(
                 Schema.Union([Schema.String, Schema.Null]),
-              ),
+              ).pipe(T.JsonName("metadata_key")),
               name: Schema.optional(Schema.String),
               required: Schema.optional(Schema.Boolean),
-              sqlName: Schema.optional(Schema.String),
-            }).pipe(
-              Schema.encodeKeys({
-                metadataKey: "metadata_key",
-                sqlName: "sql_name",
-              }),
-            ),
+              sqlName: Schema.optional(Schema.String).pipe(
+                T.JsonName("sql_name"),
+              ),
+            }),
             Schema.Struct({
               type: Schema.Literal("int64"),
               metadataKey: Schema.optional(
                 Schema.Union([Schema.String, Schema.Null]),
-              ),
+              ).pipe(T.JsonName("metadata_key")),
               name: Schema.optional(Schema.String),
               required: Schema.optional(Schema.Boolean),
-              sqlName: Schema.optional(Schema.String),
-            }).pipe(
-              Schema.encodeKeys({
-                metadataKey: "metadata_key",
-                sqlName: "sql_name",
-              }),
-            ),
+              sqlName: Schema.optional(Schema.String).pipe(
+                T.JsonName("sql_name"),
+              ),
+            }),
             Schema.Struct({
               type: Schema.Literal("float32"),
               metadataKey: Schema.optional(
                 Schema.Union([Schema.String, Schema.Null]),
-              ),
+              ).pipe(T.JsonName("metadata_key")),
               name: Schema.optional(Schema.String),
               required: Schema.optional(Schema.Boolean),
-              sqlName: Schema.optional(Schema.String),
-            }).pipe(
-              Schema.encodeKeys({
-                metadataKey: "metadata_key",
-                sqlName: "sql_name",
-              }),
-            ),
+              sqlName: Schema.optional(Schema.String).pipe(
+                T.JsonName("sql_name"),
+              ),
+            }),
             Schema.Struct({
               type: Schema.Literal("float64"),
               metadataKey: Schema.optional(
                 Schema.Union([Schema.String, Schema.Null]),
-              ),
+              ).pipe(T.JsonName("metadata_key")),
               name: Schema.optional(Schema.String),
               required: Schema.optional(Schema.Boolean),
-              sqlName: Schema.optional(Schema.String),
-            }).pipe(
-              Schema.encodeKeys({
-                metadataKey: "metadata_key",
-                sqlName: "sql_name",
-              }),
-            ),
+              sqlName: Schema.optional(Schema.String).pipe(
+                T.JsonName("sql_name"),
+              ),
+            }),
             Schema.Struct({
               type: Schema.Literal("bool"),
               metadataKey: Schema.optional(
                 Schema.Union([Schema.String, Schema.Null]),
-              ),
+              ).pipe(T.JsonName("metadata_key")),
               name: Schema.optional(Schema.String),
               required: Schema.optional(Schema.Boolean),
-              sqlName: Schema.optional(Schema.String),
-            }).pipe(
-              Schema.encodeKeys({
-                metadataKey: "metadata_key",
-                sqlName: "sql_name",
-              }),
-            ),
+              sqlName: Schema.optional(Schema.String).pipe(
+                T.JsonName("sql_name"),
+              ),
+            }),
             Schema.Struct({
               type: Schema.Literal("string"),
               metadataKey: Schema.optional(
                 Schema.Union([Schema.String, Schema.Null]),
-              ),
+              ).pipe(T.JsonName("metadata_key")),
               name: Schema.optional(Schema.String),
               required: Schema.optional(Schema.Boolean),
-              sqlName: Schema.optional(Schema.String),
-            }).pipe(
-              Schema.encodeKeys({
-                metadataKey: "metadata_key",
-                sqlName: "sql_name",
-              }),
-            ),
+              sqlName: Schema.optional(Schema.String).pipe(
+                T.JsonName("sql_name"),
+              ),
+            }),
             Schema.Struct({
               type: Schema.Literal("binary"),
               metadataKey: Schema.optional(
                 Schema.Union([Schema.String, Schema.Null]),
-              ),
+              ).pipe(T.JsonName("metadata_key")),
               name: Schema.optional(Schema.String),
               required: Schema.optional(Schema.Boolean),
-              sqlName: Schema.optional(Schema.String),
-            }).pipe(
-              Schema.encodeKeys({
-                metadataKey: "metadata_key",
-                sqlName: "sql_name",
-              }),
-            ),
+              sqlName: Schema.optional(Schema.String).pipe(
+                T.JsonName("sql_name"),
+              ),
+            }),
             Schema.Struct({
               type: Schema.Literal("timestamp"),
               metadataKey: Schema.optional(
                 Schema.Union([Schema.String, Schema.Null]),
-              ),
+              ).pipe(T.JsonName("metadata_key")),
               name: Schema.optional(Schema.String),
               required: Schema.optional(Schema.Boolean),
-              sqlName: Schema.optional(Schema.String),
+              sqlName: Schema.optional(Schema.String).pipe(
+                T.JsonName("sql_name"),
+              ),
               unit: Schema.optional(
                 Schema.Literals([
                   "second",
@@ -2793,27 +2514,17 @@ export const CreateStreamRequest = Schema.Struct({
                   "nanosecond",
                 ]),
               ),
-            }).pipe(
-              Schema.encodeKeys({
-                metadataKey: "metadata_key",
-                sqlName: "sql_name",
-              }),
-            ),
+            }),
             Schema.Struct({
               type: Schema.Literal("json"),
               decimalEncoding: Schema.optional(
                 Schema.Literals(["number", "string", "bytes"]),
-              ),
+              ).pipe(T.JsonName("decimal_encoding")),
               timestampFormat: Schema.optional(
                 Schema.Literals(["rfc3339", "unix_millis"]),
-              ),
+              ).pipe(T.JsonName("timestamp_format")),
               unstructured: Schema.optional(Schema.Boolean),
-            }).pipe(
-              Schema.encodeKeys({
-                decimalEncoding: "decimal_encoding",
-                timestampFormat: "timestamp_format",
-              }),
-            ),
+            }),
             Schema.Unknown,
           ]),
         ),
@@ -2824,17 +2535,12 @@ export const CreateStreamRequest = Schema.Struct({
             type: Schema.Literal("json"),
             decimalEncoding: Schema.optional(
               Schema.Literals(["number", "string", "bytes"]),
-            ),
+            ).pipe(T.JsonName("decimal_encoding")),
             timestampFormat: Schema.optional(
               Schema.Literals(["rfc3339", "unix_millis"]),
-            ),
+            ).pipe(T.JsonName("timestamp_format")),
             unstructured: Schema.optional(Schema.Boolean),
-          }).pipe(
-            Schema.encodeKeys({
-              decimalEncoding: "decimal_encoding",
-              timestampFormat: "timestamp_format",
-            }),
-          ),
+          }),
           Schema.Struct({
             type: Schema.Literal("parquet"),
             compression: Schema.optional(
@@ -2848,8 +2554,8 @@ export const CreateStreamRequest = Schema.Struct({
             ),
             rowGroupBytes: Schema.optional(
               Schema.Union([Schema.Number, Schema.Null]),
-            ),
-          }).pipe(Schema.encodeKeys({ rowGroupBytes: "row_group_bytes" })),
+            ).pipe(T.JsonName("row_group_bytes")),
+          }),
         ]),
       ),
       inferred: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
@@ -2859,9 +2565,8 @@ export const CreateStreamRequest = Schema.Struct({
     Schema.Struct({
       enabled: Schema.Boolean,
     }),
-  ),
+  ).pipe(T.JsonName("worker_binding")),
 }).pipe(
-  Schema.encodeKeys({ workerBinding: "worker_binding" }),
   T.Http({
     method: "POST",
     path: "/accounts/{account_id}/pipelines/v1/streams",
@@ -2982,7 +2687,7 @@ export interface CreateStreamResponse {
 
 export const CreateStreamResponse = Schema.Struct({
   id: Schema.String,
-  createdAt: Schema.String,
+  createdAt: Schema.String.pipe(T.JsonName("created_at")),
   http: Schema.Struct({
     authentication: Schema.Boolean,
     enabled: Schema.Boolean,
@@ -2992,12 +2697,12 @@ export const CreateStreamResponse = Schema.Struct({
       }),
     ),
   }),
-  modifiedAt: Schema.String,
+  modifiedAt: Schema.String.pipe(T.JsonName("modified_at")),
   name: Schema.String,
   version: Schema.Number,
   workerBinding: Schema.Struct({
     enabled: Schema.Boolean,
-  }),
+  }).pipe(T.JsonName("worker_binding")),
   endpoint: Schema.optional(Schema.String),
   format: Schema.optional(
     Schema.Union([
@@ -3005,17 +2710,12 @@ export const CreateStreamResponse = Schema.Struct({
         type: Schema.Literal("json"),
         decimalEncoding: Schema.optional(
           Schema.Literals(["number", "string", "bytes"]),
-        ),
+        ).pipe(T.JsonName("decimal_encoding")),
         timestampFormat: Schema.optional(
           Schema.Literals(["rfc3339", "unix_millis"]),
-        ),
+        ).pipe(T.JsonName("timestamp_format")),
         unstructured: Schema.optional(Schema.Boolean),
-      }).pipe(
-        Schema.encodeKeys({
-          decimalEncoding: "decimal_encoding",
-          timestampFormat: "timestamp_format",
-        }),
-      ),
+      }),
       Schema.Struct({
         type: Schema.Literal("parquet"),
         compression: Schema.optional(
@@ -3023,8 +2723,8 @@ export const CreateStreamResponse = Schema.Struct({
         ),
         rowGroupBytes: Schema.optional(
           Schema.Union([Schema.Number, Schema.Null]),
-        ),
-      }).pipe(Schema.encodeKeys({ rowGroupBytes: "row_group_bytes" })),
+        ).pipe(T.JsonName("row_group_bytes")),
+      }),
     ]),
   ),
   schema: Schema.optional(
@@ -3036,108 +2736,89 @@ export const CreateStreamResponse = Schema.Struct({
               type: Schema.Literal("int32"),
               metadataKey: Schema.optional(
                 Schema.Union([Schema.String, Schema.Null]),
-              ),
+              ).pipe(T.JsonName("metadata_key")),
               name: Schema.optional(Schema.String),
               required: Schema.optional(Schema.Boolean),
-              sqlName: Schema.optional(Schema.String),
-            }).pipe(
-              Schema.encodeKeys({
-                metadataKey: "metadata_key",
-                sqlName: "sql_name",
-              }),
-            ),
+              sqlName: Schema.optional(Schema.String).pipe(
+                T.JsonName("sql_name"),
+              ),
+            }),
             Schema.Struct({
               type: Schema.Literal("int64"),
               metadataKey: Schema.optional(
                 Schema.Union([Schema.String, Schema.Null]),
-              ),
+              ).pipe(T.JsonName("metadata_key")),
               name: Schema.optional(Schema.String),
               required: Schema.optional(Schema.Boolean),
-              sqlName: Schema.optional(Schema.String),
-            }).pipe(
-              Schema.encodeKeys({
-                metadataKey: "metadata_key",
-                sqlName: "sql_name",
-              }),
-            ),
+              sqlName: Schema.optional(Schema.String).pipe(
+                T.JsonName("sql_name"),
+              ),
+            }),
             Schema.Struct({
               type: Schema.Literal("float32"),
               metadataKey: Schema.optional(
                 Schema.Union([Schema.String, Schema.Null]),
-              ),
+              ).pipe(T.JsonName("metadata_key")),
               name: Schema.optional(Schema.String),
               required: Schema.optional(Schema.Boolean),
-              sqlName: Schema.optional(Schema.String),
-            }).pipe(
-              Schema.encodeKeys({
-                metadataKey: "metadata_key",
-                sqlName: "sql_name",
-              }),
-            ),
+              sqlName: Schema.optional(Schema.String).pipe(
+                T.JsonName("sql_name"),
+              ),
+            }),
             Schema.Struct({
               type: Schema.Literal("float64"),
               metadataKey: Schema.optional(
                 Schema.Union([Schema.String, Schema.Null]),
-              ),
+              ).pipe(T.JsonName("metadata_key")),
               name: Schema.optional(Schema.String),
               required: Schema.optional(Schema.Boolean),
-              sqlName: Schema.optional(Schema.String),
-            }).pipe(
-              Schema.encodeKeys({
-                metadataKey: "metadata_key",
-                sqlName: "sql_name",
-              }),
-            ),
+              sqlName: Schema.optional(Schema.String).pipe(
+                T.JsonName("sql_name"),
+              ),
+            }),
             Schema.Struct({
               type: Schema.Literal("bool"),
               metadataKey: Schema.optional(
                 Schema.Union([Schema.String, Schema.Null]),
-              ),
+              ).pipe(T.JsonName("metadata_key")),
               name: Schema.optional(Schema.String),
               required: Schema.optional(Schema.Boolean),
-              sqlName: Schema.optional(Schema.String),
-            }).pipe(
-              Schema.encodeKeys({
-                metadataKey: "metadata_key",
-                sqlName: "sql_name",
-              }),
-            ),
+              sqlName: Schema.optional(Schema.String).pipe(
+                T.JsonName("sql_name"),
+              ),
+            }),
             Schema.Struct({
               type: Schema.Literal("string"),
               metadataKey: Schema.optional(
                 Schema.Union([Schema.String, Schema.Null]),
-              ),
+              ).pipe(T.JsonName("metadata_key")),
               name: Schema.optional(Schema.String),
               required: Schema.optional(Schema.Boolean),
-              sqlName: Schema.optional(Schema.String),
-            }).pipe(
-              Schema.encodeKeys({
-                metadataKey: "metadata_key",
-                sqlName: "sql_name",
-              }),
-            ),
+              sqlName: Schema.optional(Schema.String).pipe(
+                T.JsonName("sql_name"),
+              ),
+            }),
             Schema.Struct({
               type: Schema.Literal("binary"),
               metadataKey: Schema.optional(
                 Schema.Union([Schema.String, Schema.Null]),
-              ),
+              ).pipe(T.JsonName("metadata_key")),
               name: Schema.optional(Schema.String),
               required: Schema.optional(Schema.Boolean),
-              sqlName: Schema.optional(Schema.String),
-            }).pipe(
-              Schema.encodeKeys({
-                metadataKey: "metadata_key",
-                sqlName: "sql_name",
-              }),
-            ),
+              sqlName: Schema.optional(Schema.String).pipe(
+                T.JsonName("sql_name"),
+              ),
+            }),
             Schema.Struct({
               type: Schema.Literal("timestamp"),
               metadataKey: Schema.optional(
                 Schema.Union([Schema.String, Schema.Null]),
-              ),
+              ).pipe(T.JsonName("metadata_key")),
               name: Schema.optional(Schema.String),
               required: Schema.optional(Schema.Boolean),
-              sqlName: Schema.optional(Schema.String),
+              sqlName: Schema.optional(Schema.String).pipe(
+                T.JsonName("sql_name"),
+              ),
               unit: Schema.optional(
                 Schema.Literals([
                   "second",
@@ -3146,27 +2827,17 @@ export const CreateStreamResponse = Schema.Struct({
                   "nanosecond",
                 ]),
               ),
-            }).pipe(
-              Schema.encodeKeys({
-                metadataKey: "metadata_key",
-                sqlName: "sql_name",
-              }),
-            ),
+            }),
             Schema.Struct({
               type: Schema.Literal("json"),
               decimalEncoding: Schema.optional(
                 Schema.Literals(["number", "string", "bytes"]),
-              ),
+              ).pipe(T.JsonName("decimal_encoding")),
               timestampFormat: Schema.optional(
                 Schema.Literals(["rfc3339", "unix_millis"]),
-              ),
+              ).pipe(T.JsonName("timestamp_format")),
               unstructured: Schema.optional(Schema.Boolean),
-            }).pipe(
-              Schema.encodeKeys({
-                decimalEncoding: "decimal_encoding",
-                timestampFormat: "timestamp_format",
-              }),
-            ),
+            }),
             Schema.Unknown,
           ]),
         ),
@@ -3177,17 +2848,12 @@ export const CreateStreamResponse = Schema.Struct({
             type: Schema.Literal("json"),
             decimalEncoding: Schema.optional(
               Schema.Literals(["number", "string", "bytes"]),
-            ),
+            ).pipe(T.JsonName("decimal_encoding")),
             timestampFormat: Schema.optional(
               Schema.Literals(["rfc3339", "unix_millis"]),
-            ),
+            ).pipe(T.JsonName("timestamp_format")),
             unstructured: Schema.optional(Schema.Boolean),
-          }).pipe(
-            Schema.encodeKeys({
-              decimalEncoding: "decimal_encoding",
-              timestampFormat: "timestamp_format",
-            }),
-          ),
+          }),
           Schema.Struct({
             type: Schema.Literal("parquet"),
             compression: Schema.optional(
@@ -3201,20 +2867,14 @@ export const CreateStreamResponse = Schema.Struct({
             ),
             rowGroupBytes: Schema.optional(
               Schema.Union([Schema.Number, Schema.Null]),
-            ),
-          }).pipe(Schema.encodeKeys({ rowGroupBytes: "row_group_bytes" })),
+            ).pipe(T.JsonName("row_group_bytes")),
+          }),
         ]),
       ),
       inferred: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
     }),
   ),
-}).pipe(
-  Schema.encodeKeys({
-    createdAt: "created_at",
-    modifiedAt: "modified_at",
-    workerBinding: "worker_binding",
-  }),
-) as unknown as Schema.Schema<CreateStreamResponse>;
+}) as unknown as Schema.Schema<CreateStreamResponse>;
 
 export const createStream: (
   input: CreateStreamRequest,
@@ -3260,9 +2920,8 @@ export const PatchStreamRequest = Schema.Struct({
     Schema.Struct({
       enabled: Schema.Boolean,
     }),
-  ),
+  ).pipe(T.JsonName("worker_binding")),
 }).pipe(
-  Schema.encodeKeys({ workerBinding: "worker_binding" }),
   T.Http({
     method: "PATCH",
     path: "/accounts/{account_id}/pipelines/v1/streams/{streamId}",
@@ -3302,7 +2961,7 @@ export interface PatchStreamResponse {
 
 export const PatchStreamResponse = Schema.Struct({
   id: Schema.String,
-  createdAt: Schema.String,
+  createdAt: Schema.String.pipe(T.JsonName("created_at")),
   http: Schema.Struct({
     authentication: Schema.Boolean,
     enabled: Schema.Boolean,
@@ -3312,12 +2971,12 @@ export const PatchStreamResponse = Schema.Struct({
       }),
     ),
   }),
-  modifiedAt: Schema.String,
+  modifiedAt: Schema.String.pipe(T.JsonName("modified_at")),
   name: Schema.String,
   version: Schema.Number,
   workerBinding: Schema.Struct({
     enabled: Schema.Boolean,
-  }),
+  }).pipe(T.JsonName("worker_binding")),
   endpoint: Schema.optional(Schema.String),
   format: Schema.optional(
     Schema.Union([
@@ -3325,17 +2984,12 @@ export const PatchStreamResponse = Schema.Struct({
         type: Schema.Literal("json"),
         decimalEncoding: Schema.optional(
           Schema.Literals(["number", "string", "bytes"]),
-        ),
+        ).pipe(T.JsonName("decimal_encoding")),
         timestampFormat: Schema.optional(
           Schema.Literals(["rfc3339", "unix_millis"]),
-        ),
+        ).pipe(T.JsonName("timestamp_format")),
         unstructured: Schema.optional(Schema.Boolean),
-      }).pipe(
-        Schema.encodeKeys({
-          decimalEncoding: "decimal_encoding",
-          timestampFormat: "timestamp_format",
-        }),
-      ),
+      }),
       Schema.Struct({
         type: Schema.Literal("parquet"),
         compression: Schema.optional(
@@ -3343,17 +2997,11 @@ export const PatchStreamResponse = Schema.Struct({
         ),
         rowGroupBytes: Schema.optional(
           Schema.Union([Schema.Number, Schema.Null]),
-        ),
-      }).pipe(Schema.encodeKeys({ rowGroupBytes: "row_group_bytes" })),
+        ).pipe(T.JsonName("row_group_bytes")),
+      }),
     ]),
   ),
-}).pipe(
-  Schema.encodeKeys({
-    createdAt: "created_at",
-    modifiedAt: "modified_at",
-    workerBinding: "worker_binding",
-  }),
-) as unknown as Schema.Schema<PatchStreamResponse>;
+}) as unknown as Schema.Schema<PatchStreamResponse>;
 
 export const patchStream: (
   input: PatchStreamRequest,
@@ -3446,8 +3094,8 @@ export interface GetV1PipelineResponse {
 
 export const GetV1PipelineResponse = Schema.Struct({
   id: Schema.String,
-  createdAt: Schema.String,
-  modifiedAt: Schema.String,
+  createdAt: Schema.String.pipe(T.JsonName("created_at")),
+  modifiedAt: Schema.String.pipe(T.JsonName("modified_at")),
   name: Schema.String,
   sql: Schema.String,
   status: Schema.String,
@@ -3460,9 +3108,7 @@ export const GetV1PipelineResponse = Schema.Struct({
       version: Schema.Number,
     }),
   ),
-}).pipe(
-  Schema.encodeKeys({ createdAt: "created_at", modifiedAt: "modified_at" }),
-) as unknown as Schema.Schema<GetV1PipelineResponse>;
+}) as unknown as Schema.Schema<GetV1PipelineResponse>;
 
 export const getV1Pipeline: (
   input: GetV1PipelineRequest,
@@ -3511,14 +3157,12 @@ export interface CreateV1PipelineResponse {
 
 export const CreateV1PipelineResponse = Schema.Struct({
   id: Schema.String,
-  createdAt: Schema.String,
-  modifiedAt: Schema.String,
+  createdAt: Schema.String.pipe(T.JsonName("created_at")),
+  modifiedAt: Schema.String.pipe(T.JsonName("modified_at")),
   name: Schema.String,
   sql: Schema.String,
   status: Schema.String,
-}).pipe(
-  Schema.encodeKeys({ createdAt: "created_at", modifiedAt: "modified_at" }),
-) as unknown as Schema.Schema<CreateV1PipelineResponse>;
+}) as unknown as Schema.Schema<CreateV1PipelineResponse>;
 
 export const createV1Pipeline: (
   input: CreateV1PipelineRequest,

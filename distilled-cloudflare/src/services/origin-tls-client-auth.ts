@@ -84,7 +84,7 @@ export interface GetHostnameResponse {
 }
 
 export const GetHostnameResponse = Schema.Struct({
-  certId: Schema.optional(Schema.String),
+  certId: Schema.optional(Schema.String).pipe(T.JsonName("cert_id")),
   certStatus: Schema.optional(
     Schema.Literals([
       "initializing",
@@ -95,16 +95,22 @@ export const GetHostnameResponse = Schema.Struct({
       "deployment_timed_out",
       "deletion_timed_out",
     ]),
+  ).pipe(T.JsonName("cert_status")),
+  certUpdatedAt: Schema.optional(Schema.String).pipe(
+    T.JsonName("cert_updated_at"),
   ),
-  certUpdatedAt: Schema.optional(Schema.String),
-  certUploadedOn: Schema.optional(Schema.String),
+  certUploadedOn: Schema.optional(Schema.String).pipe(
+    T.JsonName("cert_uploaded_on"),
+  ),
   certificate: Schema.optional(Schema.String),
-  createdAt: Schema.optional(Schema.String),
+  createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
   enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-  expiresOn: Schema.optional(Schema.String),
+  expiresOn: Schema.optional(Schema.String).pipe(T.JsonName("expires_on")),
   hostname: Schema.optional(Schema.String),
   issuer: Schema.optional(Schema.String),
-  serialNumber: Schema.optional(Schema.String),
+  serialNumber: Schema.optional(Schema.String).pipe(
+    T.JsonName("serial_number"),
+  ),
   signature: Schema.optional(Schema.String),
   status: Schema.optional(
     Schema.Literals([
@@ -117,19 +123,8 @@ export const GetHostnameResponse = Schema.Struct({
       "deletion_timed_out",
     ]),
   ),
-  updatedAt: Schema.optional(Schema.String),
-}).pipe(
-  Schema.encodeKeys({
-    certId: "cert_id",
-    certStatus: "cert_status",
-    certUpdatedAt: "cert_updated_at",
-    certUploadedOn: "cert_uploaded_on",
-    createdAt: "created_at",
-    expiresOn: "expires_on",
-    serialNumber: "serial_number",
-    updatedAt: "updated_at",
-  }),
-) as unknown as Schema.Schema<GetHostnameResponse>;
+  updatedAt: Schema.optional(Schema.String).pipe(T.JsonName("updated_at")),
+}) as unknown as Schema.Schema<GetHostnameResponse>;
 
 export const getHostname: (
   input: GetHostnameRequest,
@@ -192,9 +187,11 @@ export interface GetHostnameCertificateResponse {
 export const GetHostnameCertificateResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
   certificate: Schema.optional(Schema.String),
-  expiresOn: Schema.optional(Schema.String),
+  expiresOn: Schema.optional(Schema.String).pipe(T.JsonName("expires_on")),
   issuer: Schema.optional(Schema.String),
-  serialNumber: Schema.optional(Schema.String),
+  serialNumber: Schema.optional(Schema.String).pipe(
+    T.JsonName("serial_number"),
+  ),
   signature: Schema.optional(Schema.String),
   status: Schema.optional(
     Schema.Literals([
@@ -207,14 +204,8 @@ export const GetHostnameCertificateResponse = Schema.Struct({
       "deletion_timed_out",
     ]),
   ),
-  uploadedOn: Schema.optional(Schema.String),
-}).pipe(
-  Schema.encodeKeys({
-    expiresOn: "expires_on",
-    serialNumber: "serial_number",
-    uploadedOn: "uploaded_on",
-  }),
-) as unknown as Schema.Schema<GetHostnameCertificateResponse>;
+  uploadedOn: Schema.optional(Schema.String).pipe(T.JsonName("uploaded_on")),
+}) as unknown as Schema.Schema<GetHostnameCertificateResponse>;
 
 export const getHostnameCertificate: (
   input: GetHostnameCertificateRequest,
@@ -240,9 +231,8 @@ export interface CreateHostnameCertificateRequest {
 export const CreateHostnameCertificateRequest = Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
   certificate: Schema.String,
-  privateKey: Schema.String,
+  privateKey: Schema.String.pipe(T.JsonName("private_key")),
 }).pipe(
-  Schema.encodeKeys({ privateKey: "private_key" }),
   T.Http({
     method: "POST",
     path: "/zones/{zone_id}/origin_tls_client_auth/hostnames/certificates",
@@ -278,9 +268,11 @@ export interface CreateHostnameCertificateResponse {
 export const CreateHostnameCertificateResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
   certificate: Schema.optional(Schema.String),
-  expiresOn: Schema.optional(Schema.String),
+  expiresOn: Schema.optional(Schema.String).pipe(T.JsonName("expires_on")),
   issuer: Schema.optional(Schema.String),
-  serialNumber: Schema.optional(Schema.String),
+  serialNumber: Schema.optional(Schema.String).pipe(
+    T.JsonName("serial_number"),
+  ),
   signature: Schema.optional(Schema.String),
   status: Schema.optional(
     Schema.Literals([
@@ -293,14 +285,8 @@ export const CreateHostnameCertificateResponse = Schema.Struct({
       "deletion_timed_out",
     ]),
   ),
-  uploadedOn: Schema.optional(Schema.String),
-}).pipe(
-  Schema.encodeKeys({
-    expiresOn: "expires_on",
-    serialNumber: "serial_number",
-    uploadedOn: "uploaded_on",
-  }),
-) as unknown as Schema.Schema<CreateHostnameCertificateResponse>;
+  uploadedOn: Schema.optional(Schema.String).pipe(T.JsonName("uploaded_on")),
+}) as unknown as Schema.Schema<CreateHostnameCertificateResponse>;
 
 export const createHostnameCertificate: (
   input: CreateHostnameCertificateRequest,
@@ -359,9 +345,11 @@ export interface DeleteHostnameCertificateResponse {
 export const DeleteHostnameCertificateResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
   certificate: Schema.optional(Schema.String),
-  expiresOn: Schema.optional(Schema.String),
+  expiresOn: Schema.optional(Schema.String).pipe(T.JsonName("expires_on")),
   issuer: Schema.optional(Schema.String),
-  serialNumber: Schema.optional(Schema.String),
+  serialNumber: Schema.optional(Schema.String).pipe(
+    T.JsonName("serial_number"),
+  ),
   signature: Schema.optional(Schema.String),
   status: Schema.optional(
     Schema.Literals([
@@ -374,14 +362,8 @@ export const DeleteHostnameCertificateResponse = Schema.Struct({
       "deletion_timed_out",
     ]),
   ),
-  uploadedOn: Schema.optional(Schema.String),
-}).pipe(
-  Schema.encodeKeys({
-    expiresOn: "expires_on",
-    serialNumber: "serial_number",
-    uploadedOn: "uploaded_on",
-  }),
-) as unknown as Schema.Schema<DeleteHostnameCertificateResponse>;
+  uploadedOn: Schema.optional(Schema.String).pipe(T.JsonName("uploaded_on")),
+}) as unknown as Schema.Schema<DeleteHostnameCertificateResponse>;
 
 export const deleteHostnameCertificate: (
   input: DeleteHostnameCertificateRequest,
@@ -430,10 +412,8 @@ export const GetOriginTlsClientAuthResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
   certificate: Schema.optional(Schema.String),
   enabled: Schema.optional(Schema.Boolean),
-  privateKey: Schema.optional(Schema.String),
-}).pipe(
-  Schema.encodeKeys({ privateKey: "private_key" }),
-) as unknown as Schema.Schema<GetOriginTlsClientAuthResponse>;
+  privateKey: Schema.optional(Schema.String).pipe(T.JsonName("private_key")),
+}) as unknown as Schema.Schema<GetOriginTlsClientAuthResponse>;
 
 export const getOriginTlsClientAuth: (
   input: GetOriginTlsClientAuthRequest,
@@ -459,9 +439,8 @@ export interface CreateOriginTlsClientAuthRequest {
 export const CreateOriginTlsClientAuthRequest = Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
   certificate: Schema.String,
-  privateKey: Schema.String,
+  privateKey: Schema.String.pipe(T.JsonName("private_key")),
 }).pipe(
-  Schema.encodeKeys({ privateKey: "private_key" }),
   T.Http({ method: "POST", path: "/zones/{zone_id}/origin_tls_client_auth" }),
 ) as unknown as Schema.Schema<CreateOriginTlsClientAuthRequest>;
 
@@ -480,10 +459,8 @@ export const CreateOriginTlsClientAuthResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
   certificate: Schema.optional(Schema.String),
   enabled: Schema.optional(Schema.Boolean),
-  privateKey: Schema.optional(Schema.String),
-}).pipe(
-  Schema.encodeKeys({ privateKey: "private_key" }),
-) as unknown as Schema.Schema<CreateOriginTlsClientAuthResponse>;
+  privateKey: Schema.optional(Schema.String).pipe(T.JsonName("private_key")),
+}) as unknown as Schema.Schema<CreateOriginTlsClientAuthResponse>;
 
 export const createOriginTlsClientAuth: (
   input: CreateOriginTlsClientAuthRequest,
@@ -528,10 +505,8 @@ export const DeleteOriginTlsClientAuthResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
   certificate: Schema.optional(Schema.String),
   enabled: Schema.optional(Schema.Boolean),
-  privateKey: Schema.optional(Schema.String),
-}).pipe(
-  Schema.encodeKeys({ privateKey: "private_key" }),
-) as unknown as Schema.Schema<DeleteOriginTlsClientAuthResponse>;
+  privateKey: Schema.optional(Schema.String).pipe(T.JsonName("private_key")),
+}) as unknown as Schema.Schema<DeleteOriginTlsClientAuthResponse>;
 
 export const deleteOriginTlsClientAuth: (
   input: DeleteOriginTlsClientAuthRequest,

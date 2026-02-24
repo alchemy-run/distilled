@@ -36,10 +36,19 @@ export const GetControlCmbConfigRequest = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetControlCmbConfigRequest>;
 
-export type GetControlCmbConfigResponse = unknown;
+export interface GetControlCmbConfigResponse {
+  /** Allow out of region access */
+  allowOutOfRegionAccess?: boolean;
+  /** Name of the region. */
+  regions?: string;
+}
 
-export const GetControlCmbConfigResponse =
-  Schema.Unknown as unknown as Schema.Schema<GetControlCmbConfigResponse>;
+export const GetControlCmbConfigResponse = Schema.Struct({
+  allowOutOfRegionAccess: Schema.optional(Schema.Boolean).pipe(
+    T.JsonName("allow_out_of_region_access"),
+  ),
+  regions: Schema.optional(Schema.String),
+}) as unknown as Schema.Schema<GetControlCmbConfigResponse>;
 
 export const getControlCmbConfig: (
   input: GetControlCmbConfigRequest,
@@ -64,20 +73,30 @@ export interface CreateControlCmbConfigRequest {
 
 export const CreateControlCmbConfigRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  allowOutOfRegionAccess: Schema.optional(Schema.Boolean),
+  allowOutOfRegionAccess: Schema.optional(Schema.Boolean).pipe(
+    T.JsonName("allow_out_of_region_access"),
+  ),
   regions: Schema.optional(Schema.String),
 }).pipe(
-  Schema.encodeKeys({ allowOutOfRegionAccess: "allow_out_of_region_access" }),
   T.Http({
     method: "POST",
     path: "/accounts/{account_id}/logs/control/cmb/config",
   }),
 ) as unknown as Schema.Schema<CreateControlCmbConfigRequest>;
 
-export type CreateControlCmbConfigResponse = unknown;
+export interface CreateControlCmbConfigResponse {
+  /** Allow out of region access */
+  allowOutOfRegionAccess?: boolean;
+  /** Name of the region. */
+  regions?: string;
+}
 
-export const CreateControlCmbConfigResponse =
-  Schema.Unknown as unknown as Schema.Schema<CreateControlCmbConfigResponse>;
+export const CreateControlCmbConfigResponse = Schema.Struct({
+  allowOutOfRegionAccess: Schema.optional(Schema.Boolean).pipe(
+    T.JsonName("allow_out_of_region_access"),
+  ),
+  regions: Schema.optional(Schema.String),
+}) as unknown as Schema.Schema<CreateControlCmbConfigResponse>;
 
 export const createControlCmbConfig: (
   input: CreateControlCmbConfigRequest,
@@ -140,10 +159,14 @@ export const GetControlRetentionRequest = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetControlRetentionRequest>;
 
-export type GetControlRetentionResponse = unknown;
+export interface GetControlRetentionResponse {
+  /** The log retention flag for Logpull API. */
+  flag?: boolean;
+}
 
-export const GetControlRetentionResponse =
-  Schema.Unknown as unknown as Schema.Schema<GetControlRetentionResponse>;
+export const GetControlRetentionResponse = Schema.Struct({
+  flag: Schema.optional(Schema.Boolean),
+}) as unknown as Schema.Schema<GetControlRetentionResponse>;
 
 export const getControlRetention: (
   input: GetControlRetentionRequest,
@@ -174,10 +197,14 @@ export const CreateControlRetentionRequest = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<CreateControlRetentionRequest>;
 
-export type CreateControlRetentionResponse = unknown;
+export interface CreateControlRetentionResponse {
+  /** The log retention flag for Logpull API. */
+  flag?: boolean;
+}
 
-export const CreateControlRetentionResponse =
-  Schema.Unknown as unknown as Schema.Schema<CreateControlRetentionResponse>;
+export const CreateControlRetentionResponse = Schema.Struct({
+  flag: Schema.optional(Schema.Boolean),
+}) as unknown as Schema.Schema<CreateControlRetentionResponse>;
 
 export const createControlRetention: (
   input: CreateControlRetentionRequest,

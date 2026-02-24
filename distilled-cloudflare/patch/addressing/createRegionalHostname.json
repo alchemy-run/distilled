@@ -1,0 +1,13 @@
+{
+  "errors": {
+    "InvalidZoneId": [
+      { "code": 7003, "message": { "includes": "Could not route" } }
+    ],
+    "InvalidHostname": [
+      { "code": 1002, "message": { "includes": "forbidden" } }
+    ],
+    "RegionalHostnameEmpty": [
+      { "code": 1000, "message": { "includes": "not_found" } }
+    ]
+  }
+}

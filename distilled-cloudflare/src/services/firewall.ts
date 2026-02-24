@@ -80,7 +80,7 @@ export const GetAccessRuleResponse = Schema.Struct({
       "js_challenge",
       "managed_challenge",
     ]),
-  ),
+  ).pipe(T.JsonName("allowed_modes")),
   configuration: Schema.Union([
     Schema.Struct({
       target: Schema.optional(Schema.Literal("ip")),
@@ -110,8 +110,8 @@ export const GetAccessRuleResponse = Schema.Struct({
     "js_challenge",
     "managed_challenge",
   ]),
-  createdOn: Schema.optional(Schema.String),
-  modifiedOn: Schema.optional(Schema.String),
+  createdOn: Schema.optional(Schema.String).pipe(T.JsonName("created_on")),
+  modifiedOn: Schema.optional(Schema.String).pipe(T.JsonName("modified_on")),
   notes: Schema.optional(Schema.String),
   scope: Schema.optional(
     Schema.Struct({
@@ -120,13 +120,7 @@ export const GetAccessRuleResponse = Schema.Struct({
       type: Schema.optional(Schema.Literals(["user", "organization"])),
     }),
   ),
-}).pipe(
-  Schema.encodeKeys({
-    allowedModes: "allowed_modes",
-    createdOn: "created_on",
-    modifiedOn: "modified_on",
-  }),
-) as unknown as Schema.Schema<GetAccessRuleResponse>;
+}) as unknown as Schema.Schema<GetAccessRuleResponse>;
 
 export const getAccessRule: (
   input: GetAccessRuleRequest,
@@ -248,7 +242,7 @@ export const CreateAccessRuleResponse = Schema.Struct({
       "js_challenge",
       "managed_challenge",
     ]),
-  ),
+  ).pipe(T.JsonName("allowed_modes")),
   configuration: Schema.Union([
     Schema.Struct({
       target: Schema.optional(Schema.Literal("ip")),
@@ -278,8 +272,8 @@ export const CreateAccessRuleResponse = Schema.Struct({
     "js_challenge",
     "managed_challenge",
   ]),
-  createdOn: Schema.optional(Schema.String),
-  modifiedOn: Schema.optional(Schema.String),
+  createdOn: Schema.optional(Schema.String).pipe(T.JsonName("created_on")),
+  modifiedOn: Schema.optional(Schema.String).pipe(T.JsonName("modified_on")),
   notes: Schema.optional(Schema.String),
   scope: Schema.optional(
     Schema.Struct({
@@ -288,13 +282,7 @@ export const CreateAccessRuleResponse = Schema.Struct({
       type: Schema.optional(Schema.Literals(["user", "organization"])),
     }),
   ),
-}).pipe(
-  Schema.encodeKeys({
-    allowedModes: "allowed_modes",
-    createdOn: "created_on",
-    modifiedOn: "modified_on",
-  }),
-) as unknown as Schema.Schema<CreateAccessRuleResponse>;
+}) as unknown as Schema.Schema<CreateAccessRuleResponse>;
 
 export const createAccessRule: (
   input: CreateAccessRuleRequest,
@@ -418,7 +406,7 @@ export const PatchAccessRuleResponse = Schema.Struct({
       "js_challenge",
       "managed_challenge",
     ]),
-  ),
+  ).pipe(T.JsonName("allowed_modes")),
   configuration: Schema.Union([
     Schema.Struct({
       target: Schema.optional(Schema.Literal("ip")),
@@ -448,8 +436,8 @@ export const PatchAccessRuleResponse = Schema.Struct({
     "js_challenge",
     "managed_challenge",
   ]),
-  createdOn: Schema.optional(Schema.String),
-  modifiedOn: Schema.optional(Schema.String),
+  createdOn: Schema.optional(Schema.String).pipe(T.JsonName("created_on")),
+  modifiedOn: Schema.optional(Schema.String).pipe(T.JsonName("modified_on")),
   notes: Schema.optional(Schema.String),
   scope: Schema.optional(
     Schema.Struct({
@@ -458,13 +446,7 @@ export const PatchAccessRuleResponse = Schema.Struct({
       type: Schema.optional(Schema.Literals(["user", "organization"])),
     }),
   ),
-}).pipe(
-  Schema.encodeKeys({
-    allowedModes: "allowed_modes",
-    createdOn: "created_on",
-    modifiedOn: "modified_on",
-  }),
-) as unknown as Schema.Schema<PatchAccessRuleResponse>;
+}) as unknown as Schema.Schema<PatchAccessRuleResponse>;
 
 export const patchAccessRule: (
   input: PatchAccessRuleRequest,
@@ -491,10 +473,14 @@ export const DeleteAccessRuleRequest = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<DeleteAccessRuleRequest>;
 
-export type DeleteAccessRuleResponse = unknown;
+export interface DeleteAccessRuleResponse {
+  /** Defines an identifier. */
+  id: string;
+}
 
-export const DeleteAccessRuleResponse =
-  Schema.Unknown as unknown as Schema.Schema<DeleteAccessRuleResponse>;
+export const DeleteAccessRuleResponse = Schema.Struct({
+  id: Schema.String,
+}) as unknown as Schema.Schema<DeleteAccessRuleResponse>;
 
 export const deleteAccessRule: (
   input: DeleteAccessRuleRequest,
@@ -548,14 +534,12 @@ export interface GetLockdownResponse {
 export const GetLockdownResponse = Schema.Struct({
   id: Schema.String,
   configurations: Schema.Unknown,
-  createdOn: Schema.String,
+  createdOn: Schema.String.pipe(T.JsonName("created_on")),
   description: Schema.String,
-  modifiedOn: Schema.String,
+  modifiedOn: Schema.String.pipe(T.JsonName("modified_on")),
   paused: Schema.Boolean,
   urls: Schema.Array(Schema.String),
-}).pipe(
-  Schema.encodeKeys({ createdOn: "created_on", modifiedOn: "modified_on" }),
-) as unknown as Schema.Schema<GetLockdownResponse>;
+}) as unknown as Schema.Schema<GetLockdownResponse>;
 
 export const getLockdown: (
   input: GetLockdownRequest,
@@ -615,14 +599,12 @@ export interface CreateLockdownResponse {
 export const CreateLockdownResponse = Schema.Struct({
   id: Schema.String,
   configurations: Schema.Unknown,
-  createdOn: Schema.String,
+  createdOn: Schema.String.pipe(T.JsonName("created_on")),
   description: Schema.String,
-  modifiedOn: Schema.String,
+  modifiedOn: Schema.String.pipe(T.JsonName("modified_on")),
   paused: Schema.Boolean,
   urls: Schema.Array(Schema.String),
-}).pipe(
-  Schema.encodeKeys({ createdOn: "created_on", modifiedOn: "modified_on" }),
-) as unknown as Schema.Schema<CreateLockdownResponse>;
+}) as unknown as Schema.Schema<CreateLockdownResponse>;
 
 export const createLockdown: (
   input: CreateLockdownRequest,
@@ -678,14 +660,12 @@ export interface UpdateLockdownResponse {
 export const UpdateLockdownResponse = Schema.Struct({
   id: Schema.String,
   configurations: Schema.Unknown,
-  createdOn: Schema.String,
+  createdOn: Schema.String.pipe(T.JsonName("created_on")),
   description: Schema.String,
-  modifiedOn: Schema.String,
+  modifiedOn: Schema.String.pipe(T.JsonName("modified_on")),
   paused: Schema.Boolean,
   urls: Schema.Array(Schema.String),
-}).pipe(
-  Schema.encodeKeys({ createdOn: "created_on", modifiedOn: "modified_on" }),
-) as unknown as Schema.Schema<UpdateLockdownResponse>;
+}) as unknown as Schema.Schema<UpdateLockdownResponse>;
 
 export const updateLockdown: (
   input: UpdateLockdownRequest,
@@ -873,8 +853,10 @@ export const PutRuleRequest = Schema.Struct({
     response: Schema.optional(
       Schema.Struct({
         body: Schema.optional(Schema.String),
-        contentType: Schema.optional(Schema.String),
-      }).pipe(Schema.encodeKeys({ contentType: "content_type" })),
+        contentType: Schema.optional(Schema.String).pipe(
+          T.JsonName("content_type"),
+        ),
+      }),
     ),
     timeout: Schema.optional(Schema.Number),
   }),
@@ -1460,12 +1442,10 @@ export const GetWafOverrideResponse = Schema.Struct({
         ]),
       ),
     }),
-  ),
+  ).pipe(T.JsonName("rewrite_action")),
   rules: Schema.optional(Schema.Unknown),
   urls: Schema.optional(Schema.Array(Schema.String)),
-}).pipe(
-  Schema.encodeKeys({ rewriteAction: "rewrite_action" }),
-) as unknown as Schema.Schema<GetWafOverrideResponse>;
+}) as unknown as Schema.Schema<GetWafOverrideResponse>;
 
 export const getWafOverride: (
   input: GetWafOverrideRequest,
@@ -1572,12 +1552,10 @@ export const CreateWafOverrideResponse = Schema.Struct({
         ]),
       ),
     }),
-  ),
+  ).pipe(T.JsonName("rewrite_action")),
   rules: Schema.optional(Schema.Unknown),
   urls: Schema.optional(Schema.Array(Schema.String)),
-}).pipe(
-  Schema.encodeKeys({ rewriteAction: "rewrite_action" }),
-) as unknown as Schema.Schema<CreateWafOverrideResponse>;
+}) as unknown as Schema.Schema<CreateWafOverrideResponse>;
 
 export const createWafOverride: (
   input: CreateWafOverrideRequest,
@@ -1631,11 +1609,10 @@ export const UpdateWafOverrideRequest = Schema.Struct({
     simulate: Schema.optional(
       Schema.Literals(["challenge", "block", "simulate", "disable", "default"]),
     ),
-  }),
+  }).pipe(T.JsonName("rewrite_action")),
   rules: Schema.Unknown,
   urls: Schema.Array(Schema.String),
 }).pipe(
-  Schema.encodeKeys({ rewriteAction: "rewrite_action" }),
   T.Http({
     method: "PUT",
     path: "/zones/{zone_id}/firewall/waf/overrides/{overridesId}",
@@ -1721,12 +1698,10 @@ export const UpdateWafOverrideResponse = Schema.Struct({
         ]),
       ),
     }),
-  ),
+  ).pipe(T.JsonName("rewrite_action")),
   rules: Schema.optional(Schema.Unknown),
   urls: Schema.optional(Schema.Array(Schema.String)),
-}).pipe(
-  Schema.encodeKeys({ rewriteAction: "rewrite_action" }),
-) as unknown as Schema.Schema<UpdateWafOverrideResponse>;
+}) as unknown as Schema.Schema<UpdateWafOverrideResponse>;
 
 export const updateWafOverride: (
   input: UpdateWafOverrideRequest,
@@ -2020,24 +1995,26 @@ export type PatchWafPackageRuleResponse =
 export const PatchWafPackageRuleResponse = Schema.Union([
   Schema.Struct({
     id: Schema.String,
-    allowedModes: Schema.Array(Schema.Literals(["on", "off"])),
+    allowedModes: Schema.Array(Schema.Literals(["on", "off"])).pipe(
+      T.JsonName("allowed_modes"),
+    ),
     description: Schema.String,
     group: Schema.Unknown,
     mode: Schema.Literals(["on", "off"]),
-    packageId: Schema.String,
+    packageId: Schema.String.pipe(T.JsonName("package_id")),
     priority: Schema.String,
-  }).pipe(
-    Schema.encodeKeys({
-      allowedModes: "allowed_modes",
-      packageId: "package_id",
-    }),
-  ),
+  }),
   Schema.Struct({
     id: Schema.String,
     allowedModes: Schema.Array(
       Schema.Literals(["default", "disable", "simulate", "block", "challenge"]),
-    ),
-    defaultMode: Schema.Literals(["disable", "simulate", "block", "challenge"]),
+    ).pipe(T.JsonName("allowed_modes")),
+    defaultMode: Schema.Literals([
+      "disable",
+      "simulate",
+      "block",
+      "challenge",
+    ]).pipe(T.JsonName("default_mode")),
     description: Schema.String,
     group: Schema.Unknown,
     mode: Schema.Literals([
@@ -2047,15 +2024,9 @@ export const PatchWafPackageRuleResponse = Schema.Union([
       "block",
       "challenge",
     ]),
-    packageId: Schema.String,
+    packageId: Schema.String.pipe(T.JsonName("package_id")),
     priority: Schema.String,
-  }).pipe(
-    Schema.encodeKeys({
-      allowedModes: "allowed_modes",
-      defaultMode: "default_mode",
-      packageId: "package_id",
-    }),
-  ),
+  }),
 ]) as unknown as Schema.Schema<PatchWafPackageRuleResponse>;
 
 export const patchWafPackageRule: (

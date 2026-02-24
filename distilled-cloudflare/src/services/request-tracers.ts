@@ -67,50 +67,49 @@ export const CreateTraceRequest = Schema.Struct({
     Schema.Struct({
       base64: Schema.optional(Schema.String),
       json: Schema.optional(Schema.Unknown),
-      plainText: Schema.optional(Schema.String),
-    }).pipe(Schema.encodeKeys({ plainText: "plain_text" })),
-  ),
+      plainText: Schema.optional(Schema.String).pipe(T.JsonName("plain_text")),
+    }),
+  ).pipe(T.HttpBody()),
   context: Schema.optional(
     Schema.Struct({
-      botScore: Schema.optional(Schema.Number),
+      botScore: Schema.optional(Schema.Number).pipe(T.JsonName("bot_score")),
       geoloc: Schema.optional(
         Schema.Struct({
           city: Schema.optional(Schema.String),
           continent: Schema.optional(Schema.String),
-          isEuCountry: Schema.optional(Schema.Boolean),
-          isoCode: Schema.optional(Schema.String),
+          isEuCountry: Schema.optional(Schema.Boolean).pipe(
+            T.JsonName("is_eu_country"),
+          ),
+          isoCode: Schema.optional(Schema.String).pipe(T.JsonName("iso_code")),
           latitude: Schema.optional(Schema.Number),
           longitude: Schema.optional(Schema.Number),
-          postalCode: Schema.optional(Schema.String),
-          regionCode: Schema.optional(Schema.String),
-          subdivision_2IsoCode: Schema.optional(Schema.String),
+          postalCode: Schema.optional(Schema.String).pipe(
+            T.JsonName("postal_code"),
+          ),
+          regionCode: Schema.optional(Schema.String).pipe(
+            T.JsonName("region_code"),
+          ),
+          subdivision_2IsoCode: Schema.optional(Schema.String).pipe(
+            T.JsonName("subdivision_2_iso_code"),
+          ),
           timezone: Schema.optional(Schema.String),
-        }).pipe(
-          Schema.encodeKeys({
-            isEuCountry: "is_eu_country",
-            isoCode: "iso_code",
-            postalCode: "postal_code",
-            regionCode: "region_code",
-            subdivision_2IsoCode: "subdivision_2_iso_code",
-          }),
-        ),
+        }),
       ),
-      skipChallenge: Schema.optional(Schema.Boolean),
-      threatScore: Schema.optional(Schema.Number),
-    }).pipe(
-      Schema.encodeKeys({
-        botScore: "bot_score",
-        skipChallenge: "skip_challenge",
-        threatScore: "threat_score",
-      }),
-    ),
+      skipChallenge: Schema.optional(Schema.Boolean).pipe(
+        T.JsonName("skip_challenge"),
+      ),
+      threatScore: Schema.optional(Schema.Number).pipe(
+        T.JsonName("threat_score"),
+      ),
+    }),
   ),
   cookies: Schema.optional(Schema.Struct({})),
   headers: Schema.optional(Schema.Struct({})),
   protocol: Schema.optional(Schema.String),
-  skipResponse: Schema.optional(Schema.Boolean),
+  skipResponse: Schema.optional(Schema.Boolean).pipe(
+    T.JsonName("skip_response"),
+  ),
 }).pipe(
-  Schema.encodeKeys({ skipResponse: "skip_response" }),
   T.Http({
     method: "POST",
     path: "/accounts/{account_id}/request-tracer/trace",
@@ -124,11 +123,9 @@ export interface CreateTraceResponse {
 }
 
 export const CreateTraceResponse = Schema.Struct({
-  statusCode: Schema.optional(Schema.Number),
+  statusCode: Schema.optional(Schema.Number).pipe(T.JsonName("status_code")),
   trace: Schema.optional(Schema.Unknown),
-}).pipe(
-  Schema.encodeKeys({ statusCode: "status_code" }),
-) as unknown as Schema.Schema<CreateTraceResponse>;
+}) as unknown as Schema.Schema<CreateTraceResponse>;
 
 export const createTrace: (
   input: CreateTraceRequest,

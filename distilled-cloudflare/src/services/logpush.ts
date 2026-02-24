@@ -139,10 +139,28 @@ export const CreateEdgeRequest = Schema.Struct({
   T.Http({ method: "POST", path: "/zones/{zone_id}/logpush/edge/jobs" }),
 ) as unknown as Schema.Schema<CreateEdgeRequest>;
 
-export type CreateEdgeResponse = unknown;
+export interface CreateEdgeResponse {
+  /** Unique WebSocket address that will receive messages from Cloudflare’s edge. */
+  destinationConf?: string;
+  /** Comma-separated list of fields. */
+  fields?: string;
+  /** Filters to drill down into specific events. */
+  filter?: string;
+  /** The sample parameter is the sample rate of the records set by the client: "sample": 1 is 100% of records "sample": 10 is 10% and so on. */
+  sample?: number;
+  /** Unique session id of the job. */
+  sessionId?: string;
+}
 
-export const CreateEdgeResponse =
-  Schema.Unknown as unknown as Schema.Schema<CreateEdgeResponse>;
+export const CreateEdgeResponse = Schema.Struct({
+  destinationConf: Schema.optional(Schema.String).pipe(
+    T.JsonName("destination_conf"),
+  ),
+  fields: Schema.optional(Schema.String),
+  filter: Schema.optional(Schema.String),
+  sample: Schema.optional(Schema.Number),
+  sessionId: Schema.optional(Schema.String).pipe(T.JsonName("session_id")),
+}) as unknown as Schema.Schema<CreateEdgeResponse>;
 
 export const createEdge: (
   input: CreateEdgeRequest,
@@ -172,19 +190,21 @@ export interface DestinationExistsValidateRequest {
 export const DestinationExistsValidateRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  destinationConf: Schema.String,
+  destinationConf: Schema.String.pipe(T.JsonName("destination_conf")),
 }).pipe(
-  Schema.encodeKeys({ destinationConf: "destination_conf" }),
   T.Http({
     method: "POST",
     path: "/{accountOrZone}/{accountOrZoneId}/logpush/validate/destination/exists",
   }),
 ) as unknown as Schema.Schema<DestinationExistsValidateRequest>;
 
-export type DestinationExistsValidateResponse = unknown;
+export interface DestinationExistsValidateResponse {
+  exists?: boolean;
+}
 
-export const DestinationExistsValidateResponse =
-  Schema.Unknown as unknown as Schema.Schema<DestinationExistsValidateResponse>;
+export const DestinationExistsValidateResponse = Schema.Struct({
+  exists: Schema.optional(Schema.Boolean),
+}) as unknown as Schema.Schema<DestinationExistsValidateResponse>;
 
 export const destinationExistsValidate: (
   input: DestinationExistsValidateRequest,
@@ -215,10 +235,194 @@ export const GetJobRequest = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetJobRequest>;
 
-export type GetJobResponse = unknown;
+export interface GetJobResponse {
+  /** Unique id of the job. */
+  id?: number;
+  /** Name of the dataset. A list of supported datasets can be found on the [Developer Docs](https://developers.cloudflare.com/logs/reference/log-fields/). */
+  dataset?:
+    | "access_requests"
+    | "audit_logs"
+    | "audit_logs_v2"
+    | "biso_user_actions"
+    | "casb_findings"
+    | "device_posture_results"
+    | "dex_application_tests"
+    | "dex_device_state_events"
+    | "dlp_forensic_copies"
+    | "dns_firewall_logs"
+    | "dns_logs"
+    | "email_security_alerts"
+    | "firewall_events"
+    | "gateway_dns"
+    | "gateway_http"
+    | "gateway_network"
+    | "http_requests"
+    | "ipsec_logs"
+    | "magic_ids_detections"
+    | "nel_reports"
+    | "network_analytics_logs"
+    | "page_shield_events"
+    | "sinkhole_http_logs"
+    | "spectrum_events"
+    | "ssh_logs"
+    | "warp_config_changes"
+    | "warp_toggle_changes"
+    | "workers_trace_events"
+    | "zaraz_events"
+    | "zero_trust_network_sessions"
+    | null;
+  /** Uniquely identifies a resource (such as an s3 bucket) where data. will be pushed. Additional configuration parameters supported by the destination may be included. */
+  destinationConf?: string;
+  /** Flag that indicates if the job is enabled. */
+  enabled?: boolean;
+  /** If not null, the job is currently failing. Failures are usually. repetitive (example: no permissions to write to destination bucket). Only the last failure is recorded. On successful execution of a jo */
+  errorMessage?: string | null;
+  /** @deprecated This field is deprecated. Please use `max_upload_ ` parameters instead. . The frequency at which Cloudflare sends batches of logs to your destination. Setting frequency to high sends your  */
+  frequency?: "high" | "low" | null;
+  /** The kind parameter (optional) is used to differentiate between Logpush and Edge Log Delivery jobs (when supported by the dataset). */
+  kind?: "" | "edge";
+  /** Records the last time for which logs have been successfully pushed. If the last successful push was for logs range 2018-07-23T10:00:00Z to 2018-07-23T10:01:00Z then the value of this field will be 201 */
+  lastComplete?: string | null;
+  /** Records the last time the job failed. If not null, the job is currently. failing. If null, the job has either never failed or has run successfully at least once since last failure. See also the error_ */
+  lastError?: string | null;
+  /** @deprecated This field is deprecated. Use `output_options` instead. Configuration string. It specifies things like requested fields and timestamp formats. If migrating from the logpull api, copy the u */
+  logpullOptions?: string | null;
+  /** The maximum uncompressed file size of a batch of logs. This setting value must be between `5 MB` and `1 GB`, or `0` to disable it. Note that you cannot set a minimum file size; this means that log fil */
+  maxUploadBytes?: "0" | number | null;
+  /** The maximum interval in seconds for log batches. This setting must be between 30 and 300 seconds (5 minutes), or `0` to disable it. Note that you cannot specify a minimum interval for log batches; thi */
+  maxUploadIntervalSeconds?: "0" | number | null;
+  /** The maximum number of log lines per batch. This setting must be between 1000 and 1,000,000 lines, or `0` to disable it. Note that you cannot specify a minimum number of log lines per batch; this means */
+  maxUploadRecords?: "0" | number | null;
+  /** Optional human readable job name. Not unique. Cloudflare suggests. that you set this to a meaningful string, like the domain name, to make it easier to identify your job. */
+  name?: string | null;
+  /** The structured replacement for `logpull_options`. When including this field, the `logpull_option` field will be ignored. */
+  outputOptions?: {
+    batchPrefix?: string | null;
+    batchSuffix?: string | null;
+    "CVE-2021-44228"?: boolean | null;
+    fieldDelimiter?: string | null;
+    fieldNames?: string[];
+    outputType?: "ndjson" | "csv";
+    recordDelimiter?: string | null;
+    recordPrefix?: string | null;
+    recordSuffix?: string | null;
+    recordTemplate?: string | null;
+    sampleRate?: number | null;
+    timestampFormat?: "unixnano" | "unix" | "rfc3339";
+  } | null;
+}
 
-export const GetJobResponse =
-  Schema.Unknown as unknown as Schema.Schema<GetJobResponse>;
+export const GetJobResponse = Schema.Struct({
+  id: Schema.optional(Schema.Number),
+  dataset: Schema.optional(
+    Schema.Union([
+      Schema.Literal("access_requests"),
+      Schema.Literal("audit_logs"),
+      Schema.Literal("audit_logs_v2"),
+      Schema.Literal("biso_user_actions"),
+      Schema.Literal("casb_findings"),
+      Schema.Literal("device_posture_results"),
+      Schema.Literal("dex_application_tests"),
+      Schema.Literal("dex_device_state_events"),
+      Schema.Literal("dlp_forensic_copies"),
+      Schema.Literal("dns_firewall_logs"),
+      Schema.Literal("dns_logs"),
+      Schema.Literal("email_security_alerts"),
+      Schema.Literal("firewall_events"),
+      Schema.Literal("gateway_dns"),
+      Schema.Literal("gateway_http"),
+      Schema.Literal("gateway_network"),
+      Schema.Literal("http_requests"),
+      Schema.Literal("ipsec_logs"),
+      Schema.Literal("magic_ids_detections"),
+      Schema.Literal("nel_reports"),
+      Schema.Literal("network_analytics_logs"),
+      Schema.Literal("page_shield_events"),
+      Schema.Literal("sinkhole_http_logs"),
+      Schema.Literal("spectrum_events"),
+      Schema.Literal("ssh_logs"),
+      Schema.Literal("warp_config_changes"),
+      Schema.Literal("warp_toggle_changes"),
+      Schema.Literal("workers_trace_events"),
+      Schema.Literal("zaraz_events"),
+      Schema.Literal("zero_trust_network_sessions"),
+      Schema.Null,
+    ]),
+  ),
+  destinationConf: Schema.optional(Schema.String).pipe(
+    T.JsonName("destination_conf"),
+  ),
+  enabled: Schema.optional(Schema.Boolean),
+  errorMessage: Schema.optional(
+    Schema.Union([Schema.String, Schema.Null]),
+  ).pipe(T.JsonName("error_message")),
+  frequency: Schema.optional(
+    Schema.Union([Schema.Literal("high"), Schema.Literal("low"), Schema.Null]),
+  ),
+  kind: Schema.optional(Schema.Literals(["", "edge"])),
+  lastComplete: Schema.optional(
+    Schema.Union([Schema.String, Schema.Null]),
+  ).pipe(T.JsonName("last_complete")),
+  lastError: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
+    T.JsonName("last_error"),
+  ),
+  logpullOptions: Schema.optional(
+    Schema.Union([Schema.String, Schema.Null]),
+  ).pipe(T.JsonName("logpull_options")),
+  maxUploadBytes: Schema.optional(
+    Schema.Union([Schema.Literal("0"), Schema.Number, Schema.Null]),
+  ).pipe(T.JsonName("max_upload_bytes")),
+  maxUploadIntervalSeconds: Schema.optional(
+    Schema.Union([Schema.Literal("0"), Schema.Number, Schema.Null]),
+  ).pipe(T.JsonName("max_upload_interval_seconds")),
+  maxUploadRecords: Schema.optional(
+    Schema.Union([Schema.Literal("0"), Schema.Number, Schema.Null]),
+  ).pipe(T.JsonName("max_upload_records")),
+  name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  outputOptions: Schema.optional(
+    Schema.Union([
+      Schema.Struct({
+        batchPrefix: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ).pipe(T.JsonName("batch_prefix")),
+        batchSuffix: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ).pipe(T.JsonName("batch_suffix")),
+        "CVE-2021-44228": Schema.optional(
+          Schema.Union([Schema.Boolean, Schema.Null]),
+        ),
+        fieldDelimiter: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ).pipe(T.JsonName("field_delimiter")),
+        fieldNames: Schema.optional(Schema.Array(Schema.String)).pipe(
+          T.JsonName("field_names"),
+        ),
+        outputType: Schema.optional(Schema.Literals(["ndjson", "csv"])).pipe(
+          T.JsonName("output_type"),
+        ),
+        recordDelimiter: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ).pipe(T.JsonName("record_delimiter")),
+        recordPrefix: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ).pipe(T.JsonName("record_prefix")),
+        recordSuffix: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ).pipe(T.JsonName("record_suffix")),
+        recordTemplate: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ).pipe(T.JsonName("record_template")),
+        sampleRate: Schema.optional(
+          Schema.Union([Schema.Number, Schema.Null]),
+        ).pipe(T.JsonName("sample_rate")),
+        timestampFormat: Schema.optional(
+          Schema.Literals(["unixnano", "unix", "rfc3339"]),
+        ).pipe(T.JsonName("timestamp_format")),
+      }),
+      Schema.Null,
+    ]),
+  ).pipe(T.JsonName("output_options")),
+}) as unknown as Schema.Schema<GetJobResponse>;
 
 export const getJob: (
   input: GetJobRequest,
@@ -312,7 +516,7 @@ export interface CreateJobRequest {
 export const CreateJobRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  destinationConf: Schema.String,
+  destinationConf: Schema.String.pipe(T.JsonName("destination_conf")),
   dataset: Schema.optional(
     Schema.Union([
       Schema.Literal("access_requests"),
@@ -354,89 +558,260 @@ export const CreateJobRequest = Schema.Struct({
     Schema.Union([Schema.Literal("high"), Schema.Literal("low"), Schema.Null]),
   ),
   kind: Schema.optional(Schema.Literals(["", "edge"])),
-  logpullOptions: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  logpullOptions: Schema.optional(
+    Schema.Union([Schema.String, Schema.Null]),
+  ).pipe(T.JsonName("logpull_options")),
   maxUploadBytes: Schema.optional(
     Schema.Union([Schema.Literal("0"), Schema.Number, Schema.Null]),
-  ),
+  ).pipe(T.JsonName("max_upload_bytes")),
   maxUploadIntervalSeconds: Schema.optional(
     Schema.Union([Schema.Literal("0"), Schema.Number, Schema.Null]),
-  ),
+  ).pipe(T.JsonName("max_upload_interval_seconds")),
   maxUploadRecords: Schema.optional(
     Schema.Union([Schema.Literal("0"), Schema.Number, Schema.Null]),
-  ),
+  ).pipe(T.JsonName("max_upload_records")),
   name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   outputOptions: Schema.optional(
     Schema.Union([
       Schema.Struct({
         batchPrefix: Schema.optional(
           Schema.Union([Schema.String, Schema.Null]),
-        ),
+        ).pipe(T.JsonName("batch_prefix")),
         batchSuffix: Schema.optional(
           Schema.Union([Schema.String, Schema.Null]),
-        ),
+        ).pipe(T.JsonName("batch_suffix")),
         "CVE-2021-44228": Schema.optional(
           Schema.Union([Schema.Boolean, Schema.Null]),
         ),
         fieldDelimiter: Schema.optional(
           Schema.Union([Schema.String, Schema.Null]),
+        ).pipe(T.JsonName("field_delimiter")),
+        fieldNames: Schema.optional(Schema.Array(Schema.String)).pipe(
+          T.JsonName("field_names"),
         ),
-        fieldNames: Schema.optional(Schema.Array(Schema.String)),
-        outputType: Schema.optional(Schema.Literals(["ndjson", "csv"])),
+        outputType: Schema.optional(Schema.Literals(["ndjson", "csv"])).pipe(
+          T.JsonName("output_type"),
+        ),
         recordDelimiter: Schema.optional(
           Schema.Union([Schema.String, Schema.Null]),
-        ),
+        ).pipe(T.JsonName("record_delimiter")),
         recordPrefix: Schema.optional(
           Schema.Union([Schema.String, Schema.Null]),
-        ),
+        ).pipe(T.JsonName("record_prefix")),
         recordSuffix: Schema.optional(
           Schema.Union([Schema.String, Schema.Null]),
-        ),
+        ).pipe(T.JsonName("record_suffix")),
         recordTemplate: Schema.optional(
           Schema.Union([Schema.String, Schema.Null]),
-        ),
-        sampleRate: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+        ).pipe(T.JsonName("record_template")),
+        sampleRate: Schema.optional(
+          Schema.Union([Schema.Number, Schema.Null]),
+        ).pipe(T.JsonName("sample_rate")),
         timestampFormat: Schema.optional(
           Schema.Literals(["unixnano", "unix", "rfc3339"]),
-        ),
-      }).pipe(
-        Schema.encodeKeys({
-          batchPrefix: "batch_prefix",
-          batchSuffix: "batch_suffix",
-          fieldDelimiter: "field_delimiter",
-          fieldNames: "field_names",
-          outputType: "output_type",
-          recordDelimiter: "record_delimiter",
-          recordPrefix: "record_prefix",
-          recordSuffix: "record_suffix",
-          recordTemplate: "record_template",
-          sampleRate: "sample_rate",
-          timestampFormat: "timestamp_format",
-        }),
-      ),
+        ).pipe(T.JsonName("timestamp_format")),
+      }),
       Schema.Null,
     ]),
+  ).pipe(T.JsonName("output_options")),
+  ownershipChallenge: Schema.optional(Schema.String).pipe(
+    T.JsonName("ownership_challenge"),
   ),
-  ownershipChallenge: Schema.optional(Schema.String),
 }).pipe(
-  Schema.encodeKeys({
-    destinationConf: "destination_conf",
-    logpullOptions: "logpull_options",
-    maxUploadBytes: "max_upload_bytes",
-    maxUploadIntervalSeconds: "max_upload_interval_seconds",
-    maxUploadRecords: "max_upload_records",
-    outputOptions: "output_options",
-    ownershipChallenge: "ownership_challenge",
-  }),
   T.Http({
     method: "POST",
     path: "/{accountOrZone}/{accountOrZoneId}/logpush/jobs",
   }),
 ) as unknown as Schema.Schema<CreateJobRequest>;
 
-export type CreateJobResponse = unknown;
+export interface CreateJobResponse {
+  /** Unique id of the job. */
+  id?: number;
+  /** Name of the dataset. A list of supported datasets can be found on the [Developer Docs](https://developers.cloudflare.com/logs/reference/log-fields/). */
+  dataset?:
+    | "access_requests"
+    | "audit_logs"
+    | "audit_logs_v2"
+    | "biso_user_actions"
+    | "casb_findings"
+    | "device_posture_results"
+    | "dex_application_tests"
+    | "dex_device_state_events"
+    | "dlp_forensic_copies"
+    | "dns_firewall_logs"
+    | "dns_logs"
+    | "email_security_alerts"
+    | "firewall_events"
+    | "gateway_dns"
+    | "gateway_http"
+    | "gateway_network"
+    | "http_requests"
+    | "ipsec_logs"
+    | "magic_ids_detections"
+    | "nel_reports"
+    | "network_analytics_logs"
+    | "page_shield_events"
+    | "sinkhole_http_logs"
+    | "spectrum_events"
+    | "ssh_logs"
+    | "warp_config_changes"
+    | "warp_toggle_changes"
+    | "workers_trace_events"
+    | "zaraz_events"
+    | "zero_trust_network_sessions"
+    | null;
+  /** Uniquely identifies a resource (such as an s3 bucket) where data. will be pushed. Additional configuration parameters supported by the destination may be included. */
+  destinationConf?: string;
+  /** Flag that indicates if the job is enabled. */
+  enabled?: boolean;
+  /** If not null, the job is currently failing. Failures are usually. repetitive (example: no permissions to write to destination bucket). Only the last failure is recorded. On successful execution of a jo */
+  errorMessage?: string | null;
+  /** @deprecated This field is deprecated. Please use `max_upload_ ` parameters instead. . The frequency at which Cloudflare sends batches of logs to your destination. Setting frequency to high sends your  */
+  frequency?: "high" | "low" | null;
+  /** The kind parameter (optional) is used to differentiate between Logpush and Edge Log Delivery jobs (when supported by the dataset). */
+  kind?: "" | "edge";
+  /** Records the last time for which logs have been successfully pushed. If the last successful push was for logs range 2018-07-23T10:00:00Z to 2018-07-23T10:01:00Z then the value of this field will be 201 */
+  lastComplete?: string | null;
+  /** Records the last time the job failed. If not null, the job is currently. failing. If null, the job has either never failed or has run successfully at least once since last failure. See also the error_ */
+  lastError?: string | null;
+  /** @deprecated This field is deprecated. Use `output_options` instead. Configuration string. It specifies things like requested fields and timestamp formats. If migrating from the logpull api, copy the u */
+  logpullOptions?: string | null;
+  /** The maximum uncompressed file size of a batch of logs. This setting value must be between `5 MB` and `1 GB`, or `0` to disable it. Note that you cannot set a minimum file size; this means that log fil */
+  maxUploadBytes?: "0" | number | null;
+  /** The maximum interval in seconds for log batches. This setting must be between 30 and 300 seconds (5 minutes), or `0` to disable it. Note that you cannot specify a minimum interval for log batches; thi */
+  maxUploadIntervalSeconds?: "0" | number | null;
+  /** The maximum number of log lines per batch. This setting must be between 1000 and 1,000,000 lines, or `0` to disable it. Note that you cannot specify a minimum number of log lines per batch; this means */
+  maxUploadRecords?: "0" | number | null;
+  /** Optional human readable job name. Not unique. Cloudflare suggests. that you set this to a meaningful string, like the domain name, to make it easier to identify your job. */
+  name?: string | null;
+  /** The structured replacement for `logpull_options`. When including this field, the `logpull_option` field will be ignored. */
+  outputOptions?: {
+    batchPrefix?: string | null;
+    batchSuffix?: string | null;
+    "CVE-2021-44228"?: boolean | null;
+    fieldDelimiter?: string | null;
+    fieldNames?: string[];
+    outputType?: "ndjson" | "csv";
+    recordDelimiter?: string | null;
+    recordPrefix?: string | null;
+    recordSuffix?: string | null;
+    recordTemplate?: string | null;
+    sampleRate?: number | null;
+    timestampFormat?: "unixnano" | "unix" | "rfc3339";
+  } | null;
+}
 
-export const CreateJobResponse =
-  Schema.Unknown as unknown as Schema.Schema<CreateJobResponse>;
+export const CreateJobResponse = Schema.Struct({
+  id: Schema.optional(Schema.Number),
+  dataset: Schema.optional(
+    Schema.Union([
+      Schema.Literal("access_requests"),
+      Schema.Literal("audit_logs"),
+      Schema.Literal("audit_logs_v2"),
+      Schema.Literal("biso_user_actions"),
+      Schema.Literal("casb_findings"),
+      Schema.Literal("device_posture_results"),
+      Schema.Literal("dex_application_tests"),
+      Schema.Literal("dex_device_state_events"),
+      Schema.Literal("dlp_forensic_copies"),
+      Schema.Literal("dns_firewall_logs"),
+      Schema.Literal("dns_logs"),
+      Schema.Literal("email_security_alerts"),
+      Schema.Literal("firewall_events"),
+      Schema.Literal("gateway_dns"),
+      Schema.Literal("gateway_http"),
+      Schema.Literal("gateway_network"),
+      Schema.Literal("http_requests"),
+      Schema.Literal("ipsec_logs"),
+      Schema.Literal("magic_ids_detections"),
+      Schema.Literal("nel_reports"),
+      Schema.Literal("network_analytics_logs"),
+      Schema.Literal("page_shield_events"),
+      Schema.Literal("sinkhole_http_logs"),
+      Schema.Literal("spectrum_events"),
+      Schema.Literal("ssh_logs"),
+      Schema.Literal("warp_config_changes"),
+      Schema.Literal("warp_toggle_changes"),
+      Schema.Literal("workers_trace_events"),
+      Schema.Literal("zaraz_events"),
+      Schema.Literal("zero_trust_network_sessions"),
+      Schema.Null,
+    ]),
+  ),
+  destinationConf: Schema.optional(Schema.String).pipe(
+    T.JsonName("destination_conf"),
+  ),
+  enabled: Schema.optional(Schema.Boolean),
+  errorMessage: Schema.optional(
+    Schema.Union([Schema.String, Schema.Null]),
+  ).pipe(T.JsonName("error_message")),
+  frequency: Schema.optional(
+    Schema.Union([Schema.Literal("high"), Schema.Literal("low"), Schema.Null]),
+  ),
+  kind: Schema.optional(Schema.Literals(["", "edge"])),
+  lastComplete: Schema.optional(
+    Schema.Union([Schema.String, Schema.Null]),
+  ).pipe(T.JsonName("last_complete")),
+  lastError: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
+    T.JsonName("last_error"),
+  ),
+  logpullOptions: Schema.optional(
+    Schema.Union([Schema.String, Schema.Null]),
+  ).pipe(T.JsonName("logpull_options")),
+  maxUploadBytes: Schema.optional(
+    Schema.Union([Schema.Literal("0"), Schema.Number, Schema.Null]),
+  ).pipe(T.JsonName("max_upload_bytes")),
+  maxUploadIntervalSeconds: Schema.optional(
+    Schema.Union([Schema.Literal("0"), Schema.Number, Schema.Null]),
+  ).pipe(T.JsonName("max_upload_interval_seconds")),
+  maxUploadRecords: Schema.optional(
+    Schema.Union([Schema.Literal("0"), Schema.Number, Schema.Null]),
+  ).pipe(T.JsonName("max_upload_records")),
+  name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  outputOptions: Schema.optional(
+    Schema.Union([
+      Schema.Struct({
+        batchPrefix: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ).pipe(T.JsonName("batch_prefix")),
+        batchSuffix: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ).pipe(T.JsonName("batch_suffix")),
+        "CVE-2021-44228": Schema.optional(
+          Schema.Union([Schema.Boolean, Schema.Null]),
+        ),
+        fieldDelimiter: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ).pipe(T.JsonName("field_delimiter")),
+        fieldNames: Schema.optional(Schema.Array(Schema.String)).pipe(
+          T.JsonName("field_names"),
+        ),
+        outputType: Schema.optional(Schema.Literals(["ndjson", "csv"])).pipe(
+          T.JsonName("output_type"),
+        ),
+        recordDelimiter: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ).pipe(T.JsonName("record_delimiter")),
+        recordPrefix: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ).pipe(T.JsonName("record_prefix")),
+        recordSuffix: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ).pipe(T.JsonName("record_suffix")),
+        recordTemplate: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ).pipe(T.JsonName("record_template")),
+        sampleRate: Schema.optional(
+          Schema.Union([Schema.Number, Schema.Null]),
+        ).pipe(T.JsonName("sample_rate")),
+        timestampFormat: Schema.optional(
+          Schema.Literals(["unixnano", "unix", "rfc3339"]),
+        ).pipe(T.JsonName("timestamp_format")),
+      }),
+      Schema.Null,
+    ]),
+  ).pipe(T.JsonName("output_options")),
+}) as unknown as Schema.Schema<CreateJobResponse>;
 
 export const createJob: (
   input: CreateJobRequest,
@@ -499,96 +874,269 @@ export const UpdateJobRequest = Schema.Struct({
   jobId: Schema.Number.pipe(T.HttpPath("jobId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  destinationConf: Schema.optional(Schema.String),
+  destinationConf: Schema.optional(Schema.String).pipe(
+    T.JsonName("destination_conf"),
+  ),
   enabled: Schema.optional(Schema.Boolean),
   filter: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   frequency: Schema.optional(
     Schema.Union([Schema.Literal("high"), Schema.Literal("low"), Schema.Null]),
   ),
   kind: Schema.optional(Schema.Literals(["", "edge"])),
-  logpullOptions: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  logpullOptions: Schema.optional(
+    Schema.Union([Schema.String, Schema.Null]),
+  ).pipe(T.JsonName("logpull_options")),
   maxUploadBytes: Schema.optional(
     Schema.Union([Schema.Literal("0"), Schema.Number, Schema.Null]),
-  ),
+  ).pipe(T.JsonName("max_upload_bytes")),
   maxUploadIntervalSeconds: Schema.optional(
     Schema.Union([Schema.Literal("0"), Schema.Number, Schema.Null]),
-  ),
+  ).pipe(T.JsonName("max_upload_interval_seconds")),
   maxUploadRecords: Schema.optional(
     Schema.Union([Schema.Literal("0"), Schema.Number, Schema.Null]),
-  ),
+  ).pipe(T.JsonName("max_upload_records")),
   name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   outputOptions: Schema.optional(
     Schema.Union([
       Schema.Struct({
         batchPrefix: Schema.optional(
           Schema.Union([Schema.String, Schema.Null]),
-        ),
+        ).pipe(T.JsonName("batch_prefix")),
         batchSuffix: Schema.optional(
           Schema.Union([Schema.String, Schema.Null]),
-        ),
+        ).pipe(T.JsonName("batch_suffix")),
         "CVE-2021-44228": Schema.optional(
           Schema.Union([Schema.Boolean, Schema.Null]),
         ),
         fieldDelimiter: Schema.optional(
           Schema.Union([Schema.String, Schema.Null]),
+        ).pipe(T.JsonName("field_delimiter")),
+        fieldNames: Schema.optional(Schema.Array(Schema.String)).pipe(
+          T.JsonName("field_names"),
         ),
-        fieldNames: Schema.optional(Schema.Array(Schema.String)),
-        outputType: Schema.optional(Schema.Literals(["ndjson", "csv"])),
+        outputType: Schema.optional(Schema.Literals(["ndjson", "csv"])).pipe(
+          T.JsonName("output_type"),
+        ),
         recordDelimiter: Schema.optional(
           Schema.Union([Schema.String, Schema.Null]),
-        ),
+        ).pipe(T.JsonName("record_delimiter")),
         recordPrefix: Schema.optional(
           Schema.Union([Schema.String, Schema.Null]),
-        ),
+        ).pipe(T.JsonName("record_prefix")),
         recordSuffix: Schema.optional(
           Schema.Union([Schema.String, Schema.Null]),
-        ),
+        ).pipe(T.JsonName("record_suffix")),
         recordTemplate: Schema.optional(
           Schema.Union([Schema.String, Schema.Null]),
-        ),
-        sampleRate: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+        ).pipe(T.JsonName("record_template")),
+        sampleRate: Schema.optional(
+          Schema.Union([Schema.Number, Schema.Null]),
+        ).pipe(T.JsonName("sample_rate")),
         timestampFormat: Schema.optional(
           Schema.Literals(["unixnano", "unix", "rfc3339"]),
-        ),
-      }).pipe(
-        Schema.encodeKeys({
-          batchPrefix: "batch_prefix",
-          batchSuffix: "batch_suffix",
-          fieldDelimiter: "field_delimiter",
-          fieldNames: "field_names",
-          outputType: "output_type",
-          recordDelimiter: "record_delimiter",
-          recordPrefix: "record_prefix",
-          recordSuffix: "record_suffix",
-          recordTemplate: "record_template",
-          sampleRate: "sample_rate",
-          timestampFormat: "timestamp_format",
-        }),
-      ),
+        ).pipe(T.JsonName("timestamp_format")),
+      }),
       Schema.Null,
     ]),
+  ).pipe(T.JsonName("output_options")),
+  ownershipChallenge: Schema.optional(Schema.String).pipe(
+    T.JsonName("ownership_challenge"),
   ),
-  ownershipChallenge: Schema.optional(Schema.String),
 }).pipe(
-  Schema.encodeKeys({
-    destinationConf: "destination_conf",
-    logpullOptions: "logpull_options",
-    maxUploadBytes: "max_upload_bytes",
-    maxUploadIntervalSeconds: "max_upload_interval_seconds",
-    maxUploadRecords: "max_upload_records",
-    outputOptions: "output_options",
-    ownershipChallenge: "ownership_challenge",
-  }),
   T.Http({
     method: "PUT",
     path: "/{accountOrZone}/{accountOrZoneId}/logpush/jobs/{jobId}",
   }),
 ) as unknown as Schema.Schema<UpdateJobRequest>;
 
-export type UpdateJobResponse = unknown;
+export interface UpdateJobResponse {
+  /** Unique id of the job. */
+  id?: number;
+  /** Name of the dataset. A list of supported datasets can be found on the [Developer Docs](https://developers.cloudflare.com/logs/reference/log-fields/). */
+  dataset?:
+    | "access_requests"
+    | "audit_logs"
+    | "audit_logs_v2"
+    | "biso_user_actions"
+    | "casb_findings"
+    | "device_posture_results"
+    | "dex_application_tests"
+    | "dex_device_state_events"
+    | "dlp_forensic_copies"
+    | "dns_firewall_logs"
+    | "dns_logs"
+    | "email_security_alerts"
+    | "firewall_events"
+    | "gateway_dns"
+    | "gateway_http"
+    | "gateway_network"
+    | "http_requests"
+    | "ipsec_logs"
+    | "magic_ids_detections"
+    | "nel_reports"
+    | "network_analytics_logs"
+    | "page_shield_events"
+    | "sinkhole_http_logs"
+    | "spectrum_events"
+    | "ssh_logs"
+    | "warp_config_changes"
+    | "warp_toggle_changes"
+    | "workers_trace_events"
+    | "zaraz_events"
+    | "zero_trust_network_sessions"
+    | null;
+  /** Uniquely identifies a resource (such as an s3 bucket) where data. will be pushed. Additional configuration parameters supported by the destination may be included. */
+  destinationConf?: string;
+  /** Flag that indicates if the job is enabled. */
+  enabled?: boolean;
+  /** If not null, the job is currently failing. Failures are usually. repetitive (example: no permissions to write to destination bucket). Only the last failure is recorded. On successful execution of a jo */
+  errorMessage?: string | null;
+  /** @deprecated This field is deprecated. Please use `max_upload_ ` parameters instead. . The frequency at which Cloudflare sends batches of logs to your destination. Setting frequency to high sends your  */
+  frequency?: "high" | "low" | null;
+  /** The kind parameter (optional) is used to differentiate between Logpush and Edge Log Delivery jobs (when supported by the dataset). */
+  kind?: "" | "edge";
+  /** Records the last time for which logs have been successfully pushed. If the last successful push was for logs range 2018-07-23T10:00:00Z to 2018-07-23T10:01:00Z then the value of this field will be 201 */
+  lastComplete?: string | null;
+  /** Records the last time the job failed. If not null, the job is currently. failing. If null, the job has either never failed or has run successfully at least once since last failure. See also the error_ */
+  lastError?: string | null;
+  /** @deprecated This field is deprecated. Use `output_options` instead. Configuration string. It specifies things like requested fields and timestamp formats. If migrating from the logpull api, copy the u */
+  logpullOptions?: string | null;
+  /** The maximum uncompressed file size of a batch of logs. This setting value must be between `5 MB` and `1 GB`, or `0` to disable it. Note that you cannot set a minimum file size; this means that log fil */
+  maxUploadBytes?: "0" | number | null;
+  /** The maximum interval in seconds for log batches. This setting must be between 30 and 300 seconds (5 minutes), or `0` to disable it. Note that you cannot specify a minimum interval for log batches; thi */
+  maxUploadIntervalSeconds?: "0" | number | null;
+  /** The maximum number of log lines per batch. This setting must be between 1000 and 1,000,000 lines, or `0` to disable it. Note that you cannot specify a minimum number of log lines per batch; this means */
+  maxUploadRecords?: "0" | number | null;
+  /** Optional human readable job name. Not unique. Cloudflare suggests. that you set this to a meaningful string, like the domain name, to make it easier to identify your job. */
+  name?: string | null;
+  /** The structured replacement for `logpull_options`. When including this field, the `logpull_option` field will be ignored. */
+  outputOptions?: {
+    batchPrefix?: string | null;
+    batchSuffix?: string | null;
+    "CVE-2021-44228"?: boolean | null;
+    fieldDelimiter?: string | null;
+    fieldNames?: string[];
+    outputType?: "ndjson" | "csv";
+    recordDelimiter?: string | null;
+    recordPrefix?: string | null;
+    recordSuffix?: string | null;
+    recordTemplate?: string | null;
+    sampleRate?: number | null;
+    timestampFormat?: "unixnano" | "unix" | "rfc3339";
+  } | null;
+}
 
-export const UpdateJobResponse =
-  Schema.Unknown as unknown as Schema.Schema<UpdateJobResponse>;
+export const UpdateJobResponse = Schema.Struct({
+  id: Schema.optional(Schema.Number),
+  dataset: Schema.optional(
+    Schema.Union([
+      Schema.Literal("access_requests"),
+      Schema.Literal("audit_logs"),
+      Schema.Literal("audit_logs_v2"),
+      Schema.Literal("biso_user_actions"),
+      Schema.Literal("casb_findings"),
+      Schema.Literal("device_posture_results"),
+      Schema.Literal("dex_application_tests"),
+      Schema.Literal("dex_device_state_events"),
+      Schema.Literal("dlp_forensic_copies"),
+      Schema.Literal("dns_firewall_logs"),
+      Schema.Literal("dns_logs"),
+      Schema.Literal("email_security_alerts"),
+      Schema.Literal("firewall_events"),
+      Schema.Literal("gateway_dns"),
+      Schema.Literal("gateway_http"),
+      Schema.Literal("gateway_network"),
+      Schema.Literal("http_requests"),
+      Schema.Literal("ipsec_logs"),
+      Schema.Literal("magic_ids_detections"),
+      Schema.Literal("nel_reports"),
+      Schema.Literal("network_analytics_logs"),
+      Schema.Literal("page_shield_events"),
+      Schema.Literal("sinkhole_http_logs"),
+      Schema.Literal("spectrum_events"),
+      Schema.Literal("ssh_logs"),
+      Schema.Literal("warp_config_changes"),
+      Schema.Literal("warp_toggle_changes"),
+      Schema.Literal("workers_trace_events"),
+      Schema.Literal("zaraz_events"),
+      Schema.Literal("zero_trust_network_sessions"),
+      Schema.Null,
+    ]),
+  ),
+  destinationConf: Schema.optional(Schema.String).pipe(
+    T.JsonName("destination_conf"),
+  ),
+  enabled: Schema.optional(Schema.Boolean),
+  errorMessage: Schema.optional(
+    Schema.Union([Schema.String, Schema.Null]),
+  ).pipe(T.JsonName("error_message")),
+  frequency: Schema.optional(
+    Schema.Union([Schema.Literal("high"), Schema.Literal("low"), Schema.Null]),
+  ),
+  kind: Schema.optional(Schema.Literals(["", "edge"])),
+  lastComplete: Schema.optional(
+    Schema.Union([Schema.String, Schema.Null]),
+  ).pipe(T.JsonName("last_complete")),
+  lastError: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
+    T.JsonName("last_error"),
+  ),
+  logpullOptions: Schema.optional(
+    Schema.Union([Schema.String, Schema.Null]),
+  ).pipe(T.JsonName("logpull_options")),
+  maxUploadBytes: Schema.optional(
+    Schema.Union([Schema.Literal("0"), Schema.Number, Schema.Null]),
+  ).pipe(T.JsonName("max_upload_bytes")),
+  maxUploadIntervalSeconds: Schema.optional(
+    Schema.Union([Schema.Literal("0"), Schema.Number, Schema.Null]),
+  ).pipe(T.JsonName("max_upload_interval_seconds")),
+  maxUploadRecords: Schema.optional(
+    Schema.Union([Schema.Literal("0"), Schema.Number, Schema.Null]),
+  ).pipe(T.JsonName("max_upload_records")),
+  name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  outputOptions: Schema.optional(
+    Schema.Union([
+      Schema.Struct({
+        batchPrefix: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ).pipe(T.JsonName("batch_prefix")),
+        batchSuffix: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ).pipe(T.JsonName("batch_suffix")),
+        "CVE-2021-44228": Schema.optional(
+          Schema.Union([Schema.Boolean, Schema.Null]),
+        ),
+        fieldDelimiter: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ).pipe(T.JsonName("field_delimiter")),
+        fieldNames: Schema.optional(Schema.Array(Schema.String)).pipe(
+          T.JsonName("field_names"),
+        ),
+        outputType: Schema.optional(Schema.Literals(["ndjson", "csv"])).pipe(
+          T.JsonName("output_type"),
+        ),
+        recordDelimiter: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ).pipe(T.JsonName("record_delimiter")),
+        recordPrefix: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ).pipe(T.JsonName("record_prefix")),
+        recordSuffix: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ).pipe(T.JsonName("record_suffix")),
+        recordTemplate: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ).pipe(T.JsonName("record_template")),
+        sampleRate: Schema.optional(
+          Schema.Union([Schema.Number, Schema.Null]),
+        ).pipe(T.JsonName("sample_rate")),
+        timestampFormat: Schema.optional(
+          Schema.Literals(["unixnano", "unix", "rfc3339"]),
+        ).pipe(T.JsonName("timestamp_format")),
+      }),
+      Schema.Null,
+    ]),
+  ).pipe(T.JsonName("output_options")),
+}) as unknown as Schema.Schema<UpdateJobResponse>;
 
 export const updateJob: (
   input: UpdateJobRequest,
@@ -652,19 +1200,25 @@ export interface CreateOwnershipRequest {
 export const CreateOwnershipRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  destinationConf: Schema.String,
+  destinationConf: Schema.String.pipe(T.JsonName("destination_conf")),
 }).pipe(
-  Schema.encodeKeys({ destinationConf: "destination_conf" }),
   T.Http({
     method: "POST",
     path: "/{accountOrZone}/{accountOrZoneId}/logpush/ownership",
   }),
 ) as unknown as Schema.Schema<CreateOwnershipRequest>;
 
-export type CreateOwnershipResponse = unknown;
+export interface CreateOwnershipResponse {
+  filename?: string;
+  message?: string;
+  valid?: boolean;
+}
 
-export const CreateOwnershipResponse =
-  Schema.Unknown as unknown as Schema.Schema<CreateOwnershipResponse>;
+export const CreateOwnershipResponse = Schema.Struct({
+  filename: Schema.optional(Schema.String),
+  message: Schema.optional(Schema.String),
+  valid: Schema.optional(Schema.Boolean),
+}) as unknown as Schema.Schema<CreateOwnershipResponse>;
 
 export const createOwnership: (
   input: CreateOwnershipRequest,
@@ -692,23 +1246,22 @@ export interface ValidateOwnershipRequest {
 export const ValidateOwnershipRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  destinationConf: Schema.String,
-  ownershipChallenge: Schema.String,
+  destinationConf: Schema.String.pipe(T.JsonName("destination_conf")),
+  ownershipChallenge: Schema.String.pipe(T.JsonName("ownership_challenge")),
 }).pipe(
-  Schema.encodeKeys({
-    destinationConf: "destination_conf",
-    ownershipChallenge: "ownership_challenge",
-  }),
   T.Http({
     method: "POST",
     path: "/{accountOrZone}/{accountOrZoneId}/logpush/ownership/validate",
   }),
 ) as unknown as Schema.Schema<ValidateOwnershipRequest>;
 
-export type ValidateOwnershipResponse = unknown;
+export interface ValidateOwnershipResponse {
+  valid?: boolean;
+}
 
-export const ValidateOwnershipResponse =
-  Schema.Unknown as unknown as Schema.Schema<ValidateOwnershipResponse>;
+export const ValidateOwnershipResponse = Schema.Struct({
+  valid: Schema.optional(Schema.Boolean),
+}) as unknown as Schema.Schema<ValidateOwnershipResponse>;
 
 export const validateOwnership: (
   input: ValidateOwnershipRequest,
@@ -738,19 +1291,23 @@ export interface DestinationValidateRequest {
 export const DestinationValidateRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  destinationConf: Schema.String,
+  destinationConf: Schema.String.pipe(T.JsonName("destination_conf")),
 }).pipe(
-  Schema.encodeKeys({ destinationConf: "destination_conf" }),
   T.Http({
     method: "POST",
     path: "/{accountOrZone}/{accountOrZoneId}/logpush/validate/destination",
   }),
 ) as unknown as Schema.Schema<DestinationValidateRequest>;
 
-export type DestinationValidateResponse = unknown;
+export interface DestinationValidateResponse {
+  message?: string;
+  valid?: boolean;
+}
 
-export const DestinationValidateResponse =
-  Schema.Unknown as unknown as Schema.Schema<DestinationValidateResponse>;
+export const DestinationValidateResponse = Schema.Struct({
+  message: Schema.optional(Schema.String),
+  valid: Schema.optional(Schema.Boolean),
+}) as unknown as Schema.Schema<DestinationValidateResponse>;
 
 export const destinationValidate: (
   input: DestinationValidateRequest,
@@ -776,19 +1333,25 @@ export interface OriginValidateRequest {
 export const OriginValidateRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  logpullOptions: Schema.Union([Schema.String, Schema.Null]),
+  logpullOptions: Schema.Union([Schema.String, Schema.Null]).pipe(
+    T.JsonName("logpull_options"),
+  ),
 }).pipe(
-  Schema.encodeKeys({ logpullOptions: "logpull_options" }),
   T.Http({
     method: "POST",
     path: "/{accountOrZone}/{accountOrZoneId}/logpush/validate/origin",
   }),
 ) as unknown as Schema.Schema<OriginValidateRequest>;
 
-export type OriginValidateResponse = unknown;
+export interface OriginValidateResponse {
+  message?: string;
+  valid?: boolean;
+}
 
-export const OriginValidateResponse =
-  Schema.Unknown as unknown as Schema.Schema<OriginValidateResponse>;
+export const OriginValidateResponse = Schema.Struct({
+  message: Schema.optional(Schema.String),
+  valid: Schema.optional(Schema.Boolean),
+}) as unknown as Schema.Schema<OriginValidateResponse>;
 
 export const originValidate: (
   input: OriginValidateRequest,

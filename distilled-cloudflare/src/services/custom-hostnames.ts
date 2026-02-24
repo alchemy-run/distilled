@@ -39,13 +39,9 @@ export const PutCertificatePackCertificateRequest = Schema.Struct({
   certificatePackId: Schema.String.pipe(T.HttpPath("certificatePackId")),
   certificateId: Schema.String.pipe(T.HttpPath("certificateId")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  customCertificate: Schema.String,
-  customKey: Schema.String,
+  customCertificate: Schema.String.pipe(T.JsonName("custom_certificate")),
+  customKey: Schema.String.pipe(T.JsonName("custom_key")),
 }).pipe(
-  Schema.encodeKeys({
-    customCertificate: "custom_certificate",
-    customKey: "custom_key",
-  }),
   T.Http({
     method: "PUT",
     path: "/zones/{zone_id}/custom_hostnames/{customHostnameId}/certificate_pack/{certificatePackId}/certificates/{certificateId}",
@@ -60,7 +56,7 @@ export interface PutCertificatePackCertificateResponse {
   ssl: {
     id?: string;
     bundleMethod?: "ubiquitous" | "optimal" | "force";
-    certificateAuthority?: "digicert" | "google" | "lets_encrypt" | "ssl_com";
+    certificateAuthority?: "google" | "lets_encrypt" | "ssl_com" | "digicert";
     customCertificate?: string;
     customCsrId?: string;
     customKey?: string;
@@ -152,33 +148,36 @@ export const PutCertificatePackCertificateResponse = Schema.Struct({
     id: Schema.optional(Schema.String),
     bundleMethod: Schema.optional(
       Schema.Literals(["ubiquitous", "optimal", "force"]),
-    ),
+    ).pipe(T.JsonName("bundle_method")),
     certificateAuthority: Schema.optional(
-      Schema.Literals(["digicert", "google", "lets_encrypt", "ssl_com"]),
+      Schema.Literals(["google", "lets_encrypt", "ssl_com", "digicert"]),
+    ).pipe(T.JsonName("certificate_authority")),
+    customCertificate: Schema.optional(Schema.String).pipe(
+      T.JsonName("custom_certificate"),
     ),
-    customCertificate: Schema.optional(Schema.String),
-    customCsrId: Schema.optional(Schema.String),
-    customKey: Schema.optional(Schema.String),
-    expiresOn: Schema.optional(Schema.String),
+    customCsrId: Schema.optional(Schema.String).pipe(
+      T.JsonName("custom_csr_id"),
+    ),
+    customKey: Schema.optional(Schema.String).pipe(T.JsonName("custom_key")),
+    expiresOn: Schema.optional(Schema.String).pipe(T.JsonName("expires_on")),
     hosts: Schema.optional(Schema.Array(Schema.String)),
     issuer: Schema.optional(Schema.String),
     method: Schema.optional(Schema.Literals(["http", "txt", "email"])),
-    serialNumber: Schema.optional(Schema.String),
+    serialNumber: Schema.optional(Schema.String).pipe(
+      T.JsonName("serial_number"),
+    ),
     settings: Schema.optional(
       Schema.Struct({
         ciphers: Schema.optional(Schema.Array(Schema.String)),
-        earlyHints: Schema.optional(Schema.Literals(["on", "off"])),
+        earlyHints: Schema.optional(Schema.Literals(["on", "off"])).pipe(
+          T.JsonName("early_hints"),
+        ),
         http2: Schema.optional(Schema.Literals(["on", "off"])),
         minTlsVersion: Schema.optional(
           Schema.Literals(["1.0", "1.1", "1.2", "1.3"]),
-        ),
+        ).pipe(T.JsonName("min_tls_version")),
         tls_1_3: Schema.optional(Schema.Literals(["on", "off"])),
-      }).pipe(
-        Schema.encodeKeys({
-          earlyHints: "early_hints",
-          minTlsVersion: "min_tls_version",
-        }),
-      ),
+      }),
     ),
     signature: Schema.optional(Schema.String),
     status: Schema.optional(
@@ -207,64 +206,54 @@ export const PutCertificatePackCertificateResponse = Schema.Struct({
       ]),
     ),
     type: Schema.optional(Schema.Literal("dv")),
-    uploadedOn: Schema.optional(Schema.String),
+    uploadedOn: Schema.optional(Schema.String).pipe(T.JsonName("uploaded_on")),
     validationErrors: Schema.optional(
       Schema.Array(
         Schema.Struct({
           message: Schema.optional(Schema.String),
         }),
       ),
-    ),
+    ).pipe(T.JsonName("validation_errors")),
     validationRecords: Schema.optional(
       Schema.Array(
         Schema.Struct({
           emails: Schema.optional(Schema.Array(Schema.String)),
-          httpBody: Schema.optional(Schema.String),
-          httpUrl: Schema.optional(Schema.String),
-          txtName: Schema.optional(Schema.String),
-          txtValue: Schema.optional(Schema.String),
-        }).pipe(
-          Schema.encodeKeys({
-            httpBody: "http_body",
-            httpUrl: "http_url",
-            txtName: "txt_name",
-            txtValue: "txt_value",
-          }),
-        ),
+          httpBody: Schema.optional(Schema.String).pipe(
+            T.JsonName("http_body"),
+          ),
+          httpUrl: Schema.optional(Schema.String).pipe(T.JsonName("http_url")),
+          txtName: Schema.optional(Schema.String).pipe(T.JsonName("txt_name")),
+          txtValue: Schema.optional(Schema.String).pipe(
+            T.JsonName("txt_value"),
+          ),
+        }),
       ),
-    ),
+    ).pipe(T.JsonName("validation_records")),
     wildcard: Schema.optional(Schema.Boolean),
-  }).pipe(
-    Schema.encodeKeys({
-      bundleMethod: "bundle_method",
-      certificateAuthority: "certificate_authority",
-      customCertificate: "custom_certificate",
-      customCsrId: "custom_csr_id",
-      customKey: "custom_key",
-      expiresOn: "expires_on",
-      serialNumber: "serial_number",
-      uploadedOn: "uploaded_on",
-      validationErrors: "validation_errors",
-      validationRecords: "validation_records",
-    }),
+  }),
+  createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
+  customMetadata: Schema.optional(Schema.Struct({})).pipe(
+    T.JsonName("custom_metadata"),
   ),
-  createdAt: Schema.optional(Schema.String),
-  customMetadata: Schema.optional(Schema.Struct({})),
-  customOriginServer: Schema.optional(Schema.String),
-  customOriginSni: Schema.optional(Schema.String),
+  customOriginServer: Schema.optional(Schema.String).pipe(
+    T.JsonName("custom_origin_server"),
+  ),
+  customOriginSni: Schema.optional(Schema.String).pipe(
+    T.JsonName("custom_origin_sni"),
+  ),
   ownershipVerification: Schema.optional(
     Schema.Struct({
       name: Schema.optional(Schema.String),
       type: Schema.optional(Schema.Literal("txt")),
       value: Schema.optional(Schema.String),
     }),
-  ),
+  ).pipe(T.JsonName("ownership_verification")),
   ownershipVerificationHttp: Schema.optional(
     Schema.Struct({
-      httpBody: Schema.optional(Schema.String),
-      httpUrl: Schema.optional(Schema.String),
-    }).pipe(Schema.encodeKeys({ httpBody: "http_body", httpUrl: "http_url" })),
-  ),
+      httpBody: Schema.optional(Schema.String).pipe(T.JsonName("http_body")),
+      httpUrl: Schema.optional(Schema.String).pipe(T.JsonName("http_url")),
+    }),
+  ).pipe(T.JsonName("ownership_verification_http")),
   status: Schema.optional(
     Schema.Literals([
       "active",
@@ -285,18 +274,10 @@ export const PutCertificatePackCertificateResponse = Schema.Struct({
       "blocked",
     ]),
   ),
-  verificationErrors: Schema.optional(Schema.Array(Schema.String)),
-}).pipe(
-  Schema.encodeKeys({
-    createdAt: "created_at",
-    customMetadata: "custom_metadata",
-    customOriginServer: "custom_origin_server",
-    customOriginSni: "custom_origin_sni",
-    ownershipVerification: "ownership_verification",
-    ownershipVerificationHttp: "ownership_verification_http",
-    verificationErrors: "verification_errors",
-  }),
-) as unknown as Schema.Schema<PutCertificatePackCertificateResponse>;
+  verificationErrors: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.JsonName("verification_errors"),
+  ),
+}) as unknown as Schema.Schema<PutCertificatePackCertificateResponse>;
 
 export const putCertificatePackCertificate: (
   input: PutCertificatePackCertificateRequest,
@@ -379,7 +360,7 @@ export interface GetCustomHostnameResponse {
   ssl: {
     id?: string;
     bundleMethod?: "ubiquitous" | "optimal" | "force";
-    certificateAuthority?: "digicert" | "google" | "lets_encrypt" | "ssl_com";
+    certificateAuthority?: "google" | "lets_encrypt" | "ssl_com" | "digicert";
     customCertificate?: string;
     customCsrId?: string;
     customKey?: string;
@@ -471,33 +452,36 @@ export const GetCustomHostnameResponse = Schema.Struct({
     id: Schema.optional(Schema.String),
     bundleMethod: Schema.optional(
       Schema.Literals(["ubiquitous", "optimal", "force"]),
-    ),
+    ).pipe(T.JsonName("bundle_method")),
     certificateAuthority: Schema.optional(
-      Schema.Literals(["digicert", "google", "lets_encrypt", "ssl_com"]),
+      Schema.Literals(["google", "lets_encrypt", "ssl_com", "digicert"]),
+    ).pipe(T.JsonName("certificate_authority")),
+    customCertificate: Schema.optional(Schema.String).pipe(
+      T.JsonName("custom_certificate"),
     ),
-    customCertificate: Schema.optional(Schema.String),
-    customCsrId: Schema.optional(Schema.String),
-    customKey: Schema.optional(Schema.String),
-    expiresOn: Schema.optional(Schema.String),
+    customCsrId: Schema.optional(Schema.String).pipe(
+      T.JsonName("custom_csr_id"),
+    ),
+    customKey: Schema.optional(Schema.String).pipe(T.JsonName("custom_key")),
+    expiresOn: Schema.optional(Schema.String).pipe(T.JsonName("expires_on")),
     hosts: Schema.optional(Schema.Array(Schema.String)),
     issuer: Schema.optional(Schema.String),
     method: Schema.optional(Schema.Literals(["http", "txt", "email"])),
-    serialNumber: Schema.optional(Schema.String),
+    serialNumber: Schema.optional(Schema.String).pipe(
+      T.JsonName("serial_number"),
+    ),
     settings: Schema.optional(
       Schema.Struct({
         ciphers: Schema.optional(Schema.Array(Schema.String)),
-        earlyHints: Schema.optional(Schema.Literals(["on", "off"])),
+        earlyHints: Schema.optional(Schema.Literals(["on", "off"])).pipe(
+          T.JsonName("early_hints"),
+        ),
         http2: Schema.optional(Schema.Literals(["on", "off"])),
         minTlsVersion: Schema.optional(
           Schema.Literals(["1.0", "1.1", "1.2", "1.3"]),
-        ),
+        ).pipe(T.JsonName("min_tls_version")),
         tls_1_3: Schema.optional(Schema.Literals(["on", "off"])),
-      }).pipe(
-        Schema.encodeKeys({
-          earlyHints: "early_hints",
-          minTlsVersion: "min_tls_version",
-        }),
-      ),
+      }),
     ),
     signature: Schema.optional(Schema.String),
     status: Schema.optional(
@@ -526,64 +510,54 @@ export const GetCustomHostnameResponse = Schema.Struct({
       ]),
     ),
     type: Schema.optional(Schema.Literal("dv")),
-    uploadedOn: Schema.optional(Schema.String),
+    uploadedOn: Schema.optional(Schema.String).pipe(T.JsonName("uploaded_on")),
     validationErrors: Schema.optional(
       Schema.Array(
         Schema.Struct({
           message: Schema.optional(Schema.String),
         }),
       ),
-    ),
+    ).pipe(T.JsonName("validation_errors")),
     validationRecords: Schema.optional(
       Schema.Array(
         Schema.Struct({
           emails: Schema.optional(Schema.Array(Schema.String)),
-          httpBody: Schema.optional(Schema.String),
-          httpUrl: Schema.optional(Schema.String),
-          txtName: Schema.optional(Schema.String),
-          txtValue: Schema.optional(Schema.String),
-        }).pipe(
-          Schema.encodeKeys({
-            httpBody: "http_body",
-            httpUrl: "http_url",
-            txtName: "txt_name",
-            txtValue: "txt_value",
-          }),
-        ),
+          httpBody: Schema.optional(Schema.String).pipe(
+            T.JsonName("http_body"),
+          ),
+          httpUrl: Schema.optional(Schema.String).pipe(T.JsonName("http_url")),
+          txtName: Schema.optional(Schema.String).pipe(T.JsonName("txt_name")),
+          txtValue: Schema.optional(Schema.String).pipe(
+            T.JsonName("txt_value"),
+          ),
+        }),
       ),
-    ),
+    ).pipe(T.JsonName("validation_records")),
     wildcard: Schema.optional(Schema.Boolean),
-  }).pipe(
-    Schema.encodeKeys({
-      bundleMethod: "bundle_method",
-      certificateAuthority: "certificate_authority",
-      customCertificate: "custom_certificate",
-      customCsrId: "custom_csr_id",
-      customKey: "custom_key",
-      expiresOn: "expires_on",
-      serialNumber: "serial_number",
-      uploadedOn: "uploaded_on",
-      validationErrors: "validation_errors",
-      validationRecords: "validation_records",
-    }),
+  }),
+  createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
+  customMetadata: Schema.optional(Schema.Struct({})).pipe(
+    T.JsonName("custom_metadata"),
   ),
-  createdAt: Schema.optional(Schema.String),
-  customMetadata: Schema.optional(Schema.Struct({})),
-  customOriginServer: Schema.optional(Schema.String),
-  customOriginSni: Schema.optional(Schema.String),
+  customOriginServer: Schema.optional(Schema.String).pipe(
+    T.JsonName("custom_origin_server"),
+  ),
+  customOriginSni: Schema.optional(Schema.String).pipe(
+    T.JsonName("custom_origin_sni"),
+  ),
   ownershipVerification: Schema.optional(
     Schema.Struct({
       name: Schema.optional(Schema.String),
       type: Schema.optional(Schema.Literal("txt")),
       value: Schema.optional(Schema.String),
     }),
-  ),
+  ).pipe(T.JsonName("ownership_verification")),
   ownershipVerificationHttp: Schema.optional(
     Schema.Struct({
-      httpBody: Schema.optional(Schema.String),
-      httpUrl: Schema.optional(Schema.String),
-    }).pipe(Schema.encodeKeys({ httpBody: "http_body", httpUrl: "http_url" })),
-  ),
+      httpBody: Schema.optional(Schema.String).pipe(T.JsonName("http_body")),
+      httpUrl: Schema.optional(Schema.String).pipe(T.JsonName("http_url")),
+    }),
+  ).pipe(T.JsonName("ownership_verification_http")),
   status: Schema.optional(
     Schema.Literals([
       "active",
@@ -604,18 +578,10 @@ export const GetCustomHostnameResponse = Schema.Struct({
       "blocked",
     ]),
   ),
-  verificationErrors: Schema.optional(Schema.Array(Schema.String)),
-}).pipe(
-  Schema.encodeKeys({
-    createdAt: "created_at",
-    customMetadata: "custom_metadata",
-    customOriginServer: "custom_origin_server",
-    customOriginSni: "custom_origin_sni",
-    ownershipVerification: "ownership_verification",
-    ownershipVerificationHttp: "ownership_verification_http",
-    verificationErrors: "verification_errors",
-  }),
-) as unknown as Schema.Schema<GetCustomHostnameResponse>;
+  verificationErrors: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.JsonName("verification_errors"),
+  ),
+}) as unknown as Schema.Schema<GetCustomHostnameResponse>;
 
 export const getCustomHostname: (
   input: GetCustomHostnameRequest,
@@ -639,7 +605,7 @@ export interface CreateCustomHostnameRequest {
   /** Body param: SSL properties used when creating the custom hostname. */
   ssl?: {
     bundleMethod?: "ubiquitous" | "optimal" | "force";
-    certificateAuthority?: "digicert" | "google" | "lets_encrypt" | "ssl_com";
+    certificateAuthority?: "google" | "lets_encrypt" | "ssl_com" | "digicert";
     cloudflareBranding?: boolean;
     customCertBundle?: { customCertificate: string; customKey: string }[];
     customCertificate?: string;
@@ -660,63 +626,53 @@ export interface CreateCustomHostnameRequest {
 export const CreateCustomHostnameRequest = Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
   hostname: Schema.String,
-  customMetadata: Schema.optional(Schema.Struct({})),
+  customMetadata: Schema.optional(Schema.Struct({})).pipe(
+    T.JsonName("custom_metadata"),
+  ),
   ssl: Schema.optional(
     Schema.Struct({
       bundleMethod: Schema.optional(
         Schema.Literals(["ubiquitous", "optimal", "force"]),
-      ),
+      ).pipe(T.JsonName("bundle_method")),
       certificateAuthority: Schema.optional(
-        Schema.Literals(["digicert", "google", "lets_encrypt", "ssl_com"]),
+        Schema.Literals(["google", "lets_encrypt", "ssl_com", "digicert"]),
+      ).pipe(T.JsonName("certificate_authority")),
+      cloudflareBranding: Schema.optional(Schema.Boolean).pipe(
+        T.JsonName("cloudflare_branding"),
       ),
-      cloudflareBranding: Schema.optional(Schema.Boolean),
       customCertBundle: Schema.optional(
         Schema.Array(
           Schema.Struct({
-            customCertificate: Schema.String,
-            customKey: Schema.String,
-          }).pipe(
-            Schema.encodeKeys({
-              customCertificate: "custom_certificate",
-              customKey: "custom_key",
-            }),
-          ),
+            customCertificate: Schema.String.pipe(
+              T.JsonName("custom_certificate"),
+            ),
+            customKey: Schema.String.pipe(T.JsonName("custom_key")),
+          }),
         ),
+      ).pipe(T.JsonName("custom_cert_bundle")),
+      customCertificate: Schema.optional(Schema.String).pipe(
+        T.JsonName("custom_certificate"),
       ),
-      customCertificate: Schema.optional(Schema.String),
-      customKey: Schema.optional(Schema.String),
+      customKey: Schema.optional(Schema.String).pipe(T.JsonName("custom_key")),
       method: Schema.optional(Schema.Literals(["http", "txt", "email"])),
       settings: Schema.optional(
         Schema.Struct({
           ciphers: Schema.optional(Schema.Array(Schema.String)),
-          earlyHints: Schema.optional(Schema.Literals(["on", "off"])),
+          earlyHints: Schema.optional(Schema.Literals(["on", "off"])).pipe(
+            T.JsonName("early_hints"),
+          ),
           http2: Schema.optional(Schema.Literals(["on", "off"])),
           minTlsVersion: Schema.optional(
             Schema.Literals(["1.0", "1.1", "1.2", "1.3"]),
-          ),
+          ).pipe(T.JsonName("min_tls_version")),
           tls_1_3: Schema.optional(Schema.Literals(["on", "off"])),
-        }).pipe(
-          Schema.encodeKeys({
-            earlyHints: "early_hints",
-            minTlsVersion: "min_tls_version",
-          }),
-        ),
+        }),
       ),
       type: Schema.optional(Schema.Literal("dv")),
       wildcard: Schema.optional(Schema.Boolean),
-    }).pipe(
-      Schema.encodeKeys({
-        bundleMethod: "bundle_method",
-        certificateAuthority: "certificate_authority",
-        cloudflareBranding: "cloudflare_branding",
-        customCertBundle: "custom_cert_bundle",
-        customCertificate: "custom_certificate",
-        customKey: "custom_key",
-      }),
-    ),
+    }),
   ),
 }).pipe(
-  Schema.encodeKeys({ customMetadata: "custom_metadata" }),
   T.Http({ method: "POST", path: "/zones/{zone_id}/custom_hostnames" }),
 ) as unknown as Schema.Schema<CreateCustomHostnameRequest>;
 
@@ -728,7 +684,7 @@ export interface CreateCustomHostnameResponse {
   ssl: {
     id?: string;
     bundleMethod?: "ubiquitous" | "optimal" | "force";
-    certificateAuthority?: "digicert" | "google" | "lets_encrypt" | "ssl_com";
+    certificateAuthority?: "google" | "lets_encrypt" | "ssl_com" | "digicert";
     customCertificate?: string;
     customCsrId?: string;
     customKey?: string;
@@ -820,33 +776,36 @@ export const CreateCustomHostnameResponse = Schema.Struct({
     id: Schema.optional(Schema.String),
     bundleMethod: Schema.optional(
       Schema.Literals(["ubiquitous", "optimal", "force"]),
-    ),
+    ).pipe(T.JsonName("bundle_method")),
     certificateAuthority: Schema.optional(
-      Schema.Literals(["digicert", "google", "lets_encrypt", "ssl_com"]),
+      Schema.Literals(["google", "lets_encrypt", "ssl_com", "digicert"]),
+    ).pipe(T.JsonName("certificate_authority")),
+    customCertificate: Schema.optional(Schema.String).pipe(
+      T.JsonName("custom_certificate"),
     ),
-    customCertificate: Schema.optional(Schema.String),
-    customCsrId: Schema.optional(Schema.String),
-    customKey: Schema.optional(Schema.String),
-    expiresOn: Schema.optional(Schema.String),
+    customCsrId: Schema.optional(Schema.String).pipe(
+      T.JsonName("custom_csr_id"),
+    ),
+    customKey: Schema.optional(Schema.String).pipe(T.JsonName("custom_key")),
+    expiresOn: Schema.optional(Schema.String).pipe(T.JsonName("expires_on")),
     hosts: Schema.optional(Schema.Array(Schema.String)),
     issuer: Schema.optional(Schema.String),
     method: Schema.optional(Schema.Literals(["http", "txt", "email"])),
-    serialNumber: Schema.optional(Schema.String),
+    serialNumber: Schema.optional(Schema.String).pipe(
+      T.JsonName("serial_number"),
+    ),
     settings: Schema.optional(
       Schema.Struct({
         ciphers: Schema.optional(Schema.Array(Schema.String)),
-        earlyHints: Schema.optional(Schema.Literals(["on", "off"])),
+        earlyHints: Schema.optional(Schema.Literals(["on", "off"])).pipe(
+          T.JsonName("early_hints"),
+        ),
         http2: Schema.optional(Schema.Literals(["on", "off"])),
         minTlsVersion: Schema.optional(
           Schema.Literals(["1.0", "1.1", "1.2", "1.3"]),
-        ),
+        ).pipe(T.JsonName("min_tls_version")),
         tls_1_3: Schema.optional(Schema.Literals(["on", "off"])),
-      }).pipe(
-        Schema.encodeKeys({
-          earlyHints: "early_hints",
-          minTlsVersion: "min_tls_version",
-        }),
-      ),
+      }),
     ),
     signature: Schema.optional(Schema.String),
     status: Schema.optional(
@@ -875,64 +834,54 @@ export const CreateCustomHostnameResponse = Schema.Struct({
       ]),
     ),
     type: Schema.optional(Schema.Literal("dv")),
-    uploadedOn: Schema.optional(Schema.String),
+    uploadedOn: Schema.optional(Schema.String).pipe(T.JsonName("uploaded_on")),
     validationErrors: Schema.optional(
       Schema.Array(
         Schema.Struct({
           message: Schema.optional(Schema.String),
         }),
       ),
-    ),
+    ).pipe(T.JsonName("validation_errors")),
     validationRecords: Schema.optional(
       Schema.Array(
         Schema.Struct({
           emails: Schema.optional(Schema.Array(Schema.String)),
-          httpBody: Schema.optional(Schema.String),
-          httpUrl: Schema.optional(Schema.String),
-          txtName: Schema.optional(Schema.String),
-          txtValue: Schema.optional(Schema.String),
-        }).pipe(
-          Schema.encodeKeys({
-            httpBody: "http_body",
-            httpUrl: "http_url",
-            txtName: "txt_name",
-            txtValue: "txt_value",
-          }),
-        ),
+          httpBody: Schema.optional(Schema.String).pipe(
+            T.JsonName("http_body"),
+          ),
+          httpUrl: Schema.optional(Schema.String).pipe(T.JsonName("http_url")),
+          txtName: Schema.optional(Schema.String).pipe(T.JsonName("txt_name")),
+          txtValue: Schema.optional(Schema.String).pipe(
+            T.JsonName("txt_value"),
+          ),
+        }),
       ),
-    ),
+    ).pipe(T.JsonName("validation_records")),
     wildcard: Schema.optional(Schema.Boolean),
-  }).pipe(
-    Schema.encodeKeys({
-      bundleMethod: "bundle_method",
-      certificateAuthority: "certificate_authority",
-      customCertificate: "custom_certificate",
-      customCsrId: "custom_csr_id",
-      customKey: "custom_key",
-      expiresOn: "expires_on",
-      serialNumber: "serial_number",
-      uploadedOn: "uploaded_on",
-      validationErrors: "validation_errors",
-      validationRecords: "validation_records",
-    }),
+  }),
+  createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
+  customMetadata: Schema.optional(Schema.Struct({})).pipe(
+    T.JsonName("custom_metadata"),
   ),
-  createdAt: Schema.optional(Schema.String),
-  customMetadata: Schema.optional(Schema.Struct({})),
-  customOriginServer: Schema.optional(Schema.String),
-  customOriginSni: Schema.optional(Schema.String),
+  customOriginServer: Schema.optional(Schema.String).pipe(
+    T.JsonName("custom_origin_server"),
+  ),
+  customOriginSni: Schema.optional(Schema.String).pipe(
+    T.JsonName("custom_origin_sni"),
+  ),
   ownershipVerification: Schema.optional(
     Schema.Struct({
       name: Schema.optional(Schema.String),
       type: Schema.optional(Schema.Literal("txt")),
       value: Schema.optional(Schema.String),
     }),
-  ),
+  ).pipe(T.JsonName("ownership_verification")),
   ownershipVerificationHttp: Schema.optional(
     Schema.Struct({
-      httpBody: Schema.optional(Schema.String),
-      httpUrl: Schema.optional(Schema.String),
-    }).pipe(Schema.encodeKeys({ httpBody: "http_body", httpUrl: "http_url" })),
-  ),
+      httpBody: Schema.optional(Schema.String).pipe(T.JsonName("http_body")),
+      httpUrl: Schema.optional(Schema.String).pipe(T.JsonName("http_url")),
+    }),
+  ).pipe(T.JsonName("ownership_verification_http")),
   status: Schema.optional(
     Schema.Literals([
       "active",
@@ -953,18 +902,10 @@ export const CreateCustomHostnameResponse = Schema.Struct({
       "blocked",
     ]),
   ),
-  verificationErrors: Schema.optional(Schema.Array(Schema.String)),
-}).pipe(
-  Schema.encodeKeys({
-    createdAt: "created_at",
-    customMetadata: "custom_metadata",
-    customOriginServer: "custom_origin_server",
-    customOriginSni: "custom_origin_sni",
-    ownershipVerification: "ownership_verification",
-    ownershipVerificationHttp: "ownership_verification_http",
-    verificationErrors: "verification_errors",
-  }),
-) as unknown as Schema.Schema<CreateCustomHostnameResponse>;
+  verificationErrors: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.JsonName("verification_errors"),
+  ),
+}) as unknown as Schema.Schema<CreateCustomHostnameResponse>;
 
 export const createCustomHostname: (
   input: CreateCustomHostnameRequest,
@@ -991,7 +932,7 @@ export interface PatchCustomHostnameRequest {
   /** Body param: SSL properties used when creating the custom hostname. */
   ssl?: {
     bundleMethod?: "ubiquitous" | "optimal" | "force";
-    certificateAuthority?: "digicert" | "google" | "lets_encrypt" | "ssl_com";
+    certificateAuthority?: "google" | "lets_encrypt" | "ssl_com" | "digicert";
     cloudflareBranding?: boolean;
     customCertBundle?: { customCertificate: string; customKey: string }[];
     customCertificate?: string;
@@ -1012,69 +953,59 @@ export interface PatchCustomHostnameRequest {
 export const PatchCustomHostnameRequest = Schema.Struct({
   customHostnameId: Schema.String.pipe(T.HttpPath("customHostnameId")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  customMetadata: Schema.optional(Schema.Struct({})),
-  customOriginServer: Schema.optional(Schema.String),
-  customOriginSni: Schema.optional(Schema.String),
+  customMetadata: Schema.optional(Schema.Struct({})).pipe(
+    T.JsonName("custom_metadata"),
+  ),
+  customOriginServer: Schema.optional(Schema.String).pipe(
+    T.JsonName("custom_origin_server"),
+  ),
+  customOriginSni: Schema.optional(Schema.String).pipe(
+    T.JsonName("custom_origin_sni"),
+  ),
   ssl: Schema.optional(
     Schema.Struct({
       bundleMethod: Schema.optional(
         Schema.Literals(["ubiquitous", "optimal", "force"]),
-      ),
+      ).pipe(T.JsonName("bundle_method")),
       certificateAuthority: Schema.optional(
-        Schema.Literals(["digicert", "google", "lets_encrypt", "ssl_com"]),
+        Schema.Literals(["google", "lets_encrypt", "ssl_com", "digicert"]),
+      ).pipe(T.JsonName("certificate_authority")),
+      cloudflareBranding: Schema.optional(Schema.Boolean).pipe(
+        T.JsonName("cloudflare_branding"),
       ),
-      cloudflareBranding: Schema.optional(Schema.Boolean),
       customCertBundle: Schema.optional(
         Schema.Array(
           Schema.Struct({
-            customCertificate: Schema.String,
-            customKey: Schema.String,
-          }).pipe(
-            Schema.encodeKeys({
-              customCertificate: "custom_certificate",
-              customKey: "custom_key",
-            }),
-          ),
+            customCertificate: Schema.String.pipe(
+              T.JsonName("custom_certificate"),
+            ),
+            customKey: Schema.String.pipe(T.JsonName("custom_key")),
+          }),
         ),
+      ).pipe(T.JsonName("custom_cert_bundle")),
+      customCertificate: Schema.optional(Schema.String).pipe(
+        T.JsonName("custom_certificate"),
       ),
-      customCertificate: Schema.optional(Schema.String),
-      customKey: Schema.optional(Schema.String),
+      customKey: Schema.optional(Schema.String).pipe(T.JsonName("custom_key")),
       method: Schema.optional(Schema.Literals(["http", "txt", "email"])),
       settings: Schema.optional(
         Schema.Struct({
           ciphers: Schema.optional(Schema.Array(Schema.String)),
-          earlyHints: Schema.optional(Schema.Literals(["on", "off"])),
+          earlyHints: Schema.optional(Schema.Literals(["on", "off"])).pipe(
+            T.JsonName("early_hints"),
+          ),
           http2: Schema.optional(Schema.Literals(["on", "off"])),
           minTlsVersion: Schema.optional(
             Schema.Literals(["1.0", "1.1", "1.2", "1.3"]),
-          ),
+          ).pipe(T.JsonName("min_tls_version")),
           tls_1_3: Schema.optional(Schema.Literals(["on", "off"])),
-        }).pipe(
-          Schema.encodeKeys({
-            earlyHints: "early_hints",
-            minTlsVersion: "min_tls_version",
-          }),
-        ),
+        }),
       ),
       type: Schema.optional(Schema.Literal("dv")),
       wildcard: Schema.optional(Schema.Boolean),
-    }).pipe(
-      Schema.encodeKeys({
-        bundleMethod: "bundle_method",
-        certificateAuthority: "certificate_authority",
-        cloudflareBranding: "cloudflare_branding",
-        customCertBundle: "custom_cert_bundle",
-        customCertificate: "custom_certificate",
-        customKey: "custom_key",
-      }),
-    ),
+    }),
   ),
 }).pipe(
-  Schema.encodeKeys({
-    customMetadata: "custom_metadata",
-    customOriginServer: "custom_origin_server",
-    customOriginSni: "custom_origin_sni",
-  }),
   T.Http({
     method: "PATCH",
     path: "/zones/{zone_id}/custom_hostnames/{customHostnameId}",
@@ -1089,7 +1020,7 @@ export interface PatchCustomHostnameResponse {
   ssl: {
     id?: string;
     bundleMethod?: "ubiquitous" | "optimal" | "force";
-    certificateAuthority?: "digicert" | "google" | "lets_encrypt" | "ssl_com";
+    certificateAuthority?: "google" | "lets_encrypt" | "ssl_com" | "digicert";
     customCertificate?: string;
     customCsrId?: string;
     customKey?: string;
@@ -1181,33 +1112,36 @@ export const PatchCustomHostnameResponse = Schema.Struct({
     id: Schema.optional(Schema.String),
     bundleMethod: Schema.optional(
       Schema.Literals(["ubiquitous", "optimal", "force"]),
-    ),
+    ).pipe(T.JsonName("bundle_method")),
     certificateAuthority: Schema.optional(
-      Schema.Literals(["digicert", "google", "lets_encrypt", "ssl_com"]),
+      Schema.Literals(["google", "lets_encrypt", "ssl_com", "digicert"]),
+    ).pipe(T.JsonName("certificate_authority")),
+    customCertificate: Schema.optional(Schema.String).pipe(
+      T.JsonName("custom_certificate"),
     ),
-    customCertificate: Schema.optional(Schema.String),
-    customCsrId: Schema.optional(Schema.String),
-    customKey: Schema.optional(Schema.String),
-    expiresOn: Schema.optional(Schema.String),
+    customCsrId: Schema.optional(Schema.String).pipe(
+      T.JsonName("custom_csr_id"),
+    ),
+    customKey: Schema.optional(Schema.String).pipe(T.JsonName("custom_key")),
+    expiresOn: Schema.optional(Schema.String).pipe(T.JsonName("expires_on")),
     hosts: Schema.optional(Schema.Array(Schema.String)),
     issuer: Schema.optional(Schema.String),
     method: Schema.optional(Schema.Literals(["http", "txt", "email"])),
-    serialNumber: Schema.optional(Schema.String),
+    serialNumber: Schema.optional(Schema.String).pipe(
+      T.JsonName("serial_number"),
+    ),
     settings: Schema.optional(
       Schema.Struct({
         ciphers: Schema.optional(Schema.Array(Schema.String)),
-        earlyHints: Schema.optional(Schema.Literals(["on", "off"])),
+        earlyHints: Schema.optional(Schema.Literals(["on", "off"])).pipe(
+          T.JsonName("early_hints"),
+        ),
         http2: Schema.optional(Schema.Literals(["on", "off"])),
         minTlsVersion: Schema.optional(
           Schema.Literals(["1.0", "1.1", "1.2", "1.3"]),
-        ),
+        ).pipe(T.JsonName("min_tls_version")),
         tls_1_3: Schema.optional(Schema.Literals(["on", "off"])),
-      }).pipe(
-        Schema.encodeKeys({
-          earlyHints: "early_hints",
-          minTlsVersion: "min_tls_version",
-        }),
-      ),
+      }),
     ),
     signature: Schema.optional(Schema.String),
     status: Schema.optional(
@@ -1236,64 +1170,54 @@ export const PatchCustomHostnameResponse = Schema.Struct({
       ]),
     ),
     type: Schema.optional(Schema.Literal("dv")),
-    uploadedOn: Schema.optional(Schema.String),
+    uploadedOn: Schema.optional(Schema.String).pipe(T.JsonName("uploaded_on")),
     validationErrors: Schema.optional(
       Schema.Array(
         Schema.Struct({
           message: Schema.optional(Schema.String),
         }),
       ),
-    ),
+    ).pipe(T.JsonName("validation_errors")),
     validationRecords: Schema.optional(
       Schema.Array(
         Schema.Struct({
           emails: Schema.optional(Schema.Array(Schema.String)),
-          httpBody: Schema.optional(Schema.String),
-          httpUrl: Schema.optional(Schema.String),
-          txtName: Schema.optional(Schema.String),
-          txtValue: Schema.optional(Schema.String),
-        }).pipe(
-          Schema.encodeKeys({
-            httpBody: "http_body",
-            httpUrl: "http_url",
-            txtName: "txt_name",
-            txtValue: "txt_value",
-          }),
-        ),
+          httpBody: Schema.optional(Schema.String).pipe(
+            T.JsonName("http_body"),
+          ),
+          httpUrl: Schema.optional(Schema.String).pipe(T.JsonName("http_url")),
+          txtName: Schema.optional(Schema.String).pipe(T.JsonName("txt_name")),
+          txtValue: Schema.optional(Schema.String).pipe(
+            T.JsonName("txt_value"),
+          ),
+        }),
       ),
-    ),
+    ).pipe(T.JsonName("validation_records")),
     wildcard: Schema.optional(Schema.Boolean),
-  }).pipe(
-    Schema.encodeKeys({
-      bundleMethod: "bundle_method",
-      certificateAuthority: "certificate_authority",
-      customCertificate: "custom_certificate",
-      customCsrId: "custom_csr_id",
-      customKey: "custom_key",
-      expiresOn: "expires_on",
-      serialNumber: "serial_number",
-      uploadedOn: "uploaded_on",
-      validationErrors: "validation_errors",
-      validationRecords: "validation_records",
-    }),
+  }),
+  createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
+  customMetadata: Schema.optional(Schema.Struct({})).pipe(
+    T.JsonName("custom_metadata"),
   ),
-  createdAt: Schema.optional(Schema.String),
-  customMetadata: Schema.optional(Schema.Struct({})),
-  customOriginServer: Schema.optional(Schema.String),
-  customOriginSni: Schema.optional(Schema.String),
+  customOriginServer: Schema.optional(Schema.String).pipe(
+    T.JsonName("custom_origin_server"),
+  ),
+  customOriginSni: Schema.optional(Schema.String).pipe(
+    T.JsonName("custom_origin_sni"),
+  ),
   ownershipVerification: Schema.optional(
     Schema.Struct({
       name: Schema.optional(Schema.String),
       type: Schema.optional(Schema.Literal("txt")),
       value: Schema.optional(Schema.String),
     }),
-  ),
+  ).pipe(T.JsonName("ownership_verification")),
   ownershipVerificationHttp: Schema.optional(
     Schema.Struct({
-      httpBody: Schema.optional(Schema.String),
-      httpUrl: Schema.optional(Schema.String),
-    }).pipe(Schema.encodeKeys({ httpBody: "http_body", httpUrl: "http_url" })),
-  ),
+      httpBody: Schema.optional(Schema.String).pipe(T.JsonName("http_body")),
+      httpUrl: Schema.optional(Schema.String).pipe(T.JsonName("http_url")),
+    }),
+  ).pipe(T.JsonName("ownership_verification_http")),
   status: Schema.optional(
     Schema.Literals([
       "active",
@@ -1314,18 +1238,10 @@ export const PatchCustomHostnameResponse = Schema.Struct({
       "blocked",
     ]),
   ),
-  verificationErrors: Schema.optional(Schema.Array(Schema.String)),
-}).pipe(
-  Schema.encodeKeys({
-    createdAt: "created_at",
-    customMetadata: "custom_metadata",
-    customOriginServer: "custom_origin_server",
-    customOriginSni: "custom_origin_sni",
-    ownershipVerification: "ownership_verification",
-    ownershipVerificationHttp: "ownership_verification_http",
-    verificationErrors: "verification_errors",
-  }),
-) as unknown as Schema.Schema<PatchCustomHostnameResponse>;
+  verificationErrors: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.JsonName("verification_errors"),
+  ),
+}) as unknown as Schema.Schema<PatchCustomHostnameResponse>;
 
 export const patchCustomHostname: (
   input: PatchCustomHostnameRequest,
@@ -1414,7 +1330,7 @@ export interface GetFallbackOriginResponse {
 }
 
 export const GetFallbackOriginResponse = Schema.Struct({
-  createdAt: Schema.optional(Schema.String),
+  createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
   errors: Schema.optional(Schema.Array(Schema.String)),
   origin: Schema.optional(Schema.String),
   status: Schema.optional(
@@ -1427,10 +1343,8 @@ export const GetFallbackOriginResponse = Schema.Struct({
       "deletion_timed_out",
     ]),
   ),
-  updatedAt: Schema.optional(Schema.String),
-}).pipe(
-  Schema.encodeKeys({ createdAt: "created_at", updatedAt: "updated_at" }),
-) as unknown as Schema.Schema<GetFallbackOriginResponse>;
+  updatedAt: Schema.optional(Schema.String).pipe(T.JsonName("updated_at")),
+}) as unknown as Schema.Schema<GetFallbackOriginResponse>;
 
 export const getFallbackOrigin: (
   input: GetFallbackOriginRequest,
@@ -1481,7 +1395,7 @@ export interface PutFallbackOriginResponse {
 }
 
 export const PutFallbackOriginResponse = Schema.Struct({
-  createdAt: Schema.optional(Schema.String),
+  createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
   errors: Schema.optional(Schema.Array(Schema.String)),
   origin: Schema.optional(Schema.String),
   status: Schema.optional(
@@ -1494,10 +1408,8 @@ export const PutFallbackOriginResponse = Schema.Struct({
       "deletion_timed_out",
     ]),
   ),
-  updatedAt: Schema.optional(Schema.String),
-}).pipe(
-  Schema.encodeKeys({ createdAt: "created_at", updatedAt: "updated_at" }),
-) as unknown as Schema.Schema<PutFallbackOriginResponse>;
+  updatedAt: Schema.optional(Schema.String).pipe(T.JsonName("updated_at")),
+}) as unknown as Schema.Schema<PutFallbackOriginResponse>;
 
 export const putFallbackOrigin: (
   input: PutFallbackOriginRequest,
@@ -1545,7 +1457,7 @@ export interface DeleteFallbackOriginResponse {
 }
 
 export const DeleteFallbackOriginResponse = Schema.Struct({
-  createdAt: Schema.optional(Schema.String),
+  createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
   errors: Schema.optional(Schema.Array(Schema.String)),
   origin: Schema.optional(Schema.String),
   status: Schema.optional(
@@ -1558,10 +1470,8 @@ export const DeleteFallbackOriginResponse = Schema.Struct({
       "deletion_timed_out",
     ]),
   ),
-  updatedAt: Schema.optional(Schema.String),
-}).pipe(
-  Schema.encodeKeys({ createdAt: "created_at", updatedAt: "updated_at" }),
-) as unknown as Schema.Schema<DeleteFallbackOriginResponse>;
+  updatedAt: Schema.optional(Schema.String).pipe(T.JsonName("updated_at")),
+}) as unknown as Schema.Schema<DeleteFallbackOriginResponse>;
 
 export const deleteFallbackOrigin: (
   input: DeleteFallbackOriginRequest,

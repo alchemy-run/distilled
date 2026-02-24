@@ -19,6 +19,67 @@ import {
 } from "../errors.ts";
 
 // =============================================================================
+// Errors
+// =============================================================================
+
+export class InvalidExpirationTtl extends Schema.TaggedErrorClass<InvalidExpirationTtl>()(
+  "InvalidExpirationTtl",
+  { code: Schema.Number, message: Schema.String },
+) {}
+T.applyErrorMatchers(InvalidExpirationTtl, [{ code: 10034 }]);
+
+export class InvalidObjectIdentifier extends Schema.TaggedErrorClass<InvalidObjectIdentifier>()(
+  "InvalidObjectIdentifier",
+  { code: Schema.Number, message: Schema.String },
+) {}
+T.applyErrorMatchers(InvalidObjectIdentifier, [{ code: 7003 }]);
+
+export class InvalidRequestBody extends Schema.TaggedErrorClass<InvalidRequestBody>()(
+  "InvalidRequestBody",
+  { code: Schema.Number, message: Schema.String },
+) {}
+T.applyErrorMatchers(InvalidRequestBody, [{ code: 10012 }]);
+
+export class KeyNotFound extends Schema.TaggedErrorClass<KeyNotFound>()(
+  "KeyNotFound",
+  { code: Schema.Number, message: Schema.String },
+) {}
+T.applyErrorMatchers(KeyNotFound, [{ code: 10009 }]);
+
+export class MethodNotAllowed extends Schema.TaggedErrorClass<MethodNotAllowed>()(
+  "MethodNotAllowed",
+  { code: Schema.Number, message: Schema.String },
+) {}
+T.applyErrorMatchers(MethodNotAllowed, [
+  { code: 10405, message: { includes: "not allowed" } },
+  { code: 10000, message: { includes: "not allowed" } },
+]);
+
+export class MinimumKeysRequired extends Schema.TaggedErrorClass<MinimumKeysRequired>()(
+  "MinimumKeysRequired",
+  { code: Schema.Number, message: Schema.String },
+) {}
+T.applyErrorMatchers(MinimumKeysRequired, [{ code: 10029 }]);
+
+export class NamespaceNotFound extends Schema.TaggedErrorClass<NamespaceNotFound>()(
+  "NamespaceNotFound",
+  { code: Schema.Number, message: Schema.String },
+) {}
+T.applyErrorMatchers(NamespaceNotFound, [{ code: 10013 }]);
+
+export class NamespaceTitleAlreadyExists extends Schema.TaggedErrorClass<NamespaceTitleAlreadyExists>()(
+  "NamespaceTitleAlreadyExists",
+  { code: Schema.Number, message: Schema.String },
+) {}
+T.applyErrorMatchers(NamespaceTitleAlreadyExists, [{ code: 10014 }]);
+
+export class TitleRequired extends Schema.TaggedErrorClass<TitleRequired>()(
+  "TitleRequired",
+  { code: Schema.Number, message: Schema.String },
+) {}
+T.applyErrorMatchers(TitleRequired, [{ code: 10019 }]);
+
+// =============================================================================
 // Namespace
 // =============================================================================
 
@@ -50,21 +111,21 @@ export interface GetNamespaceResponse {
 export const GetNamespaceResponse = Schema.Struct({
   id: Schema.String,
   title: Schema.String,
-  supportsUrlEncoding: Schema.optional(Schema.Boolean),
-}).pipe(
-  Schema.encodeKeys({ supportsUrlEncoding: "supports_url_encoding" }),
-) as unknown as Schema.Schema<GetNamespaceResponse>;
+  supportsUrlEncoding: Schema.optional(Schema.Boolean).pipe(
+    T.JsonName("supports_url_encoding"),
+  ),
+}) as unknown as Schema.Schema<GetNamespaceResponse>;
 
 export const getNamespace: (
   input: GetNamespaceRequest,
 ) => Effect.Effect<
   GetNamespaceResponse,
-  CommonErrors,
+  CommonErrors | NamespaceNotFound | InvalidObjectIdentifier,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetNamespaceRequest,
   output: GetNamespaceResponse,
-  errors: [],
+  errors: [NamespaceNotFound, InvalidObjectIdentifier],
 }));
 
 export interface CreateNamespaceRequest {
@@ -96,21 +157,24 @@ export interface CreateNamespaceResponse {
 export const CreateNamespaceResponse = Schema.Struct({
   id: Schema.String,
   title: Schema.String,
-  supportsUrlEncoding: Schema.optional(Schema.Boolean),
-}).pipe(
-  Schema.encodeKeys({ supportsUrlEncoding: "supports_url_encoding" }),
-) as unknown as Schema.Schema<CreateNamespaceResponse>;
+  supportsUrlEncoding: Schema.optional(Schema.Boolean).pipe(
+    T.JsonName("supports_url_encoding"),
+  ),
+}) as unknown as Schema.Schema<CreateNamespaceResponse>;
 
 export const createNamespace: (
   input: CreateNamespaceRequest,
 ) => Effect.Effect<
   CreateNamespaceResponse,
-  CommonErrors,
+  | CommonErrors
+  | TitleRequired
+  | InvalidObjectIdentifier
+  | NamespaceTitleAlreadyExists,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateNamespaceRequest,
   output: CreateNamespaceResponse,
-  errors: [],
+  errors: [TitleRequired, InvalidObjectIdentifier, NamespaceTitleAlreadyExists],
 }));
 
 export interface UpdateNamespaceRequest {
@@ -144,21 +208,30 @@ export interface UpdateNamespaceResponse {
 export const UpdateNamespaceResponse = Schema.Struct({
   id: Schema.String,
   title: Schema.String,
-  supportsUrlEncoding: Schema.optional(Schema.Boolean),
-}).pipe(
-  Schema.encodeKeys({ supportsUrlEncoding: "supports_url_encoding" }),
-) as unknown as Schema.Schema<UpdateNamespaceResponse>;
+  supportsUrlEncoding: Schema.optional(Schema.Boolean).pipe(
+    T.JsonName("supports_url_encoding"),
+  ),
+}) as unknown as Schema.Schema<UpdateNamespaceResponse>;
 
 export const updateNamespace: (
   input: UpdateNamespaceRequest,
 ) => Effect.Effect<
   UpdateNamespaceResponse,
-  CommonErrors,
+  | CommonErrors
+  | NamespaceNotFound
+  | TitleRequired
+  | InvalidObjectIdentifier
+  | NamespaceTitleAlreadyExists,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: UpdateNamespaceRequest,
   output: UpdateNamespaceResponse,
-  errors: [],
+  errors: [
+    NamespaceNotFound,
+    TitleRequired,
+    InvalidObjectIdentifier,
+    NamespaceTitleAlreadyExists,
+  ],
 }));
 
 export interface DeleteNamespaceRequest {
@@ -177,21 +250,22 @@ export const DeleteNamespaceRequest = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<DeleteNamespaceRequest>;
 
-export type DeleteNamespaceResponse = unknown;
+export interface DeleteNamespaceResponse {}
 
-export const DeleteNamespaceResponse =
-  Schema.Unknown as unknown as Schema.Schema<DeleteNamespaceResponse>;
+export const DeleteNamespaceResponse = Schema.Struct(
+  {},
+) as unknown as Schema.Schema<DeleteNamespaceResponse>;
 
 export const deleteNamespace: (
   input: DeleteNamespaceRequest,
 ) => Effect.Effect<
   DeleteNamespaceResponse,
-  CommonErrors,
+  CommonErrors | MethodNotAllowed | NamespaceNotFound | InvalidObjectIdentifier,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteNamespaceRequest,
   output: DeleteNamespaceResponse,
-  errors: [],
+  errors: [MethodNotAllowed, NamespaceNotFound, InvalidObjectIdentifier],
 }));
 
 export interface BulkGetNamespacesRequest {
@@ -219,21 +293,31 @@ export const BulkGetNamespacesRequest = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<BulkGetNamespacesRequest>;
 
-export type BulkGetNamespacesResponse = unknown;
+export type BulkGetNamespacesResponse = { values?: Record<string, unknown> };
 
-export const BulkGetNamespacesResponse =
-  Schema.Unknown as unknown as Schema.Schema<BulkGetNamespacesResponse>;
+export const BulkGetNamespacesResponse = Schema.Struct({
+  values: Schema.optional(Schema.Struct({})),
+}) as unknown as Schema.Schema<BulkGetNamespacesResponse>;
 
 export const bulkGetNamespaces: (
   input: BulkGetNamespacesRequest,
 ) => Effect.Effect<
   BulkGetNamespacesResponse,
-  CommonErrors,
+  | CommonErrors
+  | InvalidRequestBody
+  | MinimumKeysRequired
+  | NamespaceNotFound
+  | InvalidObjectIdentifier,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: BulkGetNamespacesRequest,
   output: BulkGetNamespacesResponse,
-  errors: [],
+  errors: [
+    InvalidRequestBody,
+    MinimumKeysRequired,
+    NamespaceNotFound,
+    InvalidObjectIdentifier,
+  ],
 }));
 
 export interface BulkDeleteNamespacesRequest {
@@ -247,7 +331,7 @@ export interface BulkDeleteNamespacesRequest {
 export const BulkDeleteNamespacesRequest = Schema.Struct({
   namespaceId: Schema.String.pipe(T.HttpPath("namespaceId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  body: Schema.Array(Schema.String),
+  body: Schema.Array(Schema.String).pipe(T.HttpBody()),
 }).pipe(
   T.Http({
     method: "POST",
@@ -255,21 +339,35 @@ export const BulkDeleteNamespacesRequest = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<BulkDeleteNamespacesRequest>;
 
-export type BulkDeleteNamespacesResponse = unknown;
+export interface BulkDeleteNamespacesResponse {
+  /** Number of keys successfully updated. */
+  successfulKeyCount?: number;
+  /** Name of the keys that failed to be fully updated. They should be retried. */
+  unsuccessfulKeys?: string[];
+}
 
-export const BulkDeleteNamespacesResponse =
-  Schema.Unknown as unknown as Schema.Schema<BulkDeleteNamespacesResponse>;
+export const BulkDeleteNamespacesResponse = Schema.Struct({
+  successfulKeyCount: Schema.optional(Schema.Number).pipe(
+    T.JsonName("successful_key_count"),
+  ),
+  unsuccessfulKeys: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.JsonName("unsuccessful_keys"),
+  ),
+}) as unknown as Schema.Schema<BulkDeleteNamespacesResponse>;
 
 export const bulkDeleteNamespaces: (
   input: BulkDeleteNamespacesRequest,
 ) => Effect.Effect<
   BulkDeleteNamespacesResponse,
-  CommonErrors,
+  | CommonErrors
+  | NamespaceNotFound
+  | InvalidRequestBody
+  | InvalidObjectIdentifier,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: BulkDeleteNamespacesRequest,
   output: BulkDeleteNamespacesResponse,
-  errors: [],
+  errors: [NamespaceNotFound, InvalidRequestBody, InvalidObjectIdentifier],
 }));
 
 // =============================================================================
@@ -301,21 +399,25 @@ export const BulkGetNamespaceKeysRequest = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<BulkGetNamespaceKeysRequest>;
 
-export type BulkGetNamespaceKeysResponse = unknown;
+export type BulkGetNamespaceKeysResponse = { values?: Record<string, unknown> };
 
-export const BulkGetNamespaceKeysResponse =
-  Schema.Unknown as unknown as Schema.Schema<BulkGetNamespaceKeysResponse>;
+export const BulkGetNamespaceKeysResponse = Schema.Struct({
+  values: Schema.optional(Schema.Struct({})),
+}) as unknown as Schema.Schema<BulkGetNamespaceKeysResponse>;
 
 export const bulkGetNamespaceKeys: (
   input: BulkGetNamespaceKeysRequest,
 ) => Effect.Effect<
   BulkGetNamespaceKeysResponse,
-  CommonErrors,
+  | CommonErrors
+  | InvalidRequestBody
+  | NamespaceNotFound
+  | InvalidObjectIdentifier,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: BulkGetNamespaceKeysRequest,
   output: BulkGetNamespaceKeysResponse,
-  errors: [],
+  errors: [InvalidRequestBody, NamespaceNotFound, InvalidObjectIdentifier],
 }));
 
 export interface BulkDeleteNamespaceKeysRequest {
@@ -329,7 +431,7 @@ export interface BulkDeleteNamespaceKeysRequest {
 export const BulkDeleteNamespaceKeysRequest = Schema.Struct({
   namespaceId: Schema.String.pipe(T.HttpPath("namespaceId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  body: Schema.Array(Schema.String),
+  body: Schema.Array(Schema.String).pipe(T.HttpBody()),
 }).pipe(
   T.Http({
     method: "POST",
@@ -337,21 +439,35 @@ export const BulkDeleteNamespaceKeysRequest = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<BulkDeleteNamespaceKeysRequest>;
 
-export type BulkDeleteNamespaceKeysResponse = unknown;
+export interface BulkDeleteNamespaceKeysResponse {
+  /** Number of keys successfully updated. */
+  successfulKeyCount?: number;
+  /** Name of the keys that failed to be fully updated. They should be retried. */
+  unsuccessfulKeys?: string[];
+}
 
-export const BulkDeleteNamespaceKeysResponse =
-  Schema.Unknown as unknown as Schema.Schema<BulkDeleteNamespaceKeysResponse>;
+export const BulkDeleteNamespaceKeysResponse = Schema.Struct({
+  successfulKeyCount: Schema.optional(Schema.Number).pipe(
+    T.JsonName("successful_key_count"),
+  ),
+  unsuccessfulKeys: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.JsonName("unsuccessful_keys"),
+  ),
+}) as unknown as Schema.Schema<BulkDeleteNamespaceKeysResponse>;
 
 export const bulkDeleteNamespaceKeys: (
   input: BulkDeleteNamespaceKeysRequest,
 ) => Effect.Effect<
   BulkDeleteNamespaceKeysResponse,
-  CommonErrors,
+  | CommonErrors
+  | NamespaceNotFound
+  | InvalidRequestBody
+  | InvalidObjectIdentifier,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: BulkDeleteNamespaceKeysRequest,
   output: BulkDeleteNamespaceKeysResponse,
-  errors: [],
+  errors: [NamespaceNotFound, InvalidRequestBody, InvalidObjectIdentifier],
 }));
 
 // =============================================================================
@@ -385,12 +501,12 @@ export const getNamespaceMetadata: (
   input: GetNamespaceMetadataRequest,
 ) => Effect.Effect<
   GetNamespaceMetadataResponse,
-  CommonErrors,
+  CommonErrors | KeyNotFound | NamespaceNotFound | InvalidObjectIdentifier,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetNamespaceMetadataRequest,
   output: GetNamespaceMetadataResponse,
-  errors: [],
+  errors: [KeyNotFound, NamespaceNotFound, InvalidObjectIdentifier],
 }));
 
 // =============================================================================
@@ -424,12 +540,12 @@ export const getNamespaceValue: (
   input: GetNamespaceValueRequest,
 ) => Effect.Effect<
   GetNamespaceValueResponse,
-  CommonErrors,
+  CommonErrors | KeyNotFound | NamespaceNotFound | InvalidObjectIdentifier,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetNamespaceValueRequest,
   output: GetNamespaceValueResponse,
-  errors: [],
+  errors: [KeyNotFound, NamespaceNotFound, InvalidObjectIdentifier],
 }));
 
 export interface PutNamespaceValueRequest {
@@ -464,21 +580,25 @@ export const PutNamespaceValueRequest = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<PutNamespaceValueRequest>;
 
-export type PutNamespaceValueResponse = unknown;
+export interface PutNamespaceValueResponse {}
 
-export const PutNamespaceValueResponse =
-  Schema.Unknown as unknown as Schema.Schema<PutNamespaceValueResponse>;
+export const PutNamespaceValueResponse = Schema.Struct(
+  {},
+) as unknown as Schema.Schema<PutNamespaceValueResponse>;
 
 export const putNamespaceValue: (
   input: PutNamespaceValueRequest,
 ) => Effect.Effect<
   PutNamespaceValueResponse,
-  CommonErrors,
+  | CommonErrors
+  | NamespaceNotFound
+  | InvalidObjectIdentifier
+  | InvalidExpirationTtl,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PutNamespaceValueRequest,
   output: PutNamespaceValueResponse,
-  errors: [],
+  errors: [NamespaceNotFound, InvalidObjectIdentifier, InvalidExpirationTtl],
 }));
 
 export interface DeleteNamespaceValueRequest {
@@ -499,21 +619,22 @@ export const DeleteNamespaceValueRequest = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<DeleteNamespaceValueRequest>;
 
-export type DeleteNamespaceValueResponse = unknown;
+export interface DeleteNamespaceValueResponse {}
 
-export const DeleteNamespaceValueResponse =
-  Schema.Unknown as unknown as Schema.Schema<DeleteNamespaceValueResponse>;
+export const DeleteNamespaceValueResponse = Schema.Struct(
+  {},
+) as unknown as Schema.Schema<DeleteNamespaceValueResponse>;
 
 export const deleteNamespaceValue: (
   input: DeleteNamespaceValueRequest,
 ) => Effect.Effect<
   DeleteNamespaceValueResponse,
-  CommonErrors,
+  CommonErrors | NamespaceNotFound | InvalidObjectIdentifier,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteNamespaceValueRequest,
   output: DeleteNamespaceValueResponse,
-  errors: [],
+  errors: [NamespaceNotFound, InvalidObjectIdentifier],
 }));
 
 // =============================================================================
@@ -544,10 +665,12 @@ export const BulkPutNamespacesRequest = Schema.Struct({
       value: Schema.String,
       base64: Schema.optional(Schema.Boolean),
       expiration: Schema.optional(Schema.Number),
-      expirationTtl: Schema.optional(Schema.Number),
+      expirationTtl: Schema.optional(Schema.Number).pipe(
+        T.JsonName("expiration_ttl"),
+      ),
       metadata: Schema.optional(Schema.Unknown),
-    }).pipe(Schema.encodeKeys({ expirationTtl: "expiration_ttl" })),
-  ),
+    }),
+  ).pipe(T.HttpBody()),
 }).pipe(
   T.Http({
     method: "PUT",
@@ -555,21 +678,35 @@ export const BulkPutNamespacesRequest = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<BulkPutNamespacesRequest>;
 
-export type BulkPutNamespacesResponse = unknown;
+export interface BulkPutNamespacesResponse {
+  /** Number of keys successfully updated. */
+  successfulKeyCount?: number;
+  /** Name of the keys that failed to be fully updated. They should be retried. */
+  unsuccessfulKeys?: string[];
+}
 
-export const BulkPutNamespacesResponse =
-  Schema.Unknown as unknown as Schema.Schema<BulkPutNamespacesResponse>;
+export const BulkPutNamespacesResponse = Schema.Struct({
+  successfulKeyCount: Schema.optional(Schema.Number).pipe(
+    T.JsonName("successful_key_count"),
+  ),
+  unsuccessfulKeys: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.JsonName("unsuccessful_keys"),
+  ),
+}) as unknown as Schema.Schema<BulkPutNamespacesResponse>;
 
 export const bulkPutNamespaces: (
   input: BulkPutNamespacesRequest,
 ) => Effect.Effect<
   BulkPutNamespacesResponse,
-  CommonErrors,
+  | CommonErrors
+  | InvalidRequestBody
+  | NamespaceNotFound
+  | InvalidObjectIdentifier,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: BulkPutNamespacesRequest,
   output: BulkPutNamespacesResponse,
-  errors: [],
+  errors: [InvalidRequestBody, NamespaceNotFound, InvalidObjectIdentifier],
 }));
 
 // =============================================================================
@@ -600,10 +737,12 @@ export const BulkPutNamespaceKeysRequest = Schema.Struct({
       value: Schema.String,
       base64: Schema.optional(Schema.Boolean),
       expiration: Schema.optional(Schema.Number),
-      expirationTtl: Schema.optional(Schema.Number),
+      expirationTtl: Schema.optional(Schema.Number).pipe(
+        T.JsonName("expiration_ttl"),
+      ),
       metadata: Schema.optional(Schema.Unknown),
-    }).pipe(Schema.encodeKeys({ expirationTtl: "expiration_ttl" })),
-  ),
+    }),
+  ).pipe(T.HttpBody()),
 }).pipe(
   T.Http({
     method: "PUT",
@@ -611,19 +750,33 @@ export const BulkPutNamespaceKeysRequest = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<BulkPutNamespaceKeysRequest>;
 
-export type BulkPutNamespaceKeysResponse = unknown;
+export interface BulkPutNamespaceKeysResponse {
+  /** Number of keys successfully updated. */
+  successfulKeyCount?: number;
+  /** Name of the keys that failed to be fully updated. They should be retried. */
+  unsuccessfulKeys?: string[];
+}
 
-export const BulkPutNamespaceKeysResponse =
-  Schema.Unknown as unknown as Schema.Schema<BulkPutNamespaceKeysResponse>;
+export const BulkPutNamespaceKeysResponse = Schema.Struct({
+  successfulKeyCount: Schema.optional(Schema.Number).pipe(
+    T.JsonName("successful_key_count"),
+  ),
+  unsuccessfulKeys: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.JsonName("unsuccessful_keys"),
+  ),
+}) as unknown as Schema.Schema<BulkPutNamespaceKeysResponse>;
 
 export const bulkPutNamespaceKeys: (
   input: BulkPutNamespaceKeysRequest,
 ) => Effect.Effect<
   BulkPutNamespaceKeysResponse,
-  CommonErrors,
+  | CommonErrors
+  | InvalidRequestBody
+  | NamespaceNotFound
+  | InvalidObjectIdentifier,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: BulkPutNamespaceKeysRequest,
   output: BulkPutNamespaceKeysResponse,
-  errors: [],
+  errors: [InvalidRequestBody, NamespaceNotFound, InvalidObjectIdentifier],
 }));

@@ -1,0 +1,6 @@
+{
+  "errors": {
+    "NoSuchBucket": [{ "code": 10006 }],
+    "InvalidRoute": [{ "code": 7003 }]
+  }
+}

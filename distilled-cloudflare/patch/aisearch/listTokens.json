@@ -1,0 +1,14 @@
+{
+  "errors": {
+    "InvalidRoute": [
+      { "code": 7003 }
+    ]
+  },
+  "response": {
+    "properties": {
+      "[].account_id": { "optional": true },
+      "[].account_tag": { "optional": true },
+      "[].cf_api_key": { "optional": true }
+    }
+  }
+}

@@ -56,7 +56,7 @@ export const GetOriginCACertificateResponse = Schema.Struct({
     "origin-rsa",
     "origin-ecc",
     "keyless-certificate",
-  ]),
+  ]).pipe(T.JsonName("request_type")),
   requestedValidity: Schema.Literals([
     "7",
     "30",
@@ -65,17 +65,11 @@ export const GetOriginCACertificateResponse = Schema.Struct({
     "730",
     "1095",
     "5475",
-  ]),
+  ]).pipe(T.JsonName("requested_validity")),
   id: Schema.optional(Schema.String),
   certificate: Schema.optional(Schema.String),
-  expiresOn: Schema.optional(Schema.String),
-}).pipe(
-  Schema.encodeKeys({
-    requestType: "request_type",
-    requestedValidity: "requested_validity",
-    expiresOn: "expires_on",
-  }),
-) as unknown as Schema.Schema<GetOriginCACertificateResponse>;
+  expiresOn: Schema.optional(Schema.String).pipe(T.JsonName("expires_on")),
+}) as unknown as Schema.Schema<GetOriginCACertificateResponse>;
 
 export const getOriginCACertificate: (
   input: GetOriginCACertificateRequest,
@@ -107,15 +101,11 @@ export const CreateOriginCACertificateRequest = Schema.Struct({
     "origin-rsa",
     "origin-ecc",
     "keyless-certificate",
-  ]),
+  ]).pipe(T.JsonName("request_type")),
   requestedValidity: Schema.optional(
     Schema.Literals(["7", "30", "90", "365", "730", "1095", "5475"]),
-  ),
+  ).pipe(T.JsonName("requested_validity")),
 }).pipe(
-  Schema.encodeKeys({
-    requestType: "request_type",
-    requestedValidity: "requested_validity",
-  }),
   T.Http({ method: "POST", path: "/certificates" }),
 ) as unknown as Schema.Schema<CreateOriginCACertificateRequest>;
 
@@ -143,7 +133,7 @@ export const CreateOriginCACertificateResponse = Schema.Struct({
     "origin-rsa",
     "origin-ecc",
     "keyless-certificate",
-  ]),
+  ]).pipe(T.JsonName("request_type")),
   requestedValidity: Schema.Literals([
     "7",
     "30",
@@ -152,17 +142,11 @@ export const CreateOriginCACertificateResponse = Schema.Struct({
     "730",
     "1095",
     "5475",
-  ]),
+  ]).pipe(T.JsonName("requested_validity")),
   id: Schema.optional(Schema.String),
   certificate: Schema.optional(Schema.String),
-  expiresOn: Schema.optional(Schema.String),
-}).pipe(
-  Schema.encodeKeys({
-    requestType: "request_type",
-    requestedValidity: "requested_validity",
-    expiresOn: "expires_on",
-  }),
-) as unknown as Schema.Schema<CreateOriginCACertificateResponse>;
+  expiresOn: Schema.optional(Schema.String).pipe(T.JsonName("expires_on")),
+}) as unknown as Schema.Schema<CreateOriginCACertificateResponse>;
 
 export const createOriginCACertificate: (
   input: CreateOriginCACertificateRequest,
@@ -195,10 +179,8 @@ export interface DeleteOriginCACertificateResponse {
 
 export const DeleteOriginCACertificateResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
-  revokedAt: Schema.optional(Schema.String),
-}).pipe(
-  Schema.encodeKeys({ revokedAt: "revoked_at" }),
-) as unknown as Schema.Schema<DeleteOriginCACertificateResponse>;
+  revokedAt: Schema.optional(Schema.String).pipe(T.JsonName("revoked_at")),
+}) as unknown as Schema.Schema<DeleteOriginCACertificateResponse>;
 
 export const deleteOriginCACertificate: (
   input: DeleteOriginCACertificateRequest,

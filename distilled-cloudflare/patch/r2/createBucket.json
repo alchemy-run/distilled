@@ -1,0 +1,12 @@
+{
+  "errors": {
+    "InvalidBucketName": [{ "code": 10005 }],
+    "BucketAlreadyExists": [{ "code": 10004 }],
+    "InvalidRoute": [{ "code": 7003 }]
+  },
+  "response": {
+    "properties": {
+      "location": { "addValues": ["APAC", "EEUR", "ENAM", "WEUR", "WNAM", "OC"] }
+    }
+  }
+}

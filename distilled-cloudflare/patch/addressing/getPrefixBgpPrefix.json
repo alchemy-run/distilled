@@ -1,0 +1,13 @@
+{
+  "errors": {
+    "BgpPrefixNotFound": [
+      { "code": 1002 }
+    ],
+    "InvalidAccountId": [
+      { "code": 7003, "message": { "includes": "Could not route" } }
+    ],
+    "PrefixNotFound": [
+      { "code": 1000, "message": { "includes": "not_found" } }
+    ]
+  }
+}

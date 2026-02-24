@@ -1,6 +1,7 @@
 {
   "extends": "./tsconfig.base.json",
   "include": ["test/**/*.ts", "scripts/**/*.ts"],
+  "exclude": ["scripts/delete-all-d1.ts", "scripts/delete-all-kv.ts"],
   "compilerOptions": {
     "noEmit": true,
     "paths": {

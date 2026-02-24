@@ -296,10 +296,14 @@ export const DeleteResourceGroupRequest = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<DeleteResourceGroupRequest>;
 
-export type DeleteResourceGroupResponse = unknown;
+export interface DeleteResourceGroupResponse {
+  /** Identifier */
+  id: string;
+}
 
-export const DeleteResourceGroupResponse =
-  Schema.Unknown as unknown as Schema.Schema<DeleteResourceGroupResponse>;
+export const DeleteResourceGroupResponse = Schema.Struct({
+  id: Schema.String,
+}) as unknown as Schema.Schema<DeleteResourceGroupResponse>;
 
 export const deleteResourceGroup: (
   input: DeleteResourceGroupRequest,
@@ -352,11 +356,13 @@ export interface GetSsoResponse {
 
 export const GetSsoResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
-  createdOn: Schema.optional(Schema.String),
-  emailDomain: Schema.optional(Schema.String),
+  createdOn: Schema.optional(Schema.String).pipe(T.JsonName("created_on")),
+  emailDomain: Schema.optional(Schema.String).pipe(T.JsonName("email_domain")),
   enabled: Schema.optional(Schema.Boolean),
-  updatedOn: Schema.optional(Schema.String),
-  useFedrampLanguage: Schema.optional(Schema.Boolean),
+  updatedOn: Schema.optional(Schema.String).pipe(T.JsonName("updated_on")),
+  useFedrampLanguage: Schema.optional(Schema.Boolean).pipe(
+    T.JsonName("use_fedramp_language"),
+  ),
   verification: Schema.optional(
     Schema.Struct({
       code: Schema.optional(Schema.String),
@@ -365,14 +371,7 @@ export const GetSsoResponse = Schema.Struct({
       ),
     }),
   ),
-}).pipe(
-  Schema.encodeKeys({
-    createdOn: "created_on",
-    emailDomain: "email_domain",
-    updatedOn: "updated_on",
-    useFedrampLanguage: "use_fedramp_language",
-  }),
-) as unknown as Schema.Schema<GetSsoResponse>;
+}) as unknown as Schema.Schema<GetSsoResponse>;
 
 export const getSso: (
   input: GetSsoRequest,
@@ -399,15 +398,14 @@ export interface CreateSsoRequest {
 
 export const CreateSsoRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  emailDomain: Schema.String,
-  beginVerification: Schema.optional(Schema.Boolean),
-  useFedrampLanguage: Schema.optional(Schema.Boolean),
+  emailDomain: Schema.String.pipe(T.JsonName("email_domain")),
+  beginVerification: Schema.optional(Schema.Boolean).pipe(
+    T.JsonName("begin_verification"),
+  ),
+  useFedrampLanguage: Schema.optional(Schema.Boolean).pipe(
+    T.JsonName("use_fedramp_language"),
+  ),
 }).pipe(
-  Schema.encodeKeys({
-    emailDomain: "email_domain",
-    beginVerification: "begin_verification",
-    useFedrampLanguage: "use_fedramp_language",
-  }),
   T.Http({ method: "POST", path: "/accounts/{account_id}/sso_connectors" }),
 ) as unknown as Schema.Schema<CreateSsoRequest>;
 
@@ -430,11 +428,13 @@ export interface CreateSsoResponse {
 
 export const CreateSsoResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
-  createdOn: Schema.optional(Schema.String),
-  emailDomain: Schema.optional(Schema.String),
+  createdOn: Schema.optional(Schema.String).pipe(T.JsonName("created_on")),
+  emailDomain: Schema.optional(Schema.String).pipe(T.JsonName("email_domain")),
   enabled: Schema.optional(Schema.Boolean),
-  updatedOn: Schema.optional(Schema.String),
-  useFedrampLanguage: Schema.optional(Schema.Boolean),
+  updatedOn: Schema.optional(Schema.String).pipe(T.JsonName("updated_on")),
+  useFedrampLanguage: Schema.optional(Schema.Boolean).pipe(
+    T.JsonName("use_fedramp_language"),
+  ),
   verification: Schema.optional(
     Schema.Struct({
       code: Schema.optional(Schema.String),
@@ -443,14 +443,7 @@ export const CreateSsoResponse = Schema.Struct({
       ),
     }),
   ),
-}).pipe(
-  Schema.encodeKeys({
-    createdOn: "created_on",
-    emailDomain: "email_domain",
-    updatedOn: "updated_on",
-    useFedrampLanguage: "use_fedramp_language",
-  }),
-) as unknown as Schema.Schema<CreateSsoResponse>;
+}) as unknown as Schema.Schema<CreateSsoResponse>;
 
 export const createSso: (
   input: CreateSsoRequest,
@@ -478,9 +471,10 @@ export const PatchSsoRequest = Schema.Struct({
   ssoConnectorId: Schema.String.pipe(T.HttpPath("ssoConnectorId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   enabled: Schema.optional(Schema.Boolean),
-  useFedrampLanguage: Schema.optional(Schema.Boolean),
+  useFedrampLanguage: Schema.optional(Schema.Boolean).pipe(
+    T.JsonName("use_fedramp_language"),
+  ),
 }).pipe(
-  Schema.encodeKeys({ useFedrampLanguage: "use_fedramp_language" }),
   T.Http({
     method: "PATCH",
     path: "/accounts/{account_id}/sso_connectors/{ssoConnectorId}",
@@ -506,11 +500,13 @@ export interface PatchSsoResponse {
 
 export const PatchSsoResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
-  createdOn: Schema.optional(Schema.String),
-  emailDomain: Schema.optional(Schema.String),
+  createdOn: Schema.optional(Schema.String).pipe(T.JsonName("created_on")),
+  emailDomain: Schema.optional(Schema.String).pipe(T.JsonName("email_domain")),
   enabled: Schema.optional(Schema.Boolean),
-  updatedOn: Schema.optional(Schema.String),
-  useFedrampLanguage: Schema.optional(Schema.Boolean),
+  updatedOn: Schema.optional(Schema.String).pipe(T.JsonName("updated_on")),
+  useFedrampLanguage: Schema.optional(Schema.Boolean).pipe(
+    T.JsonName("use_fedramp_language"),
+  ),
   verification: Schema.optional(
     Schema.Struct({
       code: Schema.optional(Schema.String),
@@ -519,14 +515,7 @@ export const PatchSsoResponse = Schema.Struct({
       ),
     }),
   ),
-}).pipe(
-  Schema.encodeKeys({
-    createdOn: "created_on",
-    emailDomain: "email_domain",
-    updatedOn: "updated_on",
-    useFedrampLanguage: "use_fedramp_language",
-  }),
-) as unknown as Schema.Schema<PatchSsoResponse>;
+}) as unknown as Schema.Schema<PatchSsoResponse>;
 
 export const patchSso: (
   input: PatchSsoRequest,
@@ -556,10 +545,14 @@ export const DeleteSsoRequest = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<DeleteSsoRequest>;
 
-export type DeleteSsoResponse = unknown;
+export interface DeleteSsoResponse {
+  /** Identifier */
+  id: string;
+}
 
-export const DeleteSsoResponse =
-  Schema.Unknown as unknown as Schema.Schema<DeleteSsoResponse>;
+export const DeleteSsoResponse = Schema.Struct({
+  id: Schema.String,
+}) as unknown as Schema.Schema<DeleteSsoResponse>;
 
 export const deleteSso: (
   input: DeleteSsoRequest,
@@ -613,8 +606,8 @@ export interface GetUserGroupResponse {
 
 export const GetUserGroupResponse = Schema.Struct({
   id: Schema.String,
-  createdOn: Schema.String,
-  modifiedOn: Schema.String,
+  createdOn: Schema.String.pipe(T.JsonName("created_on")),
+  modifiedOn: Schema.String.pipe(T.JsonName("modified_on")),
   name: Schema.String,
   policies: Schema.optional(
     Schema.Array(
@@ -627,25 +620,18 @@ export const GetUserGroupResponse = Schema.Struct({
               id: Schema.String,
             }),
           ),
-        ),
+        ).pipe(T.JsonName("permission_groups")),
         resourceGroups: Schema.optional(
           Schema.Array(
             Schema.Struct({
               id: Schema.String,
             }),
           ),
-        ),
-      }).pipe(
-        Schema.encodeKeys({
-          permissionGroups: "permission_groups",
-          resourceGroups: "resource_groups",
-        }),
-      ),
+        ).pipe(T.JsonName("resource_groups")),
+      }),
     ),
   ),
-}).pipe(
-  Schema.encodeKeys({ createdOn: "created_on", modifiedOn: "modified_on" }),
-) as unknown as Schema.Schema<GetUserGroupResponse>;
+}) as unknown as Schema.Schema<GetUserGroupResponse>;
 
 export const getUserGroup: (
   input: GetUserGroupRequest,
@@ -682,18 +668,13 @@ export const CreateUserGroupRequest = Schema.Struct({
         Schema.Struct({
           id: Schema.String,
         }),
-      ),
+      ).pipe(T.JsonName("permission_groups")),
       resourceGroups: Schema.Array(
         Schema.Struct({
           id: Schema.String,
         }),
-      ),
-    }).pipe(
-      Schema.encodeKeys({
-        permissionGroups: "permission_groups",
-        resourceGroups: "resource_groups",
-      }),
-    ),
+      ).pipe(T.JsonName("resource_groups")),
+    }),
   ),
 }).pipe(
   T.Http({ method: "POST", path: "/accounts/{account_id}/iam/user_groups" }),
@@ -719,8 +700,8 @@ export interface CreateUserGroupResponse {
 
 export const CreateUserGroupResponse = Schema.Struct({
   id: Schema.String,
-  createdOn: Schema.String,
-  modifiedOn: Schema.String,
+  createdOn: Schema.String.pipe(T.JsonName("created_on")),
+  modifiedOn: Schema.String.pipe(T.JsonName("modified_on")),
   name: Schema.String,
   policies: Schema.optional(
     Schema.Array(
@@ -733,25 +714,18 @@ export const CreateUserGroupResponse = Schema.Struct({
               id: Schema.String,
             }),
           ),
-        ),
+        ).pipe(T.JsonName("permission_groups")),
         resourceGroups: Schema.optional(
           Schema.Array(
             Schema.Struct({
               id: Schema.String,
             }),
           ),
-        ),
-      }).pipe(
-        Schema.encodeKeys({
-          permissionGroups: "permission_groups",
-          resourceGroups: "resource_groups",
-        }),
-      ),
+        ).pipe(T.JsonName("resource_groups")),
+      }),
     ),
   ),
-}).pipe(
-  Schema.encodeKeys({ createdOn: "created_on", modifiedOn: "modified_on" }),
-) as unknown as Schema.Schema<CreateUserGroupResponse>;
+}) as unknown as Schema.Schema<CreateUserGroupResponse>;
 
 export const createUserGroup: (
   input: CreateUserGroupRequest,
@@ -793,18 +767,13 @@ export const UpdateUserGroupRequest = Schema.Struct({
           Schema.Struct({
             id: Schema.String,
           }),
-        ),
+        ).pipe(T.JsonName("permission_groups")),
         resourceGroups: Schema.Array(
           Schema.Struct({
             id: Schema.String,
           }),
-        ),
-      }).pipe(
-        Schema.encodeKeys({
-          permissionGroups: "permission_groups",
-          resourceGroups: "resource_groups",
-        }),
-      ),
+        ).pipe(T.JsonName("resource_groups")),
+      }),
     ),
   ),
 }).pipe(
@@ -834,8 +803,8 @@ export interface UpdateUserGroupResponse {
 
 export const UpdateUserGroupResponse = Schema.Struct({
   id: Schema.String,
-  createdOn: Schema.String,
-  modifiedOn: Schema.String,
+  createdOn: Schema.String.pipe(T.JsonName("created_on")),
+  modifiedOn: Schema.String.pipe(T.JsonName("modified_on")),
   name: Schema.String,
   policies: Schema.optional(
     Schema.Array(
@@ -848,25 +817,18 @@ export const UpdateUserGroupResponse = Schema.Struct({
               id: Schema.String,
             }),
           ),
-        ),
+        ).pipe(T.JsonName("permission_groups")),
         resourceGroups: Schema.optional(
           Schema.Array(
             Schema.Struct({
               id: Schema.String,
             }),
           ),
-        ),
-      }).pipe(
-        Schema.encodeKeys({
-          permissionGroups: "permission_groups",
-          resourceGroups: "resource_groups",
-        }),
-      ),
+        ).pipe(T.JsonName("resource_groups")),
+      }),
     ),
   ),
-}).pipe(
-  Schema.encodeKeys({ createdOn: "created_on", modifiedOn: "modified_on" }),
-) as unknown as Schema.Schema<UpdateUserGroupResponse>;
+}) as unknown as Schema.Schema<UpdateUserGroupResponse>;
 
 export const updateUserGroup: (
   input: UpdateUserGroupRequest,
@@ -896,10 +858,14 @@ export const DeleteUserGroupRequest = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<DeleteUserGroupRequest>;
 
-export type DeleteUserGroupResponse = unknown;
+export interface DeleteUserGroupResponse {
+  /** Identifier */
+  id: string;
+}
 
-export const DeleteUserGroupResponse =
-  Schema.Unknown as unknown as Schema.Schema<DeleteUserGroupResponse>;
+export const DeleteUserGroupResponse = Schema.Struct({
+  id: Schema.String,
+}) as unknown as Schema.Schema<DeleteUserGroupResponse>;
 
 export const deleteUserGroup: (
   input: DeleteUserGroupRequest,
@@ -932,7 +898,7 @@ export const CreateUserGroupMemberRequest = Schema.Struct({
     Schema.Struct({
       id: Schema.String,
     }),
-  ),
+  ).pipe(T.HttpBody()),
 }).pipe(
   T.Http({
     method: "POST",
@@ -1054,25 +1020,29 @@ export const BeginVerificationSsoResponse = Schema.Struct({
     Schema.Struct({
       code: Schema.Number,
       message: Schema.String,
-      documentationUrl: Schema.optional(Schema.String),
+      documentationUrl: Schema.optional(Schema.String).pipe(
+        T.JsonName("documentation_url"),
+      ),
       source: Schema.optional(
         Schema.Struct({
           pointer: Schema.optional(Schema.String),
         }),
       ),
-    }).pipe(Schema.encodeKeys({ documentationUrl: "documentation_url" })),
+    }),
   ),
   messages: Schema.Array(
     Schema.Struct({
       code: Schema.Number,
       message: Schema.String,
-      documentationUrl: Schema.optional(Schema.String),
+      documentationUrl: Schema.optional(Schema.String).pipe(
+        T.JsonName("documentation_url"),
+      ),
       source: Schema.optional(
         Schema.Struct({
           pointer: Schema.optional(Schema.String),
         }),
       ),
-    }).pipe(Schema.encodeKeys({ documentationUrl: "documentation_url" })),
+    }),
   ),
   success: Schema.Literal(true),
 }) as unknown as Schema.Schema<BeginVerificationSsoResponse>;

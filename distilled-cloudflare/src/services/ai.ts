@@ -20,6 +20,34 @@ import {
 import { UploadableSchema } from "../schemas.ts";
 
 // =============================================================================
+// Errors
+// =============================================================================
+
+export class AccountNotFound extends Schema.TaggedErrorClass<AccountNotFound>()(
+  "AccountNotFound",
+  { code: Schema.Number, message: Schema.String },
+) {}
+T.applyErrorMatchers(AccountNotFound, [{ code: 7003 }]);
+
+export class ModelNotFound extends Schema.TaggedErrorClass<ModelNotFound>()(
+  "ModelNotFound",
+  { code: Schema.Number, message: Schema.String },
+) {}
+T.applyErrorMatchers(ModelNotFound, [{ code: 7003 }]);
+
+export class ModelNotSupported extends Schema.TaggedErrorClass<ModelNotSupported>()(
+  "ModelNotSupported",
+  { code: Schema.Number, message: Schema.String },
+) {}
+T.applyErrorMatchers(ModelNotSupported, [{ code: 1000 }]);
+
+export class ModelSchemaNotFound extends Schema.TaggedErrorClass<ModelSchemaNotFound>()(
+  "ModelSchemaNotFound",
+  { code: Schema.Number, message: Schema.String },
+) {}
+T.applyErrorMatchers(ModelSchemaNotFound, [{ code: 6002 }]);
+
+// =============================================================================
 // Ai
 // =============================================================================
 
@@ -81,7 +109,7 @@ export const RunAiResponse = Schema.Union([
   Schema.Struct({
     text: Schema.String,
     vtt: Schema.optional(Schema.String),
-    wordCount: Schema.optional(Schema.Number),
+    wordCount: Schema.optional(Schema.Number).pipe(T.JsonName("word_count")),
     words: Schema.optional(
       Schema.Array(
         Schema.Struct({
@@ -91,7 +119,7 @@ export const RunAiResponse = Schema.Union([
         }),
       ),
     ),
-  }).pipe(Schema.encodeKeys({ wordCount: "word_count" })),
+  }),
   Schema.Array(
     Schema.Struct({
       box: Schema.optional(
@@ -115,24 +143,26 @@ export const RunAiResponse = Schema.Union([
           name: Schema.optional(Schema.String),
         }),
       ),
-    ),
+    ).pipe(T.JsonName("tool_calls")),
     usage: Schema.optional(
       Schema.Struct({
-        completionTokens: Schema.optional(Schema.Number),
-        promptTokens: Schema.optional(Schema.Number),
-        totalTokens: Schema.optional(Schema.Number),
-      }).pipe(
-        Schema.encodeKeys({
-          completionTokens: "completion_tokens",
-          promptTokens: "prompt_tokens",
-          totalTokens: "total_tokens",
-        }),
-      ),
+        completionTokens: Schema.optional(Schema.Number).pipe(
+          T.JsonName("completion_tokens"),
+        ),
+        promptTokens: Schema.optional(Schema.Number).pipe(
+          T.JsonName("prompt_tokens"),
+        ),
+        totalTokens: Schema.optional(Schema.Number).pipe(
+          T.JsonName("total_tokens"),
+        ),
+      }),
     ),
-  }).pipe(Schema.encodeKeys({ toolCalls: "tool_calls" })),
+  }),
   Schema.Struct({
-    translatedText: Schema.optional(Schema.String),
-  }).pipe(Schema.encodeKeys({ translatedText: "translated_text" })),
+    translatedText: Schema.optional(Schema.String).pipe(
+      T.JsonName("translated_text"),
+    ),
+  }),
   Schema.Struct({
     summary: Schema.optional(Schema.String),
   }),
@@ -145,12 +175,12 @@ export const runAi: (
   input: RunAiRequest,
 ) => Effect.Effect<
   RunAiResponse,
-  CommonErrors,
+  CommonErrors | ModelNotFound,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: RunAiRequest,
   output: RunAiResponse,
-  errors: [],
+  errors: [ModelNotFound],
 }));
 
 // =============================================================================
@@ -167,36 +197,36 @@ export const ListFinetunesRequest = Schema.Struct({
   T.Http({ method: "GET", path: "/accounts/{account_id}/ai/finetunes" }),
 ) as unknown as Schema.Schema<ListFinetunesRequest>;
 
-export interface ListFinetunesResponse {
+export type ListFinetunesResponse = {
   id: string;
   createdAt: string;
   model: string;
   modifiedAt: string;
   name: string;
   description?: string;
-}
+}[];
 
-export const ListFinetunesResponse = Schema.Struct({
-  id: Schema.String,
-  createdAt: Schema.String,
-  model: Schema.String,
-  modifiedAt: Schema.String,
-  name: Schema.String,
-  description: Schema.optional(Schema.String),
-}).pipe(
-  Schema.encodeKeys({ createdAt: "created_at", modifiedAt: "modified_at" }),
+export const ListFinetunesResponse = Schema.Array(
+  Schema.Struct({
+    id: Schema.String,
+    createdAt: Schema.String.pipe(T.JsonName("created_at")),
+    model: Schema.String,
+    modifiedAt: Schema.String.pipe(T.JsonName("modified_at")),
+    name: Schema.String,
+    description: Schema.optional(Schema.String),
+  }),
 ) as unknown as Schema.Schema<ListFinetunesResponse>;
 
 export const listFinetunes: (
   input: ListFinetunesRequest,
 ) => Effect.Effect<
   ListFinetunesResponse,
-  CommonErrors,
+  CommonErrors | AccountNotFound,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListFinetunesRequest,
   output: ListFinetunesResponse,
-  errors: [],
+  errors: [AccountNotFound],
 }));
 
 export interface CreateFinetuneRequest {
@@ -234,26 +264,24 @@ export interface CreateFinetuneResponse {
 
 export const CreateFinetuneResponse = Schema.Struct({
   id: Schema.String,
-  createdAt: Schema.String,
+  createdAt: Schema.String.pipe(T.JsonName("created_at")),
   model: Schema.String,
-  modifiedAt: Schema.String,
+  modifiedAt: Schema.String.pipe(T.JsonName("modified_at")),
   name: Schema.String,
   public: Schema.Boolean,
   description: Schema.optional(Schema.String),
-}).pipe(
-  Schema.encodeKeys({ createdAt: "created_at", modifiedAt: "modified_at" }),
-) as unknown as Schema.Schema<CreateFinetuneResponse>;
+}) as unknown as Schema.Schema<CreateFinetuneResponse>;
 
 export const createFinetune: (
   input: CreateFinetuneRequest,
 ) => Effect.Effect<
   CreateFinetuneResponse,
-  CommonErrors,
+  CommonErrors | ModelNotSupported | AccountNotFound,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateFinetuneRequest,
   output: CreateFinetuneResponse,
-  errors: [],
+  errors: [ModelNotSupported, AccountNotFound],
 }));
 
 // =============================================================================
@@ -274,9 +302,8 @@ export const CreateFinetuneAssetRequest = Schema.Struct({
   finetuneId: Schema.String.pipe(T.HttpPath("finetuneId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   file: Schema.optional(UploadableSchema.pipe(T.HttpFormDataFile())),
-  fileName: Schema.optional(Schema.String),
+  fileName: Schema.optional(Schema.String).pipe(T.JsonName("file_name")),
 }).pipe(
-  Schema.encodeKeys({ fileName: "file_name" }),
   T.Http({
     method: "POST",
     path: "/accounts/{account_id}/ai/finetunes/{finetuneId}/finetune-assets",
@@ -296,12 +323,12 @@ export const createFinetuneAsset: (
   input: CreateFinetuneAssetRequest,
 ) => Effect.Effect<
   CreateFinetuneAssetResponse,
-  CommonErrors,
+  CommonErrors | ModelNotSupported | AccountNotFound,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateFinetuneAssetRequest,
   output: CreateFinetuneAssetResponse,
-  errors: [],
+  errors: [ModelNotSupported, AccountNotFound],
 }));
 
 // =============================================================================
@@ -331,10 +358,10 @@ export const getModelSchema: (
   input: GetModelSchemaRequest,
 ) => Effect.Effect<
   GetModelSchemaResponse,
-  CommonErrors,
+  CommonErrors | ModelNotSupported | ModelSchemaNotFound | AccountNotFound,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetModelSchemaRequest,
   output: GetModelSchemaResponse,
-  errors: [],
+  errors: [ModelNotSupported, ModelSchemaNotFound, AccountNotFound],
 }));

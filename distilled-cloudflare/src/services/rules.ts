@@ -59,21 +59,16 @@ export interface GetListResponse {
 
 export const GetListResponse = Schema.Struct({
   id: Schema.String,
-  createdOn: Schema.String,
+  createdOn: Schema.String.pipe(T.JsonName("created_on")),
   kind: Schema.Literals(["ip", "redirect", "hostname", "asn"]),
-  modifiedOn: Schema.String,
+  modifiedOn: Schema.String.pipe(T.JsonName("modified_on")),
   name: Schema.String,
-  numItems: Schema.Number,
-  numReferencingFilters: Schema.Number,
+  numItems: Schema.Number.pipe(T.JsonName("num_items")),
+  numReferencingFilters: Schema.Number.pipe(
+    T.JsonName("num_referencing_filters"),
+  ),
   description: Schema.optional(Schema.String),
-}).pipe(
-  Schema.encodeKeys({
-    createdOn: "created_on",
-    modifiedOn: "modified_on",
-    numItems: "num_items",
-    numReferencingFilters: "num_referencing_filters",
-  }),
-) as unknown as Schema.Schema<GetListResponse>;
+}) as unknown as Schema.Schema<GetListResponse>;
 
 export const getList: (
   input: GetListRequest,
@@ -128,21 +123,16 @@ export interface CreateListResponse {
 
 export const CreateListResponse = Schema.Struct({
   id: Schema.String,
-  createdOn: Schema.String,
+  createdOn: Schema.String.pipe(T.JsonName("created_on")),
   kind: Schema.Literals(["ip", "redirect", "hostname", "asn"]),
-  modifiedOn: Schema.String,
+  modifiedOn: Schema.String.pipe(T.JsonName("modified_on")),
   name: Schema.String,
-  numItems: Schema.Number,
-  numReferencingFilters: Schema.Number,
+  numItems: Schema.Number.pipe(T.JsonName("num_items")),
+  numReferencingFilters: Schema.Number.pipe(
+    T.JsonName("num_referencing_filters"),
+  ),
   description: Schema.optional(Schema.String),
-}).pipe(
-  Schema.encodeKeys({
-    createdOn: "created_on",
-    modifiedOn: "modified_on",
-    numItems: "num_items",
-    numReferencingFilters: "num_referencing_filters",
-  }),
-) as unknown as Schema.Schema<CreateListResponse>;
+}) as unknown as Schema.Schema<CreateListResponse>;
 
 export const createList: (
   input: CreateListRequest,
@@ -196,21 +186,16 @@ export interface UpdateListResponse {
 
 export const UpdateListResponse = Schema.Struct({
   id: Schema.String,
-  createdOn: Schema.String,
+  createdOn: Schema.String.pipe(T.JsonName("created_on")),
   kind: Schema.Literals(["ip", "redirect", "hostname", "asn"]),
-  modifiedOn: Schema.String,
+  modifiedOn: Schema.String.pipe(T.JsonName("modified_on")),
   name: Schema.String,
-  numItems: Schema.Number,
-  numReferencingFilters: Schema.Number,
+  numItems: Schema.Number.pipe(T.JsonName("num_items")),
+  numReferencingFilters: Schema.Number.pipe(
+    T.JsonName("num_referencing_filters"),
+  ),
   description: Schema.optional(Schema.String),
-}).pipe(
-  Schema.encodeKeys({
-    createdOn: "created_on",
-    modifiedOn: "modified_on",
-    numItems: "num_items",
-    numReferencingFilters: "num_referencing_filters",
-  }),
-) as unknown as Schema.Schema<UpdateListResponse>;
+}) as unknown as Schema.Schema<UpdateListResponse>;
 
 export const updateList: (
   input: UpdateListRequest,
@@ -371,40 +356,32 @@ export type GetListItemResponse =
 export const GetListItemResponse = Schema.Union([
   Schema.Struct({
     id: Schema.String,
-    createdOn: Schema.String,
+    createdOn: Schema.String.pipe(T.JsonName("created_on")),
     ip: Schema.String,
-    modifiedOn: Schema.String,
+    modifiedOn: Schema.String.pipe(T.JsonName("modified_on")),
     comment: Schema.optional(Schema.String),
-  }).pipe(
-    Schema.encodeKeys({ createdOn: "created_on", modifiedOn: "modified_on" }),
-  ),
+  }),
   Schema.Struct({
     id: Schema.String,
-    createdOn: Schema.String,
+    createdOn: Schema.String.pipe(T.JsonName("created_on")),
     hostname: Schema.Unknown,
-    modifiedOn: Schema.String,
+    modifiedOn: Schema.String.pipe(T.JsonName("modified_on")),
     comment: Schema.optional(Schema.String),
-  }).pipe(
-    Schema.encodeKeys({ createdOn: "created_on", modifiedOn: "modified_on" }),
-  ),
+  }),
   Schema.Struct({
     id: Schema.String,
-    createdOn: Schema.String,
-    modifiedOn: Schema.String,
+    createdOn: Schema.String.pipe(T.JsonName("created_on")),
+    modifiedOn: Schema.String.pipe(T.JsonName("modified_on")),
     redirect: Schema.Unknown,
     comment: Schema.optional(Schema.String),
-  }).pipe(
-    Schema.encodeKeys({ createdOn: "created_on", modifiedOn: "modified_on" }),
-  ),
+  }),
   Schema.Struct({
     id: Schema.String,
     asn: Schema.Number,
-    createdOn: Schema.String,
-    modifiedOn: Schema.String,
+    createdOn: Schema.String.pipe(T.JsonName("created_on")),
+    modifiedOn: Schema.String.pipe(T.JsonName("modified_on")),
     comment: Schema.optional(Schema.String),
-  }).pipe(
-    Schema.encodeKeys({ createdOn: "created_on", modifiedOn: "modified_on" }),
-  ),
+  }),
 ]) as unknown as Schema.Schema<GetListItemResponse>;
 
 export const getListItem: (
@@ -454,7 +431,7 @@ export const CreateListItemRequest = Schema.Struct({
         comment: Schema.optional(Schema.String),
       }),
     ]),
-  ),
+  ).pipe(T.HttpBody()),
 }).pipe(
   T.Http({
     method: "POST",
@@ -468,10 +445,8 @@ export interface CreateListItemResponse {
 }
 
 export const CreateListItemResponse = Schema.Struct({
-  operationId: Schema.String,
-}).pipe(
-  Schema.encodeKeys({ operationId: "operation_id" }),
-) as unknown as Schema.Schema<CreateListItemResponse>;
+  operationId: Schema.String.pipe(T.JsonName("operation_id")),
+}) as unknown as Schema.Schema<CreateListItemResponse>;
 
 export const createListItem: (
   input: CreateListItemRequest,
@@ -520,7 +495,7 @@ export const UpdateListItemRequest = Schema.Struct({
         comment: Schema.optional(Schema.String),
       }),
     ]),
-  ),
+  ).pipe(T.HttpBody()),
 }).pipe(
   T.Http({
     method: "PUT",
@@ -534,10 +509,8 @@ export interface UpdateListItemResponse {
 }
 
 export const UpdateListItemResponse = Schema.Struct({
-  operationId: Schema.String,
-}).pipe(
-  Schema.encodeKeys({ operationId: "operation_id" }),
-) as unknown as Schema.Schema<UpdateListItemResponse>;
+  operationId: Schema.String.pipe(T.JsonName("operation_id")),
+}) as unknown as Schema.Schema<UpdateListItemResponse>;
 
 export const updateListItem: (
   input: UpdateListItemRequest,
@@ -582,10 +555,8 @@ export interface DeleteListItemResponse {
 }
 
 export const DeleteListItemResponse = Schema.Struct({
-  operationId: Schema.String,
-}).pipe(
-  Schema.encodeKeys({ operationId: "operation_id" }),
-) as unknown as Schema.Schema<DeleteListItemResponse>;
+  operationId: Schema.String.pipe(T.JsonName("operation_id")),
+}) as unknown as Schema.Schema<DeleteListItemResponse>;
 
 export const deleteListItem: (
   input: DeleteListItemRequest,

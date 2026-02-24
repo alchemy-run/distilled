@@ -19,6 +19,34 @@ import {
 } from "../errors.ts";
 
 // =============================================================================
+// Errors
+// =============================================================================
+
+export class AdvancedCertificateManagerRequired extends Schema.TaggedErrorClass<AdvancedCertificateManagerRequired>()(
+  "AdvancedCertificateManagerRequired",
+  { code: Schema.Number, message: Schema.String },
+) {}
+T.applyErrorMatchers(AdvancedCertificateManagerRequired, [{ code: 1450 }]);
+
+export class InvalidObjectIdentifier extends Schema.TaggedErrorClass<InvalidObjectIdentifier>()(
+  "InvalidObjectIdentifier",
+  { code: Schema.Number, message: Schema.String },
+) {}
+T.applyErrorMatchers(InvalidObjectIdentifier, [{ code: 7003 }]);
+
+export class NoStateChange extends Schema.TaggedErrorClass<NoStateChange>()(
+  "NoStateChange",
+  { code: Schema.Number, message: Schema.String },
+) {}
+T.applyErrorMatchers(NoStateChange, [{ code: 1467 }]);
+
+export class PreviousJobInProgress extends Schema.TaggedErrorClass<PreviousJobInProgress>()(
+  "PreviousJobInProgress",
+  { code: Schema.Number, message: Schema.String },
+) {}
+T.applyErrorMatchers(PreviousJobInProgress, [{ code: 1482 }]);
+
+// =============================================================================
 // TotalTl
 // =============================================================================
 
@@ -39,7 +67,7 @@ export interface GetTotalTlResponse {
   /** If enabled, Total TLS will order a hostname specific TLS certificate for any proxied A, AAAA, or CNAME record in your zone. */
   enabled?: boolean;
   /** The validity period in days for the certificates ordered via Total TLS. */
-  validityPeriod?: "90";
+  validityPeriod?: number;
 }
 
 export const GetTotalTlResponse = Schema.Struct({
@@ -47,7 +75,7 @@ export const GetTotalTlResponse = Schema.Struct({
     Schema.Literals(["google", "lets_encrypt", "ssl_com"]),
   ),
   enabled: Schema.optional(Schema.Boolean),
-  validityPeriod: Schema.optional(Schema.Literal("90")),
+  validityPeriod: Schema.optional(Schema.Number),
 }).pipe(
   Schema.encodeKeys({
     certificateAuthority: "certificate_authority",
@@ -59,12 +87,12 @@ export const getTotalTl: (
   input: GetTotalTlRequest,
 ) => Effect.Effect<
   GetTotalTlResponse,
-  CommonErrors,
+  CommonErrors | InvalidObjectIdentifier | AdvancedCertificateManagerRequired,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetTotalTlRequest,
   output: GetTotalTlResponse,
-  errors: [],
+  errors: [InvalidObjectIdentifier, AdvancedCertificateManagerRequired],
 }));
 
 export interface CreateTotalTlRequest {
@@ -93,7 +121,7 @@ export interface CreateTotalTlResponse {
   /** If enabled, Total TLS will order a hostname specific TLS certificate for any proxied A, AAAA, or CNAME record in your zone. */
   enabled?: boolean;
   /** The validity period in days for the certificates ordered via Total TLS. */
-  validityPeriod?: "90";
+  validityPeriod?: number;
 }
 
 export const CreateTotalTlResponse = Schema.Struct({
@@ -101,7 +129,7 @@ export const CreateTotalTlResponse = Schema.Struct({
     Schema.Literals(["google", "lets_encrypt", "ssl_com"]),
   ),
   enabled: Schema.optional(Schema.Boolean),
-  validityPeriod: Schema.optional(Schema.Literal("90")),
+  validityPeriod: Schema.optional(Schema.Number),
 }).pipe(
   Schema.encodeKeys({
     certificateAuthority: "certificate_authority",
@@ -113,10 +141,19 @@ export const createTotalTl: (
   input: CreateTotalTlRequest,
 ) => Effect.Effect<
   CreateTotalTlResponse,
-  CommonErrors,
+  | CommonErrors
+  | InvalidObjectIdentifier
+  | AdvancedCertificateManagerRequired
+  | NoStateChange
+  | PreviousJobInProgress,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateTotalTlRequest,
   output: CreateTotalTlResponse,
-  errors: [],
+  errors: [
+    InvalidObjectIdentifier,
+    AdvancedCertificateManagerRequired,
+    NoStateChange,
+    PreviousJobInProgress,
+  ],
 }));

@@ -1,0 +1,29 @@
+{
+  "errors": {
+    "InvalidAccountName": [
+      { "code": 1001, "message": { "includes": "invalid character" } }
+    ],
+    "AccountNameTooLong": [
+      { "code": 1001, "message": { "includes": "too long" } }
+    ],
+    "UpdateAccountTypeNotSupported": [
+      {
+        "code": 1001,
+        "message": { "includes": "account type is not supported" }
+      }
+    ],
+    "InvalidRoute": [{ "code": 7003 }],
+    "MethodNotAllowed": [{ "code": 7001 }]
+  },
+  "request": {
+    "properties": {
+      "type": { "optional": true }
+    }
+  },
+  "response": {
+    "properties": {
+      "settings.abuse_contact_email": { "nullable": true },
+      "settings.enforce_twofactor": { "nullable": true }
+    }
+  }
+}

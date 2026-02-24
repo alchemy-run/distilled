@@ -1,0 +1,15 @@
+{
+  "errors": {
+    "ValidationError": [{ "code": 7001 }],
+    "NotFound": [{ "code": 7002 }],
+    "InvalidRoute": [{ "code": 7003 }],
+    "UnableToConnect": [{ "code": 7017 }],
+    "SyncInCooldown": [{ "code": 7020 }]
+  },
+  "response": {
+    "properties": {
+      "ended_at": { "nullable": true },
+      "end_reason": { "nullable": true }
+    }
+  }
+}

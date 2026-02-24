@@ -115,16 +115,20 @@ export const GetPageRuleResponse = Schema.Struct({
           Schema.Struct({
             cookie: Schema.optional(
               Schema.Struct({
-                checkPresence: Schema.optional(Schema.Array(Schema.String)),
+                checkPresence: Schema.optional(
+                  Schema.Array(Schema.String),
+                ).pipe(T.JsonName("check_presence")),
                 include: Schema.optional(Schema.Array(Schema.String)),
-              }).pipe(Schema.encodeKeys({ checkPresence: "check_presence" })),
+              }),
             ),
             header: Schema.optional(
               Schema.Struct({
-                checkPresence: Schema.optional(Schema.Array(Schema.String)),
+                checkPresence: Schema.optional(
+                  Schema.Array(Schema.String),
+                ).pipe(T.JsonName("check_presence")),
                 exclude: Schema.optional(Schema.Array(Schema.String)),
                 include: Schema.optional(Schema.Array(Schema.String)),
-              }).pipe(Schema.encodeKeys({ checkPresence: "check_presence" })),
+              }),
             ),
             host: Schema.optional(
               Schema.Struct({
@@ -146,15 +150,17 @@ export const GetPageRuleResponse = Schema.Struct({
                   ]),
                 ),
               }),
-            ),
+            ).pipe(T.JsonName("query_string")),
             user: Schema.optional(
               Schema.Struct({
-                deviceType: Schema.optional(Schema.Boolean),
+                deviceType: Schema.optional(Schema.Boolean).pipe(
+                  T.JsonName("device_type"),
+                ),
                 geo: Schema.optional(Schema.Boolean),
                 lang: Schema.optional(Schema.Boolean),
-              }).pipe(Schema.encodeKeys({ deviceType: "device_type" })),
+              }),
             ),
-          }).pipe(Schema.encodeKeys({ queryString: "query_string" })),
+          }),
         ),
       }),
       Schema.Struct({
@@ -189,9 +195,11 @@ export const GetPageRuleResponse = Schema.Struct({
         id: Schema.optional(Schema.Literal("forwarding_url")),
         value: Schema.optional(
           Schema.Struct({
-            statusCode: Schema.optional(Schema.Literals(["301", "302"])),
+            statusCode: Schema.optional(Schema.Literals(["301", "302"])).pipe(
+              T.JsonName("status_code"),
+            ),
             url: Schema.optional(Schema.String),
-          }).pipe(Schema.encodeKeys({ statusCode: "status_code" })),
+          }),
         ),
       }),
       Schema.Struct({
@@ -208,8 +216,8 @@ export const GetPageRuleResponse = Schema.Struct({
       }),
     ]),
   ),
-  createdOn: Schema.String,
-  modifiedOn: Schema.String,
+  createdOn: Schema.String.pipe(T.JsonName("created_on")),
+  modifiedOn: Schema.String.pipe(T.JsonName("modified_on")),
   priority: Schema.Number,
   status: Schema.Literals(["active", "disabled"]),
   targets: Schema.Array(
@@ -229,9 +237,7 @@ export const GetPageRuleResponse = Schema.Struct({
       target: Schema.optional(Schema.Literal("url")),
     }),
   ),
-}).pipe(
-  Schema.encodeKeys({ createdOn: "created_on", modifiedOn: "modified_on" }),
-) as unknown as Schema.Schema<GetPageRuleResponse>;
+}) as unknown as Schema.Schema<GetPageRuleResponse>;
 
 export const getPageRule: (
   input: GetPageRuleRequest,
@@ -350,16 +356,20 @@ export const ListPageRulesResponse = Schema.Array(
             Schema.Struct({
               cookie: Schema.optional(
                 Schema.Struct({
-                  checkPresence: Schema.optional(Schema.Array(Schema.String)),
+                  checkPresence: Schema.optional(
+                    Schema.Array(Schema.String),
+                  ).pipe(T.JsonName("check_presence")),
                   include: Schema.optional(Schema.Array(Schema.String)),
-                }).pipe(Schema.encodeKeys({ checkPresence: "check_presence" })),
+                }),
               ),
               header: Schema.optional(
                 Schema.Struct({
-                  checkPresence: Schema.optional(Schema.Array(Schema.String)),
+                  checkPresence: Schema.optional(
+                    Schema.Array(Schema.String),
+                  ).pipe(T.JsonName("check_presence")),
                   exclude: Schema.optional(Schema.Array(Schema.String)),
                   include: Schema.optional(Schema.Array(Schema.String)),
-                }).pipe(Schema.encodeKeys({ checkPresence: "check_presence" })),
+                }),
               ),
               host: Schema.optional(
                 Schema.Struct({
@@ -381,15 +391,17 @@ export const ListPageRulesResponse = Schema.Array(
                     ]),
                   ),
                 }),
-              ),
+              ).pipe(T.JsonName("query_string")),
               user: Schema.optional(
                 Schema.Struct({
-                  deviceType: Schema.optional(Schema.Boolean),
+                  deviceType: Schema.optional(Schema.Boolean).pipe(
+                    T.JsonName("device_type"),
+                  ),
                   geo: Schema.optional(Schema.Boolean),
                   lang: Schema.optional(Schema.Boolean),
-                }).pipe(Schema.encodeKeys({ deviceType: "device_type" })),
+                }),
               ),
-            }).pipe(Schema.encodeKeys({ queryString: "query_string" })),
+            }),
           ),
         }),
         Schema.Struct({
@@ -424,9 +436,11 @@ export const ListPageRulesResponse = Schema.Array(
           id: Schema.optional(Schema.Literal("forwarding_url")),
           value: Schema.optional(
             Schema.Struct({
-              statusCode: Schema.optional(Schema.Literals(["301", "302"])),
+              statusCode: Schema.optional(Schema.Literals(["301", "302"])).pipe(
+                T.JsonName("status_code"),
+              ),
               url: Schema.optional(Schema.String),
-            }).pipe(Schema.encodeKeys({ statusCode: "status_code" })),
+            }),
           ),
         }),
         Schema.Struct({
@@ -443,8 +457,8 @@ export const ListPageRulesResponse = Schema.Array(
         }),
       ]),
     ),
-    createdOn: Schema.String,
-    modifiedOn: Schema.String,
+    createdOn: Schema.String.pipe(T.JsonName("created_on")),
+    modifiedOn: Schema.String.pipe(T.JsonName("modified_on")),
     priority: Schema.Number,
     status: Schema.Literals(["active", "disabled"]),
     targets: Schema.Array(
@@ -464,9 +478,7 @@ export const ListPageRulesResponse = Schema.Array(
         target: Schema.optional(Schema.Literal("url")),
       }),
     ),
-  }).pipe(
-    Schema.encodeKeys({ createdOn: "created_on", modifiedOn: "modified_on" }),
-  ),
+  }),
 ) as unknown as Schema.Schema<ListPageRulesResponse>;
 
 export const listPageRules: (
@@ -557,16 +569,20 @@ export const CreatePageRuleRequest = Schema.Struct({
           Schema.Struct({
             cookie: Schema.optional(
               Schema.Struct({
-                checkPresence: Schema.optional(Schema.Array(Schema.String)),
+                checkPresence: Schema.optional(
+                  Schema.Array(Schema.String),
+                ).pipe(T.JsonName("check_presence")),
                 include: Schema.optional(Schema.Array(Schema.String)),
-              }).pipe(Schema.encodeKeys({ checkPresence: "check_presence" })),
+              }),
             ),
             header: Schema.optional(
               Schema.Struct({
-                checkPresence: Schema.optional(Schema.Array(Schema.String)),
+                checkPresence: Schema.optional(
+                  Schema.Array(Schema.String),
+                ).pipe(T.JsonName("check_presence")),
                 exclude: Schema.optional(Schema.Array(Schema.String)),
                 include: Schema.optional(Schema.Array(Schema.String)),
-              }).pipe(Schema.encodeKeys({ checkPresence: "check_presence" })),
+              }),
             ),
             host: Schema.optional(
               Schema.Struct({
@@ -588,15 +604,17 @@ export const CreatePageRuleRequest = Schema.Struct({
                   ]),
                 ),
               }),
-            ),
+            ).pipe(T.JsonName("query_string")),
             user: Schema.optional(
               Schema.Struct({
-                deviceType: Schema.optional(Schema.Boolean),
+                deviceType: Schema.optional(Schema.Boolean).pipe(
+                  T.JsonName("device_type"),
+                ),
                 geo: Schema.optional(Schema.Boolean),
                 lang: Schema.optional(Schema.Boolean),
-              }).pipe(Schema.encodeKeys({ deviceType: "device_type" })),
+              }),
             ),
-          }).pipe(Schema.encodeKeys({ queryString: "query_string" })),
+          }),
         ),
       }),
       Schema.Struct({
@@ -631,9 +649,11 @@ export const CreatePageRuleRequest = Schema.Struct({
         id: Schema.optional(Schema.Literal("forwarding_url")),
         value: Schema.optional(
           Schema.Struct({
-            statusCode: Schema.optional(Schema.Literals(["301", "302"])),
+            statusCode: Schema.optional(Schema.Literals(["301", "302"])).pipe(
+              T.JsonName("status_code"),
+            ),
             url: Schema.optional(Schema.String),
-          }).pipe(Schema.encodeKeys({ statusCode: "status_code" })),
+          }),
         ),
       }),
       Schema.Struct({
@@ -753,16 +773,20 @@ export const CreatePageRuleResponse = Schema.Struct({
           Schema.Struct({
             cookie: Schema.optional(
               Schema.Struct({
-                checkPresence: Schema.optional(Schema.Array(Schema.String)),
+                checkPresence: Schema.optional(
+                  Schema.Array(Schema.String),
+                ).pipe(T.JsonName("check_presence")),
                 include: Schema.optional(Schema.Array(Schema.String)),
-              }).pipe(Schema.encodeKeys({ checkPresence: "check_presence" })),
+              }),
             ),
             header: Schema.optional(
               Schema.Struct({
-                checkPresence: Schema.optional(Schema.Array(Schema.String)),
+                checkPresence: Schema.optional(
+                  Schema.Array(Schema.String),
+                ).pipe(T.JsonName("check_presence")),
                 exclude: Schema.optional(Schema.Array(Schema.String)),
                 include: Schema.optional(Schema.Array(Schema.String)),
-              }).pipe(Schema.encodeKeys({ checkPresence: "check_presence" })),
+              }),
             ),
             host: Schema.optional(
               Schema.Struct({
@@ -784,15 +808,17 @@ export const CreatePageRuleResponse = Schema.Struct({
                   ]),
                 ),
               }),
-            ),
+            ).pipe(T.JsonName("query_string")),
             user: Schema.optional(
               Schema.Struct({
-                deviceType: Schema.optional(Schema.Boolean),
+                deviceType: Schema.optional(Schema.Boolean).pipe(
+                  T.JsonName("device_type"),
+                ),
                 geo: Schema.optional(Schema.Boolean),
                 lang: Schema.optional(Schema.Boolean),
-              }).pipe(Schema.encodeKeys({ deviceType: "device_type" })),
+              }),
             ),
-          }).pipe(Schema.encodeKeys({ queryString: "query_string" })),
+          }),
         ),
       }),
       Schema.Struct({
@@ -827,9 +853,11 @@ export const CreatePageRuleResponse = Schema.Struct({
         id: Schema.optional(Schema.Literal("forwarding_url")),
         value: Schema.optional(
           Schema.Struct({
-            statusCode: Schema.optional(Schema.Literals(["301", "302"])),
+            statusCode: Schema.optional(Schema.Literals(["301", "302"])).pipe(
+              T.JsonName("status_code"),
+            ),
             url: Schema.optional(Schema.String),
-          }).pipe(Schema.encodeKeys({ statusCode: "status_code" })),
+          }),
         ),
       }),
       Schema.Struct({
@@ -846,8 +874,8 @@ export const CreatePageRuleResponse = Schema.Struct({
       }),
     ]),
   ),
-  createdOn: Schema.String,
-  modifiedOn: Schema.String,
+  createdOn: Schema.String.pipe(T.JsonName("created_on")),
+  modifiedOn: Schema.String.pipe(T.JsonName("modified_on")),
   priority: Schema.Number,
   status: Schema.Literals(["active", "disabled"]),
   targets: Schema.Array(
@@ -867,9 +895,7 @@ export const CreatePageRuleResponse = Schema.Struct({
       target: Schema.optional(Schema.Literal("url")),
     }),
   ),
-}).pipe(
-  Schema.encodeKeys({ createdOn: "created_on", modifiedOn: "modified_on" }),
-) as unknown as Schema.Schema<CreatePageRuleResponse>;
+}) as unknown as Schema.Schema<CreatePageRuleResponse>;
 
 export const createPageRule: (
   input: CreatePageRuleRequest,
@@ -961,16 +987,20 @@ export const UpdatePageRuleRequest = Schema.Struct({
           Schema.Struct({
             cookie: Schema.optional(
               Schema.Struct({
-                checkPresence: Schema.optional(Schema.Array(Schema.String)),
+                checkPresence: Schema.optional(
+                  Schema.Array(Schema.String),
+                ).pipe(T.JsonName("check_presence")),
                 include: Schema.optional(Schema.Array(Schema.String)),
-              }).pipe(Schema.encodeKeys({ checkPresence: "check_presence" })),
+              }),
             ),
             header: Schema.optional(
               Schema.Struct({
-                checkPresence: Schema.optional(Schema.Array(Schema.String)),
+                checkPresence: Schema.optional(
+                  Schema.Array(Schema.String),
+                ).pipe(T.JsonName("check_presence")),
                 exclude: Schema.optional(Schema.Array(Schema.String)),
                 include: Schema.optional(Schema.Array(Schema.String)),
-              }).pipe(Schema.encodeKeys({ checkPresence: "check_presence" })),
+              }),
             ),
             host: Schema.optional(
               Schema.Struct({
@@ -992,15 +1022,17 @@ export const UpdatePageRuleRequest = Schema.Struct({
                   ]),
                 ),
               }),
-            ),
+            ).pipe(T.JsonName("query_string")),
             user: Schema.optional(
               Schema.Struct({
-                deviceType: Schema.optional(Schema.Boolean),
+                deviceType: Schema.optional(Schema.Boolean).pipe(
+                  T.JsonName("device_type"),
+                ),
                 geo: Schema.optional(Schema.Boolean),
                 lang: Schema.optional(Schema.Boolean),
-              }).pipe(Schema.encodeKeys({ deviceType: "device_type" })),
+              }),
             ),
-          }).pipe(Schema.encodeKeys({ queryString: "query_string" })),
+          }),
         ),
       }),
       Schema.Struct({
@@ -1035,9 +1067,11 @@ export const UpdatePageRuleRequest = Schema.Struct({
         id: Schema.optional(Schema.Literal("forwarding_url")),
         value: Schema.optional(
           Schema.Struct({
-            statusCode: Schema.optional(Schema.Literals(["301", "302"])),
+            statusCode: Schema.optional(Schema.Literals(["301", "302"])).pipe(
+              T.JsonName("status_code"),
+            ),
             url: Schema.optional(Schema.String),
-          }).pipe(Schema.encodeKeys({ statusCode: "status_code" })),
+          }),
         ),
       }),
       Schema.Struct({
@@ -1157,16 +1191,20 @@ export const UpdatePageRuleResponse = Schema.Struct({
           Schema.Struct({
             cookie: Schema.optional(
               Schema.Struct({
-                checkPresence: Schema.optional(Schema.Array(Schema.String)),
+                checkPresence: Schema.optional(
+                  Schema.Array(Schema.String),
+                ).pipe(T.JsonName("check_presence")),
                 include: Schema.optional(Schema.Array(Schema.String)),
-              }).pipe(Schema.encodeKeys({ checkPresence: "check_presence" })),
+              }),
             ),
             header: Schema.optional(
               Schema.Struct({
-                checkPresence: Schema.optional(Schema.Array(Schema.String)),
+                checkPresence: Schema.optional(
+                  Schema.Array(Schema.String),
+                ).pipe(T.JsonName("check_presence")),
                 exclude: Schema.optional(Schema.Array(Schema.String)),
                 include: Schema.optional(Schema.Array(Schema.String)),
-              }).pipe(Schema.encodeKeys({ checkPresence: "check_presence" })),
+              }),
             ),
             host: Schema.optional(
               Schema.Struct({
@@ -1188,15 +1226,17 @@ export const UpdatePageRuleResponse = Schema.Struct({
                   ]),
                 ),
               }),
-            ),
+            ).pipe(T.JsonName("query_string")),
             user: Schema.optional(
               Schema.Struct({
-                deviceType: Schema.optional(Schema.Boolean),
+                deviceType: Schema.optional(Schema.Boolean).pipe(
+                  T.JsonName("device_type"),
+                ),
                 geo: Schema.optional(Schema.Boolean),
                 lang: Schema.optional(Schema.Boolean),
-              }).pipe(Schema.encodeKeys({ deviceType: "device_type" })),
+              }),
             ),
-          }).pipe(Schema.encodeKeys({ queryString: "query_string" })),
+          }),
         ),
       }),
       Schema.Struct({
@@ -1231,9 +1271,11 @@ export const UpdatePageRuleResponse = Schema.Struct({
         id: Schema.optional(Schema.Literal("forwarding_url")),
         value: Schema.optional(
           Schema.Struct({
-            statusCode: Schema.optional(Schema.Literals(["301", "302"])),
+            statusCode: Schema.optional(Schema.Literals(["301", "302"])).pipe(
+              T.JsonName("status_code"),
+            ),
             url: Schema.optional(Schema.String),
-          }).pipe(Schema.encodeKeys({ statusCode: "status_code" })),
+          }),
         ),
       }),
       Schema.Struct({
@@ -1250,8 +1292,8 @@ export const UpdatePageRuleResponse = Schema.Struct({
       }),
     ]),
   ),
-  createdOn: Schema.String,
-  modifiedOn: Schema.String,
+  createdOn: Schema.String.pipe(T.JsonName("created_on")),
+  modifiedOn: Schema.String.pipe(T.JsonName("modified_on")),
   priority: Schema.Number,
   status: Schema.Literals(["active", "disabled"]),
   targets: Schema.Array(
@@ -1271,9 +1313,7 @@ export const UpdatePageRuleResponse = Schema.Struct({
       target: Schema.optional(Schema.Literal("url")),
     }),
   ),
-}).pipe(
-  Schema.encodeKeys({ createdOn: "created_on", modifiedOn: "modified_on" }),
-) as unknown as Schema.Schema<UpdatePageRuleResponse>;
+}) as unknown as Schema.Schema<UpdatePageRuleResponse>;
 
 export const updatePageRule: (
   input: UpdatePageRuleRequest,
@@ -1366,16 +1406,20 @@ export const PatchPageRuleRequest = Schema.Struct({
             Schema.Struct({
               cookie: Schema.optional(
                 Schema.Struct({
-                  checkPresence: Schema.optional(Schema.Array(Schema.String)),
+                  checkPresence: Schema.optional(
+                    Schema.Array(Schema.String),
+                  ).pipe(T.JsonName("check_presence")),
                   include: Schema.optional(Schema.Array(Schema.String)),
-                }).pipe(Schema.encodeKeys({ checkPresence: "check_presence" })),
+                }),
               ),
               header: Schema.optional(
                 Schema.Struct({
-                  checkPresence: Schema.optional(Schema.Array(Schema.String)),
+                  checkPresence: Schema.optional(
+                    Schema.Array(Schema.String),
+                  ).pipe(T.JsonName("check_presence")),
                   exclude: Schema.optional(Schema.Array(Schema.String)),
                   include: Schema.optional(Schema.Array(Schema.String)),
-                }).pipe(Schema.encodeKeys({ checkPresence: "check_presence" })),
+                }),
               ),
               host: Schema.optional(
                 Schema.Struct({
@@ -1397,15 +1441,17 @@ export const PatchPageRuleRequest = Schema.Struct({
                     ]),
                   ),
                 }),
-              ),
+              ).pipe(T.JsonName("query_string")),
               user: Schema.optional(
                 Schema.Struct({
-                  deviceType: Schema.optional(Schema.Boolean),
+                  deviceType: Schema.optional(Schema.Boolean).pipe(
+                    T.JsonName("device_type"),
+                  ),
                   geo: Schema.optional(Schema.Boolean),
                   lang: Schema.optional(Schema.Boolean),
-                }).pipe(Schema.encodeKeys({ deviceType: "device_type" })),
+                }),
               ),
-            }).pipe(Schema.encodeKeys({ queryString: "query_string" })),
+            }),
           ),
         }),
         Schema.Struct({
@@ -1440,9 +1486,11 @@ export const PatchPageRuleRequest = Schema.Struct({
           id: Schema.optional(Schema.Literal("forwarding_url")),
           value: Schema.optional(
             Schema.Struct({
-              statusCode: Schema.optional(Schema.Literals(["301", "302"])),
+              statusCode: Schema.optional(Schema.Literals(["301", "302"])).pipe(
+                T.JsonName("status_code"),
+              ),
               url: Schema.optional(Schema.String),
-            }).pipe(Schema.encodeKeys({ statusCode: "status_code" })),
+            }),
           ),
         }),
         Schema.Struct({
@@ -1565,16 +1613,20 @@ export const PatchPageRuleResponse = Schema.Struct({
           Schema.Struct({
             cookie: Schema.optional(
               Schema.Struct({
-                checkPresence: Schema.optional(Schema.Array(Schema.String)),
+                checkPresence: Schema.optional(
+                  Schema.Array(Schema.String),
+                ).pipe(T.JsonName("check_presence")),
                 include: Schema.optional(Schema.Array(Schema.String)),
-              }).pipe(Schema.encodeKeys({ checkPresence: "check_presence" })),
+              }),
             ),
             header: Schema.optional(
               Schema.Struct({
-                checkPresence: Schema.optional(Schema.Array(Schema.String)),
+                checkPresence: Schema.optional(
+                  Schema.Array(Schema.String),
+                ).pipe(T.JsonName("check_presence")),
                 exclude: Schema.optional(Schema.Array(Schema.String)),
                 include: Schema.optional(Schema.Array(Schema.String)),
-              }).pipe(Schema.encodeKeys({ checkPresence: "check_presence" })),
+              }),
             ),
             host: Schema.optional(
               Schema.Struct({
@@ -1596,15 +1648,17 @@ export const PatchPageRuleResponse = Schema.Struct({
                   ]),
                 ),
               }),
-            ),
+            ).pipe(T.JsonName("query_string")),
             user: Schema.optional(
               Schema.Struct({
-                deviceType: Schema.optional(Schema.Boolean),
+                deviceType: Schema.optional(Schema.Boolean).pipe(
+                  T.JsonName("device_type"),
+                ),
                 geo: Schema.optional(Schema.Boolean),
                 lang: Schema.optional(Schema.Boolean),
-              }).pipe(Schema.encodeKeys({ deviceType: "device_type" })),
+              }),
             ),
-          }).pipe(Schema.encodeKeys({ queryString: "query_string" })),
+          }),
         ),
       }),
       Schema.Struct({
@@ -1639,9 +1693,11 @@ export const PatchPageRuleResponse = Schema.Struct({
         id: Schema.optional(Schema.Literal("forwarding_url")),
         value: Schema.optional(
           Schema.Struct({
-            statusCode: Schema.optional(Schema.Literals(["301", "302"])),
+            statusCode: Schema.optional(Schema.Literals(["301", "302"])).pipe(
+              T.JsonName("status_code"),
+            ),
             url: Schema.optional(Schema.String),
-          }).pipe(Schema.encodeKeys({ statusCode: "status_code" })),
+          }),
         ),
       }),
       Schema.Struct({
@@ -1658,8 +1714,8 @@ export const PatchPageRuleResponse = Schema.Struct({
       }),
     ]),
   ),
-  createdOn: Schema.String,
-  modifiedOn: Schema.String,
+  createdOn: Schema.String.pipe(T.JsonName("created_on")),
+  modifiedOn: Schema.String.pipe(T.JsonName("modified_on")),
   priority: Schema.Number,
   status: Schema.Literals(["active", "disabled"]),
   targets: Schema.Array(
@@ -1679,9 +1735,7 @@ export const PatchPageRuleResponse = Schema.Struct({
       target: Schema.optional(Schema.Literal("url")),
     }),
   ),
-}).pipe(
-  Schema.encodeKeys({ createdOn: "created_on", modifiedOn: "modified_on" }),
-) as unknown as Schema.Schema<PatchPageRuleResponse>;
+}) as unknown as Schema.Schema<PatchPageRuleResponse>;
 
 export const patchPageRule: (
   input: PatchPageRuleRequest,
@@ -1708,10 +1762,14 @@ export const DeletePageRuleRequest = Schema.Struct({
   T.Http({ method: "DELETE", path: "/zones/{zone_id}/pagerules/{pageruleId}" }),
 ) as unknown as Schema.Schema<DeletePageRuleRequest>;
 
-export type DeletePageRuleResponse = unknown;
+export interface DeletePageRuleResponse {
+  /** Identifier. */
+  id: string;
+}
 
-export const DeletePageRuleResponse =
-  Schema.Unknown as unknown as Schema.Schema<DeletePageRuleResponse>;
+export const DeletePageRuleResponse = Schema.Struct({
+  id: Schema.String,
+}) as unknown as Schema.Schema<DeletePageRuleResponse>;
 
 export const deletePageRule: (
   input: DeletePageRuleRequest,

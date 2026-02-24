@@ -38,10 +38,52 @@ export const GetConnectionRequest = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetConnectionRequest>;
 
-export type GetConnectionResponse = unknown;
+export interface GetConnectionResponse {
+  /** Identifier */
+  id: string;
+  addedAt: string;
+  firstSeenAt: string;
+  host: string;
+  lastSeenAt: string;
+  url: string;
+  urlContainsCdnCgiPath: boolean;
+  domainReportedMalicious?: boolean;
+  firstPageUrl?: string;
+  maliciousDomainCategories?: string[];
+  maliciousUrlCategories?: string[];
+  pageUrls?: string[];
+  urlReportedMalicious?: boolean;
+}
 
-export const GetConnectionResponse =
-  Schema.Unknown as unknown as Schema.Schema<GetConnectionResponse>;
+export const GetConnectionResponse = Schema.Struct({
+  id: Schema.String,
+  addedAt: Schema.String.pipe(T.JsonName("added_at")),
+  firstSeenAt: Schema.String.pipe(T.JsonName("first_seen_at")),
+  host: Schema.String,
+  lastSeenAt: Schema.String.pipe(T.JsonName("last_seen_at")),
+  url: Schema.String,
+  urlContainsCdnCgiPath: Schema.Boolean.pipe(
+    T.JsonName("url_contains_cdn_cgi_path"),
+  ),
+  domainReportedMalicious: Schema.optional(Schema.Boolean).pipe(
+    T.JsonName("domain_reported_malicious"),
+  ),
+  firstPageUrl: Schema.optional(Schema.String).pipe(
+    T.JsonName("first_page_url"),
+  ),
+  maliciousDomainCategories: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.JsonName("malicious_domain_categories"),
+  ),
+  maliciousUrlCategories: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.JsonName("malicious_url_categories"),
+  ),
+  pageUrls: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.JsonName("page_urls"),
+  ),
+  urlReportedMalicious: Schema.optional(Schema.Boolean).pipe(
+    T.JsonName("url_reported_malicious"),
+  ),
+}) as unknown as Schema.Schema<GetConnectionResponse>;
 
 export const getConnection: (
   input: GetConnectionRequest,
@@ -75,10 +117,56 @@ export const GetCookyRequest = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetCookyRequest>;
 
-export type GetCookyResponse = unknown;
+export interface GetCookyResponse {
+  /** Identifier */
+  id: string;
+  firstSeenAt: string;
+  host: string;
+  lastSeenAt: string;
+  name: string;
+  type: "first_party" | "unknown";
+  domainAttribute?: string;
+  expiresAttribute?: string;
+  httpOnlyAttribute?: boolean;
+  maxAgeAttribute?: number;
+  pageUrls?: string[];
+  pathAttribute?: string;
+  sameSiteAttribute?: "lax" | "strict" | "none";
+  secureAttribute?: boolean;
+}
 
-export const GetCookyResponse =
-  Schema.Unknown as unknown as Schema.Schema<GetCookyResponse>;
+export const GetCookyResponse = Schema.Struct({
+  id: Schema.String,
+  firstSeenAt: Schema.String.pipe(T.JsonName("first_seen_at")),
+  host: Schema.String,
+  lastSeenAt: Schema.String.pipe(T.JsonName("last_seen_at")),
+  name: Schema.String,
+  type: Schema.Literals(["first_party", "unknown"]),
+  domainAttribute: Schema.optional(Schema.String).pipe(
+    T.JsonName("domain_attribute"),
+  ),
+  expiresAttribute: Schema.optional(Schema.String).pipe(
+    T.JsonName("expires_attribute"),
+  ),
+  httpOnlyAttribute: Schema.optional(Schema.Boolean).pipe(
+    T.JsonName("http_only_attribute"),
+  ),
+  maxAgeAttribute: Schema.optional(Schema.Number).pipe(
+    T.JsonName("max_age_attribute"),
+  ),
+  pageUrls: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.JsonName("page_urls"),
+  ),
+  pathAttribute: Schema.optional(Schema.String).pipe(
+    T.JsonName("path_attribute"),
+  ),
+  sameSiteAttribute: Schema.optional(
+    Schema.Literals(["lax", "strict", "none"]),
+  ).pipe(T.JsonName("same_site_attribute")),
+  secureAttribute: Schema.optional(Schema.Boolean).pipe(
+    T.JsonName("secure_attribute"),
+  ),
+}) as unknown as Schema.Schema<GetCookyResponse>;
 
 export const getCooky: (
   input: GetCookyRequest,
@@ -107,10 +195,27 @@ export const GetPageShieldRequest = Schema.Struct({
   T.Http({ method: "GET", path: "/zones/{zone_id}/page_shield" }),
 ) as unknown as Schema.Schema<GetPageShieldRequest>;
 
-export type GetPageShieldResponse = unknown;
+export interface GetPageShieldResponse {
+  /** When true, indicates that Page Shield is enabled. */
+  enabled: boolean;
+  /** The timestamp of when Page Shield was last updated. */
+  updatedAt: string;
+  /** When true, CSP reports will be sent to https://csp-reporting.cloudflare.com/cdn-cgi/script_monitor/report */
+  useCloudflareReportingEndpoint: boolean;
+  /** When true, the paths associated with connections URLs will also be analyzed. */
+  useConnectionUrlPath: boolean;
+}
 
-export const GetPageShieldResponse =
-  Schema.Unknown as unknown as Schema.Schema<GetPageShieldResponse>;
+export const GetPageShieldResponse = Schema.Struct({
+  enabled: Schema.Boolean,
+  updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
+  useCloudflareReportingEndpoint: Schema.Boolean.pipe(
+    T.JsonName("use_cloudflare_reporting_endpoint"),
+  ),
+  useConnectionUrlPath: Schema.Boolean.pipe(
+    T.JsonName("use_connection_url_path"),
+  ),
+}) as unknown as Schema.Schema<GetPageShieldResponse>;
 
 export const getPageShield: (
   input: GetPageShieldRequest,
@@ -138,13 +243,13 @@ export interface PutPageShieldRequest {
 export const PutPageShieldRequest = Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
   enabled: Schema.optional(Schema.Boolean),
-  useCloudflareReportingEndpoint: Schema.optional(Schema.Boolean),
-  useConnectionUrlPath: Schema.optional(Schema.Boolean),
+  useCloudflareReportingEndpoint: Schema.optional(Schema.Boolean).pipe(
+    T.JsonName("use_cloudflare_reporting_endpoint"),
+  ),
+  useConnectionUrlPath: Schema.optional(Schema.Boolean).pipe(
+    T.JsonName("use_connection_url_path"),
+  ),
 }).pipe(
-  Schema.encodeKeys({
-    useCloudflareReportingEndpoint: "use_cloudflare_reporting_endpoint",
-    useConnectionUrlPath: "use_connection_url_path",
-  }),
   T.Http({ method: "PUT", path: "/zones/{zone_id}/page_shield" }),
 ) as unknown as Schema.Schema<PutPageShieldRequest>;
 
@@ -161,16 +266,14 @@ export interface PutPageShieldResponse {
 
 export const PutPageShieldResponse = Schema.Struct({
   enabled: Schema.Boolean,
-  updatedAt: Schema.String,
-  useCloudflareReportingEndpoint: Schema.Boolean,
-  useConnectionUrlPath: Schema.Boolean,
-}).pipe(
-  Schema.encodeKeys({
-    updatedAt: "updated_at",
-    useCloudflareReportingEndpoint: "use_cloudflare_reporting_endpoint",
-    useConnectionUrlPath: "use_connection_url_path",
-  }),
-) as unknown as Schema.Schema<PutPageShieldResponse>;
+  updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
+  useCloudflareReportingEndpoint: Schema.Boolean.pipe(
+    T.JsonName("use_cloudflare_reporting_endpoint"),
+  ),
+  useConnectionUrlPath: Schema.Boolean.pipe(
+    T.JsonName("use_connection_url_path"),
+  ),
+}) as unknown as Schema.Schema<PutPageShieldResponse>;
 
 export const putPageShield: (
   input: PutPageShieldRequest,
@@ -204,10 +307,29 @@ export const GetPolicyRequest = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetPolicyRequest>;
 
-export type GetPolicyResponse = unknown;
+export interface GetPolicyResponse {
+  /** Identifier */
+  id: string;
+  /** The action to take if the expression matches */
+  action: "allow" | "log";
+  /** A description for the policy */
+  description: string;
+  /** Whether the policy is enabled */
+  enabled: boolean;
+  /** The expression which must match for the policy to be applied, using the Cloudflare Firewall rule expression syntax */
+  expression: string;
+  /** The policy which will be applied */
+  value: string;
+}
 
-export const GetPolicyResponse =
-  Schema.Unknown as unknown as Schema.Schema<GetPolicyResponse>;
+export const GetPolicyResponse = Schema.Struct({
+  id: Schema.String,
+  action: Schema.Literals(["allow", "log"]),
+  description: Schema.String,
+  enabled: Schema.Boolean,
+  expression: Schema.String,
+  value: Schema.String,
+}) as unknown as Schema.Schema<GetPolicyResponse>;
 
 export const getPolicy: (
   input: GetPolicyRequest,
@@ -247,10 +369,29 @@ export const CreatePolicyRequest = Schema.Struct({
   T.Http({ method: "POST", path: "/zones/{zone_id}/page_shield/policies" }),
 ) as unknown as Schema.Schema<CreatePolicyRequest>;
 
-export type CreatePolicyResponse = unknown;
+export interface CreatePolicyResponse {
+  /** Identifier */
+  id: string;
+  /** The action to take if the expression matches */
+  action: "allow" | "log";
+  /** A description for the policy */
+  description: string;
+  /** Whether the policy is enabled */
+  enabled: boolean;
+  /** The expression which must match for the policy to be applied, using the Cloudflare Firewall rule expression syntax */
+  expression: string;
+  /** The policy which will be applied */
+  value: string;
+}
 
-export const CreatePolicyResponse =
-  Schema.Unknown as unknown as Schema.Schema<CreatePolicyResponse>;
+export const CreatePolicyResponse = Schema.Struct({
+  id: Schema.String,
+  action: Schema.Literals(["allow", "log"]),
+  description: Schema.String,
+  enabled: Schema.Boolean,
+  expression: Schema.String,
+  value: Schema.String,
+}) as unknown as Schema.Schema<CreatePolicyResponse>;
 
 export const createPolicy: (
   input: CreatePolicyRequest,
@@ -295,10 +436,29 @@ export const UpdatePolicyRequest = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<UpdatePolicyRequest>;
 
-export type UpdatePolicyResponse = unknown;
+export interface UpdatePolicyResponse {
+  /** Identifier */
+  id: string;
+  /** The action to take if the expression matches */
+  action: "allow" | "log";
+  /** A description for the policy */
+  description: string;
+  /** Whether the policy is enabled */
+  enabled: boolean;
+  /** The expression which must match for the policy to be applied, using the Cloudflare Firewall rule expression syntax */
+  expression: string;
+  /** The policy which will be applied */
+  value: string;
+}
 
-export const UpdatePolicyResponse =
-  Schema.Unknown as unknown as Schema.Schema<UpdatePolicyResponse>;
+export const UpdatePolicyResponse = Schema.Struct({
+  id: Schema.String,
+  action: Schema.Literals(["allow", "log"]),
+  description: Schema.String,
+  enabled: Schema.Boolean,
+  expression: Schema.String,
+  value: Schema.String,
+}) as unknown as Schema.Schema<UpdatePolicyResponse>;
 
 export const updatePolicy: (
   input: UpdatePolicyRequest,
@@ -365,10 +525,133 @@ export const GetScriptRequest = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetScriptRequest>;
 
-export type GetScriptResponse = unknown;
+export interface GetScriptResponse {
+  /** Identifier */
+  id: string;
+  addedAt: string;
+  firstSeenAt: string;
+  host: string;
+  lastSeenAt: string;
+  url: string;
+  urlContainsCdnCgiPath: boolean;
+  /** The cryptomining score of the JavaScript content. */
+  cryptominingScore?: number | null;
+  /** The dataflow score of the JavaScript content. */
+  dataflowScore?: number | null;
+  domainReportedMalicious?: boolean;
+  /** The timestamp of when the script was last fetched. */
+  fetchedAt?: string | null;
+  firstPageUrl?: string;
+  /** The computed hash of the analyzed script. */
+  hash?: string | null;
+  /** The integrity score of the JavaScript content. */
+  jsIntegrityScore?: number | null;
+  /** The magecart score of the JavaScript content. */
+  magecartScore?: number | null;
+  maliciousDomainCategories?: string[];
+  maliciousUrlCategories?: string[];
+  /** The malware score of the JavaScript content. */
+  malwareScore?: number | null;
+  /** The obfuscation score of the JavaScript content. */
+  obfuscationScore?: number | null;
+  pageUrls?: string[];
+  urlReportedMalicious?: boolean;
+  versions?:
+    | {
+        cryptominingScore?: number | null;
+        dataflowScore?: number | null;
+        fetchedAt?: string | null;
+        hash?: string | null;
+        jsIntegrityScore?: number | null;
+        magecartScore?: number | null;
+        malwareScore?: number | null;
+        obfuscationScore?: number | null;
+      }[]
+    | null;
+}
 
-export const GetScriptResponse =
-  Schema.Unknown as unknown as Schema.Schema<GetScriptResponse>;
+export const GetScriptResponse = Schema.Struct({
+  id: Schema.String,
+  addedAt: Schema.String.pipe(T.JsonName("added_at")),
+  firstSeenAt: Schema.String.pipe(T.JsonName("first_seen_at")),
+  host: Schema.String,
+  lastSeenAt: Schema.String.pipe(T.JsonName("last_seen_at")),
+  url: Schema.String,
+  urlContainsCdnCgiPath: Schema.Boolean.pipe(
+    T.JsonName("url_contains_cdn_cgi_path"),
+  ),
+  cryptominingScore: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ).pipe(T.JsonName("cryptomining_score")),
+  dataflowScore: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ).pipe(T.JsonName("dataflow_score")),
+  domainReportedMalicious: Schema.optional(Schema.Boolean).pipe(
+    T.JsonName("domain_reported_malicious"),
+  ),
+  fetchedAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
+    T.JsonName("fetched_at"),
+  ),
+  firstPageUrl: Schema.optional(Schema.String).pipe(
+    T.JsonName("first_page_url"),
+  ),
+  hash: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  jsIntegrityScore: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ).pipe(T.JsonName("js_integrity_score")),
+  magecartScore: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ).pipe(T.JsonName("magecart_score")),
+  maliciousDomainCategories: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.JsonName("malicious_domain_categories"),
+  ),
+  maliciousUrlCategories: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.JsonName("malicious_url_categories"),
+  ),
+  malwareScore: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ).pipe(T.JsonName("malware_score")),
+  obfuscationScore: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ).pipe(T.JsonName("obfuscation_score")),
+  pageUrls: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.JsonName("page_urls"),
+  ),
+  urlReportedMalicious: Schema.optional(Schema.Boolean).pipe(
+    T.JsonName("url_reported_malicious"),
+  ),
+  versions: Schema.optional(
+    Schema.Union([
+      Schema.Array(
+        Schema.Struct({
+          cryptominingScore: Schema.optional(
+            Schema.Union([Schema.Number, Schema.Null]),
+          ).pipe(T.JsonName("cryptomining_score")),
+          dataflowScore: Schema.optional(
+            Schema.Union([Schema.Number, Schema.Null]),
+          ).pipe(T.JsonName("dataflow_score")),
+          fetchedAt: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
+          ).pipe(T.JsonName("fetched_at")),
+          hash: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+          jsIntegrityScore: Schema.optional(
+            Schema.Union([Schema.Number, Schema.Null]),
+          ).pipe(T.JsonName("js_integrity_score")),
+          magecartScore: Schema.optional(
+            Schema.Union([Schema.Number, Schema.Null]),
+          ).pipe(T.JsonName("magecart_score")),
+          malwareScore: Schema.optional(
+            Schema.Union([Schema.Number, Schema.Null]),
+          ).pipe(T.JsonName("malware_score")),
+          obfuscationScore: Schema.optional(
+            Schema.Union([Schema.Number, Schema.Null]),
+          ).pipe(T.JsonName("obfuscation_score")),
+        }),
+      ),
+      Schema.Null,
+    ]),
+  ),
+}) as unknown as Schema.Schema<GetScriptResponse>;
 
 export const getScript: (
   input: GetScriptRequest,

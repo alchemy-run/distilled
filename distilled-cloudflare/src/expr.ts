@@ -50,6 +50,71 @@ export interface ErrorMatcher {
 }
 
 /**
+ * Patch for a single response property.
+ *
+ * Supports targeted fixes to generated response schemas when the
+ * actual API response diverges from the SDK type definitions.
+ *
+ * @example
+ * // Make a field nullable (accepts string | null)
+ * { "nullable": true }
+ *
+ * @example
+ * // Make a required field optional
+ * { "optional": true }
+ *
+ * @example
+ * // Widen a literal enum to accept any string
+ * { "type": "string" }
+ *
+ * @example
+ * // Add extra enum values to an existing literal
+ * { "addValues": ["APAC", "EEUR", "ENAM", "WEUR", "WNAM", "OC"] }
+ *
+ * @example
+ * // Combine: make optional AND nullable
+ * { "optional": true, "nullable": true }
+ */
+export interface PropertyPatch {
+  /** Make the field accept null in addition to its current type */
+  nullable?: boolean;
+
+  /** Make the field optional (not required) */
+  optional?: boolean;
+
+  /** Replace the field type entirely ("string", "number", "boolean", "unknown") */
+  type?: "string" | "number" | "boolean" | "unknown";
+
+  /** Add literal values to an existing enum (e.g., uppercase variants) */
+  addValues?: string[];
+}
+
+/**
+ * Response schema patch.
+ *
+ * Allows targeted modifications to the generated response schema
+ * when the actual API response differs from the SDK type definitions.
+ *
+ * Property paths use dot notation for nested fields:
+ * - `"location"` — top-level field
+ * - `"settings.abuse_contact_email"` — nested field
+ * - `"buckets[].location"` — field inside array elements
+ *
+ * @example
+ * {
+ *   "properties": {
+ *     "location": { "addValues": ["APAC", "EEUR", "ENAM", "WEUR", "WNAM", "OC"] },
+ *     "settings.abuse_contact_email": { "nullable": true },
+ *     "id": { "optional": true }
+ *   }
+ * }
+ */
+export interface ResponsePatch {
+  /** Map of property paths (dot-notation) to their patches */
+  properties: Record<string, PropertyPatch>;
+}
+
+/**
  * Structure of a patch file for an operation.
  *
  * Maps error tag names to arrays of matchers. Multiple matchers
@@ -65,12 +130,23 @@ export interface ErrorMatcher {
  *       { "code": 10059 },
  *       { "code": 10000, "message": { "includes": "CORS configuration not found" } }
  *     ]
+ *   },
+ *   "response": {
+ *     "properties": {
+ *       "location": { "addValues": ["APAC", "EEUR", "ENAM", "WEUR", "WNAM", "OC"] }
+ *     }
  *   }
  * }
  */
 export interface OperationPatch {
   /** Map of error tag names to their matchers */
   errors: Record<string, ErrorMatcher[]>;
+
+  /** Request schema modifications */
+  request?: ResponsePatch;
+
+  /** Response schema modifications */
+  response?: ResponsePatch;
 }
 
 /**
