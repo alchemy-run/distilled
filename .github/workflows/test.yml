@@ -68,6 +68,7 @@ jobs:
         with:
           bun-version: latest
       - run: bun install
+      - run: bun run setup --http
       - run: bun run lint
         working-directory: distilled-cloudflare
       - run: bun run test
