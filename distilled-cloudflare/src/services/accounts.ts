@@ -211,7 +211,10 @@ export type ListAccountsResponse = {
   type: "standard" | "enterprise";
   createdOn?: string;
   managedBy?: { parentOrgId?: string; parentOrgName?: string };
-  settings?: { abuseContactEmail?: string; enforceTwofactor?: boolean };
+  settings?: {
+    abuseContactEmail?: string | null;
+    enforceTwofactor?: boolean | null;
+  };
 }[];
 
 export const ListAccountsResponse = Schema.Array(
@@ -233,8 +236,12 @@ export const ListAccountsResponse = Schema.Array(
     ),
     settings: Schema.optional(
       Schema.Struct({
-        abuseContactEmail: Schema.optional(Schema.String),
-        enforceTwofactor: Schema.optional(Schema.Boolean),
+        abuseContactEmail: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        enforceTwofactor: Schema.optional(
+          Schema.Union([Schema.Boolean, Schema.Null]),
+        ),
       }).pipe(
         Schema.encodeKeys({
           abuseContactEmail: "abuse_contact_email",
