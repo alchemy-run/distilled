@@ -189,6 +189,18 @@ const getAnnotationLegacy = <T>(
   return annotations?.[key] as T | undefined;
 };
 
+/**
+ * An operation that can be used in two ways:
+ * 1. Direct call: `yield* operation(input)` — returns Effect with requirements
+ * 2. Yield first: `const fn = yield* operation` — captures services, returns requirement-free function
+ */
+export type OperationMethod<I, A, E, R> = Effect.Effect<
+  (input: I) => Effect.Effect<A, E, never>,
+  never,
+  R
+> &
+  ((input: I) => Effect.Effect<A, E, R>);
+
 // API namespace
 export const API = {
   make: <
@@ -281,7 +293,7 @@ export const API = {
       return Object.keys(body).length > 0 ? body : undefined;
     };
 
-    return (input: Input): Effect.Effect<Output, Errors, Context> =>
+    const fn = (input: Input): Effect.Effect<Output, Errors, Context> =>
       Effect.gen(function* () {
         const { apiKey, apiBaseUrl } = yield* Credentials;
         const client = yield* HttpClient.HttpClient;
@@ -326,6 +338,28 @@ export const API = {
           ),
         ) as Effect.Effect<Output, Errors>;
       });
+
+    // Effect that, when yielded, captures services and returns a requirement-free fn.
+    const eff = Effect.map(
+      Effect.services(),
+      (sm) => (input: Input) => fn(input).pipe(Effect.provide(sm)),
+    );
+
+    // Proxy: target is fn (so apply trap works), property access delegates to eff.
+    return new Proxy(fn, {
+      get(_target, prop, _receiver) {
+        return Reflect.get(eff, prop, eff);
+      },
+      getPrototypeOf() {
+        return Object.getPrototypeOf(eff);
+      },
+      getOwnPropertyDescriptor(_target, prop) {
+        return Object.getOwnPropertyDescriptor(eff, prop);
+      },
+      has(_target, prop) {
+        return prop in eff;
+      },
+    }) as OperationMethod<Input, Output, Errors, Context>;
   },
 
   /**
