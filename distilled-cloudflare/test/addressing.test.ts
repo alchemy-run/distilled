@@ -6,7 +6,8 @@ import * as Addressing from "~/services/addressing.ts";
 const accountId = () => getAccountId();
 const zoneId = () => {
   const id = getZoneId();
-  if (!id) throw new Error("CLOUDFLARE_ZONE_ID environment variable is not set");
+  if (!id)
+    throw new Error("CLOUDFLARE_ZONE_ID environment variable is not set");
   return id;
 };
 
@@ -940,7 +941,9 @@ describe("Addressing", () => {
         serviceId: fakeUuid,
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBe("UnsupportedBindingConfiguration")),
+        Effect.map((e) =>
+          expect(e._tag).toBe("UnsupportedBindingConfiguration"),
+        ),
       ));
 
     test("error - InvalidAccountId for invalid account", () =>
@@ -962,7 +965,9 @@ describe("Addressing", () => {
         serviceId: "",
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBe("UnsupportedBindingConfiguration")),
+        Effect.map((e) =>
+          expect(e._tag).toBe("UnsupportedBindingConfiguration"),
+        ),
       ));
   });
 

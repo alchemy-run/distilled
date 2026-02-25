@@ -1,7 +1,5 @@
 {
   "errors": {
-    "InvalidRequest": [
-      { "code": 7003 }
-    ]
+    "InvalidRequest": [{ "code": 7003 }]
   }
 }

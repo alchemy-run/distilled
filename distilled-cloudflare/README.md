@@ -88,12 +88,12 @@ const keys = yield* KV.listKeys.items({ account_id: "...", namespace_id: "..." }
 
 ### Environment Variables
 
-| Variable | Required | Description |
-|----------|----------|-------------|
-| `CLOUDFLARE_API_TOKEN` | Yes | API token for authentication |
-| `CLOUDFLARE_ACCOUNT_ID` | Yes | Account ID for account-scoped operations |
-| `CLOUDFLARE_ZONE_ID` | No | Zone ID for zone-scoped operations (e.g., DNS, ACM read) |
-| `CLOUDFLARE_ACM_ZONE_ID` | No | Zone ID for a zone with Advanced Certificate Manager enabled |
+| Variable                 | Required | Description                                                  |
+| ------------------------ | -------- | ------------------------------------------------------------ |
+| `CLOUDFLARE_API_TOKEN`   | Yes      | API token for authentication                                 |
+| `CLOUDFLARE_ACCOUNT_ID`  | Yes      | Account ID for account-scoped operations                     |
+| `CLOUDFLARE_ZONE_ID`     | No       | Zone ID for zone-scoped operations (e.g., DNS, ACM read)     |
+| `CLOUDFLARE_ACM_ZONE_ID` | No       | Zone ID for a zone with Advanced Certificate Manager enabled |
 
 ### Running Tests
 

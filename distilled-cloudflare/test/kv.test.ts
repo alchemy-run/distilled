@@ -19,14 +19,20 @@ const nsTitle = (name: string) => `distilled-cf-kv-${name}`;
  * Find an existing KV namespace by title using the REST API.
  * Returns the namespace ID if found, undefined otherwise.
  */
-const findNamespaceByTitle = (title: string): Effect.Effect<string | undefined, never, never> =>
+const findNamespaceByTitle = (
+  title: string,
+): Effect.Effect<string | undefined, never, never> =>
   Effect.tryPromise({
     try: async () => {
       const resp = await fetch(
         `https://api.cloudflare.com/client/v4/accounts/${accountId()}/storage/kv/namespaces?per_page=100`,
-        { headers: { Authorization: `Bearer ${process.env.CLOUDFLARE_API_TOKEN}` } },
+        {
+          headers: {
+            Authorization: `Bearer ${process.env.CLOUDFLARE_API_TOKEN}`,
+          },
+        },
       );
-      const data = await resp.json() as any;
+      const data = (await resp.json()) as any;
       const ns = data?.result?.find((n: any) => n.title === title);
       return ns?.id as string | undefined;
     },

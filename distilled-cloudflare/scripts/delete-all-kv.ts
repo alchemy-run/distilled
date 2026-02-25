@@ -71,7 +71,8 @@ const listAllNamespaces = Effect.gen(function* () {
     if (auth.auth.type === "token") {
       headers["Authorization"] = `Bearer ${Redacted.value(auth.auth.token)}`;
     } else if (auth.auth.type === "oauth") {
-      headers["Authorization"] = `Bearer ${Redacted.value(auth.auth.accessToken)}`;
+      headers["Authorization"] =
+        `Bearer ${Redacted.value(auth.auth.accessToken)}`;
     } else {
       headers["X-Auth-Key"] = Redacted.value(auth.auth.apiKey);
       headers["X-Auth-Email"] = auth.auth.email;
@@ -216,10 +217,7 @@ const MainLayer = Layer.mergeAll(
 
 program.pipe(
   Retry.transient,
-  Effect.provideService(
-    MinimumLogLevel,
-    process.env.DEBUG ? "Debug" : "Info",
-  ),
+  Effect.provideService(MinimumLogLevel, process.env.DEBUG ? "Debug" : "Info"),
   Effect.provide(MainLayer),
   NodeRuntime.runMain,
 );

@@ -48,7 +48,10 @@ function remapKeysForDecode(data: unknown, ast: AST.AST): unknown {
     const result: Record<string, unknown> = {};
 
     // Build wire-name → camelCase mapping from JsonName annotations
-    const wireToSchema: Record<string, { schemaName: string; propType: AST.AST }> = {};
+    const wireToSchema: Record<
+      string,
+      { schemaName: string; propType: AST.AST }
+    > = {};
     const schemaNames = new Set<string>();
 
     for (const prop of ast.propertySignatures) {
@@ -66,15 +69,16 @@ function remapKeysForDecode(data: unknown, ast: AST.AST): unknown {
     for (const [key, value] of Object.entries(record)) {
       const mapping = wireToSchema[key];
       if (mapping) {
-        result[mapping.schemaName] = remapKeysForDecode(value, mapping.propType);
+        result[mapping.schemaName] = remapKeysForDecode(
+          value,
+          mapping.propType,
+        );
       } else if (!schemaNames.has(key)) {
         // Keep unmapped keys as-is (excess properties)
         result[key] = value;
       } else {
         // Key matches a schema name directly
-        const prop = ast.propertySignatures.find(
-          (p) => String(p.name) === key,
-        );
+        const prop = ast.propertySignatures.find((p) => String(p.name) === key);
         result[key] = prop ? remapKeysForDecode(value, prop.type) : value;
       }
     }
@@ -329,7 +333,11 @@ export const parseResponse = <S extends Schema.Top>(
   },
   outputSchema: S,
   errorSchemas: Map<string, Schema.Top>,
-): Effect.Effect<S["Type"], UnknownCloudflareError | CloudflareHttpError, S["DecodingServices"]> =>
+): Effect.Effect<
+  S["Type"],
+  UnknownCloudflareError | CloudflareHttpError,
+  S["DecodingServices"]
+> =>
   Effect.gen(function* () {
     // Read body as bytes
     const reader = response.body.getReader();
@@ -380,7 +388,9 @@ export const parseResponse = <S extends Schema.Top>(
       if (response.status >= 200 && response.status < 300) {
         // For successful non-JSON responses, try to decode the raw body as the output.
         // This handles cases like KV getNamespaceValue which returns raw bytes/text.
-        const result = yield* Schema.decodeUnknownEffect(outputSchema)(bodyText).pipe(
+        const result = yield* Schema.decodeUnknownEffect(outputSchema)(
+          bodyText,
+        ).pipe(
           Effect.mapError(
             () =>
               new CloudflareHttpError({
@@ -415,7 +425,9 @@ export const parseResponse = <S extends Schema.Top>(
       // For 2xx responses, decode the raw JSON directly as the output.
       if (response.status >= 200 && response.status < 300) {
         const remappedJson = remapKeysForDecode(json, outputSchema.ast);
-        const result = yield* Schema.decodeUnknownEffect(outputSchema)(remappedJson).pipe(
+        const result = yield* Schema.decodeUnknownEffect(outputSchema)(
+          remappedJson,
+        ).pipe(
           Effect.mapError(
             () =>
               new CloudflareHttpError({
@@ -499,8 +511,13 @@ export const parseResponse = <S extends Schema.Top>(
     // Decode the result directly using the output schema
     // The output schema represents the unwrapped result type (not the Cloudflare envelope)
     // Remap snake_case keys to camelCase using JsonName annotations before decode
-    const remappedResult = remapKeysForDecode(envelope.result ?? {}, outputSchema.ast);
-    const result = yield* Schema.decodeUnknownEffect(outputSchema)(remappedResult).pipe(
+    const remappedResult = remapKeysForDecode(
+      envelope.result ?? {},
+      outputSchema.ast,
+    );
+    const result = yield* Schema.decodeUnknownEffect(outputSchema)(
+      remappedResult,
+    ).pipe(
       Effect.mapError(
         () =>
           new CloudflareHttpError({

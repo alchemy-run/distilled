@@ -334,9 +334,7 @@ function applyPatchToTypeInfo(typeInfo: TypeInfo, patch: PropertyPatch): void {
     } else if (typeInfo.kind === "union" && typeInfo.values) {
       // Add to existing union, collecting existing literal values for dedup
       const existingLiterals = new Set(
-        typeInfo.values
-          .filter((v) => v.kind === "literal")
-          .map((v) => v.value),
+        typeInfo.values.filter((v) => v.kind === "literal").map((v) => v.value),
       );
       for (const v of patch.addValues) {
         if (!existingLiterals.has(v)) {
@@ -488,8 +486,10 @@ function typeInfoToSchema(
         // Build encodeKeys pipe if there are any key mappings
         // Include ALL properties (even identity mappings) to fix nested encodeKeys decode
         const encodeKeysPipe = hasRenamedKey
-            ? `.pipe(Schema.encodeKeys({ ${Object.entries(encodeKeysMap).map(([k, v]) => `${k}: "${v}"`).join(", ")} }))`
-            : "";
+          ? `.pipe(Schema.encodeKeys({ ${Object.entries(encodeKeysMap)
+              .map(([k, v]) => `${k}: "${v}"`)
+              .join(", ")} }))`
+          : "";
         return `Schema.Struct({\n${props}\n${indent}})${encodeKeysPipe}`;
       }
       return "Schema.Struct({})";
@@ -786,7 +786,7 @@ function generateOperationSchema(
     lines.push(requestProps.join(",\n"));
   }
   lines.push(`})`);
-  
+
   // Build pipes: encodeKeys for body param renaming, then Http trait
   // Include ALL body properties (even identity mappings) to fix nested encodeKeys decode
   const pipes: string[] = [];
@@ -802,7 +802,7 @@ function generateOperationSchema(
     ? `T.Http({ method: "${op.httpMethod}", path: "${openApiPath}", contentType: "multipart" })`
     : `T.Http({ method: "${op.httpMethod}", path: "${openApiPath}" })`;
   pipes.push(httpTrait);
-  
+
   lines.push(
     `  .pipe(${pipes.join(", ")}) as unknown as Schema.Schema<${requestTypeName}>;`,
   );
@@ -859,7 +859,10 @@ function generateOperationSchema(
 
   // Apply response property patches (nullable, optional, addValues, type overrides)
   if (patch?.response && resolvedResponseType) {
-    resolvedResponseType = applyResponsePatch(resolvedResponseType, patch.response);
+    resolvedResponseType = applyResponsePatch(
+      resolvedResponseType,
+      patch.response,
+    );
   }
 
   if (isTypeAlias && resolvedResponseType) {
@@ -917,14 +920,18 @@ function generateOperationSchema(
     // Build encodeKeys pipe if there are any key mappings
     // Include ALL properties (even identity mappings) to fix nested encodeKeys decode
     const responseEncodeKeysPipe = hasRenamedResponseKey
-        ? `.pipe(Schema.encodeKeys({ ${Object.entries(responseEncodeKeysMap).map(([k, v]) => `${k}: "${v}"`).join(", ")} }))`
-        : "";
+      ? `.pipe(Schema.encodeKeys({ ${Object.entries(responseEncodeKeysMap)
+          .map(([k, v]) => `${k}: "${v}"`)
+          .join(", ")} }))`
+      : "";
 
     lines.push(`export const ${responseTypeName} = Schema.Struct({`);
     if (responseProps.length > 0) {
       lines.push(responseProps.join(",\n"));
     }
-    lines.push(`})${responseEncodeKeysPipe} as unknown as Schema.Schema<${responseTypeName}>;`);
+    lines.push(
+      `})${responseEncodeKeysPipe} as unknown as Schema.Schema<${responseTypeName}>;`,
+    );
     lines.push("");
   } else {
     // Fallback to unknown if we can't resolve the response type
@@ -944,9 +951,8 @@ function generateOperationSchema(
       ? `CommonErrors | ${errorClassNames.join(" | ")}`
       : "CommonErrors";
 
-  lines.push(`export const ${normalizedOpName}: (`);
-  lines.push(`  input: ${requestTypeName},`);
-  lines.push(`) => Effect.Effect<`);
+  lines.push(`export const ${normalizedOpName}: API.OperationMethod<`);
+  lines.push(`  ${requestTypeName},`);
   lines.push(`  ${responseTypeName},`);
   lines.push(`  ${errorUnion},`);
   lines.push(`  ApiToken | HttpClient.HttpClient`);
@@ -1293,7 +1299,4 @@ const main = Effect.gen(function* () {
   yield* generateCode(services, { outputPath, debug });
 });
 
-main.pipe(
-  Effect.provide(NodeServices.layer),
-  NodeRuntime.runMain,
-);
+main.pipe(Effect.provide(NodeServices.layer), NodeRuntime.runMain);

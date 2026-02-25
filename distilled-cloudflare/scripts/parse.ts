@@ -286,9 +286,7 @@ function parseParamLocation(
 
   const normalized = comment.toLowerCase();
   // Match "Xxx param:" or "Xxx param," at the start (the location prefix pattern)
-  const prefixMatch = normalized.match(
-    /^(path|query|body|header)\s+param\b/,
-  );
+  const prefixMatch = normalized.match(/^(path|query|body|header)\s+param\b/);
   if (prefixMatch) {
     return prefixMatch[1] as "path" | "query" | "body" | "header";
   }
@@ -944,7 +942,10 @@ function parseMethod(
   // For paginated (list) operations, wrap the item type in an array
   const responseType: TypeInfo = responseTypeName
     ? isPaginated
-      ? { kind: "array", elementType: { kind: "object", name: responseTypeName } }
+      ? {
+          kind: "array",
+          elementType: { kind: "object", name: responseTypeName },
+        }
       : { kind: "object", name: responseTypeName }
     : { kind: "unknown" };
 

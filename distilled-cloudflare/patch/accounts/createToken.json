@@ -1,7 +1,9 @@
 {
   "errors": {
     "InvalidRoute": [{ "code": 7003 }],
-    "InvalidTokenName": [{ "code": 400, "message": { "includes": "name must have a length" } }]
+    "InvalidTokenName": [
+      { "code": 400, "message": { "includes": "name must have a length" } }
+    ]
   },
   "response": {
     "properties": {

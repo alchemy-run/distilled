@@ -1,9 +1,7 @@
 {
   "responseType": "object",
   "errors": {
-    "InvalidAccountId": [
-      { "code": 7003 }
-    ]
+    "InvalidAccountId": [{ "code": 7003 }]
   },
   "response": {
     "properties": {

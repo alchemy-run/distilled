@@ -16,7 +16,10 @@ for (const repoEntry of repos) {
   const repoPath = typeof repoEntry === "string" ? repoEntry : repoEntry.repo;
   const dir =
     typeof repoEntry === "string"
-      ? repoPath.split("/").pop()!.replace(/\.git$/, "")
+      ? repoPath
+          .split("/")
+          .pop()!
+          .replace(/\.git$/, "")
       : repoEntry.name;
 
   const repo = values.http

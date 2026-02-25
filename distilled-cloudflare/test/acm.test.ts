@@ -183,8 +183,10 @@ describe("ACM", () => {
         ));
     } else {
       test.skip("happy path - enables Total TLS for a zone", () => Effect.void);
-      test.skip("happy path - disables Total TLS for a zone", () => Effect.void);
-      test.skip("happy path - enables Total TLS with certificate authority", () => Effect.void);
+      test.skip("happy path - disables Total TLS for a zone", () =>
+        Effect.void);
+      test.skip("happy path - enables Total TLS with certificate authority", () =>
+        Effect.void);
     }
 
     if (hasZoneId()) {

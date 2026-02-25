@@ -4,9 +4,7 @@
       { "code": 10405, "message": { "includes": "not allowed" } },
       { "code": 10000, "message": { "includes": "not allowed" } }
     ],
-    "PrefixNotFound": [
-      { "code": 1000 }
-    ],
+    "PrefixNotFound": [{ "code": 1000 }],
     "InvalidAccountId": [
       { "code": 7003, "message": { "includes": "Could not route" } }
     ]

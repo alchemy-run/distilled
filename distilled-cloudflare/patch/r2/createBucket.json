@@ -6,7 +6,9 @@
   },
   "response": {
     "properties": {
-      "location": { "addValues": ["APAC", "EEUR", "ENAM", "WEUR", "WNAM", "OC"] }
+      "location": {
+        "addValues": ["APAC", "EEUR", "ENAM", "WEUR", "WNAM", "OC"]
+      }
     }
   }
 }

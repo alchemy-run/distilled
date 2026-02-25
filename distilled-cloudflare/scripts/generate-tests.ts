@@ -24,9 +24,12 @@ const SERVICES_PATH = "./src/services";
 const TESTS_PATH = "./test";
 const PATCHES_PATH = "./patch";
 
-class VitestError extends Schema.TaggedErrorClass<VitestError>()("VitestError", {
-  cause: Schema.Unknown,
-}) {}
+class VitestError extends Schema.TaggedErrorClass<VitestError>()(
+  "VitestError",
+  {
+    cause: Schema.Unknown,
+  },
+) {}
 
 // Parse CLI args manually (Effect 4 removed @effect/cli)
 const parseArgs = (): {
@@ -343,7 +346,4 @@ const main = Effect.gen(function* () {
   );
 });
 
-main.pipe(
-  Effect.provide(NodeServices.layer),
-  NodeRuntime.runMain,
-);
+main.pipe(Effect.provide(NodeServices.layer), NodeRuntime.runMain);

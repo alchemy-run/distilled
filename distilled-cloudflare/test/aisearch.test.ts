@@ -673,8 +673,7 @@ describe("AISearch", () => {
           }).pipe(
             Effect.retry({
               while: (e) =>
-                e._tag === "UnableToConnect" ||
-                e._tag === "SyncInCooldown",
+                e._tag === "UnableToConnect" || e._tag === "SyncInCooldown",
               schedule: Schedule.recurs(10).pipe(
                 Schedule.addDelay(() => Effect.succeed("3 seconds")),
               ),

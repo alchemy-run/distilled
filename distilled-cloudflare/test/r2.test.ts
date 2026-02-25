@@ -1233,9 +1233,7 @@ describe("R2", () => {
             bucketName: name,
           }).pipe(
             Effect.flip,
-            Effect.map((e) =>
-              expect(e._tag).toBe("NoEventNotificationConfig"),
-            ),
+            Effect.map((e) => expect(e._tag).toBe("NoEventNotificationConfig")),
           ),
         ),
     );

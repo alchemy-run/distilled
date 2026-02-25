@@ -1,13 +1,7 @@
 {
   "errors": {
-    "ValidationError": [
-      { "code": 7001 }
-    ],
-    "NotFound": [
-      { "code": 7002 }
-    ],
-    "InvalidRoute": [
-      { "code": 7003 }
-    ]
+    "ValidationError": [{ "code": 7001 }],
+    "NotFound": [{ "code": 7002 }],
+    "InvalidRoute": [{ "code": 7003 }]
   }
 }

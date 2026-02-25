@@ -1,6 +1,8 @@
 {
   "errors": {
     "InvalidRoute": [{ "code": 7003 }],
-    "PolicyNotFound": [{ "code": 0, "message": { "includes": "Policy not found" } }]
+    "PolicyNotFound": [
+      { "code": 0, "message": { "includes": "Policy not found" } }
+    ]
   }
 }

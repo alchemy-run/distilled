@@ -162,30 +162,30 @@ When the generated response schema doesn't match the actual API response (e.g., 
 
 Use dot notation for nested fields and `[]` for array elements:
 
-| Path                          | Targets                              |
-| ----------------------------- | ------------------------------------ |
-| `"location"`                  | Top-level field                      |
-| `"settings.abuse_contact_email"` | Nested field inside `settings`    |
-| `"buckets[].location"`        | Field inside array elements          |
-| `"rules[].conditions.prefix"` | Deeply nested through arrays         |
+| Path                             | Targets                        |
+| -------------------------------- | ------------------------------ |
+| `"location"`                     | Top-level field                |
+| `"settings.abuse_contact_email"` | Nested field inside `settings` |
+| `"buckets[].location"`           | Field inside array elements    |
+| `"rules[].conditions.prefix"`    | Deeply nested through arrays   |
 
 **Property Patch Options:**
 
-| Field       | Type       | Description                                        |
-| ----------- | ---------- | -------------------------------------------------- |
-| `nullable`  | `boolean`  | Add `null` to the field's type union               |
-| `optional`  | `boolean`  | Make a required field optional                     |
+| Field       | Type       | Description                                                              |
+| ----------- | ---------- | ------------------------------------------------------------------------ |
+| `nullable`  | `boolean`  | Add `null` to the field's type union                                     |
+| `optional`  | `boolean`  | Make a required field optional                                           |
 | `type`      | `string`   | Replace type entirely (`"string"`, `"number"`, `"boolean"`, `"unknown"`) |
-| `addValues` | `string[]` | Add literal values to an existing enum             |
+| `addValues` | `string[]` | Add literal values to an existing enum                                   |
 
 **Common Patterns:**
 
-| Symptom                              | Fix                                   |
-| ------------------------------------ | ------------------------------------- |
-| `Schema decode failed` + field is `null` | `{ "nullable": true }`            |
-| `Schema decode failed` + field missing   | `{ "optional": true }`            |
-| `Schema decode failed` + wrong enum case | `{ "addValues": ["UPPERCASE"] }`  |
-| `Schema decode failed` + wrong type     | `{ "type": "string" }`            |
+| Symptom                                  | Fix                              |
+| ---------------------------------------- | -------------------------------- |
+| `Schema decode failed` + field is `null` | `{ "nullable": true }`           |
+| `Schema decode failed` + field missing   | `{ "optional": true }`           |
+| `Schema decode failed` + wrong enum case | `{ "addValues": ["UPPERCASE"] }` |
+| `Schema decode failed` + wrong type      | `{ "type": "string" }`           |
 
 ## Generator Details
 

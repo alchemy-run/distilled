@@ -1,10 +1,6 @@
 {
   "errors": {
-    "InvalidAccountId": [
-      { "code": 7003 }
-    ],
-    "AbuseReportNotFound": [
-      { "code": 0 }
-    ]
+    "InvalidAccountId": [{ "code": 7003 }],
+    "AbuseReportNotFound": [{ "code": 0 }]
   }
 }

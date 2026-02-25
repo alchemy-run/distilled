@@ -1,8 +1,6 @@
 {
   "errors": {
-    "InvalidRoute": [
-      { "code": 7003 }
-    ]
+    "InvalidRoute": [{ "code": 7003 }]
   },
   "response": {
     "properties": {

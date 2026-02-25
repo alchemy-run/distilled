@@ -113,7 +113,10 @@ export const buildRequest = <I>(
     }
     if (typeof body === "object" && body !== null) {
       // Recursively remap nested object keys to wire-format
-      (body as Record<string, unknown>)[wireName] = remapKeysForEncode(value, prop.type);
+      (body as Record<string, unknown>)[wireName] = remapKeysForEncode(
+        value,
+        prop.type,
+      );
     }
   }
 

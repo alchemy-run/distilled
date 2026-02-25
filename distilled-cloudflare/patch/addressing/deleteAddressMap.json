@@ -10,8 +10,6 @@
     "InvalidAccountId": [
       { "code": 7003, "message": { "includes": "Could not route" } }
     ],
-    "AddressMapNotFound": [
-      { "code": 1000 }
-    ]
+    "AddressMapNotFound": [{ "code": 1000 }]
   }
 }

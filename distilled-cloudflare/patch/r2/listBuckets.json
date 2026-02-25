@@ -4,7 +4,9 @@
   },
   "response": {
     "properties": {
-      "buckets[].location": { "addValues": ["APAC", "EEUR", "ENAM", "WEUR", "WNAM", "OC"] }
+      "buckets[].location": {
+        "addValues": ["APAC", "EEUR", "ENAM", "WEUR", "WNAM", "OC"]
+      }
     }
   }
 }
