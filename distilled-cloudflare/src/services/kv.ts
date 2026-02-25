@@ -111,10 +111,10 @@ export interface GetNamespaceResponse {
 export const GetNamespaceResponse = Schema.Struct({
   id: Schema.String,
   title: Schema.String,
-  supportsUrlEncoding: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("supports_url_encoding"),
-  ),
-}) as unknown as Schema.Schema<GetNamespaceResponse>;
+  supportsUrlEncoding: Schema.optional(Schema.Boolean),
+}).pipe(
+  Schema.encodeKeys({ supportsUrlEncoding: "supports_url_encoding" }),
+) as unknown as Schema.Schema<GetNamespaceResponse>;
 
 export const getNamespace: (
   input: GetNamespaceRequest,
@@ -126,6 +126,56 @@ export const getNamespace: (
   input: GetNamespaceRequest,
   output: GetNamespaceResponse,
   errors: [NamespaceNotFound, InvalidObjectIdentifier],
+}));
+
+export interface ListNamespacesRequest {
+  /** Path param: Identifier. */
+  accountId: string;
+  /** Query param: Direction to order namespaces. */
+  direction?: "asc" | "desc";
+  /** Query param: Field to order results by. */
+  order?: "id" | "title";
+}
+
+export const ListNamespacesRequest = Schema.Struct({
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+  direction: Schema.optional(Schema.Literals(["asc", "desc"])).pipe(
+    T.HttpQuery("direction"),
+  ),
+  order: Schema.optional(Schema.Literals(["id", "title"])).pipe(
+    T.HttpQuery("order"),
+  ),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/storage/kv/namespaces",
+  }),
+) as unknown as Schema.Schema<ListNamespacesRequest>;
+
+export type ListNamespacesResponse = {
+  id: string;
+  title: string;
+  supportsUrlEncoding?: boolean;
+}[];
+
+export const ListNamespacesResponse = Schema.Array(
+  Schema.Struct({
+    id: Schema.String,
+    title: Schema.String,
+    supportsUrlEncoding: Schema.optional(Schema.Boolean),
+  }).pipe(Schema.encodeKeys({ supportsUrlEncoding: "supports_url_encoding" })),
+) as unknown as Schema.Schema<ListNamespacesResponse>;
+
+export const listNamespaces: (
+  input: ListNamespacesRequest,
+) => Effect.Effect<
+  ListNamespacesResponse,
+  CommonErrors,
+  ApiToken | HttpClient.HttpClient
+> = API.make(() => ({
+  input: ListNamespacesRequest,
+  output: ListNamespacesResponse,
+  errors: [],
 }));
 
 export interface CreateNamespaceRequest {
@@ -157,10 +207,10 @@ export interface CreateNamespaceResponse {
 export const CreateNamespaceResponse = Schema.Struct({
   id: Schema.String,
   title: Schema.String,
-  supportsUrlEncoding: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("supports_url_encoding"),
-  ),
-}) as unknown as Schema.Schema<CreateNamespaceResponse>;
+  supportsUrlEncoding: Schema.optional(Schema.Boolean),
+}).pipe(
+  Schema.encodeKeys({ supportsUrlEncoding: "supports_url_encoding" }),
+) as unknown as Schema.Schema<CreateNamespaceResponse>;
 
 export const createNamespace: (
   input: CreateNamespaceRequest,
@@ -208,10 +258,10 @@ export interface UpdateNamespaceResponse {
 export const UpdateNamespaceResponse = Schema.Struct({
   id: Schema.String,
   title: Schema.String,
-  supportsUrlEncoding: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("supports_url_encoding"),
-  ),
-}) as unknown as Schema.Schema<UpdateNamespaceResponse>;
+  supportsUrlEncoding: Schema.optional(Schema.Boolean),
+}).pipe(
+  Schema.encodeKeys({ supportsUrlEncoding: "supports_url_encoding" }),
+) as unknown as Schema.Schema<UpdateNamespaceResponse>;
 
 export const updateNamespace: (
   input: UpdateNamespaceRequest,
@@ -347,13 +397,14 @@ export interface BulkDeleteNamespacesResponse {
 }
 
 export const BulkDeleteNamespacesResponse = Schema.Struct({
-  successfulKeyCount: Schema.optional(Schema.Number).pipe(
-    T.JsonName("successful_key_count"),
-  ),
-  unsuccessfulKeys: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.JsonName("unsuccessful_keys"),
-  ),
-}) as unknown as Schema.Schema<BulkDeleteNamespacesResponse>;
+  successfulKeyCount: Schema.optional(Schema.Number),
+  unsuccessfulKeys: Schema.optional(Schema.Array(Schema.String)),
+}).pipe(
+  Schema.encodeKeys({
+    successfulKeyCount: "successful_key_count",
+    unsuccessfulKeys: "unsuccessful_keys",
+  }),
+) as unknown as Schema.Schema<BulkDeleteNamespacesResponse>;
 
 export const bulkDeleteNamespaces: (
   input: BulkDeleteNamespacesRequest,
@@ -373,6 +424,54 @@ export const bulkDeleteNamespaces: (
 // =============================================================================
 // NamespaceKey
 // =============================================================================
+
+export interface ListNamespaceKeysRequest {
+  namespaceId: string;
+  /** Path param: Identifier. */
+  accountId: string;
+  /** Query param: Limits the number of keys returned in the response. The cursor attribute may be used to iterate over the next batch of keys if there are more than the limit. */
+  limit?: number;
+  /** Query param: Filters returned keys by a name prefix. Exact matches and any key names that begin with the prefix will be returned. */
+  prefix?: string;
+}
+
+export const ListNamespaceKeysRequest = Schema.Struct({
+  namespaceId: Schema.String.pipe(T.HttpPath("namespaceId")),
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+  limit: Schema.optional(Schema.Number).pipe(T.HttpQuery("limit")),
+  prefix: Schema.optional(Schema.String).pipe(T.HttpQuery("prefix")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/storage/kv/namespaces/{namespaceId}/keys",
+  }),
+) as unknown as Schema.Schema<ListNamespaceKeysRequest>;
+
+export type ListNamespaceKeysResponse = {
+  name: string;
+  expiration?: number;
+  metadata?: unknown;
+}[];
+
+export const ListNamespaceKeysResponse = Schema.Array(
+  Schema.Struct({
+    name: Schema.String,
+    expiration: Schema.optional(Schema.Number),
+    metadata: Schema.optional(Schema.Unknown),
+  }),
+) as unknown as Schema.Schema<ListNamespaceKeysResponse>;
+
+export const listNamespaceKeys: (
+  input: ListNamespaceKeysRequest,
+) => Effect.Effect<
+  ListNamespaceKeysResponse,
+  CommonErrors,
+  ApiToken | HttpClient.HttpClient
+> = API.make(() => ({
+  input: ListNamespaceKeysRequest,
+  output: ListNamespaceKeysResponse,
+  errors: [],
+}));
 
 export interface BulkGetNamespaceKeysRequest {
   namespaceId: string;
@@ -447,13 +546,14 @@ export interface BulkDeleteNamespaceKeysResponse {
 }
 
 export const BulkDeleteNamespaceKeysResponse = Schema.Struct({
-  successfulKeyCount: Schema.optional(Schema.Number).pipe(
-    T.JsonName("successful_key_count"),
-  ),
-  unsuccessfulKeys: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.JsonName("unsuccessful_keys"),
-  ),
-}) as unknown as Schema.Schema<BulkDeleteNamespaceKeysResponse>;
+  successfulKeyCount: Schema.optional(Schema.Number),
+  unsuccessfulKeys: Schema.optional(Schema.Array(Schema.String)),
+}).pipe(
+  Schema.encodeKeys({
+    successfulKeyCount: "successful_key_count",
+    unsuccessfulKeys: "unsuccessful_keys",
+  }),
+) as unknown as Schema.Schema<BulkDeleteNamespaceKeysResponse>;
 
 export const bulkDeleteNamespaceKeys: (
   input: BulkDeleteNamespaceKeysRequest,
@@ -665,11 +765,9 @@ export const BulkPutNamespacesRequest = Schema.Struct({
       value: Schema.String,
       base64: Schema.optional(Schema.Boolean),
       expiration: Schema.optional(Schema.Number),
-      expirationTtl: Schema.optional(Schema.Number).pipe(
-        T.JsonName("expiration_ttl"),
-      ),
+      expirationTtl: Schema.optional(Schema.Number),
       metadata: Schema.optional(Schema.Unknown),
-    }),
+    }).pipe(Schema.encodeKeys({ expirationTtl: "expiration_ttl" })),
   ).pipe(T.HttpBody()),
 }).pipe(
   T.Http({
@@ -686,13 +784,14 @@ export interface BulkPutNamespacesResponse {
 }
 
 export const BulkPutNamespacesResponse = Schema.Struct({
-  successfulKeyCount: Schema.optional(Schema.Number).pipe(
-    T.JsonName("successful_key_count"),
-  ),
-  unsuccessfulKeys: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.JsonName("unsuccessful_keys"),
-  ),
-}) as unknown as Schema.Schema<BulkPutNamespacesResponse>;
+  successfulKeyCount: Schema.optional(Schema.Number),
+  unsuccessfulKeys: Schema.optional(Schema.Array(Schema.String)),
+}).pipe(
+  Schema.encodeKeys({
+    successfulKeyCount: "successful_key_count",
+    unsuccessfulKeys: "unsuccessful_keys",
+  }),
+) as unknown as Schema.Schema<BulkPutNamespacesResponse>;
 
 export const bulkPutNamespaces: (
   input: BulkPutNamespacesRequest,
@@ -737,11 +836,9 @@ export const BulkPutNamespaceKeysRequest = Schema.Struct({
       value: Schema.String,
       base64: Schema.optional(Schema.Boolean),
       expiration: Schema.optional(Schema.Number),
-      expirationTtl: Schema.optional(Schema.Number).pipe(
-        T.JsonName("expiration_ttl"),
-      ),
+      expirationTtl: Schema.optional(Schema.Number),
       metadata: Schema.optional(Schema.Unknown),
-    }),
+    }).pipe(Schema.encodeKeys({ expirationTtl: "expiration_ttl" })),
   ).pipe(T.HttpBody()),
 }).pipe(
   T.Http({
@@ -758,13 +855,14 @@ export interface BulkPutNamespaceKeysResponse {
 }
 
 export const BulkPutNamespaceKeysResponse = Schema.Struct({
-  successfulKeyCount: Schema.optional(Schema.Number).pipe(
-    T.JsonName("successful_key_count"),
-  ),
-  unsuccessfulKeys: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.JsonName("unsuccessful_keys"),
-  ),
-}) as unknown as Schema.Schema<BulkPutNamespaceKeysResponse>;
+  successfulKeyCount: Schema.optional(Schema.Number),
+  unsuccessfulKeys: Schema.optional(Schema.Array(Schema.String)),
+}).pipe(
+  Schema.encodeKeys({
+    successfulKeyCount: "successful_key_count",
+    unsuccessfulKeys: "unsuccessful_keys",
+  }),
+) as unknown as Schema.Schema<BulkPutNamespaceKeysResponse>;
 
 export const bulkPutNamespaceKeys: (
   input: BulkPutNamespaceKeysRequest,

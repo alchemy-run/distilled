@@ -22,6 +22,58 @@ import {
 // SettingTl
 // =============================================================================
 
+export interface GetSettingTlsRequest {
+  settingId: "ciphers" | "min_tls_version" | "http2";
+  /** Identifier. */
+  zoneId: string;
+}
+
+export const GetSettingTlsRequest = Schema.Struct({
+  settingId: Schema.Literals(["ciphers", "min_tls_version", "http2"]).pipe(
+    T.HttpPath("settingId"),
+  ),
+  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/zones/{zone_id}/hostnames/settings/{settingId}",
+  }),
+) as unknown as Schema.Schema<GetSettingTlsRequest>;
+
+export type GetSettingTlsResponse = {
+  createdAt?: string;
+  hostname?: string;
+  status?: string;
+  updatedAt?: string;
+  value?: string | number | unknown;
+}[];
+
+export const GetSettingTlsResponse = Schema.Array(
+  Schema.Struct({
+    createdAt: Schema.optional(Schema.String),
+    hostname: Schema.optional(Schema.String),
+    status: Schema.optional(Schema.String),
+    updatedAt: Schema.optional(Schema.String),
+    value: Schema.optional(
+      Schema.Union([Schema.String, Schema.Number, Schema.Unknown]),
+    ),
+  }).pipe(
+    Schema.encodeKeys({ createdAt: "created_at", updatedAt: "updated_at" }),
+  ),
+) as unknown as Schema.Schema<GetSettingTlsResponse>;
+
+export const getSettingTls: (
+  input: GetSettingTlsRequest,
+) => Effect.Effect<
+  GetSettingTlsResponse,
+  CommonErrors,
+  ApiToken | HttpClient.HttpClient
+> = API.make(() => ({
+  input: GetSettingTlsRequest,
+  output: GetSettingTlsResponse,
+  errors: [],
+}));
+
 export interface PutSettingTlsRequest {
   settingId: "ciphers" | "min_tls_version" | "http2";
   hostname: string;
@@ -59,14 +111,16 @@ export interface PutSettingTlsResponse {
 }
 
 export const PutSettingTlsResponse = Schema.Struct({
-  createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
+  createdAt: Schema.optional(Schema.String),
   hostname: Schema.optional(Schema.String),
   status: Schema.optional(Schema.String),
-  updatedAt: Schema.optional(Schema.String).pipe(T.JsonName("updated_at")),
+  updatedAt: Schema.optional(Schema.String),
   value: Schema.optional(
     Schema.Union([Schema.String, Schema.Number, Schema.Unknown]),
   ),
-}) as unknown as Schema.Schema<PutSettingTlsResponse>;
+}).pipe(
+  Schema.encodeKeys({ createdAt: "created_at", updatedAt: "updated_at" }),
+) as unknown as Schema.Schema<PutSettingTlsResponse>;
 
 export const putSettingTls: (
   input: PutSettingTlsRequest,
@@ -114,14 +168,16 @@ export interface DeleteSettingTlsResponse {
 }
 
 export const DeleteSettingTlsResponse = Schema.Struct({
-  createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
+  createdAt: Schema.optional(Schema.String),
   hostname: Schema.optional(Schema.String),
   status: Schema.optional(Schema.String),
-  updatedAt: Schema.optional(Schema.String).pipe(T.JsonName("updated_at")),
+  updatedAt: Schema.optional(Schema.String),
   value: Schema.optional(
     Schema.Union([Schema.String, Schema.Number, Schema.Unknown]),
   ),
-}) as unknown as Schema.Schema<DeleteSettingTlsResponse>;
+}).pipe(
+  Schema.encodeKeys({ createdAt: "created_at", updatedAt: "updated_at" }),
+) as unknown as Schema.Schema<DeleteSettingTlsResponse>;
 
 export const deleteSettingTls: (
   input: DeleteSettingTlsRequest,

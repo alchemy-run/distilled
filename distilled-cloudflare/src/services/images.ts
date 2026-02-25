@@ -75,6 +75,64 @@ export const getV1: (
   errors: [],
 }));
 
+export interface ListV1sRequest {
+  /** Path param: Account identifier tag. */
+  accountId: string;
+  /** Query param: Internal user ID set within the creator field. Setting to empty string "" will return images where creator field is not set */
+  creator?: string | null;
+}
+
+export const ListV1sRequest = Schema.Struct({
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+  creator: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
+    T.HttpQuery("creator"),
+  ),
+}).pipe(
+  T.Http({ method: "GET", path: "/accounts/{account_id}/images/v1" }),
+) as unknown as Schema.Schema<ListV1sRequest>;
+
+export type ListV1sResponse = {
+  images?: {
+    id?: string;
+    creator?: string | null;
+    filename?: string;
+    meta?: unknown;
+    requireSignedURLs?: boolean;
+    uploaded?: string;
+    variants?: string[];
+  }[];
+}[];
+
+export const ListV1sResponse = Schema.Array(
+  Schema.Struct({
+    images: Schema.optional(
+      Schema.Array(
+        Schema.Struct({
+          id: Schema.optional(Schema.String),
+          creator: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+          filename: Schema.optional(Schema.String),
+          meta: Schema.optional(Schema.Unknown),
+          requireSignedURLs: Schema.optional(Schema.Boolean),
+          uploaded: Schema.optional(Schema.String),
+          variants: Schema.optional(Schema.Array(Schema.String)),
+        }),
+      ),
+    ),
+  }),
+) as unknown as Schema.Schema<ListV1sResponse>;
+
+export const listV1s: (
+  input: ListV1sRequest,
+) => Effect.Effect<
+  ListV1sResponse,
+  CommonErrors,
+  ApiToken | HttpClient.HttpClient
+> = API.make(() => ({
+  input: ListV1sRequest,
+  output: ListV1sResponse,
+  errors: [],
+}));
+
 export interface CreateV1Request {
   /** Path param: Account identifier tag. */
   accountId: string;
@@ -773,9 +831,11 @@ export interface ListV2sResponse {
 export const ListV2sResponse = Schema.Struct({
   continuationToken: Schema.optional(
     Schema.Union([Schema.String, Schema.Null]),
-  ).pipe(T.JsonName("continuation_token")),
+  ),
   images: Schema.optional(Schema.Array(Schema.Unknown)),
-}) as unknown as Schema.Schema<ListV2sResponse>;
+}).pipe(
+  Schema.encodeKeys({ continuationToken: "continuation_token" }),
+) as unknown as Schema.Schema<ListV2sResponse>;
 
 export const listV2s: (
   input: ListV2sRequest,

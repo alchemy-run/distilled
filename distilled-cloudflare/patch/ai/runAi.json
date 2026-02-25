@@ -1,5 +1,5 @@
 {
   "errors": {
-    "ModelNotFound": [{ "code": 7003 }]
+    "ModelNotFound": [{ "code": 7003 }, { "code": 7000 }]
   }
 }

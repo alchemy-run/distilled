@@ -205,6 +205,49 @@ export const deleteSfu: (
 }));
 
 // =============================================================================
+// Sfus
+// =============================================================================
+
+export interface ListSfusRequest {
+  /** The account identifier tag. */
+  accountId: string;
+}
+
+export const ListSfusRequest = Schema.Struct({
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({ method: "GET", path: "/accounts/{account_id}/calls/apps" }),
+) as unknown as Schema.Schema<ListSfusRequest>;
+
+export type ListSfusResponse = {
+  created?: string;
+  modified?: string;
+  name?: string;
+  uid?: string;
+}[];
+
+export const ListSfusResponse = Schema.Array(
+  Schema.Struct({
+    created: Schema.optional(Schema.String),
+    modified: Schema.optional(Schema.String),
+    name: Schema.optional(Schema.String),
+    uid: Schema.optional(Schema.String),
+  }),
+) as unknown as Schema.Schema<ListSfusResponse>;
+
+export const listSfus: (
+  input: ListSfusRequest,
+) => Effect.Effect<
+  ListSfusResponse,
+  CommonErrors,
+  ApiToken | HttpClient.HttpClient
+> = API.make(() => ({
+  input: ListSfusRequest,
+  output: ListSfusResponse,
+  errors: [],
+}));
+
+// =============================================================================
 // Turn
 // =============================================================================
 
@@ -251,6 +294,45 @@ export const getTurn: (
 > = API.make(() => ({
   input: GetTurnRequest,
   output: GetTurnResponse,
+  errors: [],
+}));
+
+export interface ListTurnsRequest {
+  /** The account identifier tag. */
+  accountId: string;
+}
+
+export const ListTurnsRequest = Schema.Struct({
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({ method: "GET", path: "/accounts/{account_id}/calls/turn_keys" }),
+) as unknown as Schema.Schema<ListTurnsRequest>;
+
+export type ListTurnsResponse = {
+  created?: string;
+  modified?: string;
+  name?: string;
+  uid?: string;
+}[];
+
+export const ListTurnsResponse = Schema.Array(
+  Schema.Struct({
+    created: Schema.optional(Schema.String),
+    modified: Schema.optional(Schema.String),
+    name: Schema.optional(Schema.String),
+    uid: Schema.optional(Schema.String),
+  }),
+) as unknown as Schema.Schema<ListTurnsResponse>;
+
+export const listTurns: (
+  input: ListTurnsRequest,
+) => Effect.Effect<
+  ListTurnsResponse,
+  CommonErrors,
+  ApiToken | HttpClient.HttpClient
+> = API.make(() => ({
+  input: ListTurnsRequest,
+  output: ListTurnsResponse,
   errors: [],
 }));
 

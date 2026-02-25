@@ -44,11 +44,11 @@ export interface GetControlCmbConfigResponse {
 }
 
 export const GetControlCmbConfigResponse = Schema.Struct({
-  allowOutOfRegionAccess: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("allow_out_of_region_access"),
-  ),
+  allowOutOfRegionAccess: Schema.optional(Schema.Boolean),
   regions: Schema.optional(Schema.String),
-}) as unknown as Schema.Schema<GetControlCmbConfigResponse>;
+}).pipe(
+  Schema.encodeKeys({ allowOutOfRegionAccess: "allow_out_of_region_access" }),
+) as unknown as Schema.Schema<GetControlCmbConfigResponse>;
 
 export const getControlCmbConfig: (
   input: GetControlCmbConfigRequest,
@@ -73,11 +73,10 @@ export interface CreateControlCmbConfigRequest {
 
 export const CreateControlCmbConfigRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  allowOutOfRegionAccess: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("allow_out_of_region_access"),
-  ),
+  allowOutOfRegionAccess: Schema.optional(Schema.Boolean),
   regions: Schema.optional(Schema.String),
 }).pipe(
+  Schema.encodeKeys({ allowOutOfRegionAccess: "allow_out_of_region_access" }),
   T.Http({
     method: "POST",
     path: "/accounts/{account_id}/logs/control/cmb/config",
@@ -92,11 +91,11 @@ export interface CreateControlCmbConfigResponse {
 }
 
 export const CreateControlCmbConfigResponse = Schema.Struct({
-  allowOutOfRegionAccess: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("allow_out_of_region_access"),
-  ),
+  allowOutOfRegionAccess: Schema.optional(Schema.Boolean),
   regions: Schema.optional(Schema.String),
-}) as unknown as Schema.Schema<CreateControlCmbConfigResponse>;
+}).pipe(
+  Schema.encodeKeys({ allowOutOfRegionAccess: "allow_out_of_region_access" }),
+) as unknown as Schema.Schema<CreateControlCmbConfigResponse>;
 
 export const createControlCmbConfig: (
   input: CreateControlCmbConfigRequest,

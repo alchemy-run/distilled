@@ -26,7 +26,9 @@ describe("AI", () => {
   describe("runAi", () => {
     test("error - ModelNotFound for text generation model", () =>
       AI.runAi({
+        accountId: accountId(),
         modelName: "@cf/meta/llama-2-7b-chat-int8",
+        text: "test",
       }).pipe(
         Effect.flip,
         Effect.map((e) => expect(e._tag).toBe("ModelNotFound")),
@@ -34,7 +36,9 @@ describe("AI", () => {
 
     test("error - ModelNotFound for non-existent model name", () =>
       AI.runAi({
+        accountId: accountId(),
         modelName: "non-existent-model-that-does-not-exist-xyz",
+        text: "test",
       }).pipe(
         Effect.flip,
         Effect.map((e) => expect(e._tag).toBe("ModelNotFound")),
@@ -42,7 +46,9 @@ describe("AI", () => {
 
     test("error - ModelNotFound for model name with special characters", () =>
       AI.runAi({
+        accountId: accountId(),
         modelName: "@invalid/model/!@#$%^&*()",
+        text: "test",
       }).pipe(
         Effect.flip,
         Effect.map((e) => expect(e._tag).toBe("ModelNotFound")),
@@ -50,7 +56,9 @@ describe("AI", () => {
 
     test("error - validation error for empty model name", () =>
       AI.runAi({
+        accountId: accountId(),
         modelName: "",
+        text: "test",
       }).pipe(
         Effect.flip,
         Effect.map((e) => expect(e._tag).toBe("ModelNotFound")),

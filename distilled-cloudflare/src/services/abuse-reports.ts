@@ -107,14 +107,20 @@ export const GetAbuseReportResponse = Schema.Struct({
   cdate: Schema.String,
   domain: Schema.String,
   mitigationSummary: Schema.Struct({
-    acceptedUrlCount: Schema.Number.pipe(T.JsonName("accepted_url_count")),
-    activeCount: Schema.Number.pipe(T.JsonName("active_count")),
-    externalHostNotified: Schema.Boolean.pipe(
-      T.JsonName("external_host_notified"),
-    ),
-    inReviewCount: Schema.Number.pipe(T.JsonName("in_review_count")),
-    pendingCount: Schema.Number.pipe(T.JsonName("pending_count")),
-  }).pipe(T.JsonName("mitigation_summary")),
+    acceptedUrlCount: Schema.Number,
+    activeCount: Schema.Number,
+    externalHostNotified: Schema.Boolean,
+    inReviewCount: Schema.Number,
+    pendingCount: Schema.Number,
+  }).pipe(
+    Schema.encodeKeys({
+      acceptedUrlCount: "accepted_url_count",
+      activeCount: "active_count",
+      externalHostNotified: "external_host_notified",
+      inReviewCount: "in_review_count",
+      pendingCount: "pending_count",
+    }),
+  ),
   status: Schema.Literals(["accepted", "in_review"]),
   type: Schema.Literals([
     "PHISH",
@@ -128,9 +134,7 @@ export const GetAbuseReportResponse = Schema.Struct({
     "NETWORK",
   ]),
   justification: Schema.optional(Schema.String),
-  originalWork: Schema.optional(Schema.String).pipe(
-    T.JsonName("original_work"),
-  ),
+  originalWork: Schema.optional(Schema.String),
   submitter: Schema.optional(
     Schema.Struct({
       company: Schema.optional(Schema.String),
@@ -140,7 +144,12 @@ export const GetAbuseReportResponse = Schema.Struct({
     }),
   ),
   urls: Schema.optional(Schema.Array(Schema.String)),
-}) as unknown as Schema.Schema<GetAbuseReportResponse>;
+}).pipe(
+  Schema.encodeKeys({
+    mitigationSummary: "mitigation_summary",
+    originalWork: "original_work",
+  }),
+) as unknown as Schema.Schema<GetAbuseReportResponse>;
 
 export const getAbuseReport: (
   input: GetAbuseReportRequest,
@@ -265,16 +274,20 @@ export const ListAbuseReportsResponse = Schema.Struct({
         cdate: Schema.String,
         domain: Schema.String,
         mitigationSummary: Schema.Struct({
-          acceptedUrlCount: Schema.Number.pipe(
-            T.JsonName("accepted_url_count"),
-          ),
-          activeCount: Schema.Number.pipe(T.JsonName("active_count")),
-          externalHostNotified: Schema.Boolean.pipe(
-            T.JsonName("external_host_notified"),
-          ),
-          inReviewCount: Schema.Number.pipe(T.JsonName("in_review_count")),
-          pendingCount: Schema.Number.pipe(T.JsonName("pending_count")),
-        }).pipe(T.JsonName("mitigation_summary")),
+          acceptedUrlCount: Schema.Number,
+          activeCount: Schema.Number,
+          externalHostNotified: Schema.Boolean,
+          inReviewCount: Schema.Number,
+          pendingCount: Schema.Number,
+        }).pipe(
+          Schema.encodeKeys({
+            acceptedUrlCount: "accepted_url_count",
+            activeCount: "active_count",
+            externalHostNotified: "external_host_notified",
+            inReviewCount: "in_review_count",
+            pendingCount: "pending_count",
+          }),
+        ),
         status: Schema.Literals(["accepted", "in_review"]),
         type: Schema.Literals([
           "PHISH",
@@ -288,9 +301,7 @@ export const ListAbuseReportsResponse = Schema.Struct({
           "NETWORK",
         ]),
         justification: Schema.optional(Schema.String),
-        originalWork: Schema.optional(Schema.String).pipe(
-          T.JsonName("original_work"),
-        ),
+        originalWork: Schema.optional(Schema.String),
         submitter: Schema.optional(
           Schema.Struct({
             company: Schema.optional(Schema.String),
@@ -300,7 +311,12 @@ export const ListAbuseReportsResponse = Schema.Struct({
           }),
         ),
         urls: Schema.optional(Schema.Array(Schema.String)),
-      }),
+      }).pipe(
+        Schema.encodeKeys({
+          mitigationSummary: "mitigation_summary",
+          originalWork: "original_work",
+        }),
+      ),
     ),
     Schema.Null,
   ]),
@@ -371,34 +387,34 @@ export const CreateAbuseReportRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   act: Schema.Literal("abuse_dmca"),
   address1: Schema.String,
-  agentName: Schema.String.pipe(T.JsonName("agent_name")),
+  agentName: Schema.String,
   agree: Schema.Literal("1"),
   city: Schema.String,
   country: Schema.String,
   email: Schema.String,
   email2: Schema.String,
-  hostNotification: Schema.Literal("send").pipe(
-    T.JsonName("host_notification"),
-  ),
+  hostNotification: Schema.Literal("send"),
   name: Schema.String,
-  originalWork: Schema.String.pipe(T.JsonName("original_work")),
-  ownerNotification: Schema.Literal("send").pipe(
-    T.JsonName("owner_notification"),
-  ),
+  originalWork: Schema.String,
+  ownerNotification: Schema.Literal("send"),
   signature: Schema.String,
   state: Schema.String,
   urls: Schema.String,
   comments: Schema.optional(Schema.String),
   company: Schema.optional(Schema.String),
-  reportedCountry: Schema.optional(Schema.String).pipe(
-    T.JsonName("reported_country"),
-  ),
-  reportedUserAgent: Schema.optional(Schema.String).pipe(
-    T.JsonName("reported_user_agent"),
-  ),
+  reportedCountry: Schema.optional(Schema.String),
+  reportedUserAgent: Schema.optional(Schema.String),
   tele: Schema.optional(Schema.String),
   title: Schema.optional(Schema.String),
 }).pipe(
+  Schema.encodeKeys({
+    agentName: "agent_name",
+    hostNotification: "host_notification",
+    originalWork: "original_work",
+    ownerNotification: "owner_notification",
+    reportedCountry: "reported_country",
+    reportedUserAgent: "reported_user_agent",
+  }),
   T.Http({
     method: "POST",
     path: "/accounts/{account_id}/abuse-reports/{reportParam}",
@@ -524,11 +540,9 @@ export const ListMitigationsResponse = Schema.Array(
     mitigations: Schema.Array(
       Schema.Struct({
         id: Schema.String,
-        effectiveDate: Schema.String.pipe(T.JsonName("effective_date")),
-        entityId: Schema.String.pipe(T.JsonName("entity_id")),
-        entityType: Schema.Literals(["url_pattern", "account", "zone"]).pipe(
-          T.JsonName("entity_type"),
-        ),
+        effectiveDate: Schema.String,
+        entityId: Schema.String,
+        entityType: Schema.Literals(["url_pattern", "account", "zone"]),
         status: Schema.Literals([
           "pending",
           "active",
@@ -544,7 +558,13 @@ export const ListMitigationsResponse = Schema.Array(
           "account_suspend",
           "redirect_video_stream",
         ]),
-      }),
+      }).pipe(
+        Schema.encodeKeys({
+          effectiveDate: "effective_date",
+          entityId: "entity_id",
+          entityType: "entity_type",
+        }),
+      ),
     ),
   }),
 ) as unknown as Schema.Schema<ListMitigationsResponse>;
@@ -603,11 +623,9 @@ export type ReviewMitigationResponse = {
 export const ReviewMitigationResponse = Schema.Array(
   Schema.Struct({
     id: Schema.String,
-    effectiveDate: Schema.String.pipe(T.JsonName("effective_date")),
-    entityId: Schema.String.pipe(T.JsonName("entity_id")),
-    entityType: Schema.Literals(["url_pattern", "account", "zone"]).pipe(
-      T.JsonName("entity_type"),
-    ),
+    effectiveDate: Schema.String,
+    entityId: Schema.String,
+    entityType: Schema.Literals(["url_pattern", "account", "zone"]),
     status: Schema.Literals([
       "pending",
       "active",
@@ -623,7 +641,13 @@ export const ReviewMitigationResponse = Schema.Array(
       "account_suspend",
       "redirect_video_stream",
     ]),
-  }),
+  }).pipe(
+    Schema.encodeKeys({
+      effectiveDate: "effective_date",
+      entityId: "entity_id",
+      entityType: "entity_type",
+    }),
+  ),
 ) as unknown as Schema.Schema<ReviewMitigationResponse>;
 
 export const reviewMitigation: (

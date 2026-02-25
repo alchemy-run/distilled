@@ -256,13 +256,14 @@ describe("Accounts", () => {
   // createMember
   // --------------------------------------------------------------------------
   describe("createMember", () => {
-    // NOTE: createMember has an empty request body schema (no accountId path param
-    // wired in the schema). It will likely fail due to missing account context.
-
     test("error - fails with empty request body", () =>
-      Accounts.createMember({}).pipe(
+      Accounts.createMember({
+        accountId: accountId(),
+        email: "",
+        roles: [],
+      }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBe("InvalidRoute")),
+        Effect.map((e) => expect(e._tag).toBe("ValidationError")),
       ));
   });
 
@@ -270,22 +271,22 @@ describe("Accounts", () => {
   // updateMember
   // --------------------------------------------------------------------------
   describe("updateMember", () => {
-    // NOTE: updateMember schema only has memberId path param (no accountId wired).
-
     test("error - not found for non-existent memberId", () =>
       Accounts.updateMember({
+        accountId: accountId(),
         memberId: "0000000000000000000000000000000000",
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBe("InvalidRoute")),
+        Effect.map((e) => expect(e._tag).toBe("BadRequest")),
       ));
 
     test("error - empty memberId", () =>
       Accounts.updateMember({
+        accountId: accountId(),
         memberId: "",
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBe("InvalidRoute")),
+        Effect.map((e) => expect(e._tag).toBe("MethodNotAllowed")),
       ));
   });
 

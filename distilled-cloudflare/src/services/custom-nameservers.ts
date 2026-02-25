@@ -22,6 +22,59 @@ import {
 // CustomNameserver
 // =============================================================================
 
+export interface GetCustomNameserverRequest {
+  /** Account identifier tag. */
+  accountId: string;
+}
+
+export const GetCustomNameserverRequest = Schema.Struct({
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({ method: "GET", path: "/accounts/{account_id}/custom_ns" }),
+) as unknown as Schema.Schema<GetCustomNameserverRequest>;
+
+export type GetCustomNameserverResponse = {
+  dnsRecords: { type?: "A" | "AAAA"; value?: string }[];
+  nsName: string;
+  status: "moved" | "pending" | "verified";
+  zoneTag: string;
+  nsSet?: number;
+}[];
+
+export const GetCustomNameserverResponse = Schema.Array(
+  Schema.Struct({
+    dnsRecords: Schema.Array(
+      Schema.Struct({
+        type: Schema.optional(Schema.Literals(["A", "AAAA"])),
+        value: Schema.optional(Schema.String),
+      }),
+    ),
+    nsName: Schema.String,
+    status: Schema.Literals(["moved", "pending", "verified"]),
+    zoneTag: Schema.String,
+    nsSet: Schema.optional(Schema.Number),
+  }).pipe(
+    Schema.encodeKeys({
+      dnsRecords: "dns_records",
+      nsName: "ns_name",
+      zoneTag: "zone_tag",
+      nsSet: "ns_set",
+    }),
+  ),
+) as unknown as Schema.Schema<GetCustomNameserverResponse>;
+
+export const getCustomNameserver: (
+  input: GetCustomNameserverRequest,
+) => Effect.Effect<
+  GetCustomNameserverResponse,
+  CommonErrors,
+  ApiToken | HttpClient.HttpClient
+> = API.make(() => ({
+  input: GetCustomNameserverRequest,
+  output: GetCustomNameserverResponse,
+  errors: [],
+}));
+
 export interface CreateCustomNameserverRequest {
   /** Path param: Account identifier tag. */
   accountId: string;
@@ -33,9 +86,10 @@ export interface CreateCustomNameserverRequest {
 
 export const CreateCustomNameserverRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  nsName: Schema.String.pipe(T.JsonName("ns_name")),
-  nsSet: Schema.optional(Schema.Number).pipe(T.JsonName("ns_set")),
+  nsName: Schema.String,
+  nsSet: Schema.optional(Schema.Number),
 }).pipe(
+  Schema.encodeKeys({ nsName: "ns_name", nsSet: "ns_set" }),
   T.Http({ method: "POST", path: "/accounts/{account_id}/custom_ns" }),
 ) as unknown as Schema.Schema<CreateCustomNameserverRequest>;
 
@@ -58,12 +112,19 @@ export const CreateCustomNameserverResponse = Schema.Struct({
       type: Schema.optional(Schema.Literals(["A", "AAAA"])),
       value: Schema.optional(Schema.String),
     }),
-  ).pipe(T.JsonName("dns_records")),
-  nsName: Schema.String.pipe(T.JsonName("ns_name")),
+  ),
+  nsName: Schema.String,
   status: Schema.Literals(["moved", "pending", "verified"]),
-  zoneTag: Schema.String.pipe(T.JsonName("zone_tag")),
-  nsSet: Schema.optional(Schema.Number).pipe(T.JsonName("ns_set")),
-}) as unknown as Schema.Schema<CreateCustomNameserverResponse>;
+  zoneTag: Schema.String,
+  nsSet: Schema.optional(Schema.Number),
+}).pipe(
+  Schema.encodeKeys({
+    dnsRecords: "dns_records",
+    nsName: "ns_name",
+    zoneTag: "zone_tag",
+    nsSet: "ns_set",
+  }),
+) as unknown as Schema.Schema<CreateCustomNameserverResponse>;
 
 export const createCustomNameserver: (
   input: CreateCustomNameserverRequest,
@@ -74,5 +135,39 @@ export const createCustomNameserver: (
 > = API.make(() => ({
   input: CreateCustomNameserverRequest,
   output: CreateCustomNameserverResponse,
+  errors: [],
+}));
+
+export interface DeleteCustomNameserverRequest {
+  customNSId: string;
+  /** Account identifier tag. */
+  accountId: string;
+}
+
+export const DeleteCustomNameserverRequest = Schema.Struct({
+  customNSId: Schema.String.pipe(T.HttpPath("customNSId")),
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/custom_ns/{customNSId}",
+  }),
+) as unknown as Schema.Schema<DeleteCustomNameserverRequest>;
+
+export type DeleteCustomNameserverResponse = string[];
+
+export const DeleteCustomNameserverResponse = Schema.Array(
+  Schema.String,
+) as unknown as Schema.Schema<DeleteCustomNameserverResponse>;
+
+export const deleteCustomNameserver: (
+  input: DeleteCustomNameserverRequest,
+) => Effect.Effect<
+  DeleteCustomNameserverResponse,
+  CommonErrors,
+  ApiToken | HttpClient.HttpClient
+> = API.make(() => ({
+  input: DeleteCustomNameserverRequest,
+  output: DeleteCustomNameserverResponse,
   errors: [],
 }));

@@ -57,33 +57,32 @@ export interface GetConnectionResponse {
 
 export const GetConnectionResponse = Schema.Struct({
   id: Schema.String,
-  addedAt: Schema.String.pipe(T.JsonName("added_at")),
-  firstSeenAt: Schema.String.pipe(T.JsonName("first_seen_at")),
+  addedAt: Schema.String,
+  firstSeenAt: Schema.String,
   host: Schema.String,
-  lastSeenAt: Schema.String.pipe(T.JsonName("last_seen_at")),
+  lastSeenAt: Schema.String,
   url: Schema.String,
-  urlContainsCdnCgiPath: Schema.Boolean.pipe(
-    T.JsonName("url_contains_cdn_cgi_path"),
-  ),
-  domainReportedMalicious: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("domain_reported_malicious"),
-  ),
-  firstPageUrl: Schema.optional(Schema.String).pipe(
-    T.JsonName("first_page_url"),
-  ),
-  maliciousDomainCategories: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.JsonName("malicious_domain_categories"),
-  ),
-  maliciousUrlCategories: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.JsonName("malicious_url_categories"),
-  ),
-  pageUrls: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.JsonName("page_urls"),
-  ),
-  urlReportedMalicious: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("url_reported_malicious"),
-  ),
-}) as unknown as Schema.Schema<GetConnectionResponse>;
+  urlContainsCdnCgiPath: Schema.Boolean,
+  domainReportedMalicious: Schema.optional(Schema.Boolean),
+  firstPageUrl: Schema.optional(Schema.String),
+  maliciousDomainCategories: Schema.optional(Schema.Array(Schema.String)),
+  maliciousUrlCategories: Schema.optional(Schema.Array(Schema.String)),
+  pageUrls: Schema.optional(Schema.Array(Schema.String)),
+  urlReportedMalicious: Schema.optional(Schema.Boolean),
+}).pipe(
+  Schema.encodeKeys({
+    addedAt: "added_at",
+    firstSeenAt: "first_seen_at",
+    lastSeenAt: "last_seen_at",
+    urlContainsCdnCgiPath: "url_contains_cdn_cgi_path",
+    domainReportedMalicious: "domain_reported_malicious",
+    firstPageUrl: "first_page_url",
+    maliciousDomainCategories: "malicious_domain_categories",
+    maliciousUrlCategories: "malicious_url_categories",
+    pageUrls: "page_urls",
+    urlReportedMalicious: "url_reported_malicious",
+  }),
+) as unknown as Schema.Schema<GetConnectionResponse>;
 
 export const getConnection: (
   input: GetConnectionRequest,
@@ -94,6 +93,120 @@ export const getConnection: (
 > = API.make(() => ({
   input: GetConnectionRequest,
   output: GetConnectionResponse,
+  errors: [],
+}));
+
+export interface ListConnectionsRequest {
+  /** Path param: Identifier */
+  zoneId: string;
+  /** Query param: The direction used to sort returned connections. */
+  direction?: "asc" | "desc";
+  /** Query param: When true, excludes connections seen in a `/cdn-cgi` path from the returned connections. The default value is true. */
+  excludeCdnCgi?: boolean;
+  /** Query param: Excludes connections whose URL contains one of the URL-encoded URLs separated by commas. */
+  excludeUrls?: string;
+  /** Query param: Export the list of connections as a file, limited to 50000 entries. */
+  export?: "csv";
+  /** Query param: Includes connections that match one or more URL-encoded hostnames separated by commas.  Wildcards are supported at the start and end of each hostname to support starts with, ends with and */
+  hosts?: string;
+  /** Query param: The field used to sort returned connections. */
+  orderBy?: "first_seen_at" | "last_seen_at";
+  /** Query param: The current page number of the paginated results.  We additionally support a special value "all". When "all" is used, the API will return all the connections with the applied filters in a */
+  page?: string;
+  /** Query param: Includes connections that match one or more page URLs (separated by commas) where they were last seen  Wildcards are supported at the start and end of each page URL to support starts with */
+  pageUrl?: string;
+  /** Query param: The number of results per page. */
+  perPage?: number;
+  /** Query param: When true, malicious connections appear first in the returned connections. */
+  prioritizeMalicious?: boolean;
+  /** Query param: Filters the returned connections using a comma-separated list of connection statuses. Accepted values: `active`, `infrequent`, and `inactive`. The default value is `active`. */
+  status?: string;
+  /** Query param: Includes connections whose URL contain one or more URL-encoded URLs separated by commas. */
+  urls?: string;
+}
+
+export const ListConnectionsRequest = Schema.Struct({
+  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+  direction: Schema.optional(Schema.Literals(["asc", "desc"])).pipe(
+    T.HttpQuery("direction"),
+  ),
+  excludeCdnCgi: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("exclude_cdn_cgi"),
+  ),
+  excludeUrls: Schema.optional(Schema.String).pipe(T.HttpQuery("exclude_urls")),
+  export: Schema.optional(Schema.Literal("csv")).pipe(T.HttpQuery("export")),
+  hosts: Schema.optional(Schema.String).pipe(T.HttpQuery("hosts")),
+  orderBy: Schema.optional(
+    Schema.Literals(["first_seen_at", "last_seen_at"]),
+  ).pipe(T.HttpQuery("order_by")),
+  page: Schema.optional(Schema.String).pipe(T.HttpQuery("page")),
+  pageUrl: Schema.optional(Schema.String).pipe(T.HttpQuery("page_url")),
+  perPage: Schema.optional(Schema.Number).pipe(T.HttpQuery("per_page")),
+  prioritizeMalicious: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("prioritize_malicious"),
+  ),
+  status: Schema.optional(Schema.String).pipe(T.HttpQuery("status")),
+  urls: Schema.optional(Schema.String).pipe(T.HttpQuery("urls")),
+}).pipe(
+  T.Http({ method: "GET", path: "/zones/{zone_id}/page_shield/connections" }),
+) as unknown as Schema.Schema<ListConnectionsRequest>;
+
+export type ListConnectionsResponse = {
+  id: string;
+  addedAt: string;
+  firstSeenAt: string;
+  host: string;
+  lastSeenAt: string;
+  url: string;
+  urlContainsCdnCgiPath: boolean;
+  domainReportedMalicious?: boolean;
+  firstPageUrl?: string;
+  maliciousDomainCategories?: string[];
+  maliciousUrlCategories?: string[];
+  pageUrls?: string[];
+  urlReportedMalicious?: boolean;
+}[];
+
+export const ListConnectionsResponse = Schema.Array(
+  Schema.Struct({
+    id: Schema.String,
+    addedAt: Schema.String,
+    firstSeenAt: Schema.String,
+    host: Schema.String,
+    lastSeenAt: Schema.String,
+    url: Schema.String,
+    urlContainsCdnCgiPath: Schema.Boolean,
+    domainReportedMalicious: Schema.optional(Schema.Boolean),
+    firstPageUrl: Schema.optional(Schema.String),
+    maliciousDomainCategories: Schema.optional(Schema.Array(Schema.String)),
+    maliciousUrlCategories: Schema.optional(Schema.Array(Schema.String)),
+    pageUrls: Schema.optional(Schema.Array(Schema.String)),
+    urlReportedMalicious: Schema.optional(Schema.Boolean),
+  }).pipe(
+    Schema.encodeKeys({
+      addedAt: "added_at",
+      firstSeenAt: "first_seen_at",
+      lastSeenAt: "last_seen_at",
+      urlContainsCdnCgiPath: "url_contains_cdn_cgi_path",
+      domainReportedMalicious: "domain_reported_malicious",
+      firstPageUrl: "first_page_url",
+      maliciousDomainCategories: "malicious_domain_categories",
+      maliciousUrlCategories: "malicious_url_categories",
+      pageUrls: "page_urls",
+      urlReportedMalicious: "url_reported_malicious",
+    }),
+  ),
+) as unknown as Schema.Schema<ListConnectionsResponse>;
+
+export const listConnections: (
+  input: ListConnectionsRequest,
+) => Effect.Effect<
+  ListConnectionsResponse,
+  CommonErrors,
+  ApiToken | HttpClient.HttpClient
+> = API.make(() => ({
+  input: ListConnectionsRequest,
+  output: ListConnectionsResponse,
   errors: [],
 }));
 
@@ -137,36 +250,35 @@ export interface GetCookyResponse {
 
 export const GetCookyResponse = Schema.Struct({
   id: Schema.String,
-  firstSeenAt: Schema.String.pipe(T.JsonName("first_seen_at")),
+  firstSeenAt: Schema.String,
   host: Schema.String,
-  lastSeenAt: Schema.String.pipe(T.JsonName("last_seen_at")),
+  lastSeenAt: Schema.String,
   name: Schema.String,
   type: Schema.Literals(["first_party", "unknown"]),
-  domainAttribute: Schema.optional(Schema.String).pipe(
-    T.JsonName("domain_attribute"),
-  ),
-  expiresAttribute: Schema.optional(Schema.String).pipe(
-    T.JsonName("expires_attribute"),
-  ),
-  httpOnlyAttribute: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("http_only_attribute"),
-  ),
-  maxAgeAttribute: Schema.optional(Schema.Number).pipe(
-    T.JsonName("max_age_attribute"),
-  ),
-  pageUrls: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.JsonName("page_urls"),
-  ),
-  pathAttribute: Schema.optional(Schema.String).pipe(
-    T.JsonName("path_attribute"),
-  ),
+  domainAttribute: Schema.optional(Schema.String),
+  expiresAttribute: Schema.optional(Schema.String),
+  httpOnlyAttribute: Schema.optional(Schema.Boolean),
+  maxAgeAttribute: Schema.optional(Schema.Number),
+  pageUrls: Schema.optional(Schema.Array(Schema.String)),
+  pathAttribute: Schema.optional(Schema.String),
   sameSiteAttribute: Schema.optional(
     Schema.Literals(["lax", "strict", "none"]),
-  ).pipe(T.JsonName("same_site_attribute")),
-  secureAttribute: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("secure_attribute"),
   ),
-}) as unknown as Schema.Schema<GetCookyResponse>;
+  secureAttribute: Schema.optional(Schema.Boolean),
+}).pipe(
+  Schema.encodeKeys({
+    firstSeenAt: "first_seen_at",
+    lastSeenAt: "last_seen_at",
+    domainAttribute: "domain_attribute",
+    expiresAttribute: "expires_attribute",
+    httpOnlyAttribute: "http_only_attribute",
+    maxAgeAttribute: "max_age_attribute",
+    pageUrls: "page_urls",
+    pathAttribute: "path_attribute",
+    sameSiteAttribute: "same_site_attribute",
+    secureAttribute: "secure_attribute",
+  }),
+) as unknown as Schema.Schema<GetCookyResponse>;
 
 export const getCooky: (
   input: GetCookyRequest,
@@ -177,6 +289,130 @@ export const getCooky: (
 > = API.make(() => ({
   input: GetCookyRequest,
   output: GetCookyResponse,
+  errors: [],
+}));
+
+export interface ListCookiesRequest {
+  /** Path param: Identifier */
+  zoneId: string;
+  /** Query param: The direction used to sort returned cookies.' */
+  direction?: "asc" | "desc";
+  /** Query param: Filters the returned cookies that match the specified domain attribute */
+  domain?: string;
+  /** Query param: Export the list of cookies as a file, limited to 50000 entries. */
+  export?: "csv";
+  /** Query param: Includes cookies that match one or more URL-encoded hostnames separated by commas.  Wildcards are supported at the start and end of each hostname to support starts with, ends with and con */
+  hosts?: string;
+  /** Query param: Filters the returned cookies that are set with HttpOnly */
+  httpOnly?: boolean;
+  /** Query param: Filters the returned cookies that match the specified name. Wildcards are supported at the start and end to support starts with, ends with and contains. e.g. session\ */
+  name?: string;
+  /** Query param: The field used to sort returned cookies. */
+  orderBy?: "first_seen_at" | "last_seen_at";
+  /** Query param: The current page number of the paginated results.  We additionally support a special value "all". When "all" is used, the API will return all the cookies with the applied filters in a sin */
+  page?: string;
+  /** Query param: Includes connections that match one or more page URLs (separated by commas) where they were last seen  Wildcards are supported at the start and end of each page URL to support starts with */
+  pageUrl?: string;
+  /** Query param: Filters the returned cookies that match the specified path attribute */
+  path?: string;
+  /** Query param: The number of results per page. */
+  perPage?: number;
+  /** Query param: Filters the returned cookies that match the specified same_site attribute */
+  sameSite?: "lax" | "strict" | "none";
+  /** Query param: Filters the returned cookies that are set with Secure */
+  secure?: boolean;
+  /** Query param: Filters the returned cookies that match the specified type attribute */
+  type?: "first_party" | "unknown";
+}
+
+export const ListCookiesRequest = Schema.Struct({
+  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+  direction: Schema.optional(Schema.Literals(["asc", "desc"])).pipe(
+    T.HttpQuery("direction"),
+  ),
+  domain: Schema.optional(Schema.String).pipe(T.HttpQuery("domain")),
+  export: Schema.optional(Schema.Literal("csv")).pipe(T.HttpQuery("export")),
+  hosts: Schema.optional(Schema.String).pipe(T.HttpQuery("hosts")),
+  httpOnly: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("http_only")),
+  name: Schema.optional(Schema.String).pipe(T.HttpQuery("name")),
+  orderBy: Schema.optional(
+    Schema.Literals(["first_seen_at", "last_seen_at"]),
+  ).pipe(T.HttpQuery("order_by")),
+  page: Schema.optional(Schema.String).pipe(T.HttpQuery("page")),
+  pageUrl: Schema.optional(Schema.String).pipe(T.HttpQuery("page_url")),
+  path: Schema.optional(Schema.String).pipe(T.HttpQuery("path")),
+  perPage: Schema.optional(Schema.Number).pipe(T.HttpQuery("per_page")),
+  sameSite: Schema.optional(Schema.Literals(["lax", "strict", "none"])).pipe(
+    T.HttpQuery("same_site"),
+  ),
+  secure: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("secure")),
+  type: Schema.optional(Schema.Literals(["first_party", "unknown"])).pipe(
+    T.HttpQuery("type"),
+  ),
+}).pipe(
+  T.Http({ method: "GET", path: "/zones/{zone_id}/page_shield/cookies" }),
+) as unknown as Schema.Schema<ListCookiesRequest>;
+
+export type ListCookiesResponse = {
+  id: string;
+  firstSeenAt: string;
+  host: string;
+  lastSeenAt: string;
+  name: string;
+  type: "first_party" | "unknown";
+  domainAttribute?: string;
+  expiresAttribute?: string;
+  httpOnlyAttribute?: boolean;
+  maxAgeAttribute?: number;
+  pageUrls?: string[];
+  pathAttribute?: string;
+  sameSiteAttribute?: "lax" | "strict" | "none";
+  secureAttribute?: boolean;
+}[];
+
+export const ListCookiesResponse = Schema.Array(
+  Schema.Struct({
+    id: Schema.String,
+    firstSeenAt: Schema.String,
+    host: Schema.String,
+    lastSeenAt: Schema.String,
+    name: Schema.String,
+    type: Schema.Literals(["first_party", "unknown"]),
+    domainAttribute: Schema.optional(Schema.String),
+    expiresAttribute: Schema.optional(Schema.String),
+    httpOnlyAttribute: Schema.optional(Schema.Boolean),
+    maxAgeAttribute: Schema.optional(Schema.Number),
+    pageUrls: Schema.optional(Schema.Array(Schema.String)),
+    pathAttribute: Schema.optional(Schema.String),
+    sameSiteAttribute: Schema.optional(
+      Schema.Literals(["lax", "strict", "none"]),
+    ),
+    secureAttribute: Schema.optional(Schema.Boolean),
+  }).pipe(
+    Schema.encodeKeys({
+      firstSeenAt: "first_seen_at",
+      lastSeenAt: "last_seen_at",
+      domainAttribute: "domain_attribute",
+      expiresAttribute: "expires_attribute",
+      httpOnlyAttribute: "http_only_attribute",
+      maxAgeAttribute: "max_age_attribute",
+      pageUrls: "page_urls",
+      pathAttribute: "path_attribute",
+      sameSiteAttribute: "same_site_attribute",
+      secureAttribute: "secure_attribute",
+    }),
+  ),
+) as unknown as Schema.Schema<ListCookiesResponse>;
+
+export const listCookies: (
+  input: ListCookiesRequest,
+) => Effect.Effect<
+  ListCookiesResponse,
+  CommonErrors,
+  ApiToken | HttpClient.HttpClient
+> = API.make(() => ({
+  input: ListCookiesRequest,
+  output: ListCookiesResponse,
   errors: [],
 }));
 
@@ -208,14 +444,16 @@ export interface GetPageShieldResponse {
 
 export const GetPageShieldResponse = Schema.Struct({
   enabled: Schema.Boolean,
-  updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
-  useCloudflareReportingEndpoint: Schema.Boolean.pipe(
-    T.JsonName("use_cloudflare_reporting_endpoint"),
-  ),
-  useConnectionUrlPath: Schema.Boolean.pipe(
-    T.JsonName("use_connection_url_path"),
-  ),
-}) as unknown as Schema.Schema<GetPageShieldResponse>;
+  updatedAt: Schema.String,
+  useCloudflareReportingEndpoint: Schema.Boolean,
+  useConnectionUrlPath: Schema.Boolean,
+}).pipe(
+  Schema.encodeKeys({
+    updatedAt: "updated_at",
+    useCloudflareReportingEndpoint: "use_cloudflare_reporting_endpoint",
+    useConnectionUrlPath: "use_connection_url_path",
+  }),
+) as unknown as Schema.Schema<GetPageShieldResponse>;
 
 export const getPageShield: (
   input: GetPageShieldRequest,
@@ -243,13 +481,13 @@ export interface PutPageShieldRequest {
 export const PutPageShieldRequest = Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
   enabled: Schema.optional(Schema.Boolean),
-  useCloudflareReportingEndpoint: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("use_cloudflare_reporting_endpoint"),
-  ),
-  useConnectionUrlPath: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("use_connection_url_path"),
-  ),
+  useCloudflareReportingEndpoint: Schema.optional(Schema.Boolean),
+  useConnectionUrlPath: Schema.optional(Schema.Boolean),
 }).pipe(
+  Schema.encodeKeys({
+    useCloudflareReportingEndpoint: "use_cloudflare_reporting_endpoint",
+    useConnectionUrlPath: "use_connection_url_path",
+  }),
   T.Http({ method: "PUT", path: "/zones/{zone_id}/page_shield" }),
 ) as unknown as Schema.Schema<PutPageShieldRequest>;
 
@@ -266,14 +504,16 @@ export interface PutPageShieldResponse {
 
 export const PutPageShieldResponse = Schema.Struct({
   enabled: Schema.Boolean,
-  updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
-  useCloudflareReportingEndpoint: Schema.Boolean.pipe(
-    T.JsonName("use_cloudflare_reporting_endpoint"),
-  ),
-  useConnectionUrlPath: Schema.Boolean.pipe(
-    T.JsonName("use_connection_url_path"),
-  ),
-}) as unknown as Schema.Schema<PutPageShieldResponse>;
+  updatedAt: Schema.String,
+  useCloudflareReportingEndpoint: Schema.Boolean,
+  useConnectionUrlPath: Schema.Boolean,
+}).pipe(
+  Schema.encodeKeys({
+    updatedAt: "updated_at",
+    useCloudflareReportingEndpoint: "use_cloudflare_reporting_endpoint",
+    useConnectionUrlPath: "use_connection_url_path",
+  }),
+) as unknown as Schema.Schema<PutPageShieldResponse>;
 
 export const putPageShield: (
   input: PutPageShieldRequest,
@@ -340,6 +580,49 @@ export const getPolicy: (
 > = API.make(() => ({
   input: GetPolicyRequest,
   output: GetPolicyResponse,
+  errors: [],
+}));
+
+export interface ListPoliciesRequest {
+  /** Identifier */
+  zoneId: string;
+}
+
+export const ListPoliciesRequest = Schema.Struct({
+  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+}).pipe(
+  T.Http({ method: "GET", path: "/zones/{zone_id}/page_shield/policies" }),
+) as unknown as Schema.Schema<ListPoliciesRequest>;
+
+export type ListPoliciesResponse = {
+  id: string;
+  action: "allow" | "log";
+  description: string;
+  enabled: boolean;
+  expression: string;
+  value: string;
+}[];
+
+export const ListPoliciesResponse = Schema.Array(
+  Schema.Struct({
+    id: Schema.String,
+    action: Schema.Literals(["allow", "log"]),
+    description: Schema.String,
+    enabled: Schema.Boolean,
+    expression: Schema.String,
+    value: Schema.String,
+  }),
+) as unknown as Schema.Schema<ListPoliciesResponse>;
+
+export const listPolicies: (
+  input: ListPoliciesRequest,
+) => Effect.Effect<
+  ListPoliciesResponse,
+  CommonErrors,
+  ApiToken | HttpClient.HttpClient
+> = API.make(() => ({
+  input: ListPoliciesRequest,
+  output: ListPoliciesResponse,
   errors: [],
 }));
 
@@ -572,86 +855,90 @@ export interface GetScriptResponse {
 
 export const GetScriptResponse = Schema.Struct({
   id: Schema.String,
-  addedAt: Schema.String.pipe(T.JsonName("added_at")),
-  firstSeenAt: Schema.String.pipe(T.JsonName("first_seen_at")),
+  addedAt: Schema.String,
+  firstSeenAt: Schema.String,
   host: Schema.String,
-  lastSeenAt: Schema.String.pipe(T.JsonName("last_seen_at")),
+  lastSeenAt: Schema.String,
   url: Schema.String,
-  urlContainsCdnCgiPath: Schema.Boolean.pipe(
-    T.JsonName("url_contains_cdn_cgi_path"),
-  ),
+  urlContainsCdnCgiPath: Schema.Boolean,
   cryptominingScore: Schema.optional(
     Schema.Union([Schema.Number, Schema.Null]),
-  ).pipe(T.JsonName("cryptomining_score")),
-  dataflowScore: Schema.optional(
-    Schema.Union([Schema.Number, Schema.Null]),
-  ).pipe(T.JsonName("dataflow_score")),
-  domainReportedMalicious: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("domain_reported_malicious"),
   ),
-  fetchedAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-    T.JsonName("fetched_at"),
-  ),
-  firstPageUrl: Schema.optional(Schema.String).pipe(
-    T.JsonName("first_page_url"),
-  ),
+  dataflowScore: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  domainReportedMalicious: Schema.optional(Schema.Boolean),
+  fetchedAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  firstPageUrl: Schema.optional(Schema.String),
   hash: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  jsIntegrityScore: Schema.optional(
-    Schema.Union([Schema.Number, Schema.Null]),
-  ).pipe(T.JsonName("js_integrity_score")),
-  magecartScore: Schema.optional(
-    Schema.Union([Schema.Number, Schema.Null]),
-  ).pipe(T.JsonName("magecart_score")),
-  maliciousDomainCategories: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.JsonName("malicious_domain_categories"),
-  ),
-  maliciousUrlCategories: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.JsonName("malicious_url_categories"),
-  ),
-  malwareScore: Schema.optional(
-    Schema.Union([Schema.Number, Schema.Null]),
-  ).pipe(T.JsonName("malware_score")),
-  obfuscationScore: Schema.optional(
-    Schema.Union([Schema.Number, Schema.Null]),
-  ).pipe(T.JsonName("obfuscation_score")),
-  pageUrls: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.JsonName("page_urls"),
-  ),
-  urlReportedMalicious: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("url_reported_malicious"),
-  ),
+  jsIntegrityScore: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  magecartScore: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  maliciousDomainCategories: Schema.optional(Schema.Array(Schema.String)),
+  maliciousUrlCategories: Schema.optional(Schema.Array(Schema.String)),
+  malwareScore: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  obfuscationScore: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  pageUrls: Schema.optional(Schema.Array(Schema.String)),
+  urlReportedMalicious: Schema.optional(Schema.Boolean),
   versions: Schema.optional(
     Schema.Union([
       Schema.Array(
         Schema.Struct({
           cryptominingScore: Schema.optional(
             Schema.Union([Schema.Number, Schema.Null]),
-          ).pipe(T.JsonName("cryptomining_score")),
+          ),
           dataflowScore: Schema.optional(
             Schema.Union([Schema.Number, Schema.Null]),
-          ).pipe(T.JsonName("dataflow_score")),
+          ),
           fetchedAt: Schema.optional(
             Schema.Union([Schema.String, Schema.Null]),
-          ).pipe(T.JsonName("fetched_at")),
+          ),
           hash: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
           jsIntegrityScore: Schema.optional(
             Schema.Union([Schema.Number, Schema.Null]),
-          ).pipe(T.JsonName("js_integrity_score")),
+          ),
           magecartScore: Schema.optional(
             Schema.Union([Schema.Number, Schema.Null]),
-          ).pipe(T.JsonName("magecart_score")),
+          ),
           malwareScore: Schema.optional(
             Schema.Union([Schema.Number, Schema.Null]),
-          ).pipe(T.JsonName("malware_score")),
+          ),
           obfuscationScore: Schema.optional(
             Schema.Union([Schema.Number, Schema.Null]),
-          ).pipe(T.JsonName("obfuscation_score")),
-        }),
+          ),
+        }).pipe(
+          Schema.encodeKeys({
+            cryptominingScore: "cryptomining_score",
+            dataflowScore: "dataflow_score",
+            fetchedAt: "fetched_at",
+            jsIntegrityScore: "js_integrity_score",
+            magecartScore: "magecart_score",
+            malwareScore: "malware_score",
+            obfuscationScore: "obfuscation_score",
+          }),
+        ),
       ),
       Schema.Null,
     ]),
   ),
-}) as unknown as Schema.Schema<GetScriptResponse>;
+}).pipe(
+  Schema.encodeKeys({
+    addedAt: "added_at",
+    firstSeenAt: "first_seen_at",
+    lastSeenAt: "last_seen_at",
+    urlContainsCdnCgiPath: "url_contains_cdn_cgi_path",
+    cryptominingScore: "cryptomining_score",
+    dataflowScore: "dataflow_score",
+    domainReportedMalicious: "domain_reported_malicious",
+    fetchedAt: "fetched_at",
+    firstPageUrl: "first_page_url",
+    jsIntegrityScore: "js_integrity_score",
+    magecartScore: "magecart_score",
+    maliciousDomainCategories: "malicious_domain_categories",
+    maliciousUrlCategories: "malicious_url_categories",
+    malwareScore: "malware_score",
+    obfuscationScore: "obfuscation_score",
+    pageUrls: "page_urls",
+    urlReportedMalicious: "url_reported_malicious",
+  }),
+) as unknown as Schema.Schema<GetScriptResponse>;
 
 export const getScript: (
   input: GetScriptRequest,
@@ -662,5 +949,153 @@ export const getScript: (
 > = API.make(() => ({
   input: GetScriptRequest,
   output: GetScriptResponse,
+  errors: [],
+}));
+
+export interface ListScriptsRequest {
+  /** Path param: Identifier */
+  zoneId: string;
+  /** Query param: The direction used to sort returned scripts. */
+  direction?: "asc" | "desc";
+  /** Query param: When true, excludes scripts seen in a `/cdn-cgi` path from the returned scripts. The default value is true. */
+  excludeCdnCgi?: boolean;
+  /** Query param: When true, excludes duplicate scripts. We consider a script duplicate of another if their javascript content matches and they share the same url host and zone hostname. In such case, we r */
+  excludeDuplicates?: boolean;
+  /** Query param: Excludes scripts whose URL contains one of the URL-encoded URLs separated by commas. */
+  excludeUrls?: string;
+  /** Query param: Export the list of scripts as a file, limited to 50000 entries. */
+  export?: "csv";
+  /** Query param: Includes scripts that match one or more URL-encoded hostnames separated by commas.  Wildcards are supported at the start and end of each hostname to support starts with, ends with and con */
+  hosts?: string;
+  /** Query param: The field used to sort returned scripts. */
+  orderBy?: "first_seen_at" | "last_seen_at";
+  /** Query param: The current page number of the paginated results.  We additionally support a special value "all". When "all" is used, the API will return all the scripts with the applied filters in a sin */
+  page?: string;
+  /** Query param: Includes scripts that match one or more page URLs (separated by commas) where they were last seen  Wildcards are supported at the start and end of each page URL to support starts with, en */
+  pageUrl?: string;
+  /** Query param: The number of results per page. */
+  perPage?: number;
+  /** Query param: When true, malicious scripts appear first in the returned scripts. */
+  prioritizeMalicious?: boolean;
+  /** Query param: Filters the returned scripts using a comma-separated list of scripts statuses. Accepted values: `active`, `infrequent`, and `inactive`. The default value is `active`. */
+  status?: string;
+  /** Query param: Includes scripts whose URL contain one or more URL-encoded URLs separated by commas. */
+  urls?: string;
+}
+
+export const ListScriptsRequest = Schema.Struct({
+  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+  direction: Schema.optional(Schema.Literals(["asc", "desc"])).pipe(
+    T.HttpQuery("direction"),
+  ),
+  excludeCdnCgi: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("exclude_cdn_cgi"),
+  ),
+  excludeDuplicates: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("exclude_duplicates"),
+  ),
+  excludeUrls: Schema.optional(Schema.String).pipe(T.HttpQuery("exclude_urls")),
+  export: Schema.optional(Schema.Literal("csv")).pipe(T.HttpQuery("export")),
+  hosts: Schema.optional(Schema.String).pipe(T.HttpQuery("hosts")),
+  orderBy: Schema.optional(
+    Schema.Literals(["first_seen_at", "last_seen_at"]),
+  ).pipe(T.HttpQuery("order_by")),
+  page: Schema.optional(Schema.String).pipe(T.HttpQuery("page")),
+  pageUrl: Schema.optional(Schema.String).pipe(T.HttpQuery("page_url")),
+  perPage: Schema.optional(Schema.Number).pipe(T.HttpQuery("per_page")),
+  prioritizeMalicious: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("prioritize_malicious"),
+  ),
+  status: Schema.optional(Schema.String).pipe(T.HttpQuery("status")),
+  urls: Schema.optional(Schema.String).pipe(T.HttpQuery("urls")),
+}).pipe(
+  T.Http({ method: "GET", path: "/zones/{zone_id}/page_shield/scripts" }),
+) as unknown as Schema.Schema<ListScriptsRequest>;
+
+export type ListScriptsResponse = {
+  id: string;
+  addedAt: string;
+  firstSeenAt: string;
+  host: string;
+  lastSeenAt: string;
+  url: string;
+  urlContainsCdnCgiPath: boolean;
+  cryptominingScore?: number | null;
+  dataflowScore?: number | null;
+  domainReportedMalicious?: boolean;
+  fetchedAt?: string | null;
+  firstPageUrl?: string;
+  hash?: string | null;
+  jsIntegrityScore?: number | null;
+  magecartScore?: number | null;
+  maliciousDomainCategories?: string[];
+  maliciousUrlCategories?: string[];
+  malwareScore?: number | null;
+  obfuscationScore?: number | null;
+  pageUrls?: string[];
+  urlReportedMalicious?: boolean;
+}[];
+
+export const ListScriptsResponse = Schema.Array(
+  Schema.Struct({
+    id: Schema.String,
+    addedAt: Schema.String,
+    firstSeenAt: Schema.String,
+    host: Schema.String,
+    lastSeenAt: Schema.String,
+    url: Schema.String,
+    urlContainsCdnCgiPath: Schema.Boolean,
+    cryptominingScore: Schema.optional(
+      Schema.Union([Schema.Number, Schema.Null]),
+    ),
+    dataflowScore: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    domainReportedMalicious: Schema.optional(Schema.Boolean),
+    fetchedAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    firstPageUrl: Schema.optional(Schema.String),
+    hash: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    jsIntegrityScore: Schema.optional(
+      Schema.Union([Schema.Number, Schema.Null]),
+    ),
+    magecartScore: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    maliciousDomainCategories: Schema.optional(Schema.Array(Schema.String)),
+    maliciousUrlCategories: Schema.optional(Schema.Array(Schema.String)),
+    malwareScore: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    obfuscationScore: Schema.optional(
+      Schema.Union([Schema.Number, Schema.Null]),
+    ),
+    pageUrls: Schema.optional(Schema.Array(Schema.String)),
+    urlReportedMalicious: Schema.optional(Schema.Boolean),
+  }).pipe(
+    Schema.encodeKeys({
+      addedAt: "added_at",
+      firstSeenAt: "first_seen_at",
+      lastSeenAt: "last_seen_at",
+      urlContainsCdnCgiPath: "url_contains_cdn_cgi_path",
+      cryptominingScore: "cryptomining_score",
+      dataflowScore: "dataflow_score",
+      domainReportedMalicious: "domain_reported_malicious",
+      fetchedAt: "fetched_at",
+      firstPageUrl: "first_page_url",
+      jsIntegrityScore: "js_integrity_score",
+      magecartScore: "magecart_score",
+      maliciousDomainCategories: "malicious_domain_categories",
+      maliciousUrlCategories: "malicious_url_categories",
+      malwareScore: "malware_score",
+      obfuscationScore: "obfuscation_score",
+      pageUrls: "page_urls",
+      urlReportedMalicious: "url_reported_malicious",
+    }),
+  ),
+) as unknown as Schema.Schema<ListScriptsResponse>;
+
+export const listScripts: (
+  input: ListScriptsRequest,
+) => Effect.Effect<
+  ListScriptsResponse,
+  CommonErrors,
+  ApiToken | HttpClient.HttpClient
+> = API.make(() => ({
+  input: ListScriptsRequest,
+  output: ListScriptsResponse,
   errors: [],
 }));

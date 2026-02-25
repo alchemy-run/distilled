@@ -132,7 +132,7 @@ export interface GetPhasResponse {
 export const GetPhasResponse = Schema.Struct({
   id: Schema.String,
   kind: Schema.Literals(["zone", "managed", "custom", "root"]),
-  lastUpdated: Schema.String.pipe(T.JsonName("last_updated")),
+  lastUpdated: Schema.String,
   name: Schema.String,
   phase: Schema.Literals([
     "ddos_l4",
@@ -163,108 +163,114 @@ export const GetPhasResponse = Schema.Struct({
     Schema.Union([
       Schema.Unknown,
       Schema.Struct({
-        lastUpdated: Schema.String.pipe(T.JsonName("last_updated")),
+        lastUpdated: Schema.String,
         version: Schema.String,
         id: Schema.optional(Schema.String),
         action: Schema.optional(Schema.Literal("challenge")),
-        actionParameters: Schema.optional(Schema.Unknown).pipe(
-          T.JsonName("action_parameters"),
-        ),
+        actionParameters: Schema.optional(Schema.Unknown),
         categories: Schema.optional(Schema.Array(Schema.String)),
         description: Schema.optional(Schema.String),
         enabled: Schema.optional(Schema.Boolean),
         exposedCredentialCheck: Schema.optional(
           Schema.Struct({
-            passwordExpression: Schema.String.pipe(
-              T.JsonName("password_expression"),
-            ),
-            usernameExpression: Schema.String.pipe(
-              T.JsonName("username_expression"),
-            ),
-          }),
-        ).pipe(T.JsonName("exposed_credential_check")),
+            passwordExpression: Schema.String,
+            usernameExpression: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({
+              passwordExpression: "password_expression",
+              usernameExpression: "username_expression",
+            }),
+          ),
+        ),
         expression: Schema.optional(Schema.String),
         logging: Schema.optional(Schema.Unknown),
         ratelimit: Schema.optional(
           Schema.Struct({
             characteristics: Schema.Array(Schema.String),
             period: Schema.Number,
-            countingExpression: Schema.optional(Schema.String).pipe(
-              T.JsonName("counting_expression"),
-            ),
-            mitigationTimeout: Schema.optional(Schema.Number).pipe(
-              T.JsonName("mitigation_timeout"),
-            ),
-            requestsPerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("requests_per_period"),
-            ),
-            requestsToOrigin: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("requests_to_origin"),
-            ),
-            scorePerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("score_per_period"),
-            ),
-            scoreResponseHeaderName: Schema.optional(Schema.String).pipe(
-              T.JsonName("score_response_header_name"),
-            ),
-          }),
+            countingExpression: Schema.optional(Schema.String),
+            mitigationTimeout: Schema.optional(Schema.Number),
+            requestsPerPeriod: Schema.optional(Schema.Number),
+            requestsToOrigin: Schema.optional(Schema.Boolean),
+            scorePerPeriod: Schema.optional(Schema.Number),
+            scoreResponseHeaderName: Schema.optional(Schema.String),
+          }).pipe(
+            Schema.encodeKeys({
+              countingExpression: "counting_expression",
+              mitigationTimeout: "mitigation_timeout",
+              requestsPerPeriod: "requests_per_period",
+              requestsToOrigin: "requests_to_origin",
+              scorePerPeriod: "score_per_period",
+              scoreResponseHeaderName: "score_response_header_name",
+            }),
+          ),
         ),
         ref: Schema.optional(Schema.String),
-      }),
+      }).pipe(
+        Schema.encodeKeys({
+          lastUpdated: "last_updated",
+          actionParameters: "action_parameters",
+          exposedCredentialCheck: "exposed_credential_check",
+        }),
+      ),
       Schema.Struct({
-        lastUpdated: Schema.String.pipe(T.JsonName("last_updated")),
+        lastUpdated: Schema.String,
         version: Schema.String,
         id: Schema.optional(Schema.String),
         action: Schema.optional(Schema.Literal("js_challenge")),
-        actionParameters: Schema.optional(Schema.Unknown).pipe(
-          T.JsonName("action_parameters"),
-        ),
+        actionParameters: Schema.optional(Schema.Unknown),
         categories: Schema.optional(Schema.Array(Schema.String)),
         description: Schema.optional(Schema.String),
         enabled: Schema.optional(Schema.Boolean),
         exposedCredentialCheck: Schema.optional(
           Schema.Struct({
-            passwordExpression: Schema.String.pipe(
-              T.JsonName("password_expression"),
-            ),
-            usernameExpression: Schema.String.pipe(
-              T.JsonName("username_expression"),
-            ),
-          }),
-        ).pipe(T.JsonName("exposed_credential_check")),
+            passwordExpression: Schema.String,
+            usernameExpression: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({
+              passwordExpression: "password_expression",
+              usernameExpression: "username_expression",
+            }),
+          ),
+        ),
         expression: Schema.optional(Schema.String),
         logging: Schema.optional(Schema.Unknown),
         ratelimit: Schema.optional(
           Schema.Struct({
             characteristics: Schema.Array(Schema.String),
             period: Schema.Number,
-            countingExpression: Schema.optional(Schema.String).pipe(
-              T.JsonName("counting_expression"),
-            ),
-            mitigationTimeout: Schema.optional(Schema.Number).pipe(
-              T.JsonName("mitigation_timeout"),
-            ),
-            requestsPerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("requests_per_period"),
-            ),
-            requestsToOrigin: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("requests_to_origin"),
-            ),
-            scorePerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("score_per_period"),
-            ),
-            scoreResponseHeaderName: Schema.optional(Schema.String).pipe(
-              T.JsonName("score_response_header_name"),
-            ),
-          }),
+            countingExpression: Schema.optional(Schema.String),
+            mitigationTimeout: Schema.optional(Schema.Number),
+            requestsPerPeriod: Schema.optional(Schema.Number),
+            requestsToOrigin: Schema.optional(Schema.Boolean),
+            scorePerPeriod: Schema.optional(Schema.Number),
+            scoreResponseHeaderName: Schema.optional(Schema.String),
+          }).pipe(
+            Schema.encodeKeys({
+              countingExpression: "counting_expression",
+              mitigationTimeout: "mitigation_timeout",
+              requestsPerPeriod: "requests_per_period",
+              requestsToOrigin: "requests_to_origin",
+              scorePerPeriod: "score_per_period",
+              scoreResponseHeaderName: "score_response_header_name",
+            }),
+          ),
         ),
         ref: Schema.optional(Schema.String),
-      }),
+      }).pipe(
+        Schema.encodeKeys({
+          lastUpdated: "last_updated",
+          actionParameters: "action_parameters",
+          exposedCredentialCheck: "exposed_credential_check",
+        }),
+      ),
     ]),
   ),
   version: Schema.String,
   description: Schema.optional(Schema.String),
-}) as unknown as Schema.Schema<GetPhasResponse>;
+}).pipe(
+  Schema.encodeKeys({ lastUpdated: "last_updated" }),
+) as unknown as Schema.Schema<GetPhasResponse>;
 
 export const getPhas: (
   input: GetPhasRequest,
@@ -353,95 +359,97 @@ export const PutPhasRequest = Schema.Struct({
         Schema.Struct({
           id: Schema.optional(Schema.String),
           action: Schema.optional(Schema.Literal("challenge")),
-          actionParameters: Schema.optional(Schema.Unknown).pipe(
-            T.JsonName("action_parameters"),
-          ),
+          actionParameters: Schema.optional(Schema.Unknown),
           description: Schema.optional(Schema.String),
           enabled: Schema.optional(Schema.Boolean),
           exposedCredentialCheck: Schema.optional(
             Schema.Struct({
-              passwordExpression: Schema.String.pipe(
-                T.JsonName("password_expression"),
-              ),
-              usernameExpression: Schema.String.pipe(
-                T.JsonName("username_expression"),
-              ),
-            }),
-          ).pipe(T.JsonName("exposed_credential_check")),
+              passwordExpression: Schema.String,
+              usernameExpression: Schema.String,
+            }).pipe(
+              Schema.encodeKeys({
+                passwordExpression: "password_expression",
+                usernameExpression: "username_expression",
+              }),
+            ),
+          ),
           expression: Schema.optional(Schema.String),
           logging: Schema.optional(Schema.Unknown),
           ratelimit: Schema.optional(
             Schema.Struct({
               characteristics: Schema.Array(Schema.String),
               period: Schema.Number,
-              countingExpression: Schema.optional(Schema.String).pipe(
-                T.JsonName("counting_expression"),
-              ),
-              mitigationTimeout: Schema.optional(Schema.Number).pipe(
-                T.JsonName("mitigation_timeout"),
-              ),
-              requestsPerPeriod: Schema.optional(Schema.Number).pipe(
-                T.JsonName("requests_per_period"),
-              ),
-              requestsToOrigin: Schema.optional(Schema.Boolean).pipe(
-                T.JsonName("requests_to_origin"),
-              ),
-              scorePerPeriod: Schema.optional(Schema.Number).pipe(
-                T.JsonName("score_per_period"),
-              ),
-              scoreResponseHeaderName: Schema.optional(Schema.String).pipe(
-                T.JsonName("score_response_header_name"),
-              ),
-            }),
+              countingExpression: Schema.optional(Schema.String),
+              mitigationTimeout: Schema.optional(Schema.Number),
+              requestsPerPeriod: Schema.optional(Schema.Number),
+              requestsToOrigin: Schema.optional(Schema.Boolean),
+              scorePerPeriod: Schema.optional(Schema.Number),
+              scoreResponseHeaderName: Schema.optional(Schema.String),
+            }).pipe(
+              Schema.encodeKeys({
+                countingExpression: "counting_expression",
+                mitigationTimeout: "mitigation_timeout",
+                requestsPerPeriod: "requests_per_period",
+                requestsToOrigin: "requests_to_origin",
+                scorePerPeriod: "score_per_period",
+                scoreResponseHeaderName: "score_response_header_name",
+              }),
+            ),
           ),
           ref: Schema.optional(Schema.String),
-        }),
+        }).pipe(
+          Schema.encodeKeys({
+            actionParameters: "action_parameters",
+            exposedCredentialCheck: "exposed_credential_check",
+          }),
+        ),
         Schema.Struct({
           id: Schema.optional(Schema.String),
           action: Schema.optional(Schema.Literal("js_challenge")),
-          actionParameters: Schema.optional(Schema.Unknown).pipe(
-            T.JsonName("action_parameters"),
-          ),
+          actionParameters: Schema.optional(Schema.Unknown),
           description: Schema.optional(Schema.String),
           enabled: Schema.optional(Schema.Boolean),
           exposedCredentialCheck: Schema.optional(
             Schema.Struct({
-              passwordExpression: Schema.String.pipe(
-                T.JsonName("password_expression"),
-              ),
-              usernameExpression: Schema.String.pipe(
-                T.JsonName("username_expression"),
-              ),
-            }),
-          ).pipe(T.JsonName("exposed_credential_check")),
+              passwordExpression: Schema.String,
+              usernameExpression: Schema.String,
+            }).pipe(
+              Schema.encodeKeys({
+                passwordExpression: "password_expression",
+                usernameExpression: "username_expression",
+              }),
+            ),
+          ),
           expression: Schema.optional(Schema.String),
           logging: Schema.optional(Schema.Unknown),
           ratelimit: Schema.optional(
             Schema.Struct({
               characteristics: Schema.Array(Schema.String),
               period: Schema.Number,
-              countingExpression: Schema.optional(Schema.String).pipe(
-                T.JsonName("counting_expression"),
-              ),
-              mitigationTimeout: Schema.optional(Schema.Number).pipe(
-                T.JsonName("mitigation_timeout"),
-              ),
-              requestsPerPeriod: Schema.optional(Schema.Number).pipe(
-                T.JsonName("requests_per_period"),
-              ),
-              requestsToOrigin: Schema.optional(Schema.Boolean).pipe(
-                T.JsonName("requests_to_origin"),
-              ),
-              scorePerPeriod: Schema.optional(Schema.Number).pipe(
-                T.JsonName("score_per_period"),
-              ),
-              scoreResponseHeaderName: Schema.optional(Schema.String).pipe(
-                T.JsonName("score_response_header_name"),
-              ),
-            }),
+              countingExpression: Schema.optional(Schema.String),
+              mitigationTimeout: Schema.optional(Schema.Number),
+              requestsPerPeriod: Schema.optional(Schema.Number),
+              requestsToOrigin: Schema.optional(Schema.Boolean),
+              scorePerPeriod: Schema.optional(Schema.Number),
+              scoreResponseHeaderName: Schema.optional(Schema.String),
+            }).pipe(
+              Schema.encodeKeys({
+                countingExpression: "counting_expression",
+                mitigationTimeout: "mitigation_timeout",
+                requestsPerPeriod: "requests_per_period",
+                requestsToOrigin: "requests_to_origin",
+                scorePerPeriod: "score_per_period",
+                scoreResponseHeaderName: "score_response_header_name",
+              }),
+            ),
           ),
           ref: Schema.optional(Schema.String),
-        }),
+        }).pipe(
+          Schema.encodeKeys({
+            actionParameters: "action_parameters",
+            exposedCredentialCheck: "exposed_credential_check",
+          }),
+        ),
       ]),
     ),
   ),
@@ -553,7 +561,7 @@ export interface PutPhasResponse {
 export const PutPhasResponse = Schema.Struct({
   id: Schema.String,
   kind: Schema.Literals(["zone", "managed", "custom", "root"]),
-  lastUpdated: Schema.String.pipe(T.JsonName("last_updated")),
+  lastUpdated: Schema.String,
   name: Schema.String,
   phase: Schema.Literals([
     "ddos_l4",
@@ -584,108 +592,114 @@ export const PutPhasResponse = Schema.Struct({
     Schema.Union([
       Schema.Unknown,
       Schema.Struct({
-        lastUpdated: Schema.String.pipe(T.JsonName("last_updated")),
+        lastUpdated: Schema.String,
         version: Schema.String,
         id: Schema.optional(Schema.String),
         action: Schema.optional(Schema.Literal("challenge")),
-        actionParameters: Schema.optional(Schema.Unknown).pipe(
-          T.JsonName("action_parameters"),
-        ),
+        actionParameters: Schema.optional(Schema.Unknown),
         categories: Schema.optional(Schema.Array(Schema.String)),
         description: Schema.optional(Schema.String),
         enabled: Schema.optional(Schema.Boolean),
         exposedCredentialCheck: Schema.optional(
           Schema.Struct({
-            passwordExpression: Schema.String.pipe(
-              T.JsonName("password_expression"),
-            ),
-            usernameExpression: Schema.String.pipe(
-              T.JsonName("username_expression"),
-            ),
-          }),
-        ).pipe(T.JsonName("exposed_credential_check")),
+            passwordExpression: Schema.String,
+            usernameExpression: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({
+              passwordExpression: "password_expression",
+              usernameExpression: "username_expression",
+            }),
+          ),
+        ),
         expression: Schema.optional(Schema.String),
         logging: Schema.optional(Schema.Unknown),
         ratelimit: Schema.optional(
           Schema.Struct({
             characteristics: Schema.Array(Schema.String),
             period: Schema.Number,
-            countingExpression: Schema.optional(Schema.String).pipe(
-              T.JsonName("counting_expression"),
-            ),
-            mitigationTimeout: Schema.optional(Schema.Number).pipe(
-              T.JsonName("mitigation_timeout"),
-            ),
-            requestsPerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("requests_per_period"),
-            ),
-            requestsToOrigin: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("requests_to_origin"),
-            ),
-            scorePerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("score_per_period"),
-            ),
-            scoreResponseHeaderName: Schema.optional(Schema.String).pipe(
-              T.JsonName("score_response_header_name"),
-            ),
-          }),
+            countingExpression: Schema.optional(Schema.String),
+            mitigationTimeout: Schema.optional(Schema.Number),
+            requestsPerPeriod: Schema.optional(Schema.Number),
+            requestsToOrigin: Schema.optional(Schema.Boolean),
+            scorePerPeriod: Schema.optional(Schema.Number),
+            scoreResponseHeaderName: Schema.optional(Schema.String),
+          }).pipe(
+            Schema.encodeKeys({
+              countingExpression: "counting_expression",
+              mitigationTimeout: "mitigation_timeout",
+              requestsPerPeriod: "requests_per_period",
+              requestsToOrigin: "requests_to_origin",
+              scorePerPeriod: "score_per_period",
+              scoreResponseHeaderName: "score_response_header_name",
+            }),
+          ),
         ),
         ref: Schema.optional(Schema.String),
-      }),
+      }).pipe(
+        Schema.encodeKeys({
+          lastUpdated: "last_updated",
+          actionParameters: "action_parameters",
+          exposedCredentialCheck: "exposed_credential_check",
+        }),
+      ),
       Schema.Struct({
-        lastUpdated: Schema.String.pipe(T.JsonName("last_updated")),
+        lastUpdated: Schema.String,
         version: Schema.String,
         id: Schema.optional(Schema.String),
         action: Schema.optional(Schema.Literal("js_challenge")),
-        actionParameters: Schema.optional(Schema.Unknown).pipe(
-          T.JsonName("action_parameters"),
-        ),
+        actionParameters: Schema.optional(Schema.Unknown),
         categories: Schema.optional(Schema.Array(Schema.String)),
         description: Schema.optional(Schema.String),
         enabled: Schema.optional(Schema.Boolean),
         exposedCredentialCheck: Schema.optional(
           Schema.Struct({
-            passwordExpression: Schema.String.pipe(
-              T.JsonName("password_expression"),
-            ),
-            usernameExpression: Schema.String.pipe(
-              T.JsonName("username_expression"),
-            ),
-          }),
-        ).pipe(T.JsonName("exposed_credential_check")),
+            passwordExpression: Schema.String,
+            usernameExpression: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({
+              passwordExpression: "password_expression",
+              usernameExpression: "username_expression",
+            }),
+          ),
+        ),
         expression: Schema.optional(Schema.String),
         logging: Schema.optional(Schema.Unknown),
         ratelimit: Schema.optional(
           Schema.Struct({
             characteristics: Schema.Array(Schema.String),
             period: Schema.Number,
-            countingExpression: Schema.optional(Schema.String).pipe(
-              T.JsonName("counting_expression"),
-            ),
-            mitigationTimeout: Schema.optional(Schema.Number).pipe(
-              T.JsonName("mitigation_timeout"),
-            ),
-            requestsPerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("requests_per_period"),
-            ),
-            requestsToOrigin: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("requests_to_origin"),
-            ),
-            scorePerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("score_per_period"),
-            ),
-            scoreResponseHeaderName: Schema.optional(Schema.String).pipe(
-              T.JsonName("score_response_header_name"),
-            ),
-          }),
+            countingExpression: Schema.optional(Schema.String),
+            mitigationTimeout: Schema.optional(Schema.Number),
+            requestsPerPeriod: Schema.optional(Schema.Number),
+            requestsToOrigin: Schema.optional(Schema.Boolean),
+            scorePerPeriod: Schema.optional(Schema.Number),
+            scoreResponseHeaderName: Schema.optional(Schema.String),
+          }).pipe(
+            Schema.encodeKeys({
+              countingExpression: "counting_expression",
+              mitigationTimeout: "mitigation_timeout",
+              requestsPerPeriod: "requests_per_period",
+              requestsToOrigin: "requests_to_origin",
+              scorePerPeriod: "score_per_period",
+              scoreResponseHeaderName: "score_response_header_name",
+            }),
+          ),
         ),
         ref: Schema.optional(Schema.String),
-      }),
+      }).pipe(
+        Schema.encodeKeys({
+          lastUpdated: "last_updated",
+          actionParameters: "action_parameters",
+          exposedCredentialCheck: "exposed_credential_check",
+        }),
+      ),
     ]),
   ),
   version: Schema.String,
   description: Schema.optional(Schema.String),
-}) as unknown as Schema.Schema<PutPhasResponse>;
+}).pipe(
+  Schema.encodeKeys({ lastUpdated: "last_updated" }),
+) as unknown as Schema.Schema<PutPhasResponse>;
 
 export const putPhas: (
   input: PutPhasRequest,
@@ -817,7 +831,7 @@ export interface GetPhasVersionResponse {
 export const GetPhasVersionResponse = Schema.Struct({
   id: Schema.String,
   kind: Schema.Literals(["zone", "managed", "custom", "root"]),
-  lastUpdated: Schema.String.pipe(T.JsonName("last_updated")),
+  lastUpdated: Schema.String,
   name: Schema.String,
   phase: Schema.Literals([
     "ddos_l4",
@@ -848,108 +862,114 @@ export const GetPhasVersionResponse = Schema.Struct({
     Schema.Union([
       Schema.Unknown,
       Schema.Struct({
-        lastUpdated: Schema.String.pipe(T.JsonName("last_updated")),
+        lastUpdated: Schema.String,
         version: Schema.String,
         id: Schema.optional(Schema.String),
         action: Schema.optional(Schema.Literal("challenge")),
-        actionParameters: Schema.optional(Schema.Unknown).pipe(
-          T.JsonName("action_parameters"),
-        ),
+        actionParameters: Schema.optional(Schema.Unknown),
         categories: Schema.optional(Schema.Array(Schema.String)),
         description: Schema.optional(Schema.String),
         enabled: Schema.optional(Schema.Boolean),
         exposedCredentialCheck: Schema.optional(
           Schema.Struct({
-            passwordExpression: Schema.String.pipe(
-              T.JsonName("password_expression"),
-            ),
-            usernameExpression: Schema.String.pipe(
-              T.JsonName("username_expression"),
-            ),
-          }),
-        ).pipe(T.JsonName("exposed_credential_check")),
+            passwordExpression: Schema.String,
+            usernameExpression: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({
+              passwordExpression: "password_expression",
+              usernameExpression: "username_expression",
+            }),
+          ),
+        ),
         expression: Schema.optional(Schema.String),
         logging: Schema.optional(Schema.Unknown),
         ratelimit: Schema.optional(
           Schema.Struct({
             characteristics: Schema.Array(Schema.String),
             period: Schema.Number,
-            countingExpression: Schema.optional(Schema.String).pipe(
-              T.JsonName("counting_expression"),
-            ),
-            mitigationTimeout: Schema.optional(Schema.Number).pipe(
-              T.JsonName("mitigation_timeout"),
-            ),
-            requestsPerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("requests_per_period"),
-            ),
-            requestsToOrigin: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("requests_to_origin"),
-            ),
-            scorePerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("score_per_period"),
-            ),
-            scoreResponseHeaderName: Schema.optional(Schema.String).pipe(
-              T.JsonName("score_response_header_name"),
-            ),
-          }),
+            countingExpression: Schema.optional(Schema.String),
+            mitigationTimeout: Schema.optional(Schema.Number),
+            requestsPerPeriod: Schema.optional(Schema.Number),
+            requestsToOrigin: Schema.optional(Schema.Boolean),
+            scorePerPeriod: Schema.optional(Schema.Number),
+            scoreResponseHeaderName: Schema.optional(Schema.String),
+          }).pipe(
+            Schema.encodeKeys({
+              countingExpression: "counting_expression",
+              mitigationTimeout: "mitigation_timeout",
+              requestsPerPeriod: "requests_per_period",
+              requestsToOrigin: "requests_to_origin",
+              scorePerPeriod: "score_per_period",
+              scoreResponseHeaderName: "score_response_header_name",
+            }),
+          ),
         ),
         ref: Schema.optional(Schema.String),
-      }),
+      }).pipe(
+        Schema.encodeKeys({
+          lastUpdated: "last_updated",
+          actionParameters: "action_parameters",
+          exposedCredentialCheck: "exposed_credential_check",
+        }),
+      ),
       Schema.Struct({
-        lastUpdated: Schema.String.pipe(T.JsonName("last_updated")),
+        lastUpdated: Schema.String,
         version: Schema.String,
         id: Schema.optional(Schema.String),
         action: Schema.optional(Schema.Literal("js_challenge")),
-        actionParameters: Schema.optional(Schema.Unknown).pipe(
-          T.JsonName("action_parameters"),
-        ),
+        actionParameters: Schema.optional(Schema.Unknown),
         categories: Schema.optional(Schema.Array(Schema.String)),
         description: Schema.optional(Schema.String),
         enabled: Schema.optional(Schema.Boolean),
         exposedCredentialCheck: Schema.optional(
           Schema.Struct({
-            passwordExpression: Schema.String.pipe(
-              T.JsonName("password_expression"),
-            ),
-            usernameExpression: Schema.String.pipe(
-              T.JsonName("username_expression"),
-            ),
-          }),
-        ).pipe(T.JsonName("exposed_credential_check")),
+            passwordExpression: Schema.String,
+            usernameExpression: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({
+              passwordExpression: "password_expression",
+              usernameExpression: "username_expression",
+            }),
+          ),
+        ),
         expression: Schema.optional(Schema.String),
         logging: Schema.optional(Schema.Unknown),
         ratelimit: Schema.optional(
           Schema.Struct({
             characteristics: Schema.Array(Schema.String),
             period: Schema.Number,
-            countingExpression: Schema.optional(Schema.String).pipe(
-              T.JsonName("counting_expression"),
-            ),
-            mitigationTimeout: Schema.optional(Schema.Number).pipe(
-              T.JsonName("mitigation_timeout"),
-            ),
-            requestsPerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("requests_per_period"),
-            ),
-            requestsToOrigin: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("requests_to_origin"),
-            ),
-            scorePerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("score_per_period"),
-            ),
-            scoreResponseHeaderName: Schema.optional(Schema.String).pipe(
-              T.JsonName("score_response_header_name"),
-            ),
-          }),
+            countingExpression: Schema.optional(Schema.String),
+            mitigationTimeout: Schema.optional(Schema.Number),
+            requestsPerPeriod: Schema.optional(Schema.Number),
+            requestsToOrigin: Schema.optional(Schema.Boolean),
+            scorePerPeriod: Schema.optional(Schema.Number),
+            scoreResponseHeaderName: Schema.optional(Schema.String),
+          }).pipe(
+            Schema.encodeKeys({
+              countingExpression: "counting_expression",
+              mitigationTimeout: "mitigation_timeout",
+              requestsPerPeriod: "requests_per_period",
+              requestsToOrigin: "requests_to_origin",
+              scorePerPeriod: "score_per_period",
+              scoreResponseHeaderName: "score_response_header_name",
+            }),
+          ),
         ),
         ref: Schema.optional(Schema.String),
-      }),
+      }).pipe(
+        Schema.encodeKeys({
+          lastUpdated: "last_updated",
+          actionParameters: "action_parameters",
+          exposedCredentialCheck: "exposed_credential_check",
+        }),
+      ),
     ]),
   ),
   version: Schema.String,
   description: Schema.optional(Schema.String),
-}) as unknown as Schema.Schema<GetPhasVersionResponse>;
+}).pipe(
+  Schema.encodeKeys({ lastUpdated: "last_updated" }),
+) as unknown as Schema.Schema<GetPhasVersionResponse>;
 
 export const getPhasVersion: (
   input: GetPhasVersionRequest,
@@ -963,17 +983,225 @@ export const getPhasVersion: (
   errors: [],
 }));
 
+export interface ListPhasVersionsRequest {}
+
+export const ListPhasVersionsRequest = Schema.Struct({}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/{accountOrZone}/{accountOrZoneId}/rulesets/phases/{rulesetPhase}/entrypoint/versions",
+  }),
+) as unknown as Schema.Schema<ListPhasVersionsRequest>;
+
+export type ListPhasVersionsResponse = {
+  id: string;
+  kind: "zone" | "managed" | "custom" | "root";
+  lastUpdated: string;
+  name: string;
+  phase:
+    | "ddos_l4"
+    | "ddos_l7"
+    | "http_config_settings"
+    | "http_custom_errors"
+    | "http_log_custom_fields"
+    | "http_ratelimit"
+    | "http_request_cache_settings"
+    | "http_request_dynamic_redirect"
+    | "http_request_firewall_custom"
+    | "http_request_firewall_managed"
+    | "http_request_late_transform"
+    | "http_request_origin"
+    | "http_request_redirect"
+    | "http_request_sanitize"
+    | "http_request_sbfm"
+    | "http_request_transform"
+    | "http_response_compression"
+    | "http_response_firewall_managed"
+    | "http_response_headers_transform"
+    | "magic_transit"
+    | "magic_transit_ids_managed"
+    | "magic_transit_managed"
+    | "magic_transit_ratelimit";
+  version: string;
+  description?: string;
+}[];
+
+export const ListPhasVersionsResponse = Schema.Array(
+  Schema.Struct({
+    id: Schema.String,
+    kind: Schema.Literals(["zone", "managed", "custom", "root"]),
+    lastUpdated: Schema.String,
+    name: Schema.String,
+    phase: Schema.Literals([
+      "ddos_l4",
+      "ddos_l7",
+      "http_config_settings",
+      "http_custom_errors",
+      "http_log_custom_fields",
+      "http_ratelimit",
+      "http_request_cache_settings",
+      "http_request_dynamic_redirect",
+      "http_request_firewall_custom",
+      "http_request_firewall_managed",
+      "http_request_late_transform",
+      "http_request_origin",
+      "http_request_redirect",
+      "http_request_sanitize",
+      "http_request_sbfm",
+      "http_request_transform",
+      "http_response_compression",
+      "http_response_firewall_managed",
+      "http_response_headers_transform",
+      "magic_transit",
+      "magic_transit_ids_managed",
+      "magic_transit_managed",
+      "magic_transit_ratelimit",
+    ]),
+    version: Schema.String,
+    description: Schema.optional(Schema.String),
+  }).pipe(Schema.encodeKeys({ lastUpdated: "last_updated" })),
+) as unknown as Schema.Schema<ListPhasVersionsResponse>;
+
+export const listPhasVersions: (
+  input: ListPhasVersionsRequest,
+) => Effect.Effect<
+  ListPhasVersionsResponse,
+  CommonErrors,
+  ApiToken | HttpClient.HttpClient
+> = API.make(() => ({
+  input: ListPhasVersionsRequest,
+  output: ListPhasVersionsResponse,
+  errors: [],
+}));
+
 // =============================================================================
 // Rule
 // =============================================================================
 
 export interface CreateRuleRequest {
   rulesetId: string;
+  /** Path param: The Account ID to use for this endpoint. Mutually exclusive with the Zone ID. */
+  accountId?: string;
+  /** Path param: The Zone ID to use for this endpoint. Mutually exclusive with the Account ID. */
+  zoneId?: string;
+  /** Body param: The unique ID of the rule. */
+  id?: string;
+  /** Body param: The action to perform when the rule matches. */
+  action?: "block";
+  /** Body param: The parameters configuring the rule's action. */
+  actionParameters?: {
+    response?: { content: string; contentType: string; statusCode: number };
+  };
+  /** Body param: An informative description of the rule. */
+  description?: string;
+  /** Body param: Whether the rule should be executed. */
+  enabled?: boolean;
+  /** Body param: Configuration for exposed credential checking. */
+  exposedCredentialCheck?: {
+    passwordExpression: string;
+    usernameExpression: string;
+  };
+  /** Body param: The expression defining which traffic will match the rule. */
+  expression?: string;
+  /** Body param: An object configuring the rule's logging behavior. */
+  logging?: { enabled: boolean };
+  /** Body param: An object configuring where the rule will be placed. */
+  position?: { before?: string } | { after?: string } | { index?: number };
+  /** Body param: An object configuring the rule's rate limit behavior. */
+  ratelimit?: {
+    characteristics: string[];
+    period: number;
+    countingExpression?: string;
+    mitigationTimeout?: number;
+    requestsPerPeriod?: number;
+    requestsToOrigin?: boolean;
+    scorePerPeriod?: number;
+    scoreResponseHeaderName?: string;
+  };
+  /** Body param: The reference of the rule (the rule's ID by default). */
+  ref?: string;
 }
 
 export const CreateRuleRequest = Schema.Struct({
   rulesetId: Schema.String.pipe(T.HttpPath("rulesetId")),
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+  id: Schema.optional(Schema.String),
+  action: Schema.optional(Schema.Literal("block")),
+  actionParameters: Schema.optional(
+    Schema.Struct({
+      response: Schema.optional(
+        Schema.Struct({
+          content: Schema.String,
+          contentType: Schema.String,
+          statusCode: Schema.Number,
+        }).pipe(
+          Schema.encodeKeys({
+            contentType: "content_type",
+            statusCode: "status_code",
+          }),
+        ),
+      ),
+    }),
+  ),
+  description: Schema.optional(Schema.String),
+  enabled: Schema.optional(Schema.Boolean),
+  exposedCredentialCheck: Schema.optional(
+    Schema.Struct({
+      passwordExpression: Schema.String,
+      usernameExpression: Schema.String,
+    }).pipe(
+      Schema.encodeKeys({
+        passwordExpression: "password_expression",
+        usernameExpression: "username_expression",
+      }),
+    ),
+  ),
+  expression: Schema.optional(Schema.String),
+  logging: Schema.optional(
+    Schema.Struct({
+      enabled: Schema.Boolean,
+    }),
+  ),
+  position: Schema.optional(
+    Schema.Union([
+      Schema.Struct({
+        before: Schema.optional(Schema.String),
+      }),
+      Schema.Struct({
+        after: Schema.optional(Schema.String),
+      }),
+      Schema.Struct({
+        index: Schema.optional(Schema.Number),
+      }),
+    ]),
+  ),
+  ratelimit: Schema.optional(
+    Schema.Struct({
+      characteristics: Schema.Array(Schema.String),
+      period: Schema.Number,
+      countingExpression: Schema.optional(Schema.String),
+      mitigationTimeout: Schema.optional(Schema.Number),
+      requestsPerPeriod: Schema.optional(Schema.Number),
+      requestsToOrigin: Schema.optional(Schema.Boolean),
+      scorePerPeriod: Schema.optional(Schema.Number),
+      scoreResponseHeaderName: Schema.optional(Schema.String),
+    }).pipe(
+      Schema.encodeKeys({
+        countingExpression: "counting_expression",
+        mitigationTimeout: "mitigation_timeout",
+        requestsPerPeriod: "requests_per_period",
+        requestsToOrigin: "requests_to_origin",
+        scorePerPeriod: "score_per_period",
+        scoreResponseHeaderName: "score_response_header_name",
+      }),
+    ),
+  ),
+  ref: Schema.optional(Schema.String),
 }).pipe(
+  Schema.encodeKeys({
+    actionParameters: "action_parameters",
+    exposedCredentialCheck: "exposed_credential_check",
+  }),
   T.Http({
     method: "POST",
     path: "/{accountOrZone}/{accountOrZoneId}/rulesets/{rulesetId}/rules",
@@ -1737,7 +1965,7 @@ export interface CreateRuleResponse {
 export const CreateRuleResponse = Schema.Struct({
   id: Schema.String,
   kind: Schema.Literals(["zone", "managed", "custom", "root"]),
-  lastUpdated: Schema.String.pipe(T.JsonName("last_updated")),
+  lastUpdated: Schema.String,
   name: Schema.String,
   phase: Schema.Literals([
     "ddos_l4",
@@ -1767,10 +1995,8 @@ export const CreateRuleResponse = Schema.Struct({
   rules: Schema.Array(
     Schema.Union([
       Schema.Struct({
-        accountId: Schema.optional(Schema.String).pipe(
-          T.JsonName("account_id"),
-        ),
-        zoneId: Schema.optional(Schema.String).pipe(T.JsonName("zone_id")),
+        accountId: Schema.optional(Schema.String),
+        zoneId: Schema.optional(Schema.String),
         id: Schema.optional(Schema.String),
         action: Schema.optional(Schema.Literal("block")),
         actionParameters: Schema.optional(
@@ -1778,24 +2004,30 @@ export const CreateRuleResponse = Schema.Struct({
             response: Schema.optional(
               Schema.Struct({
                 content: Schema.String,
-                contentType: Schema.String.pipe(T.JsonName("content_type")),
-                statusCode: Schema.Number.pipe(T.JsonName("status_code")),
-              }),
+                contentType: Schema.String,
+                statusCode: Schema.Number,
+              }).pipe(
+                Schema.encodeKeys({
+                  contentType: "content_type",
+                  statusCode: "status_code",
+                }),
+              ),
             ),
           }),
-        ).pipe(T.JsonName("action_parameters")),
+        ),
         description: Schema.optional(Schema.String),
         enabled: Schema.optional(Schema.Boolean),
         exposedCredentialCheck: Schema.optional(
           Schema.Struct({
-            passwordExpression: Schema.String.pipe(
-              T.JsonName("password_expression"),
-            ),
-            usernameExpression: Schema.String.pipe(
-              T.JsonName("username_expression"),
-            ),
-          }),
-        ).pipe(T.JsonName("exposed_credential_check")),
+            passwordExpression: Schema.String,
+            usernameExpression: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({
+              passwordExpression: "password_expression",
+              usernameExpression: "username_expression",
+            }),
+          ),
+        ),
         expression: Schema.optional(Schema.String),
         logging: Schema.optional(
           Schema.Struct({
@@ -1819,79 +2051,85 @@ export const CreateRuleResponse = Schema.Struct({
           Schema.Struct({
             characteristics: Schema.Array(Schema.String),
             period: Schema.Number,
-            countingExpression: Schema.optional(Schema.String).pipe(
-              T.JsonName("counting_expression"),
-            ),
-            mitigationTimeout: Schema.optional(Schema.Number).pipe(
-              T.JsonName("mitigation_timeout"),
-            ),
-            requestsPerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("requests_per_period"),
-            ),
-            requestsToOrigin: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("requests_to_origin"),
-            ),
-            scorePerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("score_per_period"),
-            ),
-            scoreResponseHeaderName: Schema.optional(Schema.String).pipe(
-              T.JsonName("score_response_header_name"),
-            ),
-          }),
+            countingExpression: Schema.optional(Schema.String),
+            mitigationTimeout: Schema.optional(Schema.Number),
+            requestsPerPeriod: Schema.optional(Schema.Number),
+            requestsToOrigin: Schema.optional(Schema.Boolean),
+            scorePerPeriod: Schema.optional(Schema.Number),
+            scoreResponseHeaderName: Schema.optional(Schema.String),
+          }).pipe(
+            Schema.encodeKeys({
+              countingExpression: "counting_expression",
+              mitigationTimeout: "mitigation_timeout",
+              requestsPerPeriod: "requests_per_period",
+              requestsToOrigin: "requests_to_origin",
+              scorePerPeriod: "score_per_period",
+              scoreResponseHeaderName: "score_response_header_name",
+            }),
+          ),
         ),
         ref: Schema.optional(Schema.String),
-      }),
+      }).pipe(
+        Schema.encodeKeys({
+          accountId: "account_id",
+          zoneId: "zone_id",
+          actionParameters: "action_parameters",
+          exposedCredentialCheck: "exposed_credential_check",
+        }),
+      ),
       Schema.Struct({
-        lastUpdated: Schema.String.pipe(T.JsonName("last_updated")),
+        lastUpdated: Schema.String,
         version: Schema.String,
         id: Schema.optional(Schema.String),
         action: Schema.optional(Schema.Literal("challenge")),
-        actionParameters: Schema.optional(Schema.Unknown).pipe(
-          T.JsonName("action_parameters"),
-        ),
+        actionParameters: Schema.optional(Schema.Unknown),
         categories: Schema.optional(Schema.Array(Schema.String)),
         description: Schema.optional(Schema.String),
         enabled: Schema.optional(Schema.Boolean),
         exposedCredentialCheck: Schema.optional(
           Schema.Struct({
-            passwordExpression: Schema.String.pipe(
-              T.JsonName("password_expression"),
-            ),
-            usernameExpression: Schema.String.pipe(
-              T.JsonName("username_expression"),
-            ),
-          }),
-        ).pipe(T.JsonName("exposed_credential_check")),
+            passwordExpression: Schema.String,
+            usernameExpression: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({
+              passwordExpression: "password_expression",
+              usernameExpression: "username_expression",
+            }),
+          ),
+        ),
         expression: Schema.optional(Schema.String),
         logging: Schema.optional(Schema.Unknown),
         ratelimit: Schema.optional(
           Schema.Struct({
             characteristics: Schema.Array(Schema.String),
             period: Schema.Number,
-            countingExpression: Schema.optional(Schema.String).pipe(
-              T.JsonName("counting_expression"),
-            ),
-            mitigationTimeout: Schema.optional(Schema.Number).pipe(
-              T.JsonName("mitigation_timeout"),
-            ),
-            requestsPerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("requests_per_period"),
-            ),
-            requestsToOrigin: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("requests_to_origin"),
-            ),
-            scorePerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("score_per_period"),
-            ),
-            scoreResponseHeaderName: Schema.optional(Schema.String).pipe(
-              T.JsonName("score_response_header_name"),
-            ),
-          }),
+            countingExpression: Schema.optional(Schema.String),
+            mitigationTimeout: Schema.optional(Schema.Number),
+            requestsPerPeriod: Schema.optional(Schema.Number),
+            requestsToOrigin: Schema.optional(Schema.Boolean),
+            scorePerPeriod: Schema.optional(Schema.Number),
+            scoreResponseHeaderName: Schema.optional(Schema.String),
+          }).pipe(
+            Schema.encodeKeys({
+              countingExpression: "counting_expression",
+              mitigationTimeout: "mitigation_timeout",
+              requestsPerPeriod: "requests_per_period",
+              requestsToOrigin: "requests_to_origin",
+              scorePerPeriod: "score_per_period",
+              scoreResponseHeaderName: "score_response_header_name",
+            }),
+          ),
         ),
         ref: Schema.optional(Schema.String),
-      }),
+      }).pipe(
+        Schema.encodeKeys({
+          lastUpdated: "last_updated",
+          actionParameters: "action_parameters",
+          exposedCredentialCheck: "exposed_credential_check",
+        }),
+      ),
       Schema.Struct({
-        lastUpdated: Schema.String.pipe(T.JsonName("last_updated")),
+        lastUpdated: Schema.String,
         version: Schema.String,
         id: Schema.optional(Schema.String),
         action: Schema.optional(Schema.Literal("compress_response")),
@@ -1912,20 +2150,21 @@ export const CreateRuleResponse = Schema.Struct({
               }),
             ),
           }),
-        ).pipe(T.JsonName("action_parameters")),
+        ),
         categories: Schema.optional(Schema.Array(Schema.String)),
         description: Schema.optional(Schema.String),
         enabled: Schema.optional(Schema.Boolean),
         exposedCredentialCheck: Schema.optional(
           Schema.Struct({
-            passwordExpression: Schema.String.pipe(
-              T.JsonName("password_expression"),
-            ),
-            usernameExpression: Schema.String.pipe(
-              T.JsonName("username_expression"),
-            ),
-          }),
-        ).pipe(T.JsonName("exposed_credential_check")),
+            passwordExpression: Schema.String,
+            usernameExpression: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({
+              passwordExpression: "password_expression",
+              usernameExpression: "username_expression",
+            }),
+          ),
+        ),
         expression: Schema.optional(Schema.String),
         logging: Schema.optional(
           Schema.Struct({
@@ -1936,50 +2175,50 @@ export const CreateRuleResponse = Schema.Struct({
           Schema.Struct({
             characteristics: Schema.Array(Schema.String),
             period: Schema.Number,
-            countingExpression: Schema.optional(Schema.String).pipe(
-              T.JsonName("counting_expression"),
-            ),
-            mitigationTimeout: Schema.optional(Schema.Number).pipe(
-              T.JsonName("mitigation_timeout"),
-            ),
-            requestsPerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("requests_per_period"),
-            ),
-            requestsToOrigin: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("requests_to_origin"),
-            ),
-            scorePerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("score_per_period"),
-            ),
-            scoreResponseHeaderName: Schema.optional(Schema.String).pipe(
-              T.JsonName("score_response_header_name"),
-            ),
-          }),
+            countingExpression: Schema.optional(Schema.String),
+            mitigationTimeout: Schema.optional(Schema.Number),
+            requestsPerPeriod: Schema.optional(Schema.Number),
+            requestsToOrigin: Schema.optional(Schema.Boolean),
+            scorePerPeriod: Schema.optional(Schema.Number),
+            scoreResponseHeaderName: Schema.optional(Schema.String),
+          }).pipe(
+            Schema.encodeKeys({
+              countingExpression: "counting_expression",
+              mitigationTimeout: "mitigation_timeout",
+              requestsPerPeriod: "requests_per_period",
+              requestsToOrigin: "requests_to_origin",
+              scorePerPeriod: "score_per_period",
+              scoreResponseHeaderName: "score_response_header_name",
+            }),
+          ),
         ),
         ref: Schema.optional(Schema.String),
-      }),
+      }).pipe(
+        Schema.encodeKeys({
+          lastUpdated: "last_updated",
+          actionParameters: "action_parameters",
+          exposedCredentialCheck: "exposed_credential_check",
+        }),
+      ),
       Schema.Struct({
-        accountId: Schema.optional(Schema.String).pipe(
-          T.JsonName("account_id"),
-        ),
-        zoneId: Schema.optional(Schema.String).pipe(T.JsonName("zone_id")),
+        accountId: Schema.optional(Schema.String),
+        zoneId: Schema.optional(Schema.String),
         id: Schema.optional(Schema.String),
         action: Schema.optional(Schema.Literal("ddos_dynamic")),
-        actionParameters: Schema.optional(Schema.Unknown).pipe(
-          T.JsonName("action_parameters"),
-        ),
+        actionParameters: Schema.optional(Schema.Unknown),
         description: Schema.optional(Schema.String),
         enabled: Schema.optional(Schema.Boolean),
         exposedCredentialCheck: Schema.optional(
           Schema.Struct({
-            passwordExpression: Schema.String.pipe(
-              T.JsonName("password_expression"),
-            ),
-            usernameExpression: Schema.String.pipe(
-              T.JsonName("username_expression"),
-            ),
-          }),
-        ).pipe(T.JsonName("exposed_credential_check")),
+            passwordExpression: Schema.String,
+            usernameExpression: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({
+              passwordExpression: "password_expression",
+              usernameExpression: "username_expression",
+            }),
+          ),
+        ),
         expression: Schema.optional(Schema.String),
         logging: Schema.optional(
           Schema.Struct({
@@ -2003,33 +2242,35 @@ export const CreateRuleResponse = Schema.Struct({
           Schema.Struct({
             characteristics: Schema.Array(Schema.String),
             period: Schema.Number,
-            countingExpression: Schema.optional(Schema.String).pipe(
-              T.JsonName("counting_expression"),
-            ),
-            mitigationTimeout: Schema.optional(Schema.Number).pipe(
-              T.JsonName("mitigation_timeout"),
-            ),
-            requestsPerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("requests_per_period"),
-            ),
-            requestsToOrigin: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("requests_to_origin"),
-            ),
-            scorePerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("score_per_period"),
-            ),
-            scoreResponseHeaderName: Schema.optional(Schema.String).pipe(
-              T.JsonName("score_response_header_name"),
-            ),
-          }),
+            countingExpression: Schema.optional(Schema.String),
+            mitigationTimeout: Schema.optional(Schema.Number),
+            requestsPerPeriod: Schema.optional(Schema.Number),
+            requestsToOrigin: Schema.optional(Schema.Boolean),
+            scorePerPeriod: Schema.optional(Schema.Number),
+            scoreResponseHeaderName: Schema.optional(Schema.String),
+          }).pipe(
+            Schema.encodeKeys({
+              countingExpression: "counting_expression",
+              mitigationTimeout: "mitigation_timeout",
+              requestsPerPeriod: "requests_per_period",
+              requestsToOrigin: "requests_to_origin",
+              scorePerPeriod: "score_per_period",
+              scoreResponseHeaderName: "score_response_header_name",
+            }),
+          ),
         ),
         ref: Schema.optional(Schema.String),
-      }),
+      }).pipe(
+        Schema.encodeKeys({
+          accountId: "account_id",
+          zoneId: "zone_id",
+          actionParameters: "action_parameters",
+          exposedCredentialCheck: "exposed_credential_check",
+        }),
+      ),
       Schema.Struct({
-        accountId: Schema.optional(Schema.String).pipe(
-          T.JsonName("account_id"),
-        ),
-        zoneId: Schema.optional(Schema.String).pipe(T.JsonName("zone_id")),
+        accountId: Schema.optional(Schema.String),
+        zoneId: Schema.optional(Schema.String),
         id: Schema.optional(Schema.String),
         action: Schema.optional(Schema.Literal("execute")),
         actionParameters: Schema.optional(
@@ -2037,9 +2278,9 @@ export const CreateRuleResponse = Schema.Struct({
             id: Schema.String,
             matchedData: Schema.optional(
               Schema.Struct({
-                publicKey: Schema.String.pipe(T.JsonName("public_key")),
-              }),
-            ).pipe(T.JsonName("matched_data")),
+                publicKey: Schema.String,
+              }).pipe(Schema.encodeKeys({ publicKey: "public_key" })),
+            ),
             overrides: Schema.optional(
               Schema.Struct({
                 action: Schema.optional(Schema.String),
@@ -2051,8 +2292,12 @@ export const CreateRuleResponse = Schema.Struct({
                       enabled: Schema.optional(Schema.Boolean),
                       sensitivityLevel: Schema.optional(
                         Schema.Literals(["default", "medium", "low", "eoff"]),
-                      ).pipe(T.JsonName("sensitivity_level")),
-                    }),
+                      ),
+                    }).pipe(
+                      Schema.encodeKeys({
+                        sensitivityLevel: "sensitivity_level",
+                      }),
+                    ),
                   ),
                 ),
                 enabled: Schema.optional(Schema.Boolean),
@@ -2062,34 +2307,40 @@ export const CreateRuleResponse = Schema.Struct({
                       id: Schema.String,
                       action: Schema.optional(Schema.String),
                       enabled: Schema.optional(Schema.Boolean),
-                      scoreThreshold: Schema.optional(Schema.Number).pipe(
-                        T.JsonName("score_threshold"),
-                      ),
+                      scoreThreshold: Schema.optional(Schema.Number),
                       sensitivityLevel: Schema.optional(
                         Schema.Literals(["default", "medium", "low", "eoff"]),
-                      ).pipe(T.JsonName("sensitivity_level")),
-                    }),
+                      ),
+                    }).pipe(
+                      Schema.encodeKeys({
+                        scoreThreshold: "score_threshold",
+                        sensitivityLevel: "sensitivity_level",
+                      }),
+                    ),
                   ),
                 ),
                 sensitivityLevel: Schema.optional(
                   Schema.Literals(["default", "medium", "low", "eoff"]),
-                ).pipe(T.JsonName("sensitivity_level")),
-              }),
+                ),
+              }).pipe(
+                Schema.encodeKeys({ sensitivityLevel: "sensitivity_level" }),
+              ),
             ),
-          }),
-        ).pipe(T.JsonName("action_parameters")),
+          }).pipe(Schema.encodeKeys({ matchedData: "matched_data" })),
+        ),
         description: Schema.optional(Schema.String),
         enabled: Schema.optional(Schema.Boolean),
         exposedCredentialCheck: Schema.optional(
           Schema.Struct({
-            passwordExpression: Schema.String.pipe(
-              T.JsonName("password_expression"),
-            ),
-            usernameExpression: Schema.String.pipe(
-              T.JsonName("username_expression"),
-            ),
-          }),
-        ).pipe(T.JsonName("exposed_credential_check")),
+            passwordExpression: Schema.String,
+            usernameExpression: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({
+              passwordExpression: "password_expression",
+              usernameExpression: "username_expression",
+            }),
+          ),
+        ),
         expression: Schema.optional(Schema.String),
         logging: Schema.optional(
           Schema.Struct({
@@ -2113,50 +2364,51 @@ export const CreateRuleResponse = Schema.Struct({
           Schema.Struct({
             characteristics: Schema.Array(Schema.String),
             period: Schema.Number,
-            countingExpression: Schema.optional(Schema.String).pipe(
-              T.JsonName("counting_expression"),
-            ),
-            mitigationTimeout: Schema.optional(Schema.Number).pipe(
-              T.JsonName("mitigation_timeout"),
-            ),
-            requestsPerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("requests_per_period"),
-            ),
-            requestsToOrigin: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("requests_to_origin"),
-            ),
-            scorePerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("score_per_period"),
-            ),
-            scoreResponseHeaderName: Schema.optional(Schema.String).pipe(
-              T.JsonName("score_response_header_name"),
-            ),
-          }),
+            countingExpression: Schema.optional(Schema.String),
+            mitigationTimeout: Schema.optional(Schema.Number),
+            requestsPerPeriod: Schema.optional(Schema.Number),
+            requestsToOrigin: Schema.optional(Schema.Boolean),
+            scorePerPeriod: Schema.optional(Schema.Number),
+            scoreResponseHeaderName: Schema.optional(Schema.String),
+          }).pipe(
+            Schema.encodeKeys({
+              countingExpression: "counting_expression",
+              mitigationTimeout: "mitigation_timeout",
+              requestsPerPeriod: "requests_per_period",
+              requestsToOrigin: "requests_to_origin",
+              scorePerPeriod: "score_per_period",
+              scoreResponseHeaderName: "score_response_header_name",
+            }),
+          ),
         ),
         ref: Schema.optional(Schema.String),
-      }),
+      }).pipe(
+        Schema.encodeKeys({
+          accountId: "account_id",
+          zoneId: "zone_id",
+          actionParameters: "action_parameters",
+          exposedCredentialCheck: "exposed_credential_check",
+        }),
+      ),
       Schema.Struct({
-        accountId: Schema.optional(Schema.String).pipe(
-          T.JsonName("account_id"),
-        ),
-        zoneId: Schema.optional(Schema.String).pipe(T.JsonName("zone_id")),
+        accountId: Schema.optional(Schema.String),
+        zoneId: Schema.optional(Schema.String),
         id: Schema.optional(Schema.String),
         action: Schema.optional(Schema.Literal("force_connection_close")),
-        actionParameters: Schema.optional(Schema.Unknown).pipe(
-          T.JsonName("action_parameters"),
-        ),
+        actionParameters: Schema.optional(Schema.Unknown),
         description: Schema.optional(Schema.String),
         enabled: Schema.optional(Schema.Boolean),
         exposedCredentialCheck: Schema.optional(
           Schema.Struct({
-            passwordExpression: Schema.String.pipe(
-              T.JsonName("password_expression"),
-            ),
-            usernameExpression: Schema.String.pipe(
-              T.JsonName("username_expression"),
-            ),
-          }),
-        ).pipe(T.JsonName("exposed_credential_check")),
+            passwordExpression: Schema.String,
+            usernameExpression: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({
+              passwordExpression: "password_expression",
+              usernameExpression: "username_expression",
+            }),
+          ),
+        ),
         expression: Schema.optional(Schema.String),
         logging: Schema.optional(
           Schema.Struct({
@@ -2180,99 +2432,102 @@ export const CreateRuleResponse = Schema.Struct({
           Schema.Struct({
             characteristics: Schema.Array(Schema.String),
             period: Schema.Number,
-            countingExpression: Schema.optional(Schema.String).pipe(
-              T.JsonName("counting_expression"),
-            ),
-            mitigationTimeout: Schema.optional(Schema.Number).pipe(
-              T.JsonName("mitigation_timeout"),
-            ),
-            requestsPerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("requests_per_period"),
-            ),
-            requestsToOrigin: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("requests_to_origin"),
-            ),
-            scorePerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("score_per_period"),
-            ),
-            scoreResponseHeaderName: Schema.optional(Schema.String).pipe(
-              T.JsonName("score_response_header_name"),
-            ),
-          }),
+            countingExpression: Schema.optional(Schema.String),
+            mitigationTimeout: Schema.optional(Schema.Number),
+            requestsPerPeriod: Schema.optional(Schema.Number),
+            requestsToOrigin: Schema.optional(Schema.Boolean),
+            scorePerPeriod: Schema.optional(Schema.Number),
+            scoreResponseHeaderName: Schema.optional(Schema.String),
+          }).pipe(
+            Schema.encodeKeys({
+              countingExpression: "counting_expression",
+              mitigationTimeout: "mitigation_timeout",
+              requestsPerPeriod: "requests_per_period",
+              requestsToOrigin: "requests_to_origin",
+              scorePerPeriod: "score_per_period",
+              scoreResponseHeaderName: "score_response_header_name",
+            }),
+          ),
         ),
         ref: Schema.optional(Schema.String),
-      }),
+      }).pipe(
+        Schema.encodeKeys({
+          accountId: "account_id",
+          zoneId: "zone_id",
+          actionParameters: "action_parameters",
+          exposedCredentialCheck: "exposed_credential_check",
+        }),
+      ),
       Schema.Struct({
-        lastUpdated: Schema.String.pipe(T.JsonName("last_updated")),
+        lastUpdated: Schema.String,
         version: Schema.String,
         id: Schema.optional(Schema.String),
         action: Schema.optional(Schema.Literal("js_challenge")),
-        actionParameters: Schema.optional(Schema.Unknown).pipe(
-          T.JsonName("action_parameters"),
-        ),
+        actionParameters: Schema.optional(Schema.Unknown),
         categories: Schema.optional(Schema.Array(Schema.String)),
         description: Schema.optional(Schema.String),
         enabled: Schema.optional(Schema.Boolean),
         exposedCredentialCheck: Schema.optional(
           Schema.Struct({
-            passwordExpression: Schema.String.pipe(
-              T.JsonName("password_expression"),
-            ),
-            usernameExpression: Schema.String.pipe(
-              T.JsonName("username_expression"),
-            ),
-          }),
-        ).pipe(T.JsonName("exposed_credential_check")),
+            passwordExpression: Schema.String,
+            usernameExpression: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({
+              passwordExpression: "password_expression",
+              usernameExpression: "username_expression",
+            }),
+          ),
+        ),
         expression: Schema.optional(Schema.String),
         logging: Schema.optional(Schema.Unknown),
         ratelimit: Schema.optional(
           Schema.Struct({
             characteristics: Schema.Array(Schema.String),
             period: Schema.Number,
-            countingExpression: Schema.optional(Schema.String).pipe(
-              T.JsonName("counting_expression"),
-            ),
-            mitigationTimeout: Schema.optional(Schema.Number).pipe(
-              T.JsonName("mitigation_timeout"),
-            ),
-            requestsPerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("requests_per_period"),
-            ),
-            requestsToOrigin: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("requests_to_origin"),
-            ),
-            scorePerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("score_per_period"),
-            ),
-            scoreResponseHeaderName: Schema.optional(Schema.String).pipe(
-              T.JsonName("score_response_header_name"),
-            ),
-          }),
+            countingExpression: Schema.optional(Schema.String),
+            mitigationTimeout: Schema.optional(Schema.Number),
+            requestsPerPeriod: Schema.optional(Schema.Number),
+            requestsToOrigin: Schema.optional(Schema.Boolean),
+            scorePerPeriod: Schema.optional(Schema.Number),
+            scoreResponseHeaderName: Schema.optional(Schema.String),
+          }).pipe(
+            Schema.encodeKeys({
+              countingExpression: "counting_expression",
+              mitigationTimeout: "mitigation_timeout",
+              requestsPerPeriod: "requests_per_period",
+              requestsToOrigin: "requests_to_origin",
+              scorePerPeriod: "score_per_period",
+              scoreResponseHeaderName: "score_response_header_name",
+            }),
+          ),
         ),
         ref: Schema.optional(Schema.String),
-      }),
+      }).pipe(
+        Schema.encodeKeys({
+          lastUpdated: "last_updated",
+          actionParameters: "action_parameters",
+          exposedCredentialCheck: "exposed_credential_check",
+        }),
+      ),
       Schema.Struct({
-        accountId: Schema.optional(Schema.String).pipe(
-          T.JsonName("account_id"),
-        ),
-        zoneId: Schema.optional(Schema.String).pipe(T.JsonName("zone_id")),
+        accountId: Schema.optional(Schema.String),
+        zoneId: Schema.optional(Schema.String),
         id: Schema.optional(Schema.String),
         action: Schema.optional(Schema.Literal("log")),
-        actionParameters: Schema.optional(Schema.Unknown).pipe(
-          T.JsonName("action_parameters"),
-        ),
+        actionParameters: Schema.optional(Schema.Unknown),
         description: Schema.optional(Schema.String),
         enabled: Schema.optional(Schema.Boolean),
         exposedCredentialCheck: Schema.optional(
           Schema.Struct({
-            passwordExpression: Schema.String.pipe(
-              T.JsonName("password_expression"),
-            ),
-            usernameExpression: Schema.String.pipe(
-              T.JsonName("username_expression"),
-            ),
-          }),
-        ).pipe(T.JsonName("exposed_credential_check")),
+            passwordExpression: Schema.String,
+            usernameExpression: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({
+              passwordExpression: "password_expression",
+              usernameExpression: "username_expression",
+            }),
+          ),
+        ),
         expression: Schema.optional(Schema.String),
         logging: Schema.optional(
           Schema.Struct({
@@ -2296,33 +2551,35 @@ export const CreateRuleResponse = Schema.Struct({
           Schema.Struct({
             characteristics: Schema.Array(Schema.String),
             period: Schema.Number,
-            countingExpression: Schema.optional(Schema.String).pipe(
-              T.JsonName("counting_expression"),
-            ),
-            mitigationTimeout: Schema.optional(Schema.Number).pipe(
-              T.JsonName("mitigation_timeout"),
-            ),
-            requestsPerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("requests_per_period"),
-            ),
-            requestsToOrigin: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("requests_to_origin"),
-            ),
-            scorePerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("score_per_period"),
-            ),
-            scoreResponseHeaderName: Schema.optional(Schema.String).pipe(
-              T.JsonName("score_response_header_name"),
-            ),
-          }),
+            countingExpression: Schema.optional(Schema.String),
+            mitigationTimeout: Schema.optional(Schema.Number),
+            requestsPerPeriod: Schema.optional(Schema.Number),
+            requestsToOrigin: Schema.optional(Schema.Boolean),
+            scorePerPeriod: Schema.optional(Schema.Number),
+            scoreResponseHeaderName: Schema.optional(Schema.String),
+          }).pipe(
+            Schema.encodeKeys({
+              countingExpression: "counting_expression",
+              mitigationTimeout: "mitigation_timeout",
+              requestsPerPeriod: "requests_per_period",
+              requestsToOrigin: "requests_to_origin",
+              scorePerPeriod: "score_per_period",
+              scoreResponseHeaderName: "score_response_header_name",
+            }),
+          ),
         ),
         ref: Schema.optional(Schema.String),
-      }),
+      }).pipe(
+        Schema.encodeKeys({
+          accountId: "account_id",
+          zoneId: "zone_id",
+          actionParameters: "action_parameters",
+          exposedCredentialCheck: "exposed_credential_check",
+        }),
+      ),
       Schema.Struct({
-        accountId: Schema.optional(Schema.String).pipe(
-          T.JsonName("account_id"),
-        ),
-        zoneId: Schema.optional(Schema.String).pipe(T.JsonName("zone_id")),
+        accountId: Schema.optional(Schema.String),
+        zoneId: Schema.optional(Schema.String),
         id: Schema.optional(Schema.String),
         action: Schema.optional(Schema.Literal("log_custom_field")),
         actionParameters: Schema.optional(
@@ -2333,55 +2590,68 @@ export const CreateRuleResponse = Schema.Struct({
                   name: Schema.String,
                 }),
               ),
-            ).pipe(T.JsonName("cookie_fields")),
+            ),
             rawResponseFields: Schema.optional(
               Schema.Array(
                 Schema.Struct({
                   name: Schema.String,
-                  preserveDuplicates: Schema.optional(Schema.Boolean).pipe(
-                    T.JsonName("preserve_duplicates"),
-                  ),
-                }),
+                  preserveDuplicates: Schema.optional(Schema.Boolean),
+                }).pipe(
+                  Schema.encodeKeys({
+                    preserveDuplicates: "preserve_duplicates",
+                  }),
+                ),
               ),
-            ).pipe(T.JsonName("raw_response_fields")),
+            ),
             requestFields: Schema.optional(
               Schema.Array(
                 Schema.Struct({
                   name: Schema.String,
                 }),
               ),
-            ).pipe(T.JsonName("request_fields")),
+            ),
             responseFields: Schema.optional(
               Schema.Array(
                 Schema.Struct({
                   name: Schema.String,
-                  preserveDuplicates: Schema.optional(Schema.Boolean).pipe(
-                    T.JsonName("preserve_duplicates"),
-                  ),
-                }),
+                  preserveDuplicates: Schema.optional(Schema.Boolean),
+                }).pipe(
+                  Schema.encodeKeys({
+                    preserveDuplicates: "preserve_duplicates",
+                  }),
+                ),
               ),
-            ).pipe(T.JsonName("response_fields")),
+            ),
             transformedRequestFields: Schema.optional(
               Schema.Array(
                 Schema.Struct({
                   name: Schema.String,
                 }),
               ),
-            ).pipe(T.JsonName("transformed_request_fields")),
-          }),
-        ).pipe(T.JsonName("action_parameters")),
+            ),
+          }).pipe(
+            Schema.encodeKeys({
+              cookieFields: "cookie_fields",
+              rawResponseFields: "raw_response_fields",
+              requestFields: "request_fields",
+              responseFields: "response_fields",
+              transformedRequestFields: "transformed_request_fields",
+            }),
+          ),
+        ),
         description: Schema.optional(Schema.String),
         enabled: Schema.optional(Schema.Boolean),
         exposedCredentialCheck: Schema.optional(
           Schema.Struct({
-            passwordExpression: Schema.String.pipe(
-              T.JsonName("password_expression"),
-            ),
-            usernameExpression: Schema.String.pipe(
-              T.JsonName("username_expression"),
-            ),
-          }),
-        ).pipe(T.JsonName("exposed_credential_check")),
+            passwordExpression: Schema.String,
+            usernameExpression: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({
+              passwordExpression: "password_expression",
+              usernameExpression: "username_expression",
+            }),
+          ),
+        ),
         expression: Schema.optional(Schema.String),
         logging: Schema.optional(
           Schema.Struct({
@@ -2405,50 +2675,51 @@ export const CreateRuleResponse = Schema.Struct({
           Schema.Struct({
             characteristics: Schema.Array(Schema.String),
             period: Schema.Number,
-            countingExpression: Schema.optional(Schema.String).pipe(
-              T.JsonName("counting_expression"),
-            ),
-            mitigationTimeout: Schema.optional(Schema.Number).pipe(
-              T.JsonName("mitigation_timeout"),
-            ),
-            requestsPerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("requests_per_period"),
-            ),
-            requestsToOrigin: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("requests_to_origin"),
-            ),
-            scorePerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("score_per_period"),
-            ),
-            scoreResponseHeaderName: Schema.optional(Schema.String).pipe(
-              T.JsonName("score_response_header_name"),
-            ),
-          }),
+            countingExpression: Schema.optional(Schema.String),
+            mitigationTimeout: Schema.optional(Schema.Number),
+            requestsPerPeriod: Schema.optional(Schema.Number),
+            requestsToOrigin: Schema.optional(Schema.Boolean),
+            scorePerPeriod: Schema.optional(Schema.Number),
+            scoreResponseHeaderName: Schema.optional(Schema.String),
+          }).pipe(
+            Schema.encodeKeys({
+              countingExpression: "counting_expression",
+              mitigationTimeout: "mitigation_timeout",
+              requestsPerPeriod: "requests_per_period",
+              requestsToOrigin: "requests_to_origin",
+              scorePerPeriod: "score_per_period",
+              scoreResponseHeaderName: "score_response_header_name",
+            }),
+          ),
         ),
         ref: Schema.optional(Schema.String),
-      }),
+      }).pipe(
+        Schema.encodeKeys({
+          accountId: "account_id",
+          zoneId: "zone_id",
+          actionParameters: "action_parameters",
+          exposedCredentialCheck: "exposed_credential_check",
+        }),
+      ),
       Schema.Struct({
-        accountId: Schema.optional(Schema.String).pipe(
-          T.JsonName("account_id"),
-        ),
-        zoneId: Schema.optional(Schema.String).pipe(T.JsonName("zone_id")),
+        accountId: Schema.optional(Schema.String),
+        zoneId: Schema.optional(Schema.String),
         id: Schema.optional(Schema.String),
         action: Schema.optional(Schema.Literal("managed_challenge")),
-        actionParameters: Schema.optional(Schema.Unknown).pipe(
-          T.JsonName("action_parameters"),
-        ),
+        actionParameters: Schema.optional(Schema.Unknown),
         description: Schema.optional(Schema.String),
         enabled: Schema.optional(Schema.Boolean),
         exposedCredentialCheck: Schema.optional(
           Schema.Struct({
-            passwordExpression: Schema.String.pipe(
-              T.JsonName("password_expression"),
-            ),
-            usernameExpression: Schema.String.pipe(
-              T.JsonName("username_expression"),
-            ),
-          }),
-        ).pipe(T.JsonName("exposed_credential_check")),
+            passwordExpression: Schema.String,
+            usernameExpression: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({
+              passwordExpression: "password_expression",
+              usernameExpression: "username_expression",
+            }),
+          ),
+        ),
         expression: Schema.optional(Schema.String),
         logging: Schema.optional(
           Schema.Struct({
@@ -2472,33 +2743,35 @@ export const CreateRuleResponse = Schema.Struct({
           Schema.Struct({
             characteristics: Schema.Array(Schema.String),
             period: Schema.Number,
-            countingExpression: Schema.optional(Schema.String).pipe(
-              T.JsonName("counting_expression"),
-            ),
-            mitigationTimeout: Schema.optional(Schema.Number).pipe(
-              T.JsonName("mitigation_timeout"),
-            ),
-            requestsPerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("requests_per_period"),
-            ),
-            requestsToOrigin: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("requests_to_origin"),
-            ),
-            scorePerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("score_per_period"),
-            ),
-            scoreResponseHeaderName: Schema.optional(Schema.String).pipe(
-              T.JsonName("score_response_header_name"),
-            ),
-          }),
+            countingExpression: Schema.optional(Schema.String),
+            mitigationTimeout: Schema.optional(Schema.Number),
+            requestsPerPeriod: Schema.optional(Schema.Number),
+            requestsToOrigin: Schema.optional(Schema.Boolean),
+            scorePerPeriod: Schema.optional(Schema.Number),
+            scoreResponseHeaderName: Schema.optional(Schema.String),
+          }).pipe(
+            Schema.encodeKeys({
+              countingExpression: "counting_expression",
+              mitigationTimeout: "mitigation_timeout",
+              requestsPerPeriod: "requests_per_period",
+              requestsToOrigin: "requests_to_origin",
+              scorePerPeriod: "score_per_period",
+              scoreResponseHeaderName: "score_response_header_name",
+            }),
+          ),
         ),
         ref: Schema.optional(Schema.String),
-      }),
+      }).pipe(
+        Schema.encodeKeys({
+          accountId: "account_id",
+          zoneId: "zone_id",
+          actionParameters: "action_parameters",
+          exposedCredentialCheck: "exposed_credential_check",
+        }),
+      ),
       Schema.Struct({
-        accountId: Schema.optional(Schema.String).pipe(
-          T.JsonName("account_id"),
-        ),
-        zoneId: Schema.optional(Schema.String).pipe(T.JsonName("zone_id")),
+        accountId: Schema.optional(Schema.String),
+        zoneId: Schema.optional(Schema.String),
         id: Schema.optional(Schema.String),
         action: Schema.optional(Schema.Literal("redirect")),
         actionParameters: Schema.optional(
@@ -2508,35 +2781,45 @@ export const CreateRuleResponse = Schema.Struct({
                 key: Schema.String,
                 name: Schema.String,
               }),
-            ).pipe(T.JsonName("from_list")),
+            ),
             fromValue: Schema.optional(
               Schema.Struct({
                 targetUrl: Schema.Struct({
                   expression: Schema.optional(Schema.String),
                   value: Schema.optional(Schema.String),
-                }).pipe(T.JsonName("target_url")),
-                preserveQueryString: Schema.optional(Schema.Boolean).pipe(
-                  T.JsonName("preserve_query_string"),
-                ),
+                }),
+                preserveQueryString: Schema.optional(Schema.Boolean),
                 statusCode: Schema.optional(
                   Schema.Literals(["301", "302", "303", "307", "308"]),
-                ).pipe(T.JsonName("status_code")),
-              }),
-            ).pipe(T.JsonName("from_value")),
-          }),
-        ).pipe(T.JsonName("action_parameters")),
+                ),
+              }).pipe(
+                Schema.encodeKeys({
+                  targetUrl: "target_url",
+                  preserveQueryString: "preserve_query_string",
+                  statusCode: "status_code",
+                }),
+              ),
+            ),
+          }).pipe(
+            Schema.encodeKeys({
+              fromList: "from_list",
+              fromValue: "from_value",
+            }),
+          ),
+        ),
         description: Schema.optional(Schema.String),
         enabled: Schema.optional(Schema.Boolean),
         exposedCredentialCheck: Schema.optional(
           Schema.Struct({
-            passwordExpression: Schema.String.pipe(
-              T.JsonName("password_expression"),
-            ),
-            usernameExpression: Schema.String.pipe(
-              T.JsonName("username_expression"),
-            ),
-          }),
-        ).pipe(T.JsonName("exposed_credential_check")),
+            passwordExpression: Schema.String,
+            usernameExpression: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({
+              passwordExpression: "password_expression",
+              usernameExpression: "username_expression",
+            }),
+          ),
+        ),
         expression: Schema.optional(Schema.String),
         logging: Schema.optional(
           Schema.Struct({
@@ -2560,33 +2843,35 @@ export const CreateRuleResponse = Schema.Struct({
           Schema.Struct({
             characteristics: Schema.Array(Schema.String),
             period: Schema.Number,
-            countingExpression: Schema.optional(Schema.String).pipe(
-              T.JsonName("counting_expression"),
-            ),
-            mitigationTimeout: Schema.optional(Schema.Number).pipe(
-              T.JsonName("mitigation_timeout"),
-            ),
-            requestsPerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("requests_per_period"),
-            ),
-            requestsToOrigin: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("requests_to_origin"),
-            ),
-            scorePerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("score_per_period"),
-            ),
-            scoreResponseHeaderName: Schema.optional(Schema.String).pipe(
-              T.JsonName("score_response_header_name"),
-            ),
-          }),
+            countingExpression: Schema.optional(Schema.String),
+            mitigationTimeout: Schema.optional(Schema.Number),
+            requestsPerPeriod: Schema.optional(Schema.Number),
+            requestsToOrigin: Schema.optional(Schema.Boolean),
+            scorePerPeriod: Schema.optional(Schema.Number),
+            scoreResponseHeaderName: Schema.optional(Schema.String),
+          }).pipe(
+            Schema.encodeKeys({
+              countingExpression: "counting_expression",
+              mitigationTimeout: "mitigation_timeout",
+              requestsPerPeriod: "requests_per_period",
+              requestsToOrigin: "requests_to_origin",
+              scorePerPeriod: "score_per_period",
+              scoreResponseHeaderName: "score_response_header_name",
+            }),
+          ),
         ),
         ref: Schema.optional(Schema.String),
-      }),
+      }).pipe(
+        Schema.encodeKeys({
+          accountId: "account_id",
+          zoneId: "zone_id",
+          actionParameters: "action_parameters",
+          exposedCredentialCheck: "exposed_credential_check",
+        }),
+      ),
       Schema.Struct({
-        accountId: Schema.optional(Schema.String).pipe(
-          T.JsonName("account_id"),
-        ),
-        zoneId: Schema.optional(Schema.String).pipe(T.JsonName("zone_id")),
+        accountId: Schema.optional(Schema.String),
+        zoneId: Schema.optional(Schema.String),
         id: Schema.optional(Schema.String),
         action: Schema.optional(Schema.Literal("rewrite")),
         actionParameters: Schema.optional(
@@ -2609,19 +2894,20 @@ export const CreateRuleResponse = Schema.Struct({
               ]),
             ),
           }),
-        ).pipe(T.JsonName("action_parameters")),
+        ),
         description: Schema.optional(Schema.String),
         enabled: Schema.optional(Schema.Boolean),
         exposedCredentialCheck: Schema.optional(
           Schema.Struct({
-            passwordExpression: Schema.String.pipe(
-              T.JsonName("password_expression"),
-            ),
-            usernameExpression: Schema.String.pipe(
-              T.JsonName("username_expression"),
-            ),
-          }),
-        ).pipe(T.JsonName("exposed_credential_check")),
+            passwordExpression: Schema.String,
+            usernameExpression: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({
+              passwordExpression: "password_expression",
+              usernameExpression: "username_expression",
+            }),
+          ),
+        ),
         expression: Schema.optional(Schema.String),
         logging: Schema.optional(
           Schema.Struct({
@@ -2645,40 +2931,40 @@ export const CreateRuleResponse = Schema.Struct({
           Schema.Struct({
             characteristics: Schema.Array(Schema.String),
             period: Schema.Number,
-            countingExpression: Schema.optional(Schema.String).pipe(
-              T.JsonName("counting_expression"),
-            ),
-            mitigationTimeout: Schema.optional(Schema.Number).pipe(
-              T.JsonName("mitigation_timeout"),
-            ),
-            requestsPerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("requests_per_period"),
-            ),
-            requestsToOrigin: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("requests_to_origin"),
-            ),
-            scorePerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("score_per_period"),
-            ),
-            scoreResponseHeaderName: Schema.optional(Schema.String).pipe(
-              T.JsonName("score_response_header_name"),
-            ),
-          }),
+            countingExpression: Schema.optional(Schema.String),
+            mitigationTimeout: Schema.optional(Schema.Number),
+            requestsPerPeriod: Schema.optional(Schema.Number),
+            requestsToOrigin: Schema.optional(Schema.Boolean),
+            scorePerPeriod: Schema.optional(Schema.Number),
+            scoreResponseHeaderName: Schema.optional(Schema.String),
+          }).pipe(
+            Schema.encodeKeys({
+              countingExpression: "counting_expression",
+              mitigationTimeout: "mitigation_timeout",
+              requestsPerPeriod: "requests_per_period",
+              requestsToOrigin: "requests_to_origin",
+              scorePerPeriod: "score_per_period",
+              scoreResponseHeaderName: "score_response_header_name",
+            }),
+          ),
         ),
         ref: Schema.optional(Schema.String),
-      }),
+      }).pipe(
+        Schema.encodeKeys({
+          accountId: "account_id",
+          zoneId: "zone_id",
+          actionParameters: "action_parameters",
+          exposedCredentialCheck: "exposed_credential_check",
+        }),
+      ),
       Schema.Struct({
-        accountId: Schema.optional(Schema.String).pipe(
-          T.JsonName("account_id"),
-        ),
-        zoneId: Schema.optional(Schema.String).pipe(T.JsonName("zone_id")),
+        accountId: Schema.optional(Schema.String),
+        zoneId: Schema.optional(Schema.String),
         id: Schema.optional(Schema.String),
         action: Schema.optional(Schema.Literal("route")),
         actionParameters: Schema.optional(
           Schema.Struct({
-            hostHeader: Schema.optional(Schema.String).pipe(
-              T.JsonName("host_header"),
-            ),
+            hostHeader: Schema.optional(Schema.String),
             origin: Schema.optional(
               Schema.Struct({
                 host: Schema.optional(Schema.String),
@@ -2690,20 +2976,21 @@ export const CreateRuleResponse = Schema.Struct({
                 value: Schema.String,
               }),
             ),
-          }),
-        ).pipe(T.JsonName("action_parameters")),
+          }).pipe(Schema.encodeKeys({ hostHeader: "host_header" })),
+        ),
         description: Schema.optional(Schema.String),
         enabled: Schema.optional(Schema.Boolean),
         exposedCredentialCheck: Schema.optional(
           Schema.Struct({
-            passwordExpression: Schema.String.pipe(
-              T.JsonName("password_expression"),
-            ),
-            usernameExpression: Schema.String.pipe(
-              T.JsonName("username_expression"),
-            ),
-          }),
-        ).pipe(T.JsonName("exposed_credential_check")),
+            passwordExpression: Schema.String,
+            usernameExpression: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({
+              passwordExpression: "password_expression",
+              usernameExpression: "username_expression",
+            }),
+          ),
+        ),
         expression: Schema.optional(Schema.String),
         logging: Schema.optional(
           Schema.Struct({
@@ -2727,52 +3014,55 @@ export const CreateRuleResponse = Schema.Struct({
           Schema.Struct({
             characteristics: Schema.Array(Schema.String),
             period: Schema.Number,
-            countingExpression: Schema.optional(Schema.String).pipe(
-              T.JsonName("counting_expression"),
-            ),
-            mitigationTimeout: Schema.optional(Schema.Number).pipe(
-              T.JsonName("mitigation_timeout"),
-            ),
-            requestsPerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("requests_per_period"),
-            ),
-            requestsToOrigin: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("requests_to_origin"),
-            ),
-            scorePerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("score_per_period"),
-            ),
-            scoreResponseHeaderName: Schema.optional(Schema.String).pipe(
-              T.JsonName("score_response_header_name"),
-            ),
-          }),
+            countingExpression: Schema.optional(Schema.String),
+            mitigationTimeout: Schema.optional(Schema.Number),
+            requestsPerPeriod: Schema.optional(Schema.Number),
+            requestsToOrigin: Schema.optional(Schema.Boolean),
+            scorePerPeriod: Schema.optional(Schema.Number),
+            scoreResponseHeaderName: Schema.optional(Schema.String),
+          }).pipe(
+            Schema.encodeKeys({
+              countingExpression: "counting_expression",
+              mitigationTimeout: "mitigation_timeout",
+              requestsPerPeriod: "requests_per_period",
+              requestsToOrigin: "requests_to_origin",
+              scorePerPeriod: "score_per_period",
+              scoreResponseHeaderName: "score_response_header_name",
+            }),
+          ),
         ),
         ref: Schema.optional(Schema.String),
-      }),
+      }).pipe(
+        Schema.encodeKeys({
+          accountId: "account_id",
+          zoneId: "zone_id",
+          actionParameters: "action_parameters",
+          exposedCredentialCheck: "exposed_credential_check",
+        }),
+      ),
       Schema.Struct({
-        accountId: Schema.optional(Schema.String).pipe(
-          T.JsonName("account_id"),
-        ),
-        zoneId: Schema.optional(Schema.String).pipe(T.JsonName("zone_id")),
+        accountId: Schema.optional(Schema.String),
+        zoneId: Schema.optional(Schema.String),
         id: Schema.optional(Schema.String),
         action: Schema.optional(Schema.Literal("score")),
         actionParameters: Schema.optional(
           Schema.Struct({
             increment: Schema.Number,
           }),
-        ).pipe(T.JsonName("action_parameters")),
+        ),
         description: Schema.optional(Schema.String),
         enabled: Schema.optional(Schema.Boolean),
         exposedCredentialCheck: Schema.optional(
           Schema.Struct({
-            passwordExpression: Schema.String.pipe(
-              T.JsonName("password_expression"),
-            ),
-            usernameExpression: Schema.String.pipe(
-              T.JsonName("username_expression"),
-            ),
-          }),
-        ).pipe(T.JsonName("exposed_credential_check")),
+            passwordExpression: Schema.String,
+            usernameExpression: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({
+              passwordExpression: "password_expression",
+              usernameExpression: "username_expression",
+            }),
+          ),
+        ),
         expression: Schema.optional(Schema.String),
         logging: Schema.optional(
           Schema.Struct({
@@ -2796,33 +3086,35 @@ export const CreateRuleResponse = Schema.Struct({
           Schema.Struct({
             characteristics: Schema.Array(Schema.String),
             period: Schema.Number,
-            countingExpression: Schema.optional(Schema.String).pipe(
-              T.JsonName("counting_expression"),
-            ),
-            mitigationTimeout: Schema.optional(Schema.Number).pipe(
-              T.JsonName("mitigation_timeout"),
-            ),
-            requestsPerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("requests_per_period"),
-            ),
-            requestsToOrigin: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("requests_to_origin"),
-            ),
-            scorePerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("score_per_period"),
-            ),
-            scoreResponseHeaderName: Schema.optional(Schema.String).pipe(
-              T.JsonName("score_response_header_name"),
-            ),
-          }),
+            countingExpression: Schema.optional(Schema.String),
+            mitigationTimeout: Schema.optional(Schema.Number),
+            requestsPerPeriod: Schema.optional(Schema.Number),
+            requestsToOrigin: Schema.optional(Schema.Boolean),
+            scorePerPeriod: Schema.optional(Schema.Number),
+            scoreResponseHeaderName: Schema.optional(Schema.String),
+          }).pipe(
+            Schema.encodeKeys({
+              countingExpression: "counting_expression",
+              mitigationTimeout: "mitigation_timeout",
+              requestsPerPeriod: "requests_per_period",
+              requestsToOrigin: "requests_to_origin",
+              scorePerPeriod: "score_per_period",
+              scoreResponseHeaderName: "score_response_header_name",
+            }),
+          ),
         ),
         ref: Schema.optional(Schema.String),
-      }),
+      }).pipe(
+        Schema.encodeKeys({
+          accountId: "account_id",
+          zoneId: "zone_id",
+          actionParameters: "action_parameters",
+          exposedCredentialCheck: "exposed_credential_check",
+        }),
+      ),
       Schema.Struct({
-        accountId: Schema.optional(Schema.String).pipe(
-          T.JsonName("account_id"),
-        ),
-        zoneId: Schema.optional(Schema.String).pipe(T.JsonName("zone_id")),
+        accountId: Schema.optional(Schema.String),
+        zoneId: Schema.optional(Schema.String),
         id: Schema.optional(Schema.String),
         action: Schema.optional(Schema.Literal("serve_error")),
         actionParameters: Schema.optional(
@@ -2836,13 +3128,16 @@ export const CreateRuleResponse = Schema.Struct({
                   "text/plain",
                   "text/xml",
                 ]),
-              ).pipe(T.JsonName("content_type")),
-              statusCode: Schema.optional(Schema.Number).pipe(
-                T.JsonName("status_code"),
               ),
-            }),
+              statusCode: Schema.optional(Schema.Number),
+            }).pipe(
+              Schema.encodeKeys({
+                contentType: "content_type",
+                statusCode: "status_code",
+              }),
+            ),
             Schema.Struct({
-              assetName: Schema.String.pipe(T.JsonName("asset_name")),
+              assetName: Schema.String,
               contentType: Schema.optional(
                 Schema.Literals([
                   "application/json",
@@ -2850,25 +3145,30 @@ export const CreateRuleResponse = Schema.Struct({
                   "text/plain",
                   "text/xml",
                 ]),
-              ).pipe(T.JsonName("content_type")),
-              statusCode: Schema.optional(Schema.Number).pipe(
-                T.JsonName("status_code"),
               ),
-            }),
+              statusCode: Schema.optional(Schema.Number),
+            }).pipe(
+              Schema.encodeKeys({
+                assetName: "asset_name",
+                contentType: "content_type",
+                statusCode: "status_code",
+              }),
+            ),
           ]),
-        ).pipe(T.JsonName("action_parameters")),
+        ),
         description: Schema.optional(Schema.String),
         enabled: Schema.optional(Schema.Boolean),
         exposedCredentialCheck: Schema.optional(
           Schema.Struct({
-            passwordExpression: Schema.String.pipe(
-              T.JsonName("password_expression"),
-            ),
-            usernameExpression: Schema.String.pipe(
-              T.JsonName("username_expression"),
-            ),
-          }),
-        ).pipe(T.JsonName("exposed_credential_check")),
+            passwordExpression: Schema.String,
+            usernameExpression: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({
+              passwordExpression: "password_expression",
+              usernameExpression: "username_expression",
+            }),
+          ),
+        ),
         expression: Schema.optional(Schema.String),
         logging: Schema.optional(
           Schema.Struct({
@@ -2892,40 +3192,42 @@ export const CreateRuleResponse = Schema.Struct({
           Schema.Struct({
             characteristics: Schema.Array(Schema.String),
             period: Schema.Number,
-            countingExpression: Schema.optional(Schema.String).pipe(
-              T.JsonName("counting_expression"),
-            ),
-            mitigationTimeout: Schema.optional(Schema.Number).pipe(
-              T.JsonName("mitigation_timeout"),
-            ),
-            requestsPerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("requests_per_period"),
-            ),
-            requestsToOrigin: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("requests_to_origin"),
-            ),
-            scorePerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("score_per_period"),
-            ),
-            scoreResponseHeaderName: Schema.optional(Schema.String).pipe(
-              T.JsonName("score_response_header_name"),
-            ),
-          }),
+            countingExpression: Schema.optional(Schema.String),
+            mitigationTimeout: Schema.optional(Schema.Number),
+            requestsPerPeriod: Schema.optional(Schema.Number),
+            requestsToOrigin: Schema.optional(Schema.Boolean),
+            scorePerPeriod: Schema.optional(Schema.Number),
+            scoreResponseHeaderName: Schema.optional(Schema.String),
+          }).pipe(
+            Schema.encodeKeys({
+              countingExpression: "counting_expression",
+              mitigationTimeout: "mitigation_timeout",
+              requestsPerPeriod: "requests_per_period",
+              requestsToOrigin: "requests_to_origin",
+              scorePerPeriod: "score_per_period",
+              scoreResponseHeaderName: "score_response_header_name",
+            }),
+          ),
         ),
         ref: Schema.optional(Schema.String),
-      }),
+      }).pipe(
+        Schema.encodeKeys({
+          accountId: "account_id",
+          zoneId: "zone_id",
+          actionParameters: "action_parameters",
+          exposedCredentialCheck: "exposed_credential_check",
+        }),
+      ),
       Schema.Struct({
-        accountId: Schema.optional(Schema.String).pipe(
-          T.JsonName("account_id"),
-        ),
-        zoneId: Schema.optional(Schema.String).pipe(T.JsonName("zone_id")),
+        accountId: Schema.optional(Schema.String),
+        zoneId: Schema.optional(Schema.String),
         id: Schema.optional(Schema.String),
         action: Schema.optional(Schema.Literal("set_cache_settings")),
         actionParameters: Schema.optional(
           Schema.Struct({
             additionalCacheablePorts: Schema.optional(
               Schema.Array(Schema.Number),
-            ).pipe(T.JsonName("additional_cacheable_ports")),
+            ),
             browserTtl: Schema.optional(
               Schema.Struct({
                 mode: Schema.Literals([
@@ -2936,37 +3238,38 @@ export const CreateRuleResponse = Schema.Struct({
                 ]),
                 default: Schema.optional(Schema.Number),
               }),
-            ).pipe(T.JsonName("browser_ttl")),
+            ),
             cache: Schema.optional(Schema.Boolean),
             cacheKey: Schema.optional(
               Schema.Struct({
-                cacheByDeviceType: Schema.optional(Schema.Boolean).pipe(
-                  T.JsonName("cache_by_device_type"),
-                ),
-                cacheDeceptionArmor: Schema.optional(Schema.Boolean).pipe(
-                  T.JsonName("cache_deception_armor"),
-                ),
+                cacheByDeviceType: Schema.optional(Schema.Boolean),
+                cacheDeceptionArmor: Schema.optional(Schema.Boolean),
                 customKey: Schema.optional(
                   Schema.Struct({
                     cookie: Schema.optional(
                       Schema.Struct({
                         checkPresence: Schema.optional(
                           Schema.Array(Schema.String),
-                        ).pipe(T.JsonName("check_presence")),
+                        ),
                         include: Schema.optional(Schema.Array(Schema.String)),
-                      }),
+                      }).pipe(
+                        Schema.encodeKeys({ checkPresence: "check_presence" }),
+                      ),
                     ),
                     header: Schema.optional(
                       Schema.Struct({
                         checkPresence: Schema.optional(
                           Schema.Array(Schema.String),
-                        ).pipe(T.JsonName("check_presence")),
-                        contains: Schema.optional(Schema.Struct({})),
-                        excludeOrigin: Schema.optional(Schema.Boolean).pipe(
-                          T.JsonName("exclude_origin"),
                         ),
+                        contains: Schema.optional(Schema.Struct({})),
+                        excludeOrigin: Schema.optional(Schema.Boolean),
                         include: Schema.optional(Schema.Array(Schema.String)),
-                      }),
+                      }).pipe(
+                        Schema.encodeKeys({
+                          checkPresence: "check_presence",
+                          excludeOrigin: "exclude_origin",
+                        }),
+                      ),
                     ),
                     host: Schema.optional(
                       Schema.Struct({
@@ -2988,31 +3291,34 @@ export const CreateRuleResponse = Schema.Struct({
                           }),
                         ),
                       }),
-                    ).pipe(T.JsonName("query_string")),
+                    ),
                     user: Schema.optional(
                       Schema.Struct({
-                        deviceType: Schema.optional(Schema.Boolean).pipe(
-                          T.JsonName("device_type"),
-                        ),
+                        deviceType: Schema.optional(Schema.Boolean),
                         geo: Schema.optional(Schema.Boolean),
                         lang: Schema.optional(Schema.Boolean),
-                      }),
+                      }).pipe(Schema.encodeKeys({ deviceType: "device_type" })),
                     ),
-                  }),
-                ).pipe(T.JsonName("custom_key")),
-                ignoreQueryStringsOrder: Schema.optional(Schema.Boolean).pipe(
-                  T.JsonName("ignore_query_strings_order"),
+                  }).pipe(Schema.encodeKeys({ queryString: "query_string" })),
                 ),
-              }),
-            ).pipe(T.JsonName("cache_key")),
+                ignoreQueryStringsOrder: Schema.optional(Schema.Boolean),
+              }).pipe(
+                Schema.encodeKeys({
+                  cacheByDeviceType: "cache_by_device_type",
+                  cacheDeceptionArmor: "cache_deception_armor",
+                  customKey: "custom_key",
+                  ignoreQueryStringsOrder: "ignore_query_strings_order",
+                }),
+              ),
+            ),
             cacheReserve: Schema.optional(
               Schema.Struct({
                 eligible: Schema.Boolean,
-                minimumFileSize: Schema.optional(Schema.Number).pipe(
-                  T.JsonName("minimum_file_size"),
-                ),
-              }),
-            ).pipe(T.JsonName("cache_reserve")),
+                minimumFileSize: Schema.optional(Schema.Number),
+              }).pipe(
+                Schema.encodeKeys({ minimumFileSize: "minimum_file_size" }),
+              ),
+            ),
             edgeTtl: Schema.optional(
               Schema.Struct({
                 mode: Schema.Literals([
@@ -3025,53 +3331,64 @@ export const CreateRuleResponse = Schema.Struct({
                   Schema.Array(
                     Schema.Struct({
                       value: Schema.Number,
-                      statusCode: Schema.optional(Schema.Number).pipe(
-                        T.JsonName("status_code"),
-                      ),
+                      statusCode: Schema.optional(Schema.Number),
                       statusCodeRange: Schema.optional(
                         Schema.Struct({
                           from: Schema.optional(Schema.Number),
                           to: Schema.optional(Schema.Number),
                         }),
-                      ).pipe(T.JsonName("status_code_range")),
-                    }),
+                      ),
+                    }).pipe(
+                      Schema.encodeKeys({
+                        statusCode: "status_code",
+                        statusCodeRange: "status_code_range",
+                      }),
+                    ),
                   ),
-                ).pipe(T.JsonName("status_code_ttl")),
-              }),
-            ).pipe(T.JsonName("edge_ttl")),
-            originCacheControl: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("origin_cache_control"),
+                ),
+              }).pipe(Schema.encodeKeys({ statusCodeTtl: "status_code_ttl" })),
             ),
-            originErrorPagePassthru: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("origin_error_page_passthru"),
-            ),
-            readTimeout: Schema.optional(Schema.Number).pipe(
-              T.JsonName("read_timeout"),
-            ),
-            respectStrongEtags: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("respect_strong_etags"),
-            ),
+            originCacheControl: Schema.optional(Schema.Boolean),
+            originErrorPagePassthru: Schema.optional(Schema.Boolean),
+            readTimeout: Schema.optional(Schema.Number),
+            respectStrongEtags: Schema.optional(Schema.Boolean),
             serveStale: Schema.optional(
               Schema.Struct({
-                disableStaleWhileUpdating: Schema.optional(Schema.Boolean).pipe(
-                  T.JsonName("disable_stale_while_updating"),
-                ),
-              }),
-            ).pipe(T.JsonName("serve_stale")),
-          }),
-        ).pipe(T.JsonName("action_parameters")),
+                disableStaleWhileUpdating: Schema.optional(Schema.Boolean),
+              }).pipe(
+                Schema.encodeKeys({
+                  disableStaleWhileUpdating: "disable_stale_while_updating",
+                }),
+              ),
+            ),
+          }).pipe(
+            Schema.encodeKeys({
+              additionalCacheablePorts: "additional_cacheable_ports",
+              browserTtl: "browser_ttl",
+              cacheKey: "cache_key",
+              cacheReserve: "cache_reserve",
+              edgeTtl: "edge_ttl",
+              originCacheControl: "origin_cache_control",
+              originErrorPagePassthru: "origin_error_page_passthru",
+              readTimeout: "read_timeout",
+              respectStrongEtags: "respect_strong_etags",
+              serveStale: "serve_stale",
+            }),
+          ),
+        ),
         description: Schema.optional(Schema.String),
         enabled: Schema.optional(Schema.Boolean),
         exposedCredentialCheck: Schema.optional(
           Schema.Struct({
-            passwordExpression: Schema.String.pipe(
-              T.JsonName("password_expression"),
-            ),
-            usernameExpression: Schema.String.pipe(
-              T.JsonName("username_expression"),
-            ),
-          }),
-        ).pipe(T.JsonName("exposed_credential_check")),
+            passwordExpression: Schema.String,
+            usernameExpression: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({
+              passwordExpression: "password_expression",
+              usernameExpression: "username_expression",
+            }),
+          ),
+        ),
         expression: Schema.optional(Schema.String),
         logging: Schema.optional(
           Schema.Struct({
@@ -3095,38 +3412,40 @@ export const CreateRuleResponse = Schema.Struct({
           Schema.Struct({
             characteristics: Schema.Array(Schema.String),
             period: Schema.Number,
-            countingExpression: Schema.optional(Schema.String).pipe(
-              T.JsonName("counting_expression"),
-            ),
-            mitigationTimeout: Schema.optional(Schema.Number).pipe(
-              T.JsonName("mitigation_timeout"),
-            ),
-            requestsPerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("requests_per_period"),
-            ),
-            requestsToOrigin: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("requests_to_origin"),
-            ),
-            scorePerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("score_per_period"),
-            ),
-            scoreResponseHeaderName: Schema.optional(Schema.String).pipe(
-              T.JsonName("score_response_header_name"),
-            ),
-          }),
+            countingExpression: Schema.optional(Schema.String),
+            mitigationTimeout: Schema.optional(Schema.Number),
+            requestsPerPeriod: Schema.optional(Schema.Number),
+            requestsToOrigin: Schema.optional(Schema.Boolean),
+            scorePerPeriod: Schema.optional(Schema.Number),
+            scoreResponseHeaderName: Schema.optional(Schema.String),
+          }).pipe(
+            Schema.encodeKeys({
+              countingExpression: "counting_expression",
+              mitigationTimeout: "mitigation_timeout",
+              requestsPerPeriod: "requests_per_period",
+              requestsToOrigin: "requests_to_origin",
+              scorePerPeriod: "score_per_period",
+              scoreResponseHeaderName: "score_response_header_name",
+            }),
+          ),
         ),
         ref: Schema.optional(Schema.String),
-      }),
+      }).pipe(
+        Schema.encodeKeys({
+          accountId: "account_id",
+          zoneId: "zone_id",
+          actionParameters: "action_parameters",
+          exposedCredentialCheck: "exposed_credential_check",
+        }),
+      ),
       Schema.Struct({
-        lastUpdated: Schema.String.pipe(T.JsonName("last_updated")),
+        lastUpdated: Schema.String,
         version: Schema.String,
         id: Schema.optional(Schema.String),
         action: Schema.optional(Schema.Literal("set_config")),
         actionParameters: Schema.optional(
           Schema.Struct({
-            automaticHttpsRewrites: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("automatic_https_rewrites"),
-            ),
+            automaticHttpsRewrites: Schema.optional(Schema.Boolean),
             autominify: Schema.optional(
               Schema.Struct({
                 css: Schema.optional(Schema.Boolean),
@@ -3135,41 +3454,25 @@ export const CreateRuleResponse = Schema.Struct({
               }),
             ),
             bic: Schema.optional(Schema.Boolean),
-            disableApps: Schema.optional(Schema.Literal(true)).pipe(
-              T.JsonName("disable_apps"),
-            ),
-            disablePayPerCrawl: Schema.optional(Schema.Literal(true)).pipe(
-              T.JsonName("disable_pay_per_crawl"),
-            ),
-            disableRum: Schema.optional(Schema.Literal(true)).pipe(
-              T.JsonName("disable_rum"),
-            ),
-            disableZaraz: Schema.optional(Schema.Literal(true)).pipe(
-              T.JsonName("disable_zaraz"),
-            ),
-            emailObfuscation: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("email_obfuscation"),
-            ),
+            disableApps: Schema.optional(Schema.Literal(true)),
+            disablePayPerCrawl: Schema.optional(Schema.Literal(true)),
+            disableRum: Schema.optional(Schema.Literal(true)),
+            disableZaraz: Schema.optional(Schema.Literal(true)),
+            emailObfuscation: Schema.optional(Schema.Boolean),
             fonts: Schema.optional(Schema.Boolean),
-            hotlinkProtection: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("hotlink_protection"),
-            ),
+            hotlinkProtection: Schema.optional(Schema.Boolean),
             mirage: Schema.optional(Schema.Boolean),
-            opportunisticEncryption: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("opportunistic_encryption"),
-            ),
+            opportunisticEncryption: Schema.optional(Schema.Boolean),
             polish: Schema.optional(
               Schema.Literals(["off", "lossless", "lossy", "webp"]),
             ),
             requestBodyBuffering: Schema.optional(
               Schema.Literals(["none", "standard", "full"]),
-            ).pipe(T.JsonName("request_body_buffering")),
+            ),
             responseBodyBuffering: Schema.optional(
               Schema.Literals(["none", "standard"]),
-            ).pipe(T.JsonName("response_body_buffering")),
-            rocketLoader: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("rocket_loader"),
             ),
+            rocketLoader: Schema.optional(Schema.Boolean),
             securityLevel: Schema.optional(
               Schema.Literals([
                 "off",
@@ -3179,10 +3482,8 @@ export const CreateRuleResponse = Schema.Struct({
                 "high",
                 "under_attack",
               ]),
-            ).pipe(T.JsonName("security_level")),
-            serverSideExcludes: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("server_side_excludes"),
             ),
+            serverSideExcludes: Schema.optional(Schema.Boolean),
             ssl: Schema.optional(
               Schema.Literals([
                 "off",
@@ -3193,21 +3494,38 @@ export const CreateRuleResponse = Schema.Struct({
               ]),
             ),
             sxg: Schema.optional(Schema.Boolean),
-          }),
-        ).pipe(T.JsonName("action_parameters")),
+          }).pipe(
+            Schema.encodeKeys({
+              automaticHttpsRewrites: "automatic_https_rewrites",
+              disableApps: "disable_apps",
+              disablePayPerCrawl: "disable_pay_per_crawl",
+              disableRum: "disable_rum",
+              disableZaraz: "disable_zaraz",
+              emailObfuscation: "email_obfuscation",
+              hotlinkProtection: "hotlink_protection",
+              opportunisticEncryption: "opportunistic_encryption",
+              requestBodyBuffering: "request_body_buffering",
+              responseBodyBuffering: "response_body_buffering",
+              rocketLoader: "rocket_loader",
+              securityLevel: "security_level",
+              serverSideExcludes: "server_side_excludes",
+            }),
+          ),
+        ),
         categories: Schema.optional(Schema.Array(Schema.String)),
         description: Schema.optional(Schema.String),
         enabled: Schema.optional(Schema.Boolean),
         exposedCredentialCheck: Schema.optional(
           Schema.Struct({
-            passwordExpression: Schema.String.pipe(
-              T.JsonName("password_expression"),
-            ),
-            usernameExpression: Schema.String.pipe(
-              T.JsonName("username_expression"),
-            ),
-          }),
-        ).pipe(T.JsonName("exposed_credential_check")),
+            passwordExpression: Schema.String,
+            usernameExpression: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({
+              passwordExpression: "password_expression",
+              usernameExpression: "username_expression",
+            }),
+          ),
+        ),
         expression: Schema.optional(Schema.String),
         logging: Schema.optional(
           Schema.Struct({
@@ -3218,33 +3536,34 @@ export const CreateRuleResponse = Schema.Struct({
           Schema.Struct({
             characteristics: Schema.Array(Schema.String),
             period: Schema.Number,
-            countingExpression: Schema.optional(Schema.String).pipe(
-              T.JsonName("counting_expression"),
-            ),
-            mitigationTimeout: Schema.optional(Schema.Number).pipe(
-              T.JsonName("mitigation_timeout"),
-            ),
-            requestsPerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("requests_per_period"),
-            ),
-            requestsToOrigin: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("requests_to_origin"),
-            ),
-            scorePerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("score_per_period"),
-            ),
-            scoreResponseHeaderName: Schema.optional(Schema.String).pipe(
-              T.JsonName("score_response_header_name"),
-            ),
-          }),
+            countingExpression: Schema.optional(Schema.String),
+            mitigationTimeout: Schema.optional(Schema.Number),
+            requestsPerPeriod: Schema.optional(Schema.Number),
+            requestsToOrigin: Schema.optional(Schema.Boolean),
+            scorePerPeriod: Schema.optional(Schema.Number),
+            scoreResponseHeaderName: Schema.optional(Schema.String),
+          }).pipe(
+            Schema.encodeKeys({
+              countingExpression: "counting_expression",
+              mitigationTimeout: "mitigation_timeout",
+              requestsPerPeriod: "requests_per_period",
+              requestsToOrigin: "requests_to_origin",
+              scorePerPeriod: "score_per_period",
+              scoreResponseHeaderName: "score_response_header_name",
+            }),
+          ),
         ),
         ref: Schema.optional(Schema.String),
-      }),
+      }).pipe(
+        Schema.encodeKeys({
+          lastUpdated: "last_updated",
+          actionParameters: "action_parameters",
+          exposedCredentialCheck: "exposed_credential_check",
+        }),
+      ),
       Schema.Struct({
-        accountId: Schema.optional(Schema.String).pipe(
-          T.JsonName("account_id"),
-        ),
-        zoneId: Schema.optional(Schema.String).pipe(T.JsonName("zone_id")),
+        accountId: Schema.optional(Schema.String),
+        zoneId: Schema.optional(Schema.String),
         id: Schema.optional(Schema.String),
         action: Schema.optional(Schema.Literal("skip")),
         actionParameters: Schema.optional(
@@ -3296,19 +3615,20 @@ export const CreateRuleResponse = Schema.Struct({
             ruleset: Schema.optional(Schema.Literal("current")),
             rulesets: Schema.optional(Schema.Array(Schema.String)),
           }),
-        ).pipe(T.JsonName("action_parameters")),
+        ),
         description: Schema.optional(Schema.String),
         enabled: Schema.optional(Schema.Boolean),
         exposedCredentialCheck: Schema.optional(
           Schema.Struct({
-            passwordExpression: Schema.String.pipe(
-              T.JsonName("password_expression"),
-            ),
-            usernameExpression: Schema.String.pipe(
-              T.JsonName("username_expression"),
-            ),
-          }),
-        ).pipe(T.JsonName("exposed_credential_check")),
+            passwordExpression: Schema.String,
+            usernameExpression: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({
+              passwordExpression: "password_expression",
+              usernameExpression: "username_expression",
+            }),
+          ),
+        ),
         expression: Schema.optional(Schema.String),
         logging: Schema.optional(
           Schema.Struct({
@@ -3332,33 +3652,39 @@ export const CreateRuleResponse = Schema.Struct({
           Schema.Struct({
             characteristics: Schema.Array(Schema.String),
             period: Schema.Number,
-            countingExpression: Schema.optional(Schema.String).pipe(
-              T.JsonName("counting_expression"),
-            ),
-            mitigationTimeout: Schema.optional(Schema.Number).pipe(
-              T.JsonName("mitigation_timeout"),
-            ),
-            requestsPerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("requests_per_period"),
-            ),
-            requestsToOrigin: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("requests_to_origin"),
-            ),
-            scorePerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("score_per_period"),
-            ),
-            scoreResponseHeaderName: Schema.optional(Schema.String).pipe(
-              T.JsonName("score_response_header_name"),
-            ),
-          }),
+            countingExpression: Schema.optional(Schema.String),
+            mitigationTimeout: Schema.optional(Schema.Number),
+            requestsPerPeriod: Schema.optional(Schema.Number),
+            requestsToOrigin: Schema.optional(Schema.Boolean),
+            scorePerPeriod: Schema.optional(Schema.Number),
+            scoreResponseHeaderName: Schema.optional(Schema.String),
+          }).pipe(
+            Schema.encodeKeys({
+              countingExpression: "counting_expression",
+              mitigationTimeout: "mitigation_timeout",
+              requestsPerPeriod: "requests_per_period",
+              requestsToOrigin: "requests_to_origin",
+              scorePerPeriod: "score_per_period",
+              scoreResponseHeaderName: "score_response_header_name",
+            }),
+          ),
         ),
         ref: Schema.optional(Schema.String),
-      }),
+      }).pipe(
+        Schema.encodeKeys({
+          accountId: "account_id",
+          zoneId: "zone_id",
+          actionParameters: "action_parameters",
+          exposedCredentialCheck: "exposed_credential_check",
+        }),
+      ),
     ]),
   ),
   version: Schema.String,
   description: Schema.optional(Schema.String),
-}) as unknown as Schema.Schema<CreateRuleResponse>;
+}).pipe(
+  Schema.encodeKeys({ lastUpdated: "last_updated" }),
+) as unknown as Schema.Schema<CreateRuleResponse>;
 
 export const createRule: (
   input: CreateRuleRequest,
@@ -3375,12 +3701,130 @@ export const createRule: (
 export interface PatchRuleRequest {
   rulesetId: string;
   ruleId: string;
+  /** Path param: The Account ID to use for this endpoint. Mutually exclusive with the Zone ID. */
+  accountId?: string;
+  /** Path param: The Zone ID to use for this endpoint. Mutually exclusive with the Account ID. */
+  zoneId?: string;
+  /** Body param: The unique ID of the rule. */
+  id?: string;
+  /** Body param: The action to perform when the rule matches. */
+  action?: "block";
+  /** Body param: The parameters configuring the rule's action. */
+  actionParameters?: {
+    response?: { content: string; contentType: string; statusCode: number };
+  };
+  /** Body param: An informative description of the rule. */
+  description?: string;
+  /** Body param: Whether the rule should be executed. */
+  enabled?: boolean;
+  /** Body param: Configuration for exposed credential checking. */
+  exposedCredentialCheck?: {
+    passwordExpression: string;
+    usernameExpression: string;
+  };
+  /** Body param: The expression defining which traffic will match the rule. */
+  expression?: string;
+  /** Body param: An object configuring the rule's logging behavior. */
+  logging?: { enabled: boolean };
+  /** Body param: An object configuring where the rule will be placed. */
+  position?: { before?: string } | { after?: string } | { index?: number };
+  /** Body param: An object configuring the rule's rate limit behavior. */
+  ratelimit?: {
+    characteristics: string[];
+    period: number;
+    countingExpression?: string;
+    mitigationTimeout?: number;
+    requestsPerPeriod?: number;
+    requestsToOrigin?: boolean;
+    scorePerPeriod?: number;
+    scoreResponseHeaderName?: string;
+  };
+  /** Body param: The reference of the rule (the rule's ID by default). */
+  ref?: string;
 }
 
 export const PatchRuleRequest = Schema.Struct({
   rulesetId: Schema.String.pipe(T.HttpPath("rulesetId")),
   ruleId: Schema.String.pipe(T.HttpPath("ruleId")),
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+  id: Schema.optional(Schema.String),
+  action: Schema.optional(Schema.Literal("block")),
+  actionParameters: Schema.optional(
+    Schema.Struct({
+      response: Schema.optional(
+        Schema.Struct({
+          content: Schema.String,
+          contentType: Schema.String,
+          statusCode: Schema.Number,
+        }).pipe(
+          Schema.encodeKeys({
+            contentType: "content_type",
+            statusCode: "status_code",
+          }),
+        ),
+      ),
+    }),
+  ),
+  description: Schema.optional(Schema.String),
+  enabled: Schema.optional(Schema.Boolean),
+  exposedCredentialCheck: Schema.optional(
+    Schema.Struct({
+      passwordExpression: Schema.String,
+      usernameExpression: Schema.String,
+    }).pipe(
+      Schema.encodeKeys({
+        passwordExpression: "password_expression",
+        usernameExpression: "username_expression",
+      }),
+    ),
+  ),
+  expression: Schema.optional(Schema.String),
+  logging: Schema.optional(
+    Schema.Struct({
+      enabled: Schema.Boolean,
+    }),
+  ),
+  position: Schema.optional(
+    Schema.Union([
+      Schema.Struct({
+        before: Schema.optional(Schema.String),
+      }),
+      Schema.Struct({
+        after: Schema.optional(Schema.String),
+      }),
+      Schema.Struct({
+        index: Schema.optional(Schema.Number),
+      }),
+    ]),
+  ),
+  ratelimit: Schema.optional(
+    Schema.Struct({
+      characteristics: Schema.Array(Schema.String),
+      period: Schema.Number,
+      countingExpression: Schema.optional(Schema.String),
+      mitigationTimeout: Schema.optional(Schema.Number),
+      requestsPerPeriod: Schema.optional(Schema.Number),
+      requestsToOrigin: Schema.optional(Schema.Boolean),
+      scorePerPeriod: Schema.optional(Schema.Number),
+      scoreResponseHeaderName: Schema.optional(Schema.String),
+    }).pipe(
+      Schema.encodeKeys({
+        countingExpression: "counting_expression",
+        mitigationTimeout: "mitigation_timeout",
+        requestsPerPeriod: "requests_per_period",
+        requestsToOrigin: "requests_to_origin",
+        scorePerPeriod: "score_per_period",
+        scoreResponseHeaderName: "score_response_header_name",
+      }),
+    ),
+  ),
+  ref: Schema.optional(Schema.String),
 }).pipe(
+  Schema.encodeKeys({
+    actionParameters: "action_parameters",
+    exposedCredentialCheck: "exposed_credential_check",
+  }),
   T.Http({
     method: "PATCH",
     path: "/{accountOrZone}/{accountOrZoneId}/rulesets/{rulesetId}/rules/{ruleId}",
@@ -4144,7 +4588,7 @@ export interface PatchRuleResponse {
 export const PatchRuleResponse = Schema.Struct({
   id: Schema.String,
   kind: Schema.Literals(["zone", "managed", "custom", "root"]),
-  lastUpdated: Schema.String.pipe(T.JsonName("last_updated")),
+  lastUpdated: Schema.String,
   name: Schema.String,
   phase: Schema.Literals([
     "ddos_l4",
@@ -4174,10 +4618,8 @@ export const PatchRuleResponse = Schema.Struct({
   rules: Schema.Array(
     Schema.Union([
       Schema.Struct({
-        accountId: Schema.optional(Schema.String).pipe(
-          T.JsonName("account_id"),
-        ),
-        zoneId: Schema.optional(Schema.String).pipe(T.JsonName("zone_id")),
+        accountId: Schema.optional(Schema.String),
+        zoneId: Schema.optional(Schema.String),
         id: Schema.optional(Schema.String),
         action: Schema.optional(Schema.Literal("block")),
         actionParameters: Schema.optional(
@@ -4185,24 +4627,30 @@ export const PatchRuleResponse = Schema.Struct({
             response: Schema.optional(
               Schema.Struct({
                 content: Schema.String,
-                contentType: Schema.String.pipe(T.JsonName("content_type")),
-                statusCode: Schema.Number.pipe(T.JsonName("status_code")),
-              }),
+                contentType: Schema.String,
+                statusCode: Schema.Number,
+              }).pipe(
+                Schema.encodeKeys({
+                  contentType: "content_type",
+                  statusCode: "status_code",
+                }),
+              ),
             ),
           }),
-        ).pipe(T.JsonName("action_parameters")),
+        ),
         description: Schema.optional(Schema.String),
         enabled: Schema.optional(Schema.Boolean),
         exposedCredentialCheck: Schema.optional(
           Schema.Struct({
-            passwordExpression: Schema.String.pipe(
-              T.JsonName("password_expression"),
-            ),
-            usernameExpression: Schema.String.pipe(
-              T.JsonName("username_expression"),
-            ),
-          }),
-        ).pipe(T.JsonName("exposed_credential_check")),
+            passwordExpression: Schema.String,
+            usernameExpression: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({
+              passwordExpression: "password_expression",
+              usernameExpression: "username_expression",
+            }),
+          ),
+        ),
         expression: Schema.optional(Schema.String),
         logging: Schema.optional(
           Schema.Struct({
@@ -4226,79 +4674,85 @@ export const PatchRuleResponse = Schema.Struct({
           Schema.Struct({
             characteristics: Schema.Array(Schema.String),
             period: Schema.Number,
-            countingExpression: Schema.optional(Schema.String).pipe(
-              T.JsonName("counting_expression"),
-            ),
-            mitigationTimeout: Schema.optional(Schema.Number).pipe(
-              T.JsonName("mitigation_timeout"),
-            ),
-            requestsPerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("requests_per_period"),
-            ),
-            requestsToOrigin: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("requests_to_origin"),
-            ),
-            scorePerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("score_per_period"),
-            ),
-            scoreResponseHeaderName: Schema.optional(Schema.String).pipe(
-              T.JsonName("score_response_header_name"),
-            ),
-          }),
+            countingExpression: Schema.optional(Schema.String),
+            mitigationTimeout: Schema.optional(Schema.Number),
+            requestsPerPeriod: Schema.optional(Schema.Number),
+            requestsToOrigin: Schema.optional(Schema.Boolean),
+            scorePerPeriod: Schema.optional(Schema.Number),
+            scoreResponseHeaderName: Schema.optional(Schema.String),
+          }).pipe(
+            Schema.encodeKeys({
+              countingExpression: "counting_expression",
+              mitigationTimeout: "mitigation_timeout",
+              requestsPerPeriod: "requests_per_period",
+              requestsToOrigin: "requests_to_origin",
+              scorePerPeriod: "score_per_period",
+              scoreResponseHeaderName: "score_response_header_name",
+            }),
+          ),
         ),
         ref: Schema.optional(Schema.String),
-      }),
+      }).pipe(
+        Schema.encodeKeys({
+          accountId: "account_id",
+          zoneId: "zone_id",
+          actionParameters: "action_parameters",
+          exposedCredentialCheck: "exposed_credential_check",
+        }),
+      ),
       Schema.Struct({
-        lastUpdated: Schema.String.pipe(T.JsonName("last_updated")),
+        lastUpdated: Schema.String,
         version: Schema.String,
         id: Schema.optional(Schema.String),
         action: Schema.optional(Schema.Literal("challenge")),
-        actionParameters: Schema.optional(Schema.Unknown).pipe(
-          T.JsonName("action_parameters"),
-        ),
+        actionParameters: Schema.optional(Schema.Unknown),
         categories: Schema.optional(Schema.Array(Schema.String)),
         description: Schema.optional(Schema.String),
         enabled: Schema.optional(Schema.Boolean),
         exposedCredentialCheck: Schema.optional(
           Schema.Struct({
-            passwordExpression: Schema.String.pipe(
-              T.JsonName("password_expression"),
-            ),
-            usernameExpression: Schema.String.pipe(
-              T.JsonName("username_expression"),
-            ),
-          }),
-        ).pipe(T.JsonName("exposed_credential_check")),
+            passwordExpression: Schema.String,
+            usernameExpression: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({
+              passwordExpression: "password_expression",
+              usernameExpression: "username_expression",
+            }),
+          ),
+        ),
         expression: Schema.optional(Schema.String),
         logging: Schema.optional(Schema.Unknown),
         ratelimit: Schema.optional(
           Schema.Struct({
             characteristics: Schema.Array(Schema.String),
             period: Schema.Number,
-            countingExpression: Schema.optional(Schema.String).pipe(
-              T.JsonName("counting_expression"),
-            ),
-            mitigationTimeout: Schema.optional(Schema.Number).pipe(
-              T.JsonName("mitigation_timeout"),
-            ),
-            requestsPerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("requests_per_period"),
-            ),
-            requestsToOrigin: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("requests_to_origin"),
-            ),
-            scorePerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("score_per_period"),
-            ),
-            scoreResponseHeaderName: Schema.optional(Schema.String).pipe(
-              T.JsonName("score_response_header_name"),
-            ),
-          }),
+            countingExpression: Schema.optional(Schema.String),
+            mitigationTimeout: Schema.optional(Schema.Number),
+            requestsPerPeriod: Schema.optional(Schema.Number),
+            requestsToOrigin: Schema.optional(Schema.Boolean),
+            scorePerPeriod: Schema.optional(Schema.Number),
+            scoreResponseHeaderName: Schema.optional(Schema.String),
+          }).pipe(
+            Schema.encodeKeys({
+              countingExpression: "counting_expression",
+              mitigationTimeout: "mitigation_timeout",
+              requestsPerPeriod: "requests_per_period",
+              requestsToOrigin: "requests_to_origin",
+              scorePerPeriod: "score_per_period",
+              scoreResponseHeaderName: "score_response_header_name",
+            }),
+          ),
         ),
         ref: Schema.optional(Schema.String),
-      }),
+      }).pipe(
+        Schema.encodeKeys({
+          lastUpdated: "last_updated",
+          actionParameters: "action_parameters",
+          exposedCredentialCheck: "exposed_credential_check",
+        }),
+      ),
       Schema.Struct({
-        lastUpdated: Schema.String.pipe(T.JsonName("last_updated")),
+        lastUpdated: Schema.String,
         version: Schema.String,
         id: Schema.optional(Schema.String),
         action: Schema.optional(Schema.Literal("compress_response")),
@@ -4319,20 +4773,21 @@ export const PatchRuleResponse = Schema.Struct({
               }),
             ),
           }),
-        ).pipe(T.JsonName("action_parameters")),
+        ),
         categories: Schema.optional(Schema.Array(Schema.String)),
         description: Schema.optional(Schema.String),
         enabled: Schema.optional(Schema.Boolean),
         exposedCredentialCheck: Schema.optional(
           Schema.Struct({
-            passwordExpression: Schema.String.pipe(
-              T.JsonName("password_expression"),
-            ),
-            usernameExpression: Schema.String.pipe(
-              T.JsonName("username_expression"),
-            ),
-          }),
-        ).pipe(T.JsonName("exposed_credential_check")),
+            passwordExpression: Schema.String,
+            usernameExpression: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({
+              passwordExpression: "password_expression",
+              usernameExpression: "username_expression",
+            }),
+          ),
+        ),
         expression: Schema.optional(Schema.String),
         logging: Schema.optional(
           Schema.Struct({
@@ -4343,50 +4798,50 @@ export const PatchRuleResponse = Schema.Struct({
           Schema.Struct({
             characteristics: Schema.Array(Schema.String),
             period: Schema.Number,
-            countingExpression: Schema.optional(Schema.String).pipe(
-              T.JsonName("counting_expression"),
-            ),
-            mitigationTimeout: Schema.optional(Schema.Number).pipe(
-              T.JsonName("mitigation_timeout"),
-            ),
-            requestsPerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("requests_per_period"),
-            ),
-            requestsToOrigin: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("requests_to_origin"),
-            ),
-            scorePerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("score_per_period"),
-            ),
-            scoreResponseHeaderName: Schema.optional(Schema.String).pipe(
-              T.JsonName("score_response_header_name"),
-            ),
-          }),
+            countingExpression: Schema.optional(Schema.String),
+            mitigationTimeout: Schema.optional(Schema.Number),
+            requestsPerPeriod: Schema.optional(Schema.Number),
+            requestsToOrigin: Schema.optional(Schema.Boolean),
+            scorePerPeriod: Schema.optional(Schema.Number),
+            scoreResponseHeaderName: Schema.optional(Schema.String),
+          }).pipe(
+            Schema.encodeKeys({
+              countingExpression: "counting_expression",
+              mitigationTimeout: "mitigation_timeout",
+              requestsPerPeriod: "requests_per_period",
+              requestsToOrigin: "requests_to_origin",
+              scorePerPeriod: "score_per_period",
+              scoreResponseHeaderName: "score_response_header_name",
+            }),
+          ),
         ),
         ref: Schema.optional(Schema.String),
-      }),
+      }).pipe(
+        Schema.encodeKeys({
+          lastUpdated: "last_updated",
+          actionParameters: "action_parameters",
+          exposedCredentialCheck: "exposed_credential_check",
+        }),
+      ),
       Schema.Struct({
-        accountId: Schema.optional(Schema.String).pipe(
-          T.JsonName("account_id"),
-        ),
-        zoneId: Schema.optional(Schema.String).pipe(T.JsonName("zone_id")),
+        accountId: Schema.optional(Schema.String),
+        zoneId: Schema.optional(Schema.String),
         id: Schema.optional(Schema.String),
         action: Schema.optional(Schema.Literal("ddos_dynamic")),
-        actionParameters: Schema.optional(Schema.Unknown).pipe(
-          T.JsonName("action_parameters"),
-        ),
+        actionParameters: Schema.optional(Schema.Unknown),
         description: Schema.optional(Schema.String),
         enabled: Schema.optional(Schema.Boolean),
         exposedCredentialCheck: Schema.optional(
           Schema.Struct({
-            passwordExpression: Schema.String.pipe(
-              T.JsonName("password_expression"),
-            ),
-            usernameExpression: Schema.String.pipe(
-              T.JsonName("username_expression"),
-            ),
-          }),
-        ).pipe(T.JsonName("exposed_credential_check")),
+            passwordExpression: Schema.String,
+            usernameExpression: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({
+              passwordExpression: "password_expression",
+              usernameExpression: "username_expression",
+            }),
+          ),
+        ),
         expression: Schema.optional(Schema.String),
         logging: Schema.optional(
           Schema.Struct({
@@ -4410,33 +4865,35 @@ export const PatchRuleResponse = Schema.Struct({
           Schema.Struct({
             characteristics: Schema.Array(Schema.String),
             period: Schema.Number,
-            countingExpression: Schema.optional(Schema.String).pipe(
-              T.JsonName("counting_expression"),
-            ),
-            mitigationTimeout: Schema.optional(Schema.Number).pipe(
-              T.JsonName("mitigation_timeout"),
-            ),
-            requestsPerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("requests_per_period"),
-            ),
-            requestsToOrigin: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("requests_to_origin"),
-            ),
-            scorePerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("score_per_period"),
-            ),
-            scoreResponseHeaderName: Schema.optional(Schema.String).pipe(
-              T.JsonName("score_response_header_name"),
-            ),
-          }),
+            countingExpression: Schema.optional(Schema.String),
+            mitigationTimeout: Schema.optional(Schema.Number),
+            requestsPerPeriod: Schema.optional(Schema.Number),
+            requestsToOrigin: Schema.optional(Schema.Boolean),
+            scorePerPeriod: Schema.optional(Schema.Number),
+            scoreResponseHeaderName: Schema.optional(Schema.String),
+          }).pipe(
+            Schema.encodeKeys({
+              countingExpression: "counting_expression",
+              mitigationTimeout: "mitigation_timeout",
+              requestsPerPeriod: "requests_per_period",
+              requestsToOrigin: "requests_to_origin",
+              scorePerPeriod: "score_per_period",
+              scoreResponseHeaderName: "score_response_header_name",
+            }),
+          ),
         ),
         ref: Schema.optional(Schema.String),
-      }),
+      }).pipe(
+        Schema.encodeKeys({
+          accountId: "account_id",
+          zoneId: "zone_id",
+          actionParameters: "action_parameters",
+          exposedCredentialCheck: "exposed_credential_check",
+        }),
+      ),
       Schema.Struct({
-        accountId: Schema.optional(Schema.String).pipe(
-          T.JsonName("account_id"),
-        ),
-        zoneId: Schema.optional(Schema.String).pipe(T.JsonName("zone_id")),
+        accountId: Schema.optional(Schema.String),
+        zoneId: Schema.optional(Schema.String),
         id: Schema.optional(Schema.String),
         action: Schema.optional(Schema.Literal("execute")),
         actionParameters: Schema.optional(
@@ -4444,9 +4901,9 @@ export const PatchRuleResponse = Schema.Struct({
             id: Schema.String,
             matchedData: Schema.optional(
               Schema.Struct({
-                publicKey: Schema.String.pipe(T.JsonName("public_key")),
-              }),
-            ).pipe(T.JsonName("matched_data")),
+                publicKey: Schema.String,
+              }).pipe(Schema.encodeKeys({ publicKey: "public_key" })),
+            ),
             overrides: Schema.optional(
               Schema.Struct({
                 action: Schema.optional(Schema.String),
@@ -4458,8 +4915,12 @@ export const PatchRuleResponse = Schema.Struct({
                       enabled: Schema.optional(Schema.Boolean),
                       sensitivityLevel: Schema.optional(
                         Schema.Literals(["default", "medium", "low", "eoff"]),
-                      ).pipe(T.JsonName("sensitivity_level")),
-                    }),
+                      ),
+                    }).pipe(
+                      Schema.encodeKeys({
+                        sensitivityLevel: "sensitivity_level",
+                      }),
+                    ),
                   ),
                 ),
                 enabled: Schema.optional(Schema.Boolean),
@@ -4469,34 +4930,40 @@ export const PatchRuleResponse = Schema.Struct({
                       id: Schema.String,
                       action: Schema.optional(Schema.String),
                       enabled: Schema.optional(Schema.Boolean),
-                      scoreThreshold: Schema.optional(Schema.Number).pipe(
-                        T.JsonName("score_threshold"),
-                      ),
+                      scoreThreshold: Schema.optional(Schema.Number),
                       sensitivityLevel: Schema.optional(
                         Schema.Literals(["default", "medium", "low", "eoff"]),
-                      ).pipe(T.JsonName("sensitivity_level")),
-                    }),
+                      ),
+                    }).pipe(
+                      Schema.encodeKeys({
+                        scoreThreshold: "score_threshold",
+                        sensitivityLevel: "sensitivity_level",
+                      }),
+                    ),
                   ),
                 ),
                 sensitivityLevel: Schema.optional(
                   Schema.Literals(["default", "medium", "low", "eoff"]),
-                ).pipe(T.JsonName("sensitivity_level")),
-              }),
+                ),
+              }).pipe(
+                Schema.encodeKeys({ sensitivityLevel: "sensitivity_level" }),
+              ),
             ),
-          }),
-        ).pipe(T.JsonName("action_parameters")),
+          }).pipe(Schema.encodeKeys({ matchedData: "matched_data" })),
+        ),
         description: Schema.optional(Schema.String),
         enabled: Schema.optional(Schema.Boolean),
         exposedCredentialCheck: Schema.optional(
           Schema.Struct({
-            passwordExpression: Schema.String.pipe(
-              T.JsonName("password_expression"),
-            ),
-            usernameExpression: Schema.String.pipe(
-              T.JsonName("username_expression"),
-            ),
-          }),
-        ).pipe(T.JsonName("exposed_credential_check")),
+            passwordExpression: Schema.String,
+            usernameExpression: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({
+              passwordExpression: "password_expression",
+              usernameExpression: "username_expression",
+            }),
+          ),
+        ),
         expression: Schema.optional(Schema.String),
         logging: Schema.optional(
           Schema.Struct({
@@ -4520,50 +4987,51 @@ export const PatchRuleResponse = Schema.Struct({
           Schema.Struct({
             characteristics: Schema.Array(Schema.String),
             period: Schema.Number,
-            countingExpression: Schema.optional(Schema.String).pipe(
-              T.JsonName("counting_expression"),
-            ),
-            mitigationTimeout: Schema.optional(Schema.Number).pipe(
-              T.JsonName("mitigation_timeout"),
-            ),
-            requestsPerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("requests_per_period"),
-            ),
-            requestsToOrigin: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("requests_to_origin"),
-            ),
-            scorePerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("score_per_period"),
-            ),
-            scoreResponseHeaderName: Schema.optional(Schema.String).pipe(
-              T.JsonName("score_response_header_name"),
-            ),
-          }),
+            countingExpression: Schema.optional(Schema.String),
+            mitigationTimeout: Schema.optional(Schema.Number),
+            requestsPerPeriod: Schema.optional(Schema.Number),
+            requestsToOrigin: Schema.optional(Schema.Boolean),
+            scorePerPeriod: Schema.optional(Schema.Number),
+            scoreResponseHeaderName: Schema.optional(Schema.String),
+          }).pipe(
+            Schema.encodeKeys({
+              countingExpression: "counting_expression",
+              mitigationTimeout: "mitigation_timeout",
+              requestsPerPeriod: "requests_per_period",
+              requestsToOrigin: "requests_to_origin",
+              scorePerPeriod: "score_per_period",
+              scoreResponseHeaderName: "score_response_header_name",
+            }),
+          ),
         ),
         ref: Schema.optional(Schema.String),
-      }),
+      }).pipe(
+        Schema.encodeKeys({
+          accountId: "account_id",
+          zoneId: "zone_id",
+          actionParameters: "action_parameters",
+          exposedCredentialCheck: "exposed_credential_check",
+        }),
+      ),
       Schema.Struct({
-        accountId: Schema.optional(Schema.String).pipe(
-          T.JsonName("account_id"),
-        ),
-        zoneId: Schema.optional(Schema.String).pipe(T.JsonName("zone_id")),
+        accountId: Schema.optional(Schema.String),
+        zoneId: Schema.optional(Schema.String),
         id: Schema.optional(Schema.String),
         action: Schema.optional(Schema.Literal("force_connection_close")),
-        actionParameters: Schema.optional(Schema.Unknown).pipe(
-          T.JsonName("action_parameters"),
-        ),
+        actionParameters: Schema.optional(Schema.Unknown),
         description: Schema.optional(Schema.String),
         enabled: Schema.optional(Schema.Boolean),
         exposedCredentialCheck: Schema.optional(
           Schema.Struct({
-            passwordExpression: Schema.String.pipe(
-              T.JsonName("password_expression"),
-            ),
-            usernameExpression: Schema.String.pipe(
-              T.JsonName("username_expression"),
-            ),
-          }),
-        ).pipe(T.JsonName("exposed_credential_check")),
+            passwordExpression: Schema.String,
+            usernameExpression: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({
+              passwordExpression: "password_expression",
+              usernameExpression: "username_expression",
+            }),
+          ),
+        ),
         expression: Schema.optional(Schema.String),
         logging: Schema.optional(
           Schema.Struct({
@@ -4587,99 +5055,102 @@ export const PatchRuleResponse = Schema.Struct({
           Schema.Struct({
             characteristics: Schema.Array(Schema.String),
             period: Schema.Number,
-            countingExpression: Schema.optional(Schema.String).pipe(
-              T.JsonName("counting_expression"),
-            ),
-            mitigationTimeout: Schema.optional(Schema.Number).pipe(
-              T.JsonName("mitigation_timeout"),
-            ),
-            requestsPerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("requests_per_period"),
-            ),
-            requestsToOrigin: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("requests_to_origin"),
-            ),
-            scorePerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("score_per_period"),
-            ),
-            scoreResponseHeaderName: Schema.optional(Schema.String).pipe(
-              T.JsonName("score_response_header_name"),
-            ),
-          }),
+            countingExpression: Schema.optional(Schema.String),
+            mitigationTimeout: Schema.optional(Schema.Number),
+            requestsPerPeriod: Schema.optional(Schema.Number),
+            requestsToOrigin: Schema.optional(Schema.Boolean),
+            scorePerPeriod: Schema.optional(Schema.Number),
+            scoreResponseHeaderName: Schema.optional(Schema.String),
+          }).pipe(
+            Schema.encodeKeys({
+              countingExpression: "counting_expression",
+              mitigationTimeout: "mitigation_timeout",
+              requestsPerPeriod: "requests_per_period",
+              requestsToOrigin: "requests_to_origin",
+              scorePerPeriod: "score_per_period",
+              scoreResponseHeaderName: "score_response_header_name",
+            }),
+          ),
         ),
         ref: Schema.optional(Schema.String),
-      }),
+      }).pipe(
+        Schema.encodeKeys({
+          accountId: "account_id",
+          zoneId: "zone_id",
+          actionParameters: "action_parameters",
+          exposedCredentialCheck: "exposed_credential_check",
+        }),
+      ),
       Schema.Struct({
-        lastUpdated: Schema.String.pipe(T.JsonName("last_updated")),
+        lastUpdated: Schema.String,
         version: Schema.String,
         id: Schema.optional(Schema.String),
         action: Schema.optional(Schema.Literal("js_challenge")),
-        actionParameters: Schema.optional(Schema.Unknown).pipe(
-          T.JsonName("action_parameters"),
-        ),
+        actionParameters: Schema.optional(Schema.Unknown),
         categories: Schema.optional(Schema.Array(Schema.String)),
         description: Schema.optional(Schema.String),
         enabled: Schema.optional(Schema.Boolean),
         exposedCredentialCheck: Schema.optional(
           Schema.Struct({
-            passwordExpression: Schema.String.pipe(
-              T.JsonName("password_expression"),
-            ),
-            usernameExpression: Schema.String.pipe(
-              T.JsonName("username_expression"),
-            ),
-          }),
-        ).pipe(T.JsonName("exposed_credential_check")),
+            passwordExpression: Schema.String,
+            usernameExpression: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({
+              passwordExpression: "password_expression",
+              usernameExpression: "username_expression",
+            }),
+          ),
+        ),
         expression: Schema.optional(Schema.String),
         logging: Schema.optional(Schema.Unknown),
         ratelimit: Schema.optional(
           Schema.Struct({
             characteristics: Schema.Array(Schema.String),
             period: Schema.Number,
-            countingExpression: Schema.optional(Schema.String).pipe(
-              T.JsonName("counting_expression"),
-            ),
-            mitigationTimeout: Schema.optional(Schema.Number).pipe(
-              T.JsonName("mitigation_timeout"),
-            ),
-            requestsPerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("requests_per_period"),
-            ),
-            requestsToOrigin: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("requests_to_origin"),
-            ),
-            scorePerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("score_per_period"),
-            ),
-            scoreResponseHeaderName: Schema.optional(Schema.String).pipe(
-              T.JsonName("score_response_header_name"),
-            ),
-          }),
+            countingExpression: Schema.optional(Schema.String),
+            mitigationTimeout: Schema.optional(Schema.Number),
+            requestsPerPeriod: Schema.optional(Schema.Number),
+            requestsToOrigin: Schema.optional(Schema.Boolean),
+            scorePerPeriod: Schema.optional(Schema.Number),
+            scoreResponseHeaderName: Schema.optional(Schema.String),
+          }).pipe(
+            Schema.encodeKeys({
+              countingExpression: "counting_expression",
+              mitigationTimeout: "mitigation_timeout",
+              requestsPerPeriod: "requests_per_period",
+              requestsToOrigin: "requests_to_origin",
+              scorePerPeriod: "score_per_period",
+              scoreResponseHeaderName: "score_response_header_name",
+            }),
+          ),
         ),
         ref: Schema.optional(Schema.String),
-      }),
+      }).pipe(
+        Schema.encodeKeys({
+          lastUpdated: "last_updated",
+          actionParameters: "action_parameters",
+          exposedCredentialCheck: "exposed_credential_check",
+        }),
+      ),
       Schema.Struct({
-        accountId: Schema.optional(Schema.String).pipe(
-          T.JsonName("account_id"),
-        ),
-        zoneId: Schema.optional(Schema.String).pipe(T.JsonName("zone_id")),
+        accountId: Schema.optional(Schema.String),
+        zoneId: Schema.optional(Schema.String),
         id: Schema.optional(Schema.String),
         action: Schema.optional(Schema.Literal("log")),
-        actionParameters: Schema.optional(Schema.Unknown).pipe(
-          T.JsonName("action_parameters"),
-        ),
+        actionParameters: Schema.optional(Schema.Unknown),
         description: Schema.optional(Schema.String),
         enabled: Schema.optional(Schema.Boolean),
         exposedCredentialCheck: Schema.optional(
           Schema.Struct({
-            passwordExpression: Schema.String.pipe(
-              T.JsonName("password_expression"),
-            ),
-            usernameExpression: Schema.String.pipe(
-              T.JsonName("username_expression"),
-            ),
-          }),
-        ).pipe(T.JsonName("exposed_credential_check")),
+            passwordExpression: Schema.String,
+            usernameExpression: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({
+              passwordExpression: "password_expression",
+              usernameExpression: "username_expression",
+            }),
+          ),
+        ),
         expression: Schema.optional(Schema.String),
         logging: Schema.optional(
           Schema.Struct({
@@ -4703,33 +5174,35 @@ export const PatchRuleResponse = Schema.Struct({
           Schema.Struct({
             characteristics: Schema.Array(Schema.String),
             period: Schema.Number,
-            countingExpression: Schema.optional(Schema.String).pipe(
-              T.JsonName("counting_expression"),
-            ),
-            mitigationTimeout: Schema.optional(Schema.Number).pipe(
-              T.JsonName("mitigation_timeout"),
-            ),
-            requestsPerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("requests_per_period"),
-            ),
-            requestsToOrigin: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("requests_to_origin"),
-            ),
-            scorePerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("score_per_period"),
-            ),
-            scoreResponseHeaderName: Schema.optional(Schema.String).pipe(
-              T.JsonName("score_response_header_name"),
-            ),
-          }),
+            countingExpression: Schema.optional(Schema.String),
+            mitigationTimeout: Schema.optional(Schema.Number),
+            requestsPerPeriod: Schema.optional(Schema.Number),
+            requestsToOrigin: Schema.optional(Schema.Boolean),
+            scorePerPeriod: Schema.optional(Schema.Number),
+            scoreResponseHeaderName: Schema.optional(Schema.String),
+          }).pipe(
+            Schema.encodeKeys({
+              countingExpression: "counting_expression",
+              mitigationTimeout: "mitigation_timeout",
+              requestsPerPeriod: "requests_per_period",
+              requestsToOrigin: "requests_to_origin",
+              scorePerPeriod: "score_per_period",
+              scoreResponseHeaderName: "score_response_header_name",
+            }),
+          ),
         ),
         ref: Schema.optional(Schema.String),
-      }),
+      }).pipe(
+        Schema.encodeKeys({
+          accountId: "account_id",
+          zoneId: "zone_id",
+          actionParameters: "action_parameters",
+          exposedCredentialCheck: "exposed_credential_check",
+        }),
+      ),
       Schema.Struct({
-        accountId: Schema.optional(Schema.String).pipe(
-          T.JsonName("account_id"),
-        ),
-        zoneId: Schema.optional(Schema.String).pipe(T.JsonName("zone_id")),
+        accountId: Schema.optional(Schema.String),
+        zoneId: Schema.optional(Schema.String),
         id: Schema.optional(Schema.String),
         action: Schema.optional(Schema.Literal("log_custom_field")),
         actionParameters: Schema.optional(
@@ -4740,55 +5213,68 @@ export const PatchRuleResponse = Schema.Struct({
                   name: Schema.String,
                 }),
               ),
-            ).pipe(T.JsonName("cookie_fields")),
+            ),
             rawResponseFields: Schema.optional(
               Schema.Array(
                 Schema.Struct({
                   name: Schema.String,
-                  preserveDuplicates: Schema.optional(Schema.Boolean).pipe(
-                    T.JsonName("preserve_duplicates"),
-                  ),
-                }),
+                  preserveDuplicates: Schema.optional(Schema.Boolean),
+                }).pipe(
+                  Schema.encodeKeys({
+                    preserveDuplicates: "preserve_duplicates",
+                  }),
+                ),
               ),
-            ).pipe(T.JsonName("raw_response_fields")),
+            ),
             requestFields: Schema.optional(
               Schema.Array(
                 Schema.Struct({
                   name: Schema.String,
                 }),
               ),
-            ).pipe(T.JsonName("request_fields")),
+            ),
             responseFields: Schema.optional(
               Schema.Array(
                 Schema.Struct({
                   name: Schema.String,
-                  preserveDuplicates: Schema.optional(Schema.Boolean).pipe(
-                    T.JsonName("preserve_duplicates"),
-                  ),
-                }),
+                  preserveDuplicates: Schema.optional(Schema.Boolean),
+                }).pipe(
+                  Schema.encodeKeys({
+                    preserveDuplicates: "preserve_duplicates",
+                  }),
+                ),
               ),
-            ).pipe(T.JsonName("response_fields")),
+            ),
             transformedRequestFields: Schema.optional(
               Schema.Array(
                 Schema.Struct({
                   name: Schema.String,
                 }),
               ),
-            ).pipe(T.JsonName("transformed_request_fields")),
-          }),
-        ).pipe(T.JsonName("action_parameters")),
+            ),
+          }).pipe(
+            Schema.encodeKeys({
+              cookieFields: "cookie_fields",
+              rawResponseFields: "raw_response_fields",
+              requestFields: "request_fields",
+              responseFields: "response_fields",
+              transformedRequestFields: "transformed_request_fields",
+            }),
+          ),
+        ),
         description: Schema.optional(Schema.String),
         enabled: Schema.optional(Schema.Boolean),
         exposedCredentialCheck: Schema.optional(
           Schema.Struct({
-            passwordExpression: Schema.String.pipe(
-              T.JsonName("password_expression"),
-            ),
-            usernameExpression: Schema.String.pipe(
-              T.JsonName("username_expression"),
-            ),
-          }),
-        ).pipe(T.JsonName("exposed_credential_check")),
+            passwordExpression: Schema.String,
+            usernameExpression: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({
+              passwordExpression: "password_expression",
+              usernameExpression: "username_expression",
+            }),
+          ),
+        ),
         expression: Schema.optional(Schema.String),
         logging: Schema.optional(
           Schema.Struct({
@@ -4812,50 +5298,51 @@ export const PatchRuleResponse = Schema.Struct({
           Schema.Struct({
             characteristics: Schema.Array(Schema.String),
             period: Schema.Number,
-            countingExpression: Schema.optional(Schema.String).pipe(
-              T.JsonName("counting_expression"),
-            ),
-            mitigationTimeout: Schema.optional(Schema.Number).pipe(
-              T.JsonName("mitigation_timeout"),
-            ),
-            requestsPerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("requests_per_period"),
-            ),
-            requestsToOrigin: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("requests_to_origin"),
-            ),
-            scorePerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("score_per_period"),
-            ),
-            scoreResponseHeaderName: Schema.optional(Schema.String).pipe(
-              T.JsonName("score_response_header_name"),
-            ),
-          }),
+            countingExpression: Schema.optional(Schema.String),
+            mitigationTimeout: Schema.optional(Schema.Number),
+            requestsPerPeriod: Schema.optional(Schema.Number),
+            requestsToOrigin: Schema.optional(Schema.Boolean),
+            scorePerPeriod: Schema.optional(Schema.Number),
+            scoreResponseHeaderName: Schema.optional(Schema.String),
+          }).pipe(
+            Schema.encodeKeys({
+              countingExpression: "counting_expression",
+              mitigationTimeout: "mitigation_timeout",
+              requestsPerPeriod: "requests_per_period",
+              requestsToOrigin: "requests_to_origin",
+              scorePerPeriod: "score_per_period",
+              scoreResponseHeaderName: "score_response_header_name",
+            }),
+          ),
         ),
         ref: Schema.optional(Schema.String),
-      }),
+      }).pipe(
+        Schema.encodeKeys({
+          accountId: "account_id",
+          zoneId: "zone_id",
+          actionParameters: "action_parameters",
+          exposedCredentialCheck: "exposed_credential_check",
+        }),
+      ),
       Schema.Struct({
-        accountId: Schema.optional(Schema.String).pipe(
-          T.JsonName("account_id"),
-        ),
-        zoneId: Schema.optional(Schema.String).pipe(T.JsonName("zone_id")),
+        accountId: Schema.optional(Schema.String),
+        zoneId: Schema.optional(Schema.String),
         id: Schema.optional(Schema.String),
         action: Schema.optional(Schema.Literal("managed_challenge")),
-        actionParameters: Schema.optional(Schema.Unknown).pipe(
-          T.JsonName("action_parameters"),
-        ),
+        actionParameters: Schema.optional(Schema.Unknown),
         description: Schema.optional(Schema.String),
         enabled: Schema.optional(Schema.Boolean),
         exposedCredentialCheck: Schema.optional(
           Schema.Struct({
-            passwordExpression: Schema.String.pipe(
-              T.JsonName("password_expression"),
-            ),
-            usernameExpression: Schema.String.pipe(
-              T.JsonName("username_expression"),
-            ),
-          }),
-        ).pipe(T.JsonName("exposed_credential_check")),
+            passwordExpression: Schema.String,
+            usernameExpression: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({
+              passwordExpression: "password_expression",
+              usernameExpression: "username_expression",
+            }),
+          ),
+        ),
         expression: Schema.optional(Schema.String),
         logging: Schema.optional(
           Schema.Struct({
@@ -4879,33 +5366,35 @@ export const PatchRuleResponse = Schema.Struct({
           Schema.Struct({
             characteristics: Schema.Array(Schema.String),
             period: Schema.Number,
-            countingExpression: Schema.optional(Schema.String).pipe(
-              T.JsonName("counting_expression"),
-            ),
-            mitigationTimeout: Schema.optional(Schema.Number).pipe(
-              T.JsonName("mitigation_timeout"),
-            ),
-            requestsPerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("requests_per_period"),
-            ),
-            requestsToOrigin: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("requests_to_origin"),
-            ),
-            scorePerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("score_per_period"),
-            ),
-            scoreResponseHeaderName: Schema.optional(Schema.String).pipe(
-              T.JsonName("score_response_header_name"),
-            ),
-          }),
+            countingExpression: Schema.optional(Schema.String),
+            mitigationTimeout: Schema.optional(Schema.Number),
+            requestsPerPeriod: Schema.optional(Schema.Number),
+            requestsToOrigin: Schema.optional(Schema.Boolean),
+            scorePerPeriod: Schema.optional(Schema.Number),
+            scoreResponseHeaderName: Schema.optional(Schema.String),
+          }).pipe(
+            Schema.encodeKeys({
+              countingExpression: "counting_expression",
+              mitigationTimeout: "mitigation_timeout",
+              requestsPerPeriod: "requests_per_period",
+              requestsToOrigin: "requests_to_origin",
+              scorePerPeriod: "score_per_period",
+              scoreResponseHeaderName: "score_response_header_name",
+            }),
+          ),
         ),
         ref: Schema.optional(Schema.String),
-      }),
+      }).pipe(
+        Schema.encodeKeys({
+          accountId: "account_id",
+          zoneId: "zone_id",
+          actionParameters: "action_parameters",
+          exposedCredentialCheck: "exposed_credential_check",
+        }),
+      ),
       Schema.Struct({
-        accountId: Schema.optional(Schema.String).pipe(
-          T.JsonName("account_id"),
-        ),
-        zoneId: Schema.optional(Schema.String).pipe(T.JsonName("zone_id")),
+        accountId: Schema.optional(Schema.String),
+        zoneId: Schema.optional(Schema.String),
         id: Schema.optional(Schema.String),
         action: Schema.optional(Schema.Literal("redirect")),
         actionParameters: Schema.optional(
@@ -4915,35 +5404,45 @@ export const PatchRuleResponse = Schema.Struct({
                 key: Schema.String,
                 name: Schema.String,
               }),
-            ).pipe(T.JsonName("from_list")),
+            ),
             fromValue: Schema.optional(
               Schema.Struct({
                 targetUrl: Schema.Struct({
                   expression: Schema.optional(Schema.String),
                   value: Schema.optional(Schema.String),
-                }).pipe(T.JsonName("target_url")),
-                preserveQueryString: Schema.optional(Schema.Boolean).pipe(
-                  T.JsonName("preserve_query_string"),
-                ),
+                }),
+                preserveQueryString: Schema.optional(Schema.Boolean),
                 statusCode: Schema.optional(
                   Schema.Literals(["301", "302", "303", "307", "308"]),
-                ).pipe(T.JsonName("status_code")),
-              }),
-            ).pipe(T.JsonName("from_value")),
-          }),
-        ).pipe(T.JsonName("action_parameters")),
+                ),
+              }).pipe(
+                Schema.encodeKeys({
+                  targetUrl: "target_url",
+                  preserveQueryString: "preserve_query_string",
+                  statusCode: "status_code",
+                }),
+              ),
+            ),
+          }).pipe(
+            Schema.encodeKeys({
+              fromList: "from_list",
+              fromValue: "from_value",
+            }),
+          ),
+        ),
         description: Schema.optional(Schema.String),
         enabled: Schema.optional(Schema.Boolean),
         exposedCredentialCheck: Schema.optional(
           Schema.Struct({
-            passwordExpression: Schema.String.pipe(
-              T.JsonName("password_expression"),
-            ),
-            usernameExpression: Schema.String.pipe(
-              T.JsonName("username_expression"),
-            ),
-          }),
-        ).pipe(T.JsonName("exposed_credential_check")),
+            passwordExpression: Schema.String,
+            usernameExpression: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({
+              passwordExpression: "password_expression",
+              usernameExpression: "username_expression",
+            }),
+          ),
+        ),
         expression: Schema.optional(Schema.String),
         logging: Schema.optional(
           Schema.Struct({
@@ -4967,33 +5466,35 @@ export const PatchRuleResponse = Schema.Struct({
           Schema.Struct({
             characteristics: Schema.Array(Schema.String),
             period: Schema.Number,
-            countingExpression: Schema.optional(Schema.String).pipe(
-              T.JsonName("counting_expression"),
-            ),
-            mitigationTimeout: Schema.optional(Schema.Number).pipe(
-              T.JsonName("mitigation_timeout"),
-            ),
-            requestsPerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("requests_per_period"),
-            ),
-            requestsToOrigin: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("requests_to_origin"),
-            ),
-            scorePerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("score_per_period"),
-            ),
-            scoreResponseHeaderName: Schema.optional(Schema.String).pipe(
-              T.JsonName("score_response_header_name"),
-            ),
-          }),
+            countingExpression: Schema.optional(Schema.String),
+            mitigationTimeout: Schema.optional(Schema.Number),
+            requestsPerPeriod: Schema.optional(Schema.Number),
+            requestsToOrigin: Schema.optional(Schema.Boolean),
+            scorePerPeriod: Schema.optional(Schema.Number),
+            scoreResponseHeaderName: Schema.optional(Schema.String),
+          }).pipe(
+            Schema.encodeKeys({
+              countingExpression: "counting_expression",
+              mitigationTimeout: "mitigation_timeout",
+              requestsPerPeriod: "requests_per_period",
+              requestsToOrigin: "requests_to_origin",
+              scorePerPeriod: "score_per_period",
+              scoreResponseHeaderName: "score_response_header_name",
+            }),
+          ),
         ),
         ref: Schema.optional(Schema.String),
-      }),
+      }).pipe(
+        Schema.encodeKeys({
+          accountId: "account_id",
+          zoneId: "zone_id",
+          actionParameters: "action_parameters",
+          exposedCredentialCheck: "exposed_credential_check",
+        }),
+      ),
       Schema.Struct({
-        accountId: Schema.optional(Schema.String).pipe(
-          T.JsonName("account_id"),
-        ),
-        zoneId: Schema.optional(Schema.String).pipe(T.JsonName("zone_id")),
+        accountId: Schema.optional(Schema.String),
+        zoneId: Schema.optional(Schema.String),
         id: Schema.optional(Schema.String),
         action: Schema.optional(Schema.Literal("rewrite")),
         actionParameters: Schema.optional(
@@ -5016,19 +5517,20 @@ export const PatchRuleResponse = Schema.Struct({
               ]),
             ),
           }),
-        ).pipe(T.JsonName("action_parameters")),
+        ),
         description: Schema.optional(Schema.String),
         enabled: Schema.optional(Schema.Boolean),
         exposedCredentialCheck: Schema.optional(
           Schema.Struct({
-            passwordExpression: Schema.String.pipe(
-              T.JsonName("password_expression"),
-            ),
-            usernameExpression: Schema.String.pipe(
-              T.JsonName("username_expression"),
-            ),
-          }),
-        ).pipe(T.JsonName("exposed_credential_check")),
+            passwordExpression: Schema.String,
+            usernameExpression: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({
+              passwordExpression: "password_expression",
+              usernameExpression: "username_expression",
+            }),
+          ),
+        ),
         expression: Schema.optional(Schema.String),
         logging: Schema.optional(
           Schema.Struct({
@@ -5052,40 +5554,40 @@ export const PatchRuleResponse = Schema.Struct({
           Schema.Struct({
             characteristics: Schema.Array(Schema.String),
             period: Schema.Number,
-            countingExpression: Schema.optional(Schema.String).pipe(
-              T.JsonName("counting_expression"),
-            ),
-            mitigationTimeout: Schema.optional(Schema.Number).pipe(
-              T.JsonName("mitigation_timeout"),
-            ),
-            requestsPerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("requests_per_period"),
-            ),
-            requestsToOrigin: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("requests_to_origin"),
-            ),
-            scorePerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("score_per_period"),
-            ),
-            scoreResponseHeaderName: Schema.optional(Schema.String).pipe(
-              T.JsonName("score_response_header_name"),
-            ),
-          }),
+            countingExpression: Schema.optional(Schema.String),
+            mitigationTimeout: Schema.optional(Schema.Number),
+            requestsPerPeriod: Schema.optional(Schema.Number),
+            requestsToOrigin: Schema.optional(Schema.Boolean),
+            scorePerPeriod: Schema.optional(Schema.Number),
+            scoreResponseHeaderName: Schema.optional(Schema.String),
+          }).pipe(
+            Schema.encodeKeys({
+              countingExpression: "counting_expression",
+              mitigationTimeout: "mitigation_timeout",
+              requestsPerPeriod: "requests_per_period",
+              requestsToOrigin: "requests_to_origin",
+              scorePerPeriod: "score_per_period",
+              scoreResponseHeaderName: "score_response_header_name",
+            }),
+          ),
         ),
         ref: Schema.optional(Schema.String),
-      }),
+      }).pipe(
+        Schema.encodeKeys({
+          accountId: "account_id",
+          zoneId: "zone_id",
+          actionParameters: "action_parameters",
+          exposedCredentialCheck: "exposed_credential_check",
+        }),
+      ),
       Schema.Struct({
-        accountId: Schema.optional(Schema.String).pipe(
-          T.JsonName("account_id"),
-        ),
-        zoneId: Schema.optional(Schema.String).pipe(T.JsonName("zone_id")),
+        accountId: Schema.optional(Schema.String),
+        zoneId: Schema.optional(Schema.String),
         id: Schema.optional(Schema.String),
         action: Schema.optional(Schema.Literal("route")),
         actionParameters: Schema.optional(
           Schema.Struct({
-            hostHeader: Schema.optional(Schema.String).pipe(
-              T.JsonName("host_header"),
-            ),
+            hostHeader: Schema.optional(Schema.String),
             origin: Schema.optional(
               Schema.Struct({
                 host: Schema.optional(Schema.String),
@@ -5097,20 +5599,21 @@ export const PatchRuleResponse = Schema.Struct({
                 value: Schema.String,
               }),
             ),
-          }),
-        ).pipe(T.JsonName("action_parameters")),
+          }).pipe(Schema.encodeKeys({ hostHeader: "host_header" })),
+        ),
         description: Schema.optional(Schema.String),
         enabled: Schema.optional(Schema.Boolean),
         exposedCredentialCheck: Schema.optional(
           Schema.Struct({
-            passwordExpression: Schema.String.pipe(
-              T.JsonName("password_expression"),
-            ),
-            usernameExpression: Schema.String.pipe(
-              T.JsonName("username_expression"),
-            ),
-          }),
-        ).pipe(T.JsonName("exposed_credential_check")),
+            passwordExpression: Schema.String,
+            usernameExpression: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({
+              passwordExpression: "password_expression",
+              usernameExpression: "username_expression",
+            }),
+          ),
+        ),
         expression: Schema.optional(Schema.String),
         logging: Schema.optional(
           Schema.Struct({
@@ -5134,52 +5637,55 @@ export const PatchRuleResponse = Schema.Struct({
           Schema.Struct({
             characteristics: Schema.Array(Schema.String),
             period: Schema.Number,
-            countingExpression: Schema.optional(Schema.String).pipe(
-              T.JsonName("counting_expression"),
-            ),
-            mitigationTimeout: Schema.optional(Schema.Number).pipe(
-              T.JsonName("mitigation_timeout"),
-            ),
-            requestsPerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("requests_per_period"),
-            ),
-            requestsToOrigin: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("requests_to_origin"),
-            ),
-            scorePerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("score_per_period"),
-            ),
-            scoreResponseHeaderName: Schema.optional(Schema.String).pipe(
-              T.JsonName("score_response_header_name"),
-            ),
-          }),
+            countingExpression: Schema.optional(Schema.String),
+            mitigationTimeout: Schema.optional(Schema.Number),
+            requestsPerPeriod: Schema.optional(Schema.Number),
+            requestsToOrigin: Schema.optional(Schema.Boolean),
+            scorePerPeriod: Schema.optional(Schema.Number),
+            scoreResponseHeaderName: Schema.optional(Schema.String),
+          }).pipe(
+            Schema.encodeKeys({
+              countingExpression: "counting_expression",
+              mitigationTimeout: "mitigation_timeout",
+              requestsPerPeriod: "requests_per_period",
+              requestsToOrigin: "requests_to_origin",
+              scorePerPeriod: "score_per_period",
+              scoreResponseHeaderName: "score_response_header_name",
+            }),
+          ),
         ),
         ref: Schema.optional(Schema.String),
-      }),
+      }).pipe(
+        Schema.encodeKeys({
+          accountId: "account_id",
+          zoneId: "zone_id",
+          actionParameters: "action_parameters",
+          exposedCredentialCheck: "exposed_credential_check",
+        }),
+      ),
       Schema.Struct({
-        accountId: Schema.optional(Schema.String).pipe(
-          T.JsonName("account_id"),
-        ),
-        zoneId: Schema.optional(Schema.String).pipe(T.JsonName("zone_id")),
+        accountId: Schema.optional(Schema.String),
+        zoneId: Schema.optional(Schema.String),
         id: Schema.optional(Schema.String),
         action: Schema.optional(Schema.Literal("score")),
         actionParameters: Schema.optional(
           Schema.Struct({
             increment: Schema.Number,
           }),
-        ).pipe(T.JsonName("action_parameters")),
+        ),
         description: Schema.optional(Schema.String),
         enabled: Schema.optional(Schema.Boolean),
         exposedCredentialCheck: Schema.optional(
           Schema.Struct({
-            passwordExpression: Schema.String.pipe(
-              T.JsonName("password_expression"),
-            ),
-            usernameExpression: Schema.String.pipe(
-              T.JsonName("username_expression"),
-            ),
-          }),
-        ).pipe(T.JsonName("exposed_credential_check")),
+            passwordExpression: Schema.String,
+            usernameExpression: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({
+              passwordExpression: "password_expression",
+              usernameExpression: "username_expression",
+            }),
+          ),
+        ),
         expression: Schema.optional(Schema.String),
         logging: Schema.optional(
           Schema.Struct({
@@ -5203,33 +5709,35 @@ export const PatchRuleResponse = Schema.Struct({
           Schema.Struct({
             characteristics: Schema.Array(Schema.String),
             period: Schema.Number,
-            countingExpression: Schema.optional(Schema.String).pipe(
-              T.JsonName("counting_expression"),
-            ),
-            mitigationTimeout: Schema.optional(Schema.Number).pipe(
-              T.JsonName("mitigation_timeout"),
-            ),
-            requestsPerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("requests_per_period"),
-            ),
-            requestsToOrigin: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("requests_to_origin"),
-            ),
-            scorePerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("score_per_period"),
-            ),
-            scoreResponseHeaderName: Schema.optional(Schema.String).pipe(
-              T.JsonName("score_response_header_name"),
-            ),
-          }),
+            countingExpression: Schema.optional(Schema.String),
+            mitigationTimeout: Schema.optional(Schema.Number),
+            requestsPerPeriod: Schema.optional(Schema.Number),
+            requestsToOrigin: Schema.optional(Schema.Boolean),
+            scorePerPeriod: Schema.optional(Schema.Number),
+            scoreResponseHeaderName: Schema.optional(Schema.String),
+          }).pipe(
+            Schema.encodeKeys({
+              countingExpression: "counting_expression",
+              mitigationTimeout: "mitigation_timeout",
+              requestsPerPeriod: "requests_per_period",
+              requestsToOrigin: "requests_to_origin",
+              scorePerPeriod: "score_per_period",
+              scoreResponseHeaderName: "score_response_header_name",
+            }),
+          ),
         ),
         ref: Schema.optional(Schema.String),
-      }),
+      }).pipe(
+        Schema.encodeKeys({
+          accountId: "account_id",
+          zoneId: "zone_id",
+          actionParameters: "action_parameters",
+          exposedCredentialCheck: "exposed_credential_check",
+        }),
+      ),
       Schema.Struct({
-        accountId: Schema.optional(Schema.String).pipe(
-          T.JsonName("account_id"),
-        ),
-        zoneId: Schema.optional(Schema.String).pipe(T.JsonName("zone_id")),
+        accountId: Schema.optional(Schema.String),
+        zoneId: Schema.optional(Schema.String),
         id: Schema.optional(Schema.String),
         action: Schema.optional(Schema.Literal("serve_error")),
         actionParameters: Schema.optional(
@@ -5243,13 +5751,16 @@ export const PatchRuleResponse = Schema.Struct({
                   "text/plain",
                   "text/xml",
                 ]),
-              ).pipe(T.JsonName("content_type")),
-              statusCode: Schema.optional(Schema.Number).pipe(
-                T.JsonName("status_code"),
               ),
-            }),
+              statusCode: Schema.optional(Schema.Number),
+            }).pipe(
+              Schema.encodeKeys({
+                contentType: "content_type",
+                statusCode: "status_code",
+              }),
+            ),
             Schema.Struct({
-              assetName: Schema.String.pipe(T.JsonName("asset_name")),
+              assetName: Schema.String,
               contentType: Schema.optional(
                 Schema.Literals([
                   "application/json",
@@ -5257,25 +5768,30 @@ export const PatchRuleResponse = Schema.Struct({
                   "text/plain",
                   "text/xml",
                 ]),
-              ).pipe(T.JsonName("content_type")),
-              statusCode: Schema.optional(Schema.Number).pipe(
-                T.JsonName("status_code"),
               ),
-            }),
+              statusCode: Schema.optional(Schema.Number),
+            }).pipe(
+              Schema.encodeKeys({
+                assetName: "asset_name",
+                contentType: "content_type",
+                statusCode: "status_code",
+              }),
+            ),
           ]),
-        ).pipe(T.JsonName("action_parameters")),
+        ),
         description: Schema.optional(Schema.String),
         enabled: Schema.optional(Schema.Boolean),
         exposedCredentialCheck: Schema.optional(
           Schema.Struct({
-            passwordExpression: Schema.String.pipe(
-              T.JsonName("password_expression"),
-            ),
-            usernameExpression: Schema.String.pipe(
-              T.JsonName("username_expression"),
-            ),
-          }),
-        ).pipe(T.JsonName("exposed_credential_check")),
+            passwordExpression: Schema.String,
+            usernameExpression: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({
+              passwordExpression: "password_expression",
+              usernameExpression: "username_expression",
+            }),
+          ),
+        ),
         expression: Schema.optional(Schema.String),
         logging: Schema.optional(
           Schema.Struct({
@@ -5299,40 +5815,42 @@ export const PatchRuleResponse = Schema.Struct({
           Schema.Struct({
             characteristics: Schema.Array(Schema.String),
             period: Schema.Number,
-            countingExpression: Schema.optional(Schema.String).pipe(
-              T.JsonName("counting_expression"),
-            ),
-            mitigationTimeout: Schema.optional(Schema.Number).pipe(
-              T.JsonName("mitigation_timeout"),
-            ),
-            requestsPerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("requests_per_period"),
-            ),
-            requestsToOrigin: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("requests_to_origin"),
-            ),
-            scorePerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("score_per_period"),
-            ),
-            scoreResponseHeaderName: Schema.optional(Schema.String).pipe(
-              T.JsonName("score_response_header_name"),
-            ),
-          }),
+            countingExpression: Schema.optional(Schema.String),
+            mitigationTimeout: Schema.optional(Schema.Number),
+            requestsPerPeriod: Schema.optional(Schema.Number),
+            requestsToOrigin: Schema.optional(Schema.Boolean),
+            scorePerPeriod: Schema.optional(Schema.Number),
+            scoreResponseHeaderName: Schema.optional(Schema.String),
+          }).pipe(
+            Schema.encodeKeys({
+              countingExpression: "counting_expression",
+              mitigationTimeout: "mitigation_timeout",
+              requestsPerPeriod: "requests_per_period",
+              requestsToOrigin: "requests_to_origin",
+              scorePerPeriod: "score_per_period",
+              scoreResponseHeaderName: "score_response_header_name",
+            }),
+          ),
         ),
         ref: Schema.optional(Schema.String),
-      }),
+      }).pipe(
+        Schema.encodeKeys({
+          accountId: "account_id",
+          zoneId: "zone_id",
+          actionParameters: "action_parameters",
+          exposedCredentialCheck: "exposed_credential_check",
+        }),
+      ),
       Schema.Struct({
-        accountId: Schema.optional(Schema.String).pipe(
-          T.JsonName("account_id"),
-        ),
-        zoneId: Schema.optional(Schema.String).pipe(T.JsonName("zone_id")),
+        accountId: Schema.optional(Schema.String),
+        zoneId: Schema.optional(Schema.String),
         id: Schema.optional(Schema.String),
         action: Schema.optional(Schema.Literal("set_cache_settings")),
         actionParameters: Schema.optional(
           Schema.Struct({
             additionalCacheablePorts: Schema.optional(
               Schema.Array(Schema.Number),
-            ).pipe(T.JsonName("additional_cacheable_ports")),
+            ),
             browserTtl: Schema.optional(
               Schema.Struct({
                 mode: Schema.Literals([
@@ -5343,37 +5861,38 @@ export const PatchRuleResponse = Schema.Struct({
                 ]),
                 default: Schema.optional(Schema.Number),
               }),
-            ).pipe(T.JsonName("browser_ttl")),
+            ),
             cache: Schema.optional(Schema.Boolean),
             cacheKey: Schema.optional(
               Schema.Struct({
-                cacheByDeviceType: Schema.optional(Schema.Boolean).pipe(
-                  T.JsonName("cache_by_device_type"),
-                ),
-                cacheDeceptionArmor: Schema.optional(Schema.Boolean).pipe(
-                  T.JsonName("cache_deception_armor"),
-                ),
+                cacheByDeviceType: Schema.optional(Schema.Boolean),
+                cacheDeceptionArmor: Schema.optional(Schema.Boolean),
                 customKey: Schema.optional(
                   Schema.Struct({
                     cookie: Schema.optional(
                       Schema.Struct({
                         checkPresence: Schema.optional(
                           Schema.Array(Schema.String),
-                        ).pipe(T.JsonName("check_presence")),
+                        ),
                         include: Schema.optional(Schema.Array(Schema.String)),
-                      }),
+                      }).pipe(
+                        Schema.encodeKeys({ checkPresence: "check_presence" }),
+                      ),
                     ),
                     header: Schema.optional(
                       Schema.Struct({
                         checkPresence: Schema.optional(
                           Schema.Array(Schema.String),
-                        ).pipe(T.JsonName("check_presence")),
-                        contains: Schema.optional(Schema.Struct({})),
-                        excludeOrigin: Schema.optional(Schema.Boolean).pipe(
-                          T.JsonName("exclude_origin"),
                         ),
+                        contains: Schema.optional(Schema.Struct({})),
+                        excludeOrigin: Schema.optional(Schema.Boolean),
                         include: Schema.optional(Schema.Array(Schema.String)),
-                      }),
+                      }).pipe(
+                        Schema.encodeKeys({
+                          checkPresence: "check_presence",
+                          excludeOrigin: "exclude_origin",
+                        }),
+                      ),
                     ),
                     host: Schema.optional(
                       Schema.Struct({
@@ -5395,31 +5914,34 @@ export const PatchRuleResponse = Schema.Struct({
                           }),
                         ),
                       }),
-                    ).pipe(T.JsonName("query_string")),
+                    ),
                     user: Schema.optional(
                       Schema.Struct({
-                        deviceType: Schema.optional(Schema.Boolean).pipe(
-                          T.JsonName("device_type"),
-                        ),
+                        deviceType: Schema.optional(Schema.Boolean),
                         geo: Schema.optional(Schema.Boolean),
                         lang: Schema.optional(Schema.Boolean),
-                      }),
+                      }).pipe(Schema.encodeKeys({ deviceType: "device_type" })),
                     ),
-                  }),
-                ).pipe(T.JsonName("custom_key")),
-                ignoreQueryStringsOrder: Schema.optional(Schema.Boolean).pipe(
-                  T.JsonName("ignore_query_strings_order"),
+                  }).pipe(Schema.encodeKeys({ queryString: "query_string" })),
                 ),
-              }),
-            ).pipe(T.JsonName("cache_key")),
+                ignoreQueryStringsOrder: Schema.optional(Schema.Boolean),
+              }).pipe(
+                Schema.encodeKeys({
+                  cacheByDeviceType: "cache_by_device_type",
+                  cacheDeceptionArmor: "cache_deception_armor",
+                  customKey: "custom_key",
+                  ignoreQueryStringsOrder: "ignore_query_strings_order",
+                }),
+              ),
+            ),
             cacheReserve: Schema.optional(
               Schema.Struct({
                 eligible: Schema.Boolean,
-                minimumFileSize: Schema.optional(Schema.Number).pipe(
-                  T.JsonName("minimum_file_size"),
-                ),
-              }),
-            ).pipe(T.JsonName("cache_reserve")),
+                minimumFileSize: Schema.optional(Schema.Number),
+              }).pipe(
+                Schema.encodeKeys({ minimumFileSize: "minimum_file_size" }),
+              ),
+            ),
             edgeTtl: Schema.optional(
               Schema.Struct({
                 mode: Schema.Literals([
@@ -5432,53 +5954,64 @@ export const PatchRuleResponse = Schema.Struct({
                   Schema.Array(
                     Schema.Struct({
                       value: Schema.Number,
-                      statusCode: Schema.optional(Schema.Number).pipe(
-                        T.JsonName("status_code"),
-                      ),
+                      statusCode: Schema.optional(Schema.Number),
                       statusCodeRange: Schema.optional(
                         Schema.Struct({
                           from: Schema.optional(Schema.Number),
                           to: Schema.optional(Schema.Number),
                         }),
-                      ).pipe(T.JsonName("status_code_range")),
-                    }),
+                      ),
+                    }).pipe(
+                      Schema.encodeKeys({
+                        statusCode: "status_code",
+                        statusCodeRange: "status_code_range",
+                      }),
+                    ),
                   ),
-                ).pipe(T.JsonName("status_code_ttl")),
-              }),
-            ).pipe(T.JsonName("edge_ttl")),
-            originCacheControl: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("origin_cache_control"),
+                ),
+              }).pipe(Schema.encodeKeys({ statusCodeTtl: "status_code_ttl" })),
             ),
-            originErrorPagePassthru: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("origin_error_page_passthru"),
-            ),
-            readTimeout: Schema.optional(Schema.Number).pipe(
-              T.JsonName("read_timeout"),
-            ),
-            respectStrongEtags: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("respect_strong_etags"),
-            ),
+            originCacheControl: Schema.optional(Schema.Boolean),
+            originErrorPagePassthru: Schema.optional(Schema.Boolean),
+            readTimeout: Schema.optional(Schema.Number),
+            respectStrongEtags: Schema.optional(Schema.Boolean),
             serveStale: Schema.optional(
               Schema.Struct({
-                disableStaleWhileUpdating: Schema.optional(Schema.Boolean).pipe(
-                  T.JsonName("disable_stale_while_updating"),
-                ),
-              }),
-            ).pipe(T.JsonName("serve_stale")),
-          }),
-        ).pipe(T.JsonName("action_parameters")),
+                disableStaleWhileUpdating: Schema.optional(Schema.Boolean),
+              }).pipe(
+                Schema.encodeKeys({
+                  disableStaleWhileUpdating: "disable_stale_while_updating",
+                }),
+              ),
+            ),
+          }).pipe(
+            Schema.encodeKeys({
+              additionalCacheablePorts: "additional_cacheable_ports",
+              browserTtl: "browser_ttl",
+              cacheKey: "cache_key",
+              cacheReserve: "cache_reserve",
+              edgeTtl: "edge_ttl",
+              originCacheControl: "origin_cache_control",
+              originErrorPagePassthru: "origin_error_page_passthru",
+              readTimeout: "read_timeout",
+              respectStrongEtags: "respect_strong_etags",
+              serveStale: "serve_stale",
+            }),
+          ),
+        ),
         description: Schema.optional(Schema.String),
         enabled: Schema.optional(Schema.Boolean),
         exposedCredentialCheck: Schema.optional(
           Schema.Struct({
-            passwordExpression: Schema.String.pipe(
-              T.JsonName("password_expression"),
-            ),
-            usernameExpression: Schema.String.pipe(
-              T.JsonName("username_expression"),
-            ),
-          }),
-        ).pipe(T.JsonName("exposed_credential_check")),
+            passwordExpression: Schema.String,
+            usernameExpression: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({
+              passwordExpression: "password_expression",
+              usernameExpression: "username_expression",
+            }),
+          ),
+        ),
         expression: Schema.optional(Schema.String),
         logging: Schema.optional(
           Schema.Struct({
@@ -5502,38 +6035,40 @@ export const PatchRuleResponse = Schema.Struct({
           Schema.Struct({
             characteristics: Schema.Array(Schema.String),
             period: Schema.Number,
-            countingExpression: Schema.optional(Schema.String).pipe(
-              T.JsonName("counting_expression"),
-            ),
-            mitigationTimeout: Schema.optional(Schema.Number).pipe(
-              T.JsonName("mitigation_timeout"),
-            ),
-            requestsPerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("requests_per_period"),
-            ),
-            requestsToOrigin: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("requests_to_origin"),
-            ),
-            scorePerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("score_per_period"),
-            ),
-            scoreResponseHeaderName: Schema.optional(Schema.String).pipe(
-              T.JsonName("score_response_header_name"),
-            ),
-          }),
+            countingExpression: Schema.optional(Schema.String),
+            mitigationTimeout: Schema.optional(Schema.Number),
+            requestsPerPeriod: Schema.optional(Schema.Number),
+            requestsToOrigin: Schema.optional(Schema.Boolean),
+            scorePerPeriod: Schema.optional(Schema.Number),
+            scoreResponseHeaderName: Schema.optional(Schema.String),
+          }).pipe(
+            Schema.encodeKeys({
+              countingExpression: "counting_expression",
+              mitigationTimeout: "mitigation_timeout",
+              requestsPerPeriod: "requests_per_period",
+              requestsToOrigin: "requests_to_origin",
+              scorePerPeriod: "score_per_period",
+              scoreResponseHeaderName: "score_response_header_name",
+            }),
+          ),
         ),
         ref: Schema.optional(Schema.String),
-      }),
+      }).pipe(
+        Schema.encodeKeys({
+          accountId: "account_id",
+          zoneId: "zone_id",
+          actionParameters: "action_parameters",
+          exposedCredentialCheck: "exposed_credential_check",
+        }),
+      ),
       Schema.Struct({
-        lastUpdated: Schema.String.pipe(T.JsonName("last_updated")),
+        lastUpdated: Schema.String,
         version: Schema.String,
         id: Schema.optional(Schema.String),
         action: Schema.optional(Schema.Literal("set_config")),
         actionParameters: Schema.optional(
           Schema.Struct({
-            automaticHttpsRewrites: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("automatic_https_rewrites"),
-            ),
+            automaticHttpsRewrites: Schema.optional(Schema.Boolean),
             autominify: Schema.optional(
               Schema.Struct({
                 css: Schema.optional(Schema.Boolean),
@@ -5542,41 +6077,25 @@ export const PatchRuleResponse = Schema.Struct({
               }),
             ),
             bic: Schema.optional(Schema.Boolean),
-            disableApps: Schema.optional(Schema.Literal(true)).pipe(
-              T.JsonName("disable_apps"),
-            ),
-            disablePayPerCrawl: Schema.optional(Schema.Literal(true)).pipe(
-              T.JsonName("disable_pay_per_crawl"),
-            ),
-            disableRum: Schema.optional(Schema.Literal(true)).pipe(
-              T.JsonName("disable_rum"),
-            ),
-            disableZaraz: Schema.optional(Schema.Literal(true)).pipe(
-              T.JsonName("disable_zaraz"),
-            ),
-            emailObfuscation: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("email_obfuscation"),
-            ),
+            disableApps: Schema.optional(Schema.Literal(true)),
+            disablePayPerCrawl: Schema.optional(Schema.Literal(true)),
+            disableRum: Schema.optional(Schema.Literal(true)),
+            disableZaraz: Schema.optional(Schema.Literal(true)),
+            emailObfuscation: Schema.optional(Schema.Boolean),
             fonts: Schema.optional(Schema.Boolean),
-            hotlinkProtection: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("hotlink_protection"),
-            ),
+            hotlinkProtection: Schema.optional(Schema.Boolean),
             mirage: Schema.optional(Schema.Boolean),
-            opportunisticEncryption: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("opportunistic_encryption"),
-            ),
+            opportunisticEncryption: Schema.optional(Schema.Boolean),
             polish: Schema.optional(
               Schema.Literals(["off", "lossless", "lossy", "webp"]),
             ),
             requestBodyBuffering: Schema.optional(
               Schema.Literals(["none", "standard", "full"]),
-            ).pipe(T.JsonName("request_body_buffering")),
+            ),
             responseBodyBuffering: Schema.optional(
               Schema.Literals(["none", "standard"]),
-            ).pipe(T.JsonName("response_body_buffering")),
-            rocketLoader: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("rocket_loader"),
             ),
+            rocketLoader: Schema.optional(Schema.Boolean),
             securityLevel: Schema.optional(
               Schema.Literals([
                 "off",
@@ -5586,10 +6105,8 @@ export const PatchRuleResponse = Schema.Struct({
                 "high",
                 "under_attack",
               ]),
-            ).pipe(T.JsonName("security_level")),
-            serverSideExcludes: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("server_side_excludes"),
             ),
+            serverSideExcludes: Schema.optional(Schema.Boolean),
             ssl: Schema.optional(
               Schema.Literals([
                 "off",
@@ -5600,21 +6117,38 @@ export const PatchRuleResponse = Schema.Struct({
               ]),
             ),
             sxg: Schema.optional(Schema.Boolean),
-          }),
-        ).pipe(T.JsonName("action_parameters")),
+          }).pipe(
+            Schema.encodeKeys({
+              automaticHttpsRewrites: "automatic_https_rewrites",
+              disableApps: "disable_apps",
+              disablePayPerCrawl: "disable_pay_per_crawl",
+              disableRum: "disable_rum",
+              disableZaraz: "disable_zaraz",
+              emailObfuscation: "email_obfuscation",
+              hotlinkProtection: "hotlink_protection",
+              opportunisticEncryption: "opportunistic_encryption",
+              requestBodyBuffering: "request_body_buffering",
+              responseBodyBuffering: "response_body_buffering",
+              rocketLoader: "rocket_loader",
+              securityLevel: "security_level",
+              serverSideExcludes: "server_side_excludes",
+            }),
+          ),
+        ),
         categories: Schema.optional(Schema.Array(Schema.String)),
         description: Schema.optional(Schema.String),
         enabled: Schema.optional(Schema.Boolean),
         exposedCredentialCheck: Schema.optional(
           Schema.Struct({
-            passwordExpression: Schema.String.pipe(
-              T.JsonName("password_expression"),
-            ),
-            usernameExpression: Schema.String.pipe(
-              T.JsonName("username_expression"),
-            ),
-          }),
-        ).pipe(T.JsonName("exposed_credential_check")),
+            passwordExpression: Schema.String,
+            usernameExpression: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({
+              passwordExpression: "password_expression",
+              usernameExpression: "username_expression",
+            }),
+          ),
+        ),
         expression: Schema.optional(Schema.String),
         logging: Schema.optional(
           Schema.Struct({
@@ -5625,33 +6159,34 @@ export const PatchRuleResponse = Schema.Struct({
           Schema.Struct({
             characteristics: Schema.Array(Schema.String),
             period: Schema.Number,
-            countingExpression: Schema.optional(Schema.String).pipe(
-              T.JsonName("counting_expression"),
-            ),
-            mitigationTimeout: Schema.optional(Schema.Number).pipe(
-              T.JsonName("mitigation_timeout"),
-            ),
-            requestsPerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("requests_per_period"),
-            ),
-            requestsToOrigin: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("requests_to_origin"),
-            ),
-            scorePerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("score_per_period"),
-            ),
-            scoreResponseHeaderName: Schema.optional(Schema.String).pipe(
-              T.JsonName("score_response_header_name"),
-            ),
-          }),
+            countingExpression: Schema.optional(Schema.String),
+            mitigationTimeout: Schema.optional(Schema.Number),
+            requestsPerPeriod: Schema.optional(Schema.Number),
+            requestsToOrigin: Schema.optional(Schema.Boolean),
+            scorePerPeriod: Schema.optional(Schema.Number),
+            scoreResponseHeaderName: Schema.optional(Schema.String),
+          }).pipe(
+            Schema.encodeKeys({
+              countingExpression: "counting_expression",
+              mitigationTimeout: "mitigation_timeout",
+              requestsPerPeriod: "requests_per_period",
+              requestsToOrigin: "requests_to_origin",
+              scorePerPeriod: "score_per_period",
+              scoreResponseHeaderName: "score_response_header_name",
+            }),
+          ),
         ),
         ref: Schema.optional(Schema.String),
-      }),
+      }).pipe(
+        Schema.encodeKeys({
+          lastUpdated: "last_updated",
+          actionParameters: "action_parameters",
+          exposedCredentialCheck: "exposed_credential_check",
+        }),
+      ),
       Schema.Struct({
-        accountId: Schema.optional(Schema.String).pipe(
-          T.JsonName("account_id"),
-        ),
-        zoneId: Schema.optional(Schema.String).pipe(T.JsonName("zone_id")),
+        accountId: Schema.optional(Schema.String),
+        zoneId: Schema.optional(Schema.String),
         id: Schema.optional(Schema.String),
         action: Schema.optional(Schema.Literal("skip")),
         actionParameters: Schema.optional(
@@ -5703,19 +6238,20 @@ export const PatchRuleResponse = Schema.Struct({
             ruleset: Schema.optional(Schema.Literal("current")),
             rulesets: Schema.optional(Schema.Array(Schema.String)),
           }),
-        ).pipe(T.JsonName("action_parameters")),
+        ),
         description: Schema.optional(Schema.String),
         enabled: Schema.optional(Schema.Boolean),
         exposedCredentialCheck: Schema.optional(
           Schema.Struct({
-            passwordExpression: Schema.String.pipe(
-              T.JsonName("password_expression"),
-            ),
-            usernameExpression: Schema.String.pipe(
-              T.JsonName("username_expression"),
-            ),
-          }),
-        ).pipe(T.JsonName("exposed_credential_check")),
+            passwordExpression: Schema.String,
+            usernameExpression: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({
+              passwordExpression: "password_expression",
+              usernameExpression: "username_expression",
+            }),
+          ),
+        ),
         expression: Schema.optional(Schema.String),
         logging: Schema.optional(
           Schema.Struct({
@@ -5739,33 +6275,39 @@ export const PatchRuleResponse = Schema.Struct({
           Schema.Struct({
             characteristics: Schema.Array(Schema.String),
             period: Schema.Number,
-            countingExpression: Schema.optional(Schema.String).pipe(
-              T.JsonName("counting_expression"),
-            ),
-            mitigationTimeout: Schema.optional(Schema.Number).pipe(
-              T.JsonName("mitigation_timeout"),
-            ),
-            requestsPerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("requests_per_period"),
-            ),
-            requestsToOrigin: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("requests_to_origin"),
-            ),
-            scorePerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("score_per_period"),
-            ),
-            scoreResponseHeaderName: Schema.optional(Schema.String).pipe(
-              T.JsonName("score_response_header_name"),
-            ),
-          }),
+            countingExpression: Schema.optional(Schema.String),
+            mitigationTimeout: Schema.optional(Schema.Number),
+            requestsPerPeriod: Schema.optional(Schema.Number),
+            requestsToOrigin: Schema.optional(Schema.Boolean),
+            scorePerPeriod: Schema.optional(Schema.Number),
+            scoreResponseHeaderName: Schema.optional(Schema.String),
+          }).pipe(
+            Schema.encodeKeys({
+              countingExpression: "counting_expression",
+              mitigationTimeout: "mitigation_timeout",
+              requestsPerPeriod: "requests_per_period",
+              requestsToOrigin: "requests_to_origin",
+              scorePerPeriod: "score_per_period",
+              scoreResponseHeaderName: "score_response_header_name",
+            }),
+          ),
         ),
         ref: Schema.optional(Schema.String),
-      }),
+      }).pipe(
+        Schema.encodeKeys({
+          accountId: "account_id",
+          zoneId: "zone_id",
+          actionParameters: "action_parameters",
+          exposedCredentialCheck: "exposed_credential_check",
+        }),
+      ),
     ]),
   ),
   version: Schema.String,
   description: Schema.optional(Schema.String),
-}) as unknown as Schema.Schema<PatchRuleResponse>;
+}).pipe(
+  Schema.encodeKeys({ lastUpdated: "last_updated" }),
+) as unknown as Schema.Schema<PatchRuleResponse>;
 
 export const patchRule: (
   input: PatchRuleRequest,
@@ -6551,7 +7093,7 @@ export interface DeleteRuleResponse {
 export const DeleteRuleResponse = Schema.Struct({
   id: Schema.String,
   kind: Schema.Literals(["zone", "managed", "custom", "root"]),
-  lastUpdated: Schema.String.pipe(T.JsonName("last_updated")),
+  lastUpdated: Schema.String,
   name: Schema.String,
   phase: Schema.Literals([
     "ddos_l4",
@@ -6581,10 +7123,8 @@ export const DeleteRuleResponse = Schema.Struct({
   rules: Schema.Array(
     Schema.Union([
       Schema.Struct({
-        accountId: Schema.optional(Schema.String).pipe(
-          T.JsonName("account_id"),
-        ),
-        zoneId: Schema.optional(Schema.String).pipe(T.JsonName("zone_id")),
+        accountId: Schema.optional(Schema.String),
+        zoneId: Schema.optional(Schema.String),
         id: Schema.optional(Schema.String),
         action: Schema.optional(Schema.Literal("block")),
         actionParameters: Schema.optional(
@@ -6592,24 +7132,30 @@ export const DeleteRuleResponse = Schema.Struct({
             response: Schema.optional(
               Schema.Struct({
                 content: Schema.String,
-                contentType: Schema.String.pipe(T.JsonName("content_type")),
-                statusCode: Schema.Number.pipe(T.JsonName("status_code")),
-              }),
+                contentType: Schema.String,
+                statusCode: Schema.Number,
+              }).pipe(
+                Schema.encodeKeys({
+                  contentType: "content_type",
+                  statusCode: "status_code",
+                }),
+              ),
             ),
           }),
-        ).pipe(T.JsonName("action_parameters")),
+        ),
         description: Schema.optional(Schema.String),
         enabled: Schema.optional(Schema.Boolean),
         exposedCredentialCheck: Schema.optional(
           Schema.Struct({
-            passwordExpression: Schema.String.pipe(
-              T.JsonName("password_expression"),
-            ),
-            usernameExpression: Schema.String.pipe(
-              T.JsonName("username_expression"),
-            ),
-          }),
-        ).pipe(T.JsonName("exposed_credential_check")),
+            passwordExpression: Schema.String,
+            usernameExpression: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({
+              passwordExpression: "password_expression",
+              usernameExpression: "username_expression",
+            }),
+          ),
+        ),
         expression: Schema.optional(Schema.String),
         logging: Schema.optional(
           Schema.Struct({
@@ -6633,79 +7179,85 @@ export const DeleteRuleResponse = Schema.Struct({
           Schema.Struct({
             characteristics: Schema.Array(Schema.String),
             period: Schema.Number,
-            countingExpression: Schema.optional(Schema.String).pipe(
-              T.JsonName("counting_expression"),
-            ),
-            mitigationTimeout: Schema.optional(Schema.Number).pipe(
-              T.JsonName("mitigation_timeout"),
-            ),
-            requestsPerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("requests_per_period"),
-            ),
-            requestsToOrigin: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("requests_to_origin"),
-            ),
-            scorePerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("score_per_period"),
-            ),
-            scoreResponseHeaderName: Schema.optional(Schema.String).pipe(
-              T.JsonName("score_response_header_name"),
-            ),
-          }),
+            countingExpression: Schema.optional(Schema.String),
+            mitigationTimeout: Schema.optional(Schema.Number),
+            requestsPerPeriod: Schema.optional(Schema.Number),
+            requestsToOrigin: Schema.optional(Schema.Boolean),
+            scorePerPeriod: Schema.optional(Schema.Number),
+            scoreResponseHeaderName: Schema.optional(Schema.String),
+          }).pipe(
+            Schema.encodeKeys({
+              countingExpression: "counting_expression",
+              mitigationTimeout: "mitigation_timeout",
+              requestsPerPeriod: "requests_per_period",
+              requestsToOrigin: "requests_to_origin",
+              scorePerPeriod: "score_per_period",
+              scoreResponseHeaderName: "score_response_header_name",
+            }),
+          ),
         ),
         ref: Schema.optional(Schema.String),
-      }),
+      }).pipe(
+        Schema.encodeKeys({
+          accountId: "account_id",
+          zoneId: "zone_id",
+          actionParameters: "action_parameters",
+          exposedCredentialCheck: "exposed_credential_check",
+        }),
+      ),
       Schema.Struct({
-        lastUpdated: Schema.String.pipe(T.JsonName("last_updated")),
+        lastUpdated: Schema.String,
         version: Schema.String,
         id: Schema.optional(Schema.String),
         action: Schema.optional(Schema.Literal("challenge")),
-        actionParameters: Schema.optional(Schema.Unknown).pipe(
-          T.JsonName("action_parameters"),
-        ),
+        actionParameters: Schema.optional(Schema.Unknown),
         categories: Schema.optional(Schema.Array(Schema.String)),
         description: Schema.optional(Schema.String),
         enabled: Schema.optional(Schema.Boolean),
         exposedCredentialCheck: Schema.optional(
           Schema.Struct({
-            passwordExpression: Schema.String.pipe(
-              T.JsonName("password_expression"),
-            ),
-            usernameExpression: Schema.String.pipe(
-              T.JsonName("username_expression"),
-            ),
-          }),
-        ).pipe(T.JsonName("exposed_credential_check")),
+            passwordExpression: Schema.String,
+            usernameExpression: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({
+              passwordExpression: "password_expression",
+              usernameExpression: "username_expression",
+            }),
+          ),
+        ),
         expression: Schema.optional(Schema.String),
         logging: Schema.optional(Schema.Unknown),
         ratelimit: Schema.optional(
           Schema.Struct({
             characteristics: Schema.Array(Schema.String),
             period: Schema.Number,
-            countingExpression: Schema.optional(Schema.String).pipe(
-              T.JsonName("counting_expression"),
-            ),
-            mitigationTimeout: Schema.optional(Schema.Number).pipe(
-              T.JsonName("mitigation_timeout"),
-            ),
-            requestsPerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("requests_per_period"),
-            ),
-            requestsToOrigin: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("requests_to_origin"),
-            ),
-            scorePerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("score_per_period"),
-            ),
-            scoreResponseHeaderName: Schema.optional(Schema.String).pipe(
-              T.JsonName("score_response_header_name"),
-            ),
-          }),
+            countingExpression: Schema.optional(Schema.String),
+            mitigationTimeout: Schema.optional(Schema.Number),
+            requestsPerPeriod: Schema.optional(Schema.Number),
+            requestsToOrigin: Schema.optional(Schema.Boolean),
+            scorePerPeriod: Schema.optional(Schema.Number),
+            scoreResponseHeaderName: Schema.optional(Schema.String),
+          }).pipe(
+            Schema.encodeKeys({
+              countingExpression: "counting_expression",
+              mitigationTimeout: "mitigation_timeout",
+              requestsPerPeriod: "requests_per_period",
+              requestsToOrigin: "requests_to_origin",
+              scorePerPeriod: "score_per_period",
+              scoreResponseHeaderName: "score_response_header_name",
+            }),
+          ),
         ),
         ref: Schema.optional(Schema.String),
-      }),
+      }).pipe(
+        Schema.encodeKeys({
+          lastUpdated: "last_updated",
+          actionParameters: "action_parameters",
+          exposedCredentialCheck: "exposed_credential_check",
+        }),
+      ),
       Schema.Struct({
-        lastUpdated: Schema.String.pipe(T.JsonName("last_updated")),
+        lastUpdated: Schema.String,
         version: Schema.String,
         id: Schema.optional(Schema.String),
         action: Schema.optional(Schema.Literal("compress_response")),
@@ -6726,20 +7278,21 @@ export const DeleteRuleResponse = Schema.Struct({
               }),
             ),
           }),
-        ).pipe(T.JsonName("action_parameters")),
+        ),
         categories: Schema.optional(Schema.Array(Schema.String)),
         description: Schema.optional(Schema.String),
         enabled: Schema.optional(Schema.Boolean),
         exposedCredentialCheck: Schema.optional(
           Schema.Struct({
-            passwordExpression: Schema.String.pipe(
-              T.JsonName("password_expression"),
-            ),
-            usernameExpression: Schema.String.pipe(
-              T.JsonName("username_expression"),
-            ),
-          }),
-        ).pipe(T.JsonName("exposed_credential_check")),
+            passwordExpression: Schema.String,
+            usernameExpression: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({
+              passwordExpression: "password_expression",
+              usernameExpression: "username_expression",
+            }),
+          ),
+        ),
         expression: Schema.optional(Schema.String),
         logging: Schema.optional(
           Schema.Struct({
@@ -6750,50 +7303,50 @@ export const DeleteRuleResponse = Schema.Struct({
           Schema.Struct({
             characteristics: Schema.Array(Schema.String),
             period: Schema.Number,
-            countingExpression: Schema.optional(Schema.String).pipe(
-              T.JsonName("counting_expression"),
-            ),
-            mitigationTimeout: Schema.optional(Schema.Number).pipe(
-              T.JsonName("mitigation_timeout"),
-            ),
-            requestsPerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("requests_per_period"),
-            ),
-            requestsToOrigin: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("requests_to_origin"),
-            ),
-            scorePerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("score_per_period"),
-            ),
-            scoreResponseHeaderName: Schema.optional(Schema.String).pipe(
-              T.JsonName("score_response_header_name"),
-            ),
-          }),
+            countingExpression: Schema.optional(Schema.String),
+            mitigationTimeout: Schema.optional(Schema.Number),
+            requestsPerPeriod: Schema.optional(Schema.Number),
+            requestsToOrigin: Schema.optional(Schema.Boolean),
+            scorePerPeriod: Schema.optional(Schema.Number),
+            scoreResponseHeaderName: Schema.optional(Schema.String),
+          }).pipe(
+            Schema.encodeKeys({
+              countingExpression: "counting_expression",
+              mitigationTimeout: "mitigation_timeout",
+              requestsPerPeriod: "requests_per_period",
+              requestsToOrigin: "requests_to_origin",
+              scorePerPeriod: "score_per_period",
+              scoreResponseHeaderName: "score_response_header_name",
+            }),
+          ),
         ),
         ref: Schema.optional(Schema.String),
-      }),
+      }).pipe(
+        Schema.encodeKeys({
+          lastUpdated: "last_updated",
+          actionParameters: "action_parameters",
+          exposedCredentialCheck: "exposed_credential_check",
+        }),
+      ),
       Schema.Struct({
-        accountId: Schema.optional(Schema.String).pipe(
-          T.JsonName("account_id"),
-        ),
-        zoneId: Schema.optional(Schema.String).pipe(T.JsonName("zone_id")),
+        accountId: Schema.optional(Schema.String),
+        zoneId: Schema.optional(Schema.String),
         id: Schema.optional(Schema.String),
         action: Schema.optional(Schema.Literal("ddos_dynamic")),
-        actionParameters: Schema.optional(Schema.Unknown).pipe(
-          T.JsonName("action_parameters"),
-        ),
+        actionParameters: Schema.optional(Schema.Unknown),
         description: Schema.optional(Schema.String),
         enabled: Schema.optional(Schema.Boolean),
         exposedCredentialCheck: Schema.optional(
           Schema.Struct({
-            passwordExpression: Schema.String.pipe(
-              T.JsonName("password_expression"),
-            ),
-            usernameExpression: Schema.String.pipe(
-              T.JsonName("username_expression"),
-            ),
-          }),
-        ).pipe(T.JsonName("exposed_credential_check")),
+            passwordExpression: Schema.String,
+            usernameExpression: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({
+              passwordExpression: "password_expression",
+              usernameExpression: "username_expression",
+            }),
+          ),
+        ),
         expression: Schema.optional(Schema.String),
         logging: Schema.optional(
           Schema.Struct({
@@ -6817,33 +7370,35 @@ export const DeleteRuleResponse = Schema.Struct({
           Schema.Struct({
             characteristics: Schema.Array(Schema.String),
             period: Schema.Number,
-            countingExpression: Schema.optional(Schema.String).pipe(
-              T.JsonName("counting_expression"),
-            ),
-            mitigationTimeout: Schema.optional(Schema.Number).pipe(
-              T.JsonName("mitigation_timeout"),
-            ),
-            requestsPerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("requests_per_period"),
-            ),
-            requestsToOrigin: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("requests_to_origin"),
-            ),
-            scorePerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("score_per_period"),
-            ),
-            scoreResponseHeaderName: Schema.optional(Schema.String).pipe(
-              T.JsonName("score_response_header_name"),
-            ),
-          }),
+            countingExpression: Schema.optional(Schema.String),
+            mitigationTimeout: Schema.optional(Schema.Number),
+            requestsPerPeriod: Schema.optional(Schema.Number),
+            requestsToOrigin: Schema.optional(Schema.Boolean),
+            scorePerPeriod: Schema.optional(Schema.Number),
+            scoreResponseHeaderName: Schema.optional(Schema.String),
+          }).pipe(
+            Schema.encodeKeys({
+              countingExpression: "counting_expression",
+              mitigationTimeout: "mitigation_timeout",
+              requestsPerPeriod: "requests_per_period",
+              requestsToOrigin: "requests_to_origin",
+              scorePerPeriod: "score_per_period",
+              scoreResponseHeaderName: "score_response_header_name",
+            }),
+          ),
         ),
         ref: Schema.optional(Schema.String),
-      }),
+      }).pipe(
+        Schema.encodeKeys({
+          accountId: "account_id",
+          zoneId: "zone_id",
+          actionParameters: "action_parameters",
+          exposedCredentialCheck: "exposed_credential_check",
+        }),
+      ),
       Schema.Struct({
-        accountId: Schema.optional(Schema.String).pipe(
-          T.JsonName("account_id"),
-        ),
-        zoneId: Schema.optional(Schema.String).pipe(T.JsonName("zone_id")),
+        accountId: Schema.optional(Schema.String),
+        zoneId: Schema.optional(Schema.String),
         id: Schema.optional(Schema.String),
         action: Schema.optional(Schema.Literal("execute")),
         actionParameters: Schema.optional(
@@ -6851,9 +7406,9 @@ export const DeleteRuleResponse = Schema.Struct({
             id: Schema.String,
             matchedData: Schema.optional(
               Schema.Struct({
-                publicKey: Schema.String.pipe(T.JsonName("public_key")),
-              }),
-            ).pipe(T.JsonName("matched_data")),
+                publicKey: Schema.String,
+              }).pipe(Schema.encodeKeys({ publicKey: "public_key" })),
+            ),
             overrides: Schema.optional(
               Schema.Struct({
                 action: Schema.optional(Schema.String),
@@ -6865,8 +7420,12 @@ export const DeleteRuleResponse = Schema.Struct({
                       enabled: Schema.optional(Schema.Boolean),
                       sensitivityLevel: Schema.optional(
                         Schema.Literals(["default", "medium", "low", "eoff"]),
-                      ).pipe(T.JsonName("sensitivity_level")),
-                    }),
+                      ),
+                    }).pipe(
+                      Schema.encodeKeys({
+                        sensitivityLevel: "sensitivity_level",
+                      }),
+                    ),
                   ),
                 ),
                 enabled: Schema.optional(Schema.Boolean),
@@ -6876,34 +7435,40 @@ export const DeleteRuleResponse = Schema.Struct({
                       id: Schema.String,
                       action: Schema.optional(Schema.String),
                       enabled: Schema.optional(Schema.Boolean),
-                      scoreThreshold: Schema.optional(Schema.Number).pipe(
-                        T.JsonName("score_threshold"),
-                      ),
+                      scoreThreshold: Schema.optional(Schema.Number),
                       sensitivityLevel: Schema.optional(
                         Schema.Literals(["default", "medium", "low", "eoff"]),
-                      ).pipe(T.JsonName("sensitivity_level")),
-                    }),
+                      ),
+                    }).pipe(
+                      Schema.encodeKeys({
+                        scoreThreshold: "score_threshold",
+                        sensitivityLevel: "sensitivity_level",
+                      }),
+                    ),
                   ),
                 ),
                 sensitivityLevel: Schema.optional(
                   Schema.Literals(["default", "medium", "low", "eoff"]),
-                ).pipe(T.JsonName("sensitivity_level")),
-              }),
+                ),
+              }).pipe(
+                Schema.encodeKeys({ sensitivityLevel: "sensitivity_level" }),
+              ),
             ),
-          }),
-        ).pipe(T.JsonName("action_parameters")),
+          }).pipe(Schema.encodeKeys({ matchedData: "matched_data" })),
+        ),
         description: Schema.optional(Schema.String),
         enabled: Schema.optional(Schema.Boolean),
         exposedCredentialCheck: Schema.optional(
           Schema.Struct({
-            passwordExpression: Schema.String.pipe(
-              T.JsonName("password_expression"),
-            ),
-            usernameExpression: Schema.String.pipe(
-              T.JsonName("username_expression"),
-            ),
-          }),
-        ).pipe(T.JsonName("exposed_credential_check")),
+            passwordExpression: Schema.String,
+            usernameExpression: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({
+              passwordExpression: "password_expression",
+              usernameExpression: "username_expression",
+            }),
+          ),
+        ),
         expression: Schema.optional(Schema.String),
         logging: Schema.optional(
           Schema.Struct({
@@ -6927,50 +7492,51 @@ export const DeleteRuleResponse = Schema.Struct({
           Schema.Struct({
             characteristics: Schema.Array(Schema.String),
             period: Schema.Number,
-            countingExpression: Schema.optional(Schema.String).pipe(
-              T.JsonName("counting_expression"),
-            ),
-            mitigationTimeout: Schema.optional(Schema.Number).pipe(
-              T.JsonName("mitigation_timeout"),
-            ),
-            requestsPerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("requests_per_period"),
-            ),
-            requestsToOrigin: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("requests_to_origin"),
-            ),
-            scorePerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("score_per_period"),
-            ),
-            scoreResponseHeaderName: Schema.optional(Schema.String).pipe(
-              T.JsonName("score_response_header_name"),
-            ),
-          }),
+            countingExpression: Schema.optional(Schema.String),
+            mitigationTimeout: Schema.optional(Schema.Number),
+            requestsPerPeriod: Schema.optional(Schema.Number),
+            requestsToOrigin: Schema.optional(Schema.Boolean),
+            scorePerPeriod: Schema.optional(Schema.Number),
+            scoreResponseHeaderName: Schema.optional(Schema.String),
+          }).pipe(
+            Schema.encodeKeys({
+              countingExpression: "counting_expression",
+              mitigationTimeout: "mitigation_timeout",
+              requestsPerPeriod: "requests_per_period",
+              requestsToOrigin: "requests_to_origin",
+              scorePerPeriod: "score_per_period",
+              scoreResponseHeaderName: "score_response_header_name",
+            }),
+          ),
         ),
         ref: Schema.optional(Schema.String),
-      }),
+      }).pipe(
+        Schema.encodeKeys({
+          accountId: "account_id",
+          zoneId: "zone_id",
+          actionParameters: "action_parameters",
+          exposedCredentialCheck: "exposed_credential_check",
+        }),
+      ),
       Schema.Struct({
-        accountId: Schema.optional(Schema.String).pipe(
-          T.JsonName("account_id"),
-        ),
-        zoneId: Schema.optional(Schema.String).pipe(T.JsonName("zone_id")),
+        accountId: Schema.optional(Schema.String),
+        zoneId: Schema.optional(Schema.String),
         id: Schema.optional(Schema.String),
         action: Schema.optional(Schema.Literal("force_connection_close")),
-        actionParameters: Schema.optional(Schema.Unknown).pipe(
-          T.JsonName("action_parameters"),
-        ),
+        actionParameters: Schema.optional(Schema.Unknown),
         description: Schema.optional(Schema.String),
         enabled: Schema.optional(Schema.Boolean),
         exposedCredentialCheck: Schema.optional(
           Schema.Struct({
-            passwordExpression: Schema.String.pipe(
-              T.JsonName("password_expression"),
-            ),
-            usernameExpression: Schema.String.pipe(
-              T.JsonName("username_expression"),
-            ),
-          }),
-        ).pipe(T.JsonName("exposed_credential_check")),
+            passwordExpression: Schema.String,
+            usernameExpression: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({
+              passwordExpression: "password_expression",
+              usernameExpression: "username_expression",
+            }),
+          ),
+        ),
         expression: Schema.optional(Schema.String),
         logging: Schema.optional(
           Schema.Struct({
@@ -6994,99 +7560,102 @@ export const DeleteRuleResponse = Schema.Struct({
           Schema.Struct({
             characteristics: Schema.Array(Schema.String),
             period: Schema.Number,
-            countingExpression: Schema.optional(Schema.String).pipe(
-              T.JsonName("counting_expression"),
-            ),
-            mitigationTimeout: Schema.optional(Schema.Number).pipe(
-              T.JsonName("mitigation_timeout"),
-            ),
-            requestsPerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("requests_per_period"),
-            ),
-            requestsToOrigin: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("requests_to_origin"),
-            ),
-            scorePerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("score_per_period"),
-            ),
-            scoreResponseHeaderName: Schema.optional(Schema.String).pipe(
-              T.JsonName("score_response_header_name"),
-            ),
-          }),
+            countingExpression: Schema.optional(Schema.String),
+            mitigationTimeout: Schema.optional(Schema.Number),
+            requestsPerPeriod: Schema.optional(Schema.Number),
+            requestsToOrigin: Schema.optional(Schema.Boolean),
+            scorePerPeriod: Schema.optional(Schema.Number),
+            scoreResponseHeaderName: Schema.optional(Schema.String),
+          }).pipe(
+            Schema.encodeKeys({
+              countingExpression: "counting_expression",
+              mitigationTimeout: "mitigation_timeout",
+              requestsPerPeriod: "requests_per_period",
+              requestsToOrigin: "requests_to_origin",
+              scorePerPeriod: "score_per_period",
+              scoreResponseHeaderName: "score_response_header_name",
+            }),
+          ),
         ),
         ref: Schema.optional(Schema.String),
-      }),
+      }).pipe(
+        Schema.encodeKeys({
+          accountId: "account_id",
+          zoneId: "zone_id",
+          actionParameters: "action_parameters",
+          exposedCredentialCheck: "exposed_credential_check",
+        }),
+      ),
       Schema.Struct({
-        lastUpdated: Schema.String.pipe(T.JsonName("last_updated")),
+        lastUpdated: Schema.String,
         version: Schema.String,
         id: Schema.optional(Schema.String),
         action: Schema.optional(Schema.Literal("js_challenge")),
-        actionParameters: Schema.optional(Schema.Unknown).pipe(
-          T.JsonName("action_parameters"),
-        ),
+        actionParameters: Schema.optional(Schema.Unknown),
         categories: Schema.optional(Schema.Array(Schema.String)),
         description: Schema.optional(Schema.String),
         enabled: Schema.optional(Schema.Boolean),
         exposedCredentialCheck: Schema.optional(
           Schema.Struct({
-            passwordExpression: Schema.String.pipe(
-              T.JsonName("password_expression"),
-            ),
-            usernameExpression: Schema.String.pipe(
-              T.JsonName("username_expression"),
-            ),
-          }),
-        ).pipe(T.JsonName("exposed_credential_check")),
+            passwordExpression: Schema.String,
+            usernameExpression: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({
+              passwordExpression: "password_expression",
+              usernameExpression: "username_expression",
+            }),
+          ),
+        ),
         expression: Schema.optional(Schema.String),
         logging: Schema.optional(Schema.Unknown),
         ratelimit: Schema.optional(
           Schema.Struct({
             characteristics: Schema.Array(Schema.String),
             period: Schema.Number,
-            countingExpression: Schema.optional(Schema.String).pipe(
-              T.JsonName("counting_expression"),
-            ),
-            mitigationTimeout: Schema.optional(Schema.Number).pipe(
-              T.JsonName("mitigation_timeout"),
-            ),
-            requestsPerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("requests_per_period"),
-            ),
-            requestsToOrigin: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("requests_to_origin"),
-            ),
-            scorePerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("score_per_period"),
-            ),
-            scoreResponseHeaderName: Schema.optional(Schema.String).pipe(
-              T.JsonName("score_response_header_name"),
-            ),
-          }),
+            countingExpression: Schema.optional(Schema.String),
+            mitigationTimeout: Schema.optional(Schema.Number),
+            requestsPerPeriod: Schema.optional(Schema.Number),
+            requestsToOrigin: Schema.optional(Schema.Boolean),
+            scorePerPeriod: Schema.optional(Schema.Number),
+            scoreResponseHeaderName: Schema.optional(Schema.String),
+          }).pipe(
+            Schema.encodeKeys({
+              countingExpression: "counting_expression",
+              mitigationTimeout: "mitigation_timeout",
+              requestsPerPeriod: "requests_per_period",
+              requestsToOrigin: "requests_to_origin",
+              scorePerPeriod: "score_per_period",
+              scoreResponseHeaderName: "score_response_header_name",
+            }),
+          ),
         ),
         ref: Schema.optional(Schema.String),
-      }),
+      }).pipe(
+        Schema.encodeKeys({
+          lastUpdated: "last_updated",
+          actionParameters: "action_parameters",
+          exposedCredentialCheck: "exposed_credential_check",
+        }),
+      ),
       Schema.Struct({
-        accountId: Schema.optional(Schema.String).pipe(
-          T.JsonName("account_id"),
-        ),
-        zoneId: Schema.optional(Schema.String).pipe(T.JsonName("zone_id")),
+        accountId: Schema.optional(Schema.String),
+        zoneId: Schema.optional(Schema.String),
         id: Schema.optional(Schema.String),
         action: Schema.optional(Schema.Literal("log")),
-        actionParameters: Schema.optional(Schema.Unknown).pipe(
-          T.JsonName("action_parameters"),
-        ),
+        actionParameters: Schema.optional(Schema.Unknown),
         description: Schema.optional(Schema.String),
         enabled: Schema.optional(Schema.Boolean),
         exposedCredentialCheck: Schema.optional(
           Schema.Struct({
-            passwordExpression: Schema.String.pipe(
-              T.JsonName("password_expression"),
-            ),
-            usernameExpression: Schema.String.pipe(
-              T.JsonName("username_expression"),
-            ),
-          }),
-        ).pipe(T.JsonName("exposed_credential_check")),
+            passwordExpression: Schema.String,
+            usernameExpression: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({
+              passwordExpression: "password_expression",
+              usernameExpression: "username_expression",
+            }),
+          ),
+        ),
         expression: Schema.optional(Schema.String),
         logging: Schema.optional(
           Schema.Struct({
@@ -7110,33 +7679,35 @@ export const DeleteRuleResponse = Schema.Struct({
           Schema.Struct({
             characteristics: Schema.Array(Schema.String),
             period: Schema.Number,
-            countingExpression: Schema.optional(Schema.String).pipe(
-              T.JsonName("counting_expression"),
-            ),
-            mitigationTimeout: Schema.optional(Schema.Number).pipe(
-              T.JsonName("mitigation_timeout"),
-            ),
-            requestsPerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("requests_per_period"),
-            ),
-            requestsToOrigin: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("requests_to_origin"),
-            ),
-            scorePerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("score_per_period"),
-            ),
-            scoreResponseHeaderName: Schema.optional(Schema.String).pipe(
-              T.JsonName("score_response_header_name"),
-            ),
-          }),
+            countingExpression: Schema.optional(Schema.String),
+            mitigationTimeout: Schema.optional(Schema.Number),
+            requestsPerPeriod: Schema.optional(Schema.Number),
+            requestsToOrigin: Schema.optional(Schema.Boolean),
+            scorePerPeriod: Schema.optional(Schema.Number),
+            scoreResponseHeaderName: Schema.optional(Schema.String),
+          }).pipe(
+            Schema.encodeKeys({
+              countingExpression: "counting_expression",
+              mitigationTimeout: "mitigation_timeout",
+              requestsPerPeriod: "requests_per_period",
+              requestsToOrigin: "requests_to_origin",
+              scorePerPeriod: "score_per_period",
+              scoreResponseHeaderName: "score_response_header_name",
+            }),
+          ),
         ),
         ref: Schema.optional(Schema.String),
-      }),
+      }).pipe(
+        Schema.encodeKeys({
+          accountId: "account_id",
+          zoneId: "zone_id",
+          actionParameters: "action_parameters",
+          exposedCredentialCheck: "exposed_credential_check",
+        }),
+      ),
       Schema.Struct({
-        accountId: Schema.optional(Schema.String).pipe(
-          T.JsonName("account_id"),
-        ),
-        zoneId: Schema.optional(Schema.String).pipe(T.JsonName("zone_id")),
+        accountId: Schema.optional(Schema.String),
+        zoneId: Schema.optional(Schema.String),
         id: Schema.optional(Schema.String),
         action: Schema.optional(Schema.Literal("log_custom_field")),
         actionParameters: Schema.optional(
@@ -7147,55 +7718,68 @@ export const DeleteRuleResponse = Schema.Struct({
                   name: Schema.String,
                 }),
               ),
-            ).pipe(T.JsonName("cookie_fields")),
+            ),
             rawResponseFields: Schema.optional(
               Schema.Array(
                 Schema.Struct({
                   name: Schema.String,
-                  preserveDuplicates: Schema.optional(Schema.Boolean).pipe(
-                    T.JsonName("preserve_duplicates"),
-                  ),
-                }),
+                  preserveDuplicates: Schema.optional(Schema.Boolean),
+                }).pipe(
+                  Schema.encodeKeys({
+                    preserveDuplicates: "preserve_duplicates",
+                  }),
+                ),
               ),
-            ).pipe(T.JsonName("raw_response_fields")),
+            ),
             requestFields: Schema.optional(
               Schema.Array(
                 Schema.Struct({
                   name: Schema.String,
                 }),
               ),
-            ).pipe(T.JsonName("request_fields")),
+            ),
             responseFields: Schema.optional(
               Schema.Array(
                 Schema.Struct({
                   name: Schema.String,
-                  preserveDuplicates: Schema.optional(Schema.Boolean).pipe(
-                    T.JsonName("preserve_duplicates"),
-                  ),
-                }),
+                  preserveDuplicates: Schema.optional(Schema.Boolean),
+                }).pipe(
+                  Schema.encodeKeys({
+                    preserveDuplicates: "preserve_duplicates",
+                  }),
+                ),
               ),
-            ).pipe(T.JsonName("response_fields")),
+            ),
             transformedRequestFields: Schema.optional(
               Schema.Array(
                 Schema.Struct({
                   name: Schema.String,
                 }),
               ),
-            ).pipe(T.JsonName("transformed_request_fields")),
-          }),
-        ).pipe(T.JsonName("action_parameters")),
+            ),
+          }).pipe(
+            Schema.encodeKeys({
+              cookieFields: "cookie_fields",
+              rawResponseFields: "raw_response_fields",
+              requestFields: "request_fields",
+              responseFields: "response_fields",
+              transformedRequestFields: "transformed_request_fields",
+            }),
+          ),
+        ),
         description: Schema.optional(Schema.String),
         enabled: Schema.optional(Schema.Boolean),
         exposedCredentialCheck: Schema.optional(
           Schema.Struct({
-            passwordExpression: Schema.String.pipe(
-              T.JsonName("password_expression"),
-            ),
-            usernameExpression: Schema.String.pipe(
-              T.JsonName("username_expression"),
-            ),
-          }),
-        ).pipe(T.JsonName("exposed_credential_check")),
+            passwordExpression: Schema.String,
+            usernameExpression: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({
+              passwordExpression: "password_expression",
+              usernameExpression: "username_expression",
+            }),
+          ),
+        ),
         expression: Schema.optional(Schema.String),
         logging: Schema.optional(
           Schema.Struct({
@@ -7219,50 +7803,51 @@ export const DeleteRuleResponse = Schema.Struct({
           Schema.Struct({
             characteristics: Schema.Array(Schema.String),
             period: Schema.Number,
-            countingExpression: Schema.optional(Schema.String).pipe(
-              T.JsonName("counting_expression"),
-            ),
-            mitigationTimeout: Schema.optional(Schema.Number).pipe(
-              T.JsonName("mitigation_timeout"),
-            ),
-            requestsPerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("requests_per_period"),
-            ),
-            requestsToOrigin: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("requests_to_origin"),
-            ),
-            scorePerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("score_per_period"),
-            ),
-            scoreResponseHeaderName: Schema.optional(Schema.String).pipe(
-              T.JsonName("score_response_header_name"),
-            ),
-          }),
+            countingExpression: Schema.optional(Schema.String),
+            mitigationTimeout: Schema.optional(Schema.Number),
+            requestsPerPeriod: Schema.optional(Schema.Number),
+            requestsToOrigin: Schema.optional(Schema.Boolean),
+            scorePerPeriod: Schema.optional(Schema.Number),
+            scoreResponseHeaderName: Schema.optional(Schema.String),
+          }).pipe(
+            Schema.encodeKeys({
+              countingExpression: "counting_expression",
+              mitigationTimeout: "mitigation_timeout",
+              requestsPerPeriod: "requests_per_period",
+              requestsToOrigin: "requests_to_origin",
+              scorePerPeriod: "score_per_period",
+              scoreResponseHeaderName: "score_response_header_name",
+            }),
+          ),
         ),
         ref: Schema.optional(Schema.String),
-      }),
+      }).pipe(
+        Schema.encodeKeys({
+          accountId: "account_id",
+          zoneId: "zone_id",
+          actionParameters: "action_parameters",
+          exposedCredentialCheck: "exposed_credential_check",
+        }),
+      ),
       Schema.Struct({
-        accountId: Schema.optional(Schema.String).pipe(
-          T.JsonName("account_id"),
-        ),
-        zoneId: Schema.optional(Schema.String).pipe(T.JsonName("zone_id")),
+        accountId: Schema.optional(Schema.String),
+        zoneId: Schema.optional(Schema.String),
         id: Schema.optional(Schema.String),
         action: Schema.optional(Schema.Literal("managed_challenge")),
-        actionParameters: Schema.optional(Schema.Unknown).pipe(
-          T.JsonName("action_parameters"),
-        ),
+        actionParameters: Schema.optional(Schema.Unknown),
         description: Schema.optional(Schema.String),
         enabled: Schema.optional(Schema.Boolean),
         exposedCredentialCheck: Schema.optional(
           Schema.Struct({
-            passwordExpression: Schema.String.pipe(
-              T.JsonName("password_expression"),
-            ),
-            usernameExpression: Schema.String.pipe(
-              T.JsonName("username_expression"),
-            ),
-          }),
-        ).pipe(T.JsonName("exposed_credential_check")),
+            passwordExpression: Schema.String,
+            usernameExpression: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({
+              passwordExpression: "password_expression",
+              usernameExpression: "username_expression",
+            }),
+          ),
+        ),
         expression: Schema.optional(Schema.String),
         logging: Schema.optional(
           Schema.Struct({
@@ -7286,33 +7871,35 @@ export const DeleteRuleResponse = Schema.Struct({
           Schema.Struct({
             characteristics: Schema.Array(Schema.String),
             period: Schema.Number,
-            countingExpression: Schema.optional(Schema.String).pipe(
-              T.JsonName("counting_expression"),
-            ),
-            mitigationTimeout: Schema.optional(Schema.Number).pipe(
-              T.JsonName("mitigation_timeout"),
-            ),
-            requestsPerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("requests_per_period"),
-            ),
-            requestsToOrigin: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("requests_to_origin"),
-            ),
-            scorePerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("score_per_period"),
-            ),
-            scoreResponseHeaderName: Schema.optional(Schema.String).pipe(
-              T.JsonName("score_response_header_name"),
-            ),
-          }),
+            countingExpression: Schema.optional(Schema.String),
+            mitigationTimeout: Schema.optional(Schema.Number),
+            requestsPerPeriod: Schema.optional(Schema.Number),
+            requestsToOrigin: Schema.optional(Schema.Boolean),
+            scorePerPeriod: Schema.optional(Schema.Number),
+            scoreResponseHeaderName: Schema.optional(Schema.String),
+          }).pipe(
+            Schema.encodeKeys({
+              countingExpression: "counting_expression",
+              mitigationTimeout: "mitigation_timeout",
+              requestsPerPeriod: "requests_per_period",
+              requestsToOrigin: "requests_to_origin",
+              scorePerPeriod: "score_per_period",
+              scoreResponseHeaderName: "score_response_header_name",
+            }),
+          ),
         ),
         ref: Schema.optional(Schema.String),
-      }),
+      }).pipe(
+        Schema.encodeKeys({
+          accountId: "account_id",
+          zoneId: "zone_id",
+          actionParameters: "action_parameters",
+          exposedCredentialCheck: "exposed_credential_check",
+        }),
+      ),
       Schema.Struct({
-        accountId: Schema.optional(Schema.String).pipe(
-          T.JsonName("account_id"),
-        ),
-        zoneId: Schema.optional(Schema.String).pipe(T.JsonName("zone_id")),
+        accountId: Schema.optional(Schema.String),
+        zoneId: Schema.optional(Schema.String),
         id: Schema.optional(Schema.String),
         action: Schema.optional(Schema.Literal("redirect")),
         actionParameters: Schema.optional(
@@ -7322,35 +7909,45 @@ export const DeleteRuleResponse = Schema.Struct({
                 key: Schema.String,
                 name: Schema.String,
               }),
-            ).pipe(T.JsonName("from_list")),
+            ),
             fromValue: Schema.optional(
               Schema.Struct({
                 targetUrl: Schema.Struct({
                   expression: Schema.optional(Schema.String),
                   value: Schema.optional(Schema.String),
-                }).pipe(T.JsonName("target_url")),
-                preserveQueryString: Schema.optional(Schema.Boolean).pipe(
-                  T.JsonName("preserve_query_string"),
-                ),
+                }),
+                preserveQueryString: Schema.optional(Schema.Boolean),
                 statusCode: Schema.optional(
                   Schema.Literals(["301", "302", "303", "307", "308"]),
-                ).pipe(T.JsonName("status_code")),
-              }),
-            ).pipe(T.JsonName("from_value")),
-          }),
-        ).pipe(T.JsonName("action_parameters")),
+                ),
+              }).pipe(
+                Schema.encodeKeys({
+                  targetUrl: "target_url",
+                  preserveQueryString: "preserve_query_string",
+                  statusCode: "status_code",
+                }),
+              ),
+            ),
+          }).pipe(
+            Schema.encodeKeys({
+              fromList: "from_list",
+              fromValue: "from_value",
+            }),
+          ),
+        ),
         description: Schema.optional(Schema.String),
         enabled: Schema.optional(Schema.Boolean),
         exposedCredentialCheck: Schema.optional(
           Schema.Struct({
-            passwordExpression: Schema.String.pipe(
-              T.JsonName("password_expression"),
-            ),
-            usernameExpression: Schema.String.pipe(
-              T.JsonName("username_expression"),
-            ),
-          }),
-        ).pipe(T.JsonName("exposed_credential_check")),
+            passwordExpression: Schema.String,
+            usernameExpression: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({
+              passwordExpression: "password_expression",
+              usernameExpression: "username_expression",
+            }),
+          ),
+        ),
         expression: Schema.optional(Schema.String),
         logging: Schema.optional(
           Schema.Struct({
@@ -7374,33 +7971,35 @@ export const DeleteRuleResponse = Schema.Struct({
           Schema.Struct({
             characteristics: Schema.Array(Schema.String),
             period: Schema.Number,
-            countingExpression: Schema.optional(Schema.String).pipe(
-              T.JsonName("counting_expression"),
-            ),
-            mitigationTimeout: Schema.optional(Schema.Number).pipe(
-              T.JsonName("mitigation_timeout"),
-            ),
-            requestsPerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("requests_per_period"),
-            ),
-            requestsToOrigin: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("requests_to_origin"),
-            ),
-            scorePerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("score_per_period"),
-            ),
-            scoreResponseHeaderName: Schema.optional(Schema.String).pipe(
-              T.JsonName("score_response_header_name"),
-            ),
-          }),
+            countingExpression: Schema.optional(Schema.String),
+            mitigationTimeout: Schema.optional(Schema.Number),
+            requestsPerPeriod: Schema.optional(Schema.Number),
+            requestsToOrigin: Schema.optional(Schema.Boolean),
+            scorePerPeriod: Schema.optional(Schema.Number),
+            scoreResponseHeaderName: Schema.optional(Schema.String),
+          }).pipe(
+            Schema.encodeKeys({
+              countingExpression: "counting_expression",
+              mitigationTimeout: "mitigation_timeout",
+              requestsPerPeriod: "requests_per_period",
+              requestsToOrigin: "requests_to_origin",
+              scorePerPeriod: "score_per_period",
+              scoreResponseHeaderName: "score_response_header_name",
+            }),
+          ),
         ),
         ref: Schema.optional(Schema.String),
-      }),
+      }).pipe(
+        Schema.encodeKeys({
+          accountId: "account_id",
+          zoneId: "zone_id",
+          actionParameters: "action_parameters",
+          exposedCredentialCheck: "exposed_credential_check",
+        }),
+      ),
       Schema.Struct({
-        accountId: Schema.optional(Schema.String).pipe(
-          T.JsonName("account_id"),
-        ),
-        zoneId: Schema.optional(Schema.String).pipe(T.JsonName("zone_id")),
+        accountId: Schema.optional(Schema.String),
+        zoneId: Schema.optional(Schema.String),
         id: Schema.optional(Schema.String),
         action: Schema.optional(Schema.Literal("rewrite")),
         actionParameters: Schema.optional(
@@ -7423,19 +8022,20 @@ export const DeleteRuleResponse = Schema.Struct({
               ]),
             ),
           }),
-        ).pipe(T.JsonName("action_parameters")),
+        ),
         description: Schema.optional(Schema.String),
         enabled: Schema.optional(Schema.Boolean),
         exposedCredentialCheck: Schema.optional(
           Schema.Struct({
-            passwordExpression: Schema.String.pipe(
-              T.JsonName("password_expression"),
-            ),
-            usernameExpression: Schema.String.pipe(
-              T.JsonName("username_expression"),
-            ),
-          }),
-        ).pipe(T.JsonName("exposed_credential_check")),
+            passwordExpression: Schema.String,
+            usernameExpression: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({
+              passwordExpression: "password_expression",
+              usernameExpression: "username_expression",
+            }),
+          ),
+        ),
         expression: Schema.optional(Schema.String),
         logging: Schema.optional(
           Schema.Struct({
@@ -7459,40 +8059,40 @@ export const DeleteRuleResponse = Schema.Struct({
           Schema.Struct({
             characteristics: Schema.Array(Schema.String),
             period: Schema.Number,
-            countingExpression: Schema.optional(Schema.String).pipe(
-              T.JsonName("counting_expression"),
-            ),
-            mitigationTimeout: Schema.optional(Schema.Number).pipe(
-              T.JsonName("mitigation_timeout"),
-            ),
-            requestsPerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("requests_per_period"),
-            ),
-            requestsToOrigin: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("requests_to_origin"),
-            ),
-            scorePerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("score_per_period"),
-            ),
-            scoreResponseHeaderName: Schema.optional(Schema.String).pipe(
-              T.JsonName("score_response_header_name"),
-            ),
-          }),
+            countingExpression: Schema.optional(Schema.String),
+            mitigationTimeout: Schema.optional(Schema.Number),
+            requestsPerPeriod: Schema.optional(Schema.Number),
+            requestsToOrigin: Schema.optional(Schema.Boolean),
+            scorePerPeriod: Schema.optional(Schema.Number),
+            scoreResponseHeaderName: Schema.optional(Schema.String),
+          }).pipe(
+            Schema.encodeKeys({
+              countingExpression: "counting_expression",
+              mitigationTimeout: "mitigation_timeout",
+              requestsPerPeriod: "requests_per_period",
+              requestsToOrigin: "requests_to_origin",
+              scorePerPeriod: "score_per_period",
+              scoreResponseHeaderName: "score_response_header_name",
+            }),
+          ),
         ),
         ref: Schema.optional(Schema.String),
-      }),
+      }).pipe(
+        Schema.encodeKeys({
+          accountId: "account_id",
+          zoneId: "zone_id",
+          actionParameters: "action_parameters",
+          exposedCredentialCheck: "exposed_credential_check",
+        }),
+      ),
       Schema.Struct({
-        accountId: Schema.optional(Schema.String).pipe(
-          T.JsonName("account_id"),
-        ),
-        zoneId: Schema.optional(Schema.String).pipe(T.JsonName("zone_id")),
+        accountId: Schema.optional(Schema.String),
+        zoneId: Schema.optional(Schema.String),
         id: Schema.optional(Schema.String),
         action: Schema.optional(Schema.Literal("route")),
         actionParameters: Schema.optional(
           Schema.Struct({
-            hostHeader: Schema.optional(Schema.String).pipe(
-              T.JsonName("host_header"),
-            ),
+            hostHeader: Schema.optional(Schema.String),
             origin: Schema.optional(
               Schema.Struct({
                 host: Schema.optional(Schema.String),
@@ -7504,20 +8104,21 @@ export const DeleteRuleResponse = Schema.Struct({
                 value: Schema.String,
               }),
             ),
-          }),
-        ).pipe(T.JsonName("action_parameters")),
+          }).pipe(Schema.encodeKeys({ hostHeader: "host_header" })),
+        ),
         description: Schema.optional(Schema.String),
         enabled: Schema.optional(Schema.Boolean),
         exposedCredentialCheck: Schema.optional(
           Schema.Struct({
-            passwordExpression: Schema.String.pipe(
-              T.JsonName("password_expression"),
-            ),
-            usernameExpression: Schema.String.pipe(
-              T.JsonName("username_expression"),
-            ),
-          }),
-        ).pipe(T.JsonName("exposed_credential_check")),
+            passwordExpression: Schema.String,
+            usernameExpression: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({
+              passwordExpression: "password_expression",
+              usernameExpression: "username_expression",
+            }),
+          ),
+        ),
         expression: Schema.optional(Schema.String),
         logging: Schema.optional(
           Schema.Struct({
@@ -7541,52 +8142,55 @@ export const DeleteRuleResponse = Schema.Struct({
           Schema.Struct({
             characteristics: Schema.Array(Schema.String),
             period: Schema.Number,
-            countingExpression: Schema.optional(Schema.String).pipe(
-              T.JsonName("counting_expression"),
-            ),
-            mitigationTimeout: Schema.optional(Schema.Number).pipe(
-              T.JsonName("mitigation_timeout"),
-            ),
-            requestsPerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("requests_per_period"),
-            ),
-            requestsToOrigin: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("requests_to_origin"),
-            ),
-            scorePerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("score_per_period"),
-            ),
-            scoreResponseHeaderName: Schema.optional(Schema.String).pipe(
-              T.JsonName("score_response_header_name"),
-            ),
-          }),
+            countingExpression: Schema.optional(Schema.String),
+            mitigationTimeout: Schema.optional(Schema.Number),
+            requestsPerPeriod: Schema.optional(Schema.Number),
+            requestsToOrigin: Schema.optional(Schema.Boolean),
+            scorePerPeriod: Schema.optional(Schema.Number),
+            scoreResponseHeaderName: Schema.optional(Schema.String),
+          }).pipe(
+            Schema.encodeKeys({
+              countingExpression: "counting_expression",
+              mitigationTimeout: "mitigation_timeout",
+              requestsPerPeriod: "requests_per_period",
+              requestsToOrigin: "requests_to_origin",
+              scorePerPeriod: "score_per_period",
+              scoreResponseHeaderName: "score_response_header_name",
+            }),
+          ),
         ),
         ref: Schema.optional(Schema.String),
-      }),
+      }).pipe(
+        Schema.encodeKeys({
+          accountId: "account_id",
+          zoneId: "zone_id",
+          actionParameters: "action_parameters",
+          exposedCredentialCheck: "exposed_credential_check",
+        }),
+      ),
       Schema.Struct({
-        accountId: Schema.optional(Schema.String).pipe(
-          T.JsonName("account_id"),
-        ),
-        zoneId: Schema.optional(Schema.String).pipe(T.JsonName("zone_id")),
+        accountId: Schema.optional(Schema.String),
+        zoneId: Schema.optional(Schema.String),
         id: Schema.optional(Schema.String),
         action: Schema.optional(Schema.Literal("score")),
         actionParameters: Schema.optional(
           Schema.Struct({
             increment: Schema.Number,
           }),
-        ).pipe(T.JsonName("action_parameters")),
+        ),
         description: Schema.optional(Schema.String),
         enabled: Schema.optional(Schema.Boolean),
         exposedCredentialCheck: Schema.optional(
           Schema.Struct({
-            passwordExpression: Schema.String.pipe(
-              T.JsonName("password_expression"),
-            ),
-            usernameExpression: Schema.String.pipe(
-              T.JsonName("username_expression"),
-            ),
-          }),
-        ).pipe(T.JsonName("exposed_credential_check")),
+            passwordExpression: Schema.String,
+            usernameExpression: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({
+              passwordExpression: "password_expression",
+              usernameExpression: "username_expression",
+            }),
+          ),
+        ),
         expression: Schema.optional(Schema.String),
         logging: Schema.optional(
           Schema.Struct({
@@ -7610,33 +8214,35 @@ export const DeleteRuleResponse = Schema.Struct({
           Schema.Struct({
             characteristics: Schema.Array(Schema.String),
             period: Schema.Number,
-            countingExpression: Schema.optional(Schema.String).pipe(
-              T.JsonName("counting_expression"),
-            ),
-            mitigationTimeout: Schema.optional(Schema.Number).pipe(
-              T.JsonName("mitigation_timeout"),
-            ),
-            requestsPerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("requests_per_period"),
-            ),
-            requestsToOrigin: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("requests_to_origin"),
-            ),
-            scorePerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("score_per_period"),
-            ),
-            scoreResponseHeaderName: Schema.optional(Schema.String).pipe(
-              T.JsonName("score_response_header_name"),
-            ),
-          }),
+            countingExpression: Schema.optional(Schema.String),
+            mitigationTimeout: Schema.optional(Schema.Number),
+            requestsPerPeriod: Schema.optional(Schema.Number),
+            requestsToOrigin: Schema.optional(Schema.Boolean),
+            scorePerPeriod: Schema.optional(Schema.Number),
+            scoreResponseHeaderName: Schema.optional(Schema.String),
+          }).pipe(
+            Schema.encodeKeys({
+              countingExpression: "counting_expression",
+              mitigationTimeout: "mitigation_timeout",
+              requestsPerPeriod: "requests_per_period",
+              requestsToOrigin: "requests_to_origin",
+              scorePerPeriod: "score_per_period",
+              scoreResponseHeaderName: "score_response_header_name",
+            }),
+          ),
         ),
         ref: Schema.optional(Schema.String),
-      }),
+      }).pipe(
+        Schema.encodeKeys({
+          accountId: "account_id",
+          zoneId: "zone_id",
+          actionParameters: "action_parameters",
+          exposedCredentialCheck: "exposed_credential_check",
+        }),
+      ),
       Schema.Struct({
-        accountId: Schema.optional(Schema.String).pipe(
-          T.JsonName("account_id"),
-        ),
-        zoneId: Schema.optional(Schema.String).pipe(T.JsonName("zone_id")),
+        accountId: Schema.optional(Schema.String),
+        zoneId: Schema.optional(Schema.String),
         id: Schema.optional(Schema.String),
         action: Schema.optional(Schema.Literal("serve_error")),
         actionParameters: Schema.optional(
@@ -7650,13 +8256,16 @@ export const DeleteRuleResponse = Schema.Struct({
                   "text/plain",
                   "text/xml",
                 ]),
-              ).pipe(T.JsonName("content_type")),
-              statusCode: Schema.optional(Schema.Number).pipe(
-                T.JsonName("status_code"),
               ),
-            }),
+              statusCode: Schema.optional(Schema.Number),
+            }).pipe(
+              Schema.encodeKeys({
+                contentType: "content_type",
+                statusCode: "status_code",
+              }),
+            ),
             Schema.Struct({
-              assetName: Schema.String.pipe(T.JsonName("asset_name")),
+              assetName: Schema.String,
               contentType: Schema.optional(
                 Schema.Literals([
                   "application/json",
@@ -7664,25 +8273,30 @@ export const DeleteRuleResponse = Schema.Struct({
                   "text/plain",
                   "text/xml",
                 ]),
-              ).pipe(T.JsonName("content_type")),
-              statusCode: Schema.optional(Schema.Number).pipe(
-                T.JsonName("status_code"),
               ),
-            }),
+              statusCode: Schema.optional(Schema.Number),
+            }).pipe(
+              Schema.encodeKeys({
+                assetName: "asset_name",
+                contentType: "content_type",
+                statusCode: "status_code",
+              }),
+            ),
           ]),
-        ).pipe(T.JsonName("action_parameters")),
+        ),
         description: Schema.optional(Schema.String),
         enabled: Schema.optional(Schema.Boolean),
         exposedCredentialCheck: Schema.optional(
           Schema.Struct({
-            passwordExpression: Schema.String.pipe(
-              T.JsonName("password_expression"),
-            ),
-            usernameExpression: Schema.String.pipe(
-              T.JsonName("username_expression"),
-            ),
-          }),
-        ).pipe(T.JsonName("exposed_credential_check")),
+            passwordExpression: Schema.String,
+            usernameExpression: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({
+              passwordExpression: "password_expression",
+              usernameExpression: "username_expression",
+            }),
+          ),
+        ),
         expression: Schema.optional(Schema.String),
         logging: Schema.optional(
           Schema.Struct({
@@ -7706,40 +8320,42 @@ export const DeleteRuleResponse = Schema.Struct({
           Schema.Struct({
             characteristics: Schema.Array(Schema.String),
             period: Schema.Number,
-            countingExpression: Schema.optional(Schema.String).pipe(
-              T.JsonName("counting_expression"),
-            ),
-            mitigationTimeout: Schema.optional(Schema.Number).pipe(
-              T.JsonName("mitigation_timeout"),
-            ),
-            requestsPerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("requests_per_period"),
-            ),
-            requestsToOrigin: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("requests_to_origin"),
-            ),
-            scorePerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("score_per_period"),
-            ),
-            scoreResponseHeaderName: Schema.optional(Schema.String).pipe(
-              T.JsonName("score_response_header_name"),
-            ),
-          }),
+            countingExpression: Schema.optional(Schema.String),
+            mitigationTimeout: Schema.optional(Schema.Number),
+            requestsPerPeriod: Schema.optional(Schema.Number),
+            requestsToOrigin: Schema.optional(Schema.Boolean),
+            scorePerPeriod: Schema.optional(Schema.Number),
+            scoreResponseHeaderName: Schema.optional(Schema.String),
+          }).pipe(
+            Schema.encodeKeys({
+              countingExpression: "counting_expression",
+              mitigationTimeout: "mitigation_timeout",
+              requestsPerPeriod: "requests_per_period",
+              requestsToOrigin: "requests_to_origin",
+              scorePerPeriod: "score_per_period",
+              scoreResponseHeaderName: "score_response_header_name",
+            }),
+          ),
         ),
         ref: Schema.optional(Schema.String),
-      }),
+      }).pipe(
+        Schema.encodeKeys({
+          accountId: "account_id",
+          zoneId: "zone_id",
+          actionParameters: "action_parameters",
+          exposedCredentialCheck: "exposed_credential_check",
+        }),
+      ),
       Schema.Struct({
-        accountId: Schema.optional(Schema.String).pipe(
-          T.JsonName("account_id"),
-        ),
-        zoneId: Schema.optional(Schema.String).pipe(T.JsonName("zone_id")),
+        accountId: Schema.optional(Schema.String),
+        zoneId: Schema.optional(Schema.String),
         id: Schema.optional(Schema.String),
         action: Schema.optional(Schema.Literal("set_cache_settings")),
         actionParameters: Schema.optional(
           Schema.Struct({
             additionalCacheablePorts: Schema.optional(
               Schema.Array(Schema.Number),
-            ).pipe(T.JsonName("additional_cacheable_ports")),
+            ),
             browserTtl: Schema.optional(
               Schema.Struct({
                 mode: Schema.Literals([
@@ -7750,37 +8366,38 @@ export const DeleteRuleResponse = Schema.Struct({
                 ]),
                 default: Schema.optional(Schema.Number),
               }),
-            ).pipe(T.JsonName("browser_ttl")),
+            ),
             cache: Schema.optional(Schema.Boolean),
             cacheKey: Schema.optional(
               Schema.Struct({
-                cacheByDeviceType: Schema.optional(Schema.Boolean).pipe(
-                  T.JsonName("cache_by_device_type"),
-                ),
-                cacheDeceptionArmor: Schema.optional(Schema.Boolean).pipe(
-                  T.JsonName("cache_deception_armor"),
-                ),
+                cacheByDeviceType: Schema.optional(Schema.Boolean),
+                cacheDeceptionArmor: Schema.optional(Schema.Boolean),
                 customKey: Schema.optional(
                   Schema.Struct({
                     cookie: Schema.optional(
                       Schema.Struct({
                         checkPresence: Schema.optional(
                           Schema.Array(Schema.String),
-                        ).pipe(T.JsonName("check_presence")),
+                        ),
                         include: Schema.optional(Schema.Array(Schema.String)),
-                      }),
+                      }).pipe(
+                        Schema.encodeKeys({ checkPresence: "check_presence" }),
+                      ),
                     ),
                     header: Schema.optional(
                       Schema.Struct({
                         checkPresence: Schema.optional(
                           Schema.Array(Schema.String),
-                        ).pipe(T.JsonName("check_presence")),
-                        contains: Schema.optional(Schema.Struct({})),
-                        excludeOrigin: Schema.optional(Schema.Boolean).pipe(
-                          T.JsonName("exclude_origin"),
                         ),
+                        contains: Schema.optional(Schema.Struct({})),
+                        excludeOrigin: Schema.optional(Schema.Boolean),
                         include: Schema.optional(Schema.Array(Schema.String)),
-                      }),
+                      }).pipe(
+                        Schema.encodeKeys({
+                          checkPresence: "check_presence",
+                          excludeOrigin: "exclude_origin",
+                        }),
+                      ),
                     ),
                     host: Schema.optional(
                       Schema.Struct({
@@ -7802,31 +8419,34 @@ export const DeleteRuleResponse = Schema.Struct({
                           }),
                         ),
                       }),
-                    ).pipe(T.JsonName("query_string")),
+                    ),
                     user: Schema.optional(
                       Schema.Struct({
-                        deviceType: Schema.optional(Schema.Boolean).pipe(
-                          T.JsonName("device_type"),
-                        ),
+                        deviceType: Schema.optional(Schema.Boolean),
                         geo: Schema.optional(Schema.Boolean),
                         lang: Schema.optional(Schema.Boolean),
-                      }),
+                      }).pipe(Schema.encodeKeys({ deviceType: "device_type" })),
                     ),
-                  }),
-                ).pipe(T.JsonName("custom_key")),
-                ignoreQueryStringsOrder: Schema.optional(Schema.Boolean).pipe(
-                  T.JsonName("ignore_query_strings_order"),
+                  }).pipe(Schema.encodeKeys({ queryString: "query_string" })),
                 ),
-              }),
-            ).pipe(T.JsonName("cache_key")),
+                ignoreQueryStringsOrder: Schema.optional(Schema.Boolean),
+              }).pipe(
+                Schema.encodeKeys({
+                  cacheByDeviceType: "cache_by_device_type",
+                  cacheDeceptionArmor: "cache_deception_armor",
+                  customKey: "custom_key",
+                  ignoreQueryStringsOrder: "ignore_query_strings_order",
+                }),
+              ),
+            ),
             cacheReserve: Schema.optional(
               Schema.Struct({
                 eligible: Schema.Boolean,
-                minimumFileSize: Schema.optional(Schema.Number).pipe(
-                  T.JsonName("minimum_file_size"),
-                ),
-              }),
-            ).pipe(T.JsonName("cache_reserve")),
+                minimumFileSize: Schema.optional(Schema.Number),
+              }).pipe(
+                Schema.encodeKeys({ minimumFileSize: "minimum_file_size" }),
+              ),
+            ),
             edgeTtl: Schema.optional(
               Schema.Struct({
                 mode: Schema.Literals([
@@ -7839,53 +8459,64 @@ export const DeleteRuleResponse = Schema.Struct({
                   Schema.Array(
                     Schema.Struct({
                       value: Schema.Number,
-                      statusCode: Schema.optional(Schema.Number).pipe(
-                        T.JsonName("status_code"),
-                      ),
+                      statusCode: Schema.optional(Schema.Number),
                       statusCodeRange: Schema.optional(
                         Schema.Struct({
                           from: Schema.optional(Schema.Number),
                           to: Schema.optional(Schema.Number),
                         }),
-                      ).pipe(T.JsonName("status_code_range")),
-                    }),
+                      ),
+                    }).pipe(
+                      Schema.encodeKeys({
+                        statusCode: "status_code",
+                        statusCodeRange: "status_code_range",
+                      }),
+                    ),
                   ),
-                ).pipe(T.JsonName("status_code_ttl")),
-              }),
-            ).pipe(T.JsonName("edge_ttl")),
-            originCacheControl: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("origin_cache_control"),
+                ),
+              }).pipe(Schema.encodeKeys({ statusCodeTtl: "status_code_ttl" })),
             ),
-            originErrorPagePassthru: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("origin_error_page_passthru"),
-            ),
-            readTimeout: Schema.optional(Schema.Number).pipe(
-              T.JsonName("read_timeout"),
-            ),
-            respectStrongEtags: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("respect_strong_etags"),
-            ),
+            originCacheControl: Schema.optional(Schema.Boolean),
+            originErrorPagePassthru: Schema.optional(Schema.Boolean),
+            readTimeout: Schema.optional(Schema.Number),
+            respectStrongEtags: Schema.optional(Schema.Boolean),
             serveStale: Schema.optional(
               Schema.Struct({
-                disableStaleWhileUpdating: Schema.optional(Schema.Boolean).pipe(
-                  T.JsonName("disable_stale_while_updating"),
-                ),
-              }),
-            ).pipe(T.JsonName("serve_stale")),
-          }),
-        ).pipe(T.JsonName("action_parameters")),
+                disableStaleWhileUpdating: Schema.optional(Schema.Boolean),
+              }).pipe(
+                Schema.encodeKeys({
+                  disableStaleWhileUpdating: "disable_stale_while_updating",
+                }),
+              ),
+            ),
+          }).pipe(
+            Schema.encodeKeys({
+              additionalCacheablePorts: "additional_cacheable_ports",
+              browserTtl: "browser_ttl",
+              cacheKey: "cache_key",
+              cacheReserve: "cache_reserve",
+              edgeTtl: "edge_ttl",
+              originCacheControl: "origin_cache_control",
+              originErrorPagePassthru: "origin_error_page_passthru",
+              readTimeout: "read_timeout",
+              respectStrongEtags: "respect_strong_etags",
+              serveStale: "serve_stale",
+            }),
+          ),
+        ),
         description: Schema.optional(Schema.String),
         enabled: Schema.optional(Schema.Boolean),
         exposedCredentialCheck: Schema.optional(
           Schema.Struct({
-            passwordExpression: Schema.String.pipe(
-              T.JsonName("password_expression"),
-            ),
-            usernameExpression: Schema.String.pipe(
-              T.JsonName("username_expression"),
-            ),
-          }),
-        ).pipe(T.JsonName("exposed_credential_check")),
+            passwordExpression: Schema.String,
+            usernameExpression: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({
+              passwordExpression: "password_expression",
+              usernameExpression: "username_expression",
+            }),
+          ),
+        ),
         expression: Schema.optional(Schema.String),
         logging: Schema.optional(
           Schema.Struct({
@@ -7909,38 +8540,40 @@ export const DeleteRuleResponse = Schema.Struct({
           Schema.Struct({
             characteristics: Schema.Array(Schema.String),
             period: Schema.Number,
-            countingExpression: Schema.optional(Schema.String).pipe(
-              T.JsonName("counting_expression"),
-            ),
-            mitigationTimeout: Schema.optional(Schema.Number).pipe(
-              T.JsonName("mitigation_timeout"),
-            ),
-            requestsPerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("requests_per_period"),
-            ),
-            requestsToOrigin: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("requests_to_origin"),
-            ),
-            scorePerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("score_per_period"),
-            ),
-            scoreResponseHeaderName: Schema.optional(Schema.String).pipe(
-              T.JsonName("score_response_header_name"),
-            ),
-          }),
+            countingExpression: Schema.optional(Schema.String),
+            mitigationTimeout: Schema.optional(Schema.Number),
+            requestsPerPeriod: Schema.optional(Schema.Number),
+            requestsToOrigin: Schema.optional(Schema.Boolean),
+            scorePerPeriod: Schema.optional(Schema.Number),
+            scoreResponseHeaderName: Schema.optional(Schema.String),
+          }).pipe(
+            Schema.encodeKeys({
+              countingExpression: "counting_expression",
+              mitigationTimeout: "mitigation_timeout",
+              requestsPerPeriod: "requests_per_period",
+              requestsToOrigin: "requests_to_origin",
+              scorePerPeriod: "score_per_period",
+              scoreResponseHeaderName: "score_response_header_name",
+            }),
+          ),
         ),
         ref: Schema.optional(Schema.String),
-      }),
+      }).pipe(
+        Schema.encodeKeys({
+          accountId: "account_id",
+          zoneId: "zone_id",
+          actionParameters: "action_parameters",
+          exposedCredentialCheck: "exposed_credential_check",
+        }),
+      ),
       Schema.Struct({
-        lastUpdated: Schema.String.pipe(T.JsonName("last_updated")),
+        lastUpdated: Schema.String,
         version: Schema.String,
         id: Schema.optional(Schema.String),
         action: Schema.optional(Schema.Literal("set_config")),
         actionParameters: Schema.optional(
           Schema.Struct({
-            automaticHttpsRewrites: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("automatic_https_rewrites"),
-            ),
+            automaticHttpsRewrites: Schema.optional(Schema.Boolean),
             autominify: Schema.optional(
               Schema.Struct({
                 css: Schema.optional(Schema.Boolean),
@@ -7949,41 +8582,25 @@ export const DeleteRuleResponse = Schema.Struct({
               }),
             ),
             bic: Schema.optional(Schema.Boolean),
-            disableApps: Schema.optional(Schema.Literal(true)).pipe(
-              T.JsonName("disable_apps"),
-            ),
-            disablePayPerCrawl: Schema.optional(Schema.Literal(true)).pipe(
-              T.JsonName("disable_pay_per_crawl"),
-            ),
-            disableRum: Schema.optional(Schema.Literal(true)).pipe(
-              T.JsonName("disable_rum"),
-            ),
-            disableZaraz: Schema.optional(Schema.Literal(true)).pipe(
-              T.JsonName("disable_zaraz"),
-            ),
-            emailObfuscation: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("email_obfuscation"),
-            ),
+            disableApps: Schema.optional(Schema.Literal(true)),
+            disablePayPerCrawl: Schema.optional(Schema.Literal(true)),
+            disableRum: Schema.optional(Schema.Literal(true)),
+            disableZaraz: Schema.optional(Schema.Literal(true)),
+            emailObfuscation: Schema.optional(Schema.Boolean),
             fonts: Schema.optional(Schema.Boolean),
-            hotlinkProtection: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("hotlink_protection"),
-            ),
+            hotlinkProtection: Schema.optional(Schema.Boolean),
             mirage: Schema.optional(Schema.Boolean),
-            opportunisticEncryption: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("opportunistic_encryption"),
-            ),
+            opportunisticEncryption: Schema.optional(Schema.Boolean),
             polish: Schema.optional(
               Schema.Literals(["off", "lossless", "lossy", "webp"]),
             ),
             requestBodyBuffering: Schema.optional(
               Schema.Literals(["none", "standard", "full"]),
-            ).pipe(T.JsonName("request_body_buffering")),
+            ),
             responseBodyBuffering: Schema.optional(
               Schema.Literals(["none", "standard"]),
-            ).pipe(T.JsonName("response_body_buffering")),
-            rocketLoader: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("rocket_loader"),
             ),
+            rocketLoader: Schema.optional(Schema.Boolean),
             securityLevel: Schema.optional(
               Schema.Literals([
                 "off",
@@ -7993,10 +8610,8 @@ export const DeleteRuleResponse = Schema.Struct({
                 "high",
                 "under_attack",
               ]),
-            ).pipe(T.JsonName("security_level")),
-            serverSideExcludes: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("server_side_excludes"),
             ),
+            serverSideExcludes: Schema.optional(Schema.Boolean),
             ssl: Schema.optional(
               Schema.Literals([
                 "off",
@@ -8007,21 +8622,38 @@ export const DeleteRuleResponse = Schema.Struct({
               ]),
             ),
             sxg: Schema.optional(Schema.Boolean),
-          }),
-        ).pipe(T.JsonName("action_parameters")),
+          }).pipe(
+            Schema.encodeKeys({
+              automaticHttpsRewrites: "automatic_https_rewrites",
+              disableApps: "disable_apps",
+              disablePayPerCrawl: "disable_pay_per_crawl",
+              disableRum: "disable_rum",
+              disableZaraz: "disable_zaraz",
+              emailObfuscation: "email_obfuscation",
+              hotlinkProtection: "hotlink_protection",
+              opportunisticEncryption: "opportunistic_encryption",
+              requestBodyBuffering: "request_body_buffering",
+              responseBodyBuffering: "response_body_buffering",
+              rocketLoader: "rocket_loader",
+              securityLevel: "security_level",
+              serverSideExcludes: "server_side_excludes",
+            }),
+          ),
+        ),
         categories: Schema.optional(Schema.Array(Schema.String)),
         description: Schema.optional(Schema.String),
         enabled: Schema.optional(Schema.Boolean),
         exposedCredentialCheck: Schema.optional(
           Schema.Struct({
-            passwordExpression: Schema.String.pipe(
-              T.JsonName("password_expression"),
-            ),
-            usernameExpression: Schema.String.pipe(
-              T.JsonName("username_expression"),
-            ),
-          }),
-        ).pipe(T.JsonName("exposed_credential_check")),
+            passwordExpression: Schema.String,
+            usernameExpression: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({
+              passwordExpression: "password_expression",
+              usernameExpression: "username_expression",
+            }),
+          ),
+        ),
         expression: Schema.optional(Schema.String),
         logging: Schema.optional(
           Schema.Struct({
@@ -8032,33 +8664,34 @@ export const DeleteRuleResponse = Schema.Struct({
           Schema.Struct({
             characteristics: Schema.Array(Schema.String),
             period: Schema.Number,
-            countingExpression: Schema.optional(Schema.String).pipe(
-              T.JsonName("counting_expression"),
-            ),
-            mitigationTimeout: Schema.optional(Schema.Number).pipe(
-              T.JsonName("mitigation_timeout"),
-            ),
-            requestsPerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("requests_per_period"),
-            ),
-            requestsToOrigin: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("requests_to_origin"),
-            ),
-            scorePerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("score_per_period"),
-            ),
-            scoreResponseHeaderName: Schema.optional(Schema.String).pipe(
-              T.JsonName("score_response_header_name"),
-            ),
-          }),
+            countingExpression: Schema.optional(Schema.String),
+            mitigationTimeout: Schema.optional(Schema.Number),
+            requestsPerPeriod: Schema.optional(Schema.Number),
+            requestsToOrigin: Schema.optional(Schema.Boolean),
+            scorePerPeriod: Schema.optional(Schema.Number),
+            scoreResponseHeaderName: Schema.optional(Schema.String),
+          }).pipe(
+            Schema.encodeKeys({
+              countingExpression: "counting_expression",
+              mitigationTimeout: "mitigation_timeout",
+              requestsPerPeriod: "requests_per_period",
+              requestsToOrigin: "requests_to_origin",
+              scorePerPeriod: "score_per_period",
+              scoreResponseHeaderName: "score_response_header_name",
+            }),
+          ),
         ),
         ref: Schema.optional(Schema.String),
-      }),
+      }).pipe(
+        Schema.encodeKeys({
+          lastUpdated: "last_updated",
+          actionParameters: "action_parameters",
+          exposedCredentialCheck: "exposed_credential_check",
+        }),
+      ),
       Schema.Struct({
-        accountId: Schema.optional(Schema.String).pipe(
-          T.JsonName("account_id"),
-        ),
-        zoneId: Schema.optional(Schema.String).pipe(T.JsonName("zone_id")),
+        accountId: Schema.optional(Schema.String),
+        zoneId: Schema.optional(Schema.String),
         id: Schema.optional(Schema.String),
         action: Schema.optional(Schema.Literal("skip")),
         actionParameters: Schema.optional(
@@ -8110,19 +8743,20 @@ export const DeleteRuleResponse = Schema.Struct({
             ruleset: Schema.optional(Schema.Literal("current")),
             rulesets: Schema.optional(Schema.Array(Schema.String)),
           }),
-        ).pipe(T.JsonName("action_parameters")),
+        ),
         description: Schema.optional(Schema.String),
         enabled: Schema.optional(Schema.Boolean),
         exposedCredentialCheck: Schema.optional(
           Schema.Struct({
-            passwordExpression: Schema.String.pipe(
-              T.JsonName("password_expression"),
-            ),
-            usernameExpression: Schema.String.pipe(
-              T.JsonName("username_expression"),
-            ),
-          }),
-        ).pipe(T.JsonName("exposed_credential_check")),
+            passwordExpression: Schema.String,
+            usernameExpression: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({
+              passwordExpression: "password_expression",
+              usernameExpression: "username_expression",
+            }),
+          ),
+        ),
         expression: Schema.optional(Schema.String),
         logging: Schema.optional(
           Schema.Struct({
@@ -8146,33 +8780,39 @@ export const DeleteRuleResponse = Schema.Struct({
           Schema.Struct({
             characteristics: Schema.Array(Schema.String),
             period: Schema.Number,
-            countingExpression: Schema.optional(Schema.String).pipe(
-              T.JsonName("counting_expression"),
-            ),
-            mitigationTimeout: Schema.optional(Schema.Number).pipe(
-              T.JsonName("mitigation_timeout"),
-            ),
-            requestsPerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("requests_per_period"),
-            ),
-            requestsToOrigin: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("requests_to_origin"),
-            ),
-            scorePerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("score_per_period"),
-            ),
-            scoreResponseHeaderName: Schema.optional(Schema.String).pipe(
-              T.JsonName("score_response_header_name"),
-            ),
-          }),
+            countingExpression: Schema.optional(Schema.String),
+            mitigationTimeout: Schema.optional(Schema.Number),
+            requestsPerPeriod: Schema.optional(Schema.Number),
+            requestsToOrigin: Schema.optional(Schema.Boolean),
+            scorePerPeriod: Schema.optional(Schema.Number),
+            scoreResponseHeaderName: Schema.optional(Schema.String),
+          }).pipe(
+            Schema.encodeKeys({
+              countingExpression: "counting_expression",
+              mitigationTimeout: "mitigation_timeout",
+              requestsPerPeriod: "requests_per_period",
+              requestsToOrigin: "requests_to_origin",
+              scorePerPeriod: "score_per_period",
+              scoreResponseHeaderName: "score_response_header_name",
+            }),
+          ),
         ),
         ref: Schema.optional(Schema.String),
-      }),
+      }).pipe(
+        Schema.encodeKeys({
+          accountId: "account_id",
+          zoneId: "zone_id",
+          actionParameters: "action_parameters",
+          exposedCredentialCheck: "exposed_credential_check",
+        }),
+      ),
     ]),
   ),
   version: Schema.String,
   description: Schema.optional(Schema.String),
-}) as unknown as Schema.Schema<DeleteRuleResponse>;
+}).pipe(
+  Schema.encodeKeys({ lastUpdated: "last_updated" }),
+) as unknown as Schema.Schema<DeleteRuleResponse>;
 
 export const deleteRule: (
   input: DeleteRuleRequest,
@@ -8304,7 +8944,7 @@ export interface GetRulesetResponse {
 export const GetRulesetResponse = Schema.Struct({
   id: Schema.String,
   kind: Schema.Literals(["zone", "managed", "custom", "root"]),
-  lastUpdated: Schema.String.pipe(T.JsonName("last_updated")),
+  lastUpdated: Schema.String,
   name: Schema.String,
   phase: Schema.Literals([
     "ddos_l4",
@@ -8335,108 +8975,114 @@ export const GetRulesetResponse = Schema.Struct({
     Schema.Union([
       Schema.Unknown,
       Schema.Struct({
-        lastUpdated: Schema.String.pipe(T.JsonName("last_updated")),
+        lastUpdated: Schema.String,
         version: Schema.String,
         id: Schema.optional(Schema.String),
         action: Schema.optional(Schema.Literal("challenge")),
-        actionParameters: Schema.optional(Schema.Unknown).pipe(
-          T.JsonName("action_parameters"),
-        ),
+        actionParameters: Schema.optional(Schema.Unknown),
         categories: Schema.optional(Schema.Array(Schema.String)),
         description: Schema.optional(Schema.String),
         enabled: Schema.optional(Schema.Boolean),
         exposedCredentialCheck: Schema.optional(
           Schema.Struct({
-            passwordExpression: Schema.String.pipe(
-              T.JsonName("password_expression"),
-            ),
-            usernameExpression: Schema.String.pipe(
-              T.JsonName("username_expression"),
-            ),
-          }),
-        ).pipe(T.JsonName("exposed_credential_check")),
+            passwordExpression: Schema.String,
+            usernameExpression: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({
+              passwordExpression: "password_expression",
+              usernameExpression: "username_expression",
+            }),
+          ),
+        ),
         expression: Schema.optional(Schema.String),
         logging: Schema.optional(Schema.Unknown),
         ratelimit: Schema.optional(
           Schema.Struct({
             characteristics: Schema.Array(Schema.String),
             period: Schema.Number,
-            countingExpression: Schema.optional(Schema.String).pipe(
-              T.JsonName("counting_expression"),
-            ),
-            mitigationTimeout: Schema.optional(Schema.Number).pipe(
-              T.JsonName("mitigation_timeout"),
-            ),
-            requestsPerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("requests_per_period"),
-            ),
-            requestsToOrigin: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("requests_to_origin"),
-            ),
-            scorePerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("score_per_period"),
-            ),
-            scoreResponseHeaderName: Schema.optional(Schema.String).pipe(
-              T.JsonName("score_response_header_name"),
-            ),
-          }),
+            countingExpression: Schema.optional(Schema.String),
+            mitigationTimeout: Schema.optional(Schema.Number),
+            requestsPerPeriod: Schema.optional(Schema.Number),
+            requestsToOrigin: Schema.optional(Schema.Boolean),
+            scorePerPeriod: Schema.optional(Schema.Number),
+            scoreResponseHeaderName: Schema.optional(Schema.String),
+          }).pipe(
+            Schema.encodeKeys({
+              countingExpression: "counting_expression",
+              mitigationTimeout: "mitigation_timeout",
+              requestsPerPeriod: "requests_per_period",
+              requestsToOrigin: "requests_to_origin",
+              scorePerPeriod: "score_per_period",
+              scoreResponseHeaderName: "score_response_header_name",
+            }),
+          ),
         ),
         ref: Schema.optional(Schema.String),
-      }),
+      }).pipe(
+        Schema.encodeKeys({
+          lastUpdated: "last_updated",
+          actionParameters: "action_parameters",
+          exposedCredentialCheck: "exposed_credential_check",
+        }),
+      ),
       Schema.Struct({
-        lastUpdated: Schema.String.pipe(T.JsonName("last_updated")),
+        lastUpdated: Schema.String,
         version: Schema.String,
         id: Schema.optional(Schema.String),
         action: Schema.optional(Schema.Literal("js_challenge")),
-        actionParameters: Schema.optional(Schema.Unknown).pipe(
-          T.JsonName("action_parameters"),
-        ),
+        actionParameters: Schema.optional(Schema.Unknown),
         categories: Schema.optional(Schema.Array(Schema.String)),
         description: Schema.optional(Schema.String),
         enabled: Schema.optional(Schema.Boolean),
         exposedCredentialCheck: Schema.optional(
           Schema.Struct({
-            passwordExpression: Schema.String.pipe(
-              T.JsonName("password_expression"),
-            ),
-            usernameExpression: Schema.String.pipe(
-              T.JsonName("username_expression"),
-            ),
-          }),
-        ).pipe(T.JsonName("exposed_credential_check")),
+            passwordExpression: Schema.String,
+            usernameExpression: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({
+              passwordExpression: "password_expression",
+              usernameExpression: "username_expression",
+            }),
+          ),
+        ),
         expression: Schema.optional(Schema.String),
         logging: Schema.optional(Schema.Unknown),
         ratelimit: Schema.optional(
           Schema.Struct({
             characteristics: Schema.Array(Schema.String),
             period: Schema.Number,
-            countingExpression: Schema.optional(Schema.String).pipe(
-              T.JsonName("counting_expression"),
-            ),
-            mitigationTimeout: Schema.optional(Schema.Number).pipe(
-              T.JsonName("mitigation_timeout"),
-            ),
-            requestsPerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("requests_per_period"),
-            ),
-            requestsToOrigin: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("requests_to_origin"),
-            ),
-            scorePerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("score_per_period"),
-            ),
-            scoreResponseHeaderName: Schema.optional(Schema.String).pipe(
-              T.JsonName("score_response_header_name"),
-            ),
-          }),
+            countingExpression: Schema.optional(Schema.String),
+            mitigationTimeout: Schema.optional(Schema.Number),
+            requestsPerPeriod: Schema.optional(Schema.Number),
+            requestsToOrigin: Schema.optional(Schema.Boolean),
+            scorePerPeriod: Schema.optional(Schema.Number),
+            scoreResponseHeaderName: Schema.optional(Schema.String),
+          }).pipe(
+            Schema.encodeKeys({
+              countingExpression: "counting_expression",
+              mitigationTimeout: "mitigation_timeout",
+              requestsPerPeriod: "requests_per_period",
+              requestsToOrigin: "requests_to_origin",
+              scorePerPeriod: "score_per_period",
+              scoreResponseHeaderName: "score_response_header_name",
+            }),
+          ),
         ),
         ref: Schema.optional(Schema.String),
-      }),
+      }).pipe(
+        Schema.encodeKeys({
+          lastUpdated: "last_updated",
+          actionParameters: "action_parameters",
+          exposedCredentialCheck: "exposed_credential_check",
+        }),
+      ),
     ]),
   ),
   version: Schema.String,
   description: Schema.optional(Schema.String),
-}) as unknown as Schema.Schema<GetRulesetResponse>;
+}).pipe(
+  Schema.encodeKeys({ lastUpdated: "last_updated" }),
+) as unknown as Schema.Schema<GetRulesetResponse>;
 
 export const getRuleset: (
   input: GetRulesetRequest,
@@ -8447,6 +9093,96 @@ export const getRuleset: (
 > = API.make(() => ({
   input: GetRulesetRequest,
   output: GetRulesetResponse,
+  errors: [],
+}));
+
+export interface ListRulesetsRequest {}
+
+export const ListRulesetsRequest = Schema.Struct({}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/{accountOrZone}/{accountOrZoneId}/rulesets",
+  }),
+) as unknown as Schema.Schema<ListRulesetsRequest>;
+
+export type ListRulesetsResponse = {
+  id: string;
+  kind: "zone" | "managed" | "custom" | "root";
+  lastUpdated: string;
+  name: string;
+  phase:
+    | "ddos_l4"
+    | "ddos_l7"
+    | "http_config_settings"
+    | "http_custom_errors"
+    | "http_log_custom_fields"
+    | "http_ratelimit"
+    | "http_request_cache_settings"
+    | "http_request_dynamic_redirect"
+    | "http_request_firewall_custom"
+    | "http_request_firewall_managed"
+    | "http_request_late_transform"
+    | "http_request_origin"
+    | "http_request_redirect"
+    | "http_request_sanitize"
+    | "http_request_sbfm"
+    | "http_request_transform"
+    | "http_response_compression"
+    | "http_response_firewall_managed"
+    | "http_response_headers_transform"
+    | "magic_transit"
+    | "magic_transit_ids_managed"
+    | "magic_transit_managed"
+    | "magic_transit_ratelimit";
+  version: string;
+  description?: string;
+}[];
+
+export const ListRulesetsResponse = Schema.Array(
+  Schema.Struct({
+    id: Schema.String,
+    kind: Schema.Literals(["zone", "managed", "custom", "root"]),
+    lastUpdated: Schema.String,
+    name: Schema.String,
+    phase: Schema.Literals([
+      "ddos_l4",
+      "ddos_l7",
+      "http_config_settings",
+      "http_custom_errors",
+      "http_log_custom_fields",
+      "http_ratelimit",
+      "http_request_cache_settings",
+      "http_request_dynamic_redirect",
+      "http_request_firewall_custom",
+      "http_request_firewall_managed",
+      "http_request_late_transform",
+      "http_request_origin",
+      "http_request_redirect",
+      "http_request_sanitize",
+      "http_request_sbfm",
+      "http_request_transform",
+      "http_response_compression",
+      "http_response_firewall_managed",
+      "http_response_headers_transform",
+      "magic_transit",
+      "magic_transit_ids_managed",
+      "magic_transit_managed",
+      "magic_transit_ratelimit",
+    ]),
+    version: Schema.String,
+    description: Schema.optional(Schema.String),
+  }).pipe(Schema.encodeKeys({ lastUpdated: "last_updated" })),
+) as unknown as Schema.Schema<ListRulesetsResponse>;
+
+export const listRulesets: (
+  input: ListRulesetsRequest,
+) => Effect.Effect<
+  ListRulesetsResponse,
+  CommonErrors,
+  ApiToken | HttpClient.HttpClient
+> = API.make(() => ({
+  input: ListRulesetsRequest,
+  output: ListRulesetsResponse,
   errors: [],
 }));
 
@@ -8578,95 +9314,97 @@ export const CreateRulesetRequest = Schema.Struct({
         Schema.Struct({
           id: Schema.optional(Schema.String),
           action: Schema.optional(Schema.Literal("challenge")),
-          actionParameters: Schema.optional(Schema.Unknown).pipe(
-            T.JsonName("action_parameters"),
-          ),
+          actionParameters: Schema.optional(Schema.Unknown),
           description: Schema.optional(Schema.String),
           enabled: Schema.optional(Schema.Boolean),
           exposedCredentialCheck: Schema.optional(
             Schema.Struct({
-              passwordExpression: Schema.String.pipe(
-                T.JsonName("password_expression"),
-              ),
-              usernameExpression: Schema.String.pipe(
-                T.JsonName("username_expression"),
-              ),
-            }),
-          ).pipe(T.JsonName("exposed_credential_check")),
+              passwordExpression: Schema.String,
+              usernameExpression: Schema.String,
+            }).pipe(
+              Schema.encodeKeys({
+                passwordExpression: "password_expression",
+                usernameExpression: "username_expression",
+              }),
+            ),
+          ),
           expression: Schema.optional(Schema.String),
           logging: Schema.optional(Schema.Unknown),
           ratelimit: Schema.optional(
             Schema.Struct({
               characteristics: Schema.Array(Schema.String),
               period: Schema.Number,
-              countingExpression: Schema.optional(Schema.String).pipe(
-                T.JsonName("counting_expression"),
-              ),
-              mitigationTimeout: Schema.optional(Schema.Number).pipe(
-                T.JsonName("mitigation_timeout"),
-              ),
-              requestsPerPeriod: Schema.optional(Schema.Number).pipe(
-                T.JsonName("requests_per_period"),
-              ),
-              requestsToOrigin: Schema.optional(Schema.Boolean).pipe(
-                T.JsonName("requests_to_origin"),
-              ),
-              scorePerPeriod: Schema.optional(Schema.Number).pipe(
-                T.JsonName("score_per_period"),
-              ),
-              scoreResponseHeaderName: Schema.optional(Schema.String).pipe(
-                T.JsonName("score_response_header_name"),
-              ),
-            }),
+              countingExpression: Schema.optional(Schema.String),
+              mitigationTimeout: Schema.optional(Schema.Number),
+              requestsPerPeriod: Schema.optional(Schema.Number),
+              requestsToOrigin: Schema.optional(Schema.Boolean),
+              scorePerPeriod: Schema.optional(Schema.Number),
+              scoreResponseHeaderName: Schema.optional(Schema.String),
+            }).pipe(
+              Schema.encodeKeys({
+                countingExpression: "counting_expression",
+                mitigationTimeout: "mitigation_timeout",
+                requestsPerPeriod: "requests_per_period",
+                requestsToOrigin: "requests_to_origin",
+                scorePerPeriod: "score_per_period",
+                scoreResponseHeaderName: "score_response_header_name",
+              }),
+            ),
           ),
           ref: Schema.optional(Schema.String),
-        }),
+        }).pipe(
+          Schema.encodeKeys({
+            actionParameters: "action_parameters",
+            exposedCredentialCheck: "exposed_credential_check",
+          }),
+        ),
         Schema.Struct({
           id: Schema.optional(Schema.String),
           action: Schema.optional(Schema.Literal("js_challenge")),
-          actionParameters: Schema.optional(Schema.Unknown).pipe(
-            T.JsonName("action_parameters"),
-          ),
+          actionParameters: Schema.optional(Schema.Unknown),
           description: Schema.optional(Schema.String),
           enabled: Schema.optional(Schema.Boolean),
           exposedCredentialCheck: Schema.optional(
             Schema.Struct({
-              passwordExpression: Schema.String.pipe(
-                T.JsonName("password_expression"),
-              ),
-              usernameExpression: Schema.String.pipe(
-                T.JsonName("username_expression"),
-              ),
-            }),
-          ).pipe(T.JsonName("exposed_credential_check")),
+              passwordExpression: Schema.String,
+              usernameExpression: Schema.String,
+            }).pipe(
+              Schema.encodeKeys({
+                passwordExpression: "password_expression",
+                usernameExpression: "username_expression",
+              }),
+            ),
+          ),
           expression: Schema.optional(Schema.String),
           logging: Schema.optional(Schema.Unknown),
           ratelimit: Schema.optional(
             Schema.Struct({
               characteristics: Schema.Array(Schema.String),
               period: Schema.Number,
-              countingExpression: Schema.optional(Schema.String).pipe(
-                T.JsonName("counting_expression"),
-              ),
-              mitigationTimeout: Schema.optional(Schema.Number).pipe(
-                T.JsonName("mitigation_timeout"),
-              ),
-              requestsPerPeriod: Schema.optional(Schema.Number).pipe(
-                T.JsonName("requests_per_period"),
-              ),
-              requestsToOrigin: Schema.optional(Schema.Boolean).pipe(
-                T.JsonName("requests_to_origin"),
-              ),
-              scorePerPeriod: Schema.optional(Schema.Number).pipe(
-                T.JsonName("score_per_period"),
-              ),
-              scoreResponseHeaderName: Schema.optional(Schema.String).pipe(
-                T.JsonName("score_response_header_name"),
-              ),
-            }),
+              countingExpression: Schema.optional(Schema.String),
+              mitigationTimeout: Schema.optional(Schema.Number),
+              requestsPerPeriod: Schema.optional(Schema.Number),
+              requestsToOrigin: Schema.optional(Schema.Boolean),
+              scorePerPeriod: Schema.optional(Schema.Number),
+              scoreResponseHeaderName: Schema.optional(Schema.String),
+            }).pipe(
+              Schema.encodeKeys({
+                countingExpression: "counting_expression",
+                mitigationTimeout: "mitigation_timeout",
+                requestsPerPeriod: "requests_per_period",
+                requestsToOrigin: "requests_to_origin",
+                scorePerPeriod: "score_per_period",
+                scoreResponseHeaderName: "score_response_header_name",
+              }),
+            ),
           ),
           ref: Schema.optional(Schema.String),
-        }),
+        }).pipe(
+          Schema.encodeKeys({
+            actionParameters: "action_parameters",
+            exposedCredentialCheck: "exposed_credential_check",
+          }),
+        ),
       ]),
     ),
   ),
@@ -8778,7 +9516,7 @@ export interface CreateRulesetResponse {
 export const CreateRulesetResponse = Schema.Struct({
   id: Schema.String,
   kind: Schema.Literals(["zone", "managed", "custom", "root"]),
-  lastUpdated: Schema.String.pipe(T.JsonName("last_updated")),
+  lastUpdated: Schema.String,
   name: Schema.String,
   phase: Schema.Literals([
     "ddos_l4",
@@ -8809,108 +9547,114 @@ export const CreateRulesetResponse = Schema.Struct({
     Schema.Union([
       Schema.Unknown,
       Schema.Struct({
-        lastUpdated: Schema.String.pipe(T.JsonName("last_updated")),
+        lastUpdated: Schema.String,
         version: Schema.String,
         id: Schema.optional(Schema.String),
         action: Schema.optional(Schema.Literal("challenge")),
-        actionParameters: Schema.optional(Schema.Unknown).pipe(
-          T.JsonName("action_parameters"),
-        ),
+        actionParameters: Schema.optional(Schema.Unknown),
         categories: Schema.optional(Schema.Array(Schema.String)),
         description: Schema.optional(Schema.String),
         enabled: Schema.optional(Schema.Boolean),
         exposedCredentialCheck: Schema.optional(
           Schema.Struct({
-            passwordExpression: Schema.String.pipe(
-              T.JsonName("password_expression"),
-            ),
-            usernameExpression: Schema.String.pipe(
-              T.JsonName("username_expression"),
-            ),
-          }),
-        ).pipe(T.JsonName("exposed_credential_check")),
+            passwordExpression: Schema.String,
+            usernameExpression: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({
+              passwordExpression: "password_expression",
+              usernameExpression: "username_expression",
+            }),
+          ),
+        ),
         expression: Schema.optional(Schema.String),
         logging: Schema.optional(Schema.Unknown),
         ratelimit: Schema.optional(
           Schema.Struct({
             characteristics: Schema.Array(Schema.String),
             period: Schema.Number,
-            countingExpression: Schema.optional(Schema.String).pipe(
-              T.JsonName("counting_expression"),
-            ),
-            mitigationTimeout: Schema.optional(Schema.Number).pipe(
-              T.JsonName("mitigation_timeout"),
-            ),
-            requestsPerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("requests_per_period"),
-            ),
-            requestsToOrigin: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("requests_to_origin"),
-            ),
-            scorePerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("score_per_period"),
-            ),
-            scoreResponseHeaderName: Schema.optional(Schema.String).pipe(
-              T.JsonName("score_response_header_name"),
-            ),
-          }),
+            countingExpression: Schema.optional(Schema.String),
+            mitigationTimeout: Schema.optional(Schema.Number),
+            requestsPerPeriod: Schema.optional(Schema.Number),
+            requestsToOrigin: Schema.optional(Schema.Boolean),
+            scorePerPeriod: Schema.optional(Schema.Number),
+            scoreResponseHeaderName: Schema.optional(Schema.String),
+          }).pipe(
+            Schema.encodeKeys({
+              countingExpression: "counting_expression",
+              mitigationTimeout: "mitigation_timeout",
+              requestsPerPeriod: "requests_per_period",
+              requestsToOrigin: "requests_to_origin",
+              scorePerPeriod: "score_per_period",
+              scoreResponseHeaderName: "score_response_header_name",
+            }),
+          ),
         ),
         ref: Schema.optional(Schema.String),
-      }),
+      }).pipe(
+        Schema.encodeKeys({
+          lastUpdated: "last_updated",
+          actionParameters: "action_parameters",
+          exposedCredentialCheck: "exposed_credential_check",
+        }),
+      ),
       Schema.Struct({
-        lastUpdated: Schema.String.pipe(T.JsonName("last_updated")),
+        lastUpdated: Schema.String,
         version: Schema.String,
         id: Schema.optional(Schema.String),
         action: Schema.optional(Schema.Literal("js_challenge")),
-        actionParameters: Schema.optional(Schema.Unknown).pipe(
-          T.JsonName("action_parameters"),
-        ),
+        actionParameters: Schema.optional(Schema.Unknown),
         categories: Schema.optional(Schema.Array(Schema.String)),
         description: Schema.optional(Schema.String),
         enabled: Schema.optional(Schema.Boolean),
         exposedCredentialCheck: Schema.optional(
           Schema.Struct({
-            passwordExpression: Schema.String.pipe(
-              T.JsonName("password_expression"),
-            ),
-            usernameExpression: Schema.String.pipe(
-              T.JsonName("username_expression"),
-            ),
-          }),
-        ).pipe(T.JsonName("exposed_credential_check")),
+            passwordExpression: Schema.String,
+            usernameExpression: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({
+              passwordExpression: "password_expression",
+              usernameExpression: "username_expression",
+            }),
+          ),
+        ),
         expression: Schema.optional(Schema.String),
         logging: Schema.optional(Schema.Unknown),
         ratelimit: Schema.optional(
           Schema.Struct({
             characteristics: Schema.Array(Schema.String),
             period: Schema.Number,
-            countingExpression: Schema.optional(Schema.String).pipe(
-              T.JsonName("counting_expression"),
-            ),
-            mitigationTimeout: Schema.optional(Schema.Number).pipe(
-              T.JsonName("mitigation_timeout"),
-            ),
-            requestsPerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("requests_per_period"),
-            ),
-            requestsToOrigin: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("requests_to_origin"),
-            ),
-            scorePerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("score_per_period"),
-            ),
-            scoreResponseHeaderName: Schema.optional(Schema.String).pipe(
-              T.JsonName("score_response_header_name"),
-            ),
-          }),
+            countingExpression: Schema.optional(Schema.String),
+            mitigationTimeout: Schema.optional(Schema.Number),
+            requestsPerPeriod: Schema.optional(Schema.Number),
+            requestsToOrigin: Schema.optional(Schema.Boolean),
+            scorePerPeriod: Schema.optional(Schema.Number),
+            scoreResponseHeaderName: Schema.optional(Schema.String),
+          }).pipe(
+            Schema.encodeKeys({
+              countingExpression: "counting_expression",
+              mitigationTimeout: "mitigation_timeout",
+              requestsPerPeriod: "requests_per_period",
+              requestsToOrigin: "requests_to_origin",
+              scorePerPeriod: "score_per_period",
+              scoreResponseHeaderName: "score_response_header_name",
+            }),
+          ),
         ),
         ref: Schema.optional(Schema.String),
-      }),
+      }).pipe(
+        Schema.encodeKeys({
+          lastUpdated: "last_updated",
+          actionParameters: "action_parameters",
+          exposedCredentialCheck: "exposed_credential_check",
+        }),
+      ),
     ]),
   ),
   version: Schema.String,
   description: Schema.optional(Schema.String),
-}) as unknown as Schema.Schema<CreateRulesetResponse>;
+}).pipe(
+  Schema.encodeKeys({ lastUpdated: "last_updated" }),
+) as unknown as Schema.Schema<CreateRulesetResponse>;
 
 export const createRuleset: (
   input: CreateRulesetRequest,
@@ -9056,95 +9800,97 @@ export const UpdateRulesetRequest = Schema.Struct({
         Schema.Struct({
           id: Schema.optional(Schema.String),
           action: Schema.optional(Schema.Literal("challenge")),
-          actionParameters: Schema.optional(Schema.Unknown).pipe(
-            T.JsonName("action_parameters"),
-          ),
+          actionParameters: Schema.optional(Schema.Unknown),
           description: Schema.optional(Schema.String),
           enabled: Schema.optional(Schema.Boolean),
           exposedCredentialCheck: Schema.optional(
             Schema.Struct({
-              passwordExpression: Schema.String.pipe(
-                T.JsonName("password_expression"),
-              ),
-              usernameExpression: Schema.String.pipe(
-                T.JsonName("username_expression"),
-              ),
-            }),
-          ).pipe(T.JsonName("exposed_credential_check")),
+              passwordExpression: Schema.String,
+              usernameExpression: Schema.String,
+            }).pipe(
+              Schema.encodeKeys({
+                passwordExpression: "password_expression",
+                usernameExpression: "username_expression",
+              }),
+            ),
+          ),
           expression: Schema.optional(Schema.String),
           logging: Schema.optional(Schema.Unknown),
           ratelimit: Schema.optional(
             Schema.Struct({
               characteristics: Schema.Array(Schema.String),
               period: Schema.Number,
-              countingExpression: Schema.optional(Schema.String).pipe(
-                T.JsonName("counting_expression"),
-              ),
-              mitigationTimeout: Schema.optional(Schema.Number).pipe(
-                T.JsonName("mitigation_timeout"),
-              ),
-              requestsPerPeriod: Schema.optional(Schema.Number).pipe(
-                T.JsonName("requests_per_period"),
-              ),
-              requestsToOrigin: Schema.optional(Schema.Boolean).pipe(
-                T.JsonName("requests_to_origin"),
-              ),
-              scorePerPeriod: Schema.optional(Schema.Number).pipe(
-                T.JsonName("score_per_period"),
-              ),
-              scoreResponseHeaderName: Schema.optional(Schema.String).pipe(
-                T.JsonName("score_response_header_name"),
-              ),
-            }),
+              countingExpression: Schema.optional(Schema.String),
+              mitigationTimeout: Schema.optional(Schema.Number),
+              requestsPerPeriod: Schema.optional(Schema.Number),
+              requestsToOrigin: Schema.optional(Schema.Boolean),
+              scorePerPeriod: Schema.optional(Schema.Number),
+              scoreResponseHeaderName: Schema.optional(Schema.String),
+            }).pipe(
+              Schema.encodeKeys({
+                countingExpression: "counting_expression",
+                mitigationTimeout: "mitigation_timeout",
+                requestsPerPeriod: "requests_per_period",
+                requestsToOrigin: "requests_to_origin",
+                scorePerPeriod: "score_per_period",
+                scoreResponseHeaderName: "score_response_header_name",
+              }),
+            ),
           ),
           ref: Schema.optional(Schema.String),
-        }),
+        }).pipe(
+          Schema.encodeKeys({
+            actionParameters: "action_parameters",
+            exposedCredentialCheck: "exposed_credential_check",
+          }),
+        ),
         Schema.Struct({
           id: Schema.optional(Schema.String),
           action: Schema.optional(Schema.Literal("js_challenge")),
-          actionParameters: Schema.optional(Schema.Unknown).pipe(
-            T.JsonName("action_parameters"),
-          ),
+          actionParameters: Schema.optional(Schema.Unknown),
           description: Schema.optional(Schema.String),
           enabled: Schema.optional(Schema.Boolean),
           exposedCredentialCheck: Schema.optional(
             Schema.Struct({
-              passwordExpression: Schema.String.pipe(
-                T.JsonName("password_expression"),
-              ),
-              usernameExpression: Schema.String.pipe(
-                T.JsonName("username_expression"),
-              ),
-            }),
-          ).pipe(T.JsonName("exposed_credential_check")),
+              passwordExpression: Schema.String,
+              usernameExpression: Schema.String,
+            }).pipe(
+              Schema.encodeKeys({
+                passwordExpression: "password_expression",
+                usernameExpression: "username_expression",
+              }),
+            ),
+          ),
           expression: Schema.optional(Schema.String),
           logging: Schema.optional(Schema.Unknown),
           ratelimit: Schema.optional(
             Schema.Struct({
               characteristics: Schema.Array(Schema.String),
               period: Schema.Number,
-              countingExpression: Schema.optional(Schema.String).pipe(
-                T.JsonName("counting_expression"),
-              ),
-              mitigationTimeout: Schema.optional(Schema.Number).pipe(
-                T.JsonName("mitigation_timeout"),
-              ),
-              requestsPerPeriod: Schema.optional(Schema.Number).pipe(
-                T.JsonName("requests_per_period"),
-              ),
-              requestsToOrigin: Schema.optional(Schema.Boolean).pipe(
-                T.JsonName("requests_to_origin"),
-              ),
-              scorePerPeriod: Schema.optional(Schema.Number).pipe(
-                T.JsonName("score_per_period"),
-              ),
-              scoreResponseHeaderName: Schema.optional(Schema.String).pipe(
-                T.JsonName("score_response_header_name"),
-              ),
-            }),
+              countingExpression: Schema.optional(Schema.String),
+              mitigationTimeout: Schema.optional(Schema.Number),
+              requestsPerPeriod: Schema.optional(Schema.Number),
+              requestsToOrigin: Schema.optional(Schema.Boolean),
+              scorePerPeriod: Schema.optional(Schema.Number),
+              scoreResponseHeaderName: Schema.optional(Schema.String),
+            }).pipe(
+              Schema.encodeKeys({
+                countingExpression: "counting_expression",
+                mitigationTimeout: "mitigation_timeout",
+                requestsPerPeriod: "requests_per_period",
+                requestsToOrigin: "requests_to_origin",
+                scorePerPeriod: "score_per_period",
+                scoreResponseHeaderName: "score_response_header_name",
+              }),
+            ),
           ),
           ref: Schema.optional(Schema.String),
-        }),
+        }).pipe(
+          Schema.encodeKeys({
+            actionParameters: "action_parameters",
+            exposedCredentialCheck: "exposed_credential_check",
+          }),
+        ),
       ]),
     ),
   ),
@@ -9256,7 +10002,7 @@ export interface UpdateRulesetResponse {
 export const UpdateRulesetResponse = Schema.Struct({
   id: Schema.String,
   kind: Schema.Literals(["zone", "managed", "custom", "root"]),
-  lastUpdated: Schema.String.pipe(T.JsonName("last_updated")),
+  lastUpdated: Schema.String,
   name: Schema.String,
   phase: Schema.Literals([
     "ddos_l4",
@@ -9287,108 +10033,114 @@ export const UpdateRulesetResponse = Schema.Struct({
     Schema.Union([
       Schema.Unknown,
       Schema.Struct({
-        lastUpdated: Schema.String.pipe(T.JsonName("last_updated")),
+        lastUpdated: Schema.String,
         version: Schema.String,
         id: Schema.optional(Schema.String),
         action: Schema.optional(Schema.Literal("challenge")),
-        actionParameters: Schema.optional(Schema.Unknown).pipe(
-          T.JsonName("action_parameters"),
-        ),
+        actionParameters: Schema.optional(Schema.Unknown),
         categories: Schema.optional(Schema.Array(Schema.String)),
         description: Schema.optional(Schema.String),
         enabled: Schema.optional(Schema.Boolean),
         exposedCredentialCheck: Schema.optional(
           Schema.Struct({
-            passwordExpression: Schema.String.pipe(
-              T.JsonName("password_expression"),
-            ),
-            usernameExpression: Schema.String.pipe(
-              T.JsonName("username_expression"),
-            ),
-          }),
-        ).pipe(T.JsonName("exposed_credential_check")),
+            passwordExpression: Schema.String,
+            usernameExpression: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({
+              passwordExpression: "password_expression",
+              usernameExpression: "username_expression",
+            }),
+          ),
+        ),
         expression: Schema.optional(Schema.String),
         logging: Schema.optional(Schema.Unknown),
         ratelimit: Schema.optional(
           Schema.Struct({
             characteristics: Schema.Array(Schema.String),
             period: Schema.Number,
-            countingExpression: Schema.optional(Schema.String).pipe(
-              T.JsonName("counting_expression"),
-            ),
-            mitigationTimeout: Schema.optional(Schema.Number).pipe(
-              T.JsonName("mitigation_timeout"),
-            ),
-            requestsPerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("requests_per_period"),
-            ),
-            requestsToOrigin: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("requests_to_origin"),
-            ),
-            scorePerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("score_per_period"),
-            ),
-            scoreResponseHeaderName: Schema.optional(Schema.String).pipe(
-              T.JsonName("score_response_header_name"),
-            ),
-          }),
+            countingExpression: Schema.optional(Schema.String),
+            mitigationTimeout: Schema.optional(Schema.Number),
+            requestsPerPeriod: Schema.optional(Schema.Number),
+            requestsToOrigin: Schema.optional(Schema.Boolean),
+            scorePerPeriod: Schema.optional(Schema.Number),
+            scoreResponseHeaderName: Schema.optional(Schema.String),
+          }).pipe(
+            Schema.encodeKeys({
+              countingExpression: "counting_expression",
+              mitigationTimeout: "mitigation_timeout",
+              requestsPerPeriod: "requests_per_period",
+              requestsToOrigin: "requests_to_origin",
+              scorePerPeriod: "score_per_period",
+              scoreResponseHeaderName: "score_response_header_name",
+            }),
+          ),
         ),
         ref: Schema.optional(Schema.String),
-      }),
+      }).pipe(
+        Schema.encodeKeys({
+          lastUpdated: "last_updated",
+          actionParameters: "action_parameters",
+          exposedCredentialCheck: "exposed_credential_check",
+        }),
+      ),
       Schema.Struct({
-        lastUpdated: Schema.String.pipe(T.JsonName("last_updated")),
+        lastUpdated: Schema.String,
         version: Schema.String,
         id: Schema.optional(Schema.String),
         action: Schema.optional(Schema.Literal("js_challenge")),
-        actionParameters: Schema.optional(Schema.Unknown).pipe(
-          T.JsonName("action_parameters"),
-        ),
+        actionParameters: Schema.optional(Schema.Unknown),
         categories: Schema.optional(Schema.Array(Schema.String)),
         description: Schema.optional(Schema.String),
         enabled: Schema.optional(Schema.Boolean),
         exposedCredentialCheck: Schema.optional(
           Schema.Struct({
-            passwordExpression: Schema.String.pipe(
-              T.JsonName("password_expression"),
-            ),
-            usernameExpression: Schema.String.pipe(
-              T.JsonName("username_expression"),
-            ),
-          }),
-        ).pipe(T.JsonName("exposed_credential_check")),
+            passwordExpression: Schema.String,
+            usernameExpression: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({
+              passwordExpression: "password_expression",
+              usernameExpression: "username_expression",
+            }),
+          ),
+        ),
         expression: Schema.optional(Schema.String),
         logging: Schema.optional(Schema.Unknown),
         ratelimit: Schema.optional(
           Schema.Struct({
             characteristics: Schema.Array(Schema.String),
             period: Schema.Number,
-            countingExpression: Schema.optional(Schema.String).pipe(
-              T.JsonName("counting_expression"),
-            ),
-            mitigationTimeout: Schema.optional(Schema.Number).pipe(
-              T.JsonName("mitigation_timeout"),
-            ),
-            requestsPerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("requests_per_period"),
-            ),
-            requestsToOrigin: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("requests_to_origin"),
-            ),
-            scorePerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("score_per_period"),
-            ),
-            scoreResponseHeaderName: Schema.optional(Schema.String).pipe(
-              T.JsonName("score_response_header_name"),
-            ),
-          }),
+            countingExpression: Schema.optional(Schema.String),
+            mitigationTimeout: Schema.optional(Schema.Number),
+            requestsPerPeriod: Schema.optional(Schema.Number),
+            requestsToOrigin: Schema.optional(Schema.Boolean),
+            scorePerPeriod: Schema.optional(Schema.Number),
+            scoreResponseHeaderName: Schema.optional(Schema.String),
+          }).pipe(
+            Schema.encodeKeys({
+              countingExpression: "counting_expression",
+              mitigationTimeout: "mitigation_timeout",
+              requestsPerPeriod: "requests_per_period",
+              requestsToOrigin: "requests_to_origin",
+              scorePerPeriod: "score_per_period",
+              scoreResponseHeaderName: "score_response_header_name",
+            }),
+          ),
         ),
         ref: Schema.optional(Schema.String),
-      }),
+      }).pipe(
+        Schema.encodeKeys({
+          lastUpdated: "last_updated",
+          actionParameters: "action_parameters",
+          exposedCredentialCheck: "exposed_credential_check",
+        }),
+      ),
     ]),
   ),
   version: Schema.String,
   description: Schema.optional(Schema.String),
-}) as unknown as Schema.Schema<UpdateRulesetResponse>;
+}).pipe(
+  Schema.encodeKeys({ lastUpdated: "last_updated" }),
+) as unknown as Schema.Schema<UpdateRulesetResponse>;
 
 export const updateRuleset: (
   input: UpdateRulesetRequest,
@@ -9552,7 +10304,7 @@ export interface GetVersionResponse {
 export const GetVersionResponse = Schema.Struct({
   id: Schema.String,
   kind: Schema.Literals(["zone", "managed", "custom", "root"]),
-  lastUpdated: Schema.String.pipe(T.JsonName("last_updated")),
+  lastUpdated: Schema.String,
   name: Schema.String,
   phase: Schema.Literals([
     "ddos_l4",
@@ -9583,108 +10335,114 @@ export const GetVersionResponse = Schema.Struct({
     Schema.Union([
       Schema.Unknown,
       Schema.Struct({
-        lastUpdated: Schema.String.pipe(T.JsonName("last_updated")),
+        lastUpdated: Schema.String,
         version: Schema.String,
         id: Schema.optional(Schema.String),
         action: Schema.optional(Schema.Literal("challenge")),
-        actionParameters: Schema.optional(Schema.Unknown).pipe(
-          T.JsonName("action_parameters"),
-        ),
+        actionParameters: Schema.optional(Schema.Unknown),
         categories: Schema.optional(Schema.Array(Schema.String)),
         description: Schema.optional(Schema.String),
         enabled: Schema.optional(Schema.Boolean),
         exposedCredentialCheck: Schema.optional(
           Schema.Struct({
-            passwordExpression: Schema.String.pipe(
-              T.JsonName("password_expression"),
-            ),
-            usernameExpression: Schema.String.pipe(
-              T.JsonName("username_expression"),
-            ),
-          }),
-        ).pipe(T.JsonName("exposed_credential_check")),
+            passwordExpression: Schema.String,
+            usernameExpression: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({
+              passwordExpression: "password_expression",
+              usernameExpression: "username_expression",
+            }),
+          ),
+        ),
         expression: Schema.optional(Schema.String),
         logging: Schema.optional(Schema.Unknown),
         ratelimit: Schema.optional(
           Schema.Struct({
             characteristics: Schema.Array(Schema.String),
             period: Schema.Number,
-            countingExpression: Schema.optional(Schema.String).pipe(
-              T.JsonName("counting_expression"),
-            ),
-            mitigationTimeout: Schema.optional(Schema.Number).pipe(
-              T.JsonName("mitigation_timeout"),
-            ),
-            requestsPerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("requests_per_period"),
-            ),
-            requestsToOrigin: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("requests_to_origin"),
-            ),
-            scorePerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("score_per_period"),
-            ),
-            scoreResponseHeaderName: Schema.optional(Schema.String).pipe(
-              T.JsonName("score_response_header_name"),
-            ),
-          }),
+            countingExpression: Schema.optional(Schema.String),
+            mitigationTimeout: Schema.optional(Schema.Number),
+            requestsPerPeriod: Schema.optional(Schema.Number),
+            requestsToOrigin: Schema.optional(Schema.Boolean),
+            scorePerPeriod: Schema.optional(Schema.Number),
+            scoreResponseHeaderName: Schema.optional(Schema.String),
+          }).pipe(
+            Schema.encodeKeys({
+              countingExpression: "counting_expression",
+              mitigationTimeout: "mitigation_timeout",
+              requestsPerPeriod: "requests_per_period",
+              requestsToOrigin: "requests_to_origin",
+              scorePerPeriod: "score_per_period",
+              scoreResponseHeaderName: "score_response_header_name",
+            }),
+          ),
         ),
         ref: Schema.optional(Schema.String),
-      }),
+      }).pipe(
+        Schema.encodeKeys({
+          lastUpdated: "last_updated",
+          actionParameters: "action_parameters",
+          exposedCredentialCheck: "exposed_credential_check",
+        }),
+      ),
       Schema.Struct({
-        lastUpdated: Schema.String.pipe(T.JsonName("last_updated")),
+        lastUpdated: Schema.String,
         version: Schema.String,
         id: Schema.optional(Schema.String),
         action: Schema.optional(Schema.Literal("js_challenge")),
-        actionParameters: Schema.optional(Schema.Unknown).pipe(
-          T.JsonName("action_parameters"),
-        ),
+        actionParameters: Schema.optional(Schema.Unknown),
         categories: Schema.optional(Schema.Array(Schema.String)),
         description: Schema.optional(Schema.String),
         enabled: Schema.optional(Schema.Boolean),
         exposedCredentialCheck: Schema.optional(
           Schema.Struct({
-            passwordExpression: Schema.String.pipe(
-              T.JsonName("password_expression"),
-            ),
-            usernameExpression: Schema.String.pipe(
-              T.JsonName("username_expression"),
-            ),
-          }),
-        ).pipe(T.JsonName("exposed_credential_check")),
+            passwordExpression: Schema.String,
+            usernameExpression: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({
+              passwordExpression: "password_expression",
+              usernameExpression: "username_expression",
+            }),
+          ),
+        ),
         expression: Schema.optional(Schema.String),
         logging: Schema.optional(Schema.Unknown),
         ratelimit: Schema.optional(
           Schema.Struct({
             characteristics: Schema.Array(Schema.String),
             period: Schema.Number,
-            countingExpression: Schema.optional(Schema.String).pipe(
-              T.JsonName("counting_expression"),
-            ),
-            mitigationTimeout: Schema.optional(Schema.Number).pipe(
-              T.JsonName("mitigation_timeout"),
-            ),
-            requestsPerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("requests_per_period"),
-            ),
-            requestsToOrigin: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("requests_to_origin"),
-            ),
-            scorePerPeriod: Schema.optional(Schema.Number).pipe(
-              T.JsonName("score_per_period"),
-            ),
-            scoreResponseHeaderName: Schema.optional(Schema.String).pipe(
-              T.JsonName("score_response_header_name"),
-            ),
-          }),
+            countingExpression: Schema.optional(Schema.String),
+            mitigationTimeout: Schema.optional(Schema.Number),
+            requestsPerPeriod: Schema.optional(Schema.Number),
+            requestsToOrigin: Schema.optional(Schema.Boolean),
+            scorePerPeriod: Schema.optional(Schema.Number),
+            scoreResponseHeaderName: Schema.optional(Schema.String),
+          }).pipe(
+            Schema.encodeKeys({
+              countingExpression: "counting_expression",
+              mitigationTimeout: "mitigation_timeout",
+              requestsPerPeriod: "requests_per_period",
+              requestsToOrigin: "requests_to_origin",
+              scorePerPeriod: "score_per_period",
+              scoreResponseHeaderName: "score_response_header_name",
+            }),
+          ),
         ),
         ref: Schema.optional(Schema.String),
-      }),
+      }).pipe(
+        Schema.encodeKeys({
+          lastUpdated: "last_updated",
+          actionParameters: "action_parameters",
+          exposedCredentialCheck: "exposed_credential_check",
+        }),
+      ),
     ]),
   ),
   version: Schema.String,
   description: Schema.optional(Schema.String),
-}) as unknown as Schema.Schema<GetVersionResponse>;
+}).pipe(
+  Schema.encodeKeys({ lastUpdated: "last_updated" }),
+) as unknown as Schema.Schema<GetVersionResponse>;
 
 export const getVersion: (
   input: GetVersionRequest,
@@ -9695,6 +10453,100 @@ export const getVersion: (
 > = API.make(() => ({
   input: GetVersionRequest,
   output: GetVersionResponse,
+  errors: [],
+}));
+
+export interface ListVersionsRequest {
+  rulesetId: string;
+}
+
+export const ListVersionsRequest = Schema.Struct({
+  rulesetId: Schema.String.pipe(T.HttpPath("rulesetId")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/{accountOrZone}/{accountOrZoneId}/rulesets/{rulesetId}/versions",
+  }),
+) as unknown as Schema.Schema<ListVersionsRequest>;
+
+export type ListVersionsResponse = {
+  id: string;
+  kind: "zone" | "managed" | "custom" | "root";
+  lastUpdated: string;
+  name: string;
+  phase:
+    | "ddos_l4"
+    | "ddos_l7"
+    | "http_config_settings"
+    | "http_custom_errors"
+    | "http_log_custom_fields"
+    | "http_ratelimit"
+    | "http_request_cache_settings"
+    | "http_request_dynamic_redirect"
+    | "http_request_firewall_custom"
+    | "http_request_firewall_managed"
+    | "http_request_late_transform"
+    | "http_request_origin"
+    | "http_request_redirect"
+    | "http_request_sanitize"
+    | "http_request_sbfm"
+    | "http_request_transform"
+    | "http_response_compression"
+    | "http_response_firewall_managed"
+    | "http_response_headers_transform"
+    | "magic_transit"
+    | "magic_transit_ids_managed"
+    | "magic_transit_managed"
+    | "magic_transit_ratelimit";
+  version: string;
+  description?: string;
+}[];
+
+export const ListVersionsResponse = Schema.Array(
+  Schema.Struct({
+    id: Schema.String,
+    kind: Schema.Literals(["zone", "managed", "custom", "root"]),
+    lastUpdated: Schema.String,
+    name: Schema.String,
+    phase: Schema.Literals([
+      "ddos_l4",
+      "ddos_l7",
+      "http_config_settings",
+      "http_custom_errors",
+      "http_log_custom_fields",
+      "http_ratelimit",
+      "http_request_cache_settings",
+      "http_request_dynamic_redirect",
+      "http_request_firewall_custom",
+      "http_request_firewall_managed",
+      "http_request_late_transform",
+      "http_request_origin",
+      "http_request_redirect",
+      "http_request_sanitize",
+      "http_request_sbfm",
+      "http_request_transform",
+      "http_response_compression",
+      "http_response_firewall_managed",
+      "http_response_headers_transform",
+      "magic_transit",
+      "magic_transit_ids_managed",
+      "magic_transit_managed",
+      "magic_transit_ratelimit",
+    ]),
+    version: Schema.String,
+    description: Schema.optional(Schema.String),
+  }).pipe(Schema.encodeKeys({ lastUpdated: "last_updated" })),
+) as unknown as Schema.Schema<ListVersionsResponse>;
+
+export const listVersions: (
+  input: ListVersionsRequest,
+) => Effect.Effect<
+  ListVersionsResponse,
+  CommonErrors,
+  ApiToken | HttpClient.HttpClient
+> = API.make(() => ({
+  input: ListVersionsRequest,
+  output: ListVersionsResponse,
   errors: [],
 }));
 

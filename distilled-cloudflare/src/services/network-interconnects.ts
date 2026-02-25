@@ -56,26 +56,30 @@ export interface GetCniResponse {
 export const GetCniResponse = Schema.Struct({
   id: Schema.String,
   account: Schema.String,
-  custIp: Schema.String.pipe(T.JsonName("cust_ip")),
+  custIp: Schema.String,
   interconnect: Schema.String,
   magic: Schema.Struct({
-    conduitName: Schema.String.pipe(T.JsonName("conduit_name")),
+    conduitName: Schema.String,
     description: Schema.String,
     mtu: Schema.Number,
-  }),
-  p2pIp: Schema.String.pipe(T.JsonName("p2p_ip")),
+  }).pipe(Schema.encodeKeys({ conduitName: "conduit_name" })),
+  p2pIp: Schema.String,
   bgp: Schema.optional(
     Schema.Struct({
-      customerAsn: Schema.Number.pipe(T.JsonName("customer_asn")),
-      extraPrefixes: Schema.Array(Schema.String).pipe(
-        T.JsonName("extra_prefixes"),
-      ),
-      md5Key: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-        T.JsonName("md5_key"),
-      ),
-    }),
+      customerAsn: Schema.Number,
+      extraPrefixes: Schema.Array(Schema.String),
+      md5Key: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    }).pipe(
+      Schema.encodeKeys({
+        customerAsn: "customer_asn",
+        extraPrefixes: "extra_prefixes",
+        md5Key: "md5_key",
+      }),
+    ),
   ),
-}) as unknown as Schema.Schema<GetCniResponse>;
+}).pipe(
+  Schema.encodeKeys({ custIp: "cust_ip", p2pIp: "p2p_ip" }),
+) as unknown as Schema.Schema<GetCniResponse>;
 
 export const getCni: (
   input: GetCniRequest,
@@ -142,26 +146,28 @@ export const ListCnisResponse = Schema.Struct({
     Schema.Struct({
       id: Schema.String,
       account: Schema.String,
-      custIp: Schema.String.pipe(T.JsonName("cust_ip")),
+      custIp: Schema.String,
       interconnect: Schema.String,
       magic: Schema.Struct({
-        conduitName: Schema.String.pipe(T.JsonName("conduit_name")),
+        conduitName: Schema.String,
         description: Schema.String,
         mtu: Schema.Number,
-      }),
-      p2pIp: Schema.String.pipe(T.JsonName("p2p_ip")),
+      }).pipe(Schema.encodeKeys({ conduitName: "conduit_name" })),
+      p2pIp: Schema.String,
       bgp: Schema.optional(
         Schema.Struct({
-          customerAsn: Schema.Number.pipe(T.JsonName("customer_asn")),
-          extraPrefixes: Schema.Array(Schema.String).pipe(
-            T.JsonName("extra_prefixes"),
-          ),
-          md5Key: Schema.optional(
-            Schema.Union([Schema.String, Schema.Null]),
-          ).pipe(T.JsonName("md5_key")),
-        }),
+          customerAsn: Schema.Number,
+          extraPrefixes: Schema.Array(Schema.String),
+          md5Key: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        }).pipe(
+          Schema.encodeKeys({
+            customerAsn: "customer_asn",
+            extraPrefixes: "extra_prefixes",
+            md5Key: "md5_key",
+          }),
+        ),
       ),
-    }),
+    }).pipe(Schema.encodeKeys({ custIp: "cust_ip", p2pIp: "p2p_ip" })),
   ),
   next: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
 }) as unknown as Schema.Schema<ListCnisResponse>;
@@ -200,20 +206,22 @@ export const CreateCniRequest = Schema.Struct({
   account: Schema.String,
   interconnect: Schema.String,
   magic: Schema.Struct({
-    conduitName: Schema.String.pipe(T.JsonName("conduit_name")),
+    conduitName: Schema.String,
     description: Schema.String,
     mtu: Schema.Number,
-  }),
+  }).pipe(Schema.encodeKeys({ conduitName: "conduit_name" })),
   bgp: Schema.optional(
     Schema.Struct({
-      customerAsn: Schema.Number.pipe(T.JsonName("customer_asn")),
-      extraPrefixes: Schema.Array(Schema.String).pipe(
-        T.JsonName("extra_prefixes"),
-      ),
-      md5Key: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-        T.JsonName("md5_key"),
-      ),
-    }),
+      customerAsn: Schema.Number,
+      extraPrefixes: Schema.Array(Schema.String),
+      md5Key: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    }).pipe(
+      Schema.encodeKeys({
+        customerAsn: "customer_asn",
+        extraPrefixes: "extra_prefixes",
+        md5Key: "md5_key",
+      }),
+    ),
   ),
 }).pipe(
   T.Http({ method: "POST", path: "/accounts/{account_id}/cni/cnis" }),
@@ -240,26 +248,30 @@ export interface CreateCniResponse {
 export const CreateCniResponse = Schema.Struct({
   id: Schema.String,
   account: Schema.String,
-  custIp: Schema.String.pipe(T.JsonName("cust_ip")),
+  custIp: Schema.String,
   interconnect: Schema.String,
   magic: Schema.Struct({
-    conduitName: Schema.String.pipe(T.JsonName("conduit_name")),
+    conduitName: Schema.String,
     description: Schema.String,
     mtu: Schema.Number,
-  }),
-  p2pIp: Schema.String.pipe(T.JsonName("p2p_ip")),
+  }).pipe(Schema.encodeKeys({ conduitName: "conduit_name" })),
+  p2pIp: Schema.String,
   bgp: Schema.optional(
     Schema.Struct({
-      customerAsn: Schema.Number.pipe(T.JsonName("customer_asn")),
-      extraPrefixes: Schema.Array(Schema.String).pipe(
-        T.JsonName("extra_prefixes"),
-      ),
-      md5Key: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-        T.JsonName("md5_key"),
-      ),
-    }),
+      customerAsn: Schema.Number,
+      extraPrefixes: Schema.Array(Schema.String),
+      md5Key: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    }).pipe(
+      Schema.encodeKeys({
+        customerAsn: "customer_asn",
+        extraPrefixes: "extra_prefixes",
+        md5Key: "md5_key",
+      }),
+    ),
   ),
-}) as unknown as Schema.Schema<CreateCniResponse>;
+}).pipe(
+  Schema.encodeKeys({ custIp: "cust_ip", p2pIp: "p2p_ip" }),
+) as unknown as Schema.Schema<CreateCniResponse>;
 
 export const createCni: (
   input: CreateCniRequest,
@@ -302,26 +314,29 @@ export const UpdateCniRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   id: Schema.String,
   account: Schema.String,
-  custIp: Schema.String.pipe(T.JsonName("cust_ip")),
+  custIp: Schema.String,
   interconnect: Schema.String,
   magic: Schema.Struct({
-    conduitName: Schema.String.pipe(T.JsonName("conduit_name")),
+    conduitName: Schema.String,
     description: Schema.String,
     mtu: Schema.Number,
-  }),
-  p2pIp: Schema.String.pipe(T.JsonName("p2p_ip")),
+  }).pipe(Schema.encodeKeys({ conduitName: "conduit_name" })),
+  p2pIp: Schema.String,
   bgp: Schema.optional(
     Schema.Struct({
-      customerAsn: Schema.Number.pipe(T.JsonName("customer_asn")),
-      extraPrefixes: Schema.Array(Schema.String).pipe(
-        T.JsonName("extra_prefixes"),
-      ),
-      md5Key: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-        T.JsonName("md5_key"),
-      ),
-    }),
+      customerAsn: Schema.Number,
+      extraPrefixes: Schema.Array(Schema.String),
+      md5Key: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    }).pipe(
+      Schema.encodeKeys({
+        customerAsn: "customer_asn",
+        extraPrefixes: "extra_prefixes",
+        md5Key: "md5_key",
+      }),
+    ),
   ),
 }).pipe(
+  Schema.encodeKeys({ custIp: "cust_ip", p2pIp: "p2p_ip" }),
   T.Http({ method: "PUT", path: "/accounts/{account_id}/cni/cnis/{cni}" }),
 ) as unknown as Schema.Schema<UpdateCniRequest>;
 
@@ -346,26 +361,30 @@ export interface UpdateCniResponse {
 export const UpdateCniResponse = Schema.Struct({
   id: Schema.String,
   account: Schema.String,
-  custIp: Schema.String.pipe(T.JsonName("cust_ip")),
+  custIp: Schema.String,
   interconnect: Schema.String,
   magic: Schema.Struct({
-    conduitName: Schema.String.pipe(T.JsonName("conduit_name")),
+    conduitName: Schema.String,
     description: Schema.String,
     mtu: Schema.Number,
-  }),
-  p2pIp: Schema.String.pipe(T.JsonName("p2p_ip")),
+  }).pipe(Schema.encodeKeys({ conduitName: "conduit_name" })),
+  p2pIp: Schema.String,
   bgp: Schema.optional(
     Schema.Struct({
-      customerAsn: Schema.Number.pipe(T.JsonName("customer_asn")),
-      extraPrefixes: Schema.Array(Schema.String).pipe(
-        T.JsonName("extra_prefixes"),
-      ),
-      md5Key: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-        T.JsonName("md5_key"),
-      ),
-    }),
+      customerAsn: Schema.Number,
+      extraPrefixes: Schema.Array(Schema.String),
+      md5Key: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    }).pipe(
+      Schema.encodeKeys({
+        customerAsn: "customer_asn",
+        extraPrefixes: "extra_prefixes",
+        md5Key: "md5_key",
+      }),
+    ),
   ),
-}) as unknown as Schema.Schema<UpdateCniResponse>;
+}).pipe(
+  Schema.encodeKeys({ custIp: "cust_ip", p2pIp: "p2p_ip" }),
+) as unknown as Schema.Schema<UpdateCniResponse>;
 
 export const updateCni: (
   input: UpdateCniRequest,
@@ -470,11 +489,11 @@ export const GetInterconnectResponse = Schema.Union([
     }),
     name: Schema.String,
     site: Schema.String,
-    slotId: Schema.String.pipe(T.JsonName("slot_id")),
+    slotId: Schema.String,
     speed: Schema.String,
     type: Schema.String,
     owner: Schema.optional(Schema.String),
-  }),
+  }).pipe(Schema.encodeKeys({ slotId: "slot_id" })),
   Schema.Struct({
     account: Schema.String,
     name: Schema.String,
@@ -590,11 +609,11 @@ export const ListInterconnectsResponse = Schema.Struct({
         }),
         name: Schema.String,
         site: Schema.String,
-        slotId: Schema.String.pipe(T.JsonName("slot_id")),
+        slotId: Schema.String,
         speed: Schema.String,
         type: Schema.String,
         owner: Schema.optional(Schema.String),
-      }),
+      }).pipe(Schema.encodeKeys({ slotId: "slot_id" })),
       Schema.Struct({
         account: Schema.String,
         name: Schema.String,
@@ -635,9 +654,27 @@ export const listInterconnects: (
   errors: [],
 }));
 
-export interface CreateInterconnectRequest {}
+export interface CreateInterconnectRequest {
+  /** Path param: Customer account tag */
+  accountId: string;
+  /** Body param: */
+  account: string;
+  /** Body param: */
+  slotId: string;
+  /** Body param: */
+  type: string;
+  /** Body param: */
+  speed?: string | null;
+}
 
-export const CreateInterconnectRequest = Schema.Struct({}).pipe(
+export const CreateInterconnectRequest = Schema.Struct({
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+  account: Schema.String,
+  slotId: Schema.String,
+  type: Schema.String,
+  speed: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+}).pipe(
+  Schema.encodeKeys({ slotId: "slot_id" }),
   T.Http({ method: "POST", path: "/accounts/{account_id}/cni/interconnects" }),
 ) as unknown as Schema.Schema<CreateInterconnectRequest>;
 
@@ -682,11 +719,11 @@ export const CreateInterconnectResponse = Schema.Union([
     }),
     name: Schema.String,
     site: Schema.String,
-    slotId: Schema.String.pipe(T.JsonName("slot_id")),
+    slotId: Schema.String,
     speed: Schema.String,
     type: Schema.String,
     owner: Schema.optional(Schema.String),
-  }),
+  }).pipe(Schema.encodeKeys({ slotId: "slot_id" })),
   Schema.Struct({
     account: Schema.String,
     name: Schema.String,
@@ -861,8 +898,10 @@ export interface GetSettingResponse {
 }
 
 export const GetSettingResponse = Schema.Struct({
-  defaultAsn: Schema.Number.pipe(T.JsonName("default_asn")),
-}) as unknown as Schema.Schema<GetSettingResponse>;
+  defaultAsn: Schema.Number,
+}).pipe(
+  Schema.encodeKeys({ defaultAsn: "default_asn" }),
+) as unknown as Schema.Schema<GetSettingResponse>;
 
 export const getSetting: (
   input: GetSettingRequest,
@@ -885,10 +924,9 @@ export interface PutSettingRequest {
 
 export const PutSettingRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  defaultAsn: Schema.optional(Schema.Union([Schema.Number, Schema.Null])).pipe(
-    T.JsonName("default_asn"),
-  ),
+  defaultAsn: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
 }).pipe(
+  Schema.encodeKeys({ defaultAsn: "default_asn" }),
   T.Http({ method: "PUT", path: "/accounts/{account_id}/cni/settings" }),
 ) as unknown as Schema.Schema<PutSettingRequest>;
 
@@ -897,8 +935,10 @@ export interface PutSettingResponse {
 }
 
 export const PutSettingResponse = Schema.Struct({
-  defaultAsn: Schema.Number.pipe(T.JsonName("default_asn")),
-}) as unknown as Schema.Schema<PutSettingResponse>;
+  defaultAsn: Schema.Number,
+}).pipe(
+  Schema.encodeKeys({ defaultAsn: "default_asn" }),
+) as unknown as Schema.Schema<PutSettingResponse>;
 
 export const putSetting: (
   input: PutSettingRequest,

@@ -78,7 +78,7 @@ export interface GetConfigurationResponse {
 
 export const GetConfigurationResponse = Schema.Struct({
   id: Schema.String,
-  createdAt: Schema.String.pipe(T.JsonName("created_at")),
+  createdAt: Schema.String,
   credentials: Schema.Struct({
     keys: Schema.Array(
       Schema.Union([
@@ -116,11 +116,18 @@ export const GetConfigurationResponse = Schema.Struct({
     ),
   }),
   description: Schema.String,
-  lastUpdated: Schema.String.pipe(T.JsonName("last_updated")),
+  lastUpdated: Schema.String,
   title: Schema.String,
-  tokenSources: Schema.Array(Schema.String).pipe(T.JsonName("token_sources")),
-  tokenType: Schema.Literal("JWT").pipe(T.JsonName("token_type")),
-}) as unknown as Schema.Schema<GetConfigurationResponse>;
+  tokenSources: Schema.Array(Schema.String),
+  tokenType: Schema.Literal("JWT"),
+}).pipe(
+  Schema.encodeKeys({
+    createdAt: "created_at",
+    lastUpdated: "last_updated",
+    tokenSources: "token_sources",
+    tokenType: "token_type",
+  }),
+) as unknown as Schema.Schema<GetConfigurationResponse>;
 
 export const getConfiguration: (
   input: GetConfigurationRequest,
@@ -131,6 +138,121 @@ export const getConfiguration: (
 > = API.make(() => ({
   input: GetConfigurationRequest,
   output: GetConfigurationResponse,
+  errors: [],
+}));
+
+export interface ListConfigurationsRequest {
+  /** Path param: Identifier. */
+  zoneId: string;
+}
+
+export const ListConfigurationsRequest = Schema.Struct({
+  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+}).pipe(
+  T.Http({ method: "GET", path: "/zones/{zone_id}/token_validation/config" }),
+) as unknown as Schema.Schema<ListConfigurationsRequest>;
+
+export type ListConfigurationsResponse = {
+  id: string;
+  createdAt: string;
+  credentials: {
+    keys: (
+      | {
+          alg: "RS256" | "RS384" | "RS512" | "PS256" | "PS384" | "PS512";
+          e: string;
+          kid: string;
+          kty: "RSA";
+          n: string;
+        }
+      | {
+          alg: "ES256";
+          crv: "P-256";
+          kid: string;
+          kty: "EC";
+          x: string;
+          y: string;
+        }
+      | {
+          alg: "ES384";
+          crv: "P-384";
+          kid: string;
+          kty: "EC";
+          x: string;
+          y: string;
+        }
+    )[];
+  };
+  description: string;
+  lastUpdated: string;
+  title: string;
+  tokenSources: string[];
+  tokenType: "JWT";
+}[];
+
+export const ListConfigurationsResponse = Schema.Array(
+  Schema.Struct({
+    id: Schema.String,
+    createdAt: Schema.String,
+    credentials: Schema.Struct({
+      keys: Schema.Array(
+        Schema.Union([
+          Schema.Struct({
+            alg: Schema.Literals([
+              "RS256",
+              "RS384",
+              "RS512",
+              "PS256",
+              "PS384",
+              "PS512",
+            ]),
+            e: Schema.String,
+            kid: Schema.String,
+            kty: Schema.Literal("RSA"),
+            n: Schema.String,
+          }),
+          Schema.Struct({
+            alg: Schema.Literal("ES256"),
+            crv: Schema.Literal("P-256"),
+            kid: Schema.String,
+            kty: Schema.Literal("EC"),
+            x: Schema.String,
+            y: Schema.String,
+          }),
+          Schema.Struct({
+            alg: Schema.Literal("ES384"),
+            crv: Schema.Literal("P-384"),
+            kid: Schema.String,
+            kty: Schema.Literal("EC"),
+            x: Schema.String,
+            y: Schema.String,
+          }),
+        ]),
+      ),
+    }),
+    description: Schema.String,
+    lastUpdated: Schema.String,
+    title: Schema.String,
+    tokenSources: Schema.Array(Schema.String),
+    tokenType: Schema.Literal("JWT"),
+  }).pipe(
+    Schema.encodeKeys({
+      createdAt: "created_at",
+      lastUpdated: "last_updated",
+      tokenSources: "token_sources",
+      tokenType: "token_type",
+    }),
+  ),
+) as unknown as Schema.Schema<ListConfigurationsResponse>;
+
+export const listConfigurations: (
+  input: ListConfigurationsRequest,
+) => Effect.Effect<
+  ListConfigurationsResponse,
+  CommonErrors,
+  ApiToken | HttpClient.HttpClient
+> = API.make(() => ({
+  input: ListConfigurationsRequest,
+  output: ListConfigurationsResponse,
   errors: [],
 }));
 
@@ -215,9 +337,10 @@ export const CreateConfigurationRequest = Schema.Struct({
   }),
   description: Schema.String,
   title: Schema.String,
-  tokenSources: Schema.Array(Schema.String).pipe(T.JsonName("token_sources")),
-  tokenType: Schema.Literal("JWT").pipe(T.JsonName("token_type")),
+  tokenSources: Schema.Array(Schema.String),
+  tokenType: Schema.Literal("JWT"),
 }).pipe(
+  Schema.encodeKeys({ tokenSources: "token_sources", tokenType: "token_type" }),
   T.Http({ method: "POST", path: "/zones/{zone_id}/token_validation/config" }),
 ) as unknown as Schema.Schema<CreateConfigurationRequest>;
 
@@ -261,7 +384,7 @@ export interface CreateConfigurationResponse {
 
 export const CreateConfigurationResponse = Schema.Struct({
   id: Schema.String,
-  createdAt: Schema.String.pipe(T.JsonName("created_at")),
+  createdAt: Schema.String,
   credentials: Schema.Struct({
     keys: Schema.Array(
       Schema.Union([
@@ -299,11 +422,18 @@ export const CreateConfigurationResponse = Schema.Struct({
     ),
   }),
   description: Schema.String,
-  lastUpdated: Schema.String.pipe(T.JsonName("last_updated")),
+  lastUpdated: Schema.String,
   title: Schema.String,
-  tokenSources: Schema.Array(Schema.String).pipe(T.JsonName("token_sources")),
-  tokenType: Schema.Literal("JWT").pipe(T.JsonName("token_type")),
-}) as unknown as Schema.Schema<CreateConfigurationResponse>;
+  tokenSources: Schema.Array(Schema.String),
+  tokenType: Schema.Literal("JWT"),
+}).pipe(
+  Schema.encodeKeys({
+    createdAt: "created_at",
+    lastUpdated: "last_updated",
+    tokenSources: "token_sources",
+    tokenType: "token_type",
+  }),
+) as unknown as Schema.Schema<CreateConfigurationResponse>;
 
 export const createConfiguration: (
   input: CreateConfigurationRequest,
@@ -334,10 +464,9 @@ export const PatchConfigurationRequest = Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
   description: Schema.optional(Schema.String),
   title: Schema.optional(Schema.String),
-  tokenSources: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.JsonName("token_sources"),
-  ),
+  tokenSources: Schema.optional(Schema.Array(Schema.String)),
 }).pipe(
+  Schema.encodeKeys({ tokenSources: "token_sources" }),
   T.Http({
     method: "PATCH",
     path: "/zones/{zone_id}/token_validation/config/{configId}",
@@ -353,10 +482,10 @@ export interface PatchConfigurationResponse {
 export const PatchConfigurationResponse = Schema.Struct({
   description: Schema.optional(Schema.String),
   title: Schema.optional(Schema.String),
-  tokenSources: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.JsonName("token_sources"),
-  ),
-}) as unknown as Schema.Schema<PatchConfigurationResponse>;
+  tokenSources: Schema.optional(Schema.Array(Schema.String)),
+}).pipe(
+  Schema.encodeKeys({ tokenSources: "token_sources" }),
+) as unknown as Schema.Schema<PatchConfigurationResponse>;
 
 export const patchConfiguration: (
   input: PatchConfigurationRequest,
@@ -572,6 +701,149 @@ export const putConfigurationCredential: (
 }));
 
 // =============================================================================
+// EditRule
+// =============================================================================
+
+export interface BulkEditRulesRequest {
+  /** Path param: Identifier. */
+  zoneId: string;
+  /** Body param: */
+  body: {
+    id: string;
+    action?: "log" | "block";
+    description?: string;
+    enabled?: boolean;
+    expression?: string;
+    position?: { index: number } | { before?: string } | { after?: string };
+    selector?: {
+      exclude?: { operationIds?: string[] }[] | null;
+      include?: { host?: string[] }[] | null;
+    };
+    title?: string;
+  }[];
+}
+
+export const BulkEditRulesRequest = Schema.Struct({
+  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+  body: Schema.Array(
+    Schema.Struct({
+      id: Schema.String,
+      action: Schema.optional(Schema.Literals(["log", "block"])),
+      description: Schema.optional(Schema.String),
+      enabled: Schema.optional(Schema.Boolean),
+      expression: Schema.optional(Schema.String),
+      position: Schema.optional(
+        Schema.Union([
+          Schema.Struct({
+            index: Schema.Number,
+          }),
+          Schema.Struct({
+            before: Schema.optional(Schema.String),
+          }),
+          Schema.Struct({
+            after: Schema.optional(Schema.String),
+          }),
+        ]),
+      ),
+      selector: Schema.optional(
+        Schema.Struct({
+          exclude: Schema.optional(
+            Schema.Union([
+              Schema.Array(
+                Schema.Struct({
+                  operationIds: Schema.optional(Schema.Array(Schema.String)),
+                }).pipe(Schema.encodeKeys({ operationIds: "operation_ids" })),
+              ),
+              Schema.Null,
+            ]),
+          ),
+          include: Schema.optional(
+            Schema.Union([
+              Schema.Array(
+                Schema.Struct({
+                  host: Schema.optional(Schema.Array(Schema.String)),
+                }),
+              ),
+              Schema.Null,
+            ]),
+          ),
+        }),
+      ),
+      title: Schema.optional(Schema.String),
+    }),
+  ).pipe(T.HttpBody()),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/zones/{zone_id}/token_validation/rules/bulk",
+  }),
+) as unknown as Schema.Schema<BulkEditRulesRequest>;
+
+export type BulkEditRulesResponse = {
+  action: "log" | "block";
+  description: string;
+  enabled: boolean;
+  expression: string;
+  selector: {
+    exclude?: { operationIds?: string[] }[] | null;
+    include?: { host?: string[] }[] | null;
+  };
+  title: string;
+  id?: string;
+  createdAt?: string;
+  lastUpdated?: string;
+}[];
+
+export const BulkEditRulesResponse = Schema.Array(
+  Schema.Struct({
+    action: Schema.Literals(["log", "block"]),
+    description: Schema.String,
+    enabled: Schema.Boolean,
+    expression: Schema.String,
+    selector: Schema.Struct({
+      exclude: Schema.optional(
+        Schema.Union([
+          Schema.Array(
+            Schema.Struct({
+              operationIds: Schema.optional(Schema.Array(Schema.String)),
+            }).pipe(Schema.encodeKeys({ operationIds: "operation_ids" })),
+          ),
+          Schema.Null,
+        ]),
+      ),
+      include: Schema.optional(
+        Schema.Union([
+          Schema.Array(
+            Schema.Struct({
+              host: Schema.optional(Schema.Array(Schema.String)),
+            }),
+          ),
+          Schema.Null,
+        ]),
+      ),
+    }),
+    title: Schema.String,
+    id: Schema.optional(Schema.String),
+    createdAt: Schema.optional(Schema.String),
+    lastUpdated: Schema.optional(Schema.String),
+  }).pipe(
+    Schema.encodeKeys({ createdAt: "created_at", lastUpdated: "last_updated" }),
+  ),
+) as unknown as Schema.Schema<BulkEditRulesResponse>;
+
+export const bulkEditRules: (
+  input: BulkEditRulesRequest,
+) => Effect.Effect<
+  BulkEditRulesResponse,
+  CommonErrors,
+  ApiToken | HttpClient.HttpClient
+> = API.make(() => ({
+  input: BulkEditRulesRequest,
+  output: BulkEditRulesResponse,
+  errors: [],
+}));
+
+// =============================================================================
 // Rule
 // =============================================================================
 
@@ -623,10 +895,8 @@ export const GetRuleResponse = Schema.Struct({
       Schema.Union([
         Schema.Array(
           Schema.Struct({
-            operationIds: Schema.optional(Schema.Array(Schema.String)).pipe(
-              T.JsonName("operation_ids"),
-            ),
-          }),
+            operationIds: Schema.optional(Schema.Array(Schema.String)),
+          }).pipe(Schema.encodeKeys({ operationIds: "operation_ids" })),
         ),
         Schema.Null,
       ]),
@@ -644,9 +914,11 @@ export const GetRuleResponse = Schema.Struct({
   }),
   title: Schema.String,
   id: Schema.optional(Schema.String),
-  createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
-  lastUpdated: Schema.optional(Schema.String).pipe(T.JsonName("last_updated")),
-}) as unknown as Schema.Schema<GetRuleResponse>;
+  createdAt: Schema.optional(Schema.String),
+  lastUpdated: Schema.optional(Schema.String),
+}).pipe(
+  Schema.encodeKeys({ createdAt: "created_at", lastUpdated: "last_updated" }),
+) as unknown as Schema.Schema<GetRuleResponse>;
 
 export const getRule: (
   input: GetRuleRequest,
@@ -657,6 +929,106 @@ export const getRule: (
 > = API.make(() => ({
   input: GetRuleRequest,
   output: GetRuleResponse,
+  errors: [],
+}));
+
+export interface ListRulesRequest {
+  /** Path param: Identifier. */
+  zoneId: string;
+  /** Query param: Select rules with these IDs. */
+  id?: string;
+  /** Query param: Action to take on requests that match operations included in `selector` and fail `expression`. */
+  action?: "log" | "block";
+  /** Query param: Toggle rule on or off. */
+  enabled?: boolean;
+  /** Query param: Select rules with this host in `include`. */
+  host?: string;
+  /** Query param: Select rules with this host in `include`. */
+  hostname?: string;
+  /** Query param: Select rules with these IDs. */
+  ruleId?: string;
+  /** Query param: Select rules using any of these token configurations. */
+  tokenConfiguration?: string[];
+}
+
+export const ListRulesRequest = Schema.Struct({
+  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+  id: Schema.optional(Schema.String).pipe(T.HttpQuery("id")),
+  action: Schema.optional(Schema.Literals(["log", "block"])).pipe(
+    T.HttpQuery("action"),
+  ),
+  enabled: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("enabled")),
+  host: Schema.optional(Schema.String).pipe(T.HttpQuery("host")),
+  hostname: Schema.optional(Schema.String).pipe(T.HttpQuery("hostname")),
+  ruleId: Schema.optional(Schema.String).pipe(T.HttpQuery("rule_id")),
+  tokenConfiguration: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.HttpQuery("token_configuration"),
+  ),
+}).pipe(
+  T.Http({ method: "GET", path: "/zones/{zone_id}/token_validation/rules" }),
+) as unknown as Schema.Schema<ListRulesRequest>;
+
+export type ListRulesResponse = {
+  action: "log" | "block";
+  description: string;
+  enabled: boolean;
+  expression: string;
+  selector: {
+    exclude?: { operationIds?: string[] }[] | null;
+    include?: { host?: string[] }[] | null;
+  };
+  title: string;
+  id?: string;
+  createdAt?: string;
+  lastUpdated?: string;
+}[];
+
+export const ListRulesResponse = Schema.Array(
+  Schema.Struct({
+    action: Schema.Literals(["log", "block"]),
+    description: Schema.String,
+    enabled: Schema.Boolean,
+    expression: Schema.String,
+    selector: Schema.Struct({
+      exclude: Schema.optional(
+        Schema.Union([
+          Schema.Array(
+            Schema.Struct({
+              operationIds: Schema.optional(Schema.Array(Schema.String)),
+            }).pipe(Schema.encodeKeys({ operationIds: "operation_ids" })),
+          ),
+          Schema.Null,
+        ]),
+      ),
+      include: Schema.optional(
+        Schema.Union([
+          Schema.Array(
+            Schema.Struct({
+              host: Schema.optional(Schema.Array(Schema.String)),
+            }),
+          ),
+          Schema.Null,
+        ]),
+      ),
+    }),
+    title: Schema.String,
+    id: Schema.optional(Schema.String),
+    createdAt: Schema.optional(Schema.String),
+    lastUpdated: Schema.optional(Schema.String),
+  }).pipe(
+    Schema.encodeKeys({ createdAt: "created_at", lastUpdated: "last_updated" }),
+  ),
+) as unknown as Schema.Schema<ListRulesResponse>;
+
+export const listRules: (
+  input: ListRulesRequest,
+) => Effect.Effect<
+  ListRulesResponse,
+  CommonErrors,
+  ApiToken | HttpClient.HttpClient
+> = API.make(() => ({
+  input: ListRulesRequest,
+  output: ListRulesResponse,
   errors: [],
 }));
 
@@ -691,10 +1063,8 @@ export const CreateRuleRequest = Schema.Struct({
       Schema.Union([
         Schema.Array(
           Schema.Struct({
-            operationIds: Schema.optional(Schema.Array(Schema.String)).pipe(
-              T.JsonName("operation_ids"),
-            ),
-          }),
+            operationIds: Schema.optional(Schema.Array(Schema.String)),
+          }).pipe(Schema.encodeKeys({ operationIds: "operation_ids" })),
         ),
         Schema.Null,
       ]),
@@ -747,10 +1117,8 @@ export const CreateRuleResponse = Schema.Struct({
       Schema.Union([
         Schema.Array(
           Schema.Struct({
-            operationIds: Schema.optional(Schema.Array(Schema.String)).pipe(
-              T.JsonName("operation_ids"),
-            ),
-          }),
+            operationIds: Schema.optional(Schema.Array(Schema.String)),
+          }).pipe(Schema.encodeKeys({ operationIds: "operation_ids" })),
         ),
         Schema.Null,
       ]),
@@ -768,9 +1136,11 @@ export const CreateRuleResponse = Schema.Struct({
   }),
   title: Schema.String,
   id: Schema.optional(Schema.String),
-  createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
-  lastUpdated: Schema.optional(Schema.String).pipe(T.JsonName("last_updated")),
-}) as unknown as Schema.Schema<CreateRuleResponse>;
+  createdAt: Schema.optional(Schema.String),
+  lastUpdated: Schema.optional(Schema.String),
+}).pipe(
+  Schema.encodeKeys({ createdAt: "created_at", lastUpdated: "last_updated" }),
+) as unknown as Schema.Schema<CreateRuleResponse>;
 
 export const createRule: (
   input: CreateRuleRequest,
@@ -833,10 +1203,8 @@ export const PatchRuleRequest = Schema.Struct({
         Schema.Union([
           Schema.Array(
             Schema.Struct({
-              operationIds: Schema.optional(Schema.Array(Schema.String)).pipe(
-                T.JsonName("operation_ids"),
-              ),
-            }),
+              operationIds: Schema.optional(Schema.Array(Schema.String)),
+            }).pipe(Schema.encodeKeys({ operationIds: "operation_ids" })),
           ),
           Schema.Null,
         ]),
@@ -893,10 +1261,8 @@ export const PatchRuleResponse = Schema.Struct({
       Schema.Union([
         Schema.Array(
           Schema.Struct({
-            operationIds: Schema.optional(Schema.Array(Schema.String)).pipe(
-              T.JsonName("operation_ids"),
-            ),
-          }),
+            operationIds: Schema.optional(Schema.Array(Schema.String)),
+          }).pipe(Schema.encodeKeys({ operationIds: "operation_ids" })),
         ),
         Schema.Null,
       ]),
@@ -914,9 +1280,11 @@ export const PatchRuleResponse = Schema.Struct({
   }),
   title: Schema.String,
   id: Schema.optional(Schema.String),
-  createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
-  lastUpdated: Schema.optional(Schema.String).pipe(T.JsonName("last_updated")),
-}) as unknown as Schema.Schema<PatchRuleResponse>;
+  createdAt: Schema.optional(Schema.String),
+  lastUpdated: Schema.optional(Schema.String),
+}).pipe(
+  Schema.encodeKeys({ createdAt: "created_at", lastUpdated: "last_updated" }),
+) as unknown as Schema.Schema<PatchRuleResponse>;
 
 export const patchRule: (
   input: PatchRuleRequest,
@@ -960,5 +1328,126 @@ export const deleteRule: (
 > = API.make(() => ({
   input: DeleteRuleRequest,
   output: DeleteRuleResponse,
+  errors: [],
+}));
+
+export interface BulkCreateRulesRequest {
+  /** Path param: Identifier. */
+  zoneId: string;
+  /** Body param: */
+  body: {
+    action: "log" | "block";
+    description: string;
+    enabled: boolean;
+    expression: string;
+    selector: {
+      exclude?: { operationIds?: string[] }[] | null;
+      include?: { host?: string[] }[] | null;
+    };
+    title: string;
+  }[];
+}
+
+export const BulkCreateRulesRequest = Schema.Struct({
+  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+  body: Schema.Array(
+    Schema.Struct({
+      action: Schema.Literals(["log", "block"]),
+      description: Schema.String,
+      enabled: Schema.Boolean,
+      expression: Schema.String,
+      selector: Schema.Struct({
+        exclude: Schema.optional(
+          Schema.Union([
+            Schema.Array(
+              Schema.Struct({
+                operationIds: Schema.optional(Schema.Array(Schema.String)),
+              }).pipe(Schema.encodeKeys({ operationIds: "operation_ids" })),
+            ),
+            Schema.Null,
+          ]),
+        ),
+        include: Schema.optional(
+          Schema.Union([
+            Schema.Array(
+              Schema.Struct({
+                host: Schema.optional(Schema.Array(Schema.String)),
+              }),
+            ),
+            Schema.Null,
+          ]),
+        ),
+      }),
+      title: Schema.String,
+    }),
+  ).pipe(T.HttpBody()),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/zones/{zone_id}/token_validation/rules/bulk",
+  }),
+) as unknown as Schema.Schema<BulkCreateRulesRequest>;
+
+export type BulkCreateRulesResponse = {
+  action: "log" | "block";
+  description: string;
+  enabled: boolean;
+  expression: string;
+  selector: {
+    exclude?: { operationIds?: string[] }[] | null;
+    include?: { host?: string[] }[] | null;
+  };
+  title: string;
+  id?: string;
+  createdAt?: string;
+  lastUpdated?: string;
+}[];
+
+export const BulkCreateRulesResponse = Schema.Array(
+  Schema.Struct({
+    action: Schema.Literals(["log", "block"]),
+    description: Schema.String,
+    enabled: Schema.Boolean,
+    expression: Schema.String,
+    selector: Schema.Struct({
+      exclude: Schema.optional(
+        Schema.Union([
+          Schema.Array(
+            Schema.Struct({
+              operationIds: Schema.optional(Schema.Array(Schema.String)),
+            }).pipe(Schema.encodeKeys({ operationIds: "operation_ids" })),
+          ),
+          Schema.Null,
+        ]),
+      ),
+      include: Schema.optional(
+        Schema.Union([
+          Schema.Array(
+            Schema.Struct({
+              host: Schema.optional(Schema.Array(Schema.String)),
+            }),
+          ),
+          Schema.Null,
+        ]),
+      ),
+    }),
+    title: Schema.String,
+    id: Schema.optional(Schema.String),
+    createdAt: Schema.optional(Schema.String),
+    lastUpdated: Schema.optional(Schema.String),
+  }).pipe(
+    Schema.encodeKeys({ createdAt: "created_at", lastUpdated: "last_updated" }),
+  ),
+) as unknown as Schema.Schema<BulkCreateRulesResponse>;
+
+export const bulkCreateRules: (
+  input: BulkCreateRulesRequest,
+) => Effect.Effect<
+  BulkCreateRulesResponse,
+  CommonErrors,
+  ApiToken | HttpClient.HttpClient
+> = API.make(() => ({
+  input: BulkCreateRulesRequest,
+  output: BulkCreateRulesResponse,
   errors: [],
 }));

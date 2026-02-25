@@ -71,18 +71,21 @@ export interface GetCustomPageResponse {
 
 export const GetCustomPageResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
-  createdOn: Schema.optional(Schema.String).pipe(T.JsonName("created_on")),
+  createdOn: Schema.optional(Schema.String),
   description: Schema.optional(Schema.String),
-  modifiedOn: Schema.optional(Schema.String).pipe(T.JsonName("modified_on")),
-  previewTarget: Schema.optional(Schema.String).pipe(
-    T.JsonName("preview_target"),
-  ),
-  requiredTokens: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.JsonName("required_tokens"),
-  ),
+  modifiedOn: Schema.optional(Schema.String),
+  previewTarget: Schema.optional(Schema.String),
+  requiredTokens: Schema.optional(Schema.Array(Schema.String)),
   state: Schema.optional(Schema.Literals(["default", "customized"])),
   url: Schema.optional(Schema.String),
-}) as unknown as Schema.Schema<GetCustomPageResponse>;
+}).pipe(
+  Schema.encodeKeys({
+    createdOn: "created_on",
+    modifiedOn: "modified_on",
+    previewTarget: "preview_target",
+    requiredTokens: "required_tokens",
+  }),
+) as unknown as Schema.Schema<GetCustomPageResponse>;
 
 export const getCustomPage: (
   input: GetCustomPageRequest,
@@ -93,6 +96,58 @@ export const getCustomPage: (
 > = API.make(() => ({
   input: GetCustomPageRequest,
   output: GetCustomPageResponse,
+  errors: [],
+}));
+
+export interface ListCustomPagesRequest {}
+
+export const ListCustomPagesRequest = Schema.Struct({}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/{accountOrZone}/{accountOrZoneId}/custom_pages",
+  }),
+) as unknown as Schema.Schema<ListCustomPagesRequest>;
+
+export type ListCustomPagesResponse = {
+  id?: string;
+  createdOn?: string;
+  description?: string;
+  modifiedOn?: string;
+  previewTarget?: string;
+  requiredTokens?: string[];
+  state?: "default" | "customized";
+  url?: string;
+}[];
+
+export const ListCustomPagesResponse = Schema.Array(
+  Schema.Struct({
+    id: Schema.optional(Schema.String),
+    createdOn: Schema.optional(Schema.String),
+    description: Schema.optional(Schema.String),
+    modifiedOn: Schema.optional(Schema.String),
+    previewTarget: Schema.optional(Schema.String),
+    requiredTokens: Schema.optional(Schema.Array(Schema.String)),
+    state: Schema.optional(Schema.Literals(["default", "customized"])),
+    url: Schema.optional(Schema.String),
+  }).pipe(
+    Schema.encodeKeys({
+      createdOn: "created_on",
+      modifiedOn: "modified_on",
+      previewTarget: "preview_target",
+      requiredTokens: "required_tokens",
+    }),
+  ),
+) as unknown as Schema.Schema<ListCustomPagesResponse>;
+
+export const listCustomPages: (
+  input: ListCustomPagesRequest,
+) => Effect.Effect<
+  ListCustomPagesResponse,
+  CommonErrors,
+  ApiToken | HttpClient.HttpClient
+> = API.make(() => ({
+  input: ListCustomPagesRequest,
+  output: ListCustomPagesResponse,
   errors: [],
 }));
 
@@ -157,18 +212,21 @@ export interface PutCustomPageResponse {
 
 export const PutCustomPageResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
-  createdOn: Schema.optional(Schema.String).pipe(T.JsonName("created_on")),
+  createdOn: Schema.optional(Schema.String),
   description: Schema.optional(Schema.String),
-  modifiedOn: Schema.optional(Schema.String).pipe(T.JsonName("modified_on")),
-  previewTarget: Schema.optional(Schema.String).pipe(
-    T.JsonName("preview_target"),
-  ),
-  requiredTokens: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.JsonName("required_tokens"),
-  ),
+  modifiedOn: Schema.optional(Schema.String),
+  previewTarget: Schema.optional(Schema.String),
+  requiredTokens: Schema.optional(Schema.Array(Schema.String)),
   state: Schema.optional(Schema.Literals(["default", "customized"])),
   url: Schema.optional(Schema.String),
-}) as unknown as Schema.Schema<PutCustomPageResponse>;
+}).pipe(
+  Schema.encodeKeys({
+    createdOn: "created_on",
+    modifiedOn: "modified_on",
+    previewTarget: "preview_target",
+    requiredTokens: "required_tokens",
+  }),
+) as unknown as Schema.Schema<PutCustomPageResponse>;
 
 export const putCustomPage: (
   input: PutCustomPageRequest,

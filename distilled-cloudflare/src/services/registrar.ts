@@ -55,6 +55,151 @@ export const getDomain: (
   errors: [],
 }));
 
+export interface ListDomainsRequest {
+  /** Identifier */
+  accountId: string;
+}
+
+export const ListDomainsRequest = Schema.Struct({
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({ method: "GET", path: "/accounts/{account_id}/registrar/domains" }),
+) as unknown as Schema.Schema<ListDomainsRequest>;
+
+export type ListDomainsResponse = {
+  id?: string;
+  available?: boolean;
+  canRegister?: boolean;
+  createdAt?: string;
+  currentRegistrar?: string;
+  expiresAt?: string;
+  locked?: boolean;
+  registrantContact?: {
+    address: string;
+    city: string;
+    country: string | null;
+    firstName: string | null;
+    lastName: string | null;
+    organization: string;
+    phone: string | null;
+    state: string;
+    zip: string | null;
+    id?: string;
+    address2?: string;
+    email?: string;
+    fax?: string;
+  };
+  registryStatuses?: string;
+  supportedTld?: boolean;
+  transferIn?: {
+    acceptFoa?: "needed" | "ok";
+    approveTransfer?:
+      | "needed"
+      | "ok"
+      | "pending"
+      | "trying"
+      | "rejected"
+      | "unknown";
+    canCancelTransfer?: boolean;
+    disablePrivacy?: "needed" | "ok" | "unknown";
+    enterAuthCode?: "needed" | "ok" | "pending" | "trying" | "rejected";
+    unlockDomain?: "needed" | "ok" | "pending" | "trying" | "unknown";
+  };
+  updatedAt?: string;
+}[];
+
+export const ListDomainsResponse = Schema.Array(
+  Schema.Struct({
+    id: Schema.optional(Schema.String),
+    available: Schema.optional(Schema.Boolean),
+    canRegister: Schema.optional(Schema.Boolean),
+    createdAt: Schema.optional(Schema.String),
+    currentRegistrar: Schema.optional(Schema.String),
+    expiresAt: Schema.optional(Schema.String),
+    locked: Schema.optional(Schema.Boolean),
+    registrantContact: Schema.optional(
+      Schema.Struct({
+        address: Schema.String,
+        city: Schema.String,
+        country: Schema.Union([Schema.String, Schema.Null]),
+        firstName: Schema.Union([Schema.String, Schema.Null]),
+        lastName: Schema.Union([Schema.String, Schema.Null]),
+        organization: Schema.String,
+        phone: Schema.Union([Schema.String, Schema.Null]),
+        state: Schema.String,
+        zip: Schema.Union([Schema.String, Schema.Null]),
+        id: Schema.optional(Schema.String),
+        address2: Schema.optional(Schema.String),
+        email: Schema.optional(Schema.String),
+        fax: Schema.optional(Schema.String),
+      }).pipe(
+        Schema.encodeKeys({ firstName: "first_name", lastName: "last_name" }),
+      ),
+    ),
+    registryStatuses: Schema.optional(Schema.String),
+    supportedTld: Schema.optional(Schema.Boolean),
+    transferIn: Schema.optional(
+      Schema.Struct({
+        acceptFoa: Schema.optional(Schema.Literals(["needed", "ok"])),
+        approveTransfer: Schema.optional(
+          Schema.Literals([
+            "needed",
+            "ok",
+            "pending",
+            "trying",
+            "rejected",
+            "unknown",
+          ]),
+        ),
+        canCancelTransfer: Schema.optional(Schema.Boolean),
+        disablePrivacy: Schema.optional(
+          Schema.Literals(["needed", "ok", "unknown"]),
+        ),
+        enterAuthCode: Schema.optional(
+          Schema.Literals(["needed", "ok", "pending", "trying", "rejected"]),
+        ),
+        unlockDomain: Schema.optional(
+          Schema.Literals(["needed", "ok", "pending", "trying", "unknown"]),
+        ),
+      }).pipe(
+        Schema.encodeKeys({
+          acceptFoa: "accept_foa",
+          approveTransfer: "approve_transfer",
+          canCancelTransfer: "can_cancel_transfer",
+          disablePrivacy: "disable_privacy",
+          enterAuthCode: "enter_auth_code",
+          unlockDomain: "unlock_domain",
+        }),
+      ),
+    ),
+    updatedAt: Schema.optional(Schema.String),
+  }).pipe(
+    Schema.encodeKeys({
+      canRegister: "can_register",
+      createdAt: "created_at",
+      currentRegistrar: "current_registrar",
+      expiresAt: "expires_at",
+      registrantContact: "registrant_contact",
+      registryStatuses: "registry_statuses",
+      supportedTld: "supported_tld",
+      transferIn: "transfer_in",
+      updatedAt: "updated_at",
+    }),
+  ),
+) as unknown as Schema.Schema<ListDomainsResponse>;
+
+export const listDomains: (
+  input: ListDomainsRequest,
+) => Effect.Effect<
+  ListDomainsResponse,
+  CommonErrors,
+  ApiToken | HttpClient.HttpClient
+> = API.make(() => ({
+  input: ListDomainsRequest,
+  output: ListDomainsResponse,
+  errors: [],
+}));
+
 export interface PutDomainRequest {
   domainName: string;
   /** Path param: Identifier */
@@ -70,10 +215,11 @@ export interface PutDomainRequest {
 export const PutDomainRequest = Schema.Struct({
   domainName: Schema.String.pipe(T.HttpPath("domainName")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  autoRenew: Schema.optional(Schema.Boolean).pipe(T.JsonName("auto_renew")),
+  autoRenew: Schema.optional(Schema.Boolean),
   locked: Schema.optional(Schema.Boolean),
   privacy: Schema.optional(Schema.Boolean),
 }).pipe(
+  Schema.encodeKeys({ autoRenew: "auto_renew" }),
   T.Http({
     method: "PUT",
     path: "/accounts/{account_id}/registrar/domains/{domainName}",

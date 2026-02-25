@@ -196,7 +196,7 @@ export const GetAnalyticEventBytimeResponse = Schema.Struct({
       ),
     }),
   ),
-  dataLag: Schema.Number.pipe(T.JsonName("data_lag")),
+  dataLag: Schema.Number,
   max: Schema.Struct({}),
   min: Schema.Struct({}),
   query: Schema.Struct({
@@ -226,10 +226,10 @@ export const GetAnalyticEventBytimeResponse = Schema.Struct({
   }),
   rows: Schema.Number,
   totals: Schema.Struct({}),
-  timeIntervals: Schema.optional(
-    Schema.Array(Schema.Array(Schema.String)),
-  ).pipe(T.JsonName("time_intervals")),
-}) as unknown as Schema.Schema<GetAnalyticEventBytimeResponse>;
+  timeIntervals: Schema.optional(Schema.Array(Schema.Array(Schema.String))),
+}).pipe(
+  Schema.encodeKeys({ dataLag: "data_lag", timeIntervals: "time_intervals" }),
+) as unknown as Schema.Schema<GetAnalyticEventBytimeResponse>;
 
 export const getAnalyticEventBytime: (
   input: GetAnalyticEventBytimeRequest,
@@ -347,7 +347,7 @@ export const GetAnalyticEventSummaryResponse = Schema.Struct({
       ),
     }),
   ),
-  dataLag: Schema.Number.pipe(T.JsonName("data_lag")),
+  dataLag: Schema.Number,
   max: Schema.Struct({}),
   min: Schema.Struct({}),
   query: Schema.Struct({
@@ -377,10 +377,10 @@ export const GetAnalyticEventSummaryResponse = Schema.Struct({
   }),
   rows: Schema.Number,
   totals: Schema.Struct({}),
-  timeIntervals: Schema.optional(
-    Schema.Array(Schema.Array(Schema.String)),
-  ).pipe(T.JsonName("time_intervals")),
-}) as unknown as Schema.Schema<GetAnalyticEventSummaryResponse>;
+  timeIntervals: Schema.optional(Schema.Array(Schema.Array(Schema.String))),
+}).pipe(
+  Schema.encodeKeys({ dataLag: "data_lag", timeIntervals: "time_intervals" }),
+) as unknown as Schema.Schema<GetAnalyticEventSummaryResponse>;
 
 export const getAnalyticEventSummary: (
   input: GetAnalyticEventSummaryRequest,
@@ -440,42 +440,51 @@ export type GetAppResponse =
 export const GetAppResponse = Schema.Union([
   Schema.Struct({
     id: Schema.String,
-    createdOn: Schema.String.pipe(T.JsonName("created_on")),
+    createdOn: Schema.String,
     dns: Schema.Unknown,
-    modifiedOn: Schema.String.pipe(T.JsonName("modified_on")),
+    modifiedOn: Schema.String,
     protocol: Schema.String,
-    trafficType: Schema.Literals(["direct", "http", "https"]).pipe(
-      T.JsonName("traffic_type"),
-    ),
-    argoSmartRouting: Schema.optional(Schema.Boolean).pipe(
-      T.JsonName("argo_smart_routing"),
-    ),
-    edgeIps: Schema.optional(Schema.Unknown).pipe(T.JsonName("edge_ips")),
-    ipFirewall: Schema.optional(Schema.Boolean).pipe(T.JsonName("ip_firewall")),
-    originDirect: Schema.optional(Schema.Array(Schema.String)).pipe(
-      T.JsonName("origin_direct"),
-    ),
-    originDns: Schema.optional(Schema.Unknown).pipe(T.JsonName("origin_dns")),
-    originPort: Schema.optional(
-      Schema.Union([Schema.String, Schema.Number]),
-    ).pipe(T.JsonName("origin_port")),
+    trafficType: Schema.Literals(["direct", "http", "https"]),
+    argoSmartRouting: Schema.optional(Schema.Boolean),
+    edgeIps: Schema.optional(Schema.Unknown),
+    ipFirewall: Schema.optional(Schema.Boolean),
+    originDirect: Schema.optional(Schema.Array(Schema.String)),
+    originDns: Schema.optional(Schema.Unknown),
+    originPort: Schema.optional(Schema.Union([Schema.String, Schema.Number])),
     proxyProtocol: Schema.optional(
       Schema.Literals(["off", "v1", "v2", "simple"]),
-    ).pipe(T.JsonName("proxy_protocol")),
+    ),
     tls: Schema.optional(
       Schema.Literals(["off", "flexible", "full", "strict"]),
     ),
-  }),
+  }).pipe(
+    Schema.encodeKeys({
+      createdOn: "created_on",
+      modifiedOn: "modified_on",
+      trafficType: "traffic_type",
+      argoSmartRouting: "argo_smart_routing",
+      edgeIps: "edge_ips",
+      ipFirewall: "ip_firewall",
+      originDirect: "origin_direct",
+      originDns: "origin_dns",
+      originPort: "origin_port",
+      proxyProtocol: "proxy_protocol",
+    }),
+  ),
   Schema.Struct({
     id: Schema.String,
-    createdOn: Schema.String.pipe(T.JsonName("created_on")),
+    createdOn: Schema.String,
     dns: Schema.Unknown,
-    modifiedOn: Schema.String.pipe(T.JsonName("modified_on")),
+    modifiedOn: Schema.String,
     protocol: Schema.String,
-    originDirect: Schema.optional(Schema.Array(Schema.String)).pipe(
-      T.JsonName("origin_direct"),
-    ),
-  }),
+    originDirect: Schema.optional(Schema.Array(Schema.String)),
+  }).pipe(
+    Schema.encodeKeys({
+      createdOn: "created_on",
+      modifiedOn: "modified_on",
+      originDirect: "origin_direct",
+    }),
+  ),
 ]) as unknown as Schema.Schema<GetAppResponse>;
 
 export const getApp: (
@@ -490,9 +499,171 @@ export const getApp: (
   errors: [],
 }));
 
-export interface CreateAppRequest {}
+export interface ListAppsRequest {
+  /** Path param: Zone identifier. */
+  zoneId: string;
+  /** Query param: Sets the direction by which results are ordered. */
+  direction?: "asc" | "desc";
+  /** Query param: Application field by which results are ordered. */
+  order?: "protocol" | "app_id" | "created_on" | "modified_on" | "dns";
+}
 
-export const CreateAppRequest = Schema.Struct({}).pipe(
+export const ListAppsRequest = Schema.Struct({
+  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+  direction: Schema.optional(Schema.Literals(["asc", "desc"])).pipe(
+    T.HttpQuery("direction"),
+  ),
+  order: Schema.optional(
+    Schema.Literals(["protocol", "app_id", "created_on", "modified_on", "dns"]),
+  ).pipe(T.HttpQuery("order")),
+}).pipe(
+  T.Http({ method: "GET", path: "/zones/{zone_id}/spectrum/apps" }),
+) as unknown as Schema.Schema<ListAppsRequest>;
+
+export type ListAppsResponse = (
+  | {
+      id: string;
+      createdOn: string;
+      dns: unknown;
+      modifiedOn: string;
+      protocol: string;
+      trafficType: "direct" | "http" | "https";
+      argoSmartRouting?: boolean;
+      edgeIps?: unknown;
+      ipFirewall?: boolean;
+      originDirect?: string[];
+      originDns?: unknown;
+      originPort?: string | number;
+      proxyProtocol?: "off" | "v1" | "v2" | "simple";
+      tls?: "off" | "flexible" | "full" | "strict";
+    }
+  | {
+      id: string;
+      createdOn: string;
+      dns: unknown;
+      modifiedOn: string;
+      protocol: string;
+      originDirect?: string[];
+    }
+)[];
+
+export const ListAppsResponse = Schema.Array(
+  Schema.Union([
+    Schema.Struct({
+      id: Schema.String,
+      createdOn: Schema.String,
+      dns: Schema.Unknown,
+      modifiedOn: Schema.String,
+      protocol: Schema.String,
+      trafficType: Schema.Literals(["direct", "http", "https"]),
+      argoSmartRouting: Schema.optional(Schema.Boolean),
+      edgeIps: Schema.optional(Schema.Unknown),
+      ipFirewall: Schema.optional(Schema.Boolean),
+      originDirect: Schema.optional(Schema.Array(Schema.String)),
+      originDns: Schema.optional(Schema.Unknown),
+      originPort: Schema.optional(Schema.Union([Schema.String, Schema.Number])),
+      proxyProtocol: Schema.optional(
+        Schema.Literals(["off", "v1", "v2", "simple"]),
+      ),
+      tls: Schema.optional(
+        Schema.Literals(["off", "flexible", "full", "strict"]),
+      ),
+    }).pipe(
+      Schema.encodeKeys({
+        createdOn: "created_on",
+        modifiedOn: "modified_on",
+        trafficType: "traffic_type",
+        argoSmartRouting: "argo_smart_routing",
+        edgeIps: "edge_ips",
+        ipFirewall: "ip_firewall",
+        originDirect: "origin_direct",
+        originDns: "origin_dns",
+        originPort: "origin_port",
+        proxyProtocol: "proxy_protocol",
+      }),
+    ),
+    Schema.Struct({
+      id: Schema.String,
+      createdOn: Schema.String,
+      dns: Schema.Unknown,
+      modifiedOn: Schema.String,
+      protocol: Schema.String,
+      originDirect: Schema.optional(Schema.Array(Schema.String)),
+    }).pipe(
+      Schema.encodeKeys({
+        createdOn: "created_on",
+        modifiedOn: "modified_on",
+        originDirect: "origin_direct",
+      }),
+    ),
+  ]),
+) as unknown as Schema.Schema<ListAppsResponse>;
+
+export const listApps: (
+  input: ListAppsRequest,
+) => Effect.Effect<
+  ListAppsResponse,
+  CommonErrors,
+  ApiToken | HttpClient.HttpClient
+> = API.make(() => ({
+  input: ListAppsRequest,
+  output: ListAppsResponse,
+  errors: [],
+}));
+
+export interface CreateAppRequest {
+  /** Path param: Zone identifier. */
+  zoneId: string;
+  /** Body param: The name and type of DNS record for the Spectrum application. */
+  dns: unknown;
+  /** Body param: The port configuration at Cloudflare's edge. May specify a single port, for example `"tcp/1000"`, or a range of ports, for example `"tcp/1000-2000"`. */
+  protocol: string;
+  /** Body param: Determines how data travels from the edge to your origin. When set to "direct", Spectrum will send traffic directly to your origin, and the application's type is derived from the `protocol */
+  trafficType: "direct" | "http" | "https";
+  /** Body param: Enables Argo Smart Routing for this application. Notes: Only available for TCP applications with traffic_type set to "direct". */
+  argoSmartRouting?: boolean;
+  /** Body param: The anycast edge IP configuration for the hostname of this application. */
+  edgeIps?: unknown;
+  /** Body param: Enables IP Access Rules for this application. Notes: Only available for TCP applications. */
+  ipFirewall?: boolean;
+  /** Body param: List of origin IP addresses. Array may contain multiple IP addresses for load balancing. */
+  originDirect?: string[];
+  /** Body param: The name and type of DNS record for the Spectrum application. */
+  originDns?: unknown;
+  /** Body param: The destination port at the origin. Only specified in conjunction with origin_dns. May use an integer to specify a single origin port, for example `1000`, or a string to specify a range of */
+  originPort?: string | number;
+  /** Body param: Enables Proxy Protocol to the origin. Refer to [Enable Proxy protocol](https://developers.cloudflare.com/spectrum/getting-started/proxy-protocol/) for implementation details on PROXY Proto */
+  proxyProtocol?: "off" | "v1" | "v2" | "simple";
+  /** Body param: The type of TLS termination associated with the application. */
+  tls?: "off" | "flexible" | "full" | "strict";
+}
+
+export const CreateAppRequest = Schema.Struct({
+  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+  dns: Schema.Unknown,
+  protocol: Schema.String,
+  trafficType: Schema.Literals(["direct", "http", "https"]),
+  argoSmartRouting: Schema.optional(Schema.Boolean),
+  edgeIps: Schema.optional(Schema.Unknown),
+  ipFirewall: Schema.optional(Schema.Boolean),
+  originDirect: Schema.optional(Schema.Array(Schema.String)),
+  originDns: Schema.optional(Schema.Unknown),
+  originPort: Schema.optional(Schema.Union([Schema.String, Schema.Number])),
+  proxyProtocol: Schema.optional(
+    Schema.Literals(["off", "v1", "v2", "simple"]),
+  ),
+  tls: Schema.optional(Schema.Literals(["off", "flexible", "full", "strict"])),
+}).pipe(
+  Schema.encodeKeys({
+    trafficType: "traffic_type",
+    argoSmartRouting: "argo_smart_routing",
+    edgeIps: "edge_ips",
+    ipFirewall: "ip_firewall",
+    originDirect: "origin_direct",
+    originDns: "origin_dns",
+    originPort: "origin_port",
+    proxyProtocol: "proxy_protocol",
+  }),
   T.Http({ method: "POST", path: "/zones/{zone_id}/spectrum/apps" }),
 ) as unknown as Schema.Schema<CreateAppRequest>;
 
@@ -525,42 +696,51 @@ export type CreateAppResponse =
 export const CreateAppResponse = Schema.Union([
   Schema.Struct({
     id: Schema.String,
-    createdOn: Schema.String.pipe(T.JsonName("created_on")),
+    createdOn: Schema.String,
     dns: Schema.Unknown,
-    modifiedOn: Schema.String.pipe(T.JsonName("modified_on")),
+    modifiedOn: Schema.String,
     protocol: Schema.String,
-    trafficType: Schema.Literals(["direct", "http", "https"]).pipe(
-      T.JsonName("traffic_type"),
-    ),
-    argoSmartRouting: Schema.optional(Schema.Boolean).pipe(
-      T.JsonName("argo_smart_routing"),
-    ),
-    edgeIps: Schema.optional(Schema.Unknown).pipe(T.JsonName("edge_ips")),
-    ipFirewall: Schema.optional(Schema.Boolean).pipe(T.JsonName("ip_firewall")),
-    originDirect: Schema.optional(Schema.Array(Schema.String)).pipe(
-      T.JsonName("origin_direct"),
-    ),
-    originDns: Schema.optional(Schema.Unknown).pipe(T.JsonName("origin_dns")),
-    originPort: Schema.optional(
-      Schema.Union([Schema.String, Schema.Number]),
-    ).pipe(T.JsonName("origin_port")),
+    trafficType: Schema.Literals(["direct", "http", "https"]),
+    argoSmartRouting: Schema.optional(Schema.Boolean),
+    edgeIps: Schema.optional(Schema.Unknown),
+    ipFirewall: Schema.optional(Schema.Boolean),
+    originDirect: Schema.optional(Schema.Array(Schema.String)),
+    originDns: Schema.optional(Schema.Unknown),
+    originPort: Schema.optional(Schema.Union([Schema.String, Schema.Number])),
     proxyProtocol: Schema.optional(
       Schema.Literals(["off", "v1", "v2", "simple"]),
-    ).pipe(T.JsonName("proxy_protocol")),
+    ),
     tls: Schema.optional(
       Schema.Literals(["off", "flexible", "full", "strict"]),
     ),
-  }),
+  }).pipe(
+    Schema.encodeKeys({
+      createdOn: "created_on",
+      modifiedOn: "modified_on",
+      trafficType: "traffic_type",
+      argoSmartRouting: "argo_smart_routing",
+      edgeIps: "edge_ips",
+      ipFirewall: "ip_firewall",
+      originDirect: "origin_direct",
+      originDns: "origin_dns",
+      originPort: "origin_port",
+      proxyProtocol: "proxy_protocol",
+    }),
+  ),
   Schema.Struct({
     id: Schema.String,
-    createdOn: Schema.String.pipe(T.JsonName("created_on")),
+    createdOn: Schema.String,
     dns: Schema.Unknown,
-    modifiedOn: Schema.String.pipe(T.JsonName("modified_on")),
+    modifiedOn: Schema.String,
     protocol: Schema.String,
-    originDirect: Schema.optional(Schema.Array(Schema.String)).pipe(
-      T.JsonName("origin_direct"),
-    ),
-  }),
+    originDirect: Schema.optional(Schema.Array(Schema.String)),
+  }).pipe(
+    Schema.encodeKeys({
+      createdOn: "created_on",
+      modifiedOn: "modified_on",
+      originDirect: "origin_direct",
+    }),
+  ),
 ]) as unknown as Schema.Schema<CreateAppResponse>;
 
 export const createApp: (
@@ -577,11 +757,59 @@ export const createApp: (
 
 export interface UpdateAppRequest {
   appId: string;
+  /** Path param: Zone identifier. */
+  zoneId: string;
+  /** Body param: The name and type of DNS record for the Spectrum application. */
+  dns: unknown;
+  /** Body param: The port configuration at Cloudflare's edge. May specify a single port, for example `"tcp/1000"`, or a range of ports, for example `"tcp/1000-2000"`. */
+  protocol: string;
+  /** Body param: Determines how data travels from the edge to your origin. When set to "direct", Spectrum will send traffic directly to your origin, and the application's type is derived from the `protocol */
+  trafficType: "direct" | "http" | "https";
+  /** Body param: Enables Argo Smart Routing for this application. Notes: Only available for TCP applications with traffic_type set to "direct". */
+  argoSmartRouting?: boolean;
+  /** Body param: The anycast edge IP configuration for the hostname of this application. */
+  edgeIps?: unknown;
+  /** Body param: Enables IP Access Rules for this application. Notes: Only available for TCP applications. */
+  ipFirewall?: boolean;
+  /** Body param: List of origin IP addresses. Array may contain multiple IP addresses for load balancing. */
+  originDirect?: string[];
+  /** Body param: The name and type of DNS record for the Spectrum application. */
+  originDns?: unknown;
+  /** Body param: The destination port at the origin. Only specified in conjunction with origin_dns. May use an integer to specify a single origin port, for example `1000`, or a string to specify a range of */
+  originPort?: string | number;
+  /** Body param: Enables Proxy Protocol to the origin. Refer to [Enable Proxy protocol](https://developers.cloudflare.com/spectrum/getting-started/proxy-protocol/) for implementation details on PROXY Proto */
+  proxyProtocol?: "off" | "v1" | "v2" | "simple";
+  /** Body param: The type of TLS termination associated with the application. */
+  tls?: "off" | "flexible" | "full" | "strict";
 }
 
 export const UpdateAppRequest = Schema.Struct({
   appId: Schema.String.pipe(T.HttpPath("appId")),
+  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+  dns: Schema.Unknown,
+  protocol: Schema.String,
+  trafficType: Schema.Literals(["direct", "http", "https"]),
+  argoSmartRouting: Schema.optional(Schema.Boolean),
+  edgeIps: Schema.optional(Schema.Unknown),
+  ipFirewall: Schema.optional(Schema.Boolean),
+  originDirect: Schema.optional(Schema.Array(Schema.String)),
+  originDns: Schema.optional(Schema.Unknown),
+  originPort: Schema.optional(Schema.Union([Schema.String, Schema.Number])),
+  proxyProtocol: Schema.optional(
+    Schema.Literals(["off", "v1", "v2", "simple"]),
+  ),
+  tls: Schema.optional(Schema.Literals(["off", "flexible", "full", "strict"])),
 }).pipe(
+  Schema.encodeKeys({
+    trafficType: "traffic_type",
+    argoSmartRouting: "argo_smart_routing",
+    edgeIps: "edge_ips",
+    ipFirewall: "ip_firewall",
+    originDirect: "origin_direct",
+    originDns: "origin_dns",
+    originPort: "origin_port",
+    proxyProtocol: "proxy_protocol",
+  }),
   T.Http({ method: "PUT", path: "/zones/{zone_id}/spectrum/apps/{appId}" }),
 ) as unknown as Schema.Schema<UpdateAppRequest>;
 
@@ -614,42 +842,51 @@ export type UpdateAppResponse =
 export const UpdateAppResponse = Schema.Union([
   Schema.Struct({
     id: Schema.String,
-    createdOn: Schema.String.pipe(T.JsonName("created_on")),
+    createdOn: Schema.String,
     dns: Schema.Unknown,
-    modifiedOn: Schema.String.pipe(T.JsonName("modified_on")),
+    modifiedOn: Schema.String,
     protocol: Schema.String,
-    trafficType: Schema.Literals(["direct", "http", "https"]).pipe(
-      T.JsonName("traffic_type"),
-    ),
-    argoSmartRouting: Schema.optional(Schema.Boolean).pipe(
-      T.JsonName("argo_smart_routing"),
-    ),
-    edgeIps: Schema.optional(Schema.Unknown).pipe(T.JsonName("edge_ips")),
-    ipFirewall: Schema.optional(Schema.Boolean).pipe(T.JsonName("ip_firewall")),
-    originDirect: Schema.optional(Schema.Array(Schema.String)).pipe(
-      T.JsonName("origin_direct"),
-    ),
-    originDns: Schema.optional(Schema.Unknown).pipe(T.JsonName("origin_dns")),
-    originPort: Schema.optional(
-      Schema.Union([Schema.String, Schema.Number]),
-    ).pipe(T.JsonName("origin_port")),
+    trafficType: Schema.Literals(["direct", "http", "https"]),
+    argoSmartRouting: Schema.optional(Schema.Boolean),
+    edgeIps: Schema.optional(Schema.Unknown),
+    ipFirewall: Schema.optional(Schema.Boolean),
+    originDirect: Schema.optional(Schema.Array(Schema.String)),
+    originDns: Schema.optional(Schema.Unknown),
+    originPort: Schema.optional(Schema.Union([Schema.String, Schema.Number])),
     proxyProtocol: Schema.optional(
       Schema.Literals(["off", "v1", "v2", "simple"]),
-    ).pipe(T.JsonName("proxy_protocol")),
+    ),
     tls: Schema.optional(
       Schema.Literals(["off", "flexible", "full", "strict"]),
     ),
-  }),
+  }).pipe(
+    Schema.encodeKeys({
+      createdOn: "created_on",
+      modifiedOn: "modified_on",
+      trafficType: "traffic_type",
+      argoSmartRouting: "argo_smart_routing",
+      edgeIps: "edge_ips",
+      ipFirewall: "ip_firewall",
+      originDirect: "origin_direct",
+      originDns: "origin_dns",
+      originPort: "origin_port",
+      proxyProtocol: "proxy_protocol",
+    }),
+  ),
   Schema.Struct({
     id: Schema.String,
-    createdOn: Schema.String.pipe(T.JsonName("created_on")),
+    createdOn: Schema.String,
     dns: Schema.Unknown,
-    modifiedOn: Schema.String.pipe(T.JsonName("modified_on")),
+    modifiedOn: Schema.String,
     protocol: Schema.String,
-    originDirect: Schema.optional(Schema.Array(Schema.String)).pipe(
-      T.JsonName("origin_direct"),
-    ),
-  }),
+    originDirect: Schema.optional(Schema.Array(Schema.String)),
+  }).pipe(
+    Schema.encodeKeys({
+      createdOn: "created_on",
+      modifiedOn: "modified_on",
+      originDirect: "origin_direct",
+    }),
+  ),
 ]) as unknown as Schema.Schema<UpdateAppResponse>;
 
 export const updateApp: (

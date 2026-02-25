@@ -140,11 +140,13 @@ export const GetIndexResponse = Schema.Struct({
       metric: Schema.Literals(["cosine", "euclidean", "dot-product"]),
     }),
   ),
-  createdOn: Schema.optional(Schema.String).pipe(T.JsonName("created_on")),
+  createdOn: Schema.optional(Schema.String),
   description: Schema.optional(Schema.String),
-  modifiedOn: Schema.optional(Schema.String).pipe(T.JsonName("modified_on")),
+  modifiedOn: Schema.optional(Schema.String),
   name: Schema.optional(Schema.String),
-}) as unknown as Schema.Schema<GetIndexResponse>;
+}).pipe(
+  Schema.encodeKeys({ createdOn: "created_on", modifiedOn: "modified_on" }),
+) as unknown as Schema.Schema<GetIndexResponse>;
 
 export const getIndex: (
   input: GetIndexRequest,
@@ -155,6 +157,60 @@ export const getIndex: (
 > = API.make(() => ({
   input: GetIndexRequest,
   output: GetIndexResponse,
+  errors: [],
+}));
+
+export interface ListIndexesRequest {
+  /** Identifier */
+  accountId: string;
+}
+
+export const ListIndexesRequest = Schema.Struct({
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/vectorize/v2/indexes",
+  }),
+) as unknown as Schema.Schema<ListIndexesRequest>;
+
+export type ListIndexesResponse = {
+  config?: {
+    dimensions: number;
+    metric: "cosine" | "euclidean" | "dot-product";
+  };
+  createdOn?: string;
+  description?: string;
+  modifiedOn?: string;
+  name?: string;
+}[];
+
+export const ListIndexesResponse = Schema.Array(
+  Schema.Struct({
+    config: Schema.optional(
+      Schema.Struct({
+        dimensions: Schema.Number,
+        metric: Schema.Literals(["cosine", "euclidean", "dot-product"]),
+      }),
+    ),
+    createdOn: Schema.optional(Schema.String),
+    description: Schema.optional(Schema.String),
+    modifiedOn: Schema.optional(Schema.String),
+    name: Schema.optional(Schema.String),
+  }).pipe(
+    Schema.encodeKeys({ createdOn: "created_on", modifiedOn: "modified_on" }),
+  ),
+) as unknown as Schema.Schema<ListIndexesResponse>;
+
+export const listIndexes: (
+  input: ListIndexesRequest,
+) => Effect.Effect<
+  ListIndexesResponse,
+  CommonErrors,
+  ApiToken | HttpClient.HttpClient
+> = API.make(() => ({
+  input: ListIndexesRequest,
+  output: ListIndexesResponse,
   errors: [],
 }));
 
@@ -225,11 +281,13 @@ export const CreateIndexResponse = Schema.Struct({
       metric: Schema.Literals(["cosine", "euclidean", "dot-product"]),
     }),
   ),
-  createdOn: Schema.optional(Schema.String).pipe(T.JsonName("created_on")),
+  createdOn: Schema.optional(Schema.String),
   description: Schema.optional(Schema.String),
-  modifiedOn: Schema.optional(Schema.String).pipe(T.JsonName("modified_on")),
+  modifiedOn: Schema.optional(Schema.String),
   name: Schema.optional(Schema.String),
-}) as unknown as Schema.Schema<CreateIndexResponse>;
+}).pipe(
+  Schema.encodeKeys({ createdOn: "created_on", modifiedOn: "modified_on" }),
+) as unknown as Schema.Schema<CreateIndexResponse>;
 
 export const createIndex: (
   input: CreateIndexRequest,

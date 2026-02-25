@@ -19,6 +19,47 @@ import {
 } from "../errors.ts";
 
 // =============================================================================
+// Association
+// =============================================================================
+
+export interface GetAssociationRequest {
+  mtlsCertificateId: string;
+  /** Identifier. */
+  accountId: string;
+}
+
+export const GetAssociationRequest = Schema.Struct({
+  mtlsCertificateId: Schema.String.pipe(T.HttpPath("mtlsCertificateId")),
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/mtls_certificates/{mtlsCertificateId}/associations",
+  }),
+) as unknown as Schema.Schema<GetAssociationRequest>;
+
+export type GetAssociationResponse = { service?: string; status?: string }[];
+
+export const GetAssociationResponse = Schema.Array(
+  Schema.Struct({
+    service: Schema.optional(Schema.String),
+    status: Schema.optional(Schema.String),
+  }),
+) as unknown as Schema.Schema<GetAssociationResponse>;
+
+export const getAssociation: (
+  input: GetAssociationRequest,
+) => Effect.Effect<
+  GetAssociationResponse,
+  CommonErrors,
+  ApiToken | HttpClient.HttpClient
+> = API.make(() => ({
+  input: GetAssociationRequest,
+  output: GetAssociationResponse,
+  errors: [],
+}));
+
+// =============================================================================
 // MtlsCertificate
 // =============================================================================
 
@@ -63,15 +104,19 @@ export const GetMtlsCertificateResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
   ca: Schema.optional(Schema.Boolean),
   certificates: Schema.optional(Schema.String),
-  expiresOn: Schema.optional(Schema.String).pipe(T.JsonName("expires_on")),
+  expiresOn: Schema.optional(Schema.String),
   issuer: Schema.optional(Schema.String),
   name: Schema.optional(Schema.String),
-  serialNumber: Schema.optional(Schema.String).pipe(
-    T.JsonName("serial_number"),
-  ),
+  serialNumber: Schema.optional(Schema.String),
   signature: Schema.optional(Schema.String),
-  uploadedOn: Schema.optional(Schema.String).pipe(T.JsonName("uploaded_on")),
-}) as unknown as Schema.Schema<GetMtlsCertificateResponse>;
+  uploadedOn: Schema.optional(Schema.String),
+}).pipe(
+  Schema.encodeKeys({
+    expiresOn: "expires_on",
+    serialNumber: "serial_number",
+    uploadedOn: "uploaded_on",
+  }),
+) as unknown as Schema.Schema<GetMtlsCertificateResponse>;
 
 export const getMtlsCertificate: (
   input: GetMtlsCertificateRequest,
@@ -82,6 +127,61 @@ export const getMtlsCertificate: (
 > = API.make(() => ({
   input: GetMtlsCertificateRequest,
   output: GetMtlsCertificateResponse,
+  errors: [],
+}));
+
+export interface ListMtlsCertificatesRequest {
+  /** Identifier. */
+  accountId: string;
+}
+
+export const ListMtlsCertificatesRequest = Schema.Struct({
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({ method: "GET", path: "/accounts/{account_id}/mtls_certificates" }),
+) as unknown as Schema.Schema<ListMtlsCertificatesRequest>;
+
+export type ListMtlsCertificatesResponse = {
+  id?: string;
+  ca?: boolean;
+  certificates?: string;
+  expiresOn?: string;
+  issuer?: string;
+  name?: string;
+  serialNumber?: string;
+  signature?: string;
+  uploadedOn?: string;
+}[];
+
+export const ListMtlsCertificatesResponse = Schema.Array(
+  Schema.Struct({
+    id: Schema.optional(Schema.String),
+    ca: Schema.optional(Schema.Boolean),
+    certificates: Schema.optional(Schema.String),
+    expiresOn: Schema.optional(Schema.String),
+    issuer: Schema.optional(Schema.String),
+    name: Schema.optional(Schema.String),
+    serialNumber: Schema.optional(Schema.String),
+    signature: Schema.optional(Schema.String),
+    uploadedOn: Schema.optional(Schema.String),
+  }).pipe(
+    Schema.encodeKeys({
+      expiresOn: "expires_on",
+      serialNumber: "serial_number",
+      uploadedOn: "uploaded_on",
+    }),
+  ),
+) as unknown as Schema.Schema<ListMtlsCertificatesResponse>;
+
+export const listMtlsCertificates: (
+  input: ListMtlsCertificatesRequest,
+) => Effect.Effect<
+  ListMtlsCertificatesResponse,
+  CommonErrors,
+  ApiToken | HttpClient.HttpClient
+> = API.make(() => ({
+  input: ListMtlsCertificatesRequest,
+  output: ListMtlsCertificatesResponse,
   errors: [],
 }));
 
@@ -103,8 +203,9 @@ export const CreateMtlsCertificateRequest = Schema.Struct({
   ca: Schema.Boolean,
   certificates: Schema.String,
   name: Schema.optional(Schema.String),
-  privateKey: Schema.optional(Schema.String).pipe(T.JsonName("private_key")),
+  privateKey: Schema.optional(Schema.String),
 }).pipe(
+  Schema.encodeKeys({ privateKey: "private_key" }),
   T.Http({ method: "POST", path: "/accounts/{account_id}/mtls_certificates" }),
 ) as unknown as Schema.Schema<CreateMtlsCertificateRequest>;
 
@@ -135,16 +236,21 @@ export const CreateMtlsCertificateResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
   ca: Schema.optional(Schema.Boolean),
   certificates: Schema.optional(Schema.String),
-  expiresOn: Schema.optional(Schema.String).pipe(T.JsonName("expires_on")),
+  expiresOn: Schema.optional(Schema.String),
   issuer: Schema.optional(Schema.String),
   name: Schema.optional(Schema.String),
-  serialNumber: Schema.optional(Schema.String).pipe(
-    T.JsonName("serial_number"),
-  ),
+  serialNumber: Schema.optional(Schema.String),
   signature: Schema.optional(Schema.String),
-  updatedAt: Schema.optional(Schema.String).pipe(T.JsonName("updated_at")),
-  uploadedOn: Schema.optional(Schema.String).pipe(T.JsonName("uploaded_on")),
-}) as unknown as Schema.Schema<CreateMtlsCertificateResponse>;
+  updatedAt: Schema.optional(Schema.String),
+  uploadedOn: Schema.optional(Schema.String),
+}).pipe(
+  Schema.encodeKeys({
+    expiresOn: "expires_on",
+    serialNumber: "serial_number",
+    updatedAt: "updated_at",
+    uploadedOn: "uploaded_on",
+  }),
+) as unknown as Schema.Schema<CreateMtlsCertificateResponse>;
 
 export const createMtlsCertificate: (
   input: CreateMtlsCertificateRequest,
@@ -199,15 +305,19 @@ export const DeleteMtlsCertificateResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
   ca: Schema.optional(Schema.Boolean),
   certificates: Schema.optional(Schema.String),
-  expiresOn: Schema.optional(Schema.String).pipe(T.JsonName("expires_on")),
+  expiresOn: Schema.optional(Schema.String),
   issuer: Schema.optional(Schema.String),
   name: Schema.optional(Schema.String),
-  serialNumber: Schema.optional(Schema.String).pipe(
-    T.JsonName("serial_number"),
-  ),
+  serialNumber: Schema.optional(Schema.String),
   signature: Schema.optional(Schema.String),
-  uploadedOn: Schema.optional(Schema.String).pipe(T.JsonName("uploaded_on")),
-}) as unknown as Schema.Schema<DeleteMtlsCertificateResponse>;
+  uploadedOn: Schema.optional(Schema.String),
+}).pipe(
+  Schema.encodeKeys({
+    expiresOn: "expires_on",
+    serialNumber: "serial_number",
+    uploadedOn: "uploaded_on",
+  }),
+) as unknown as Schema.Schema<DeleteMtlsCertificateResponse>;
 
 export const deleteMtlsCertificate: (
   input: DeleteMtlsCertificateRequest,

@@ -95,10 +95,8 @@ export const GetRateLimitResponse = Schema.Struct({
       response: Schema.optional(
         Schema.Struct({
           body: Schema.optional(Schema.String),
-          contentType: Schema.optional(Schema.String).pipe(
-            T.JsonName("content_type"),
-          ),
-        }),
+          contentType: Schema.optional(Schema.String),
+        }).pipe(Schema.encodeKeys({ contentType: "content_type" })),
       ),
       timeout: Schema.optional(Schema.Number),
     }),
@@ -145,10 +143,8 @@ export const GetRateLimitResponse = Schema.Struct({
       ),
       response: Schema.optional(
         Schema.Struct({
-          originTraffic: Schema.optional(Schema.Boolean).pipe(
-            T.JsonName("origin_traffic"),
-          ),
-        }),
+          originTraffic: Schema.optional(Schema.Boolean),
+        }).pipe(Schema.encodeKeys({ originTraffic: "origin_traffic" })),
       ),
     }),
   ),
@@ -165,6 +161,140 @@ export const getRateLimit: (
 > = API.make(() => ({
   input: GetRateLimitRequest,
   output: GetRateLimitResponse,
+  errors: [],
+}));
+
+export interface ListRateLimitsRequest {
+  /** Path param: Defines an identifier. */
+  zoneId: string;
+}
+
+export const ListRateLimitsRequest = Schema.Struct({
+  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+}).pipe(
+  T.Http({ method: "GET", path: "/zones/{zone_id}/rate_limits" }),
+) as unknown as Schema.Schema<ListRateLimitsRequest>;
+
+export type ListRateLimitsResponse = {
+  id?: string;
+  action?: {
+    mode?:
+      | "simulate"
+      | "ban"
+      | "challenge"
+      | "js_challenge"
+      | "managed_challenge";
+    response?: { body?: string; contentType?: string };
+    timeout?: number;
+  };
+  bypass?: { name?: "url"; value?: string }[];
+  description?: string;
+  disabled?: boolean;
+  match?: {
+    headers?: { name?: string; op?: "eq" | "ne"; value?: string }[];
+    request?: {
+      methods?: (
+        | "GET"
+        | "POST"
+        | "PUT"
+        | "DELETE"
+        | "PATCH"
+        | "HEAD"
+        | "_ALL_"
+      )[];
+      schemes?: string[];
+      url?: string;
+    };
+    response?: { originTraffic?: boolean };
+  };
+  period?: number;
+  threshold?: number;
+}[];
+
+export const ListRateLimitsResponse = Schema.Array(
+  Schema.Struct({
+    id: Schema.optional(Schema.String),
+    action: Schema.optional(
+      Schema.Struct({
+        mode: Schema.optional(
+          Schema.Literals([
+            "simulate",
+            "ban",
+            "challenge",
+            "js_challenge",
+            "managed_challenge",
+          ]),
+        ),
+        response: Schema.optional(
+          Schema.Struct({
+            body: Schema.optional(Schema.String),
+            contentType: Schema.optional(Schema.String),
+          }).pipe(Schema.encodeKeys({ contentType: "content_type" })),
+        ),
+        timeout: Schema.optional(Schema.Number),
+      }),
+    ),
+    bypass: Schema.optional(
+      Schema.Array(
+        Schema.Struct({
+          name: Schema.optional(Schema.Literal("url")),
+          value: Schema.optional(Schema.String),
+        }),
+      ),
+    ),
+    description: Schema.optional(Schema.String),
+    disabled: Schema.optional(Schema.Boolean),
+    match: Schema.optional(
+      Schema.Struct({
+        headers: Schema.optional(
+          Schema.Array(
+            Schema.Struct({
+              name: Schema.optional(Schema.String),
+              op: Schema.optional(Schema.Literals(["eq", "ne"])),
+              value: Schema.optional(Schema.String),
+            }),
+          ),
+        ),
+        request: Schema.optional(
+          Schema.Struct({
+            methods: Schema.optional(
+              Schema.Array(
+                Schema.Literals([
+                  "GET",
+                  "POST",
+                  "PUT",
+                  "DELETE",
+                  "PATCH",
+                  "HEAD",
+                  "_ALL_",
+                ]),
+              ),
+            ),
+            schemes: Schema.optional(Schema.Array(Schema.String)),
+            url: Schema.optional(Schema.String),
+          }),
+        ),
+        response: Schema.optional(
+          Schema.Struct({
+            originTraffic: Schema.optional(Schema.Boolean),
+          }).pipe(Schema.encodeKeys({ originTraffic: "origin_traffic" })),
+        ),
+      }),
+    ),
+    period: Schema.optional(Schema.Number),
+    threshold: Schema.optional(Schema.Number),
+  }),
+) as unknown as Schema.Schema<ListRateLimitsResponse>;
+
+export const listRateLimits: (
+  input: ListRateLimitsRequest,
+) => Effect.Effect<
+  ListRateLimitsResponse,
+  CommonErrors,
+  ApiToken | HttpClient.HttpClient
+> = API.make(() => ({
+  input: ListRateLimitsRequest,
+  output: ListRateLimitsResponse,
   errors: [],
 }));
 
@@ -221,10 +351,8 @@ export const CreateRateLimitRequest = Schema.Struct({
     response: Schema.optional(
       Schema.Struct({
         body: Schema.optional(Schema.String),
-        contentType: Schema.optional(Schema.String).pipe(
-          T.JsonName("content_type"),
-        ),
-      }),
+        contentType: Schema.optional(Schema.String),
+      }).pipe(Schema.encodeKeys({ contentType: "content_type" })),
     ),
     timeout: Schema.optional(Schema.Number),
   }),
@@ -259,10 +387,8 @@ export const CreateRateLimitRequest = Schema.Struct({
     ),
     response: Schema.optional(
       Schema.Struct({
-        originTraffic: Schema.optional(Schema.Boolean).pipe(
-          T.JsonName("origin_traffic"),
-        ),
-      }),
+        originTraffic: Schema.optional(Schema.Boolean),
+      }).pipe(Schema.encodeKeys({ originTraffic: "origin_traffic" })),
     ),
   }),
   period: Schema.Number,
@@ -331,10 +457,8 @@ export const CreateRateLimitResponse = Schema.Struct({
       response: Schema.optional(
         Schema.Struct({
           body: Schema.optional(Schema.String),
-          contentType: Schema.optional(Schema.String).pipe(
-            T.JsonName("content_type"),
-          ),
-        }),
+          contentType: Schema.optional(Schema.String),
+        }).pipe(Schema.encodeKeys({ contentType: "content_type" })),
       ),
       timeout: Schema.optional(Schema.Number),
     }),
@@ -381,10 +505,8 @@ export const CreateRateLimitResponse = Schema.Struct({
       ),
       response: Schema.optional(
         Schema.Struct({
-          originTraffic: Schema.optional(Schema.Boolean).pipe(
-            T.JsonName("origin_traffic"),
-          ),
-        }),
+          originTraffic: Schema.optional(Schema.Boolean),
+        }).pipe(Schema.encodeKeys({ originTraffic: "origin_traffic" })),
       ),
     }),
   ),
@@ -480,10 +602,8 @@ export const DeleteRateLimitResponse = Schema.Struct({
       response: Schema.optional(
         Schema.Struct({
           body: Schema.optional(Schema.String),
-          contentType: Schema.optional(Schema.String).pipe(
-            T.JsonName("content_type"),
-          ),
-        }),
+          contentType: Schema.optional(Schema.String),
+        }).pipe(Schema.encodeKeys({ contentType: "content_type" })),
       ),
       timeout: Schema.optional(Schema.Number),
     }),
@@ -530,10 +650,8 @@ export const DeleteRateLimitResponse = Schema.Struct({
       ),
       response: Schema.optional(
         Schema.Struct({
-          originTraffic: Schema.optional(Schema.Boolean).pipe(
-            T.JsonName("origin_traffic"),
-          ),
-        }),
+          originTraffic: Schema.optional(Schema.Boolean),
+        }).pipe(Schema.encodeKeys({ originTraffic: "origin_traffic" })),
       ),
     }),
   ),
@@ -608,10 +726,8 @@ export const EditRateLimitRequest = Schema.Struct({
     response: Schema.optional(
       Schema.Struct({
         body: Schema.optional(Schema.String),
-        contentType: Schema.optional(Schema.String).pipe(
-          T.JsonName("content_type"),
-        ),
-      }),
+        contentType: Schema.optional(Schema.String),
+      }).pipe(Schema.encodeKeys({ contentType: "content_type" })),
     ),
     timeout: Schema.optional(Schema.Number),
   }),
@@ -646,10 +762,8 @@ export const EditRateLimitRequest = Schema.Struct({
     ),
     response: Schema.optional(
       Schema.Struct({
-        originTraffic: Schema.optional(Schema.Boolean).pipe(
-          T.JsonName("origin_traffic"),
-        ),
-      }),
+        originTraffic: Schema.optional(Schema.Boolean),
+      }).pipe(Schema.encodeKeys({ originTraffic: "origin_traffic" })),
     ),
   }),
   period: Schema.Number,
@@ -718,10 +832,8 @@ export const EditRateLimitResponse = Schema.Struct({
       response: Schema.optional(
         Schema.Struct({
           body: Schema.optional(Schema.String),
-          contentType: Schema.optional(Schema.String).pipe(
-            T.JsonName("content_type"),
-          ),
-        }),
+          contentType: Schema.optional(Schema.String),
+        }).pipe(Schema.encodeKeys({ contentType: "content_type" })),
       ),
       timeout: Schema.optional(Schema.Number),
     }),
@@ -768,10 +880,8 @@ export const EditRateLimitResponse = Schema.Struct({
       ),
       response: Schema.optional(
         Schema.Struct({
-          originTraffic: Schema.optional(Schema.Boolean).pipe(
-            T.JsonName("origin_traffic"),
-          ),
-        }),
+          originTraffic: Schema.optional(Schema.Boolean),
+        }).pipe(Schema.encodeKeys({ originTraffic: "origin_traffic" })),
       ),
     }),
   ),

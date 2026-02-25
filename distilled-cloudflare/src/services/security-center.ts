@@ -22,6 +22,105 @@ import {
 // Insight
 // =============================================================================
 
+export interface ListInsightsRequest {}
+
+export const ListInsightsRequest = Schema.Struct({}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/{accountOrZone}/{accountOrZoneId}/security-center/insights",
+  }),
+) as unknown as Schema.Schema<ListInsightsRequest>;
+
+export type ListInsightsResponse = {
+  count?: number;
+  issues?: {
+    id?: string;
+    dismissed?: boolean;
+    issueClass?: string;
+    issueType?:
+      | "compliance_violation"
+      | "email_security"
+      | "exposed_infrastructure"
+      | "insecure_configuration"
+      | "weak_authentication"
+      | "configuration_suggestion";
+    payload?: { detectionMethod?: string; zoneTag?: string };
+    resolveLink?: string;
+    resolveText?: string;
+    severity?: "Low" | "Moderate" | "Critical";
+    since?: string;
+    subject?: string;
+    timestamp?: string;
+  }[];
+  page?: number;
+  perPage?: number;
+}[];
+
+export const ListInsightsResponse = Schema.Array(
+  Schema.Struct({
+    count: Schema.optional(Schema.Number),
+    issues: Schema.optional(
+      Schema.Array(
+        Schema.Struct({
+          id: Schema.optional(Schema.String),
+          dismissed: Schema.optional(Schema.Boolean),
+          issueClass: Schema.optional(Schema.String),
+          issueType: Schema.optional(
+            Schema.Literals([
+              "compliance_violation",
+              "email_security",
+              "exposed_infrastructure",
+              "insecure_configuration",
+              "weak_authentication",
+              "configuration_suggestion",
+            ]),
+          ),
+          payload: Schema.optional(
+            Schema.Struct({
+              detectionMethod: Schema.optional(Schema.String),
+              zoneTag: Schema.optional(Schema.String),
+            }).pipe(
+              Schema.encodeKeys({
+                detectionMethod: "detection_method",
+                zoneTag: "zone_tag",
+              }),
+            ),
+          ),
+          resolveLink: Schema.optional(Schema.String),
+          resolveText: Schema.optional(Schema.String),
+          severity: Schema.optional(
+            Schema.Literals(["Low", "Moderate", "Critical"]),
+          ),
+          since: Schema.optional(Schema.String),
+          subject: Schema.optional(Schema.String),
+          timestamp: Schema.optional(Schema.String),
+        }).pipe(
+          Schema.encodeKeys({
+            issueClass: "issue_class",
+            issueType: "issue_type",
+            resolveLink: "resolve_link",
+            resolveText: "resolve_text",
+          }),
+        ),
+      ),
+    ),
+    page: Schema.optional(Schema.Number),
+    perPage: Schema.optional(Schema.Number),
+  }).pipe(Schema.encodeKeys({ perPage: "per_page" })),
+) as unknown as Schema.Schema<ListInsightsResponse>;
+
+export const listInsights: (
+  input: ListInsightsRequest,
+) => Effect.Effect<
+  ListInsightsResponse,
+  CommonErrors,
+  ApiToken | HttpClient.HttpClient
+> = API.make(() => ({
+  input: ListInsightsRequest,
+  output: ListInsightsResponse,
+  errors: [],
+}));
+
 export interface DismissInsightRequest {
   issueId: string;
   /** Path param: The Account ID to use for this endpoint. Mutually exclusive with the Zone ID. */
@@ -66,29 +165,25 @@ export const DismissInsightResponse = Schema.Struct({
     Schema.Struct({
       code: Schema.Number,
       message: Schema.String,
-      documentationUrl: Schema.optional(Schema.String).pipe(
-        T.JsonName("documentation_url"),
-      ),
+      documentationUrl: Schema.optional(Schema.String),
       source: Schema.optional(
         Schema.Struct({
           pointer: Schema.optional(Schema.String),
         }),
       ),
-    }),
+    }).pipe(Schema.encodeKeys({ documentationUrl: "documentation_url" })),
   ),
   messages: Schema.Array(
     Schema.Struct({
       code: Schema.Number,
       message: Schema.String,
-      documentationUrl: Schema.optional(Schema.String).pipe(
-        T.JsonName("documentation_url"),
-      ),
+      documentationUrl: Schema.optional(Schema.String),
       source: Schema.optional(
         Schema.Struct({
           pointer: Schema.optional(Schema.String),
         }),
       ),
-    }),
+    }).pipe(Schema.encodeKeys({ documentationUrl: "documentation_url" })),
   ),
   success: Schema.Literal(true),
 }) as unknown as Schema.Schema<DismissInsightResponse>;

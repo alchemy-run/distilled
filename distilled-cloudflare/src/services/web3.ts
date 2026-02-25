@@ -57,10 +57,10 @@ export interface GetHostnameResponse {
 
 export const GetHostnameResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
-  createdOn: Schema.optional(Schema.String).pipe(T.JsonName("created_on")),
+  createdOn: Schema.optional(Schema.String),
   description: Schema.optional(Schema.String),
   dnslink: Schema.optional(Schema.String),
-  modifiedOn: Schema.optional(Schema.String).pipe(T.JsonName("modified_on")),
+  modifiedOn: Schema.optional(Schema.String),
   name: Schema.optional(Schema.String),
   status: Schema.optional(
     Schema.Literals(["active", "pending", "deleting", "error"]),
@@ -68,7 +68,9 @@ export const GetHostnameResponse = Schema.Struct({
   target: Schema.optional(
     Schema.Literals(["ethereum", "ipfs", "ipfs_universal_path"]),
   ),
-}) as unknown as Schema.Schema<GetHostnameResponse>;
+}).pipe(
+  Schema.encodeKeys({ createdOn: "created_on", modifiedOn: "modified_on" }),
+) as unknown as Schema.Schema<GetHostnameResponse>;
 
 export const getHostname: (
   input: GetHostnameRequest,
@@ -79,6 +81,59 @@ export const getHostname: (
 > = API.make(() => ({
   input: GetHostnameRequest,
   output: GetHostnameResponse,
+  errors: [],
+}));
+
+export interface ListHostnamesRequest {
+  /** Specify the identifier of the hostname. */
+  zoneId: string;
+}
+
+export const ListHostnamesRequest = Schema.Struct({
+  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+}).pipe(
+  T.Http({ method: "GET", path: "/zones/{zone_id}/web3/hostnames" }),
+) as unknown as Schema.Schema<ListHostnamesRequest>;
+
+export type ListHostnamesResponse = {
+  id?: string;
+  createdOn?: string;
+  description?: string;
+  dnslink?: string;
+  modifiedOn?: string;
+  name?: string;
+  status?: "active" | "pending" | "deleting" | "error";
+  target?: "ethereum" | "ipfs" | "ipfs_universal_path";
+}[];
+
+export const ListHostnamesResponse = Schema.Array(
+  Schema.Struct({
+    id: Schema.optional(Schema.String),
+    createdOn: Schema.optional(Schema.String),
+    description: Schema.optional(Schema.String),
+    dnslink: Schema.optional(Schema.String),
+    modifiedOn: Schema.optional(Schema.String),
+    name: Schema.optional(Schema.String),
+    status: Schema.optional(
+      Schema.Literals(["active", "pending", "deleting", "error"]),
+    ),
+    target: Schema.optional(
+      Schema.Literals(["ethereum", "ipfs", "ipfs_universal_path"]),
+    ),
+  }).pipe(
+    Schema.encodeKeys({ createdOn: "created_on", modifiedOn: "modified_on" }),
+  ),
+) as unknown as Schema.Schema<ListHostnamesResponse>;
+
+export const listHostnames: (
+  input: ListHostnamesRequest,
+) => Effect.Effect<
+  ListHostnamesResponse,
+  CommonErrors,
+  ApiToken | HttpClient.HttpClient
+> = API.make(() => ({
+  input: ListHostnamesRequest,
+  output: ListHostnamesResponse,
   errors: [],
 }));
 
@@ -124,10 +179,10 @@ export interface CreateHostnameResponse {
 
 export const CreateHostnameResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
-  createdOn: Schema.optional(Schema.String).pipe(T.JsonName("created_on")),
+  createdOn: Schema.optional(Schema.String),
   description: Schema.optional(Schema.String),
   dnslink: Schema.optional(Schema.String),
-  modifiedOn: Schema.optional(Schema.String).pipe(T.JsonName("modified_on")),
+  modifiedOn: Schema.optional(Schema.String),
   name: Schema.optional(Schema.String),
   status: Schema.optional(
     Schema.Literals(["active", "pending", "deleting", "error"]),
@@ -135,7 +190,9 @@ export const CreateHostnameResponse = Schema.Struct({
   target: Schema.optional(
     Schema.Literals(["ethereum", "ipfs", "ipfs_universal_path"]),
   ),
-}) as unknown as Schema.Schema<CreateHostnameResponse>;
+}).pipe(
+  Schema.encodeKeys({ createdOn: "created_on", modifiedOn: "modified_on" }),
+) as unknown as Schema.Schema<CreateHostnameResponse>;
 
 export const createHostname: (
   input: CreateHostnameRequest,
@@ -190,10 +247,10 @@ export interface PatchHostnameResponse {
 
 export const PatchHostnameResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
-  createdOn: Schema.optional(Schema.String).pipe(T.JsonName("created_on")),
+  createdOn: Schema.optional(Schema.String),
   description: Schema.optional(Schema.String),
   dnslink: Schema.optional(Schema.String),
-  modifiedOn: Schema.optional(Schema.String).pipe(T.JsonName("modified_on")),
+  modifiedOn: Schema.optional(Schema.String),
   name: Schema.optional(Schema.String),
   status: Schema.optional(
     Schema.Literals(["active", "pending", "deleting", "error"]),
@@ -201,7 +258,9 @@ export const PatchHostnameResponse = Schema.Struct({
   target: Schema.optional(
     Schema.Literals(["ethereum", "ipfs", "ipfs_universal_path"]),
   ),
-}) as unknown as Schema.Schema<PatchHostnameResponse>;
+}).pipe(
+  Schema.encodeKeys({ createdOn: "created_on", modifiedOn: "modified_on" }),
+) as unknown as Schema.Schema<PatchHostnameResponse>;
 
 export const patchHostname: (
   input: PatchHostnameRequest,
@@ -388,11 +447,13 @@ export const GetHostnameIpfsUniversalPathContentListEntryResponse =
   Schema.Struct({
     id: Schema.optional(Schema.String),
     content: Schema.optional(Schema.String),
-    createdOn: Schema.optional(Schema.String).pipe(T.JsonName("created_on")),
+    createdOn: Schema.optional(Schema.String),
     description: Schema.optional(Schema.String),
-    modifiedOn: Schema.optional(Schema.String).pipe(T.JsonName("modified_on")),
+    modifiedOn: Schema.optional(Schema.String),
     type: Schema.optional(Schema.Literals(["cid", "content_path"])),
-  }) as unknown as Schema.Schema<GetHostnameIpfsUniversalPathContentListEntryResponse>;
+  }).pipe(
+    Schema.encodeKeys({ createdOn: "created_on", modifiedOn: "modified_on" }),
+  ) as unknown as Schema.Schema<GetHostnameIpfsUniversalPathContentListEntryResponse>;
 
 export const getHostnameIpfsUniversalPathContentListEntry: (
   input: GetHostnameIpfsUniversalPathContentListEntryRequest,
@@ -442,15 +503,16 @@ export const ListHostnameIpfsUniversalPathContentListEntriesResponse =
         Schema.Struct({
           id: Schema.optional(Schema.String),
           content: Schema.optional(Schema.String),
-          createdOn: Schema.optional(Schema.String).pipe(
-            T.JsonName("created_on"),
-          ),
+          createdOn: Schema.optional(Schema.String),
           description: Schema.optional(Schema.String),
-          modifiedOn: Schema.optional(Schema.String).pipe(
-            T.JsonName("modified_on"),
-          ),
+          modifiedOn: Schema.optional(Schema.String),
           type: Schema.optional(Schema.Literals(["cid", "content_path"])),
-        }),
+        }).pipe(
+          Schema.encodeKeys({
+            createdOn: "created_on",
+            modifiedOn: "modified_on",
+          }),
+        ),
       ),
     ),
   }) as unknown as Schema.Schema<ListHostnameIpfsUniversalPathContentListEntriesResponse>;
@@ -510,11 +572,13 @@ export const CreateHostnameIpfsUniversalPathContentListEntryResponse =
   Schema.Struct({
     id: Schema.optional(Schema.String),
     content: Schema.optional(Schema.String),
-    createdOn: Schema.optional(Schema.String).pipe(T.JsonName("created_on")),
+    createdOn: Schema.optional(Schema.String),
     description: Schema.optional(Schema.String),
-    modifiedOn: Schema.optional(Schema.String).pipe(T.JsonName("modified_on")),
+    modifiedOn: Schema.optional(Schema.String),
     type: Schema.optional(Schema.Literals(["cid", "content_path"])),
-  }) as unknown as Schema.Schema<CreateHostnameIpfsUniversalPathContentListEntryResponse>;
+  }).pipe(
+    Schema.encodeKeys({ createdOn: "created_on", modifiedOn: "modified_on" }),
+  ) as unknown as Schema.Schema<CreateHostnameIpfsUniversalPathContentListEntryResponse>;
 
 export const createHostnameIpfsUniversalPathContentListEntry: (
   input: CreateHostnameIpfsUniversalPathContentListEntryRequest,
@@ -575,11 +639,13 @@ export const UpdateHostnameIpfsUniversalPathContentListEntryResponse =
   Schema.Struct({
     id: Schema.optional(Schema.String),
     content: Schema.optional(Schema.String),
-    createdOn: Schema.optional(Schema.String).pipe(T.JsonName("created_on")),
+    createdOn: Schema.optional(Schema.String),
     description: Schema.optional(Schema.String),
-    modifiedOn: Schema.optional(Schema.String).pipe(T.JsonName("modified_on")),
+    modifiedOn: Schema.optional(Schema.String),
     type: Schema.optional(Schema.Literals(["cid", "content_path"])),
-  }) as unknown as Schema.Schema<UpdateHostnameIpfsUniversalPathContentListEntryResponse>;
+  }).pipe(
+    Schema.encodeKeys({ createdOn: "created_on", modifiedOn: "modified_on" }),
+  ) as unknown as Schema.Schema<UpdateHostnameIpfsUniversalPathContentListEntryResponse>;
 
 export const updateHostnameIpfsUniversalPathContentListEntry: (
   input: UpdateHostnameIpfsUniversalPathContentListEntryRequest,

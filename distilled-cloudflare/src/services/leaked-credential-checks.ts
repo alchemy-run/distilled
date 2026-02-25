@@ -65,6 +65,46 @@ export const getDetection: (
   errors: [],
 }));
 
+export interface ListDetectionsRequest {
+  /** Defines an identifier. */
+  zoneId: string;
+}
+
+export const ListDetectionsRequest = Schema.Struct({
+  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/zones/{zone_id}/leaked-credential-checks/detections",
+  }),
+) as unknown as Schema.Schema<ListDetectionsRequest>;
+
+export type ListDetectionsResponse = {
+  id?: string;
+  password?: string;
+  username?: string;
+}[];
+
+export const ListDetectionsResponse = Schema.Array(
+  Schema.Struct({
+    id: Schema.optional(Schema.String),
+    password: Schema.optional(Schema.String),
+    username: Schema.optional(Schema.String),
+  }),
+) as unknown as Schema.Schema<ListDetectionsResponse>;
+
+export const listDetections: (
+  input: ListDetectionsRequest,
+) => Effect.Effect<
+  ListDetectionsResponse,
+  CommonErrors,
+  ApiToken | HttpClient.HttpClient
+> = API.make(() => ({
+  input: ListDetectionsRequest,
+  output: ListDetectionsResponse,
+  errors: [],
+}));
+
 export interface CreateDetectionRequest {
   /** Path param: Defines an identifier. */
   zoneId: string;

@@ -22,6 +22,50 @@ import {
 // AudioTrack
 // =============================================================================
 
+export interface GetAudioTrackRequest {
+  identifier: string;
+  /** The account identifier tag. */
+  accountId: string;
+}
+
+export const GetAudioTrackRequest = Schema.Struct({
+  identifier: Schema.String.pipe(T.HttpPath("identifier")),
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/stream/{identifier}/audio",
+  }),
+) as unknown as Schema.Schema<GetAudioTrackRequest>;
+
+export type GetAudioTrackResponse = {
+  default?: boolean;
+  label?: string;
+  status?: "queued" | "ready" | "error";
+  uid?: string;
+}[];
+
+export const GetAudioTrackResponse = Schema.Array(
+  Schema.Struct({
+    default: Schema.optional(Schema.Boolean),
+    label: Schema.optional(Schema.String),
+    status: Schema.optional(Schema.Literals(["queued", "ready", "error"])),
+    uid: Schema.optional(Schema.String),
+  }),
+) as unknown as Schema.Schema<GetAudioTrackResponse>;
+
+export const getAudioTrack: (
+  input: GetAudioTrackRequest,
+) => Effect.Effect<
+  GetAudioTrackResponse,
+  CommonErrors,
+  ApiToken | HttpClient.HttpClient
+> = API.make(() => ({
+  input: GetAudioTrackRequest,
+  output: GetAudioTrackResponse,
+  errors: [],
+}));
+
 export interface PatchAudioTrackRequest {
   identifier: string;
   audioIdentifier: string;
@@ -160,6 +204,54 @@ export const copyAudioTrack: (
 > = API.make(() => ({
   input: CopyAudioTrackRequest,
   output: CopyAudioTrackResponse,
+  errors: [],
+}));
+
+// =============================================================================
+// Caption
+// =============================================================================
+
+export interface GetCaptionRequest {
+  identifier: string;
+  /** Identifier. */
+  accountId: string;
+}
+
+export const GetCaptionRequest = Schema.Struct({
+  identifier: Schema.String.pipe(T.HttpPath("identifier")),
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/stream/{identifier}/captions",
+  }),
+) as unknown as Schema.Schema<GetCaptionRequest>;
+
+export type GetCaptionResponse = {
+  generated?: boolean;
+  label?: string;
+  language?: string;
+  status?: "ready" | "inprogress" | "error";
+}[];
+
+export const GetCaptionResponse = Schema.Array(
+  Schema.Struct({
+    generated: Schema.optional(Schema.Boolean),
+    label: Schema.optional(Schema.String),
+    language: Schema.optional(Schema.String),
+    status: Schema.optional(Schema.Literals(["ready", "inprogress", "error"])),
+  }),
+) as unknown as Schema.Schema<GetCaptionResponse>;
+
+export const getCaption: (
+  input: GetCaptionRequest,
+) => Effect.Effect<
+  GetCaptionResponse,
+  CommonErrors,
+  ApiToken | HttpClient.HttpClient
+> = API.make(() => ({
+  input: GetCaptionRequest,
+  output: GetCaptionResponse,
   errors: [],
 }));
 
@@ -818,6 +910,38 @@ export const getEmbed: (
 // Key
 // =============================================================================
 
+export interface GetKeyRequest {
+  /** Identifier. */
+  accountId: string;
+}
+
+export const GetKeyRequest = Schema.Struct({
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({ method: "GET", path: "/accounts/{account_id}/stream/keys" }),
+) as unknown as Schema.Schema<GetKeyRequest>;
+
+export type GetKeyResponse = { id?: string; created?: string }[];
+
+export const GetKeyResponse = Schema.Array(
+  Schema.Struct({
+    id: Schema.optional(Schema.String),
+    created: Schema.optional(Schema.String),
+  }),
+) as unknown as Schema.Schema<GetKeyResponse>;
+
+export const getKey: (
+  input: GetKeyRequest,
+) => Effect.Effect<
+  GetKeyResponse,
+  CommonErrors,
+  ApiToken | HttpClient.HttpClient
+> = API.make(() => ({
+  input: GetKeyRequest,
+  output: GetKeyResponse,
+  errors: [],
+}));
+
 export interface CreateKeyRequest {
   /** Path param: Identifier. */
   accountId: string;
@@ -1188,6 +1312,50 @@ export const deleteLiveInput: (
 // LiveInputOutput
 // =============================================================================
 
+export interface ListLiveInputOutputsRequest {
+  liveInputIdentifier: string;
+  /** Identifier. */
+  accountId: string;
+}
+
+export const ListLiveInputOutputsRequest = Schema.Struct({
+  liveInputIdentifier: Schema.String.pipe(T.HttpPath("liveInputIdentifier")),
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/stream/live_inputs/{liveInputIdentifier}/outputs",
+  }),
+) as unknown as Schema.Schema<ListLiveInputOutputsRequest>;
+
+export type ListLiveInputOutputsResponse = {
+  enabled?: boolean;
+  streamKey?: string;
+  uid?: string;
+  url?: string;
+}[];
+
+export const ListLiveInputOutputsResponse = Schema.Array(
+  Schema.Struct({
+    enabled: Schema.optional(Schema.Boolean),
+    streamKey: Schema.optional(Schema.String),
+    uid: Schema.optional(Schema.String),
+    url: Schema.optional(Schema.String),
+  }),
+) as unknown as Schema.Schema<ListLiveInputOutputsResponse>;
+
+export const listLiveInputOutputs: (
+  input: ListLiveInputOutputsRequest,
+) => Effect.Effect<
+  ListLiveInputOutputsResponse,
+  CommonErrors,
+  ApiToken | HttpClient.HttpClient
+> = API.make(() => ({
+  input: ListLiveInputOutputsRequest,
+  output: ListLiveInputOutputsResponse,
+  errors: [],
+}));
+
 export interface CreateLiveInputOutputRequest {
   liveInputIdentifier: string;
   /** Path param: Identifier. */
@@ -1466,6 +1634,168 @@ export const getStream: (
 > = API.make(() => ({
   input: GetStreamRequest,
   output: GetStreamResponse,
+  errors: [],
+}));
+
+export interface ListStreamsRequest {
+  /** Path param: The account identifier tag. */
+  accountId: string;
+  /** Query param: Lists videos in ascending order of creation. */
+  asc?: boolean;
+  /** Query param: A user-defined identifier for the media creator. */
+  creator?: string;
+  /** Query param: Lists videos created before the specified date. */
+  end?: string;
+  /** Query param: Includes the total number of videos associated with the submitted query parameters. */
+  includeCounts?: boolean;
+  /** Query param: Provides a partial word match of the `name` key in the `meta` field. Slow for medium to large video libraries. May be unavailable for very large libraries. */
+  search?: string;
+  /** Query param: Lists videos created after the specified date. */
+  start?: string;
+  /** Query param: Specifies the processing status for all quality levels for a video. */
+  status?:
+    | "pendingupload"
+    | "downloading"
+    | "queued"
+    | "inprogress"
+    | "ready"
+    | "error"
+    | "live-inprogress";
+  /** Query param: Specifies whether the video is `vod` or `live`. */
+  type?: string;
+  /** Query param: Provides a fast, exact string match on the `name` key in the `meta` field. */
+  videoName?: string;
+}
+
+export const ListStreamsRequest = Schema.Struct({
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+  asc: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("asc")),
+  creator: Schema.optional(Schema.String).pipe(T.HttpQuery("creator")),
+  end: Schema.optional(Schema.String).pipe(T.HttpQuery("end")),
+  includeCounts: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("include_counts"),
+  ),
+  search: Schema.optional(Schema.String).pipe(T.HttpQuery("search")),
+  start: Schema.optional(Schema.String).pipe(T.HttpQuery("start")),
+  status: Schema.optional(
+    Schema.Literals([
+      "pendingupload",
+      "downloading",
+      "queued",
+      "inprogress",
+      "ready",
+      "error",
+      "live-inprogress",
+    ]),
+  ).pipe(T.HttpQuery("status")),
+  type: Schema.optional(Schema.String).pipe(T.HttpQuery("type")),
+  videoName: Schema.optional(Schema.String).pipe(T.HttpQuery("video_name")),
+}).pipe(
+  T.Http({ method: "GET", path: "/accounts/{account_id}/stream" }),
+) as unknown as Schema.Schema<ListStreamsRequest>;
+
+export type ListStreamsResponse = {
+  allowedOrigins?: string[];
+  created?: string;
+  creator?: string;
+  duration?: number;
+  input?: { height?: number; width?: number };
+  liveInput?: string;
+  maxDurationSeconds?: number;
+  meta?: unknown;
+  modified?: string;
+  playback?: { dash?: string; hls?: string };
+  preview?: string;
+  readyToStream?: boolean;
+  readyToStreamAt?: string;
+  requireSignedURLs?: boolean;
+  scheduledDeletion?: string;
+  size?: number;
+  status?: {
+    errorReasonCode?: string;
+    errorReasonText?: string;
+    pctComplete?: string;
+    state?:
+      | "pendingupload"
+      | "downloading"
+      | "queued"
+      | "inprogress"
+      | "ready"
+      | "error"
+      | "live-inprogress";
+  };
+  thumbnail?: string;
+  thumbnailTimestampPct?: number;
+  uid?: string;
+  uploaded?: string;
+  uploadExpiry?: string;
+  watermark?: unknown;
+}[];
+
+export const ListStreamsResponse = Schema.Array(
+  Schema.Struct({
+    allowedOrigins: Schema.optional(Schema.Array(Schema.String)),
+    created: Schema.optional(Schema.String),
+    creator: Schema.optional(Schema.String),
+    duration: Schema.optional(Schema.Number),
+    input: Schema.optional(
+      Schema.Struct({
+        height: Schema.optional(Schema.Number),
+        width: Schema.optional(Schema.Number),
+      }),
+    ),
+    liveInput: Schema.optional(Schema.String),
+    maxDurationSeconds: Schema.optional(Schema.Number),
+    meta: Schema.optional(Schema.Unknown),
+    modified: Schema.optional(Schema.String),
+    playback: Schema.optional(
+      Schema.Struct({
+        dash: Schema.optional(Schema.String),
+        hls: Schema.optional(Schema.String),
+      }),
+    ),
+    preview: Schema.optional(Schema.String),
+    readyToStream: Schema.optional(Schema.Boolean),
+    readyToStreamAt: Schema.optional(Schema.String),
+    requireSignedURLs: Schema.optional(Schema.Boolean),
+    scheduledDeletion: Schema.optional(Schema.String),
+    size: Schema.optional(Schema.Number),
+    status: Schema.optional(
+      Schema.Struct({
+        errorReasonCode: Schema.optional(Schema.String),
+        errorReasonText: Schema.optional(Schema.String),
+        pctComplete: Schema.optional(Schema.String),
+        state: Schema.optional(
+          Schema.Literals([
+            "pendingupload",
+            "downloading",
+            "queued",
+            "inprogress",
+            "ready",
+            "error",
+            "live-inprogress",
+          ]),
+        ),
+      }),
+    ),
+    thumbnail: Schema.optional(Schema.String),
+    thumbnailTimestampPct: Schema.optional(Schema.Number),
+    uid: Schema.optional(Schema.String),
+    uploaded: Schema.optional(Schema.String),
+    uploadExpiry: Schema.optional(Schema.String),
+    watermark: Schema.optional(Schema.Unknown),
+  }),
+) as unknown as Schema.Schema<ListStreamsResponse>;
+
+export const listStreams: (
+  input: ListStreamsRequest,
+) => Effect.Effect<
+  ListStreamsResponse,
+  CommonErrors,
+  ApiToken | HttpClient.HttpClient
+> = API.make(() => ({
+  input: ListStreamsRequest,
+  output: ListStreamsResponse,
   errors: [],
 }));
 
@@ -1911,6 +2241,59 @@ export const getWatermark: (
 > = API.make(() => ({
   input: GetWatermarkRequest,
   output: GetWatermarkResponse,
+  errors: [],
+}));
+
+export interface ListWatermarksRequest {
+  /** The account identifier tag. */
+  accountId: string;
+}
+
+export const ListWatermarksRequest = Schema.Struct({
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({ method: "GET", path: "/accounts/{account_id}/stream/watermarks" }),
+) as unknown as Schema.Schema<ListWatermarksRequest>;
+
+export type ListWatermarksResponse = {
+  created?: string;
+  downloadedFrom?: string;
+  height?: number;
+  name?: string;
+  opacity?: number;
+  padding?: number;
+  position?: string;
+  scale?: number;
+  size?: number;
+  uid?: string;
+  width?: number;
+}[];
+
+export const ListWatermarksResponse = Schema.Array(
+  Schema.Struct({
+    created: Schema.optional(Schema.String),
+    downloadedFrom: Schema.optional(Schema.String),
+    height: Schema.optional(Schema.Number),
+    name: Schema.optional(Schema.String),
+    opacity: Schema.optional(Schema.Number),
+    padding: Schema.optional(Schema.Number),
+    position: Schema.optional(Schema.String),
+    scale: Schema.optional(Schema.Number),
+    size: Schema.optional(Schema.Number),
+    uid: Schema.optional(Schema.String),
+    width: Schema.optional(Schema.Number),
+  }),
+) as unknown as Schema.Schema<ListWatermarksResponse>;
+
+export const listWatermarks: (
+  input: ListWatermarksRequest,
+) => Effect.Effect<
+  ListWatermarksResponse,
+  CommonErrors,
+  ApiToken | HttpClient.HttpClient
+> = API.make(() => ({
+  input: ListWatermarksRequest,
+  output: ListWatermarksResponse,
   errors: [],
 }));
 

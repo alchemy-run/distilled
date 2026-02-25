@@ -124,6 +124,45 @@ export const listAvailabilities: (
 // Page
 // =============================================================================
 
+export interface ListPagesRequest {
+  /** Identifier. */
+  zoneId: string;
+}
+
+export const ListPagesRequest = Schema.Struct({
+  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+}).pipe(
+  T.Http({ method: "GET", path: "/zones/{zone_id}/speed_api/pages" }),
+) as unknown as Schema.Schema<ListPagesRequest>;
+
+export type ListPagesResponse = {
+  region?: unknown;
+  scheduleFrequency?: "DAILY" | "WEEKLY";
+  tests?: unknown[];
+  url?: string;
+}[];
+
+export const ListPagesResponse = Schema.Array(
+  Schema.Struct({
+    region: Schema.optional(Schema.Unknown),
+    scheduleFrequency: Schema.optional(Schema.Literals(["DAILY", "WEEKLY"])),
+    tests: Schema.optional(Schema.Array(Schema.Unknown)),
+    url: Schema.optional(Schema.String),
+  }),
+) as unknown as Schema.Schema<ListPagesResponse>;
+
+export const listPages: (
+  input: ListPagesRequest,
+) => Effect.Effect<
+  ListPagesResponse,
+  CommonErrors,
+  ApiToken | HttpClient.HttpClient
+> = API.make(() => ({
+  input: ListPagesRequest,
+  output: ListPagesResponse,
+  errors: [],
+}));
+
 export interface TrendPageRequest {
   url: string;
   /** Path param: Identifier. */
@@ -277,6 +316,104 @@ export const getPageTest: (
 > = API.make(() => ({
   input: GetPageTestRequest,
   output: GetPageTestResponse,
+  errors: [],
+}));
+
+export interface ListPageTestsRequest {
+  url: string;
+  /** Path param: Identifier. */
+  zoneId: string;
+  /** Query param: A test region. */
+  region?:
+    | "asia-east1"
+    | "asia-northeast1"
+    | "asia-northeast2"
+    | "asia-south1"
+    | "asia-southeast1"
+    | "australia-southeast1"
+    | "europe-north1"
+    | "europe-southwest1"
+    | "europe-west1"
+    | "europe-west2"
+    | "europe-west3"
+    | "europe-west4"
+    | "europe-west8"
+    | "europe-west9"
+    | "me-west1"
+    | "southamerica-east1"
+    | "us-central1"
+    | "us-east1"
+    | "us-east4"
+    | "us-south1"
+    | "us-west1";
+}
+
+export const ListPageTestsRequest = Schema.Struct({
+  url: Schema.String.pipe(T.HttpPath("url")),
+  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+  region: Schema.optional(
+    Schema.Literals([
+      "asia-east1",
+      "asia-northeast1",
+      "asia-northeast2",
+      "asia-south1",
+      "asia-southeast1",
+      "australia-southeast1",
+      "europe-north1",
+      "europe-southwest1",
+      "europe-west1",
+      "europe-west2",
+      "europe-west3",
+      "europe-west4",
+      "europe-west8",
+      "europe-west9",
+      "me-west1",
+      "southamerica-east1",
+      "us-central1",
+      "us-east1",
+      "us-east4",
+      "us-south1",
+      "us-west1",
+    ]),
+  ).pipe(T.HttpQuery("region")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/zones/{zone_id}/speed_api/pages/{url}/tests",
+  }),
+) as unknown as Schema.Schema<ListPageTestsRequest>;
+
+export type ListPageTestsResponse = {
+  id?: string;
+  date?: string;
+  desktopReport?: unknown;
+  mobileReport?: unknown;
+  region?: unknown;
+  scheduleFrequency?: "DAILY" | "WEEKLY";
+  url?: string;
+}[];
+
+export const ListPageTestsResponse = Schema.Array(
+  Schema.Struct({
+    id: Schema.optional(Schema.String),
+    date: Schema.optional(Schema.String),
+    desktopReport: Schema.optional(Schema.Unknown),
+    mobileReport: Schema.optional(Schema.Unknown),
+    region: Schema.optional(Schema.Unknown),
+    scheduleFrequency: Schema.optional(Schema.Literals(["DAILY", "WEEKLY"])),
+    url: Schema.optional(Schema.String),
+  }),
+) as unknown as Schema.Schema<ListPageTestsResponse>;
+
+export const listPageTests: (
+  input: ListPageTestsRequest,
+) => Effect.Effect<
+  ListPageTestsResponse,
+  CommonErrors,
+  ApiToken | HttpClient.HttpClient
+> = API.make(() => ({
+  input: ListPageTestsRequest,
+  output: ListPageTestsResponse,
   errors: [],
 }));
 

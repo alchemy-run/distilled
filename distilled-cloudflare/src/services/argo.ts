@@ -64,8 +64,10 @@ export const GetSmartRoutingResponse = Schema.Struct({
   id: Schema.String,
   editable: Schema.Boolean,
   value: Schema.Literals(["on", "off"]),
-  modifiedOn: Schema.optional(Schema.String).pipe(T.JsonName("modified_on")),
-}) as unknown as Schema.Schema<GetSmartRoutingResponse>;
+  modifiedOn: Schema.optional(Schema.String),
+}).pipe(
+  Schema.encodeKeys({ modifiedOn: "modified_on" }),
+) as unknown as Schema.Schema<GetSmartRoutingResponse>;
 
 export const getSmartRouting: (
   input: GetSmartRoutingRequest,
@@ -108,8 +110,10 @@ export const PatchSmartRoutingResponse = Schema.Struct({
   id: Schema.String,
   editable: Schema.Boolean,
   value: Schema.Literals(["on", "off"]),
-  modifiedOn: Schema.optional(Schema.String).pipe(T.JsonName("modified_on")),
-}) as unknown as Schema.Schema<PatchSmartRoutingResponse>;
+  modifiedOn: Schema.optional(Schema.String),
+}).pipe(
+  Schema.encodeKeys({ modifiedOn: "modified_on" }),
+) as unknown as Schema.Schema<PatchSmartRoutingResponse>;
 
 export const patchSmartRouting: (
   input: PatchSmartRoutingRequest,
@@ -153,10 +157,10 @@ export const GetTieredCachingResponse = Schema.Struct({
   id: Schema.Literal("tiered_caching"),
   editable: Schema.Boolean,
   value: Schema.Literals(["on", "off"]),
-  modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-    T.JsonName("modified_on"),
-  ),
-}) as unknown as Schema.Schema<GetTieredCachingResponse>;
+  modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+}).pipe(
+  Schema.encodeKeys({ modifiedOn: "modified_on" }),
+) as unknown as Schema.Schema<GetTieredCachingResponse>;
 
 export const getTieredCaching: (
   input: GetTieredCachingRequest,
@@ -199,10 +203,10 @@ export const PatchTieredCachingResponse = Schema.Struct({
   id: Schema.Literal("tiered_caching"),
   editable: Schema.Boolean,
   value: Schema.Literals(["on", "off"]),
-  modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-    T.JsonName("modified_on"),
-  ),
-}) as unknown as Schema.Schema<PatchTieredCachingResponse>;
+  modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+}).pipe(
+  Schema.encodeKeys({ modifiedOn: "modified_on" }),
+) as unknown as Schema.Schema<PatchTieredCachingResponse>;
 
 export const patchTieredCaching: (
   input: PatchTieredCachingRequest,

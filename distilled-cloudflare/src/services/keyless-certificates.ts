@@ -63,21 +63,23 @@ export interface GetKeylessCertificateResponse {
 
 export const GetKeylessCertificateResponse = Schema.Struct({
   id: Schema.String,
-  createdOn: Schema.String.pipe(T.JsonName("created_on")),
+  createdOn: Schema.String,
   enabled: Schema.Boolean,
   host: Schema.String,
-  modifiedOn: Schema.String.pipe(T.JsonName("modified_on")),
+  modifiedOn: Schema.String,
   name: Schema.String,
   permissions: Schema.Array(Schema.String),
   port: Schema.Number,
   status: Schema.Literals(["active", "deleted"]),
   tunnel: Schema.optional(
     Schema.Struct({
-      privateIp: Schema.String.pipe(T.JsonName("private_ip")),
-      vnetId: Schema.String.pipe(T.JsonName("vnet_id")),
-    }),
+      privateIp: Schema.String,
+      vnetId: Schema.String,
+    }).pipe(Schema.encodeKeys({ privateIp: "private_ip", vnetId: "vnet_id" })),
   ),
-}) as unknown as Schema.Schema<GetKeylessCertificateResponse>;
+}).pipe(
+  Schema.encodeKeys({ createdOn: "created_on", modifiedOn: "modified_on" }),
+) as unknown as Schema.Schema<GetKeylessCertificateResponse>;
 
 export const getKeylessCertificate: (
   input: GetKeylessCertificateRequest,
@@ -88,6 +90,66 @@ export const getKeylessCertificate: (
 > = API.make(() => ({
   input: GetKeylessCertificateRequest,
   output: GetKeylessCertificateResponse,
+  errors: [],
+}));
+
+export interface ListKeylessCertificatesRequest {
+  /** Identifier. */
+  zoneId: string;
+}
+
+export const ListKeylessCertificatesRequest = Schema.Struct({
+  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+}).pipe(
+  T.Http({ method: "GET", path: "/zones/{zone_id}/keyless_certificates" }),
+) as unknown as Schema.Schema<ListKeylessCertificatesRequest>;
+
+export type ListKeylessCertificatesResponse = {
+  id: string;
+  createdOn: string;
+  enabled: boolean;
+  host: string;
+  modifiedOn: string;
+  name: string;
+  permissions: string[];
+  port: number;
+  status: "active" | "deleted";
+  tunnel?: { privateIp: string; vnetId: string };
+}[];
+
+export const ListKeylessCertificatesResponse = Schema.Array(
+  Schema.Struct({
+    id: Schema.String,
+    createdOn: Schema.String,
+    enabled: Schema.Boolean,
+    host: Schema.String,
+    modifiedOn: Schema.String,
+    name: Schema.String,
+    permissions: Schema.Array(Schema.String),
+    port: Schema.Number,
+    status: Schema.Literals(["active", "deleted"]),
+    tunnel: Schema.optional(
+      Schema.Struct({
+        privateIp: Schema.String,
+        vnetId: Schema.String,
+      }).pipe(
+        Schema.encodeKeys({ privateIp: "private_ip", vnetId: "vnet_id" }),
+      ),
+    ),
+  }).pipe(
+    Schema.encodeKeys({ createdOn: "created_on", modifiedOn: "modified_on" }),
+  ),
+) as unknown as Schema.Schema<ListKeylessCertificatesResponse>;
+
+export const listKeylessCertificates: (
+  input: ListKeylessCertificatesRequest,
+) => Effect.Effect<
+  ListKeylessCertificatesResponse,
+  CommonErrors,
+  ApiToken | HttpClient.HttpClient
+> = API.make(() => ({
+  input: ListKeylessCertificatesRequest,
+  output: ListKeylessCertificatesResponse,
   errors: [],
 }));
 
@@ -115,15 +177,16 @@ export const CreateKeylessCertificateRequest = Schema.Struct({
   port: Schema.Number,
   bundleMethod: Schema.optional(
     Schema.Literals(["ubiquitous", "optimal", "force"]),
-  ).pipe(T.JsonName("bundle_method")),
+  ),
   name: Schema.optional(Schema.String),
   tunnel: Schema.optional(
     Schema.Struct({
-      privateIp: Schema.String.pipe(T.JsonName("private_ip")),
-      vnetId: Schema.String.pipe(T.JsonName("vnet_id")),
-    }),
+      privateIp: Schema.String,
+      vnetId: Schema.String,
+    }).pipe(Schema.encodeKeys({ privateIp: "private_ip", vnetId: "vnet_id" })),
   ),
 }).pipe(
+  Schema.encodeKeys({ bundleMethod: "bundle_method" }),
   T.Http({ method: "POST", path: "/zones/{zone_id}/keyless_certificates" }),
 ) as unknown as Schema.Schema<CreateKeylessCertificateRequest>;
 
@@ -152,21 +215,23 @@ export interface CreateKeylessCertificateResponse {
 
 export const CreateKeylessCertificateResponse = Schema.Struct({
   id: Schema.String,
-  createdOn: Schema.String.pipe(T.JsonName("created_on")),
+  createdOn: Schema.String,
   enabled: Schema.Boolean,
   host: Schema.String,
-  modifiedOn: Schema.String.pipe(T.JsonName("modified_on")),
+  modifiedOn: Schema.String,
   name: Schema.String,
   permissions: Schema.Array(Schema.String),
   port: Schema.Number,
   status: Schema.Literals(["active", "deleted"]),
   tunnel: Schema.optional(
     Schema.Struct({
-      privateIp: Schema.String.pipe(T.JsonName("private_ip")),
-      vnetId: Schema.String.pipe(T.JsonName("vnet_id")),
-    }),
+      privateIp: Schema.String,
+      vnetId: Schema.String,
+    }).pipe(Schema.encodeKeys({ privateIp: "private_ip", vnetId: "vnet_id" })),
   ),
-}) as unknown as Schema.Schema<CreateKeylessCertificateResponse>;
+}).pipe(
+  Schema.encodeKeys({ createdOn: "created_on", modifiedOn: "modified_on" }),
+) as unknown as Schema.Schema<CreateKeylessCertificateResponse>;
 
 export const createKeylessCertificate: (
   input: CreateKeylessCertificateRequest,
@@ -205,9 +270,9 @@ export const PatchKeylessCertificateRequest = Schema.Struct({
   port: Schema.optional(Schema.Number),
   tunnel: Schema.optional(
     Schema.Struct({
-      privateIp: Schema.String.pipe(T.JsonName("private_ip")),
-      vnetId: Schema.String.pipe(T.JsonName("vnet_id")),
-    }),
+      privateIp: Schema.String,
+      vnetId: Schema.String,
+    }).pipe(Schema.encodeKeys({ privateIp: "private_ip", vnetId: "vnet_id" })),
   ),
 }).pipe(
   T.Http({
@@ -241,21 +306,23 @@ export interface PatchKeylessCertificateResponse {
 
 export const PatchKeylessCertificateResponse = Schema.Struct({
   id: Schema.String,
-  createdOn: Schema.String.pipe(T.JsonName("created_on")),
+  createdOn: Schema.String,
   enabled: Schema.Boolean,
   host: Schema.String,
-  modifiedOn: Schema.String.pipe(T.JsonName("modified_on")),
+  modifiedOn: Schema.String,
   name: Schema.String,
   permissions: Schema.Array(Schema.String),
   port: Schema.Number,
   status: Schema.Literals(["active", "deleted"]),
   tunnel: Schema.optional(
     Schema.Struct({
-      privateIp: Schema.String.pipe(T.JsonName("private_ip")),
-      vnetId: Schema.String.pipe(T.JsonName("vnet_id")),
-    }),
+      privateIp: Schema.String,
+      vnetId: Schema.String,
+    }).pipe(Schema.encodeKeys({ privateIp: "private_ip", vnetId: "vnet_id" })),
   ),
-}) as unknown as Schema.Schema<PatchKeylessCertificateResponse>;
+}).pipe(
+  Schema.encodeKeys({ createdOn: "created_on", modifiedOn: "modified_on" }),
+) as unknown as Schema.Schema<PatchKeylessCertificateResponse>;
 
 export const patchKeylessCertificate: (
   input: PatchKeylessCertificateRequest,

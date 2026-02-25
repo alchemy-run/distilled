@@ -479,11 +479,11 @@ export const GetScanResponse = Schema.Struct({
           geoip: Schema.Struct({
             city: Schema.String,
             country: Schema.String,
-            countryName: Schema.String.pipe(T.JsonName("country_name")),
+            countryName: Schema.String,
             geonameId: Schema.String,
             ll: Schema.Array(Schema.Number),
             region: Schema.String,
-          }),
+          }).pipe(Schema.encodeKeys({ countryName: "country_name" })),
           hasExtraInfo: Schema.Boolean,
           requestId: Schema.String,
           response: Schema.Struct({
@@ -591,10 +591,10 @@ export const GetScanResponse = Schema.Struct({
         data: Schema.Array(
           Schema.Struct({
             address: Schema.String,
-            dnssecValid: Schema.Boolean.pipe(T.JsonName("dnssec_valid")),
+            dnssecValid: Schema.Boolean,
             name: Schema.String,
             type: Schema.String,
-          }),
+          }).pipe(Schema.encodeKeys({ dnssecValid: "dnssec_valid" })),
         ),
       }),
       domainCategories: Schema.Struct({
@@ -612,10 +612,10 @@ export const GetScanResponse = Schema.Struct({
             geoip: Schema.Struct({
               city: Schema.String,
               country: Schema.String,
-              countryName: Schema.String.pipe(T.JsonName("country_name")),
+              countryName: Schema.String,
               ll: Schema.Array(Schema.Number),
               region: Schema.String,
-            }),
+            }).pipe(Schema.encodeKeys({ countryName: "country_name" })),
             ip: Schema.String,
           }),
         ),
@@ -664,30 +664,30 @@ export const GetScanResponse = Schema.Struct({
                 Schema.Struct({
                   id: Schema.Number,
                   name: Schema.String,
-                  superCategoryId: Schema.Number.pipe(
-                    T.JsonName("super_category_id"),
-                  ),
-                }),
+                  superCategoryId: Schema.Number,
+                }).pipe(
+                  Schema.encodeKeys({ superCategoryId: "super_category_id" }),
+                ),
               ),
               inherited: Schema.Struct({
                 content: Schema.Array(
                   Schema.Struct({
                     id: Schema.Number,
                     name: Schema.String,
-                    superCategoryId: Schema.Number.pipe(
-                      T.JsonName("super_category_id"),
-                    ),
-                  }),
+                    superCategoryId: Schema.Number,
+                  }).pipe(
+                    Schema.encodeKeys({ superCategoryId: "super_category_id" }),
+                  ),
                 ),
                 from: Schema.String,
                 risks: Schema.Array(
                   Schema.Struct({
                     id: Schema.Number,
                     name: Schema.String,
-                    superCategoryId: Schema.Number.pipe(
-                      T.JsonName("super_category_id"),
-                    ),
-                  }),
+                    superCategoryId: Schema.Number,
+                  }).pipe(
+                    Schema.encodeKeys({ superCategoryId: "super_category_id" }),
+                  ),
                 ),
               }),
               name: Schema.String,
@@ -695,10 +695,10 @@ export const GetScanResponse = Schema.Struct({
                 Schema.Struct({
                   id: Schema.Number,
                   name: Schema.String,
-                  superCategoryId: Schema.Number.pipe(
-                    T.JsonName("super_category_id"),
-                  ),
-                }),
+                  superCategoryId: Schema.Number,
+                }).pipe(
+                  Schema.encodeKeys({ superCategoryId: "super_category_id" }),
+                ),
               ),
             }),
           ),
@@ -766,10 +766,10 @@ export const GetScanResponse = Schema.Struct({
         geoip: Schema.Struct({
           city: Schema.String,
           country: Schema.String,
-          countryName: Schema.String.pipe(T.JsonName("country_name")),
+          countryName: Schema.String,
           ll: Schema.Array(Schema.Number),
           region: Schema.String,
-        }),
+        }).pipe(Schema.encodeKeys({ countryName: "country_name" })),
         index: Schema.Number,
         ip: Schema.String,
         ipv6: Schema.Boolean,
@@ -779,7 +779,7 @@ export const GetScanResponse = Schema.Struct({
         count: Schema.optional(Schema.Number),
       }),
     ),
-    iPv6Percentage: Schema.Number.pipe(T.JsonName("IPv6Percentage")),
+    iPv6Percentage: Schema.Number,
     malicious: Schema.Number,
     protocolStats: Schema.Array(
       Schema.Struct({
@@ -831,7 +831,7 @@ export const GetScanResponse = Schema.Struct({
     totalLinks: Schema.Number,
     uniqASNs: Schema.Number,
     uniqCountries: Schema.Number,
-  }),
+  }).pipe(Schema.encodeKeys({ iPv6Percentage: "IPv6Percentage" })),
   task: Schema.Struct({
     apexDomain: Schema.String,
     domain: Schema.String,
@@ -911,7 +911,7 @@ export interface ListScansResponse {
 export const ListScansResponse = Schema.Struct({
   results: Schema.Array(
     Schema.Struct({
-      id: Schema.String.pipe(T.JsonName("_id")),
+      id: Schema.String,
       page: Schema.Struct({
         asn: Schema.String,
         country: Schema.String,
@@ -934,7 +934,7 @@ export const ListScansResponse = Schema.Struct({
       verdicts: Schema.Struct({
         malicious: Schema.Boolean,
       }),
-    }),
+    }).pipe(Schema.encodeKeys({ id: "_id" })),
   ),
 }) as unknown as Schema.Schema<ListScansResponse>;
 
@@ -1592,12 +1592,12 @@ export const HarScanResponse = Schema.Struct({
     }),
     entries: Schema.Array(
       Schema.Struct({
-        initialPriority: Schema.String.pipe(T.JsonName("_initialPriority")),
-        initiatorType: Schema.String.pipe(T.JsonName("_initiator_type")),
-        priority: Schema.String.pipe(T.JsonName("_priority")),
-        requestId: Schema.String.pipe(T.JsonName("_requestId")),
-        requestTime: Schema.Number.pipe(T.JsonName("_requestTime")),
-        resourceType: Schema.String.pipe(T.JsonName("_resourceType")),
+        initialPriority: Schema.String,
+        initiatorType: Schema.String,
+        priority: Schema.String,
+        requestId: Schema.String,
+        requestTime: Schema.Number,
+        resourceType: Schema.String,
         cache: Schema.Unknown,
         connection: Schema.String,
         pageref: Schema.String,
@@ -1615,7 +1615,7 @@ export const HarScanResponse = Schema.Struct({
           url: Schema.String,
         }),
         response: Schema.Struct({
-          transferSize: Schema.Number.pipe(T.JsonName("_transferSize")),
+          transferSize: Schema.Number,
           bodySize: Schema.Number,
           content: Schema.Struct({
             mimeType: Schema.String,
@@ -1633,11 +1633,20 @@ export const HarScanResponse = Schema.Struct({
           redirectURL: Schema.String,
           status: Schema.Number,
           statusText: Schema.String,
-        }),
+        }).pipe(Schema.encodeKeys({ transferSize: "_transferSize" })),
         serverIPAddress: Schema.String,
         startedDateTime: Schema.String,
         time: Schema.Number,
-      }),
+      }).pipe(
+        Schema.encodeKeys({
+          initialPriority: "_initialPriority",
+          initiatorType: "_initiator_type",
+          priority: "_priority",
+          requestId: "_requestId",
+          requestTime: "_requestTime",
+          resourceType: "_resourceType",
+        }),
+      ),
     ),
     pages: Schema.Array(
       Schema.Struct({

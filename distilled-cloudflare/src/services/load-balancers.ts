@@ -19,6 +19,142 @@ import {
 } from "../errors.ts";
 
 // =============================================================================
+// EditPool
+// =============================================================================
+
+export interface BulkEditPoolsRequest {
+  /** Path param: Identifier. */
+  accountId: string;
+  /** Body param: The email address to send health status notifications to. This field is now deprecated in favor of Cloudflare Notifications for Load Balancing, so only resetting this field with an empty s */
+  notificationEmail?: "";
+}
+
+export const BulkEditPoolsRequest = Schema.Struct({
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+  notificationEmail: Schema.optional(Schema.Literal("")),
+}).pipe(
+  Schema.encodeKeys({ notificationEmail: "notification_email" }),
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/load_balancers/pools",
+  }),
+) as unknown as Schema.Schema<BulkEditPoolsRequest>;
+
+export type BulkEditPoolsResponse = {
+  id?: string;
+  checkRegions?:
+    | (
+        | "WNAM"
+        | "ENAM"
+        | "WEU"
+        | "EEU"
+        | "NSAM"
+        | "SSAM"
+        | "OC"
+        | "ME"
+        | "NAF"
+        | "SAF"
+        | "SEAS"
+        | "NEAS"
+        | "ALL_REGIONS"
+        | "SAS"
+      )[]
+    | null;
+  createdOn?: string;
+  description?: string;
+  disabledAt?: string;
+  enabled?: boolean;
+  latitude?: number;
+  loadShedding?: unknown | null;
+  longitude?: number;
+  minimumOrigins?: number;
+  modifiedOn?: string;
+  monitor?: string;
+  monitorGroup?: string;
+  name?: string;
+  networks?: string[];
+  notificationEmail?: string;
+  notificationFilter?: unknown | null;
+  originSteering?: unknown | null;
+  origins?: unknown[];
+}[];
+
+export const BulkEditPoolsResponse = Schema.Array(
+  Schema.Struct({
+    id: Schema.optional(Schema.String),
+    checkRegions: Schema.optional(
+      Schema.Union([
+        Schema.Array(
+          Schema.Literals([
+            "WNAM",
+            "ENAM",
+            "WEU",
+            "EEU",
+            "NSAM",
+            "SSAM",
+            "OC",
+            "ME",
+            "NAF",
+            "SAF",
+            "SEAS",
+            "NEAS",
+            "ALL_REGIONS",
+            "SAS",
+          ]),
+        ),
+        Schema.Null,
+      ]),
+    ),
+    createdOn: Schema.optional(Schema.String),
+    description: Schema.optional(Schema.String),
+    disabledAt: Schema.optional(Schema.String),
+    enabled: Schema.optional(Schema.Boolean),
+    latitude: Schema.optional(Schema.Number),
+    loadShedding: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
+    longitude: Schema.optional(Schema.Number),
+    minimumOrigins: Schema.optional(Schema.Number),
+    modifiedOn: Schema.optional(Schema.String),
+    monitor: Schema.optional(Schema.String),
+    monitorGroup: Schema.optional(Schema.String),
+    name: Schema.optional(Schema.String),
+    networks: Schema.optional(Schema.Array(Schema.String)),
+    notificationEmail: Schema.optional(Schema.String),
+    notificationFilter: Schema.optional(
+      Schema.Union([Schema.Unknown, Schema.Null]),
+    ),
+    originSteering: Schema.optional(
+      Schema.Union([Schema.Unknown, Schema.Null]),
+    ),
+    origins: Schema.optional(Schema.Array(Schema.Unknown)),
+  }).pipe(
+    Schema.encodeKeys({
+      checkRegions: "check_regions",
+      createdOn: "created_on",
+      disabledAt: "disabled_at",
+      loadShedding: "load_shedding",
+      minimumOrigins: "minimum_origins",
+      modifiedOn: "modified_on",
+      monitorGroup: "monitor_group",
+      notificationEmail: "notification_email",
+      notificationFilter: "notification_filter",
+      originSteering: "origin_steering",
+    }),
+  ),
+) as unknown as Schema.Schema<BulkEditPoolsResponse>;
+
+export const bulkEditPools: (
+  input: BulkEditPoolsRequest,
+) => Effect.Effect<
+  BulkEditPoolsResponse,
+  CommonErrors,
+  ApiToken | HttpClient.HttpClient
+> = API.make(() => ({
+  input: BulkEditPoolsRequest,
+  output: BulkEditPoolsResponse,
+  errors: [],
+}));
+
+// =============================================================================
 // LoadBalancer
 // =============================================================================
 
@@ -142,49 +278,42 @@ export const GetLoadBalancerResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
   adaptiveRouting: Schema.optional(
     Schema.Struct({
-      failoverAcrossPools: Schema.optional(Schema.Boolean).pipe(
-        T.JsonName("failover_across_pools"),
-      ),
-    }),
-  ).pipe(T.JsonName("adaptive_routing")),
-  countryPools: Schema.optional(Schema.Struct({})).pipe(
-    T.JsonName("country_pools"),
+      failoverAcrossPools: Schema.optional(Schema.Boolean),
+    }).pipe(
+      Schema.encodeKeys({ failoverAcrossPools: "failover_across_pools" }),
+    ),
   ),
-  createdOn: Schema.optional(Schema.String).pipe(T.JsonName("created_on")),
-  defaultPools: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.JsonName("default_pools"),
-  ),
+  countryPools: Schema.optional(Schema.Struct({})),
+  createdOn: Schema.optional(Schema.String),
+  defaultPools: Schema.optional(Schema.Array(Schema.String)),
   description: Schema.optional(Schema.String),
   enabled: Schema.optional(Schema.Boolean),
-  fallbackPool: Schema.optional(Schema.String).pipe(
-    T.JsonName("fallback_pool"),
-  ),
+  fallbackPool: Schema.optional(Schema.String),
   locationStrategy: Schema.optional(
     Schema.Struct({
       mode: Schema.optional(Schema.Literals(["pop", "resolver_ip"])),
       preferEcs: Schema.optional(
         Schema.Literals(["always", "never", "proximity", "geo"]),
-      ).pipe(T.JsonName("prefer_ecs")),
-    }),
-  ).pipe(T.JsonName("location_strategy")),
-  modifiedOn: Schema.optional(Schema.String).pipe(T.JsonName("modified_on")),
+      ),
+    }).pipe(Schema.encodeKeys({ preferEcs: "prefer_ecs" })),
+  ),
+  modifiedOn: Schema.optional(Schema.String),
   name: Schema.optional(Schema.String),
   networks: Schema.optional(Schema.Array(Schema.String)),
-  popPools: Schema.optional(Schema.Struct({})).pipe(T.JsonName("pop_pools")),
+  popPools: Schema.optional(Schema.Struct({})),
   proxied: Schema.optional(Schema.Boolean),
   randomSteering: Schema.optional(
     Schema.Struct({
-      defaultWeight: Schema.optional(Schema.Number).pipe(
-        T.JsonName("default_weight"),
-      ),
-      poolWeights: Schema.optional(Schema.Struct({})).pipe(
-        T.JsonName("pool_weights"),
-      ),
-    }),
-  ).pipe(T.JsonName("random_steering")),
-  regionPools: Schema.optional(Schema.Struct({})).pipe(
-    T.JsonName("region_pools"),
+      defaultWeight: Schema.optional(Schema.Number),
+      poolWeights: Schema.optional(Schema.Struct({})),
+    }).pipe(
+      Schema.encodeKeys({
+        defaultWeight: "default_weight",
+        poolWeights: "pool_weights",
+      }),
+    ),
   ),
+  regionPools: Schema.optional(Schema.Struct({})),
   rules: Schema.optional(
     Schema.Array(
       Schema.Struct({
@@ -192,54 +321,34 @@ export const GetLoadBalancerResponse = Schema.Struct({
         disabled: Schema.optional(Schema.Boolean),
         fixedResponse: Schema.optional(
           Schema.Struct({
-            contentType: Schema.optional(Schema.String).pipe(
-              T.JsonName("content_type"),
-            ),
+            contentType: Schema.optional(Schema.String),
             location: Schema.optional(Schema.String),
-            messageBody: Schema.optional(Schema.String).pipe(
-              T.JsonName("message_body"),
-            ),
-            statusCode: Schema.optional(Schema.Number).pipe(
-              T.JsonName("status_code"),
-            ),
-          }),
-        ).pipe(T.JsonName("fixed_response")),
+            messageBody: Schema.optional(Schema.String),
+            statusCode: Schema.optional(Schema.Number),
+          }).pipe(
+            Schema.encodeKeys({
+              contentType: "content_type",
+              messageBody: "message_body",
+              statusCode: "status_code",
+            }),
+          ),
+        ),
         name: Schema.optional(Schema.String),
         overrides: Schema.optional(
           Schema.Struct({
-            adaptiveRouting: Schema.optional(Schema.Unknown).pipe(
-              T.JsonName("adaptive_routing"),
-            ),
-            countryPools: Schema.optional(Schema.Struct({})).pipe(
-              T.JsonName("country_pools"),
-            ),
-            defaultPools: Schema.optional(Schema.Array(Schema.String)).pipe(
-              T.JsonName("default_pools"),
-            ),
-            fallbackPool: Schema.optional(Schema.String).pipe(
-              T.JsonName("fallback_pool"),
-            ),
-            locationStrategy: Schema.optional(Schema.Unknown).pipe(
-              T.JsonName("location_strategy"),
-            ),
-            popPools: Schema.optional(Schema.Struct({})).pipe(
-              T.JsonName("pop_pools"),
-            ),
-            randomSteering: Schema.optional(Schema.Unknown).pipe(
-              T.JsonName("random_steering"),
-            ),
-            regionPools: Schema.optional(Schema.Struct({})).pipe(
-              T.JsonName("region_pools"),
-            ),
+            adaptiveRouting: Schema.optional(Schema.Unknown),
+            countryPools: Schema.optional(Schema.Struct({})),
+            defaultPools: Schema.optional(Schema.Array(Schema.String)),
+            fallbackPool: Schema.optional(Schema.String),
+            locationStrategy: Schema.optional(Schema.Unknown),
+            popPools: Schema.optional(Schema.Struct({})),
+            randomSteering: Schema.optional(Schema.Unknown),
+            regionPools: Schema.optional(Schema.Struct({})),
             sessionAffinity: Schema.optional(
               Schema.Literals(["none", "cookie", "ip_cookie", "header"]),
-            ).pipe(T.JsonName("session_affinity")),
-            sessionAffinityAttributes: Schema.optional(Schema.Unknown).pipe(
-              T.JsonName("session_affinity_attributes"),
             ),
-            sessionAffinityTtl: Schema.optional(Schema.Number).pipe(
-              T.JsonName("session_affinity_ttl"),
-            ),
+            sessionAffinityAttributes: Schema.optional(Schema.Unknown),
+            sessionAffinityTtl: Schema.optional(Schema.Number),
             steeringPolicy: Schema.optional(
               Schema.Literals([
                 "",
@@ -251,39 +360,54 @@ export const GetLoadBalancerResponse = Schema.Struct({
                 "least_outstanding_requests",
                 "least_connections",
               ]),
-            ).pipe(T.JsonName("steering_policy")),
+            ),
             ttl: Schema.optional(Schema.Number),
-          }),
+          }).pipe(
+            Schema.encodeKeys({
+              adaptiveRouting: "adaptive_routing",
+              countryPools: "country_pools",
+              defaultPools: "default_pools",
+              fallbackPool: "fallback_pool",
+              locationStrategy: "location_strategy",
+              popPools: "pop_pools",
+              randomSteering: "random_steering",
+              regionPools: "region_pools",
+              sessionAffinity: "session_affinity",
+              sessionAffinityAttributes: "session_affinity_attributes",
+              sessionAffinityTtl: "session_affinity_ttl",
+              steeringPolicy: "steering_policy",
+            }),
+          ),
         ),
         priority: Schema.optional(Schema.Number),
         terminates: Schema.optional(Schema.Boolean),
-      }),
+      }).pipe(Schema.encodeKeys({ fixedResponse: "fixed_response" })),
     ),
   ),
   sessionAffinity: Schema.optional(
     Schema.Literals(["none", "cookie", "ip_cookie", "header"]),
-  ).pipe(T.JsonName("session_affinity")),
+  ),
   sessionAffinityAttributes: Schema.optional(
     Schema.Struct({
-      drainDuration: Schema.optional(Schema.Number).pipe(
-        T.JsonName("drain_duration"),
-      ),
+      drainDuration: Schema.optional(Schema.Number),
       headers: Schema.optional(Schema.Array(Schema.String)),
-      requireAllHeaders: Schema.optional(Schema.Boolean).pipe(
-        T.JsonName("require_all_headers"),
-      ),
+      requireAllHeaders: Schema.optional(Schema.Boolean),
       samesite: Schema.optional(
         Schema.Literals(["Auto", "Lax", "None", "Strict"]),
       ),
       secure: Schema.optional(Schema.Literals(["Auto", "Always", "Never"])),
       zeroDowntimeFailover: Schema.optional(
         Schema.Literals(["none", "temporary", "sticky"]),
-      ).pipe(T.JsonName("zero_downtime_failover")),
-    }),
-  ).pipe(T.JsonName("session_affinity_attributes")),
-  sessionAffinityTtl: Schema.optional(Schema.Number).pipe(
-    T.JsonName("session_affinity_ttl"),
+      ),
+    }).pipe(
+      Schema.encodeKeys({
+        drainDuration: "drain_duration",
+        requireAllHeaders: "require_all_headers",
+        zeroDowntimeFailover: "zero_downtime_failover",
+      }),
+    ),
   ),
+  sessionAffinityTtl: Schema.optional(Schema.Number),
   steeringPolicy: Schema.optional(
     Schema.Literals([
       "",
@@ -295,10 +419,28 @@ export const GetLoadBalancerResponse = Schema.Struct({
       "least_outstanding_requests",
       "least_connections",
     ]),
-  ).pipe(T.JsonName("steering_policy")),
+  ),
   ttl: Schema.optional(Schema.Number),
-  zoneName: Schema.optional(Schema.String).pipe(T.JsonName("zone_name")),
-}) as unknown as Schema.Schema<GetLoadBalancerResponse>;
+  zoneName: Schema.optional(Schema.String),
+}).pipe(
+  Schema.encodeKeys({
+    adaptiveRouting: "adaptive_routing",
+    countryPools: "country_pools",
+    createdOn: "created_on",
+    defaultPools: "default_pools",
+    fallbackPool: "fallback_pool",
+    locationStrategy: "location_strategy",
+    modifiedOn: "modified_on",
+    popPools: "pop_pools",
+    randomSteering: "random_steering",
+    regionPools: "region_pools",
+    sessionAffinity: "session_affinity",
+    sessionAffinityAttributes: "session_affinity_attributes",
+    sessionAffinityTtl: "session_affinity_ttl",
+    steeringPolicy: "steering_policy",
+    zoneName: "zone_name",
+  }),
+) as unknown as Schema.Schema<GetLoadBalancerResponse>;
 
 export const getLoadBalancer: (
   input: GetLoadBalancerRequest,
@@ -309,6 +451,280 @@ export const getLoadBalancer: (
 > = API.make(() => ({
   input: GetLoadBalancerRequest,
   output: GetLoadBalancerResponse,
+  errors: [],
+}));
+
+export interface ListLoadBalancersRequest {
+  zoneId: string;
+}
+
+export const ListLoadBalancersRequest = Schema.Struct({
+  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+}).pipe(
+  T.Http({ method: "GET", path: "/zones/{zone_id}/load_balancers" }),
+) as unknown as Schema.Schema<ListLoadBalancersRequest>;
+
+export type ListLoadBalancersResponse = {
+  id?: string;
+  adaptiveRouting?: { failoverAcrossPools?: boolean };
+  countryPools?: Record<string, unknown>;
+  createdOn?: string;
+  defaultPools?: string[];
+  description?: string;
+  enabled?: boolean;
+  fallbackPool?: string;
+  locationStrategy?: {
+    mode?: "pop" | "resolver_ip";
+    preferEcs?: "always" | "never" | "proximity" | "geo";
+  };
+  modifiedOn?: string;
+  name?: string;
+  networks?: string[];
+  popPools?: Record<string, unknown>;
+  proxied?: boolean;
+  randomSteering?: {
+    defaultWeight?: number;
+    poolWeights?: Record<string, unknown>;
+  };
+  regionPools?: Record<string, unknown>;
+  rules?: {
+    condition?: string;
+    disabled?: boolean;
+    fixedResponse?: {
+      contentType?: string;
+      location?: string;
+      messageBody?: string;
+      statusCode?: number;
+    };
+    name?: string;
+    overrides?: {
+      adaptiveRouting?: unknown;
+      countryPools?: Record<string, unknown>;
+      defaultPools?: string[];
+      fallbackPool?: string;
+      locationStrategy?: unknown;
+      popPools?: Record<string, unknown>;
+      randomSteering?: unknown;
+      regionPools?: Record<string, unknown>;
+      sessionAffinity?: "none" | "cookie" | "ip_cookie" | "header";
+      sessionAffinityAttributes?: unknown;
+      sessionAffinityTtl?: number;
+      steeringPolicy?:
+        | ""
+        | "off"
+        | "geo"
+        | "random"
+        | "dynamic_latency"
+        | "proximity"
+        | "least_outstanding_requests"
+        | "least_connections";
+      ttl?: number;
+    };
+    priority?: number;
+    terminates?: boolean;
+  }[];
+  sessionAffinity?: "none" | "cookie" | "ip_cookie" | "header";
+  sessionAffinityAttributes?: {
+    drainDuration?: number;
+    headers?: string[];
+    requireAllHeaders?: boolean;
+    samesite?: "Auto" | "Lax" | "None" | "Strict";
+    secure?: "Auto" | "Always" | "Never";
+    zeroDowntimeFailover?: "none" | "temporary" | "sticky";
+  };
+  sessionAffinityTtl?: number;
+  steeringPolicy?:
+    | ""
+    | "off"
+    | "geo"
+    | "random"
+    | "dynamic_latency"
+    | "proximity"
+    | "least_outstanding_requests"
+    | "least_connections";
+  ttl?: number;
+  zoneName?: string;
+}[];
+
+export const ListLoadBalancersResponse = Schema.Array(
+  Schema.Struct({
+    id: Schema.optional(Schema.String),
+    adaptiveRouting: Schema.optional(
+      Schema.Struct({
+        failoverAcrossPools: Schema.optional(Schema.Boolean),
+      }).pipe(
+        Schema.encodeKeys({ failoverAcrossPools: "failover_across_pools" }),
+      ),
+    ),
+    countryPools: Schema.optional(Schema.Struct({})),
+    createdOn: Schema.optional(Schema.String),
+    defaultPools: Schema.optional(Schema.Array(Schema.String)),
+    description: Schema.optional(Schema.String),
+    enabled: Schema.optional(Schema.Boolean),
+    fallbackPool: Schema.optional(Schema.String),
+    locationStrategy: Schema.optional(
+      Schema.Struct({
+        mode: Schema.optional(Schema.Literals(["pop", "resolver_ip"])),
+        preferEcs: Schema.optional(
+          Schema.Literals(["always", "never", "proximity", "geo"]),
+        ),
+      }).pipe(Schema.encodeKeys({ preferEcs: "prefer_ecs" })),
+    ),
+    modifiedOn: Schema.optional(Schema.String),
+    name: Schema.optional(Schema.String),
+    networks: Schema.optional(Schema.Array(Schema.String)),
+    popPools: Schema.optional(Schema.Struct({})),
+    proxied: Schema.optional(Schema.Boolean),
+    randomSteering: Schema.optional(
+      Schema.Struct({
+        defaultWeight: Schema.optional(Schema.Number),
+        poolWeights: Schema.optional(Schema.Struct({})),
+      }).pipe(
+        Schema.encodeKeys({
+          defaultWeight: "default_weight",
+          poolWeights: "pool_weights",
+        }),
+      ),
+    ),
+    regionPools: Schema.optional(Schema.Struct({})),
+    rules: Schema.optional(
+      Schema.Array(
+        Schema.Struct({
+          condition: Schema.optional(Schema.String),
+          disabled: Schema.optional(Schema.Boolean),
+          fixedResponse: Schema.optional(
+            Schema.Struct({
+              contentType: Schema.optional(Schema.String),
+              location: Schema.optional(Schema.String),
+              messageBody: Schema.optional(Schema.String),
+              statusCode: Schema.optional(Schema.Number),
+            }).pipe(
+              Schema.encodeKeys({
+                contentType: "content_type",
+                messageBody: "message_body",
+                statusCode: "status_code",
+              }),
+            ),
+          ),
+          name: Schema.optional(Schema.String),
+          overrides: Schema.optional(
+            Schema.Struct({
+              adaptiveRouting: Schema.optional(Schema.Unknown),
+              countryPools: Schema.optional(Schema.Struct({})),
+              defaultPools: Schema.optional(Schema.Array(Schema.String)),
+              fallbackPool: Schema.optional(Schema.String),
+              locationStrategy: Schema.optional(Schema.Unknown),
+              popPools: Schema.optional(Schema.Struct({})),
+              randomSteering: Schema.optional(Schema.Unknown),
+              regionPools: Schema.optional(Schema.Struct({})),
+              sessionAffinity: Schema.optional(
+                Schema.Literals(["none", "cookie", "ip_cookie", "header"]),
+              ),
+              sessionAffinityAttributes: Schema.optional(Schema.Unknown),
+              sessionAffinityTtl: Schema.optional(Schema.Number),
+              steeringPolicy: Schema.optional(
+                Schema.Literals([
+                  "",
+                  "off",
+                  "geo",
+                  "random",
+                  "dynamic_latency",
+                  "proximity",
+                  "least_outstanding_requests",
+                  "least_connections",
+                ]),
+              ),
+              ttl: Schema.optional(Schema.Number),
+            }).pipe(
+              Schema.encodeKeys({
+                adaptiveRouting: "adaptive_routing",
+                countryPools: "country_pools",
+                defaultPools: "default_pools",
+                fallbackPool: "fallback_pool",
+                locationStrategy: "location_strategy",
+                popPools: "pop_pools",
+                randomSteering: "random_steering",
+                regionPools: "region_pools",
+                sessionAffinity: "session_affinity",
+                sessionAffinityAttributes: "session_affinity_attributes",
+                sessionAffinityTtl: "session_affinity_ttl",
+                steeringPolicy: "steering_policy",
+              }),
+            ),
+          ),
+          priority: Schema.optional(Schema.Number),
+          terminates: Schema.optional(Schema.Boolean),
+        }).pipe(Schema.encodeKeys({ fixedResponse: "fixed_response" })),
+      ),
+    ),
+    sessionAffinity: Schema.optional(
+      Schema.Literals(["none", "cookie", "ip_cookie", "header"]),
+    ),
+    sessionAffinityAttributes: Schema.optional(
+      Schema.Struct({
+        drainDuration: Schema.optional(Schema.Number),
+        headers: Schema.optional(Schema.Array(Schema.String)),
+        requireAllHeaders: Schema.optional(Schema.Boolean),
+        samesite: Schema.optional(
+          Schema.Literals(["Auto", "Lax", "None", "Strict"]),
+        ),
+        secure: Schema.optional(Schema.Literals(["Auto", "Always", "Never"])),
+        zeroDowntimeFailover: Schema.optional(
+          Schema.Literals(["none", "temporary", "sticky"]),
+        ),
+      }).pipe(
+        Schema.encodeKeys({
+          drainDuration: "drain_duration",
+          requireAllHeaders: "require_all_headers",
+          zeroDowntimeFailover: "zero_downtime_failover",
+        }),
+      ),
+    ),
+    sessionAffinityTtl: Schema.optional(Schema.Number),
+    steeringPolicy: Schema.optional(
+      Schema.Literals([
+        "",
+        "off",
+        "geo",
+        "random",
+        "dynamic_latency",
+        "proximity",
+        "least_outstanding_requests",
+        "least_connections",
+      ]),
+    ),
+    ttl: Schema.optional(Schema.Number),
+    zoneName: Schema.optional(Schema.String),
+  }).pipe(
+    Schema.encodeKeys({
+      adaptiveRouting: "adaptive_routing",
+      countryPools: "country_pools",
+      createdOn: "created_on",
+      defaultPools: "default_pools",
+      fallbackPool: "fallback_pool",
+      locationStrategy: "location_strategy",
+      modifiedOn: "modified_on",
+      popPools: "pop_pools",
+      randomSteering: "random_steering",
+      regionPools: "region_pools",
+      sessionAffinity: "session_affinity",
+      sessionAffinityAttributes: "session_affinity_attributes",
+      sessionAffinityTtl: "session_affinity_ttl",
+      steeringPolicy: "steering_policy",
+      zoneName: "zone_name",
+    }),
+  ),
+) as unknown as Schema.Schema<ListLoadBalancersResponse>;
+
+export const listLoadBalancers: (
+  input: ListLoadBalancersRequest,
+) => Effect.Effect<
+  ListLoadBalancersResponse,
+  CommonErrors,
+  ApiToken | HttpClient.HttpClient
+> = API.make(() => ({
+  input: ListLoadBalancersRequest,
+  output: ListLoadBalancersResponse,
   errors: [],
 }));
 
@@ -411,44 +827,41 @@ export interface CreateLoadBalancerRequest {
 
 export const CreateLoadBalancerRequest = Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  defaultPools: Schema.Array(Schema.String).pipe(T.JsonName("default_pools")),
-  fallbackPool: Schema.String.pipe(T.JsonName("fallback_pool")),
+  defaultPools: Schema.Array(Schema.String),
+  fallbackPool: Schema.String,
   name: Schema.String,
   adaptiveRouting: Schema.optional(
     Schema.Struct({
-      failoverAcrossPools: Schema.optional(Schema.Boolean).pipe(
-        T.JsonName("failover_across_pools"),
-      ),
-    }),
-  ).pipe(T.JsonName("adaptive_routing")),
-  countryPools: Schema.optional(Schema.Struct({})).pipe(
-    T.JsonName("country_pools"),
+      failoverAcrossPools: Schema.optional(Schema.Boolean),
+    }).pipe(
+      Schema.encodeKeys({ failoverAcrossPools: "failover_across_pools" }),
+    ),
   ),
+  countryPools: Schema.optional(Schema.Struct({})),
   description: Schema.optional(Schema.String),
   locationStrategy: Schema.optional(
     Schema.Struct({
       mode: Schema.optional(Schema.Literals(["pop", "resolver_ip"])),
       preferEcs: Schema.optional(
         Schema.Literals(["always", "never", "proximity", "geo"]),
-      ).pipe(T.JsonName("prefer_ecs")),
-    }),
-  ).pipe(T.JsonName("location_strategy")),
+      ),
+    }).pipe(Schema.encodeKeys({ preferEcs: "prefer_ecs" })),
+  ),
   networks: Schema.optional(Schema.Array(Schema.String)),
-  popPools: Schema.optional(Schema.Struct({})).pipe(T.JsonName("pop_pools")),
+  popPools: Schema.optional(Schema.Struct({})),
   proxied: Schema.optional(Schema.Boolean),
   randomSteering: Schema.optional(
     Schema.Struct({
-      defaultWeight: Schema.optional(Schema.Number).pipe(
-        T.JsonName("default_weight"),
-      ),
-      poolWeights: Schema.optional(Schema.Struct({})).pipe(
-        T.JsonName("pool_weights"),
-      ),
-    }),
-  ).pipe(T.JsonName("random_steering")),
-  regionPools: Schema.optional(Schema.Struct({})).pipe(
-    T.JsonName("region_pools"),
+      defaultWeight: Schema.optional(Schema.Number),
+      poolWeights: Schema.optional(Schema.Struct({})),
+    }).pipe(
+      Schema.encodeKeys({
+        defaultWeight: "default_weight",
+        poolWeights: "pool_weights",
+      }),
+    ),
   ),
+  regionPools: Schema.optional(Schema.Struct({})),
   rules: Schema.optional(
     Schema.Array(
       Schema.Struct({
@@ -456,54 +869,34 @@ export const CreateLoadBalancerRequest = Schema.Struct({
         disabled: Schema.optional(Schema.Boolean),
         fixedResponse: Schema.optional(
           Schema.Struct({
-            contentType: Schema.optional(Schema.String).pipe(
-              T.JsonName("content_type"),
-            ),
+            contentType: Schema.optional(Schema.String),
             location: Schema.optional(Schema.String),
-            messageBody: Schema.optional(Schema.String).pipe(
-              T.JsonName("message_body"),
-            ),
-            statusCode: Schema.optional(Schema.Number).pipe(
-              T.JsonName("status_code"),
-            ),
-          }),
-        ).pipe(T.JsonName("fixed_response")),
+            messageBody: Schema.optional(Schema.String),
+            statusCode: Schema.optional(Schema.Number),
+          }).pipe(
+            Schema.encodeKeys({
+              contentType: "content_type",
+              messageBody: "message_body",
+              statusCode: "status_code",
+            }),
+          ),
+        ),
         name: Schema.optional(Schema.String),
         overrides: Schema.optional(
           Schema.Struct({
-            adaptiveRouting: Schema.optional(Schema.Unknown).pipe(
-              T.JsonName("adaptive_routing"),
-            ),
-            countryPools: Schema.optional(Schema.Struct({})).pipe(
-              T.JsonName("country_pools"),
-            ),
-            defaultPools: Schema.optional(Schema.Array(Schema.String)).pipe(
-              T.JsonName("default_pools"),
-            ),
-            fallbackPool: Schema.optional(Schema.String).pipe(
-              T.JsonName("fallback_pool"),
-            ),
-            locationStrategy: Schema.optional(Schema.Unknown).pipe(
-              T.JsonName("location_strategy"),
-            ),
-            popPools: Schema.optional(Schema.Struct({})).pipe(
-              T.JsonName("pop_pools"),
-            ),
-            randomSteering: Schema.optional(Schema.Unknown).pipe(
-              T.JsonName("random_steering"),
-            ),
-            regionPools: Schema.optional(Schema.Struct({})).pipe(
-              T.JsonName("region_pools"),
-            ),
+            adaptiveRouting: Schema.optional(Schema.Unknown),
+            countryPools: Schema.optional(Schema.Struct({})),
+            defaultPools: Schema.optional(Schema.Array(Schema.String)),
+            fallbackPool: Schema.optional(Schema.String),
+            locationStrategy: Schema.optional(Schema.Unknown),
+            popPools: Schema.optional(Schema.Struct({})),
+            randomSteering: Schema.optional(Schema.Unknown),
+            regionPools: Schema.optional(Schema.Struct({})),
             sessionAffinity: Schema.optional(
               Schema.Literals(["none", "cookie", "ip_cookie", "header"]),
-            ).pipe(T.JsonName("session_affinity")),
-            sessionAffinityAttributes: Schema.optional(Schema.Unknown).pipe(
-              T.JsonName("session_affinity_attributes"),
             ),
-            sessionAffinityTtl: Schema.optional(Schema.Number).pipe(
-              T.JsonName("session_affinity_ttl"),
-            ),
+            sessionAffinityAttributes: Schema.optional(Schema.Unknown),
+            sessionAffinityTtl: Schema.optional(Schema.Number),
             steeringPolicy: Schema.optional(
               Schema.Literals([
                 "",
@@ -515,39 +908,54 @@ export const CreateLoadBalancerRequest = Schema.Struct({
                 "least_outstanding_requests",
                 "least_connections",
               ]),
-            ).pipe(T.JsonName("steering_policy")),
+            ),
             ttl: Schema.optional(Schema.Number),
-          }),
+          }).pipe(
+            Schema.encodeKeys({
+              adaptiveRouting: "adaptive_routing",
+              countryPools: "country_pools",
+              defaultPools: "default_pools",
+              fallbackPool: "fallback_pool",
+              locationStrategy: "location_strategy",
+              popPools: "pop_pools",
+              randomSteering: "random_steering",
+              regionPools: "region_pools",
+              sessionAffinity: "session_affinity",
+              sessionAffinityAttributes: "session_affinity_attributes",
+              sessionAffinityTtl: "session_affinity_ttl",
+              steeringPolicy: "steering_policy",
+            }),
+          ),
         ),
         priority: Schema.optional(Schema.Number),
         terminates: Schema.optional(Schema.Boolean),
-      }),
+      }).pipe(Schema.encodeKeys({ fixedResponse: "fixed_response" })),
     ),
   ),
   sessionAffinity: Schema.optional(
     Schema.Literals(["none", "cookie", "ip_cookie", "header"]),
-  ).pipe(T.JsonName("session_affinity")),
+  ),
   sessionAffinityAttributes: Schema.optional(
     Schema.Struct({
-      drainDuration: Schema.optional(Schema.Number).pipe(
-        T.JsonName("drain_duration"),
-      ),
+      drainDuration: Schema.optional(Schema.Number),
       headers: Schema.optional(Schema.Array(Schema.String)),
-      requireAllHeaders: Schema.optional(Schema.Boolean).pipe(
-        T.JsonName("require_all_headers"),
-      ),
+      requireAllHeaders: Schema.optional(Schema.Boolean),
       samesite: Schema.optional(
         Schema.Literals(["Auto", "Lax", "None", "Strict"]),
       ),
       secure: Schema.optional(Schema.Literals(["Auto", "Always", "Never"])),
       zeroDowntimeFailover: Schema.optional(
         Schema.Literals(["none", "temporary", "sticky"]),
-      ).pipe(T.JsonName("zero_downtime_failover")),
-    }),
-  ).pipe(T.JsonName("session_affinity_attributes")),
-  sessionAffinityTtl: Schema.optional(Schema.Number).pipe(
-    T.JsonName("session_affinity_ttl"),
+      ),
+    }).pipe(
+      Schema.encodeKeys({
+        drainDuration: "drain_duration",
+        requireAllHeaders: "require_all_headers",
+        zeroDowntimeFailover: "zero_downtime_failover",
+      }),
+    ),
   ),
+  sessionAffinityTtl: Schema.optional(Schema.Number),
   steeringPolicy: Schema.optional(
     Schema.Literals([
       "",
@@ -559,9 +967,23 @@ export const CreateLoadBalancerRequest = Schema.Struct({
       "least_outstanding_requests",
       "least_connections",
     ]),
-  ).pipe(T.JsonName("steering_policy")),
+  ),
   ttl: Schema.optional(Schema.Number),
 }).pipe(
+  Schema.encodeKeys({
+    defaultPools: "default_pools",
+    fallbackPool: "fallback_pool",
+    adaptiveRouting: "adaptive_routing",
+    countryPools: "country_pools",
+    locationStrategy: "location_strategy",
+    popPools: "pop_pools",
+    randomSteering: "random_steering",
+    regionPools: "region_pools",
+    sessionAffinity: "session_affinity",
+    sessionAffinityAttributes: "session_affinity_attributes",
+    sessionAffinityTtl: "session_affinity_ttl",
+    steeringPolicy: "steering_policy",
+  }),
   T.Http({ method: "POST", path: "/zones/{zone_id}/load_balancers" }),
 ) as unknown as Schema.Schema<CreateLoadBalancerRequest>;
 
@@ -670,49 +1092,42 @@ export const CreateLoadBalancerResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
   adaptiveRouting: Schema.optional(
     Schema.Struct({
-      failoverAcrossPools: Schema.optional(Schema.Boolean).pipe(
-        T.JsonName("failover_across_pools"),
-      ),
-    }),
-  ).pipe(T.JsonName("adaptive_routing")),
-  countryPools: Schema.optional(Schema.Struct({})).pipe(
-    T.JsonName("country_pools"),
+      failoverAcrossPools: Schema.optional(Schema.Boolean),
+    }).pipe(
+      Schema.encodeKeys({ failoverAcrossPools: "failover_across_pools" }),
+    ),
   ),
-  createdOn: Schema.optional(Schema.String).pipe(T.JsonName("created_on")),
-  defaultPools: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.JsonName("default_pools"),
-  ),
+  countryPools: Schema.optional(Schema.Struct({})),
+  createdOn: Schema.optional(Schema.String),
+  defaultPools: Schema.optional(Schema.Array(Schema.String)),
   description: Schema.optional(Schema.String),
   enabled: Schema.optional(Schema.Boolean),
-  fallbackPool: Schema.optional(Schema.String).pipe(
-    T.JsonName("fallback_pool"),
-  ),
+  fallbackPool: Schema.optional(Schema.String),
   locationStrategy: Schema.optional(
     Schema.Struct({
       mode: Schema.optional(Schema.Literals(["pop", "resolver_ip"])),
       preferEcs: Schema.optional(
         Schema.Literals(["always", "never", "proximity", "geo"]),
-      ).pipe(T.JsonName("prefer_ecs")),
-    }),
-  ).pipe(T.JsonName("location_strategy")),
-  modifiedOn: Schema.optional(Schema.String).pipe(T.JsonName("modified_on")),
+      ),
+    }).pipe(Schema.encodeKeys({ preferEcs: "prefer_ecs" })),
+  ),
+  modifiedOn: Schema.optional(Schema.String),
   name: Schema.optional(Schema.String),
   networks: Schema.optional(Schema.Array(Schema.String)),
-  popPools: Schema.optional(Schema.Struct({})).pipe(T.JsonName("pop_pools")),
+  popPools: Schema.optional(Schema.Struct({})),
   proxied: Schema.optional(Schema.Boolean),
   randomSteering: Schema.optional(
     Schema.Struct({
-      defaultWeight: Schema.optional(Schema.Number).pipe(
-        T.JsonName("default_weight"),
-      ),
-      poolWeights: Schema.optional(Schema.Struct({})).pipe(
-        T.JsonName("pool_weights"),
-      ),
-    }),
-  ).pipe(T.JsonName("random_steering")),
-  regionPools: Schema.optional(Schema.Struct({})).pipe(
-    T.JsonName("region_pools"),
+      defaultWeight: Schema.optional(Schema.Number),
+      poolWeights: Schema.optional(Schema.Struct({})),
+    }).pipe(
+      Schema.encodeKeys({
+        defaultWeight: "default_weight",
+        poolWeights: "pool_weights",
+      }),
+    ),
   ),
+  regionPools: Schema.optional(Schema.Struct({})),
   rules: Schema.optional(
     Schema.Array(
       Schema.Struct({
@@ -720,54 +1135,34 @@ export const CreateLoadBalancerResponse = Schema.Struct({
         disabled: Schema.optional(Schema.Boolean),
         fixedResponse: Schema.optional(
           Schema.Struct({
-            contentType: Schema.optional(Schema.String).pipe(
-              T.JsonName("content_type"),
-            ),
+            contentType: Schema.optional(Schema.String),
             location: Schema.optional(Schema.String),
-            messageBody: Schema.optional(Schema.String).pipe(
-              T.JsonName("message_body"),
-            ),
-            statusCode: Schema.optional(Schema.Number).pipe(
-              T.JsonName("status_code"),
-            ),
-          }),
-        ).pipe(T.JsonName("fixed_response")),
+            messageBody: Schema.optional(Schema.String),
+            statusCode: Schema.optional(Schema.Number),
+          }).pipe(
+            Schema.encodeKeys({
+              contentType: "content_type",
+              messageBody: "message_body",
+              statusCode: "status_code",
+            }),
+          ),
+        ),
         name: Schema.optional(Schema.String),
         overrides: Schema.optional(
           Schema.Struct({
-            adaptiveRouting: Schema.optional(Schema.Unknown).pipe(
-              T.JsonName("adaptive_routing"),
-            ),
-            countryPools: Schema.optional(Schema.Struct({})).pipe(
-              T.JsonName("country_pools"),
-            ),
-            defaultPools: Schema.optional(Schema.Array(Schema.String)).pipe(
-              T.JsonName("default_pools"),
-            ),
-            fallbackPool: Schema.optional(Schema.String).pipe(
-              T.JsonName("fallback_pool"),
-            ),
-            locationStrategy: Schema.optional(Schema.Unknown).pipe(
-              T.JsonName("location_strategy"),
-            ),
-            popPools: Schema.optional(Schema.Struct({})).pipe(
-              T.JsonName("pop_pools"),
-            ),
-            randomSteering: Schema.optional(Schema.Unknown).pipe(
-              T.JsonName("random_steering"),
-            ),
-            regionPools: Schema.optional(Schema.Struct({})).pipe(
-              T.JsonName("region_pools"),
-            ),
+            adaptiveRouting: Schema.optional(Schema.Unknown),
+            countryPools: Schema.optional(Schema.Struct({})),
+            defaultPools: Schema.optional(Schema.Array(Schema.String)),
+            fallbackPool: Schema.optional(Schema.String),
+            locationStrategy: Schema.optional(Schema.Unknown),
+            popPools: Schema.optional(Schema.Struct({})),
+            randomSteering: Schema.optional(Schema.Unknown),
+            regionPools: Schema.optional(Schema.Struct({})),
             sessionAffinity: Schema.optional(
               Schema.Literals(["none", "cookie", "ip_cookie", "header"]),
-            ).pipe(T.JsonName("session_affinity")),
-            sessionAffinityAttributes: Schema.optional(Schema.Unknown).pipe(
-              T.JsonName("session_affinity_attributes"),
             ),
-            sessionAffinityTtl: Schema.optional(Schema.Number).pipe(
-              T.JsonName("session_affinity_ttl"),
-            ),
+            sessionAffinityAttributes: Schema.optional(Schema.Unknown),
+            sessionAffinityTtl: Schema.optional(Schema.Number),
             steeringPolicy: Schema.optional(
               Schema.Literals([
                 "",
@@ -779,39 +1174,54 @@ export const CreateLoadBalancerResponse = Schema.Struct({
                 "least_outstanding_requests",
                 "least_connections",
               ]),
-            ).pipe(T.JsonName("steering_policy")),
+            ),
             ttl: Schema.optional(Schema.Number),
-          }),
+          }).pipe(
+            Schema.encodeKeys({
+              adaptiveRouting: "adaptive_routing",
+              countryPools: "country_pools",
+              defaultPools: "default_pools",
+              fallbackPool: "fallback_pool",
+              locationStrategy: "location_strategy",
+              popPools: "pop_pools",
+              randomSteering: "random_steering",
+              regionPools: "region_pools",
+              sessionAffinity: "session_affinity",
+              sessionAffinityAttributes: "session_affinity_attributes",
+              sessionAffinityTtl: "session_affinity_ttl",
+              steeringPolicy: "steering_policy",
+            }),
+          ),
         ),
         priority: Schema.optional(Schema.Number),
         terminates: Schema.optional(Schema.Boolean),
-      }),
+      }).pipe(Schema.encodeKeys({ fixedResponse: "fixed_response" })),
     ),
   ),
   sessionAffinity: Schema.optional(
     Schema.Literals(["none", "cookie", "ip_cookie", "header"]),
-  ).pipe(T.JsonName("session_affinity")),
+  ),
   sessionAffinityAttributes: Schema.optional(
     Schema.Struct({
-      drainDuration: Schema.optional(Schema.Number).pipe(
-        T.JsonName("drain_duration"),
-      ),
+      drainDuration: Schema.optional(Schema.Number),
       headers: Schema.optional(Schema.Array(Schema.String)),
-      requireAllHeaders: Schema.optional(Schema.Boolean).pipe(
-        T.JsonName("require_all_headers"),
-      ),
+      requireAllHeaders: Schema.optional(Schema.Boolean),
       samesite: Schema.optional(
         Schema.Literals(["Auto", "Lax", "None", "Strict"]),
       ),
       secure: Schema.optional(Schema.Literals(["Auto", "Always", "Never"])),
       zeroDowntimeFailover: Schema.optional(
         Schema.Literals(["none", "temporary", "sticky"]),
-      ).pipe(T.JsonName("zero_downtime_failover")),
-    }),
-  ).pipe(T.JsonName("session_affinity_attributes")),
-  sessionAffinityTtl: Schema.optional(Schema.Number).pipe(
-    T.JsonName("session_affinity_ttl"),
+      ),
+    }).pipe(
+      Schema.encodeKeys({
+        drainDuration: "drain_duration",
+        requireAllHeaders: "require_all_headers",
+        zeroDowntimeFailover: "zero_downtime_failover",
+      }),
+    ),
   ),
+  sessionAffinityTtl: Schema.optional(Schema.Number),
   steeringPolicy: Schema.optional(
     Schema.Literals([
       "",
@@ -823,10 +1233,28 @@ export const CreateLoadBalancerResponse = Schema.Struct({
       "least_outstanding_requests",
       "least_connections",
     ]),
-  ).pipe(T.JsonName("steering_policy")),
+  ),
   ttl: Schema.optional(Schema.Number),
-  zoneName: Schema.optional(Schema.String).pipe(T.JsonName("zone_name")),
-}) as unknown as Schema.Schema<CreateLoadBalancerResponse>;
+  zoneName: Schema.optional(Schema.String),
+}).pipe(
+  Schema.encodeKeys({
+    adaptiveRouting: "adaptive_routing",
+    countryPools: "country_pools",
+    createdOn: "created_on",
+    defaultPools: "default_pools",
+    fallbackPool: "fallback_pool",
+    locationStrategy: "location_strategy",
+    modifiedOn: "modified_on",
+    popPools: "pop_pools",
+    randomSteering: "random_steering",
+    regionPools: "region_pools",
+    sessionAffinity: "session_affinity",
+    sessionAffinityAttributes: "session_affinity_attributes",
+    sessionAffinityTtl: "session_affinity_ttl",
+    steeringPolicy: "steering_policy",
+    zoneName: "zone_name",
+  }),
+) as unknown as Schema.Schema<CreateLoadBalancerResponse>;
 
 export const createLoadBalancer: (
   input: CreateLoadBalancerRequest,
@@ -943,19 +1371,17 @@ export interface UpdateLoadBalancerRequest {
 export const UpdateLoadBalancerRequest = Schema.Struct({
   loadBalancerId: Schema.String.pipe(T.HttpPath("loadBalancerId")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  defaultPools: Schema.Array(Schema.String).pipe(T.JsonName("default_pools")),
-  fallbackPool: Schema.String.pipe(T.JsonName("fallback_pool")),
+  defaultPools: Schema.Array(Schema.String),
+  fallbackPool: Schema.String,
   name: Schema.String,
   adaptiveRouting: Schema.optional(
     Schema.Struct({
-      failoverAcrossPools: Schema.optional(Schema.Boolean).pipe(
-        T.JsonName("failover_across_pools"),
-      ),
-    }),
-  ).pipe(T.JsonName("adaptive_routing")),
-  countryPools: Schema.optional(Schema.Struct({})).pipe(
-    T.JsonName("country_pools"),
+      failoverAcrossPools: Schema.optional(Schema.Boolean),
+    }).pipe(
+      Schema.encodeKeys({ failoverAcrossPools: "failover_across_pools" }),
+    ),
   ),
+  countryPools: Schema.optional(Schema.Struct({})),
   description: Schema.optional(Schema.String),
   enabled: Schema.optional(Schema.Boolean),
   locationStrategy: Schema.optional(
@@ -963,25 +1389,24 @@ export const UpdateLoadBalancerRequest = Schema.Struct({
       mode: Schema.optional(Schema.Literals(["pop", "resolver_ip"])),
       preferEcs: Schema.optional(
         Schema.Literals(["always", "never", "proximity", "geo"]),
-      ).pipe(T.JsonName("prefer_ecs")),
-    }),
-  ).pipe(T.JsonName("location_strategy")),
+      ),
+    }).pipe(Schema.encodeKeys({ preferEcs: "prefer_ecs" })),
+  ),
   networks: Schema.optional(Schema.Array(Schema.String)),
-  popPools: Schema.optional(Schema.Struct({})).pipe(T.JsonName("pop_pools")),
+  popPools: Schema.optional(Schema.Struct({})),
   proxied: Schema.optional(Schema.Boolean),
   randomSteering: Schema.optional(
     Schema.Struct({
-      defaultWeight: Schema.optional(Schema.Number).pipe(
-        T.JsonName("default_weight"),
-      ),
-      poolWeights: Schema.optional(Schema.Struct({})).pipe(
-        T.JsonName("pool_weights"),
-      ),
-    }),
-  ).pipe(T.JsonName("random_steering")),
-  regionPools: Schema.optional(Schema.Struct({})).pipe(
-    T.JsonName("region_pools"),
+      defaultWeight: Schema.optional(Schema.Number),
+      poolWeights: Schema.optional(Schema.Struct({})),
+    }).pipe(
+      Schema.encodeKeys({
+        defaultWeight: "default_weight",
+        poolWeights: "pool_weights",
+      }),
+    ),
   ),
+  regionPools: Schema.optional(Schema.Struct({})),
   rules: Schema.optional(
     Schema.Array(
       Schema.Struct({
@@ -989,54 +1414,34 @@ export const UpdateLoadBalancerRequest = Schema.Struct({
         disabled: Schema.optional(Schema.Boolean),
         fixedResponse: Schema.optional(
           Schema.Struct({
-            contentType: Schema.optional(Schema.String).pipe(
-              T.JsonName("content_type"),
-            ),
+            contentType: Schema.optional(Schema.String),
             location: Schema.optional(Schema.String),
-            messageBody: Schema.optional(Schema.String).pipe(
-              T.JsonName("message_body"),
-            ),
-            statusCode: Schema.optional(Schema.Number).pipe(
-              T.JsonName("status_code"),
-            ),
-          }),
-        ).pipe(T.JsonName("fixed_response")),
+            messageBody: Schema.optional(Schema.String),
+            statusCode: Schema.optional(Schema.Number),
+          }).pipe(
+            Schema.encodeKeys({
+              contentType: "content_type",
+              messageBody: "message_body",
+              statusCode: "status_code",
+            }),
+          ),
+        ),
         name: Schema.optional(Schema.String),
         overrides: Schema.optional(
           Schema.Struct({
-            adaptiveRouting: Schema.optional(Schema.Unknown).pipe(
-              T.JsonName("adaptive_routing"),
-            ),
-            countryPools: Schema.optional(Schema.Struct({})).pipe(
-              T.JsonName("country_pools"),
-            ),
-            defaultPools: Schema.optional(Schema.Array(Schema.String)).pipe(
-              T.JsonName("default_pools"),
-            ),
-            fallbackPool: Schema.optional(Schema.String).pipe(
-              T.JsonName("fallback_pool"),
-            ),
-            locationStrategy: Schema.optional(Schema.Unknown).pipe(
-              T.JsonName("location_strategy"),
-            ),
-            popPools: Schema.optional(Schema.Struct({})).pipe(
-              T.JsonName("pop_pools"),
-            ),
-            randomSteering: Schema.optional(Schema.Unknown).pipe(
-              T.JsonName("random_steering"),
-            ),
-            regionPools: Schema.optional(Schema.Struct({})).pipe(
-              T.JsonName("region_pools"),
-            ),
+            adaptiveRouting: Schema.optional(Schema.Unknown),
+            countryPools: Schema.optional(Schema.Struct({})),
+            defaultPools: Schema.optional(Schema.Array(Schema.String)),
+            fallbackPool: Schema.optional(Schema.String),
+            locationStrategy: Schema.optional(Schema.Unknown),
+            popPools: Schema.optional(Schema.Struct({})),
+            randomSteering: Schema.optional(Schema.Unknown),
+            regionPools: Schema.optional(Schema.Struct({})),
             sessionAffinity: Schema.optional(
               Schema.Literals(["none", "cookie", "ip_cookie", "header"]),
-            ).pipe(T.JsonName("session_affinity")),
-            sessionAffinityAttributes: Schema.optional(Schema.Unknown).pipe(
-              T.JsonName("session_affinity_attributes"),
             ),
-            sessionAffinityTtl: Schema.optional(Schema.Number).pipe(
-              T.JsonName("session_affinity_ttl"),
-            ),
+            sessionAffinityAttributes: Schema.optional(Schema.Unknown),
+            sessionAffinityTtl: Schema.optional(Schema.Number),
             steeringPolicy: Schema.optional(
               Schema.Literals([
                 "",
@@ -1048,39 +1453,54 @@ export const UpdateLoadBalancerRequest = Schema.Struct({
                 "least_outstanding_requests",
                 "least_connections",
               ]),
-            ).pipe(T.JsonName("steering_policy")),
+            ),
             ttl: Schema.optional(Schema.Number),
-          }),
+          }).pipe(
+            Schema.encodeKeys({
+              adaptiveRouting: "adaptive_routing",
+              countryPools: "country_pools",
+              defaultPools: "default_pools",
+              fallbackPool: "fallback_pool",
+              locationStrategy: "location_strategy",
+              popPools: "pop_pools",
+              randomSteering: "random_steering",
+              regionPools: "region_pools",
+              sessionAffinity: "session_affinity",
+              sessionAffinityAttributes: "session_affinity_attributes",
+              sessionAffinityTtl: "session_affinity_ttl",
+              steeringPolicy: "steering_policy",
+            }),
+          ),
         ),
         priority: Schema.optional(Schema.Number),
         terminates: Schema.optional(Schema.Boolean),
-      }),
+      }).pipe(Schema.encodeKeys({ fixedResponse: "fixed_response" })),
     ),
   ),
   sessionAffinity: Schema.optional(
     Schema.Literals(["none", "cookie", "ip_cookie", "header"]),
-  ).pipe(T.JsonName("session_affinity")),
+  ),
   sessionAffinityAttributes: Schema.optional(
     Schema.Struct({
-      drainDuration: Schema.optional(Schema.Number).pipe(
-        T.JsonName("drain_duration"),
-      ),
+      drainDuration: Schema.optional(Schema.Number),
       headers: Schema.optional(Schema.Array(Schema.String)),
-      requireAllHeaders: Schema.optional(Schema.Boolean).pipe(
-        T.JsonName("require_all_headers"),
-      ),
+      requireAllHeaders: Schema.optional(Schema.Boolean),
       samesite: Schema.optional(
         Schema.Literals(["Auto", "Lax", "None", "Strict"]),
       ),
       secure: Schema.optional(Schema.Literals(["Auto", "Always", "Never"])),
       zeroDowntimeFailover: Schema.optional(
         Schema.Literals(["none", "temporary", "sticky"]),
-      ).pipe(T.JsonName("zero_downtime_failover")),
-    }),
-  ).pipe(T.JsonName("session_affinity_attributes")),
-  sessionAffinityTtl: Schema.optional(Schema.Number).pipe(
-    T.JsonName("session_affinity_ttl"),
+      ),
+    }).pipe(
+      Schema.encodeKeys({
+        drainDuration: "drain_duration",
+        requireAllHeaders: "require_all_headers",
+        zeroDowntimeFailover: "zero_downtime_failover",
+      }),
+    ),
   ),
+  sessionAffinityTtl: Schema.optional(Schema.Number),
   steeringPolicy: Schema.optional(
     Schema.Literals([
       "",
@@ -1092,9 +1512,23 @@ export const UpdateLoadBalancerRequest = Schema.Struct({
       "least_outstanding_requests",
       "least_connections",
     ]),
-  ).pipe(T.JsonName("steering_policy")),
+  ),
   ttl: Schema.optional(Schema.Number),
 }).pipe(
+  Schema.encodeKeys({
+    defaultPools: "default_pools",
+    fallbackPool: "fallback_pool",
+    adaptiveRouting: "adaptive_routing",
+    countryPools: "country_pools",
+    locationStrategy: "location_strategy",
+    popPools: "pop_pools",
+    randomSteering: "random_steering",
+    regionPools: "region_pools",
+    sessionAffinity: "session_affinity",
+    sessionAffinityAttributes: "session_affinity_attributes",
+    sessionAffinityTtl: "session_affinity_ttl",
+    steeringPolicy: "steering_policy",
+  }),
   T.Http({
     method: "PUT",
     path: "/zones/{zone_id}/load_balancers/{loadBalancerId}",
@@ -1206,49 +1640,42 @@ export const UpdateLoadBalancerResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
   adaptiveRouting: Schema.optional(
     Schema.Struct({
-      failoverAcrossPools: Schema.optional(Schema.Boolean).pipe(
-        T.JsonName("failover_across_pools"),
-      ),
-    }),
-  ).pipe(T.JsonName("adaptive_routing")),
-  countryPools: Schema.optional(Schema.Struct({})).pipe(
-    T.JsonName("country_pools"),
+      failoverAcrossPools: Schema.optional(Schema.Boolean),
+    }).pipe(
+      Schema.encodeKeys({ failoverAcrossPools: "failover_across_pools" }),
+    ),
   ),
-  createdOn: Schema.optional(Schema.String).pipe(T.JsonName("created_on")),
-  defaultPools: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.JsonName("default_pools"),
-  ),
+  countryPools: Schema.optional(Schema.Struct({})),
+  createdOn: Schema.optional(Schema.String),
+  defaultPools: Schema.optional(Schema.Array(Schema.String)),
   description: Schema.optional(Schema.String),
   enabled: Schema.optional(Schema.Boolean),
-  fallbackPool: Schema.optional(Schema.String).pipe(
-    T.JsonName("fallback_pool"),
-  ),
+  fallbackPool: Schema.optional(Schema.String),
   locationStrategy: Schema.optional(
     Schema.Struct({
       mode: Schema.optional(Schema.Literals(["pop", "resolver_ip"])),
       preferEcs: Schema.optional(
         Schema.Literals(["always", "never", "proximity", "geo"]),
-      ).pipe(T.JsonName("prefer_ecs")),
-    }),
-  ).pipe(T.JsonName("location_strategy")),
-  modifiedOn: Schema.optional(Schema.String).pipe(T.JsonName("modified_on")),
+      ),
+    }).pipe(Schema.encodeKeys({ preferEcs: "prefer_ecs" })),
+  ),
+  modifiedOn: Schema.optional(Schema.String),
   name: Schema.optional(Schema.String),
   networks: Schema.optional(Schema.Array(Schema.String)),
-  popPools: Schema.optional(Schema.Struct({})).pipe(T.JsonName("pop_pools")),
+  popPools: Schema.optional(Schema.Struct({})),
   proxied: Schema.optional(Schema.Boolean),
   randomSteering: Schema.optional(
     Schema.Struct({
-      defaultWeight: Schema.optional(Schema.Number).pipe(
-        T.JsonName("default_weight"),
-      ),
-      poolWeights: Schema.optional(Schema.Struct({})).pipe(
-        T.JsonName("pool_weights"),
-      ),
-    }),
-  ).pipe(T.JsonName("random_steering")),
-  regionPools: Schema.optional(Schema.Struct({})).pipe(
-    T.JsonName("region_pools"),
+      defaultWeight: Schema.optional(Schema.Number),
+      poolWeights: Schema.optional(Schema.Struct({})),
+    }).pipe(
+      Schema.encodeKeys({
+        defaultWeight: "default_weight",
+        poolWeights: "pool_weights",
+      }),
+    ),
   ),
+  regionPools: Schema.optional(Schema.Struct({})),
   rules: Schema.optional(
     Schema.Array(
       Schema.Struct({
@@ -1256,54 +1683,34 @@ export const UpdateLoadBalancerResponse = Schema.Struct({
         disabled: Schema.optional(Schema.Boolean),
         fixedResponse: Schema.optional(
           Schema.Struct({
-            contentType: Schema.optional(Schema.String).pipe(
-              T.JsonName("content_type"),
-            ),
+            contentType: Schema.optional(Schema.String),
             location: Schema.optional(Schema.String),
-            messageBody: Schema.optional(Schema.String).pipe(
-              T.JsonName("message_body"),
-            ),
-            statusCode: Schema.optional(Schema.Number).pipe(
-              T.JsonName("status_code"),
-            ),
-          }),
-        ).pipe(T.JsonName("fixed_response")),
+            messageBody: Schema.optional(Schema.String),
+            statusCode: Schema.optional(Schema.Number),
+          }).pipe(
+            Schema.encodeKeys({
+              contentType: "content_type",
+              messageBody: "message_body",
+              statusCode: "status_code",
+            }),
+          ),
+        ),
         name: Schema.optional(Schema.String),
         overrides: Schema.optional(
           Schema.Struct({
-            adaptiveRouting: Schema.optional(Schema.Unknown).pipe(
-              T.JsonName("adaptive_routing"),
-            ),
-            countryPools: Schema.optional(Schema.Struct({})).pipe(
-              T.JsonName("country_pools"),
-            ),
-            defaultPools: Schema.optional(Schema.Array(Schema.String)).pipe(
-              T.JsonName("default_pools"),
-            ),
-            fallbackPool: Schema.optional(Schema.String).pipe(
-              T.JsonName("fallback_pool"),
-            ),
-            locationStrategy: Schema.optional(Schema.Unknown).pipe(
-              T.JsonName("location_strategy"),
-            ),
-            popPools: Schema.optional(Schema.Struct({})).pipe(
-              T.JsonName("pop_pools"),
-            ),
-            randomSteering: Schema.optional(Schema.Unknown).pipe(
-              T.JsonName("random_steering"),
-            ),
-            regionPools: Schema.optional(Schema.Struct({})).pipe(
-              T.JsonName("region_pools"),
-            ),
+            adaptiveRouting: Schema.optional(Schema.Unknown),
+            countryPools: Schema.optional(Schema.Struct({})),
+            defaultPools: Schema.optional(Schema.Array(Schema.String)),
+            fallbackPool: Schema.optional(Schema.String),
+            locationStrategy: Schema.optional(Schema.Unknown),
+            popPools: Schema.optional(Schema.Struct({})),
+            randomSteering: Schema.optional(Schema.Unknown),
+            regionPools: Schema.optional(Schema.Struct({})),
             sessionAffinity: Schema.optional(
               Schema.Literals(["none", "cookie", "ip_cookie", "header"]),
-            ).pipe(T.JsonName("session_affinity")),
-            sessionAffinityAttributes: Schema.optional(Schema.Unknown).pipe(
-              T.JsonName("session_affinity_attributes"),
             ),
-            sessionAffinityTtl: Schema.optional(Schema.Number).pipe(
-              T.JsonName("session_affinity_ttl"),
-            ),
+            sessionAffinityAttributes: Schema.optional(Schema.Unknown),
+            sessionAffinityTtl: Schema.optional(Schema.Number),
             steeringPolicy: Schema.optional(
               Schema.Literals([
                 "",
@@ -1315,39 +1722,54 @@ export const UpdateLoadBalancerResponse = Schema.Struct({
                 "least_outstanding_requests",
                 "least_connections",
               ]),
-            ).pipe(T.JsonName("steering_policy")),
+            ),
             ttl: Schema.optional(Schema.Number),
-          }),
+          }).pipe(
+            Schema.encodeKeys({
+              adaptiveRouting: "adaptive_routing",
+              countryPools: "country_pools",
+              defaultPools: "default_pools",
+              fallbackPool: "fallback_pool",
+              locationStrategy: "location_strategy",
+              popPools: "pop_pools",
+              randomSteering: "random_steering",
+              regionPools: "region_pools",
+              sessionAffinity: "session_affinity",
+              sessionAffinityAttributes: "session_affinity_attributes",
+              sessionAffinityTtl: "session_affinity_ttl",
+              steeringPolicy: "steering_policy",
+            }),
+          ),
         ),
         priority: Schema.optional(Schema.Number),
         terminates: Schema.optional(Schema.Boolean),
-      }),
+      }).pipe(Schema.encodeKeys({ fixedResponse: "fixed_response" })),
     ),
   ),
   sessionAffinity: Schema.optional(
     Schema.Literals(["none", "cookie", "ip_cookie", "header"]),
-  ).pipe(T.JsonName("session_affinity")),
+  ),
   sessionAffinityAttributes: Schema.optional(
     Schema.Struct({
-      drainDuration: Schema.optional(Schema.Number).pipe(
-        T.JsonName("drain_duration"),
-      ),
+      drainDuration: Schema.optional(Schema.Number),
       headers: Schema.optional(Schema.Array(Schema.String)),
-      requireAllHeaders: Schema.optional(Schema.Boolean).pipe(
-        T.JsonName("require_all_headers"),
-      ),
+      requireAllHeaders: Schema.optional(Schema.Boolean),
       samesite: Schema.optional(
         Schema.Literals(["Auto", "Lax", "None", "Strict"]),
       ),
       secure: Schema.optional(Schema.Literals(["Auto", "Always", "Never"])),
       zeroDowntimeFailover: Schema.optional(
         Schema.Literals(["none", "temporary", "sticky"]),
-      ).pipe(T.JsonName("zero_downtime_failover")),
-    }),
-  ).pipe(T.JsonName("session_affinity_attributes")),
-  sessionAffinityTtl: Schema.optional(Schema.Number).pipe(
-    T.JsonName("session_affinity_ttl"),
+      ),
+    }).pipe(
+      Schema.encodeKeys({
+        drainDuration: "drain_duration",
+        requireAllHeaders: "require_all_headers",
+        zeroDowntimeFailover: "zero_downtime_failover",
+      }),
+    ),
   ),
+  sessionAffinityTtl: Schema.optional(Schema.Number),
   steeringPolicy: Schema.optional(
     Schema.Literals([
       "",
@@ -1359,10 +1781,28 @@ export const UpdateLoadBalancerResponse = Schema.Struct({
       "least_outstanding_requests",
       "least_connections",
     ]),
-  ).pipe(T.JsonName("steering_policy")),
+  ),
   ttl: Schema.optional(Schema.Number),
-  zoneName: Schema.optional(Schema.String).pipe(T.JsonName("zone_name")),
-}) as unknown as Schema.Schema<UpdateLoadBalancerResponse>;
+  zoneName: Schema.optional(Schema.String),
+}).pipe(
+  Schema.encodeKeys({
+    adaptiveRouting: "adaptive_routing",
+    countryPools: "country_pools",
+    createdOn: "created_on",
+    defaultPools: "default_pools",
+    fallbackPool: "fallback_pool",
+    locationStrategy: "location_strategy",
+    modifiedOn: "modified_on",
+    popPools: "pop_pools",
+    randomSteering: "random_steering",
+    regionPools: "region_pools",
+    sessionAffinity: "session_affinity",
+    sessionAffinityAttributes: "session_affinity_attributes",
+    sessionAffinityTtl: "session_affinity_ttl",
+    steeringPolicy: "steering_policy",
+    zoneName: "zone_name",
+  }),
+) as unknown as Schema.Schema<UpdateLoadBalancerResponse>;
 
 export const updateLoadBalancer: (
   input: UpdateLoadBalancerRequest,
@@ -1479,46 +1919,39 @@ export const PatchLoadBalancerRequest = Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
   adaptiveRouting: Schema.optional(
     Schema.Struct({
-      failoverAcrossPools: Schema.optional(Schema.Boolean).pipe(
-        T.JsonName("failover_across_pools"),
-      ),
-    }),
-  ).pipe(T.JsonName("adaptive_routing")),
-  countryPools: Schema.optional(Schema.Struct({})).pipe(
-    T.JsonName("country_pools"),
+      failoverAcrossPools: Schema.optional(Schema.Boolean),
+    }).pipe(
+      Schema.encodeKeys({ failoverAcrossPools: "failover_across_pools" }),
+    ),
   ),
-  defaultPools: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.JsonName("default_pools"),
-  ),
+  countryPools: Schema.optional(Schema.Struct({})),
+  defaultPools: Schema.optional(Schema.Array(Schema.String)),
   description: Schema.optional(Schema.String),
   enabled: Schema.optional(Schema.Boolean),
-  fallbackPool: Schema.optional(Schema.String).pipe(
-    T.JsonName("fallback_pool"),
-  ),
+  fallbackPool: Schema.optional(Schema.String),
   locationStrategy: Schema.optional(
     Schema.Struct({
       mode: Schema.optional(Schema.Literals(["pop", "resolver_ip"])),
       preferEcs: Schema.optional(
         Schema.Literals(["always", "never", "proximity", "geo"]),
-      ).pipe(T.JsonName("prefer_ecs")),
-    }),
-  ).pipe(T.JsonName("location_strategy")),
+      ),
+    }).pipe(Schema.encodeKeys({ preferEcs: "prefer_ecs" })),
+  ),
   name: Schema.optional(Schema.String),
-  popPools: Schema.optional(Schema.Struct({})).pipe(T.JsonName("pop_pools")),
+  popPools: Schema.optional(Schema.Struct({})),
   proxied: Schema.optional(Schema.Boolean),
   randomSteering: Schema.optional(
     Schema.Struct({
-      defaultWeight: Schema.optional(Schema.Number).pipe(
-        T.JsonName("default_weight"),
-      ),
-      poolWeights: Schema.optional(Schema.Struct({})).pipe(
-        T.JsonName("pool_weights"),
-      ),
-    }),
-  ).pipe(T.JsonName("random_steering")),
-  regionPools: Schema.optional(Schema.Struct({})).pipe(
-    T.JsonName("region_pools"),
+      defaultWeight: Schema.optional(Schema.Number),
+      poolWeights: Schema.optional(Schema.Struct({})),
+    }).pipe(
+      Schema.encodeKeys({
+        defaultWeight: "default_weight",
+        poolWeights: "pool_weights",
+      }),
+    ),
   ),
+  regionPools: Schema.optional(Schema.Struct({})),
   rules: Schema.optional(
     Schema.Array(
       Schema.Struct({
@@ -1526,54 +1959,34 @@ export const PatchLoadBalancerRequest = Schema.Struct({
         disabled: Schema.optional(Schema.Boolean),
         fixedResponse: Schema.optional(
           Schema.Struct({
-            contentType: Schema.optional(Schema.String).pipe(
-              T.JsonName("content_type"),
-            ),
+            contentType: Schema.optional(Schema.String),
             location: Schema.optional(Schema.String),
-            messageBody: Schema.optional(Schema.String).pipe(
-              T.JsonName("message_body"),
-            ),
-            statusCode: Schema.optional(Schema.Number).pipe(
-              T.JsonName("status_code"),
-            ),
-          }),
-        ).pipe(T.JsonName("fixed_response")),
+            messageBody: Schema.optional(Schema.String),
+            statusCode: Schema.optional(Schema.Number),
+          }).pipe(
+            Schema.encodeKeys({
+              contentType: "content_type",
+              messageBody: "message_body",
+              statusCode: "status_code",
+            }),
+          ),
+        ),
         name: Schema.optional(Schema.String),
         overrides: Schema.optional(
           Schema.Struct({
-            adaptiveRouting: Schema.optional(Schema.Unknown).pipe(
-              T.JsonName("adaptive_routing"),
-            ),
-            countryPools: Schema.optional(Schema.Struct({})).pipe(
-              T.JsonName("country_pools"),
-            ),
-            defaultPools: Schema.optional(Schema.Array(Schema.String)).pipe(
-              T.JsonName("default_pools"),
-            ),
-            fallbackPool: Schema.optional(Schema.String).pipe(
-              T.JsonName("fallback_pool"),
-            ),
-            locationStrategy: Schema.optional(Schema.Unknown).pipe(
-              T.JsonName("location_strategy"),
-            ),
-            popPools: Schema.optional(Schema.Struct({})).pipe(
-              T.JsonName("pop_pools"),
-            ),
-            randomSteering: Schema.optional(Schema.Unknown).pipe(
-              T.JsonName("random_steering"),
-            ),
-            regionPools: Schema.optional(Schema.Struct({})).pipe(
-              T.JsonName("region_pools"),
-            ),
+            adaptiveRouting: Schema.optional(Schema.Unknown),
+            countryPools: Schema.optional(Schema.Struct({})),
+            defaultPools: Schema.optional(Schema.Array(Schema.String)),
+            fallbackPool: Schema.optional(Schema.String),
+            locationStrategy: Schema.optional(Schema.Unknown),
+            popPools: Schema.optional(Schema.Struct({})),
+            randomSteering: Schema.optional(Schema.Unknown),
+            regionPools: Schema.optional(Schema.Struct({})),
             sessionAffinity: Schema.optional(
               Schema.Literals(["none", "cookie", "ip_cookie", "header"]),
-            ).pipe(T.JsonName("session_affinity")),
-            sessionAffinityAttributes: Schema.optional(Schema.Unknown).pipe(
-              T.JsonName("session_affinity_attributes"),
             ),
-            sessionAffinityTtl: Schema.optional(Schema.Number).pipe(
-              T.JsonName("session_affinity_ttl"),
-            ),
+            sessionAffinityAttributes: Schema.optional(Schema.Unknown),
+            sessionAffinityTtl: Schema.optional(Schema.Number),
             steeringPolicy: Schema.optional(
               Schema.Literals([
                 "",
@@ -1585,39 +1998,54 @@ export const PatchLoadBalancerRequest = Schema.Struct({
                 "least_outstanding_requests",
                 "least_connections",
               ]),
-            ).pipe(T.JsonName("steering_policy")),
+            ),
             ttl: Schema.optional(Schema.Number),
-          }),
+          }).pipe(
+            Schema.encodeKeys({
+              adaptiveRouting: "adaptive_routing",
+              countryPools: "country_pools",
+              defaultPools: "default_pools",
+              fallbackPool: "fallback_pool",
+              locationStrategy: "location_strategy",
+              popPools: "pop_pools",
+              randomSteering: "random_steering",
+              regionPools: "region_pools",
+              sessionAffinity: "session_affinity",
+              sessionAffinityAttributes: "session_affinity_attributes",
+              sessionAffinityTtl: "session_affinity_ttl",
+              steeringPolicy: "steering_policy",
+            }),
+          ),
         ),
         priority: Schema.optional(Schema.Number),
         terminates: Schema.optional(Schema.Boolean),
-      }),
+      }).pipe(Schema.encodeKeys({ fixedResponse: "fixed_response" })),
     ),
   ),
   sessionAffinity: Schema.optional(
     Schema.Literals(["none", "cookie", "ip_cookie", "header"]),
-  ).pipe(T.JsonName("session_affinity")),
+  ),
   sessionAffinityAttributes: Schema.optional(
     Schema.Struct({
-      drainDuration: Schema.optional(Schema.Number).pipe(
-        T.JsonName("drain_duration"),
-      ),
+      drainDuration: Schema.optional(Schema.Number),
       headers: Schema.optional(Schema.Array(Schema.String)),
-      requireAllHeaders: Schema.optional(Schema.Boolean).pipe(
-        T.JsonName("require_all_headers"),
-      ),
+      requireAllHeaders: Schema.optional(Schema.Boolean),
       samesite: Schema.optional(
         Schema.Literals(["Auto", "Lax", "None", "Strict"]),
       ),
       secure: Schema.optional(Schema.Literals(["Auto", "Always", "Never"])),
       zeroDowntimeFailover: Schema.optional(
         Schema.Literals(["none", "temporary", "sticky"]),
-      ).pipe(T.JsonName("zero_downtime_failover")),
-    }),
-  ).pipe(T.JsonName("session_affinity_attributes")),
-  sessionAffinityTtl: Schema.optional(Schema.Number).pipe(
-    T.JsonName("session_affinity_ttl"),
+      ),
+    }).pipe(
+      Schema.encodeKeys({
+        drainDuration: "drain_duration",
+        requireAllHeaders: "require_all_headers",
+        zeroDowntimeFailover: "zero_downtime_failover",
+      }),
+    ),
   ),
+  sessionAffinityTtl: Schema.optional(Schema.Number),
   steeringPolicy: Schema.optional(
     Schema.Literals([
       "",
@@ -1629,9 +2057,23 @@ export const PatchLoadBalancerRequest = Schema.Struct({
       "least_outstanding_requests",
       "least_connections",
     ]),
-  ).pipe(T.JsonName("steering_policy")),
+  ),
   ttl: Schema.optional(Schema.Number),
 }).pipe(
+  Schema.encodeKeys({
+    adaptiveRouting: "adaptive_routing",
+    countryPools: "country_pools",
+    defaultPools: "default_pools",
+    fallbackPool: "fallback_pool",
+    locationStrategy: "location_strategy",
+    popPools: "pop_pools",
+    randomSteering: "random_steering",
+    regionPools: "region_pools",
+    sessionAffinity: "session_affinity",
+    sessionAffinityAttributes: "session_affinity_attributes",
+    sessionAffinityTtl: "session_affinity_ttl",
+    steeringPolicy: "steering_policy",
+  }),
   T.Http({
     method: "PATCH",
     path: "/zones/{zone_id}/load_balancers/{loadBalancerId}",
@@ -1743,49 +2185,42 @@ export const PatchLoadBalancerResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
   adaptiveRouting: Schema.optional(
     Schema.Struct({
-      failoverAcrossPools: Schema.optional(Schema.Boolean).pipe(
-        T.JsonName("failover_across_pools"),
-      ),
-    }),
-  ).pipe(T.JsonName("adaptive_routing")),
-  countryPools: Schema.optional(Schema.Struct({})).pipe(
-    T.JsonName("country_pools"),
+      failoverAcrossPools: Schema.optional(Schema.Boolean),
+    }).pipe(
+      Schema.encodeKeys({ failoverAcrossPools: "failover_across_pools" }),
+    ),
   ),
-  createdOn: Schema.optional(Schema.String).pipe(T.JsonName("created_on")),
-  defaultPools: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.JsonName("default_pools"),
-  ),
+  countryPools: Schema.optional(Schema.Struct({})),
+  createdOn: Schema.optional(Schema.String),
+  defaultPools: Schema.optional(Schema.Array(Schema.String)),
   description: Schema.optional(Schema.String),
   enabled: Schema.optional(Schema.Boolean),
-  fallbackPool: Schema.optional(Schema.String).pipe(
-    T.JsonName("fallback_pool"),
-  ),
+  fallbackPool: Schema.optional(Schema.String),
   locationStrategy: Schema.optional(
     Schema.Struct({
       mode: Schema.optional(Schema.Literals(["pop", "resolver_ip"])),
       preferEcs: Schema.optional(
         Schema.Literals(["always", "never", "proximity", "geo"]),
-      ).pipe(T.JsonName("prefer_ecs")),
-    }),
-  ).pipe(T.JsonName("location_strategy")),
-  modifiedOn: Schema.optional(Schema.String).pipe(T.JsonName("modified_on")),
+      ),
+    }).pipe(Schema.encodeKeys({ preferEcs: "prefer_ecs" })),
+  ),
+  modifiedOn: Schema.optional(Schema.String),
   name: Schema.optional(Schema.String),
   networks: Schema.optional(Schema.Array(Schema.String)),
-  popPools: Schema.optional(Schema.Struct({})).pipe(T.JsonName("pop_pools")),
+  popPools: Schema.optional(Schema.Struct({})),
   proxied: Schema.optional(Schema.Boolean),
   randomSteering: Schema.optional(
     Schema.Struct({
-      defaultWeight: Schema.optional(Schema.Number).pipe(
-        T.JsonName("default_weight"),
-      ),
-      poolWeights: Schema.optional(Schema.Struct({})).pipe(
-        T.JsonName("pool_weights"),
-      ),
-    }),
-  ).pipe(T.JsonName("random_steering")),
-  regionPools: Schema.optional(Schema.Struct({})).pipe(
-    T.JsonName("region_pools"),
+      defaultWeight: Schema.optional(Schema.Number),
+      poolWeights: Schema.optional(Schema.Struct({})),
+    }).pipe(
+      Schema.encodeKeys({
+        defaultWeight: "default_weight",
+        poolWeights: "pool_weights",
+      }),
+    ),
   ),
+  regionPools: Schema.optional(Schema.Struct({})),
   rules: Schema.optional(
     Schema.Array(
       Schema.Struct({
@@ -1793,54 +2228,34 @@ export const PatchLoadBalancerResponse = Schema.Struct({
         disabled: Schema.optional(Schema.Boolean),
         fixedResponse: Schema.optional(
           Schema.Struct({
-            contentType: Schema.optional(Schema.String).pipe(
-              T.JsonName("content_type"),
-            ),
+            contentType: Schema.optional(Schema.String),
             location: Schema.optional(Schema.String),
-            messageBody: Schema.optional(Schema.String).pipe(
-              T.JsonName("message_body"),
-            ),
-            statusCode: Schema.optional(Schema.Number).pipe(
-              T.JsonName("status_code"),
-            ),
-          }),
-        ).pipe(T.JsonName("fixed_response")),
+            messageBody: Schema.optional(Schema.String),
+            statusCode: Schema.optional(Schema.Number),
+          }).pipe(
+            Schema.encodeKeys({
+              contentType: "content_type",
+              messageBody: "message_body",
+              statusCode: "status_code",
+            }),
+          ),
+        ),
         name: Schema.optional(Schema.String),
         overrides: Schema.optional(
           Schema.Struct({
-            adaptiveRouting: Schema.optional(Schema.Unknown).pipe(
-              T.JsonName("adaptive_routing"),
-            ),
-            countryPools: Schema.optional(Schema.Struct({})).pipe(
-              T.JsonName("country_pools"),
-            ),
-            defaultPools: Schema.optional(Schema.Array(Schema.String)).pipe(
-              T.JsonName("default_pools"),
-            ),
-            fallbackPool: Schema.optional(Schema.String).pipe(
-              T.JsonName("fallback_pool"),
-            ),
-            locationStrategy: Schema.optional(Schema.Unknown).pipe(
-              T.JsonName("location_strategy"),
-            ),
-            popPools: Schema.optional(Schema.Struct({})).pipe(
-              T.JsonName("pop_pools"),
-            ),
-            randomSteering: Schema.optional(Schema.Unknown).pipe(
-              T.JsonName("random_steering"),
-            ),
-            regionPools: Schema.optional(Schema.Struct({})).pipe(
-              T.JsonName("region_pools"),
-            ),
+            adaptiveRouting: Schema.optional(Schema.Unknown),
+            countryPools: Schema.optional(Schema.Struct({})),
+            defaultPools: Schema.optional(Schema.Array(Schema.String)),
+            fallbackPool: Schema.optional(Schema.String),
+            locationStrategy: Schema.optional(Schema.Unknown),
+            popPools: Schema.optional(Schema.Struct({})),
+            randomSteering: Schema.optional(Schema.Unknown),
+            regionPools: Schema.optional(Schema.Struct({})),
             sessionAffinity: Schema.optional(
               Schema.Literals(["none", "cookie", "ip_cookie", "header"]),
-            ).pipe(T.JsonName("session_affinity")),
-            sessionAffinityAttributes: Schema.optional(Schema.Unknown).pipe(
-              T.JsonName("session_affinity_attributes"),
             ),
-            sessionAffinityTtl: Schema.optional(Schema.Number).pipe(
-              T.JsonName("session_affinity_ttl"),
-            ),
+            sessionAffinityAttributes: Schema.optional(Schema.Unknown),
+            sessionAffinityTtl: Schema.optional(Schema.Number),
             steeringPolicy: Schema.optional(
               Schema.Literals([
                 "",
@@ -1852,39 +2267,54 @@ export const PatchLoadBalancerResponse = Schema.Struct({
                 "least_outstanding_requests",
                 "least_connections",
               ]),
-            ).pipe(T.JsonName("steering_policy")),
+            ),
             ttl: Schema.optional(Schema.Number),
-          }),
+          }).pipe(
+            Schema.encodeKeys({
+              adaptiveRouting: "adaptive_routing",
+              countryPools: "country_pools",
+              defaultPools: "default_pools",
+              fallbackPool: "fallback_pool",
+              locationStrategy: "location_strategy",
+              popPools: "pop_pools",
+              randomSteering: "random_steering",
+              regionPools: "region_pools",
+              sessionAffinity: "session_affinity",
+              sessionAffinityAttributes: "session_affinity_attributes",
+              sessionAffinityTtl: "session_affinity_ttl",
+              steeringPolicy: "steering_policy",
+            }),
+          ),
         ),
         priority: Schema.optional(Schema.Number),
         terminates: Schema.optional(Schema.Boolean),
-      }),
+      }).pipe(Schema.encodeKeys({ fixedResponse: "fixed_response" })),
     ),
   ),
   sessionAffinity: Schema.optional(
     Schema.Literals(["none", "cookie", "ip_cookie", "header"]),
-  ).pipe(T.JsonName("session_affinity")),
+  ),
   sessionAffinityAttributes: Schema.optional(
     Schema.Struct({
-      drainDuration: Schema.optional(Schema.Number).pipe(
-        T.JsonName("drain_duration"),
-      ),
+      drainDuration: Schema.optional(Schema.Number),
       headers: Schema.optional(Schema.Array(Schema.String)),
-      requireAllHeaders: Schema.optional(Schema.Boolean).pipe(
-        T.JsonName("require_all_headers"),
-      ),
+      requireAllHeaders: Schema.optional(Schema.Boolean),
       samesite: Schema.optional(
         Schema.Literals(["Auto", "Lax", "None", "Strict"]),
       ),
       secure: Schema.optional(Schema.Literals(["Auto", "Always", "Never"])),
       zeroDowntimeFailover: Schema.optional(
         Schema.Literals(["none", "temporary", "sticky"]),
-      ).pipe(T.JsonName("zero_downtime_failover")),
-    }),
-  ).pipe(T.JsonName("session_affinity_attributes")),
-  sessionAffinityTtl: Schema.optional(Schema.Number).pipe(
-    T.JsonName("session_affinity_ttl"),
+      ),
+    }).pipe(
+      Schema.encodeKeys({
+        drainDuration: "drain_duration",
+        requireAllHeaders: "require_all_headers",
+        zeroDowntimeFailover: "zero_downtime_failover",
+      }),
+    ),
   ),
+  sessionAffinityTtl: Schema.optional(Schema.Number),
   steeringPolicy: Schema.optional(
     Schema.Literals([
       "",
@@ -1896,10 +2326,28 @@ export const PatchLoadBalancerResponse = Schema.Struct({
       "least_outstanding_requests",
       "least_connections",
     ]),
-  ).pipe(T.JsonName("steering_policy")),
+  ),
   ttl: Schema.optional(Schema.Number),
-  zoneName: Schema.optional(Schema.String).pipe(T.JsonName("zone_name")),
-}) as unknown as Schema.Schema<PatchLoadBalancerResponse>;
+  zoneName: Schema.optional(Schema.String),
+}).pipe(
+  Schema.encodeKeys({
+    adaptiveRouting: "adaptive_routing",
+    countryPools: "country_pools",
+    createdOn: "created_on",
+    defaultPools: "default_pools",
+    fallbackPool: "fallback_pool",
+    locationStrategy: "location_strategy",
+    modifiedOn: "modified_on",
+    popPools: "pop_pools",
+    randomSteering: "random_steering",
+    regionPools: "region_pools",
+    sessionAffinity: "session_affinity",
+    sessionAffinityAttributes: "session_affinity_attributes",
+    sessionAffinityTtl: "session_affinity_ttl",
+    steeringPolicy: "steering_policy",
+    zoneName: "zone_name",
+  }),
+) as unknown as Schema.Schema<PatchLoadBalancerResponse>;
 
 export const patchLoadBalancer: (
   input: PatchLoadBalancerRequest,
@@ -2008,39 +2456,39 @@ export interface GetMonitorResponse {
 
 export const GetMonitorResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
-  allowInsecure: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("allow_insecure"),
-  ),
-  consecutiveDown: Schema.optional(Schema.Number).pipe(
-    T.JsonName("consecutive_down"),
-  ),
-  consecutiveUp: Schema.optional(Schema.Number).pipe(
-    T.JsonName("consecutive_up"),
-  ),
-  createdOn: Schema.optional(Schema.String).pipe(T.JsonName("created_on")),
+  allowInsecure: Schema.optional(Schema.Boolean),
+  consecutiveDown: Schema.optional(Schema.Number),
+  consecutiveUp: Schema.optional(Schema.Number),
+  createdOn: Schema.optional(Schema.String),
   description: Schema.optional(Schema.String),
-  expectedBody: Schema.optional(Schema.String).pipe(
-    T.JsonName("expected_body"),
-  ),
-  expectedCodes: Schema.optional(Schema.String).pipe(
-    T.JsonName("expected_codes"),
-  ),
-  followRedirects: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("follow_redirects"),
-  ),
+  expectedBody: Schema.optional(Schema.String),
+  expectedCodes: Schema.optional(Schema.String),
+  followRedirects: Schema.optional(Schema.Boolean),
   header: Schema.optional(Schema.Struct({})),
   interval: Schema.optional(Schema.Number),
   method: Schema.optional(Schema.String),
-  modifiedOn: Schema.optional(Schema.String).pipe(T.JsonName("modified_on")),
+  modifiedOn: Schema.optional(Schema.String),
   path: Schema.optional(Schema.String),
   port: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-  probeZone: Schema.optional(Schema.String).pipe(T.JsonName("probe_zone")),
+  probeZone: Schema.optional(Schema.String),
   retries: Schema.optional(Schema.Number),
   timeout: Schema.optional(Schema.Number),
   type: Schema.optional(
     Schema.Literals(["http", "https", "tcp", "udp_icmp", "icmp_ping", "smtp"]),
   ),
-}) as unknown as Schema.Schema<GetMonitorResponse>;
+}).pipe(
+  Schema.encodeKeys({
+    allowInsecure: "allow_insecure",
+    consecutiveDown: "consecutive_down",
+    consecutiveUp: "consecutive_up",
+    createdOn: "created_on",
+    expectedBody: "expected_body",
+    expectedCodes: "expected_codes",
+    followRedirects: "follow_redirects",
+    modifiedOn: "modified_on",
+    probeZone: "probe_zone",
+  }),
+) as unknown as Schema.Schema<GetMonitorResponse>;
 
 export const getMonitor: (
   input: GetMonitorRequest,
@@ -2051,6 +2499,99 @@ export const getMonitor: (
 > = API.make(() => ({
   input: GetMonitorRequest,
   output: GetMonitorResponse,
+  errors: [],
+}));
+
+export interface ListMonitorsRequest {
+  /** Identifier. */
+  accountId: string;
+}
+
+export const ListMonitorsRequest = Schema.Struct({
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/load_balancers/monitors",
+  }),
+) as unknown as Schema.Schema<ListMonitorsRequest>;
+
+export type ListMonitorsResponse = {
+  id?: string;
+  allowInsecure?: boolean;
+  consecutiveDown?: number;
+  consecutiveUp?: number;
+  createdOn?: string;
+  description?: string;
+  expectedBody?: string;
+  expectedCodes?: string;
+  followRedirects?: boolean;
+  header?: Record<string, unknown>;
+  interval?: number;
+  method?: string;
+  modifiedOn?: string;
+  path?: string;
+  port?: number | null;
+  probeZone?: string;
+  retries?: number;
+  timeout?: number;
+  type?: "http" | "https" | "tcp" | "udp_icmp" | "icmp_ping" | "smtp";
+}[];
+
+export const ListMonitorsResponse = Schema.Array(
+  Schema.Struct({
+    id: Schema.optional(Schema.String),
+    allowInsecure: Schema.optional(Schema.Boolean),
+    consecutiveDown: Schema.optional(Schema.Number),
+    consecutiveUp: Schema.optional(Schema.Number),
+    createdOn: Schema.optional(Schema.String),
+    description: Schema.optional(Schema.String),
+    expectedBody: Schema.optional(Schema.String),
+    expectedCodes: Schema.optional(Schema.String),
+    followRedirects: Schema.optional(Schema.Boolean),
+    header: Schema.optional(Schema.Struct({})),
+    interval: Schema.optional(Schema.Number),
+    method: Schema.optional(Schema.String),
+    modifiedOn: Schema.optional(Schema.String),
+    path: Schema.optional(Schema.String),
+    port: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    probeZone: Schema.optional(Schema.String),
+    retries: Schema.optional(Schema.Number),
+    timeout: Schema.optional(Schema.Number),
+    type: Schema.optional(
+      Schema.Literals([
+        "http",
+        "https",
+        "tcp",
+        "udp_icmp",
+        "icmp_ping",
+        "smtp",
+      ]),
+    ),
+  }).pipe(
+    Schema.encodeKeys({
+      allowInsecure: "allow_insecure",
+      consecutiveDown: "consecutive_down",
+      consecutiveUp: "consecutive_up",
+      createdOn: "created_on",
+      expectedBody: "expected_body",
+      expectedCodes: "expected_codes",
+      followRedirects: "follow_redirects",
+      modifiedOn: "modified_on",
+      probeZone: "probe_zone",
+    }),
+  ),
+) as unknown as Schema.Schema<ListMonitorsResponse>;
+
+export const listMonitors: (
+  input: ListMonitorsRequest,
+) => Effect.Effect<
+  ListMonitorsResponse,
+  CommonErrors,
+  ApiToken | HttpClient.HttpClient
+> = API.make(() => ({
+  input: ListMonitorsRequest,
+  output: ListMonitorsResponse,
   errors: [],
 }));
 
@@ -2093,37 +2634,34 @@ export interface CreateMonitorRequest {
 
 export const CreateMonitorRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  allowInsecure: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("allow_insecure"),
-  ),
-  consecutiveDown: Schema.optional(Schema.Number).pipe(
-    T.JsonName("consecutive_down"),
-  ),
-  consecutiveUp: Schema.optional(Schema.Number).pipe(
-    T.JsonName("consecutive_up"),
-  ),
+  allowInsecure: Schema.optional(Schema.Boolean),
+  consecutiveDown: Schema.optional(Schema.Number),
+  consecutiveUp: Schema.optional(Schema.Number),
   description: Schema.optional(Schema.String),
-  expectedBody: Schema.optional(Schema.String).pipe(
-    T.JsonName("expected_body"),
-  ),
-  expectedCodes: Schema.optional(Schema.String).pipe(
-    T.JsonName("expected_codes"),
-  ),
-  followRedirects: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("follow_redirects"),
-  ),
+  expectedBody: Schema.optional(Schema.String),
+  expectedCodes: Schema.optional(Schema.String),
+  followRedirects: Schema.optional(Schema.Boolean),
   header: Schema.optional(Schema.Struct({})),
   interval: Schema.optional(Schema.Number),
   method: Schema.optional(Schema.String),
   path: Schema.optional(Schema.String),
   port: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-  probeZone: Schema.optional(Schema.String).pipe(T.JsonName("probe_zone")),
+  probeZone: Schema.optional(Schema.String),
   retries: Schema.optional(Schema.Number),
   timeout: Schema.optional(Schema.Number),
   type: Schema.optional(
     Schema.Literals(["http", "https", "tcp", "udp_icmp", "icmp_ping", "smtp"]),
   ),
 }).pipe(
+  Schema.encodeKeys({
+    allowInsecure: "allow_insecure",
+    consecutiveDown: "consecutive_down",
+    consecutiveUp: "consecutive_up",
+    expectedBody: "expected_body",
+    expectedCodes: "expected_codes",
+    followRedirects: "follow_redirects",
+    probeZone: "probe_zone",
+  }),
   T.Http({
     method: "POST",
     path: "/accounts/{account_id}/load_balancers/monitors",
@@ -2170,39 +2708,39 @@ export interface CreateMonitorResponse {
 
 export const CreateMonitorResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
-  allowInsecure: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("allow_insecure"),
-  ),
-  consecutiveDown: Schema.optional(Schema.Number).pipe(
-    T.JsonName("consecutive_down"),
-  ),
-  consecutiveUp: Schema.optional(Schema.Number).pipe(
-    T.JsonName("consecutive_up"),
-  ),
-  createdOn: Schema.optional(Schema.String).pipe(T.JsonName("created_on")),
+  allowInsecure: Schema.optional(Schema.Boolean),
+  consecutiveDown: Schema.optional(Schema.Number),
+  consecutiveUp: Schema.optional(Schema.Number),
+  createdOn: Schema.optional(Schema.String),
   description: Schema.optional(Schema.String),
-  expectedBody: Schema.optional(Schema.String).pipe(
-    T.JsonName("expected_body"),
-  ),
-  expectedCodes: Schema.optional(Schema.String).pipe(
-    T.JsonName("expected_codes"),
-  ),
-  followRedirects: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("follow_redirects"),
-  ),
+  expectedBody: Schema.optional(Schema.String),
+  expectedCodes: Schema.optional(Schema.String),
+  followRedirects: Schema.optional(Schema.Boolean),
   header: Schema.optional(Schema.Struct({})),
   interval: Schema.optional(Schema.Number),
   method: Schema.optional(Schema.String),
-  modifiedOn: Schema.optional(Schema.String).pipe(T.JsonName("modified_on")),
+  modifiedOn: Schema.optional(Schema.String),
   path: Schema.optional(Schema.String),
   port: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-  probeZone: Schema.optional(Schema.String).pipe(T.JsonName("probe_zone")),
+  probeZone: Schema.optional(Schema.String),
   retries: Schema.optional(Schema.Number),
   timeout: Schema.optional(Schema.Number),
   type: Schema.optional(
     Schema.Literals(["http", "https", "tcp", "udp_icmp", "icmp_ping", "smtp"]),
   ),
-}) as unknown as Schema.Schema<CreateMonitorResponse>;
+}).pipe(
+  Schema.encodeKeys({
+    allowInsecure: "allow_insecure",
+    consecutiveDown: "consecutive_down",
+    consecutiveUp: "consecutive_up",
+    createdOn: "created_on",
+    expectedBody: "expected_body",
+    expectedCodes: "expected_codes",
+    followRedirects: "follow_redirects",
+    modifiedOn: "modified_on",
+    probeZone: "probe_zone",
+  }),
+) as unknown as Schema.Schema<CreateMonitorResponse>;
 
 export const createMonitor: (
   input: CreateMonitorRequest,
@@ -2257,37 +2795,34 @@ export interface UpdateMonitorRequest {
 export const UpdateMonitorRequest = Schema.Struct({
   monitorId: Schema.String.pipe(T.HttpPath("monitorId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  allowInsecure: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("allow_insecure"),
-  ),
-  consecutiveDown: Schema.optional(Schema.Number).pipe(
-    T.JsonName("consecutive_down"),
-  ),
-  consecutiveUp: Schema.optional(Schema.Number).pipe(
-    T.JsonName("consecutive_up"),
-  ),
+  allowInsecure: Schema.optional(Schema.Boolean),
+  consecutiveDown: Schema.optional(Schema.Number),
+  consecutiveUp: Schema.optional(Schema.Number),
   description: Schema.optional(Schema.String),
-  expectedBody: Schema.optional(Schema.String).pipe(
-    T.JsonName("expected_body"),
-  ),
-  expectedCodes: Schema.optional(Schema.String).pipe(
-    T.JsonName("expected_codes"),
-  ),
-  followRedirects: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("follow_redirects"),
-  ),
+  expectedBody: Schema.optional(Schema.String),
+  expectedCodes: Schema.optional(Schema.String),
+  followRedirects: Schema.optional(Schema.Boolean),
   header: Schema.optional(Schema.Struct({})),
   interval: Schema.optional(Schema.Number),
   method: Schema.optional(Schema.String),
   path: Schema.optional(Schema.String),
   port: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-  probeZone: Schema.optional(Schema.String).pipe(T.JsonName("probe_zone")),
+  probeZone: Schema.optional(Schema.String),
   retries: Schema.optional(Schema.Number),
   timeout: Schema.optional(Schema.Number),
   type: Schema.optional(
     Schema.Literals(["http", "https", "tcp", "udp_icmp", "icmp_ping", "smtp"]),
   ),
 }).pipe(
+  Schema.encodeKeys({
+    allowInsecure: "allow_insecure",
+    consecutiveDown: "consecutive_down",
+    consecutiveUp: "consecutive_up",
+    expectedBody: "expected_body",
+    expectedCodes: "expected_codes",
+    followRedirects: "follow_redirects",
+    probeZone: "probe_zone",
+  }),
   T.Http({
     method: "PUT",
     path: "/accounts/{account_id}/load_balancers/monitors/{monitorId}",
@@ -2334,39 +2869,39 @@ export interface UpdateMonitorResponse {
 
 export const UpdateMonitorResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
-  allowInsecure: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("allow_insecure"),
-  ),
-  consecutiveDown: Schema.optional(Schema.Number).pipe(
-    T.JsonName("consecutive_down"),
-  ),
-  consecutiveUp: Schema.optional(Schema.Number).pipe(
-    T.JsonName("consecutive_up"),
-  ),
-  createdOn: Schema.optional(Schema.String).pipe(T.JsonName("created_on")),
+  allowInsecure: Schema.optional(Schema.Boolean),
+  consecutiveDown: Schema.optional(Schema.Number),
+  consecutiveUp: Schema.optional(Schema.Number),
+  createdOn: Schema.optional(Schema.String),
   description: Schema.optional(Schema.String),
-  expectedBody: Schema.optional(Schema.String).pipe(
-    T.JsonName("expected_body"),
-  ),
-  expectedCodes: Schema.optional(Schema.String).pipe(
-    T.JsonName("expected_codes"),
-  ),
-  followRedirects: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("follow_redirects"),
-  ),
+  expectedBody: Schema.optional(Schema.String),
+  expectedCodes: Schema.optional(Schema.String),
+  followRedirects: Schema.optional(Schema.Boolean),
   header: Schema.optional(Schema.Struct({})),
   interval: Schema.optional(Schema.Number),
   method: Schema.optional(Schema.String),
-  modifiedOn: Schema.optional(Schema.String).pipe(T.JsonName("modified_on")),
+  modifiedOn: Schema.optional(Schema.String),
   path: Schema.optional(Schema.String),
   port: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-  probeZone: Schema.optional(Schema.String).pipe(T.JsonName("probe_zone")),
+  probeZone: Schema.optional(Schema.String),
   retries: Schema.optional(Schema.Number),
   timeout: Schema.optional(Schema.Number),
   type: Schema.optional(
     Schema.Literals(["http", "https", "tcp", "udp_icmp", "icmp_ping", "smtp"]),
   ),
-}) as unknown as Schema.Schema<UpdateMonitorResponse>;
+}).pipe(
+  Schema.encodeKeys({
+    allowInsecure: "allow_insecure",
+    consecutiveDown: "consecutive_down",
+    consecutiveUp: "consecutive_up",
+    createdOn: "created_on",
+    expectedBody: "expected_body",
+    expectedCodes: "expected_codes",
+    followRedirects: "follow_redirects",
+    modifiedOn: "modified_on",
+    probeZone: "probe_zone",
+  }),
+) as unknown as Schema.Schema<UpdateMonitorResponse>;
 
 export const updateMonitor: (
   input: UpdateMonitorRequest,
@@ -2421,37 +2956,34 @@ export interface PatchMonitorRequest {
 export const PatchMonitorRequest = Schema.Struct({
   monitorId: Schema.String.pipe(T.HttpPath("monitorId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  allowInsecure: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("allow_insecure"),
-  ),
-  consecutiveDown: Schema.optional(Schema.Number).pipe(
-    T.JsonName("consecutive_down"),
-  ),
-  consecutiveUp: Schema.optional(Schema.Number).pipe(
-    T.JsonName("consecutive_up"),
-  ),
+  allowInsecure: Schema.optional(Schema.Boolean),
+  consecutiveDown: Schema.optional(Schema.Number),
+  consecutiveUp: Schema.optional(Schema.Number),
   description: Schema.optional(Schema.String),
-  expectedBody: Schema.optional(Schema.String).pipe(
-    T.JsonName("expected_body"),
-  ),
-  expectedCodes: Schema.optional(Schema.String).pipe(
-    T.JsonName("expected_codes"),
-  ),
-  followRedirects: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("follow_redirects"),
-  ),
+  expectedBody: Schema.optional(Schema.String),
+  expectedCodes: Schema.optional(Schema.String),
+  followRedirects: Schema.optional(Schema.Boolean),
   header: Schema.optional(Schema.Struct({})),
   interval: Schema.optional(Schema.Number),
   method: Schema.optional(Schema.String),
   path: Schema.optional(Schema.String),
   port: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-  probeZone: Schema.optional(Schema.String).pipe(T.JsonName("probe_zone")),
+  probeZone: Schema.optional(Schema.String),
   retries: Schema.optional(Schema.Number),
   timeout: Schema.optional(Schema.Number),
   type: Schema.optional(
     Schema.Literals(["http", "https", "tcp", "udp_icmp", "icmp_ping", "smtp"]),
   ),
 }).pipe(
+  Schema.encodeKeys({
+    allowInsecure: "allow_insecure",
+    consecutiveDown: "consecutive_down",
+    consecutiveUp: "consecutive_up",
+    expectedBody: "expected_body",
+    expectedCodes: "expected_codes",
+    followRedirects: "follow_redirects",
+    probeZone: "probe_zone",
+  }),
   T.Http({
     method: "PATCH",
     path: "/accounts/{account_id}/load_balancers/monitors/{monitorId}",
@@ -2498,39 +3030,39 @@ export interface PatchMonitorResponse {
 
 export const PatchMonitorResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
-  allowInsecure: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("allow_insecure"),
-  ),
-  consecutiveDown: Schema.optional(Schema.Number).pipe(
-    T.JsonName("consecutive_down"),
-  ),
-  consecutiveUp: Schema.optional(Schema.Number).pipe(
-    T.JsonName("consecutive_up"),
-  ),
-  createdOn: Schema.optional(Schema.String).pipe(T.JsonName("created_on")),
+  allowInsecure: Schema.optional(Schema.Boolean),
+  consecutiveDown: Schema.optional(Schema.Number),
+  consecutiveUp: Schema.optional(Schema.Number),
+  createdOn: Schema.optional(Schema.String),
   description: Schema.optional(Schema.String),
-  expectedBody: Schema.optional(Schema.String).pipe(
-    T.JsonName("expected_body"),
-  ),
-  expectedCodes: Schema.optional(Schema.String).pipe(
-    T.JsonName("expected_codes"),
-  ),
-  followRedirects: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("follow_redirects"),
-  ),
+  expectedBody: Schema.optional(Schema.String),
+  expectedCodes: Schema.optional(Schema.String),
+  followRedirects: Schema.optional(Schema.Boolean),
   header: Schema.optional(Schema.Struct({})),
   interval: Schema.optional(Schema.Number),
   method: Schema.optional(Schema.String),
-  modifiedOn: Schema.optional(Schema.String).pipe(T.JsonName("modified_on")),
+  modifiedOn: Schema.optional(Schema.String),
   path: Schema.optional(Schema.String),
   port: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-  probeZone: Schema.optional(Schema.String).pipe(T.JsonName("probe_zone")),
+  probeZone: Schema.optional(Schema.String),
   retries: Schema.optional(Schema.Number),
   timeout: Schema.optional(Schema.Number),
   type: Schema.optional(
     Schema.Literals(["http", "https", "tcp", "udp_icmp", "icmp_ping", "smtp"]),
   ),
-}) as unknown as Schema.Schema<PatchMonitorResponse>;
+}).pipe(
+  Schema.encodeKeys({
+    allowInsecure: "allow_insecure",
+    consecutiveDown: "consecutive_down",
+    consecutiveUp: "consecutive_up",
+    createdOn: "created_on",
+    expectedBody: "expected_body",
+    expectedCodes: "expected_codes",
+    followRedirects: "follow_redirects",
+    modifiedOn: "modified_on",
+    probeZone: "probe_zone",
+  }),
+) as unknown as Schema.Schema<PatchMonitorResponse>;
 
 export const patchMonitor: (
   input: PatchMonitorRequest,
@@ -2626,16 +3158,26 @@ export const GetMonitorGroupResponse = Schema.Struct({
   members: Schema.Array(
     Schema.Struct({
       enabled: Schema.Boolean,
-      monitorId: Schema.String.pipe(T.JsonName("monitor_id")),
-      monitoringOnly: Schema.Boolean.pipe(T.JsonName("monitoring_only")),
-      mustBeHealthy: Schema.Boolean.pipe(T.JsonName("must_be_healthy")),
-      createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
-      updatedAt: Schema.optional(Schema.String).pipe(T.JsonName("updated_at")),
-    }),
+      monitorId: Schema.String,
+      monitoringOnly: Schema.Boolean,
+      mustBeHealthy: Schema.Boolean,
+      createdAt: Schema.optional(Schema.String),
+      updatedAt: Schema.optional(Schema.String),
+    }).pipe(
+      Schema.encodeKeys({
+        monitorId: "monitor_id",
+        monitoringOnly: "monitoring_only",
+        mustBeHealthy: "must_be_healthy",
+        createdAt: "created_at",
+        updatedAt: "updated_at",
+      }),
+    ),
   ),
-  createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
-  updatedAt: Schema.optional(Schema.String).pipe(T.JsonName("updated_at")),
-}) as unknown as Schema.Schema<GetMonitorGroupResponse>;
+  createdAt: Schema.optional(Schema.String),
+  updatedAt: Schema.optional(Schema.String),
+}).pipe(
+  Schema.encodeKeys({ createdAt: "created_at", updatedAt: "updated_at" }),
+) as unknown as Schema.Schema<GetMonitorGroupResponse>;
 
 export const getMonitorGroup: (
   input: GetMonitorGroupRequest,
@@ -2646,6 +3188,76 @@ export const getMonitorGroup: (
 > = API.make(() => ({
   input: GetMonitorGroupRequest,
   output: GetMonitorGroupResponse,
+  errors: [],
+}));
+
+export interface ListMonitorGroupsRequest {
+  /** Identifier. */
+  accountId: string;
+}
+
+export const ListMonitorGroupsRequest = Schema.Struct({
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/load_balancers/monitor_groups",
+  }),
+) as unknown as Schema.Schema<ListMonitorGroupsRequest>;
+
+export type ListMonitorGroupsResponse = {
+  id: string;
+  description: string;
+  members: {
+    enabled: boolean;
+    monitorId: string;
+    monitoringOnly: boolean;
+    mustBeHealthy: boolean;
+    createdAt?: string;
+    updatedAt?: string;
+  }[];
+  createdAt?: string;
+  updatedAt?: string;
+}[];
+
+export const ListMonitorGroupsResponse = Schema.Array(
+  Schema.Struct({
+    id: Schema.String,
+    description: Schema.String,
+    members: Schema.Array(
+      Schema.Struct({
+        enabled: Schema.Boolean,
+        monitorId: Schema.String,
+        monitoringOnly: Schema.Boolean,
+        mustBeHealthy: Schema.Boolean,
+        createdAt: Schema.optional(Schema.String),
+        updatedAt: Schema.optional(Schema.String),
+      }).pipe(
+        Schema.encodeKeys({
+          monitorId: "monitor_id",
+          monitoringOnly: "monitoring_only",
+          mustBeHealthy: "must_be_healthy",
+          createdAt: "created_at",
+          updatedAt: "updated_at",
+        }),
+      ),
+    ),
+    createdAt: Schema.optional(Schema.String),
+    updatedAt: Schema.optional(Schema.String),
+  }).pipe(
+    Schema.encodeKeys({ createdAt: "created_at", updatedAt: "updated_at" }),
+  ),
+) as unknown as Schema.Schema<ListMonitorGroupsResponse>;
+
+export const listMonitorGroups: (
+  input: ListMonitorGroupsRequest,
+) => Effect.Effect<
+  ListMonitorGroupsResponse,
+  CommonErrors,
+  ApiToken | HttpClient.HttpClient
+> = API.make(() => ({
+  input: ListMonitorGroupsRequest,
+  output: ListMonitorGroupsResponse,
   errors: [],
 }));
 
@@ -2672,10 +3284,16 @@ export const CreateMonitorGroupRequest = Schema.Struct({
   members: Schema.Array(
     Schema.Struct({
       enabled: Schema.Boolean,
-      monitorId: Schema.String.pipe(T.JsonName("monitor_id")),
-      monitoringOnly: Schema.Boolean.pipe(T.JsonName("monitoring_only")),
-      mustBeHealthy: Schema.Boolean.pipe(T.JsonName("must_be_healthy")),
-    }),
+      monitorId: Schema.String,
+      monitoringOnly: Schema.Boolean,
+      mustBeHealthy: Schema.Boolean,
+    }).pipe(
+      Schema.encodeKeys({
+        monitorId: "monitor_id",
+        monitoringOnly: "monitoring_only",
+        mustBeHealthy: "must_be_healthy",
+      }),
+    ),
   ),
 }).pipe(
   T.Http({
@@ -2710,16 +3328,26 @@ export const CreateMonitorGroupResponse = Schema.Struct({
   members: Schema.Array(
     Schema.Struct({
       enabled: Schema.Boolean,
-      monitorId: Schema.String.pipe(T.JsonName("monitor_id")),
-      monitoringOnly: Schema.Boolean.pipe(T.JsonName("monitoring_only")),
-      mustBeHealthy: Schema.Boolean.pipe(T.JsonName("must_be_healthy")),
-      createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
-      updatedAt: Schema.optional(Schema.String).pipe(T.JsonName("updated_at")),
-    }),
+      monitorId: Schema.String,
+      monitoringOnly: Schema.Boolean,
+      mustBeHealthy: Schema.Boolean,
+      createdAt: Schema.optional(Schema.String),
+      updatedAt: Schema.optional(Schema.String),
+    }).pipe(
+      Schema.encodeKeys({
+        monitorId: "monitor_id",
+        monitoringOnly: "monitoring_only",
+        mustBeHealthy: "must_be_healthy",
+        createdAt: "created_at",
+        updatedAt: "updated_at",
+      }),
+    ),
   ),
-  createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
-  updatedAt: Schema.optional(Schema.String).pipe(T.JsonName("updated_at")),
-}) as unknown as Schema.Schema<CreateMonitorGroupResponse>;
+  createdAt: Schema.optional(Schema.String),
+  updatedAt: Schema.optional(Schema.String),
+}).pipe(
+  Schema.encodeKeys({ createdAt: "created_at", updatedAt: "updated_at" }),
+) as unknown as Schema.Schema<CreateMonitorGroupResponse>;
 
 export const createMonitorGroup: (
   input: CreateMonitorGroupRequest,
@@ -2758,10 +3386,16 @@ export const UpdateMonitorGroupRequest = Schema.Struct({
   members: Schema.Array(
     Schema.Struct({
       enabled: Schema.Boolean,
-      monitorId: Schema.String.pipe(T.JsonName("monitor_id")),
-      monitoringOnly: Schema.Boolean.pipe(T.JsonName("monitoring_only")),
-      mustBeHealthy: Schema.Boolean.pipe(T.JsonName("must_be_healthy")),
-    }),
+      monitorId: Schema.String,
+      monitoringOnly: Schema.Boolean,
+      mustBeHealthy: Schema.Boolean,
+    }).pipe(
+      Schema.encodeKeys({
+        monitorId: "monitor_id",
+        monitoringOnly: "monitoring_only",
+        mustBeHealthy: "must_be_healthy",
+      }),
+    ),
   ),
 }).pipe(
   T.Http({
@@ -2796,16 +3430,26 @@ export const UpdateMonitorGroupResponse = Schema.Struct({
   members: Schema.Array(
     Schema.Struct({
       enabled: Schema.Boolean,
-      monitorId: Schema.String.pipe(T.JsonName("monitor_id")),
-      monitoringOnly: Schema.Boolean.pipe(T.JsonName("monitoring_only")),
-      mustBeHealthy: Schema.Boolean.pipe(T.JsonName("must_be_healthy")),
-      createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
-      updatedAt: Schema.optional(Schema.String).pipe(T.JsonName("updated_at")),
-    }),
+      monitorId: Schema.String,
+      monitoringOnly: Schema.Boolean,
+      mustBeHealthy: Schema.Boolean,
+      createdAt: Schema.optional(Schema.String),
+      updatedAt: Schema.optional(Schema.String),
+    }).pipe(
+      Schema.encodeKeys({
+        monitorId: "monitor_id",
+        monitoringOnly: "monitoring_only",
+        mustBeHealthy: "must_be_healthy",
+        createdAt: "created_at",
+        updatedAt: "updated_at",
+      }),
+    ),
   ),
-  createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
-  updatedAt: Schema.optional(Schema.String).pipe(T.JsonName("updated_at")),
-}) as unknown as Schema.Schema<UpdateMonitorGroupResponse>;
+  createdAt: Schema.optional(Schema.String),
+  updatedAt: Schema.optional(Schema.String),
+}).pipe(
+  Schema.encodeKeys({ createdAt: "created_at", updatedAt: "updated_at" }),
+) as unknown as Schema.Schema<UpdateMonitorGroupResponse>;
 
 export const updateMonitorGroup: (
   input: UpdateMonitorGroupRequest,
@@ -2844,10 +3488,16 @@ export const PatchMonitorGroupRequest = Schema.Struct({
   members: Schema.Array(
     Schema.Struct({
       enabled: Schema.Boolean,
-      monitorId: Schema.String.pipe(T.JsonName("monitor_id")),
-      monitoringOnly: Schema.Boolean.pipe(T.JsonName("monitoring_only")),
-      mustBeHealthy: Schema.Boolean.pipe(T.JsonName("must_be_healthy")),
-    }),
+      monitorId: Schema.String,
+      monitoringOnly: Schema.Boolean,
+      mustBeHealthy: Schema.Boolean,
+    }).pipe(
+      Schema.encodeKeys({
+        monitorId: "monitor_id",
+        monitoringOnly: "monitoring_only",
+        mustBeHealthy: "must_be_healthy",
+      }),
+    ),
   ),
 }).pipe(
   T.Http({
@@ -2882,16 +3532,26 @@ export const PatchMonitorGroupResponse = Schema.Struct({
   members: Schema.Array(
     Schema.Struct({
       enabled: Schema.Boolean,
-      monitorId: Schema.String.pipe(T.JsonName("monitor_id")),
-      monitoringOnly: Schema.Boolean.pipe(T.JsonName("monitoring_only")),
-      mustBeHealthy: Schema.Boolean.pipe(T.JsonName("must_be_healthy")),
-      createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
-      updatedAt: Schema.optional(Schema.String).pipe(T.JsonName("updated_at")),
-    }),
+      monitorId: Schema.String,
+      monitoringOnly: Schema.Boolean,
+      mustBeHealthy: Schema.Boolean,
+      createdAt: Schema.optional(Schema.String),
+      updatedAt: Schema.optional(Schema.String),
+    }).pipe(
+      Schema.encodeKeys({
+        monitorId: "monitor_id",
+        monitoringOnly: "monitoring_only",
+        mustBeHealthy: "must_be_healthy",
+        createdAt: "created_at",
+        updatedAt: "updated_at",
+      }),
+    ),
   ),
-  createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
-  updatedAt: Schema.optional(Schema.String).pipe(T.JsonName("updated_at")),
-}) as unknown as Schema.Schema<PatchMonitorGroupResponse>;
+  createdAt: Schema.optional(Schema.String),
+  updatedAt: Schema.optional(Schema.String),
+}).pipe(
+  Schema.encodeKeys({ createdAt: "created_at", updatedAt: "updated_at" }),
+) as unknown as Schema.Schema<PatchMonitorGroupResponse>;
 
 export const patchMonitorGroup: (
   input: PatchMonitorGroupRequest,
@@ -2947,16 +3607,26 @@ export const DeleteMonitorGroupResponse = Schema.Struct({
   members: Schema.Array(
     Schema.Struct({
       enabled: Schema.Boolean,
-      monitorId: Schema.String.pipe(T.JsonName("monitor_id")),
-      monitoringOnly: Schema.Boolean.pipe(T.JsonName("monitoring_only")),
-      mustBeHealthy: Schema.Boolean.pipe(T.JsonName("must_be_healthy")),
-      createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
-      updatedAt: Schema.optional(Schema.String).pipe(T.JsonName("updated_at")),
-    }),
+      monitorId: Schema.String,
+      monitoringOnly: Schema.Boolean,
+      mustBeHealthy: Schema.Boolean,
+      createdAt: Schema.optional(Schema.String),
+      updatedAt: Schema.optional(Schema.String),
+    }).pipe(
+      Schema.encodeKeys({
+        monitorId: "monitor_id",
+        monitoringOnly: "monitoring_only",
+        mustBeHealthy: "must_be_healthy",
+        createdAt: "created_at",
+        updatedAt: "updated_at",
+      }),
+    ),
   ),
-  createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
-  updatedAt: Schema.optional(Schema.String).pipe(T.JsonName("updated_at")),
-}) as unknown as Schema.Schema<DeleteMonitorGroupResponse>;
+  createdAt: Schema.optional(Schema.String),
+  updatedAt: Schema.optional(Schema.String),
+}).pipe(
+  Schema.encodeKeys({ createdAt: "created_at", updatedAt: "updated_at" }),
+) as unknown as Schema.Schema<DeleteMonitorGroupResponse>;
 
 export const deleteMonitorGroup: (
   input: DeleteMonitorGroupRequest,
@@ -3015,37 +3685,34 @@ export interface CreateMonitorPreviewRequest {
 export const CreateMonitorPreviewRequest = Schema.Struct({
   monitorId: Schema.String.pipe(T.HttpPath("monitorId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  allowInsecure: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("allow_insecure"),
-  ),
-  consecutiveDown: Schema.optional(Schema.Number).pipe(
-    T.JsonName("consecutive_down"),
-  ),
-  consecutiveUp: Schema.optional(Schema.Number).pipe(
-    T.JsonName("consecutive_up"),
-  ),
+  allowInsecure: Schema.optional(Schema.Boolean),
+  consecutiveDown: Schema.optional(Schema.Number),
+  consecutiveUp: Schema.optional(Schema.Number),
   description: Schema.optional(Schema.String),
-  expectedBody: Schema.optional(Schema.String).pipe(
-    T.JsonName("expected_body"),
-  ),
-  expectedCodes: Schema.optional(Schema.String).pipe(
-    T.JsonName("expected_codes"),
-  ),
-  followRedirects: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("follow_redirects"),
-  ),
+  expectedBody: Schema.optional(Schema.String),
+  expectedCodes: Schema.optional(Schema.String),
+  followRedirects: Schema.optional(Schema.Boolean),
   header: Schema.optional(Schema.Struct({})),
   interval: Schema.optional(Schema.Number),
   method: Schema.optional(Schema.String),
   path: Schema.optional(Schema.String),
   port: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-  probeZone: Schema.optional(Schema.String).pipe(T.JsonName("probe_zone")),
+  probeZone: Schema.optional(Schema.String),
   retries: Schema.optional(Schema.Number),
   timeout: Schema.optional(Schema.Number),
   type: Schema.optional(
     Schema.Literals(["http", "https", "tcp", "udp_icmp", "icmp_ping", "smtp"]),
   ),
 }).pipe(
+  Schema.encodeKeys({
+    allowInsecure: "allow_insecure",
+    consecutiveDown: "consecutive_down",
+    consecutiveUp: "consecutive_up",
+    expectedBody: "expected_body",
+    expectedCodes: "expected_codes",
+    followRedirects: "follow_redirects",
+    probeZone: "probe_zone",
+  }),
   T.Http({
     method: "POST",
     path: "/accounts/{account_id}/load_balancers/monitors/{monitorId}/preview",
@@ -3060,8 +3727,10 @@ export interface CreateMonitorPreviewResponse {
 
 export const CreateMonitorPreviewResponse = Schema.Struct({
   pools: Schema.optional(Schema.Struct({})),
-  previewId: Schema.optional(Schema.String).pipe(T.JsonName("preview_id")),
-}) as unknown as Schema.Schema<CreateMonitorPreviewResponse>;
+  previewId: Schema.optional(Schema.String),
+}).pipe(
+  Schema.encodeKeys({ previewId: "preview_id" }),
+) as unknown as Schema.Schema<CreateMonitorPreviewResponse>;
 
 export const createMonitorPreview: (
   input: CreateMonitorPreviewRequest,
@@ -3072,6 +3741,63 @@ export const createMonitorPreview: (
 > = API.make(() => ({
   input: CreateMonitorPreviewRequest,
   output: CreateMonitorPreviewResponse,
+  errors: [],
+}));
+
+// =============================================================================
+// MonitorReference
+// =============================================================================
+
+export interface GetMonitorReferenceRequest {
+  monitorId: string;
+  /** Identifier. */
+  accountId: string;
+}
+
+export const GetMonitorReferenceRequest = Schema.Struct({
+  monitorId: Schema.String.pipe(T.HttpPath("monitorId")),
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/load_balancers/monitors/{monitorId}/references",
+  }),
+) as unknown as Schema.Schema<GetMonitorReferenceRequest>;
+
+export type GetMonitorReferenceResponse = {
+  referenceType?: "*" | "referral" | "referrer";
+  resourceId?: string;
+  resourceName?: string;
+  resourceType?: string;
+}[];
+
+export const GetMonitorReferenceResponse = Schema.Array(
+  Schema.Struct({
+    referenceType: Schema.optional(
+      Schema.Literals(["*", "referral", "referrer"]),
+    ),
+    resourceId: Schema.optional(Schema.String),
+    resourceName: Schema.optional(Schema.String),
+    resourceType: Schema.optional(Schema.String),
+  }).pipe(
+    Schema.encodeKeys({
+      referenceType: "reference_type",
+      resourceId: "resource_id",
+      resourceName: "resource_name",
+      resourceType: "resource_type",
+    }),
+  ),
+) as unknown as Schema.Schema<GetMonitorReferenceResponse>;
+
+export const getMonitorReference: (
+  input: GetMonitorReferenceRequest,
+) => Effect.Effect<
+  GetMonitorReferenceResponse,
+  CommonErrors,
+  ApiToken | HttpClient.HttpClient
+> = API.make(() => ({
+  input: GetMonitorReferenceRequest,
+  output: GetMonitorReferenceResponse,
   errors: [],
 }));
 
@@ -3174,37 +3900,40 @@ export const GetPoolResponse = Schema.Struct({
       ),
       Schema.Null,
     ]),
-  ).pipe(T.JsonName("check_regions")),
-  createdOn: Schema.optional(Schema.String).pipe(T.JsonName("created_on")),
+  ),
+  createdOn: Schema.optional(Schema.String),
   description: Schema.optional(Schema.String),
-  disabledAt: Schema.optional(Schema.String).pipe(T.JsonName("disabled_at")),
+  disabledAt: Schema.optional(Schema.String),
   enabled: Schema.optional(Schema.Boolean),
   latitude: Schema.optional(Schema.Number),
-  loadShedding: Schema.optional(
-    Schema.Union([Schema.Unknown, Schema.Null]),
-  ).pipe(T.JsonName("load_shedding")),
+  loadShedding: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
   longitude: Schema.optional(Schema.Number),
-  minimumOrigins: Schema.optional(Schema.Number).pipe(
-    T.JsonName("minimum_origins"),
-  ),
-  modifiedOn: Schema.optional(Schema.String).pipe(T.JsonName("modified_on")),
+  minimumOrigins: Schema.optional(Schema.Number),
+  modifiedOn: Schema.optional(Schema.String),
   monitor: Schema.optional(Schema.String),
-  monitorGroup: Schema.optional(Schema.String).pipe(
-    T.JsonName("monitor_group"),
-  ),
+  monitorGroup: Schema.optional(Schema.String),
   name: Schema.optional(Schema.String),
   networks: Schema.optional(Schema.Array(Schema.String)),
-  notificationEmail: Schema.optional(Schema.String).pipe(
-    T.JsonName("notification_email"),
-  ),
+  notificationEmail: Schema.optional(Schema.String),
   notificationFilter: Schema.optional(
     Schema.Union([Schema.Unknown, Schema.Null]),
-  ).pipe(T.JsonName("notification_filter")),
-  originSteering: Schema.optional(
-    Schema.Union([Schema.Unknown, Schema.Null]),
-  ).pipe(T.JsonName("origin_steering")),
+  ),
+  originSteering: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
   origins: Schema.optional(Schema.Array(Schema.Unknown)),
-}) as unknown as Schema.Schema<GetPoolResponse>;
+}).pipe(
+  Schema.encodeKeys({
+    checkRegions: "check_regions",
+    createdOn: "created_on",
+    disabledAt: "disabled_at",
+    loadShedding: "load_shedding",
+    minimumOrigins: "minimum_origins",
+    modifiedOn: "modified_on",
+    monitorGroup: "monitor_group",
+    notificationEmail: "notification_email",
+    notificationFilter: "notification_filter",
+    originSteering: "origin_steering",
+  }),
+) as unknown as Schema.Schema<GetPoolResponse>;
 
 export const getPool: (
   input: GetPoolRequest,
@@ -3215,6 +3944,137 @@ export const getPool: (
 > = API.make(() => ({
   input: GetPoolRequest,
   output: GetPoolResponse,
+  errors: [],
+}));
+
+export interface ListPoolsRequest {
+  /** Path param: Identifier. */
+  accountId: string;
+  /** Query param: The ID of the Monitor to use for checking the health of origins within this pool. */
+  monitor?: string;
+}
+
+export const ListPoolsRequest = Schema.Struct({
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+  monitor: Schema.optional(Schema.String).pipe(T.HttpQuery("monitor")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/load_balancers/pools",
+  }),
+) as unknown as Schema.Schema<ListPoolsRequest>;
+
+export type ListPoolsResponse = {
+  id?: string;
+  checkRegions?:
+    | (
+        | "WNAM"
+        | "ENAM"
+        | "WEU"
+        | "EEU"
+        | "NSAM"
+        | "SSAM"
+        | "OC"
+        | "ME"
+        | "NAF"
+        | "SAF"
+        | "SEAS"
+        | "NEAS"
+        | "ALL_REGIONS"
+        | "SAS"
+      )[]
+    | null;
+  createdOn?: string;
+  description?: string;
+  disabledAt?: string;
+  enabled?: boolean;
+  latitude?: number;
+  loadShedding?: unknown | null;
+  longitude?: number;
+  minimumOrigins?: number;
+  modifiedOn?: string;
+  monitor?: string;
+  monitorGroup?: string;
+  name?: string;
+  networks?: string[];
+  notificationEmail?: string;
+  notificationFilter?: unknown | null;
+  originSteering?: unknown | null;
+  origins?: unknown[];
+}[];
+
+export const ListPoolsResponse = Schema.Array(
+  Schema.Struct({
+    id: Schema.optional(Schema.String),
+    checkRegions: Schema.optional(
+      Schema.Union([
+        Schema.Array(
+          Schema.Literals([
+            "WNAM",
+            "ENAM",
+            "WEU",
+            "EEU",
+            "NSAM",
+            "SSAM",
+            "OC",
+            "ME",
+            "NAF",
+            "SAF",
+            "SEAS",
+            "NEAS",
+            "ALL_REGIONS",
+            "SAS",
+          ]),
+        ),
+        Schema.Null,
+      ]),
+    ),
+    createdOn: Schema.optional(Schema.String),
+    description: Schema.optional(Schema.String),
+    disabledAt: Schema.optional(Schema.String),
+    enabled: Schema.optional(Schema.Boolean),
+    latitude: Schema.optional(Schema.Number),
+    loadShedding: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
+    longitude: Schema.optional(Schema.Number),
+    minimumOrigins: Schema.optional(Schema.Number),
+    modifiedOn: Schema.optional(Schema.String),
+    monitor: Schema.optional(Schema.String),
+    monitorGroup: Schema.optional(Schema.String),
+    name: Schema.optional(Schema.String),
+    networks: Schema.optional(Schema.Array(Schema.String)),
+    notificationEmail: Schema.optional(Schema.String),
+    notificationFilter: Schema.optional(
+      Schema.Union([Schema.Unknown, Schema.Null]),
+    ),
+    originSteering: Schema.optional(
+      Schema.Union([Schema.Unknown, Schema.Null]),
+    ),
+    origins: Schema.optional(Schema.Array(Schema.Unknown)),
+  }).pipe(
+    Schema.encodeKeys({
+      checkRegions: "check_regions",
+      createdOn: "created_on",
+      disabledAt: "disabled_at",
+      loadShedding: "load_shedding",
+      minimumOrigins: "minimum_origins",
+      modifiedOn: "modified_on",
+      monitorGroup: "monitor_group",
+      notificationEmail: "notification_email",
+      notificationFilter: "notification_filter",
+      originSteering: "origin_steering",
+    }),
+  ),
+) as unknown as Schema.Schema<ListPoolsResponse>;
+
+export const listPools: (
+  input: ListPoolsRequest,
+) => Effect.Effect<
+  ListPoolsResponse,
+  CommonErrors,
+  ApiToken | HttpClient.HttpClient
+> = API.make(() => ({
+  input: ListPoolsRequest,
+  output: ListPoolsResponse,
   errors: [],
 }));
 
@@ -3256,27 +4116,25 @@ export const CreatePoolRequest = Schema.Struct({
   description: Schema.optional(Schema.String),
   enabled: Schema.optional(Schema.Boolean),
   latitude: Schema.optional(Schema.Number),
-  loadShedding: Schema.optional(
-    Schema.Union([Schema.Unknown, Schema.Null]),
-  ).pipe(T.JsonName("load_shedding")),
+  loadShedding: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
   longitude: Schema.optional(Schema.Number),
-  minimumOrigins: Schema.optional(Schema.Number).pipe(
-    T.JsonName("minimum_origins"),
-  ),
+  minimumOrigins: Schema.optional(Schema.Number),
   monitor: Schema.optional(Schema.String),
-  monitorGroup: Schema.optional(Schema.String).pipe(
-    T.JsonName("monitor_group"),
-  ),
-  notificationEmail: Schema.optional(Schema.String).pipe(
-    T.JsonName("notification_email"),
-  ),
+  monitorGroup: Schema.optional(Schema.String),
+  notificationEmail: Schema.optional(Schema.String),
   notificationFilter: Schema.optional(
     Schema.Union([Schema.Unknown, Schema.Null]),
-  ).pipe(T.JsonName("notification_filter")),
-  originSteering: Schema.optional(
-    Schema.Union([Schema.Unknown, Schema.Null]),
-  ).pipe(T.JsonName("origin_steering")),
+  ),
+  originSteering: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
 }).pipe(
+  Schema.encodeKeys({
+    loadShedding: "load_shedding",
+    minimumOrigins: "minimum_origins",
+    monitorGroup: "monitor_group",
+    notificationEmail: "notification_email",
+    notificationFilter: "notification_filter",
+    originSteering: "origin_steering",
+  }),
   T.Http({
     method: "POST",
     path: "/accounts/{account_id}/load_balancers/pools",
@@ -3362,37 +4220,40 @@ export const CreatePoolResponse = Schema.Struct({
       ),
       Schema.Null,
     ]),
-  ).pipe(T.JsonName("check_regions")),
-  createdOn: Schema.optional(Schema.String).pipe(T.JsonName("created_on")),
+  ),
+  createdOn: Schema.optional(Schema.String),
   description: Schema.optional(Schema.String),
-  disabledAt: Schema.optional(Schema.String).pipe(T.JsonName("disabled_at")),
+  disabledAt: Schema.optional(Schema.String),
   enabled: Schema.optional(Schema.Boolean),
   latitude: Schema.optional(Schema.Number),
-  loadShedding: Schema.optional(
-    Schema.Union([Schema.Unknown, Schema.Null]),
-  ).pipe(T.JsonName("load_shedding")),
+  loadShedding: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
   longitude: Schema.optional(Schema.Number),
-  minimumOrigins: Schema.optional(Schema.Number).pipe(
-    T.JsonName("minimum_origins"),
-  ),
-  modifiedOn: Schema.optional(Schema.String).pipe(T.JsonName("modified_on")),
+  minimumOrigins: Schema.optional(Schema.Number),
+  modifiedOn: Schema.optional(Schema.String),
   monitor: Schema.optional(Schema.String),
-  monitorGroup: Schema.optional(Schema.String).pipe(
-    T.JsonName("monitor_group"),
-  ),
+  monitorGroup: Schema.optional(Schema.String),
   name: Schema.optional(Schema.String),
   networks: Schema.optional(Schema.Array(Schema.String)),
-  notificationEmail: Schema.optional(Schema.String).pipe(
-    T.JsonName("notification_email"),
-  ),
+  notificationEmail: Schema.optional(Schema.String),
   notificationFilter: Schema.optional(
     Schema.Union([Schema.Unknown, Schema.Null]),
-  ).pipe(T.JsonName("notification_filter")),
-  originSteering: Schema.optional(
-    Schema.Union([Schema.Unknown, Schema.Null]),
-  ).pipe(T.JsonName("origin_steering")),
+  ),
+  originSteering: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
   origins: Schema.optional(Schema.Array(Schema.Unknown)),
-}) as unknown as Schema.Schema<CreatePoolResponse>;
+}).pipe(
+  Schema.encodeKeys({
+    checkRegions: "check_regions",
+    createdOn: "created_on",
+    disabledAt: "disabled_at",
+    loadShedding: "load_shedding",
+    minimumOrigins: "minimum_origins",
+    modifiedOn: "modified_on",
+    monitorGroup: "monitor_group",
+    notificationEmail: "notification_email",
+    notificationFilter: "notification_filter",
+    originSteering: "origin_steering",
+  }),
+) as unknown as Schema.Schema<CreatePoolResponse>;
 
 export const createPool: (
   input: CreatePoolRequest,
@@ -3484,31 +4345,30 @@ export const UpdatePoolRequest = Schema.Struct({
       ),
       Schema.Null,
     ]),
-  ).pipe(T.JsonName("check_regions")),
+  ),
   description: Schema.optional(Schema.String),
   enabled: Schema.optional(Schema.Boolean),
   latitude: Schema.optional(Schema.Number),
-  loadShedding: Schema.optional(
-    Schema.Union([Schema.Unknown, Schema.Null]),
-  ).pipe(T.JsonName("load_shedding")),
+  loadShedding: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
   longitude: Schema.optional(Schema.Number),
-  minimumOrigins: Schema.optional(Schema.Number).pipe(
-    T.JsonName("minimum_origins"),
-  ),
+  minimumOrigins: Schema.optional(Schema.Number),
   monitor: Schema.optional(Schema.String),
-  monitorGroup: Schema.optional(Schema.String).pipe(
-    T.JsonName("monitor_group"),
-  ),
-  notificationEmail: Schema.optional(Schema.String).pipe(
-    T.JsonName("notification_email"),
-  ),
+  monitorGroup: Schema.optional(Schema.String),
+  notificationEmail: Schema.optional(Schema.String),
   notificationFilter: Schema.optional(
     Schema.Union([Schema.Unknown, Schema.Null]),
-  ).pipe(T.JsonName("notification_filter")),
-  originSteering: Schema.optional(
-    Schema.Union([Schema.Unknown, Schema.Null]),
-  ).pipe(T.JsonName("origin_steering")),
+  ),
+  originSteering: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
 }).pipe(
+  Schema.encodeKeys({
+    checkRegions: "check_regions",
+    loadShedding: "load_shedding",
+    minimumOrigins: "minimum_origins",
+    monitorGroup: "monitor_group",
+    notificationEmail: "notification_email",
+    notificationFilter: "notification_filter",
+    originSteering: "origin_steering",
+  }),
   T.Http({
     method: "PUT",
     path: "/accounts/{account_id}/load_balancers/pools/{poolId}",
@@ -3594,37 +4454,40 @@ export const UpdatePoolResponse = Schema.Struct({
       ),
       Schema.Null,
     ]),
-  ).pipe(T.JsonName("check_regions")),
-  createdOn: Schema.optional(Schema.String).pipe(T.JsonName("created_on")),
+  ),
+  createdOn: Schema.optional(Schema.String),
   description: Schema.optional(Schema.String),
-  disabledAt: Schema.optional(Schema.String).pipe(T.JsonName("disabled_at")),
+  disabledAt: Schema.optional(Schema.String),
   enabled: Schema.optional(Schema.Boolean),
   latitude: Schema.optional(Schema.Number),
-  loadShedding: Schema.optional(
-    Schema.Union([Schema.Unknown, Schema.Null]),
-  ).pipe(T.JsonName("load_shedding")),
+  loadShedding: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
   longitude: Schema.optional(Schema.Number),
-  minimumOrigins: Schema.optional(Schema.Number).pipe(
-    T.JsonName("minimum_origins"),
-  ),
-  modifiedOn: Schema.optional(Schema.String).pipe(T.JsonName("modified_on")),
+  minimumOrigins: Schema.optional(Schema.Number),
+  modifiedOn: Schema.optional(Schema.String),
   monitor: Schema.optional(Schema.String),
-  monitorGroup: Schema.optional(Schema.String).pipe(
-    T.JsonName("monitor_group"),
-  ),
+  monitorGroup: Schema.optional(Schema.String),
   name: Schema.optional(Schema.String),
   networks: Schema.optional(Schema.Array(Schema.String)),
-  notificationEmail: Schema.optional(Schema.String).pipe(
-    T.JsonName("notification_email"),
-  ),
+  notificationEmail: Schema.optional(Schema.String),
   notificationFilter: Schema.optional(
     Schema.Union([Schema.Unknown, Schema.Null]),
-  ).pipe(T.JsonName("notification_filter")),
-  originSteering: Schema.optional(
-    Schema.Union([Schema.Unknown, Schema.Null]),
-  ).pipe(T.JsonName("origin_steering")),
+  ),
+  originSteering: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
   origins: Schema.optional(Schema.Array(Schema.Unknown)),
-}) as unknown as Schema.Schema<UpdatePoolResponse>;
+}).pipe(
+  Schema.encodeKeys({
+    checkRegions: "check_regions",
+    createdOn: "created_on",
+    disabledAt: "disabled_at",
+    loadShedding: "load_shedding",
+    minimumOrigins: "minimum_origins",
+    modifiedOn: "modified_on",
+    monitorGroup: "monitor_group",
+    notificationEmail: "notification_email",
+    notificationFilter: "notification_filter",
+    originSteering: "origin_steering",
+  }),
+) as unknown as Schema.Schema<UpdatePoolResponse>;
 
 export const updatePool: (
   input: UpdatePoolRequest,
@@ -3714,33 +4577,32 @@ export const PatchPoolRequest = Schema.Struct({
       ),
       Schema.Null,
     ]),
-  ).pipe(T.JsonName("check_regions")),
+  ),
   description: Schema.optional(Schema.String),
   enabled: Schema.optional(Schema.Boolean),
   latitude: Schema.optional(Schema.Number),
-  loadShedding: Schema.optional(
-    Schema.Union([Schema.Unknown, Schema.Null]),
-  ).pipe(T.JsonName("load_shedding")),
+  loadShedding: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
   longitude: Schema.optional(Schema.Number),
-  minimumOrigins: Schema.optional(Schema.Number).pipe(
-    T.JsonName("minimum_origins"),
-  ),
+  minimumOrigins: Schema.optional(Schema.Number),
   monitor: Schema.optional(Schema.String),
-  monitorGroup: Schema.optional(Schema.String).pipe(
-    T.JsonName("monitor_group"),
-  ),
+  monitorGroup: Schema.optional(Schema.String),
   name: Schema.optional(Schema.String),
-  notificationEmail: Schema.optional(Schema.String).pipe(
-    T.JsonName("notification_email"),
-  ),
+  notificationEmail: Schema.optional(Schema.String),
   notificationFilter: Schema.optional(
     Schema.Union([Schema.Unknown, Schema.Null]),
-  ).pipe(T.JsonName("notification_filter")),
-  originSteering: Schema.optional(
-    Schema.Union([Schema.Unknown, Schema.Null]),
-  ).pipe(T.JsonName("origin_steering")),
+  ),
+  originSteering: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
   origins: Schema.optional(Schema.Array(Schema.Unknown)),
 }).pipe(
+  Schema.encodeKeys({
+    checkRegions: "check_regions",
+    loadShedding: "load_shedding",
+    minimumOrigins: "minimum_origins",
+    monitorGroup: "monitor_group",
+    notificationEmail: "notification_email",
+    notificationFilter: "notification_filter",
+    originSteering: "origin_steering",
+  }),
   T.Http({
     method: "PATCH",
     path: "/accounts/{account_id}/load_balancers/pools/{poolId}",
@@ -3826,37 +4688,40 @@ export const PatchPoolResponse = Schema.Struct({
       ),
       Schema.Null,
     ]),
-  ).pipe(T.JsonName("check_regions")),
-  createdOn: Schema.optional(Schema.String).pipe(T.JsonName("created_on")),
+  ),
+  createdOn: Schema.optional(Schema.String),
   description: Schema.optional(Schema.String),
-  disabledAt: Schema.optional(Schema.String).pipe(T.JsonName("disabled_at")),
+  disabledAt: Schema.optional(Schema.String),
   enabled: Schema.optional(Schema.Boolean),
   latitude: Schema.optional(Schema.Number),
-  loadShedding: Schema.optional(
-    Schema.Union([Schema.Unknown, Schema.Null]),
-  ).pipe(T.JsonName("load_shedding")),
+  loadShedding: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
   longitude: Schema.optional(Schema.Number),
-  minimumOrigins: Schema.optional(Schema.Number).pipe(
-    T.JsonName("minimum_origins"),
-  ),
-  modifiedOn: Schema.optional(Schema.String).pipe(T.JsonName("modified_on")),
+  minimumOrigins: Schema.optional(Schema.Number),
+  modifiedOn: Schema.optional(Schema.String),
   monitor: Schema.optional(Schema.String),
-  monitorGroup: Schema.optional(Schema.String).pipe(
-    T.JsonName("monitor_group"),
-  ),
+  monitorGroup: Schema.optional(Schema.String),
   name: Schema.optional(Schema.String),
   networks: Schema.optional(Schema.Array(Schema.String)),
-  notificationEmail: Schema.optional(Schema.String).pipe(
-    T.JsonName("notification_email"),
-  ),
+  notificationEmail: Schema.optional(Schema.String),
   notificationFilter: Schema.optional(
     Schema.Union([Schema.Unknown, Schema.Null]),
-  ).pipe(T.JsonName("notification_filter")),
-  originSteering: Schema.optional(
-    Schema.Union([Schema.Unknown, Schema.Null]),
-  ).pipe(T.JsonName("origin_steering")),
+  ),
+  originSteering: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
   origins: Schema.optional(Schema.Array(Schema.Unknown)),
-}) as unknown as Schema.Schema<PatchPoolResponse>;
+}).pipe(
+  Schema.encodeKeys({
+    checkRegions: "check_regions",
+    createdOn: "created_on",
+    disabledAt: "disabled_at",
+    loadShedding: "load_shedding",
+    minimumOrigins: "minimum_origins",
+    modifiedOn: "modified_on",
+    monitorGroup: "monitor_group",
+    notificationEmail: "notification_email",
+    notificationFilter: "notification_filter",
+    originSteering: "origin_steering",
+  }),
+) as unknown as Schema.Schema<PatchPoolResponse>;
 
 export const patchPool: (
   input: PatchPoolRequest,
@@ -3944,7 +4809,7 @@ export interface GetPoolHealthResponse {
 }
 
 export const GetPoolHealthResponse = Schema.Struct({
-  poolId: Schema.optional(Schema.String).pipe(T.JsonName("pool_id")),
+  poolId: Schema.optional(Schema.String),
   popHealth: Schema.optional(
     Schema.Struct({
       healthy: Schema.optional(Schema.Boolean),
@@ -3953,22 +4818,25 @@ export const GetPoolHealthResponse = Schema.Struct({
           Schema.Struct({
             ip: Schema.optional(
               Schema.Struct({
-                failureReason: Schema.optional(Schema.String).pipe(
-                  T.JsonName("failure_reason"),
-                ),
+                failureReason: Schema.optional(Schema.String),
                 healthy: Schema.optional(Schema.Boolean),
-                responseCode: Schema.optional(Schema.Number).pipe(
-                  T.JsonName("response_code"),
-                ),
+                responseCode: Schema.optional(Schema.Number),
                 rtt: Schema.optional(Schema.String),
-              }),
+              }).pipe(
+                Schema.encodeKeys({
+                  failureReason: "failure_reason",
+                  responseCode: "response_code",
+                }),
+              ),
             ),
           }),
         ),
       ),
     }),
-  ).pipe(T.JsonName("pop_health")),
-}) as unknown as Schema.Schema<GetPoolHealthResponse>;
+  ),
+}).pipe(
+  Schema.encodeKeys({ poolId: "pool_id", popHealth: "pop_health" }),
+) as unknown as Schema.Schema<GetPoolHealthResponse>;
 
 export const getPoolHealth: (
   input: GetPoolHealthRequest,
@@ -4023,37 +4891,34 @@ export interface CreatePoolHealthRequest {
 export const CreatePoolHealthRequest = Schema.Struct({
   poolId: Schema.String.pipe(T.HttpPath("poolId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  allowInsecure: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("allow_insecure"),
-  ),
-  consecutiveDown: Schema.optional(Schema.Number).pipe(
-    T.JsonName("consecutive_down"),
-  ),
-  consecutiveUp: Schema.optional(Schema.Number).pipe(
-    T.JsonName("consecutive_up"),
-  ),
+  allowInsecure: Schema.optional(Schema.Boolean),
+  consecutiveDown: Schema.optional(Schema.Number),
+  consecutiveUp: Schema.optional(Schema.Number),
   description: Schema.optional(Schema.String),
-  expectedBody: Schema.optional(Schema.String).pipe(
-    T.JsonName("expected_body"),
-  ),
-  expectedCodes: Schema.optional(Schema.String).pipe(
-    T.JsonName("expected_codes"),
-  ),
-  followRedirects: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("follow_redirects"),
-  ),
+  expectedBody: Schema.optional(Schema.String),
+  expectedCodes: Schema.optional(Schema.String),
+  followRedirects: Schema.optional(Schema.Boolean),
   header: Schema.optional(Schema.Struct({})),
   interval: Schema.optional(Schema.Number),
   method: Schema.optional(Schema.String),
   path: Schema.optional(Schema.String),
   port: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-  probeZone: Schema.optional(Schema.String).pipe(T.JsonName("probe_zone")),
+  probeZone: Schema.optional(Schema.String),
   retries: Schema.optional(Schema.Number),
   timeout: Schema.optional(Schema.Number),
   type: Schema.optional(
     Schema.Literals(["http", "https", "tcp", "udp_icmp", "icmp_ping", "smtp"]),
   ),
 }).pipe(
+  Schema.encodeKeys({
+    allowInsecure: "allow_insecure",
+    consecutiveDown: "consecutive_down",
+    consecutiveUp: "consecutive_up",
+    expectedBody: "expected_body",
+    expectedCodes: "expected_codes",
+    followRedirects: "follow_redirects",
+    probeZone: "probe_zone",
+  }),
   T.Http({
     method: "POST",
     path: "/accounts/{account_id}/load_balancers/pools/{poolId}/preview",
@@ -4068,8 +4933,10 @@ export interface CreatePoolHealthResponse {
 
 export const CreatePoolHealthResponse = Schema.Struct({
   pools: Schema.optional(Schema.Struct({})),
-  previewId: Schema.optional(Schema.String).pipe(T.JsonName("preview_id")),
-}) as unknown as Schema.Schema<CreatePoolHealthResponse>;
+  previewId: Schema.optional(Schema.String),
+}).pipe(
+  Schema.encodeKeys({ previewId: "preview_id" }),
+) as unknown as Schema.Schema<CreatePoolHealthResponse>;
 
 export const createPoolHealth: (
   input: CreatePoolHealthRequest,
@@ -4080,6 +4947,63 @@ export const createPoolHealth: (
 > = API.make(() => ({
   input: CreatePoolHealthRequest,
   output: CreatePoolHealthResponse,
+  errors: [],
+}));
+
+// =============================================================================
+// PoolReference
+// =============================================================================
+
+export interface GetPoolReferenceRequest {
+  poolId: string;
+  /** Identifier. */
+  accountId: string;
+}
+
+export const GetPoolReferenceRequest = Schema.Struct({
+  poolId: Schema.String.pipe(T.HttpPath("poolId")),
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/load_balancers/pools/{poolId}/references",
+  }),
+) as unknown as Schema.Schema<GetPoolReferenceRequest>;
+
+export type GetPoolReferenceResponse = {
+  referenceType?: "*" | "referral" | "referrer";
+  resourceId?: string;
+  resourceName?: string;
+  resourceType?: string;
+}[];
+
+export const GetPoolReferenceResponse = Schema.Array(
+  Schema.Struct({
+    referenceType: Schema.optional(
+      Schema.Literals(["*", "referral", "referrer"]),
+    ),
+    resourceId: Schema.optional(Schema.String),
+    resourceName: Schema.optional(Schema.String),
+    resourceType: Schema.optional(Schema.String),
+  }).pipe(
+    Schema.encodeKeys({
+      referenceType: "reference_type",
+      resourceId: "resource_id",
+      resourceName: "resource_name",
+      resourceType: "resource_type",
+    }),
+  ),
+) as unknown as Schema.Schema<GetPoolReferenceResponse>;
+
+export const getPoolReference: (
+  input: GetPoolReferenceRequest,
+) => Effect.Effect<
+  GetPoolReferenceResponse,
+  CommonErrors,
+  ApiToken | HttpClient.HttpClient
+> = API.make(() => ({
+  input: GetPoolReferenceRequest,
+  output: GetPoolReferenceResponse,
   errors: [],
 }));
 
@@ -4232,5 +5156,80 @@ export const listRegions: (
 > = API.make(() => ({
   input: ListRegionsRequest,
   output: ListRegionsResponse,
+  errors: [],
+}));
+
+// =============================================================================
+// Search
+// =============================================================================
+
+export interface ListSearchesRequest {
+  /** Path param: Identifier. */
+  accountId: string;
+  /** Query param: Search query term. */
+  query?: string;
+  /** Query param: The type of references to include. "\ " to include both referral and referrer references. "" to not include any reference information. */
+  references?: "" | "*" | "referral" | "referrer";
+}
+
+export const ListSearchesRequest = Schema.Struct({
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+  query: Schema.optional(Schema.String).pipe(T.HttpQuery("query")),
+  references: Schema.optional(
+    Schema.Literals(["", "*", "referral", "referrer"]),
+  ).pipe(T.HttpQuery("references")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/load_balancers/search",
+  }),
+) as unknown as Schema.Schema<ListSearchesRequest>;
+
+export type ListSearchesResponse = {
+  resources?: {
+    referenceType?: "referral" | "referrer";
+    references?: unknown[];
+    resourceId?: string;
+    resourceName?: string;
+    resourceType?: "load_balancer" | "monitor" | "pool";
+  }[];
+}[];
+
+export const ListSearchesResponse = Schema.Array(
+  Schema.Struct({
+    resources: Schema.optional(
+      Schema.Array(
+        Schema.Struct({
+          referenceType: Schema.optional(
+            Schema.Literals(["referral", "referrer"]),
+          ),
+          references: Schema.optional(Schema.Array(Schema.Unknown)),
+          resourceId: Schema.optional(Schema.String),
+          resourceName: Schema.optional(Schema.String),
+          resourceType: Schema.optional(
+            Schema.Literals(["load_balancer", "monitor", "pool"]),
+          ),
+        }).pipe(
+          Schema.encodeKeys({
+            referenceType: "reference_type",
+            resourceId: "resource_id",
+            resourceName: "resource_name",
+            resourceType: "resource_type",
+          }),
+        ),
+      ),
+    ),
+  }),
+) as unknown as Schema.Schema<ListSearchesResponse>;
+
+export const listSearches: (
+  input: ListSearchesRequest,
+) => Effect.Effect<
+  ListSearchesResponse,
+  CommonErrors,
+  ApiToken | HttpClient.HttpClient
+> = API.make(() => ({
+  input: ListSearchesRequest,
+  output: ListSearchesResponse,
   errors: [],
 }));

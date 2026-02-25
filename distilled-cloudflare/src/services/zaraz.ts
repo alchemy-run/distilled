@@ -475,6 +475,69 @@ export const getExport: (
 // History
 // =============================================================================
 
+export interface ListHistoriesRequest {
+  /** Path param: Identifier. */
+  zoneId: string;
+  /** Query param: Maximum amount of results to list. Default value is 10. */
+  limit?: number;
+  /** Query param: Ordinal number to start listing the results with. Default value is 0. */
+  offset?: number;
+  /** Query param: The field to sort by. Default is updated_at. */
+  sortField?: "id" | "user_id" | "description" | "created_at" | "updated_at";
+  /** Query param: Sorting order. Default is DESC. */
+  sortOrder?: "DESC" | "ASC";
+}
+
+export const ListHistoriesRequest = Schema.Struct({
+  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+  limit: Schema.optional(Schema.Number).pipe(T.HttpQuery("limit")),
+  offset: Schema.optional(Schema.Number).pipe(T.HttpQuery("offset")),
+  sortField: Schema.optional(
+    Schema.Literals([
+      "id",
+      "user_id",
+      "description",
+      "created_at",
+      "updated_at",
+    ]),
+  ).pipe(T.HttpQuery("sortField")),
+  sortOrder: Schema.optional(Schema.Literals(["DESC", "ASC"])).pipe(
+    T.HttpQuery("sortOrder"),
+  ),
+}).pipe(
+  T.Http({ method: "GET", path: "/zones/{zone_id}/settings/zaraz/history" }),
+) as unknown as Schema.Schema<ListHistoriesRequest>;
+
+export type ListHistoriesResponse = {
+  id: number;
+  createdAt: string;
+  description: string;
+  updatedAt: string;
+  userId: string;
+}[];
+
+export const ListHistoriesResponse = Schema.Array(
+  Schema.Struct({
+    id: Schema.Number,
+    createdAt: Schema.String,
+    description: Schema.String,
+    updatedAt: Schema.String,
+    userId: Schema.String,
+  }),
+) as unknown as Schema.Schema<ListHistoriesResponse>;
+
+export const listHistories: (
+  input: ListHistoriesRequest,
+) => Effect.Effect<
+  ListHistoriesResponse,
+  CommonErrors,
+  ApiToken | HttpClient.HttpClient
+> = API.make(() => ({
+  input: ListHistoriesRequest,
+  output: ListHistoriesResponse,
+  errors: [],
+}));
+
 export interface PutHistoryRequest {
   /** Path param: Identifier. */
   zoneId: string;

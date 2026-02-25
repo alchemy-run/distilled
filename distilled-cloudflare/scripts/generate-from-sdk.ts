@@ -468,6 +468,7 @@ function typeInfoToSchema(
       }
       if (type.properties && type.properties.length > 0) {
         const encodeKeysMap: Record<string, string> = {};
+        let hasRenamedKey = false;
         const props = type.properties
           .map((p) => {
             const wireName = p.name;
@@ -476,16 +477,17 @@ function typeInfoToSchema(
             if (!p.required) {
               propSchema = `Schema.optional(${propSchema})`;
             }
-            // Collect encodeKeys mapping if property name differs from wire name
+            // Always collect mapping for encodeKeys
+            encodeKeysMap[propName] = wireName;
             if (propName !== wireName) {
-              encodeKeysMap[propName] = wireName;
+              hasRenamedKey = true;
             }
             return `${indent}  ${propName}: ${propSchema}`;
           })
           .join(",\n");
         // Build encodeKeys pipe if there are any key mappings
-        const encodeKeysPipe =
-          Object.keys(encodeKeysMap).length > 0
+        // Include ALL properties (even identity mappings) to fix nested encodeKeys decode
+        const encodeKeysPipe = hasRenamedKey
             ? `.pipe(Schema.encodeKeys({ ${Object.entries(encodeKeysMap).map(([k, v]) => `${k}: "${v}"`).join(", ")} }))`
             : "";
         return `Schema.Struct({\n${props}\n${indent}})${encodeKeysPipe}`;
@@ -754,6 +756,7 @@ function generateOperationSchema(
 
   // Add body params and collect encodeKeys mappings
   const encodeKeysMap: Record<string, string> = {};
+  let hasRenamedBodyKey = false;
   for (const param of resolvedBodyParams) {
     const propName = toCamelCase(param.name);
     const wireName = param.name;
@@ -766,9 +769,10 @@ function generateOperationSchema(
     if (wireName === "body") {
       requestProps.push(`  ${propName}: ${schema}.pipe(T.HttpBody())`);
     } else {
-      // Collect encodeKeys mapping if property name differs from wire name
+      // Always collect mapping for encodeKeys
+      encodeKeysMap[propName] = wireName;
       if (propName !== wireName) {
-        encodeKeysMap[propName] = wireName;
+        hasRenamedBodyKey = true;
       }
       requestProps.push(`  ${propName}: ${schema}`);
     }
@@ -784,8 +788,9 @@ function generateOperationSchema(
   lines.push(`})`);
   
   // Build pipes: encodeKeys for body param renaming, then Http trait
+  // Include ALL body properties (even identity mappings) to fix nested encodeKeys decode
   const pipes: string[] = [];
-  if (Object.keys(encodeKeysMap).length > 0) {
+  if (hasRenamedBodyKey) {
     const encodeKeysEntries = Object.entries(encodeKeysMap)
       .map(([k, v]) => `${k}: "${v}"`)
       .join(", ");
@@ -893,6 +898,7 @@ function generateOperationSchema(
     // Note: nested object fields may be treated as optional — Cloudflare APIs
     // often omit "required" fields in nested objects (e.g. lifecycle conditions.prefix)
     const responseEncodeKeysMap: Record<string, string> = {};
+    let hasRenamedResponseKey = false;
     const responseProps = resolvedResponseType.properties.map((prop) => {
       const wireName = prop.name;
       const propName = toCamelCase(wireName);
@@ -900,16 +906,17 @@ function generateOperationSchema(
       if (!prop.required) {
         schema = `Schema.optional(${schema})`;
       }
-      // Collect encodeKeys mapping if property name differs from wire name
+      // Always collect mapping for encodeKeys
+      responseEncodeKeysMap[propName] = wireName;
       if (propName !== wireName) {
-        responseEncodeKeysMap[propName] = wireName;
+        hasRenamedResponseKey = true;
       }
       return `  ${propName}: ${schema}`;
     });
 
     // Build encodeKeys pipe if there are any key mappings
-    const responseEncodeKeysPipe =
-      Object.keys(responseEncodeKeysMap).length > 0
+    // Include ALL properties (even identity mappings) to fix nested encodeKeys decode
+    const responseEncodeKeysPipe = hasRenamedResponseKey
         ? `.pipe(Schema.encodeKeys({ ${Object.entries(responseEncodeKeysMap).map(([k, v]) => `${k}: "${v}"`).join(", ")} }))`
         : "";
 

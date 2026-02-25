@@ -205,6 +205,124 @@ export const disableContentScanning: (
 }));
 
 // =============================================================================
+// Payload
+// =============================================================================
+
+export interface ListPayloadsRequest {
+  /** Defines an identifier. */
+  zoneId: string;
+}
+
+export const ListPayloadsRequest = Schema.Struct({
+  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/zones/{zone_id}/content-upload-scan/payloads",
+  }),
+) as unknown as Schema.Schema<ListPayloadsRequest>;
+
+export type ListPayloadsResponse = { id?: string; payload?: string }[];
+
+export const ListPayloadsResponse = Schema.Array(
+  Schema.Struct({
+    id: Schema.optional(Schema.String),
+    payload: Schema.optional(Schema.String),
+  }),
+) as unknown as Schema.Schema<ListPayloadsResponse>;
+
+export const listPayloads: (
+  input: ListPayloadsRequest,
+) => Effect.Effect<
+  ListPayloadsResponse,
+  CommonErrors,
+  ApiToken | HttpClient.HttpClient
+> = API.make(() => ({
+  input: ListPayloadsRequest,
+  output: ListPayloadsResponse,
+  errors: [],
+}));
+
+export interface CreatePayloadRequest {
+  /** Path param: Defines an identifier. */
+  zoneId: string;
+  /** Body param: */
+  body: { payload: string }[];
+}
+
+export const CreatePayloadRequest = Schema.Struct({
+  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+  body: Schema.Array(
+    Schema.Struct({
+      payload: Schema.String,
+    }),
+  ).pipe(T.HttpBody()),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/zones/{zone_id}/content-upload-scan/payloads",
+  }),
+) as unknown as Schema.Schema<CreatePayloadRequest>;
+
+export type CreatePayloadResponse = { id?: string; payload?: string }[];
+
+export const CreatePayloadResponse = Schema.Array(
+  Schema.Struct({
+    id: Schema.optional(Schema.String),
+    payload: Schema.optional(Schema.String),
+  }),
+) as unknown as Schema.Schema<CreatePayloadResponse>;
+
+export const createPayload: (
+  input: CreatePayloadRequest,
+) => Effect.Effect<
+  CreatePayloadResponse,
+  CommonErrors,
+  ApiToken | HttpClient.HttpClient
+> = API.make(() => ({
+  input: CreatePayloadRequest,
+  output: CreatePayloadResponse,
+  errors: [],
+}));
+
+export interface DeletePayloadRequest {
+  expressionId: string;
+  /** Defines an identifier. */
+  zoneId: string;
+}
+
+export const DeletePayloadRequest = Schema.Struct({
+  expressionId: Schema.String.pipe(T.HttpPath("expressionId")),
+  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/zones/{zone_id}/content-upload-scan/payloads/{expressionId}",
+  }),
+) as unknown as Schema.Schema<DeletePayloadRequest>;
+
+export type DeletePayloadResponse = { id?: string; payload?: string }[];
+
+export const DeletePayloadResponse = Schema.Array(
+  Schema.Struct({
+    id: Schema.optional(Schema.String),
+    payload: Schema.optional(Schema.String),
+  }),
+) as unknown as Schema.Schema<DeletePayloadResponse>;
+
+export const deletePayload: (
+  input: DeletePayloadRequest,
+) => Effect.Effect<
+  DeletePayloadResponse,
+  CommonErrors,
+  ApiToken | HttpClient.HttpClient
+> = API.make(() => ({
+  input: DeletePayloadRequest,
+  output: DeletePayloadResponse,
+  errors: [],
+}));
+
+// =============================================================================
 // Setting
 // =============================================================================
 

@@ -76,6 +76,62 @@ export const getAddress: (
   errors: [],
 }));
 
+export interface ListAddressesRequest {
+  /** Path param: Identifier. */
+  accountId: string;
+  /** Query param: Sorts results in an ascending or descending order. */
+  direction?: "asc" | "desc";
+  /** Query param: Filter by verified destination addresses. */
+  verified?: true | false;
+}
+
+export const ListAddressesRequest = Schema.Struct({
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+  direction: Schema.optional(Schema.Literals(["asc", "desc"])).pipe(
+    T.HttpQuery("direction"),
+  ),
+  verified: Schema.optional(Schema.Literals([true, false])).pipe(
+    T.HttpQuery("verified"),
+  ),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/email/routing/addresses",
+  }),
+) as unknown as Schema.Schema<ListAddressesRequest>;
+
+export type ListAddressesResponse = {
+  id?: string;
+  created?: string;
+  email?: string;
+  modified?: string;
+  tag?: string;
+  verified?: string;
+}[];
+
+export const ListAddressesResponse = Schema.Array(
+  Schema.Struct({
+    id: Schema.optional(Schema.String),
+    created: Schema.optional(Schema.String),
+    email: Schema.optional(Schema.String),
+    modified: Schema.optional(Schema.String),
+    tag: Schema.optional(Schema.String),
+    verified: Schema.optional(Schema.String),
+  }),
+) as unknown as Schema.Schema<ListAddressesResponse>;
+
+export const listAddresses: (
+  input: ListAddressesRequest,
+) => Effect.Effect<
+  ListAddressesResponse,
+  CommonErrors,
+  ApiToken | HttpClient.HttpClient
+> = API.make(() => ({
+  input: ListAddressesRequest,
+  output: ListAddressesResponse,
+  errors: [],
+}));
+
 export interface CreateAddressRequest {
   /** Path param: Identifier. */
   accountId: string;
@@ -256,29 +312,25 @@ export const GetDnsResponse = Schema.Union([
       Schema.Struct({
         code: Schema.Number,
         message: Schema.String,
-        documentationUrl: Schema.optional(Schema.String).pipe(
-          T.JsonName("documentation_url"),
-        ),
+        documentationUrl: Schema.optional(Schema.String),
         source: Schema.optional(
           Schema.Struct({
             pointer: Schema.optional(Schema.String),
           }),
         ),
-      }),
+      }).pipe(Schema.encodeKeys({ documentationUrl: "documentation_url" })),
     ),
     messages: Schema.Array(
       Schema.Struct({
         code: Schema.Number,
         message: Schema.String,
-        documentationUrl: Schema.optional(Schema.String).pipe(
-          T.JsonName("documentation_url"),
-        ),
+        documentationUrl: Schema.optional(Schema.String),
         source: Schema.optional(
           Schema.Struct({
             pointer: Schema.optional(Schema.String),
           }),
         ),
-      }),
+      }).pipe(Schema.encodeKeys({ documentationUrl: "documentation_url" })),
     ),
     success: Schema.Literal(true),
     result: Schema.optional(
@@ -298,41 +350,37 @@ export const GetDnsResponse = Schema.Union([
       Schema.Struct({
         count: Schema.optional(Schema.Number),
         page: Schema.optional(Schema.Number),
-        perPage: Schema.optional(Schema.Number).pipe(T.JsonName("per_page")),
-        totalCount: Schema.optional(Schema.Number).pipe(
-          T.JsonName("total_count"),
-        ),
-      }),
-    ).pipe(T.JsonName("result_info")),
-  }),
+        perPage: Schema.optional(Schema.Number),
+        totalCount: Schema.optional(Schema.Number),
+      }).pipe(
+        Schema.encodeKeys({ perPage: "per_page", totalCount: "total_count" }),
+      ),
+    ),
+  }).pipe(Schema.encodeKeys({ resultInfo: "result_info" })),
   Schema.Struct({
     errors: Schema.Array(
       Schema.Struct({
         code: Schema.Number,
         message: Schema.String,
-        documentationUrl: Schema.optional(Schema.String).pipe(
-          T.JsonName("documentation_url"),
-        ),
+        documentationUrl: Schema.optional(Schema.String),
         source: Schema.optional(
           Schema.Struct({
             pointer: Schema.optional(Schema.String),
           }),
         ),
-      }),
+      }).pipe(Schema.encodeKeys({ documentationUrl: "documentation_url" })),
     ),
     messages: Schema.Array(
       Schema.Struct({
         code: Schema.Number,
         message: Schema.String,
-        documentationUrl: Schema.optional(Schema.String).pipe(
-          T.JsonName("documentation_url"),
-        ),
+        documentationUrl: Schema.optional(Schema.String),
         source: Schema.optional(
           Schema.Struct({
             pointer: Schema.optional(Schema.String),
           }),
         ),
-      }),
+      }).pipe(Schema.encodeKeys({ documentationUrl: "documentation_url" })),
     ),
     success: Schema.Literal(true),
     result: Schema.optional(Schema.Array(Schema.Unknown)),
@@ -340,13 +388,13 @@ export const GetDnsResponse = Schema.Union([
       Schema.Struct({
         count: Schema.optional(Schema.Number),
         page: Schema.optional(Schema.Number),
-        perPage: Schema.optional(Schema.Number).pipe(T.JsonName("per_page")),
-        totalCount: Schema.optional(Schema.Number).pipe(
-          T.JsonName("total_count"),
-        ),
-      }),
-    ).pipe(T.JsonName("result_info")),
-  }),
+        perPage: Schema.optional(Schema.Number),
+        totalCount: Schema.optional(Schema.Number),
+      }).pipe(
+        Schema.encodeKeys({ perPage: "per_page", totalCount: "total_count" }),
+      ),
+    ),
+  }).pipe(Schema.encodeKeys({ resultInfo: "result_info" })),
 ]) as unknown as Schema.Schema<GetDnsResponse>;
 
 export const getDns: (
@@ -423,6 +471,86 @@ export const patchDns: (
   errors: [],
 }));
 
+export interface DeleteDnsRequest {
+  /** Identifier. */
+  zoneId: string;
+}
+
+export const DeleteDnsRequest = Schema.Struct({
+  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+}).pipe(
+  T.Http({ method: "GET", path: "/zones/{zone_id}/email/routing/dns" }),
+) as unknown as Schema.Schema<DeleteDnsRequest>;
+
+export type DeleteDnsResponse = {
+  content?: string;
+  name?: string;
+  priority?: number;
+  ttl?: number | "1";
+  type?:
+    | "A"
+    | "AAAA"
+    | "CNAME"
+    | "HTTPS"
+    | "TXT"
+    | "SRV"
+    | "LOC"
+    | "MX"
+    | "NS"
+    | "CERT"
+    | "DNSKEY"
+    | "DS"
+    | "NAPTR"
+    | "SMIMEA"
+    | "SSHFP"
+    | "SVCB"
+    | "TLSA"
+    | "URI";
+}[];
+
+export const DeleteDnsResponse = Schema.Array(
+  Schema.Struct({
+    content: Schema.optional(Schema.String),
+    name: Schema.optional(Schema.String),
+    priority: Schema.optional(Schema.Number),
+    ttl: Schema.optional(Schema.Union([Schema.Number, Schema.Literal("1")])),
+    type: Schema.optional(
+      Schema.Literals([
+        "A",
+        "AAAA",
+        "CNAME",
+        "HTTPS",
+        "TXT",
+        "SRV",
+        "LOC",
+        "MX",
+        "NS",
+        "CERT",
+        "DNSKEY",
+        "DS",
+        "NAPTR",
+        "SMIMEA",
+        "SSHFP",
+        "SVCB",
+        "TLSA",
+        "URI",
+      ]),
+    ),
+  }),
+) as unknown as Schema.Schema<DeleteDnsResponse>;
+
+export const deleteDns: (
+  input: DeleteDnsRequest,
+) => Effect.Effect<
+  DeleteDnsResponse,
+  CommonErrors,
+  ApiToken | HttpClient.HttpClient
+> = API.make(() => ({
+  input: DeleteDnsRequest,
+  output: DeleteDnsResponse,
+  errors: [],
+}));
+
 // =============================================================================
 // EmailRouting
 // =============================================================================
@@ -468,9 +596,7 @@ export const GetEmailRoutingResponse = Schema.Struct({
   name: Schema.String,
   created: Schema.optional(Schema.String),
   modified: Schema.optional(Schema.String),
-  skipWizard: Schema.optional(Schema.Literals([true, false])).pipe(
-    T.JsonName("skip_wizard"),
-  ),
+  skipWizard: Schema.optional(Schema.Literals([true, false])),
   status: Schema.optional(
     Schema.Literals([
       "ready",
@@ -481,7 +607,9 @@ export const GetEmailRoutingResponse = Schema.Struct({
     ]),
   ),
   tag: Schema.optional(Schema.String),
-}) as unknown as Schema.Schema<GetEmailRoutingResponse>;
+}).pipe(
+  Schema.encodeKeys({ skipWizard: "skip_wizard" }),
+) as unknown as Schema.Schema<GetEmailRoutingResponse>;
 
 export const getEmailRouting: (
   input: GetEmailRoutingRequest,
@@ -539,9 +667,7 @@ export const EnableEmailRoutingResponse = Schema.Struct({
   name: Schema.String,
   created: Schema.optional(Schema.String),
   modified: Schema.optional(Schema.String),
-  skipWizard: Schema.optional(Schema.Literals([true, false])).pipe(
-    T.JsonName("skip_wizard"),
-  ),
+  skipWizard: Schema.optional(Schema.Literals([true, false])),
   status: Schema.optional(
     Schema.Literals([
       "ready",
@@ -552,7 +678,9 @@ export const EnableEmailRoutingResponse = Schema.Struct({
     ]),
   ),
   tag: Schema.optional(Schema.String),
-}) as unknown as Schema.Schema<EnableEmailRoutingResponse>;
+}).pipe(
+  Schema.encodeKeys({ skipWizard: "skip_wizard" }),
+) as unknown as Schema.Schema<EnableEmailRoutingResponse>;
 
 export const enableEmailRouting: (
   input: EnableEmailRoutingRequest,
@@ -610,9 +738,7 @@ export const DisableEmailRoutingResponse = Schema.Struct({
   name: Schema.String,
   created: Schema.optional(Schema.String),
   modified: Schema.optional(Schema.String),
-  skipWizard: Schema.optional(Schema.Literals([true, false])).pipe(
-    T.JsonName("skip_wizard"),
-  ),
+  skipWizard: Schema.optional(Schema.Literals([true, false])),
   status: Schema.optional(
     Schema.Literals([
       "ready",
@@ -623,7 +749,9 @@ export const DisableEmailRoutingResponse = Schema.Struct({
     ]),
   ),
   tag: Schema.optional(Schema.String),
-}) as unknown as Schema.Schema<DisableEmailRoutingResponse>;
+}).pipe(
+  Schema.encodeKeys({ skipWizard: "skip_wizard" }),
+) as unknown as Schema.Schema<DisableEmailRoutingResponse>;
 
 export const disableEmailRouting: (
   input: DisableEmailRoutingRequest,
@@ -708,6 +836,71 @@ export const getRule: (
 > = API.make(() => ({
   input: GetRuleRequest,
   output: GetRuleResponse,
+  errors: [],
+}));
+
+export interface ListRulesRequest {
+  /** Path param: Identifier. */
+  zoneId: string;
+  /** Query param: Filter by enabled routing rules. */
+  enabled?: true | false;
+}
+
+export const ListRulesRequest = Schema.Struct({
+  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+  enabled: Schema.optional(Schema.Literals([true, false])).pipe(
+    T.HttpQuery("enabled"),
+  ),
+}).pipe(
+  T.Http({ method: "GET", path: "/zones/{zone_id}/email/routing/rules" }),
+) as unknown as Schema.Schema<ListRulesRequest>;
+
+export type ListRulesResponse = {
+  id?: string;
+  actions?: { type: "drop" | "forward" | "worker"; value?: string[] }[];
+  enabled?: true | false;
+  matchers?: { type: "all" | "literal"; field?: "to"; value?: string }[];
+  name?: string;
+  priority?: number;
+  tag?: string;
+}[];
+
+export const ListRulesResponse = Schema.Array(
+  Schema.Struct({
+    id: Schema.optional(Schema.String),
+    actions: Schema.optional(
+      Schema.Array(
+        Schema.Struct({
+          type: Schema.Literals(["drop", "forward", "worker"]),
+          value: Schema.optional(Schema.Array(Schema.String)),
+        }),
+      ),
+    ),
+    enabled: Schema.optional(Schema.Literals([true, false])),
+    matchers: Schema.optional(
+      Schema.Array(
+        Schema.Struct({
+          type: Schema.Literals(["all", "literal"]),
+          field: Schema.optional(Schema.Literal("to")),
+          value: Schema.optional(Schema.String),
+        }),
+      ),
+    ),
+    name: Schema.optional(Schema.String),
+    priority: Schema.optional(Schema.Number),
+    tag: Schema.optional(Schema.String),
+  }),
+) as unknown as Schema.Schema<ListRulesResponse>;
+
+export const listRules: (
+  input: ListRulesRequest,
+) => Effect.Effect<
+  ListRulesResponse,
+  CommonErrors,
+  ApiToken | HttpClient.HttpClient
+> = API.make(() => ({
+  input: ListRulesRequest,
+  output: ListRulesResponse,
   errors: [],
 }));
 

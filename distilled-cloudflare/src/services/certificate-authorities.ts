@@ -73,10 +73,9 @@ export interface PutHostnameAssociationRequest {
 export const PutHostnameAssociationRequest = Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
   hostnames: Schema.optional(Schema.Array(Schema.String)),
-  mtlsCertificateId: Schema.optional(Schema.String).pipe(
-    T.JsonName("mtls_certificate_id"),
-  ),
+  mtlsCertificateId: Schema.optional(Schema.String),
 }).pipe(
+  Schema.encodeKeys({ mtlsCertificateId: "mtls_certificate_id" }),
   T.Http({
     method: "PUT",
     path: "/zones/{zone_id}/certificate_authorities/hostname_associations",

@@ -42,13 +42,14 @@ export interface SubmitBrandProtectionResponse {
 }
 
 export const SubmitBrandProtectionResponse = Schema.Struct({
-  skippedUrls: Schema.optional(Schema.Array(Schema.Struct({}))).pipe(
-    T.JsonName("skipped_urls"),
-  ),
-  submittedUrls: Schema.optional(Schema.Array(Schema.Struct({}))).pipe(
-    T.JsonName("submitted_urls"),
-  ),
-}) as unknown as Schema.Schema<SubmitBrandProtectionResponse>;
+  skippedUrls: Schema.optional(Schema.Array(Schema.Struct({}))),
+  submittedUrls: Schema.optional(Schema.Array(Schema.Struct({}))),
+}).pipe(
+  Schema.encodeKeys({
+    skippedUrls: "skipped_urls",
+    submittedUrls: "submitted_urls",
+  }),
+) as unknown as Schema.Schema<SubmitBrandProtectionResponse>;
 
 export const submitBrandProtection: (
   input: SubmitBrandProtectionRequest,
@@ -59,6 +60,41 @@ export const submitBrandProtection: (
 > = API.make(() => ({
   input: SubmitBrandProtectionRequest,
   output: SubmitBrandProtectionResponse,
+  errors: [],
+}));
+
+// =============================================================================
+// InfoBrandProtection
+// =============================================================================
+
+export interface UrlInfoBrandProtectionRequest {
+  accountId: string;
+}
+
+export const UrlInfoBrandProtectionRequest = Schema.Struct({
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/brand-protection/url-info",
+  }),
+) as unknown as Schema.Schema<UrlInfoBrandProtectionRequest>;
+
+export type UrlInfoBrandProtectionResponse = Record<string, unknown>[];
+
+export const UrlInfoBrandProtectionResponse = Schema.Array(
+  Schema.Struct({}),
+) as unknown as Schema.Schema<UrlInfoBrandProtectionResponse>;
+
+export const urlInfoBrandProtection: (
+  input: UrlInfoBrandProtectionRequest,
+) => Effect.Effect<
+  UrlInfoBrandProtectionResponse,
+  CommonErrors,
+  ApiToken | HttpClient.HttpClient
+> = API.make(() => ({
+  input: UrlInfoBrandProtectionRequest,
+  output: UrlInfoBrandProtectionResponse,
   errors: [],
 }));
 
@@ -102,8 +138,10 @@ export interface CreateLogoResponse {
 export const CreateLogoResponse = Schema.Struct({
   id: Schema.optional(Schema.Number),
   tag: Schema.optional(Schema.String),
-  uploadPath: Schema.optional(Schema.String).pipe(T.JsonName("upload_path")),
-}) as unknown as Schema.Schema<CreateLogoResponse>;
+  uploadPath: Schema.optional(Schema.String),
+}).pipe(
+  Schema.encodeKeys({ uploadPath: "upload_path" }),
+) as unknown as Schema.Schema<CreateLogoResponse>;
 
 export const createLogo: (
   input: CreateLogoRequest,
@@ -381,18 +419,19 @@ export const CreateQueryRequest = Schema.Struct({
   id: Schema.optional(Schema.String).pipe(T.HttpQuery("id")),
   queryScan: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("query_scan")),
   queryTag: Schema.optional(Schema.String).pipe(T.HttpQuery("query_tag")),
-  maxTime: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-    T.JsonName("max_time"),
-  ),
-  minTime: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
-    T.JsonName("min_time"),
-  ),
-  bodyScan: Schema.optional(Schema.Boolean).pipe(T.JsonName("body_scan")),
-  stringMatches: Schema.optional(Schema.Unknown).pipe(
-    T.JsonName("string_matches"),
-  ),
-  bodyTag: Schema.optional(Schema.String).pipe(T.JsonName("body_tag")),
+  maxTime: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  minTime: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  bodyScan: Schema.optional(Schema.Boolean),
+  stringMatches: Schema.optional(Schema.Unknown),
+  bodyTag: Schema.optional(Schema.String),
 }).pipe(
+  Schema.encodeKeys({
+    maxTime: "max_time",
+    minTime: "min_time",
+    bodyScan: "body_scan",
+    stringMatches: "string_matches",
+    bodyTag: "body_tag",
+  }),
   T.Http({
     method: "POST",
     path: "/accounts/{account_id}/brand-protection/queries",
