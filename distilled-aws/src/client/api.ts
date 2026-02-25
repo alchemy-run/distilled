@@ -24,6 +24,18 @@ import { Credentials, Endpoint, Region } from "../index.ts";
 
 export interface MakeOptions extends ResponseParserOptions {}
 
+/**
+ * An operation that can be used in two ways:
+ * 1. Direct call: `yield* operation(input)` — returns Effect with requirements
+ * 2. Yield first: `const fn = yield* operation` — captures services, returns requirement-free function
+ */
+export type OperationMethod<I, A, E, R> = Effect.Effect<
+  (input: I) => Effect.Effect<A, E, never>,
+  never,
+  R
+> &
+  ((input: I) => Effect.Effect<A, E, R>);
+
 export const make = <Op extends Operation<any, any, any>>(
   initOperation: () => Op,
   options?: MakeOptions,
@@ -275,7 +287,7 @@ export const make = <Op extends Operation<any, any, any>>(
     return parsed;
   });
 
-  return Object.assign(
+  const outerFn = Object.assign(
     Effect.fn(function* (payload: Operation.Input<Op>) {
       const lastError = yield* Ref.make<unknown>(undefined);
       const policy = (yield* Effect.serviceOption(Retry)).pipe(
@@ -300,6 +312,31 @@ export const make = <Op extends Operation<any, any, any>>(
     }),
     op,
   );
+
+  // Effect that, when yielded, captures services and returns a requirement-free fn.
+  const captureEffect = Effect.map(
+    Effect.services(),
+    (sm) => (input: Operation.Input<Op>) =>
+      outerFn(input).pipe(Effect.provide(sm)),
+  );
+
+  // Proxy: target is outerFn (so apply trap works), property access delegates to captureEffect.
+  return new Proxy(outerFn, {
+    get(_target, prop, _receiver) {
+      // Preserve operation metadata and any props on the target (pages, items, etc.)
+      if (prop in _target) {
+        return Reflect.get(_target, prop, _target);
+      }
+      // Everything else (Effect protocol) delegates to captureEffect
+      return Reflect.get(captureEffect, prop, captureEffect);
+    },
+    getPrototypeOf() {
+      return Object.getPrototypeOf(captureEffect);
+    },
+    has(_target, prop) {
+      return prop in _target || prop in captureEffect;
+    },
+  });
 };
 
 export const makePaginated = <Op extends Operation<any, any, any>>(

@@ -2834,13 +2834,12 @@ const generateClient = Effect.fn(function* (
               }
             }
           }
-          typeAnnotation = `{
-  (input: ${input}): effect.Effect<${output}, ${errorUnion}, ${depsType}>;
+          typeAnnotation = `API.OperationMethod<${input}, ${output}, ${errorUnion}, ${depsType}> & {
   pages: (input: ${input}) => stream.Stream<${output}, ${errorUnion}, ${depsType}>;
   items: (input: ${input}) => stream.Stream<${itemType}, ${errorUnion}, ${depsType}>;
 }`;
         } else {
-          typeAnnotation = `(input: ${input}) => effect.Effect<${output}, ${errorUnion}, ${depsType}>`;
+          typeAnnotation = `API.OperationMethod<${input}, ${output}, ${errorUnion}, ${depsType}>`;
         }
 
         yield* sdkFile.operations.pipe(

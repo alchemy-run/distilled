@@ -902,9 +902,8 @@ export class SessionDurationEscalationException extends S.TaggedErrorClass<Sessi
  * The `TokenCode` is the time-based one-time password (TOTP) that the MFA device
  * produces.
  */
-export const assumeRole: (
-  input: AssumeRoleRequest,
-) => effect.Effect<
+export const assumeRole: API.OperationMethod<
+  AssumeRoleRequest,
   AssumeRoleResponse,
   | ExpiredTokenException
   | MalformedPolicyDocumentException
@@ -1048,9 +1047,8 @@ export const assumeRole: (
  * - Creating a Role for SAML 2.0 Federation in the
  * *IAM User Guide*.
  */
-export const assumeRoleWithSAML: (
-  input: AssumeRoleWithSAMLRequest,
-) => effect.Effect<
+export const assumeRoleWithSAML: API.OperationMethod<
+  AssumeRoleWithSAMLRequest,
   AssumeRoleWithSAMLResponse,
   | ExpiredTokenException
   | IDPRejectedClaimException
@@ -1192,9 +1190,8 @@ export const assumeRoleWithSAML: (
  * show how to use the information from these providers to get and use temporary
  * security credentials.
  */
-export const assumeRoleWithWebIdentity: (
-  input: AssumeRoleWithWebIdentityRequest,
-) => effect.Effect<
+export const assumeRoleWithWebIdentity: API.OperationMethod<
+  AssumeRoleWithWebIdentityRequest,
   AssumeRoleWithWebIdentityResponse,
   | ExpiredTokenException
   | IDPCommunicationErrorException
@@ -1241,9 +1238,8 @@ export const assumeRoleWithWebIdentity: (
  * policies (SCPs) to manage and limit permissions in your organization. See General examples in the Organizations User
  * Guide for more information on SCPs.
  */
-export const assumeRoot: (
-  input: AssumeRootRequest,
-) => effect.Effect<
+export const assumeRoot: API.OperationMethod<
+  AssumeRootRequest,
   AssumeRootResponse,
   ExpiredTokenException | RegionDisabledException | CommonErrors,
   Creds | Region | HttpClient.HttpClient
@@ -1285,9 +1281,8 @@ export const assumeRoot: (
  *
  * - The values of condition keys in the context of the user's request.
  */
-export const decodeAuthorizationMessage: (
-  input: DecodeAuthorizationMessageRequest,
-) => effect.Effect<
+export const decodeAuthorizationMessage: API.OperationMethod<
+  DecodeAuthorizationMessageRequest,
   DecodeAuthorizationMessageResponse,
   InvalidAuthorizationMessageException | CommonErrors,
   Creds | Region | HttpClient.HttpClient
@@ -1318,9 +1313,8 @@ export const decodeAuthorizationMessage: (
  * inactive, or deleted. Active keys might not have permissions to perform an operation.
  * Providing a deleted access key might return an error that the key doesn't exist.
  */
-export const getAccessKeyInfo: (
-  input: GetAccessKeyInfoRequest,
-) => effect.Effect<
+export const getAccessKeyInfo: API.OperationMethod<
+  GetAccessKeyInfoRequest,
   GetAccessKeyInfoResponse,
   CommonErrors,
   Creds | Region | HttpClient.HttpClient
@@ -1340,9 +1334,8 @@ export const getAccessKeyInfo: (
  * denied. To view an example response, see I Am Not Authorized to Perform: iam:DeleteVirtualMFADevice in the
  * *IAM User Guide*.
  */
-export const getCallerIdentity: (
-  input: GetCallerIdentityRequest,
-) => effect.Effect<
+export const getCallerIdentity: API.OperationMethod<
+  GetCallerIdentityRequest,
   GetCallerIdentityResponse,
   CommonErrors,
   Creds | Region | HttpClient.HttpClient
@@ -1357,9 +1350,8 @@ export const getCallerIdentity: (
  * a specific principal based on a trade-in token, enabling delegation of access to Amazon Web Services
  * resources.
  */
-export const getDelegatedAccessToken: (
-  input: GetDelegatedAccessTokenRequest,
-) => effect.Effect<
+export const getDelegatedAccessToken: API.OperationMethod<
+  GetDelegatedAccessTokenRequest,
   GetDelegatedAccessTokenResponse,
   | ExpiredTradeInTokenException
   | PackedPolicyTooLargeException
@@ -1468,9 +1460,8 @@ export const getDelegatedAccessToken: (
  * and `department` are not saved as separate tags, and the session tag passed in
  * the request takes precedence over the user tag.
  */
-export const getFederationToken: (
-  input: GetFederationTokenRequest,
-) => effect.Effect<
+export const getFederationToken: API.OperationMethod<
+  GetFederationTokenRequest,
   GetFederationTokenResponse,
   | MalformedPolicyDocumentException
   | PackedPolicyTooLargeException
@@ -1543,9 +1534,8 @@ export const getFederationToken: (
  * Credentials for Users in Untrusted Environments in the
  * *IAM User Guide*.
  */
-export const getSessionToken: (
-  input: GetSessionTokenRequest,
-) => effect.Effect<
+export const getSessionToken: API.OperationMethod<
+  GetSessionTokenRequest,
   GetSessionTokenResponse,
   RegionDisabledException | CommonErrors,
   Creds | Region | HttpClient.HttpClient
@@ -1559,9 +1549,8 @@ export const getSessionToken: (
  * The returned JWT can be used to authenticate with external services that support OIDC discovery.
  * The token is signed by Amazon Web Services STS and can be publicly verified using the verification keys published at the issuer's JWKS endpoint.
  */
-export const getWebIdentityToken: (
-  input: GetWebIdentityTokenRequest,
-) => effect.Effect<
+export const getWebIdentityToken: API.OperationMethod<
+  GetWebIdentityTokenRequest,
   GetWebIdentityTokenResponse,
   | JWTPayloadSizeExceededException
   | OutboundWebIdentityFederationDisabledException
